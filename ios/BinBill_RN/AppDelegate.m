@@ -10,6 +10,9 @@
 #import "AppDelegate.h"
 
 #import <React/RCTBundleURLProvider.h>
+
+#import "RCCManager.h"
+
 #import <React/RCTRootView.h>
 
 @implementation AppDelegate
@@ -20,6 +23,15 @@
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 
+  // **********************************************
+  // *** Wix/React-native-navigation *****
+  // **********************************************
+  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  self.window.backgroundColor = [UIColor whiteColor];
+  [[RCCManager sharedInstance] initBridgeWithBundleURL:jsCodeLocation launchOptions:launchOptions];
+  
+  /*
+  // original RN bootstrap - remove this part
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"BinBill_RN"
                                                initialProperties:nil
@@ -31,6 +43,8 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  */
+  
   return YES;
 }
 
