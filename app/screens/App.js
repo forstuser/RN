@@ -1,30 +1,49 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View, Button } from "react-native";
+import { connect } from "react-redux";
+import { actions as loggedInUserActions } from "../modules/logged-in-user";
 
-const instructions = Platform.select({
-  ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
-  android:
-    "Double tap R on your keyboard to reload,\n" +
-    "Shake or press menu button for dev menu"
-});
-
-export default class App extends Component<{}> {
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      click: 0
+    };
+  }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <Text style={styles.welcome}>Auth Token: {this.props.authToken}</Text>
+        <Button
+          onPress={() => {
+            this.setState({
+              click: 5
+            });
+            this.props.onTestClick();
+          }}
+          title="Click to change"
+        />
+        <Text style={styles.welcome}>Clicks: {this.state.click}</Text>
       </View>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    authToken: state.loggedInUser.authToken
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onTestClick: () => {
+      dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 const styles = StyleSheet.create({
   container: {

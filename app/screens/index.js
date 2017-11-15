@@ -5,11 +5,23 @@ import SecondTabScreen from "./App";
 import PushedScreen from "./App";
 
 // register all screens of the app (including internal ones)
-export function registerScreens() {
-  Navigation.registerComponent("example.FirstTabScreen", () => FirstTabScreen);
+export function registerScreens(store, Provider) {
+  Navigation.registerComponent(
+    "example.FirstTabScreen",
+    () => FirstTabScreen,
+    store,
+    Provider
+  );
   Navigation.registerComponent(
     "example.SecondTabScreen",
-    () => SecondTabScreen
+    () => SecondTabScreen,
+    store,
+    Provider
   );
-  Navigation.registerComponent("example.PushedScreen", () => PushedScreen);
+  Navigation.registerComponent(
+    "example.PushedScreen",
+    () => PushedScreen,
+    store,
+    Provider
+  );
 }
