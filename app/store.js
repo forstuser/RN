@@ -12,14 +12,9 @@ const config = {
 const rootReducer = persistCombineReducers(config, reducers);
 
 let middlewares = [thunk];
-function configureStore() {
-  let store = createStore(
-    rootReducer,
-    undefined,
-    compose(applyMiddleware(...middlewares))
-  );
 
-  return store;
-}
-
-export default configureStore;
+export default (store = createStore(
+  rootReducer,
+  undefined,
+  compose(applyMiddleware(...middlewares))
+));

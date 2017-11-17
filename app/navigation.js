@@ -1,5 +1,5 @@
 import { Navigation } from "react-native-navigation";
-import { defaultNavigatorStyle } from "./theme";
+import { colors, defaultNavigatorStyle } from "./theme";
 
 export const openLoginScreen = () => {
   Navigation.startSingleScreenApp({
@@ -25,38 +25,38 @@ export const openAppScreen = () => {
   Navigation.startTabBasedApp({
     tabs: [
       {
-        label: "One",
-        screen: "example.FirstTabScreen", // this is a registered name for a screen
-        icon: require("./images/ic_nav_dashboard.png"),
-        selectedIcon: require("./images/ic_nav_dashboard.png"), // iOS only
-        title: "Screen One"
+        label: "Dashboard",
+        screen: "DashboardScreen",
+        icon: require("./images/ic_nav_dashboard_off.png")
       },
       {
-        label: "Two",
-        screen: "example.SecondTabScreen",
-        icon: require("./images/ic_nav_dashboard.png"),
-        selectedIcon: require("./images/ic_nav_dashboard.png"),
-        title: "Screen Two"
+        label: "eHome",
+        screen: "DashboardScreen",
+        icon: require("./images/ic_nav_ehome_off.png")
       },
       {
-        label: "One",
-        screen: "example.FirstTabScreen", // this is a registered name for a screen
-        icon: require("./images/ic_nav_dashboard.png"),
-        selectedIcon: require("./images/ic_nav_dashboard.png"), // iOS only
-        title: "Screen One"
+        label: "ASC",
+        screen: "DashboardScreen",
+        icon: require("./images/ic_nav_asc_off.png")
       },
       {
-        label: "Two",
-        screen: "example.SecondTabScreen",
-        icon: require("./images/ic_nav_dashboard.png"),
-        selectedIcon: require("./images/ic_nav_dashboard.png"),
-        title: "Screen Two"
+        label: "More",
+        screen: "DashboardScreen",
+        icon: require("./images/ic_nav_more_off.png")
       }
     ],
+    // **for iOS Only**
+    tabsStyle: {
+      tabBarBackgroundColor: "#ffffff",
+      tabBarButtonColor: colors.secondaryText,
+      tabBarSelectedButtonColor: colors.mainBlue,
+      tabBarTranslucent: false
+    },
+    // **for Android Only**
     appStyle: {
-      tabBarBackgroundColor: "#0f2362",
-      tabBarButtonColor: "#ffffff",
-      tabBarSelectedButtonColor: "#63d7cc",
+      tabBarBackgroundColor: "#ffffff",
+      tabBarButtonColor: colors.secondaryText,
+      tabBarSelectedButtonColor: colors.mainBlue,
       tabBarTranslucent: false,
       forceTitlesDisplay: true
     }

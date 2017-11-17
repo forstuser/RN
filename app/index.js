@@ -3,8 +3,7 @@ import { persistStore } from "redux-persist";
 import { Provider } from "react-redux";
 
 import { registerScreens } from "./screens";
-import configureStore from "./store";
-const store = configureStore();
+import store from "./store";
 
 import navigation from "./navigation";
 

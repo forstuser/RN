@@ -1,16 +1,10 @@
 import React, { Component } from "react";
-import {
-  Dimensions,
-  Platform,
-  StyleSheet,
-  View,
-  Button,
-  Text,
-  TextInput,
-  Alert
-} from "react-native";
+import { View, TextInput, Alert } from "react-native";
+import { colors } from "../theme";
 import { consumerGetOtp } from "../api";
 import LoadingOverlay from "../components/loading-overlay";
+import { ScreenContainer, Text, Button } from "../elements";
+import I18n from "../i18n";
 
 class LoginScreen extends Component {
   constructor(props) {
@@ -22,13 +16,13 @@ class LoginScreen extends Component {
   }
   componentDidMount() {
     this.props.navigator.setTitle({
-      title: "Get Started"
+      title: I18n.t("login_screen_title")
     });
   }
 
   onSubmitPhoneNumber = async () => {
     if (this.state.phoneNumber.length != 10) {
-      return Alert.alert("Please enter 10 digit mobile number");
+      return Alert.alert(I18n.t("login_screen_invalid_number_error"));
     }
     try {
       this.setState({
@@ -48,29 +42,65 @@ class LoginScreen extends Component {
       Alert.alert(e.message);
     }
   };
+
+  openTermsScreen = () => {
+    this.props.navigator.push({
+      screen: "TermsScreen"
+    });
+  };
   render() {
     return (
-      <View style={{ height: Dimensions.get("window").height, padding: 16 }}>
-        <TextInput
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            padding: 5
-          }}
-          onChangeText={phoneNumber => this.setState({ phoneNumber })}
-          value={this.state.text}
-          keyboardType="phone-pad"
-          placeholder="Enter your mobile number"
-        />
-        <Button
-          onPress={this.onSubmitPhoneNumber}
-          title="Verify"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-        {this.state.isGettingOtp && <LoadingOverlay />}
-      </View>
+      <ScreenContainer
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "space-between"
+        }}
+      >
+        <View>
+          <Text style={{ fontSize: 12, color: colors.secondaryText }}>
+            {I18n.t("login_screen_input_placeholder")}
+          </Text>
+          <TextInput
+            style={{
+              height: 40,
+              borderColor: colors.mainBlue,
+              borderBottomWidth: 2,
+              marginBottom: 16
+            }}
+            onChangeText={phoneNumber => this.setState({ phoneNumber })}
+            value={this.state.phoneNumber}
+            keyboardType="phone-pad"
+          />
+          <Button
+            color="secondary"
+            type="outline"
+            onPress={this.onSubmitPhoneNumber}
+            text={I18n.t("login_screen_btn_text")}
+          />
+          <LoadingOverlay visible={this.state.isGettingOtp} />
+        </View>
+        <View>
+          <Text
+            style={{
+              fontSize: 12,
+              color: colors.secondaryText,
+              textAlign: "center"
+            }}
+          >
+            {I18n.t("login_screen_terms_of_use")}
+          </Text>
+          <Text
+            onPress={this.openTermsScreen}
+            style={{
+              textAlign: "center",
+              color: colors.mainBlue
+            }}
+          >
+            {I18n.t("login_screen_read_them_here")}
+          </Text>
+        </View>
+      </ScreenContainer>
     );
   }
 }

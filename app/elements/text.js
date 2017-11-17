@@ -9,8 +9,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const AppText = ({ children, weight = "Regular", style }) => (
+const AppText = ({ children, onPress, weight = "Regular", style }) => (
   <Text
+    onPress={onPress}
     style={[styles.baseStyle, { fontFamily: `Quicksand-${weight}` }, style]}
   >
     {children}

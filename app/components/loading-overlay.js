@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, ActivityIndicator } from "react-native";
 import { colors } from "../theme";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const styles = StyleSheet.create({
   overlayStyle: {
@@ -15,10 +16,13 @@ const styles = StyleSheet.create({
   }
 });
 
-const LoadingOverlay = () => (
-  <View style={styles.overlayStyle}>
-    <ActivityIndicator color={colors.mainBlue} />
-  </View>
+const LoadingOverlay = ({ visible }) => (
+  <Spinner
+    color={colors.mainBlue}
+    animation="fade"
+    visible={visible}
+    overlayColor="rgba(255,255,255,0.8)"
+  />
 );
 
 export default LoadingOverlay;

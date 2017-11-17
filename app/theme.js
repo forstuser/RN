@@ -1,9 +1,12 @@
 export const colors = {
-  mainBlue: "rgb(0, 158, 229)",
+  mainBlue: "#009ee5",
   aquaBlue: "rgba(5, 216, 227, 0.99)",
-  mainText: "rgb(59, 59, 59)",
-  secondaryText: "rgb(156, 156, 156)",
-  lighterText: "rgb(205, 205, 205)"
+  mainText: "#3b3b3b",
+  secondaryText: "#9c9c9c",
+  lighterText: "#cdcdcd",
+  pinkishOrange: "#ff732e",
+  cerulean: "#007bce",
+  tomato: "#f0622d"
 };
 
 export const defaultNavigatorStyle = {

@@ -1,13 +1,17 @@
 import axios from "axios";
+import store from "../store";
 
-const apiRequest = async ({ method, url, queryParams = {}, data = {} }) => {
+const apiRequest = async ({ method, url, queryParams = {}, data = null }) => {
   try {
     const r = await axios.request({
       baseURL: "https://consumer.binbill.com",
       method,
       url,
       params: queryParams,
-      data
+      data,
+      headers: {
+        Authorization: store.getState().loggedInUser.authToken
+      }
     });
     return r.data;
   } catch (e) {
@@ -36,5 +40,12 @@ export const consumerValidate = async (PhoneNo, Token) => {
       TrueObject: { PhoneNo: PhoneNo },
       BBLogin_Type: 1
     }
+  });
+};
+
+export const consumerGetDashboard = async () => {
+  return await apiRequest({
+    method: "get",
+    url: "/consumer/dashboard"
   });
 };

@@ -1,11 +1,10 @@
 import { Navigation } from "react-native-navigation";
 
-import FirstTabScreen from "./containers/App";
-import SecondTabScreen from "./containers/App";
-import PushedScreen from "./containers/App";
+import DashboardScreen from "./containers/dashboard-screen";
 import IntroScreen from "./containers/intro-screen";
 import LoginScreen from "./containers/login-screen";
 import VerifyScreen from "./containers/verify-screen";
+import TermsScreen from "./containers/terms-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -28,20 +27,14 @@ export function registerScreens(store, Provider) {
     Provider
   );
   Navigation.registerComponent(
-    "example.FirstTabScreen",
-    () => FirstTabScreen,
+    "TermsScreen",
+    () => TermsScreen,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "example.SecondTabScreen",
-    () => SecondTabScreen,
-    store,
-    Provider
-  );
-  Navigation.registerComponent(
-    "example.PushedScreen",
-    () => PushedScreen,
+    "DashboardScreen",
+    () => DashboardScreen,
     store,
     Provider
   );

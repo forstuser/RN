@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  Dimensions,
-  Platform,
-  StyleSheet,
-  View,
-  Button,
-  Text,
-  TextInput,
-  Alert
-} from "react-native";
+import { TextInput, Alert } from "react-native";
 
 import { connect } from "react-redux";
 
@@ -16,6 +7,9 @@ import { consumerValidate } from "../api";
 import LoadingOverlay from "../components/loading-overlay";
 import { openAppScreen } from "../navigation";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
+import { ScreenContainer, Text, Button } from "../elements";
+import { colors } from "../theme";
+import I18n from "../i18n";
 
 class VerifyScreen extends Component {
   constructor(props) {
@@ -27,13 +21,13 @@ class VerifyScreen extends Component {
   }
   componentDidMount() {
     this.props.navigator.setTitle({
-      title: "Verify"
+      title: I18n.t("verify_screen_title")
     });
   }
 
   onSubmitOtp = async () => {
     if (this.state.otp.length != 6) {
-      return Alert.alert("Please enter 6 digit OTP you received on your phone");
+      return Alert.alert(I18n.t("verify_screen_invalid_otp_error"));
     }
     try {
       this.setState({
@@ -48,22 +42,43 @@ class VerifyScreen extends Component {
   };
   render() {
     return (
-      <View style={{ height: Dimensions.get("window").height, padding: 16 }}>
+      <ScreenContainer
+        style={{
+          alignItems: "center"
+        }}
+      >
+        <Text
+          weight="Bold"
+          style={{ textAlign: "center", fontSize: 14, width: 300 }}
+        >
+          {I18n.t("verify_screen_enter_otp_msg", {
+            phoneNumber: this.props.phoneNumber
+          })}
+        </Text>
         <TextInput
+          autoFocus={true}
           style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            padding: 5
+            height: 60,
+            borderColor: colors.mainBlue,
+            borderBottomWidth: 2,
+            marginTop: 20,
+            marginBottom: 30,
+            width: 200,
+            fontSize: 50,
+            textAlign: "center"
           }}
           onChangeText={otp => this.setState({ otp })}
           value={this.state.otp}
           keyboardType="phone-pad"
-          placeholder="Enter OTP"
         />
-        <Button onPress={this.onSubmitOtp} title="Submit" color="#841584" />
-        {this.state.isVerifyingOtp && <LoadingOverlay />}
-      </View>
+        <Button
+          style={{ width: 320 }}
+          color="secondary"
+          onPress={this.onSubmitOtp}
+          text={I18n.t("verify_screen_btn_text")}
+        />
+        <LoadingOverlay visible={this.state.isVerifyingOtp} />
+      </ScreenContainer>
     );
   }
 }
