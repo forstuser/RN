@@ -3,6 +3,8 @@ package com.binbill_rn;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.horcrux.svg.SvgPackage;
+import com.reactlibrary.RNPdfScannerPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
@@ -29,7 +31,9 @@ public class MainApplication extends NavigationApplication {
          return Arrays.<ReactPackage>asList(
              // eg. new VectorIconsPackage()
              new RNI18nPackage(),
-             new LinearGradientPackage()
+             new LinearGradientPackage(),
+             new RNPdfScannerPackage(),
+             new SvgPackage()
          );
      }
 

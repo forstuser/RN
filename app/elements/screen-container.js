@@ -4,7 +4,7 @@ import { Dimensions, StyleSheet, View } from "react-native";
 const styles = StyleSheet.create({
   containerStyle: {
     padding: 20,
-    height: Dimensions.get("window").height,
+    flex: 1,
     backgroundColor: "#ffffff"
   }
 });

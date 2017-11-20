@@ -6,9 +6,8 @@ import { consumerGetDashboard } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 import BlankDashboard from "../components/blank-dashboard";
 import SearchHeader from "../components/search-header";
-import BarChart from "../components/bar-chart";
 
-class DashboardScreen extends Component {
+class MoreScreen extends Component {
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -24,15 +23,12 @@ class DashboardScreen extends Component {
   render() {
     const { showDashboard } = this.state;
     return (
-      <ScreenContainer style={{ padding: 0 }}>
-        {showDashboard && (
-          <View>
-            <SearchHeader />
-            <BarChart />
-          </View>
-        )}
-        {!showDashboard && <BlankDashboard />}
-      </ScreenContainer>
+      <View style={{ flex: 1 }}>
+        {showDashboard && <SearchHeader />}
+        <ScreenContainer>
+          {!showDashboard && <BlankDashboard />}
+        </ScreenContainer>
+      </View>
     );
   }
 }
@@ -51,4 +47,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(MoreScreen);

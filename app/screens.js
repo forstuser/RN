@@ -1,6 +1,7 @@
 import { Navigation } from "react-native-navigation";
 
 import DashboardScreen from "./containers/dashboard-screen";
+import MoreScreen from "./containers/more-screen";
 import IntroScreen from "./containers/intro-screen";
 import LoginScreen from "./containers/login-screen";
 import VerifyScreen from "./containers/verify-screen";
@@ -38,4 +39,5 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
+  Navigation.registerComponent("MoreScreen", () => MoreScreen, store, Provider);
 }
