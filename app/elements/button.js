@@ -4,27 +4,6 @@ import PropTypes from "prop-types";
 import LinearGradient from "react-native-linear-gradient";
 import { colors } from "../theme";
 
-const styles = StyleSheet.create({
-  containerStyle: {
-    height: 50,
-    borderRadius: 44
-  },
-  outlineStyle: {
-    borderWidth: 1
-  },
-  touchStyle: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  textStyle: {
-    fontFamily: "Montserrat-Bold",
-    fontSize: 16,
-    backgroundColor: "transparent",
-    color: "#ffffff"
-  }
-});
-
 const buttonColors = {
   primary: [colors.aquaBlue, colors.mainBlue],
   secondary: [colors.pinkishOrange, colors.tomato]
@@ -95,3 +74,24 @@ AppButton.propTypes = {
 };
 
 export default AppButton;
+
+const styles = StyleSheet.create({
+  containerStyle: {
+    height: 50,
+    borderRadius: 44
+  },
+  outlineStyle: {
+    borderWidth: 1
+  },
+  touchStyle: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  textStyle: {
+    fontFamily: "Montserrat-Bold",
+    fontSize: 16,
+    backgroundColor: "transparent",
+    color: "#ffffff"
+  }
+});

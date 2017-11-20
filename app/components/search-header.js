@@ -50,9 +50,9 @@ const SearchHeader = ({ screen = "dashboard", messagesCount = 0 }) => (
 
 const styles = StyleSheet.create({
   container: {
+    height: 135,
     paddingTop: 16,
-    paddingLeft: 16,
-    paddingRight: 16,
+    paddingHorizontal: 16,
     paddingBottom: 12,
     borderBottomWidth: 1,
     elevation: 2,

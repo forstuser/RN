@@ -27,8 +27,10 @@ class DashboardScreen extends Component {
       <ScreenContainer style={{ padding: 0 }}>
         {showDashboard && (
           <View>
-            <SearchHeader />
-            <BarChart />
+            <SearchHeader screen="dashboard" />
+            <View padding={16}>
+              <BarChart />
+            </View>
           </View>
         )}
         {!showDashboard && <BlankDashboard />}

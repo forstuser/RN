@@ -1,6 +1,8 @@
 import { Navigation } from "react-native-navigation";
 
 import DashboardScreen from "./containers/dashboard-screen";
+import EhomeScreen from "./containers/ehome-screen";
+import AscScreen from "./containers/asc-screen";
 import MoreScreen from "./containers/more-screen";
 import IntroScreen from "./containers/intro-screen";
 import LoginScreen from "./containers/login-screen";
@@ -39,5 +41,12 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
+  Navigation.registerComponent(
+    "EhomeScreen",
+    () => EhomeScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent("AscScreen", () => AscScreen, store, Provider);
   Navigation.registerComponent("MoreScreen", () => MoreScreen, store, Provider);
 }

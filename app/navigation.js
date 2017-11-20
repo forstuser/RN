@@ -31,12 +31,12 @@ export const openAppScreen = () => {
       },
       {
         label: "eHome",
-        screen: "DashboardScreen",
+        screen: "EhomeScreen",
         icon: require("./images/ic_nav_ehome_off.png")
       },
       {
         label: "ASC",
-        screen: "DashboardScreen",
+        screen: "AscScreen",
         icon: require("./images/ic_nav_asc_off.png")
       },
       {

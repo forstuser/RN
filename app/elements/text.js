@@ -5,7 +5,8 @@ import { colors } from "../theme";
 
 const styles = StyleSheet.create({
   baseStyle: {
-    color: colors.mainText
+    color: colors.mainText,
+    backgroundColor: "transparent"
   }
 });
 
