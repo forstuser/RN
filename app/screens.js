@@ -8,6 +8,7 @@ import IntroScreen from "./containers/intro-screen";
 import LoginScreen from "./containers/login-screen";
 import VerifyScreen from "./containers/verify-screen";
 import TermsScreen from "./containers/terms-screen";
+import MainCategoryScreen from "./containers/main-category-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -49,4 +50,10 @@ export function registerScreens(store, Provider) {
   );
   Navigation.registerComponent("AscScreen", () => AscScreen, store, Provider);
   Navigation.registerComponent("MoreScreen", () => MoreScreen, store, Provider);
+  Navigation.registerComponent(
+    "MainCategoryScreen",
+    () => MainCategoryScreen,
+    store,
+    Provider
+  );
 }

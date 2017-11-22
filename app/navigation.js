@@ -41,7 +41,7 @@ export const openAppScreen = () => {
       },
       {
         label: "More",
-        screen: "DashboardScreen",
+        screen: "MoreScreen",
         icon: require("./images/ic_nav_more_off.png")
       }
     ],

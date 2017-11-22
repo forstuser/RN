@@ -1,7 +1,8 @@
 import axios from "axios";
 import store from "../store";
 
-export const API_BASE_URL = "https://consumer.binbill.com";
+export const API_BASE_URL = "https://consumer-eb.binbill.com";
+
 const apiRequest = async ({ method, url, queryParams = {}, data = null }) => {
   try {
     const r = await axios.request({
@@ -70,5 +71,17 @@ export const getCategories = async brandId => {
     method: "get",
     url: "/categories",
     queryParams: { brandid: brandId }
+  });
+};
+
+export const getCategoryProducts = async ({
+  categoryId,
+  pageNo = 1,
+  cType
+}) => {
+  return await apiRequest({
+    method: "get",
+    url: `/categories/${categoryId}/products`,
+    queryParams: { pageNo: pageNo, cType: cType }
   });
 };

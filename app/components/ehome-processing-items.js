@@ -4,8 +4,8 @@ import { Text, Button } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
 
-const icon = require("../images/ic_nav_asc_off.png");
-const arrow = require("../images/ic_nav_asc_off.png");
+const icon = require("../images/ic_processing.png");
+const arrow = require("../images/ic_processing_arrow.png");
 
 const EhomeProcessingItems = ({ itemsCount = 0 }) => (
   <TouchableOpacity style={styles.container}>
@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   arrow: {
-    width: 20,
-    height: 26
+    width: 16,
+    height: 16
   }
 });
 export default EhomeProcessingItems;

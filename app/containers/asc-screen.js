@@ -8,9 +8,7 @@ import {
   Alert,
   TouchableOpacity
 } from "react-native";
-import { connect } from "react-redux";
 import { Dropdown } from "react-native-material-dropdown";
-import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import { getBrands, getCategories } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 
@@ -137,21 +135,7 @@ class AscScreen extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    authToken: state.loggedInUser.authToken
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onTestClick: () => {
-      dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AscScreen);
+export default AscScreen;
 
 const styles = StyleSheet.create({
   titlesContainer: {

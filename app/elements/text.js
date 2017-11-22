@@ -10,14 +10,21 @@ const styles = StyleSheet.create({
   }
 });
 
-const AppText = ({ children, onPress, weight = "Regular", style }) => (
-  <Text
-    onPress={onPress}
-    style={[styles.baseStyle, { fontFamily: `Quicksand-${weight}` }, style]}
-  >
-    {children}
-  </Text>
-);
+const AppText = props => {
+  const { children, weight = "Regular", ...textProps } = props;
+  return (
+    <Text
+      {...textProps}
+      style={[
+        styles.baseStyle,
+        { fontFamily: `Quicksand-${weight}` },
+        textProps.style
+      ]}
+    >
+      {children}
+    </Text>
+  );
+};
 
 AppText.propTypes = {
   weight: PropTypes.oneOf(["Regular", "Light", "Medium", "Bold"]),

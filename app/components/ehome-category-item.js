@@ -9,9 +9,10 @@ const EhomeCategoryItem = ({
   imageUrl,
   name,
   itemsCount = 0,
-  lastUpdatedTime
+  lastUpdatedTime,
+  onPress
 }) => (
-  <TouchableOpacity style={styles.container}>
+  <TouchableOpacity onPress={onPress} style={styles.container}>
     <View style={styles.imageAndName}>
       <Image
         style={styles.image}
