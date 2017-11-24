@@ -9,7 +9,8 @@ import ProcessingItems from "../components/ehome-processing-items.js";
 
 class EhomeScreen extends Component {
   static navigatorStyle = {
-    navBarHidden: true
+    navBarHidden: true,
+    tabBarHidden: false
   };
   constructor(props) {
     super(props);
@@ -17,7 +18,7 @@ class EhomeScreen extends Component {
       isGettingEhomeData: false,
       categoriesList: []
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
   async componentDidMount() {
     this.setState({
@@ -43,17 +44,6 @@ class EhomeScreen extends Component {
       isGettingEhomeData: false
     });
   }
-
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        this.props.navigator.toggleTabs({
-          to: "shown", // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-          animated: true // does the toggle have transition animation or does it happen immediately (optional)
-        });
-        break;
-    }
-  };
 
   openMainCategoryScreen = category => {
     this.props.navigator.push({

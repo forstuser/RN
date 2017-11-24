@@ -77,11 +77,18 @@ export const getCategories = async brandId => {
 export const getCategoryProducts = async ({
   categoryId,
   pageNo = 1,
-  cType
+  subCategoryId
 }) => {
   return await apiRequest({
     method: "get",
     url: `/categories/${categoryId}/products`,
-    queryParams: { pageNo: pageNo, cType: cType }
+    queryParams: { pageNo, subCategoryId }
+  });
+};
+
+export const getProductDetails = async productId => {
+  return await apiRequest({
+    method: "get",
+    url: `/products/${productId}`
   });
 };

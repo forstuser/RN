@@ -3,11 +3,10 @@ import CategoryScreenWithFilters from "./category-screen-with-filters";
 import CategoryScreenWithPager from "./category-screen-with-pager-2";
 
 class MainCategoryScreen extends Component {
+  static navigatorStyle = {
+    tabBarHidden: true
+  };
   async componentDidMount() {
-    this.props.navigator.toggleTabs({
-      to: "hidden", // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-      animated: true // does the toggle have transition animation or does it happen immediately (optional)
-    });
     this.props.navigator.setTitle({
       title: this.props.category.name
     });

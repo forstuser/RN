@@ -20,6 +20,7 @@
     "react-native-loading-spinner-overlay": "^0.5.2",
     "react-native-material-dropdown": "^0.5.2",
     "react-native-navigation": "^1.1.275",
+    "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-svg": "5.4.1",
     "react-native-tab-view": "^0.0.70",
     "react-redux": "^5.0.6",

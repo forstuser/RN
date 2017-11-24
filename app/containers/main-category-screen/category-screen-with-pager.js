@@ -14,7 +14,7 @@ import { Text, Button, ScreenContainer } from "../../elements";
 
 import { TabViewAnimated, TabBar, SceneMap } from "react-native-tab-view";
 
-import ProductList from "../../components/product-list";
+import ProductsList from "../../components/products-list";
 import { colors } from "../../theme";
 
 const initialLayout = {

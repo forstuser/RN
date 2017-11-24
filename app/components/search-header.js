@@ -53,10 +53,13 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingHorizontal: 16,
     paddingBottom: 12,
-    borderBottomWidth: 1,
     elevation: 2,
-    borderColor: "#eee",
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.25,
+    shadowRadius: 2,
+    zIndex: 2
   },
   upperContainer: {
     flexDirection: "row",

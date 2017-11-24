@@ -17,12 +17,33 @@ const ProductListItem = ({ product, onPress }) => {
       <Text style={styles.viewBillText}>VIEW BILL</Text>
     </TouchableOpacity>
   );
-  return (
-    <View style={styles.container}>
-      <ViewBillButton />
-      <ProductType1 onPress={onPress} product={product} />
-    </View>
-  );
+  switch (product.masterCategoryId) {
+    case 2:
+    case 3:
+      return (
+        <View style={styles.container}>
+          <ViewBillButton />
+          <ProductType1 onPress={onPress} product={product} />
+        </View>
+      );
+    case 1:
+    case 4:
+    case 5:
+    case 6:
+    case 8:
+      return (
+        <View style={styles.container}>
+          <ViewBillButton />
+          <ProductType1 onPress={onPress} product={product} />
+        </View>
+      );
+    case 7:
+    case 9:
+    case 10:
+      return null;
+    default:
+      return null;
+  }
 };
 
 const styles = StyleSheet.create({
@@ -31,7 +52,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 12,
     backgroundColor: "#fff",
-    marginBottom: 1,
     borderColor: "#eaeaea",
     borderWidth: 1
   },

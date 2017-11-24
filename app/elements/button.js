@@ -15,29 +15,36 @@ const AppButton = ({
   color = "primary",
   type = "normal",
   state = "normal",
-  style = {}
+  style,
+  textStyle
 }) => (
-  <View style={[style, { opacity: state === "disabled" ? 0.7 : 1 }]}>
+  <View
+    style={[
+      styles.container,
+      style,
+      { opacity: state === "disabled" ? 0.7 : 1 }
+    ]}
+  >
     {type === "normal" && (
       <LinearGradient
         start={{ x: 0.0, y: 0.1 }}
         end={{ x: 0.9, y: 0.9 }}
         colors={buttonColors[color]}
-        style={styles.containerStyle}
+        style={styles.gradientStyle}
       >
         <TouchableOpacity
           style={styles.touchStyle}
           disabled={state !== "normal"}
           onPress={onPress}
         >
-          <Text style={styles.textStyle}>{text}</Text>
+          <Text style={[styles.textStyle, textStyle]}>{text}</Text>
         </TouchableOpacity>
       </LinearGradient>
     )}
     {type === "outline" && (
       <View
         style={[
-          styles.containerStyle,
+          styles.gradientStyle,
           styles.outlineStyle,
           {
             borderColor: buttonColors[color][0]
@@ -54,7 +61,8 @@ const AppButton = ({
               styles.textStyle,
               {
                 color: buttonColors[color][0]
-              }
+              },
+              textStyle
             ]}
           >
             {text}
@@ -70,15 +78,20 @@ AppButton.propTypes = {
   color: PropTypes.oneOf(["primary", "secondary"]),
   type: PropTypes.oneOf(["normal", "outline"]),
   state: PropTypes.oneOf(["normal", "disabled"]),
-  text: PropTypes.string
+  text: PropTypes.string,
+  style: View.propTypes.style,
+  textStyle: Text.propTypes.style
 };
 
 export default AppButton;
 
 const styles = StyleSheet.create({
-  containerStyle: {
-    height: 50,
-    borderRadius: 44
+  container: {
+    height: 50
+  },
+  gradientStyle: {
+    height: "100%",
+    borderRadius: 50
   },
   outlineStyle: {
     borderWidth: 1

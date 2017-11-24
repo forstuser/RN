@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { getCategoryProducts } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
-import ProductList from "../../components/product-list";
+import ProductsList from "../../components/products-list";
 import { colors } from "../../theme";
 
 class CategoryWithFilters extends Component {
@@ -47,7 +47,7 @@ class CategoryWithFilters extends Component {
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#fafafa" }}>
         <Text>Filters</Text>
-        <ProductList products={this.state.products} />
+        <ProductsList products={this.state.products} />
       </ScreenContainer>
     );
   }

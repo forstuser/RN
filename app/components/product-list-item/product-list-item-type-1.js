@@ -10,7 +10,6 @@ const ProductListItem = ({ product }) => {
   const meta = product.productMetaData
     .map(metaItem => metaItem.value)
     .join("/");
-  console.log(meta);
   return (
     <TouchableOpacity style={styles.container}>
       <Image
