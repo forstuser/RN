@@ -10,20 +10,29 @@ import ProductType1 from "./product-list-item-type-1";
 
 const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 
-const ProductListItem = ({ product, onPress }) => {
+const ProductListItem = ({ product, onPress, navigator }) => {
   const ViewBillButton = ({ onPress }) => (
     <TouchableOpacity style={styles.viewBillBtn}>
       <Image style={styles.viewBillIcon} source={viewBillIcon} />
       <Text style={styles.viewBillText}>VIEW BILL</Text>
     </TouchableOpacity>
   );
+
+  const openProductScreen = () => {
+    navigator.push({
+      screen: "ProductDetailsScreen",
+      passProps: {
+        productId: product.id
+      }
+    });
+  };
   switch (product.masterCategoryId) {
     case 2:
     case 3:
       return (
         <View style={styles.container}>
           <ViewBillButton />
-          <ProductType1 onPress={onPress} product={product} />
+          <ProductType1 onPress={openProductScreen} product={product} />
         </View>
       );
     case 1:
@@ -34,7 +43,7 @@ const ProductListItem = ({ product, onPress }) => {
       return (
         <View style={styles.container}>
           <ViewBillButton />
-          <ProductType1 onPress={onPress} product={product} />
+          <ProductType1 product={product} />
         </View>
       );
     case 7:

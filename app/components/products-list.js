@@ -13,14 +13,19 @@ import { colors } from "../theme";
 import ProductListItem from "./product-list-item";
 import EmptyProductListPlaceholder from "./empty-product-list-placeholder";
 
-const renderProductItem = ({ item }) => <ProductListItem product={item} />;
-const ProductsList = ({
-  products = [],
-  isLoading = false,
-  onEndReached,
-  onEndReachedThreshold = 50,
-  onRefresh
-}) => {
+// destructuring not working for some reasons
+const ProductsList = props => {
+  const {
+    navigator,
+    products = [],
+    isLoading = false,
+    onEndReached,
+    onEndReachedThreshold = 50,
+    onRefresh
+  } = props;
+  const renderProductItem = ({ item }) => (
+    <ProductListItem navigator={navigator} product={item} />
+  );
   if (!isLoading && products.length == 0) {
     return <EmptyProductListPlaceholder />;
   } else {

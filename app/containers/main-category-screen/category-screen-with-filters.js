@@ -14,31 +14,42 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import ProductsList from "../../components/products-list";
 import { colors } from "../../theme";
 
+import Filters from "./filters";
+
 class CategoryWithFilters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeFilters: {},
+      filters: [],
       products: []
     };
   }
   async componentDidMount() {
-    this.loadProducts();
+    await this.loadProducts({});
   }
 
-  loadProducts = async () => {
+  loadProducts = async ({
+    pageNo = 1,
+    categoryIds = [],
+    brandIds = [],
+    onlineSellerIds = [],
+    offlineSellerIds = []
+  }) => {
     try {
       const res = await getCategoryProducts({
         categoryId: this.props.category.id,
-        pageNo: this.state.activeFilters.pageNo || 1,
-        cType: this.state.activeFilters.cType
+        pageNo: pageNo || 1,
+        categoryIds,
+        brandIds,
+        onlineSellerIds,
+        offlineSellerIds
       });
 
       this.setState({
-        products: res.productList
+        products: res.productList,
+        filters: res.filterData
       });
     } catch (e) {
-      console.log(e);
       Alert.alert(e.message);
     }
   };
@@ -46,8 +57,11 @@ class CategoryWithFilters extends Component {
   render() {
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#fafafa" }}>
-        <Text>Filters</Text>
-        <ProductsList products={this.state.products} />
+        <Filters {...this.state.filters} loadProducts={this.loadProducts} />
+        <ProductsList
+          products={this.state.products}
+          navigator={this.props.navigator}
+        />
       </ScreenContainer>
     );
   }
