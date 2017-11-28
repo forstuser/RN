@@ -13,29 +13,18 @@ const EhomeCategoryItem = ({
   onPress
 }) => (
   <TouchableOpacity onPress={onPress} style={styles.container}>
-    <View style={styles.imageAndName}>
+    <View>
       <Image
-        style={styles.image}
         source={{
           uri: imageUrl
         }}
       />
-      <Text weight="Medium" style={styles.categoryName}>
-        {name}
-      </Text>
+      <Text weight="Medium">{name}</Text>
     </View>
-    <View style={styles.countAndTime}>
+    <View>
       <Text weight="Medium" style={styles.itemsCount}>
         {itemsCount} items
       </Text>
-      {lastUpdatedTime && (
-        <Text style={styles.lastUpdateTime}>
-          LAST UPDATED{" "}
-          {moment(lastUpdatedTime)
-            .format("DD MMM, YYYY")
-            .toUpperCase()}
-        </Text>
-      )}
     </View>
   </TouchableOpacity>
 );

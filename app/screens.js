@@ -10,6 +10,7 @@ import VerifyScreen from "./containers/verify-screen";
 import TermsScreen from "./containers/terms-screen";
 import MainCategoryScreen from "./containers/main-category-screen";
 import ProductDetailsScreen from "./containers/product-details-screen";
+import FaqScreen from "./containers/faq-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
