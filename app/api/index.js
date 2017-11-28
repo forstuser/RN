@@ -77,12 +77,23 @@ export const getCategories = async brandId => {
 export const getCategoryProducts = async ({
   categoryId,
   pageNo = 1,
-  subCategoryId
+  subCategoryId,
+  categoryIds = [],
+  brandIds = [],
+  onlineSellerIds = [],
+  offlineSellerIds = []
 }) => {
   return await apiRequest({
     method: "get",
     url: `/categories/${categoryId}/products`,
-    queryParams: { pageNo, subCategoryId }
+    queryParams: {
+      pageNo,
+      subCategoryId,
+      categoryids: categoryIds.join(","),
+      brandids: brandIds.join(","),
+      onlinesellerids: onlineSellerIds.join(","),
+      offlinesellerids: offlineSellerIds.join(",")
+    }
   });
 };
 

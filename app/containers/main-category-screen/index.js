@@ -16,13 +16,23 @@ class MainCategoryScreen extends Component {
     switch (+this.props.category.id) {
       case 2:
       case 3:
-        return <CategoryScreenWithFilters category={this.props.category} />;
+        return (
+          <CategoryScreenWithFilters
+            navigator={this.props.navigator}
+            category={this.props.category}
+          />
+        );
       case 1:
       case 4:
       case 5:
       case 6:
       case 8:
-        return <CategoryScreenWithPager category={this.props.category} />;
+        return (
+          <CategoryScreenWithPager
+            navigator={this.props.navigator}
+            category={this.props.category}
+          />
+        );
       case 7:
       case 9:
       case 10:

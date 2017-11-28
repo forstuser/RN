@@ -1,25 +1,30 @@
 import React, { Component } from "react";
 import {
-  Platform,
   StyleSheet,
   View,
-  FlatList,
   Image,
   Alert,
   TouchableOpacity,
-  Dimensions
+  ScrollView,
+  Text as NativeText
 } from "react-native";
+
 import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
+
+import Modal from "react-native-modal";
+
 import { API_BASE_URL, getProductDetails } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 
 import { colors } from "../../theme";
 
+import Details from "./details";
 import ImportantTab from "./important-tab";
 import GeneralTab from "./general-tab";
 import SellerTab from "./seller-tab";
+import ContactAfterSaleButton from "./after-sale-button";
 
 class ProductDetailsScreen extends Component {
   static navigatorStyle = {
@@ -50,33 +55,11 @@ class ProductDetailsScreen extends Component {
     if (!isLoaded) {
       return null;
     }
-    const metaUnderName = product.metaData
-      .map(metaItem => metaItem.value)
-      .join("/");
     return (
-      <ScreenContainer style={{ padding: 0, backgroundColor: "#fff" }}>
-        <View style={styles.upperContainer}>
-          <Image
-            style={styles.image}
-            source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
-          />
-          <Text weight="Bold" style={styles.name}>
-            {product.productName}
-          </Text>
-          <Text weight="Medium" style={styles.metaUnderName}>
-            {metaUnderName}
-          </Text>
-          <Text weight="Medium" style={styles.totalText}>
-            Total
-          </Text>
-          <View style={styles.totalContainer}>
-            <Text weight="Bold" style={styles.totalAmount}>
-              ₹ {product.value}
-            </Text>
-          </View>
-        </View>
+      <View style={styles.container}>
+        <Details product={product} />
         <ScrollableTabView
-          style={{ marginTop: 20 }}
+          style={{ marginTop: 20, marginBottom: 70 }}
           renderTabBar={() => <DefaultTabBar />}
           tabBarUnderlineStyle={{ backgroundColor: colors.mainBlue, height: 2 }}
           tabBarBackgroundColor="#fafafa"
@@ -88,12 +71,18 @@ class ProductDetailsScreen extends Component {
           <SellerTab tabLabel="SELLER" product={product} />
           <GeneralTab tabLabel="GENERAL INFO" product={product} />
         </ScrollableTabView>
-      </ScreenContainer>
+        <View style={styles.contactAfterSalesBtn}>
+          <ContactAfterSaleButton product={product} />
+        </View>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   upperContainer: {
     alignItems: "center"
   },
@@ -117,6 +106,12 @@ const styles = StyleSheet.create({
   },
   totalAmount: {
     fontSize: 24
+  },
+  contactAfterSalesBtn: {
+    position: "absolute",
+    bottom: 10,
+    left: 16,
+    right: 16
   }
 });
 

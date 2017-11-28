@@ -41,7 +41,6 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		7308449315874C158DEC6C12 /* libRNPdfScanner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB2638A11C5424CBE5CE535 /* libRNPdfScanner.a */; };
 		74AF3123792A483FA954226C /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 418274813DDB4C1696583956 /* Quicksand-Bold.ttf */; };
-		7FE65A8DAA4D4A37A5B5684B /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D74F0663674539868E7BF5 /* libRNSpinkit.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		83F57A7771FB4B4B8B642A1D /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F7C158D1E04403BBC2E207F /* libBVLinearGradient.a */; };
 		929503C3807D427A868596AC /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F4501071D764DBAAC36331A /* Montserrat-Bold.ttf */; };
@@ -430,7 +429,6 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				43F1C1B41FBC19780088FBA5 /* libReactNativeNavigation.a in Frameworks */,
-				7FE65A8DAA4D4A37A5B5684B /* libRNSpinkit.a in Frameworks */,
 				83F57A7771FB4B4B8B642A1D /* libBVLinearGradient.a in Frameworks */,
 				FC05AD9B7FF84A3F8BBB2279 /* libRNI18n.a in Frameworks */,
 				7308449315874C158DEC6C12 /* libRNPdfScanner.a in Frameworks */,
@@ -817,14 +815,20 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 7Z77WH53VZ;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 7Z77WH53VZ;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 7Z77WH53VZ;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E48F1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 7Z77WH53VZ;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
@@ -1351,6 +1355,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 7Z77WH53VZ;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1388,6 +1393,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 7Z77WH53VZ;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
@@ -1422,6 +1428,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = 7Z77WH53VZ;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
@@ -1447,6 +1454,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z77WH53VZ;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
@@ -1477,6 +1485,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7Z77WH53VZ;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1520,6 +1529,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 7Z77WH53VZ;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1560,6 +1570,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7Z77WH53VZ;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "BinBill_RN-tvOSTests/Info.plist";
@@ -1590,6 +1601,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 7Z77WH53VZ;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "BinBill_RN-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  Image,
+  TouchableOpacity
+} from "react-native";
 import moment from "moment";
 import { Text, Button, ScreenContainer } from "../../elements";
 
@@ -18,7 +24,7 @@ class GeneralTab extends Component {
   render() {
     const { product } = this.props;
     return (
-      <View>
+      <ScrollView>
         <KeyValueItem
           keyText="Main Category"
           valueText={product.masterCategoryName}
@@ -29,14 +35,14 @@ class GeneralTab extends Component {
           keyText="Date of Purchase"
           valueText={moment(product.purchaseDate).format("MMM DD, YYYY")}
         />
-        {product.metaData.map(metaItem => (
+        {product.metaData.map((metaItem, index) => (
           <KeyValueItem
-            key={metaItem.name}
+            key={index}
             keyText={metaItem.name}
             valueText={metaItem.value}
           />
         ))}
-      </View>
+      </ScrollView>
     );
   }
 }

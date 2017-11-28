@@ -5,13 +5,13 @@ import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
+import { getProductMetasString } from "../../utils";
 
-const ProductListItem = ({ product }) => {
-  const meta = product.productMetaData
-    .map(metaItem => metaItem.value)
-    .join("/");
+const ProductListItem = ({ product, onPress }) => {
+  const meta = getProductMetasString(product.productMetaData);
+
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity onPress={onPress} style={styles.container}>
       <Image
         style={styles.image}
         source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
@@ -21,7 +21,9 @@ const ProductListItem = ({ product }) => {
           {product.productName}
         </Text>
         <View style={styles.metaContainer}>
-          <Text style={styles.meta}>({meta})</Text>
+          <Text numberOfLines={1} style={styles.meta}>
+            {meta}
+          </Text>
         </View>
         <View style={styles.purchaseDateContainer}>
           <Text weight="Medium" style={styles.purchaseDateText}>
