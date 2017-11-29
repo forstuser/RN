@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import CategoryScreenWithFilters from "./category-screen-with-filters";
-import CategoryScreenWithPager from "./category-screen-with-pager-2";
+import CategoryScreenWithFilters from "./with-filters";
+import CategoryScreenWithPager from "./with-pager";
+import Direct from "./direct";
 
 class MainCategoryScreen extends Component {
   static navigatorStyle = {
@@ -36,7 +37,10 @@ class MainCategoryScreen extends Component {
       case 7:
       case 9:
       case 10:
-        return null;
+        <Direct
+          navigator={this.props.navigator}
+          category={this.props.category}
+        />;
       default:
         return null;
     }

@@ -16,9 +16,9 @@ class EhomeScreen extends Component {
     super(props);
     this.state = {
       isGettingEhomeData: false,
-      categoriesList: []
+      categoriesList: [],
+      pendingDocs: []
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
   async componentDidMount() {
     this.setState({
@@ -37,7 +37,8 @@ class EhomeScreen extends Component {
         };
       });
       this.setState({
-        categoriesList: categoriesList
+        categoriesList: categoriesList,
+        pendingDocs: ehomeData.unProcessedBills
       });
     } catch (e) {}
     this.setState({
@@ -54,6 +55,15 @@ class EhomeScreen extends Component {
     });
   };
 
+  openDocsUnderProcessingScreen = () => {
+    this.props.navigator.push({
+      screen: "DocsUnderProcessingScreen",
+      passProps: {
+        pendingDocs: this.state.pendingDocs
+      }
+    });
+  };
+
   renderCategoryItem = ({ item }) => (
     <CategoryItem
       {...item}
@@ -66,7 +76,10 @@ class EhomeScreen extends Component {
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#fafafa" }}>
         <SearchHeader screen="ehome" />
-        <ProcessingItems />
+        <ProcessingItems
+          onPress={this.openDocsUnderProcessingScreen}
+          itemsCount={this.state.pendingDocs.length}
+        />
         <View style={{ flex: 1 }}>
           <FlatList
             style={{ paddingHorizontal: 16 }}

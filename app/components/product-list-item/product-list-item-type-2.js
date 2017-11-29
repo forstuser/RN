@@ -6,67 +6,56 @@ import I18n from "../../i18n";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 
+const directionIcon = require("../../images/ic_directions.png");
+const callIcon = require("../../images/ic_call.png");
+
 const ProductListItem = ({ product }) => {
-  const meta = product.productMetaData
-    .map(metaItem => metaItem.value)
-    .join("/");
-  console.log(meta);
   return (
-    <TouchableOpacity style={styles.container}>
-      <Image
-        style={styles.image}
-        source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
-      />
-      <View style={styles.texts}>
-        <Text weight="Bold" style={styles.name}>
-          {product.productName}
-        </Text>
-        <View style={styles.metaContainer}>
-          <Text style={styles.meta}>({meta})</Text>
-        </View>
-        <View style={styles.purchaseDateContainer}>
-          <Text weight="Medium" style={styles.purchaseDateText}>
-            Purchase Date:{" "}
+    <View style={styles.container}>
+      <View style={styles.details}>
+        <Image
+          style={styles.image}
+          source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
+        />
+        <View style={styles.texts}>
+          <Text weight="Bold" style={styles.name}>
+            {product.productName}
           </Text>
+          <Text style={styles.sellerName}>{product.sellers.sellerName}</Text>
           <Text weight="Medium" style={styles.purchaseDate}>
             {moment(product.purchaseDate).format("MMM DD, YYYY")}
           </Text>
         </View>
-        {product.warrantyDetails.length > 0 && (
-          <View style={styles.otherDetailContainer}>
-            <Text style={styles.detailName}>Warrenty till: </Text>
-            <Text weight="Medium" style={styles.detailValue}>
-              {moment(product.warrantyDetails[0].expiryDate).format(
-                "MMM DD, YYYY"
-              )}
-            </Text>
-          </View>
-        )}
-        {product.insuranceDetails.length > 0 && (
-          <View style={styles.otherDetailContainer}>
-            <Text style={styles.detailName}>Insurance till: </Text>
-            <Text weight="Medium" style={styles.detailValue}>
-              {moment(product.insuranceDetails[0].expiryDate).format(
-                "MMM DD, YYYY"
-              )}
-            </Text>
-          </View>
-        )}
-        {product.amcDetails.length > 0 && (
-          <View style={styles.otherDetailContainer}>
-            <Text style={styles.detailName}>AMC till: </Text>
-            <Text weight="Medium" style={styles.detailValue}>
-              {moment(product.amcDetails[0].expiryDate).format("MMM DD, YYYY")}
-            </Text>
-          </View>
-        )}
+        <Text weight="Bold" style={styles.amount}>
+          ₹ {product.value}
+        </Text>
       </View>
-    </TouchableOpacity>
+      {product.categoryId == 22 && (
+        <View style={styles.directionAndCall}>
+          <TouchableOpacity style={styles.directionAndCallItem}>
+            <Text weight="Bold" style={styles.directionAndCallText}>
+              Directions
+            </Text>
+            <Image style={styles.directionAndCallIcon} source={directionIcon} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.directionAndCallItem}>
+            <Text weight="Bold" style={styles.directionAndCallText}>
+              Call
+            </Text>
+            <Image style={styles.directionAndCallIcon} source={callIcon} />
+          </TouchableOpacity>
+        </View>
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container: {},
+  details: {
+    paddingTop: 16,
+    paddingHorizontal: 16,
+    paddingBottom: 12,
     flexDirection: "row"
   },
   image: {
@@ -81,40 +70,37 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.mainText
   },
-  metaContainer: {
-    paddingTop: 4,
-    paddingBottom: 10
-  },
-  meta: {
+  sellerName: {
     fontSize: 12,
-    color: colors.mainText
-  },
-  purchaseDateContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 8,
-    borderColor: "#ececec",
-    borderBottomWidth: 1,
-    borderTopWidth: 1,
-    marginBottom: 5
-  },
-  purchaseDateText: {
-    fontSize: 14,
-    color: colors.secondaryText
+    color: colors.mainText,
+    marginVertical: 5
   },
   purchaseDate: {
     fontSize: 12,
-    color: colors.mainText
+    color: colors.secondaryText
   },
-  otherDetailContainer: {
-    paddingVertical: 3,
+  amount: {
+    marginTop: 20
+  },
+  directionAndCall: {
     flexDirection: "row"
   },
-  detailName: {
-    fontSize: 12
+  directionAndCallItem: {
+    height: 40,
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#ececec",
+    borderWidth: 1
   },
-  detailValue: {
-    fontSize: 12
+  directionAndCallText: {
+    color: colors.pinkishOrange,
+    marginRight: 6
+  },
+  directionAndCallIcon: {
+    width: 18,
+    height: 18
   }
 });
 export default ProductListItem;

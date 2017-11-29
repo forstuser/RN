@@ -5,10 +5,12 @@ import {
   FlatList,
   Image,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from "react-native";
 import Modal from "react-native-modal";
 import CheckBox from "react-native-check-box";
+import LinearGradient from "react-native-linear-gradient";
 
 import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
@@ -21,10 +23,8 @@ class Filters extends Component {
   static defaultProps = {
     categories: [],
     brands: [],
-    sellers: {
-      offlineSellers: [],
-      onlineSellers: []
-    }
+    offlineSellers: [],
+    onlineSellers: []
   };
   constructor(props) {
     super(props);
@@ -34,13 +34,18 @@ class Filters extends Component {
       choosenCategoryIdsTemp: [],
       choosenBrandIds: [],
       choosenBrandIdsTemp: [],
-      filters: []
+      choosenOnlineSellerIds: [],
+      choosenOnlineSellerIdsTemp: [],
+      choosenOfflineSellerIds: [],
+      choosenOfflineSellerIdsTemp: []
     };
   }
   showModal = () => {
     this.setState({
       choosenCategoryIdsTemp: [...this.state.choosenCategoryIds],
       choosenBrandIdsTemp: [...this.state.choosenBrandIds],
+      choosenOnlineSellerIdsTemp: [...this.state.choosenOnlineSellerIds],
+      choosenOfflineSellerIdsTemp: [...this.state.choosenOfflineSellerIds],
       isModalVisible: true
     });
   };
@@ -57,14 +62,16 @@ class Filters extends Component {
         choosenBrandIds: [...this.state.choosenBrandIdsTemp],
         isModalVisible: false
       },
-      async () => {
-        await this.props.loadProducts({
-          pageNo: 1,
-          categoryIds: this.state.choosenCategoryIds,
-          brandIds: this.state.choosenBrandIds
-        });
-      }
+      async () => await this.applyFilters()
     );
+  };
+
+  applyFilters = async () => {
+    await this.props.applyFilters({
+      pageNo: 1,
+      categoryIds: this.state.choosenCategoryIds,
+      brandIds: this.state.choosenBrandIds
+    });
   };
 
   onCategoryClick = id => {
@@ -124,8 +131,66 @@ class Filters extends Component {
       />
     );
   };
+
+  removeAppliedFilter = (type, id) => {
+    let idx = -1;
+    switch (type) {
+      case "category":
+        let { choosenCategoryIds } = this.state;
+        idx = choosenCategoryIds.indexOf(id);
+        if (idx > -1) {
+          choosenCategoryIds.splice(idx, 1);
+        }
+        this.setState(
+          {
+            choosenCategoryIds
+          },
+          async () => await this.applyFilters()
+        );
+        break;
+      case "brand":
+        let { choosenBrandIds } = this.state;
+        idx = choosenBrandIds.indexOf(id);
+        if (idx > -1) {
+          choosenBrandIds.splice(idx, 1);
+        }
+        this.setState(
+          {
+            choosenBrandIds
+          },
+          async () => await this.applyFilters()
+        );
+        break;
+    }
+  };
+
   render() {
-    const { categories, brands, sellers } = this.props;
+    const { categories, brands, onlineSellers, offlineSellers } = this.props;
+    const {
+      choosenCategoryIds,
+      choosenBrandIds,
+      choosenOnlineSellerIds,
+      choosenOfflineSellerIds
+    } = this.state;
+
+    const AppliedFilterItem = ({ type, id, text }) => (
+      <LinearGradient
+        start={{ x: 0.0, y: 0.1 }}
+        end={{ x: 0.9, y: 0.9 }}
+        colors={[colors.pinkishOrange, colors.tomato]}
+        style={styles.appliedFilterItem}
+      >
+        <Text style={styles.appliedFilterText}>{text}</Text>
+        <Text
+          weight="Bold"
+          style={styles.appliedFilterCross}
+          onPress={() => this.removeAppliedFilter(type, id)}
+        >
+          X
+        </Text>
+      </LinearGradient>
+    );
+
     return (
       <View>
         <TouchableOpacity onPress={this.showModal} style={styles.alwaysVisible}>
@@ -134,6 +199,33 @@ class Filters extends Component {
             Filter & Sort
           </Text>
         </TouchableOpacity>
+        <ScrollView horizontal style={styles.appliedFiltersContainer}>
+          {categories.map(category => {
+            if (choosenCategoryIds.indexOf(category.id) > -1) {
+              return (
+                <AppliedFilterItem
+                  key={category.id}
+                  type="category"
+                  id={category.id}
+                  text={category.name}
+                />
+              );
+            }
+          })}
+
+          {brands.map(brand => {
+            if (choosenBrandIds.indexOf(brand.brandId) > -1) {
+              return (
+                <AppliedFilterItem
+                  key={brand.brandId}
+                  type="brand"
+                  id={brand.brandId}
+                  text={brand.name}
+                />
+              );
+            }
+          })}
+        </ScrollView>
         <Modal isVisible={this.state.isModalVisible}>
           <View style={styles.modal}>
             <View style={styles.modalHeader}>
@@ -208,6 +300,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#eee",
     borderBottomWidth: 1
+  },
+  appliedFiltersContainer: {
+    borderColor: "#eee",
+    borderBottomWidth: 1,
+    borderTopWidth: 1
+  },
+  appliedFilterItem: {
+    flexDirection: "row",
+    paddingLeft: 12,
+    paddingRight: 8,
+    paddingTop: 5,
+    paddingBottom: 6,
+    borderRadius: 15,
+    alignItems: "center",
+    marginHorizontal: 5,
+    marginVertical: 10
+  },
+  appliedFilterText: {
+    color: "#fff"
+  },
+  appliedFilterCross: {
+    color: "#fff",
+    marginLeft: 10
   }
 });
 
