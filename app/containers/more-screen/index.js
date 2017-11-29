@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import { connect } from "react-redux";
-import { actions as loggedInUserActions } from "../modules/logged-in-user";
-import { Text, Button, ScreenContainer } from "../elements";
+// import { actions as loggedInUserActions } from "../modules/logged-in-user";
+import { Text, Button, ScreenContainer } from "../../elements";
+import Body from "./body";
+import Header from "./header";
 
 class MoreScreen extends Component {
   static navigatorStyle = {
@@ -17,10 +19,10 @@ class MoreScreen extends Component {
   }
   render() {
     return (
-      <ScreenContainer>
-        <Text>{this.props.authToken}</Text>
-        <Button onPress={this.props.logoutUser} text="Logout" />
-      </ScreenContainer>
+      <View>
+        <Header />
+        <Body />
+      </View>
     );
   }
 }

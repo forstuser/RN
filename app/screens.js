@@ -12,6 +12,7 @@ import MainCategoryScreen from "./containers/main-category-screen";
 import ProductDetailsScreen from "./containers/product-details-screen";
 import DocsUnderProcessingScreen from "./containers/docs-under-processing";
 import BillsPopUpScreen from "./containers/bills-popup-screen";
+import FaqScreen from "./containers/faq-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -53,6 +54,7 @@ export function registerScreens(store, Provider) {
   );
   Navigation.registerComponent("AscScreen", () => AscScreen, store, Provider);
   Navigation.registerComponent("MoreScreen", () => MoreScreen, store, Provider);
+  Navigation.registerComponent("FaqScreen", () => FaqScreen, store, Provider);
   Navigation.registerComponent(
     "MainCategoryScreen",
     () => MainCategoryScreen,
