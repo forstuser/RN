@@ -68,7 +68,10 @@ const ProductListItem = ({ product, onPress }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row"
+    flexDirection: "row",
+    paddingTop: 16,
+    paddingHorizontal: 16,
+    paddingBottom: 12
   },
   image: {
     width: 50,

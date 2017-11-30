@@ -6,4 +6,9 @@ const getProductMetasString = metasArray => {
   return metasWithValue.map(metaItem => metaItem.value).join("/");
 };
 
-export { getProductMetasString };
+const isImageFileType = fileType => {
+  const imageFileTypes = ["jpg", "jpeg", "png", "bmp"];
+  return imageFileTypes.indexOf(fileType.toLowerCase()) > -1;
+};
+
+export { getProductMetasString, isImageFileType };

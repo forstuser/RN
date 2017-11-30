@@ -1,6 +1,13 @@
 import { Navigation } from "react-native-navigation";
 import { colors, defaultNavigatorStyle } from "./theme";
 
+export const openBillsPopUp = props => {
+  Navigation.showModal({
+    screen: "BillsPopUpScreen",
+    passProps: props
+  });
+};
+
 export const openLoginScreen = () => {
   Navigation.startSingleScreenApp({
     screen: {
@@ -66,5 +73,6 @@ export const openAppScreen = () => {
 export default {
   openLoginScreen,
   openIntroScreen,
-  openAppScreen
+  openAppScreen,
+  openBillsPopUp
 };

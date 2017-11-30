@@ -9,6 +9,8 @@ import VerifyScreen from "./containers/verify-screen";
 import TermsScreen from "./containers/terms-screen";
 import MainCategoryScreen from "./containers/main-category-screen";
 import ProductDetailsScreen from "./containers/product-details-screen";
+import DocsUnderProcessingScreen from "./containers/docs-under-processing";
+import BillsPopUpScreen from "./containers/bills-popup-screen";
 import FaqScreen from "./containers/faq-screen";
 import TipsScreen from "./containers/tips-screen";
 import ProfileScreen from "./containers/profile-screen";
@@ -55,6 +57,7 @@ export function registerScreens(store, Provider) {
 
   Navigation.registerComponent("AscScreen", () => AscScreen, store, Provider);
   Navigation.registerComponent("MoreScreen", () => MoreScreen, store, Provider);
+  Navigation.registerComponent("FaqScreen", () => FaqScreen, store, Provider);
   Navigation.registerComponent(
     "ProfileScreen",
     () => ProfileScreen,
@@ -71,6 +74,18 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     "ProductDetailsScreen",
     () => ProductDetailsScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    "DocsUnderProcessingScreen",
+    () => DocsUnderProcessingScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    "BillsPopUpScreen",
+    () => BillsPopUpScreen,
     store,
     Provider
   );

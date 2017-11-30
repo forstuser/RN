@@ -7,6 +7,8 @@ import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 
 import ProductType1 from "./product-list-item-type-1";
+import ProductType2 from "./product-list-item-type-2";
+import ProductType3 from "./product-list-item-type-3";
 
 const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 
@@ -39,17 +41,19 @@ const ProductListItem = ({ product, onPress, navigator }) => {
     case 4:
     case 5:
     case 6:
+    case 7:
     case 8:
+    case 9:
       return (
         <View style={styles.container}>
           <ViewBillButton />
-          <ProductType1 product={product} />
+          <ProductType2 product={product} />
         </View>
       );
-    case 7:
-    case 9:
     case 10:
-      return null;
+      <View style={styles.container}>
+        <ProductType3 product={product} />
+      </View>;
     default:
       return null;
   }
@@ -57,9 +61,6 @@ const ProductListItem = ({ product, onPress, navigator }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 25,
-    paddingHorizontal: 16,
-    paddingBottom: 12,
     backgroundColor: "#fff",
     borderColor: "#eaeaea",
     borderWidth: 1
@@ -74,7 +75,8 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 3
+    paddingHorizontal: 3,
+    zIndex: 2
   },
   viewBillIcon: {
     width: 14,

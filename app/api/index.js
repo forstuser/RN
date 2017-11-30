@@ -89,10 +89,10 @@ export const getCategoryProducts = async ({
     queryParams: {
       pageNo,
       subCategoryId,
-      categoryids: categoryIds.join(","),
-      brandids: brandIds.join(","),
-      onlinesellerids: onlineSellerIds.join(","),
-      offlinesellerids: offlineSellerIds.join(",")
+      categoryids: "[" + categoryIds.join(",") + "]",
+      brandids: "[" + brandIds.join(",") + "]",
+      onlinesellerids: "[" + onlineSellerIds.join(",") + "]",
+      offlinesellerids: "[" + offlineSellerIds.join(",") + "]"
     }
   });
 };

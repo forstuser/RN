@@ -7,14 +7,14 @@ import { colors } from "../theme";
 const icon = require("../images/ic_processing.png");
 const arrow = require("../images/ic_processing_arrow.png");
 
-const EhomeProcessingItems = ({ itemsCount = 0 }) => (
-  <TouchableOpacity style={styles.container}>
+const EhomeProcessingItems = ({ itemsCount = 0, onPress }) => (
+  <TouchableOpacity onPress={onPress} style={styles.container}>
     <Image style={styles.icon} source={icon} />
     <View style={styles.titleAndItemCount}>
       <Text weight="Medium" style={styles.title}>
         Processing Docs
       </Text>
-      <Text style={styles.itemsCount}>{itemsCount} items pending</Text>
+      <Text style={styles.itemsCount}>{itemsCount} item(s) pending</Text>
     </View>
     <Image style={styles.arrow} source={arrow} />
   </TouchableOpacity>
