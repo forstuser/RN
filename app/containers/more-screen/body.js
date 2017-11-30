@@ -1,28 +1,41 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, View, Image, Alert } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  View,
+  Image,
+  Alert,
+  Linking
+} from "react-native";
 import { connect } from "react-redux";
 import { Text, Button, ScreenContainer } from "../../elements";
 import MoreItem from "./more-item";
+import call from "react-native-phone-call";
+
 class Body extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  onCallItemPress = () => {
-    Alert.alert("calling");
-  };
-
   onLogoutItemPress = () => {
     Alert.alert("logout");
   };
 
   onEhomeItemPress = () => {
-    Alert.alert("tips");
+    this.props.navigator.push({
+      screen: "TipsScreen"
+    });
   };
 
   onFaqItemPress = () => {
-    Alert.alert("tips");
+    this.props.navigator.push({
+      screen: "FaqScreen"
+    });
+  };
+
+  onEmailItemPress = () => {
+    Linking.openURL("mailto:support@binbill.com");
   };
 
   render() {
@@ -39,11 +52,14 @@ class Body extends Component {
           name="Tips to Build Your eHome "
         />
         <MoreItem
-          onPress={this.onCallItemPress}
+          onPress={() =>
+            call({ number: "+911244343177" }).catch(e => Alert.alert(e.message))
+          }
           imageSource={require("../../images/ic_more_call.png/")}
           name="Call Us "
         />
         <MoreItem
+          onPress={this.onEmailItemPress}
           imageSource={require("../../images/ic_more_email.png/")}
           name="Email Us"
         />
@@ -56,5 +72,7 @@ class Body extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({});
 
 export default Body;

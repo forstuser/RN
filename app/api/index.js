@@ -113,3 +113,10 @@ export const getMailboxData = async pageNo => {
     }
   });
 };
+
+export const getProfileDetail = async () => {
+  return await apiRequest({
+    method: "get",
+    url: "/consumer/profile"
+  });
+};

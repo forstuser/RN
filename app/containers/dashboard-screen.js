@@ -19,6 +19,7 @@ class DashboardScreen extends Component {
   static navigatorStyle = {
     navBarHidden: true
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -58,6 +59,7 @@ class DashboardScreen extends Component {
       Alert.alert(e.message);
     }
   }
+
   render() {
     const { showDashboard, notificationCount } = this.state;
     const SectionHeader = ({ text }) => (
