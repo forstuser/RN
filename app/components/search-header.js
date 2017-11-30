@@ -9,7 +9,11 @@ const eHomeIcon = require("../images/ic_nav_ehome_off.png");
 const messagesIcon = require("../images/ic_top_messages.png");
 const searchIcon = require("../images/ic_top_search.png");
 
-const SearchHeader = ({ screen = "dashboard", messagesCount = 0 }) => (
+const SearchHeader = ({
+  screen = "dashboard",
+  notificationCount = 0,
+  navigator
+}) => (
   <View style={styles.container}>
     <View style={styles.upperContainer}>
       {screen === "dashboard" && (
@@ -28,16 +32,23 @@ const SearchHeader = ({ screen = "dashboard", messagesCount = 0 }) => (
           </Text>
         </View>
       )}
-      <View style={styles.messagesContainer}>
+      <TouchableOpacity
+        onPress={() => {
+          navigator.push({
+            screen: "MailboxScreen"
+          });
+        }}
+        style={styles.messagesContainer}
+      >
         <Image style={styles.messagesIcon} source={messagesIcon} />
-        {messagesCount > 0 && (
+        {notificationCount > 0 && (
           <View style={styles.messagesCountContainer}>
             <Text weight="Bold" style={styles.messagesCount}>
-              {messagesCount}
+              {notificationCount}
             </Text>
           </View>
         )}
-      </View>
+      </TouchableOpacity>
     </View>
     <TouchableOpacity style={styles.searchContainer}>
       <Image style={styles.searchIcon} source={searchIcon} />
@@ -50,7 +61,7 @@ const SearchHeader = ({ screen = "dashboard", messagesCount = 0 }) => (
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 16,
+    paddingTop: 32,
     paddingHorizontal: 16,
     paddingBottom: 12,
     elevation: 2,

@@ -13,10 +13,13 @@ import { API_BASE_URL } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import KeyValueItem from "../../components/key-value-item";
 
+import { openBillsPopUp } from "../../navigation";
+
 import { colors } from "../../theme";
 import { getProductMetasString } from "../../utils";
 
 const dropdownIcon = require("../../images/ic_dropdown_arrow.png");
+const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 
 class Details extends Component {
   constructor(props) {
@@ -51,8 +54,31 @@ class Details extends Component {
       amcAmount +
       repairAmount;
 
+    const ViewBillButton = ({ onPress }) => {
+      if (product.copies.length > 0) {
+        return (
+          <TouchableOpacity
+            onPress={() =>
+              openBillsPopUp({
+                date: product.purchaseDate,
+                id: product.id,
+                copies: product.copies
+              })
+            }
+            style={styles.viewBillBtn}
+          >
+            <Image style={styles.viewBillIcon} source={viewBillIcon} />
+            <Text style={styles.viewBillText}>VIEW BILL</Text>
+          </TouchableOpacity>
+        );
+      } else {
+        return null;
+      }
+    };
+
     return (
       <View style={styles.container}>
+        <ViewBillButton />
         <Image
           style={styles.image}
           source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
@@ -112,6 +138,28 @@ class Details extends Component {
 }
 
 const styles = StyleSheet.create({
+  viewBillBtn: {
+    position: "absolute",
+    right: 10,
+    top: 10,
+    borderColor: colors.pinkishOrange,
+    borderWidth: 2,
+    height: 20,
+    borderRadius: 2,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 3,
+    zIndex: 2
+  },
+  viewBillIcon: {
+    width: 14,
+    height: 14,
+    marginRight: 2
+  },
+  viewBillText: {
+    fontSize: 10,
+    color: colors.pinkishOrange
+  },
   container: {
     alignItems: "center"
   },

@@ -30,7 +30,7 @@ const ProductListItem = ({ product }) => {
           ₹ {product.value}
         </Text>
       </View>
-      {product.categoryId == 22 && (
+      {product.categoryId != 22 && (
         <View style={styles.directionAndCall}>
           <TouchableOpacity style={styles.directionAndCallItem}>
             <Text weight="Bold" style={styles.directionAndCallText}>

@@ -42,9 +42,9 @@ class UpcomingServicesList extends React.Component {
             listHeight == "less" ? styles.listLessHeight : {}
           ]}
         >
-          {upcomingServices.map(item => (
+          {upcomingServices.map((item, index) => (
             <UpcomingServiceItem
-              key={item.id}
+              key={index}
               item={item}
               navigator={this.props.navigator}
             />

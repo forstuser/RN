@@ -17,7 +17,8 @@ class EhomeScreen extends Component {
     this.state = {
       isGettingEhomeData: false,
       categoriesList: [],
-      pendingDocs: []
+      pendingDocs: [],
+      notificationCount: 0
     };
   }
   async componentDidMount() {
@@ -37,6 +38,7 @@ class EhomeScreen extends Component {
         };
       });
       this.setState({
+        notificationCount: ehomeData.notificationCount,
         categoriesList: categoriesList,
         pendingDocs: ehomeData.unProcessedBills
       });
@@ -75,7 +77,11 @@ class EhomeScreen extends Component {
   render() {
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#fafafa" }}>
-        <SearchHeader screen="ehome" />
+        <SearchHeader
+          navigator={this.props.navigator}
+          screen="ehome"
+          notificationCount={this.state.notificationCount}
+        />
         <ProcessingItems
           onPress={this.openDocsUnderProcessingScreen}
           itemsCount={this.state.pendingDocs.length}

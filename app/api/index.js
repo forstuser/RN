@@ -103,3 +103,13 @@ export const getProductDetails = async productId => {
     url: `/products/${productId}`
   });
 };
+
+export const getMailboxData = async pageNo => {
+  return await apiRequest({
+    method: "get",
+    url: `/consumer/mailbox`,
+    queryParams: {
+      pageno: pageNo
+    }
+  });
+};

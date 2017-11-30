@@ -1,18 +1,29 @@
 import React from "react";
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import moment from "moment";
-import { Text, Button } from "../../elements";
+import { Text, Button, AsyncImage } from "../../elements";
 import I18n from "../../i18n";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
+import { openBillsPopUp } from "../../navigation";
 
 const ProductListItem = ({ product }) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      onPress={() => {
+        openBillsPopUp({
+          date: product.purchaseDate,
+          id: product.productName,
+          copies: product.copies
+        });
+      }}
+      style={styles.container}
+    >
       <View style={styles.details}>
-        <Image
+        <AsyncImage
+          fileType={product.copies[0].file_type}
           style={styles.image}
-          source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
+          uri={API_BASE_URL + "/" + product.copies[0].copyUrl}
         />
         <View style={styles.texts}>
           <Text weight="Bold" style={styles.name}>
@@ -23,14 +34,14 @@ const ProductListItem = ({ product }) => {
           </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {},
   details: {
-    paddingTop: 16,
+    paddingTop: 12,
     paddingHorizontal: 16,
     paddingBottom: 12,
     flexDirection: "row"

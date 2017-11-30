@@ -17,6 +17,8 @@ import { colors } from "../../theme";
 import Collapsible from "../../components/collapsible";
 import KeyValueItem from "../../components/key-value-item";
 
+import { openBillsPopUp } from "../../navigation";
+
 class ImportantTab extends Component {
   constructor(props) {
     super(props);
@@ -35,11 +37,22 @@ class ImportantTab extends Component {
       repairBills
     } = product;
 
-    const ViewBillRow = ({ date }) => (
-      <TouchableOpacity style={{ flex: 1 }}>
+    const ViewBillRow = ({ expiryDate, purchaseDate, docType, copies }) => (
+      <TouchableOpacity
+        onPress={() =>
+          openBillsPopUp({
+            date: purchaseDate,
+            id: docType,
+            copies: copies
+          })
+        }
+        style={{ flex: 1 }}
+      >
         <KeyValueItem
           KeyComponent={() => (
-            <Text style={{ flex: 1, color: colors.pinkishOrange }}>{date}</Text>
+            <Text style={{ flex: 1, color: colors.pinkishOrange }}>
+              {moment(expiryDate).format("MMM YYYY")}
+            </Text>
           )}
           ValueComponent={() => (
             <Text
@@ -58,175 +71,202 @@ class ImportantTab extends Component {
     return (
       <ScrollView>
         <Collapsible headerText="Warranty Details">
-          <ViewBillRow
-            date={moment(warrantyDetails[0].expiryDate).format("MMM YYYY")}
-          />
-          <KeyValueItem
-            keyText="Expiry Date"
-            valueText={moment(warrantyDetails[0].expiryDate).format(
-              "DD MMM YYYY"
-            )}
-          />
-          <KeyValueItem keyText="Warranty Type" valueText="" />
-          <KeyValueItem
-            keyText="Seller"
-            valueText={warrantyDetails[0].sellers.sellerName}
-          />
-          <KeyValueItem
-            keyText="Seller Contact"
-            ValueComponent={() => (
-              <Text
-                onPress={() =>
-                  call({
-                    number: String(warrantyDetails[0].sellers.contact)
-                  }).catch(e => Alert.alert(e.message))
-                }
-                weight="Medium"
-                style={{
-                  flex: 1,
-                  textAlign: "right",
-                  textDecorationLine: "underline",
-                  color: colors.tomato
-                }}
-              >
-                {warrantyDetails[0].sellers.contact}
-              </Text>
-            )}
-          />
+          {warrantyDetails.map(warranty => (
+            <View>
+              <ViewBillRow
+                expiryDate={warranty.expiryDate}
+                purchaseDate={warranty.purchaseDate}
+                docType="Warranty"
+                copies={warranty.copies}
+              />
+              <KeyValueItem
+                keyText="Expiry Date"
+                valueText={moment(warranty.expiryDate).format("DD MMM YYYY")}
+              />
+              <KeyValueItem keyText="Warranty Type" valueText="" />
+              <KeyValueItem
+                keyText="Seller"
+                valueText={warranty.sellers.sellerName}
+              />
+              <KeyValueItem
+                keyText="Seller Contact"
+                ValueComponent={() => (
+                  <Text
+                    onPress={() =>
+                      call({
+                        number: String(warranty.sellers.contact)
+                      }).catch(e => Alert.alert(e.message))
+                    }
+                    weight="Medium"
+                    style={{
+                      flex: 1,
+                      textAlign: "right",
+                      textDecorationLine: "underline",
+                      color: colors.tomato
+                    }}
+                  >
+                    {warranty.sellers.contact}
+                  </Text>
+                )}
+              />
+            </View>
+          ))}
         </Collapsible>
+
         <Collapsible headerText="Insurance Details">
-          <ViewBillRow
-            date={moment(insuranceDetails[0].expiryDate).format("MMM YYYY")}
-          />
-          <KeyValueItem
-            keyText="Expiry Date"
-            valueText={moment(insuranceDetails[0].expiryDate).format(
-              "DD MMM YYYY"
-            )}
-          />
-          <KeyValueItem
-            keyText="Policy No."
-            valueText={insuranceDetails[0].policyNo || ""}
-          />
-          <KeyValueItem
-            keyText="Premium Amount"
-            valueText={insuranceDetails[0].premiumAmount || ""}
-          />
-          <KeyValueItem
-            keyText="Amount Insured"
-            valueText={insuranceDetails[0].amountInsured || ""}
-          />
-          <KeyValueItem
-            keyText="Seller"
-            valueText={insuranceDetails[0].sellers.sellerName || ""}
-          />
-          <KeyValueItem
-            keyText="Seller Contact"
-            ValueComponent={() => (
-              <Text
-                onPress={() =>
-                  call({
-                    number: String(insuranceDetails[0].sellers.contact)
-                  }).catch(e => Alert.alert(e.message))
-                }
-                weight="Medium"
-                style={{
-                  flex: 1,
-                  textAlign: "right",
-                  textDecorationLine: "underline",
-                  color: colors.tomato
-                }}
-              >
-                {insuranceDetails[0].sellers.contact}
-              </Text>
-            )}
-          />
+          {insuranceDetails.map(insurance => (
+            <View>
+              <ViewBillRow
+                expiryDate={insurance.expiryDate}
+                purchaseDate={insurance.purchaseDate}
+                docType="Insurance"
+                copies={insurance.copies}
+              />
+              <KeyValueItem
+                keyText="Expiry Date"
+                valueText={moment(insurance.expiryDate).format("DD MMM YYYY")}
+              />
+              <KeyValueItem
+                keyText="Policy No."
+                valueText={insurance.policyNo || ""}
+              />
+              <KeyValueItem
+                keyText="Premium Amount"
+                valueText={insurance.premiumAmount || ""}
+              />
+              <KeyValueItem
+                keyText="Amount Insured"
+                valueText={insurance.amountInsured || ""}
+              />
+              <KeyValueItem
+                keyText="Seller"
+                valueText={insurance.sellers.sellerName || ""}
+              />
+              <KeyValueItem
+                keyText="Seller Contact"
+                ValueComponent={() => (
+                  <Text
+                    onPress={() =>
+                      call({
+                        number: String(insurance.sellers.contact)
+                      }).catch(e => Alert.alert(e.message))
+                    }
+                    weight="Medium"
+                    style={{
+                      flex: 1,
+                      textAlign: "right",
+                      textDecorationLine: "underline",
+                      color: colors.tomato
+                    }}
+                  >
+                    {insurance.sellers.contact}
+                  </Text>
+                )}
+              />
+            </View>
+          ))}
         </Collapsible>
+
         <Collapsible headerText="AMC Details">
-          <ViewBillRow
-            date={moment(amcDetails[0].expiryDate).format("MMM YYYY")}
-          />
-          <KeyValueItem
-            keyText="Expiry Date"
-            valueText={moment(amcDetails[0].expiryDate).format("DD MMM YYYY")}
-          />
-          <KeyValueItem
-            keyText="Policy No."
-            valueText={amcDetails[0].policyNo || ""}
-          />
-          <KeyValueItem
-            keyText="Premium Amount"
-            valueText={amcDetails[0].premiumAmount || ""}
-          />
-          <KeyValueItem
-            keyText="Amount Insured"
-            valueText={amcDetails[0].amountInsured || ""}
-          />
-          <KeyValueItem
-            keyText="Seller"
-            valueText={amcDetails[0].sellers.sellerName || ""}
-          />
-          <KeyValueItem
-            keyText="Seller Contact"
-            ValueComponent={() => (
-              <Text
-                onPress={() =>
-                  call({
-                    number: String(amcDetails[0].sellers.contact)
-                  }).catch(e => Alert.alert(e.message))
-                }
-                weight="Medium"
-                style={{
-                  flex: 1,
-                  textAlign: "right",
-                  textDecorationLine: "underline",
-                  color: colors.tomato
-                }}
-              >
-                {amcDetails[0].sellers.contact}
-              </Text>
-            )}
-          />
+          {amcDetails.map(amc => (
+            <View>
+              <ViewBillRow
+                expiryDate={amc.expiryDate}
+                purchaseDate={amc.purchaseDate}
+                docType="AMC"
+                copies={amc.copies}
+              />
+              <KeyValueItem
+                keyText="Expiry Date"
+                valueText={moment(amc.expiryDate).format("DD MMM YYYY")}
+              />
+              <KeyValueItem
+                keyText="Policy No."
+                valueText={amc.policyNo || ""}
+              />
+              <KeyValueItem
+                keyText="Premium Amount"
+                valueText={amc.premiumAmount || ""}
+              />
+              <KeyValueItem
+                keyText="Amount Insured"
+                valueText={amc.amountInsured || ""}
+              />
+              <KeyValueItem
+                keyText="Seller"
+                valueText={amc.sellers.sellerName || ""}
+              />
+              <KeyValueItem
+                keyText="Seller Contact"
+                ValueComponent={() => (
+                  <Text
+                    onPress={() =>
+                      call({
+                        number: String(amc.sellers.contact)
+                      }).catch(e => Alert.alert(e.message))
+                    }
+                    weight="Medium"
+                    style={{
+                      flex: 1,
+                      textAlign: "right",
+                      textDecorationLine: "underline",
+                      color: colors.tomato
+                    }}
+                  >
+                    {amc.sellers.contact}
+                  </Text>
+                )}
+              />
+            </View>
+          ))}
         </Collapsible>
+
         <Collapsible headerText="Repair/Service">
-          <ViewBillRow
-            date={moment(repairBills[0].purchaseDate).format("MMM YYYY")}
-          />
-          <KeyValueItem
-            keyText="Repair Date"
-            valueText={moment(repairBills[0].purchaseDate).format(
-              "DD MMM YYYY"
-            )}
-          />
-          <KeyValueItem
-            keyText="Premium Amount"
-            valueText={repairBills[0].premiumAmount}
-          />
-          <KeyValueItem
-            keyText="Seller"
-            valueText={repairBills[0].sellers.sellerName || ""}
-          />
-          <KeyValueItem
-            keyText="Seller Contact"
-            ValueComponent={() => (
-              <Text
-                onPress={() =>
-                  call({
-                    number: String(repairBills[0].sellers.contact)
-                  }).catch(e => Alert.alert(e.message))
-                }
-                weight="Medium"
-                style={{
-                  flex: 1,
-                  textAlign: "right",
-                  textDecorationLine: "underline",
-                  color: colors.tomato
-                }}
-              >
-                {repairBills[0].sellers.contact}
-              </Text>
-            )}
-          />
+          {repairBills.map(repairBill => (
+            <View>
+              <ViewBillRow
+                expiryDate={repairBill.expiryDate}
+                purchaseDate={repairBill.purchaseDate}
+                docType="Repair Bill"
+                copies={repairBill.copies}
+              />
+              <KeyValueItem
+                keyText="Repair Date"
+                valueText={moment(repairBill.purchaseDate).format(
+                  "DD MMM YYYY"
+                )}
+              />
+              <KeyValueItem
+                keyText="Premium Amount"
+                valueText={repairBill.premiumAmount}
+              />
+              <KeyValueItem
+                keyText="Seller"
+                valueText={repairBill.sellers.sellerName || ""}
+              />
+              <KeyValueItem
+                keyText="Seller Contact"
+                ValueComponent={() => (
+                  <Text
+                    onPress={() =>
+                      call({
+                        number: String(repairBill.sellers.contact)
+                      }).catch(e => Alert.alert(e.message))
+                    }
+                    weight="Medium"
+                    style={{
+                      flex: 1,
+                      textAlign: "right",
+                      textDecorationLine: "underline",
+                      color: colors.tomato
+                    }}
+                  >
+                    {repairBill.sellers.contact}
+                  </Text>
+                )}
+              />
+            </View>
+          ))}
         </Collapsible>
       </ScrollView>
     );
