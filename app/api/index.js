@@ -103,3 +103,10 @@ export const getProductDetails = async productId => {
     url: `/products/${productId}`
   });
 };
+
+export const getProfileDetail = async () => {
+  return await apiRequest({
+    method: "get",
+    url: "/consumer/profile"
+  });
+};

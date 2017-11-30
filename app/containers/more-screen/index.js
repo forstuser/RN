@@ -14,14 +14,18 @@ class MoreScreen extends Component {
     super(props);
     this.state = {};
   }
+
   async componentDidMount() {
     console.log(this.props.authToken);
   }
   render() {
     return (
       <View>
-        <Header />
-        <Body />
+        <Header navigator={this.props.navigator} />
+        <Body
+          logoutUser={this.props.logoutUser}
+          navigator={this.props.navigator}
+        />
       </View>
     );
   }

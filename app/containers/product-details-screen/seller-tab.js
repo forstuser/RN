@@ -53,7 +53,7 @@ class SellerTab extends Component {
               }
               weight="Medium"
               style={{
-                flex:1,
+                flex: 1,
                 textAlign: "right",
                 textDecorationLine: "underline",
                 color: colors.tomato

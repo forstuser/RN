@@ -1,43 +1,77 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, View, Image } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  View,
+  Image,
+  Alert,
+  TouchableOpacity
+} from "react-native";
 import { connect } from "react-redux";
 import { Text, Button, ScreenContainer } from "../../elements";
+import { getProfileDetail, API_BASE_URL } from "../../api";
 
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      profile: null
+    };
   }
 
+  async componentDidMount() {
+    try {
+      const profileDetails = await getProfileDetail();
+      this.setState({
+        profile: profileDetails
+      });
+    } catch (e) {
+      Alert.alert(e.message);
+    }
+  }
+
+  onProfileItemPress = () => {
+    this.props.navigator.push({
+      screen: "ProfileScreen"
+    });
+  };
+
   render() {
+    const profile = this.state.profile;
     return (
-      <View style={styles.header}>
-        <Image
-          style={styles.backgroundImg}
-          source={require("../../images/dashboard_main.png")}
-        />
+      <TouchableOpacity style={styles.header} onPress={this.onProfileItemPress}>
+        {profile && (
+          <View>
+            <Image
+              style={styles.backgroundImg}
+              source={{
+                uri: API_BASE_URL + profile.userProfile.imageUrl
+              }}
+            />
 
-        <View style={styles.overlay} />
+            <View style={styles.overlay} />
 
-        <View style={styles.headerInner}>
-          <Image
-            style={{ width: 80, height: 80, marginRight: 20 }}
-            source={require("../../images/dashboard_main.png")}
-          />
-          <View style={styles.centerText}>
-            <Text style={styles.name} weight="Bold">
-              Shobhit Karnatak
-            </Text>
-            <Text style={styles.mobile} weight="Medium">
-              8826262175
-            </Text>
+            <View style={styles.headerInner}>
+              <Image
+                style={{ width: 80, height: 80, marginRight: 20 }}
+                source={require("../../images/dashboard_main.png")}
+              />
+              <View style={styles.centerText}>
+                <Text style={styles.name} weight="Bold">
+                  {profile.userProfile.name}
+                </Text>
+                <Text style={styles.mobile} weight="Medium">
+                  {profile.userProfile.mobile_no}
+                </Text>
+              </View>
+              <Image
+                style={{ width: 12, height: 12 }}
+                source={require("../../images/ic_processing_arrow.png")}
+              />
+            </View>
           </View>
-          <Image
-            style={{ width: 12, height: 12 }}
-            source={require("../../images/ic_processing_arrow.png")}
-          />
-        </View>
-      </View>
+        )}
+      </TouchableOpacity>
     );
   }
 }

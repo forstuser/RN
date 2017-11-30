@@ -1,5 +1,4 @@
 import { Navigation } from "react-native-navigation";
-
 import DashboardScreen from "./containers/dashboard-screen";
 import EhomeScreen from "./containers/ehome-screen";
 import AscScreen from "./containers/asc-screen";
@@ -11,7 +10,8 @@ import TermsScreen from "./containers/terms-screen";
 import MainCategoryScreen from "./containers/main-category-screen";
 import ProductDetailsScreen from "./containers/product-details-screen";
 import FaqScreen from "./containers/faq-screen";
-
+import TipsScreen from "./containers/tips-screen";
+import ProfileScreen from "./containers/profile-screen";
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
   Navigation.registerComponent(
@@ -50,8 +50,18 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
+  Navigation.registerComponent("FaqScreen", () => FaqScreen, store, Provider);
+  Navigation.registerComponent("TipsScreen", () => TipsScreen, store, Provider);
+
   Navigation.registerComponent("AscScreen", () => AscScreen, store, Provider);
   Navigation.registerComponent("MoreScreen", () => MoreScreen, store, Provider);
+  Navigation.registerComponent(
+    "ProfileScreen",
+    () => ProfileScreen,
+    store,
+    Provider
+  );
+
   Navigation.registerComponent(
     "MainCategoryScreen",
     () => MainCategoryScreen,
