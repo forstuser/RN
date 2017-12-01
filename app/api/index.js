@@ -110,3 +110,15 @@ export const getProfileDetail = async () => {
     url: "/consumer/profile"
   });
 };
+
+export const getProfileUpdate = async ({ name, email, location }) => {
+  return await apiRequest({
+    method: "put",
+    url: "/consumer/profile",
+    data: {
+      name: name,
+      email: email,
+      location: location
+    }
+  });
+};

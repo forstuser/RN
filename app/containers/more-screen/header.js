@@ -8,7 +8,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import { connect } from "react-redux";
-import { Text, Button, ScreenContainer } from "../../elements";
+import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { getProfileDetail, API_BASE_URL } from "../../api";
 
 class Header extends Component {
@@ -32,7 +32,8 @@ class Header extends Component {
 
   onProfileItemPress = () => {
     this.props.navigator.push({
-      screen: "ProfileScreen"
+      screen: "ProfileScreen",
+      passProps: { profile: this.state.profile }
     });
   };
 
@@ -42,20 +43,43 @@ class Header extends Component {
       <TouchableOpacity style={styles.header} onPress={this.onProfileItemPress}>
         {profile && (
           <View>
-            <Image
+            <AsyncImage
               style={styles.backgroundImg}
-              source={{
-                uri: API_BASE_URL + profile.userProfile.imageUrl
-              }}
+              uri={API_BASE_URL + "/" + profile.userProfile.imageUrl}
             />
 
             <View style={styles.overlay} />
-
             <View style={styles.headerInner}>
-              <Image
-                style={{ width: 80, height: 80, marginRight: 20 }}
-                source={require("../../images/dashboard_main.png")}
-              />
+              {profile.userProfile.image_name.length > 0 && (
+                <AsyncImage
+                  style={{ width: 80, height: 80, marginRight: 20 }}
+                  uri={API_BASE_URL + "/" + profile.userProfile.imageUrl}
+                />
+              )}
+              {profile.userProfile.image_name.length == 0 && (
+                <View
+                  style={{
+                    borderWidth: 2,
+                    borderColor: "white",
+                    backgroundColor: "#d8d8d8",
+                    width: 80,
+                    height: 80,
+                    borderRadius: 40
+                  }}
+                >
+                  <Image
+                    style={{
+                      width: 50,
+                      height: 50,
+                      alignItems: "center",
+                      marginTop: 12,
+                      marginLeft: 12
+                    }}
+                    source={require("../../images/ic_more_no_profile_pic.png")}
+                  />
+                </View>
+              )}
+
               <View style={styles.centerText}>
                 <Text style={styles.name} weight="Bold">
                   {profile.userProfile.name}
@@ -90,7 +114,8 @@ const styles = StyleSheet.create({
 
   centerText: {
     width: 180,
-    flex: 1
+    flex: 1,
+    marginLeft: 15
   },
   rightArrow: {
     alignItems: "center"

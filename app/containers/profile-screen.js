@@ -11,20 +11,72 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 
-import { API_BASE_URL, consumerGetEhome } from "../api";
-import { Text, Button, ScreenContainer } from "../elements";
+import { API_BASE_URL, getProfileUpdate } from "../api";
+import { Text, Button, ScreenContainer, AsyncImage } from "../elements";
 
 class ProfileScreen extends Component {
   static navigatorStyle = {
     navBarHidden: true,
     tabBarHidden: true
   };
+
   constructor(props) {
     super(props);
     this.state = {
-      isNameVisible: false
+      isNameVisible: false,
+      isEmailVisible: false,
+      isLocationVisible: false,
+      name: this.props.profile.userProfile.name,
+      phone: this.props.profile.userProfile.mobile_no,
+      email: this.props.profile.userProfile.email,
+      location: this.props.profile.userProfile.location,
+      nameTemp: null,
+      emailTemp: null,
+      locationTemp: null
     };
   }
+
+  onSubmitname = async () => {
+    try {
+      await getProfileUpdate({
+        name: this.state.nameTemp
+      });
+      this.setState({
+        isNameVisible: false,
+        name: this.state.nameTemp
+      });
+    } catch (e) {
+      Alert.alert(e.message);
+    }
+  };
+
+  onSubmitemail = async () => {
+    try {
+      await getProfileUpdate({
+        email: this.state.emailTemp
+      });
+      this.setState({
+        isEmailVisible: false,
+        email: this.state.emailTemp
+      });
+    } catch (e) {
+      Alert.alert(e.message);
+    }
+  };
+
+  onSubmitlocation = async () => {
+    try {
+      await getProfileUpdate({
+        location: this.state.locationTemp
+      });
+      this.setState({
+        isLocationVisible: false,
+        location: this.state.locationTemp
+      });
+    } catch (e) {
+      Alert.alert(e.message);
+    }
+  };
 
   backToMoreScreen = () => {
     this.props.navigator.pop();
@@ -32,22 +84,42 @@ class ProfileScreen extends Component {
 
   showModal = () => {
     this.setState({
-      isNameVisible: true
+      isNameVisible: true,
+      nameTemp: this.state.name
     });
   };
-  closeNameModal = () => {
+
+  showMail = () => {
     this.setState({
-      isNameVisible: false
+      isEmailVisible: true,
+      emailTemp: this.state.email
     });
   };
+
+  showLocation = () => {
+    this.setState({
+      isLocationVisible: true,
+      locationTemp: this.state.location
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      isNameVisible: false,
+      isEmailVisible: false,
+      isLocationVisible: false
+    });
+  };
+
   render() {
     return (
       <ScreenContainer style={styles.contain}>
         <View style={styles.container}>
-          <Image
+          <AsyncImage
             style={styles.backgroundImg}
-            source={require("../images/dashboard_main.png")}
+            uri={API_BASE_URL + "/" + this.props.profile.userProfile.imageUrl}
           />
+
           <View style={styles.overlay} />
 
           <View style={styles.imgCenter}>
@@ -60,10 +132,32 @@ class ProfileScreen extends Component {
                 source={require("../images/ic_back_arrow_white.png")}
               />
             </TouchableOpacity>
-            <Image
-              style={styles.images}
-              source={require("../images/dashboard_main.png")}
-            />
+
+            {this.props.profile.userProfile.image_name.length > 0 && (
+              <AsyncImage
+                style={{ width: 80, height: 80, marginRight: 20 }}
+                uri={
+                  API_BASE_URL + "/" + this.props.profile.userProfile.imageUrl
+                }
+              />
+            )}
+            {this.props.profile.userProfile.image_name.length == 0 && (
+              <View
+                style={{
+                  borderWidth: 2,
+                  borderColor: "white",
+                  backgroundColor: "#d8d8d8",
+                  width: 120,
+                  height: 120,
+                  borderRadius: 60
+                }}
+              >
+                <Image
+                  style={styles.images}
+                  source={require("../images/ic_more_no_profile_pic.png")}
+                />
+              </View>
+            )}
             <Image
               style={styles.editImg}
               source={require("../images/edit_pic.png")}
@@ -71,42 +165,39 @@ class ProfileScreen extends Component {
           </View>
         </View>
         <View style={styles.information}>
-          <View style={styles.field}>
+          <TouchableOpacity style={styles.field} onPress={this.showModal}>
             <Text style={styles.fieldName}>Name</Text>
-            <Text
-              style={styles.fieldValue}
-              weight="Medium"
-              onPress={this.showModal}
-            >
-              Shobhit Karnatak
+            <Text style={styles.fieldValue} weight="Medium">
+              {this.state.name}
             </Text>
-          </View>
+          </TouchableOpacity>
           <View style={styles.field}>
             <Text style={styles.fieldName}>Phone Number</Text>
             <Text style={styles.fieldValue} weight="Medium">
-              8826262175
+              {this.state.phone}
             </Text>
           </View>
-          <View style={styles.field}>
+          <TouchableOpacity style={styles.field} onPress={this.showMail}>
             <Text style={styles.fieldName}>Email</Text>
             <Text style={styles.fieldValue} weight="Medium">
-              abc@gmail.com
+              {this.state.email}
             </Text>
-          </View>
-          <View style={styles.field}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.field} onPress={this.showLocation}>
             <Text style={styles.fieldName}>Address</Text>
             <Text style={styles.fieldValue} weight="Medium">
-              Gurgaon, Haryana
+              {this.state.location}
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
+
         <Modal isVisible={this.state.isNameVisible}>
           <View>
             <View
               style={{ height: 200, backgroundColor: "white", padding: 20 }}
             >
               <TouchableOpacity
-                onPress={this.closeNameModal}
+                onPress={this.closeModal}
                 style={{
                   flex: 1,
                   flexDirection: "row",
@@ -123,9 +214,87 @@ class ProfileScreen extends Component {
               </TouchableOpacity>
               <Text style={styles.name}>Your Name</Text>
               <TextInput
+                value={this.state.nameTemp}
+                onChangeText={text => this.setState({ nameTemp: text })}
                 style={{ fontSize: 16, color: "#3b3b3b", marginBottom: 30 }}
               />
-              <Button text="SAVE & UPDATE" color="secondary" />
+              <Button
+                text="SAVE & UPDATE"
+                color="secondary"
+                onPress={this.onSubmitname}
+              />
+            </View>
+          </View>
+        </Modal>
+
+        <Modal isVisible={this.state.isEmailVisible}>
+          <View>
+            <View
+              style={{ height: 200, backgroundColor: "white", padding: 20 }}
+            >
+              <TouchableOpacity
+                onPress={this.closeModal}
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "flex-end"
+                }}
+              >
+                <Image
+                  style={{
+                    height: 12,
+                    width: 12
+                  }}
+                  source={require("../images/ic_close.png")}
+                />
+              </TouchableOpacity>
+              <Text style={styles.name}>Your Email</Text>
+              <TextInput
+                value={this.state.emailTemp}
+                onChangeText={text => this.setState({ emailTemp: text })}
+                style={{ fontSize: 16, color: "#3b3b3b", marginBottom: 30 }}
+              />
+              <Button
+                text="SAVE & UPDATE"
+                color="secondary"
+                onPress={this.onSubmitemail}
+              />
+            </View>
+          </View>
+        </Modal>
+
+        <Modal isVisible={this.state.isLocationVisible}>
+          <View>
+            <View
+              style={{ height: 200, backgroundColor: "white", padding: 20 }}
+            >
+              <TouchableOpacity
+                onPress={this.closeModal}
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "flex-end"
+                }}
+              >
+                <Image
+                  style={{
+                    height: 12,
+                    width: 12
+                  }}
+                  source={require("../images/ic_close.png")}
+                />
+              </TouchableOpacity>
+              <Text style={styles.name}>Your Location</Text>
+              <TextInput
+                value={this.state.locationTemp}
+                onChangeText={text => this.setState({ locationTemp: text })}
+                style={{ fontSize: 16, color: "#3b3b3b", marginBottom: 30 }}
+              />
+              <Button
+                text="SAVE & UPDATE"
+                color="secondary"
+                onPress={this.onSubmitlocation}
+              />
             </View>
           </View>
         </Modal>
@@ -141,8 +310,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 20,
     left: 20,
-    width: 24,
-    height: 24
+    width: 40,
+    height: 40
   },
   field: {
     padding: 15,
@@ -182,8 +351,10 @@ const styles = StyleSheet.create({
     bottom: 0
   },
   images: {
-    width: 120,
-    height: 120
+    width: 80,
+    height: 80,
+    marginLeft: 16,
+    marginTop: 16
   },
   imgCenter: {
     flex: 1,
