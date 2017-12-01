@@ -15,6 +15,9 @@ import { colors } from "../theme";
 import { openBillsPopUp } from "../navigation";
 
 class MailBox extends Component {
+  static navigatorStyle = {
+    tabBarHidden: true
+  };
   constructor(props) {
     super(props);
     this.state = {

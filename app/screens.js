@@ -15,6 +15,7 @@ import FaqScreen from "./containers/faq-screen";
 import MailboxScreen from "./containers/mailbox-screen";
 import TipsScreen from "./containers/tips-screen";
 import ProfileScreen from "./containers/profile-screen";
+import SearchScreen from "./containers/search-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -94,6 +95,12 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     "MailboxScreen",
     () => MailboxScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    "SearchScreen",
+    () => SearchScreen,
     store,
     Provider
   );

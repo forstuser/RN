@@ -120,3 +120,13 @@ export const getProfileDetail = async () => {
     url: "/consumer/profile"
   });
 };
+
+export const getSearchResults = async searchValue => {
+  return await apiRequest({
+    method: "get",
+    url: "/search",
+    queryParams: {
+      searchvalue: searchValue
+    }
+  });
+};

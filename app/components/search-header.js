@@ -1,5 +1,11 @@
-import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import React, { Component } from "react";
+import {
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  TextInput
+} from "react-native";
 import { Text, Button } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
@@ -9,56 +15,71 @@ const eHomeIcon = require("../images/ic_nav_ehome_off.png");
 const messagesIcon = require("../images/ic_top_messages.png");
 const searchIcon = require("../images/ic_top_search.png");
 
-const SearchHeader = ({
-  screen = "dashboard",
-  notificationCount = 0,
-  navigator
-}) => (
-  <View style={styles.container}>
-    <View style={styles.upperContainer}>
-      {screen === "dashboard" && (
-        <View style={styles.nameAndIcon}>
-          <Image style={styles.icon} source={dashBoardIcon} />
-          <Text weight="Medium" style={styles.screenName}>
-            Dashboard
-          </Text>
+class SearchHeader extends Component {
+  openSearchScreen = () => {
+    this.props.navigator.push({
+      screen: "SearchScreen",
+      passProps: {
+        recentSearches: this.props.recentSearches
+      }
+    });
+  };
+  render() {
+    const {
+      screen = "dashboard",
+      notificationCount = 0,
+      navigator
+    } = this.props;
+    return (
+      <View style={styles.container}>
+        <View style={styles.upperContainer}>
+          {screen === "dashboard" && (
+            <View style={styles.nameAndIcon}>
+              <Image style={styles.icon} source={dashBoardIcon} />
+              <Text weight="Medium" style={styles.screenName}>
+                Dashboard
+              </Text>
+            </View>
+          )}
+          {screen === "ehome" && (
+            <View style={styles.nameAndIcon}>
+              <Image style={styles.icon} source={eHomeIcon} />
+              <Text weight="Medium" style={styles.screenName}>
+                eHome
+              </Text>
+            </View>
+          )}
+          <TouchableOpacity
+            onPress={() => {
+              navigator.push({
+                screen: "MailboxScreen"
+              });
+            }}
+            style={styles.messagesContainer}
+          >
+            <Image style={styles.messagesIcon} source={messagesIcon} />
+            {notificationCount > 0 && (
+              <View style={styles.messagesCountContainer}>
+                <Text weight="Bold" style={styles.messagesCount}>
+                  {notificationCount}
+                </Text>
+              </View>
+            )}
+          </TouchableOpacity>
         </View>
-      )}
-      {screen === "ehome" && (
-        <View style={styles.nameAndIcon}>
-          <Image style={styles.icon} source={eHomeIcon} />
-          <Text weight="Medium" style={styles.screenName}>
-            eHome
+        <TouchableOpacity
+          onPress={this.openSearchScreen}
+          style={styles.searchContainer}
+        >
+          <Image style={styles.searchIcon} source={searchIcon} />
+          <Text weight="Bold" style={styles.searchText}>
+            Search...
           </Text>
-        </View>
-      )}
-      <TouchableOpacity
-        onPress={() => {
-          navigator.push({
-            screen: "MailboxScreen"
-          });
-        }}
-        style={styles.messagesContainer}
-      >
-        <Image style={styles.messagesIcon} source={messagesIcon} />
-        {notificationCount > 0 && (
-          <View style={styles.messagesCountContainer}>
-            <Text weight="Bold" style={styles.messagesCount}>
-              {notificationCount}
-            </Text>
-          </View>
-        )}
-      </TouchableOpacity>
-    </View>
-    <TouchableOpacity style={styles.searchContainer}>
-      <Image style={styles.searchIcon} source={searchIcon} />
-      <Text weight="Bold" style={styles.searchText}>
-        Search..
-      </Text>
-    </TouchableOpacity>
-  </View>
-);
-
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
 const styles = StyleSheet.create({
   container: {
     paddingTop: 32,

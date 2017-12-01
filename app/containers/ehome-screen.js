@@ -39,6 +39,7 @@ class EhomeScreen extends Component {
       });
       this.setState({
         notificationCount: ehomeData.notificationCount,
+        recentSearches: ehomeData.recentSearches,
         categoriesList: categoriesList,
         pendingDocs: ehomeData.unProcessedBills
       });
@@ -81,6 +82,7 @@ class EhomeScreen extends Component {
           navigator={this.props.navigator}
           screen="ehome"
           notificationCount={this.state.notificationCount}
+          recentSearches={this.state.recentSearches}
         />
         <ProcessingItems
           onPress={this.openDocsUnderProcessingScreen}
