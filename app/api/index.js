@@ -130,3 +130,21 @@ export const getSearchResults = async searchValue => {
     }
   });
 };
+
+export const getAscSearchResults = async ({
+  categoryId,
+  brandId,
+  latitude,
+  longitude
+}) => {
+  return await apiRequest({
+    method: "post",
+    url: "/consumer/servicecenters",
+    data: {
+      categoryId,
+      brandId,
+      latitude,
+      longitude
+    }
+  });
+};
