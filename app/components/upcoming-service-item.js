@@ -5,30 +5,38 @@ import { Text, Button } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
 import { API_BASE_URL } from "../api";
+import { openBillsPopUp } from "../navigation";
 
 const UpcomingServiceItem = ({ item, navigator }) => {
   let icon = require("../images/ic_comingup_bill.png");
-  let title = "Bill Payment";
-  let subTitle = "Address";
-  let sidebarTitle = "₹Amount";
-  let sidebarSubTitle = "by DD MMM";
+  let title = "";
+  let subTitle = "";
+  let sidebarTitle = "";
+  let sidebarSubTitle = "";
 
   switch (item.productType) {
     case 1:
-    case 2:
-      icon = require("../images/ic_comingup_expiring.png");
-      title = "Insurance expiring";
-      subTitle = item.productName;
-      sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
-      sidebarSubTitle = "";
+      icon = require("../images/ic_comingup_bill.png");
+      title = item.productName;
+      subTitle = item.address;
+      sidebarTitle = "₹ " + item.value;
+      sidebarSubTitle = "on " + moment(item.expiryDate).format("DD MMM");
       break;
-    case 3:
+    case 2:
       icon = require("../images/ic_comingup_expiring.png");
       title = "Warranty expiring";
       subTitle = item.productName;
       sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
       sidebarSubTitle = "";
       break;
+    case 3:
+      icon = require("../images/ic_comingup_expiring.png");
+      title = "Insurance expiring";
+      subTitle = item.productName;
+      sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
+      sidebarSubTitle = "";
+      break;
+
     case 4:
       icon = require("../images/ic_comingup_scheduled.png");
       title = "AMC expiring";
@@ -41,12 +49,20 @@ const UpcomingServiceItem = ({ item, navigator }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigator.push({
-          screen: "ProductDetailsScreen",
-          passProps: {
-            productId: item.productId
-          }
-        });
+        if (item.productType == 1) {
+          openBillsPopUp({
+            date: item.purchaseDate,
+            id: item.productName,
+            copies: item.copies
+          });
+        } else {
+          navigator.push({
+            screen: "ProductDetailsScreen",
+            passProps: {
+              productId: item.productId
+            }
+          });
+        }
       }}
       style={styles.container}
     >

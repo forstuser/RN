@@ -30,7 +30,10 @@ class BillsPopUpScreen extends Component {
             <Text weight="Medium" style={styles.date}>
               {moment(date).format("DD MMM, YYYY")}
             </Text>
-            <Text style={styles.id}>ID: {id}</Text>
+            <Text style={styles.id}>
+              {!isNaN(id) && "ID: "}
+              {id}
+            </Text>
           </View>
           <Text
             onPress={this.closeThisScreen}
@@ -43,7 +46,7 @@ class BillsPopUpScreen extends Component {
         <ScrollableTabView
           tabBarUnderlineStyle={{
             backgroundColor: colors.mainBlue,
-            height: 2,
+            height: 1,
             marginBottom: -1
           }}
           tabBarPosition="bottom"
@@ -52,6 +55,7 @@ class BillsPopUpScreen extends Component {
           {copies.map((copy, index) => (
             <BillCopyItem
               key={copy.copyId}
+              billId={id}
               copy={copy}
               index={index}
               total={copies.length}

@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
     marginVertical: 5
   },
   count: {
-    width: "100%",
     height: 24,
     width: 24,
     alignItems: "center",

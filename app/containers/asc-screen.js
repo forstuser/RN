@@ -6,13 +6,16 @@ import {
   FlatList,
   Image,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput,
+  ScrollView
 } from "react-native";
-import { Dropdown } from "react-native-material-dropdown";
+import Modal from "react-native-modal";
 import { getBrands, getCategories } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 
 const bgImage = require("../images/ic_asc_bg_image.jpg");
+const crossIcon = require("../images/ic_close.png");
 
 class AscScreen extends Component {
   static navigatorStyle = {
@@ -21,72 +24,88 @@ class AscScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      brandOptions: [],
-      productOptions: [],
-      selectedBrandId: null,
-      selectedProductId: null
+      brands: [],
+      categories: [],
+      selectedBrand: null,
+      selectedCategory: null,
+      isBrandsModalVisible: false,
+      isCategoriesModalVisible: false,
+      brandTextInput: "",
+      categoryTextInput: ""
     };
   }
   async componentDidMount() {
     try {
       const res = await getBrands();
-      const brandOptions = res.brands.map(brand => {
-        return {
-          value: String(brand.id),
-          label: brand.brandName
-        };
-      });
       this.setState({
-        brandOptions
+        brands: res.brands
       });
     } catch (e) {
       Alert.alert(e.message);
     }
   }
 
-  onSelectBrand = async brandId => {
+  selectBrand = async brand => {
     this.setState({
-      productOptions: [],
-      selectedBrandId: brandId,
-      selectedProductId: null
+      categories: [],
+      selectedBrand: brand,
+      selectedCategory: null,
+      isBrandsModalVisible: false,
+      brandTextInput: "",
+      categoryTextInput: ""
     });
     try {
-      const res = await getCategories(brandId);
-      const productOptions = res.categories.map(product => {
-        return {
-          value: String(product.category_id),
-          label: product.category_name
-        };
-      });
+      const res = await getCategories(brand.id);
       this.setState({
-        productOptions
+        categories: res.categories
       });
     } catch (e) {
       Alert.alert(e.message);
     }
   };
 
-  onProductOptionsFocus = () => {
-    Alert.alert("Please select brand first");
-    if (!this.state.selectedBrandId) {
+  onCategorySelectClick = () => {
+    if (!this.state.selectedBrand) {
       Alert.alert("Please select brand first");
+    } else {
+      this.setState({
+        isCategoriesModalVisible: true
+      });
     }
   };
 
-  onSelectProduct = productId => {
+  selectCategory = category => {
     this.setState({
-      selectedProductId: productId
+      categoryTextInput: "",
+      isCategoriesModalVisible: false,
+      selectedCategory: category
     });
   };
 
   startSearch = () => {
-    Alert.alert(
-      this.state.selectedBrandId + " - " + this.state.selectedProductId
-    );
+    if (!this.state.selectedBrand || !this.state.selectedCategory) {
+      return Alert.alert("Please select brand and product first");
+    }
+    this.props.navigator.push({
+      screen: "AscSearchScreen",
+      passProps: {
+        brand: this.state.selectedBrand,
+        category: this.state.selectedCategory
+      }
+    });
   };
 
-  renderCategoryItem = ({ item }) => <CategoryItem {...item} />;
   render() {
+    const {
+      brands,
+      categories,
+      selectedBrand,
+      selectedCategory,
+      brandTextInput,
+      categoryTextInput,
+      isBrandsModalVisible,
+      isCategoriesModalVisible
+    } = this.state;
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#fafafa" }}>
         <View style={{ flex: 1 }}>
@@ -109,19 +128,27 @@ class AscScreen extends Component {
           </View>
         </View>
         <View style={{ flex: 1, padding: 20, alignContent: "center" }}>
-          <Dropdown
-            onChangeText={this.onSelectBrand}
-            rippleOpacity={0}
-            label="Select Brand"
-            data={this.state.brandOptions}
-          />
-          <TouchableOpacity onPress={this.onProductOptionsFocus}>
-            <Dropdown
-              onChangeText={this.onSelectProduct}
-              rippleOpacity={0}
-              label="Select Product"
-              data={this.state.productOptions}
-            />
+          <TouchableOpacity
+            onPress={() =>
+              this.setState({
+                isBrandsModalVisible: true
+              })
+            }
+            style={styles.select}
+          >
+            <Text style={styles.selectText}>
+              {!selectedBrand && "Select a Brand"}
+              {selectedBrand && selectedBrand.brandName}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.onCategorySelectClick}
+            style={styles.select}
+          >
+            <Text style={styles.selectText}>
+              {!selectedCategory && "Select a Product"}
+              {selectedCategory && selectedCategory.category_name}
+            </Text>
           </TouchableOpacity>
           <Button
             onPress={this.startSearch}
@@ -130,6 +157,93 @@ class AscScreen extends Component {
             color="secondary"
           />
         </View>
+        <Modal isVisible={isBrandsModalVisible}>
+          <View style={styles.modal}>
+            <View style={styles.modalHeader}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({
+                    isBrandsModalVisible: false
+                  });
+                }}
+                style={styles.modalClose}
+              >
+                <Image style={styles.crossIcon} source={crossIcon} />
+              </TouchableOpacity>
+              <TextInput
+                value={brandTextInput}
+                onChangeText={text => this.setState({ brandTextInput: text })}
+                style={styles.textInput}
+                placeholder="Type here to search brand"
+              />
+            </View>
+            <ScrollView style={{ backgroundColor: "#ececec" }}>
+              {brands.map(brand => {
+                if (
+                  !brandTextInput ||
+                  brand.brandName
+                    .toLowerCase()
+                    .includes(brandTextInput.toLowerCase())
+                ) {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => this.selectBrand(brand)}
+                      key={brand.id}
+                      style={styles.selectOption}
+                    >
+                      <Text>{brand.brandName}</Text>
+                    </TouchableOpacity>
+                  );
+                }
+              })}
+            </ScrollView>
+          </View>
+        </Modal>
+
+        <Modal isVisible={isCategoriesModalVisible}>
+          <View style={styles.modal}>
+            <View style={styles.modalHeader}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({
+                    isCategoriesModalVisible: false
+                  });
+                }}
+                style={styles.modalClose}
+              >
+                <Image style={styles.crossIcon} source={crossIcon} />
+              </TouchableOpacity>
+              <TextInput
+                value={categoryTextInput}
+                onChangeText={text =>
+                  this.setState({ categoryTextInput: text })
+                }
+                style={styles.textInput}
+                placeholder="Type here to search product"
+              />
+            </View>
+            <ScrollView style={{ backgroundColor: "#ececec" }}>
+              {categories.map(category => {
+                if (
+                  !categoryTextInput ||
+                  category.category_name
+                    .toLowerCase()
+                    .includes(categoryTextInput.toLowerCase())
+                ) {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => this.selectCategory(category)}
+                      key={category.category_id}
+                      style={styles.selectOption}
+                    >
+                      <Text>{category.category_name}</Text>
+                    </TouchableOpacity>
+                  );
+                }
+              })}
+            </ScrollView>
+          </View>
+        </Modal>
       </ScreenContainer>
     );
   }
@@ -153,5 +267,41 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "center",
     paddingHorizontal: 30
+  },
+  select: {
+    borderColor: "#ececec",
+    borderWidth: 1,
+    padding: 16,
+    borderRadius: 4,
+    marginBottom: 20
+  },
+  modal: {
+    backgroundColor: "#fff",
+    borderRadius: 5,
+    flex: 1,
+    margin: 0
+  },
+  modalHeader: {
+    flexDirection: "row",
+    height: 56,
+    alignItems: "center",
+    borderColor: "#eee",
+    borderBottomWidth: 1
+  },
+  modalClose: {
+    paddingVertical: 16,
+    paddingHorizontal: 12
+  },
+  crossIcon: {
+    width: 24,
+    height: 24
+  },
+  textInput: {
+    flex: 1
+  },
+  selectOption: {
+    padding: 16,
+    backgroundColor: "#fff",
+    marginBottom: 1
   }
 });

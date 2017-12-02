@@ -37,10 +37,12 @@ class MainCategoryScreen extends Component {
       case 7:
       case 9:
       case 10:
-        <Direct
-          navigator={this.props.navigator}
-          category={this.props.category}
-        />;
+        return (
+          <Direct
+            navigator={this.props.navigator}
+            category={this.props.category}
+          />
+        );
       default:
         return null;
     }

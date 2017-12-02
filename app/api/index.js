@@ -104,6 +104,16 @@ export const getProductDetails = async productId => {
   });
 };
 
+export const getMailboxData = async pageNo => {
+  return await apiRequest({
+    method: "get",
+    url: `/consumer/mailbox`,
+    queryParams: {
+      pageno: pageNo
+    }
+  });
+};
+
 export const getProfileDetail = async () => {
   return await apiRequest({
     method: "get",
@@ -119,6 +129,33 @@ export const getProfileUpdate = async ({ name, email, location }) => {
       name: name,
       email: email,
       location: location
+    }
+  });
+};
+export const getSearchResults = async searchValue => {
+  return await apiRequest({
+    method: "get",
+    url: "/search",
+    queryParams: {
+      searchvalue: searchValue
+    }
+  });
+};
+
+export const getAscSearchResults = async ({
+  categoryId,
+  brandId,
+  latitude,
+  longitude
+}) => {
+  return await apiRequest({
+    method: "post",
+    url: "/consumer/servicecenters",
+    data: {
+      categoryId,
+      brandId,
+      latitude,
+      longitude
     }
   });
 };

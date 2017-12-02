@@ -12,9 +12,13 @@ import ProductDetailsScreen from "./containers/product-details-screen";
 import DocsUnderProcessingScreen from "./containers/docs-under-processing";
 import BillsPopUpScreen from "./containers/bills-popup-screen";
 import FaqScreen from "./containers/faq-screen";
+import MailboxScreen from "./containers/mailbox-screen";
 import TipsScreen from "./containers/tips-screen";
 import ProfileScreen from "./containers/profile-screen";
 import InsightScreen from "./containers/insight-screen";
+import SearchScreen from "./containers/search-screen";
+import AscSearchScreen from "./containers/asc-search-screen";
+
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
   Navigation.registerComponent(
@@ -93,6 +97,25 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     "BillsPopUpScreen",
     () => BillsPopUpScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    "MailboxScreen",
+    () => MailboxScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    "SearchScreen",
+    () => SearchScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    "AscSearchScreen",
+    () => AscSearchScreen,
     store,
     Provider
   );

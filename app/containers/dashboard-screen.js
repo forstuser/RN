@@ -25,7 +25,9 @@ class DashboardScreen extends Component {
     this.state = {
       showDashboard: true,
       upcomingServices: [],
-      insightChartProps: {}
+      insightChartProps: {},
+      notificationCount: 0,
+      recentSearches: []
     };
   }
   async componentDidMount() {
@@ -49,6 +51,8 @@ class DashboardScreen extends Component {
       };
 
       this.setState({
+        notificationCount: dashboardData.notificationCount,
+        recentSearches: dashboardData.recentSearches,
         showDashboard: dashboardData.showDashboard,
         upcomingServices: dashboardData.upcomingServices,
         insightChartProps: insightChartProps
@@ -59,7 +63,7 @@ class DashboardScreen extends Component {
   }
 
   render() {
-    const { showDashboard } = this.state;
+    const { showDashboard, notificationCount, recentSearches } = this.state;
     const SectionHeader = ({ text }) => (
       <View style={styles.sectionHeader}>
         <View style={styles.sectionHeaderTopBorder} />
@@ -72,7 +76,12 @@ class DashboardScreen extends Component {
       <ScreenContainer style={{ padding: 0 }}>
         {showDashboard && (
           <View>
-            <SearchHeader screen="dashboard" />
+            <SearchHeader
+              screen="dashboard"
+              notificationCount={notificationCount}
+              recentSearches={recentSearches}
+              navigator={this.props.navigator}
+            />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled>
               <View style={{ flex: 1, marginBottom: 150 }}>
                 {this.state.upcomingServices.length > 0 && (

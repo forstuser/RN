@@ -5,6 +5,7 @@ import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
+import { openBillsPopUp } from "../../navigation";
 
 import ProductType1 from "./product-list-item-type-1";
 import ProductType2 from "./product-list-item-type-2";
@@ -13,12 +14,27 @@ import ProductType3 from "./product-list-item-type-3";
 const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 
 const ProductListItem = ({ product, onPress, navigator }) => {
-  const ViewBillButton = ({ onPress }) => (
-    <TouchableOpacity style={styles.viewBillBtn}>
-      <Image style={styles.viewBillIcon} source={viewBillIcon} />
-      <Text style={styles.viewBillText}>VIEW BILL</Text>
-    </TouchableOpacity>
-  );
+  const ViewBillButton = ({ onPress }) => {
+    if (product.copies.length > 0) {
+      return (
+        <TouchableOpacity
+          onPress={() =>
+            openBillsPopUp({
+              date: product.purchaseDate,
+              id: product.id,
+              copies: product.copies
+            })
+          }
+          style={styles.viewBillBtn}
+        >
+          <Image style={styles.viewBillIcon} source={viewBillIcon} />
+          <Text style={styles.viewBillText}>VIEW BILL</Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return null;
+    }
+  };
 
   const openProductScreen = () => {
     navigator.push({
@@ -51,9 +67,11 @@ const ProductListItem = ({ product, onPress, navigator }) => {
         </View>
       );
     case 10:
-      <View style={styles.container}>
-        <ProductType3 product={product} />
-      </View>;
+      return (
+        <View style={styles.container}>
+          <ProductType3 product={product} />
+        </View>
+      );
     default:
       return null;
   }
@@ -70,8 +88,8 @@ const styles = StyleSheet.create({
     right: 10,
     top: 10,
     borderColor: colors.pinkishOrange,
-    borderWidth: 1,
-    height: 18,
+    borderWidth: 2,
+    height: 20,
     borderRadius: 2,
     flexDirection: "row",
     alignItems: "center",

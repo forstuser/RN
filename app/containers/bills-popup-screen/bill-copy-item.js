@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, View, FlatList, Alert, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Alert,
+  Image,
+  TouchableOpacity
+} from "react-native";
 import moment from "moment";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
@@ -8,8 +15,9 @@ import { isImageFileType } from "../../utils";
 
 const fileIcon = require("../../images/ic_file.png");
 const billDownloadIcon = require("../../images/ic_bill_download.png");
+const shareIcon = require("../../images/ic_share_white.png");
 
-const BillCopyItem = ({ copy, index, total }) => (
+const BillCopyItem = ({ billId, copy, index, total }) => (
   <View style={styles.bill}>
     <View style={styles.billCountTextWrapper}>
       <Text style={styles.billCountText}>
@@ -26,14 +34,18 @@ const BillCopyItem = ({ copy, index, total }) => (
       <View style={styles.file}>
         <Image style={styles.fileIcon} source={fileIcon} />
         <Text weight="Medium" style={styles.fileName}>
-          Bill_{copy.copyId}
+          {!isNaN(billId) && "Bill_" + copy.copyId}
+          {isNaN(billId) && billId}
         </Text>
       </View>
     )}
     <View style={styles.optionsWrapper}>
-      <View>
-        <Image source={billDownloadIcon} />
-      </View>
+      <TouchableOpacity style={styles.option}>
+        <Image style={styles.optionIcon} source={billDownloadIcon} />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.option}>
+        <Image style={styles.optionIcon} source={shareIcon} />
+      </TouchableOpacity>
     </View>
   </View>
 );
@@ -73,7 +85,23 @@ const styles = StyleSheet.create({
   },
   optionsWrapper: {
     position: "absolute",
-    bottom: 0
+    bottom: 20,
+    flexDirection: "row"
+  },
+  option: {
+    borderColor: "#fff",
+    borderWidth: 2,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#484848",
+    marginHorizontal: 10
+  },
+  optionIcon: {
+    width: 24,
+    height: 24
   }
 });
 

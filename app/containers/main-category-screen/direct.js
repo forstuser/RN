@@ -30,10 +30,9 @@ class Direct extends Component {
         categoryId: this.props.category.id
       });
 
-      let newState = {
+      this.setState({
         products: res.productList
-      };
-      this.setState(newState);
+      });
     } catch (e) {
       Alert.alert(e.message);
     }
