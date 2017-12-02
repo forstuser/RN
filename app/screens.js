@@ -14,6 +14,7 @@ import BillsPopUpScreen from "./containers/bills-popup-screen";
 import FaqScreen from "./containers/faq-screen";
 import TipsScreen from "./containers/tips-screen";
 import ProfileScreen from "./containers/profile-screen";
+import InsightScreen from "./containers/insight-screen";
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
   Navigation.registerComponent(
@@ -61,6 +62,12 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     "ProfileScreen",
     () => ProfileScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    "InsightScreen",
+    () => InsightScreen,
     store,
     Provider
   );
