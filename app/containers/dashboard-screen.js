@@ -15,7 +15,7 @@ import SearchHeader from "../components/search-header";
 import InsightChart from "../components/insight-chart";
 import UpcomingServicesList from "../components/upcoming-services-list";
 
-class DashboardScreen extends Component {
+class DashboardScreen extends React.Component {
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -30,6 +30,7 @@ class DashboardScreen extends Component {
       recentSearches: []
     };
   }
+
   async componentDidMount() {
     try {
       const dashboardData = await consumerGetDashboard();
@@ -61,6 +62,12 @@ class DashboardScreen extends Component {
       Alert.alert(e.message);
     }
   }
+
+  insightScreen = () => {
+    this.props.navigator.push({
+      screen: "InsightScreen"
+    });
+  };
 
   render() {
     const { showDashboard, notificationCount, recentSearches } = this.state;
@@ -97,6 +104,7 @@ class DashboardScreen extends Component {
                 <View style={{ paddingHorizontal: 16 }}>
                   <InsightChart {...this.state.insightChartProps} />
                   <TouchableOpacity
+                    onPress={this.insightScreen}
                     style={{
                       position: "absolute",
                       width: "100%",
@@ -104,7 +112,6 @@ class DashboardScreen extends Component {
                       top: 0,
                       left: 0
                     }}
-                    onPress={() => Alert.alert("insight page will open")}
                   />
                 </View>
               </View>

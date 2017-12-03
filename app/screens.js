@@ -18,6 +18,7 @@ import ProfileScreen from "./containers/profile-screen";
 import InsightScreen from "./containers/insight-screen";
 import SearchScreen from "./containers/search-screen";
 import AscSearchScreen from "./containers/asc-search-screen";
+import TotalTaxScreen from "./containers/total-tax-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -72,6 +73,12 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     "InsightScreen",
     () => InsightScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    "TotalTaxScreen",
+    () => TotalTaxScreen,
     store,
     Provider
   );
