@@ -31,11 +31,12 @@
       "outDir": "${workspaceRoot}/.vscode/.react"
     },
     {
-      "name": "Debug in Exponent",
+      "name": "Debug iOS(Device)",
       "program": "${workspaceRoot}/.vscode/launchReactNative.js",
       "type": "reactnative",
       "request": "launch",
-      "platform": "exponent",
+      "platform": "ios",
+      "target": "device",
       "sourceMaps": true,
       "outDir": "${workspaceRoot}/.vscode/.react"
     }

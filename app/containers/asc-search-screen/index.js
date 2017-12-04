@@ -6,9 +6,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  TextInput
+  TextInput,
+  Linking,
+  Platform
 } from "react-native";
 import moment from "moment";
+import call from "react-native-phone-call";
+
 import { API_BASE_URL, getAscSearchResults } from "../../api";
 import { ScreenContainer, Text, Button, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
@@ -65,6 +69,28 @@ class AscSearchScreen extends Component {
     );
   };
 
+  openMap = address => {
+    Linking.openURL(
+      Platform.OS == "ios"
+        ? `http://maps.apple.com/?q=${address}`
+        : `https://www.google.com/maps/search/?api=1&query=${address}`
+    );
+  };
+
+  callServiceCenter = serviceCenter => {
+    for (let i = 0; i < serviceCenter.centerDetails.length; i++) {
+      if (
+        serviceCenter.centerDetails[i].type == 3 &&
+        serviceCenter.centerDetails[i].details != null
+      ) {
+        return call({
+          number: String(serviceCenter.centerDetails[i].details)
+        }).catch(e => Alert.alert(e.message));
+      }
+    }
+    Alert.alert("Phone number not available to call");
+  };
+
   render() {
     const { serviceCenters, isFetchingResults } = this.state;
     if (!isFetchingResults && serviceCenters.length == 0) {
@@ -99,7 +125,10 @@ class AscSearchScreen extends Component {
                   </Text>
                 </View>
                 <View style={styles.directionAndCall}>
-                  <TouchableOpacity style={styles.directionAndCallItem}>
+                  <TouchableOpacity
+                    onPress={() => this.openMap(item.centerAddress)}
+                    style={styles.directionAndCallItem}
+                  >
                     <Text weight="Bold" style={styles.directionAndCallText}>
                       Directions
                     </Text>
@@ -108,7 +137,10 @@ class AscSearchScreen extends Component {
                       source={directionIcon}
                     />
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.directionAndCallItem}>
+                  <TouchableOpacity
+                    onPress={() => this.callServiceCenter(item)}
+                    style={styles.directionAndCallItem}
+                  >
                     <Text weight="Bold" style={styles.directionAndCallText}>
                       Call
                     </Text>

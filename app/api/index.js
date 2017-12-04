@@ -25,6 +25,46 @@ const apiRequest = async ({ method, url, queryParams = {}, data = null }) => {
     throw e;
   }
 };
+
+export const uploadDocuments = async (files, onUploadProgress) => {
+  try {
+    // create formdata
+    const data = new FormData();
+    files.forEach((file, index) => {
+      data.append(`filesName`, {
+        uri: file.uri,
+        type: file.mimeType,
+        name: file.filename || "camera-image.jpeg"
+      });
+    });
+
+    const r = await axios.request({
+      baseURL: API_BASE_URL,
+      method: "post",
+      url: "/consumer/upload",
+      data: data,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: store.getState().loggedInUser.authToken
+      },
+      onUploadProgress: progressEvent => {
+        let percentCompleted = Math.floor(
+          progressEvent.loaded * 100 / progressEvent.total
+        );
+        onUploadProgress(percentCompleted);
+      }
+    });
+    return r.data;
+  } catch (e) {
+    if (e.response) {
+      throw new Error(e.response.data.message);
+    } else {
+      throw e.message;
+    }
+    throw e;
+  }
+};
+
 export const consumerGetOtp = async PhoneNo => {
   return await apiRequest({
     method: "post",

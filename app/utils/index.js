@@ -7,7 +7,14 @@ const getProductMetasString = metasArray => {
 };
 
 const isImageFileType = fileType => {
-  const imageFileTypes = ["jpg", "jpeg", "png", "bmp"];
+  const imageFileTypes = [
+    "jpg",
+    "jpeg",
+    "png",
+    "bmp",
+    "image/jpeg",
+    "image/png"
+  ];
   return imageFileTypes.indexOf(fileType.toLowerCase()) > -1;
 };
 

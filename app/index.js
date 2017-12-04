@@ -12,6 +12,7 @@ persistStore(store, {}, () => {
 
   if (store.getState().loggedInUser.authToken) {
     // start the app
+    // navigation.openAddProductsScreen();
     navigation.openAppScreen();
   } else {
     navigation.openIntroScreen();

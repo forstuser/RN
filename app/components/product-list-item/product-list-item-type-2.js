@@ -1,5 +1,14 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import {
+  Linking,
+  Platform,
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert
+} from "react-native";
+import call from "react-native-phone-call";
 import moment from "moment";
 import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
@@ -8,6 +17,29 @@ import { API_BASE_URL } from "../../api";
 
 const directionIcon = require("../../images/ic_directions.png");
 const callIcon = require("../../images/ic_call.png");
+
+const openMap = product => {
+  const seller = product.sellers;
+  if (seller) {
+    const address = [seller.address, seller.city, seller.state].join(", ");
+    return Linking.openURL(
+      Platform.OS == "ios"
+        ? `http://maps.apple.com/?q=${address}`
+        : `https://www.google.com/maps/search/?api=1&query=${address}`
+    );
+  }
+  Alert.alert("Address not available");
+};
+
+const callSeller = product => {
+  const seller = product.sellers;
+  if (seller && seller.contact) {
+    return call({ number: String(product.sellers.contact) }).catch(e =>
+      Alert.alert(e.message)
+    );
+  }
+  Alert.alert("Phone number not available");
+};
 
 const ProductListItem = ({ product }) => {
   return (
@@ -21,7 +53,9 @@ const ProductListItem = ({ product }) => {
           <Text weight="Bold" style={styles.name}>
             {product.productName}
           </Text>
-          <Text style={styles.sellerName}>{product.sellers.sellerName}</Text>
+          {product.sellers != null && (
+            <Text style={styles.sellerName}>{product.sellers.sellerName}</Text>
+          )}
           <Text weight="Medium" style={styles.purchaseDate}>
             {moment(product.purchaseDate).format("MMM DD, YYYY")}
           </Text>
@@ -32,13 +66,19 @@ const ProductListItem = ({ product }) => {
       </View>
       {product.categoryId != 22 && (
         <View style={styles.directionAndCall}>
-          <TouchableOpacity style={styles.directionAndCallItem}>
+          <TouchableOpacity
+            onPress={() => openMap(product)}
+            style={styles.directionAndCallItem}
+          >
             <Text weight="Bold" style={styles.directionAndCallText}>
               Directions
             </Text>
             <Image style={styles.directionAndCallIcon} source={directionIcon} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.directionAndCallItem}>
+          <TouchableOpacity
+            onPress={() => callSeller(product)}
+            style={styles.directionAndCallItem}
+          >
             <Text weight="Bold" style={styles.directionAndCallText}>
               Call
             </Text>

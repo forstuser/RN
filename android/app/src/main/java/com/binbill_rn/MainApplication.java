@@ -3,6 +3,9 @@ package com.binbill_rn;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.horcrux.svg.SvgPackage;
 import com.reactlibrary.RNPdfScannerPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
@@ -19,29 +22,26 @@ import com.reactnativenavigation.NavigationApplication;
 
 public class MainApplication extends NavigationApplication {
 
-@Override
-     public boolean isDebug() {
-         // Make sure you are using BuildConfig from your own application
-         return BuildConfig.DEBUG;
-     }
+  @Override
+  public boolean isDebug() {
+    // Make sure you are using BuildConfig from your own application
+    return BuildConfig.DEBUG;
+  }
 
-     protected List<ReactPackage> getPackages() {
-         // Add additional packages you require here
-         // No need to add RnnPackage and MainReactPackage
-         return Arrays.<ReactPackage>asList(
-             // eg. new VectorIconsPackage()
-             new RNI18nPackage(),
-             new LinearGradientPackage(),
-             new RNPdfScannerPackage(),
-             new SvgPackage()
-         );
-     }
+  protected List<ReactPackage> getPackages() {
+    // Add additional packages you require here
+    // No need to add RnnPackage and MainReactPackage
+    return Arrays.<ReactPackage>asList(
+        // eg. new VectorIconsPackage()
+        new RNI18nPackage(), new LinearGradientPackage(), new RNPdfScannerPackage(), new SvgPackage(),
+        new RNGestureHandlerPackage(), new ReactNativeDocumentPicker(), new PickerPackage());
+  }
 
-     @Override
-     public List<ReactPackage> createAdditionalReactPackages() {
-         return getPackages();
-     }
-     
+  @Override
+  public List<ReactPackage> createAdditionalReactPackages() {
+    return getPackages();
+  }
+
   // private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
   //   @Override
   //   public boolean getUseDeveloperSupport() {
@@ -52,7 +52,6 @@ public class MainApplication extends NavigationApplication {
   //   protected List<ReactPackage> getPackages() {
   //     return Arrays.<ReactPackage>asList(
   //         new MainReactPackage(),
-            
   //     );
   //   }
 

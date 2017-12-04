@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import {
+  Platform,
   StyleSheet,
   ScrollView,
   View,
   Image,
   TouchableOpacity,
-  Alert
+  Alert,
+  Linking
 } from "react-native";
 import moment from "moment";
 import call from "react-native-phone-call";
@@ -25,6 +27,16 @@ class SellerTab extends Component {
       product: {}
     };
   }
+
+  openMap = () => {
+    const seller = this.props.product.sellers;
+    const address = [seller.address, seller.city, seller.state].join(", ");
+    Linking.openURL(
+      Platform.OS == "ios"
+        ? `http://maps.apple.com/?q=${address}`
+        : `https://www.google.com/maps/search/?api=1&query=${address}`
+    );
+  };
 
   render() {
     const { product } = this.props;
@@ -77,7 +89,7 @@ class SellerTab extends Component {
             </View>
           )}
           ValueComponent={() => (
-            <View style={{ width: 70 }}>
+            <TouchableOpacity onPress={this.openMap} style={{ width: 70 }}>
               <View style={{ alignItems: "center" }}>
                 <Image style={{ width: 24, height: 24 }} source={mapIcon} />
                 <Text
@@ -87,7 +99,7 @@ class SellerTab extends Component {
                   FIND STORE
                 </Text>
               </View>
-            </View>
+            </TouchableOpacity>
           )}
         />
       </ScrollView>

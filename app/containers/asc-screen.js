@@ -16,6 +16,7 @@ import { Text, Button, ScreenContainer } from "../elements";
 
 const bgImage = require("../images/ic_asc_bg_image.jpg");
 const crossIcon = require("../images/ic_close.png");
+const dropdownIcon = require("../images/ic_dropdown_arrow.png");
 
 class AscScreen extends Component {
   static navigatorStyle = {
@@ -33,7 +34,20 @@ class AscScreen extends Component {
       brandTextInput: "",
       categoryTextInput: ""
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
+  onNavigatorEvent = event => {
+    switch (event.id) {
+      case "didAppear":
+        this.setState({
+          selectedBrand: null,
+          selectedCategory: null
+        });
+        break;
+    }
+  };
+
   async componentDidMount() {
     try {
       const res = await getBrands();
@@ -140,6 +154,7 @@ class AscScreen extends Component {
               {!selectedBrand && "Select a Brand"}
               {selectedBrand && selectedBrand.brandName}
             </Text>
+            <Image style={styles.dropdownIcon} source={dropdownIcon} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={this.onCategorySelectClick}
@@ -149,6 +164,7 @@ class AscScreen extends Component {
               {!selectedCategory && "Select a Product"}
               {selectedCategory && selectedCategory.category_name}
             </Text>
+            <Image style={styles.dropdownIcon} source={dropdownIcon} />
           </TouchableOpacity>
           <Button
             onPress={this.startSearch}
@@ -269,11 +285,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30
   },
   select: {
+    flexDirection: "row",
     borderColor: "#ececec",
     borderWidth: 1,
     padding: 16,
     borderRadius: 4,
-    marginBottom: 20
+    marginBottom: 20,
+    alignItems: "center"
+  },
+  selectText: {
+    flex: 1
+  },
+  dropdownIcon: {
+    width: 20,
+    height: 20
   },
   modal: {
     backgroundColor: "#fff",

@@ -84,31 +84,35 @@ class ImportantTab extends Component {
                 valueText={moment(warranty.expiryDate).format("DD MMM YYYY")}
               />
               <KeyValueItem keyText="Warranty Type" valueText="" />
-              <KeyValueItem
-                keyText="Seller"
-                valueText={warranty.sellers.sellerName}
-              />
-              <KeyValueItem
-                keyText="Seller Contact"
-                ValueComponent={() => (
-                  <Text
-                    onPress={() =>
-                      call({
-                        number: String(warranty.sellers.contact)
-                      }).catch(e => Alert.alert(e.message))
-                    }
-                    weight="Medium"
-                    style={{
-                      flex: 1,
-                      textAlign: "right",
-                      textDecorationLine: "underline",
-                      color: colors.tomato
-                    }}
-                  >
-                    {warranty.sellers.contact}
-                  </Text>
-                )}
-              />
+              {warranty.sellers != null && (
+                <KeyValueItem
+                  keyText="Seller"
+                  valueText={warranty.sellers.sellerName}
+                />
+              )}
+              {warranty.sellers != null && (
+                <KeyValueItem
+                  keyText="Seller Contact"
+                  ValueComponent={() => (
+                    <Text
+                      onPress={() =>
+                        call({
+                          number: String(warranty.sellers.contact)
+                        }).catch(e => Alert.alert(e.message))
+                      }
+                      weight="Medium"
+                      style={{
+                        flex: 1,
+                        textAlign: "right",
+                        textDecorationLine: "underline",
+                        color: colors.tomato
+                      }}
+                    >
+                      {warranty.sellers.contact}
+                    </Text>
+                  )}
+                />
+              )}
             </View>
           ))}
         </Collapsible>
@@ -138,31 +142,35 @@ class ImportantTab extends Component {
                 keyText="Amount Insured"
                 valueText={insurance.amountInsured || ""}
               />
-              <KeyValueItem
-                keyText="Seller"
-                valueText={insurance.sellers.sellerName || ""}
-              />
-              <KeyValueItem
-                keyText="Seller Contact"
-                ValueComponent={() => (
-                  <Text
-                    onPress={() =>
-                      call({
-                        number: String(insurance.sellers.contact)
-                      }).catch(e => Alert.alert(e.message))
-                    }
-                    weight="Medium"
-                    style={{
-                      flex: 1,
-                      textAlign: "right",
-                      textDecorationLine: "underline",
-                      color: colors.tomato
-                    }}
-                  >
-                    {insurance.sellers.contact}
-                  </Text>
-                )}
-              />
+              {insurance.sellers != null && (
+                <KeyValueItem
+                  keyText="Seller"
+                  valueText={insurance.sellers.sellerName || ""}
+                />
+              )}
+              {insurance.sellers != null && (
+                <KeyValueItem
+                  keyText="Seller Contact"
+                  ValueComponent={() => (
+                    <Text
+                      onPress={() =>
+                        call({
+                          number: String(insurance.sellers.contact)
+                        }).catch(e => Alert.alert(e.message))
+                      }
+                      weight="Medium"
+                      style={{
+                        flex: 1,
+                        textAlign: "right",
+                        textDecorationLine: "underline",
+                        color: colors.tomato
+                      }}
+                    >
+                      {insurance.sellers.contact}
+                    </Text>
+                  )}
+                />
+              )}
             </View>
           ))}
         </Collapsible>
@@ -192,31 +200,35 @@ class ImportantTab extends Component {
                 keyText="Amount Insured"
                 valueText={amc.amountInsured || ""}
               />
-              <KeyValueItem
-                keyText="Seller"
-                valueText={amc.sellers.sellerName || ""}
-              />
-              <KeyValueItem
-                keyText="Seller Contact"
-                ValueComponent={() => (
-                  <Text
-                    onPress={() =>
-                      call({
-                        number: String(amc.sellers.contact)
-                      }).catch(e => Alert.alert(e.message))
-                    }
-                    weight="Medium"
-                    style={{
-                      flex: 1,
-                      textAlign: "right",
-                      textDecorationLine: "underline",
-                      color: colors.tomato
-                    }}
-                  >
-                    {amc.sellers.contact}
-                  </Text>
-                )}
-              />
+              {amc.sellers != null && (
+                <KeyValueItem
+                  keyText="Seller"
+                  valueText={amc.sellers.sellerName || ""}
+                />
+              )}
+              {amc.sellers != null && (
+                <KeyValueItem
+                  keyText="Seller Contact"
+                  ValueComponent={() => (
+                    <Text
+                      onPress={() =>
+                        call({
+                          number: String(amc.sellers.contact)
+                        }).catch(e => Alert.alert(e.message))
+                      }
+                      weight="Medium"
+                      style={{
+                        flex: 1,
+                        textAlign: "right",
+                        textDecorationLine: "underline",
+                        color: colors.tomato
+                      }}
+                    >
+                      {amc.sellers.contact}
+                    </Text>
+                  )}
+                />
+              )}
             </View>
           ))}
         </Collapsible>
@@ -240,31 +252,35 @@ class ImportantTab extends Component {
                 keyText="Premium Amount"
                 valueText={repairBill.premiumAmount}
               />
-              <KeyValueItem
-                keyText="Seller"
-                valueText={repairBill.sellers.sellerName || ""}
-              />
-              <KeyValueItem
-                keyText="Seller Contact"
-                ValueComponent={() => (
-                  <Text
-                    onPress={() =>
-                      call({
-                        number: String(repairBill.sellers.contact)
-                      }).catch(e => Alert.alert(e.message))
-                    }
-                    weight="Medium"
-                    style={{
-                      flex: 1,
-                      textAlign: "right",
-                      textDecorationLine: "underline",
-                      color: colors.tomato
-                    }}
-                  >
-                    {repairBill.sellers.contact}
-                  </Text>
-                )}
-              />
+              {repairBill.sellers != null && (
+                <KeyValueItem
+                  keyText="Seller"
+                  valueText={repairBill.sellers.sellerName || ""}
+                />
+              )}
+              {repairBill.sellers != null && (
+                <KeyValueItem
+                  keyText="Seller Contact"
+                  ValueComponent={() => (
+                    <Text
+                      onPress={() =>
+                        call({
+                          number: String(repairBill.sellers.contact)
+                        }).catch(e => Alert.alert(e.message))
+                      }
+                      weight="Medium"
+                      style={{
+                        flex: 1,
+                        textAlign: "right",
+                        textDecorationLine: "underline",
+                        color: colors.tomato
+                      }}
+                    >
+                      {repairBill.sellers.contact}
+                    </Text>
+                  )}
+                />
+              )}
             </View>
           ))}
         </Collapsible>

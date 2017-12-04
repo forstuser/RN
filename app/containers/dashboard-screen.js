@@ -5,7 +5,8 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  Alert
+  Alert,
+  Image
 } from "react-native";
 import moment from "moment";
 import { consumerGetDashboard } from "../api";
@@ -14,6 +15,10 @@ import BlankDashboard from "../components/blank-dashboard";
 import SearchHeader from "../components/search-header";
 import InsightChart from "../components/insight-chart";
 import UpcomingServicesList from "../components/upcoming-services-list";
+import UploadBillOptions from "../components/upload-bill-options";
+import { colors } from "../theme";
+
+const uploadFabIcon = require("../images/ic_upload_fab.png");
 
 class DashboardScreen extends Component {
   static navigatorStyle = {
@@ -27,7 +32,8 @@ class DashboardScreen extends Component {
       upcomingServices: [],
       insightChartProps: {},
       notificationCount: 0,
-      recentSearches: []
+      recentSearches: [],
+      showUploadOptions: false
     };
   }
   async componentDidMount() {
@@ -61,6 +67,12 @@ class DashboardScreen extends Component {
       Alert.alert(e.message);
     }
   }
+
+  showUploadOptions = () => {
+    this.setState({
+      showUploadOptions: true
+    });
+  };
 
   render() {
     const { showDashboard, notificationCount, recentSearches } = this.state;
@@ -111,7 +123,16 @@ class DashboardScreen extends Component {
             </ScrollView>
           </View>
         )}
-        {!showDashboard && <BlankDashboard />}
+        {!showDashboard && (
+          <BlankDashboard onUploadButtonClick={this.showUploadOptions} />
+        )}
+        <TouchableOpacity style={styles.fab} onPress={this.showUploadOptions}>
+          <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+        </TouchableOpacity>
+        <UploadBillOptions
+          showOptions={this.state.showUploadOptions}
+          navigator={this.props.navigator}
+        />
       </ScreenContainer>
     );
   }
@@ -130,6 +151,22 @@ const styles = StyleSheet.create({
   sectionHeaderText: {
     padding: 10,
     fontSize: 12
+  },
+  fab: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    width: 56,
+    height: 56,
+    zIndex: 2,
+    backgroundColor: colors.tomato,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  uploadFabIcon: {
+    width: 30,
+    height: 30
   }
 });
 

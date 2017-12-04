@@ -18,6 +18,15 @@ export const openLoginScreen = () => {
   });
 };
 
+export const openAddProductsScreen = () => {
+  Navigation.startSingleScreenApp({
+    screen: {
+      screen: "AddProductsScreen",
+      navigatorStyle: defaultNavigatorStyle
+    }
+  });
+};
+
 export const openIntroScreen = () => {
   Navigation.startSingleScreenApp({
     screen: {
@@ -74,5 +83,6 @@ export default {
   openLoginScreen,
   openIntroScreen,
   openAppScreen,
-  openBillsPopUp
+  openBillsPopUp,
+  openAddProductsScreen
 };
