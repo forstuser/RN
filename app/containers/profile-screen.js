@@ -26,10 +26,10 @@ class ProfileScreen extends Component {
       isNameVisible: false,
       isEmailVisible: false,
       isLocationVisible: false,
-      name: this.props.profile.userProfile.name,
-      phone: this.props.profile.userProfile.mobile_no,
-      email: this.props.profile.userProfile.email,
-      location: this.props.profile.userProfile.location,
+      name: this.props.profile.name,
+      phone: this.props.profile.mobile_no,
+      email: this.props.profile.email,
+      location: this.props.profile.location,
       nameTemp: null,
       emailTemp: null,
       locationTemp: null
@@ -117,7 +117,7 @@ class ProfileScreen extends Component {
         <View style={styles.container}>
           <AsyncImage
             style={styles.backgroundImg}
-            uri={API_BASE_URL + "/" + this.props.profile.userProfile.imageUrl}
+            uri={API_BASE_URL + "/" + this.props.profile.imageUrl}
           />
 
           <View style={styles.overlay} />
@@ -133,15 +133,13 @@ class ProfileScreen extends Component {
               />
             </TouchableOpacity>
 
-            {this.props.profile.userProfile.image_name.length > 0 && (
+            {this.props.profile.image_name && (
               <AsyncImage
                 style={{ width: 80, height: 80, marginRight: 20 }}
-                uri={
-                  API_BASE_URL + "/" + this.props.profile.userProfile.imageUrl
-                }
+                uri={API_BASE_URL + this.props.profile.imageUrl}
               />
             )}
-            {this.props.profile.userProfile.image_name.length == 0 && (
+            {!this.props.profile.image_name && (
               <View
                 style={{
                   borderWidth: 2,

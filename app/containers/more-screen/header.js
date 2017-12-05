@@ -21,9 +21,9 @@ class Header extends Component {
 
   async componentDidMount() {
     try {
-      const profileDetails = await getProfileDetail();
+      const res = await getProfileDetail();
       this.setState({
-        profile: profileDetails
+        profile: res.userProfile
       });
     } catch (e) {
       Alert.alert(e.message);
@@ -40,23 +40,23 @@ class Header extends Component {
   render() {
     const profile = this.state.profile;
     return (
-      <TouchableOpacity style={styles.header} onPress={this.onProfileItemPress}>
+      <View style={styles.header}>
         {profile && (
-          <View>
+          <TouchableOpacity onPress={this.onProfileItemPress}>
             <AsyncImage
               style={styles.backgroundImg}
-              uri={API_BASE_URL + "/" + profile.userProfile.imageUrl}
+              uri={API_BASE_URL + profile.imageUrl}
             />
 
             <View style={styles.overlay} />
             <View style={styles.headerInner}>
-              {profile.userProfile.image_name.length > 0 && (
+              {profile.image_name && (
                 <AsyncImage
                   style={{ width: 80, height: 80, marginRight: 20 }}
-                  uri={API_BASE_URL + "/" + profile.userProfile.imageUrl}
+                  uri={API_BASE_URL + profile.imageUrl}
                 />
               )}
-              {profile.userProfile.image_name.length == 0 && (
+              {!profile.image_name && (
                 <View
                   style={{
                     borderWidth: 2,
@@ -82,10 +82,10 @@ class Header extends Component {
 
               <View style={styles.centerText}>
                 <Text style={styles.name} weight="Bold">
-                  {profile.userProfile.name}
+                  {profile.name}
                 </Text>
                 <Text style={styles.mobile} weight="Medium">
-                  {profile.userProfile.mobile_no}
+                  {profile.mobile_no}
                 </Text>
               </View>
               <Image
@@ -93,9 +93,9 @@ class Header extends Component {
                 source={require("../../images/ic_processing_arrow.png")}
               />
             </View>
-          </View>
+          </TouchableOpacity>
         )}
-      </TouchableOpacity>
+      </View>
     );
   }
 }

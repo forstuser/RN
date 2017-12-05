@@ -19,7 +19,17 @@ class Body extends Component {
   }
 
   onLogoutItemPress = () => {
-    Alert.alert("logout");
+    Alert.alert("Are you sure you want to logout?", "", [
+      {
+        text: "Yes, Logout",
+        onPress: () => this.props.logoutUser()
+      },
+      {
+        text: "No, Stay",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      }
+    ]);
   };
 
   onEhomeItemPress = () => {

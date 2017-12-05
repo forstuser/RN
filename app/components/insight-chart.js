@@ -50,28 +50,45 @@ const InsightChart = ({
     {chartData.length > 0 && (
       <VictoryChart
         domainPadding={{ x: 20, y: 5 }}
-        padding={{ left: 30, top: 20, right: 60, bottom: 40 }}
+        padding={{ left: 40, top: 20, right: 60, bottom: 40 }}
         height={200}
       >
         <VictoryAxis
           style={{
             axis: { stroke: "#fff" },
-            tickLabels: { fontSize: 9, stroke: "#fff" }
+            tickLabels: {
+              fontSize: 9,
+              stroke: "#fff",
+              fontWeight: "300",
+              fontFamily: "Quicksand-Regular"
+            }
           }}
         />
         <VictoryAxis
           dependentAxis
           style={{
             axis: { stroke: "#fff" },
-            tickLabels: { fontSize: 9 },
+            tickLabels: {
+              fontSize: 9,
+              stroke: "#fff",
+              fontWeight: "300",
+              fontFamily: "Quicksand-Regular"
+            },
             grid: { stroke: "rgba(255,255,255,0.3)" }
           }}
-          tickFormat={tick => `₹${Math.round(tick)}`}
+          tickFormat={value => {
+            let displayValue = `₹${Math.round(value)}`;
+            if (value > 1000) {
+              displayValue = `₹${Math.round(value / 1000)}k`;
+            }
+            return displayValue;
+          }}
         />
         <VictoryBar
-          alignment="start"
+          alignment="middle"
           data={chartData}
-          style={{ data: { fill: "#ffffff" } }}
+          cornerRadius={2}
+          style={{ data: { fill: "#ffffff", width: 30, cornerRadius: 4 } }}
           animate={{
             duration: 1000,
             onLoad: { duration: 1000 }

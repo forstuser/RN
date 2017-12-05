@@ -5,6 +5,11 @@ export const API_BASE_URL = "https://consumer-eb.binbill.com";
 
 const apiRequest = async ({ method, url, queryParams = {}, data = null }) => {
   try {
+    let headers = {};
+    const token = store.getState().loggedInUser.authToken;
+    if (token) {
+      headers.Authorization = token;
+    }
     const r = await axios.request({
       baseURL: API_BASE_URL,
       method,
@@ -12,7 +17,7 @@ const apiRequest = async ({ method, url, queryParams = {}, data = null }) => {
       params: queryParams,
       data,
       headers: {
-        Authorization: store.getState().loggedInUser.authToken
+        ...headers
       }
     });
     return r.data;
@@ -28,6 +33,11 @@ const apiRequest = async ({ method, url, queryParams = {}, data = null }) => {
 
 export const uploadDocuments = async (files, onUploadProgress) => {
   try {
+    let headers = {};
+    const token = store.getState().loggedInUser.authToken;
+    if (token) {
+      headers.Authorization = token;
+    }
     // create formdata
     const data = new FormData();
     files.forEach((file, index) => {
@@ -44,8 +54,8 @@ export const uploadDocuments = async (files, onUploadProgress) => {
       url: "/consumer/upload",
       data: data,
       headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: store.getState().loggedInUser.authToken
+        ...headers,
+        "Content-Type": "multipart/form-data"
       },
       onUploadProgress: progressEvent => {
         let percentCompleted = Math.floor(

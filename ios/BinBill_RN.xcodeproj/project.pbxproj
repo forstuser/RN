@@ -304,6 +304,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNPdfScanner;
 		};
+		43C9F5AF1FD5877900E61C98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F3131F5F2E4B0010BF04;
+			remoteInfo = privatedata;
+		};
+		43C9F5B11FD5877900E61C98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
+			remoteInfo = "privatedata-tvOS";
+		};
 		43F1C19B1FBC191A0088FBA5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
@@ -614,6 +628,8 @@
 				43B0793C1FC4569F00F4C1A0 /* libthird-party.a */,
 				43B0793E1FC4569F00F4C1A0 /* libdouble-conversion.a */,
 				43B079401FC4569F00F4C1A0 /* libdouble-conversion.a */,
+				43C9F5B01FD5877900E61C98 /* libprivatedata.a */,
+				43C9F5B21FD5877900E61C98 /* libprivatedata-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1274,6 +1290,20 @@
 			fileType = archive.ar;
 			path = libRNPdfScanner.a;
 			remoteRef = 43B079531FC4569F00F4C1A0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		43C9F5B01FD5877900E61C98 /* libprivatedata.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libprivatedata.a;
+			remoteRef = 43C9F5AF1FD5877900E61C98 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		43C9F5B21FD5877900E61C98 /* libprivatedata-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libprivatedata-tvOS.a";
+			remoteRef = 43C9F5B11FD5877900E61C98 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		43F1C19C1FBC191A0088FBA5 /* libRCTBlob-tvOS.a */ = {

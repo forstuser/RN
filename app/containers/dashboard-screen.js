@@ -35,8 +35,18 @@ class DashboardScreen extends Component {
       recentSearches: [],
       showUploadOptions: false
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
-  async componentDidMount() {
+
+  onNavigatorEvent = event => {
+    switch (event.id) {
+      case "didAppear":
+        this.fetchDashboardData();
+        break;
+    }
+  };
+
+  fetchDashboardData = async () => {
     try {
       const dashboardData = await consumerGetDashboard();
 
@@ -66,7 +76,7 @@ class DashboardScreen extends Component {
     } catch (e) {
       Alert.alert(e.message);
     }
-  }
+  };
 
   showUploadOptions = () => {
     this.setState({
@@ -124,13 +134,20 @@ class DashboardScreen extends Component {
           </View>
         )}
         {!showDashboard && (
-          <BlankDashboard onUploadButtonClick={this.showUploadOptions} />
+          <BlankDashboard
+            onUploadButtonClick={() => this.uploadBillOptions.show()}
+          />
         )}
-        <TouchableOpacity style={styles.fab} onPress={this.showUploadOptions}>
-          <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
-        </TouchableOpacity>
+        {showDashboard && (
+          <TouchableOpacity
+            style={styles.fab}
+            onPress={() => this.uploadBillOptions.show()}
+          >
+            <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+          </TouchableOpacity>
+        )}
         <UploadBillOptions
-          showOptions={this.state.showUploadOptions}
+          ref={ref => (this.uploadBillOptions = ref)}
           navigator={this.props.navigator}
         />
       </ScreenContainer>

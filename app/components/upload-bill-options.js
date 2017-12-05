@@ -7,11 +7,9 @@ import { Text, Button } from "../elements";
 import { colors } from "../theme";
 
 class UploadBillOptions extends React.Component {
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.showOptions) {
-      this.uploadOptions.show();
-    }
-  }
+  show = () => {
+    this.uploadOptions.show();
+  };
 
   handleOptionPress = index => {
     switch (index) {
