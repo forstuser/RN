@@ -209,3 +209,10 @@ export const getProfileUpdate = async ({ name, email, location }) => {
     }
   });
 };
+
+export const getInsightData = async () => {
+  return await apiRequest({
+    method: "get",
+    url: "/insight"
+  });
+};
