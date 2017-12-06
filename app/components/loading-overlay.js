@@ -3,8 +3,20 @@ import { StyleSheet, View, ActivityIndicator } from "react-native";
 import { colors } from "../theme";
 import Spinner from "react-native-loading-spinner-overlay";
 
+const LoadingOverlay = ({ visible }) => {
+  if (visible) {
+    return (
+      <View style={styles.overlay}>
+        <ActivityIndicator size="large" color={colors.mainBlue} />
+      </View>
+    );
+  } else {
+    return null;
+  }
+};
+
 const styles = StyleSheet.create({
-  overlayStyle: {
+  overlay: {
     position: "absolute",
     left: 0,
     right: 0,
@@ -12,17 +24,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(0,0,0,0.3)"
+    backgroundColor: "rgba(255,255,255,0.8)",
+    zIndex: 1000
   }
 });
-
-const LoadingOverlay = ({ visible }) => (
-  <Spinner
-    color={colors.mainBlue}
-    animation="fade"
-    visible={visible}
-    overlayColor="rgba(255,255,255,0.8)"
-  />
-);
 
 export default LoadingOverlay;

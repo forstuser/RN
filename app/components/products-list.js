@@ -21,13 +21,14 @@ const ProductsList = props => {
     isLoading = false,
     onEndReached,
     onEndReachedThreshold = 50,
-    onRefresh
+    onRefresh,
+    mainCategoryId
   } = props;
   const renderProductItem = ({ item }) => (
     <ProductListItem navigator={navigator} product={item} />
   );
   if (!isLoading && products.length == 0) {
-    return <EmptyProductListPlaceholder />;
+    return <EmptyProductListPlaceholder mainCategoryId={mainCategoryId} />;
   } else {
     return (
       <FlatList

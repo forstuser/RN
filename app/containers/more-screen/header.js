@@ -11,6 +11,8 @@ import { connect } from "react-redux";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { getProfileDetail, API_BASE_URL } from "../../api";
 
+const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
+
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -39,47 +41,28 @@ class Header extends Component {
 
   render() {
     const profile = this.state.profile;
+    let profilePic = (
+      <Image
+        style={{ width: "100%", height: "100%" }}
+        source={noPicPlaceholderIcon}
+      />
+    );
+    if (profile && profile.image_name) {
+      profilePic = (
+        <AsyncImage
+          style={{ width: "100%", height: "100%" }}
+          uri={API_BASE_URL + profile.imageUrl}
+        />
+      );
+    }
     return (
       <View style={styles.header}>
         {profile && (
           <TouchableOpacity onPress={this.onProfileItemPress}>
-            <AsyncImage
-              style={styles.backgroundImg}
-              uri={API_BASE_URL + profile.imageUrl}
-            />
-
+            <View style={styles.backgroundImg}>{profilePic}</View>
             <View style={styles.overlay} />
             <View style={styles.headerInner}>
-              {profile.image_name && (
-                <AsyncImage
-                  style={{ width: 80, height: 80, marginRight: 20 }}
-                  uri={API_BASE_URL + profile.imageUrl}
-                />
-              )}
-              {!profile.image_name && (
-                <View
-                  style={{
-                    borderWidth: 2,
-                    borderColor: "white",
-                    backgroundColor: "#d8d8d8",
-                    width: 80,
-                    height: 80,
-                    borderRadius: 40
-                  }}
-                >
-                  <Image
-                    style={{
-                      width: 50,
-                      height: 50,
-                      alignItems: "center",
-                      marginTop: 12,
-                      marginLeft: 12
-                    }}
-                    source={require("../../images/ic_more_no_profile_pic.png")}
-                  />
-                </View>
-              )}
-
+              <View style={styles.profilePicWrapper}>{profilePic}</View>
               <View style={styles.centerText}>
                 <Text style={styles.name} weight="Bold">
                   {profile.name}
@@ -109,9 +92,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: 120,
-    padding: 16
+    padding: 16,
+    paddingTop: 36
   },
-
+  profilePicWrapper: {
+    width: 80,
+    height: 80,
+    backgroundColor: "#d8d8d8",
+    borderRadius: 40,
+    justifyContent: "center",
+    alignItems: "center"
+  },
   centerText: {
     width: 180,
     flex: 1,

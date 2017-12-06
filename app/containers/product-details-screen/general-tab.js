@@ -30,7 +30,9 @@ class GeneralTab extends Component {
           valueText={product.masterCategoryName}
         />
         <KeyValueItem keyText="Sub-Category" valueText={product.categoryName} />
-        <KeyValueItem keyText="Brand" valueText={product.brand.name} />
+        {product.brand && (
+          <KeyValueItem keyText="Brand" valueText={product.brand.name} />
+        )}
         <KeyValueItem
           keyText="Date of Purchase"
           valueText={moment(product.purchaseDate).format("MMM DD, YYYY")}

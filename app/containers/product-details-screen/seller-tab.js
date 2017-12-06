@@ -40,6 +40,13 @@ class SellerTab extends Component {
 
   render() {
     const { product } = this.props;
+    if (!product.sellers) {
+      return (
+        <Text weight="Bold" style={{ textAlign: "center", padding: 16 }}>
+          Seller info not available
+        </Text>
+      );
+    }
     return (
       <ScrollView>
         <KeyValueItem

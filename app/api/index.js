@@ -75,6 +75,49 @@ export const uploadDocuments = async (files, onUploadProgress) => {
   }
 };
 
+export const uploadProfilePic = async (file, onUploadProgress) => {
+  try {
+    let headers = {};
+    const token = store.getState().loggedInUser.authToken;
+    if (token) {
+      headers.Authorization = token;
+    }
+    console.log("file:", file);
+    // create formdata
+    const data = new FormData();
+    data.append(`filesName`, {
+      uri: file.uri,
+      type: file.mimeType,
+      name: file.filename
+    });
+
+    const r = await axios.request({
+      baseURL: API_BASE_URL,
+      method: "post",
+      url: "/consumer/upload/selfie",
+      data: data,
+      headers: {
+        ...headers,
+        "Content-Type": "multipart/form-data"
+      },
+      onUploadProgress: progressEvent => {
+        let percentCompleted = Math.floor(
+          progressEvent.loaded * 100 / progressEvent.total
+        );
+        onUploadProgress(percentCompleted);
+      }
+    });
+    return r.data;
+  } catch (e) {
+    if (e.response) {
+      throw new Error(e.response.data.message);
+    } else {
+      throw e.message;
+    }
+    throw e;
+  }
+};
+
 export const consumerGetOtp = async PhoneNo => {
   return await apiRequest({
     method: "post",
@@ -214,5 +257,12 @@ export const getInsightData = async () => {
   return await apiRequest({
     method: "get",
     url: "/insight"
+  });
+};
+
+export const getCategoryInsightData = async id => {
+  return await apiRequest({
+    method: "get",
+    url: `categories/${id}/insights`
   });
 };

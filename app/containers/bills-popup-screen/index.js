@@ -43,25 +43,36 @@ class BillsPopUpScreen extends Component {
             X
           </Text>
         </View>
-        <ScrollableTabView
-          tabBarUnderlineStyle={{
-            backgroundColor: colors.mainBlue,
-            height: 1,
-            marginBottom: -1
-          }}
-          tabBarPosition="bottom"
-          renderTabBar={null}
-        >
-          {copies.map((copy, index) => (
-            <BillCopyItem
-              key={copy.copyId}
-              billId={id}
-              copy={copy}
-              index={index}
-              total={copies.length}
-            />
-          ))}
-        </ScrollableTabView>
+        {copies &&
+          copies.length > 0 && (
+            <ScrollableTabView
+              tabBarUnderlineStyle={{
+                backgroundColor: colors.mainBlue,
+                height: 1,
+                marginBottom: -1
+              }}
+              tabBarPosition="bottom"
+              renderTabBar={null}
+            >
+              {copies.map((copy, index) => (
+                <BillCopyItem
+                  key={copy.copyId}
+                  billId={id}
+                  copy={copy}
+                  index={index}
+                  total={copies.length}
+                />
+              ))}
+            </ScrollableTabView>
+          )}
+        {copies &&
+          copies.length == 0 && (
+            <View style={styles.noCopiesMsgWrapper}>
+              <Text weight="Bold" style={styles.noCopiesMsg}>
+                Data not avialable
+              </Text>
+            </View>
+          )}
       </ScreenContainer>
     );
   }
@@ -87,6 +98,11 @@ const styles = StyleSheet.create({
   crossIcon: {
     color: "#999",
     fontSize: 24
+  },
+  noCopiesMsgWrapper: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 

@@ -23,6 +23,7 @@ import AddProductsScreen from "./containers/add-products-screen";
 import UploadDocumentScreen from "./containers/upload-document-screen";
 import InsightScreen from "./containers/insight-screen";
 import TotalTaxScreen from "./containers/total-tax-screen";
+import TransactionsScreen from "./containers/transactions-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -146,6 +147,12 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     "UploadDocumentScreen",
     () => UploadDocumentScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    "TransactionsScreen",
+    () => TransactionsScreen,
     store,
     Provider
   );

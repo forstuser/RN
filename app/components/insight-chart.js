@@ -13,98 +13,125 @@ import {
   VictoryLabel
 } from "victory-native";
 
-const bgColors = {
-  primary: [colors.mainBlue, colors.aquaBlue],
-  secondary: [colors.pinkishOrange, colors.tomato]
-};
+const dropdownIcon = require("../images/ic_dropdown_arrow.png");
 
 const InsightChart = ({
+  textColor = "#fff",
+  hideXLabels = false,
   timeSpanText = "",
   filterText = "",
-  totalSpend = "",
-  color = "primary",
-  chartData = []
-}) => (
-  <LinearGradient
-    start={{ x: 0.0, y: 0.1 }}
-    end={{ x: 0.9, y: 0.9 }}
-    colors={bgColors[color]}
-    style={styles.container}
-  >
-    <View style={styles.header}>
-      <Text weight="Bold" style={styles.timeSpan}>
-        {timeSpanText}
-      </Text>
-      <View style={styles.filter}>
-        <Text weight="Bold" style={styles.filterText}>
-          {filterText}
+  totalSpend = null,
+  bgColors = [colors.mainBlue, colors.aquaBlue],
+  chartData = [],
+  onFiltersPress
+}) => {
+  let barWidth = 30;
+  if (chartData.length > 7) {
+    barWidth = 10;
+  }
+  return (
+    <LinearGradient
+      start={{ x: 0.0, y: 0.1 }}
+      end={{ x: 0.9, y: 0.9 }}
+      colors={bgColors}
+      style={styles.container}
+    >
+      <View style={styles.header}>
+        <Text weight="Bold" style={[styles.timeSpan, { color: textColor }]}>
+          {timeSpanText}
         </Text>
+        <TouchableOpacity onPress={onFiltersPress} style={styles.filter}>
+          <Text weight="Bold" style={[styles.filterText, { color: textColor }]}>
+            {filterText}
+          </Text>
+          <Image
+            style={[styles.filterDropdown, { tintColor: textColor }]}
+            source={dropdownIcon}
+          />
+        </TouchableOpacity>
       </View>
-    </View>
-    <View style={styles.totalSpendContainer}>
-      <Text style={styles.totalSpendText}>Total Spend </Text>
-      <Text weight="Bold" style={styles.totalSpendAmount}>
-        ₹ {totalSpend}
-      </Text>
-    </View>
-    {chartData.length > 0 && (
-      <VictoryChart
-        domainPadding={{ x: 20, y: 5 }}
-        padding={{ left: 40, top: 20, right: 60, bottom: 40 }}
-        height={200}
-      >
-        <VictoryAxis
-          style={{
-            axis: { stroke: "#fff" },
-            tickLabels: {
-              fontSize: 9,
-              stroke: "#fff",
-              fontWeight: "300",
-              fontFamily: "Quicksand-Regular"
-            }
-          }}
-        />
-        <VictoryAxis
-          dependentAxis
-          style={{
-            axis: { stroke: "#fff" },
-            tickLabels: {
-              fontSize: 9,
-              stroke: "#fff",
-              fontWeight: "300",
-              fontFamily: "Quicksand-Regular"
-            },
-            grid: { stroke: "rgba(255,255,255,0.3)" }
-          }}
-          tickFormat={value => {
-            let displayValue = `₹${Math.round(value)}`;
-            if (value > 1000) {
-              displayValue = `₹${Math.round(value / 1000)}k`;
-            }
-            return displayValue;
-          }}
-        />
-        <VictoryBar
-          alignment="middle"
-          data={chartData}
-          cornerRadius={2}
-          style={{ data: { fill: "#ffffff", width: 30, cornerRadius: 4 } }}
-          animate={{
-            duration: 1000,
-            onLoad: { duration: 1000 }
-          }}
-        />
-      </VictoryChart>
-    )}
-    {chartData.length == 0 && (
-      <View style={styles.noDataContainer}>
-        <Text weight="Bold" style={styles.noDataText}>
-          Data Not Available
-        </Text>
+
+      <View style={styles.totalSpendContainer}>
+        {totalSpend !== null && (
+          <View style={styles.totalSpendInner}>
+            <Text style={[styles.totalSpendText, { color: textColor }]}>
+              Total Spend{" "}
+            </Text>
+            <Text
+              weight="Bold"
+              style={[styles.totalSpendAmount, { color: textColor }]}
+            >
+              ₹ {totalSpend}
+            </Text>
+          </View>
+        )}
       </View>
-    )}
-  </LinearGradient>
-);
+      {chartData.length > 0 && (
+        <VictoryChart
+          domainPadding={{ x: 20, y: 5 }}
+          padding={{ left: 40, top: 20, right: 60, bottom: 40 }}
+          height={200}
+        >
+          <VictoryAxis
+            style={{
+              axis: { stroke: textColor },
+              tickLabels: {
+                fontSize: 9,
+                stroke: "#fff",
+                fontWeight: "300",
+                fontFamily: "Quicksand-Regular"
+              }
+            }}
+            tickFormat={value => {
+              if (hideXLabels) {
+                return "";
+              }
+              return value;
+            }}
+          />
+          <VictoryAxis
+            dependentAxis
+            style={{
+              axis: { stroke: textColor },
+              tickLabels: {
+                fontSize: 9,
+                stroke: textColor,
+                fontWeight: "300",
+                fontFamily: "Quicksand-Regular"
+              },
+              grid: { stroke: "rgba(255,255,255,0.3)" }
+            }}
+            tickFormat={value => {
+              let displayValue = `₹${Math.round(value)}`;
+              if (value > 1000) {
+                displayValue = `₹${Math.round(value / 1000)}k`;
+              }
+              return displayValue;
+            }}
+          />
+          <VictoryBar
+            alignment="middle"
+            data={chartData}
+            style={{
+              data: { fill: "#ffffff", width: barWidth, cornerRadius: 4 }
+            }}
+            animate={{
+              duration: 700,
+              onLoad: { duration: 700 }
+            }}
+          />
+        </VictoryChart>
+      )}
+      {chartData.length == 0 && (
+        <View style={styles.noDataContainer}>
+          <Text weight="Bold" style={[styles.noDataText, { color: textColor }]}>
+            No Data for Chart
+          </Text>
+        </View>
+      )}
+    </LinearGradient>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -117,7 +144,6 @@ const styles = StyleSheet.create({
   },
   timeSpan: {
     flex: 1,
-    color: "#fff",
     fontSize: 16
   },
   filter: {
@@ -127,21 +153,30 @@ const styles = StyleSheet.create({
     paddingTop: 6,
     paddingBottom: 6,
     paddingLeft: 12,
-    paddingRight: 12
+    paddingRight: 3,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  filterDropdown: {
+    width: 24,
+    height: 24,
+    tintColor: "#fff"
   },
   filterText: {
-    fontSize: 14,
-    color: "#fff"
+    fontSize: 14
   },
   totalSpendContainer: {
     marginTop: 14,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
     height: 32,
     borderColor: "rgba(255,255,255,0.3)",
     borderTopWidth: 2,
     borderBottomWidth: 2
+  },
+  totalSpendInner: {
+    height: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   },
   totalSpendText: {
     color: "#fff",

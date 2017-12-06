@@ -42,6 +42,7 @@ class Direct extends Component {
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#fafafa" }}>
         <ProductsList
+          mainCategoryId={this.props.category.id}
           products={this.state.products}
           navigator={this.props.navigator}
         />

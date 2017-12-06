@@ -15,7 +15,7 @@ const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 
 const ProductListItem = ({ product, onPress, navigator }) => {
   const ViewBillButton = ({ onPress }) => {
-    if (product.copies.length > 0) {
+    if (product.copies && product.copies.length > 0) {
       return (
         <TouchableOpacity
           onPress={() =>

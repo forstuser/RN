@@ -28,6 +28,9 @@ class AfterSaleButton extends Component {
   componentDidMount() {
     const emails = [];
     const phoneNumbers = [];
+    if (!this.props.product.brand) {
+      return;
+    }
     this.props.product.brand.details.forEach(item => {
       switch (item.typeId) {
         case 2:

@@ -111,6 +111,7 @@ class CategoryWithPager extends Component {
               key={subCategory.id}
             >
               <ProductsList
+                mainCategoryId={this.props.category.id}
                 onRefresh={() => this.loadProductsFirstPage(index)}
                 isLoading={subCategory.isFetchingProducts}
                 products={subCategory.products}

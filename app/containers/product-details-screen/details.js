@@ -55,7 +55,7 @@ class Details extends Component {
       repairAmount;
 
     const ViewBillButton = ({ onPress }) => {
-      if (product.copies.length > 0) {
+      if (product.copies && product.copies.length > 0) {
         return (
           <TouchableOpacity
             onPress={() =>
