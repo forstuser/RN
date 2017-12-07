@@ -3,6 +3,7 @@ package com.binbill_rn;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.cmcewen.blurview.BlurViewPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
@@ -52,6 +53,7 @@ public class MainApplication extends NavigationApplication {
   //   protected List<ReactPackage> getPackages() {
   //     return Arrays.<ReactPackage>asList(
   //         new MainReactPackage(),
+            new BlurViewPackage(),
   //     );
   //   }
 

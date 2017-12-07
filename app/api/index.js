@@ -82,7 +82,6 @@ export const uploadProfilePic = async (file, onUploadProgress) => {
     if (token) {
       headers.Authorization = token;
     }
-    console.log("file:", file);
     // create formdata
     const data = new FormData();
     data.append(`filesName`, {
@@ -241,15 +240,23 @@ export const getAscSearchResults = async ({
     }
   });
 };
-export const getProfileUpdate = async ({ name, email, location }) => {
+export const updateProfile = async ({
+  name,
+  email,
+  location,
+  latitude,
+  longitude
+}) => {
+  let data = {};
+  if (name) data.name = name;
+  if (email) data.email = email;
+  if (location) data.location = location;
+  if (latitude) data.latitude = latitude;
+  if (longitude) data.longitude = longitude;
   return await apiRequest({
     method: "put",
     url: "/consumer/profile",
-    data: {
-      name: name,
-      email: email,
-      location: location
-    }
+    data: data
   });
 };
 

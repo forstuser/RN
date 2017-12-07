@@ -18,6 +18,8 @@ import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
 import { showSnackbar } from "../snackbar";
 
+import { BlurView } from "react-native-blur";
+
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 const editIcon = require("../../images/ic_edit_white.png");
 
@@ -32,15 +34,12 @@ class ProfileScreen extends Component {
   componentDidMount() {
     const profile = this.props.profile;
     let profilePic = (
-      <Image
-        style={{ width: "100%", height: "100%" }}
-        source={noPicPlaceholderIcon}
-      />
+      <Image style={styles.image} source={noPicPlaceholderIcon} />
     );
     if (profile.image_name) {
       profilePic = (
         <AsyncImage
-          style={{ width: "100%", height: "100%" }}
+          style={styles.image}
           uri={API_BASE_URL + profile.imageUrl}
         />
       );
@@ -69,7 +68,7 @@ class ProfileScreen extends Component {
     })
       .then(file => {
         this.uploadImage({
-          filename: "profile-pic",
+          filename: "profile-pic.jpeg",
           uri: file.path,
           mimeType: file.mime
         });
@@ -94,16 +93,14 @@ class ProfileScreen extends Component {
   };
 
   uploadImage = async file => {
-    return showSnackbar({
+    showSnackbar({
       text: "uploading, please wait..",
       autoDismissTimerSec: 1000
     });
     try {
       await uploadProfilePic(file, () => {});
       this.setState({
-        profilePic: (
-          <Image style={{ width: "100%", height: "100%" }} source={file.uri} />
-        )
+        profilePic: <Image style={styles.image} source={{ uri: file.uri }} />
       });
 
       showSnackbar({
@@ -122,10 +119,15 @@ class ProfileScreen extends Component {
     return (
       <View style={styles.header}>
         <View style={styles.backgroundImg}>{profilePic}</View>
-        <View style={styles.overlay} />
+        <BlurView
+          style={styles.overlay}
+          viewRef={this.state.blurOverlay}
+          blurType="light"
+          blurAmount={5}
+        />
 
         <View style={styles.profilePicWrapper}>
-          {profilePic}
+          <View style={styles.profilePicCircleWrapper}>{profilePic}</View>
           <TouchableOpacity
             onPress={() => this.uploadOptions.show()}
             style={styles.editImg}
@@ -173,6 +175,16 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     justifyContent: "center",
     alignItems: "center"
+  },
+  profilePicCircleWrapper: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 60,
+    overflow: "hidden"
+  },
+  image: {
+    width: "100%",
+    height: "100%"
   },
   editImg: {
     position: "absolute",

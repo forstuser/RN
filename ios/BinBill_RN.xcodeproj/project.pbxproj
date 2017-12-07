@@ -36,6 +36,7 @@
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* BinBill_RNTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* BinBill_RNTests.m */; };
 		40AC6677FB284E46AC3E4C1A /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E8E4D3AB60549BA86162DE7 /* Quicksand-Light.ttf */; };
+		43C9F61E1FD9124B00E61C98 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C9F6151FD9120700E61C98 /* libRNBlur.a */; };
 		43F1C1B41FBC19780088FBA5 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F1C1B31FBC191A0088FBA5 /* libReactNativeNavigation.a */; };
 		46850159E1664B10B19C9A19 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FFE696349DF405793F1C286 /* libRNSVG.a */; };
 		57AF4D55BEFB42669E9ED023 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A61393C8935849CAA4D87BDA /* Montserrat-Medium.ttf */; };
@@ -318,6 +319,20 @@
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
 		};
+		43C9F6141FD9120700E61C98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43C9F5E81FD9120700E61C98 /* RNBlur.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A68BD7BC1BC31318005F02DF;
+			remoteInfo = RNBlur;
+		};
+		43C9F6161FD9120700E61C98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43C9F5E81FD9120700E61C98 /* RNBlur.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64D1BD361EEFE88700F3F219;
+			remoteInfo = "RNBlur-tvOS";
+		};
 		43F1C19B1FBC191A0088FBA5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
@@ -420,6 +435,7 @@
 		3CBFFD88A6A07FE923B69941 /* Pods-BinBill_RN-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BinBill_RN-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BinBill_RN-tvOS/Pods-BinBill_RN-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		40F408285C6D4F3DAE147891 /* RNPdfScanner.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNPdfScanner.xcodeproj; path = "../node_modules/react-native-document-scanner/ios/RNPdfScanner.xcodeproj"; sourceTree = "<group>"; };
 		418274813DDB4C1696583956 /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Bold.ttf"; path = "../assets/fonts/Quicksand-Bold.ttf"; sourceTree = "<group>"; };
+		43C9F5E81FD9120700E61C98 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		43F1C1931FBC19190088FBA5 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		43F4EFFB1FD2CD4000CFB8B4 /* BinBill_RN.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = BinBill_RN.entitlements; path = BinBill_RN/BinBill_RN.entitlements; sourceTree = "<group>"; };
 		471F0ABFCA11452C8C47EEA3 /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Regular.ttf"; path = "../assets/fonts/Quicksand-Regular.ttf"; sourceTree = "<group>"; };
@@ -468,6 +484,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43C9F61E1FD9124B00E61C98 /* libRNBlur.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -677,6 +694,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		43C9F5E91FD9120700E61C98 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				43C9F6151FD9120700E61C98 /* libRNBlur.a */,
+				43C9F6171FD9120700E61C98 /* libRNBlur.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		43E317231FC467A00090384A /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -744,6 +770,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				43C9F5E81FD9120700E61C98 /* RNBlur.xcodeproj */,
 				43F1C1931FBC19190088FBA5 /* ReactNativeNavigation.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -1034,6 +1061,10 @@
 					ProjectRef = 43F1C1931FBC19190088FBA5 /* ReactNativeNavigation.xcodeproj */;
 				},
 				{
+					ProductGroup = 43C9F5E91FD9120700E61C98 /* Products */;
+					ProjectRef = 43C9F5E81FD9120700E61C98 /* RNBlur.xcodeproj */;
+				},
+				{
 					ProductGroup = 43F4EFAE1FD2BE1500CFB8B4 /* Products */;
 					ProjectRef = 75173F673A754A9BBD69A9BB /* RNDocumentPicker.xcodeproj */;
 				},
@@ -1304,6 +1335,20 @@
 			fileType = archive.ar;
 			path = "libprivatedata-tvOS.a";
 			remoteRef = 43C9F5B11FD5877900E61C98 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		43C9F6151FD9120700E61C98 /* libRNBlur.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNBlur.a;
+			remoteRef = 43C9F6141FD9120700E61C98 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		43C9F6171FD9120700E61C98 /* libRNBlur.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNBlur.a;
+			remoteRef = 43C9F6161FD9120700E61C98 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		43F1C19C1FBC191A0088FBA5 /* libRCTBlob-tvOS.a */ = {

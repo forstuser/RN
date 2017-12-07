@@ -6,6 +6,7 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import Body from "./body";
 import Header from "./header";
 
+import { getProfileDetail } from "../../api";
 import { openLoginScreen } from "../../navigation";
 
 class MoreScreen extends Component {
@@ -14,16 +15,40 @@ class MoreScreen extends Component {
   };
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      profile: null,
+      binbillDetails: {}
+    };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  async componentDidMount() {
-    console.log(this.props.authToken);
-  }
+  onNavigatorEvent = event => {
+    switch (event.id) {
+      case "didAppear":
+        this.fetchProfile();
+        break;
+    }
+  };
+
+  fetchProfile = async () => {
+    this.setState({
+      profile: null
+    });
+    try {
+      const res = await getProfileDetail();
+      this.setState({
+        profile: res.userProfile
+      });
+    } catch (e) {
+      Alert.alert(e.message);
+    }
+  };
+
   render() {
+    const profile = this.state.profile;
     return (
       <View>
-        <Header navigator={this.props.navigator} />
+        <Header profile={profile} navigator={this.props.navigator} />
         <Body
           logoutUser={this.props.logoutUser}
           navigator={this.props.navigator}

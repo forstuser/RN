@@ -15,15 +15,25 @@ class EhomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isGettingEhomeData: false,
+      isFetchingData: false,
       categoriesList: [],
       pendingDocs: [],
       notificationCount: 0
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
-  async componentDidMount() {
+
+  onNavigatorEvent = event => {
+    switch (event.id) {
+      case "didAppear":
+        this.fetchEhomeData();
+        break;
+    }
+  };
+
+  fetchEhomeData = async () => {
     this.setState({
-      isGettingEhomeData: true
+      isFetchingData: true
     });
     try {
       const ehomeData = await consumerGetEhome();
@@ -43,11 +53,13 @@ class EhomeScreen extends Component {
         categoriesList: categoriesList,
         pendingDocs: ehomeData.unProcessedBills
       });
-    } catch (e) {}
+    } catch (e) {
+      Alert.alert(e.message);
+    }
     this.setState({
-      isGettingEhomeData: false
+      isFetchingData: false
     });
-  }
+  };
 
   openMainCategoryScreen = category => {
     this.props.navigator.push({
@@ -78,6 +90,7 @@ class EhomeScreen extends Component {
   render() {
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#fafafa" }}>
+        <LoadingOverlay visible={this.state.isFetchingData} />
         <SearchHeader
           navigator={this.props.navigator}
           screen="ehome"
@@ -96,7 +109,7 @@ class EhomeScreen extends Component {
             renderItem={this.renderCategoryItem}
           />
         </View>
-        <LoadingOverlay visible={this.state.isGettingEhomeData} />
+        <LoadingOverlay visible={this.state.isFetchingData} />
       </ScreenContainer>
     );
   }

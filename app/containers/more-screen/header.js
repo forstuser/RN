@@ -7,40 +7,29 @@ import {
   Alert,
   TouchableOpacity
 } from "react-native";
-import { connect } from "react-redux";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
-import { getProfileDetail, API_BASE_URL } from "../../api";
 
+import { BlurView } from "react-native-blur";
+import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { API_BASE_URL } from "../../api";
+
+import LoadingOverlay from "../../components/loading-overlay";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      profile: null
-    };
-  }
-
-  async componentDidMount() {
-    try {
-      const res = await getProfileDetail();
-      this.setState({
-        profile: res.userProfile
-      });
-    } catch (e) {
-      Alert.alert(e.message);
-    }
+    this.state = {};
   }
 
   onProfileItemPress = () => {
     this.props.navigator.push({
       screen: "ProfileScreen",
-      passProps: { profile: this.state.profile }
+      passProps: { profile: this.props.profile }
     });
   };
 
   render() {
-    const profile = this.state.profile;
+    const profile = this.props.profile;
     let profilePic = (
       <Image
         style={{ width: "100%", height: "100%" }}
@@ -57,12 +46,20 @@ class Header extends Component {
     }
     return (
       <View style={styles.header}>
+        <LoadingOverlay visible={profile == null} />
         {profile && (
           <TouchableOpacity onPress={this.onProfileItemPress}>
             <View style={styles.backgroundImg}>{profilePic}</View>
-            <View style={styles.overlay} />
+            <BlurView
+              style={styles.overlay}
+              viewRef={this.state.blurOverlay}
+              blurType="light"
+              blurAmount={5}
+            />
             <View style={styles.headerInner}>
-              <View style={styles.profilePicWrapper}>{profilePic}</View>
+              <View style={styles.profilePicWrapper}>
+                <View style={styles.profilePicCircleWrapper}>{profilePic}</View>
+              </View>
               <View style={styles.centerText}>
                 <Text style={styles.name} weight="Bold">
                   {profile.name}
@@ -102,6 +99,12 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     justifyContent: "center",
     alignItems: "center"
+  },
+  profilePicCircleWrapper: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    overflow: "hidden"
   },
   centerText: {
     width: 180,

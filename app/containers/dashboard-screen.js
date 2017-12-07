@@ -17,6 +17,7 @@ import InsightChart from "../components/insight-chart";
 import UpcomingServicesList from "../components/upcoming-services-list";
 import UploadBillOptions from "../components/upload-bill-options";
 import { colors } from "../theme";
+import LoadingOverlay from "../components/loading-overlay";
 
 const uploadFabIcon = require("../images/ic_upload_fab.png");
 
@@ -28,6 +29,7 @@ class DashboardScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isFetchingData: true,
       showDashboard: true,
       upcomingServices: [],
       insightChartProps: {},
@@ -47,6 +49,9 @@ class DashboardScreen extends React.Component {
   };
 
   fetchDashboardData = async () => {
+    this.setState({
+      isFetchingData: true
+    });
     try {
       const dashboardData = await consumerGetDashboard();
 
@@ -76,6 +81,9 @@ class DashboardScreen extends React.Component {
     } catch (e) {
       Alert.alert(e.message);
     }
+    this.setState({
+      isFetchingData: false
+    });
   };
 
   showUploadOptions = () => {
@@ -91,7 +99,12 @@ class DashboardScreen extends React.Component {
   };
 
   render() {
-    const { showDashboard, notificationCount, recentSearches } = this.state;
+    const {
+      showDashboard,
+      notificationCount,
+      recentSearches,
+      isFetchingData
+    } = this.state;
     const SectionHeader = ({ text }) => (
       <View style={styles.sectionHeader}>
         <View style={styles.sectionHeaderTopBorder} />
@@ -102,6 +115,7 @@ class DashboardScreen extends React.Component {
     );
     return (
       <ScreenContainer style={{ padding: 0 }}>
+        <LoadingOverlay visible={isFetchingData} />
         {showDashboard && (
           <View>
             <SearchHeader

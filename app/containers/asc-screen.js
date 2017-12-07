@@ -173,7 +173,7 @@ class AscScreen extends Component {
             color="secondary"
           />
         </View>
-        <Modal isVisible={isBrandsModalVisible}>
+        <Modal useNativeDriver={true} isVisible={isBrandsModalVisible}>
           <View style={styles.modal}>
             <View style={styles.modalHeader}>
               <TouchableOpacity
@@ -216,7 +216,7 @@ class AscScreen extends Component {
           </View>
         </Modal>
 
-        <Modal isVisible={isCategoriesModalVisible}>
+        <Modal useNativeDriver={true} isVisible={isCategoriesModalVisible}>
           <View style={styles.modal}>
             <View style={styles.modalHeader}>
               <TouchableOpacity

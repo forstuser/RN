@@ -7,16 +7,19 @@ import {
   Alert,
   Image,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import Modal from "react-native-modal";
 
-import { API_BASE_URL, getProfileUpdate } from "../../api";
+import { API_BASE_URL, updateProfile } from "../../api";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
+import { showSnackbar } from "../snackbar";
 
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 const editIcon = require("../../images/ic_edit_white.png");
+const crossIcon = require("../../images/ic_close.png");
 
 import Header from "./header";
 
@@ -29,58 +32,114 @@ class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isNameVisible: false,
-      isEmailVisible: false,
-      isLocationVisible: false,
+      isNameModalVisible: false,
+      isEmailModalVisible: false,
+      isLocationModalVisible: false,
       name: this.props.profile.name,
       phone: this.props.profile.mobile_no,
       email: this.props.profile.email,
+      isEmailVerified: this.props.profile.email_verified,
       location: this.props.profile.location,
       nameTemp: null,
       emailTemp: null,
-      locationTemp: null
+      locationTemp: null,
+      latitude: null,
+      longitude: null
     };
   }
 
-  onSubmitname = async () => {
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        });
+      },
+      error => {},
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  }
+
+  onSubmitName = async () => {
+    this.setState({
+      isNameModalVisible: false
+    });
+    showSnackbar({
+      text: "changing name.. please wait..",
+      autoDismissTimerSec: 1000
+    });
     try {
-      await getProfileUpdate({
+      await updateProfile({
         name: this.state.nameTemp
       });
       this.setState({
-        isNameVisible: false,
         name: this.state.nameTemp
       });
+      showSnackbar({
+        text: "Name changed successfully!",
+        autoDismissTimerSec: 3
+      });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message,
+        autoDismissTimerSec: 5
+      });
     }
   };
 
-  onSubmitemail = async () => {
+  onSubmitEmail = async () => {
+    this.setState({
+      isEmailModalVisible: false
+    });
+    showSnackbar({
+      text: "changing email.. please wait..",
+      autoDismissTimerSec: 1000
+    });
     try {
-      await getProfileUpdate({
+      await updateProfile({
         email: this.state.emailTemp
       });
+
+      if (this.state.email != this.state.emailTemp) {
+        this.setState({
+          isEmailVerified: false
+        });
+      }
       this.setState({
-        isEmailVisible: false,
         email: this.state.emailTemp
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message,
+        autoDismissTimerSec: 5
+      });
     }
   };
 
-  onSubmitlocation = async () => {
+  onSubmitLocation = async () => {
+    this.setState({
+      isLocationModalVisible: false
+    });
+    showSnackbar({
+      text: "changing address.. please wait..",
+      autoDismissTimerSec: 1000
+    });
+
     try {
-      await getProfileUpdate({
-        location: this.state.locationTemp
+      await updateProfile({
+        location: this.state.locationTemp,
+        latitude: this.state.latitude,
+        longitude: this.state.longitude
       });
       this.setState({
-        isLocationVisible: false,
         location: this.state.locationTemp
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message,
+        autoDismissTimerSec: 5
+      });
     }
   };
 
@@ -88,37 +147,70 @@ class ProfileScreen extends Component {
     this.props.navigator.pop();
   };
 
-  showModal = () => {
-    this.setState({
-      isNameVisible: true,
-      nameTemp: this.state.name
-    });
+  showNameEditModal = () => {
+    this.setState(
+      {
+        isNameModalVisible: true,
+        nameTemp: this.state.name
+      },
+      () => {
+        this.nameInput.focus();
+      }
+    );
   };
 
-  showMail = () => {
-    this.setState({
-      isEmailVisible: true,
-      emailTemp: this.state.email
-    });
+  showEmailEditModal = () => {
+    this.setState(
+      {
+        isEmailModalVisible: true,
+        emailTemp: this.state.email
+      },
+      () => {
+        this.emailInput.focus();
+      }
+    );
   };
 
-  showLocation = () => {
-    this.setState({
-      isLocationVisible: true,
-      locationTemp: this.state.location
-    });
+  showLocationEditModal = () => {
+    this.setState(
+      {
+        isLocationModalVisible: true,
+        locationTemp: this.state.location
+      },
+      () => {
+        this.locationInput.focus();
+      }
+    );
   };
 
   closeModal = () => {
     this.setState({
-      isNameVisible: false,
-      isEmailVisible: false,
-      isLocationVisible: false
+      isNameModalVisible: false,
+      isEmailModalVisible: false,
+      isLocationModalVisible: false
     });
   };
 
   render() {
     const profile = this.props.profile;
+    const {
+      isNameModalVisible,
+      isEmailModalVisible,
+      isLocationModalVisible,
+      name,
+      phone,
+      email,
+      isEmailVerified,
+      location,
+      nameTemp,
+      emailTemp,
+      locationTemp
+    } = this.state;
+
+    let showEmailVerifyText = false;
+    if (email) {
+      showEmailVerifyText = true;
+    }
     return (
       <ScreenContainer style={styles.container}>
         <TouchableOpacity
@@ -132,137 +224,145 @@ class ProfileScreen extends Component {
         </TouchableOpacity>
         <Header profile={profile} />
         <View style={styles.information}>
-          <TouchableOpacity style={styles.field} onPress={this.showModal}>
+          <TouchableOpacity
+            style={styles.field}
+            onPress={this.showNameEditModal}
+          >
             <Text style={styles.fieldName}>Name</Text>
             <Text style={styles.fieldValue} weight="Medium">
-              {this.state.name}
+              {name}
             </Text>
           </TouchableOpacity>
           <View style={styles.field}>
             <Text style={styles.fieldName}>Phone Number</Text>
             <Text style={styles.fieldValue} weight="Medium">
-              {this.state.phone}
+              {phone}
             </Text>
           </View>
-          <TouchableOpacity style={styles.field} onPress={this.showMail}>
-            <Text style={styles.fieldName}>Email</Text>
+          <TouchableOpacity
+            style={styles.field}
+            onPress={this.showEmailEditModal}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text style={[styles.fieldName, { flex: 1 }]}>Email</Text>
+              {showEmailVerifyText &&
+                isEmailVerified && (
+                  <Text
+                    weight="Medium"
+                    style={{ fontSize: 12, color: "green" }}
+                  >
+                    Verified
+                  </Text>
+                )}
+              {showEmailVerifyText &&
+                !isEmailVerified && (
+                  <Text weight="Medium" style={{ fontSize: 12, color: "red" }}>
+                    Not Verified
+                  </Text>
+                )}
+            </View>
             <Text style={styles.fieldValue} weight="Medium">
-              {this.state.email}
+              {email}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.field} onPress={this.showLocation}>
+          <TouchableOpacity
+            style={styles.field}
+            onPress={this.showLocationEditModal}
+          >
             <Text style={styles.fieldName}>Address</Text>
             <Text style={styles.fieldValue} weight="Medium">
-              {this.state.location}
+              {location}
             </Text>
           </TouchableOpacity>
         </View>
 
-        <Modal isVisible={this.state.isNameVisible}>
-          <View>
-            <View
-              style={{ height: 200, backgroundColor: "white", padding: 20 }}
+        <Modal
+          avoidKeyboard={true}
+          onBackdropPress={this.closeModal}
+          useNativeDriver={true}
+          isVisible={isNameModalVisible}
+        >
+          <View keyboardVerticalOffset={20} style={styles.modal}>
+            <TouchableOpacity
+              onPress={this.closeModal}
+              style={styles.modalCloseBtn}
             >
-              <TouchableOpacity
-                onPress={this.closeModal}
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "flex-end"
-                }}
-              >
-                <Image
-                  style={{
-                    height: 12,
-                    width: 12
-                  }}
-                  source={require("../../images/ic_close.png")}
-                />
-              </TouchableOpacity>
-              <Text style={styles.name}>Your Name</Text>
-              <TextInput
-                value={this.state.nameTemp}
-                onChangeText={text => this.setState({ nameTemp: text })}
-                style={{ fontSize: 16, color: "#3b3b3b", marginBottom: 30 }}
-              />
-              <Button
-                text="SAVE & UPDATE"
-                color="secondary"
-                onPress={this.onSubmitname}
-              />
-            </View>
+              <Image style={styles.modalCrossIcon} source={crossIcon} />
+            </TouchableOpacity>
+            <Text style={styles.name}>Your Name</Text>
+            <TextInput
+              onSubmitEditing={this.onSubmitName}
+              ref={ref => (this.nameInput = ref)}
+              value={nameTemp}
+              onChangeText={text => this.setState({ nameTemp: text })}
+              style={styles.modalTextInput}
+            />
+            <Button
+              text="SAVE & UPDATE"
+              color="secondary"
+              onPress={this.onSubmitName}
+            />
           </View>
         </Modal>
 
-        <Modal isVisible={this.state.isEmailVisible}>
-          <View>
-            <View
-              style={{ height: 200, backgroundColor: "white", padding: 20 }}
+        <Modal
+          avoidKeyboard={true}
+          onBackdropPress={this.closeModal}
+          useNativeDriver={true}
+          isVisible={isEmailModalVisible}
+        >
+          <View keyboardVerticalOffset={20} style={styles.modal}>
+            <TouchableOpacity
+              onPress={this.closeModal}
+              style={styles.modalCloseBtn}
             >
-              <TouchableOpacity
-                onPress={this.closeModal}
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "flex-end"
-                }}
-              >
-                <Image
-                  style={{
-                    height: 12,
-                    width: 12
-                  }}
-                  source={require("../../images/ic_close.png")}
-                />
-              </TouchableOpacity>
-              <Text style={styles.name}>Your Email</Text>
-              <TextInput
-                value={this.state.emailTemp}
-                onChangeText={text => this.setState({ emailTemp: text })}
-                style={{ fontSize: 16, color: "#3b3b3b", marginBottom: 30 }}
-              />
-              <Button
-                text="SAVE & UPDATE"
-                color="secondary"
-                onPress={this.onSubmitemail}
-              />
-            </View>
+              <Image style={styles.modalCrossIcon} source={crossIcon} />
+            </TouchableOpacity>
+            <Text style={styles.name}>Your Email</Text>
+            <TextInput
+              onSubmitEditing={this.onSubmitEmail}
+              keyboardType="email-address"
+              ref={ref => (this.emailInput = ref)}
+              value={emailTemp}
+              onChangeText={text => this.setState({ emailTemp: text })}
+              style={styles.modalTextInput}
+            />
+            <Button
+              text="SAVE & UPDATE"
+              color="secondary"
+              onPress={this.onSubmitEmail}
+            />
           </View>
         </Modal>
 
-        <Modal isVisible={this.state.isLocationVisible}>
-          <View>
-            <View
-              style={{ height: 200, backgroundColor: "white", padding: 20 }}
+        <Modal
+          avoidKeyboard={true}
+          onBackdropPress={this.closeModal}
+          useNativeDriver={true}
+          isVisible={isLocationModalVisible}
+        >
+          <View keyboardVerticalOffset={20} style={styles.modal}>
+            <TouchableOpacity
+              onPress={this.closeModal}
+              style={styles.modalCloseBtn}
             >
-              <TouchableOpacity
-                onPress={this.closeModal}
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "flex-end"
-                }}
-              >
-                <Image
-                  style={{
-                    height: 12,
-                    width: 12
-                  }}
-                  source={require("../../images/ic_close.png")}
-                />
-              </TouchableOpacity>
-              <Text style={styles.name}>Your Location</Text>
-              <TextInput
-                value={this.state.locationTemp}
-                onChangeText={text => this.setState({ locationTemp: text })}
-                style={{ fontSize: 16, color: "#3b3b3b", marginBottom: 30 }}
-              />
-              <Button
-                text="SAVE & UPDATE"
-                color="secondary"
-                onPress={this.onSubmitlocation}
-              />
-            </View>
+              <Image style={styles.modalCrossIcon} source={crossIcon} />
+            </TouchableOpacity>
+            <Text style={styles.name}>Your Address</Text>
+            <TextInput
+              multiline={true}
+              autogrow={true}
+              maxHeight={100}
+              ref={ref => (this.locationInput = ref)}
+              value={locationTemp}
+              onChangeText={text => this.setState({ locationTemp: text })}
+              style={styles.modalTextInput}
+            />
+            <Button
+              text="SAVE & UPDATE"
+              color="secondary"
+              onPress={this.onSubmitLocation}
+            />
           </View>
         </Modal>
       </ScreenContainer>
@@ -307,6 +407,32 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 12,
     color: "#9c9c9c"
+  },
+  modal: {
+    padding: 20,
+    backgroundColor: "#fff",
+    borderRadius: 6
+  },
+  modalCloseBtn: {
+    position: "absolute",
+    top: 5,
+    right: 5,
+    width: 30,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  modalCrossIcon: {
+    width: 16,
+    height: 16
+  },
+  modalTextInput: {
+    backgroundColor: "#fff",
+    borderColor: "#ececec",
+    borderWidth: 1,
+    marginVertical: 10,
+    padding: 10,
+    borderRadius: 5
   }
 });
 
