@@ -117,6 +117,34 @@ export const uploadProfilePic = async (file, onUploadProgress) => {
   }
 };
 
+export const fetchFile = async url => {
+  try {
+    let headers = {};
+    const token = store.getState().loggedInUser.authToken;
+    if (token) {
+      headers.Authorization = token;
+    }
+
+    const r = await axios.request({
+      baseURL: API_BASE_URL,
+      method: "get",
+      url: url,
+      headers: {
+        ...headers
+      },
+      responseType: "arraybuffer"
+    });
+    return new Buffer(r.data, "binary").toString("base64");
+  } catch (e) {
+    if (e.response) {
+      throw new Error(e.response.data.message);
+    } else {
+      throw e.message;
+    }
+    throw e;
+  }
+};
+
 export const consumerGetOtp = async PhoneNo => {
   return await apiRequest({
     method: "post",

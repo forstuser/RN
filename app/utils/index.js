@@ -18,4 +18,25 @@ const isImageFileType = fileType => {
   return imageFileTypes.indexOf(fileType.toLowerCase()) > -1;
 };
 
-export { getProductMetasString, isImageFileType };
+const getMimeTypeByExtension = ext => {
+  const extensionMimeTypeMap = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    bmp: "image/bmp",
+    txt: "text/plain",
+    pdf: "application/pdf",
+    doc: "application/pdf",
+    docx:
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    rtf: "text/richtext",
+    xls: "application/vnd.ms-excel",
+    xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  };
+  if (Object.keys(extensionMimeTypeMap).indexOf(ext)) {
+    return extensionMimeTypeMap[ext];
+  }
+  return "";
+};
+
+export { getProductMetasString, isImageFileType, getMimeTypeByExtension };

@@ -1,54 +1,114 @@
 import React, { Component } from "react";
 import {
+  Platform,
   StyleSheet,
   View,
   FlatList,
   Alert,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  CameraRoll
 } from "react-native";
 import moment from "moment";
 import ScrollableTabView from "react-native-scrollable-tab-view";
+import RNFetchBlob from "react-native-fetch-blob";
+import Share from "react-native-share";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
-import { API_BASE_URL } from "../../api";
-import { isImageFileType } from "../../utils";
+import { API_BASE_URL, fetchFile } from "../../api";
+import { isImageFileType, getMimeTypeByExtension } from "../../utils";
+import { showSnackbar, hideSnackbar } from "../snackbar";
 
 const fileIcon = require("../../images/ic_file.png");
 const billDownloadIcon = require("../../images/ic_bill_download.png");
 const shareIcon = require("../../images/ic_share_white.png");
 
-const BillCopyItem = ({ billId, copy, index, total }) => (
-  <View style={styles.bill}>
-    <View style={styles.billCountTextWrapper}>
-      <Text style={styles.billCountText}>
-        {index + 1} of {total}
-      </Text>
-    </View>
-    {isImageFileType(copy.file_type) && (
-      <AsyncImage
-        style={styles.billImage}
-        uri={API_BASE_URL + "/" + copy.copyUrl}
-      />
-    )}
-    {!isImageFileType(copy.file_type) && (
-      <View style={styles.file}>
-        <Image style={styles.fileIcon} source={fileIcon} />
-        <Text weight="Medium" style={styles.fileName}>
-          {!isNaN(billId) && "Bill_" + copy.copyId}
-          {isNaN(billId) && billId}
+const BillCopyItem = ({ billId, copy, index, total }) => {
+  const onDownloadPress = () => {
+    if (Platform.OS === "ios") {
+      if (isImageFileType(copy.file_type)) {
+        showSnackbar({
+          text: "Downloading image.. please wait..",
+          autoDismissTimerSec: 1000
+        });
+        fetchFile(copy.copyUrl)
+          .then(base64Data => {
+            let mimeType = getMimeTypeByExtension(copy.file_type);
+            const base64Image = `data:${mimeType};base64,${base64Data}`;
+            CameraRoll.saveToCameraRoll(base64Image).then(
+              showSnackbar({
+                text: "Image downloaded, check 'Photos' app!",
+                autoDismissTimerSec: 10
+              })
+            );
+          })
+          .catch(e => {
+            showSnackbar({
+              text: "Some error ocurred in downloading!",
+              autoDismissTimerSec: 10
+            });
+          });
+      }
+    }
+  };
+  const onSharePress = () => {
+    if (Platform.OS === "ios") {
+      showSnackbar({
+        text: "Downloading file to share.. please wait..",
+        autoDismissTimerSec: 1000
+      });
+      fetchFile(copy.copyUrl)
+        .then(base64Data => {
+          hideSnackbar();
+          let mimeType = getMimeTypeByExtension(copy.file_type);
+          const base64File = `data:${mimeType};base64,${base64Data}`;
+          Share.open({
+            url: base64File,
+            type: mimeType
+          }).catch(e => {});
+        })
+        .catch(e => {
+          showSnackbar({
+            text: "Some error ocurred in downloading!",
+            autoDismissTimerSec: 10
+          });
+        });
+    }
+  };
+  return (
+    <View style={styles.bill}>
+      <View style={styles.billCountTextWrapper}>
+        <Text style={styles.billCountText}>
+          {index + 1} of {total}
         </Text>
       </View>
-    )}
-    <View style={styles.optionsWrapper}>
-      <TouchableOpacity style={styles.option}>
-        <Image style={styles.optionIcon} source={billDownloadIcon} />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.option}>
-        <Image style={styles.optionIcon} source={shareIcon} />
-      </TouchableOpacity>
+      {isImageFileType(copy.file_type) && (
+        <AsyncImage
+          style={styles.billImage}
+          uri={API_BASE_URL + "/" + copy.copyUrl}
+        />
+      )}
+      {!isImageFileType(copy.file_type) && (
+        <View style={styles.file}>
+          <Image style={styles.fileIcon} source={fileIcon} />
+          <Text weight="Medium" style={styles.fileName}>
+            {!isNaN(billId) && "Bill_" + copy.copyId}
+            {isNaN(billId) && billId}
+          </Text>
+        </View>
+      )}
+      <View style={styles.optionsWrapper}>
+        {isImageFileType(copy.file_type) && (
+          <TouchableOpacity style={styles.option} onPress={onDownloadPress}>
+            <Image style={styles.optionIcon} source={billDownloadIcon} />
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity style={styles.option} onPress={onSharePress}>
+          <Image style={styles.optionIcon} source={shareIcon} />
+        </TouchableOpacity>
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   bill: {

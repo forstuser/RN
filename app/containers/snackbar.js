@@ -23,6 +23,10 @@ const showSnackbar = ({ text = "", autoDismissTimerSec = 5 }) => {
   });
 };
 
+const hideSnackbar = () => {
+  Navigation.dismissInAppNotification();
+};
+
 class Snackbar extends React.Component {
   render() {
     const { text, navigator } = this.props;
@@ -33,12 +37,7 @@ class Snackbar extends React.Component {
             {text}
           </Text>
         </View>
-        <TouchableOpacity
-          style={styles.okBtn}
-          onPress={() => {
-            navigator.dismissInAppNotification();
-          }}
-        >
+        <TouchableOpacity style={styles.okBtn} onPress={hideSnackbar}>
           <Text
             weight="Bold"
             style={{ fontSize: 16, color: colors.pinkishOrange }}
@@ -78,4 +77,4 @@ const styles = StyleSheet.create({
 });
 
 export default Snackbar;
-export { showSnackbar };
+export { showSnackbar, hideSnackbar };

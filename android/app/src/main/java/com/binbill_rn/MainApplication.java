@@ -3,6 +3,8 @@ package com.binbill_rn;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import cl.json.RNSharePackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
@@ -35,7 +37,8 @@ public class MainApplication extends NavigationApplication {
     return Arrays.<ReactPackage>asList(
         // eg. new VectorIconsPackage()
         new RNI18nPackage(), new LinearGradientPackage(), new RNPdfScannerPackage(), new SvgPackage(),
-        new RNGestureHandlerPackage(), new ReactNativeDocumentPicker(), new PickerPackage());
+        new RNGestureHandlerPackage(), new ReactNativeDocumentPicker(), new PickerPackage(), new RNFetchBlobPackage(),
+        new BlurViewPackage());
   }
 
   @Override
@@ -53,7 +56,8 @@ public class MainApplication extends NavigationApplication {
   //   protected List<ReactPackage> getPackages() {
   //     return Arrays.<ReactPackage>asList(
   //         new MainReactPackage(),
-            new BlurViewPackage(),
+            new RNSharePackage(),
+
   //     );
   //   }
 
