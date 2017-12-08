@@ -79,8 +79,16 @@ AppButton.propTypes = {
   type: PropTypes.oneOf(["normal", "outline"]),
   state: PropTypes.oneOf(["normal", "disabled"]),
   text: PropTypes.string,
-  style: View.propTypes.style,
-  textStyle: Text.propTypes.style
+  style: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.object,
+    PropTypes.array
+  ]),
+  textStyle: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.object,
+    PropTypes.array
+  ])
 };
 
 export default AppButton;

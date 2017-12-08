@@ -60,6 +60,8 @@ class Filters extends Component {
       {
         choosenCategoryIds: [...this.state.choosenCategoryIdsTemp],
         choosenBrandIds: [...this.state.choosenBrandIdsTemp],
+        choosenOfflineSellerIds: [...this.state.choosenOfflineSellerIdsTemp],
+        choosenOnlineSellerIds: [...this.state.choosenOnlineSellerIdsTemp],
         isModalVisible: false
       },
       async () => await this.applyFilters()
@@ -70,7 +72,9 @@ class Filters extends Component {
     await this.props.applyFilters({
       pageNo: 1,
       categoryIds: this.state.choosenCategoryIds,
-      brandIds: this.state.choosenBrandIds
+      brandIds: this.state.choosenBrandIds,
+      offlineSellerIds: this.state.choosenOfflineSellerIds,
+      onlineSellerIds: this.state.choosenOnlineSellerIds
     });
   };
 
@@ -98,6 +102,35 @@ class Filters extends Component {
     this.setState({
       choosenBrandIdsTemp
     });
+  };
+
+  onSellerClick = typeAndId => {
+    const separated = typeAndId.split("-");
+    const type = separated[0];
+    const id = +separated[1];
+    if (type == "offline") {
+      let { choosenOfflineSellerIdsTemp } = this.state;
+      const idx = choosenOfflineSellerIdsTemp.indexOf(id);
+      if (idx > -1) {
+        choosenOfflineSellerIdsTemp.splice(idx, 1);
+      } else {
+        choosenOfflineSellerIdsTemp.push(id);
+      }
+      this.setState({
+        choosenOfflineSellerIdsTemp
+      });
+    } else if (type == "online") {
+      let { choosenOnlineSellerIdsTemp } = this.state;
+      const idx = choosenOnlineSellerIdsTemp.indexOf(id);
+      if (idx > -1) {
+        choosenOnlineSellerIdsTemp.splice(idx, 1);
+      } else {
+        choosenOnlineSellerIdsTemp.push(id);
+      }
+      this.setState({
+        choosenOnlineSellerIdsTemp
+      });
+    }
   };
 
   renderCategoryItem = ({ item }) => {
@@ -132,6 +165,32 @@ class Filters extends Component {
     );
   };
 
+  renderSellerItem = ({ item }) => {
+    return (
+      <CheckBox
+        style={{ paddingVertical: 10, paddingHorizontal: 16 }}
+        onClick={() => this.onSellerClick(item.typeAndId)}
+        isChecked={this.isSelectedSeller(item.typeAndId)}
+        leftTextView={
+          <Text weight="Medium" style={{ flex: 1 }}>
+            {item.name}
+          </Text>
+        }
+        checkBoxColor={colors.mainBlue}
+      />
+    );
+  };
+
+  isSelectedSeller = typeAndId => {
+    const separated = typeAndId.split("-");
+    const type = separated[0];
+    const id = +separated[1];
+    if (type == "offline") {
+      return this.state.choosenOfflineSellerIds.indexOf(id) > -1;
+    }
+    return this.state.choosenOnlineSellerIds.indexOf(id) > -1;
+  };
+
   removeAppliedFilter = (type, id) => {
     let idx = -1;
     switch (type) {
@@ -161,18 +220,51 @@ class Filters extends Component {
           async () => await this.applyFilters()
         );
         break;
+      case "online-seller":
+        let { choosenOnlineSellerIds } = this.state;
+        idx = choosenOnlineSellerIds.indexOf(id);
+        if (idx > -1) {
+          choosenOnlineSellerIds.splice(idx, 1);
+        }
+        this.setState(
+          {
+            choosenOnlineSellerIds
+          },
+          async () => await this.applyFilters()
+        );
+        break;
+      case "offline-seller":
+        let { choosenOfflineSellerIds } = this.state;
+        idx = choosenOfflineSellerIds.indexOf(id);
+        if (idx > -1) {
+          choosenOfflineSellerIds.splice(idx, 1);
+        }
+        this.setState(
+          {
+            choosenOfflineSellerIds
+          },
+          async () => await this.applyFilters()
+        );
+        break;
     }
   };
 
   render() {
     const { categories, brands, onlineSellers, offlineSellers } = this.props;
+    const sellers = [
+      ...onlineSellers.map(seller => {
+        return { typeAndId: "online-" + seller.id, name: seller.name };
+      }),
+      ...offlineSellers.map(seller => {
+        return { typeAndId: "offline-" + seller.id, name: seller.name };
+      })
+    ];
     const {
       choosenCategoryIds,
       choosenBrandIds,
       choosenOnlineSellerIds,
       choosenOfflineSellerIds
     } = this.state;
-
     const AppliedFilterItem = ({ type, id, text }) => (
       <LinearGradient
         start={{ x: 0.0, y: 0.1 }}
@@ -225,6 +317,32 @@ class Filters extends Component {
               );
             }
           })}
+
+          {onlineSellers.map((seller, index) => {
+            if (choosenOnlineSellerIds.indexOf(seller.id) > -1) {
+              return (
+                <AppliedFilterItem
+                  key={index}
+                  type="online-seller"
+                  id={seller.id}
+                  text={seller.sellerName}
+                />
+              );
+            }
+          })}
+
+          {offlineSellers.map((seller, index) => {
+            if (choosenOfflineSellerIds.indexOf(seller.id) > -1) {
+              return (
+                <AppliedFilterItem
+                  key={index}
+                  type="offline-seller"
+                  id={seller.id}
+                  text={seller.sellerName}
+                />
+              );
+            }
+          })}
         </ScrollView>
         <Modal isVisible={this.state.isModalVisible}>
           <View style={styles.modal}>
@@ -252,7 +370,7 @@ class Filters extends Component {
                 <FlatList
                   style={{ height: 200 }}
                   data={categories}
-                  keyExtractor={(item, index) => item.id}
+                  keyExtractor={(item, index) => index}
                   renderItem={this.renderCategoryItem}
                 />
               </Collapsible>
@@ -260,8 +378,16 @@ class Filters extends Component {
                 <FlatList
                   style={{ maxHeight: 200 }}
                   data={brands}
-                  keyExtractor={(item, index) => item.brandId}
+                  keyExtractor={(item, index) => index}
                   renderItem={this.renderBrandItem}
+                />
+              </Collapsible>
+              <Collapsible headerText="Sellers">
+                <FlatList
+                  style={{ maxHeight: 200 }}
+                  data={sellers}
+                  keyExtractor={(item, index) => index}
+                  renderItem={this.renderSellerItem}
                 />
               </Collapsible>
             </View>

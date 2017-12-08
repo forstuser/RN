@@ -21,6 +21,12 @@ class CategoryWithFilters extends Component {
     super(props);
     this.state = {
       filersFetched: false,
+      filters: {
+        categories: [],
+        brands: [],
+        offlineSellers: [],
+        onlineSellers: []
+      },
       appliedFilters: {
         pageNo: 1,
         categoryIds: [],
@@ -81,7 +87,12 @@ class CategoryWithFilters extends Component {
         products: res.productList
       };
       if (!this.state.filersFetched) {
-        newState.filters = res.filterData;
+        newState.filters = {
+          categories: res.filterData.categories,
+          brands: res.filterData.brands,
+          offlineSellers: res.filterData.sellers.offlineSellers,
+          onlineSellers: res.filterData.sellers.onlineSellers
+        };
         newState.filersFetched = true;
       }
       this.setState(newState);

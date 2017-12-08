@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.binbill_rn"
+    package="com.bin.binbillcustomer"
     android:versionCode="1"
     android:versionName="1.0">
 

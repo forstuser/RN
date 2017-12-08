@@ -1,11 +1,11 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'BinBill_RN' do
+target 'BinBill' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
 
-  # Pods for BinBill_RN
+  # Pods for BinBill
   pod 'RSKImageCropper'
   pod 'QBImagePickerController'
 
@@ -15,22 +15,20 @@ target 'BinBill_RN' do
 
   pod 'RNShare', :path => '../node_modules/react-native-share'
 
-  target 'BinBill_RNTests' do
+  target 'BinBillTests' do
     inherit! :search_paths
     # Pods for testing
-    pod 'RSKImageCropper'
-    pod 'QBImagePickerController'
   end
 
 end
 
-target 'BinBill_RN-tvOS' do
+target 'BinBill-tvOS' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
 
-  # Pods for BinBill_RN-tvOS
+  # Pods for BinBill-tvOS
 
-  target 'BinBill_RN-tvOSTests' do
+  target 'BinBill-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

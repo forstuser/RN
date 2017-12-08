@@ -29,7 +29,11 @@ const AppText = props => {
 AppText.propTypes = {
   weight: PropTypes.oneOf(["Regular", "Light", "Medium", "Bold"]),
   children: PropTypes.node,
-  style: Text.propTypes.style
+  style: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.object,
+    PropTypes.array
+  ])
 };
 
 export default AppText;

@@ -3,7 +3,7 @@ import { TextInput, Alert } from "react-native";
 
 import { connect } from "react-redux";
 
-import { consumerValidate } from "../api";
+import { consumerValidate, consumerGetOtp } from "../api";
 import LoadingOverlay from "../components/loading-overlay";
 import { openAppScreen } from "../navigation";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
@@ -11,7 +11,19 @@ import { ScreenContainer, Text, Button } from "../elements";
 import { colors } from "../theme";
 import I18n from "../i18n";
 
+import { showSnackbar } from "./snackbar";
+
 class VerifyScreen extends Component {
+  static navigatorButtons = {
+    rightButtons: [
+      {
+        title: "RESEND OTP",
+        id: "resendOtp",
+        buttonColor: colors.pinkishOrange, // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
+        buttonFontWeight: "600" // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
+      }
+    ]
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +35,35 @@ class VerifyScreen extends Component {
     this.props.navigator.setTitle({
       title: I18n.t("verify_screen_title")
     });
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
+  onNavigatorEvent = event => {
+    if (event.type == "NavBarButtonPress") {
+      if (event.id == "resendOtp") {
+        this.onResendOtp();
+      }
+    }
+  };
+
+  onResendOtp = async () => {
+    this.otpInput.blur();
+    try {
+      this.setState({
+        isVerifyingOtp: true
+      });
+      await consumerGetOtp(this.props.phoneNumber);
+
+      showSnackbar({
+        text: "OTP sent again successfully!!"
+      });
+    } catch (e) {
+      Alert.alert(e.message);
+    }
+    this.setState({
+      isVerifyingOtp: false
+    });
+  };
 
   onSubmitOtp = async () => {
     if (this.state.otp.length != 6) {
@@ -56,6 +96,7 @@ class VerifyScreen extends Component {
           })}
         </Text>
         <TextInput
+          ref={ref => (this.otpInput = ref)}
           autoFocus={true}
           style={{
             height: 60,

@@ -7,264 +7,268 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		098F2373EF6B7E757D552015C4282DD0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0A2E3E1F9F378C8C151EB1819159F5 /* Foundation.framework */; };
-		0A710D29E58AE76A2AA0F3B2C742DAE2 /* RSKTouchView.h in Headers */ = {isa = PBXBuildFile; fileRef = E21E5A708959E95725B8A9019D2F3779 /* RSKTouchView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E6A36B06D1A7AC51DADFF4FD93C0809 /* CGGeometry+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFF2D7B5EB70415B79C41828FCA4261 /* CGGeometry+RSKImageCropper.m */; };
-		0F7F4AAD0CEB2DC78D4A26DC89D1BFA5 /* QBVideoIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 21EF674FDC92488386605CAB9B1A8AC5 /* QBVideoIconView.m */; };
-		1152384835EB0EFFE5620CFEE4EE99DF /* QBAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D2472569B2F382BF9E730CE0EA200 /* QBAssetCell.m */; };
-		1527EB108E34ACD2C7BC6FF2B424BEF5 /* RSKImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 463429696421EEA6E21F493967EFEC2F /* RSKImageScrollView.m */; };
-		19A1DF9A79C09E62092A519C823DD859 /* QBAssetCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BE12C772F499BD0FE387E55FF1ED9DF /* QBAssetCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		246E7EC0AB7D2AD9BA7ED78A1B1B93F6 /* Pods-BinBill_RN-tvOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DE133FF35D5B4ECC2A071AC817382A /* Pods-BinBill_RN-tvOS-dummy.m */; };
-		26AFCA93030CDC3F1C99ED9EAB5A6507 /* QBImagePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81DC1F5AC8CBFEF045EB3B8E42059069 /* QBImagePicker.storyboard */; };
-		30D67802C7CB3A1BBB45A47EB74CC380 /* QBImagePickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 53721BB92C5659BCFC6A90B4E911F7B8 /* QBImagePickerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3D379981808201D59EABB4EB260690BE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0DF84A88830EB0E705F6A8C96AE56F /* UIKit.framework */; };
-		3DFCE40424F042E9AACD23B4A37B1ECF /* RSKInternalUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B7BD7CD4B539262C3C18A319F7E74FE /* RSKInternalUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		483DE80400AF1237743389CF8FF95283 /* QBCheckmarkView.h in Headers */ = {isa = PBXBuildFile; fileRef = 68F65826A31434F93C10EEC34C8F9D46 /* QBCheckmarkView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		48C5409D0A0B08229B210C88BCCEB7DD /* QBVideoIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17084D43AF33CB4FECEDD2E8C38CAF37 /* QBVideoIndicatorView.m */; };
-		523C707E4763719B7E862F42AFE77239 /* RSKImageCropper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F78B99F9D83E242EF6F4AECC3362A7 /* RSKImageCropper-dummy.m */; };
-		527DE6CA2F5B9BF84510BF5251B5E1BD /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 602B9A92E42DA35A0A98F72819855B23 /* en.lproj */; };
-		59937D70A40EB28BD300A980702256FE /* QBAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6E47E34D264FAE16EBA0F7D0B9E0D3 /* QBAlbumCell.m */; };
-		5D2A7AD039BBEA1A82583E8BB25EA2D3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFAD62ECE621B1CB33733EB54A8A2CD8 /* Foundation.framework */; };
-		5EBE72C7EE7A9E540B838780C6C3498F /* ja.lproj in Resources */ = {isa = PBXBuildFile; fileRef = C39CBE63043006C21FF46F1CD00508DA /* ja.lproj */; };
-		61315262ED76FF3C1282D19DD572813E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFBE55F4B6909D9A396AFFC9774FF3CD /* QuartzCore.framework */; };
-		646D05E9848DED98743577A984DE9C43 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0A2E3E1F9F378C8C151EB1819159F5 /* Foundation.framework */; };
-		6551DFB44B3D88ED35C4D38CA316FFD3 /* RSKImageCropViewController+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BB891D6788F3315828C63B47EBC216B /* RSKImageCropViewController+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6C53EB7E58E7CAA0A3389AD4F70CB47F /* RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B99669007CF93974055F7B4C76836E5 /* RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E3996CE9EEBDB08681B18B6A25D55B3 /* Pods-BinBill_RN-tvOSTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 23263D4FB5B87A3BDCA479C8ACFB2935 /* Pods-BinBill_RN-tvOSTests-dummy.m */; };
-		6F6A759F6CADBB36574BA466D6D42C4D /* CGGeometry+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = 06113DBE00B0EC0D7BEAE2DC892A115A /* CGGeometry+RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6FCD82854DEF46A93D0EEE7CD126DA5A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFAD62ECE621B1CB33733EB54A8A2CD8 /* Foundation.framework */; };
-		7029148E88AC75740F5C527169C63CA6 /* RSKImageScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = B7EC8651EE7612D68FF29A1BE9E33767 /* RSKImageScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7D15DDC7806D2E620E4BD9AE90FB19CF /* QBAlbumsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A78E70770EB62BE43F5B77EE6470802C /* QBAlbumsViewController.m */; };
-		7FE3CA097039C0528E3AA8A25676F00A /* QBAlbumsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = EF9E0892076F6A8AD613E02ADF702693 /* QBAlbumsViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		80BF94ECD3A38862E52E74F4BFAF5981 /* QBVideoIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A00CDDC990B416D143CEC291198E192 /* QBVideoIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		80D7AA8843F902505ED839923A5B5EE8 /* zh-Hans.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 7BF0BD7FF52C0BD546A4D7CA29A3DD63 /* zh-Hans.lproj */; };
-		86A6986F0BA2145013528AC639AADC63 /* QBSlomoIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = E932AB75A47E4A462E932FFC72AA1254 /* QBSlomoIconView.m */; };
-		9818DC1AC183A75A4F38E29300BEA112 /* QBAssetsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7AD0EAB481BE8CF2D3058EC0D7AD76DB /* QBAssetsViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		992D6A4BF016DE710EEA2530E8BA2A16 /* QBSlomoIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F5FFDCB5AA65C6942CBAA005C0580E1 /* QBSlomoIconView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9F2B1E297B5D36662696A5EFF15DDB34 /* RSKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F26C1F1B22998AB9858F6AAE07FFD25F /* RSKImageCropViewController.m */; };
-		A0041B3E131FEC81AE04B2D065E566FB /* Pods-BinBill_RN-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F93F947224E3D318B0C48C8166B900CA /* Pods-BinBill_RN-dummy.m */; };
-		A0924974DAF93BB4C88C778D50C5AD6E /* QBAssetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDEF69358A918576137850CD57493584 /* QBAssetsViewController.m */; };
-		A5B3DC5D45910423478D52AFD536EB24 /* de.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 4F186EFD7DBC8910A7410D57D52DE691 /* de.lproj */; };
-		A7E57013427FBD831DBBC64FFDB75BBB /* UIImage+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C8F39D16BD2BADCCF41D429A3F5405 /* UIImage+RSKImageCropper.m */; };
-		B72687476919751459CA05017023F689 /* UIImage+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8691654C9688B1B4EADB24D09423ED8B /* UIImage+RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B74098C9672289923E19A9ADFA64E38D /* QBImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD941BF512665ACED0E9B96FF66CC3E6 /* QBImagePickerController.m */; };
-		B92F13BC66218BE7EF9FB0DA5EF1D539 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9275FAEB319F81CDD06939F62B9E1CF /* Photos.framework */; };
-		BD679DF495E731BA6AD82277C62E1FFB /* QBVideoIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E4A9EC3199121417E987746562D97E8 /* QBVideoIconView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BF44BDD5120D21EA41F13E223A69D64E /* es.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 097E9BBED84D7E11A0E080FCD77E9CDA /* es.lproj */; };
-		BFEB2B10C9CA01FB454451BC90E48A21 /* UIApplication+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F9D5C2A886E8E191844E3E103B9EB8 /* UIApplication+RSKImageCropper.m */; };
-		C6BE572510B4C221841DAE8AF4A9BB01 /* QBAlbumCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 52E29FCE81A268F6C80E9F4B1D0B42F5 /* QBAlbumCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C7D2BA1627374300C1A031C6A0323DFE /* Pods-BinBill_RNTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 618EE097FF5E1EC21678E8595DBADD95 /* Pods-BinBill_RNTests-dummy.m */; };
-		E43B455A11CEC9365B76784C187121E9 /* QBCheckmarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = D03BE6A2275D9AE51EDBCC22C69F2527 /* QBCheckmarkView.m */; };
-		F26DCDE6F43105A6F8C16957B22D4CA8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0A2E3E1F9F378C8C151EB1819159F5 /* Foundation.framework */; };
-		F58698D2530920C591DC8E5C8CC968D9 /* RSKTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B7A558A10588B651E2F9926C902DE7 /* RSKTouchView.m */; };
-		F89B89DA8925801C337854E7A57CF5BA /* RSKInternalUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = DA05DF8799E06EDC0935DF714B4605EB /* RSKInternalUtility.m */; };
-		F9AD765F6A7E8CFD9AFF9300B9590C45 /* QBImagePickerController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76BEEAF70BEB66F52CFF73F54006B7 /* QBImagePickerController-dummy.m */; };
-		F9FAC5B0129099A70B28766D7FA10374 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0A2E3E1F9F378C8C151EB1819159F5 /* Foundation.framework */; };
-		FA333E5B8814C9E636B936CD0BAD69AC /* UIApplication+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = A46A38D8419823D3EAB40838B556FC50 /* UIApplication+RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FBF131AE3187109B078B6408CC5C9C56 /* RSKImageCropViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FB5CD3D57FCA06FB4FAF8CEFCA2A45 /* RSKImageCropViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		097DA304AA1C9D8652A2DA39574D6E90 /* QBAlbumCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 52E29FCE81A268F6C80E9F4B1D0B42F5 /* QBAlbumCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0B9B52F23DFF72A1B20AE4A1FD003A99 /* QBAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6E47E34D264FAE16EBA0F7D0B9E0D3 /* QBAlbumCell.m */; };
+		1D8F26F74D2ABCB1D72527E56F77B5B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFAD62ECE621B1CB33733EB54A8A2CD8 /* Foundation.framework */; };
+		1FB7A3F08AA8D31D63EB8FF656862252 /* QBAssetsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7AD0EAB481BE8CF2D3058EC0D7AD76DB /* QBAssetsViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2626D6CFFFE2FE7AF61FAFBA7F96AF24 /* QBCheckmarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = D03BE6A2275D9AE51EDBCC22C69F2527 /* QBCheckmarkView.m */; };
+		26AFE97E12BF67054A957E1C20C577B8 /* es.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 097E9BBED84D7E11A0E080FCD77E9CDA /* es.lproj */; };
+		26F2FBCE85952BCA90243992DFCD0371 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0A2E3E1F9F378C8C151EB1819159F5 /* Foundation.framework */; };
+		31A3BAE2DF28398596EB73ECDD08B99C /* CGGeometry+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = 06113DBE00B0EC0D7BEAE2DC892A115A /* CGGeometry+RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		349A1AB2482AA1644C182A431AC96832 /* RSKInternalUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B7BD7CD4B539262C3C18A319F7E74FE /* RSKInternalUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3502D37126E5AA8F700E56D9A940ECFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0DF84A88830EB0E705F6A8C96AE56F /* UIKit.framework */; };
+		367420213386DA9E1ADC2E9D565C3BFE /* RSKTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B7A558A10588B651E2F9926C902DE7 /* RSKTouchView.m */; };
+		38A0C2992CAA7CE46604791B2CC700FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0A2E3E1F9F378C8C151EB1819159F5 /* Foundation.framework */; };
+		39FFA9F9C0407AE88159B7C5758E50BD /* zh-Hans.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 7BF0BD7FF52C0BD546A4D7CA29A3DD63 /* zh-Hans.lproj */; };
+		3D7E755EC29C67D8120A68C29508E75B /* RSKInternalUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = DA05DF8799E06EDC0935DF714B4605EB /* RSKInternalUtility.m */; };
+		4F4D8797C996E356976BBC94E8ADC5CE /* UIImage+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C8F39D16BD2BADCCF41D429A3F5405 /* UIImage+RSKImageCropper.m */; };
+		532178EC3A7E6EE2D5C82D3F46FB9C0F /* de.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 4F186EFD7DBC8910A7410D57D52DE691 /* de.lproj */; };
+		5A4D058BA53D8598FBCB98C4554FEFFD /* CGGeometry+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFF2D7B5EB70415B79C41828FCA4261 /* CGGeometry+RSKImageCropper.m */; };
+		5CF9FFF7D6F198F0FB78DD71C6D3C9F0 /* QBAssetCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BE12C772F499BD0FE387E55FF1ED9DF /* QBAssetCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		61B816D50B680263BB38B9185B275287 /* RSKImageCropper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F78B99F9D83E242EF6F4AECC3362A7 /* RSKImageCropper-dummy.m */; };
+		6426C1BFFB5C80584647BA54F2197541 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 602B9A92E42DA35A0A98F72819855B23 /* en.lproj */; };
+		68D812C6F482B90A22BCAA87ADB84B9C /* QBVideoIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A00CDDC990B416D143CEC291198E192 /* QBVideoIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69E16031754741C6B25EED5AF05B4D65 /* RSKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F26C1F1B22998AB9858F6AAE07FFD25F /* RSKImageCropViewController.m */; };
+		6F11111D6190117B468CE50A9762F4F6 /* UIImage+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8691654C9688B1B4EADB24D09423ED8B /* UIImage+RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7056A19A2AF094C684CE682E9F4A1425 /* QBAssetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDEF69358A918576137850CD57493584 /* QBAssetsViewController.m */; };
+		76FF75B5E242DD04C86CF5F5724D388C /* Pods-BinBill-tvOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A9F5C6FB1A08DD1331D2CD6FEE187 /* Pods-BinBill-tvOS-dummy.m */; };
+		7A33BA046C9DD0F99E85F066F87BCC3E /* QBImagePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81DC1F5AC8CBFEF045EB3B8E42059069 /* QBImagePicker.storyboard */; };
+		8236FB1A5971CBE9D16DC236A46517CC /* QBSlomoIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = E932AB75A47E4A462E932FFC72AA1254 /* QBSlomoIconView.m */; };
+		8762F464AB98714A2303EDC69055F075 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFBE55F4B6909D9A396AFFC9774FF3CD /* QuartzCore.framework */; };
+		888B005DD8D74977C622762531BF7228 /* QBAlbumsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = EF9E0892076F6A8AD613E02ADF702693 /* QBAlbumsViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		97509884E22753A827B337F13AB597DF /* RSKImageCropViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FB5CD3D57FCA06FB4FAF8CEFCA2A45 /* RSKImageCropViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		987D7C0BE72DAFC29008E1CCAA2396C9 /* ja.lproj in Resources */ = {isa = PBXBuildFile; fileRef = C39CBE63043006C21FF46F1CD00508DA /* ja.lproj */; };
+		9CF9D3309425E0D2C95A3E7AB7A9414B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0A2E3E1F9F378C8C151EB1819159F5 /* Foundation.framework */; };
+		9D558C31B19BC33C6292EECE79847615 /* RSKImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 463429696421EEA6E21F493967EFEC2F /* RSKImageScrollView.m */; };
+		A276136DE13229D81C430705A95AAF20 /* QBAlbumsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A78E70770EB62BE43F5B77EE6470802C /* QBAlbumsViewController.m */; };
+		A786DFBAE1ED0BAFEDDF7049118BB91A /* RSKTouchView.h in Headers */ = {isa = PBXBuildFile; fileRef = E21E5A708959E95725B8A9019D2F3779 /* RSKTouchView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AACC844927F645450F55EFE6C078C267 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0A2E3E1F9F378C8C151EB1819159F5 /* Foundation.framework */; };
+		B391BF2269B57BBA7852C808043271E4 /* QBSlomoIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F5FFDCB5AA65C6942CBAA005C0580E1 /* QBSlomoIconView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B61F8B1900D33937FDD23C31217BC103 /* QBImagePickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 53721BB92C5659BCFC6A90B4E911F7B8 /* QBImagePickerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B8812F08418CD414DDE7F6C4591093DE /* Pods-BinBillTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEB08B188E133BB29A1C14A73BFB48E /* Pods-BinBillTests-dummy.m */; };
+		B982322C1DDDB0B59B07425A26FBBEBF /* QBVideoIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E4A9EC3199121417E987746562D97E8 /* QBVideoIconView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C5984E9A8EE99881AEA14CE42257DA72 /* QBAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D2472569B2F382BF9E730CE0EA200 /* QBAssetCell.m */; };
+		CF49D86D5DBA4F13FCAC6610B3D0E65C /* QBImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD941BF512665ACED0E9B96FF66CC3E6 /* QBImagePickerController.m */; };
+		D7302C86CD89E28D4763D7A520D39477 /* QBVideoIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17084D43AF33CB4FECEDD2E8C38CAF37 /* QBVideoIndicatorView.m */; };
+		D953A44B472837BBB2AB7308C98ABFD3 /* UIApplication+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = A46A38D8419823D3EAB40838B556FC50 /* UIApplication+RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DD683E4D85378875549988E05E964815 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9275FAEB319F81CDD06939F62B9E1CF /* Photos.framework */; };
+		E323AE8EC2AA9472DA9B5F13CEADBEA2 /* Pods-BinBill-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2BAC0E2261809D364DFF9F35836A96 /* Pods-BinBill-dummy.m */; };
+		E4D7AA5A80A7CD2ED921C002891E7521 /* RSKImageScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = B7EC8651EE7612D68FF29A1BE9E33767 /* RSKImageScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E57C3C090F027BF091A4C7FC63D9E35F /* RSKImageCropViewController+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BB891D6788F3315828C63B47EBC216B /* RSKImageCropViewController+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E80EF1566BF2992653B1A0685FB6E549 /* QBVideoIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 21EF674FDC92488386605CAB9B1A8AC5 /* QBVideoIconView.m */; };
+		E8A4DB6434A8923E9E373F82A1D6615D /* UIApplication+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F9D5C2A886E8E191844E3E103B9EB8 /* UIApplication+RSKImageCropper.m */; };
+		EF7E7F6FC078D0E3D874B24DE38348FC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFAD62ECE621B1CB33733EB54A8A2CD8 /* Foundation.framework */; };
+		F267100A41482FC7779F5A2A98D0407E /* Pods-BinBill-tvOSTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A9427B02A1E30A1A116276B6D0BDDB /* Pods-BinBill-tvOSTests-dummy.m */; };
+		F3C85ECDF76C5A1BBBF3893C5F49133F /* QBImagePickerController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76BEEAF70BEB66F52CFF73F54006B7 /* QBImagePickerController-dummy.m */; };
+		FA1BA155A371E4C75780A3F7904BBBED /* QBCheckmarkView.h in Headers */ = {isa = PBXBuildFile; fileRef = 68F65826A31434F93C10EEC34C8F9D46 /* QBCheckmarkView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FE959EF1DC1EDEBA2E3C622AD42A2C57 /* RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B99669007CF93974055F7B4C76836E5 /* RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5C7383824AE247139C23A53428CA0810 /* PBXContainerItemProxy */ = {
+		536668A0F5581C53C1B2B16A81F91136 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 279FA0C286DD235EDA65B89D152563A3;
-			remoteInfo = QBImagePickerController;
-		};
-		787209ECC1A637A36E70B270DE1AB1F3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 279FA0C286DD235EDA65B89D152563A3;
-			remoteInfo = QBImagePickerController;
-		};
-		A6CE9F55DB0D19E65186E3C8F00F2BC2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = ECD2F2BB7274D753F8A502A34C179561;
+			remoteGlobalIDString = FD157447E331587FECA92A6F379432D9;
 			remoteInfo = "QBImagePickerController-QBImagePicker";
 		};
-		B818C853BF84E44FC6E56A5A9F65B461 /* PBXContainerItemProxy */ = {
+		679B63FA4A54102A020B8ADBC8E70B5C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 29ED39AC73DBD7702D668099D5030BF1;
-			remoteInfo = RSKImageCropper;
+			remoteGlobalIDString = A420A31C1309B85854202A4BD6DCB1F5;
+			remoteInfo = QBImagePickerController;
 		};
-		EC2DE6F27BF9861821D6D9176A964566 /* PBXContainerItemProxy */ = {
+		BBA6E90D3228ACF81D548595E3080202 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 29ED39AC73DBD7702D668099D5030BF1;
+			remoteGlobalIDString = 890BAC4FC49C1CA2ED86BB7D464C0EE6;
 			remoteInfo = RSKImageCropper;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00D5121BF9F63AF8F17D7975ABCBD9B6 /* Pods-BinBill_RN-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill_RN-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		01741DFA6BA52A847A753D74ECA94CD7 /* Pods-BinBill.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill.release.xcconfig"; sourceTree = "<group>"; };
+		02D106E07284F3B1874FC3FEBFB5E452 /* Pods-BinBill-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		06113DBE00B0EC0D7BEAE2DC892A115A /* CGGeometry+RSKImageCropper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "CGGeometry+RSKImageCropper.h"; path = "RSKImageCropper/CGGeometry+RSKImageCropper.h"; sourceTree = "<group>"; };
+		083C36B34919003C0DEAE7A99C9F9B8A /* Pods-BinBillTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBillTests-frameworks.sh"; sourceTree = "<group>"; };
 		097E9BBED84D7E11A0E080FCD77E9CDA /* es.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = es.lproj; path = QBImagePicker/es.lproj; sourceTree = "<group>"; };
 		0B0A2E3E1F9F378C8C151EB1819159F5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		0BB891D6788F3315828C63B47EBC216B /* RSKImageCropViewController+Protected.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "RSKImageCropViewController+Protected.h"; path = "RSKImageCropper/RSKImageCropViewController+Protected.h"; sourceTree = "<group>"; };
 		0F5FFDCB5AA65C6942CBAA005C0580E1 /* QBSlomoIconView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QBSlomoIconView.h; path = QBImagePicker/QBSlomoIconView.h; sourceTree = "<group>"; };
+		0FEB08B188E133BB29A1C14A73BFB48E /* Pods-BinBillTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BinBillTests-dummy.m"; sourceTree = "<group>"; };
+		12786B18D72EB57FB6E53FF125D48CFD /* QBImagePicker.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = QBImagePicker.bundle; path = QBImagePicker.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		17084D43AF33CB4FECEDD2E8C38CAF37 /* QBVideoIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QBVideoIndicatorView.m; path = QBImagePicker/QBVideoIndicatorView.m; sourceTree = "<group>"; };
+		1A010942D583AC55F92548F26088BB58 /* Pods-BinBill-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BinBill-acknowledgements.markdown"; sourceTree = "<group>"; };
 		1B7BD7CD4B539262C3C18A319F7E74FE /* RSKInternalUtility.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RSKInternalUtility.h; path = RSKImageCropper/RSKInternalUtility.h; sourceTree = "<group>"; };
-		1BEB95085C4A5AF58C65683CF28CC5A2 /* Pods-BinBill_RN-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill_RN-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		1CD172FC093DFDC5296EDABDF432FBB3 /* Pods-BinBill_RN-tvOSTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BinBill_RN-tvOSTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		1E4A9EC3199121417E987746562D97E8 /* QBVideoIconView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QBVideoIconView.h; path = QBImagePicker/QBVideoIconView.h; sourceTree = "<group>"; };
 		1F6E47E34D264FAE16EBA0F7D0B9E0D3 /* QBAlbumCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QBAlbumCell.m; path = QBImagePicker/QBAlbumCell.m; sourceTree = "<group>"; };
 		21EF674FDC92488386605CAB9B1A8AC5 /* QBVideoIconView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QBVideoIconView.m; path = QBImagePicker/QBVideoIconView.m; sourceTree = "<group>"; };
-		23263D4FB5B87A3BDCA479C8ACFB2935 /* Pods-BinBill_RN-tvOSTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BinBill_RN-tvOSTests-dummy.m"; sourceTree = "<group>"; };
-		2B78BF3F295017738A4B25C401FE2A51 /* Pods-BinBill_RN-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill_RN-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		2A2A09831DF019D4D09BC05669BD1014 /* libRSKImageCropper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libRSKImageCropper.a; path = libRSKImageCropper.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BE12C772F499BD0FE387E55FF1ED9DF /* QBAssetCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QBAssetCell.h; path = QBImagePicker/QBAssetCell.h; sourceTree = "<group>"; };
-		2BE293276543139F27BE5888FC938A99 /* Pods-BinBill_RN-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill_RN-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		346C4DE3368DDEF7FE3A0FC050907EEA /* Pods-BinBill_RNTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BinBill_RNTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		3EE0E958B586971031BEB080C655DCF2 /* libPods-BinBill_RN-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-BinBill_RN-tvOSTests.a"; path = "libPods-BinBill_RN-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D810B445F5A7DED3409008515025E59 /* Pods-BinBill-tvOS-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill-tvOS-frameworks.sh"; sourceTree = "<group>"; };
 		3F927E621B17437EEA2EF371B83EC8E1 /* QBImagePickerController.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = QBImagePickerController.xcconfig; sourceTree = "<group>"; };
-		4166287A9997580B3926BAC8AC2ADDBE /* libQBImagePickerController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libQBImagePickerController.a; path = libQBImagePickerController.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		42F78B99F9D83E242EF6F4AECC3362A7 /* RSKImageCropper-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "RSKImageCropper-dummy.m"; sourceTree = "<group>"; };
 		43EB66EC5F5A7401F86C0FE33BD55F32 /* RSKImageCropper.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = RSKImageCropper.xcconfig; sourceTree = "<group>"; };
+		4401686C40CE8B9B3B0B05D1AE7937E3 /* Pods-BinBill-tvOSTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill-tvOSTests-frameworks.sh"; sourceTree = "<group>"; };
 		463429696421EEA6E21F493967EFEC2F /* RSKImageScrollView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RSKImageScrollView.m; path = RSKImageCropper/RSKImageScrollView.m; sourceTree = "<group>"; };
-		4D0AA5BDFD99DD8B14285197094ADEC1 /* libPods-BinBill_RN-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-BinBill_RN-tvOS.a"; path = "libPods-BinBill_RN-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A38F25DC0329CE4FA262A23A17A449F /* Pods-BinBill-tvOS-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BinBill-tvOS-acknowledgements.plist"; sourceTree = "<group>"; };
+		4AF4835B1F6863B65CC6C15F52DB18A5 /* Pods-BinBill-tvOS-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BinBill-tvOS-acknowledgements.markdown"; sourceTree = "<group>"; };
 		4F186EFD7DBC8910A7410D57D52DE691 /* de.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = de.lproj; path = QBImagePicker/de.lproj; sourceTree = "<group>"; };
 		52E29FCE81A268F6C80E9F4B1D0B42F5 /* QBAlbumCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QBAlbumCell.h; path = QBImagePicker/QBAlbumCell.h; sourceTree = "<group>"; };
 		53721BB92C5659BCFC6A90B4E911F7B8 /* QBImagePickerController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QBImagePickerController.h; path = QBImagePicker/QBImagePickerController.h; sourceTree = "<group>"; };
-		567939383C06D036AAE12FBDAC1515CD /* Pods-BinBill_RNTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill_RNTests-frameworks.sh"; sourceTree = "<group>"; };
-		59AEAEC48316AD346251A7F700F29326 /* Pods-BinBill_RN-tvOSTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BinBill_RN-tvOSTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		54BBA43F6085F651BD5B1AF640C93235 /* Pods-BinBill-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		5A7A9F5C6FB1A08DD1331D2CD6FEE187 /* Pods-BinBill-tvOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BinBill-tvOS-dummy.m"; sourceTree = "<group>"; };
+		5B724D12DBD2A6010B7B80D79F372D30 /* Pods-BinBillTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BinBillTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		5B99669007CF93974055F7B4C76836E5 /* RSKImageCropper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RSKImageCropper.h; path = RSKImageCropper/RSKImageCropper.h; sourceTree = "<group>"; };
 		5D6D2472569B2F382BF9E730CE0EA200 /* QBAssetCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QBAssetCell.m; path = QBImagePicker/QBAssetCell.m; sourceTree = "<group>"; };
 		5E76BEEAF70BEB66F52CFF73F54006B7 /* QBImagePickerController-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "QBImagePickerController-dummy.m"; sourceTree = "<group>"; };
 		602B9A92E42DA35A0A98F72819855B23 /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = en.lproj; path = QBImagePicker/en.lproj; sourceTree = "<group>"; };
-		618EE097FF5E1EC21678E8595DBADD95 /* Pods-BinBill_RNTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BinBill_RNTests-dummy.m"; sourceTree = "<group>"; };
-		6432FCFDBA811423E2874FB94FF64247 /* Pods-BinBill_RN-tvOS-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill_RN-tvOS-frameworks.sh"; sourceTree = "<group>"; };
-		64DE133FF35D5B4ECC2A071AC817382A /* Pods-BinBill_RN-tvOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BinBill_RN-tvOS-dummy.m"; sourceTree = "<group>"; };
+		63F0D812F9205BCBC5AB75C6D5953CBC /* Pods-BinBill-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill-resources.sh"; sourceTree = "<group>"; };
+		688C9AAA13D85FD3DC2D76A9E81FDFB0 /* Pods-BinBill-tvOS-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill-tvOS-resources.sh"; sourceTree = "<group>"; };
 		68F65826A31434F93C10EEC34C8F9D46 /* QBCheckmarkView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QBCheckmarkView.h; path = QBImagePicker/QBCheckmarkView.h; sourceTree = "<group>"; };
 		6A00CDDC990B416D143CEC291198E192 /* QBVideoIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QBVideoIndicatorView.h; path = QBImagePicker/QBVideoIndicatorView.h; sourceTree = "<group>"; };
-		6B79143D3B0C5789182A8D7DEB4BEA1C /* Pods-BinBill_RN-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BinBill_RN-acknowledgements.markdown"; sourceTree = "<group>"; };
 		6E155BF10920F721581FDF3D0204DDD7 /* QBImagePickerController-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "QBImagePickerController-prefix.pch"; sourceTree = "<group>"; };
-		6F449823FC8665AD258295A617238C68 /* QBImagePicker.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = QBImagePicker.bundle; path = QBImagePicker.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		7308751D094E7794DB5186ECD5AE24E8 /* libPods-BinBill-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-BinBill-tvOS.a"; path = "libPods-BinBill-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		73B34B122901529D556FAEC04211969E /* Pods-BinBill-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7AD0EAB481BE8CF2D3058EC0D7AD76DB /* QBAssetsViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QBAssetsViewController.h; path = QBImagePicker/QBAssetsViewController.h; sourceTree = "<group>"; };
+		7B352BB98546DC8B574D7B9FCEB8E25E /* Pods-BinBillTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBillTests-resources.sh"; sourceTree = "<group>"; };
 		7BF0BD7FF52C0BD546A4D7CA29A3DD63 /* zh-Hans.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "zh-Hans.lproj"; path = "QBImagePicker/zh-Hans.lproj"; sourceTree = "<group>"; };
+		7E2BAC0E2261809D364DFF9F35836A96 /* Pods-BinBill-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BinBill-dummy.m"; sourceTree = "<group>"; };
 		81DC1F5AC8CBFEF045EB3B8E42059069 /* QBImagePicker.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; name = QBImagePicker.storyboard; path = QBImagePicker/QBImagePicker.storyboard; sourceTree = "<group>"; };
+		82763AEE4B67700648B4B86BA3EBD5E4 /* Pods-BinBillTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BinBillTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		8651FB7C21BE6C995BD19544E1B07DC9 /* libQBImagePickerController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libQBImagePickerController.a; path = libQBImagePickerController.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8691654C9688B1B4EADB24D09423ED8B /* UIImage+RSKImageCropper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+RSKImageCropper.h"; path = "RSKImageCropper/UIImage+RSKImageCropper.h"; sourceTree = "<group>"; };
-		88F4DD79A93A5166E155D8BEA30D95A9 /* Pods-BinBill_RNTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill_RNTests-resources.sh"; sourceTree = "<group>"; };
+		88DBD7F23FB1CC6D9069BFD15B152026 /* Pods-BinBill-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		8F11BBBDDA51C3A1DB92A901AEDE0D1C /* Pods-BinBillTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBillTests.debug.xcconfig"; sourceTree = "<group>"; };
+		90CF01953D2FD163897BAAC0E0DC662D /* Pods-BinBill.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill.debug.xcconfig"; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		93DBACD3289C239EC896151D9D02817A /* ResourceBundle-QBImagePicker-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-QBImagePicker-Info.plist"; sourceTree = "<group>"; };
-		9721DC8B4FCD9C7F0B8F52FFAA97F5F4 /* Pods-BinBill_RN-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill_RN-resources.sh"; sourceTree = "<group>"; };
-		A0DA7E26FFB6039C3A82C4F47751334D /* libPods-BinBill_RNTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-BinBill_RNTests.a"; path = "libPods-BinBill_RNTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A1592E98322583996F320FD27B7BF3B5 /* libRSKImageCropper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libRSKImageCropper.a; path = libRSKImageCropper.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A401908C1132D651DCA4DD9CA004B882 /* Pods-BinBill_RN-tvOS-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill_RN-tvOS-resources.sh"; sourceTree = "<group>"; };
+		95F96F45F80664E71E332A3C38420C60 /* libPods-BinBill.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-BinBill.a"; path = "libPods-BinBill.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A46A38D8419823D3EAB40838B556FC50 /* UIApplication+RSKImageCropper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIApplication+RSKImageCropper.h"; path = "RSKImageCropper/UIApplication+RSKImageCropper.h"; sourceTree = "<group>"; };
-		A6106314A36C623ED41E4149726A2EE8 /* Pods-BinBill_RN-tvOSTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill_RN-tvOSTests-frameworks.sh"; sourceTree = "<group>"; };
+		A5D435F1DC2B9A06AD57902FB1490BD7 /* libPods-BinBillTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-BinBillTests.a"; path = "libPods-BinBillTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A78E70770EB62BE43F5B77EE6470802C /* QBAlbumsViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QBAlbumsViewController.m; path = QBImagePicker/QBAlbumsViewController.m; sourceTree = "<group>"; };
 		AA0DF84A88830EB0E705F6A8C96AE56F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		AFAD62ECE621B1CB33733EB54A8A2CD8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS10.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		B1F9D5C2A886E8E191844E3E103B9EB8 /* UIApplication+RSKImageCropper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+RSKImageCropper.m"; path = "RSKImageCropper/UIApplication+RSKImageCropper.m"; sourceTree = "<group>"; };
-		B735E3CEE41390355771CCBE162A030A /* Pods-BinBill_RN-tvOSTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill_RN-tvOSTests-resources.sh"; sourceTree = "<group>"; };
-		B7B38C1D96BF2430B51C9F27D4D6D144 /* Pods-BinBill_RN-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill_RN-frameworks.sh"; sourceTree = "<group>"; };
+		B36E770271F549DE9931C63676945F2E /* Pods-BinBill-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill-frameworks.sh"; sourceTree = "<group>"; };
 		B7EC8651EE7612D68FF29A1BE9E33767 /* RSKImageScrollView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RSKImageScrollView.h; path = RSKImageCropper/RSKImageScrollView.h; sourceTree = "<group>"; };
 		B997F058542B52701362B0527E7576CA /* RSKImageCropper-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RSKImageCropper-prefix.pch"; sourceTree = "<group>"; };
+		C04E5F03FB02AD43FD36374B85FE005F /* libPods-BinBill-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-BinBill-tvOSTests.a"; path = "libPods-BinBill-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C39CBE63043006C21FF46F1CD00508DA /* ja.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ja.lproj; path = QBImagePicker/ja.lproj; sourceTree = "<group>"; };
+		C4A9427B02A1E30A1A116276B6D0BDDB /* Pods-BinBill-tvOSTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BinBill-tvOSTests-dummy.m"; sourceTree = "<group>"; };
 		C6B7A558A10588B651E2F9926C902DE7 /* RSKTouchView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RSKTouchView.m; path = RSKImageCropper/RSKTouchView.m; sourceTree = "<group>"; };
-		C91827D76D6B927E84D60A47FCFBF3B6 /* Pods-BinBill_RN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill_RN.debug.xcconfig"; sourceTree = "<group>"; };
+		C79A813F7E822E9C7FDF3563910B87DB /* Pods-BinBill-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BinBill-acknowledgements.plist"; sourceTree = "<group>"; };
 		CD941BF512665ACED0E9B96FF66CC3E6 /* QBImagePickerController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QBImagePickerController.m; path = QBImagePicker/QBImagePickerController.m; sourceTree = "<group>"; };
 		D03BE6A2275D9AE51EDBCC22C69F2527 /* QBCheckmarkView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QBCheckmarkView.m; path = QBImagePicker/QBCheckmarkView.m; sourceTree = "<group>"; };
-		D203FA19065EC4785B63950F08924C04 /* Pods-BinBill_RNTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill_RNTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DA05DF8799E06EDC0935DF714B4605EB /* RSKInternalUtility.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RSKInternalUtility.m; path = RSKImageCropper/RSKInternalUtility.m; sourceTree = "<group>"; };
-		DA0E8A00DB3616A08D2D0DA9D1338A11 /* Pods-BinBill_RNTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill_RNTests.release.xcconfig"; sourceTree = "<group>"; };
-		DCB723A8CC37273E9F7E8389F44BD4BA /* Pods-BinBill_RN-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BinBill_RN-acknowledgements.plist"; sourceTree = "<group>"; };
+		DDCE0B60283646012900385DEDC1EEF2 /* Pods-BinBill-tvOSTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BinBill-tvOSTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		E21E5A708959E95725B8A9019D2F3779 /* RSKTouchView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RSKTouchView.h; path = RSKImageCropper/RSKTouchView.h; sourceTree = "<group>"; };
-		E50C9DAB10707A82A99E210270C876BE /* Pods-BinBill_RN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBill_RN.release.xcconfig"; sourceTree = "<group>"; };
 		E8FB5CD3D57FCA06FB4FAF8CEFCA2A45 /* RSKImageCropViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RSKImageCropViewController.h; path = RSKImageCropper/RSKImageCropViewController.h; sourceTree = "<group>"; };
 		E932AB75A47E4A462E932FFC72AA1254 /* QBSlomoIconView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QBSlomoIconView.m; path = QBImagePicker/QBSlomoIconView.m; sourceTree = "<group>"; };
-		EC85C588049576985EFC9FD56DA2B244 /* Pods-BinBill_RNTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BinBill_RNTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		EE769CF63C8A4C3065A4A9DCC47D6E5E /* RSKImageCropperStrings.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = RSKImageCropperStrings.bundle; path = RSKImageCropper/RSKImageCropperStrings.bundle; sourceTree = "<group>"; };
+		EF696241BD17C12C378FD44EBA32AF4D /* Pods-BinBill-tvOSTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BinBill-tvOSTests-resources.sh"; sourceTree = "<group>"; };
 		EF9E0892076F6A8AD613E02ADF702693 /* QBAlbumsViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QBAlbumsViewController.h; path = QBImagePicker/QBAlbumsViewController.h; sourceTree = "<group>"; };
 		EFBE55F4B6909D9A396AFFC9774FF3CD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		EFFF2D7B5EB70415B79C41828FCA4261 /* CGGeometry+RSKImageCropper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "CGGeometry+RSKImageCropper.m"; path = "RSKImageCropper/CGGeometry+RSKImageCropper.m"; sourceTree = "<group>"; };
 		F26C1F1B22998AB9858F6AAE07FFD25F /* RSKImageCropViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RSKImageCropViewController.m; path = RSKImageCropper/RSKImageCropViewController.m; sourceTree = "<group>"; };
 		F2C8F39D16BD2BADCCF41D429A3F5405 /* UIImage+RSKImageCropper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+RSKImageCropper.m"; path = "RSKImageCropper/UIImage+RSKImageCropper.m"; sourceTree = "<group>"; };
-		F46B1D5F03EC8E7F066CC0EC3EBB01F7 /* libPods-BinBill_RN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-BinBill_RN.a"; path = "libPods-BinBill_RN.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F70C92FBC66384443AF6DB92A8B60266 /* Pods-BinBillTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BinBillTests.release.xcconfig"; sourceTree = "<group>"; };
 		F9275FAEB319F81CDD06939F62B9E1CF /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Photos.framework; sourceTree = DEVELOPER_DIR; };
-		F93F947224E3D318B0C48C8166B900CA /* Pods-BinBill_RN-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BinBill_RN-dummy.m"; sourceTree = "<group>"; };
-		F99AC912A52263CC41F832059BBD7707 /* Pods-BinBill_RN-tvOS-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BinBill_RN-tvOS-acknowledgements.markdown"; sourceTree = "<group>"; };
 		FDEF69358A918576137850CD57493584 /* QBAssetsViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QBAssetsViewController.m; path = QBImagePicker/QBAssetsViewController.m; sourceTree = "<group>"; };
-		FE0E0D8578BB380873ACE8EB5DB0EFF3 /* Pods-BinBill_RN-tvOS-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BinBill_RN-tvOS-acknowledgements.plist"; sourceTree = "<group>"; };
+		FE166822E355843E4D5219AA9C623BBE /* Pods-BinBill-tvOSTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BinBill-tvOSTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0085DD0E374C0635D6BBBC322A3DD6F1 /* Frameworks */ = {
+		0DF9F8046C962C42B88F2AAB82B66710 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		26EC9E64DFD212A86F5AF096A7456C87 /* Frameworks */ = {
+		36427F51114E76C427AF1E12E31B6799 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D2A7AD039BBEA1A82583E8BB25EA2D3 /* Foundation.framework in Frameworks */,
+				26F2FBCE85952BCA90243992DFCD0371 /* Foundation.framework in Frameworks */,
+				8762F464AB98714A2303EDC69055F075 /* QuartzCore.framework in Frameworks */,
+				3502D37126E5AA8F700E56D9A940ECFE /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		44918FBDD3952654AF63B8FAC8180B04 /* Frameworks */ = {
+		84169E5F150B476B10BC7489490991AC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				646D05E9848DED98743577A984DE9C43 /* Foundation.framework in Frameworks */,
-				B92F13BC66218BE7EF9FB0DA5EF1D539 /* Photos.framework in Frameworks */,
+				EF7E7F6FC078D0E3D874B24DE38348FC /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		72480007530AF376A7466A3BAFA685F9 /* Frameworks */ = {
+		857CE1968B5433E82BC5AD6985FAFEFD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				098F2373EF6B7E757D552015C4282DD0 /* Foundation.framework in Frameworks */,
-				61315262ED76FF3C1282D19DD572813E /* QuartzCore.framework in Frameworks */,
-				3D379981808201D59EABB4EB260690BE /* UIKit.framework in Frameworks */,
+				1D8F26F74D2ABCB1D72527E56F77B5B9 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C830456067896B8E32C5978BADC87E80 /* Frameworks */ = {
+		8A075DDD3F2C4E01AAD73075D4D2C74C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F26DCDE6F43105A6F8C16957B22D4CA8 /* Foundation.framework in Frameworks */,
+				9CF9D3309425E0D2C95A3E7AB7A9414B /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C943E9D8EAB3439F8CF605E2857EDD8C /* Frameworks */ = {
+		F6B6A912F9DBC475BA67D269E8A90583 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9FAC5B0129099A70B28766D7FA10374 /* Foundation.framework in Frameworks */,
+				38A0C2992CAA7CE46604791B2CC700FF /* Foundation.framework in Frameworks */,
+				DD683E4D85378875549988E05E964815 /* Photos.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D9B9AA5EE6E7839CD0109E7301572578 /* Frameworks */ = {
+		F8BD7CFD63B5FB8F70560122B163EB74 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6FCD82854DEF46A93D0EEE7CD126DA5A /* Foundation.framework in Frameworks */,
+				AACC844927F645450F55EFE6C078C267 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		312215A9F750EFF893BBDA5430FA369E /* Targets Support Files */ = {
+		2B6D791D85B0518CA8660EA300B3F855 /* Pods-BinBillTests */ = {
 			isa = PBXGroup;
 			children = (
-				5EAF47D64DF4D7C5C5850120A8BE1AF9 /* Pods-BinBill_RN */,
-				E16295710D511B19398D114121AD7BAB /* Pods-BinBill_RN-tvOS */,
-				AA407A2E26A3ADAE27ABCE8ECC7054FC /* Pods-BinBill_RN-tvOSTests */,
-				D279535C656DD0525981E9305D6DC11C /* Pods-BinBill_RNTests */,
+				82763AEE4B67700648B4B86BA3EBD5E4 /* Pods-BinBillTests-acknowledgements.markdown */,
+				5B724D12DBD2A6010B7B80D79F372D30 /* Pods-BinBillTests-acknowledgements.plist */,
+				0FEB08B188E133BB29A1C14A73BFB48E /* Pods-BinBillTests-dummy.m */,
+				083C36B34919003C0DEAE7A99C9F9B8A /* Pods-BinBillTests-frameworks.sh */,
+				7B352BB98546DC8B574D7B9FCEB8E25E /* Pods-BinBillTests-resources.sh */,
+				8F11BBBDDA51C3A1DB92A901AEDE0D1C /* Pods-BinBillTests.debug.xcconfig */,
+				F70C92FBC66384443AF6DB92A8B60266 /* Pods-BinBillTests.release.xcconfig */,
 			);
-			name = "Targets Support Files";
+			name = "Pods-BinBillTests";
+			path = "Target Support Files/Pods-BinBillTests";
+			sourceTree = "<group>";
+		};
+		2DCF7F3D7AB71051330C53BB0B039682 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				95F96F45F80664E71E332A3C38420C60 /* libPods-BinBill.a */,
+				7308751D094E7794DB5186ECD5AE24E8 /* libPods-BinBill-tvOS.a */,
+				C04E5F03FB02AD43FD36374B85FE005F /* libPods-BinBill-tvOSTests.a */,
+				A5D435F1DC2B9A06AD57902FB1490BD7 /* libPods-BinBillTests.a */,
+				8651FB7C21BE6C995BD19544E1B07DC9 /* libQBImagePickerController.a */,
+				2A2A09831DF019D4D09BC05669BD1014 /* libRSKImageCropper.a */,
+				12786B18D72EB57FB6E53FF125D48CFD /* QBImagePicker.bundle */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		3780CD324BC498683E510646435535A4 /* QBImagePickerController */ = {
@@ -295,6 +299,36 @@
 			path = QBImagePickerController;
 			sourceTree = "<group>";
 		};
+		432707FF01EC77F02F770FE6E7CB57D8 /* Pods-BinBill */ = {
+			isa = PBXGroup;
+			children = (
+				1A010942D583AC55F92548F26088BB58 /* Pods-BinBill-acknowledgements.markdown */,
+				C79A813F7E822E9C7FDF3563910B87DB /* Pods-BinBill-acknowledgements.plist */,
+				7E2BAC0E2261809D364DFF9F35836A96 /* Pods-BinBill-dummy.m */,
+				B36E770271F549DE9931C63676945F2E /* Pods-BinBill-frameworks.sh */,
+				63F0D812F9205BCBC5AB75C6D5953CBC /* Pods-BinBill-resources.sh */,
+				90CF01953D2FD163897BAAC0E0DC662D /* Pods-BinBill.debug.xcconfig */,
+				01741DFA6BA52A847A753D74ECA94CD7 /* Pods-BinBill.release.xcconfig */,
+			);
+			name = "Pods-BinBill";
+			path = "Target Support Files/Pods-BinBill";
+			sourceTree = "<group>";
+		};
+		5110E0450E40999B0D2A962FB2775EF3 /* Pods-BinBill-tvOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				FE166822E355843E4D5219AA9C623BBE /* Pods-BinBill-tvOSTests-acknowledgements.markdown */,
+				DDCE0B60283646012900385DEDC1EEF2 /* Pods-BinBill-tvOSTests-acknowledgements.plist */,
+				C4A9427B02A1E30A1A116276B6D0BDDB /* Pods-BinBill-tvOSTests-dummy.m */,
+				4401686C40CE8B9B3B0B05D1AE7937E3 /* Pods-BinBill-tvOSTests-frameworks.sh */,
+				EF696241BD17C12C378FD44EBA32AF4D /* Pods-BinBill-tvOSTests-resources.sh */,
+				73B34B122901529D556FAEC04211969E /* Pods-BinBill-tvOSTests.debug.xcconfig */,
+				02D106E07284F3B1874FC3FEBFB5E452 /* Pods-BinBill-tvOSTests.release.xcconfig */,
+			);
+			name = "Pods-BinBill-tvOSTests";
+			path = "Target Support Files/Pods-BinBill-tvOSTests";
+			sourceTree = "<group>";
+		};
 		5D7BF54CB68F7AA9EB2B302DA018C0DD /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -307,29 +341,14 @@
 			path = "../Target Support Files/QBImagePickerController";
 			sourceTree = "<group>";
 		};
-		5EAF47D64DF4D7C5C5850120A8BE1AF9 /* Pods-BinBill_RN */ = {
-			isa = PBXGroup;
-			children = (
-				6B79143D3B0C5789182A8D7DEB4BEA1C /* Pods-BinBill_RN-acknowledgements.markdown */,
-				DCB723A8CC37273E9F7E8389F44BD4BA /* Pods-BinBill_RN-acknowledgements.plist */,
-				F93F947224E3D318B0C48C8166B900CA /* Pods-BinBill_RN-dummy.m */,
-				B7B38C1D96BF2430B51C9F27D4D6D144 /* Pods-BinBill_RN-frameworks.sh */,
-				9721DC8B4FCD9C7F0B8F52FFAA97F5F4 /* Pods-BinBill_RN-resources.sh */,
-				C91827D76D6B927E84D60A47FCFBF3B6 /* Pods-BinBill_RN.debug.xcconfig */,
-				E50C9DAB10707A82A99E210270C876BE /* Pods-BinBill_RN.release.xcconfig */,
-			);
-			name = "Pods-BinBill_RN";
-			path = "Target Support Files/Pods-BinBill_RN";
-			sourceTree = "<group>";
-		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				DCFD712381AB355F9FF6E9CB15103652 /* Frameworks */,
 				8C2E23DFAABF09CE1201ED4E5B6415E5 /* Pods */,
-				FA14C0B040BD815E8BB4BBFCFEA007C0 /* Products */,
-				312215A9F750EFF893BBDA5430FA369E /* Targets Support Files */,
+				2DCF7F3D7AB71051330C53BB0B039682 /* Products */,
+				C7D5AB35CFABC0F048D48D0A07ED64A3 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -387,21 +406,6 @@
 			path = RSKImageCropper;
 			sourceTree = "<group>";
 		};
-		AA407A2E26A3ADAE27ABCE8ECC7054FC /* Pods-BinBill_RN-tvOSTests */ = {
-			isa = PBXGroup;
-			children = (
-				59AEAEC48316AD346251A7F700F29326 /* Pods-BinBill_RN-tvOSTests-acknowledgements.markdown */,
-				1CD172FC093DFDC5296EDABDF432FBB3 /* Pods-BinBill_RN-tvOSTests-acknowledgements.plist */,
-				23263D4FB5B87A3BDCA479C8ACFB2935 /* Pods-BinBill_RN-tvOSTests-dummy.m */,
-				A6106314A36C623ED41E4149726A2EE8 /* Pods-BinBill_RN-tvOSTests-frameworks.sh */,
-				B735E3CEE41390355771CCBE162A030A /* Pods-BinBill_RN-tvOSTests-resources.sh */,
-				00D5121BF9F63AF8F17D7975ABCBD9B6 /* Pods-BinBill_RN-tvOSTests.debug.xcconfig */,
-				1BEB95085C4A5AF58C65683CF28CC5A2 /* Pods-BinBill_RN-tvOSTests.release.xcconfig */,
-			);
-			name = "Pods-BinBill_RN-tvOSTests";
-			path = "Target Support Files/Pods-BinBill_RN-tvOSTests";
-			sourceTree = "<group>";
-		};
 		B74A8A5216E41C92789A65D00BA633B7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,6 +419,17 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		C7D5AB35CFABC0F048D48D0A07ED64A3 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				432707FF01EC77F02F770FE6E7CB57D8 /* Pods-BinBill */,
+				D2568F4C4D6320844F0450C3B1D18DCD /* Pods-BinBill-tvOS */,
+				5110E0450E40999B0D2A962FB2775EF3 /* Pods-BinBill-tvOSTests */,
+				2B6D791D85B0518CA8660EA300B3F855 /* Pods-BinBillTests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
 		CAE9138288EBB0605BB6880C8676F99A /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -426,19 +441,19 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		D279535C656DD0525981E9305D6DC11C /* Pods-BinBill_RNTests */ = {
+		D2568F4C4D6320844F0450C3B1D18DCD /* Pods-BinBill-tvOS */ = {
 			isa = PBXGroup;
 			children = (
-				346C4DE3368DDEF7FE3A0FC050907EEA /* Pods-BinBill_RNTests-acknowledgements.markdown */,
-				EC85C588049576985EFC9FD56DA2B244 /* Pods-BinBill_RNTests-acknowledgements.plist */,
-				618EE097FF5E1EC21678E8595DBADD95 /* Pods-BinBill_RNTests-dummy.m */,
-				567939383C06D036AAE12FBDAC1515CD /* Pods-BinBill_RNTests-frameworks.sh */,
-				88F4DD79A93A5166E155D8BEA30D95A9 /* Pods-BinBill_RNTests-resources.sh */,
-				D203FA19065EC4785B63950F08924C04 /* Pods-BinBill_RNTests.debug.xcconfig */,
-				DA0E8A00DB3616A08D2D0DA9D1338A11 /* Pods-BinBill_RNTests.release.xcconfig */,
+				4AF4835B1F6863B65CC6C15F52DB18A5 /* Pods-BinBill-tvOS-acknowledgements.markdown */,
+				4A38F25DC0329CE4FA262A23A17A449F /* Pods-BinBill-tvOS-acknowledgements.plist */,
+				5A7A9F5C6FB1A08DD1331D2CD6FEE187 /* Pods-BinBill-tvOS-dummy.m */,
+				2D810B445F5A7DED3409008515025E59 /* Pods-BinBill-tvOS-frameworks.sh */,
+				688C9AAA13D85FD3DC2D76A9E81FDFB0 /* Pods-BinBill-tvOS-resources.sh */,
+				88DBD7F23FB1CC6D9069BFD15B152026 /* Pods-BinBill-tvOS.debug.xcconfig */,
+				54BBA43F6085F651BD5B1AF640C93235 /* Pods-BinBill-tvOS.release.xcconfig */,
 			);
-			name = "Pods-BinBill_RNTests";
-			path = "Target Support Files/Pods-BinBill_RNTests";
+			name = "Pods-BinBill-tvOS";
+			path = "Target Support Files/Pods-BinBill-tvOS";
 			sourceTree = "<group>";
 		};
 		DCFD712381AB355F9FF6E9CB15103652 /* Frameworks */ = {
@@ -450,21 +465,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E16295710D511B19398D114121AD7BAB /* Pods-BinBill_RN-tvOS */ = {
-			isa = PBXGroup;
-			children = (
-				F99AC912A52263CC41F832059BBD7707 /* Pods-BinBill_RN-tvOS-acknowledgements.markdown */,
-				FE0E0D8578BB380873ACE8EB5DB0EFF3 /* Pods-BinBill_RN-tvOS-acknowledgements.plist */,
-				64DE133FF35D5B4ECC2A071AC817382A /* Pods-BinBill_RN-tvOS-dummy.m */,
-				6432FCFDBA811423E2874FB94FF64247 /* Pods-BinBill_RN-tvOS-frameworks.sh */,
-				A401908C1132D651DCA4DD9CA004B882 /* Pods-BinBill_RN-tvOS-resources.sh */,
-				2BE293276543139F27BE5888FC938A99 /* Pods-BinBill_RN-tvOS.debug.xcconfig */,
-				2B78BF3F295017738A4B25C401FE2A51 /* Pods-BinBill_RN-tvOS.release.xcconfig */,
-			);
-			name = "Pods-BinBill_RN-tvOS";
-			path = "Target Support Files/Pods-BinBill_RN-tvOS";
-			sourceTree = "<group>";
-		};
 		EF73FCB046E178B98474157DC698B06D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -473,101 +473,101 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		FA14C0B040BD815E8BB4BBFCFEA007C0 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F46B1D5F03EC8E7F066CC0EC3EBB01F7 /* libPods-BinBill_RN.a */,
-				4D0AA5BDFD99DD8B14285197094ADEC1 /* libPods-BinBill_RN-tvOS.a */,
-				3EE0E958B586971031BEB080C655DCF2 /* libPods-BinBill_RN-tvOSTests.a */,
-				A0DA7E26FFB6039C3A82C4F47751334D /* libPods-BinBill_RNTests.a */,
-				4166287A9997580B3926BAC8AC2ADDBE /* libQBImagePickerController.a */,
-				A1592E98322583996F320FD27B7BF3B5 /* libRSKImageCropper.a */,
-				6F449823FC8665AD258295A617238C68 /* QBImagePicker.bundle */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		055727588A836E4A5DD9AC851B155681 /* Headers */ = {
+		69CD2C8AD7127451C3984B367AC26BEC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F6A759F6CADBB36574BA466D6D42C4D /* CGGeometry+RSKImageCropper.h in Headers */,
-				6C53EB7E58E7CAA0A3389AD4F70CB47F /* RSKImageCropper.h in Headers */,
-				6551DFB44B3D88ED35C4D38CA316FFD3 /* RSKImageCropViewController+Protected.h in Headers */,
-				FBF131AE3187109B078B6408CC5C9C56 /* RSKImageCropViewController.h in Headers */,
-				7029148E88AC75740F5C527169C63CA6 /* RSKImageScrollView.h in Headers */,
-				3DFCE40424F042E9AACD23B4A37B1ECF /* RSKInternalUtility.h in Headers */,
-				0A710D29E58AE76A2AA0F3B2C742DAE2 /* RSKTouchView.h in Headers */,
-				FA333E5B8814C9E636B936CD0BAD69AC /* UIApplication+RSKImageCropper.h in Headers */,
-				B72687476919751459CA05017023F689 /* UIImage+RSKImageCropper.h in Headers */,
+				097DA304AA1C9D8652A2DA39574D6E90 /* QBAlbumCell.h in Headers */,
+				888B005DD8D74977C622762531BF7228 /* QBAlbumsViewController.h in Headers */,
+				5CF9FFF7D6F198F0FB78DD71C6D3C9F0 /* QBAssetCell.h in Headers */,
+				1FB7A3F08AA8D31D63EB8FF656862252 /* QBAssetsViewController.h in Headers */,
+				FA1BA155A371E4C75780A3F7904BBBED /* QBCheckmarkView.h in Headers */,
+				B61F8B1900D33937FDD23C31217BC103 /* QBImagePickerController.h in Headers */,
+				B391BF2269B57BBA7852C808043271E4 /* QBSlomoIconView.h in Headers */,
+				B982322C1DDDB0B59B07425A26FBBEBF /* QBVideoIconView.h in Headers */,
+				68D812C6F482B90A22BCAA87ADB84B9C /* QBVideoIndicatorView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A0BA9B388C44E91D2E1C65C60F87CB8D /* Headers */ = {
+		A456310EC6D797ED88661BB8D9F36563 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6BE572510B4C221841DAE8AF4A9BB01 /* QBAlbumCell.h in Headers */,
-				7FE3CA097039C0528E3AA8A25676F00A /* QBAlbumsViewController.h in Headers */,
-				19A1DF9A79C09E62092A519C823DD859 /* QBAssetCell.h in Headers */,
-				9818DC1AC183A75A4F38E29300BEA112 /* QBAssetsViewController.h in Headers */,
-				483DE80400AF1237743389CF8FF95283 /* QBCheckmarkView.h in Headers */,
-				30D67802C7CB3A1BBB45A47EB74CC380 /* QBImagePickerController.h in Headers */,
-				992D6A4BF016DE710EEA2530E8BA2A16 /* QBSlomoIconView.h in Headers */,
-				BD679DF495E731BA6AD82277C62E1FFB /* QBVideoIconView.h in Headers */,
-				80BF94ECD3A38862E52E74F4BFAF5981 /* QBVideoIndicatorView.h in Headers */,
+				31A3BAE2DF28398596EB73ECDD08B99C /* CGGeometry+RSKImageCropper.h in Headers */,
+				FE959EF1DC1EDEBA2E3C622AD42A2C57 /* RSKImageCropper.h in Headers */,
+				E57C3C090F027BF091A4C7FC63D9E35F /* RSKImageCropViewController+Protected.h in Headers */,
+				97509884E22753A827B337F13AB597DF /* RSKImageCropViewController.h in Headers */,
+				E4D7AA5A80A7CD2ED921C002891E7521 /* RSKImageScrollView.h in Headers */,
+				349A1AB2482AA1644C182A431AC96832 /* RSKInternalUtility.h in Headers */,
+				A786DFBAE1ED0BAFEDDF7049118BB91A /* RSKTouchView.h in Headers */,
+				D953A44B472837BBB2AB7308C98ABFD3 /* UIApplication+RSKImageCropper.h in Headers */,
+				6F11111D6190117B468CE50A9762F4F6 /* UIImage+RSKImageCropper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		0BAFE61FDBEC4758CD0D724A7D114E14 /* Pods-BinBill_RN */ = {
+		0FFA06EC08F308FC89BBEA12539D3227 /* Pods-BinBill-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6BB10E2E31598BA496D3AADB8C8D1440 /* Build configuration list for PBXNativeTarget "Pods-BinBill_RN" */;
+			buildConfigurationList = 6FD86A2C10A62C98E6A42295774FBE8E /* Build configuration list for PBXNativeTarget "Pods-BinBill-tvOSTests" */;
 			buildPhases = (
-				855EEBC061C80B0736F1B149F79BB027 /* Sources */,
-				C830456067896B8E32C5978BADC87E80 /* Frameworks */,
+				7BA914A593FC3B28700BB18C2AC46C93 /* Sources */,
+				857CE1968B5433E82BC5AD6985FAFEFD /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				0B756853BBB25EACF8EFB22638FF6D49 /* PBXTargetDependency */,
-				607AD6FFC60DC9E0F0323703DB21A06E /* PBXTargetDependency */,
 			);
-			name = "Pods-BinBill_RN";
-			productName = "Pods-BinBill_RN";
-			productReference = F46B1D5F03EC8E7F066CC0EC3EBB01F7 /* libPods-BinBill_RN.a */;
+			name = "Pods-BinBill-tvOSTests";
+			productName = "Pods-BinBill-tvOSTests";
+			productReference = C04E5F03FB02AD43FD36374B85FE005F /* libPods-BinBill-tvOSTests.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		279FA0C286DD235EDA65B89D152563A3 /* QBImagePickerController */ = {
+		281A2DD81031C7ECEC4B77FA3890E5E0 /* Pods-BinBillTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FCD208647E45F21EF9547B10F52AA112 /* Build configuration list for PBXNativeTarget "QBImagePickerController" */;
+			buildConfigurationList = B339B27FB4F576E7BE16F6D3BBCB9F56 /* Build configuration list for PBXNativeTarget "Pods-BinBillTests" */;
 			buildPhases = (
-				9AF98C9D5E8507E3FFAF73ECA0F4146F /* Sources */,
-				44918FBDD3952654AF63B8FAC8180B04 /* Frameworks */,
-				A0BA9B388C44E91D2E1C65C60F87CB8D /* Headers */,
+				060B785B239D4BBE0F9691F98EB3C474 /* Sources */,
+				8A075DDD3F2C4E01AAD73075D4D2C74C /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				9FCAA94EC6DC37D09D241CAC6F9E5F59 /* PBXTargetDependency */,
 			);
-			name = QBImagePickerController;
-			productName = QBImagePickerController;
-			productReference = 4166287A9997580B3926BAC8AC2ADDBE /* libQBImagePickerController.a */;
+			name = "Pods-BinBillTests";
+			productName = "Pods-BinBillTests";
+			productReference = A5D435F1DC2B9A06AD57902FB1490BD7 /* libPods-BinBillTests.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		29ED39AC73DBD7702D668099D5030BF1 /* RSKImageCropper */ = {
+		5EF6AAA6B1DD64A92124E338B0645E58 /* Pods-BinBill */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C583C91197B31511DC8D3B55AF0C1FB9 /* Build configuration list for PBXNativeTarget "RSKImageCropper" */;
+			buildConfigurationList = B18125CD9952BF3B9EE0A12EAD8B7DD5 /* Build configuration list for PBXNativeTarget "Pods-BinBill" */;
 			buildPhases = (
-				7597A3EF4EB3AACCA9BE34BC08CFE737 /* Sources */,
-				72480007530AF376A7466A3BAFA685F9 /* Frameworks */,
-				055727588A836E4A5DD9AC851B155681 /* Headers */,
+				00EBB653E7FB23818D54C189F01FEC75 /* Sources */,
+				F8BD7CFD63B5FB8F70560122B163EB74 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C2638E30B59C76DFA5116DDC9A9D52A8 /* PBXTargetDependency */,
+				51606E59CED502CC25F7BB54BB642090 /* PBXTargetDependency */,
+			);
+			name = "Pods-BinBill";
+			productName = "Pods-BinBill";
+			productReference = 95F96F45F80664E71E332A3C38420C60 /* libPods-BinBill.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		890BAC4FC49C1CA2ED86BB7D464C0EE6 /* RSKImageCropper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4198B621DAB2989255C8899872D7093C /* Build configuration list for PBXNativeTarget "RSKImageCropper" */;
+			buildPhases = (
+				5E76F26142C1A14B18870BBB9F6F06A0 /* Sources */,
+				36427F51114E76C427AF1E12E31B6799 /* Frameworks */,
+				A456310EC6D797ED88661BB8D9F36563 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -575,66 +575,50 @@
 			);
 			name = RSKImageCropper;
 			productName = RSKImageCropper;
-			productReference = A1592E98322583996F320FD27B7BF3B5 /* libRSKImageCropper.a */;
+			productReference = 2A2A09831DF019D4D09BC05669BD1014 /* libRSKImageCropper.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		94C894D2410429AEA7BDFD251B00D02E /* Pods-BinBill_RN-tvOSTests */ = {
+		A420A31C1309B85854202A4BD6DCB1F5 /* QBImagePickerController */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 325F96FAAB5AA3C469E8A7754146A3EE /* Build configuration list for PBXNativeTarget "Pods-BinBill_RN-tvOSTests" */;
+			buildConfigurationList = F91FDFFC334C143F9626E983956B6F07 /* Build configuration list for PBXNativeTarget "QBImagePickerController" */;
 			buildPhases = (
-				ABF1DA9807CE8D6B69C489740FB18484 /* Sources */,
-				D9B9AA5EE6E7839CD0109E7301572578 /* Frameworks */,
+				5512FA3E408128341A19A2F90CE924D0 /* Sources */,
+				F6B6A912F9DBC475BA67D269E8A90583 /* Frameworks */,
+				69CD2C8AD7127451C3984B367AC26BEC /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7366E6FFAEA497BCC5696CD0A1CF9A94 /* PBXTargetDependency */,
+			);
+			name = QBImagePickerController;
+			productName = QBImagePickerController;
+			productReference = 8651FB7C21BE6C995BD19544E1B07DC9 /* libQBImagePickerController.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		DDA7FF534E7A1E1D59915659527FEC3B /* Pods-BinBill-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4E1EE071D23566E9C49F9EFAAEABC3D4 /* Build configuration list for PBXNativeTarget "Pods-BinBill-tvOS" */;
+			buildPhases = (
+				1D7428DD2767D52D2C334B406ED4EC8A /* Sources */,
+				84169E5F150B476B10BC7489490991AC /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "Pods-BinBill_RN-tvOSTests";
-			productName = "Pods-BinBill_RN-tvOSTests";
-			productReference = 3EE0E958B586971031BEB080C655DCF2 /* libPods-BinBill_RN-tvOSTests.a */;
+			name = "Pods-BinBill-tvOS";
+			productName = "Pods-BinBill-tvOS";
+			productReference = 7308751D094E7794DB5186ECD5AE24E8 /* libPods-BinBill-tvOS.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		BE9A5F95363ADC230BEC2F283E6955CB /* Pods-BinBill_RNTests */ = {
+		FD157447E331587FECA92A6F379432D9 /* QBImagePickerController-QBImagePicker */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3234B96ACD3D21A04DB734FE6EFA38C7 /* Build configuration list for PBXNativeTarget "Pods-BinBill_RNTests" */;
+			buildConfigurationList = 936CE1C42116529075544712BEF60C89 /* Build configuration list for PBXNativeTarget "QBImagePickerController-QBImagePicker" */;
 			buildPhases = (
-				63D5EFEEDFB30A13EE9B9B5DBB9B6CE0 /* Sources */,
-				C943E9D8EAB3439F8CF605E2857EDD8C /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F3360FCF0A0F88C798A982526835BE34 /* PBXTargetDependency */,
-				A01A49F29C54BB305BB1EC2C8F2633E6 /* PBXTargetDependency */,
-			);
-			name = "Pods-BinBill_RNTests";
-			productName = "Pods-BinBill_RNTests";
-			productReference = A0DA7E26FFB6039C3A82C4F47751334D /* libPods-BinBill_RNTests.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		CD7378FE45D1490EC97393369778D529 /* Pods-BinBill_RN-tvOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E9C4E97AF8F553397CE50F913DBE672A /* Build configuration list for PBXNativeTarget "Pods-BinBill_RN-tvOS" */;
-			buildPhases = (
-				827CF8B968AB2EE27B8FC6D88AE7F348 /* Sources */,
-				26EC9E64DFD212A86F5AF096A7456C87 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Pods-BinBill_RN-tvOS";
-			productName = "Pods-BinBill_RN-tvOS";
-			productReference = 4D0AA5BDFD99DD8B14285197094ADEC1 /* libPods-BinBill_RN-tvOS.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		ECD2F2BB7274D753F8A502A34C179561 /* QBImagePickerController-QBImagePicker */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 68135FDA6D96B825DE489469DAB90DA0 /* Build configuration list for PBXNativeTarget "QBImagePickerController-QBImagePicker" */;
-			buildPhases = (
-				F19A745EA679AEC0541210F3BDB5317F /* Sources */,
-				0085DD0E374C0635D6BBBC322A3DD6F1 /* Frameworks */,
-				615B37752AE5DD14DEF2121D52B811C0 /* Resources */,
+				0F8F1A255012C0BFED57EA944B2246F3 /* Sources */,
+				0DF9F8046C962C42B88F2AAB82B66710 /* Frameworks */,
+				B5D87BE8D9A467E9E23844EBB504CB10 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -642,7 +626,7 @@
 			);
 			name = "QBImagePickerController-QBImagePicker";
 			productName = "QBImagePickerController-QBImagePicker";
-			productReference = 6F449823FC8665AD258295A617238C68 /* QBImagePicker.bundle */;
+			productReference = 12786B18D72EB57FB6E53FF125D48CFD /* QBImagePicker.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -662,141 +646,129 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = FA14C0B040BD815E8BB4BBFCFEA007C0 /* Products */;
+			productRefGroup = 2DCF7F3D7AB71051330C53BB0B039682 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0BAFE61FDBEC4758CD0D724A7D114E14 /* Pods-BinBill_RN */,
-				CD7378FE45D1490EC97393369778D529 /* Pods-BinBill_RN-tvOS */,
-				94C894D2410429AEA7BDFD251B00D02E /* Pods-BinBill_RN-tvOSTests */,
-				BE9A5F95363ADC230BEC2F283E6955CB /* Pods-BinBill_RNTests */,
-				279FA0C286DD235EDA65B89D152563A3 /* QBImagePickerController */,
-				ECD2F2BB7274D753F8A502A34C179561 /* QBImagePickerController-QBImagePicker */,
-				29ED39AC73DBD7702D668099D5030BF1 /* RSKImageCropper */,
+				5EF6AAA6B1DD64A92124E338B0645E58 /* Pods-BinBill */,
+				DDA7FF534E7A1E1D59915659527FEC3B /* Pods-BinBill-tvOS */,
+				0FFA06EC08F308FC89BBEA12539D3227 /* Pods-BinBill-tvOSTests */,
+				281A2DD81031C7ECEC4B77FA3890E5E0 /* Pods-BinBillTests */,
+				A420A31C1309B85854202A4BD6DCB1F5 /* QBImagePickerController */,
+				FD157447E331587FECA92A6F379432D9 /* QBImagePickerController-QBImagePicker */,
+				890BAC4FC49C1CA2ED86BB7D464C0EE6 /* RSKImageCropper */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		615B37752AE5DD14DEF2121D52B811C0 /* Resources */ = {
+		B5D87BE8D9A467E9E23844EBB504CB10 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5B3DC5D45910423478D52AFD536EB24 /* de.lproj in Resources */,
-				527DE6CA2F5B9BF84510BF5251B5E1BD /* en.lproj in Resources */,
-				BF44BDD5120D21EA41F13E223A69D64E /* es.lproj in Resources */,
-				5EBE72C7EE7A9E540B838780C6C3498F /* ja.lproj in Resources */,
-				26AFCA93030CDC3F1C99ED9EAB5A6507 /* QBImagePicker.storyboard in Resources */,
-				80D7AA8843F902505ED839923A5B5EE8 /* zh-Hans.lproj in Resources */,
+				532178EC3A7E6EE2D5C82D3F46FB9C0F /* de.lproj in Resources */,
+				6426C1BFFB5C80584647BA54F2197541 /* en.lproj in Resources */,
+				26AFE97E12BF67054A957E1C20C577B8 /* es.lproj in Resources */,
+				987D7C0BE72DAFC29008E1CCAA2396C9 /* ja.lproj in Resources */,
+				7A33BA046C9DD0F99E85F066F87BCC3E /* QBImagePicker.storyboard in Resources */,
+				39FFA9F9C0407AE88159B7C5758E50BD /* zh-Hans.lproj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		63D5EFEEDFB30A13EE9B9B5DBB9B6CE0 /* Sources */ = {
+		00EBB653E7FB23818D54C189F01FEC75 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7D2BA1627374300C1A031C6A0323DFE /* Pods-BinBill_RNTests-dummy.m in Sources */,
+				E323AE8EC2AA9472DA9B5F13CEADBEA2 /* Pods-BinBill-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7597A3EF4EB3AACCA9BE34BC08CFE737 /* Sources */ = {
+		060B785B239D4BBE0F9691F98EB3C474 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E6A36B06D1A7AC51DADFF4FD93C0809 /* CGGeometry+RSKImageCropper.m in Sources */,
-				523C707E4763719B7E862F42AFE77239 /* RSKImageCropper-dummy.m in Sources */,
-				9F2B1E297B5D36662696A5EFF15DDB34 /* RSKImageCropViewController.m in Sources */,
-				1527EB108E34ACD2C7BC6FF2B424BEF5 /* RSKImageScrollView.m in Sources */,
-				F89B89DA8925801C337854E7A57CF5BA /* RSKInternalUtility.m in Sources */,
-				F58698D2530920C591DC8E5C8CC968D9 /* RSKTouchView.m in Sources */,
-				BFEB2B10C9CA01FB454451BC90E48A21 /* UIApplication+RSKImageCropper.m in Sources */,
-				A7E57013427FBD831DBBC64FFDB75BBB /* UIImage+RSKImageCropper.m in Sources */,
+				B8812F08418CD414DDE7F6C4591093DE /* Pods-BinBillTests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		827CF8B968AB2EE27B8FC6D88AE7F348 /* Sources */ = {
+		0F8F1A255012C0BFED57EA944B2246F3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				246E7EC0AB7D2AD9BA7ED78A1B1B93F6 /* Pods-BinBill_RN-tvOS-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		855EEBC061C80B0736F1B149F79BB027 /* Sources */ = {
+		1D7428DD2767D52D2C334B406ED4EC8A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A0041B3E131FEC81AE04B2D065E566FB /* Pods-BinBill_RN-dummy.m in Sources */,
+				76FF75B5E242DD04C86CF5F5724D388C /* Pods-BinBill-tvOS-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9AF98C9D5E8507E3FFAF73ECA0F4146F /* Sources */ = {
+		5512FA3E408128341A19A2F90CE924D0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59937D70A40EB28BD300A980702256FE /* QBAlbumCell.m in Sources */,
-				7D15DDC7806D2E620E4BD9AE90FB19CF /* QBAlbumsViewController.m in Sources */,
-				1152384835EB0EFFE5620CFEE4EE99DF /* QBAssetCell.m in Sources */,
-				A0924974DAF93BB4C88C778D50C5AD6E /* QBAssetsViewController.m in Sources */,
-				E43B455A11CEC9365B76784C187121E9 /* QBCheckmarkView.m in Sources */,
-				F9AD765F6A7E8CFD9AFF9300B9590C45 /* QBImagePickerController-dummy.m in Sources */,
-				B74098C9672289923E19A9ADFA64E38D /* QBImagePickerController.m in Sources */,
-				86A6986F0BA2145013528AC639AADC63 /* QBSlomoIconView.m in Sources */,
-				0F7F4AAD0CEB2DC78D4A26DC89D1BFA5 /* QBVideoIconView.m in Sources */,
-				48C5409D0A0B08229B210C88BCCEB7DD /* QBVideoIndicatorView.m in Sources */,
+				0B9B52F23DFF72A1B20AE4A1FD003A99 /* QBAlbumCell.m in Sources */,
+				A276136DE13229D81C430705A95AAF20 /* QBAlbumsViewController.m in Sources */,
+				C5984E9A8EE99881AEA14CE42257DA72 /* QBAssetCell.m in Sources */,
+				7056A19A2AF094C684CE682E9F4A1425 /* QBAssetsViewController.m in Sources */,
+				2626D6CFFFE2FE7AF61FAFBA7F96AF24 /* QBCheckmarkView.m in Sources */,
+				F3C85ECDF76C5A1BBBF3893C5F49133F /* QBImagePickerController-dummy.m in Sources */,
+				CF49D86D5DBA4F13FCAC6610B3D0E65C /* QBImagePickerController.m in Sources */,
+				8236FB1A5971CBE9D16DC236A46517CC /* QBSlomoIconView.m in Sources */,
+				E80EF1566BF2992653B1A0685FB6E549 /* QBVideoIconView.m in Sources */,
+				D7302C86CD89E28D4763D7A520D39477 /* QBVideoIndicatorView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		ABF1DA9807CE8D6B69C489740FB18484 /* Sources */ = {
+		5E76F26142C1A14B18870BBB9F6F06A0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E3996CE9EEBDB08681B18B6A25D55B3 /* Pods-BinBill_RN-tvOSTests-dummy.m in Sources */,
+				5A4D058BA53D8598FBCB98C4554FEFFD /* CGGeometry+RSKImageCropper.m in Sources */,
+				61B816D50B680263BB38B9185B275287 /* RSKImageCropper-dummy.m in Sources */,
+				69E16031754741C6B25EED5AF05B4D65 /* RSKImageCropViewController.m in Sources */,
+				9D558C31B19BC33C6292EECE79847615 /* RSKImageScrollView.m in Sources */,
+				3D7E755EC29C67D8120A68C29508E75B /* RSKInternalUtility.m in Sources */,
+				367420213386DA9E1ADC2E9D565C3BFE /* RSKTouchView.m in Sources */,
+				E8A4DB6434A8923E9E373F82A1D6615D /* UIApplication+RSKImageCropper.m in Sources */,
+				4F4D8797C996E356976BBC94E8ADC5CE /* UIImage+RSKImageCropper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F19A745EA679AEC0541210F3BDB5317F /* Sources */ = {
+		7BA914A593FC3B28700BB18C2AC46C93 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F267100A41482FC7779F5A2A98D0407E /* Pods-BinBill-tvOSTests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0B756853BBB25EACF8EFB22638FF6D49 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = QBImagePickerController;
-			target = 279FA0C286DD235EDA65B89D152563A3 /* QBImagePickerController */;
-			targetProxy = 5C7383824AE247139C23A53428CA0810 /* PBXContainerItemProxy */;
-		};
-		607AD6FFC60DC9E0F0323703DB21A06E /* PBXTargetDependency */ = {
+		51606E59CED502CC25F7BB54BB642090 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = RSKImageCropper;
-			target = 29ED39AC73DBD7702D668099D5030BF1 /* RSKImageCropper */;
-			targetProxy = B818C853BF84E44FC6E56A5A9F65B461 /* PBXContainerItemProxy */;
+			target = 890BAC4FC49C1CA2ED86BB7D464C0EE6 /* RSKImageCropper */;
+			targetProxy = BBA6E90D3228ACF81D548595E3080202 /* PBXContainerItemProxy */;
 		};
-		9FCAA94EC6DC37D09D241CAC6F9E5F59 /* PBXTargetDependency */ = {
+		7366E6FFAEA497BCC5696CD0A1CF9A94 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "QBImagePickerController-QBImagePicker";
-			target = ECD2F2BB7274D753F8A502A34C179561 /* QBImagePickerController-QBImagePicker */;
-			targetProxy = A6CE9F55DB0D19E65186E3C8F00F2BC2 /* PBXContainerItemProxy */;
+			target = FD157447E331587FECA92A6F379432D9 /* QBImagePickerController-QBImagePicker */;
+			targetProxy = 536668A0F5581C53C1B2B16A81F91136 /* PBXContainerItemProxy */;
 		};
-		A01A49F29C54BB305BB1EC2C8F2633E6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = RSKImageCropper;
-			target = 29ED39AC73DBD7702D668099D5030BF1 /* RSKImageCropper */;
-			targetProxy = EC2DE6F27BF9861821D6D9176A964566 /* PBXContainerItemProxy */;
-		};
-		F3360FCF0A0F88C798A982526835BE34 /* PBXTargetDependency */ = {
+		C2638E30B59C76DFA5116DDC9A9D52A8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = QBImagePickerController;
-			target = 279FA0C286DD235EDA65B89D152563A3 /* QBImagePickerController */;
-			targetProxy = 787209ECC1A637A36E70B270DE1AB1F3 /* PBXContainerItemProxy */;
+			target = A420A31C1309B85854202A4BD6DCB1F5 /* QBImagePickerController */;
+			targetProxy = 679B63FA4A54102A020B8ADBC8E70B5C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -857,7 +829,123 @@
 			};
 			name = Release;
 		};
-		37BDA171DB8A7C8481FE14985AAA0DB3 /* Debug */ = {
+		37756B2F65B1F786A80D1848B3B11DBC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F927E621B17437EEA2EF371B83EC8E1 /* QBImagePickerController.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/QBImagePickerController/QBImagePickerController-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		412D3FD8F764B1ED0E9886B57856BB61 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 88DBD7F23FB1CC6D9069BFD15B152026 /* Pods-BinBill-tvOS.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+			};
+			name = Debug;
+		};
+		526E17352098B828B35F0B212AC07389 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 90CF01953D2FD163897BAAC0E0DC662D /* Pods-BinBill.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5B005699DA2FC65E9E2AAF0825107F77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 02D106E07284F3B1874FC3FEBFB5E452 /* Pods-BinBill-tvOSTests.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		674A4521DCF80D61227DEB1388828915 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F927E621B17437EEA2EF371B83EC8E1 /* QBImagePickerController.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/QBImagePickerController";
+				INFOPLIST_FILE = "Target Support Files/QBImagePickerController/ResourceBundle-QBImagePicker-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = QBImagePicker;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		680CAACF2BD1C2FB8BE0318715B33E6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73B34B122901529D556FAEC04211969E /* Pods-BinBill-tvOSTests.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+			};
+			name = Debug;
+		};
+		761998E005BDC14989AB115BB3EA3C12 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 43EB66EC5F5A7401F86C0FE33BD55F32 /* RSKImageCropper.xcconfig */;
 			buildSettings = {
@@ -875,12 +963,13 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
-		4307D3D276ED7DF5917D1391E33A33F0 /* Release */ = {
+		80E489B67EB78DCC476D382B875CB621 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E50C9DAB10707A82A99E210270C876BE /* Pods-BinBill_RN.release.xcconfig */;
+			baseConfigurationReference = 01741DFA6BA52A847A753D74ECA94CD7 /* Pods-BinBill.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -898,116 +987,6 @@
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
-		};
-		526356EB20EA2D69F28A65CFDD8BB6F2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F927E621B17437EEA2EF371B83EC8E1 /* QBImagePickerController.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/QBImagePickerController";
-				INFOPLIST_FILE = "Target Support Files/QBImagePickerController/ResourceBundle-QBImagePicker-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = QBImagePicker;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
-		60EEDC66D5DF01F65411DCC3AB9F648C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C91827D76D6B927E84D60A47FCFBF3B6 /* Pods-BinBill_RN.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		69F09A15F082DE6BAD410D0C886DF659 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F927E621B17437EEA2EF371B83EC8E1 /* QBImagePickerController.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/QBImagePickerController";
-				INFOPLIST_FILE = "Target Support Files/QBImagePickerController/ResourceBundle-QBImagePicker-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = QBImagePicker;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
-		70EB97763B344CF92F25DA9BCEBF67E9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2BE293276543139F27BE5888FC938A99 /* Pods-BinBill_RN-tvOS.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = appletvos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
-			};
-			name = Debug;
-		};
-		748570E327C9F7E3687251154450A6CD /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1BEB95085C4A5AF58C65683CF28CC5A2 /* Pods-BinBill_RN-tvOSTests.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = appletvos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		966B452C671E74B6190BA7390159F44D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 00D5121BF9F63AF8F17D7975ABCBD9B6 /* Pods-BinBill_RN-tvOSTests.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = appletvos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
-			};
-			name = Debug;
 		};
 		9D625C3752B9B2C9659751DEA05FE98B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1070,9 +1049,9 @@
 			};
 			name = Debug;
 		};
-		A4EEEEB245F3E257D70BE47B8442C990 /* Debug */ = {
+		ADBA64C940226F2948F80AEF6E509BD9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D203FA19065EC4785B63950F08924C04 /* Pods-BinBill_RNTests.debug.xcconfig */;
+			baseConfigurationReference = F70C92FBC66384443AF6DB92A8B60266 /* Pods-BinBillTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1087,12 +1066,29 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AEEAB6AE4D66672488431DE56C6427AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F927E621B17437EEA2EF371B83EC8E1 /* QBImagePickerController.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/QBImagePickerController";
+				INFOPLIST_FILE = "Target Support Files/QBImagePickerController/ResourceBundle-QBImagePicker-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = QBImagePicker;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
 		};
-		AF3A4BF8581604FE5F09807E3821F035 /* Release */ = {
+		BA809F57AC266050E611FF56FF6CD488 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2B78BF3F295017738A4B25C401FE2A51 /* Pods-BinBill_RN-tvOS.release.xcconfig */;
+			baseConfigurationReference = 54BBA43F6085F651BD5B1AF640C93235 /* Pods-BinBill-tvOS.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1110,50 +1106,7 @@
 			};
 			name = Release;
 		};
-		E1AC359016FB64FE53860535959206C3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA0E8A00DB3616A08D2D0DA9D1338A11 /* Pods-BinBill_RNTests.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		E95F09F5B0391775E7D9DF4D907BF824 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F927E621B17437EEA2EF371B83EC8E1 /* QBImagePickerController.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/QBImagePickerController/QBImagePickerController-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		F4ED8BF7F424E489756F4B7B521758B7 /* Debug */ = {
+		D3AAEC584AD355E666C12742AFE619E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3F927E621B17437EEA2EF371B83EC8E1 /* QBImagePickerController.xcconfig */;
 			buildSettings = {
@@ -1174,7 +1127,7 @@
 			};
 			name = Debug;
 		};
-		FE8A1C9CB58382B3946C7655E0A5FF29 /* Release */ = {
+		DACA3961BB518289E23F7D7FB7F695F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 43EB66EC5F5A7401F86C0FE33BD55F32 /* RSKImageCropper.xcconfig */;
 			buildSettings = {
@@ -1192,9 +1145,28 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
+		};
+		E34605DC9A47AD526436E9D54C0C2B9C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F11BBBDDA51C3A1DB92A901AEDE0D1C /* Pods-BinBillTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1208,65 +1180,65 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3234B96ACD3D21A04DB734FE6EFA38C7 /* Build configuration list for PBXNativeTarget "Pods-BinBill_RNTests" */ = {
+		4198B621DAB2989255C8899872D7093C /* Build configuration list for PBXNativeTarget "RSKImageCropper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A4EEEEB245F3E257D70BE47B8442C990 /* Debug */,
-				E1AC359016FB64FE53860535959206C3 /* Release */,
+				DACA3961BB518289E23F7D7FB7F695F1 /* Debug */,
+				761998E005BDC14989AB115BB3EA3C12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		325F96FAAB5AA3C469E8A7754146A3EE /* Build configuration list for PBXNativeTarget "Pods-BinBill_RN-tvOSTests" */ = {
+		4E1EE071D23566E9C49F9EFAAEABC3D4 /* Build configuration list for PBXNativeTarget "Pods-BinBill-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				966B452C671E74B6190BA7390159F44D /* Debug */,
-				748570E327C9F7E3687251154450A6CD /* Release */,
+				412D3FD8F764B1ED0E9886B57856BB61 /* Debug */,
+				BA809F57AC266050E611FF56FF6CD488 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		68135FDA6D96B825DE489469DAB90DA0 /* Build configuration list for PBXNativeTarget "QBImagePickerController-QBImagePicker" */ = {
+		6FD86A2C10A62C98E6A42295774FBE8E /* Build configuration list for PBXNativeTarget "Pods-BinBill-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				69F09A15F082DE6BAD410D0C886DF659 /* Debug */,
-				526356EB20EA2D69F28A65CFDD8BB6F2 /* Release */,
+				680CAACF2BD1C2FB8BE0318715B33E6E /* Debug */,
+				5B005699DA2FC65E9E2AAF0825107F77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6BB10E2E31598BA496D3AADB8C8D1440 /* Build configuration list for PBXNativeTarget "Pods-BinBill_RN" */ = {
+		936CE1C42116529075544712BEF60C89 /* Build configuration list for PBXNativeTarget "QBImagePickerController-QBImagePicker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				60EEDC66D5DF01F65411DCC3AB9F648C /* Debug */,
-				4307D3D276ED7DF5917D1391E33A33F0 /* Release */,
+				AEEAB6AE4D66672488431DE56C6427AE /* Debug */,
+				674A4521DCF80D61227DEB1388828915 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C583C91197B31511DC8D3B55AF0C1FB9 /* Build configuration list for PBXNativeTarget "RSKImageCropper" */ = {
+		B18125CD9952BF3B9EE0A12EAD8B7DD5 /* Build configuration list for PBXNativeTarget "Pods-BinBill" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				37BDA171DB8A7C8481FE14985AAA0DB3 /* Debug */,
-				FE8A1C9CB58382B3946C7655E0A5FF29 /* Release */,
+				526E17352098B828B35F0B212AC07389 /* Debug */,
+				80E489B67EB78DCC476D382B875CB621 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E9C4E97AF8F553397CE50F913DBE672A /* Build configuration list for PBXNativeTarget "Pods-BinBill_RN-tvOS" */ = {
+		B339B27FB4F576E7BE16F6D3BBCB9F56 /* Build configuration list for PBXNativeTarget "Pods-BinBillTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				70EB97763B344CF92F25DA9BCEBF67E9 /* Debug */,
-				AF3A4BF8581604FE5F09807E3821F035 /* Release */,
+				E34605DC9A47AD526436E9D54C0C2B9C /* Debug */,
+				ADBA64C940226F2948F80AEF6E509BD9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FCD208647E45F21EF9547B10F52AA112 /* Build configuration list for PBXNativeTarget "QBImagePickerController" */ = {
+		F91FDFFC334C143F9626E983956B6F07 /* Build configuration list for PBXNativeTarget "QBImagePickerController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F4ED8BF7F424E489756F4B7B521758B7 /* Debug */,
-				E95F09F5B0391775E7D9DF4D907BF824 /* Release */,
+				D3AAEC584AD355E666C12742AFE619E0 /* Debug */,
+				37756B2F65B1F786A80D1848B3B11DBC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
