@@ -13,7 +13,7 @@
     "react": "16.0.0",
     "react-native": "0.50.4",
     "react-native-actionsheet": "^2.3.0",
-    "react-native-app-intro-slider": "https://github.com/Jacse/react-native-app-intro-slider",
+    "react-native-app-intro-slider": "^0.2.2",
     "react-native-blur": "^3.2.2",
     "react-native-check-box": "^2.0.2",
     "react-native-document-picker": "^2.1.0",

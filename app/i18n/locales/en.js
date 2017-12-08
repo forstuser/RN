@@ -1,10 +1,13 @@
 export default {
-  app_intro_1:
-    "No more hassle over bills, just click and upload, we will manage them for you",
-  app_intro_2:
-    "Access your bills 24x7, enjoy delightful after sales communication and track your expenses",
-  app_intro_3:
-    "We not only securely store your bills, but also help you build your e-home, adding value to the bills.",
+  app_intro_1_title: `Product Card\nHistory of your Product`,
+  app_intro_1_desc: `You upload the bill and we store all information of the product under eHome starting from purchase dates to renewal dates of Warranty/Insurance/Amc or Repair history.`,
+  app_intro_2_title: `Search and Connect with\nAuthorised Service Centers`,
+  app_intro_2_desc: `With the ASC section in the app you can connect to 100,000 service centres across 40+ cities whenever you want to find an authorised service centre nearby.`,
+  app_intro_3_title: `Connect directly with Brands for issues/complaints or feedback`,
+  app_intro_3_desc: `Customer is the king, and we have made it possible for you to feel the same. Connect with over 200+ brands, for any query or update on missing details.`,
+  app_intro_4_title: `All your bills are now safe in Your eHome`,
+  app_intro_4_desc: `Bringing ease to our users’ lives is our prime concern, access your bills, or product cards in your eHome, anytime, anywhere. All your bills, are secure and just a click away!`,
+
   login_screen_title: "Get Started",
   login_screen_input_placeholder: "Enter your mobile number",
   login_screen_btn_text: "Verify",

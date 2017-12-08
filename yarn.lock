@@ -3463,9 +3463,9 @@ react-native-animatable@^1.2.3:
   dependencies:
     prop-types "^15.5.10"
 
-"react-native-app-intro-slider@https://github.com/Jacse/react-native-app-intro-slider":
-  version "0.1.2"
-  resolved "https://github.com/Jacse/react-native-app-intro-slider#6708113af4a1bea9c756d9c2021e08e6129ae3d0"
+react-native-app-intro-slider@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-app-intro-slider/-/react-native-app-intro-slider-0.2.2.tgz#6053ae17a841491e7a35ce4babbbf9752c47b399"
 
 react-native-blur@^3.2.2:
   version "3.2.2"
