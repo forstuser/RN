@@ -18,6 +18,7 @@ import UpcomingServicesList from "../components/upcoming-services-list";
 import UploadBillOptions from "../components/upload-bill-options";
 import { colors } from "../theme";
 import LoadingOverlay from "../components/loading-overlay";
+import ErrorOverlay from "../components/error-overlay";
 
 const uploadFabIcon = require("../images/ic_upload_fab.png");
 
@@ -29,6 +30,7 @@ class DashboardScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      error: null,
       isFetchingData: true,
       showDashboard: true,
       upcomingServices: [],
@@ -50,6 +52,7 @@ class DashboardScreen extends React.Component {
 
   fetchDashboardData = async () => {
     this.setState({
+      error: null,
       isFetchingData: true
     });
     try {
@@ -78,8 +81,10 @@ class DashboardScreen extends React.Component {
         upcomingServices: dashboardData.upcomingServices,
         insightChartProps: insightChartProps
       });
-    } catch (e) {
-      Alert.alert(e.message);
+    } catch (error) {
+      this.setState({
+        error
+      });
     }
     this.setState({
       isFetchingData: false
@@ -100,6 +105,7 @@ class DashboardScreen extends React.Component {
 
   render() {
     const {
+      error,
       showDashboard,
       notificationCount,
       recentSearches,
@@ -115,6 +121,7 @@ class DashboardScreen extends React.Component {
     );
     return (
       <ScreenContainer style={{ padding: 0 }}>
+        <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
         <LoadingOverlay visible={isFetchingData} />
         {showDashboard && (
           <View>

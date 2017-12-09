@@ -10,10 +10,10 @@ export const colors = {
 };
 
 export const defaultNavigatorStyle = {
-  navBarTextColor: colors.mainText,
-  navBarTextFontSize: 20,
-  navBarTextFontFamily: "Quicksand-Medium",
-  navBarBackgroundColor: "#fff"
+  // navBarTextColor: colors.mainText,
+  // navBarTextFontSize: 20,
+  // navBarTextFontFamily: "Quicksand-Medium",
+  // navBarBackgroundColor: "#fff"
 };
 
 export default {

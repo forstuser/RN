@@ -3,9 +3,17 @@ import store from "../store";
 
 export const API_BASE_URL = "https://consumer-eb.binbill.com";
 
-const apiRequest = async ({ method, url, queryParams = {}, data = null }) => {
+const apiRequest = async ({
+  method,
+  url,
+  queryParams = {},
+  data = null,
+  headers = {},
+  onUploadProgress,
+  onDownloadProgress,
+  responseType = "json"
+}) => {
   try {
-    let headers = {};
     const token = store.getState().loggedInUser.authToken;
     if (token) {
       headers.Authorization = token;
@@ -16,133 +24,82 @@ const apiRequest = async ({ method, url, queryParams = {}, data = null }) => {
       url,
       params: queryParams,
       data,
-      headers: {
-        ...headers
-      }
+      headers,
+      onUploadProgress,
+      onDownloadProgress
     });
+    if (r.data.status == false) {
+      let error = new Error(r.data.message);
+      error.statusCode = 400;
+      throw error;
+    }
     return r.data;
   } catch (e) {
-    if (e.response) {
-      throw new Error(e.response.data.message);
-    } else {
-      throw e.message;
-    }
-    throw e;
+    let error = new Error(e.message);
+    error.statusCode = e.statusCode || 0;
+    throw error;
   }
 };
 
 export const uploadDocuments = async (files, onUploadProgress) => {
-  try {
-    let headers = {};
-    const token = store.getState().loggedInUser.authToken;
-    if (token) {
-      headers.Authorization = token;
-    }
-    // create formdata
-    const data = new FormData();
-    files.forEach((file, index) => {
-      data.append(`filesName`, {
-        uri: file.uri,
-        type: file.mimeType,
-        name: file.filename || "camera-image.jpeg"
-      });
-    });
-
-    const r = await axios.request({
-      baseURL: API_BASE_URL,
-      method: "post",
-      url: "/consumer/upload",
-      data: data,
-      headers: {
-        ...headers,
-        "Content-Type": "multipart/form-data"
-      },
-      onUploadProgress: progressEvent => {
-        let percentCompleted = Math.floor(
-          progressEvent.loaded * 100 / progressEvent.total
-        );
-        onUploadProgress(percentCompleted);
-      }
-    });
-    return r.data;
-  } catch (e) {
-    if (e.response) {
-      throw new Error(e.response.data.message);
-    } else {
-      throw e.message;
-    }
-    throw e;
-  }
-};
-
-export const uploadProfilePic = async (file, onUploadProgress) => {
-  try {
-    let headers = {};
-    const token = store.getState().loggedInUser.authToken;
-    if (token) {
-      headers.Authorization = token;
-    }
-    // create formdata
-    const data = new FormData();
+  const data = new FormData();
+  files.forEach((file, index) => {
     data.append(`filesName`, {
       uri: file.uri,
       type: file.mimeType,
-      name: file.filename
+      name: file.filename || "camera-image.jpeg"
     });
+  });
 
-    const r = await axios.request({
-      baseURL: API_BASE_URL,
-      method: "post",
-      url: "/consumer/upload/selfie",
-      data: data,
-      headers: {
-        ...headers,
-        "Content-Type": "multipart/form-data"
-      },
-      onUploadProgress: progressEvent => {
-        let percentCompleted = Math.floor(
-          progressEvent.loaded * 100 / progressEvent.total
-        );
-        onUploadProgress(percentCompleted);
-      }
-    });
-    return r.data;
-  } catch (e) {
-    if (e.response) {
-      throw new Error(e.response.data.message);
-    } else {
-      throw e.message;
+  return await apiRequest({
+    method: "post",
+    url: "/consumer/upload",
+    data: data,
+    headers: {
+      "Content-Type": "multipart/form-data"
+    },
+    onUploadProgress: progressEvent => {
+      let percentCompleted = Math.floor(
+        progressEvent.loaded * 100 / progressEvent.total
+      );
+      onUploadProgress(percentCompleted);
     }
-    throw e;
-  }
+  });
 };
 
-export const fetchFile = async url => {
-  try {
-    let headers = {};
-    const token = store.getState().loggedInUser.authToken;
-    if (token) {
-      headers.Authorization = token;
-    }
+export const uploadProfilePic = async (file, onUploadProgress) => {
+  const data = new FormData();
+  data.append(`filesName`, {
+    uri: file.uri,
+    type: file.mimeType,
+    name: file.filename || "profile-pic.jpeg"
+  });
 
-    const r = await axios.request({
-      baseURL: API_BASE_URL,
-      method: "get",
-      url: url,
-      headers: {
-        ...headers
-      },
-      responseType: "arraybuffer"
-    });
-    return new Buffer(r.data, "binary").toString("base64");
-  } catch (e) {
-    if (e.response) {
-      throw new Error(e.response.data.message);
-    } else {
-      throw e.message;
+  return await apiRequest({
+    method: "post",
+    url: "/consumer/upload/selfie",
+    data: data,
+    headers: {
+      "Content-Type": "multipart/form-data"
+    },
+    onUploadProgress: progressEvent => {
+      let percentCompleted = Math.floor(
+        progressEvent.loaded * 100 / progressEvent.total
+      );
+      onUploadProgress(percentCompleted);
     }
-    throw e;
-  }
+  });
+};
+
+export const fetchFile = async (url, onDownloadProgress) => {
+  const responseData = await apiRequest({
+    method: "get",
+    url: url,
+    responseType: "arraybuffer",
+    onDownloadProgress
+  });
+
+  return new Buffer(responseData, "binary").toString("base64");
 };
 
 export const consumerGetOtp = async PhoneNo => {
