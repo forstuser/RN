@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, KeyboardAvoidingView } from "react-native";
 
 const styles = StyleSheet.create({
   containerStyle: {
@@ -10,7 +10,12 @@ const styles = StyleSheet.create({
 });
 
 const ScreenContainer = ({ children, style = {} }) => (
-  <View style={[styles.containerStyle, style]}>{children}</View>
+  <KeyboardAvoidingView
+    behavior="padding"
+    style={[styles.containerStyle, style]}
+  >
+    {children}
+  </KeyboardAvoidingView>
 );
 
 export default ScreenContainer;

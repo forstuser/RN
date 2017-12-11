@@ -225,6 +225,7 @@ export const getAscSearchResults = async ({
     }
   });
 };
+
 export const updateProfile = async ({
   name,
   email,
@@ -256,5 +257,45 @@ export const getCategoryInsightData = async id => {
   return await apiRequest({
     method: "get",
     url: `categories/${id}/insights`
+  });
+};
+
+export const getReferenceDataBrands = async categoryId => {
+  const res = await apiRequest({
+    method: "get",
+    url: `/referencedata`,
+    queryParams: {
+      categoryId
+    }
+  });
+
+  return res.categories[0].brands;
+};
+
+export const addProduct = async ({
+  productName = "",
+  mainCategoryId = null,
+  categoryId = null,
+  brandId = null,
+  brandName = null,
+  metadata = []
+}) => {
+  return await apiRequest({
+    method: "post",
+    url: `/products`,
+    data: {
+      product_name: productName,
+      main_category_id: mainCategoryId,
+      category_id: categoryId,
+      brand_id: brandId,
+      brand_name: brandName,
+      metadata: metadata.map(meta => {
+        return {
+          category_form_id: meta.categoryFormId || null,
+          form_value: meta.value || null,
+          new_drop_down: meta.isNewValue || true
+        };
+      })
+    }
   });
 };

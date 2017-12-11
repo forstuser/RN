@@ -40,7 +40,7 @@ class AddProductsScreen extends Component {
   render() {
     return (
       <ScreenContainer style={styles.container}>
-        <AddProductItem item="car" />
+        <AddProductItem productType="mobile" />
       </ScreenContainer>
     );
   }
