@@ -15,6 +15,8 @@ target 'BinBill' do
 
   pod 'RNShare', :path => '../node_modules/react-native-share'
 
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+
   target 'BinBillTests' do
     inherit! :search_paths
     # Pods for testing

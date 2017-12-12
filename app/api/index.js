@@ -260,6 +260,18 @@ export const getCategoryInsightData = async id => {
   });
 };
 
+export const getReferenceDataCategories = async mainCategoryId => {
+  const res = await apiRequest({
+    method: "get",
+    url: `/referencedata`,
+    queryParams: {
+      mainCategoryId
+    }
+  });
+
+  return res.categories[0].subCategories;
+};
+
 export const getReferenceDataBrands = async categoryId => {
   const res = await apiRequest({
     method: "get",
@@ -270,6 +282,19 @@ export const getReferenceDataBrands = async categoryId => {
   });
 
   return res.categories[0].brands;
+};
+
+export const getReferenceDataModels = async (categoryId, brandId) => {
+  const res = await apiRequest({
+    method: "get",
+    url: `/referencedata`,
+    queryParams: {
+      categoryId,
+      brandId
+    }
+  });
+
+  return res.dropDowns;
 };
 
 export const addProduct = async ({

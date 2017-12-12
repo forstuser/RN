@@ -34,7 +34,7 @@ class SelectModal extends Component {
 
   _renderOption = ({ item, index }) => {
     const {
-      selectedValue = null,
+      selectedOption = null,
       valueKey = "id",
       visibleKey = "name",
       onChange
@@ -83,9 +83,10 @@ class SelectModal extends Component {
   };
 
   render() {
-    const {
+    let {
       options = [],
-      selectedValue = null,
+      selectedOption = null,
+      textInputValue = "",
       valueKey = "id",
       visibleKey = "name",
       placeholder = "Select a value",
@@ -97,7 +98,14 @@ class SelectModal extends Component {
       dropdownArrowStyle = {},
       placeholderRenderer = this._placeholderRenderer
     } = this.props;
-    const { isTextInputVisible, isModalVisible, searchInput } = this.state;
+    let { isTextInputVisible, isModalVisible, searchInput } = this.state;
+
+    if (textInputValue && textInputValue.length > 0) {
+      this.setState({
+        searchInput: textInputValue,
+        isTextInputVisible: true
+      });
+    }
 
     const searchText = searchInput.trim();
     let optionsAfterSearch = [];
@@ -119,8 +127,10 @@ class SelectModal extends Component {
             style={styles.wrapper}
           >
             <View style={{ flex: 1 }}>
-              {selectedValue == null && placeholderRenderer({ placeholder })}
-              {selectedValue != null && <Text>{selectedValue.name}</Text>}
+              {selectedOption == null && placeholderRenderer({ placeholder })}
+              {selectedOption != null && (
+                <Text>{selectedOption[visibleKey]}</Text>
+              )}
             </View>
             <Image
               style={[styles.dropdownIcon, dropdownArrowStyle]}

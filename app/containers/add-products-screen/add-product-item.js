@@ -1,11 +1,24 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+  Dimensions
+} from "react-native";
+import DeviceInfo from "react-native-device-info";
 import moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
 import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
 import { colors } from "../../theme";
-import { API_BASE_URL, getReferenceDataBrands, addProduct } from "../../api";
+import {
+  API_BASE_URL,
+  getReferenceDataBrands,
+  getReferenceDataModels,
+  addProduct
+} from "../../api";
 import { openBillsPopUp } from "../../navigation";
 import SelectModal from "../../components/select-modal";
 
@@ -18,6 +31,7 @@ class AddProductItem extends React.Component {
       categoryFormId: 2,
       text: "Now let’s add your Mobile to Your eHome",
       icon: require("../../images/ic_mobile.png"),
+      showDetectDeviceBtn: false,
       brands: [],
       selectedBrand: null,
       brandName: "",
@@ -28,7 +42,80 @@ class AddProductItem extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchBrands();
+    const productType = this.props.productType;
+    let productSpecificState = {};
+    switch (productType) {
+      case "Mobile":
+        productSpecificState = {
+          mainCategoryId: 2,
+          categoryId: 327,
+          categoryFormId: 2,
+          text: "Now let’s add your Mobile to Your eHome",
+          icon: require("../../images/ic_mobile.png"),
+          showDetectDeviceBtn: true
+        };
+        break;
+      case "Car":
+        productSpecificState = {
+          mainCategoryId: 3,
+          categoryId: 139,
+          categoryFormId: 1073,
+          text: "Gotta a Car! Why not add it to Your eHome",
+          icon: require("../../images/ic_car.png")
+        };
+        break;
+      case "Bike":
+        productSpecificState = {
+          mainCategoryId: 3,
+          categoryId: 138,
+          categoryFormId: 1080,
+          text: "If you have a bike too, add it to Your eHome",
+          icon: require("../../images/ic_bike.png")
+        };
+        break;
+      case "Fridge":
+        productSpecificState = {
+          mainCategoryId: 2,
+          categoryId: 491,
+          categoryFormId: 26,
+          text: "Do you like it so far, let’s add more products : Fridge",
+          icon: require("../../images/ic_fridge.png")
+        };
+        break;
+      case "Television":
+        productSpecificState = {
+          mainCategoryId: 2,
+          categoryId: 581,
+          categoryFormId: 33,
+          text: "Do you like it so far, let’s add more products : Television",
+          icon: require("../../images/ic_tv.png")
+        };
+        break;
+      case "Washing Machine":
+        productSpecificState = {
+          mainCategoryId: 2,
+          categoryId: 541,
+          categoryFormId: 1044,
+          text:
+            "Do you like it so far, let’s add more products : Washing Machine",
+          icon: require("../../images/ic_washing_machine.png")
+        };
+        break;
+    }
+    this.setState(
+      {
+        ...productSpecificState,
+        brands: [],
+        selectedBrand: null,
+        brandName: "",
+        models: [],
+        selectedModel: null,
+        modelName: ""
+      },
+      () => {
+        this.fetchBrands();
+      }
+    );
   }
 
   fetchBrands = async () => {
@@ -41,18 +128,64 @@ class AddProductItem extends React.Component {
   };
 
   onBrandSelect = brand => {
+    if (this.state.selectedBrand && this.state.selectedBrand.id == brand.id) {
+      return;
+    }
     this.setState(
       {
-        selectedBrand: brand
-      }
-      // () => this.fetchModels()
+        selectedBrand: brand,
+        brandName: "",
+        models: [],
+        modelName: "",
+        selectedModel: null
+      },
+      () => this.fetchModels()
     );
   };
 
+  onBrandNameChange = text => {
+    this.setState({
+      brandName: text,
+      selectedBrand: null,
+      models: [],
+      modelName: "",
+      selectedModel: null
+    });
+  };
+
   fetchModels = async () => {
+    if (this.state.selectedBrand) {
+      try {
+        const models = await getReferenceDataModels(
+          this.state.categoryId,
+          this.state.selectedBrand.id
+        );
+        this.setState({ models });
+      } catch (e) {
+        Alert.alert(e.message);
+      }
+    }
+  };
+
+  onModelNameChange = text => {
+    this.setState({
+      modelName: text,
+      selectedModel: null
+    });
+  };
+
+  onDetectDeviceClick = () => {
     try {
-      const models = await getReferenceDataModels(this.state.selectedBrand.id);
-      this.setState({ models });
+      const brandName = DeviceInfo.getBrand();
+      const modelName = DeviceInfo.getModel();
+      this.setState(
+        {
+          brandName
+        },
+        () => {
+          this.setState({ modelName });
+        }
+      );
     } catch (e) {
       Alert.alert(e.message);
     }
@@ -96,25 +229,28 @@ class AddProductItem extends React.Component {
           {
             categoryFormId,
             value: selectedModel ? selectedModel.name : modelName,
-            isNewValue: selectedModel ? false.name : true
+            isNewValue: selectedModel ? false : true
           }
         ]
       });
-      Alert.alert("Product Added");
+      this.props.onProductAdded();
     } catch (e) {
       Alert.alert(e.message);
     }
   };
 
   render() {
-    const productType = this.props.productType;
+    const onUploadBillPress = this.props.onUploadBillPress;
     const {
       text,
       icon,
       brands,
       selectedBrand,
+      brandName,
       models,
-      selectedModel
+      selectedModel,
+      modelName,
+      showDetectDeviceBtn
     } = this.state;
 
     return (
@@ -128,13 +264,20 @@ class AddProductItem extends React.Component {
           {this.state.text}
         </Text>
         <Image style={styles.icon} source={icon} resizeMode="contain" />
-        <TouchableOpacity style={styles.detectDevice}>
-          <Image
-            style={styles.detectDeviceIcon}
-            source={require("../../images/ic_detect_device.png")}
-          />
-          <Text style={styles.detectDeviceText}>DETECT THIS DEVICE</Text>
-        </TouchableOpacity>
+        <View style={styles.detectDeviceWrapper}>
+          {showDetectDeviceBtn && (
+            <TouchableOpacity
+              onPress={this.onDetectDeviceClick}
+              style={styles.detectDevice}
+            >
+              <Image
+                style={styles.detectDeviceIcon}
+                source={require("../../images/ic_detect_device.png")}
+              />
+              <Text style={styles.detectDeviceText}>DETECT THIS DEVICE</Text>
+            </TouchableOpacity>
+          )}
+        </View>
 
         <SelectModal
           style={styles.select}
@@ -146,15 +289,17 @@ class AddProductItem extends React.Component {
               {placeholder}
             </Text>
           )}
-          selectedValue={selectedBrand}
+          selectedOption={selectedBrand}
+          textInputValue={brandName}
           options={brands}
           onOptionSelect={value => {
             this.onBrandSelect(value);
           }}
-          onTextInputChange={text => this.setState({ brandName: text })}
+          onTextInputChange={text => this.onBrandNameChange}
         />
         <SelectModal
           style={styles.select}
+          visibleKey="title"
           dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
           placeholder="Select Model Name"
           textInputPlaceholder="Enter your model"
@@ -164,7 +309,8 @@ class AddProductItem extends React.Component {
             </Text>
           )}
           options={models}
-          selectedValue={selectedModel}
+          selectedOption={selectedModel}
+          textInputValue={modelName}
           onOptionSelect={value => {
             this.setState({
               selectedModel: value
@@ -173,6 +319,7 @@ class AddProductItem extends React.Component {
           onTextInputChange={text => this.setState({ modelName: text })}
         />
         <TouchableOpacity
+          onPress={onUploadBillPress}
           style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
         >
           <Text weight="Bold" style={{ color: colors.secondaryText, flex: 1 }}>
@@ -199,7 +346,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20
+    padding: 20,
+    width: Dimensions.get("window").width
   },
   title: {
     fontSize: 18,
@@ -208,8 +356,11 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   icon: {
-    width: 68,
+    width: 130,
     height: 68
+  },
+  detectDeviceWrapper: {
+    height: 50
   },
   detectDevice: {
     flexDirection: "row",
