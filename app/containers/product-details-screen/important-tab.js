@@ -12,7 +12,7 @@ import call from "react-native-phone-call";
 import moment from "moment";
 
 import { Text, Button, ScreenContainer } from "../../elements";
-
+import I18n from "../../i18n";
 import { colors } from "../../theme";
 import Collapsible from "../../components/collapsible";
 import KeyValueItem from "../../components/key-value-item";
@@ -70,7 +70,9 @@ class ImportantTab extends Component {
 
     return (
       <ScrollView>
-        <Collapsible headerText="Warranty Details">
+        <Collapsible
+          headerText={I18n.t("product_details_screen_warranty_title")}
+        >
           {warrantyDetails.length > 0 && (
             <View>
               {warrantyDetails.map(warranty => (
@@ -82,21 +84,26 @@ class ImportantTab extends Component {
                     copies={warranty.copies}
                   />
                   <KeyValueItem
-                    keyText="Expiry Date"
+                    keyText={I18n.t("product_details_screen_warranty_expiry")}
                     valueText={moment(warranty.expiryDate).format(
                       "DD MMM YYYY"
                     )}
                   />
-                  <KeyValueItem keyText="Warranty Type" valueText="" />
+                  <KeyValueItem
+                    keyText={I18n.t("product_details_screen_warranty_type")}
+                    valueText=""
+                  />
                   {warranty.sellers != null && (
                     <KeyValueItem
-                      keyText="Seller"
+                      keyText={I18n.t("product_details_screen_warranty_seller")}
                       valueText={warranty.sellers.sellerName}
                     />
                   )}
                   {warranty.sellers != null && (
                     <KeyValueItem
-                      keyText="Seller Contact"
+                      keyText={I18n.t(
+                        "product_details_screen_warranty_seller_contact"
+                      )}
                       ValueComponent={() => (
                         <Text
                           onPress={() =>
@@ -123,12 +130,14 @@ class ImportantTab extends Component {
           )}
           {warrantyDetails.length == 0 && (
             <Text weight="Bold" style={{ textAlign: "center", padding: 16 }}>
-              No info available
+              {I18n.t("product_details_screen_warranty_no_info")}
             </Text>
           )}
         </Collapsible>
 
-        <Collapsible headerText="Insurance Details">
+        <Collapsible
+          headerText={I18n.t("product_details_screen_insurance_title")}
+        >
           {insuranceDetails.length > 0 && (
             <View>
               {insuranceDetails.map(insurance => (
@@ -140,32 +149,42 @@ class ImportantTab extends Component {
                     copies={insurance.copies}
                   />
                   <KeyValueItem
-                    keyText="Expiry Date"
+                    keyText={I18n.t("product_details_screen_insurance_expiry")}
                     valueText={moment(insurance.expiryDate).format(
                       "DD MMM YYYY"
                     )}
                   />
                   <KeyValueItem
-                    keyText="Policy No."
+                    keyText={I18n.t(
+                      "product_details_screen_insurance_policy_no"
+                    )}
                     valueText={insurance.policyNo || ""}
                   />
                   <KeyValueItem
-                    keyText="Premium Amount"
+                    keyText={I18n.t(
+                      "product_details_screen_insurance_premium_amount"
+                    )}
                     valueText={insurance.premiumAmount || ""}
                   />
                   <KeyValueItem
-                    keyText="Amount Insured"
+                    keyText={I18n.t(
+                      "product_details_screen_insurance_amount_insured"
+                    )}
                     valueText={insurance.amountInsured || ""}
                   />
                   {insurance.sellers != null && (
                     <KeyValueItem
-                      keyText="Seller"
+                      keyText={I18n.t(
+                        "product_details_screen_insurance_seller"
+                      )}
                       valueText={insurance.sellers.sellerName || ""}
                     />
                   )}
                   {insurance.sellers != null && (
                     <KeyValueItem
-                      keyText="Seller Contact"
+                      keyText={I18n.t(
+                        "product_details_screen_insurance_seller_contact"
+                      )}
                       ValueComponent={() => (
                         <Text
                           onPress={() =>
@@ -192,12 +211,12 @@ class ImportantTab extends Component {
           )}
           {insuranceDetails.length == 0 && (
             <Text weight="Bold" style={{ textAlign: "center", padding: 16 }}>
-              No info available
+              {I18n.t("product_details_screen_insurance_no_info")}
             </Text>
           )}
         </Collapsible>
 
-        <Collapsible headerText="AMC Details">
+        <Collapsible headerText={I18n.t("product_details_screen_amc_title")}>
           {amcDetails.length > 0 && (
             <View>
               {amcDetails.map(amc => (
@@ -209,30 +228,36 @@ class ImportantTab extends Component {
                     copies={amc.copies}
                   />
                   <KeyValueItem
-                    keyText="Expiry Date"
+                    keyText={I18n.t("product_details_screen_amc_expiry")}
                     valueText={moment(amc.expiryDate).format("DD MMM YYYY")}
                   />
                   <KeyValueItem
-                    keyText="Policy No."
+                    keyText={I18n.t("product_details_screen_amc_policy_no")}
                     valueText={amc.policyNo || ""}
                   />
                   <KeyValueItem
-                    keyText="Premium Amount"
+                    keyText={I18n.t(
+                      "product_details_screen_amc_premium_amount"
+                    )}
                     valueText={amc.premiumAmount || ""}
                   />
                   <KeyValueItem
-                    keyText="Amount Insured"
+                    keyText={I18n.t(
+                      "product_details_screen_amc_amount_insured"
+                    )}
                     valueText={amc.amountInsured || ""}
                   />
                   {amc.sellers != null && (
                     <KeyValueItem
-                      keyText="Seller"
+                      keyText={I18n.t("product_details_screen_amc_seller")}
                       valueText={amc.sellers.sellerName || ""}
                     />
                   )}
                   {amc.sellers != null && (
                     <KeyValueItem
-                      keyText="Seller Contact"
+                      keyText={I18n.t(
+                        "product_details_screen_amc_seller_contact"
+                      )}
                       ValueComponent={() => (
                         <Text
                           onPress={() =>
@@ -259,12 +284,14 @@ class ImportantTab extends Component {
           )}
           {amcDetails.length == 0 && (
             <Text weight="Bold" style={{ textAlign: "center", padding: 16 }}>
-              No info available
+              {I18n.t("product_details_screen_amc_no_info")}
             </Text>
           )}
         </Collapsible>
 
-        <Collapsible headerText="Repair/Service">
+        <Collapsible
+          headerText={I18n.t("product_details_screen_repairs_title")}
+        >
           {repairBills.length > 0 && (
             <View>
               {repairBills.map(repairBill => (
@@ -276,24 +303,30 @@ class ImportantTab extends Component {
                     copies={repairBill.copies}
                   />
                   <KeyValueItem
-                    keyText="Repair Date"
+                    keyText={I18n.t(
+                      "product_details_screen_repairs_repair_date"
+                    )}
                     valueText={moment(repairBill.purchaseDate).format(
                       "DD MMM YYYY"
                     )}
                   />
                   <KeyValueItem
-                    keyText="Premium Amount"
+                    keyText={I18n.t(
+                      "product_details_screen_repairs_premium_amount"
+                    )}
                     valueText={repairBill.premiumAmount}
                   />
                   {repairBill.sellers != null && (
                     <KeyValueItem
-                      keyText="Seller"
+                      keyText={I18n.t("product_details_screen_repairs_seller")}
                       valueText={repairBill.sellers.sellerName || ""}
                     />
                   )}
                   {repairBill.sellers != null && (
                     <KeyValueItem
-                      keyText="Seller Contact"
+                      keyText={I18n.t(
+                        "product_details_screen_repairs_seller_contact"
+                      )}
                       ValueComponent={() => (
                         <Text
                           onPress={() =>
@@ -320,7 +353,7 @@ class ImportantTab extends Component {
           )}
           {repairBills.length == 0 && (
             <Text weight="Bold" style={{ textAlign: "center", padding: 16 }}>
-              No info available
+              {I18n.t("product_details_screen_repairs_no_info")}
             </Text>
           )}
         </Collapsible>

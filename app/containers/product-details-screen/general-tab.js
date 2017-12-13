@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import moment from "moment";
 import { Text, Button, ScreenContainer } from "../../elements";
-
+import I18n from "../../i18n";
 import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
 
@@ -26,15 +26,21 @@ class GeneralTab extends Component {
     return (
       <ScrollView>
         <KeyValueItem
-          keyText="Main Category"
+          keyText={I18n.t("product_details_screen_main_category")}
           valueText={product.masterCategoryName}
         />
-        <KeyValueItem keyText="Sub-Category" valueText={product.categoryName} />
+        <KeyValueItem
+          keyText={I18n.t("product_details_screen_sub_category")}
+          valueText={product.categoryName}
+        />
         {product.brand && (
-          <KeyValueItem keyText="Brand" valueText={product.brand.name} />
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_brand")}
+            valueText={product.brand.name}
+          />
         )}
         <KeyValueItem
-          keyText="Date of Purchase"
+          keyText={I18n.t("product_details_screen_date_of_purchase")}
           valueText={moment(product.purchaseDate).format("MMM DD, YYYY")}
         />
         {product.metaData.map((metaItem, index) => (

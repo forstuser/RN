@@ -27,12 +27,13 @@ export const openAddProductsScreen = () => {
   });
 };
 
-export const openAddProductScreen = () => {
+export const openAddProductScreen = props => {
   Navigation.startSingleScreenApp({
     screen: {
       screen: "AddProductScreen",
       navigatorStyle: defaultNavigatorStyle
-    }
+    },
+    passProps: props
   });
 };
 

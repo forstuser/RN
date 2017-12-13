@@ -23,7 +23,7 @@ class DocsUnderProcessingScreen extends Component {
   };
   async componentDidMount() {
     this.props.navigator.setTitle({
-      title: "Docs Under Processing"
+      title: I18n.t("docs_under_processing_screen_title")
     });
   }
 

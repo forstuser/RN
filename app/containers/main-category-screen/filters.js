@@ -12,6 +12,8 @@ import Modal from "react-native-modal";
 import CheckBox from "react-native-check-box";
 import LinearGradient from "react-native-linear-gradient";
 
+import I18n from "../../i18n";
+
 import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
 
@@ -288,7 +290,7 @@ class Filters extends Component {
         <TouchableOpacity onPress={this.showModal} style={styles.alwaysVisible}>
           <Image style={styles.filterIcon} source={filterIcon} />
           <Text weight="Medium" style={styles.filterText}>
-            Filter & Sort
+            {I18n.t("main_category_screen_filters_title")}
           </Text>
         </TouchableOpacity>
         <ScrollView horizontal style={styles.appliedFiltersContainer}>
@@ -352,21 +354,25 @@ class Filters extends Component {
                 style={{ color: "red" }}
                 onPress={this.onCancelPress}
               >
-                Cancel
+                {I18n.t("main_category_screen_filters_cancel")}
               </Text>
               <Text weight="Medium" style={[styles.filterText, { flex: 1 }]}>
-                Filter & Sort
+                {I18n.t("main_category_screen_filters_title")}
               </Text>
               <Text
                 weight="Medium"
                 style={{ color: colors.mainBlue }}
                 onPress={this.onApplyPress}
               >
-                Apply
+                {I18n.t("main_category_screen_filters_apply")}
               </Text>
             </View>
             <View>
-              <Collapsible headerText="Type">
+              <Collapsible
+                headerText={I18n.t(
+                  "main_category_screen_filters_title_categories"
+                )}
+              >
                 <FlatList
                   style={{ height: 200 }}
                   data={categories}
@@ -374,7 +380,9 @@ class Filters extends Component {
                   renderItem={this.renderCategoryItem}
                 />
               </Collapsible>
-              <Collapsible headerText="Brand">
+              <Collapsible
+                headerText={I18n.t("main_category_screen_filters_title_brands")}
+              >
                 <FlatList
                   style={{ maxHeight: 200 }}
                   data={brands}
@@ -382,7 +390,11 @@ class Filters extends Component {
                   renderItem={this.renderBrandItem}
                 />
               </Collapsible>
-              <Collapsible headerText="Sellers">
+              <Collapsible
+                headerText={I18n.t(
+                  "main_category_screen_filters_title_sellers"
+                )}
+              >
                 <FlatList
                   style={{ maxHeight: 200 }}
                   data={sellers}

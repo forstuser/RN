@@ -19,6 +19,8 @@ import { colors } from "../../theme";
 
 import EmptyServicesListPlaceholder from "./empty-services-list-placeholder";
 
+import I18n from "../../i18n";
+
 const directionIcon = require("../../images/ic_directions.png");
 const callIcon = require("../../images/ic_call.png");
 
@@ -35,7 +37,7 @@ class AscSearchScreen extends Component {
   }
   componentDidMount() {
     this.props.navigator.setTitle({
-      title: "Search Results for"
+      title: I18n.t("asc_search_screen_title")
     });
     this.props.navigator.setSubTitle({
       subtitle:
@@ -88,7 +90,7 @@ class AscSearchScreen extends Component {
         }).catch(e => Alert.alert(e.message));
       }
     }
-    Alert.alert("Phone number not available to call");
+    Alert.alert(I18n.t("asc_search_screen_phone_not_available"));
   };
 
   render() {
@@ -130,7 +132,7 @@ class AscSearchScreen extends Component {
                     style={styles.directionAndCallItem}
                   >
                     <Text weight="Bold" style={styles.directionAndCallText}>
-                      Directions
+                      {I18n.t("asc_search_screen_directions")}
                     </Text>
                     <Image
                       style={styles.directionAndCallIcon}
@@ -142,7 +144,7 @@ class AscSearchScreen extends Component {
                     style={styles.directionAndCallItem}
                   >
                     <Text weight="Bold" style={styles.directionAndCallText}>
-                      Call
+                      {I18n.t("asc_search_screen_call")}
                     </Text>
                     <Image
                       style={styles.directionAndCallIcon}

@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Image } from "react-native";
 import Text from "../../elements/text";
 import { colors } from "../../theme";
+import I18n from "../../i18n";
 
 const nearbyIcon = require("../../images/ic_nearby.png");
 
@@ -9,11 +10,10 @@ const EmptyServicesListPlaceholder = () => (
   <View style={styles.container}>
     <Image style={styles.image} source={nearbyIcon} />
     <Text weight="Bold" style={styles.title}>
-      No Nearby Services
+      {I18n.t("asc_search_screen_no_results_title")}
     </Text>
     <Text style={styles.text}>
-      Currently there are no services near you. Please comeback later for the
-      nearby services
+      {I18n.t("asc_search_screen_no_results_desc")}
     </Text>
   </View>
 );

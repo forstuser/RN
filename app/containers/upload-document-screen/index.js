@@ -26,6 +26,7 @@ const fileIcon = require("../../images/ic_file.png");
 const newPicIcon = require("../../images/ic_upload_new_pic.png");
 
 import FileItem from "./file-item";
+import I18n from "../../i18n";
 
 const AddPicButton = () => (
   <TouchableOpacity
@@ -63,7 +64,7 @@ class UploadDocumentScreen extends Component {
 
   componentDidMount() {
     this.props.navigator.setTitle({
-      title: "Upload Docs"
+      title: I18n.t("upload_document_screen_title")
     });
 
     switch (this.props.openPickerOnStart) {
@@ -174,7 +175,7 @@ class UploadDocumentScreen extends Component {
       });
 
       showSnackbar({
-        text: "Docs uploded successfully",
+        text: I18n.t("upload_document_screen_upload_success_msg"),
         autoDismissTimerSec: 1000
       });
 
@@ -205,12 +206,12 @@ class UploadDocumentScreen extends Component {
           <View style={styles.noFilesView}>
             <Image style={styles.noFilesIcon} source={fileIcon} />
             <Text weight="Bold" style={{ color: colors.secondaryText }}>
-              No Document to upload
+              {I18n.t("upload_document_screen_no_document_msg")}
             </Text>
             <Button
               style={styles.selectDocBtn}
               onPress={() => this.uploadOptions.show()}
-              text="Select Document"
+              text={I18n.t("upload_document_screen_select_document_btn")}
             />
           </View>
         )}
@@ -240,20 +241,20 @@ class UploadDocumentScreen extends Component {
           <Button
             onPress={this.uploadDocuments}
             style={styles.uploadBtn}
-            text="UPLOAD"
+            text={I18n.t("upload_document_screen_upload_btn")}
             color="secondary"
           />
         )}
         <ActionSheet
           onPress={this.handleOptionPress}
           ref={o => (this.uploadOptions = o)}
-          title="Upload Doc"
+          title={I18n.t("upload_document_screen_upload_options_title")}
           cancelButtonIndex={3}
           options={[
-            "Take picture using camera",
-            "Upload image from gallery",
-            "Upload document",
-            "Cancel"
+            I18n.t("upload_document_screen_upload_options_camera"),
+            I18n.t("upload_document_screen_upload_options_gallery"),
+            I18n.t("upload_document_screen_upload_options_document"),
+            I18n.t("upload_document_screen_upload_options_cancel")
           ]}
         />
         <Modal isVisible={this.state.isUploadStatusModalVisible}>
@@ -261,7 +262,7 @@ class UploadDocumentScreen extends Component {
             <ActivityIndicator size="large" color={colors.mainBlue} />
             <Text weight="Bold">{this.state.uploadPercentCompleted}%</Text>
             <Text weight="Bold" style={{ textAlign: "center" }}>
-              Uploading... Please Wait..
+              {I18n.t("upload_document_screen_uploading_msg")}
             </Text>
           </View>
         </Modal>

@@ -8,7 +8,7 @@ import {
   ScrollView
 } from "react-native";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
-
+import I18n from "../../i18n";
 import { API_BASE_URL } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import KeyValueItem from "../../components/key-value-item";
@@ -68,7 +68,9 @@ class Details extends Component {
             style={styles.viewBillBtn}
           >
             <Image style={styles.viewBillIcon} source={viewBillIcon} />
-            <Text style={styles.viewBillText}>VIEW BILL</Text>
+            <Text style={styles.viewBillText}>
+              {I18n.t("product_details_screen_view_bill_btn")}
+            </Text>
           </TouchableOpacity>
         );
       } else {
@@ -90,7 +92,7 @@ class Details extends Component {
           {metaUnderName}
         </Text>
         <Text weight="Medium" style={styles.totalText}>
-          Total
+          {I18n.t("product_details_screen_total_text")}
         </Text>
         <TouchableOpacity
           onPress={() => this.priceBreakdown.show()}
@@ -107,29 +109,43 @@ class Details extends Component {
           options={[
             <View style={{ width: "100%" }}>
               <KeyValueItem
-                keyText="Product Cost"
+                keyText={I18n.t(
+                  "product_details_screen_cost_breakdown_product"
+                )}
                 valueText={`₹ ${product.value}`}
               />
             </View>,
             <View style={{ width: "100%" }}>
               <KeyValueItem
-                keyText="Warranty"
+                keyText={I18n.t(
+                  "product_details_screen_cost_breakdown_warranty"
+                )}
                 valueText={`₹ ${warrantyAmount}`}
               />
             </View>,
             <View style={{ width: "100%" }}>
               <KeyValueItem
-                keyText="Insurance"
+                keyText={I18n.t(
+                  "product_details_screen_cost_breakdown_insurance"
+                )}
                 valueText={`₹ ${insuranceAmount}`}
               />
             </View>,
             <View style={{ width: "100%" }}>
-              <KeyValueItem keyText="Repairs" valueText={`₹ ${repairAmount}`} />
+              <KeyValueItem
+                keyText={I18n.t(
+                  "product_details_screen_cost_breakdown_repairs"
+                )}
+                valueText={`₹ ${repairAmount}`}
+              />
             </View>,
             <View style={{ width: "100%" }}>
-              <KeyValueItem keyText="Total" valueText={`₹ ${totalAmount}`} />
+              <KeyValueItem
+                keyText={I18n.t("product_details_screen_cost_breakdown_total")}
+                valueText={`₹ ${totalAmount}`}
+              />
             </View>,
-            "Close"
+            I18n.t("product_details_screen_cost_breakdown_close")
           ]}
         />
       </View>

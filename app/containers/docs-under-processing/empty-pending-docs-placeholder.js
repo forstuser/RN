@@ -3,16 +3,18 @@ import { StyleSheet, View, Image } from "react-native";
 import Text from "../../elements/text";
 import { colors } from "../../theme";
 
+import I18n from "../../i18n";
+
 const noDocsIcon = require("../../images/ic_no_docs.png");
 
 const EmptyPendingDocsPlaceholder = () => (
   <View style={styles.container}>
     <Image style={styles.image} source={noDocsIcon} />
     <Text weight="Bold" style={styles.title}>
-      No Docs Under Processing
+      {I18n.t("docs_under_processing_screen_no_result_title")}
     </Text>
     <Text style={styles.text}>
-      All the docs has been processed or you havn't uploaded any doc yet.
+      {I18n.t("docs_under_processing_screen_no_result_desc")}
     </Text>
   </View>
 );

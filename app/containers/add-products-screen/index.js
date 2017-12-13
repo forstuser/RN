@@ -10,6 +10,7 @@ import {
   Image
 } from "react-native";
 import Modal from "react-native-modal";
+import I18n from "../../i18n";
 import { openAppScreen, openAddProductScreen } from "../../navigation";
 import { API_BASE_URL, consumerGetEhome } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -20,11 +21,12 @@ import UploadBillOptions from "../../components/upload-bill-options";
 import { showSnackbar } from "../snackbar";
 
 const finshImageIcon = require("../../images/ehome_circle_with_category_icons.png");
+
 class AddProductsScreen extends Component {
   static navigatorButtons = {
     rightButtons: [
       {
-        title: "SKIP",
+        title: I18n.t("add_products_screen_skip"),
         id: "skip",
         buttonColor: colors.pinkishOrange,
         buttonFontWeight: "600"
@@ -54,7 +56,7 @@ class AddProductsScreen extends Component {
   }
   componentDidMount() {
     this.props.navigator.setTitle({
-      title: "Add Products"
+      title: I18n.t("add_products_screen_title")
     });
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -77,27 +79,34 @@ class AddProductsScreen extends Component {
     } = this.state;
 
     const isLastSlide = currentIndex == productTypes.length - 1;
-    if (isLastSlide && productsAdded.length == 0) {
-      this.setState({
-        isFinishModalVisible: true,
-        finishMsg: "Want to add some other product?",
-        finishBtnText: "Yes",
-        finishImageSource: finshImageIcon
-      });
-    } else if (isLastSlide && productsAdded.length == 1) {
-      this.setState({
-        isFinishModalVisible: true,
-        finishMsg: productsAdded[0] + " added to your eHome",
-        finishBtnText: "ADD MORE PRODUCTS",
-        finishImageSource: finshImageIcon
-      });
-    } else if (isLastSlide && productsAdded.length > 1) {
-      this.setState({
-        isFinishModalVisible: true,
-        finishMsg: "All your products added to your eHome",
-        finishBtnText: "ADD MORE PRODUCTS",
-        finishImageSource: finshImageIcon
-      });
+    if (isLastSlide) {
+      if (productsAdded.length == 0) {
+        this.setState({
+          isFinishModalVisible: true,
+          finishMsg: I18n.t("add_products_screen_finish_msg_no_product"),
+          finishBtnText: I18n.t("add_products_screen_finish_btn_no_product"),
+          finishImageSource: finshImageIcon
+        });
+      } else if (productsAdded.length == 1) {
+        this.setState({
+          isFinishModalVisible: true,
+          finishMsg: I18n.t("add_products_screen_finish_msg_one_product", {
+            productName: productsAdded[0]
+          }),
+          finishBtnText: I18n.t("add_products_screen_finish_btn_one_product"),
+          finishImageSource: finshImageIcon
+        });
+      } else if (productsAdded.length > 1) {
+        this.setState({
+          isFinishModalVisible: true,
+          finishMsg: I18n.t("add_products_screen_finish_msg_multiple_products"),
+          finishBtnText: I18n.t(
+            "add_products_screen_finish_btn_multiple_products"
+          ),
+          finishImageSource: finshImageIcon
+        });
+      }
+      return;
     }
     const newScrollPosition = currentScrollPosition + screenWidth;
     this.productListScroll.scrollTo({
@@ -165,14 +174,20 @@ class AddProductsScreen extends Component {
             </Text>
             <Button
               onPress={() => {
-                openAddProductScreen();
+                openAddProductScreen({ withCancelButton: true });
               }}
               style={styles.finishBtn}
               text={finishBtnText}
               color="secondary"
             />
-            <Text weight="Bold" style={styles.doItLaterText}>
-              I’ll Do it Later
+            <Text
+              onPress={() => {
+                openAppScreen();
+              }}
+              weight="Bold"
+              style={styles.doItLaterText}
+            >
+              {I18n.t("add_products_screen_finish_do_it_later")}
             </Text>
           </View>
         </Modal>
@@ -212,7 +227,7 @@ const styles = StyleSheet.create({
     marginTop: 25
   },
   finishBtn: {
-    width: 200,
+    width: 250,
     marginTop: 20
   },
   doItLaterText: {

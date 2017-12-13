@@ -12,6 +12,8 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import MoreItem from "./more-item";
 import call from "react-native-phone-call";
 
+import I18n from "../../i18n";
+
 class Body extends Component {
   constructor(props) {
     super(props);
@@ -54,29 +56,29 @@ class Body extends Component {
         <MoreItem
           onPress={this.onFaqItemPress}
           imageSource={require("../../images/ic_more_faq.png/")}
-          name="FAQs"
+          name={I18n.t("more_screen_item_faq")}
         />
         <MoreItem
           onPress={this.onEhomeItemPress}
           imageSource={require("../../images/ic_more_refer.png/")}
-          name="Tips to Build Your eHome "
+          name={I18n.t("more_screen_item_tips")}
         />
         <MoreItem
           onPress={() =>
             call({ number: "+911244343177" }).catch(e => Alert.alert(e.message))
           }
           imageSource={require("../../images/ic_more_call.png/")}
-          name="Call Us "
+          name={I18n.t("more_screen_item_call")}
         />
         <MoreItem
           onPress={this.onEmailItemPress}
           imageSource={require("../../images/ic_more_email.png/")}
-          name="Email Us"
+          name={I18n.t("more_screen_item_email")}
         />
         <MoreItem
           onPress={this.onLogoutItemPress}
           imageSource={require("../../images/ic_more_logout.png/")}
-          name="Logout"
+          name={I18n.t("more_screen_item_logout")}
         />
       </View>
     );

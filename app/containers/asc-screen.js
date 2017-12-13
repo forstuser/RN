@@ -13,6 +13,10 @@ import {
 import Modal from "react-native-modal";
 import { getBrands, getCategories } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
+import I18n from "../i18n";
+import SelectModal from "../components/select-modal";
+
+import { colors } from "../theme";
 
 const bgImage = require("../images/ic_asc_bg_image.jpg");
 const crossIcon = require("../images/ic_close.png");
@@ -40,10 +44,10 @@ class AscScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
-        this.setState({
-          selectedBrand: null,
-          selectedCategory: null
-        });
+        // this.setState({
+        //   selectedBrand: null,
+        //   selectedCategory: null
+        // });
         break;
     }
   };
@@ -80,7 +84,7 @@ class AscScreen extends Component {
 
   onCategorySelectClick = () => {
     if (!this.state.selectedBrand) {
-      Alert.alert("Please select brand first");
+      Alert.alert(I18n.t("asc_screen_select_brand_first"));
     } else {
       this.setState({
         isCategoriesModalVisible: true
@@ -98,7 +102,7 @@ class AscScreen extends Component {
 
   startSearch = () => {
     if (!this.state.selectedBrand || !this.state.selectedCategory) {
-      return Alert.alert("Please select brand and product first");
+      return Alert.alert(I18n.t("asc_screen_select_brand_first"));
     }
     this.props.navigator.push({
       screen: "AscSearchScreen",
@@ -134,132 +138,56 @@ class AscScreen extends Component {
           />
           <View style={styles.titlesContainer}>
             <Text weight="Medium" style={styles.title}>
-              Authorised Service Centres
+              {I18n.t("asc_screen_title")}
             </Text>
             <Text weight="Medium" style={styles.subTitle}>
-              Get your device serviced by certified professionals
+              {I18n.t("asc_screen_sub_title")}
             </Text>
           </View>
         </View>
         <View style={{ flex: 1, padding: 20, alignContent: "center" }}>
-          <TouchableOpacity
-            onPress={() =>
-              this.setState({
-                isBrandsModalVisible: true
-              })
-            }
+          <SelectModal
             style={styles.select}
-          >
-            <Text style={styles.selectText}>
-              {!selectedBrand && "Select a Brand"}
-              {selectedBrand && selectedBrand.brandName}
-            </Text>
-            <Image style={styles.dropdownIcon} source={dropdownIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={this.onCategorySelectClick}
+            dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+            placeholder={I18n.t("asc_screen_placeholder_select_brand")}
+            placeholderRenderer={({ placeholder }) => (
+              <Text weight="Bold" style={{ color: colors.secondaryText }}>
+                {placeholder}
+              </Text>
+            )}
+            selectedOption={selectedBrand}
+            options={brands}
+            visibleKey="brandName"
+            onOptionSelect={value => {
+              this.selectBrand(value);
+            }}
+            hideAddNew={true}
+          />
+
+          <SelectModal
             style={styles.select}
-          >
-            <Text style={styles.selectText}>
-              {!selectedCategory && "Select a Product"}
-              {selectedCategory && selectedCategory.category_name}
-            </Text>
-            <Image style={styles.dropdownIcon} source={dropdownIcon} />
-          </TouchableOpacity>
+            dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+            placeholder={I18n.t("asc_screen_placeholder_select_category")}
+            placeholderRenderer={({ placeholder }) => (
+              <Text weight="Bold" style={{ color: colors.secondaryText }}>
+                {placeholder}
+              </Text>
+            )}
+            selectedOption={selectedCategory}
+            options={categories}
+            visibleKey="category_name"
+            onOptionSelect={value => {
+              this.selectCategory(value);
+            }}
+            hideAddNew={true}
+          />
           <Button
             onPress={this.startSearch}
             style={{ marginTop: 20, width: "100%" }}
-            text="Search Now"
+            text={I18n.t("asc_screen_placeholder_search_btn")}
             color="secondary"
           />
         </View>
-        <Modal useNativeDriver={true} isVisible={isBrandsModalVisible}>
-          <View style={styles.modal}>
-            <View style={styles.modalHeader}>
-              <TouchableOpacity
-                onPress={() => {
-                  this.setState({
-                    isBrandsModalVisible: false
-                  });
-                }}
-                style={styles.modalClose}
-              >
-                <Image style={styles.crossIcon} source={crossIcon} />
-              </TouchableOpacity>
-              <TextInput
-                value={brandTextInput}
-                onChangeText={text => this.setState({ brandTextInput: text })}
-                style={styles.textInput}
-                placeholder="Type here to search brand"
-              />
-            </View>
-            <ScrollView style={{ backgroundColor: "#ececec" }}>
-              {brands.map(brand => {
-                if (
-                  !brandTextInput ||
-                  brand.brandName
-                    .toLowerCase()
-                    .includes(brandTextInput.toLowerCase())
-                ) {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => this.selectBrand(brand)}
-                      key={brand.id}
-                      style={styles.selectOption}
-                    >
-                      <Text>{brand.brandName}</Text>
-                    </TouchableOpacity>
-                  );
-                }
-              })}
-            </ScrollView>
-          </View>
-        </Modal>
-
-        <Modal useNativeDriver={true} isVisible={isCategoriesModalVisible}>
-          <View style={styles.modal}>
-            <View style={styles.modalHeader}>
-              <TouchableOpacity
-                onPress={() => {
-                  this.setState({
-                    isCategoriesModalVisible: false
-                  });
-                }}
-                style={styles.modalClose}
-              >
-                <Image style={styles.crossIcon} source={crossIcon} />
-              </TouchableOpacity>
-              <TextInput
-                value={categoryTextInput}
-                onChangeText={text =>
-                  this.setState({ categoryTextInput: text })
-                }
-                style={styles.textInput}
-                placeholder="Type here to search product"
-              />
-            </View>
-            <ScrollView style={{ backgroundColor: "#ececec" }}>
-              {categories.map(category => {
-                if (
-                  !categoryTextInput ||
-                  category.category_name
-                    .toLowerCase()
-                    .includes(categoryTextInput.toLowerCase())
-                ) {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => this.selectCategory(category)}
-                      key={category.category_id}
-                      style={styles.selectOption}
-                    >
-                      <Text>{category.category_name}</Text>
-                    </TouchableOpacity>
-                  );
-                }
-              })}
-            </ScrollView>
-          </View>
-        </Modal>
       </ScreenContainer>
     );
   }
@@ -285,13 +213,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30
   },
   select: {
-    flexDirection: "row",
-    borderColor: "#ececec",
+    backgroundColor: "#fff",
+    borderColor: colors.secondaryText,
     borderWidth: 1,
-    padding: 16,
+    height: 50,
+    width: 320,
     borderRadius: 4,
-    marginBottom: 20,
-    alignItems: "center"
+    padding: 14,
+    marginBottom: 20
   },
   selectText: {
     flex: 1

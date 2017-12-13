@@ -50,9 +50,9 @@ class AddProductItem extends React.Component {
           mainCategoryId: 2,
           categoryId: 327,
           categoryFormId: 2,
-          text: "Now let’s add your Mobile to Your eHome",
+          text: I18n.t("add_products_screen_slide_mobile"),
           icon: require("../../images/ic_mobile.png"),
-          showDetectDeviceBtn: true
+          showDetectDeviceBtn: false
         };
         break;
       case "Car":
@@ -60,7 +60,7 @@ class AddProductItem extends React.Component {
           mainCategoryId: 3,
           categoryId: 139,
           categoryFormId: 1073,
-          text: "Gotta a Car! Why not add it to Your eHome",
+          text: I18n.t("add_products_screen_slide_car"),
           icon: require("../../images/ic_car.png")
         };
         break;
@@ -69,7 +69,7 @@ class AddProductItem extends React.Component {
           mainCategoryId: 3,
           categoryId: 138,
           categoryFormId: 1080,
-          text: "If you have a bike too, add it to Your eHome",
+          text: I18n.t("add_products_screen_slide_bike"),
           icon: require("../../images/ic_bike.png")
         };
         break;
@@ -78,7 +78,7 @@ class AddProductItem extends React.Component {
           mainCategoryId: 2,
           categoryId: 491,
           categoryFormId: 26,
-          text: "Do you like it so far, let’s add more products : Fridge",
+          text: I18n.t("add_products_screen_slide_fridge"),
           icon: require("../../images/ic_fridge.png")
         };
         break;
@@ -87,7 +87,7 @@ class AddProductItem extends React.Component {
           mainCategoryId: 2,
           categoryId: 581,
           categoryFormId: 33,
-          text: "Do you like it so far, let’s add more products : Television",
+          text: I18n.t("add_products_screen_slide_television"),
           icon: require("../../images/ic_tv.png")
         };
         break;
@@ -96,8 +96,7 @@ class AddProductItem extends React.Component {
           mainCategoryId: 2,
           categoryId: 541,
           categoryFormId: 1044,
-          text:
-            "Do you like it so far, let’s add more products : Washing Machine",
+          text: I18n.t("add_products_screen_slide_washing_machine"),
           icon: require("../../images/ic_washing_machine.png")
         };
         break;
@@ -274,7 +273,9 @@ class AddProductItem extends React.Component {
                 style={styles.detectDeviceIcon}
                 source={require("../../images/ic_detect_device.png")}
               />
-              <Text style={styles.detectDeviceText}>DETECT THIS DEVICE</Text>
+              <Text style={styles.detectDeviceText}>
+                {I18n.t("add_products_screen_detect_device")}
+              </Text>
             </TouchableOpacity>
           )}
         </View>
@@ -282,8 +283,8 @@ class AddProductItem extends React.Component {
         <SelectModal
           style={styles.select}
           dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-          placeholder="Select a brand"
-          textInputPlaceholder="Enter your brand"
+          placeholder={I18n.t("add_products_screen_slide_select_brand")}
+          textInputPlaceholder={I18n.t("add_products_screen_slide_enter_brand")}
           placeholderRenderer={({ placeholder }) => (
             <Text weight="Bold" style={{ color: colors.secondaryText }}>
               {placeholder}
@@ -301,8 +302,8 @@ class AddProductItem extends React.Component {
           style={styles.select}
           visibleKey="title"
           dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-          placeholder="Select Model Name"
-          textInputPlaceholder="Enter your model"
+          placeholder={I18n.t("add_products_screen_slide_select_model")}
+          textInputPlaceholder={I18n.t("add_products_screen_slide_enter_model")}
           placeholderRenderer={({ placeholder }) => (
             <Text weight="Bold" style={{ color: colors.secondaryText }}>
               {placeholder}
@@ -323,7 +324,7 @@ class AddProductItem extends React.Component {
           style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
         >
           <Text weight="Bold" style={{ color: colors.secondaryText, flex: 1 }}>
-            Upload Bill (Optional)
+            {I18n.t("add_products_screen_slide_upload_bill")}
           </Text>
           <Image
             style={{ width: 24, height: 24 }}
@@ -332,7 +333,7 @@ class AddProductItem extends React.Component {
         </TouchableOpacity>
         <Button
           onPress={this.onAddProductBtnClick}
-          text="Add Product"
+          text={I18n.t("add_products_screen_slide_add_product_btn")}
           color="secondary"
           style={{ width: 320 }}
         />

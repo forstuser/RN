@@ -96,16 +96,18 @@ class SelectModal extends Component {
       style = {},
       placeholderStyle = {},
       dropdownArrowStyle = {},
-      placeholderRenderer = this._placeholderRenderer
+      placeholderRenderer = this._placeholderRenderer,
+      hideAddNew = false
     } = this.props;
     let { isTextInputVisible, isModalVisible, searchInput } = this.state;
 
-    if (textInputValue && textInputValue.length > 0) {
-      this.setState({
-        searchInput: textInputValue,
-        isTextInputVisible: true
-      });
-    }
+    // it causes infinite loop
+    // if (textInputValue && textInputValue.length > 0) {
+    //   this.setState({
+    //     searchInput: textInputValue,
+    //     isTextInputVisible: true
+    //   });
+    // }
 
     const searchText = searchInput.trim();
     let optionsAfterSearch = [];
@@ -183,25 +185,33 @@ class SelectModal extends Component {
               data={optionsAfterSearch}
               keyExtractor={(item, index) => index}
               renderItem={this._renderOption}
-              ListFooterComponent={() => (
+              ListFooterComponent={() => {
+                if (hideAddNew) {
+                  return null;
+                }
+                return (
+                  <TouchableOpacity
+                    style={styles.option}
+                    onPress={this._onAddNewClick}
+                  >
+                    <Text style={styles.addNewBtnText}>Add New</Text>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          )}
+          {optionsAfterSearch.length == 0 && (
+            <View style={styles.noResultContainer}>
+              <Text style={styles.noResultText}>No result found</Text>
+
+              {!hideAddNew && (
                 <TouchableOpacity
-                  style={styles.option}
+                  style={styles.addNewBtn}
                   onPress={this._onAddNewClick}
                 >
                   <Text style={styles.addNewBtnText}>Add New</Text>
                 </TouchableOpacity>
               )}
-            />
-          )}
-          {optionsAfterSearch.length == 0 && (
-            <View style={styles.noResultContainer}>
-              <Text style={styles.noResultText}>No value found</Text>
-              <TouchableOpacity
-                style={styles.addNewBtn}
-                onPress={this._onAddNewClick}
-              >
-                <Text style={styles.addNewBtnText}>Add New</Text>
-              </TouchableOpacity>
             </View>
           )}
         </Modal>

@@ -10,7 +10,7 @@ import {
 import moment from "moment";
 import call from "react-native-phone-call";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
-
+import I18n from "../../i18n";
 import { Text, Button, ScreenContainer } from "../../elements";
 
 import { colors } from "../../theme";
@@ -91,19 +91,19 @@ class AfterSaleButton extends Component {
             this.afterSaleOptions.show();
           }}
           color="secondary"
-          text="CONTACT AFTER SALES"
+          text={I18n.t("product_details_screen_after_sale_btn")}
         />
         <ActionSheet
           onPress={this.handleOptionPress}
           ref={o => (this.afterSaleOptions = o)}
-          title="Choose an option"
+          title={I18n.t("product_details_screen_after_sale_options_title")}
           cancelButtonIndex={4}
           options={[
-            "Email Manufacturer",
-            "Call Manufacturer",
-            "Service Request",
-            "Nearest Authorised Service center",
-            "Cancel"
+            I18n.t("product_details_screen_after_sale_options_email"),
+            I18n.t("product_details_screen_after_sale_options_call"),
+            I18n.t("product_details_screen_after_sale_options_service"),
+            I18n.t("product_details_screen_after_sale_options_asc"),
+            I18n.t("product_details_screen_after_sale_options_cancel")
           ]}
         />
         <ActionSheet

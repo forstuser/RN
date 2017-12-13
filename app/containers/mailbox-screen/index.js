@@ -13,6 +13,7 @@ import LoadingOverlay from "../../components/loading-overlay";
 import { ScreenContainer, Text, Button, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
 import { openBillsPopUp } from "../../navigation";
+import I18n from "../../i18n";
 
 import EmptyMailboxPlaceholder from "./empty-mailbox-placeholder";
 
@@ -30,7 +31,7 @@ class MailBox extends Component {
   }
   componentDidMount() {
     this.props.navigator.setTitle({
-      title: "Mailbox"
+      title: I18n.t("mailbox_screen_title")
     });
     this.fetchNotifications();
   }

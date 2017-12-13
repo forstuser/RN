@@ -42,7 +42,7 @@ class Intro extends Component {
     return (
       <View style={styles.nextBtn}>
         <Text weight="Bold" style={styles.nextBtnText}>
-          NEXT
+          {I18n.t("app_intro_next")}
         </Text>
         {/*<Image
           style={styles.nextBtnArrow}
@@ -56,7 +56,7 @@ class Intro extends Component {
     return (
       <View style={styles.nextBtn}>
         <Text weight="Bold" style={styles.nextBtnText}>
-          SKIP
+          {I18n.t("app_intro_skip")}
         </Text>
       </View>
     );
@@ -66,7 +66,7 @@ class Intro extends Component {
     return (
       <View style={styles.nextBtn}>
         <Text weight="Bold" style={styles.nextBtnText}>
-          REGISTER
+          {I18n.t("app_intro_register")}
         </Text>
       </View>
     );

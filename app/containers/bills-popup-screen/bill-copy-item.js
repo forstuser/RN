@@ -17,6 +17,7 @@ import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { API_BASE_URL, fetchFile } from "../../api";
 import { isImageFileType, getMimeTypeByExtension } from "../../utils";
 import { showSnackbar, hideSnackbar } from "../snackbar";
+import I18n from "../../i18n";
 
 const fileIcon = require("../../images/ic_file.png");
 const billDownloadIcon = require("../../images/ic_bill_download.png");
@@ -27,7 +28,7 @@ const BillCopyItem = ({ billId, copy, index, total }) => {
     if (Platform.OS === "ios") {
       if (isImageFileType(copy.file_type)) {
         showSnackbar({
-          text: "Downloading image.. please wait..",
+          text: I18n.t("bill_copy_popup_screen_downloading_image"),
           autoDismissTimerSec: 1000
         });
         fetchFile(copy.copyUrl)
@@ -36,14 +37,14 @@ const BillCopyItem = ({ billId, copy, index, total }) => {
             const base64Image = `data:${mimeType};base64,${base64Data}`;
             CameraRoll.saveToCameraRoll(base64Image).then(
               showSnackbar({
-                text: "Image downloaded, check 'Photos' app!",
+                text: I18n.t("bill_copy_popup_screen_downloaded_image"),
                 autoDismissTimerSec: 10
               })
             );
           })
           .catch(e => {
             showSnackbar({
-              text: "Some error ocurred in downloading!",
+              text: I18n.t("bill_copy_popup_screen_download_error"),
               autoDismissTimerSec: 10
             });
           });
@@ -53,7 +54,7 @@ const BillCopyItem = ({ billId, copy, index, total }) => {
   const onSharePress = () => {
     if (Platform.OS === "ios") {
       showSnackbar({
-        text: "Downloading file to share.. please wait..",
+        text: I18n.t("bill_copy_popup_screen_downloading_file_to_share"),
         autoDismissTimerSec: 1000
       });
       fetchFile(copy.copyUrl)
@@ -68,7 +69,7 @@ const BillCopyItem = ({ billId, copy, index, total }) => {
         })
         .catch(e => {
           showSnackbar({
-            text: "Some error ocurred in downloading!",
+            text: I18n.t("bill_copy_popup_screen_download_error"),
             autoDismissTimerSec: 10
           });
         });

@@ -16,6 +16,7 @@ import { API_BASE_URL, updateProfile } from "../../api";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
 import { showSnackbar } from "../snackbar";
+import I18n from "../../i18n";
 
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 const editIcon = require("../../images/ic_edit_white.png");
@@ -77,7 +78,7 @@ class ProfileScreen extends Component {
         name: this.state.nameTemp
       });
       showSnackbar({
-        text: "Name changed successfully!",
+        text: I18n.t("profile_screen_change_msg_name"),
         autoDismissTimerSec: 3
       });
     } catch (e) {
@@ -109,6 +110,10 @@ class ProfileScreen extends Component {
       this.setState({
         email: this.state.emailTemp
       });
+      showSnackbar({
+        text: I18n.t("profile_screen_change_msg_email"),
+        autoDismissTimerSec: 3
+      });
     } catch (e) {
       showSnackbar({
         text: e.message,
@@ -134,6 +139,10 @@ class ProfileScreen extends Component {
       });
       this.setState({
         location: this.state.locationTemp
+      });
+      showSnackbar({
+        text: I18n.t("profile_screen_change_msg_address"),
+        autoDismissTimerSec: 3
       });
     } catch (e) {
       showSnackbar({
@@ -228,13 +237,17 @@ class ProfileScreen extends Component {
             style={styles.field}
             onPress={this.showNameEditModal}
           >
-            <Text style={styles.fieldName}>Name</Text>
+            <Text style={styles.fieldName}>
+              {I18n.t("profile_screen_label_name")}
+            </Text>
             <Text style={styles.fieldValue} weight="Medium">
               {name}
             </Text>
           </TouchableOpacity>
           <View style={styles.field}>
-            <Text style={styles.fieldName}>Phone Number</Text>
+            <Text style={styles.fieldName}>
+              {I18n.t("profile_screen_label_phone")}
+            </Text>
             <Text style={styles.fieldValue} weight="Medium">
               {phone}
             </Text>
@@ -244,20 +257,22 @@ class ProfileScreen extends Component {
             onPress={this.showEmailEditModal}
           >
             <View style={{ flexDirection: "row" }}>
-              <Text style={[styles.fieldName, { flex: 1 }]}>Email</Text>
+              <Text style={[styles.fieldName, { flex: 1 }]}>
+                {I18n.t("profile_screen_label_email")}
+              </Text>
               {showEmailVerifyText &&
                 isEmailVerified && (
                   <Text
                     weight="Medium"
                     style={{ fontSize: 12, color: "green" }}
                   >
-                    Verified
+                    {I18n.t("profile_screen_email_verified")}
                   </Text>
                 )}
               {showEmailVerifyText &&
                 !isEmailVerified && (
                   <Text weight="Medium" style={{ fontSize: 12, color: "red" }}>
-                    Not Verified
+                    {I18n.t("profile_screen_email_not_verified")}
                   </Text>
                 )}
             </View>
@@ -269,7 +284,9 @@ class ProfileScreen extends Component {
             style={styles.field}
             onPress={this.showLocationEditModal}
           >
-            <Text style={styles.fieldName}>Address</Text>
+            <Text style={styles.fieldName}>
+              {I18n.t("profile_screen_label_address")}
+            </Text>
             <Text style={styles.fieldValue} weight="Medium">
               {location}
             </Text>
@@ -289,7 +306,9 @@ class ProfileScreen extends Component {
             >
               <Image style={styles.modalCrossIcon} source={crossIcon} />
             </TouchableOpacity>
-            <Text style={styles.name}>Your Name</Text>
+            <Text style={styles.name}>
+              {I18n.t("profile_screen_label_name")}
+            </Text>
             <TextInput
               onSubmitEditing={this.onSubmitName}
               ref={ref => (this.nameInput = ref)}
@@ -298,7 +317,7 @@ class ProfileScreen extends Component {
               style={styles.modalTextInput}
             />
             <Button
-              text="SAVE & UPDATE"
+              text={I18n.t("profile_screen_save_btn")}
               color="secondary"
               onPress={this.onSubmitName}
             />
@@ -318,7 +337,9 @@ class ProfileScreen extends Component {
             >
               <Image style={styles.modalCrossIcon} source={crossIcon} />
             </TouchableOpacity>
-            <Text style={styles.name}>Your Email</Text>
+            <Text style={styles.name}>
+              {I18n.t("profile_screen_label_email")}
+            </Text>
             <TextInput
               onSubmitEditing={this.onSubmitEmail}
               keyboardType="email-address"
@@ -328,7 +349,7 @@ class ProfileScreen extends Component {
               style={styles.modalTextInput}
             />
             <Button
-              text="SAVE & UPDATE"
+              text={I18n.t("profile_screen_save_btn")}
               color="secondary"
               onPress={this.onSubmitEmail}
             />
@@ -348,7 +369,9 @@ class ProfileScreen extends Component {
             >
               <Image style={styles.modalCrossIcon} source={crossIcon} />
             </TouchableOpacity>
-            <Text style={styles.name}>Your Address</Text>
+            <Text style={styles.name}>
+              {I18n.t("profile_screen_label_address")}
+            </Text>
             <TextInput
               multiline={true}
               autogrow={true}
@@ -359,7 +382,7 @@ class ProfileScreen extends Component {
               style={styles.modalTextInput}
             />
             <Button
-              text="SAVE & UPDATE"
+              text={I18n.t("profile_screen_save_btn")}
               color="secondary"
               onPress={this.onSubmitLocation}
             />

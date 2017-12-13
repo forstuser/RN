@@ -3,17 +3,17 @@ import { StyleSheet, View, Image } from "react-native";
 import Text from "../../elements/text";
 import { colors } from "../../theme";
 
+import I18n from "../../i18n";
+
 const noMailIcon = require("../../images/no_mailbox.png");
 
 const EmptyMailboxPlaceholder = () => (
   <View style={styles.container}>
     <Image style={styles.image} source={noMailIcon} />
     <Text weight="Bold" style={styles.title}>
-      No Action Here
+      {I18n.t("mailbox_screen_no_result_title")}
     </Text>
-    <Text style={styles.text}>
-      We will start sending imporatant messages as soon as the action starts
-    </Text>
+    <Text style={styles.text}>{I18n.t("mailbox_screen_no_result_desc")}</Text>
   </View>
 );
 

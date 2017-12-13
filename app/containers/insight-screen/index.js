@@ -17,6 +17,7 @@ import Collapsible from "../../components/collapsible";
 import SectionHeading from "../../components/section-heading";
 import { colors } from "../../theme";
 import LoadingOverlay from "../../components/loading-overlay";
+import I18n from "../../i18n";
 
 const dropdownIcon = require("../../images/ic_dropdown_arrow.png");
 
@@ -36,6 +37,7 @@ const legendColors = [
 ];
 
 import ExpensesChart from "./expenses-chart";
+
 class InsightScreen extends Component {
   static navigatorStyle = {
     tabBarHidden: true
@@ -82,7 +84,7 @@ class InsightScreen extends Component {
 
   async componentDidMount() {
     this.props.navigator.setTitle({
-      title: "Insights & Trends"
+      title: I18n.t("insights_screen_title")
     });
 
     try {
@@ -94,7 +96,7 @@ class InsightScreen extends Component {
           moment(res.weekStartDate).format("DD MMM") +
           " - " +
           moment(res.weekEndDate).format("DD MMM"),
-        filterText: "Last 7 Days",
+        filterText: I18n.t("insights_screen_filter_last_7_days"),
         totalSpend: res.totalWeeklySpend,
         totalTaxes: res.totalWeeklyTaxes,
         categories: res.categoryData.weeklyData
@@ -102,7 +104,7 @@ class InsightScreen extends Component {
       const monthlyData = {
         index: 1,
         timeSpanText: "For " + moment(res.monthStartDate).format("MMM YYYY"),
-        filterText: "Current Month",
+        filterText: I18n.t("insights_screen_filter_current_month"),
         totalSpend: res.totalMonthlySpend,
         totalTaxes: res.totalMonthlyTaxes,
         categories: res.categoryData.monthlyData
@@ -110,7 +112,7 @@ class InsightScreen extends Component {
       const yearlyData = {
         index: 2,
         timeSpanText: "For " + moment(res.yearStartDate).format("YYYY"),
-        filterText: "Current Year",
+        filterText: I18n.t("insights_screen_filter_current_year"),
         totalSpend: res.totalYearlySpend,
         totalTaxes: res.totalYearlyTaxes,
         categories: res.categoryData.yearlyData
@@ -209,13 +211,13 @@ class InsightScreen extends Component {
             <ActionSheet
               onPress={this.handleFilterOptionPress}
               ref={o => (this.filterOptions = o)}
-              title="See insights of"
+              title={I18n.t("insights_screen_filter_options_title")}
               cancelButtonIndex={3}
               options={[
-                "Last 7 Days",
-                "Current Month",
-                "Current year",
-                "Cancel"
+                I18n.t("insights_screen_filter_last_7_days"),
+                I18n.t("insights_screen_filter_current_month"),
+                I18n.t("insights_screen_filter_current_year"),
+                I18n.t("insights_screen_filter_close")
               ]}
             />
           </View>
@@ -253,7 +255,7 @@ class InsightScreen extends Component {
                   style={{ fontSize: 14, color: "#4a4a4a" }}
                   weight="Medium"
                 >
-                  Total Tax Paid
+                  {I18n.t("insights_screen_total_tax_paid")}
                 </Text>
                 <Text style={{ fontSize: 20, color: "#4a4a4a" }} weight="Bold">
                   ₹ {totalTaxes}
@@ -276,19 +278,21 @@ class InsightScreen extends Component {
                 }}
                 weight="Bold"
               >
-                See details
+                {I18n.t("insights_screen_tax_see_details")}
               </Text>
             </View>
           </View>
 
-          <SectionHeading text={`EXPENSES`} />
+          <SectionHeading
+            text={I18n.t("insights_screen_section_heading_expenses")}
+          />
           <ExpensesChart
             colors={legendColors}
             chartData={this.state.chartData}
           />
           <View style={styles.spends}>
             <Text style={{ fontSize: 24, color: "#9c9c9c" }} weight="Regular">
-              Total Spends
+              {I18n.t("insights_screen_total_spends")}
             </Text>
             <Text style={{ fontSize: 24, color: "#3b3b3b" }} weight="Medium">
               ₹ {totalSpend}

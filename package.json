@@ -24,6 +24,7 @@
     "react-native-gesture-handler": "^1.0.0-alpha.31",
     "react-native-i18n": "^2.0.9",
     "react-native-image-crop-picker": "^0.18.1",
+    "react-native-keyboard-aware-scroll-view": "^0.4.1",
     "react-native-linear-gradient": "^2.3.0",
     "react-native-loading-spinner-overlay": "^0.5.2",
     "react-native-modal": "^4.1.1",

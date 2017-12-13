@@ -18,6 +18,8 @@ import Modal from "react-native-modal";
 import { API_BASE_URL, getProductDetails } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 
+import I18n from "../../i18n";
+
 import { colors } from "../../theme";
 
 import Details from "./details";
@@ -38,7 +40,9 @@ class ProductDetailsScreen extends Component {
     };
   }
   async componentDidMount() {
-    this.props.navigator.setTitle({ title: "Product Details" });
+    this.props.navigator.setTitle({
+      title: I18n.t("product_details_screen_title")
+    });
     try {
       const res = await getProductDetails(this.props.productId);
       this.setState({

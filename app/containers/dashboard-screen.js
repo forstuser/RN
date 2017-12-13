@@ -9,6 +9,7 @@ import {
   Image
 } from "react-native";
 import moment from "moment";
+import { openAddProductsScreen } from "../navigation";
 import { consumerGetDashboard } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 import BlankDashboard from "../components/blank-dashboard";
@@ -57,7 +58,9 @@ class DashboardScreen extends React.Component {
     });
     try {
       const dashboardData = await consumerGetDashboard();
-
+      if (!dashboardData.hasProducts) {
+        return openAddProductsScreen();
+      }
       const insight = dashboardData.insight;
       const insightChartProps = {
         timeSpanText:

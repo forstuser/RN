@@ -6,9 +6,12 @@ import {
   TouchableOpacity,
   Alert,
   Dimensions,
-  TextInput
+  TextInput,
+  ScrollView
 } from "react-native";
-import DeviceInfo from "react-native-device-info";
+
+import Modal from "react-native-modal";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DatePicker from "react-native-datepicker";
 import moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
@@ -16,14 +19,17 @@ import { Text, Button, ScreenContainer } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
 import { API_BASE_URL, getReferenceDataCategories, addProduct } from "../api";
-import { openBillsPopUp } from "../navigation";
+import { openAppScreen } from "../navigation";
 import SelectModal from "../components/select-modal";
+import UploadBillOptions from "../components/upload-bill-options";
+
+const ehomeImage = require("../images/ehome_circle_with_category_icons.png");
 
 class AddProductScreen extends React.Component {
   static navigatorButtons = {
     rightButtons: [
       {
-        title: "CANCEL",
+        title: I18n.t("add_product_screen_cancel"),
         id: "cancel",
         buttonColor: colors.pinkishOrange,
         buttonFontWeight: "600"
@@ -75,15 +81,30 @@ class AddProductScreen extends React.Component {
       categories: [],
       selectedCategory: null,
       amount: null,
-      purchaseDate: null
+      purchaseDate: null,
+      isFinishModalVisible: false,
+      finishImageSource: ehomeImage
     };
   }
 
   componentDidMount() {
     this.props.navigator.setTitle({
-      title: "Add Product"
+      title: I18n.t("add_product_screen_title")
     });
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
+  onNavigatorEvent = event => {
+    if (event.type == "NavBarButtonPress") {
+      if (event.id == "cancel") {
+        if (this.props.withCancelButton) {
+          openAppScreen();
+        } else {
+          this.props.navigator.pop();
+        }
+      }
+    }
+  };
 
   fetchCategories = async () => {
     try {
@@ -107,7 +128,10 @@ class AddProductScreen extends React.Component {
       {
         selectedMainCategory: mainCategory,
         categories: [],
-        selectedCategory: null
+        selectedCategory: null,
+        finishImageSource: {
+          uri: API_BASE_URL + `/categories/${mainCategory.id}/images/1`
+        }
       },
       () => this.fetchCategories()
     );
@@ -127,13 +151,15 @@ class AddProductScreen extends React.Component {
       let productName = "";
 
       if (!selectedMainCategory) {
-        return Alert.alert("Please select expense category");
+        return Alert.alert(
+          I18n.t("add_product_screen_alert_select_main_category")
+        );
       } else {
         productName = selectedMainCategory.name;
       }
 
       if (!selectedCategory) {
-        return Alert.alert("Please select expense type");
+        return Alert.alert(I18n.t("add_product_screen_alert_select_category"));
       } else {
         productName = productName = productName + " " + selectedCategory.name;
       }
@@ -145,10 +171,24 @@ class AddProductScreen extends React.Component {
         purchaseCost: amount,
         purchaseDate
       });
-      Alert.alert("Product added");
+      this.setState({
+        isFinishModalVisible: true
+      });
     } catch (e) {
       Alert.alert(e.message);
     }
+  };
+
+  addAnotherProduct = () => {
+    this.setState({
+      selectedMainCategory: null,
+      categories: [],
+      selectedCategory: null,
+      amount: null,
+      purchaseDate: null,
+      isFinishModalVisible: false,
+      finishImageSource: ehomeImage
+    });
   };
 
   render() {
@@ -158,15 +198,25 @@ class AddProductScreen extends React.Component {
       categories,
       selectedCategory,
       amount,
-      purchaseDate
+      purchaseDate,
+      isFinishModalVisible,
+      finishImageSource
     } = this.state;
 
     return (
-      <ScreenContainer style={styles.container}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.container}
+        resetScrollToCoords={{ x: 0, y: 0 }}
+      >
+        <Image
+          style={styles.ehomeImage}
+          source={ehomeImage}
+          resizeMode="contain"
+        />
         <SelectModal
           style={styles.select}
           dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-          placeholder="Select Expense Category"
+          placeholder={I18n.t("add_product_screen_placeholder_main_category")}
           placeholderRenderer={({ placeholder }) => (
             <Text weight="Bold" style={{ color: colors.secondaryText }}>
               {placeholder}
@@ -177,11 +227,12 @@ class AddProductScreen extends React.Component {
           onOptionSelect={value => {
             this.onMainCategorySelect(value);
           }}
+          hideAddNew={true}
         />
         <SelectModal
           style={styles.select}
           dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-          placeholder="Select Expense Type"
+          placeholder={I18n.t("add_product_screen_placeholder_category")}
           placeholderRenderer={({ placeholder }) => (
             <Text weight="Bold" style={{ color: colors.secondaryText }}>
               {placeholder}
@@ -194,21 +245,23 @@ class AddProductScreen extends React.Component {
               selectedCategory: value
             });
           }}
+          hideAddNew={true}
         />
         <TextInput
           style={[styles.select]}
-          placeholder="Amount (optional)"
+          placeholder={I18n.t("add_product_screen_placeholder_amount")}
           value={amount}
+          keyboardType="numeric"
           onChangeText={amount => this.setState({ amount })}
         />
         <DatePicker
           style={{ width: 320, marginBottom: 20 }}
           date={purchaseDate}
           mode="date"
-          placeholder="Purchase date (Optional)"
-          format="YYYY-MM-DD"
-          minDate="2000-01-01"
-          maxDate={moment().format("YYYY-MM-DD")}
+          placeholder={I18n.t("add_product_screen_placeholder_purchase_date")}
+          format="DD MMM YY"
+          minDate="01 Jan 90"
+          maxDate={moment().format("DD MMM YY")}
           confirmBtnText="Confirm"
           cancelBtnText="Cancel"
           customStyles={{
@@ -239,7 +292,7 @@ class AddProductScreen extends React.Component {
           style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
         >
           <Text weight="Bold" style={{ color: colors.secondaryText, flex: 1 }}>
-            Upload Bill (Optional)
+            {I18n.t("add_product_screen_placeholder_upload_bill")}
           </Text>
           <Image
             style={{ width: 24, height: 24 }}
@@ -248,11 +301,45 @@ class AddProductScreen extends React.Component {
         </TouchableOpacity>
         <Button
           onPress={this.onAddProductBtnClick}
-          text="Add Product"
+          text={I18n.t("add_product_screen_add_product_btn")}
           color="secondary"
           style={{ width: 320 }}
         />
-      </ScreenContainer>
+        <Modal useNativeDriver={true} isVisible={isFinishModalVisible}>
+          <View style={styles.finishModal}>
+            <Image
+              style={styles.finishImage}
+              source={{ uri: API_BASE_URL + `/categories/2/images/1` }}
+              resizeMode="contain"
+            />
+            <Text weight="Bold" style={styles.finishMsg}>
+              {I18n.t("add_product_screen_finish_msg", {
+                mainCategoryName:
+                  selectedMainCategory != null && selectedMainCategory.name
+              })}
+            </Text>
+            <Button
+              onPress={this.addAnotherProduct}
+              style={styles.finishBtn}
+              text={I18n.t("add_product_screen_finish_btn")}
+              color="secondary"
+            />
+            <Text
+              onPress={() => {
+                openAppScreen();
+              }}
+              weight="Bold"
+              style={styles.doItLaterText}
+            >
+              {I18n.t("add_product_screen_finish_do_it_later")}
+            </Text>
+          </View>
+        </Modal>
+        <UploadBillOptions
+          ref={ref => (this.uploadBillOptions = ref)}
+          navigator={this.props.navigator}
+        />
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -260,39 +347,13 @@ class AddProductScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    padding: 20,
-    width: Dimensions.get("window").width
+    padding: 16
   },
-  title: {
-    fontSize: 18,
-    color: "#fff",
-    textAlign: "center",
-    marginBottom: 15
-  },
-  icon: {
-    width: 130,
-    height: 68
-  },
-  detectDeviceWrapper: {
-    height: 50
-  },
-  detectDevice: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 16,
-    marginBottom: 25
-  },
-  detectDeviceIcon: {
-    width: 12,
-    height: 12,
-    marginRight: 10
-  },
-  detectDeviceText: {
-    fontSize: 14,
-    color: "#fff"
+  ehomeImage: {
+    width: 150,
+    height: 150,
+    marginBottom: 20
   },
   select: {
     backgroundColor: "#fff",
@@ -303,6 +364,33 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 14,
     marginBottom: 20
+  },
+  finishModal: {
+    backgroundColor: "#fff",
+    height: 500,
+    borderRadius: 10,
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  finishImage: {
+    width: 200,
+    height: 200
+  },
+  finishMsg: {
+    color: colors.mainBlue,
+    fontSize: 24,
+    textAlign: "center",
+    marginTop: 25
+  },
+  finishBtn: {
+    width: 250,
+    marginTop: 20
+  },
+  doItLaterText: {
+    color: colors.pinkishOrange,
+    fontSize: 16,
+    marginTop: 20
   }
 });
 export default AddProductScreen;

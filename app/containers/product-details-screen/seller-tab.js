@@ -13,7 +13,7 @@ import moment from "moment";
 import call from "react-native-phone-call";
 
 import { Text, Button, ScreenContainer } from "../../elements";
-
+import I18n from "../../i18n";
 import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
 
@@ -43,22 +43,22 @@ class SellerTab extends Component {
     if (!product.sellers) {
       return (
         <Text weight="Bold" style={{ textAlign: "center", padding: 16 }}>
-          Seller info not available
+          {I18n.t("product_details_screen_seller_no_info")}
         </Text>
       );
     }
     return (
       <ScrollView>
         <KeyValueItem
-          keyText="Seller Category"
+          keyText={I18n.t("product_details_screen_seller_category")}
           valueText={product.categoryName}
         />
         <KeyValueItem
-          keyText="Seller Name"
+          keyText={I18n.t("product_details_screen_seller_name")}
           valueText={product.sellers.sellerName}
         />
         <KeyValueItem
-          keyText="Location"
+          keyText={I18n.t("product_details_screen_seller_location")}
           valueText={product.sellers.city + ", " + product.sellers.state}
         />
         <KeyValueItem
@@ -85,7 +85,9 @@ class SellerTab extends Component {
         <KeyValueItem
           KeyComponent={() => (
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.secondaryText }}>Address</Text>
+              <Text style={{ color: colors.secondaryText }}>
+                {I18n.t("product_details_screen_seller_address")}
+              </Text>
               <Text weight="Medium" style={{ color: colors.mainText }}>
                 {product.sellers.address +
                   ", " +
@@ -103,7 +105,7 @@ class SellerTab extends Component {
                   weight="Bold"
                   style={{ fontSize: 10, color: colors.pinkishOrange }}
                 >
-                  FIND STORE
+                  {I18n.t("product_details_screen_seller_find_store")}
                 </Text>
               </View>
             </TouchableOpacity>
