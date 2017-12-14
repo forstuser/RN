@@ -26,14 +26,17 @@ const EhomeCategoryItem = ({
     </View>
     <View style={styles.countAndTime}>
       <Text weight="Medium" style={styles.itemsCount}>
-        {itemsCount} items
+        {I18n.t("ehome_screen_items_category_item_count", {
+          count: itemsCount
+        })}
       </Text>
       {lastUpdatedTime && (
         <Text style={styles.lastUpdateTime}>
-          LAST UPDATED{" "}
-          {moment(lastUpdatedTime)
-            .format("DD MMM, YYYY")
-            .toUpperCase()}
+          {I18n.t("ehome_screen_items_category_item_last_updated", {
+            date: moment(lastUpdatedTime)
+              .format("DD MMM, YYYY")
+              .toUpperCase()
+          })}
         </Text>
       )}
     </View>

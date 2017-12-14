@@ -17,10 +17,12 @@ import SearchHeader from "../components/search-header";
 import InsightChart from "../components/insight-chart";
 import UpcomingServicesList from "../components/upcoming-services-list";
 import UploadBillOptions from "../components/upload-bill-options";
+import AddExpenseOptions from "../components/add-expense-options";
 import { colors } from "../theme";
+import I18n from "../i18n";
 import LoadingOverlay from "../components/loading-overlay";
 import ErrorOverlay from "../components/error-overlay";
-
+import SectionHeading from "../components/section-heading";
 const uploadFabIcon = require("../images/ic_upload_fab.png");
 
 class DashboardScreen extends React.Component {
@@ -67,7 +69,7 @@ class DashboardScreen extends React.Component {
           moment(insight.startDate).format("MMM DD") +
           " - " +
           moment(insight.endDate).format("MMM DD"),
-        filterText: "Last 7 Days",
+        filterText: I18n.t("dashboard_screen_chart_last_7_days"),
         totalSpend: insight.totalSpend,
         chartData: insight.insightData.map(item => {
           return {
@@ -114,14 +116,6 @@ class DashboardScreen extends React.Component {
       recentSearches,
       isFetchingData
     } = this.state;
-    const SectionHeader = ({ text }) => (
-      <View style={styles.sectionHeader}>
-        <View style={styles.sectionHeaderTopBorder} />
-        <Text weight={"Bold"} style={styles.sectionHeaderText}>
-          {text}
-        </Text>
-      </View>
-    );
     return (
       <ScreenContainer style={{ padding: 0 }}>
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
@@ -138,14 +132,18 @@ class DashboardScreen extends React.Component {
               <View style={{ flex: 1, marginBottom: 150 }}>
                 {this.state.upcomingServices.length > 0 && (
                   <View>
-                    <SectionHeader text={`WHAT'S COMING UP`} />
+                    <SectionHeading
+                      text={I18n.t("dashboard_screen_whats_coming_up")}
+                    />
                     <UpcomingServicesList
                       upcomingServices={this.state.upcomingServices}
                       navigator={this.props.navigator}
                     />
                   </View>
                 )}
-                <SectionHeader text={`EHOME INSIGHTS`} />
+                <SectionHeading
+                  text={I18n.t("dashboard_screen_ehome_insights")}
+                />
                 <View style={{ paddingHorizontal: 16 }}>
                   <InsightChart {...this.state.insightChartProps} />
                   <TouchableOpacity
@@ -171,13 +169,17 @@ class DashboardScreen extends React.Component {
         {showDashboard && (
           <TouchableOpacity
             style={styles.fab}
-            onPress={() => this.uploadBillOptions.show()}
+            onPress={() => this.addExpenseOptions.show()}
           >
             <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
           </TouchableOpacity>
         )}
         <UploadBillOptions
           ref={ref => (this.uploadBillOptions = ref)}
+          navigator={this.props.navigator}
+        />
+        <AddExpenseOptions
+          ref={ref => (this.addExpenseOptions = ref)}
           navigator={this.props.navigator}
         />
       </ScreenContainer>

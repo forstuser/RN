@@ -3,6 +3,8 @@ import { StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native";
 
 import ActionSheet from "react-native-actionsheet";
 
+import I18n from "../i18n";
+
 import { Text, Button } from "../elements";
 import { colors } from "../theme";
 
@@ -45,13 +47,13 @@ class UploadBillOptions extends React.Component {
       <ActionSheet
         onPress={this.handleOptionPress}
         ref={o => (this.uploadOptions = o)}
-        title="Upload Doc"
+        title={I18n.t("upload_document_screen_upload_options_title")}
         cancelButtonIndex={3}
         options={[
-          "Take picture using camera",
-          "Upload image from gallery",
-          "Upload document",
-          "Cancel"
+          I18n.t("upload_document_screen_upload_options_camera"),
+          I18n.t("upload_document_screen_upload_options_gallery"),
+          I18n.t("upload_document_screen_upload_options_document"),
+          I18n.t("upload_document_screen_upload_options_cancel")
         ]}
       />
     );

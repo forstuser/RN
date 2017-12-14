@@ -14,6 +14,7 @@ import ProductsList from "../components/products-list";
 import { ScreenContainer, Text, Button, AsyncImage } from "../elements";
 import { colors } from "../theme";
 import { openBillsPopUp } from "../navigation";
+import I18n from "../i18n";
 
 const backIcon = require("../images/ic_arrow_back_black.png");
 
@@ -87,14 +88,14 @@ class SearchBox extends Component {
             value={this.state.textInput}
             onChangeText={text => this.setState({ textInput: text })}
             style={styles.searchTextInput}
-            placeholder="Search..."
+            placeholder={I18n.t("search_screen_placeholder")}
           />
         </View>
         {showRecentSearches && (
           <View style={styles.recentSearches}>
             <View style={styles.recentSearchTitleWrapper}>
               <Text weight="Bold" style={styles.recentSearchTitle}>
-                RECENT SEARCHES
+                {I18n.t("search_screen_recent_searches")}
               </Text>
             </View>
             {recentSearches.map((recentSearch, index) => (

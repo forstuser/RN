@@ -3,6 +3,7 @@ import { Platform, StyleSheet, View, FlatList, Alert } from "react-native";
 import { API_BASE_URL, consumerGetEhome } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 import Collapsible from "./../components/collapsible";
+import I18n from "../i18n";
 
 class FaqScreen extends Component {
   static navigatorStyle = {
@@ -42,7 +43,7 @@ class FaqScreen extends Component {
   }
   componentDidMount() {
     this.props.navigator.setTitle({
-      title: "FAQs"
+      title: I18n.t("faq_screen_title")
     });
   }
 

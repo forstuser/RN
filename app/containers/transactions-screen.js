@@ -18,6 +18,7 @@ import SectionHeading from "../components/section-heading";
 import { colors } from "../theme";
 import LoadingOverlay from "../components/loading-overlay";
 import { openBillsPopUp } from "../navigation";
+import I18n from "../i18n";
 
 class TransactionsScreen extends Component {
   static navigatorStyle = {
@@ -69,20 +70,20 @@ class TransactionsScreen extends Component {
           moment(res.insight.startDate).format("DD MMM") +
           " - " +
           moment(res.insight.endDate).format("DD MMM"),
-        filterText: "Last 7 Days",
+        filterText: I18n.t("transactions_screen_filter_last_7_days"),
         products: res.productList,
         insightData: res.insight.insightData
       };
       const monthlyData = {
         timeSpanText:
           "For " + moment(res.insight.monthStartDate).format("MMM YYYY"),
-        filterText: "Current Month",
+        filterText: I18n.t("transactions_screen_filter_current_month"),
         products: res.productListWeekly,
         insightData: res.insight.insightWeekly
       };
       const yearlyData = {
         timeSpanText: "For " + moment(res.insight.yearStartDate).format("YYYY"),
-        filterText: "Current Year",
+        filterText: I18n.t("transactions_screen_filter_current_year"),
         totalSpend: res.totalYearlySpend,
         products: res.productListMonthly,
         insightData: res.insight.insightMonthly
@@ -167,22 +168,26 @@ class TransactionsScreen extends Component {
             <ActionSheet
               onPress={this.handleFilterOptionPress}
               ref={o => (this.filterOptions = o)}
-              title="See insights of"
+              title={I18n.t("transactions_screen_filter_options_title")}
               cancelButtonIndex={3}
               options={[
-                "Last 7 Days",
-                "Current Month",
-                "Current year",
-                "Cancel"
+                I18n.t("transactions_screen_filter_last_7_days"),
+                I18n.t("transactions_screen_filter_current_month"),
+                I18n.t("transactions_screen_filter_current_year"),
+                I18n.t("transactions_screen_filter_close")
               ]}
             />
           </View>
           {this.state.activeData.products.length == 0 && (
-            <SectionHeading text="NO TRANSACTIONS" />
+            <SectionHeading
+              text={I18n.t("transactions_screen_no_transactions")}
+            />
           )}
           {this.state.activeData.products.length > 0 && (
             <View>
-              <SectionHeading text="TRANSACTIONS" />
+              <SectionHeading
+                text={I18n.t("transactions_screen_transactions")}
+              />
               <View>
                 {this.state.activeData.products.map(product => (
                   <TouchableOpacity

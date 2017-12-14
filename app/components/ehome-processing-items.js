@@ -12,9 +12,13 @@ const EhomeProcessingItems = ({ itemsCount = 0, onPress }) => (
     <Image style={styles.icon} source={icon} />
     <View style={styles.titleAndItemCount}>
       <Text weight="Medium" style={styles.title}>
-        Processing Docs
+        {I18n.t("ehome_screen_processing_docs")}
       </Text>
-      <Text style={styles.itemsCount}>{itemsCount} item(s) pending</Text>
+      <Text style={styles.itemsCount}>
+        {I18n.t("ehome_screen_items_pending_count", {
+          pendingDocsCount: itemsCount
+        })}
+      </Text>
     </View>
     <Image style={styles.arrow} source={arrow} />
   </TouchableOpacity>

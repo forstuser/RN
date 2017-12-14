@@ -15,6 +15,7 @@ import ActionSheet from "react-native-actionsheet";
 import { Text, Button, ScreenContainer } from "../elements";
 import { colors } from "../theme";
 import InsightChart from "../components/insight-chart";
+import I18n from "../i18n";
 
 const legendColors = [
   "#00B7FF",
@@ -51,7 +52,7 @@ class TotalTaxScreen extends Component {
 
   async componentDidMount() {
     this.props.navigator.setTitle({
-      title: "Total Tax Paid"
+      title: I18n.t("total_tax_screen_title")
     });
 
     this.handleFilterOptionPress(this.props.index);
@@ -109,15 +110,20 @@ class TotalTaxScreen extends Component {
           <ActionSheet
             onPress={this.handleFilterOptionPress}
             ref={o => (this.filterOptions = o)}
-            title="See tax info of"
+            title={I18n.t("total_tax_screen_filter_options_title")}
             cancelButtonIndex={3}
-            options={["Last 7 Days", "Current Month", "Current year", "Cancel"]}
+            options={[
+              I18n.t("total_tax_screen_filter_last_7_days"),
+              I18n.t("total_tax_screen_filter_current_month"),
+              I18n.t("total_tax_screen_filter_current_year"),
+              I18n.t("total_tax_screen_filter_close")
+            ]}
           />
         </View>
 
         <View style={styles.spends}>
           <Text style={{ fontSize: 24, color: "#9c9c9c" }} weight="Regular">
-            Total Tax
+            {I18n.t("total_tax_screen_total")}
           </Text>
           <Text style={{ fontSize: 24, color: "#3b3b3b" }} weight="Medium">
             ₹ {totalTaxes}

@@ -37,7 +37,7 @@ class SearchHeader extends Component {
             <View style={styles.nameAndIcon}>
               <Image style={styles.icon} source={dashBoardIcon} />
               <Text weight="Medium" style={styles.screenName}>
-                Dashboard
+                {I18n.t("search_header_dashboard")}
               </Text>
             </View>
           )}
@@ -45,7 +45,7 @@ class SearchHeader extends Component {
             <View style={styles.nameAndIcon}>
               <Image style={styles.icon} source={eHomeIcon} />
               <Text weight="Medium" style={styles.screenName}>
-                eHome
+                {I18n.t("search_header_ehome")}
               </Text>
             </View>
           )}
@@ -73,7 +73,7 @@ class SearchHeader extends Component {
         >
           <Image style={styles.searchIcon} source={searchIcon} />
           <Text weight="Bold" style={styles.searchText}>
-            Search...
+            {I18n.t("search_header_search_placeholder")}
           </Text>
         </TouchableOpacity>
       </View>

@@ -26,6 +26,9 @@ import UploadBillOptions from "../components/upload-bill-options";
 const ehomeImage = require("../images/ehome_circle_with_category_icons.png");
 
 class AddProductScreen extends React.Component {
+  static navigatorStyle = {
+    tabBarHidden: true
+  };
   static navigatorButtons = {
     rightButtons: [
       {

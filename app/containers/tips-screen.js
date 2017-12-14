@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Platform, StyleSheet, View, FlatList, Alert } from "react-native";
 import { API_BASE_URL, consumerGetEhome } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
+import I18n from "../i18n";
 
 class TipsScreen extends Component {
   static navigatorStyle = {
@@ -10,7 +11,7 @@ class TipsScreen extends Component {
 
   componentDidMount() {
     this.props.navigator.setTitle({
-      title: "Tips to Build Your eHome"
+      title: I18n.t("tips_screen_title")
     });
   }
 

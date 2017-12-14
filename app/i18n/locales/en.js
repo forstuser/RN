@@ -248,6 +248,62 @@ export default {
   asc_screen_select_brand_product_first:
     "Please select brand and product first",
 
+  //Dashboard Screen
+  dashboard_screen_whats_coming_up: "WHAT'S COMING UP",
+  dashboard_screen_ehome_insights: "EHOME INSIGHTS",
+  dashboard_screen_chart_last_7_days: "Last 7 Days",
+
+  //eHome Screen
+  ehome_screen_processing_docs: "Processing Docs",
+  ehome_screen_items_pending_count: "{{pendingDocsCount}} item(s) pending",
+  ehome_screen_items_category_item_count: "{{count}} item(s)",
+  ehome_screen_items_category_item_last_updated: "LAST UPDATED {{date}}",
+
+  //FAQs screen
+  faq_screen_title: "FAQs",
+
+  //search screen
+  search_screen_placeholder: "Search...",
+  search_screen_recent_searches: "RECENT SEARCHES",
+
+  //tips screen
+  tips_screen_title: "Tips to Build Your eHome",
+
+  //total tax screen
+  total_tax_screen_title: "Total Tax Paid",
+  total_tax_screen_total: "Total Tax",
+  total_tax_screen_filter_last_7_days: "Last 7 Days",
+  total_tax_screen_filter_current_month: "Current Month",
+  total_tax_screen_filter_current_year: "Current Year",
+  total_tax_screen_filter_options_title: "See tax info of",
+  total_tax_screen_filter_close: "Cancel",
+
+  //transactions screen
+  transactions_screen_transactions: "TRANSACTIONS",
+  transactions_screen_no_transactions: "NO TRANSACTIONS",
+  transactions_screen_filter_last_7_days: "Last 7 Days",
+  transactions_screen_filter_current_month: "Current Month",
+  transactions_screen_filter_current_year: "Current Year",
+  transactions_screen_filter_options_title: "See insights of",
+  transactions_screen_filter_close: "Cancel",
+
+  //search header
+  search_header_dashboard: "Dashboard",
+  search_header_ehome: "eHome",
+  search_header_search_placeholder: "Search...",
+
+  // add expenses options
+  add_expenses_options_upload_title:
+    "Got a Bill? Some other Important Document",
+  add_expenses_options_upload_btn: "UPLOAD NOW",
+  add_expenses_options_upload_bottom_text: "We will take care of everything",
+  add_expenses_options_or: "OR",
+  add_expenses_options_manual_title:
+    "Don’t have a Bill? Want to add some expense",
+  add_expenses_options_manual_btn: "ADD MANUALLY",
+  add_expenses_options_manual_bottom_text: "You can always add bill later",
+  add_expenses_options_cancel_btn: "Cancel",
+
   blank_dashboard_headline: "Welcome to BinBill",
   blank_dashboard_text:
     "Start building your eHome by converting ordinary bills into smart bills and live worry free",
