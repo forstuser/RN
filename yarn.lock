@@ -3565,6 +3565,12 @@ react-native-phone-call@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/react-native-phone-call/-/react-native-phone-call-1.0.4.tgz#809b7dd27452e429c9deddb4c311997702e333ba"
 
+react-native-photo-view@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-photo-view/-/react-native-photo-view-1.5.2.tgz#5d7f406ed5532a5a8a78c8ef8f40e81f688de1e2"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-scrollable-tab-view@^0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/react-native-scrollable-tab-view/-/react-native-scrollable-tab-view-0.8.0.tgz#5cb1fcfce07bf530a3c81ab51fc5071144edac5c"
