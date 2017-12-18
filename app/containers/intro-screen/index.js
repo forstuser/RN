@@ -34,6 +34,12 @@ const slides = [
     title: I18n.t("app_intro_4_title"),
     desc: I18n.t("app_intro_4_desc"),
     image: require("../../images/onboarding/onboarding_4.png")
+  },
+  {
+    key: "slide5",
+    title: I18n.t("app_intro_5_title"),
+    desc: I18n.t("app_intro_5_desc"),
+    image: require("../../images/onboarding/onboarding_5.png")
   }
 ];
 

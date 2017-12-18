@@ -26,6 +26,7 @@ import SectionHeading from "../components/section-heading";
 const uploadFabIcon = require("../images/ic_upload_fab.png");
 
 class DashboardScreen extends React.Component {
+  static HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = false;
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -60,7 +61,11 @@ class DashboardScreen extends React.Component {
     });
     try {
       const dashboardData = await consumerGetDashboard();
-      if (!dashboardData.hasProducts) {
+      if (
+        !dashboardData.hasProducts &&
+        !DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE
+      ) {
+        DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = true;
         return openAddProductsScreen();
       }
       const insight = dashboardData.insight;
