@@ -17,6 +17,8 @@ target 'BinBill' do
 
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'BinBillTests' do
     inherit! :search_paths
     # Pods for testing

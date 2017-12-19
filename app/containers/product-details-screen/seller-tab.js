@@ -48,7 +48,7 @@ class SellerTab extends Component {
       );
     }
     return (
-      <ScrollView>
+      <View>
         <KeyValueItem
           keyText={I18n.t("product_details_screen_seller_category")}
           valueText={product.categoryName}
@@ -111,7 +111,7 @@ class SellerTab extends Component {
             </TouchableOpacity>
           )}
         />
-      </ScrollView>
+      </View>
     );
   }
 }

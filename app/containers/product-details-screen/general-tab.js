@@ -4,27 +4,77 @@ import {
   ScrollView,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput,
+  Alert
 } from "react-native";
 import moment from "moment";
+import StarRating from "react-native-star-rating";
 import { Text, Button, ScreenContainer } from "../../elements";
 import I18n from "../../i18n";
 import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
+import SectionHeading from "../../components/section-heading";
+import { addProductReview } from "../../api";
 
 class GeneralTab extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoaded: false,
-      product: {}
+      product: {},
+      starCount: 0,
+      reviewInput: "",
+      showEditReview: true
     };
   }
+
+  componentDidMount() {
+    const { productReviews } = this.props.product;
+    if (productReviews.length > 0) {
+      this.setState({
+        starCount: productReviews[0].ratings,
+        reviewInput: productReviews[0].feedback,
+        showEditReview: false
+      });
+    }
+  }
+
+  onStarRatingPress(rating) {
+    this.setState({
+      starCount: rating
+    });
+  }
+
+  onSubmitReview = async () => {
+    try {
+      await addProductReview({
+        productId: this.props.product.id,
+        ratings: this.state.starCount,
+        feedback: this.state.reviewInput
+      });
+      Alert.alert("Review Added");
+      this.props.fetchProductDetails();
+    } catch (e) {
+      Alert.alert(e.message);
+    }
+  };
+
+  onEditReviewClick = () => {
+    this.setState(
+      {
+        showEditReview: true
+      },
+      () => {
+        this.reviewInput.focus();
+      }
+    );
+  };
 
   render() {
     const { product } = this.props;
     return (
-      <ScrollView>
+      <View>
         <KeyValueItem
           keyText={I18n.t("product_details_screen_main_category")}
           valueText={product.masterCategoryName}
@@ -50,24 +100,110 @@ class GeneralTab extends Component {
             valueText={metaItem.value}
           />
         ))}
-      </ScrollView>
+
+        {this.state.showEditReview && (
+          <View style={styles.review}>
+            <SectionHeading text="REVIEW THIS PRODUCT" />
+            <View style={styles.reviewInner}>
+              <View style={styles.reviewHeader}>
+                <View style={styles.starsWrapper}>
+                  <StarRating
+                    starColor="#FFA909"
+                    disabled={false}
+                    maxStars={5}
+                    rating={this.state.starCount}
+                    halfStarEnabled={true}
+                    selectedStar={rating => this.onStarRatingPress(rating)}
+                  />
+                </View>
+              </View>
+              <TextInput
+                ref={ref => (this.reviewInput = ref)}
+                placeholder="Write your feedback…"
+                value={this.state.reviewInput}
+                onChangeText={text => this.setState({ reviewInput: text })}
+                style={styles.reviewInput}
+                multiline={true}
+              />
+              <View style={styles.reviewFooter}>
+                <Button
+                  onPress={this.onSubmitReview}
+                  style={styles.reviewSubmitBtn}
+                  text="Submit"
+                  color="secondary"
+                  type="outline"
+                />
+              </View>
+            </View>
+          </View>
+        )}
+        {!this.state.showEditReview && (
+          <View style={styles.editReview}>
+            <SectionHeading text="YOUR REVIEW" />
+            <View style={styles.reviewInner}>
+              <View style={styles.reviewHeader}>
+                <View style={styles.starsWrapper}>
+                  <StarRating
+                    disabled={true}
+                    starColor="#FFA909"
+                    disabled={false}
+                    maxStars={5}
+                    rating={this.state.starCount}
+                    halfStarEnabled={true}
+                    selectedStar={rating => this.onStarRatingPress(rating)}
+                  />
+                </View>
+              </View>
+              <Text weight="Bold" style={styles.reviewText}>
+                {this.state.reviewInput}
+              </Text>
+              <View style={styles.reviewFooter}>
+                <Button
+                  onPress={this.onEditReviewClick}
+                  style={styles.reviewSubmitBtn}
+                  text="Edit"
+                  color="secondary"
+                  type="outline"
+                />
+              </View>
+            </View>
+          </View>
+        )}
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
+  reviewInner: {
+    borderColor: "#ddd",
+    borderWidth: 1,
+    borderRadius: 4,
+    margin: 20,
+    marginTop: 0,
+    padding: 20
   },
-  image: {
-    width: 100,
-    height: 100
+  reviewHeader: {
+    padding: 20,
+    paddingTop: 0,
+    borderColor: "#ddd",
+    borderBottomWidth: 1
   },
-  subTitle: {
-    color: "#fff",
-    fontSize: 14,
-    textAlign: "center",
-    paddingHorizontal: 30
+  reviewInput: {
+    height: 150
+  },
+  reviewText: {
+    height: 150
+  },
+  reviewFooter: {
+    paddingTop: 20,
+    borderColor: "#ddd",
+    borderTopWidth: 1,
+    alignItems: "flex-end"
+  },
+  reviewSubmitBtn: {
+    height: 36,
+    width: 100
   }
 });
 

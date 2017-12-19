@@ -40,6 +40,10 @@ class ProductDetailsScreen extends Component {
     };
   }
   async componentDidMount() {
+    this.fetchProductDetails();
+  }
+
+  fetchProductDetails = async () => {
     this.props.navigator.setTitle({
       title: I18n.t("product_details_screen_title")
     });
@@ -52,7 +56,7 @@ class ProductDetailsScreen extends Component {
     } catch (e) {
       Alert.alert(e.message);
     }
-  }
+  };
 
   render() {
     const { product, isLoaded } = this.state;
@@ -61,20 +65,29 @@ class ProductDetailsScreen extends Component {
     }
     return (
       <View style={styles.container}>
-        <Details product={product} />
-        <ScrollableTabView
-          style={{ marginTop: 20, marginBottom: 70 }}
-          renderTabBar={() => <DefaultTabBar />}
-          tabBarUnderlineStyle={{ backgroundColor: colors.mainBlue, height: 2 }}
-          tabBarBackgroundColor="#fafafa"
-          tabBarTextStyle={{ fontSize: 14, fontFamily: `Quicksand-Bold` }}
-          tabBarActiveTextColor={colors.mainBlue}
-          tabBarInactiveTextColor={colors.secondaryText}
-        >
-          <ImportantTab tabLabel="IMPORTANT" product={product} />
-          <SellerTab tabLabel="SELLER" product={product} />
-          <GeneralTab tabLabel="GENERAL INFO" product={product} />
-        </ScrollableTabView>
+        <ScrollView style={styles.container}>
+          <Details product={product} />
+          <ScrollableTabView
+            style={{ marginTop: 20, marginBottom: 70 }}
+            renderTabBar={() => <DefaultTabBar />}
+            tabBarUnderlineStyle={{
+              backgroundColor: colors.mainBlue,
+              height: 2
+            }}
+            tabBarBackgroundColor="#fafafa"
+            tabBarTextStyle={{ fontSize: 14, fontFamily: `Quicksand-Bold` }}
+            tabBarActiveTextColor={colors.mainBlue}
+            tabBarInactiveTextColor={colors.secondaryText}
+          >
+            <ImportantTab tabLabel="IMPORTANT" product={product} />
+            <SellerTab tabLabel="SELLER" product={product} />
+            <GeneralTab
+              tabLabel="GENERAL INFO"
+              product={product}
+              fetchProductDetails={this.fetchProductDetails}
+            />
+          </ScrollableTabView>
+        </ScrollView>
         <View style={styles.contactAfterSalesBtn}>
           <ContactAfterSaleButton product={product} />
         </View>
@@ -84,9 +97,7 @@ class ProductDetailsScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
+  container: { flex: 1 },
   upperContainer: {
     alignItems: "center"
   },

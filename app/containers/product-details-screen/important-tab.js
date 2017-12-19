@@ -69,7 +69,7 @@ class ImportantTab extends Component {
     );
 
     return (
-      <ScrollView>
+      <View>
         <Collapsible
           headerText={I18n.t("product_details_screen_warranty_title")}
         >
@@ -357,7 +357,7 @@ class ImportantTab extends Component {
             </Text>
           )}
         </Collapsible>
-      </ScrollView>
+      </View>
     );
   }
 }
