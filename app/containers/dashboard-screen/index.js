@@ -9,21 +9,21 @@ import {
   Image
 } from "react-native";
 import moment from "moment";
-import { openAddProductsScreen } from "../navigation";
-import { consumerGetDashboard } from "../api";
-import { Text, Button, ScreenContainer } from "../elements";
-import BlankDashboard from "../components/blank-dashboard";
-import SearchHeader from "../components/search-header";
-import InsightChart from "../components/insight-chart";
-import UpcomingServicesList from "../components/upcoming-services-list";
-import UploadBillOptions from "../components/upload-bill-options";
-import AddExpenseOptions from "../components/add-expense-options";
-import { colors } from "../theme";
-import I18n from "../i18n";
-import LoadingOverlay from "../components/loading-overlay";
-import ErrorOverlay from "../components/error-overlay";
-import SectionHeading from "../components/section-heading";
-const uploadFabIcon = require("../images/ic_upload_fab.png");
+import { openAddProductsScreen } from "../../navigation";
+import { consumerGetDashboard } from "../../api";
+import { Text, Button, ScreenContainer } from "../../elements";
+import BlankDashboard from "./blank-dashboard";
+import SearchHeader from "../../components/search-header";
+import InsightChart from "../../components/insight-chart";
+import UpcomingServicesList from "../../components/upcoming-services-list";
+import UploadBillOptions from "../../components/upload-bill-options";
+import AddExpenseOptions from "../../components/add-expense-options";
+import { colors } from "../../theme";
+import I18n from "../../i18n";
+import LoadingOverlay from "../../components/loading-overlay";
+import ErrorOverlay from "../../components/error-overlay";
+import SectionHeading from "../../components/section-heading";
+const uploadFabIcon = require("../../images/ic_upload_fab.png");
 
 class DashboardScreen extends React.Component {
   static HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = false;
@@ -168,7 +168,7 @@ class DashboardScreen extends React.Component {
         )}
         {!showDashboard && (
           <BlankDashboard
-            onUploadButtonClick={() => this.uploadBillOptions.show()}
+            onUploadButtonClick={() => this.addExpenseOptions.show()}
           />
         )}
         {showDashboard && (
@@ -179,10 +179,6 @@ class DashboardScreen extends React.Component {
             <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
           </TouchableOpacity>
         )}
-        <UploadBillOptions
-          ref={ref => (this.uploadBillOptions = ref)}
-          navigator={this.props.navigator}
-        />
         <AddExpenseOptions
           ref={ref => (this.addExpenseOptions = ref)}
           navigator={this.props.navigator}

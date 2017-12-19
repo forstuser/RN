@@ -7,6 +7,22 @@ import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { getProductMetasString } from "../../utils";
 
+const isDateInNextTenDays = date => {
+  const diff = date.diff(moment(), "days");
+  return diff >= 0 && diff <= 10;
+};
+
+const expiringInText = date => {
+  const diff = date.diff(moment(), "days");
+  switch (diff) {
+    case 0:
+      return "Expiring Today!";
+    case 1:
+      return "Expiring Tomorrow!";
+    default:
+      return "Expiring in " + diff + " days!";
+  }
+};
 const ProductListItem = ({ product, onPress }) => {
   const meta = getProductMetasString(product.productMetaData);
 
@@ -41,6 +57,13 @@ const ProductListItem = ({ product, onPress }) => {
                 "MMM DD, YYYY"
               )}
             </Text>
+            {isDateInNextTenDays(
+              moment(product.warrantyDetails[0].expiryDate)
+            ) && (
+              <Text style={styles.expiringText}>
+                {expiringInText(moment(product.warrantyDetails[0].expiryDate))}
+              </Text>
+            )}
           </View>
         )}
         {product.insuranceDetails.length > 0 && (
@@ -51,6 +74,13 @@ const ProductListItem = ({ product, onPress }) => {
                 "MMM DD, YYYY"
               )}
             </Text>
+            {isDateInNextTenDays(
+              moment(product.insuranceDetails[0].expiryDate)
+            ) && (
+              <Text style={styles.expiringText}>
+                {expiringInText(moment(product.insuranceDetails[0].expiryDate))}
+              </Text>
+            )}
           </View>
         )}
         {product.amcDetails.length > 0 && (
@@ -59,6 +89,11 @@ const ProductListItem = ({ product, onPress }) => {
             <Text weight="Medium" style={styles.detailValue}>
               {moment(product.amcDetails[0].expiryDate).format("MMM DD, YYYY")}
             </Text>
+            {isDateInNextTenDays(moment(product.amcDetails[0].expiryDate)) && (
+              <Text style={styles.expiringText}>
+                {expiringInText(moment(product.amcDetails[0].expiryDate))}
+              </Text>
+            )}
           </View>
         )}
       </View>
@@ -119,6 +154,14 @@ const styles = StyleSheet.create({
   },
   detailValue: {
     fontSize: 12
+  },
+  expiringText: {
+    color: "#fff",
+    backgroundColor: "rgba(255,0,0,0.7)",
+    fontSize: 10,
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+    marginLeft: 10
   }
 });
 export default ProductListItem;

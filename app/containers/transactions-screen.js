@@ -20,6 +20,8 @@ import LoadingOverlay from "../components/loading-overlay";
 import { openBillsPopUp } from "../navigation";
 import I18n from "../i18n";
 
+const billIcon = require("../images/ic_comingup_bill.png");
+
 class TransactionsScreen extends Component {
   static navigatorStyle = {
     tabBarHidden: true
@@ -150,6 +152,20 @@ class TransactionsScreen extends Component {
     });
   };
 
+  productType = dataIndex => {
+    switch (dataIndex) {
+      case 2:
+        return ": AMC";
+      case 3:
+        return ": Insurance";
+      case 4:
+        return ": Repairs";
+      case 5:
+        return ": Warranty";
+      default:
+        return "";
+    }
+  };
   render() {
     const { timeSpanText, filterText } = this.state.activeData;
     const { isFetchingData, chartData } = this.state;
@@ -189,7 +205,7 @@ class TransactionsScreen extends Component {
                 text={I18n.t("transactions_screen_transactions")}
               />
               <View>
-                {this.state.activeData.products.map(product => (
+                {this.state.activeData.products.map((product, index) => (
                   <TouchableOpacity
                     onPress={() => {
                       openBillsPopUp({
@@ -199,16 +215,26 @@ class TransactionsScreen extends Component {
                       });
                     }}
                     style={styles.product}
-                    key={product.id}
+                    key={index}
                   >
-                    <Image
-                      style={styles.image}
-                      source={{ uri: API_BASE_URL + product.cImageURL + "1" }}
-                    />
+                    {product.dataIndex == 1 && (
+                      <Image
+                        style={styles.image}
+                        source={{ uri: API_BASE_URL + product.cImageURL + "1" }}
+                      />
+                    )}
+                    {product.dataIndex > 1 && (
+                      <Image style={styles.image} source={billIcon} />
+                    )}
                     <View style={styles.texts}>
-                      <Text weight="Bold" style={styles.name}>
-                        {product.productName}
-                      </Text>
+                      <View style={styles.nameWrapper}>
+                        <Text weight="Bold" style={styles.name}>
+                          {product.productName}
+                        </Text>
+                        <Text weight="Bold" style={styles.productType}>
+                          {this.productType(product.dataIndex)}
+                        </Text>
+                      </View>
                       {product.sellers != null && (
                         <Text style={styles.sellerName}>
                           {product.sellers.sellerName}
@@ -252,6 +278,9 @@ const styles = StyleSheet.create({
   },
   texts: {
     flex: 1
+  },
+  nameWrapper: {
+    flexDirection: "row"
   },
   name: {
     fontSize: 14,

@@ -7,6 +7,8 @@ import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { openBillsPopUp } from "../../navigation";
 
+import { MAIN_CATEGORY_IDS } from "../../constants";
+
 import ProductType1 from "./product-list-item-type-1";
 import ProductType2 from "./product-list-item-type-2";
 import ProductType3 from "./product-list-item-type-3";
@@ -28,7 +30,13 @@ const ProductListItem = ({ product, onPress, navigator }) => {
           style={styles.viewBillBtn}
         >
           <Image style={styles.viewBillIcon} source={viewBillIcon} />
-          <Text style={styles.viewBillText}>VIEW BILL</Text>
+          <Text style={styles.viewBillText}>
+            VIEW{" "}
+            {product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
+            product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS
+              ? "DOC"
+              : "BILL"}
+          </Text>
         </TouchableOpacity>
       );
     } else {
@@ -45,35 +53,27 @@ const ProductListItem = ({ product, onPress, navigator }) => {
     });
   };
   switch (product.masterCategoryId) {
-    case 2:
-    case 3:
+    case MAIN_CATEGORY_IDS.ELECTRONICS:
+    case MAIN_CATEGORY_IDS.AUTOMOBILE:
       return (
         <View style={styles.container}>
           <ViewBillButton />
           <ProductType1 onPress={openProductScreen} product={product} />
         </View>
       );
-    case 1:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-      return (
-        <View style={styles.container}>
-          <ViewBillButton />
-          <ProductType2 product={product} />
-        </View>
-      );
-    case 10:
+    case MAIN_CATEGORY_IDS.PERSONAL:
       return (
         <View style={styles.container}>
           <ProductType3 product={product} />
         </View>
       );
     default:
-      return null;
+      return (
+        <View style={styles.container}>
+          <ViewBillButton />
+          <ProductType2 product={product} />
+        </View>
+      );
   }
 };
 
