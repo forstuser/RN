@@ -354,3 +354,10 @@ export const addSellerReview = async ({
     }
   });
 };
+
+export const getProductsForAsc = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/center/products`
+  });
+};

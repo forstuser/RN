@@ -11,12 +11,18 @@ import {
   ScrollView
 } from "react-native";
 import Modal from "react-native-modal";
-import { getBrands, getCategories } from "../api";
+import {
+  API_BASE_URL,
+  getBrands,
+  getCategories,
+  getProductsForAsc
+} from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 import I18n from "../i18n";
 import SelectModal from "../components/select-modal";
 
 import { colors } from "../theme";
+import { getProductMetasString } from "../utils";
 
 const bgImage = require("../images/ic_asc_bg_image.jpg");
 const crossIcon = require("../images/ic_close.png");
@@ -30,11 +36,8 @@ class AscScreen extends Component {
       brands: [],
       categories: [],
       selectedBrand: null,
-      selectedCategory: null,
-      isBrandsModalVisible: false,
-      isCategoriesModalVisible: false,
-      brandTextInput: "",
-      categoryTextInput: ""
+      selectedCategoryId: null,
+      selectedCategory: null
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -54,6 +57,7 @@ class AscScreen extends Component {
     this.props.navigator.setTitle({
       title: I18n.t("asc_screen_title")
     });
+    this.fetchProducts();
     try {
       const res = await getBrands();
       this.setState({
@@ -64,21 +68,47 @@ class AscScreen extends Component {
     }
   }
 
-  selectBrand = async brand => {
-    this.setState({
-      products: [],
-      categories: [],
-      selectedBrand: brand,
-      selectedCategory: null,
-      isBrandsModalVisible: false,
-      brandTextInput: "",
-      categoryTextInput: ""
-    });
-    try {
-      const res = await getCategories(brand.id);
+  fetchProducts = async () => {
+    {
+      const res = await getProductsForAsc();
       this.setState({
-        categories: res.categories
+        products: res.productList
       });
+    }
+  };
+
+  selectBrand = async brand => {
+    this.setState(
+      {
+        categories: [],
+        selectedBrand: brand,
+        selectedCategoryId: null,
+        selectedCategory: null
+      },
+      () => {
+        this.fetchCategories();
+      }
+    );
+  };
+
+  fetchCategories = async () => {
+    try {
+      const res = await getCategories(this.state.selectedBrand.id);
+      this.setState(
+        {
+          categories: res.categories
+        },
+        () => {
+          if (this.state.selectedCategoryId) {
+            this.setState({
+              selectedCategory: this.state.categories.find(
+                category =>
+                  category.category_id == this.state.selectedCategoryId
+              )
+            });
+          }
+        }
+      );
     } catch (e) {
       Alert.alert(e.message);
     }
@@ -115,6 +145,23 @@ class AscScreen extends Component {
     });
   };
 
+  onProductPress = product => {
+    if (product.brand) {
+      this.setState(
+        {
+          selectedBrand: {
+            id: product.brand.brandId,
+            brandName: product.brand.name
+          },
+          selectedCategoryId: product.categoryId
+        },
+        () => {
+          this.fetchCategories();
+        }
+      );
+    }
+  };
+
   render() {
     const {
       products,
@@ -135,7 +182,31 @@ class AscScreen extends Component {
           </Text>
           {products.length > 0 && (
             <ScrollView style={styles.productsContainer} horizontal={true}>
-              <Text />
+              {products.map(product => {
+                const meta = getProductMetasString(product.productMetaData);
+                return (
+                  <TouchableOpacity
+                    key={product.key}
+                    onPress={() => this.onProductPress(product)}
+                    style={styles.product}
+                  >
+                    <Image
+                      style={styles.productImage}
+                      source={{ uri: API_BASE_URL + product.cImageURL + "1" }}
+                    />
+                    <View style={styles.productTexts}>
+                      <Text numberOfLines={1} weight="Bold" style={styles.name}>
+                        {product.productName}
+                      </Text>
+                      <View style={styles.productMetaContainer}>
+                        <Text numberOfLines={2} style={styles.productMeta}>
+                          {meta}
+                        </Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
             </ScrollView>
           )}
           {products.length == 0 && (
@@ -212,8 +283,6 @@ class AscScreen extends Component {
   }
 }
 
-export default AscScreen;
-
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
@@ -226,6 +295,44 @@ const styles = StyleSheet.create({
   sectionTitle: {
     color: colors.mainBlue,
     marginBottom: 10
+  },
+  productsContainer: {
+    marginBottom: 20,
+    padding: 5
+  },
+  product: {
+    flexDirection: "row",
+    padding: 8,
+    width: 240,
+    height: 64,
+    marginRight: 10,
+    backgroundColor: "#fff",
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1,
+    alignItems: "center"
+  },
+  productImage: {
+    width: 50,
+    height: 50,
+    marginRight: 16
+  },
+  productTexts: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  productName: {
+    fontSize: 14,
+    color: colors.mainText
+  },
+  productMetaContainer: {
+    paddingTop: 4
+  },
+  productMeta: {
+    fontSize: 12,
+    color: colors.mainText
   },
   noProductsContainer: {
     alignItems: "center"
@@ -265,8 +372,9 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   searchBtn: {
-    marginTop: 20,
     width: "100%",
     alignSelf: "center"
   }
 });
+
+export default AscScreen;
