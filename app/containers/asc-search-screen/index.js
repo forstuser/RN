@@ -49,26 +49,20 @@ class AscSearchScreen extends Component {
 
   fetchResults = async () => {
     this.setState({ isFetchingResults: true });
-    navigator.geolocation.getCurrentPosition(
-      async position => {
-        try {
-          const res = await getAscSearchResults({
-            categoryId: this.props.category.category_id,
-            brandId: this.props.brand.id,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          });
-          this.setState({
-            serviceCenters: res.serviceCenters,
-            isFetchingResults: false
-          });
-        } catch (e) {
-          Alert.alert(e.message);
-        }
-      },
-      error => Alert.alert(error.message),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
+    try {
+      const res = await getAscSearchResults({
+        categoryId: this.props.category.category_id,
+        brandId: this.props.brand.id,
+        latitude: this.props.latitude,
+        longitude: this.props.longitude
+      });
+      this.setState({
+        serviceCenters: res.serviceCenters,
+        isFetchingResults: false
+      });
+    } catch (e) {
+      Alert.alert(e.message);
+    }
   };
 
   openMap = address => {

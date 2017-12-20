@@ -11,6 +11,7 @@ import {
   ScrollView
 } from "react-native";
 import Modal from "react-native-modal";
+import RNGooglePlaces from "react-native-google-places";
 import {
   API_BASE_URL,
   getBrands,
@@ -37,7 +38,10 @@ class AscScreen extends Component {
       categories: [],
       selectedBrand: null,
       selectedCategoryId: null,
-      selectedCategory: null
+      selectedCategory: null,
+      latitude: null,
+      longitude: null,
+      address: ""
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -133,14 +137,20 @@ class AscScreen extends Component {
   };
 
   startSearch = () => {
-    if (!this.state.selectedBrand || !this.state.selectedCategory) {
-      return Alert.alert(I18n.t("asc_screen_select_brand_first"));
+    if (
+      !this.state.selectedBrand ||
+      !this.state.selectedCategory ||
+      !this.state.latitude
+    ) {
+      return Alert.alert(I18n.t("asc_screen_select_fields_first"));
     }
     this.props.navigator.push({
       screen: "AscSearchScreen",
       passProps: {
         brand: this.state.selectedBrand,
-        category: this.state.selectedCategory
+        category: this.state.selectedCategory,
+        latitude: this.state.latitude,
+        longitude: this.state.longitude
       }
     });
   };
@@ -160,6 +170,19 @@ class AscScreen extends Component {
         }
       );
     }
+  };
+
+  openLocationModal = () => {
+    RNGooglePlaces.openPlacePickerModal()
+      .then(place => {
+        console.log(place);
+        this.setState({
+          latitude: place.latitude,
+          longitude: place.longitude,
+          address: place.name
+        });
+      })
+      .catch(error => console.log(error.message)); // error is a Javascript Error object
   };
 
   render() {
@@ -261,14 +284,16 @@ class AscScreen extends Component {
           />
 
           <TouchableOpacity
-            // onPress={onUploadBillPress}
+            onPress={this.openLocationModal}
             style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
           >
             <Text
               weight="Bold"
               style={{ color: colors.secondaryText, flex: 1 }}
             >
-              {I18n.t("asc_screen_placeholder_select_location")}
+              {!this.state.address &&
+                I18n.t("asc_screen_placeholder_select_location")}
+              {this.state.address.length > 0 && this.state.address}
             </Text>
           </TouchableOpacity>
           <Button
