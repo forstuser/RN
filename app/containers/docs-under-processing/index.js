@@ -38,23 +38,21 @@ class DocsUnderProcessingScreen extends Component {
   renderItem = ({ item }) => {
     let ImageItem = null;
     if (isImageFileType(item.copies[0].file_type)) {
-      ImageItem = ({}) => (
+      ImageItem = (
         <AsyncImage
           style={styles.image}
-          uri={API_BASE_URL + "/" + item.copies[0].copyUrl}
+          uri={API_BASE_URL + item.copies[0].copyUrl}
         />
       );
     } else {
-      ImageItem = ({}) => <Image style={styles.fileIcon} source={fileIcon} />;
+      ImageItem = <Image style={styles.fileIcon} source={fileIcon} />;
     }
     return (
       <TouchableOpacity
         onPress={() => this.openBillsScreen(item)}
         style={styles.item}
       >
-        <View style={styles.imageContainer}>
-          <ImageItem />
-        </View>
+        <View style={styles.imageContainer}>{ImageItem}</View>
         <View style={styles.details}>
           <Text weight="Medium" style={styles.uploadTime}>
             Uploaded {moment(item.uploadedDate).fromNow()}

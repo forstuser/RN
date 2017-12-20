@@ -339,3 +339,18 @@ export const addProductReview = async ({
     }
   });
 };
+
+export const addSellerReview = async ({
+  url,
+  ratings = 0,
+  feedback = null
+}) => {
+  return await apiRequest({
+    method: "put",
+    url: url,
+    data: {
+      ratings,
+      feedback
+    }
+  });
+};

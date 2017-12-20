@@ -47,7 +47,13 @@ export const openIntroScreen = () => {
   });
 };
 
-export const openAppScreen = () => {
+export const openAppScreen = opts => {
+  let initialTabIndex = 0;
+  let props = {};
+  if (opts && opts.startWithPendingDocsScreen == true) {
+    initialTabIndex = 1;
+    props.startWithPendingDocsScreen = true;
+  }
   Navigation.startTabBasedApp({
     tabs: [
       {
@@ -71,8 +77,10 @@ export const openAppScreen = () => {
         icon: require("./images/ic_nav_more_off.png")
       }
     ],
+    passProps: props,
     // **for iOS Only**
     tabsStyle: {
+      initialTabIndex,
       tabBarBackgroundColor: "#ffffff",
       tabBarButtonColor: colors.secondaryText,
       tabBarSelectedButtonColor: colors.mainBlue,
@@ -84,7 +92,8 @@ export const openAppScreen = () => {
       tabBarButtonColor: colors.secondaryText,
       tabBarSelectedButtonColor: colors.mainBlue,
       tabBarTranslucent: false,
-      forceTitlesDisplay: true
+      forceTitlesDisplay: true,
+      initialTabIndex
     }
   });
 };

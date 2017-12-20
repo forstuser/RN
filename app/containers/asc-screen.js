@@ -23,12 +23,10 @@ const crossIcon = require("../images/ic_close.png");
 const dropdownIcon = require("../images/ic_dropdown_arrow.png");
 
 class AscScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: true
-  };
   constructor(props) {
     super(props);
     this.state = {
+      products: [],
       brands: [],
       categories: [],
       selectedBrand: null,
@@ -53,6 +51,9 @@ class AscScreen extends Component {
   };
 
   async componentDidMount() {
+    this.props.navigator.setTitle({
+      title: I18n.t("asc_screen_title")
+    });
     try {
       const res = await getBrands();
       this.setState({
@@ -65,6 +66,7 @@ class AscScreen extends Component {
 
   selectBrand = async brand => {
     this.setState({
+      products: [],
       categories: [],
       selectedBrand: brand,
       selectedCategory: null,
@@ -115,6 +117,7 @@ class AscScreen extends Component {
 
   render() {
     const {
+      products,
       brands,
       categories,
       selectedBrand,
@@ -125,27 +128,31 @@ class AscScreen extends Component {
       isCategoriesModalVisible
     } = this.state;
     return (
-      <ScreenContainer style={{ padding: 0, backgroundColor: "#fafafa" }}>
-        <View style={{ flex: 1 }}>
-          <Image
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "100%"
-            }}
-            resizeMode="cover"
-            source={bgImage}
-          />
-          <View style={styles.titlesContainer}>
-            <Text weight="Medium" style={styles.title}>
-              {I18n.t("asc_screen_title")}
-            </Text>
-            <Text weight="Medium" style={styles.subTitle}>
-              {I18n.t("asc_screen_sub_title")}
-            </Text>
-          </View>
-        </View>
-        <View style={{ flex: 1, padding: 20, alignContent: "center" }}>
+      <ScreenContainer style={styles.container}>
+        <View style={styles.innerContainer}>
+          <Text weight="Bold" style={styles.sectionTitle}>
+            {I18n.t("asc_screen_section_1_title")}
+          </Text>
+          {products.length > 0 && (
+            <ScrollView style={styles.productsContainer} horizontal={true}>
+              <Text />
+            </ScrollView>
+          )}
+          {products.length == 0 && (
+            <View style={styles.noProductsContainer}>
+              <Text style={styles.noProductsMsg}>
+                {I18n.t("asc_screen_section_no_products_msg")}
+              </Text>
+              <TouchableOpacity style={styles.addProductBtn}>
+                <Text weight="Bold" style={styles.addProductBtnText}>
+                  {I18n.t("asc_screen_section_add_product_btn")}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          <Text weight="Bold" style={styles.sectionTitle}>
+            {I18n.t("asc_screen_section_2_title")}
+          </Text>
           <SelectModal
             style={styles.select}
             dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
@@ -181,9 +188,21 @@ class AscScreen extends Component {
             }}
             hideAddNew={true}
           />
+
+          <TouchableOpacity
+            // onPress={onUploadBillPress}
+            style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
+          >
+            <Text
+              weight="Bold"
+              style={{ color: colors.secondaryText, flex: 1 }}
+            >
+              {I18n.t("asc_screen_placeholder_select_location")}
+            </Text>
+          </TouchableOpacity>
           <Button
             onPress={this.startSearch}
-            style={{ marginTop: 20, width: "100%" }}
+            style={styles.searchBtn}
             text={I18n.t("asc_screen_placeholder_search_btn")}
             color="secondary"
           />
@@ -196,66 +215,58 @@ class AscScreen extends Component {
 export default AscScreen;
 
 const styles = StyleSheet.create({
-  titlesContainer: {
-    position: "absolute",
-    bottom: 30,
-    width: "100%"
+  container: {
+    alignItems: "center",
+    backgroundColor: "#fafafa"
   },
-  title: {
-    color: "#fff",
-    fontSize: 24,
-    textAlign: "center"
+  innerContainer: {
+    width: "100%",
+    maxWidth: 350
   },
-  subTitle: {
-    color: "#fff",
-    fontSize: 14,
-    textAlign: "center",
-    paddingHorizontal: 30
+  sectionTitle: {
+    color: colors.mainBlue,
+    marginBottom: 10
+  },
+  noProductsContainer: {
+    alignItems: "center"
+  },
+  noProductsMsg: {
+    color: colors.secondaryText,
+    fontSize: 12
+  },
+  addProductBtn: {
+    marginTop: 7,
+    backgroundColor: "#fff",
+    width: 150,
+    height: 35,
+    marginBottom: 30,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1
+  },
+  addProductBtnText: {
+    fontSize: 12,
+    color: colors.pinkishOrange
   },
   select: {
     backgroundColor: "#fff",
     borderColor: colors.secondaryText,
     borderWidth: 1,
     height: 50,
-    width: 320,
+    width: "100%",
     borderRadius: 4,
     padding: 14,
-    marginBottom: 20
+    marginBottom: 20,
+    alignSelf: "center"
   },
-  selectText: {
-    flex: 1
-  },
-  dropdownIcon: {
-    width: 20,
-    height: 20
-  },
-  modal: {
-    backgroundColor: "#fff",
-    borderRadius: 5,
-    flex: 1,
-    margin: 0
-  },
-  modalHeader: {
-    flexDirection: "row",
-    height: 56,
-    alignItems: "center",
-    borderColor: "#eee",
-    borderBottomWidth: 1
-  },
-  modalClose: {
-    paddingVertical: 16,
-    paddingHorizontal: 12
-  },
-  crossIcon: {
-    width: 24,
-    height: 24
-  },
-  textInput: {
-    flex: 1
-  },
-  selectOption: {
-    padding: 16,
-    backgroundColor: "#fff",
-    marginBottom: 1
+  searchBtn: {
+    marginTop: 20,
+    width: "100%",
+    alignSelf: "center"
   }
 });

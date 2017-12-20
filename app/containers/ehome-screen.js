@@ -18,7 +18,8 @@ class EhomeScreen extends Component {
       isFetchingData: false,
       categoriesList: [],
       pendingDocs: [],
-      notificationCount: 0
+      notificationCount: 0,
+      startWithPendingDocsScreen: false
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -30,6 +31,14 @@ class EhomeScreen extends Component {
         break;
     }
   };
+
+  componentDidMount() {
+    if (this.props.startWithPendingDocsScreen) {
+      this.setState({
+        startWithPendingDocsScreen: true
+      });
+    }
+  }
 
   fetchEhomeData = async () => {
     this.setState({
@@ -47,12 +56,22 @@ class EhomeScreen extends Component {
           subCategories: item.subCategories
         };
       });
-      this.setState({
-        notificationCount: ehomeData.notificationCount,
-        recentSearches: ehomeData.recentSearches,
-        categoriesList: categoriesList,
-        pendingDocs: ehomeData.unProcessedBills
-      });
+      this.setState(
+        {
+          notificationCount: ehomeData.notificationCount,
+          recentSearches: ehomeData.recentSearches,
+          categoriesList: categoriesList,
+          pendingDocs: ehomeData.unProcessedBills
+        },
+        () => {
+          if (this.state.startWithPendingDocsScreen) {
+            this.setState({
+              startWithPendingDocsScreen: false
+            });
+            this.openDocsUnderProcessingScreen();
+          }
+        }
+      );
     } catch (e) {
       Alert.alert(e.message);
     }

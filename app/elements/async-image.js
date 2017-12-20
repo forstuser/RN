@@ -24,33 +24,11 @@ class AsyncImage extends Component {
     // this.fetchImage();
   }
 
-  fetchImage = async () => {
-    const { fileType, uri } = this.props;
-    if (!fileType || isImageFileType(fileType)) {
-      try {
-        this.setState({
-          isLoading: true,
-          errorMsg: null
-        });
-        const base64Data = await fetchFile(uri);
-        const base64Image = `data:image/jpeg;base64,${base64Data}`;
-        this.setState({
-          isLoading: false,
-          imageSource: base64Image
-        });
-      } catch (e) {
-        this.setState({
-          isLoading: false,
-          errorMsg: e.message
-        });
-      }
-    }
-  };
   render() {
     if (!this.props.fileType || isImageFileType(this.props.fileType)) {
       const { isLoading, errorMsg, imageSource } = this.state;
       return (
-        <PhotoView
+        <Image
           style={[styles.image, this.props.style]}
           source={{ uri: this.props.uri }}
         />

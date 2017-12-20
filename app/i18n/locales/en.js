@@ -160,6 +160,8 @@ export default {
   //product details screen
   product_details_screen_title: "Product Details",
   product_details_screen_view_bill_btn: "VIEW BILL",
+  product_details_screen_upload_bill_btn: "UPLOAD BILL",
+  product_details_screen_no_bill_msg: "Product bill not uploaded",
   product_details_screen_total_text: "Total",
   product_details_screen_cost_breakdown_product: "Product Cost",
   product_details_screen_cost_breakdown_warranty: "Warranty",
@@ -239,12 +241,20 @@ export default {
   upload_document_screen_upload_options_document: "Upload document",
   upload_document_screen_upload_options_cancel: "Cancel",
   upload_document_screen_uploading_msg: "Uploading... Please Wait..",
+  upload_document_screen_success_title: "Bill Submitted",
+  upload_document_screen_success_msg:
+    "Our experts are now creating the Product Card from the bill linking information such as seller and brand details with their customer care numbers, email ids, warranty and insurance information. We will notify you as soon as your Product Card is created and stored securely under Your eHome.",
+  upload_document_screen_success_ok: "Ok",
 
   //ASC screen
   asc_screen_title: "Authorised Service Centres",
-  asc_screen_sub_title: "Get your device serviced by certified professionals",
+  asc_screen_section_1_title: "Search ASC for already added product in eHome",
+  asc_screen_section_2_title: "Or Search ASC for other products",
+  asc_screen_section_no_products_msg: "No Products Added",
+  asc_screen_section_add_product_btn: "ADD PRODUCT",
   asc_screen_placeholder_select_brand: "Select a Brand",
   asc_screen_placeholder_select_category: "Select a Product",
+  asc_screen_placeholder_select_location: "Select Location",
   asc_screen_placeholder_search_btn: "Search Now",
   asc_screen_select_brand_first: "Please select brand first",
   asc_screen_select_brand_product_first:

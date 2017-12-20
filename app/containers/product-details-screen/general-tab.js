@@ -16,6 +16,7 @@ import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
 import SectionHeading from "../../components/section-heading";
 import { addProductReview } from "../../api";
+import LoadingOverlay from "../../components/loading-overlay";
 
 class GeneralTab extends Component {
   constructor(props) {
@@ -25,7 +26,8 @@ class GeneralTab extends Component {
       product: {},
       starCount: 0,
       reviewInput: "",
-      showEditReview: true
+      showEditReview: true,
+      isAddingReview: false
     };
   }
 
@@ -48,6 +50,9 @@ class GeneralTab extends Component {
 
   onSubmitReview = async () => {
     try {
+      this.setState({
+        isAddingReview: true
+      });
       await addProductReview({
         productId: this.props.product.id,
         ratings: this.state.starCount,
@@ -57,6 +62,10 @@ class GeneralTab extends Component {
       this.props.fetchProductDetails();
     } catch (e) {
       Alert.alert(e.message);
+    } finally {
+      this.setState({
+        isAddingReview: false
+      });
     }
   };
 
@@ -103,6 +112,7 @@ class GeneralTab extends Component {
 
         {this.state.showEditReview && (
           <View style={styles.review}>
+            <LoadingOverlay visible={this.state.isAddingReview} />
             <SectionHeading text="REVIEW THIS PRODUCT" />
             <View style={styles.reviewInner}>
               <View style={styles.reviewHeader}>
@@ -146,7 +156,6 @@ class GeneralTab extends Component {
                   <StarRating
                     disabled={true}
                     starColor="#FFA909"
-                    disabled={false}
                     maxStars={5}
                     rating={this.state.starCount}
                     halfStarEnabled={true}

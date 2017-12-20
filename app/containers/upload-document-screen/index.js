@@ -4,7 +4,8 @@ import {
   View,
   Image,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  Modal
 } from "react-native";
 import { Navigation } from "react-native-navigation";
 import ActionSheet from "react-native-actionsheet";
@@ -14,7 +15,7 @@ import {
   DocumentPicker,
   DocumentPickerUtil
 } from "react-native-document-picker";
-import Modal from "react-native-modal";
+import RNModal from "react-native-modal";
 
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
@@ -27,6 +28,10 @@ const newPicIcon = require("../../images/ic_upload_new_pic.png");
 
 import FileItem from "./file-item";
 import I18n from "../../i18n";
+
+const ehomeImage = require("../../images/ehome_circle_with_category_icons.png");
+
+import { openAppScreen } from "../../navigation";
 
 const AddPicButton = () => (
   <TouchableOpacity
@@ -56,7 +61,8 @@ class UploadDocumentScreen extends Component {
     this.state = {
       files: [],
       uploadPercentCompleted: 0,
-      isUploadStatusModalVisible: false
+      isUploadStatusModalVisible: false,
+      isSuccessModalVisible: false
     };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
@@ -174,20 +180,18 @@ class UploadDocumentScreen extends Component {
         });
       });
 
-      showSnackbar({
-        text: I18n.t("upload_document_screen_upload_success_msg"),
-        autoDismissTimerSec: 1000
+      this.setState({
+        isSuccessModalVisible: true
       });
-
-      this.props.navigator.pop({});
     } catch (e) {
       return showSnackbar({
         text: e.message
       });
     }
-    this.setState({
-      isUploadStatusModalVisible: false
-    });
+  };
+
+  onSuccessOkClick = () => {
+    openAppScreen({ startWithPendingDocsScreen: true });
   };
 
   removeFile = index => {
@@ -199,7 +203,7 @@ class UploadDocumentScreen extends Component {
   };
 
   render() {
-    const { files } = this.state;
+    const { files, isSuccessModalVisible } = this.state;
     return (
       <ScreenContainer style={styles.container}>
         {files.length == 0 && (
@@ -257,13 +261,36 @@ class UploadDocumentScreen extends Component {
             I18n.t("upload_document_screen_upload_options_cancel")
           ]}
         />
-        <Modal isVisible={this.state.isUploadStatusModalVisible}>
+        <RNModal isVisible={this.state.isUploadStatusModalVisible}>
           <View style={styles.uploadStatusModal}>
             <ActivityIndicator size="large" color={colors.mainBlue} />
             <Text weight="Bold">{this.state.uploadPercentCompleted}%</Text>
             <Text weight="Bold" style={{ textAlign: "center" }}>
               {I18n.t("upload_document_screen_uploading_msg")}
             </Text>
+          </View>
+        </RNModal>
+        <Modal visible={isSuccessModalVisible}>
+          <View style={styles.successModal}>
+            <Image
+              style={styles.successImage}
+              source={ehomeImage}
+              resizeMode="contain"
+            />
+            <Text weight="Bold" style={styles.successTitle}>
+              {I18n.t("upload_document_screen_success_title")}
+            </Text>
+            <Text style={styles.successMsg}>
+              {I18n.t("upload_document_screen_success_msg")}
+            </Text>
+            <TouchableOpacity
+              onPress={this.onSuccessOkClick}
+              style={styles.successOkWrapper}
+            >
+              <Text weight="Bold" style={styles.successOk}>
+                {I18n.t("upload_document_screen_success_ok")}
+              </Text>
+            </TouchableOpacity>
           </View>
         </Modal>
       </ScreenContainer>
@@ -307,6 +334,36 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: "center",
     justifyContent: "center"
+  },
+  successModal: {
+    backgroundColor: "#fff",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20
+  },
+  successImage: {
+    height: 305
+  },
+  successTitle: {
+    fontSize: 24,
+    textAlign: "center",
+    color: colors.mainBlue,
+    marginTop: 35
+  },
+  successMsg: {
+    textAlign: "center",
+    color: colors.secondaryText,
+    marginTop: 10
+  },
+  successOkWrapper: {
+    marginTop: 15,
+    padding: 10
+  },
+  successOk: {
+    fontSize: 16,
+    textAlign: "center",
+    color: colors.pinkishOrange
   }
 });
 

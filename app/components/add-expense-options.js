@@ -29,6 +29,10 @@ class AddExpenseOptions extends React.Component {
     });
   };
 
+  showUploadOptions = () => {
+    this.uploadOptions.show();
+  };
+
   hide = () => {
     this.setState({
       isModalVisible: false

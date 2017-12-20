@@ -27,6 +27,7 @@ import ImportantTab from "./important-tab";
 import GeneralTab from "./general-tab";
 import SellerTab from "./seller-tab";
 import ContactAfterSaleButton from "./after-sale-button";
+import LoadingOverlay from "../../components/loading-overlay";
 
 class ProductDetailsScreen extends Component {
   static navigatorStyle = {
@@ -35,38 +36,46 @@ class ProductDetailsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoaded: false,
+      isLoading: true,
       product: {}
     };
   }
   async componentDidMount() {
+    this.props.navigator.setTitle({
+      title: I18n.t("product_details_screen_title")
+    });
     this.fetchProductDetails();
   }
 
   fetchProductDetails = async () => {
-    this.props.navigator.setTitle({
-      title: I18n.t("product_details_screen_title")
-    });
     try {
-      const res = await getProductDetails(this.props.productId);
       this.setState({
-        product: res.product,
-        isLoaded: true
+        isLoading: true
       });
+      const res = await getProductDetails(this.props.productId);
+      this.setState(
+        {
+          product: res.product
+        },
+        () =>
+          this.setState({
+            isLoading: false
+          })
+      );
     } catch (e) {
       Alert.alert(e.message);
     }
   };
 
   render() {
-    const { product, isLoaded } = this.state;
-    if (!isLoaded) {
-      return null;
+    const { product, isLoading } = this.state;
+    if (isLoading) {
+      return <LoadingOverlay visible={isLoading} />;
     }
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container}>
-          <Details product={product} />
+          <Details product={product} navigator={this.props.navigator} />
           <ScrollableTabView
             style={{ marginTop: 20, marginBottom: 70 }}
             renderTabBar={() => <DefaultTabBar />}
@@ -80,7 +89,11 @@ class ProductDetailsScreen extends Component {
             tabBarInactiveTextColor={colors.secondaryText}
           >
             <ImportantTab tabLabel="IMPORTANT" product={product} />
-            <SellerTab tabLabel="SELLER" product={product} />
+            <SellerTab
+              tabLabel="SELLER"
+              product={product}
+              fetchProductDetails={this.fetchProductDetails}
+            />
             <GeneralTab
               tabLabel="GENERAL INFO"
               product={product}

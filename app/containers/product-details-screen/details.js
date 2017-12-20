@@ -18,6 +18,8 @@ import { openBillsPopUp } from "../../navigation";
 import { colors } from "../../theme";
 import { getProductMetasString } from "../../utils";
 
+import UploadBillOptions from "../../components/upload-bill-options";
+
 const dropdownIcon = require("../../images/ic_dropdown_arrow.png");
 const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 
@@ -74,7 +76,20 @@ class Details extends Component {
           </TouchableOpacity>
         );
       } else {
-        return null;
+        return (
+          <TouchableOpacity
+            onPress={() => this.uploadBillOptions.show()}
+            style={styles.viewBillBtn}
+          >
+            <UploadBillOptions
+              ref={o => (this.uploadBillOptions = o)}
+              navigator={this.props.navigator}
+            />
+            <Text style={styles.viewBillText}>
+              {I18n.t("product_details_screen_upload_bill_btn")}
+            </Text>
+          </TouchableOpacity>
+        );
       }
     };
 
@@ -88,6 +103,11 @@ class Details extends Component {
         <Text weight="Bold" style={styles.name}>
           {product.productName}
         </Text>
+        {(product.copies == null || product.copies.length == 0) && (
+          <Text weight="Bold" style={styles.noBillMsg}>
+            {I18n.t("product_details_screen_no_bill_msg")}
+          </Text>
+        )}
         <Text weight="Medium" style={styles.metaUnderName}>
           {metaUnderName}
         </Text>
@@ -185,6 +205,11 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 24
+  },
+  noBillMsg: {
+    color: "red",
+    textAlign: "center",
+    padding: 5
   },
   metaUnderName: {
     fontSize: 16,
