@@ -5,7 +5,8 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  Modal
+  Modal,
+  Alert
 } from "react-native";
 import { Navigation } from "react-native-navigation";
 import ActionSheet from "react-native-actionsheet";
@@ -32,6 +33,8 @@ import I18n from "../../i18n";
 const ehomeImage = require("../../images/ehome_circle_with_category_icons.png");
 
 import { openAppScreen } from "../../navigation";
+
+import LoadingOverlay from "../../components/loading-overlay";
 
 const AddPicButton = () => (
   <TouchableOpacity
@@ -61,7 +64,7 @@ class UploadDocumentScreen extends Component {
     this.state = {
       files: [],
       uploadPercentCompleted: 0,
-      isUploadStatusModalVisible: false,
+      isUploadingOverlayVisible: false,
       isSuccessModalVisible: false
     };
 
@@ -72,7 +75,6 @@ class UploadDocumentScreen extends Component {
     this.props.navigator.setTitle({
       title: I18n.t("upload_document_screen_title")
     });
-
     switch (this.props.openPickerOnStart) {
       case "camera":
         this.takeCameraImage();
@@ -154,35 +156,45 @@ class UploadDocumentScreen extends Component {
   };
 
   pickDocument = () => {
-    return showSnackbar({
-      text:
-        "This option is not yet supported because it needs Apple Developer Program"
-    });
     DocumentPicker.show(
       {
-        filetype: [DocumentPickerUtil.images()]
+        filetype: [
+          DocumentPickerUtil.images(),
+          DocumentPickerUtil.pdf(),
+          DocumentPickerUtil.plainText()
+        ]
       },
-      (error, res) => {
-        console.log(res);
+      (error, file) => {
+        console.log(file);
+        this.setState({
+          files: [
+            ...this.state.files,
+            {
+              filename: file.fileName,
+              uri: file.uri,
+              mimeType: file.type || file.fileName.split(".").pop()
+            }
+          ]
+        });
+
+        console.log(this.state.files);
       }
     );
   };
 
   uploadDocuments = async () => {
     this.setState({
-      isUploadStatusModalVisible: true,
+      isUploadingOverlayVisible: true,
       uploadPercentCompleted: 0
     });
     try {
       await uploadDocuments(this.state.files, percentCompleted => {
         this.setState({
-          percentCompleted
+          uploadPercentCompleted: percentCompleted
         });
       });
 
-      this.setState({
-        isSuccessModalVisible: true
-      });
+      this.setState({ isSuccessModalVisible: true });
     } catch (e) {
       return showSnackbar({
         text: e.message
@@ -203,7 +215,12 @@ class UploadDocumentScreen extends Component {
   };
 
   render() {
-    const { files, isSuccessModalVisible } = this.state;
+    const {
+      files,
+      isSuccessModalVisible,
+      uploadPercentCompleted,
+      isUploadingOverlayVisible
+    } = this.state;
     return (
       <ScreenContainer style={styles.container}>
         {files.length == 0 && (
@@ -261,15 +278,10 @@ class UploadDocumentScreen extends Component {
             I18n.t("upload_document_screen_upload_options_cancel")
           ]}
         />
-        <RNModal isVisible={this.state.isUploadStatusModalVisible}>
-          <View style={styles.uploadStatusModal}>
-            <ActivityIndicator size="large" color={colors.mainBlue} />
-            <Text weight="Bold">{this.state.uploadPercentCompleted}%</Text>
-            <Text weight="Bold" style={{ textAlign: "center" }}>
-              {I18n.t("upload_document_screen_uploading_msg")}
-            </Text>
-          </View>
-        </RNModal>
+        <LoadingOverlay
+          visible={isUploadingOverlayVisible}
+          text={`${uploadPercentCompleted}% uploaded...`}
+        />
         <Modal visible={isSuccessModalVisible}>
           <View style={styles.successModal}>
             <Image

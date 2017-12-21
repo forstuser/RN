@@ -38,6 +38,9 @@
 		404AA0CB2BE9409CBFEDCCCF /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 341B2DBF32BE47FAA306CC84 /* MaterialCommunityIcons.ttf */; };
 		40AC6677FB284E46AC3E4C1A /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E8E4D3AB60549BA86162DE7 /* Quicksand-Light.ttf */; };
 		4317B36C1FE00B3700778944 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4317B3611FE00B2A00778944 /* libRNDeviceInfo.a */; };
+		438EB1451FEBD62A00C2D66A /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1441FEBD62A00C2D66A /* GameKit.framework */; };
+		438EB1471FEBD62F00C2D66A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1461FEBD62F00C2D66A /* StoreKit.framework */; };
+		438EB1491FEBD79400C2D66A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1481FEBD79400C2D66A /* CloudKit.framework */; };
 		43C9F61E1FD9124B00E61C98 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C9F6151FD9120700E61C98 /* libRNBlur.a */; };
 		43ED979A1FD94B2A00D1747F /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43ED97991FD94B1900D1747F /* libRNFetchBlob.a */; };
 		43ED97EA1FD954E300D1747F /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43ED97C11FD954D200D1747F /* libRCTCameraRoll.a */; };
@@ -509,6 +512,9 @@
 		417D036C67A041DCAC11436D /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		418274813DDB4C1696583956 /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Bold.ttf"; path = "../assets/fonts/Quicksand-Bold.ttf"; sourceTree = "<group>"; };
 		4317B3311FE00B2A00778944 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
+		438EB1441FEBD62A00C2D66A /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		438EB1461FEBD62F00C2D66A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		438EB1481FEBD79400C2D66A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		43C9F5E81FD9120700E61C98 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		43ED97941FD94B1900D1747F /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		43ED97B41FD954D200D1747F /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
@@ -582,6 +588,8 @@
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
+				438EB1471FEBD62F00C2D66A /* StoreKit.framework in Frameworks */,
+				438EB1491FEBD79400C2D66A /* CloudKit.framework in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
@@ -591,6 +599,7 @@
 				7308449315874C158DEC6C12 /* libRNPdfScanner.a in Frameworks */,
 				46850159E1664B10B19C9A19 /* libRNSVG.a in Frameworks */,
 				A49DC9D16A014DC59B89A7BF /* libimageCropPicker.a in Frameworks */,
+				438EB1451FEBD62A00C2D66A /* GameKit.framework in Frameworks */,
 				F97DC53018576A16FA4F61B3 /* libPods-BinBill.a in Frameworks */,
 				EE4FC0AB0FD442CD939C0C5B /* libRNDocumentPicker.a in Frameworks */,
 				92531C440DA240F69BA63BE9 /* libRNPhotoView.a in Frameworks */,
@@ -1006,6 +1015,9 @@
 		997F9CA6847B799183ADB0A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				438EB1481FEBD79400C2D66A /* CloudKit.framework */,
+				438EB1461FEBD62F00C2D66A /* StoreKit.framework */,
+				438EB1441FEBD62A00C2D66A /* GameKit.framework */,
 				EE3CA57B3E5F61426DE785DF /* libPods-BinBill.a */,
 				89FA5208CCE60B81269737E5 /* libPods-BinBill-tvOS.a */,
 				178C9CFCEB24C69821641716 /* libPods-BinBill-tvOSTests.a */,
@@ -1121,25 +1133,41 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 7Z77WH53VZ;
+						DevelopmentTeam = 2A6SNTUJ7X;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 7Z77WH53VZ;
+						DevelopmentTeam = 2A6SNTUJ7X;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.DataProtection = {
 								enabled = 0;
+							};
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
 							};
 						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 7Z77WH53VZ;
+						DevelopmentTeam = 2A6SNTUJ7X;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E48F1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 7Z77WH53VZ;
+						DevelopmentTeam = 2A6SNTUJ7X;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
@@ -2008,7 +2036,7 @@
 			baseConfigurationReference = C5AD92341BD143C8F317BA86 /* Pods-BinBillTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 7Z77WH53VZ;
+				DEVELOPMENT_TEAM = 2A6SNTUJ7X;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -2059,7 +2087,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 7Z77WH53VZ;
+				DEVELOPMENT_TEAM = 2A6SNTUJ7X;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
@@ -2105,9 +2133,12 @@
 			baseConfigurationReference = AEC55437C91B05C4E4678AF4 /* Pods-BinBill.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BinBill/BinBill.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 7Z77WH53VZ;
+				DEVELOPMENT_TEAM = 2A6SNTUJ7X;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
@@ -2130,8 +2161,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.binbill.consumer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bin.binbillcustomer;
 				PRODUCT_NAME = BinBill;
+				PROVISIONING_PROFILE = "bf39f394-7049-4b4c-863b-f75605d9aded";
+				PROVISIONING_PROFILE_SPECIFIER = dev_provi;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2141,8 +2174,11 @@
 			baseConfigurationReference = 16368F8DEFD16390033D5D59 /* Pods-BinBill.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BinBill/BinBill.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7Z77WH53VZ;
+				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
@@ -2165,8 +2201,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.binbill.consumer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bin.binbillcustomer;
 				PRODUCT_NAME = BinBill;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -2182,7 +2219,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 7Z77WH53VZ;
+				DEVELOPMENT_TEAM = 2A6SNTUJ7X;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
@@ -2239,7 +2276,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 7Z77WH53VZ;
+				DEVELOPMENT_TEAM = 2A6SNTUJ7X;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2293,7 +2330,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 7Z77WH53VZ;
+				DEVELOPMENT_TEAM = 2A6SNTUJ7X;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "BinBill-tvOSTests/Info.plist";
@@ -2330,7 +2367,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 7Z77WH53VZ;
+				DEVELOPMENT_TEAM = 2A6SNTUJ7X;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "BinBill-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
