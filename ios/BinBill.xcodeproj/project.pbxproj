@@ -42,6 +42,8 @@
 		438EB1471FEBD62F00C2D66A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1461FEBD62F00C2D66A /* StoreKit.framework */; };
 		438EB1491FEBD79400C2D66A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1481FEBD79400C2D66A /* CloudKit.framework */; };
 		43C9F61E1FD9124B00E61C98 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C9F6151FD9120700E61C98 /* libRNBlur.a */; };
+		43E1975C1FECD2E100702A16 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E197531FECD2C700702A16 /* libRNFIRMessaging.a */; };
+		43E1975E1FECDA5100702A16 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43E1975D1FECDA5100702A16 /* GoogleService-Info.plist */; };
 		43ED979A1FD94B2A00D1747F /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43ED97991FD94B1900D1747F /* libRNFetchBlob.a */; };
 		43ED97EA1FD954E300D1747F /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43ED97C11FD954D200D1747F /* libRCTCameraRoll.a */; };
 		43F1C1B41FBC19780088FBA5 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F1C1B31FBC191A0088FBA5 /* libReactNativeNavigation.a */; };
@@ -380,6 +382,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNGestureHandler;
 		};
+		43E197521FECD2C700702A16 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43E197201FECD2C600702A16 /* RNFIRMessaging.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNFIRMessaging;
+		};
 		43E9B78D1FEAA03B0042A1DD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 179ACEA7516C4A95B6392DB7 /* RNGooglePlaces.xcodeproj */;
@@ -516,6 +525,8 @@
 		438EB1461FEBD62F00C2D66A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		438EB1481FEBD79400C2D66A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		43C9F5E81FD9120700E61C98 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
+		43E197201FECD2C600702A16 /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
+		43E1975D1FECDA5100702A16 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		43ED97941FD94B1900D1747F /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		43ED97B41FD954D200D1747F /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		43F1C1931FBC19190088FBA5 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
@@ -574,6 +585,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43E1975C1FECD2E100702A16 /* libRNFIRMessaging.a in Frameworks */,
 				4317B36C1FE00B3700778944 /* libRNDeviceInfo.a in Frameworks */,
 				43ED97EA1FD954E300D1747F /* libRCTCameraRoll.a in Frameworks */,
 				43ED979A1FD94B2A00D1747F /* libRNFetchBlob.a in Frameworks */,
@@ -716,6 +728,7 @@
 		13B07FAE1A68108700A75B9A /* BinBill */ = {
 			isa = PBXGroup;
 			children = (
+				43E1975D1FECDA5100702A16 /* GoogleService-Info.plist */,
 				43F4EFFB1FD2CD4000CFB8B4 /* BinBill.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -826,6 +839,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		43E197211FECD2C600702A16 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				43E197531FECD2C700702A16 /* libRNFIRMessaging.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		43E317231FC467A00090384A /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -930,6 +951,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				43E197201FECD2C600702A16 /* RNFIRMessaging.xcodeproj */,
 				4317B3311FE00B2A00778944 /* RNDeviceInfo.xcodeproj */,
 				43ED97B41FD954D200D1747F /* RCTCameraRoll.xcodeproj */,
 				43ED97941FD94B1900D1747F /* RNFetchBlob.xcodeproj */,
@@ -1266,6 +1288,10 @@
 					ProjectRef = 43ED97941FD94B1900D1747F /* RNFetchBlob.xcodeproj */;
 				},
 				{
+					ProductGroup = 43E197211FECD2C600702A16 /* Products */;
+					ProjectRef = 43E197201FECD2C600702A16 /* RNFIRMessaging.xcodeproj */;
+				},
+				{
 					ProductGroup = 43D638091FDAB30F007910B2 /* Products */;
 					ProjectRef = 6582F0B805A34592B3F7E3A4 /* RNGestureHandler.xcodeproj */;
 				},
@@ -1588,6 +1614,13 @@
 			remoteRef = 43D638381FDAB30F007910B2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		43E197531FECD2C700702A16 /* libRNFIRMessaging.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFIRMessaging.a;
+			remoteRef = 43E197521FECD2C700702A16 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		43E9B78E1FEAA03B0042A1DD /* libRNGooglePlaces.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1712,6 +1745,7 @@
 				404AA0CB2BE9409CBFEDCCCF /* MaterialCommunityIcons.ttf in Resources */,
 				48499848F6114AADAE67EE96 /* MaterialIcons.ttf in Resources */,
 				BD146BC3A1F445538183844D /* Octicons.ttf in Resources */,
+				43E1975E1FECDA5100702A16 /* GoogleService-Info.plist in Resources */,
 				94EA2CB12F4F45A28E46D590 /* SimpleLineIcons.ttf in Resources */,
 				D379C37117EF4BF68D831A4A /* Zocial.ttf in Resources */,
 			);
@@ -2153,6 +2187,7 @@
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-photo-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-google-places/ios",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 				);
 				INFOPLIST_FILE = BinBill/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2193,6 +2228,7 @@
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-photo-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-google-places/ios",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 				);
 				INFOPLIST_FILE = BinBill/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

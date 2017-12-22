@@ -23,6 +23,10 @@ target 'BinBill' do
   pod 'GoogleMaps'
   pod 'GooglePlacePicker'
 
+  pod 'FirebaseMessaging'
+
+  pod 'react-native-fcm', :path => '../node_modules/react-native-fcm'
+
   target 'BinBillTests' do
     inherit! :search_paths
     # Pods for testing

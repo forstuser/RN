@@ -8,6 +8,13 @@ import {
   Alert,
   Image
 } from "react-native";
+import FCM, {
+  FCMEvent,
+  RemoteNotificationResult,
+  WillPresentNotificationResult,
+  NotificationType
+} from "react-native-fcm";
+
 import moment from "moment";
 import { openAddProductsScreen } from "../../navigation";
 import { consumerGetDashboard } from "../../api";
@@ -45,6 +52,8 @@ class DashboardScreen extends React.Component {
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
+  componentDidMount() {}
 
   onNavigatorEvent = event => {
     switch (event.id) {

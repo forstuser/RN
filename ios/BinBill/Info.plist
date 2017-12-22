@@ -40,7 +40,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>So that you can take pictures of bills and documents.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>So that you can upload a photo from your device</string>
 	<key>UIAppFonts</key>
