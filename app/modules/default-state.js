@@ -1,6 +1,7 @@
 export default {
   loggedInUser: {
     authToken: null,
+    fcmToken: null,
     id: null
   },
 
