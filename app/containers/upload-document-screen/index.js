@@ -22,6 +22,7 @@ import { colors } from "../../theme";
 
 import { showSnackbar } from "../snackbar";
 import { uploadDocuments } from "../../api";
+import LoadingOverlay from "../../components/loading-overlay";
 
 const fileIcon = require("../../images/ic_file.png");
 const newPicIcon = require("../../images/ic_upload_new_pic.png");
@@ -261,15 +262,7 @@ class UploadDocumentScreen extends Component {
             I18n.t("upload_document_screen_upload_options_cancel")
           ]}
         />
-        <RNModal isVisible={this.state.isUploadStatusModalVisible}>
-          <View style={styles.uploadStatusModal}>
-            <ActivityIndicator size="large" color={colors.mainBlue} />
-            <Text weight="Bold">{this.state.uploadPercentCompleted}%</Text>
-            <Text weight="Bold" style={{ textAlign: "center" }}>
-              {I18n.t("upload_document_screen_uploading_msg")}
-            </Text>
-          </View>
-        </RNModal>
+        <LoadingOverlay visible={this.state.isUploadStatusModalVisible} />
         <Modal visible={isSuccessModalVisible}>
           <View style={styles.successModal}>
             <Image
