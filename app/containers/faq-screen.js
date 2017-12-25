@@ -14,29 +14,60 @@ class FaqScreen extends Component {
     this.state = {
       faqs: [
         {
-          question: "What is BinBill?",
-          answer:
-            "BinBill is a way to ease the process of managing bills, analysing expense trends, and availing after sales benefits with ease. In short, BinBill is a smarter way of living life."
+          question: I18n.t("faq_question_1"),
+          answer: I18n.t("faq_answer_1")
         },
         {
-          question: "Where will I find in BinBill?",
-          answer:
-            "You can download the mobile App for android , or login to www.binbill.com"
+          question: I18n.t("faq_question_2"),
+          answer: I18n.t("faq_answer_2")
         },
         {
-          question: "How does BinBill work?",
-          answer:
-            "Once you upload your bills, our team processes the bills and add items and other details of the bills to your eHome(BinBill account); subsequently bills and products get added into your eHome based on categories of item. After the analysis, we help you with your expense trend, reminders for renewals, or warranty expiration, and much more."
+          question: I18n.t("faq_question_3"),
+          answer: I18n.t("faq_answer_3")
         },
         {
-          question: "How do I upload a bill?",
-          answer:
-            "Launch the application on your phone (if not downloaded, request download link), and tap on the upload bill button. Just use the camera through our application, fit the bill/document being scanned in the edges as marked on the screen and tap on the camera button. It’s done, and in similar manner you can do it on the website. Just click on upload tab in the App or login to www.binbill.com."
+          question: I18n.t("faq_question_4"),
+          answer: I18n.t("faq_answer_4")
         },
         {
-          question: "How does BinBill add value to my bills?",
-          answer:
-            "BinBill captures important details in the bill from seller like product info, manufacturer info, amount spent etc., all of which will be available at your disposal whenever you need it. Along with all of it, BinBill sorts out the bills for the users, based on the categories like electronics, automotives, home appliances etc."
+          question: I18n.t("faq_question_5"),
+          answer: I18n.t("faq_answer_5")
+        },
+        {
+          question: I18n.t("faq_question_6"),
+          answer: I18n.t("faq_answer_6")
+        },
+        {
+          question: I18n.t("faq_question_7"),
+          answer: I18n.t("faq_answer_7")
+        },
+        {
+          question: I18n.t("faq_question_8"),
+          answer: I18n.t("faq_answer_8")
+        },
+        {
+          question: I18n.t("faq_question_9"),
+          answer: I18n.t("faq_answer_9")
+        },
+        {
+          question: I18n.t("faq_question_10"),
+          answer: I18n.t("faq_answer_10")
+        },
+        {
+          question: I18n.t("faq_question_11"),
+          answer: I18n.t("faq_answer_11")
+        },
+        {
+          question: I18n.t("faq_question_12"),
+          answer: I18n.t("faq_answer_12")
+        },
+        {
+          question: I18n.t("faq_question_13"),
+          answer: I18n.t("faq_answer_13")
+        },
+        {
+          question: I18n.t("faq_question_14"),
+          answer: I18n.t("faq_answer_14")
         }
       ]
     };
