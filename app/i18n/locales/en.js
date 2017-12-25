@@ -79,7 +79,7 @@ export default {
   add_product_screen_finish_do_it_later: "I'll Do it Later",
 
   //ASC search screen
-  asc_search_screen_title: "Search Results for",
+  asc_search_screen_title: "Search Results for {{brandAndCategory}}",
   asc_search_screen_no_results_title: "No Nearby Services",
   asc_search_screen_no_results_desc:
     "Currently there are no services near you. Please comeback later for the nearby services",

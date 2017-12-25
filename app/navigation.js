@@ -54,8 +54,9 @@ export const openAppScreen = opts => {
   if (opts) {
     props.screenOpts = opts;
     switch (opts.startScreen) {
-      case SCREENS.MAILBOX_SCREEN:
-        initialTabIndex = 0;
+      case SCREENS.PRODUCT_SCREEN:
+      case SCREENS.DOCS_UNDER_PROCESSING_SCREEN:
+        initialTabIndex = 1;
         break;
       case SCREENS.PROFILE_SCREEN:
         initialTabIndex = 3;

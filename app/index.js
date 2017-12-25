@@ -16,6 +16,8 @@ import { SCREENS } from "./constants";
 
 import navigation, { openAppScreen } from "./navigation";
 
+import { addFcmToken } from "./api";
+
 persistStore(store, {}, () => {
   registerScreens(store, Provider); // this is where you register all of your app's screens
   try {
@@ -24,15 +26,21 @@ persistStore(store, {}, () => {
       .catch(() => console.log("notification permission rejected"));
 
     FCM.getFCMToken()
-      .then(token => {
+      .then(async token => {
         console.log("token: ", token);
         store.dispatch(loggedInUserActions.setLoggedInUserFcmToken(token));
+        try {
+          await addFcmToken(token);
+        } catch (e) {}
       })
       .catch(e => console.log("token error: ", e));
 
-    FCM.on(FCMEvent.RefreshToken, token => {
+    FCM.on(FCMEvent.RefreshToken, async token => {
       console.log("FCM TOKEN: ", token);
       store.dispatch(loggedInUserActions.setLoggedInUserFcmToken(token));
+      try {
+        await addFcmToken(token);
+      } catch (e) {}
     });
 
     FCM.on(FCMEvent.Notification, async notif => {
@@ -45,7 +53,10 @@ persistStore(store, {}, () => {
             return openAppScreen({ startScreen: SCREENS.MAILBOX_SCREEN });
           case "3":
           case "4":
-            return openAppScreen({ startScreen: SCREENS.MAILBOX_SCREEN });
+            return openAppScreen({
+              startScreen: SCREENS.PRODUCT_SCREEN,
+              productId: notif.productId
+            });
           case "5":
             return openAppScreen({
               startScreen: SCREENS.INSIGHTS_SCREEN,

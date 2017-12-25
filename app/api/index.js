@@ -110,14 +110,29 @@ export const consumerGetOtp = async PhoneNo => {
   });
 };
 
-export const consumerValidate = async (PhoneNo, Token) => {
+export const consumerValidate = async (phoneNo, token, fcmToken) => {
+  let data = {
+    Token: token,
+    TrueObject: { PhoneNo: phoneNo },
+    BBLogin_Type: 1
+  };
+  if (fcmToken) {
+    data.fcmId = fcmToken;
+  }
   return await apiRequest({
     method: "post",
     url: "/consumer/validate",
+    data
+  });
+};
+
+export const addFcmToken = async fcmToken => {
+  console.log("subscribe: ", fcmToken);
+  return await apiRequest({
+    method: "post",
+    url: "/consumer/subscribe",
     data: {
-      Token: Token,
-      TrueObject: { PhoneNo: PhoneNo },
-      BBLogin_Type: 1
+      fcmId: fcmToken
     }
   });
 };

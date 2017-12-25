@@ -6,6 +6,7 @@ import LoadingOverlay from "../components/loading-overlay";
 import SearchHeader from "../components/search-header";
 import CategoryItem from "../components/ehome-category-item";
 import ProcessingItems from "../components/ehome-processing-items.js";
+import { SCREENS } from "../constants";
 
 class EhomeScreen extends Component {
   static navigatorStyle = {
@@ -33,10 +34,21 @@ class EhomeScreen extends Component {
   };
 
   componentDidMount() {
-    if (this.props.startWithPendingDocsScreen) {
-      this.setState({
-        startWithPendingDocsScreen: true
-      });
+    if (this.props.screenOpts) {
+      const screenOpts = this.props.screenOpts;
+      switch (screenOpts.startScreen) {
+        case SCREENS.DOCS_UNDER_PROCESSING_SCREEN:
+          this.openDocsUnderProcessingScreen();
+          break;
+        case SCREENS.PRODUCT_SCREEN:
+          this.props.navigator.push({
+            screen: "ProductDetailsScreen",
+            passProps: {
+              productId: screenOpts.productId
+            }
+          });
+          break;
+      }
     }
   }
 
