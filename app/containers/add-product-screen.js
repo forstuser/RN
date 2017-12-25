@@ -291,7 +291,7 @@ class AddProductScreen extends React.Component {
           }}
         />
         <TouchableOpacity
-          // onPress={onUploadBillPress}
+          onPress={() => this.uploadBillOptions.show()}
           style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
         >
           <Text weight="Bold" style={{ color: colors.secondaryText, flex: 1 }}>

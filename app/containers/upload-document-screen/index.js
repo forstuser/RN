@@ -25,6 +25,8 @@ import { showSnackbar } from "../snackbar";
 import { uploadDocuments } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 
+import { SCREENS } from "../../constants";
+
 const fileIcon = require("../../images/ic_file.png");
 const newPicIcon = require("../../images/ic_upload_new_pic.png");
 
@@ -74,17 +76,19 @@ class UploadDocumentScreen extends Component {
     this.props.navigator.setTitle({
       title: I18n.t("upload_document_screen_title")
     });
-    switch (this.props.openPickerOnStart) {
-      case "camera":
-        this.takeCameraImage();
-        break;
-      case "images":
-        this.pickGalleryImage();
-        break;
-      case "documents":
-        this.pickDocument();
-        break;
-    }
+    setTimeout(() => {
+      switch (this.props.openPickerOnStart) {
+        case "camera":
+          this.takeCameraImage();
+          break;
+        case "images":
+          this.pickGalleryImage();
+          break;
+        case "documents":
+          this.pickDocument();
+          break;
+      }
+    }, 1000);
   }
 
   onNavigatorEvent = event => {
@@ -202,7 +206,7 @@ class UploadDocumentScreen extends Component {
   };
 
   onSuccessOkClick = () => {
-    openAppScreen({ startWithPendingDocsScreen: true });
+    openAppScreen({ startScreen: SCREENS.DOCS_UNDER_PROCESSING_SCREEN });
   };
 
   removeFile = index => {
