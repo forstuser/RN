@@ -20,98 +20,82 @@ class TipsScreen extends Component {
     this.state = {
       tips: [
         {
-          data:
-            "“Always ask for a valid bill from the seller/trader. It is your right to get a bill as well as duty to ask from the seller.”",
+          data: I18n.t("tips_screen_tip_1"),
           color: "#2ab9fe",
           border: "#54ddff"
         },
         {
-          data:
-            "Whenever you get a bill, the first thing you should do is scan and upload it in BinBill before you misplace or accidentally destroy it.",
+          data: I18n.t("tips_screen_tip_2"),
           color: "#ff6262",
           border: "#ff9b9b"
         },
         {
-          data:
-            "While scanning the bill, ensure sufficient light without any shadow obstruction from your hand, phone or things around.",
+          data: I18n.t("tips_screen_tip_3"),
           color: "#6271f0",
           border: "#9baaf9"
         },
         {
-          data:
-            "The document that you’d scan with the inbuilt scanner should keep in between the four corners as shown on the screen.",
+          data: I18n.t("tips_screen_tip_4"),
           color: "#1ddbb7",
           border: "#3eefdc"
         },
         {
-          data:
-            "For good image quality, keep bills or documents on hard and level surface without any disturbance from wind.",
+          data: I18n.t("tips_screen_tip_5"),
           color: "#b4e914",
           border: "#dbf62d"
         },
         {
-          data:
-            "Recommended to check if the bill is not torn, crumpled or physically damaged.",
+          data: I18n.t("tips_screen_tip_6"),
           color: "#1ddbb7",
           border: "#3eefdc"
         },
         {
-          data:
-            "While scanning and uploading, crop the image to trim the unwanted areas and make it readable.",
+          data: I18n.t("tips_screen_tip_7"),
           color: "#1ddbb7",
           border: "#3eefdc"
         },
         {
-          data:
-            "Choose from Original, Magic or Gray Color mode. Magic Mode is the most suitable for worn out or bills with fading ink.",
+          data: I18n.t("tips_screen_tip_8"),
           color: "#1ddbb7",
           border: "#3eefdc"
         },
         {
-          data:
-            "Always review the image of bills or documents before finally uploading. If you can see the entries then we can alsoand if you are finding it difficult then chances are we will also find them difficult to read. Especially for the “kachha bills” the handwriting should be legible and preferred language is English.",
+          data: I18n.t("tips_screen_tip_9"),
           color: "#1ddbb7",
           border: "#3eefdc"
         },
         {
-          data:
-            "It is always advisable to upload your bill along with any associated warranty, guarantee or insurance document. Rememberthese are important to extract necessary information in order to maintain your records in BinBill.",
+          data: I18n.t("tips_screen_tip_10"),
           color: "#1ddbb7",
           border: "#3eefdc"
         },
         {
-          data:
-            "You can add prescriptions and related reports along with chemist bills, if they are available.",
+          data: I18n.t("tips_screen_tip_11"),
           color: "#1ddbb7",
           border: "#3eefdc"
         },
         {
-          data:
-            "Do not upload selfies or other irrelevant photos since these would be discarded.",
+          data: I18n.t("tips_screen_tip_12"),
           color: "#1ddbb7",
           border: "#3eefdc"
         },
         {
-          data:
-            "Bills can also be added from “Gallery”. After adding the image of the bill, make sure all the details are visible.If not, then retake the photo from BinBill scanner.",
+          data: I18n.t("tips_screen_tip_13"),
           color: "#1ddbb7",
           border: "#3eefdc"
         },
         {
-          data:
-            "In case of Doc. and Pdf make sure that it contains bills and related documents, before uploading it.",
+          data: I18n.t("tips_screen_tip_14"),
           color: "#1ddbb7",
           border: "#3eefdc"
         },
         {
-          data:
-            "If the bill is lengthy and cannot possibly come in a single frame, then take multiple photos. Please keep in mind to segregate Bill in equal parts.",
+          data: I18n.t("tips_screen_tip_15"),
           color: "#1ddbb7",
           border: "#3eefdc"
         },
         {
-          data:
-            " Please do not upload the same bill/document more than once. Duplicacy will be discarded owing to quality issues. ",
+          data: I18n.t("tips_screen_tip_16"),
           color: "#1ddbb7",
           border: "#3eefdc"
         }
