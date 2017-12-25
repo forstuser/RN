@@ -11,8 +11,10 @@ import { Provider } from "react-redux";
 
 import { registerScreens } from "./screens";
 import store from "./store";
+import { actions as loggedInUserActions } from "./modules/logged-in-user";
+import { SCREENS } from "./constants";
 
-import navigation from "./navigation";
+import navigation, { openAppScreen } from "./navigation";
 
 persistStore(store, {}, () => {
   registerScreens(store, Provider); // this is where you register all of your app's screens
@@ -24,18 +26,52 @@ persistStore(store, {}, () => {
     FCM.getFCMToken()
       .then(token => {
         console.log("token: ", token);
-        // store fcm token in your server
+        store.dispatch(loggedInUserActions.setLoggedInUserFcmToken(token));
       })
       .catch(e => console.log("token error: ", e));
 
     FCM.on(FCMEvent.RefreshToken, token => {
       console.log("FCM TOKEN: ", token);
-      // fcm token may not be available on first load, catch it here
+      store.dispatch(loggedInUserActions.setLoggedInUserFcmToken(token));
     });
 
     FCM.on(FCMEvent.Notification, async notif => {
       if (notif.opened_from_tray) {
-        Alert.alert("notification clicked");
+        console.log("notif: ", notif);
+        switch (notif.notification_type) {
+          case "1":
+            return openAppScreen();
+          case "2":
+            return openAppScreen({ startScreen: SCREENS.MAILBOX_SCREEN });
+          case "3":
+          case "4":
+            return openAppScreen({ startScreen: SCREENS.MAILBOX_SCREEN });
+          case "5":
+            return openAppScreen({
+              startScreen: SCREENS.INSIGHTS_SCREEN,
+              initialFilterIndex: 0 //last 7 days
+            });
+          case "6":
+            return openAppScreen({
+              startScreen: SCREENS.INSIGHTS_SCREEN,
+              initialFilterIndex: 1 // current month
+            });
+          case "7":
+            return openAppScreen({
+              startScreen: SCREENS.INSIGHTS_SCREEN,
+              initialFilterIndex: 2 // current year
+            });
+          case "8":
+            return openAppScreen({
+              startScreen: SCREENS.PROFILE_SCREEN
+            });
+          case "9":
+            return openAppScreen();
+          case "10":
+            return openAppScreen({
+              startScreen: SCREENS.ADD_PRODUCT_SCREEN
+            });
+        }
       }
     });
   } catch (e) {

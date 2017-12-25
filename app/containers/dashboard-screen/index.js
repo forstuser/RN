@@ -30,6 +30,8 @@ import I18n from "../../i18n";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import SectionHeading from "../../components/section-heading";
+import { SCREENS } from "../../constants";
+
 const uploadFabIcon = require("../../images/ic_upload_fab.png");
 
 class DashboardScreen extends React.Component {
@@ -53,7 +55,24 @@ class DashboardScreen extends React.Component {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    if (this.props.screenOpts) {
+      const screenOpts = this.props.screenOpts;
+      switch (screenOpts.startScreen) {
+        case SCREENS.MAILBOX_SCREEN:
+          this.refs.searchHeader.openMailboxScreen();
+          break;
+        case SCREENS.INSIGHTS_SCREEN:
+          this.openInsightScreen({ screenOpts: screenOpts });
+          break;
+        case SCREENS.ADD_PRODUCT_SCREEN:
+          this.props.navigator.push({
+            screen: "AddProductScreen"
+          });
+          break;
+      }
+    }
+  }
 
   onNavigatorEvent = event => {
     switch (event.id) {
@@ -116,9 +135,10 @@ class DashboardScreen extends React.Component {
     });
   };
 
-  insightScreen = () => {
+  openInsightScreen = props => {
     this.props.navigator.push({
-      screen: "InsightScreen"
+      screen: SCREENS.INSIGHTS_SCREEN,
+      passProps: props || {}
     });
   };
 
@@ -137,6 +157,7 @@ class DashboardScreen extends React.Component {
         {showDashboard && (
           <View>
             <SearchHeader
+              ref="searchHeader"
               screen="dashboard"
               notificationCount={notificationCount}
               recentSearches={recentSearches}
@@ -161,7 +182,7 @@ class DashboardScreen extends React.Component {
                 <View style={{ paddingHorizontal: 16 }}>
                   <InsightChart {...this.state.insightChartProps} />
                   <TouchableOpacity
-                    onPress={this.insightScreen}
+                    onPress={() => this.openInsightScreen()}
                     style={{
                       position: "absolute",
                       width: "100%",

@@ -1,5 +1,6 @@
 import { Navigation } from "react-native-navigation";
 import { colors, defaultNavigatorStyle } from "./theme";
+import { SCREENS } from "./constants";
 
 export const openBillsPopUp = props => {
   Navigation.showModal({
@@ -50,9 +51,16 @@ export const openIntroScreen = () => {
 export const openAppScreen = opts => {
   let initialTabIndex = 0;
   let props = {};
-  if (opts && opts.startWithPendingDocsScreen == true) {
-    initialTabIndex = 1;
-    props.startWithPendingDocsScreen = true;
+  if (opts) {
+    props.screenOpts = opts;
+    switch (opts.startScreen) {
+      case SCREENS.MAILBOX_SCREEN:
+        initialTabIndex = 0;
+        break;
+      case SCREENS.PROFILE_SCREEN:
+        initialTabIndex = 3;
+        break;
+    }
   }
   Navigation.startTabBasedApp({
     tabs: [
@@ -77,7 +85,7 @@ export const openAppScreen = opts => {
         icon: require("./images/ic_nav_more_off.png")
       }
     ],
-    passProps: props,
+    passProps: props || {},
     // **for iOS Only**
     tabsStyle: {
       initialTabIndex,
