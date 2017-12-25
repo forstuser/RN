@@ -118,6 +118,7 @@ class InsightScreen extends Component {
         categories: res.categoryData.yearlyData
       };
 
+      const screenOpts = this.props.screenOpts || {};
       this.setState(
         {
           weeklyData,
@@ -125,7 +126,7 @@ class InsightScreen extends Component {
           yearlyData
         },
         () => {
-          this.handleFilterOptionPress(0);
+          this.handleFilterOptionPress(screenOpts.initialFilterIndex || 0);
         }
       );
     } catch (e) {}

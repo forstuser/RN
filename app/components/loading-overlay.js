@@ -2,12 +2,14 @@ import React from "react";
 import { StyleSheet, View, ActivityIndicator } from "react-native";
 import { colors } from "../theme";
 import Spinner from "react-native-loading-spinner-overlay";
+import { Text } from "../elements";
 
-const LoadingOverlay = ({ visible }) => {
+const LoadingOverlay = ({ visible, text = "" }) => {
   if (visible) {
     return (
       <View style={styles.overlay}>
         <ActivityIndicator size="large" color={colors.mainBlue} />
+        <Text weight="Bold">{text}</Text>
       </View>
     );
   } else {

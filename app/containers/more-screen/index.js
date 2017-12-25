@@ -5,7 +5,7 @@ import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 import { Text, Button, ScreenContainer } from "../../elements";
 import Body from "./body";
 import Header from "./header";
-
+import { SCREENS } from "../../constants";
 import { getProfileDetail } from "../../api";
 import { openLoginScreen } from "../../navigation";
 
@@ -36,19 +36,42 @@ class MoreScreen extends Component {
     });
     try {
       const res = await getProfileDetail();
-      this.setState({
-        profile: res.userProfile
-      });
+      this.setState(
+        {
+          profile: res.userProfile
+        },
+        () => {
+          if (this.props.screenOpts) {
+            const screenOpts = this.props.screenOpts;
+            switch (screenOpts.startScreen) {
+              case SCREENS.PROFILE_SCREEN:
+                this.openProfileScreen();
+                break;
+            }
+          }
+        }
+      );
     } catch (e) {
       Alert.alert(e.message);
     }
+  };
+
+  openProfileScreen = () => {
+    this.props.navigator.push({
+      screen: "ProfileScreen",
+      passProps: { profile: this.state.profile }
+    });
   };
 
   render() {
     const profile = this.state.profile;
     return (
       <View>
-        <Header profile={profile} navigator={this.props.navigator} />
+        <Header
+          onPress={this.openProfileScreen}
+          profile={profile}
+          navigator={this.props.navigator}
+        />
         <Body
           logoutUser={this.props.logoutUser}
           navigator={this.props.navigator}

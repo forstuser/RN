@@ -24,12 +24,13 @@ class SearchHeader extends Component {
       }
     });
   };
+  openMailboxScreen = () => {
+    this.props.navigator.push({
+      screen: "MailboxScreen"
+    });
+  };
   render() {
-    const {
-      screen = "dashboard",
-      notificationCount = 0,
-      navigator
-    } = this.props;
+    const { screen = "dashboard", notificationCount = 0 } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.upperContainer}>
@@ -50,11 +51,7 @@ class SearchHeader extends Component {
             </View>
           )}
           <TouchableOpacity
-            onPress={() => {
-              navigator.push({
-                screen: "MailboxScreen"
-              });
-            }}
+            onPress={this.openMailboxScreen}
             style={styles.messagesContainer}
           >
             <Image style={styles.messagesIcon} source={messagesIcon} />

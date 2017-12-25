@@ -21,13 +21,6 @@ class Header extends Component {
     this.state = {};
   }
 
-  onProfileItemPress = () => {
-    this.props.navigator.push({
-      screen: "ProfileScreen",
-      passProps: { profile: this.props.profile }
-    });
-  };
-
   render() {
     const profile = this.props.profile;
     let profilePic = (
@@ -48,7 +41,7 @@ class Header extends Component {
       <View style={styles.header}>
         <LoadingOverlay visible={profile == null} />
         {profile && (
-          <TouchableOpacity onPress={this.onProfileItemPress}>
+          <TouchableOpacity onPress={this.props.onPress}>
             <View style={styles.backgroundImg}>{profilePic}</View>
             <BlurView
               style={styles.overlay}

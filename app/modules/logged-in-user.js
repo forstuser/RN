@@ -14,6 +14,11 @@ export default function loggedInUserReducer(
         ...state,
         authToken: action.payload.authToken
       };
+    case types.LOGGED_IN_USER_SET_FCM_TOKEN:
+      return {
+        ...state,
+        fcmToken: action.payload.fcmToken
+      };
     default:
       return state;
   }
@@ -27,6 +32,12 @@ export const actions = {
     return {
       type: types.LOGGED_IN_USER_SET_AUTH_TOKEN,
       payload: { authToken: authToken }
+    };
+  },
+  setLoggedInUserFcmToken: fcmToken => {
+    return {
+      type: types.LOGGED_IN_USER_SET_FCM_TOKEN,
+      payload: { fcmToken: fcmToken }
     };
   }
 };
