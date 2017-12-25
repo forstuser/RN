@@ -70,6 +70,7 @@ export default {
   add_product_screen_placeholder_main_category: "Select Expense Category",
   add_product_screen_placeholder_category: "Select Expense Type",
   add_product_screen_placeholder_amount: "Amount (optional)",
+  add_product_screen_placeholder: "Product Name (optional)",
   add_product_screen_placeholder_purchase_date: "Purchase date (Optional)",
   add_product_screen_placeholder_upload_bill: "Upload Bill (Optional)",
   add_product_screen_add_product_btn: "Add Product",

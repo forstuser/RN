@@ -79,8 +79,8 @@ persistStore(store, {}, () => {
   }
   if (store.getState().loggedInUser.authToken) {
     // start the app
-    // navigation.openAddProductsScreen();
-    navigation.openAppScreen();
+    navigation.openAddProductScreen();
+    // navigation.openAppScreen();
   } else {
     navigation.openIntroScreen();
   }

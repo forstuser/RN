@@ -84,6 +84,7 @@ class AddProductScreen extends React.Component {
       categories: [],
       selectedCategory: null,
       amount: null,
+      productName: null,
       purchaseDate: null,
       isFinishModalVisible: false,
       finishImageSource: ehomeImage
@@ -148,23 +149,28 @@ class AddProductScreen extends React.Component {
         categories,
         selectedCategory,
         amount,
+        productName,
         purchaseDate
       } = this.state;
 
-      let productName = "";
+      let tempProductName = "";
 
       if (!selectedMainCategory) {
         return Alert.alert(
           I18n.t("add_product_screen_alert_select_main_category")
         );
       } else {
-        productName = selectedMainCategory.name;
+        tempProductName = selectedMainCategory.name;
       }
 
       if (!selectedCategory) {
         return Alert.alert(I18n.t("add_product_screen_alert_select_category"));
       } else {
-        productName = productName = productName + " " + selectedCategory.name;
+        tempProductName = tempProductName + " " + selectedCategory.name;
+      }
+
+      if (!productName) {
+        productName = tempProductName;
       }
 
       await addProduct({
@@ -188,6 +194,7 @@ class AddProductScreen extends React.Component {
       categories: [],
       selectedCategory: null,
       amount: null,
+      productName: "",
       purchaseDate: null,
       isFinishModalVisible: false,
       finishImageSource: ehomeImage
@@ -201,6 +208,7 @@ class AddProductScreen extends React.Component {
       categories,
       selectedCategory,
       amount,
+      productName,
       purchaseDate,
       isFinishModalVisible,
       finishImageSource
@@ -252,6 +260,12 @@ class AddProductScreen extends React.Component {
         />
         <TextInput
           style={[styles.select]}
+          placeholder={I18n.t("add_product_screen_placeholder")}
+          value={product_}
+          onChangeText={productName => this.setState({ productName })}
+        />
+        <TextInput
+          style={[styles.select]}
           placeholder={I18n.t("add_product_screen_placeholder_amount")}
           value={amount}
           keyboardType="numeric"
@@ -291,7 +305,7 @@ class AddProductScreen extends React.Component {
           }}
         />
         <TouchableOpacity
-          // onPress={onUploadBillPress}
+          onPress={() => this.uploadBillOptions.show()}
           style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
         >
           <Text weight="Bold" style={{ color: colors.secondaryText, flex: 1 }}>
