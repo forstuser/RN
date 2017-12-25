@@ -35,8 +35,6 @@ const ehomeImage = require("../../images/ehome_circle_with_category_icons.png");
 
 import { openAppScreen } from "../../navigation";
 
-import LoadingOverlay from "../../components/loading-overlay";
-
 const AddPicButton = () => (
   <TouchableOpacity
     onPress={() => Navigation.handleDeepLink({ link: "new-pic-upload" })}
