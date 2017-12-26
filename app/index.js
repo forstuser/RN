@@ -44,6 +44,11 @@ persistStore(store, {}, () => {
     });
 
     FCM.on(FCMEvent.Notification, async notif => {
+      FCM.presentLocalNotification({
+        title: "My Notification Title", // as FCM payload
+        body: "My Notification Message", // as FCM payload (required)
+        badge: 0 // as FCM payload IOS only, set 0 to clear badges
+      });
       if (notif.opened_from_tray) {
         console.log("notif: ", notif);
         switch (notif.notification_type) {

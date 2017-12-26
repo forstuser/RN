@@ -16,6 +16,9 @@ import FCM, {
 } from "react-native-fcm";
 
 import moment from "moment";
+
+import Tour from "../../components/app-tour";
+
 import { openAddProductsScreen } from "../../navigation";
 import { consumerGetDashboard } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -72,6 +75,7 @@ class DashboardScreen extends React.Component {
           break;
       }
     }
+    this.tour.startTour();
   }
 
   onNavigatorEvent = event => {
@@ -162,6 +166,7 @@ class DashboardScreen extends React.Component {
               notificationCount={notificationCount}
               recentSearches={recentSearches}
               navigator={this.props.navigator}
+              mailboxIconRef={ref => (this.mailboxIconRef = ref)}
             />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled>
               <View style={{ flex: 1, marginBottom: 150 }}>
@@ -185,10 +190,10 @@ class DashboardScreen extends React.Component {
                     onPress={() => this.openInsightScreen()}
                     style={{
                       position: "absolute",
-                      width: "100%",
-                      height: "100%",
                       top: 0,
-                      left: 0
+                      left: 16,
+                      bottom: 0,
+                      right: 16
                     }}
                   />
                 </View>
@@ -203,16 +208,41 @@ class DashboardScreen extends React.Component {
         )}
         {showDashboard && (
           <TouchableOpacity
+            ref={ref => (this.fabRef = ref)}
             style={styles.fab}
             onPress={() => this.addExpenseOptions.show()}
           >
             <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
           </TouchableOpacity>
         )}
+
         <AddExpenseOptions
           ref={ref => (this.addExpenseOptions = ref)}
           navigator={this.props.navigator}
         />
+
+        <Tour
+          ref={ref => (this.tour = ref)}
+          enabled={true}
+          steps={[
+            { ref: this.fabRef, text: "Tool tip about upload text" },
+            { ref: this.mailboxIconRef, text: "Tooltip about mailbox" },
+            { ref: this.ehomeTabItemRef, text: "Tooltip about ehome" },
+            { ref: this.ascTabItemRef, text: "Tooltip about asc" }
+          ]}
+        />
+        <View style={styles.dummiesForTooltips}>
+          <View style={styles.dummyForTooltip} />
+          <View
+            ref={ref => (this.ehomeTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
+          <View
+            ref={ref => (this.ascTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
+          <View style={styles.dummyForTooltip} />
+        </View>
       </ScreenContainer>
     );
   }
@@ -247,6 +277,16 @@ const styles = StyleSheet.create({
   uploadFabIcon: {
     width: 30,
     height: 30
+  },
+  dummiesForTooltips: {
+    position: "absolute",
+    width: "100%",
+    bottom: -48,
+    height: 48,
+    flexDirection: "row"
+  },
+  dummyForTooltip: {
+    flex: 1
   }
 });
 
