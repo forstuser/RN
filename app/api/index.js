@@ -114,7 +114,8 @@ export const consumerValidate = async (phoneNo, token, fcmToken) => {
   let data = {
     Token: token,
     TrueObject: { PhoneNo: phoneNo },
-    BBLogin_Type: 1
+    BBLogin_Type: 1,
+    platform: 2
   };
   if (fcmToken) {
     data.fcmId = fcmToken;
@@ -132,7 +133,8 @@ export const addFcmToken = async fcmToken => {
     method: "post",
     url: "/consumer/subscribe",
     data: {
-      fcmId: fcmToken
+      fcmId: fcmToken,
+      platform: 2
     }
   });
 };
