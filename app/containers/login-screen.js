@@ -62,6 +62,7 @@ class LoginScreen extends Component {
             {I18n.t("login_screen_input_placeholder")}
           </Text>
           <TextInput
+            underlineColorAndroid="transparent"
             style={{
               height: 40,
               borderColor: colors.mainBlue,

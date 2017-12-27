@@ -16,7 +16,8 @@ import call from "react-native-phone-call";
 import { API_BASE_URL, getAscSearchResults } from "../../api";
 import { ScreenContainer, Text, Button, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
-
+import LoadingOverlay from "../../components/loading-overlay";
+import ErrorOverlay from "../../components/error-overlay";
 import EmptyServicesListPlaceholder from "./empty-services-list-placeholder";
 
 import I18n from "../../i18n";
@@ -31,7 +32,9 @@ class AscSearchScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isFetchingResults: false,
+      error: null,
+      isFetchingData: false,
+      // isFetchingResults: false,
       serviceCenters: []
     };
   }
@@ -48,7 +51,11 @@ class AscSearchScreen extends Component {
   }
 
   fetchResults = async () => {
-    this.setState({ isFetchingResults: true });
+    this.setState({
+      error: null,
+      // isFetchingResults: true,
+      isFetchingData: false
+    });
     try {
       const res = await getAscSearchResults({
         categoryId: this.props.category.category_id,
@@ -59,10 +66,16 @@ class AscSearchScreen extends Component {
       this.setState({
         serviceCenters: res.serviceCenters,
         isFetchingResults: false
+        // isFetchingData: false
       });
-    } catch (e) {
-      Alert.alert(e.message);
+    } catch (error) {
+      this.setState({
+        error
+      });
     }
+    // this.setState({
+    //   isFetchingData: false
+    // });
   };
 
   openMap = address => {
@@ -88,12 +101,22 @@ class AscSearchScreen extends Component {
   };
 
   render() {
-    const { serviceCenters, isFetchingResults } = this.state;
+    const {
+      serviceCenters,
+      isFetchingResults,
+      error,
+      isFetchingData
+    } = this.state;
+    // if (error) {
+    //   return <ErrorOverlay error={error} onRetryPress={this.fetchResults} />;
+    // }
     if (!isFetchingResults && serviceCenters.length == 0) {
       return <EmptyServicesListPlaceholder />;
     } else {
       return (
         <ScreenContainer style={{ padding: 0 }}>
+          {/* <LoadingOverlay visible={isFetchingData} /> */}
+
           <FlatList
             style={{ flex: 1, backgroundColor: "#fff", marginBottom: 10 }}
             data={serviceCenters}

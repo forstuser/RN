@@ -287,10 +287,31 @@ class InsightScreen extends Component {
           <SectionHeading
             text={I18n.t("insights_screen_section_heading_expenses")}
           />
-          <ExpensesChart
-            colors={legendColors}
-            chartData={this.state.chartData}
-          />
+
+          {totalSpend > 0 && (
+            <ExpensesChart
+              colors={legendColors}
+              chartData={this.state.chartData}
+            />
+          )}
+          {totalSpend == 0 && (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <Image
+                style={{
+                  width: 170,
+                  height: 170
+                }}
+                source={require("../../images/no_bills.png")}
+              />
+              {/* <Text style={{ textAlign: "center" }}>No Expenses</Text> */}
+            </View>
+          )}
           <View style={styles.spends}>
             <Text style={{ fontSize: 24, color: "#9c9c9c" }} weight="Regular">
               {I18n.t("insights_screen_total_spends")}

@@ -260,8 +260,9 @@ class AddProductScreen extends React.Component {
         />
         <TextInput
           style={[styles.select]}
+          underlineColorAndroid="transparent"
           placeholder={I18n.t("add_product_screen_placeholder")}
-          value={product_}
+          value={productName}
           onChangeText={productName => this.setState({ productName })}
         />
         <TextInput
@@ -271,39 +272,41 @@ class AddProductScreen extends React.Component {
           keyboardType="numeric"
           onChangeText={amount => this.setState({ amount })}
         />
-        <DatePicker
-          style={{ width: 320, marginBottom: 20 }}
-          date={purchaseDate}
-          mode="date"
-          placeholder={I18n.t("add_product_screen_placeholder_purchase_date")}
-          format="DD MMM YY"
-          minDate="01 Jan 90"
-          maxDate={moment().format("DD MMM YY")}
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          customStyles={{
-            dateIcon: {
-              position: "absolute",
-              left: 0,
-              top: 0,
-              width: 0,
-              height: 0
-            },
-            dateInput: {
-              backgroundColor: "#fff",
-              borderColor: colors.secondaryText,
-              borderWidth: 1,
-              height: 50,
-              borderRadius: 4,
-              padding: 14,
-              justifyContent: "flex-start",
-              alignItems: "flex-start"
-            }
-          }}
-          onDateChange={purchaseDate => {
-            this.setState({ purchaseDate });
-          }}
-        />
+        <View style={[styles.select]}>
+          <DatePicker
+            style={{ width: 320 }}
+            date={purchaseDate}
+            mode="date"
+            placeholder={I18n.t("add_product_screen_placeholder_purchase_date")}
+            format="DD MMM YY"
+            minDate="01 Jan 90"
+            maxDate={moment().format("DD MMM YY")}
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            customStyles={{
+              dateIcon: {
+                position: "absolute",
+                left: 0,
+                top: 0,
+                width: 0,
+                height: 0
+              },
+              dateInput: {
+                // backgroundColor: "#fff",
+                borderColor: colors.secondaryText,
+                borderWidth: 1,
+                height: 50,
+                borderRadius: 4,
+                padding: 5,
+                justifyContent: "flex-start",
+                alignItems: "flex-start"
+              }
+            }}
+            onDateChange={purchaseDate => {
+              this.setState({ purchaseDate });
+            }}
+          />
+        </View>
         <TouchableOpacity
           onPress={() => this.uploadBillOptions.show()}
           style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
@@ -381,6 +384,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 14,
     marginBottom: 20
+    // underlineColorAndroid: "transparent"
   },
   finishModal: {
     backgroundColor: "#fff",
