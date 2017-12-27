@@ -70,6 +70,7 @@ export default {
   add_product_screen_placeholder_main_category: "Select Expense Category",
   add_product_screen_placeholder_category: "Select Expense Type",
   add_product_screen_placeholder_amount: "Amount (optional)",
+  add_product_screen_placeholder: "Product Name (optional)",
   add_product_screen_placeholder_purchase_date: "Purchase date (Optional)",
   add_product_screen_placeholder_upload_bill: "Upload Bill (Optional)",
   add_product_screen_add_product_btn: "Add Product",
@@ -111,7 +112,7 @@ export default {
   insights_screen_total_tax_paid: "Total Tax Paid",
   insights_screen_tax_see_details: "See details",
   insights_screen_section_heading_expenses: "EXPENSES",
-  insights_screen_total_spends: "Total Spends",
+  insights_screen_total_spends: "Total Spend",
 
   //mailbox screen
   mailbox_screen_title: "Mailbox",
@@ -262,7 +263,7 @@ export default {
 
   //Dashboard Screen
   dashboard_screen_whats_coming_up: "WHAT'S COMING UP",
-  dashboard_screen_ehome_insights: "EHOME INSIGHTS",
+  dashboard_screen_ehome_insights: "Expense Insight",
   dashboard_screen_chart_last_7_days: "Last 7 Days",
 
   //eHome Screen
@@ -298,6 +299,81 @@ export default {
   transactions_screen_filter_current_year: "Current Year",
   transactions_screen_filter_options_title: "See insights of",
   transactions_screen_filter_close: "Cancel",
+
+  //tips screen
+  tips_screen_tip_1:
+    "Always ask for a valid bill from the seller/trader. It is your right to get a bill as well as duty to ask from the seller.",
+  tips_screen_tip_2:
+    "Whenever you get a bill, the first thing you should do is scan and upload it in BinBill before you misplace or accidentally destroy it.",
+  tips_screen_tip_3:
+    "While scanning the bill, ensure sufficient light without any shadow obstruction from your hand, phone or things around.",
+  tips_screen_tip_4:
+    "The document that you’d scan with the inbuilt scanner should keep in between the four corners as shown on the screen.",
+  tips_screen_tip_5:
+    "For good image quality, keep bills or documents on hard and level surface without any disturbance from wind.",
+  tips_screen_tip_6:
+    "Recommended to check if the bill is not torn, crumpled or physically damaged.",
+  tips_screen_tip_7:
+    "While scanning and uploading, crop the image to trim the unwanted areas and make it readable.",
+  tips_screen_tip_8:
+    "Choose from Original, Magic or Gray Color mode. Magic Mode is the most suitable for worn out or bills with fading ink.",
+  tips_screen_tip_9:
+    "Always review the image of bills or documents before finally uploading. If you can see the entries then we can also and if you are finding it difficult then chances are we will also find them difficult to read. Especially for the “kachha bills” the handwriting should be legible and preferred language is English.",
+  tips_screen_tip_10:
+    "It is always advisable to upload your bill along with any associated warranty, guarantee or insurance document. Remember these are important to extract necessary information in order to maintain your records in BinBill.",
+  tips_screen_tip_11:
+    "You can add prescriptions and related reports along with chemist bills, if they are available.",
+  tips_screen_tip_12:
+    "Do not upload selfies or other irrelevant photos since these would be discarded.",
+  tips_screen_tip_13:
+    "Bills can also be added from “Gallery”. After adding the image of the bill, make sure all the details are visible. If not, then retake the photo from BinBill scanner.",
+  tips_screen_tip_14:
+    "In case of Doc. and Pdf make sure that it contains bills and related documents, before uploading it.",
+  tips_screen_tip_15:
+    "If the bill is lengthy and cannot possibly come in a single frame, then take multiple photos. Please keep in mind to segregate Bill in equal parts.",
+  tips_screen_tip_16:
+    "Please do not upload the same bill/document more than once. Duplicacy will be discarded owing to quality issues.",
+
+  //faqs
+  faq_question_1: "What is BinBill?",
+  faq_answer_1:
+    "BinBill is an application that manages your bills, analyzing expense and one can avail after-sales benefits at one place. It converts your ordinary bills into smart bills and stores them safely in the eHome virtual home.",
+  faq_question_2: "Who can all use BinBill?",
+  faq_answer_2:
+    "It is everyone and especially for those who cannot manage their expenses and bills. It declutters individual’s lives around bills and documents. It's for all and for free.",
+  faq_question_3: "What is eHome and how do I create it?",
+  faq_answer_3:
+    "eHome is a virtual home in the BinBill account, where all your bills and documents are stored under clearly defined categories of Electricals and Electronics, Automobiles, Furniture Fittings and Utensils, Fashion and Fashion Accessories, Healthcare and Medical, Household Expenses, Travel and Dine out, and Services. Under the Personal Catalogue, you can store any other important document besides bills.",
+  faq_question_4: "What all can I upload in BinBill?",
+  faq_answer_4:
+    "You can upload as per your convenience, there is no restriction. Any type of a bill or a document can be uploaded at BinBill, which can be useful for future communication or expense tracking. The more you upload, the more value we add to your eHome.",
+  faq_question_5: "How do I upload a bill?",
+  faq_answer_5:
+    "Launch the application on your phone and tap on the Upload Doc button. Using the scanner through our application, fit the bill/document being scanned in the edges as marked on the screen and tap on the camera button. Alternately, you can upload the bills or documents directly from your phone gallery or on the website. Just click on upload tab in the App or log into www.binbill.com. For the best experience, we suggest using our Mobile App.",
+  faq_question_6: "How does BinBill add value to my bills?",
+  faq_answer_6:
+    "BinBill not only captures important details in the bill like product information, manufacturer’s details, the amount spent etc., but also integrates relevant information from its existing database such as authorized service centres, customer care details, warranty information etc. This way BinBill converts ordinary bills into smart bills and sort out the bills for the users, based on the categories. The users can search, download, and share bills and bill’s information. For example, it notifies the users about the vehicle pollution checkup or an upcoming vehicle service.",
+  faq_question_7: "How does BinBill help me in after sales service?",
+  faq_answer_7:
+    "BinBill helps you with all the manufacturer’s details and authorized service centre of your product, which will help you in getting things sorted.",
+  faq_question_8: "Is uploading the documents to BinBill secure?",
+  faq_answer_8: "Yes, all your bills/documents are safe and secure.",
+  faq_question_9: "For, how long do my bills stay in the BinBill?",
+  faq_answer_9:
+    "For as long as you wish, your bills will be available in your BinBill Account.",
+  faq_question_10: "How do I find stored bills on BinBill?",
+  faq_answer_10:
+    "Use the search bar in the app or web, type the name of seller or products and you will be directed to the page to locate the bill. If still cannot find sorted bills, feel free to write us at support@binbill.com",
+  faq_question_11: "I’m new to BinBill, how do I start my journey?",
+  faq_answer_11:
+    "The first step is to register your own e-Home, which is free of cost. Start uploading bills or documents and leave rest to us for creating your beautiful eHome.",
+  faq_question_12: "Can I save bills to my phone, from BinBill?",
+  faq_answer_12:
+    "We have made sure, that life of our users is easy and hassle-free. The users can download the bills directly to their phones, anytime.",
+  faq_question_13: "Can I access BinBill through my Desktop/Laptop?",
+  faq_answer_13: "Yes. Visit our website www.binbill.com.",
+  faq_question_14: "Do I need to pay anything to enjoy these services?",
+  faq_answer_14: "We are absolutely free.",
 
   //search header
   search_header_dashboard: "Dashboard",

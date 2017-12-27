@@ -84,6 +84,7 @@ class AddProductScreen extends React.Component {
       categories: [],
       selectedCategory: null,
       amount: null,
+      productName: null,
       purchaseDate: null,
       isFinishModalVisible: false,
       finishImageSource: ehomeImage
@@ -148,23 +149,28 @@ class AddProductScreen extends React.Component {
         categories,
         selectedCategory,
         amount,
+        productName,
         purchaseDate
       } = this.state;
 
-      let productName = "";
+      let tempProductName = "";
 
       if (!selectedMainCategory) {
         return Alert.alert(
           I18n.t("add_product_screen_alert_select_main_category")
         );
       } else {
-        productName = selectedMainCategory.name;
+        tempProductName = selectedMainCategory.name;
       }
 
       if (!selectedCategory) {
         return Alert.alert(I18n.t("add_product_screen_alert_select_category"));
       } else {
-        productName = productName = productName + " " + selectedCategory.name;
+        tempProductName = tempProductName + " " + selectedCategory.name;
+      }
+
+      if (!productName) {
+        productName = tempProductName;
       }
 
       await addProduct({
@@ -188,6 +194,7 @@ class AddProductScreen extends React.Component {
       categories: [],
       selectedCategory: null,
       amount: null,
+      productName: "",
       purchaseDate: null,
       isFinishModalVisible: false,
       finishImageSource: ehomeImage
@@ -201,6 +208,7 @@ class AddProductScreen extends React.Component {
       categories,
       selectedCategory,
       amount,
+      productName,
       purchaseDate,
       isFinishModalVisible,
       finishImageSource
@@ -252,44 +260,53 @@ class AddProductScreen extends React.Component {
         />
         <TextInput
           style={[styles.select]}
+          underlineColorAndroid="transparent"
+          placeholder={I18n.t("add_product_screen_placeholder")}
+          value={productName}
+          onChangeText={productName => this.setState({ productName })}
+        />
+        <TextInput
+          style={[styles.select]}
           placeholder={I18n.t("add_product_screen_placeholder_amount")}
           value={amount}
           keyboardType="numeric"
           onChangeText={amount => this.setState({ amount })}
         />
-        <DatePicker
-          style={{ width: 320, marginBottom: 20 }}
-          date={purchaseDate}
-          mode="date"
-          placeholder={I18n.t("add_product_screen_placeholder_purchase_date")}
-          format="DD MMM YY"
-          minDate="01 Jan 90"
-          maxDate={moment().format("DD MMM YY")}
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          customStyles={{
-            dateIcon: {
-              position: "absolute",
-              left: 0,
-              top: 0,
-              width: 0,
-              height: 0
-            },
-            dateInput: {
-              backgroundColor: "#fff",
-              borderColor: colors.secondaryText,
-              borderWidth: 1,
-              height: 50,
-              borderRadius: 4,
-              padding: 14,
-              justifyContent: "flex-start",
-              alignItems: "flex-start"
-            }
-          }}
-          onDateChange={purchaseDate => {
-            this.setState({ purchaseDate });
-          }}
-        />
+        <View style={[styles.select]}>
+          <DatePicker
+            style={{ width: 320 }}
+            date={purchaseDate}
+            mode="date"
+            placeholder={I18n.t("add_product_screen_placeholder_purchase_date")}
+            format="DD MMM YY"
+            minDate="01 Jan 90"
+            maxDate={moment().format("DD MMM YY")}
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            customStyles={{
+              dateIcon: {
+                position: "absolute",
+                left: 0,
+                top: 0,
+                width: 0,
+                height: 0
+              },
+              dateInput: {
+                // backgroundColor: "#fff",
+                borderColor: colors.secondaryText,
+                borderWidth: 1,
+                height: 50,
+                borderRadius: 4,
+                padding: 5,
+                justifyContent: "flex-start",
+                alignItems: "flex-start"
+              }
+            }}
+            onDateChange={purchaseDate => {
+              this.setState({ purchaseDate });
+            }}
+          />
+        </View>
         <TouchableOpacity
           onPress={() => this.uploadBillOptions.show()}
           style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
@@ -367,6 +384,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 14,
     marginBottom: 20
+    // underlineColorAndroid: "transparent"
   },
   finishModal: {
     backgroundColor: "#fff",

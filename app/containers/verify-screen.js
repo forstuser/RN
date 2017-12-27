@@ -100,16 +100,17 @@ class VerifyScreen extends Component {
           })}
         </Text>
         <TextInput
+          underlineColorAndroid="transparent"
           ref={ref => (this.otpInput = ref)}
           autoFocus={true}
           style={{
             height: 60,
             borderColor: colors.mainBlue,
             borderBottomWidth: 2,
-            marginTop: 20,
-            marginBottom: 30,
+            marginTop: 40,
+            marginBottom: 10,
             width: 200,
-            fontSize: 50,
+            fontSize: 40,
             textAlign: "center"
           }}
           onChangeText={otp => this.setState({ otp })}

@@ -11,7 +11,6 @@ import com.reactnativenavigation.NavigationApplication;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
-import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 import com.reactnativenavigation.bridge.NavigationReactPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -43,7 +42,7 @@ public class MainApplication extends NavigationApplication {
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(new MainReactPackage(), new VectorIconsPackage(), new SvgPackage(),
         new RNSharePackage(), new PhotoViewPackage(), new NavigationReactPackage(), new LinearGradientPackage(),
-        new PickerPackage(), new RNI18nPackage(), new RNGooglePlacesPackage(), new RNGestureHandlerPackage(),
+        new PickerPackage(), new RNI18nPackage(), new RNGestureHandlerPackage(),
         new RNFetchBlobPackage(), new FIRMessagingPackage(), new RNPdfScannerPackage(), new ReactNativeDocumentPicker(),
         new RNDeviceInfo(), new BlurViewPackage());
   }

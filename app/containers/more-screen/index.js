@@ -8,14 +8,19 @@ import Header from "./header";
 import { SCREENS } from "../../constants";
 import { getProfileDetail } from "../../api";
 import { openLoginScreen } from "../../navigation";
+import ErrorOverlay from "../../components/error-overlay";
+import LoadingOverlay from "../../components/loading-overlay";
 
 class MoreScreen extends Component {
   static navigatorStyle = {
     navBarHidden: true
   };
+
   constructor(props) {
     super(props);
     this.state = {
+      error: null,
+      isFetchingData: false,
       profile: null,
       binbillDetails: {}
     };
@@ -32,13 +37,16 @@ class MoreScreen extends Component {
 
   fetchProfile = async () => {
     this.setState({
+      error: null,
+      isFetchingData: false,
       profile: null
     });
     try {
       const res = await getProfileDetail();
       this.setState(
         {
-          profile: res.userProfile
+          profile: res.userProfile,
+          isFetchingData: false
         },
         () => {
           if (this.props.screenOpts) {
@@ -51,9 +59,14 @@ class MoreScreen extends Component {
           }
         }
       );
-    } catch (e) {
-      Alert.alert(e.message);
+    } catch (error) {
+      this.setState({
+        error
+      });
     }
+    this.setState({
+      isFetchingData: false
+    });
   };
 
   openProfileScreen = () => {
@@ -64,9 +77,13 @@ class MoreScreen extends Component {
   };
 
   render() {
-    const profile = this.state.profile;
+    const { profile, error, isFetchingData } = this.state;
+    if (error) {
+      return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
+    }
     return (
       <View>
+        <LoadingOverlay visible={isFetchingData} />
         <Header
           onPress={this.openProfileScreen}
           profile={profile}
