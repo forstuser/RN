@@ -6,6 +6,9 @@ export default {
   },
 
   ui: {
-    unreadMessagesCount: 0
+    hasBlankDashboardTourShown: false,
+    hasDashboardTourShown: false,
+    hasEhomeTourShown: false,
+    hasUploadDocTourShown: false
   }
 };

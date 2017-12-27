@@ -7,10 +7,16 @@ import {
   ScrollView,
   TouchableOpacity
 } from "react-native";
+import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
+
+import Tour from "../../components/app-tour";
+
 import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
 import { colors } from "../../theme";
+
+import { actions as uiActions } from "../../modules/ui";
 
 const uploadFabIcon = require("../../images/ic_upload_fab.png");
 
@@ -38,6 +44,15 @@ class BlankDashboard extends React.Component {
       scrollPosition: 0,
       sliderIndex: 0
     };
+  }
+
+  componentDidMount() {
+    if (!this.props.hasBlankDashboardTourShown) {
+      setTimeout(() => this.blankDashboardTour.startTour(), 1000);
+      this.props.setUiHasBlankDashboardTourShown(true);
+    }
+
+    this.props.setUiHasBlankDashboardTourShown(false);
   }
   render() {
     return (
@@ -84,12 +99,18 @@ class BlankDashboard extends React.Component {
             bills. Live worry free!
           </Text>
           <TouchableOpacity
+            ref={ref => (this.fabRef = ref)}
             style={styles.fab}
             onPress={this.props.onUploadButtonClick}
           >
             <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
           </TouchableOpacity>
         </View>
+        <Tour
+          ref={ref => (this.blankDashboardTour = ref)}
+          enabled={true}
+          steps={[{ ref: this.fabRef, text: I18n.t("app_tour_tips_1") }]}
+        />
       </View>
     );
   }
@@ -205,4 +226,18 @@ const styles = StyleSheet.create({
   }
 });
 
-export default BlankDashboard;
+const mapStateToProps = state => {
+  return {
+    hasBlankDashboardTourShown: state.ui.hasBlankDashboardTourShown
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUiHasBlankDashboardTourShown: newValue => {
+      dispatch(uiActions.setUiHasBlankDashboardTourShown(newValue));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BlankDashboard);

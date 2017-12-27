@@ -5,9 +5,12 @@ import {
   FlatList,
   Alert,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from "react-native";
 import moment from "moment";
+import PhotoView from "react-native-photo-view";
+
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { API_BASE_URL } from "../../api";
@@ -24,9 +27,9 @@ const FileItem = ({ file, index, total, removeFile }) => (
       </Text>
     </View>
     {isImageFileType(file.mimeType) && (
-      <Image
+      <PhotoView
         style={styles.billImage}
-        source={{ isStatic: true, uri: file.uri }}
+        source={{ uri: Platform.OS == "ios" ? `file://${file.uri}` : file.uri }}
         resizeMode="contain"
       />
     )}
@@ -48,7 +51,12 @@ const FileItem = ({ file, index, total, removeFile }) => (
 
 const styles = StyleSheet.create({
   bill: {
-    alignItems: "center"
+    alignItems: "center",
+    width: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0
   },
   billCountTextWrapper: {
     backgroundColor: "rgba(135,135,135,0.8)",
@@ -81,7 +89,7 @@ const styles = StyleSheet.create({
   },
   optionsWrapper: {
     position: "absolute",
-    bottom: 20,
+    bottom: 10,
     flexDirection: "row"
   },
   option: {

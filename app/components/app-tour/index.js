@@ -2,11 +2,12 @@ import React from "react";
 import {
   StyleSheet,
   View,
-  Text,
   Modal,
   TouchableOpacity,
   Dimensions
 } from "react-native";
+
+import { Text } from "../../elements";
 
 export default class AppTour extends React.Component {
   static defaultProps = {
@@ -103,7 +104,7 @@ export default class AppTour extends React.Component {
       return null;
     }
     return (
-      <Modal transparent={true}>
+      <Modal transparent={true} ref={this.props.setRef}>
         <View style={styles.container}>
           <View style={[styles.border, styles.borderTop, { height: y }]} />
           <View
@@ -168,7 +169,9 @@ export default class AppTour extends React.Component {
             <View style={styles.tooltipTextWrapper}>
               <Text style={[styles.tooltipText]}>{tooltipText}</Text>
               <TouchableOpacity onPress={this.next} style={[styles.gotIt, {}]}>
-                <Text style={[styles.gotItText, {}]}>GOT IT</Text>
+                <Text weight="Bold" style={[styles.gotItText, {}]}>
+                  GOT IT
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -228,12 +231,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#00C3E3",
     paddingHorizontal: 15,
     paddingTop: 15,
-    paddingBottom: 5,
+    paddingBottom: 10,
     borderRadius: 4
   },
   tooltipText: {
     color: "#fff",
-    fontWeight: "800"
+    fontWeight: "500"
   },
   gotIt: {
     alignSelf: "flex-end",
@@ -241,7 +244,7 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   gotItText: {
-    fontWeight: "800",
+    fontWeight: "900",
     color: "#fff"
   }
 });

@@ -8,12 +8,8 @@ import {
   Alert,
   Image
 } from "react-native";
-import FCM, {
-  FCMEvent,
-  RemoteNotificationResult,
-  WillPresentNotificationResult,
-  NotificationType
-} from "react-native-fcm";
+
+import { connect } from "react-redux";
 
 import moment from "moment";
 
@@ -34,6 +30,8 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import SectionHeading from "../../components/section-heading";
 import { SCREENS } from "../../constants";
+
+import { actions as uiActions } from "../../modules/ui";
 
 const uploadFabIcon = require("../../images/ic_upload_fab.png");
 
@@ -75,7 +73,6 @@ class DashboardScreen extends React.Component {
           break;
       }
     }
-    this.tour.startTour();
   }
 
   onNavigatorEvent = event => {
@@ -116,13 +113,21 @@ class DashboardScreen extends React.Component {
         })
       };
 
-      this.setState({
-        notificationCount: dashboardData.notificationCount,
-        recentSearches: dashboardData.recentSearches,
-        showDashboard: dashboardData.showDashboard,
-        upcomingServices: dashboardData.upcomingServices,
-        insightChartProps: insightChartProps
-      });
+      this.setState(
+        {
+          notificationCount: dashboardData.notificationCount,
+          recentSearches: dashboardData.recentSearches,
+          showDashboard: dashboardData.showDashboard,
+          upcomingServices: dashboardData.upcomingServices,
+          insightChartProps: insightChartProps
+        },
+        () => {
+          if (this.state.showDashboard && !this.props.hasDashboardTourShown) {
+            setTimeout(() => this.dashboardTour.startTour(), 1000);
+            this.props.setUiHasDashboardTourShown(true);
+          }
+        }
+      );
     } catch (error) {
       this.setState({
         error
@@ -166,13 +171,13 @@ class DashboardScreen extends React.Component {
               notificationCount={notificationCount}
               recentSearches={recentSearches}
               navigator={this.props.navigator}
-              mailboxIconRef={ref => (this.mailboxIconRef = ref)}
             />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled>
               <View style={{ flex: 1, marginBottom: 150 }}>
                 {this.state.upcomingServices.length > 0 && (
                   <View>
                     <SectionHeading
+                      setRef={ref => (this.comingUpRef = ref)}
                       text={I18n.t("dashboard_screen_whats_coming_up")}
                     />
                     <UpcomingServicesList
@@ -208,7 +213,6 @@ class DashboardScreen extends React.Component {
         )}
         {showDashboard && (
           <TouchableOpacity
-            ref={ref => (this.fabRef = ref)}
             style={styles.fab}
             onPress={() => this.addExpenseOptions.show()}
           >
@@ -222,13 +226,12 @@ class DashboardScreen extends React.Component {
         />
 
         <Tour
-          ref={ref => (this.tour = ref)}
+          ref={ref => (this.dashboardTour = ref)}
           enabled={true}
           steps={[
-            { ref: this.fabRef, text: "Tool tip about upload text" },
-            { ref: this.mailboxIconRef, text: "Tooltip about mailbox" },
-            { ref: this.ehomeTabItemRef, text: "Tooltip about ehome" },
-            { ref: this.ascTabItemRef, text: "Tooltip about asc" }
+            { ref: this.comingUpRef, text: I18n.t("app_tour_tips_6") },
+            { ref: this.ehomeTabItemRef, text: I18n.t("app_tour_tips_2") },
+            { ref: this.ascTabItemRef, text: I18n.t("app_tour_tips_3") }
           ]}
         />
         <View style={styles.dummiesForTooltips}>
@@ -290,4 +293,18 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DashboardScreen;
+const mapStateToProps = state => {
+  return {
+    hasDashboardTourShown: state.ui.hasDashboardTourShown
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUiHasDashboardTourShown: newValue => {
+      dispatch(uiActions.setUiHasDashboardTourShown(newValue));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardScreen);

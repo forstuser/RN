@@ -2,8 +2,8 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "../elements";
 
-const SectionHeading = ({ text }) => (
-  <View style={styles.sectionHeading}>
+const SectionHeading = ({ text, setRef }) => (
+  <View ref={setRef} style={styles.sectionHeading}>
     <View style={styles.sectionHeadingTopBorder} />
     <Text weight={"Bold"} style={styles.sectionHeadingText}>
       {text}

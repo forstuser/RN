@@ -16,7 +16,8 @@ import {
   DocumentPicker,
   DocumentPickerUtil
 } from "react-native-document-picker";
-import RNModal from "react-native-modal";
+
+import { connect } from "react-redux";
 
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
@@ -36,6 +37,10 @@ import I18n from "../../i18n";
 const ehomeImage = require("../../images/ehome_circle_with_category_icons.png");
 
 import { openAppScreen } from "../../navigation";
+
+import { actions as uiActions } from "../../modules/ui";
+
+import Tour from "../../components/app-tour";
 
 const AddPicButton = () => (
   <TouchableOpacity
@@ -114,6 +119,20 @@ class UploadDocumentScreen extends Component {
     }
   };
 
+  pushFileToState = file => {
+    this.setState(
+      {
+        files: [...this.state.files, file]
+      },
+      () => {
+        if (!this.props.hasUploadDocTourShown) {
+          setTimeout(() => this.uploadDocTour.startTour(), 1000);
+          this.props.setUiHasUploadDocTourShown(true);
+        }
+      }
+    );
+  };
+
   takeCameraImage = () => {
     ImagePicker.openCamera({
       width: 900,
@@ -121,16 +140,10 @@ class UploadDocumentScreen extends Component {
       cropping: true
     })
       .then(file => {
-        console.log(file);
-        this.setState({
-          files: [
-            ...this.state.files,
-            {
-              filename: "camera-image-" + this.state.files.length + 1,
-              uri: file.path,
-              mimeType: file.mime
-            }
-          ]
+        this.pushFileToState({
+          filename: "camera-image-" + this.state.files.length + 1,
+          uri: file.path,
+          mimeType: file.mime
         });
       })
       .catch(e => {});
@@ -143,16 +156,10 @@ class UploadDocumentScreen extends Component {
       cropping: true
     })
       .then(file => {
-        console.log(file);
-        this.setState({
-          files: [
-            ...this.state.files,
-            {
-              filename: file.filename,
-              uri: file.path,
-              mimeType: file.mime
-            }
-          ]
+        this.pushFileToState({
+          filename: file.filename,
+          uri: file.path,
+          mimeType: file.mime
         });
       })
       .catch(e => {});
@@ -168,19 +175,11 @@ class UploadDocumentScreen extends Component {
         ]
       },
       (error, file) => {
-        console.log(file);
-        this.setState({
-          files: [
-            ...this.state.files,
-            {
-              filename: file.fileName,
-              uri: file.uri,
-              mimeType: file.type || file.fileName.split(".").pop()
-            }
-          ]
+        this.pushFileToState({
+          filename: file.fileName,
+          uri: file.uri,
+          mimeType: file.type || file.fileName.split(".").pop()
         });
-
-        console.log(this.state.files);
       }
     );
   };
@@ -240,26 +239,28 @@ class UploadDocumentScreen extends Component {
           </View>
         )}
         {files.length > 0 && (
-          <ScrollableTabView
-            tabBarUnderlineStyle={{
-              backgroundColor: colors.mainBlue,
-              height: 1,
-              marginBottom: -1
-            }}
-            tabBarPosition="bottom"
-          >
-            {files.map((file, index) => (
-              <FileItem
-                removeFile={() => {
-                  this.removeFile(index);
-                }}
-                key={index}
-                file={file}
-                index={index}
-                total={files.length}
-              />
-            ))}
-          </ScrollableTabView>
+          <View style={styles.filesContainer}>
+            <ScrollableTabView
+              tabBarUnderlineStyle={{
+                backgroundColor: colors.mainBlue,
+                height: 1,
+                marginBottom: -1
+              }}
+              tabBarPosition="bottom"
+            >
+              {files.map((file, index) => (
+                <FileItem
+                  removeFile={() => {
+                    this.removeFile(index);
+                  }}
+                  key={index}
+                  file={file}
+                  index={index}
+                  total={files.length}
+                />
+              ))}
+            </ScrollableTabView>
+          </View>
         )}
         {files.length > 0 && (
           <Button
@@ -308,6 +309,22 @@ class UploadDocumentScreen extends Component {
             </TouchableOpacity>
           </View>
         </Modal>
+        <View
+          style={styles.dummyViewForFile}
+          ref={ref => (this.dummyViewForFile = ref)}
+        />
+        <View
+          style={styles.dummyViewForPlusIcon}
+          ref={ref => (this.dummyPlusIconRef = ref)}
+        />
+        <Tour
+          ref={ref => (this.uploadDocTour = ref)}
+          enabled={true}
+          steps={[
+            { ref: this.dummyViewForFile, text: I18n.t("app_tour_tips_9") },
+            { ref: this.dummyPlusIconRef, text: I18n.t("app_tour_tips_8") }
+          ]}
+        />
       </ScreenContainer>
     );
   }
@@ -315,9 +332,7 @@ class UploadDocumentScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#000",
-    paddingVertical: 32,
-    paddingHorizontal: 35
+    backgroundColor: "#000"
   },
   noFilesView: {
     flex: 1,
@@ -333,11 +348,28 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 280
   },
+  filesContainer: {
+    position: "absolute",
+    top: 16,
+    left: 32,
+    right: 32,
+    bottom: 40,
+    zIndex: 1
+  },
+  dummyViewForFile: {
+    position: "absolute",
+    top: 150,
+    left: 70,
+    right: 70,
+    height: 0,
+    zIndex: 0
+  },
   uploadBtn: {
     position: "absolute",
     right: 32,
     left: 32,
-    bottom: 16
+    bottom: 16,
+    zIndex: 2
   },
   uploadStatusModal: {
     width: "100%",
@@ -379,7 +411,31 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     color: colors.pinkishOrange
+  },
+
+  dummyViewForPlusIcon: {
+    position: "absolute",
+    top: -37,
+    right: 12,
+    width: 32,
+    height: 32
   }
 });
 
-export default UploadDocumentScreen;
+const mapStateToProps = state => {
+  return {
+    hasUploadDocTourShown: state.ui.hasUploadDocTourShown
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUiHasUploadDocTourShown: newValue => {
+      dispatch(uiActions.setUiHasUploadDocTourShown(newValue));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  UploadDocumentScreen
+);

@@ -7,8 +7,8 @@ import { colors } from "../theme";
 const icon = require("../images/ic_processing.png");
 const arrow = require("../images/ic_processing_arrow.png");
 
-const EhomeProcessingItems = ({ itemsCount = 0, onPress }) => (
-  <TouchableOpacity onPress={onPress} style={styles.container}>
+const EhomeProcessingItems = ({ itemsCount = 0, onPress, setRef }) => (
+  <TouchableOpacity ref={setRef} onPress={onPress} style={styles.container}>
     <Image style={styles.icon} source={icon} />
     <View style={styles.titleAndItemCount}>
       <Text weight="Medium" style={styles.title}>
