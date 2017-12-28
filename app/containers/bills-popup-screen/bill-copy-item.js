@@ -10,6 +10,7 @@ import {
   CameraRoll
 } from "react-native";
 import moment from "moment";
+import PhotoView from "react-native-photo-view";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import RNFetchBlob from "react-native-fetch-blob";
 import Share from "react-native-share";
@@ -23,7 +24,14 @@ const fileIcon = require("../../images/ic_file.png");
 const billDownloadIcon = require("../../images/ic_bill_download.png");
 const shareIcon = require("../../images/ic_share_white.png");
 
-const BillCopyItem = ({ billId, copy, index, total }) => {
+const BillCopyItem = ({
+  billId,
+  copy,
+  index,
+  total,
+  onShareBtnClick,
+  authToken
+}) => {
   const onDownloadPress = () => {
     if (Platform.OS === "ios") {
       if (isImageFileType(copy.file_type)) {
@@ -31,18 +39,23 @@ const BillCopyItem = ({ billId, copy, index, total }) => {
           text: I18n.t("bill_copy_popup_screen_downloading_image"),
           autoDismissTimerSec: 1000
         });
-        fetchFile(copy.copyUrl)
-          .then(base64Data => {
-            let mimeType = getMimeTypeByExtension(copy.file_type);
-            const base64Image = `data:${mimeType};base64,${base64Data}`;
-            CameraRoll.saveToCameraRoll(base64Image).then(
+
+        RNFetchBlob.config({
+          fileCache: true,
+          appendExt: copy.file_type
+        })
+          .fetch("GET", API_BASE_URL + copy.copyUrl, {
+            Authorization: authToken
+          })
+          .then(res => {
+            CameraRoll.saveToCameraRoll("file://" + res.path()).then(
               showSnackbar({
                 text: I18n.t("bill_copy_popup_screen_downloaded_image"),
                 autoDismissTimerSec: 10
               })
             );
           })
-          .catch(e => {
+          .catch((errorMessage, statusCode) => {
             showSnackbar({
               text: I18n.t("bill_copy_popup_screen_download_error"),
               autoDismissTimerSec: 10
@@ -51,30 +64,7 @@ const BillCopyItem = ({ billId, copy, index, total }) => {
       }
     }
   };
-  const onSharePress = () => {
-    if (Platform.OS === "ios") {
-      showSnackbar({
-        text: I18n.t("bill_copy_popup_screen_downloading_file_to_share"),
-        autoDismissTimerSec: 1000
-      });
-      fetchFile(copy.copyUrl)
-        .then(base64Data => {
-          hideSnackbar();
-          let mimeType = getMimeTypeByExtension(copy.file_type);
-          const base64File = `data:${mimeType};base64,${base64Data}`;
-          Share.open({
-            url: base64File,
-            type: mimeType
-          }).catch(e => {});
-        })
-        .catch(e => {
-          showSnackbar({
-            text: I18n.t("bill_copy_popup_screen_download_error"),
-            autoDismissTimerSec: 10
-          });
-        });
-    }
-  };
+
   return (
     <View style={styles.bill}>
       <View style={styles.billCountTextWrapper}>
@@ -83,9 +73,9 @@ const BillCopyItem = ({ billId, copy, index, total }) => {
         </Text>
       </View>
       {isImageFileType(copy.file_type) && (
-        <AsyncImage
+        <Image
           style={styles.billImage}
-          uri={API_BASE_URL + copy.copyUrl}
+          source={{ uri: API_BASE_URL + copy.copyUrl }}
         />
       )}
       {!isImageFileType(copy.file_type) && (
@@ -103,7 +93,7 @@ const BillCopyItem = ({ billId, copy, index, total }) => {
             <Image style={styles.optionIcon} source={billDownloadIcon} />
           </TouchableOpacity>
         )}
-        <TouchableOpacity style={styles.option} onPress={onSharePress}>
+        <TouchableOpacity style={styles.option} onPress={onShareBtnClick}>
           <Image style={styles.optionIcon} source={shareIcon} />
         </TouchableOpacity>
       </View>

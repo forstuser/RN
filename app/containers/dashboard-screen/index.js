@@ -31,6 +31,8 @@ import ErrorOverlay from "../../components/error-overlay";
 import SectionHeading from "../../components/section-heading";
 import { SCREENS } from "../../constants";
 
+import ProductListItem from "../../components/product-list-item";
+
 import { actions as uiActions } from "../../modules/ui";
 
 const uploadFabIcon = require("../../images/ic_upload_fab.png");
@@ -48,6 +50,7 @@ class DashboardScreen extends React.Component {
       isFetchingData: true,
       showDashboard: true,
       upcomingServices: [],
+      recentActivitiesProduct: null,
       insightChartProps: {},
       notificationCount: 0,
       recentSearches: [],
@@ -119,6 +122,7 @@ class DashboardScreen extends React.Component {
           recentSearches: dashboardData.recentSearches,
           showDashboard: dashboardData.showDashboard,
           upcomingServices: dashboardData.upcomingServices,
+          recentActivitiesProduct: dashboardData.product,
           insightChartProps: insightChartProps
         },
         () => {
@@ -183,6 +187,18 @@ class DashboardScreen extends React.Component {
                     <UpcomingServicesList
                       upcomingServices={this.state.upcomingServices}
                       navigator={this.props.navigator}
+                    />
+                  </View>
+                )}
+                {this.state.recentActivitiesProduct && (
+                  <View>
+                    <SectionHeading
+                      text={I18n.t("dashboard_screen_recent_activity")}
+                    />
+                    <ProductListItem
+                      product={this.state.recentActivitiesProduct}
+                      navigator={this.props.navigator}
+                      hideViewBillBtn={true}
                     />
                   </View>
                 )}

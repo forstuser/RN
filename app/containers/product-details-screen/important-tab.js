@@ -43,7 +43,8 @@ class ImportantTab extends Component {
           openBillsPopUp({
             date: purchaseDate,
             id: docType,
-            copies: copies
+            copies: copies,
+            type: docType
           })
         }
         style={{ flex: 1 }}

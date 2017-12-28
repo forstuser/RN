@@ -14,7 +14,8 @@ const ProductListItem = ({ product }) => {
         openBillsPopUp({
           date: product.purchaseDate,
           id: product.productName,
-          copies: product.copies
+          copies: product.copies,
+          type: product.productName
         });
       }}
       style={styles.container}

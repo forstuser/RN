@@ -15,9 +15,14 @@ import ProductType3 from "./product-list-item-type-3";
 
 const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 
-const ProductListItem = ({ product, onPress, navigator }) => {
+const ProductListItem = ({
+  product,
+  onPress,
+  navigator,
+  hideViewBillBtn = false
+}) => {
   const ViewBillButton = ({ onPress }) => {
-    if (product.copies && product.copies.length > 0) {
+    if (product.copies && product.copies.length > 0 && !hideViewBillBtn) {
       return (
         <TouchableOpacity
           onPress={() =>

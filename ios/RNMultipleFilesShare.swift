@@ -14,10 +14,13 @@ class RNMultipleFilesShare: NSObject {
   
   @objc(shareFiles:)
   func shareFiles(files: [String]) -> Void {
-    dump(files);
-    let url = NSURL(fileURLWithPath: files[0])
     
-    let activityViewController = UIActivityViewController(activityItems: [url] , applicationActivities: nil)
+    let urls = files.map({
+      (file: String) -> NSURL in
+      return NSURL(fileURLWithPath: file)
+    })
+    
+    let activityViewController = UIActivityViewController(activityItems: urls , applicationActivities: nil)
     
     DispatchQueue.main.async(execute: {
       let vc=getVisibleViewController(UIApplication.shared.keyWindow?.rootViewController)

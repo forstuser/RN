@@ -67,11 +67,16 @@ export default {
   add_product_screen_alert_select_main_category:
     "Please select expense category",
   add_product_screen_alert_select_category: "Please select expense type",
+  add_product_screen_alert_select_purchase_date:
+    "Please select the closest date in case you forgot the actual date of purchase.",
+  add_product_screen_purchase_date_hint:
+    "Purchase date helps in activating warranty alerts as well as expense insights.",
   add_product_screen_placeholder_main_category: "Select Expense Category",
-  add_product_screen_placeholder_category: "Select Expense Type",
+  add_product_screen_placeholder_expense_type: "Select Expense Type",
+  add_product_screen_placeholder_product_type: "Select Product Type",
   add_product_screen_placeholder_amount: "Amount (optional)",
   add_product_screen_placeholder: "Product Name (optional)",
-  add_product_screen_placeholder_purchase_date: "Purchase date (Optional)",
+  add_product_screen_placeholder_purchase_date: "Purchase date",
   add_product_screen_placeholder_upload_bill: "Upload Bill (Optional)",
   add_product_screen_add_product_btn: "Add Product",
   add_product_screen_finish_msg:
@@ -263,6 +268,7 @@ export default {
 
   //Dashboard Screen
   dashboard_screen_whats_coming_up: "WHAT'S COMING UP",
+  dashboard_screen_recent_activity: "Recent Activity",
   dashboard_screen_ehome_insights: "Expense Insight",
   dashboard_screen_chart_last_7_days: "Last 7 Days",
 

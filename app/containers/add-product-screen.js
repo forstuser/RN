@@ -81,6 +81,9 @@ class AddProductScreen extends React.Component {
         }
       ],
       selectedMainCategory: null,
+      expensePlaceholderText: I18n.t(
+        "add_product_screen_placeholder_expense_type"
+      ),
       categories: [],
       selectedCategory: null,
       amount: null,
@@ -128,9 +131,20 @@ class AddProductScreen extends React.Component {
     ) {
       return;
     }
+    let expensePlaceholderText = I18n.t(
+      "add_product_screen_placeholder_expense_type"
+    );
+
+    if (mainCategory.id == 2 || mainCategory.id == 3) {
+      expensePlaceholderText = I18n.t(
+        "add_product_screen_placeholder_product_type"
+      );
+    }
+
     this.setState(
       {
         selectedMainCategory: mainCategory,
+        expensePlaceholderText: expensePlaceholderText,
         categories: [],
         selectedCategory: null,
         finishImageSource: {
@@ -173,6 +187,12 @@ class AddProductScreen extends React.Component {
         productName = tempProductName;
       }
 
+      if (!purchaseDate) {
+        return Alert.alert(
+          I18n.t("add_product_screen_alert_select_purchase_date")
+        );
+      }
+
       await addProduct({
         productName,
         mainCategoryId: selectedMainCategory.id,
@@ -205,6 +225,7 @@ class AddProductScreen extends React.Component {
     const {
       mainCategories,
       selectedMainCategory,
+      expensePlaceholderText,
       categories,
       selectedCategory,
       amount,
@@ -243,7 +264,7 @@ class AddProductScreen extends React.Component {
         <SelectModal
           style={styles.select}
           dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-          placeholder={I18n.t("add_product_screen_placeholder_category")}
+          placeholder={expensePlaceholderText}
           placeholderRenderer={({ placeholder }) => (
             <Text weight="Bold" style={{ color: colors.secondaryText }}>
               {placeholder}
@@ -258,23 +279,15 @@ class AddProductScreen extends React.Component {
           }}
           hideAddNew={true}
         />
-        <TextInput
-          style={[styles.select]}
-          underlineColorAndroid="transparent"
-          placeholder={I18n.t("add_product_screen_placeholder")}
-          value={productName}
-          onChangeText={productName => this.setState({ productName })}
-        />
-        <TextInput
-          style={[styles.select]}
-          placeholder={I18n.t("add_product_screen_placeholder_amount")}
-          value={amount}
-          keyboardType="numeric"
-          onChangeText={amount => this.setState({ amount })}
-        />
         <View style={[styles.select]}>
           <DatePicker
-            style={{ width: 320 }}
+            style={{
+              position: "absolute",
+              top: 0,
+              width: 320,
+              left: 0,
+              bottom: 0
+            }}
             date={purchaseDate}
             mode="date"
             placeholder={I18n.t("add_product_screen_placeholder_purchase_date")}
@@ -292,13 +305,15 @@ class AddProductScreen extends React.Component {
                 height: 0
               },
               dateInput: {
-                // backgroundColor: "#fff",
-                borderColor: colors.secondaryText,
-                borderWidth: 1,
-                height: 50,
-                borderRadius: 4,
-                padding: 5,
-                justifyContent: "flex-start",
+                borderColor: "transparent",
+                padding: 10,
+                height: 48,
+                position: "absolute",
+                top: 0,
+                right: 0,
+                left: 0,
+                bottom: 0,
+                justifyContent: "center",
                 alignItems: "flex-start"
               }
             }}
@@ -307,6 +322,25 @@ class AddProductScreen extends React.Component {
             }}
           />
         </View>
+        <Text style={styles.hint}>
+          {I18n.t("add_product_screen_purchase_date_hint")}
+        </Text>
+
+        <TextInput
+          style={[styles.select]}
+          underlineColorAndroid="transparent"
+          placeholder={I18n.t("add_product_screen_placeholder")}
+          value={productName}
+          onChangeText={productName => this.setState({ productName })}
+        />
+        <TextInput
+          style={[styles.select]}
+          placeholder={I18n.t("add_product_screen_placeholder_amount")}
+          value={amount}
+          keyboardType="numeric"
+          onChangeText={amount => this.setState({ amount })}
+        />
+
         <TouchableOpacity
           onPress={() => this.uploadBillOptions.show()}
           style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
@@ -366,7 +400,6 @@ class AddProductScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     padding: 16
   },
@@ -385,6 +418,13 @@ const styles = StyleSheet.create({
     padding: 14,
     marginBottom: 20
     // underlineColorAndroid: "transparent"
+  },
+  hint: {
+    width: 320,
+    color: colors.mainBlue,
+    fontSize: 12,
+    marginTop: -15,
+    marginBottom: 20
   },
   finishModal: {
     backgroundColor: "#fff",

@@ -1,14 +1,26 @@
 import React, { Component } from "react";
-import { StyleSheet, View, FlatList, Alert, NativeModules } from "react-native";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Alert,
+  NativeModules,
+  TouchableOpacity
+} from "react-native";
+
 import RNFetchBlob from "react-native-fetch-blob";
 import moment from "moment";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import { connect } from "react-redux";
 
+import Icon from "react-native-vector-icons/Ionicons";
+
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { API_BASE_URL } from "../../api";
 import { colors } from "../../theme";
 import BillCopyItem from "./bill-copy-item";
+import SelectView from "./select-view";
+import LoadingOverlay from "../../components/loading-overlay";
 
 class BillsPopUpScreen extends Component {
   static navigatorStyle = {
@@ -19,10 +31,13 @@ class BillsPopUpScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sharingViewVisible: false
+      isSelectViewVisible: false,
+      isDownloadingFiles: false
     };
   }
-  componentDidMount() {
+  componentDidMount() {}
+
+  openShare = () => {
     // send http request in a new thread (using native code)
     RNFetchBlob.config({
       fileCache: true,
@@ -39,34 +54,92 @@ class BillsPopUpScreen extends Component {
       .catch((errorMessage, statusCode) => {
         // error handling
       });
-  }
+  };
+
+  shareCopies = selectedCopies => {
+    if (selectedCopies.length == 0) {
+      return Alert.alert("Select some files to share!");
+    }
+
+    this.setState({
+      isDownloadingFiles: true
+    });
+    Promise.all(
+      selectedCopies.map(selectedCopy => {
+        return RNFetchBlob.config({
+          fileCache: true,
+          appendExt: selectedCopy.file_type
+        })
+          .fetch("GET", API_BASE_URL + selectedCopy.copyUrl, {
+            Authorization: this.props.authToken
+          })
+          .then(res => {
+            console.log("The file saved to ", res.path());
+            return "file://" + res.path();
+          });
+      })
+    )
+      .then(files => {
+        this.setState({
+          isDownloadingFiles: false
+        });
+        console.log("files: ", files);
+        NativeModules.RNMultipleFilesShare.shareFiles(files);
+      })
+      .catch(e => {
+        this.setState({
+          isDownloadingFiles: false
+        });
+        Alert.alert("Some error occurred!");
+      });
+  };
+
+  onShareBtnClick = () => {
+    if (this.props.copies.length == 1) {
+      this.shareCopies([this.props.copies[0]]);
+    } else {
+      this.setState({
+        isSelectViewVisible: true
+      });
+    }
+  };
+
   closeThisScreen = () => {
     this.props.navigator.dismissModal();
   };
+
   render() {
-    const { sharingViewVisible } = this.state;
-    const { date, id, copies } = this.props;
+    const { isSelectViewVisible, isDownloadingFiles } = this.state;
+    const { date, id, copies, type = "Product" } = this.props;
     return (
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
           <View style={styles.dateAndId}>
-            <Text weight="Medium" style={styles.date}>
+            <Text onPress={this.openShare} weight="Medium" style={styles.date}>
               {moment(date).format("DD MMM, YYYY")}
             </Text>
-            <Text style={styles.id}>
-              {!isNaN(id) && "ID: "}
-              {id}
-            </Text>
+            <Text style={styles.id}>{!isNaN(id) && "ID: " + id}</Text>
+            <View style={styles.type}>
+              <Text style={styles.typeText}>{type}</Text>
+            </View>
           </View>
-          <Text
+          <TouchableOpacity
             onPress={this.closeThisScreen}
             weight="Bold"
             style={styles.crossIcon}
           >
-            X
-          </Text>
+            <Icon name="ios-close" size={50} color="#fff" />
+          </TouchableOpacity>
         </View>
-        {copies &&
+        {(!copies || copies.length == 0) && (
+          <View style={styles.noCopiesMsgWrapper}>
+            <Text weight="Bold" style={styles.noCopiesMsg}>
+              Data not avialable
+            </Text>
+          </View>
+        )}
+        {!isSelectViewVisible &&
+          copies &&
           copies.length > 0 && (
             <ScrollableTabView
               tabBarUnderlineStyle={{
@@ -84,19 +157,21 @@ class BillsPopUpScreen extends Component {
                   copy={copy}
                   index={index}
                   total={copies.length}
+                  onShareBtnClick={this.onShareBtnClick}
+                  authToken={this.props.authToken}
                 />
               ))}
             </ScrollableTabView>
           )}
+
         {copies &&
-          copies.length == 0 && (
-            <View style={styles.noCopiesMsgWrapper}>
-              <Text weight="Bold" style={styles.noCopiesMsg}>
-                Data not avialable
-              </Text>
-            </View>
+          isSelectViewVisible && (
+            <SelectView copies={copies} passSelectedCopies={this.shareCopies} />
           )}
-        {}
+        <LoadingOverlay
+          visible={isDownloadingFiles}
+          text="Downloading.. please wait..."
+        />
       </ScreenContainer>
     );
   }
@@ -119,9 +194,17 @@ const styles = StyleSheet.create({
   id: {
     color: "#fff"
   },
-  crossIcon: {
-    color: "#999",
-    fontSize: 24
+  type: {
+    backgroundColor: colors.mainBlue,
+    alignSelf: "flex-start",
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    borderRadius: 2,
+    marginTop: 5
+  },
+  typeText: {
+    color: "#fff",
+    fontSize: 12
   },
   noCopiesMsgWrapper: {
     flex: 1,

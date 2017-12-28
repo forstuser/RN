@@ -1,4 +1,7 @@
 const getProductMetasString = metasArray => {
+  if (!metasArray) {
+    return "";
+  }
   const metasWithValue = metasArray.filter(
     metaItem => String(metaItem.value).length > 0
   );

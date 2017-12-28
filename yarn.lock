@@ -3619,6 +3619,12 @@ react-native-star-rating@^1.0.8:
     react-native-button "^2.1.0"
     react-native-vector-icons "^4.2.0"
 
+react-native-super-grid@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-super-grid/-/react-native-super-grid-2.0.1.tgz#5220f3003781e67ef7c82c2d53b2fe2e21940093"
+  dependencies:
+    prop-types "^15.6.0"
+
 react-native-svg@6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-6.0.0.tgz#022d3f3d69d0c75a7b125d7e95d7618a3121606a"
