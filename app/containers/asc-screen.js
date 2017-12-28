@@ -24,7 +24,7 @@ import SelectModal from "../components/select-modal";
 
 import { colors } from "../theme";
 import { getProductMetasString } from "../utils";
-import LoadingOverlay from "../components/loading-overlay";
+import ProcessingItems from "../components/ehome-processing-items.js";
 import ErrorOverlay from "../components/error-overlay";
 
 const bgImage = require("../images/ic_asc_bg_image.jpg");
@@ -80,7 +80,9 @@ class AscScreen extends Component {
     {
       const res = await getProductsForAsc();
       this.setState({
-        products: res.productList
+        products: res.productList,
+        error: null,
+        isFetchingData: false
       });
     }
   };
@@ -91,7 +93,9 @@ class AscScreen extends Component {
         categories: [],
         selectedBrand: brand,
         selectedCategoryId: null,
-        selectedCategory: null
+        selectedCategory: null,
+        error: null,
+        isFetchingData: false
       },
       () => {
         this.fetchCategories();
@@ -104,14 +108,11 @@ class AscScreen extends Component {
       const res = await getCategories(this.state.selectedBrand.id);
       this.setState(
         {
-          categories: res.categories,
-          error: null,
-          isFetchingData: false
+          categories: res.categories
         },
         () => {
           if (this.state.selectedCategoryId) {
             this.setState({
-              isFetchingData: false,
               selectedCategory: this.state.categories.find(
                 category =>
                   category.category_id == this.state.selectedCategoryId
@@ -120,14 +121,9 @@ class AscScreen extends Component {
           }
         }
       );
-    } catch (error) {
-      this.setState({
-        error
-      });
+    } catch (e) {
+      Alert.alert(e.message);
     }
-    this.setState({
-      isFetchingData: false
-    });
   };
 
   onCategorySelectClick = () => {
@@ -199,8 +195,6 @@ class AscScreen extends Component {
 
   render() {
     const {
-      error,
-      isFetchingData,
       products,
       brands,
       categories,
@@ -211,12 +205,8 @@ class AscScreen extends Component {
       isBrandsModalVisible,
       isCategoriesModalVisible
     } = this.state;
-    if (error) {
-      return <ErrorOverlay error={error} onRetryPress={this.fetchCategories} />;
-    }
     return (
       <ScreenContainer style={styles.container}>
-        <LoadingOverlay visible={isFetchingData} />
         <View style={styles.innerContainer}>
           <Text weight="Bold" style={styles.sectionTitle}>
             {I18n.t("asc_screen_section_1_title")}
