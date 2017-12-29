@@ -1,5 +1,11 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, View, FlatList, Alert } from "react-native";
+import { connect } from "react-redux";
+
+import Tour from "../components/app-tour";
+
+import I18n from "../i18n";
+
 import { API_BASE_URL, consumerGetEhome } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 import LoadingOverlay from "../components/loading-overlay";
@@ -7,6 +13,11 @@ import SearchHeader from "../components/search-header";
 import CategoryItem from "../components/ehome-category-item";
 import ProcessingItems from "../components/ehome-processing-items.js";
 import ErrorOverlay from "../components/error-overlay";
+
+import { SCREENS } from "../constants";
+
+import { actions as uiActions } from "../modules/ui";
+
 class EhomeScreen extends Component {
   static navigatorStyle = {
     navBarHidden: true,
@@ -34,10 +45,21 @@ class EhomeScreen extends Component {
   };
 
   componentDidMount() {
-    if (this.props.startWithPendingDocsScreen) {
-      this.setState({
-        startWithPendingDocsScreen: true
-      });
+    if (this.props.screenOpts) {
+      const screenOpts = this.props.screenOpts;
+      switch (screenOpts.startScreen) {
+        case SCREENS.DOCS_UNDER_PROCESSING_SCREEN:
+          this.openDocsUnderProcessingScreen();
+          break;
+        case SCREENS.PRODUCT_SCREEN:
+          this.props.navigator.push({
+            screen: "ProductDetailsScreen",
+            passProps: {
+              productId: screenOpts.productId
+            }
+          });
+          break;
+      }
     }
   }
 
@@ -72,6 +94,11 @@ class EhomeScreen extends Component {
               startWithPendingDocsScreen: false
             });
             this.openDocsUnderProcessingScreen();
+          }
+
+          if (!this.props.hasEhomeTourShown) {
+            setTimeout(() => this.ehomeTour.startTour(), 1000);
+            this.props.setUiHasEhomeTourShown(true);
           }
         }
       );
@@ -124,8 +151,10 @@ class EhomeScreen extends Component {
           screen="ehome"
           notificationCount={this.state.notificationCount}
           recentSearches={this.state.recentSearches}
+          mailboxIconRef={ref => (this.mailboxIconRef = ref)}
         />
         <ProcessingItems
+          setRef={ref => (this.processingItemsRef = ref)}
           onPress={this.openDocsUnderProcessingScreen}
           itemsCount={this.state.pendingDocs.length}
         />
@@ -138,9 +167,31 @@ class EhomeScreen extends Component {
           />
         </View>
         <LoadingOverlay visible={this.state.isFetchingData} />
+        <Tour
+          ref={ref => (this.ehomeTour = ref)}
+          enabled={true}
+          steps={[
+            { ref: this.mailboxIconRef, text: I18n.t("app_tour_tips_5") },
+            { ref: this.processingItemsRef, text: I18n.t("app_tour_tips_4") }
+          ]}
+        />
       </ScreenContainer>
     );
   }
 }
 
-export default EhomeScreen;
+const mapStateToProps = state => {
+  return {
+    hasEhomeTourShown: state.ui.hasEhomeTourShown
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUiHasEhomeTourShown: newValue => {
+      dispatch(uiActions.setUiHasEhomeTourShown(newValue));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EhomeScreen);

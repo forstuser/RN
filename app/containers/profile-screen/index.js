@@ -11,7 +11,6 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import Modal from "react-native-modal";
-
 import { API_BASE_URL, updateProfile } from "../../api";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { colors } from "../../theme";

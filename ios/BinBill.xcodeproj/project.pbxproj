@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -40,6 +41,8 @@
 		438EB1451FEBD62A00C2D66A /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1441FEBD62A00C2D66A /* GameKit.framework */; };
 		438EB1471FEBD62F00C2D66A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1461FEBD62F00C2D66A /* StoreKit.framework */; };
 		438EB1491FEBD79400C2D66A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1481FEBD79400C2D66A /* CloudKit.framework */; };
+		43B85C5C1FF3C12500781472 /* RNMultipleFilesShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B85C5B1FF3C12500781472 /* RNMultipleFilesShare.swift */; };
+		43B85C5E1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B85C5D1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m */; };
 		43C9F61E1FD9124B00E61C98 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C9F6151FD9120700E61C98 /* libRNBlur.a */; };
 		43E1975C1FECD2E100702A16 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E197531FECD2C700702A16 /* libRNFIRMessaging.a */; };
 		43E1975E1FECDA5100702A16 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43E1975D1FECDA5100702A16 /* GoogleService-Info.plist */; };
@@ -523,6 +526,9 @@
 		438EB1441FEBD62A00C2D66A /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		438EB1461FEBD62F00C2D66A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		438EB1481FEBD79400C2D66A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		43B85C5A1FF3C12400781472 /* BinBill-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BinBill-Bridging-Header.h"; sourceTree = "<group>"; };
+		43B85C5B1FF3C12500781472 /* RNMultipleFilesShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMultipleFilesShare.swift; sourceTree = "<group>"; };
+		43B85C5D1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNMultipleFilesShareBridge.m; sourceTree = "<group>"; };
 		43C9F5E81FD9120700E61C98 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		43E197201FECD2C600702A16 /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
 		43E1975D1FECDA5100702A16 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -736,6 +742,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				43B85C5B1FF3C12500781472 /* RNMultipleFilesShare.swift */,
+				43B85C5A1FF3C12400781472 /* BinBill-Bridging-Header.h */,
+				43B85C5D1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m */,
 			);
 			name = BinBill;
 			sourceTree = "<group>";
@@ -1159,6 +1168,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 2A6SNTUJ7X;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.DataProtection = {
@@ -2015,6 +2025,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				43B85C5E1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m in Sources */,
+				43B85C5C1FF3C12500781472 /* RNMultipleFilesShare.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2068,6 +2080,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C5AD92341BD143C8F317BA86 /* Pods-BinBillTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 2A6SNTUJ7X;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2118,6 +2131,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FEDEC3012C04464F9B9838BF /* Pods-BinBillTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 2A6SNTUJ7X;
@@ -2166,6 +2180,7 @@
 			baseConfigurationReference = AEC55437C91B05C4E4678AF4 /* Pods-BinBill.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BinBill/BinBill.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2199,6 +2214,9 @@
 				PRODUCT_NAME = BinBill;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "BinBill-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2208,6 +2226,7 @@
 			baseConfigurationReference = 16368F8DEFD16390033D5D59 /* Pods-BinBill.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BinBill/BinBill.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2239,6 +2258,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bin.binbillcustomer;
 				PRODUCT_NAME = BinBill;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "BinBill-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, View, FlatList, Alert } from "react-native";
+import { StyleSheet, View, FlatList, Alert, NativeModules } from "react-native";
+import RNFetchBlob from "react-native-fetch-blob";
 import moment from "moment";
 import ScrollableTabView from "react-native-scrollable-tab-view";
+import { connect } from "react-redux";
+
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { API_BASE_URL } from "../../api";
 import { colors } from "../../theme";
@@ -15,13 +18,33 @@ class BillsPopUpScreen extends Component {
   };
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      sharingViewVisible: false
+    };
   }
-  componentDidMount() {}
+  componentDidMount() {
+    // send http request in a new thread (using native code)
+    RNFetchBlob.config({
+      fileCache: true,
+      appendExt: this.props.copies[0].file_type
+    })
+      .fetch("GET", API_BASE_URL + this.props.copies[0].copyUrl, {
+        Authorization: this.props.authToken
+      })
+      .then(res => {
+        // the temp file path
+        console.log("The file saved to ", res.path());
+        NativeModules.RNMultipleFilesShare.shareFiles(["file://" + res.path()]);
+      })
+      .catch((errorMessage, statusCode) => {
+        // error handling
+      });
+  }
   closeThisScreen = () => {
     this.props.navigator.dismissModal();
   };
   render() {
+    const { sharingViewVisible } = this.state;
     const { date, id, copies } = this.props;
     return (
       <ScreenContainer style={styles.container}>
@@ -73,6 +96,7 @@ class BillsPopUpScreen extends Component {
               </Text>
             </View>
           )}
+        {}
       </ScreenContainer>
     );
   }
@@ -106,4 +130,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default BillsPopUpScreen;
+const mapStateToProps = state => {
+  return {
+    authToken: state.loggedInUser.authToken
+  };
+};
+
+export default connect(mapStateToProps)(BillsPopUpScreen);

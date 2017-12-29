@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Image, Alert } from "react-native";
-import PhotoView from "react-native-photo-view";
 
 import { fetchFile } from "../api";
 import { isImageFileType } from "../utils";

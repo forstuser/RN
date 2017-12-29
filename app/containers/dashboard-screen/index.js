@@ -8,14 +8,13 @@ import {
   Alert,
   Image
 } from "react-native";
-import FCM, {
-  FCMEvent,
-  RemoteNotificationResult,
-  WillPresentNotificationResult,
-  NotificationType
-} from "react-native-fcm";
+
+import { connect } from "react-redux";
 
 import moment from "moment";
+
+import Tour from "../../components/app-tour";
+
 import { openAddProductsScreen } from "../../navigation";
 import { consumerGetDashboard } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -31,6 +30,8 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import SectionHeading from "../../components/section-heading";
 import { SCREENS } from "../../constants";
+
+import { actions as uiActions } from "../../modules/ui";
 
 const uploadFabIcon = require("../../images/ic_upload_fab.png");
 
@@ -112,13 +113,21 @@ class DashboardScreen extends React.Component {
         })
       };
 
-      this.setState({
-        notificationCount: dashboardData.notificationCount,
-        recentSearches: dashboardData.recentSearches,
-        showDashboard: dashboardData.showDashboard,
-        upcomingServices: dashboardData.upcomingServices,
-        insightChartProps: insightChartProps
-      });
+      this.setState(
+        {
+          notificationCount: dashboardData.notificationCount,
+          recentSearches: dashboardData.recentSearches,
+          showDashboard: dashboardData.showDashboard,
+          upcomingServices: dashboardData.upcomingServices,
+          insightChartProps: insightChartProps
+        },
+        () => {
+          if (this.state.showDashboard && !this.props.hasDashboardTourShown) {
+            setTimeout(() => this.dashboardTour.startTour(), 1000);
+            this.props.setUiHasDashboardTourShown(true);
+          }
+        }
+      );
     } catch (error) {
       this.setState({
         error
@@ -168,6 +177,7 @@ class DashboardScreen extends React.Component {
                 {this.state.upcomingServices.length > 0 && (
                   <View>
                     <SectionHeading
+                      setRef={ref => (this.comingUpRef = ref)}
                       text={I18n.t("dashboard_screen_whats_coming_up")}
                     />
                     <UpcomingServicesList
@@ -185,10 +195,10 @@ class DashboardScreen extends React.Component {
                     onPress={() => this.openInsightScreen()}
                     style={{
                       position: "absolute",
-                      width: "100%",
-                      height: "100%",
                       top: 0,
-                      left: 0
+                      left: 16,
+                      bottom: 0,
+                      right: 16
                     }}
                   />
                 </View>
@@ -209,10 +219,33 @@ class DashboardScreen extends React.Component {
             <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
           </TouchableOpacity>
         )}
+
         <AddExpenseOptions
           ref={ref => (this.addExpenseOptions = ref)}
           navigator={this.props.navigator}
         />
+
+        <Tour
+          ref={ref => (this.dashboardTour = ref)}
+          enabled={true}
+          steps={[
+            { ref: this.comingUpRef, text: I18n.t("app_tour_tips_6") },
+            { ref: this.ehomeTabItemRef, text: I18n.t("app_tour_tips_2") },
+            { ref: this.ascTabItemRef, text: I18n.t("app_tour_tips_3") }
+          ]}
+        />
+        <View style={styles.dummiesForTooltips}>
+          <View style={styles.dummyForTooltip} />
+          <View
+            ref={ref => (this.ehomeTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
+          <View
+            ref={ref => (this.ascTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
+          <View style={styles.dummyForTooltip} />
+        </View>
       </ScreenContainer>
     );
   }
@@ -247,7 +280,31 @@ const styles = StyleSheet.create({
   uploadFabIcon: {
     width: 30,
     height: 30
+  },
+  dummiesForTooltips: {
+    position: "absolute",
+    width: "100%",
+    bottom: -48,
+    height: 48,
+    flexDirection: "row"
+  },
+  dummyForTooltip: {
+    flex: 1
   }
 });
 
-export default DashboardScreen;
+const mapStateToProps = state => {
+  return {
+    hasDashboardTourShown: state.ui.hasDashboardTourShown
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUiHasDashboardTourShown: newValue => {
+      dispatch(uiActions.setUiHasDashboardTourShown(newValue));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardScreen);

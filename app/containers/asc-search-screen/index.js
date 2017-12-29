@@ -37,11 +37,10 @@ class AscSearchScreen extends Component {
   }
   componentDidMount() {
     this.props.navigator.setTitle({
-      title: I18n.t("asc_search_screen_title")
-    });
-    this.props.navigator.setSubTitle({
-      subtitle:
-        this.props.brand.brandName + " " + this.props.category.category_name
+      title: I18n.t("asc_search_screen_title", {
+        brandAndCategory:
+          this.props.brand.brandName + " " + this.props.category.category_name
+      })
     });
 
     this.fetchResults();

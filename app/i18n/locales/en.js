@@ -80,7 +80,7 @@ export default {
   add_product_screen_finish_do_it_later: "I'll Do it Later",
 
   //ASC search screen
-  asc_search_screen_title: "Search Results for",
+  asc_search_screen_title: "Search Results for {{brandAndCategory}}",
   asc_search_screen_no_results_title: "No Nearby Services",
   asc_search_screen_no_results_desc:
     "Currently there are no services near you. Please comeback later for the nearby services",
@@ -231,11 +231,11 @@ export default {
   profile_screen_email_not_verified: "Not Verified",
 
   //upload document screen
-  upload_document_screen_title: "Upload Docs",
+  upload_document_screen_title: "Review & Upload",
   upload_document_screen_upload_success_msg: "Docs uploded successfully",
   upload_document_screen_no_document_msg: "No Document to upload",
   upload_document_screen_select_document_btn: "Select Document",
-  upload_document_screen_upload_btn: "Upload",
+  upload_document_screen_upload_btn: "UPLOAD DOC",
   upload_document_screen_upload_options_title: "Upload Doc",
   upload_document_screen_upload_options_camera: "Take picture using camera",
   upload_document_screen_upload_options_gallery: "Upload image from gallery",
@@ -391,6 +391,26 @@ export default {
   add_expenses_options_manual_btn: "ADD MANUALLY",
   add_expenses_options_manual_bottom_text: "You can always add bill later",
   add_expenses_options_cancel_btn: "Cancel",
+
+  //app-tour texts
+  app_tour_tips_1:
+    "Upload your bills and important documents from here. Whenever you feel like managing bills, this is the icon to hit.",
+  app_tour_tips_2:
+    "All the bills that you uploaded are securely stored in your eHome, segregated under respective categories for your ease.",
+  app_tour_tips_3:
+    "Need after-sales service, this is the space to be. Find your after-sales vendor, for iPhone or Hyundai i20.",
+  app_tour_tips_4:
+    "We are processing the bills, all the uploaded bills are processed for useful information, before being uploaded to the eHome.",
+  app_tour_tips_5:
+    "This is your eHome's inbox, all the messages and notifications will be delivered over here. Please keep a track of this space.",
+  app_tour_tips_6:
+    "This is your eHome's alert section. You can find all your renewal dates or expiring agreements over here.",
+  app_tour_tips_7:
+    "It's important to keep a track of your expenses. Be on the lookout for this space, as it summarises your expenses for you, and helps you keep it under the scanner.",
+  app_tour_tips_8:
+    "To add multiple bills at the same time to your eHome, use this icon.",
+  app_tour_tips_9:
+    "Just pinch out to zoom in your bills' images, to have a better view.",
 
   blank_dashboard_headline: "Welcome to BinBill",
   blank_dashboard_text:

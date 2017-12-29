@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 import Modal from "react-native-modal";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+// import { ScrollView } from "react-native-keyboard-aware-scroll-view";
 import DatePicker from "react-native-datepicker";
 import moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
@@ -215,7 +215,7 @@ class AddProductScreen extends React.Component {
     } = this.state;
 
     return (
-      <KeyboardAwareScrollView
+      <ScrollView
         contentContainerStyle={styles.container}
         resetScrollToCoords={{ x: 0, y: 0 }}
       >
@@ -359,7 +359,7 @@ class AddProductScreen extends React.Component {
           ref={ref => (this.uploadBillOptions = ref)}
           navigator={this.props.navigator}
         />
-      </KeyboardAwareScrollView>
+      </ScrollView>
     );
   }
 }

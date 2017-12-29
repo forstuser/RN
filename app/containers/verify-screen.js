@@ -73,7 +73,11 @@ class VerifyScreen extends Component {
       this.setState({
         isVerifyingOtp: true
       });
-      const r = await consumerValidate(this.props.phoneNumber, this.state.otp);
+      const r = await consumerValidate(
+        this.props.phoneNumber,
+        this.state.otp,
+        this.props.fcmToken
+      );
       this.props.setLoggedInUserAuthToken(r.authorization);
       openAppScreen();
     } catch (e) {
@@ -125,6 +129,12 @@ class VerifyScreen extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    fcmToken: state.loggedInUser.fcmToken
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     setLoggedInUserAuthToken: token => {
@@ -133,4 +143,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(VerifyScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyScreen);

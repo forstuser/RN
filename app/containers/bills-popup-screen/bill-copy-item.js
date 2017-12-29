@@ -85,7 +85,7 @@ const BillCopyItem = ({ billId, copy, index, total }) => {
       {isImageFileType(copy.file_type) && (
         <AsyncImage
           style={styles.billImage}
-          uri={API_BASE_URL + "/" + copy.copyUrl}
+          uri={API_BASE_URL + copy.copyUrl}
         />
       )}
       {!isImageFileType(copy.file_type) && (

@@ -53,6 +53,7 @@ class SearchHeader extends Component {
           <TouchableOpacity
             onPress={this.openMailboxScreen}
             style={styles.messagesContainer}
+            ref={this.props.mailboxIconRef}
           >
             <Image style={styles.messagesIcon} source={messagesIcon} />
             {notificationCount > 0 && (
