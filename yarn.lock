@@ -3575,6 +3575,10 @@ react-native-loading-spinner-overlay@^0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/react-native-loading-spinner-overlay/-/react-native-loading-spinner-overlay-0.5.2.tgz#b7bcd277476d596615fd7feee601789f9bdc7acc"
 
+react-native-mixpanel@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/react-native-mixpanel/-/react-native-mixpanel-0.0.16.tgz#1c98e61c07c375efd96b8300ec5813fc5966b9df"
+
 react-native-modal@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-4.1.1.tgz#4c1055dc045106542a8e3bb3fd656a6d3bc319d9"

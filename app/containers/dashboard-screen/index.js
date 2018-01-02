@@ -11,6 +11,8 @@ import {
 
 import { connect } from "react-redux";
 
+var Mixpanel = require("react-native-mixpanel");
+
 import moment from "moment";
 
 import Tour from "../../components/app-tour";

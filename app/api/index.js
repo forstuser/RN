@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "../store";
 
-export const API_BASE_URL = "https://consumer-eb.binbill.com";
+export const API_BASE_URL = "https://consumer.binbill.com";
 
 const apiRequest = async ({
   method,
