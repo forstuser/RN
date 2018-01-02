@@ -16,7 +16,7 @@ const UpcomingServiceItem = ({ item, navigator }) => {
 
   switch (item.productType) {
     case 1:
-      icon = require("../images/ic_comingup_bill.png");
+      icon = require("../images/ic_comingup_expiring.png");
       title = item.productName;
       subTitle = item.address;
       sidebarTitle = "₹ " + item.value;

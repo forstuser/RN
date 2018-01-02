@@ -103,9 +103,9 @@ export default {
 
   //docs under processing screen
   docs_under_processing_screen_title: "Docs Under Processing",
-  docs_under_processing_screen_no_result_title: "No Docs Under Processing",
+  docs_under_processing_screen_no_result_title: "No Documents Found",
   docs_under_processing_screen_no_result_desc:
-    "All the docs has been processed or you havn't uploaded any doc yet.",
+    "Documents or bills recently uploaded by you will appear under this section",
 
   //insights screen
   insights_screen_title: "Insights & Trends",
@@ -265,7 +265,7 @@ export default {
   asc_screen_select_fields_first: "Please select brand and product",
 
   //Dashboard Screen
-  dashboard_screen_whats_coming_up: "WHAT'S COMING UP",
+  dashboard_screen_whats_coming_up: "What's Coming Up",
   dashboard_screen_recent_activity: "Recent Activity",
   dashboard_screen_ehome_insights: "Expense Insight",
   dashboard_screen_chart_last_7_days: "Last 7 Days",
