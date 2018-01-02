@@ -235,11 +235,11 @@ export default {
   profile_screen_email_not_verified: "Not Verified",
 
   //upload document screen
-  upload_document_screen_title: "Upload Docs",
+  upload_document_screen_title: "Review & Upload",
   upload_document_screen_upload_success_msg: "Docs uploded successfully",
   upload_document_screen_no_document_msg: "No Document to upload",
   upload_document_screen_select_document_btn: "Select Document",
-  upload_document_screen_upload_btn: "Upload",
+  upload_document_screen_upload_btn: "UPLOAD DOC",
   upload_document_screen_upload_options_title: "Upload Doc",
   upload_document_screen_upload_options_camera: "Take picture using camera",
   upload_document_screen_upload_options_gallery: "Upload image from gallery",
@@ -262,8 +262,7 @@ export default {
   asc_screen_placeholder_select_location: "Select Location",
   asc_screen_placeholder_search_btn: "Search Now",
   asc_screen_select_brand_first: "Please select brand first",
-  asc_screen_select_fields_first:
-    "Please select brand and product and location first",
+  asc_screen_select_fields_first: "Please select brand and product",
 
   //Dashboard Screen
   dashboard_screen_whats_coming_up: "WHAT'S COMING UP",

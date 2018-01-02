@@ -12,6 +12,8 @@ import LoadingOverlay from "../components/loading-overlay";
 import SearchHeader from "../components/search-header";
 import CategoryItem from "../components/ehome-category-item";
 import ProcessingItems from "../components/ehome-processing-items.js";
+import ErrorOverlay from "../components/error-overlay";
+
 import { SCREENS } from "../constants";
 
 import { actions as uiActions } from "../modules/ui";
@@ -24,6 +26,7 @@ class EhomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      error: null,
       isFetchingData: false,
       categoriesList: [],
       pendingDocs: [],
@@ -64,7 +67,8 @@ class EhomeScreen extends Component {
 
   fetchEhomeData = async () => {
     this.setState({
-      isFetchingData: true
+      isFetchingData: false,
+      error: null
     });
     try {
       const ehomeData = await consumerGetEhome();
@@ -83,7 +87,8 @@ class EhomeScreen extends Component {
           notificationCount: ehomeData.notificationCount,
           recentSearches: ehomeData.recentSearches,
           categoriesList: categoriesList,
-          pendingDocs: ehomeData.unProcessedBills
+          pendingDocs: ehomeData.unProcessedBills,
+          isFetchingData: false
         },
         () => {
           if (this.state.startWithPendingDocsScreen) {
@@ -99,8 +104,10 @@ class EhomeScreen extends Component {
           }
         }
       );
-    } catch (e) {
-      Alert.alert(e.message);
+    } catch (error) {
+      this.setState({
+        error
+      });
     }
     this.setState({
       isFetchingData: false
@@ -134,9 +141,13 @@ class EhomeScreen extends Component {
     />
   );
   render() {
+    const { error, isFetchingData } = this.state;
+    if (error) {
+      return <ErrorOverlay error={error} onRetryPress={this.fetchEhomeData} />;
+    }
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#fafafa" }}>
-        <LoadingOverlay visible={this.state.isFetchingData} />
+        <LoadingOverlay visible={isFetchingData} />
         <SearchHeader
           navigator={this.props.navigator}
           screen="ehome"

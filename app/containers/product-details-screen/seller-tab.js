@@ -76,13 +76,27 @@ class SellerTab extends Component {
 
   render() {
     const { product } = this.props;
-    if (!product.sellers) {
-      return (
-        <Text weight="Bold" style={{ textAlign: "center", padding: 16 }}>
-          {I18n.t("product_details_screen_seller_no_info")}
-        </Text>
-      );
+
+    let seller = {
+      categoryName: "",
+      sellerName: "",
+      city: "",
+      contact: "",
+      address: "",
+      state: ""
+    };
+
+    if (product.sellers) {
+      seller = {
+        categoryName: product.sellers.categoryName,
+        sellerName: product.sellers.sellerName,
+        city: product.sellers.city,
+        state: product.sellers.state,
+        contact: product.sellers.contact,
+        address: product.sellers.address
+      };
     }
+
     return (
       <View>
         <KeyValueItem
@@ -91,11 +105,11 @@ class SellerTab extends Component {
         />
         <KeyValueItem
           keyText={I18n.t("product_details_screen_seller_name")}
-          valueText={product.sellers.sellerName}
+          valueText={product.sellerName}
         />
         <KeyValueItem
           keyText={I18n.t("product_details_screen_seller_location")}
-          valueText={product.sellers.city + ", " + product.sellers.state}
+          valueText={product.city + ", " + product.state}
         />
         <KeyValueItem
           keyText="Contact No."
@@ -114,7 +128,7 @@ class SellerTab extends Component {
                 color: colors.tomato
               }}
             >
-              {product.sellers.contact}
+              {product.contact}
             </Text>
           )}
         />
@@ -125,11 +139,7 @@ class SellerTab extends Component {
                 {I18n.t("product_details_screen_seller_address")}
               </Text>
               <Text weight="Medium" style={{ color: colors.mainText }}>
-                {product.sellers.address +
-                  ", " +
-                  product.sellers.city +
-                  ", " +
-                  product.sellers.state}
+                {product.address + ", " + product.city + ", " + product.state}
               </Text>
             </View>
           )}

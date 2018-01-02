@@ -47,7 +47,9 @@ class Body extends Component {
   };
 
   onEmailItemPress = () => {
-    Linking.openURL("mailto:support@binbill.com");
+    Linking.openURL(
+      "mailto:support@binbill.com&subject=BinBill:Customer Feedback()"
+    );
   };
 
   render() {

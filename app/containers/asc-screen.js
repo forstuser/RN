@@ -24,6 +24,8 @@ import SelectModal from "../components/select-modal";
 
 import { colors } from "../theme";
 import { getProductMetasString } from "../utils";
+import ProcessingItems from "../components/ehome-processing-items.js";
+import ErrorOverlay from "../components/error-overlay";
 
 const bgImage = require("../images/ic_asc_bg_image.jpg");
 const crossIcon = require("../images/ic_close.png");
@@ -33,6 +35,8 @@ class AscScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      error: null,
+      isFetchingData: false,
       products: [],
       brands: [],
       categories: [],
@@ -76,7 +80,9 @@ class AscScreen extends Component {
     {
       const res = await getProductsForAsc();
       this.setState({
-        products: res.productList
+        products: res.productList,
+        error: null,
+        isFetchingData: false
       });
     }
   };
@@ -87,7 +93,9 @@ class AscScreen extends Component {
         categories: [],
         selectedBrand: brand,
         selectedCategoryId: null,
-        selectedCategory: null
+        selectedCategory: null,
+        error: null,
+        isFetchingData: false
       },
       () => {
         this.fetchCategories();
