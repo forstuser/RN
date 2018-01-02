@@ -38,6 +38,9 @@ const apiRequest = async ({
   } catch (e) {
     let error = new Error(e.message);
     error.statusCode = e.statusCode || 0;
+    if (e.response) {
+      error.statusCode = e.response.status;
+    }
     throw error;
   }
 };

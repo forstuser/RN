@@ -10,6 +10,7 @@ import {
   Linking,
   TextInput
 } from "react-native";
+import _ from "lodash";
 import moment from "moment";
 import call from "react-native-phone-call";
 import StarRating from "react-native-star-rating";
@@ -88,12 +89,12 @@ class SellerTab extends Component {
 
     if (product.sellers) {
       seller = {
-        categoryName: product.sellers.categoryName,
-        sellerName: product.sellers.sellerName,
-        city: product.sellers.city,
-        state: product.sellers.state,
-        contact: product.sellers.contact,
-        address: product.sellers.address
+        categoryName: product.categoryName || "",
+        sellerName: product.sellers.sellerName || "",
+        city: product.sellers.city || "",
+        state: product.sellers.state || "",
+        contact: product.sellers.contact || "",
+        address: product.sellers.address || ""
       };
     }
 
@@ -101,22 +102,22 @@ class SellerTab extends Component {
       <View>
         <KeyValueItem
           keyText={I18n.t("product_details_screen_seller_category")}
-          valueText={product.categoryName}
+          valueText={product.categoryName || ""}
         />
         <KeyValueItem
           keyText={I18n.t("product_details_screen_seller_name")}
-          valueText={product.sellerName}
+          valueText={seller.sellerName}
         />
         <KeyValueItem
           keyText={I18n.t("product_details_screen_seller_location")}
-          valueText={product.city + ", " + product.state}
+          valueText={_.trim(seller.city + ", " + seller.state, ", ")}
         />
         <KeyValueItem
           keyText="Contact No."
           ValueComponent={() => (
             <Text
               onPress={() =>
-                call({ number: String(product.sellers.contact) }).catch(e =>
+                call({ number: String(seller.contact) }).catch(e =>
                   Alert.alert(e.message)
                 )
               }
@@ -128,7 +129,7 @@ class SellerTab extends Component {
                 color: colors.tomato
               }}
             >
-              {product.contact}
+              {seller.contact}
             </Text>
           )}
         />
@@ -139,7 +140,10 @@ class SellerTab extends Component {
                 {I18n.t("product_details_screen_seller_address")}
               </Text>
               <Text weight="Medium" style={{ color: colors.mainText }}>
-                {product.address + ", " + product.city + ", " + product.state}
+                {_.trim(
+                  seller.address + ", " + seller.city + ", " + seller.state,
+                  ", "
+                )}
               </Text>
             </View>
           )}

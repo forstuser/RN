@@ -63,7 +63,10 @@ class AfterSaleButton extends Component {
             this.props.navigator.push({
               screen: "AscSearchScreen",
               passProps: {
-                brand: product.brand,
+                brand: {
+                  id: product.brand.id,
+                  brandName: product.brand.name
+                },
                 category: {
                   category_id: product.categoryId,
                   category_name: product.categoryName

@@ -102,7 +102,10 @@ class ProductDetailsScreen extends Component {
           </ScrollableTabView>
         </ScrollView>
         <View style={styles.contactAfterSalesBtn}>
-          <ContactAfterSaleButton product={product} />
+          <ContactAfterSaleButton
+            product={product}
+            navigator={this.props.navigator}
+          />
         </View>
       </View>
     );

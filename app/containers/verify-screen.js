@@ -82,7 +82,10 @@ class VerifyScreen extends Component {
       this.props.setLoggedInUserAuthToken(r.authorization);
       openAppScreen();
     } catch (e) {
-      Alert.alert(e.message);
+      Alert.alert(e.statusCode == 401 ? "Wrong OTP" : e.message);
+      this.setState({
+        isVerifyingOtp: false
+      });
     }
   };
   render() {
