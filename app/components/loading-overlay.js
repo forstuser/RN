@@ -1,20 +1,18 @@
 import React from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { StyleSheet, View, ActivityIndicator, Modal } from "react-native";
 import { colors } from "../theme";
 import Spinner from "react-native-loading-spinner-overlay";
 import { Text } from "../elements";
 
 const LoadingOverlay = ({ visible, text = "" }) => {
-  if (visible) {
-    return (
+  return (
+    <Modal transparent visible={visible}>
       <View style={styles.overlay}>
         <ActivityIndicator size="large" color={colors.mainBlue} />
         <Text weight="Bold">{text}</Text>
       </View>
-    );
-  } else {
-    return null;
-  }
+    </Modal>
+  );
 };
 
 const styles = StyleSheet.create({

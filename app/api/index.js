@@ -13,6 +13,7 @@ const apiRequest = async ({
   onDownloadProgress,
   responseType = "json"
 }) => {
+  console.log("New Request: ", method, url);
   try {
     const token = store.getState().loggedInUser.authToken;
     if (token) {
@@ -64,6 +65,13 @@ export const uploadDocuments = async (files, onUploadProgress) => {
       );
       onUploadProgress(percentCompleted);
     }
+  });
+};
+
+export const deleteBill = async (jobId, billId) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/jobs/${jobId}/files/${billId}`
   });
 };
 

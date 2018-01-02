@@ -24,13 +24,16 @@ const fileIcon = require("../../images/ic_file.png");
 const billDownloadIcon = require("../../images/ic_bill_download.png");
 const shareIcon = require("../../images/ic_share_white.png");
 
+const uploadDeleteIcon = require("../../images/ic_upload_delete.png");
+
 const BillCopyItem = ({
   billId,
   copy,
   index,
   total,
   onShareBtnClick,
-  authToken
+  authToken,
+  onDeleteBtnClick
 }) => {
   const onDownloadPress = () => {
     if (Platform.OS === "ios") {
@@ -96,6 +99,11 @@ const BillCopyItem = ({
         <TouchableOpacity style={styles.option} onPress={onShareBtnClick}>
           <Image style={styles.optionIcon} source={shareIcon} />
         </TouchableOpacity>
+        {onDeleteBtnClick && (
+          <TouchableOpacity style={styles.option} onPress={onDeleteBtnClick}>
+            <Image style={styles.optionIcon} source={uploadDeleteIcon} />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

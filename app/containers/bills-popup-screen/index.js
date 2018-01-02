@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
-import { API_BASE_URL } from "../../api";
+import { API_BASE_URL, deleteBill } from "../../api";
 import { colors } from "../../theme";
 import BillCopyItem from "./bill-copy-item";
 import SelectView from "./select-view";
@@ -31,11 +31,16 @@ class BillsPopUpScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      copies: [],
       isSelectViewVisible: false,
       isDownloadingFiles: false
     };
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.setState({
+      copies: this.props.copies
+    });
+  }
 
   openShare = () => {
     // send http request in a new thread (using native code)
@@ -108,9 +113,51 @@ class BillsPopUpScreen extends Component {
     this.props.navigator.dismissModal();
   };
 
+  onItemCopyDelete = async (itemIndex, copyIndex) => {
+    let items = [...this.state.pendingDocs];
+    let item = { ...items[itemIndex] };
+    let copies = [...item.copies];
+
+    try {
+      await deleteBill(item.docId, copies[copyIndex].copyId);
+      copies.splice(copyIndex, 1);
+      item.copies = copies;
+
+      if (copies.length == 0) {
+        //if all copies are deleted, remove the item
+        items.splice(itemIndex, 1);
+        this.props.navigator.dismissAllModals();
+      } else {
+        items[itemIndex] = item;
+      }
+
+      this.setState({
+        pendingDocs: items
+      });
+    } catch (e) {
+      Alert.alert(e.message);
+    }
+  };
+
+  deleteCopy = async index => {
+    let copies = [...this.state.copies];
+    try {
+      await deleteBill(this.props.id, copies[index].copyId);
+      copies.splice(index, 1);
+
+      this.props.onCopyDelete(index);
+
+      this.setState({
+        copies
+      });
+    } catch (e) {
+      Alert.alert(e.message);
+    }
+  };
+
   render() {
-    const { isSelectViewVisible, isDownloadingFiles } = this.state;
-    const { date, id, copies, type = "Product" } = this.props;
+    const { isSelectViewVisible, isDownloadingFiles, copies } = this.state;
+    const { date, id, type = "Product", onCopyDelete } = this.props;
     return (
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
@@ -159,6 +206,9 @@ class BillsPopUpScreen extends Component {
                   total={copies.length}
                   onShareBtnClick={this.onShareBtnClick}
                   authToken={this.props.authToken}
+                  onDeleteBtnClick={
+                    onCopyDelete ? () => this.deleteCopy(index) : undefined
+                  }
                 />
               ))}
             </ScrollableTabView>

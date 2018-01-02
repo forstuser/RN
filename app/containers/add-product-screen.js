@@ -18,7 +18,12 @@ import LinearGradient from "react-native-linear-gradient";
 import { Text, Button, ScreenContainer } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
-import { API_BASE_URL, getReferenceDataCategories, addProduct } from "../api";
+import {
+  API_BASE_URL,
+  getReferenceDataCategories,
+  getReferenceDataBrands,
+  addProduct
+} from "../api";
 import { openAppScreen } from "../navigation";
 import SelectModal from "../components/select-modal";
 import UploadBillOptions from "../components/upload-bill-options";
@@ -86,6 +91,10 @@ class AddProductScreen extends React.Component {
       ),
       categories: [],
       selectedCategory: null,
+      isBrandSelectVisible: false,
+      brands: [],
+      selectedBrand: null,
+      brandName: "",
       amount: null,
       productName: null,
       purchaseDate: null,
@@ -113,12 +122,10 @@ class AddProductScreen extends React.Component {
     }
   };
 
-  fetchCategories = async () => {
+  fetchBrands = async () => {
     try {
-      const categories = await getReferenceDataCategories(
-        this.state.selectedMainCategory.id
-      );
-      this.setState({ categories });
+      const brands = await getReferenceDataBrands(this.state.categoryId);
+      this.setState({ brands });
     } catch (e) {
       Alert.alert(e.message);
     }
@@ -131,9 +138,11 @@ class AddProductScreen extends React.Component {
     ) {
       return;
     }
+
     let expensePlaceholderText = I18n.t(
       "add_product_screen_placeholder_expense_type"
     );
+    let isBrandSelectVisible = false;
 
     if (mainCategory.id == 2 || mainCategory.id == 3) {
       expensePlaceholderText = I18n.t(
@@ -147,12 +156,79 @@ class AddProductScreen extends React.Component {
         expensePlaceholderText: expensePlaceholderText,
         categories: [],
         selectedCategory: null,
+        isBrandSelectVisible,
         finishImageSource: {
           uri: API_BASE_URL + `/categories/${mainCategory.id}/images/1`
         }
       },
       () => this.fetchCategories()
     );
+  };
+
+  fetchCategories = async () => {
+    try {
+      const categories = await getReferenceDataCategories(
+        this.state.selectedMainCategory.id
+      );
+      this.setState({ categories });
+    } catch (e) {
+      Alert.alert(e.message);
+    }
+  };
+
+  onCategorySelect = category => {
+    if (
+      this.state.selectedCategory &&
+      this.state.selectedCategory.id == category.id
+    ) {
+      return;
+    }
+
+    let isBrandSelectVisible = false;
+    const mainCategoryId = this.state.selectedMainCategory.id;
+    if (mainCategoryId == 2 || mainCategoryId == 3) {
+      isBrandSelectVisible = true;
+    }
+
+    this.setState(
+      {
+        selectedCategory: category,
+        isBrandSelectVisible: isBrandSelectVisible,
+        brands: [],
+        selectedBrand: null
+      },
+      () => this.fetchBrands()
+    );
+  };
+
+  fetchBrands = async () => {
+    try {
+      const brands = await getReferenceDataBrands(
+        this.state.selectedCategory.id
+      );
+      this.setState({ brands });
+    } catch (e) {
+      Alert.alert(e.message);
+    }
+  };
+
+  onBrandSelect = brand => {
+    if (this.state.selectedBrand && this.state.selectedBrand.id == brand.id) {
+      return;
+    }
+    this.setState({
+      selectedBrand: brand
+    });
+  };
+
+  onBrandNameChange = text => {
+    this.setState({
+      brandName: text,
+      selectedBrand: null,
+      models: [],
+      modelName: "",
+      selectedModel: null
+    });
   };
 
   onAddProductBtnClick = async () => {
@@ -162,6 +238,8 @@ class AddProductScreen extends React.Component {
         selectedMainCategory,
         categories,
         selectedCategory,
+        selectedBrand,
+        brandName,
         amount,
         productName,
         purchaseDate
@@ -197,6 +275,8 @@ class AddProductScreen extends React.Component {
         productName,
         mainCategoryId: selectedMainCategory.id,
         categoryId: selectedCategory.id,
+        brandId: selectedBrand ? selectedBrand.id : undefined,
+        brandName: brandName || undefined,
         purchaseCost: amount,
         purchaseDate
       });
@@ -228,6 +308,10 @@ class AddProductScreen extends React.Component {
       expensePlaceholderText,
       categories,
       selectedCategory,
+      isBrandSelectVisible,
+      brands,
+      selectedBrand,
+      brandName,
       amount,
       productName,
       purchaseDate,
@@ -273,12 +357,34 @@ class AddProductScreen extends React.Component {
           options={categories}
           selectedOption={selectedCategory}
           onOptionSelect={value => {
-            this.setState({
-              selectedCategory: value
-            });
+            this.onCategorySelect(value);
           }}
           hideAddNew={true}
         />
+
+        {isBrandSelectVisible && (
+          <SelectModal
+            style={styles.select}
+            dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+            placeholder={I18n.t("add_products_screen_slide_select_brand")}
+            textInputPlaceholder={I18n.t(
+              "add_products_screen_slide_enter_brand"
+            )}
+            placeholderRenderer={({ placeholder }) => (
+              <Text weight="Bold" style={{ color: colors.secondaryText }}>
+                {placeholder}
+              </Text>
+            )}
+            selectedOption={selectedBrand}
+            textInputValue={brandName}
+            options={brands}
+            onOptionSelect={value => {
+              this.onBrandSelect(value);
+            }}
+            onTextInputChange={text => this.onBrandNameChange}
+          />
+        )}
+
         <View style={[styles.select]}>
           <DatePicker
             style={{
@@ -322,9 +428,11 @@ class AddProductScreen extends React.Component {
             }}
           />
         </View>
-        <Text style={styles.hint}>
-          {I18n.t("add_product_screen_purchase_date_hint")}
-        </Text>
+        {isBrandSelectVisible && (
+          <Text style={styles.hint}>
+            {I18n.t("add_product_screen_purchase_date_hint")}
+          </Text>
+        )}
 
         <TextInput
           style={[styles.select]}

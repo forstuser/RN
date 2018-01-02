@@ -6,6 +6,7 @@ import I18n from "../../i18n";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { openBillsPopUp } from "../../navigation";
+import UploadBillOptions from "../../components/upload-bill-options";
 
 import { MAIN_CATEGORY_IDS } from "../../constants";
 
@@ -42,6 +43,26 @@ const ProductListItem = ({
               ? "DOC"
               : "BILL"}
           </Text>
+        </TouchableOpacity>
+      );
+    } else if (!hideViewBillBtn) {
+      return (
+        <TouchableOpacity
+          onPress={() => this.uploadBillOptions.show()}
+          style={styles.viewBillBtn}
+        >
+          <Image style={styles.viewBillIcon} source={viewBillIcon} />
+          <Text style={styles.viewBillText}>
+            UPLOAD{" "}
+            {product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
+            product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS
+              ? "DOC"
+              : "BILL"}
+          </Text>
+          <UploadBillOptions
+            ref={o => (this.uploadBillOptions = o)}
+            navigator={navigator}
+          />
         </TouchableOpacity>
       );
     } else {
@@ -86,7 +107,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
     borderColor: "#eaeaea",
-    borderWidth: 1
+    borderWidth: 1,
+    paddingTop: 20
   },
   viewBillBtn: {
     position: "absolute",

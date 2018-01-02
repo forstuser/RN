@@ -196,7 +196,12 @@ class UploadDocumentScreen extends Component {
         });
       });
 
-      this.setState({ isSuccessModalVisible: true });
+      this.setState(() => ({
+        isUploadingOverlayVisible: false
+      }));
+      this.setState(() => ({
+        isSuccessModalVisible: true
+      }));
     } catch (e) {
       return showSnackbar({
         text: e.message

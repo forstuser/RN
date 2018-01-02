@@ -179,7 +179,6 @@ export default {
   product_details_screen_after_sale_options_title: "Choose an option",
   product_details_screen_after_sale_options_email: "Email Manufacturer",
   product_details_screen_after_sale_options_call: "Call Manufacturer",
-  product_details_screen_after_sale_options_service: "Service Request",
   product_details_screen_after_sale_options_asc:
     "Nearest Authorised Service center",
   product_details_screen_after_sale_options_cancel: "Cancel",

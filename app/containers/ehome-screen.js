@@ -46,7 +46,9 @@ class EhomeScreen extends Component {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {
         case SCREENS.DOCS_UNDER_PROCESSING_SCREEN:
-          this.openDocsUnderProcessingScreen();
+          this.setState({
+            startWithPendingDocsScreen: true
+          });
           break;
         case SCREENS.PRODUCT_SCREEN:
           this.props.navigator.push({

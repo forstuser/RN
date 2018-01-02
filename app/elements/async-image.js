@@ -24,12 +24,23 @@ class AsyncImage extends Component {
   }
 
   render() {
+    let headers = {
+      Authorization: "someAuthToken"
+    };
+    const token = store.getState().loggedInUser.authToken;
+    if (token) {
+      headers.Authorization = token;
+    }
+
     if (!this.props.fileType || isImageFileType(this.props.fileType)) {
       const { isLoading, errorMsg, imageSource } = this.state;
       return (
         <Image
           style={[styles.image, this.props.style]}
-          source={{ uri: this.props.uri }}
+          source={{
+            uri: this.props.uri,
+            headers: headers
+          }}
         />
       );
     } else {

@@ -56,6 +56,26 @@ class AfterSaleButton extends Component {
         break;
       case 1:
         this.phoneOptions.show();
+      case 2:
+        const { product } = this.props;
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            this.props.navigator.push({
+              screen: "AscSearchScreen",
+              passProps: {
+                brand: product.brand,
+                category: {
+                  category_id: product.categoryId,
+                  category_name: product.categoryName
+                },
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+              }
+            });
+          },
+          error => Alert.alert(error.message),
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+        );
     }
   };
 
@@ -97,11 +117,10 @@ class AfterSaleButton extends Component {
           onPress={this.handleOptionPress}
           ref={o => (this.afterSaleOptions = o)}
           title={I18n.t("product_details_screen_after_sale_options_title")}
-          cancelButtonIndex={4}
+          cancelButtonIndex={3}
           options={[
             I18n.t("product_details_screen_after_sale_options_email"),
             I18n.t("product_details_screen_after_sale_options_call"),
-            I18n.t("product_details_screen_after_sale_options_service"),
             I18n.t("product_details_screen_after_sale_options_asc"),
             I18n.t("product_details_screen_after_sale_options_cancel")
           ]}
@@ -109,14 +128,22 @@ class AfterSaleButton extends Component {
         <ActionSheet
           onPress={this.handleEmailPress}
           ref={o => (this.emailOptions = o)}
-          title="Select Email"
+          title={
+            this.state.emails.length > 0
+              ? "Select Email"
+              : "Email Not Available"
+          }
           cancelButtonIndex={this.state.emails.length}
           options={[...this.state.emails, "Cancel"]}
         />
         <ActionSheet
           onPress={this.handlePhonePress}
           ref={o => (this.phoneOptions = o)}
-          title="Select Phone number"
+          title={
+            this.state.emails.phoneNumbers > 0
+              ? "Select a phone number"
+              : "Phone Number Not Available"
+          }
           cancelButtonIndex={this.state.phoneNumbers.length}
           options={[...this.state.phoneNumbers, "Cancel"]}
         />

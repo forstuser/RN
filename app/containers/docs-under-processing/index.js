@@ -4,7 +4,8 @@ import {
   View,
   Image,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  Alert
 } from "react-native";
 import moment from "moment";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
@@ -21,21 +22,54 @@ class DocsUnderProcessingScreen extends Component {
   static navigatorStyle = {
     tabBarHidden: true
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      pendingDocs: []
+    };
+  }
   async componentDidMount() {
     this.props.navigator.setTitle({
       title: I18n.t("docs_under_processing_screen_title")
     });
+    this.setState({
+      pendingDocs: this.props.pendingDocs
+    });
   }
 
-  openBillsScreen = item => {
-    openBillsPopUp({
-      date: item.uploadedDate,
-      id: item.docId,
-      copies: item.copies
+  onItemCopyDelete = async (itemIndex, copyIndex) => {
+    let items = [...this.state.pendingDocs];
+    let item = { ...items[itemIndex] };
+    let copies = [...item.copies];
+    copies.splice(copyIndex, 1);
+    item.copies = copies;
+
+    if (copies.length == 0) {
+      //if all copies are deleted, remove the item
+      items.splice(itemIndex, 1);
+      this.props.navigator.dismissModal({
+        animationType: "none"
+      });
+    } else {
+      items[itemIndex] = item;
+    }
+
+    this.setState({
+      pendingDocs: items
     });
   };
 
-  renderItem = ({ item }) => {
+  openBillsScreen = (item, itemIndex) => {
+    openBillsPopUp({
+      date: item.uploadedDate,
+      id: item.docId,
+      copies: item.copies,
+      onCopyDelete: copyIndex => this.onItemCopyDelete(itemIndex, copyIndex)
+    });
+  };
+
+  renderItem = ({ item, index }) => {
     let ImageItem = null;
     if (isImageFileType(item.copies[0].file_type)) {
       ImageItem = (
@@ -49,7 +83,7 @@ class DocsUnderProcessingScreen extends Component {
     }
     return (
       <TouchableOpacity
-        onPress={() => this.openBillsScreen(item)}
+        onPress={() => this.openBillsScreen(item, index)}
         style={styles.item}
       >
         <View style={styles.imageContainer}>{ImageItem}</View>
@@ -72,14 +106,14 @@ class DocsUnderProcessingScreen extends Component {
     );
   };
   render() {
-    if (this.props.pendingDocs.length == 0) {
+    if (this.state.pendingDocs.length == 0) {
       return <EmptyPendingDocsPlaceholder />;
     } else {
       return (
         <ScreenContainer style={{ padding: 0 }}>
           <FlatList
             style={styles.list}
-            data={this.props.pendingDocs}
+            data={this.state.pendingDocs}
             keyExtractor={(item, index) => item.docId}
             renderItem={this.renderItem}
           />
