@@ -287,10 +287,13 @@ class UploadDocumentScreen extends Component {
             I18n.t("upload_document_screen_upload_options_cancel")
           ]}
         />
-        <LoadingOverlay
-          visible={isUploadingOverlayVisible}
-          text={`${uploadPercentCompleted}% uploaded...`}
-        />
+
+        <Modal transparent visible={isUploadingOverlayVisible}>
+          <View style={styles.loadingOverlay}>
+            <ActivityIndicator size="large" color={colors.mainBlue} />
+            <Text weight="Bold">{`${uploadPercentCompleted}% uploaded...`}</Text>
+          </View>
+        </Modal>
         <Modal visible={isSuccessModalVisible}>
           <View style={styles.successModal}>
             <Image
@@ -386,6 +389,17 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: "center",
     justifyContent: "center"
+  },
+  loadingOverlay: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,0.8)",
+    zIndex: 1000
   },
   successModal: {
     backgroundColor: "#fff",

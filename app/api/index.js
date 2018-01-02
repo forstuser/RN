@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "../store";
 
-export const API_BASE_URL = "https://consumer-eb.binbill.com";
+export const API_BASE_URL = "https://consumer.binbill.com";
 
 const apiRequest = async ({
   method,
@@ -38,6 +38,9 @@ const apiRequest = async ({
   } catch (e) {
     let error = new Error(e.message);
     error.statusCode = e.statusCode || 0;
+    if (e.response) {
+      error.statusCode = e.response.status;
+    }
     throw error;
   }
 };

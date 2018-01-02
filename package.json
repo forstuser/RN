@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "lodash": "^4.17.4",
     "moment": "^2.19.2",
     "prop-types": "^15.6.0",
     "react": "16.0.0",
@@ -29,6 +30,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.4.1",
     "react-native-linear-gradient": "^2.3.0",
     "react-native-loading-spinner-overlay": "^0.5.2",
+    "react-native-mixpanel": "^0.0.16",
     "react-native-modal": "^4.1.1",
     "react-native-navigation": "^1.1.275",
     "react-native-phone-call": "^1.0.4",

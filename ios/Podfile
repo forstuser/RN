@@ -25,7 +25,9 @@ target 'BinBill' do
 
   pod 'FirebaseMessaging'
 
-  pod 'react-native-fcm', :path => '../node_modules/react-native-fcm'
+  pod 'Mixpanel'
+
+  pod 'react-native-mixpanel', :path => '../node_modules/react-native-mixpanel'
 
   target 'BinBillTests' do
     inherit! :search_paths

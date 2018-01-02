@@ -3,6 +3,7 @@ package com.binbill;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.horcrux.svg.SvgPackage;
 import cl.json.RNSharePackage;
@@ -40,7 +41,8 @@ public class MainApplication extends NavigationApplication {
   protected List<ReactPackage> getPackages() {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(new MainReactPackage(), new VectorIconsPackage(), new SvgPackage(),
+    return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new RNMixpanel(), new VectorIconsPackage(), new SvgPackage(),
         new RNSharePackage(), new PhotoViewPackage(), new NavigationReactPackage(), new LinearGradientPackage(),
         new PickerPackage(), new RNI18nPackage(), new RNGestureHandlerPackage(),
         new RNFetchBlobPackage(), new FIRMessagingPackage(), new RNPdfScannerPackage(), new ReactNativeDocumentPicker(),

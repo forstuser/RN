@@ -5,14 +5,16 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { Text } from "../elements";
 
 const LoadingOverlay = ({ visible, text = "" }) => {
-  return (
-    <Modal transparent visible={visible}>
+  if (visible) {
+    return (
       <View style={styles.overlay}>
         <ActivityIndicator size="large" color={colors.mainBlue} />
         <Text weight="Bold">{text}</Text>
       </View>
-    </Modal>
-  );
+    );
+  } else {
+    return null;
+  }
 };
 
 const styles = StyleSheet.create({

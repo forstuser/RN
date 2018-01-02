@@ -138,6 +138,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-mixpanel')
     compile 'com.android.support:multidex:1.0.1'
     compile project(':react-native-vector-icons')
     compile project(':react-native-svg')
