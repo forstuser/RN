@@ -126,6 +126,9 @@ class DashboardScreen extends React.Component {
             setTimeout(() => this.dashboardTour.startTour(), 1000);
             this.props.setUiHasDashboardTourShown(true);
           }
+          // if(insight.totalSpend==0){
+
+          // }
         }
       );
     } catch (error) {

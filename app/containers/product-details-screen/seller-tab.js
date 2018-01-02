@@ -91,9 +91,9 @@ class SellerTab extends Component {
         categoryName: product.sellers.categoryName,
         sellerName: product.sellers.sellerName,
         city: product.sellers.city,
+        state: product.sellers.state,
         contact: product.sellers.contact,
-        address: product.sellers.address,
-        state: product.sellers.state
+        address: product.sellers.address
       };
     }
 

@@ -63,6 +63,7 @@ class LoginScreen extends Component {
           </Text>
           <TextInput
             underlineColorAndroid="transparent"
+            maxLength={10}
             style={{
               height: 40,
               borderColor: colors.mainBlue,
