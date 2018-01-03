@@ -5,8 +5,11 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  Dimensions
+  Dimensions,
+  TextInput
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import DeviceInfo from "react-native-device-info";
 import moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
@@ -21,6 +24,7 @@ import {
 } from "../../api";
 import { openBillsPopUp } from "../../navigation";
 import SelectModal from "../../components/select-modal";
+import DatePicker from "react-native-datepicker";
 
 class AddProductItem extends React.Component {
   constructor(props) {
@@ -37,7 +41,9 @@ class AddProductItem extends React.Component {
       brandName: "",
       models: [],
       selectedModel: null,
-      modelName: ""
+      modelName: "",
+      purchaseDate: null,
+      productName: null
     };
   }
 
@@ -199,23 +205,29 @@ class AddProductItem extends React.Component {
         brandName,
         selectedModel,
         modelName,
-        categoryFormId
+        categoryFormId,
+        productName,
+        purchaseDate
       } = this.state;
-      let productName = "";
+      let tempProductName = "";
       if (!selectedBrand && !brandName.trim()) {
         return Alert.alert("Please select or enter brand name");
       } else if (selectedBrand) {
-        productName = selectedBrand.name;
+        tempProductName = selectedBrand.name;
       } else {
-        productName = brandName;
+        tempProductName = brandName;
       }
 
       if (!selectedModel && !modelName.trim()) {
         return Alert.alert("Please select or enter model name");
       } else if (selectedModel) {
-        productName = productName + " " + selectedModel.name;
+        tempProductName = tempProductName + " " + selectedModel.name;
       } else {
-        productName = productName + " " + modelName;
+        tempProductName = tempProductName + " " + modelName;
+      }
+
+      if (!productName) {
+        productName = tempProductName;
       }
 
       await addProduct({
@@ -249,100 +261,172 @@ class AddProductItem extends React.Component {
       models,
       selectedModel,
       modelName,
-      showDetectDeviceBtn
+      showDetectDeviceBtn,
+      purchaseDate,
+      productName
     } = this.state;
 
     return (
-      <LinearGradient
-        start={{ x: 0.0, y: 0.0 }}
-        end={{ x: 0.0, y: 1 }}
-        colors={["#01c8ff", "#0ae2f1"]}
-        style={styles.container}
-      >
-        <Text weight="Bold" style={styles.title}>
-          {this.state.text}
-        </Text>
-        <Image style={styles.icon} source={icon} resizeMode="contain" />
-        <View style={styles.detectDeviceWrapper}>
-          {showDetectDeviceBtn && (
-            <TouchableOpacity
-              onPress={this.onDetectDeviceClick}
-              style={styles.detectDevice}
-            >
-              <Image
-                style={styles.detectDeviceIcon}
-                source={require("../../images/ic_detect_device.png")}
-              />
-              <Text style={styles.detectDeviceText}>
-                {I18n.t("add_products_screen_detect_device")}
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
-
-        <SelectModal
-          style={styles.select}
-          dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-          placeholder={I18n.t("add_products_screen_slide_select_brand")}
-          textInputPlaceholder={I18n.t("add_products_screen_slide_enter_brand")}
-          placeholderRenderer={({ placeholder }) => (
-            <Text weight="Bold" style={{ color: colors.secondaryText }}>
-              {placeholder}
-            </Text>
-          )}
-          selectedOption={selectedBrand}
-          textInputValue={brandName}
-          options={brands}
-          onOptionSelect={value => {
-            this.onBrandSelect(value);
-          }}
-          onTextInputChange={text => this.onBrandNameChange}
-        />
-        <SelectModal
-          style={styles.select}
-          visibleKey="title"
-          dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-          placeholder={I18n.t("add_products_screen_slide_select_model")}
-          textInputPlaceholder={I18n.t("add_products_screen_slide_enter_model")}
-          placeholderRenderer={({ placeholder }) => (
-            <Text weight="Bold" style={{ color: colors.secondaryText }}>
-              {placeholder}
-            </Text>
-          )}
-          options={models}
-          selectedOption={selectedModel}
-          textInputValue={modelName}
-          onOptionSelect={value => {
-            this.setState({
-              selectedModel: value
-            });
-          }}
-          onTextInputChange={text => this.setState({ modelName: text })}
-        />
-        <TouchableOpacity
-          onPress={onUploadBillPress}
-          style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
+      <KeyboardAwareScrollView contentContainerStyle={styles.outerContainer}>
+        <LinearGradient
+          start={{ x: 0.0, y: 0.0 }}
+          end={{ x: 0.0, y: 1 }}
+          colors={["#01c8ff", "#0ae2f1"]}
+          style={styles.container}
         >
-          <Text weight="Bold" style={{ color: colors.secondaryText, flex: 1 }}>
-            {I18n.t("add_products_screen_slide_upload_bill")}
+          <Text weight="Bold" style={styles.title}>
+            {this.state.text}
           </Text>
-          <Image
-            style={{ width: 24, height: 24 }}
-            source={require("../../images/ic_upload_new_pic_orange.png")}
+          <Image style={styles.icon} source={icon} resizeMode="contain" />
+          <View style={styles.detectDeviceWrapper}>
+            {showDetectDeviceBtn && (
+              <TouchableOpacity
+                onPress={this.onDetectDeviceClick}
+                style={styles.detectDevice}
+              >
+                <Image
+                  style={styles.detectDeviceIcon}
+                  source={require("../../images/ic_detect_device.png")}
+                />
+                <Text style={styles.detectDeviceText}>
+                  {I18n.t("add_products_screen_detect_device")}
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+
+          <SelectModal
+            style={styles.select}
+            dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+            placeholder={I18n.t("add_products_screen_slide_select_brand")}
+            textInputPlaceholder={I18n.t(
+              "add_products_screen_slide_enter_brand"
+            )}
+            placeholderRenderer={({ placeholder }) => (
+              <Text weight="Bold" style={{ color: colors.secondaryText }}>
+                {placeholder}
+              </Text>
+            )}
+            selectedOption={selectedBrand}
+            textInputValue={brandName}
+            options={brands}
+            onOptionSelect={value => {
+              this.onBrandSelect(value);
+            }}
+            onTextInputChange={text => this.onBrandNameChange}
           />
-        </TouchableOpacity>
-        <Button
-          onPress={this.onAddProductBtnClick}
-          text={I18n.t("add_products_screen_slide_add_product_btn")}
-          color="secondary"
-          style={{ width: 320 }}
-        />
-      </LinearGradient>
+          <SelectModal
+            style={styles.select}
+            visibleKey="title"
+            dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+            placeholder={I18n.t("add_products_screen_slide_select_model")}
+            textInputPlaceholder={I18n.t(
+              "add_products_screen_slide_enter_model"
+            )}
+            placeholderRenderer={({ placeholder }) => (
+              <Text weight="Bold" style={{ color: colors.secondaryText }}>
+                {placeholder}
+              </Text>
+            )}
+            options={models}
+            selectedOption={selectedModel}
+            textInputValue={modelName}
+            onOptionSelect={value => {
+              this.setState({
+                selectedModel: value
+              });
+            }}
+            onTextInputChange={text => this.setState({ modelName: text })}
+          />
+
+          <View style={[styles.select]}>
+            <DatePicker
+              style={{
+                position: "absolute",
+                top: 0,
+                width: 320,
+                left: 0,
+                bottom: 0
+              }}
+              date={purchaseDate}
+              mode="date"
+              placeholder={I18n.t(
+                "add_product_screen_placeholder_purchase_date"
+              )}
+              format="DD MMM YY"
+              minDate="01 Jan 90"
+              maxDate={moment().format("DD MMM YY")}
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: "absolute",
+                  left: 0,
+                  top: 0,
+                  width: 0,
+                  height: 0
+                },
+                dateInput: {
+                  borderColor: "transparent",
+                  padding: 10,
+                  height: 48,
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  bottom: 0,
+                  justifyContent: "center",
+                  alignItems: "flex-start"
+                }
+              }}
+              onDateChange={purchaseDate => {
+                this.setState({ purchaseDate });
+              }}
+            />
+          </View>
+
+          <TextInput
+            style={[styles.select]}
+            underlineColorAndroid="transparent"
+            placeholder={I18n.t("add_product_screen_placeholder")}
+            value={productName}
+            onChangeText={productName => this.setState({ productName })}
+          />
+
+          <TouchableOpacity
+            onPress={onUploadBillPress}
+            style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
+          >
+            <Text
+              weight="Bold"
+              style={{ color: colors.secondaryText, flex: 1 }}
+            >
+              {I18n.t("add_products_screen_slide_upload_bill")}
+            </Text>
+            <Image
+              style={{ width: 24, height: 24 }}
+              source={require("../../images/ic_upload_new_pic_orange.png")}
+            />
+          </TouchableOpacity>
+          <Button
+            onPress={this.onAddProductBtnClick}
+            text={I18n.t("add_products_screen_slide_add_product_btn")}
+            color="secondary"
+            style={{ width: 320 }}
+          />
+        </LinearGradient>
+      </KeyboardAwareScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  outerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: Dimensions.get("window").width
+  },
   container: {
     flex: 1,
     justifyContent: "center",
@@ -361,14 +445,14 @@ const styles = StyleSheet.create({
     height: 68
   },
   detectDeviceWrapper: {
-    height: 50
+    height: 20
   },
   detectDevice: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
-    marginBottom: 25
+    marginBottom: 5
   },
   detectDeviceIcon: {
     width: 12,
