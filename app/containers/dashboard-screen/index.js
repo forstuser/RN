@@ -204,6 +204,7 @@ class DashboardScreen extends React.Component {
                       product={this.state.recentActivitiesProduct}
                       navigator={this.props.navigator}
                       hideViewBillBtn={true}
+                      hideDirectionsAndCallBtns={true}
                     />
                   </View>
                 )}
@@ -272,20 +273,6 @@ class DashboardScreen extends React.Component {
   }
 }
 const styles = StyleSheet.create({
-  sectionHeader: {
-    alignItems: "center",
-    marginTop: 30,
-    marginBottom: 10
-  },
-  sectionHeaderTopBorder: {
-    width: 40,
-    height: 2,
-    backgroundColor: "#e6e6e6"
-  },
-  sectionHeaderText: {
-    padding: 10,
-    fontSize: 12
-  },
   fab: {
     position: "absolute",
     bottom: 20,

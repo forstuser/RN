@@ -25,6 +25,7 @@ import InsightScreen from "./containers/insight-screen";
 import TotalTaxScreen from "./containers/total-tax-screen";
 import TransactionsScreen from "./containers/transactions-screen";
 import AddProductScreen from "./containers/add-product-screen";
+import ForceUpdateScreen from "./containers/force-update-screen";
 
 import { SCREENS } from "./constants";
 
@@ -164,6 +165,12 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     "TransactionsScreen",
     () => TransactionsScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    "ForceUpdateScreen",
+    () => ForceUpdateScreen,
     store,
     Provider
   );

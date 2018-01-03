@@ -3478,6 +3478,10 @@ react-native-app-intro-slider@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/react-native-app-intro-slider/-/react-native-app-intro-slider-0.2.2.tgz#6053ae17a841491e7a35ce4babbbf9752c47b399"
 
+react-native-app-link@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-app-link/-/react-native-app-link-0.4.0.tgz#725ed2f0419c85bcdb83217ed0a00386016a76cb"
+
 react-native-blur@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/react-native-blur/-/react-native-blur-3.2.2.tgz#5bfb50638d148982c9560436554ed01d77d6d07d"

@@ -19,6 +19,14 @@ export const openLoginScreen = () => {
   });
 };
 
+export const openForceUpdateScreen = () => {
+  Navigation.startSingleScreenApp({
+    screen: {
+      screen: "ForceUpdateScreen"
+    }
+  });
+};
+
 export const openAddProductsScreen = () => {
   Navigation.startSingleScreenApp({
     screen: {
@@ -109,6 +117,7 @@ export const openAppScreen = opts => {
 
 export default {
   openLoginScreen,
+  openForceUpdateScreen,
   openIntroScreen,
   openAppScreen,
   openBillsPopUp,
