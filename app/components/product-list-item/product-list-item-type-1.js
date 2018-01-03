@@ -44,7 +44,7 @@ const ProductListItem = ({ product, onPress }) => {
             <Text>{product.bill.sellers.sellerName}</Text>
           )} */}
 
-        <Text>{JSON.stringify(product)}</Text>
+        {/* <Text>{JSON.stringify(product)}</Text> */}
         <View style={styles.metaContainer}>
           <Text numberOfLines={1} style={styles.meta}>
             {meta}
