@@ -154,7 +154,9 @@ class MailBox extends Component {
             {amount && <Text weight="Medium">{amount}</Text>}
           </View>
         </View>
-        <Text style={styles.desc}>{item.description}</Text>
+        <Text weight="Medium" style={styles.desc}>
+          {item.description}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -232,9 +234,11 @@ const styles = StyleSheet.create({
     paddingLeft: 4
   },
   desc: {
-    marginTop: 8,
+    marginTop: 1,
     fontSize: 12,
-    color: colors.secondaryText
+
+    color: colors.secondaryText,
+    marginLeft: 95
   }
 });
 

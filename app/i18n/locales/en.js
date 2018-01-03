@@ -228,9 +228,9 @@ export default {
   profile_screen_label_email: "Email",
   profile_screen_label_address: "Address",
   profile_screen_save_btn: "Save & Update",
-  profile_screen_change_msg_name: "Name changed successfully!",
-  profile_screen_change_msg_email: "Email changed successfully!",
-  profile_screen_change_msg_address: "Address changed successfully!",
+  profile_screen_change_msg_name: "Your profile details are updated!",
+  profile_screen_change_msg_email: "Your profile details are updated!",
+  profile_screen_change_msg_address: "Your profile details are updated!",
   profile_screen_email_verified: "Verified",
   profile_screen_email_not_verified: "Not Verified",
 
