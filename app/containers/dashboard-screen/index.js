@@ -37,7 +37,7 @@ import ProductListItem from "../../components/product-list-item";
 
 import { actions as uiActions } from "../../modules/ui";
 
-const uploadFabIcon = require("../../images/ic_upload_fab.png");
+const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
 class DashboardScreen extends React.Component {
   static HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = false;
@@ -286,8 +286,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   uploadFabIcon: {
-    width: 30,
-    height: 30
+    width: 25,
+    height: 25
   },
   dummiesForTooltips: {
     position: "absolute",

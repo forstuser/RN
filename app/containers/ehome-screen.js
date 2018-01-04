@@ -28,7 +28,7 @@ import { actions as uiActions } from "../modules/ui";
 
 import { colors } from "../theme";
 import AddExpenseOptions from "../components/add-expense-options";
-const uploadFabIcon = require("../images/ic_upload_fab.png");
+const uploadFabIcon = require("../images/ic_upload_fabs.png");
 
 class EhomeScreen extends Component {
   static navigatorStyle = {
@@ -220,8 +220,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   uploadFabIcon: {
-    width: 30,
-    height: 30
+    width: 25,
+    height: 25
   }
 });
 
