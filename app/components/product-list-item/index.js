@@ -31,7 +31,11 @@ const ProductListItem = ({
             openBillsPopUp({
               date: product.purchaseDate,
               id: product.id,
-              copies: product.copies
+              copies: product.copies,
+              type:
+                product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL
+                  ? product.productName
+                  : "Product"
             })
           }
           style={styles.viewBillBtn}
@@ -91,17 +95,18 @@ const ProductListItem = ({
     case MAIN_CATEGORY_IDS.PERSONAL:
       return (
         <View style={styles.container}>
+          <ViewBillButton />
           <ProductType3 product={product} />
         </View>
       );
     default:
       return (
         <View style={styles.container}>
-          <ViewBillButton />
           <ProductType2
             product={product}
             hideDirectionsAndCallBtns={hideDirectionsAndCallBtns}
           />
+          <ViewBillButton />
         </View>
       );
   }

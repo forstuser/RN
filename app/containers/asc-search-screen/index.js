@@ -32,7 +32,8 @@ class AscSearchScreen extends Component {
     super(props);
     this.state = {
       isFetchingResults: false,
-      serviceCenters: []
+      serviceCenters: [],
+      phoneNumbers: []
     };
   }
   componentDidMount() {
@@ -78,12 +79,35 @@ class AscSearchScreen extends Component {
         serviceCenter.centerDetails[i].type == 3 &&
         serviceCenter.centerDetails[i].details != null
       ) {
-        return call({
-          number: String(serviceCenter.centerDetails[i].details)
-        }).catch(e => Alert.alert(e.message));
+        if (serviceCenter.centerDetails.length == 0) {
+          return call({
+            number: String(serviceCenter.centerDetails[0].details)
+          }).catch(e => Alert.alert(e.message));
+        } else {
+          let phoneNumbers = serviceCenter.centerDetails.map(item =>
+            String(item.details)
+          );
+
+          this.setState(
+            {
+              phoneNumbers
+            },
+            () => {
+              this.phoneOptions.show();
+            }
+          );
+        }
       }
     }
     Alert.alert(I18n.t("asc_search_screen_phone_not_available"));
+  };
+
+  handlePhonePress = index => {
+    if (index < this.state.phoneNumbers.length) {
+      call({ number: this.state.phoneNumbers[index] }).catch(e =>
+        Alert.alert(e.message)
+      );
+    }
   };
 
   render() {
@@ -147,6 +171,17 @@ class AscSearchScreen extends Component {
                 </View>
               </View>
             )}
+          />
+          <ActionSheet
+            onPress={this.handlePhonePress}
+            ref={o => (this.phoneOptions = o)}
+            title={
+              this.state.phoneNumbers.length > 0
+                ? "Select a phone number"
+                : "Phone Number Not Available"
+            }
+            cancelButtonIndex={this.state.phoneNumbers.length}
+            options={[...this.state.phoneNumbers, "Cancel"]}
           />
         </ScreenContainer>
       );

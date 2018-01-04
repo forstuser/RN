@@ -93,6 +93,21 @@ class CategoryWithPager extends Component {
   };
 
   render() {
+    const tabs = this.state.subCategories.map((subCategory, index) => (
+      <View
+        tabLabel={subCategory.name.toUpperCase()}
+        style={{ flex: 1 }}
+        key={subCategory.id}
+      >
+        <ProductsList
+          mainCategoryId={this.props.category.id}
+          onRefresh={() => this.loadProductsFirstPage(index)}
+          isLoading={subCategory.isFetchingProducts}
+          products={subCategory.products}
+        />
+      </View>
+    ));
+
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#fafafa" }}>
         <ScrollableTabView
@@ -104,20 +119,7 @@ class CategoryWithPager extends Component {
           tabBarActiveTextColor={colors.mainBlue}
           tabBarInactiveTextColor={colors.secondaryText}
         >
-          {this.state.subCategories.map((subCategory, index) => (
-            <View
-              tabLabel={subCategory.name.toUpperCase()}
-              style={{ flex: 1 }}
-              key={subCategory.id}
-            >
-              <ProductsList
-                mainCategoryId={this.props.category.id}
-                onRefresh={() => this.loadProductsFirstPage(index)}
-                isLoading={subCategory.isFetchingProducts}
-                products={subCategory.products}
-              />
-            </View>
-          ))}
+          {tabs}
         </ScrollableTabView>
       </ScreenContainer>
     );

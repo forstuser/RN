@@ -374,7 +374,7 @@ class Filters extends Component {
                 )}
               >
                 <FlatList
-                  style={{ height: 200 }}
+                  style={{ height: 150 }}
                   data={categories}
                   keyExtractor={(item, index) => index}
                   renderItem={this.renderCategoryItem}
@@ -384,7 +384,7 @@ class Filters extends Component {
                 headerText={I18n.t("main_category_screen_filters_title_brands")}
               >
                 <FlatList
-                  style={{ maxHeight: 200 }}
+                  style={{ maxHeight: 150 }}
                   data={brands}
                   keyExtractor={(item, index) => index}
                   renderItem={this.renderBrandItem}
@@ -396,7 +396,7 @@ class Filters extends Component {
                 )}
               >
                 <FlatList
-                  style={{ maxHeight: 200 }}
+                  style={{ maxHeight: 150 }}
                   data={sellers}
                   keyExtractor={(item, index) => index}
                   renderItem={this.renderSellerItem}

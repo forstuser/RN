@@ -16,6 +16,8 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
 
+import { showSnackbar } from "../../containers/snackbar";
+
 class AfterSaleButton extends Component {
   constructor(props) {
     super(props);
@@ -56,8 +58,14 @@ class AfterSaleButton extends Component {
         break;
       case 1:
         this.phoneOptions.show();
+        break;
       case 2:
         const { product } = this.props;
+        if (!product.brand) {
+          return showSnackbar({
+            text: `Product brand not available. Please upload your bill if you haven't`
+          });
+        }
         navigator.geolocation.getCurrentPosition(
           position => {
             this.props.navigator.push({
@@ -152,7 +160,7 @@ class AfterSaleButton extends Component {
           onPress={this.handlePhonePress}
           ref={o => (this.phoneOptions = o)}
           title={
-            this.state.emails.phoneNumbers > 0
+            this.state.phoneNumbers.length > 0
               ? "Select a phone number"
               : "Phone Number Not Available"
           }

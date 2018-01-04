@@ -15,6 +15,8 @@ import I18n from "../../i18n";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 
+import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
+
 const directionIcon = require("../../images/ic_directions.png");
 const callIcon = require("../../images/ic_call.png");
 
@@ -41,58 +43,109 @@ const callSeller = product => {
   Alert.alert("Phone number not available");
 };
 
-const ProductListItem = ({ product, hideDirectionsAndCallBtns = false }) => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.details}>
-        <Image
-          style={styles.image}
-          source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
-        />
-        <View style={styles.texts}>
-          <Text weight="Bold" style={styles.name}>
-            {product.productName}
-          </Text>
-          {product.sellers != null && (
-            <Text style={styles.sellerName}>{product.sellers.sellerName}</Text>
-          )}
-          <Text weight="Medium" style={styles.purchaseDate}>
-            {moment(product.purchaseDate).format("MMM DD, YYYY")}
+class ProductListItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      phoneNumbers: []
+    };
+  }
+  componentDidMount() {
+    const { product } = this.props;
+    let contact = "";
+    if (product.sellers && product.sellers.contact) {
+      contact = product.sellers.contact;
+    } else if (
+      product.bill &&
+      product.bill.sellers &&
+      product.bill.sellers.contact
+    ) {
+      contact = product.bill.sellers.contact;
+    }
+
+    //split by ',' or '/' or '\'
+    let phoneNumbers = contact
+      .split(/,|\/|\\/)
+      .filter(number => number.length > 0);
+
+    this.setState({
+      phoneNumbers
+    });
+  }
+  handlePhonePress = index => {
+    if (index < this.state.phoneNumbers.length) {
+      call({ number: this.state.phoneNumbers[index] }).catch(e =>
+        Alert.alert(e.message)
+      );
+    }
+  };
+  render() {
+    const { product, hideDirectionsAndCallBtns = false } = this.props;
+    return (
+      <View style={styles.container}>
+        <View style={styles.details}>
+          <Image
+            style={styles.image}
+            source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
+          />
+          <View style={styles.texts}>
+            <Text weight="Bold" style={styles.name}>
+              {product.productName}
+            </Text>
+            {product.sellers != null && (
+              <Text style={styles.sellerName}>
+                {product.sellers.sellerName}
+              </Text>
+            )}
+            <Text weight="Medium" style={styles.purchaseDate}>
+              {moment(product.purchaseDate).format("MMM DD, YYYY")}
+            </Text>
+          </View>
+          <Text weight="Bold" style={styles.amount}>
+            ₹ {product.value}
           </Text>
         </View>
-        <Text weight="Bold" style={styles.amount}>
-          ₹ {product.value}
-        </Text>
+        {product.categoryId != 22 &&
+          !hideDirectionsAndCallBtns && (
+            <View style={styles.directionAndCall}>
+              <TouchableOpacity
+                onPress={() => openMap(product)}
+                style={styles.directionAndCallItem}
+              >
+                <Text weight="Bold" style={styles.directionAndCallText}>
+                  Directions
+                </Text>
+                <Image
+                  style={styles.directionAndCallIcon}
+                  source={directionIcon}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this.phoneOptions.show()}
+                style={styles.directionAndCallItem}
+              >
+                <Text weight="Bold" style={styles.directionAndCallText}>
+                  Call
+                </Text>
+                <Image style={styles.directionAndCallIcon} source={callIcon} />
+              </TouchableOpacity>
+            </View>
+          )}
+        <ActionSheet
+          onPress={this.handlePhonePress}
+          ref={o => (this.phoneOptions = o)}
+          title={
+            this.state.phoneNumbers.length > 0
+              ? "Select a phone number"
+              : "Phone Number Not Available"
+          }
+          cancelButtonIndex={this.state.phoneNumbers.length}
+          options={[...this.state.phoneNumbers, "Cancel"]}
+        />
       </View>
-      {product.categoryId != 22 &&
-        !hideDirectionsAndCallBtns && (
-          <View style={styles.directionAndCall}>
-            <TouchableOpacity
-              onPress={() => openMap(product)}
-              style={styles.directionAndCallItem}
-            >
-              <Text weight="Bold" style={styles.directionAndCallText}>
-                Directions
-              </Text>
-              <Image
-                style={styles.directionAndCallIcon}
-                source={directionIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => callSeller(product)}
-              style={styles.directionAndCallItem}
-            >
-              <Text weight="Bold" style={styles.directionAndCallText}>
-                Call
-              </Text>
-              <Image style={styles.directionAndCallIcon} source={callIcon} />
-            </TouchableOpacity>
-          </View>
-        )}
-    </View>
-  );
-};
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {},

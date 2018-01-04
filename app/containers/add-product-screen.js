@@ -27,6 +27,7 @@ import {
 import { openAppScreen } from "../navigation";
 import SelectModal from "../components/select-modal";
 import UploadBillOptions from "../components/upload-bill-options";
+import { MAIN_CATEGORY_IDS } from "../constants";
 
 const ehomeImage = require("../images/ehome_circle_with_category_icons.png");
 
@@ -263,6 +264,13 @@ class AddProductScreen extends React.Component {
 
       if (!productName) {
         productName = tempProductName;
+      }
+
+      if (
+        selectedMainCategory.id == MAIN_CATEGORY_IDS.AUTOMOBILE ||
+        selectedMainCategory.id == MAIN_CATEGORY_IDS.ELECTRONICS
+      ) {
+        return Alert.alert("Please select or enter brand name");
       }
 
       if (!purchaseDate) {

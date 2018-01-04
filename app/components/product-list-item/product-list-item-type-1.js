@@ -37,20 +37,26 @@ const ProductListItem = ({ product, onPress }) => {
           {product.productName}
         </Text>
 
-        {product.sellers != null && <Text>{product.sellers.sellerName}</Text>}
+        <View style={styles.metaContainer}>
+          {meta.length > 0 && (
+            <Text numberOfLines={1} style={styles.meta}>
+              ({meta})
+            </Text>
+          )}
+        </View>
+
+        {product.sellers != null && (
+          <Text style={styles.sellerName}>{product.sellers.sellerName}</Text>
+        )}
 
         {product.sellers == null &&
           product.bill &&
           product.bill.sellers && (
-            <Text>{product.bill.sellers.sellerName}</Text>
+            <Text style={styles.sellerName}>
+              {product.bill.sellers.sellerName}
+            </Text>
           )}
 
-        {/* <Text>{JSON.stringify(product)}</Text> */}
-        <View style={styles.metaContainer}>
-          <Text numberOfLines={1} style={styles.meta}>
-            {meta}
-          </Text>
-        </View>
         <View style={styles.purchaseDateContainer}>
           <Text weight="Medium" style={styles.purchaseDateText}>
             Purchase Date:{" "}
@@ -132,11 +138,14 @@ const styles = StyleSheet.create({
   },
   metaContainer: {
     paddingTop: 4,
-    paddingBottom: 10
+    paddingBottom: 4
   },
   meta: {
     fontSize: 12,
     color: colors.mainText
+  },
+  sellerName: {
+    paddingBottom: 10
   },
   purchaseDateContainer: {
     flexDirection: "row",
