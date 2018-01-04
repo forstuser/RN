@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Text, Button } from "../elements";
 import I18n from "../i18n";
@@ -28,6 +28,10 @@ const InsightChart = ({
   let barWidth = 30;
   if (chartData.length > 7) {
     barWidth = 10;
+  }
+  let maxAmount = Math.max(...chartData.map(o => o.y), 0);
+  if (maxAmount == 0) {
+    chartData = [];
   }
   return (
     <LinearGradient
@@ -67,60 +71,68 @@ const InsightChart = ({
         )}
       </View>
       {chartData.length > 0 && (
-        <VictoryChart
-          domainPadding={{ x: 20, y: 5 }}
-          padding={{ left: 40, top: 20, right: 60, bottom: 40 }}
-          height={200}
-        >
-          <VictoryAxis
-            style={{
-              axis: { stroke: textColor },
-              tickLabels: {
-                fontSize: 9,
-                stroke: "#fff",
-                fontWeight: "300",
-                fontFamily: "Quicksand-Regular"
-              }
-            }}
-            tickFormat={value => {
-              if (hideXLabels) {
-                return "";
-              }
-              return value;
-            }}
-          />
-          <VictoryAxis
-            dependentAxis
-            style={{
-              axis: { stroke: textColor },
-              tickLabels: {
-                fontSize: 9,
-                stroke: textColor,
-                fontWeight: "300",
-                fontFamily: "Quicksand-Regular"
-              },
-              grid: { stroke: "rgba(255,255,255,0.3)" }
-            }}
-            tickFormat={value => {
-              let displayValue = `₹${Math.round(value)}`;
-              if (value > 1000) {
-                displayValue = `₹${Math.round(value / 1000)}k`;
-              }
-              return displayValue;
-            }}
-          />
-          <VictoryBar
-            alignment="middle"
-            data={chartData}
-            style={{
-              data: { fill: "#ffffff", width: barWidth, cornerRadius: 4 }
-            }}
-            animate={{
-              duration: 700,
-              onLoad: { duration: 700 }
-            }}
-          />
-        </VictoryChart>
+        <View>
+          <VictoryChart
+            domainPadding={{ x: 20, y: 5 }}
+            padding={{ left: 40, top: 20, right: 60, bottom: 40 }}
+            height={200}
+          >
+            <VictoryAxis
+              style={{
+                axis: { stroke: textColor },
+                tickLabels: {
+                  fontSize: 9,
+                  stroke: "#fff",
+                  fontWeight: "300",
+                  fontFamily: "Quicksand-Regular"
+                }
+              }}
+              tickFormat={value => {
+                if (hideXLabels) {
+                  return "";
+                }
+                return value;
+              }}
+            />
+            <VictoryAxis
+              dependentAxis
+              style={{
+                axis: { stroke: textColor },
+                tickLabels: {
+                  fontSize: 9,
+                  stroke: textColor,
+                  fontWeight: "300",
+                  fontFamily: "Quicksand-Regular"
+                },
+                grid: { stroke: "rgba(255,255,255,0.3)" }
+              }}
+              tickFormat={value => {
+                let displayValue = `${Math.round(value)}`;
+                if (value > 1000000) {
+                  displayValue = `${Math.round(value / 1000000)}M`;
+                } else if (value > 1000) {
+                  displayValue = `${Math.round(value / 1000)}k`;
+                }
+
+                return displayValue;
+              }}
+            />
+            <VictoryBar
+              alignment="middle"
+              data={chartData}
+              style={{
+                data: { fill: "#ffffff", width: barWidth, cornerRadius: 4 }
+              }}
+              animate={{
+                duration: 700,
+                onLoad: { duration: 700 }
+              }}
+            />
+          </VictoryChart>
+          <Text style={[styles.legendText, { color: textColor }]}>
+            All amounts are in Rupees
+          </Text>
+        </View>
       )}
       {chartData.length == 0 && (
         <View style={styles.noDataContainer}>
@@ -185,6 +197,9 @@ const styles = StyleSheet.create({
   totalSpendAmount: {
     color: "#fff",
     fontSize: 16
+  },
+  legendText: {
+    fontSize: 12
   },
   noDataContainer: {
     height: 200,

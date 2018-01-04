@@ -12,7 +12,7 @@ import { Provider } from "react-redux";
 import { registerScreens } from "./screens";
 import store from "./store";
 import { actions as loggedInUserActions } from "./modules/logged-in-user";
-import { SCREENS } from "./constants";
+import { SCREENS, MAIN_CATEGORY_IDS } from "./constants";
 
 import navigation, { openAppScreen } from "./navigation";
 
@@ -48,6 +48,15 @@ persistStore(store, {}, () => {
         console.log("notif: ", notif);
         switch (notif.notification_type) {
           case "1":
+            if (
+              notif.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
+              notif.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS
+            ) {
+              return openAppScreen({
+                startScreen: SCREENS.PRODUCT_SCREEN,
+                productId: notif.productId
+              });
+            }
             return openAppScreen();
           case "2":
             return openAppScreen({ startScreen: SCREENS.MAILBOX_SCREEN });

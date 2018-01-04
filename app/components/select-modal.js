@@ -10,7 +10,6 @@ import {
   FlatList,
   Button
 } from "react-native";
-import { colors } from "../theme";
 
 const dropdownIcon = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhDAkMGjg4AXstAAAAcklEQVRIx+3Tuw3AIAxF0avMxQAMwNKeiYIUUSSE+NimQ7zU9wQK4O6IBYTi/ITARl4oyLN/hUh2/z8TAZKTyKT/FB6iyj1Ek1uJTm4hBrmWmOQaYpGvCEU+I5T5iDDkPcKYt4QjrwlnDhAR5Htxd0fvBYOKNVDm/h2pAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTEyLTA5VDEyOjI2OjU2KzAxOjAw6KWTZgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0xMi0wOVQxMjoyNjo1NiswMTowMJn4K9oAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC`;
 const crossIcon = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhDAsIDg3tHAgMAAAAkElEQVQ4y6WUuQ2AMBAER5BQAQWQUxsSTUBCSohETkZON26DI0Li8cOKy6zdkX2fc1oWSjaMeGR0zAAOw5jIEvYJw3DQY0nktBv99RBCXo444lXDSFDxC9G732Iyu7shXYwH8sF+Rz7Zn4g31Z8hPklMWiyr2DhxNMThE8dbXiB5RcVPIAdqRhr2KGCsFFQMB2e3sbEqrADlAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTEyLTExVDA4OjE0OjEzKzAxOjAw8CXXWwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0xMi0xMVQwODoxNDoxMyswMTowMIF4b+cAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC`;
@@ -49,6 +48,16 @@ class SelectModal extends Component {
     );
   };
 
+  _tryOpenModal = () => {
+    if (typeof this.props.beforeModalOpen == "function") {
+      if (this.props.beforeModalOpen() === true) {
+        return this.setState({ isModalVisible: true });
+      } else {
+        return;
+      }
+    }
+    return this.setState({ isModalVisible: true });
+  };
   _onItemSelect = item => {
     const { onOptionSelect } = this.props;
 
@@ -124,10 +133,7 @@ class SelectModal extends Component {
     return (
       <View style={[styles.container, style]}>
         {!isTextInputVisible && (
-          <TouchableOpacity
-            onPress={() => this.setState({ isModalVisible: true })}
-            style={styles.wrapper}
-          >
+          <TouchableOpacity onPress={this._tryOpenModal} style={styles.wrapper}>
             <View style={{ flex: 1 }}>
               {selectedOption == null && placeholderRenderer({ placeholder })}
               {selectedOption != null && (
@@ -148,10 +154,7 @@ class SelectModal extends Component {
               style={styles.textInput}
               onChangeText={text => this._onTextInputChange(text)}
             />
-            <Text
-              onPress={() => this.setState({ isModalVisible: true })}
-              style={styles.textInputSelect}
-            >
+            <Text onPress={this._tryOpenModal} style={styles.textInputSelect}>
               Select
             </Text>
           </View>

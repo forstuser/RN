@@ -15,6 +15,8 @@ import { colors } from "../../theme";
 import { openBillsPopUp } from "../../navigation";
 import I18n from "../../i18n";
 
+import { MAIN_CATEGORY_IDS } from "../../constants";
+
 import EmptyMailboxPlaceholder from "./empty-mailbox-placeholder";
 
 class MailBox extends Component {
@@ -81,7 +83,7 @@ class MailBox extends Component {
       case 2:
         date = item.createdAt;
         titleColor = "#f06767";
-        amount = "₹ " + item.totalAmount;
+        amount = null;
         break;
       default:
         date = item.expiryDate;
@@ -90,6 +92,19 @@ class MailBox extends Component {
       <TouchableOpacity
         onPress={() => {
           switch (item.productType) {
+            case 1:
+              if (
+                item.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
+                item.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS
+              ) {
+                this.props.navigator.push({
+                  screen: "ProductDetailsScreen",
+                  passProps: {
+                    productId: item.productId
+                  }
+                });
+                break;
+              }
             case 3:
               this.props.navigator.push({
                 screen: "ProductDetailsScreen",
@@ -234,11 +249,9 @@ const styles = StyleSheet.create({
     paddingLeft: 4
   },
   desc: {
-    marginTop: 1,
+    marginTop: 5,
     fontSize: 12,
-
-    color: colors.secondaryText,
-    marginLeft: 95
+    color: colors.secondaryText
   }
 });
 

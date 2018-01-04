@@ -83,8 +83,17 @@ class AfterSaleButton extends Component {
   };
 
   handleEmailPress = index => {
+    const { product } = this.props;
     if (index < this.state.emails.length) {
-      const url = `mailto:${this.state.emails[index]}`;
+      const url = `mailto:${
+        this.state.emails[index]
+      }?subject=Service Request for ${product.categoryName}&body=Dear ${
+        product.brand.name
+      } Team,\n\nMy Product Details are:\n${
+        product.categoryName
+      }\nPurchase Date: ${moment(product.purchaseDate).format(
+        "DD MMM YYYY"
+      )}\nThe issue with my product is:\n\n\nThanks,\n\n\nPowered by BinBill`;
       Linking.canOpenURL(url)
         .then(supported => {
           if (!supported) {

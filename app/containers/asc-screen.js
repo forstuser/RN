@@ -45,7 +45,8 @@ class AscScreen extends Component {
       selectedCategory: null,
       latitude: null,
       longitude: null,
-      address: ""
+      address: "",
+      clearSelectedValuesOnScreenAppear: true
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -53,10 +54,15 @@ class AscScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
-        // this.setState({
-        //   selectedBrand: null,
-        //   selectedCategory: null
-        // });
+        if (this.state.clearSelectedValuesOnScreenAppear) {
+          this.setState({
+            selectedBrand: null,
+            selectedCategory: null
+          });
+        }
+        this.setState({
+          clearSelectedValuesOnScreenAppear: true
+        });
         break;
     }
   };
@@ -123,16 +129,6 @@ class AscScreen extends Component {
       );
     } catch (e) {
       Alert.alert(e.message);
-    }
-  };
-
-  onCategorySelectClick = () => {
-    if (!this.state.selectedBrand) {
-      Alert.alert(I18n.t("asc_screen_select_brand_first"));
-    } else {
-      this.setState({
-        isCategoriesModalVisible: true
-      });
     }
   };
 
@@ -273,6 +269,10 @@ class AscScreen extends Component {
                 {placeholder}
               </Text>
             )}
+            beforeModalOpen={() => {
+              this.setState({ clearSelectedValuesOnScreenAppear: false });
+              return true;
+            }}
             selectedOption={selectedBrand}
             options={brands}
             visibleKey="brandName"
@@ -291,6 +291,14 @@ class AscScreen extends Component {
                 {placeholder}
               </Text>
             )}
+            beforeModalOpen={() => {
+              if (!this.state.selectedBrand) {
+                Alert.alert("Please select brand first");
+                return false;
+              }
+              this.setState({ clearSelectedValuesOnScreenAppear: false });
+              return true;
+            }}
             selectedOption={selectedCategory}
             options={categories}
             visibleKey="category_name"

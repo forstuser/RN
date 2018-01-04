@@ -155,7 +155,7 @@ class DashboardScreen extends React.Component {
 
   openInsightScreen = props => {
     this.props.navigator.push({
-      screen: SCREENS.INSIGHTS_SCREEN,
+      screen: "InsightScreen",
       passProps: props || {}
     });
   };
