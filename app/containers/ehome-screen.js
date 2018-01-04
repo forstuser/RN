@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, View, FlatList, Alert } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  View,
+  FlatList,
+  Alert,
+  TouchableOpacity,
+  Image
+} from "react-native";
 import { connect } from "react-redux";
 
 import Tour from "../components/app-tour";
@@ -17,6 +25,10 @@ import ErrorOverlay from "../components/error-overlay";
 import { SCREENS } from "../constants";
 
 import { actions as uiActions } from "../modules/ui";
+
+import { colors } from "../theme";
+import AddExpenseOptions from "../components/add-expense-options";
+const uploadFabIcon = require("../images/ic_upload_fab.png");
 
 class EhomeScreen extends Component {
   static navigatorStyle = {
@@ -177,10 +189,41 @@ class EhomeScreen extends Component {
             { ref: this.processingItemsRef, text: I18n.t("app_tour_tips_4") }
           ]}
         />
+
+        <TouchableOpacity
+          style={styles.fab}
+          onPress={() => this.addExpenseOptions.show()}
+        >
+          <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+        </TouchableOpacity>
+
+        <AddExpenseOptions
+          ref={ref => (this.addExpenseOptions = ref)}
+          navigator={this.props.navigator}
+        />
       </ScreenContainer>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  fab: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    width: 56,
+    height: 56,
+    zIndex: 2,
+    backgroundColor: colors.tomato,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  uploadFabIcon: {
+    width: 30,
+    height: 30
+  }
+});
 
 const mapStateToProps = state => {
   return {

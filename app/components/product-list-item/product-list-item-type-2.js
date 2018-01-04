@@ -41,7 +41,7 @@ const callSeller = product => {
   Alert.alert("Phone number not available");
 };
 
-const ProductListItem = ({ product }) => {
+const ProductListItem = ({ product, hideDirectionsAndCallBtns = false }) => {
   return (
     <View style={styles.container}>
       <View style={styles.details}>
@@ -73,28 +73,32 @@ const ProductListItem = ({ product }) => {
           ₹ {product.value}
         </Text>
       </View>
-      {product.categoryId != 22 && (
-        <View style={styles.directionAndCall}>
-          <TouchableOpacity
-            onPress={() => openMap(product)}
-            style={styles.directionAndCallItem}
-          >
-            <Text weight="Bold" style={styles.directionAndCallText}>
-              Directions
-            </Text>
-            <Image style={styles.directionAndCallIcon} source={directionIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => callSeller(product)}
-            style={styles.directionAndCallItem}
-          >
-            <Text weight="Bold" style={styles.directionAndCallText}>
-              Call
-            </Text>
-            <Image style={styles.directionAndCallIcon} source={callIcon} />
-          </TouchableOpacity>
-        </View>
-      )}
+      {product.categoryId != 22 &&
+        !hideDirectionsAndCallBtns && (
+          <View style={styles.directionAndCall}>
+            <TouchableOpacity
+              onPress={() => openMap(product)}
+              style={styles.directionAndCallItem}
+            >
+              <Text weight="Bold" style={styles.directionAndCallText}>
+                Directions
+              </Text>
+              <Image
+                style={styles.directionAndCallIcon}
+                source={directionIcon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => callSeller(product)}
+              style={styles.directionAndCallItem}
+            >
+              <Text weight="Bold" style={styles.directionAndCallText}>
+                Call
+              </Text>
+              <Image style={styles.directionAndCallIcon} source={callIcon} />
+            </TouchableOpacity>
+          </View>
+        )}
     </View>
   );
 };

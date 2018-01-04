@@ -52,8 +52,41 @@ class BlankDashboard extends React.Component {
       this.props.setUiHasBlankDashboardTourShown(true);
     }
 
-    this.props.setUiHasBlankDashboardTourShown(false);
+    this.autoSlider = setInterval(this.autoSlide, 5000);
   }
+
+  componentWillUnmount() {
+    clearInterval(this.autoSlider);
+  }
+
+  autoSlide = () => {
+    const screenWidth = Dimensions.get("window").width;
+    let scrollPosition = this.state.scrollPosition;
+    let maxScrollPosition = screenWidth * (slideImages.length - 1);
+    if (scrollPosition >= maxScrollPosition) {
+      return this.slider.scrollTo({
+        x: 0,
+        y: 0,
+        animated: true
+      });
+    }
+    if (scrollPosition == 0 || scrollPosition % screenWidth == 0) {
+      const newScrollPosition = scrollPosition + screenWidth;
+      this.slider.scrollTo({
+        x: newScrollPosition,
+        y: 0,
+        animated: true
+      });
+    }
+  };
+
+  onSlidesScroll = event => {
+    const x = event.nativeEvent.contentOffset.x;
+    this.setState(() => ({
+      scrollPosition: x
+    }));
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -72,10 +105,12 @@ class BlankDashboard extends React.Component {
                   </Text>
                 </View>
                 <ScrollView
+                  ref={ref => (this.slider = ref)}
                   style={styles.slider}
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                   pagingEnabled={true}
+                  onScroll={this.onSlidesScroll}
                 >
                   {slideImages.map((image, index) => <Slide image={image} />)}
                 </ScrollView>

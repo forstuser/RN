@@ -19,6 +19,8 @@ import KeyValueItem from "../../components/key-value-item";
 
 import { openBillsPopUp } from "../../navigation";
 
+import MultipleContactNumbers from "./multiple-contact-numbers";
+
 class ImportantTab extends Component {
   constructor(props) {
     super(props);
@@ -106,22 +108,9 @@ class ImportantTab extends Component {
                         "product_details_screen_warranty_seller_contact"
                       )}
                       ValueComponent={() => (
-                        <Text
-                          onPress={() =>
-                            call({
-                              number: String(warranty.sellers.contact)
-                            }).catch(e => Alert.alert(e.message))
-                          }
-                          weight="Medium"
-                          style={{
-                            flex: 1,
-                            textAlign: "right",
-                            textDecorationLine: "underline",
-                            color: colors.tomato
-                          }}
-                        >
-                          {warranty.sellers.contact}
-                        </Text>
+                        <MultipleContactNumbers
+                          contact={warranty.sellers.contact}
+                        />
                       )}
                     />
                   )}
@@ -190,22 +179,9 @@ class ImportantTab extends Component {
                         "product_details_screen_insurance_seller_contact"
                       )}
                       ValueComponent={() => (
-                        <Text
-                          onPress={() =>
-                            call({
-                              number: String(insurance.sellers.contact)
-                            }).catch(e => Alert.alert(e.message))
-                          }
-                          weight="Medium"
-                          style={{
-                            flex: 1,
-                            textAlign: "right",
-                            textDecorationLine: "underline",
-                            color: colors.tomato
-                          }}
-                        >
-                          {insurance.sellers.contact}
-                        </Text>
+                        <MultipleContactNumbers
+                          contact={insurance.sellers.contact}
+                        />
                       )}
                     />
                   )}
@@ -266,22 +242,7 @@ class ImportantTab extends Component {
                         "product_details_screen_amc_seller_contact"
                       )}
                       ValueComponent={() => (
-                        <Text
-                          onPress={() =>
-                            call({
-                              number: String(amc.sellers.contact)
-                            }).catch(e => Alert.alert(e.message))
-                          }
-                          weight="Medium"
-                          style={{
-                            flex: 1,
-                            textAlign: "right",
-                            textDecorationLine: "underline",
-                            color: colors.tomato
-                          }}
-                        >
-                          {amc.sellers.contact}
-                        </Text>
+                        <MultipleContactNumbers contact={amc.sellers.contact} />
                       )}
                     />
                   )}
@@ -338,22 +299,9 @@ class ImportantTab extends Component {
                         "product_details_screen_repairs_seller_contact"
                       )}
                       ValueComponent={() => (
-                        <Text
-                          onPress={() =>
-                            call({
-                              number: String(repairBill.sellers.contact)
-                            }).catch(e => Alert.alert(e.message))
-                          }
-                          weight="Medium"
-                          style={{
-                            flex: 1,
-                            textAlign: "right",
-                            textDecorationLine: "underline",
-                            color: colors.tomato
-                          }}
-                        >
-                          {repairBill.sellers.contact}
-                        </Text>
+                        <MultipleContactNumbers
+                          contact={repairBill.sellers.contact}
+                        />
                       )}
                     />
                   )}

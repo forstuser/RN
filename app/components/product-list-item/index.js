@@ -20,7 +20,8 @@ const ProductListItem = ({
   product,
   onPress,
   navigator,
-  hideViewBillBtn = false
+  hideViewBillBtn = false,
+  hideDirectionsAndCallBtns = false
 }) => {
   const ViewBillButton = ({ onPress }) => {
     if (product.copies && product.copies.length > 0 && !hideViewBillBtn) {
@@ -97,7 +98,10 @@ const ProductListItem = ({
       return (
         <View style={styles.container}>
           <ViewBillButton />
-          <ProductType2 product={product} />
+          <ProductType2
+            product={product}
+            hideDirectionsAndCallBtns={hideDirectionsAndCallBtns}
+          />
         </View>
       );
   }

@@ -193,6 +193,12 @@ class AscScreen extends Component {
       .catch(error => console.log(error.message)); // error is a Javascript Error object
   };
 
+  openAddProductScreen = () => {
+    this.props.navigator.push({
+      screen: "AddProductScreen"
+    });
+  };
+
   render() {
     const {
       products,
@@ -245,7 +251,10 @@ class AscScreen extends Component {
               <Text style={styles.noProductsMsg}>
                 {I18n.t("asc_screen_section_no_products_msg")}
               </Text>
-              <TouchableOpacity style={styles.addProductBtn}>
+              <TouchableOpacity
+                onPress={this.openAddProductScreen}
+                style={styles.addProductBtn}
+              >
                 <Text weight="Bold" style={styles.addProductBtnText}>
                   {I18n.t("asc_screen_section_add_product_btn")}
                 </Text>
