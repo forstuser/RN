@@ -82,9 +82,10 @@ const styles = StyleSheet.create({
   },
   lastUpdateTime: {
     flex: 1,
+    color: colors.mainText,
     textAlign: "right",
-    fontSize: 12,
-    color: colors.lighterText
+    fontSize: 12
+    // color: colors.lighterText
   }
 });
 export default EhomeCategoryItem;
