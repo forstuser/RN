@@ -130,7 +130,10 @@ class ImportantTab extends Component {
             </View>
           )}
           {warrantyDetails.length == 0 && (
-            <Text weight="Bold" style={{ textAlign: "center", padding: 16 }}>
+            <Text
+              weight="Bold"
+              style={{ textAlign: "center", padding: 16, color: "red" }}
+            >
               {I18n.t("product_details_screen_warranty_no_info")}
             </Text>
           )}
@@ -211,7 +214,10 @@ class ImportantTab extends Component {
             </View>
           )}
           {insuranceDetails.length == 0 && (
-            <Text weight="Bold" style={{ textAlign: "center", padding: 16 }}>
+            <Text
+              weight="Bold"
+              style={{ textAlign: "center", padding: 16, color: "red" }}
+            >
               {I18n.t("product_details_screen_insurance_no_info")}
             </Text>
           )}
@@ -284,7 +290,10 @@ class ImportantTab extends Component {
             </View>
           )}
           {amcDetails.length == 0 && (
-            <Text weight="Bold" style={{ textAlign: "center", padding: 16 }}>
+            <Text
+              weight="Bold"
+              style={{ textAlign: "center", padding: 16, color: "red" }}
+            >
               {I18n.t("product_details_screen_amc_no_info")}
             </Text>
           )}
@@ -353,7 +362,10 @@ class ImportantTab extends Component {
             </View>
           )}
           {repairBills.length == 0 && (
-            <Text weight="Bold" style={{ textAlign: "center", padding: 16 }}>
+            <Text
+              weight="Bold"
+              style={{ textAlign: "center", padding: 16, color: "red" }}
+            >
               {I18n.t("product_details_screen_repairs_no_info")}
             </Text>
           )}

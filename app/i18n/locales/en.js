@@ -167,7 +167,7 @@ export default {
   product_details_screen_title: "Product Details",
   product_details_screen_view_bill_btn: "VIEW BILL",
   product_details_screen_upload_bill_btn: "UPLOAD BILL",
-  product_details_screen_no_bill_msg: "Product bill not uploaded",
+  product_details_screen_no_bill_msg: "*Product bill not added",
   product_details_screen_total_text: "Total",
   product_details_screen_cost_breakdown_product: "Product Cost",
   product_details_screen_cost_breakdown_warranty: "Warranty",
@@ -198,7 +198,7 @@ export default {
   product_details_screen_warranty_type: "Warranty Type",
   product_details_screen_warranty_seller: "Seller",
   product_details_screen_warranty_seller_contact: "Seller Contact",
-  product_details_screen_warranty_no_info: "No info available",
+  product_details_screen_warranty_no_info: "Details Not Available!",
   product_details_screen_insurance_title: "Insurance Details",
   product_details_screen_insurance_expiry: "Expiry Date",
   product_details_screen_insurance_policy_no: "Policy No.",
@@ -206,7 +206,7 @@ export default {
   product_details_screen_insurance_amount_insured: "Amount Insured",
   product_details_screen_insurance_seller: "Seller",
   product_details_screen_insurance_seller_contact: "Seller Contact",
-  product_details_screen_insurance_no_info: "No info available",
+  product_details_screen_insurance_no_info: "Details Not Available!",
   product_details_screen_amc_title: "AMC Details",
   product_details_screen_amc_expiry: "Expiry Date",
   product_details_screen_amc_policy_no: "Policy No.",
@@ -214,13 +214,13 @@ export default {
   product_details_screen_amc_amount_insured: "Amount Insured",
   product_details_screen_amc_seller: "Seller",
   product_details_screen_amc_seller_contact: "Seller Contact",
-  product_details_screen_amc_no_info: "No info available",
+  product_details_screen_amc_no_info: "Details Not Available!",
   product_details_screen_repairs_title: "Repair/Service",
   product_details_screen_repairs_repair_date: "Repair Date",
   product_details_screen_repairs_premium_amount: "Premium Amount",
   product_details_screen_repairs_seller: "Seller",
   product_details_screen_repairs_seller_contact: "Seller Contact",
-  product_details_screen_repairs_no_info: "No info available",
+  product_details_screen_repairs_no_info: "Details Not Available!",
 
   //profile screen
   profile_screen_label_name: "Name",
@@ -249,7 +249,7 @@ export default {
   upload_document_screen_success_title: "Bill Submitted",
   upload_document_screen_success_msg:
     "Our experts are now creating the Product Card from the bill linking information such as seller and brand details with their customer care numbers, email ids, warranty and insurance information. We will notify you as soon as your Product Card is created and stored securely under Your eHome.",
-  upload_document_screen_success_ok: "Ok",
+  upload_document_screen_success_ok: "OK",
 
   //ASC screen
   asc_screen_title: "Authorised Service Centres",
