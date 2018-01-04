@@ -104,7 +104,7 @@ class ProfileScreen extends Component {
       });
 
       showSnackbar({
-        text: "Profile pic changed!!",
+        text: "Your profile details are updated!",
         autoDismissTimerSec: 3
       });
     } catch (e) {

@@ -36,6 +36,15 @@ const ProductListItem = ({ product, onPress }) => {
         <Text weight="Bold" style={styles.name}>
           {product.productName}
         </Text>
+
+        {/* {product.sellers != null && <Text>{product.sellers.sellerName}</Text>}
+
+        {product.sellers == null &&
+          product.bill.sellers && (
+            <Text>{product.bill.sellers.sellerName}</Text>
+          )} */}
+
+        {/* <Text>{JSON.stringify(product)}</Text> */}
         <View style={styles.metaContainer}>
           <Text numberOfLines={1} style={styles.meta}>
             {meta}

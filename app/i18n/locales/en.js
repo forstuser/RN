@@ -103,9 +103,9 @@ export default {
 
   //docs under processing screen
   docs_under_processing_screen_title: "Docs Under Processing",
-  docs_under_processing_screen_no_result_title: "No Docs Under Processing",
+  docs_under_processing_screen_no_result_title: "No Documents Found",
   docs_under_processing_screen_no_result_desc:
-    "All the docs has been processed or you havn't uploaded any doc yet.",
+    "Documents or bills recently uploaded by you will appear under this section",
 
   //insights screen
   insights_screen_title: "Insights & Trends",
@@ -228,9 +228,9 @@ export default {
   profile_screen_label_email: "Email",
   profile_screen_label_address: "Address",
   profile_screen_save_btn: "Save & Update",
-  profile_screen_change_msg_name: "Name changed successfully!",
-  profile_screen_change_msg_email: "Email changed successfully!",
-  profile_screen_change_msg_address: "Address changed successfully!",
+  profile_screen_change_msg_name: "Your profile details are updated!",
+  profile_screen_change_msg_email: "Your profile details are updated!",
+  profile_screen_change_msg_address: "Your profile details are updated!",
   profile_screen_email_verified: "Verified",
   profile_screen_email_not_verified: "Not Verified",
 
@@ -265,7 +265,7 @@ export default {
   asc_screen_select_fields_first: "Please select brand and product",
 
   //Dashboard Screen
-  dashboard_screen_whats_coming_up: "WHAT'S COMING UP",
+  dashboard_screen_whats_coming_up: "What's Coming Up",
   dashboard_screen_recent_activity: "Recent Activity",
   dashboard_screen_ehome_insights: "Expense Insight",
   dashboard_screen_chart_last_7_days: "Last 7 Days",
