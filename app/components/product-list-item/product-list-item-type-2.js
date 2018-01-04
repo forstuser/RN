@@ -56,6 +56,15 @@ const ProductListItem = ({ product }) => {
           {product.sellers != null && (
             <Text style={styles.sellerName}>{product.sellers.sellerName}</Text>
           )}
+          {product.sellers == null &&
+            product.bill != null &&
+            product.bill.sellers != null && (
+              <Text style={styles.sellerName}>
+                {product.bill.sellers.sellerName}
+              </Text>
+            )}
+          {/* <Text>{JSON.stringify(product)}</Text> */}
+
           <Text weight="Medium" style={styles.purchaseDate}>
             {moment(product.purchaseDate).format("MMM DD, YYYY")}
           </Text>
