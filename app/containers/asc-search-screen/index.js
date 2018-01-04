@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import moment from "moment";
 import call from "react-native-phone-call";
+import getDirections from "react-native-google-maps-directions";
+import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 
 import { API_BASE_URL, getAscSearchResults } from "../../api";
 import { ScreenContainer, Text, Button, AsyncImage } from "../../elements";
@@ -66,40 +68,39 @@ class AscSearchScreen extends Component {
   };
 
   openMap = address => {
-    Linking.openURL(
-      Platform.OS == "ios"
-        ? `http://maps.apple.com/?q=${address}`
-        : `https://www.google.com/maps/search/?api=1&query=${address}`
-    );
+    const data = {
+      params: [
+        {
+          key: "daddr",
+          value: address
+        }
+      ]
+    };
+
+    getDirections(data);
   };
 
   callServiceCenter = serviceCenter => {
+    let phoneNumbers = [];
     for (let i = 0; i < serviceCenter.centerDetails.length; i++) {
       if (
         serviceCenter.centerDetails[i].type == 3 &&
         serviceCenter.centerDetails[i].details != null
       ) {
-        if (serviceCenter.centerDetails.length == 0) {
-          return call({
-            number: String(serviceCenter.centerDetails[0].details)
-          }).catch(e => Alert.alert(e.message));
-        } else {
-          let phoneNumbers = serviceCenter.centerDetails.map(item =>
-            String(item.details)
-          );
-
-          this.setState(
-            {
-              phoneNumbers
-            },
-            () => {
-              this.phoneOptions.show();
-            }
-          );
-        }
+        phoneNumbers.push(String(serviceCenter.centerDetails[i].details));
       }
     }
-    Alert.alert(I18n.t("asc_search_screen_phone_not_available"));
+    if (phoneNumbers.length == 0) {
+      return Alert.alert(I18n.t("asc_search_screen_phone_not_available"));
+    }
+    this.setState(
+      {
+        phoneNumbers
+      },
+      () => {
+        this.phoneOptions.show();
+      }
+    );
   };
 
   handlePhonePress = index => {

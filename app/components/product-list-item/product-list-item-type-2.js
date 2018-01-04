@@ -9,6 +9,8 @@ import {
   Alert
 } from "react-native";
 import call from "react-native-phone-call";
+import getDirections from "react-native-google-maps-directions";
+
 import moment from "moment";
 import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
@@ -24,11 +26,16 @@ const openMap = product => {
   const seller = product.sellers;
   if (seller) {
     const address = [seller.address, seller.city, seller.state].join(", ");
-    return Linking.openURL(
-      Platform.OS == "ios"
-        ? `http://maps.apple.com/?q=${address}`
-        : `https://www.google.com/maps/search/?api=1&query=${address}`
-    );
+    const data = {
+      params: [
+        {
+          key: "daddr",
+          value: address
+        }
+      ]
+    };
+
+    return getDirections(data);
   }
   Alert.alert("Address not available");
 };

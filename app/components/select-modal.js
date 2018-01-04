@@ -65,7 +65,8 @@ class SelectModal extends Component {
       onOptionSelect(item);
     }
     this.setState({
-      isModalVisible: false
+      isModalVisible: false,
+      isTextInputVisible: false
     });
   };
 

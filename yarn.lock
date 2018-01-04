@@ -3544,6 +3544,10 @@ react-native-gesture-handler@^1.0.0-alpha.31:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-google-maps-directions@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-google-maps-directions/-/react-native-google-maps-directions-1.1.2.tgz#a362a9c3c266d9c7e853696e2ffe99193f67d64d"
+
 react-native-google-places@2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/react-native-google-places/-/react-native-google-places-2.4.2.tgz#ac4cf3391481ecd89803282554e209f0bfefc31e"

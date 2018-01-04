@@ -13,6 +13,7 @@ import {
 import _ from "lodash";
 import moment from "moment";
 import call from "react-native-phone-call";
+import getDirections from "react-native-google-maps-directions";
 import StarRating from "react-native-star-rating";
 
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -42,11 +43,16 @@ class SellerTab extends Component {
   openMap = () => {
     const seller = this.props.product.sellers;
     const address = [seller.address, seller.city, seller.state].join(", ");
-    Linking.openURL(
-      Platform.OS == "ios"
-        ? `http://maps.apple.com/?q=${address}`
-        : `https://www.google.com/maps/search/?api=1&query=${address}`
-    );
+    const data = {
+      params: [
+        {
+          key: "daddr",
+          value: address
+        }
+      ]
+    };
+
+    getDirections(data);
   };
 
   onStarRatingPress(rating) {

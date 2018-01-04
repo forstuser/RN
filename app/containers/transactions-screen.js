@@ -20,6 +20,8 @@ import LoadingOverlay from "../components/loading-overlay";
 import { openBillsPopUp } from "../navigation";
 import I18n from "../i18n";
 
+import { MAIN_CATEGORY_IDS } from "../constants";
+
 const billIcon = require("../images/ic_comingup_bill.png");
 
 class TransactionsScreen extends Component {
@@ -208,11 +210,25 @@ class TransactionsScreen extends Component {
                 {this.state.activeData.products.map((product, index) => (
                   <TouchableOpacity
                     onPress={() => {
-                      openBillsPopUp({
-                        id: product.productName,
-                        date: product.purchaseDate,
-                        copies: product.copies
-                      });
+                      if (
+                        product.masterCategoryId ==
+                          MAIN_CATEGORY_IDS.AUTOMOBILE ||
+                        product.masterCategoryId ==
+                          MAIN_CATEGORY_IDS.ELECTRONICS
+                      ) {
+                        this.props.navigator.push({
+                          screen: "ProductDetailsScreen",
+                          passProps: {
+                            productId: product.id
+                          }
+                        });
+                      } else {
+                        openBillsPopUp({
+                          id: product.productName,
+                          date: product.purchaseDate,
+                          copies: product.copies
+                        });
+                      }
                     }}
                     style={styles.product}
                     key={index}

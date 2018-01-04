@@ -66,7 +66,8 @@ export default {
   add_product_screen_cancel: "CANCEL",
   add_product_screen_alert_select_main_category:
     "Please select expense category",
-  add_product_screen_alert_select_category: "Please select expense type",
+  add_product_screen_alert_select_expense: "Please select expense type",
+  add_product_screen_alert_select_product: "Please select product type",
   add_product_screen_alert_select_purchase_date:
     "Please select the closest date in case you forgot the actual date of purchase.",
   add_product_screen_purchase_date_hint:
@@ -173,12 +174,14 @@ export default {
   product_details_screen_cost_breakdown_warranty: "Warranty",
   product_details_screen_cost_breakdown_insurance: "Insurance",
   product_details_screen_cost_breakdown_repairs: "Repairs",
+  product_details_screen_cost_breakdown_amc: "AMC",
   product_details_screen_cost_breakdown_total: "Total",
   product_details_screen_cost_breakdown_close: "Close",
   product_details_screen_after_sale_btn: "CONTACT AFTER SALES",
   product_details_screen_after_sale_options_title: "Choose an option",
   product_details_screen_after_sale_options_email: "Email Manufacturer",
   product_details_screen_after_sale_options_call: "Call Manufacturer",
+  product_details_screen_after_sale_options_service: "Service Request/Repair",
   product_details_screen_after_sale_options_asc:
     "Nearest Authorised Service center",
   product_details_screen_after_sale_options_cancel: "Cancel",

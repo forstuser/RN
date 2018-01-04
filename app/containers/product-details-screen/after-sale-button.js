@@ -23,11 +23,13 @@ class AfterSaleButton extends Component {
     super(props);
     this.state = {
       emails: [],
-      phoneNumbers: []
+      phoneNumbers: [],
+      urls: []
     };
   }
 
   componentDidMount() {
+    const urls = [];
     const emails = [];
     const phoneNumbers = [];
     if (!this.props.product.brand) {
@@ -35,6 +37,9 @@ class AfterSaleButton extends Component {
     }
     this.props.product.brand.details.forEach(item => {
       switch (item.typeId) {
+        case 1:
+          urls.push(item.details);
+          break;
         case 2:
           emails.push(item.details);
           break;
@@ -46,6 +51,7 @@ class AfterSaleButton extends Component {
     });
 
     this.setState({
+      urls,
       emails,
       phoneNumbers
     });
@@ -60,6 +66,13 @@ class AfterSaleButton extends Component {
         this.phoneOptions.show();
         break;
       case 2:
+        if (this.state.urls.length == 1) {
+          this.openUrl(this.state.urls[0]);
+        } else {
+          this.urlOptions.show();
+        }
+        break;
+      case 3:
         const { product } = this.props;
         if (!product.brand) {
           return showSnackbar({
@@ -122,6 +135,23 @@ class AfterSaleButton extends Component {
     }
   };
 
+  handleUrlPress = index => {
+    if (index < this.state.urls.length) {
+      const url = this.state.urls[index];
+      this.openUrl(url);
+    }
+  };
+
+  openUrl = url => {
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        Alert.alert("Don't know how to open URI: " + url);
+      }
+    });
+  };
+
   render() {
     const { product } = this.props;
     return (
@@ -137,10 +167,11 @@ class AfterSaleButton extends Component {
           onPress={this.handleOptionPress}
           ref={o => (this.afterSaleOptions = o)}
           title={I18n.t("product_details_screen_after_sale_options_title")}
-          cancelButtonIndex={3}
+          cancelButtonIndex={4}
           options={[
             I18n.t("product_details_screen_after_sale_options_email"),
             I18n.t("product_details_screen_after_sale_options_call"),
+            I18n.t("product_details_screen_after_sale_options_service"),
             I18n.t("product_details_screen_after_sale_options_asc"),
             I18n.t("product_details_screen_after_sale_options_cancel")
           ]}
@@ -166,6 +197,17 @@ class AfterSaleButton extends Component {
           }
           cancelButtonIndex={this.state.phoneNumbers.length}
           options={[...this.state.phoneNumbers, "Cancel"]}
+        />
+        <ActionSheet
+          onPress={this.handleUrlPress}
+          ref={o => (this.urlOptions = o)}
+          title={
+            this.state.urls.length > 0
+              ? "Select an address"
+              : "No Link Available"
+          }
+          cancelButtonIndex={this.state.urls.length}
+          options={[...this.state.urls, "Cancel"]}
         />
       </View>
     );

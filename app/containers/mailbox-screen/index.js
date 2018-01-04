@@ -103,8 +103,14 @@ class MailBox extends Component {
                     productId: item.productId
                   }
                 });
-                break;
+              } else {
+                openBillsPopUp({
+                  id: item.productName,
+                  date: item.purchaseDate,
+                  copies: item.copies
+                });
               }
+              break;
             case 3:
               this.props.navigator.push({
                 screen: "ProductDetailsScreen",

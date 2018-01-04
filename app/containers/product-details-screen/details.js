@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView
 } from "react-native";
+import moment from "moment";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import I18n from "../../i18n";
 import { API_BASE_URL } from "../../api";
@@ -33,6 +34,77 @@ class Details extends Component {
 
     const metaUnderName = getProductMetasString(product.metaData);
 
+    let amountBreakdownOptions = [
+      <View style={{ width: "100%" }}>
+        <KeyValueItem
+          keyText={I18n.t("product_details_screen_cost_breakdown_product")}
+          valueText={`₹ ${product.value}`}
+        />
+      </View>
+    ];
+
+    product.warrantyDetails.forEach(item => {
+      let date = moment(item.purchaseDate).isValid()
+        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
+        : ``;
+      amountBreakdownOptions.push(
+        <View style={{ width: "100%" }}>
+          <KeyValueItem
+            keyText={
+              I18n.t("product_details_screen_cost_breakdown_warranty") + date
+            }
+            valueText={`₹ ${item.premiumAmount}`}
+          />
+        </View>
+      );
+    });
+
+    product.insuranceDetails.forEach(item => {
+      let date = moment(item.purchaseDate).isValid()
+        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
+        : ``;
+      amountBreakdownOptions.push(
+        <View style={{ width: "100%" }}>
+          <KeyValueItem
+            keyText={
+              I18n.t("product_details_screen_cost_breakdown_insurance") + date
+            }
+            valueText={`₹ ${item.premiumAmount}`}
+          />
+        </View>
+      );
+    });
+
+    product.amcDetails.forEach(item => {
+      let date = moment(item.purchaseDate).isValid()
+        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
+        : ``;
+      amountBreakdownOptions.push(
+        <View style={{ width: "100%" }}>
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_cost_breakdown_amc") + date}
+            valueText={`₹ ${item.premiumAmount}`}
+          />
+        </View>
+      );
+    });
+
+    product.repairBills.forEach(item => {
+      let date = moment(item.purchaseDate).isValid()
+        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
+        : ``;
+      amountBreakdownOptions.push(
+        <View style={{ width: "100%" }}>
+          <KeyValueItem
+            keyText={
+              I18n.t("product_details_screen_cost_breakdown_repairs") + date
+            }
+            valueText={`₹ ${item.premiumAmount}`}
+          />
+        </View>
+      );
+    });
+
     const warrantyAmount = product.warrantyDetails.reduce(
       (total, item) => total + item.premiumAmount,
       0
@@ -49,12 +121,22 @@ class Details extends Component {
       (total, item) => total + item.premiumAmount,
       0
     );
+
     const totalAmount =
       product.value +
       warrantyAmount +
       insuranceAmount +
       amcAmount +
       repairAmount;
+
+    amountBreakdownOptions.push(
+      <View style={{ width: "100%" }}>
+        <KeyValueItem
+          keyText={I18n.t("product_details_screen_cost_breakdown_total")}
+          valueText={`₹ ${totalAmount}`}
+        />
+      </View>
+    );
 
     const ViewBillButton = ({ onPress }) => {
       if (product.copies && product.copies.length > 0) {
@@ -125,46 +207,9 @@ class Details extends Component {
         </TouchableOpacity>
         <ActionSheet
           ref={o => (this.priceBreakdown = o)}
-          cancelButtonIndex={5}
+          cancelButtonIndex={amountBreakdownOptions.length}
           options={[
-            <View style={{ width: "100%" }}>
-              <KeyValueItem
-                keyText={I18n.t(
-                  "product_details_screen_cost_breakdown_product"
-                )}
-                valueText={`₹ ${product.value}`}
-              />
-            </View>,
-            <View style={{ width: "100%" }}>
-              <KeyValueItem
-                keyText={I18n.t(
-                  "product_details_screen_cost_breakdown_warranty"
-                )}
-                valueText={`₹ ${warrantyAmount}`}
-              />
-            </View>,
-            <View style={{ width: "100%" }}>
-              <KeyValueItem
-                keyText={I18n.t(
-                  "product_details_screen_cost_breakdown_insurance"
-                )}
-                valueText={`₹ ${insuranceAmount}`}
-              />
-            </View>,
-            <View style={{ width: "100%" }}>
-              <KeyValueItem
-                keyText={I18n.t(
-                  "product_details_screen_cost_breakdown_repairs"
-                )}
-                valueText={`₹ ${repairAmount}`}
-              />
-            </View>,
-            <View style={{ width: "100%" }}>
-              <KeyValueItem
-                keyText={I18n.t("product_details_screen_cost_breakdown_total")}
-                valueText={`₹ ${totalAmount}`}
-              />
-            </View>,
+            ...amountBreakdownOptions,
             I18n.t("product_details_screen_cost_breakdown_close")
           ]}
         />

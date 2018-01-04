@@ -218,7 +218,8 @@ class AddProductScreen extends React.Component {
       return;
     }
     this.setState({
-      selectedBrand: brand
+      selectedBrand: brand,
+      brandName: ""
     });
   };
 
@@ -257,7 +258,14 @@ class AddProductScreen extends React.Component {
       }
 
       if (!selectedCategory) {
-        return Alert.alert(I18n.t("add_product_screen_alert_select_category"));
+        if (
+          selectedMainCategory.id == MAIN_CATEGORY_IDS.AUTOMOBILE ||
+          selectedMainCategory.id == MAIN_CATEGORY_IDS.ELECTRONICS
+        ) {
+          return Alert.alert(I18n.t("add_product_screen_alert_select_expense"));
+        } else {
+          return Alert.alert(I18n.t("add_product_screen_alert_select_product"));
+        }
       } else {
         tempProductName = tempProductName + " " + selectedCategory.name;
       }

@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
   },
   successOkWrapper: {
     marginTop: 15,
-    padding: 10
+    width: 100
   },
   successOk: {
     fontSize: 16,

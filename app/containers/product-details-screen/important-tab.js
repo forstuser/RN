@@ -39,37 +39,42 @@ class ImportantTab extends Component {
       repairBills
     } = product;
 
-    const ViewBillRow = ({ expiryDate, purchaseDate, docType, copies }) => (
-      <TouchableOpacity
-        onPress={() =>
-          openBillsPopUp({
-            date: purchaseDate,
-            id: docType,
-            copies: copies,
-            type: docType
-          })
-        }
-        style={{ flex: 1 }}
-      >
-        <KeyValueItem
-          KeyComponent={() => (
-            <Text style={{ flex: 1, color: colors.pinkishOrange }}>
-              {moment(expiryDate).format("MMM YYYY")}
-            </Text>
-          )}
-          ValueComponent={() => (
-            <Text
-              weight="Bold"
-              style={{
-                color: colors.pinkishOrange
-              }}
-            >
-              View
-            </Text>
-          )}
-        />
-      </TouchableOpacity>
-    );
+    const ViewBillRow = ({ expiryDate, purchaseDate, docType, copies }) => {
+      if (!moment(expiryDate).isValid()) {
+        return null;
+      }
+      return (
+        <TouchableOpacity
+          onPress={() =>
+            openBillsPopUp({
+              date: purchaseDate,
+              id: docType,
+              copies: copies,
+              type: docType
+            })
+          }
+          style={{ flex: 1 }}
+        >
+          <KeyValueItem
+            KeyComponent={() => (
+              <Text style={{ flex: 1, color: colors.pinkishOrange }}>
+                {moment(expiryDate).format("MMM YYYY")}
+              </Text>
+            )}
+            ValueComponent={() => (
+              <Text
+                weight="Bold"
+                style={{
+                  color: colors.pinkishOrange
+                }}
+              >
+                View
+              </Text>
+            )}
+          />
+        </TouchableOpacity>
+      );
+    };
 
     return (
       <View>
@@ -88,9 +93,10 @@ class ImportantTab extends Component {
                   />
                   <KeyValueItem
                     keyText={I18n.t("product_details_screen_warranty_expiry")}
-                    valueText={moment(warranty.expiryDate).format(
-                      "DD MMM YYYY"
-                    )}
+                    valueText={
+                      moment(warranty.expiryDate).isValid() &&
+                      moment(warranty.expiryDate).format("DD MMM YYYY")
+                    }
                   />
                   <KeyValueItem
                     keyText={I18n.t("product_details_screen_warranty_type")}
@@ -143,9 +149,10 @@ class ImportantTab extends Component {
                   />
                   <KeyValueItem
                     keyText={I18n.t("product_details_screen_insurance_expiry")}
-                    valueText={moment(insurance.expiryDate).format(
-                      "DD MMM YYYY"
-                    )}
+                    valueText={
+                      moment(insurance.expiryDate).isValid() &&
+                      moment(insurance.expiryDate).format("DD MMM YYYY")
+                    }
                   />
                   <KeyValueItem
                     keyText={I18n.t(
@@ -212,7 +219,10 @@ class ImportantTab extends Component {
                   />
                   <KeyValueItem
                     keyText={I18n.t("product_details_screen_amc_expiry")}
-                    valueText={moment(amc.expiryDate).format("DD MMM YYYY")}
+                    valueText={
+                      moment(amc.expiryDate).isValid() &&
+                      moment(amc.expiryDate).format("DD MMM YYYY")
+                    }
                   />
                   <KeyValueItem
                     keyText={I18n.t("product_details_screen_amc_policy_no")}
@@ -277,9 +287,10 @@ class ImportantTab extends Component {
                     keyText={I18n.t(
                       "product_details_screen_repairs_repair_date"
                     )}
-                    valueText={moment(repairBill.purchaseDate).format(
-                      "DD MMM YYYY"
-                    )}
+                    valueText={
+                      moment(repairBill.purchaseDate).isValid() &&
+                      moment(repairBill.purchaseDate).format("DD MMM YYYY")
+                    }
                   />
                   <KeyValueItem
                     keyText={I18n.t(

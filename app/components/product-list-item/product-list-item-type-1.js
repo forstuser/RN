@@ -14,13 +14,14 @@ const isDateInNextTenDays = date => {
 
 const expiringInText = date => {
   const diff = date.diff(moment(), "days");
-  switch (diff) {
-    case 0:
-      return "Expiring Today!";
-    case 1:
-      return "Expiring Tomorrow!";
-    default:
-      return "Expiring in " + diff + " days!";
+  if (diff < 0) {
+    return "Expired!";
+  } else if (diff == 0) {
+    return "Expiring Today!";
+  } else if (diff == 1) {
+    return "Expiring Tomorrow!";
+  } else {
+    return "Expiring in " + diff + " days!";
   }
 };
 const ProductListItem = ({ product, onPress }) => {
