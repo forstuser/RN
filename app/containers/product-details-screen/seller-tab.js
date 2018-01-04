@@ -22,6 +22,7 @@ import KeyValueItem from "../../components/key-value-item";
 import LoadingOverlay from "../../components/loading-overlay";
 import SectionHeading from "../../components/section-heading";
 import { addSellerReview } from "../../api";
+import MultipleContactNumbers from "./multiple-contact-numbers";
 
 let mapIcon = require("../../images/ic_details_map.png");
 
@@ -115,22 +116,7 @@ class SellerTab extends Component {
         <KeyValueItem
           keyText="Contact No."
           ValueComponent={() => (
-            <Text
-              onPress={() =>
-                call({ number: String(seller.contact) }).catch(e =>
-                  Alert.alert(e.message)
-                )
-              }
-              weight="Medium"
-              style={{
-                flex: 1,
-                textAlign: "right",
-                textDecorationLine: "underline",
-                color: colors.tomato
-              }}
-            >
-              {seller.contact}
-            </Text>
+            <MultipleContactNumbers contact={seller.contact} />
           )}
         />
         <KeyValueItem
