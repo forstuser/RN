@@ -307,14 +307,12 @@ class UploadDocumentScreen extends Component {
             <Text style={styles.successMsg}>
               {I18n.t("upload_document_screen_success_msg")}
             </Text>
-            <TouchableOpacity
+            <Button
               onPress={this.onSuccessOkClick}
               style={styles.successOkWrapper}
-            >
-              <Text weight="Bold" style={styles.successOk}>
-                {I18n.t("upload_document_screen_success_ok")}
-              </Text>
-            </TouchableOpacity>
+              text={I18n.t("upload_document_screen_success_ok")}
+              color="secondary"
+            />
           </View>
         </Modal>
         <View
