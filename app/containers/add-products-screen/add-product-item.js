@@ -25,6 +25,7 @@ import {
 import { openBillsPopUp } from "../../navigation";
 import SelectModal from "../../components/select-modal";
 import DatePicker from "react-native-datepicker";
+import UploadBillOptions from "../../components/upload-bill-options";
 
 class AddProductItem extends React.Component {
   constructor(props) {
@@ -43,7 +44,8 @@ class AddProductItem extends React.Component {
       selectedModel: null,
       modelName: "",
       purchaseDate: null,
-      productName: null
+      productName: null,
+      isBillUploaded: false
     };
   }
 
@@ -251,7 +253,6 @@ class AddProductItem extends React.Component {
   };
 
   render() {
-    const onUploadBillPress = this.props.onUploadBillPress;
     const {
       text,
       icon,
@@ -263,7 +264,8 @@ class AddProductItem extends React.Component {
       modelName,
       showDetectDeviceBtn,
       purchaseDate,
-      productName
+      productName,
+      isBillUploaded
     } = this.state;
 
     return (
@@ -401,19 +403,24 @@ class AddProductItem extends React.Component {
           />
 
           <TouchableOpacity
-            onPress={onUploadBillPress}
+            onPress={() => this.uploadBillOptions.show()}
             style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
           >
             <Text
               weight="Bold"
               style={{ color: colors.secondaryText, flex: 1 }}
             >
-              {I18n.t("add_products_screen_slide_upload_bill")}
+              {!isBillUploaded &&
+                I18n.t("add_products_screen_slide_upload_bill")}
+              {isBillUploaded &&
+                I18n.t("add_products_screen_slide_bill_uploaded")}
             </Text>
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../images/ic_upload_new_pic_orange.png")}
-            />
+            {!isBillUploaded && (
+              <Image
+                style={{ width: 24, height: 24 }}
+                source={require("../../images/ic_upload_new_pic_orange.png")}
+              />
+            )}
           </TouchableOpacity>
           <Button
             onPress={this.onAddProductBtnClick}
@@ -422,6 +429,13 @@ class AddProductItem extends React.Component {
             style={{ width: 300 }}
           />
         </LinearGradient>
+        <UploadBillOptions
+          ref={ref => (this.uploadBillOptions = ref)}
+          navigator={this.props.navigator}
+          uploadCallback={() => {
+            this.setState({ isBillUploaded: true });
+          }}
+        />
       </KeyboardAwareScrollView>
     );
   }

@@ -210,10 +210,9 @@ class UploadDocumentScreen extends Component {
   };
 
   onSuccessOkClick = () => {
-    if (this.props.dontProceedToDocsUnderProcessing) {
-      this.setState(() => ({
-        isSuccessModalVisible: false
-      }));
+    if (typeof this.props.uploadCallback == "function") {
+      this.props.uploadCallback();
+      this.props.navigator.pop();
     } else {
       openAppScreen({ startScreen: SCREENS.DOCS_UNDER_PROCESSING_SCREEN });
     }

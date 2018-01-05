@@ -14,8 +14,6 @@ class UploadBillOptions extends React.Component {
   };
 
   handleOptionPress = index => {
-    let dontProceedToDocsUnderProcessing =
-      this.props.dontProceedToDocsUnderProcessing || false;
     let openPickerOnStart;
     switch (index) {
       case 0:
@@ -33,7 +31,7 @@ class UploadBillOptions extends React.Component {
       screen: "UploadDocumentScreen",
       passProps: {
         openPickerOnStart,
-        dontProceedToDocsUnderProcessing
+        uploadCallback: this.props.uploadCallback
       }
     });
   };

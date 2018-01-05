@@ -6,6 +6,7 @@ import { Text } from "../../elements";
 import { colors } from "../../theme";
 
 const MultipleContactNumbers = ({ contact = "" }) => {
+  if (!contact) return null;
   //split by ',' or '/' or '\'
   let contactNumbers = contact.split(/,|\/|\\/);
   return (

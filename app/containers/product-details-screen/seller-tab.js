@@ -157,74 +157,76 @@ class SellerTab extends Component {
             )}
           />
         )}
-        {this.state.showEditReview && (
-          <View style={styles.review}>
-            <LoadingOverlay visible={this.state.isAddingReview} />
-            <SectionHeading text="HOW WAS YOUR EXPERIENCE" />
-            <View style={styles.reviewInner}>
-              <View style={styles.reviewHeader}>
-                <View style={styles.starsWrapper}>
-                  <StarRating
-                    starColor="#FFA909"
-                    disabled={false}
-                    maxStars={5}
-                    rating={this.state.starCount}
-                    halfStarEnabled={true}
-                    selectedStar={rating => this.onStarRatingPress(rating)}
+        {product.sellers &&
+          this.state.showEditReview && (
+            <View style={styles.review}>
+              <LoadingOverlay visible={this.state.isAddingReview} />
+              <SectionHeading text="HOW WAS YOUR EXPERIENCE" />
+              <View style={styles.reviewInner}>
+                <View style={styles.reviewHeader}>
+                  <View style={styles.starsWrapper}>
+                    <StarRating
+                      starColor="#FFA909"
+                      disabled={false}
+                      maxStars={5}
+                      rating={this.state.starCount}
+                      halfStarEnabled={true}
+                      selectedStar={rating => this.onStarRatingPress(rating)}
+                    />
+                  </View>
+                </View>
+                <TextInput
+                  ref={ref => (this.reviewInput = ref)}
+                  placeholder="Write your feedback…"
+                  value={this.state.reviewInput}
+                  onChangeText={text => this.setState({ reviewInput: text })}
+                  style={styles.reviewInput}
+                  multiline={true}
+                />
+                <View style={styles.reviewFooter}>
+                  <Button
+                    onPress={this.onSubmitReview}
+                    style={styles.reviewSubmitBtn}
+                    text="Submit"
+                    color="secondary"
+                    type="outline"
                   />
                 </View>
               </View>
-              <TextInput
-                ref={ref => (this.reviewInput = ref)}
-                placeholder="Write your feedback…"
-                value={this.state.reviewInput}
-                onChangeText={text => this.setState({ reviewInput: text })}
-                style={styles.reviewInput}
-                multiline={true}
-              />
-              <View style={styles.reviewFooter}>
-                <Button
-                  onPress={this.onSubmitReview}
-                  style={styles.reviewSubmitBtn}
-                  text="Submit"
-                  color="secondary"
-                  type="outline"
-                />
-              </View>
             </View>
-          </View>
-        )}
-        {!this.state.showEditReview && (
-          <View style={styles.editReview}>
-            <SectionHeading text="YOUR REVIEW" />
-            <View style={styles.reviewInner}>
-              <View style={styles.reviewHeader}>
-                <View style={styles.starsWrapper}>
-                  <StarRating
-                    disabled={true}
-                    starColor="#FFA909"
-                    maxStars={5}
-                    rating={this.state.starCount}
-                    halfStarEnabled={true}
-                    selectedStar={rating => this.onStarRatingPress(rating)}
+          )}
+        {product.sellers &&
+          !this.state.showEditReview && (
+            <View style={styles.editReview}>
+              <SectionHeading text="YOUR REVIEW" />
+              <View style={styles.reviewInner}>
+                <View style={styles.reviewHeader}>
+                  <View style={styles.starsWrapper}>
+                    <StarRating
+                      disabled={true}
+                      starColor="#FFA909"
+                      maxStars={5}
+                      rating={this.state.starCount}
+                      halfStarEnabled={true}
+                      selectedStar={rating => this.onStarRatingPress(rating)}
+                    />
+                  </View>
+                </View>
+                <Text weight="Bold" style={styles.reviewText}>
+                  {this.state.reviewInput}
+                </Text>
+                <View style={styles.reviewFooter}>
+                  <Button
+                    onPress={this.onEditReviewClick}
+                    style={styles.reviewSubmitBtn}
+                    text="Edit"
+                    color="secondary"
+                    type="outline"
                   />
                 </View>
               </View>
-              <Text weight="Bold" style={styles.reviewText}>
-                {this.state.reviewInput}
-              </Text>
-              <View style={styles.reviewFooter}>
-                <Button
-                  onPress={this.onEditReviewClick}
-                  style={styles.reviewSubmitBtn}
-                  text="Edit"
-                  color="secondary"
-                  type="outline"
-                />
-              </View>
             </View>
-          </View>
-        )}
+          )}
       </View>
     );
   }

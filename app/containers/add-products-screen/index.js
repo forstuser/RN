@@ -155,9 +155,7 @@ class AddProductsScreen extends Component {
               onProductAdded={() => {
                 this.onProductAdded(productType);
               }}
-              onUploadBillPress={() => {
-                this.uploadBillOptions.show();
-              }}
+              navigator={this.props.navigator}
               productType={productType}
             />
           ))}
@@ -191,11 +189,6 @@ class AddProductsScreen extends Component {
             </Text>
           </View>
         </Modal>
-        <UploadBillOptions
-          ref={ref => (this.uploadBillOptions = ref)}
-          navigator={this.props.navigator}
-          dontProceedToDocsUnderProcessing={true}
-        />
       </ScreenContainer>
     );
   }

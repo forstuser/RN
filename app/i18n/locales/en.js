@@ -59,6 +59,7 @@ export default {
   add_products_screen_slide_select_model: "Select Model Name",
   add_products_screen_slide_enter_model: "Enter your model",
   add_products_screen_slide_upload_bill: "Upload Bill (Optional)",
+  add_products_screen_slide_bill_uploaded: "Bill Uploaded",
   add_products_screen_slide_add_product_btn: "Add Product",
 
   //add product screen
