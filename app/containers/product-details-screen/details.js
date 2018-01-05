@@ -85,6 +85,7 @@ class Details extends Component {
               ref={o => (this.uploadBillOptions = o)}
               navigator={this.props.navigator}
             />
+            <Image style={styles.viewBillIcon} source={viewBillIcon} />
             <Text style={styles.viewBillText}>
               {I18n.t("product_details_screen_upload_bill_btn")}
             </Text>

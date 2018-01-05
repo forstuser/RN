@@ -108,6 +108,7 @@ class DashboardScreen extends React.Component {
           moment(insight.startDate).format("MMM DD") +
           " - " +
           moment(insight.endDate).format("MMM DD"),
+        hideFilterDropdownIcon: true,
         filterText: I18n.t("dashboard_screen_chart_last_7_days"),
         totalSpend: insight.totalSpend,
         chartData: insight.insightData.map(item => {
