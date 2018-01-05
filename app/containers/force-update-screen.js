@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, TouchableOpacity } from "react-native";
 import AppLink from "react-native-app-link";
 import { ScreenContainer, Text, Button } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
 
-const image = require("../images/on_boarding_1.png");
+const image = require("../images/splash.png");
 
 class ForceUpdateScreen extends Component {
   static navigatorStyle = {
@@ -26,17 +26,27 @@ class ForceUpdateScreen extends Component {
       <ScreenContainer style={styles.container}>
         <Image source={image} style={styles.image} />
         <Text weight="Bold" style={styles.title}>
-          We Are Better Than Ever
+          BinBill got Upgraded!
         </Text>
         <Text weight="Bold" style={styles.desc}>
-          To serve you even better, we have upgraded our systems and this
-          version is no longer supported.
+          The new version brings a whole host of fantastic features and
+          improvements.
         </Text>
         <Button
           onPress={this.openAppStore}
           style={styles.btn}
           text="UPDATE NOW"
         />
+        {this.props.allowSkip && (
+          <TouchableOpacity
+            style={styles.notNow}
+            onPress={() => this.props.navigator.dismissAllModals()}
+          >
+            <Text weight="Bold" style={styles.notNowText}>
+              Not Now
+            </Text>
+          </TouchableOpacity>
+        )}
       </ScreenContainer>
     );
   }
@@ -48,8 +58,8 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   image: {
-    width: 300,
-    height: 300
+    width: 80,
+    height: 80
   },
   title: {
     textAlign: "center",
@@ -65,6 +75,10 @@ const styles = StyleSheet.create({
   btn: {
     width: 300,
     marginTop: 25
+  },
+  notNow: {
+    marginTop: 10,
+    padding: 20
   }
 });
 

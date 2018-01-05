@@ -99,7 +99,7 @@ persistStore(store, {}, () => {
   }
   if (store.getState().loggedInUser.authToken) {
     // start the app
-    // navigation.openForceUpdateScreen();
+    // navigation.openAddProductsScreen();
     navigation.openAppScreen();
   } else {
     navigation.openIntroScreen();

@@ -27,6 +27,16 @@ export const openForceUpdateScreen = () => {
   });
 };
 
+export const openForceUpdateModal = () => {
+  Navigation.showModal({
+    screen: "ForceUpdateScreen",
+    passProps: {
+      allowSkip: true
+    },
+    animationType: "none"
+  });
+};
+
 export const openAddProductsScreen = () => {
   Navigation.startSingleScreenApp({
     screen: {
@@ -118,6 +128,7 @@ export const openAppScreen = opts => {
 export default {
   openLoginScreen,
   openForceUpdateScreen,
+  openForceUpdateModal,
   openIntroScreen,
   openAppScreen,
   openBillsPopUp,

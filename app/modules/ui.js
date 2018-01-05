@@ -26,6 +26,11 @@ export default function uiReducer(state = defaultState.ui, action) {
         ...state,
         hasUploadDocTourShown: action.payload.hasUploadDocTourShown
       };
+    case types.UI_SET_HAS_UPDATE_APP_SCREEN_SHOWN:
+      return {
+        ...state,
+        hasUpdateAppScreenShown: action.payload.hasUpdateAppScreenShown
+      };
     default:
       return state;
   }
@@ -57,6 +62,12 @@ export const actions = {
     return {
       type: types.UI_SET_HAS_UPLOAD_DOC_TOUR_SHOWN,
       payload: { hasUploadDocTourShown }
+    };
+  },
+  setUiHasUpdateAppScreenShown: hasUpdateAppScreenShown => {
+    return {
+      type: types.UI_SET_HAS_UPDATE_APP_SCREEN_SHOWN,
+      payload: { hasUpdateAppScreenShown }
     };
   }
 };

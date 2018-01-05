@@ -107,7 +107,8 @@ class MailBox extends Component {
                 openBillsPopUp({
                   id: item.productName,
                   date: item.purchaseDate,
-                  copies: item.copies
+                  copies: item.copies,
+                  type: "Product"
                 });
               }
               break;

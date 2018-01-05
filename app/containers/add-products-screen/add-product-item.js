@@ -223,7 +223,7 @@ class AddProductItem extends React.Component {
       if (!selectedModel && !modelName.trim()) {
         return Alert.alert("Please select or enter model name");
       } else if (selectedModel) {
-        tempProductName = tempProductName + " " + selectedModel.name;
+        tempProductName = tempProductName + " " + selectedModel.title;
       } else {
         tempProductName = tempProductName + " " + modelName;
       }
@@ -232,16 +232,23 @@ class AddProductItem extends React.Component {
         productName = tempProductName;
       }
 
+      if (!purchaseDate) {
+        return Alert.alert(
+          I18n.t("add_product_screen_alert_select_purchase_date")
+        );
+      }
+
       await addProduct({
         productName,
         mainCategoryId,
         categoryId,
         brandId: selectedBrand ? selectedBrand.id : undefined,
         brandName: brandName,
+        purchaseDate,
         metadata: [
           {
             categoryFormId,
-            value: selectedModel ? selectedModel.name : modelName,
+            value: selectedModel ? selectedModel.title : modelName,
             isNewValue: selectedModel ? false : true
           }
         ]
@@ -317,6 +324,7 @@ class AddProductItem extends React.Component {
             }}
             onTextInputChange={text => this.onBrandNameChange}
           />
+
           <SelectModal
             style={styles.select}
             visibleKey="title"

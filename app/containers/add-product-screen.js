@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 import Modal from "react-native-modal";
-// import { ScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DatePicker from "react-native-datepicker";
 import moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
@@ -100,7 +100,8 @@ class AddProductScreen extends React.Component {
       productName: null,
       purchaseDate: null,
       isFinishModalVisible: false,
-      finishImageSource: ehomeImage
+      finishImageSource: ehomeImage,
+      isBillUploaded: false
     };
   }
 
@@ -262,9 +263,9 @@ class AddProductScreen extends React.Component {
           selectedMainCategory.id == MAIN_CATEGORY_IDS.AUTOMOBILE ||
           selectedMainCategory.id == MAIN_CATEGORY_IDS.ELECTRONICS
         ) {
-          return Alert.alert(I18n.t("add_product_screen_alert_select_expense"));
-        } else {
           return Alert.alert(I18n.t("add_product_screen_alert_select_product"));
+        } else {
+          return Alert.alert(I18n.t("add_product_screen_alert_select_expense"));
         }
       } else {
         tempProductName = tempProductName + " " + selectedCategory.name;
@@ -275,8 +276,10 @@ class AddProductScreen extends React.Component {
       }
 
       if (
-        selectedMainCategory.id == MAIN_CATEGORY_IDS.AUTOMOBILE ||
-        selectedMainCategory.id == MAIN_CATEGORY_IDS.ELECTRONICS
+        (selectedMainCategory.id == MAIN_CATEGORY_IDS.AUTOMOBILE ||
+          selectedMainCategory.id == MAIN_CATEGORY_IDS.ELECTRONICS) &&
+        !selectedBrand &&
+        !brandName.trim()
       ) {
         return Alert.alert("Please select or enter brand name");
       }
@@ -332,11 +335,12 @@ class AddProductScreen extends React.Component {
       productName,
       purchaseDate,
       isFinishModalVisible,
-      finishImageSource
+      finishImageSource,
+      isBillUploaded
     } = this.state;
 
     return (
-      <ScrollView
+      <KeyboardAwareScrollView
         contentContainerStyle={styles.container}
         resetScrollToCoords={{ x: 0, y: 0 }}
       >
@@ -413,7 +417,7 @@ class AddProductScreen extends React.Component {
             style={{
               position: "absolute",
               top: 0,
-              width: 320,
+              width: 300,
               left: 0,
               bottom: 0
             }}
@@ -477,24 +481,34 @@ class AddProductScreen extends React.Component {
           style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
         >
           <Text weight="Bold" style={{ color: colors.secondaryText, flex: 1 }}>
-            {I18n.t("add_product_screen_placeholder_upload_bill")}
+            {!isBillUploaded && I18n.t("add_products_screen_slide_upload_bill")}
+            {isBillUploaded &&
+              I18n.t("add_products_screen_slide_bill_uploaded")}
           </Text>
-          <Image
-            style={{ width: 24, height: 24 }}
-            source={require("../images/ic_upload_new_pic_orange.png")}
-          />
+          {!isBillUploaded && (
+            <Image
+              style={{ width: 24, height: 24 }}
+              source={require("../images/ic_upload_new_pic_orange.png")}
+            />
+          )}
         </TouchableOpacity>
         <Button
           onPress={this.onAddProductBtnClick}
           text={I18n.t("add_product_screen_add_product_btn")}
           color="secondary"
-          style={{ width: 320 }}
+          style={{ width: 300 }}
         />
         <Modal useNativeDriver={true} isVisible={isFinishModalVisible}>
           <View style={styles.finishModal}>
             <Image
               style={styles.finishImage}
-              source={{ uri: API_BASE_URL + `/categories/2/images/1` }}
+              source={{
+                uri:
+                  API_BASE_URL +
+                  `/categories/${
+                    selectedMainCategory ? selectedMainCategory.id : "2"
+                  }/images/1`
+              }}
               resizeMode="contain"
             />
             <Text weight="Bold" style={styles.finishMsg}>
@@ -523,8 +537,11 @@ class AddProductScreen extends React.Component {
         <UploadBillOptions
           ref={ref => (this.uploadBillOptions = ref)}
           navigator={this.props.navigator}
+          uploadCallback={() => {
+            this.setState({ isBillUploaded: true });
+          }}
         />
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -544,14 +561,14 @@ const styles = StyleSheet.create({
     borderColor: colors.secondaryText,
     borderWidth: 1,
     height: 50,
-    width: 320,
+    width: 300,
     borderRadius: 4,
     padding: 14,
     marginBottom: 20
     // underlineColorAndroid: "transparent"
   },
   hint: {
-    width: 320,
+    width: 300,
     color: colors.mainBlue,
     fontSize: 12,
     marginTop: -15,

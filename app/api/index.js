@@ -1,7 +1,13 @@
+import { Navigation } from "react-native-navigation";
 import axios from "axios";
 import store from "../store";
+import DeviceInfo from "react-native-device-info";
+import navigation from "../navigation";
+import { actions as uiActions } from "../modules/ui";
 
 export const API_BASE_URL = "https://consumer.binbill.com";
+
+let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 
 const apiRequest = async ({
   method,
@@ -13,12 +19,15 @@ const apiRequest = async ({
   onDownloadProgress,
   responseType = "json"
 }) => {
-  console.log("New Request: ", method, url);
+  // console.log("New Request: ", method, url, data);
   try {
     const token = store.getState().loggedInUser.authToken;
     if (token) {
       headers.Authorization = token;
     }
+
+    headers.ios_app_version = DeviceInfo.getBuildNumber();
+
     const r = await axios.request({
       baseURL: API_BASE_URL,
       method,
@@ -34,6 +43,17 @@ const apiRequest = async ({
       error.statusCode = 400;
       throw error;
     }
+    if (r.data.forceUpdate === true && !HAS_OPENED_FORCE_UPDATE_SCREEN) {
+      HAS_OPENED_FORCE_UPDATE_SCREEN = true;
+      navigation.openForceUpdateScreen();
+    } else if (
+      r.data.forceUpdate === false &&
+      !store.getState().ui.hasUpdateAppScreenShown
+    ) {
+      store.dispatch(uiActions.setUiHasUpdateAppScreenShown(true));
+      navigation.openForceUpdateModal();
+    }
+
     return r.data;
   } catch (e) {
     let error = new Error(e.message);

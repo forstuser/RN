@@ -9,6 +9,7 @@ export default {
     hasBlankDashboardTourShown: false,
     hasDashboardTourShown: false,
     hasEhomeTourShown: false,
-    hasUploadDocTourShown: false
+    hasUploadDocTourShown: false,
+    hasUpdateAppScreenShown: false
   }
 };

@@ -146,7 +146,8 @@ class Details extends Component {
               openBillsPopUp({
                 date: product.purchaseDate,
                 id: product.id,
-                copies: product.copies
+                copies: product.copies,
+                type: "Product"
               })
             }
             style={styles.viewBillBtn}
@@ -250,7 +251,9 @@ const styles = StyleSheet.create({
     height: 100
   },
   name: {
-    fontSize: 24
+    fontSize: 24,
+    paddingHorizontal: 10,
+    textAlign: "center"
   },
   noBillMsg: {
     color: "red",
