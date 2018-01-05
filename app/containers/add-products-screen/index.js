@@ -194,6 +194,7 @@ class AddProductsScreen extends Component {
         <UploadBillOptions
           ref={ref => (this.uploadBillOptions = ref)}
           navigator={this.props.navigator}
+          dontProceedToDocsUnderProcessing={true}
         />
       </ScreenContainer>
     );

@@ -123,7 +123,7 @@ class VerifyScreen extends Component {
           keyboardType="phone-pad"
         />
         <Button
-          style={{ width: 320 }}
+          style={{ width: 300 }}
           color="secondary"
           onPress={this.onSubmitOtp}
           text={I18n.t("verify_screen_btn_text")}

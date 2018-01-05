@@ -5,7 +5,7 @@ import call from "react-native-phone-call";
 import { Text } from "../../elements";
 import { colors } from "../../theme";
 
-const MultipleContactNumbers = ({ contact }) => {
+const MultipleContactNumbers = ({ contact = "" }) => {
   //split by ',' or '/' or '\'
   let contactNumbers = contact.split(/,|\/|\\/);
   return (

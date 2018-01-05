@@ -371,6 +371,13 @@ class AddProductScreen extends React.Component {
             </Text>
           )}
           options={categories}
+          beforeModalOpen={() => {
+            if (!selectedMainCategory) {
+              Alert.alert("Please select category first");
+              return false;
+            }
+            return true;
+          }}
           selectedOption={selectedCategory}
           onOptionSelect={value => {
             this.onCategorySelect(value);

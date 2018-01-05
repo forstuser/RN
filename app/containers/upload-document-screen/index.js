@@ -210,7 +210,13 @@ class UploadDocumentScreen extends Component {
   };
 
   onSuccessOkClick = () => {
-    openAppScreen({ startScreen: SCREENS.DOCS_UNDER_PROCESSING_SCREEN });
+    if (this.props.dontProceedToDocsUnderProcessing) {
+      this.setState(() => ({
+        isSuccessModalVisible: false
+      }));
+    } else {
+      openAppScreen({ startScreen: SCREENS.DOCS_UNDER_PROCESSING_SCREEN });
+    }
   };
 
   removeFile = index => {

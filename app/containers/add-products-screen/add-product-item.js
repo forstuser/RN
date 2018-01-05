@@ -329,6 +329,13 @@ class AddProductItem extends React.Component {
               </Text>
             )}
             options={models}
+            beforeModalOpen={() => {
+              if (!selectedBrand) {
+                Alert.alert("Please select brand first");
+                return false;
+              }
+              return true;
+            }}
             selectedOption={selectedModel}
             textInputValue={modelName}
             onOptionSelect={value => {
@@ -412,7 +419,7 @@ class AddProductItem extends React.Component {
             onPress={this.onAddProductBtnClick}
             text={I18n.t("add_products_screen_slide_add_product_btn")}
             color="secondary"
-            style={{ width: 320 }}
+            style={{ width: 300 }}
           />
         </LinearGradient>
       </KeyboardAwareScrollView>
@@ -422,17 +429,14 @@ class AddProductItem extends React.Component {
 
 const styles = StyleSheet.create({
   outerContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     width: Dimensions.get("window").width
   },
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    width: Dimensions.get("window").width
+    width: Dimensions.get("window").width,
+    minHeight: Dimensions.get("window").height
   },
   title: {
     fontSize: 18,
@@ -468,7 +472,7 @@ const styles = StyleSheet.create({
     borderColor: colors.secondaryText,
     borderWidth: 1,
     height: 50,
-    width: 320,
+    width: 300,
     borderRadius: 4,
     padding: 14,
     marginBottom: 20

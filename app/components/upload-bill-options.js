@@ -14,32 +14,28 @@ class UploadBillOptions extends React.Component {
   };
 
   handleOptionPress = index => {
+    let dontProceedToDocsUnderProcessing =
+      this.props.dontProceedToDocsUnderProcessing || false;
+    let openPickerOnStart;
     switch (index) {
       case 0:
-        this.props.navigator.push({
-          screen: "UploadDocumentScreen",
-          passProps: {
-            openPickerOnStart: "camera"
-          }
-        });
+        openPickerOnStart = "camera";
         break;
       case 1:
-        this.props.navigator.push({
-          screen: "UploadDocumentScreen",
-          passProps: {
-            openPickerOnStart: "images"
-          }
-        });
+        openPickerOnStart = "images";
+
         break;
       case 2:
-        this.props.navigator.push({
-          screen: "UploadDocumentScreen",
-          passProps: {
-            openPickerOnStart: "documents"
-          }
-        });
+        openPickerOnStart = "documents";
         break;
     }
+    this.props.navigator.push({
+      screen: "UploadDocumentScreen",
+      passProps: {
+        openPickerOnStart,
+        dontProceedToDocsUnderProcessing
+      }
+    });
   };
 
   render() {

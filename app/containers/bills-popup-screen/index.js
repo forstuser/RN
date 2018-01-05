@@ -157,13 +157,13 @@ class BillsPopUpScreen extends Component {
 
   render() {
     const { isSelectViewVisible, isDownloadingFiles, copies } = this.state;
-    const { date, id, type = "Product", onCopyDelete } = this.props;
+    const { date, id, type = "", onCopyDelete } = this.props;
     return (
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
           <View style={styles.dateAndId}>
             <Text onPress={this.openShare} weight="Medium" style={styles.date}>
-              {moment(date).format("DD MMM, YYYY")}
+              {moment(date).isValid() && moment(date).format("DD MMM, YYYY")}
             </Text>
             <Text style={styles.id}>{!isNaN(id) && "ID: " + id}</Text>
             <View style={styles.type}>
