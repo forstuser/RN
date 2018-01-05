@@ -18,7 +18,7 @@ import { colors } from "../../theme";
 
 import { actions as uiActions } from "../../modules/ui";
 
-const uploadFabIcon = require("../../images/ic_upload_fab.png");
+const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
 const slideImages = [
   require("../../images/blank-dashboard/slide_1.png"),

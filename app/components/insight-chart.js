@@ -23,7 +23,8 @@ const InsightChart = ({
   totalSpend = null,
   bgColors = [colors.mainBlue, colors.aquaBlue],
   chartData = [],
-  onFiltersPress
+  onFiltersPress,
+  hideFilterDropdownIcon = false
 }) => {
   let barWidth = 30;
   if (chartData.length > 7) {
@@ -48,10 +49,12 @@ const InsightChart = ({
           <Text weight="Bold" style={[styles.filterText, { color: textColor }]}>
             {filterText}
           </Text>
-          <Image
-            style={[styles.filterDropdown, { tintColor: textColor }]}
-            source={dropdownIcon}
-          />
+          {!hideFilterDropdownIcon && (
+            <Image
+              style={[styles.filterDropdown, { tintColor: textColor }]}
+              source={dropdownIcon}
+            />
+          )}
         </TouchableOpacity>
       </View>
 
@@ -175,7 +178,8 @@ const styles = StyleSheet.create({
     tintColor: "#fff"
   },
   filterText: {
-    fontSize: 14
+    fontSize: 14,
+    marginRight: 10
   },
   totalSpendContainer: {
     marginTop: 14,
