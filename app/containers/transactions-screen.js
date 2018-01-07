@@ -219,7 +219,7 @@ class TransactionsScreen extends Component {
                         this.props.navigator.push({
                           screen: "ProductDetailsScreen",
                           passProps: {
-                            productId: product.id
+                            productId: product.productId || product.id
                           }
                         });
                       } else {

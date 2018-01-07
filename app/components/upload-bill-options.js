@@ -14,7 +14,7 @@ class UploadBillOptions extends React.Component {
   };
 
   handleOptionPress = index => {
-    let openPickerOnStart;
+    let openPickerOnStart = null;
     switch (index) {
       case 0:
         openPickerOnStart = "camera";
@@ -27,13 +27,16 @@ class UploadBillOptions extends React.Component {
         openPickerOnStart = "documents";
         break;
     }
-    this.props.navigator.push({
-      screen: "UploadDocumentScreen",
-      passProps: {
-        openPickerOnStart,
-        uploadCallback: this.props.uploadCallback
-      }
-    });
+
+    if (openPickerOnStart) {
+      this.props.navigator.push({
+        screen: "UploadDocumentScreen",
+        passProps: {
+          openPickerOnStart,
+          uploadCallback: this.props.uploadCallback
+        }
+      });
+    }
   };
 
   render() {

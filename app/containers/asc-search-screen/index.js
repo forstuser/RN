@@ -63,6 +63,10 @@ class AscSearchScreen extends Component {
         isFetchingResults: false
       });
     } catch (e) {
+      this.setState({
+        serviceCenters: [],
+        isFetchingResults: false
+      });
       Alert.alert(e.message);
     }
   };

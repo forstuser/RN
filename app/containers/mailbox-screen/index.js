@@ -139,21 +139,23 @@ class MailBox extends Component {
       >
         <View style={styles.imageAndDetails}>
           <View style={styles.imageWrapper}>
-            {item.copies.length > 0 && (
-              <AsyncImage
-                style={styles.image}
-                fileStyle={{ width: 50, height: 50 }}
-                fileType={item.copies[0].file_type}
-                uri={API_BASE_URL + "/" + item.copies[0].copyUrl}
-              />
-            )}
-            {item.copies.length == 0 && (
+            {(!item.copies || (item.copies && item.copies.length == 0)) && (
               <AsyncImage
                 style={styles.image}
                 fileStyle={{ width: 50, height: 50 }}
                 fileType="pdf"
               />
             )}
+
+            {item.copies &&
+              item.copies.length > 0 && (
+                <AsyncImage
+                  style={styles.image}
+                  fileStyle={{ width: 50, height: 50 }}
+                  fileType={item.copies[0].file_type}
+                  uri={API_BASE_URL + "/" + item.copies[0].copyUrl}
+                />
+              )}
           </View>
           <View style={styles.titleAndDetails}>
             <Text weight="Medium" style={{ color: titleColor }}>
@@ -169,7 +171,7 @@ class MailBox extends Component {
                   source={require("../../images/ic_filter_none_black.png")}
                 />
                 <Text weight="Medium" style={styles.countText}>
-                  {item.copies.length}
+                  {item.copies ? item.copies.length : 0}
                 </Text>
               </View>
             </View>

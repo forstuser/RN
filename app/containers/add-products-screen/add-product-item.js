@@ -370,9 +370,9 @@ class AddProductItem extends React.Component {
               placeholder={I18n.t(
                 "add_product_screen_placeholder_purchase_date"
               )}
-              format="DD MMM YY"
-              minDate="01 Jan 90"
-              maxDate={moment().format("DD MMM YY")}
+              format="YYYY-MM-DD"
+              minDate="1990-01-01"
+              maxDate={moment().format("YYYY-MM-DD")}
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{

@@ -19,11 +19,12 @@ const apiRequest = async ({
   onDownloadProgress,
   responseType = "json"
 }) => {
-  // console.log("New Request: ", method, url, data);
+  console.log("New Request: ", method, url, data);
   try {
     const token = store.getState().loggedInUser.authToken;
     if (token) {
       headers.Authorization = token;
+      console.log("auth token: ", token);
     }
 
     headers.ios_app_version = DeviceInfo.getBuildNumber();
@@ -38,6 +39,7 @@ const apiRequest = async ({
       onUploadProgress,
       onDownloadProgress
     });
+    // console.log("r.data: ", r.data);
     if (r.data.status == false) {
       let error = new Error(r.data.message);
       error.statusCode = 400;
@@ -56,9 +58,11 @@ const apiRequest = async ({
 
     return r.data;
   } catch (e) {
+    // console.log("e: ", e);
     let error = new Error(e.message);
     error.statusCode = e.statusCode || 0;
     if (e.response) {
+      // console.log("e.response.data: ", e.response.data);
       error.statusCode = e.response.status;
     }
     throw error;
@@ -351,7 +355,8 @@ export const addProduct = async ({
   categoryId = null,
   brandId = null,
   brandName = null,
-  metadata = []
+  metadata = [],
+  purchaseDate = null
 }) => {
   return await apiRequest({
     method: "post",
@@ -362,6 +367,7 @@ export const addProduct = async ({
       category_id: categoryId,
       brand_id: brandId,
       brand_name: brandName,
+      document_date: purchaseDate,
       metadata: metadata.map(meta => {
         return {
           category_form_id: meta.categoryFormId || null,

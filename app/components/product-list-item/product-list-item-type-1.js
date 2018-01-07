@@ -13,7 +13,7 @@ const isDateInNextTenDays = date => {
 };
 
 const expiringInText = date => {
-  const diff = date.diff(moment(), "days");
+  const diff = date.diff(moment().startOf("day"), "days");
   if (diff < 0) {
     return "Expired!";
   } else if (diff == 0) {

@@ -31,7 +31,9 @@ persistStore(store, {}, () => {
         store.dispatch(loggedInUserActions.setLoggedInUserFcmToken(token));
         try {
           await addFcmToken(token);
-        } catch (e) {}
+        } catch (e) {
+          console.log("error in fcm token update: ", e);
+        }
       })
       .catch(e => console.log("token error: ", e));
 

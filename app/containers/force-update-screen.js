@@ -13,7 +13,7 @@ class ForceUpdateScreen extends Component {
   };
 
   openAppStore = () => {
-    AppLink.openInStore(585027354, "com.bin.binbillcustomer")
+    AppLink.openInStore(1328873045, "com.bin.binbillcustomer")
       .then(() => {
         // do stuff
       })

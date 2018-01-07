@@ -20,7 +20,9 @@ const UpcomingServiceItem = ({ item, navigator }) => {
       title = item.productName;
       subTitle = item.address;
       sidebarTitle = "₹ " + item.value;
-      sidebarSubTitle = "on " + moment(item.expiryDate).format("DD MMM");
+      sidebarSubTitle =
+        moment(item.dueDate).isValid() &&
+        "by " + moment(item.dueDate).format("DD MMM");
       break;
     case 2:
       icon = require("../images/ic_comingup_expiring.png");

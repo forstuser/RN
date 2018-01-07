@@ -79,7 +79,7 @@ class EhomeScreen extends Component {
 
   fetchEhomeData = async () => {
     this.setState({
-      isFetchingData: false,
+      isFetchingData: true,
       error: null
     });
     try {

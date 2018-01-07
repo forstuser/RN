@@ -105,16 +105,50 @@ class AfterSaleButton extends Component {
 
   handleEmailPress = index => {
     const { product } = this.props;
+    let purchaseDate = moment(product.purchaseDate).isValid()
+      ? moment(product.purchaseDate).format("DD MMM YYYY")
+      : "N/A";
+    let modelName = "NA";
+    let modelNo = "NA";
+    let type = "NA";
+    let serialNo = "NA";
+
+    if (product.metaData) {
+      const metaData = product.metaData;
+      const keys = Object.keys(metaData);
+      const modelNameKey = keys.find(
+        key => key.toLowerCase().indexOf("model name") > -1
+      );
+      if (modelNameKey) {
+        modelName = metaData[modelNameKey];
+      }
+      const modelNoKey = keys.find(
+        key => key.toLowerCase().indexOf("model number") > -1
+      );
+      if (modelNoKey) {
+        modelNo = metaData[modelNoKey];
+      }
+      const typeKey = keys.find(key => key.toLowerCase().indexOf("type") > -1);
+      if (typeKey) {
+        type = metaData[typeKey];
+      }
+      const serialNoKey = keys.find(
+        key => key.toLowerCase().indexOf("serial") > -1
+      );
+      if (serialNoKey) {
+        serialNo = metaData[serialNoKey];
+      }
+    }
+
     if (index < this.state.emails.length) {
       const url = `mailto:${
         this.state.emails[index]
-      }?subject=Service Request for ${product.categoryName}&body=Dear ${
+      }?subject=Service Request for ${product.productName}&body=Dear ${
         product.brand.name
       } Team,\n\nMy Product Details are:\n${
         product.categoryName
-      }\nPurchase Date: ${moment(product.purchaseDate).format(
-        "DD MMM YYYY"
-      )}\nThe issue with my product is:\n\n\nThanks,\n\n\nPowered by BinBill`;
+      }\nModel Name: ${modelName}\nModel No: ${modelNo}\nSerial No: ${serialNo}\nType: ${type}\nPurchase Date: ${purchaseDate}
+      \nThe issue with my product is:\n\n\nThanks,\n\n\nPowered by BinBill`;
       Linking.canOpenURL(url)
         .then(supported => {
           if (!supported) {
@@ -207,7 +241,16 @@ class AfterSaleButton extends Component {
               : "No Link Available"
           }
           cancelButtonIndex={this.state.urls.length}
-          options={[...this.state.urls, "Cancel"]}
+          options={[
+            ...this.state.urls.map(url => (
+              <View>
+                <Text weight="Bold" style={{ color: colors.mainBlue }}>
+                  {url}
+                </Text>
+              </View>
+            )),
+            "Cancel"
+          ]}
         />
       </View>
     );

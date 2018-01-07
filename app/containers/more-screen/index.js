@@ -90,6 +90,7 @@ class MoreScreen extends Component {
           navigator={this.props.navigator}
         />
         <Body
+          profile={profile}
           logoutUser={this.props.logoutUser}
           navigator={this.props.navigator}
         />
