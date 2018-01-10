@@ -25,7 +25,7 @@ import SearchHeader from "../../components/search-header";
 import InsightChart from "../../components/insight-chart";
 import UpcomingServicesList from "../../components/upcoming-services-list";
 import UploadBillOptions from "../../components/upload-bill-options";
-import AddExpenseOptions from "../../components/add-expense-options";
+import AddExpenseModal from "../../components/add-expense-modal";
 import { colors } from "../../theme";
 import I18n from "../../i18n";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -105,7 +105,7 @@ class DashboardScreen extends React.Component {
         !DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE
       ) {
         DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = true;
-        return openAddProductsScreen();
+        return this.addExpenseModal.show(false);
       }
       const insight = dashboardData.insight;
       const insightChartProps = {
@@ -236,20 +236,20 @@ class DashboardScreen extends React.Component {
         )}
         {!showDashboard && (
           <BlankDashboard
-            onUploadButtonClick={() => this.addExpenseOptions.show()}
+            onUploadButtonClick={() => this.addExpenseModal.show()}
           />
         )}
         {showDashboard && (
           <TouchableOpacity
             style={styles.fab}
-            onPress={() => this.addExpenseOptions.show()}
+            onPress={() => this.addExpenseModal.show()}
           >
             <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
           </TouchableOpacity>
         )}
 
-        <AddExpenseOptions
-          ref={ref => (this.addExpenseOptions = ref)}
+        <AddExpenseModal
+          ref={ref => (this.addExpenseModal = ref)}
           navigator={this.props.navigator}
         />
 

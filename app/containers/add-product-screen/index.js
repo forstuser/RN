@@ -15,21 +15,21 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import DatePicker from "react-native-datepicker";
 import moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
-import { Text, Button, ScreenContainer } from "../elements";
-import I18n from "../i18n";
-import { colors } from "../theme";
+import { Text, Button, ScreenContainer } from "../../elements";
+import I18n from "../../i18n";
+import { colors } from "../../theme";
 import {
   API_BASE_URL,
   getReferenceDataCategories,
   getReferenceDataBrands,
   addProduct
-} from "../api";
-import { openAppScreen } from "../navigation";
-import SelectModal from "../components/select-modal";
-import UploadBillOptions from "../components/upload-bill-options";
-import { MAIN_CATEGORY_IDS } from "../constants";
+} from "../../api";
+import { openAppScreen } from "../../navigation";
+import SelectModal from "../../components/select-modal";
+import UploadBillOptions from "../../components/upload-bill-options";
+import { MAIN_CATEGORY_IDS } from "../../constants";
 
-const ehomeImage = require("../images/ehome_circle_with_category_icons.png");
+const ehomeImage = require("../../images/ehome_circle_with_category_icons.png");
 
 class AddProductScreen extends React.Component {
   static navigatorStyle = {
@@ -488,7 +488,7 @@ class AddProductScreen extends React.Component {
           {!isBillUploaded && (
             <Image
               style={{ width: 24, height: 24 }}
-              source={require("../images/ic_upload_new_pic_orange.png")}
+              source={require("../../images/ic_upload_new_pic_orange.png")}
             />
           )}
         </TouchableOpacity>

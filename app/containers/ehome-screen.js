@@ -27,7 +27,7 @@ import { SCREENS } from "../constants";
 import { actions as uiActions } from "../modules/ui";
 
 import { colors } from "../theme";
-import AddExpenseOptions from "../components/add-expense-options";
+import AddExpenseModal from "../components/add-expense-modal";
 const uploadFabIcon = require("../images/ic_upload_fabs.png");
 
 class EhomeScreen extends Component {
@@ -192,13 +192,13 @@ class EhomeScreen extends Component {
 
         <TouchableOpacity
           style={styles.fab}
-          onPress={() => this.addExpenseOptions.show()}
+          onPress={() => this.addExpenseModal.show()}
         >
           <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
         </TouchableOpacity>
 
-        <AddExpenseOptions
-          ref={ref => (this.addExpenseOptions = ref)}
+        <AddExpenseModal
+          ref={ref => (this.addExpenseModal = ref)}
           navigator={this.props.navigator}
         />
       </ScreenContainer>

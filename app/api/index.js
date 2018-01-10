@@ -5,7 +5,7 @@ import DeviceInfo from "react-native-device-info";
 import navigation from "../navigation";
 import { actions as uiActions } from "../modules/ui";
 
-export const API_BASE_URL = "https://consumer.binbill.com";
+export const API_BASE_URL = "https://consumer-eb.binbill.com";
 
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 
