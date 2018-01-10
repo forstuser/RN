@@ -164,9 +164,11 @@ class AfterSaleButton extends Component {
 
   handlePhonePress = index => {
     if (index < this.state.phoneNumbers.length) {
-      call({ number: this.state.phoneNumbers[index] }).catch(e =>
-        Alert.alert(e.message)
-      );
+      //remove anything between ()
+      const phoneNumber = this.state.phoneNumbers[index]
+        .replace(/\(.+\)/)
+        .trim();
+      call({ number: phoneNumber }).catch(e => Alert.alert(e.message));
     }
   };
 

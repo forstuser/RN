@@ -363,6 +363,7 @@ export const addProduct = async ({
   brandId = null,
   brandName = null,
   metadata = [],
+  purchaseCost = null,
   purchaseDate = null
 }) => {
   return await apiRequest({
@@ -374,6 +375,7 @@ export const addProduct = async ({
       category_id: categoryId,
       brand_id: brandId,
       brand_name: brandName,
+      purchase_cost: purchaseCost,
       document_date: purchaseDate,
       metadata: metadata.map(meta => {
         return {

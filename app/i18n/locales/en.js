@@ -269,6 +269,7 @@ export default {
   asc_screen_placeholder_search_btn: "Search Now",
   asc_screen_select_brand_first: "Please select brand first",
   asc_screen_select_fields_first: "Please select brand and product",
+  asc_screen_select_location: "Please select location",
 
   //Dashboard Screen
   dashboard_screen_whats_coming_up: "What's Coming Up",

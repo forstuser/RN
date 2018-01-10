@@ -142,13 +142,14 @@ class AscScreen extends Component {
   };
 
   startSearch = () => {
-    if (
-      !this.state.selectedBrand ||
-      !this.state.selectedCategory ||
-      !this.state.latitude
-    ) {
+    if (!this.state.selectedBrand || !this.state.selectedCategory) {
       return Alert.alert(I18n.t("asc_screen_select_fields_first"));
     }
+
+    if (!this.state.latitude) {
+      return Alert.alert(I18n.t("asc_screen_select_location"));
+    }
+
     this.props.navigator.push({
       screen: SCREENS.ASC_SEARCH_SCREEN,
       passProps: {
