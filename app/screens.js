@@ -1,5 +1,6 @@
 import { Navigation } from "react-native-navigation";
 
+import { SCREENS } from "./constants";
 import Snackbar from "./containers/snackbar";
 import DashboardScreen from "./containers/dashboard-screen";
 import EhomeScreen from "./containers/ehome-screen";
@@ -30,144 +31,166 @@ import ForceUpdateScreen from "./containers/force-update-screen";
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
   Navigation.registerComponent(
-    "InAppNotification",
+    SCREENS.SNACKBAR_SCREEN,
     () => Snackbar,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "IntroScreen",
+    SCREENS.INTRO_SCREEN,
     () => IntroScreen,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "LoginScreen",
+    SCREENS.LOGIN_SCREEN,
     () => LoginScreen,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "VerifyScreen",
+    SCREENS.VERIFY_SCREEN,
     () => VerifyScreen,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "TermsScreen",
+    SCREENS.TERMS_SCREEN,
     () => TermsScreen,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "DashboardScreen",
+    SCREENS.DASHBOARD_SCREEN,
     () => DashboardScreen,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "EhomeScreen",
+    SCREENS.EHOME_SCREEN,
     () => EhomeScreen,
     store,
     Provider
   );
-  Navigation.registerComponent("FaqScreen", () => FaqScreen, store, Provider);
-  Navigation.registerComponent("TipsScreen", () => TipsScreen, store, Provider);
-
-  Navigation.registerComponent("AscScreen", () => AscScreen, store, Provider);
-  Navigation.registerComponent("MoreScreen", () => MoreScreen, store, Provider);
-  Navigation.registerComponent("FaqScreen", () => FaqScreen, store, Provider);
   Navigation.registerComponent(
-    "ProfileScreen",
+    SCREENS.FAQS_SCREEN,
+    () => FaqScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    SCREENS.TIPS_SCREEN,
+    () => TipsScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.ASC_SCREEN,
+    () => AscScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.MORE_SCREEN,
+    () => MoreScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    SCREENS.PROFILE_SCREEN,
     () => ProfileScreen,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "InsightScreen",
+    SCREENS.INSIGHTS_SCREEN,
     () => InsightScreen,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "TotalTaxScreen",
+    SCREENS.TOTAL_TAX_SCREEN,
     () => TotalTaxScreen,
     store,
     Provider
   );
 
   Navigation.registerComponent(
-    "MainCategoryScreen",
+    SCREENS.MAIN_CATEGORY_SCREEN,
     () => MainCategoryScreen,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "ProductDetailsScreen",
+    SCREENS.PRODUCT_DETAILS_SCREEN,
     () => ProductDetailsScreen,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "DocsUnderProcessingScreen",
+    SCREENS.DOCS_UNDER_PROCESSING_SCREEN,
     () => DocsUnderProcessingScreen,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "BillsPopUpScreen",
+    SCREENS.BILLS_POPUP_SCREEN,
     () => BillsPopUpScreen,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "MailboxScreen",
+    SCREENS.MAILBOX_SCREEN,
     () => MailboxScreen,
     store,
     Provider
   );
   Navigation.registerComponent(
-    "SearchScreen",
+    SCREENS.SEARCH_SCREEN,
     () => SearchScreen,
     store,
     Provider
   );
 
   Navigation.registerComponent(
-    "AscSearchScreen",
+    SCREENS.ASC_SEARCH_SCREEN,
     () => AscSearchScreen,
     store,
     Provider
   );
 
   Navigation.registerComponent(
-    "AddProductsScreen",
+    SCREENS.ADD_PRODUCTS_SCREEN,
     () => AddProductsScreen,
     store,
     Provider
   );
 
   Navigation.registerComponent(
-    "AddProductScreen",
+    SCREENS.ADD_PRODUCT_SCREEN,
     () => AddProductScreen,
     store,
     Provider
   );
 
   Navigation.registerComponent(
-    "UploadDocumentScreen",
+    SCREENS.UPLOAD_DOCUMENT_SCREEN,
     () => UploadDocumentScreen,
     store,
     Provider
   );
+
   Navigation.registerComponent(
-    "TransactionsScreen",
+    SCREENS.TRANSACTIONS_SCREEN,
     () => TransactionsScreen,
     store,
     Provider
   );
+
   Navigation.registerComponent(
-    "ForceUpdateScreen",
+    SCREENS.FORCE_UPDATE_SCREEN,
     () => ForceUpdateScreen,
     store,
     Provider

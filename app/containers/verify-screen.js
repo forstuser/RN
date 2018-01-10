@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { consumerValidate, consumerGetOtp } from "../api";
 import LoadingOverlay from "../components/loading-overlay";
-import { openAppScreen } from "../navigation";
+import { openAfterLoginScreen } from "../navigation";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import { ScreenContainer, Text, Button } from "../elements";
 import { colors } from "../theme";
@@ -80,7 +80,7 @@ class VerifyScreen extends Component {
         this.props.fcmToken
       );
       this.props.setLoggedInUserAuthToken(r.authorization);
-      openAppScreen();
+      openAfterLoginScreen();
     } catch (e) {
       Alert.alert(e.statusCode == 401 ? "Wrong OTP" : e.message);
       this.setState({

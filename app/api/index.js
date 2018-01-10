@@ -137,6 +137,13 @@ export const fetchFile = async (url, onDownloadProgress) => {
   return new Buffer(responseData, "binary").toString("base64");
 };
 
+export const verifyEmail = async verificationId => {
+  return await apiRequest({
+    method: "get",
+    url: `/verify/${verificationId}`
+  });
+};
+
 export const consumerGetOtp = async PhoneNo => {
   return await apiRequest({
     method: "post",

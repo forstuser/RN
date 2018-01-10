@@ -22,9 +22,28 @@ class MoreScreen extends Component {
       error: null,
       isFetchingData: false,
       profile: null,
-      binbillDetails: {}
+      binbillDetails: {},
+      startWithProfileScreen: false
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+  }
+
+  componentDidMount() {
+    if (this.props.screenOpts) {
+      const screenOpts = this.props.screenOpts;
+      switch (screenOpts.startScreen) {
+        case SCREENS.FAQS_SCREEN:
+          this.props.navigator.push({
+            screen: SCREENS.FAQS_SCREEN
+          });
+          break;
+        case SCREENS.PROFILE_SCREEN:
+          this.setState({
+            startWithProfileScreen: true
+          });
+          break;
+      }
+    }
   }
 
   onNavigatorEvent = event => {
@@ -49,13 +68,9 @@ class MoreScreen extends Component {
           isFetchingData: false
         },
         () => {
-          if (this.props.screenOpts) {
-            const screenOpts = this.props.screenOpts;
-            switch (screenOpts.startScreen) {
-              case SCREENS.PROFILE_SCREEN:
-                this.openProfileScreen();
-                break;
-            }
+          if (this.state.startWithProfileScreen) {
+            this.setState({ startWithProfileScreen: false });
+            this.openProfileScreen();
           }
         }
       );
@@ -71,7 +86,7 @@ class MoreScreen extends Component {
 
   openProfileScreen = () => {
     this.props.navigator.push({
-      screen: "ProfileScreen",
+      screen: SCREENS.PROFILE_SCREEN,
       passProps: { profile: this.state.profile }
     });
   };

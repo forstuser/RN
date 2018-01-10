@@ -1,10 +1,12 @@
 const getProductMetasString = metasArray => {
+  console.log(" metasArray: ", metasArray);
   if (!metasArray) {
     return "";
   }
-  const metasWithValue = metasArray.filter(
-    metaItem => String(metaItem.value).length > 0
-  );
+  const metasWithValue = metasArray.filter(metaItem => {
+    if (metaItem.value) return String(metaItem.value).length > 0;
+    else return false;
+  });
 
   return metasWithValue.map(metaItem => metaItem.value).join("/");
 };

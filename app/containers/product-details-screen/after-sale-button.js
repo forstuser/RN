@@ -17,6 +17,7 @@ import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
 
 import { showSnackbar } from "../../containers/snackbar";
+import { SCREENS } from "../../constants";
 
 class AfterSaleButton extends Component {
   constructor(props) {
@@ -82,7 +83,7 @@ class AfterSaleButton extends Component {
         navigator.geolocation.getCurrentPosition(
           position => {
             this.props.navigator.push({
-              screen: "AscSearchScreen",
+              screen: SCREENS.ASC_SEARCH_SCREEN,
               passProps: {
                 brand: {
                   id: product.brand.id,

@@ -85,7 +85,7 @@ const BillCopyItem = ({
         <View style={styles.file}>
           <Image style={styles.fileIcon} source={fileIcon} />
           <Text weight="Medium" style={styles.fileName}>
-            {!isNaN(billId) && "Bill_" + copy.copyId}
+            {!isNaN(billId) && "Bill_" + copy.copyId + "." + copy.file_type}
             {isNaN(billId) && billId}
           </Text>
         </View>

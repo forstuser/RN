@@ -20,7 +20,7 @@ import LoadingOverlay from "../components/loading-overlay";
 import { openBillsPopUp } from "../navigation";
 import I18n from "../i18n";
 
-import { MAIN_CATEGORY_IDS } from "../constants";
+import { MAIN_CATEGORY_IDS, SCREENS } from "../constants";
 
 const billIcon = require("../images/ic_comingup_bill.png");
 
@@ -48,6 +48,12 @@ class TransactionsScreen extends Component {
       yearlyData: {
         timeSpanText: "",
         filterText: "Current Year",
+        products: [],
+        insightData: {}
+      },
+      overallData: {
+        timeSpanText: "",
+        filterText: "Overall",
         products: [],
         insightData: {}
       },
@@ -88,17 +94,22 @@ class TransactionsScreen extends Component {
       const yearlyData = {
         timeSpanText: "For " + moment(res.insight.yearStartDate).format("YYYY"),
         filterText: I18n.t("transactions_screen_filter_current_year"),
-        totalSpend: res.totalYearlySpend,
         products: res.productListMonthly,
         insightData: res.insight.insightMonthly
       };
-
+      const overallData = {
+        timeSpanText: "Lifetime",
+        filterText: I18n.t("transactions_screen_filter_overall"),
+        products: res.overallProductList,
+        insightData: res.insight.overallInsight
+      };
       this.setState(
         {
           isFetchingData: false,
           weeklyData,
           monthlyData,
-          yearlyData
+          yearlyData,
+          overallData
         },
         () => {
           this.handleFilterOptionPress(this.props.index);
@@ -119,6 +130,9 @@ class TransactionsScreen extends Component {
       case 2:
         activeData = this.state.yearlyData;
         break;
+      case 3:
+        activeData = this.state.overallData;
+        break;
       default:
         activeData = this.state.weeklyData;
     }
@@ -136,6 +150,8 @@ class TransactionsScreen extends Component {
         x = "Week " + data.week;
       } else if (index == 2) {
         x = data.month;
+      } else if (index == 3) {
+        x = String(data.year);
       }
       return {
         x: x,
@@ -187,11 +203,12 @@ class TransactionsScreen extends Component {
               onPress={this.handleFilterOptionPress}
               ref={o => (this.filterOptions = o)}
               title={I18n.t("transactions_screen_filter_options_title")}
-              cancelButtonIndex={3}
+              cancelButtonIndex={4}
               options={[
                 I18n.t("transactions_screen_filter_last_7_days"),
                 I18n.t("transactions_screen_filter_current_month"),
                 I18n.t("transactions_screen_filter_current_year"),
+                I18n.t("transactions_screen_filter_overall"),
                 I18n.t("transactions_screen_filter_close")
               ]}
             />
@@ -217,7 +234,7 @@ class TransactionsScreen extends Component {
                           MAIN_CATEGORY_IDS.ELECTRONICS
                       ) {
                         this.props.navigator.push({
-                          screen: "ProductDetailsScreen",
+                          screen: SCREENS.PRODUCT_DETAILS_SCREEN,
                           passProps: {
                             productId: product.productId || product.id
                           }

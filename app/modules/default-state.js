@@ -6,6 +6,7 @@ export default {
   },
 
   ui: {
+    screenToOpenAfterLogin: null,
     hasBlankDashboardTourShown: false,
     hasDashboardTourShown: false,
     hasEhomeTourShown: false,

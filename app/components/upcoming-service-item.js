@@ -6,6 +6,7 @@ import I18n from "../i18n";
 import { colors } from "../theme";
 import { API_BASE_URL } from "../api";
 import { openBillsPopUp } from "../navigation";
+import { SCREENS } from "../constants";
 
 const UpcomingServiceItem = ({ item, navigator }) => {
   let icon = require("../images/ic_comingup_bill.png");
@@ -59,7 +60,7 @@ const UpcomingServiceItem = ({ item, navigator }) => {
           });
         } else {
           navigator.push({
-            screen: "ProductDetailsScreen",
+            screen: SCREENS.PRODUCT_DETAILS_SCREEN,
             passProps: {
               productId: item.productId
             }

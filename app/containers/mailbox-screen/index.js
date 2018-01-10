@@ -15,7 +15,7 @@ import { colors } from "../../theme";
 import { openBillsPopUp } from "../../navigation";
 import I18n from "../../i18n";
 
-import { MAIN_CATEGORY_IDS } from "../../constants";
+import { MAIN_CATEGORY_IDS, SCREENS } from "../../constants";
 
 import EmptyMailboxPlaceholder from "./empty-mailbox-placeholder";
 
@@ -98,7 +98,7 @@ class MailBox extends Component {
                 item.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS
               ) {
                 this.props.navigator.push({
-                  screen: "ProductDetailsScreen",
+                  screen: SCREENS.PRODUCT_DETAILS_SCREEN,
                   passProps: {
                     productId: item.productId
                   }
@@ -114,7 +114,7 @@ class MailBox extends Component {
               break;
             case 3:
               this.props.navigator.push({
-                screen: "ProductDetailsScreen",
+                screen: SCREENS.PRODUCT_DETAILS_SCREEN,
                 passProps: {
                   productId: item.productId
                 }

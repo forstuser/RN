@@ -26,6 +26,7 @@ import { colors } from "../theme";
 import { getProductMetasString } from "../utils";
 import ProcessingItems from "../components/ehome-processing-items.js";
 import ErrorOverlay from "../components/error-overlay";
+import { SCREENS } from "../constants";
 
 const bgImage = require("../images/ic_asc_bg_image.jpg");
 const crossIcon = require("../images/ic_close.png");
@@ -149,7 +150,7 @@ class AscScreen extends Component {
       return Alert.alert(I18n.t("asc_screen_select_fields_first"));
     }
     this.props.navigator.push({
-      screen: "AscSearchScreen",
+      screen: SCREENS.ASC_SEARCH_SCREEN,
       passProps: {
         brand: this.state.selectedBrand,
         category: this.state.selectedCategory,
@@ -191,7 +192,7 @@ class AscScreen extends Component {
 
   openAddProductScreen = () => {
     this.props.navigator.push({
-      screen: "AddProductScreen"
+      screen: SCREENS.ADD_PRODUCT_SCREEN
     });
   };
 

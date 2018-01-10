@@ -8,7 +8,7 @@ import { API_BASE_URL } from "../../api";
 import { openBillsPopUp } from "../../navigation";
 import UploadBillOptions from "../../components/upload-bill-options";
 
-import { MAIN_CATEGORY_IDS } from "../../constants";
+import { MAIN_CATEGORY_IDS, SCREENS } from "../../constants";
 
 import ProductType1 from "./product-list-item-type-1";
 import ProductType2 from "./product-list-item-type-2";
@@ -77,7 +77,7 @@ const ProductListItem = ({
 
   const openProductScreen = () => {
     navigator.push({
-      screen: "ProductDetailsScreen",
+      screen: SCREENS.PRODUCT_DETAILS_SCREEN,
       passProps: {
         productId: product.id
       }

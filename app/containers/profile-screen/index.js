@@ -121,6 +121,43 @@ class ProfileScreen extends Component {
     }
   };
 
+  showResendEmailVerifyAlert = () => {
+    Alert.alert(
+      "Email Verification",
+      "Please check your email inbox for the verification link we've sent.",
+      [
+        {
+          text: "Resend",
+          onPress: async () => {
+            showSnackbar({
+              text: "please wait..",
+              autoDismissTimerSec: 1000
+            });
+            try {
+              await updateProfile({
+                email: this.state.email
+              });
+              showSnackbar({
+                text: I18n.t("profile_screen_change_msg_resend_email"),
+                autoDismissTimerSec: 3
+              });
+            } catch (e) {
+              showSnackbar({
+                text: e.message,
+                autoDismissTimerSec: 5
+              });
+            }
+          }
+        },
+        {
+          text: "Dismiss",
+          onPress: () => {},
+          style: "cancel"
+        }
+      ]
+    );
+  };
+
   onSubmitLocation = async () => {
     this.setState({
       isLocationModalVisible: false
@@ -251,34 +288,44 @@ class ProfileScreen extends Component {
               {phone}
             </Text>
           </View>
-          <TouchableOpacity
-            style={styles.field}
-            onPress={this.showEmailEditModal}
-          >
-            <View style={{ flexDirection: "row" }}>
-              <Text style={[styles.fieldName, { flex: 1 }]}>
-                {I18n.t("profile_screen_label_email")}
+          <View>
+            <TouchableOpacity
+              style={styles.field}
+              onPress={this.showEmailEditModal}
+            >
+              <View style={{ flexDirection: "row" }}>
+                <Text style={[styles.fieldName, { flex: 1 }]}>
+                  {I18n.t("profile_screen_label_email")}
+                </Text>
+              </View>
+              <Text style={styles.fieldValue} weight="Medium">
+                {email}
               </Text>
-              {showEmailVerifyText &&
-                isEmailVerified && (
+            </TouchableOpacity>
+
+            {showEmailVerifyText &&
+              isEmailVerified && (
+                <View style={styles.emailVerifiedContainer}>
                   <Text
                     weight="Medium"
                     style={{ fontSize: 12, color: "green" }}
                   >
                     {I18n.t("profile_screen_email_verified")}
                   </Text>
-                )}
-              {showEmailVerifyText &&
-                !isEmailVerified && (
+                </View>
+              )}
+            {showEmailVerifyText &&
+              !isEmailVerified && (
+                <TouchableOpacity
+                  onPress={this.showResendEmailVerifyAlert}
+                  style={styles.emailVerifiedContainer}
+                >
                   <Text weight="Medium" style={{ fontSize: 12, color: "red" }}>
                     {I18n.t("profile_screen_email_not_verified")}
                   </Text>
-                )}
-            </View>
-            <Text style={styles.fieldValue} weight="Medium">
-              {email}
-            </Text>
-          </TouchableOpacity>
+                </TouchableOpacity>
+              )}
+          </View>
           <TouchableOpacity
             style={styles.field}
             onPress={this.showLocationEditModal}
@@ -429,6 +476,12 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 12,
     color: "#9c9c9c"
+  },
+  emailVerifiedContainer: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    padding: 10
   },
   modal: {
     padding: 20,

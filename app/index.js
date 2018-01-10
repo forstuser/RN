@@ -1,22 +1,23 @@
-import { AppState, AsyncStorage, Platform, Alert } from "react-native";
+import { AppState, AsyncStorage, Platform, Alert, Linking } from "react-native";
 import FCM, {
   FCMEvent,
   RemoteNotificationResult,
   WillPresentNotificationResult,
   NotificationType
 } from "react-native-fcm";
-
+import URI from "urijs";
 import { persistStore } from "redux-persist";
 import { Provider } from "react-redux";
 
 import { registerScreens } from "./screens";
 import store from "./store";
 import { actions as loggedInUserActions } from "./modules/logged-in-user";
+import { actions as uiActions } from "./modules/ui";
 import { SCREENS, MAIN_CATEGORY_IDS } from "./constants";
 
 import navigation, { openAppScreen } from "./navigation";
 
-import { addFcmToken } from "./api";
+import { addFcmToken, verifyEmail } from "./api";
 
 persistStore(store, {}, () => {
   registerScreens(store, Provider); // this is where you register all of your app's screens
@@ -27,7 +28,6 @@ persistStore(store, {}, () => {
 
     FCM.getFCMToken()
       .then(async token => {
-        console.log("token: ", token);
         store.dispatch(loggedInUserActions.setLoggedInUserFcmToken(token));
         try {
           await addFcmToken(token);
@@ -38,7 +38,6 @@ persistStore(store, {}, () => {
       .catch(e => console.log("token error: ", e));
 
     FCM.on(FCMEvent.RefreshToken, async token => {
-      console.log("FCM TOKEN: ", token);
       store.dispatch(loggedInUserActions.setLoggedInUserFcmToken(token));
       try {
         await addFcmToken(token);
@@ -47,7 +46,6 @@ persistStore(store, {}, () => {
 
     FCM.on(FCMEvent.Notification, async notif => {
       if (notif.opened_from_tray) {
-        console.log("notif: ", notif);
         switch (notif.notification_type) {
           case "1":
             if (
@@ -55,7 +53,7 @@ persistStore(store, {}, () => {
               notif.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS
             ) {
               return openAppScreen({
-                startScreen: SCREENS.PRODUCT_SCREEN,
+                startScreen: SCREENS.PRODUCT_DETAILS_SCREEN,
                 productId: notif.productId
               });
             }
@@ -65,7 +63,7 @@ persistStore(store, {}, () => {
           case "3":
           case "4":
             return openAppScreen({
-              startScreen: SCREENS.PRODUCT_SCREEN,
+              startScreen: SCREENS.PRODUCT_DETAILS_SCREEN,
               productId: notif.productId
             });
           case "5":
@@ -99,11 +97,67 @@ persistStore(store, {}, () => {
   } catch (e) {
     console.log("FCM INIT Error: ", e);
   }
-  if (store.getState().loggedInUser.authToken) {
-    // start the app
-    // navigation.openAddProductsScreen();
-    navigation.openAppScreen();
-  } else {
-    navigation.openIntroScreen();
-  }
+
+  Linking.getInitialURL()
+    .then(url => {
+      if (url) {
+        handleDeeplink(url);
+      }
+      openFirstScreen();
+    })
+    .catch(e => {
+      openFirstScreen();
+    });
+
+  Linking.addEventListener("url", event => {
+    // this handles the use case where the app is running in the background and is activated by the listener...
+    if (event.url) {
+      handleDeeplink(event.url);
+      openFirstScreen();
+    }
+  });
+
+  const handleDeeplink = url => {
+    const uri = URI(url);
+    const path = uri.path();
+    if (uri.hasQuery("verificationId")) {
+      verifyEmail(uri.query(true).verificationId)
+        .then(() => {
+          Alert.alert("Email Verified");
+        })
+        .catch(() => {
+          Alert.alert("Couldn't Verify Email");
+        });
+    }
+    switch (path.toLowerCase()) {
+      case "/ehome":
+        return store.dispatch(
+          uiActions.setScreenToOpenAferLogin(SCREENS.EHOME_SCREEN)
+        );
+      case "/upload":
+        return store.dispatch(
+          uiActions.setScreenToOpenAferLogin(SCREENS.UPLOAD_DOCUMENT_SCREEN)
+        );
+      case "/asc":
+        return store.dispatch(
+          uiActions.setScreenToOpenAferLogin(SCREENS.ASC_SCREEN)
+        );
+      case "/faq":
+        return store.dispatch(
+          uiActions.setScreenToOpenAferLogin(SCREENS.FAQS_SCREEN)
+        );
+      default:
+        return store.dispatch(uiActions.setScreenToOpenAferLogin(null));
+    }
+  };
+
+  const openFirstScreen = () => {
+    if (store.getState().loggedInUser.authToken) {
+      // start the app
+      // navigation.openAddProductsScreen();
+      navigation.openAfterLoginScreen();
+    } else {
+      navigation.openIntroScreen();
+    }
+  };
 });

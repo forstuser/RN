@@ -1,10 +1,12 @@
 import { Navigation } from "react-native-navigation";
+import store from "./store";
+import { actions as uiActions } from "./modules/ui";
 import { colors, defaultNavigatorStyle } from "./theme";
 import { SCREENS } from "./constants";
 
 export const openBillsPopUp = props => {
   Navigation.showModal({
-    screen: "BillsPopUpScreen",
+    screen: SCREENS.BILLS_POPUP_SCREEN,
     passProps: props
   });
 };
@@ -12,7 +14,7 @@ export const openBillsPopUp = props => {
 export const openLoginScreen = () => {
   Navigation.startSingleScreenApp({
     screen: {
-      screen: "LoginScreen",
+      screen: SCREENS.LOGIN_SCREEN,
       navigatorStyle: defaultNavigatorStyle,
       navigatorButtons: {}
     }
@@ -22,14 +24,14 @@ export const openLoginScreen = () => {
 export const openForceUpdateScreen = () => {
   Navigation.startSingleScreenApp({
     screen: {
-      screen: "ForceUpdateScreen"
+      screen: SCREENS.FORCE_UPDATE_SCREEN
     }
   });
 };
 
 export const openForceUpdateModal = () => {
   Navigation.showModal({
-    screen: "ForceUpdateScreen",
+    screen: SCREENS.FORCE_UPDATE_SCREEN,
     passProps: {
       allowSkip: true
     },
@@ -40,7 +42,7 @@ export const openForceUpdateModal = () => {
 export const openAddProductsScreen = () => {
   Navigation.startSingleScreenApp({
     screen: {
-      screen: "AddProductsScreen",
+      screen: SCREENS.ADD_PRODUCTS_SCREEN,
       navigatorStyle: defaultNavigatorStyle
     }
   });
@@ -49,7 +51,7 @@ export const openAddProductsScreen = () => {
 export const openAddProductScreen = props => {
   Navigation.startSingleScreenApp({
     screen: {
-      screen: "AddProductScreen",
+      screen: SCREENS.ADD_PRODUCT_SCREEN,
       navigatorStyle: defaultNavigatorStyle
     },
     passProps: props
@@ -59,11 +61,22 @@ export const openAddProductScreen = props => {
 export const openIntroScreen = () => {
   Navigation.startSingleScreenApp({
     screen: {
-      screen: "IntroScreen",
+      screen: SCREENS.INTRO_SCREEN,
       navigatorStyle: { navBarHidden: true },
       navigatorButtons: {}
     }
   });
+};
+
+export const openAfterLoginScreen = () => {
+  const startScreen = store.getState().ui.screenToOpenAfterLogin;
+  if (startScreen) {
+    store.dispatch(uiActions.setScreenToOpenAferLogin(null));
+    return openAppScreen({
+      startScreen
+    });
+  }
+  return openAppScreen();
 };
 
 export const openAppScreen = opts => {
@@ -72,10 +85,15 @@ export const openAppScreen = opts => {
   if (opts) {
     props.screenOpts = opts;
     switch (opts.startScreen) {
-      case SCREENS.PRODUCT_SCREEN:
+      case SCREENS.EHOME_SCREEN:
+      case SCREENS.PRODUCT_DETAILS_SCREEN:
       case SCREENS.DOCS_UNDER_PROCESSING_SCREEN:
         initialTabIndex = 1;
         break;
+      case SCREENS.ASC_SCREEN:
+        initialTabIndex = 2;
+        break;
+      case SCREENS.FAQS_SCREEN:
       case SCREENS.PROFILE_SCREEN:
         initialTabIndex = 3;
         break;
@@ -85,22 +103,22 @@ export const openAppScreen = opts => {
     tabs: [
       {
         label: "Dashboard",
-        screen: "DashboardScreen",
+        screen: SCREENS.DASHBOARD_SCREEN,
         icon: require("./images/ic_nav_dashboard_off.png")
       },
       {
         label: "eHome",
-        screen: "EhomeScreen",
+        screen: SCREENS.EHOME_SCREEN,
         icon: require("./images/ic_nav_ehome_off.png")
       },
       {
         label: "ASC",
-        screen: "AscScreen",
+        screen: SCREENS.ASC_SCREEN,
         icon: require("./images/ic_nav_asc_off.png")
       },
       {
         label: "More",
-        screen: "MoreScreen",
+        screen: SCREENS.MORE_SCREEN,
         icon: require("./images/ic_nav_more_off.png")
       }
     ],
@@ -130,6 +148,7 @@ export default {
   openForceUpdateScreen,
   openForceUpdateModal,
   openIntroScreen,
+  openAfterLoginScreen,
   openAppScreen,
   openBillsPopUp,
   openAddProductsScreen,

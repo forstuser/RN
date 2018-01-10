@@ -73,7 +73,12 @@ class DashboardScreen extends React.Component {
           break;
         case SCREENS.ADD_PRODUCT_SCREEN:
           this.props.navigator.push({
-            screen: "AddProductScreen"
+            screen: SCREENS.ADD_PRODUCT_SCREEN
+          });
+          break;
+        case SCREENS.UPLOAD_DOCUMENT_SCREEN:
+          this.props.navigator.push({
+            screen: SCREENS.UPLOAD_DOCUMENT_SCREEN
           });
           break;
       }
@@ -156,7 +161,7 @@ class DashboardScreen extends React.Component {
 
   openInsightScreen = props => {
     this.props.navigator.push({
-      screen: "InsightScreen",
+      screen: SCREENS.INSIGHTS_SCREEN,
       passProps: props || {}
     });
   };

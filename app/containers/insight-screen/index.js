@@ -37,6 +37,7 @@ const legendColors = [
 ];
 
 import ExpensesChart from "./expenses-chart";
+import { SCREENS } from "../../constants";
 
 class InsightScreen extends Component {
   static navigatorStyle = {
@@ -66,6 +67,14 @@ class InsightScreen extends Component {
         index: 2,
         timeSpanText: "For Aug 2017",
         filterText: "Current Year",
+        totalSpend: 0,
+        totalTaxes: 0,
+        categories: []
+      },
+      overallData: {
+        index: 3,
+        timeSpanText: "Lifetime",
+        filterText: "Lifetime",
         totalSpend: 0,
         totalTaxes: 0,
         categories: []
@@ -118,12 +127,22 @@ class InsightScreen extends Component {
         categories: res.categoryData.yearlyData
       };
 
+      const overallData = {
+        index: 2,
+        timeSpanText: "Lifetime",
+        filterText: I18n.t("insights_screen_filter_overall"),
+        totalSpend: res.totalOverallSpend,
+        totalTaxes: res.totalOverallTaxes,
+        categories: res.categoryData.overallData
+      };
+
       const screenOpts = this.props.screenOpts || {};
       this.setState(
         {
           weeklyData,
           monthlyData,
-          yearlyData
+          yearlyData,
+          overallData
         },
         () => {
           this.handleFilterOptionPress(screenOpts.initialFilterIndex || 0);
@@ -134,7 +153,7 @@ class InsightScreen extends Component {
 
   openTaxPaidScreen = () => {
     this.props.navigator.push({
-      screen: "TotalTaxScreen",
+      screen: SCREENS.TOTAL_TAX_SCREEN,
       passProps: {
         weeklyData: this.state.weeklyData,
         monthlyData: this.state.monthlyData,
@@ -156,6 +175,9 @@ class InsightScreen extends Component {
       case 2:
         activeData = this.state.yearlyData;
         break;
+      case 3:
+        activeData = this.state.overallData;
+        break;
       default:
         activeData = this.state.weeklyData;
     }
@@ -175,7 +197,7 @@ class InsightScreen extends Component {
 
   openTransactionsScreen = ({ category, color }) => {
     this.props.navigator.push({
-      screen: "TransactionsScreen",
+      screen: SCREENS.TRANSACTIONS_SCREEN,
       passProps: {
         index: this.state.activeData.index,
         category,
@@ -213,11 +235,12 @@ class InsightScreen extends Component {
               onPress={this.handleFilterOptionPress}
               ref={o => (this.filterOptions = o)}
               title={I18n.t("insights_screen_filter_options_title")}
-              cancelButtonIndex={3}
+              cancelButtonIndex={4}
               options={[
                 I18n.t("insights_screen_filter_last_7_days"),
                 I18n.t("insights_screen_filter_current_month"),
                 I18n.t("insights_screen_filter_current_year"),
+                I18n.t("insights_screen_filter_overall"),
                 I18n.t("insights_screen_filter_close")
               ]}
             />

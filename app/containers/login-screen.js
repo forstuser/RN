@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, TextInput, Alert } from "react-native";
+import { SCREENS } from "../constants";
 import { colors } from "../theme";
 import { consumerGetOtp } from "../api";
 import LoadingOverlay from "../components/loading-overlay";
@@ -33,7 +34,7 @@ class LoginScreen extends Component {
         isGettingOtp: false
       });
       this.props.navigator.push({
-        screen: "VerifyScreen",
+        screen: SCREENS.VERIFY_SCREEN,
         passProps: {
           phoneNumber: this.state.phoneNumber
         }
@@ -45,7 +46,7 @@ class LoginScreen extends Component {
 
   openTermsScreen = () => {
     this.props.navigator.push({
-      screen: "TermsScreen"
+      screen: SCREENS.TERMS_SCREEN
     });
   };
   render() {

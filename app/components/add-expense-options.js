@@ -14,6 +14,7 @@ import I18n from "../i18n";
 
 import { Text, Button } from "../elements";
 import { colors } from "../theme";
+import { SCREENS } from "../constants";
 
 class AddExpenseOptions extends React.Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class AddExpenseOptions extends React.Component {
       case 0:
         this.hide();
         this.props.navigator.push({
-          screen: "UploadDocumentScreen",
+          screen: SCREENS.UPLOAD_DOCUMENT_SCREEN,
           passProps: {
             openPickerOnStart: "camera"
           }
@@ -53,7 +54,7 @@ class AddExpenseOptions extends React.Component {
       case 1:
         this.hide();
         this.props.navigator.push({
-          screen: "UploadDocumentScreen",
+          screen: SCREENS.UPLOAD_DOCUMENT_SCREEN,
           passProps: {
             openPickerOnStart: "images"
           }
@@ -62,7 +63,7 @@ class AddExpenseOptions extends React.Component {
       case 2:
         this.hide();
         this.props.navigator.push({
-          screen: "UploadDocumentScreen",
+          screen: SCREENS.UPLOAD_DOCUMENT_SCREEN,
           passProps: {
             openPickerOnStart: "documents"
           }
@@ -74,7 +75,7 @@ class AddExpenseOptions extends React.Component {
   openAddProductScreen = () => {
     this.hide();
     this.props.navigator.push({
-      screen: "AddProductScreen"
+      screen: SCREENS.ADD_PRODUCT_SCREEN
     });
   };
 

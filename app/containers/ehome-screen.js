@@ -65,9 +65,9 @@ class EhomeScreen extends Component {
             startWithPendingDocsScreen: true
           });
           break;
-        case SCREENS.PRODUCT_SCREEN:
+        case SCREENS.PRODUCT_DETAILS_SCREEN:
           this.props.navigator.push({
-            screen: "ProductDetailsScreen",
+            screen: SCREENS.PRODUCT_DETAILS_SCREEN,
             passProps: {
               productId: screenOpts.productId
             }
@@ -128,7 +128,7 @@ class EhomeScreen extends Component {
 
   openMainCategoryScreen = category => {
     this.props.navigator.push({
-      screen: "MainCategoryScreen",
+      screen: SCREENS.MAIN_CATEGORY_SCREEN,
       passProps: {
         category
       }
@@ -137,7 +137,7 @@ class EhomeScreen extends Component {
 
   openDocsUnderProcessingScreen = () => {
     this.props.navigator.push({
-      screen: "DocsUnderProcessingScreen",
+      screen: SCREENS.DOCS_UNDER_PROCESSING_SCREEN,
       passProps: {
         pendingDocs: this.state.pendingDocs
       }

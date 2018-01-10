@@ -8,6 +8,7 @@ import {
   Linking
 } from "react-native";
 import { connect } from "react-redux";
+import { SCREENS } from "../../constants";
 import { Text, Button, ScreenContainer } from "../../elements";
 import MoreItem from "./more-item";
 import call from "react-native-phone-call";
@@ -36,13 +37,13 @@ class Body extends Component {
 
   onEhomeItemPress = () => {
     this.props.navigator.push({
-      screen: "TipsScreen"
+      screen: SCREENS.TIPS_SCREEN
     });
   };
 
   onFaqItemPress = () => {
     this.props.navigator.push({
-      screen: "FaqScreen"
+      screen: SCREENS.FAQS_SCREEN
     });
   };
 

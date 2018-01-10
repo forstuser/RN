@@ -7,14 +7,14 @@ import {
   TouchableOpacity
 } from "react-native";
 import { Navigation } from "react-native-navigation";
-
+import { SCREENS } from "../constants";
 import Text from "../elements/text";
 import { colors } from "../theme";
 
 const showSnackbar = ({ text = "", autoDismissTimerSec = 5 }) => {
   Navigation.dismissInAppNotification();
   return Navigation.showInAppNotification({
-    screen: "InAppNotification",
+    screen: SCREENS.SNACKBAR_SCREEN,
     passProps: {
       text: text
     },

@@ -9,6 +9,7 @@ import {
 import { Text, Button } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
+import { SCREENS } from "../constants";
 
 const dashBoardIcon = require("../images/ic_nav_dashboard_off.png");
 const eHomeIcon = require("../images/ic_nav_ehome_off.png");
@@ -18,7 +19,7 @@ const searchIcon = require("../images/ic_top_search.png");
 class SearchHeader extends Component {
   openSearchScreen = () => {
     this.props.navigator.push({
-      screen: "SearchScreen",
+      screen: SCREENS.SEARCH_SCREEN,
       passProps: {
         recentSearches: this.props.recentSearches
       }
@@ -26,7 +27,7 @@ class SearchHeader extends Component {
   };
   openMailboxScreen = () => {
     this.props.navigator.push({
-      screen: "MailboxScreen"
+      screen: SCREENS.MAILBOX_SCREEN
     });
   };
   render() {

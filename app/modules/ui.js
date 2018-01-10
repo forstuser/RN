@@ -6,6 +6,11 @@ import defaultState from "./default-state";
  */
 export default function uiReducer(state = defaultState.ui, action) {
   switch (action.type) {
+    case types.UI_SET_SCREEN_TO_OPEN_AFTER_LOGIN:
+      return {
+        ...state,
+        screenToOpenAfterLogin: action.payload.screen
+      };
     case types.UI_SET_HAS_BLANK_DASHBOARD_TOUR_SHOWN:
       return {
         ...state,
@@ -40,6 +45,12 @@ export default function uiReducer(state = defaultState.ui, action) {
  * Actions
  */
 export const actions = {
+  setScreenToOpenAferLogin: screen => {
+    return {
+      type: types.UI_SET_SCREEN_TO_OPEN_AFTER_LOGIN,
+      payload: { screen }
+    };
+  },
   setUiHasBlankDashboardTourShown: hasBlankDashboardTourShown => {
     return {
       type: types.UI_SET_HAS_BLANK_DASHBOARD_TOUR_SHOWN,

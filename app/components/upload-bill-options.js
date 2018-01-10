@@ -7,6 +7,7 @@ import I18n from "../i18n";
 
 import { Text, Button } from "../elements";
 import { colors } from "../theme";
+import { SCREENS } from "../constants";
 
 class UploadBillOptions extends React.Component {
   show = () => {
@@ -30,7 +31,7 @@ class UploadBillOptions extends React.Component {
 
     if (openPickerOnStart) {
       this.props.navigator.push({
-        screen: "UploadDocumentScreen",
+        screen: SCREENS.UPLOAD_DOCUMENT_SCREEN,
         passProps: {
           openPickerOnStart,
           uploadCallback: this.props.uploadCallback
