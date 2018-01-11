@@ -1,3 +1,5 @@
+import { MAIN_CATEGORY_IDS } from "../constants";
+
 const getProductMetasString = metasArray => {
   console.log(" metasArray: ", metasArray);
   if (!metasArray) {
@@ -42,6 +44,45 @@ const getMimeTypeByExtension = ext => {
     return extensionMimeTypeMap[ext];
   }
   return "";
+};
+
+/**
+ * checks if mainCategoryId is of product type
+ * @param {number} mainCategoryId
+ */
+const isOfProductType = mainCategoryId => {
+  return (
+    [
+      MAIN_CATEGORY_IDS.AUTOMOBILE,
+      MAIN_CATEGORY_IDS.ELECTRONICS,
+      MAIN_CATEGORY_IDS.FURNITURE
+    ].indexOf(mainCategoryId) > -1
+  );
+};
+
+/**
+ * checks if mainCategoryId is of expense type
+ * @param {number} mainCategoryId
+ */
+const isOfExpenseType = mainCategoryId => {
+  return (
+    [
+      MAIN_CATEGORY_IDS.FASHION,
+      MAIN_CATEGORY_IDS.HEALTHCARE,
+      MAIN_CATEGORY_IDS.HOUSEHOLD,
+      MAIN_CATEGORY_IDS.TRAVEL,
+      MAIN_CATEGORY_IDS.SERVICES,
+      MAIN_CATEGORY_IDS.OTHERS
+    ].indexOf(mainCategoryId) > -1
+  );
+};
+
+/**
+ * checks if mainCategoryId is of personal type
+ * @param {number} mainCategoryId
+ */
+const isOfPersonalType = mainCategoryId => {
+  return mainCategoryId == MAIN_CATEGORY_IDS.PERSONAL;
 };
 
 export { getProductMetasString, isImageFileType, getMimeTypeByExtension };

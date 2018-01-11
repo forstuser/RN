@@ -27,6 +27,7 @@ import TotalTaxScreen from "./containers/total-tax-screen";
 import TransactionsScreen from "./containers/transactions-screen";
 import AddProductScreen from "./containers/add-product-screen";
 import ForceUpdateScreen from "./containers/force-update-screen";
+import AddEditExpenseScreen from "./containers/add-edit-expense-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -192,6 +193,13 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     SCREENS.FORCE_UPDATE_SCREEN,
     () => ForceUpdateScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.ADD_EDIT_EXPENSE_SCREEN,
+    () => AddEditExpenseScreen,
     store,
     Provider
   );

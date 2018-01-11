@@ -26,9 +26,7 @@ class SelectModal extends Component {
   }
 
   _placeholderRenderer = ({ placeholder }) => {
-    return (
-      <Text style={[styles.placeholder, placeholderStyle]}>{placeholder}</Text>
-    );
+    return <Text style={[styles.placeholder]}>{placeholder}</Text>;
   };
 
   _renderOption = ({ item, index }) => {
@@ -48,6 +46,10 @@ class SelectModal extends Component {
     );
   };
 
+  openModal = () => {
+    this.setState({ isModalVisible: true });
+  };
+
   _tryOpenModal = () => {
     if (typeof this.props.beforeModalOpen == "function") {
       if (this.props.beforeModalOpen() === true) {
@@ -56,8 +58,9 @@ class SelectModal extends Component {
         return;
       }
     }
-    return this.setState({ isModalVisible: true });
+    return this.openModal();
   };
+
   _onItemSelect = item => {
     const { onOptionSelect } = this.props;
 

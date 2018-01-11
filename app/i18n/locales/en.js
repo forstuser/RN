@@ -346,6 +346,20 @@ export default {
   tips_screen_tip_16:
     "Please do not upload the same bill/document more than once. Duplicacy will be discarded owing to quality issues.",
 
+  //add-edit-expense-screen
+  add_edit_expense_screen_title_add_automobile: "Add Automobile",
+  add_edit_expense_screen_title_add_electronics:
+    "Add Electronics & Electricals",
+  add_edit_expense_screen_title_add_furniture: "Add Furniture & Hardware",
+  add_edit_expense_screen_title_add_visiting_card: "Add Visiting Card",
+  add_edit_expense_screen_title_add_prescription: "Add Prescription & Reports",
+  add_edit_expense_screen_title_add_personal_doc: "Add Personal Doc",
+  add_edit_expense_screen_title_add_services: "Add Services Expense",
+  add_edit_expense_screen_title_add_travel: "Add Travel & Dinning",
+  add_edit_expense_screen_title_add_healthcare: "Add Healthcare Expense",
+  add_edit_expense_screen_title_add_fashion: "Add Fashion Expense",
+  add_edit_expense_screen_title_add_home: "Add Home Expense",
+
   //faqs
   faq_question_1: "What is BinBill?",
   faq_answer_1:

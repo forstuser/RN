@@ -12,7 +12,7 @@ import I18n from "../i18n";
 
 import { Text, Button } from "../elements";
 import { colors } from "../theme";
-import { SCREENS } from "../constants";
+import { SCREENS, EXPENSE_TYPES } from "../constants";
 
 class AddExpenseModal extends React.Component {
   constructor(props) {
@@ -29,10 +29,6 @@ class AddExpenseModal extends React.Component {
     });
   };
 
-  showUploadOptions = () => {
-    this.uploadOptions.show();
-  };
-
   hide = () => {
     this.setState({
       isModalVisible: false,
@@ -40,17 +36,22 @@ class AddExpenseModal extends React.Component {
     });
   };
 
-  openAddProductScreen = () => {
+  onPressItem = type => {
     this.hide();
     this.props.navigator.push({
-      screen: SCREENS.ADD_PRODUCT_SCREEN
+      screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
+      passProps: { expenseType: type }
     });
   };
 
   renderItem = item => {
     const { type, title, icon } = item;
     return (
-      <TouchableOpacity key={title} style={styles.item}>
+      <TouchableOpacity
+        onPress={() => this.onPressItem(type)}
+        key={title}
+        style={styles.item}
+      >
         <Image style={styles.itemIcon} source={icon} resizeMode="contain" />
         <Text style={styles.itemTitle}>{title}</Text>
       </TouchableOpacity>
@@ -60,32 +61,32 @@ class AddExpenseModal extends React.Component {
     const { isModalVisible, showCancelBtn } = this.state;
     const productOptions = [
       {
-        type: "automobile",
+        type: EXPENSE_TYPES.AUTOMOBILE,
         title: "Automobile",
         icon: require("../images/main-categories/ic_automobile.png")
       },
       {
-        type: "electronics",
+        type: EXPENSE_TYPES.ELECTRONICS,
         title: "Electronics & Electricals",
         icon: require("../images/main-categories/ic_electronics.png")
       },
       {
-        type: "furniture",
+        type: EXPENSE_TYPES.FURNITURE,
         title: "Furniture & Hardware",
         icon: require("../images/main-categories/ic_furniture.png")
       },
       {
-        type: "medical-prescription",
+        type: EXPENSE_TYPES.MEDICAL_PRESCRIPTION,
         title: "Medical Prescription",
         icon: require("../images/main-categories/ic_medical_prescription.png")
       },
       {
-        type: "personal-doc",
+        type: EXPENSE_TYPES.PERSONAL,
         title: "Personal Doc.",
         icon: require("../images/main-categories/ic_personal_doc.png")
       },
       {
-        type: "visiting-card",
+        type: EXPENSE_TYPES.VISITING_CARD,
         title: "Visiting Card",
         icon: require("../images/main-categories/ic_visiting_card.png")
       }
@@ -93,32 +94,32 @@ class AddExpenseModal extends React.Component {
 
     const expenseOptions = [
       {
-        type: "travel-dining",
+        type: EXPENSE_TYPES.TRAVEL,
         title: "Travel & Dinning",
         icon: require("../images/main-categories/ic_travel_dining.png")
       },
       {
-        type: "healthcare",
+        type: EXPENSE_TYPES.HEALTHCARE,
         title: "Healthcare",
         icon: require("../images/main-categories/ic_healthcare.png")
       },
       {
-        type: "fashion",
+        type: EXPENSE_TYPES.FASHION,
         title: "Fashion",
         icon: require("../images/main-categories/ic_fashion.png")
       },
       {
-        type: "services",
+        type: EXPENSE_TYPES.SERVICES,
         title: "Services",
         icon: require("../images/main-categories/ic_services.png")
       },
       {
-        type: "home-expenses",
+        type: EXPENSE_TYPES.HOME,
         title: "Home Expenses",
         icon: require("../images/main-categories/ic_home_expenses.png")
       },
       {
-        type: "repair",
+        type: EXPENSE_TYPES.REPAIRS,
         title: "Repair",
         icon: require("../images/main-categories/ic_repair.png")
       }
