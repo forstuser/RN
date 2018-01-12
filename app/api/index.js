@@ -69,7 +69,12 @@ const apiRequest = async ({
   }
 };
 
-export const uploadDocuments = async (files, onUploadProgress) => {
+export const uploadDocuments = async ({
+  jobId = null,
+  type = null,
+  files,
+  onUploadProgress
+}) => {
   const data = new FormData();
   files.forEach((file, index) => {
     data.append(`filesName`, {
@@ -79,10 +84,20 @@ export const uploadDocuments = async (files, onUploadProgress) => {
     });
   });
 
+  let url = "/consumer/upload";
+  if (jobId) {
+    url = url + "/" + jobId;
+  }
+  let queryParams = {};
+  if (type) {
+    queryParams.type = type;
+  }
+
   return await apiRequest({
     method: "post",
-    url: "/consumer/upload",
-    data: data,
+    url,
+    queryParams,
+    data,
     headers: {
       "Content-Type": "multipart/form-data"
     },
@@ -331,6 +346,16 @@ export const getReferenceDataCategories = async mainCategoryId => {
   return res.categories[0].subCategories;
 };
 
+export const getReferenceDataForCategory = async categoryId => {
+  return await apiRequest({
+    method: "get",
+    url: `/referencedata`,
+    queryParams: {
+      categoryId
+    }
+  });
+};
+
 export const getReferenceDataBrands = async categoryId => {
   const res = await apiRequest({
     method: "get",
@@ -422,5 +447,16 @@ export const getProductsForAsc = async () => {
   return await apiRequest({
     method: "get",
     url: `/center/products`
+  });
+};
+
+export const initProduct = async (mainCategoryId, categoryId) => {
+  return await apiRequest({
+    method: "post",
+    url: "/products/init",
+    data: {
+      main_category_id: mainCategoryId,
+      category_id: categoryId
+    }
   });
 };

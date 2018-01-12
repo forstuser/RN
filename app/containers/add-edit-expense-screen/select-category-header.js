@@ -285,6 +285,15 @@ class SelectCategoryHeader extends React.Component {
     if (typeof this.props.onCategorySelect != "function") {
       return;
     }
+
+    //if clicked on already selected option
+    if (
+      this.state.selectedOption &&
+      this.state.selectedOption.id == option.id
+    ) {
+      return;
+    }
+
     this.props.onCategorySelect(option);
     this.setState(
       {
@@ -429,7 +438,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 16,
     paddingHorizontal: 8,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    borderColor: "#eee",
+    borderBottomWidth: StyleSheet.hairlineWidth
   },
   title: {
     fontSize: 14,

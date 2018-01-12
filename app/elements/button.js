@@ -16,7 +16,8 @@ const AppButton = ({
   type = "normal",
   state = "normal",
   style,
-  textStyle
+  textStyle,
+  borderRadius = 50
 }) => (
   <View
     style={[
@@ -30,7 +31,7 @@ const AppButton = ({
         start={{ x: 0.0, y: 0.1 }}
         end={{ x: 0.9, y: 0.9 }}
         colors={buttonColors[color]}
-        style={styles.gradientStyle}
+        style={[styles.gradientStyle, { borderRadius }]}
       >
         <TouchableOpacity
           style={styles.touchStyle}
@@ -98,8 +99,7 @@ const styles = StyleSheet.create({
     height: 50
   },
   gradientStyle: {
-    height: "100%",
-    borderRadius: 50
+    height: "100%"
   },
   outlineStyle: {
     borderWidth: 1

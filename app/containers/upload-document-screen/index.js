@@ -71,7 +71,8 @@ class UploadDocumentScreen extends Component {
       files: [],
       uploadPercentCompleted: 0,
       isUploadingOverlayVisible: false,
-      isSuccessModalVisible: false
+      isSuccessModalVisible: false,
+      uploadResult: null
     };
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
@@ -190,16 +191,22 @@ class UploadDocumentScreen extends Component {
       uploadPercentCompleted: 0
     });
     try {
-      await uploadDocuments(this.state.files, percentCompleted => {
-        this.setState({
-          uploadPercentCompleted: percentCompleted
-        });
+      const res = await uploadDocuments({
+        jobId: this.props.jobId,
+        type: this.props.type,
+        files: this.state.files,
+        onUploadProgress: percentCompleted => {
+          this.setState({
+            uploadPercentCompleted: percentCompleted
+          });
+        }
       });
 
       this.setState(() => ({
         isUploadingOverlayVisible: false
       }));
       this.setState(() => ({
+        uploadResult: res,
         isSuccessModalVisible: true
       }));
     } catch (e) {
@@ -211,7 +218,7 @@ class UploadDocumentScreen extends Component {
 
   onSuccessOkClick = () => {
     if (typeof this.props.uploadCallback == "function") {
-      this.props.uploadCallback();
+      this.props.uploadCallback(this.state.uploadResult);
       this.props.navigator.pop();
     } else {
       openAppScreen({ startScreen: SCREENS.DOCS_UNDER_PROCESSING_SCREEN });

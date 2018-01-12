@@ -10,8 +10,21 @@ import { colors } from "../theme";
 import { SCREENS } from "../constants";
 
 class UploadBillOptions extends React.Component {
-  show = () => {
-    this.uploadOptions.show();
+  state = {
+    jobId: null,
+    type: null
+  };
+
+  show = (jobId, type) => {
+    this.setState(
+      {
+        jobId,
+        type
+      },
+      () => {
+        this.uploadOptions.show();
+      }
+    );
   };
 
   handleOptionPress = index => {
@@ -22,7 +35,6 @@ class UploadBillOptions extends React.Component {
         break;
       case 1:
         openPickerOnStart = "images";
-
         break;
       case 2:
         openPickerOnStart = "documents";
@@ -33,6 +45,8 @@ class UploadBillOptions extends React.Component {
       this.props.navigator.push({
         screen: SCREENS.UPLOAD_DOCUMENT_SCREEN,
         passProps: {
+          jobId: this.state.jobId,
+          type: this.state.type,
           openPickerOnStart,
           uploadCallback: this.props.uploadCallback
         }

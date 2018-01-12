@@ -122,7 +122,12 @@ class AddEditExpenseScreen extends React.Component {
     const { formType, mainCategoryId } = this.state;
     switch (formType) {
       case "product":
-        return <Product mainCategoryId={mainCategoryId} />;
+        return (
+          <Product
+            mainCategoryId={mainCategoryId}
+            navigator={this.props.navigator}
+          />
+        );
       default:
         return null;
     }
