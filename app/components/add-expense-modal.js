@@ -61,14 +61,14 @@ class AddExpenseModal extends React.Component {
     const { isModalVisible, showCancelBtn } = this.state;
     const productOptions = [
       {
-        type: EXPENSE_TYPES.AUTOMOBILE,
-        title: "Automobile",
-        icon: require("../images/main-categories/ic_automobile.png")
-      },
-      {
         type: EXPENSE_TYPES.ELECTRONICS,
         title: "Electronics & Electricals",
         icon: require("../images/main-categories/ic_electronics.png")
+      },
+      {
+        type: EXPENSE_TYPES.AUTOMOBILE,
+        title: "Automobile",
+        icon: require("../images/main-categories/ic_automobile.png")
       },
       {
         type: EXPENSE_TYPES.FURNITURE,
@@ -77,7 +77,7 @@ class AddExpenseModal extends React.Component {
       },
       {
         type: EXPENSE_TYPES.MEDICAL_PRESCRIPTION,
-        title: "Medical Prescription",
+        title: "Medical Documents",
         icon: require("../images/main-categories/ic_medical_prescription.png")
       },
       {

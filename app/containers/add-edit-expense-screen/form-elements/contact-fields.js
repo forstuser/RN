@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
 
+import CustomTextInput from "./text-input";
 import { colors } from "../../../theme";
 
 const PlusIcon = () => (
@@ -43,12 +44,12 @@ class ContactFields extends React.Component {
     });
   };
   render() {
-    const { placeholder, style } = this.props;
+    const { placeholder } = this.props;
     return (
       <View>
         {this.state.contacts.map((contact, index) => (
           <View key={index} style={styles.field}>
-            <TextInput
+            <CustomTextInput
               style={styles.textInput}
               placeholder={placeholder + " " + (index > 0 ? index + 1 : "")}
               value={contact}
@@ -69,22 +70,19 @@ class ContactFields extends React.Component {
 
 const styles = StyleSheet.create({
   field: {
-    flexDirection: "row",
-    fontSize: 14,
-    paddingVertical: 10,
-    borderColor: colors.lighterText,
-    borderBottomWidth: 2,
-    height: 40,
-    marginBottom: 32
+    flexDirection: "row"
   },
   textInput: {
-    flex: 1
+    flex: 1,
+    paddingRight: 50
   },
   plusBtn: {
-    width: 30,
-    height: 30,
-    alignItems: "center",
-    justifyContent: "flex-start"
+    position: "absolute",
+    width: 40,
+    height: 40,
+    right: 0,
+    alignItems: "flex-end",
+    justifyContent: "center"
   }
 });
 

@@ -303,7 +303,12 @@ class SelectCategoryHeader extends React.Component {
         const visibleIds = this.state.visibleOptions.map(option => option.id);
         const idx = visibleIds.indexOf(option.id);
         if (idx > -1) {
-          this.scrollView.scrollTo({ x: idx * 70, animated: true });
+          if (
+            this.props.mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
+            this.props.mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS
+          ) {
+            this.scrollView.scrollTo({ x: idx * 70, animated: true });
+          }
           this.setState({
             showOtherOption: false
           });

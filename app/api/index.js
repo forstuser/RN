@@ -383,33 +383,104 @@ export const getReferenceDataModels = async (categoryId, brandId) => {
 
 export const addProduct = async ({
   productName = "",
-  mainCategoryId = null,
-  categoryId = null,
-  brandId = null,
-  brandName = null,
+  mainCategoryId = undefined,
+  categoryId = undefined,
+  subCategoryId = undefined,
+  sellerName = undefined,
+  sellerContact = undefined,
+  brandId = undefined,
+  brandName = undefined,
+  purchaseCost = undefined,
+  purchaseDate = undefined,
   metadata = [],
-  purchaseCost = null,
-  purchaseDate = null
+  warranty = undefined,
+  insurance = undefined,
+  amc = undefined,
+  repair = undefined,
+  puc = undefined
 }) => {
+  let data = {
+    product_name: productName,
+    main_category_id: mainCategoryId,
+    category_id: categoryId,
+    brand_id: brandId,
+    brand_name: brandName,
+    purchase_cost: purchaseCost,
+    document_date: purchaseDate,
+    seller_name: sellerName,
+    seller_contact: sellerContact,
+    metadata: metadata.map(meta => {
+      return {
+        category_form_id: meta.categoryFormId || undefined,
+        form_value: meta.value || undefined,
+        new_drop_down: meta.isNewValue || true
+      };
+    })
+  };
+
+  if (warranty) {
+    data.warranty = {
+      renewal_type: warranty.renewalType || undefined,
+      id: warranty.id || undefined,
+      effective_date: purchaseDate || undefined,
+      dual_id: warranty.dualId || undefined,
+      dual_renewal_type: warranty.dualRenewalType || undefined,
+      extended_id: warranty.extendedId || undefined,
+      extended_renewal_type: warranty.extendedRenewalType || undefined,
+      extended_effective_date: warranty.extendedRenewalType || undefined
+    };
+  }
+
+  if (insurance) {
+    data.insurance = {
+      id: insurance.id || undefined,
+      effective_date: insurance.effectiveDate || undefined,
+      provider_id: insurance.providerId || undefined,
+      provider_name: insurance.providerName || undefined,
+      policy_no: insurance.policyNo || undefined,
+      value: insurance.value || undefined,
+      amount_insured: insurance.amountInsured || undefined
+    };
+  }
+
+  if (amc) {
+    data.amc = {
+      id: amc.id || undefined,
+      seller_name: amc.sellerName || undefined,
+      seller_contact: amc.sellerContact || undefined,
+      value: amc.value || undefined,
+      effective_date: amc.effectiveDate || undefined
+    };
+  }
+
+  if (puc) {
+    data.puc = {
+      id: puc.id || undefined,
+      seller_name: puc.sellerName || undefined,
+      seller_contact: puc.sellerContact || undefined,
+      value: puc.value || undefined,
+      effective_date: puc.effectiveDate || undefined,
+      expiry_period: puc.expiryPeriod || undefined
+    };
+  }
+
+  if (repair) {
+    data.repair = {
+      id: repair.id || undefined,
+      seller_name: repair.sellerName || undefined,
+      seller_contact: repair.sellerContact || undefined,
+      value: repair.value || undefined,
+      effective_date: repair.effectiveDate || undefined,
+      repair_for: repair.repairFor || undefined,
+      warranty_upto: repair.warrantyUpto || undefined,
+      document_date: repair.repairDate || undefined
+    };
+  }
+
   return await apiRequest({
     method: "post",
     url: `/products`,
-    data: {
-      product_name: productName,
-      main_category_id: mainCategoryId,
-      category_id: categoryId,
-      brand_id: brandId,
-      brand_name: brandName,
-      purchase_cost: purchaseCost,
-      document_date: purchaseDate,
-      metadata: metadata.map(meta => {
-        return {
-          category_form_id: meta.categoryFormId || null,
-          form_value: meta.value || null,
-          new_drop_down: meta.isNewValue || true
-        };
-      })
-    }
+    data
   });
 };
 

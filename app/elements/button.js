@@ -48,6 +48,7 @@ const AppButton = ({
           styles.gradientStyle,
           styles.outlineStyle,
           {
+            borderRadius,
             borderColor: buttonColors[color][0]
           }
         ]}

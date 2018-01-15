@@ -15,7 +15,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { MAIN_CATEGORY_IDS, EXPENSE_TYPES } from "../../constants";
 import I18n from "../../i18n";
 
-import Product from "./product";
+import ProductOrExpense from "./product-or-expense";
 
 const ehomeImage = require("../../images/ehome_circle_with_category_icons.png");
 
@@ -122,8 +122,9 @@ class AddEditExpenseScreen extends React.Component {
     const { formType, mainCategoryId } = this.state;
     switch (formType) {
       case "product":
+      case "expense":
         return (
-          <Product
+          <ProductOrExpense
             mainCategoryId={mainCategoryId}
             navigator={this.props.navigator}
           />

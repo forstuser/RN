@@ -1,46 +1,93 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  TouchableWithoutFeedback
+} from "react-native";
+
+import Icon from "react-native-vector-icons/Entypo";
 
 import { Text, Button } from "../elements";
 import { colors } from "../theme";
 
 const dropdownIcon = require("../images/ic_dropdown_arrow.png");
 
+const PlusIcon = () => <Icon name="plus" size={20} color={colors.mainText} />;
+
+const MinusIcon = () => <Icon name="minus" size={20} color={colors.mainText} />;
+
 class Collapsible extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCollapsed: true
+      isCollapsed: true,
+      isCollapsible: true
     };
   }
+
+  componentDidMount() {
+    if (this.props.isCollapsed === false) {
+      this.setState({ isCollapsed: false });
+    }
+    if (this.props.isCollapsible === false) {
+      this.setState({ isCollapsible: false });
+    }
+  }
+
+  toggleCollapse = () => {
+    if (this.state.isCollapsible) {
+      this.setState({
+        isCollapsed: !this.state.isCollapsed
+      });
+    }
+  };
   render() {
-    const { headerText = "", HeaderComponent, children } = this.props;
+    const { isCollapsed, isCollapsible } = this.state;
+    const {
+      headerText = "",
+      HeaderComponent,
+      children,
+      style,
+      headerStyle,
+      headerTextStyle,
+      icon = "dropdown"
+    } = this.props;
     return (
-      <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() =>
-            this.setState({
-              isCollapsed: !this.state.isCollapsed
-            })
-          }
+      <View style={style}>
+        <TouchableWithoutFeedback
+          onPress={this.toggleCollapse}
           style={styles.headerContainer}
         >
-          {headerText.length > 0 && (
-            <View style={styles.headerInner}>
-              <Text weight="Bold" style={styles.headerText}>
-                {headerText}
-              </Text>
-              <Image
-                style={[
-                  styles.dropdownIcon,
-                  this.state.isCollapsed ? {} : styles.reverseArrow
-                ]}
-                source={dropdownIcon}
-              />
-            </View>
-          )}
-          {HeaderComponent && <HeaderComponent />}
-        </TouchableOpacity>
+          <View>
+            {headerText.length > 0 && (
+              <View style={[styles.headerInner, headerStyle]}>
+                <Text
+                  weight="Bold"
+                  style={[styles.headerText, headerTextStyle]}
+                >
+                  {headerText}
+                </Text>
+                {isCollapsible &&
+                  icon == "dropdown" && (
+                    <Image
+                      style={[
+                        styles.dropdownIcon,
+                        this.state.isCollapsed ? {} : styles.reverseArrow
+                      ]}
+                      source={dropdownIcon}
+                    />
+                  )}
+                {isCollapsible && icon == "plus" && isCollapsed && <PlusIcon />}
+                {isCollapsible &&
+                  icon == "plus" &&
+                  !isCollapsed && <MinusIcon />}
+              </View>
+            )}
+            {HeaderComponent && <HeaderComponent />}
+          </View>
+        </TouchableWithoutFeedback>
         <View
           style={[
             styles.bodyContainer,
@@ -55,15 +102,13 @@ class Collapsible extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    borderColor: "#ececec",
-    borderBottomWidth: 1
-  },
   headerInner: {
     flexDirection: "row",
     paddingHorizontal: 16,
     paddingVertical: 12,
-    alignItems: "center"
+    alignItems: "center",
+    borderColor: "#ececec",
+    borderBottomWidth: 1
   },
   headerText: {
     fontSize: 16,

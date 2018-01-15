@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Image,
-  Alert,
-  TouchableOpacity,
-  TextInput
-} from "react-native";
+import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 
 import moment from "moment";
 
@@ -14,7 +7,6 @@ import { MAIN_CATEGORY_IDS } from "../../../constants";
 import { getReferenceDataBrands, getReferenceDataModels } from "../../../api";
 
 import Icon from "react-native-vector-icons/Entypo";
-import DatePicker from "react-native-datepicker";
 
 import UploadBillOptions from "../../../components/upload-bill-options";
 
@@ -22,7 +14,9 @@ import { Text } from "../../../elements";
 import SelectModal from "../../../components/select-modal";
 import { colors } from "../../../theme";
 
-import ContactFields from "./contact-fields";
+import ContactFields from "../form-elements/contact-fields";
+import CustomTextInput from "../form-elements/text-input";
+import CustomDatePicker from "../form-elements/date-picker";
 
 const AttachmentIcon = () => (
   <Icon name="attachment" size={20} color={colors.pinkishOrange} />
@@ -66,6 +60,7 @@ class BasicDetailsForm extends React.Component {
       selectedModel,
       modelName,
       purchaseDate,
+      amount,
       sellerName,
       vinNo,
       registrationNo,
@@ -138,6 +133,7 @@ class BasicDetailsForm extends React.Component {
       selllerContact: this.sellerContactRef.getFilledData(),
       brandId: selectedBrand ? selectedBrand.id : undefined,
       brandName: brandName,
+      purchaseCost: amount,
       metadata: metadata
     };
 
@@ -267,21 +263,27 @@ class BasicDetailsForm extends React.Component {
           </TouchableOpacity>
         </View>
         <View style={styles.body}>
-          <TextInput
+          <CustomTextInput
             placeholder="Product Name"
             style={styles.input}
             value={productName}
             onChangeText={productName => this.setState({ productName })}
           />
+
           <SelectModal
             style={styles.input}
             dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-            placeholder="Brand*"
+            placeholder="Brand"
             textInputPlaceholder="Enter Brand Name"
             placeholderRenderer={({ placeholder }) => (
-              <Text weight="Bold" style={{ color: colors.secondaryText }}>
-                {placeholder}
-              </Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                  {placeholder}
+                </Text>
+                <Text weight="Medium" style={{ color: colors.mainBlue }}>
+                  *
+                </Text>
+              </View>
             )}
             selectedOption={selectedBrand}
             textInputValue={brandName}
@@ -292,38 +294,43 @@ class BasicDetailsForm extends React.Component {
             onTextInputChange={text => this.onBrandNameChange(text)}
           />
 
-          <SelectModal
-            style={styles.input}
-            visibleKey="title"
-            dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-            placeholder="Model"
-            textInputPlaceholder="Enter Model Name"
-            placeholderRenderer={({ placeholder }) => (
-              <Text weight="Bold" style={{ color: colors.secondaryText }}>
-                {placeholder}
-              </Text>
-            )}
-            options={models}
-            beforeModalOpen={() => {
-              if (selectedBrand || brandName) {
-                return true;
-              }
-              Alert.alert("Please select brand first");
-              return false;
-            }}
-            selectedOption={selectedModel}
-            textInputValue={modelName}
-            onOptionSelect={value => {
-              this.setState({
-                selectedModel: value
-              });
-            }}
-            onTextInputChange={text => this.setState({ modelName: text })}
-          />
+          {(mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
+            mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) && (
+            <SelectModal
+              style={styles.input}
+              visibleKey="title"
+              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+              placeholder="Model"
+              textInputPlaceholder="Enter Model Name"
+              placeholderRenderer={({ placeholder }) => (
+                <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                  {placeholder}
+                </Text>
+              )}
+              options={models}
+              beforeModalOpen={() => {
+                if (selectedBrand || brandName) {
+                  return true;
+                }
+                Alert.alert("Please select brand first");
+                return false;
+              }}
+              selectedOption={selectedModel}
+              textInputValue={modelName}
+              onOptionSelect={value => {
+                this.setState({
+                  selectedModel: value
+                });
+              }}
+              onTextInputChange={text => this.setState({ modelName: text })}
+            />
+          )}
 
           {categoryId == 327 && (
-            <TextInput
-              placeholder="IMEI No (Recommended)"
+            <CustomTextInput
+              placeholder="IMEI No "
+              placeholder2="(Recommended)"
+              placeholder2Color={colors.mainBlue}
               style={styles.input}
               value={imeiNo}
               onChangeText={imeiNo => this.setState({ imeiNo })}
@@ -331,8 +338,10 @@ class BasicDetailsForm extends React.Component {
           )}
           {mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS &&
             categoryId != 327 && (
-              <TextInput
-                placeholder="Serial No (Recommended)"
+              <CustomTextInput
+                placeholder="Serial No "
+                placeholder2="(Recommended)"
+                placeholder2Color={colors.mainBlue}
                 style={styles.input}
                 value={serialNo}
                 onChangeText={serialNo => this.setState({ serialNo })}
@@ -341,14 +350,15 @@ class BasicDetailsForm extends React.Component {
 
           {mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE && (
             <View>
-              <TextInput
+              <CustomTextInput
                 placeholder="VIN No."
-                style={styles.input}
                 value={vinNo}
                 onChangeText={vinNo => this.setState({ vinNo })}
               />
-              <TextInput
-                placeholder="Registration No (Recommended)"
+              <CustomTextInput
+                placeholder="Registration No "
+                placeholder2="(Recommended)"
+                placeholder2Color={colors.mainBlue}
                 style={styles.input}
                 value={registrationNo}
                 onChangeText={registrationNo =>
@@ -357,56 +367,22 @@ class BasicDetailsForm extends React.Component {
               />
             </View>
           )}
-          <View style={[styles.input]}>
-            <DatePicker
-              style={{
-                position: "absolute",
-                top: 0,
-                width: "100%",
-                left: 0,
-                bottom: 0
-              }}
-              date={purchaseDate}
-              mode="date"
-              placeholder="Purchase Date*"
-              format="YYYY-MM-DD"
-              minDate="1990-01-01"
-              maxDate={moment().format("YYYY-MM-DD")}
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: "absolute",
-                  right: 0,
-                  top: 10,
-                  width: 20,
-                  height: 20
-                },
-                dateInput: {
-                  borderColor: "transparent",
-                  paddingBottom: 10,
-                  height: 48,
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  left: 0,
-                  bottom: 0,
-                  justifyContent: "center",
-                  alignItems: "flex-start"
-                }
-              }}
-              onDateChange={purchaseDate => {
-                this.setState({ purchaseDate });
-              }}
-            />
-          </View>
-          <TextInput
+          <CustomDatePicker
+            date={purchaseDate}
+            placeholder="Purchase Date"
+            placeholder2="*"
+            placeholder2Color={colors.mainBlue}
+            onDateChange={purchaseDate => {
+              this.setState({ purchaseDate });
+            }}
+          />
+          <CustomTextInput
             placeholder="Purchase Amount"
             style={styles.input}
             value={amount}
             onChangeText={amount => this.setState({ amount })}
           />
-          <TextInput
+          <CustomTextInput
             placeholder="Seller Name"
             style={styles.input}
             value={sellerName}
