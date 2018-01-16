@@ -39,7 +39,7 @@ const apiRequest = async ({
       onUploadProgress,
       onDownloadProgress
     });
-    // console.log("r.data: ", r.data);
+    console.log("r.data: ", r.data);
     if (r.data.status == false) {
       let error = new Error(r.data.message);
       error.statusCode = 400;
@@ -58,7 +58,7 @@ const apiRequest = async ({
 
     return r.data;
   } catch (e) {
-    // console.log("e: ", e);
+    console.log("e: ", e);
     let error = new Error(e.message);
     error.statusCode = e.statusCode || 0;
     if (e.response) {
@@ -385,12 +385,47 @@ export const addProduct = async ({
   productName = "",
   mainCategoryId = undefined,
   categoryId = undefined,
+  brandId = undefined,
+  brandName = undefined,
+  purchaseCost = undefined,
+  purchaseDate = undefined,
+  metadata = []
+}) => {
+  let data = {
+    product_name: productName,
+    main_category_id: mainCategoryId,
+    category_id: categoryId,
+    brand_id: brandId,
+    brand_name: brandName,
+    purchase_cost: purchaseCost,
+    document_date: purchaseDate,
+    metadata: metadata.map(meta => {
+      return {
+        category_form_id: meta.categoryFormId || undefined,
+        form_value: meta.value || undefined,
+        new_drop_down: meta.isNewValue || true
+      };
+    })
+  };
+
+  return await apiRequest({
+    method: "post",
+    url: `/products`,
+    data
+  });
+};
+
+export const updateProduct = async ({
+  productId,
+  productName = "",
+  mainCategoryId = undefined,
+  categoryId = undefined,
   subCategoryId = undefined,
   sellerName = undefined,
   sellerContact = undefined,
   brandId = undefined,
   brandName = undefined,
-  purchaseCost = undefined,
+  value = undefined,
   purchaseDate = undefined,
   metadata = [],
   warranty = undefined,
@@ -405,20 +440,23 @@ export const addProduct = async ({
     category_id: categoryId,
     brand_id: brandId,
     brand_name: brandName,
-    purchase_cost: purchaseCost,
+    value: value,
     document_date: purchaseDate,
     seller_name: sellerName,
-    seller_contact: sellerContact,
-    metadata: metadata.map(meta => {
-      return {
-        category_form_id: meta.categoryFormId || undefined,
-        form_value: meta.value || undefined,
-        new_drop_down: meta.isNewValue || true
-      };
-    })
+    seller_contact: sellerContact
   };
 
-  if (warranty) {
+  if (metadata.length > 0) {
+    data.metadata = metadata.map(meta => {
+      return {
+        category_form_id: meta.categoryFormId || undefined,
+        form_value: meta.value,
+        new_drop_down: meta.isNewValue
+      };
+    });
+  }
+
+  if (warranty && purchaseDate && warranty.renewalType) {
     data.warranty = {
       renewal_type: warranty.renewalType || undefined,
       id: warranty.id || undefined,
@@ -431,7 +469,7 @@ export const addProduct = async ({
     };
   }
 
-  if (insurance) {
+  if (insurance && insurance.providerId) {
     data.insurance = {
       id: insurance.id || undefined,
       effective_date: insurance.effectiveDate || undefined,
@@ -443,7 +481,14 @@ export const addProduct = async ({
     };
   }
 
-  if (amc) {
+  if (
+    amc &&
+    (amc.id ||
+      amc.sellerName ||
+      amc.sellerContact ||
+      amc.value ||
+      amc.effectiveDate)
+  ) {
     data.amc = {
       id: amc.id || undefined,
       seller_name: amc.sellerName || undefined,
@@ -453,7 +498,15 @@ export const addProduct = async ({
     };
   }
 
-  if (puc) {
+  if (
+    puc &&
+    (puc.id ||
+      puc.sellerName ||
+      puc.sellerContact ||
+      puc.value ||
+      puc.effectiveDate ||
+      puc.expiryPeriod)
+  ) {
     data.puc = {
       id: puc.id || undefined,
       seller_name: puc.sellerName || undefined,
@@ -464,23 +517,33 @@ export const addProduct = async ({
     };
   }
 
-  if (repair) {
+  if (
+    repair &&
+    (repair.id ||
+      repair.sellerName ||
+      (repair.sellerContact &&
+        repair.value &&
+        repair.repairFor &&
+        repair.warrantyUpto &&
+        repair.repairDate))
+  ) {
     data.repair = {
       id: repair.id || undefined,
       seller_name: repair.sellerName || undefined,
       seller_contact: repair.sellerContact || undefined,
       value: repair.value || undefined,
-      effective_date: repair.effectiveDate || undefined,
       repair_for: repair.repairFor || undefined,
       warranty_upto: repair.warrantyUpto || undefined,
       document_date: repair.repairDate || undefined
     };
   }
 
+  console.log(JSON.stringify(data));
+
   return await apiRequest({
-    method: "post",
-    url: `/products`,
-    data
+    method: "put",
+    url: `/products/${productId}`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
   });
 };
 

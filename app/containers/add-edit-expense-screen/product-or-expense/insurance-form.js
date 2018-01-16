@@ -61,12 +61,12 @@ class InsuranceForm extends React.Component {
 
     let data = {
       id: uploadedDocId,
-      effective_date: effectiveDate,
-      provider_id: selectedProvider.id,
-      provider_name: providerName,
-      policy_no: policyNo,
+      effectiveDate: effectiveDate,
+      providerId: selectedProvider ? selectedProvider.id : null,
+      providerName: providerName,
+      policyNo: policyNo,
       value: amount,
-      amount_insured: coverage
+      amountInsured: coverage
     };
 
     return data;

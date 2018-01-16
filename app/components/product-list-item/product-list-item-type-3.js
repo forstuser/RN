@@ -21,11 +21,13 @@ const ProductListItem = ({ product }) => {
       style={styles.container}
     >
       <View style={styles.details}>
-        <AsyncImage
-          fileType={product.copies[0].file_type}
-          style={styles.image}
-          uri={API_BASE_URL + "/" + product.copies[0].copyUrl}
-        />
+        {product.copies.length > 0 && (
+          <AsyncImage
+            fileType={product.copies[0].file_type}
+            style={styles.image}
+            uri={API_BASE_URL + "/" + product.copies[0].copyUrl}
+          />
+        )}
         <View style={styles.texts}>
           <Text weight="Bold" style={styles.name}>
             {product.productName}

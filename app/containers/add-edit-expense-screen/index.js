@@ -16,6 +16,7 @@ import { MAIN_CATEGORY_IDS, EXPENSE_TYPES } from "../../constants";
 import I18n from "../../i18n";
 
 import ProductOrExpense from "./product-or-expense";
+import PersonalDoc from "./personal-doc";
 
 const ehomeImage = require("../../images/ehome_circle_with_category_icons.png");
 
@@ -129,6 +130,8 @@ class AddEditExpenseScreen extends React.Component {
             navigator={this.props.navigator}
           />
         );
+      case "personal_doc":
+        return <PersonalDoc navigator={this.props.navigator} />;
       default:
         return null;
     }

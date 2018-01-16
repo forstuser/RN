@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
     height: 40,
-    marginBottom: 32
+    marginBottom: 32,
+    width: "100%"
   },
   placeholderContainer: {
     flexDirection: "row",

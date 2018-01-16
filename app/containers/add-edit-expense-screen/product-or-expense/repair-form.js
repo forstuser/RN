@@ -61,12 +61,12 @@ class RepairForm extends React.Component {
 
     let data = {
       id: uploadedDocId,
-      document_date: repairDate,
-      repair_for: repairFor,
-      seller_name: sellerName,
-      selller_contact: this.sellerContactRef.getFilledData(),
-      renewal_cost: amount,
-      warranty_upto: warrantyUpto
+      sellerName: sellerName,
+      sellerContact: this.sellerContactRef.getFilledData(),
+      value: amount,
+      repairFor: repairFor,
+      warrantyUpto: warrantyUpto,
+      repairDate: repairDate
     };
 
     return data;
@@ -102,9 +102,7 @@ class RepairForm extends React.Component {
 
             <CustomDatePicker
               date={repairDate}
-              placeholder="AMC Effective Date "
-              placeholder2="(Recommended)"
-              placeholder2Color={colors.mainBlue}
+              placeholder="Repair Date "
               onDateChange={repairDate => {
                 this.setState({ repairDate });
               }}
@@ -140,7 +138,7 @@ class RepairForm extends React.Component {
                 console.log("upload result: ", uploadResult);
                 this.setState({
                   isDocUploaded: true,
-                  uploadedDocId: uploadResult.insurance.id
+                  uploadedDocId: uploadResult.repair.id
                 });
               }}
             />

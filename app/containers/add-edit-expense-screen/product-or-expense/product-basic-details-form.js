@@ -69,8 +69,15 @@ class BasicDetailsForm extends React.Component {
     } = this.state;
 
     let metadata = [];
-    if (this.props.mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
-      const categoryForms = this.props.categoryReferenceData.categoryForms;
+
+    const { mainCategoryId } = this.props;
+    const categoryForms = this.props.categoryReferenceData.categoryForms;
+
+    if (
+      (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
+        mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) &&
+      (selectedModel || modelName)
+    ) {
       const modelNameCategoryForm = categoryForms.find(
         categoryForm => categoryForm.title == "Model"
       );
@@ -79,42 +86,42 @@ class BasicDetailsForm extends React.Component {
         value: selectedModel ? selectedModel.title : modelName,
         isNewValue: selectedModel ? false : true
       });
-      const registrationNoCategoryForm = categoryForms.find(
-        categoryForm => categoryForm.title == "Registration Number"
-      );
-      metadata.push({
-        categoryFormId: registrationNoCategoryForm.id,
-        value: registrationNo,
-        isNewValue: false
-      });
-      const vinNoCategoryForm = categoryForms.find(
-        categoryForm => categoryForm.title == "Vehicle Number"
-      );
-      metadata.push({
-        categoryFormId: vinNoCategoryForm.id,
-        value: vinNo,
-        isNewValue: false
-      });
-    } else if (this.props.mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
-      const categoryForms = this.props.categoryReferenceData.categoryForms;
-      const modelNameCategoryForm = categoryForms.find(
-        categoryForm => categoryForm.title == "Model"
-      );
-      metadata.push({
-        categoryFormId: modelNameCategoryForm.id,
-        value: selectedModel ? selectedModel.title : modelName,
-        isNewValue: selectedModel ? false : true
-      });
-      if (this.props.categoryId == 327) {
+    }
+
+    if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
+      if (registrationNo) {
+        const registrationNoCategoryForm = categoryForms.find(
+          categoryForm => categoryForm.title == "Registration Number"
+        );
+        metadata.push({
+          categoryFormId: registrationNoCategoryForm.id,
+          value: registrationNo,
+          isNewValue: false
+        });
+      }
+
+      if (vinNo) {
+        const vinNoCategoryForm = categoryForms.find(
+          categoryForm => categoryForm.title == "Vehicle Number"
+        );
+        metadata.push({
+          categoryFormId: vinNoCategoryForm.id,
+          value: vinNo,
+          isNewValue: false
+        });
+      }
+    } else if (mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
+      if (this.props.categoryId == 327 && imeiNo) {
         const imeiNoCategoryForm = categoryForms.find(
           categoryForm => categoryForm.title == "IMEI Number"
         );
+
         metadata.push({
           categoryFormId: imeiNoCategoryForm.id,
           value: imeiNo,
           isNewValue: false
         });
-      } else {
+      } else if (serialNo) {
         const serialNoCategoryForm = categoryForms.find(
           categoryForm => categoryForm.title == "Serial Number"
         );
@@ -130,10 +137,9 @@ class BasicDetailsForm extends React.Component {
       productName: productName,
       purchaseDate: purchaseDate,
       sellerName: sellerName,
-      selllerContact: this.sellerContactRef.getFilledData(),
+      sellerContact: this.sellerContactRef.getFilledData(),
       brandId: selectedBrand ? selectedBrand.id : undefined,
-      brandName: brandName,
-      purchaseCost: amount,
+      value: amount,
       metadata: metadata
     };
 
@@ -291,6 +297,7 @@ class BasicDetailsForm extends React.Component {
             onOptionSelect={value => {
               this.onBrandSelect(value);
             }}
+            hideAddNew={true}
             onTextInputChange={text => this.onBrandNameChange(text)}
           />
 

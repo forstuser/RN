@@ -46,7 +46,7 @@ class WarrantyForm extends React.Component {
 
     let data = {
       id: uploadedDocId,
-      renewal_type: selectedRenewalType ? selectedRenewalType.id : null
+      renewalType: selectedRenewalType ? selectedRenewalType.id : null
     };
 
     return data;

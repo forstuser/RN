@@ -54,14 +54,24 @@ class BasicDetailsForm extends React.Component {
       amount
     } = this.state;
 
+    let metadata = [];
+    //if utility bills
+    if (this.props.categoryId == 634 && nextDueDate) {
+      metadata.push({
+        categoryFormId: 1099,
+        value: nextDueDate,
+        isNewValue: false
+      });
+    }
+
     let data = {
-      expenseName: expenseName,
-      date: date,
-      nextDueDate: nextDueDate,
+      productName: expenseName,
+      purchaseDate: date,
       sellerName: sellerName,
-      selllerContact: this.sellerContactRef.getFilledData(),
+      sellerContact: this.sellerContactRef.getFilledData(),
       subCategoryId: selectedSubCategory ? selectedSubCategory.id : undefined,
-      amount: amount
+      value: amount,
+      metadata: metadata
     };
 
     return data;
@@ -145,24 +155,26 @@ class BasicDetailsForm extends React.Component {
           </TouchableOpacity>
         </View>
         <View style={styles.body}>
-          <SelectModal
-            style={styles.input}
-            dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-            placeholder="Expense Type"
-            placeholderRenderer={({ placeholder }) => (
-              <View style={{ flexDirection: "row" }}>
-                <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                  {placeholder}
-                </Text>
-              </View>
-            )}
-            selectedOption={selectedSubCategory}
-            options={subCategories}
-            onOptionSelect={value => {
-              this.onSubCategorySelect(value);
-            }}
-            hideAddNew={true}
-          />
+          {subCategories.length > 0 && (
+            <SelectModal
+              style={styles.input}
+              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+              placeholder="Expense Type"
+              placeholderRenderer={({ placeholder }) => (
+                <View style={{ flexDirection: "row" }}>
+                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                    {placeholder}
+                  </Text>
+                </View>
+              )}
+              selectedOption={selectedSubCategory}
+              options={subCategories}
+              onOptionSelect={value => {
+                this.onSubCategorySelect(value);
+              }}
+              hideAddNew={true}
+            />
+          )}
 
           <CustomTextInput
             placeholder="Expense Name"

@@ -57,10 +57,10 @@ class ExtendedWarrantyForm extends React.Component {
     } = this.state;
 
     let data = {
-      extended_id: uploadedDocId,
-      extended_effective_date: startDate,
-      provider_id: selectedProvider.id,
-      extended_renewal_type: selectedRenewalType ? selectedRenewalType.id : null
+      extendedId: uploadedDocId,
+      extendedEffectiveDate: startDate,
+      extendedProviderId: selectedProvider ? selectedProvider.id : null,
+      extendedRenewalType: selectedRenewalType ? selectedRenewalType.id : null
     };
 
     return data;
@@ -179,8 +179,8 @@ class ExtendedWarrantyForm extends React.Component {
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
                 this.setState({
-                  isDocUploaded: true,
-                  uploadedDocId: uploadResult.warranty.id
+                  isDocUploaded: true
+                  // uploadedDocId: uploadResult.warranty.id
                 });
               }}
             />

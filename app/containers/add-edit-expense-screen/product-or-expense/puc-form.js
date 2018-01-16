@@ -64,11 +64,11 @@ class PucForm extends React.Component {
 
     let data = {
       id: uploadedDocId,
-      effective_date: effectiveDate,
-      seller_name: sellerName,
-      selller_contact: this.sellerContactRef.getFilledData(),
-      renewal_cost: amount,
-      expiry_period: selectedRenewalType ? selectedRenewalType.id : null
+      sellerName: sellerName,
+      sellerContact: this.sellerContactRef.getFilledData(),
+      value: amount,
+      effectiveDate: effectiveDate,
+      expiryPeriod: selectedRenewalType ? selectedRenewalType.id : null
     };
 
     return data;
@@ -167,7 +167,7 @@ class PucForm extends React.Component {
                 console.log("upload result: ", uploadResult);
                 this.setState({
                   isDocUploaded: true,
-                  uploadedDocId: uploadResult.insurance.id
+                  uploadedDocId: uploadResult.puc.id
                 });
               }}
             />

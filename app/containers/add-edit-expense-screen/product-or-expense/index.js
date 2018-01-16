@@ -1,9 +1,10 @@
 import React from "react";
 import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { initProduct, getReferenceDataForCategory } from "../../../api";
+import { API_BASE_URL, initProduct, updateProduct } from "../../../api";
 import { ScreenContainer, Text, Button } from "../../../elements";
 
+import FinishModal from "../finish-modal";
 import LoadingOverlay from "../../../components/loading-overlay";
 import SelectCategoryHeader from "../select-category-header";
 import ProductBasicDetailsForm from "./product-basic-details-form";
@@ -37,7 +38,9 @@ class ProductOrExpense extends React.Component {
         amc: false,
         repair: false,
         puc: false
-      }
+      },
+      isSavingProduct: false,
+      isFinishModalVisible: false
     };
   }
 
@@ -98,6 +101,10 @@ class ProductOrExpense extends React.Component {
           visibleModules.expenseBasicDetails = true;
           visibleModules.warranty = true;
           break;
+        case MAIN_CATEGORY_IDS.FASHION:
+          visibleModules.expenseBasicDetails = true;
+          visibleModules.warranty = true;
+          break;
       }
       this.setState({
         visibleModules
@@ -112,7 +119,7 @@ class ProductOrExpense extends React.Component {
   };
 
   initProduct = async () => {
-    this.setState({ isInitializingProduct: true });
+    this.setState({ isInitializingProduct: true, product: null });
     const { mainCategoryId, category } = this.state;
     try {
       const res = await initProduct(mainCategoryId, category.id);
@@ -127,24 +134,82 @@ class ProductOrExpense extends React.Component {
     }
   };
 
-  addProduct = () => {
-    console.log(
-      "this.basicDetailsForm: ",
-      this.productBasicDetailsForm.getFilledData()
-    );
-    console.log("this.insuranceForm: ", this.insuranceForm.getFilledData());
-    console.log("this.warrantyForm: ", this.warrantyForm.getFilledData());
-    console.log(
-      "this.dualWarrantyForm: ",
-      this.dualWarrantyForm.getFilledData()
-    );
-    console.log(
-      "this.extendedWarrantyForm: ",
-      this.extendedWarrantyForm.getFilledData()
-    );
-    console.log("this.amcForm: ", this.amcForm.getFilledData());
-    console.log("this.repairForm: ", this.repairForm.getFilledData());
-    console.log("this.pucForm: ", this.pucForm.getFilledData());
+  updateProduct = async () => {
+    try {
+      this.setState({ isSavingProduct: true });
+      let data = {};
+      if (this.productBasicDetailsForm) {
+        data = this.productBasicDetailsForm.getFilledData();
+      } else if (this.expenseBasicDetailsForm) {
+        data = this.expenseBasicDetailsForm.getFilledData();
+      }
+
+      data.productId = this.state.product.id;
+      data.mainCategoryId = this.state.mainCategoryId;
+      data.categoryId = this.state.category.id;
+
+      if (this.warrantyForm) {
+        data.warranty = this.warrantyForm.getFilledData();
+        if (this.dualWarrantyForm) {
+          const dualWarranty = this.dualWarrantyForm.getFilledData();
+          data.warranty.dualId = dualWarranty.id;
+          data.dualRenewalType = dualWarranty.renewalType;
+        }
+        // if (this.extendedWarrantyForm) {
+        //   const extendedWarranty = this.extendedWarrantyForm.getFilledData();
+        //   data.warranty = { ...data.warranty, ...extendedWarranty };
+        // }
+      }
+
+      if (this.insuranceForm) {
+        data.insurance = this.insuranceForm.getFilledData();
+      }
+      if (this.amcForm) {
+        data.amc = this.amcForm.getFilledData();
+      }
+      if (this.repairForm) {
+        data.repair = this.repairForm.getFilledData();
+      }
+      if (this.pucForm) {
+        data.puc = this.pucForm.getFilledData();
+      }
+
+      console.log("data: ", data);
+      switch (this.state.mainCategoryId) {
+        case MAIN_CATEGORY_IDS.AUTOMOBILE:
+          if (!data.brandId || !data.purchaseDate) {
+            return Alert.alert("Please select brand and purchase date");
+          }
+          if (!data.insurance.providerId && !data.insurance.providerName) {
+            return Alert.alert(
+              "Please select or enter insurance provider name"
+            );
+          }
+        case MAIN_CATEGORY_IDS.ELECTRONICS:
+          if (!data.brandId || !data.purchaseDate) {
+            return Alert.alert("Please select brand and purchase date");
+          }
+        case MAIN_CATEGORY_IDS.FURNITURE:
+          if (!data.brandId || !data.purchaseDate) {
+            return Alert.alert("Please select brand and purchase date");
+          }
+        default:
+          if (!data.purchaseDate) {
+            return Alert.alert("Please select a date");
+          }
+      }
+
+      await updateProduct(data);
+      this.setState({
+        isSavingProduct: false,
+        isFinishModalVisible: true
+      });
+    } catch (e) {
+      this.setState({
+        isSavingProduct: false
+      });
+      Alert.alert(e.message);
+    }
   };
 
   render() {
@@ -155,7 +220,9 @@ class ProductOrExpense extends React.Component {
       categoryReferenceData,
       renewalTypes,
       isInitializingProduct,
-      visibleModules
+      visibleModules,
+      isSavingProduct,
+      isFinishModalVisible
     } = this.state;
     if (!mainCategoryId) {
       return null;
@@ -163,7 +230,7 @@ class ProductOrExpense extends React.Component {
     return (
       <ScreenContainer style={styles.container}>
         <KeyboardAwareScrollView scrollEnabled={product != null}>
-          <LoadingOverlay visible={isInitializingProduct} />
+          <LoadingOverlay visible={isInitializingProduct || isSavingProduct} />
           <SelectCategoryHeader
             mainCategoryId={mainCategoryId}
             preSelectCategory={category}
@@ -318,12 +385,18 @@ class ProductOrExpense extends React.Component {
         </KeyboardAwareScrollView>
         {product != null && (
           <Button
-            onPress={this.addProduct}
+            onPress={this.updateProduct}
             text="ADD PRODUCT"
             borderRadius={0}
             color="secondary"
           />
         )}
+        <FinishModal
+          title="Product added to your eHome."
+          visible={isFinishModalVisible}
+          mainCategoryId={mainCategoryId}
+          navigator={this.props.navigator}
+        />
       </ScreenContainer>
     );
   }

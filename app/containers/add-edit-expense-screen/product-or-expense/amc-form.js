@@ -52,9 +52,9 @@ class AmcForm extends React.Component {
 
     let data = {
       id: uploadedDocId,
-      effective_date: effectiveDate,
-      seller_name: sellerName,
-      selller_contact: this.sellerContactRef.getFilledData(),
+      effectiveDate: effectiveDate,
+      sellerName: sellerName,
+      sellerContact: this.sellerContactRef.getFilledData(),
       value: amount
     };
 
@@ -122,7 +122,7 @@ class AmcForm extends React.Component {
                 console.log("upload result: ", uploadResult);
                 this.setState({
                   isDocUploaded: true,
-                  uploadedDocId: uploadResult.insurance.id
+                  uploadedDocId: uploadResult.amc.id
                 });
               }}
             />
