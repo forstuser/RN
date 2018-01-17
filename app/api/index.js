@@ -423,6 +423,8 @@ export const updateProduct = async ({
   subCategoryId = undefined,
   sellerName = undefined,
   sellerContact = undefined,
+  sellerEmail = undefined,
+  sellerAddress = undefined,
   brandId = undefined,
   brandName = undefined,
   value = undefined,
@@ -443,7 +445,9 @@ export const updateProduct = async ({
     value: value,
     document_date: purchaseDate,
     seller_name: sellerName,
-    seller_contact: sellerContact
+    seller_contact: sellerContact,
+    seller_email: sellerEmail,
+    seller_address: sellerAddress
   };
 
   if (metadata.length > 0) {
@@ -469,7 +473,7 @@ export const updateProduct = async ({
     };
   }
 
-  if (insurance && insurance.providerId) {
+  if (insurance && (insurance.providerId || insurance.providerName)) {
     data.insurance = {
       id: insurance.id || undefined,
       effective_date: insurance.effectiveDate || undefined,
@@ -592,5 +596,35 @@ export const initProduct = async (mainCategoryId, categoryId) => {
       main_category_id: mainCategoryId,
       category_id: categoryId
     }
+  });
+};
+
+export const getRepairableProducts = async () => {
+  return await apiRequest({
+    method: "get",
+    url: "/repairs/products"
+  });
+};
+
+export const addRepair = async ({
+  productId,
+  repairDate,
+  sellerName,
+  sellerContact,
+  repairAmount,
+  warrantyUpto
+}) => {
+  let data = {
+    document_date: repairDate,
+    seller_name: sellerName,
+    seller_contact: sellerContact,
+    value: repairAmount,
+    warranty_upto: warrantyUpto
+  };
+
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/repairs`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
   });
 };

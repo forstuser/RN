@@ -179,23 +179,7 @@ class SelectCategoryHeader extends React.Component {
           ]
         }));
         break;
-      case MAIN_CATEGORY_IDS.HEALTHCARE:
-        this.setState(() => ({
-          title: "Select Healthcare Expense Category",
-          visibleOptions: [
-            {
-              id: 23,
-              name: "Expenses(to be changed)",
-              icon: require("../../images/categories/medical_bill.png")
-            },
-            {
-              id: 86,
-              name: "Prescription and  Reports(to be changed)",
-              icon: require("../../images/categories/hospital.png")
-            }
-          ]
-        }));
-        break;
+
       case MAIN_CATEGORY_IDS.FASHION:
         this.setState(() => ({
           title: "Select Fashion Expense Category",
@@ -254,6 +238,42 @@ class SelectCategoryHeader extends React.Component {
             }
           ]
         }));
+        break;
+      case MAIN_CATEGORY_IDS.HEALTHCARE:
+        if (this.props.healthcareFormType == "medical_docs") {
+          this.setState(() => ({
+            title: "Select Medical Documents Type",
+            visibleOptions: [
+              {
+                id: 86,
+                name: "Medical Docs",
+                icon: require("../../images/categories/medical_docs.png")
+              },
+              {
+                id: 664,
+                name: "Insurance",
+                icon: require("../../images/categories/insurance.png")
+              }
+            ]
+          }));
+        } else {
+          this.setState(() => ({
+            title: "Select Healthcare Expense Category",
+            visibleOptions: [
+              {
+                id: 704,
+                name: "Medical Bills",
+                icon: require("../../images/categories/medical_bill.png")
+              },
+              {
+                id: 705,
+                name: "Hospital Bills",
+                icon: require("../../images/categories/hospital.png")
+              }
+            ]
+          }));
+          break;
+        }
         break;
     }
 

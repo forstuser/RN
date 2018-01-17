@@ -9,6 +9,8 @@ import LoadingOverlay from "../../../components/loading-overlay";
 import SelectCategoryHeader from "../select-category-header";
 import ProductBasicDetailsForm from "./product-basic-details-form";
 import ExpenseBasicDetailsForm from "./expense-basic-details-form";
+import HealthcareInsuranceForm from "./healthcare-insurance-form";
+import MedicalDocForm from "./medical-doc-form";
 import InsuranceForm from "./insurance-form";
 import WarrantyForm from "./warranty-form";
 import ExtendedWarrantyForm from "./extended-warranty-form";
@@ -24,6 +26,7 @@ class ProductOrExpense extends React.Component {
     this.state = {
       mainCategoryId: null,
       category: null,
+      subCategoryId: null,
       categoryReferenceData: null,
       renewalTypes: [],
       product: null,
@@ -51,6 +54,8 @@ class ProductOrExpense extends React.Component {
       let visibleModules = {
         productBasicDetails: false,
         expenseBasicDetails: false,
+        healthcareInsuranceForm: false,
+        healthcareMedicalDocuments: false,
         insurance: false,
         warranty: false,
         dualWarranty: false,
@@ -105,6 +110,12 @@ class ProductOrExpense extends React.Component {
           visibleModules.expenseBasicDetails = true;
           visibleModules.warranty = true;
           break;
+        case MAIN_CATEGORY_IDS.HEALTHCARE:
+          if (this.props.healthcareFormType == "healthcare_expense") {
+            visibleModules.expenseBasicDetails = true;
+            visibleModules.warranty = true;
+          }
+          break;
       }
       this.setState({
         visibleModules
@@ -113,9 +124,35 @@ class ProductOrExpense extends React.Component {
   }
 
   onSelectCategory = category => {
-    this.setState({ category }, () => {
-      this.initProduct();
-    });
+    healthcareFormType = this.props.healthcareFormType;
+    if (healthcareFormType == "medical_docs") {
+      if (category.id == 664) {
+        //category 'insurance'
+        this.setState({
+          visibleModules: {
+            healthcareInsuranceForm: true
+          }
+        });
+      } else {
+        this.setState({
+          visibleModules: {
+            healthcareMedicalDocuments: true
+          }
+        });
+      }
+    }
+    if (healthcareFormType == "healthcare_expense") {
+      this.setState(
+        { category: { id: 23, name: "Expenses" }, subCategoryId: category.id },
+        () => {
+          this.initProduct();
+        }
+      );
+    } else {
+      this.setState({ category }, () => {
+        this.initProduct();
+      });
+    }
   };
 
   initProduct = async () => {
@@ -136,17 +173,31 @@ class ProductOrExpense extends React.Component {
 
   updateProduct = async () => {
     try {
-      this.setState({ isSavingProduct: true });
       let data = {};
       if (this.productBasicDetailsForm) {
         data = this.productBasicDetailsForm.getFilledData();
       } else if (this.expenseBasicDetailsForm) {
         data = this.expenseBasicDetailsForm.getFilledData();
+      } else if (this.healthcareInsuranceForm) {
+        data = this.healthcareInsuranceForm.getFilledData();
+        if (!data.insurance.providerId && !data.insurance.providerName) {
+          return Alert.alert("Please select or enter an insurance provider");
+        }
+      } else if (this.healthcareMedicalDocForm) {
+        data = this.healthcareMedicalDocForm.getFilledData();
+        if (!data.isDocUploaded) {
+          return Alert.alert("Please upload the report doc");
+        }
+        delete data.isDocUploaded;
       }
 
       data.productId = this.state.product.id;
       data.mainCategoryId = this.state.mainCategoryId;
       data.categoryId = this.state.category.id;
+
+      if (this.state.subCategoryId && !data.subCategoryId) {
+        data.subCategoryId = this.state.subCategoryId;
+      }
 
       if (this.warrantyForm) {
         data.warranty = this.warrantyForm.getFilledData();
@@ -185,20 +236,26 @@ class ProductOrExpense extends React.Component {
               "Please select or enter insurance provider name"
             );
           }
+          if (!data.purchaseDate) {
+            return Alert.alert("Please select a date");
+          }
         case MAIN_CATEGORY_IDS.ELECTRONICS:
           if (!data.brandId || !data.purchaseDate) {
             return Alert.alert("Please select brand and purchase date");
+          }
+          if (!data.purchaseDate) {
+            return Alert.alert("Please select a date");
           }
         case MAIN_CATEGORY_IDS.FURNITURE:
           if (!data.brandId || !data.purchaseDate) {
             return Alert.alert("Please select brand and purchase date");
           }
-        default:
           if (!data.purchaseDate) {
             return Alert.alert("Please select a date");
           }
       }
 
+      this.setState({ isSavingProduct: true });
       await updateProduct(data);
       this.setState({
         isSavingProduct: false,
@@ -237,6 +294,7 @@ class ProductOrExpense extends React.Component {
             onCategorySelect={category => {
               this.onSelectCategory(category);
             }}
+            healthcareFormType={this.props.healthcareFormType}
           />
           <View style={styles.separator} />
           {product == null && (
@@ -266,6 +324,34 @@ class ProductOrExpense extends React.Component {
                 <View>
                   <ExpenseBasicDetailsForm
                     ref={ref => (this.expenseBasicDetailsForm = ref)}
+                    mainCategoryId={mainCategoryId}
+                    categoryId={category.id}
+                    product={product}
+                    categoryReferenceData={categoryReferenceData}
+                    navigator={this.props.navigator}
+                  />
+                  <View style={styles.separator} />
+                </View>
+              )}
+
+              {visibleModules.healthcareInsuranceForm && (
+                <View>
+                  <HealthcareInsuranceForm
+                    ref={ref => (this.healthcareInsuranceForm = ref)}
+                    mainCategoryId={mainCategoryId}
+                    categoryId={category.id}
+                    product={product}
+                    categoryReferenceData={categoryReferenceData}
+                    navigator={this.props.navigator}
+                  />
+                  <View style={styles.separator} />
+                </View>
+              )}
+
+              {visibleModules.healthcareMedicalDocuments && (
+                <View>
+                  <MedicalDocForm
+                    ref={ref => (this.healthcareMedicalDocForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
                     product={product}

@@ -7,8 +7,6 @@ import {
   Alert
 } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
-import DatePicker from "react-native-datepicker";
-import moment from "moment";
 
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
@@ -37,6 +35,7 @@ class UploadDoc extends React.Component {
 
   render() {
     const {
+      navigator,
       jobId,
       type,
       style = {},
@@ -75,7 +74,7 @@ class UploadDoc extends React.Component {
         <AttachmentIcon />
         <UploadBillOptions
           ref={ref => (this.uploadBillOptions = ref)}
-          navigator={this.props.navigator}
+          navigator={navigator}
           uploadCallback={this.onUpload}
         />
       </TouchableOpacity>

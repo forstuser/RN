@@ -44,17 +44,17 @@ class ContactFields extends React.Component {
     });
   };
   render() {
-    const { placeholder } = this.props;
+    const { placeholder, keyboardType = "numeric", style = {} } = this.props;
     return (
       <View>
         {this.state.contacts.map((contact, index) => (
-          <View key={index} style={styles.field}>
+          <View key={index} style={[styles.field, style]}>
             <CustomTextInput
               style={styles.textInput}
               placeholder={placeholder + " " + (index > 0 ? index + 1 : "")}
               value={contact}
               onChangeText={text => this.onTextChange(index, text)}
-              keyboardType="numeric"
+              keyboardType={keyboardType}
             />
             {index === 0 && (
               <TouchableOpacity onPress={this.addField} style={styles.plusBtn}>
@@ -70,7 +70,8 @@ class ContactFields extends React.Component {
 
 const styles = StyleSheet.create({
   field: {
-    flexDirection: "row"
+    flexDirection: "row",
+    width: "100%"
   },
   textInput: {
     flex: 1,

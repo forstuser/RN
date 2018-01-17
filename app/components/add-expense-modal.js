@@ -76,7 +76,7 @@ class AddExpenseModal extends React.Component {
         icon: require("../images/main-categories/ic_furniture.png")
       },
       {
-        type: EXPENSE_TYPES.MEDICAL_PRESCRIPTION,
+        type: EXPENSE_TYPES.MEDICAL_DOCS,
         title: "Medical Documents",
         icon: require("../images/main-categories/ic_medical_prescription.png")
       },
@@ -119,7 +119,7 @@ class AddExpenseModal extends React.Component {
         icon: require("../images/main-categories/ic_home_expenses.png")
       },
       {
-        type: EXPENSE_TYPES.REPAIRS,
+        type: EXPENSE_TYPES.REPAIR,
         title: "Repair",
         icon: require("../images/main-categories/ic_repair.png")
       }

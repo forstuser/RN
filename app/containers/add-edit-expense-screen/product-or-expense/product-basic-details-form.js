@@ -17,6 +17,7 @@ import { colors } from "../../../theme";
 import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";
 import CustomDatePicker from "../form-elements/date-picker";
+import HeaderWithUploadOption from "../form-elements/header-with-upload-option";
 
 const AttachmentIcon = () => (
   <Icon name="attachment" size={20} color={colors.pinkishOrange} />
@@ -133,12 +134,28 @@ class BasicDetailsForm extends React.Component {
       }
     }
 
+    let productNameFromBrandAndModel = "";
+    if (selectedBrand) {
+      productNameFromBrandAndModel = selectedBrand.name;
+    } else if (brandName) {
+      productNameFromBrandAndModel = brandName;
+    }
+
+    if (selectedModel) {
+      productNameFromBrandAndModel =
+        productNameFromBrandAndModel + " " + selectedModel.title;
+    } else if (modelName) {
+      productNameFromBrandAndModel =
+        productNameFromBrandAndModel + " " + modelName;
+    }
+
     let data = {
-      productName: productName,
+      productName: productName.trim() || productNameFromBrandAndModel.trim(),
       purchaseDate: purchaseDate,
       sellerName: sellerName,
       sellerContact: this.sellerContactRef.getFilledData(),
       brandId: selectedBrand ? selectedBrand.id : undefined,
+      brandName: brandName,
       value: amount,
       metadata: metadata
     };
@@ -218,56 +235,21 @@ class BasicDetailsForm extends React.Component {
     } = this.state;
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text weight="Medium" style={styles.headerText}>
-            Basic Details
-          </Text>
-          <TouchableOpacity
-            onPress={() => this.uploadBillOptions.show(product.job_id, 1)}
-            style={styles.uploadBillBtn}
-          >
-            {!isBillUploaded && (
-              <View style={styles.uploadBillBtnTexts}>
-                <Text
-                  weight="Medium"
-                  style={[
-                    styles.uploadBillBtnText,
-                    { color: colors.secondaryText }
-                  ]}
-                >
-                  Upload Bill{" "}
-                </Text>
-                <Text
-                  weight="Medium"
-                  style={[styles.uploadBillBtnText, { color: colors.mainBlue }]}
-                >
-                  (Recommended){" "}
-                </Text>
-              </View>
-            )}
-            {isBillUploaded && (
-              <Text
-                weight="Medium"
-                style={[
-                  styles.uploadBillBtnText,
-                  { color: colors.secondaryText }
-                ]}
-              >
-                Bill Uploaded Successfully{" "}
-              </Text>
-            )}
-            <AttachmentIcon />
-            <UploadBillOptions
-              ref={ref => (this.uploadBillOptions = ref)}
-              navigator={this.props.navigator}
-              uploadCallback={uploadResult => {
-                console.log("product: ", product);
-                console.log("upload result: ", uploadResult);
-                this.setState({ isBillUploaded: true });
-              }}
-            />
-          </TouchableOpacity>
-        </View>
+        <HeaderWithUploadOption
+          title="Basic Details"
+          textBeforeUpload="Upload Bill"
+          textBeforeUpload2=" (recommended)"
+          textBeforeUpload2Color={colors.mainBlue}
+          jobId={product ? product.job_id : null}
+          type={1}
+          onUpload={uploadResult => {
+            console.log("product: ", product);
+            console.log("upload result: ", uploadResult);
+            this.setState({ isBillUploaded: true });
+          }}
+          navigator={this.props.navigator}
+        />
+
         <View style={styles.body}>
           <CustomTextInput
             placeholder="Product Name"
@@ -297,7 +279,6 @@ class BasicDetailsForm extends React.Component {
             onOptionSelect={value => {
               this.onBrandSelect(value);
             }}
-            hideAddNew={true}
             onTextInputChange={text => this.onBrandNameChange(text)}
           />
 
@@ -414,25 +395,6 @@ const styles = StyleSheet.create({
     borderColor: "#eee",
     borderTopWidth: StyleSheet.hairlineWidth,
     borderBottomWidth: StyleSheet.hairlineWidth
-  },
-  header: {
-    flexDirection: "row",
-    marginBottom: 20
-  },
-  headerText: {
-    fontSize: 18,
-    flex: 1
-  },
-  uploadBillBtn: {
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  uploadBillBtnTexts: {
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  uploadBillBtnText: {
-    fontSize: 10
   },
   input: {
     fontSize: 14,

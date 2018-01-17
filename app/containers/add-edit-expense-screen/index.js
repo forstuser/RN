@@ -17,6 +17,7 @@ import I18n from "../../i18n";
 
 import ProductOrExpense from "./product-or-expense";
 import PersonalDoc from "./personal-doc";
+import Repair from "./repair";
 
 const ehomeImage = require("../../images/ehome_circle_with_category_icons.png");
 
@@ -57,10 +58,10 @@ class AddEditExpenseScreen extends React.Component {
           mainCategoryId: MAIN_CATEGORY_IDS.FURNITURE
         });
         break;
-      case EXPENSE_TYPES.MEDICAL_PRESCRIPTION:
-        title = I18n.t("add_edit_expense_screen_title_add_prescription");
+      case EXPENSE_TYPES.MEDICAL_DOCS:
+        title = I18n.t("add_edit_expense_screen_title_add_medical_docs");
         this.setState({
-          formType: "prescription",
+          formType: "medical_docs",
           mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE
         });
         break;
@@ -88,7 +89,7 @@ class AddEditExpenseScreen extends React.Component {
       case EXPENSE_TYPES.HEALTHCARE:
         title = I18n.t("add_edit_expense_screen_title_add_healthcare");
         this.setState({
-          formType: "expense",
+          formType: "healthcare_expense",
           mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE
         });
         break;
@@ -113,6 +114,12 @@ class AddEditExpenseScreen extends React.Component {
           mainCategoryId: MAIN_CATEGORY_IDS.HOUSEHOLD
         });
         break;
+      case EXPENSE_TYPES.REPAIR:
+        title = I18n.t("add_edit_expense_screen_title_add_repair");
+        this.setState({
+          formType: "repair"
+        });
+        break;
     }
     this.props.navigator.setTitle({
       title
@@ -131,7 +138,21 @@ class AddEditExpenseScreen extends React.Component {
           />
         );
       case "personal_doc":
-        return <PersonalDoc navigator={this.props.navigator} />;
+      case "visiting_card":
+        return (
+          <PersonalDoc formType={formType} navigator={this.props.navigator} />
+        );
+      case "medical_docs":
+      case "healthcare_expense":
+        return (
+          <ProductOrExpense
+            mainCategoryId={mainCategoryId}
+            healthcareFormType={formType}
+            navigator={this.props.navigator}
+          />
+        );
+      case "repair":
+        return <Repair navigator={this.props.navigator} />;
       default:
         return null;
     }

@@ -352,13 +352,14 @@ export default {
     "Add Electronics & Electricals",
   add_edit_expense_screen_title_add_furniture: "Add Furniture & Hardware",
   add_edit_expense_screen_title_add_visiting_card: "Add Visiting Card",
-  add_edit_expense_screen_title_add_prescription: "Add Prescription & Reports",
+  add_edit_expense_screen_title_add_medical_docs: "Add Medical Documents",
   add_edit_expense_screen_title_add_personal_doc: "Add Personal Doc",
   add_edit_expense_screen_title_add_services: "Add Services Expense",
   add_edit_expense_screen_title_add_travel: "Add Travel & Dinning",
   add_edit_expense_screen_title_add_healthcare: "Add Healthcare Expense",
   add_edit_expense_screen_title_add_fashion: "Add Fashion Expense",
   add_edit_expense_screen_title_add_home: "Add Home Expense",
+  add_edit_expense_screen_title_add_repair: "Add Repair",
 
   //faqs
   faq_question_1: "What is BinBill?",

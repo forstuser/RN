@@ -5,9 +5,11 @@ import Modal from "react-native-modal";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 
+const repairIcon = require("../../images/main-categories/ic_repair.png");
 const FinishModal = ({
   visible,
   mainCategoryId,
+  showRepairIcon = false,
   title = "Product added to your eHome.",
   navigator
 }) => (
@@ -15,9 +17,13 @@ const FinishModal = ({
     <View style={styles.finishModal}>
       <Image
         style={styles.finishImage}
-        source={{
-          uri: API_BASE_URL + `/categories/${mainCategoryId}/images/1`
-        }}
+        source={
+          mainCategoryId
+            ? {
+                uri: API_BASE_URL + `/categories/${mainCategoryId}/images/1`
+              }
+            : repairIcon
+        }
         resizeMode="contain"
       />
       <Text weight="Bold" style={styles.finishMsg}>
