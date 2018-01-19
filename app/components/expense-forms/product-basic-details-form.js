@@ -3,25 +3,17 @@ import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 
 import moment from "moment";
 
-import { MAIN_CATEGORY_IDS } from "../../../constants";
-import { getReferenceDataBrands, getReferenceDataModels } from "../../../api";
+import { MAIN_CATEGORY_IDS } from "../../constants";
+import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 
-import Icon from "react-native-vector-icons/Entypo";
-
-import UploadBillOptions from "../../../components/upload-bill-options";
-
-import { Text } from "../../../elements";
-import SelectModal from "../../../components/select-modal";
-import { colors } from "../../../theme";
+import { Text } from "../../elements";
+import SelectModal from "../../components/select-modal";
+import { colors } from "../../theme";
 
 import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";
 import CustomDatePicker from "../form-elements/date-picker";
 import HeaderWithUploadOption from "../form-elements/header-with-upload-option";
-
-const AttachmentIcon = () => (
-  <Icon name="attachment" size={20} color={colors.pinkishOrange} />
-);
 
 class BasicDetailsForm extends React.Component {
   constructor(props) {
@@ -73,21 +65,6 @@ class BasicDetailsForm extends React.Component {
 
     const { mainCategoryId } = this.props;
     const categoryForms = this.props.categoryReferenceData.categoryForms;
-
-    if (
-      (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
-        mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) &&
-      (selectedModel || modelName)
-    ) {
-      const modelNameCategoryForm = categoryForms.find(
-        categoryForm => categoryForm.title == "Model"
-      );
-      metadata.push({
-        categoryFormId: modelNameCategoryForm.id,
-        value: selectedModel ? selectedModel.title : modelName,
-        isNewValue: selectedModel ? false : true
-      });
-    }
 
     if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
       if (registrationNo) {
@@ -157,6 +134,8 @@ class BasicDetailsForm extends React.Component {
       brandId: selectedBrand ? selectedBrand.id : undefined,
       brandName: brandName,
       value: amount,
+      model: selectedModel ? selectedModel.title : modelName,
+      isNewModel: selectedModel ? false : true,
       metadata: metadata
     };
 
@@ -253,7 +232,6 @@ class BasicDetailsForm extends React.Component {
         <View style={styles.body}>
           <CustomTextInput
             placeholder="Product Name"
-            style={styles.input}
             value={productName}
             onChangeText={productName => this.setState({ productName })}
           />
@@ -319,7 +297,6 @@ class BasicDetailsForm extends React.Component {
               placeholder="IMEI No "
               placeholder2="(Recommended)"
               placeholder2Color={colors.mainBlue}
-              style={styles.input}
               value={imeiNo}
               onChangeText={imeiNo => this.setState({ imeiNo })}
             />
@@ -330,7 +307,6 @@ class BasicDetailsForm extends React.Component {
                 placeholder="Serial No "
                 placeholder2="(Recommended)"
                 placeholder2Color={colors.mainBlue}
-                style={styles.input}
                 value={serialNo}
                 onChangeText={serialNo => this.setState({ serialNo })}
               />
@@ -347,7 +323,6 @@ class BasicDetailsForm extends React.Component {
                 placeholder="Registration No "
                 placeholder2="(Recommended)"
                 placeholder2Color={colors.mainBlue}
-                style={styles.input}
                 value={registrationNo}
                 onChangeText={registrationNo =>
                   this.setState({ registrationNo })
@@ -366,13 +341,11 @@ class BasicDetailsForm extends React.Component {
           />
           <CustomTextInput
             placeholder="Purchase Amount"
-            style={styles.input}
             value={amount}
             onChangeText={amount => this.setState({ amount })}
           />
           <CustomTextInput
             placeholder="Seller Name"
-            style={styles.input}
             value={sellerName}
             onChangeText={sellerName => this.setState({ sellerName })}
           />
@@ -380,7 +353,6 @@ class BasicDetailsForm extends React.Component {
             ref={ref => (this.sellerContactRef = ref)}
             value={sellerContact}
             placeholder="Seller Contact"
-            style={styles.input}
           />
         </View>
       </View>
@@ -397,12 +369,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth
   },
   input: {
-    fontSize: 14,
     paddingVertical: 10,
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
-    height: 40,
-    marginBottom: 32
+    paddingTop: 20,
+    height: 60,
+    marginBottom: 15
   }
 });
 

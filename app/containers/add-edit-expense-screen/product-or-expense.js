@@ -1,24 +1,24 @@
 import React from "react";
 import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { API_BASE_URL, initProduct, updateProduct } from "../../../api";
-import { ScreenContainer, Text, Button } from "../../../elements";
+import { API_BASE_URL, initProduct, updateProduct } from "../../api";
+import { ScreenContainer, Text, Button } from "../../elements";
 
-import FinishModal from "../finish-modal";
-import LoadingOverlay from "../../../components/loading-overlay";
-import SelectCategoryHeader from "../select-category-header";
-import ProductBasicDetailsForm from "./product-basic-details-form";
-import ExpenseBasicDetailsForm from "./expense-basic-details-form";
-import HealthcareInsuranceForm from "./healthcare-insurance-form";
-import MedicalDocForm from "./medical-doc-form";
-import InsuranceForm from "./insurance-form";
-import WarrantyForm from "./warranty-form";
-import ExtendedWarrantyForm from "./extended-warranty-form";
-import RepairForm from "./repair-form";
-import AmcForm from "./amc-form";
-import PucForm from "./puc-form";
-import { colors } from "../../../theme";
-import { MAIN_CATEGORY_IDS } from "../../../constants";
+import FinishModal from "./finish-modal";
+import LoadingOverlay from "../../components/loading-overlay";
+import SelectCategoryHeader from "./select-category-header";
+import ProductBasicDetailsForm from "../../components/expense-forms/product-basic-details-form";
+import ExpenseBasicDetailsForm from "../../components/expense-forms/expense-basic-details-form";
+import HealthcareInsuranceForm from "../../components/expense-forms/healthcare-insurance-form";
+import MedicalDocForm from "../../components/expense-forms/medical-doc-form";
+import InsuranceForm from "../../components/expense-forms/insurance-form";
+import WarrantyForm from "../../components/expense-forms/warranty-form";
+import ExtendedWarrantyForm from "../../components/expense-forms/extended-warranty-form";
+import RepairForm from "../../components/expense-forms/repair-form";
+import AmcForm from "../../components/expense-forms/amc-form";
+import PucForm from "../../components/expense-forms/puc-form";
+import { colors } from "../../theme";
+import { MAIN_CATEGORY_IDS } from "../../constants";
 
 class ProductOrExpense extends React.Component {
   constructor(props) {
@@ -124,7 +124,8 @@ class ProductOrExpense extends React.Component {
   }
 
   onSelectCategory = category => {
-    healthcareFormType = this.props.healthcareFormType;
+    const healthcareFormType = this.props.healthcareFormType;
+
     if (healthcareFormType == "medical_docs") {
       if (category.id == 664) {
         //category 'insurance'
@@ -250,6 +251,13 @@ class ProductOrExpense extends React.Component {
           if (!data.brandId || !data.purchaseDate) {
             return Alert.alert("Please select brand and purchase date");
           }
+          if (!data.purchaseDate) {
+            return Alert.alert("Please select a date");
+          }
+        case MAIN_CATEGORY_IDS.FASHION:
+        case MAIN_CATEGORY_IDS.HOUSEHOLD:
+        case MAIN_CATEGORY_IDS.SERVICES:
+        case MAIN_CATEGORY_IDS.TRAVEL:
           if (!data.purchaseDate) {
             return Alert.alert("Please select a date");
           }
@@ -382,7 +390,8 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.warrantyForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
-                    product={product}
+                    productId={product.id}
+                    jobId={product.job_id}
                     categoryReferenceData={categoryReferenceData}
                     renewalTypes={renewalTypes}
                     navigator={this.props.navigator}
@@ -398,7 +407,8 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.dualWarrantyForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
-                    product={product}
+                    productId={product.id}
+                    jobId={product.job_id}
                     categoryReferenceData={categoryReferenceData}
                     renewalTypes={renewalTypes}
                     navigator={this.props.navigator}

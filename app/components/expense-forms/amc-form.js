@@ -10,25 +10,22 @@ import {
 
 import moment from "moment";
 
-import { MAIN_CATEGORY_IDS } from "../../../constants";
-import { getReferenceDataBrands, getReferenceDataModels } from "../../../api";
+import { MAIN_CATEGORY_IDS } from "../../constants";
+import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 
-import Icon from "react-native-vector-icons/Entypo";
-import DatePicker from "react-native-datepicker";
+import Collapsible from "../../components/collapsible";
+import UploadBillOptions from "../../components/upload-bill-options";
 
-import Collapsible from "../../../components/collapsible";
-import UploadBillOptions from "../../../components/upload-bill-options";
-
-import { Text } from "../../../elements";
-import SelectModal from "../../../components/select-modal";
-import { colors } from "../../../theme";
+import { Text } from "../../elements";
+import SelectModal from "../../components/select-modal";
+import { colors } from "../../theme";
 
 import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";
 import CustomDatePicker from "../form-elements/date-picker";
 import UploadDoc from "../form-elements/upload-doc";
 
-class PucForm extends React.Component {
+class AmcForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,53 +34,24 @@ class PucForm extends React.Component {
       effectiveDate: null,
       sellerName: "",
       sellerContact: "",
-      amount: "",
-      selectedRenewalType: null,
-      renewalTypes: [
-        { id: 1, name: "1 Month" },
-        { id: 2, name: "2 Months" },
-        { id: 3, name: "3 Months" },
-        { id: 4, name: "4 Months" },
-        { id: 5, name: "5 Months" },
-        { id: 6, name: "6 Months" },
-        { id: 7, name: "7 Months" },
-        { id: 8, name: "8 Months" },
-        { id: 9, name: "9 Months" }
-      ]
+      amount: ""
     };
   }
 
+  componentDidMount() {}
+
   getFilledData = () => {
-    const {
-      uploadedDocId,
-      effectiveDate,
-      sellerName,
-      amount,
-      selectedRenewalType
-    } = this.state;
+    const { uploadedDocId, effectiveDate, sellerName, amount } = this.state;
 
     let data = {
       id: uploadedDocId,
+      effectiveDate: effectiveDate,
       sellerName: sellerName,
       sellerContact: this.sellerContactRef.getFilledData(),
-      value: amount,
-      effectiveDate: effectiveDate,
-      expiryPeriod: selectedRenewalType ? selectedRenewalType.id : null
+      value: amount
     };
 
     return data;
-  };
-
-  onRenewalTypeSelect = renewalType => {
-    if (
-      this.state.selectedRenewalType &&
-      this.state.selectedRenewalType.id == renewalType.id
-    ) {
-      return;
-    }
-    this.setState({
-      selectedRenewalType: renewalType
-    });
   };
 
   render() {
@@ -93,13 +61,11 @@ class PucForm extends React.Component {
       effectiveDate,
       sellerName,
       sellerContact,
-      amount,
-      renewalTypes,
-      selectedRenewalType
+      amount
     } = this.state;
     return (
       <Collapsible
-        headerText="PUC (optional)"
+        headerText="AMC (If Applicable)"
         style={styles.container}
         headerStyle={styles.headerStyle}
         headerTextStyle={styles.headerTextStyle}
@@ -109,33 +75,15 @@ class PucForm extends React.Component {
           <View style={styles.body}>
             <CustomDatePicker
               date={effectiveDate}
-              placeholder="PUC Effective Date "
+              placeholder="AMC Effective Date "
               placeholder2="(Recommended)"
               placeholder2Color={colors.mainBlue}
               onDateChange={effectiveDate => {
                 this.setState({ effectiveDate });
               }}
             />
-
-            <SelectModal
-              style={styles.input}
-              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder="PUC Upto"
-              placeholderRenderer={({ placeholder }) => (
-                <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                  {placeholder}
-                </Text>
-              )}
-              selectedOption={selectedRenewalType}
-              options={renewalTypes}
-              onOptionSelect={value => {
-                this.onRenewalTypeSelect(value);
-              }}
-              hideAddNew={true}
-            />
-
             <CustomTextInput
-              placeholder="PUC Seller Name"
+              placeholder="AMC Seller Name"
               style={styles.input}
               value={sellerName}
               onChangeText={sellerName => this.setState({ sellerName })}
@@ -144,12 +92,12 @@ class PucForm extends React.Component {
             <ContactFields
               ref={ref => (this.sellerContactRef = ref)}
               value={sellerContact}
-              placeholder="PUC Seller Contact"
+              placeholder="Seller Contact"
               style={styles.input}
             />
 
             <CustomTextInput
-              placeholder="PUC Amount"
+              placeholder="AMC Amount"
               style={styles.input}
               value={amount}
               onChangeText={amount => this.setState({ amount })}
@@ -157,8 +105,8 @@ class PucForm extends React.Component {
 
             <UploadDoc
               jobId={product.job_id}
-              type={7}
-              placeholder="Upload PUC Doc "
+              type={2}
+              placeholder="Upload AMC Doc "
               placeholder2="(Recommended)"
               placeholder2Color={colors.mainBlue}
               placeholderAfterUpload="Doc Uploaded Successfully"
@@ -167,7 +115,7 @@ class PucForm extends React.Component {
                 console.log("upload result: ", uploadResult);
                 this.setState({
                   isDocUploaded: true,
-                  uploadedDocId: uploadResult.puc.id
+                  uploadedDocId: uploadResult.amc.id
                 });
               }}
             />
@@ -219,13 +167,13 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   input: {
-    fontSize: 14,
     paddingVertical: 10,
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
-    height: 40,
-    marginBottom: 32
+    paddingTop: 20,
+    height: 60,
+    marginBottom: 15
   }
 });
 
-export default PucForm;
+export default AmcForm;

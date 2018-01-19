@@ -2,9 +2,9 @@ import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
 
-import { Text } from "../../../elements";
-import { colors } from "../../../theme";
-import UploadBillOptions from "../../../components/upload-bill-options";
+import { Text } from "../../elements";
+import { colors } from "../../theme";
+import UploadBillOptions from "../../components/upload-bill-options";
 
 const AttachmentIcon = () => (
   <Icon name="attachment" size={17} color={colors.pinkishOrange} />

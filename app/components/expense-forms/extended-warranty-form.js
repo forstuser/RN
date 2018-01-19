@@ -10,17 +10,17 @@ import {
 
 import moment from "moment";
 
-import { MAIN_CATEGORY_IDS } from "../../../constants";
-import { getReferenceDataBrands, getReferenceDataModels } from "../../../api";
+import { MAIN_CATEGORY_IDS } from "../../constants";
+import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 
 import Icon from "react-native-vector-icons/Entypo";
 import DatePicker from "react-native-datepicker";
 
-import Collapsible from "../../../components/collapsible";
+import Collapsible from "../../components/collapsible";
 
-import { Text } from "../../../elements";
-import SelectModal from "../../../components/select-modal";
-import { colors } from "../../../theme";
+import { Text } from "../../elements";
+import SelectModal from "../../components/select-modal";
+import { colors } from "../../theme";
 
 import CustomDatePicker from "../form-elements/date-picker";
 import UploadDoc from "../form-elements/upload-doc";
@@ -232,12 +232,12 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   input: {
-    fontSize: 14,
     paddingVertical: 10,
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
-    height: 40,
-    marginBottom: 32
+    paddingTop: 20,
+    height: 60,
+    marginBottom: 15
   }
 });
 

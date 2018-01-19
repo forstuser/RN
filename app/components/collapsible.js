@@ -32,7 +32,7 @@ class Collapsible extends React.Component {
       this.setState({ isCollapsed: false });
     }
     if (this.props.isCollapsible === false) {
-      this.setState({ isCollapsible: false });
+      this.setState({ isCollapsible: false, isCollapsed: false });
     }
   }
 

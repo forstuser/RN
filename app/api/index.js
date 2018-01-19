@@ -417,29 +417,32 @@ export const addProduct = async ({
 
 export const updateProduct = async ({
   productId,
-  productName = "",
-  mainCategoryId = undefined,
-  categoryId = undefined,
-  subCategoryId = undefined,
-  sellerName = undefined,
-  sellerContact = undefined,
-  sellerEmail = undefined,
-  sellerAddress = undefined,
-  brandId = undefined,
-  brandName = undefined,
-  value = undefined,
-  purchaseDate = undefined,
+  productName,
+  mainCategoryId,
+  categoryId,
+  subCategoryId,
+  sellerName,
+  sellerContact,
+  sellerEmail,
+  sellerAddress,
+  brandId,
+  brandName,
+  model,
+  isNewModel,
+  value,
+  purchaseDate,
   metadata = [],
-  warranty = undefined,
-  insurance = undefined,
-  amc = undefined,
-  repair = undefined,
-  puc = undefined
+  warranty,
+  insurance,
+  amc,
+  repair,
+  puc
 }) => {
   let data = {
     product_name: productName,
     main_category_id: mainCategoryId,
     category_id: categoryId,
+    sub_category_id: subCategoryId,
     brand_id: brandId,
     brand_name: brandName,
     value: value,
@@ -447,7 +450,9 @@ export const updateProduct = async ({
     seller_name: sellerName,
     seller_contact: sellerContact,
     seller_email: sellerEmail,
-    seller_address: sellerAddress
+    seller_address: sellerAddress,
+    model: model,
+    isNewModel: isNewModel
   };
 
   if (metadata.length > 0) {
@@ -625,6 +630,65 @@ export const addRepair = async ({
   return await apiRequest({
     method: "post",
     url: `/products/${productId}/repairs`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const updateWarranty = async ({
+  id,
+  productId,
+  jobId,
+  providerId,
+  providerName,
+  renewalType,
+  effectiveDate,
+  warrantyType,
+  mainCategoryId,
+  categoryId
+}) => {
+  let data = {
+    job_id: jobId,
+    provider_id: providerId,
+    provider_name: providerName,
+    renewal_type: renewalType,
+    effective_date: effectiveDate,
+    warranty_type: warrantyType,
+    main_category_id: mainCategoryId,
+    category_id: categoryId
+  };
+
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/warranties/${id}`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const addWarranty = async ({
+  productId,
+  jobId,
+  providerId,
+  providerName,
+  renewalType,
+  effectiveDate,
+  warrantyType,
+  mainCategoryId,
+  categoryId
+}) => {
+  let data = {
+    job_id: jobId,
+    provider_id: providerId,
+    provider_name: providerName,
+    renewal_type: renewalType,
+    effective_date: effectiveDate,
+    warranty_type: warrantyType,
+    main_category_id: mainCategoryId,
+    category_id: categoryId
+  };
+
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/warranties`,
     data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
   });
 };

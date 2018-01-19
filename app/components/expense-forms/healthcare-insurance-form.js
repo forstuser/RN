@@ -3,25 +3,17 @@ import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 
 import moment from "moment";
 
-import { MAIN_CATEGORY_IDS } from "../../../constants";
-import { getReferenceDataBrands, getReferenceDataModels } from "../../../api";
+import { MAIN_CATEGORY_IDS } from "../../constants";
+import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 
-import Icon from "react-native-vector-icons/Entypo";
-
-import UploadBillOptions from "../../../components/upload-bill-options";
-
-import { Text } from "../../../elements";
-import SelectModal from "../../../components/select-modal";
-import { colors } from "../../../theme";
+import { Text } from "../../elements";
+import SelectModal from "../../components/select-modal";
+import { colors } from "../../theme";
 
 import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";
 import CustomDatePicker from "../form-elements/date-picker";
 import HeaderWithUploadOption from "../form-elements/header-with-upload-option";
-
-const AttachmentIcon = () => (
-  <Icon name="attachment" size={20} color={colors.pinkishOrange} />
-);
 
 class HealthcareInsuranceForm extends React.Component {
   constructor(props) {
@@ -241,12 +233,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth
   },
   input: {
-    fontSize: 14,
     paddingVertical: 10,
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
-    height: 40,
-    marginBottom: 32
+    paddingTop: 20,
+    height: 60,
+    marginBottom: 15
   }
 });
 

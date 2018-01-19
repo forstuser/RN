@@ -18,11 +18,11 @@ import { MAIN_CATEGORY_IDS } from "../../constants";
 import UploadBillOptions from "../../components/upload-bill-options";
 import SelectModal from "../../components/select-modal";
 
-import CustomTextInput from "./form-elements/text-input";
-import ContactFields from "./form-elements/contact-fields";
-import CustomDatePicker from "./form-elements/date-picker";
-import HeaderWithUploadOption from "./form-elements/header-with-upload-option";
-import UploadDoc from "./form-elements/upload-doc";
+import CustomTextInput from "../../components/form-elements/text-input";
+import ContactFields from "../../components/form-elements/contact-fields";
+import CustomDatePicker from "../../components/form-elements/date-picker";
+import HeaderWithUploadOption from "../../components/form-elements/header-with-upload-option";
+import UploadDoc from "../../components/form-elements/upload-doc";
 
 import FinishModal from "./finish-modal";
 
@@ -115,125 +115,152 @@ class Repair extends React.Component {
     } = this.state;
     return (
       <View style={styles.container}>
-        <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
-          <LoadingOverlay visible={isLoading} />
-          <View style={styles.header}>
-            <Text weight="Medium" style={styles.selectProductText}>
-              Select Product in eHome
-            </Text>
-            <ScrollView
-              style={styles.products}
-              contentContainerStyle={styles.productsContentContainer}
-              horizontal={true}
-            >
-              {products.map(product => {
-                return (
-                  <TouchableOpacity
-                    key={product.key}
-                    onPress={() => this.onProductPress(product)}
-                    style={[
-                      styles.product,
-                      selectedProduct && selectedProduct.id == product.id
-                        ? { borderColor: colors.mainBlue }
-                        : {}
-                    ]}
-                  >
-                    <Image
-                      style={styles.productImage}
-                      source={{ uri: API_BASE_URL + product.cImageURL + "1" }}
-                    />
-                    <View style={styles.productTexts}>
-                      <Text numberOfLines={1} weight="Bold" style={styles.name}>
-                        {product.productName}
-                      </Text>
-                      <View style={styles.productMetaContainer}>
-                        <Text numberOfLines={2} style={styles.productMeta}>
-                          {product.categoryName}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollView>
-          </View>
-          {products.length > 0 &&
-            selectedProduct == null && (
-              <View style={styles.selectProductMsgContainer}>
-                <Text weight="Medium" style={styles.selectProductMsg}>
-                  Please select a product above
+        <LoadingOverlay visible={isLoading} />
+        {products.length == 0 &&
+          !isLoading && (
+            <View style={styles.noProductsScreen}>
+              <Text style={styles.noProductsText}>
+                No Products in your eHome
+              </Text>
+              <TouchableOpacity
+                onPress={this.openAddProductScreen}
+                style={styles.addProductBtn}
+              >
+                <Text weight="Bold" style={styles.addProductBtnText}>
+                  + Add Product
                 </Text>
-              </View>
-            )}
-          {selectedProduct && (
-            <View style={styles.formContainer}>
-              <View style={styles.form}>
-                <HeaderWithUploadOption
-                  title="Repair Details"
-                  textBeforeUpload="Upload Bill "
-                  textBeforeUpload2="(Recommended) "
-                  textBeforeUpload2Color={colors.mainBlue}
-                  jobId={selectedProduct ? selectedProduct.jobId : null}
-                  type={4}
-                  onUpload={uploadResult => {
-                    console.log("upload result: ", uploadResult);
-                  }}
-                  navigator={this.props.navigator}
-                />
-
-                <CustomDatePicker
-                  date={repairDate}
-                  placeholder="Repair Date"
-                  onDateChange={repairDate => {
-                    this.setState({ repairDate });
-                  }}
-                />
-
-                <CustomTextInput
-                  placeholder="Repair Amount"
-                  value={repairAmount}
-                  onChangeText={repairAmount => this.setState({ repairAmount })}
-                />
-
-                <CustomTextInput
-                  placeholder="Seller Name"
-                  value={sellerName}
-                  onChangeText={sellerName => this.setState({ sellerName })}
-                />
-
-                <ContactFields
-                  ref={ref => (this.phoneRef = ref)}
-                  value={sellerContact}
-                  placeholder="Seller Contact"
-                />
-              </View>
-              <View style={styles.form}>
-                <HeaderWithUploadOption
-                  title="Warranty (If Applicable)"
-                  hideUploadOption={true}
-                  navigator={this.props.navigator}
-                />
-
-                <CustomTextInput
-                  placeholder="Warranty Upto"
-                  value={warrantyUpto}
-                  onChangeText={warrantyUpto => this.setState({ warrantyUpto })}
-                />
-
-                <UploadDoc
-                  jobId={selectedProduct.jobId}
-                  type={4}
-                  placeholder="Upload Warranty Doc"
-                  placeholderAfterUpload="Doc Uploaded Successfully"
-                  navigator={this.props.navigator}
-                  onUpload={uploadResult => {
-                    console.log("upload result: ", uploadResult);
-                  }}
-                />
-              </View>
+              </TouchableOpacity>
+              <Text style={styles.noProductsText}>to add repair details</Text>
             </View>
           )}
-        </KeyboardAwareScrollView>
+        {products.length > 0 && (
+          <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
+            <View style={styles.header}>
+              <Text weight="Medium" style={styles.selectProductText}>
+                Select Product in eHome
+              </Text>
+              <ScrollView
+                style={styles.products}
+                contentContainerStyle={styles.productsContentContainer}
+                horizontal={true}
+              >
+                {products.map(product => {
+                  return (
+                    <TouchableOpacity
+                      key={product.key}
+                      onPress={() => this.onProductPress(product)}
+                      style={[
+                        styles.product,
+                        selectedProduct && selectedProduct.id == product.id
+                          ? { borderColor: colors.mainBlue }
+                          : {}
+                      ]}
+                    >
+                      <Image
+                        style={styles.productImage}
+                        source={{ uri: API_BASE_URL + product.cImageURL + "1" }}
+                      />
+                      <View style={styles.productTexts}>
+                        <Text
+                          numberOfLines={1}
+                          weight="Bold"
+                          style={styles.name}
+                        >
+                          {product.productName}
+                        </Text>
+                        <View style={styles.productMetaContainer}>
+                          <Text numberOfLines={2} style={styles.productMeta}>
+                            {product.categoryName}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+            </View>
+            {products.length > 0 &&
+              selectedProduct == null && (
+                <View style={styles.selectProductMsgContainer}>
+                  <Text weight="Medium" style={styles.selectProductMsg}>
+                    Please select a product above
+                  </Text>
+                </View>
+              )}
+            {selectedProduct && (
+              <View style={styles.formContainer}>
+                <View style={styles.form}>
+                  <HeaderWithUploadOption
+                    title="Repair Details"
+                    textBeforeUpload="Upload Bill "
+                    textBeforeUpload2="(Recommended) "
+                    textBeforeUpload2Color={colors.mainBlue}
+                    jobId={selectedProduct ? selectedProduct.jobId : null}
+                    type={4}
+                    onUpload={uploadResult => {
+                      console.log("upload result: ", uploadResult);
+                    }}
+                    navigator={this.props.navigator}
+                  />
+
+                  <CustomDatePicker
+                    date={repairDate}
+                    placeholder="Repair Date"
+                    onDateChange={repairDate => {
+                      this.setState({ repairDate });
+                    }}
+                  />
+
+                  <CustomTextInput
+                    placeholder="Repair Amount"
+                    value={repairAmount}
+                    onChangeText={repairAmount =>
+                      this.setState({ repairAmount })
+                    }
+                  />
+
+                  <CustomTextInput
+                    placeholder="Seller Name"
+                    value={sellerName}
+                    onChangeText={sellerName => this.setState({ sellerName })}
+                  />
+
+                  <ContactFields
+                    ref={ref => (this.phoneRef = ref)}
+                    value={sellerContact}
+                    placeholder="Seller Contact"
+                  />
+                </View>
+                <View style={styles.form}>
+                  <HeaderWithUploadOption
+                    title="Warranty (If Applicable)"
+                    hideUploadOption={true}
+                    navigator={this.props.navigator}
+                  />
+
+                  <CustomTextInput
+                    placeholder="Warranty Upto"
+                    value={warrantyUpto}
+                    onChangeText={warrantyUpto =>
+                      this.setState({ warrantyUpto })
+                    }
+                  />
+
+                  <UploadDoc
+                    jobId={selectedProduct.jobId}
+                    type={4}
+                    placeholder="Upload Warranty Doc"
+                    placeholderAfterUpload="Doc Uploaded Successfully"
+                    navigator={this.props.navigator}
+                    onUpload={uploadResult => {
+                      console.log("upload result: ", uploadResult);
+                    }}
+                  />
+                </View>
+              </View>
+            )}
+          </KeyboardAwareScrollView>
+        )}
         {selectedProduct && (
           <Button
             style={styles.saveBtn}
@@ -260,6 +287,34 @@ const styles = StyleSheet.create({
     padding: 0,
     backgroundColor: "#FAFAFA",
     flex: 1
+  },
+  noProductsScreen: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  noProductsText: {
+    fontSize: 12,
+    color: colors.secondaryText
+  },
+  addProductBtn: {
+    marginTop: 7,
+    backgroundColor: "#fff",
+    width: 130,
+    height: 35,
+    marginTop: 25,
+    marginBottom: 25,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1
+  },
+  addProductBtnText: {
+    color: colors.pinkishOrange
   },
   header: {
     backgroundColor: "#fff",

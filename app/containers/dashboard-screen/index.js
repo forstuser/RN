@@ -62,7 +62,6 @@ class DashboardScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.addExpenseModal.show(false);
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {

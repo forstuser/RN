@@ -1,13 +1,8 @@
 import React from "react";
 import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/Entypo";
 
-import { Text } from "../../../elements";
-import { colors } from "../../../theme";
-
-const PlusIcon = () => (
-  <Icon name="plus" size={20} color={colors.pinkishOrange} />
-);
+import { Text } from "../../elements";
+import { colors } from "../../theme";
 
 class CustomTextInput extends React.Component {
   constructor(props) {
@@ -42,19 +37,29 @@ class CustomTextInput extends React.Component {
     const { value } = this.state;
     return (
       <View style={[styles.container, style]}>
-        {!value && (
-          <View style={styles.placeholderContainer}>
-            <Text weight="Medium" style={styles.placeholder}>
-              {placeholder}
-            </Text>
-            <Text
-              weight="Medium"
-              style={[styles.placeholder2, { color: placeholder2Color }]}
-            >
-              {placeholder2}
-            </Text>
-          </View>
-        )}
+        <View
+          style={[
+            styles.placeholderContainer,
+            value ? styles.filledInputPlaceholderContainer : {}
+          ]}
+        >
+          <Text
+            weight="Medium"
+            style={[
+              styles.placeholder,
+              value ? styles.filledInputPlaceholder : {}
+            ]}
+          >
+            {placeholder}
+          </Text>
+          <Text
+            weight="Medium"
+            style={[styles.placeholder2, { color: placeholder2Color }]}
+          >
+            {placeholder2}
+          </Text>
+        </View>
+
         <TextInput
           style={styles.textInput}
           value={value}
@@ -70,27 +75,35 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
-    height: 40,
-    marginBottom: 32,
+    height: 60,
+    marginBottom: 15,
     width: "100%"
   },
   placeholderContainer: {
+    flex: 1,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "flex-end"
+  },
+  filledInputPlaceholderContainer: {
+    alignItems: "flex-start"
   },
   placeholder: {
     color: colors.secondaryText
+  },
+  filledInputPlaceholder: {
+    fontSize: 10
   },
   placeholder2: {
     fontSize: 10
   },
   textInput: {
     position: "absolute",
-    top: 0,
+    top: 20,
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    justifyContent: "center"
   }
 });
 

@@ -10,85 +10,76 @@ import {
 
 import moment from "moment";
 
-import { MAIN_CATEGORY_IDS } from "../../../constants";
-import { getReferenceDataBrands, getReferenceDataModels } from "../../../api";
+import { MAIN_CATEGORY_IDS } from "../../constants";
+import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 
-import Icon from "react-native-vector-icons/Entypo";
-import DatePicker from "react-native-datepicker";
+import Collapsible from "../../components/collapsible";
+import UploadBillOptions from "../../components/upload-bill-options";
 
-import Collapsible from "../../../components/collapsible";
+import { Text } from "../../elements";
+import SelectModal from "../../components/select-modal";
+import { colors } from "../../theme";
 
-import { Text } from "../../../elements";
-import SelectModal from "../../../components/select-modal";
-import { colors } from "../../../theme";
-
+import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";
 import CustomDatePicker from "../form-elements/date-picker";
 import UploadDoc from "../form-elements/upload-doc";
 
-class InsuranceForm extends React.Component {
+class PucForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       uploadedDocId: null,
       isDocUploaded: false,
       effectiveDate: null,
-      providers: [],
-      selectedProvider: null,
-      providerName: "",
-      policyNo: "",
+      sellerName: "",
+      sellerContact: "",
       amount: "",
-      coverage: ""
+      selectedRenewalType: null,
+      renewalTypes: [
+        { id: 1, name: "1 Month" },
+        { id: 2, name: "2 Months" },
+        { id: 3, name: "3 Months" },
+        { id: 4, name: "4 Months" },
+        { id: 5, name: "5 Months" },
+        { id: 6, name: "6 Months" },
+        { id: 7, name: "7 Months" },
+        { id: 8, name: "8 Months" },
+        { id: 9, name: "9 Months" }
+      ]
     };
-  }
-
-  componentDidMount() {
-    this.setState({
-      providers: this.props.categoryReferenceData.insuranceProviders
-    });
   }
 
   getFilledData = () => {
     const {
       uploadedDocId,
       effectiveDate,
-      selectedProvider,
-      providerName,
-      policyNo,
+      sellerName,
       amount,
-      coverage
+      selectedRenewalType
     } = this.state;
 
     let data = {
       id: uploadedDocId,
-      effectiveDate: effectiveDate,
-      providerId: selectedProvider ? selectedProvider.id : null,
-      providerName: providerName,
-      policyNo: policyNo,
+      sellerName: sellerName,
+      sellerContact: this.sellerContactRef.getFilledData(),
       value: amount,
-      amountInsured: coverage
+      effectiveDate: effectiveDate,
+      expiryPeriod: selectedRenewalType ? selectedRenewalType.id : null
     };
 
     return data;
   };
 
-  onProviderSelect = provider => {
+  onRenewalTypeSelect = renewalType => {
     if (
-      this.state.selectedProvider &&
-      this.state.selectedProvider.id == provider.id
+      this.state.selectedRenewalType &&
+      this.state.selectedRenewalType.id == renewalType.id
     ) {
       return;
     }
     this.setState({
-      selectedProvider: provider,
-      providerName: ""
-    });
-  };
-
-  onProviderNameChange = text => {
-    this.setState({
-      providerName: text,
-      selectedProvider: null
+      selectedRenewalType: renewalType
     });
   };
 
@@ -97,31 +88,25 @@ class InsuranceForm extends React.Component {
     const {
       isDocUploaded,
       effectiveDate,
-      providers,
-      selectedProvider,
-      providerName,
-      policyNo,
+      sellerName,
+      sellerContact,
       amount,
-      coverage
+      renewalTypes,
+      selectedRenewalType
     } = this.state;
     return (
       <Collapsible
-        isCollapsed={false}
-        isCollapsible={false}
-        headerText={
-          mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE
-            ? "Insurance*"
-            : "Insurance (If Applicable)"
-        }
+        headerText="PUC (optional)"
         style={styles.container}
         headerStyle={styles.headerStyle}
         headerTextStyle={styles.headerTextStyle}
+        icon="plus"
       >
         <View style={styles.innerContainer}>
           <View style={styles.body}>
             <CustomDatePicker
               date={effectiveDate}
-              placeholder="Effective Date "
+              placeholder="PUC Effective Date "
               placeholder2="(Recommended)"
               placeholder2Color={colors.mainBlue}
               onDateChange={effectiveDate => {
@@ -132,37 +117,36 @@ class InsuranceForm extends React.Component {
             <SelectModal
               style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder="Insurance Provider"
-              textInputPlaceholder="Enter Provider Name"
+              placeholder="PUC Upto"
               placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
-                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                    {placeholder}
-                  </Text>
-                  <Text weight="Medium" style={{ color: colors.mainBlue }}>
-                    *
-                  </Text>
-                </View>
+                <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                  {placeholder}
+                </Text>
               )}
-              selectedOption={selectedProvider}
-              textInputValue={providerName}
-              options={providers}
+              selectedOption={selectedRenewalType}
+              options={renewalTypes}
               onOptionSelect={value => {
-                this.onProviderSelect(value);
+                this.onRenewalTypeSelect(value);
               }}
-              onTextInputChange={text => this.onProviderNameChange(text)}
+              hideAddNew={true}
             />
 
             <CustomTextInput
-              placeholder="Insurance Policy No "
-              placeholder2="(Recommended)"
-              placeholder2Color={colors.mainBlue}
+              placeholder="PUC Seller Name"
               style={styles.input}
-              value={policyNo}
-              onChangeText={policyNo => this.setState({ policyNo })}
+              value={sellerName}
+              onChangeText={sellerName => this.setState({ sellerName })}
             />
+
+            <ContactFields
+              ref={ref => (this.sellerContactRef = ref)}
+              value={sellerContact}
+              placeholder="PUC Seller Contact"
+              style={styles.input}
+            />
+
             <CustomTextInput
-              placeholder="Insurance Premium Amount"
+              placeholder="PUC Amount"
               style={styles.input}
               value={amount}
               onChangeText={amount => this.setState({ amount })}
@@ -170,8 +154,8 @@ class InsuranceForm extends React.Component {
 
             <UploadDoc
               jobId={product.job_id}
-              type={3}
-              placeholder="Upload Policy Document "
+              type={7}
+              placeholder="Upload PUC Doc "
               placeholder2="(Recommended)"
               placeholder2Color={colors.mainBlue}
               placeholderAfterUpload="Doc Uploaded Successfully"
@@ -180,16 +164,9 @@ class InsuranceForm extends React.Component {
                 console.log("upload result: ", uploadResult);
                 this.setState({
                   isDocUploaded: true,
-                  uploadedDocId: uploadResult.insurance.id
+                  uploadedDocId: uploadResult.puc.id
                 });
               }}
-            />
-
-            <CustomTextInput
-              placeholder="Total Coverage"
-              style={styles.input}
-              value={coverage}
-              onChangeText={coverage => this.setState({ coverage })}
             />
           </View>
         </View>
@@ -239,13 +216,13 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   input: {
-    fontSize: 14,
     paddingVertical: 10,
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
-    height: 40,
-    marginBottom: 32
+    paddingTop: 20,
+    height: 60,
+    marginBottom: 15
   }
 });
 
-export default InsuranceForm;
+export default PucForm;

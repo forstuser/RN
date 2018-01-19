@@ -39,13 +39,22 @@ class ProductDetailsScreen extends Component {
       isLoading: true,
       product: {}
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
   async componentDidMount() {
     this.props.navigator.setTitle({
       title: I18n.t("product_details_screen_title")
     });
-    this.fetchProductDetails();
   }
+
+  onNavigatorEvent = event => {
+    switch (event.id) {
+      case "didAppear":
+        this.fetchProductDetails();
+        break;
+    }
+  };
 
   fetchProductDetails = async () => {
     try {
@@ -88,7 +97,11 @@ class ProductDetailsScreen extends Component {
             tabBarActiveTextColor={colors.mainBlue}
             tabBarInactiveTextColor={colors.secondaryText}
           >
-            <ImportantTab tabLabel="IMPORTANT" product={product} />
+            <ImportantTab
+              tabLabel="IMPORTANT"
+              product={product}
+              navigator={this.props.navigator}
+            />
             <SellerTab
               tabLabel="SELLER"
               product={product}

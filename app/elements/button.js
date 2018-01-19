@@ -6,7 +6,7 @@ import { colors } from "../theme";
 
 const buttonColors = {
   primary: [colors.aquaBlue, colors.mainBlue],
-  secondary: [colors.pinkishOrange, colors.tomato]
+  secondary: [colors.tomato, colors.pinkishOrange]
 };
 
 const AppButton = ({
@@ -17,7 +17,8 @@ const AppButton = ({
   state = "normal",
   style,
   textStyle,
-  borderRadius = 50
+  borderRadius = 50,
+  outlineBtnStyle
 }) => (
   <View
     style={[
@@ -49,8 +50,9 @@ const AppButton = ({
           styles.outlineStyle,
           {
             borderRadius,
-            borderColor: buttonColors[color][0]
-          }
+            borderColor: buttonColors[color][1]
+          },
+          outlineBtnStyle
         ]}
       >
         <TouchableOpacity
@@ -62,7 +64,7 @@ const AppButton = ({
             style={[
               styles.textStyle,
               {
-                color: buttonColors[color][0]
+                color: buttonColors[color][1]
               },
               textStyle
             ]}

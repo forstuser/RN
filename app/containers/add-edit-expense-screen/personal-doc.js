@@ -11,9 +11,9 @@ import { MAIN_CATEGORY_IDS } from "../../constants";
 import UploadBillOptions from "../../components/upload-bill-options";
 import SelectModal from "../../components/select-modal";
 
-import CustomTextInput from "./form-elements/text-input";
-import ContactFields from "./form-elements/contact-fields";
-import HeaderWithUploadOption from "./form-elements/header-with-upload-option";
+import CustomTextInput from "../../components/form-elements/text-input";
+import ContactFields from "../../components/form-elements/contact-fields";
+import HeaderWithUploadOption from "../../components/form-elements/header-with-upload-option";
 
 import FinishModal from "./finish-modal";
 

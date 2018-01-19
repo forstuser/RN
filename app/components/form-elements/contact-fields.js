@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
 
 import CustomTextInput from "./text-input";
-import { colors } from "../../../theme";
+import { colors } from "../../theme";
 
 const PlusIcon = () => (
   <Icon name="plus" size={20} color={colors.pinkishOrange} />
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     right: 0,
+    bottom: 15,
     alignItems: "flex-end",
     justifyContent: "center"
   }

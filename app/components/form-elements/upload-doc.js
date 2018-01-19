@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
 
-import { Text } from "../../../elements";
-import { colors } from "../../../theme";
-import UploadBillOptions from "../../../components/upload-bill-options";
+import { Text } from "../../elements";
+import { colors } from "../../theme";
+import UploadBillOptions from "../../components/upload-bill-options";
 
 const AttachmentIcon = () => (
   <Icon name="attachment" size={17} color={colors.pinkishOrange} />
@@ -71,7 +71,10 @@ class UploadDoc extends React.Component {
           </View>
         )}
 
-        <AttachmentIcon />
+        <View style={styles.attachmentIconContainer}>
+          <AttachmentIcon />
+        </View>
+
         <UploadBillOptions
           ref={ref => (this.uploadBillOptions = ref)}
           navigator={navigator}
@@ -87,8 +90,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
-    height: 40,
-    marginBottom: 32,
+    paddingTop: 20,
+    height: 60,
+    marginBottom: 15,
     flexDirection: "row"
   },
   placeholderContainer: {
@@ -101,6 +105,11 @@ const styles = StyleSheet.create({
   },
   placeholder2: {
     fontSize: 10
+  },
+  attachmentIconContainer: {
+    position: "absolute",
+    right: 0,
+    bottom: 12
   },
   textInput: {
     position: "absolute",

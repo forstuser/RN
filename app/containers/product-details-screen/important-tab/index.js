@@ -11,15 +11,17 @@ import {
 import call from "react-native-phone-call";
 import moment from "moment";
 
-import { Text, Button, ScreenContainer } from "../../elements";
-import I18n from "../../i18n";
-import { colors } from "../../theme";
-import Collapsible from "../../components/collapsible";
-import KeyValueItem from "../../components/key-value-item";
+import { Text, Button, ScreenContainer } from "../../../elements";
+import I18n from "../../../i18n";
+import { colors } from "../../../theme";
+import Collapsible from "../../../components/collapsible";
+import KeyValueItem from "../../../components/key-value-item";
 
-import { openBillsPopUp } from "../../navigation";
+import { openBillsPopUp } from "../../../navigation";
 
-import MultipleContactNumbers from "./multiple-contact-numbers";
+import MultipleContactNumbers from "../multiple-contact-numbers";
+import ViewBillRow from "./view-bill-row";
+import WarrantyDetails from "./warranty-details";
 
 class ImportantTab extends Component {
   constructor(props) {
@@ -31,7 +33,7 @@ class ImportantTab extends Component {
   }
 
   render() {
-    const { product } = this.props;
+    const { product, navigator } = this.props;
     const {
       warrantyDetails,
       insuranceDetails,
@@ -39,100 +41,9 @@ class ImportantTab extends Component {
       repairBills
     } = product;
 
-    const ViewBillRow = ({ expiryDate, purchaseDate, docType, copies }) => {
-      if (!moment(expiryDate).isValid()) {
-        return null;
-      }
-      return (
-        <TouchableOpacity
-          onPress={() =>
-            openBillsPopUp({
-              date: purchaseDate,
-              id: docType,
-              copies: copies,
-              type: docType
-            })
-          }
-          style={{ flex: 1 }}
-        >
-          <KeyValueItem
-            KeyComponent={() => (
-              <Text style={{ flex: 1, color: colors.pinkishOrange }}>
-                {moment(expiryDate).format("MMM YYYY")}
-              </Text>
-            )}
-            ValueComponent={() => (
-              <Text
-                weight="Bold"
-                style={{
-                  color: colors.pinkishOrange
-                }}
-              >
-                View
-              </Text>
-            )}
-          />
-        </TouchableOpacity>
-      );
-    };
-
     return (
       <View>
-        <Collapsible
-          headerText={I18n.t("product_details_screen_warranty_title")}
-        >
-          {warrantyDetails.length > 0 && (
-            <View>
-              {warrantyDetails.map(warranty => (
-                <View>
-                  <ViewBillRow
-                    expiryDate={warranty.expiryDate}
-                    purchaseDate={warranty.purchaseDate}
-                    docType="Warranty"
-                    copies={warranty.copies}
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t("product_details_screen_warranty_expiry")}
-                    valueText={
-                      moment(warranty.expiryDate).isValid() &&
-                      moment(warranty.expiryDate).format("DD MMM YYYY")
-                    }
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t("product_details_screen_warranty_type")}
-                    valueText=""
-                  />
-                  {warranty.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t("product_details_screen_warranty_seller")}
-                      valueText={warranty.sellers.sellerName}
-                    />
-                  )}
-                  {warranty.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t(
-                        "product_details_screen_warranty_seller_contact"
-                      )}
-                      ValueComponent={() => (
-                        <MultipleContactNumbers
-                          contact={warranty.sellers.contact}
-                        />
-                      )}
-                    />
-                  )}
-                </View>
-              ))}
-            </View>
-          )}
-          {warrantyDetails.length == 0 && (
-            <Text
-              weight="Bold"
-              style={{ textAlign: "center", padding: 16, color: "red" }}
-            >
-              {I18n.t("product_details_screen_warranty_no_info")}
-            </Text>
-          )}
-        </Collapsible>
+        <WarrantyDetails product={product} navigator={navigator} />
 
         <Collapsible
           headerText={I18n.t("product_details_screen_insurance_title")}
