@@ -25,6 +25,27 @@ class SelectModal extends Component {
     };
   }
 
+  componentDidMount() {
+    this._updateStateFromProps(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this._updateStateFromProps(nextProps);
+  }
+
+  _updateStateFromProps = props => {
+    if (
+      !this.state.textInput &&
+      props.textInputValue &&
+      props.textInputValue.length > 0
+    ) {
+      this.setState({
+        textInput: props.textInputValue,
+        isTextInputVisible: true
+      });
+    }
+  };
+
   _placeholderRenderer = ({ placeholder }) => {
     return <Text style={[styles.placeholder]}>{placeholder}</Text>;
   };
@@ -112,15 +133,12 @@ class SelectModal extends Component {
       placeholderRenderer = this._placeholderRenderer,
       hideAddNew = false
     } = this.props;
-    let { isTextInputVisible, isModalVisible, searchInput } = this.state;
-
-    // it causes infinite loop
-    // if (textInputValue && textInputValue.length > 0) {
-    //   this.setState({
-    //     searchInput: textInputValue,
-    //     isTextInputVisible: true
-    //   });
-    // }
+    let {
+      isTextInputVisible,
+      isModalVisible,
+      searchInput,
+      textInput
+    } = this.state;
 
     const searchText = searchInput.trim();
     let optionsAfterSearch = [];
@@ -156,6 +174,7 @@ class SelectModal extends Component {
               ref={ref => (this.textInput = ref)}
               placeholder={textInputPlaceholder}
               style={styles.textInput}
+              value={textInput}
               onChangeText={text => this._onTextInputChange(text)}
             />
             <Text onPress={this._tryOpenModal} style={styles.textInputSelect}>

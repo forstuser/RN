@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 
 import moment from "moment";
 
-import { MAIN_CATEGORY_IDS } from "../../constants";
+import { MAIN_CATEGORY_IDS, WARRANTY_TYPES } from "../../constants";
 import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 
 import Collapsible from "../collapsible";
@@ -31,8 +31,15 @@ class WarrantyForm extends React.Component {
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
     jobId: PropTypes.number.isRequired,
-    type: PropTypes.oneOf(["noraml-warranty", "dual-warranty"]),
+    warrantyType: PropTypes.oneOf(WARRANTY_TYPES),
+    dualWarrantyItem: PropTypes.string,
     renewalTypes: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        title: PropTypes.string
+      })
+    ),
+    warrantyProviders: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number,
         title: PropTypes.string
@@ -48,8 +55,9 @@ class WarrantyForm extends React.Component {
   };
 
   static defaultProps = {
-    type: "noraml-warranty",
+    warrantyType: WARRANTY_TYPES.NORMAL,
     renewalTypes: [],
+    warrantyProviders: [],
     isCollapsible: true
   };
 
@@ -58,7 +66,10 @@ class WarrantyForm extends React.Component {
     this.state = {
       id: null,
       effectiveDate: null,
-      selectedRenewalType: null
+      selectedRenewalType: null,
+      copies: [],
+      selectedProvider: null,
+      providerName: null
     };
   }
 
@@ -72,30 +83,43 @@ class WarrantyForm extends React.Component {
 
   updateStateFromProps = props => {
     if (props.warranty) {
-      const { warranty, renewalTypes } = props;
+      const { warranty, renewalTypes, warrantyProviders } = props;
       const selectedRenewalType = renewalTypes.find(
         renewalType => renewalType.id == warranty.renewal_type
       );
-      this.setState(
-        {
-          id: warranty.id,
-          effectiveDate: moment(warranty.effectiveDate).format("YYYY-MM-DD"),
-          selectedRenewalType: selectedRenewalType
-        },
-        () => {
-          console.log("state", this.state);
-        }
-      );
+
+      let selectedProvider = null;
+      if (warranty.provider) {
+        selectedProvider = warrantyProviders.find(
+          provider => provider.id == warranty.provider.id
+        );
+      }
+
+      this.setState({
+        id: warranty.id,
+        effectiveDate: moment(warranty.effectiveDate).format("YYYY-MM-DD"),
+        selectedRenewalType: selectedRenewalType,
+        selectedProvider: selectedProvider,
+        copies: warranty.copies
+      });
     }
   };
 
   getFilledData = () => {
-    const { id, effectiveDate, selectedRenewalType } = this.state;
+    const {
+      id,
+      effectiveDate,
+      selectedRenewalType,
+      selectedProvider,
+      providerName
+    } = this.state;
 
     let data = {
       id: id,
       effectiveDate: effectiveDate,
-      renewalType: selectedRenewalType ? selectedRenewalType.id : null
+      renewalType: selectedRenewalType ? selectedRenewalType.id : null,
+      providerId: selectedProvider ? selectedProvider.id : null,
+      providerName
     };
 
     return data;
@@ -113,29 +137,69 @@ class WarrantyForm extends React.Component {
     });
   };
 
+  onProviderSelect = provider => {
+    if (
+      this.state.selectedProvider &&
+      this.state.selectedProvider.id == provider.id
+    ) {
+      return;
+    }
+    this.setState({
+      selectedProvider: provider,
+      providerName: ""
+    });
+  };
+
+  onProviderNameChange = text => {
+    this.setState({
+      providerName: text,
+      selectedProvider: null
+    });
+  };
+
   render() {
     const {
       mainCategoryId,
       productId,
       jobId,
-      type = "noraml-warranty",
+      warrantyType,
+      dualWarrantyItem,
       renewalTypes,
+      warrantyProviders,
       isCollapsible,
       navigator
     } = this.props;
-    const { effectiveDate, selectedRenewalType } = this.state;
+    const {
+      id,
+      effectiveDate,
+      selectedRenewalType,
+      copies,
+      selectedProvider,
+      providerName
+    } = this.state;
 
     let title = "Warranty (If Applicable)";
-    switch (mainCategoryId) {
-      case MAIN_CATEGORY_IDS.AUTOMOBILE:
-        title = "Manufacturer Warranty (Optional)";
+    if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
+      title = "Manufacturer Warranty (Optional)";
+    }
+
+    switch (warrantyType) {
+      case WARRANTY_TYPES.DUAL:
+        if (dualWarrantyItem) {
+          title = dualWarrantyItem + " Warranty (If Applicable)";
+        } else {
+          title = "Dual Warranty (If Applicable)";
+        }
+
+        break;
+      case WARRANTY_TYPES.EXTENDED:
+        title = "Third Party Extended Warranty";
+        break;
     }
 
     return (
       <Collapsible
-        headerText={
-          type == "noraml-warranty" ? title : "Dual Warranty (If Applicable)"
-        }
+        headerText={title}
         style={styles.container}
         headerStyle={styles.headerStyle}
         headerTextStyle={styles.headerTextStyle}
@@ -144,6 +208,27 @@ class WarrantyForm extends React.Component {
       >
         <View style={styles.innerContainer}>
           <View style={styles.body}>
+            {warrantyType == WARRANTY_TYPES.EXTENDED && (
+              <SelectModal
+                style={styles.input}
+                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                placeholder="Provider"
+                textInputPlaceholder="Enter Provider Name"
+                placeholderRenderer={({ placeholder }) => (
+                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                    {placeholder}
+                  </Text>
+                )}
+                selectedOption={selectedProvider}
+                textInputValue={providerName}
+                options={warrantyProviders}
+                onOptionSelect={value => {
+                  this.onProviderSelect(value);
+                }}
+                onTextInputChange={text => this.onProviderNameChange(text)}
+              />
+            )}
+
             <CustomDatePicker
               date={effectiveDate}
               placeholder="Effective Date"
@@ -172,14 +257,18 @@ class WarrantyForm extends React.Component {
               hideAddNew={true}
             />
             <UploadDoc
+              itemId={id}
+              copies={copies}
               jobId={jobId}
-              type={type == "manufacturer-warranty" ? 5 : 6}
+              docType="Warranty"
+              type={warrantyType == WARRANTY_TYPES.NORMAL ? 5 : 6}
               placeholder="Upload Warranty Doc"
               navigator={navigator}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
                 this.setState({
-                  id: uploadResult.warranty.id
+                  id: uploadResult.warranty.id,
+                  copies: uploadResult.warranty.copies
                 });
               }}
             />

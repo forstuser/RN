@@ -83,7 +83,7 @@ class SellerTab extends Component {
   };
 
   render() {
-    const { product } = this.props;
+    const { product, onEditPress } = this.props;
 
     let seller = {
       categoryName: "",
@@ -107,6 +107,37 @@ class SellerTab extends Component {
 
     return (
       <View>
+        <TouchableOpacity
+          onPress={onEditPress}
+          style={{ flex: 1, backgroundColor: "#EBEBEB" }}
+        >
+          <KeyValueItem
+            KeyComponent={() => (
+              <Text
+                weight="Bold"
+                style={{
+                  flex: 1,
+                  color: colors.mainText,
+                  fontSize: 16
+                }}
+              >
+                Seller Details
+              </Text>
+            )}
+            ValueComponent={() => (
+              <Text
+                weight="Bold"
+                style={{
+                  textAlign: "right",
+                  flex: 1,
+                  color: colors.pinkishOrange
+                }}
+              >
+                EDIT
+              </Text>
+            )}
+          />
+        </TouchableOpacity>
         <KeyValueItem
           keyText={I18n.t("product_details_screen_seller_category")}
           valueText={product.categoryName || ""}

@@ -19,7 +19,14 @@ class ContactFields extends React.Component {
 
   componentDidMount() {
     if (this.props.value) {
-      const contacts = this.props.value.split(/\,|\/|\//);
+      const contacts = this.props.value.split(/\,|\/|\\/);
+      this.setState({ contacts });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value) {
+      const contacts = nextProps.value.split(/\,|\/|\\/);
       this.setState({ contacts });
     }
   }

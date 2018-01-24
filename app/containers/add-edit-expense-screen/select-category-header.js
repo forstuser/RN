@@ -306,25 +306,26 @@ class SelectCategoryHeader extends React.Component {
     //if clicked on already selected option
     if (selectedOption && selectedOption.id == option.id) {
       return;
-    } else if (selectedOption && selectedOption.id != option.id) {
-      return setTimeout(() => {
-        Alert.alert(
-          "Change category type?",
-          "All your filled data will be lost?",
-          [
-            {
-              text: "Yes, Change",
-              onPress: () => this.changeOption(option)
-            },
-            {
-              text: "No, Don't change",
-              onPress: () => {},
-              style: "cancel"
-            }
-          ]
-        );
-      }, 100);
     } else {
+      // else if (selectedOption && selectedOption.id != option.id) {
+      //   return setTimeout(() => {
+      //     Alert.alert(
+      //       "Change category type?",
+      //       "All your filled data will be lost?",
+      //       [
+      //         {
+      //           text: "Yes, Change",
+      //           onPress: () => this.changeOption(option)
+      //         },
+      //         {
+      //           text: "No, Don't change",
+      //           onPress: () => {},
+      //           style: "cancel"
+      //         }
+      //       ]
+      //     );
+      //   }, 100);
+      // }
       this.changeOption(option);
     }
   };

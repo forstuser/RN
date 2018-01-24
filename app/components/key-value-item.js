@@ -32,6 +32,7 @@ const KeyValueItem = ({
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
     flexDirection: "row",
     paddingVertical: 10,
     paddingHorizontal: 16,

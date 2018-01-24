@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput
 } from "react-native";
+import PropTypes from "prop-types";
 
 import moment from "moment";
 
@@ -24,46 +25,99 @@ import CustomDatePicker from "../form-elements/date-picker";
 import UploadDoc from "../form-elements/upload-doc";
 
 class InsuranceForm extends React.Component {
+  static propTypes = {
+    navigator: PropTypes.object,
+    mainCategoryId: PropTypes.number.isRequired,
+    categoryId: PropTypes.number.isRequired,
+    productId: PropTypes.number.isRequired,
+    jobId: PropTypes.number.isRequired,
+    insuranceProviders: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        title: PropTypes.string
+      })
+    ),
+    insurance: PropTypes.shape({
+      id: PropTypes.number,
+      effectiveDate: PropTypes.string,
+      provider: PropTypes.object,
+      providerName: PropTypes.string,
+      policyNo: PropTypes.string,
+      value: PropTypes.number,
+      amountInsured: PropTypes.number,
+      copies: PropTypes.array
+    }),
+    isCollapsible: PropTypes.bool
+  };
+
+  static defaultProps = {
+    insuranceProviders: [],
+    isCollapsible: true
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      uploadedDocId: null,
-      isDocUploaded: false,
+      id: null,
       effectiveDate: null,
-      providers: [],
       selectedProvider: null,
       providerName: "",
       policyNo: "",
-      amount: "",
-      coverage: ""
+      value: null,
+      amountInsured: null
     };
   }
 
   componentDidMount() {
-    this.setState({
-      providers: this.props.categoryReferenceData.insuranceProviders
-    });
+    this.updateStateFromProps(this.props);
   }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateStateFromProps(nextProps);
+  }
+
+  updateStateFromProps = props => {
+    if (props.insurance) {
+      const { insurance, insuranceProviders } = props;
+
+      let selectedProvider = null;
+      if (insurance.provider) {
+        selectedProvider = insuranceProviders.find(
+          provider => provider.id == insurance.provider.id
+        );
+      }
+
+      this.setState({
+        id: insurance.id,
+        effectiveDate: moment(insurance.effectiveDate).format("YYYY-MM-DD"),
+        policyNo: insurance.policyNo,
+        value: String(insurance.value),
+        amountInsured: insurance.amountInsured,
+        selectedProvider: selectedProvider,
+        copies: insurance.copies
+      });
+    }
+  };
 
   getFilledData = () => {
     const {
-      uploadedDocId,
+      id,
       effectiveDate,
       selectedProvider,
       providerName,
       policyNo,
-      amount,
-      coverage
+      value,
+      amountInsured
     } = this.state;
 
     let data = {
-      id: uploadedDocId,
+      id: id,
       effectiveDate: effectiveDate,
       providerId: selectedProvider ? selectedProvider.id : null,
       providerName: providerName,
       policyNo: policyNo,
-      value: amount,
-      amountInsured: coverage
+      value: value,
+      amountInsured: amountInsured
     };
 
     return data;
@@ -90,17 +144,26 @@ class InsuranceForm extends React.Component {
   };
 
   render() {
-    const { mainCategoryId, categoryId, product } = this.props;
     const {
-      isDocUploaded,
+      navigator,
+      mainCategoryId,
+      categoryId,
+      insuranceProviders,
+      productId,
+      jobId
+    } = this.props;
+
+    const {
+      id,
       effectiveDate,
-      providers,
       selectedProvider,
       providerName,
       policyNo,
-      amount,
-      coverage
+      value,
+      amountInsured,
+      copies
     } = this.state;
+
     return (
       <Collapsible
         isCollapsed={false}
@@ -143,7 +206,7 @@ class InsuranceForm extends React.Component {
               )}
               selectedOption={selectedProvider}
               textInputValue={providerName}
-              options={providers}
+              options={insuranceProviders}
               onOptionSelect={value => {
                 this.onProviderSelect(value);
               }}
@@ -154,39 +217,39 @@ class InsuranceForm extends React.Component {
               placeholder="Insurance Policy No "
               placeholder2="(Recommended)"
               placeholder2Color={colors.mainBlue}
-              style={styles.input}
               value={policyNo}
               onChangeText={policyNo => this.setState({ policyNo })}
             />
+
             <CustomTextInput
               placeholder="Insurance Premium Amount"
-              style={styles.input}
-              value={amount}
-              onChangeText={amount => this.setState({ amount })}
+              value={value}
+              onChangeText={value => this.setState({ value })}
+              keyboardType="numeric"
             />
 
             <UploadDoc
-              jobId={product.job_id}
+              itemId={id}
+              copies={copies}
+              jobId={jobId}
+              docType="Insurance"
               type={3}
-              placeholder="Upload Policy Document "
-              placeholder2="(Recommended)"
-              placeholder2Color={colors.mainBlue}
-              placeholderAfterUpload="Doc Uploaded Successfully"
-              navigator={this.props.navigator}
+              placeholder="Upload Policy Doc"
+              navigator={navigator}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
                 this.setState({
-                  isDocUploaded: true,
-                  uploadedDocId: uploadResult.insurance.id
+                  id: uploadResult.insurance.id,
+                  copies: uploadResult.insurance.copies
                 });
               }}
             />
 
             <CustomTextInput
               placeholder="Total Coverage"
-              style={styles.input}
-              value={coverage}
-              onChangeText={coverage => this.setState({ coverage })}
+              value={amountInsured}
+              onChangeText={amountInsured => this.setState({ amountInsured })}
+              keyboardType="numeric"
             />
           </View>
         </View>

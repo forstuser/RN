@@ -18,6 +18,12 @@ class CustomTextInput extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value) {
+      this.setState({ value: nextProps.value });
+    }
+  }
+
   onChangeText = newValue => {
     if (typeof this.props.onChangeText == "function") {
       this.props.onChangeText(newValue);
@@ -32,7 +38,8 @@ class CustomTextInput extends React.Component {
       style = {},
       placeholder,
       placeholder2,
-      placeholder2Color = colors.secondaryText
+      placeholder2Color = colors.secondaryText,
+      keyboardType
     } = this.props;
     const { value } = this.state;
     return (
@@ -61,6 +68,7 @@ class CustomTextInput extends React.Component {
         </View>
 
         <TextInput
+          keyboardType={keyboardType}
           style={styles.textInput}
           value={value}
           onChangeText={text => this.onChangeText(text)}

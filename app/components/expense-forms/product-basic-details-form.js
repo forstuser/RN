@@ -29,7 +29,7 @@ class BasicDetailsForm extends React.Component {
       selectedModel: null,
       modelName: "",
       purchaseDate: null,
-      amount: "",
+      value: "",
       sellerName: "",
       sellerContact: "",
       vinNo: "",
@@ -40,20 +40,65 @@ class BasicDetailsForm extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      brands: this.props.categoryReferenceData.brands
-    });
+    this.updateStateFromProps(this.props);
   }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateStateFromProps(nextProps);
+  }
+
+  updateStateFromProps = props => {
+    const {
+      id,
+      productName,
+      brands,
+      selectedBrandId,
+      modelName,
+      purchaseDate,
+      value,
+      sellerName,
+      sellerContact,
+      vinNo,
+      registrationNo,
+      imeiNo,
+      serialNo,
+      copies
+    } = props;
+
+    let selectedBrand = null;
+    if (selectedBrandId) {
+      selectedBrand = brands.find(brand => brand.id == selectedBrandId);
+    }
+
+    this.setState(
+      {
+        id,
+        productName,
+        selectedBrand,
+        modelName,
+        purchaseDate,
+        value,
+        sellerName,
+        sellerContact,
+        vinNo,
+        registrationNo,
+        imeiNo,
+        serialNo,
+        copies
+      },
+      () => this.fetchModels()
+    );
+  };
 
   getFilledData = () => {
     const {
-      productName,
+      productName = "",
       selectedBrand,
       brandName,
       selectedModel,
       modelName,
       purchaseDate,
-      amount,
+      value,
       sellerName,
       vinNo,
       registrationNo,
@@ -64,7 +109,7 @@ class BasicDetailsForm extends React.Component {
     let metadata = [];
 
     const { mainCategoryId } = this.props;
-    const categoryForms = this.props.categoryReferenceData.categoryForms;
+    const categoryForms = this.props.categoryForms;
 
     if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
       if (registrationNo) {
@@ -133,7 +178,7 @@ class BasicDetailsForm extends React.Component {
       sellerContact: this.sellerContactRef.getFilledData(),
       brandId: selectedBrand ? selectedBrand.id : undefined,
       brandName: brandName,
-      value: amount,
+      value: value,
       model: selectedModel ? selectedModel.title : modelName,
       isNewModel: selectedModel ? false : true,
       metadata: metadata
@@ -193,24 +238,31 @@ class BasicDetailsForm extends React.Component {
   };
 
   render() {
-    const { mainCategoryId, categoryId, product } = this.props;
     const {
+      mainCategoryId,
+      categoryId,
+      jobId = null,
+      navigator,
+      brands
+    } = this.props;
+    const {
+      id,
       isBillUploaded,
       productName,
-      brands,
       selectedBrand,
       brandName,
       models,
       selectedModel,
       modelName,
       purchaseDate,
-      amount,
+      value,
       sellerName,
       sellerContact,
       vinNo,
       registrationNo,
       imeiNo,
-      serialNo
+      serialNo,
+      copies
     } = this.state;
     return (
       <View style={styles.container}>
@@ -219,12 +271,17 @@ class BasicDetailsForm extends React.Component {
           textBeforeUpload="Upload Bill"
           textBeforeUpload2=" (recommended)"
           textBeforeUpload2Color={colors.mainBlue}
-          jobId={product ? product.job_id : null}
+          itemId={id}
+          jobId={jobId}
           type={1}
+          copies={copies}
           onUpload={uploadResult => {
-            console.log("product: ", product);
-            console.log("upload result: ", uploadResult);
-            this.setState({ isBillUploaded: true });
+            console.log("upload result    : ", uploadResult);
+            this.setState({
+              isBillUploaded: true,
+              id: uploadResult.product.id,
+              copies: uploadResult.product.copies
+            });
           }}
           navigator={this.props.navigator}
         />
@@ -301,6 +358,7 @@ class BasicDetailsForm extends React.Component {
               onChangeText={imeiNo => this.setState({ imeiNo })}
             />
           )}
+
           {mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS &&
             categoryId != 327 && (
               <CustomTextInput
@@ -330,6 +388,7 @@ class BasicDetailsForm extends React.Component {
               />
             </View>
           )}
+
           <CustomDatePicker
             date={purchaseDate}
             placeholder="Purchase Date"
@@ -339,20 +398,25 @@ class BasicDetailsForm extends React.Component {
               this.setState({ purchaseDate });
             }}
           />
+
           <CustomTextInput
             placeholder="Purchase Amount"
-            value={amount}
-            onChangeText={amount => this.setState({ amount })}
+            value={value ? String(value) : ""}
+            onChangeText={value => this.setState({ value })}
+            keyboardType="numeric"
           />
+
           <CustomTextInput
             placeholder="Seller Name"
             value={sellerName}
             onChangeText={sellerName => this.setState({ sellerName })}
           />
+
           <ContactFields
             ref={ref => (this.sellerContactRef = ref)}
             value={sellerContact}
             placeholder="Seller Contact"
+            keyboardType="numeric"
           />
         </View>
       </View>

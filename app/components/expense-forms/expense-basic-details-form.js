@@ -155,6 +155,7 @@ class BasicDetailsForm extends React.Component {
             placeholder="Amount"
             value={amount}
             onChangeText={amount => this.setState({ amount })}
+            keyboardType="numeric"
           />
 
           {/* if category is of 'utility' type */}

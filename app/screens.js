@@ -29,6 +29,14 @@ import AddProductScreen from "./containers/add-product-screen";
 import ForceUpdateScreen from "./containers/force-update-screen";
 import AddEditExpenseScreen from "./containers/add-edit-expense-screen";
 import AddEditWarrantyScreen from "./containers/add-edit-warranty-screen";
+import AddEditInsuranceScreen from "./containers/add-edit-insurance-screen";
+import AddEditAmcScreen from "./containers/add-edit-amc-screen";
+import AddEditRepairScreen from "./containers/add-edit-repair-screen";
+import AddEditPucScreen from "./containers/add-edit-puc-screen";
+import EditProductBasicDetailsScreen from "./containers/edit-product-basic-details-screen";
+import AddEditPersonalDocScreen from "./containers/add-edit-personal-doc-screen";
+import EditMedicalDocScreen from "./containers/edit-medical-doc-screen";
+import EditInsuranceScreen from "./containers/edit-healthcare-insurance-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -208,6 +216,62 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     SCREENS.ADD_EDIT_WARRANTY_SCREEN,
     () => AddEditWarrantyScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.ADD_EDIT_INSURANCE_SCREEN,
+    () => AddEditInsuranceScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.ADD_EDIT_AMC_SCREEN,
+    () => AddEditAmcScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.ADD_EDIT_REPAIR_SCREEN,
+    () => AddEditRepairScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.ADD_EDIT_PUC_SCREEN,
+    () => AddEditPucScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
+    () => EditProductBasicDetailsScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.ADD_EDIT_PERSONAL_DOC_SCREEN,
+    () => AddEditPersonalDocScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.EDIT_MEDICAL_DOCS_SCREEN,
+    () => EditMedicalDocScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.EDIT_INSURANCE_SCREEN,
+    () => EditInsuranceScreen,
     store,
     Provider
   );

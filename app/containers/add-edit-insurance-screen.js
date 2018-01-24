@@ -4,63 +4,48 @@ import PropTypes from "prop-types";
 
 import {
   getReferenceDataForCategory,
-  addWarranty,
-  updateWarranty
+  addInsurance,
+  updateInsurance
 } from "../api";
 
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
-import WarrantyForm from "../components/expense-forms/warranty-form";
-import { WARRANTY_TYPES } from "../constants";
+import InsuranceForm from "../components/expense-forms/insurance-form";
 
-class AddEditWarranty extends React.Component {
+class AddEditInsurance extends React.Component {
   static propTypes = {
     navigator: PropTypes.object.isRequired,
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
     jobId: PropTypes.number.isRequired,
-    warrantyType: PropTypes.oneOf(WARRANTY_TYPES),
-    warranty: PropTypes.shape({
-      id: PropTypes.number,
-      effectiveDate: PropTypes.string,
-      renewal_type: PropTypes.number,
-      copies: PropTypes.array
+    insurance: PropTypes.shape({
+      insurance: PropTypes.shape({
+        id: PropTypes.number,
+        effectiveDate: PropTypes.string,
+        provider: PropTypes.object,
+        providerName: PropTypes.string,
+        policyNo: PropTypes.string,
+        value: PropTypes.number,
+        amountInsured: PropTypes.number,
+        copies: PropTypes.array
+      })
     })
-  };
-
-  static defaultProps = {
-    warrantyType: WARRANTY_TYPES.NORMAL
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      renewalTypes: [],
-      warrantyProviders: [],
+      insuranceProviders: [],
       isLoading: false
     };
   }
 
   async componentDidMount() {
-    const {
-      mainCategoryId,
-      productId,
-      jobId,
-      warrantyType,
-      warranty
-    } = this.props;
-    let title = "Add Warranty";
-    if (warrantyType == WARRANTY_TYPES.NORMAL && warranty) {
-      title = "Edit Warranty";
-    } else if (warrantyType == WARRANTY_TYPES.DUAL && !warranty) {
-      title = "Add Dual Warranty";
-    } else if (warrantyType != WARRANTY_TYPES.DUAL && warranty) {
-      title = "Edit Dual Warranty";
-    } else if (warrantyType == WARRANTY_TYPES.EXTENDED && !warranty) {
-      title = "Add Third Party Warranty";
-    } else if (warrantyType == WARRANTY_TYPES.EXTENDED && warranty) {
-      title = "Edit Third Party Warranty";
+    const { mainCategoryId, productId, jobId, insurance } = this.props;
+    let title = "Add Insurance";
+    if (insurance) {
+      title = "Edit Insurance";
     }
 
     this.props.navigator.setTitle({ title });
@@ -73,8 +58,7 @@ class AddEditWarranty extends React.Component {
       this.setState({ isLoading: true });
       const res = await getReferenceDataForCategory(this.props.categoryId);
       this.setState({
-        renewalTypes: res.renewalTypes,
-        warrantyProviders: res.categories[0].warrantyProviders,
+        insuranceProviders: res.categories[0].insuranceProviders,
         isLoading: false
       });
     } catch (e) {
@@ -88,21 +72,19 @@ class AddEditWarranty extends React.Component {
       categoryId,
       productId,
       jobId,
-      warranty,
-      navigator,
-      warrantyType
+      insurance,
+      navigator
     } = this.props;
     let data = {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
-      warrantyType,
-      ...this.warrantyForm.getFilledData()
+      ...this.insuranceForm.getFilledData()
     };
 
-    if (data.effectiveDate == null) {
-      return Alert.alert("Please enter the Effective Date");
+    if (!data.providerId && !data.providerName) {
+      return Alert.alert("Please select or enter provider name");
     }
 
     console.log("data: ", data);
@@ -110,9 +92,9 @@ class AddEditWarranty extends React.Component {
     try {
       this.setState({ isLoading: true });
       if (!data.id) {
-        await addWarranty(data);
+        await addInsurance(data);
       } else {
-        await updateWarranty(data);
+        await updateInsurance(data);
       }
       this.setState({ isLoading: false });
       navigator.pop();
@@ -127,27 +109,24 @@ class AddEditWarranty extends React.Component {
       categoryId,
       productId,
       jobId,
-      warranty,
-      navigator,
-      warrantyType
+      insurance,
+      navigator
     } = this.props;
 
-    const { renewalTypes, warrantyProviders, isLoading } = this.state;
+    const { insuranceProviders, isLoading } = this.state;
     return (
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={isLoading} />
         <View style={{ flex: 1 }}>
-          <WarrantyForm
-            ref={ref => (this.warrantyForm = ref)}
+          <InsuranceForm
+            ref={ref => (this.insuranceForm = ref)}
             {...{
-              warrantyType,
               mainCategoryId,
               categoryId,
               productId,
               jobId,
-              warranty,
-              renewalTypes,
-              warrantyProviders,
+              insurance,
+              insuranceProviders,
               navigator,
               isCollapsible: false
             }}
@@ -171,4 +150,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AddEditWarranty;
+export default AddEditInsurance;

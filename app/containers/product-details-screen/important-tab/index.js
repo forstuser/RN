@@ -11,6 +11,7 @@ import {
 import call from "react-native-phone-call";
 import moment from "moment";
 
+import { SCREENS, WARRANTY_TYPES, MAIN_CATEGORY_IDS } from "../../../constants";
 import { Text, Button, ScreenContainer } from "../../../elements";
 import I18n from "../../../i18n";
 import { colors } from "../../../theme";
@@ -22,6 +23,10 @@ import { openBillsPopUp } from "../../../navigation";
 import MultipleContactNumbers from "../multiple-contact-numbers";
 import ViewBillRow from "./view-bill-row";
 import WarrantyDetails from "./warranty-details";
+import InsuranceDetails from "./insurance-details";
+import AmcDetails from "./amc-details";
+import RepairDetails from "./repair-details";
+import PucDetails from "./puc-details";
 
 class ImportantTab extends Component {
   constructor(props) {
@@ -43,203 +48,55 @@ class ImportantTab extends Component {
 
     return (
       <View>
-        <WarrantyDetails product={product} navigator={navigator} />
+        <WarrantyDetails
+          warrantyType={WARRANTY_TYPES.NORMAL}
+          product={product}
+          navigator={navigator}
+        />
 
-        <Collapsible
-          headerText={I18n.t("product_details_screen_insurance_title")}
-        >
-          {insuranceDetails.length > 0 && (
-            <View>
-              {insuranceDetails.map(insurance => (
-                <View>
-                  <ViewBillRow
-                    expiryDate={insurance.expiryDate}
-                    purchaseDate={insurance.purchaseDate}
-                    docType="Insurance"
-                    copies={insurance.copies}
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t("product_details_screen_insurance_expiry")}
-                    valueText={
-                      moment(insurance.expiryDate).isValid() &&
-                      moment(insurance.expiryDate).format("DD MMM YYYY")
-                    }
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t(
-                      "product_details_screen_insurance_policy_no"
-                    )}
-                    valueText={insurance.policyNo || ""}
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t(
-                      "product_details_screen_insurance_premium_amount"
-                    )}
-                    valueText={insurance.premiumAmount || ""}
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t(
-                      "product_details_screen_insurance_amount_insured"
-                    )}
-                    valueText={insurance.amountInsured || ""}
-                  />
-                  {insurance.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t(
-                        "product_details_screen_insurance_seller"
-                      )}
-                      valueText={insurance.sellers.sellerName || ""}
-                    />
-                  )}
-                  {insurance.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t(
-                        "product_details_screen_insurance_seller_contact"
-                      )}
-                      ValueComponent={() => (
-                        <MultipleContactNumbers
-                          contact={insurance.sellers.contact}
-                        />
-                      )}
-                    />
-                  )}
-                </View>
-              ))}
-            </View>
+        {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
+          product.masterCategoryId
+        ) > -1 &&
+          product.dualWarrantyItem && (
+            <WarrantyDetails
+              warrantyType={WARRANTY_TYPES.DUAL}
+              product={product}
+              navigator={navigator}
+            />
           )}
-          {insuranceDetails.length == 0 && (
-            <Text
-              weight="Bold"
-              style={{ textAlign: "center", padding: 16, color: "red" }}
-            >
-              {I18n.t("product_details_screen_insurance_no_info")}
-            </Text>
-          )}
-        </Collapsible>
 
-        <Collapsible headerText={I18n.t("product_details_screen_amc_title")}>
-          {amcDetails.length > 0 && (
-            <View>
-              {amcDetails.map(amc => (
-                <View>
-                  <ViewBillRow
-                    expiryDate={amc.expiryDate}
-                    purchaseDate={amc.purchaseDate}
-                    docType="AMC"
-                    copies={amc.copies}
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t("product_details_screen_amc_expiry")}
-                    valueText={
-                      moment(amc.expiryDate).isValid() &&
-                      moment(amc.expiryDate).format("DD MMM YYYY")
-                    }
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t("product_details_screen_amc_policy_no")}
-                    valueText={amc.policyNo || ""}
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t(
-                      "product_details_screen_amc_premium_amount"
-                    )}
-                    valueText={amc.premiumAmount || ""}
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t(
-                      "product_details_screen_amc_amount_insured"
-                    )}
-                    valueText={amc.amountInsured || ""}
-                  />
-                  {amc.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t("product_details_screen_amc_seller")}
-                      valueText={amc.sellers.sellerName || ""}
-                    />
-                  )}
-                  {amc.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t(
-                        "product_details_screen_amc_seller_contact"
-                      )}
-                      ValueComponent={() => (
-                        <MultipleContactNumbers contact={amc.sellers.contact} />
-                      )}
-                    />
-                  )}
-                </View>
-              ))}
-            </View>
-          )}
-          {amcDetails.length == 0 && (
-            <Text
-              weight="Bold"
-              style={{ textAlign: "center", padding: 16, color: "red" }}
-            >
-              {I18n.t("product_details_screen_amc_no_info")}
-            </Text>
-          )}
-        </Collapsible>
+        {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
+          product.masterCategoryId
+        ) > -1 && (
+          <WarrantyDetails
+            warrantyType={WARRANTY_TYPES.EXTENDED}
+            product={product}
+            navigator={navigator}
+          />
+        )}
 
-        <Collapsible
-          headerText={I18n.t("product_details_screen_repairs_title")}
-        >
-          {repairBills.length > 0 && (
-            <View>
-              {repairBills.map(repairBill => (
-                <View>
-                  <ViewBillRow
-                    expiryDate={repairBill.expiryDate}
-                    purchaseDate={repairBill.purchaseDate}
-                    docType="Repair Bill"
-                    copies={repairBill.copies}
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t(
-                      "product_details_screen_repairs_repair_date"
-                    )}
-                    valueText={
-                      moment(repairBill.purchaseDate).isValid() &&
-                      moment(repairBill.purchaseDate).format("DD MMM YYYY")
-                    }
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t(
-                      "product_details_screen_repairs_premium_amount"
-                    )}
-                    valueText={repairBill.premiumAmount}
-                  />
-                  {repairBill.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t("product_details_screen_repairs_seller")}
-                      valueText={repairBill.sellers.sellerName || ""}
-                    />
-                  )}
-                  {repairBill.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t(
-                        "product_details_screen_repairs_seller_contact"
-                      )}
-                      ValueComponent={() => (
-                        <MultipleContactNumbers
-                          contact={repairBill.sellers.contact}
-                        />
-                      )}
-                    />
-                  )}
-                </View>
-              ))}
-            </View>
-          )}
-          {repairBills.length == 0 && (
-            <Text
-              weight="Bold"
-              style={{ textAlign: "center", padding: 16, color: "red" }}
-            >
-              {I18n.t("product_details_screen_repairs_no_info")}
-            </Text>
-          )}
-        </Collapsible>
+        {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
+          product.masterCategoryId
+        ) > -1 && <InsuranceDetails product={product} navigator={navigator} />}
+
+        {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
+          product.masterCategoryId
+        ) > -1 && <InsuranceDetails product={product} navigator={navigator} />}
+
+        {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
+          product.masterCategoryId
+        ) > -1 && <AmcDetails product={product} navigator={navigator} />}
+
+        {[
+          MAIN_CATEGORY_IDS.AUTOMOBILE,
+          MAIN_CATEGORY_IDS.ELECTRONICS,
+          MAIN_CATEGORY_IDS.FURNITURE
+        ].indexOf(product.masterCategoryId) > -1 && (
+          <RepairDetails product={product} navigator={navigator} />
+        )}
+        {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE && (
+          <PucDetails product={product} navigator={navigator} />
+        )}
       </View>
     );
   }

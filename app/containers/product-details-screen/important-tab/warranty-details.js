@@ -11,7 +11,7 @@ import {
 import call from "react-native-phone-call";
 import moment from "moment";
 
-import { SCREENS } from "../../../constants";
+import { SCREENS, WARRANTY_TYPES } from "../../../constants";
 import { Text, Button, ScreenContainer } from "../../../elements";
 import I18n from "../../../i18n";
 import { colors } from "../../../theme";
@@ -33,7 +33,8 @@ class WarrantyDetails extends Component {
   }
 
   openAddEditWarrantyScreen = warranty => {
-    const { product } = this.props;
+    const { product, warrantyType } = this.props;
+
     this.props.navigator.push({
       screen: SCREENS.ADD_EDIT_WARRANTY_SCREEN,
       passProps: {
@@ -41,66 +42,85 @@ class WarrantyDetails extends Component {
         categoryId: product.categoryId,
         productId: product.id,
         jobId: product.jobId,
-        warranty: warranty
+        warranty: warranty,
+        warrantyType: warrantyType
       }
     });
   };
 
   render() {
-    const { product } = this.props;
+    const { product, warrantyType } = this.props;
     const { warrantyDetails } = product;
 
+    let headerText = I18n.t("product_details_screen_warranty_title");
+    switch (warrantyType) {
+      case WARRANTY_TYPES.DUAL:
+        headerText = I18n.t("product_details_screen_dual_warranty_title", {
+          dualWarrantyItem: product.dualWarrantyItem || "Dual"
+        });
+        break;
+      case WARRANTY_TYPES.EXTENDED:
+        headerText = I18n.t("product_details_screen_extended_warranty_title");
+        break;
+    }
     return (
       <View>
-        <Collapsible
-          headerText={I18n.t("product_details_screen_warranty_title")}
-        >
+        <Collapsible headerText={headerText}>
           {warrantyDetails.length > 0 && (
             <View>
-              {warrantyDetails.map(warranty => (
-                <View>
-                  <EditOptionRow
-                    date={warranty.expiryDate}
-                    onEditPress={() => {
-                      this.openAddEditWarrantyScreen(warranty);
-                    }}
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t("product_details_screen_warranty_expiry")}
-                    valueText={
-                      moment(warranty.expiryDate).isValid() &&
-                      moment(warranty.expiryDate).format("DD MMM YYYY")
-                    }
-                  />
-                  {warranty.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t("product_details_screen_warranty_seller")}
-                      valueText={warranty.sellers.sellerName}
+              {warrantyDetails.map(warranty => {
+                if (warranty.warranty_type != warrantyType) {
+                  return null;
+                }
+                return (
+                  <View>
+                    <EditOptionRow
+                      date={warranty.expiryDate}
+                      onEditPress={() => {
+                        this.openAddEditWarrantyScreen(warranty);
+                      }}
                     />
-                  )}
-                  {warranty.sellers != null && (
                     <KeyValueItem
-                      keyText={I18n.t(
-                        "product_details_screen_warranty_seller_contact"
-                      )}
-                      ValueComponent={() => (
-                        <MultipleContactNumbers
-                          contact={warranty.sellers.contact}
-                        />
-                      )}
+                      keyText={I18n.t("product_details_screen_warranty_expiry")}
+                      valueText={
+                        moment(warranty.expiryDate).isValid() &&
+                        moment(warranty.expiryDate).format("DD MMM YYYY")
+                      }
                     />
-                  )}
-                  <ViewBillRow
-                    expiryDate={warranty.expiryDate}
-                    purchaseDate={warranty.purchaseDate}
-                    docType="Warranty"
-                    copies={warranty.copies}
-                  />
-                </View>
-              ))}
+                    {warranty.sellers != null && (
+                      <KeyValueItem
+                        keyText={I18n.t(
+                          "product_details_screen_warranty_seller"
+                        )}
+                        valueText={warranty.sellers.sellerName}
+                      />
+                    )}
+                    {warranty.sellers != null && (
+                      <KeyValueItem
+                        keyText={I18n.t(
+                          "product_details_screen_warranty_seller_contact"
+                        )}
+                        ValueComponent={() => (
+                          <MultipleContactNumbers
+                            contact={warranty.sellers.contact}
+                          />
+                        )}
+                      />
+                    )}
+                    <ViewBillRow
+                      expiryDate={warranty.expiryDate}
+                      purchaseDate={warranty.purchaseDate}
+                      docType="Warranty"
+                      copies={warranty.copies}
+                    />
+                  </View>
+                );
+              })}
             </View>
           )}
-          {warrantyDetails.length == 0 && (
+          {warrantyDetails.filter(
+            warranty => warranty.warranty_type == warrantyType
+          ).length == 0 && (
             <Text
               weight="Bold"
               style={{ textAlign: "center", padding: 16, color: "red" }}

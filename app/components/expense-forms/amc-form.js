@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TextInput
 } from "react-native";
-
+import PropTypes from "prop-types";
 import moment from "moment";
 
 import { MAIN_CATEGORY_IDS } from "../../constants";
@@ -26,45 +26,100 @@ import CustomDatePicker from "../form-elements/date-picker";
 import UploadDoc from "../form-elements/upload-doc";
 
 class AmcForm extends React.Component {
+  static propTypes = {
+    navigator: PropTypes.object,
+    mainCategoryId: PropTypes.number.isRequired,
+    categoryId: PropTypes.number.isRequired,
+    productId: PropTypes.number.isRequired,
+    jobId: PropTypes.number.isRequired,
+    amc: PropTypes.shape({
+      id: PropTypes.number,
+      effectiveDate: PropTypes.string,
+      value: PropTypes.number,
+      sellers: PropTypes.object,
+      copies: PropTypes.array
+    }),
+    isCollapsible: PropTypes.bool
+  };
+
+  static defaultProps = {
+    isCollapsible: true
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      uploadedDocId: null,
-      isDocUploaded: false,
+      id: null,
       effectiveDate: null,
       sellerName: "",
       sellerContact: "",
-      amount: ""
+      value: null,
+      copies: []
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.updateStateFromProps(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateStateFromProps(nextProps);
+  }
+
+  updateStateFromProps = props => {
+    if (props.amc) {
+      const { amc } = props;
+
+      this.setState(
+        {
+          id: amc.id,
+          effectiveDate: moment(amc.effectiveDate).format("YYYY-MM-DD"),
+          value: String(amc.value),
+          sellerName: amc.sellers ? amc.sellers.sellerName : "",
+          sellerContact: amc.sellers ? amc.sellers.contact : "",
+          copies: amc.copies
+        },
+        () => {
+          console.log("amc form new state: ", this.state);
+        }
+      );
+    }
+  };
 
   getFilledData = () => {
-    const { uploadedDocId, effectiveDate, sellerName, amount } = this.state;
+    const { id, effectiveDate, sellerName, value } = this.state;
 
     let data = {
-      id: uploadedDocId,
+      id: id,
       effectiveDate: effectiveDate,
       sellerName: sellerName,
       sellerContact: this.sellerContactRef.getFilledData(),
-      value: amount
+      value: value
     };
 
     return data;
   };
 
   render() {
-    const { mainCategoryId, categoryId, product } = this.props;
     const {
-      isDocUploaded,
+      navigator,
+      mainCategoryId,
+      categoryId,
+      productId,
+      jobId,
+      isCollapsible
+    } = this.props;
+    const {
+      id,
       effectiveDate,
       sellerName,
       sellerContact,
-      amount
+      value,
+      copies
     } = this.state;
     return (
       <Collapsible
+        isCollapsible={isCollapsible}
         headerText="AMC (If Applicable)"
         style={styles.container}
         headerStyle={styles.headerStyle}
@@ -82,9 +137,9 @@ class AmcForm extends React.Component {
                 this.setState({ effectiveDate });
               }}
             />
+
             <CustomTextInput
               placeholder="AMC Seller Name"
-              style={styles.input}
               value={sellerName}
               onChangeText={sellerName => this.setState({ sellerName })}
             />
@@ -93,29 +148,30 @@ class AmcForm extends React.Component {
               ref={ref => (this.sellerContactRef = ref)}
               value={sellerContact}
               placeholder="Seller Contact"
-              style={styles.input}
+              keyboardType="numeric"
             />
 
             <CustomTextInput
               placeholder="AMC Amount"
-              style={styles.input}
-              value={amount}
-              onChangeText={amount => this.setState({ amount })}
+              value={value}
+              onChangeText={value => this.setState({ value })}
+              keyboardType="numeric"
             />
 
             <UploadDoc
-              jobId={product.job_id}
+              itemId={id}
+              copies={copies}
+              jobId={jobId}
+              docType="AMC"
               type={2}
-              placeholder="Upload AMC Doc "
-              placeholder2="(Recommended)"
+              placeholder="Upload AMC Doc"
+              placeholder2=" (Recommended)"
               placeholder2Color={colors.mainBlue}
-              placeholderAfterUpload="Doc Uploaded Successfully"
-              navigator={this.props.navigator}
+              navigator={navigator}
               onUpload={uploadResult => {
-                console.log("upload result: ", uploadResult);
                 this.setState({
-                  isDocUploaded: true,
-                  uploadedDocId: uploadResult.amc.id
+                  id: uploadResult.amc.id,
+                  copies: uploadResult.amc.copies
                 });
               }}
             />

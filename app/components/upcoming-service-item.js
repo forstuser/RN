@@ -16,15 +16,6 @@ const UpcomingServiceItem = ({ item, navigator }) => {
   let sidebarSubTitle = "";
 
   switch (item.productType) {
-    case 1:
-      icon = require("../images/ic_comingup_expiring.png");
-      title = item.productName;
-      subTitle = item.address;
-      sidebarTitle = "₹ " + item.value;
-      sidebarSubTitle =
-        moment(item.dueDate).isValid() &&
-        "by " + moment(item.dueDate).format("DD MMM");
-      break;
     case 2:
       icon = require("../images/ic_comingup_expiring.png");
       title = "Warranty expiring";
@@ -47,7 +38,17 @@ const UpcomingServiceItem = ({ item, navigator }) => {
       sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
       sidebarSubTitle = "";
       break;
+
+    //case 1:
     default:
+      icon = require("../images/ic_comingup_expiring.png");
+      title = item.productName;
+      subTitle = item.address;
+      sidebarTitle = "₹ " + item.value;
+      sidebarSubTitle =
+        moment(item.dueDate).isValid() &&
+        "by " + moment(item.dueDate).format("DD MMM");
+      break;
   }
   return (
     <TouchableOpacity

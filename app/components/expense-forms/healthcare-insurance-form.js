@@ -19,7 +19,7 @@ class HealthcareInsuranceForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isBillUploaded: false,
+      productId: null,
       planName: "",
       insuranceFor: "",
       types: [
@@ -36,41 +36,98 @@ class HealthcareInsuranceForm extends React.Component {
       providers: [],
       selectedProvider: null,
       providerName: "",
+      insuranceId: null,
       policyNo: "",
       effectiveDate: null,
-      amount: "",
-      amountInsured: ""
+      value: "",
+      amountInsured: "",
+      copies: []
     };
   }
 
   componentDidMount() {
-    this.setState({
-      providers: this.props.categoryReferenceData.insuranceProviders
-    });
+    this.updateStateFromProps(this.props);
   }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateStateFromProps(nextProps);
+  }
+
+  updateStateFromProps = props => {
+    const {
+      typeId,
+      productId,
+      jobId,
+      planName,
+      insuranceFor,
+      insuranceId,
+      value,
+      insuranceProviders,
+      providerId,
+      effectiveDate,
+      policyNo,
+      amountInsured,
+      copies
+    } = props;
+
+    let selectedType = null;
+    if (typeId) {
+      selectedType = this.state.types.find(type => type.id == typeId);
+    }
+
+    let selectedProvider = null;
+    if (providerId) {
+      selectedProvider = insuranceProviders.find(
+        provider => provider.id == providerId
+      );
+    }
+
+    this.setState({
+      productId,
+      jobId,
+      planName,
+      insuranceFor,
+      insuranceProviders,
+      insuranceId,
+      value,
+      providerId,
+      effectiveDate,
+      policyNo,
+      amountInsured,
+      copies,
+      selectedType,
+      selectedProvider
+    });
+  };
 
   getFilledData = () => {
     const {
+      productId,
       planName,
       selectedType,
       insuranceFor,
       selectedProvider,
+      insuranceId,
       providerName,
       policyNo,
       effectiveDate,
-      amount,
+      value,
       amountInsured
     } = this.state;
 
     let data = {
-      productName: planName + (insuranceFor ? `(${insuranceFor})` : ``),
+      productId: productId,
+      productName: planName,
+      model: insuranceFor,
+      isNewModel: false,
       subCategoryId: selectedType ? selectedType.id : null,
       insurance: {
+        id: insuranceId,
         effectiveDate: effectiveDate,
         providerId: selectedProvider ? selectedProvider.id : null,
         providerName: providerName,
         policyNo: policyNo,
-        value: amount,
+        value: value,
         amountInsured: amountInsured
       }
     };
@@ -101,9 +158,9 @@ class HealthcareInsuranceForm extends React.Component {
   };
 
   render() {
-    const { mainCategoryId, categoryId, product } = this.props;
+    const { mainCategoryId, categoryId, jobId } = this.props;
     const {
-      isBillUploaded,
+      productId,
       planName,
       types,
       selectedType,
@@ -113,8 +170,9 @@ class HealthcareInsuranceForm extends React.Component {
       providerName,
       policyNo,
       effectiveDate,
-      amount,
-      amountInsured
+      value,
+      amountInsured,
+      copies
     } = this.state;
     return (
       <View style={styles.container}>
@@ -123,19 +181,20 @@ class HealthcareInsuranceForm extends React.Component {
           textBeforeUpload="Upload Doc"
           textBeforeUpload2=" (recommended)"
           textBeforeUpload2Color={colors.mainBlue}
-          jobId={product ? product.job_id : null}
+          itemId={productId}
+          jobId={jobId ? jobId : null}
           type={1}
+          copies={copies}
           onUpload={uploadResult => {
             console.log("product: ", product);
             console.log("upload result: ", uploadResult);
-            this.setState({ isBillUploaded: true });
+            this.setState({ copies: uploadResult.product.copies });
           }}
           navigator={this.props.navigator}
         />
         <View style={styles.body}>
           <CustomTextInput
             placeholder="Plan Name"
-            style={styles.input}
             value={planName}
             onChangeText={planName => this.setState({ planName })}
           />
@@ -160,8 +219,7 @@ class HealthcareInsuranceForm extends React.Component {
           />
 
           <CustomTextInput
-            placeholder="For"
-            style={styles.input}
+            placeholder="For (Self/Child/Wife/Parents/Family/Etc.)"
             value={insuranceFor}
             onChangeText={insuranceFor => this.setState({ insuranceFor })}
           />
@@ -192,7 +250,6 @@ class HealthcareInsuranceForm extends React.Component {
             placeholder="Policy No"
             placeholder2=" (Recommended)"
             placeholder2Color={colors.mainBlue}
-            style={styles.input}
             value={policyNo}
             onChangeText={policyNo => this.setState({ policyNo })}
           />
@@ -207,16 +264,16 @@ class HealthcareInsuranceForm extends React.Component {
 
           <CustomTextInput
             placeholder="Premium Amount"
-            style={styles.input}
-            value={amount}
-            onChangeText={amount => this.setState({ amount })}
+            value={value > 0 ? String(value) : ""}
+            onChangeText={value => this.setState({ value })}
+            keyboardType="numeric"
           />
 
           <CustomTextInput
             placeholder="Coverage"
-            style={styles.input}
-            value={amountInsured}
+            value={amountInsured > 0 ? String(amountInsured) : ""}
             onChangeText={amountInsured => this.setState({ amountInsured })}
+            keyboardType="numeric"
           />
         </View>
       </View>

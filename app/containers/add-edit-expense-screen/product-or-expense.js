@@ -18,7 +18,7 @@ import RepairForm from "../../components/expense-forms/repair-form";
 import AmcForm from "../../components/expense-forms/amc-form";
 import PucForm from "../../components/expense-forms/puc-form";
 import { colors } from "../../theme";
-import { MAIN_CATEGORY_IDS } from "../../constants";
+import { MAIN_CATEGORY_IDS, WARRANTY_TYPES } from "../../constants";
 
 class ProductOrExpense extends React.Component {
   constructor(props) {
@@ -29,6 +29,11 @@ class ProductOrExpense extends React.Component {
       subCategoryId: null,
       categoryReferenceData: null,
       renewalTypes: [],
+      warrantyProviders: [],
+      insuranceProviders: [],
+      brands: [],
+      categoryForms: [],
+      dualWarrantyItem: null,
       product: null,
       isInitializingProduct: false,
       visibleModules: {
@@ -165,7 +170,12 @@ class ProductOrExpense extends React.Component {
         product: res.product,
         isInitializingProduct: false,
         categoryReferenceData: res.categories[0],
-        renewalTypes: res.renewalTypes || []
+        renewalTypes: res.renewalTypes || [],
+        warrantyProviders: res.categories[0].warrantyProviders,
+        insuranceProviders: res.categories[0].insuranceProviders,
+        brands: res.categories[0].brands,
+        categoryForms: res.categories[0].categoryForms,
+        dualWarrantyItem: res.categories[0].dual_warranty_item
       });
     } catch (e) {
       Alert.alert(e.message);
@@ -207,10 +217,17 @@ class ProductOrExpense extends React.Component {
           data.warranty.dualId = dualWarranty.id;
           data.dualRenewalType = dualWarranty.renewalType;
         }
-        // if (this.extendedWarrantyForm) {
-        //   const extendedWarranty = this.extendedWarrantyForm.getFilledData();
-        //   data.warranty = { ...data.warranty, ...extendedWarranty };
-        // }
+        if (this.extendedWarrantyForm) {
+          const extendedWarranty = this.extendedWarrantyForm.getFilledData();
+          data.warranty = {
+            ...data.warranty,
+            extendedId: extendedWarranty.id,
+            extendedRenewalType: extendedWarranty.renewalType,
+            extendedProviderId: extendedWarranty.providerId,
+            extendedProviderName: extendedWarranty.providerName,
+            extendedEffectiveDate: extendedWarranty.effectiveDate
+          };
+        }
       }
 
       if (this.insuranceForm) {
@@ -229,7 +246,7 @@ class ProductOrExpense extends React.Component {
       console.log("data: ", data);
       switch (this.state.mainCategoryId) {
         case MAIN_CATEGORY_IDS.AUTOMOBILE:
-          if (!data.brandId || !data.purchaseDate) {
+          if ((!data.brandId && !data.brandName) || !data.purchaseDate) {
             return Alert.alert("Please select brand and purchase date");
           }
           if (!data.insurance.providerId && !data.insurance.providerName) {
@@ -241,7 +258,7 @@ class ProductOrExpense extends React.Component {
             return Alert.alert("Please select a date");
           }
         case MAIN_CATEGORY_IDS.ELECTRONICS:
-          if (!data.brandId || !data.purchaseDate) {
+          if ((!data.brandId && !data.brandName) || !data.purchaseDate) {
             return Alert.alert("Please select brand and purchase date");
           }
           if (!data.purchaseDate) {
@@ -284,6 +301,11 @@ class ProductOrExpense extends React.Component {
       product,
       categoryReferenceData,
       renewalTypes,
+      insuranceProviders,
+      warrantyProviders,
+      brands,
+      categoryForms,
+      dualWarrantyItem,
       isInitializingProduct,
       visibleModules,
       isSavingProduct,
@@ -320,8 +342,10 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.productBasicDetailsForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
-                    product={product}
-                    categoryReferenceData={categoryReferenceData}
+                    id={product.id}
+                    jobId={product.job_id}
+                    brands={brands}
+                    categoryForms={categoryForms}
                     navigator={this.props.navigator}
                   />
                   <View style={styles.separator} />
@@ -362,7 +386,8 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.healthcareMedicalDocForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
-                    product={product}
+                    productId={product.id}
+                    jobId={product.job_id}
                     categoryReferenceData={categoryReferenceData}
                     navigator={this.props.navigator}
                   />
@@ -376,8 +401,9 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.insuranceForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
-                    product={product}
-                    categoryReferenceData={categoryReferenceData}
+                    productId={product.id}
+                    jobId={product.job_id}
+                    insuranceProviders={insuranceProviders}
                     navigator={this.props.navigator}
                   />
                   <View style={styles.separator} />
@@ -392,7 +418,6 @@ class ProductOrExpense extends React.Component {
                     categoryId={category.id}
                     productId={product.id}
                     jobId={product.job_id}
-                    categoryReferenceData={categoryReferenceData}
                     renewalTypes={renewalTypes}
                     navigator={this.props.navigator}
                   />
@@ -400,32 +425,35 @@ class ProductOrExpense extends React.Component {
                 </View>
               )}
 
-              {visibleModules.dualWarranty && (
+              {visibleModules.dualWarranty &&
+                dualWarrantyItem && (
+                  <View>
+                    <WarrantyForm
+                      ref={ref => (this.dualWarrantyForm = ref)}
+                      mainCategoryId={mainCategoryId}
+                      categoryId={category.id}
+                      productId={product.id}
+                      jobId={product.job_id}
+                      renewalTypes={renewalTypes}
+                      warrantyType={WARRANTY_TYPES.DUAL}
+                      dualWarrantyItem={dualWarrantyItem}
+                      navigator={this.props.navigator}
+                    />
+                    <View style={styles.separator} />
+                  </View>
+                )}
+
+              {visibleModules.extendedWarranty && (
                 <View>
                   <WarrantyForm
-                    type="dual-warranty"
-                    ref={ref => (this.dualWarrantyForm = ref)}
+                    ref={ref => (this.extendedWarrantyForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
                     productId={product.id}
                     jobId={product.job_id}
-                    categoryReferenceData={categoryReferenceData}
                     renewalTypes={renewalTypes}
-                    navigator={this.props.navigator}
-                  />
-                  <View style={styles.separator} />
-                </View>
-              )}
-
-              {visibleModules.extendedWarranty && (
-                <View>
-                  <ExtendedWarrantyForm
-                    ref={ref => (this.extendedWarrantyForm = ref)}
-                    mainCategoryId={mainCategoryId}
-                    categoryId={category.id}
-                    product={product}
-                    categoryReferenceData={categoryReferenceData}
-                    renewalTypes={renewalTypes}
+                    warrantyProviders={warrantyProviders}
+                    warrantyType={WARRANTY_TYPES.EXTENDED}
                     navigator={this.props.navigator}
                   />
                   <View style={styles.separator} />
@@ -438,7 +466,8 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.amcForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
-                    product={product}
+                    productId={product.id}
+                    jobId={product.job_id}
                     categoryReferenceData={categoryReferenceData}
                     renewalTypes={renewalTypes}
                     navigator={this.props.navigator}
@@ -453,9 +482,8 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.repairForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
-                    product={product}
-                    categoryReferenceData={categoryReferenceData}
-                    renewalTypes={renewalTypes}
+                    productId={product.id}
+                    jobId={product.job_id}
                     navigator={this.props.navigator}
                   />
                   <View style={styles.separator} />
@@ -468,9 +496,8 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.pucForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
-                    product={product}
-                    categoryReferenceData={categoryReferenceData}
-                    renewalTypes={renewalTypes}
+                    productId={product.id}
+                    jobId={product.job_id}
                     navigator={this.props.navigator}
                   />
                   <View style={styles.separator} />

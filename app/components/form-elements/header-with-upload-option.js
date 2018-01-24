@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/Entypo";
 
 import { Text } from "../../elements";
 import { colors } from "../../theme";
+import { openBillsPopUp } from "../../navigation";
 import UploadBillOptions from "../../components/upload-bill-options";
 
 const AttachmentIcon = () => (
@@ -40,11 +41,14 @@ class HeaderWithUploadOption extends React.Component {
 
   render() {
     const {
-      navigator,
-      jobId,
-      type = 1,
-      style = {},
       title,
+      navigator,
+      itemId,
+      copies = [],
+      jobId,
+      type,
+      style = {},
+      docType,
       hideUploadOption = false,
       textBeforeUpload = "Upload Doc",
       textBeforeUpload2 = "",
@@ -58,53 +62,82 @@ class HeaderWithUploadOption extends React.Component {
           {title}
         </Text>
         {!hideUploadOption && (
-          <TouchableOpacity
-            onPress={this.onUploadDocPress}
-            style={styles.uploadBillBtn}
-          >
-            {!isDocUploaded && (
-              <View style={styles.uploadBillBtnTexts}>
+          <View>
+            {copies.length > 0 && (
+              <View style={styles.copiesContainer}>
                 <Text
                   weight="Medium"
-                  style={[
-                    styles.uploadBillBtnText,
-                    { color: colors.secondaryText }
-                  ]}
+                  style={styles.copiesCount}
+                  onPress={() => {
+                    openBillsPopUp({
+                      copies: copies,
+                      type: docType
+                    });
+                  }}
                 >
-                  {textBeforeUpload}
+                  {copies.length} Uploaded
                 </Text>
                 <Text
-                  weight="Medium"
-                  style={[
-                    styles.uploadBillBtnText,
-                    { color: textBeforeUpload2Color }
-                  ]}
+                  weight="Bold"
+                  onPress={() => {
+                    console.log("jobId, type, itemId ", jobId, type, itemId);
+                    this.uploadBillOptions.show(jobId, type, itemId);
+                  }}
+                  style={styles.addText}
                 >
-                  {textBeforeUpload2}
+                  + Add
                 </Text>
               </View>
             )}
-            {isDocUploaded && (
-              <Text
-                weight="Medium"
-                style={[
-                  styles.uploadBillBtnText,
-                  { color: colors.secondaryText }
-                ]}
+            {copies.length == 0 && (
+              <TouchableOpacity
+                onPress={this.onUploadDocPress}
+                style={styles.uploadBillBtn}
               >
-                {textAfterUpload}
-              </Text>
+                {!isDocUploaded && (
+                  <View style={styles.uploadBillBtnTexts}>
+                    <Text
+                      weight="Medium"
+                      style={[
+                        styles.uploadBillBtnText,
+                        { color: colors.secondaryText }
+                      ]}
+                    >
+                      {textBeforeUpload}
+                    </Text>
+                    <Text
+                      weight="Medium"
+                      style={[
+                        styles.uploadBillBtnText,
+                        { color: textBeforeUpload2Color }
+                      ]}
+                    >
+                      {textBeforeUpload2}
+                    </Text>
+                  </View>
+                )}
+                {isDocUploaded && (
+                  <Text
+                    weight="Medium"
+                    style={[
+                      styles.uploadBillBtnText,
+                      { color: colors.secondaryText }
+                    ]}
+                  >
+                    {textAfterUpload}
+                  </Text>
+                )}
+                <AttachmentIcon />
+              </TouchableOpacity>
             )}
-            <AttachmentIcon />
             <UploadBillOptions
               ref={ref => (this.uploadBillOptions = ref)}
               navigator={navigator}
               uploadCallback={uploadResult => {
-                console.log("upload result: ", uploadResult);
-                this.setState(this.onUpload);
+                this.onUpload(uploadResult);
               }}
             />
-          </TouchableOpacity>
+          </View>
         )}
       </View>
     );
@@ -119,6 +152,19 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 18,
     flex: 1
+  },
+  copiesContainer: {
+    flexDirection: "row",
+    paddingTop: 5
+  },
+  copiesCount: {
+    fontSize: 12,
+    color: colors.mainBlue,
+    textDecorationLine: "underline",
+    marginRight: 30
+  },
+  addText: {
+    color: colors.pinkishOrange
   },
   uploadBillBtn: {
     flexDirection: "row",

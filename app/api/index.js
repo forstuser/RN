@@ -19,7 +19,15 @@ const apiRequest = async ({
   onDownloadProgress,
   responseType = "json"
 }) => {
-  console.log("New Request: ", method, url, data);
+  console.log(
+    "New Request: ",
+    method,
+    url,
+    "data: ",
+    data,
+    "queryParams: ",
+    queryParams
+  );
   try {
     const token = store.getState().loggedInUser.authToken;
     if (token) {
@@ -62,7 +70,7 @@ const apiRequest = async ({
     let error = new Error(e.message);
     error.statusCode = e.statusCode || 0;
     if (e.response) {
-      // console.log("e.response.data: ", e.response.data);
+      console.log("e.response.data: ", e.response.data);
       error.statusCode = e.response.status;
     }
     throw error;
@@ -72,6 +80,7 @@ const apiRequest = async ({
 export const uploadDocuments = async ({
   jobId = null,
   type = null,
+  itemId,
   files,
   onUploadProgress
 }) => {
@@ -91,6 +100,10 @@ export const uploadDocuments = async ({
   let queryParams = {};
   if (type) {
     queryParams.type = type;
+  }
+
+  if (itemId) {
+    queryParams.itemid = itemId;
   }
 
   return await apiRequest({
@@ -473,6 +486,8 @@ export const updateProduct = async ({
       dual_id: warranty.dualId || undefined,
       dual_renewal_type: warranty.dualRenewalType || undefined,
       extended_id: warranty.extendedId || undefined,
+      extended_provider_id: warranty.extendedProviderId || undefined,
+      extended_provider_name: warranty.extendedProviderName || undefined,
       extended_renewal_type: warranty.extendedRenewalType || undefined,
       extended_effective_date: warranty.extendedRenewalType || undefined
     };
@@ -611,20 +626,48 @@ export const getRepairableProducts = async () => {
   });
 };
 
-export const addRepair = async ({
+export const updateRepair = async ({
+  id,
   productId,
+  repairFor,
   repairDate,
   sellerName,
   sellerContact,
-  repairAmount,
+  value,
   warrantyUpto
 }) => {
   let data = {
-    document_date: repairDate,
-    seller_name: sellerName,
-    seller_contact: sellerContact,
-    value: repairAmount,
-    warranty_upto: warrantyUpto
+    document_date: repairDate || undefined,
+    repair_for: repairFor || undefined,
+    seller_name: sellerName || undefined,
+    seller_contact: sellerContact || undefined,
+    value: value || undefined,
+    warranty_upto: warrantyUpto || undefined
+  };
+
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/repairs/${id}`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const addRepair = async ({
+  productId,
+  repairFor,
+  repairDate,
+  sellerName,
+  sellerContact,
+  value,
+  warrantyUpto
+}) => {
+  let data = {
+    document_date: repairDate || undefined,
+    repair_for: repairFor || undefined,
+    seller_name: sellerName || undefined,
+    seller_contact: sellerContact || undefined,
+    value: value || undefined,
+    warranty_upto: warrantyUpto || undefined
   };
 
   return await apiRequest({
@@ -689,6 +732,168 @@ export const addWarranty = async ({
   return await apiRequest({
     method: "post",
     url: `/products/${productId}/warranties`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const updateInsurance = async ({
+  id,
+  productId,
+  jobId,
+  providerId,
+  providerName,
+  effectiveDate,
+  policyNo,
+  value,
+  amountInsured,
+  mainCategoryId,
+  categoryId
+}) => {
+  let data = {
+    job_id: jobId,
+    provider_id: providerId,
+    provider_name: providerName,
+    effective_date: effectiveDate,
+    policy_no: policyNo,
+    value: value,
+    amount_insured: amountInsured,
+    main_category_id: mainCategoryId,
+    category_id: categoryId
+  };
+
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/insurances/${id}`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const addInsurance = async ({
+  productId,
+  jobId,
+  providerId,
+  providerName,
+  effectiveDate,
+  policyNo,
+  value,
+  amountInsured,
+  mainCategoryId,
+  categoryId
+}) => {
+  let data = {
+    job_id: jobId,
+    provider_id: providerId,
+    provider_name: providerName,
+    effective_date: effectiveDate,
+    policy_no: policyNo,
+    value: value,
+    amount_insured: amountInsured,
+    main_category_id: mainCategoryId,
+    category_id: categoryId
+  };
+
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/insurances`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const updateAmc = async ({
+  id,
+  productId,
+  jobId,
+  effectiveDate,
+  value,
+  sellerName,
+  sellerContact
+}) => {
+  let data = {
+    job_id: jobId,
+    effective_date: effectiveDate,
+    value: value,
+    seller_name: sellerName,
+    seller_contact: sellerContact
+  };
+
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/amcs/${id}`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const addAmc = async ({
+  productId,
+  jobId,
+  effectiveDate,
+  value,
+  sellerName,
+  sellerContact
+}) => {
+  let data = {
+    job_id: jobId,
+    effective_date: effectiveDate,
+    value: value || undefined,
+    seller_name: sellerName || undefined,
+    seller_contact: sellerContact || undefined,
+    expiry_period: expiryPeriod || undefined
+  };
+
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/amcs`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const updatePuc = async ({
+  id,
+  productId,
+  jobId,
+  effectiveDate,
+  value,
+  sellerName,
+  sellerContact,
+  expiryPeriod
+}) => {
+  let data = {
+    job_id: jobId,
+    effective_date: effectiveDate,
+    value: value || undefined,
+    seller_name: sellerName || undefined,
+    seller_contact: sellerContact || undefined,
+    expiry_period: expiryPeriod || undefined
+  };
+
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/pucs/${id}`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const addPuc = async ({
+  productId,
+  jobId,
+  effectiveDate,
+  value,
+  sellerName,
+  sellerContact,
+  expiryPeriod
+}) => {
+  let data = {
+    job_id: jobId,
+    effective_date: effectiveDate,
+    value: value,
+    seller_name: sellerName,
+    seller_contact: sellerContact,
+    expiry_period: expiryPeriod
+  };
+
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/pucs`,
     data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
   });
 };

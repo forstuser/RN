@@ -96,14 +96,15 @@ const ProductListItem = ({
       return (
         <View style={styles.container}>
           <ViewBillButton />
-          <ProductType3 product={product} />
+          <ProductType3 product={product} onPress={openProductScreen} />
         </View>
       );
     default:
       return (
         <View style={styles.container}>
-          <ProductType2
+          <ProductType1
             product={product}
+            onPress={openProductScreen}
             hideDirectionsAndCallBtns={hideDirectionsAndCallBtns}
           />
           <ViewBillButton />

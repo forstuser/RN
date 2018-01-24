@@ -15,11 +15,11 @@ import CustomTextInput from "../form-elements/text-input";
 import CustomDatePicker from "../form-elements/date-picker";
 import HeaderWithUploadOption from "../form-elements/header-with-upload-option";
 
-class HealthcareInsuranceForm extends React.Component {
+class MedicalDocForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDocUploaded: false,
+      productId: null,
       reportTitle: "",
       types: [
         {
@@ -34,28 +34,64 @@ class HealthcareInsuranceForm extends React.Component {
       date: null,
       selectedType: null,
       doctorName: "",
-      doctorContact: ""
+      doctorContact: "",
+      copies: []
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.updateStateFromProps(this.props);
+  }
 
-  getFilledData = () => {
+  componentWillReceiveProps(nextProps) {
+    this.updateStateFromProps(nextProps);
+  }
+
+  updateStateFromProps = props => {
     const {
-      isDocUploaded,
+      productId,
+      reportTitle = "",
+      typeId,
+      date = null,
+      doctorName = "",
+      doctorContact = "",
+      copies = []
+    } = props;
+
+    let selectedType = null;
+    if (typeId) {
+      selectedType = this.state.types.find(type => type.id == typeId);
+    }
+    this.setState({
+      productId,
       reportTitle,
       selectedType,
       date,
-      doctorName
+      doctorName,
+      doctorContact,
+      copies
+    });
+  };
+
+  getFilledData = () => {
+    const {
+      productId,
+      reportTitle,
+      selectedType,
+      date,
+      doctorName,
+      doctorContact,
+      copies
     } = this.state;
 
     let data = {
-      isDocUploaded,
+      productId,
       productName: reportTitle,
       subCategoryId: selectedType ? selectedType.id : null,
       purchaseDate: date,
       sellerName: doctorName,
-      sellerContact: this.doctorContactRef.getFilledData()
+      sellerContact: this.doctorContactRef.getFilledData(),
+      copies
     };
 
     return data;
@@ -71,15 +107,16 @@ class HealthcareInsuranceForm extends React.Component {
   };
 
   render() {
-    const { mainCategoryId, categoryId, product } = this.props;
+    const { jobId } = this.props;
     const {
-      isDocUploaded,
+      productId,
       reportTitle,
       types,
       selectedType,
       date,
       doctorName,
-      doctorContact
+      doctorContact,
+      copies
     } = this.state;
     return (
       <View style={styles.container}>
@@ -88,18 +125,19 @@ class HealthcareInsuranceForm extends React.Component {
           textBeforeUpload="Upload Doc"
           textBeforeUpload2="*"
           textBeforeUpload2Color={colors.mainBlue}
-          jobId={product ? product.job_id : null}
+          itemId={productId}
+          jobId={jobId ? jobId : null}
           type={1}
+          copies={copies}
           onUpload={uploadResult => {
             console.log("upload result: ", uploadResult);
-            this.setState({ isDocUploaded: true });
+            this.setState({ copies: uploadResult.product.copies });
           }}
           navigator={this.props.navigator}
         />
         <View style={styles.body}>
           <CustomTextInput
             placeholder="Report Title"
-            style={styles.input}
             value={reportTitle}
             onChangeText={reportTitle => this.setState({ reportTitle })}
           />
@@ -133,7 +171,6 @@ class HealthcareInsuranceForm extends React.Component {
 
           <CustomTextInput
             placeholder="Doctor/Hospital Name"
-            style={styles.input}
             value={doctorName}
             onChangeText={doctorName => this.setState({ doctorName })}
           />
@@ -142,7 +179,6 @@ class HealthcareInsuranceForm extends React.Component {
             ref={ref => (this.doctorContactRef = ref)}
             value={doctorContact}
             placeholder="Doctor/Hospital Contact"
-            style={styles.input}
           />
         </View>
       </View>
@@ -168,4 +204,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HealthcareInsuranceForm;
+export default MedicalDocForm;

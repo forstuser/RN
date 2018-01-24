@@ -81,9 +81,40 @@ class GeneralTab extends Component {
   };
 
   render() {
-    const { product } = this.props;
+    const { product, onEditPress } = this.props;
     return (
       <View>
+        <TouchableOpacity
+          onPress={onEditPress}
+          style={{ flex: 1, backgroundColor: "#EBEBEB" }}
+        >
+          <KeyValueItem
+            KeyComponent={() => (
+              <Text
+                weight="Bold"
+                style={{
+                  flex: 1,
+                  color: colors.mainText,
+                  fontSize: 16
+                }}
+              >
+                General Details
+              </Text>
+            )}
+            ValueComponent={() => (
+              <Text
+                weight="Bold"
+                style={{
+                  textAlign: "right",
+                  flex: 1,
+                  color: colors.pinkishOrange
+                }}
+              >
+                EDIT
+              </Text>
+            )}
+          />
+        </TouchableOpacity>
         <KeyValueItem
           keyText={I18n.t("product_details_screen_main_category")}
           valueText={product.masterCategoryName}
@@ -110,7 +141,7 @@ class GeneralTab extends Component {
           />
         ))}
 
-        {this.state.showEditReview && (
+        {!this.state.showEditReview && (
           <View style={styles.review}>
             <LoadingOverlay visible={this.state.isAddingReview} />
             <SectionHeading text="REVIEW THIS PRODUCT" />

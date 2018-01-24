@@ -12,9 +12,14 @@ import {
 import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
+import Icon from "react-native-vector-icons/Entypo";
+import { Navigation } from "react-native-navigation";
 
 import Modal from "react-native-modal";
 
+import ActionSheet from "react-native-actionsheet";
+
+import { SCREENS, MAIN_CATEGORY_IDS } from "../../constants";
 import { API_BASE_URL, getProductDetails } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 
@@ -28,11 +33,35 @@ import GeneralTab from "./general-tab";
 import SellerTab from "./seller-tab";
 import ContactAfterSaleButton from "./after-sale-button";
 import LoadingOverlay from "../../components/loading-overlay";
+import ProductCard from "./product-card";
+import PersonalDocCard from "./personal-doc-card";
+import InsuranceCard from "./insurance-card";
+import MedicalDocsCard from "./medical-docs-card";
+
+const NavOptionsButton = () => (
+  <TouchableOpacity
+    onPress={() =>
+      Navigation.handleDeepLink({ link: "product-nav-options-btn" })
+    }
+  >
+    <Icon name="dots-three-vertical" size={17} color={colors.pinkishOrange} />
+  </TouchableOpacity>
+);
+
+Navigation.registerComponent("NavOptionsButton", () => NavOptionsButton);
 
 class ProductDetailsScreen extends Component {
   static navigatorStyle = {
     tabBarHidden: true
   };
+  static navigatorButtons = {
+    rightButtons: [
+      {
+        component: "NavOptionsButton"
+      }
+    ]
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -52,6 +81,22 @@ class ProductDetailsScreen extends Component {
     switch (event.id) {
       case "didAppear":
         this.fetchProductDetails();
+        break;
+    }
+
+    if (event.type == "DeepLink") {
+      //when you press the button, it will be called here
+      if (event.link == "product-nav-options-btn") {
+        this.editOptions.show();
+      }
+    }
+  };
+
+  handleEditOptionPress = index => {
+    let openPickerOnStart = null;
+    switch (index) {
+      case 0:
+        Alert.alert("Delete");
         break;
     }
   };
@@ -76,51 +121,50 @@ class ProductDetailsScreen extends Component {
     }
   };
 
+  startBasicDetailsEdit = () => {
+    const { product } = this.state;
+    this.props.navigator.push({
+      screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
+      passProps: {
+        product: product
+      }
+    });
+  };
+
   render() {
     const { product, isLoading } = this.state;
+    let content = null;
     if (isLoading) {
-      return <LoadingOverlay visible={isLoading} />;
+      content = <LoadingOverlay visible={isLoading} />;
+    } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL) {
+      content = (
+        <PersonalDocCard product={product} navigator={this.props.navigator} />
+      );
+    } else if (product.categoryId == 664) {
+      //insurance
+      content = (
+        <InsuranceCard product={product} navigator={this.props.navigator} />
+      );
+    } else if (product.categoryId == 86) {
+      //medical docs
+      content = (
+        <MedicalDocsCard product={product} navigator={this.props.navigator} />
+      );
+    } else {
+      content = (
+        <ProductCard product={product} navigator={this.props.navigator} />
+      );
     }
     return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container}>
-          <Details product={product} navigator={this.props.navigator} />
-          <ScrollableTabView
-            style={{ marginTop: 20, marginBottom: 70 }}
-            renderTabBar={() => <DefaultTabBar />}
-            tabBarUnderlineStyle={{
-              backgroundColor: colors.mainBlue,
-              height: 2
-            }}
-            tabBarBackgroundColor="#fafafa"
-            tabBarTextStyle={{ fontSize: 14, fontFamily: `Quicksand-Bold` }}
-            tabBarActiveTextColor={colors.mainBlue}
-            tabBarInactiveTextColor={colors.secondaryText}
-          >
-            <ImportantTab
-              tabLabel="IMPORTANT"
-              product={product}
-              navigator={this.props.navigator}
-            />
-            <SellerTab
-              tabLabel="SELLER"
-              product={product}
-              fetchProductDetails={this.fetchProductDetails}
-            />
-            <GeneralTab
-              tabLabel="GENERAL INFO"
-              product={product}
-              fetchProductDetails={this.fetchProductDetails}
-            />
-          </ScrollableTabView>
-        </ScrollView>
-        <View style={styles.contactAfterSalesBtn}>
-          <ContactAfterSaleButton
-            product={product}
-            navigator={this.props.navigator}
-          />
-        </View>
-      </View>
+      <ScreenContainer style={{ padding: 0 }}>
+        {content}
+        <ActionSheet
+          onPress={this.handleEditOptionPress}
+          ref={o => (this.editOptions = o)}
+          cancelButtonIndex={1}
+          options={["Delete", "Cancel"]}
+        />
+      </ScreenContainer>
     );
   }
 }

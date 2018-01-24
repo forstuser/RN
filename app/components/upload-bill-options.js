@@ -12,14 +12,16 @@ import { SCREENS } from "../constants";
 class UploadBillOptions extends React.Component {
   state = {
     jobId: null,
-    type: null
+    type: null,
+    itemId: null
   };
 
-  show = (jobId, type) => {
+  show = (jobId, type, itemId) => {
     this.setState(
       {
         jobId,
-        type
+        type,
+        itemId
       },
       () => {
         this.uploadOptions.show();
@@ -47,6 +49,7 @@ class UploadBillOptions extends React.Component {
         passProps: {
           jobId: this.state.jobId,
           type: this.state.type,
+          itemId: this.state.itemId,
           openPickerOnStart,
           uploadCallback: this.props.uploadCallback
         }

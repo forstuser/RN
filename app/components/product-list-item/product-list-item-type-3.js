@@ -7,19 +7,9 @@ import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { openBillsPopUp } from "../../navigation";
 
-const ProductListItem = ({ product }) => {
+const ProductListItem = ({ product, onPress }) => {
   return (
-    <TouchableOpacity
-      onPress={() => {
-        openBillsPopUp({
-          date: product.purchaseDate,
-          id: product.productName,
-          copies: product.copies,
-          type: product.productName
-        });
-      }}
-      style={styles.container}
-    >
+    <TouchableOpacity onPress={() => onPress()} style={styles.container}>
       <View style={styles.details}>
         {product.copies.length > 0 && (
           <AsyncImage

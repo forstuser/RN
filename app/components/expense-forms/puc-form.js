@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TextInput
 } from "react-native";
-
+import PropTypes from "prop-types";
 import moment from "moment";
 
 import { MAIN_CATEGORY_IDS } from "../../constants";
@@ -26,15 +26,34 @@ import CustomDatePicker from "../form-elements/date-picker";
 import UploadDoc from "../form-elements/upload-doc";
 
 class PucForm extends React.Component {
+  static propTypes = {
+    navigator: PropTypes.object.isRequired,
+    mainCategoryId: PropTypes.number.isRequired,
+    categoryId: PropTypes.number.isRequired,
+    productId: PropTypes.number.isRequired,
+    jobId: PropTypes.number.isRequired,
+    puc: PropTypes.shape({
+      id: PropTypes.number,
+      effectiveDate: PropTypes.string,
+      value: PropTypes.number,
+      renewal_type: PropTypes.number,
+      sellers: PropTypes.object,
+      copies: PropTypes.array
+    })
+  };
+
+  static defaultProps = {
+    isCollapsible: true
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      uploadedDocId: null,
-      isDocUploaded: false,
+      id: null,
       effectiveDate: null,
       sellerName: "",
       sellerContact: "",
-      amount: "",
+      value: "",
       selectedRenewalType: null,
       renewalTypes: [
         { id: 1, name: "1 Month" },
@@ -50,20 +69,54 @@ class PucForm extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.updateStateFromProps(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateStateFromProps(nextProps);
+  }
+
+  updateStateFromProps = props => {
+    if (props.puc) {
+      const { renewalTypes } = this.state;
+      const { puc } = props;
+
+      const selectedRenewalType = renewalTypes.find(
+        renewalType => renewalType.id == puc.renewal_type
+      );
+
+      this.setState(
+        {
+          id: puc.id,
+          effectiveDate: moment(puc.effectiveDate).format("YYYY-MM-DD"),
+          value: String(puc.value),
+          sellerName: puc.sellers ? puc.sellers.sellerName : "",
+          sellerContact: puc.sellers ? puc.sellers.contact : "",
+          selectedRenewalType: selectedRenewalType,
+          copies: puc.copies
+        },
+        () => {
+          console.log("puc form new state: ", this.state);
+        }
+      );
+    }
+  };
+
   getFilledData = () => {
     const {
-      uploadedDocId,
+      id,
       effectiveDate,
       sellerName,
-      amount,
+      value,
       selectedRenewalType
     } = this.state;
 
     let data = {
-      id: uploadedDocId,
+      id: id,
       sellerName: sellerName,
       sellerContact: this.sellerContactRef.getFilledData(),
-      value: amount,
+      value: value,
       effectiveDate: effectiveDate,
       expiryPeriod: selectedRenewalType ? selectedRenewalType.id : null
     };
@@ -84,18 +137,28 @@ class PucForm extends React.Component {
   };
 
   render() {
-    const { mainCategoryId, categoryId, product } = this.props;
     const {
-      isDocUploaded,
+      navigator,
+      mainCategoryId,
+      categoryId,
+      productId,
+      jobId,
+      isCollapsible
+    } = this.props;
+    const {
+      id,
       effectiveDate,
       sellerName,
       sellerContact,
-      amount,
+      value,
       renewalTypes,
-      selectedRenewalType
+      selectedRenewalType,
+      copies
     } = this.state;
+
     return (
       <Collapsible
+        isCollapsible={isCollapsible}
         headerText="PUC (optional)"
         style={styles.container}
         headerStyle={styles.headerStyle}
@@ -133,7 +196,6 @@ class PucForm extends React.Component {
 
             <CustomTextInput
               placeholder="PUC Seller Name"
-              style={styles.input}
               value={sellerName}
               onChangeText={sellerName => this.setState({ sellerName })}
             />
@@ -142,18 +204,21 @@ class PucForm extends React.Component {
               ref={ref => (this.sellerContactRef = ref)}
               value={sellerContact}
               placeholder="PUC Seller Contact"
-              style={styles.input}
+              keyboardType="numeric"
             />
 
             <CustomTextInput
               placeholder="PUC Amount"
-              style={styles.input}
-              value={amount}
-              onChangeText={amount => this.setState({ amount })}
+              value={value}
+              onChangeText={value => this.setState({ value })}
+              keyboardType="numeric"
             />
 
             <UploadDoc
-              jobId={product.job_id}
+              itemId={id}
+              copies={copies}
+              jobId={jobId}
+              docType="PUC"
               type={7}
               placeholder="Upload PUC Doc "
               placeholder2="(Recommended)"
@@ -163,8 +228,8 @@ class PucForm extends React.Component {
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
                 this.setState({
-                  isDocUploaded: true,
-                  uploadedDocId: uploadResult.puc.id
+                  id: uploadResult.puc.id,
+                  copies: uploadResult.puc.copies
                 });
               }}
             />

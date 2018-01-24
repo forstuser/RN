@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
 
+import { openBillsPopUp } from "../../navigation";
 import { Text } from "../../elements";
 import { colors } from "../../theme";
 import UploadBillOptions from "../../components/upload-bill-options";
@@ -36,64 +37,115 @@ class UploadDoc extends React.Component {
   render() {
     const {
       navigator,
+      itemId,
+      copies = [],
       jobId,
       type,
       style = {},
+      docType,
       placeholder,
       placeholder2,
       placeholderAfterUpload = "Doc Uploaded Successfully",
       placeholder2Color = colors.secondaryText
     } = this.props;
     const { isDocUploaded } = this.state;
+
     return (
-      <TouchableOpacity
-        onPress={() => this.uploadBillOptions.show(jobId, type)}
-        style={styles.container}
-      >
-        {!isDocUploaded && (
-          <View style={styles.placeholderContainer}>
-            <Text weight="Medium" style={styles.placeholder}>
-              {placeholder}
-            </Text>
+      <View style={styles.container}>
+        {copies.length > 0 && (
+          <View style={styles.copiesContainer}>
             <Text
               weight="Medium"
-              style={[styles.placeholder2, { color: placeholder2Color }]}
+              style={styles.copiesCount}
+              onPress={() => {
+                openBillsPopUp({
+                  copies: copies,
+                  type: docType
+                });
+              }}
             >
-              {placeholder2}
+              {copies.length} Uploaded
+            </Text>
+            <Text
+              weight="Bold"
+              onPress={() => {
+                console.log("jobId, type, itemId ", jobId, type, itemId);
+                this.uploadBillOptions.show(jobId, type, itemId);
+              }}
+              style={styles.addText}
+            >
+              + Add
             </Text>
           </View>
         )}
-        {isDocUploaded && (
-          <View style={styles.placeholderContainer}>
-            <Text weight="Medium" style={{ color: colors.mainText }}>
-              {placeholderAfterUpload}
-            </Text>
-          </View>
+        {copies.length == 0 && (
+          <TouchableOpacity
+            style={styles.noCopiesContainer}
+            onPress={() => {
+              console.log("jobId, type, itemId ", jobId, type, itemId);
+              this.uploadBillOptions.show(jobId, type, itemId);
+            }}
+          >
+            {!isDocUploaded && (
+              <View style={styles.placeholderContainer}>
+                <Text weight="Medium" style={styles.placeholder}>
+                  {placeholder}
+                </Text>
+                <Text
+                  weight="Medium"
+                  style={[styles.placeholder2, { color: placeholder2Color }]}
+                >
+                  {placeholder2}
+                </Text>
+              </View>
+            )}
+            {isDocUploaded && (
+              <View style={styles.placeholderContainer}>
+                <Text weight="Medium" style={{ color: colors.mainText }}>
+                  {placeholderAfterUpload}
+                </Text>
+              </View>
+            )}
+
+            <View style={styles.attachmentIconContainer}>
+              <AttachmentIcon />
+            </View>
+          </TouchableOpacity>
         )}
-
-        <View style={styles.attachmentIconContainer}>
-          <AttachmentIcon />
-        </View>
-
         <UploadBillOptions
           ref={ref => (this.uploadBillOptions = ref)}
           navigator={navigator}
           uploadCallback={this.onUpload}
         />
-      </TouchableOpacity>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 10,
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
     paddingTop: 20,
     height: 60,
-    marginBottom: 15,
-    flexDirection: "row"
+    marginBottom: 15
+  },
+  copiesContainer: {
+    flexDirection: "row",
+    paddingVertical: 10
+  },
+  copiesCount: {
+    fontSize: 14,
+    color: colors.mainBlue,
+    flex: 1,
+    textDecorationLine: "underline"
+  },
+  addText: {
+    color: colors.pinkishOrange
+  },
+  noCopiesContainer: {
+    flexDirection: "row",
+    paddingVertical: 10
   },
   placeholderContainer: {
     flex: 1,

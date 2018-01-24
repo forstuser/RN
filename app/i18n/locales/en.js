@@ -199,6 +199,10 @@ export default {
   product_details_screen_seller_address: "Address",
   product_details_screen_seller_find_store: "FIND STORE",
   product_details_screen_warranty_title: "Warranty Details",
+  product_details_screen_dual_warranty_title:
+    "{{dualWarrantyItem}} Warranty Details",
+  product_details_screen_extended_warranty_title:
+    "Third Party Warranty Details",
   product_details_screen_warranty_expiry: "Expiry Date",
   product_details_screen_warranty_type: "Warranty Type",
   product_details_screen_warranty_seller: "Seller",
@@ -226,6 +230,11 @@ export default {
   product_details_screen_repairs_seller: "Seller",
   product_details_screen_repairs_seller_contact: "Seller Contact",
   product_details_screen_repairs_no_info: "Details Not Available!",
+  product_details_screen_puc_title: "PUCs",
+  product_details_screen_puc_title: "PUCs",
+  product_details_screen_puc_seller: "Seller",
+  product_details_screen_puc_seller_contact: "Seller Contact",
+  product_details_screen_puc_no_info: "Details Not Available!",
 
   //profile screen
   profile_screen_label_name: "Name",

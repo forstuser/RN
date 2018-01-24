@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput
 } from "react-native";
+import PropTypes from "prop-types";
 
 import moment from "moment";
 
@@ -26,37 +27,86 @@ import CustomDatePicker from "../form-elements/date-picker";
 import UploadDoc from "../form-elements/upload-doc";
 
 class RepairForm extends React.Component {
+  static propTypes = {
+    navigator: PropTypes.object.isRequired,
+    mainCategoryId: PropTypes.number.isRequired,
+    categoryId: PropTypes.number.isRequired,
+    productId: PropTypes.number.isRequired,
+    jobId: PropTypes.number.isRequired,
+    repair: PropTypes.shape({
+      id: PropTypes.number,
+      purchaseDate: PropTypes.string,
+      value: PropTypes.number,
+      repair_for: PropTypes.string,
+      warranty_upto: PropTypes.string,
+      sellers: PropTypes.object,
+      copies: PropTypes.array
+    }),
+    isCollapsible: PropTypes.bool
+  };
+
+  static defaultProps = {
+    isCollapsible: true
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      uploadedDocId: null,
-      isDocUploaded: false,
+      id: null,
       repairFor: "",
       repairDate: null,
       sellerName: "",
       sellerContact: "",
-      amount: "",
+      value: "",
       warrantyUpto: ""
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.updateStateFromProps(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateStateFromProps(nextProps);
+  }
+
+  updateStateFromProps = props => {
+    if (props.repair) {
+      const { repair } = props;
+
+      this.setState(
+        {
+          id: repair.id,
+          repairDate: moment(repair.purchaseDate).format("YYYY-MM-DD"),
+          value: String(repair.value),
+          repairFor: repair.repair_for,
+          warrantyUpto: repair.warranty_upto,
+          sellerName: repair.sellers ? repair.sellers.sellerName : "",
+          sellerContact: repair.sellers ? repair.sellers.contact : "",
+          copies: repair.copies
+        },
+        () => {
+          console.log("repair form new state: ", this.state);
+        }
+      );
+    }
+  };
 
   getFilledData = () => {
     const {
-      uploadedDocId,
+      id,
       repairDate,
       repairFor,
       sellerName,
-      amount,
+      value,
       warrantyUpto
     } = this.state;
 
     let data = {
-      id: uploadedDocId,
+      id: id,
       sellerName: sellerName,
       sellerContact: this.sellerContactRef.getFilledData(),
-      value: amount,
+      value: value,
       repairFor: repairFor,
       warrantyUpto: warrantyUpto,
       repairDate: repairDate
@@ -66,15 +116,23 @@ class RepairForm extends React.Component {
   };
 
   render() {
-    const { mainCategoryId, categoryId, product } = this.props;
     const {
-      isDocUploaded,
+      navigator,
+      mainCategoryId,
+      categoryId,
+      productId,
+      jobId,
+      isCollapsible
+    } = this.props;
+    const {
+      id,
       repairDate,
       repairFor,
       sellerName,
       sellerContact,
-      amount,
-      warrantyUpto
+      value,
+      warrantyUpto,
+      copies
     } = this.state;
     return (
       <Collapsible
@@ -83,12 +141,12 @@ class RepairForm extends React.Component {
         headerStyle={styles.headerStyle}
         headerTextStyle={styles.headerTextStyle}
         icon="plus"
+        isCollapsible={isCollapsible}
       >
         <View style={styles.innerContainer}>
           <View style={styles.body}>
             <CustomTextInput
               placeholder="Repair For"
-              style={styles.input}
               value={repairFor}
               onChangeText={repairFor => this.setState({ repairFor })}
             />
@@ -103,7 +161,6 @@ class RepairForm extends React.Component {
 
             <CustomTextInput
               placeholder="Repair Seller Name"
-              style={styles.input}
               value={sellerName}
               onChangeText={sellerName => this.setState({ sellerName })}
             />
@@ -112,33 +169,35 @@ class RepairForm extends React.Component {
               ref={ref => (this.sellerContactRef = ref)}
               value={sellerContact}
               placeholder="Repair Seller Contact"
-              style={styles.input}
+              keyboardType="numeric"
             />
 
             <CustomTextInput
               placeholder="Repair Amount"
-              style={styles.input}
-              value={amount}
-              onChangeText={amount => this.setState({ amount })}
+              value={value}
+              onChangeText={value => this.setState({ value })}
+              keyboardType="numeric"
             />
 
             <UploadDoc
-              jobId={product.job_id}
+              itemId={id}
+              copies={copies}
+              jobId={jobId}
+              docType="Repair Doc"
               type={4}
               placeholder="Upload Repair/Service Bill"
               navigator={this.props.navigator}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
                 this.setState({
-                  isDocUploaded: true,
-                  uploadedDocId: uploadResult.repair.id
+                  id: uploadResult.repair.id,
+                  copies: uploadResult.repair.copies
                 });
               }}
             />
 
             <CustomTextInput
               placeholder="Warranty Upto"
-              style={styles.input}
               value={warrantyUpto}
               onChangeText={warrantyUpto => this.setState({ warrantyUpto })}
             />

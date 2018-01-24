@@ -6,44 +6,74 @@ import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 
 const repairIcon = require("../../images/main-categories/ic_repair.png");
-const FinishModal = ({
-  visible,
-  mainCategoryId,
-  showRepairIcon = false,
-  title = "Product added to your eHome.",
-  navigator
-}) => (
-  <Modal useNativeDriver={true} isVisible={visible}>
-    <View style={styles.finishModal}>
-      <Image
-        style={styles.finishImage}
-        source={
-          mainCategoryId
-            ? {
-                uri: API_BASE_URL + `/categories/${mainCategoryId}/images/1`
-              }
-            : repairIcon
-        }
-        resizeMode="contain"
-      />
-      <Text weight="Bold" style={styles.finishMsg}>
-        {title}
-      </Text>
-      <Button
-        style={styles.finishBtn}
-        text="ADD MORE PRODUCTS"
-        color="secondary"
-      />
-      <Text
-        onPress={() => navigator.pop()}
-        weight="Bold"
-        style={styles.doItLaterText}
-      >
-        I'll Do it Later
-      </Text>
-    </View>
-  </Modal>
-);
+class FinishModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false
+    };
+  }
+
+  componentDidMount() {
+    this.updateStateFromProps(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateStateFromProps(nextProps);
+  }
+
+  updateStateFromProps = props => {
+    this.setState({ visible: props.visible });
+  };
+
+  onDoItLaterClick = () => {
+    this.setState({ visible: false }, () => {
+      this.props.navigator.pop();
+    });
+  };
+
+  render() {
+    const {
+      mainCategoryId,
+      showRepairIcon = false,
+      title = "Product added to your eHome.",
+      navigator
+    } = this.props;
+    const { visible } = this.state;
+    return (
+      <Modal useNativeDriver={true} isVisible={visible}>
+        <View style={styles.finishModal}>
+          <Image
+            style={styles.finishImage}
+            source={
+              mainCategoryId
+                ? {
+                    uri: API_BASE_URL + `/categories/${mainCategoryId}/images/1`
+                  }
+                : repairIcon
+            }
+            resizeMode="contain"
+          />
+          <Text weight="Bold" style={styles.finishMsg}>
+            {title}
+          </Text>
+          <Button
+            style={styles.finishBtn}
+            text="ADD MORE PRODUCTS"
+            color="secondary"
+          />
+          <Text
+            onPress={this.onDoItLaterClick}
+            weight="Bold"
+            style={styles.doItLaterText}
+          >
+            I'll Do it Later
+          </Text>
+        </View>
+      </Modal>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   finishModal: {

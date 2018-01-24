@@ -194,6 +194,7 @@ class UploadDocumentScreen extends Component {
       const res = await uploadDocuments({
         jobId: this.props.jobId,
         type: this.props.type,
+        itemId: this.props.itemId,
         files: this.state.files,
         onUploadProgress: percentCompleted => {
           this.setState({
@@ -205,10 +206,16 @@ class UploadDocumentScreen extends Component {
       this.setState(() => ({
         isUploadingOverlayVisible: false
       }));
-      this.setState(() => ({
-        uploadResult: res,
-        isSuccessModalVisible: true
-      }));
+
+      this.setState(
+        {
+          uploadResult: res
+          // isSuccessModalVisible: true
+        },
+        () => {
+          this.onSuccessOkClick();
+        }
+      );
     } catch (e) {
       return showSnackbar({
         text: e.message
