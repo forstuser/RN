@@ -275,6 +275,7 @@ class Repair extends React.Component {
           visible={isFinishModalVisible}
           mainCategoryId={null}
           showRepairIcon={true}
+          productId={selectedProduct ? selectedProduct.id : null}
           navigator={this.props.navigator}
         />
       </View>

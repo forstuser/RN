@@ -6,7 +6,7 @@ import I18n from "../i18n";
 import { colors } from "../theme";
 import { API_BASE_URL } from "../api";
 import { openBillsPopUp } from "../navigation";
-import { SCREENS } from "../constants";
+import { SCREENS, SERVICE_TYPE_NAMES } from "../constants";
 
 const UpcomingServiceItem = ({ item, navigator }) => {
   let icon = require("../images/ic_comingup_bill.png");
@@ -32,10 +32,20 @@ const UpcomingServiceItem = ({ item, navigator }) => {
       break;
 
     case 4:
-      icon = require("../images/ic_comingup_scheduled.png");
+      icon = require("../images/ic_comingup_expiring.png");
       title = "AMC expiring";
       subTitle = item.productName;
       sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
+      sidebarSubTitle = "";
+      break;
+
+    case 6:
+      icon = require("../images/ic_comingup_expiring.png");
+      title = `${item.schedule.service_number} (${
+        SERVICE_TYPE_NAMES[item.schedule.service_type]
+      })`;
+      subTitle = item.productName;
+      sidebarTitle = "on " + moment(item.schedule.due_date).format("DD MMM");
       sidebarSubTitle = "";
       break;
 
@@ -53,20 +63,12 @@ const UpcomingServiceItem = ({ item, navigator }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        if (item.productType == 1) {
-          openBillsPopUp({
-            date: item.purchaseDate,
-            id: item.productName,
-            copies: item.copies
-          });
-        } else {
-          navigator.push({
-            screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-            passProps: {
-              productId: item.productId
-            }
-          });
-        }
+        navigator.push({
+          screen: SCREENS.PRODUCT_DETAILS_SCREEN,
+          passProps: {
+            productId: item.productId || item.id
+          }
+        });
       }}
       style={styles.container}
     >

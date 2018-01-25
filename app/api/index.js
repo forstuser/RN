@@ -471,6 +471,7 @@ export const updateProduct = async ({
   if (metadata.length > 0) {
     data.metadata = metadata.map(meta => {
       return {
+        id: meta.id || undefined,
         category_form_id: meta.categoryFormId || undefined,
         form_value: meta.value,
         new_drop_down: meta.isNewValue
@@ -619,6 +620,13 @@ export const initProduct = async (mainCategoryId, categoryId) => {
   });
 };
 
+export const deleteProduct = async id => {
+  return await apiRequest({
+    method: "delete",
+    url: `/products/${id}`
+  });
+};
+
 export const getRepairableProducts = async () => {
   return await apiRequest({
     method: "get",
@@ -674,6 +682,13 @@ export const addRepair = async ({
     method: "post",
     url: `/products/${productId}/repairs`,
     data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const deleteRepair = async ({ productId, repairId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/products/${productId}/repairs/${repairId}`
   });
 };
 
@@ -733,6 +748,13 @@ export const addWarranty = async ({
     method: "post",
     url: `/products/${productId}/warranties`,
     data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const deleteWarranty = async ({ productId, warrantyId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/products/${productId}/warranties/${warrantyId}`
   });
 };
 
@@ -799,6 +821,13 @@ export const addInsurance = async ({
   });
 };
 
+export const deleteInsurance = async ({ productId, insuranceId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/products/${productId}/insurances/${insuranceId}`
+  });
+};
+
 export const updateAmc = async ({
   id,
   productId,
@@ -844,6 +873,13 @@ export const addAmc = async ({
     method: "post",
     url: `/products/${productId}/amcs`,
     data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const deleteAmc = async ({ productId, amcId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/products/${productId}/amcs/${amcId}`
   });
 };
 
@@ -895,5 +931,12 @@ export const addPuc = async ({
     method: "post",
     url: `/products/${productId}/pucs`,
     data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const deletePuc = async ({ productId, pucId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/products/${productId}/pucs/${pucId}`
   });
 };

@@ -249,13 +249,11 @@ class PersonalDoc extends React.Component {
                   ref={ref => (this.phoneRef = ref)}
                   value={phone}
                   placeholder="Phone Number"
-                  style={styles.input}
                 />
                 <ContactFields
                   ref={ref => (this.emailRef = ref)}
                   value={email}
                   placeholder="Email"
-                  style={styles.input}
                   keyboardType="email-address"
                 />
                 <CustomTextInput
@@ -279,6 +277,7 @@ class PersonalDoc extends React.Component {
           title="Doc added to your eHome."
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
+          productId={product ? product.id : null}
           navigator={this.props.navigator}
         />
       </View>

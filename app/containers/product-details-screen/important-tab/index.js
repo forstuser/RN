@@ -27,6 +27,7 @@ import InsuranceDetails from "./insurance-details";
 import AmcDetails from "./amc-details";
 import RepairDetails from "./repair-details";
 import PucDetails from "./puc-details";
+import ServiceSchedules from "./service-schedules";
 
 class ImportantTab extends Component {
   constructor(props) {
@@ -81,10 +82,6 @@ class ImportantTab extends Component {
 
         {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
           product.masterCategoryId
-        ) > -1 && <InsuranceDetails product={product} navigator={navigator} />}
-
-        {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
-          product.masterCategoryId
         ) > -1 && <AmcDetails product={product} navigator={navigator} />}
 
         {[
@@ -97,6 +94,11 @@ class ImportantTab extends Component {
         {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE && (
           <PucDetails product={product} navigator={navigator} />
         )}
+        {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
+          product.serviceSchedules &&
+          product.serviceSchedules.length > 0 && (
+            <ServiceSchedules product={product} navigator={navigator} />
+          )}
       </View>
     );
   }

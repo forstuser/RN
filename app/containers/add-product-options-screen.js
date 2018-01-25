@@ -10,16 +10,18 @@ import {
 import GridView from "react-native-super-grid";
 import I18n from "../i18n";
 
-import { Text, Button } from "../elements";
+import { Text, Button, ScreenContainer } from "../elements";
 import { colors } from "../theme";
 import { SCREENS, EXPENSE_TYPES } from "../constants";
 
-class AddExpenseModal extends React.Component {
+class AddProductScreen extends React.Component {
+  static navigatorStyle = {
+    navBarHidden: true
+  };
+
   constructor(props) {
     super(props);
-    this.state = {
-      isModalVisible: false
-    };
+    this.state = {};
   }
 
   show = (showCancelBtn = true) => {
@@ -30,14 +32,10 @@ class AddExpenseModal extends React.Component {
   };
 
   hide = () => {
-    this.setState({
-      isModalVisible: false,
-      showCancelBtn: true
-    });
+    this.props.navigator.dismissModal();
   };
 
   onPressItem = type => {
-    this.hide();
     this.props.navigator.push({
       screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
       passProps: { expenseType: type }
@@ -126,57 +124,53 @@ class AddExpenseModal extends React.Component {
     ];
 
     return (
-      <Modal visible={isModalVisible} animationType="slide">
-        <View style={styles.container}>
-          <View style={styles.option}>
-            <Text
-              weight="Bold"
-              style={[styles.optionTitle, { color: colors.mainBlue }]}
-            >
-              Add Product & Doc.
-            </Text>
-            <GridView
-              scrollEnabled={false}
-              itemDimension={98}
-              items={productOptions}
-              renderItem={this.renderItem}
-              contentContainerStyle={styles.grid}
-            />
-          </View>
-          <View style={styles.orOuterContainer}>
-            <View style={styles.orContainer}>
-              <Text style={styles.or} weight="Bold">
-                OR
-              </Text>
-            </View>
-          </View>
-          <View style={styles.option}>
-            <Text
-              weight="Bold"
-              style={[styles.optionTitle, { color: colors.pinkishOrange }]}
-            >
-              Add Expense
-            </Text>
-            <GridView
-              scrollEnabled={false}
-              itemDimension={98}
-              items={expenseOptions}
-              renderItem={this.renderItem}
-              contentContainerStyle={styles.grid}
-            />
-          </View>
-          {showCancelBtn && (
-            <Button
-              onPress={this.hide}
-              style={styles.closeBtn}
-              text={I18n.t("add_expenses_options_cancel_btn")}
-              type="outline"
-              color="secondary"
-              outlineBtnStyle={{ borderColor: "transparent" }}
-            />
-          )}
+      <View style={styles.container}>
+        <View style={styles.option}>
+          <Text
+            weight="Bold"
+            style={[styles.optionTitle, { color: colors.mainBlue }]}
+          >
+            Add Product & Doc.
+          </Text>
+          <GridView
+            scrollEnabled={false}
+            itemDimension={98}
+            items={productOptions}
+            renderItem={this.renderItem}
+            contentContainerStyle={styles.grid}
+          />
         </View>
-      </Modal>
+        <View style={styles.orOuterContainer}>
+          <View style={styles.orContainer}>
+            <Text style={styles.or} weight="Bold">
+              OR
+            </Text>
+          </View>
+        </View>
+        <View style={styles.option}>
+          <Text
+            weight="Bold"
+            style={[styles.optionTitle, { color: colors.pinkishOrange }]}
+          >
+            Add Expense
+          </Text>
+          <GridView
+            scrollEnabled={false}
+            itemDimension={98}
+            items={expenseOptions}
+            renderItem={this.renderItem}
+            contentContainerStyle={styles.grid}
+          />
+        </View>
+        <Button
+          onPress={this.hide}
+          style={styles.closeBtn}
+          text={I18n.t("add_expenses_options_cancel_btn")}
+          type="outline"
+          color="secondary"
+          outlineBtnStyle={{ borderColor: "transparent" }}
+        />
+      </View>
     );
   }
 }
@@ -186,11 +180,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     padding: 0,
-    paddingTop: 30,
     justifyContent: "center",
     alignItems: "center",
     borderColor: "rgba(0, 0, 0, 0.1)",
-    backgroundColor: "#FFF"
+    backgroundColor: "#FFF",
+    paddingTop: 30
   },
   option: {
     flex: 1,
@@ -252,4 +246,4 @@ const styles = StyleSheet.create({
     textAlign: "center"
   }
 });
-export default AddExpenseModal;
+export default AddProductScreen;

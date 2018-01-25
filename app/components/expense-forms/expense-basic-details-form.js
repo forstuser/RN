@@ -19,25 +19,67 @@ class BasicDetailsForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isBillUploaded: false,
       expenseName: "",
       subCategories: [],
       selectedSubCategory: null,
       date: null,
-      amount: "",
+      value: "",
       nextDueDate: null,
+      nextDueDateId: null,
       sellerName: "",
       sellerContact: ""
     };
   }
 
+  componentDidMount() {}
+
   componentDidMount() {
-    if (this.props.mainCategoryId != MAIN_CATEGORY_IDS.HEALTHCARE) {
+    this.updateStateFromProps(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateStateFromProps(nextProps);
+  }
+
+  updateStateFromProps = props => {
+    const {
+      mainCategoryId,
+      expenseName = "",
+      date = null,
+      nextDueDate = null,
+      nextDueDateId = null,
+      subCategories = [],
+      subCategoryId = null,
+      value = null,
+      sellerName = "",
+      sellerContact = "",
+      copies = []
+    } = props;
+
+    let selectedSubCategory = null;
+    if (subCategoryId) {
+      selectedSubCategory = subCategories.find(
+        subCategory => subCategory.id == subCategoryId
+      );
+    }
+
+    if (mainCategoryId != MAIN_CATEGORY_IDS.HEALTHCARE) {
       this.setState({
-        subCategories: this.props.categoryReferenceData.subCategories
+        subCategories
       });
     }
-  }
+    this.setState({
+      expenseName,
+      date,
+      nextDueDate,
+      nextDueDateId,
+      selectedSubCategory,
+      value,
+      sellerName,
+      sellerContact,
+      copies
+    });
+  };
 
   getFilledData = () => {
     const {
@@ -45,14 +87,16 @@ class BasicDetailsForm extends React.Component {
       selectedSubCategory,
       date,
       nextDueDate,
+      nextDueDateId,
       sellerName,
-      amount
+      value
     } = this.state;
 
     let metadata = [];
     //if utility bills
     if (this.props.categoryId == 634 && nextDueDate) {
       metadata.push({
+        id: nextDueDateId,
         categoryFormId: 1099,
         value: nextDueDate,
         isNewValue: false
@@ -65,7 +109,7 @@ class BasicDetailsForm extends React.Component {
       sellerName: sellerName,
       sellerContact: this.sellerContactRef.getFilledData(),
       subCategoryId: selectedSubCategory ? selectedSubCategory.id : undefined,
-      value: amount,
+      value: value,
       metadata: metadata
     };
 
@@ -85,17 +129,17 @@ class BasicDetailsForm extends React.Component {
   };
 
   render() {
-    const { mainCategoryId, categoryId, product } = this.props;
+    const { mainCategoryId, categoryId, productId, jobId } = this.props;
     const {
-      isBillUploaded,
       expenseName,
       date,
       nextDueDate,
       subCategories,
       selectedSubCategory,
-      amount,
+      value,
       sellerName,
-      sellerContact
+      sellerContact,
+      copies
     } = this.state;
     return (
       <View style={styles.container}>
@@ -104,12 +148,13 @@ class BasicDetailsForm extends React.Component {
           textBeforeUpload="Upload Bill"
           textBeforeUpload2=" (recommended)"
           textBeforeUpload2Color={colors.mainBlue}
-          jobId={product ? product.job_id : null}
+          itemId={productId}
+          jobId={jobId ? jobId : null}
+          copies={copies}
           type={1}
           onUpload={uploadResult => {
-            console.log("product: ", product);
             console.log("upload result: ", uploadResult);
-            this.setState({ isBillUploaded: true });
+            this.setState({ copies: uploadResult.product.copies });
           }}
           navigator={this.props.navigator}
         />
@@ -153,8 +198,8 @@ class BasicDetailsForm extends React.Component {
 
           <CustomTextInput
             placeholder="Amount"
-            value={amount}
-            onChangeText={amount => this.setState({ amount })}
+            value={value ? String(value) : ""}
+            onChangeText={value => this.setState({ value })}
             keyboardType="numeric"
           />
 
@@ -163,6 +208,7 @@ class BasicDetailsForm extends React.Component {
             <CustomDatePicker
               date={nextDueDate}
               placeholder="Next Due Date"
+              maxDate={null}
               onDateChange={nextDueDate => {
                 this.setState({ nextDueDate });
               }}

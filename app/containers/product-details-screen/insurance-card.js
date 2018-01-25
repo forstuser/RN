@@ -26,16 +26,9 @@ import I18n from "../../i18n";
 
 import { colors } from "../../theme";
 
-import Details from "./details";
-import ImportantTab from "./important-tab";
-import GeneralTab from "./general-tab";
-import SellerTab from "./seller-tab";
 import ContactAfterSaleButton from "./after-sale-button";
-import LoadingOverlay from "../../components/loading-overlay";
 import KeyValueItem from "../../components/key-value-item";
-import MultipleContactNumbers from "./multiple-contact-numbers";
 
-let mapIcon = require("../../images/ic_details_map.png");
 const insuranceIcon = require("../../images/categories/insurance.png");
 
 import { openBillsPopUp } from "../../navigation";
@@ -196,6 +189,12 @@ class InsuranceCard extends Component {
             valueText={insurance.amountInsured}
           />
         </ScrollView>
+        <View style={styles.contactAfterSalesBtn}>
+          <ContactAfterSaleButton
+            product={product}
+            navigator={this.props.navigator}
+          />
+        </View>
       </View>
     );
   }

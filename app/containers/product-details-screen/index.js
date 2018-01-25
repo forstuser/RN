@@ -20,7 +20,7 @@ import Modal from "react-native-modal";
 import ActionSheet from "react-native-actionsheet";
 
 import { SCREENS, MAIN_CATEGORY_IDS } from "../../constants";
-import { API_BASE_URL, getProductDetails } from "../../api";
+import { API_BASE_URL, getProductDetails, deleteProduct } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 
 import I18n from "../../i18n";
@@ -93,10 +93,29 @@ class ProductDetailsScreen extends Component {
   };
 
   handleEditOptionPress = index => {
+    const { product } = this.state;
     let openPickerOnStart = null;
     switch (index) {
       case 0:
-        Alert.alert("Delete");
+        Alert.alert(
+          `Delete ${product.productName || ""}?`,
+          "This will be an irreversible task.",
+          [
+            {
+              text: "Yes, delete",
+              onPress: async () => {
+                this.setState({ isLoading: true });
+                await deleteProduct(product.id);
+                this.props.navigator.pop();
+              }
+            },
+            {
+              text: "No, don't Delete",
+              onPress: () => {},
+              style: "cancel"
+            }
+          ]
+        );
         break;
     }
   };
@@ -119,16 +138,6 @@ class ProductDetailsScreen extends Component {
     } catch (e) {
       Alert.alert(e.message);
     }
-  };
-
-  startBasicDetailsEdit = () => {
-    const { product } = this.state;
-    this.props.navigator.push({
-      screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
-      passProps: {
-        product: product
-      }
-    });
   };
 
   render() {

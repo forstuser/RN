@@ -6,6 +6,7 @@ import I18n from "../../i18n";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { getProductMetasString } from "../../utils";
+import { SERVICE_TYPE_NAMES } from "../../constants";
 
 const isDateInNextTenDays = date => {
   const diff = date.diff(moment(), "days");
@@ -34,35 +35,31 @@ const ProductListItem = ({ product, onPress }) => {
         source={{ uri: API_BASE_URL + product.cImageURL + "1" }}
       />
       <View style={styles.texts}>
-        <Text weight="Bold" style={styles.name}>
-          {product.productName}
-        </Text>
-
-        <View style={styles.metaContainer}>
-          {meta.length > 0 && (
-            <Text numberOfLines={1} style={styles.meta}>
-              ({meta})
+        <View style={styles.nameAndSeller}>
+          <View style={styles.nameAndValue}>
+            <Text weight="Bold" style={styles.name}>
+              {product.productName}
             </Text>
+            <Text weight="Bold" style={styles.value}>
+              ₹{product.value}
+            </Text>
+          </View>
+
+          {product.sellers != null && (
+            <Text style={styles.sellerName}>{product.sellers.sellerName}</Text>
           )}
+
+          {product.sellers == null &&
+            product.bill &&
+            product.bill.sellers && (
+              <Text style={styles.sellerName}>
+                {product.bill.sellers.sellerName}
+              </Text>
+            )}
         </View>
-
-        {product.sellers != null && (
-          <Text style={styles.sellerName}>{product.sellers.sellerName}</Text>
-        )}
-
-        {product.sellers == null &&
-          product.bill &&
-          product.bill.sellers && (
-            <Text style={styles.sellerName}>
-              {product.bill.sellers.sellerName}
-            </Text>
-          )}
-
-        <View style={styles.purchaseDateContainer}>
-          <Text weight="Medium" style={styles.purchaseDateText}>
-            Purchase Date:{" "}
-          </Text>
-          <Text weight="Medium" style={styles.purchaseDate}>
+        <View style={styles.otherDetailContainer}>
+          <Text style={styles.detailName}>Purchase Date: </Text>
+          <Text weight="Medium" style={styles.detailValue}>
             {moment(product.purchaseDate).format("MMM DD, YYYY")}
           </Text>
         </View>
@@ -113,6 +110,23 @@ const ProductListItem = ({ product, onPress }) => {
             )}
           </View>
         )}
+        {product.schedule && (
+          <View style={styles.serviceSchedule}>
+            <Text style={styles.detailName}>Next Service Schedule</Text>
+            <Text weight="Medium" style={styles.detailValue}>
+              {`${moment(product.schedule.due_date).format(
+                "MMM DD, YYYY"
+              )} or ${product.schedule.distance}Kms (${
+                SERVICE_TYPE_NAMES[product.schedule.service_type]
+              })`}
+            </Text>
+            {isDateInNextTenDays(moment(product.schedule.due_date)) && (
+              <Text style={styles.expiringText}>
+                {expiringInText(moment(product.schedule.due_date))}
+              </Text>
+            )}
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -133,29 +147,23 @@ const styles = StyleSheet.create({
   texts: {
     flex: 1
   },
-  name: {
-    fontSize: 14,
-    color: colors.mainText
-  },
-  metaContainer: {
-    paddingTop: 4,
-    paddingBottom: 4
-  },
-  meta: {
-    fontSize: 12,
-    color: colors.mainText
-  },
-  sellerName: {
-    paddingBottom: 10
-  },
-  purchaseDateContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 8,
+  nameAndSeller: {
+    paddingBottom: 10,
     borderColor: "#ececec",
     borderBottomWidth: 1,
-    borderTopWidth: 1,
-    marginBottom: 5
+    marginBottom: 4
+  },
+  nameAndValue: {
+    flexDirection: "row"
+  },
+  name: {
+    fontSize: 14,
+    color: colors.mainText,
+    flex: 1
+  },
+  sellerName: {
+    fontSize: 12,
+    marginTop: 5
   },
   purchaseDateText: {
     fontSize: 14,
@@ -182,6 +190,12 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     paddingHorizontal: 5,
     marginLeft: 10
+  },
+  serviceSchedule: {
+    marginTop: 5,
+    paddingTop: 10,
+    borderColor: "#ececec",
+    borderTopWidth: 1
   }
 });
 export default ProductListItem;

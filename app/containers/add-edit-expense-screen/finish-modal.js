@@ -4,6 +4,7 @@ import { Text, Button } from "../../elements";
 import Modal from "react-native-modal";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
+import { SCREENS } from "../../constants";
 
 const repairIcon = require("../../images/main-categories/ic_repair.png");
 class FinishModal extends React.Component {
@@ -26,9 +27,26 @@ class FinishModal extends React.Component {
     this.setState({ visible: props.visible });
   };
 
-  onDoItLaterClick = () => {
+  onMoreProductsClick = () => {
     this.setState({ visible: false }, () => {
       this.props.navigator.pop();
+    });
+  };
+
+  onDoItLaterClick = () => {
+    this.setState({ visible: false }, () => {
+      this.props.navigator.dismissAllModals();
+      return;
+      if (this.props.productId) {
+        this.props.navigator.resetTo({
+          screen: SCREENS.PRODUCT_DETAILS_SCREEN,
+          passProps: {
+            productId: this.props.productId
+          }
+        });
+      } else {
+        this.props.navigator.dismissAllModals();
+      }
     });
   };
 
@@ -58,6 +76,7 @@ class FinishModal extends React.Component {
             {title}
           </Text>
           <Button
+            onPress={this.onMoreProductsClick}
             style={styles.finishBtn}
             text="ADD MORE PRODUCTS"
             color="secondary"

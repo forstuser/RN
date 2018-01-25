@@ -19,7 +19,7 @@ class BasicDetailsForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isBillUploaded: false,
+      id: null,
       productName: "",
       brands: [],
       selectedBrand: null,
@@ -35,7 +35,11 @@ class BasicDetailsForm extends React.Component {
       vinNo: "",
       registrationNo: "",
       imeiNo: "",
-      serialNo: ""
+      serialNo: "",
+      vinNoId: null,
+      registrationNoId: null,
+      imeiNoId: null,
+      serialNoId: null
     };
   }
 
@@ -62,6 +66,10 @@ class BasicDetailsForm extends React.Component {
       registrationNo,
       imeiNo,
       serialNo,
+      vinNoId,
+      registrationNoId,
+      imeiNoId,
+      serialNoId,
       copies
     } = props;
 
@@ -84,6 +92,10 @@ class BasicDetailsForm extends React.Component {
         registrationNo,
         imeiNo,
         serialNo,
+        vinNoId,
+        registrationNoId,
+        imeiNoId,
+        serialNoId,
         copies
       },
       () => this.fetchModels()
@@ -103,7 +115,11 @@ class BasicDetailsForm extends React.Component {
       vinNo,
       registrationNo,
       imeiNo,
-      serialNo
+      serialNo,
+      vinNoId,
+      registrationNoId,
+      imeiNoId,
+      serialNoId
     } = this.state;
 
     let metadata = [];
@@ -117,6 +133,7 @@ class BasicDetailsForm extends React.Component {
           categoryForm => categoryForm.title == "Registration Number"
         );
         metadata.push({
+          id: registrationNoId,
           categoryFormId: registrationNoCategoryForm.id,
           value: registrationNo,
           isNewValue: false
@@ -128,6 +145,7 @@ class BasicDetailsForm extends React.Component {
           categoryForm => categoryForm.title == "Vehicle Number"
         );
         metadata.push({
+          id: vinNoId,
           categoryFormId: vinNoCategoryForm.id,
           value: vinNo,
           isNewValue: false
@@ -140,6 +158,7 @@ class BasicDetailsForm extends React.Component {
         );
 
         metadata.push({
+          id: imeiNoId,
           categoryFormId: imeiNoCategoryForm.id,
           value: imeiNo,
           isNewValue: false
@@ -149,6 +168,7 @@ class BasicDetailsForm extends React.Component {
           categoryForm => categoryForm.title == "Serial Number"
         );
         metadata.push({
+          id: serialNoId,
           categoryFormId: serialNoCategoryForm.id,
           value: serialNo,
           isNewValue: false
@@ -204,16 +224,13 @@ class BasicDetailsForm extends React.Component {
   };
 
   onBrandNameChange = text => {
-    this.setState(
-      {
-        brandName: text,
-        selectedBrand: null,
-        models: [],
-        modelName: "",
-        selectedModel: null
-      },
-      () => Alert.alert(this.state.brandName)
-    );
+    this.setState({
+      brandName: text,
+      selectedBrand: null,
+      models: [],
+      modelName: "",
+      selectedModel: null
+    });
   };
 
   fetchModels = async () => {
@@ -247,7 +264,6 @@ class BasicDetailsForm extends React.Component {
     } = this.props;
     const {
       id,
-      isBillUploaded,
       productName,
       selectedBrand,
       brandName,
@@ -278,7 +294,6 @@ class BasicDetailsForm extends React.Component {
           onUpload={uploadResult => {
             console.log("upload result    : ", uploadResult);
             this.setState({
-              isBillUploaded: true,
               id: uploadResult.product.id,
               copies: uploadResult.product.copies
             });

@@ -37,6 +37,7 @@ import EditProductBasicDetailsScreen from "./containers/edit-product-basic-detai
 import AddEditPersonalDocScreen from "./containers/add-edit-personal-doc-screen";
 import EditMedicalDocScreen from "./containers/edit-medical-doc-screen";
 import EditInsuranceScreen from "./containers/edit-healthcare-insurance-screen";
+import AddProductOptionsScreen from "./containers/add-product-options-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -272,6 +273,13 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     SCREENS.EDIT_INSURANCE_SCREEN,
     () => EditInsuranceScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.ADD_PRODUCT_OPTIONS_SCREEN,
+    () => AddProductOptionsScreen,
     store,
     Provider
   );

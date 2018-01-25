@@ -5,7 +5,8 @@ import PropTypes from "prop-types";
 import {
   getReferenceDataForCategory,
   addWarranty,
-  updateWarranty
+  updateWarranty,
+  deleteWarranty
 } from "../api";
 
 import LoadingOverlay from "../components/loading-overlay";
@@ -40,6 +41,7 @@ class AddEditWarranty extends React.Component {
       warrantyProviders: [],
       isLoading: false
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
@@ -66,7 +68,54 @@ class AddEditWarranty extends React.Component {
     this.props.navigator.setTitle({ title });
 
     this.fetchCategoryData();
+
+    if (warranty) {
+      this.props.navigator.setButtons({
+        rightButtons: [
+          {
+            title: "Delete",
+            id: "delete",
+            buttonColor: "red",
+            buttonFontSize: 16,
+            buttonFontWeight: "600"
+          }
+        ],
+        animated: true
+      });
+    }
   }
+
+  onNavigatorEvent = event => {
+    if (event.type == "NavBarButtonPress") {
+      if (event.id == "delete") {
+        const { productId, warranty } = this.props;
+        Alert.alert(
+          `Delete this warranty?`,
+          "This will be an irreversible task.",
+          [
+            {
+              text: "Yes, delete",
+              onPress: async () => {
+                try {
+                  this.setState({ isLoading: true });
+                  await deleteWarranty({ productId, warrantyId: warranty.id });
+                  this.props.navigator.pop();
+                } catch (e) {
+                  Alert.alert(`Couldn't delete`);
+                  this.setState({ isLoading: false });
+                }
+              }
+            },
+            {
+              text: "No, don't Delete",
+              onPress: () => {},
+              style: "cancel"
+            }
+          ]
+        );
+      }
+    }
+  };
 
   fetchCategoryData = async () => {
     try {

@@ -17,6 +17,7 @@ class EditProductBasicDetails extends React.Component {
     this.state = {
       brands: [],
       categoryForms: [],
+      subCategories: [],
       isLoading: false
     };
   }
@@ -37,6 +38,7 @@ class EditProductBasicDetails extends React.Component {
       this.setState({
         brands: res.categories[0].brands,
         categoryForms: res.categories[0].categoryForms,
+        subCategories: res.categories[0].subCategories,
         isLoading: false
       });
     } catch (e) {
@@ -54,8 +56,17 @@ class EditProductBasicDetails extends React.Component {
     };
 
     console.log("data: ", data);
-    if ((!data.brandId && !data.brandName) || !data.purchaseDate) {
-      return Alert.alert("Please select brand and purchase date");
+
+    if (
+      [
+        MAIN_CATEGORY_IDS.AUTOMOBILE,
+        MAIN_CATEGORY_IDS.ELECTRONICS,
+        MAIN_CATEGORY_IDS.FURNITURE
+      ].indexOf(mainCategoryId) > -1
+    ) {
+      if (!data.brandId && !data.brandName) {
+        return Alert.alert("Please select or enter brand");
+      }
     }
     if (!data.purchaseDate) {
       return Alert.alert("Please select a date");
@@ -74,9 +85,16 @@ class EditProductBasicDetails extends React.Component {
   render() {
     const { product, navigator } = this.props;
 
-    const { brands, categoryForms, isLoading } = this.state;
+    const { brands, categoryForms, subCategories, isLoading } = this.state;
 
-    const { id, productName, purchaseDate, value, copies } = product;
+    const {
+      id,
+      productName,
+      purchaseDate,
+      value,
+      copies,
+      sub_category_id
+    } = product;
     const selectedBrandId = product.brandId;
     const modelName = product.model;
 
@@ -90,16 +108,14 @@ class EditProductBasicDetails extends React.Component {
       sellerContact = product.onlineSellers.contact;
     }
 
-    let vinNo,
-      registrationNo,
-      imeiNo,
-      serialNo = "";
+    let vinNo = (vinNoId = registrationNo = registrationNoId = imeiNo = imeiNoId = serialNo = serialNoId = nextDueDate = nextDueDateId = null);
 
     const productMetaDatas = product.metaData || [];
 
     const imeiMeta = productMetaDatas.find(meta => meta.name == "IMEI Number");
     if (imeiMeta) {
       imeiNo = imeiMeta.value;
+      imeiNoId = imeiMeta.id;
     }
 
     const serialNoMeta = productMetaDatas.find(
@@ -107,6 +123,7 @@ class EditProductBasicDetails extends React.Component {
     );
     if (serialNoMeta) {
       serialNo = serialNoMeta.value;
+      serialNoId = serialNoMeta.id;
     }
 
     const registrationNoMeta = productMetaDatas.find(
@@ -114,6 +131,7 @@ class EditProductBasicDetails extends React.Component {
     );
     if (registrationNoMeta) {
       registrationNo = registrationNoMeta.value;
+      registrationNoId = registrationNoMeta.id;
     }
 
     const vinNoMeta = productMetaDatas.find(
@@ -121,6 +139,26 @@ class EditProductBasicDetails extends React.Component {
     );
     if (vinNoMeta) {
       vinNo = vinNoMeta.value;
+      vinNoId = vinNoMeta.id;
+    }
+
+    const dueDateMeta = productMetaDatas.find(
+      meta => meta.name == "Due date ( YYYY-MM-DD )"
+    );
+    if (dueDateMeta) {
+      nextDueDate = dueDateMeta.value;
+      nextDueDateId = dueDateMeta.id;
+    }
+
+    let showExpenseForm = true;
+    if (
+      [
+        MAIN_CATEGORY_IDS.AUTOMOBILE,
+        MAIN_CATEGORY_IDS.ELECTRONICS,
+        MAIN_CATEGORY_IDS.FURNITURE
+      ].indexOf(product.masterCategoryId) > -1
+    ) {
+      showExpenseForm = false;
     }
 
     return (
@@ -128,31 +166,59 @@ class EditProductBasicDetails extends React.Component {
         <LoadingOverlay visible={isLoading} />
         <KeyboardAwareScrollView>
           <View style={{ flex: 1 }}>
-            <ProductBasicDetailsForm
-              ref={ref => (this.basicDetailsForm = ref)}
-              mainCategoryId={product.masterCategoryId}
-              categoryId={product.categoryId}
-              id={product.id}
-              jobId={product.jobId}
-              brands={brands}
-              categoryForms={categoryForms}
-              navigator={navigator}
-              {...{
-                id,
-                productName,
-                purchaseDate,
-                selectedBrandId,
-                value,
-                copies,
-                modelName,
-                sellerName,
-                sellerContact,
-                vinNo,
-                registrationNo,
-                imeiNo,
-                serialNo
-              }}
-            />
+            {showExpenseForm && (
+              <ExpenseBasicDetailsForm
+                ref={ref => (this.basicDetailsForm = ref)}
+                mainCategoryId={product.masterCategoryId}
+                categoryId={product.categoryId}
+                jobId={product.jobId}
+                subCategories={subCategories}
+                navigator={navigator}
+                {...{
+                  productId: id,
+                  expenseName: productName,
+                  date: purchaseDate,
+                  subCategoryId: sub_category_id,
+                  value,
+                  copies,
+                  sellerName,
+                  sellerContact,
+                  nextDueDate,
+                  nextDueDateId
+                }}
+              />
+            )}
+            {!showExpenseForm && (
+              <ProductBasicDetailsForm
+                ref={ref => (this.basicDetailsForm = ref)}
+                mainCategoryId={product.masterCategoryId}
+                categoryId={product.categoryId}
+                id={product.id}
+                jobId={product.jobId}
+                brands={brands}
+                categoryForms={categoryForms}
+                navigator={navigator}
+                {...{
+                  id,
+                  productName,
+                  purchaseDate,
+                  selectedBrandId,
+                  value,
+                  copies,
+                  modelName,
+                  sellerName,
+                  sellerContact,
+                  vinNo,
+                  vinNoId,
+                  registrationNo,
+                  registrationNoId,
+                  imeiNo,
+                  imeiNoId,
+                  serialNo,
+                  serialNoId
+                }}
+              />
+            )}
           </View>
         </KeyboardAwareScrollView>
         <Button

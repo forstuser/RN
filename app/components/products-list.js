@@ -32,7 +32,7 @@ const ProductsList = props => {
   } else {
     return (
       <FlatList
-        style={{ flex: 1, backgroundColor: "#fff" }}
+        style={{ flex: 1, backgroundColor: "#FAFAFA" }}
         data={products}
         keyExtractor={(item, index) => item.id}
         renderItem={renderProductItem}

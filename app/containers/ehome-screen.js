@@ -167,12 +167,14 @@ class EhomeScreen extends Component {
           recentSearches={this.state.recentSearches}
           mailboxIconRef={ref => (this.mailboxIconRef = ref)}
         />
-        <ProcessingItems
-          setRef={ref => (this.processingItemsRef = ref)}
-          onPress={this.openDocsUnderProcessingScreen}
-          itemsCount={this.state.pendingDocs.length}
-        />
-        <View style={{ flex: 1 }}>
+        {false && (
+          <ProcessingItems
+            setRef={ref => (this.processingItemsRef = ref)}
+            onPress={this.openDocsUnderProcessingScreen}
+            itemsCount={this.state.pendingDocs.length}
+          />
+        )}
+        <View style={{ flex: 1, marginTop: 15 }}>
           <FlatList
             style={{ paddingHorizontal: 16 }}
             data={this.state.categoriesList}

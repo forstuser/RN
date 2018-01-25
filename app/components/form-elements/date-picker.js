@@ -53,7 +53,8 @@ class CustomDatePicker extends React.Component {
       style = {},
       placeholder,
       placeholder2,
-      placeholder2Color = colors.secondaryText
+      placeholder2Color = colors.secondaryText,
+      maxDate = moment().format("YYYY-MM-DD")
     } = this.props;
     const { date } = this.state;
     return (
@@ -105,7 +106,7 @@ class CustomDatePicker extends React.Component {
             placeholder="Choose date"
             format="YYYY-MM-DD"
             minDate="1990-01-01"
-            maxDate={moment().format("YYYY-MM-DD")}
+            maxDate={maxDate}
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             onDateChange={this.onDateChange}

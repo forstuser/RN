@@ -105,7 +105,7 @@ class DashboardScreen extends React.Component {
         !DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE
       ) {
         DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = true;
-        return this.addExpenseModal.show(false);
+        return this.showAddProductOptionsScreen();
       }
       const insight = dashboardData.insight;
       const insightChartProps = {
@@ -156,6 +156,12 @@ class DashboardScreen extends React.Component {
   showUploadOptions = () => {
     this.setState({
       showUploadOptions: true
+    });
+  };
+
+  showAddProductOptionsScreen = () => {
+    this.props.navigator.showModal({
+      screen: SCREENS.ADD_PRODUCT_OPTIONS_SCREEN
     });
   };
 
@@ -236,13 +242,13 @@ class DashboardScreen extends React.Component {
         )}
         {!showDashboard && (
           <BlankDashboard
-            onUploadButtonClick={() => this.addExpenseModal.show()}
+            onUploadButtonClick={() => this.showAddProductOptionsScreen()}
           />
         )}
         {showDashboard && (
           <TouchableOpacity
             style={styles.fab}
-            onPress={() => this.addExpenseModal.show()}
+            onPress={() => this.showAddProductOptionsScreen()}
           >
             <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
           </TouchableOpacity>

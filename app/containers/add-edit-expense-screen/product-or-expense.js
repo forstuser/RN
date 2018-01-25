@@ -20,6 +20,10 @@ import PucForm from "../../components/expense-forms/puc-form";
 import { colors } from "../../theme";
 import { MAIN_CATEGORY_IDS, WARRANTY_TYPES } from "../../constants";
 
+const expenseIllustration = require("../../images/add-expense-illustration.png");
+const productIllustration = require("../../images/add-product-illustration.png");
+const docIllustration = require("../../images/add-doc-illustration.png");
+
 class ProductOrExpense extends React.Component {
   constructor(props) {
     super(props);
@@ -33,9 +37,12 @@ class ProductOrExpense extends React.Component {
       insuranceProviders: [],
       brands: [],
       categoryForms: [],
+      subCategories: [],
       dualWarrantyItem: null,
       product: null,
       isInitializingProduct: false,
+      startMsg: "Add Expense in Less Than 30 Sec ",
+      startGraphics: expenseIllustration,
       visibleModules: {
         productBasicDetails: false,
         expenseBasicDetails: false,
@@ -56,6 +63,25 @@ class ProductOrExpense extends React.Component {
     const { product, mainCategoryId } = this.props;
     if (mainCategoryId) {
       this.setState({ mainCategoryId });
+
+      if (
+        [
+          MAIN_CATEGORY_IDS.AUTOMOBILE,
+          MAIN_CATEGORY_IDS.ELECTRONICS,
+          MAIN_CATEGORY_IDS.FURNITURE
+        ].indexOf(mainCategoryId) > -1
+      ) {
+        this.setState({
+          startMsg: "Add Product in Less Than 30 Sec",
+          startGraphics: productIllustration
+        });
+      } else if (mainCategoryId == MAIN_CATEGORY_IDS.HEALTHCARE) {
+        this.setState({
+          startMsg: "Add Documents in Less Than 30 Sec",
+          startGraphics: docIllustration
+        });
+      }
+
       let visibleModules = {
         productBasicDetails: false,
         expenseBasicDetails: false,
@@ -105,7 +131,6 @@ class ProductOrExpense extends React.Component {
           break;
         case MAIN_CATEGORY_IDS.TRAVEL:
           visibleModules.expenseBasicDetails = true;
-          visibleModules.warranty = true;
           break;
         case MAIN_CATEGORY_IDS.HOUSEHOLD:
           visibleModules.expenseBasicDetails = true;
@@ -175,6 +200,7 @@ class ProductOrExpense extends React.Component {
         insuranceProviders: res.categories[0].insuranceProviders,
         brands: res.categories[0].brands,
         categoryForms: res.categories[0].categoryForms,
+        subCategories: res.categories[0].subCategories,
         dualWarrantyItem: res.categories[0].dual_warranty_item
       });
     } catch (e) {
@@ -246,8 +272,8 @@ class ProductOrExpense extends React.Component {
       console.log("data: ", data);
       switch (this.state.mainCategoryId) {
         case MAIN_CATEGORY_IDS.AUTOMOBILE:
-          if ((!data.brandId && !data.brandName) || !data.purchaseDate) {
-            return Alert.alert("Please select brand and purchase date");
+          if (!data.brandId && !data.brandName) {
+            return Alert.alert("Please select or enter brand name");
           }
           if (!data.insurance.providerId && !data.insurance.providerName) {
             return Alert.alert(
@@ -255,22 +281,18 @@ class ProductOrExpense extends React.Component {
             );
           }
           if (!data.purchaseDate) {
-            return Alert.alert("Please select a date");
+            return Alert.alert("Please select a purchase date");
           }
+          break;
         case MAIN_CATEGORY_IDS.ELECTRONICS:
-          if ((!data.brandId && !data.brandName) || !data.purchaseDate) {
-            return Alert.alert("Please select brand and purchase date");
-          }
-          if (!data.purchaseDate) {
-            return Alert.alert("Please select a date");
-          }
         case MAIN_CATEGORY_IDS.FURNITURE:
-          if (!data.brandId || !data.purchaseDate) {
-            return Alert.alert("Please select brand and purchase date");
+          if (!data.brandId && !data.brandName) {
+            return Alert.alert("Please select or enter brand name");
           }
           if (!data.purchaseDate) {
-            return Alert.alert("Please select a date");
+            return Alert.alert("Please select a purchase date");
           }
+          break;
         case MAIN_CATEGORY_IDS.FASHION:
         case MAIN_CATEGORY_IDS.HOUSEHOLD:
         case MAIN_CATEGORY_IDS.SERVICES:
@@ -305,18 +327,24 @@ class ProductOrExpense extends React.Component {
       warrantyProviders,
       brands,
       categoryForms,
+      subCategories,
       dualWarrantyItem,
       isInitializingProduct,
       visibleModules,
       isSavingProduct,
-      isFinishModalVisible
+      isFinishModalVisible,
+      startMsg,
+      startGraphics
     } = this.state;
     if (!mainCategoryId) {
       return null;
     }
     return (
       <ScreenContainer style={styles.container}>
-        <KeyboardAwareScrollView scrollEnabled={product != null}>
+        <KeyboardAwareScrollView
+          scrollEnabled={product != null}
+          contentContainerStyle={product == null ? { flex: 1 } : {}}
+        >
           <LoadingOverlay visible={isInitializingProduct || isSavingProduct} />
           <SelectCategoryHeader
             mainCategoryId={mainCategoryId}
@@ -330,8 +358,13 @@ class ProductOrExpense extends React.Component {
           {product == null && (
             <View style={styles.selectCategoryMsgContainer}>
               <Text weight="Medium" style={styles.selectCategoryMsg}>
-                Please click on an icon above to select a type
+                {startMsg}
               </Text>
+              <Image
+                resizeMode="contain"
+                style={styles.selectCategoryImage}
+                source={startGraphics}
+              />
             </View>
           )}
           {product != null && (
@@ -358,8 +391,9 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.expenseBasicDetailsForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
-                    product={product}
-                    categoryReferenceData={categoryReferenceData}
+                    productId={product.id}
+                    jobId={product.job_id}
+                    subCategories={subCategories}
                     navigator={this.props.navigator}
                   />
                   <View style={styles.separator} />
@@ -372,7 +406,8 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.healthcareInsuranceForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
-                    product={product}
+                    productId={product.id}
+                    jobId={product.job_id}
                     categoryReferenceData={categoryReferenceData}
                     navigator={this.props.navigator}
                   />
@@ -518,6 +553,7 @@ class ProductOrExpense extends React.Component {
           title="Product added to your eHome."
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
+          productId={product ? product.id : null}
           navigator={this.props.navigator}
         />
       </ScreenContainer>
@@ -534,15 +570,23 @@ const styles = StyleSheet.create({
     height: 10
   },
   selectCategoryMsgContainer: {
-    height: 200,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "#fff",
+    flex: 1,
+    borderColor: "#eee",
+    borderTopWidth: StyleSheet.hairlineWidth
   },
   selectCategoryMsg: {
-    fontSize: 20,
+    fontSize: 12,
     width: 300,
     textAlign: "center",
-    color: colors.secondaryText
+    color: colors.mainBlue
+  },
+  selectCategoryImage: {
+    marginTop: 20,
+    width: 300,
+    height: 300
   },
   submitBtn: {
     backgroundColor: colors.pinkishOrange

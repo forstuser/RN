@@ -129,7 +129,7 @@ export default {
     "We will start sending imporatant messages as soon as the action starts",
 
   //main category screen
-  main_category_screen_filters_title: "Filters & Sort",
+  main_category_screen_filters_title: "Filters",
   main_category_screen_filters_cancel: "Cancel",
   main_category_screen_filters_apply: "Apply",
   main_category_screen_filters_title_categories: "Type",
@@ -231,7 +231,7 @@ export default {
   product_details_screen_repairs_seller_contact: "Seller Contact",
   product_details_screen_repairs_no_info: "Details Not Available!",
   product_details_screen_puc_title: "PUCs",
-  product_details_screen_puc_title: "PUCs",
+  product_details_screen_service_schedule_title: "Service Schedule",
   product_details_screen_puc_seller: "Seller",
   product_details_screen_puc_seller_contact: "Seller Contact",
   product_details_screen_puc_no_info: "Details Not Available!",
@@ -289,7 +289,7 @@ export default {
   //eHome Screen
   ehome_screen_processing_docs: "Processing Docs",
   ehome_screen_items_pending_count: "{{pendingDocsCount}} item(s) pending",
-  ehome_screen_items_category_item_count: "{{count}} item(s)",
+  ehome_screen_items_category_item_count: "{{count}} items",
   ehome_screen_items_category_item_last_updated: "LAST UPDATED {{date}}",
 
   //FAQs screen
@@ -426,7 +426,7 @@ export default {
     "Don’t have a Bill? Want to add some expense",
   add_expenses_options_manual_btn: "ADD MANUALLY",
   add_expenses_options_manual_bottom_text: "You can always add bill later",
-  add_expenses_options_cancel_btn: "Cancel",
+  add_expenses_options_cancel_btn: "CANCEL",
 
   //app-tour texts
   app_tour_tips_1:

@@ -88,14 +88,12 @@ const ProductListItem = ({
     case MAIN_CATEGORY_IDS.AUTOMOBILE:
       return (
         <View style={styles.container}>
-          <ViewBillButton />
           <ProductType1 onPress={openProductScreen} product={product} />
         </View>
       );
     case MAIN_CATEGORY_IDS.PERSONAL:
       return (
         <View style={styles.container}>
-          <ViewBillButton />
           <ProductType3 product={product} onPress={openProductScreen} />
         </View>
       );
@@ -107,7 +105,6 @@ const ProductListItem = ({
             onPress={openProductScreen}
             hideDirectionsAndCallBtns={hideDirectionsAndCallBtns}
           />
-          <ViewBillButton />
         </View>
       );
   }
@@ -118,7 +115,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderColor: "#eaeaea",
     borderWidth: 1,
-    paddingTop: 20
+    marginBottom: 10
   },
   viewBillBtn: {
     position: "absolute",

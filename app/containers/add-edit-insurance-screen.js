@@ -5,7 +5,8 @@ import PropTypes from "prop-types";
 import {
   getReferenceDataForCategory,
   addInsurance,
-  updateInsurance
+  updateInsurance,
+  deleteInsurance
 } from "../api";
 
 import LoadingOverlay from "../components/loading-overlay";
@@ -39,6 +40,7 @@ class AddEditInsurance extends React.Component {
       insuranceProviders: [],
       isLoading: false
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
@@ -51,7 +53,57 @@ class AddEditInsurance extends React.Component {
     this.props.navigator.setTitle({ title });
 
     this.fetchCategoryData();
+
+    if (insurance) {
+      this.props.navigator.setButtons({
+        rightButtons: [
+          {
+            title: "Delete",
+            id: "delete",
+            buttonColor: "red",
+            buttonFontSize: 16,
+            buttonFontWeight: "600"
+          }
+        ],
+        animated: true
+      });
+    }
   }
+
+  onNavigatorEvent = event => {
+    if (event.type == "NavBarButtonPress") {
+      if (event.id == "delete") {
+        const { productId, insurance } = this.props;
+        Alert.alert(
+          `Delete this insurance?`,
+          "This will be an irreversible task.",
+          [
+            {
+              text: "Yes, delete",
+              onPress: async () => {
+                try {
+                  this.setState({ isLoading: true });
+                  await deleteInsurance({
+                    productId,
+                    insuranceId: insurance.id
+                  });
+                  this.props.navigator.pop();
+                } catch (e) {
+                  Alert.alert(`Couldn't delete`);
+                  this.setState({ isLoading: false });
+                }
+              }
+            },
+            {
+              text: "No, don't Delete",
+              onPress: () => {},
+              style: "cancel"
+            }
+          ]
+        );
+      }
+    }
+  };
 
   fetchCategoryData = async () => {
     try {
