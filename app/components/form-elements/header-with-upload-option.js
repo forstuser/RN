@@ -20,13 +20,13 @@ class HeaderWithUploadOption extends React.Component {
   }
 
   onUploadDocPress = () => {
-    const { jobId, type = 1 } = this.props;
+    const { jobId, type = 1, itemId, productId } = this.props;
     if (typeof this.props.beforeUpload == "function") {
       if (this.props.beforeUpload() == true) {
-        this.uploadBillOptions.show(jobId, type);
+        this.uploadBillOptions.show(jobId, type, itemId, productId);
       }
     } else {
-      this.uploadBillOptions.show(jobId, type);
+      this.uploadBillOptions.show(jobId, type, itemId, productId);
     }
   };
 
@@ -45,6 +45,7 @@ class HeaderWithUploadOption extends React.Component {
       navigator,
       itemId,
       copies = [],
+      productId,
       jobId,
       type,
       style = {},

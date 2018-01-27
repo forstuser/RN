@@ -24,24 +24,35 @@ import UploadBillOptions from "../../components/upload-bill-options";
 const dropdownIcon = require("../../images/ic_dropdown_arrow.png");
 const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 
+import ViewBillButton from "./view-bill-button";
+
 class Details extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    const { product } = this.props;
+    const { product, navigator } = this.props;
+
+    let productName = product.productName;
+    if (!productName) {
+      productName = product.categoryName;
+    }
 
     const metaUnderName = getProductMetasString(product.metaData);
 
-    let amountBreakdownOptions = [
-      <View style={{ width: "100%" }}>
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_cost_breakdown_product")}
-          valueText={`₹ ${product.value}`}
-        />
-      </View>
-    ];
+    let amountBreakdownOptions = [];
+
+    if (product.categoryId != 664) {
+      amountBreakdownOptions.push(
+        <View style={{ width: "100%" }}>
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_cost_breakdown_product")}
+            valueText={`₹ ${product.value}`}
+          />
+        </View>
+      );
+    }
 
     product.warrantyDetails.forEach(item => {
       let date = moment(item.purchaseDate).isValid()
@@ -138,63 +149,40 @@ class Details extends Component {
       </View>
     );
 
-    const ViewBillButton = ({ onPress }) => {
-      if (product.copies && product.copies.length > 0) {
-        return (
-          <TouchableOpacity
-            onPress={() =>
-              openBillsPopUp({
-                date: product.purchaseDate,
-                id: product.id,
-                copies: product.copies,
-                type: "Product"
-              })
-            }
-            style={styles.viewBillBtn}
-          >
-            <Image style={styles.viewBillIcon} source={viewBillIcon} />
-            <Text style={styles.viewBillText}>
-              {I18n.t("product_details_screen_view_bill_btn")}
-            </Text>
-          </TouchableOpacity>
-        );
-      } else {
-        return (
-          <TouchableOpacity
-            onPress={() => this.uploadBillOptions.show()}
-            style={styles.viewBillBtn}
-          >
-            <UploadBillOptions
-              ref={o => (this.uploadBillOptions = o)}
-              navigator={this.props.navigator}
-            />
-            <Image style={styles.viewBillIcon} source={viewBillIcon} />
-            <Text style={styles.viewBillText}>
-              {I18n.t("product_details_screen_upload_bill_btn")}
-            </Text>
-          </TouchableOpacity>
-        );
-      }
-    };
-
     return (
       <View style={styles.container}>
-        <ViewBillButton />
+        {product.categoryId != 664 && (
+          <ViewBillButton product={product} navigator={navigator} />
+        )}
+        {product.categoryId == 664 && <View style={{ height: 30 }} />}
         <Image
           style={styles.image}
           source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
         />
         <Text weight="Bold" style={styles.name}>
-          {product.productName}
+          {productName}
         </Text>
-        {(product.copies == null || product.copies.length == 0) && (
-          <Text weight="Bold" style={styles.noBillMsg}>
-            {I18n.t("product_details_screen_no_bill_msg")}
+        {product.categoryId == 664 && (
+          <View style={{ marginVertical: 10 }}>
+            <Text
+              weight="Bold"
+              style={{ fontSize: 18, color: colors.secondaryText }}
+            >
+              {product.model}
+            </Text>
+          </View>
+        )}
+        {(product.copies == null || product.copies.length == 0) &&
+          product.categoryId != 664 && (
+            <Text weight="Bold" style={styles.noBillMsg}>
+              {I18n.t("product_details_screen_no_bill_msg")}
+            </Text>
+          )}
+        {product.categoryId != 664 && (
+          <Text weight="Medium" style={styles.metaUnderName}>
+            {metaUnderName}
           </Text>
         )}
-        <Text weight="Medium" style={styles.metaUnderName}>
-          {metaUnderName}
-        </Text>
         <Text weight="Medium" style={styles.totalText}>
           {I18n.t("product_details_screen_total_text")}
         </Text>
@@ -221,28 +209,6 @@ class Details extends Component {
 }
 
 const styles = StyleSheet.create({
-  viewBillBtn: {
-    position: "absolute",
-    right: 10,
-    top: 10,
-    borderColor: colors.pinkishOrange,
-    borderWidth: 2,
-    height: 20,
-    borderRadius: 2,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 3,
-    zIndex: 2
-  },
-  viewBillIcon: {
-    width: 14,
-    height: 14,
-    marginRight: 2
-  },
-  viewBillText: {
-    fontSize: 10,
-    color: colors.pinkishOrange
-  },
   container: {
     alignItems: "center"
   },

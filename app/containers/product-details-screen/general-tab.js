@@ -17,6 +17,7 @@ import KeyValueItem from "../../components/key-value-item";
 import SectionHeading from "../../components/section-heading";
 import { addProductReview } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
+import { MAIN_CATEGORY_IDS } from "../../constants";
 
 class GeneralTab extends Component {
   constructor(props) {
@@ -82,6 +83,16 @@ class GeneralTab extends Component {
 
   render() {
     const { product, onEditPress } = this.props;
+    let dateText = "Date";
+    if (
+      [
+        MAIN_CATEGORY_IDS.AUTOMOBILE,
+        MAIN_CATEGORY_IDS.ELECTRONICS,
+        MAIN_CATEGORY_IDS.FURNITURE
+      ].indexOf(product.masterCategoryId) > -1
+    ) {
+      dateText = "Purchase Date";
+    }
     return (
       <View>
         <TouchableOpacity
@@ -120,9 +131,15 @@ class GeneralTab extends Component {
           valueText={product.masterCategoryName}
         />
         <KeyValueItem
-          keyText={I18n.t("product_details_screen_sub_category")}
+          keyText={I18n.t("product_details_screen_category")}
           valueText={product.categoryName}
         />
+        {product.sub_category_name && (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_sub_category")}
+            valueText={product.sub_category_name}
+          />
+        )}
         {product.brand && (
           <KeyValueItem
             keyText={I18n.t("product_details_screen_brand")}
@@ -130,7 +147,7 @@ class GeneralTab extends Component {
           />
         )}
         <KeyValueItem
-          keyText={I18n.t("product_details_screen_date_of_purchase")}
+          keyText={dateText}
           valueText={moment(product.purchaseDate).format("MMM DD, YYYY")}
         />
         {product.metaData.map((metaItem, index) => (
@@ -141,7 +158,7 @@ class GeneralTab extends Component {
           />
         ))}
 
-        {!this.state.showEditReview && (
+        {false && (
           <View style={styles.review}>
             <LoadingOverlay visible={this.state.isAddingReview} />
             <SectionHeading text="REVIEW THIS PRODUCT" />
@@ -178,7 +195,7 @@ class GeneralTab extends Component {
             </View>
           </View>
         )}
-        {!this.state.showEditReview && (
+        {false && (
           <View style={styles.editReview}>
             <SectionHeading text="YOUR REVIEW" />
             <View style={styles.reviewInner}>

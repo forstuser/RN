@@ -152,6 +152,13 @@ class EhomeScreen extends Component {
       }}
     />
   );
+
+  showAddProductOptionsScreen = () => {
+    this.props.navigator.showModal({
+      screen: SCREENS.ADD_PRODUCT_OPTIONS_SCREEN
+    });
+  };
+
   render() {
     const { error, isFetchingData } = this.state;
     if (error) {
@@ -191,18 +198,12 @@ class EhomeScreen extends Component {
             { ref: this.processingItemsRef, text: I18n.t("app_tour_tips_4") }
           ]}
         />
-
         <TouchableOpacity
           style={styles.fab}
-          onPress={() => this.addExpenseModal.show()}
+          onPress={() => this.showAddProductOptionsScreen()}
         >
           <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
         </TouchableOpacity>
-
-        <AddExpenseModal
-          ref={ref => (this.addExpenseModal = ref)}
-          navigator={this.props.navigator}
-        />
       </ScreenContainer>
     );
   }

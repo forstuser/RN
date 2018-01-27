@@ -35,10 +35,10 @@ class FinishModal extends React.Component {
 
   onDoItLaterClick = () => {
     this.setState({ visible: false }, () => {
-      this.props.navigator.dismissAllModals();
-      return;
       if (this.props.productId) {
-        this.props.navigator.resetTo({
+        this.props.navigator.pop({ animationType: "fade" });
+
+        this.props.navigator.push({
           screen: SCREENS.PRODUCT_DETAILS_SCREEN,
           passProps: {
             productId: this.props.productId

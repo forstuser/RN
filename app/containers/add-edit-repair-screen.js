@@ -114,6 +114,10 @@ class AddEditRepair extends React.Component {
       ...this.repairForm.getFilledData()
     };
 
+    if (!data.repairDate) {
+      return Alert.alert("Please select repair date");
+    }
+
     try {
       this.setState({ isLoading: true });
       if (!data.id) {

@@ -37,7 +37,10 @@ import MultipleContactNumbers from "./multiple-contact-numbers";
 let mapIcon = require("../../images/ic_details_map.png");
 const visitingCardIcon = require("../../images/main-categories/ic_visiting_card.png");
 const personalDocIcon = require("../../images/main-categories/ic_personal_doc.png");
+
 import { openBillsPopUp } from "../../navigation";
+
+import ViewBillButton from "./view-bill-button";
 
 class PerosnalDocCard extends Component {
   constructor(props) {
@@ -81,6 +84,12 @@ class PerosnalDocCard extends Component {
 
   render() {
     const { product } = this.props;
+
+    let productName = product.productName;
+    if (!productName) {
+      productName = product.sub_category_name || product.categoryName;
+    }
+
     let seller = {
       sellerName: "",
       city: "",
@@ -101,9 +110,11 @@ class PerosnalDocCard extends Component {
       };
     }
 
-    let imageSource = visitingCardIcon;
-    if (product.copies && product.copies.length > 0) {
-      imageSource = { uri: API_BASE_URL + product.copies[0].copyUrl };
+    let imageSource = personalDocIcon;
+
+    //visiting card
+    if (product.categoryId == 27) {
+      imageSource = visitingCardIcon;
     }
 
     return (
@@ -112,24 +123,15 @@ class PerosnalDocCard extends Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <TouchableOpacity
-            onPress={() =>
-              openBillsPopUp({
-                date: product.purchaseDate,
-                id: product.id,
-                copies: product.copies,
-                type: "Personal Doc"
-              })
-            }
-          >
-            <Image
-              style={styles.image}
-              source={imageSource}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
+          <ViewBillButton
+            product={product}
+            navigator={navigator}
+            docType="Personal Doc"
+            btnText="Doc"
+          />
+          <Image style={styles.image} source={imageSource} />
           <Text weight="Bold" style={styles.name}>
-            {product.productName}
+            {productName}
           </Text>
           <TouchableOpacity
             onPress={this.onEditPress}
@@ -242,10 +244,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   image: {
-    width: 310,
-    height: 190,
+    width: 100,
+    height: 100,
     alignSelf: "center",
-    margin: 16
+    marginTop: 50,
+    marginBottom: 20
   },
   name: {
     fontSize: 24

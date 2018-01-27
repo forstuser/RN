@@ -73,36 +73,33 @@ class BasicDetailsForm extends React.Component {
       copies
     } = props;
 
-    let selectedBrand = null;
-    if (selectedBrandId) {
+    if (selectedBrandId && !this.state.selectedBrand && !this.state.brandName) {
       selectedBrand = brands.find(brand => brand.id == selectedBrandId);
+      this.setState({ selectedBrand }, () => this.fetchModels());
     }
 
-    this.setState(
-      {
-        id,
-        productName,
-        selectedBrand,
-        modelName,
-        purchaseDate,
-        value,
-        sellerName,
-        sellerContact,
-        vinNo,
-        registrationNo,
-        imeiNo,
-        serialNo,
-        vinNoId,
-        registrationNoId,
-        imeiNoId,
-        serialNoId,
-        copies
-      },
-      () => this.fetchModels()
-    );
+    this.setState({
+      id,
+      productName,
+      modelName,
+      purchaseDate,
+      value,
+      sellerName,
+      sellerContact,
+      vinNo,
+      registrationNo,
+      imeiNo,
+      serialNo,
+      vinNoId,
+      registrationNoId,
+      imeiNoId,
+      serialNoId,
+      copies
+    });
   };
 
   getFilledData = () => {
+    const { category } = this.props;
     const {
       productName = "",
       selectedBrand,
@@ -132,24 +129,26 @@ class BasicDetailsForm extends React.Component {
         const registrationNoCategoryForm = categoryForms.find(
           categoryForm => categoryForm.title == "Registration Number"
         );
-        metadata.push({
-          id: registrationNoId,
-          categoryFormId: registrationNoCategoryForm.id,
-          value: registrationNo,
-          isNewValue: false
-        });
+        registrationNoCategoryForm &&
+          metadata.push({
+            id: registrationNoId,
+            categoryFormId: registrationNoCategoryForm.id,
+            value: registrationNo,
+            isNewValue: false
+          });
       }
 
       if (vinNo) {
         const vinNoCategoryForm = categoryForms.find(
-          categoryForm => categoryForm.title == "Vehicle Number"
+          categoryForm => categoryForm.title.toLowerCase() == "vin"
         );
-        metadata.push({
-          id: vinNoId,
-          categoryFormId: vinNoCategoryForm.id,
-          value: vinNo,
-          isNewValue: false
-        });
+        vinNoCategoryForm &&
+          metadata.push({
+            id: vinNoId,
+            categoryFormId: vinNoCategoryForm.id,
+            value: vinNo,
+            isNewValue: false
+          });
       }
     } else if (mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
       if (this.props.categoryId == 327 && imeiNo) {
@@ -157,22 +156,24 @@ class BasicDetailsForm extends React.Component {
           categoryForm => categoryForm.title == "IMEI Number"
         );
 
-        metadata.push({
-          id: imeiNoId,
-          categoryFormId: imeiNoCategoryForm.id,
-          value: imeiNo,
-          isNewValue: false
-        });
+        imeiNoCategoryForm &&
+          metadata.push({
+            id: imeiNoId,
+            categoryFormId: imeiNoCategoryForm.id,
+            value: imeiNo,
+            isNewValue: false
+          });
       } else if (serialNo) {
         const serialNoCategoryForm = categoryForms.find(
           categoryForm => categoryForm.title == "Serial Number"
         );
-        metadata.push({
-          id: serialNoId,
-          categoryFormId: serialNoCategoryForm.id,
-          value: serialNo,
-          isNewValue: false
-        });
+        serialNoCategoryForm &&
+          metadata.push({
+            id: serialNoId,
+            categoryFormId: serialNoCategoryForm.id,
+            value: serialNo,
+            isNewValue: false
+          });
       }
     }
 
@@ -189,6 +190,9 @@ class BasicDetailsForm extends React.Component {
     } else if (modelName) {
       productNameFromBrandAndModel =
         productNameFromBrandAndModel + " " + modelName;
+    } else {
+      productNameFromBrandAndModel =
+        productNameFromBrandAndModel + " " + category.name;
     }
 
     let data = {
@@ -247,6 +251,24 @@ class BasicDetailsForm extends React.Component {
     }
   };
 
+  onModelSelect = model => {
+    if (this.state.selectedModel && this.state.selectedModel.id == model.id) {
+      return;
+    }
+
+    if (typeof this.props.setWarrantyTypesOnModelSelect == "function") {
+      this.props.setWarrantyTypesOnModelSelect({
+        warrantyRenewalTypeId: model.warranty_renewal_type,
+        dualWarrantyRenewalTypeId: model.dual_renewal_type
+      });
+    }
+
+    this.setState({
+      selectedModel: model,
+      modelName: ""
+    });
+  };
+
   onModelNameChange = text => {
     this.setState({
       modelName: text,
@@ -260,7 +282,8 @@ class BasicDetailsForm extends React.Component {
       categoryId,
       jobId = null,
       navigator,
-      brands
+      brands,
+      category
     } = this.props;
     const {
       id,
@@ -287,6 +310,7 @@ class BasicDetailsForm extends React.Component {
           textBeforeUpload="Upload Bill"
           textBeforeUpload2=" (recommended)"
           textBeforeUpload2Color={colors.mainBlue}
+          productId={id}
           itemId={id}
           jobId={jobId}
           type={1}
@@ -356,9 +380,7 @@ class BasicDetailsForm extends React.Component {
               selectedOption={selectedModel}
               textInputValue={modelName}
               onOptionSelect={value => {
-                this.setState({
-                  selectedModel: value
-                });
+                this.onModelSelect(value);
               }}
               onTextInputChange={text => this.setState({ modelName: text })}
             />

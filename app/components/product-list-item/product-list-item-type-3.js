@@ -8,6 +8,10 @@ import { API_BASE_URL } from "../../api";
 import { openBillsPopUp } from "../../navigation";
 
 const ProductListItem = ({ product, onPress }) => {
+  let productName = product.productName;
+  if (!productName) {
+    productName = product.sub_category_name || product.categoryName;
+  }
   return (
     <TouchableOpacity onPress={() => onPress()} style={styles.container}>
       <View style={styles.details}>
@@ -20,7 +24,7 @@ const ProductListItem = ({ product, onPress }) => {
         )}
         <View style={styles.texts}>
           <Text weight="Bold" style={styles.name}>
-            {product.productName}
+            {productName}
           </Text>
           <Text weight="Medium" style={styles.uploadDate}>
             Uploaded on {moment(product.purchaseDate).format("DD MMM YYYY")}

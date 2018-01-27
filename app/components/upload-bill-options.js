@@ -13,15 +13,17 @@ class UploadBillOptions extends React.Component {
   state = {
     jobId: null,
     type: null,
-    itemId: null
+    itemId: null,
+    productid: null
   };
 
-  show = (jobId, type, itemId) => {
+  show = (jobId, type, itemId, productId) => {
     this.setState(
       {
         jobId,
         type,
-        itemId
+        itemId,
+        productId
       },
       () => {
         this.uploadOptions.show();
@@ -50,6 +52,7 @@ class UploadBillOptions extends React.Component {
           jobId: this.state.jobId,
           type: this.state.type,
           itemId: this.state.itemId,
+          productId: this.state.productId,
           openPickerOnStart,
           uploadCallback: this.props.uploadCallback
         }

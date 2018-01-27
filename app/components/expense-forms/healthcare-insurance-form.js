@@ -4,7 +4,11 @@ import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 import moment from "moment";
 
 import { MAIN_CATEGORY_IDS } from "../../constants";
-import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
+import {
+  getReferenceDataBrands,
+  getReferenceDataModels,
+  getReferenceDataForCategory
+} from "../../api";
 
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
@@ -22,18 +26,9 @@ class HealthcareInsuranceForm extends React.Component {
       productId: null,
       planName: "",
       insuranceFor: "",
-      types: [
-        {
-          id: 708,
-          name: "Health Insurance"
-        },
-        {
-          id: 725,
-          name: "Life Insurance"
-        }
-      ],
+      types: [],
       selectedType: null,
-      providers: [],
+      insuranceProviders: [],
       selectedProvider: null,
       providerName: "",
       insuranceId: null,
@@ -46,6 +41,7 @@ class HealthcareInsuranceForm extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchTypes();
     this.updateStateFromProps(this.props);
   }
 
@@ -57,10 +53,10 @@ class HealthcareInsuranceForm extends React.Component {
     const {
       typeId,
       productId,
+      insuranceId,
       jobId,
       planName,
       insuranceFor,
-      insuranceId,
       value,
       insuranceProviders,
       providerId,
@@ -100,7 +96,19 @@ class HealthcareInsuranceForm extends React.Component {
     });
   };
 
+  fetchTypes = async () => {
+    try {
+      const res = await getReferenceDataForCategory(this.props.categoryId);
+      this.setState({
+        types: res.categories[0].subCategories
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   getFilledData = () => {
+    const { showOnlyGeneralInfo } = this.props;
     const {
       productId,
       planName,
@@ -117,11 +125,14 @@ class HealthcareInsuranceForm extends React.Component {
 
     let data = {
       productId: productId,
-      productName: planName,
+      productName: planName || "Insurance",
       model: insuranceFor,
       isNewModel: false,
-      subCategoryId: selectedType ? selectedType.id : null,
-      insurance: {
+      subCategoryId: selectedType ? selectedType.id : null
+    };
+
+    if (!showOnlyGeneralInfo) {
+      data.insurance = {
         id: insuranceId,
         effectiveDate: effectiveDate,
         providerId: selectedProvider ? selectedProvider.id : null,
@@ -129,8 +140,8 @@ class HealthcareInsuranceForm extends React.Component {
         policyNo: policyNo,
         value: value,
         amountInsured: amountInsured
-      }
-    };
+      };
+    }
 
     return data;
   };
@@ -149,7 +160,7 @@ class HealthcareInsuranceForm extends React.Component {
   };
 
   onTypeSelect = type => {
-    if (this.state.selectedType && this.state.selectedTyper.id == type.id) {
+    if (this.state.selectedType && this.state.selectedType.id == type.id) {
       return;
     }
     this.setState({
@@ -158,14 +169,20 @@ class HealthcareInsuranceForm extends React.Component {
   };
 
   render() {
-    const { mainCategoryId, categoryId, jobId } = this.props;
+    const {
+      mainCategoryId,
+      categoryId,
+      jobId,
+      showOnlyGeneralInfo = false
+    } = this.props;
     const {
       productId,
+      insuranceId,
       planName,
       types,
       selectedType,
       insuranceFor,
-      providers,
+      insuranceProviders,
       selectedProvider,
       providerName,
       policyNo,
@@ -181,16 +198,19 @@ class HealthcareInsuranceForm extends React.Component {
           textBeforeUpload="Upload Doc"
           textBeforeUpload2=" (recommended)"
           textBeforeUpload2Color={colors.mainBlue}
-          itemId={productId}
+          productId={productId}
+          itemId={insuranceId}
           jobId={jobId ? jobId : null}
-          type={1}
+          type={3}
           copies={copies}
           onUpload={uploadResult => {
-            console.log("product: ", product);
-            console.log("upload result: ", uploadResult);
-            this.setState({ copies: uploadResult.product.copies });
+            this.setState({
+              insuranceId: uploadResult.insurance.id,
+              copies: uploadResult.product.copies
+            });
           }}
           navigator={this.props.navigator}
+          hideUploadOption={showOnlyGeneralInfo}
         />
         <View style={styles.body}>
           <CustomTextInput
@@ -223,58 +243,64 @@ class HealthcareInsuranceForm extends React.Component {
             value={insuranceFor}
             onChangeText={insuranceFor => this.setState({ insuranceFor })}
           />
+          {!showOnlyGeneralInfo && (
+            <View>
+              <SelectModal
+                style={styles.input}
+                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                placeholder="Provider"
+                placeholderRenderer={({ placeholder }) => (
+                  <View style={{ flexDirection: "row" }}>
+                    <Text
+                      weight="Medium"
+                      style={{ color: colors.secondaryText }}
+                    >
+                      {placeholder}
+                    </Text>
+                  </View>
+                )}
+                selectedOption={selectedProvider}
+                textInputValue={providerName}
+                options={insuranceProviders}
+                onOptionSelect={value => {
+                  this.onProviderSelect(value);
+                }}
+                onTextInputChange={text =>
+                  this.setState({ selectedProvider: null, providerName: text })
+                }
+              />
 
-          <SelectModal
-            style={styles.input}
-            dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-            placeholder="Provider"
-            placeholderRenderer={({ placeholder }) => (
-              <View style={{ flexDirection: "row" }}>
-                <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                  {placeholder}
-                </Text>
-              </View>
-            )}
-            selectedOption={selectedProvider}
-            textInputValue={providerName}
-            options={providers}
-            onOptionSelect={value => {
-              this.onProviderSelect(value);
-            }}
-            onTextInputChange={text =>
-              this.setState({ selectedProvider: null, providerName: text })
-            }
-          />
+              <CustomTextInput
+                placeholder="Policy No"
+                placeholder2=" (Recommended)"
+                placeholder2Color={colors.mainBlue}
+                value={policyNo}
+                onChangeText={policyNo => this.setState({ policyNo })}
+              />
 
-          <CustomTextInput
-            placeholder="Policy No"
-            placeholder2=" (Recommended)"
-            placeholder2Color={colors.mainBlue}
-            value={policyNo}
-            onChangeText={policyNo => this.setState({ policyNo })}
-          />
+              <CustomDatePicker
+                date={effectiveDate}
+                placeholder="Effective Date"
+                onDateChange={effectiveDate => {
+                  this.setState({ effectiveDate });
+                }}
+              />
 
-          <CustomDatePicker
-            date={effectiveDate}
-            placeholder="Effective Date"
-            onDateChange={effectiveDate => {
-              this.setState({ effectiveDate });
-            }}
-          />
+              <CustomTextInput
+                placeholder="Premium Amount"
+                value={value > 0 ? String(value) : ""}
+                onChangeText={value => this.setState({ value })}
+                keyboardType="numeric"
+              />
 
-          <CustomTextInput
-            placeholder="Premium Amount"
-            value={value > 0 ? String(value) : ""}
-            onChangeText={value => this.setState({ value })}
-            keyboardType="numeric"
-          />
-
-          <CustomTextInput
-            placeholder="Coverage"
-            value={amountInsured > 0 ? String(amountInsured) : ""}
-            onChangeText={amountInsured => this.setState({ amountInsured })}
-            keyboardType="numeric"
-          />
+              <CustomTextInput
+                placeholder="Coverage"
+                value={amountInsured > 0 ? String(amountInsured) : ""}
+                onChangeText={amountInsured => this.setState({ amountInsured })}
+                keyboardType="numeric"
+              />
+            </View>
+          )}
         </View>
       </View>
     );

@@ -135,16 +135,14 @@ class EditProductBasicDetails extends React.Component {
     }
 
     const vinNoMeta = productMetaDatas.find(
-      meta => meta.name == "Vehicle Number"
+      meta => meta.name.toLowerCase() == "vin"
     );
     if (vinNoMeta) {
       vinNo = vinNoMeta.value;
       vinNoId = vinNoMeta.id;
     }
 
-    const dueDateMeta = productMetaDatas.find(
-      meta => meta.name == "Due date ( YYYY-MM-DD )"
-    );
+    const dueDateMeta = productMetaDatas.find(meta => meta.name == "Due date");
     if (dueDateMeta) {
       nextDueDate = dueDateMeta.value;
       nextDueDateId = dueDateMeta.id;
@@ -171,6 +169,10 @@ class EditProductBasicDetails extends React.Component {
                 ref={ref => (this.basicDetailsForm = ref)}
                 mainCategoryId={product.masterCategoryId}
                 categoryId={product.categoryId}
+                category={{
+                  id: product.categoryId,
+                  name: product.categoryName
+                }}
                 jobId={product.jobId}
                 subCategories={subCategories}
                 navigator={navigator}
@@ -193,6 +195,10 @@ class EditProductBasicDetails extends React.Component {
                 ref={ref => (this.basicDetailsForm = ref)}
                 mainCategoryId={product.masterCategoryId}
                 categoryId={product.categoryId}
+                category={{
+                  id: product.categoryId,
+                  name: product.categoryName
+                }}
                 id={product.id}
                 jobId={product.jobId}
                 brands={brands}

@@ -39,7 +39,7 @@ class ImportantTab extends Component {
   }
 
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigator, openServiceSchedule } = this.props;
     const {
       warrantyDetails,
       insuranceDetails,
@@ -49,11 +49,13 @@ class ImportantTab extends Component {
 
     return (
       <View>
-        <WarrantyDetails
-          warrantyType={WARRANTY_TYPES.NORMAL}
-          product={product}
-          navigator={navigator}
-        />
+        {product.categoryId != 664 && (
+          <WarrantyDetails
+            warrantyType={WARRANTY_TYPES.NORMAL}
+            product={product}
+            navigator={navigator}
+          />
+        )}
 
         {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
           product.masterCategoryId
@@ -76,9 +78,12 @@ class ImportantTab extends Component {
           />
         )}
 
-        {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
+        {([MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
           product.masterCategoryId
-        ) > -1 && <InsuranceDetails product={product} navigator={navigator} />}
+        ) > -1 ||
+          product.categoryId == 664) && (
+          <InsuranceDetails product={product} navigator={navigator} />
+        )}
 
         {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
           product.masterCategoryId
@@ -97,7 +102,11 @@ class ImportantTab extends Component {
         {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
           product.serviceSchedules &&
           product.serviceSchedules.length > 0 && (
-            <ServiceSchedules product={product} navigator={navigator} />
+            <ServiceSchedules
+              product={product}
+              navigator={navigator}
+              openServiceSchedule={openServiceSchedule}
+            />
           )}
       </View>
     );

@@ -33,6 +33,8 @@ import MultipleContactNumbers from "./multiple-contact-numbers";
 let mapIcon = require("../../images/ic_details_map.png");
 import { openBillsPopUp } from "../../navigation";
 
+import ViewBillButton from "./view-bill-button";
+
 class MedicalDocsCard extends Component {
   constructor(props) {
     super(props);
@@ -93,22 +95,16 @@ class MedicalDocsCard extends Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <TouchableOpacity
-            onPress={() =>
-              openBillsPopUp({
-                date: product.purchaseDate,
-                id: product.id,
-                copies: product.copies,
-                type: "Medical Doc"
-              })
-            }
-          >
-            <Image
-              style={styles.image}
-              source={imageSource}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
+          <ViewBillButton
+            product={product}
+            navigator={navigator}
+            docType="Medical Doc"
+            btnText="Doc"
+          />
+          <Image
+            style={styles.image}
+            source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
+          />
           <Text weight="Bold" style={styles.name}>
             {product.productName}
           </Text>
@@ -178,10 +174,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   image: {
-    width: 310,
-    height: 190,
+    width: 100,
+    height: 100,
     alignSelf: "center",
-    margin: 16
+    marginTop: 50,
+    marginBottom: 20
   },
   name: {
     fontSize: 24

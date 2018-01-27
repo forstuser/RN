@@ -48,49 +48,61 @@ persistStore(store, {}, () => {
       if (notif.opened_from_tray) {
         switch (notif.notification_type) {
           case "1":
-            if (
-              notif.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
-              notif.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS
-            ) {
-              return openAppScreen({
-                startScreen: SCREENS.PRODUCT_DETAILS_SCREEN,
-                productId: notif.productId
-              });
-            }
-            return openAppScreen();
-          case "2":
-            return openAppScreen({ startScreen: SCREENS.MAILBOX_SCREEN });
-          case "3":
-          case "4":
+            return openAppScreen({
+              startScreen: SCREENS.TIPS_SCREEN
+            });
+          case 2:
+          case 3:
+          case 6:
+            return openAppScreen({
+              startScreen: SCREENS.DASHBOARD_SCREEN,
+              openAddProductOptions: true
+            });
+          case 4:
+            return openAppScreen({
+              startScreen: SCREENS.ASC_SCREEN,
+              hitAccessApi: true
+            });
+          case 5:
+            return Linking.openURL(notif.link).catch(err => openAppScreen());
+          case 7:
+            return openAppScreen({
+              startScreen: SCREENS.EHOME_SCREEN
+            });
+          case (8, 10, 11, 12, 13, 14, 18, 25):
             return openAppScreen({
               startScreen: SCREENS.PRODUCT_DETAILS_SCREEN,
-              productId: notif.productId
+              productId: notif.id
             });
-          case "5":
+          case 9:
+            return Linking.openURL(
+              "https://itunes.apple.com/in/app/binbill/id1328873045"
+            ).catch(err => openAppScreen());
+          case 16:
+          case 17:
+            return openAppScreen({
+              startScreen: SCREENS.PRODUCT_DETAILS_SCREEN,
+              productId: notif.id,
+              openServiceSchedule: true
+            });
+          case 19:
             return openAppScreen({
               startScreen: SCREENS.INSIGHTS_SCREEN,
               initialFilterIndex: 0 //last 7 days
             });
-          case "6":
+          case 20:
             return openAppScreen({
               startScreen: SCREENS.INSIGHTS_SCREEN,
               initialFilterIndex: 1 // current month
             });
-          case "7":
-            return openAppScreen({
-              startScreen: SCREENS.INSIGHTS_SCREEN,
-              initialFilterIndex: 2 // current year
-            });
-          case "8":
+          case 21:
+          case 22:
             return openAppScreen({
               startScreen: SCREENS.PROFILE_SCREEN
             });
-          case "9":
-            return openAppScreen();
-          case "10":
-            return openAppScreen({
-              startScreen: SCREENS.ADD_PRODUCT_SCREEN
-            });
+          case 23:
+          case 24:
+            return openAppScreen({ startScreen: SCREENS.MAILBOX_SCREEN });
         }
       }
     });

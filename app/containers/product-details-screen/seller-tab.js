@@ -189,7 +189,7 @@ class SellerTab extends Component {
           />
         )}
         {product.sellers &&
-          this.state.showEditReview && (
+          false && (
             <View style={styles.review}>
               <LoadingOverlay visible={this.state.isAddingReview} />
               <SectionHeading text="HOW WAS YOUR EXPERIENCE" />
@@ -227,7 +227,7 @@ class SellerTab extends Component {
             </View>
           )}
         {product.sellers &&
-          !this.state.showEditReview && (
+          false && (
             <View style={styles.editReview}>
               <SectionHeading text="YOUR REVIEW" />
               <View style={styles.reviewInner}>

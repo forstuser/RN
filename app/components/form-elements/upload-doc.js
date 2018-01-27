@@ -39,6 +39,7 @@ class UploadDoc extends React.Component {
       navigator,
       itemId,
       copies = [],
+      productId,
       jobId,
       type,
       style = {},
@@ -70,7 +71,7 @@ class UploadDoc extends React.Component {
               weight="Bold"
               onPress={() => {
                 console.log("jobId, type, itemId ", jobId, type, itemId);
-                this.uploadBillOptions.show(jobId, type, itemId);
+                this.uploadBillOptions.show(jobId, type, itemId, productId);
               }}
               style={styles.addText}
             >

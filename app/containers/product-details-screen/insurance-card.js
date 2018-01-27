@@ -32,6 +32,7 @@ import KeyValueItem from "../../components/key-value-item";
 const insuranceIcon = require("../../images/categories/insurance.png");
 
 import { openBillsPopUp } from "../../navigation";
+import ViewBillButton from "./view-bill-button";
 
 class InsuranceCard extends Component {
   constructor(props) {
@@ -69,6 +70,8 @@ class InsuranceCard extends Component {
       screen: SCREENS.EDIT_INSURANCE_SCREEN,
       passProps: {
         typeId: product.sub_category_id,
+        mainCategoryId: product.masterCategoryId,
+        categoryId: product.categoryId,
         productId: product.id,
         jobId: product.jobId,
         planName: product.productName,
@@ -85,7 +88,7 @@ class InsuranceCard extends Component {
   };
 
   render() {
-    const { product } = this.props;
+    const { product, navigator } = this.props;
     let insurance = {
       value: 0,
       effectiveDate: "",
@@ -113,22 +116,15 @@ class InsuranceCard extends Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <TouchableOpacity
-            onPress={() =>
-              openBillsPopUp({
-                date: product.purchaseDate,
-                id: product.id,
-                copies: product.copies,
-                type: "Personal Doc"
-              })
-            }
-          >
-            <Image
-              style={styles.image}
-              source={imageSource}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
+          <ViewBillButton
+            product={product}
+            navigator={navigator}
+            docType="Insurance"
+          />
+          <Image
+            style={styles.image}
+            source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
+          />
           <Text weight="Bold" style={styles.name}>
             {product.productName}
           </Text>

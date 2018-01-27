@@ -25,8 +25,7 @@ const slideImages = [
   require("../../images/blank-dashboard/slide_2.png"),
   require("../../images/blank-dashboard/slide_3.png"),
   require("../../images/blank-dashboard/slide_4.png"),
-  require("../../images/blank-dashboard/slide_5.png"),
-  require("../../images/blank-dashboard/slide_6.png")
+  require("../../images/blank-dashboard/slide_5.png")
 ];
 const bottomImage = require("../../images/blank-dashboard/bottom-image.png");
 
@@ -94,7 +93,7 @@ class BlankDashboard extends React.Component {
           <LinearGradient
             start={{ x: 0.0, y: 0.8 }}
             end={{ x: 0.0, y: 1 }}
-            colors={["#20083b", "#401988"]}
+            colors={["#01c8ff", "#0ae2f1"]}
             style={styles.gradientBackground}
           >
             <View style={styles.contentWrapper}>

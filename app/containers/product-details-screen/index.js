@@ -59,14 +59,16 @@ class ProductDetailsScreen extends Component {
       {
         component: "NavOptionsButton"
       }
-    ]
+    ],
+    backButtonTitle: ""
   };
 
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      product: {}
+      product: {},
+      openServiceSchedule: false
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -75,6 +77,13 @@ class ProductDetailsScreen extends Component {
     this.props.navigator.setTitle({
       title: I18n.t("product_details_screen_title")
     });
+
+    if (this.props.screenOpts) {
+      const screenOpts = this.props.screenOpts;
+      if (screenOpts.openServiceSchedule) {
+        this.setState({ openServiceSchedule: true });
+      }
+    }
   }
 
   onNavigatorEvent = event => {
@@ -141,7 +150,7 @@ class ProductDetailsScreen extends Component {
   };
 
   render() {
-    const { product, isLoading } = this.state;
+    const { product, isLoading, openServiceSchedule } = this.state;
     let content = null;
     if (isLoading) {
       content = <LoadingOverlay visible={isLoading} />;
@@ -149,19 +158,24 @@ class ProductDetailsScreen extends Component {
       content = (
         <PersonalDocCard product={product} navigator={this.props.navigator} />
       );
-    } else if (product.categoryId == 664) {
-      //insurance
-      content = (
-        <InsuranceCard product={product} navigator={this.props.navigator} />
-      );
     } else if (product.categoryId == 86) {
+      // else if (product.categoryId == 664) {
+      //   //insurance
+      //   content = (
+      //     <InsuranceCard product={product} navigator={this.props.navigator} />
+      //   );
+      // }
       //medical docs
       content = (
         <MedicalDocsCard product={product} navigator={this.props.navigator} />
       );
     } else {
       content = (
-        <ProductCard product={product} navigator={this.props.navigator} />
+        <ProductCard
+          product={product}
+          navigator={this.props.navigator}
+          openServiceSchedule={openServiceSchedule}
+        />
       );
     }
     return (

@@ -1,106 +1,84 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, View, FlatList, Alert } from "react-native";
-import { API_BASE_URL, consumerGetEhome } from "../api";
+import { API_BASE_URL, getTips } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 import I18n from "../i18n";
+
+const tipsColors = ["#54ddff", "#ff9b9b", "#9baaf9", "#3eefdc", "#dbf62d"];
 
 class TipsScreen extends Component {
   static navigatorStyle = {
     tabBarHidden: true
   };
 
-  componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("tips_screen_title")
-    });
-  }
-
   constructor(props) {
     super(props);
     this.state = {
       tips: [
         {
-          data: I18n.t("tips_screen_tip_1"),
-          color: "#2ab9fe",
-          border: "#54ddff"
+          tip: I18n.t("tips_screen_tip_1")
         },
         {
-          data: I18n.t("tips_screen_tip_2"),
-          color: "#ff6262",
-          border: "#ff9b9b"
+          tip: I18n.t("tips_screen_tip_2")
         },
         {
-          data: I18n.t("tips_screen_tip_3"),
-          color: "#6271f0",
-          border: "#9baaf9"
+          tip: I18n.t("tips_screen_tip_3")
         },
         {
-          data: I18n.t("tips_screen_tip_4"),
-          color: "#1ddbb7",
-          border: "#3eefdc"
+          tip: I18n.t("tips_screen_tip_4")
         },
         {
-          data: I18n.t("tips_screen_tip_5"),
-          color: "#b4e914",
-          border: "#dbf62d"
+          tip: I18n.t("tips_screen_tip_5")
         },
         {
-          data: I18n.t("tips_screen_tip_6"),
-          color: "#1ddbb7",
-          border: "#3eefdc"
+          tip: I18n.t("tips_screen_tip_6")
         },
         {
-          data: I18n.t("tips_screen_tip_7"),
-          color: "#1ddbb7",
-          border: "#3eefdc"
+          tip: I18n.t("tips_screen_tip_7")
         },
         {
-          data: I18n.t("tips_screen_tip_8"),
-          color: "#1ddbb7",
-          border: "#3eefdc"
+          tip: I18n.t("tips_screen_tip_8")
         },
         {
-          data: I18n.t("tips_screen_tip_9"),
-          color: "#1ddbb7",
-          border: "#3eefdc"
+          tip: I18n.t("tips_screen_tip_9")
         },
         {
-          data: I18n.t("tips_screen_tip_10"),
-          color: "#1ddbb7",
-          border: "#3eefdc"
+          tip: I18n.t("tips_screen_tip_10")
         },
         {
-          data: I18n.t("tips_screen_tip_11"),
-          color: "#1ddbb7",
-          border: "#3eefdc"
+          tip: I18n.t("tips_screen_tip_11")
         },
         {
-          data: I18n.t("tips_screen_tip_12"),
-          color: "#1ddbb7",
-          border: "#3eefdc"
+          tip: I18n.t("tips_screen_tip_12")
         },
         {
-          data: I18n.t("tips_screen_tip_13"),
-          color: "#1ddbb7",
-          border: "#3eefdc"
+          tip: I18n.t("tips_screen_tip_13")
         },
         {
-          data: I18n.t("tips_screen_tip_14"),
-          color: "#1ddbb7",
-          border: "#3eefdc"
+          tip: I18n.t("tips_screen_tip_14")
         },
         {
-          data: I18n.t("tips_screen_tip_15"),
-          color: "#1ddbb7",
-          border: "#3eefdc"
+          tip: I18n.t("tips_screen_tip_15")
         },
         {
-          data: I18n.t("tips_screen_tip_16"),
-          color: "#1ddbb7",
-          border: "#3eefdc"
+          tip: I18n.t("tips_screen_tip_16")
         }
       ]
     };
+  }
+
+  async componentDidMount() {
+    this.props.navigator.setTitle({
+      title: I18n.t("tips_screen_title")
+    });
+    try {
+      const tips = await getTips();
+      this.setState({
+        tips: res.tips
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   render() {
@@ -113,8 +91,10 @@ class TipsScreen extends Component {
           renderItem={({ item, index }) => (
             <View
               style={{
-                backgroundColor: item.border,
-                borderBottomColor: item.color,
+                backgroundColor:
+                  tipsColors[Math.floor(Math.random() * tipsColors.length)],
+                borderBottomColor:
+                  tipsColors[Math.floor(Math.random() * tipsColors.length)],
                 borderBottomWidth: 8,
                 opacity: 20,
                 marginBottom: 10,
@@ -123,7 +103,7 @@ class TipsScreen extends Component {
             >
               <View style={styles.overlay} />
               <Text style={styles.mainText} weight="Medium">
-                {item.data}
+                {item.tip}
               </Text>
 
               <View

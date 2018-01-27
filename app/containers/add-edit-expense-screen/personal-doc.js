@@ -48,7 +48,8 @@ class PersonalDoc extends React.Component {
       email: "",
       address: "",
       isLoading: false,
-      isFinishModalVisible: false
+      isFinishModalVisible: false,
+      copies: []
     };
   }
 
@@ -56,7 +57,7 @@ class PersonalDoc extends React.Component {
     if (this.props.formType == "visiting_card") {
       this.setState(
         {
-          selectedDocType: { id: 27 }
+          selectedDocType: { id: 27, name: "Visiting Card" }
         },
         () => {
           this.initProduct();
@@ -129,7 +130,7 @@ class PersonalDoc extends React.Component {
         productId: product.id,
         mainCategoryId,
         categoryId: selectedDocType.id,
-        productName: name
+        productName: name || selectedDocType.name
       };
 
       if (this.props.formType == "visiting_card") {
@@ -171,7 +172,8 @@ class PersonalDoc extends React.Component {
       email,
       address,
       isLoading,
-      isFinishModalVisible
+      isFinishModalVisible,
+      copies
     } = this.state;
     return (
       <View style={styles.container}>
@@ -198,12 +200,16 @@ class PersonalDoc extends React.Component {
               }
               textBeforeUpload2="*"
               textBeforeUpload2Color={colors.mainBlue}
+              productId={product ? product.id : null}
               jobId={product ? product.job_id : null}
               type={1}
+              copies={copies}
               beforeUpload={this.beforeUpload}
               onUpload={uploadResult => {
-                console.log("upload result: ", uploadResult);
-                this.setState({ isDocUploaded: true });
+                this.setState({
+                  isDocUploaded: true,
+                  copies: uploadResult.product.copies
+                });
               }}
               navigator={this.props.navigator}
             />

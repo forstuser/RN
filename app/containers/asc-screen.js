@@ -16,7 +16,8 @@ import {
   API_BASE_URL,
   getBrands,
   getCategories,
-  getProductsForAsc
+  getProductsForAsc,
+  ascAccessed
 } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 import I18n from "../i18n";
@@ -55,6 +56,7 @@ class AscScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        this.fetchProducts();
         if (this.state.clearSelectedValuesOnScreenAppear) {
           this.setState({
             selectedBrand: null,
@@ -69,10 +71,16 @@ class AscScreen extends Component {
   };
 
   async componentDidMount() {
+    if (this.props.screenOpts) {
+      const screenOpts = this.props.screenOpts;
+      if (screenOpts.hitAccessApi) {
+        await ascAccessed();
+      }
+    }
     this.props.navigator.setTitle({
       title: I18n.t("asc_screen_title")
     });
-    this.fetchProducts();
+
     try {
       const res = await getBrands();
       this.setState({
@@ -192,8 +200,8 @@ class AscScreen extends Component {
   };
 
   openAddProductScreen = () => {
-    this.props.navigator.push({
-      screen: SCREENS.ADD_PRODUCT_SCREEN
+    this.props.navigator.showModal({
+      screen: SCREENS.ADD_PRODUCT_OPTIONS_SCREEN
     });
   };
 

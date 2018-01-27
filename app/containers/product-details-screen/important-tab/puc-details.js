@@ -67,8 +67,30 @@ class PucDetails extends Component {
                   <ViewBillRow
                     expiryDate={puc.expiryDate}
                     purchaseDate={puc.purchaseDate}
-                    docType="Repair Bill"
+                    docType="PUC"
                     copies={puc.copies}
+                  />
+                  <KeyValueItem
+                    keyText={I18n.t(
+                      "product_details_screen_puc_effective_date"
+                    )}
+                    valueText={
+                      puc.effectiveDate
+                        ? moment(puc.effectiveDate).format("MMM DD, YYYY")
+                        : ""
+                    }
+                  />
+                  <KeyValueItem
+                    keyText={I18n.t("product_details_screen_puc_expiry_date")}
+                    valueText={
+                      puc.expiryDate
+                        ? moment(puc.expiryDate).format("MMM DD, YYYY")
+                        : ""
+                    }
+                  />
+                  <KeyValueItem
+                    keyText={I18n.t("product_details_screen_puc_seller")}
+                    valueText={puc.sellers.sellerName || ""}
                   />
                   {puc.sellers != null && (
                     <KeyValueItem

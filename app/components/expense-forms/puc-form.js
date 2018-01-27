@@ -215,6 +215,7 @@ class PucForm extends React.Component {
             />
 
             <UploadDoc
+              productId={productId}
               itemId={id}
               copies={copies}
               jobId={jobId}

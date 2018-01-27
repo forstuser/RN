@@ -34,11 +34,12 @@ class SelectModal extends Component {
   }
 
   _updateStateFromProps = props => {
-    if (
-      !this.state.textInput &&
-      props.textInputValue &&
-      props.textInputValue.length > 0
-    ) {
+    if (!props.textInputValue) {
+      this.setState({
+        textInput: "",
+        isTextInputVisible: false
+      });
+    } else if (props.textInputValue != this.state.textInput) {
       this.setState({
         textInput: props.textInputValue,
         isTextInputVisible: true

@@ -41,7 +41,7 @@ class ProductOrExpense extends React.Component {
       dualWarrantyItem: null,
       product: null,
       isInitializingProduct: false,
-      startMsg: "Add Expense in Less Than 30 Sec ",
+      startMsg: "Select a type above and Add Expense in Less Than 15 Sec ",
       startGraphics: expenseIllustration,
       visibleModules: {
         productBasicDetails: false,
@@ -54,6 +54,8 @@ class ProductOrExpense extends React.Component {
         repair: false,
         puc: false
       },
+      defaultWarrantyRenewalTypeId: null,
+      defaultDualWarrantyRenewalTypeId: null,
       isSavingProduct: false,
       isFinishModalVisible: false
     };
@@ -72,12 +74,12 @@ class ProductOrExpense extends React.Component {
         ].indexOf(mainCategoryId) > -1
       ) {
         this.setState({
-          startMsg: "Add Product in Less Than 30 Sec",
+          startMsg: "Select a type above and Add Product in Less Than 30 Sec",
           startGraphics: productIllustration
         });
       } else if (mainCategoryId == MAIN_CATEGORY_IDS.HEALTHCARE) {
         this.setState({
-          startMsg: "Add Documents in Less Than 30 Sec",
+          startMsg: "Select a type above and Add Documents in Less Than 10 Sec",
           startGraphics: docIllustration
         });
       }
@@ -222,7 +224,7 @@ class ProductOrExpense extends React.Component {
         }
       } else if (this.healthcareMedicalDocForm) {
         data = this.healthcareMedicalDocForm.getFilledData();
-        if (!data.isDocUploaded) {
+        if (data.copies.length == 0) {
           return Alert.alert("Please upload the report doc");
         }
         delete data.isDocUploaded;
@@ -309,6 +311,7 @@ class ProductOrExpense extends React.Component {
         isFinishModalVisible: true
       });
     } catch (e) {
+      console.log("error: ", e);
       this.setState({
         isSavingProduct: false
       });
@@ -334,8 +337,11 @@ class ProductOrExpense extends React.Component {
       isSavingProduct,
       isFinishModalVisible,
       startMsg,
-      startGraphics
+      startGraphics,
+      defaultWarrantyRenewalTypeId,
+      defaultDualWarrantyRenewalTypeId
     } = this.state;
+
     if (!mainCategoryId) {
       return null;
     }
@@ -360,11 +366,11 @@ class ProductOrExpense extends React.Component {
               <Text weight="Medium" style={styles.selectCategoryMsg}>
                 {startMsg}
               </Text>
-              <Image
+              {/*<Image
                 resizeMode="contain"
                 style={styles.selectCategoryImage}
                 source={startGraphics}
-              />
+              />*/}
             </View>
           )}
           {product != null && (
@@ -375,11 +381,20 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.productBasicDetailsForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
+                    category={category}
                     id={product.id}
                     jobId={product.job_id}
                     brands={brands}
                     categoryForms={categoryForms}
                     navigator={this.props.navigator}
+                    setWarrantyTypesOnModelSelect={data => {
+                      this.setState({
+                        defaultWarrantyRenewalTypeId:
+                          data.warrantyRenewalTypeId,
+                        defaultDualWarrantyRenewalTypeId:
+                          data.dualWarrantyRenewalTypeId
+                      });
+                    }}
                   />
                   <View style={styles.separator} />
                 </View>
@@ -391,6 +406,7 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.expenseBasicDetailsForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
+                    category={category}
                     productId={product.id}
                     jobId={product.job_id}
                     subCategories={subCategories}
@@ -406,9 +422,10 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.healthcareInsuranceForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
+                    category={category}
                     productId={product.id}
                     jobId={product.job_id}
-                    categoryReferenceData={categoryReferenceData}
+                    insuranceProviders={insuranceProviders}
                     navigator={this.props.navigator}
                   />
                   <View style={styles.separator} />
@@ -421,6 +438,7 @@ class ProductOrExpense extends React.Component {
                     ref={ref => (this.healthcareMedicalDocForm = ref)}
                     mainCategoryId={mainCategoryId}
                     categoryId={category.id}
+                    category={category}
                     productId={product.id}
                     jobId={product.job_id}
                     categoryReferenceData={categoryReferenceData}
@@ -454,29 +472,30 @@ class ProductOrExpense extends React.Component {
                     productId={product.id}
                     jobId={product.job_id}
                     renewalTypes={renewalTypes}
+                    renewalTypeId={defaultWarrantyRenewalTypeId}
                     navigator={this.props.navigator}
                   />
                   <View style={styles.separator} />
                 </View>
               )}
 
-              {visibleModules.dualWarranty &&
-                dualWarrantyItem && (
-                  <View>
-                    <WarrantyForm
-                      ref={ref => (this.dualWarrantyForm = ref)}
-                      mainCategoryId={mainCategoryId}
-                      categoryId={category.id}
-                      productId={product.id}
-                      jobId={product.job_id}
-                      renewalTypes={renewalTypes}
-                      warrantyType={WARRANTY_TYPES.DUAL}
-                      dualWarrantyItem={dualWarrantyItem}
-                      navigator={this.props.navigator}
-                    />
-                    <View style={styles.separator} />
-                  </View>
-                )}
+              {visibleModules.dualWarranty && (
+                <View>
+                  <WarrantyForm
+                    ref={ref => (this.dualWarrantyForm = ref)}
+                    mainCategoryId={mainCategoryId}
+                    categoryId={category.id}
+                    productId={product.id}
+                    jobId={product.job_id}
+                    renewalTypes={renewalTypes}
+                    renewalTypeId={defaultDualWarrantyRenewalTypeId}
+                    warrantyType={WARRANTY_TYPES.DUAL}
+                    dualWarrantyItem={dualWarrantyItem}
+                    navigator={this.props.navigator}
+                  />
+                  <View style={styles.separator} />
+                </View>
+              )}
 
               {visibleModules.extendedWarranty && (
                 <View>
@@ -544,7 +563,7 @@ class ProductOrExpense extends React.Component {
         {product != null && (
           <Button
             onPress={this.updateProduct}
-            text="ADD PRODUCT"
+            text="ADD"
             borderRadius={0}
             color="secondary"
           />
@@ -578,7 +597,7 @@ const styles = StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth
   },
   selectCategoryMsg: {
-    fontSize: 12,
+    fontSize: 20,
     width: 300,
     textAlign: "center",
     color: colors.mainBlue

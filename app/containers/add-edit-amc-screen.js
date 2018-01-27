@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Alert } from "react-native";
 import PropTypes from "prop-types";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import {
   getReferenceDataForCategory,
@@ -108,6 +109,10 @@ class AddEditAmc extends React.Component {
       ...this.amcForm.getFilledData()
     };
 
+    if (!data.effectiveDate) {
+      return Alert.alert("Please select AMC effective date");
+    }
+
     try {
       this.setState({ isLoading: true });
       if (!data.id) {
@@ -136,7 +141,7 @@ class AddEditAmc extends React.Component {
     return (
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={isLoading} />
-        <View style={{ flex: 1 }}>
+        <KeyboardAwareScrollView>
           <AmcForm
             ref={ref => (this.amcForm = ref)}
             {...{
@@ -149,7 +154,7 @@ class AddEditAmc extends React.Component {
               isCollapsible: false
             }}
           />
-        </View>
+        </KeyboardAwareScrollView>
         <Button
           onPress={this.onSavePress}
           text="SAVE"

@@ -192,6 +192,7 @@ class UploadDocumentScreen extends Component {
     });
     try {
       const res = await uploadDocuments({
+        productId: this.props.productId,
         jobId: this.props.jobId,
         type: this.props.type,
         itemId: this.props.itemId,

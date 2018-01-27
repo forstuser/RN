@@ -23,20 +23,119 @@ class AfterSaleButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      baseOptions: [],
       emails: [],
       phoneNumbers: [],
-      urls: []
+      urls: [],
+      activeType: "Manufacturer"
     };
   }
 
   componentDidMount() {
-    const urls = [];
-    const emails = [];
-    const phoneNumbers = [];
-    if (!this.props.product.brand) {
-      return;
+    const { brand, insuranceDetails, warrantyDetails } = this.props.product;
+    const baseOptions = [];
+    if (this.props.product.brand) {
+      baseOptions.push({ type: "brand", text: "Contact Manufacturer" });
     }
-    this.props.product.brand.details.forEach(item => {
+
+    if (insuranceDetails.length > 0 && insuranceDetails[0].provider) {
+      baseOptions.push({
+        type: "insurance",
+        text: "Contact Insurance Provider"
+      });
+    }
+
+    if (warrantyDetails.length > 0 && warrantyDetails[0].provider) {
+      baseOptions.push({
+        type: "warranty",
+        text: "Contact Warranty Provider"
+      });
+    }
+
+    if (this.props.product.brand) {
+      baseOptions.push({
+        type: "asc",
+        text: "Nearest Authorised Service center"
+      });
+    }
+
+    this.setState({ baseOptions });
+  }
+
+  showBaseOptions = () => {
+    if (this.state.baseOptions.length > 0) {
+      this.baseOptions.show();
+    } else {
+      Alert.alert(
+        "Customer care is available for only brand/manufacturer, insurance provider and third party warranty providers"
+      );
+    }
+  };
+
+  handleBaseOptionPress = index => {
+    const { brand, insuranceDetails, warrantyDetails } = this.props.product;
+    const option = this.state.baseOptions[index];
+    if (option) {
+      switch (option.type) {
+        case "brand":
+          this.showBrandOptions();
+          break;
+        case "insurance":
+          this.showInsuranceOrWarranty(
+            insuranceDetails[0].provider,
+            "Insurance Provider"
+          );
+          break;
+        case "warranty":
+          this.showInsuranceOrWarranty(
+            warrantyDetails[0].provider,
+            "Warranty Provider"
+          );
+          break;
+        case "asc":
+          return this.openAscScreen();
+      }
+      this.contactOptions.show();
+    }
+  };
+
+  openAscScreen = () => {
+    const { product } = this.props;
+    if (!product.brand) {
+      return showSnackbar({
+        text: `Product brand not available. Please upload your bill if you haven't`
+      });
+    }
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        this.props.navigator.push({
+          screen: SCREENS.ASC_SEARCH_SCREEN,
+          passProps: {
+            brand: {
+              id: product.brand.id,
+              brandName: product.brand.name
+            },
+            category: {
+              category_id: product.categoryId,
+              category_name: product.categoryName
+            },
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          }
+        });
+      },
+      error => Alert.alert(error.message),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  };
+
+  showBrandOptions = () => {
+    const { brand } = this.props.product;
+    let urls = [],
+      emails = [],
+      phoneNumbers = [];
+
+    brand.details.forEach(item => {
       switch (item.typeId) {
         case 1:
           urls.push(item.details);
@@ -47,16 +146,43 @@ class AfterSaleButton extends Component {
         case 3:
           phoneNumbers.push(item.details);
           break;
-        default:
       }
     });
 
     this.setState({
       urls,
       emails,
-      phoneNumbers
+      phoneNumbers,
+      activeType: "Manufacturer"
     });
-  }
+  };
+
+  showInsuranceOrWarranty = (provider, type) => {
+    let urls = [],
+      emails = [],
+      phoneNumbers = [];
+
+    if (provider.contact) {
+      phoneNumbers = provider.contact
+        .split(/\\/)
+        .filter(number => number.length > 0);
+    }
+
+    if (provider.email) {
+      emails = provider.email.split(/\\/).filter(email => email.length > 0);
+    }
+
+    if (provider.url) {
+      urls = provider.url.split(/\\/).filter(url => url.length > 0);
+    }
+
+    this.setState({
+      urls,
+      emails,
+      phoneNumbers,
+      activeType: type
+    });
+  };
 
   handleOptionPress = index => {
     switch (index) {
@@ -73,34 +199,6 @@ class AfterSaleButton extends Component {
           this.urlOptions.show();
         }
         break;
-      case 3:
-        const { product } = this.props;
-        if (!product.brand) {
-          return showSnackbar({
-            text: `Product brand not available. Please upload your bill if you haven't`
-          });
-        }
-        navigator.geolocation.getCurrentPosition(
-          position => {
-            this.props.navigator.push({
-              screen: SCREENS.ASC_SEARCH_SCREEN,
-              passProps: {
-                brand: {
-                  id: product.brand.id,
-                  brandName: product.brand.name
-                },
-                category: {
-                  category_id: product.categoryId,
-                  category_name: product.categoryName
-                },
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-              }
-            });
-          },
-          error => Alert.alert(error.message),
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-        );
     }
   };
 
@@ -165,8 +263,8 @@ class AfterSaleButton extends Component {
   handlePhonePress = index => {
     if (index < this.state.phoneNumbers.length) {
       //remove anything between ()
-      const phoneNumber = this.state.phoneNumbers[index]
-        .replace(/\(.+\)/)
+      const phoneNumber = (this.state.phoneNumbers[index] + "(Toll free)")
+        .replace(/\(.+\)/, "")
         .trim();
       call({ number: phoneNumber }).catch(e => Alert.alert(e.message));
     }
@@ -191,61 +289,58 @@ class AfterSaleButton extends Component {
 
   render() {
     const { product } = this.props;
+    const { baseOptions, urls, emails, phoneNumbers, activeType } = this.state;
+
     return (
       <View>
         <Button
-          onPress={() => {
-            this.afterSaleOptions.show();
-          }}
+          onPress={this.showBaseOptions}
           color="secondary"
           text={I18n.t("product_details_screen_after_sale_btn")}
         />
         <ActionSheet
-          onPress={this.handleOptionPress}
-          ref={o => (this.afterSaleOptions = o)}
+          onPress={this.handleBaseOptionPress}
+          ref={o => (this.baseOptions = o)}
           title={I18n.t("product_details_screen_after_sale_options_title")}
+          cancelButtonIndex={baseOptions.length}
+          options={[...baseOptions.map(option => option.text), "Cancel"]}
+        />
+        <ActionSheet
+          onPress={this.handleOptionPress}
+          ref={o => (this.contactOptions = o)}
+          title={`Contact ${activeType}`}
           cancelButtonIndex={4}
           options={[
-            I18n.t("product_details_screen_after_sale_options_email"),
-            I18n.t("product_details_screen_after_sale_options_call"),
-            I18n.t("product_details_screen_after_sale_options_service"),
-            I18n.t("product_details_screen_after_sale_options_asc"),
-            I18n.t("product_details_screen_after_sale_options_cancel")
+            `Email ${activeType}`,
+            `Call ${activeType}`,
+            `Service Request/Repair`
           ]}
         />
         <ActionSheet
           onPress={this.handleEmailPress}
           ref={o => (this.emailOptions = o)}
-          title={
-            this.state.emails.length > 0
-              ? "Select Email"
-              : "Email Not Available"
-          }
-          cancelButtonIndex={this.state.emails.length}
-          options={[...this.state.emails, "Cancel"]}
+          title={emails.length > 0 ? "Select Email" : "Email Not Available"}
+          cancelButtonIndex={emails.length}
+          options={[...emails, "Cancel"]}
         />
         <ActionSheet
           onPress={this.handlePhonePress}
           ref={o => (this.phoneOptions = o)}
           title={
-            this.state.phoneNumbers.length > 0
+            phoneNumbers.length > 0
               ? "Select a phone number"
               : "Phone Number Not Available"
           }
-          cancelButtonIndex={this.state.phoneNumbers.length}
-          options={[...this.state.phoneNumbers, "Cancel"]}
+          cancelButtonIndex={phoneNumbers.length}
+          options={[...phoneNumbers, "Cancel"]}
         />
         <ActionSheet
           onPress={this.handleUrlPress}
           ref={o => (this.urlOptions = o)}
-          title={
-            this.state.urls.length > 0
-              ? "Select an address"
-              : "No Link Available"
-          }
+          title={urls.length > 0 ? "Select an address" : "No Link Available"}
           cancelButtonIndex={this.state.urls.length}
           options={[
-            ...this.state.urls.map(url => (
+            ...urls.map(url => (
               <View>
                 <Text weight="Bold" style={{ color: colors.mainBlue }}>
                   {url}

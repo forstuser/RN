@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Alert } from "react-native";
 import PropTypes from "prop-types";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import {
   getReferenceDataForCategory,
@@ -136,7 +137,7 @@ class AddEditPuc extends React.Component {
     return (
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={isLoading} />
-        <View style={{ flex: 1 }}>
+        <KeyboardAwareScrollView>
           <PucForm
             ref={ref => (this.pucForm = ref)}
             {...{
@@ -149,7 +150,7 @@ class AddEditPuc extends React.Component {
               isCollapsible: false
             }}
           />
-        </View>
+        </KeyboardAwareScrollView>
         <Button
           onPress={this.onSavePress}
           text="SAVE"

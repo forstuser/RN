@@ -30,7 +30,7 @@ class InsuranceForm extends React.Component {
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
-    jobId: PropTypes.number.isRequired,
+    jobId: PropTypes.number,
     insuranceProviders: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number,
@@ -164,15 +164,17 @@ class InsuranceForm extends React.Component {
       copies
     } = this.state;
 
+    let title = "Insurance (If Applicable)";
+    if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
+      title = "Insurance*";
+    } else if (categoryId == 664) {
+      title = "Insurance Details";
+    }
     return (
       <Collapsible
         isCollapsed={false}
         isCollapsible={false}
-        headerText={
-          mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE
-            ? "Insurance*"
-            : "Insurance (If Applicable)"
-        }
+        headerText={title}
         style={styles.container}
         headerStyle={styles.headerStyle}
         headerTextStyle={styles.headerTextStyle}
@@ -199,9 +201,11 @@ class InsuranceForm extends React.Component {
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
-                  <Text weight="Medium" style={{ color: colors.mainBlue }}>
-                    *
-                  </Text>
+                  {categoryId != 664 && (
+                    <Text weight="Medium" style={{ color: colors.mainBlue }}>
+                      *
+                    </Text>
+                  )}
                 </View>
               )}
               selectedOption={selectedProvider}
@@ -223,12 +227,13 @@ class InsuranceForm extends React.Component {
 
             <CustomTextInput
               placeholder="Insurance Premium Amount"
-              value={value}
+              value={value ? String(value) : ""}
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"
             />
 
             <UploadDoc
+              productId={productId}
               itemId={id}
               copies={copies}
               jobId={jobId}
@@ -247,7 +252,7 @@ class InsuranceForm extends React.Component {
 
             <CustomTextInput
               placeholder="Total Coverage"
-              value={amountInsured}
+              value={amountInsured ? String(amountInsured) : ""}
               onChangeText={amountInsured => this.setState({ amountInsured })}
               keyboardType="numeric"
             />

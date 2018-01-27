@@ -82,10 +82,18 @@ class RepairDetails extends Component {
                     }
                   />
                   <KeyValueItem
-                    keyText={I18n.t(
-                      "product_details_screen_repairs_premium_amount"
-                    )}
+                    keyText={I18n.t("product_details_screen_repairs_amount")}
                     valueText={repairBill.premiumAmount}
+                  />
+                  <KeyValueItem
+                    keyText={I18n.t("product_details_screen_repairs_for")}
+                    valueText={repairBill.repair_for}
+                  />
+                  <KeyValueItem
+                    keyText={I18n.t(
+                      "product_details_screen_repairs_warranty_upto"
+                    )}
+                    valueText={repairBill.warranty_upto}
                   />
                   {repairBill.sellers != null && (
                     <KeyValueItem

@@ -6,7 +6,7 @@ import I18n from "../../i18n";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { getProductMetasString } from "../../utils";
-import { SERVICE_TYPE_NAMES } from "../../constants";
+import { MAIN_CATEGORY_IDS, SERVICE_TYPE_NAMES } from "../../constants";
 
 const isDateInNextTenDays = date => {
   const diff = date.diff(moment(), "days");
@@ -26,7 +26,32 @@ const expiringInText = date => {
   }
 };
 const ProductListItem = ({ product, onPress }) => {
+  let productName = product.productName;
+  if (!productName) {
+    productName = product.categoryName;
+  }
+
   const meta = getProductMetasString(product.productMetaData);
+  let dateText = "Date:";
+  if (
+    [
+      MAIN_CATEGORY_IDS.AUTOMOBILE,
+      MAIN_CATEGORY_IDS.ELECTRONICS,
+      MAIN_CATEGORY_IDS.FURNITURE
+    ].indexOf(product.masterCategoryId) > -1
+  ) {
+    dateText = "Purchase Date:";
+  }
+
+  let value = product.value;
+
+  if (product.categoryId == 664) {
+    //healthcare insurance
+    value = product.insuranceDetails.reduce(
+      (total, insurance) => total + insurance.value,
+      0
+    );
+  }
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
@@ -38,10 +63,10 @@ const ProductListItem = ({ product, onPress }) => {
         <View style={styles.nameAndSeller}>
           <View style={styles.nameAndValue}>
             <Text weight="Bold" style={styles.name}>
-              {product.productName}
+              {productName}
             </Text>
             <Text weight="Bold" style={styles.value}>
-              ₹{product.value}
+              ₹{value}
             </Text>
           </View>
 
@@ -58,7 +83,7 @@ const ProductListItem = ({ product, onPress }) => {
             )}
         </View>
         <View style={styles.otherDetailContainer}>
-          <Text style={styles.detailName}>Purchase Date: </Text>
+          <Text style={styles.detailName}>{dateText}</Text>
           <Text weight="Medium" style={styles.detailValue}>
             {moment(product.purchaseDate).format("MMM DD, YYYY")}
           </Text>

@@ -34,7 +34,10 @@ class MedicalDoc extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    let title = "Edit Doc";
+    this.props.navigator.setTitle({ title });
+  }
 
   saveDoc = async () => {
     const { mainCategoryId, categoryId, navigator } = this.props;

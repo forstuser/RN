@@ -4,7 +4,11 @@ import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 import moment from "moment";
 
 import { MAIN_CATEGORY_IDS } from "../../constants";
-import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
+import {
+  getReferenceDataBrands,
+  getReferenceDataModels,
+  getReferenceDataForCategory
+} from "../../api";
 
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
@@ -21,16 +25,7 @@ class MedicalDocForm extends React.Component {
     this.state = {
       productId: null,
       reportTitle: "",
-      types: [
-        {
-          id: 706,
-          name: "Prescriptions"
-        },
-        {
-          id: 707,
-          name: "Test Reports"
-        }
-      ],
+      types: [],
       date: null,
       selectedType: null,
       doctorName: "",
@@ -40,6 +35,7 @@ class MedicalDocForm extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchTypes();
     this.updateStateFromProps(this.props);
   }
 
@@ -73,7 +69,19 @@ class MedicalDocForm extends React.Component {
     });
   };
 
+  fetchTypes = async () => {
+    try {
+      const res = await getReferenceDataForCategory(this.props.categoryId);
+      this.setState({
+        types: res.categories[0].subCategories
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   getFilledData = () => {
+    const { category } = this.props;
     const {
       productId,
       reportTitle,
@@ -86,7 +94,7 @@ class MedicalDocForm extends React.Component {
 
     let data = {
       productId,
-      productName: reportTitle,
+      productName: reportTitle || category.name,
       subCategoryId: selectedType ? selectedType.id : null,
       purchaseDate: date,
       sellerName: doctorName,
@@ -98,7 +106,7 @@ class MedicalDocForm extends React.Component {
   };
 
   onTypeSelect = type => {
-    if (this.state.selectedType && this.state.selectedTyper.id == type.id) {
+    if (this.state.selectedType && this.state.selectedType.id == type.id) {
       return;
     }
     this.setState({
@@ -125,6 +133,7 @@ class MedicalDocForm extends React.Component {
           textBeforeUpload="Upload Doc"
           textBeforeUpload2="*"
           textBeforeUpload2Color={colors.mainBlue}
+          productId={productId}
           itemId={productId}
           jobId={jobId ? jobId : null}
           type={1}

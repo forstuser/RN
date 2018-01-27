@@ -31,7 +31,7 @@ class AmcForm extends React.Component {
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
-    jobId: PropTypes.number.isRequired,
+    jobId: PropTypes.number,
     amc: PropTypes.shape({
       id: PropTypes.number,
       effectiveDate: PropTypes.string,
@@ -159,6 +159,7 @@ class AmcForm extends React.Component {
             />
 
             <UploadDoc
+              productId={productId}
               itemId={id}
               copies={copies}
               jobId={jobId}

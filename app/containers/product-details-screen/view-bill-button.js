@@ -1,0 +1,102 @@
+import React from "react";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Alert,
+  TouchableOpacity,
+  ScrollView
+} from "react-native";
+
+import I18n from "../../i18n";
+import { API_BASE_URL } from "../../api";
+import { Text, Button, ScreenContainer } from "../../elements";
+
+import { openBillsPopUp } from "../../navigation";
+
+import { colors } from "../../theme";
+
+import UploadBillOptions from "../../components/upload-bill-options";
+
+const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
+
+class ViewBillButton extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    const {
+      product,
+      navigator,
+      docType = "Product",
+      btnText = "Bill"
+    } = this.props;
+    if (product.copies && product.copies.length > 0) {
+      return (
+        <TouchableOpacity
+          onPress={() =>
+            openBillsPopUp({
+              date: product.purchaseDate,
+              id: product.id,
+              copies: product.copies,
+              type: docType
+            })
+          }
+          style={styles.viewBillBtn}
+        >
+          <Image style={styles.viewBillIcon} source={viewBillIcon} />
+          <Text style={styles.viewBillText}>View {btnText}</Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          onPress={() =>
+            this.uploadBillOptions.show(
+              product.jobId,
+              1,
+              product.id,
+              product.id
+            )
+          }
+          style={styles.viewBillBtn}
+        >
+          <UploadBillOptions
+            ref={o => (this.uploadBillOptions = o)}
+            navigator={navigator}
+            uploadCallback={() => {}}
+          />
+          <Image style={styles.viewBillIcon} source={viewBillIcon} />
+          <Text style={styles.viewBillText}>Upload {btnText}</Text>
+        </TouchableOpacity>
+      );
+    }
+  }
+}
+
+const styles = StyleSheet.create({
+  viewBillBtn: {
+    position: "absolute",
+    right: 10,
+    top: 10,
+    borderColor: colors.pinkishOrange,
+    borderWidth: 2,
+    height: 20,
+    borderRadius: 2,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 3,
+    zIndex: 2
+  },
+  viewBillIcon: {
+    width: 14,
+    height: 14,
+    marginRight: 2
+  },
+  viewBillText: {
+    fontSize: 10,
+    color: colors.pinkishOrange
+  }
+});
+
+export default ViewBillButton;

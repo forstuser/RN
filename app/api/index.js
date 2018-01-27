@@ -5,7 +5,7 @@ import DeviceInfo from "react-native-device-info";
 import navigation from "../navigation";
 import { actions as uiActions } from "../modules/ui";
 
-export const API_BASE_URL = "https://consumer-eb.binbill.com";
+export const API_BASE_URL = "https://consumer-stage.binbill.com";
 
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 
@@ -78,6 +78,7 @@ const apiRequest = async ({
 };
 
 export const uploadDocuments = async ({
+  productId = null,
   jobId = null,
   type = null,
   itemId,
@@ -104,6 +105,10 @@ export const uploadDocuments = async ({
 
   if (itemId) {
     queryParams.itemid = itemId;
+  }
+
+  if (productId) {
+    queryParams.productid = productId;
   }
 
   return await apiRequest({
@@ -206,6 +211,20 @@ export const addFcmToken = async fcmToken => {
       fcmId: fcmToken,
       platform: 2
     }
+  });
+};
+
+export const ascAccessed = async () => {
+  return await apiRequest({
+    method: "put",
+    url: "/service/centers/accessed"
+  });
+};
+
+export const getTips = async () => {
+  return await apiRequest({
+    method: "get",
+    url: "/tips"
   });
 };
 

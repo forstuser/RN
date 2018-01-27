@@ -9,7 +9,12 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { API_BASE_URL, getRepairableProducts, addRepair } from "../../api";
+import {
+  API_BASE_URL,
+  getRepairableProducts,
+  addRepair,
+  updateRepair
+} from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
 
 import LoadingOverlay from "../../components/loading-overlay";
@@ -32,13 +37,15 @@ class Repair extends React.Component {
     this.state = {
       products: [],
       selectedProduct: null,
+      id: null,
       repairDate: null,
       repairAmount: "",
       sellerName: "",
       sellerContact: "",
       warrantyUpto: "",
       isLoading: false,
-      isFinishModalVisible: false
+      isFinishModalVisible: false,
+      copies: []
     };
   }
 
@@ -68,6 +75,7 @@ class Repair extends React.Component {
   saveRepair = async () => {
     try {
       const {
+        id,
         selectedProduct,
         repairDate,
         sellerName,
@@ -75,8 +83,13 @@ class Repair extends React.Component {
         warrantyUpto
       } = this.state;
 
+      if (!repairDate) {
+        return Alert.alert("Please select repair date");
+      }
+
       const data = {
         productId: selectedProduct.id,
+        id,
         repairDate,
         sellerName,
         sellerContact: this.phoneRef.getFilledData(),
@@ -87,7 +100,11 @@ class Repair extends React.Component {
       this.setState({
         isLoading: true
       });
-      await addRepair(data);
+      if (!id) {
+        await addRepair(data);
+      } else {
+        await updateRepair(date);
+      }
       this.setState({
         isLoading: false,
         isFinishModalVisible: true
@@ -100,18 +117,24 @@ class Repair extends React.Component {
     }
   };
 
+  openAddProductScreen = () => {
+    this.props.navigator.pop();
+  };
+
   render() {
     const { formType } = this.props;
     const {
       products,
       selectedProduct,
+      id,
       repairDate,
       repairAmount,
       sellerName,
       sellerContact,
       warrantyUpto,
       isLoading,
-      isFinishModalVisible
+      isFinishModalVisible,
+      copies
     } = this.state;
     return (
       <View style={styles.container}>
@@ -183,8 +206,16 @@ class Repair extends React.Component {
               selectedProduct == null && (
                 <View style={styles.selectProductMsgContainer}>
                   <Text weight="Medium" style={styles.selectProductMsg}>
-                    Please select a product above
+                    Please select a product above{"\n\n"}OR
                   </Text>
+                  <TouchableOpacity
+                    onPress={this.openAddProductScreen}
+                    style={styles.addProductBtn}
+                  >
+                    <Text weight="Bold" style={styles.addProductBtnText}>
+                      + Add Product
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               )}
             {selectedProduct && (
@@ -195,10 +226,15 @@ class Repair extends React.Component {
                     textBeforeUpload="Upload Bill "
                     textBeforeUpload2="(Recommended) "
                     textBeforeUpload2Color={colors.mainBlue}
+                    itemId={id}
                     jobId={selectedProduct ? selectedProduct.jobId : null}
                     type={4}
+                    copies={copies}
                     onUpload={uploadResult => {
-                      console.log("upload result: ", uploadResult);
+                      this.setState({
+                        id: uploadResult.repair.id,
+                        copies: uploadResult.repair.copies
+                      });
                     }}
                     navigator={this.props.navigator}
                   />
@@ -206,6 +242,8 @@ class Repair extends React.Component {
                   <CustomDatePicker
                     date={repairDate}
                     placeholder="Repair Date"
+                    placeholder2="*"
+                    placeholder2Color={colors.mainBlue}
                     onDateChange={repairDate => {
                       this.setState({ repairDate });
                     }}
@@ -230,13 +268,6 @@ class Repair extends React.Component {
                     value={sellerContact}
                     placeholder="Seller Contact"
                   />
-                </View>
-                <View style={styles.form}>
-                  <HeaderWithUploadOption
-                    title="Warranty (If Applicable)"
-                    hideUploadOption={true}
-                    navigator={this.props.navigator}
-                  />
 
                   <CustomTextInput
                     placeholder="Warranty Upto"
@@ -244,17 +275,6 @@ class Repair extends React.Component {
                     onChangeText={warrantyUpto =>
                       this.setState({ warrantyUpto })
                     }
-                  />
-
-                  <UploadDoc
-                    jobId={selectedProduct.jobId}
-                    type={4}
-                    placeholder="Upload Warranty Doc"
-                    placeholderAfterUpload="Doc Uploaded Successfully"
-                    navigator={this.props.navigator}
-                    onUpload={uploadResult => {
-                      console.log("upload result: ", uploadResult);
-                    }}
                   />
                 </View>
               </View>

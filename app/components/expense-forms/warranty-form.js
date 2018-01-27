@@ -30,7 +30,7 @@ class WarrantyForm extends React.Component {
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
-    jobId: PropTypes.number.isRequired,
+    jobId: PropTypes.number,
     warrantyType: PropTypes.oneOf(WARRANTY_TYPES),
     dualWarrantyItem: PropTypes.string,
     renewalTypes: PropTypes.arrayOf(
@@ -51,6 +51,7 @@ class WarrantyForm extends React.Component {
       renewal_type: PropTypes.number,
       copies: PropTypes.array
     }),
+    renewalTypeId: PropTypes.number,
     isCollapsible: PropTypes.bool
   };
 
@@ -84,6 +85,7 @@ class WarrantyForm extends React.Component {
   updateStateFromProps = props => {
     if (props.warranty) {
       const { warranty, renewalTypes, warrantyProviders } = props;
+
       const selectedRenewalType = renewalTypes.find(
         renewalType => renewalType.id == warranty.renewal_type
       );
@@ -101,6 +103,16 @@ class WarrantyForm extends React.Component {
         selectedRenewalType: selectedRenewalType,
         selectedProvider: selectedProvider,
         copies: warranty.copies
+      });
+    } else if (props.renewalTypeId) {
+      const { renewalTypeId, renewalTypes } = props;
+
+      const selectedRenewalType = renewalTypes.find(
+        renewalType => renewalType.id == renewalTypeId
+      );
+
+      this.setState({
+        selectedRenewalType: selectedRenewalType
       });
     }
   };
@@ -209,36 +221,40 @@ class WarrantyForm extends React.Component {
         <View style={styles.innerContainer}>
           <View style={styles.body}>
             {warrantyType == WARRANTY_TYPES.EXTENDED && (
-              <SelectModal
-                style={styles.input}
-                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-                placeholder="Provider"
-                textInputPlaceholder="Enter Provider Name"
-                placeholderRenderer={({ placeholder }) => (
-                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                    {placeholder}
-                  </Text>
-                )}
-                selectedOption={selectedProvider}
-                textInputValue={providerName}
-                options={warrantyProviders}
-                onOptionSelect={value => {
-                  this.onProviderSelect(value);
-                }}
-                onTextInputChange={text => this.onProviderNameChange(text)}
-              />
+              <View>
+                <SelectModal
+                  style={styles.input}
+                  dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                  placeholder="Provider"
+                  textInputPlaceholder="Enter Provider Name"
+                  placeholderRenderer={({ placeholder }) => (
+                    <Text
+                      weight="Medium"
+                      style={{ color: colors.secondaryText }}
+                    >
+                      {placeholder}
+                    </Text>
+                  )}
+                  selectedOption={selectedProvider}
+                  textInputValue={providerName}
+                  options={warrantyProviders}
+                  onOptionSelect={value => {
+                    this.onProviderSelect(value);
+                  }}
+                  onTextInputChange={text => this.onProviderNameChange(text)}
+                />
+
+                <CustomDatePicker
+                  date={effectiveDate}
+                  placeholder="Effective Date"
+                  placeholder2="*"
+                  placeholder2Color={colors.mainBlue}
+                  onDateChange={effectiveDate => {
+                    this.setState({ effectiveDate });
+                  }}
+                />
+              </View>
             )}
-
-            <CustomDatePicker
-              date={effectiveDate}
-              placeholder="Effective Date"
-              placeholder2="*"
-              placeholder2Color={colors.mainBlue}
-              onDateChange={effectiveDate => {
-                this.setState({ effectiveDate });
-              }}
-            />
-
             <SelectModal
               style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
@@ -257,6 +273,7 @@ class WarrantyForm extends React.Component {
               hideAddNew={true}
             />
             <UploadDoc
+              productId={productId}
               itemId={id}
               copies={copies}
               jobId={jobId}

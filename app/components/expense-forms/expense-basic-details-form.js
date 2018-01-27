@@ -82,6 +82,7 @@ class BasicDetailsForm extends React.Component {
   };
 
   getFilledData = () => {
+    const { category } = this.props;
     const {
       expenseName,
       selectedSubCategory,
@@ -104,7 +105,7 @@ class BasicDetailsForm extends React.Component {
     }
 
     let data = {
-      productName: expenseName,
+      productName: expenseName || category.name,
       purchaseDate: date,
       sellerName: sellerName,
       sellerContact: this.sellerContactRef.getFilledData(),
@@ -129,7 +130,13 @@ class BasicDetailsForm extends React.Component {
   };
 
   render() {
-    const { mainCategoryId, categoryId, productId, jobId } = this.props;
+    const {
+      mainCategoryId,
+      categoryId,
+      productId,
+      jobId,
+      category
+    } = this.props;
     const {
       expenseName,
       date,
@@ -148,6 +155,7 @@ class BasicDetailsForm extends React.Component {
           textBeforeUpload="Upload Bill"
           textBeforeUpload2=" (recommended)"
           textBeforeUpload2Color={colors.mainBlue}
+          productId={productId}
           itemId={productId}
           jobId={jobId ? jobId : null}
           copies={copies}

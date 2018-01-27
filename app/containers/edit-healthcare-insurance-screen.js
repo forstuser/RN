@@ -37,6 +37,9 @@ class MedicalDoc extends React.Component {
 
   componentDidMount() {
     this.fetchCategoryData();
+    let title = "Edit Insurance";
+
+    this.props.navigator.setTitle({ title });
   }
 
   fetchCategoryData = async () => {
@@ -101,8 +104,10 @@ class MedicalDoc extends React.Component {
           <LoadingOverlay visible={isLoading} />
           <HealthcareInsuranceForm
             ref={ref => (this.insuranceForm = ref)}
+            showOnlyGeneralInfo={true}
             {...{
               typeId,
+              categoryId,
               productId,
               jobId,
               planName,

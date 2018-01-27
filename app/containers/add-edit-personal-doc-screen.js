@@ -58,7 +58,7 @@ class PersonalDoc extends React.Component {
 
     // if visiting card
     if (this.props.categoryId == 27) {
-      selectedCategory = { id: 27 };
+      selectedCategory = { id: 27, name: "Visiting Card" };
     } else if (this.props.categoryId) {
       const { categories } = this.state;
       selectedCategory = categories.find(
@@ -91,6 +91,13 @@ class PersonalDoc extends React.Component {
       },
       () => this.initProduct()
     );
+
+    let title = "Add Document";
+    if (productId) {
+      title = "Edit Document";
+    }
+
+    this.props.navigator.setTitle({ title });
   }
 
   beforeUpload = () => {
@@ -162,7 +169,7 @@ class PersonalDoc extends React.Component {
         productId: productId,
         mainCategoryId,
         categoryId: selectedCategory.id,
-        productName: name
+        productName: name || selectedCategory.name
       };
 
       if (this.props.categoryId == 27) {
@@ -179,6 +186,7 @@ class PersonalDoc extends React.Component {
         isLoading: true
       });
       await updateProduct(data);
+      this.props.navigator.pop();
       this.setState({
         isLoading: false,
         isFinishModalVisible: true
@@ -228,6 +236,7 @@ class PersonalDoc extends React.Component {
               }
               textBeforeUpload2="*"
               textBeforeUpload2Color={colors.mainBlue}
+              productId={productId}
               itemId={productId}
               jobId={jobId ? jobId : null}
               type={1}
@@ -310,6 +319,7 @@ class PersonalDoc extends React.Component {
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
           navigator={this.props.navigator}
+          productId={productId}
         />
       </View>
     );

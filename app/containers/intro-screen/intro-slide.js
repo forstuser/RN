@@ -7,28 +7,28 @@ import { colors } from "../../theme";
 
 const IntroSlide = ({ image, title, desc }) => (
   <View style={styles.container}>
-    <View style={styles.wrapper}>
-      <LinearGradient
-        start={{ x: 0.0, y: 0.8 }}
-        end={{ x: 0.0, y: 1 }}
-        colors={["#01c8ff", "#0ae2f1"]}
-        style={styles.gradientBackground}
-      >
-        <View style={styles.contentWrapper}>
-          <View style={styles.content}>
-            <View style={styles.texts}>
-              <Text weight="Bold" style={styles.title}>
-                {title}
-              </Text>
-              <Text style={styles.desc}>{desc}</Text>
-            </View>
-            <View style={styles.imageWrapper}>
-              <Image style={styles.image} source={image} resizeMode="contain" />
-            </View>
-          </View>
+    <LinearGradient
+      start={{ x: 0.0, y: 0.4 }}
+      end={{ x: 0.0, y: 1 }}
+      colors={["#badcf2", "#68a0d3"]}
+      style={styles.gradientBackground}
+    >
+      <Image
+        style={styles.bg}
+        source={require("../../images/onboarding/background.png")}
+      />
+      <View style={styles.content}>
+        <View style={styles.imageWrapper}>
+          <Image style={styles.image} source={image} resizeMode="contain" />
         </View>
-      </LinearGradient>
-    </View>
+        <View style={styles.texts}>
+          <Text weight="Bold" style={styles.title}>
+            {title}
+          </Text>
+          <Text style={styles.desc}>{desc}</Text>
+        </View>
+      </View>
+    </LinearGradient>
   </View>
 );
 
@@ -40,29 +40,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     overflow: "hidden"
   },
-  wrapper: {
-    position: "absolute",
-    width: 1500,
-    height: 1500,
-    bottom: 100,
-    borderRadius: 1500,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.25,
-    shadowRadius: 2,
-    backgroundColor: "#fff"
-  },
   gradientBackground: {
     position: "absolute",
-    width: 1500,
-    height: 1500,
-    borderRadius: 1500,
+    width: "100%",
+    height: "100%",
     overflow: "hidden"
   },
-  contentWrapper: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center"
+  bg: {
+    position: "absolute",
+    width: "100%",
+    height: "100%"
   },
   content: {
     height: Dimensions.get("window").height - 100,
@@ -74,7 +61,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
     color: "#fff",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    marginTop: 25
   },
   desc: {
     marginTop: 15,

@@ -27,6 +27,20 @@ class ServiceSchedules extends Component {
     };
   }
 
+  componentDidMount() {
+    this.updateStateFromProps(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateStateFromProps(nextProps);
+  }
+
+  updateStateFromProps = props => {
+    if (props.openServiceSchedule) {
+      this.setState({ isModalVisible: true });
+    }
+  };
+
   toggleModal = () => {
     this.setState({
       isModalVisible: !this.state.isModalVisible

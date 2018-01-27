@@ -180,6 +180,7 @@ class DashboardScreen extends React.Component {
       recentSearches,
       isFetchingData
     } = this.state;
+
     return (
       <ScreenContainer style={{ padding: 0 }}>
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />

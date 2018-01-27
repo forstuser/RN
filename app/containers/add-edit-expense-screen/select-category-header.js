@@ -123,14 +123,14 @@ class SelectCategoryHeader extends React.Component {
               icon: require("../../images/categories/furniture.png")
             },
             {
-              id: 73,
-              name: "Bathroom Fittings",
-              icon: require("../../images/categories/bathroom_fittings.png")
-            },
-            {
               id: 72,
               name: "Hardware",
               icon: require("../../images/categories/hardware.png")
+            },
+            {
+              id: 73,
+              name: "Other Furniture/Hardware",
+              icon: require("../../images/categories/bathroom_fittings.png")
             }
           ]
         }));
@@ -140,11 +140,6 @@ class SelectCategoryHeader extends React.Component {
           title: "Select Services Expense Category",
           visibleOptions: [
             {
-              id: 24,
-              name: "House Helps",
-              icon: require("../../images/categories/house_helps.png")
-            },
-            {
               id: 122,
               name: "Professional",
               icon: require("../../images/categories/professional.png")
@@ -153,6 +148,11 @@ class SelectCategoryHeader extends React.Component {
               id: 123,
               name: "Lessons & Hobbies",
               icon: require("../../images/categories/hobbies.png")
+            },
+            {
+              id: 24,
+              name: "Other Services",
+              icon: require("../../images/categories/house_helps.png")
             }
           ]
         }));
@@ -227,14 +227,24 @@ class SelectCategoryHeader extends React.Component {
               icon: require("../../images/categories/household.png")
             },
             {
-              id: 634,
-              name: "Utility",
-              icon: require("../../images/categories/utility_bill.png")
-            },
-            {
               id: 635,
               name: "Education",
               icon: require("../../images/categories/education.png")
+            },
+            {
+              id: 634,
+              name: "Utility Bills",
+              icon: require("../../images/categories/utility_bill.png")
+            },
+            {
+              id: 697,
+              name: "Home Decor",
+              icon: require("../../images/categories/home_decor.png")
+            },
+            {
+              id: 698,
+              name: "Other Household Expenses",
+              icon: require("../../images/categories/kitchen_utensils.png")
             }
           ]
         }));

@@ -42,16 +42,43 @@ class ProductCard extends Component {
 
   startBasicDetailsEdit = () => {
     const { product } = this.props;
-    this.props.navigator.push({
-      screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
-      passProps: {
-        product: product
-      }
-    });
+    if (product.categoryId == 664) {
+      this.props.navigator.push({
+        screen: SCREENS.EDIT_INSURANCE_SCREEN,
+        passProps: {
+          typeId: product.sub_category_id,
+          mainCategoryId: product.masterCategoryId,
+          categoryId: product.categoryId,
+          productId: product.id,
+          jobId: product.jobId,
+          planName: product.productName,
+          insuranceFor: product.model,
+          copies: []
+        }
+      });
+    } else {
+      this.props.navigator.push({
+        screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
+        passProps: {
+          product: product
+        }
+      });
+    }
   };
 
   render() {
-    const { product } = this.props;
+    const { product, openServiceSchedule } = this.props;
+    let showCustomerCareBtn = false;
+    if (
+      [
+        MAIN_CATEGORY_IDS.AUTOMOBILE,
+        MAIN_CATEGORY_IDS.ELECTRONICS,
+        MAIN_CATEGORY_IDS.FURNITURE
+      ].indexOf(product.masterCategoryId) > -1 ||
+      product.categoryId == 664
+    ) {
+      showCustomerCareBtn = true;
+    }
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container}>
@@ -73,14 +100,17 @@ class ProductCard extends Component {
                 tabLabel="IMPORTANT"
                 product={product}
                 navigator={this.props.navigator}
+                openServiceSchedule={openServiceSchedule}
               />
             )}
-            <SellerTab
-              tabLabel="SELLER"
-              product={product}
-              onEditPress={this.startBasicDetailsEdit}
-              fetchProductDetails={this.fetchProductDetails}
-            />
+            {product.categoryId != 664 && (
+              <SellerTab
+                tabLabel="SELLER"
+                product={product}
+                onEditPress={this.startBasicDetailsEdit}
+                fetchProductDetails={this.fetchProductDetails}
+              />
+            )}
             <GeneralTab
               tabLabel="GENERAL INFO"
               product={product}
@@ -89,12 +119,14 @@ class ProductCard extends Component {
             />
           </ScrollableTabView>
         </ScrollView>
-        <View style={styles.contactAfterSalesBtn}>
-          <ContactAfterSaleButton
-            product={product}
-            navigator={this.props.navigator}
-          />
-        </View>
+        {showCustomerCareBtn && (
+          <View style={styles.contactAfterSalesBtn}>
+            <ContactAfterSaleButton
+              product={product}
+              navigator={this.props.navigator}
+            />
+          </View>
+        )}
       </View>
     );
   }

@@ -138,7 +138,8 @@ export const openAppScreen = opts => {
       tabBarSelectedButtonColor: colors.mainBlue,
       tabBarTranslucent: false,
       forceTitlesDisplay: true,
-      initialTabIndex
+      initialTabIndex,
+      hideBackButtonTitle: true
     }
   });
 };

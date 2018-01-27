@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Alert } from "react-native";
 import PropTypes from "prop-types";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import {
   getReferenceDataForCategory,
@@ -150,8 +151,12 @@ class AddEditWarranty extends React.Component {
       ...this.warrantyForm.getFilledData()
     };
 
-    if (data.effectiveDate == null) {
+    if (warrantyType == WARRANTY_TYPES.EXTENDED && !data.effectiveDate) {
       return Alert.alert("Please enter the Effective Date");
+    }
+
+    if (!data.renewalType) {
+      return Alert.alert("Please select warranty upto");
     }
 
     console.log("data: ", data);
@@ -185,7 +190,7 @@ class AddEditWarranty extends React.Component {
     return (
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={isLoading} />
-        <View style={{ flex: 1 }}>
+        <KeyboardAwareScrollView>
           <WarrantyForm
             ref={ref => (this.warrantyForm = ref)}
             {...{
@@ -201,7 +206,7 @@ class AddEditWarranty extends React.Component {
               isCollapsible: false
             }}
           />
-        </View>
+        </KeyboardAwareScrollView>
         <Button
           onPress={this.onSavePress}
           text="SAVE"
