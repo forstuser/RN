@@ -13,6 +13,7 @@ import {
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
 import InsuranceForm from "../components/expense-forms/insurance-form";
+import ChangesSavedModal from "../components/changes-saved-modal";
 
 class AddEditInsurance extends React.Component {
   static propTypes = {
@@ -150,9 +151,10 @@ class AddEditInsurance extends React.Component {
         await updateInsurance(data);
       }
       this.setState({ isLoading: false });
-      navigator.pop();
+      this.changesSavedModal.show();
     } catch (e) {
       Alert.alert(e.message);
+      this.setState({ isLoading: false });
     }
   };
 
@@ -170,6 +172,10 @@ class AddEditInsurance extends React.Component {
     return (
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={isLoading} />
+        <ChangesSavedModal
+          ref={ref => (this.changesSavedModal = ref)}
+          navigator={this.props.navigator}
+        />
         <KeyboardAwareScrollView>
           <InsuranceForm
             ref={ref => (this.insuranceForm = ref)}

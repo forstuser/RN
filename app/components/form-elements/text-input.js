@@ -39,6 +39,7 @@ class CustomTextInput extends React.Component {
       placeholder,
       placeholder2,
       placeholder2Color = colors.secondaryText,
+      hint,
       keyboardType
     } = this.props;
     const { value } = this.state;
@@ -73,6 +74,7 @@ class CustomTextInput extends React.Component {
           value={value}
           onChangeText={text => this.onChangeText(text)}
         />
+        {hint ? <Text style={styles.hint}>{hint}</Text> : null}
       </View>
     );
   }
@@ -81,19 +83,21 @@ class CustomTextInput extends React.Component {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 10,
-    borderColor: colors.lighterText,
-    borderBottomWidth: 2,
-    height: 60,
     marginBottom: 15,
     width: "100%"
   },
   placeholderContainer: {
+    position: "absolute",
     flex: 1,
     flexDirection: "row",
-    alignItems: "flex-end"
+    alignItems: "center",
+    top: 10,
+    paddingVertical: 10
   },
   filledInputPlaceholderContainer: {
-    alignItems: "flex-start"
+    alignItems: "flex-start",
+    top: 0,
+    paddingVertical: 0
   },
   placeholder: {
     color: colors.secondaryText
@@ -105,13 +109,16 @@ const styles = StyleSheet.create({
     fontSize: 10
   },
   textInput: {
-    position: "absolute",
-    top: 20,
-    right: 0,
-    bottom: 0,
-    left: 0,
     backgroundColor: "transparent",
-    justifyContent: "center"
+    justifyContent: "center",
+    height: 40,
+    width: "100%",
+    borderColor: colors.lighterText,
+    borderBottomWidth: 2
+  },
+  hint: {
+    fontSize: 12,
+    color: colors.mainBlue
   }
 });
 

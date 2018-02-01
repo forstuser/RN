@@ -16,6 +16,7 @@ import ContactFields from "../components/form-elements/contact-fields";
 import HeaderWithUploadOption from "../components/form-elements/header-with-upload-option";
 
 import FinishModal from "./add-edit-expense-screen/finish-modal";
+import ChangesSavedModal from "../components/changes-saved-modal";
 
 const AttachmentIcon = () => (
   <Icon name="attachment" size={20} color={colors.pinkishOrange} />
@@ -186,11 +187,10 @@ class PersonalDoc extends React.Component {
         isLoading: true
       });
       await updateProduct(data);
-      this.props.navigator.pop();
       this.setState({
-        isLoading: false,
-        isFinishModalVisible: true
+        isLoading: false
       });
+      this.changesSavedModal.show();
     } catch (e) {
       Alert.alert(e.message);
       this.setState({
@@ -217,6 +217,10 @@ class PersonalDoc extends React.Component {
     } = this.state;
     return (
       <View style={styles.container}>
+        <ChangesSavedModal
+          ref={ref => (this.changesSavedModal = ref)}
+          navigator={this.props.navigator}
+        />
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
           <LoadingOverlay visible={isLoading} />
           <View style={styles.imageHeader}>
@@ -360,8 +364,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
-    height: 40,
-    marginBottom: 32
+    paddingTop: 20,
+    height: 50,
+    marginBottom: 25
   },
   saveBtn: {}
 });

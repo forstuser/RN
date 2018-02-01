@@ -236,8 +236,8 @@ const styles = StyleSheet.create({
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
     paddingTop: 20,
-    height: 60,
-    marginBottom: 15
+    height: 50,
+    marginBottom: 25
   }
 });
 

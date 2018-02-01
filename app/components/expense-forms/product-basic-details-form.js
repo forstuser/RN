@@ -330,6 +330,7 @@ class BasicDetailsForm extends React.Component {
             placeholder="Product Name"
             value={productName}
             onChangeText={productName => this.setState({ productName })}
+            hint="Recommended for fast and easy retrieval"
           />
 
           <SelectModal
@@ -365,9 +366,20 @@ class BasicDetailsForm extends React.Component {
               placeholder="Model"
               textInputPlaceholder="Enter Model Name"
               placeholderRenderer={({ placeholder }) => (
-                <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                  {placeholder}
-                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center"
+                  }}
+                >
+                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                    {placeholder}
+                  </Text>
+                  <Text style={{ color: colors.mainBlue, fontSize: 12 }}>
+                    {" "}
+                    (Required for calculating warranty)
+                  </Text>
+                </View>
               )}
               options={models}
               beforeModalOpen={() => {
@@ -474,8 +486,8 @@ const styles = StyleSheet.create({
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
     paddingTop: 20,
-    height: 60,
-    marginBottom: 15
+    height: 50,
+    marginBottom: 25
   }
 });
 

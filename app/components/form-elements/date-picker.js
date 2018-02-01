@@ -82,13 +82,12 @@ class CustomDatePicker extends React.Component {
               {placeholder2}
             </Text>
           </View>
-          {date && (
-            <View style={styles.textInput}>
-              <Text weight="Medium" style={{ color: colors.mainText }}>
-                {moment(date).format("DD MMM, YYYY")}
-              </Text>
-            </View>
-          )}
+
+          <View style={styles.textInput}>
+            <Text weight="Medium" style={{ color: colors.mainText }}>
+              {date && moment(date).format("DD MMM, YYYY")}
+            </Text>
+          </View>
 
           <View style={styles.calenderIconContainer}>
             <CalenderIcon />
@@ -120,19 +119,21 @@ class CustomDatePicker extends React.Component {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 10,
-    borderColor: colors.lighterText,
-    borderBottomWidth: 2,
-    height: 60,
     marginBottom: 15,
-    flexDirection: "row"
+    width: "100%"
   },
   placeholderContainer: {
+    position: "absolute",
     flex: 1,
     flexDirection: "row",
-    alignItems: "flex-end"
+    alignItems: "center",
+    top: 10,
+    paddingVertical: 10
   },
   filledInputPlaceholderContainer: {
-    alignItems: "flex-start"
+    alignItems: "flex-start",
+    top: 0,
+    paddingVertical: 0
   },
   placeholder: {
     color: colors.secondaryText
@@ -143,19 +144,22 @@ const styles = StyleSheet.create({
   placeholder2: {
     fontSize: 10
   },
+  textInput: {
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    height: 40,
+    width: "100%",
+    borderColor: colors.lighterText,
+    borderBottomWidth: 2
+  },
   calenderIconContainer: {
     position: "absolute",
     right: 0,
-    bottom: 10
+    bottom: 20
   },
-  textInput: {
-    position: "absolute",
-    top: 20,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    backgroundColor: "transparent",
-    justifyContent: "center"
+  hint: {
+    fontSize: 12,
+    color: colors.mainBlue
   }
 });
 

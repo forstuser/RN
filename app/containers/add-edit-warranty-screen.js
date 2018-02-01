@@ -14,6 +14,7 @@ import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
 import WarrantyForm from "../components/expense-forms/warranty-form";
 import { WARRANTY_TYPES } from "../constants";
+import ChangesSavedModal from "../components/changes-saved-modal";
 
 class AddEditWarranty extends React.Component {
   static propTypes = {
@@ -170,9 +171,10 @@ class AddEditWarranty extends React.Component {
         await updateWarranty(data);
       }
       this.setState({ isLoading: false });
-      navigator.pop();
+      this.changesSavedModal.show();
     } catch (e) {
       Alert.alert(e.message);
+      this.setState({ isLoading: false });
     }
   };
 
@@ -191,6 +193,10 @@ class AddEditWarranty extends React.Component {
     return (
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={isLoading} />
+        <ChangesSavedModal
+          ref={ref => (this.changesSavedModal = ref)}
+          navigator={this.props.navigator}
+        />
         <KeyboardAwareScrollView>
           <WarrantyForm
             ref={ref => (this.warrantyForm = ref)}

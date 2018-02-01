@@ -192,6 +192,7 @@ class BasicDetailsForm extends React.Component {
             placeholder="Expense Name"
             value={expenseName}
             onChangeText={expenseName => this.setState({ expenseName })}
+            hint="Recommended for fast and easy retrieval"
           />
 
           <CustomDatePicker
@@ -252,8 +253,8 @@ const styles = StyleSheet.create({
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
     paddingTop: 20,
-    height: 60,
-    marginBottom: 15
+    height: 50,
+    marginBottom: 25
   }
 });
 

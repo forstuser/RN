@@ -10,6 +10,7 @@ import { MAIN_CATEGORY_IDS } from "../constants";
 import { ScreenContainer, Text, Button } from "../elements";
 import ProductBasicDetailsForm from "../components/expense-forms/product-basic-details-form";
 import ExpenseBasicDetailsForm from "../components/expense-forms/expense-basic-details-form";
+import ChangesSavedModal from "../components/changes-saved-modal";
 
 class EditProductBasicDetails extends React.Component {
   constructor(props) {
@@ -76,9 +77,10 @@ class EditProductBasicDetails extends React.Component {
       this.setState({ isLoading: true });
       await updateProduct(data);
       this.setState({ isLoading: false });
-      navigator.pop();
+      this.changesSavedModal.show();
     } catch (e) {
       Alert.alert(e.message);
+      this.setState({ isLoading: false });
     }
   };
 
@@ -162,6 +164,10 @@ class EditProductBasicDetails extends React.Component {
     return (
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={isLoading} />
+        <ChangesSavedModal
+          ref={ref => (this.changesSavedModal = ref)}
+          navigator={this.props.navigator}
+        />
         <KeyboardAwareScrollView>
           <View style={{ flex: 1 }}>
             {showExpenseForm && (

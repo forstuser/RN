@@ -22,6 +22,7 @@ import ContactFields from "../components/form-elements/contact-fields";
 import HeaderWithUploadOption from "../components/form-elements/header-with-upload-option";
 
 import FinishModal from "./add-edit-expense-screen/finish-modal";
+import ChangesSavedModal from "../components/changes-saved-modal";
 
 class MedicalDoc extends React.Component {
   constructor(props) {
@@ -69,9 +70,10 @@ class MedicalDoc extends React.Component {
       this.setState({ isLoading: true });
       await updateProduct(data);
       this.setState({ isLoading: false });
-      navigator.pop();
+      this.changesSavedModal.show();
     } catch (e) {
       Alert.alert(e.message);
+      this.setState({ isLoading: false });
     }
   };
 
@@ -102,6 +104,10 @@ class MedicalDoc extends React.Component {
       <View style={styles.container}>
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
           <LoadingOverlay visible={isLoading} />
+          <ChangesSavedModal
+            ref={ref => (this.changesSavedModal = ref)}
+            navigator={this.props.navigator}
+          />
           <HealthcareInsuranceForm
             ref={ref => (this.insuranceForm = ref)}
             showOnlyGeneralInfo={true}

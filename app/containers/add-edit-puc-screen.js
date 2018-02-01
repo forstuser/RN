@@ -13,6 +13,7 @@ import {
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
 import PucForm from "../components/expense-forms/puc-form";
+import ChangesSavedModal from "../components/changes-saved-modal";
 
 class AddEditPuc extends React.Component {
   static propTypes = {
@@ -121,9 +122,10 @@ class AddEditPuc extends React.Component {
         await updatePuc(data);
       }
       this.setState({ isLoading: false });
-      navigator.pop();
+      this.changesSavedModal.show();
     } catch (e) {
       Alert.alert(e.message);
+      this.setState({ isLoading: false });
     }
   };
 
@@ -141,6 +143,10 @@ class AddEditPuc extends React.Component {
     return (
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={isLoading} />
+        <ChangesSavedModal
+          ref={ref => (this.changesSavedModal = ref)}
+          navigator={this.props.navigator}
+        />
         <KeyboardAwareScrollView>
           <PucForm
             ref={ref => (this.pucForm = ref)}

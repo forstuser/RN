@@ -129,9 +129,9 @@ const styles = StyleSheet.create({
   container: {
     borderColor: colors.lighterText,
     borderBottomWidth: 2,
-    paddingTop: 20,
-    height: 60,
-    marginBottom: 15
+    paddingTop: 10,
+    height: 50,
+    marginBottom: 25
   },
   copiesContainer: {
     flexDirection: "row",

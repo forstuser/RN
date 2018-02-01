@@ -162,16 +162,12 @@ class Details extends Component {
         <Text weight="Bold" style={styles.name}>
           {productName}
         </Text>
-        {product.categoryId == 664 && (
-          <View style={{ marginVertical: 10 }}>
-            <Text
-              weight="Bold"
-              style={{ fontSize: 18, color: colors.secondaryText }}
-            >
-              {product.model}
-            </Text>
-          </View>
-        )}
+        <Text weight="Bold" style={{ color: colors.secondaryText }}>
+          {product.brand ? product.brand.name : ""}
+          {product.brand && product.model ? "/" : ""}
+          {product.model ? product.model : null}
+        </Text>
+
         {(product.copies == null || product.copies.length == 0) &&
           product.categoryId != 664 && (
             <Text weight="Bold" style={styles.noBillMsg}>
@@ -232,7 +228,7 @@ const styles = StyleSheet.create({
     color: colors.secondaryText,
     textAlign: "center",
     marginTop: 6,
-    marginBottom: 18
+    marginBottom: 6
   },
   totalText: {
     fontSize: 24,

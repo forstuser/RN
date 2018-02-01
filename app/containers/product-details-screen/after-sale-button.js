@@ -52,7 +52,7 @@ class AfterSaleButton extends Component {
       });
     }
 
-    if (this.props.product.brand) {
+    if (this.props.product.serviceCenterUrl) {
       baseOptions.push({
         type: "asc",
         text: "Nearest Authorised Service center"

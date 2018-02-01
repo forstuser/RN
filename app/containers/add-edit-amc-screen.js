@@ -14,6 +14,8 @@ import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
 import AmcForm from "../components/expense-forms/amc-form";
 
+import ChangesSavedModal from "../components/changes-saved-modal";
+
 class AddEditAmc extends React.Component {
   static propTypes = {
     navigator: PropTypes.object.isRequired,
@@ -121,9 +123,10 @@ class AddEditAmc extends React.Component {
         await updateAmc(data);
       }
       this.setState({ isLoading: false });
-      navigator.pop();
+      this.changesSavedModal.show();
     } catch (e) {
       Alert.alert(e.message);
+      this.setState({ isLoading: false });
     }
   };
 
@@ -140,6 +143,10 @@ class AddEditAmc extends React.Component {
     const { isLoading } = this.state;
     return (
       <ScreenContainer style={styles.container}>
+        <ChangesSavedModal
+          ref={ref => (this.changesSavedModal = ref)}
+          navigator={this.props.navigator}
+        />
         <LoadingOverlay visible={isLoading} />
         <KeyboardAwareScrollView>
           <AmcForm

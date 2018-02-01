@@ -132,7 +132,8 @@ class SelectModal extends Component {
       placeholderStyle = {},
       dropdownArrowStyle = {},
       placeholderRenderer = this._placeholderRenderer,
-      hideAddNew = false
+      hideAddNew = false,
+      hint
     } = this.props;
     let {
       isTextInputVisible,
@@ -183,6 +184,7 @@ class SelectModal extends Component {
             </Text>
           </View>
         )}
+        {hint ? <Text style={styles.hint}>{hint}</Text> : null}
         <Modal visible={isModalVisible} animationType="slide">
           <View style={{ backgroundColor: "#fff" }}>
             <View style={styles.modalHeader}>

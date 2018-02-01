@@ -18,6 +18,7 @@ import ContactFields from "../components/form-elements/contact-fields";
 import HeaderWithUploadOption from "../components/form-elements/header-with-upload-option";
 
 import FinishModal from "./add-edit-expense-screen/finish-modal";
+import ChangesSavedModal from "../components/changes-saved-modal";
 
 const AttachmentIcon = () => (
   <Icon name="attachment" size={20} color={colors.pinkishOrange} />
@@ -57,9 +58,10 @@ class MedicalDoc extends React.Component {
       this.setState({ isLoading: true });
       await updateProduct(data);
       this.setState({ isLoading: false });
-      navigator.pop();
+      this.changesSavedModal.show();
     } catch (e) {
       Alert.alert(e.message);
+      this.setState({ isLoading: false });
     }
   };
 
@@ -83,6 +85,10 @@ class MedicalDoc extends React.Component {
     } = this.state;
     return (
       <View style={styles.container}>
+        <ChangesSavedModal
+          ref={ref => (this.changesSavedModal = ref)}
+          navigator={this.props.navigator}
+        />
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
           <LoadingOverlay visible={isLoading} />
           <MedicalDocForm
