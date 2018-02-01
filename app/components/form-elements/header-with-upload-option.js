@@ -40,7 +40,7 @@ class HeaderWithUploadOption extends React.Component {
   };
 
   render() {
-    const {
+    let {
       title,
       navigator,
       itemId,
@@ -56,6 +56,9 @@ class HeaderWithUploadOption extends React.Component {
       textBeforeUpload2Color = colors.secondaryText,
       textAfterUpload = "Doc Uploaded Successfully"
     } = this.props;
+    if (!copies) {
+      copies = [];
+    }
     const { isDocUploaded } = this.state;
     return (
       <View style={styles.header}>

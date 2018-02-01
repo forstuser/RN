@@ -24,6 +24,12 @@ class Direct extends Component {
     await this.loadProducts({});
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.reloadList) {
+      this.loadProducts();
+    }
+  }
+
   loadProducts = async () => {
     try {
       const res = await getCategoryProducts({

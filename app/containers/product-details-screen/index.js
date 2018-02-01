@@ -89,6 +89,9 @@ class ProductDetailsScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        if (!this.props.productId) {
+          return this.props.navigator.pop();
+        }
         this.fetchProductDetails();
         break;
     }
@@ -132,7 +135,7 @@ class ProductDetailsScreen extends Component {
   fetchProductDetails = async () => {
     try {
       this.setState({
-        isLoading: true
+        // isLoading: true
       });
       const res = await getProductDetails(this.props.productId);
       this.setState(

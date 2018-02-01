@@ -49,6 +49,7 @@ class WarrantyForm extends React.Component {
       id: PropTypes.number,
       effectiveDate: PropTypes.string,
       renewal_type: PropTypes.number,
+      provider: PropTypes.object,
       copies: PropTypes.array
     }),
     renewalTypeId: PropTypes.number,

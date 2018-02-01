@@ -18,7 +18,6 @@
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
@@ -41,6 +40,7 @@
 		438EB1451FEBD62A00C2D66A /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1441FEBD62A00C2D66A /* GameKit.framework */; };
 		438EB1471FEBD62F00C2D66A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1461FEBD62F00C2D66A /* StoreKit.framework */; };
 		438EB1491FEBD79400C2D66A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1481FEBD79400C2D66A /* CloudKit.framework */; };
+		43B4EF69201F238E00098257 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B4EF68201F238E00098257 /* LaunchScreen.xib */; };
 		43B85C5C1FF3C12500781472 /* RNMultipleFilesShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B85C5B1FF3C12500781472 /* RNMultipleFilesShare.swift */; };
 		43B85C5E1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B85C5D1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m */; };
 		43C9F61E1FD9124B00E61C98 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C9F6151FD9120700E61C98 /* libRNBlur.a */; };
@@ -502,7 +502,6 @@
 		13B07F961A680F5B00A75B9A /* BinBill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BinBill.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = BinBill/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = BinBill/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = BinBill/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BinBill/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = BinBill/main.m; sourceTree = "<group>"; };
@@ -526,6 +525,7 @@
 		438EB1441FEBD62A00C2D66A /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		438EB1461FEBD62F00C2D66A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		438EB1481FEBD79400C2D66A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		43B4EF68201F238E00098257 /* LaunchScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = BinBill/LaunchScreen.xib; sourceTree = "<group>"; };
 		43B85C5A1FF3C12400781472 /* BinBill-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BinBill-Bridging-Header.h"; sourceTree = "<group>"; };
 		43B85C5B1FF3C12500781472 /* RNMultipleFilesShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMultipleFilesShare.swift; sourceTree = "<group>"; };
 		43B85C5D1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNMultipleFilesShareBridge.m; sourceTree = "<group>"; };
@@ -740,7 +740,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
+				43B4EF68201F238E00098257 /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				43B85C5B1FF3C12500781472 /* RNMultipleFilesShare.swift */,
 				43B85C5A1FF3C12400781472 /* BinBill-Bridging-Header.h */,
@@ -1738,8 +1738,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43B4EF69201F238E00098257 /* LaunchScreen.xib in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				74AF3123792A483FA954226C /* Quicksand-Bold.ttf in Resources */,
 				40AC6677FB284E46AC3E4C1A /* Quicksand-Light.ttf in Resources */,
 				F16544D047244A80B7080E07 /* Quicksand-Medium.ttf in Resources */,
@@ -2082,18 +2082,6 @@
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = BinBill;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {

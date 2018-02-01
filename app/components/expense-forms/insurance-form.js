@@ -91,7 +91,7 @@ class InsuranceForm extends React.Component {
         id: insurance.id,
         effectiveDate: moment(insurance.effectiveDate).format("YYYY-MM-DD"),
         policyNo: insurance.policyNo,
-        value: String(insurance.value),
+        value: insurance.value,
         amountInsured: insurance.amountInsured,
         selectedProvider: selectedProvider,
         copies: insurance.copies
@@ -116,8 +116,8 @@ class InsuranceForm extends React.Component {
       providerId: selectedProvider ? selectedProvider.id : null,
       providerName: providerName,
       policyNo: policyNo,
-      value: value,
-      amountInsured: amountInsured
+      value: value || 0,
+      amountInsured: amountInsured || 0
     };
 
     return data;
@@ -150,7 +150,8 @@ class InsuranceForm extends React.Component {
       categoryId,
       insuranceProviders,
       productId,
-      jobId
+      jobId,
+      isCollapsible = true
     } = this.props;
 
     const {
@@ -172,12 +173,12 @@ class InsuranceForm extends React.Component {
     }
     return (
       <Collapsible
-        isCollapsed={false}
-        isCollapsible={false}
+        isCollapsible={isCollapsible}
         headerText={title}
         style={styles.container}
         headerStyle={styles.headerStyle}
         headerTextStyle={styles.headerTextStyle}
+        icon="plus"
       >
         <View style={styles.innerContainer}>
           <View style={styles.body}>

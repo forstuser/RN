@@ -1,7 +1,6 @@
 import { MAIN_CATEGORY_IDS } from "../constants";
 
 const getProductMetasString = metasArray => {
-  console.log(" metasArray: ", metasArray);
   if (!metasArray) {
     return "";
   }
@@ -22,7 +21,7 @@ const isImageFileType = fileType => {
     "image/jpeg",
     "image/png"
   ];
-  return imageFileTypes.indexOf(fileType.toLowerCase()) > -1;
+  return imageFileTypes.indexOf((fileType || "").toLowerCase()) > -1;
 };
 
 const getMimeTypeByExtension = ext => {

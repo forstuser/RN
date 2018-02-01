@@ -5,7 +5,7 @@ import DeviceInfo from "react-native-device-info";
 import navigation from "../navigation";
 import { actions as uiActions } from "../modules/ui";
 
-export const API_BASE_URL = "https://consumer-stage.binbill.com";
+export const API_BASE_URL = "https://consumer.binbill.com";
 
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 
@@ -724,14 +724,14 @@ export const updateWarranty = async ({
   categoryId
 }) => {
   let data = {
-    job_id: jobId,
-    provider_id: providerId,
-    provider_name: providerName,
-    renewal_type: renewalType,
-    effective_date: effectiveDate,
-    warranty_type: warrantyType,
-    main_category_id: mainCategoryId,
-    category_id: categoryId
+    job_id: jobId || undefined,
+    provider_id: providerId || undefined,
+    provider_name: providerName || undefined,
+    renewal_type: renewalType || undefined,
+    effective_date: effectiveDate || undefined,
+    warranty_type: warrantyType || undefined,
+    main_category_id: mainCategoryId || undefined,
+    category_id: categoryId || undefined
   };
 
   return await apiRequest({
@@ -753,14 +753,14 @@ export const addWarranty = async ({
   categoryId
 }) => {
   let data = {
-    job_id: jobId,
-    provider_id: providerId,
-    provider_name: providerName,
-    renewal_type: renewalType,
-    effective_date: effectiveDate,
-    warranty_type: warrantyType,
-    main_category_id: mainCategoryId,
-    category_id: categoryId
+    job_id: jobId || undefined,
+    provider_id: providerId || undefined,
+    provider_name: providerName || undefined,
+    renewal_type: renewalType || undefined,
+    effective_date: effectiveDate || undefined,
+    warranty_type: warrantyType || undefined,
+    main_category_id: mainCategoryId || undefined,
+    category_id: categoryId || undefined
   };
 
   return await apiRequest({
@@ -791,15 +791,15 @@ export const updateInsurance = async ({
   categoryId
 }) => {
   let data = {
-    job_id: jobId,
-    provider_id: providerId,
-    provider_name: providerName,
-    effective_date: effectiveDate,
-    policy_no: policyNo,
-    value: value,
-    amount_insured: amountInsured,
-    main_category_id: mainCategoryId,
-    category_id: categoryId
+    job_id: jobId || undefined,
+    provider_id: providerId || undefined,
+    provider_name: providerName || undefined,
+    effective_date: effectiveDate || undefined,
+    policy_no: policyNo || undefined,
+    value: value || undefined,
+    amount_insured: amountInsured || undefined,
+    main_category_id: mainCategoryId || undefined,
+    category_id: categoryId || undefined
   };
 
   return await apiRequest({
@@ -822,15 +822,15 @@ export const addInsurance = async ({
   categoryId
 }) => {
   let data = {
-    job_id: jobId,
-    provider_id: providerId,
-    provider_name: providerName,
-    effective_date: effectiveDate,
-    policy_no: policyNo,
-    value: value,
-    amount_insured: amountInsured,
-    main_category_id: mainCategoryId,
-    category_id: categoryId
+    job_id: jobId || undefined,
+    provider_id: providerId || undefined,
+    provider_name: providerName || undefined,
+    effective_date: effectiveDate || undefined,
+    policy_no: policyNo || undefined,
+    value: value || undefined,
+    amount_insured: amountInsured || undefined,
+    main_category_id: mainCategoryId || undefined,
+    category_id: categoryId || undefined
   };
 
   return await apiRequest({
@@ -857,11 +857,11 @@ export const updateAmc = async ({
   sellerContact
 }) => {
   let data = {
-    job_id: jobId,
-    effective_date: effectiveDate,
-    value: value,
-    seller_name: sellerName,
-    seller_contact: sellerContact
+    job_id: jobId || undefined,
+    effective_date: effectiveDate || undefined,
+    value: value || undefined,
+    seller_name: sellerName || undefined,
+    seller_contact: sellerContact || undefined
   };
 
   return await apiRequest({
@@ -881,11 +881,10 @@ export const addAmc = async ({
 }) => {
   let data = {
     job_id: jobId,
-    effective_date: effectiveDate,
+    effective_date: effectiveDate || undefined,
     value: value || undefined,
     seller_name: sellerName || undefined,
-    seller_contact: sellerContact || undefined,
-    expiry_period: expiryPeriod || undefined
+    seller_contact: sellerContact || undefined
   };
 
   return await apiRequest({
@@ -914,7 +913,7 @@ export const updatePuc = async ({
 }) => {
   let data = {
     job_id: jobId,
-    effective_date: effectiveDate,
+    effective_date: effectiveDate || undefined,
     value: value || undefined,
     seller_name: sellerName || undefined,
     seller_contact: sellerContact || undefined,
@@ -938,12 +937,12 @@ export const addPuc = async ({
   expiryPeriod
 }) => {
   let data = {
-    job_id: jobId,
-    effective_date: effectiveDate,
-    value: value,
-    seller_name: sellerName,
-    seller_contact: sellerContact,
-    expiry_period: expiryPeriod
+    job_id: jobId || undefined,
+    effective_date: effectiveDate || undefined,
+    value: value || undefined,
+    seller_name: sellerName || undefined,
+    seller_contact: sellerContact || undefined,
+    expiry_period: expiryPeriod || undefined
   };
 
   return await apiRequest({

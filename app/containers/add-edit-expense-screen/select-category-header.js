@@ -159,7 +159,7 @@ class SelectCategoryHeader extends React.Component {
         break;
       case MAIN_CATEGORY_IDS.TRAVEL:
         this.setState(() => ({
-          title: "Select Travel & Dinning Category",
+          title: "Select Travel & Dining Category",
           visibleOptions: [
             {
               id: 22,

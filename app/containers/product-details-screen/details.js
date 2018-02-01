@@ -154,7 +154,7 @@ class Details extends Component {
         {product.categoryId != 664 && (
           <ViewBillButton product={product} navigator={navigator} />
         )}
-        {product.categoryId == 664 && <View style={{ height: 30 }} />}
+
         <Image
           style={styles.image}
           source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   image: {
+    marginTop: 30,
     width: 100,
     height: 100
   },

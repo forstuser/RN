@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
   },
   noProductsText: {
     fontSize: 12,
-    color: colors.secondaryText
+    color: colors.mainBlue
   },
   addProductBtn: {
     marginTop: 7,

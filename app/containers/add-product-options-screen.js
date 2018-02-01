@@ -75,7 +75,7 @@ class AddProductScreen extends React.Component {
       },
       {
         type: EXPENSE_TYPES.MEDICAL_DOCS,
-        title: "Medical Documents",
+        title: "Insurance & Medical Docs",
         icon: require("../images/main-categories/ic_medical_prescription.png")
       },
       {

@@ -6,28 +6,54 @@ import I18n from "../../i18n";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { openBillsPopUp } from "../../navigation";
+import { isImageFileType } from "../../utils";
+
+const visitingCardIcon = require("../../images/main-categories/ic_visiting_card.png");
+const personalDocIcon = require("../../images/main-categories/ic_personal_doc.png");
 
 const ProductListItem = ({ product, onPress }) => {
   let productName = product.productName;
   if (!productName) {
     productName = product.sub_category_name || product.categoryName;
   }
+  let imageSource = personalDocIcon;
+  //visiting card
+  if (product.categoryId == 27) {
+    imageSource = visitingCardIcon;
+  }
+
   return (
     <TouchableOpacity onPress={() => onPress()} style={styles.container}>
       <View style={styles.details}>
-        {product.copies.length > 0 && (
-          <AsyncImage
-            fileType={product.copies[0].file_type}
-            style={styles.image}
-            uri={API_BASE_URL + "/" + product.copies[0].copyUrl}
-          />
-        )}
+        {product.copies &&
+          product.copies.length > 0 &&
+          isImageFileType(
+            product.copies[0].file_type || product.copies[0].fileType
+          ) && (
+            <AsyncImage
+              fileType={
+                product.copies[0].file_type || product.copies[0].fileType
+              }
+              style={styles.image}
+              uri={API_BASE_URL + "/" + product.copies[0].copyUrl}
+            />
+          )}
+        {product.copies &&
+          product.copies.length > 0 &&
+          !isImageFileType(
+            product.copies[0].file_type || product.copies[0].fileType
+          ) && <Image style={styles.image} source={imageSource} />}
+        {product.copies &&
+          product.copies.length == 0 && (
+            <Image style={styles.image} source={imageSource} />
+          )}
+        {!product.copies && <Image style={styles.image} source={imageSource} />}
         <View style={styles.texts}>
           <Text weight="Bold" style={styles.name}>
-            {productName}
+            {productName.toUpperCase()}
           </Text>
           <Text weight="Medium" style={styles.uploadDate}>
-            Uploaded on {moment(product.purchaseDate).format("DD MMM YYYY")}
+            {moment(product.purchaseDate).format("DD MMM YYYY")}
           </Text>
         </View>
       </View>

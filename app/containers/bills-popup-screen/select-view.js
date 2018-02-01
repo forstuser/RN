@@ -81,13 +81,13 @@ class SelectView extends Component {
                     { borderColor: itemIndex > -1 ? colors.mainBlue : "#999" }
                   ]}
                 >
-                  {isImageFileType(item.file_type) && (
+                  {isImageFileType(item.file_type || item.fileType) && (
                     <AsyncImage
                       style={styles.itemImage}
                       uri={API_BASE_URL + item.copyUrl}
                     />
                   )}
-                  {!isImageFileType(item.file_type) && (
+                  {!isImageFileType(item.file_type || item.fileType) && (
                     <View style={styles.file}>
                       <Image style={styles.fileIcon} source={fileIcon} />
                     </View>

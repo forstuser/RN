@@ -37,7 +37,7 @@ const BillCopyItem = ({
 }) => {
   const onDownloadPress = () => {
     if (Platform.OS === "ios") {
-      if (isImageFileType(copy.file_type)) {
+      if (isImageFileType(copy.file_type || copy.fileType)) {
         showSnackbar({
           text: I18n.t("bill_copy_popup_screen_downloading_image"),
           autoDismissTimerSec: 1000
@@ -45,7 +45,7 @@ const BillCopyItem = ({
 
         RNFetchBlob.config({
           fileCache: true,
-          appendExt: copy.file_type
+          appendExt: copy.file_type || copy.fileType
         })
           .fetch("GET", API_BASE_URL + copy.copyUrl, {
             Authorization: authToken
@@ -75,23 +75,24 @@ const BillCopyItem = ({
           {index + 1} of {total}
         </Text>
       </View>
-      {isImageFileType(copy.file_type) && (
+      {isImageFileType(copy.file_type || copy.fileType) && (
         <Image
           style={styles.billImage}
           source={{ uri: API_BASE_URL + copy.copyUrl }}
         />
       )}
-      {!isImageFileType(copy.file_type) && (
+      {!isImageFileType(copy.file_type || copy.fileType) && (
         <View style={styles.file}>
           <Image style={styles.fileIcon} source={fileIcon} />
           <Text weight="Medium" style={styles.fileName}>
-            {!isNaN(billId) && "Bill_" + copy.copyId + "." + copy.file_type}
+            {!isNaN(billId) &&
+              "Bill_" + copy.copyId + "." + (copy.file_type || copy.fileType)}
             {isNaN(billId) && billId}
           </Text>
         </View>
       )}
       <View style={styles.optionsWrapper}>
-        {isImageFileType(copy.file_type) && (
+        {isImageFileType(copy.file_type || copy.fileType) && (
           <TouchableOpacity style={styles.option} onPress={onDownloadPress}>
             <Image style={styles.optionIcon} source={billDownloadIcon} />
           </TouchableOpacity>

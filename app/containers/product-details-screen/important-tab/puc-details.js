@@ -68,7 +68,7 @@ class PucDetails extends Component {
                     expiryDate={puc.expiryDate}
                     purchaseDate={puc.purchaseDate}
                     docType="PUC"
-                    copies={puc.copies}
+                    copies={puc.copies || []}
                   />
                   <KeyValueItem
                     keyText={I18n.t(
@@ -77,7 +77,7 @@ class PucDetails extends Component {
                     valueText={
                       puc.effectiveDate
                         ? moment(puc.effectiveDate).format("MMM DD, YYYY")
-                        : ""
+                        : "-"
                     }
                   />
                   <KeyValueItem
@@ -85,29 +85,24 @@ class PucDetails extends Component {
                     valueText={
                       puc.expiryDate
                         ? moment(puc.expiryDate).format("MMM DD, YYYY")
-                        : ""
+                        : "-"
                     }
                   />
                   <KeyValueItem
                     keyText={I18n.t("product_details_screen_puc_seller")}
-                    valueText={puc.sellers.sellerName || ""}
+                    valueText={puc.sellers ? puc.sellers.sellerName : "-"}
                   />
-                  {puc.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t("product_details_screen_puc_seller")}
-                      valueText={puc.sellers.sellerName || ""}
-                    />
-                  )}
-                  {puc.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t(
-                        "product_details_screen_puc_seller_contact"
-                      )}
-                      ValueComponent={() => (
-                        <MultipleContactNumbers contact={puc.sellers.contact} />
-                      )}
-                    />
-                  )}
+
+                  <KeyValueItem
+                    keyText={I18n.t(
+                      "product_details_screen_puc_seller_contact"
+                    )}
+                    ValueComponent={() => (
+                      <MultipleContactNumbers
+                        contact={puc.sellers ? puc.sellers.contact : "-"}
+                      />
+                    )}
+                  />
                 </View>
               ))}
             </View>

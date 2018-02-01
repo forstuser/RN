@@ -14,56 +14,7 @@ class TipsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tips: [
-        {
-          tip: I18n.t("tips_screen_tip_1")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_2")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_3")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_4")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_5")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_6")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_7")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_8")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_9")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_10")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_11")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_12")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_13")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_14")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_15")
-        },
-        {
-          tip: I18n.t("tips_screen_tip_16")
-        }
-      ]
+      tips: []
     };
   }
 
@@ -72,7 +23,7 @@ class TipsScreen extends Component {
       title: I18n.t("tips_screen_title")
     });
     try {
-      const tips = await getTips();
+      const res = await getTips();
       this.setState({
         tips: res.tips
       });
@@ -91,12 +42,7 @@ class TipsScreen extends Component {
           renderItem={({ item, index }) => (
             <View
               style={{
-                backgroundColor:
-                  tipsColors[Math.floor(Math.random() * tipsColors.length)],
-                borderBottomColor:
-                  tipsColors[Math.floor(Math.random() * tipsColors.length)],
-                borderBottomWidth: 8,
-                opacity: 20,
+                backgroundColor: tipsColors[index % 4],
                 marginBottom: 10,
                 borderRadius: 4
               }}
@@ -136,26 +82,30 @@ const styles = StyleSheet.create({
   mainText: {
     fontSize: 20,
     padding: 30,
+    paddingBottom: 50,
     letterSpacing: 0.25
-  },
-  gyan: {
-    fontSize: 16,
-    color: "#3b3b3b",
-    width: 220,
-    marginLeft: 20,
-    marginTop: 30
   },
   overlay: {
     backgroundColor: "rgba(255,255,255,0.55)",
     position: "absolute",
     width: "100%",
     top: 0,
-    bottom: 0
+    bottom: 10
+  },
+  gyan: {
+    fontSize: 16,
+    color: "#3b3b3b",
+    position: "absolute",
+    bottom: 15,
+    left: 30
   },
   number: {
     fontSize: 40,
     alignItems: "center",
-    color: "rgba(0,0,0,0.1)"
+    color: "rgba(0,0,0,0.1)",
+    position: "absolute",
+    bottom: 0,
+    right: 30
   }
 });
 

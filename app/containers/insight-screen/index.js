@@ -158,6 +158,7 @@ class InsightScreen extends Component {
         weeklyData: this.state.weeklyData,
         monthlyData: this.state.monthlyData,
         yearlyData: this.state.yearlyData,
+        overallData: this.state.overallData,
         index: this.state.activeData.index
       }
     });

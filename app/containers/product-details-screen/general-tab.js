@@ -146,9 +146,19 @@ class GeneralTab extends Component {
             valueText={product.brand.name}
           />
         )}
+        {product.model ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_model")}
+            valueText={product.model}
+          />
+        ) : null}
         <KeyValueItem
           keyText={dateText}
-          valueText={moment(product.purchaseDate).format("MMM DD, YYYY")}
+          valueText={
+            product.purchaseDate
+              ? moment(product.purchaseDate).format("MMM DD, YYYY")
+              : "-"
+          }
         />
         {product.metaData.map((metaItem, index) => (
           <KeyValueItem

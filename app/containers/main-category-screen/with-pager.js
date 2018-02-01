@@ -47,6 +47,12 @@ class CategoryWithPager extends Component {
     );
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.reloadList) {
+      this.loadProducts(this.state.activeIndex);
+    }
+  }
+
   onTabChange = ({ i }) => {
     const previousindex = this.state.activeIndex;
     this.setState({ activeIndex: i }, () => {
@@ -83,7 +89,7 @@ class CategoryWithPager extends Component {
         subCategoryId: subCategory.id
       });
       subCategory.products = res.productList;
-      subCategory.pageNo = subCategory.pageNo++;
+      // subCategory.pageNo = subCategory.pageNo++;
       subCategory.isFetchingProducts = false;
 
       this.updateStateSubCategory(index, subCategory);
@@ -93,21 +99,9 @@ class CategoryWithPager extends Component {
   };
 
   render() {
-    const tabs = this.state.subCategories.map((subCategory, index) => (
-      <View
-        tabLabel={subCategory.name.toUpperCase()}
-        style={{ flex: 1 }}
-        key={subCategory.id}
-      >
-        <ProductsList
-          mainCategoryId={this.props.category.id}
-          onRefresh={() => this.loadProductsFirstPage(index)}
-          isLoading={subCategory.isFetchingProducts}
-          products={subCategory.products}
-          navigator={this.props.navigator}
-        />
-      </View>
-    ));
+    if (this.state.subCategories.length == 0) {
+      return null;
+    }
 
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#fafafa" }}>
@@ -120,7 +114,21 @@ class CategoryWithPager extends Component {
           tabBarActiveTextColor={colors.mainBlue}
           tabBarInactiveTextColor={colors.secondaryText}
         >
-          {tabs}
+          {this.state.subCategories.map((subCategory, index) => (
+            <View
+              tabLabel={subCategory.name.toUpperCase()}
+              style={{ flex: 1 }}
+              key={subCategory.id}
+            >
+              <ProductsList
+                mainCategoryId={this.props.category.id}
+                onRefresh={() => this.loadProductsFirstPage(index)}
+                isLoading={subCategory.isFetchingProducts}
+                products={subCategory.products}
+                navigator={this.props.navigator}
+              />
+            </View>
+          ))}
         </ScrollableTabView>
       </ScreenContainer>
     );

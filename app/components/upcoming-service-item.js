@@ -30,7 +30,6 @@ const UpcomingServiceItem = ({ item, navigator }) => {
       sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
       sidebarSubTitle = "";
       break;
-
     case 4:
       icon = require("../images/ic_comingup_expiring.png");
       title = "AMC expiring";
@@ -38,7 +37,13 @@ const UpcomingServiceItem = ({ item, navigator }) => {
       sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
       sidebarSubTitle = "";
       break;
-
+    case 5:
+      icon = require("../images/ic_comingup_expiring.png");
+      title = "PUC expiring";
+      subTitle = item.productName;
+      sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
+      sidebarSubTitle = "";
+      break;
     case 6:
       icon = require("../images/ic_comingup_expiring.png");
       title = `${item.schedule.service_number} (${

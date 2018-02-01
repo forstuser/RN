@@ -68,7 +68,7 @@ class AmcDetails extends Component {
                     expiryDate={amc.expiryDate}
                     purchaseDate={amc.purchaseDate}
                     docType="AMC"
-                    copies={amc.copies}
+                    copies={amc.copies || []}
                   />
                   <KeyValueItem
                     keyText={I18n.t("product_details_screen_amc_expiry")}
@@ -79,36 +79,28 @@ class AmcDetails extends Component {
                   />
                   <KeyValueItem
                     keyText={I18n.t("product_details_screen_amc_policy_no")}
-                    valueText={amc.policyNo || ""}
+                    valueText={amc.policyNo || "-"}
                   />
                   <KeyValueItem
                     keyText={I18n.t(
                       "product_details_screen_amc_premium_amount"
                     )}
-                    valueText={amc.premiumAmount || ""}
+                    valueText={amc.premiumAmount || "-"}
+                  />
+                  <KeyValueItem
+                    keyText={I18n.t("product_details_screen_amc_seller")}
+                    valueText={amc.sellers ? amc.sellers.sellerName : "-"}
                   />
                   <KeyValueItem
                     keyText={I18n.t(
-                      "product_details_screen_amc_amount_insured"
+                      "product_details_screen_amc_seller_contact"
                     )}
-                    valueText={amc.amountInsured || ""}
+                    ValueComponent={() => (
+                      <MultipleContactNumbers
+                        contact={amc.sellers ? amc.sellers.contact : "-"}
+                      />
+                    )}
                   />
-                  {amc.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t("product_details_screen_amc_seller")}
-                      valueText={amc.sellers.sellerName || ""}
-                    />
-                  )}
-                  {amc.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t(
-                        "product_details_screen_amc_seller_contact"
-                      )}
-                      ValueComponent={() => (
-                        <MultipleContactNumbers contact={amc.sellers.contact} />
-                      )}
-                    />
-                  )}
                 </View>
               ))}
             </View>

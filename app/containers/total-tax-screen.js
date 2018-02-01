@@ -70,6 +70,9 @@ class TotalTaxScreen extends Component {
       case 2:
         activeData = this.props.yearlyData;
         break;
+      case 3:
+        activeData = this.props.overallData;
+        break;
       default:
         return;
     }
@@ -111,11 +114,12 @@ class TotalTaxScreen extends Component {
             onPress={this.handleFilterOptionPress}
             ref={o => (this.filterOptions = o)}
             title={I18n.t("total_tax_screen_filter_options_title")}
-            cancelButtonIndex={3}
+            cancelButtonIndex={4}
             options={[
               I18n.t("total_tax_screen_filter_last_7_days"),
               I18n.t("total_tax_screen_filter_current_month"),
               I18n.t("total_tax_screen_filter_current_year"),
+              I18n.t("total_tax_screen_filter_lifetime"),
               I18n.t("total_tax_screen_filter_close")
             ]}
           />

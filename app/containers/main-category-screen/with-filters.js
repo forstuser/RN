@@ -41,6 +41,12 @@ class CategoryWithFilters extends Component {
     await this.loadProducts({});
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.reloadList) {
+      this.loadProducts();
+    }
+  }
+
   applyFilters = ({
     pageNo = 1,
     categoryIds = [],

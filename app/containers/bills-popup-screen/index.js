@@ -46,7 +46,7 @@ class BillsPopUpScreen extends Component {
     // send http request in a new thread (using native code)
     RNFetchBlob.config({
       fileCache: true,
-      appendExt: this.props.copies[0].file_type
+      appendExt: this.props.copies[0].file_type || this.props.copies[0].fileType
     })
       .fetch("GET", API_BASE_URL + this.props.copies[0].copyUrl, {
         Authorization: this.props.authToken
@@ -73,14 +73,14 @@ class BillsPopUpScreen extends Component {
       selectedCopies.map(selectedCopy => {
         return RNFetchBlob.config({
           fileCache: true,
-          appendExt: selectedCopy.file_type
+          appendExt: selectedCopy.file_type || selectedCopy.fileType
         })
           .fetch("GET", API_BASE_URL + selectedCopy.copyUrl, {
             Authorization: this.props.authToken
           })
           .then(res => {
             console.log("The file saved to ", res.path());
-            return "file://" + res.path();
+            return res.path();
           });
       })
     )

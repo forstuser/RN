@@ -102,14 +102,14 @@ class ServiceSchedules extends Component {
                 Service Schedule
               </Text>
               <Text weight="Bold" style={styles.modalHeaderProductName}>
-                {product.productName}
+                {product.model}
               </Text>
             </View>
-            <View style={styles.modalScheduleContainer}>
+            <ScrollView style={styles.modalScheduleContainer}>
               {serviceSchedules.map(serviceSchedule =>
                 this.scheduleItem(serviceSchedule)
               )}
-            </View>
+            </ScrollView>
             <Button
               onPress={this.toggleModal}
               text="OK"
@@ -126,7 +126,8 @@ class ServiceSchedules extends Component {
 const styles = StyleSheet.create({
   modal: {
     backgroundColor: "#fff",
-    borderRadius: 6
+    borderRadius: 6,
+    flex: 1
   },
   modalHeader: {
     padding: 16

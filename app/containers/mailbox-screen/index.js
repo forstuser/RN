@@ -100,7 +100,7 @@ class MailBox extends Component {
                 this.props.navigator.push({
                   screen: SCREENS.PRODUCT_DETAILS_SCREEN,
                   passProps: {
-                    productId: item.productId
+                    productId: item.productId || item.id
                   }
                 });
               } else {
@@ -116,7 +116,7 @@ class MailBox extends Component {
               this.props.navigator.push({
                 screen: SCREENS.PRODUCT_DETAILS_SCREEN,
                 passProps: {
-                  productId: item.productId
+                  productId: item.productId || item.id
                 }
               });
               break;
@@ -152,7 +152,7 @@ class MailBox extends Component {
                 <AsyncImage
                   style={styles.image}
                   fileStyle={{ width: 50, height: 50 }}
-                  fileType={item.copies[0].file_type}
+                  fileType={item.copies[0].file_type || item.copies[0].fileType}
                   uri={API_BASE_URL + "/" + item.copies[0].copyUrl}
                 />
               )}

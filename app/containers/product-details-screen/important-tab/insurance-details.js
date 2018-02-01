@@ -70,7 +70,15 @@ class InsuranceDetails extends Component {
                     expiryDate={insurance.expiryDate}
                     purchaseDate={insurance.purchaseDate}
                     docType="Insurance"
-                    copies={insurance.copies}
+                    copies={insurance.copies || []}
+                  />
+                  <KeyValueItem
+                    keyText={I18n.t(
+                      "product_details_screen_insurance_provider"
+                    )}
+                    valueText={
+                      insurance.provider ? insurance.provider.name : "-"
+                    }
                   />
                   <KeyValueItem
                     keyText={I18n.t("product_details_screen_insurance_expiry")}
@@ -83,26 +91,28 @@ class InsuranceDetails extends Component {
                     keyText={I18n.t(
                       "product_details_screen_insurance_policy_no"
                     )}
-                    valueText={insurance.policyNo || ""}
+                    valueText={insurance.policyNo || "-"}
                   />
                   <KeyValueItem
                     keyText={I18n.t(
                       "product_details_screen_insurance_premium_amount"
                     )}
-                    valueText={insurance.premiumAmount || ""}
+                    valueText={insurance.premiumAmount || "-"}
                   />
                   <KeyValueItem
                     keyText={I18n.t(
                       "product_details_screen_insurance_amount_insured"
                     )}
-                    valueText={insurance.amountInsured || ""}
+                    valueText={insurance.amountInsured || "-"}
                   />
                   {insurance.sellers != null && (
                     <KeyValueItem
                       keyText={I18n.t(
                         "product_details_screen_insurance_seller"
                       )}
-                      valueText={insurance.sellers.sellerName || ""}
+                      valueText={
+                        insurance.sellers ? insurance.sellers.sellerName : "-"
+                      }
                     />
                   )}
                   {insurance.sellers != null && (
@@ -112,7 +122,9 @@ class InsuranceDetails extends Component {
                       )}
                       ValueComponent={() => (
                         <MultipleContactNumbers
-                          contact={insurance.sellers.contact}
+                          contact={
+                            insurance.sellers ? insurance.sellers.contact : "-"
+                          }
                         />
                       )}
                     />

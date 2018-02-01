@@ -39,7 +39,7 @@ class EhomeScreen extends Component {
     super(props);
     this.state = {
       error: null,
-      isFetchingData: false,
+      isFetchingData: true,
       categoriesList: [],
       pendingDocs: [],
       notificationCount: 0,
@@ -79,7 +79,6 @@ class EhomeScreen extends Component {
 
   fetchEhomeData = async () => {
     this.setState({
-      isFetchingData: true,
       error: null
     });
     try {

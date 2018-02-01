@@ -87,31 +87,42 @@ class WarrantyDetails extends Component {
                         moment(warranty.expiryDate).format("DD MMM YYYY")
                       }
                     />
-                    {warranty.sellers != null && (
+
+                    {warrantyType == WARRANTY_TYPES.EXTENDED && (
                       <KeyValueItem
                         keyText={I18n.t(
-                          "product_details_screen_warranty_seller"
+                          "product_details_screen_warranty_provider"
                         )}
-                        valueText={warranty.sellers.sellerName}
+                        valueText={
+                          warranty.provider ? warranty.provider.name : "-"
+                        }
                       />
                     )}
-                    {warranty.sellers != null && (
-                      <KeyValueItem
-                        keyText={I18n.t(
-                          "product_details_screen_warranty_seller_contact"
-                        )}
-                        ValueComponent={() => (
-                          <MultipleContactNumbers
-                            contact={warranty.sellers.contact}
-                          />
-                        )}
-                      />
-                    )}
+
+                    <KeyValueItem
+                      keyText={I18n.t("product_details_screen_warranty_seller")}
+                      valueText={
+                        warranty.sellers ? warranty.sellers.sellerName : "-"
+                      }
+                    />
+
+                    <KeyValueItem
+                      keyText={I18n.t(
+                        "product_details_screen_warranty_seller_contact"
+                      )}
+                      ValueComponent={() => (
+                        <MultipleContactNumbers
+                          contact={
+                            warranty.sellers ? warranty.sellers.contact : "-"
+                          }
+                        />
+                      )}
+                    />
                     <ViewBillRow
                       expiryDate={warranty.expiryDate}
                       purchaseDate={warranty.purchaseDate}
                       docType="Warranty"
-                      copies={warranty.copies}
+                      copies={warranty.copies || []}
                     />
                   </View>
                 );

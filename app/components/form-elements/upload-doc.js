@@ -35,7 +35,7 @@ class UploadDoc extends React.Component {
   };
 
   render() {
-    const {
+    let {
       navigator,
       itemId,
       copies = [],
@@ -50,7 +50,9 @@ class UploadDoc extends React.Component {
       placeholder2Color = colors.secondaryText
     } = this.props;
     const { isDocUploaded } = this.state;
-
+    if (!copies) {
+      copies = [];
+    }
     return (
       <View style={styles.container}>
         {copies.length > 0 && (

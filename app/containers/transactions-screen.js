@@ -180,6 +180,8 @@ class TransactionsScreen extends Component {
         return ": Repairs";
       case 5:
         return ": Warranty";
+      case 6:
+        return ": PUC";
       default:
         return "";
     }

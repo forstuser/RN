@@ -109,6 +109,10 @@ class AddEditPuc extends React.Component {
       ...this.pucForm.getFilledData()
     };
 
+    if (!data.effectiveDate && !data.expiryPeriod) {
+      return Alert.alert(`Please select 'PUC Effective Date' or 'PUC Upto'`);
+    }
+
     try {
       this.setState({ isLoading: true });
       if (!data.id) {

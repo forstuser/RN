@@ -277,13 +277,13 @@ class ProductOrExpense extends React.Component {
           if (!data.brandId && !data.brandName) {
             return Alert.alert("Please select or enter brand name");
           }
+          if (!data.purchaseDate) {
+            return Alert.alert("Please select a purchase date");
+          }
           if (!data.insurance.providerId && !data.insurance.providerName) {
             return Alert.alert(
               "Please select or enter insurance provider name"
             );
-          }
-          if (!data.purchaseDate) {
-            return Alert.alert("Please select a purchase date");
           }
           break;
         case MAIN_CATEGORY_IDS.ELECTRONICS:
@@ -300,6 +300,14 @@ class ProductOrExpense extends React.Component {
         case MAIN_CATEGORY_IDS.SERVICES:
         case MAIN_CATEGORY_IDS.TRAVEL:
           if (!data.purchaseDate) {
+            return Alert.alert("Please select a date");
+          }
+          break;
+        case MAIN_CATEGORY_IDS.HEALTHCARE:
+          if (
+            this.props.healthcareFormType == "healthcare_expense" &&
+            !data.purchaseDate
+          ) {
             return Alert.alert("Please select a date");
           }
       }
@@ -458,6 +466,9 @@ class ProductOrExpense extends React.Component {
                     jobId={product.job_id}
                     insuranceProviders={insuranceProviders}
                     navigator={this.props.navigator}
+                    isCollapsible={
+                      mainCategoryId != MAIN_CATEGORY_IDS.AUTOMOBILE
+                    }
                   />
                   <View style={styles.separator} />
                 </View>

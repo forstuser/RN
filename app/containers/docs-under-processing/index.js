@@ -71,7 +71,7 @@ class DocsUnderProcessingScreen extends Component {
 
   renderItem = ({ item, index }) => {
     let ImageItem = null;
-    if (isImageFileType(item.copies[0].file_type)) {
+    if (isImageFileType(item.copies[0].file_type || item.copies[0].fileType)) {
       ImageItem = (
         <AsyncImage
           style={styles.image}

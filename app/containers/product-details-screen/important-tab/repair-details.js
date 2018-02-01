@@ -70,20 +70,21 @@ class RepairDetails extends Component {
                     expiryDate={repairBill.expiryDate}
                     purchaseDate={repairBill.purchaseDate}
                     docType="Repair Bill"
-                    copies={repairBill.copies}
+                    copies={repairBill.copies || []}
                   />
                   <KeyValueItem
                     keyText={I18n.t(
                       "product_details_screen_repairs_repair_date"
                     )}
                     valueText={
-                      moment(repairBill.purchaseDate).isValid() &&
-                      moment(repairBill.purchaseDate).format("DD MMM YYYY")
+                      repairBill.purchaseDate
+                        ? moment(repairBill.purchaseDate).format("DD MMM YYYY")
+                        : "-"
                     }
                   />
                   <KeyValueItem
                     keyText={I18n.t("product_details_screen_repairs_amount")}
-                    valueText={repairBill.premiumAmount}
+                    valueText={repairBill.premiumAmount || "-"}
                   />
                   <KeyValueItem
                     keyText={I18n.t("product_details_screen_repairs_for")}
@@ -93,26 +94,26 @@ class RepairDetails extends Component {
                     keyText={I18n.t(
                       "product_details_screen_repairs_warranty_upto"
                     )}
-                    valueText={repairBill.warranty_upto}
+                    valueText={repairBill.warranty_upto || "-"}
                   />
-                  {repairBill.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t("product_details_screen_repairs_seller")}
-                      valueText={repairBill.sellers.sellerName || ""}
-                    />
-                  )}
-                  {repairBill.sellers != null && (
-                    <KeyValueItem
-                      keyText={I18n.t(
-                        "product_details_screen_repairs_seller_contact"
-                      )}
-                      ValueComponent={() => (
-                        <MultipleContactNumbers
-                          contact={repairBill.sellers.contact}
-                        />
-                      )}
-                    />
-                  )}
+                  <KeyValueItem
+                    keyText={I18n.t("product_details_screen_repairs_seller")}
+                    valueText={
+                      repairBill.sellers ? repairBill.sellers.sellerName : "-"
+                    }
+                  />
+                  <KeyValueItem
+                    keyText={I18n.t(
+                      "product_details_screen_repairs_seller_contact"
+                    )}
+                    ValueComponent={() => (
+                      <MultipleContactNumbers
+                        contact={
+                          repairBill.sellers ? repairBill.sellers.contact : "-"
+                        }
+                      />
+                    )}
+                  />
                 </View>
               ))}
             </View>

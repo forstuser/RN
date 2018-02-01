@@ -6,7 +6,13 @@ import { Text } from "../../elements";
 import { colors } from "../../theme";
 
 const MultipleContactNumbers = ({ contact = "" }) => {
-  if (!contact) return null;
+  if (!contact || contact === "-")
+    return (
+      <Text weight="Medium" style={{ flex: 1, textAlign: "right" }}>
+        -
+      </Text>
+    );
+
   //split by ',' or '/' or '\'
   let contactNumbers = contact.split(/,|\/|\\/);
   return (
