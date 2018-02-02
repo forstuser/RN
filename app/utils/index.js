@@ -12,6 +12,20 @@ const getProductMetasString = metasArray => {
   return metasWithValue.map(metaItem => metaItem.value).join("/");
 };
 
+const getMetaValueByKey = (metasArray, keyName) => {
+  if (!metasArray || !keyName) {
+    return "";
+  }
+  const meta = metasArray.find(
+    m => m.name.toLowerCase().indexOf(keyName.toLowerCase()) > -1
+  );
+  if (!meta) {
+    return "";
+  } else {
+    return meta.value;
+  }
+};
+
 const isImageFileType = fileType => {
   const imageFileTypes = [
     "jpg",
@@ -84,4 +98,12 @@ const isOfPersonalType = mainCategoryId => {
   return mainCategoryId == MAIN_CATEGORY_IDS.PERSONAL;
 };
 
-export { getProductMetasString, isImageFileType, getMimeTypeByExtension };
+export {
+  getProductMetasString,
+  isImageFileType,
+  getMimeTypeByExtension,
+  isOfProductType,
+  isOfExpenseType,
+  isOfPersonalType,
+  getMetaValueByKey
+};

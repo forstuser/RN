@@ -38,7 +38,7 @@ class ChangesSavedModal extends React.Component {
   };
 
   render() {
-    const { title = "Changes Saved Sucessfully", navigator } = this.props;
+    const { title = "Changes Saved Successfully", navigator } = this.props;
     const { visible } = this.state;
     return (
       <Modal useNativeDriver={true} isVisible={visible}>

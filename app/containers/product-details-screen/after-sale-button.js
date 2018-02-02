@@ -17,7 +17,14 @@ import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
 
 import { showSnackbar } from "../../containers/snackbar";
-import { SCREENS } from "../../constants";
+import {
+  SCREENS,
+  MAIN_CATEGORY_IDS,
+  CATEGORY_IDS,
+  METADATA_KEYS
+} from "../../constants";
+
+import { getMetaValueByKey } from "../../utils";
 
 class AfterSaleButton extends Component {
   constructor(props) {
@@ -27,7 +34,7 @@ class AfterSaleButton extends Component {
       emails: [],
       phoneNumbers: [],
       urls: [],
-      activeType: "Manufacturer"
+      activeType: "brand"
     };
   }
 
@@ -52,7 +59,7 @@ class AfterSaleButton extends Component {
       });
     }
 
-    if (this.props.product.serviceCenterUrl) {
+    if (this.props.product.serviceCenterUrl && this.props.product.brand) {
       baseOptions.push({
         type: "asc",
         text: "Nearest Authorised Service center"
@@ -83,14 +90,11 @@ class AfterSaleButton extends Component {
         case "insurance":
           this.showInsuranceOrWarranty(
             insuranceDetails[0].provider,
-            "Insurance Provider"
+            "insurance"
           );
           break;
         case "warranty":
-          this.showInsuranceOrWarranty(
-            warrantyDetails[0].provider,
-            "Warranty Provider"
-          );
+          this.showInsuranceOrWarranty(warrantyDetails[0].provider, "warranty");
           break;
         case "asc":
           return this.openAscScreen();
@@ -153,7 +157,7 @@ class AfterSaleButton extends Component {
       urls,
       emails,
       phoneNumbers,
-      activeType: "Manufacturer"
+      activeType: "brand"
     });
   };
 
@@ -204,50 +208,194 @@ class AfterSaleButton extends Component {
 
   handleEmailPress = index => {
     const { product } = this.props;
-    let purchaseDate = moment(product.purchaseDate).isValid()
-      ? moment(product.purchaseDate).format("DD MMM YYYY")
-      : "N/A";
-    let modelName = "NA";
-    let modelNo = "NA";
-    let type = "NA";
-    let serialNo = "NA";
+    const { activeType } = this.state;
 
-    if (product.metaData) {
-      const metaData = product.metaData;
-      const keys = Object.keys(metaData);
-      const modelNameKey = keys.find(
-        key => key.toLowerCase().indexOf("model name") > -1
-      );
-      if (modelNameKey) {
-        modelName = metaData[modelNameKey];
+    let subject = `Issue with ${product.brand ? product.brand.name : ""} ${
+      product.categoryName
+    }`;
+
+    let brandNameToAddress = product.brand ? product.brand.name : "";
+
+    let productDetails = {
+      purchaseDate: moment(product.purchaseDate).isValid()
+        ? moment(product.purchaseDate).format("DD MMM YYYY")
+        : "NA",
+      modelName:
+        getMetaValueByKey(product.metaData, METADATA_KEYS.MODEL_NAME) || "NA",
+      modelNumber:
+        getMetaValueByKey(product.metaData, METADATA_KEYS.MODEL_NUMBER) || "NA",
+      type: getMetaValueByKey(product.metaData, METADATA_KEYS.TYPE) || "NA",
+      vin: getMetaValueByKey(product.metaData, METADATA_KEYS.VIN) || "NA",
+      registrationNumber:
+        getMetaValueByKey(
+          product.metaData,
+          METADATA_KEYS.REGISTRATION_NUMBER
+        ) || "NA",
+      imeiNumber:
+        getMetaValueByKey(product.metaData, METADATA_KEYS.IMEI_NUMBER) || "NA",
+      serialNumber:
+        getMetaValueByKey(product.metaData, METADATA_KEYS.SERIAL_NUMBER) ||
+        "NA",
+      insurancePolicyNo: "NA",
+      insuranceProviderName: "NA",
+      insuranceEffectiveDate: "NA"
+    };
+    if (product.insuranceDetails.length > 0) {
+      productDetails.insurancePolicyNo =
+        product.insuranceDetails[0].policyNo || "NA";
+      productDetails.insuranceEffectiveDate = product.insuranceDetails[0]
+        .effectiveDate
+        ? moment(product.insuranceDetails[0].effectiveDate).format(
+            "MMM DD, YYYY"
+          )
+        : "NA";
+      if (
+        product.insuranceDetails[0].provider &&
+        product.insuranceDetails[0].provider.name
+      ) {
+        productDetails.insuranceProviderName =
+          product.insuranceDetails[0].provider.name;
+        if (activeType == "insurance") {
+          brandNameToAddress = product.insuranceDetails[0].provider.name;
+        }
       }
-      const modelNoKey = keys.find(
-        key => key.toLowerCase().indexOf("model number") > -1
-      );
-      if (modelNoKey) {
-        modelNo = metaData[modelNoKey];
-      }
-      const typeKey = keys.find(key => key.toLowerCase().indexOf("type") > -1);
-      if (typeKey) {
-        type = metaData[typeKey];
-      }
-      const serialNoKey = keys.find(
-        key => key.toLowerCase().indexOf("serial") > -1
-      );
-      if (serialNoKey) {
-        serialNo = metaData[serialNoKey];
-      }
+    }
+
+    if (
+      activeType == "warranty" &&
+      product.warrantyDetails.length > 0 &&
+      product.warrantyDetails[0].provider &&
+      product.warrantyDetails[0].provider.name
+    ) {
+      brandNameToAddress = product.warrantyDetails[0].provider.name;
+    }
+
+    let productDetailsText = ``;
+
+    if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
+      subject = `${subject}${
+        productDetails.vin ? ", Vin No. " + productDetails.vin : ""
+      }`;
+    } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
+      subject = `${subject}${
+        productDetails.imeiNumber
+          ? ", IMEI No. " + productDetails.imeiNumber
+          : ""
+      }`;
+    } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
+      subject = `${subject}${
+        productDetails.serialNumber
+          ? ", Serial No. " + productDetails.serialNumber
+          : ""
+      }`;
+    }
+
+    if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
+      subject = `Issue with ${product.brand ? product.brand.name : ""} ${
+        product.model ? product.model : ""
+      } ${product.categoryName}`;
+    }
+
+    switch (activeType) {
+      case "brand":
+        if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
+          productDetailsText = `VIN No./Chasis Number: ${
+            productDetails.vin
+          }\nRegisteration Number: ${
+            productDetails.registrationNumber
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+            productDetails.purchaseDate
+          }\nInsurance Poilcy Number: ${
+            productDetails.insurancePolicyNo
+          }\nInsurance Provider: ${productDetails.insuranceProviderName}`;
+        } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
+          productDetailsText = `IMEI Number: ${
+            productDetails.imeiNumber
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+            productDetails.purchaseDate
+          }`;
+        } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
+          productDetailsText = `Serial Number: ${
+            productDetails.serialNumber
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+            productDetails.purchaseDate
+          }`;
+        } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.FURNITURE) {
+          productDetailsText = `Brand Category: ${
+            product.categoryName
+          }\nPurchase Date: ${productDetails.purchaseDate}`;
+        }
+        break;
+      case "warranty":
+        if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
+          productDetailsText = `VIN No./Chasis Number: ${
+            productDetails.vin
+          }\nRegisteration Number: ${
+            productDetails.registrationNumber
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+            productDetails.purchaseDate
+          }`;
+        } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
+          productDetailsText = `Brand Category: ${
+            product.categoryName
+          }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
+            productDetails.modelNumber
+          }\nPurchase Date: ${productDetails.purchaseDate}`;
+        } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
+          productDetailsText = `Brand Category: ${
+            product.categoryName
+          }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
+            productDetails.modelNumber
+          }\nPurchase Date: ${productDetails.purchaseDate}`;
+        }
+        break;
+      case "insurance":
+        if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
+          productDetailsText = `VIN No./Chasis Number: ${
+            productDetails.vin
+          }\nRegisteration Number: ${
+            productDetails.registrationNumber
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+            productDetails.purchaseDate
+          }\nPoilcy Number: ${productDetails.insurancePolicyNo}`;
+        } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
+          productDetailsText = `Brand Category: ${
+            product.categoryName
+          }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
+            productDetails.modelNumber
+          }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
+            productDetails.insurancePolicyNo
+          }`;
+        } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
+          productDetailsText = `Brand Category: ${
+            product.categoryName
+          }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
+            productDetails.modelNumber
+          }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
+            productDetails.insurancePolicyNo
+          }`;
+        }
+        break;
+      default:
+    }
+
+    if (product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
+      subject = `Issue with Policy ${
+        productDetails.insurancePolicyNo != "NA"
+          ? "No. " + productDetails.insurancePolicyNo
+          : ""
+      }`;
+      productDetailsText = `Plan Name: ${product.productName}\nPoilcy Number: ${
+        productDetails.insurancePolicyNo
+      }\nEffective Date: ${productDetails.insuranceEffectiveDate}`;
     }
 
     if (index < this.state.emails.length) {
       const url = `mailto:${
         this.state.emails[index]
-      }?subject=Service Request for ${product.productName}&body=Dear ${
-        product.brand.name
-      } Team,\n\nMy Product Details are:\n${
-        product.categoryName
-      }\nModel Name: ${modelName}\nModel No: ${modelNo}\nSerial No: ${serialNo}\nType: ${type}\nPurchase Date: ${purchaseDate}
-      \nThe issue with my product is:\n\n\nThanks,\n\n\nPowered by BinBill`;
+      }?subject=${subject}&body=Dear ${brandNameToAddress} Team,\n\nThe issue I am facing is : 
+      <Please write your issue here> \n\n
+      My Product Details are:\n${productDetailsText}\n\n\nThanks,\n\n\nPowered by BinBill`;
       Linking.canOpenURL(url)
         .then(supported => {
           if (!supported) {
@@ -290,7 +438,12 @@ class AfterSaleButton extends Component {
   render() {
     const { product } = this.props;
     const { baseOptions, urls, emails, phoneNumbers, activeType } = this.state;
-
+    let name = "Manufacturer";
+    if (activeType == "insurance") {
+      name = "Insurance Provider";
+    } else if (activeType == "warranty") {
+      name = "Warranty Provider";
+    }
     return (
       <View>
         <Button
@@ -308,13 +461,9 @@ class AfterSaleButton extends Component {
         <ActionSheet
           onPress={this.handleOptionPress}
           ref={o => (this.contactOptions = o)}
-          title={`Contact ${activeType}`}
+          title={`Contact ${name}`}
           cancelButtonIndex={4}
-          options={[
-            `Email ${activeType}`,
-            `Call ${activeType}`,
-            `Service Request/Repair`
-          ]}
+          options={[`Email ${name}`, `Call ${name}`, `Service Request/Repair`]}
         />
         <ActionSheet
           onPress={this.handleEmailPress}

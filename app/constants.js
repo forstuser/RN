@@ -26,6 +26,28 @@ const MAIN_CATEGORY_IDS = {
   PERSONAL: 10
 };
 
+const CATEGORY_IDS = {
+  AUTOMOBILE: {
+    CAR: 139,
+    BIKE: 138,
+    SCOOTER: 150,
+    CYCLE: 154,
+    VAN: 153
+  },
+  ELECTRONICS: {
+    MOBILE: 327,
+    TV: 581,
+    LAPTOP: 487,
+    AC: 162,
+    WATER_PURIFIER: 530,
+    REFRIGERATOR: 491,
+    WASHING_MACHINE: 541
+  },
+  HEALTHCARE: {
+    INSURANCE: 664
+  }
+};
+
 const SCREENS = {
   ADD_PRODUCT_OPTIONS_SCREEN: "ADD_PRODUCT_OPTIONS_SCREEN",
   EDIT_INSURANCE_SCREEN: "EDIT_INSURANCE_SCREEN",
@@ -78,10 +100,23 @@ const SERVICE_TYPE_NAMES = {
   3: "Bonus"
 };
 
+const METADATA_KEYS = {
+  VIN: "vin",
+  IMEI_NUMBER: "IMEI Number",
+  SERIAL_NUMBER: "Serial Number",
+  REGISTRATION_NUMBER: "Registration Number",
+  DUE_DATE: "Due date",
+  MODEL_NAME: "model name",
+  MODEL_NUMBER: "model number",
+  TYPE: "type"
+};
+
 export {
   MAIN_CATEGORY_IDS,
+  CATEGORY_IDS,
   SCREENS,
   EXPENSE_TYPES,
   WARRANTY_TYPES,
-  SERVICE_TYPE_NAMES
+  SERVICE_TYPE_NAMES,
+  METADATA_KEYS
 };
