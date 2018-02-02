@@ -9,12 +9,22 @@ import { getProductMetasString } from "../../utils";
 import { MAIN_CATEGORY_IDS, SERVICE_TYPE_NAMES } from "../../constants";
 
 const isDateInPastOrInNextTenDays = date => {
-  const diff = date.diff(moment(), "days");
+  const diff = date.diff(
+    moment()
+      .utcOffset("+0000")
+      .startOf("day"),
+    "days"
+  );
   return diff <= 10;
 };
 
 const expiringInText = date => {
-  const diff = date.diff(moment().startOf("day"), "days");
+  const diff = date.diff(
+    moment()
+      .utcOffset("+0000")
+      .startOf("day"),
+    "days"
+  );
   if (diff < 0) {
     return "Expired!";
   } else if (diff == 0) {
@@ -25,6 +35,7 @@ const expiringInText = date => {
     return "Expiring in " + diff + " days!";
   }
 };
+
 const ProductListItem = ({ product, onPress }) => {
   let productName = product.productName;
   if (!productName) {

@@ -78,10 +78,6 @@ class AmcDetails extends Component {
                     }
                   />
                   <KeyValueItem
-                    keyText={I18n.t("product_details_screen_amc_policy_no")}
-                    valueText={amc.policyNo || "-"}
-                  />
-                  <KeyValueItem
                     keyText={I18n.t(
                       "product_details_screen_amc_premium_amount"
                     )}
