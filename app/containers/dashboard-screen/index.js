@@ -18,7 +18,7 @@ import moment from "moment";
 import Tour from "../../components/app-tour";
 
 import { openAddProductsScreen } from "../../navigation";
-import { consumerGetDashboard } from "../../api";
+import { consumerGetDashboard, getProfileDetail } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import BlankDashboard from "./blank-dashboard";
 import SearchHeader from "../../components/search-header";
@@ -36,6 +36,7 @@ import { SCREENS } from "../../constants";
 import ProductListItem from "../../components/product-list-item";
 
 import { actions as uiActions } from "../../modules/ui";
+import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
@@ -61,7 +62,7 @@ class DashboardScreen extends React.Component {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {
@@ -83,6 +84,14 @@ class DashboardScreen extends React.Component {
           break;
       }
     }
+
+    const r = await getProfileDetail();
+    const user = r.userProfile;
+    this.props.setLoggedInUser({
+      id: user.id,
+      name: user.name,
+      phone: user.mobile_no
+    });
   }
 
   onNavigatorEvent = event => {
@@ -324,6 +333,9 @@ const mapDispatchToProps = dispatch => {
   return {
     setUiHasDashboardTourShown: newValue => {
       dispatch(uiActions.setUiHasDashboardTourShown(newValue));
+    },
+    setLoggedInUser: user => {
+      dispatch(loggedInUserActions.setLoggedInUser(user));
     }
   };
 };

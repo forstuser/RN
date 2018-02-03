@@ -1,4 +1,7 @@
 PODS:
+  - Firebase/Core (4.0.4):
+    - FirebaseAnalytics (= 4.0.2)
+    - FirebaseCore (= 4.0.4)
   - FirebaseAnalytics (4.0.2):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
@@ -40,6 +43,7 @@ PODS:
   - RSKImageCropper (1.6.3)
 
 DEPENDENCIES:
+  - Firebase/Core
   - FirebaseMessaging
   - GoogleMaps
   - GooglePlacePicker
@@ -49,6 +53,7 @@ DEPENDENCIES:
   - RSKImageCropper
 
 SPEC CHECKSUMS:
+  Firebase: 1492bf04e1b73a7353b4fb2cf5a20bac9692f341
   FirebaseAnalytics: ad41720e3e67fc63fbe3d2948d3e26932a8de311
   FirebaseCore: cfc042628ef9f20debe09c0eb683135fcd404cb4
   FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
@@ -63,6 +68,6 @@ SPEC CHECKSUMS:
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   RSKImageCropper: 356e36fc58c57c371b5d8b23d603936d6a73df6c
 
-PODFILE CHECKSUM: b308ade6889a7b01bfc31de66e7760ba719fab80
+PODFILE CHECKSUM: 755d313e874ecbf04f6868d3c1b36e0790a8b08c
 
 COCOAPODS: 1.3.1

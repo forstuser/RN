@@ -2,7 +2,9 @@ export default {
   loggedInUser: {
     authToken: null,
     fcmToken: null,
-    id: null
+    id: null,
+    name: null,
+    phone: null
   },
 
   ui: {

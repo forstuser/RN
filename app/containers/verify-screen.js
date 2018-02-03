@@ -3,7 +3,7 @@ import { TextInput, Alert } from "react-native";
 
 import { connect } from "react-redux";
 
-import { consumerValidate, consumerGetOtp } from "../api";
+import { consumerValidate, consumerGetOtp, getProfileDetail } from "../api";
 import LoadingOverlay from "../components/loading-overlay";
 import { openAfterLoginScreen } from "../navigation";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
@@ -80,6 +80,14 @@ class VerifyScreen extends Component {
         this.props.fcmToken
       );
       this.props.setLoggedInUserAuthToken(r.authorization);
+
+      const r2 = await getProfileDetail();
+      const user = r2.userProfile;
+      this.props.setLoggedInUser({
+        id: user.id,
+        name: user.name,
+        phone: user.mobile_no
+      });
       openAfterLoginScreen();
     } catch (e) {
       Alert.alert(e.statusCode == 401 ? "Wrong OTP" : e.message);
@@ -144,6 +152,9 @@ const mapDispatchToProps = dispatch => {
   return {
     setLoggedInUserAuthToken: token => {
       dispatch(loggedInUserActions.setLoggedInUserAuthToken(token));
+    },
+    setLoggedInUser: user => {
+      dispatch(loggedInUserActions.setLoggedInUser(user));
     }
   };
 };

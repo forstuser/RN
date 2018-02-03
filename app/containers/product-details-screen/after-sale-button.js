@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import moment from "moment";
 import call from "react-native-phone-call";
+import { connect } from "react-redux";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import I18n from "../../i18n";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -207,8 +208,9 @@ class AfterSaleButton extends Component {
   };
 
   handleEmailPress = index => {
-    const { product } = this.props;
+    const { product, loggedInUser } = this.props;
     const { activeType } = this.state;
+    const userName = loggedInUser.name || "";
 
     let subject = `Issue with ${product.brand ? product.brand.name : ""} ${
       product.categoryName
@@ -217,6 +219,8 @@ class AfterSaleButton extends Component {
     let brandNameToAddress = product.brand ? product.brand.name : "";
 
     let productDetails = {
+      brandCategory:
+        (product.brand ? product.brand.name + " " : "") + product.categoryName,
       purchaseDate: moment(product.purchaseDate).isValid()
         ? moment(product.purchaseDate).format("DD MMM YYYY")
         : "NA",
@@ -322,7 +326,7 @@ class AfterSaleButton extends Component {
           }`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.FURNITURE) {
           productDetailsText = `Brand Category: ${
-            product.categoryName
+            productDetails.brandCategory
           }\nPurchase Date: ${productDetails.purchaseDate}`;
         }
         break;
@@ -337,13 +341,13 @@ class AfterSaleButton extends Component {
           }`;
         } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
           productDetailsText = `Brand Category: ${
-            product.categoryName
+            productDetails.brandCategory
           }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
             productDetails.modelNumber
           }\nPurchase Date: ${productDetails.purchaseDate}`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
           productDetailsText = `Brand Category: ${
-            product.categoryName
+            productDetails.brandCategory
           }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
             productDetails.modelNumber
           }\nPurchase Date: ${productDetails.purchaseDate}`;
@@ -360,7 +364,7 @@ class AfterSaleButton extends Component {
           }\nPoilcy Number: ${productDetails.insurancePolicyNo}`;
         } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
           productDetailsText = `Brand Category: ${
-            product.categoryName
+            productDetails.brandCategory
           }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
             productDetails.modelNumber
           }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
@@ -368,7 +372,7 @@ class AfterSaleButton extends Component {
           }`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
           productDetailsText = `Brand Category: ${
-            product.categoryName
+            productDetails.brandCategory
           }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
             productDetails.modelNumber
           }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
@@ -395,7 +399,7 @@ class AfterSaleButton extends Component {
         this.state.emails[index]
       }?subject=${subject}&body=Dear ${brandNameToAddress} Team,\n\nThe issue I am facing is : 
       <Please write your issue here> \n\n
-      My Product Details are:\n${productDetailsText}\n\n\nThanks,\n\n\nPowered by BinBill`;
+      My Product Details are:\n${productDetailsText}\n\n\nThanks,\n${userName}\n\nPowered by BinBill`;
       Linking.canOpenURL(url)
         .then(supported => {
           if (!supported) {
@@ -506,4 +510,10 @@ class AfterSaleButton extends Component {
 
 const styles = StyleSheet.create({});
 
-export default AfterSaleButton;
+const mapStateToProps = state => {
+  return {
+    loggedInUser: state.loggedInUser
+  };
+};
+
+export default connect(mapStateToProps)(AfterSaleButton);

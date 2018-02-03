@@ -3537,6 +3537,10 @@ react-native-fetch-blob@^0.10.8:
     base-64 "0.1.0"
     glob "7.0.6"
 
+react-native-firebase-analytics@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-firebase-analytics/-/react-native-firebase-analytics-4.0.2.tgz#14e7387c734817d7c0508048a4006308597074b1"
+
 react-native-gesture-handler@^1.0.0-alpha.31:
   version "1.0.0-alpha.31"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.0-alpha.31.tgz#681b5da1c518e2b1a76c0132fcfdb13ee30ad2fa"

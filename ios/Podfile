@@ -24,9 +24,10 @@ target 'BinBill' do
   pod 'GooglePlacePicker'
 
   pod 'FirebaseMessaging'
+  pod 'Firebase/Core'
 
   pod 'Mixpanel'
-
+  
   pod 'react-native-mixpanel', :path => '../node_modules/react-native-mixpanel'
 
   target 'BinBillTests' do

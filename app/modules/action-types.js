@@ -1,6 +1,7 @@
 //logged in user actions
 export const LOGGED_IN_USER_SET_AUTH_TOKEN = "LOGGED_IN_USER_SET_AUTH_TOKEN";
 export const LOGGED_IN_USER_SET_FCM_TOKEN = "LOGGED_IN_USER_SET_FCM_TOKEN";
+export const LOGGED_IN_USER_SET_USER = "LOGGED_IN_USER_SET_USER";
 
 //ui actions
 export const UI_SET_SCREEN_TO_OPEN_AFTER_LOGIN =

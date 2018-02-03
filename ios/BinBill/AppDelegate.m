@@ -19,6 +19,7 @@
 
 #import "RCTLinkingManager.h"
 
+#import <Firebase/Firebase.h>
 @import GooglePlaces;
 @import GoogleMaps;
 
