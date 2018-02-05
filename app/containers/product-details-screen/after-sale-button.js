@@ -7,6 +7,9 @@ import {
   Alert,
   Linking
 } from "react-native";
+
+import Analytics from "../../analytics";
+
 import moment from "moment";
 import call from "react-native-phone-call";
 import { connect } from "react-redux";
@@ -71,6 +74,7 @@ class AfterSaleButton extends Component {
   }
 
   showBaseOptions = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_CONTACT_AFTER_SALES);
     if (this.state.baseOptions.length > 0) {
       this.baseOptions.show();
     } else {
@@ -86,15 +90,18 @@ class AfterSaleButton extends Component {
     if (option) {
       switch (option.type) {
         case "brand":
+          Analytics.logEvent(Analytics.EVENTS.CLICK_CONTACT_BRAND);
           this.showBrandOptions();
           break;
         case "insurance":
+          Analytics.logEvent(Analytics.EVENTS.CLICK_CONTACT_INSURANCE_PROVIDER);
           this.showInsuranceOrWarranty(
             insuranceDetails[0].provider,
             "insurance"
           );
           break;
         case "warranty":
+          Analytics.logEvent(Analytics.EVENTS.CLICK_CONTACT_WARRANTY_PROVIDER);
           this.showInsuranceOrWarranty(warrantyDetails[0].provider, "warranty");
           break;
         case "asc":
@@ -208,6 +215,7 @@ class AfterSaleButton extends Component {
   };
 
   handleEmailPress = index => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_EMAIL);
     const { product, loggedInUser } = this.props;
     const { activeType } = this.state;
     const userName = loggedInUser.name || "";
@@ -413,6 +421,8 @@ class AfterSaleButton extends Component {
   };
 
   handlePhonePress = index => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_CALL);
+
     if (index < this.state.phoneNumbers.length) {
       //remove anything between ()
       const phoneNumber = (this.state.phoneNumbers[index] + "(Toll free)")

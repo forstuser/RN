@@ -13,8 +13,8 @@ const EVENTS = {
   CLICK_VIEW_BILL: "addbill_pc",
   CLICK_CONTACT_AFTER_SALES: "aftersales_pc",
   CLICK_CONTACT_BRAND: "contact_brand",
-  CLICK_INSURANCE_PROVIDER: "contact_IP",
-  CLICK_CONTACT_WARRANTY: "contact_thwp",
+  CLICK_CONTACT_INSURANCE_PROVIDER: "contact_IP",
+  CLICK_CONTACT_WARRANTY_PROVIDER: "contact_thwp",
   CLICK_PRODUCT_EDIT: "product_edit",
   CLICK_CALL: "contact_call",
   CLICK_EMAIL: "click_email",
@@ -24,7 +24,7 @@ const EVENTS = {
   OPEN_MAILS: "click_mail"
 };
 
-const logEvent = (eventName, data) => {
+const logEvent = (eventName, data = {}) => {
   const user = store.getState().loggedInUser;
   Analytics.logEvent(eventName, {
     Platform: "iOS",
@@ -34,5 +34,5 @@ const logEvent = (eventName, data) => {
     ...data
   });
 };
-
+export default { EVENTS, logEvent };
 export { EVENTS, logEvent };

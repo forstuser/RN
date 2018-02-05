@@ -11,12 +11,10 @@ import {
 
 import { connect } from "react-redux";
 
-var Mixpanel = require("react-native-mixpanel");
-
 import moment from "moment";
 
 import Tour from "../../components/app-tour";
-
+import Analytics from "../../analytics";
 import { openAddProductsScreen } from "../../navigation";
 import { consumerGetDashboard, getProfileDetail } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -169,6 +167,7 @@ class DashboardScreen extends React.Component {
   };
 
   showAddProductOptionsScreen = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
     this.props.navigator.showModal({
       screen: SCREENS.ADD_PRODUCT_OPTIONS_SCREEN
     });

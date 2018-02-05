@@ -2,6 +2,9 @@ import React from "react";
 import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Icon from "react-native-vector-icons/Entypo";
+
+import Analytics from "../../analytics";
+
 import { API_BASE_URL, initProduct, updateProduct } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
 
@@ -147,6 +150,12 @@ class PersonalDoc extends React.Component {
         isLoading: true
       });
       await updateProduct(data);
+
+      Analytics.logEvent(Analytics.EVENTS.ADD_PRODUCT_COMPLETED, {
+        maincategory: 10,
+        category: selectedDocType.name
+      });
+
       this.setState({
         isLoading: false,
         isFinishModalVisible: true

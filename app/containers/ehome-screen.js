@@ -9,7 +9,7 @@ import {
   Image
 } from "react-native";
 import { connect } from "react-redux";
-
+import Analytics from "../analytics";
 import Tour from "../components/app-tour";
 
 import I18n from "../i18n";
@@ -51,6 +51,7 @@ class EhomeScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
         this.fetchEhomeData();
         break;
     }
@@ -147,12 +148,16 @@ class EhomeScreen extends Component {
     <CategoryItem
       {...item}
       onPress={() => {
+        Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME_CATEGORY, {
+          maincategory: item.id
+        });
         this.openMainCategoryScreen(item);
       }}
     />
   );
 
   showAddProductOptionsScreen = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
     this.props.navigator.showModal({
       screen: SCREENS.ADD_PRODUCT_OPTIONS_SCREEN
     });

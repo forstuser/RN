@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { API_BASE_URL, initProduct, updateProduct } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
-
+import Analytics from "../../analytics";
 import FinishModal from "./finish-modal";
 import LoadingOverlay from "../../components/loading-overlay";
 import SelectCategoryHeader from "./select-category-header";
@@ -314,6 +314,10 @@ class ProductOrExpense extends React.Component {
 
       this.setState({ isSavingProduct: true });
       await updateProduct(data);
+      Analytics.logEvent(Analytics.EVENTS.ADD_PRODUCT_COMPLETED, {
+        maincategory: this.state.mainCategoryId,
+        category: this.state.category.name
+      });
       this.setState({
         isSavingProduct: false,
         isFinishModalVisible: true

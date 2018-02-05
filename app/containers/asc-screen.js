@@ -22,7 +22,7 @@ import {
 import { Text, Button, ScreenContainer } from "../elements";
 import I18n from "../i18n";
 import SelectModal from "../components/select-modal";
-
+import Analytics from "../analytics";
 import { colors } from "../theme";
 import { getProductMetasString } from "../utils";
 import ProcessingItems from "../components/ehome-processing-items.js";
@@ -56,6 +56,7 @@ class AscScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        Analytics.logEvent(Analytics.EVENTS.OPEN_ASC_SCREEN);
         this.fetchProducts();
         if (this.state.clearSelectedValuesOnScreenAppear) {
           this.setState({
@@ -158,6 +159,7 @@ class AscScreen extends Component {
       return Alert.alert(I18n.t("asc_screen_select_location"));
     }
 
+    Analytics.logEvent(Analytics.EVENTS.SEARCH_ASC);
     this.props.navigator.push({
       screen: SCREENS.ASC_SEARCH_SCREEN,
       passProps: {

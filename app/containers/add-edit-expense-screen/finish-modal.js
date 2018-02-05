@@ -5,6 +5,7 @@ import Modal from "react-native-modal";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { SCREENS } from "../../constants";
+import Analytics from "../../analytics";
 
 const repairIcon = require("../../images/main-categories/ic_repair.png");
 class FinishModal extends React.Component {
@@ -28,6 +29,7 @@ class FinishModal extends React.Component {
   };
 
   onMoreProductsClick = () => {
+    Analytics.logEvent(Analytics.EVENTS.ADD_ANOTHER_PRODUCT);
     this.setState({ visible: false }, () => {
       this.props.navigator.pop();
     });

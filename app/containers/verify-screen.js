@@ -12,6 +12,7 @@ import { colors } from "../theme";
 import I18n from "../i18n";
 
 import { showSnackbar } from "./snackbar";
+import Analytics from "../analytics";
 
 class VerifyScreen extends Component {
   static navigatorButtons = {
@@ -80,7 +81,7 @@ class VerifyScreen extends Component {
         this.props.fcmToken
       );
       this.props.setLoggedInUserAuthToken(r.authorization);
-
+      Analytics.logEvent(Analytics.EVENTS.REGISTRATION_OTP);
       const r2 = await getProfileDetail();
       const user = r2.userProfile;
       this.props.setLoggedInUser({

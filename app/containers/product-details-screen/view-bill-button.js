@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView
 } from "react-native";
-
+import Analytics from "../../analytics";
 import I18n from "../../i18n";
 import { API_BASE_URL } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -34,14 +34,15 @@ class ViewBillButton extends React.Component {
     if (product.copies && product.copies.length > 0) {
       return (
         <TouchableOpacity
-          onPress={() =>
+          onPress={() => {
+            Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
             openBillsPopUp({
               date: product.purchaseDate,
               id: product.id,
               copies: product.copies,
               type: docType
-            })
-          }
+            });
+          }}
           style={styles.viewBillBtn}
         >
           <Image style={styles.viewBillIcon} source={viewBillIcon} />
@@ -51,14 +52,15 @@ class ViewBillButton extends React.Component {
     } else {
       return (
         <TouchableOpacity
-          onPress={() =>
+          onPress={() => {
+            Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
             this.uploadBillOptions.show(
               product.jobId,
               1,
               product.id,
               product.id
-            )
-          }
+            );
+          }}
           style={styles.viewBillBtn}
         >
           <UploadBillOptions

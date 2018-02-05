@@ -23,6 +23,8 @@ import { SCREENS, MAIN_CATEGORY_IDS } from "../../constants";
 import { API_BASE_URL, getProductDetails } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 
+import Analytics from "../../analytics";
+
 import I18n from "../../i18n";
 
 import { colors } from "../../theme";
@@ -41,6 +43,7 @@ class ProductCard extends Component {
   }
 
   startBasicDetailsEdit = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_EDIT);
     const { product } = this.props;
     if (product.categoryId == 664) {
       this.props.navigator.push({

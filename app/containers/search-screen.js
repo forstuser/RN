@@ -36,6 +36,9 @@ class SearchBox extends Component {
   componentDidMount() {}
 
   fetchResults = async () => {
+    if (!this.state.textInput.trim()) {
+      return Alert.alert("Please enter text to search");
+    }
     this.textInput.blur();
     this.setState({ isFetchingResults: true });
     try {

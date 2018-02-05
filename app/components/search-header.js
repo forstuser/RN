@@ -10,6 +10,7 @@ import { Text, Button } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
 import { SCREENS } from "../constants";
+import Analytics from "../analytics";
 
 const dashBoardIcon = require("../images/ic_nav_dashboard_off.png");
 const eHomeIcon = require("../images/ic_nav_ehome_off.png");
@@ -26,6 +27,7 @@ class SearchHeader extends Component {
     });
   };
   openMailboxScreen = () => {
+    Analytics.logEvent(Analytics.EVENTS.OPEN_MAILS);
     this.props.navigator.push({
       screen: SCREENS.MAILBOX_SCREEN
     });
