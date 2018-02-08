@@ -86,6 +86,7 @@ class LoginScreen extends Component {
         </View>
         <View>
           <Hyperlink
+            linkDefault={true}
             linkStyle={{ color: colors.mainBlue, fontSize: 14 }}
             linkText={url => {
               if (url === "https://www.binbill.com/term") {

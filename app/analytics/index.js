@@ -25,14 +25,16 @@ const EVENTS = {
 };
 
 const logEvent = (eventName, data = {}) => {
-  const user = store.getState().loggedInUser;
-  Analytics.logEvent(eventName, {
-    Platform: "iOS",
-    "User Id": user.id,
-    "User Name": user.name,
-    "User Mobile": user.phone,
-    ...data
-  });
+  if (!__DEV__) {
+    const user = store.getState().loggedInUser;
+    Analytics.logEvent(eventName, {
+      Platform: "iOS",
+      "User Id": user.id,
+      "User Name": user.name,
+      "User Mobile": user.phone,
+      ...data
+    });
+  }
 };
 export default { EVENTS, logEvent };
 export { EVENTS, logEvent };

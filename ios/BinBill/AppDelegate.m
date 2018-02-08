@@ -20,6 +20,8 @@
 #import "RCTLinkingManager.h"
 
 #import <Firebase/Firebase.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+
 @import GooglePlaces;
 @import GoogleMaps;
 
@@ -35,6 +37,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                           didFinishLaunchingWithOptions:launchOptions];
+  
   [GMSPlacesClient provideAPIKey:@"AIzaSyBRc60dgzwy-6ilVQZxcdUfjLrWMJmEG9I"];
   [GMSServices provideAPIKey:@"AIzaSyBRc60dgzwy-6ilVQZxcdUfjLrWMJmEG9I"];
   
@@ -68,6 +73,22 @@
   */
   
   return YES;
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  
+    BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url
+    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+           annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
+                    ];
+    // Add any custom logic here.
+  return handled;
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+  [FBSDKAppEvents activateApp];
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
