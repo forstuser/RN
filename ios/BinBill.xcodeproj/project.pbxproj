@@ -45,6 +45,9 @@
 		43B85C5E1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B85C5D1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m */; };
 		43C9F61E1FD9124B00E61C98 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C9F6151FD9120700E61C98 /* libRNBlur.a */; };
 		43D732C120246EAB00B57504 /* libRNFIRAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43D732B720246E8F00B57504 /* libRNFIRAnalytics.a */; };
+		43D736682029EA3500B57504 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D736672029EA3500B57504 /* ShareViewController.swift */; };
+		43D7366B2029EA3500B57504 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43D736692029EA3500B57504 /* MainInterface.storyboard */; };
+		43D7366F2029EA3500B57504 /* BinBillShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 43D736652029EA3500B57504 /* BinBillShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		43E1975C1FECD2E100702A16 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E197531FECD2C700702A16 /* libRNFIRMessaging.a */; };
 		43E1975E1FECDA5100702A16 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43E1975D1FECDA5100702A16 /* GoogleService-Info.plist */; };
 		43ED979A1FD94B2A00D1747F /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43ED97991FD94B1900D1747F /* libRNFetchBlob.a */; };
@@ -392,6 +395,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFIRAnalytics;
 		};
+		43D7366D2029EA3500B57504 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43D736642029EA3500B57504;
+			remoteInfo = BinBillShareExtension;
+		};
 		43E197521FECD2C700702A16 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 43E197201FECD2C600702A16 /* RNFIRMessaging.xcodeproj */;
@@ -492,6 +502,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		43D7365F2029E73200B57504 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				43D7366F2029EA3500B57504 /* BinBillShareExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
@@ -539,6 +563,11 @@
 		43B85C5D1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNMultipleFilesShareBridge.m; sourceTree = "<group>"; };
 		43C9F5E81FD9120700E61C98 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		43D7328420246E8E00B57504 /* RNFIRAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFIRAnalytics.xcodeproj; path = "../node_modules/react-native-firebase-analytics/ios/RNFIRAnalytics.xcodeproj"; sourceTree = "<group>"; };
+		43D736652029EA3500B57504 /* BinBillShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BinBillShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		43D736672029EA3500B57504 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		43D7366A2029EA3500B57504 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		43D7366C2029EA3500B57504 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43D736732029EA7700B57504 /* BinBillShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BinBillShareExtension.entitlements; sourceTree = "<group>"; };
 		43E197201FECD2C600702A16 /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
 		43E1975D1FECDA5100702A16 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		43ED97941FD94B1900D1747F /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
@@ -655,6 +684,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0BBD44747F4EF147A150FF4E /* libPods-BinBill-tvOSTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43D736622029EA3500B57504 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -865,6 +901,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		43D736662029EA3500B57504 /* BinBillShareExtension */ = {
+			isa = PBXGroup;
+			children = (
+				43D736732029EA7700B57504 /* BinBillShareExtension.entitlements */,
+				43D736672029EA3500B57504 /* ShareViewController.swift */,
+				43D736692029EA3500B57504 /* MainInterface.storyboard */,
+				43D7366C2029EA3500B57504 /* Info.plist */,
+			);
+			path = BinBillShareExtension;
+			sourceTree = "<group>";
+		};
 		43E197211FECD2C600702A16 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1024,6 +1071,7 @@
 				13B07FAE1A68108700A75B9A /* BinBill */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* BinBillTests */,
+				43D736662029EA3500B57504 /* BinBillShareExtension */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				667D8497E14D4C66BCDBE0B7 /* Resources */,
 				43E317231FC467A00090384A /* Recovered References */,
@@ -1042,6 +1090,7 @@
 				00E356EE1AD99517003FC87E /* BinBillTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* BinBill-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* BinBill-tvOSTests.xctest */,
+				43D736652029EA3500B57504 /* BinBillShareExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1119,10 +1168,12 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				3C17B3349DF57DEF74F2E83C /* [CP] Embed Pods Frameworks */,
 				F28B98073695A4BA13EA4052 /* [CP] Copy Pods Resources */,
+				43D7365F2029E73200B57504 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				43D7366E2029EA3500B57504 /* PBXTargetDependency */,
 			);
 			name = BinBill;
 			productName = "Hello World";
@@ -1171,12 +1222,30 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* BinBill-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		43D736642029EA3500B57504 /* BinBillShareExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43D736702029EA3500B57504 /* Build configuration list for PBXNativeTarget "BinBillShareExtension" */;
+			buildPhases = (
+				43D736612029EA3500B57504 /* Sources */,
+				43D736622029EA3500B57504 /* Frameworks */,
+				43D736632029EA3500B57504 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BinBillShareExtension;
+			productName = BinBillShareExtension;
+			productReference = 43D736652029EA3500B57504 /* BinBillShareExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 610;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
@@ -1190,6 +1259,9 @@
 						LastSwiftMigration = 920;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.DataProtection = {
 								enabled = 0;
 							};
@@ -1223,6 +1295,16 @@
 						DevelopmentTeam = 2A6SNTUJ7X;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
+					};
+					43D736642029EA3500B57504 = {
+						CreatedOnToolsVersion = 9.2;
+						DevelopmentTeam = 2A6SNTUJ7X;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1357,6 +1439,7 @@
 				00E356ED1AD99517003FC87E /* BinBillTests */,
 				2D02E47A1E0B4A5D006451C7 /* BinBill-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* BinBill-tvOSTests */,
+				43D736642029EA3500B57504 /* BinBillShareExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -1808,6 +1891,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		43D736632029EA3500B57504 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43D7366B2029EA3500B57504 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -2098,6 +2189,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		43D736612029EA3500B57504 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43D736682029EA3500B57504 /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2111,7 +2210,23 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* BinBill-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
+		43D7366E2029EA3500B57504 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43D736642029EA3500B57504 /* BinBillShareExtension */;
+			targetProxy = 43D7366D2029EA3500B57504 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		43D736692029EA3500B57504 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				43D7366A2029EA3500B57504 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
@@ -2217,9 +2332,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AEC55437C91B05C4E4678AF4 /* Pods-BinBill.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BinBill/BinBill.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2266,9 +2383,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 16368F8DEFD16390033D5D59 /* Pods-BinBill.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BinBill/BinBill.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2493,6 +2612,81 @@
 			};
 			name = Release;
 		};
+		43D736712029EA3500B57504 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = BinBillShareExtension/BinBillShareExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 2A6SNTUJ7X;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = BinBillShareExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bin.binbillcustomer.BinBillShareExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		43D736722029EA3500B57504 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = BinBillShareExtension/BinBillShareExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 2A6SNTUJ7X;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = BinBillShareExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bin.binbillcustomer.BinBillShareExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2604,6 +2798,15 @@
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
 				2D02E49A1E0B4A5E006451C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43D736702029EA3500B57504 /* Build configuration list for PBXNativeTarget "BinBillShareExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43D736712029EA3500B57504 /* Debug */,
+				43D736722029EA3500B57504 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 
 import moment from "moment";
 
-import { MAIN_CATEGORY_IDS } from "../../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
 import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 
 import Collapsible from "../../components/collapsible";
@@ -166,7 +166,10 @@ class InsuranceForm extends React.Component {
     } = this.state;
 
     let title = "Insurance (If Applicable)";
-    if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
+    if (
+      mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
+      categoryId != CATEGORY_IDS.AUTOMOBILE.CYCLE
+    ) {
       title = "Insurance*";
     } else if (categoryId == 664) {
       title = "Insurance Details";

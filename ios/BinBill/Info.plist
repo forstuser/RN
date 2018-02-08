@@ -45,6 +45,14 @@
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>So that you can upload a photo from your device</string>
+  <key>NSExtensionAttributes</key>
+  <dict>
+    <key>NSExtensionActivationRule</key>
+    <dict>
+      <key>NSExtensionActivationSupportsImageWithMaxCount</key>
+      <integer>1</integer>
+    </dict>
+  </dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Quicksand-Bold.ttf</string>

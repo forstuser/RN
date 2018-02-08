@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, TextInput, Alert } from "react-native";
+import Hyperlink from "react-native-hyperlink";
 import { SCREENS } from "../constants";
 import { colors } from "../theme";
 import { consumerGetOtp } from "../api";
@@ -84,24 +85,29 @@ class LoginScreen extends Component {
           <LoadingOverlay visible={this.state.isGettingOtp} />
         </View>
         <View>
-          <Text
-            style={{
-              fontSize: 12,
-              color: colors.secondaryText,
-              textAlign: "center"
+          <Hyperlink
+            linkStyle={{ color: colors.mainBlue, fontSize: 14 }}
+            linkText={url => {
+              if (url === "https://www.binbill.com/term") {
+                return "Terms & Conditions";
+              } else if (url === "https://www.binbill.com/privacy") {
+                return "Privacy Policy";
+              } else {
+                return url;
+              }
             }}
           >
-            {I18n.t("login_screen_terms_of_use")}
-          </Text>
-          <Text
-            onPress={this.openTermsScreen}
-            style={{
-              textAlign: "center",
-              color: colors.mainBlue
-            }}
-          >
-            {I18n.t("login_screen_read_them_here")}
-          </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                color: colors.secondaryText,
+                textAlign: "center"
+              }}
+            >
+              By signing up you agree to our https://www.binbill.com/term and
+              https://www.binbill.com/privacy
+            </Text>
+          </Hyperlink>
         </View>
       </ScreenContainer>
     );

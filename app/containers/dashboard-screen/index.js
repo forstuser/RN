@@ -41,7 +41,8 @@ const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 class DashboardScreen extends React.Component {
   static HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = false;
   static navigatorStyle = {
-    navBarHidden: true
+    navBarHidden: true,
+    tabBarHidden: false
   };
 
   constructor(props) {
@@ -55,7 +56,8 @@ class DashboardScreen extends React.Component {
       insightChartProps: {},
       notificationCount: 0,
       recentSearches: [],
-      showUploadOptions: false
+      showUploadOptions: false,
+      showAddProductOptionsScreenOnAppear: false
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -75,9 +77,18 @@ class DashboardScreen extends React.Component {
             screen: SCREENS.ADD_PRODUCT_SCREEN
           });
           break;
-        case SCREENS.UPLOAD_DOCUMENT_SCREEN:
+        case SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN:
           this.props.navigator.push({
-            screen: SCREENS.UPLOAD_DOCUMENT_SCREEN
+            screen: SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN,
+            passProps: {
+              showAddProductOptionsScreenOnAppear: this
+                .showAddProductOptionsScreenOnAppear
+            }
+          });
+          break;
+        case SCREENS.TIPS_SCREEN:
+          this.props.navigator.push({
+            screen: SCREENS.TIPS_SCREEN
           });
           break;
       }
@@ -95,6 +106,9 @@ class DashboardScreen extends React.Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        if (this.state.showAddProductOptionsScreenOnAppear) {
+          this.showAddProductOptionsScreen();
+        }
         this.fetchDashboardData();
         break;
     }
@@ -166,7 +180,16 @@ class DashboardScreen extends React.Component {
     });
   };
 
+  showAddProductOptionsScreenOnAppear = () => {
+    this.setState({
+      showAddProductOptionsScreenOnAppear: true
+    });
+  };
+
   showAddProductOptionsScreen = () => {
+    this.setState({
+      showAddProductOptionsScreenOnAppear: false
+    });
     Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
     this.props.navigator.showModal({
       screen: SCREENS.ADD_PRODUCT_OPTIONS_SCREEN

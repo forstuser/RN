@@ -6,7 +6,7 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import Body from "./body";
 import Header from "./header";
 import { SCREENS } from "../../constants";
-import { getProfileDetail } from "../../api";
+import { getProfileDetail, logout } from "../../api";
 import { openLoginScreen } from "../../navigation";
 import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -122,8 +122,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    logoutUser: () => {
+    logoutUser: async () => {
       dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
+      try {
+        await logout();
+      } catch (e) {
+        console.log(e);
+      }
       openLoginScreen();
     }
   };

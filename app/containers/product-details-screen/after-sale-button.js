@@ -79,7 +79,7 @@ class AfterSaleButton extends Component {
       this.baseOptions.show();
     } else {
       Alert.alert(
-        "Customer care is available for only brand/manufacturer, insurance provider and third party warranty providers"
+        "Customer care is available for brand/manufacturer, insurance provider and third party warranty providers only"
       );
     }
   };

@@ -21,7 +21,8 @@ const MultipleContactNumbers = ({ contact = "" }) => {
         flexDirection: "row",
         flex: 1,
         justifyContent: "flex-end",
-        alignItems: "flex-end"
+        alignItems: "flex-end",
+        flexWrap: "wrap"
       }}
     >
       {contactNumbers.map(number => {

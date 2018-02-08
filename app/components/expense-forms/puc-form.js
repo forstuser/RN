@@ -61,10 +61,7 @@ class PucForm extends React.Component {
         { id: 3, name: "3 Months" },
         { id: 4, name: "4 Months" },
         { id: 5, name: "5 Months" },
-        { id: 6, name: "6 Months" },
-        { id: 7, name: "7 Months" },
-        { id: 8, name: "8 Months" },
-        { id: 9, name: "9 Months" }
+        { id: 6, name: "6 Months" }
       ]
     };
   }

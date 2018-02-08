@@ -13,7 +13,7 @@ import { registerScreens } from "./screens";
 import store from "./store";
 import { actions as loggedInUserActions } from "./modules/logged-in-user";
 import { actions as uiActions } from "./modules/ui";
-import { SCREENS, MAIN_CATEGORY_IDS } from "./constants";
+import { SCREENS, MAIN_CATEGORY_IDS, GLOBAL_VARIABLES } from "./constants";
 
 import navigation, { openAppScreen } from "./navigation";
 
@@ -44,71 +44,79 @@ persistStore(store, {}, () => {
       } catch (e) {}
     });
 
+    FCM.getInitialNotification().then(notif => {
+      if (notif) handleNotification(notif);
+    });
+
     FCM.on(FCMEvent.Notification, async notif => {
       if (notif.opened_from_tray) {
-        switch (notif.notification_type) {
-          case "1":
-            return openAppScreen({
-              startScreen: SCREENS.TIPS_SCREEN
-            });
-          case 2:
-          case 3:
-          case 6:
-            return openAppScreen({
-              startScreen: SCREENS.DASHBOARD_SCREEN,
-              openAddProductOptions: true
-            });
-          case 4:
-            return openAppScreen({
-              startScreen: SCREENS.ASC_SCREEN,
-              hitAccessApi: true
-            });
-          case 5:
-            return Linking.openURL(notif.link).catch(err => openAppScreen());
-          case 7:
-            return openAppScreen({
-              startScreen: SCREENS.EHOME_SCREEN
-            });
-          case (8, 10, 11, 12, 13, 14, 18, 25):
-            return openAppScreen({
-              startScreen: SCREENS.PRODUCT_DETAILS_SCREEN,
-              productId: notif.id
-            });
-          case 9:
-            return Linking.openURL(
-              "https://itunes.apple.com/in/app/binbill/id1328873045"
-            ).catch(err => openAppScreen());
-          case 16:
-          case 17:
-            return openAppScreen({
-              startScreen: SCREENS.PRODUCT_DETAILS_SCREEN,
-              productId: notif.id,
-              openServiceSchedule: true
-            });
-          case 19:
-            return openAppScreen({
-              startScreen: SCREENS.INSIGHTS_SCREEN,
-              initialFilterIndex: 0 //last 7 days
-            });
-          case 20:
-            return openAppScreen({
-              startScreen: SCREENS.INSIGHTS_SCREEN,
-              initialFilterIndex: 1 // current month
-            });
-          case 21:
-          case 22:
-            return openAppScreen({
-              startScreen: SCREENS.PROFILE_SCREEN
-            });
-          case 23:
-          case 24:
-            return openAppScreen({ startScreen: SCREENS.MAILBOX_SCREEN });
-        }
+        handleNotification(notif);
       }
     });
   } catch (e) {
     console.log("FCM INIT Error: ", e);
   }
+
+  const handleNotification = notif => {
+    switch (notif.notification_type) {
+      case "1":
+        return openAppScreen({
+          startScreen: SCREENS.TIPS_SCREEN
+        });
+      case "2":
+      case "3":
+      case "6":
+        return openAppScreen({
+          startScreen: SCREENS.DASHBOARD_SCREEN,
+          openAddProductOptions: true
+        });
+      case "4":
+        return openAppScreen({
+          startScreen: SCREENS.ASC_SCREEN,
+          hitAccessApi: true
+        });
+      case "5":
+        return Linking.openURL(notif.link).catch(err => openAppScreen());
+      case "7":
+        return openAppScreen({
+          startScreen: SCREENS.EHOME_SCREEN
+        });
+      case ("8", "10", "11", "12", "13", "14", "18", "25"):
+        return openAppScreen({
+          startScreen: SCREENS.PRODUCT_DETAILS_SCREEN,
+          productId: notif.id
+        });
+      case "9":
+        return Linking.openURL(
+          "https://itunes.apple.com/in/app/binbill/id1328873045"
+        ).catch(err => openAppScreen());
+      case "16":
+      case "17":
+        return openAppScreen({
+          startScreen: SCREENS.PRODUCT_DETAILS_SCREEN,
+          productId: notif.id,
+          openServiceSchedule: true
+        });
+      case "19":
+        return openAppScreen({
+          startScreen: SCREENS.INSIGHTS_SCREEN,
+          initialFilterIndex: 0 //last 7 days
+        });
+      case "20":
+        return openAppScreen({
+          startScreen: SCREENS.INSIGHTS_SCREEN,
+          initialFilterIndex: 1 // current month
+        });
+      case "21":
+      case "22":
+        return openAppScreen({
+          startScreen: SCREENS.PROFILE_SCREEN
+        });
+      case "23":
+      case "24":
+        return openAppScreen({ startScreen: SCREENS.MAILBOX_SCREEN });
+    }
+  };
 
   Linking.getInitialURL()
     .then(url => {
@@ -124,14 +132,17 @@ persistStore(store, {}, () => {
   Linking.addEventListener("url", event => {
     // this handles the use case where the app is running in the background and is activated by the listener...
     if (event.url) {
+      // console.log("url event: ", event.url);
       handleDeeplink(event.url);
       openFirstScreen();
     }
   });
 
   const handleDeeplink = url => {
+    console.log(url);
     const uri = URI(url);
     const path = uri.path();
+
     if (uri.hasQuery("verificationId")) {
       verifyEmail(uri.query(true).verificationId)
         .then(() => {
@@ -157,6 +168,17 @@ persistStore(store, {}, () => {
       case "/faq":
         return store.dispatch(
           uiActions.setScreenToOpenAferLogin(SCREENS.FAQS_SCREEN)
+        );
+      case "/direct-upload-document":
+        if (uri.hasQuery("files")) {
+          global[GLOBAL_VARIABLES.FILES_FOR_DIRECT_UPLOAD] = uri.query(
+            true
+          ).files;
+        }
+        return store.dispatch(
+          uiActions.setScreenToOpenAferLogin(
+            SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN
+          )
         );
       default:
         return store.dispatch(uiActions.setScreenToOpenAferLogin(null));

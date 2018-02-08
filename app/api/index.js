@@ -83,7 +83,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress
+  onUploadProgress = () => {}
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -209,6 +209,17 @@ export const addFcmToken = async fcmToken => {
     url: "/consumer/subscribe",
     data: {
       fcmId: fcmToken,
+      platform: 2
+    }
+  });
+};
+
+export const logout = async fcmToken => {
+  return await apiRequest({
+    method: "post",
+    url: "/consumer/logout",
+    data: {
+      fcmId: store.getState().loggedInUser.fcmToken,
       platform: 2
     }
   });
@@ -364,6 +375,15 @@ export const getCategoryInsightData = async id => {
     method: "get",
     url: `categories/${id}/insights`
   });
+};
+
+export const getReferenceData = async () => {
+  const res = await apiRequest({
+    method: "get",
+    url: `/referencedata`
+  });
+
+  return res;
 };
 
 export const getReferenceDataCategories = async mainCategoryId => {

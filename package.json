@@ -28,6 +28,7 @@
     "react-native-gesture-handler": "^1.0.0-alpha.31",
     "react-native-google-maps-directions": "^1.1.2",
     "react-native-google-places": "2.4.2",
+    "react-native-hyperlink": "^0.0.12",
     "react-native-i18n": "^2.0.9",
     "react-native-image-crop-picker": "^0.18.1",
     "react-native-keyboard-aware-scroll-view": "^0.4.1",

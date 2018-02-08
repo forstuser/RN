@@ -18,7 +18,11 @@ import RepairForm from "../../components/expense-forms/repair-form";
 import AmcForm from "../../components/expense-forms/amc-form";
 import PucForm from "../../components/expense-forms/puc-form";
 import { colors } from "../../theme";
-import { MAIN_CATEGORY_IDS, WARRANTY_TYPES } from "../../constants";
+import {
+  MAIN_CATEGORY_IDS,
+  WARRANTY_TYPES,
+  CATEGORY_IDS
+} from "../../constants";
 
 const expenseIllustration = require("../../images/add-expense-illustration.png");
 const productIllustration = require("../../images/add-product-illustration.png");
@@ -182,6 +186,13 @@ class ProductOrExpense extends React.Component {
         }
       );
     } else {
+      if (category.id == CATEGORY_IDS.AUTOMOBILE.CYCLE) {
+        const visibleModules = { ...this.state.visibleModules };
+        visibleModules.puc = false;
+        this.setState({
+          visibleModules
+        });
+      }
       this.setState({ category }, () => {
         this.initProduct();
       });
@@ -280,7 +291,11 @@ class ProductOrExpense extends React.Component {
           if (!data.purchaseDate) {
             return Alert.alert("Please select a purchase date");
           }
-          if (!data.insurance.providerId && !data.insurance.providerName) {
+          if (
+            data.categoryId != CATEGORY_IDS.AUTOMOBILE.CYCLE &&
+            !data.insurance.providerId &&
+            !data.insurance.providerName
+          ) {
             return Alert.alert(
               "Please select or enter insurance provider name"
             );
@@ -471,7 +486,8 @@ class ProductOrExpense extends React.Component {
                     insuranceProviders={insuranceProviders}
                     navigator={this.props.navigator}
                     isCollapsible={
-                      mainCategoryId != MAIN_CATEGORY_IDS.AUTOMOBILE
+                      mainCategoryId != MAIN_CATEGORY_IDS.AUTOMOBILE ||
+                      category.id == CATEGORY_IDS.AUTOMOBILE.CYCLE
                     }
                   />
                   <View style={styles.separator} />
