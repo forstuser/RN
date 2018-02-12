@@ -3,6 +3,7 @@ package com.binbill;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.microsoft.codepush.react.CodePush;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.horcrux.svg.SvgPackage;
@@ -42,6 +43,7 @@ public class MainApplication extends NavigationApplication {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
             new RNMixpanel(), new VectorIconsPackage(), new SvgPackage(),
         new RNSharePackage(), new PhotoViewPackage(), new NavigationReactPackage(), new LinearGradientPackage(),
         new PickerPackage(), new RNI18nPackage(), new RNGestureHandlerPackage(),

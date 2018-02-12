@@ -8,12 +8,18 @@ import FCM, {
 import URI from "urijs";
 import { persistStore } from "redux-persist";
 import { Provider } from "react-redux";
+import codePush from "react-native-code-push";
 
 import { registerScreens } from "./screens";
 import store from "./store";
 import { actions as loggedInUserActions } from "./modules/logged-in-user";
 import { actions as uiActions } from "./modules/ui";
-import { SCREENS, MAIN_CATEGORY_IDS, GLOBAL_VARIABLES } from "./constants";
+import {
+  SCREENS,
+  MAIN_CATEGORY_IDS,
+  GLOBAL_VARIABLES,
+  CODEPUSH_KEYS
+} from "./constants";
 
 import navigation, { openAppScreen } from "./navigation";
 
@@ -194,4 +200,24 @@ persistStore(store, {}, () => {
       navigation.openIntroScreen();
     }
   };
+
+  // let the app initialize and start a screen or codepush will throw error
+  setTimeout(() => {
+    codePush.sync({
+      deploymentKey: store.getState().loggedInUser.codepushDeploymentStaging
+        ? CODEPUSH_KEYS.DEPLOYEMENT
+        : CODEPUSH_KEYS.PRODUCTION,
+      installMode: codePush.InstallMode.ON_NEXT_RESUME
+    });
+    AppState.addEventListener("change", nextAppState => {
+      if (nextAppState === "active") {
+        codePush.sync({
+          deploymentKey: store.getState().loggedInUser.codepushDeploymentStaging
+            ? CODEPUSH_KEYS.DEPLOYEMENT
+            : CODEPUSH_KEYS.PRODUCTION,
+          installMode: codePush.InstallMode.ON_NEXT_RESUME
+        });
+      }
+    });
+  }, 5000);
 });

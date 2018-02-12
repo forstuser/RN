@@ -4,7 +4,8 @@ export default {
     fcmToken: null,
     id: null,
     name: null,
-    phone: null
+    phone: null,
+    codepushDeploymentStaging: false
   },
 
   ui: {

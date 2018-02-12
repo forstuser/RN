@@ -138,7 +138,8 @@ class UploadDocumentScreen extends Component {
     ImagePicker.openCamera({
       width: 900,
       height: 1200,
-      cropping: true
+      cropping: true,
+      compressImageQuality: 0.75
     })
       .then(file => {
         this.pushFileToState({
@@ -154,7 +155,8 @@ class UploadDocumentScreen extends Component {
     ImagePicker.openPicker({
       width: 900,
       height: 1200,
-      cropping: true
+      cropping: true,
+      compressImageQuality: 0.75
     })
       .then(file => {
         this.pushFileToState({

@@ -26,7 +26,11 @@ export default function loggedInUserReducer(
         name: action.payload.name,
         phone: action.payload.phone
       };
-
+    case types.LOGGED_IN_USER_SET_CODEPUSH_DEPLOYEMENT_STAGING:
+      return {
+        ...state,
+        codepushDeploymentStaging: action.payload.codepushDeploymentStaging
+      };
     default:
       return state;
   }
@@ -55,6 +59,12 @@ export const actions = {
     return {
       type: types.LOGGED_IN_USER_SET_USER,
       payload: { ...user }
+    };
+  },
+  setLoggedInUserCodepushDeploymentStaging: codepushDeploymentStaging => {
+    return {
+      type: types.LOGGED_IN_USER_SET_CODEPUSH_DEPLOYEMENT_STAGING,
+      payload: { codepushDeploymentStaging: codepushDeploymentStaging }
     };
   }
 };

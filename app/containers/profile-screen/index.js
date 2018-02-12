@@ -10,12 +10,14 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView
 } from "react-native";
+import { connect } from "react-redux";
 import Modal from "react-native-modal";
 import { API_BASE_URL, updateProfile } from "../../api";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
 import { showSnackbar } from "../snackbar";
 import I18n from "../../i18n";
+import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 const editIcon = require("../../images/ic_edit_white.png");
@@ -434,6 +436,27 @@ class ProfileScreen extends Component {
             />
           </View>
         </Modal>
+        <TouchableOpacity
+          style={styles.codepushToggleBtn}
+          onLongPress={() => {
+            Alert.alert("Beta update settings changed!");
+            this.props.setLoggedInUserCodepushDeploymentStaging(
+              !this.props.codepushDeploymentStaging
+            );
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 12,
+              color: colors.secondaryText,
+              textAlign: "center"
+            }}
+          >
+            {this.props.codepushDeploymentStaging
+              ? "Subscribed to Beta Updates (Long Press to change)"
+              : ""}
+          </Text>
+        </TouchableOpacity>
       </ScreenContainer>
     );
   }
@@ -508,7 +531,30 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     padding: 10,
     borderRadius: 5
+  },
+  codepushToggleBtn: {
+    position: "absolute",
+    left: 0,
+    bottom: 0,
+    width: "100%",
+    height: 20
   }
 });
 
-export default ProfileScreen;
+const mapStateToProps = state => {
+  return {
+    codepushDeploymentStaging: state.loggedInUser.codepushDeploymentStaging
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setLoggedInUserCodepushDeploymentStaging: newValue => {
+      dispatch(
+        loggedInUserActions.setLoggedInUserCodepushDeploymentStaging(newValue)
+      );
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

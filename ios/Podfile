@@ -30,6 +30,8 @@ target 'BinBill' do
   
   pod 'react-native-mixpanel', :path => '../node_modules/react-native-mixpanel'
 
+  pod 'CodePush', :path => '../node_modules/react-native-code-push'
+
   target 'BinBillTests' do
     inherit! :search_paths
     # Pods for testing

@@ -5,7 +5,7 @@ import DeviceInfo from "react-native-device-info";
 import navigation from "../navigation";
 import { actions as uiActions } from "../modules/ui";
 
-export const API_BASE_URL = "https://consumer.binbill.com";
+export const API_BASE_URL = "https://consumer-stage.binbill.com";
 
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 
@@ -45,7 +45,8 @@ const apiRequest = async ({
       data,
       headers,
       onUploadProgress,
-      onDownloadProgress
+      onDownloadProgress,
+      timeout: 3600 * 1000 //3600 seconds
     });
     console.log("r.data: ", r.data);
     if (r.data.status == false) {

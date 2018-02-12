@@ -43,6 +43,7 @@
 		43B4EF69201F238E00098257 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B4EF68201F238E00098257 /* LaunchScreen.xib */; };
 		43B85C5C1FF3C12500781472 /* RNMultipleFilesShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B85C5B1FF3C12500781472 /* RNMultipleFilesShare.swift */; };
 		43B85C5E1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B85C5D1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m */; };
+		43C09D67202DA99B00AE02E0 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C09D2E202DA93400AE02E0 /* libCodePush.a */; };
 		43C9F61E1FD9124B00E61C98 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C9F6151FD9120700E61C98 /* libRNBlur.a */; };
 		43CD0A05202C37A500096693 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CD09C9202C37A100096693 /* FBSDKShareKit.framework */; };
 		43CD0A06202C37A500096693 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CD0A02202C37A400096693 /* FBSDKCoreKit.framework */; };
@@ -357,6 +358,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNPdfScanner;
 		};
+		43C09D2D202DA93400AE02E0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43C09D26202DA93300AE02E0 /* CodePush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = CodePush;
+		};
+		43C09D2F202DA93400AE02E0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43C09D26202DA93300AE02E0 /* CodePush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F886647B1F4ADB500036D01B;
+			remoteInfo = "CodePush-tvOS";
+		};
 		43C9F5AF1FD5877900E61C98 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -565,6 +580,8 @@
 		43B85C5A1FF3C12400781472 /* BinBill-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BinBill-Bridging-Header.h"; sourceTree = "<group>"; };
 		43B85C5B1FF3C12500781472 /* RNMultipleFilesShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMultipleFilesShare.swift; sourceTree = "<group>"; };
 		43B85C5D1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNMultipleFilesShareBridge.m; sourceTree = "<group>"; };
+		43C09D26202DA93300AE02E0 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
+		43C09D68202DA9BB00AE02E0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		43C9F5E81FD9120700E61C98 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		43CD09C9202C37A100096693 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		43CD0A02202C37A400096693 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -636,6 +653,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43C09D67202DA99B00AE02E0 /* libCodePush.a in Frameworks */,
 				43D732C120246EAB00B57504 /* libRNFIRAnalytics.a in Frameworks */,
 				43E1975C1FECD2E100702A16 /* libRNFIRMessaging.a in Frameworks */,
 				43CD0A08202C37A500096693 /* FBSDKLoginKit.framework in Frameworks */,
@@ -888,6 +906,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		43C09D27202DA93300AE02E0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				43C09D2E202DA93400AE02E0 /* libCodePush.a */,
+				43C09D30202DA93400AE02E0 /* libCodePush.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		43C9F5E91FD9120700E61C98 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1036,6 +1063,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				43C09D26202DA93300AE02E0 /* CodePush.xcodeproj */,
 				43D7328420246E8E00B57504 /* RNFIRAnalytics.xcodeproj */,
 				43E197201FECD2C600702A16 /* RNFIRMessaging.xcodeproj */,
 				4317B3311FE00B2A00778944 /* RNDeviceInfo.xcodeproj */,
@@ -1125,6 +1153,7 @@
 		997F9CA6847B799183ADB0A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				43C09D68202DA9BB00AE02E0 /* libz.tbd */,
 				43CD0A03202C37A400096693 /* Bolts.framework */,
 				43CD0A02202C37A400096693 /* FBSDKCoreKit.framework */,
 				43CD0A04202C37A500096693 /* FBSDKLoginKit.framework */,
@@ -1261,7 +1290,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
+				LastSwiftUpdateCheck = 920;
 				LastUpgradeCheck = 610;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
@@ -1339,6 +1368,10 @@
 				{
 					ProductGroup = 43B0790D1FC4569F00F4C1A0 /* Products */;
 					ProjectRef = D996417B377D4ECBB92B95AB /* BVLinearGradient.xcodeproj */;
+				},
+				{
+					ProductGroup = 43C09D27202DA93300AE02E0 /* Products */;
+					ProjectRef = 43C09D26202DA93300AE02E0 /* CodePush.xcodeproj */;
 				},
 				{
 					ProductGroup = 4300FE2E1FD29E330008E1F2 /* Products */;
@@ -1711,6 +1744,20 @@
 			fileType = archive.ar;
 			path = libRNPdfScanner.a;
 			remoteRef = 43B079531FC4569F00F4C1A0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		43C09D2E202DA93400AE02E0 /* libCodePush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCodePush.a;
+			remoteRef = 43C09D2D202DA93400AE02E0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		43C09D30202DA93400AE02E0 /* libCodePush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCodePush.a;
+			remoteRef = 43C09D2F202DA93400AE02E0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		43C9F5B01FD5877900E61C98 /* libprivatedata.a */ = {
@@ -2386,6 +2433,7 @@
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
+					"-lz",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bin.binbillcustomer;
 				PRODUCT_NAME = BinBill;
@@ -2440,6 +2488,7 @@
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
+					"-lz",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bin.binbillcustomer;
 				PRODUCT_NAME = BinBill;

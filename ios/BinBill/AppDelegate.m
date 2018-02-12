@@ -22,6 +22,8 @@
 #import <Firebase/Firebase.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
+#import <CodePush/CodePush.h>
+
 @import GooglePlaces;
 @import GoogleMaps;
 
@@ -48,8 +50,14 @@
 
   NSURL *jsCodeLocation;
 
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+//  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 
+  #ifdef DEBUG
+    jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+  #else
+    jsCodeLocation = [CodePush bundleURL];
+  #endif
+  
   // **********************************************
   // *** Wix/React-native-navigation *****
   // **********************************************
