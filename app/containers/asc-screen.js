@@ -88,7 +88,7 @@ class AscScreen extends Component {
         brands: res.brands
       });
     } catch (e) {
-      Alert.alert(e.message);
+      // Alert.alert(e.message);
     }
   }
 

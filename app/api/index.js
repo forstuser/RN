@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import { Navigation } from "react-native-navigation";
 import axios from "axios";
 import store from "../store";
@@ -8,6 +9,7 @@ import { actions as uiActions } from "../modules/ui";
 export const API_BASE_URL = "https://consumer-stage.binbill.com";
 
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
+const platform = Platform.OS == "ios" ? 2 : 1;
 
 const apiRequest = async ({
   method,
@@ -19,15 +21,6 @@ const apiRequest = async ({
   onDownloadProgress,
   responseType = "json"
 }) => {
-  console.log(
-    "New Request: ",
-    method,
-    url,
-    "data: ",
-    data,
-    "queryParams: ",
-    queryParams
-  );
   try {
     const token = store.getState().loggedInUser.authToken;
     if (token) {
@@ -35,7 +28,23 @@ const apiRequest = async ({
       console.log("auth token: ", token);
     }
 
-    headers.ios_app_version = DeviceInfo.getBuildNumber();
+    if (Platform.OS == "ios") {
+      headers.ios_app_version = DeviceInfo.getBuildNumber();
+    } else {
+      headers.app_version = 12; //android app version
+    }
+
+    console.log(
+      "New Request: ",
+      method,
+      url,
+      "headers: ",
+      headers,
+      "data: ",
+      data,
+      "queryParams: ",
+      queryParams
+    );
 
     const r = await axios.request({
       baseURL: API_BASE_URL,
@@ -49,20 +58,24 @@ const apiRequest = async ({
       timeout: 3600 * 1000 //3600 seconds
     });
     console.log("r.data: ", r.data);
-    if (r.data.status == false) {
-      let error = new Error(r.data.message);
-      error.statusCode = 400;
-      throw error;
-    }
-    if (r.data.forceUpdate === true && !HAS_OPENED_FORCE_UPDATE_SCREEN) {
-      HAS_OPENED_FORCE_UPDATE_SCREEN = true;
-      navigation.openForceUpdateScreen();
+
+    if (r.data.forceUpdate === true) {
+      if (!HAS_OPENED_FORCE_UPDATE_SCREEN) {
+        HAS_OPENED_FORCE_UPDATE_SCREEN = true;
+        navigation.openForceUpdateScreen();
+      }
     } else if (
       r.data.forceUpdate === false &&
       !store.getState().ui.hasUpdateAppScreenShown
     ) {
       store.dispatch(uiActions.setUiHasUpdateAppScreenShown(true));
       navigation.openForceUpdateModal();
+    }
+
+    if (r.data.status == false) {
+      let error = new Error(r.data.message);
+      error.statusCode = 400;
+      throw error;
     }
 
     return r.data;
@@ -191,7 +204,7 @@ export const consumerValidate = async (phoneNo, token, fcmToken) => {
     Token: token,
     TrueObject: { PhoneNo: phoneNo },
     BBLogin_Type: 1,
-    platform: 2
+    platform: platform
   };
   if (fcmToken) {
     data.fcmId = fcmToken;
@@ -210,7 +223,7 @@ export const addFcmToken = async fcmToken => {
     url: "/consumer/subscribe",
     data: {
       fcmId: fcmToken,
-      platform: 2
+      platform: platform
     }
   });
 };
@@ -221,7 +234,7 @@ export const logout = async fcmToken => {
     url: "/consumer/logout",
     data: {
       fcmId: store.getState().loggedInUser.fcmToken,
-      platform: 2
+      platform: platform
     }
   });
 };

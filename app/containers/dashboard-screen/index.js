@@ -23,7 +23,6 @@ import SearchHeader from "../../components/search-header";
 import InsightChart from "../../components/insight-chart";
 import UpcomingServicesList from "../../components/upcoming-services-list";
 import UploadBillOptions from "../../components/upload-bill-options";
-import AddExpenseModal from "../../components/add-expense-modal";
 import { colors } from "../../theme";
 import I18n from "../../i18n";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -122,7 +121,7 @@ class DashboardScreen extends React.Component {
     try {
       const dashboardData = await consumerGetDashboard();
       if (
-        !dashboardData.hasProducts &&
+        dashboardData.hasProducts === false &&
         !DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE
       ) {
         DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = true;
@@ -285,11 +284,6 @@ class DashboardScreen extends React.Component {
             <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
           </TouchableOpacity>
         )}
-
-        <AddExpenseModal
-          ref={ref => (this.addExpenseModal = ref)}
-          navigator={this.props.navigator}
-        />
 
         <Tour
           ref={ref => (this.dashboardTour = ref)}
