@@ -48,7 +48,7 @@ class ImportantTab extends Component {
     } = product;
 
     return (
-      <View>
+      <ScrollView>
         {product.categoryId != 664 && (
           <WarrantyDetails
             warrantyType={WARRANTY_TYPES.NORMAL}
@@ -107,7 +107,7 @@ class ImportantTab extends Component {
               openServiceSchedule={openServiceSchedule}
             />
           )}
-      </View>
+      </ScrollView>
     );
   }
 }

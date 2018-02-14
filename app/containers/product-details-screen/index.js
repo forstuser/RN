@@ -57,7 +57,8 @@ class ProductDetailsScreen extends Component {
   static navigatorButtons = {
     rightButtons: [
       {
-        component: "NavOptionsButton"
+        component: "NavOptionsButton",
+        passProps: {}
       }
     ],
     backButtonTitle: ""

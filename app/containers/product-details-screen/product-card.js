@@ -84,10 +84,15 @@ class ProductCard extends Component {
     }
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container}>
+        <ScrollView contentContainerStyle={{}}>
           <Details product={product} navigator={this.props.navigator} />
+
           <ScrollableTabView
-            style={{ marginTop: 20, marginBottom: 70 }}
+            style={{
+              marginTop: 20,
+              marginBottom: 70,
+              height: 500
+            }}
             renderTabBar={() => <DefaultTabBar />}
             tabBarUnderlineStyle={{
               backgroundColor: colors.mainBlue,

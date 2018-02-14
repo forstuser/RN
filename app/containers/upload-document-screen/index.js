@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Modal,
-  Alert
+  Alert,
+  Platform
 } from "react-native";
 import { Navigation } from "react-native-navigation";
 import ActionSheet from "react-native-actionsheet";
@@ -44,6 +45,20 @@ import Tour from "../../components/app-tour";
 
 const AddPicButton = () => (
   <TouchableOpacity
+    style={{
+      ...Platform.select({
+        ios: {},
+        android: {
+          position: "absolute",
+          top: 10,
+          right: 4,
+          width: 40,
+          height: 30,
+          alignItems: "center",
+          justifyContent: "center"
+        }
+      })
+    }}
     onPress={() => Navigation.handleDeepLink({ link: "new-pic-upload" })}
   >
     <Image style={{ width: 24, height: 24 }} source={newPicIcon} />
@@ -52,7 +67,6 @@ const AddPicButton = () => (
 
 Navigation.registerComponent("AddPicButton", () => AddPicButton);
 
-Navigation;
 class UploadDocumentScreen extends Component {
   static navigatorStyle = {
     tabBarHidden: true
@@ -60,7 +74,9 @@ class UploadDocumentScreen extends Component {
   static navigatorButtons = {
     rightButtons: [
       {
-        component: "AddPicButton"
+        id: "new-pic-upload-btn",
+        component: "AddPicButton",
+        passProps: {}
       }
     ]
   };
@@ -85,13 +101,13 @@ class UploadDocumentScreen extends Component {
     setTimeout(() => {
       switch (this.props.openPickerOnStart) {
         case "camera":
-          this.takeCameraImage();
+          // this.takeCameraImage();
           break;
         case "images":
-          this.pickGalleryImage();
+          // this.pickGalleryImage();
           break;
         case "documents":
-          this.pickDocument();
+          // this.pickDocument();
           break;
       }
     }, 1000);

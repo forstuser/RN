@@ -27,20 +27,30 @@ class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profilePic: null
+      profilePic: null,
+      blurViewRef: null
     };
   }
 
   componentDidMount() {
     const profile = this.props.profile;
     let profilePic = (
-      <Image style={styles.image} source={noPicPlaceholderIcon} />
+      <Image
+        ref={img => {
+          this.backgroundImage = img;
+        }}
+        style={styles.image}
+        source={noPicPlaceholderIcon}
+      />
     );
     if (profile.image_name) {
       profilePic = (
-        <AsyncImage
+        <Image
+          ref={img => {
+            this.backgroundImage = img;
+          }}
           style={styles.image}
-          uri={API_BASE_URL + profile.imageUrl}
+          source={{ uri: API_BASE_URL + profile.imageUrl }}
         />
       );
     }
@@ -48,6 +58,10 @@ class ProfileScreen extends Component {
       profilePic
     });
   }
+
+  imageLoaded = () => {
+    this.setState({ blurViewRef: findNodeHandle(this.backgroundImage) });
+  };
 
   handleOptionPress = index => {
     switch (index) {
@@ -121,7 +135,7 @@ class ProfileScreen extends Component {
         <View style={styles.backgroundImg}>{profilePic}</View>
         <BlurView
           style={styles.overlay}
-          viewRef={this.state.blurOverlay}
+          viewRef={this.state.blurViewRef}
           blurType="light"
           blurAmount={5}
         />

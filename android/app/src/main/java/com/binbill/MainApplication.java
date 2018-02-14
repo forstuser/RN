@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.microsoft.codepush.react.CodePush;
-import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.horcrux.svg.SvgPackage;
 import cl.json.RNSharePackage;
@@ -25,6 +24,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,11 +44,11 @@ public class MainApplication extends NavigationApplication {
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(new MainReactPackage(),
             new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
-            new RNMixpanel(), new VectorIconsPackage(), new SvgPackage(),
+            new VectorIconsPackage(), new SvgPackage(),
         new RNSharePackage(), new PhotoViewPackage(), new NavigationReactPackage(), new LinearGradientPackage(),
         new PickerPackage(), new RNI18nPackage(), new RNGestureHandlerPackage(),
         new RNFetchBlobPackage(), new FIRMessagingPackage(), new RNPdfScannerPackage(), new ReactNativeDocumentPicker(),
-        new RNDeviceInfo(), new BlurViewPackage());
+        new RNDeviceInfo(), new BlurViewPackage(), new RNGooglePlacesPackage());
   }
 
   @Override
