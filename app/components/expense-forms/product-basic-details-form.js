@@ -327,6 +327,7 @@ class BasicDetailsForm extends React.Component {
 
         <View style={styles.body}>
           <CustomTextInput
+            underlineColorAndroid="transparent"
             placeholder="Product Name"
             value={productName}
             onChangeText={productName => this.setState({ productName })}
@@ -400,6 +401,7 @@ class BasicDetailsForm extends React.Component {
 
           {categoryId == 327 && (
             <CustomTextInput
+              underlineColorAndroid="transparent"
               placeholder="IMEI No "
               placeholder2="(Recommended)"
               placeholder2Color={colors.mainBlue}
@@ -411,6 +413,7 @@ class BasicDetailsForm extends React.Component {
           {mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS &&
             categoryId != 327 && (
               <CustomTextInput
+                underlineColorAndroid="transparent"
                 placeholder="Serial No "
                 placeholder2="(Recommended)"
                 placeholder2Color={colors.mainBlue}
@@ -422,11 +425,13 @@ class BasicDetailsForm extends React.Component {
           {mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE && (
             <View>
               <CustomTextInput
+                underlineColorAndroid="transparent"
                 placeholder="VIN No."
                 value={vinNo}
                 onChangeText={vinNo => this.setState({ vinNo })}
               />
               <CustomTextInput
+                underlineColorAndroid="transparent"
                 placeholder="Registration No "
                 placeholder2="(Recommended)"
                 placeholder2Color={colors.mainBlue}
@@ -449,6 +454,7 @@ class BasicDetailsForm extends React.Component {
           />
 
           <CustomTextInput
+            underlineColorAndroid="transparent"
             placeholder="Purchase Amount"
             value={value ? String(value) : ""}
             onChangeText={value => this.setState({ value })}
@@ -456,6 +462,7 @@ class BasicDetailsForm extends React.Component {
           />
 
           <CustomTextInput
+            underlineColorAndroid="transparent"
             placeholder="Seller Name"
             value={sellerName}
             onChangeText={sellerName => this.setState({ sellerName })}

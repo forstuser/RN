@@ -222,6 +222,7 @@ class InsuranceForm extends React.Component {
             />
 
             <CustomTextInput
+              underlineColorAndroid="transparent"
               placeholder="Insurance Policy No "
               placeholder2="(Recommended)"
               placeholder2Color={colors.mainBlue}
@@ -230,6 +231,7 @@ class InsuranceForm extends React.Component {
             />
 
             <CustomTextInput
+              underlineColorAndroid="transparent"
               placeholder="Insurance Premium Amount"
               value={value ? String(value) : ""}
               onChangeText={value => this.setState({ value })}
@@ -255,6 +257,7 @@ class InsuranceForm extends React.Component {
             />
 
             <CustomTextInput
+              underlineColorAndroid="transparent"
               placeholder="Total Coverage"
               value={amountInsured ? String(amountInsured) : ""}
               onChangeText={amountInsured => this.setState({ amountInsured })}

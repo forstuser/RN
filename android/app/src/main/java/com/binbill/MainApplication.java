@@ -24,7 +24,6 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +47,7 @@ public class MainApplication extends NavigationApplication {
         new RNSharePackage(), new PhotoViewPackage(), new NavigationReactPackage(), new LinearGradientPackage(),
         new PickerPackage(), new RNI18nPackage(), new RNGestureHandlerPackage(),
         new RNFetchBlobPackage(), new FIRMessagingPackage(), new RNPdfScannerPackage(), new ReactNativeDocumentPicker(),
-        new RNDeviceInfo(), new BlurViewPackage(), new RNGooglePlacesPackage());
+        new RNDeviceInfo(), new BlurViewPackage());
   }
 
   @Override

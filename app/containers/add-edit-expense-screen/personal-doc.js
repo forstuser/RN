@@ -256,6 +256,7 @@ class PersonalDoc extends React.Component {
             {formType == "visiting_card" && (
               <View style={{ width: "100%", marginBottom: 10 }}>
                 <CustomTextInput
+                  underlineColorAndroid="transparent"
                   placeholder="Business Name"
                   value={businessName}
                   onChangeText={businessName => this.setState({ businessName })}

@@ -279,6 +279,7 @@ class PersonalDoc extends React.Component {
               />
             )}
             <CustomTextInput
+              underlineColorAndroid="transparent"
               placeholder="Name"
               value={name}
               onChangeText={name => this.setState({ name })}
@@ -286,22 +287,26 @@ class PersonalDoc extends React.Component {
             {categoryId == 27 && (
               <View style={{ width: "100%", marginBottom: 10 }}>
                 <CustomTextInput
+                  underlineColorAndroid="transparent"
                   placeholder="Business Name"
                   value={businessName}
                   onChangeText={businessName => this.setState({ businessName })}
                 />
                 <ContactFields
+                  underlineColorAndroid="transparent"
                   ref={ref => (this.phoneRef = ref)}
                   value={phone}
                   placeholder="Phone Number"
                 />
                 <ContactFields
+                  underlineColorAndroid="transparent"
                   ref={ref => (this.emailRef = ref)}
                   value={email}
                   placeholder="Email"
                   keyboardType="email-address"
                 />
                 <CustomTextInput
+                  underlineColorAndroid="transparent"
                   style={{ marginBottom: 10 }}
                   placeholder="Address"
                   value={address}

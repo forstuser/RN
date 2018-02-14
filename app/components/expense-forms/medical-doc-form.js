@@ -146,6 +146,7 @@ class MedicalDocForm extends React.Component {
         />
         <View style={styles.body}>
           <CustomTextInput
+            underlineColorAndroid="transparent"
             placeholder="Report Title"
             value={reportTitle}
             onChangeText={reportTitle => this.setState({ reportTitle })}
@@ -179,6 +180,7 @@ class MedicalDocForm extends React.Component {
           />
 
           <CustomTextInput
+            underlineColorAndroid="transparent"
             placeholder="Doctor/Hospital Name"
             value={doctorName}
             onChangeText={doctorName => this.setState({ doctorName })}

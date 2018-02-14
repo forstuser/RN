@@ -214,6 +214,7 @@ class HealthcareInsuranceForm extends React.Component {
         />
         <View style={styles.body}>
           <CustomTextInput
+            underlineColorAndroid="transparent"
             placeholder="Plan Name"
             value={planName}
             onChangeText={planName => this.setState({ planName })}
@@ -239,6 +240,7 @@ class HealthcareInsuranceForm extends React.Component {
           />
 
           <CustomTextInput
+            underlineColorAndroid="transparent"
             placeholder="For (Self/Child/Wife/Parents/Family/Etc.)"
             value={insuranceFor}
             onChangeText={insuranceFor => this.setState({ insuranceFor })}
@@ -271,6 +273,7 @@ class HealthcareInsuranceForm extends React.Component {
               />
 
               <CustomTextInput
+                underlineColorAndroid="transparent"
                 placeholder="Policy No"
                 placeholder2=" (Recommended)"
                 placeholder2Color={colors.mainBlue}
@@ -287,6 +290,7 @@ class HealthcareInsuranceForm extends React.Component {
               />
 
               <CustomTextInput
+                underlineColorAndroid="transparent"
                 placeholder="Premium Amount"
                 value={value > 0 ? String(value) : ""}
                 onChangeText={value => this.setState({ value })}
@@ -294,6 +298,7 @@ class HealthcareInsuranceForm extends React.Component {
               />
 
               <CustomTextInput
+                underlineColorAndroid="transparent"
                 placeholder="Coverage"
                 value={amountInsured > 0 ? String(amountInsured) : ""}
                 onChangeText={amountInsured => this.setState({ amountInsured })}

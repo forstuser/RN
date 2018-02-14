@@ -189,6 +189,7 @@ class BasicDetailsForm extends React.Component {
           )}
 
           <CustomTextInput
+            underlineColorAndroid="transparent"
             placeholder="Expense Name"
             value={expenseName}
             onChangeText={expenseName => this.setState({ expenseName })}
@@ -206,6 +207,7 @@ class BasicDetailsForm extends React.Component {
           />
 
           <CustomTextInput
+            underlineColorAndroid="transparent"
             placeholder="Amount"
             value={value ? String(value) : ""}
             onChangeText={value => this.setState({ value })}
@@ -225,6 +227,7 @@ class BasicDetailsForm extends React.Component {
           )}
 
           <CustomTextInput
+            underlineColorAndroid="transparent"
             placeholder="Seller Name"
             value={sellerName}
             onChangeText={sellerName => this.setState({ sellerName })}
