@@ -82,6 +82,7 @@ class ProductCard extends Component {
     ) {
       showCustomerCareBtn = true;
     }
+
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container}>
@@ -98,14 +99,19 @@ class ProductCard extends Component {
             tabBarActiveTextColor={colors.mainBlue}
             tabBarInactiveTextColor={colors.secondaryText}
           >
-            {product.masterCategoryId != MAIN_CATEGORY_IDS.TRAVEL && (
-              <ImportantTab
-                tabLabel="IMPORTANT"
-                product={product}
-                navigator={this.props.navigator}
-                openServiceSchedule={openServiceSchedule}
-              />
-            )}
+            {product.masterCategoryId != MAIN_CATEGORY_IDS.TRAVEL &&
+              [
+                MAIN_CATEGORY_IDS.AUTOMOBILE,
+                MAIN_CATEGORY_IDS.ELECTRONICS,
+                MAIN_CATEGORY_IDS.FURNITURE
+              ].indexOf(product.masterCategoryId) > -1 && (
+                <ImportantTab
+                  tabLabel="IMPORTANT"
+                  product={product}
+                  navigator={this.props.navigator}
+                  openServiceSchedule={openServiceSchedule}
+                />
+              )}
             {product.categoryId != 664 && (
               <SellerTab
                 tabLabel="SELLER"
@@ -120,6 +126,19 @@ class ProductCard extends Component {
               onEditPress={this.startBasicDetailsEdit}
               fetchProductDetails={this.fetchProductDetails}
             />
+            {product.masterCategoryId != MAIN_CATEGORY_IDS.TRAVEL &&
+              [
+                MAIN_CATEGORY_IDS.AUTOMOBILE,
+                MAIN_CATEGORY_IDS.ELECTRONICS,
+                MAIN_CATEGORY_IDS.FURNITURE
+              ].indexOf(product.masterCategoryId) == -1 && (
+                <ImportantTab
+                  tabLabel="IMPORTANT"
+                  product={product}
+                  navigator={this.props.navigator}
+                  openServiceSchedule={openServiceSchedule}
+                />
+              )}
           </ScrollableTabView>
         </ScrollView>
         {showCustomerCareBtn && (

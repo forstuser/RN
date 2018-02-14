@@ -24,7 +24,7 @@ export default {
   //verify screen
   verify_screen_title: "Verify",
   verify_screen_invalid_otp_error:
-    "Please enter 6 digit OTP you received on your phone",
+    "Please enter 6 or 4 digit OTP you received on your phone",
   verify_screen_enter_otp_msg:
     "Please enter the OTP we’ve sent to {{phoneNumber}}",
   verify_screen_btn_text: "Submit",

@@ -6,7 +6,7 @@ import DeviceInfo from "react-native-device-info";
 import navigation from "../navigation";
 import { actions as uiActions } from "../modules/ui";
 
-export const API_BASE_URL = "https://consumer-stage.binbill.com";
+export const API_BASE_URL = "https://consumer.binbill.com";
 
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 const platform = Platform.OS == "ios" ? 2 : 1;
