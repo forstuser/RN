@@ -5,7 +5,8 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  Modal
+  Modal,
+  Platform
 } from "react-native";
 import GridView from "react-native-super-grid";
 import I18n from "../i18n";
@@ -135,6 +136,7 @@ class AddProductScreen extends React.Component {
             Add Product & Doc.
           </Text>
           <GridView
+            style={styles.gridView}
             scrollEnabled={false}
             itemDimension={98}
             items={productOptions}
@@ -203,21 +205,42 @@ const styles = StyleSheet.create({
     marginLeft: 10
   },
   orOuterContainer: {
-    backgroundColor: "#F0F0F0",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 2
+    ...Platform.select({
+      ios: {
+        backgroundColor: "#F0F0F0",
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 99
+      },
+      android: {}
+    })
+    // backgroundColor: "#F0F0F0",
+    // width: "100%"
+    //   justifyContent: "center",
+    //   alignItems: "center",
+    //   zIndex: 99
+    // padding: 5
   },
   orContainer: {
-    width: 38,
-    height: 38,
     backgroundColor: "#F0F0F0",
     borderRadius: 32,
     justifyContent: "center",
     alignItems: "center",
     marginTop: -15,
-    marginBottom: -15
+    marginBottom: -15,
+    ...Platform.select({
+      ios: {
+        width: 38,
+        height: 38
+      },
+      android: {
+        width: 42,
+        height: 42,
+        backgroundColor: "#f0f0f0",
+        zIndex: 99
+      }
+    })
   },
   or: {
     fontSize: 18

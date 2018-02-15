@@ -202,6 +202,7 @@ class SelectModal extends Component {
             </View>
             <View style={styles.searchContainer}>
               <TextInput
+                underlineColorAndroid="transparent"
                 placeholder="Search"
                 style={styles.searchInput}
                 value={searchInput}
@@ -308,8 +309,15 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     backgroundColor: "#fff",
-    height: 30,
     borderRadius: 15,
+    ...Platform.select({
+      ios: {
+        height: 30
+      },
+      android: {
+        height: 35
+      }
+    }),
     paddingHorizontal: 12
   },
   optionsList: {
