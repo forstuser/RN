@@ -101,7 +101,7 @@ class BasicDetailsForm extends React.Component {
   getFilledData = () => {
     const { category } = this.props;
     const {
-      productName = "",
+      productName,
       selectedBrand,
       brandName,
       selectedModel,
@@ -196,7 +196,7 @@ class BasicDetailsForm extends React.Component {
     }
 
     let data = {
-      productName: productName.trim() || productNameFromBrandAndModel.trim(),
+      productName: productName || productNameFromBrandAndModel.trim(),
       purchaseDate: purchaseDate,
       sellerName: sellerName,
       sellerContact: this.sellerContactRef

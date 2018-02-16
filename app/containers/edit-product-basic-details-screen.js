@@ -63,7 +63,7 @@ class EditProductBasicDetails extends React.Component {
 
   async componentDidMount() {
     const { product } = this.props;
-    let title = "Edit " + product.productName;
+    let title = "Edit " + (product.productName || "Product");
     this.props.navigator.setTitle({ title });
     this.fetchCategoryData();
   }
@@ -86,10 +86,10 @@ class EditProductBasicDetails extends React.Component {
   };
 
   onSavePress = async () => {
-    const { mainCategoryId, categoryId, navigator, product } = this.props;
+    const { navigator, product } = this.props;
     let data = {
-      mainCategoryId,
-      categoryId,
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
       productId: product.id,
       ...this.basicDetailsForm.getFilledData()
     };
@@ -101,25 +101,19 @@ class EditProductBasicDetails extends React.Component {
         MAIN_CATEGORY_IDS.AUTOMOBILE,
         MAIN_CATEGORY_IDS.ELECTRONICS,
         MAIN_CATEGORY_IDS.FURNITURE
-      ].indexOf(mainCategoryId) > -1
+      ].indexOf(data.mainCategoryId) > -1
     ) {
       if (!data.brandId && !data.brandName) {
         return Alert.alert("Please select or enter brand");
       }
-    }
-    if (!data.purchaseDate) {
-      return Alert.alert("Please select a date");
-    }
-    if (
-      [
-        MAIN_CATEGORY_IDS.AUTOMOBILE,
-        MAIN_CATEGORY_IDS.ELECTRONICS,
-        MAIN_CATEGORY_IDS.FURNITURE
-      ].indexOf(mainCategoryId) == -1
-    ) {
+    } else {
       if (!data.value) {
         return Alert.alert("Please enter amount");
       }
+    }
+
+    if (!data.purchaseDate) {
+      return Alert.alert("Please select a date");
     }
 
     try {
