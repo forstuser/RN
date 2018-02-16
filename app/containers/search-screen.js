@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  TextInput
+  TextInput,
+  Platform
 } from "react-native";
 import moment from "moment";
 import { API_BASE_URL, getSearchResults } from "../api";
@@ -83,6 +84,7 @@ class SearchBox extends Component {
             <Image style={styles.searchIcon} source={backIcon} />
           </TouchableOpacity>
           <TextInput
+            underlineColorAndroid="transparent"
             ref={ref => (this.textInput = ref)}
             autoFocus={true}
             onFocus={() => this.setState({ showRecentSearches: true })}
@@ -131,10 +133,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#EFF1F7",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 20,
     paddingLeft: 15,
     alignItems: "center",
-    zIndex: 2
+    zIndex: 2,
+    ...Platform.select({
+      ios: { marginTop: 20 }
+    })
   },
   searchIcon: {
     width: 24,
@@ -155,9 +159,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAFAFA",
     zIndex: 2,
     width: "100%",
-    top: 70,
     borderColor: "#ececec",
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    ...Platform.select({
+      ios: { top: 70 },
+      android: { top: 56 }
+    })
   },
   recentSearchTitle: {
     fontSize: 12,

@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
     padding: 8,
     width: 240,
     height: 64,
-    marginRight: 10,
+    margin: 5,
     backgroundColor: "#fff",
     elevation: 2,
     shadowColor: "#000",
