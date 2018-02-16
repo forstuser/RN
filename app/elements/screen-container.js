@@ -3,19 +3,22 @@ import {
   Dimensions,
   StyleSheet,
   KeyboardAvoidingView,
-  View
+  View,
+  Platform
 } from "react-native";
 
 const styles = StyleSheet.create({
   containerStyle: {
     padding: 20,
-    flex: 1,
-    backgroundColor: "#ffffff"
+    height: Dimensions.get("window").height - 100
+  },
+  withTabs: {
+    height: Dimensions.get("window").height - 80
   }
 });
 
-const ScreenContainer = ({ children, style = {} }) => (
-  <View behavior="padding" style={[styles.containerStyle, style]}>
+const ScreenContainer = ({ children, style = {}, withTabs = true }) => (
+  <View style={[styles.containerStyle, styles.withTabs, style]}>
     {children}
   </View>
 );

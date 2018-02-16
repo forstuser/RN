@@ -97,7 +97,7 @@ class MoreScreen extends Component {
       return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
     }
     return (
-      <View>
+      <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
         <LoadingOverlay visible={isFetchingData} />
         <Header
           onPress={this.openProfileScreen}
@@ -109,7 +109,7 @@ class MoreScreen extends Component {
           logoutUser={this.props.logoutUser}
           navigator={this.props.navigator}
         />
-      </View>
+      </ScreenContainer>
     );
   }
 }

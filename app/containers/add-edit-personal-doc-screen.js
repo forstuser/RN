@@ -26,6 +26,20 @@ const visitingCardIcon = require("../images/main-categories/ic_visiting_card.png
 const personalDocIcon = require("../images/main-categories/ic_personal_doc.png");
 
 class PersonalDoc extends React.Component {
+  static navigatorStyle = {
+    tabBarHidden: true,
+    disabledBackGesture: true
+  };
+
+  static navigatorButtons = {
+    leftButtons: [
+      {
+        id: "back",
+        icon: require("../images/ic_back_ios.png")
+      }
+    ]
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -52,7 +66,31 @@ class PersonalDoc extends React.Component {
       isLoading: false,
       isFinishModalVisible: false
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
+  onNavigatorEvent = event => {
+    switch (event.id) {
+      case "back":
+        Alert.alert(
+          "Are you sure?",
+          "All the unsaved information and copies related to this document would be deleted",
+          [
+            {
+              text: "Go Back",
+              onPress: () => this.props.navigator.pop()
+            },
+            {
+              text: "Stay",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            }
+          ]
+        );
+
+        break;
+    }
+  };
 
   componentDidMount() {
     let selectedCategory = null;

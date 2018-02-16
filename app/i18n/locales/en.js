@@ -1,7 +1,7 @@
 export default {
   //app intro screen
   app_intro_1_title: `Timely Warranty, Service,\nInsurance Alerts`,
-  app_intro_1_desc: `Create Your Product Card in less Than 30 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
+  app_intro_1_desc: `Create Your Product Card in less Than 10 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
   app_intro_2_title: `Easiest Way to Connect with\nBrands, Insurance Providers`,
   app_intro_2_desc: `Create product card and reach out to Brands, Insurance Providers or Nearest Service Center with just One Touch.`,
   app_intro_3_title: `Maintenance of Your\nAppliances, Car and Bike`,
@@ -24,7 +24,7 @@ export default {
   //verify screen
   verify_screen_title: "Verify",
   verify_screen_invalid_otp_error:
-    "Please enter 6 digit OTP you received on your phone",
+    "Please enter 6 or 4 digit OTP you received on your phone",
   verify_screen_enter_otp_msg:
     "Please enter the OTP we’ve sent to {{phoneNumber}}",
   verify_screen_btn_text: "Submit",
@@ -281,7 +281,7 @@ export default {
   asc_screen_placeholder_select_brand: "Select a Brand",
   asc_screen_placeholder_select_category: "Select a Product",
   asc_screen_placeholder_select_location: "Select Location",
-  asc_screen_placeholder_search_btn: "Search Now",
+  asc_screen_placeholder_search_btn: "SEARCH NEAREST",
   asc_screen_select_brand_first: "Please select brand first",
   asc_screen_select_fields_first: "Please select brand and product",
   asc_screen_select_location: "Please select location",

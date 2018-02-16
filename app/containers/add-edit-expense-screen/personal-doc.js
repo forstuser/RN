@@ -140,8 +140,12 @@ class PersonalDoc extends React.Component {
         data = {
           ...data,
           sellerName: businessName,
-          sellerContact: this.phoneRef.getFilledData(),
-          sellerEmail: this.emailRef.getFilledData(),
+          sellerContact: this.phoneRef
+            ? this.phoneRef.getFilledData()
+            : undefined,
+          sellerEmail: this.emailRef
+            ? this.emailRef.getFilledData()
+            : undefined,
           sellerAddress: address
         };
       }
@@ -168,7 +172,7 @@ class PersonalDoc extends React.Component {
     }
   };
   render() {
-    const { formType } = this.props;
+    const { formType, showFullForm = false } = this.props;
     const {
       product,
       mainCategoryId,
@@ -187,7 +191,6 @@ class PersonalDoc extends React.Component {
     return (
       <View style={styles.container}>
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
-          <LoadingOverlay visible={isLoading} />
           <View style={styles.imageHeader}>
             <Image
               style={styles.headerImage}
@@ -253,32 +256,35 @@ class PersonalDoc extends React.Component {
               value={name}
               onChangeText={name => this.setState({ name })}
             />
-            {formType == "visiting_card" && (
-              <View style={{ width: "100%", marginBottom: 10 }}>
-                <CustomTextInput
-                  placeholder="Business Name"
-                  value={businessName}
-                  onChangeText={businessName => this.setState({ businessName })}
-                />
-                <ContactFields
-                  ref={ref => (this.phoneRef = ref)}
-                  value={phone}
-                  placeholder="Phone Number"
-                />
-                <ContactFields
-                  ref={ref => (this.emailRef = ref)}
-                  value={email}
-                  placeholder="Email"
-                  keyboardType="email-address"
-                />
-                <CustomTextInput
-                  style={{ marginBottom: 10 }}
-                  placeholder="Address"
-                  value={address}
-                  onChangeText={address => this.setState({ address })}
-                />
-              </View>
-            )}
+            {formType == "visiting_card" &&
+              showFullForm && (
+                <View style={{ width: "100%", marginBottom: 10 }}>
+                  <CustomTextInput
+                    placeholder="Business Name"
+                    value={businessName}
+                    onChangeText={businessName =>
+                      this.setState({ businessName })
+                    }
+                  />
+                  <ContactFields
+                    ref={ref => (this.phoneRef = ref)}
+                    value={phone}
+                    placeholder="Phone Number"
+                  />
+                  <ContactFields
+                    ref={ref => (this.emailRef = ref)}
+                    value={email}
+                    placeholder="Email"
+                    keyboardType="email-address"
+                  />
+                  <CustomTextInput
+                    style={{ marginBottom: 10 }}
+                    placeholder="Address"
+                    value={address}
+                    onChangeText={address => this.setState({ address })}
+                  />
+                </View>
+              )}
           </View>
         </KeyboardAwareScrollView>
         <Button
@@ -288,6 +294,7 @@ class PersonalDoc extends React.Component {
           borderRadius={0}
           color="secondary"
         />
+        <LoadingOverlay visible={isLoading} />
         <FinishModal
           title="Doc added to your eHome."
           visible={isFinishModalVisible}

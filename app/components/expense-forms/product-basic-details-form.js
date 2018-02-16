@@ -199,7 +199,9 @@ class BasicDetailsForm extends React.Component {
       productName: productName.trim() || productNameFromBrandAndModel.trim(),
       purchaseDate: purchaseDate,
       sellerName: sellerName,
-      sellerContact: this.sellerContactRef.getFilledData(),
+      sellerContact: this.sellerContactRef
+        ? this.sellerContactRef.getFilledData()
+        : undefined,
       brandId: selectedBrand ? selectedBrand.id : undefined,
       brandName: brandName,
       value: value,
@@ -283,7 +285,8 @@ class BasicDetailsForm extends React.Component {
       jobId = null,
       navigator,
       brands,
-      category
+      category,
+      showFullForm = false
     } = this.props;
     const {
       id,
@@ -316,7 +319,6 @@ class BasicDetailsForm extends React.Component {
           type={1}
           copies={copies}
           onUpload={uploadResult => {
-            console.log("upload result    : ", uploadResult);
             this.setState({
               id: uploadResult.product.id,
               copies: uploadResult.product.copies
@@ -326,12 +328,14 @@ class BasicDetailsForm extends React.Component {
         />
 
         <View style={styles.body}>
-          <CustomTextInput
-            placeholder="Product Name"
-            value={productName}
-            onChangeText={productName => this.setState({ productName })}
-            hint="Recommended for fast and easy retrieval"
-          />
+          {showFullForm && (
+            <CustomTextInput
+              placeholder="Product Name"
+              value={productName}
+              onChangeText={productName => this.setState({ productName })}
+              hint="Recommended for fast and easy retrieval"
+            />
+          )}
 
           <SelectModal
             style={styles.input}
@@ -398,46 +402,49 @@ class BasicDetailsForm extends React.Component {
             />
           )}
 
-          {categoryId == 327 && (
-            <CustomTextInput
-              placeholder="IMEI No "
-              placeholder2="(Recommended)"
-              placeholder2Color={colors.mainBlue}
-              value={imeiNo}
-              onChangeText={imeiNo => this.setState({ imeiNo })}
-            />
-          )}
-
-          {mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS &&
-            categoryId != 327 && (
-              <CustomTextInput
-                placeholder="Serial No "
-                placeholder2="(Recommended)"
-                placeholder2Color={colors.mainBlue}
-                value={serialNo}
-                onChangeText={serialNo => this.setState({ serialNo })}
-              />
-            )}
-
-          {mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE && (
+          {showFullForm && (
             <View>
-              <CustomTextInput
-                placeholder="VIN No."
-                value={vinNo}
-                onChangeText={vinNo => this.setState({ vinNo })}
-              />
-              <CustomTextInput
-                placeholder="Registration No "
-                placeholder2="(Recommended)"
-                placeholder2Color={colors.mainBlue}
-                value={registrationNo}
-                onChangeText={registrationNo =>
-                  this.setState({ registrationNo })
-                }
-              />
+              {categoryId == 327 && (
+                <CustomTextInput
+                  placeholder="IMEI No "
+                  placeholder2="(Recommended)"
+                  placeholder2Color={colors.mainBlue}
+                  value={imeiNo}
+                  onChangeText={imeiNo => this.setState({ imeiNo })}
+                />
+              )}
+
+              {mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS &&
+                categoryId != 327 && (
+                  <CustomTextInput
+                    placeholder="Serial No "
+                    placeholder2="(Recommended)"
+                    placeholder2Color={colors.mainBlue}
+                    value={serialNo}
+                    onChangeText={serialNo => this.setState({ serialNo })}
+                  />
+                )}
+
+              {mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE && (
+                <View>
+                  <CustomTextInput
+                    placeholder="VIN No."
+                    value={vinNo}
+                    onChangeText={vinNo => this.setState({ vinNo })}
+                  />
+                  <CustomTextInput
+                    placeholder="Registration No "
+                    placeholder2="(Recommended)"
+                    placeholder2Color={colors.mainBlue}
+                    value={registrationNo}
+                    onChangeText={registrationNo =>
+                      this.setState({ registrationNo })
+                    }
+                  />
+                </View>
+              )}
             </View>
           )}
-
           <CustomDatePicker
             date={purchaseDate}
             placeholder="Purchase Date"
@@ -448,25 +455,29 @@ class BasicDetailsForm extends React.Component {
             }}
           />
 
-          <CustomTextInput
-            placeholder="Purchase Amount"
-            value={value ? String(value) : ""}
-            onChangeText={value => this.setState({ value })}
-            keyboardType="numeric"
-          />
+          {showFullForm && (
+            <View>
+              <CustomTextInput
+                placeholder="Purchase Amount"
+                value={value ? String(value) : ""}
+                onChangeText={value => this.setState({ value })}
+                keyboardType="numeric"
+              />
 
-          <CustomTextInput
-            placeholder="Seller Name"
-            value={sellerName}
-            onChangeText={sellerName => this.setState({ sellerName })}
-          />
+              <CustomTextInput
+                placeholder="Seller Name"
+                value={sellerName}
+                onChangeText={sellerName => this.setState({ sellerName })}
+              />
 
-          <ContactFields
-            ref={ref => (this.sellerContactRef = ref)}
-            value={sellerContact}
-            placeholder="Seller Contact"
-            keyboardType="numeric"
-          />
+              <ContactFields
+                ref={ref => (this.sellerContactRef = ref)}
+                value={sellerContact}
+                placeholder="Seller Contact"
+                keyboardType="numeric"
+              />
+            </View>
+          )}
         </View>
       </View>
     );

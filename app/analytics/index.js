@@ -18,10 +18,15 @@ const EVENTS = {
   CLICK_PRODUCT_EDIT: "product_edit",
   CLICK_CALL: "contact_call",
   CLICK_EMAIL: "click_email",
+  CLICK_URL: "click_url",
   OPEN_ASC_SCREEN: "click_asc",
   SEARCH_ASC: "search_asc",
   CLICK_EXPENSE_CHART: "click_expense",
-  OPEN_MAILS: "click_mail"
+  OPEN_MAILS: "click_mail",
+  PRODUCT_DELETE_INITIATED: "product_delete_initiated",
+  PRODUCT_DELETE_CANCELED: "product_delete_canceled",
+  PRODUCT_DELETE_COMPLETE: "product_delete_complete",
+  API_ERROR: "api_error"
 };
 
 const logEvent = (eventName, data = {}) => {

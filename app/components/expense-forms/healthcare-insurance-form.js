@@ -173,7 +173,8 @@ class HealthcareInsuranceForm extends React.Component {
       mainCategoryId,
       categoryId,
       jobId,
-      showOnlyGeneralInfo = false
+      showOnlyGeneralInfo = false,
+      showFullForm = false
     } = this.props;
     const {
       productId,
@@ -213,11 +214,13 @@ class HealthcareInsuranceForm extends React.Component {
           hideUploadOption={showOnlyGeneralInfo}
         />
         <View style={styles.body}>
-          <CustomTextInput
-            placeholder="Plan Name"
-            value={planName}
-            onChangeText={planName => this.setState({ planName })}
-          />
+          {showFullForm && (
+            <CustomTextInput
+              placeholder="Plan Name"
+              value={planName}
+              onChangeText={planName => this.setState({ planName })}
+            />
+          )}
 
           <SelectModal
             style={styles.input}
@@ -227,6 +230,9 @@ class HealthcareInsuranceForm extends React.Component {
               <View style={{ flexDirection: "row" }}>
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
+                </Text>
+                <Text weight="Medium" style={{ color: colors.mainBlue }}>
+                  *
                 </Text>
               </View>
             )}
@@ -238,11 +244,13 @@ class HealthcareInsuranceForm extends React.Component {
             hideAddNew={true}
           />
 
-          <CustomTextInput
-            placeholder="For (Self/Child/Wife/Parents/Family/Etc.)"
-            value={insuranceFor}
-            onChangeText={insuranceFor => this.setState({ insuranceFor })}
-          />
+          {showFullForm && (
+            <CustomTextInput
+              placeholder="For (Self/Child/Wife/Parents/Family/Etc.)"
+              value={insuranceFor}
+              onChangeText={insuranceFor => this.setState({ insuranceFor })}
+            />
+          )}
           {!showOnlyGeneralInfo && (
             <View>
               <SelectModal
@@ -270,13 +278,15 @@ class HealthcareInsuranceForm extends React.Component {
                 }
               />
 
-              <CustomTextInput
-                placeholder="Policy No"
-                placeholder2=" (Recommended)"
-                placeholder2Color={colors.mainBlue}
-                value={policyNo}
-                onChangeText={policyNo => this.setState({ policyNo })}
-              />
+              {showFullForm && (
+                <CustomTextInput
+                  placeholder="Policy No"
+                  placeholder2=" (Recommended)"
+                  placeholder2Color={colors.mainBlue}
+                  value={policyNo}
+                  onChangeText={policyNo => this.setState({ policyNo })}
+                />
+              )}
 
               <CustomDatePicker
                 date={effectiveDate}
@@ -286,19 +296,25 @@ class HealthcareInsuranceForm extends React.Component {
                 }}
               />
 
-              <CustomTextInput
-                placeholder="Premium Amount"
-                value={value > 0 ? String(value) : ""}
-                onChangeText={value => this.setState({ value })}
-                keyboardType="numeric"
-              />
+              {showFullForm && (
+                <View>
+                  <CustomTextInput
+                    placeholder="Premium Amount"
+                    value={value > 0 ? String(value) : ""}
+                    onChangeText={value => this.setState({ value })}
+                    keyboardType="numeric"
+                  />
 
-              <CustomTextInput
-                placeholder="Coverage"
-                value={amountInsured > 0 ? String(amountInsured) : ""}
-                onChangeText={amountInsured => this.setState({ amountInsured })}
-                keyboardType="numeric"
-              />
+                  <CustomTextInput
+                    placeholder="Coverage"
+                    value={amountInsured > 0 ? String(amountInsured) : ""}
+                    onChangeText={amountInsured =>
+                      this.setState({ amountInsured })
+                    }
+                    keyboardType="numeric"
+                  />
+                </View>
+              )}
             </View>
           )}
         </View>

@@ -82,6 +82,34 @@ class ProductCard extends Component {
     ) {
       showCustomerCareBtn = true;
     }
+
+    const importantTab =
+      product.masterCategoryId != MAIN_CATEGORY_IDS.TRAVEL ? (
+        <ImportantTab
+          tabLabel="IMPORTANT"
+          product={product}
+          navigator={this.props.navigator}
+          openServiceSchedule={openServiceSchedule}
+        />
+      ) : null;
+    const sellerTab = (
+      <SellerTab
+        tabLabel="SELLER"
+        product={product}
+        onEditPress={this.startBasicDetailsEdit}
+        fetchProductDetails={this.fetchProductDetails}
+      />
+    );
+
+    const generalTab = (
+      <GeneralTab
+        tabLabel="GENERAL INFO"
+        product={product}
+        onEditPress={this.startBasicDetailsEdit}
+        fetchProductDetails={this.fetchProductDetails}
+      />
+    );
+
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={{}}>
@@ -103,14 +131,15 @@ class ProductCard extends Component {
             tabBarActiveTextColor={colors.mainBlue}
             tabBarInactiveTextColor={colors.secondaryText}
           >
-            {product.masterCategoryId != MAIN_CATEGORY_IDS.TRAVEL && (
-              <ImportantTab
-                tabLabel="IMPORTANT"
-                product={product}
-                navigator={this.props.navigator}
-                openServiceSchedule={openServiceSchedule}
-              />
-            )}
+            {product.masterCategoryId != MAIN_CATEGORY_IDS.TRAVEL &&
+            [
+              MAIN_CATEGORY_IDS.AUTOMOBILE,
+              MAIN_CATEGORY_IDS.ELECTRONICS,
+              MAIN_CATEGORY_IDS.FURNITURE
+            ].indexOf(product.masterCategoryId) > -1
+              ? importantTab
+              : generalTab}
+
             {product.categoryId != 664 && (
               <SellerTab
                 tabLabel="SELLER"
@@ -119,12 +148,14 @@ class ProductCard extends Component {
                 fetchProductDetails={this.fetchProductDetails}
               />
             )}
-            <GeneralTab
-              tabLabel="GENERAL INFO"
-              product={product}
-              onEditPress={this.startBasicDetailsEdit}
-              fetchProductDetails={this.fetchProductDetails}
-            />
+
+            {[
+              MAIN_CATEGORY_IDS.AUTOMOBILE,
+              MAIN_CATEGORY_IDS.ELECTRONICS,
+              MAIN_CATEGORY_IDS.FURNITURE
+            ].indexOf(product.masterCategoryId) > -1
+              ? generalTab
+              : importantTab}
           </ScrollableTabView>
         </ScrollView>
         {showCustomerCareBtn && (

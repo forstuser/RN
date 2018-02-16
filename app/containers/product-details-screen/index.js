@@ -15,6 +15,8 @@ import ScrollableTabView, {
 import Icon from "react-native-vector-icons/Entypo";
 import { Navigation } from "react-native-navigation";
 
+import Analytics from "../../analytics";
+
 import Modal from "react-native-modal";
 
 import ActionSheet from "react-native-actionsheet";
@@ -60,8 +62,7 @@ class ProductDetailsScreen extends Component {
         component: "NavOptionsButton",
         passProps: {}
       }
-    ],
-    backButtonTitle: ""
+    ]
   };
 
   constructor(props) {
@@ -110,6 +111,7 @@ class ProductDetailsScreen extends Component {
     let openPickerOnStart = null;
     switch (index) {
       case 0:
+        Analytics.logEvent(Analytics.EVENTS.PRODUCT_DELETE_INITIATED);
         Alert.alert(
           `Delete ${product.productName || ""}?`,
           "This will be an irreversible task.",
@@ -117,6 +119,7 @@ class ProductDetailsScreen extends Component {
             {
               text: "Yes, delete",
               onPress: async () => {
+                Analytics.logEvent(Analytics.EVENTS.PRODUCT_DELETE_COMPLETE);
                 this.setState({ isLoading: true });
                 await deleteProduct(product.id);
                 this.props.navigator.pop();
@@ -124,7 +127,9 @@ class ProductDetailsScreen extends Component {
             },
             {
               text: "No, don't Delete",
-              onPress: () => {},
+              onPress: () => {
+                Analytics.logEvent(Analytics.EVENTS.PRODUCT_DELETE_CANCELED);
+              },
               style: "cancel"
             }
           ]

@@ -5,6 +5,7 @@ import store from "../store";
 import DeviceInfo from "react-native-device-info";
 import navigation from "../navigation";
 import { actions as uiActions } from "../modules/ui";
+import Analytics from "../analytics";
 
 export const API_BASE_URL = "https://consumer-stage.binbill.com";
 
@@ -73,6 +74,9 @@ const apiRequest = async ({
     }
 
     if (r.data.status == false) {
+      Analytics.logEvent(
+        Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`
+      );
       let error = new Error(r.data.message);
       error.statusCode = 400;
       throw error;
@@ -80,6 +84,9 @@ const apiRequest = async ({
 
     return r.data;
   } catch (e) {
+    Analytics.logEvent(
+      Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`
+    );
     console.log("e: ", e);
     let error = new Error(e.message);
     error.statusCode = e.statusCode || 0;
@@ -318,6 +325,16 @@ export const getMailboxData = async pageNo => {
     url: `/consumer/mailbox`,
     queryParams: {
       pageno: pageNo
+    }
+  });
+};
+
+export const updateMailboxRead = async (notificationIds = []) => {
+  return await apiRequest({
+    method: "post",
+    url: `/consumer/mailbox/read`,
+    data: {
+      notificationIds
     }
   });
 };

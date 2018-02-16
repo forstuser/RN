@@ -117,6 +117,10 @@ class PerosnalDocCard extends Component {
       imageSource = visitingCardIcon;
     }
 
+    if (product.copies && product.copies.length > 0) {
+      imageSource = { uri: API_BASE_URL + product.copies[0].copyUrl };
+    }
+
     return (
       <View style={styles.container}>
         <ScrollView
@@ -129,7 +133,11 @@ class PerosnalDocCard extends Component {
             docType="Personal Doc"
             btnText="Doc"
           />
-          <Image style={styles.image} source={imageSource} />
+          <Image
+            style={styles.image}
+            source={imageSource}
+            resizeMode="contain"
+          />
           <Text weight="Bold" style={styles.name}>
             {productName}
           </Text>
@@ -244,7 +252,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   image: {
-    width: 100,
+    width: 300,
     height: 100,
     alignSelf: "center",
     marginTop: 50,
