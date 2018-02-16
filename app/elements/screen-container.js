@@ -10,15 +10,22 @@ import {
 const styles = StyleSheet.create({
   containerStyle: {
     padding: 20,
-    height: Dimensions.get("window").height - 100
+    height: Dimensions.get("window").height
   },
-  withTabs: {
-    height: Dimensions.get("window").height - 80
+  withBottomTabs: {
+    height:
+      Dimensions.get("window").height - (Platform.OS == "android" ? 80 : 49)
   }
 });
 
-const ScreenContainer = ({ children, style = {}, withTabs = true }) => (
-  <View style={[styles.containerStyle, styles.withTabs, style]}>
+const ScreenContainer = ({ children, style = {}, bottomTabs = false }) => (
+  <View
+    style={[
+      styles.containerStyle,
+      bottomTabs ? styles.withBottomTabs : {},
+      style
+    ]}
+  >
     {children}
   </View>
 );

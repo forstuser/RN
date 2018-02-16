@@ -169,8 +169,7 @@ class EhomeScreen extends Component {
       return <ErrorOverlay error={error} onRetryPress={this.fetchEhomeData} />;
     }
     return (
-      <ScreenContainer style={{ padding: 0 }}>
-        <LoadingOverlay visible={isFetchingData} />
+      <ScreenContainer bottomTabs={true} style={{ padding: 0 }}>
         <SearchHeader
           navigator={this.props.navigator}
           screen="ehome"
@@ -185,9 +184,9 @@ class EhomeScreen extends Component {
             itemsCount={this.state.pendingDocs.length}
           />
         )}
-        <View style={{ flex: 1, marginTop: 15 }}>
+        <View style={{ flex: 1, marginVertical: 10 }}>
           <FlatList
-            style={{ paddingHorizontal: 16 }}
+            style={{ paddingHorizontal: 8 }}
             data={this.state.categoriesList}
             keyExtractor={(item, index) => item.id}
             renderItem={this.renderCategoryItem}
@@ -208,6 +207,7 @@ class EhomeScreen extends Component {
         >
           <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
         </TouchableOpacity>
+        <LoadingOverlay visible={isFetchingData} />
       </ScreenContainer>
     );
   }

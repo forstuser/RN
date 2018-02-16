@@ -216,7 +216,7 @@ class InsightScreen extends Component {
       categories
     } = this.state.activeData;
     return (
-      <ScreenContainer style={styles.container}>
+      <View style={styles.container}>
         <LoadingOverlay visible={this.state.isFetchingData} />
         <ScrollView>
           <View style={styles.filterHeader}>
@@ -375,7 +375,7 @@ class InsightScreen extends Component {
             ))}
           </View>
         </ScrollView>
-      </ScreenContainer>
+      </View>
     );
   }
 }

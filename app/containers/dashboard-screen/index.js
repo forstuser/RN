@@ -212,9 +212,10 @@ class DashboardScreen extends React.Component {
     } = this.state;
 
     return (
-      <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
-        <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
-        <LoadingOverlay visible={isFetchingData} />
+      <ScreenContainer
+        bottomTabs={true}
+        style={{ padding: 0, backgroundColor: "#FAFAFA" }}
+      >
         {showDashboard && (
           <View>
             <SearchHeader
@@ -284,7 +285,8 @@ class DashboardScreen extends React.Component {
             <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
           </TouchableOpacity>
         )}
-
+        <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
+        <LoadingOverlay visible={isFetchingData} />
         <Tour
           ref={ref => (this.dashboardTour = ref)}
           enabled={true}
