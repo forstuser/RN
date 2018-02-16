@@ -25,6 +25,7 @@ const dropdownIcon = require("../../images/ic_dropdown_arrow.png");
 const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 
 import ViewBillButton from "./view-bill-button";
+import { MAIN_CATEGORY_IDS } from "../../constants";
 
 class Details extends Component {
   constructor(props) {
@@ -149,16 +150,21 @@ class Details extends Component {
       </View>
     );
 
+    let imageSource = { uri: API_BASE_URL + "/" + product.cImageURL + "0" };
+    if (
+      product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS &&
+      product.copies &&
+      product.copies.length > 0
+    ) {
+      imageSource = { uri: API_BASE_URL + product.copies[0].copyUrl };
+    }
+
     return (
       <View style={styles.container}>
         {product.categoryId != 664 && (
           <ViewBillButton product={product} navigator={navigator} />
         )}
-
-        <Image
-          style={styles.image}
-          source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
-        />
+        <Image style={styles.image} source={imageSource} resizeMode="contain" />
         <Text weight="Bold" style={styles.name}>
           {productName}
         </Text>
@@ -210,7 +216,7 @@ const styles = StyleSheet.create({
   },
   image: {
     marginTop: 30,
-    width: 100,
+    width: 300,
     height: 100
   },
   name: {

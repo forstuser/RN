@@ -8,7 +8,7 @@ import {
   Image
 } from "react-native";
 import moment from "moment";
-import { API_BASE_URL, getMailboxData } from "../../api";
+import { API_BASE_URL, getMailboxData, updateMailboxRead } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 import { ScreenContainer, Text, Button, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
@@ -59,11 +59,14 @@ class MailBox extends Component {
     this.setState(newState);
     try {
       const res = await getMailboxData(this.state.pageNo);
+
       this.setState({
         pageNo: pageNo + 1,
         notifications: [...this.state.notifications, ...res.notifications],
         isFetchingNotifications: false
       });
+
+      await updateMailboxRead(res.notifications.map(notif => notif.id));
     } catch (e) {
       Alert.alert(e.message);
     }

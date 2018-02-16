@@ -13,6 +13,20 @@ import ExpenseBasicDetailsForm from "../components/expense-forms/expense-basic-d
 import ChangesSavedModal from "../components/changes-saved-modal";
 
 class EditProductBasicDetails extends React.Component {
+  static navigatorStyle = {
+    tabBarHidden: true,
+    disabledBackGesture: true
+  };
+
+  static navigatorButtons = {
+    leftButtons: [
+      {
+        id: "back",
+        icon: require("../images/ic_back_ios.png")
+      }
+    ]
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +35,31 @@ class EditProductBasicDetails extends React.Component {
       subCategories: [],
       isLoading: false
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
+  onNavigatorEvent = event => {
+    switch (event.id) {
+      case "back":
+        Alert.alert(
+          "Are you sure?",
+          "All the unsaved information and document copies related to this product would be deleted",
+          [
+            {
+              text: "Go Back",
+              onPress: () => this.props.navigator.pop()
+            },
+            {
+              text: "Stay",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            }
+          ]
+        );
+
+        break;
+    }
+  };
 
   async componentDidMount() {
     const { product } = this.props;
@@ -71,6 +109,17 @@ class EditProductBasicDetails extends React.Component {
     }
     if (!data.purchaseDate) {
       return Alert.alert("Please select a date");
+    }
+    if (
+      [
+        MAIN_CATEGORY_IDS.AUTOMOBILE,
+        MAIN_CATEGORY_IDS.ELECTRONICS,
+        MAIN_CATEGORY_IDS.FURNITURE
+      ].indexOf(mainCategoryId) == -1
+    ) {
+      if (!data.value) {
+        return Alert.alert("Please enter amount");
+      }
     }
 
     try {
@@ -172,6 +221,7 @@ class EditProductBasicDetails extends React.Component {
           <View style={{ flex: 1 }}>
             {showExpenseForm && (
               <ExpenseBasicDetailsForm
+                showFullForm={true}
                 ref={ref => (this.basicDetailsForm = ref)}
                 mainCategoryId={product.masterCategoryId}
                 categoryId={product.categoryId}
@@ -198,6 +248,7 @@ class EditProductBasicDetails extends React.Component {
             )}
             {!showExpenseForm && (
               <ProductBasicDetailsForm
+                showFullForm={true}
                 ref={ref => (this.basicDetailsForm = ref)}
                 mainCategoryId={product.masterCategoryId}
                 categoryId={product.categoryId}

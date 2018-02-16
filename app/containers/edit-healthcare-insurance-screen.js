@@ -25,6 +25,20 @@ import FinishModal from "./add-edit-expense-screen/finish-modal";
 import ChangesSavedModal from "../components/changes-saved-modal";
 
 class MedicalDoc extends React.Component {
+  static navigatorStyle = {
+    tabBarHidden: true,
+    disabledBackGesture: true
+  };
+
+  static navigatorButtons = {
+    leftButtons: [
+      {
+        id: "back",
+        icon: require("../images/ic_back_ios.png")
+      }
+    ]
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -34,7 +48,31 @@ class MedicalDoc extends React.Component {
       isFinishModalVisible: false,
       insuranceProviders: []
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
+  onNavigatorEvent = event => {
+    switch (event.id) {
+      case "back":
+        Alert.alert(
+          "Are you sure?",
+          "All the unsaved information and document copies related to this insurance would be deleted",
+          [
+            {
+              text: "Go Back",
+              onPress: () => this.props.navigator.pop()
+            },
+            {
+              text: "Stay",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            }
+          ]
+        );
+
+        break;
+    }
+  };
 
   componentDidMount() {
     this.fetchCategoryData();
@@ -109,6 +147,7 @@ class MedicalDoc extends React.Component {
             navigator={this.props.navigator}
           />
           <HealthcareInsuranceForm
+            showFullForm={true}
             ref={ref => (this.insuranceForm = ref)}
             showOnlyGeneralInfo={true}
             {...{
@@ -133,7 +172,7 @@ class MedicalDoc extends React.Component {
         <Button
           style={styles.saveBtn}
           onPress={this.saveDoc}
-          text="ADD DOC"
+          text="SAVE"
           borderRadius={0}
           color="secondary"
         />

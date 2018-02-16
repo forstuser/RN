@@ -16,6 +16,10 @@ import RepairForm from "../components/expense-forms/repair-form";
 import ChangesSavedModal from "../components/changes-saved-modal";
 
 class AddEditRepair extends React.Component {
+  static navigatorStyle = {
+    tabBarHidden: true,
+    disabledBackGesture: true
+  };
   static propTypes = {
     navigator: PropTypes.object.isRequired,
     mainCategoryId: PropTypes.number.isRequired,
@@ -31,6 +35,15 @@ class AddEditRepair extends React.Component {
       sellers: PropTypes.object,
       copies: PropTypes.array
     })
+  };
+
+  static navigatorButtons = {
+    leftButtons: [
+      {
+        id: "back",
+        icon: require("../images/ic_back_ios.png")
+      }
+    ]
   };
 
   constructor(props) {
@@ -68,7 +81,23 @@ class AddEditRepair extends React.Component {
 
   onNavigatorEvent = event => {
     if (event.type == "NavBarButtonPress") {
-      if (event.id == "delete") {
+      if (event.id == "back") {
+        Alert.alert(
+          "Are you sure?",
+          "All the unsaved information and document copies related to this repair would be deleted",
+          [
+            {
+              text: "Go Back",
+              onPress: () => this.props.navigator.pop()
+            },
+            {
+              text: "Stay",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            }
+          ]
+        );
+      } else if (event.id == "delete") {
         const { productId, repair } = this.props;
         Alert.alert(
           `Delete this repair?`,

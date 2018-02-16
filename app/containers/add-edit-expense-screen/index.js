@@ -23,16 +23,55 @@ const ehomeImage = require("../../images/ehome_circle_with_category_icons.png");
 
 class AddEditExpenseScreen extends React.Component {
   static navigatorStyle = {
-    tabBarHidden: true
+    tabBarHidden: true,
+    disabledBackGesture: true
   };
+  static navigatorButtons = {
+    leftButtons: [
+      {
+        id: "back",
+        icon: require("../../images/ic_back_ios.png")
+      }
+    ]
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       formType: null,
       mainCategoryId: null,
-      product: null
+      product: null,
+      confirmBackNavigation: false
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
+  onNavigatorEvent = event => {
+    switch (event.id) {
+      case "back":
+        if (!this.state.confirmBackNavigation) {
+          this.props.navigator.pop();
+          return;
+        }
+        Alert.alert(
+          "Are you sure?",
+          "All the unsaved information and document copies related to this product would be deleted",
+          [
+            {
+              text: "Go Back",
+              onPress: () => this.props.navigator.pop()
+            },
+            {
+              text: "Stay",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            }
+          ]
+        );
+
+        break;
+    }
+  };
 
   componentDidMount() {
     let title = "";
@@ -69,14 +108,16 @@ class AddEditExpenseScreen extends React.Component {
         title = I18n.t("add_edit_expense_screen_title_add_visiting_card");
         this.setState({
           formType: "visiting_card",
-          mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL
+          mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL,
+          confirmBackNavigation: true
         });
         break;
       case EXPENSE_TYPES.PERSONAL:
         title = I18n.t("add_edit_expense_screen_title_add_personal_doc");
         this.setState({
           formType: "personal_doc",
-          mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL
+          mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL,
+          confirmBackNavigation: true
         });
         break;
       case EXPENSE_TYPES.TRAVEL:
@@ -126,6 +167,12 @@ class AddEditExpenseScreen extends React.Component {
     });
   }
 
+  confirmBackNavigation = () => {
+    this.setState({
+      confirmBackNavigation: true
+    });
+  };
+
   render() {
     const { formType, mainCategoryId } = this.state;
     switch (formType) {
@@ -135,6 +182,7 @@ class AddEditExpenseScreen extends React.Component {
           <ProductOrExpense
             mainCategoryId={mainCategoryId}
             navigator={this.props.navigator}
+            confirmBackNavigation={this.confirmBackNavigation}
           />
         );
       case "personal_doc":
@@ -149,10 +197,16 @@ class AddEditExpenseScreen extends React.Component {
             mainCategoryId={mainCategoryId}
             healthcareFormType={formType}
             navigator={this.props.navigator}
+            confirmBackNavigation={this.confirmBackNavigation}
           />
         );
       case "repair":
-        return <Repair navigator={this.props.navigator} />;
+        return (
+          <Repair
+            navigator={this.props.navigator}
+            confirmBackNavigation={this.confirmBackNavigation}
+          />
+        );
       default:
         return null;
     }

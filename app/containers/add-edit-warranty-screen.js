@@ -17,6 +17,10 @@ import { WARRANTY_TYPES } from "../constants";
 import ChangesSavedModal from "../components/changes-saved-modal";
 
 class AddEditWarranty extends React.Component {
+  static navigatorStyle = {
+    tabBarHidden: true,
+    disabledBackGesture: true
+  };
   static propTypes = {
     navigator: PropTypes.object.isRequired,
     mainCategoryId: PropTypes.number.isRequired,
@@ -35,6 +39,15 @@ class AddEditWarranty extends React.Component {
 
   static defaultProps = {
     warrantyType: WARRANTY_TYPES.NORMAL
+  };
+
+  static navigatorButtons = {
+    leftButtons: [
+      {
+        id: "back",
+        icon: require("../images/ic_back_ios.png")
+      }
+    ]
   };
 
   constructor(props) {
@@ -90,7 +103,23 @@ class AddEditWarranty extends React.Component {
 
   onNavigatorEvent = event => {
     if (event.type == "NavBarButtonPress") {
-      if (event.id == "delete") {
+      if (event.id == "back") {
+        Alert.alert(
+          "Are you sure?",
+          "All the unsaved information and document copies related to this warranty would be deleted",
+          [
+            {
+              text: "Go Back",
+              onPress: () => this.props.navigator.pop()
+            },
+            {
+              text: "Stay",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            }
+          ]
+        );
+      } else if (event.id == "delete") {
         const { productId, warranty } = this.props;
         Alert.alert(
           `Delete this warranty?`,

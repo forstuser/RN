@@ -30,7 +30,8 @@ class MedicalDocForm extends React.Component {
       selectedType: null,
       doctorName: "",
       doctorContact: "",
-      copies: []
+      copies: [],
+      isLoading: false
     };
   }
 
@@ -51,12 +52,13 @@ class MedicalDocForm extends React.Component {
       date = null,
       doctorName = "",
       doctorContact = "",
-      copies = []
+      copies = [],
+      subCategories = []
     } = props;
 
     let selectedType = null;
     if (typeId) {
-      selectedType = this.state.types.find(type => type.id == typeId);
+      selectedType = subCategories.find(type => type.id == typeId);
     }
     this.setState({
       productId,
@@ -98,7 +100,9 @@ class MedicalDocForm extends React.Component {
       subCategoryId: selectedType ? selectedType.id : null,
       purchaseDate: date,
       sellerName: doctorName,
-      sellerContact: this.doctorContactRef.getFilledData(),
+      sellerContact: this.doctorContactRef
+        ? this.doctorContactRef.getFilledData()
+        : undefined,
       copies
     };
 
@@ -115,7 +119,7 @@ class MedicalDocForm extends React.Component {
   };
 
   render() {
-    const { jobId } = this.props;
+    const { jobId, subCategories, showFullForm = false } = this.props;
     const {
       productId,
       reportTitle,
@@ -145,11 +149,13 @@ class MedicalDocForm extends React.Component {
           navigator={this.props.navigator}
         />
         <View style={styles.body}>
-          <CustomTextInput
-            placeholder="Report Title"
-            value={reportTitle}
-            onChangeText={reportTitle => this.setState({ reportTitle })}
-          />
+          {showFullForm && (
+            <CustomTextInput
+              placeholder="Report Title"
+              value={reportTitle}
+              onChangeText={reportTitle => this.setState({ reportTitle })}
+            />
+          )}
 
           <SelectModal
             style={styles.input}
@@ -163,7 +169,7 @@ class MedicalDocForm extends React.Component {
               </View>
             )}
             selectedOption={selectedType}
-            options={types}
+            options={subCategories}
             onOptionSelect={value => {
               this.onTypeSelect(value);
             }}
@@ -178,17 +184,21 @@ class MedicalDocForm extends React.Component {
             }}
           />
 
-          <CustomTextInput
-            placeholder="Doctor/Hospital Name"
-            value={doctorName}
-            onChangeText={doctorName => this.setState({ doctorName })}
-          />
+          {showFullForm && (
+            <View>
+              <CustomTextInput
+                placeholder="Doctor/Hospital Name"
+                value={doctorName}
+                onChangeText={doctorName => this.setState({ doctorName })}
+              />
 
-          <ContactFields
-            ref={ref => (this.doctorContactRef = ref)}
-            value={doctorContact}
-            placeholder="Doctor/Hospital Contact"
-          />
+              <ContactFields
+                ref={ref => (this.doctorContactRef = ref)}
+                value={doctorContact}
+                placeholder="Doctor/Hospital Contact"
+              />
+            </View>
+          )}
         </View>
       </View>
     );

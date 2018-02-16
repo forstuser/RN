@@ -67,9 +67,26 @@ class Repair extends React.Component {
   };
 
   onProductPress = product => {
-    this.setState({
-      selectedProduct: product
-    });
+    if (typeof this.props.confirmBackNavigation == "function") {
+      this.props.confirmBackNavigation();
+    }
+    this.setState(
+      {
+        selectedProduct: null,
+        id: null,
+        repairDate: null,
+        repairAmount: "",
+        sellerName: "",
+        sellerContact: "",
+        warrantyUpto: "",
+        copies: []
+      },
+      () => {
+        this.setState({
+          selectedProduct: product
+        });
+      }
+    );
   };
 
   saveRepair = async () => {
@@ -103,7 +120,7 @@ class Repair extends React.Component {
       if (!id) {
         await addRepair(data);
       } else {
-        await updateRepair(date);
+        await updateRepair(data);
       }
       this.setState({
         isLoading: false,

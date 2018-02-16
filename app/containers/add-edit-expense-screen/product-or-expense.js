@@ -45,7 +45,7 @@ class ProductOrExpense extends React.Component {
       dualWarrantyItem: null,
       product: null,
       isInitializingProduct: false,
-      startMsg: "Select a type above and Add Expense in Less Than 15 Sec ",
+      startMsg: "Select a type above and Add Expense in Less Than 10 Sec ",
       startGraphics: expenseIllustration,
       visibleModules: {
         productBasicDetails: false,
@@ -78,7 +78,7 @@ class ProductOrExpense extends React.Component {
         ].indexOf(mainCategoryId) > -1
       ) {
         this.setState({
-          startMsg: "Select a type above and Add Product in Less Than 30 Sec",
+          startMsg: "Select a type above and Add Product in Less Than 10 Sec",
           startGraphics: productIllustration
         });
       } else if (mainCategoryId == MAIN_CATEGORY_IDS.HEALTHCARE) {
@@ -104,52 +104,32 @@ class ProductOrExpense extends React.Component {
       switch (mainCategoryId) {
         case MAIN_CATEGORY_IDS.AUTOMOBILE:
           visibleModules = {
-            productBasicDetails: true,
-            insurance: true,
-            warranty: true,
-            dualWarranty: true,
-            extendedWarranty: true,
-            amc: true,
-            repair: true,
-            puc: true
+            productBasicDetails: true
           };
           break;
         case MAIN_CATEGORY_IDS.ELECTRONICS:
           visibleModules = {
-            productBasicDetails: true,
-            insurance: true,
-            warranty: true,
-            dualWarranty: true,
-            extendedWarranty: true,
-            amc: true,
-            repair: true,
-            puc: false
+            productBasicDetails: true
           };
           break;
         case MAIN_CATEGORY_IDS.FURNITURE:
           visibleModules.productBasicDetails = true;
-          visibleModules.warranty = true;
-          visibleModules.repair = true;
           break;
         case MAIN_CATEGORY_IDS.SERVICES:
           visibleModules.expenseBasicDetails = true;
-          visibleModules.warranty = true;
           break;
         case MAIN_CATEGORY_IDS.TRAVEL:
           visibleModules.expenseBasicDetails = true;
           break;
         case MAIN_CATEGORY_IDS.HOUSEHOLD:
           visibleModules.expenseBasicDetails = true;
-          visibleModules.warranty = true;
           break;
         case MAIN_CATEGORY_IDS.FASHION:
           visibleModules.expenseBasicDetails = true;
-          visibleModules.warranty = true;
           break;
         case MAIN_CATEGORY_IDS.HEALTHCARE:
           if (this.props.healthcareFormType == "healthcare_expense") {
             visibleModules.expenseBasicDetails = true;
-            visibleModules.warranty = true;
           }
           break;
       }
@@ -160,8 +140,11 @@ class ProductOrExpense extends React.Component {
   }
 
   onSelectCategory = category => {
-    const healthcareFormType = this.props.healthcareFormType;
+    if (typeof this.props.confirmBackNavigation == "function") {
+      this.props.confirmBackNavigation();
+    }
 
+    const healthcareFormType = this.props.healthcareFormType;
     if (healthcareFormType == "medical_docs") {
       if (category.id == 664) {
         //category 'insurance'
@@ -230,8 +213,8 @@ class ProductOrExpense extends React.Component {
         data = this.expenseBasicDetailsForm.getFilledData();
       } else if (this.healthcareInsuranceForm) {
         data = this.healthcareInsuranceForm.getFilledData();
-        if (!data.insurance.providerId && !data.insurance.providerName) {
-          return Alert.alert("Please select or enter an insurance provider");
+        if (!data.subCategoryId) {
+          return Alert.alert("Please select insurance type");
         }
       } else if (this.healthcareMedicalDocForm) {
         data = this.healthcareMedicalDocForm.getFilledData();
@@ -285,22 +268,6 @@ class ProductOrExpense extends React.Component {
       console.log("data: ", data);
       switch (this.state.mainCategoryId) {
         case MAIN_CATEGORY_IDS.AUTOMOBILE:
-          if (!data.brandId && !data.brandName) {
-            return Alert.alert("Please select or enter brand name");
-          }
-          if (!data.purchaseDate) {
-            return Alert.alert("Please select a purchase date");
-          }
-          if (
-            data.categoryId != CATEGORY_IDS.AUTOMOBILE.CYCLE &&
-            !data.insurance.providerId &&
-            !data.insurance.providerName
-          ) {
-            return Alert.alert(
-              "Please select or enter insurance provider name"
-            );
-          }
-          break;
         case MAIN_CATEGORY_IDS.ELECTRONICS:
         case MAIN_CATEGORY_IDS.FURNITURE:
           if (!data.brandId && !data.brandName) {
@@ -316,6 +283,9 @@ class ProductOrExpense extends React.Component {
         case MAIN_CATEGORY_IDS.TRAVEL:
           if (!data.purchaseDate) {
             return Alert.alert("Please select a date");
+          }
+          if (!data.value) {
+            return Alert.alert("Please enter amount");
           }
           break;
         case MAIN_CATEGORY_IDS.HEALTHCARE:
@@ -378,7 +348,6 @@ class ProductOrExpense extends React.Component {
           scrollEnabled={product != null}
           contentContainerStyle={product == null ? { flex: 1 } : {}}
         >
-          <LoadingOverlay visible={isInitializingProduct || isSavingProduct} />
           <SelectCategoryHeader
             mainCategoryId={mainCategoryId}
             preSelectCategory={category}
@@ -470,6 +439,7 @@ class ProductOrExpense extends React.Component {
                     jobId={product.job_id}
                     categoryReferenceData={categoryReferenceData}
                     navigator={this.props.navigator}
+                    subCategories={subCategories}
                   />
                   <View style={styles.separator} />
                 </View>
@@ -599,6 +569,7 @@ class ProductOrExpense extends React.Component {
             color="secondary"
           />
         )}
+        <LoadingOverlay visible={isInitializingProduct || isSavingProduct} />
         <FinishModal
           title="Product added to your eHome."
           visible={isFinishModalVisible}

@@ -212,7 +212,7 @@ class DashboardScreen extends React.Component {
     } = this.state;
 
     return (
-      <ScreenContainer style={{ padding: 0 }}>
+      <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
         <LoadingOverlay visible={isFetchingData} />
         {showDashboard && (
