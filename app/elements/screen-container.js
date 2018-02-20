@@ -16,10 +16,19 @@ const styles = StyleSheet.create({
   withBottomTabs: {
     height:
       Dimensions.get("window").height - (Platform.OS == "android" ? 80 : 49)
+  },
+  withBottomTabs: {
+    height:
+      Dimensions.get("window").height - (Platform.OS == "android" ? 80 : 49)
   }
 });
 
-const ScreenContainer = ({ children, style = {}, bottomTabs = false }) => (
+const ScreenContainer = ({
+  children,
+  style = {},
+  bottomTabs = true,
+  navBar = true
+}) => (
   <View
     style={[
       styles.containerStyle,

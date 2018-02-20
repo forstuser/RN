@@ -29,6 +29,8 @@ import I18n from "../../i18n";
 
 import { colors } from "../../theme";
 
+import CollapsibleHeaderWithTabs from "../../components/collapsible-header-tab-view";
+
 import Details from "./details";
 import ImportantTab from "./important-tab";
 import GeneralTab from "./general-tab";
@@ -92,6 +94,7 @@ class ProductCard extends Component {
           openServiceSchedule={openServiceSchedule}
         />
       ) : null;
+
     const sellerTab = (
       <SellerTab
         tabLabel="SELLER"
@@ -112,52 +115,23 @@ class ProductCard extends Component {
 
     return (
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={{}}>
-          <Details product={product} navigator={this.props.navigator} />
+        <CollapsibleHeaderWithTabs
+          headerView={
+            <Details product={product} navigator={this.props.navigator} />
+          }
+          tabsHeaderProps={{
+            getRef: ref => (this.tabsHeader = ref),
+            routes: [
+              { text: "IMPORTANT" },
+              { text: "SELLER" },
+              { text: "GENERAL" }
+            ]
+          }}
+          tabsViewProps={{
+            tabs: [importantTab, sellerTab, generalTab]
+          }}
+        />
 
-          <ScrollableTabView
-            style={{
-              marginTop: 20,
-              marginBottom: 70,
-              height: 500
-            }}
-            renderTabBar={() => <DefaultTabBar />}
-            tabBarUnderlineStyle={{
-              backgroundColor: colors.mainBlue,
-              height: 2
-            }}
-            tabBarBackgroundColor="#fafafa"
-            tabBarTextStyle={{ fontSize: 14, fontFamily: `Quicksand-Bold` }}
-            tabBarActiveTextColor={colors.mainBlue}
-            tabBarInactiveTextColor={colors.secondaryText}
-          >
-            {product.masterCategoryId != MAIN_CATEGORY_IDS.TRAVEL &&
-            [
-              MAIN_CATEGORY_IDS.AUTOMOBILE,
-              MAIN_CATEGORY_IDS.ELECTRONICS,
-              MAIN_CATEGORY_IDS.FURNITURE
-            ].indexOf(product.masterCategoryId) > -1
-              ? importantTab
-              : generalTab}
-
-            {product.categoryId != 664 && (
-              <SellerTab
-                tabLabel="SELLER"
-                product={product}
-                onEditPress={this.startBasicDetailsEdit}
-                fetchProductDetails={this.fetchProductDetails}
-              />
-            )}
-
-            {[
-              MAIN_CATEGORY_IDS.AUTOMOBILE,
-              MAIN_CATEGORY_IDS.ELECTRONICS,
-              MAIN_CATEGORY_IDS.FURNITURE
-            ].indexOf(product.masterCategoryId) > -1
-              ? generalTab
-              : importantTab}
-          </ScrollableTabView>
-        </ScrollView>
         {showCustomerCareBtn && (
           <View style={styles.contactAfterSalesBtn}>
             <ContactAfterSaleButton

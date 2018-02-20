@@ -5,7 +5,8 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  Alert
+  Alert,
+  Animated
 } from "react-native";
 
 import call from "react-native-phone-call";
@@ -48,7 +49,7 @@ class ImportantTab extends Component {
     } = product;
 
     return (
-      <ScrollView>
+      <Animated.ScrollView>
         {product.categoryId != 664 && (
           <WarrantyDetails
             warrantyType={WARRANTY_TYPES.NORMAL}
@@ -107,7 +108,7 @@ class ImportantTab extends Component {
               openServiceSchedule={openServiceSchedule}
             />
           )}
-      </ScrollView>
+      </Animated.ScrollView>
     );
   }
 }
