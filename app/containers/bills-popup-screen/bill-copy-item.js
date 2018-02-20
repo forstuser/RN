@@ -26,6 +26,8 @@ const shareIcon = require("../../images/ic_share_white.png");
 
 const uploadDeleteIcon = require("../../images/ic_upload_delete.png");
 
+const android = RNFetchBlob.android;
+
 const BillCopyItem = ({
   billId,
   copy,
@@ -35,6 +37,7 @@ const BillCopyItem = ({
   authToken,
   onDeleteBtnClick
 }) => {
+  const mimeType = getMimeTypeByExtension(copy.file_type);
   const onDownloadPress = () => {
     if (Platform.OS === "ios") {
       if (isImageFileType(copy.file_type || copy.fileType)) {
@@ -53,10 +56,35 @@ const BillCopyItem = ({
           .then(res => {
             CameraRoll.saveToCameraRoll("file://" + res.path()).then(
               showSnackbar({
-                text: I18n.t("bill_copy_popup_screen_downloaded_image"),
+                text: I18n.t("bill_copy_popup_screen_downloaded_image_ios"),
                 autoDismissTimerSec: 10
               })
             );
+          })
+          .catch((errorMessage, statusCode) => {
+            showSnackbar({
+              text: I18n.t("bill_copy_popup_screen_download_error"),
+              autoDismissTimerSec: 10
+            });
+          });
+      }
+    } else {
+      if (isImageFileType(copy.file_type)) {
+        RNFetchBlob.config({
+          path: RNFetchBlob.fs.dirs.DCIMDir + "/file." + copy.file_type,
+          addAndroidDownloads: {
+            notification: true,
+            title: "Bill file downloded!!",
+            mime: mimeType,
+            description: "An image file.",
+            mediaScannable: true
+          }
+        })
+          .fetch("GET", API_BASE_URL + copy.copyUrl, {
+            Authorization: authToken
+          })
+          .then(res => {
+            android.actionViewIntent(res.path(), mimeType);
           })
           .catch((errorMessage, statusCode) => {
             showSnackbar({

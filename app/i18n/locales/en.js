@@ -95,8 +95,10 @@ export default {
 
   //bill copy popup screen
   bill_copy_popup_screen_downloading_image: "Downloading image.. please wait..",
-  bill_copy_popup_screen_downloaded_image:
+  bill_copy_popup_screen_downloaded_image_ios:
     "Image downloaded, check 'Photos' app!",
+  bill_copy_popup_screen_downloaded_image_android:
+    "Image downloaded, check 'Gallery'!",
   bill_copy_popup_screen_download_error: "Some error ocurred in downloading!",
   bill_copy_popup_screen_downloading_file_to_share:
     "Downloading file to share.. please wait..",

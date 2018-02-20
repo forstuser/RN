@@ -100,61 +100,63 @@ class TotalTaxScreen extends Component {
     } = this.state.activeData;
     const { chartData } = this.state;
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.chartWrapper}>
-          <InsightChart
-            textColor="#000"
-            onFiltersPress={() => this.filterOptions.show()}
-            bgColors={["#fff", "#fff"]}
-            timeSpanText={timeSpanText}
-            filterText={filterText}
-            chartData={chartData}
-          />
-          <ActionSheet
-            onPress={this.handleFilterOptionPress}
-            ref={o => (this.filterOptions = o)}
-            title={I18n.t("total_tax_screen_filter_options_title")}
-            cancelButtonIndex={4}
-            options={[
-              I18n.t("total_tax_screen_filter_last_7_days"),
-              I18n.t("total_tax_screen_filter_current_month"),
-              I18n.t("total_tax_screen_filter_current_year"),
-              I18n.t("total_tax_screen_filter_lifetime"),
-              I18n.t("total_tax_screen_filter_close")
-            ]}
-          />
-        </View>
+      <ScreenContainer navBar={true} style={styles.container}>
+        <ScrollView style={styles.container}>
+          <View style={styles.chartWrapper}>
+            <InsightChart
+              textColor="#000"
+              onFiltersPress={() => this.filterOptions.show()}
+              bgColors={["#fff", "#fff"]}
+              timeSpanText={timeSpanText}
+              filterText={filterText}
+              chartData={chartData}
+            />
+            <ActionSheet
+              onPress={this.handleFilterOptionPress}
+              ref={o => (this.filterOptions = o)}
+              title={I18n.t("total_tax_screen_filter_options_title")}
+              cancelButtonIndex={4}
+              options={[
+                I18n.t("total_tax_screen_filter_last_7_days"),
+                I18n.t("total_tax_screen_filter_current_month"),
+                I18n.t("total_tax_screen_filter_current_year"),
+                I18n.t("total_tax_screen_filter_lifetime"),
+                I18n.t("total_tax_screen_filter_close")
+              ]}
+            />
+          </View>
 
-        <View style={styles.spends}>
-          <Text style={{ fontSize: 24, color: "#9c9c9c" }} weight="Regular">
-            {I18n.t("total_tax_screen_total")}
-          </Text>
-          <Text style={{ fontSize: 24, color: "#3b3b3b" }} weight="Medium">
-            ₹ {totalTaxes}
-          </Text>
-        </View>
+          <View style={styles.spends}>
+            <Text style={{ fontSize: 24, color: "#9c9c9c" }} weight="Regular">
+              {I18n.t("total_tax_screen_total")}
+            </Text>
+            <Text style={{ fontSize: 24, color: "#3b3b3b" }} weight="Medium">
+              ₹ {totalTaxes}
+            </Text>
+          </View>
 
-        <View>
-          {categories.map((category, index) => (
-            <View key={category.cName} style={styles.item}>
-              <View
-                style={[
-                  styles.itemColorDot,
-                  { backgroundColor: legendColors[index] }
-                ]}
-              />
-              <View style={styles.texts}>
-                <Text style={styles.categoryName} weight="Medium">
-                  {category.cName}
-                </Text>
-                <Text style={styles.categorySpend} weight="Regular">
-                  ₹ {category.totalTax}
-                </Text>
+          <View>
+            {categories.map((category, index) => (
+              <View key={category.cName} style={styles.item}>
+                <View
+                  style={[
+                    styles.itemColorDot,
+                    { backgroundColor: legendColors[index] }
+                  ]}
+                />
+                <View style={styles.texts}>
+                  <Text style={styles.categoryName} weight="Medium">
+                    {category.cName}
+                  </Text>
+                  <Text style={styles.categorySpend} weight="Regular">
+                    ₹ {category.totalTax}
+                  </Text>
+                </View>
               </View>
-            </View>
-          ))}
-        </View>
-      </ScrollView>
+            ))}
+          </View>
+        </ScrollView>
+      </ScreenContainer>
     );
   }
 }

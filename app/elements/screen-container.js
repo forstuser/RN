@@ -15,24 +15,25 @@ const styles = StyleSheet.create({
   },
   withBottomTabs: {
     height:
-      Dimensions.get("window").height - (Platform.OS == "android" ? 80 : 49)
+      Dimensions.get("window").height - (Platform.OS == "android" ? 75 : 49)
   },
-  withBottomTabs: {
+  withNavBar: {
     height:
-      Dimensions.get("window").height - (Platform.OS == "android" ? 80 : 49)
+      Dimensions.get("window").height - (Platform.OS == "android" ? 75 : 49)
   }
 });
 
 const ScreenContainer = ({
   children,
   style = {},
-  bottomTabs = true,
-  navBar = true
+  bottomTabs = false,
+  navBar = false
 }) => (
   <View
     style={[
       styles.containerStyle,
-      bottomTabs ? styles.withBottomTabs : {},
+      bottomTabs && !navBar ? styles.withBottomTabs : {},
+      navBar && !bottomTabs ? styles.withNavBar : {},
       style
     ]}
   >
