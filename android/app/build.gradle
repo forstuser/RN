@@ -104,9 +104,9 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-//        ndk {
-//            abiFilters "armeabi-v7a", "x86"
-//        }
+        ndk {
+            abiFilters "armeabi-v7a", "x86"
+        }
         //from react-native-blur
         renderscriptTargetApi 25
         renderscriptSupportModeEnabled true
