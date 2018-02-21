@@ -263,7 +263,7 @@ class UploadDocumentScreen extends Component {
       isUploadingOverlayVisible
     } = this.state;
     return (
-      <ScreenContainer navBar={true} style={styles.container}>
+      <ScreenContainer style={styles.container}>
         {files.length == 0 && (
           <View style={styles.noFilesView}>
             <Image style={styles.noFilesIcon} source={fileIcon} />

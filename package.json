@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "bundle-android": "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/"
   },
   "dependencies": {
     "add": "^2.0.6",
@@ -38,12 +39,13 @@
     "react-native-loading-spinner-overlay": "^0.5.2",
     "react-native-mixpanel": "^0.0.16",
     "react-native-modal": "^4.1.1",
-    "react-native-navigation": "^1.1.275",
+    "react-native-navigation": "^1.1.382",
     "react-native-phone-call": "^1.0.4",
     "react-native-photo-view": "^1.5.2",
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-share": "^1.0.23",
     "react-native-share-extension": "^1.2.1",
+    "react-native-splash-screen": "^3.0.6",
     "react-native-star-rating": "^1.0.8",
     "react-native-super-grid": "^2.0.1",
     "react-native-svg": "6.0.0",

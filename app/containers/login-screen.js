@@ -41,6 +41,9 @@ class LoginScreen extends Component {
         }
       });
     } catch (e) {
+      this.setState({
+        isGettingOtp: false
+      });
       Alert.alert(e.message);
     }
   };

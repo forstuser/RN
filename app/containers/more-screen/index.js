@@ -92,6 +92,7 @@ class MoreScreen extends Component {
   };
 
   render() {
+    const { authToken } = this.props;
     const { profile, error, isFetchingData } = this.state;
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
@@ -100,6 +101,7 @@ class MoreScreen extends Component {
       <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
         <LoadingOverlay visible={isFetchingData} />
         <Header
+          authToken={authToken}
           onPress={this.openProfileScreen}
           profile={profile}
           navigator={this.props.navigator}

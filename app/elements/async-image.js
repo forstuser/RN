@@ -25,7 +25,7 @@ class AsyncImage extends Component {
 
   render() {
     let headers = {
-      Authorization: "someAuthToken"
+      Authorization: ""
     };
     const token = store.getState().loggedInUser.authToken;
     if (token) {

@@ -169,7 +169,7 @@ class EhomeScreen extends Component {
       return <ErrorOverlay error={error} onRetryPress={this.fetchEhomeData} />;
     }
     return (
-      <ScreenContainer bottomTabs={true} style={{ padding: 0 }}>
+      <ScreenContainer style={{ padding: 0 }}>
         <SearchHeader
           navigator={this.props.navigator}
           screen="ehome"

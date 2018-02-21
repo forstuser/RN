@@ -239,7 +239,7 @@ class ProfileScreen extends Component {
   };
 
   render() {
-    const profile = this.props.profile;
+    const { profile, authToken } = this.props;
     const {
       isNameModalVisible,
       isEmailModalVisible,
@@ -269,7 +269,7 @@ class ProfileScreen extends Component {
             source={require("../../images/ic_back_arrow_white.png")}
           />
         </TouchableOpacity>
-        <Header profile={profile} />
+        <Header profile={profile} authToken={authToken} />
         <View style={styles.information}>
           <TouchableOpacity
             style={styles.field}
@@ -467,11 +467,18 @@ const styles = StyleSheet.create({
   },
   opacityArrow: {
     position: "absolute",
-    top: 36,
     left: 20,
     width: 40,
     height: 40,
-    zIndex: 2
+    zIndex: 2,
+    ...Platform.select({
+      ios: {
+        top: 36
+      },
+      android: {
+        top: 16
+      }
+    })
   },
   arrow: {
     position: "absolute",
@@ -543,6 +550,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
+    authToken: state.loggedInUser.authToken,
     codepushDeploymentStaging: state.loggedInUser.codepushDeploymentStaging
   };
 };

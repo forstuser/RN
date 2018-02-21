@@ -3903,9 +3903,9 @@ react-native-modal@^4.1.1:
     prop-types "15.5.10"
     react-native-animatable "^1.2.3"
 
-react-native-navigation@^1.1.275:
-  version "1.1.275"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.275.tgz#030f51f47b67b95ac91196d6fb07eac282c469f0"
+react-native-navigation@^1.1.382:
+  version "1.1.382"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.382.tgz#b0606190465d9e3445aec695f23d5680d3648973"
   dependencies:
     lodash "4.x.x"
 
@@ -3934,6 +3934,10 @@ react-native-share-extension@^1.2.1:
 react-native-share@^1.0.23:
   version "1.0.23"
   resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-1.0.23.tgz#6476f10d34e5274b9e0ef2c93def6c3a282ffe94"
+
+react-native-splash-screen@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.0.6.tgz#c0bbf2c8ae40a313c4c7044f55e569414ff68332"
 
 react-native-star-rating@^1.0.8:
   version "1.0.8"

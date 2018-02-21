@@ -213,7 +213,6 @@ class DashboardScreen extends React.Component {
 
     return (
       <ScreenContainer
-        bottomTabs={true}
         style={{ padding: 0, backgroundColor: "#FAFAFA" }}
       >
         {showDashboard && (
