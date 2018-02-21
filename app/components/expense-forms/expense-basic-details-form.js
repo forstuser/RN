@@ -211,6 +211,7 @@ class BasicDetailsForm extends React.Component {
           />
 
           <CustomTextInput
+            underlineColorAndroid="transparent"
             placeholder="Amount"
             placeholder2="*"
             placeholder2Color={colors.mainBlue}

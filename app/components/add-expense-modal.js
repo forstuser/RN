@@ -5,7 +5,8 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  Modal
+  Modal,
+  Platform
 } from "react-native";
 import GridView from "react-native-super-grid";
 import I18n from "../i18n";
@@ -146,7 +147,7 @@ class AddExpenseModal extends React.Component {
           <View style={styles.orOuterContainer}>
             <View style={styles.orContainer}>
               <Text style={styles.or} weight="Bold">
-                OR
+                {/* OR */}
               </Text>
             </View>
           </View>
@@ -216,12 +217,23 @@ const styles = StyleSheet.create({
   orContainer: {
     width: 38,
     height: 38,
-    backgroundColor: "#F0F0F0",
-    borderRadius: 32,
+    // backgroundColor: "#F0F0F0",
+    // borderRadius: 32,
+    ...Platform.select({
+      ios: {
+        backgroundColor: "#F0F0F0",
+        borderRadius: 32
+      },
+      android: {
+        backgroundColor: "#F0F0F0",
+        borderRadius: 32
+      }
+    }),
     justifyContent: "center",
     alignItems: "center",
     marginTop: -15,
-    marginBottom: -15
+    marginBottom: -15,
+    zIndex: 99
   },
   or: {
     fontSize: 18

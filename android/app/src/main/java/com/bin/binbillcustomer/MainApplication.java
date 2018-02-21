@@ -37,12 +37,13 @@ public class MainApplication extends NavigationApplication {
   protected List<ReactPackage> getPackages() {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(new MainReactPackage(), new SplashScreenReactPackage(), new FIRAnalyticsPackage(),
-        new CodePush(null, getApplicationContext(), BuildConfig.DEBUG), new VectorIconsPackage(), new SvgPackage(),
-        new RNSharePackage(), new PhotoViewPackage(), new NavigationReactPackage(), new LinearGradientPackage(),
-        new PickerPackage(), new RNI18nPackage(), new RNGestureHandlerPackage(), new RNFetchBlobPackage(),
-        new FIRMessagingPackage(), new RNPdfScannerPackage(), new ReactNativeDocumentPicker(), new RNDeviceInfo(),
-        new BlurViewPackage(), new RNGooglePlacesPackage(), new BinBillPackager());
+    return Arrays.<ReactPackage>asList(new MainReactPackage(), new SplashScreenReactPackage(),
+        new FIRAnalyticsPackage(), new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
+        new VectorIconsPackage(), new SvgPackage(), new RNSharePackage(), new PhotoViewPackage(),
+        new NavigationReactPackage(), new LinearGradientPackage(), new PickerPackage(), new RNI18nPackage(),
+        new RNGestureHandlerPackage(), new RNFetchBlobPackage(), new FIRMessagingPackage(), new RNPdfScannerPackage(),
+        new ReactNativeDocumentPicker(), new RNDeviceInfo(), new BlurViewPackage(), new RNGooglePlacesPackage(),
+        new BinBillPackager());
   }
 
   @Override

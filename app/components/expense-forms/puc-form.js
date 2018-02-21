@@ -193,6 +193,7 @@ class PucForm extends React.Component {
             />
 
             <CustomTextInput
+              underlineColorAndroid="transparent"
               placeholder="PUC Seller Name"
               value={sellerName}
               onChangeText={sellerName => this.setState({ sellerName })}
@@ -206,6 +207,7 @@ class PucForm extends React.Component {
             />
 
             <CustomTextInput
+              underlineColorAndroid="transparent"
               placeholder="PUC Amount"
               value={value}
               onChangeText={value => this.setState({ value })}

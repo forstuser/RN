@@ -358,6 +358,7 @@ class ProfileScreen extends Component {
               {I18n.t("profile_screen_label_name")}
             </Text>
             <TextInput
+              underlineColorAndroid="transparent"
               onSubmitEditing={this.onSubmitName}
               ref={ref => (this.nameInput = ref)}
               value={nameTemp}
@@ -389,6 +390,7 @@ class ProfileScreen extends Component {
               {I18n.t("profile_screen_label_email")}
             </Text>
             <TextInput
+              underlineColorAndroid="transparent"
               onSubmitEditing={this.onSubmitEmail}
               keyboardType="email-address"
               ref={ref => (this.emailInput = ref)}
@@ -421,6 +423,7 @@ class ProfileScreen extends Component {
               {I18n.t("profile_screen_label_address")}
             </Text>
             <TextInput
+              underlineColorAndroid="transparent"
               multiline={true}
               autogrow={true}
               maxHeight={100}
@@ -516,11 +519,13 @@ const styles = StyleSheet.create({
   modal: {
     padding: 20,
     backgroundColor: "#fff",
-    borderRadius: 6
+    borderRadius: 6,
+    height: 150,
+    marginBottom: 13
   },
   modalCloseBtn: {
     position: "absolute",
-    top: 5,
+    top: 12,
     right: 5,
     width: 30,
     height: 30,
@@ -528,15 +533,15 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   modalCrossIcon: {
-    width: 16,
-    height: 16
+    width: 12,
+    height: 12
   },
   modalTextInput: {
     backgroundColor: "#fff",
     borderColor: "#ececec",
     borderWidth: 1,
-    marginVertical: 10,
-    padding: 10,
+    marginVertical: 4,
+    padding: 8,
     borderRadius: 5
   },
   codepushToggleBtn: {

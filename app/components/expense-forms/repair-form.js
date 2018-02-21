@@ -146,6 +146,7 @@ class RepairForm extends React.Component {
         <View style={styles.innerContainer}>
           <View style={styles.body}>
             <CustomTextInput
+              underlineColorAndroid="transparent"
               placeholder="Repair For"
               value={repairFor}
               onChangeText={repairFor => this.setState({ repairFor })}
@@ -160,6 +161,7 @@ class RepairForm extends React.Component {
             />
 
             <CustomTextInput
+              underlineColorAndroid="transparent"
               placeholder="Repair Seller Name"
               value={sellerName}
               onChangeText={sellerName => this.setState({ sellerName })}
@@ -173,6 +175,7 @@ class RepairForm extends React.Component {
             />
 
             <CustomTextInput
+              underlineColorAndroid="transparent"
               placeholder="Repair Amount"
               value={value}
               onChangeText={value => this.setState({ value })}
@@ -198,6 +201,7 @@ class RepairForm extends React.Component {
             />
 
             <CustomTextInput
+              underlineColorAndroid="transparent"
               placeholder="Warranty Upto"
               value={warrantyUpto}
               onChangeText={warrantyUpto => this.setState({ warrantyUpto })}

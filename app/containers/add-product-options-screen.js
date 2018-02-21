@@ -5,7 +5,9 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  Modal
+  Modal,
+  Platform,
+  ScrollView
 } from "react-native";
 import GridView from "react-native-super-grid";
 import I18n from "../i18n";
@@ -134,13 +136,24 @@ class AddProductScreen extends React.Component {
           >
             Add Product & Doc.
           </Text>
-          <GridView
-            scrollEnabled={false}
-            itemDimension={98}
-            items={productOptions}
-            renderItem={this.renderItem}
-            contentContainerStyle={styles.grid}
-          />
+          <View style={styles.mainGrid}>
+            <View style={styles.gri}>
+              {productOptions.map((item, index) => (
+                <TouchableOpacity
+                  onPress={() => this.onPressItem(item.type)}
+                  key={item.title}
+                  style={styles.item}
+                >
+                  <Image
+                    style={styles.itemIcon}
+                    source={item.icon}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.itemTitle}>{item.title}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
         </View>
         <View style={styles.orOuterContainer}>
           <View style={styles.orContainer}>
@@ -156,13 +169,24 @@ class AddProductScreen extends React.Component {
           >
             Add Expense
           </Text>
-          <GridView
-            scrollEnabled={false}
-            itemDimension={98}
-            items={expenseOptions}
-            renderItem={this.renderItem}
-            contentContainerStyle={styles.grid}
-          />
+          <View style={styles.mainGrid}>
+            <View style={styles.gri}>
+              {expenseOptions.map((item, index) => (
+                <TouchableOpacity
+                  onPress={() => this.onPressItem(item.type)}
+                  key={item.title}
+                  style={styles.item}
+                >
+                  <Image
+                    style={styles.itemIcon}
+                    source={item.icon}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.itemTitle}>{item.title}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
         </View>
         <Button
           onPress={this.hide}
@@ -186,12 +210,31 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "rgba(0, 0, 0, 0.1)",
     backgroundColor: "#FFF",
-    paddingTop: 30
+    ...Platform.select({
+      ios: {
+        paddingTop: 30
+      },
+      android: {
+        paddingTop: 10
+      }
+    })
   },
   option: {
     flex: 1,
     padding: 16,
     backgroundColor: "white"
+  },
+  mainGrid: {
+    flex: 1,
+    flexDirection: "row",
+    width: "100%"
+  },
+  gri: {
+    height: 120,
+    width: "100%",
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap"
   },
   grid: {
     flex: 1,
@@ -202,22 +245,48 @@ const styles = StyleSheet.create({
     fontSize: 21,
     marginLeft: 10
   },
+  gridView: {
+    backgroundColor: "grey",
+    width: 56,
+    height: 49
+  },
   orOuterContainer: {
-    backgroundColor: "#F0F0F0",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 2
+    ...Platform.select({
+      ios: {
+        backgroundColor: "#F0F0F0",
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 99
+      },
+      android: {}
+    })
+    // backgroundColor: "#F0F0F0",
+    // width: "100%"
+    //   justifyContent: "center",
+    //   alignItems: "center",
+    //   zIndex: 99
+    // padding: 5
   },
   orContainer: {
-    width: 38,
-    height: 38,
     backgroundColor: "#F0F0F0",
     borderRadius: 32,
     justifyContent: "center",
     alignItems: "center",
     marginTop: -15,
-    marginBottom: -15
+    marginBottom: -15,
+    ...Platform.select({
+      ios: {
+        width: 38,
+        height: 38
+      },
+      android: {
+        width: 42,
+        height: 42,
+        backgroundColor: "#f0f0f0",
+        zIndex: 99
+      }
+    })
   },
   or: {
     fontSize: 18
@@ -227,16 +296,19 @@ const styles = StyleSheet.create({
     width: 300
   },
   item: {
-    height: 98,
+    height: 100,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
-    padding: 5,
+    padding: 20,
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
-    shadowRadius: 2
+    shadowRadius: 2,
+    width: "32%",
+    marginRight: 4,
+    marginTop: 5
   },
   itemIcon: {
     height: 52,
