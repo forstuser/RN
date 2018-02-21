@@ -2,7 +2,11 @@ import React from "react";
 import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { API_BASE_URL, updateProduct } from "../api";
+import {
+  API_BASE_URL,
+  updateProduct,
+  getReferenceDataForCategory
+} from "../api";
 import { ScreenContainer, Text, Button } from "../elements";
 
 import LoadingOverlay from "../components/loading-overlay";
@@ -25,20 +29,73 @@ const AttachmentIcon = () => (
 );
 
 class MedicalDoc extends React.Component {
+  static navigatorStyle = {
+    tabBarHidden: true,
+    disabledBackGesture: true
+  };
+
+  static navigatorButtons = {
+    leftButtons: [
+      {
+        id: "back",
+        icon: require("../images/ic_back_ios.png")
+      }
+    ]
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE,
       categoryId: 86,
       isLoading: false,
+      subCategories: [],
       isFinishModalVisible: false
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
+  onNavigatorEvent = event => {
+    switch (event.id) {
+      case "back":
+        Alert.alert(
+          "Are you sure?",
+          "All the unsaved information and copies related to this document would be deleted",
+          [
+            {
+              text: "Go Back",
+              onPress: () => this.props.navigator.pop()
+            },
+            {
+              text: "Stay",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            }
+          ]
+        );
+
+        break;
+    }
+  };
+
   componentDidMount() {
+    this.fetchCategoryData();
     let title = "Edit Doc";
     this.props.navigator.setTitle({ title });
   }
+
+  fetchCategoryData = async () => {
+    try {
+      this.setState({ isLoading: true });
+      const res = await getReferenceDataForCategory(this.state.categoryId);
+      this.setState({
+        subCategories: res.categories[0].subCategories,
+        isLoading: false
+      });
+    } catch (e) {
+      Alert.alert(e.message);
+    }
+  };
 
   saveDoc = async () => {
     const { mainCategoryId, categoryId, navigator } = this.props;
@@ -80,6 +137,7 @@ class MedicalDoc extends React.Component {
     const {
       mainCategoryId,
       categoryId,
+      subCategories,
       isLoading,
       isFinishModalVisible
     } = this.state;
@@ -92,8 +150,11 @@ class MedicalDoc extends React.Component {
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
           <LoadingOverlay visible={isLoading} />
           <MedicalDocForm
+            showFullForm={true}
             ref={ref => (this.medicalDocForm = ref)}
             {...{
+              categoryId,
+              subCategories,
               productId,
               jobId,
               reportTitle,

@@ -101,13 +101,13 @@ class UploadDocumentScreen extends Component {
     setTimeout(() => {
       switch (this.props.openPickerOnStart) {
         case "camera":
-          // this.takeCameraImage();
+          this.takeCameraImage();
           break;
         case "images":
-          // this.pickGalleryImage();
+          this.pickGalleryImage();
           break;
         case "documents":
-          // this.pickDocument();
+          this.pickDocument();
           break;
       }
     }, 1000);
@@ -187,11 +187,7 @@ class UploadDocumentScreen extends Component {
   pickDocument = () => {
     DocumentPicker.show(
       {
-        filetype: [
-          DocumentPickerUtil.images(),
-          DocumentPickerUtil.pdf(),
-          DocumentPickerUtil.plainText()
-        ]
+        filetype: [DocumentPickerUtil.pdf(), DocumentPickerUtil.plainText()]
       },
       (error, file) => {
         this.pushFileToState({
@@ -267,7 +263,7 @@ class UploadDocumentScreen extends Component {
       isUploadingOverlayVisible
     } = this.state;
     return (
-      <ScreenContainer style={styles.container}>
+      <ScreenContainer navBar={true} style={styles.container}>
         {files.length == 0 && (
           <View style={styles.noFilesView}>
             <Image style={styles.noFilesIcon} source={fileIcon} />

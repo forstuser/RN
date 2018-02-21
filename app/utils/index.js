@@ -53,7 +53,7 @@ const getMimeTypeByExtension = ext => {
     xls: "application/vnd.ms-excel",
     xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
   };
-  if (Object.keys(extensionMimeTypeMap).indexOf(ext)) {
+  if (Object.keys(extensionMimeTypeMap).indexOf(ext.toLowerCase()) > -1) {
     return extensionMimeTypeMap[ext];
   }
   return "";

@@ -216,7 +216,7 @@ class InsightScreen extends Component {
       categories
     } = this.state.activeData;
     return (
-      <ScreenContainer style={styles.container}>
+      <ScreenContainer navBar={true} style={styles.container}>
         <LoadingOverlay visible={this.state.isFetchingData} />
         <ScrollView>
           <View style={styles.filterHeader}>

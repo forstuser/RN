@@ -21,7 +21,7 @@ import { colors } from "../../theme";
 
 const fileIcon = require("../../images/ic_file.png");
 
-import { isImageFileType, getMimeTypeByExtension } from "../../utils";
+import { isImageFileType } from "../../utils";
 
 class SelectView extends Component {
   static navigatorStyle = {

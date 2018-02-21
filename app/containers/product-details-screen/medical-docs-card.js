@@ -84,7 +84,7 @@ class MedicalDocsCard extends Component {
       };
     }
 
-    let imageSource = { uri: API_BASE_URL + "/" + product.cImageURL + "1" };
+    let imageSource = { uri: API_BASE_URL + "/" + product.cImageURL + "0" };
     if (product.copies && product.copies.length > 0) {
       imageSource = { uri: API_BASE_URL + product.copies[0].copyUrl };
     }
@@ -103,7 +103,7 @@ class MedicalDocsCard extends Component {
           />
           <Image
             style={styles.image}
-            source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
+            source={{ uri: API_BASE_URL + "/" + product.cImageURL + "0" }}
           />
           <Text weight="Bold" style={styles.name}>
             {product.productName}

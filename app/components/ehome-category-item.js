@@ -48,10 +48,14 @@ const styles = StyleSheet.create({
     paddingTop: 14,
     paddingHorizontal: 14,
     backgroundColor: "#fff",
-    marginBottom: 10,
+    marginBottom: 5,
+    margin: 5,
     borderRadius: 4,
-    borderColor: "#eaeaea",
-    borderWidth: 1
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2
   },
   imageAndName: {
     flexDirection: "row",

@@ -159,7 +159,7 @@ class BillsPopUpScreen extends Component {
     const { isSelectViewVisible, isDownloadingFiles, copies } = this.state;
     const { date, id, type = null, onCopyDelete } = this.props;
     return (
-      <ScreenContainer style={styles.container}>
+      <ScreenContainer navBar={false} style={styles.container}>
         <View style={styles.header}>
           <View style={styles.dateAndId}>
             {date && (

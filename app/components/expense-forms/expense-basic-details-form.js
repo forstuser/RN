@@ -108,7 +108,9 @@ class BasicDetailsForm extends React.Component {
       productName: expenseName || category.name,
       purchaseDate: date,
       sellerName: sellerName,
-      sellerContact: this.sellerContactRef.getFilledData(),
+      sellerContact: this.sellerContactRef
+        ? this.sellerContactRef.getFilledData()
+        : undefined,
       subCategoryId: selectedSubCategory ? selectedSubCategory.id : undefined,
       value: value,
       metadata: metadata
@@ -135,7 +137,8 @@ class BasicDetailsForm extends React.Component {
       categoryId,
       productId,
       jobId,
-      category
+      category,
+      showFullForm = false
     } = this.props;
     const {
       expenseName,
@@ -188,13 +191,14 @@ class BasicDetailsForm extends React.Component {
             />
           )}
 
-          <CustomTextInput
-            underlineColorAndroid="transparent"
-            placeholder="Expense Name"
-            value={expenseName}
-            onChangeText={expenseName => this.setState({ expenseName })}
-            hint="Recommended for fast and easy retrieval"
-          />
+          {showFullForm && (
+            <CustomTextInput
+              placeholder="Expense Name"
+              value={expenseName}
+              onChangeText={expenseName => this.setState({ expenseName })}
+              hint="Recommended for fast and easy retrieval"
+            />
+          )}
 
           <CustomDatePicker
             date={date}
@@ -209,6 +213,8 @@ class BasicDetailsForm extends React.Component {
           <CustomTextInput
             underlineColorAndroid="transparent"
             placeholder="Amount"
+            placeholder2="*"
+            placeholder2Color={colors.mainBlue}
             value={value ? String(value) : ""}
             onChangeText={value => this.setState({ value })}
             keyboardType="numeric"
@@ -226,17 +232,20 @@ class BasicDetailsForm extends React.Component {
             />
           )}
 
-          <CustomTextInput
-            underlineColorAndroid="transparent"
-            placeholder="Seller Name"
-            value={sellerName}
-            onChangeText={sellerName => this.setState({ sellerName })}
-          />
-          <ContactFields
-            ref={ref => (this.sellerContactRef = ref)}
-            value={sellerContact}
-            placeholder="Seller Contact"
-          />
+          {showFullForm && (
+            <View>
+              <CustomTextInput
+                placeholder="Seller Name"
+                value={sellerName}
+                onChangeText={sellerName => this.setState({ sellerName })}
+              />
+              <ContactFields
+                ref={ref => (this.sellerContactRef = ref)}
+                value={sellerContact}
+                placeholder="Seller Contact"
+              />
+            </View>
+          )}
         </View>
       </View>
     );

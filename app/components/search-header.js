@@ -4,7 +4,8 @@ import {
   View,
   Image,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Platform
 } from "react-native";
 import { Text, Button } from "../elements";
 import I18n from "../i18n";
@@ -83,7 +84,6 @@ class SearchHeader extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 32,
     paddingHorizontal: 16,
     paddingBottom: 12,
     elevation: 2,
@@ -92,7 +92,15 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.25,
     shadowRadius: 2,
-    zIndex: 2
+    ...Platform.select({
+      ios: {
+        zIndex: 2,
+        paddingTop: 32
+      },
+      android: {
+        paddingTop: 10
+      }
+    })
   },
   upperContainer: {
     flexDirection: "row",
