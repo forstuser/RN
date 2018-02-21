@@ -17,6 +17,7 @@ import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
 import { showSnackbar } from "../snackbar";
 import I18n from "../../i18n";
+import ProfileDetailEdit from "./profile-detail-edit";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
@@ -33,6 +34,7 @@ class ProfileScreen extends Component {
 
   constructor(props) {
     super(props);
+    alert(JSON.stringify(props));
     this.state = {
       isNameModalVisible: false,
       isEmailModalVisible: false,
@@ -270,7 +272,8 @@ class ProfileScreen extends Component {
           />
         </TouchableOpacity>
         <Header profile={profile} />
-        <View style={styles.information}>
+        <ProfileDetailEdit />
+        {/* <View style={styles.information}>
           <TouchableOpacity
             style={styles.field}
             onPress={this.showNameEditModal}
@@ -339,7 +342,7 @@ class ProfileScreen extends Component {
               {location}
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <Modal
           avoidKeyboard={true}
