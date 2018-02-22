@@ -44,7 +44,8 @@ class WarrantyDetails extends Component {
         jobId: product.jobId,
         warranty: warranty,
         warrantyType: warrantyType
-      }
+      },
+      overrideBackPress: true
     });
   };
 

@@ -174,6 +174,7 @@ class SelectModal extends Component {
         {isTextInputVisible && (
           <View style={styles.wrapper}>
             <TextInput
+              underlineColorAndroid="transparent"
               ref={ref => (this.textInput = ref)}
               placeholder={textInputPlaceholder}
               style={styles.textInput}
@@ -270,7 +271,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {},
       android: {
-        // backgroundColor: 'blue',
+        padding: 0
       }
     })
   },
@@ -282,10 +283,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderColor: "#A9A9A9",
     borderBottomWidth: StyleSheet.hairlineWidth,
-    height: 60,
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 20
+    ...Platform.select({
+      ios: {
+        height: 60,
+        paddingTop: 20
+      },
+      android: {
+        height: 50
+      }
+    })
   },
   modalHeaderText: {
     fontSize: 18,
@@ -315,7 +323,8 @@ const styles = StyleSheet.create({
         height: 30
       },
       android: {
-        height: 35
+        height: 30,
+        padding: 0
       }
     }),
     paddingHorizontal: 12

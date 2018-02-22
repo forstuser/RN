@@ -42,7 +42,8 @@ class AddProductScreen extends React.Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PRODUCT_OPTION);
     this.props.navigator.push({
       screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
-      passProps: { expenseType: type }
+      passProps: { expenseType: type },
+      overrideBackPress: true
     });
   };
 

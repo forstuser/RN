@@ -6,7 +6,7 @@ import {
   Alert,
   TouchableOpacity,
   ScrollView,
-  Text as NativeText
+  Platform
 } from "react-native";
 
 import ScrollableTabView, {
@@ -42,6 +42,20 @@ import MedicalDocsCard from "./medical-docs-card";
 
 const NavOptionsButton = () => (
   <TouchableOpacity
+    style={{
+      ...Platform.select({
+        ios: {},
+        android: {
+          position: "absolute",
+          top: 10,
+          right: 4,
+          width: 40,
+          height: 30,
+          alignItems: "center",
+          justifyContent: "center"
+        }
+      })
+    }}
     onPress={() =>
       Navigation.handleDeepLink({ link: "product-nav-options-btn" })
     }

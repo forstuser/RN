@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Alert,
+  TouchableOpacity,
+  Platform
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Icon from "react-native-vector-icons/Entypo";
 import {
@@ -31,12 +38,16 @@ class MedicalDoc extends React.Component {
   };
 
   static navigatorButtons = {
-    leftButtons: [
-      {
-        id: "back",
-        icon: require("../images/ic_back_ios.png")
+    ...Platform.select({
+      ios: {
+        leftButtons: [
+          {
+            id: "backPress",
+            icon: require("../images/ic_back_ios.png")
+          }
+        ]
       }
-    ]
+    })
   };
 
   constructor(props) {
@@ -53,7 +64,7 @@ class MedicalDoc extends React.Component {
 
   onNavigatorEvent = event => {
     switch (event.id) {
-      case "back":
+      case "backPress":
         Alert.alert(
           "Are you sure?",
           "All the unsaved information and document copies related to this insurance would be deleted",

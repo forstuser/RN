@@ -191,7 +191,6 @@ class AscScreen extends Component {
   openLocationModal = () => {
     RNGooglePlaces.openPlacePickerModal()
       .then(place => {
-        console.log(place);
         this.setState({
           latitude: place.latitude,
           longitude: place.longitude,

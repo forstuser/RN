@@ -154,7 +154,6 @@ class UploadDocumentScreen extends Component {
     ImagePicker.openCamera({
       width: 900,
       height: 1200,
-      cropping: true,
       compressImageQuality: 0.75
     })
       .then(file => {
@@ -171,7 +170,6 @@ class UploadDocumentScreen extends Component {
     ImagePicker.openPicker({
       width: 900,
       height: 1200,
-      cropping: true,
       compressImageQuality: 0.75
     })
       .then(file => {
@@ -190,11 +188,13 @@ class UploadDocumentScreen extends Component {
         filetype: [DocumentPickerUtil.pdf(), DocumentPickerUtil.plainText()]
       },
       (error, file) => {
-        this.pushFileToState({
-          filename: file.fileName,
-          uri: file.uri,
-          mimeType: file.type || file.fileName.split(".").pop()
-        });
+        if (file) {
+          this.pushFileToState({
+            filename: file.fileName,
+            uri: file.uri,
+            mimeType: file.type || file.fileName.split(".").pop()
+          });
+        }
       }
     );
   };

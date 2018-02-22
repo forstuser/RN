@@ -59,14 +59,16 @@ class ProductCard extends Component {
           planName: product.productName,
           insuranceFor: product.model,
           copies: []
-        }
+        },
+        overrideBackPress: true
       });
     } else {
       this.props.navigator.push({
         screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
         passProps: {
           product: product
-        }
+        },
+        overrideBackPress: true
       });
     }
   };

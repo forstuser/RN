@@ -78,7 +78,8 @@ class PerosnalDocCard extends Component {
         email: seller.email,
         address: seller.address,
         copies: product.copies || []
-      }
+      },
+      overrideBackPress: true
     });
   };
 

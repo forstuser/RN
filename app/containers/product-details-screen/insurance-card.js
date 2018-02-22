@@ -83,7 +83,8 @@ class InsuranceCard extends Component {
         policyNo: insurance.policyNo,
         amountInsured: insurance.amountInsured,
         copies: product.copies || []
-      }
+      },
+      overrideBackPress: true
     });
   };
 

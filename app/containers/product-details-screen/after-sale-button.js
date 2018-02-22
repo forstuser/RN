@@ -7,6 +7,7 @@ import {
   Alert,
   Linking
 } from "react-native";
+import RNGooglePlaces from "react-native-google-places";
 
 import Analytics from "../../analytics";
 
@@ -118,8 +119,9 @@ class AfterSaleButton extends Component {
         text: `Product brand not available. Please upload your bill if you haven't`
       });
     }
-    navigator.geolocation.getCurrentPosition(
-      position => {
+
+    RNGooglePlaces.openPlacePickerModal()
+      .then(place => {
         this.props.navigator.push({
           screen: SCREENS.ASC_SEARCH_SCREEN,
           passProps: {
@@ -131,14 +133,12 @@ class AfterSaleButton extends Component {
               category_id: product.categoryId,
               category_name: product.categoryName
             },
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
+            latitude: place.latitude,
+            longitude: place.longitude
           }
         });
-      },
-      error => Alert.alert(error.message),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
+      })
+      .catch(error => console.log(error.message));
   };
 
   showBrandOptions = () => {

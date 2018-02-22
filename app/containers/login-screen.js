@@ -59,7 +59,8 @@ class LoginScreen extends Component {
         style={{
           flex: 1,
           flexDirection: "column",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
+          paddingTop: 30
         }}
       >
         <View>
