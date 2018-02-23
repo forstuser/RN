@@ -4,8 +4,11 @@ import android.animation.Animator;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -23,19 +26,35 @@ import com.reactnativenavigation.controllers.SplashActivity;
 
 import org.devio.rn.splashscreen.SplashScreen;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class MainActivity extends SplashActivity {
 
+    private static final int REQUEST_STORAGE = 131;
+
     private ImageView splash1, splash2, splash3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getIntent() != null) {
+            Intent intent = getIntent();
+            String action = intent.getAction();
+
+            if (action != null && action.equalsIgnoreCase("android.intent.action.SEND")) {
+                checkStoragePermission();
+            }
+        }
     }
 
     @Override
     public View createSplashLayout() {
 
-        LayoutInflater inflater =(LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.splash, null);
 
         splash1 = (ImageView) view.findViewById(R.id.splash_1);
@@ -119,5 +138,113 @@ public class MainActivity extends SplashActivity {
         });
 
 
+    }
+
+    private void checkStoragePermission() {
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE);
+        } else {
+            getShareUriAndStoreToSharedPreferences();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode) {
+            case REQUEST_STORAGE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    getShareUriAndStoreToSharedPreferences();
+                }
+        }
+    }
+
+    private void getShareUriAndStoreToSharedPreferences() {
+        String uriString = ((Uri) getIntent().getExtras().get(Intent.EXTRA_STREAM)).toString();
+        String uri = null;
+        String displayName = null;
+        if (uriString.startsWith("content://")) {
+            uri = uriString;
+            Cursor cursor = null;
+            try {
+                cursor = getContentResolver().query(Uri.parse(uriString), null, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            } finally {
+                if (cursor != null)
+                    cursor.close();
+            }
+
+            if (displayName == null) {
+                String[] projection = {MediaStore.MediaColumns.DATA};
+                try {
+                    ContentResolver cr = getContentResolver();
+                    Cursor metaCursor = cr.query(Uri.parse(uriString), projection, null, null, null);
+                    if (metaCursor != null) {
+                        try {
+                            if (metaCursor.moveToFirst()) {
+                                displayName = metaCursor.getString(0);
+                            }
+                        } finally {
+                            metaCursor.close();
+                        }
+                    }
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else if (uriString.startsWith("file://")) {
+            uri = uriString;
+        } else {
+            uri = getImageUrlWithAuthority(this, (Uri) getIntent().getExtras().get(Intent.EXTRA_STREAM));
+        }
+        /**
+         * Save the bitmap URI in sharedPref
+         */
+        SharedPreferences sharedPref = getActivity().getApplicationContext().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        if (uri != null &&
+                !uri.isEmpty()) {
+
+            editor.putInt(getString(R.string.shared_pref_share_file_path), uri.toString());
+
+        }else{
+            editor.putInt(getString(R.string.shared_pref_share_file_path), "");
+        }
+        editor.commit();
+    }
+
+    public static String getImageUrlWithAuthority(Context context, Uri uri) {
+        InputStream is = null;
+        if (uri.getAuthority() != null) {
+            try {
+                is = context.getContentResolver().openInputStream(uri);
+                Bitmap bmp = BitmapFactory.decodeStream(is);
+                return writeToTempImageAndGetPathUri(context, bmp).toString();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public static Uri writeToTempImageAndGetPathUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 }

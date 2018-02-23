@@ -112,7 +112,7 @@ class AfterSaleButton extends Component {
     }
   };
 
-  openAscScreen = () => {
+  openAscScreen = async () => {
     const { product } = this.props;
     if (!product.brand) {
       return showSnackbar({
@@ -120,25 +120,29 @@ class AfterSaleButton extends Component {
       });
     }
 
-    RNGooglePlaces.openPlacePickerModal()
-      .then(place => {
-        this.props.navigator.push({
-          screen: SCREENS.ASC_SEARCH_SCREEN,
-          passProps: {
-            brand: {
-              id: product.brand.id,
-              brandName: product.brand.name
-            },
-            category: {
-              category_id: product.categoryId,
-              category_name: product.categoryName
-            },
-            latitude: place.latitude,
-            longitude: place.longitude
-          }
-        });
-      })
-      .catch(error => console.log(error.message));
+    try {
+      const place = await RNGooglePlaces.openPlacePickerModal();
+      console.log("place: ", place);
+      Alert.alert(place.name);
+      this.props.navigator.push({
+        screen: SCREENS.ASC_SEARCH_SCREEN,
+        passProps: {
+          brand: {
+            id: product.brand.id,
+            brandName: product.brand.name
+          },
+          category: {
+            category_id: product.categoryId,
+            category_name: product.categoryName
+          },
+          latitude: place.latitude,
+          longitude: place.longitude
+        }
+      });
+    } catch (e) {
+      console.log("place error: ", e);
+      Alert.alert(e.message);
+    }
   };
 
   showBrandOptions = () => {

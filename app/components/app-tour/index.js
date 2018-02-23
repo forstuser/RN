@@ -24,7 +24,8 @@ export default class AppTour extends React.Component {
       width: 0,
       height: 0,
       tooltipVerticalPosition: "top",
-      tooltipHorizontalPosition: "left"
+      tooltipHorizontalPosition: "left",
+      toolTipContainerHeight: 0
     };
   }
   componentDidMount() {
@@ -86,6 +87,12 @@ export default class AppTour extends React.Component {
     }
   };
 
+  onTooltipContainerRender = event => {
+    this.setState({
+      toolTipContainerHeight: event.nativeEvent.layout.height
+    });
+  };
+
   render() {
     const {
       showTour,
@@ -95,7 +102,8 @@ export default class AppTour extends React.Component {
       x,
       y,
       width,
-      height
+      height,
+      toolTipContainerHeight
     } = this.state;
     const windowWidth = Dimensions.get("window").width;
     const windowHeight = Dimensions.get("window").height;
@@ -152,7 +160,7 @@ export default class AppTour extends React.Component {
               styles.tooltipContainer,
               tooltipVerticalPosition == "top"
                 ? {
-                    bottom: windowHeight - y + 5
+                    top: y - (toolTipContainerHeight + 45)
                   }
                 : {
                     top: y + height
@@ -166,7 +174,10 @@ export default class AppTour extends React.Component {
                   }
             ]}
           >
-            <View style={styles.tooltipTextWrapper}>
+            <View
+              style={styles.tooltipTextWrapper}
+              onLayout={this.onTooltipContainerRender}
+            >
               <Text style={[styles.tooltipText]}>{tooltipText}</Text>
               <TouchableOpacity onPress={this.next} style={[styles.gotIt, {}]}>
                 <Text weight="Bold" style={[styles.gotItText, {}]}>

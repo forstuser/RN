@@ -127,8 +127,8 @@ class ProductDetailsScreen extends Component {
       case 0:
         Analytics.logEvent(Analytics.EVENTS.PRODUCT_DELETE_INITIATED);
         Alert.alert(
-          `Delete ${product.productName || ""}?`,
-          "This will be an irreversible task.",
+          `Are you sure?`,
+          "All the information and document copies related to this product will be deleted.",
           [
             {
               text: "Yes, delete",

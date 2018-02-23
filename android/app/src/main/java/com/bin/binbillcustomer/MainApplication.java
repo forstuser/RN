@@ -22,6 +22,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import in.sriraman.sharedpreferences.RNSharedPreferencesReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +38,7 @@ public class MainApplication extends NavigationApplication {
   protected List<ReactPackage> getPackages() {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(new MainReactPackage(), new SplashScreenReactPackage(),
+    return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNSharedPreferencesReactPackage(), new SplashScreenReactPackage(),
         new FIRAnalyticsPackage(), new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
         new VectorIconsPackage(), new SvgPackage(), new RNSharePackage(), new PhotoViewPackage(),
         new NavigationReactPackage(), new LinearGradientPackage(), new PickerPackage(), new RNI18nPackage(),

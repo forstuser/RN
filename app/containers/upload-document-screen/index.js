@@ -98,6 +98,7 @@ class UploadDocumentScreen extends Component {
     this.props.navigator.setTitle({
       title: I18n.t("upload_document_screen_title")
     });
+
     setTimeout(() => {
       switch (this.props.openPickerOnStart) {
         case "camera":
@@ -466,10 +467,19 @@ const styles = StyleSheet.create({
 
   dummyViewForPlusIcon: {
     position: "absolute",
-    top: -37,
-    right: 12,
     width: 32,
-    height: 32
+    height: 32,
+    opacity: 1,
+    ...Platform.select({
+      ios: {
+        top: -37,
+        right: 12
+      },
+      android: {
+        top: -42,
+        right: 8
+      }
+    })
   }
 });
 

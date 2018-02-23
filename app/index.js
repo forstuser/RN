@@ -34,8 +34,9 @@ const showLocalNotification = notif => {
       sound: "default", // as FCM payload
       priority: "high", // as FCM payload
       icon: "ic_launcher", // as FCM payload, you can relace this with custom icon you put in mipmap
-      notification_type: notif.notification_type, // extra data you want to throw
-      lights: true // Android only, LED blinking (default false)
+      lights: true, // Android only, LED blinking (default false),
+      picture: notif.image_url || undefined,
+      ...notif
     });
   }
 };
