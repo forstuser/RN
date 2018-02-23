@@ -1,5 +1,6 @@
 <resources>
     <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey"></string>
-    <string name="app_name">BinBill</string>
-    <string name="shared_pref_share_file_path">ShareFilePath</string>
+    <string name="app_name">BinBill</string>preference_file_key
+    <string name="shared_pref_file_key">BinBIll</string>
+    <string name="shared_pref_direct_upload_file_path_key">ShareFilePath</string>
 </resources>

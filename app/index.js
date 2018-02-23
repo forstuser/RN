@@ -1,4 +1,11 @@
-import { AppState, AsyncStorage, Platform, Alert, Linking } from "react-native";
+import {
+  AppState,
+  AsyncStorage,
+  Platform,
+  Alert,
+  Linking,
+  NativeModules
+} from "react-native";
 import FCM, {
   FCMEvent,
   RemoteNotificationResult,
@@ -65,6 +72,12 @@ function startApp() {
         navigation.openIntroScreen();
       }
     };
+
+    if (Platform.OS == "android") {
+      NativeModules.RNDirectUploadFileModule.getFIlePath(function(value) {
+        console.log("FilePath: ", value);
+      });
+    }
 
     try {
       FCM.requestPermissions()

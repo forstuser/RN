@@ -1,6 +1,7 @@
 package com.bin.binbillcustomer;
 
 import android.animation.Animator;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -41,7 +42,9 @@ public class MainActivity extends SplashActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("INTENT", "intent");
         if (getIntent() != null) {
+
             Intent intent = getIntent();
             String action = intent.getAction();
 
@@ -53,7 +56,6 @@ public class MainActivity extends SplashActivity {
 
     @Override
     public View createSplashLayout() {
-
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.splash, null);
 
@@ -141,11 +143,13 @@ public class MainActivity extends SplashActivity {
     }
 
     private void checkStoragePermission() {
+        Log.d("INTENT", "checkStoragePermission");
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE);
         } else {
+            Log.d("INTENT", "checkStoragePermission else");
             getShareUriAndStoreToSharedPreferences();
         }
     }
@@ -208,15 +212,15 @@ public class MainActivity extends SplashActivity {
         /**
          * Save the bitmap URI in sharedPref
          */
-        SharedPreferences sharedPref = getActivity().getApplicationContext().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         if (uri != null &&
                 !uri.isEmpty()) {
 
-            editor.putInt(getString(R.string.shared_pref_share_file_path), uri.toString());
+            editor.putString(getString(R.string.shared_pref_direct_upload_file_path_key), uri.toString());
 
         }else{
-            editor.putInt(getString(R.string.shared_pref_share_file_path), "");
+            editor.remove(getString(R.string.shared_pref_direct_upload_file_path_key));
         }
         editor.commit();
     }

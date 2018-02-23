@@ -129,7 +129,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
         debug {
-            debuggable true
+            debuggable false
         }
     }
     // applicationVariants are e.g. debug, release
@@ -148,7 +148,7 @@ android {
 }
 
 dependencies {
-    compile project(":react-native-shared-preferences")
+    compile project(':react-native-shared-preferences')
     compile project(':react-native-splash-screen')
     compile project(':react-native-firebase-analytics')
     compile project(':react-native-google-places')
