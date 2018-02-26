@@ -16,7 +16,7 @@ import {
   updateRepair
 } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
-
+import I18n from "../../i18n";
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
 import { MAIN_CATEGORY_IDS } from "../../constants";
@@ -101,7 +101,7 @@ class Repair extends React.Component {
       } = this.state;
 
       if (!repairDate) {
-        return Alert.alert("Please select repair date");
+        return Alert.alert(I18n.t("add_edit_expense_screen_title_add_repairs"));
       }
 
       const data = {
@@ -160,24 +160,26 @@ class Repair extends React.Component {
           !isLoading && (
             <View style={styles.noProductsScreen}>
               <Text style={styles.noProductsText}>
-                No Products in your eHome
+                I18n.t("add_edit_expense_screen_title_add_no_products")
               </Text>
               <TouchableOpacity
                 onPress={this.openAddProductScreen}
                 style={styles.addProductBtn}
               >
                 <Text weight="Bold" style={styles.addProductBtnText}>
-                  + Add Product
+                  I18n.t("add_edit_expense_screen_title_add_add_products")
                 </Text>
               </TouchableOpacity>
-              <Text style={styles.noProductsText}>to add repair details</Text>
+              <Text style={styles.noProductsText}>
+                I18.t("add_edit_expense_screen_title_add_repair_details")
+              </Text>
             </View>
           )}
         {products.length > 0 && (
           <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
             <View style={styles.header}>
               <Text weight="Medium" style={styles.selectProductText}>
-                Select Product in eHome
+                I18.t(" add_edit_expense_screen_title_add_select_eHome")
               </Text>
               <ScrollView
                 style={styles.products}
@@ -223,14 +225,15 @@ class Repair extends React.Component {
               selectedProduct == null && (
                 <View style={styles.selectProductMsgContainer}>
                   <Text weight="Medium" style={styles.selectProductMsg}>
-                    Please select a product above{"\n\n"}OR
+                    I18n.t("
+                    add_edit_expense_screen_title_add_select_product_above")
                   </Text>
                   <TouchableOpacity
                     onPress={this.openAddProductScreen}
                     style={styles.addProductBtn}
                   >
                     <Text weight="Bold" style={styles.addProductBtnText}>
-                      + Add Product
+                      I18n.t(" add_edit_expense_screen_title_add_add_products")
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -239,7 +242,7 @@ class Repair extends React.Component {
               <View style={styles.formContainer}>
                 <View style={styles.form}>
                   <HeaderWithUploadOption
-                    title="Repair Details"
+                    title=I18n.t("add_edit_expense_screen_title_add_repair_details")
                     textBeforeUpload="Upload Bill "
                     textBeforeUpload2="(Recommended) "
                     textBeforeUpload2Color={colors.mainBlue}
@@ -258,7 +261,7 @@ class Repair extends React.Component {
 
                   <CustomDatePicker
                     date={repairDate}
-                    placeholder="Repair Date"
+                    placeholder=I18n.t("add_edit_expense_screen_title_add_repair_date")
                     placeholder2="*"
                     placeholder2Color={colors.mainBlue}
                     onDateChange={repairDate => {
@@ -267,7 +270,7 @@ class Repair extends React.Component {
                   />
 
                   <CustomTextInput
-                    placeholder="Repair Amount"
+                    placeholder=I18n.t("add_edit_expense_screen_title_add_repair_amount")
                     value={repairAmount}
                     onChangeText={repairAmount =>
                       this.setState({ repairAmount })
@@ -275,7 +278,7 @@ class Repair extends React.Component {
                   />
 
                   <CustomTextInput
-                    placeholder="Seller Name"
+                    placeholder=I18n.t("add_edit_expense_screen_title_add_sellers_name")
                     value={sellerName}
                     onChangeText={sellerName => this.setState({ sellerName })}
                   />
@@ -287,7 +290,7 @@ class Repair extends React.Component {
                   />
 
                   <CustomTextInput
-                    placeholder="Warranty Upto"
+                    placeholder=I18n.t("add_edit_expense_screen_title_add_warranty_upto")
                     value={warrantyUpto}
                     onChangeText={warrantyUpto =>
                       this.setState({ warrantyUpto })
@@ -302,13 +305,13 @@ class Repair extends React.Component {
           <Button
             style={styles.saveBtn}
             onPress={this.saveRepair}
-            text="ADD REPAIR"
+            text=I18n.t("add_edit_expense_screen_title_add_add_repair")
             borderRadius={0}
             color="secondary"
           />
         )}
         <FinishModal
-          title="Repair added with the product."
+          title="I18n.t("add_edit_expense_screen_title_add_repair_added")
           visible={isFinishModalVisible}
           mainCategoryId={null}
           showRepairIcon={true}

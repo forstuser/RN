@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   Alert
 } from "react-native";
-
+import I18n from "../../i18n";
 import { MAIN_CATEGORY_IDS } from "../../constants";
 import { Text } from "../../elements";
 import { colors } from "../../theme";
@@ -33,7 +33,7 @@ class SelectCategoryHeader extends React.Component {
     switch (this.props.mainCategoryId) {
       case MAIN_CATEGORY_IDS.AUTOMOBILE:
         this.setState(() => ({
-          title: "Select Automobile Type",
+          title: I18n.t("add_edit_expense_screen_title_select_automobile"),
           genericIcon: require("../../images/categories/generic_automobile.png"),
           visibleOptions: [
             {
@@ -69,7 +69,7 @@ class SelectCategoryHeader extends React.Component {
         break;
       case MAIN_CATEGORY_IDS.ELECTRONICS:
         this.setState(() => ({
-          title: "Select Electronics & Electricals Type",
+          title: I18n.t("add_edit_expense_screen_title_select_electronics"),
           genericIcon: require("../../images/categories/generic_electronic.png"),
           visibleOptions: [
             {
@@ -115,7 +115,7 @@ class SelectCategoryHeader extends React.Component {
         break;
       case MAIN_CATEGORY_IDS.FURNITURE:
         this.setState(() => ({
-          title: "Select Furniture & Hardware Type",
+          title: I18n.t("add_edit_expense_screen_title_select_furniture"),
           visibleOptions: [
             {
               id: 20,
@@ -137,7 +137,7 @@ class SelectCategoryHeader extends React.Component {
         break;
       case MAIN_CATEGORY_IDS.SERVICES:
         this.setState(() => ({
-          title: "Select Services Expense Category",
+          title: I18n.t("add_edit_expense_screen_title_select_service_expense"),
           visibleOptions: [
             {
               id: 122,
@@ -159,7 +159,7 @@ class SelectCategoryHeader extends React.Component {
         break;
       case MAIN_CATEGORY_IDS.TRAVEL:
         this.setState(() => ({
-          title: "Select Travel & Dining Category",
+          title: I18n.t("add_edit_expense_screen_title_select_travel"),
           visibleOptions: [
             {
               id: 22,
@@ -182,7 +182,7 @@ class SelectCategoryHeader extends React.Component {
 
       case MAIN_CATEGORY_IDS.FASHION:
         this.setState(() => ({
-          title: "Select Fashion Expense Category",
+          title: I18n.t("add_edit_expense_screen_title_select_fashion_expense)",
           visibleOptions: [
             {
               id: 644,
@@ -219,7 +219,7 @@ class SelectCategoryHeader extends React.Component {
         break;
       case MAIN_CATEGORY_IDS.HOUSEHOLD:
         this.setState(() => ({
-          title: "Select Home Expense Category",
+          title: I18n.t("add_edit_expense_screen_title_select_home_expense"),
           visibleOptions: [
             {
               id: 26,
@@ -252,7 +252,7 @@ class SelectCategoryHeader extends React.Component {
       case MAIN_CATEGORY_IDS.HEALTHCARE:
         if (this.props.healthcareFormType == "medical_docs") {
           this.setState(() => ({
-            title: "Select Medical Documents Type",
+            title: I18n.t("add_edit_expense_screen_title_select_medical_document"),
             visibleOptions: [
               {
                 id: 86,
@@ -268,7 +268,7 @@ class SelectCategoryHeader extends React.Component {
           }));
         } else {
           this.setState(() => ({
-            title: "Select Healthcare Expense Category",
+            title: I18n.t("add_edit_expense_screen_title_select_health_expense"),
             visibleOptions: [
               {
                 id: 704,

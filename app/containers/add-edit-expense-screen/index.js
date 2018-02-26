@@ -54,15 +54,14 @@ class AddEditExpenseScreen extends React.Component {
           return;
         }
         Alert.alert(
-          "Are you sure?",
-          "All the unsaved information and document copies related to this product would be deleted",
-          [
+          I18n.t("add_edit_expense_screen_title_add_sure ")
+          I18n.t("add_edit_expense_screen_title_add_docs "),          [
             {
-              text: "Go Back",
+              text:I18n.t("add_edit_expense_screen_title_add_go_back") ,
               onPress: () => this.props.navigator.pop()
             },
             {
-              text: "Stay",
+              text: I18n.t("add_edit_expense_screen_title_add_stay"),
               onPress: () => console.log("Cancel Pressed"),
               style: "cancel"
             }

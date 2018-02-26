@@ -59,6 +59,10 @@ export default {
   add_products_screen_slide_upload_bill: "Upload Bill (Optional)",
   add_products_screen_slide_bill_uploaded: "Bill Uploaded",
   add_products_screen_slide_add_product_btn: "Add Product",
+  add_products_screen_slide_add_mobile_eHome: "Now let’s add your Mobile to Your eHome",
+  add_products_screen_slide_add_brand_name:"Please select or enter brand name",
+  add_products_screen_slide_add_model_name:"Please select or enter model name",
+  add_products_screen_slide_add_brand_first:"Please select brand first"
 
   //add product screen
   add_product_screen_title: "Add Product",
@@ -102,6 +106,7 @@ export default {
   bill_copy_popup_screen_download_error: "Some error ocurred in downloading!",
   bill_copy_popup_screen_downloading_file_to_share:
     "Downloading file to share.. please wait..",
+    bill_copy_popup_screen_no_data_available:" Data not available"
 
   //docs under processing screen
   docs_under_processing_screen_title: "Docs Under Processing",
@@ -378,6 +383,46 @@ export default {
   add_edit_expense_screen_title_add_fashion: "Add Fashion Expense",
   add_edit_expense_screen_title_add_home: "Add Home Expense",
   add_edit_expense_screen_title_add_repair: "Add Repair",
+  add_edit_expense_screen_title_add_eHome: "Product added to your eHome.",
+  add_edit_expense_screen_title_add_products: "ADD MORE PRODUCTS",
+  add_edit_expense_screen_title_add_later: "I'll Do it Later",
+  add_edit_expense_screen_title_add_sure: "Are you sure?",
+  add_edit_expense_screen_title_add_docs:"All the unsaved information and document copies related to this product would be deleted"
+  add_edit_expense_screen_title_add_go_back:"Go Back",
+  add_edit_expense_screen_title_add_stay:"STAY",
+  add_edit_expense_screen_title_add_rent_agreement:"Rent Agreement",
+  add_edit_expense_screen_title_add_personal_doc:"Other Personal Doc",
+  add_edit_expense_screen_title_add_visit_card:"Visiting Card",
+  add_edit_expense_screen_title_add_select_doc:"Please select 'Type of doc' first",
+  add_edit_expense_screen_title_add_upload_doc:"Please upload the document first",
+  add_edit_expense_screen_title_add_doc:"ADD DOC",
+  add_edit_expense_screen_title_add_doc_added:"Doc added to your eHome.",
+  add_edit_expense_screen_title_add_select_type:"Select a type above and Add Product in Less Than 10 Sec",
+  add_edit_expense_screen_title_add_branch_name:"Please select or enter brand name",
+  add_edit_expense_screen_title_add_purchase_date:"Please select a purchase date",
+  add_edit_expense_screen_title_add_date:"Please select a date",
+  add_edit_expense_screen_title_add_amount:"Please enter amount",
+  add_edit_expense_screen_title_add_repairs:"Please select repair date"
+  add_edit_expense_screen_title_add_no_products:"No Products in your eHome",
+  add_edit_expense_screen_title_add_add_products:" + Add Product",
+  add_edit_expense_screen_title_add_repair_details:"to add repair details",
+  add_edit_expense_screen_title_add_select_eHome:"Select Product in eHome"
+  add_edit_expense_screen_title_add_select_product_above:"Please select a product above OR",
+  add_edit_expense_screen_title_add_repair_details:"Repair Details",
+  add_edit_expense_screen_title_add_repair_date:"Repair Date",
+  add_edit_expense_screen_title_add_repair_amount:"Repair Amount",
+  add_edit_expense_screen_title_add_sellers_name:"Seller Name",
+  add_edit_expense_screen_title_add_warranty_upto:"Warranty Upto",
+  add_edit_expense_screen_title_add_add_repair:"ADD REPAIR",
+  add_edit_expense_screen_title_add_repair_added:"Repair added with the product.",
+  add_edit_expense_screen_title_select_automobile:"Select Automobile Type",
+  add_edit_expense_screen_title_select_electronics:"Select Electronics & Electricals Type",
+  add_edit_expense_screen_title_select_furniture:"Select Furniture & Hardware Type",
+  add_edit_expense_screen_title_select_service_expense:"Select Services Expense Category",
+  add_edit_expense_screen_title_select_fashion_expense:"Select Fashion Expense Category",
+  add_edit_expense_screen_title_select_home_expense:"Select Home Expense Category",
+  add_edit_expense_screen_title_select_medical_document:"Select Medical Documents Type",
+  add_edit_expense_screen_title_select_health_expense:"Select Healthcare Expense Category"
 
   //faqs
   faq_question_1: "What is BinBill?",

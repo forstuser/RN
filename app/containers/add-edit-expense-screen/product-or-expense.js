@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { API_BASE_URL, initProduct, updateProduct } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
+import I18n from "../../i18n";
 import Analytics from "../../analytics";
 import FinishModal from "./finish-modal";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -45,7 +46,7 @@ class ProductOrExpense extends React.Component {
       dualWarrantyItem: null,
       product: null,
       isInitializingProduct: false,
-      startMsg: "Select a type above and Add Expense in Less Than 10 Sec ",
+      startMsg: I18n.t("add_edit_expense_screen_title_add_select_type"),
       startGraphics: expenseIllustration,
       visibleModules: {
         productBasicDetails: false,
@@ -78,12 +79,12 @@ class ProductOrExpense extends React.Component {
         ].indexOf(mainCategoryId) > -1
       ) {
         this.setState({
-          startMsg: "Select a type above and Add Product in Less Than 10 Sec",
+          startMsg: I18n.t("add_edit_expense_screen_title_add_select_type"),
           startGraphics: productIllustration
         });
       } else if (mainCategoryId == MAIN_CATEGORY_IDS.HEALTHCARE) {
         this.setState({
-          startMsg: "Select a type above and Add Documents in Less Than 10 Sec",
+          startMsg: I18n.t("add_edit_expense_screen_title_add_select_type"),
           startGraphics: docIllustration
         });
       }
@@ -271,10 +272,14 @@ class ProductOrExpense extends React.Component {
         case MAIN_CATEGORY_IDS.ELECTRONICS:
         case MAIN_CATEGORY_IDS.FURNITURE:
           if (!data.brandId && !data.brandName) {
-            return Alert.alert("Please select or enter brand name");
+            return Alert.alert(
+              I18n.t("add_edit_expense_screen_title_add_branch_name")
+            );
           }
           if (!data.purchaseDate) {
-            return Alert.alert("Please select a purchase date");
+            return Alert.alert(
+              I18n.t("add_edit_expense_screen_title_add_purchase_date")
+            );
           }
           break;
         case MAIN_CATEGORY_IDS.FASHION:
@@ -282,10 +287,14 @@ class ProductOrExpense extends React.Component {
         case MAIN_CATEGORY_IDS.SERVICES:
         case MAIN_CATEGORY_IDS.TRAVEL:
           if (!data.purchaseDate) {
-            return Alert.alert("Please select a date");
+            return Alert.alert(
+              I18n.t("add_edit_expense_screen_title_add_date")
+            );
           }
           if (!data.value) {
-            return Alert.alert("Please enter amount");
+            return Alert.alert(
+              I18n.t("add_edit_expense_screen_title_add_amount")
+            );
           }
           break;
         case MAIN_CATEGORY_IDS.HEALTHCARE:
@@ -293,7 +302,9 @@ class ProductOrExpense extends React.Component {
             this.props.healthcareFormType == "healthcare_expense" &&
             !data.purchaseDate
           ) {
-            return Alert.alert("Please select a date");
+            return Alert.alert(
+              I18n.t("add_edit_expense_screen_title_add_date")
+            );
           }
       }
 

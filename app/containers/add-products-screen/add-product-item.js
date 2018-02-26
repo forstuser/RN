@@ -34,7 +34,7 @@ class AddProductItem extends React.Component {
       mainCategoryId: 2,
       categoryId: 327,
       categoryFormId: 2,
-      text: "Now let’s add your Mobile to Your eHome",
+      text: I18n.t("add_products_screen_slide_add_mobile_eHome"),
       icon: require("../../images/ic_mobile.png"),
       showDetectDeviceBtn: false,
       brands: [],
@@ -213,7 +213,7 @@ class AddProductItem extends React.Component {
       } = this.state;
       let tempProductName = "";
       if (!selectedBrand && !brandName.trim()) {
-        return Alert.alert("Please select or enter brand name");
+        return Alert.alert(I18n.t("add_products_screen_slide_add_brand_name"));
       } else if (selectedBrand) {
         tempProductName = selectedBrand.name;
       } else {
@@ -221,7 +221,7 @@ class AddProductItem extends React.Component {
       }
 
       if (!selectedModel && !modelName.trim()) {
-        return Alert.alert("Please select or enter model name");
+        return Alert.alert(I18n.t("add_products_screen_slide_add_model_name"));
       } else if (selectedModel) {
         tempProductName = tempProductName + " " + selectedModel.title;
       } else {
@@ -341,7 +341,7 @@ class AddProductItem extends React.Component {
             options={models}
             beforeModalOpen={() => {
               if (!selectedBrand) {
-                Alert.alert("Please select brand first");
+                Alert.alert("add_products_screen_slide_add_brand_first");
                 return false;
               }
               return true;

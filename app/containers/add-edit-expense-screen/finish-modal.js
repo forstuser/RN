@@ -5,6 +5,7 @@ import Modal from "react-native-modal";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { SCREENS } from "../../constants";
+import I18n from "../../i18n";
 import Analytics from "../../analytics";
 
 const repairIcon = require("../../images/main-categories/ic_repair.png");
@@ -56,7 +57,7 @@ class FinishModal extends React.Component {
     const {
       mainCategoryId,
       showRepairIcon = false,
-      title = "Product added to your eHome.",
+      title = I18n.t("add_edit_expense_screen_title_add_eHome"),
       navigator
     } = this.props;
     const { visible } = this.state;
@@ -80,7 +81,7 @@ class FinishModal extends React.Component {
           <Button
             onPress={this.onMoreProductsClick}
             style={styles.finishBtn}
-            text="ADD MORE PRODUCTS"
+            text=I18n.t("add_edit_expense_screen_title_add_products")
             color="secondary"
           />
           <Text
@@ -88,7 +89,7 @@ class FinishModal extends React.Component {
             weight="Bold"
             style={styles.doItLaterText}
           >
-            I'll Do it Later
+            I18n.t("add_edit_expense_screen_title_add_later")
           </Text>
         </View>
       </Modal>
