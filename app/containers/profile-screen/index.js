@@ -34,7 +34,7 @@ class ProfileScreen extends Component {
 
   constructor(props) {
     super(props);
-    alert(JSON.stringify(props));
+    // alert(JSON.stringify(props));
     this.state = {
       isNameModalVisible: false,
       isEmailModalVisible: false,
@@ -272,7 +272,8 @@ class ProfileScreen extends Component {
           />
         </TouchableOpacity>
         <Header profile={profile} />
-        <ProfileDetailEdit />
+
+        <ProfileDetailEdit profile={profile} />
         {/* <View style={styles.information}>
           <TouchableOpacity
             style={styles.field}
