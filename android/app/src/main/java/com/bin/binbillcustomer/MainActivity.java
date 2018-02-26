@@ -47,9 +47,13 @@ public class MainActivity extends SplashActivity {
 
             Intent intent = getIntent();
             String action = intent.getAction();
-
             if (action != null && action.equalsIgnoreCase("android.intent.action.SEND")) {
                 checkStoragePermission();
+            } else {
+                SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.shared_pref_file_key), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.remove(getString(R.string.shared_pref_direct_upload_file_path_key));
+                editor.commit();
             }
         }
     }
@@ -212,14 +216,15 @@ public class MainActivity extends SplashActivity {
         /**
          * Save the bitmap URI in sharedPref
          */
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.shared_pref_file_key), Context.MODE_PRIVATE);
+        ;
         SharedPreferences.Editor editor = sharedPref.edit();
         if (uri != null &&
                 !uri.isEmpty()) {
-
+            Log.d("INTENT", "final uriString: " + uriString);
             editor.putString(getString(R.string.shared_pref_direct_upload_file_path_key), uri.toString());
-
-        }else{
+         } else {
+            Log.d("INTENT", "remove uriString");
             editor.remove(getString(R.string.shared_pref_direct_upload_file_path_key));
         }
         editor.commit();

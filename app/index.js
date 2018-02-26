@@ -60,6 +60,11 @@ Navigation.isAppLaunched().then(appLaunched => {
   new NativeEventsReceiver().appLaunched(startApp); // App hasn't been launched yet -> show the UI only when needed.
 });
 
+const urlForDirectFileUpload = filePath => {
+  // 2 'files' because it should be array when parsed
+  return `https://www.binbill.com/direct-upload-document?files=${filePath}&files=${filePath}`;
+};
+
 function startApp() {
   persistStore(store, {}, async () => {
     registerScreens(store, Provider); // this is where you register all of your app's screens
@@ -72,12 +77,6 @@ function startApp() {
         navigation.openIntroScreen();
       }
     };
-
-    if (Platform.OS == "android") {
-      NativeModules.RNDirectUploadFileModule.getFIlePath(function(value) {
-        console.log("FilePath: ", value);
-      });
-    }
 
     try {
       FCM.requestPermissions()
@@ -230,7 +229,9 @@ function startApp() {
 
       Linking.addEventListener("url", event => {
         // this handles the use case where the app is running in the background and is activated by the listener...
-        if (event.url) {
+        let url = event.url;
+        console.log("url: ", url);
+        if (url) {
           // console.log("url event: ", event.url);
           handleDeeplink(event.url);
         }
@@ -238,22 +239,31 @@ function startApp() {
 
       const notif = await FCM.getInitialNotification();
       console.log("InitialNotification: ", notif);
-      const url = await Linking.getInitialURL();
+      let url = await Linking.getInitialURL();
+      // direct file upload in Android
+      if (Platform.OS == "android") {
+        const filePath = await NativeModules.RNDirectUploadFileModule.getFIlePath();
+        console.log("FilePath: ", filePath);
+        if (filePath) {
+          url = urlForDirectFileUpload(filePath);
+        }
+      }
       if (notif && notif.notification_type) handleNotification(notif);
       else if (url) handleDeeplink(url);
       else openFirstScreen();
-    } catch (e) {}
 
-    // let the app initialize and start a screen or codepush will throw error
-    setTimeout(() => {
-      codePush.sync({
-        deploymentKey: store.getState().loggedInUser.codepushDeploymentStaging
-          ? CODEPUSH_KEYS.DEPLOYEMENT
-          : CODEPUSH_KEYS.PRODUCTION,
-        installMode: codePush.InstallMode.ON_NEXT_RESUME
-      });
+      //things to do on app resume
       AppState.addEventListener("change", nextAppState => {
         if (nextAppState === "active") {
+          //a timeout so that native android can save the 'filePath' in shared preferences
+          setTimeout(async () => {
+            const filePath = await NativeModules.RNDirectUploadFileModule.getFIlePath();
+            if (filePath) {
+              url = urlForDirectFileUpload(filePath);
+              handleDeeplink(url);
+            }
+          }, 1000);
+
           codePush.sync({
             deploymentKey: store.getState().loggedInUser
               .codepushDeploymentStaging
@@ -263,6 +273,18 @@ function startApp() {
           });
         }
       });
-    }, 5000);
+
+      // let the app initialize and start a screen or codepush will throw error
+      setTimeout(() => {
+        codePush.sync({
+          deploymentKey: store.getState().loggedInUser.codepushDeploymentStaging
+            ? CODEPUSH_KEYS.DEPLOYEMENT
+            : CODEPUSH_KEYS.PRODUCTION,
+          installMode: codePush.InstallMode.ON_NEXT_RESUME
+        });
+      }, 5000);
+    } catch (e) {
+      console.log("startApp error: ", e);
+    }
   });
 }
