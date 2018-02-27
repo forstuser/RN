@@ -12,6 +12,7 @@ import {
   uploadDocuments
 } from "../api";
 
+import Analytics from "../analytics";
 import { Text, Button, ScreenContainer } from "../elements";
 import { GLOBAL_VARIABLES, SCREENS } from "../constants";
 import { colors } from "../theme";
@@ -43,6 +44,7 @@ class DirectUploadDocumentScreen extends React.Component {
   }
 
   componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.SHARE_VIA);
     this.initProduct();
     this.fetchCategories();
   }

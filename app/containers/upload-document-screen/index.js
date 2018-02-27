@@ -153,8 +153,8 @@ class UploadDocumentScreen extends Component {
 
   takeCameraImage = () => {
     ImagePicker.openCamera({
-      width: 900,
-      height: 1200,
+      compressImageMaxWidth: 1500,
+      compressImageMaxHeight: 1500,
       compressImageQuality: 0.75
     })
       .then(file => {
@@ -169,8 +169,8 @@ class UploadDocumentScreen extends Component {
 
   pickGalleryImage = () => {
     ImagePicker.openPicker({
-      width: 900,
-      height: 1200,
+      compressImageMaxWidth: 1500,
+      compressImageMaxHeight: 1500,
       compressImageQuality: 0.75
     })
       .then(file => {

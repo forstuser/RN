@@ -5,7 +5,8 @@ import {
   View,
   Image,
   Alert,
-  Linking
+  Linking,
+  Share
 } from "react-native";
 import { connect } from "react-redux";
 import { SCREENS } from "../../constants";
@@ -56,30 +57,45 @@ class Body extends Component {
     );
   };
 
+  onShareItemPress = async () => {
+    try {
+      Share.share({
+        message: "Hey, Chack out this awesome app- http://bit.ly/2rIabk0"
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   render() {
     return (
       <View>
         <MoreItem
           onPress={this.onFaqItemPress}
-          imageSource={require("../../images/ic_more_faq.png/")}
+          imageSource={require("../../images/ic_more_faq.png")}
           name={I18n.t("more_screen_item_faq")}
         />
         <MoreItem
           onPress={this.onEhomeItemPress}
-          imageSource={require("../../images/ic_more_refer.png/")}
+          imageSource={require("../../images/ic_more_refer.png")}
           name={I18n.t("more_screen_item_tips")}
         />
         <MoreItem
           onPress={() =>
             call({ number: "+911244343177" }).catch(e => Alert.alert(e.message))
           }
-          imageSource={require("../../images/ic_more_call.png/")}
+          imageSource={require("../../images/ic_more_call.png")}
           name={I18n.t("more_screen_item_call")}
         />
         <MoreItem
           onPress={this.onEmailItemPress}
-          imageSource={require("../../images/ic_more_email.png/")}
+          imageSource={require("../../images/ic_more_email.png")}
           name={I18n.t("more_screen_item_email")}
+        />
+        <MoreItem
+          onPress={this.onShareItemPress}
+          imageSource={require("../../images/ic_share_blue.png")}
+          name={I18n.t("more_screen_item_share")}
         />
         <MoreItem
           onPress={this.onLogoutItemPress}

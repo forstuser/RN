@@ -164,6 +164,7 @@ export default {
   more_screen_item_tips: "Tips to Build Your eHome ",
   more_screen_item_call: "Call Us",
   more_screen_item_email: "Email Us",
+  more_screen_item_share: "Share App",
   more_screen_item_logout: "Logout",
 
   //product details screen

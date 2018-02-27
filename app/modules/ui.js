@@ -36,6 +36,11 @@ export default function uiReducer(state = defaultState.ui, action) {
         ...state,
         hasUpdateAppScreenShown: action.payload.hasUpdateAppScreenShown
       };
+    case types.UI_SET_RATE_US_DIALOG_TIMESTAMP:
+      return {
+        ...state,
+        rateUsDialogTimestamp: action.payload.timestamp
+      };
     default:
       return state;
   }
@@ -79,6 +84,12 @@ export const actions = {
     return {
       type: types.UI_SET_HAS_UPDATE_APP_SCREEN_SHOWN,
       payload: { hasUpdateAppScreenShown }
+    };
+  },
+  setRateUsDialogTimestamp: timestamp => {
+    return {
+      type: types.UI_SET_RATE_US_DIALOG_TIMESTAMP,
+      payload: { timestamp }
     };
   }
 };

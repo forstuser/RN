@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { View, TextInput, Alert } from "react-native";
 import Hyperlink from "react-native-hyperlink";
+import FBSDK from "react-native-fbsdk";
+const { LoginButton, AccessToken } = FBSDK;
 import { SCREENS } from "../constants";
 import { colors } from "../theme";
 import { consumerGetOtp } from "../api";
@@ -86,6 +88,7 @@ class LoginScreen extends Component {
             onPress={this.onSubmitPhoneNumber}
             text={I18n.t("login_screen_btn_text")}
           />
+
           <LoadingOverlay visible={this.state.isGettingOtp} />
         </View>
         <View>

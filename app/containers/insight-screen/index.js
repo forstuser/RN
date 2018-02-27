@@ -247,7 +247,7 @@ class InsightScreen extends Component {
             />
           </View>
 
-          <View style={styles.totalTax}>
+          {/*<View style={styles.totalTax}>
             <View
               style={{
                 flexDirection: "row"
@@ -306,7 +306,7 @@ class InsightScreen extends Component {
                 {I18n.t("insights_screen_tax_see_details")}
               </Text>
             </View>
-          </View>
+              </View>*/}
 
           <SectionHeading
             text={I18n.t("insights_screen_section_heading_expenses")}

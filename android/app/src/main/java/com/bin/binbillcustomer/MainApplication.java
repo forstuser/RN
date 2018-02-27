@@ -24,10 +24,23 @@ import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import in.sriraman.sharedpreferences.RNSharedPreferencesReactPackage;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.facebook.appevents.AppEventsLogger;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends NavigationApplication {
+
+  private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    AppEventsLogger.activateApp(this);
+  }
 
   @Override
   public boolean isDebug() {
@@ -38,18 +51,22 @@ public class MainApplication extends NavigationApplication {
   protected List<ReactPackage> getPackages() {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNSharedPreferencesReactPackage(), new SplashScreenReactPackage(),
-        new FIRAnalyticsPackage(), new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
-        new VectorIconsPackage(), new SvgPackage(), new RNSharePackage(), new PhotoViewPackage(),
-        new NavigationReactPackage(), new LinearGradientPackage(), new PickerPackage(), new RNI18nPackage(),
-        new RNGestureHandlerPackage(), new RNFetchBlobPackage(), new FIRMessagingPackage(), new RNPdfScannerPackage(),
-        new ReactNativeDocumentPicker(), new RNDeviceInfo(), new BlurViewPackage(), new RNGooglePlacesPackage(),
-        new BinBillPackager());
+    return Arrays.<ReactPackage>asList(new MainReactPackage(), new FBSDKPackage(mCallbackManager),
+        new RNSharedPreferencesReactPackage(), new SplashScreenReactPackage(), new FIRAnalyticsPackage(),
+        new CodePush(null, getApplicationContext(), BuildConfig.DEBUG), new VectorIconsPackage(), new SvgPackage(),
+        new RNSharePackage(), new PhotoViewPackage(), new NavigationReactPackage(), new LinearGradientPackage(),
+        new PickerPackage(), new RNI18nPackage(), new RNGestureHandlerPackage(), new RNFetchBlobPackage(),
+        new FIRMessagingPackage(), new RNPdfScannerPackage(), new ReactNativeDocumentPicker(), new RNDeviceInfo(),
+        new BlurViewPackage(), new RNGooglePlacesPackage(), new BinBillPackager());
   }
 
   @Override
   public List<ReactPackage> createAdditionalReactPackages() {
     return getPackages();
+  }
+
+  protected static CallbackManager getCallbackManager() {
+    return mCallbackManager;
   }
 
   // private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {

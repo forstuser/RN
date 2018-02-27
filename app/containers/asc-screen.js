@@ -194,7 +194,7 @@ class AscScreen extends Component {
         this.setState({
           latitude: place.latitude,
           longitude: place.longitude,
-          address: place.name
+          address: place.address || place.name
         });
       })
       .catch(error => console.log(error.message)); // error is a Javascript Error object

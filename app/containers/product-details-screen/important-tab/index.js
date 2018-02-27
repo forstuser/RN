@@ -58,7 +58,7 @@ class ImportantTab extends Component {
           />
         )}
 
-        {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
+        {/*[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
           product.masterCategoryId
         ) > -1 && (
           <WarrantyDetails
@@ -66,7 +66,7 @@ class ImportantTab extends Component {
             product={product}
             navigator={navigator}
           />
-        )}
+        )*/}
 
         {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
           product.masterCategoryId

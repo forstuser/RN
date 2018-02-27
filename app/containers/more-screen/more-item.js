@@ -11,7 +11,7 @@ import { Text, Button, ScreenContainer } from "../../elements";
 
 const MoreItem = ({ imageSource, name, onPress }) => (
   <TouchableOpacity onPress={onPress} style={styles.data}>
-    <Image style={styles.logo} source={imageSource} />
+    <Image style={styles.logo} source={imageSource} resizeMode="contain" />
     <Text style={styles.name} weight="Medium">
       {name}
     </Text>

@@ -121,20 +121,22 @@ class AfterSaleButton extends Component {
     }
 
     try {
+      const brand = {
+        id: product.brand.id,
+        brandName: product.brand.name
+      };
+      const category = {
+        category_id: product.categoryId,
+        category_name: product.categoryName
+      };
+
       const place = await RNGooglePlaces.openPlacePickerModal();
       console.log("place: ", place);
-      Alert.alert(place.name);
       this.props.navigator.push({
         screen: SCREENS.ASC_SEARCH_SCREEN,
         passProps: {
-          brand: {
-            id: product.brand.id,
-            brandName: product.brand.name
-          },
-          category: {
-            category_id: product.categoryId,
-            category_name: product.categoryName
-          },
+          brand: brand,
+          category: category,
           latitude: place.latitude,
           longitude: place.longitude
         }

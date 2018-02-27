@@ -1,4 +1,7 @@
-import Analytics from "react-native-firebase-analytics";
+import FirebaseAnalytics from "react-native-firebase-analytics";
+const FBSDK = require("react-native-fbsdk");
+const FbSdkAppEventsLogger = FBSDK.AppEventsLogger;
+
 import store from "../store";
 
 const EVENTS = {
@@ -26,19 +29,21 @@ const EVENTS = {
   PRODUCT_DELETE_INITIATED: "product_delete_initiated",
   PRODUCT_DELETE_CANCELED: "product_delete_canceled",
   PRODUCT_DELETE_COMPLETE: "product_delete_complete",
-  API_ERROR: "api_error"
+  API_ERROR: "api_error",
+  SHARE_VIA: "share_via"
 };
 
 const logEvent = (eventName, data = {}) => {
   if (!__DEV__) {
     const user = store.getState().loggedInUser;
-    Analytics.logEvent(eventName, {
+    FirebaseAnalytics.logEvent(eventName, {
       Platform: "iOS",
       "User Id": user.id,
       "User Name": user.name,
       "User Mobile": user.phone,
       ...data
     });
+    FbSdkAppEventsLogger.logEvent(eventName);
   }
 };
 export default { EVENTS, logEvent };

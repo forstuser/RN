@@ -3,8 +3,9 @@ import { Navigation } from "react-native-navigation";
 import axios from "axios";
 import store from "../store";
 import DeviceInfo from "react-native-device-info";
-import navigation from "../navigation";
+import navigation, { openLoginScreen } from "../navigation";
 import { actions as uiActions } from "../modules/ui";
+import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
 export const API_BASE_URL = "https://consumer-stage.binbill.com";
@@ -75,7 +76,8 @@ const apiRequest = async ({
 
     if (r.data.status == false) {
       Analytics.logEvent(
-        Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`
+        Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
+        { message: r.data.message }
       );
       let error = new Error(r.data.message);
       error.statusCode = 400;
@@ -84,16 +86,25 @@ const apiRequest = async ({
 
     return r.data;
   } catch (e) {
-    Analytics.logEvent(
-      Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`
-    );
     console.log("e: ", e);
     let error = new Error(e.message);
     error.statusCode = e.statusCode || 0;
+
+    if (e.statusCode == 401) {
+      store.dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
+      openLoginScreen();
+    }
+
+    let errorMessage = e.message;
     if (e.response) {
       console.log("e.response.data: ", e.response.data);
       error.statusCode = e.response.status;
+      errorMessage = e.response.data.message;
     }
+    Analytics.logEvent(
+      Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
+      { message: errorMessage }
+    );
     throw error;
   }
 };

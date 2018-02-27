@@ -62,6 +62,18 @@ class DashboardScreen extends React.Component {
   }
 
   async componentDidMount() {
+    const { rateUsDialogTimestamp } = this.props;
+
+    if (
+      !rateUsDialogTimestamp ||
+      moment().diff(moment(rateUsDialogTimestamp).startOf("day"), "days") > 7
+    ) {
+      this.props.navigator.showModal({
+        screen: SCREENS.RATE_US_SCREEN,
+        animationType: "none"
+      });
+    }
+
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {
@@ -347,7 +359,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    hasDashboardTourShown: state.ui.hasDashboardTourShown
+    hasDashboardTourShown: state.ui.hasDashboardTourShown,
+    rateUsDialogTimestamp: state.ui.rateUsDialogTimestamp
   };
 };
 
