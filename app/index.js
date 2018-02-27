@@ -53,12 +53,16 @@ FCM.on(FCMEvent.Notification, notif => {
   showLocalNotification(notif);
 });
 
-Navigation.isAppLaunched().then(appLaunched => {
-  if (appLaunched) {
-    startApp(); // App is launched -> show UI
-  }
-  new NativeEventsReceiver().appLaunched(startApp); // App hasn't been launched yet -> show the UI only when needed.
-});
+if (Platform.OS == "android") {
+  Navigation.isAppLaunched().then(appLaunched => {
+    if (appLaunched) {
+      startApp(); // App is launched -> show UI
+    }
+    new NativeEventsReceiver().appLaunched(startApp); // App hasn't been launched yet -> show the UI only when needed.
+  });
+} else {
+  startApp();
+}
 
 const urlForDirectFileUpload = filePath => {
   // 2 'files' because it should be array when parsed
@@ -255,14 +259,16 @@ function startApp() {
       //things to do on app resume
       AppState.addEventListener("change", nextAppState => {
         if (nextAppState === "active") {
-          //a timeout so that native android can save the 'filePath' in shared preferences
-          setTimeout(async () => {
-            const filePath = await NativeModules.RNDirectUploadFileModule.getFIlePath();
-            if (filePath) {
-              url = urlForDirectFileUpload(filePath);
-              handleDeeplink(url);
-            }
-          }, 1000);
+          if (Platform.OS == "android") {
+            //a timeout so that native android can save the 'filePath' in shared preferences
+            setTimeout(async () => {
+              const filePath = await NativeModules.RNDirectUploadFileModule.getFIlePath();
+              if (filePath) {
+                url = urlForDirectFileUpload(filePath);
+                handleDeeplink(url);
+              }
+            }, 1000);
+          }
 
           codePush.sync({
             deploymentKey: store.getState().loggedInUser

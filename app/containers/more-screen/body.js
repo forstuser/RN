@@ -9,6 +9,7 @@ import {
   Share
 } from "react-native";
 import { connect } from "react-redux";
+
 import { SCREENS } from "../../constants";
 import { Text, Button, ScreenContainer } from "../../elements";
 import MoreItem from "./more-item";

@@ -90,11 +90,6 @@ const apiRequest = async ({
     let error = new Error(e.message);
     error.statusCode = e.statusCode || 0;
 
-    if (e.statusCode == 401) {
-      store.dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
-      openLoginScreen();
-    }
-
     let errorMessage = e.message;
     if (e.response) {
       console.log("e.response.data: ", e.response.data);
@@ -105,6 +100,11 @@ const apiRequest = async ({
       Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
       { message: errorMessage }
     );
+
+    if (error.statusCode == 401) {
+      store.dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
+      openLoginScreen();
+    }
     throw error;
   }
 };
@@ -217,11 +217,19 @@ export const consumerGetOtp = async PhoneNo => {
   });
 };
 
-export const consumerValidate = async (phoneNo, token, fcmToken) => {
+export const consumerValidate = async ({
+  phoneNo,
+  token,
+  fcmToken,
+  trueSecret,
+  trueObject,
+  bbLoginType = 1
+}) => {
   let data = {
     Token: token,
-    TrueObject: { PhoneNo: phoneNo },
-    BBLogin_Type: 1,
+    TrueSecret: trueSecret,
+    TrueObject: trueObject,
+    BBLogin_Type: bbLoginType,
     platform: platform
   };
   if (fcmToken) {
@@ -230,7 +238,7 @@ export const consumerValidate = async (phoneNo, token, fcmToken) => {
   return await apiRequest({
     method: "post",
     url: "/consumer/validate",
-    data
+    data: JSON.parse(JSON.stringify(data))
   });
 };
 

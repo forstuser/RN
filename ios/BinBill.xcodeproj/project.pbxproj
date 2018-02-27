@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -73,6 +74,7 @@
 		92531C440DA240F69BA63BE9 /* libRNPhotoView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6CD95F2A81649CCBA23330E /* libRNPhotoView.a */; };
 		929503C3807D427A868596AC /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F4501071D764DBAAC36331A /* Montserrat-Bold.ttf */; };
 		94EA2CB12F4F45A28E46D590 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0BDB16744E02411599C0FE5B /* SimpleLineIcons.ttf */; };
+		97B180B9CCD8423F87A7FC6B /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40205BE56234B2BB56D5162 /* libRCTFBSDK.a */; };
 		A27F4A403A34496BAF267711 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 471F0ABFCA11452C8C47EEA3 /* Quicksand-Regular.ttf */; };
 		A49DC9D16A014DC59B89A7BF /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1049DE7A6E0549CBA23312BD /* libimageCropPicker.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
@@ -88,7 +90,6 @@
 		F97DC53018576A16FA4F61B3 /* libPods-BinBill.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE3CA57B3E5F61426DE785DF /* libPods-BinBill.a */; };
 		F990030BF37E4526998142AF /* libRNGooglePlaces.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83CAB2210B2648C6A86BABEF /* libRNGooglePlaces.a */; };
 		FC05AD9B7FF84A3F8BBB2279 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 849EF2C696FB47E396BD2446 /* libRNI18n.a */; };
-		97B180B9CCD8423F87A7FC6B /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40205BE56234B2BB56D5162 /* libRCTFBSDK.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -280,6 +281,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = E72EC1401F7ABB5A0001BC90;
 			remoteInfo = "RNDeviceInfo-tvOS";
+		};
+		4375E8AA204574590059CD02 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DCCE9141D92F4AE2BCA6CEA3 /* RCTFBSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
+			remoteInfo = RCTFBSDK;
 		};
 		43B079141FC4569F00F4C1A0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -633,12 +641,12 @@
 		D06D15B290F1EC6D986C52EB /* Pods-BinBill-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BinBill-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BinBill-tvOSTests/Pods-BinBill-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		D618E279E99CA93A37122048 /* libPods-BinBillTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BinBillTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D996417B377D4ECBB92B95AB /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
+		DCCE9141D92F4AE2BCA6CEA3 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		EE3CA57B3E5F61426DE785DF /* libPods-BinBill.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BinBill.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F40205BE56234B2BB56D5162 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		F4771D56FD350E8249EE1932 /* Pods-BinBill-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BinBill-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-BinBill-tvOS/Pods-BinBill-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		F6EF8B4A6E5146DAAAA8728F /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		FEDEC3012C04464F9B9838BF /* Pods-BinBillTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BinBillTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BinBillTests/Pods-BinBillTests.release.xcconfig"; sourceTree = "<group>"; };
-		DCCE9141D92F4AE2BCA6CEA3 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; name = "RCTFBSDK.xcodeproj"; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		F40205BE56234B2BB56D5162 /* libRCTFBSDK.a */ = {isa = PBXFileReference; name = "libRCTFBSDK.a"; path = "libRCTFBSDK.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -874,6 +882,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		4375E8A7204574590059CD02 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4375E8AB204574590059CD02 /* libRCTFBSDK.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		43B0790D1FC4569F00F4C1A0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -975,6 +991,7 @@
 				74BF0D661BCE48D3862EB2BA /* libRNGestureHandler.a */,
 				B6CD95F2A81649CCBA23330E /* libRNPhotoView.a */,
 				83CAB2210B2648C6A86BABEF /* libRNGooglePlaces.a */,
+				F40205BE56234B2BB56D5162 /* libRCTFBSDK.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1398,6 +1415,10 @@
 					ProjectRef = 43ED97B41FD954D200D1747F /* RCTCameraRoll.xcodeproj */;
 				},
 				{
+					ProductGroup = 4375E8A7204574590059CD02 /* Products */;
+					ProjectRef = DCCE9141D92F4AE2BCA6CEA3 /* RCTFBSDK.xcodeproj */;
+				},
+				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
 					ProjectRef = 00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */;
 				},
@@ -1671,6 +1692,13 @@
 			fileType = archive.ar;
 			path = "libRNDeviceInfo-tvOS.a";
 			remoteRef = 4317B3621FE00B2A00778944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4375E8AB204574590059CD02 /* libRCTFBSDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTFBSDK.a;
+			remoteRef = 4375E8AA204574590059CD02 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		43B079151FC4569F00F4C1A0 /* libBVLinearGradient.a */ = {
@@ -2166,7 +2194,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BinBillTests/Pods-BinBillTests-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle,
+				"$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle",
 				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -2188,25 +2216,10 @@
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GooglePlacePicker/Frameworks/GooglePlacePicker.framework/Resources/GooglePlacePicker.bundle",
 				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowLeft.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowLeft@2x.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowRight.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowRight@2x.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPCheckmark.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPCheckmark@2x.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPCloseButton.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPCloseButton@2x.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPCloseButton@3x.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPDismissKeyboard.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPDismissKeyboard@2x.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPLogo.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPLogo@2x.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/placeholder-image.png",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/MPTakeoverNotificationViewController~ipad.xib",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/MPTakeoverNotificationViewController~iphonelandscape.xib",
-				"${PODS_ROOT}/Mixpanel/Mixpanel/MPTakeoverNotificationViewController~iphoneportrait.xib",
-				$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle,
+				"$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle",
 				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
+				"${PODS_ROOT}/TrueSDK/TrueSDK/External/Assets.xcassets",
+				"$PODS_CONFIGURATION_BUILD_DIR/TrueSDK/TrueSDK.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -2729,6 +2742,10 @@
 				INFOPLIST_FILE = BinBillShareExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bin.binbillcustomer.BinBillShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2736,10 +2753,6 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
 			};
 			name = Debug;
 		};
@@ -2771,16 +2784,16 @@
 				INFOPLIST_FILE = BinBillShareExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bin.binbillcustomer.BinBillShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
 			};
 			name = Release;
 		};

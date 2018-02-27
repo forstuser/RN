@@ -14,8 +14,10 @@ export default {
 
   //login screen
   login_screen_title: "Get Started",
-  login_screen_input_placeholder: "Enter your mobile number",
-  login_screen_btn_text: "Verify",
+  login_screen_input_placeholder: "Enter Mobile Number",
+  login_screen_btn_text: "SEND OTP",
+  login_screen_or_text: "OR INSTANT SIGN IN WITH",
+  login_screen_no_otp_required_text: "No OTP Required",
   login_screen_invalid_number_error: "Please enter 10 digit mobile number",
   login_screen_terms_of_use:
     "By signing up you agree to our Terms & Conditions and Privacy Policy",
