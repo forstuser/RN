@@ -9,6 +9,8 @@ import {
   Share
 } from "react-native";
 import { connect } from "react-redux";
+import DeviceInfo from "react-native-device-info";
+import AppLink from "react-native-app-link";
 
 import { SCREENS } from "../../constants";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -16,6 +18,8 @@ import MoreItem from "./more-item";
 import call from "react-native-phone-call";
 
 import I18n from "../../i18n";
+
+import { showSnackbar } from "../snackbar";
 
 class Body extends Component {
   constructor(props) {
@@ -68,40 +72,71 @@ class Body extends Component {
     }
   };
 
+  onVersionItemPress = async () => {
+    const { isAppUpdateAvailable } = this.props;
+    if (!isAppUpdateAvailable) {
+      showSnackbar({
+        text: I18n.t("more_screen_no_update_available"),
+        autoDismissTimerSec: 5
+      });
+    } else {
+      AppLink.openInStore("id1328873045", "com.bin.binbillcustomer")
+        .then(() => {
+          // do stuff
+        })
+        .catch(err => {
+          // handle error
+        });
+    }
+  };
+
   render() {
+    const appVersion = DeviceInfo.getVersion();
+    const { isAppUpdateAvailable } = this.props;
+
     return (
       <View>
         <MoreItem
           onPress={this.onFaqItemPress}
           imageSource={require("../../images/ic_more_faq.png")}
-          name={I18n.t("more_screen_item_faq")}
+          text={I18n.t("more_screen_item_faq")}
         />
         <MoreItem
           onPress={this.onEhomeItemPress}
           imageSource={require("../../images/ic_more_refer.png")}
-          name={I18n.t("more_screen_item_tips")}
+          text={I18n.t("more_screen_item_tips")}
         />
         <MoreItem
           onPress={() =>
             call({ number: "+911244343177" }).catch(e => Alert.alert(e.message))
           }
           imageSource={require("../../images/ic_more_call.png")}
-          name={I18n.t("more_screen_item_call")}
+          text={I18n.t("more_screen_item_call")}
         />
         <MoreItem
           onPress={this.onEmailItemPress}
           imageSource={require("../../images/ic_more_email.png")}
-          name={I18n.t("more_screen_item_email")}
+          text={I18n.t("more_screen_item_email")}
         />
         <MoreItem
           onPress={this.onShareItemPress}
           imageSource={require("../../images/ic_share_blue.png")}
-          name={I18n.t("more_screen_item_share")}
+          text={I18n.t("more_screen_item_share")}
+        />
+        <MoreItem
+          onPress={this.onVersionItemPress}
+          imageSource={require("../../images/ic_info_blue.png")}
+          text={I18n.t("more_screen_item_app_version") + ": v" + appVersion}
+          btnText={
+            isAppUpdateAvailable
+              ? I18n.t("more_screen_item_app_version_update_to")
+              : null
+          }
         />
         <MoreItem
           onPress={this.onLogoutItemPress}
           imageSource={require("../../images/ic_more_logout.png/")}
-          name={I18n.t("more_screen_item_logout")}
+          text={I18n.t("more_screen_item_logout")}
         />
       </View>
     );

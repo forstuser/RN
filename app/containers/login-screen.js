@@ -187,7 +187,7 @@ class LoginScreen extends Component {
               </Text>
               <View style={styles.orLine} />
             </View>
-            <TouchableOpacity
+            {/*<TouchableOpacity
               onPress={this.loginWithTrueCaller}
               style={[styles.btn, styles.btnTruecaller]}
             >
@@ -196,7 +196,7 @@ class LoginScreen extends Component {
                 source={truecallerLogo}
                 resizeMode="contain"
               />
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
             <TouchableOpacity
               onPress={this.loginWithFacebook}
               style={[styles.btn, styles.btnFacebook]}
@@ -276,10 +276,10 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   btnTruecaller: {
-    backgroundColor: "#0186fe"
+    backgroundColor: "#0186fe",
+    marginBottom: 20
   },
   btnFacebook: {
-    marginTop: 20,
     backgroundColor: "#3b5998"
   },
   btnImage: {

@@ -167,7 +167,10 @@ export default {
   more_screen_item_call: "Call Us",
   more_screen_item_email: "Email Us",
   more_screen_item_share: "Share App",
+  more_screen_item_app_version: "App Version",
+  more_screen_item_app_version_update_to: "Update Now",
   more_screen_item_logout: "Logout",
+  more_screen_no_update_available: "No update available",
 
   //product details screen
   product_details_screen_title: "Product Details",

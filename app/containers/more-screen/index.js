@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import { connect } from "react-redux";
-import DeviceInfo from "react-native-device-info";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 import { Text, Button, ScreenContainer } from "../../elements";
 import Body from "./body";
@@ -24,6 +23,7 @@ class MoreScreen extends Component {
       error: null,
       isFetchingData: false,
       profile: null,
+      isAppUpdateAvailable: false,
       binbillDetails: {},
       startWithProfileScreen: false
     };
@@ -64,9 +64,11 @@ class MoreScreen extends Component {
     });
     try {
       const res = await getProfileDetail();
+      console.log("Profile result: ", res);
       this.setState(
         {
           profile: res.userProfile,
+          isAppUpdateAvailable: res.forceUpdate === false,
           isFetchingData: false
         },
         () => {
@@ -94,16 +96,14 @@ class MoreScreen extends Component {
   };
 
   render() {
-    const appVersion = DeviceInfo.getVersion();
     const { authToken } = this.props;
-    const { profile, error, isFetchingData } = this.state;
+    const { profile, isAppUpdateAvailable, error, isFetchingData } = this.state;
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
     }
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
-        <LoadingOverlay visible={isFetchingData} />
-
+        <LoadingOverlay visible={profile == null} />
         <Header
           authToken={authToken}
           onPress={this.openProfileScreen}
@@ -112,31 +112,14 @@ class MoreScreen extends Component {
         />
         <Body
           profile={profile}
+          isAppUpdateAvailable={isAppUpdateAvailable}
           logoutUser={this.props.logoutUser}
           navigator={this.props.navigator}
         />
-        <View style={styles.versionInfo}>
-          <Text
-            weight="Medium"
-            style={styles.versionText}
-          >{`v${appVersion} BinBill`}</Text>
-        </View>
       </ScreenContainer>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  versionInfo: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    paddingBottom: 20
-  },
-  versionText: {
-    color: colors.lighterText
-  }
-});
 
 const mapStateToProps = state => {
   return {

@@ -55,7 +55,6 @@ class Header extends Component {
     }
     return (
       <View style={styles.container}>
-        <LoadingOverlay visible={profile == null} />
         {profile && (
           <TouchableOpacity style={styles.header} onPress={this.props.onPress}>
             <View style={styles.backgroundImg}>{profilePic}</View>
