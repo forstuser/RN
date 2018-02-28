@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import Icon from "react-native-vector-icons/Entypo";
 import { API_BASE_URL, initProduct, updateProduct } from "../api";
 import { ScreenContainer, Text, Button } from "../elements";
-
+import I18n from "../i18n";
 import LoadingOverlay from "../components/loading-overlay";
 import { colors } from "../theme";
 import { MAIN_CATEGORY_IDS } from "../constants";
@@ -73,15 +73,15 @@ class PersonalDoc extends React.Component {
     switch (event.id) {
       case "back":
         Alert.alert(
-          "Are you sure?",
-          "All the unsaved information and copies related to this document would be deleted",
+          I18n.t("add_edit_personal_doc_are_you_sure"),
+          I18n.t("add_edit_personal_doc_unsaved_info"),
           [
             {
-              text: "Go Back",
+              text: I18n.t("add_edit_amc_go_back"),
               onPress: () => this.props.navigator.pop()
             },
             {
-              text: "Stay",
+              text: I18n.t("add_edit_amc_stay"),
               onPress: () => console.log("Cancel Pressed"),
               style: "cancel"
             }
@@ -142,7 +142,7 @@ class PersonalDoc extends React.Component {
   beforeUpload = () => {
     const productId = this.state.productId;
     if (!productId) {
-      Alert.alert("Please select 'Type of doc' first");
+      Alert.alert(I18n.t("add_edit_personal_doc_first"));
       return false;
     }
     return true;
@@ -198,11 +198,11 @@ class PersonalDoc extends React.Component {
       } = this.state;
 
       if (!productId) {
-        return Alert.alert("Please select 'Type of doc' first");
+        return Alert.alert(I18n.t("add_edit_personal_doc_first"));
       }
 
       if (copies.length == 0) {
-        return Alert.alert("Please upload the document first");
+        return Alert.alert(I18n.t("add_edit_personal_doc_upload_first"));
       }
       const data = {
         productId: productId,
@@ -294,7 +294,7 @@ class PersonalDoc extends React.Component {
               <SelectModal
                 style={styles.input}
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-                placeholder="Type of doc"
+                placeholder={I18n.t("add_edit_personal_doc_type_of_doc")}
                 placeholderRenderer={({ placeholder }) => (
                   <View style={{ flexDirection: "row" }}>
                     <Text
@@ -317,31 +317,31 @@ class PersonalDoc extends React.Component {
               />
             )}
             <CustomTextInput
-              placeholder="Name"
+              placeholder={I18n.t("add_edit_personal_doc_name")}
               value={name}
               onChangeText={name => this.setState({ name })}
             />
             {categoryId == 27 && (
               <View style={{ width: "100%", marginBottom: 10 }}>
                 <CustomTextInput
-                  placeholder="Business Name"
+                  placeholder={I18n.t("add_edit_personal_doc_business_name")}
                   value={businessName}
                   onChangeText={businessName => this.setState({ businessName })}
                 />
                 <ContactFields
                   ref={ref => (this.phoneRef = ref)}
                   value={phone}
-                  placeholder="Phone Number"
+                  placeholder={I18n.t("add_edit_personal_doc_phone_number")}
                 />
                 <ContactFields
                   ref={ref => (this.emailRef = ref)}
                   value={email}
-                  placeholder="Email"
+                  placeholder={I18n.t("add_edit_personal_doc_email")}
                   keyboardType="email-address"
                 />
                 <CustomTextInput
                   style={{ marginBottom: 10 }}
-                  placeholder="Address"
+                  placeholder={I18n.t("add_edit_personal_doc_address")}
                   value={address}
                   onChangeText={address => this.setState({ address })}
                 />
@@ -352,12 +352,12 @@ class PersonalDoc extends React.Component {
         <Button
           style={styles.saveBtn}
           onPress={this.saveDoc}
-          text="ADD DOC"
+          text={I18n.t("add_edit_personal_doc_add_doc")}
           borderRadius={0}
           color="secondary"
         />
         <FinishModal
-          title="Doc added to your eHome."
+          title={I18n.t("add_edit_personal_doc_doc_added")}
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
           navigator={this.props.navigator}

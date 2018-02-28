@@ -116,7 +116,7 @@ class PucDetails extends Component {
             </Text>
           )}
           <Button
-            text="+ ADD PUC"
+            text={I18n.t("product_details_screen_add_puc")}
             onPress={() => this.openAddEditPucScreen(null)}
             type="outline"
             borderRadius={0}

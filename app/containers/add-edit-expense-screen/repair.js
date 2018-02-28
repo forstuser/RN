@@ -242,7 +242,9 @@ class Repair extends React.Component {
               <View style={styles.formContainer}>
                 <View style={styles.form}>
                   <HeaderWithUploadOption
-                    title=I18n.t("add_edit_expense_screen_title_add_repair_details")
+                    title={I18n.t(
+                      "add_edit_expense_screen_title_add_repair_details"
+                    )}
                     textBeforeUpload="Upload Bill "
                     textBeforeUpload2="(Recommended) "
                     textBeforeUpload2Color={colors.mainBlue}
@@ -261,7 +263,9 @@ class Repair extends React.Component {
 
                   <CustomDatePicker
                     date={repairDate}
-                    placeholder=I18n.t("add_edit_expense_screen_title_add_repair_date")
+                    placeholder={I18n.t(
+                      "add_edit_expense_screen_title_add_repair_date"
+                    )}
                     placeholder2="*"
                     placeholder2Color={colors.mainBlue}
                     onDateChange={repairDate => {
@@ -270,7 +274,9 @@ class Repair extends React.Component {
                   />
 
                   <CustomTextInput
-                    placeholder=I18n.t("add_edit_expense_screen_title_add_repair_amount")
+                    placeholder={I18n.t(
+                      "add_edit_expense_screen_title_add_repair_amount"
+                    )}
                     value={repairAmount}
                     onChangeText={repairAmount =>
                       this.setState({ repairAmount })
@@ -278,7 +284,9 @@ class Repair extends React.Component {
                   />
 
                   <CustomTextInput
-                    placeholder=I18n.t("add_edit_expense_screen_title_add_sellers_name")
+                    placeholder={I18n.t(
+                      "add_edit_expense_screen_title_add_sellers_name"
+                    )}
                     value={sellerName}
                     onChangeText={sellerName => this.setState({ sellerName })}
                   />
@@ -290,7 +298,9 @@ class Repair extends React.Component {
                   />
 
                   <CustomTextInput
-                    placeholder=I18n.t("add_edit_expense_screen_title_add_warranty_upto")
+                    placeholder={I18n.t(
+                      "add_edit_expense_screen_title_add_warranty_upto"
+                    )}
                     value={warrantyUpto}
                     onChangeText={warrantyUpto =>
                       this.setState({ warrantyUpto })
@@ -305,13 +315,13 @@ class Repair extends React.Component {
           <Button
             style={styles.saveBtn}
             onPress={this.saveRepair}
-            text=I18n.t("add_edit_expense_screen_title_add_add_repair")
+            text={I18n.t("add_edit_expense_screen_title_add_add_repair")}
             borderRadius={0}
             color="secondary"
           />
         )}
         <FinishModal
-          title="I18n.t("add_edit_expense_screen_title_add_repair_added")
+          title={I18n.t("add_edit_expense_screen_title_add_repair_added")}
           visible={isFinishModalVisible}
           mainCategoryId={null}
           showRepairIcon={true}

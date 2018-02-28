@@ -305,7 +305,7 @@ class AscScreen extends Component {
             )}
             beforeModalOpen={() => {
               if (!this.state.selectedBrand) {
-                Alert.alert("Please select brand first");
+                Alert.alert(I18n.t("asc_screen_select_brand_first"));
                 return false;
               }
               this.setState({ clearSelectedValuesOnScreenAppear: false });

@@ -81,7 +81,7 @@ class FinishModal extends React.Component {
           <Button
             onPress={this.onMoreProductsClick}
             style={styles.finishBtn}
-            text=I18n.t("add_edit_expense_screen_title_add_products")
+            text={I18n.t("add_edit_expense_screen_title_add_products")}
             color="secondary"
           />
           <Text

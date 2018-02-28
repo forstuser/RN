@@ -69,7 +69,9 @@ class ViewBillButton extends React.Component {
             uploadCallback={() => {}}
           />
           <Image style={styles.viewBillIcon} source={viewBillIcon} />
-          <Text style={styles.viewBillText}>Upload {btnText}</Text>
+          <Text style={styles.viewBillText}>
+            I18n.t("product_details_screen_your_upload") {btnText}
+          </Text>
         </TouchableOpacity>
       );
     }

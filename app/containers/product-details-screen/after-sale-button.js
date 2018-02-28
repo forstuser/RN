@@ -46,27 +46,30 @@ class AfterSaleButton extends Component {
     const { brand, insuranceDetails, warrantyDetails } = this.props.product;
     const baseOptions = [];
     if (this.props.product.brand) {
-      baseOptions.push({ type: "brand", text: "Contact Manufacturer" });
+      baseOptions.push({
+        type: "brand",
+        text: I18n.t("product_details_screen_add_manufacture")
+      });
     }
 
     if (insuranceDetails.length > 0 && insuranceDetails[0].provider) {
       baseOptions.push({
         type: "insurance",
-        text: "Contact Insurance Provider"
+        text: I18n.t("product_details_screen_add_insurance_provider")
       });
     }
 
     if (warrantyDetails.length > 0 && warrantyDetails[0].provider) {
       baseOptions.push({
         type: "warranty",
-        text: "Contact Warranty Provider"
+        text: I18n.t("product_details_screen_add_warranty_provider")
       });
     }
 
     if (this.props.product.serviceCenterUrl && this.props.product.brand) {
       baseOptions.push({
         type: "asc",
-        text: "Nearest Authorised Service center"
+        text: i18n.t("product_details_screen_add_nearest_authorized")
       });
     }
 
@@ -78,9 +81,7 @@ class AfterSaleButton extends Component {
     if (this.state.baseOptions.length > 0) {
       this.baseOptions.show();
     } else {
-      Alert.alert(
-        "Customer care is available for brand/manufacturer, insurance and third party warranty providers only."
-      );
+      Alert.alert(I18n.t("product_details_screen_add_customer_care"));
     }
   };
 
@@ -115,7 +116,7 @@ class AfterSaleButton extends Component {
     const { product } = this.props;
     if (!product.brand) {
       return showSnackbar({
-        text: `Product brand not available. Please upload your bill if you haven't`
+        text: I18n.t("product_details_screen_add_brand_not_available")
       });
     }
     navigator.geolocation.getCurrentPosition(
@@ -412,7 +413,7 @@ class AfterSaleButton extends Component {
       Linking.canOpenURL(url)
         .then(supported => {
           if (!supported) {
-            Alert.alert("Can't open this email");
+            Alert.alert(I18n.t("product_details_screen_open_email"));
           } else {
             return Linking.openURL(url);
           }
@@ -512,7 +513,7 @@ class AfterSaleButton extends Component {
                 </Text>
               </View>
             )),
-            "Cancel"
+            I18n.t("product_details_screen_cancel")
           ]}
         />
       </View>

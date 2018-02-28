@@ -99,7 +99,7 @@ class MedicalDocsCard extends Component {
             product={product}
             navigator={navigator}
             docType="Medical Doc"
-            btnText="Doc"
+            btnText={I18n.t("product_details_screen_docs")}
           />
           <Image
             style={styles.image}
@@ -129,7 +129,7 @@ class MedicalDocsCard extends Component {
                     fontSize: 16
                   }}
                 >
-                  General Info
+                  I18n.t("product_details_screen_general_info")
                 </Text>
               )}
               ValueComponent={() => (
@@ -141,7 +141,7 @@ class MedicalDocsCard extends Component {
                     color: colors.pinkishOrange
                   }}
                 >
-                  EDIT
+                  I18n.t(" product_details_screen_edits")
                 </Text>
               )}
             />

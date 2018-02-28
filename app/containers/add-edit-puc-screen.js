@@ -9,6 +9,7 @@ import {
   updatePuc,
   deletePuc
 } from "../api";
+import I18n from "../i18n";
 
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
@@ -55,9 +56,9 @@ class AddEditPuc extends React.Component {
 
   async componentDidMount() {
     const { mainCategoryId, productId, jobId, puc } = this.props;
-    let title = "Add PUC";
+    let title = I18n.t("add_edit_puc_add_puc");
     if (puc) {
-      title = "Edit PUC";
+      title = I18n.t("add_edit_puc_edit_puc");
     }
 
     this.props.navigator.setTitle({ title });
@@ -66,7 +67,7 @@ class AddEditPuc extends React.Component {
       this.props.navigator.setButtons({
         rightButtons: [
           {
-            title: "Delete",
+            title: I18n.t("add_edit_insurance_delete"),
             id: "delete",
             buttonColor: "red",
             buttonFontSize: 16,
@@ -82,15 +83,15 @@ class AddEditPuc extends React.Component {
     if (event.type == "NavBarButtonPress") {
       if (event.id == "back") {
         Alert.alert(
-          "Are you sure?",
-          "All the unsaved information and document copies related to this PUC would be deleted",
+          I18n.t("add_edit_amc_are_you_sure"),
+          I18n.t("add_edit_puc_unsaved_info"),
           [
             {
-              text: "Go Back",
+              text: I18n.t(" add_edit_amc_go_back"),
               onPress: () => this.props.navigator.pop()
             },
             {
-              text: "Stay",
+              text: I18n.t("add_edit_amc_stay"),
               onPress: () => console.log("Cancel Pressed"),
               style: "cancel"
             }
@@ -98,22 +99,22 @@ class AddEditPuc extends React.Component {
         );
       } else if (event.id == "delete") {
         const { productId, puc } = this.props;
-        Alert.alert(`Delete this puc?`, "This will be an irreversible task.", [
+        Alert.alert(I18n.t("add_edit_puc_delete_puc"), [
           {
-            text: "Yes, delete",
+            text: I18n.t("add_edit_insurance_yes_delete"),
             onPress: async () => {
               try {
                 this.setState({ isLoading: true });
                 await deletePuc({ productId, pucId: puc.id });
                 this.props.navigator.pop();
               } catch (e) {
-                Alert.alert(`Couldn't delete`);
+                Alert.alert(I18n.t("add_edit_amc_could_not_delete"));
                 this.setState({ isLoading: false });
               }
             }
           },
           {
-            text: "No, don't Delete",
+            text: I18n.t("add_edit_no_dnt_delete"),
             onPress: () => {},
             style: "cancel"
           }
@@ -140,7 +141,7 @@ class AddEditPuc extends React.Component {
     };
 
     if (!data.effectiveDate && !data.expiryPeriod) {
-      return Alert.alert(`Please select 'PUC Effective Date' or 'PUC Upto'`);
+      return Alert.alert(I18n.t("add_edit_puc_select_puc"));
     }
 
     try {
@@ -192,7 +193,7 @@ class AddEditPuc extends React.Component {
         </KeyboardAwareScrollView>
         <Button
           onPress={this.onSavePress}
-          text="SAVE"
+          text={I18n.t("add_edit_amc_save")}
           color="secondary"
           borderRadius={0}
         />

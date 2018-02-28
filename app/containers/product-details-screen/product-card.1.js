@@ -85,7 +85,7 @@ class ProductCard extends Component {
     "1": () =>
       this.props.product.masterCategoryId != MAIN_CATEGORY_IDS.TRAVEL ? (
         <ImportantTab
-          tabLabel="IMPORTANT"
+          tabLabel={I18n.t("product_details_screen_important")}
           product={this.props.product}
           navigator={this.props.navigator}
           openServiceSchedule={this.props.openServiceSchedule}
@@ -99,7 +99,7 @@ class ProductCard extends Component {
       ) : null,
     "2": () => (
       <SellerTab
-        tabLabel="SELLER"
+        tabLabel={I18n.t("product_details_screen_sellers")}
         product={this.props.product}
         onEditPress={this.startBasicDetailsEdit}
         fetchProductDetails={this.fetchProductDetails}
@@ -107,7 +107,7 @@ class ProductCard extends Component {
     ),
     "3": () => (
       <GeneralTab
-        tabLabel="GENERAL INFO"
+        tabLabel={I18n.t("product_details_screen_gen_info")}
         product={this.props.product}
         onEditPress={this.startBasicDetailsEdit}
         fetchProductDetails={this.fetchProductDetails}
@@ -169,7 +169,7 @@ class ProductCard extends Component {
     const importantTab =
       product.masterCategoryId != MAIN_CATEGORY_IDS.TRAVEL ? (
         <ImportantTab
-          tabLabel="IMPORTANT"
+          tabLabel={I18n.t("product_details_screen_important")}
           product={product}
           navigator={this.props.navigator}
           openServiceSchedule={openServiceSchedule}
@@ -177,7 +177,7 @@ class ProductCard extends Component {
       ) : null;
     const sellerTab = (
       <SellerTab
-        tabLabel="SELLER"
+        tabLabel={I18n.t("product_details_screen_sellers")}
         product={product}
         onEditPress={this.startBasicDetailsEdit}
         fetchProductDetails={this.fetchProductDetails}
@@ -186,7 +186,7 @@ class ProductCard extends Component {
 
     const generalTab = (
       <GeneralTab
-        tabLabel="GENERAL INFO"
+        tabLabel={I18n.t("product_details_screen_gen_info")}
         product={product}
         onEditPress={this.startBasicDetailsEdit}
         fetchProductDetails={this.fetchProductDetails}

@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native";
 import RNFetchBlob from "react-native-fetch-blob";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import Modal from "react-native-modal";
+import I18n from "../i18n";
 
 import {
   API_BASE_URL,
@@ -218,12 +219,12 @@ class DirectUploadDocumentScreen extends React.Component {
           </View>
         </View>
         <Text weight="Bold" style={styles.mainText}>
-          Document Uploaded, Provide further details to complete the process
+          I18n.t("add_edit_direct_upload_docs")
         </Text>
         <SelectModal
           style={styles.input}
           dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-          placeholder="Select Category"
+          placeholder={I18n.t(" add_edit_direct_category")}
           placeholderRenderer={({ placeholder }) => (
             <View style={{ flexDirection: "row" }}>
               <Text weight="Medium" style={{ color: colors.secondaryText }}>
@@ -241,7 +242,7 @@ class DirectUploadDocumentScreen extends React.Component {
         <SelectModal
           style={styles.input}
           dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-          placeholder="Select Sub-Category"
+          placeholder={I18n.t("add_edit_direct_subcategory")}
           placeholderRenderer={({ placeholder }) => (
             <View style={{ flexDirection: "row" }}>
               <Text weight="Medium" style={{ color: colors.secondaryText }}>
@@ -258,7 +259,7 @@ class DirectUploadDocumentScreen extends React.Component {
         />
         <Button
           onPress={this.updateProduct}
-          text="Add Document"
+          text={I18n.t("add_edit_direct_add_docs")}
           color="secondary"
           style={{ width: 300, marginTop: 35 }}
         />
@@ -276,12 +277,12 @@ class DirectUploadDocumentScreen extends React.Component {
               resizeMode="contain"
             />
             <Text weight="Bold" style={styles.finishMsg}>
-              Document Uploaded Successfully
+              I18n.t("add_edit_direct_doc_successfully")
             </Text>
             <Button
               onPress={this.onAddMoreProductsClick}
               style={styles.finishBtn}
-              text="ADD PRODUCTS TO eHOME"
+              text={I18n.t("add_edit_direct_add_eHome")}
               color="secondary"
             />
             <Text
@@ -289,7 +290,7 @@ class DirectUploadDocumentScreen extends React.Component {
               weight="Bold"
               style={styles.doItLaterText}
             >
-              I'll Do it Later
+              I18n.t("add_edit_direct_later")
             </Text>
           </View>
         </Modal>

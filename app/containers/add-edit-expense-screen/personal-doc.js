@@ -133,7 +133,9 @@ class PersonalDoc extends React.Component {
       }
 
       if (!isDocUploaded) {
-        return Alert.alert(I18n.t("add_edit_expense_screen_title_add_upload_doc"));
+        return Alert.alert(
+          I18n.t("add_edit_expense_screen_title_add_upload_doc")
+        );
       }
       const data = {
         productId: product.id,
@@ -296,13 +298,13 @@ class PersonalDoc extends React.Component {
         <Button
           style={styles.saveBtn}
           onPress={this.saveDoc}
-          text=I18n.t("add_edit_expense_screen_title_add_doc")
+          text={I18n.t("add_edit_expense_screen_title_add_doc")}
           borderRadius={0}
           color="secondary"
         />
         <LoadingOverlay visible={isLoading} />
         <FinishModal
-          title=I18n.t("add_edit_expense_screen_title_add_doc_added")
+          title={I18n.t("add_edit_expense_screen_title_add_doc_added")}
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
           productId={product ? product.id : null}

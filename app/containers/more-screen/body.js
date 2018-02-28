@@ -24,11 +24,11 @@ class Body extends Component {
   onLogoutItemPress = () => {
     Alert.alert("Are you sure you want to logout?", "", [
       {
-        text: "Yes, Logout",
+        text: I18n.t("more_screen_logout"),
         onPress: () => this.props.logoutUser()
       },
       {
-        text: "No, Stay",
+        text: I18n.t("more_screen_stay"),
         onPress: () => console.log("Cancel Pressed"),
         style: "cancel"
       }

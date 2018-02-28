@@ -88,7 +88,7 @@ class ProductCard extends Component {
     const importantTab =
       product.masterCategoryId != MAIN_CATEGORY_IDS.TRAVEL ? (
         <ImportantTab
-          tabLabel="IMPORTANT"
+          tabLabel={I18n.t("product_details_screen_important")}
           product={product}
           navigator={this.props.navigator}
           openServiceSchedule={openServiceSchedule}
@@ -97,7 +97,7 @@ class ProductCard extends Component {
 
     const sellerTab = (
       <SellerTab
-        tabLabel="SELLER"
+        tabLabel={I18n.t("product_details_screen_sellers")}
         product={product}
         onEditPress={this.startBasicDetailsEdit}
         fetchProductDetails={this.fetchProductDetails}
@@ -106,7 +106,7 @@ class ProductCard extends Component {
 
     const generalTab = (
       <GeneralTab
-        tabLabel="GENERAL INFO"
+        tabLabel={I18n.t("product_details_screen_gen_info")}
         product={product}
         onEditPress={this.startBasicDetailsEdit}
         fetchProductDetails={this.fetchProductDetails}

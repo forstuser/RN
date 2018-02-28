@@ -26,16 +26,15 @@ class ForceUpdateScreen extends Component {
       <ScreenContainer style={styles.container}>
         <Image source={image} style={styles.image} />
         <Text weight="Bold" style={styles.title}>
-          BinBill got Upgraded!
+          I18n.t("add_edit_force_update_upgrade")
         </Text>
         <Text weight="Bold" style={styles.desc}>
-          The new version brings a whole host of fantastic features and
-          improvements.
+          I18n.t("add_edit_force_update_versions")
         </Text>
         <Button
           onPress={this.openAppStore}
           style={styles.btn}
-          text="UPDATE NOW"
+          text={I18n.t("add_edit_force_update_now")}
         />
         {this.props.allowSkip && (
           <TouchableOpacity
@@ -43,7 +42,7 @@ class ForceUpdateScreen extends Component {
             onPress={() => this.props.navigator.dismissAllModals()}
           >
             <Text weight="Bold" style={styles.notNowText}>
-              Not Now
+              I18n.t("add_edit_force_not_now")
             </Text>
           </TouchableOpacity>
         )}

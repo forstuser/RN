@@ -71,7 +71,7 @@ class SellerTab extends Component {
         ratings: this.state.starCount,
         feedback: this.state.reviewInput
       });
-      Alert.alert("Review Added");
+      Alert.alert(I18n.t("product_details_screen_review_added"));
       this.props.fetchProductDetails();
     } catch (e) {
       Alert.alert(e.message);
@@ -121,7 +121,7 @@ class SellerTab extends Component {
                   fontSize: 16
                 }}
               >
-                Seller Details
+                I18n.t("product_details_screen_seller_details")
               </Text>
             )}
             ValueComponent={() => (
@@ -133,7 +133,7 @@ class SellerTab extends Component {
                   color: colors.pinkishOrange
                 }}
               >
-                EDIT
+                I18n.t("product_details_screen_edit")
               </Text>
             )}
           />
@@ -192,7 +192,9 @@ class SellerTab extends Component {
           false && (
             <View style={styles.review}>
               <LoadingOverlay visible={this.state.isAddingReview} />
-              <SectionHeading text="HOW WAS YOUR EXPERIENCE" />
+              <SectionHeading
+                text={I18n.t("product_details_screen_your_experience")}
+              />
               <View style={styles.reviewInner}>
                 <View style={styles.reviewHeader}>
                   <View style={styles.starsWrapper}>
@@ -208,7 +210,7 @@ class SellerTab extends Component {
                 </View>
                 <TextInput
                   ref={ref => (this.reviewInput = ref)}
-                  placeholder="Write your feedback…"
+                  placeholder={I18n.t("product_details_screen_write_feedback")}
                   value={this.state.reviewInput}
                   onChangeText={text => this.setState({ reviewInput: text })}
                   style={styles.reviewInput}
@@ -218,7 +220,7 @@ class SellerTab extends Component {
                   <Button
                     onPress={this.onSubmitReview}
                     style={styles.reviewSubmitBtn}
-                    text="Submit"
+                    text={I18n.t("product_details_screen_submit")}
                     color="secondary"
                     type="outline"
                   />
@@ -229,7 +231,9 @@ class SellerTab extends Component {
         {product.sellers &&
           false && (
             <View style={styles.editReview}>
-              <SectionHeading text="YOUR REVIEW" />
+              <SectionHeading
+                text={I18n.t("product_details_screen_your_review")}
+              />
               <View style={styles.reviewInner}>
                 <View style={styles.reviewHeader}>
                   <View style={styles.starsWrapper}>
@@ -250,7 +254,7 @@ class SellerTab extends Component {
                   <Button
                     onPress={this.onEditReviewClick}
                     style={styles.reviewSubmitBtn}
-                    text="Edit"
+                    text={I18n.t("product_details_screen_edits")}
                     color="secondary"
                     type="outline"
                   />

@@ -127,7 +127,7 @@ class RepairDetails extends Component {
             </Text>
           )}
           <Button
-            text="+ ADD REPAIR"
+            text={I18n.t("product_details_screen_add_repair")}
             onPress={() => this.openAddEditRepairScreen(null)}
             type="outline"
             borderRadius={0}

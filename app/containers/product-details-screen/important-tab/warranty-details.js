@@ -140,7 +140,7 @@ class WarrantyDetails extends Component {
             </Text>
           )}
           <Button
-            text="+ ADD WARRANTY"
+            text={I18n.t("product_details_screen_add_warranty")}
             onPress={() => this.openAddEditWarrantyScreen(null)}
             type="outline"
             borderRadius={0}

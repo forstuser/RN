@@ -100,7 +100,7 @@ class BlankDashboard extends React.Component {
               <View style={styles.content}>
                 <View style={styles.texts}>
                   <Text weight="Bold" style={styles.oneStopFor}>
-                    One Stop For
+                    I18n.t("blank_dashboard_one_step")
                   </Text>
                 </View>
                 <ScrollView
@@ -126,12 +126,9 @@ class BlankDashboard extends React.Component {
         </View>
         <View style={styles.welcome}>
           <Text weight="Bold" style={styles.welcomeTitle}>
-            Welcome to BinBill
+            I18n.t("blank_dashboard_headline")
           </Text>
-          <Text style={styles.welcomeDesc}>
-            Start building your eHome by converting ordinary bills into smart
-            bills. Live worry free!
-          </Text>
+          <Text style={styles.welcomeDesc}>I18n.t("blank_dashboard_text")</Text>
           <TouchableOpacity
             ref={ref => (this.fabRef = ref)}
             style={styles.fab}

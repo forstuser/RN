@@ -182,7 +182,7 @@ class SelectCategoryHeader extends React.Component {
 
       case MAIN_CATEGORY_IDS.FASHION:
         this.setState(() => ({
-          title: I18n.t("add_edit_expense_screen_title_select_fashion_expense)",
+          title: I18n.t("add_edit_expense_screen_title_select_fashion_expense"),
           visibleOptions: [
             {
               id: 644,
@@ -252,7 +252,9 @@ class SelectCategoryHeader extends React.Component {
       case MAIN_CATEGORY_IDS.HEALTHCARE:
         if (this.props.healthcareFormType == "medical_docs") {
           this.setState(() => ({
-            title: I18n.t("add_edit_expense_screen_title_select_medical_document"),
+            title: I18n.t(
+              "add_edit_expense_screen_title_select_medical_document"
+            ),
             visibleOptions: [
               {
                 id: 86,
@@ -268,7 +270,9 @@ class SelectCategoryHeader extends React.Component {
           }));
         } else {
           this.setState(() => ({
-            title: I18n.t("add_edit_expense_screen_title_select_health_expense"),
+            title: I18n.t(
+              "add_edit_expense_screen_title_select_health_expense"
+            ),
             visibleOptions: [
               {
                 id: 704,

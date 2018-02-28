@@ -110,7 +110,7 @@ class GeneralTab extends Component {
                   fontSize: 16
                 }}
               >
-                General Details
+                I18n.t("product_details_screen_your_general_details")
               </Text>
             )}
             ValueComponent={() => (
@@ -122,7 +122,7 @@ class GeneralTab extends Component {
                   color: colors.pinkishOrange
                 }}
               >
-                EDIT
+                I18n.t("product_details_screen_edit_text")
               </Text>
             )}
           />
@@ -172,7 +172,9 @@ class GeneralTab extends Component {
         {false && (
           <View style={styles.review}>
             <LoadingOverlay visible={this.state.isAddingReview} />
-            <SectionHeading text="REVIEW THIS PRODUCT" />
+            <SectionHeading
+              text={I18n.t("product_details_screen_review_product")}
+            />
             <View style={styles.reviewInner}>
               <View style={styles.reviewHeader}>
                 <View style={styles.starsWrapper}>
@@ -188,7 +190,7 @@ class GeneralTab extends Component {
               </View>
               <TextInput
                 ref={ref => (this.reviewInput = ref)}
-                placeholder="Write your feedback…"
+                placeholder={I18n.t("product_details_screen_write_feedback")}
                 value={this.state.reviewInput}
                 onChangeText={text => this.setState({ reviewInput: text })}
                 style={styles.reviewInput}
@@ -198,7 +200,7 @@ class GeneralTab extends Component {
                 <Button
                   onPress={this.onSubmitReview}
                   style={styles.reviewSubmitBtn}
-                  text="Submit"
+                  text={I18n.t("product_details_screen_submit")}
                   color="secondary"
                   type="outline"
                 />
@@ -208,7 +210,9 @@ class GeneralTab extends Component {
         )}
         {false && (
           <View style={styles.editReview}>
-            <SectionHeading text="YOUR REVIEW" />
+            <SectionHeading
+              text={I18n.t("product_details_screen_your_review")}
+            />
             <View style={styles.reviewInner}>
               <View style={styles.reviewHeader}>
                 <View style={styles.starsWrapper}>
@@ -229,7 +233,7 @@ class GeneralTab extends Component {
                 <Button
                   onPress={this.onEditReviewClick}
                   style={styles.reviewSubmitBtn}
-                  text="Edit"
+                  text={I18n.t("product_details_screen_edits")}
                   color="secondary"
                   type="outline"
                 />

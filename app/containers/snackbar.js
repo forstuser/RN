@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity
 } from "react-native";
+import I18n from "../i18n";
 import { Navigation } from "react-native-navigation";
 import { SCREENS } from "../constants";
 import Text from "../elements/text";
@@ -42,7 +43,7 @@ class Snackbar extends React.Component {
             weight="Bold"
             style={{ fontSize: 16, color: colors.pinkishOrange }}
           >
-            OK
+            I18n.t("add_edit_force_ok")
           </Text>
         </TouchableOpacity>
       </View>
