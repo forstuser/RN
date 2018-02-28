@@ -1,5 +1,8 @@
 package com.bin.binbillcustomer;
 
+import android.app.Activity;
+import android.content.Intent;
+
 import com.evollu.react.fa.FIRAnalyticsPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -23,11 +26,13 @@ import com.facebook.react.shell.MainReactPackage;
 import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import in.sriraman.sharedpreferences.RNSharedPreferencesReactPackage;
+import com.reactnativenavigation.controllers.ActivityCallbacks;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +44,34 @@ public class MainApplication extends NavigationApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+
+    setActivityCallbacks(new ActivityCallbacks() {
+      @Override
+      public void onActivityResumed(Activity activity) {
+        // Do stuff
+      }
+
+      @Override
+      public void onActivityPaused(Activity activity) {
+        // Do stuff
+      }
+
+      @Override
+      public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+      }
+    });
+
+    FacebookSdk.sdkInitialize(getApplicationContext());
+
+    // If you want to use AppEventsLogger to log events.
     AppEventsLogger.activateApp(this);
+
+    SoLoader.init(this, /* native exopackage */ false);
+  }
+
+  protected static CallbackManager getCallbackManager() {
+    return mCallbackManager;
   }
 
   @Override
@@ -63,10 +95,6 @@ public class MainApplication extends NavigationApplication {
   @Override
   public List<ReactPackage> createAdditionalReactPackages() {
     return getPackages();
-  }
-
-  protected static CallbackManager getCallbackManager() {
-    return mCallbackManager;
   }
 
   // private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {

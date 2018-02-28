@@ -42,8 +42,9 @@
 {
   
   if ([[TCTrueSDK sharedManager] isSupported]) {
-    [[TCTrueSDK sharedManager] setupWithAppKey:@"bdQyp6492f89c2fa84d9cbb2b61307267dcfd" appLink:@"https://sia43f41bc0e064253839f228eb2e46b2d.truecallerdevs.com"];
+    [[TCTrueSDK sharedManager] setupWithAppKey:@"0C1zuba00598eeb6b48ac8131fd2da9640ae8" appLink:@"https://sid2f8a8f89be44f02a784d97e9cb1a228.truecallerdevs.com"];
   }
+  
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
   

@@ -7,7 +7,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  NativeModules
 } from "react-native";
 import { connect } from "react-redux";
 import Hyperlink from "react-native-hyperlink";
@@ -96,6 +97,24 @@ class LoginScreen extends Component {
     }
   };
 
+  loginWithTrueCaller = async () => {
+    try {
+      this.setState({
+        isGettingOtp: true
+      });
+      const result = await NativeModules.RNTrueCaller.getProfileDetails();
+      console.log("TrueCaller login result: ", result);
+      this.setState({
+        isGettingOtp: false
+      });
+    } catch (e) {
+      this.setState({
+        isGettingOtp: false
+      });
+      console.log("Some error occurred: ", e);
+    }
+  };
+
   loginWithFacebook = async () => {
     try {
       const result = await LoginManager.logInWithReadPermissions([
@@ -168,7 +187,10 @@ class LoginScreen extends Component {
               </Text>
               <View style={styles.orLine} />
             </View>
-            <TouchableOpacity style={[styles.btn, styles.btnTruecaller]}>
+            <TouchableOpacity
+              onPress={this.loginWithTrueCaller}
+              style={[styles.btn, styles.btnTruecaller]}
+            >
               <Image
                 style={styles.btnImage}
                 source={truecallerLogo}

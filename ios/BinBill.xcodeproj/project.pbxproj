@@ -37,6 +37,8 @@
 		404AA0CB2BE9409CBFEDCCCF /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 341B2DBF32BE47FAA306CC84 /* MaterialCommunityIcons.ttf */; };
 		40AC6677FB284E46AC3E4C1A /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E8E4D3AB60549BA86162DE7 /* Quicksand-Light.ttf */; };
 		4317B36C1FE00B3700778944 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4317B3611FE00B2A00778944 /* libRNDeviceInfo.a */; };
+		4375E8CF204678C20059CD02 /* RNTrueCaller.h in Sources */ = {isa = PBXBuildFile; fileRef = 4375E8CE204678C20059CD02 /* RNTrueCaller.h */; };
+		4375E90E20467EB00059CD02 /* RNTrueCaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 4375E90D20467EB00059CD02 /* RNTrueCaller.m */; };
 		438EB1451FEBD62A00C2D66A /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1441FEBD62A00C2D66A /* GameKit.framework */; };
 		438EB1471FEBD62F00C2D66A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1461FEBD62F00C2D66A /* StoreKit.framework */; };
 		438EB1491FEBD79400C2D66A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1481FEBD79400C2D66A /* CloudKit.framework */; };
@@ -581,6 +583,8 @@
 		417D036C67A041DCAC11436D /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		418274813DDB4C1696583956 /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Bold.ttf"; path = "../assets/fonts/Quicksand-Bold.ttf"; sourceTree = "<group>"; };
 		4317B3311FE00B2A00778944 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
+		4375E8CE204678C20059CD02 /* RNTrueCaller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RNTrueCaller.h; path = BinBill/RNTrueCaller.h; sourceTree = "<group>"; };
+		4375E90D20467EB00059CD02 /* RNTrueCaller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RNTrueCaller.m; path = BinBill/RNTrueCaller.m; sourceTree = "<group>"; };
 		438EB1441FEBD62A00C2D66A /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		438EB1461FEBD62F00C2D66A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		438EB1481FEBD79400C2D66A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -832,6 +836,8 @@
 				43B85C5B1FF3C12500781472 /* RNMultipleFilesShare.swift */,
 				43B85C5A1FF3C12400781472 /* BinBill-Bridging-Header.h */,
 				43B85C5D1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m */,
+				4375E8CE204678C20059CD02 /* RNTrueCaller.h */,
+				4375E90D20467EB00059CD02 /* RNTrueCaller.m */,
 			);
 			name = BinBill;
 			sourceTree = "<group>";
@@ -2194,7 +2200,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BinBillTests/Pods-BinBillTests-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle,
 				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -2216,10 +2222,10 @@
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GooglePlacePicker/Frameworks/GooglePlacePicker.framework/Resources/GooglePlacePicker.bundle",
 				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle,
 				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
 				"${PODS_ROOT}/TrueSDK/TrueSDK/External/Assets.xcassets",
-				"$PODS_CONFIGURATION_BUILD_DIR/TrueSDK/TrueSDK.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/TrueSDK/TrueSDK.bundle,
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -2246,6 +2252,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				4375E8CF204678C20059CD02 /* RNTrueCaller.h in Sources */,
+				4375E90E20467EB00059CD02 /* RNTrueCaller.m in Sources */,
 				43B85C5E1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m in Sources */,
 				43B85C5C1FF3C12500781472 /* RNMultipleFilesShare.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,

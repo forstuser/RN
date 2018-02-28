@@ -244,14 +244,20 @@ export const consumerValidate = async ({
 
 export const addFcmToken = async fcmToken => {
   console.log("subscribe: ", fcmToken);
-  return await apiRequest({
-    method: "post",
-    url: "/consumer/subscribe",
-    data: {
-      fcmId: fcmToken,
-      platform: platform
-    }
-  });
+
+  const token = store.getState().loggedInUser.authToken;
+  if (token) {
+    return await apiRequest({
+      method: "post",
+      url: "/consumer/subscribe",
+      data: {
+        fcmId: fcmToken,
+        platform: platform
+      }
+    });
+  } else {
+    return new Error("User not logged in yet");
+  }
 };
 
 export const logout = async fcmToken => {

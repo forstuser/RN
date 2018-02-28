@@ -235,7 +235,7 @@ function startApp() {
         // this handles the use case where the app is running in the background and is activated by the listener...
         let url = event.url;
         console.log("url: ", url);
-        if (url) {
+        if (url && url.toLowerCase().indexOf("binbill") > -1) {
           // console.log("url event: ", event.url);
           handleDeeplink(event.url);
         }
