@@ -26,7 +26,7 @@ import {
 } from "../../constants";
 
 const expenseIllustration = require("../../images/add-expense-illustration.png");
-const productIllustration = require("../../images/add-product-illustration.png");
+// const productIllustration = require("../../images/add-product-illustration.png");
 const docIllustration = require("../../images/add-doc-illustration.png");
 
 class ProductOrExpense extends React.Component {
@@ -79,8 +79,8 @@ class ProductOrExpense extends React.Component {
         ].indexOf(mainCategoryId) > -1
       ) {
         this.setState({
-          startMsg: I18n.t("add_edit_expense_screen_title_add_select_type"),
-          startGraphics: productIllustration
+          startMsg: I18n.t("add_edit_expense_screen_title_add_select_type")
+          // startGraphics: productIllustration
         });
       } else if (mainCategoryId == MAIN_CATEGORY_IDS.HEALTHCARE) {
         this.setState({

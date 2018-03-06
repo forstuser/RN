@@ -219,7 +219,7 @@ class DirectUploadDocumentScreen extends React.Component {
           </View>
         </View>
         <Text weight="Bold" style={styles.mainText}>
-          I18n.t("add_edit_direct_upload_docs")
+          {I18n.t("add_edit_direct_upload_docs")}
         </Text>
         <SelectModal
           style={styles.input}
@@ -277,7 +277,7 @@ class DirectUploadDocumentScreen extends React.Component {
               resizeMode="contain"
             />
             <Text weight="Bold" style={styles.finishMsg}>
-              I18n.t("add_edit_direct_doc_successfully")
+              {I18n.t("add_edit_direct_doc_successfully")}
             </Text>
             <Button
               onPress={this.onAddMoreProductsClick}
@@ -290,7 +290,7 @@ class DirectUploadDocumentScreen extends React.Component {
               weight="Bold"
               style={styles.doItLaterText}
             >
-              I18n.t("add_edit_direct_later")
+              {I18n.t("add_edit_direct_later")}
             </Text>
           </View>
         </Modal>

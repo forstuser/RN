@@ -30,7 +30,7 @@ const ViewBillRow = ({ date, onEditPress }) => {
               color: colors.pinkishOrange
             }}
           >
-            I18n.t("product_details_screen_edit")
+            {I18n.t("product_details_screen_edit")}
           </Text>
         )}
         keyText={moment(date).format("DD MMM,YYYY")}
@@ -43,7 +43,7 @@ const ViewBillRow = ({ date, onEditPress }) => {
               color: colors.pinkishOrange
             }}
           >
-            I18n.t("product_details_screen_edit")
+            {I18n.t("product_details_screen_edit")}
           </Text>
         )}
       />

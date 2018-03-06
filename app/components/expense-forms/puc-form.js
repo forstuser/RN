@@ -12,6 +12,7 @@ import moment from "moment";
 
 import { MAIN_CATEGORY_IDS } from "../../constants";
 import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
+import { I18n } from "../../i18n";
 
 import Collapsible from "../../components/collapsible";
 import UploadBillOptions from "../../components/upload-bill-options";
@@ -157,7 +158,7 @@ class PucForm extends React.Component {
     return (
       <Collapsible
         isCollapsible={isCollapsible}
-        headerText="PUC (optional)"
+        headerText={I18n.t("expense_forms_puc")}
         style={styles.container}
         headerStyle={styles.headerStyle}
         headerTextStyle={styles.headerTextStyle}
@@ -167,8 +168,8 @@ class PucForm extends React.Component {
           <View style={styles.body}>
             <CustomDatePicker
               date={effectiveDate}
-              placeholder="PUC Effective Date "
-              placeholder2="(Recommended)"
+              placeholder={I18n.t("expense_forms_puc_effective_date")}
+              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
               placeholder2Color={colors.mainBlue}
               onDateChange={effectiveDate => {
                 this.setState({ effectiveDate });
@@ -178,7 +179,7 @@ class PucForm extends React.Component {
             <SelectModal
               style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder="PUC Upto"
+              placeholder={I18n.t("expense_forms_puc_upto")}
               placeholderRenderer={({ placeholder }) => (
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
@@ -193,7 +194,7 @@ class PucForm extends React.Component {
             />
 
             <CustomTextInput
-              placeholder="PUC Seller Name"
+              placeholder={I18n.t("expense_forms_puc_seller_name")}
               value={sellerName}
               onChangeText={sellerName => this.setState({ sellerName })}
             />
@@ -201,12 +202,12 @@ class PucForm extends React.Component {
             <ContactFields
               ref={ref => (this.sellerContactRef = ref)}
               value={sellerContact}
-              placeholder="PUC Seller Contact"
+              placeholder={I18n.t("expense_forms_puc_seller_contact")}
               keyboardType="numeric"
             />
 
             <CustomTextInput
-              placeholder="PUC Amount"
+              placeholder={I18n.t("expense_forms_puc_amount")}
               value={value}
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"
@@ -219,8 +220,8 @@ class PucForm extends React.Component {
               jobId={jobId}
               docType="PUC"
               type={7}
-              placeholder="Upload PUC Doc "
-              placeholder2="(Recommended)"
+              placeholder={I18n.t("expense_forms_puc_upload_doc")}
+              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
               placeholder2Color={colors.mainBlue}
               placeholderAfterUpload="Doc Uploaded Successfully"
               navigator={this.props.navigator}

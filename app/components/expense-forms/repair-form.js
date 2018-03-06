@@ -13,6 +13,7 @@ import moment from "moment";
 
 import { MAIN_CATEGORY_IDS } from "../../constants";
 import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
+import { I18n } from "../../i18n";
 
 import Collapsible from "../../components/collapsible";
 import UploadBillOptions from "../../components/upload-bill-options";
@@ -136,7 +137,7 @@ class RepairForm extends React.Component {
     } = this.state;
     return (
       <Collapsible
-        headerText="Repair/Service History (If Applicable)"
+        headerText={I18n.t("expense_forms_repair_history")}
         style={styles.container}
         headerStyle={styles.headerStyle}
         headerTextStyle={styles.headerTextStyle}
@@ -146,21 +147,21 @@ class RepairForm extends React.Component {
         <View style={styles.innerContainer}>
           <View style={styles.body}>
             <CustomTextInput
-              placeholder="Repair For"
+              placeholder={I18n.t("expense_forms_repair_for")}
               value={repairFor}
               onChangeText={repairFor => this.setState({ repairFor })}
             />
 
             <CustomDatePicker
               date={repairDate}
-              placeholder="Repair Date "
+              placeholder={I18n.t("expense_forms_repair_date ")}
               onDateChange={repairDate => {
                 this.setState({ repairDate });
               }}
             />
 
             <CustomTextInput
-              placeholder="Repair Seller Name"
+              placeholder={I18n.t("expense_forms_repair_seller_name")}
               value={sellerName}
               onChangeText={sellerName => this.setState({ sellerName })}
             />
@@ -168,12 +169,12 @@ class RepairForm extends React.Component {
             <ContactFields
               ref={ref => (this.sellerContactRef = ref)}
               value={sellerContact}
-              placeholder="Repair Seller Contact"
+              placeholder={I18n.t("expense_forms_repair_seller_contact")}
               keyboardType="numeric"
             />
 
             <CustomTextInput
-              placeholder="Repair Amount"
+              placeholder={I18n.t("expense_forms_repair_amount")}
               value={value}
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"
@@ -186,7 +187,7 @@ class RepairForm extends React.Component {
               jobId={jobId}
               docType="Repair Doc"
               type={4}
-              placeholder="Upload Repair/Service Bill"
+              placeholder={i18n.t("expense_forms_repair_upload_repair")}
               navigator={this.props.navigator}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
@@ -198,7 +199,7 @@ class RepairForm extends React.Component {
             />
 
             <CustomTextInput
-              placeholder="Warranty Upto"
+              placeholder={I18n.t("expense_forms_repair_warranty_upto")}
               value={warrantyUpto}
               onChangeText={warrantyUpto => this.setState({ warrantyUpto })}
             />

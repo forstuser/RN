@@ -5,7 +5,7 @@ import moment from "moment";
 
 import { MAIN_CATEGORY_IDS } from "../../constants";
 import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
-
+import { I18n } from "../../i18n";
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
 import { colors } from "../../theme";
@@ -309,9 +309,9 @@ class BasicDetailsForm extends React.Component {
     return (
       <View style={styles.container}>
         <HeaderWithUploadOption
-          title="Basic Details"
-          textBeforeUpload="Upload Bill"
-          textBeforeUpload2=" (recommended)"
+          title={I18n.t("expense_forms_expense_basic_detail")}
+          textBeforeUpload={I18n.t("expense_forms_expense_basic_upload_bill")}
+          textBeforeUpload2={I18n.t("expense_forms_amc_form_amc_recommended")}
           textBeforeUpload2Color={colors.mainBlue}
           productId={id}
           itemId={id}
@@ -330,18 +330,20 @@ class BasicDetailsForm extends React.Component {
         <View style={styles.body}>
           {showFullForm && (
             <CustomTextInput
-              placeholder="Product Name"
+              placeholder={I18n.t("expense_forms_product_basics_name")}
               value={productName}
               onChangeText={productName => this.setState({ productName })}
-              hint="Recommended for fast and easy retrieval"
+              hint={I18n.t("expense_forms_expense_basic_expense_recommend")}
             />
           )}
 
           <SelectModal
             style={styles.input}
             dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-            placeholder="Brand"
-            textInputPlaceholder="Enter Brand Name"
+            placeholder={I18n.t("expense_forms_product_basics_name_brand")}
+            textInputPlaceholder={I18n.t(
+              "expense_forms_product_basics_brand_name"
+            )}
             placeholderRenderer={({ placeholder }) => (
               <View style={{ flexDirection: "row" }}>
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
@@ -367,8 +369,10 @@ class BasicDetailsForm extends React.Component {
               style={styles.input}
               visibleKey="title"
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder="Model"
-              textInputPlaceholder="Enter Model Name"
+              placeholder={I18n.t("expense_forms_product_basics_model")}
+              textInputPlaceholder={I18n.t(
+                "expense_forms_product_basics_enter_model"
+              )}
               placeholderRenderer={({ placeholder }) => (
                 <View
                   style={{
@@ -390,7 +394,9 @@ class BasicDetailsForm extends React.Component {
                 if (selectedBrand || brandName) {
                   return true;
                 }
-                Alert.alert("Please select brand first");
+                Alert.alert(
+                  I18n.t("expense_forms_product_basics_select_brand_first")
+                );
                 return false;
               }}
               selectedOption={selectedModel}
@@ -406,8 +412,10 @@ class BasicDetailsForm extends React.Component {
             <View>
               {categoryId == 327 && (
                 <CustomTextInput
-                  placeholder="IMEI No "
-                  placeholder2="(Recommended)"
+                  placeholder={i18n.t("expense_forms_product_basics_imei ")}
+                  placeholder2={I18n.t(
+                    "expense_forms_amc_form_amc_recommended"
+                  )}
                   placeholder2Color={colors.mainBlue}
                   value={imeiNo}
                   onChangeText={imeiNo => this.setState({ imeiNo })}
@@ -417,8 +425,10 @@ class BasicDetailsForm extends React.Component {
               {mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS &&
                 categoryId != 327 && (
                   <CustomTextInput
-                    placeholder="Serial No "
-                    placeholder2="(Recommended)"
+                    placeholder={I18n.t("expense_forms_product_basics_serial")}
+                    placeholder2={I18n.t(
+                      "expense_forms_amc_form_amc_recommended"
+                    )}
                     placeholder2Color={colors.mainBlue}
                     value={serialNo}
                     onChangeText={serialNo => this.setState({ serialNo })}
@@ -428,13 +438,17 @@ class BasicDetailsForm extends React.Component {
               {mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE && (
                 <View>
                   <CustomTextInput
-                    placeholder="VIN No."
+                    placeholder={I18n.t("expense_forms_product_basics_vin_no")}
                     value={vinNo}
                     onChangeText={vinNo => this.setState({ vinNo })}
                   />
                   <CustomTextInput
-                    placeholder="Registration No "
-                    placeholder2="(Recommended)"
+                    placeholder={I18n.t(
+                      "expense_forms_product_basics_registration_no"
+                    )}
+                    placeholder2={I18n.t(
+                      "expense_forms_amc_form_amc_recommended"
+                    )}
                     placeholder2Color={colors.mainBlue}
                     value={registrationNo}
                     onChangeText={registrationNo =>
@@ -447,7 +461,7 @@ class BasicDetailsForm extends React.Component {
           )}
           <CustomDatePicker
             date={purchaseDate}
-            placeholder="Purchase Date"
+            placeholder={I18n.t("expense_forms_product_basics_purchase_date")}
             placeholder2="*"
             placeholder2Color={colors.mainBlue}
             onDateChange={purchaseDate => {
@@ -458,14 +472,16 @@ class BasicDetailsForm extends React.Component {
           {showFullForm && (
             <View>
               <CustomTextInput
-                placeholder="Purchase Amount"
+                placeholder={I18n.t(
+                  "expense_forms_product_basics_purchase_amount"
+                )}
                 value={value ? String(value) : ""}
                 onChangeText={value => this.setState({ value })}
                 keyboardType="numeric"
               />
 
               <CustomTextInput
-                placeholder="Seller Name"
+                placeholder={I18n.t("expense_forms_product_basics_seller_name")}
                 value={sellerName}
                 onChangeText={sellerName => this.setState({ sellerName })}
               />
@@ -473,7 +489,9 @@ class BasicDetailsForm extends React.Component {
               <ContactFields
                 ref={ref => (this.sellerContactRef = ref)}
                 value={sellerContact}
-                placeholder="Seller Contact"
+                placeholder={I18n.t(
+                  "expense_forms_product_basics_seller_contact"
+                )}
                 keyboardType="numeric"
               />
             </View>

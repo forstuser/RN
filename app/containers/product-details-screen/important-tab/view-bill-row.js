@@ -52,7 +52,7 @@ const ViewBillRow = ({ expiryDate, purchaseDate, docType, copies = [] }) => {
                 color: colors.pinkishOrange
               }}
             >
-              I18n.t("product_details_screen_view_doc")
+              {I18n.t("product_details_screen_view_doc")}
             </Text>
           );
         }}

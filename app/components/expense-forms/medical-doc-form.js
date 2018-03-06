@@ -9,7 +9,7 @@ import {
   getReferenceDataModels,
   getReferenceDataForCategory
 } from "../../api";
-
+import { I18n } from "../../i18n";
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
 import { colors } from "../../theme";
@@ -133,8 +133,8 @@ class MedicalDocForm extends React.Component {
     return (
       <View style={styles.container}>
         <HeaderWithUploadOption
-          title="Basic Details"
-          textBeforeUpload="Upload Doc"
+          title={I18n.t("expense_forms_expense_basic_detail")}
+          textBeforeUpload={I18n.t("expense_forms_healthcare_upload_doc")}
           textBeforeUpload2="*"
           textBeforeUpload2Color={colors.mainBlue}
           productId={productId}
@@ -151,7 +151,7 @@ class MedicalDocForm extends React.Component {
         <View style={styles.body}>
           {showFullForm && (
             <CustomTextInput
-              placeholder="Report Title"
+              placeholder={I18n.t("expense_forms_medical_doc_title")}
               value={reportTitle}
               onChangeText={reportTitle => this.setState({ reportTitle })}
             />
@@ -160,7 +160,7 @@ class MedicalDocForm extends React.Component {
           <SelectModal
             style={styles.input}
             dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-            placeholder="Type"
+            placeholder={I18n.t("expense_forms_healthcare_type")}
             placeholderRenderer={({ placeholder }) => (
               <View style={{ flexDirection: "row" }}>
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
@@ -178,7 +178,7 @@ class MedicalDocForm extends React.Component {
 
           <CustomDatePicker
             date={date}
-            placeholder="Date"
+            placeholder={I18n.t("expense_forms_expense_basic_expense_date")}
             onDateChange={date => {
               this.setState({ date });
             }}
@@ -187,7 +187,7 @@ class MedicalDocForm extends React.Component {
           {showFullForm && (
             <View>
               <CustomTextInput
-                placeholder="Doctor/Hospital Name"
+                placeholder={I18n.t("expense_forms_medical_doc_doctor_name")}
                 value={doctorName}
                 onChangeText={doctorName => this.setState({ doctorName })}
               />
@@ -195,7 +195,7 @@ class MedicalDocForm extends React.Component {
               <ContactFields
                 ref={ref => (this.doctorContactRef = ref)}
                 value={doctorContact}
-                placeholder="Doctor/Hospital Contact"
+                placeholder={I18n.t("expense_forms_medical_doc_doctor_contact")}
               />
             </View>
           )}

@@ -26,10 +26,10 @@ class ForceUpdateScreen extends Component {
       <ScreenContainer style={styles.container}>
         <Image source={image} style={styles.image} />
         <Text weight="Bold" style={styles.title}>
-          I18n.t("add_edit_force_update_upgrade")
+          {I18n.t("add_edit_force_update_upgrade")}
         </Text>
         <Text weight="Bold" style={styles.desc}>
-          I18n.t("add_edit_force_update_versions")
+          {I18n.t("add_edit_force_update_versions")}
         </Text>
         <Button
           onPress={this.openAppStore}
@@ -42,7 +42,7 @@ class ForceUpdateScreen extends Component {
             onPress={() => this.props.navigator.dismissAllModals()}
           >
             <Text weight="Bold" style={styles.notNowText}>
-              I18n.t("add_edit_force_not_now")
+              {I18n.t("add_edit_force_not_now")}
             </Text>
           </TouchableOpacity>
         )}

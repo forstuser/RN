@@ -70,7 +70,7 @@ class ViewBillButton extends React.Component {
           />
           <Image style={styles.viewBillIcon} source={viewBillIcon} />
           <Text style={styles.viewBillText}>
-            I18n.t("product_details_screen_your_upload") {btnText}
+            {I18n.t("product_details_screen_your_upload")} {btnText}
           </Text>
         </TouchableOpacity>
       );

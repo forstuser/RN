@@ -100,7 +100,7 @@ class BlankDashboard extends React.Component {
               <View style={styles.content}>
                 <View style={styles.texts}>
                   <Text weight="Bold" style={styles.oneStopFor}>
-                    I18n.t("blank_dashboard_one_step")
+                    {I18n.t("blank_dashboard_one_step")}
                   </Text>
                 </View>
                 <ScrollView
@@ -126,9 +126,11 @@ class BlankDashboard extends React.Component {
         </View>
         <View style={styles.welcome}>
           <Text weight="Bold" style={styles.welcomeTitle}>
-            I18n.t("blank_dashboard_headline")
+            {I18n.t("blank_dashboard_headline")}
           </Text>
-          <Text style={styles.welcomeDesc}>I18n.t("blank_dashboard_text")</Text>
+          <Text style={styles.welcomeDesc}>
+            {I18n.t("blank_dashboard_text")}
+          </Text>
           <TouchableOpacity
             ref={ref => (this.fabRef = ref)}
             style={styles.fab}

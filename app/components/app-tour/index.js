@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Dimensions
 } from "react-native";
-
+import I18n from "../../i18n";
 import { Text } from "../../elements";
 
 export default class AppTour extends React.Component {
@@ -170,7 +170,7 @@ export default class AppTour extends React.Component {
               <Text style={[styles.tooltipText]}>{tooltipText}</Text>
               <TouchableOpacity onPress={this.next} style={[styles.gotIt, {}]}>
                 <Text weight="Bold" style={[styles.gotItText, {}]}>
-                  GOT IT
+                  i18n.t("add_app_tour")
                 </Text>
               </TouchableOpacity>
             </View>

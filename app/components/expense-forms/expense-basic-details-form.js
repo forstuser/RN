@@ -9,7 +9,7 @@ import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
 import { colors } from "../../theme";
-
+import { I18n } from "../../i18n";
 import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";
 import CustomDatePicker from "../form-elements/date-picker";
@@ -154,9 +154,9 @@ class BasicDetailsForm extends React.Component {
     return (
       <View style={styles.container}>
         <HeaderWithUploadOption
-          title="Basic Details"
-          textBeforeUpload="Upload Bill"
-          textBeforeUpload2=" (recommended)"
+          title={I18n.t("expense_forms_expense_basic_detail")}
+          textBeforeUpload={I18n.t("expense_forms_expense_basic_upload_bill")}
+          textBeforeUpload2={I18n.t("expense_forms_amc_form_amc_recommended")}
           textBeforeUpload2Color={colors.mainBlue}
           productId={productId}
           itemId={productId}
@@ -174,7 +174,7 @@ class BasicDetailsForm extends React.Component {
             <SelectModal
               style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder="Expense Type"
+              placeholder={I18n.t("expense_forms_expense_basic_expense")}
               placeholderRenderer={({ placeholder }) => (
                 <View style={{ flexDirection: "row" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
@@ -193,16 +193,16 @@ class BasicDetailsForm extends React.Component {
 
           {showFullForm && (
             <CustomTextInput
-              placeholder="Expense Name"
+              placeholder={I18n.t("expense_forms_expense_basic_expense_name")}
               value={expenseName}
               onChangeText={expenseName => this.setState({ expenseName })}
-              hint="Recommended for fast and easy retrieval"
+              hint={I18n.t("expense_forms_expense_basic_expense_recommend")}
             />
           )}
 
           <CustomDatePicker
             date={date}
-            placeholder="Date"
+            placeholder={I18n.t("expense_forms_expense_basic_expense_date")}
             placeholder2="*"
             placeholder2Color={colors.mainBlue}
             onDateChange={date => {
@@ -211,7 +211,7 @@ class BasicDetailsForm extends React.Component {
           />
 
           <CustomTextInput
-            placeholder="Amount"
+            placeholder={I18n.t("expense_forms_expense_basic_expense_amount")}
             placeholder2="*"
             placeholder2Color={colors.mainBlue}
             value={value ? String(value) : ""}
@@ -223,7 +223,9 @@ class BasicDetailsForm extends React.Component {
           {categoryId == 634 && (
             <CustomDatePicker
               date={nextDueDate}
-              placeholder="Next Due Date"
+              placeholder={I18n.t(
+                "expense_forms_expense_basic_expense_next_date"
+              )}
               maxDate={null}
               onDateChange={nextDueDate => {
                 this.setState({ nextDueDate });
@@ -234,14 +236,18 @@ class BasicDetailsForm extends React.Component {
           {showFullForm && (
             <View>
               <CustomTextInput
-                placeholder="Seller Name"
+                placeholder={I18n.t(
+                  "expense_forms_expense_basic_expense_seller_name"
+                )}
                 value={sellerName}
                 onChangeText={sellerName => this.setState({ sellerName })}
               />
               <ContactFields
                 ref={ref => (this.sellerContactRef = ref)}
                 value={sellerContact}
-                placeholder="Seller Contact"
+                placeholder={I18n.t(
+                  "expense_forms_expense_basic_expense_seller_contact"
+                )}
               />
             </View>
           )}

@@ -89,7 +89,7 @@ class FinishModal extends React.Component {
             weight="Bold"
             style={styles.doItLaterText}
           >
-            I18n.t("add_edit_expense_screen_title_add_later")
+            {I18n.t("add_edit_expense_screen_title_add_later")}
           </Text>
         </View>
       </Modal>

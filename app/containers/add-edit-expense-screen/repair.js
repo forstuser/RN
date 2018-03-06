@@ -160,14 +160,14 @@ class Repair extends React.Component {
           !isLoading && (
             <View style={styles.noProductsScreen}>
               <Text style={styles.noProductsText}>
-                I18n.t("add_edit_expense_screen_title_add_no_products")
+                {I18n.t("add_edit_expense_screen_title_add_no_products")}
               </Text>
               <TouchableOpacity
                 onPress={this.openAddProductScreen}
                 style={styles.addProductBtn}
               >
                 <Text weight="Bold" style={styles.addProductBtnText}>
-                  I18n.t("add_edit_expense_screen_title_add_add_products")
+                  {I18n.t("add_edit_expense_screen_title_add_add_products")}
                 </Text>
               </TouchableOpacity>
               <Text style={styles.noProductsText}>
@@ -225,15 +225,18 @@ class Repair extends React.Component {
               selectedProduct == null && (
                 <View style={styles.selectProductMsgContainer}>
                   <Text weight="Medium" style={styles.selectProductMsg}>
-                    I18n.t("
-                    add_edit_expense_screen_title_add_select_product_above")
+                    {I18n.t(
+                      "add_edit_expense_screen_title_add_select_product_above"
+                    )}
                   </Text>
                   <TouchableOpacity
                     onPress={this.openAddProductScreen}
                     style={styles.addProductBtn}
                   >
                     <Text weight="Bold" style={styles.addProductBtnText}>
-                      I18n.t(" add_edit_expense_screen_title_add_add_products")
+                      {I18n.t(
+                        " add_edit_expense_screen_title_add_add_products"
+                      )}
                     </Text>
                   </TouchableOpacity>
                 </View>

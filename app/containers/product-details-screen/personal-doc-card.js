@@ -159,7 +159,7 @@ class PerosnalDocCard extends Component {
                     fontSize: 16
                   }}
                 >
-                  I18n.t("product_details_screen_general_info")
+                  {I18n.t("product_details_screen_general_info")}
                 </Text>
               )}
               ValueComponent={() => (
@@ -171,7 +171,7 @@ class PerosnalDocCard extends Component {
                     color: colors.pinkishOrange
                   }}
                 >
-                  I18n.t("product_details_screen_edit")
+                  {I18n.t("product_details_screen_edit")}
                 </Text>
               )}
             />

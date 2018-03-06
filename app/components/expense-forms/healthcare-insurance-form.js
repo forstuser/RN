@@ -9,7 +9,7 @@ import {
   getReferenceDataModels,
   getReferenceDataForCategory
 } from "../../api";
-
+import { I18n } from "../../i18n";
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
 import { colors } from "../../theme";
@@ -195,9 +195,9 @@ class HealthcareInsuranceForm extends React.Component {
     return (
       <View style={styles.container}>
         <HeaderWithUploadOption
-          title="Basic Details"
-          textBeforeUpload="Upload Doc"
-          textBeforeUpload2=" (recommended)"
+          title={I18n.t("expense_forms_healthcare")}
+          textBeforeUpload={I18n.t("expense_forms_healthcare_upload_doc")}
+          textBeforeUpload2={I18n.t("expense_forms_amc_form_amc_recommended")}
           textBeforeUpload2Color={colors.mainBlue}
           productId={productId}
           itemId={insuranceId}
@@ -216,7 +216,7 @@ class HealthcareInsuranceForm extends React.Component {
         <View style={styles.body}>
           {showFullForm && (
             <CustomTextInput
-              placeholder="Plan Name"
+              placeholder={I18n.t("expense_forms_healthcare_plan_name")}
               value={planName}
               onChangeText={planName => this.setState({ planName })}
             />
@@ -225,7 +225,7 @@ class HealthcareInsuranceForm extends React.Component {
           <SelectModal
             style={styles.input}
             dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-            placeholder="Type"
+            placeholder={I18n.t("expense_forms_healthcare_type")}
             placeholderRenderer={({ placeholder }) => (
               <View style={{ flexDirection: "row" }}>
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
@@ -246,7 +246,7 @@ class HealthcareInsuranceForm extends React.Component {
 
           {showFullForm && (
             <CustomTextInput
-              placeholder="For (Self/Child/Wife/Parents/Family/Etc.)"
+              placeholder={I18n.t("expense_forms_healthcare_for")}
               value={insuranceFor}
               onChangeText={insuranceFor => this.setState({ insuranceFor })}
             />
@@ -256,7 +256,7 @@ class HealthcareInsuranceForm extends React.Component {
               <SelectModal
                 style={styles.input}
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-                placeholder="Provider"
+                placeholder={I18n.t("expense_forms_extended_warranty_provider")}
                 placeholderRenderer={({ placeholder }) => (
                   <View style={{ flexDirection: "row" }}>
                     <Text
@@ -280,8 +280,10 @@ class HealthcareInsuranceForm extends React.Component {
 
               {showFullForm && (
                 <CustomTextInput
-                  placeholder="Policy No"
-                  placeholder2=" (Recommended)"
+                  placeholder={I18n.t("expense_forms_healthcare_policy")}
+                  placeholder2={I18n.t(
+                    "expense_forms_amc_form_amc_recommended"
+                  )}
                   placeholder2Color={colors.mainBlue}
                   value={policyNo}
                   onChangeText={policyNo => this.setState({ policyNo })}
@@ -290,7 +292,7 @@ class HealthcareInsuranceForm extends React.Component {
 
               <CustomDatePicker
                 date={effectiveDate}
-                placeholder="Effective Date"
+                placeholder={I18n.t("expense_forms_healthcare_effective_date")}
                 onDateChange={effectiveDate => {
                   this.setState({ effectiveDate });
                 }}
@@ -299,14 +301,16 @@ class HealthcareInsuranceForm extends React.Component {
               {showFullForm && (
                 <View>
                   <CustomTextInput
-                    placeholder="Premium Amount"
+                    placeholder={I18n.t(
+                      "expense_forms_healthcare_premium_amount"
+                    )}
                     value={value > 0 ? String(value) : ""}
                     onChangeText={value => this.setState({ value })}
                     keyboardType="numeric"
                   />
 
                   <CustomTextInput
-                    placeholder="Coverage"
+                    placeholder={I18n.t("expense_forms_healthcare_coverage")}
                     value={amountInsured > 0 ? String(amountInsured) : ""}
                     onChangeText={amountInsured =>
                       this.setState({ amountInsured })

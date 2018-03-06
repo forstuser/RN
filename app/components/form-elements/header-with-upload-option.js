@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
-
+import { I18n } from "../../i18n";
 import { Text } from "../../elements";
 import { colors } from "../../theme";
 import { openBillsPopUp } from "../../navigation";
@@ -51,10 +51,10 @@ class HeaderWithUploadOption extends React.Component {
       style = {},
       docType,
       hideUploadOption = false,
-      textBeforeUpload = "Upload Doc",
+      textBeforeUpload = I18n.t("expense_forms_header_upload_doc"),
       textBeforeUpload2 = "",
       textBeforeUpload2Color = colors.secondaryText,
-      textAfterUpload = "Doc Uploaded Successfully"
+      textAfterUpload = i18n.t("expense_forms_header_upload_doc_successfully")
     } = this.props;
     if (!copies) {
       copies = [];
@@ -89,7 +89,7 @@ class HeaderWithUploadOption extends React.Component {
                   }}
                   style={styles.addText}
                 >
-                  + Add
+                  {I18n.t("expense_forms_header_upload_add")}
                 </Text>
               </View>
             )}

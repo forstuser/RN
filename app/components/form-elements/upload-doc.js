@@ -7,7 +7,7 @@ import {
   Alert
 } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
-
+import { I18n } from "../../i18n";
 import { openBillsPopUp } from "../../navigation";
 import { Text } from "../../elements";
 import { colors } from "../../theme";
@@ -46,7 +46,9 @@ class UploadDoc extends React.Component {
       docType,
       placeholder,
       placeholder2,
-      placeholderAfterUpload = "Doc Uploaded Successfully",
+      placeholderAfterUpload = I18n.t(
+        "expense_forms_header_upload_doc_successfully"
+      ),
       placeholder2Color = colors.secondaryText
     } = this.props;
     const { isDocUploaded } = this.state;
@@ -77,7 +79,7 @@ class UploadDoc extends React.Component {
               }}
               style={styles.addText}
             >
-              + Add
+              {I18n.t("expense_forms_header_upload_add")}
             </Text>
           </View>
         )}

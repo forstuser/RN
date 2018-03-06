@@ -129,7 +129,7 @@ class MedicalDocsCard extends Component {
                     fontSize: 16
                   }}
                 >
-                  I18n.t("product_details_screen_general_info")
+                  {I18n.t("product_details_screen_general_info")}
                 </Text>
               )}
               ValueComponent={() => (
@@ -141,7 +141,7 @@ class MedicalDocsCard extends Component {
                     color: colors.pinkishOrange
                   }}
                 >
-                  I18n.t(" product_details_screen_edits")
+                  {I18n.t(" product_details_screen_edits")}
                 </Text>
               )}
             />

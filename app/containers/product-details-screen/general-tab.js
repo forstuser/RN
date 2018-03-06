@@ -110,7 +110,7 @@ class GeneralTab extends Component {
                   fontSize: 16
                 }}
               >
-                I18n.t("product_details_screen_your_general_details")
+                {I18n.t("product_details_screen_your_general_details")}
               </Text>
             )}
             ValueComponent={() => (
@@ -122,7 +122,7 @@ class GeneralTab extends Component {
                   color: colors.pinkishOrange
                 }}
               >
-                I18n.t("product_details_screen_edit_text")
+                {I18n.t("product_details_screen_edit_text")}
               </Text>
             )}
           />

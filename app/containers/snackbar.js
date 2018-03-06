@@ -43,7 +43,7 @@ class Snackbar extends React.Component {
             weight="Bold"
             style={{ fontSize: 16, color: colors.pinkishOrange }}
           >
-            I18n.t("add_edit_force_ok")
+            {I18n.t("add_edit_force_ok")}
           </Text>
         </TouchableOpacity>
       </View>

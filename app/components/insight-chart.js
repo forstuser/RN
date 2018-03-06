@@ -62,7 +62,7 @@ const InsightChart = ({
         {totalSpend !== null && (
           <View style={styles.totalSpendInner}>
             <Text style={[styles.totalSpendText, { color: textColor }]}>
-              Total Spend{" "}
+              {I18n.t("component_items_total_spend")}
             </Text>
             <Text
               weight="Bold"
@@ -133,14 +133,14 @@ const InsightChart = ({
             />
           </VictoryChart>
           <Text style={[styles.legendText, { color: textColor }]}>
-            All amounts are in Rupees
+            {I18n.t("component_items_all_amount")}
           </Text>
         </View>
       )}
       {chartData.length == 0 && (
         <View style={styles.noDataContainer}>
           <Text weight="Bold" style={[styles.noDataText, { color: textColor }]}>
-            No Data for Chart
+            {I18n.t("component_items_no_data_chart")}
           </Text>
         </View>
       )}
