@@ -62,7 +62,7 @@ const InsightChart = ({
         {totalSpend !== null && (
           <View style={styles.totalSpendInner}>
             <Text style={[styles.totalSpendText, { color: textColor }]}>
-              {I18n.t("component_items_total_spend")}
+              {I18n.t("insights_screen_total_spends")}
             </Text>
             <Text
               weight="Bold"

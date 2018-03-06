@@ -225,7 +225,9 @@ class HealthcareInsuranceForm extends React.Component {
           <SelectModal
             style={styles.input}
             dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-            placeholder={I18n.t("expense_forms_healthcare_type")}
+            placeholder={I18n.t(
+              "main_category_screen_filters_title_categories"
+            )}
             placeholderRenderer={({ placeholder }) => (
               <View style={{ flexDirection: "row" }}>
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>

@@ -533,7 +533,7 @@ export default {
   //search header
   search_header_dashboard: "Dashboard",
   search_header_ehome: "eHome",
-  search_header_search_placeholder: "Search...",
+  // search_header_search_placeholder: "Search...",
 
   // add expenses options
   add_expenses_options_upload_title:
@@ -701,7 +701,7 @@ export default {
   expense_forms_healthcare: "Basic Details",
   expense_forms_healthcare_upload_doc: "Upload Doc",
   expense_forms_healthcare_plan_name: "Plan Name",
-  expense_forms_healthcare_type: "Type",
+  // expense_forms_healthcare_type: "Type",
   expense_forms_healthcare_for: "For (Self/Child/Wife/Parents/Family/Etc.)",
   expense_forms_healthcare_policy: "Policy No",
   expense_forms_healthcare_effective_date: "Effective Date",
@@ -771,7 +771,7 @@ export default {
   component_items_unable_to_conect:
     "Unable to connect to BinBill to get your information. Please try again in sometime.",
   component_items_retry: "RETRY",
-  component_items_total_spend: "Total Spend",
+  // component_items_total_spend: "Total Spend",
   component_items_no_data_chart: "No Data for Chart",
   component_items_all_amount: "All amounts are in Rupees",
   component_items_select_value: "Select a value",
