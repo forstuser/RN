@@ -158,6 +158,21 @@ class ProductDetailsScreen extends Component {
         // isLoading: true
       });
       const res = await getProductDetails(this.props.productId);
+      if (
+        [
+          MAIN_CATEGORY_IDS.AUTOMOBILE,
+          MAIN_CATEGORY_IDS.ELECTRONICS,
+          MAIN_CATEGORY_IDS.FURNITURE
+        ].indexOf(res.product.masterCategoryId) > -1
+      ) {
+        this.props.navigator.setStyle({
+          drawUnderNavBar: true,
+          navBarTranslucent: true,
+          navBarTransparent: true,
+          navBarBackgroundColor: "transparent"
+        });
+      }
+
       this.setState(
         {
           product: res.product

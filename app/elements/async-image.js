@@ -41,6 +41,7 @@ class AsyncImage extends Component {
             uri: this.props.uri,
             headers: headers
           }}
+          resize={this.props.resize}
         />
       );
     } else {
