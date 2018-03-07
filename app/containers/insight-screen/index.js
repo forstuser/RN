@@ -256,7 +256,7 @@ class InsightScreen extends Component {
               <View>
                 <Image
                   style={{ width: 90, height: 82 }}
-                  source={require("../../images/ic_insight_tax_gradient.png")}
+                  // source={require("../../images/ic_insight_tax_gradient.png")}
                 />
               </View>
 
@@ -273,7 +273,7 @@ class InsightScreen extends Component {
                   borderWidth: 1,
                   margin: 5
                 }}
-                source={require("../../images/ic_insight_tax.png")}
+                // source={require("../../images/ic_insight_tax.png")}
               />
               <View style={{ paddingTop: 20 }}>
                 <Text

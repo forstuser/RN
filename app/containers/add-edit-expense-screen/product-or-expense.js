@@ -25,9 +25,9 @@ import {
   CATEGORY_IDS
 } from "../../constants";
 
-const expenseIllustration = require("../../images/add-expense-illustration.png");
+// const expenseIllustration = require("../../images/add-expense-illustration.png");
 // const productIllustration = require("../../images/add-product-illustration.png");
-const docIllustration = require("../../images/add-doc-illustration.png");
+// const docIllustration = require("../../images/add-doc-illustration.png");
 
 class ProductOrExpense extends React.Component {
   constructor(props) {
@@ -47,7 +47,7 @@ class ProductOrExpense extends React.Component {
       product: null,
       isInitializingProduct: false,
       startMsg: I18n.t("add_edit_expense_screen_title_add_select_type"),
-      startGraphics: expenseIllustration,
+      // startGraphics: expenseIllustration,
       visibleModules: {
         productBasicDetails: false,
         expenseBasicDetails: false,
@@ -84,8 +84,8 @@ class ProductOrExpense extends React.Component {
         });
       } else if (mainCategoryId == MAIN_CATEGORY_IDS.HEALTHCARE) {
         this.setState({
-          startMsg: I18n.t("add_edit_expense_screen_title_add_select_type"),
-          startGraphics: docIllustration
+          startMsg: I18n.t("add_edit_expense_screen_title_add_select_type")
+          // startGraphics: docIllustration
         });
       }
 
