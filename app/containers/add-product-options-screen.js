@@ -259,32 +259,35 @@ const styles = StyleSheet.create({
         alignItems: "center",
         zIndex: 99
       },
-      android: {}
+      android: {
+        borderBottomColor: "#F0F0F0",
+        borderBottomWidth: 5,
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 99
+      }
     })
-    // backgroundColor: "#F0F0F0",
-    // width: "100%"
-    //   justifyContent: "center",
-    //   alignItems: "center",
-    //   zIndex: 99
-    // padding: 5
   },
   orContainer: {
     backgroundColor: "#F0F0F0",
     borderRadius: 32,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: -15,
-    marginBottom: -15,
+
     ...Platform.select({
       ios: {
         width: 38,
-        height: 38
+        height: 38,
+        marginTop: -15,
+        marginBottom: -15
       },
       android: {
         width: 42,
         height: 42,
-        backgroundColor: "#f0f0f0",
-        zIndex: 99
+        zIndex: 99,
+        marginTop: 0,
+        marginBottom: 0
       }
     })
   },
@@ -313,7 +316,8 @@ const styles = StyleSheet.create({
   itemIcon: {
     height: 52,
     width: 52,
-    marginBottom: 5
+    marginBottom: 5,
+    marginTop: 5
   },
   itemTitle: {
     fontSize: 10,
