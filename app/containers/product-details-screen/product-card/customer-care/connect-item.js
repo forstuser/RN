@@ -20,6 +20,7 @@ import {
 } from "../../../../constants";
 
 import Analytics from "../../../../analytics";
+import I18n from "../../../../i18n";
 
 import { Text, AsyncImage } from "../../../../elements";
 import { colors } from "../../../../theme";
@@ -249,12 +250,13 @@ class Card extends React.Component {
     const {
       title,
       imageUrl,
+      imageSource,
       name,
       phoneNumbers = [],
       emails = [],
       urls = []
     } = this.props;
-    console.log("imageUrl: ", imageUrl);
+
     return (
       <View style={styles.container}>
         <Text weight="Bold" style={styles.title}>
@@ -262,7 +264,20 @@ class Card extends React.Component {
         </Text>
         <View style={styles.card}>
           <View style={styles.imageContainer}>
-            <AsyncImage style={styles.image} uri={imageUrl} resize="contain" />
+            {imageUrl ? (
+              <AsyncImage
+                style={styles.image}
+                uri={imageUrl}
+                resizeMode="contain"
+              />
+            ) : null}
+            {imageSource ? (
+              <Image
+                style={styles.image}
+                source={imageSource}
+                resizeMode="contain"
+              />
+            ) : null}
           </View>
           <View style={styles.cardBody}>
             <Text weight="Bold" style={styles.name}>
@@ -271,7 +286,7 @@ class Card extends React.Component {
             {phoneNumbers.length > 0 && (
               <View>
                 <Text weight="Medium" style={styles.sectionTitle}>
-                  Customer Care Numbers
+                  {I18n.t("product_details_screen_connect_numbers")}
                 </Text>
                 <View>
                   {phoneNumbers.map(phoneNumber => (
@@ -297,7 +312,7 @@ class Card extends React.Component {
             {urls.length > 0 && (
               <View>
                 <Text weight="Medium" style={styles.sectionTitle}>
-                  Customer Care Links
+                  {I18n.t("product_details_screen_connect_links")}
                 </Text>
                 <View>
                   {urls.map(url => (
@@ -322,7 +337,7 @@ class Card extends React.Component {
             {emails.length > 0 && (
               <View>
                 <Text weight="Medium" style={styles.sectionTitle}>
-                  Email ID
+                  {I18n.t("product_details_screen_connect_emails")}
                 </Text>
                 <View>
                   {emails.map(email => (
@@ -360,6 +375,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   card: {
+    flex: 1,
     width: 300,
     backgroundColor: "#fff",
     borderRadius: 3,
@@ -373,13 +389,14 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: "100%",
     height: 100,
-    alignItems: "center",
-    justifyContent: "center",
     borderBottomWidth: 1,
-    borderColor: "#ececec"
+    borderColor: "#ececec",
+    alignItems: "center",
+    justifyContent: "center"
   },
   image: {
-    padding: 16
+    width: 180,
+    height: 60
   },
   cardBody: {
     padding: 16

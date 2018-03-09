@@ -68,7 +68,11 @@ Navigation.registerComponent("NavOptionsButton", () => NavOptionsButton);
 
 class ProductDetailsScreen extends Component {
   static navigatorStyle = {
-    tabBarHidden: true
+    tabBarHidden: true,
+    drawUnderNavBar: true,
+    navBarTranslucent: true,
+    navBarBackgroundColor: "#fff",
+    topBarElevationShadowEnabled: false
   };
   static navigatorButtons = {
     rightButtons: [
@@ -82,6 +86,7 @@ class ProductDetailsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isScreenVisible: true,
       isLoading: true,
       product: {},
       openServiceSchedule: false
@@ -108,8 +113,29 @@ class ProductDetailsScreen extends Component {
         if (!this.props.productId) {
           return this.props.navigator.pop();
         }
+        this.setState({
+          isScreenVisible: true
+        });
         this.fetchProductDetails();
         break;
+      case "willDisappear":
+        this.setState(
+          {
+            isScreenVisible: false
+          },
+          () => {
+            this.props.navigator.setStyle({
+              navBarTransparent: false,
+              navBarBackgroundColor: "#fff",
+              ...Platform.select({
+                ios: {},
+                android: {
+                  topBarElevationShadowEnabled: true
+                }
+              })
+            });
+          }
+        );
     }
 
     if (event.type == "DeepLink") {
@@ -158,18 +184,24 @@ class ProductDetailsScreen extends Component {
         // isLoading: true
       });
       const res = await getProductDetails(this.props.productId);
+      const { product } = this.state;
       if (
-        [
-          MAIN_CATEGORY_IDS.AUTOMOBILE,
-          MAIN_CATEGORY_IDS.ELECTRONICS,
-          MAIN_CATEGORY_IDS.FURNITURE
-        ].indexOf(res.product.masterCategoryId) > -1
+        this.state.isLoading &&
+        (product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
+          product.categoryId == 86)
       ) {
+        this.props.navigator.setStyle({
+          drawUnderNavBar: false,
+          navBarTranslucent: false,
+          navBarTransparent: false,
+          navBarBackgroundColor: "#fff"
+        });
+      } else {
         this.props.navigator.setStyle({
           drawUnderNavBar: true,
           navBarTranslucent: true,
           navBarTransparent: true,
-          navBarBackgroundColor: "transparent"
+          navBarBackgroundColor: "#fff"
         });
       }
 
@@ -188,7 +220,12 @@ class ProductDetailsScreen extends Component {
   };
 
   render() {
-    const { product, isLoading, openServiceSchedule } = this.state;
+    const {
+      isScreenVisible,
+      product,
+      isLoading,
+      openServiceSchedule
+    } = this.state;
     let content = null;
     if (isLoading) {
       content = <LoadingOverlay visible={isLoading} />;
@@ -210,6 +247,7 @@ class ProductDetailsScreen extends Component {
     } else {
       content = (
         <ProductCard
+          isScreenVisible={isScreenVisible}
           product={product}
           navigator={this.props.navigator}
           openServiceSchedule={openServiceSchedule}

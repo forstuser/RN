@@ -19,7 +19,9 @@ import ChangesSavedModal from "../components/changes-saved-modal";
 class AddEditAmc extends React.Component {
   static navigatorStyle = {
     tabBarHidden: true,
-    disabledBackGesture: true
+    navBarTranslucent: false,
+    navBarTransparent: false,
+    navBarBackgroundColor: "#fff"
   };
 
   static propTypes = {

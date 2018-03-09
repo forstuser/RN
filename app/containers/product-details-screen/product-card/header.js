@@ -27,13 +27,21 @@ const viewBillIcon = require("../../../images/ic_ehome_view_bill.png");
 import ViewBillButton from "../view-bill-button";
 import { MAIN_CATEGORY_IDS } from "../../../constants";
 
+const headerBg = require("../../../images/product_card_header_bg.png");
+
 class Header extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    const { product, navigator, activeTabIndex = 0, onTabChange } = this.props;
+    const {
+      product,
+      navigator,
+      activeTabIndex = 0,
+      onTabChange,
+      showCustomerCareTab = false
+    } = this.props;
     let productName = product.productName;
     if (!productName) {
       productName = product.categoryName;
@@ -161,6 +169,7 @@ class Header extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.upparHalf}>
+          <Image style={styles.bg} source={headerBg} resizeMode="cover" />
           <Image
             style={styles.image}
             source={imageSource}
@@ -198,29 +207,38 @@ class Header extends Component {
               ]}
             />
             <View style={styles.tabs}>
-              {["CUSTOMER CARE", "ALL INFO", "IMPORTANT"].map((tab, index) => (
-                <TouchableOpacity
-                  onPress={() => onTabChange(index)}
-                  key={index}
-                  style={[styles.tab]}
-                >
-                  <Text
-                    numberOfLines={1}
-                    weight="Bold"
-                    style={[
-                      styles.tabText,
-                      index == activeTabIndex ? styles.activeTabText : {}
-                    ]}
+              {[
+                I18n.t("product_details_screen_tab_customer_care"),
+                I18n.t("product_details_screen_tab_all_info"),
+                I18n.t("product_details_screen_tab_important")
+              ].map((tab, index) => {
+                if (!showCustomerCareTab && index == 0) {
+                  return null;
+                }
+                return (
+                  <TouchableOpacity
+                    onPress={() => onTabChange(index)}
+                    key={index}
+                    style={[styles.tab]}
                   >
-                    {tab}
-                  </Text>
-                  <View
-                    style={
-                      index == activeTabIndex ? styles.activeIndicator : {}
-                    }
-                  />
-                </TouchableOpacity>
-              ))}
+                    <Text
+                      numberOfLines={1}
+                      weight="Bold"
+                      style={[
+                        styles.tabText,
+                        index == activeTabIndex ? styles.activeTabText : {}
+                      ]}
+                    >
+                      {tab}
+                    </Text>
+                    <View
+                      style={
+                        index == activeTabIndex ? styles.activeIndicator : {}
+                      }
+                    />
+                  </TouchableOpacity>
+                );
+              })}
             </View>
           </View>
         </View>
@@ -239,6 +257,18 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center"
   },
+  bg: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%"
+  },
+  image: {
+    marginTop: 60,
+    width: 100,
+    height: 70
+  },
   lowerHalf: {
     marginTop: -65,
     width: "100%",
@@ -256,11 +286,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 1
   },
-  image: {
-    marginTop: 50,
-    width: 100,
-    height: 100
-  },
+
   name: {
     fontSize: 18,
     marginRight: 85

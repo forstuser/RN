@@ -41,7 +41,7 @@ class AsyncImage extends Component {
             uri: this.props.uri,
             headers: headers
           }}
-          resize={this.props.resize}
+          resizeMode={this.props.resizeMode}
         />
       );
     } else {
@@ -49,6 +49,7 @@ class AsyncImage extends Component {
         <Image
           style={[this.props.style, this.props.fileStyle]}
           source={fileIcon}
+          resize={this.props.resize}
         />
       );
     }

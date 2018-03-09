@@ -6,7 +6,7 @@ import {
   Alert,
   TouchableOpacity,
   ScrollView,
-  Text as NativeText
+  Platform
 } from "react-native";
 
 import ScrollableTabView, {
@@ -31,6 +31,8 @@ import { colors } from "../../../theme";
 
 import Header from "./header";
 import CustomerCare from "./customer-care";
+import AllInfo from "./all-info";
+import Important from "./important";
 import ImportantTab from "../important-tab";
 import GeneralTab from "../general-tab";
 import SellerTab from "../seller-tab";
@@ -40,7 +42,30 @@ import LoadingOverlay from "../../../components/loading-overlay";
 class ProductCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      activeTabIndex: 1,
+      showCustomerCareTab: false
+    };
+  }
+
+  componentDidMount() {
+    const { product } = this.props;
+    const { brand, insuranceDetails, warrantyDetails } = product;
+
+    if (
+      (brand && brand.status_type == 1) ||
+      (insuranceDetails.length > 0 &&
+        insuranceDetails[0].provider &&
+        insuranceDetails[0].provider.status_type == 1) ||
+      (warrantyDetails.length > 0 &&
+        warrantyDetails[0].provider &&
+        warrantyDetails[0].provider.status_type == 1)
+    ) {
+      this.setState({
+        activeTabIndex: 0,
+        showCustomerCareTab: true
+      });
+    }
   }
 
   startBasicDetailsEdit = () => {
@@ -70,59 +95,79 @@ class ProductCard extends Component {
     }
   };
 
-  onTabChange = () => {};
+  onTabChange = index => {
+    this.setState({
+      activeTabIndex: index
+    });
+  };
+
+  handleScroll = event => {
+    if (!this.props.isScreenVisible) {
+      return;
+    }
+    console.log(
+      "event.nativeEvent.contentOffset: ",
+      event.nativeEvent.contentOffset
+    );
+    if (event.nativeEvent.contentOffset.y > 0) {
+      this.props.navigator.setStyle({
+        navBarTransparent: false,
+        navBarBackgroundColor: "#fff",
+        ...Platform.select({
+          ios: {},
+          android: {
+            topBarElevationShadowEnabled: true
+          }
+        })
+      });
+    } else {
+      this.props.navigator.setStyle({
+        navBarTransparent: true,
+        navBarBackgroundColor: "transparent",
+        ...Platform.select({
+          ios: {},
+          android: {
+            topBarElevationShadowEnabled: false
+          }
+        })
+      });
+    }
+  };
 
   render() {
+    const { activeTabIndex, showCustomerCareTab } = this.state;
     const { product, openServiceSchedule } = this.props;
-    let showCustomerCareBtn = false;
-    if (
-      [
-        MAIN_CATEGORY_IDS.AUTOMOBILE,
-        MAIN_CATEGORY_IDS.ELECTRONICS,
-        MAIN_CATEGORY_IDS.FURNITURE
-      ].indexOf(product.masterCategoryId) > -1 ||
-      product.categoryId == 664
-    ) {
-      showCustomerCareBtn = true;
-    }
-
-    const importantTab =
-      product.masterCategoryId != MAIN_CATEGORY_IDS.TRAVEL ? (
-        <ImportantTab
-          tabLabel="IMPORTANT"
-          product={product}
-          navigator={this.props.navigator}
-          openServiceSchedule={openServiceSchedule}
-        />
-      ) : null;
-    const sellerTab = (
-      <SellerTab
-        tabLabel="SELLER"
-        product={product}
-        onEditPress={this.startBasicDetailsEdit}
-        fetchProductDetails={this.fetchProductDetails}
-      />
-    );
-
-    const generalTab = (
-      <GeneralTab
-        tabLabel="GENERAL INFO"
-        product={product}
-        onEditPress={this.startBasicDetailsEdit}
-        fetchProductDetails={this.fetchProductDetails}
-      />
-    );
 
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container}>
+        <ScrollView
+          ref={ref => (this.scrollView = ref)}
+          onScroll={this.handleScroll}
+          style={styles.container}
+        >
           <Header
+            activeTabIndex={activeTabIndex}
+            showCustomerCareTab={showCustomerCareTab}
             onTabChange={this.onTabChange}
             product={product}
             navigator={this.props.navigator}
           />
           <View style={styles.pages}>
-            <CustomerCare product={product} navigator={this.props.navigator} />
+            {activeTabIndex == 0 && (
+              <CustomerCare
+                product={product}
+                navigator={this.props.navigator}
+                scrollScreenToBottom={() =>
+                  this.scrollView.scrollToEnd({ animated: true })
+                }
+              />
+            )}
+            {activeTabIndex == 1 && (
+              <AllInfo product={product} navigator={this.props.navigator} />
+            )}
+            {activeTabIndex == 2 && (
+              <Important product={product} navigator={this.props.navigator} />
+            )}
           </View>
         </ScrollView>
       </View>

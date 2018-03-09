@@ -33,7 +33,7 @@ const apiRequest = async ({
     if (Platform.OS == "ios") {
       headers.ios_app_version = DeviceInfo.getBuildNumber();
     } else {
-      headers.app_version = 12; //android app version
+      headers.app_version = 17; //android app version
     }
 
     console.log(
