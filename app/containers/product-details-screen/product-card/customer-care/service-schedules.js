@@ -12,31 +12,42 @@ import {
   SERVICE_TYPE_NAMES
 } from "../../../../constants";
 
+import KeyValueItem from "../../../../components/key-value-item";
+
 class ServiceSchedules extends React.Component {
   render() {
     const { product, navigator } = this.props;
     const { schedule, serviceSchedules } = product;
 
     const ScheduleItem = ({ schedule }) => (
-      <View style={styles.card}>
-        <Text style={{ fontSize: 12, color: colors.secondaryText }}>
-          {schedule.service_number}
-        </Text>
-        <Text weight="Medium">
-          {`${moment(schedule.due_date).format("MMM DD, YYYY")} or ${
-            schedule.distance
-          }Kms (${SERVICE_TYPE_NAMES[schedule.service_type]})`}
-        </Text>
-      </View>
+      <KeyValueItem
+        keyText={`${schedule.service_number}\n(${
+          SERVICE_TYPE_NAMES[schedule.service_type]
+        })`}
+        ValueComponent={() => (
+          <Text
+            weight="Medium"
+            style={{
+              textAlign: "right",
+              flex: 1
+            }}
+          >
+            {moment(schedule.due_date).format("MMM DD, YYYY") +
+              " or\n" +
+              schedule.distance +
+              "Kms"}
+          </Text>
+        )}
+      />
     );
 
     return (
       <View style={styles.container}>
-        <ScrollView horizontal={true} style={styles.slider}>
+        <View style={styles.card}>
           {serviceSchedules.map(schedule => (
             <ScheduleItem schedule={schedule} />
           ))}
-        </ScrollView>
+        </View>
       </View>
     );
   }
@@ -44,17 +55,13 @@ class ServiceSchedules extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10
-  },
-  slider: {
-    paddingBottom: 20
+    margin: 8,
+    marginTop: 0,
+    marginBottom: 30
   },
   card: {
-    width: 300,
+    width: "100%",
     backgroundColor: "#fff",
-    marginRight: 15,
-    marginLeft: 5,
-    padding: 10,
     borderRadius: 3,
     elevation: 2,
     shadowColor: "#000",

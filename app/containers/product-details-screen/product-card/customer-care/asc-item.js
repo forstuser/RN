@@ -6,7 +6,8 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  Linking
+  Linking,
+  Dimensions
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import call from "react-native-phone-call";
@@ -63,7 +64,7 @@ class AscItem extends React.Component {
   };
 
   render() {
-    const { item } = this.props;
+    const { item, style } = this.props;
     let phoneNumbers = [];
     let emails = [];
     for (let i = 0; i < item.centerDetails.length; i++) {
@@ -81,7 +82,7 @@ class AscItem extends React.Component {
     }
 
     return (
-      <View style={styles.item}>
+      <View style={[styles.item, style]}>
         <View style={styles.imageWrapper}>
           <Image
             style={styles.itemImage}
@@ -105,28 +106,40 @@ class AscItem extends React.Component {
           {phoneNumbers.length > 0 && (
             <View style={styles.itemDetailSection}>
               {phoneNumbers.map(phoneNumber => (
-                <Text
+                <TouchableOpacity
                   key={phoneNumber}
                   onPress={() => this.handlePhonePress(phoneNumber)}
-                  weight="Medium"
                   style={styles.itemDetail}
                 >
-                  {phoneNumber}
-                </Text>
+                  <Icon
+                    name="ios-call"
+                    size={15}
+                    color={colors.pinkishOrange}
+                  />
+                  <Text style={styles.itemDetailText} weight="Medium">
+                    {phoneNumber}
+                  </Text>
+                </TouchableOpacity>
               ))}
             </View>
           )}
           {emails.length > 0 && (
             <View style={styles.itemDetailSection}>
               {emails.map(email => (
-                <Text
+                <TouchableOpacity
                   key={email}
                   onPress={() => this.handleEmailPress(email)}
-                  weight="Medium"
                   style={styles.itemDetail}
                 >
-                  {email}
-                </Text>
+                  <Icon
+                    name="md-mail-open"
+                    size={15}
+                    color={colors.pinkishOrange}
+                  />
+                  <Text style={styles.itemDetailText} weight="Medium">
+                    {email}
+                  </Text>
+                </TouchableOpacity>
               ))}
             </View>
           )}
@@ -157,9 +170,8 @@ class AscItem extends React.Component {
 
 const styles = StyleSheet.create({
   item: {
-    width: 300,
+    margin: 8,
     elevation: 2,
-    margin: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.25,
@@ -188,6 +200,11 @@ const styles = StyleSheet.create({
   },
   itemDetail: {
     marginTop: 5,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  itemDetailText: {
+    marginLeft: 8,
     fontSize: 12,
     color: colors.secondaryText
   },

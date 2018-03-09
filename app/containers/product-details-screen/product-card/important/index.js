@@ -19,12 +19,15 @@ import InsuranceDetails from "./insurance-details";
 import AmcDetails from "./amc-details";
 import RepairDetails from "./repair-details";
 import PucDetails from "./puc-details";
-import ServiceSchedules from "./service-schedules";
 
 class Important extends React.Component {
   render() {
-    const { product, navigator } = this.props;
-    const { serviceSchedules } = product;
+    const {
+      product,
+      navigator,
+      cardWidthWhenMany,
+      cardWidthWhenOne
+    } = this.props;
 
     return (
       <View style={styles.container}>
@@ -84,17 +87,6 @@ class Important extends React.Component {
             <PucDetails product={product} navigator={navigator} />
           </View>
         )}
-
-        {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
-          serviceSchedules &&
-          serviceSchedules.length > 0 && (
-            <View>
-              <Text weight="Bold" style={styles.sectionTitle}>
-                {I18n.t("product_details_screen_service_schedule_title")}
-              </Text>
-              <ServiceSchedules product={product} navigator={navigator} />
-            </View>
-          )}
       </View>
     );
   }

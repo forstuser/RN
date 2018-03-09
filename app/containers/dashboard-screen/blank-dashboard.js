@@ -5,7 +5,8 @@ import {
   View,
   Image,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  WebView
 } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
@@ -20,22 +21,10 @@ import { actions as uiActions } from "../../modules/ui";
 
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
-const slideImages = [
-  require("../../images/blank-dashboard/slide_1.png"),
-  require("../../images/blank-dashboard/slide_2.png"),
-  require("../../images/blank-dashboard/slide_3.png"),
-  require("../../images/blank-dashboard/slide_4.png"),
-  require("../../images/blank-dashboard/slide_5.png")
-];
+const cornerImageTopRight = require("../../images/blank-dashboard/corner-image_top_right.png");
+const cornerImageBottomLeft = require("../../images/blank-dashboard/corner-image_bottom-left.png");
 const bottomImage = require("../../images/blank-dashboard/bottom-image.png");
 
-const Slide = ({ image }) => {
-  return (
-    <View style={styles.slide}>
-      <Image source={image} style={styles.slideImage} resizeMode="contain" />
-    </View>
-  );
-};
 class BlankDashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -50,40 +39,15 @@ class BlankDashboard extends React.Component {
       setTimeout(() => this.blankDashboardTour.startTour(), 1000);
       this.props.setUiHasBlankDashboardTourShown(true);
     }
-
-    this.autoSlider = setInterval(this.autoSlide, 5000);
   }
 
-  componentWillUnmount() {
-    clearInterval(this.autoSlider);
-  }
-
-  autoSlide = () => {
-    const screenWidth = Dimensions.get("window").width;
-    let scrollPosition = this.state.scrollPosition;
-    let maxScrollPosition = screenWidth * (slideImages.length - 1);
-    if (scrollPosition >= maxScrollPosition) {
-      return this.slider.scrollTo({
-        x: 0,
-        y: 0,
-        animated: true
-      });
+  onShouldStartLoadWithRequest = navigator => {
+    if (navigator.url.indexOf("embed") !== -1) {
+      return true;
+    } else {
+      this.videoPlayer.stopLoading(); //Some reference to your WebView to make it stop loading that URL
+      return false;
     }
-    if (scrollPosition == 0 || scrollPosition % screenWidth == 0) {
-      const newScrollPosition = scrollPosition + screenWidth;
-      this.slider.scrollTo({
-        x: newScrollPosition,
-        y: 0,
-        animated: true
-      });
-    }
-  };
-
-  onSlidesScroll = event => {
-    const x = event.nativeEvent.contentOffset.x;
-    this.setState(() => ({
-      scrollPosition: x
-    }));
   };
 
   render() {
@@ -99,20 +63,58 @@ class BlankDashboard extends React.Component {
             <View style={styles.contentWrapper}>
               <View style={styles.content}>
                 <View style={styles.texts}>
-                  <Text weight="Bold" style={styles.oneStopFor}>
-                    One Stop For
+                  <Text weight="Bold" style={styles.topText}>
+                    BinBill - your eHome
                   </Text>
                 </View>
-                <ScrollView
-                  ref={ref => (this.slider = ref)}
-                  style={styles.slider}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  pagingEnabled={true}
-                  onScroll={this.onSlidesScroll}
+                <View
+                  style={[
+                    styles.webViewContainer,
+                    {
+                      height:
+                        (Dimensions.get("window").width - 16) * (9.2 / 16) + 80
+                    }
+                  ]}
                 >
-                  {slideImages.map((image, index) => <Slide image={image} />)}
-                </ScrollView>
+                  <Image
+                    style={[styles.cornerImage, styles.cornerImageTopRight]}
+                    source={cornerImageTopRight}
+                    resizeMode="contain"
+                  />
+                  <Image
+                    style={[styles.cornerImage, styles.cornerImageBottomLeft]}
+                    source={cornerImageBottomLeft}
+                    resizeMode="contain"
+                  />
+                  <View
+                    style={[
+                      styles.webView,
+                      {
+                        width: Dimensions.get("window").width - 16,
+                        height:
+                          (Dimensions.get("window").width - 16) * (9.2 / 16)
+                      }
+                    ]}
+                  >
+                    <WebView
+                      ref={ref => {
+                        this.videoPlayer = ref;
+                      }}
+                      javaScriptEnabled={true}
+                      domStorageEnabled={true}
+                      source={{
+                        html:
+                          '<html><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" /><iframe src="https://www.youtube.com/embed/U_Y6tu_jmt0?modestbranding=1&playsinline=1&showinfo=0&rel=0" frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%"></iframe></html>'
+                      }}
+                      onShouldStartLoadWithRequest={
+                        this.onShouldStartLoadWithRequest
+                      } //for iOS
+                      onNavigationStateChange={
+                        this.onShouldStartLoadWithRequest
+                      } //for Android
+                    />
+                  </View>
+                </View>
                 <View style={styles.imageWrapper}>
                   <Image
                     style={styles.image}
@@ -129,8 +131,7 @@ class BlankDashboard extends React.Component {
             Welcome to BinBill
           </Text>
           <Text style={styles.welcomeDesc}>
-            Start building your eHome by converting ordinary bills into smart
-            bills. Live worry free!
+            Start adding your Products, Bills, Expenses and Documents
           </Text>
           <TouchableOpacity
             ref={ref => (this.fabRef = ref)}
@@ -150,6 +151,9 @@ class BlankDashboard extends React.Component {
   }
 }
 
+const windowHeight = Dimensions.get("window").height;
+const gradientBottomMargin = windowHeight / 3.2;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -162,8 +166,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 1500,
     height: 1500,
-    bottom: 150,
+    bottom: gradientBottomMargin,
     borderRadius: 1500,
+    elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.25,
@@ -183,31 +188,49 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   content: {
-    height: Dimensions.get("window").height - 230,
+    height: windowHeight - gradientBottomMargin - 75,
     width: Dimensions.get("window").width,
     justifyContent: "space-between"
   },
-  texts: {},
-  oneStopFor: {
-    fontSize: 12,
+  texts: {
+    flex: 1,
+    justifyContent: "flex-end"
+  },
+  topText: {
+    fontSize: 18,
     textAlign: "center",
     color: "#fff",
     paddingHorizontal: 20,
     paddingBottom: 10
   },
-  slider: {
-    flex: 1
-  },
-  slide: {
-    width: Dimensions.get("window").width,
-    height: "100%"
-  },
-  slideImage: {
+  webViewContainer: {
     width: "100%",
-    height: "100%"
+    marginTop: -30,
+    marginBottom: -40
+  },
+  cornerImage: {
+    position: "absolute",
+    width: 100,
+    height: 100
+  },
+  cornerImageTopRight: {
+    top: 0,
+    right: -5
+  },
+  cornerImageBottomLeft: {
+    bottom: 0,
+    left: 0
+  },
+  webView: {
+    marginVertical: 40,
+    alignSelf: "center",
+    borderColor: "#fff",
+    borderWidth: 5,
+    borderRadius: 3
   },
   imageWrapper: {
-    height: 120,
+    minHeight: 100,
+    maxHeight: 120,
     alignSelf: "center",
     width: "98%",
     maxWidth: 270
@@ -221,13 +244,13 @@ const styles = StyleSheet.create({
   welcome: {
     position: "absolute",
     bottom: 0,
-    height: 150,
+    height: gradientBottomMargin,
     width: "100%",
-    justifyContent: "center",
     alignItems: "center",
     padding: 20
   },
   welcomeTitle: {
+    marginTop: 10,
     color: colors.mainBlue,
     textAlign: "center",
     fontSize: 20
@@ -240,8 +263,8 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: "absolute",
-    bottom: 90,
-    right: 20,
+    bottom: 12,
+    right: 10,
     width: 56,
     height: 56,
     zIndex: 2,
@@ -249,6 +272,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
+    elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,

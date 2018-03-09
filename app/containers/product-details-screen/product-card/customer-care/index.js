@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
   Alert,
-  ActivityIndicator
+  Dimensions
 } from "react-native";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -20,6 +20,8 @@ import LoadingOverlay from "../../../../components/loading-overlay";
 
 import ConnectItem from "./connect-item";
 import AscItem from "./asc-item";
+import ServiceSchedules from "./service-schedules";
+
 import { colors } from "../../../../theme";
 
 const insuranceIcon = require("../../../../images/categories/insurance.png");
@@ -55,6 +57,9 @@ class CustomerCare extends React.Component {
         ascItems: res.serviceCenters,
         isFetchingAscItems: false
       });
+      setTimeout(() => {
+        scrollScreenToBottom();
+      }, 200);
     } catch (e) {
       this.setState({
         ascItems: [],
@@ -83,14 +88,20 @@ class CustomerCare extends React.Component {
     }
   };
 
-  renderAscItem = ({ item }) => {
-    return <AscItem product={this.props.product} item={item} />;
-  };
-
   render() {
     const { place, ascItems, isFetchingAscItems } = this.state;
-    const { product, loggedInUser } = this.props;
-    const { brand, insuranceDetails, warrantyDetails } = product;
+    const {
+      product,
+      loggedInUser,
+      cardWidthWhenMany,
+      cardWidthWhenOne
+    } = this.props;
+    const {
+      brand,
+      insuranceDetails,
+      warrantyDetails,
+      serviceSchedules
+    } = product;
 
     let brandData = {
       urls: [],
@@ -180,59 +191,80 @@ class CustomerCare extends React.Component {
       }
     }
 
+    let connectItems = [];
+    if (brand && brand.status_type == 1) {
+      connectItems.push({
+        type: "brand",
+        title: I18n.t("product_details_screen_connect_brand_connect"),
+        imageUrl: API_BASE_URL + "/" + brand.imageUrl,
+        name: brand.name,
+        phoneNumbers: brandData.phoneNumbers,
+        emails: brandData.emails,
+        urls: brandData.urls
+      });
+    }
+
+    if (insuranceData.providerName) {
+      connectItems.push({
+        type: "insurance",
+        title: I18n.t("product_details_screen_connect_insurance_provider"),
+        imageSource: insuranceIcon,
+        name: insuranceData.providerName,
+        phoneNumbers: insuranceData.phoneNumbers,
+        emails: insuranceData.emails,
+        urls: insuranceData.urls
+      });
+    }
+
+    if (warrantyData.providerName) {
+      connectItems.push({
+        type: "warranty",
+        title: I18n.t("product_details_screen_connect_warranty_provider"),
+        name: warrantyData.providerName,
+        phoneNumbers: warrantyData.phoneNumbers,
+        emails: warrantyData.emails,
+        urls: warrantyData.urls
+      });
+    }
+
+    let connectItemWidth = cardWidthWhenMany;
+    if (connectItems.length == 1) {
+      connectItemWidth = cardWidthWhenOne;
+    }
+
+    let ascItemWidth = cardWidthWhenMany;
+    if (ascItems.length == 1) {
+      ascItemWidth = cardWidthWhenOne;
+    }
+
     return (
-      <View>
-        <ScrollView
+      <View style={styles.container}>
+        <FlatList
           style={styles.slider}
-          contentContainerStyle={styles.sliderContentContainer}
           horizontal={true}
-        >
-          {brand && brand.status_type == 1 ? (
-            <ConnectItem
-              product={product}
-              loggedInUser={loggedInUser}
-              type="brand"
-              title={I18n.t("product_details_screen_connect_brand_connect")}
-              imageUrl={API_BASE_URL + "/" + brand.imageUrl}
-              name={brand.name}
-              phoneNumbers={brandData.phoneNumbers}
-              emails={brandData.emails}
-              urls={brandData.urls}
-            />
-          ) : null}
-
-          {insuranceData.providerName ? (
-            <ConnectItem
-              product={product}
-              loggedInUser={loggedInUser}
-              type="insurance"
-              title={I18n.t(
-                "product_details_screen_connect_insurance_provider"
-              )}
-              imageSource={insuranceIcon}
-              name={insuranceData.providerName}
-              phoneNumbers={insuranceData.phoneNumbers}
-              emails={insuranceData.emails}
-              urls={insuranceData.urls}
-            />
-          ) : null}
-
-          {warrantyData.providerName ? (
-            <ConnectItem
-              product={product}
-              loggedInUser={loggedInUser}
-              type="warranty"
-              title={I18n.t("product_details_screen_connect_warranty_provider")}
-              name={warrantyData.providerName}
-              phoneNumbers={warrantyData.phoneNumbers}
-              emails={warrantyData.emails}
-              urls={warrantyData.urls}
-            />
-          ) : null}
-        </ScrollView>
+          data={connectItems}
+          keyExtractor={(item, index) => index}
+          renderItem={({ item }) => {
+            return (
+              <ConnectItem
+                cardStyle={{ width: connectItemWidth }}
+                product={product}
+                loggedInUser={loggedInUser}
+                type={item.type}
+                title={item.title}
+                imageUrl={item.imageUrl}
+                imageSource={item.imageSource}
+                name={item.name}
+                phoneNumbers={item.phoneNumbers}
+                emails={item.emails}
+                urls={item.urls}
+              />
+            );
+          }}
+        />
         {brand && brand.status_type == 1 ? (
           <View style={styles.ascContainer}>
-            <Text weight="Bold" style={styles.ascTitle}>
+            <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("product_details_screen_asc_title")}
             </Text>
             <TouchableOpacity
@@ -258,7 +290,15 @@ class CustomerCare extends React.Component {
                   horizontal={true}
                   data={ascItems}
                   keyExtractor={(item, index) => index}
-                  renderItem={this.renderAscItem}
+                  renderItem={({ item }) => {
+                    return (
+                      <AscItem
+                        product={this.props.product}
+                        item={item}
+                        style={{ width: ascItemWidth }}
+                      />
+                    );
+                  }}
                   refreshing={isFetchingAscItems}
                 />
                 {ascItems.length == 0 &&
@@ -275,12 +315,24 @@ class CustomerCare extends React.Component {
             )}
           </View>
         ) : null}
+        {serviceSchedules &&
+          serviceSchedules.length > 0 && (
+            <View>
+              <Text weight="Bold" style={styles.sectionTitle}>
+                {I18n.t("product_details_screen_service_schedule_title")}
+              </Text>
+              <ServiceSchedules product={product} navigator={navigator} />
+            </View>
+          )}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 8
+  },
   slider: {
     overflow: "visible"
   },
@@ -288,14 +340,14 @@ const styles = StyleSheet.create({
     paddingLeft: 16
   },
   ascContainer: {},
-  ascTitle: {
+  sectionTitle: {
     color: colors.mainText,
     marginTop: 20,
     marginBottom: 10,
-    marginLeft: 16
+    marginHorizontal: 8
   },
   locationPicker: {
-    marginHorizontal: 16,
+    marginHorizontal: 8,
     flexDirection: "row",
     backgroundColor: "#fff",
     borderRadius: 3,
@@ -315,17 +367,15 @@ const styles = StyleSheet.create({
   },
   noAscMsg: {
     textAlign: "center",
-    color: colors.secondaryText
+    color: colors.secondaryText,
+    marginBottom: 15
   },
   ascListContainer: {
-    minHeight: 200,
+    minHeight: 100,
     alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 30
+    justifyContent: "center"
   },
-  ascList: {
-    marginLeft: 6
-  },
+  ascList: {},
   noAscImage: {
     width: 140,
     height: 140

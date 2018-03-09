@@ -6,7 +6,8 @@ import {
   Alert,
   TouchableOpacity,
   ScrollView,
-  Platform
+  Platform,
+  Dimensions
 } from "react-native";
 
 import ScrollableTabView, {
@@ -138,6 +139,9 @@ class ProductCard extends Component {
     const { activeTabIndex, showCustomerCareTab } = this.state;
     const { product, openServiceSchedule } = this.props;
 
+    const cardWidthWhenMany = Dimensions.get("window").width - 52;
+    const cardWidthWhenOne = Dimensions.get("window").width - 32;
+
     return (
       <View style={styles.container}>
         <ScrollView
@@ -160,13 +164,20 @@ class ProductCard extends Component {
                 scrollScreenToBottom={() =>
                   this.scrollView.scrollToEnd({ animated: true })
                 }
+                cardWidthWhenMany={cardWidthWhenMany}
+                cardWidthWhenOne={cardWidthWhenOne}
               />
             )}
             {activeTabIndex == 1 && (
               <AllInfo product={product} navigator={this.props.navigator} />
             )}
             {activeTabIndex == 2 && (
-              <Important product={product} navigator={this.props.navigator} />
+              <Important
+                product={product}
+                navigator={this.props.navigator}
+                cardWidthWhenMany={cardWidthWhenMany}
+                cardWidthWhenOne={cardWidthWhenOne}
+              />
             )}
           </View>
         </ScrollView>

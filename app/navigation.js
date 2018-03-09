@@ -154,6 +154,7 @@ export const openAppScreen = opts => {
       tabBarSelectedButtonColor: colors.mainBlue,
       tabBarTranslucent: false,
       forceTitlesDisplay: true,
+      tabFontFamily: "Quicksand-Bold",
       initialTabIndex,
       hideBackButtonTitle: true
     }
