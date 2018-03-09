@@ -58,12 +58,12 @@ class Header extends Component {
         {profile && (
           <TouchableOpacity style={styles.header} onPress={this.props.onPress}>
             <View style={styles.backgroundImg}>{profilePic}</View>
-            <BlurView
+            {/* <BlurView
               style={styles.overlay}
               viewRef={this.state.blurViewRef}
               blurType="light"
               blurAmount={5}
-            />
+            /> */}
             <View style={styles.headerInner}>
               <View style={styles.profilePicWrapper}>
                 <View style={styles.profilePicCircleWrapper}>{profilePic}</View>

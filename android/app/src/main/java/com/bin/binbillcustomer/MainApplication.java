@@ -85,8 +85,8 @@ public class MainApplication extends NavigationApplication {
         new RNSharedPreferencesReactPackage(), new SplashScreenReactPackage(), new FIRAnalyticsPackage(),
         new CodePush(null, getApplicationContext(), BuildConfig.DEBUG), new VectorIconsPackage(), new SvgPackage(),
         new RNSharePackage(), new PhotoViewPackage(), new NavigationReactPackage(), new LinearGradientPackage(),
-        new PickerPackage(), new RNI18nPackage(), new RNGestureHandlerPackage(), new RNFetchBlobPackage(),
-        new FIRMessagingPackage(), new RNPdfScannerPackage(), new ReactNativeDocumentPicker(), new RNDeviceInfo(),
+        new PickerPackage(), new RNI18nPackage(), new RNFetchBlobPackage(),
+        new FIRMessagingPackage(), new ReactNativeDocumentPicker(), new RNDeviceInfo(),
         new BlurViewPackage(), new RNGooglePlacesPackage(), new BinBillPackager());
   }
 
