@@ -49,7 +49,10 @@ class ProfileScreen extends Component {
             this.backgroundImage = img;
           }}
           style={styles.image}
-          source={{ uri: API_BASE_URL + profile.imageUrl }}
+          source={{
+            uri: API_BASE_URL + profile.imageUrl,
+            headers: { Authorization: this.props.authToken }
+          }}
         />
       );
     }
@@ -59,7 +62,7 @@ class ProfileScreen extends Component {
   }
 
   imageLoaded = () => {
-    this.setState({ blurViewRef: findNodeHandle(this.backgroundImage) });
+    // this.setState({ blurViewRef: findNodeHandle(this.backgroundImage) });
   };
 
   handleOptionPress = index => {

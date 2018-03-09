@@ -14,6 +14,7 @@ export default {
     hasDashboardTourShown: false,
     hasEhomeTourShown: false,
     hasUploadDocTourShown: false,
-    hasUpdateAppScreenShown: false
+    hasUpdateAppScreenShown: false,
+    rateUsDialogTimestamp: null
   }
 };

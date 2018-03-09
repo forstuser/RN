@@ -66,7 +66,8 @@ class MedicalDocsCard extends Component {
         doctorName: seller.name,
         doctorContact: seller.contact,
         copies: product.copies || []
-      }
+      },
+      overrideBackPress: true
     });
   };
 

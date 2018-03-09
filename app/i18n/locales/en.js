@@ -14,8 +14,10 @@ export default {
 
   //login screen
   login_screen_title: "Get Started",
-  login_screen_input_placeholder: "Enter your mobile number",
-  login_screen_btn_text: "Verify",
+  login_screen_input_placeholder: "Enter Mobile Number",
+  login_screen_btn_text: "SEND OTP",
+  login_screen_or_text: "OR INSTANT SIGN IN WITH",
+  login_screen_no_otp_required_text: "No OTP Required",
   login_screen_invalid_number_error: "Please enter 10 digit mobile number",
   login_screen_terms_of_use:
     "By signing up you agree to our Terms & Conditions and Privacy Policy",
@@ -164,7 +166,11 @@ export default {
   more_screen_item_tips: "Tips to Build Your eHome ",
   more_screen_item_call: "Call Us",
   more_screen_item_email: "Email Us",
+  more_screen_item_share: "Share App",
+  more_screen_item_app_version: "App Version",
+  more_screen_item_app_version_update_to: "Update Now",
   more_screen_item_logout: "Logout",
+  more_screen_no_update_available: "No update available",
 
   //product details screen
   product_details_screen_title: "Product Details",
@@ -243,6 +249,38 @@ export default {
   product_details_screen_puc_seller: "Seller",
   product_details_screen_puc_seller_contact: "Seller Contact",
   product_details_screen_puc_no_info: "Details Not Available!",
+  //new
+  product_details_screen_tab_customer_care: "CUSTOMER CARE",
+  product_details_screen_tab_all_info: "ALL INFO",
+  product_details_screen_tab_important: "IMPORTANT",
+  product_details_screen_connect_brand_connect: "BRAND CONNECT",
+  product_details_screen_connect_insurance_provider: "INSURANCE PROVIDER",
+  product_details_screen_connect_warranty_provider: "WARRANTY PROVIDER",
+  product_details_screen_connect_numbers: "Customer Care Numbers",
+  product_details_screen_connect_links: "Request Service",
+  product_details_screen_connect_emails: "Email ID",
+  product_details_screen_asc_title: "NEAREST AUTHORISED SERVICE CENTRE",
+  product_details_screen_asc_select_location: "Select your location",
+  product_details_screen_asc_no_results: "No Nearby Services",
+  product_details_screen_asc_directions: "Directions",
+  product_details_screen_general_details: "General Details",
+  product_details_screen_seller_details: "Seller Details",
+  product_details_screen_edit: "EDIT",
+  product_details_screen_service_schedule_title: "Service Schedule",
+  product_details_screen_service_manufacturer_warranty: "Manufacturer Warranty",
+  product_details_screen_service_third_party_warranty:
+    "Third Party Extended Warranty",
+  product_details_screen_warranty_expiry_date: "Warranty Expiry Date",
+  product_details_screen_add_warranty: "Add Warranty",
+  product_details_screen_add_extended_warranty: "Add Extended Warranty",
+  product_details_screen_insurance_details: "Insurance Details",
+  product_details_screen_add_insurance: "Add Insurance",
+  product_details_screen_amc_details: "AMC Details",
+  product_details_screen_add_amc: "Add AMC",
+  product_details_screen_repair_details: "Repair/Service Details",
+  product_details_screen_add_repair: "Add Repair",
+  product_details_screen_puc_details: "PUC Details",
+  product_details_screen_add_puc: "Add PUC",
 
   //profile screen
   profile_screen_label_name: "Name",

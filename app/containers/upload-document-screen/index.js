@@ -98,6 +98,7 @@ class UploadDocumentScreen extends Component {
     this.props.navigator.setTitle({
       title: I18n.t("upload_document_screen_title")
     });
+
     setTimeout(() => {
       switch (this.props.openPickerOnStart) {
         case "camera":
@@ -152,9 +153,8 @@ class UploadDocumentScreen extends Component {
 
   takeCameraImage = () => {
     ImagePicker.openCamera({
-      width: 900,
-      height: 1200,
-      cropping: true,
+      compressImageMaxWidth: 1500,
+      compressImageMaxHeight: 1500,
       compressImageQuality: 0.75
     })
       .then(file => {
@@ -169,9 +169,8 @@ class UploadDocumentScreen extends Component {
 
   pickGalleryImage = () => {
     ImagePicker.openPicker({
-      width: 900,
-      height: 1200,
-      cropping: true,
+      compressImageMaxWidth: 1500,
+      compressImageMaxHeight: 1500,
       compressImageQuality: 0.75
     })
       .then(file => {
@@ -190,11 +189,13 @@ class UploadDocumentScreen extends Component {
         filetype: [DocumentPickerUtil.pdf(), DocumentPickerUtil.plainText()]
       },
       (error, file) => {
-        this.pushFileToState({
-          filename: file.fileName,
-          uri: file.uri,
-          mimeType: file.type || file.fileName.split(".").pop()
-        });
+        if (file) {
+          this.pushFileToState({
+            filename: file.fileName,
+            uri: file.uri,
+            mimeType: file.type || file.fileName.split(".").pop()
+          });
+        }
       }
     );
   };
@@ -263,7 +264,7 @@ class UploadDocumentScreen extends Component {
       isUploadingOverlayVisible
     } = this.state;
     return (
-      <ScreenContainer navBar={true} style={styles.container}>
+      <ScreenContainer style={styles.container}>
         {files.length == 0 && (
           <View style={styles.noFilesView}>
             <Image style={styles.noFilesIcon} source={fileIcon} />
@@ -466,10 +467,19 @@ const styles = StyleSheet.create({
 
   dummyViewForPlusIcon: {
     position: "absolute",
-    top: -37,
-    right: 12,
     width: 32,
-    height: 32
+    height: 32,
+    opacity: 1,
+    ...Platform.select({
+      ios: {
+        top: -37,
+        right: 12
+      },
+      android: {
+        top: -42,
+        right: 8
+      }
+    })
   }
 });
 

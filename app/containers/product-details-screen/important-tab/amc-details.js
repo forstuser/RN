@@ -43,7 +43,8 @@ class AmcDetails extends Component {
         productId: product.id,
         jobId: product.jobId,
         amc: amc
-      }
+      },
+      overrideBackPress: true
     });
   };
 

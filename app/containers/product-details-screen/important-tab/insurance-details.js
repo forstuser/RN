@@ -43,7 +43,8 @@ class InsuranceDetails extends Component {
         productId: product.id,
         jobId: product.jobId,
         insurance: insurance
-      }
+      },
+      overrideBackPress: true
     });
   };
 

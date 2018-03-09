@@ -25,7 +25,7 @@ class AsyncImage extends Component {
 
   render() {
     let headers = {
-      Authorization: "someAuthToken"
+      Authorization: ""
     };
     const token = store.getState().loggedInUser.authToken;
     if (token) {
@@ -41,6 +41,7 @@ class AsyncImage extends Component {
             uri: this.props.uri,
             headers: headers
           }}
+          resizeMode={this.props.resizeMode}
         />
       );
     } else {
@@ -48,6 +49,7 @@ class AsyncImage extends Component {
         <Image
           style={[this.props.style, this.props.fileStyle]}
           source={fileIcon}
+          resize={this.props.resize}
         />
       );
     }

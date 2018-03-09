@@ -100,7 +100,7 @@ class TotalTaxScreen extends Component {
     } = this.state.activeData;
     const { chartData } = this.state;
     return (
-      <ScreenContainer navBar={true} style={styles.container}>
+      <ScreenContainer style={styles.container}>
         <ScrollView style={styles.container}>
           <View style={styles.chartWrapper}>
             <InsightChart

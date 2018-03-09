@@ -23,6 +23,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #import <CodePush/CodePush.h>
+#import <TrueSDK/TrueSDK.h>
 
 @import GooglePlaces;
 @import GoogleMaps;
@@ -39,6 +40,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  
+  if ([[TCTrueSDK sharedManager] isSupported]) {
+    [[TCTrueSDK sharedManager] setupWithAppKey:@"0C1zuba00598eeb6b48ac8131fd2da9640ae8" appLink:@"https://sid2f8a8f89be44f02a784d97e9cb1a228.truecallerdevs.com"];
+  }
+  
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
   

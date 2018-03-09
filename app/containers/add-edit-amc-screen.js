@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Alert } from "react-native";
+import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -19,7 +19,9 @@ import ChangesSavedModal from "../components/changes-saved-modal";
 class AddEditAmc extends React.Component {
   static navigatorStyle = {
     tabBarHidden: true,
-    disabledBackGesture: true
+    navBarTranslucent: false,
+    navBarTransparent: false,
+    navBarBackgroundColor: "#fff"
   };
 
   static propTypes = {
@@ -38,12 +40,16 @@ class AddEditAmc extends React.Component {
   };
 
   static navigatorButtons = {
-    leftButtons: [
-      {
-        id: "back",
-        icon: require("../images/ic_back_ios.png")
+    ...Platform.select({
+      ios: {
+        leftButtons: [
+          {
+            id: "backPress",
+            icon: require("../images/ic_back_ios.png")
+          }
+        ]
       }
-    ]
+    })
   };
 
   constructor(props) {
@@ -81,7 +87,7 @@ class AddEditAmc extends React.Component {
 
   onNavigatorEvent = event => {
     if (event.type == "NavBarButtonPress") {
-      if (event.id == "back") {
+      if (event.id == "backPress") {
         Alert.alert(
           "Are you sure?",
           "All the unsaved information and document copies related to this AMC would be deleted",
@@ -99,27 +105,31 @@ class AddEditAmc extends React.Component {
         );
       } else if (event.id == "delete") {
         const { productId, amc } = this.props;
-        Alert.alert(`Delete this AMC?`, "This will be an irreversible task.", [
-          {
-            text: "Yes, delete",
-            onPress: async () => {
-              try {
-                this.setState({ isLoading: true });
-                await deleteAmc({ productId, amcId: amc.id });
-                this.props.navigator.pop();
-              } catch (e) {
-                console.log("e: ", e);
-                Alert.alert(`Couldn't delete`);
-                this.setState({ isLoading: false });
+        Alert.alert(
+          `Are you sure?`,
+          "All the information and document copies related to this AMC will be deleted.",
+          [
+            {
+              text: "Yes, delete",
+              onPress: async () => {
+                try {
+                  this.setState({ isLoading: true });
+                  await deleteAmc({ productId, amcId: amc.id });
+                  this.props.navigator.pop();
+                } catch (e) {
+                  console.log("e: ", e);
+                  Alert.alert(`Couldn't delete`);
+                  this.setState({ isLoading: false });
+                }
               }
+            },
+            {
+              text: "No, don't Delete",
+              onPress: () => {},
+              style: "cancel"
             }
-          },
-          {
-            text: "No, don't Delete",
-            onPress: () => {},
-            style: "cancel"
-          }
-        ]);
+          ]
+        );
       }
     }
   };

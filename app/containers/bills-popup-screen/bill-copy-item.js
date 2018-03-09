@@ -69,30 +69,28 @@ const BillCopyItem = ({
           });
       }
     } else {
-      if (isImageFileType(copy.file_type)) {
-        RNFetchBlob.config({
-          path: RNFetchBlob.fs.dirs.DCIMDir + "/file." + copy.file_type,
-          addAndroidDownloads: {
-            notification: true,
-            title: "Bill file downloded!!",
-            mime: mimeType,
-            description: "An image file.",
-            mediaScannable: true
-          }
+      RNFetchBlob.config({
+        path: RNFetchBlob.fs.dirs.DCIMDir + "/file." + copy.file_type,
+        addAndroidDownloads: {
+          notification: true,
+          title: "Bill file downloded!!",
+          mime: mimeType,
+          description: "BinBill bill file",
+          mediaScannable: true
+        }
+      })
+        .fetch("GET", API_BASE_URL + copy.copyUrl, {
+          Authorization: authToken
         })
-          .fetch("GET", API_BASE_URL + copy.copyUrl, {
-            Authorization: authToken
-          })
-          .then(res => {
-            android.actionViewIntent(res.path(), mimeType);
-          })
-          .catch((errorMessage, statusCode) => {
-            showSnackbar({
-              text: I18n.t("bill_copy_popup_screen_download_error"),
-              autoDismissTimerSec: 10
-            });
+        .then(res => {
+          android.actionViewIntent(res.path(), mimeType);
+        })
+        .catch((errorMessage, statusCode) => {
+          showSnackbar({
+            text: I18n.t("bill_copy_popup_screen_download_error"),
+            autoDismissTimerSec: 10
           });
-      }
+        });
     }
   };
 
@@ -120,7 +118,7 @@ const BillCopyItem = ({
         </View>
       )}
       <View style={styles.optionsWrapper}>
-        {isImageFileType(copy.file_type || copy.fileType) && (
+        {(isImageFileType(copy.file_type) || Platform.OS == "android") && (
           <TouchableOpacity style={styles.option} onPress={onDownloadPress}>
             <Image style={styles.optionIcon} source={billDownloadIcon} />
           </TouchableOpacity>

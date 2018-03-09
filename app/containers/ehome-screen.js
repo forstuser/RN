@@ -51,8 +51,12 @@ class EhomeScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        this.screenHasDisappeared = false;
         Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
         this.fetchEhomeData();
+        break;
+      case "didDisappear":
+        this.screenHasDisappeared = true;
         break;
     }
   };
@@ -103,16 +107,20 @@ class EhomeScreen extends Component {
           isFetchingData: false
         },
         () => {
-          if (this.state.startWithPendingDocsScreen) {
-            this.setState({
-              startWithPendingDocsScreen: false
-            });
-            this.openDocsUnderProcessingScreen();
-          }
+          // if (this.state.startWithPendingDocsScreen) {
+          //   this.setState({
+          //     startWithPendingDocsScreen: false
+          //   });
+          //   this.openDocsUnderProcessingScreen();
+          // }
 
           if (!this.props.hasEhomeTourShown) {
-            setTimeout(() => this.ehomeTour.startTour(), 1000);
-            this.props.setUiHasEhomeTourShown(true);
+            setTimeout(() => {
+              if (!this.screenHasDisappeared) {
+                this.ehomeTour.startTour();
+                this.props.setUiHasEhomeTourShown(true);
+              }
+            }, 1000);
           }
         }
       );
@@ -169,7 +177,7 @@ class EhomeScreen extends Component {
       return <ErrorOverlay error={error} onRetryPress={this.fetchEhomeData} />;
     }
     return (
-      <ScreenContainer bottomTabs={true} style={{ padding: 0 }}>
+      <ScreenContainer style={{ padding: 0 }}>
         <SearchHeader
           navigator={this.props.navigator}
           screen="ehome"

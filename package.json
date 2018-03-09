@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "android-bundle":
+      "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "android-clean": "cd ./android && ./gradlew clean",
+    "android-build-debug": "cd ./android && ./gradlew assembleDebug"
   },
   "dependencies": {
     "add": "^2.0.6",
@@ -24,6 +28,7 @@
     "react-native-device-info": "0.12.1",
     "react-native-document-picker": "^2.1.0",
     "react-native-document-scanner": "^1.4.2",
+    "react-native-fbsdk": "^0.7.0",
     "react-native-fcm": "^11.0.1",
     "react-native-fetch-blob": "^0.10.8",
     "react-native-firebase-analytics": "^4.0.2",
@@ -38,17 +43,21 @@
     "react-native-loading-spinner-overlay": "^0.5.2",
     "react-native-mixpanel": "^0.0.16",
     "react-native-modal": "^4.1.1",
-    "react-native-navigation": "^1.1.275",
+    "react-native-navigation": "^1.1.382",
     "react-native-phone-call": "^1.0.4",
     "react-native-photo-view": "^1.5.2",
-    "react-native-scrollable-tab-view": "^0.8.0",
+    "react-native-scrollable-tab-view":
+      "https://github.com/compojoom/react-native-scrollable-tab-view#fixes_android",
     "react-native-share": "^1.0.23",
     "react-native-share-extension": "^1.2.1",
+    "react-native-shared-preferences": "^1.0.0",
+    "react-native-splash-screen": "^3.0.6",
     "react-native-star-rating": "^1.0.8",
     "react-native-super-grid": "^2.0.1",
     "react-native-svg": "6.0.0",
     "react-native-tab-view": "^0.0.74",
-    "react-native-tourguide": "https://github.com/pramjeet/react-native-tourguide",
+    "react-native-tourguide":
+      "https://github.com/pramjeet/react-native-tourguide",
     "react-native-vector-icons": "^4.4.2",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
@@ -68,8 +77,6 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": [
-      "./assets/fonts/"
-    ]
+    "assets": ["./assets/fonts/"]
   }
 }

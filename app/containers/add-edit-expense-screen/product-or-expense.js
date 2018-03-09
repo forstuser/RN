@@ -273,17 +273,11 @@ class ProductOrExpense extends React.Component {
           if (!data.brandId && !data.brandName) {
             return Alert.alert("Please select or enter brand name");
           }
-          if (!data.purchaseDate) {
-            return Alert.alert("Please select a purchase date");
-          }
           break;
         case MAIN_CATEGORY_IDS.FASHION:
         case MAIN_CATEGORY_IDS.HOUSEHOLD:
         case MAIN_CATEGORY_IDS.SERVICES:
         case MAIN_CATEGORY_IDS.TRAVEL:
-          if (!data.purchaseDate) {
-            return Alert.alert("Please select a date");
-          }
           if (!data.value) {
             return Alert.alert("Please enter amount");
           }
@@ -291,9 +285,9 @@ class ProductOrExpense extends React.Component {
         case MAIN_CATEGORY_IDS.HEALTHCARE:
           if (
             this.props.healthcareFormType == "healthcare_expense" &&
-            !data.purchaseDate
+            !data.value
           ) {
-            return Alert.alert("Please select a date");
+            return Alert.alert("Please enter amount");
           }
       }
 

@@ -10,6 +10,7 @@ import { getProfileDetail, logout } from "../../api";
 import { openLoginScreen } from "../../navigation";
 import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
+import { colors } from "../../theme";
 
 class MoreScreen extends Component {
   static navigatorStyle = {
@@ -22,6 +23,7 @@ class MoreScreen extends Component {
       error: null,
       isFetchingData: false,
       profile: null,
+      isAppUpdateAvailable: false,
       binbillDetails: {},
       startWithProfileScreen: false
     };
@@ -62,9 +64,11 @@ class MoreScreen extends Component {
     });
     try {
       const res = await getProfileDetail();
+      console.log("Profile result: ", res);
       this.setState(
         {
           profile: res.userProfile,
+          isAppUpdateAvailable: res.forceUpdate === false,
           isFetchingData: false
         },
         () => {
@@ -92,20 +96,23 @@ class MoreScreen extends Component {
   };
 
   render() {
-    const { profile, error, isFetchingData } = this.state;
+    const { authToken } = this.props;
+    const { profile, isAppUpdateAvailable, error, isFetchingData } = this.state;
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
     }
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
-        <LoadingOverlay visible={isFetchingData} />
+        <LoadingOverlay visible={profile == null} />
         <Header
+          authToken={authToken}
           onPress={this.openProfileScreen}
           profile={profile}
           navigator={this.props.navigator}
         />
         <Body
           profile={profile}
+          isAppUpdateAvailable={isAppUpdateAvailable}
           logoutUser={this.props.logoutUser}
           navigator={this.props.navigator}
         />
@@ -125,7 +132,7 @@ const mapDispatchToProps = dispatch => {
     logoutUser: async () => {
       dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
       try {
-        await logout();
+        logout();
       } catch (e) {
         console.log(e);
       }

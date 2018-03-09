@@ -8,13 +8,21 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { Text, Button, ScreenContainer } from "../../elements";
+import { colors } from "../../theme";
 
-const MoreItem = ({ imageSource, name, onPress }) => (
+const MoreItem = ({ imageSource, text, onPress, btnText }) => (
   <TouchableOpacity onPress={onPress} style={styles.data}>
-    <Image style={styles.logo} source={imageSource} />
-    <Text style={styles.name} weight="Medium">
-      {name}
+    <Image style={styles.logo} source={imageSource} resizeMode="contain" />
+    <Text style={styles.text} weight="Medium">
+      {text}
     </Text>
+    {btnText ? (
+      <View style={styles.btn}>
+        <Text style={styles.btnText} weight="Bold">
+          {btnText}
+        </Text>
+      </View>
+    ) : null}
   </TouchableOpacity>
 );
 
@@ -33,9 +41,23 @@ const styles = StyleSheet.create({
     height: 24,
     marginRight: 12
   },
-  name: {
+  text: {
+    flex: 1,
     fontSize: 14,
     color: "#4a4a4a"
+  },
+  btn: {
+    borderWidth: 1,
+    borderColor: colors.pinkishOrange,
+    borderRadius: 15,
+    paddingHorizontal: 10,
+    height: 30,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  btnText: {
+    fontSize: 12,
+    color: colors.pinkishOrange
   }
 });
 export default MoreItem;

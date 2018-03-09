@@ -7,6 +7,7 @@ import {
   Alert,
   Linking
 } from "react-native";
+import RNGooglePlaces from "react-native-google-places";
 
 import Analytics from "../../analytics";
 
@@ -111,34 +112,39 @@ class AfterSaleButton extends Component {
     }
   };
 
-  openAscScreen = () => {
+  openAscScreen = async () => {
     const { product } = this.props;
     if (!product.brand) {
       return showSnackbar({
         text: `Product brand not available. Please upload your bill if you haven't`
       });
     }
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        this.props.navigator.push({
-          screen: SCREENS.ASC_SEARCH_SCREEN,
-          passProps: {
-            brand: {
-              id: product.brand.id,
-              brandName: product.brand.name
-            },
-            category: {
-              category_id: product.categoryId,
-              category_name: product.categoryName
-            },
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          }
-        });
-      },
-      error => Alert.alert(error.message),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
+
+    try {
+      const brand = {
+        id: product.brand.id,
+        brandName: product.brand.name
+      };
+      const category = {
+        category_id: product.categoryId,
+        category_name: product.categoryName
+      };
+
+      const place = await RNGooglePlaces.openPlacePickerModal();
+      console.log("place: ", place);
+      this.props.navigator.push({
+        screen: SCREENS.ASC_SEARCH_SCREEN,
+        passProps: {
+          brand: brand,
+          category: category,
+          latitude: place.latitude,
+          longitude: place.longitude
+        }
+      });
+    } catch (e) {
+      console.log("place error: ", e);
+      Alert.alert(e.message);
+    }
   };
 
   showBrandOptions = () => {

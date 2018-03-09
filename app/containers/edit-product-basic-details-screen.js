@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Alert } from "react-native";
+import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -19,12 +19,16 @@ class EditProductBasicDetails extends React.Component {
   };
 
   static navigatorButtons = {
-    leftButtons: [
-      {
-        id: "back",
-        icon: require("../images/ic_back_ios.png")
+    ...Platform.select({
+      ios: {
+        leftButtons: [
+          {
+            id: "backPress",
+            icon: require("../images/ic_back_ios.png")
+          }
+        ]
       }
-    ]
+    })
   };
 
   constructor(props) {
@@ -40,10 +44,10 @@ class EditProductBasicDetails extends React.Component {
 
   onNavigatorEvent = event => {
     switch (event.id) {
-      case "back":
+      case "backPress":
         Alert.alert(
           "Are you sure?",
-          "All the unsaved information and document copies related to this product would be deleted",
+          "All the unsaved information and document copies related to this product will be deleted",
           [
             {
               text: "Go Back",
@@ -120,7 +124,7 @@ class EditProductBasicDetails extends React.Component {
         MAIN_CATEGORY_IDS.AUTOMOBILE,
         MAIN_CATEGORY_IDS.ELECTRONICS,
         MAIN_CATEGORY_IDS.FURNITURE
-      ].indexOf(mainCategoryId) == -1
+      ].indexOf(data.mainCategoryId) == -1
     ) {
       if (!data.value) {
         return Alert.alert("Please enter amount");

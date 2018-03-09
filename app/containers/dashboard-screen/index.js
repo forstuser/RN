@@ -62,6 +62,18 @@ class DashboardScreen extends React.Component {
   }
 
   async componentDidMount() {
+    const { rateUsDialogTimestamp } = this.props;
+
+    if (
+      !rateUsDialogTimestamp ||
+      moment().diff(moment(rateUsDialogTimestamp).startOf("day"), "days") > 7
+    ) {
+      this.props.navigator.showModal({
+        screen: SCREENS.RATE_US_SCREEN,
+        animationType: "none"
+      });
+    }
+
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {
@@ -105,10 +117,14 @@ class DashboardScreen extends React.Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        this.screenHasDisappeared = false;
         if (this.state.showAddProductOptionsScreenOnAppear) {
           this.showAddProductOptionsScreen();
         }
         this.fetchDashboardData();
+        break;
+      case "didDisappear":
+        this.screenHasDisappeared = true;
         break;
     }
   };
@@ -151,26 +167,26 @@ class DashboardScreen extends React.Component {
           showDashboard: dashboardData.showDashboard,
           upcomingServices: dashboardData.upcomingServices,
           recentActivitiesProduct: dashboardData.product,
-          insightChartProps: insightChartProps
+          insightChartProps: insightChartProps,
+          isFetchingData: false
         },
         () => {
           if (this.state.showDashboard && !this.props.hasDashboardTourShown) {
-            setTimeout(() => this.dashboardTour.startTour(), 1000);
-            this.props.setUiHasDashboardTourShown(true);
+            setTimeout(() => {
+              if (!this.screenHasDisappeared) {
+                this.dashboardTour.startTour();
+                this.props.setUiHasDashboardTourShown(true);
+              }
+            }, 1000);
           }
-          // if(insight.totalSpend==0){
-
-          // }
         }
       );
     } catch (error) {
       this.setState({
-        error
+        error,
+        isFetchingData: false
       });
     }
-    this.setState({
-      isFetchingData: false
-    });
   };
 
   showUploadOptions = () => {
@@ -212,10 +228,7 @@ class DashboardScreen extends React.Component {
     } = this.state;
 
     return (
-      <ScreenContainer
-        bottomTabs={true}
-        style={{ padding: 0, backgroundColor: "#FAFAFA" }}
-      >
+      <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
         {showDashboard && (
           <View>
             <SearchHeader
@@ -291,9 +304,9 @@ class DashboardScreen extends React.Component {
           ref={ref => (this.dashboardTour = ref)}
           enabled={true}
           steps={[
-            { ref: this.comingUpRef, text: I18n.t("app_tour_tips_6") },
             { ref: this.ehomeTabItemRef, text: I18n.t("app_tour_tips_2") },
-            { ref: this.ascTabItemRef, text: I18n.t("app_tour_tips_3") }
+            { ref: this.ascTabItemRef, text: I18n.t("app_tour_tips_3") },
+            { ref: this.comingUpRef, text: I18n.t("app_tour_tips_6") }
           ]}
         />
         <View style={styles.dummiesForTooltips}>
@@ -332,18 +345,22 @@ const styles = StyleSheet.create({
   dummiesForTooltips: {
     position: "absolute",
     width: "100%",
-    bottom: -48,
-    height: 48,
-    flexDirection: "row"
+    bottom: -68,
+    height: 68,
+    flexDirection: "row",
+    backgroundColor: "red"
   },
   dummyForTooltip: {
-    flex: 1
+    flex: 1,
+    height: "100%",
+    opacity: 1
   }
 });
 
 const mapStateToProps = state => {
   return {
-    hasDashboardTourShown: state.ui.hasDashboardTourShown
+    hasDashboardTourShown: state.ui.hasDashboardTourShown,
+    rateUsDialogTimestamp: state.ui.rateUsDialogTimestamp
   };
 };
 

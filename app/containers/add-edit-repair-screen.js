@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Alert } from "react-native";
+import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -38,12 +38,16 @@ class AddEditRepair extends React.Component {
   };
 
   static navigatorButtons = {
-    leftButtons: [
-      {
-        id: "back",
-        icon: require("../images/ic_back_ios.png")
+    ...Platform.select({
+      ios: {
+        leftButtons: [
+          {
+            id: "backPress",
+            icon: require("../images/ic_back_ios.png")
+          }
+        ]
       }
-    ]
+    })
   };
 
   constructor(props) {
@@ -81,7 +85,7 @@ class AddEditRepair extends React.Component {
 
   onNavigatorEvent = event => {
     if (event.type == "NavBarButtonPress") {
-      if (event.id == "back") {
+      if (event.id == "backPress") {
         Alert.alert(
           "Are you sure?",
           "All the unsaved information and document copies related to this repair would be deleted",
@@ -100,8 +104,8 @@ class AddEditRepair extends React.Component {
       } else if (event.id == "delete") {
         const { productId, repair } = this.props;
         Alert.alert(
-          `Delete this repair?`,
-          "This will be an irreversible task.",
+          `Are you sure?`,
+          "All the information and document copies related to this repair will be deleted.",
           [
             {
               text: "Yes, delete",

@@ -229,25 +229,12 @@ class TransactionsScreen extends Component {
                 {this.state.activeData.products.map((product, index) => (
                   <TouchableOpacity
                     onPress={() => {
-                      if (
-                        product.masterCategoryId ==
-                          MAIN_CATEGORY_IDS.AUTOMOBILE ||
-                        product.masterCategoryId ==
-                          MAIN_CATEGORY_IDS.ELECTRONICS
-                      ) {
-                        this.props.navigator.push({
-                          screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-                          passProps: {
-                            productId: product.productId || product.id
-                          }
-                        });
-                      } else {
-                        openBillsPopUp({
-                          id: product.productName,
-                          date: product.purchaseDate,
-                          copies: product.copies
-                        });
-                      }
+                      this.props.navigator.push({
+                        screen: SCREENS.PRODUCT_DETAILS_SCREEN,
+                        passProps: {
+                          productId: product.productId || product.id
+                        }
+                      });
                     }}
                     style={styles.product}
                     key={index}

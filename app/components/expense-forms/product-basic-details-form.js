@@ -448,8 +448,6 @@ class BasicDetailsForm extends React.Component {
           <CustomDatePicker
             date={purchaseDate}
             placeholder="Purchase Date"
-            placeholder2="*"
-            placeholder2Color={colors.mainBlue}
             onDateChange={purchaseDate => {
               this.setState({ purchaseDate });
             }}

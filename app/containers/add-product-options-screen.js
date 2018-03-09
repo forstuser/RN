@@ -42,7 +42,8 @@ class AddProductScreen extends React.Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PRODUCT_OPTION);
     this.props.navigator.push({
       screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
-      passProps: { expenseType: type }
+      passProps: { expenseType: type },
+      overrideBackPress: true
     });
   };
 
@@ -259,35 +260,38 @@ const styles = StyleSheet.create({
         alignItems: "center",
         zIndex: 99
       },
-      android: {
-        borderBottomColor: "#F0F0F0",
-        borderBottomWidth: 5,
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 99
-      }
+      android: {}
     })
+    // backgroundColor: "#F0F0F0",
+    // width: "100%"
+    //   justifyContent: "center",
+    //   alignItems: "center",
+    //   zIndex: 99
+    // padding: 5
   },
   orContainer: {
     backgroundColor: "#F0F0F0",
     borderRadius: 32,
     justifyContent: "center",
     alignItems: "center",
-
+    marginTop: -15,
+    marginBottom: -15,
     ...Platform.select({
       ios: {
         width: 38,
-        height: 38,
-        marginTop: -15,
-        marginBottom: -15
+        height: 38
       },
       android: {
         width: 42,
         height: 42,
+<<<<<<< HEAD
         zIndex: 99,
         marginTop: 0,
         marginBottom: 0
+=======
+        backgroundColor: "#f0f0f0",
+        zIndex: 99
+>>>>>>> android-compatible
       }
     })
   },

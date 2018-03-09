@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     top: 10,
     borderColor: colors.pinkishOrange,
     borderWidth: 2,
-    height: 20,
+    height: 22,
     borderRadius: 2,
     flexDirection: "row",
     alignItems: "center",
