@@ -284,14 +284,8 @@ const styles = StyleSheet.create({
       android: {
         width: 42,
         height: 42,
-<<<<<<< HEAD
-        zIndex: 99,
-        marginTop: 0,
-        marginBottom: 0
-=======
         backgroundColor: "#f0f0f0",
         zIndex: 99
->>>>>>> android-compatible
       }
     })
   },
