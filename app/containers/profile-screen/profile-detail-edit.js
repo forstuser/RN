@@ -34,22 +34,22 @@ class ProfileDetailEdit extends Component {
 
   render() {
     const { profile } = this.props;
-    alert(JSON.stringify(profile));
-    const ProfileDetailEdit = ({ label }) => (
-      <ScreenContainer style={styles.container}>
-        <View style={styles.information}>
-          <View style={{ width: 300 }}>
-            <Text style={styles.fieldName}>{label}</Text>
-            <Text style={styles.fieldValue} weight="Medium">
-              {/* {name} */}
-            </Text>
-          </View>
-          <View style={{ width: 40, paddingTop: 18, borderRadius: 50 }}>
-            <Image style={styles.editIcon} source={editIcon} />
-          </View>
+    // alert(JSON.stringify(profile));
+    <ScreenContainer style={styles.container}>
+      {/* const ProfileDetailEdit = ({(label, name)}) => ( */}
+      <View style={styles.information}>
+        <View style={{ width: 300 }}>
+          <Text style={styles.fieldName}>{label}</Text>
+          <Text style={styles.fieldValue} weight="Medium">
+            {/* {name} */}
+          </Text>
         </View>
-      </ScreenContainer>
-    );
+        <View style={{ width: 40, paddingTop: 18, borderRadius: 50 }}>
+          <Image style={styles.editIcon} source={editIcon} />
+        </View>
+      </View>
+      {/* ) */}
+    </ScreenContainer>;
   }
 }
 

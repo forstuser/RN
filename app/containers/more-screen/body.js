@@ -50,7 +50,7 @@ class Body extends Component {
   onEmailItemPress = () => {
     const { profile } = this.props;
     Linking.openURL(
-      `mailto:support@binbill.com?subject=BinBill:Customer Feedback(${
+      `mailto:support@binbill.com?cc=rohit@binbill.com?subject=BinBill:Customer Feedback(${
         profile ? profile.mobile_no : ""
       })`
     );
@@ -71,7 +71,7 @@ class Body extends Component {
         />
         <MoreItem
           onPress={() =>
-            call({ number: "+911244343177" }).catch(e => Alert.alert(e.message))
+            call({ number: "+917600919189" }).catch(e => Alert.alert(e.message))
           }
           imageSource={require("../../images/ic_more_call.png/")}
           name={I18n.t("more_screen_item_call")}
