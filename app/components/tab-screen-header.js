@@ -13,12 +13,10 @@ import { colors } from "../theme";
 import { SCREENS } from "../constants";
 import Analytics from "../analytics";
 
-const dashBoardIcon = require("../images/ic_nav_dashboard_off.png");
-const eHomeIcon = require("../images/ic_nav_ehome_off.png");
 const messagesIcon = require("../images/ic_top_messages.png");
 const searchIcon = require("../images/ic_top_search.png");
 
-class SearchHeader extends Component {
+class TabSearchHeader extends Component {
   openSearchScreen = () => {
     this.props.navigator.push({
       screen: SCREENS.SEARCH_SCREEN,
@@ -34,50 +32,60 @@ class SearchHeader extends Component {
     });
   };
   render() {
-    const { screen = "dashboard", notificationCount = 0 } = this.props;
+    const {
+      title,
+      icon,
+      notificationCount = 0,
+      showSearchInput = true,
+      showMailbox = true,
+      showRightSideSearchIcon = false,
+      onRightSideSearchIconPress
+    } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.upperContainer}>
-          {screen === "dashboard" && (
-            <View style={styles.nameAndIcon}>
-              <Image style={styles.icon} source={dashBoardIcon} />
-              <Text weight="Medium" style={styles.screenName}>
-                {I18n.t("search_header_dashboard")}
-              </Text>
-            </View>
+          <View style={styles.nameAndIcon}>
+            <Image style={styles.icon} source={icon} />
+            <Text weight="Medium" style={styles.screenName}>
+              {title}
+            </Text>
+          </View>
+          {showMailbox && (
+            <TouchableOpacity
+              onPress={this.openMailboxScreen}
+              style={styles.messagesContainer}
+              ref={this.props.mailboxIconRef}
+            >
+              <Image style={styles.messagesIcon} source={messagesIcon} />
+              {notificationCount > 0 && (
+                <View style={styles.messagesCountContainer}>
+                  <Text weight="Bold" style={styles.messagesCount}>
+                    {notificationCount}
+                  </Text>
+                </View>
+              )}
+            </TouchableOpacity>
           )}
-          {screen === "ehome" && (
-            <View style={styles.nameAndIcon}>
-              <Image style={styles.icon} source={eHomeIcon} />
-              <Text weight="Medium" style={styles.screenName}>
-                {I18n.t("search_header_ehome")}
-              </Text>
-            </View>
+          {showRightSideSearchIcon && (
+            <TouchableOpacity
+              onPress={onRightSideSearchIconPress}
+              style={styles.messagesContainer}
+            >
+              <Image style={styles.messagesIcon} source={searchIcon} />
+            </TouchableOpacity>
           )}
-          <TouchableOpacity
-            onPress={this.openMailboxScreen}
-            style={styles.messagesContainer}
-            ref={this.props.mailboxIconRef}
-          >
-            <Image style={styles.messagesIcon} source={messagesIcon} />
-            {notificationCount > 0 && (
-              <View style={styles.messagesCountContainer}>
-                <Text weight="Bold" style={styles.messagesCount}>
-                  {notificationCount}
-                </Text>
-              </View>
-            )}
-          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={this.openSearchScreen}
-          style={styles.searchContainer}
-        >
-          <Image style={styles.searchIcon} source={searchIcon} />
-          <Text weight="Bold" style={styles.searchText}>
-            {I18n.t("search_header_search_placeholder")}
-          </Text>
-        </TouchableOpacity>
+        {showSearchInput && (
+          <TouchableOpacity
+            onPress={this.openSearchScreen}
+            style={styles.searchContainer}
+          >
+            <Image style={styles.searchIcon} source={searchIcon} />
+            <Text weight="Bold" style={styles.searchText}>
+              {I18n.t("tab_screen_header_search_placeholder")}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     );
   }
@@ -166,4 +174,4 @@ const styles = StyleSheet.create({
     color: colors.secondaryText
   }
 });
-export default SearchHeader;
+export default TabSearchHeader;

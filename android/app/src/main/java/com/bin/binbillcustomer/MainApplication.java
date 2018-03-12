@@ -27,6 +27,7 @@ import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import in.sriraman.sharedpreferences.RNSharedPreferencesReactPackage;
 import com.reactnativenavigation.controllers.ActivityCallbacks;
+import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -83,13 +84,14 @@ public class MainApplication extends NavigationApplication {
   protected List<ReactPackage> getPackages() {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(new MainReactPackage(), new FBSDKPackage(mCallbackManager),
-        new RNSharedPreferencesReactPackage(), new SplashScreenReactPackage(), new FIRAnalyticsPackage(),
-        new CodePush(null, getApplicationContext(), BuildConfig.DEBUG), new VectorIconsPackage(), new SvgPackage(),
-        new RNSharePackage(), new PhotoViewPackage(), new NavigationReactPackage(), new LinearGradientPackage(),
-        new PickerPackage(), new RNI18nPackage(), new RNGestureHandlerPackage(), new RNFetchBlobPackage(),
-        new FIRMessagingPackage(), new RNPdfScannerPackage(), new ReactNativeDocumentPicker(), new RNDeviceInfo(),
-        new BlurViewPackage(), new RNGooglePlacesPackage(), new BinBillPackager());
+    return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNViewShotPackage(),
+        new FBSDKPackage(mCallbackManager), new RNSharedPreferencesReactPackage(), new SplashScreenReactPackage(),
+        new FIRAnalyticsPackage(), new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
+        new VectorIconsPackage(), new SvgPackage(), new RNSharePackage(), new PhotoViewPackage(),
+        new NavigationReactPackage(), new LinearGradientPackage(), new PickerPackage(), new RNI18nPackage(),
+        new RNGestureHandlerPackage(), new RNFetchBlobPackage(), new FIRMessagingPackage(), new RNPdfScannerPackage(),
+        new ReactNativeDocumentPicker(), new RNDeviceInfo(), new BlurViewPackage(), new RNGooglePlacesPackage(),
+        new BinBillPackager());
   }
 
   @Override

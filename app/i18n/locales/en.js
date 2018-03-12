@@ -26,7 +26,7 @@ export default {
   //verify screen
   verify_screen_title: "Verify",
   verify_screen_invalid_otp_error:
-    "Please enter 6 or 4 digit OTP you received on your phone",
+    "Please enter 4 digit OTP you received on your phone",
   verify_screen_enter_otp_msg:
     "Please enter the OTP we’ve sent to {{phoneNumber}}",
   verify_screen_btn_text: "Submit",
@@ -326,13 +326,22 @@ export default {
   asc_screen_select_fields_first: "Please select brand and product",
   asc_screen_select_location: "Please select location",
 
+  //Do You Know screen
+  do_you_know_screen_title: "Do You Know",
+  do_you_know_screen_end_msg:
+    "You have reached the end, Stay updated for more.",
+  do_you_know_screen_tags_search_placeholder: "Search...",
+  do_you_know_screen_tags_search_cta: "Search",
+
   //Dashboard Screen
+  dashboard_screen_title: "Dashboard",
   dashboard_screen_whats_coming_up: "What's Coming Up",
   dashboard_screen_recent_activity: "Recent Activity",
   dashboard_screen_ehome_insights: "Expense Insight",
   dashboard_screen_chart_last_7_days: "Last 7 Days",
 
   //eHome Screen
+  ehome_screen_title: "eHome",
   ehome_screen_processing_docs: "Processing Docs",
   ehome_screen_items_pending_count: "{{pendingDocsCount}} item(s) pending",
   ehome_screen_items_category_item_count: "{{count}} items",
@@ -458,10 +467,8 @@ export default {
   faq_question_14: "Do I need to pay anything to enjoy these services?",
   faq_answer_14: "We are absolutely free.",
 
-  //search header
-  search_header_dashboard: "Dashboard",
-  search_header_ehome: "eHome",
-  search_header_search_placeholder: "Search...",
+  //tab screen header
+  tab_screen_header_search_placeholder: "Search...",
 
   // add expenses options
   add_expenses_options_upload_title:

@@ -19,7 +19,7 @@ import { openAddProductsScreen } from "../../navigation";
 import { consumerGetDashboard, getProfileDetail } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import BlankDashboard from "./blank-dashboard";
-import SearchHeader from "../../components/search-header";
+import TabSearchHeader from "../../components/tab-screen-header";
 import InsightChart from "../../components/insight-chart";
 import UpcomingServicesList from "../../components/upcoming-services-list";
 import UploadBillOptions from "../../components/upload-bill-options";
@@ -35,6 +35,7 @@ import ProductListItem from "../../components/product-list-item";
 import { actions as uiActions } from "../../modules/ui";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 
+const dashBoardIcon = require("../../images/ic_nav_dashboard_off.png");
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
 class DashboardScreen extends React.Component {
@@ -78,7 +79,7 @@ class DashboardScreen extends React.Component {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {
         case SCREENS.MAILBOX_SCREEN:
-          this.refs.searchHeader.openMailboxScreen();
+          this.refs.tabSearchHeader.openMailboxScreen();
           break;
         case SCREENS.INSIGHTS_SCREEN:
           this.openInsightScreen({ screenOpts: screenOpts });
@@ -229,11 +230,12 @@ class DashboardScreen extends React.Component {
 
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
-        {showDashboard && (
+        {!showDashboard && (
           <View>
-            <SearchHeader
-              ref="searchHeader"
-              screen="dashboard"
+            <TabSearchHeader
+              ref="tabSearchHeader"
+              title={I18n.t("dashboard_screen_title")}
+              icon={dashBoardIcon}
               notificationCount={notificationCount}
               recentSearches={recentSearches}
               navigator={this.props.navigator}
@@ -285,12 +287,12 @@ class DashboardScreen extends React.Component {
             </ScrollView>
           </View>
         )}
-        {!showDashboard && (
+        {showDashboard && (
           <BlankDashboard
             onUploadButtonClick={() => this.showAddProductOptionsScreen()}
           />
         )}
-        {showDashboard && (
+        {!showDashboard && (
           <TouchableOpacity
             style={styles.fab}
             onPress={() => this.showAddProductOptionsScreen()}
@@ -319,6 +321,7 @@ class DashboardScreen extends React.Component {
             ref={ref => (this.ascTabItemRef = ref)}
             style={styles.dummyForTooltip}
           />
+          <View style={styles.dummyForTooltip} />
           <View style={styles.dummyForTooltip} />
         </View>
       </ScreenContainer>

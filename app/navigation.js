@@ -110,7 +110,7 @@ export const openAppScreen = opts => {
         break;
       case SCREENS.FAQS_SCREEN:
       case SCREENS.PROFILE_SCREEN:
-        initialTabIndex = 3;
+        initialTabIndex = 4;
         break;
     }
   }
@@ -130,6 +130,11 @@ export const openAppScreen = opts => {
         label: "ASC",
         screen: SCREENS.ASC_SCREEN,
         icon: require("./images/ic_nav_asc_off.png")
+      },
+      {
+        label: "Do You Know",
+        screen: SCREENS.DO_YOU_KNOW_SCREEN,
+        icon: require("./images/ic_do_you_know.png")
       },
       {
         label: "More",

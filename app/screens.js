@@ -40,6 +40,7 @@ import EditInsuranceScreen from "./containers/edit-healthcare-insurance-screen";
 import AddProductOptionsScreen from "./containers/add-product-options-screen";
 import DirectUploadDocumentScreen from "./containers/direct-upload-document-screen";
 import RateUsScreen from "./containers/rate-us-screen";
+import DoYouKnowScreen from "./containers/do-you-know-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -296,6 +297,13 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     SCREENS.RATE_US_SCREEN,
     () => RateUsScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.DO_YOU_KNOW_SCREEN,
+    () => DoYouKnowScreen,
     store,
     Provider
   );

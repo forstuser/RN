@@ -4050,13 +4050,6 @@ react-native-photo-view@^1.5.2:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-scrollable-tab-view@0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/react-native-scrollable-tab-view/-/react-native-scrollable-tab-view-0.7.4.tgz#623a047cbfab35a27b8689095af524e9aac74b62"
-  dependencies:
-    react-static-container "^1.0.1"
-    react-timer-mixin "^0.13.3"
-
 "react-native-scrollable-tab-view@https://github.com/compojoom/react-native-scrollable-tab-view#fixes_android":
   version "0.8.0"
   resolved "https://github.com/compojoom/react-native-scrollable-tab-view#ade702c7f35b1899444ff6a450730ae990000a26"
@@ -4123,6 +4116,10 @@ react-native-vector-icons@^4.2.0, react-native-vector-icons@^4.4.2:
     lodash "^4.0.0"
     prop-types "^15.5.10"
     yargs "^8.0.2"
+
+react-native-view-shot@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-2.3.0.tgz#ac01880d3c560f0dc918cd7cdf8854c6ff85ca31"
 
 react-native@0.50.4:
   version "0.50.4"
@@ -4198,10 +4195,6 @@ react-redux@^5.0.6:
     lodash-es "^4.2.0"
     loose-envify "^1.1.0"
     prop-types "^15.5.10"
-
-react-static-container@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-static-container/-/react-static-container-1.0.2.tgz#30a4f7548860be1d55d5eb4c20645b835c2bdf34"
 
 react-test-renderer@16.0.0:
   version "16.0.0"

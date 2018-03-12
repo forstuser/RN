@@ -1034,3 +1034,32 @@ export const deletePuc = async ({ productId, pucId }) => {
     url: `/products/${productId}/pucs/${pucId}`
   });
 };
+
+export const fetchDoYouKnowItems = async ({ tagIds }) => {
+  return await apiRequest({
+    method: "post",
+    url: "/know/items",
+    data: { tag_id: tagIds }
+  });
+};
+
+export const fetchDoYouKnowTags = async () => {
+  return await apiRequest({
+    method: "get",
+    url: "/tags"
+  });
+};
+
+export const likeDoYouKnowItem = async ({ itemId }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/know/items/${itemId}`
+  });
+};
+
+export const unlikeDoYouKnowItem = async ({ itemId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/know/items/${itemId}`
+  });
+};

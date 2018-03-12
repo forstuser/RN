@@ -156,6 +156,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-view-shot')
     compile(name: "truesdk-0.6", ext: "aar")
     compile project(':react-native-fbsdk')
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'

@@ -37,6 +37,7 @@
 		404AA0CB2BE9409CBFEDCCCF /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 341B2DBF32BE47FAA306CC84 /* MaterialCommunityIcons.ttf */; };
 		40AC6677FB284E46AC3E4C1A /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E8E4D3AB60549BA86162DE7 /* Quicksand-Light.ttf */; };
 		4317B36C1FE00B3700778944 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4317B3611FE00B2A00778944 /* libRNDeviceInfo.a */; };
+		433F22632056CB9E001D9C7E /* libRNViewShot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 433F22622056CB86001D9C7E /* libRNViewShot.a */; };
 		4375E8CF204678C20059CD02 /* RNTrueCaller.h in Sources */ = {isa = PBXBuildFile; fileRef = 4375E8CE204678C20059CD02 /* RNTrueCaller.h */; };
 		4375E90E20467EB00059CD02 /* RNTrueCaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 4375E90D20467EB00059CD02 /* RNTrueCaller.m */; };
 		438EB1451FEBD62A00C2D66A /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1441FEBD62A00C2D66A /* GameKit.framework */; };
@@ -283,6 +284,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = E72EC1401F7ABB5A0001BC90;
 			remoteInfo = "RNDeviceInfo-tvOS";
+		};
+		433F22612056CB86001D9C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 433F22222056CB85001D9C7E /* RNViewShot.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNViewShot;
 		};
 		4375E8AA204574590059CD02 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -583,6 +591,7 @@
 		417D036C67A041DCAC11436D /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		418274813DDB4C1696583956 /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Bold.ttf"; path = "../assets/fonts/Quicksand-Bold.ttf"; sourceTree = "<group>"; };
 		4317B3311FE00B2A00778944 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
+		433F22222056CB85001D9C7E /* RNViewShot.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNViewShot.xcodeproj; path = "../node_modules/react-native-view-shot/ios/RNViewShot.xcodeproj"; sourceTree = "<group>"; };
 		4375E8CE204678C20059CD02 /* RNTrueCaller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RNTrueCaller.h; path = BinBill/RNTrueCaller.h; sourceTree = "<group>"; };
 		4375E90D20467EB00059CD02 /* RNTrueCaller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RNTrueCaller.m; path = BinBill/RNTrueCaller.m; sourceTree = "<group>"; };
 		438EB1441FEBD62A00C2D66A /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
@@ -667,6 +676,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				433F22632056CB9E001D9C7E /* libRNViewShot.a in Frameworks */,
 				43C09D67202DA99B00AE02E0 /* libCodePush.a in Frameworks */,
 				43D732C120246EAB00B57504 /* libRNFIRAnalytics.a in Frameworks */,
 				43E1975C1FECD2E100702A16 /* libRNFIRMessaging.a in Frameworks */,
@@ -888,6 +898,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		433F22232056CB85001D9C7E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				433F22622056CB86001D9C7E /* libRNViewShot.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4375E8A7204574590059CD02 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1089,6 +1107,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				433F22222056CB85001D9C7E /* RNViewShot.xcodeproj */,
 				43C09D26202DA93300AE02E0 /* CodePush.xcodeproj */,
 				43D7328420246E8E00B57504 /* RNFIRAnalytics.xcodeproj */,
 				43E197201FECD2C600702A16 /* RNFIRMessaging.xcodeproj */,
@@ -1512,6 +1531,10 @@
 					ProductGroup = 43B079101FC4569F00F4C1A0 /* Products */;
 					ProjectRef = 15C3058B87FA49CF80CBF65B /* RNSVG.xcodeproj */;
 				},
+				{
+					ProductGroup = 433F22232056CB85001D9C7E /* Products */;
+					ProjectRef = 433F22222056CB85001D9C7E /* RNViewShot.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1698,6 +1721,13 @@
 			fileType = archive.ar;
 			path = "libRNDeviceInfo-tvOS.a";
 			remoteRef = 4317B3621FE00B2A00778944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		433F22622056CB86001D9C7E /* libRNViewShot.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNViewShot.a;
+			remoteRef = 433F22612056CB86001D9C7E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4375E8AB204574590059CD02 /* libRCTFBSDK.a */ = {

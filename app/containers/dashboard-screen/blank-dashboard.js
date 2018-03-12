@@ -6,7 +6,8 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  WebView
+  WebView,
+  Platform
 } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
@@ -100,11 +101,12 @@ class BlankDashboard extends React.Component {
                       ref={ref => {
                         this.videoPlayer = ref;
                       }}
+                      scalesPageToFit={true}
                       javaScriptEnabled={true}
                       domStorageEnabled={true}
                       source={{
-                        html:
-                          '<html><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" /><iframe src="https://www.youtube.com/embed/U_Y6tu_jmt0?modestbranding=1&playsinline=1&showinfo=0&rel=0" frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%"></iframe></html>'
+                        uri:
+                          "https://www.youtube.com/embed/U_Y6tu_jmt0?modestbranding=1&playsinline=1&showinfo=0&rel=0"
                       }}
                       onShouldStartLoadWithRequest={
                         this.onShouldStartLoadWithRequest
