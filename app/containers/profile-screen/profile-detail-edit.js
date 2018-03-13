@@ -33,15 +33,15 @@ class ProfileDetailEdit extends Component {
   }
 
   render() {
-    const { profile } = this.props;
-    // alert(JSON.stringify(profile));
-    return (ProfileDetailEdit = ({ label }) => (
+    const { label } = this.props;
+    return (
+      // ProfileDetailEdit = ( label) => (
       <ScreenContainer style={styles.container}>
         <View style={styles.information}>
           <View style={{ width: 300 }}>
-            <Text style={styles.fieldName}>lajjdjsdjkj</Text>
+            <Text style={styles.fieldName}>label</Text>
             <Text style={styles.fieldValue} weight="Medium">
-              name
+              abc
             </Text>
           </View>
           <View style={{ width: 40, paddingTop: 18, borderRadius: 50 }}>
@@ -49,7 +49,8 @@ class ProfileDetailEdit extends Component {
           </View>
         </View>
       </ScreenContainer>
-    ));
+      // )
+    );
   }
 }
 
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderColor: "#ececec",
     borderTopWidth: 1,
-    // padding: 15,
+    padding: 15,
     marginBottom: 0
   },
   field: {
@@ -80,9 +81,11 @@ const styles = StyleSheet.create({
     color: "#9c9c9c"
   },
   editIcon: {
-    width: 18,
-    height: 18,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     backgroundColor: colors.tomato
   }
 });
+
 export default ProfileDetailEdit;
