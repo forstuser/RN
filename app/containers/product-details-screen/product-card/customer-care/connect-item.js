@@ -248,6 +248,7 @@ class Card extends React.Component {
 
   render() {
     const {
+      cardStyle,
       title,
       imageUrl,
       imageSource,
@@ -262,7 +263,7 @@ class Card extends React.Component {
         <Text weight="Bold" style={styles.title}>
           {title}
         </Text>
-        <View style={styles.card}>
+        <View style={[styles.card, cardStyle]}>
           <View style={styles.imageContainer}>
             {imageUrl ? (
               <AsyncImage
@@ -368,7 +369,8 @@ class Card extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginRight: 20
+    margin: 8,
+    marginTop: 0
   },
   title: {
     color: colors.mainText,
@@ -376,7 +378,6 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    width: 300,
     backgroundColor: "#fff",
     borderRadius: 3,
     elevation: 2,

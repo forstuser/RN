@@ -70,9 +70,7 @@ class ProductDetailsScreen extends Component {
   static navigatorStyle = {
     tabBarHidden: true,
     drawUnderNavBar: true,
-    navBarTranslucent: true,
-    navBarBackgroundColor: "#fff",
-    topBarElevationShadowEnabled: false
+    navBarBackgroundColor: "#fff"
   };
   static navigatorButtons = {
     rightButtons: [
@@ -184,24 +182,25 @@ class ProductDetailsScreen extends Component {
         // isLoading: true
       });
       const res = await getProductDetails(this.props.productId);
-      const { product } = this.state;
+      const { product } = res;
       if (
-        this.state.isLoading &&
-        (product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
-          product.categoryId == 86)
+        product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
+        product.categoryId == 86
       ) {
         this.props.navigator.setStyle({
           drawUnderNavBar: false,
           navBarTranslucent: false,
           navBarTransparent: false,
-          navBarBackgroundColor: "#fff"
+          navBarBackgroundColor: "#fff",
+          topBarElevationShadowEnabled: true
         });
-      } else {
+      } else if (this.state.isLoading) {
         this.props.navigator.setStyle({
           drawUnderNavBar: true,
-          navBarTranslucent: true,
+          navBarTranslucent: Platform.OS === "ios",
           navBarTransparent: true,
-          navBarBackgroundColor: "#fff"
+          navBarBackgroundColor: "#fff",
+          topBarElevationShadowEnabled: false
         });
       }
 

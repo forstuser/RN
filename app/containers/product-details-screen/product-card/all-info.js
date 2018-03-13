@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Image, View, TouchableOpacity } from "react-native";
 import moment from "moment";
 import _ from "lodash";
 import getDirections from "react-native-google-maps-directions";
