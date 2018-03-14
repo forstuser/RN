@@ -2,6 +2,7 @@ package com.bin.binbillcustomer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.StrictMode;
 
 import com.evollu.react.fa.FIRAnalyticsPackage;
 import com.microsoft.codepush.react.CodePush;
@@ -69,6 +70,9 @@ public class MainApplication extends NavigationApplication {
     AppEventsLogger.activateApp(this);
 
     SoLoader.init(this, /* native exopackage */ false);
+
+    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+    StrictMode.setVmPolicy(builder.build());
   }
 
   protected static CallbackManager getCallbackManager() {

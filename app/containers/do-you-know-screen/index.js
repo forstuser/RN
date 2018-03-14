@@ -61,7 +61,9 @@ class DoYouKNowScreen extends Component {
 
   componentWillMount() {
     this.panResponder = PanResponder.create({
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onMoveShouldSetPanResponder: (evt, { dy }) => {
+        return dy != 0;
+      },
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
       onPanResponderMove: (evt, { dy }) => {
@@ -128,7 +130,8 @@ class DoYouKNowScreen extends Component {
         tagIds: tagIds || []
       });
       this.setState({
-        items: res.items
+        items: res.items,
+        currentIndex: 0
       });
     } catch (error) {
       console.log("error1: ", error);

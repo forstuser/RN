@@ -65,7 +65,7 @@ class Body extends Component {
   onShareItemPress = async () => {
     try {
       Share.share({
-        message: "Hey, Chack out this awesome app- http://bit.ly/2rIabk0"
+        message: "Hey, Check out this awesome app- http://bit.ly/2rIabk0"
       });
     } catch (e) {
       console.log(e);
