@@ -27,7 +27,7 @@ import { colors } from "../../theme";
 import TabSearchHeader from "../../components/tab-screen-header";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
-import { SCREENS } from "../../constants";
+import { SCREENS, GLOBAL_VARIABLES } from "../../constants";
 
 import TagsModal from "./tags-modal";
 import Item from "./item";
@@ -129,10 +129,26 @@ class DoYouKNowScreen extends Component {
       const res = await fetchDoYouKnowItems({
         tagIds: tagIds || []
       });
-      this.setState({
+
+      const newState = {
         items: res.items,
         currentIndex: 0
-      });
+      };
+
+      //deep linking handling
+      if (global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]) {
+        for (let i = 0; i < res.items.length; i++) {
+          if (
+            res.items[i].id ==
+            global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]
+          ) {
+            newState.currentIndex = i;
+            break;
+          }
+        }
+      }
+
+      this.setState(newState);
     } catch (error) {
       console.log("error1: ", error);
       this.setState({

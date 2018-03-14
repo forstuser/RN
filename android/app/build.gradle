@@ -130,7 +130,7 @@ android {
             manifestPlaceholders = [trueCallerApiKey: "FpLdJ52343bd801e74bfebf37be778b5e66f4"]
         }
         debug {
-            debuggable false
+            debuggable true
             manifestPlaceholders = [trueCallerApiKey: "FpLdJ52343bd801e74bfebf37be778b5e66f4"]
         }
     }
@@ -156,6 +156,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-restart')
     compile project(':react-native-view-shot')
     compile(name: "truesdk-0.6", ext: "aar")
     compile project(':react-native-fbsdk')

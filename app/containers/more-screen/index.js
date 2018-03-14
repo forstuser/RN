@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import { connect } from "react-redux";
+import RNRestart from "react-native-restart";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
+import { actions as uiActions } from "../../modules/ui";
 import { Text, Button, ScreenContainer } from "../../elements";
 import Body from "./body";
 import Header from "./header";
+import I18n from "../../i18n";
 import { SCREENS } from "../../constants";
 import { getProfileDetail, logout } from "../../api";
 import { openLoginScreen } from "../../navigation";
@@ -114,6 +117,11 @@ class MoreScreen extends Component {
           profile={profile}
           isAppUpdateAvailable={isAppUpdateAvailable}
           logoutUser={this.props.logoutUser}
+          language={this.props.language}
+          setLanguage={language => {
+            this.props.setLanguage(language);
+            RNRestart.Restart();
+          }}
           navigator={this.props.navigator}
         />
       </ScreenContainer>
@@ -123,7 +131,8 @@ class MoreScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    authToken: state.loggedInUser.authToken
+    authToken: state.loggedInUser.authToken,
+    language: state.ui.language
   };
 };
 
@@ -137,6 +146,9 @@ const mapDispatchToProps = dispatch => {
         console.log(e);
       }
       openLoginScreen();
+    },
+    setLanguage: async language => {
+      dispatch(uiActions.setLanguage(language));
     }
   };
 };

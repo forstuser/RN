@@ -168,6 +168,7 @@ export default {
   more_screen_item_email: "Email Us",
   more_screen_item_share: "Share App",
   more_screen_item_app_version: "App Version",
+  more_screen_item_app_language_change: "Change",
   more_screen_item_app_version_update_to: "Update Now",
   more_screen_item_logout: "Logout",
   more_screen_no_update_available: "No update available",
@@ -377,40 +378,6 @@ export default {
   transactions_screen_filter_options_title: "See insights of",
   transactions_screen_filter_close: "Cancel",
 
-  //tips screen
-  tips_screen_tip_1:
-    "Always ask for a valid bill from the seller/trader. It is your right to get a bill as well as duty to ask from the seller.",
-  tips_screen_tip_2:
-    "Whenever you get a bill, the first thing you should do is scan and upload it in BinBill before you misplace or accidentally destroy it.",
-  tips_screen_tip_3:
-    "While scanning the bill, ensure sufficient light without any shadow obstruction from your hand, phone or things around.",
-  tips_screen_tip_4:
-    "The document that you’d scan with the inbuilt scanner should keep in between the four corners as shown on the screen.",
-  tips_screen_tip_5:
-    "For good image quality, keep bills or documents on hard and level surface without any disturbance from wind.",
-  tips_screen_tip_6:
-    "Recommended to check if the bill is not torn, crumpled or physically damaged.",
-  tips_screen_tip_7:
-    "While scanning and uploading, crop the image to trim the unwanted areas and make it readable.",
-  tips_screen_tip_8:
-    "Choose from Original, Magic or Gray Color mode. Magic Mode is the most suitable for worn out or bills with fading ink.",
-  tips_screen_tip_9:
-    "Always review the image of bills or documents before finally uploading. If you can see the entries then we can also and if you are finding it difficult then chances are we will also find them difficult to read. Especially for the “kachha bills” the handwriting should be legible and preferred language is English.",
-  tips_screen_tip_10:
-    "It is always advisable to upload your bill along with any associated warranty, guarantee or insurance document. Remember these are important to extract necessary information in order to maintain your records in BinBill.",
-  tips_screen_tip_11:
-    "You can add prescriptions and related reports along with chemist bills, if they are available.",
-  tips_screen_tip_12:
-    "Do not upload selfies or other irrelevant photos since these would be discarded.",
-  tips_screen_tip_13:
-    "Bills can also be added from “Gallery”. After adding the image of the bill, make sure all the details are visible. If not, then retake the photo from BinBill scanner.",
-  tips_screen_tip_14:
-    "In case of Doc. and Pdf make sure that it contains bills and related documents, before uploading it.",
-  tips_screen_tip_15:
-    "If the bill is lengthy and cannot possibly come in a single frame, then take multiple photos. Please keep in mind to segregate Bill in equal parts.",
-  tips_screen_tip_16:
-    "Please do not upload the same bill/document more than once. Duplicacy will be discarded owing to quality issues.",
-
   //add-edit-expense-screen
   add_edit_expense_screen_title_add_automobile: "Add Automobile",
   add_edit_expense_screen_title_add_electronics:
@@ -502,17 +469,17 @@ export default {
   app_tour_tips_9:
     "Just pinch out to zoom in your bills' images, to have a better view.",
 
+  //blank dashboard
   blank_dashboard_headline: "Welcome to BinBill",
   blank_dashboard_text:
     "Start building your eHome by converting ordinary bills into smart bills and live worry free",
   blank_dashboard_btn_text: "UPLOAD DOC",
   blank_dashboard_know_more_text: "Know More",
 
-  terms_of_use: `Please read these terms of use (“Terms”), a legal agreement between Bin Bill Services Private Limited, a Company incorporated under the Companies Act 2013, having its registered office at Office No. 507 508, Seat No.-04, Second Floor, Deep Plaza Complex, Gurgaon, Haryana, India, 122001, India (hereinafter "Company"/ “BinBill”) of the first part AND the Registered User of the second part (hereinafter collectively referred to as “you” , “yours” or “Registered User”). The Terms shall govern use of and access to <www.binbill.com> (the “Website”) and the “BinBill” technology platform accessible through desktops, mobile phones, smart phones and tablets (the “Application”) which offers an online marketplace connecting Registered Users (defined below) with “Service Providers” (defined below) and offering various Services as may be introduced by the Company from time to time (hereinafter “Website” and “Application” collectively referred to as “BinBill Software”). The Company is the owner of the BinBill Software offered to the Registered User.
-  
-  Please carefully go through these Terms and the privacy policy available at https://www. binbill.com/company/privacy ("Privacy Policy") before you decide to access or use the BinBill Software made available by the Company. These Terms and the Privacy Policy together constitute a legal agreement (“Agreement”) between you and Company in connection with your access and use of the BinBill Software.
-  
-  By registering for the BinBill Software as provided below, or by entering into an agreement with the Company to provide committed Services (defined below) as set out in these Terms, or through the continued use or accessing the Website and Application, You agree to be subject to these Terms.
-  
-  We request You to please read these Terms carefully and do not use of the Website and Application unless You agree fully with these Terms.`
+  //language options
+  language_options_change: "Change",
+  language_options_dont_change: "Don't Change",
+  language_options_confirm_msg_title: "Change language to {{languageName}}?",
+  language_options_confirm_msg_desc: "App may restart to reflect the changes.",
+  language_options_cancel: "Cancel"
 };

@@ -11,6 +11,9 @@ export default {
   app_intro_next: "NEXT",
   app_intro_skip: "SKIP",
   app_intro_register: "REGISTER",
-  search_header_dashboard: "डैशबोर्ड",
-  search_header_ehome: "ईहोम"
+  dashboard_screen_title: "डैशबोर्ड",
+  ehome_screen_title: "ईहोम",
+  asc_screen_title: "अधिकृत सेवा केंद्र",
+  do_you_know_screen_title: "क्या आपको पता है",
+  more_screen_item_share: "ऐप शेयर करें"
 };

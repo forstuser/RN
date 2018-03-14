@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import Hyperlink from "react-native-hyperlink";
 import FBSDK from "react-native-fbsdk";
 const { LoginManager, AccessToken } = FBSDK;
+import Icon from "react-native-vector-icons/Ionicons";
 import { SCREENS } from "../constants";
 import { colors } from "../theme";
 import { consumerGetOtp, consumerValidate, getProfileDetail } from "../api";
@@ -21,8 +22,10 @@ import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
 import I18n from "../i18n";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
+import { actions as uiActions } from "../modules/ui";
 import Analytics from "../analytics";
 import { openAfterLoginScreen } from "../navigation";
+import LanguageOptions from "../components/language-options";
 
 const binbillLogo = require("../images/binbill_logo.png");
 const truecallerLogo = require("../images/truecaller_logo.png");
@@ -161,9 +164,32 @@ class LoginScreen extends Component {
               source={binbillLogo}
               resizeMode="contain"
             />
-            <Text style={{ fontSize: 12, color: colors.secondaryText }}>
-              {}
-            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                this.languageOptions.show();
+              }}
+              style={{
+                marginTop: 15,
+                flexDirection: "row",
+                alignItems: "flex-end"
+              }}
+            >
+              <Text
+                weight="Medium"
+                style={{
+                  fontSize: 12,
+                  marginRight: 10,
+                  color: colors.secondaryText
+                }}
+              >
+                {this.props.language.name}
+              </Text>
+              <Icon
+                name="ios-arrow-down"
+                size={15}
+                color={colors.secondaryText}
+              />
+            </TouchableOpacity>
             <TextInput
               underlineColorAndroid="transparent"
               placeholder={I18n.t("login_screen_input_placeholder")}
@@ -237,6 +263,14 @@ class LoginScreen extends Component {
             </Text>
           </Hyperlink>
         </View>
+        <LanguageOptions
+          ref={o => (this.languageOptions = o)}
+          onLanguageChange={language => {
+            this.props.setLanguage(language);
+            I18n.locale = language.code;
+            this.forceUpdate();
+          }}
+        />
       </ScreenContainer>
     );
   }
@@ -259,7 +293,7 @@ const styles = StyleSheet.create({
     height: 80
   },
   phoneInput: {
-    marginTop: 40,
+    marginTop: 30,
     borderColor: colors.mainBlue,
     borderBottomWidth: 1,
     marginBottom: 16,
@@ -313,7 +347,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    fcmToken: state.loggedInUser.fcmToken
+    fcmToken: state.loggedInUser.fcmToken,
+    language: state.ui.language
   };
 };
 
@@ -324,6 +359,9 @@ const mapDispatchToProps = dispatch => {
     },
     setLoggedInUser: user => {
       dispatch(loggedInUserActions.setLoggedInUser(user));
+    },
+    setLanguage: async language => {
+      dispatch(uiActions.setLanguage(language));
     }
   };
 };

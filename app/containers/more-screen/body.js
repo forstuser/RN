@@ -3,6 +3,7 @@ import {
   Platform,
   StyleSheet,
   View,
+  ScrollView,
   Image,
   Alert,
   Linking,
@@ -11,11 +12,14 @@ import {
 import { connect } from "react-redux";
 import DeviceInfo from "react-native-device-info";
 import AppLink from "react-native-app-link";
+import ActionSheet from "react-native-actionsheet";
+import call from "react-native-phone-call";
 
 import { SCREENS } from "../../constants";
 import { Text, Button, ScreenContainer } from "../../elements";
 import MoreItem from "./more-item";
-import call from "react-native-phone-call";
+
+import LanguageOptions from "../../components/language-options";
 
 import I18n from "../../i18n";
 
@@ -90,12 +94,16 @@ class Body extends Component {
     }
   };
 
+  onLanguageChangePress = () => {
+    this.languageOptions.show();
+  };
+
   render() {
     const appVersion = DeviceInfo.getVersion();
-    const { isAppUpdateAvailable } = this.props;
+    const { isAppUpdateAvailable, language } = this.props;
 
     return (
-      <View>
+      <ScrollView>
         <MoreItem
           onPress={this.onFaqItemPress}
           imageSource={require("../../images/ic_more_faq.png")}
@@ -124,6 +132,12 @@ class Body extends Component {
           text={I18n.t("more_screen_item_share")}
         />
         <MoreItem
+          onPress={this.onLanguageChangePress}
+          imageSource={require("../../images/ic_translate.png")}
+          text={language.name}
+          btnText={I18n.t("more_screen_item_app_language_change")}
+        />
+        <MoreItem
           onPress={this.onVersionItemPress}
           imageSource={require("../../images/ic_info_blue.png")}
           text={I18n.t("more_screen_item_app_version") + ": v" + appVersion}
@@ -138,7 +152,11 @@ class Body extends Component {
           imageSource={require("../../images/ic_more_logout.png/")}
           text={I18n.t("more_screen_item_logout")}
         />
-      </View>
+        <LanguageOptions
+          ref={o => (this.languageOptions = o)}
+          onLanguageChange={this.props.setLanguage}
+        />
+      </ScrollView>
     );
   }
 }

@@ -230,7 +230,7 @@ class DashboardScreen extends React.Component {
 
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
-        {!showDashboard && (
+        {showDashboard && (
           <View>
             <TabSearchHeader
               ref="tabSearchHeader"
@@ -287,12 +287,12 @@ class DashboardScreen extends React.Component {
             </ScrollView>
           </View>
         )}
-        {showDashboard && (
+        {!showDashboard && (
           <BlankDashboard
             onUploadButtonClick={() => this.showAddProductOptionsScreen()}
           />
         )}
-        {!showDashboard && (
+        {showDashboard && (
           <TouchableOpacity
             style={styles.fab}
             onPress={() => this.showAddProductOptionsScreen()}

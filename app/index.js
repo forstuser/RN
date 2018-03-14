@@ -19,6 +19,7 @@ import codePush from "react-native-code-push";
 import { Navigation, NativeEventsReceiver } from "react-native-navigation";
 
 import { registerScreens } from "./screens";
+import I18n from "./i18n";
 import store from "./store";
 import { actions as loggedInUserActions } from "./modules/logged-in-user";
 import { actions as uiActions } from "./modules/ui";
@@ -71,6 +72,9 @@ const urlForDirectFileUpload = filePath => {
 
 function startApp() {
   persistStore(store, {}, async () => {
+    const language = store.getState().ui.language;
+    I18n.locale = language.code;
+
     registerScreens(store, Provider); // this is where you register all of your app's screens
     const openFirstScreen = () => {
       if (store.getState().loggedInUser.authToken) {
@@ -192,28 +196,39 @@ function startApp() {
               Alert.alert("Couldn't Verify Email");
             });
         }
-        switch (path.toLowerCase()) {
-          case "/ehome":
+
+        const pathItem1 = path.split("/")[1];
+
+        switch (pathItem1.toLowerCase()) {
+          case "ehome":
             store.dispatch(
               uiActions.setScreenToOpenAferLogin(SCREENS.EHOME_SCREEN)
             );
             break;
-          case "/upload":
+          case "upload":
             store.dispatch(
               uiActions.setScreenToOpenAferLogin(SCREENS.UPLOAD_DOCUMENT_SCREEN)
             );
             break;
-          case "/asc":
+          case "asc":
             store.dispatch(
               uiActions.setScreenToOpenAferLogin(SCREENS.ASC_SCREEN)
             );
             break;
-          case "/faq":
+          case "faq":
             store.dispatch(
               uiActions.setScreenToOpenAferLogin(SCREENS.FAQS_SCREEN)
             );
             break;
-          case "/direct-upload-document":
+          case "do-you-know":
+            global[
+              GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY
+            ] = path.split("/").pop();
+            store.dispatch(
+              uiActions.setScreenToOpenAferLogin(SCREENS.DO_YOU_KNOW_SCREEN)
+            );
+            break;
+          case "direct-upload-document":
             if (uri.hasQuery("files")) {
               global[GLOBAL_VARIABLES.FILES_FOR_DIRECT_UPLOAD] = uri.query(
                 true

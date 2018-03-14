@@ -6,6 +6,11 @@ import defaultState from "./default-state";
  */
 export default function uiReducer(state = defaultState.ui, action) {
   switch (action.type) {
+    case types.UI_SET_LANGUAGE:
+      return {
+        ...state,
+        language: action.payload.language
+      };
     case types.UI_SET_SCREEN_TO_OPEN_AFTER_LOGIN:
       return {
         ...state,
@@ -50,6 +55,12 @@ export default function uiReducer(state = defaultState.ui, action) {
  * Actions
  */
 export const actions = {
+  setLanguage: language => {
+    return {
+      type: types.UI_SET_LANGUAGE,
+      payload: { language }
+    };
+  },
   setScreenToOpenAferLogin: screen => {
     return {
       type: types.UI_SET_SCREEN_TO_OPEN_AFTER_LOGIN,

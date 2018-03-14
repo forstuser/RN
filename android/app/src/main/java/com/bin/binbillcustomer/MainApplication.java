@@ -29,6 +29,7 @@ import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import in.sriraman.sharedpreferences.RNSharedPreferencesReactPackage;
 import com.reactnativenavigation.controllers.ActivityCallbacks;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
+import com.avishayil.rnrestart.ReactNativeRestartPackage;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -88,7 +89,7 @@ public class MainApplication extends NavigationApplication {
   protected List<ReactPackage> getPackages() {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNViewShotPackage(),
+    return Arrays.<ReactPackage>asList(new MainReactPackage(), new ReactNativeRestartPackage(), new RNViewShotPackage(),
         new FBSDKPackage(mCallbackManager), new RNSharedPreferencesReactPackage(), new SplashScreenReactPackage(),
         new FIRAnalyticsPackage(), new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
         new VectorIconsPackage(), new SvgPackage(), new RNSharePackage(), new PhotoViewPackage(),

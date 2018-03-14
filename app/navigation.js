@@ -108,12 +108,16 @@ export const openAppScreen = opts => {
       case SCREENS.ASC_SCREEN:
         initialTabIndex = 2;
         break;
+      case SCREENS.DO_YOU_KNOW_SCREEN:
+        initialTabIndex = 3;
+        break;
       case SCREENS.FAQS_SCREEN:
       case SCREENS.PROFILE_SCREEN:
         initialTabIndex = 4;
         break;
     }
   }
+
   Navigation.startTabBasedApp({
     tabs: [
       {

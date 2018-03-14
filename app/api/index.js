@@ -30,6 +30,11 @@ const apiRequest = async ({
       console.log("auth token: ", token);
     }
 
+    const language = store.getState().ui.language;
+    if (language) {
+      headers.language = language.code;
+    }
+
     if (Platform.OS == "ios") {
       headers.ios_app_version = DeviceInfo.getBuildNumber();
     } else {
