@@ -10,7 +10,7 @@ import Header from "./header";
 import I18n from "../../i18n";
 import { SCREENS } from "../../constants";
 import { getProfileDetail, logout } from "../../api";
-import { openLoginScreen } from "../../navigation";
+import { openLoginScreen, openAppScreen } from "../../navigation";
 import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
@@ -120,7 +120,8 @@ class MoreScreen extends Component {
           language={this.props.language}
           setLanguage={language => {
             this.props.setLanguage(language);
-            RNRestart.Restart();
+            I18n.locale = language.code;
+            openAppScreen();
           }}
           navigator={this.props.navigator}
         />
