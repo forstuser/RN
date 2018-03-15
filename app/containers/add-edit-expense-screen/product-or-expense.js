@@ -271,7 +271,7 @@ class ProductOrExpense extends React.Component {
         case MAIN_CATEGORY_IDS.AUTOMOBILE:
         case MAIN_CATEGORY_IDS.ELECTRONICS:
         case MAIN_CATEGORY_IDS.FURNITURE:
-          if (!data.brandId && !data.brandName) {
+          if (data.brandId === undefined && !data.brandName) {
             return Alert.alert(
               I18n.t("add_edit_expense_screen_title_add_branch_name")
             );
@@ -381,6 +381,7 @@ class ProductOrExpense extends React.Component {
                     category={category}
                     id={product.id}
                     jobId={product.job_id}
+                    subCategories={subCategories}
                     brands={brands}
                     categoryForms={categoryForms}
                     navigator={this.props.navigator}

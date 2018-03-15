@@ -143,7 +143,7 @@ class ProductListItem extends React.Component {
           ref={o => (this.phoneOptions = o)}
           title={
             this.state.phoneNumbers.length > 0
-              ? I18n.t("expense_forms_product_list_select_phone ")
+              ? I18n.t("expense_forms_product_list_select_phone")
               : I18n.t("expense_forms_product_list_phone_number_not_available")
           }
           cancelButtonIndex={this.state.phoneNumbers.length}

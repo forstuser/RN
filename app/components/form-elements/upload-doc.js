@@ -7,7 +7,7 @@ import {
   Alert
 } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
-import { I18n } from "../../i18n";
+import I18n from "../../i18n";
 import { openBillsPopUp } from "../../navigation";
 import { Text } from "../../elements";
 import { colors } from "../../theme";

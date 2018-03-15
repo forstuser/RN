@@ -23,23 +23,6 @@ import ViewBillRow from "./view-bill-row";
 import EditOptionRow from "./edit-option-row";
 
 class WarrantyDetails extends React.Component {
-  openAddEditWarrantyScreen = (warranty, warrantyType) => {
-    const { product } = this.props;
-
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_WARRANTY_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        warranty: warranty,
-        warrantyType: warrantyType
-      },
-      overrideBackPress: true
-    });
-  };
-
   render() {
     const { product, navigator } = this.props;
     const { warrantyDetails } = product;
@@ -53,7 +36,10 @@ class WarrantyDetails extends React.Component {
               : I18n.t("product_details_screen_service_third_party_warranty")
           }
           onEditPress={() => {
-            this.openAddEditWarrantyScreen(warranty, warranty.warranty_type);
+            this.props.openAddEditWarrantyScreen(
+              warranty,
+              warranty.warranty_type
+            );
           }}
         />
         <KeyValueItem
@@ -92,7 +78,10 @@ class WarrantyDetails extends React.Component {
             <AddItemBtn
               text={I18n.t("product_details_screen_add_warranty")}
               onPress={() =>
-                this.openAddEditWarrantyScreen(null, WARRANTY_TYPES.NORMAL)
+                this.props.openAddEditWarrantyScreen(
+                  null,
+                  WARRANTY_TYPES.NORMAL
+                )
               }
             />
           </ScrollView>
@@ -100,21 +89,24 @@ class WarrantyDetails extends React.Component {
 
         {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
           product.masterCategoryId
-        ) > -1 && (
-          <ScrollView horizontal={true} style={styles.slider}>
-            {warrantyDetails
-              .filter(
-                warranty => warranty.warranty_type == WARRANTY_TYPES.EXTENDED
-              )
-              .map(warranty => <WarrantyItem warranty={warranty} />)}
-            <AddItemBtn
-              text={I18n.t("product_details_screen_add_extended_warranty")}
-              onPress={() =>
-                this.openAddEditWarrantyScreen(null, WARRANTY_TYPES.EXTENDED)
-              }
-            />
-          </ScrollView>
-        )}
+        ) > -1 &&
+          warrantyDetails.filter(
+            warranty => warranty.warranty_type == WARRANTY_TYPES.EXTENDED
+          ).length > 0 && (
+            <ScrollView horizontal={true} style={styles.slider}>
+              {warrantyDetails
+                .filter(
+                  warranty => warranty.warranty_type == WARRANTY_TYPES.EXTENDED
+                )
+                .map(warranty => <WarrantyItem warranty={warranty} />)}
+              <AddItemBtn
+                text={I18n.t("product_details_screen_add_extended_warranty")}
+                onPress={() =>
+                  this.openAddEditWarrantyScreen(null, WARRANTY_TYPES.EXTENDED)
+                }
+              />
+            </ScrollView>
+          )}
       </View>
     );
   }

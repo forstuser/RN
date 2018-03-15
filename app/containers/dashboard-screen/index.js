@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
     bottom: -68,
     height: 68,
     flexDirection: "row",
-    backgroundColor: "red"
+    backgroundColor: "transparent"
   },
   dummyForTooltip: {
     flex: 1,

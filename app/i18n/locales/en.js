@@ -273,7 +273,7 @@ export default {
   product_details_screen_add_customer_care:
     "Customer care is available for brand/manufacturer, insurance and third party warranty providers only.",
   product_details_screen_add_brand_not_available:
-    "`Product brand not available. Please upload your bill if you haven't`",
+    "Product brand not available. Please upload your bill if you haven't",
   product_details_screen_open_email: "Can't open this email",
   product_details_screen_cancel: "Cancel",
   product_details_screen_review_product: "REVIEW THIS PRODUCT",
@@ -598,7 +598,7 @@ export default {
   add_edit_amc_delete_amc: "Are you sure?",
   add_edit_amc_delete_amc_desc:
     "All the information and document copies related to this AMC will be deleted.",
-  add_edit_amc_could_not_delete: "`Couldn't delete`",
+  add_edit_amc_could_not_delete: "Couldn't delete",
   add_edit_no_dnt_delete: "No, don't Delete",
   add_edit_amc_effective_date: "Please select AMC effective date",
   add_edit_amc_save: "SAVE",
@@ -632,7 +632,7 @@ export default {
   add_edit_puc_delete_puc: "Are you sure?",
   add_edit_puc_delete_puc_desc:
     "All the information and document copies related to this PUC will be deleted.",
-  add_edit_puc_select_puc: "`Please select 'PUC Effective Date' or 'PUC Upto'`",
+  add_edit_puc_select_puc: "Please select 'PUC Effective Date' or 'PUC Upto'",
   add_edit_repair_add_repair: "Add Repair",
   add_edit_repair_edit_repair: "Edit Repair",
   add_edit_repair_unsaved_info:
@@ -655,6 +655,13 @@ export default {
     "Document Uploaded, Provide further details to complete the process",
   add_edit_direct_category: "Select Category",
   add_edit_direct_subcategory: "Select Sub-Category",
+  add_edit_direct_type: "Select Type",
+  add_edit_direct_brand: "Select Brand",
+  add_edit_direct_model: "Select Model",
+  add_edit_direct_select_main_category_first: "Select Category First",
+  add_edit_direct_select_category_first: "Select Sub-Category First",
+  add_edit_direct_select_brand_first: "Select Brand First",
+  add_edit_direct_select_model_first: "Select Model First",
   add_edit_direct_add_docs: "Add Document",
   add_edit_direct_doc_successfully: "Document Uploaded Successfully",
   add_edit_direct_add_eHome: "ADD PRODUCTS TO eHOME",

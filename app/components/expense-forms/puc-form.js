@@ -12,7 +12,7 @@ import moment from "moment";
 
 import { MAIN_CATEGORY_IDS } from "../../constants";
 import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
-import { I18n } from "../../i18n";
+import I18n from "../../i18n";
 
 import Collapsible from "../../components/collapsible";
 import UploadBillOptions from "../../components/upload-bill-options";

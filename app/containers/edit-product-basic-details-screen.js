@@ -106,7 +106,7 @@ class EditProductBasicDetails extends React.Component {
         MAIN_CATEGORY_IDS.FURNITURE
       ].indexOf(data.mainCategoryId) > -1
     ) {
-      if (!data.brandId && !data.brandName) {
+      if (data.brandId === undefined && !data.brandName) {
         return Alert.alert(I18n.t("add_edit_product_basic_select_brand"));
       }
     } else {
@@ -154,7 +154,7 @@ class EditProductBasicDetails extends React.Component {
       copies,
       sub_category_id
     } = product;
-    const selectedBrandId = product.brandId;
+    const brandId = product.brandId;
     const modelName = product.model;
 
     let sellerName,
@@ -260,6 +260,8 @@ class EditProductBasicDetails extends React.Component {
                 ref={ref => (this.basicDetailsForm = ref)}
                 mainCategoryId={product.masterCategoryId}
                 categoryId={product.categoryId}
+                subCategories={subCategories}
+                subCategoryId={sub_category_id}
                 category={{
                   id: product.categoryId,
                   name: product.categoryName
@@ -273,7 +275,7 @@ class EditProductBasicDetails extends React.Component {
                   id,
                   productName,
                   purchaseDate,
-                  selectedBrandId,
+                  brandId,
                   value,
                   copies,
                   modelName,

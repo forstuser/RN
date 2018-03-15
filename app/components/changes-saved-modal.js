@@ -5,7 +5,7 @@ import Modal from "react-native-modal";
 import { colors } from "../theme";
 import { API_BASE_URL } from "../api";
 import { SCREENS } from "../constants";
-import { I18n } from "../i18n";
+import I18n from "../i18n";
 
 const tick = require("../images/tick.png");
 class ChangesSavedModal extends React.Component {

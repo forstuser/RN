@@ -10,7 +10,7 @@ import {
 import PropTypes from "prop-types";
 
 import moment from "moment";
-import { I18n } from "../../i18n";
+import I18n from "../../i18n";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
 import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 

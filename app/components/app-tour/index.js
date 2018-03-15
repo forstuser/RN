@@ -181,7 +181,7 @@ export default class AppTour extends React.Component {
               <Text style={[styles.tooltipText]}>{tooltipText}</Text>
               <TouchableOpacity onPress={this.next} style={[styles.gotIt, {}]}>
                 <Text weight="Bold" style={[styles.gotItText, {}]}>
-                  i18n.t("add_app_tour")
+                  {I18n.t("add_app_tour")}
                 </Text>
               </TouchableOpacity>
             </View>

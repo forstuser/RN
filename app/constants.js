@@ -53,8 +53,14 @@ const CATEGORY_IDS = {
     REFRIGERATOR: 491,
     WASHING_MACHINE: 541
   },
+  FURNITURE: {
+    FURNITURE: 20
+  },
   HEALTHCARE: {
     INSURANCE: 664
+  },
+  HOUSEHOLD: {
+    HOME_DECOR: 697
   }
 };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
-import { I18n } from "../../i18n";
+import I18n from "../../i18n";
 import { Text } from "../../elements";
 import { colors } from "../../theme";
 

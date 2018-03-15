@@ -15,7 +15,7 @@ import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 
 import Collapsible from "../../components/collapsible";
 import UploadBillOptions from "../../components/upload-bill-options";
-import { I18n } from "../../i18n";
+import I18n from "../../i18n";
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
 import { colors } from "../../theme";

@@ -70,7 +70,7 @@ class AfterSaleButton extends Component {
     if (this.props.product.serviceCenterUrl && this.props.product.brand) {
       baseOptions.push({
         type: "asc",
-        text: i18n.t("product_details_screen_add_nearest_authorized")
+        text: I18n.t("product_details_screen_add_nearest_authorized")
       });
     }
 

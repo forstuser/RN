@@ -59,8 +59,8 @@ class AddEditExpenseScreen extends React.Component {
           return;
         }
         Alert.alert(
-          I18n.t("add_edit_expense_screen_title_add_sure "),
-          I18n.t("add_edit_expense_screen_title_add_docs "),
+          I18n.t("add_edit_expense_screen_title_add_sure"),
+          I18n.t("add_edit_expense_screen_title_add_docs"),
           [
             {
               text: I18n.t("add_edit_expense_screen_title_add_go_back"),

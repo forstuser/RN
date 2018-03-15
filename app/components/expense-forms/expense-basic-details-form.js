@@ -9,7 +9,7 @@ import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
 import { colors } from "../../theme";
-import { I18n } from "../../i18n";
+import I18n from "../../i18n";
 import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";
 import CustomDatePicker from "../form-elements/date-picker";

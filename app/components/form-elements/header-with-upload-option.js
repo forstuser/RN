@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
-import { I18n } from "../../i18n";
+import I18n from "../../i18n";
 import { Text } from "../../elements";
 import { colors } from "../../theme";
 import { openBillsPopUp } from "../../navigation";
@@ -54,7 +54,7 @@ class HeaderWithUploadOption extends React.Component {
       textBeforeUpload = I18n.t("expense_forms_header_upload_doc"),
       textBeforeUpload2 = "",
       textBeforeUpload2Color = colors.secondaryText,
-      textAfterUpload = i18n.t("expense_forms_header_upload_doc_successfully")
+      textAfterUpload = I18n.t("expense_forms_header_upload_doc_successfully")
     } = this.props;
     if (!copies) {
       copies = [];

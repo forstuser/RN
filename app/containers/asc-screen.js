@@ -231,7 +231,7 @@ class AscScreen extends Component {
           />
         </View>
         <View style={styles.body}>
-          <View style={styles.innerContainer}>
+          <View style={styles.productsPart}>
             <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("asc_screen_section_1_title")}
             </Text>
@@ -283,6 +283,8 @@ class AscScreen extends Component {
                 </TouchableOpacity>
               </View>
             )}
+          </View>
+          <View style={styles.selectsPart}>
             <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("asc_screen_section_2_title")}
             </Text>
@@ -384,17 +386,14 @@ const styles = StyleSheet.create({
     flex: 1,
     overflow: "hidden"
   },
-  innerContainer: {
-    width: "100%",
-    maxWidth: 350
-  },
   sectionTitle: {
     color: colors.mainBlue,
     marginBottom: 10
   },
   productsContainer: {
     marginBottom: 20,
-    padding: 5
+    padding: 5,
+    height: 100
   },
   product: {
     flexDirection: "row",
@@ -456,6 +455,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.pinkishOrange
   },
+  selectsPart: {
+    flex: 1,
+    justifyContent: "center",
+    maxWidth: 350,
+    alignSelf: "center"
+  },
   select: {
     backgroundColor: "#fff",
     borderColor: colors.secondaryText,
@@ -468,7 +473,7 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   searchBtn: {
-    width: "100%",
+    width: 300,
     alignSelf: "center"
   }
 });
