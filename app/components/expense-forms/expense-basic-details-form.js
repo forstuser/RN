@@ -203,8 +203,6 @@ class BasicDetailsForm extends React.Component {
           <CustomDatePicker
             date={date}
             placeholder={I18n.t("expense_forms_expense_basic_expense_date")}
-            placeholder2="*"
-            placeholder2Color={colors.mainBlue}
             onDateChange={date => {
               this.setState({ date });
             }}
@@ -212,6 +210,7 @@ class BasicDetailsForm extends React.Component {
 
           <CustomTextInput
             placeholder={I18n.t("expense_forms_expense_basic_expense_amount")}
+            underlineColorAndroid="transparent"
             placeholder2="*"
             placeholder2Color={colors.mainBlue}
             value={value ? String(value) : ""}

@@ -67,11 +67,13 @@ class ChangesSavedModal extends React.Component {
 const styles = StyleSheet.create({
   finishModal: {
     backgroundColor: "#fff",
-    height: 500,
     borderRadius: 10,
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    width: 300,
+    alignSelf: "center"
   },
   finishImage: {
     width: 200,
@@ -81,15 +83,11 @@ const styles = StyleSheet.create({
     color: colors.mainBlue,
     fontSize: 24,
     textAlign: "center",
-    marginTop: 25
+    marginTop: 25,
+    width: 200
   },
   finishBtn: {
-    width: 250,
-    marginTop: 20
-  },
-  doItLaterText: {
-    color: colors.pinkishOrange,
-    fontSize: 16,
+    width: 200,
     marginTop: 20
   }
 });

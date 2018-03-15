@@ -17,9 +17,8 @@ import I18n from "../i18n";
 import { API_BASE_URL, consumerGetEhome } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 import LoadingOverlay from "../components/loading-overlay";
-import SearchHeader from "../components/search-header";
+import TabSearchHeader from "../components/tab-screen-header";
 import CategoryItem from "../components/ehome-category-item";
-import ProcessingItems from "../components/ehome-processing-items.js";
 import ErrorOverlay from "../components/error-overlay";
 
 import { SCREENS } from "../constants";
@@ -28,6 +27,8 @@ import { actions as uiActions } from "../modules/ui";
 
 import { colors } from "../theme";
 import AddExpenseModal from "../components/add-expense-modal";
+
+const eHomeIcon = require("../images/ic_nav_ehome_off.png");
 const uploadFabIcon = require("../images/ic_upload_fabs.png");
 
 class EhomeScreen extends Component {
@@ -51,8 +52,12 @@ class EhomeScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        this.screenHasDisappeared = false;
         Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
         this.fetchEhomeData();
+        break;
+      case "didDisappear":
+        this.screenHasDisappeared = true;
         break;
     }
   };
@@ -103,16 +108,20 @@ class EhomeScreen extends Component {
           isFetchingData: false
         },
         () => {
-          if (this.state.startWithPendingDocsScreen) {
-            this.setState({
-              startWithPendingDocsScreen: false
-            });
-            this.openDocsUnderProcessingScreen();
-          }
+          // if (this.state.startWithPendingDocsScreen) {
+          //   this.setState({
+          //     startWithPendingDocsScreen: false
+          //   });
+          //   this.openDocsUnderProcessingScreen();
+          // }
 
           if (!this.props.hasEhomeTourShown) {
-            setTimeout(() => this.ehomeTour.startTour(), 1000);
-            this.props.setUiHasEhomeTourShown(true);
+            setTimeout(() => {
+              if (!this.screenHasDisappeared) {
+                this.ehomeTour.startTour();
+                this.props.setUiHasEhomeTourShown(true);
+              }
+            }, 1000);
           }
         }
       );
@@ -169,21 +178,15 @@ class EhomeScreen extends Component {
       return <ErrorOverlay error={error} onRetryPress={this.fetchEhomeData} />;
     }
     return (
-      <ScreenContainer bottomTabs={true} style={{ padding: 0 }}>
-        <SearchHeader
+      <ScreenContainer style={{ padding: 0 }}>
+        <TabSearchHeader
           navigator={this.props.navigator}
-          screen="ehome"
+          title={I18n.t("ehome_screen_title")}
+          icon={eHomeIcon}
           notificationCount={this.state.notificationCount}
           recentSearches={this.state.recentSearches}
           mailboxIconRef={ref => (this.mailboxIconRef = ref)}
         />
-        {false && (
-          <ProcessingItems
-            setRef={ref => (this.processingItemsRef = ref)}
-            onPress={this.openDocsUnderProcessingScreen}
-            itemsCount={this.state.pendingDocs.length}
-          />
-        )}
         <View style={{ flex: 1, marginVertical: 10 }}>
           <FlatList
             style={{ paddingHorizontal: 8 }}

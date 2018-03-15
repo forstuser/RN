@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Alert } from "react-native";
+import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { getReferenceDataForCategory, updateProduct } from "../api";
@@ -18,12 +18,16 @@ class EditProductBasicDetails extends React.Component {
   };
 
   static navigatorButtons = {
-    leftButtons: [
-      {
-        id: "back",
-        icon: require("../images/ic_back_ios.png")
+    ...Platform.select({
+      ios: {
+        leftButtons: [
+          {
+            id: "backPress",
+            icon: require("../images/ic_back_ios.png")
+          }
+        ]
       }
-    ]
+    })
   };
 
   constructor(props) {
@@ -39,11 +43,10 @@ class EditProductBasicDetails extends React.Component {
 
   onNavigatorEvent = event => {
     switch (event.id) {
-      case "back":
+      case "backPress":
         Alert.alert(
           I18n.t(" add_edit_amc_are_you_sure"),
           I18n.t(" add_edit_product_basic_unsaved_info"),
-
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
@@ -120,7 +123,7 @@ class EditProductBasicDetails extends React.Component {
         MAIN_CATEGORY_IDS.AUTOMOBILE,
         MAIN_CATEGORY_IDS.ELECTRONICS,
         MAIN_CATEGORY_IDS.FURNITURE
-      ].indexOf(mainCategoryId) == -1
+      ].indexOf(data.mainCategoryId) == -1
     ) {
       if (!data.value) {
         return Alert.alert(I18n.t("add_edit_product_basic_select_amount"));

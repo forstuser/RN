@@ -6,7 +6,7 @@ import {
   Alert,
   TouchableOpacity,
   ScrollView,
-  Text as NativeText
+  Platform
 } from "react-native";
 
 import ScrollableTabView, {
@@ -42,6 +42,20 @@ import MedicalDocsCard from "./medical-docs-card";
 
 const NavOptionsButton = () => (
   <TouchableOpacity
+    style={{
+      ...Platform.select({
+        ios: {},
+        android: {
+          position: "absolute",
+          top: 10,
+          right: 4,
+          width: 40,
+          height: 30,
+          alignItems: "center",
+          justifyContent: "center"
+        }
+      })
+    }}
     onPress={() =>
       Navigation.handleDeepLink({ link: "product-nav-options-btn" })
     }
@@ -54,7 +68,9 @@ Navigation.registerComponent("NavOptionsButton", () => NavOptionsButton);
 
 class ProductDetailsScreen extends Component {
   static navigatorStyle = {
-    tabBarHidden: true
+    tabBarHidden: true,
+    drawUnderNavBar: true,
+    navBarBackgroundColor: "#fff"
   };
   static navigatorButtons = {
     rightButtons: [
@@ -68,6 +84,7 @@ class ProductDetailsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isScreenVisible: true,
       isLoading: true,
       product: {},
       openServiceSchedule: false
@@ -94,8 +111,29 @@ class ProductDetailsScreen extends Component {
         if (!this.props.productId) {
           return this.props.navigator.pop();
         }
+        this.setState({
+          isScreenVisible: true
+        });
         this.fetchProductDetails();
         break;
+      case "willDisappear":
+        this.setState(
+          {
+            isScreenVisible: false
+          },
+          () => {
+            this.props.navigator.setStyle({
+              navBarTransparent: false,
+              navBarBackgroundColor: "#fff",
+              ...Platform.select({
+                ios: {},
+                android: {
+                  topBarElevationShadowEnabled: true
+                }
+              })
+            });
+          }
+        );
     }
 
     if (event.type == "DeepLink") {
@@ -113,8 +151,8 @@ class ProductDetailsScreen extends Component {
       case 0:
         Analytics.logEvent(Analytics.EVENTS.PRODUCT_DELETE_INITIATED);
         Alert.alert(
-          `Delete ${product.productName || ""}?`,
-          "This will be an irreversible task.",
+          `Are you sure?`,
+          "All the information and document copies related to this product will be deleted.",
           [
             {
               text: I18n.t("product_details_screen_yes_delete"),
@@ -144,6 +182,28 @@ class ProductDetailsScreen extends Component {
         // isLoading: true
       });
       const res = await getProductDetails(this.props.productId);
+      const { product } = res;
+      if (
+        product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
+        product.categoryId == 86
+      ) {
+        this.props.navigator.setStyle({
+          drawUnderNavBar: false,
+          navBarTranslucent: false,
+          navBarTransparent: false,
+          navBarBackgroundColor: "#fff",
+          topBarElevationShadowEnabled: true
+        });
+      } else if (this.state.isLoading) {
+        this.props.navigator.setStyle({
+          drawUnderNavBar: true,
+          navBarTranslucent: Platform.OS === "ios",
+          navBarTransparent: true,
+          navBarBackgroundColor: "#fff",
+          topBarElevationShadowEnabled: false
+        });
+      }
+
       this.setState(
         {
           product: res.product
@@ -159,7 +219,12 @@ class ProductDetailsScreen extends Component {
   };
 
   render() {
-    const { product, isLoading, openServiceSchedule } = this.state;
+    const {
+      isScreenVisible,
+      product,
+      isLoading,
+      openServiceSchedule
+    } = this.state;
     let content = null;
     if (isLoading) {
       content = <LoadingOverlay visible={isLoading} />;
@@ -181,6 +246,7 @@ class ProductDetailsScreen extends Component {
     } else {
       content = (
         <ProductCard
+          isScreenVisible={isScreenVisible}
           product={product}
           navigator={this.props.navigator}
           openServiceSchedule={openServiceSchedule}

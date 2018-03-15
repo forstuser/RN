@@ -7,7 +7,8 @@ import {
   Alert,
   Dimensions,
   TextInput,
-  ScrollView
+  ScrollView,
+  Platform
 } from "react-native";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -27,12 +28,16 @@ class AddEditExpenseScreen extends React.Component {
     disabledBackGesture: true
   };
   static navigatorButtons = {
-    leftButtons: [
-      {
-        id: "back",
-        icon: require("../../images/ic_back_ios.png")
+    ...Platform.select({
+      ios: {
+        leftButtons: [
+          {
+            id: "backPress",
+            icon: require("../../images/ic_back_ios.png")
+          }
+        ]
       }
-    ]
+    })
   };
 
   constructor(props) {
@@ -48,7 +53,7 @@ class AddEditExpenseScreen extends React.Component {
 
   onNavigatorEvent = event => {
     switch (event.id) {
-      case "back":
+      case "backPress":
         if (!this.state.confirmBackNavigation) {
           this.props.navigator.pop();
           return;

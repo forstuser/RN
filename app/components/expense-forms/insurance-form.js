@@ -226,6 +226,7 @@ class InsuranceForm extends React.Component {
             <CustomTextInput
               placeholder={I18n.t("expense_forms_insurance_polocy_no")}
               placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+              underlineColorAndroid="transparent"
               placeholder2Color={colors.mainBlue}
               value={policyNo}
               onChangeText={policyNo => this.setState({ policyNo })}
@@ -233,6 +234,7 @@ class InsuranceForm extends React.Component {
 
             <CustomTextInput
               placeholder={I18n.t("expense_forms_insurance_premium_amount")}
+              underlineColorAndroid="transparent"
               value={value ? String(value) : ""}
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"
@@ -258,6 +260,7 @@ class InsuranceForm extends React.Component {
 
             <CustomTextInput
               placeholder={I18n.t("expense_forms_insurance_total_coverage")}
+              underlineColorAndroid="transparent"
               value={amountInsured ? String(amountInsured) : ""}
               onChangeText={amountInsured => this.setState({ amountInsured })}
               keyboardType="numeric"

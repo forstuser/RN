@@ -276,21 +276,11 @@ class ProductOrExpense extends React.Component {
               I18n.t("add_edit_expense_screen_title_add_branch_name")
             );
           }
-          if (!data.purchaseDate) {
-            return Alert.alert(
-              I18n.t("add_edit_expense_screen_title_add_purchase_date")
-            );
-          }
           break;
         case MAIN_CATEGORY_IDS.FASHION:
         case MAIN_CATEGORY_IDS.HOUSEHOLD:
         case MAIN_CATEGORY_IDS.SERVICES:
         case MAIN_CATEGORY_IDS.TRAVEL:
-          if (!data.purchaseDate) {
-            return Alert.alert(
-              I18n.t("add_edit_expense_screen_title_add_date")
-            );
-          }
           if (!data.value) {
             return Alert.alert(
               I18n.t("add_edit_expense_screen_title_add_amount")
@@ -300,10 +290,10 @@ class ProductOrExpense extends React.Component {
         case MAIN_CATEGORY_IDS.HEALTHCARE:
           if (
             this.props.healthcareFormType == "healthcare_expense" &&
-            !data.purchaseDate
+            !data.value
           ) {
             return Alert.alert(
-              I18n.t("add_edit_expense_screen_title_add_date")
+              I18n.t("add_edit_expense_screen_title_add_amount")
             );
           }
       }

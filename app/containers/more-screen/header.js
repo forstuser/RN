@@ -23,11 +23,11 @@ class Header extends Component {
   }
 
   imageLoaded = () => {
-    this.setState({ blurViewRef: findNodeHandle(this.backgroundImage) });
+    // this.setState({ blurViewRef: findNodeHandle(this.backgroundImage) });
   };
 
   render() {
-    const profile = this.props.profile;
+    const { profile, authToken } = this.props;
     let profilePic = (
       <Image
         ref={img => {
@@ -45,14 +45,16 @@ class Header extends Component {
             this.backgroundImage = img;
           }}
           style={{ width: "100%", height: "100%" }}
-          source={{ uri: API_BASE_URL + profile.imageUrl }}
+          source={{
+            uri: API_BASE_URL + profile.imageUrl,
+            headers: { Authorization: authToken }
+          }}
           onLoadEnd={this.imageLoaded}
         />
       );
     }
     return (
       <View style={styles.container}>
-        <LoadingOverlay visible={profile == null} />
         {profile && (
           <TouchableOpacity style={styles.header} onPress={this.props.onPress}>
             <View style={styles.backgroundImg}>{profilePic}</View>
@@ -108,7 +110,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 120,
     padding: 16,
-    paddingTop: 36
+    ...Platform.select({
+      ios: {
+        paddingTop: 36
+      },
+      android: {
+        paddingTop: 16
+      }
+    })
   },
   profilePicWrapper: {
     width: 80,

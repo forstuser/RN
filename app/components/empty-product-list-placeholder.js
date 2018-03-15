@@ -8,8 +8,9 @@ import { MAIN_CATEGORY_IDS } from "../constants";
 
 const noDocsIcon = require("../images/ic_no_docs.png");
 
-const EmptyProductListPlaceholder = ({ mainCategoryId }) => {
+const EmptyProductListPlaceholder = ({ mainCategoryId, navigator }) => {
   let desc = "";
+
   switch (mainCategoryId) {
     case MAIN_CATEGORY_IDS.FURNITURE:
       desc = I18n.t("products_list_no_result_desc_furniture");

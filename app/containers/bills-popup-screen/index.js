@@ -5,7 +5,8 @@ import {
   FlatList,
   Alert,
   NativeModules,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from "react-native";
 
 import RNFetchBlob from "react-native-fetch-blob";
@@ -43,25 +44,6 @@ class BillsPopUpScreen extends Component {
     });
   }
 
-  openShare = () => {
-    // send http request in a new thread (using native code)
-    RNFetchBlob.config({
-      fileCache: true,
-      appendExt: this.props.copies[0].file_type || this.props.copies[0].fileType
-    })
-      .fetch("GET", API_BASE_URL + this.props.copies[0].copyUrl, {
-        Authorization: this.props.authToken
-      })
-      .then(res => {
-        // the temp file path
-        console.log("The file saved to ", res.path());
-        NativeModules.RNMultipleFilesShare.shareFiles(["file://" + res.path()]);
-      })
-      .catch((errorMessage, statusCode) => {
-        // error handling
-      });
-  };
-
   shareCopies = selectedCopies => {
     if (selectedCopies.length == 0) {
       return Alert.alert("Select some files to share!");
@@ -71,10 +53,17 @@ class BillsPopUpScreen extends Component {
       isDownloadingFiles: true
     });
     Promise.all(
-      selectedCopies.map(selectedCopy => {
+      selectedCopies.map((selectedCopy, index) => {
         return RNFetchBlob.config({
-          fileCache: true,
-          appendExt: selectedCopy.file_type || selectedCopy.fileType
+          ...Platform.select({
+            ios: {
+              fileCache: true,
+              appendExt: selectedCopy.file_type
+            },
+            android: {
+              path: RNFetchBlob.fs.dirs.DCIMDir + `/${selectedCopy.copyName}`
+            }
+          })
         })
           .fetch("GET", API_BASE_URL + selectedCopy.copyUrl, {
             Authorization: this.props.authToken
@@ -89,7 +78,6 @@ class BillsPopUpScreen extends Component {
         this.setState({
           isDownloadingFiles: false
         });
-        console.log("files: ", files);
         NativeModules.RNMultipleFilesShare.shareFiles(files);
       })
       .catch(e => {
@@ -160,15 +148,11 @@ class BillsPopUpScreen extends Component {
     const { isSelectViewVisible, isDownloadingFiles, copies } = this.state;
     const { date, id, type = null, onCopyDelete } = this.props;
     return (
-      <ScreenContainer navBar={false} style={styles.container}>
+      <ScreenContainer style={styles.container}>
         <View style={styles.header}>
           <View style={styles.dateAndId}>
             {date && (
-              <Text
-                onPress={this.openShare}
-                weight="Medium"
-                style={styles.date}
-              >
+              <Text weight="Medium" style={styles.date}>
                 {moment(date).isValid() && moment(date).format("DD MMM, YYYY")}
               </Text>
             )}

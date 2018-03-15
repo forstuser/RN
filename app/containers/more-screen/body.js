@@ -3,17 +3,27 @@ import {
   Platform,
   StyleSheet,
   View,
+  ScrollView,
   Image,
   Alert,
-  Linking
+  Linking,
+  Share
 } from "react-native";
 import { connect } from "react-redux";
+import DeviceInfo from "react-native-device-info";
+import AppLink from "react-native-app-link";
+import ActionSheet from "react-native-actionsheet";
+import call from "react-native-phone-call";
+
 import { SCREENS } from "../../constants";
 import { Text, Button, ScreenContainer } from "../../elements";
 import MoreItem from "./more-item";
-import call from "react-native-phone-call";
+
+import LanguageOptions from "../../components/language-options";
 
 import I18n from "../../i18n";
+
+import { showSnackbar } from "../snackbar";
 
 class Body extends Component {
   constructor(props) {
@@ -56,37 +66,97 @@ class Body extends Component {
     );
   };
 
+  onShareItemPress = async () => {
+    try {
+      Share.share({
+        message: "Hey, Check out this awesome app- http://bit.ly/2rIabk0"
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  onVersionItemPress = async () => {
+    const { isAppUpdateAvailable } = this.props;
+    if (!isAppUpdateAvailable) {
+      showSnackbar({
+        text: I18n.t("more_screen_no_update_available"),
+        autoDismissTimerSec: 5
+      });
+    } else {
+      AppLink.openInStore("id1328873045", "com.bin.binbillcustomer")
+        .then(() => {
+          // do stuff
+        })
+        .catch(err => {
+          // handle error
+        });
+    }
+  };
+
+  onLanguageChangePress = () => {
+    this.languageOptions.show();
+  };
+
   render() {
+    const appVersion = DeviceInfo.getVersion();
+    const { isAppUpdateAvailable, language } = this.props;
+
     return (
-      <View>
+      <ScrollView>
         <MoreItem
           onPress={this.onFaqItemPress}
-          imageSource={require("../../images/ic_more_faq.png/")}
-          name={I18n.t("more_screen_item_faq")}
+          imageSource={require("../../images/ic_more_faq.png")}
+          text={I18n.t("more_screen_item_faq")}
         />
         <MoreItem
           onPress={this.onEhomeItemPress}
-          imageSource={require("../../images/ic_more_refer.png/")}
-          name={I18n.t("more_screen_item_tips")}
+          imageSource={require("../../images/ic_more_refer.png")}
+          text={I18n.t("more_screen_item_tips")}
         />
         <MoreItem
           onPress={() =>
             call({ number: "+911244343177" }).catch(e => Alert.alert(e.message))
           }
-          imageSource={require("../../images/ic_more_call.png/")}
-          name={I18n.t("more_screen_item_call")}
+          imageSource={require("../../images/ic_more_call.png")}
+          text={I18n.t("more_screen_item_call")}
         />
         <MoreItem
           onPress={this.onEmailItemPress}
-          imageSource={require("../../images/ic_more_email.png/")}
-          name={I18n.t("more_screen_item_email")}
+          imageSource={require("../../images/ic_more_email.png")}
+          text={I18n.t("more_screen_item_email")}
+        />
+        <MoreItem
+          onPress={this.onShareItemPress}
+          imageSource={require("../../images/ic_share_blue.png")}
+          text={I18n.t("more_screen_item_share")}
+        />
+        <MoreItem
+          onPress={this.onLanguageChangePress}
+          imageSource={require("../../images/ic_translate.png")}
+          text={language.name}
+          btnText={I18n.t("more_screen_item_app_language_change")}
+        />
+        <MoreItem
+          onPress={this.onVersionItemPress}
+          imageSource={require("../../images/ic_info_blue.png")}
+          text={I18n.t("more_screen_item_app_version") + ": v" + appVersion}
+          btnText={
+            isAppUpdateAvailable
+              ? I18n.t("more_screen_item_app_version_update_to")
+              : null
+          }
         />
         <MoreItem
           onPress={this.onLogoutItemPress}
           imageSource={require("../../images/ic_more_logout.png/")}
-          name={I18n.t("more_screen_item_logout")}
+          text={I18n.t("more_screen_item_logout")}
         />
-      </View>
+        <LanguageOptions
+          ref={o => (this.languageOptions = o)}
+          onLanguageChange={this.props.setLanguage}
+        />
+      </ScrollView>
     );
   }
 }

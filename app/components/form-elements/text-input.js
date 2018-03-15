@@ -69,6 +69,7 @@ class CustomTextInput extends React.Component {
         </View>
 
         <TextInput
+          underlineColorAndroid="transparent"
           keyboardType={keyboardType}
           style={styles.textInput}
           value={value}
@@ -92,6 +93,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     top: 10,
+    left: 5,
     paddingVertical: 10
   },
   filledInputPlaceholderContainer: {

@@ -17,6 +17,9 @@ export const openLoginScreen = () => {
       screen: SCREENS.LOGIN_SCREEN,
       navigatorStyle: defaultNavigatorStyle,
       navigatorButtons: {}
+    },
+    appStyle: {
+      orientation: "portrait"
     }
   });
 };
@@ -25,6 +28,9 @@ export const openForceUpdateScreen = () => {
   Navigation.startSingleScreenApp({
     screen: {
       screen: SCREENS.FORCE_UPDATE_SCREEN
+    },
+    appStyle: {
+      orientation: "portrait"
     }
   });
 };
@@ -44,6 +50,9 @@ export const openAddProductsScreen = () => {
     screen: {
       screen: SCREENS.ADD_PRODUCTS_SCREEN,
       navigatorStyle: defaultNavigatorStyle
+    },
+    appStyle: {
+      orientation: "portrait"
     }
   });
 };
@@ -54,7 +63,10 @@ export const openAddProductScreen = props => {
       screen: SCREENS.ADD_PRODUCT_SCREEN,
       navigatorStyle: defaultNavigatorStyle
     },
-    passProps: props
+    passProps: props,
+    appStyle: {
+      orientation: "portrait"
+    }
   });
 };
 
@@ -64,6 +76,9 @@ export const openIntroScreen = () => {
       screen: SCREENS.INTRO_SCREEN,
       navigatorStyle: { navBarHidden: true },
       navigatorButtons: {}
+    },
+    appStyle: {
+      orientation: "portrait"
     }
   });
 };
@@ -93,12 +108,16 @@ export const openAppScreen = opts => {
       case SCREENS.ASC_SCREEN:
         initialTabIndex = 2;
         break;
+      case SCREENS.DO_YOU_KNOW_SCREEN:
+        initialTabIndex = 3;
+        break;
       case SCREENS.FAQS_SCREEN:
       case SCREENS.PROFILE_SCREEN:
-        initialTabIndex = 3;
+        initialTabIndex = 4;
         break;
     }
   }
+
   Navigation.startTabBasedApp({
     tabs: [
       {
@@ -117,6 +136,11 @@ export const openAppScreen = opts => {
         icon: require("./images/ic_nav_asc_off.png")
       },
       {
+        label: "Do You Know",
+        screen: SCREENS.DO_YOU_KNOW_SCREEN,
+        icon: require("./images/ic_do_you_know.png")
+      },
+      {
         label: "More",
         screen: SCREENS.MORE_SCREEN,
         icon: require("./images/ic_nav_more_off.png")
@@ -133,11 +157,13 @@ export const openAppScreen = opts => {
     },
     // **for Android Only**
     appStyle: {
+      orientation: "portrait",
       tabBarBackgroundColor: "#ffffff",
       tabBarButtonColor: colors.secondaryText,
       tabBarSelectedButtonColor: colors.mainBlue,
       tabBarTranslucent: false,
       forceTitlesDisplay: true,
+      tabFontFamily: "Quicksand-Bold",
       initialTabIndex,
       hideBackButtonTitle: true
     }

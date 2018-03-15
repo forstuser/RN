@@ -1,3 +1,5 @@
+import { LANGUAGES } from "../constants";
+
 export default {
   loggedInUser: {
     authToken: null,
@@ -9,11 +11,13 @@ export default {
   },
 
   ui: {
+    language: LANGUAGES[0],
     screenToOpenAfterLogin: null,
     hasBlankDashboardTourShown: false,
     hasDashboardTourShown: false,
     hasEhomeTourShown: false,
     hasUploadDocTourShown: false,
-    hasUpdateAppScreenShown: false
+    hasUpdateAppScreenShown: false,
+    rateUsDialogTimestamp: null
   }
 };

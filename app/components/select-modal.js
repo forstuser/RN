@@ -8,7 +8,8 @@ import {
   Modal,
   Text,
   FlatList,
-  Button
+  Button,
+  Platform
 } from "react-native";
 import I18n from "../i18n";
 const dropdownIcon = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhDAkMGjg4AXstAAAAcklEQVRIx+3Tuw3AIAxF0avMxQAMwNKeiYIUUSSE+NimQ7zU9wQK4O6IBYTi/ITARl4oyLN/hUh2/z8TAZKTyKT/FB6iyj1Ek1uJTm4hBrmWmOQaYpGvCEU+I5T5iDDkPcKYt4QjrwlnDhAR5Htxd0fvBYOKNVDm/h2pAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTEyLTA5VDEyOjI2OjU2KzAxOjAw6KWTZgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0xMi0wOVQxMjoyNjo1NiswMTowMJn4K9oAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC`;
@@ -173,6 +174,7 @@ class SelectModal extends Component {
         {isTextInputVisible && (
           <View style={styles.wrapper}>
             <TextInput
+              underlineColorAndroid="transparent"
               ref={ref => (this.textInput = ref)}
               placeholder={textInputPlaceholder}
               style={styles.textInput}
@@ -202,6 +204,7 @@ class SelectModal extends Component {
             <View style={styles.searchContainer}>
               <TextInput
                 placeholder={I18n.t("component_items_search")}
+                underlineColorAndroid="transparent"
                 style={styles.searchInput}
                 value={searchInput}
                 onChangeText={text => this.setState({ searchInput: text })}
@@ -264,7 +267,13 @@ const styles = StyleSheet.create({
     height: 12
   },
   textInput: {
-    flex: 1
+    flex: 1,
+    ...Platform.select({
+      ios: {},
+      android: {
+        padding: 0
+      }
+    })
   },
   textInputSelect: {
     fontWeight: "bold",
@@ -274,10 +283,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderColor: "#A9A9A9",
     borderBottomWidth: StyleSheet.hairlineWidth,
-    height: 60,
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 20
+    ...Platform.select({
+      ios: {
+        height: 60,
+        paddingTop: 20
+      },
+      android: {
+        height: 50
+      }
+    })
   },
   modalHeaderText: {
     fontSize: 18,
@@ -301,8 +317,16 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     backgroundColor: "#fff",
-    height: 30,
     borderRadius: 15,
+    ...Platform.select({
+      ios: {
+        height: 30
+      },
+      android: {
+        height: 30,
+        padding: 0
+      }
+    }),
     paddingHorizontal: 12
   },
   optionsList: {

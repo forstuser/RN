@@ -43,7 +43,8 @@ class RepairDetails extends Component {
         productId: product.id,
         jobId: product.jobId,
         repair: repair
-      }
+      },
+      overrideBackPress: true
     });
   };
 

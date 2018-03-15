@@ -26,11 +26,11 @@ target 'BinBill' do
   pod 'FirebaseMessaging'
   pod 'Firebase/Core'
 
-  pod 'Mixpanel'
-  
-  pod 'react-native-mixpanel', :path => '../node_modules/react-native-mixpanel'
+  pod 'TrueSDK'
 
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
+
+  pod 'RNViewShot', :path => '../node_modules/react-native-view-shot'
 
   target 'BinBillTests' do
     inherit! :search_paths

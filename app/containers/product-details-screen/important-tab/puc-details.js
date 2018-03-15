@@ -43,7 +43,8 @@ class PucDetails extends Component {
         productId: product.id,
         jobId: product.jobId,
         puc: puc
-      }
+      },
+      overrideBackPress: true
     });
   };
 

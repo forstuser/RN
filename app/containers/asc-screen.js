@@ -22,18 +22,22 @@ import {
 import { Text, Button, ScreenContainer } from "../elements";
 import I18n from "../i18n";
 import SelectModal from "../components/select-modal";
+import TabSearchHeader from "../components/tab-screen-header";
 import Analytics from "../analytics";
 import { colors } from "../theme";
 import { getProductMetasString } from "../utils";
-import ProcessingItems from "../components/ehome-processing-items.js";
 import ErrorOverlay from "../components/error-overlay";
 import { SCREENS } from "../constants";
 
-const bgImage = require("../images/ic_asc_bg_image.jpg");
+const ascIcon = require("../images/ic_nav_asc_off.png");
 const crossIcon = require("../images/ic_close.png");
 const dropdownIcon = require("../images/ic_dropdown_arrow.png");
 
 class AscScreen extends Component {
+  static navigatorStyle = {
+    navBarHidden: true,
+    tabBarHidden: false
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -78,9 +82,6 @@ class AscScreen extends Component {
         await ascAccessed();
       }
     }
-    this.props.navigator.setTitle({
-      title: I18n.t("asc_screen_title")
-    });
 
     try {
       const res = await getBrands();
@@ -191,11 +192,10 @@ class AscScreen extends Component {
   openLocationModal = () => {
     RNGooglePlaces.openPlacePickerModal()
       .then(place => {
-        console.log(place);
         this.setState({
           latitude: place.latitude,
           longitude: place.longitude,
-          address: place.name
+          address: place.address || place.name
         });
       })
       .catch(error => console.log(error.message)); // error is a Javascript Error object
@@ -221,124 +221,142 @@ class AscScreen extends Component {
     } = this.state;
     return (
       <ScreenContainer style={styles.container}>
-        <View style={styles.innerContainer}>
-          <Text weight="Bold" style={styles.sectionTitle}>
-            {I18n.t("asc_screen_section_1_title")}
-          </Text>
-          {products.length > 0 && (
-            <ScrollView style={styles.productsContainer} horizontal={true}>
-              {products.map(product => {
-                const meta = getProductMetasString(product.productMetaData);
-                return (
-                  <TouchableOpacity
-                    key={product.key}
-                    onPress={() => this.onProductPress(product)}
-                    style={styles.product}
-                  >
-                    <Image
-                      style={styles.productImage}
-                      source={{ uri: API_BASE_URL + product.cImageURL + "1" }}
-                    />
-                    <View style={styles.productTexts}>
-                      <Text numberOfLines={1} weight="Bold" style={styles.name}>
-                        {product.productName}
-                      </Text>
-                      <View style={styles.productMetaContainer}>
-                        <Text numberOfLines={2} style={styles.productMeta}>
-                          {meta}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollView>
-          )}
-          {products.length == 0 && (
-            <View style={styles.noProductsContainer}>
-              <Text style={styles.noProductsMsg}>
-                {I18n.t("asc_screen_section_no_products_msg")}
-              </Text>
-              <TouchableOpacity
-                onPress={this.openAddProductScreen}
-                style={styles.addProductBtn}
-              >
-                <Text weight="Bold" style={styles.addProductBtnText}>
-                  {I18n.t("asc_screen_section_add_product_btn")}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          <Text weight="Bold" style={styles.sectionTitle}>
-            {I18n.t("asc_screen_section_2_title")}
-          </Text>
-          <SelectModal
-            style={styles.select}
-            dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-            placeholder={I18n.t("asc_screen_placeholder_select_brand")}
-            placeholderRenderer={({ placeholder }) => (
-              <Text weight="Bold" style={{ color: colors.secondaryText }}>
-                {placeholder}
-              </Text>
-            )}
-            beforeModalOpen={() => {
-              this.setState({ clearSelectedValuesOnScreenAppear: false });
-              return true;
-            }}
-            selectedOption={selectedBrand}
-            options={brands}
-            visibleKey="brandName"
-            onOptionSelect={value => {
-              this.selectBrand(value);
-            }}
-            hideAddNew={true}
+        <View style={styles.header}>
+          <TabSearchHeader
+            title={I18n.t("asc_screen_title")}
+            icon={ascIcon}
+            navigator={this.props.navigator}
+            showMailbox={false}
+            showSearchInput={false}
           />
-
-          <SelectModal
-            style={styles.select}
-            dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-            placeholder={I18n.t("asc_screen_placeholder_select_category")}
-            placeholderRenderer={({ placeholder }) => (
-              <Text weight="Bold" style={{ color: colors.secondaryText }}>
-                {placeholder}
-              </Text>
-            )}
-            beforeModalOpen={() => {
-              if (!this.state.selectedBrand) {
-                Alert.alert(I18n.t("asc_screen_select_brand_first"));
-                return false;
-              }
-              this.setState({ clearSelectedValuesOnScreenAppear: false });
-              return true;
-            }}
-            selectedOption={selectedCategory}
-            options={categories}
-            visibleKey="category_name"
-            onOptionSelect={value => {
-              this.selectCategory(value);
-            }}
-            hideAddNew={true}
-          />
-
-          <TouchableOpacity
-            onPress={this.openLocationModal}
-            style={[styles.select, { flexDirection: "row", marginBottom: 35 }]}
-          >
-            <Text
-              weight="Bold"
-              style={{ color: colors.secondaryText, flex: 1 }}
-            >
-              {!this.state.address &&
-                I18n.t("asc_screen_placeholder_select_location")}
-              {this.state.address.length > 0 && this.state.address}
+        </View>
+        <View style={styles.body}>
+          <View style={styles.innerContainer}>
+            <Text weight="Bold" style={styles.sectionTitle}>
+              {I18n.t("asc_screen_section_1_title")}
             </Text>
-          </TouchableOpacity>
-          <Button
-            onPress={this.startSearch}
-            style={styles.searchBtn}
-            text={I18n.t("asc_screen_placeholder_search_btn")}
-            color="secondary"
-          />
+            {products.length > 0 && (
+              <ScrollView style={styles.productsContainer} horizontal={true}>
+                {products.map(product => {
+                  const meta = getProductMetasString(product.productMetaData);
+                  return (
+                    <TouchableOpacity
+                      key={product.key}
+                      onPress={() => this.onProductPress(product)}
+                      style={styles.product}
+                    >
+                      <Image
+                        style={styles.productImage}
+                        source={{ uri: API_BASE_URL + product.cImageURL + "1" }}
+                      />
+                      <View style={styles.productTexts}>
+                        <Text
+                          numberOfLines={1}
+                          weight="Bold"
+                          style={styles.name}
+                        >
+                          {product.productName}
+                        </Text>
+                        <View style={styles.productMetaContainer}>
+                          <Text numberOfLines={2} style={styles.productMeta}>
+                            {meta}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+            )}
+            {products.length == 0 && (
+              <View style={styles.noProductsContainer}>
+                <Text style={styles.noProductsMsg}>
+                  {I18n.t("asc_screen_section_no_products_msg")}
+                </Text>
+                <TouchableOpacity
+                  onPress={this.openAddProductScreen}
+                  style={styles.addProductBtn}
+                >
+                  <Text weight="Bold" style={styles.addProductBtnText}>
+                    {I18n.t("asc_screen_section_add_product_btn")}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            <Text weight="Bold" style={styles.sectionTitle}>
+              {I18n.t("asc_screen_section_2_title")}
+            </Text>
+            <SelectModal
+              style={styles.select}
+              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+              placeholder={I18n.t("asc_screen_placeholder_select_brand")}
+              placeholderRenderer={({ placeholder }) => (
+                <Text weight="Bold" style={{ color: colors.secondaryText }}>
+                  {placeholder}
+                </Text>
+              )}
+              beforeModalOpen={() => {
+                this.setState({ clearSelectedValuesOnScreenAppear: false });
+                return true;
+              }}
+              selectedOption={selectedBrand}
+              options={brands}
+              visibleKey="brandName"
+              onOptionSelect={value => {
+                this.selectBrand(value);
+              }}
+              hideAddNew={true}
+            />
+
+            <SelectModal
+              style={styles.select}
+              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+              placeholder={I18n.t("asc_screen_placeholder_select_category")}
+              placeholderRenderer={({ placeholder }) => (
+                <Text weight="Bold" style={{ color: colors.secondaryText }}>
+                  {placeholder}
+                </Text>
+              )}
+              beforeModalOpen={() => {
+                if (!this.state.selectedBrand) {
+                  Alert.alert(I18n.t("asc_screen_select_brand_first"));
+                  return false;
+                }
+                this.setState({ clearSelectedValuesOnScreenAppear: false });
+                return true;
+              }}
+              selectedOption={selectedCategory}
+              options={categories}
+              visibleKey="category_name"
+              onOptionSelect={value => {
+                this.selectCategory(value);
+              }}
+              hideAddNew={true}
+            />
+
+            <TouchableOpacity
+              onPress={this.openLocationModal}
+              style={[
+                styles.select,
+                { flexDirection: "row", marginBottom: 35 }
+              ]}
+            >
+              <Text
+                weight="Bold"
+                style={{ color: colors.secondaryText, flex: 1 }}
+              >
+                {!this.state.address &&
+                  I18n.t("asc_screen_placeholder_select_location")}
+                {this.state.address.length > 0 && this.state.address}
+              </Text>
+            </TouchableOpacity>
+            <Button
+              onPress={this.startSearch}
+              style={styles.searchBtn}
+              text={I18n.t("asc_screen_placeholder_search_btn")}
+              color="secondary"
+            />
+          </View>
         </View>
       </ScreenContainer>
     );
@@ -347,8 +365,24 @@ class AscScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    padding: 0,
     alignItems: "center",
     backgroundColor: "#fafafa"
+  },
+  header: {
+    width: "100%",
+    ...Platform.select({
+      ios: {
+        zIndex: 1
+      },
+      android: {}
+    })
+  },
+  body: {
+    padding: 16,
+    width: "100%",
+    flex: 1,
+    overflow: "hidden"
   },
   innerContainer: {
     width: "100%",

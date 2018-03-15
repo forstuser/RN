@@ -44,7 +44,8 @@ class WarrantyDetails extends Component {
         jobId: product.jobId,
         warranty: warranty,
         warrantyType: warrantyType
-      }
+      },
+      overrideBackPress: true
     });
   };
 
@@ -53,16 +54,6 @@ class WarrantyDetails extends Component {
     const { warrantyDetails } = product;
 
     let headerText = I18n.t("product_details_screen_warranty_title");
-    switch (warrantyType) {
-      case WARRANTY_TYPES.DUAL:
-        headerText = I18n.t("product_details_screen_dual_warranty_title", {
-          dualWarrantyItem: product.dualWarrantyItem || "Dual"
-        });
-        break;
-      case WARRANTY_TYPES.EXTENDED:
-        headerText = I18n.t("product_details_screen_extended_warranty_title");
-        break;
-    }
     return (
       <View>
         <Collapsible headerText={headerText}>
@@ -99,25 +90,6 @@ class WarrantyDetails extends Component {
                       />
                     )}
 
-                    <KeyValueItem
-                      keyText={I18n.t("product_details_screen_warranty_seller")}
-                      valueText={
-                        warranty.sellers ? warranty.sellers.sellerName : "-"
-                      }
-                    />
-
-                    <KeyValueItem
-                      keyText={I18n.t(
-                        "product_details_screen_warranty_seller_contact"
-                      )}
-                      ValueComponent={() => (
-                        <MultipleContactNumbers
-                          contact={
-                            warranty.sellers ? warranty.sellers.contact : "-"
-                          }
-                        />
-                      )}
-                    />
                     <ViewBillRow
                       expiryDate={warranty.expiryDate}
                       purchaseDate={warranty.purchaseDate}

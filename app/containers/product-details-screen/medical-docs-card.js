@@ -66,7 +66,8 @@ class MedicalDocsCard extends Component {
         doctorName: seller.name,
         doctorContact: seller.contact,
         copies: product.copies || []
-      }
+      },
+      overrideBackPress: true
     });
   };
 
@@ -169,7 +170,10 @@ class MedicalDocsCard extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: {
+    flex: 1,
+    marginTop: 30
+  },
   contentContainer: {
     alignItems: "center"
   },

@@ -3,8 +3,9 @@ import { Navigation } from "react-native-navigation";
 import axios from "axios";
 import store from "../store";
 import DeviceInfo from "react-native-device-info";
-import navigation from "../navigation";
+import navigation, { openLoginScreen } from "../navigation";
 import { actions as uiActions } from "../modules/ui";
+import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
 export const API_BASE_URL = "https://consumer-stage.binbill.com";
@@ -29,10 +30,15 @@ const apiRequest = async ({
       console.log("auth token: ", token);
     }
 
+    const language = store.getState().ui.language;
+    if (language) {
+      headers.language = language.code;
+    }
+
     if (Platform.OS == "ios") {
       headers.ios_app_version = DeviceInfo.getBuildNumber();
     } else {
-      headers.app_version = 12; //android app version
+      headers.app_version = 17; //android app version
     }
 
     console.log(
@@ -75,7 +81,8 @@ const apiRequest = async ({
 
     if (r.data.status == false) {
       Analytics.logEvent(
-        Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`
+        Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
+        { message: r.data.message }
       );
       let error = new Error(r.data.message);
       error.statusCode = 400;
@@ -84,15 +91,24 @@ const apiRequest = async ({
 
     return r.data;
   } catch (e) {
-    Analytics.logEvent(
-      Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`
-    );
     console.log("e: ", e);
     let error = new Error(e.message);
     error.statusCode = e.statusCode || 0;
+
+    let errorMessage = e.message;
     if (e.response) {
       console.log("e.response.data: ", e.response.data);
       error.statusCode = e.response.status;
+      errorMessage = e.response.data.message;
+    }
+    Analytics.logEvent(
+      Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
+      { message: errorMessage }
+    );
+
+    if (error.statusCode == 401) {
+      store.dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
+      openLoginScreen();
     }
     throw error;
   }
@@ -206,11 +222,19 @@ export const consumerGetOtp = async PhoneNo => {
   });
 };
 
-export const consumerValidate = async (phoneNo, token, fcmToken) => {
+export const consumerValidate = async ({
+  phoneNo,
+  token,
+  fcmToken,
+  trueSecret,
+  trueObject,
+  bbLoginType = 1
+}) => {
   let data = {
     Token: token,
-    TrueObject: { PhoneNo: phoneNo },
-    BBLogin_Type: 1,
+    TrueSecret: trueSecret,
+    TrueObject: trueObject,
+    BBLogin_Type: bbLoginType,
     platform: platform
   };
   if (fcmToken) {
@@ -219,20 +243,26 @@ export const consumerValidate = async (phoneNo, token, fcmToken) => {
   return await apiRequest({
     method: "post",
     url: "/consumer/validate",
-    data
+    data: JSON.parse(JSON.stringify(data))
   });
 };
 
 export const addFcmToken = async fcmToken => {
   console.log("subscribe: ", fcmToken);
-  return await apiRequest({
-    method: "post",
-    url: "/consumer/subscribe",
-    data: {
-      fcmId: fcmToken,
-      platform: platform
-    }
-  });
+
+  const token = store.getState().loggedInUser.authToken;
+  if (token) {
+    return await apiRequest({
+      method: "post",
+      url: "/consumer/subscribe",
+      data: {
+        fcmId: fcmToken,
+        platform: platform
+      }
+    });
+  } else {
+    return new Error("User not logged in yet");
+  }
 };
 
 export const logout = async fcmToken => {
@@ -1007,5 +1037,34 @@ export const deletePuc = async ({ productId, pucId }) => {
   return await apiRequest({
     method: "delete",
     url: `/products/${productId}/pucs/${pucId}`
+  });
+};
+
+export const fetchDoYouKnowItems = async ({ tagIds }) => {
+  return await apiRequest({
+    method: "post",
+    url: "/know/items",
+    data: { tag_id: tagIds }
+  });
+};
+
+export const fetchDoYouKnowTags = async () => {
+  return await apiRequest({
+    method: "get",
+    url: "/tags"
+  });
+};
+
+export const likeDoYouKnowItem = async ({ itemId }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/know/items/${itemId}`
+  });
+};
+
+export const unlikeDoYouKnowItem = async ({ itemId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/know/items/${itemId}`
   });
 };

@@ -28,7 +28,12 @@ const ProductsList = props => {
     <ProductListItem navigator={navigator} product={item} />
   );
   if (!isLoading && products.length == 0) {
-    return <EmptyProductListPlaceholder mainCategoryId={mainCategoryId} />;
+    return (
+      <EmptyProductListPlaceholder
+        mainCategoryId={mainCategoryId}
+        navigator={navigator}
+      />
+    );
   } else {
     return (
       <FlatList

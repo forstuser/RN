@@ -1,15 +1,19 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import { connect } from "react-redux";
+import RNRestart from "react-native-restart";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
+import { actions as uiActions } from "../../modules/ui";
 import { Text, Button, ScreenContainer } from "../../elements";
 import Body from "./body";
 import Header from "./header";
+import I18n from "../../i18n";
 import { SCREENS } from "../../constants";
 import { getProfileDetail, logout } from "../../api";
-import { openLoginScreen } from "../../navigation";
+import { openLoginScreen, openAppScreen } from "../../navigation";
 import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
+import { colors } from "../../theme";
 
 class MoreScreen extends Component {
   static navigatorStyle = {
@@ -22,6 +26,7 @@ class MoreScreen extends Component {
       error: null,
       isFetchingData: false,
       profile: null,
+      isAppUpdateAvailable: false,
       binbillDetails: {},
       startWithProfileScreen: false
     };
@@ -62,9 +67,11 @@ class MoreScreen extends Component {
     });
     try {
       const res = await getProfileDetail();
+      console.log("Profile result: ", res);
       this.setState(
         {
           profile: res.userProfile,
+          isAppUpdateAvailable: res.forceUpdate === false,
           isFetchingData: false
         },
         () => {
@@ -92,21 +99,30 @@ class MoreScreen extends Component {
   };
 
   render() {
-    const { profile, error, isFetchingData } = this.state;
+    const { authToken } = this.props;
+    const { profile, isAppUpdateAvailable, error, isFetchingData } = this.state;
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
     }
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
-        <LoadingOverlay visible={isFetchingData} />
+        <LoadingOverlay visible={profile == null} />
         <Header
+          authToken={authToken}
           onPress={this.openProfileScreen}
           profile={profile}
           navigator={this.props.navigator}
         />
         <Body
           profile={profile}
+          isAppUpdateAvailable={isAppUpdateAvailable}
           logoutUser={this.props.logoutUser}
+          language={this.props.language}
+          setLanguage={language => {
+            this.props.setLanguage(language);
+            I18n.locale = language.code;
+            openAppScreen();
+          }}
           navigator={this.props.navigator}
         />
       </ScreenContainer>
@@ -116,7 +132,8 @@ class MoreScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    authToken: state.loggedInUser.authToken
+    authToken: state.loggedInUser.authToken,
+    language: state.ui.language
   };
 };
 
@@ -125,11 +142,14 @@ const mapDispatchToProps = dispatch => {
     logoutUser: async () => {
       dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
       try {
-        await logout();
+        logout();
       } catch (e) {
         console.log(e);
       }
       openLoginScreen();
+    },
+    setLanguage: async language => {
+      dispatch(uiActions.setLanguage(language));
     }
   };
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Alert } from "react-native";
+import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import I18n from "../i18n";
@@ -19,7 +19,9 @@ import ChangesSavedModal from "../components/changes-saved-modal";
 class AddEditAmc extends React.Component {
   static navigatorStyle = {
     tabBarHidden: true,
-    disabledBackGesture: true
+    navBarTranslucent: false,
+    navBarTransparent: false,
+    navBarBackgroundColor: "#fff"
   };
 
   static propTypes = {
@@ -38,12 +40,16 @@ class AddEditAmc extends React.Component {
   };
 
   static navigatorButtons = {
-    leftButtons: [
-      {
-        id: "back",
-        icon: require("../images/ic_back_ios.png")
+    ...Platform.select({
+      ios: {
+        leftButtons: [
+          {
+            id: "backPress",
+            icon: require("../images/ic_back_ios.png")
+          }
+        ]
       }
-    ]
+    })
   };
 
   constructor(props) {
@@ -81,7 +87,7 @@ class AddEditAmc extends React.Component {
 
   onNavigatorEvent = event => {
     if (event.type == "NavBarButtonPress") {
-      if (event.id == "back") {
+      if (event.id == "backPress") {
         Alert.alert(
           I18n.t("add_edit_amc_are_you_sure"),
           I18n.t("add_edit_amc_unsaved_info"),
@@ -99,27 +105,31 @@ class AddEditAmc extends React.Component {
         );
       } else if (event.id == "delete") {
         const { productId, amc } = this.props;
-        Alert.alert(I18n.t("add_edit_amc_delete_amc"), [
-          {
-            text: I18n.t("product_details_screen_yes_delete"),
-            onPress: async () => {
-              try {
-                this.setState({ isLoading: true });
-                await deleteAmc({ productId, amcId: amc.id });
-                this.props.navigator.pop();
-              } catch (e) {
-                console.log("e: ", e);
-                Alert.alert(I18n.t("add_edit_amc_could_not_delete"));
-                this.setState({ isLoading: false });
+        Alert.alert(
+          I18n.t("add_edit_amc_delete_amc"),
+          I18n.t("add_edit_amc_delete_amc_desc"),
+          [
+            {
+              text: I18n.t("product_details_screen_yes_delete"),
+              onPress: async () => {
+                try {
+                  this.setState({ isLoading: true });
+                  await deleteAmc({ productId, amcId: amc.id });
+                  this.props.navigator.pop();
+                } catch (e) {
+                  console.log("e: ", e);
+                  Alert.alert(I18n.t("add_edit_amc_could_not_delete"));
+                  this.setState({ isLoading: false });
+                }
               }
+            },
+            {
+              text: I18n.t("add_edit_no_dnt_delete"),
+              onPress: () => {},
+              style: "cancel"
             }
-          },
-          {
-            text: I18n.t("add_edit_no_dnt_delete"),
-            onPress: () => {},
-            style: "cancel"
-          }
-        ]);
+          ]
+        );
       }
     }
   };

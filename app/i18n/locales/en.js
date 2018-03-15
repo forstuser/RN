@@ -14,8 +14,10 @@ export default {
 
   //login screen
   login_screen_title: "Get Started",
-  login_screen_input_placeholder: "Enter your mobile number",
-  login_screen_btn_text: "Verify",
+  login_screen_input_placeholder: "Enter Mobile Number",
+  login_screen_btn_text: "SEND OTP",
+  login_screen_or_text: "OR INSTANT SIGN IN WITH",
+  login_screen_no_otp_required_text: "No OTP Required",
   login_screen_invalid_number_error: "Please enter 10 digit mobile number",
   login_screen_terms_of_use:
     "By signing up you agree to our Terms & Conditions and Privacy Policy",
@@ -24,7 +26,7 @@ export default {
   //verify screen
   verify_screen_title: "Verify",
   verify_screen_invalid_otp_error:
-    "Please enter 6 or 4 digit OTP you received on your phone",
+    "Please enter 4 digit OTP you received on your phone",
   verify_screen_enter_otp_msg:
     "Please enter the OTP we’ve sent to {{phoneNumber}}",
   verify_screen_btn_text: "Submit",
@@ -170,9 +172,14 @@ export default {
   more_screen_item_tips: "Tips to Build Your eHome ",
   more_screen_item_call: "Call Us",
   more_screen_item_email: "Email Us",
+  more_screen_item_share: "Share App",
+  more_screen_item_app_version: "App Version",
+  more_screen_item_app_language_change: "Change",
+  more_screen_item_app_version_update_to: "Update Now",
   more_screen_item_logout: "Logout",
   more_screen_logout: "Yes, Logout",
   more_screen_stay: "No, Stay",
+  more_screen_no_update_available: "No update available",
 
   //product details screen
   product_details_screen_title: "Product Details",
@@ -287,6 +294,38 @@ export default {
   product_details_screen_your_upload: "Upload",
   product_details_screen_your_general_details: "General Details",
   product_details_screen_edit_text: "EDIT",
+  //new
+  product_details_screen_tab_customer_care: "CUSTOMER CARE",
+  product_details_screen_tab_all_info: "ALL INFO",
+  product_details_screen_tab_important: "IMPORTANT",
+  product_details_screen_connect_brand_connect: "BRAND CONNECT",
+  product_details_screen_connect_insurance_provider: "INSURANCE PROVIDER",
+  product_details_screen_connect_warranty_provider: "WARRANTY PROVIDER",
+  product_details_screen_connect_numbers: "Customer Care Numbers",
+  product_details_screen_connect_links: "Request Service",
+  product_details_screen_connect_emails: "Email ID",
+  product_details_screen_asc_title: "NEAREST AUTHORISED SERVICE CENTRE",
+  product_details_screen_asc_select_location: "Select your location",
+  product_details_screen_asc_no_results: "No Nearby Services",
+  product_details_screen_asc_directions: "Directions",
+  product_details_screen_general_details: "General Details",
+  product_details_screen_seller_details: "Seller Details",
+  product_details_screen_edit: "EDIT",
+  product_details_screen_service_schedule_title: "Service Schedule",
+  product_details_screen_service_manufacturer_warranty: "Manufacturer Warranty",
+  product_details_screen_service_third_party_warranty:
+    "Third Party Extended Warranty",
+  product_details_screen_warranty_expiry_date: "Warranty Expiry Date",
+  product_details_screen_add_warranty: "Add Warranty",
+  product_details_screen_add_extended_warranty: "Add Extended Warranty",
+  product_details_screen_insurance_details: "Insurance Details",
+  product_details_screen_add_insurance: "Add Insurance",
+  product_details_screen_amc_details: "AMC Details",
+  product_details_screen_add_amc: "Add AMC",
+  product_details_screen_repair_details: "Repair/Service Details",
+  product_details_screen_add_repair: "Add Repair",
+  product_details_screen_puc_details: "PUC Details",
+  product_details_screen_add_puc: "Add PUC",
 
   //profile screen
   profile_screen_label_name: "Name",
@@ -343,13 +382,22 @@ export default {
   asc_screen_select_fields_first: "Please select brand and product",
   asc_screen_select_location: "Please select location",
 
+  //Do You Know screen
+  do_you_know_screen_title: "Do You Know",
+  do_you_know_screen_end_msg:
+    "You have reached the end, Stay updated for more.",
+  do_you_know_screen_tags_search_placeholder: "Search...",
+  do_you_know_screen_tags_search_cta: "Search",
+
   //Dashboard Screen
+  dashboard_screen_title: "Dashboard",
   dashboard_screen_whats_coming_up: "What's Coming Up",
   dashboard_screen_recent_activity: "Recent Activity",
   dashboard_screen_ehome_insights: "Expense Insight",
   dashboard_screen_chart_last_7_days: "Last 7 Days",
 
   //eHome Screen
+  ehome_screen_title: "eHome",
   ehome_screen_processing_docs: "Processing Docs",
   ehome_screen_items_pending_count: "{{pendingDocsCount}} item(s) pending",
   ehome_screen_items_category_item_count: "{{count}} items",
@@ -384,40 +432,6 @@ export default {
   transactions_screen_filter_overall: "Lifetime",
   transactions_screen_filter_options_title: "See insights of",
   transactions_screen_filter_close: "Cancel",
-
-  //tips screen
-  tips_screen_tip_1:
-    "Always ask for a valid bill from the seller/trader. It is your right to get a bill as well as duty to ask from the seller.",
-  tips_screen_tip_2:
-    "Whenever you get a bill, the first thing you should do is scan and upload it in BinBill before you misplace or accidentally destroy it.",
-  tips_screen_tip_3:
-    "While scanning the bill, ensure sufficient light without any shadow obstruction from your hand, phone or things around.",
-  tips_screen_tip_4:
-    "The document that you’d scan with the inbuilt scanner should keep in between the four corners as shown on the screen.",
-  tips_screen_tip_5:
-    "For good image quality, keep bills or documents on hard and level surface without any disturbance from wind.",
-  tips_screen_tip_6:
-    "Recommended to check if the bill is not torn, crumpled or physically damaged.",
-  tips_screen_tip_7:
-    "While scanning and uploading, crop the image to trim the unwanted areas and make it readable.",
-  tips_screen_tip_8:
-    "Choose from Original, Magic or Gray Color mode. Magic Mode is the most suitable for worn out or bills with fading ink.",
-  tips_screen_tip_9:
-    "Always review the image of bills or documents before finally uploading. If you can see the entries then we can also and if you are finding it difficult then chances are we will also find them difficult to read. Especially for the “kachha bills” the handwriting should be legible and preferred language is English.",
-  tips_screen_tip_10:
-    "It is always advisable to upload your bill along with any associated warranty, guarantee or insurance document. Remember these are important to extract necessary information in order to maintain your records in BinBill.",
-  tips_screen_tip_11:
-    "You can add prescriptions and related reports along with chemist bills, if they are available.",
-  tips_screen_tip_12:
-    "Do not upload selfies or other irrelevant photos since these would be discarded.",
-  tips_screen_tip_13:
-    "Bills can also be added from “Gallery”. After adding the image of the bill, make sure all the details are visible. If not, then retake the photo from BinBill scanner.",
-  tips_screen_tip_14:
-    "In case of Doc. and Pdf make sure that it contains bills and related documents, before uploading it.",
-  tips_screen_tip_15:
-    "If the bill is lengthy and cannot possibly come in a single frame, then take multiple photos. Please keep in mind to segregate Bill in equal parts.",
-  tips_screen_tip_16:
-    "Please do not upload the same bill/document more than once. Duplicacy will be discarded owing to quality issues.",
 
   //add-edit-expense-screen
   add_edit_expense_screen_title_add_automobile: "Add Automobile",
@@ -530,10 +544,8 @@ export default {
   faq_question_14: "Do I need to pay anything to enjoy these services?",
   faq_answer_14: "We are absolutely free.",
 
-  //search header
-  search_header_dashboard: "Dashboard",
-  search_header_ehome: "eHome",
-  // search_header_search_placeholder: "Search...",
+  //tab screen header
+  tab_screen_header_search_placeholder: "Search...",
 
   // add expenses options
   add_expenses_options_upload_title:
@@ -567,19 +579,13 @@ export default {
   app_tour_tips_9:
     "Just pinch out to zoom in your bills' images, to have a better view.",
 
+  //blank dashboard
   blank_dashboard_headline: "Welcome to BinBill",
   blank_dashboard_text:
-    "Start building your eHome by converting ordinary bills into smart bills and live worry free",
+    "Start adding your Products, Bills, Expenses and Documents",
   blank_dashboard_btn_text: "UPLOAD DOC",
   blank_dashboard_know_more_text: "Know More",
   blank_dashboard_one_step: "One Stop For",
-  terms_of_use: `Please read these terms of use (“Terms”), a legal agreement between Bin Bill Services Private Limited, a Company incorporated under the Companies Act 2013, having its registered office at Office No. 507 508, Seat No.-04, Second Floor, Deep Plaza Complex, Gurgaon, Haryana, India, 122001, India (hereinafter "Company"/ “BinBill”) of the first part AND the Registered User of the second part (hereinafter collectively referred to as “you” , “yours” or “Registered User”). The Terms shall govern use of and access to <www.binbill.com> (the “Website”) and the “BinBill” technology platform accessible through desktops, mobile phones, smart phones and tablets (the “Application”) which offers an online marketplace connecting Registered Users (defined below) with “Service Providers” (defined below) and offering various Services as may be introduced by the Company from time to time (hereinafter “Website” and “Application” collectively referred to as “BinBill Software”). The Company is the owner of the BinBill Software offered to the Registered User.
-  
-  Please carefully go through these Terms and the privacy policy available at https://www. binbill.com/company/privacy ("Privacy Policy") before you decide to access or use the BinBill Software made available by the Company. These Terms and the Privacy Policy together constitute a legal agreement (“Agreement”) between you and Company in connection with your access and use of the BinBill Software.
-  
-  By registering for the BinBill Software as provided below, or by entering into an agreement with the Company to provide committed Services (defined below) as set out in these Terms, or through the continued use or accessing the Website and Application, You agree to be subject to these Terms.
-  
-  We request You to please read these Terms carefully and do not use of the Website and Application unless You agree fully with these Terms.`,
 
   //add-edit last step
   add_edit_amc_add_amc: "Add AMC",
@@ -589,8 +595,9 @@ export default {
     "All the unsaved information and document copies related to this AMC would be deleted",
   add_edit_amc_go_back: "Go Back",
   add_edit_amc_stay: "Stay",
-  add_edit_amc_delete_amc:
-    "`Delete this AMC?`, This will be an irreversible task.",
+  add_edit_amc_delete_amc: "Are you sure?",
+  add_edit_amc_delete_amc_desc:
+    "All the information and document copies related to this AMC will be deleted.",
   add_edit_amc_could_not_delete: "`Couldn't delete`",
   add_edit_no_dnt_delete: "No, don't Delete",
   add_edit_amc_effective_date: "Please select AMC effective date",
@@ -600,8 +607,9 @@ export default {
   add_edit_insurance_delete: "Delete",
   add_edit_insurance_unsaved_info:
     "All the unsaved information and document copies related to this insurance would be deleted",
-  add_edit_insurance_delete_insurance:
-    "`Delete this insurance?`, This will be an irreversible task.",
+  add_edit_insurance_delete_insurance: "Are you sure?",
+  add_edit_insurance_delete_insurance_desc:
+    "All the information and document copies related to this insurance will be deleted.",
   add_edit_insurance_yes_delete: "Yes, delete",
   add_edit_insurance_provider_name: "Please select or enter provider name",
   add_edit_personal_doc_are_you_sure: "Are you sure?",
@@ -621,20 +629,23 @@ export default {
   add_edit_puc_edit_puc: "Edit PUC",
   add_edit_puc_unsaved_info:
     "All the unsaved information and document copies related to this PUC would be deleted",
-  add_edit_puc_delete_puc:
-    "`Delete this PUC?`, This will be an irreversible task.",
+  add_edit_puc_delete_puc: "Are you sure?",
+  add_edit_puc_delete_puc_desc:
+    "All the information and document copies related to this PUC will be deleted.",
   add_edit_puc_select_puc: "`Please select 'PUC Effective Date' or 'PUC Upto'`",
   add_edit_repair_add_repair: "Add Repair",
   add_edit_repair_edit_repair: "Edit Repair",
   add_edit_repair_unsaved_info:
     "All the unsaved information and document copies related to this repair would be deleted",
-  add_edit_repair_delete_repair:
-    "`Delete this repair?`, This will be an irreversible task.",
+  add_edit_repair_delete_repair: "Are you sure?",
+  add_edit_repair_delete_repair_desc:
+    "All the information and document copies related to this repair will be deleted.",
   add_edit_repair_date: "Please select repair date",
   add_edit_warranty_unsaved_info:
     "All the unsaved information and document copies related to this warranty would be deleted",
-  add_edit_warranty_delete_warranty:
-    "`Delete this warranty?`,This will be an irreversible task.",
+  add_edit_warranty_delete_warranty: "Are you sure?",
+  add_edit_warranty_delete_warranty_desc:
+    "All the information and document copies related to this warranty will be deleted.",
   add_edit_warranty_effective_date: "Please enter the Effective Date",
   add_edit_warranty_uptoo: "Please select warranty upto",
   add_edit_product_option_product: "Add Product & Doc.",
@@ -782,5 +793,12 @@ export default {
   component_items_amc_expiry: "AMC expiring",
   component_items_puc_expiry: "PUC expiring",
   component_items_view_more: "View More +",
-  component_items_view_more: "View Less -"
+  component_items_view_more: "View Less -",
+
+  //language options
+  language_options_change: "Change",
+  language_options_dont_change: "Don't Change",
+  language_options_confirm_msg_title: "Change language to {{languageName}}?",
+  language_options_confirm_msg_desc: "App may restart to reflect the changes.",
+  language_options_cancel: "Cancel"
 };

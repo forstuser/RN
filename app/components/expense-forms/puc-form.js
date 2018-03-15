@@ -195,6 +195,7 @@ class PucForm extends React.Component {
 
             <CustomTextInput
               placeholder={I18n.t("expense_forms_puc_seller_name")}
+              underlineColorAndroid="transparent"
               value={sellerName}
               onChangeText={sellerName => this.setState({ sellerName })}
             />
@@ -208,6 +209,7 @@ class PucForm extends React.Component {
 
             <CustomTextInput
               placeholder={I18n.t("expense_forms_puc_amount")}
+              underlineColorAndroid="transparent"
               value={value}
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"

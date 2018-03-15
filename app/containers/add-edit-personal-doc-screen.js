@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Alert,
+  TouchableOpacity,
+  Platform
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Icon from "react-native-vector-icons/Entypo";
 import { API_BASE_URL, initProduct, updateProduct } from "../api";
@@ -32,12 +39,16 @@ class PersonalDoc extends React.Component {
   };
 
   static navigatorButtons = {
-    leftButtons: [
-      {
-        id: "back",
-        icon: require("../images/ic_back_ios.png")
+    ...Platform.select({
+      ios: {
+        leftButtons: [
+          {
+            id: "backPress",
+            icon: require("../images/ic_back_ios.png")
+          }
+        ]
       }
-    ]
+    })
   };
 
   constructor(props) {
@@ -71,7 +82,7 @@ class PersonalDoc extends React.Component {
 
   onNavigatorEvent = event => {
     switch (event.id) {
-      case "back":
+      case "backPress":
         Alert.alert(
           I18n.t("add_edit_personal_doc_are_you_sure"),
           I18n.t("add_edit_personal_doc_unsaved_info"),
@@ -318,6 +329,7 @@ class PersonalDoc extends React.Component {
             )}
             <CustomTextInput
               placeholder={I18n.t("add_edit_personal_doc_name")}
+              underlineColorAndroid="transparent"
               value={name}
               onChangeText={name => this.setState({ name })}
             />
@@ -325,21 +337,25 @@ class PersonalDoc extends React.Component {
               <View style={{ width: "100%", marginBottom: 10 }}>
                 <CustomTextInput
                   placeholder={I18n.t("add_edit_personal_doc_business_name")}
+                  underlineColorAndroid="transparent"
                   value={businessName}
                   onChangeText={businessName => this.setState({ businessName })}
                 />
                 <ContactFields
+                  underlineColorAndroid="transparent"
                   ref={ref => (this.phoneRef = ref)}
                   value={phone}
                   placeholder={I18n.t("add_edit_personal_doc_phone_number")}
                 />
                 <ContactFields
+                  underlineColorAndroid="transparent"
                   ref={ref => (this.emailRef = ref)}
                   value={email}
                   placeholder={I18n.t("add_edit_personal_doc_email")}
                   keyboardType="email-address"
                 />
                 <CustomTextInput
+                  underlineColorAndroid="transparent"
                   style={{ marginBottom: 10 }}
                   placeholder={I18n.t("add_edit_personal_doc_address")}
                   value={address}

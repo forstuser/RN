@@ -2,8 +2,8 @@ import { Navigation } from "react-native-navigation";
 import { SCREENS } from "./constants";
 import Snackbar from "./containers/snackbar";
 import DashboardScreen from "./containers/dashboard-screen";
-// import EhomeScreen from "./containers/ehome-screen";
-// import AscScreen from "./containers/asc-screen";
+import EhomeScreen from "./containers/ehome-screen";
+import AscScreen from "./containers/asc-screen";
 import MoreScreen from "./containers/more-screen";
 import IntroScreen from "./containers/intro-screen";
 import LoginScreen from "./containers/login-screen";
@@ -37,6 +37,8 @@ import EditMedicalDocScreen from "./containers/edit-medical-doc-screen";
 import EditInsuranceScreen from "./containers/edit-healthcare-insurance-screen";
 import AddProductOptionsScreen from "./containers/add-product-options-screen";
 import DirectUploadDocumentScreen from "./containers/direct-upload-document-screen";
+import RateUsScreen from "./containers/rate-us-screen";
+import DoYouKnowScreen from "./containers/do-you-know-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -76,12 +78,12 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
-  // Navigation.registerComponent(
-  //   SCREENS.EHOME_SCREEN,
-  //   () => EhomeScreen,
-  //   store,
-  //   Provider
-  // );
+  Navigation.registerComponent(
+    SCREENS.EHOME_SCREEN,
+    () => EhomeScreen,
+    store,
+    Provider
+  );
   Navigation.registerComponent(
     SCREENS.FAQS_SCREEN,
     () => FaqScreen,
@@ -95,12 +97,12 @@ export function registerScreens(store, Provider) {
     Provider
   );
 
-  // Navigation.registerComponent(
-  //   SCREENS.ASC_SCREEN,
-  //   () => AscScreen,
-  //   store,
-  //   Provider
-  // );
+  Navigation.registerComponent(
+    SCREENS.ASC_SCREEN,
+    () => AscScreen,
+    store,
+    Provider
+  );
 
   Navigation.registerComponent(
     SCREENS.MORE_SCREEN,
@@ -286,6 +288,20 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN,
     () => DirectUploadDocumentScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.RATE_US_SCREEN,
+    () => RateUsScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.DO_YOU_KNOW_SCREEN,
+    () => DoYouKnowScreen,
     store,
     Provider
   );

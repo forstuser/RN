@@ -5,7 +5,9 @@ import {
   View,
   Image,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  WebView,
+  Platform
 } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
@@ -20,22 +22,10 @@ import { actions as uiActions } from "../../modules/ui";
 
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
-const slideImages = [
-  require("../../images/blank-dashboard/slide_1.png"),
-  require("../../images/blank-dashboard/slide_2.png"),
-  require("../../images/blank-dashboard/slide_3.png"),
-  require("../../images/blank-dashboard/slide_4.png"),
-  require("../../images/blank-dashboard/slide_5.png")
-];
-const bottomImage = require("../../images/blank-dashboard/bottom-image.png");
+const cornerImageTopRight = require("../../images/blank-dashboard/corner-image_top_right.png");
+const cornerImageBottomLeft = require("../../images/blank-dashboard/corner-image_bottom-left.png");
+const image = require("../../images/blank-dashboard/image.png");
 
-const Slide = ({ image }) => {
-  return (
-    <View style={styles.slide}>
-      <Image source={image} style={styles.slideImage} resizeMode="contain" />
-    </View>
-  );
-};
 class BlankDashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -50,95 +40,86 @@ class BlankDashboard extends React.Component {
       setTimeout(() => this.blankDashboardTour.startTour(), 1000);
       this.props.setUiHasBlankDashboardTourShown(true);
     }
-
-    this.autoSlider = setInterval(this.autoSlide, 5000);
   }
 
-  componentWillUnmount() {
-    clearInterval(this.autoSlider);
-  }
-
-  autoSlide = () => {
-    const screenWidth = Dimensions.get("window").width;
-    let scrollPosition = this.state.scrollPosition;
-    let maxScrollPosition = screenWidth * (slideImages.length - 1);
-    if (scrollPosition >= maxScrollPosition) {
-      return this.slider.scrollTo({
-        x: 0,
-        y: 0,
-        animated: true
-      });
+  onShouldStartLoadWithRequest = navigator => {
+    if (navigator.url.indexOf("embed") !== -1) {
+      return true;
+    } else {
+      this.videoPlayer.stopLoading(); //Some reference to your WebView to make it stop loading that URL
+      return false;
     }
-    if (scrollPosition == 0 || scrollPosition % screenWidth == 0) {
-      const newScrollPosition = scrollPosition + screenWidth;
-      this.slider.scrollTo({
-        x: newScrollPosition,
-        y: 0,
-        animated: true
-      });
-    }
-  };
-
-  onSlidesScroll = event => {
-    const x = event.nativeEvent.contentOffset.x;
-    this.setState(() => ({
-      scrollPosition: x
-    }));
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.wrapper}>
-          <LinearGradient
-            start={{ x: 0.0, y: 0.8 }}
-            end={{ x: 0.0, y: 1 }}
-            colors={["#01c8ff", "#0ae2f1"]}
-            style={styles.gradientBackground}
+        <LinearGradient
+          start={{ x: 0.0, y: 0.8 }}
+          end={{ x: 0.0, y: 1 }}
+          colors={["#01c8ff", "#0ae2f1"]}
+          style={styles.gradientBackground}
+        >
+          <View
+            style={[
+              styles.webViewContainer,
+              {
+                height: (Dimensions.get("window").width - 16) * (9.2 / 16) + 80
+              }
+            ]}
           >
-            <View style={styles.contentWrapper}>
-              <View style={styles.content}>
-                <View style={styles.texts}>
-                  <Text weight="Bold" style={styles.oneStopFor}>
-                    {I18n.t("blank_dashboard_one_step")}
-                  </Text>
-                </View>
-                <ScrollView
-                  ref={ref => (this.slider = ref)}
-                  style={styles.slider}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  pagingEnabled={true}
-                  onScroll={this.onSlidesScroll}
-                >
-                  {slideImages.map((image, index) => <Slide image={image} />)}
-                </ScrollView>
-                <View style={styles.imageWrapper}>
-                  <Image
-                    style={styles.image}
-                    source={bottomImage}
-                    resizeMode="contain"
-                  />
-                </View>
-              </View>
+            <Image
+              style={[styles.cornerImage, styles.cornerImageTopRight]}
+              source={cornerImageTopRight}
+              resizeMode="contain"
+            />
+            <Image
+              style={[styles.cornerImage, styles.cornerImageBottomLeft]}
+              source={cornerImageBottomLeft}
+              resizeMode="contain"
+            />
+            <View
+              style={[
+                styles.webView,
+                {
+                  width: Dimensions.get("window").width - 16,
+                  height: (Dimensions.get("window").width - 16) * (9.2 / 16)
+                }
+              ]}
+            >
+              <WebView
+                ref={ref => {
+                  this.videoPlayer = ref;
+                }}
+                scalesPageToFit={true}
+                javaScriptEnabled={true}
+                domStorageEnabled={true}
+                source={{
+                  uri:
+                    "https://www.youtube.com/embed/U_Y6tu_jmt0?modestbranding=1&playsinline=1&showinfo=0&rel=0"
+                }}
+                onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest} //for iOS
+                onNavigationStateChange={this.onShouldStartLoadWithRequest} //for Android
+              />
             </View>
-          </LinearGradient>
-        </View>
-        <View style={styles.welcome}>
-          <Text weight="Bold" style={styles.welcomeTitle}>
-            {I18n.t("blank_dashboard_headline")}
-          </Text>
-          <Text style={styles.welcomeDesc}>
-            {I18n.t("blank_dashboard_text")}
-          </Text>
-          <TouchableOpacity
-            ref={ref => (this.fabRef = ref)}
-            style={styles.fab}
-            onPress={this.props.onUploadButtonClick}
-          >
-            <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
-          </TouchableOpacity>
-        </View>
+          </View>
+          <View style={styles.welcome}>
+            <Image style={styles.image} source={image} resizeMode="contain" />
+            <Text weight="Bold" style={styles.welcomeTitle}>
+              {I18n.t("blank_dashboard_headline")}
+            </Text>
+            <Text style={styles.welcomeDesc}>
+              {I18n.t("blank_dashboard_text")}
+            </Text>
+          </View>
+        </LinearGradient>
+        <TouchableOpacity
+          ref={ref => (this.fabRef = ref)}
+          style={styles.fab}
+          onPress={this.props.onUploadButtonClick}
+        >
+          <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+        </TouchableOpacity>
         <Tour
           ref={ref => (this.blankDashboardTour = ref)}
           enabled={true}
@@ -149,6 +130,9 @@ class BlankDashboard extends React.Component {
   }
 }
 
+const windowHeight = Dimensions.get("window").height;
+const gradientBottomMargin = windowHeight / 3.2;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -157,90 +141,66 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     overflow: "hidden"
   },
-  wrapper: {
-    position: "absolute",
-    width: 1500,
-    height: 1500,
-    bottom: 150,
-    borderRadius: 1500,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.25,
-    shadowRadius: 2,
-    backgroundColor: "#fff"
-  },
   gradientBackground: {
-    position: "absolute",
-    width: 1500,
-    height: 1500,
-    borderRadius: 1500,
-    overflow: "hidden"
-  },
-  contentWrapper: {
+    width: "100%",
     flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center"
-  },
-  content: {
-    height: Dimensions.get("window").height - 230,
-    width: Dimensions.get("window").width,
+    alignItems: "center",
     justifyContent: "space-between"
   },
-  texts: {},
-  oneStopFor: {
-    fontSize: 12,
-    textAlign: "center",
-    color: "#fff",
-    paddingHorizontal: 20,
-    paddingBottom: 10
-  },
-  slider: {
-    flex: 1
-  },
-  slide: {
-    width: Dimensions.get("window").width,
-    height: "100%"
-  },
-  slideImage: {
+  webViewContainer: {
     width: "100%",
-    height: "100%"
+    maxHeight: "40%",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 10
   },
-  imageWrapper: {
-    height: 120,
+  cornerImage: {
+    position: "absolute",
+    width: 100,
+    height: 100
+  },
+  cornerImageTopRight: {
+    top: 0,
+    right: -15
+  },
+  cornerImageBottomLeft: {
+    bottom: -20,
+    left: 0
+  },
+  webView: {
     alignSelf: "center",
-    width: "98%",
-    maxWidth: 270
+    borderColor: "#fff",
+    borderWidth: 5,
+    borderRadius: 3
+  },
+  welcome: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "60%",
+    padding: 20
   },
   image: {
     position: "absolute",
     width: "100%",
-    height: "100%",
-    bottom: -20
-  },
-  welcome: {
-    position: "absolute",
-    bottom: 0,
-    height: 150,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20
+    height: "100%"
   },
   welcomeTitle: {
-    color: colors.mainBlue,
+    color: "#fff",
     textAlign: "center",
-    fontSize: 20
+    fontSize: 18
   },
   welcomeDesc: {
-    color: colors.secondaryText,
+    color: "#fff",
     textAlign: "center",
-    fontSize: 18,
-    marginTop: 5
+    fontSize: 16,
+    marginTop: 5,
+    maxWidth: 200
   },
   fab: {
     position: "absolute",
-    bottom: 90,
-    right: 20,
+    bottom: 12,
+    right: 10,
     width: 56,
     height: 56,
     zIndex: 2,
@@ -248,6 +208,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
+    elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,

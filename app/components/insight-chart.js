@@ -112,9 +112,9 @@ const InsightChart = ({
               tickFormat={value => {
                 let displayValue = `${Math.round(value)}`;
                 if (value > 1000000) {
-                  displayValue = `${Math.round(value / 1000000)}M`;
+                  displayValue = `${Math.round(value / 1000000)} M`;
                 } else if (value > 1000) {
-                  displayValue = `${Math.round(value / 1000)}k`;
+                  displayValue = `${Math.round(value / 1000)} k`;
                 }
 
                 return displayValue;
@@ -183,12 +183,12 @@ const styles = StyleSheet.create({
   },
   totalSpendContainer: {
     marginTop: 14,
-    height: 32,
-    borderColor: "rgba(255,255,255,0.3)",
-    borderTopWidth: 2,
-    borderBottomWidth: 2
+    height: 32
   },
   totalSpendInner: {
+    borderColor: "rgba(255,255,255,0.3)",
+    borderTopWidth: 2,
+    borderBottomWidth: 2,
     height: "100%",
     flexDirection: "row",
     alignItems: "center",

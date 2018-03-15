@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "857112835985",
+    "firebase_url": "https://binbill-consumerapp-1010f.firebaseio.com",
+    "project_id": "binbill-consumerapp-1010f",
+    "storage_bucket": "binbill-consumerapp-1010f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:857112835985:android:b021833a24cd2b85",
+        "android_client_info": {
+          "package_name": "com.bin.binbillcustomer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "857112835985-qvd4ql4ufbnl8j26dklb23l9k62ksd1l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bin.binbillcustomer",
+            "certificate_hash": "b964de07956a606862922ab8c6e2a92dcd35078b"
+          }
+        },
+        {
+          "client_id": "857112835985-39ms8a0fbe345n1ktba2kvh0b3v4601m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdipp1LWRIv9Y94-CjB61cEKTV6P2mHaA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "857112835985-39ms8a0fbe345n1ktba2kvh0b3v4601m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
