@@ -69,7 +69,8 @@ class Body extends Component {
   onShareItemPress = async () => {
     try {
       Share.share({
-        message: "Hey, Check out this awesome app- http://bit.ly/2rIabk0"
+        message:
+          "Save time. Download BinBill, India's best product and appliance management app, to manage products, expenses and important documents. - http://bit.ly/2rIabk0"
       });
     } catch (e) {
       console.log(e);

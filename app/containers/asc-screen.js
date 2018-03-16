@@ -86,7 +86,7 @@ class AscScreen extends Component {
     try {
       const res = await getBrands();
       this.setState({
-        brands: res.brands
+        brands: res.brands.filter(brand => brand.id > 0)
       });
     } catch (e) {
       // Alert.alert(e.message);

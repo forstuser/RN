@@ -56,7 +56,7 @@ class ProductCard extends Component {
 
     let newState = {};
     if (
-      (brand && brand.status_type == 1) ||
+      (brand && brand.id > 0 && brand.status_type == 1) ||
       (insuranceDetails.length > 0 &&
         insuranceDetails[0].provider &&
         insuranceDetails[0].provider.status_type == 1) ||

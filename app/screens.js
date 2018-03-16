@@ -39,6 +39,8 @@ import AddProductOptionsScreen from "./containers/add-product-options-screen";
 import DirectUploadDocumentScreen from "./containers/direct-upload-document-screen";
 import RateUsScreen from "./containers/rate-us-screen";
 import DoYouKnowScreen from "./containers/do-you-know-screen";
+import MyCalenderScreen from "./containers/my-calender-screen";
+import AddEditCalenderServiceScreen from "./containers/add-edit-calender-service-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -122,12 +124,6 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
-  // Navigation.registerComponent(
-  //   SCREENS.TOTAL_TAX_SCREEN,
-  //   () => TotalTaxScreen,
-  //   store,
-  //   Provider
-  // );
 
   Navigation.registerComponent(
     SCREENS.MAIN_CATEGORY_SCREEN,
@@ -141,12 +137,6 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
-  // Navigation.registerComponent(
-  //   SCREENS.DOCS_UNDER_PROCESSING_SCREEN,
-  //   () => DocsUnderProcessingScreen,
-  //   store,
-  //   Provider
-  // );
   Navigation.registerComponent(
     SCREENS.BILLS_POPUP_SCREEN,
     () => BillsPopUpScreen,
@@ -172,20 +162,6 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
-
-  // Navigation.registerComponent(
-  //   SCREENS.ADD_PRODUCTS_SCREEN,
-  //   () => AddProductsScreen,
-  //   store,
-  //   Provider
-  // );
-
-  // Navigation.registerComponent(
-  //   SCREENS.ADD_PRODUCT_SCREEN,
-  //   () => AddProductScreen,
-  //   store,
-  //   Provider
-  // );
 
   Navigation.registerComponent(
     SCREENS.UPLOAD_DOCUMENT_SCREEN,
@@ -302,6 +278,20 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     SCREENS.DO_YOU_KNOW_SCREEN,
     () => DoYouKnowScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.MY_CALENDER_SCREEN,
+    () => MyCalenderScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.ADD_EDIT_CALENDER_SERVICE_SCREEN,
+    () => AddEditCalenderServiceScreen,
     store,
     Provider
   );

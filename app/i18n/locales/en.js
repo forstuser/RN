@@ -395,6 +395,9 @@ export default {
   dashboard_screen_recent_activity: "Recent Activity",
   dashboard_screen_ehome_insights: "Expense Insight",
   dashboard_screen_chart_last_7_days: "Last 7 Days",
+  dashboard_screen_total_spends: "Total Spends",
+  dashboard_screen_this_month: "This Month",
+  dashboard_screen_see_details: "See Details",
 
   //eHome Screen
   ehome_screen_title: "eHome",
@@ -402,6 +405,25 @@ export default {
   ehome_screen_items_pending_count: "{{pendingDocsCount}} item(s) pending",
   ehome_screen_items_category_item_count: "{{count}} items",
   ehome_screen_items_category_item_last_updated: "LAST UPDATED {{date}}",
+
+  //my calender screen
+  my_calender_screen_title: "My Calender",
+  my_calender_screen_add_btn: "Add Calendar Item",
+  my_calender_screen_days_present: "Days Present",
+  my_calender_screen_days_absent: "Days Absent",
+  my_calender_screen_days: {
+    one: "{{count}} day",
+    other: "{{count}} days",
+    zero: "{{count}} day"
+  },
+
+  //add/edit calender service screen
+  add_edit_calender_service_screen_title: "Add Service",
+  add_edit_calender_service_screen_title_slider: "Select Service Type",
+  add_edit_calender_service_screen_form_name: "Name",
+  add_edit_calender_service_screen_form_provider_name: "Provider Name",
+  add_edit_calender_service_screen_form_wages: "Wages",
+  add_edit_calender_service_screen_form_starting_date: "Starting from Date",
 
   //FAQs screen
   faq_screen_title: "FAQs",
@@ -714,6 +736,7 @@ export default {
   expense_forms_extended_warranty_provider_name: "Enter Provider Name",
   expense_forms_extended_warranty_start_date: "Warranty Start Date",
   expense_forms_extended_warranty_upto: "Warranty Upto (in years)",
+  expense_forms_warranty_upload_warr_doc: "Upload Warranty Doc",
   expense_forms_extended_warranty_title: "title",
   expense_forms_extended_warranty_doc: "Upload Extended Warranty Doc",
   expense_forms_healthcare: "Basic Details",

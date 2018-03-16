@@ -195,7 +195,6 @@ class EhomeScreen extends Component {
             renderItem={this.renderCategoryItem}
           />
         </View>
-        <LoadingOverlay visible={this.state.isFetchingData} />
         <Tour
           ref={ref => (this.ehomeTour = ref)}
           enabled={true}

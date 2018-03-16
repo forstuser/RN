@@ -91,7 +91,7 @@ class AddEditPuc extends React.Component {
           I18n.t("add_edit_puc_unsaved_info"),
           [
             {
-              text: I18n.t(" add_edit_amc_go_back"),
+              text: I18n.t("add_edit_amc_go_back"),
               onPress: () => this.props.navigator.pop()
             },
             {

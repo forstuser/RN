@@ -35,6 +35,7 @@ import ProductListItem from "../../components/product-list-item";
 import { actions as uiActions } from "../../modules/ui";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 
+const chartIcon = require("../../images/ic_bar_chart.png");
 const dashBoardIcon = require("../../images/ic_nav_dashboard_off.png");
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
@@ -219,6 +220,12 @@ class DashboardScreen extends React.Component {
     });
   };
 
+  openMyCalenderScreen = () => {
+    this.props.navigator.push({
+      screen: SCREENS.MY_CALENDER_SCREEN
+    });
+  };
+
   render() {
     const {
       error,
@@ -240,8 +247,13 @@ class DashboardScreen extends React.Component {
               recentSearches={recentSearches}
               navigator={this.props.navigator}
             />
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled>
+            <ScrollView>
               <View style={{ flex: 1, marginBottom: 150 }}>
+                <TouchableOpacity onPress={this.openMyCalenderScreen}>
+                  <Text style={{ paddingTop: 20, textAlign: "center" }}>
+                    My Calender
+                  </Text>
+                </TouchableOpacity>
                 {this.state.upcomingServices.length > 0 && (
                   <View>
                     <SectionHeading
@@ -270,19 +282,36 @@ class DashboardScreen extends React.Component {
                 <SectionHeading
                   text={I18n.t("dashboard_screen_ehome_insights")}
                 />
-                <View style={{ paddingHorizontal: 16 }}>
-                  <InsightChart {...this.state.insightChartProps} />
-                  <TouchableOpacity
-                    onPress={() => this.openInsightScreen()}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 16,
-                      bottom: 0,
-                      right: 16
-                    }}
+
+                <TouchableOpacity
+                  onPress={() => this.openInsightScreen()}
+                  style={styles.expenseInsight}
+                >
+                  <Image
+                    style={styles.expenseInsightImage}
+                    source={chartIcon}
+                    resizeMode="contain"
                   />
-                </View>
+                  <View style={styles.expenseInsightTitles}>
+                    <Text weight="Bold" style={styles.expenseInsightTitle}>
+                      {I18n.t("dashboard_screen_total_spends")}
+                    </Text>
+                    <Text style={styles.expenseInsightSubTitle}>
+                      {I18n.t("dashboard_screen_this_month")}
+                    </Text>
+                  </View>
+                  <View style={styles.expenseInsightDetails}>
+                    <Text weight="Bold" style={styles.expenseInsightAmount}>
+                      ₹ {this.state.insightChartProps.totalSpend}
+                    </Text>
+                    <Text
+                      weight="Medium"
+                      style={styles.expenseInsightDetailsText}
+                    >
+                      {I18n.t("dashboard_screen_see_details")}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               </View>
             </ScrollView>
           </View>
@@ -329,6 +358,28 @@ class DashboardScreen extends React.Component {
   }
 }
 const styles = StyleSheet.create({
+  expenseInsight: {
+    backgroundColor: "#fff",
+    borderColor: "#eaeaea",
+    borderWidth: 1,
+    padding: 16,
+    flexDirection: "row"
+  },
+  expenseInsightImage: {
+    height: 36,
+    width: 36,
+    marginRight: 20
+  },
+  expenseInsightTitles: {
+    flex: 1
+  },
+  expenseInsightSubTitle: {
+    fontSize: 12
+  },
+  expenseInsightDetailsText: {
+    fontSize: 12,
+    color: colors.pinkishOrange
+  },
   fab: {
     position: "absolute",
     bottom: 20,

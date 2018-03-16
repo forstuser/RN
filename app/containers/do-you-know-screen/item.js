@@ -57,7 +57,9 @@ export default class Item extends React.Component {
             console.log("Image saved to", filePath + "/fact.jpg");
             return Share.open({
               url: `file://${filePath}`,
-              message: `Check out this awesome app - ${item.short_url}`
+              message: `Save time. Download BinBill, India's best product and appliance management app, to manage products, expenses and important documents - ${
+                item.short_url
+              }`
             });
           })
           .catch(error => console.error("Oops, snapshot failed", error));

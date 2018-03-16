@@ -10,6 +10,16 @@ export const colors = {
   tomato: "#f0622d"
 };
 
+export const defaultStyles = {
+  card: {
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1
+  }
+};
+
 export const defaultNavigatorStyle = {
   // navBarTextColor: colors.mainText,
   // navBarTextFontSize: 20,

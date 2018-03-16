@@ -262,7 +262,7 @@ class CustomerCare extends React.Component {
             );
           }}
         />
-        {brand && brand.status_type == 1 ? (
+        {brand && brand.id > 0 && brand.status_type == 1 ? (
           <View style={styles.ascContainer}>
             <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("product_details_screen_asc_title")}
@@ -273,7 +273,9 @@ class CustomerCare extends React.Component {
             >
               <Text weight="Medium" style={styles.locationPickerText}>
                 {place
-                  ? `${place.name} (${place.address})`
+                  ? `${place.name} ${
+                      place.address ? "(" + place.address + ")" : ""
+                    }`
                   : I18n.t("product_details_screen_asc_select_location")}
               </Text>
               <Icon

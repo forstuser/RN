@@ -87,8 +87,9 @@ class AddEditRepair extends React.Component {
       if (event.id == "backPress") {
         Alert.alert(
           I18n.t("add_edit_amc_are_you_sure"),
-          I18n.t("add_edit_repair_unsaved_info")[
-            ({
+          I18n.t("add_edit_repair_unsaved_info"),
+          [
+            {
               text: I18n.t("add_edit_amc_go_back"),
               onPress: () => this.props.navigator.pop()
             },
@@ -96,7 +97,7 @@ class AddEditRepair extends React.Component {
               text: I18n.t("add_edit_amc_stay"),
               onPress: () => console.log("Cancel Pressed"),
               style: "cancel"
-            })
+            }
           ]
         );
       } else if (event.id == "delete") {
