@@ -18,8 +18,9 @@ import { colors } from "../../theme";
 import { showSnackbar } from "../snackbar";
 import I18n from "../../i18n";
 import ProfileDetailEdit from "./profile-detail-edit";
-import { actions as loggedInUserActions } from "../../modules/logged-in-user";
+import Body from "./body";
 
+import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 const editIcon = require("../../images/ic_edit_white.png");
 const crossIcon = require("../../images/ic_close.png");
@@ -273,7 +274,7 @@ class ProfileScreen extends Component {
         </TouchableOpacity>
         <Header profile={profile} />
 
-        <ProfileDetailEdit profile={profile} />
+        <Body profile={profile} />
         {/* <View style={styles.information}>
         <Header profile={profile} authToken={authToken} />
         <View style={styles.information}>

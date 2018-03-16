@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableOpacity
 } from "react-native";
+import { showSnackbar } from "../snackbar";
 import Modal from "react-native-modal";
 import { API_BASE_URL, updateProfile } from "../../api";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
@@ -21,65 +22,106 @@ const editIcon = require("../../images/ic_edit_white.png");
 class ProfileDetailEdit extends Component {
   constructor(props) {
     super(props);
-    // alert(JSON.stringify(props));
+    alert(JSON.stringify(props));
     this.state = {
-      name: this.props.profile.name,
-      phone: this.props.profile.mobile_no,
-      email: this.props.profile.email,
-      isEmailVerified: this.props.profile.email_verified,
-      location: this.props.profile.location,
-      textInputEnable: false
+      info: this.props.info
+      // label: this.props.label
     };
   }
 
+  onSubmit = async () => {
+    showSnackbar({
+      text: "changing.. please wait..",
+      autoDismissTimerSec: 1000
+    });
+
+    try {
+      await updateProfile({
+        name: this.state.info
+      });
+
+      this.setState({
+        info: this.state.info
+      });
+    } catch (e) {
+      showSnackbar({
+        text: e.message,
+        autoDismissTimerSec: 5
+      });
+    }
+  };
+
   render() {
     const { label } = this.props;
+    const { info } = this.state;
     return (
-      // ProfileDetailEdit = ( label) => (
-      <ScreenContainer style={styles.container}>
+      <View>
         <View style={styles.information}>
-          <View style={{ width: 300 }}>
-            <Text style={styles.fieldName}>label</Text>
-            <Text style={styles.fieldValue} weight="Medium">
-              abc
-            </Text>
+          <View style={{ width: 290 }}>
+            <Text style={styles.fieldName}>{label}</Text>
+            <TextInput
+              style={styles.fieldValue}
+              weight="Medium"
+              value={info}
+              editable={true}
+              underlineColorAndroid="transparent"
+              keyboardType="default"
+              onChangeText={text => this.setState({ info: text })}
+            />
           </View>
-          <View style={{ width: 40, paddingTop: 18, borderRadius: 50 }}>
-            <Image style={styles.editIcon} source={editIcon} />
-          </View>
+          {this.props.info != this.state.info && (
+            <View
+              style={{
+                width: 40,
+                height: 40,
+                paddingTop: 18,
+                borderRadius: 23
+              }}
+            >
+              <TouchableOpacity onPress={this.onSubmit}>
+                <Text style={{ color: colors.tomato }} weight="bold">
+                  Save
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
-      </ScreenContainer>
-      // )
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 0,
-    marginTop: 80
-  },
   information: {
     flex: 1,
     flexDirection: "row",
     borderColor: "#ececec",
     borderTopWidth: 1,
-    padding: 15,
-    marginBottom: 0
+    padding: 20,
+    paddingTop: 15,
+    paddingBottom: 50,
+    backgroundColor: "white"
   },
+
   field: {
     padding: 15,
     borderColor: "#ececec",
     borderBottomWidth: 1
   },
+
   fieldValue: {
     color: "#3b3b3b",
-    fontSize: 16
+    fontSize: 16,
+    height: 38,
+    marginTop: -5,
+    marginLeft: -4
   },
+
   fieldName: {
     fontSize: 12,
     color: "#9c9c9c"
   },
+
   editIcon: {
     width: 20,
     height: 20,

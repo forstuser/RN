@@ -22,15 +22,35 @@ class Body extends Component {
   constructor(props) {
     super(props);
     // alert(JSON.stringify(props));
+    this.state = {
+      name: this.props.profile.name,
+      phone: this.props.profile.mobile_no,
+      email: this.props.profile.email,
+      isEmailVerified: this.props.profile.email_verified,
+      location: this.props.profile.location,
+      textInputEnable: false
+    };
   }
 
   render() {
     return (
-      <View>
-        <ProfileDetailEdit label={I18n.t("profile_screen_label_name")} />
-        <ProfileDetailEdit label={I18n.t("profile_screen_label_phone")} />
-        <ProfileDetailEdit label={I18n.t("profile_screen_label_email")} />
-        <ProfileDetailEdit label={I18n.t("profile_screen_label_location")} />
+      <View style={{ marginTop: 80 }}>
+        <ProfileDetailEdit
+          label={I18n.t("profile_screen_label_name")}
+          info={this.state.name}
+        />
+        <ProfileDetailEdit
+          label={I18n.t("profile_screen_label_phone")}
+          info={this.state.phone}
+        />
+        <ProfileDetailEdit
+          label={I18n.t("profile_screen_label_email")}
+          info={this.state.email}
+        />
+        <ProfileDetailEdit
+          label={I18n.t("profile_screen_label_address")}
+          info={this.state.location}
+        />
       </View>
     );
   }
