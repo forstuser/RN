@@ -75,8 +75,19 @@ class MyCalendarScreen extends Component {
     });
   };
 
+  onItemPress = item => {
+    this.props.navigator.push({
+      screen: SCREENS.CALENDAR_SERVICE_CARD_SCREEN,
+      passProps: {
+        itemId: item.id
+      }
+    });
+  };
+
   renderItem = ({ item, index }) => {
-    return <Item key={item.id} item={item} />;
+    return (
+      <Item key={item.id} item={item} onPress={() => this.onItemPress(item)} />
+    );
   };
 
   render() {

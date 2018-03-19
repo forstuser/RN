@@ -38,18 +38,18 @@ const Item = ({ item, onPress }) => {
         </View>
         <View style={styles.otherDetailContainer}>
           <Text style={styles.detailName}>
-            {I18n.t("my_calender_screen_days_present")}:{" "}
+            {I18n.t("my_calendar_screen_days_present")}:{" "}
           </Text>
           <Text weight="Medium" style={styles.presentDays}>
-            {I18n.t("my_calender_screen_days", { count: present_days })}
+            {I18n.t("my_calendar_screen_days", { count: present_days })}
           </Text>
         </View>
         <View style={styles.otherDetailContainer}>
           <Text style={styles.detailName}>
-            {I18n.t("my_calender_screen_days_absent")}:{" "}
+            {I18n.t("my_calendar_screen_days_absent")}:{" "}
           </Text>
           <Text weight="Medium" style={styles.absentDays}>
-            {I18n.t("my_calender_screen_days", { count: absent_days })}
+            {I18n.t("my_calendar_screen_days", { count: absent_days })}
           </Text>
         </View>
       </View>

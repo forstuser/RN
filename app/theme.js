@@ -7,7 +7,9 @@ export const colors = {
   lighterText: "#cdcdcd",
   pinkishOrange: "#ff732e",
   cerulean: "#007bce",
-  tomato: "#f0622d"
+  tomato: "#f0622d",
+  success: "#7ed321",
+  danger: "#eb5d26"
 };
 
 export const defaultStyles = {

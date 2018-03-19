@@ -39,8 +39,9 @@ import AddProductOptionsScreen from "./containers/add-product-options-screen";
 import DirectUploadDocumentScreen from "./containers/direct-upload-document-screen";
 import RateUsScreen from "./containers/rate-us-screen";
 import DoYouKnowScreen from "./containers/do-you-know-screen";
-import MyCalenderScreen from "./containers/my-calender-screen";
-import AddEditCalenderServiceScreen from "./containers/add-edit-calender-service-screen";
+import MyCalendarScreen from "./containers/my-calendar-screen";
+import AddEditCalendarServiceScreen from "./containers/add-edit-calendar-service-screen";
+import CalendarServiceCardScreen from "./containers/calender-service-card-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -283,15 +284,22 @@ export function registerScreens(store, Provider) {
   );
 
   Navigation.registerComponent(
-    SCREENS.MY_CALENDER_SCREEN,
-    () => MyCalenderScreen,
+    SCREENS.MY_CALENDAR_SCREEN,
+    () => MyCalendarScreen,
     store,
     Provider
   );
 
   Navigation.registerComponent(
-    SCREENS.ADD_EDIT_CALENDER_SERVICE_SCREEN,
-    () => AddEditCalenderServiceScreen,
+    SCREENS.ADD_EDIT_CALENDAR_SERVICE_SCREEN,
+    () => AddEditCalendarServiceScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.CALENDAR_SERVICE_CARD_SCREEN,
+    () => CalendarServiceCardScreen,
     store,
     Provider
   );

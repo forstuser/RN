@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import I18n from "../../i18n";
 
-import { API_BASE_URL, fetchCalenderReferenceData } from "../../api";
+import { API_BASE_URL, fetchCalendarReferenceData } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
@@ -24,7 +24,7 @@ import CustomTextInput from "../../components/form-elements/text-input";
 import CustomDatePicker from "../../components/form-elements/date-picker";
 import SelectServiceHeader from "./select-service-header";
 
-class AddEditCalenderServiceScreen extends Component {
+class AddEditCalendarServiceScreen extends Component {
   static navigatorStyle = {
     tabBarHidden: true
   };
@@ -53,7 +53,7 @@ class AddEditCalenderServiceScreen extends Component {
 
   componentDidMount() {
     this.props.navigator.setTitle({
-      title: I18n.t("add_edit_calender_service_screen_title")
+      title: I18n.t("add_edit_calendar_service_screen_title")
     });
   }
 
@@ -63,7 +63,7 @@ class AddEditCalenderServiceScreen extends Component {
       error: null
     });
     try {
-      const res = await fetchCalenderReferenceData();
+      const res = await fetchCalendarReferenceData();
       this.setState({
         serviceTypes: res.items
       });
@@ -77,9 +77,9 @@ class AddEditCalenderServiceScreen extends Component {
     });
   };
 
-  openAddEditCalenderServiceScreen = () => {
+  openAddEditCalendarServiceScreen = () => {
     this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_CALENDER_SERVICE_SCREEN
+      screen: SCREENS.ADD_EDIT_CALENDAR_SERVICE_SCREEN
     });
   };
 
@@ -118,7 +118,7 @@ class AddEditCalenderServiceScreen extends Component {
           />
           <View style={styles.form}>
             <CustomTextInput
-              placeholder={I18n.t("add_edit_calender_service_screen_form_name")}
+              placeholder={I18n.t("add_edit_calendar_service_screen_form_name")}
               placeholder2="*"
               placeholder2Color={colors.mainBlue}
               value={name}
@@ -126,14 +126,14 @@ class AddEditCalenderServiceScreen extends Component {
             />
             <CustomTextInput
               placeholder={I18n.t(
-                "add_edit_calender_service_screen_form_provider_name"
+                "add_edit_calendar_service_screen_form_provider_name"
               )}
               value={providerName}
               onChangeText={providerName => this.setState({ providerName })}
             />
             <CustomTextInput
               placeholder={I18n.t(
-                "add_edit_calender_service_screen_form_wages"
+                "add_edit_calendar_service_screen_form_wages"
               )}
               value={wages}
               onChangeText={wages => this.setState({ wages })}
@@ -141,7 +141,7 @@ class AddEditCalenderServiceScreen extends Component {
             <CustomDatePicker
               date={startingDate}
               placeholder={I18n.t(
-                "add_edit_calender_service_screen_form_starting_date"
+                "add_edit_calendar_service_screen_form_starting_date"
               )}
               onDateChange={startingDate => {
                 this.setState({ startingDate });
@@ -150,7 +150,7 @@ class AddEditCalenderServiceScreen extends Component {
           </View>
         </ScrollView>
         <Button
-          text={I18n.t("my_calender_screen_add_btn")}
+          text={I18n.t("my_calendar_screen_add_btn")}
           color="secondary"
           borderRadius={0}
           style={styles.addItemBtn}
@@ -163,11 +163,15 @@ class AddEditCalenderServiceScreen extends Component {
 
 const styles = StyleSheet.create({
   form: {
-    padding: 16
+    padding: 16,
+    backgroundColor: "#fff",
+    marginTop: 10,
+    borderColor: "#eee",
+    borderTopWidth: StyleSheet.hairlineWidth
   },
   addItemBtn: {
     width: "100%"
   }
 });
 
-export default AddEditCalenderServiceScreen;
+export default AddEditCalendarServiceScreen;

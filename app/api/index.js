@@ -1069,14 +1069,21 @@ export const unlikeDoYouKnowItem = async ({ itemId }) => {
   });
 };
 
-export const fetchMyCalenderItems = async () => {
+export const fetchCalendarItems = async () => {
   return await apiRequest({
     method: "get",
     url: "/calendar/items"
   });
 };
 
-export const fetchCalenderReferenceData = async () => {
+export const fetchCalendarItemById = async id => {
+  return await apiRequest({
+    method: "get",
+    url: `/calendar/items/${id}`
+  });
+};
+
+export const fetchCalendarReferenceData = async () => {
   return await apiRequest({
     method: "get",
     url: "/calendar/referencedata"

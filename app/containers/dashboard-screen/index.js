@@ -220,9 +220,9 @@ class DashboardScreen extends React.Component {
     });
   };
 
-  openMyCalenderScreen = () => {
+  openMyCalendarScreen = () => {
     this.props.navigator.push({
-      screen: SCREENS.MY_CALENDER_SCREEN
+      screen: SCREENS.MY_CALENDAR_SCREEN
     });
   };
 
@@ -249,9 +249,9 @@ class DashboardScreen extends React.Component {
             />
             <ScrollView>
               <View style={{ flex: 1, marginBottom: 150 }}>
-                <TouchableOpacity onPress={this.openMyCalenderScreen}>
+                <TouchableOpacity onPress={this.openMyCalendarScreen}>
                   <Text style={{ paddingTop: 20, textAlign: "center" }}>
-                    My Calender
+                    My Calendar
                   </Text>
                 </TouchableOpacity>
                 {this.state.upcomingServices.length > 0 && (

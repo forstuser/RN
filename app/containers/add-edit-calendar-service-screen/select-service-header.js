@@ -80,7 +80,7 @@ class SelectCategoryHeader extends React.Component {
     return (
       <View style={styles.container}>
         <Text weight="Medium" style={styles.title}>
-          {I18n.t("add_edit_calender_service_screen_title_slider")}
+          {I18n.t("add_edit_calendar_service_screen_title_slider")}
         </Text>
         <ScrollView
           ref={ref => (this.scrollView = ref)}
