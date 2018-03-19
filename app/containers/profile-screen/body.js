@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { API_BASE_URL, updateProfile } from "../../api";
-
 import { SCREENS } from "../../constants";
 import { Text, Button, ScreenContainer } from "../../elements";
 import ProfileDetailEdit from "./profile-detail-edit";
@@ -38,18 +37,28 @@ class Body extends Component {
         <ProfileDetailEdit
           label={I18n.t("profile_screen_label_name")}
           info={this.state.name}
+          apiFieldName="name"
+          editable={true}
         />
         <ProfileDetailEdit
           label={I18n.t("profile_screen_label_phone")}
           info={this.state.phone}
+          editable={false}
+          selectTextOnFocus={false}
         />
         <ProfileDetailEdit
           label={I18n.t("profile_screen_label_email")}
           info={this.state.email}
+          apiFieldName="email"
+          editable={true}
+          verify={this.state.isEmailVerified}
+          email={this.state.email}
         />
         <ProfileDetailEdit
           label={I18n.t("profile_screen_label_address")}
           info={this.state.location}
+          apiFieldName="location"
+          editable={true}
         />
       </View>
     );

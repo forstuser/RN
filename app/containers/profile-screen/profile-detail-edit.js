@@ -18,26 +18,28 @@ import I18n from "../../i18n";
 import { BlurView } from "react-native-blur";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 const editIcon = require("../../images/ic_edit_white.png");
+const verified = require("../../images/ic_profile_verified.png");
+const unVerified = require("../../images/ic_profile_unverified.png");
 
 class ProfileDetailEdit extends Component {
   constructor(props) {
     super(props);
-    alert(JSON.stringify(props));
     this.state = {
       info: this.props.info
-      // label: this.props.label
     };
   }
+
+  componentDidMount() {}
 
   onSubmit = async () => {
     showSnackbar({
       text: "changing.. please wait..",
-      autoDismissTimerSec: 1000
+      autoDismissTimerSec: 4
     });
 
     try {
       await updateProfile({
-        name: this.state.info
+        [this.props.apiFieldName]: this.state.info
       });
 
       this.setState({
@@ -46,29 +48,93 @@ class ProfileDetailEdit extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message,
-        autoDismissTimerSec: 5
+        autoDismissTimerSec: 4
       });
     }
   };
 
+  showResendEmailVerifyAlert = () => {
+    Alert.alert(
+      "Email Verification",
+      "Please check your email inbox for the verification link we've sent.",
+      [
+        {
+          text: "Resend",
+          onPress: async () => {
+            showSnackbar({
+              text: "please wait..",
+              autoDismissTimerSec: 1000
+            });
+            try {
+              await updateProfile({
+                email: this.state.info
+              });
+              // alert(this.state.info);
+              showSnackbar({
+                text: I18n.t("profile_screen_change_msg_resend_email"),
+                autoDismissTimerSec: 3
+              });
+            } catch (e) {
+              showSnackbar({
+                text: e.message,
+                autoDismissTimerSec: 5
+              });
+            }
+          }
+        },
+        {
+          text: "Dismiss",
+          onPress: () => {},
+          style: "cancel"
+        }
+      ]
+    );
+  };
+
   render() {
-    const { label } = this.props;
+    const { label, editable, verify } = this.props;
+    // alert(verify);
     const { info } = this.state;
     return (
       <View>
         <View style={styles.information}>
-          <View style={{ width: 290 }}>
+          <View style={{ width: 240 }}>
             <Text style={styles.fieldName}>{label}</Text>
             <TextInput
               style={styles.fieldValue}
               weight="Medium"
               value={info}
-              editable={true}
+              editable={this.props.editable}
               underlineColorAndroid="transparent"
               keyboardType="default"
               onChangeText={text => this.setState({ info: text })}
             />
           </View>
+          {this.props.verify == false && (
+            <TouchableOpacity
+              onPress={this.showResendEmailVerifyAlert}
+              style={{ height: 40 }}
+            >
+              <View style={{ flex: 1, flexDirection: "row" }}>
+                <View>
+                  <Text style={styles.notVerified}>Not Verified</Text>
+                </View>
+                <View>
+                  <Image style={styles.icons} source={unVerified} />
+                </View>
+              </View>
+            </TouchableOpacity>
+          )}
+          {this.props.verify == true && (
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <View>
+                <Text style={styles.verified}>Verified</Text>
+              </View>
+              <View>
+                <Image style={styles.icons} source={verified} />
+              </View>
+            </View>
+          )}
           {this.props.info != this.state.info && (
             <View
               style={{
@@ -108,7 +174,16 @@ const styles = StyleSheet.create({
     borderColor: "#ececec",
     borderBottomWidth: 1
   },
-
+  verified: {
+    color: "#4dbf1c",
+    paddingTop: 18,
+    fontSize: 12
+  },
+  notVerified: {
+    color: "#f02d2d",
+    paddingTop: 18,
+    fontSize: 12
+  },
   fieldValue: {
     color: "#3b3b3b",
     fontSize: 16,
@@ -127,6 +202,9 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
     backgroundColor: colors.tomato
+  },
+  icons: {
+    marginTop: 15
   }
 });
 
