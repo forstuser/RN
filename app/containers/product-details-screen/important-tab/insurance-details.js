@@ -143,7 +143,7 @@ class InsuranceDetails extends Component {
             </Text>
           )}
           <Button
-            text="+ ADD INSURANCE"
+            text={I18n.t("product_details_screen_add_insurance")}
             onPress={() => this.openAddEditInsuranceScreen(null)}
             type="outline"
             borderRadius={0}

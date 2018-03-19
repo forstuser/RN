@@ -12,6 +12,7 @@ import moment from "moment";
 import KeyValueItem from "../../../components/key-value-item";
 import { colors } from "../../../theme";
 import { openBillsPopUp } from "../../../navigation";
+import I18n from "../../../i18n";
 
 const ViewBillRow = ({ expiryDate, purchaseDate, docType, copies = [] }) => {
   if (!moment(expiryDate).isValid()) {
@@ -51,7 +52,7 @@ const ViewBillRow = ({ expiryDate, purchaseDate, docType, copies = [] }) => {
                 color: colors.pinkishOrange
               }}
             >
-              View Doc
+              {I18n.t("product_details_screen_view_doc")}
             </Text>
           );
         }}

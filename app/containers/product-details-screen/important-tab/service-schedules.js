@@ -112,7 +112,7 @@ class ServiceSchedules extends Component {
             </ScrollView>
             <Button
               onPress={this.toggleModal}
-              text="OK"
+              text={I18n.t("product_details_screen_ok")}
               color="secondary"
               style={styles.modalOkBtn}
             />

@@ -15,7 +15,7 @@ import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 
 import Collapsible from "../../components/collapsible";
 import UploadBillOptions from "../../components/upload-bill-options";
-
+import I18n from "../../i18n";
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
 import { colors } from "../../theme";
@@ -120,7 +120,7 @@ class AmcForm extends React.Component {
     return (
       <Collapsible
         isCollapsible={isCollapsible}
-        headerText="AMC (If Applicable)"
+        headerText={I18n.t("expense_forms_amc_form_amc_text")}
         style={styles.container}
         headerStyle={styles.headerStyle}
         headerTextStyle={styles.headerTextStyle}
@@ -130,8 +130,8 @@ class AmcForm extends React.Component {
           <View style={styles.body}>
             <CustomDatePicker
               date={effectiveDate}
-              placeholder="AMC Effective Date "
-              placeholder2="(Recommended)"
+              placeholder={I18n.t("expense_forms_amc_form_amc_effective_date")}
+              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
               placeholder2Color={colors.mainBlue}
               onDateChange={effectiveDate => {
                 this.setState({ effectiveDate });
@@ -139,7 +139,7 @@ class AmcForm extends React.Component {
             />
 
             <CustomTextInput
-              placeholder="AMC Seller Name"
+              placeholder={I18n.t("expense_forms_amc_form_amc_seller_name")}
               value={sellerName}
               onChangeText={sellerName => this.setState({ sellerName })}
             />
@@ -147,12 +147,12 @@ class AmcForm extends React.Component {
             <ContactFields
               ref={ref => (this.sellerContactRef = ref)}
               value={sellerContact}
-              placeholder="Seller Contact"
+              placeholder={I18n.t("expense_forms_amc_form_amc_seller_contact")}
               keyboardType="numeric"
             />
 
             <CustomTextInput
-              placeholder="AMC Amount"
+              placeholder={I18n.t("expense_forms_amc_form_amc_amount")}
               value={value}
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"
@@ -165,7 +165,7 @@ class AmcForm extends React.Component {
               jobId={jobId}
               docType="AMC"
               type={2}
-              placeholder="Upload AMC Doc"
+              placeholder={I18n.t("expense_forms_amc_form_amc_upload")}
               placeholder2=" (Recommended)"
               placeholder2Color={colors.mainBlue}
               navigator={navigator}

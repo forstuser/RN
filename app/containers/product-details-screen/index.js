@@ -155,7 +155,7 @@ class ProductDetailsScreen extends Component {
           "All the information and document copies related to this product will be deleted.",
           [
             {
-              text: "Yes, delete",
+              text: I18n.t("product_details_screen_yes_delete"),
               onPress: async () => {
                 Analytics.logEvent(Analytics.EVENTS.PRODUCT_DELETE_COMPLETE);
                 this.setState({ isLoading: true });
@@ -164,7 +164,7 @@ class ProductDetailsScreen extends Component {
               }
             },
             {
-              text: "No, don't Delete",
+              text: I18n.t("product_details_screen_no_dnt_delete"),
               onPress: () => {
                 Analytics.logEvent(Analytics.EVENTS.PRODUCT_DELETE_CANCELED);
               },

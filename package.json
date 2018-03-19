@@ -22,7 +22,7 @@
     "react-native-app-intro-slider": "^0.2.2",
     "react-native-app-link": "^0.4.0",
     "react-native-blur": "^3.2.2",
-    "react-native-check-box": "^2.0.2",
+    "react-native-check-box": "^2.1.0",
     "react-native-code-push": "^5.2.1",
     "react-native-datepicker": "^1.6.0",
     "react-native-device-info": "0.12.1",
@@ -46,6 +46,7 @@
     "react-native-navigation": "^1.1.382",
     "react-native-phone-call": "^1.0.4",
     "react-native-photo-view": "^1.5.2",
+    "react-native-restart": "^0.0.6",
     "react-native-scrollable-tab-view":
       "https://github.com/compojoom/react-native-scrollable-tab-view#fixes_android",
     "react-native-share": "^1.0.23",
@@ -59,6 +60,7 @@
     "react-native-tourguide":
       "https://github.com/pramjeet/react-native-tourguide",
     "react-native-vector-icons": "^4.4.2",
+    "react-native-view-shot": "^2.3.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-persist": "^5.3.5",

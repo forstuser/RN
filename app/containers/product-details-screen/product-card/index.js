@@ -20,7 +20,7 @@ import Modal from "react-native-modal";
 
 import ActionSheet from "react-native-actionsheet";
 
-import { SCREENS, MAIN_CATEGORY_IDS } from "../../../constants";
+import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 import { API_BASE_URL, getProductDetails } from "../../../api";
 import { Text, Button, ScreenContainer } from "../../../elements";
 
@@ -45,7 +45,8 @@ class ProductCard extends Component {
     super(props);
     this.state = {
       activeTabIndex: 1,
-      showCustomerCareTab: false
+      showCustomerCareTab: false,
+      showImportantTab: true
     };
   }
 
@@ -53,6 +54,7 @@ class ProductCard extends Component {
     const { product } = this.props;
     const { brand, insuranceDetails, warrantyDetails } = product;
 
+    let newState = {};
     if (
       (brand && brand.status_type == 1) ||
       (insuranceDetails.length > 0 &&
@@ -62,11 +64,28 @@ class ProductCard extends Component {
         warrantyDetails[0].provider &&
         warrantyDetails[0].provider.status_type == 1)
     ) {
-      this.setState({
+      newState = {
         activeTabIndex: 0,
         showCustomerCareTab: true
-      });
+      };
     }
+
+    if (
+      [
+        MAIN_CATEGORY_IDS.FASHION,
+        MAIN_CATEGORY_IDS.HEALTHCARE,
+        MAIN_CATEGORY_IDS.TRAVEL,
+        MAIN_CATEGORY_IDS.HOUSEHOLD
+      ].indexOf(product.masterCategoryId) > -1
+    ) {
+      newState.showImportantTab = false;
+    }
+
+    if (product.categoryId == CATEGORY_IDS.HOUSEHOLD.HOME_DECOR) {
+      newState.showImportantTab = true;
+    }
+
+    this.setState(newState);
   }
 
   startBasicDetailsEdit = () => {
@@ -136,7 +155,11 @@ class ProductCard extends Component {
   };
 
   render() {
-    const { activeTabIndex, showCustomerCareTab } = this.state;
+    const {
+      activeTabIndex,
+      showCustomerCareTab,
+      showImportantTab
+    } = this.state;
     const { product, openServiceSchedule } = this.props;
 
     const cardWidthWhenMany = Dimensions.get("window").width - 52;
@@ -152,6 +175,7 @@ class ProductCard extends Component {
           <Header
             activeTabIndex={activeTabIndex}
             showCustomerCareTab={showCustomerCareTab}
+            showImportantTab={showImportantTab}
             onTabChange={this.onTabChange}
             product={product}
             navigator={this.props.navigator}

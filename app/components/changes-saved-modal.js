@@ -5,6 +5,7 @@ import Modal from "react-native-modal";
 import { colors } from "../theme";
 import { API_BASE_URL } from "../api";
 import { SCREENS } from "../constants";
+import I18n from "../i18n";
 
 const tick = require("../images/tick.png");
 class ChangesSavedModal extends React.Component {
@@ -54,7 +55,7 @@ class ChangesSavedModal extends React.Component {
           <Button
             onPress={this.onOkayClick}
             style={styles.finishBtn}
-            text="OKAY"
+            text={I18n.t("component_items_okey")}
             color="secondary"
           />
         </View>

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
-
+import I18n from "../i18n";
 import { Text, Button } from "../elements";
 import { colors } from "../theme";
 

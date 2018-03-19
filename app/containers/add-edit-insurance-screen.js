@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import I18n from "../i18n";
 
 import {
   getReferenceDataForCategory,
@@ -64,9 +65,9 @@ class AddEditInsurance extends React.Component {
 
   async componentDidMount() {
     const { mainCategoryId, productId, jobId, insurance } = this.props;
-    let title = "Add Insurance";
+    let title = I18n.t("add_edit_insurance_add_insurance");
     if (insurance) {
-      title = "Edit Insurance";
+      title = I18n.t("add_edit_insurance_edit_insurance");
     }
 
     this.props.navigator.setTitle({ title });
@@ -77,7 +78,7 @@ class AddEditInsurance extends React.Component {
       this.props.navigator.setButtons({
         rightButtons: [
           {
-            title: "Delete",
+            title: I18n.t("add_edit_insurance_delete"),
             id: "delete",
             buttonColor: "red",
             buttonFontSize: 16,
@@ -93,15 +94,15 @@ class AddEditInsurance extends React.Component {
     if (event.type == "NavBarButtonPress") {
       if (event.id == "backPress") {
         Alert.alert(
-          "Are you sure?",
-          "All the unsaved information and document copies related to this insurance would be deleted",
+          I18n.t("add_edit_amc_are_you_sure"),
+          I18n.t("add_edit_insurance_unsaved_info"),
           [
             {
-              text: "Go Back",
+              text: I18n.t("add_edit_amc_go_back"),
               onPress: () => this.props.navigator.pop()
             },
             {
-              text: "Stay",
+              text: I18n.t("add_edit_amc_stay"),
               onPress: () => console.log("Cancel Pressed"),
               style: "cancel"
             }
@@ -110,11 +111,11 @@ class AddEditInsurance extends React.Component {
       } else if (event.id == "delete") {
         const { productId, insurance } = this.props;
         Alert.alert(
-          `Are you sure?`,
-          "All the information and document copies related to this insurance will be deleted.",
+          I18n.t("add_edit_insurance_delete_insurance"),
+          I18n.t("add_edit_insurance_delete_insurance_desc"),
           [
             {
-              text: "Yes, delete",
+              text: I18n.t("add_edit_insurance_yes_delete"),
               onPress: async () => {
                 try {
                   this.setState({ isLoading: true });
@@ -124,13 +125,13 @@ class AddEditInsurance extends React.Component {
                   });
                   this.props.navigator.pop();
                 } catch (e) {
-                  Alert.alert(`Couldn't delete`);
+                  Alert.alert(I18n.t("add_edit_amc_could_not_delete"));
                   this.setState({ isLoading: false });
                 }
               }
             },
             {
-              text: "No, don't Delete",
+              text: I18n.t("add_edit_no_dnt_delete"),
               onPress: () => {},
               style: "cancel"
             }
@@ -171,7 +172,7 @@ class AddEditInsurance extends React.Component {
     };
 
     if (!data.providerId && !data.providerName) {
-      return Alert.alert("Please select or enter provider name");
+      return Alert.alert(I18n.t("add_edit_insurance_provider_name"));
     }
 
     console.log("data: ", data);
@@ -226,7 +227,7 @@ class AddEditInsurance extends React.Component {
         </KeyboardAwareScrollView>
         <Button
           onPress={this.onSavePress}
-          text="SAVE"
+          text={I18n.t("add_edit_amc_save")}
           color="secondary"
           borderRadius={0}
         />

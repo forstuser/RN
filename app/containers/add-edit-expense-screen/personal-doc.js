@@ -7,6 +7,7 @@ import Analytics from "../../analytics";
 
 import { API_BASE_URL, initProduct, updateProduct } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
+import I18n from "../../i18n";
 
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
@@ -37,11 +38,11 @@ class PersonalDoc extends React.Component {
       docTypes: [
         {
           id: 120,
-          name: "Rent Agreement"
+          name: I18n.t("add_edit_expense_screen_title_add_rent_agreement")
         },
         {
           id: 111,
-          name: "Other Personal Doc"
+          name: I18n.t("add_edit_expense_screen_title_add_personal_doc")
         }
       ],
       selectedDocType: null,
@@ -60,7 +61,10 @@ class PersonalDoc extends React.Component {
     if (this.props.formType == "visiting_card") {
       this.setState(
         {
-          selectedDocType: { id: 27, name: "Visiting Card" }
+          selectedDocType: {
+            id: 27,
+            name: I18n.t("add_edit_expense_screen_title_add_visit_card")
+          }
         },
         () => {
           this.initProduct();
@@ -72,7 +76,7 @@ class PersonalDoc extends React.Component {
   beforeUpload = () => {
     const product = this.state.product;
     if (!product) {
-      Alert.alert("Please select 'Type of doc' first");
+      Alert.alert(I18n.t("add_edit_expense_screen_title_add_select_doc"));
       return false;
     }
     return true;
@@ -123,11 +127,15 @@ class PersonalDoc extends React.Component {
       } = this.state;
 
       if (!product) {
-        return Alert.alert("Please select 'Type of doc' first");
+        return Alert.alert(
+          I18n.t("add_edit_expense_screen_title_add_select_doc")
+        );
       }
 
       if (!isDocUploaded) {
-        return Alert.alert("Please upload the document first");
+        return Alert.alert(
+          I18n.t("add_edit_expense_screen_title_add_upload_doc")
+        );
       }
       const data = {
         productId: product.id,
@@ -290,13 +298,13 @@ class PersonalDoc extends React.Component {
         <Button
           style={styles.saveBtn}
           onPress={this.saveDoc}
-          text="ADD DOC"
+          text={I18n.t("add_edit_expense_screen_title_add_doc")}
           borderRadius={0}
           color="secondary"
         />
         <LoadingOverlay visible={isLoading} />
         <FinishModal
-          title="Doc added to your eHome."
+          title={I18n.t("add_edit_expense_screen_title_add_doc_added")}
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
           productId={product ? product.id : null}

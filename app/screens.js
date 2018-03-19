@@ -1,5 +1,4 @@
 import { Navigation } from "react-native-navigation";
-
 import { SCREENS } from "./constants";
 import Snackbar from "./containers/snackbar";
 import DashboardScreen from "./containers/dashboard-screen";
@@ -12,7 +11,6 @@ import VerifyScreen from "./containers/verify-screen";
 import TermsScreen from "./containers/terms-screen";
 import MainCategoryScreen from "./containers/main-category-screen";
 import ProductDetailsScreen from "./containers/product-details-screen";
-import DocsUnderProcessingScreen from "./containers/docs-under-processing";
 import BillsPopUpScreen from "./containers/bills-popup-screen";
 import FaqScreen from "./containers/faq-screen";
 import MailboxScreen from "./containers/mailbox-screen";
@@ -20,12 +18,12 @@ import TipsScreen from "./containers/tips-screen";
 import ProfileScreen from "./containers/profile-screen";
 import SearchScreen from "./containers/search-screen";
 import AscSearchScreen from "./containers/asc-search-screen";
-import AddProductsScreen from "./containers/add-products-screen";
+// import AddProductsScreen from "./containers/add-products-screen";
 import UploadDocumentScreen from "./containers/upload-document-screen";
 import InsightScreen from "./containers/insight-screen";
-import TotalTaxScreen from "./containers/total-tax-screen";
+// import TotalTaxScreen from "./containers/total-tax-screen";
 import TransactionsScreen from "./containers/transactions-screen";
-import AddProductScreen from "./containers/add-product-screen";
+// import AddProductScreen from "./containers/add-product-screen";
 import ForceUpdateScreen from "./containers/force-update-screen";
 import AddEditExpenseScreen from "./containers/add-edit-expense-screen";
 import AddEditWarrantyScreen from "./containers/add-edit-warranty-screen";
@@ -40,6 +38,7 @@ import EditInsuranceScreen from "./containers/edit-healthcare-insurance-screen";
 import AddProductOptionsScreen from "./containers/add-product-options-screen";
 import DirectUploadDocumentScreen from "./containers/direct-upload-document-screen";
 import RateUsScreen from "./containers/rate-us-screen";
+import DoYouKnowScreen from "./containers/do-you-know-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -123,12 +122,12 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
-  Navigation.registerComponent(
-    SCREENS.TOTAL_TAX_SCREEN,
-    () => TotalTaxScreen,
-    store,
-    Provider
-  );
+  // Navigation.registerComponent(
+  //   SCREENS.TOTAL_TAX_SCREEN,
+  //   () => TotalTaxScreen,
+  //   store,
+  //   Provider
+  // );
 
   Navigation.registerComponent(
     SCREENS.MAIN_CATEGORY_SCREEN,
@@ -142,12 +141,12 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
-  Navigation.registerComponent(
-    SCREENS.DOCS_UNDER_PROCESSING_SCREEN,
-    () => DocsUnderProcessingScreen,
-    store,
-    Provider
-  );
+  // Navigation.registerComponent(
+  //   SCREENS.DOCS_UNDER_PROCESSING_SCREEN,
+  //   () => DocsUnderProcessingScreen,
+  //   store,
+  //   Provider
+  // );
   Navigation.registerComponent(
     SCREENS.BILLS_POPUP_SCREEN,
     () => BillsPopUpScreen,
@@ -174,19 +173,19 @@ export function registerScreens(store, Provider) {
     Provider
   );
 
-  Navigation.registerComponent(
-    SCREENS.ADD_PRODUCTS_SCREEN,
-    () => AddProductsScreen,
-    store,
-    Provider
-  );
+  // Navigation.registerComponent(
+  //   SCREENS.ADD_PRODUCTS_SCREEN,
+  //   () => AddProductsScreen,
+  //   store,
+  //   Provider
+  // );
 
-  Navigation.registerComponent(
-    SCREENS.ADD_PRODUCT_SCREEN,
-    () => AddProductScreen,
-    store,
-    Provider
-  );
+  // Navigation.registerComponent(
+  //   SCREENS.ADD_PRODUCT_SCREEN,
+  //   () => AddProductScreen,
+  //   store,
+  //   Provider
+  // );
 
   Navigation.registerComponent(
     SCREENS.UPLOAD_DOCUMENT_SCREEN,
@@ -296,6 +295,13 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     SCREENS.RATE_US_SCREEN,
     () => RateUsScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.DO_YOU_KNOW_SCREEN,
+    () => DoYouKnowScreen,
     store,
     Provider
   );

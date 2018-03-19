@@ -2,6 +2,7 @@ package com.bin.binbillcustomer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.StrictMode;
 
 import com.evollu.react.fa.FIRAnalyticsPackage;
 import com.microsoft.codepush.react.CodePush;
@@ -25,6 +26,8 @@ import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import in.sriraman.sharedpreferences.RNSharedPreferencesReactPackage;
 import com.reactnativenavigation.controllers.ActivityCallbacks;
+import fr.greweb.reactnativeviewshot.RNViewShotPackage;
+import com.avishayil.rnrestart.ReactNativeRestartPackage;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -66,6 +69,9 @@ public class MainApplication extends NavigationApplication {
     AppEventsLogger.activateApp(this);
 
     SoLoader.init(this, /* native exopackage */ false);
+
+    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+    StrictMode.setVmPolicy(builder.build());
   }
 
   protected static CallbackManager getCallbackManager() {
@@ -81,13 +87,14 @@ public class MainApplication extends NavigationApplication {
   protected List<ReactPackage> getPackages() {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(new MainReactPackage(), new FBSDKPackage(mCallbackManager),
-        new RNSharedPreferencesReactPackage(), new SplashScreenReactPackage(), new FIRAnalyticsPackage(),
-        new CodePush(null, getApplicationContext(), BuildConfig.DEBUG), new VectorIconsPackage(), new SvgPackage(),
-        new RNSharePackage(), new PhotoViewPackage(), new NavigationReactPackage(), new LinearGradientPackage(),
-        new PickerPackage(), new RNI18nPackage(), new RNFetchBlobPackage(),
-        new FIRMessagingPackage(), new ReactNativeDocumentPicker(), new RNDeviceInfo(),
-        new BlurViewPackage(), new RNGooglePlacesPackage(), new BinBillPackager());
+    return Arrays.<ReactPackage>asList(new MainReactPackage(), new ReactNativeRestartPackage(), new RNViewShotPackage(),
+        new FBSDKPackage(mCallbackManager), new RNSharedPreferencesReactPackage(), new SplashScreenReactPackage(),
+        new FIRAnalyticsPackage(), new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
+        new VectorIconsPackage(), new SvgPackage(), new RNSharePackage(), new PhotoViewPackage(),
+        new NavigationReactPackage(), new LinearGradientPackage(), new PickerPackage(), new RNI18nPackage(),
+        new RNGestureHandlerPackage(), new RNFetchBlobPackage(), new FIRMessagingPackage(), new RNPdfScannerPackage(),
+        new ReactNativeDocumentPicker(), new RNDeviceInfo(), new BlurViewPackage(), new RNGooglePlacesPackage(),
+        new BinBillPackager());
   }
 
   @Override

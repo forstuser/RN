@@ -17,9 +17,8 @@ import I18n from "../i18n";
 import { API_BASE_URL, consumerGetEhome } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 import LoadingOverlay from "../components/loading-overlay";
-import SearchHeader from "../components/search-header";
+import TabSearchHeader from "../components/tab-screen-header";
 import CategoryItem from "../components/ehome-category-item";
-import ProcessingItems from "../components/ehome-processing-items.js";
 import ErrorOverlay from "../components/error-overlay";
 
 import { SCREENS } from "../constants";
@@ -28,6 +27,8 @@ import { actions as uiActions } from "../modules/ui";
 
 import { colors } from "../theme";
 import AddExpenseModal from "../components/add-expense-modal";
+
+const eHomeIcon = require("../images/ic_nav_ehome_off.png");
 const uploadFabIcon = require("../images/ic_upload_fabs.png");
 
 class EhomeScreen extends Component {
@@ -178,20 +179,14 @@ class EhomeScreen extends Component {
     }
     return (
       <ScreenContainer style={{ padding: 0 }}>
-        <SearchHeader
+        <TabSearchHeader
           navigator={this.props.navigator}
-          screen="ehome"
+          title={I18n.t("ehome_screen_title")}
+          icon={eHomeIcon}
           notificationCount={this.state.notificationCount}
           recentSearches={this.state.recentSearches}
           mailboxIconRef={ref => (this.mailboxIconRef = ref)}
         />
-        {false && (
-          <ProcessingItems
-            setRef={ref => (this.processingItemsRef = ref)}
-            onPress={this.openDocsUnderProcessingScreen}
-            itemsCount={this.state.pendingDocs.length}
-          />
-        )}
         <View style={{ flex: 1, marginVertical: 10 }}>
           <FlatList
             style={{ paddingHorizontal: 8 }}

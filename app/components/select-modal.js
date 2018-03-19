@@ -11,7 +11,7 @@ import {
   Button,
   Platform
 } from "react-native";
-
+import I18n from "../i18n";
 const dropdownIcon = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhDAkMGjg4AXstAAAAcklEQVRIx+3Tuw3AIAxF0avMxQAMwNKeiYIUUSSE+NimQ7zU9wQK4O6IBYTi/ITARl4oyLN/hUh2/z8TAZKTyKT/FB6iyj1Ek1uJTm4hBrmWmOQaYpGvCEU+I5T5iDDkPcKYt4QjrwlnDhAR5Htxd0fvBYOKNVDm/h2pAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTEyLTA5VDEyOjI2OjU2KzAxOjAw6KWTZgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0xMi0wOVQxMjoyNjo1NiswMTowMJn4K9oAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC`;
 const crossIcon = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhDAsIDg3tHAgMAAAAkElEQVQ4y6WUuQ2AMBAER5BQAQWQUxsSTUBCSohETkZON26DI0Li8cOKy6zdkX2fc1oWSjaMeGR0zAAOw5jIEvYJw3DQY0nktBv99RBCXo444lXDSFDxC9G732Iyu7shXYwH8sF+Rz7Zn4g31Z8hPklMWiyr2DhxNMThE8dbXiB5RcVPIAdqRhr2KGCsFFQMB2e3sbEqrADlAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTEyLTExVDA4OjE0OjEzKzAxOjAw8CXXWwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0xMi0xMVQwODoxNDoxMyswMTowMIF4b+cAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC`;
 
@@ -125,8 +125,8 @@ class SelectModal extends Component {
       textInputValue = "",
       valueKey = "id",
       visibleKey = "name",
-      placeholder = "Select a value",
-      textInputPlaceholder = "Enter the value",
+      placeholder = I18n.t("component_items_select_value"),
+      textInputPlaceholder = I18n.t("component_items_enter_value"),
       newValueOption = true,
       onNewValueOptionAdd,
       style = {},
@@ -203,8 +203,8 @@ class SelectModal extends Component {
             </View>
             <View style={styles.searchContainer}>
               <TextInput
+                placeholder={I18n.t("component_items_search")}
                 underlineColorAndroid="transparent"
-                placeholder="Search"
                 style={styles.searchInput}
                 value={searchInput}
                 onChangeText={text => this.setState({ searchInput: text })}

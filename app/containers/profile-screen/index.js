@@ -71,7 +71,7 @@ class ProfileScreen extends Component {
       isNameModalVisible: false
     });
     showSnackbar({
-      text: "changing name.. please wait..",
+      text: I18n.t("profile_screen_details_changing_name"),
       autoDismissTimerSec: 1000
     });
     try {
@@ -98,7 +98,7 @@ class ProfileScreen extends Component {
       isEmailModalVisible: false
     });
     showSnackbar({
-      text: "changing email.. please wait..",
+      text: I18n.t("profile_screen_details_changing_email"),
       autoDismissTimerSec: 1000
     });
     try {
@@ -128,14 +128,14 @@ class ProfileScreen extends Component {
 
   showResendEmailVerifyAlert = () => {
     Alert.alert(
-      "Email Verification",
-      "Please check your email inbox for the verification link we've sent.",
+      I18n.t("profile_screen_details_email_verification"),
+      I18n.t("profile_screen_details_sent_verification"),
       [
         {
           text: "Resend",
           onPress: async () => {
             showSnackbar({
-              text: "please wait..",
+              text: I18n.t("profile_screen_details_please_wait"),
               autoDismissTimerSec: 1000
             });
             try {
@@ -155,7 +155,7 @@ class ProfileScreen extends Component {
           }
         },
         {
-          text: "Dismiss",
+          text: I18n.t("profile_screen_details_dismiss"),
           onPress: () => {},
           style: "cancel"
         }
@@ -168,7 +168,7 @@ class ProfileScreen extends Component {
       isLocationModalVisible: false
     });
     showSnackbar({
-      text: "changing address.. please wait..",
+      text: I18n.t("profile_screen_details_changing_address"),
       autoDismissTimerSec: 1000
     });
 

@@ -23,21 +23,6 @@ import ViewBillRow from "./view-bill-row";
 import EditOptionRow from "./edit-option-row";
 
 class PucDetails extends React.Component {
-  openAddEditPucScreen = puc => {
-    const { product } = this.props;
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_PUC_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        puc: puc
-      },
-      overrideBackPress: true
-    });
-  };
-
   render() {
     const { product, navigator } = this.props;
     const { pucDetails } = product;
@@ -47,7 +32,7 @@ class PucDetails extends React.Component {
         <EditOptionRow
           text={I18n.t("product_details_screen_puc_details")}
           onEditPress={() => {
-            this.openAddEditPucScreen(puc);
+            this.props.openAddEditPucScreen(puc);
           }}
         />
         <ViewBillRow
@@ -92,7 +77,7 @@ class PucDetails extends React.Component {
           {pucDetails.map(puc => <PucItem puc={puc} />)}
           <AddItemBtn
             text={I18n.t("product_details_screen_add_puc")}
-            onPress={() => this.openAddEditPucScreen(null)}
+            onPress={() => this.props.openAddEditPucScreen(null)}
           />
         </ScrollView>
       </View>

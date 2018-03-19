@@ -3906,9 +3906,9 @@ react-native-button@^2.1.0:
   dependencies:
     prop-types "^15.6.0"
 
-react-native-check-box@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-check-box/-/react-native-check-box-2.0.2.tgz#70e34a930833fa3c44f283f52e96f2b00b12316d"
+react-native-check-box@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-check-box/-/react-native-check-box-2.1.0.tgz#a4e5fa2c1860cfc3f5758ae3493b6ec2ec7c2878"
   dependencies:
     prop-types "^15.5.7"
 
@@ -4050,6 +4050,10 @@ react-native-photo-view@^1.5.2:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-restart@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-restart/-/react-native-restart-0.0.6.tgz#77770d078683947b2c1f2adb876f179269d8443a"
+
 "react-native-scrollable-tab-view@https://github.com/compojoom/react-native-scrollable-tab-view#fixes_android":
   version "0.8.0"
   resolved "https://github.com/compojoom/react-native-scrollable-tab-view#ade702c7f35b1899444ff6a450730ae990000a26"
@@ -4116,6 +4120,10 @@ react-native-vector-icons@^4.2.0, react-native-vector-icons@^4.4.2:
     lodash "^4.0.0"
     prop-types "^15.5.10"
     yargs "^8.0.2"
+
+react-native-view-shot@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-2.3.0.tgz#ac01880d3c560f0dc918cd7cdf8854c6ff85ca31"
 
 react-native@0.50.4:
   version "0.50.4"

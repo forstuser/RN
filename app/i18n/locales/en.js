@@ -26,7 +26,7 @@ export default {
   //verify screen
   verify_screen_title: "Verify",
   verify_screen_invalid_otp_error:
-    "Please enter 6 or 4 digit OTP you received on your phone",
+    "Please enter 4 digit OTP you received on your phone",
   verify_screen_enter_otp_msg:
     "Please enter the OTP we’ve sent to {{phoneNumber}}",
   verify_screen_btn_text: "Submit",
@@ -61,6 +61,11 @@ export default {
   add_products_screen_slide_upload_bill: "Upload Bill (Optional)",
   add_products_screen_slide_bill_uploaded: "Bill Uploaded",
   add_products_screen_slide_add_product_btn: "Add Product",
+  add_products_screen_slide_add_mobile_eHome:
+    "Now let’s add your Mobile to Your eHome",
+  add_products_screen_slide_add_brand_name: "Please select or enter brand name",
+  add_products_screen_slide_add_model_name: "Please select or enter model name",
+  add_products_screen_slide_add_brand_first: "Please select brand first",
 
   //add product screen
   add_product_screen_title: "Add Product",
@@ -90,7 +95,7 @@ export default {
   asc_search_screen_title: "Search Results for {{brandAndCategory}}",
   asc_search_screen_no_results_title: "No Nearby Services",
   asc_search_screen_no_results_desc:
-    "Currently there are no services near you. Please comeback later for the nearby services",
+    "Currently there are no services near you. Please come back later for the nearby services",
   asc_search_screen_phone_not_available: "Phone number not available to call",
   asc_search_screen_directions: "Directions",
   asc_search_screen_call: "Call",
@@ -101,9 +106,10 @@ export default {
     "Image downloaded, check 'Photos' app!",
   bill_copy_popup_screen_downloaded_image_android:
     "Image downloaded, check 'Gallery'!",
-  bill_copy_popup_screen_download_error: "Some error ocurred in downloading!",
+  bill_copy_popup_screen_download_error: "Some error occurred in downloading!",
   bill_copy_popup_screen_downloading_file_to_share:
     "Downloading file to share.. please wait..",
+  bill_copy_popup_screen_no_data_available: " Data not available",
 
   //docs under processing screen
   docs_under_processing_screen_title: "Docs Under Processing",
@@ -128,7 +134,7 @@ export default {
   mailbox_screen_title: "Mailbox",
   mailbox_screen_no_result_title: "No Action Here",
   mailbox_screen_no_result_desc:
-    "We will start sending imporatant messages as soon as the action starts",
+    "We will start sending important messages as soon as the action starts",
 
   //main category screen
   main_category_screen_filters_title: "Filters",
@@ -168,8 +174,11 @@ export default {
   more_screen_item_email: "Email Us",
   more_screen_item_share: "Share App",
   more_screen_item_app_version: "App Version",
+  more_screen_item_app_language_change: "Change",
   more_screen_item_app_version_update_to: "Update Now",
   more_screen_item_logout: "Logout",
+  more_screen_logout: "Yes, Logout",
+  more_screen_stay: "No, Stay",
   more_screen_no_update_available: "No update available",
 
   //product details screen
@@ -249,6 +258,42 @@ export default {
   product_details_screen_puc_seller: "Seller",
   product_details_screen_puc_seller_contact: "Seller Contact",
   product_details_screen_puc_no_info: "Details Not Available!",
+  product_details_screen_edit: "EDIT",
+  product_details_screen_add_insurance: "+ ADD INSURANCE",
+  product_details_screen_add_puc: "+ ADD PUC",
+  product_details_screen_add_repair: "+ ADD REPAIR",
+  product_details_screen_ok: "OK",
+  product_details_screen_view_doc: "View Doc",
+  product_details_screen_add_warranty: "+ ADD WARRANTY",
+  product_details_screen_add_manufacturer: "Contact Manufacturer",
+  product_details_screen_add_insurance_provider: "Contact Insurance Provider",
+  product_details_screen_add_warranty_provider: "Contact Warranty Provider",
+  product_details_screen_add_nearest_authorized:
+    "Nearest Authorised Service center",
+  product_details_screen_add_customer_care:
+    "Customer care is available for brand/manufacturer, insurance and third party warranty providers only.",
+  product_details_screen_add_brand_not_available:
+    "Product brand not available. Please upload your bill if you haven't",
+  product_details_screen_open_email: "Can't open this email",
+  product_details_screen_cancel: "Cancel",
+  product_details_screen_review_product: "REVIEW THIS PRODUCT",
+  product_details_screen_write_feedback: "Write your feedback…",
+  product_details_screen_submit: "Submit",
+  product_details_screen_your_review: "YOUR REVIEW",
+  product_details_screen_edits: "Edit",
+  product_details_screen_yes_delete: "Yes, delete",
+  product_details_screen_no_dnt_delete: "No, don't Delete",
+  product_details_screen_docs: "Doc",
+  product_details_screen_general_info: "General Info",
+  product_details_screen_important: "IMPORTANT",
+  product_details_screen_sellers: "SELLER",
+  product_details_screen_gen_info: "GENERAL INFO",
+  product_details_screen_review_added: "Review Added",
+  product_details_screen_seller_details: "Seller Details",
+  product_details_screen_your_experience: "HOW WAS YOUR EXPERIENCE",
+  product_details_screen_your_upload: "Upload",
+  product_details_screen_your_general_details: "General Details",
+  product_details_screen_edit_text: "EDIT",
   //new
   product_details_screen_tab_customer_care: "CUSTOMER CARE",
   product_details_screen_tab_all_info: "ALL INFO",
@@ -294,10 +339,21 @@ export default {
   profile_screen_change_msg_address: "Your profile details are updated!",
   profile_screen_email_verified: "Verified",
   profile_screen_email_not_verified: "Not Verified",
+  profile_screen_please_wait: "uploading, please wait..",
+  profile_screen_details_updated: "Your profile details are updated!",
+  profile_screen_details_upload_pic: "Upload Profile Pic",
+  profile_screen_details_changing_name: "changing name.. please wait..",
+  profile_screen_details_changing_email: "changing email.. please wait..",
+  profile_screen_details_changing_address: "changing address.. please wait..",
+  profile_screen_details_please_wait: "please wait..",
+  profile_screen_details_email_verification: "Email Verification",
+  profile_screen_details_sent_verification:
+    "Please check your email inbox for the verification link we've sent.",
+  profile_screen_details_dismiss: "Dismiss",
 
   //upload document screen
   upload_document_screen_title: "Review & Upload",
-  upload_document_screen_upload_success_msg: "Docs uploded successfully",
+  upload_document_screen_upload_success_msg: "Docs uploaded successfully",
   upload_document_screen_no_document_msg: "No Document to upload",
   upload_document_screen_select_document_btn: "Select Document",
   upload_document_screen_upload_btn: "UPLOAD DOC",
@@ -326,13 +382,22 @@ export default {
   asc_screen_select_fields_first: "Please select brand and product",
   asc_screen_select_location: "Please select location",
 
+  //Do You Know screen
+  do_you_know_screen_title: "Do You Know",
+  do_you_know_screen_end_msg:
+    "You have reached the end, Stay updated for more.",
+  do_you_know_screen_tags_search_placeholder: "Search...",
+  do_you_know_screen_tags_search_cta: "Search",
+
   //Dashboard Screen
+  dashboard_screen_title: "Dashboard",
   dashboard_screen_whats_coming_up: "What's Coming Up",
   dashboard_screen_recent_activity: "Recent Activity",
   dashboard_screen_ehome_insights: "Expense Insight",
   dashboard_screen_chart_last_7_days: "Last 7 Days",
 
   //eHome Screen
+  ehome_screen_title: "eHome",
   ehome_screen_processing_docs: "Processing Docs",
   ehome_screen_items_pending_count: "{{pendingDocsCount}} item(s) pending",
   ehome_screen_items_category_item_count: "{{count}} items",
@@ -368,40 +433,6 @@ export default {
   transactions_screen_filter_options_title: "See insights of",
   transactions_screen_filter_close: "Cancel",
 
-  //tips screen
-  tips_screen_tip_1:
-    "Always ask for a valid bill from the seller/trader. It is your right to get a bill as well as duty to ask from the seller.",
-  tips_screen_tip_2:
-    "Whenever you get a bill, the first thing you should do is scan and upload it in BinBill before you misplace or accidentally destroy it.",
-  tips_screen_tip_3:
-    "While scanning the bill, ensure sufficient light without any shadow obstruction from your hand, phone or things around.",
-  tips_screen_tip_4:
-    "The document that you’d scan with the inbuilt scanner should keep in between the four corners as shown on the screen.",
-  tips_screen_tip_5:
-    "For good image quality, keep bills or documents on hard and level surface without any disturbance from wind.",
-  tips_screen_tip_6:
-    "Recommended to check if the bill is not torn, crumpled or physically damaged.",
-  tips_screen_tip_7:
-    "While scanning and uploading, crop the image to trim the unwanted areas and make it readable.",
-  tips_screen_tip_8:
-    "Choose from Original, Magic or Gray Color mode. Magic Mode is the most suitable for worn out or bills with fading ink.",
-  tips_screen_tip_9:
-    "Always review the image of bills or documents before finally uploading. If you can see the entries then we can also and if you are finding it difficult then chances are we will also find them difficult to read. Especially for the “kachha bills” the handwriting should be legible and preferred language is English.",
-  tips_screen_tip_10:
-    "It is always advisable to upload your bill along with any associated warranty, guarantee or insurance document. Remember these are important to extract necessary information in order to maintain your records in BinBill.",
-  tips_screen_tip_11:
-    "You can add prescriptions and related reports along with chemist bills, if they are available.",
-  tips_screen_tip_12:
-    "Do not upload selfies or other irrelevant photos since these would be discarded.",
-  tips_screen_tip_13:
-    "Bills can also be added from “Gallery”. After adding the image of the bill, make sure all the details are visible. If not, then retake the photo from BinBill scanner.",
-  tips_screen_tip_14:
-    "In case of Doc. and Pdf make sure that it contains bills and related documents, before uploading it.",
-  tips_screen_tip_15:
-    "If the bill is lengthy and cannot possibly come in a single frame, then take multiple photos. Please keep in mind to segregate Bill in equal parts.",
-  tips_screen_tip_16:
-    "Please do not upload the same bill/document more than once. Duplicacy will be discarded owing to quality issues.",
-
   //add-edit-expense-screen
   add_edit_expense_screen_title_add_automobile: "Add Automobile",
   add_edit_expense_screen_title_add_electronics:
@@ -411,11 +442,66 @@ export default {
   add_edit_expense_screen_title_add_medical_docs: "Add Medical Documents",
   add_edit_expense_screen_title_add_personal_doc: "Add Personal Doc",
   add_edit_expense_screen_title_add_services: "Add Services Expense",
-  add_edit_expense_screen_title_add_travel: "Add Travel & Dinning",
+  add_edit_expense_screen_title_add_travel: "Add Travel & Dining",
   add_edit_expense_screen_title_add_healthcare: "Add Healthcare Expense",
   add_edit_expense_screen_title_add_fashion: "Add Fashion Expense",
   add_edit_expense_screen_title_add_home: "Add Home Expense",
   add_edit_expense_screen_title_add_repair: "Add Repair",
+  add_edit_expense_screen_title_add_eHome: "Product added to your eHome.",
+  add_edit_expense_screen_title_add_products: "ADD MORE PRODUCTS",
+  add_edit_expense_screen_title_add_later: "I'll Do it Later",
+  add_edit_expense_screen_title_add_sure: "Are you sure?",
+  add_edit_expense_screen_title_add_docs:
+    "All the unsaved information and document copies related to this product would be deleted",
+  add_edit_expense_screen_title_add_go_back: "Go Back",
+  add_edit_expense_screen_title_add_stay: "STAY",
+  add_edit_expense_screen_title_add_rent_agreement: "Rent Agreement",
+  add_edit_expense_screen_title_add_personal_doc: "Other Personal Doc",
+  add_edit_expense_screen_title_add_visit_card: "Visiting Card",
+  add_edit_expense_screen_title_add_select_doc:
+    "Please select 'Type of doc' first",
+  add_edit_expense_screen_title_add_upload_doc:
+    "Please upload the document first",
+  add_edit_expense_screen_title_add_doc: "ADD DOC",
+  add_edit_expense_screen_title_add_doc_added: "Doc added to your eHome.",
+  add_edit_expense_screen_title_add_select_type:
+    "Select a type above and Add Product in Less Than 10 Sec",
+  add_edit_expense_screen_title_add_branch_name:
+    "Please select or enter brand name",
+  add_edit_expense_screen_title_add_purchase_date:
+    "Please select a purchase date",
+  add_edit_expense_screen_title_add_date: "Please select a date",
+  add_edit_expense_screen_title_add_amount: "Please enter amount",
+  add_edit_expense_screen_title_add_repairs: "Please select repair date",
+  add_edit_expense_screen_title_add_no_products: "No Products in your eHome",
+  add_edit_expense_screen_title_add_add_products: " + Add Product",
+  add_edit_expense_screen_title_add_repair_details: "to add repair details",
+  add_edit_expense_screen_title_add_select_eHome: "Select Product in eHome",
+  add_edit_expense_screen_title_add_select_product_above:
+    "Please select a product above OR",
+  add_edit_expense_screen_title_add_repair_details: "Repair Details",
+  add_edit_expense_screen_title_add_repair_date: "Repair Date",
+  add_edit_expense_screen_title_add_repair_amount: "Repair Amount",
+  add_edit_expense_screen_title_add_sellers_name: "Seller Name",
+  add_edit_expense_screen_title_add_warranty_upto: "Warranty Upto",
+  add_edit_expense_screen_title_add_add_repair: "ADD REPAIR",
+  add_edit_expense_screen_title_add_repair_added:
+    "Repair added with the product.",
+  add_edit_expense_screen_title_select_automobile: "Select Automobile Type",
+  add_edit_expense_screen_title_select_electronics:
+    "Select Electronics & Electricals Type",
+  add_edit_expense_screen_title_select_furniture:
+    "Select Furniture & Hardware Type",
+  add_edit_expense_screen_title_select_service_expense:
+    "Select Services Expense Category",
+  add_edit_expense_screen_title_select_fashion_expense:
+    "Select Fashion Expense Category",
+  add_edit_expense_screen_title_select_home_expense:
+    "Select Home Expense Category",
+  add_edit_expense_screen_title_select_medical_document:
+    "Select Medical Documents Type",
+  add_edit_expense_screen_title_select_health_expense:
+    "Select Healthcare Expense Category",
 
   //faqs
   faq_question_1: "What is BinBill?",
@@ -432,10 +518,10 @@ export default {
     "You can upload as per your convenience, there is no restriction. Any type of a bill or a document can be uploaded at BinBill, which can be useful for future communication or expense tracking. The more you upload, the more value we add to your eHome.",
   faq_question_5: "How do I upload a bill?",
   faq_answer_5:
-    "Launch the application on your phone and tap on the Upload Doc button. Using the scanner through our application, fit the bill/document being scanned in the edges as marked on the screen and tap on the camera button. Alternately, you can upload the bills or documents directly from your phone gallery or on the website. Just click on upload tab in the App or log into www.binbill.com. For the best experience, we suggest using our Mobile App.",
+    "Launch the application on your phone and tap on the Upload Doc button. Using the scanner through our application, fit the bill/document being scanned in the edges as marked on the screen and tap on the camera button. Alternatively, you can upload the bills or documents directly from your phone gallery or on the website. Just click on upload tab in the App or log into www.binbill.com. For the best experience, we suggest using our Mobile App.",
   faq_question_6: "How does BinBill add value to my bills?",
   faq_answer_6:
-    "BinBill not only captures important details in the bill like product information, manufacturer’s details, the amount spent etc., but also integrates relevant information from its existing database such as authorized service centres, customer care details, warranty information etc. This way BinBill converts ordinary bills into smart bills and sort out the bills for the users, based on the categories. The users can search, download, and share bills and bill’s information. For example, it notifies the users about the vehicle pollution checkup or an upcoming vehicle service.",
+    "BinBill not only captures important details in the bill like product information, manufacturer’s details, the amount spent etc., but also integrates relevant information from its existing database such as authorized service centres, customer care details, warranty information etc. This way BinBill converts ordinary bills into smart bills and sort out the bills for the users, based on the categories. The users can search, download, and share bills and bill’s information. For example, it notifies the users about the vehicle pollution check up or an upcoming vehicle service.",
   faq_question_7: "How does BinBill help me in after sales service?",
   faq_answer_7:
     "BinBill helps you with all the manufacturer’s details and authorized service centre of your product, which will help you in getting things sorted.",
@@ -458,10 +544,8 @@ export default {
   faq_question_14: "Do I need to pay anything to enjoy these services?",
   faq_answer_14: "We are absolutely free.",
 
-  //search header
-  search_header_dashboard: "Dashboard",
-  search_header_ehome: "eHome",
-  search_header_search_placeholder: "Search...",
+  //tab screen header
+  tab_screen_header_search_placeholder: "Search...",
 
   // add expenses options
   add_expenses_options_upload_title:
@@ -495,17 +579,233 @@ export default {
   app_tour_tips_9:
     "Just pinch out to zoom in your bills' images, to have a better view.",
 
+  //blank dashboard
   blank_dashboard_headline: "Welcome to BinBill",
   blank_dashboard_text:
-    "Start building your eHome by converting ordinary bills into smart bills and live worry free",
+    "Start adding your Products, Bills, Expenses and Documents",
   blank_dashboard_btn_text: "UPLOAD DOC",
   blank_dashboard_know_more_text: "Know More",
+  blank_dashboard_one_step: "One Stop For",
 
-  terms_of_use: `Please read these terms of use (“Terms”), a legal agreement between Bin Bill Services Private Limited, a Company incorporated under the Companies Act 2013, having its registered office at Office No. 507 508, Seat No.-04, Second Floor, Deep Plaza Complex, Gurgaon, Haryana, India, 122001, India (hereinafter "Company"/ “BinBill”) of the first part AND the Registered User of the second part (hereinafter collectively referred to as “you” , “yours” or “Registered User”). The Terms shall govern use of and access to <www.binbill.com> (the “Website”) and the “BinBill” technology platform accessible through desktops, mobile phones, smart phones and tablets (the “Application”) which offers an online marketplace connecting Registered Users (defined below) with “Service Providers” (defined below) and offering various Services as may be introduced by the Company from time to time (hereinafter “Website” and “Application” collectively referred to as “BinBill Software”). The Company is the owner of the BinBill Software offered to the Registered User.
-  
-  Please carefully go through these Terms and the privacy policy available at https://www. binbill.com/company/privacy ("Privacy Policy") before you decide to access or use the BinBill Software made available by the Company. These Terms and the Privacy Policy together constitute a legal agreement (“Agreement”) between you and Company in connection with your access and use of the BinBill Software.
-  
-  By registering for the BinBill Software as provided below, or by entering into an agreement with the Company to provide committed Services (defined below) as set out in these Terms, or through the continued use or accessing the Website and Application, You agree to be subject to these Terms.
-  
-  We request You to please read these Terms carefully and do not use of the Website and Application unless You agree fully with these Terms.`
+  //add-edit last step
+  add_edit_amc_add_amc: "Add AMC",
+  add_edit_amc_edit_amc: "Edit AMC",
+  add_edit_amc_are_you_sure: "Are you sure?",
+  add_edit_amc_unsaved_info:
+    "All the unsaved information and document copies related to this AMC would be deleted",
+  add_edit_amc_go_back: "Go Back",
+  add_edit_amc_stay: "Stay",
+  add_edit_amc_delete_amc: "Are you sure?",
+  add_edit_amc_delete_amc_desc:
+    "All the information and document copies related to this AMC will be deleted.",
+  add_edit_amc_could_not_delete: "Couldn't delete",
+  add_edit_no_dnt_delete: "No, don't Delete",
+  add_edit_amc_effective_date: "Please select AMC effective date",
+  add_edit_amc_save: "SAVE",
+  add_edit_insurance_add_insurance: "Add Insurance",
+  add_edit_insurance_edit_insurance: "Edit Insurance",
+  add_edit_insurance_delete: "Delete",
+  add_edit_insurance_unsaved_info:
+    "All the unsaved information and document copies related to this insurance would be deleted",
+  add_edit_insurance_delete_insurance: "Are you sure?",
+  add_edit_insurance_delete_insurance_desc:
+    "All the information and document copies related to this insurance will be deleted.",
+  add_edit_insurance_yes_delete: "Yes, delete",
+  add_edit_insurance_provider_name: "Please select or enter provider name",
+  add_edit_personal_doc_are_you_sure: "Are you sure?",
+  add_edit_personal_doc_unsaved_info:
+    "All the unsaved information and copies related to this document would be deleted",
+  add_edit_personal_doc_first: "Please select 'Type of doc' first",
+  add_edit_personal_doc_upload_first: "Please upload the document first",
+  add_edit_personal_doc_type_of_doc: "Type of doc",
+  add_edit_personal_doc_name: "Name",
+  add_edit_personal_doc_business_name: "Business Name",
+  add_edit_personal_doc_phone_number: "Phone Number",
+  add_edit_personal_doc_email: "Email",
+  add_edit_personal_doc_address: "Address",
+  add_edit_personal_doc_add_doc: "ADD DOC",
+  add_edit_personal_doc_doc_added: "Doc added to your eHome.",
+  add_edit_puc_add_puc: "Add PUC",
+  add_edit_puc_edit_puc: "Edit PUC",
+  add_edit_puc_unsaved_info:
+    "All the unsaved information and document copies related to this PUC would be deleted",
+  add_edit_puc_delete_puc: "Are you sure?",
+  add_edit_puc_delete_puc_desc:
+    "All the information and document copies related to this PUC will be deleted.",
+  add_edit_puc_select_puc: "Please select 'PUC Effective Date' or 'PUC Upto'",
+  add_edit_repair_add_repair: "Add Repair",
+  add_edit_repair_edit_repair: "Edit Repair",
+  add_edit_repair_unsaved_info:
+    "All the unsaved information and document copies related to this repair would be deleted",
+  add_edit_repair_delete_repair: "Are you sure?",
+  add_edit_repair_delete_repair_desc:
+    "All the information and document copies related to this repair will be deleted.",
+  add_edit_repair_date: "Please select repair date",
+  add_edit_warranty_unsaved_info:
+    "All the unsaved information and document copies related to this warranty would be deleted",
+  add_edit_warranty_delete_warranty: "Are you sure?",
+  add_edit_warranty_delete_warranty_desc:
+    "All the information and document copies related to this warranty will be deleted.",
+  add_edit_warranty_effective_date: "Please enter the Effective Date",
+  add_edit_warranty_uptoo: "Please select warranty upto",
+  add_edit_product_option_product: "Add Product & Doc.",
+  add_edit_product_option_or: "OR",
+  add_edit_product_option_expense: "Add Expense",
+  add_edit_direct_upload_docs:
+    "Document Uploaded, Provide further details to complete the process",
+  add_edit_direct_category: "Select Category",
+  add_edit_direct_subcategory: "Select Sub-Category",
+  add_edit_direct_type: "Select Type",
+  add_edit_direct_brand: "Select Brand",
+  add_edit_direct_model: "Select Model",
+  add_edit_direct_select_main_category_first: "Select Category First",
+  add_edit_direct_select_category_first: "Select Sub-Category First",
+  add_edit_direct_select_brand_first: "Select Brand First",
+  add_edit_direct_select_model_first: "Select Model First",
+  add_edit_direct_add_docs: "Add Document",
+  add_edit_direct_doc_successfully: "Document Uploaded Successfully",
+  add_edit_direct_add_eHome: "ADD PRODUCTS TO eHOME",
+  add_edit_direct_later: "I'll Do it Later",
+  add_edit_healthcare_unsaved_info:
+    "All the unsaved information and document copies related to this insurance would be deleted",
+  add_edit_healthcare_doc_added: "Doc added to your eHome.",
+  add_edit_healthcare_edit_insurance: "Edit Insurance",
+  add_edit_medical_unsaved_info:
+    "All the unsaved information and copies related to this document would be deleted",
+  add_edit_medical_upload_doc: "Please upload doc",
+  add_edit_medical_add_doc: "ADD DOC",
+  add_edit_product_basic_unsaved_info:
+    "All the unsaved information and document copies related to this product would be deleted",
+  add_edit_product_basic_select_brand: "Please select or enter brand",
+  add_edit_product_basic_select_amount: "Please enter amount",
+  add_edit_product_basic_select_date: "Please select a date",
+  add_edit_force_update_upgrade: "BinBill got Upgraded!",
+  add_edit_force_update_versions:
+    "The new version brings a whole host of fantastic features and improvements.",
+  add_edit_force_update_now: "UPDATE NOW",
+  add_edit_force_not_now: "Not Now",
+  add_edit_force_ok: "OK",
+
+  //app-tour
+  add_app_tour: "GOT IT",
+
+  //expenseForms
+  expense_forms_amc_form_amc_text: "AMC (If Applicable)",
+  expense_forms_amc_form_amc_effective_date: "AMC Effective Date",
+  expense_forms_amc_form_amc_recommended: "(Recommended)",
+  expense_forms_amc_form_amc_seller_name: "AMC Seller Name",
+  expense_forms_amc_form_amc_seller_contact: "Seller Contact",
+  expense_forms_amc_form_amc_amount: "AMC Amount",
+  expense_forms_amc_form_amc_upload: "Upload AMC Doc",
+  expense_forms_expense_basic_detail: "Basic Details",
+  expense_forms_expense_basic_upload_bill: "Upload Bill",
+  expense_forms_expense_basic_expense: "Expense Type",
+  expense_forms_expense_basic_expense_name: "Expense Name",
+  expense_forms_expense_basic_expense_recommend:
+    "Recommended for fast and easy retrieval",
+  expense_forms_expense_basic_expense_date: "Date",
+  expense_forms_expense_basic_expense_amount: "Amount",
+  expense_forms_expense_basic_expense_next_date: "Next Due Date",
+  expense_forms_expense_basic_expense_seller_name: "Seller Name",
+  expense_forms_expense_basic_expense_seller_contact: "Seller Contact",
+  expense_forms_extended_warranty_third_party_text:
+    "Third Party Extended Warranty",
+  expense_forms_extended_warranty_provider: "Provider",
+  expense_forms_extended_warranty_provider_name: "Enter Provider Name",
+  expense_forms_extended_warranty_start_date: "Warranty Start Date",
+  expense_forms_extended_warranty_upto: "Warranty Upto (in years)",
+  expense_forms_extended_warranty_title: "title",
+  expense_forms_extended_warranty_doc: "Upload Extended Warranty Doc",
+  expense_forms_healthcare: "Basic Details",
+  expense_forms_healthcare_upload_doc: "Upload Doc",
+  expense_forms_healthcare_plan_name: "Plan Name",
+  // expense_forms_healthcare_type: "Type",
+  expense_forms_healthcare_for: "For (Self/Child/Wife/Parents/Family/Etc.)",
+  expense_forms_healthcare_policy: "Policy No",
+  expense_forms_healthcare_effective_date: "Effective Date",
+  expense_forms_healthcare_premium_amount: "Premium Amount",
+  expense_forms_healthcare_coverage: "Coverage",
+  expense_forms_insurance: "Insurance (If Applicable)",
+  expense_forms_insurance_name: "Insurance*",
+  expense_forms_insurance_details: "Insurance Details",
+  expense_forms_insurance_provider: "Insurance Provider",
+  expense_forms_insurance_provider_name: "Enter Provider Name",
+  expense_forms_insurance_polocy_no: "Insurance Policy No ",
+  expense_forms_insurance_premium_amount: "Insurance Premium Amount",
+  expense_forms_insurance_upload_policy: "Upload Policy Doc",
+  expense_forms_insurance_total_coverage: "Total Coverage",
+  expense_forms_medical_doc_title: "Report Title",
+  expense_forms_medical_doc_doctor_name: "Doctor/Hospital Name",
+  expense_forms_medical_doc_doctor_contact: "Doctor/Hospital Contact",
+  expense_forms_product_basics_name: "Product Name",
+  expense_forms_product_basics_name_brand: "Brand",
+  expense_forms_product_basics_brand_name: "Enter Brand Name",
+  expense_forms_product_basics_model: "Model",
+  expense_forms_product_basics_enter_model: "Enter Model Name",
+  expense_forms_product_basics_select_brand_first: "Please select brand first",
+  expense_forms_product_basics_imei: "IMEI No",
+  expense_forms_product_basics_serial: "Serial No",
+  expense_forms_product_basics_vin_no: "VIN No.",
+  expense_forms_product_basics_registration_no: "Registration No",
+  expense_forms_product_basics_purchase_date: "Purchase Date",
+  expense_forms_product_basics_purchase_amount: "Purchase Amount",
+  expense_forms_product_basics_seller_name: "Seller Name",
+  expense_forms_product_basics_seller_contact: "Seller Contact",
+  expense_forms_puc: "PUC (optional)",
+  expense_forms_puc_effective_date: "PUC Effective Date",
+  expense_forms_puc_upto: "PUC Upto",
+  expense_forms_puc_seller_name: "PUC Seller Name",
+  expense_forms_puc_seller_contact: "PUC Seller Contact",
+  expense_forms_puc_amount: "PUC Amount",
+  expense_forms_puc_upload_doc: "Upload PUC Doc ",
+  expense_forms_repair_history: "Repair/Service History (If Applicable)",
+  expense_forms_repair_for: "Repair For",
+  expense_forms_repair_date: "Repair Date",
+  expense_forms_repair_seller_name: "Repair Seller Name",
+  expense_forms_repair_seller_contact: "Repair Seller Contact",
+  expense_forms_repair_amount: "Repair Amount",
+  expense_forms_repair_upload_repair: "Upload Repair/Service Bill",
+  expense_forms_repair_warranty_upto: "Warranty Upto",
+  expense_forms_warranty_Warranty: "Warranty (If Applicable)",
+  expense_forms_warranty_manufacturers: "Manufacturer Warranty (Optional)",
+  expense_forms_warranty_applicable: "Warranty (If Applicable)",
+  expense_forms_warranty_dual_warranty: "Dual Warranty (If Applicable)",
+  expense_forms_warranty_third_party: "Third Party Extended Warranty",
+  expense_forms_header_upload_add: "+ Add",
+  expense_forms_header_upload_doc: "Upload Doc",
+  expense_forms_header_upload_doc_successfully: "Doc Uploaded Successfully",
+  expense_forms_product_list_address_not_available: "Address not available",
+  expense_forms_product_list_phone_not_available: "Phone number not available",
+  expense_forms_product_list_select_phone: "Select a phone number",
+  expense_forms_product_list_phone_number_not_available:
+    "Phone Number Not Available",
+
+  //component items
+  component_items_okey: "OKAY",
+  component_items_no_internet: "No Internet Connection",
+  component_items_try_again:
+    "Please check if your phone is connected to the internet and try again",
+  component_items_something_went_wrong: "Something Went Wrong",
+  component_items_unable_to_conect:
+    "Unable to connect to BinBill to get your information. Please try again in sometime.",
+  component_items_retry: "RETRY",
+  // component_items_total_spend: "Total Spend",
+  component_items_no_data_chart: "No Data for Chart",
+  component_items_all_amount: "All amounts are in Rupees",
+  component_items_select_value: "Select a value",
+  component_items_enter_value: "Enter the value",
+  component_items_search: "Search",
+  component_items_warranty_expiry: "Warranty expiring",
+  component_items_insurance_expiry: "Insurance expiring",
+  component_items_amc_expiry: "AMC expiring",
+  component_items_puc_expiry: "PUC expiring",
+  component_items_view_more: "View More +",
+  component_items_view_more: "View Less -",
+
+  //language options
+  language_options_change: "Change",
+  language_options_dont_change: "Don't Change",
+  language_options_confirm_msg_title: "Change language to {{languageName}}?",
+  language_options_confirm_msg_desc: "App may restart to reflect the changes.",
+  language_options_cancel: "Cancel"
 };

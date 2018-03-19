@@ -23,7 +23,7 @@ import UploadBillOptions from "../components/upload-bill-options";
 import SelectModal from "../components/select-modal";
 
 import MedicalDocForm from "../components/expense-forms/medical-doc-form";
-
+import I18n from "../i18n";
 import CustomTextInput from "../components/form-elements/text-input";
 import ContactFields from "../components/form-elements/contact-fields";
 import HeaderWithUploadOption from "../components/form-elements/header-with-upload-option";
@@ -70,15 +70,15 @@ class MedicalDoc extends React.Component {
     switch (event.id) {
       case "backPress":
         Alert.alert(
-          "Are you sure?",
-          "All the unsaved information and copies related to this document would be deleted",
+          I18n.t(" add_edit_amc_are_you_sure"),
+          I18n.t("add_edit_medical_unsaved_info"),
           [
             {
-              text: "Go Back",
+              text: I18n.t("add_edit_amc_go_back"),
               onPress: () => this.props.navigator.pop()
             },
             {
-              text: "Stay",
+              text: I18n.t("add_edit_amc_stay"),
               onPress: () => console.log("Cancel Pressed"),
               style: "cancel"
             }
@@ -119,7 +119,7 @@ class MedicalDoc extends React.Component {
     console.log("data: ", data);
 
     if (data.copies.length == 0) {
-      return Alert.alert("Please upload doc");
+      return Alert.alert(I18n.t("add_edit_medical_upload_doc"));
     }
 
     try {
@@ -181,12 +181,12 @@ class MedicalDoc extends React.Component {
         <Button
           style={styles.saveBtn}
           onPress={this.saveDoc}
-          text="ADD DOC"
+          text={I18n.t("add_edit_medical_add_doc")}
           borderRadius={0}
           color="secondary"
         />
         <FinishModal
-          title="Doc added to your eHome."
+          title={I18n.t("add_edit_healthcare_doc_added")}
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
           navigator={this.props.navigator}

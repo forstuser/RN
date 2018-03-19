@@ -10,7 +10,7 @@ import {
 import PropTypes from "prop-types";
 
 import moment from "moment";
-
+import I18n from "../../i18n";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
 import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 
@@ -165,14 +165,14 @@ class InsuranceForm extends React.Component {
       copies
     } = this.state;
 
-    let title = "Insurance (If Applicable)";
+    let title = I18n.t("expense_forms_insurance");
     if (
       mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
       categoryId != CATEGORY_IDS.AUTOMOBILE.CYCLE
     ) {
-      title = "Insurance*";
+      title = I18n.t("expense_forms_insurance_name");
     } else if (categoryId == 664) {
-      title = "Insurance Details";
+      title = I18n.t("expense_forms_insurance_details");
     }
     return (
       <Collapsible
@@ -187,8 +187,8 @@ class InsuranceForm extends React.Component {
           <View style={styles.body}>
             <CustomDatePicker
               date={effectiveDate}
-              placeholder="Effective Date "
-              placeholder2="(Recommended)"
+              placeholder={I18n.t("expense_forms_healthcare_effective_date")}
+              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
               placeholder2Color={colors.mainBlue}
               onDateChange={effectiveDate => {
                 this.setState({ effectiveDate });
@@ -198,8 +198,10 @@ class InsuranceForm extends React.Component {
             <SelectModal
               style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder="Insurance Provider"
-              textInputPlaceholder="Enter Provider Name"
+              placeholder={I18n.t("expense_forms_insurance_provider")}
+              textInputPlaceholder={I18n.t(
+                "expense_forms_insurance_provider_name"
+              )}
               placeholderRenderer={({ placeholder }) => (
                 <View style={{ flexDirection: "row" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
@@ -222,17 +224,17 @@ class InsuranceForm extends React.Component {
             />
 
             <CustomTextInput
+              placeholder={I18n.t("expense_forms_insurance_polocy_no")}
+              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
               underlineColorAndroid="transparent"
-              placeholder="Insurance Policy No "
-              placeholder2="(Recommended)"
               placeholder2Color={colors.mainBlue}
               value={policyNo}
               onChangeText={policyNo => this.setState({ policyNo })}
             />
 
             <CustomTextInput
+              placeholder={I18n.t("expense_forms_insurance_premium_amount")}
               underlineColorAndroid="transparent"
-              placeholder="Insurance Premium Amount"
               value={value ? String(value) : ""}
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"
@@ -245,7 +247,7 @@ class InsuranceForm extends React.Component {
               jobId={jobId}
               docType="Insurance"
               type={3}
-              placeholder="Upload Policy Doc"
+              placeholder={I18n.t("expense_forms_insurance_upload_policy")}
               navigator={navigator}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
@@ -257,8 +259,8 @@ class InsuranceForm extends React.Component {
             />
 
             <CustomTextInput
+              placeholder={I18n.t("expense_forms_insurance_total_coverage")}
               underlineColorAndroid="transparent"
-              placeholder="Total Coverage"
               value={amountInsured ? String(amountInsured) : ""}
               onChangeText={amountInsured => this.setState({ amountInsured })}
               keyboardType="numeric"

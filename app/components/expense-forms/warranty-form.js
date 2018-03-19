@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput
 } from "react-native";
+import I18n from "../../i18n";
 
 import PropTypes from "prop-types";
 
@@ -191,22 +192,23 @@ class WarrantyForm extends React.Component {
       providerName
     } = this.state;
 
-    let title = "Warranty (If Applicable)";
+    let title = I18n.t("expense_forms_warranty_Warranty");
     if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
-      title = "Manufacturer Warranty (Optional)";
+      title = I18n.t("expense_forms_warranty_manufacturers");
     }
 
     switch (warrantyType) {
       case WARRANTY_TYPES.DUAL:
         if (dualWarrantyItem) {
-          title = dualWarrantyItem + " Warranty (If Applicable)";
+          title =
+            dualWarrantyItem + I18n.t("expense_forms_warranty_applicable");
         } else {
-          title = "Dual Warranty (If Applicable)";
+          title = I18n.t("expense_forms_warranty_dual_warranty");
         }
 
         break;
       case WARRANTY_TYPES.EXTENDED:
-        title = "Third Party Extended Warranty";
+        title = I18n.t("expense_forms_warranty_third_party");
         break;
     }
 
@@ -226,8 +228,12 @@ class WarrantyForm extends React.Component {
                 <SelectModal
                   style={styles.input}
                   dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-                  placeholder="Provider"
-                  textInputPlaceholder="Enter Provider Name"
+                  placeholder={I18n.t(
+                    "expense_forms_extended_warranty_provider"
+                  )}
+                  textInputPlaceholder={I18n.t(
+                    "expense_forms_extended_warranty_provider_name"
+                  )}
                   placeholderRenderer={({ placeholder }) => (
                     <Text
                       weight="Medium"
@@ -247,7 +253,9 @@ class WarrantyForm extends React.Component {
 
                 <CustomDatePicker
                   date={effectiveDate}
-                  placeholder="Effective Date"
+                  placeholder={I18n.t(
+                    "expense_forms_healthcare_effective_date"
+                  )}
                   placeholder2="*"
                   placeholder2Color={colors.mainBlue}
                   onDateChange={effectiveDate => {
@@ -259,7 +267,7 @@ class WarrantyForm extends React.Component {
             <SelectModal
               style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder="Warranty Upto (in years)"
+              placeholder={I18n.t("expense_forms_extended_warranty_upto")}
               placeholderRenderer={({ placeholder }) => (
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
@@ -280,7 +288,7 @@ class WarrantyForm extends React.Component {
               jobId={jobId}
               docType="Warranty"
               type={warrantyType == WARRANTY_TYPES.NORMAL ? 5 : 6}
-              placeholder="Upload Warranty Doc"
+              placeholder={I18n.t(" expense_forms_warranty_upload_warr_doc")}
               navigator={navigator}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);

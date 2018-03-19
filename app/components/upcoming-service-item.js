@@ -18,28 +18,28 @@ const UpcomingServiceItem = ({ item, navigator }) => {
   switch (item.productType) {
     case 2:
       icon = require("../images/ic_comingup_expiring.png");
-      title = "Warranty expiring";
+      title = I18n.t("component_items_warranty_expiry");
       subTitle = item.productName;
       sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
       sidebarSubTitle = "";
       break;
     case 3:
       icon = require("../images/ic_comingup_expiring.png");
-      title = "Insurance expiring";
+      title = I18n.t("component_items_insurance_expiry");
       subTitle = item.productName;
       sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
       sidebarSubTitle = "";
       break;
     case 4:
       icon = require("../images/ic_comingup_expiring.png");
-      title = "AMC expiring";
+      title = I18n.t("component_items_amc_expiry");
       subTitle = item.productName;
       sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
       sidebarSubTitle = "";
       break;
     case 5:
       icon = require("../images/ic_comingup_expiring.png");
-      title = "PUC expiring";
+      title = I18n.t("component_items_puc_expiry");
       subTitle = item.productName;
       sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
       sidebarSubTitle = "";

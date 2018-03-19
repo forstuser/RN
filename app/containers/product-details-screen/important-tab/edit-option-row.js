@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Text, Button, ScreenContainer } from "../../../elements";
 import moment from "moment";
+import I18n from "../../../i18n";
 import KeyValueItem from "../../../components/key-value-item";
 import { colors } from "../../../theme";
 import { openBillsPopUp } from "../../../navigation";
@@ -29,7 +30,7 @@ const ViewBillRow = ({ date, onEditPress }) => {
               color: colors.pinkishOrange
             }}
           >
-            EDIT
+            {I18n.t("product_details_screen_edit")}
           </Text>
         )}
         keyText={moment(date).format("DD MMM,YYYY")}
@@ -42,7 +43,7 @@ const ViewBillRow = ({ date, onEditPress }) => {
               color: colors.pinkishOrange
             }}
           >
-            EDIT
+            {I18n.t("product_details_screen_edit")}
           </Text>
         )}
       />

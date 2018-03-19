@@ -135,7 +135,7 @@ class AddProductScreen extends React.Component {
             weight="Bold"
             style={[styles.optionTitle, { color: colors.mainBlue }]}
           >
-            Add Product & Doc.
+            {I18n.t("add_edit_product_option_product")}
           </Text>
           <View style={styles.mainGrid}>
             <View style={styles.gri}>
@@ -159,7 +159,7 @@ class AddProductScreen extends React.Component {
         <View style={styles.orOuterContainer}>
           <View style={styles.orContainer}>
             <Text style={styles.or} weight="Bold">
-              OR
+              {I18n.t("add_edit_product_option_or")}
             </Text>
           </View>
         </View>
@@ -168,7 +168,7 @@ class AddProductScreen extends React.Component {
             weight="Bold"
             style={[styles.optionTitle, { color: colors.pinkishOrange }]}
           >
-            Add Expense
+            {I18n.t("add_edit_product_option_expense")}
           </Text>
           <View style={styles.mainGrid}>
             <View style={styles.gri}>

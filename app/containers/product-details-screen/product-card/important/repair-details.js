@@ -23,22 +23,6 @@ import ViewBillRow from "./view-bill-row";
 import EditOptionRow from "./edit-option-row";
 
 class RepairDetails extends React.Component {
-  openAddEditRepairScreen = repair => {
-    const { product } = this.props;
-
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_REPAIR_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        repair: repair
-      },
-      overrideBackPress: true
-    });
-  };
-
   render() {
     const { product, navigator } = this.props;
     const { repairBills } = product;
@@ -48,7 +32,7 @@ class RepairDetails extends React.Component {
         <EditOptionRow
           text={I18n.t("product_details_screen_repair_details")}
           onEditPress={() => {
-            this.openAddEditRepairScreen(repair);
+            this.props.openAddEditRepairScreen(repair);
           }}
         />
         <ViewBillRow
@@ -98,7 +82,7 @@ class RepairDetails extends React.Component {
           {repairBills.map(repair => <RepairItem repair={repair} />)}
           <AddItemBtn
             text={I18n.t("product_details_screen_add_repair")}
-            onPress={() => this.openAddEditRepairScreen(null)}
+            onPress={() => this.props.openAddEditRepairScreen(null)}
           />
         </ScrollView>
       </View>

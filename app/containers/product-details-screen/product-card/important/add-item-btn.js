@@ -13,17 +13,18 @@ import moment from "moment";
 import KeyValueItem from "../../../../components/key-value-item";
 import { colors } from "../../../../theme";
 
-const AddItemBtn = ({ text, onPress }) => {
+const AddItemBtn = ({ text, onPress, biggerSize = false }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={{
-        width: 90,
-        height: 90,
+        width: biggerSize ? 130 : 90,
+        height: biggerSize ? 130 : 90,
         alignSelf: "center",
         alignItems: "center",
         justifyContent: "center",
         padding: 10,
+        margin: 10,
         borderColor: "#e3e3e3",
         borderWidth: 1,
         borderStyle: "dashed"

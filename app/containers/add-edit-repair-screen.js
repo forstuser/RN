@@ -2,14 +2,13 @@ import React from "react";
 import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
+import I18n from "../i18n";
 import {
   getReferenceDataForCategory,
   addRepair,
   updateRepair,
   deleteRepair
 } from "../api";
-
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
 import RepairForm from "../components/expense-forms/repair-form";
@@ -60,9 +59,9 @@ class AddEditRepair extends React.Component {
 
   async componentDidMount() {
     const { mainCategoryId, productId, jobId, repair } = this.props;
-    let title = "Add Repair";
+    let title = I18n.t("add_edit_repair_add_repair");
     if (repair) {
-      title = "Edit Repair";
+      title = I18n.t("add_edit_repair_edit_repair");
     }
 
     this.props.navigator.setTitle({ title });
@@ -71,7 +70,7 @@ class AddEditRepair extends React.Component {
       this.props.navigator.setButtons({
         rightButtons: [
           {
-            title: "Delete",
+            title: I18n.t("add_edit_insurance_delete"),
             id: "delete",
             buttonColor: "red",
             buttonFontSize: 16,
@@ -87,41 +86,40 @@ class AddEditRepair extends React.Component {
     if (event.type == "NavBarButtonPress") {
       if (event.id == "backPress") {
         Alert.alert(
-          "Are you sure?",
-          "All the unsaved information and document copies related to this repair would be deleted",
-          [
-            {
-              text: "Go Back",
+          I18n.t("add_edit_amc_are_you_sure"),
+          I18n.t("add_edit_repair_unsaved_info")[
+            ({
+              text: I18n.t("add_edit_amc_go_back"),
               onPress: () => this.props.navigator.pop()
             },
             {
-              text: "Stay",
+              text: I18n.t("add_edit_amc_stay"),
               onPress: () => console.log("Cancel Pressed"),
               style: "cancel"
-            }
+            })
           ]
         );
       } else if (event.id == "delete") {
         const { productId, repair } = this.props;
         Alert.alert(
-          `Are you sure?`,
-          "All the information and document copies related to this repair will be deleted.",
+          I18n.t("add_edit_repair_delete_repair"),
+          I18n.t("add_edit_repair_delete_repair_desc"),
           [
             {
-              text: "Yes, delete",
+              text: I18n.t("add_edit_insurance_yes_delete"),
               onPress: async () => {
                 try {
                   this.setState({ isLoading: true });
                   await deleteRepair({ productId, repairId: repair.id });
                   this.props.navigator.pop();
                 } catch (e) {
-                  Alert.alert(`Couldn't delete`);
+                  Alert.alert(I18n.t("add_edit_amc_could_not_delete"));
                   this.setState({ isLoading: false });
                 }
               }
             },
             {
-              text: "No, don't Delete",
+              text: I18n.t("add_edit_no_dnt_delete"),
               onPress: () => {},
               style: "cancel"
             }
@@ -149,7 +147,7 @@ class AddEditRepair extends React.Component {
     };
 
     if (!data.repairDate) {
-      return Alert.alert("Please select repair date");
+      return Alert.alert(I18n.t("add_edit_repair_date"));
     }
 
     try {
@@ -203,7 +201,7 @@ class AddEditRepair extends React.Component {
         </KeyboardAwareScrollView>
         <Button
           onPress={this.onSavePress}
-          text="SAVE"
+          text={I18n.t("add_edit_amc_save")}
           color="secondary"
           borderRadius={0}
         />

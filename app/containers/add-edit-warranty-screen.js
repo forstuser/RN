@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import I18n from "../i18n";
 
 import {
   getReferenceDataForCategory,
@@ -93,7 +94,7 @@ class AddEditWarranty extends React.Component {
       this.props.navigator.setButtons({
         rightButtons: [
           {
-            title: "Delete",
+            title: I18n.t("add_edit_insurance_delete"),
             id: "delete",
             buttonColor: "red",
             buttonFontSize: 16,
@@ -109,15 +110,15 @@ class AddEditWarranty extends React.Component {
     if (event.type == "NavBarButtonPress") {
       if (event.id == "backPress") {
         Alert.alert(
-          "Are you sure?",
-          "All the unsaved information and document copies related to this warranty would be deleted",
+          I18n.t("add_edit_amc_are_you_sure"),
+          I18n.t("add_edit_warranty_unsaved_info"),
           [
             {
-              text: "Go Back",
+              text: I18n.t("add_edit_amc_go_back"),
               onPress: () => this.props.navigator.pop()
             },
             {
-              text: "Stay",
+              text: I18n.t("add_edit_amc_stay"),
               onPress: () => console.log("Cancel Pressed"),
               style: "cancel"
             }
@@ -126,24 +127,24 @@ class AddEditWarranty extends React.Component {
       } else if (event.id == "delete") {
         const { productId, warranty } = this.props;
         Alert.alert(
-          `Delete this warranty?`,
-          "All the information and document copies related to this warranty will be deleted.",
+          I18n.t("add_edit_warranty_delete_warranty"),
+          I18n.t("add_edit_warranty_delete_warranty_desc"),
           [
             {
-              text: "Yes, delete",
+              text: I18n.t("add_edit_insurance_yes_delete"),
               onPress: async () => {
                 try {
                   this.setState({ isLoading: true });
                   await deleteWarranty({ productId, warrantyId: warranty.id });
                   this.props.navigator.pop();
                 } catch (e) {
-                  Alert.alert(`Couldn't delete`);
+                  Alert.alert(I18n.t("add_edit_amc_could_not_delete"));
                   this.setState({ isLoading: false });
                 }
               }
             },
             {
-              text: "No, don't Delete",
+              text: I18n.t("add_edit_no_dnt_delete"),
               onPress: () => {},
               style: "cancel"
             }
@@ -187,11 +188,11 @@ class AddEditWarranty extends React.Component {
     };
 
     if (warrantyType == WARRANTY_TYPES.EXTENDED && !data.effectiveDate) {
-      return Alert.alert("Please enter the Effective Date");
+      return Alert.alert(I18n.t("add_edit_warranty_effective_date"));
     }
 
     if (!data.renewalType) {
-      return Alert.alert("Please select warranty upto");
+      return Alert.alert(I18n.t("add_edit_warranty_uptoo"));
     }
 
     console.log("data: ", data);
@@ -249,7 +250,7 @@ class AddEditWarranty extends React.Component {
         </KeyboardAwareScrollView>
         <Button
           onPress={this.onSavePress}
-          text="SAVE"
+          text={I18n.t("add_edit_amc_save")}
           color="secondary"
           borderRadius={0}
         />

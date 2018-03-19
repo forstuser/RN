@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 import moment from "moment";
-
+import I18n from "../../i18n";
 import { MAIN_CATEGORY_IDS } from "../../constants";
 import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 
@@ -111,7 +111,7 @@ class ExtendedWarrantyForm extends React.Component {
     } = this.state;
     return (
       <Collapsible
-        headerText="Third Party Extended Warranty"
+        headerText={I18n.t("expense_forms_extended_warranty_third_party_text")}
         style={styles.container}
         headerStyle={styles.headerStyle}
         headerTextStyle={styles.headerTextStyle}
@@ -122,8 +122,10 @@ class ExtendedWarrantyForm extends React.Component {
             <SelectModal
               style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder="Provider"
-              textInputPlaceholder="Enter Provider Name"
+              placeholder={I18n.t("expense_forms_extended_warranty_provider")}
+              textInputPlaceholder={I18n.t(
+                "expense_forms_extended_warranty_provider_name"
+              )}
               placeholderRenderer={({ placeholder }) => (
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
@@ -139,7 +141,7 @@ class ExtendedWarrantyForm extends React.Component {
             />
             <CustomDatePicker
               date={startDate}
-              placeholder="Warranty Start Date"
+              placeholder={I18n.t("expense_forms_extended_warranty_start_date")}
               onDateChange={startDate => {
                 this.setState({ startDate });
               }}
@@ -148,7 +150,7 @@ class ExtendedWarrantyForm extends React.Component {
             <SelectModal
               style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder="Warranty Upto (in years) "
+              placeholder={I18n.t("expense_forms_extended_warranty_upto")}
               placeholderRenderer={({ placeholder }) => (
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
@@ -158,13 +160,13 @@ class ExtendedWarrantyForm extends React.Component {
                     weight="Medium"
                     style={{ color: colors.mainBlue, fontSize: 10 }}
                   >
-                    (Recommended)
+                    {I18n.t("expense_forms_amc_form_amc_recommended")}
                   </Text>
                 </View>
               )}
               selectedOption={selectedRenewalType}
               options={renewalTypes}
-              visibleKey="title"
+              visibleKey={I18n.t("expense_forms_extended_warranty_title")}
               onOptionSelect={value => {
                 this.onRenewalTypeSelect(value);
               }}
@@ -174,7 +176,7 @@ class ExtendedWarrantyForm extends React.Component {
             <UploadDoc
               jobId={product.job_id}
               type={8}
-              placeholder="Upload Extended Warranty Doc"
+              placeholder={I18n.t("expense_forms_extended_warranty_doc")}
               navigator={this.props.navigator}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);

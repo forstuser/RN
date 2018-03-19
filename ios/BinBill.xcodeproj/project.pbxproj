@@ -37,6 +37,7 @@
 		404AA0CB2BE9409CBFEDCCCF /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 341B2DBF32BE47FAA306CC84 /* MaterialCommunityIcons.ttf */; };
 		40AC6677FB284E46AC3E4C1A /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E8E4D3AB60549BA86162DE7 /* Quicksand-Light.ttf */; };
 		4317B36C1FE00B3700778944 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4317B3611FE00B2A00778944 /* libRNDeviceInfo.a */; };
+		433F22632056CB9E001D9C7E /* libRNViewShot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 433F22622056CB86001D9C7E /* libRNViewShot.a */; };
 		4375E8CF204678C20059CD02 /* RNTrueCaller.h in Sources */ = {isa = PBXBuildFile; fileRef = 4375E8CE204678C20059CD02 /* RNTrueCaller.h */; };
 		4375E90E20467EB00059CD02 /* RNTrueCaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 4375E90D20467EB00059CD02 /* RNTrueCaller.m */; };
 		438EB1451FEBD62A00C2D66A /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1441FEBD62A00C2D66A /* GameKit.framework */; };
@@ -89,6 +90,7 @@
 		EE4FC0AB0FD442CD939C0C5B /* libRNDocumentPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CBEF719C03054875A39D5496 /* libRNDocumentPicker.a */; };
 		F16544D047244A80B7080E07 /* Quicksand-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2675B882D0024544A9F54F8B /* Quicksand-Medium.ttf */; };
 		F3C50B66986642CDBF37979F /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 417D036C67A041DCAC11436D /* FontAwesome.ttf */; };
+		F763BCDE544343D1A100D5FF /* libRCTRestart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB93C803EFDD49FDADD21063 /* libRCTRestart.a */; };
 		F97DC53018576A16FA4F61B3 /* libPods-BinBill.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE3CA57B3E5F61426DE785DF /* libPods-BinBill.a */; };
 		F990030BF37E4526998142AF /* libRNGooglePlaces.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83CAB2210B2648C6A86BABEF /* libRNGooglePlaces.a */; };
 		FC05AD9B7FF84A3F8BBB2279 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 849EF2C696FB47E396BD2446 /* libRNI18n.a */; };
@@ -283,6 +285,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = E72EC1401F7ABB5A0001BC90;
 			remoteInfo = "RNDeviceInfo-tvOS";
+		};
+		43329777205A319400D9ADDB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1CD14B0A5FAA40C5BF927C37 /* RCTRestart.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3245CDED1BFEE35C00EABF68;
+			remoteInfo = RCTRestart;
+		};
+		433F22612056CB86001D9C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 433F22222056CB85001D9C7E /* RNViewShot.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNViewShot;
 		};
 		4375E8AA204574590059CD02 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -571,6 +587,7 @@
 		16368F8DEFD16390033D5D59 /* Pods-BinBill.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BinBill.release.xcconfig"; path = "Pods/Target Support Files/Pods-BinBill/Pods-BinBill.release.xcconfig"; sourceTree = "<group>"; };
 		178C9CFCEB24C69821641716 /* libPods-BinBill-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BinBill-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		179ACEA7516C4A95B6392DB7 /* RNGooglePlaces.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGooglePlaces.xcodeproj; path = "../node_modules/react-native-google-places/ios/RNGooglePlaces.xcodeproj"; sourceTree = "<group>"; };
+		1CD14B0A5FAA40C5BF927C37 /* RCTRestart.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTRestart.xcodeproj; path = "../node_modules/react-native-restart/ios/RCTRestart.xcodeproj"; sourceTree = "<group>"; };
 		2583A45541B74EBC8C424B52 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		2675B882D0024544A9F54F8B /* Quicksand-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Medium.ttf"; path = "../assets/fonts/Quicksand-Medium.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* BinBill-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BinBill-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -583,6 +600,7 @@
 		417D036C67A041DCAC11436D /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		418274813DDB4C1696583956 /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Bold.ttf"; path = "../assets/fonts/Quicksand-Bold.ttf"; sourceTree = "<group>"; };
 		4317B3311FE00B2A00778944 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
+		433F22222056CB85001D9C7E /* RNViewShot.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNViewShot.xcodeproj; path = "../node_modules/react-native-view-shot/ios/RNViewShot.xcodeproj"; sourceTree = "<group>"; };
 		4375E8CE204678C20059CD02 /* RNTrueCaller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RNTrueCaller.h; path = BinBill/RNTrueCaller.h; sourceTree = "<group>"; };
 		4375E90D20467EB00059CD02 /* RNTrueCaller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RNTrueCaller.m; path = BinBill/RNTrueCaller.m; sourceTree = "<group>"; };
 		438EB1441FEBD62A00C2D66A /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
@@ -645,6 +663,7 @@
 		D06D15B290F1EC6D986C52EB /* Pods-BinBill-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BinBill-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BinBill-tvOSTests/Pods-BinBill-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		D618E279E99CA93A37122048 /* libPods-BinBillTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BinBillTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D996417B377D4ECBB92B95AB /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
+		DB93C803EFDD49FDADD21063 /* libRCTRestart.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTRestart.a; sourceTree = "<group>"; };
 		DCCE9141D92F4AE2BCA6CEA3 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		EE3CA57B3E5F61426DE785DF /* libPods-BinBill.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BinBill.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F40205BE56234B2BB56D5162 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
@@ -667,6 +686,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				433F22632056CB9E001D9C7E /* libRNViewShot.a in Frameworks */,
 				43C09D67202DA99B00AE02E0 /* libCodePush.a in Frameworks */,
 				43D732C120246EAB00B57504 /* libRNFIRAnalytics.a in Frameworks */,
 				43E1975C1FECD2E100702A16 /* libRNFIRMessaging.a in Frameworks */,
@@ -705,6 +725,7 @@
 				92531C440DA240F69BA63BE9 /* libRNPhotoView.a in Frameworks */,
 				F990030BF37E4526998142AF /* libRNGooglePlaces.a in Frameworks */,
 				97B180B9CCD8423F87A7FC6B /* libRCTFBSDK.a in Frameworks */,
+				F763BCDE544343D1A100D5FF /* libRCTRestart.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -888,6 +909,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		43329774205A319400D9ADDB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				43329778205A319400D9ADDB /* libRCTRestart.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		433F22232056CB85001D9C7E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				433F22622056CB86001D9C7E /* libRNViewShot.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4375E8A7204574590059CD02 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -998,6 +1035,7 @@
 				B6CD95F2A81649CCBA23330E /* libRNPhotoView.a */,
 				83CAB2210B2648C6A86BABEF /* libRNGooglePlaces.a */,
 				F40205BE56234B2BB56D5162 /* libRCTFBSDK.a */,
+				DB93C803EFDD49FDADD21063 /* libRCTRestart.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1089,6 +1127,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				433F22222056CB85001D9C7E /* RNViewShot.xcodeproj */,
 				43C09D26202DA93300AE02E0 /* CodePush.xcodeproj */,
 				43D7328420246E8E00B57504 /* RNFIRAnalytics.xcodeproj */,
 				43E197201FECD2C600702A16 /* RNFIRMessaging.xcodeproj */,
@@ -1119,6 +1158,7 @@
 				BA47ED31EEBB4DD49048387B /* RNPhotoView.xcodeproj */,
 				179ACEA7516C4A95B6392DB7 /* RNGooglePlaces.xcodeproj */,
 				DCCE9141D92F4AE2BCA6CEA3 /* RCTFBSDK.xcodeproj */,
+				1CD14B0A5FAA40C5BF927C37 /* RCTRestart.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1441,6 +1481,10 @@
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 				},
 				{
+					ProductGroup = 43329774205A319400D9ADDB /* Products */;
+					ProjectRef = 1CD14B0A5FAA40C5BF927C37 /* RCTRestart.xcodeproj */;
+				},
+				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
 					ProjectRef = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
 				},
@@ -1511,6 +1555,10 @@
 				{
 					ProductGroup = 43B079101FC4569F00F4C1A0 /* Products */;
 					ProjectRef = 15C3058B87FA49CF80CBF65B /* RNSVG.xcodeproj */;
+				},
+				{
+					ProductGroup = 433F22232056CB85001D9C7E /* Products */;
+					ProjectRef = 433F22222056CB85001D9C7E /* RNViewShot.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1698,6 +1746,20 @@
 			fileType = archive.ar;
 			path = "libRNDeviceInfo-tvOS.a";
 			remoteRef = 4317B3621FE00B2A00778944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		43329778205A319400D9ADDB /* libRCTRestart.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTRestart.a;
+			remoteRef = 43329777205A319400D9ADDB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		433F22622056CB86001D9C7E /* libRNViewShot.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNViewShot.a;
+			remoteRef = 433F22612056CB86001D9C7E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4375E8AB204574590059CD02 /* libRCTFBSDK.a */ = {
@@ -2343,12 +2405,14 @@
 					"$(SRCROOT)/../node_modules/react-native-photo-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-google-places/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
 				);
 				INFOPLIST_FILE = BinBillTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2393,12 +2457,14 @@
 					"$(SRCROOT)/../node_modules/react-native-photo-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-google-places/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
 				);
 				INFOPLIST_FILE = BinBillTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2455,6 +2521,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
 				);
 				INFOPLIST_FILE = BinBill/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2511,6 +2578,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
 				);
 				INFOPLIST_FILE = BinBill/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2561,11 +2629,13 @@
 					"$(SRCROOT)/../node_modules/react-native-photo-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-google-places/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
 				);
 				INFOPLIST_FILE = "BinBill-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2619,11 +2689,13 @@
 					"$(SRCROOT)/../node_modules/react-native-photo-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-google-places/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
 				);
 				INFOPLIST_FILE = "BinBill-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2676,6 +2748,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.BinBill-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2702,6 +2775,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2753,6 +2827,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bin.binbillcustomer.BinBillShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2794,6 +2869,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bin.binbillcustomer.BinBillShareExtension;

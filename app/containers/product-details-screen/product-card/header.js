@@ -40,7 +40,8 @@ class Header extends Component {
       navigator,
       activeTabIndex = 0,
       onTabChange,
-      showCustomerCareTab = false
+      showCustomerCareTab = false,
+      showImportantTab = true
     } = this.props;
     let productName = product.productName;
     if (!productName) {
@@ -212,7 +213,10 @@ class Header extends Component {
                 I18n.t("product_details_screen_tab_all_info"),
                 I18n.t("product_details_screen_tab_important")
               ].map((tab, index) => {
-                if (!showCustomerCareTab && index == 0) {
+                if (
+                  (!showCustomerCareTab && index == 0) ||
+                  (!showImportantTab && index == 2)
+                ) {
                   return null;
                 }
                 return (

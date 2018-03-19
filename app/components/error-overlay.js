@@ -3,7 +3,7 @@ import { StyleSheet, View, Image } from "react-native";
 import { Text, Button } from "../elements";
 import { colors } from "../theme";
 import { MAIN_CATEGORY_IDS } from "../constants";
-
+import I18n from "../i18n";
 const apiErrorIcon = require("../images/api_other_error.png");
 const netErrorIcon = require("../images/no_internet.png");
 
@@ -20,29 +20,25 @@ const ErrorOverlay = ({ error, onRetryPress }) => {
       {error.statusCode === 0 && (
         <View>
           <Text weight="Bold" style={styles.title}>
-            No Internet Connection
+            {I18n.t("component_items_no_internet")}
           </Text>
-          <Text style={styles.text}>
-            Please check if your phone is connected to the internet and try
-            again
-          </Text>
+          <Text style={styles.text}>{I18n.t("component_items_try_again")}</Text>
         </View>
       )}
 
       {error.statusCode !== 0 && (
         <View>
           <Text weight="Bold" style={styles.title}>
-            Something Went Wrong
+            {I18n.t("component_items_something_went_wrong")}
           </Text>
           <Text style={styles.text}>
-            Unable to connect to BinBill to get your information. Please try
-            again in sometime.
+            {I18n.t("component_items_unable_to_conect")}
           </Text>
         </View>
       )}
       <Button
         onPress={onRetryPress}
-        text="RETRY"
+        text={I18n.t("component_items_retry")}
         color="secondary"
         style={{ width: 200 }}
       />

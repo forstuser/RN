@@ -37,7 +37,7 @@ const openMap = product => {
 
     return getDirections(data);
   }
-  Alert.alert("Address not available");
+  Alert.alert(I18n.t("expense_forms_product_list_address_not_available"));
 };
 
 const callSeller = product => {
@@ -47,7 +47,7 @@ const callSeller = product => {
       Alert.alert(e.message)
     );
   }
-  Alert.alert("Phone number not available");
+  Alert.alert(I18n.t("expense_forms_product_list_phone_not_available"));
 };
 
 class ProductListItem extends React.Component {
@@ -143,8 +143,8 @@ class ProductListItem extends React.Component {
           ref={o => (this.phoneOptions = o)}
           title={
             this.state.phoneNumbers.length > 0
-              ? "Select a phone number"
-              : "Phone Number Not Available"
+              ? I18n.t("expense_forms_product_list_select_phone")
+              : I18n.t("expense_forms_product_list_phone_number_not_available")
           }
           cancelButtonIndex={this.state.phoneNumbers.length}
           options={[...this.state.phoneNumbers, "Cancel"]}

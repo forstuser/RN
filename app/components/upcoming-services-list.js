@@ -55,7 +55,11 @@ class UpcomingServicesList extends React.Component {
             onPress={this.toggleListHeight}
             color="secondary"
             type="outline"
-            text={listHeight == "less" ? "View More +" : "View Less -"}
+            text={
+              listHeight == "less"
+                ? I18n.t("component_items_view_more")
+                : I18n.t("component_items_view_less")
+            }
             style={styles.button}
             textStyle={{ fontSize: 14 }}
           />

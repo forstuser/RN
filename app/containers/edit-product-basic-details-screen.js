@@ -2,9 +2,8 @@ import React from "react";
 import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
 import { getReferenceDataForCategory, updateProduct } from "../api";
-
+import I18n from "../i18n";
 import LoadingOverlay from "../components/loading-overlay";
 import { MAIN_CATEGORY_IDS } from "../constants";
 import { ScreenContainer, Text, Button } from "../elements";
@@ -46,15 +45,15 @@ class EditProductBasicDetails extends React.Component {
     switch (event.id) {
       case "backPress":
         Alert.alert(
-          "Are you sure?",
-          "All the unsaved information and document copies related to this product will be deleted",
+          I18n.t(" add_edit_amc_are_you_sure"),
+          I18n.t(" add_edit_product_basic_unsaved_info"),
           [
             {
-              text: "Go Back",
+              text: I18n.t("add_edit_amc_go_back"),
               onPress: () => this.props.navigator.pop()
             },
             {
-              text: "Stay",
+              text: I18n.t("add_edit_amc_stay"),
               onPress: () => console.log("Cancel Pressed"),
               style: "cancel"
             }
@@ -107,17 +106,17 @@ class EditProductBasicDetails extends React.Component {
         MAIN_CATEGORY_IDS.FURNITURE
       ].indexOf(data.mainCategoryId) > -1
     ) {
-      if (!data.brandId && !data.brandName) {
-        return Alert.alert("Please select or enter brand");
+      if (data.brandId === undefined && !data.brandName) {
+        return Alert.alert(I18n.t("add_edit_product_basic_select_brand"));
       }
     } else {
       if (!data.value) {
-        return Alert.alert("Please enter amount");
+        return Alert.alert(I18n.t("add_edit_product_basic_select_amount"));
       }
     }
 
     if (!data.purchaseDate) {
-      return Alert.alert("Please select a date");
+      return Alert.alert(I18n.t("add_edit_product_basic_select_date"));
     }
     if (
       [
@@ -127,7 +126,7 @@ class EditProductBasicDetails extends React.Component {
       ].indexOf(data.mainCategoryId) == -1
     ) {
       if (!data.value) {
-        return Alert.alert("Please enter amount");
+        return Alert.alert(I18n.t("add_edit_product_basic_select_amount"));
       }
     }
 
@@ -155,7 +154,7 @@ class EditProductBasicDetails extends React.Component {
       copies,
       sub_category_id
     } = product;
-    const selectedBrandId = product.brandId;
+    const brandId = product.brandId;
     const modelName = product.model;
 
     let sellerName,
@@ -261,6 +260,8 @@ class EditProductBasicDetails extends React.Component {
                 ref={ref => (this.basicDetailsForm = ref)}
                 mainCategoryId={product.masterCategoryId}
                 categoryId={product.categoryId}
+                subCategories={subCategories}
+                subCategoryId={sub_category_id}
                 category={{
                   id: product.categoryId,
                   name: product.categoryName
@@ -274,7 +275,7 @@ class EditProductBasicDetails extends React.Component {
                   id,
                   productName,
                   purchaseDate,
-                  selectedBrandId,
+                  brandId,
                   value,
                   copies,
                   modelName,
@@ -295,7 +296,7 @@ class EditProductBasicDetails extends React.Component {
         </KeyboardAwareScrollView>
         <Button
           onPress={this.onSavePress}
-          text="SAVE"
+          text={I18n.t("add_edit_amc_save")}
           color="secondary"
           borderRadius={0}
         />

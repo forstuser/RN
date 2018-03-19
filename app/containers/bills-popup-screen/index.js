@@ -13,6 +13,7 @@ import RNFetchBlob from "react-native-fetch-blob";
 import moment from "moment";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import { connect } from "react-redux";
+import I18n from "../../i18n";
 
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -172,9 +173,7 @@ class BillsPopUpScreen extends Component {
         </View>
         {(!copies || copies.length == 0) && (
           <View style={styles.noCopiesMsgWrapper}>
-            <Text weight="Bold" style={styles.noCopiesMsg}>
-              Data not avialable
-            </Text>
+            <Text weight="Bold" style={styles.noCopiesMsg} />
           </View>
         )}
         {!isSelectViewVisible &&

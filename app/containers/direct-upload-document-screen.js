@@ -3,18 +3,26 @@ import { StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native";
 import RNFetchBlob from "react-native-fetch-blob";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import Modal from "react-native-modal";
+import I18n from "../i18n";
 
 import {
   API_BASE_URL,
   initProduct,
   getReferenceData,
+  getReferenceDataForCategory,
+  getReferenceDataModels,
   updateProduct,
   uploadDocuments
 } from "../api";
 
 import Analytics from "../analytics";
 import { Text, Button, ScreenContainer } from "../elements";
-import { GLOBAL_VARIABLES, SCREENS } from "../constants";
+import {
+  GLOBAL_VARIABLES,
+  SCREENS,
+  MAIN_CATEGORY_IDS,
+  CATEGORY_IDS
+} from "../constants";
 import { colors } from "../theme";
 
 import SelectModal from "../components/select-modal";
@@ -33,8 +41,16 @@ class DirectUploadDocumentScreen extends React.Component {
     this.state = {
       mainCategories: [],
       categories: [],
+      subCategories: [],
+      brands: [],
+      models: [],
       selectedMainCategory: null,
       selectedCategory: null,
+      selectedSubCategory: null,
+      selectedBrand: null,
+      selectedModel: null,
+      brandName: "",
+      modelName: "",
       isLoading: true,
       isFetchingCategories: true,
       productId: null,
@@ -46,7 +62,7 @@ class DirectUploadDocumentScreen extends React.Component {
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.SHARE_VIA);
     this.initProduct();
-    this.fetchCategories();
+    this.fetchMainCategories();
   }
 
   initProduct = async () => {
@@ -89,7 +105,7 @@ class DirectUploadDocumentScreen extends React.Component {
     }
   };
 
-  fetchCategories = async () => {
+  fetchMainCategories = async () => {
     try {
       const res = await getReferenceData();
       this.setState({
@@ -111,7 +127,13 @@ class DirectUploadDocumentScreen extends React.Component {
     this.setState({
       selectedMainCategory: mainCategory,
       categories: mainCategory.subCategories,
-      selectedCategory: null
+      selectedCategory: null,
+      brands: [],
+      models: [],
+      selectedBrand: null,
+      selectedModel: null,
+      brandName: "",
+      modelName: ""
     });
   };
 
@@ -122,16 +144,140 @@ class DirectUploadDocumentScreen extends React.Component {
     ) {
       return;
     }
+    this.setState(
+      {
+        selectedCategory: category,
+        subCategories: [],
+        brands: [],
+        models: [],
+        selectedSubCategory: null,
+        selectedBrand: null,
+        selectedModel: null,
+        brandName: "",
+        modelName: ""
+      },
+      () => {
+        this.fetchBrandsAndSubCategories();
+      }
+    );
+  };
+
+  fetchBrandsAndSubCategories = async () => {
+    if (this.state.selectedCategory) {
+      try {
+        const res = await getReferenceDataForCategory(
+          this.state.selectedCategory.id
+        );
+        this.setState({
+          subCategories: res.categories[0].subCategories,
+          brands: res.categories[0].brands
+        });
+      } catch (e) {
+        Alert.alert(e.message);
+      }
+    }
+  };
+
+  onSubCategorySelect = subCategory => {
+    if (
+      this.state.selectedSubCategory &&
+      this.state.selectedSubCategory.id == subCategory.id
+    ) {
+      return;
+    }
     this.setState({
-      selectedCategory: category
+      selectedSubCategory: subCategory
+    });
+  };
+
+  onBrandSelect = brand => {
+    if (this.state.selectedBrand && this.state.selectedBrand.id == brand.id) {
+      return;
+    }
+    this.setState(
+      {
+        selectedBrand: brand,
+        brandName: "",
+        models: [],
+        modelName: "",
+        selectedModel: null
+      },
+      () => this.fetchModels()
+    );
+  };
+
+  onBrandNameChange = text => {
+    this.setState({
+      brandName: text,
+      selectedBrand: null,
+      models: [],
+      modelName: "",
+      selectedModel: null
+    });
+  };
+
+  fetchModels = async () => {
+    if (this.state.selectedBrand) {
+      try {
+        const models = await getReferenceDataModels(
+          this.state.selectedCategory.id,
+          this.state.selectedBrand.id
+        );
+        this.setState({ models });
+      } catch (e) {
+        Alert.alert(e.message);
+      }
+    }
+  };
+
+  onModelSelect = model => {
+    if (this.state.selectedModel && this.state.selectedModel.id == model.id) {
+      return;
+    }
+
+    this.setState({
+      selectedModel: model,
+      modelName: ""
+    });
+  };
+
+  onModelNameChange = text => {
+    this.setState({
+      modelName: text,
+      selectedModel: null
     });
   };
 
   updateProduct = async () => {
-    const { selectedMainCategory, selectedCategory, productId } = this.state;
+    const {
+      selectedMainCategory,
+      selectedCategory,
+      selectedSubCategory,
+      selectedBrand,
+      selectedModel,
+      brandName,
+      modelName,
+      productId
+    } = this.state;
 
     if (!selectedMainCategory || !selectedCategory) {
       return Alert.alert("Please select category and sub-category both.");
+    }
+
+    if (
+      [MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
+        selectedMainCategory.id
+      ) > -1 &&
+      !selectedBrand
+    ) {
+      return Alert.alert("Please select brand");
+    }
+
+    if (
+      selectedCategory.id == CATEGORY_IDS.FURNITURE.FURNITURE &&
+      !selectedSubCategory
+    ) {
+      return Alert.alert("Please select type");
     }
 
     this.setState({
@@ -142,7 +288,12 @@ class DirectUploadDocumentScreen extends React.Component {
       productId,
       productName: selectedCategory.name,
       mainCategoryId: selectedMainCategory.id,
-      categoryId: selectedCategory.id
+      categoryId: selectedCategory.id,
+      subCategoryId: selectedSubCategory ? selectedSubCategory.id : undefined,
+      brandId: selectedBrand ? selectedBrand.id : undefined,
+      brandName: brandName,
+      model: selectedModel ? selectedModel.title : modelName,
+      isNewModel: selectedModel ? false : true
     });
 
     this.setState({
@@ -193,8 +344,16 @@ class DirectUploadDocumentScreen extends React.Component {
     const {
       mainCategories,
       categories,
+      subCategories,
+      brands,
+      models,
+      selectedSubCategory,
       selectedMainCategory,
       selectedCategory,
+      selectedBrand,
+      selectedModel,
+      brandName,
+      modelName,
       isFetchingCategories,
       isLoading,
       isFinishModalVisible
@@ -220,12 +379,12 @@ class DirectUploadDocumentScreen extends React.Component {
           </View>
         </View>
         <Text weight="Bold" style={styles.mainText}>
-          Document Uploaded, Provide further details to complete the process
+          {I18n.t("add_edit_direct_upload_docs")}
         </Text>
         <SelectModal
           style={styles.input}
           dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-          placeholder="Select Category"
+          placeholder={I18n.t("add_edit_direct_category")}
           placeholderRenderer={({ placeholder }) => (
             <View style={{ flexDirection: "row" }}>
               <Text weight="Medium" style={{ color: colors.secondaryText }}>
@@ -243,7 +402,7 @@ class DirectUploadDocumentScreen extends React.Component {
         <SelectModal
           style={styles.input}
           dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-          placeholder="Select Sub-Category"
+          placeholder={I18n.t("add_edit_direct_subcategory")}
           placeholderRenderer={({ placeholder }) => (
             <View style={{ flexDirection: "row" }}>
               <Text weight="Medium" style={{ color: colors.secondaryText }}>
@@ -253,16 +412,111 @@ class DirectUploadDocumentScreen extends React.Component {
           )}
           selectedOption={selectedCategory}
           options={categories}
+          beforeModalOpen={() => {
+            if (selectedMainCategory) {
+              return true;
+            }
+            Alert.alert(I18n.t("add_edit_direct_select_main_category_first"));
+            return false;
+          }}
           onOptionSelect={value => {
             this.onCategorySelect(value);
           }}
           hideAddNew={true}
         />
+
+        {selectedCategory &&
+          selectedCategory.id == CATEGORY_IDS.FURNITURE.FURNITURE && (
+            <SelectModal
+              style={styles.input}
+              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+              placeholder={I18n.t("add_edit_direct_type")}
+              placeholderRenderer={({ placeholder }) => (
+                <View style={{ flexDirection: "row" }}>
+                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                    {placeholder}
+                  </Text>
+                </View>
+              )}
+              selectedOption={selectedSubCategory}
+              options={subCategories}
+              onOptionSelect={value => {
+                this.onSubCategorySelect(value);
+              }}
+              hideAddNew={true}
+            />
+          )}
+
+        {selectedMainCategory &&
+          [
+            MAIN_CATEGORY_IDS.AUTOMOBILE,
+            MAIN_CATEGORY_IDS.ELECTRONICS,
+            MAIN_CATEGORY_IDS.FURNITURE
+          ].indexOf(selectedMainCategory.id) > -1 && (
+            <SelectModal
+              style={styles.input}
+              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+              placeholder={I18n.t("add_edit_direct_brand")}
+              placeholderRenderer={({ placeholder }) => (
+                <View style={{ flexDirection: "row" }}>
+                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                    {placeholder}
+                  </Text>
+                </View>
+              )}
+              selectedOption={selectedBrand}
+              textInputValue={brandName}
+              options={brands}
+              beforeModalOpen={() => {
+                if (selectedCategory) {
+                  return true;
+                }
+                Alert.alert(I18n.t("add_edit_direct_select_category_first"));
+                return false;
+              }}
+              onOptionSelect={value => {
+                this.onBrandSelect(value);
+              }}
+              onTextInputChange={text => this.onBrandNameChange(text)}
+            />
+          )}
+        {selectedMainCategory &&
+          [MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
+            selectedMainCategory.id
+          ) > -1 && (
+            <SelectModal
+              style={styles.input}
+              visibleKey="title"
+              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+              placeholder={I18n.t("add_edit_direct_model")}
+              placeholderRenderer={({ placeholder }) => (
+                <View style={{ flexDirection: "row" }}>
+                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                    {placeholder}
+                  </Text>
+                </View>
+              )}
+              options={models}
+              beforeModalOpen={() => {
+                if (selectedBrand || brandName) {
+                  return true;
+                }
+                Alert.alert(I18n.t("add_edit_direct_select_brand_first"));
+                return false;
+              }}
+              selectedOption={selectedModel}
+              textInputValue={modelName}
+              onOptionSelect={value => {
+                this.onModelSelect(value);
+              }}
+              onTextInputChange={text => this.setState({ modelName: text })}
+            />
+          )}
         <Button
           onPress={this.updateProduct}
-          text="Add Document"
+          text={I18n.t("add_edit_direct_add_docs")}
           color="secondary"
-          style={{ width: 300, marginTop: 35 }}
+          style={{ width: 300, marginTop: 20 }}
         />
         <Modal useNativeDriver={true} isVisible={isFinishModalVisible}>
           <View style={styles.finishModal}>
@@ -278,12 +532,12 @@ class DirectUploadDocumentScreen extends React.Component {
               resizeMode="contain"
             />
             <Text weight="Bold" style={styles.finishMsg}>
-              Document Uploaded Successfully
+              {I18n.t("add_edit_direct_doc_successfully")}
             </Text>
             <Button
               onPress={this.onAddMoreProductsClick}
               style={styles.finishBtn}
-              text="ADD PRODUCTS TO eHOME"
+              text={I18n.t("add_edit_direct_add_eHome")}
               color="secondary"
             />
             <Text
@@ -291,7 +545,7 @@ class DirectUploadDocumentScreen extends React.Component {
               weight="Bold"
               style={styles.doItLaterText}
             >
-              I'll Do it Later
+              {I18n.t("add_edit_direct_later")}
             </Text>
           </View>
         </Modal>
@@ -307,7 +561,7 @@ const styles = StyleSheet.create({
   },
   closeBtn: {
     position: "absolute",
-    top: 40,
+    top: 30,
     right: 20,
     height: 30,
     width: 30,
@@ -315,15 +569,15 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   illustration: {
-    width: 140,
-    height: 140
+    width: 80,
+    height: 80
   },
   steps: {
     flexDirection: "row",
     width: 170,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 35
+    marginTop: 15
   },
   step: {
     width: 30,
@@ -352,10 +606,10 @@ const styles = StyleSheet.create({
     color: colors.mainBlue
   },
   mainText: {
-    fontSize: 16,
+    fontSize: 14,
     color: colors.mainBlue,
     textAlign: "center",
-    marginTop: 25,
+    marginTop: 15,
     marginBottom: 25
   },
   input: {
@@ -364,7 +618,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     paddingTop: 20,
     height: 50,
-    marginBottom: 25
+    marginBottom: 15
   },
   finishModal: {
     backgroundColor: "#fff",

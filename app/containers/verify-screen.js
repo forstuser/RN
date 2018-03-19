@@ -67,7 +67,7 @@ class VerifyScreen extends Component {
   };
 
   onSubmitOtp = async () => {
-    if (this.state.otp.length != 6 && this.state.otp.length != 4) {
+    if (this.state.otp.length != 4) {
       return Alert.alert(I18n.t("verify_screen_invalid_otp_error"));
     }
 
@@ -116,7 +116,7 @@ class VerifyScreen extends Component {
           underlineColorAndroid="transparent"
           ref={ref => (this.otpInput = ref)}
           autoFocus={true}
-          maxLength={6}
+          maxLength={4}
           style={{
             height: 65,
             borderColor: colors.mainBlue,

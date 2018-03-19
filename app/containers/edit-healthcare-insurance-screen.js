@@ -15,19 +15,16 @@ import {
   updateProduct
 } from "../api";
 import { ScreenContainer, Text, Button } from "../elements";
-
 import LoadingOverlay from "../components/loading-overlay";
 import { colors } from "../theme";
 import { MAIN_CATEGORY_IDS } from "../constants";
 import UploadBillOptions from "../components/upload-bill-options";
 import SelectModal from "../components/select-modal";
-
 import HealthcareInsuranceForm from "../components/expense-forms/healthcare-insurance-form";
-
+import I18n from "../i18n";
 import CustomTextInput from "../components/form-elements/text-input";
 import ContactFields from "../components/form-elements/contact-fields";
 import HeaderWithUploadOption from "../components/form-elements/header-with-upload-option";
-
 import FinishModal from "./add-edit-expense-screen/finish-modal";
 import ChangesSavedModal from "../components/changes-saved-modal";
 
@@ -66,15 +63,15 @@ class MedicalDoc extends React.Component {
     switch (event.id) {
       case "backPress":
         Alert.alert(
-          "Are you sure?",
-          "All the unsaved information and document copies related to this insurance would be deleted",
+          I18n.t(" add_edit_amc_are_you_sure"),
+          I18n.t("add_edit_healthcare_unsaved_info"),
           [
             {
-              text: "Go Back",
+              text: I18n.t("add_edit_amc_go_back"),
               onPress: () => this.props.navigator.pop()
             },
             {
-              text: "Stay",
+              text: I18n.t("add_edit_amc_stay"),
               onPress: () => console.log("Cancel Pressed"),
               style: "cancel"
             }
@@ -87,7 +84,7 @@ class MedicalDoc extends React.Component {
 
   componentDidMount() {
     this.fetchCategoryData();
-    let title = "Edit Insurance";
+    let title = I18n.t("add_edit_healthcare_edit_insurance");
 
     this.props.navigator.setTitle({ title });
   }
@@ -183,12 +180,12 @@ class MedicalDoc extends React.Component {
         <Button
           style={styles.saveBtn}
           onPress={this.saveDoc}
-          text="SAVE"
+          text={I18n.t("add_edit_amc_save")}
           borderRadius={0}
           color="secondary"
         />
         <FinishModal
-          title="Doc added to your eHome."
+          title={I18n.t("add_edit_healthcare_doc_added")}
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
           navigator={this.props.navigator}

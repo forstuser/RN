@@ -23,22 +23,6 @@ import ViewBillRow from "./view-bill-row";
 import EditOptionRow from "./edit-option-row";
 
 class AmcDetails extends React.Component {
-  openAddEditAmcScreen = amc => {
-    const { product } = this.props;
-
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_AMC_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        amc: amc
-      },
-      overrideBackPress: true
-    });
-  };
-
   render() {
     const { product, navigator } = this.props;
     const { amcDetails } = product;
@@ -48,7 +32,7 @@ class AmcDetails extends React.Component {
         <EditOptionRow
           text={I18n.t("product_details_screen_amc_details")}
           onEditPress={() => {
-            this.openAddEditAmcScreen(amc);
+            this.props.openAddEditAmcScreen(amc);
           }}
         />
         <ViewBillRow
@@ -89,7 +73,7 @@ class AmcDetails extends React.Component {
           {amcDetails.map(amc => <AmcItem amc={amc} />)}
           <AddItemBtn
             text={I18n.t("product_details_screen_add_amc")}
-            onPress={() => this.openAddEditAmcScreen(null)}
+            onPress={() => this.props.openAddEditAmcScreen(null)}
           />
         </ScrollView>
       </View>

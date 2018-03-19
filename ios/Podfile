@@ -30,6 +30,8 @@ target 'BinBill' do
 
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
+  pod 'RNViewShot', :path => '../node_modules/react-native-view-shot'
+
   target 'BinBillTests' do
     inherit! :search_paths
     # Pods for testing

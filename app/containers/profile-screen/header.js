@@ -12,12 +12,12 @@ import {
 import Modal from "react-native-modal";
 import ActionSheet from "react-native-actionsheet";
 import ImagePicker from "react-native-image-crop-picker";
+import I18n from "../../i18n";
 import { API_BASE_URL, uploadProfilePic } from "../../api";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
 import { showSnackbar } from "../snackbar";
 import { BlurView } from "react-native-blur";
-
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 const editIcon = require("../../images/ic_edit_white.png");
 
@@ -110,7 +110,7 @@ class ProfileScreen extends Component {
 
   uploadImage = async file => {
     showSnackbar({
-      text: "uploading, please wait..",
+      text: I18n.t("profile_screen_please_wait"),
       autoDismissTimerSec: 1000
     });
     try {
@@ -120,7 +120,7 @@ class ProfileScreen extends Component {
       });
 
       showSnackbar({
-        text: "Your profile details are updated!",
+        text: I18n.t("profile_screen_details_updated"),
         autoDismissTimerSec: 3
       });
     } catch (e) {
@@ -154,7 +154,7 @@ class ProfileScreen extends Component {
         <ActionSheet
           onPress={this.handleOptionPress}
           ref={o => (this.uploadOptions = o)}
-          title="Upload Profile Pic"
+          title={I18n.t("profile_screen_details_upload_pic")}
           cancelButtonIndex={2}
           options={[
             "Take picture using camera",

@@ -23,22 +23,6 @@ import ViewBillRow from "./view-bill-row";
 import EditOptionRow from "./edit-option-row";
 
 class InsuranceDetails extends React.Component {
-  openAddEditInsuranceScreen = insurance => {
-    const { product } = this.props;
-
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_INSURANCE_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        insurance: insurance
-      },
-      overrideBackPress: true
-    });
-  };
-
   render() {
     const { product, navigator } = this.props;
     const { insuranceDetails } = product;
@@ -48,7 +32,7 @@ class InsuranceDetails extends React.Component {
         <EditOptionRow
           text={I18n.t("product_details_screen_insurance_details")}
           onEditPress={() => {
-            this.openAddEditInsuranceScreen(insurance);
+            this.props.openAddEditInsuranceScreen(insurance);
           }}
         />
         <KeyValueItem
@@ -122,7 +106,7 @@ class InsuranceDetails extends React.Component {
           ))}
           <AddItemBtn
             text={I18n.t("product_details_screen_add_insurance")}
-            onPress={() => this.openAddEditInsuranceScreen(null)}
+            onPress={() => this.props.openAddEditInsuranceScreen(null)}
           />
         </ScrollView>
       </View>

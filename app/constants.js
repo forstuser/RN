@@ -4,7 +4,8 @@ const CODEPUSH_KEYS = {
 };
 
 const GLOBAL_VARIABLES = {
-  FILES_FOR_DIRECT_UPLOAD: "FILES_FOR_DIRECT_UPLOAD"
+  FILES_FOR_DIRECT_UPLOAD: "FILES_FOR_DIRECT_UPLOAD",
+  DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY: "DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY"
 };
 
 const EXPENSE_TYPES = {
@@ -52,12 +53,54 @@ const CATEGORY_IDS = {
     REFRIGERATOR: 491,
     WASHING_MACHINE: 541
   },
+  FURNITURE: {
+    FURNITURE: 20
+  },
   HEALTHCARE: {
     INSURANCE: 664
+  },
+  HOUSEHOLD: {
+    HOME_DECOR: 697
   }
 };
 
+const LANGUAGES = [
+  {
+    code: "en",
+    name: "English"
+  },
+  {
+    code: "hi",
+    name: "हिंदी"
+  },
+  {
+    code: "bn",
+    name: "বাংলা"
+  },
+  {
+    code: "mr",
+    name: "मराठी"
+  },
+  {
+    code: "gu",
+    name: "ગુજરાત"
+  },
+  {
+    code: "te",
+    name: "తెలుగు"
+  },
+  {
+    code: "ml",
+    name: "മലയാളം"
+  },
+  {
+    code: "ta",
+    name: "தமிழ்"
+  }
+];
+
 const SCREENS = {
+  DO_YOU_KNOW_SCREEN: "DO_YOU_KNOW_SCREEN",
   RATE_US_SCREEN: "RATE_US_SCREEN",
   DIRECT_UPLOAD_DOCUMENT_SCREEN: "DIRECT_UPLOAD_DOCUMENT_SCREEN",
   ADD_PRODUCT_OPTIONS_SCREEN: "ADD_PRODUCT_OPTIONS_SCREEN",
@@ -127,6 +170,7 @@ export {
   GLOBAL_VARIABLES,
   MAIN_CATEGORY_IDS,
   CATEGORY_IDS,
+  LANGUAGES,
   SCREENS,
   EXPENSE_TYPES,
   WARRANTY_TYPES,
