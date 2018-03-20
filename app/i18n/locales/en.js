@@ -409,6 +409,9 @@ export default {
   //my calendar screen
   my_calendar_screen_title: "My Calendar",
   my_calendar_screen_add_btn: "Add Calendar Item",
+  my_calendar_screen_empty_screen_msg:
+    "Looks Like you have nothing added in My Calendar Section",
+  my_calendar_screen_total_days: "Total Days",
   my_calendar_screen_days_present: "Days Present",
   my_calendar_screen_days_absent: "Days Absent",
   my_calendar_screen_days: {
@@ -416,6 +419,10 @@ export default {
     other: "{{count}} days",
     zero: "{{count}} day"
   },
+  my_calendar_screen_summary: "Summary",
+  my_calendar_screen_from: "From",
+  my_calendar_screen_to: "To",
+  my_calendar_screen_no_of_units: "No. of Units",
 
   //add/edit calendar service screen
   add_edit_calendar_service_screen_title: "Add Service",
@@ -429,11 +436,20 @@ export default {
   calendar_service_screen_title: "Service Details",
   calendar_service_screen_present: "Presnt",
   calendar_service_screen_absent: "Absent",
+  calendar_service_screen_price: "Price",
   calendar_service_screen_unit_price: "Unit Price",
   calendar_service_screen_quantity: "Quantity",
   calendar_service_screen_attendance: "Attendance",
   calendar_service_screen_report: "Report",
   calendar_service_screen_other_details: "Other Details",
+  calendar_service_screen_total_amount: "Total Amount",
+  calendar_service_screen_mark_paid: "Mark Paid",
+  calendar_service_screen_payment_details: "Payment Details",
+  calendar_service_screen_paid_on: "Paid On",
+  calendar_service_screen_amount_paid: "Amount Paid",
+  calendar_service_screen_item_details: "Item Details",
+  calendar_service_screen_product_name: "Product Name",
+  calendar_service_screen_provider_name: "Provider Name",
   //FAQs screen
   faq_screen_title: "FAQs",
 

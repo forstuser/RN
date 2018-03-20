@@ -21,6 +21,8 @@ import { colors } from "../../theme";
 
 import Item from "./item";
 
+const calendarIcon = require("../../images/ic_calendar.png");
+
 class MyCalendarScreen extends Component {
   static navigatorStyle = {
     tabBarHidden: true
@@ -97,23 +99,45 @@ class MyCalendarScreen extends Component {
     }
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#f7f7f7" }}>
-        <View style={{ flex: 1 }}>
-          <FlatList
-            contentContainerStyle={{ padding: 5 }}
-            data={items}
-            keyExtractor={(item, index) => item.id}
-            renderItem={this.renderItem}
-            onRefresh={this.fetchItems}
-            refreshing={isFetchingItems}
-          />
-        </View>
-        <Button
-          onPress={this.openAddEditCalendarServiceScreen}
-          text={I18n.t("my_calendar_screen_add_btn")}
-          color="secondary"
-          borderRadius={0}
-          style={styles.addItemBtn}
-        />
+        {(items.length > 0 || isFetchingItems) && (
+          <View style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
+              <FlatList
+                contentContainerStyle={{ padding: 5 }}
+                data={items}
+                keyExtractor={(item, index) => item.id}
+                renderItem={this.renderItem}
+                onRefresh={this.fetchItems}
+                refreshing={isFetchingItems}
+              />
+            </View>
+            <Button
+              onPress={this.openAddEditCalendarServiceScreen}
+              text={I18n.t("my_calendar_screen_add_btn")}
+              color="secondary"
+              borderRadius={0}
+              style={styles.addItemBtn}
+            />
+          </View>
+        )}
+        {items.length == 0 && (
+          <View style={styles.emptyStateView}>
+            <Image
+              source={calendarIcon}
+              style={styles.emptyStateImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.emptyStateMsg}>
+              {I18n.t("my_calendar_screen_empty_screen_msg")}
+            </Text>
+            <Button
+              onPress={this.openAddEditCalendarServiceScreen}
+              text={I18n.t("my_calendar_screen_add_btn")}
+              color="secondary"
+              style={styles.emptyStateAddItemBtn}
+            />
+          </View>
+        )}
       </ScreenContainer>
     );
   }
@@ -122,6 +146,26 @@ class MyCalendarScreen extends Component {
 const styles = StyleSheet.create({
   addItemBtn: {
     width: "100%"
+  },
+  emptyStateView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 16
+  },
+  emptyStateImage: {
+    width: 115,
+    height: 130
+  },
+  emptyStateMsg: {
+    fontSize: 16,
+    textAlign: "center",
+    color: colors.secondaryText,
+    marginTop: 30
+  },
+  emptyStateAddItemBtn: {
+    width: 280,
+    marginTop: 30
   }
 });
 

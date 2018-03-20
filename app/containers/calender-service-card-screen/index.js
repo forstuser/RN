@@ -32,9 +32,10 @@ import { colors } from "../../theme";
 
 import Header from "./header";
 import Attendance from "./attendance";
-// import AllInfo from "./all-info";
-// import Important from "./important";
+import Report from "./report";
+import OtherDetails from "./other-details";
 import LoadingOverlay from "../../components/loading-overlay";
+import ErrorOverlay from "../../components/error-overlay";
 
 class CalendarServiceCard extends Component {
   static navigatorStyle = {
@@ -49,11 +50,14 @@ class CalendarServiceCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isScreenVisible: true,
       item: null,
       isFetchingItemDetails: true,
       activeTabIndex: 0,
+      activePaymentDetailIndex: 0,
       showCustomerCareTab: false,
-      showImportantTab: true
+      showImportantTab: true,
+      error: null
     };
   }
 
@@ -61,21 +65,19 @@ class CalendarServiceCard extends Component {
     this.props.navigator.setTitle({
       title: I18n.t("calendar_service_screen_title")
     });
-    this.fetchItemDetails(this.props.itemId);
+    this.fetchItemDetails();
   }
 
-  fetchItemDetails = async itemId => {
+  fetchItemDetails = async () => {
     this.setState({
-      isFetchingItemDetails: true
+      isFetchingItemDetails: true,
+      error: null
     });
 
     const newState = {};
     try {
-      const res = await fetchCalendarItemById(itemId);
+      const res = await fetchCalendarItemById(this.props.itemId);
       newState.item = res.item;
-      this.setState({
-        item: res.item
-      });
     } catch (e) {
       newState.error = e;
     }
@@ -116,14 +118,20 @@ class CalendarServiceCard extends Component {
     });
   };
 
+  onPaymentDetailIndexChange = index => {
+    const { item } = this.state;
+    const paymentDetails = item.payment_detail;
+    if (index < 0 || index == paymentDetails.length) return;
+    this.setState({
+      activePaymentDetailIndex: index
+    });
+  };
+
   handleScroll = event => {
-    if (!this.props.isScreenVisible) {
+    if (!this.state.isScreenVisible) {
       return;
     }
-    console.log(
-      "event.nativeEvent.contentOffset: ",
-      event.nativeEvent.contentOffset
-    );
+
     if (event.nativeEvent.contentOffset.y > 0) {
       this.props.navigator.setStyle({
         navBarTransparent: false,
@@ -154,12 +162,18 @@ class CalendarServiceCard extends Component {
       item,
       isFetchingItemDetails,
       activeTabIndex,
+      activePaymentDetailIndex,
       showCustomerCareTab,
-      showImportantTab
+      showImportantTab,
+      error
     } = this.state;
 
     const cardWidthWhenMany = Dimensions.get("window").width - 52;
     const cardWidthWhenOne = Dimensions.get("window").width - 32;
+
+    if (error) {
+      return <ErrorOverlay error={error} onRetryPress={this.fetchItems} />;
+    }
 
     return (
       <View style={styles.container}>
@@ -172,24 +186,39 @@ class CalendarServiceCard extends Component {
             <Header
               activeTabIndex={activeTabIndex}
               onTabChange={this.onTabChange}
+              activePaymentDetailIndex={activePaymentDetailIndex}
+              onPaymentDetailIndexChange={this.onPaymentDetailIndexChange}
               item={item}
               navigator={this.props.navigator}
             />
             <View style={styles.pages}>
               {activeTabIndex == 0 && (
-                <Attendance item={item} navigator={this.props.navigator} />
+                <Attendance
+                  item={item}
+                  navigator={this.props.navigator}
+                  activePaymentDetailIndex={activePaymentDetailIndex}
+                  onPaymentDetailIndexChange={this.onPaymentDetailIndexChange}
+                  reloadScreen={this.fetchItemDetails}
+                />
               )}
-              {/*{activeTabIndex == 1 && (
-              <AllInfo product={product} navigator={this.props.navigator} />
-            )}
-            {activeTabIndex == 2 && (
-              <Important
-                product={product}
-                navigator={this.props.navigator}
-                cardWidthWhenMany={cardWidthWhenMany}
-                cardWidthWhenOne={cardWidthWhenOne}
-              />
-            )}*/}
+              {activeTabIndex == 1 && (
+                <Report
+                  item={item}
+                  navigator={this.props.navigator}
+                  activePaymentDetailIndex={activePaymentDetailIndex}
+                  onPaymentDetailIndexChange={this.onPaymentDetailIndexChange}
+                  reloadScreen={this.fetchItemDetails}
+                />
+              )}
+              {activeTabIndex == 2 && (
+                <OtherDetails
+                  item={item}
+                  navigator={this.props.navigator}
+                  activePaymentDetailIndex={activePaymentDetailIndex}
+                  onPaymentDetailIndexChange={this.onPaymentDetailIndexChange}
+                  reloadScreen={this.fetchItemDetails}
+                />
+              )}
             </View>
           </ScrollView>
         )}

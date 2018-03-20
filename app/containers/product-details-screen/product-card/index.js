@@ -125,10 +125,7 @@ class ProductCard extends Component {
     if (!this.props.isScreenVisible) {
       return;
     }
-    console.log(
-      "event.nativeEvent.contentOffset: ",
-      event.nativeEvent.contentOffset
-    );
+
     if (event.nativeEvent.contentOffset.y > 0) {
       this.props.navigator.setStyle({
         navBarTransparent: false,

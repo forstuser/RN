@@ -29,14 +29,46 @@ class Header extends Component {
   }
 
   render() {
-    const { item, navigator, activeTabIndex = 0, onTabChange } = this.props;
-    const firstCalculationDetail = item.calculation_detail[0];
+    const {
+      item,
+      navigator,
+      activeTabIndex = 0,
+      onTabChange,
+      activePaymentDetailIndex = 0,
+      onPaymentDetailIndexChange
+    } = this.props;
+
+    const paymentDetails = item.payment_detail;
+    const paymentDetail = paymentDetails[activePaymentDetailIndex];
+
+    const activeMonth = moment(paymentDetail.start_date.substr(0, 10)).format(
+      "MMMM YYYY"
+    );
+    const daysPresent = paymentDetail.total_days;
+    const daysAbsent = paymentDetail.absent_day_detail.length;
+
+    const calculationDetails = item.calculation_detail;
+    let activeCalculationDetail = calculationDetails[0];
+    for (let i = 0; i < calculationDetails.length; i++) {
+      const effectiveDate = calculationDetails[i].effective_date.substr(0, 10);
+      const diff = moment().diff(moment(effectiveDate), "days");
+      if (diff < 0) {
+        //if in future
+        continue;
+      } else {
+        activeCalculationDetail = calculationDetails[i];
+      }
+    }
+
+    const selectedDays =
+      activeCalculationDetail.selected_days || item.selected_days;
+
     const unitPrice =
-      firstCalculationDetail.unit_price +
-      (firstCalculationDetail.unit
-        ? "Rs." + firstCalculationDetail.unit.name
+      activeCalculationDetail.unit_price +
+      (activeCalculationDetail.unit
+        ? "Rs." + activeCalculationDetail.unit.name
         : "");
-    const quantity = firstCalculationDetail.quantity;
+    const quantity = activeCalculationDetail.quantity;
 
     const weekDays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
@@ -54,9 +86,14 @@ class Header extends Component {
         </View>
         <View style={styles.lowerHalf}>
           <View style={styles.lowerHalfInner}>
-            <Text weight="Bold" style={styles.name}>
-              {item.product_name}
-            </Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text weight="Bold" style={styles.name}>
+                {item.product_name}
+              </Text>
+              <Text weight="Medium" style={[styles.key, { marginTop: 0 }]}>
+                {activeMonth}
+              </Text>
+            </View>
             <Text weight="Medium" style={styles.key}>
               {item.provider_name}
             </Text>
@@ -69,7 +106,7 @@ class Header extends Component {
                   weight="Medium"
                   style={[styles.key, { color: colors.success }]}
                 >
-                  {item.present_days}
+                  {daysPresent}
                 </Text>
               </View>
               <View style={{ flex: 1, flexDirection: "row" }}>
@@ -109,7 +146,7 @@ class Header extends Component {
               </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 10 }}>
-              {item.selected_days.map(day => (
+              {selectedDays.map(day => (
                 <View key={day} style={styles.weekDay}>
                   <Text weight="Medium" style={styles.weekDayText}>
                     {weekDays[day - 1]}
@@ -195,6 +232,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1
   },
   name: {
+    flex: 1,
     fontSize: 18,
     marginRight: 85
   },

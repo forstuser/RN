@@ -8,11 +8,15 @@ import { colors } from "../../theme";
 
 class Month extends React.Component {
   render() {
-    const { paymentDetails, activeMonthIndex, onMonthIndexChange } = this.props;
-    const activeMonth = paymentDetails[activeMonthIndex];
-    const isNextMonthAvailable = activeMonthIndex > 0;
+    const {
+      paymentDetails,
+      activePaymentDetailIndex,
+      onPaymentDetailIndexChange
+    } = this.props;
+    const activeMonth = paymentDetails[activePaymentDetailIndex];
+    const isNextMonthAvailable = activePaymentDetailIndex > 0;
     const isPreviousMonthAvailable =
-      activeMonthIndex < paymentDetails.length - 1;
+      activePaymentDetailIndex < paymentDetails.length - 1;
 
     return (
       <LinearGradient
@@ -25,7 +29,11 @@ class Month extends React.Component {
           {moment(activeMonth.start_date).format("MMMM YYYY")}
         </Text>
         <View style={styles.arrows}>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback
+            onPress={() =>
+              onPaymentDetailIndexChange(activePaymentDetailIndex + 1)
+            }
+          >
             <View
               style={[
                 styles.arrow,
@@ -35,7 +43,11 @@ class Month extends React.Component {
               <Icon name="ios-arrow-back" size={15} color={colors.mainBlue} />
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback
+            onPress={() =>
+              onPaymentDetailIndexChange(activePaymentDetailIndex - 1)
+            }
+          >
             <View
               style={[
                 styles.arrow,

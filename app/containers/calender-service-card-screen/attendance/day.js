@@ -1,25 +1,36 @@
 import React from "react";
-import { StyleSheet, View, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
+import moment from "moment";
+import I18n from "../../../i18n";
 import { Text, Button } from "../../../elements";
 import { colors, defaultStyles } from "../../../theme";
 
 class Month extends React.Component {
   render() {
-    const { date, isPresent = true } = this.props;
+    const { date, isPresent = true, toggleAttendance } = this.props;
 
     return (
       <View style={styles.container}>
         <Text weight="Medium" style={styles.date}>
-          {date}
+          {moment(date).format("D MMMM YYYY")}
         </Text>
-        <View style={styles.presentAbsentContainer}>
-          <Text weight="Medium" style={[styles.presentAbsent, styles.absent]}>
-            Absent
+        <TouchableOpacity
+          onPress={toggleAttendance}
+          style={styles.presentAbsentContainer}
+        >
+          <Text
+            weight="Medium"
+            style={[styles.presentAbsent, !isPresent ? styles.absent : {}]}
+          >
+            {I18n.t("calendar_service_screen_absent")}
           </Text>
-          <Text weight="Medium" style={[styles.presentAbsent, styles.present]}>
-            Present
+          <Text
+            weight="Medium"
+            style={[styles.presentAbsent, isPresent ? styles.present : {}]}
+          >
+            {I18n.t("calendar_service_screen_present")}
           </Text>
-        </View>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -49,8 +60,14 @@ const styles = StyleSheet.create({
     fontSize: 9,
     padding: 8
   },
-  present: {},
-  absent: {}
+  present: {
+    backgroundColor: colors.success,
+    color: "#fff"
+  },
+  absent: {
+    backgroundColor: colors.danger,
+    color: "#fff"
+  }
 });
 
 export default Month;

@@ -1089,3 +1089,31 @@ export const fetchCalendarReferenceData = async () => {
     url: "/calendar/referencedata"
   });
 };
+
+export const updateCalendarServicePaymentDayToAbsent = async ({
+  itemId,
+  paymentId,
+  date
+}) => {
+  return await apiRequest({
+    method: "put",
+    url: `/calendar/items/${itemId}/payments/${paymentId}/absent`,
+    data: {
+      absent_date: date
+    }
+  });
+};
+
+export const updateCalendarServicePaymentDayToPresent = async ({
+  itemId,
+  paymentId,
+  date
+}) => {
+  return await apiRequest({
+    method: "put",
+    url: `/calendar/items/${itemId}/payments/${paymentId}/present`,
+    data: {
+      absent_date: date
+    }
+  });
+};
