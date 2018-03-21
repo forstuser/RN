@@ -1,6 +1,15 @@
 import React from "react";
-import { StyleSheet, View, Alert, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  View,
+  Alert,
+  TouchableOpacity,
+  Platform
+} from "react-native";
 import moment from "moment";
+import Modal from "react-native-modal";
+import Icon from "react-native-vector-icons/Ionicons";
 
 import I18n from "../../../i18n";
 
@@ -11,6 +20,8 @@ import {
 
 import { Text, Button } from "../../../elements";
 import KeyValueItem from "../../../components/key-value-item";
+import CustomTextInput from "../../../components/form-elements/text-input";
+import CustomDatePicker from "../../../components/form-elements/date-picker";
 
 import Month from "../month";
 
@@ -18,7 +29,26 @@ import VerticalKeyValue from "./vertical-key-value";
 import { defaultStyles, colors } from "../../../theme";
 
 class Report extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isMarkPaidModalOpen: false,
+      amountPaid: 0,
+      paidOn: moment().format("YYYY-MM-DD")
+    };
+  }
+  hideMarkPaidModal = () => {
+    this.setState({
+      isMarkPaidModalOpen: false
+    });
+  };
+  showMarkPaidModal = () => {
+    this.setState({
+      isMarkPaidModalOpen: true
+    });
+  };
   render() {
+    const { isMarkPaidModalOpen, amountPaid, paidOn } = this.state;
     const {
       item,
       activePaymentDetailIndex = 0,
@@ -40,8 +70,12 @@ class Report extends React.Component {
       }
     }
 
-    const startDate = moment(paymentDetail.start_date).format("DD-MMM-YYYY");
-    const endDate = moment(paymentDetail.end_date).format("DD-MMM-YYYY");
+    const startDate = moment(paymentDetail.start_date)
+      .utcOffset("+0000")
+      .format("DD-MMM-YYYY");
+    const endDate = moment(paymentDetail.end_date)
+      .utcOffset("+0000")
+      .format("DD-MMM-YYYY");
 
     const daysPresent = paymentDetail.total_days;
     const daysAbsent = paymentDetail.absent_day_detail.length;
@@ -117,12 +151,15 @@ class Report extends React.Component {
                 valueText={"₹ " + paymentDetail.total_amount}
               />
             </View>
-            <Button
-              style={styles.markPaidBtn}
-              text={I18n.t("calendar_service_screen_mark_paid")}
-              color="secondary"
-              borderRadius={5}
-            />
+            {!paymentDetail.paid_on && (
+              <Button
+                onPress={this.showMarkPaidModal}
+                style={styles.markPaidBtn}
+                text={I18n.t("calendar_service_screen_mark_paid")}
+                color="secondary"
+                borderRadius={5}
+              />
+            )}
           </View>
         </View>
         {!paymentDetail.paid_on && (
@@ -168,6 +205,41 @@ class Report extends React.Component {
             </View>
           </View>
         )}
+        <Modal
+          isVisible={isMarkPaidModalOpen}
+          avoidKeyboard={Platform.OS == "ios"}
+          animationIn="slideInUp"
+          useNativeDriver={true}
+          onBackdropPress={this.hideMarkPaidModal}
+          onBackButtonPress={this.hideMarkPaidModal}
+        >
+          <View style={[styles.card, styles.modalCard]}>
+            <TouchableOpacity
+              style={styles.modalCloseIcon}
+              onPress={this.hideMarkPaidModal}
+            >
+              <Icon name="md-close" size={30} color={colors.mainText} />
+            </TouchableOpacity>
+            <Image style={styles.modalImage} />
+            <CustomTextInput
+              placeholder={I18n.t("calendar_service_screen_amount_paid")}
+              value={amountPaid}
+              onChangeText={amountPaid => this.setState({ amountPaid })}
+            />
+            <CustomDatePicker
+              date={paidOn}
+              placeholder={I18n.t("calendar_service_screen_paid_on")}
+              onDateChange={paidOn => {
+                this.setState({ paidOn });
+              }}
+            />
+            <Button
+              style={[styles.markPaidBtn, styles.modalBtn]}
+              text={I18n.t("calendar_service_screen_mark_paid")}
+              color="secondary"
+            />
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -192,6 +264,28 @@ const styles = StyleSheet.create({
   },
   markPaidBtn: {
     marginBottom: 5
+  },
+  modalCard: {
+    maxWidth: 300,
+    alignSelf: "center",
+    alignItems: "center",
+    padding: 16
+  },
+  modalCloseIcon: {
+    position: "absolute",
+    right: 15,
+    top: 10
+  },
+  modalImage: {
+    marginTop: 15,
+    marginBottom: 30,
+    width: 90,
+    height: 90,
+    backgroundColor: "#4b5aa7",
+    borderRadius: 45
+  },
+  modalBtn: {
+    width: 200
   }
 });
 

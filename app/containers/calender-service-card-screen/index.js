@@ -168,9 +168,6 @@ class CalendarServiceCard extends Component {
       error
     } = this.state;
 
-    const cardWidthWhenMany = Dimensions.get("window").width - 52;
-    const cardWidthWhenOne = Dimensions.get("window").width - 32;
-
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchItems} />;
     }

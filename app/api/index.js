@@ -1076,6 +1076,34 @@ export const fetchCalendarItems = async () => {
   });
 };
 
+export const createCalendarItem = async ({
+  serviceTypeId,
+  productName,
+  providerName,
+  wagesType,
+  selectedDays,
+  unitPrice,
+  unitType,
+  quantity,
+  effectiveDate
+}) => {
+  const data = {
+    product_name: productName || undefined,
+    provider_name: providerName || undefined,
+    wages_type: wagesType || undefined,
+    selected_days: selectedDays || undefined,
+    unit_price: unitPrice || undefined,
+    unit_type: unitType || undefined,
+    quantity: quantity || undefined,
+    effective_date: effectiveDate || undefined
+  };
+  return await apiRequest({
+    method: "post",
+    url: `/calendar/${serviceTypeId}/items`,
+    data: JSON.parse(JSON.stringify(data))
+  });
+};
+
 export const fetchCalendarItemById = async id => {
   return await apiRequest({
     method: "get",

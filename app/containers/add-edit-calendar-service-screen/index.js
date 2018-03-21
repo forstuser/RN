@@ -10,18 +10,28 @@ import {
   ScrollView
 } from "react-native";
 import I18n from "../../i18n";
-
-import { API_BASE_URL, fetchCalendarReferenceData } from "../../api";
+import Icon from "react-native-vector-icons/Ionicons";
+import {
+  API_BASE_URL,
+  fetchCalendarReferenceData,
+  createCalendarItem
+} from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 
-import { SCREENS } from "../../constants";
+import {
+  SCREENS,
+  WAGES_TYPES,
+  UNITS,
+  CALENDAR_SERVICE_TYPES
+} from "../../constants";
 
 import { colors } from "../../theme";
 
 import CustomTextInput from "../../components/form-elements/text-input";
 import CustomDatePicker from "../../components/form-elements/date-picker";
+import SelectWeekDays from "../../components/select-week-days";
 import SelectServiceHeader from "./select-service-header";
 
 class AddEditCalendarServiceScreen extends Component {
@@ -37,8 +47,13 @@ class AddEditCalendarServiceScreen extends Component {
       selectedServiceType: null,
       name: "",
       providerName: "",
+      wagesType: WAGES_TYPES.DAILY,
       wages: "",
-      startingDate: null
+      unitPrice: "",
+      quantity: "",
+      startingDate: null,
+      type: "product",
+      selectedDays: [1, 2, 3, 4, 5, 6, 7]
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -46,7 +61,6 @@ class AddEditCalendarServiceScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
-        this.fetchReferenceData();
         break;
     }
   };
@@ -55,6 +69,7 @@ class AddEditCalendarServiceScreen extends Component {
     this.props.navigator.setTitle({
       title: I18n.t("add_edit_calendar_service_screen_title")
     });
+    this.fetchReferenceData();
   }
 
   fetchReferenceData = async () => {
@@ -88,9 +103,83 @@ class AddEditCalendarServiceScreen extends Component {
   };
 
   onServiceTypeSelect = serviceType => {
+    let type = "product";
+    if (
+      [
+        CALENDAR_SERVICE_TYPES.MILK,
+        CALENDAR_SERVICE_TYPES.DAIRY,
+        CALENDAR_SERVICE_TYPES.VEGETABLES
+      ].indexOf(serviceType.id) == -1
+    ) {
+      type = "service";
+    }
     this.setState({
-      selectedServiceType: serviceType
+      selectedServiceType: serviceType,
+      type
     });
+  };
+
+  toggleDay = day => {
+    let selectedDays = [...this.state.selectedDays];
+    const idx = selectedDays.indexOf(day);
+    if (idx == -1) {
+      selectedDays.push(day);
+    } else {
+      selectedDays.splice(idx, 1);
+    }
+    this.setState({
+      selectedDays
+    });
+  };
+
+  createCalendarItem = async () => {
+    const {
+      selectedServiceType,
+      name,
+      providerName,
+      wagesType,
+      wages,
+      unitPrice,
+      quantity,
+      startingDate,
+      selectedDays
+    } = this.state;
+
+    if (!name) {
+      return Alert.alert("Please enter name");
+    }
+    if (!wages && !unitPrice) {
+      return Alert.alert("Please unit price or wages");
+    }
+    if (!startingDate) {
+      return Alert.alert("Please select a starting date");
+    }
+    if (selectedDays.length == 0) {
+      return Alert.alert("Please select week days for this service");
+    }
+
+    this.setState({
+      isFetchingServiceTypes: true
+    });
+
+    try {
+      const res = await createCalendarItem({
+        serviceTypeId: selectedServiceType.id,
+        productName: name,
+        providerName: providerName,
+        wagesType: wagesType,
+        unitPrice: unitPrice || wages,
+        quantity: quantity,
+        effectiveDate: startingDate,
+        selectedDays: selectedDays
+      });
+      this.props.navigator.pop();
+    } catch (e) {
+      Alert.alert(e.message);
+      this.setState({
+        isFetchingServiceTypes: false
+      });
+    }
   };
 
   render() {
@@ -101,8 +190,13 @@ class AddEditCalendarServiceScreen extends Component {
       selectedServiceType,
       name,
       providerName,
+      type,
+      wagesType,
       wages,
-      startingDate
+      unitPrice,
+      quantity,
+      startingDate,
+      selectedDays
     } = this.state;
     if (error) {
       return (
@@ -112,49 +206,167 @@ class AddEditCalendarServiceScreen extends Component {
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#f7f7f7" }}>
         <ScrollView style={{ flex: 1 }}>
-          <SelectServiceHeader
-            serviceTypes={serviceTypes}
-            onServiceTypeSelect={this.onServiceTypeSelect}
-          />
-          <View style={styles.form}>
-            <CustomTextInput
-              placeholder={I18n.t("add_edit_calendar_service_screen_form_name")}
-              placeholder2="*"
-              placeholder2Color={colors.mainBlue}
-              value={name}
-              onChangeText={name => this.setState({ name })}
+          {!isFetchingServiceTypes && (
+            <SelectServiceHeader
+              serviceTypes={serviceTypes}
+              onServiceTypeSelect={this.onServiceTypeSelect}
             />
-            <CustomTextInput
-              placeholder={I18n.t(
-                "add_edit_calendar_service_screen_form_provider_name"
+          )}
+          {selectedServiceType && (
+            <View style={styles.form}>
+              <CustomTextInput
+                placeholder={I18n.t(
+                  "add_edit_calendar_service_screen_form_name"
+                )}
+                placeholder2="*"
+                placeholder2Color={colors.mainBlue}
+                value={name}
+                onChangeText={name => this.setState({ name })}
+              />
+              <CustomTextInput
+                placeholder={I18n.t(
+                  "add_edit_calendar_service_screen_form_provider_name"
+                )}
+                value={providerName}
+                onChangeText={providerName => this.setState({ providerName })}
+              />
+              {type == "service" && (
+                <View>
+                  <Text weight="Medium" style={styles.label}>
+                    Wages Type
+                  </Text>
+                  <View style={{ flexDirection: "row", marginBottom: 10 }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.setState({
+                          wagesType: WAGES_TYPES.MONTHLY
+                        });
+                      }}
+                      style={styles.radioBtn}
+                    >
+                      <Icon
+                        name={
+                          wagesType == WAGES_TYPES.MONTHLY
+                            ? "md-radio-button-on"
+                            : "md-radio-button-off"
+                        }
+                        color={
+                          wagesType == WAGES_TYPES.MONTHLY
+                            ? colors.pinkishOrange
+                            : colors.secondaryText
+                        }
+                        size={20}
+                      />
+                      <Text
+                        style={[
+                          styles.radioBtnLabel,
+                          {
+                            color:
+                              wagesType == WAGES_TYPES.MONTHLY
+                                ? colors.pinkishOrange
+                                : colors.secondaryText
+                          }
+                        ]}
+                      >
+                        Monthly
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.setState({
+                          wagesType: WAGES_TYPES.DAILY
+                        });
+                      }}
+                      style={styles.radioBtn}
+                    >
+                      <Icon
+                        name={
+                          wagesType == WAGES_TYPES.DAILY
+                            ? "md-radio-button-on"
+                            : "md-radio-button-off"
+                        }
+                        color={
+                          wagesType == WAGES_TYPES.DAILY
+                            ? colors.pinkishOrange
+                            : colors.secondaryText
+                        }
+                        size={20}
+                      />
+                      <Text
+                        style={[
+                          styles.radioBtnLabel,
+                          {
+                            color:
+                              wagesType == WAGES_TYPES.DAILY
+                                ? colors.pinkishOrange
+                                : colors.secondaryText
+                          }
+                        ]}
+                      >
+                        Daily
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <CustomTextInput
+                    placeholder={I18n.t(
+                      "add_edit_calendar_service_screen_form_wages"
+                    )}
+                    value={wages}
+                    onChangeText={wages => this.setState({ wages })}
+                  />
+                </View>
               )}
-              value={providerName}
-              onChangeText={providerName => this.setState({ providerName })}
-            />
-            <CustomTextInput
-              placeholder={I18n.t(
-                "add_edit_calendar_service_screen_form_wages"
+              {type == "product" && (
+                <View>
+                  <View style={{ flexDirection: "row" }}>
+                    <CustomTextInput
+                      placeholder={I18n.t("calendar_service_screen_quantity")}
+                      value={quantity}
+                      onChangeText={quantity => this.setState({ quantity })}
+                    />
+                  </View>
+                  <CustomTextInput
+                    placeholder={I18n.t("calendar_service_screen_unit_price")}
+                    value={unitPrice}
+                    onChangeText={unitPrice => this.setState({ unitPrice })}
+                  />
+                </View>
               )}
-              value={wages}
-              onChangeText={wages => this.setState({ wages })}
-            />
-            <CustomDatePicker
-              date={startingDate}
-              placeholder={I18n.t(
-                "add_edit_calendar_service_screen_form_starting_date"
-              )}
-              onDateChange={startingDate => {
-                this.setState({ startingDate });
-              }}
-            />
-          </View>
+              <CustomDatePicker
+                date={startingDate}
+                placeholder={I18n.t(
+                  "add_edit_calendar_service_screen_form_starting_date"
+                )}
+                onDateChange={startingDate => {
+                  this.setState({ startingDate });
+                }}
+              />
+              <Text weight="Medium" style={styles.label}>
+                Days
+              </Text>
+              <SelectWeekDays
+                selectedDays={selectedDays}
+                onDayPress={this.toggleDay}
+              />
+            </View>
+          )}
         </ScrollView>
-        <Button
-          text={I18n.t("my_calendar_screen_add_btn")}
-          color="secondary"
-          borderRadius={0}
-          style={styles.addItemBtn}
-        />
+        {selectedServiceType && (
+          <Button
+            onPress={this.createCalendarItem}
+            text={I18n.t("my_calendar_screen_add_btn")}
+            color="secondary"
+            borderRadius={0}
+            style={styles.addItemBtn}
+          />
+        )}
+        {!selectedServiceType && (
+          <View style={styles.selectServiceMsgContainer}>
+            <Text weight="Bold" style={styles.selectServiceMsg}>
+              Please Select a Type Above
+            </Text>
+          </View>
+        )}
         <LoadingOverlay visible={isFetchingServiceTypes} />
       </ScreenContainer>
     );
@@ -168,6 +380,27 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderColor: "#eee",
     borderTopWidth: StyleSheet.hairlineWidth
+  },
+  label: {
+    fontSize: 12,
+    color: colors.secondaryText,
+    marginBottom: 10
+  },
+  selectServiceMsgContainer: {
+    flex: 1
+  },
+  selectServiceMsg: {
+    fontSize: 20,
+    color: colors.mainBlue,
+    textAlign: "center"
+  },
+  radioBtn: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  radioBtnLabel: {
+    marginLeft: 10
   },
   addItemBtn: {
     width: "100%"

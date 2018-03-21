@@ -27,12 +27,20 @@ class SelectCategoryHeader extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { serviceTypes } = nextProps;
-    this.setState({
-      visibleOptions: serviceTypes.slice(0, 3)
-    });
+  componentDidMount() {
+    this.setVisibleOptionsFromProps(this.props);
   }
+
+  componentWillReceiveProps(nextProps) {
+    this.setVisibleOptionsFromProps(nextProps);
+  }
+
+  setVisibleOptionsFromProps = props => {
+    const { serviceTypes } = props;
+    this.setState({
+      visibleOptions: serviceTypes.slice(0, 5)
+    });
+  };
 
   onOptionSelect = option => {
     const selectedOption = this.props.selectedOption;

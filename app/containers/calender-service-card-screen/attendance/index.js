@@ -54,7 +54,7 @@ class Attendance extends React.Component {
     const calculationDetails = item.calculation_detail;
     let activeCalculationDetail = calculationDetails[0];
     for (let i = 0; i < calculationDetails.length; i++) {
-      const effectiveDate = calculationDetails[i].effective_date.substr(0, 10);
+      const effectiveDate = calculationDetails[i].effective_date;
       const diff = moment().diff(moment(effectiveDate), "days");
       if (diff < 0) {
         //if in future
