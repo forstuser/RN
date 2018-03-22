@@ -73,7 +73,7 @@ class MyCalendarScreen extends Component {
 
   openAddEditCalendarServiceScreen = () => {
     this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_CALENDAR_SERVICE_SCREEN
+      screen: SCREENS.ADD_CALENDAR_SERVICE_SCREEN
     });
   };
 
@@ -111,33 +111,36 @@ class MyCalendarScreen extends Component {
                 refreshing={isFetchingItems}
               />
             </View>
-            <Button
-              onPress={this.openAddEditCalendarServiceScreen}
-              text={I18n.t("my_calendar_screen_add_btn")}
-              color="secondary"
-              borderRadius={0}
-              style={styles.addItemBtn}
-            />
+            {!isFetchingItems && (
+              <Button
+                onPress={this.openAddEditCalendarServiceScreen}
+                text={I18n.t("my_calendar_screen_add_btn")}
+                color="secondary"
+                borderRadius={0}
+                style={styles.addItemBtn}
+              />
+            )}
           </View>
         )}
-        {items.length == 0 && (
-          <View style={styles.emptyStateView}>
-            <Image
-              source={calendarIcon}
-              style={styles.emptyStateImage}
-              resizeMode="contain"
-            />
-            <Text style={styles.emptyStateMsg}>
-              {I18n.t("my_calendar_screen_empty_screen_msg")}
-            </Text>
-            <Button
-              onPress={this.openAddEditCalendarServiceScreen}
-              text={I18n.t("my_calendar_screen_add_btn")}
-              color="secondary"
-              style={styles.emptyStateAddItemBtn}
-            />
-          </View>
-        )}
+        {items.length == 0 &&
+          !isFetchingItems && (
+            <View style={styles.emptyStateView}>
+              <Image
+                source={calendarIcon}
+                style={styles.emptyStateImage}
+                resizeMode="contain"
+              />
+              <Text style={styles.emptyStateMsg}>
+                {I18n.t("my_calendar_screen_empty_screen_msg")}
+              </Text>
+              <Button
+                onPress={this.openAddEditCalendarServiceScreen}
+                text={I18n.t("my_calendar_screen_add_btn")}
+                color="secondary"
+                style={styles.emptyStateAddItemBtn}
+              />
+            </View>
+          )}
       </ScreenContainer>
     );
   }

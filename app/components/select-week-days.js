@@ -5,7 +5,7 @@ import { Text } from "../elements";
 import { colors } from "../theme";
 
 const weekDays = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-const SelectWeekDays = ({ selectedDays = [], onDayPress }) => {
+const SelectWeekDays = ({ selectedDays = [], onDayPress, itemSize = 34 }) => {
   return (
     <View style={styles.container}>
       {[1, 2, 3, 4, 5, 6, 7].map(day => (
@@ -13,6 +13,7 @@ const SelectWeekDays = ({ selectedDays = [], onDayPress }) => {
           key={day}
           style={[
             styles.weekDay,
+            { width: itemSize, height: itemSize },
             selectedDays.indexOf(day) > -1 ? styles.selectedWeekDay : {}
           ]}
           onPress={() => onDayPress(day)}

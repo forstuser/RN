@@ -134,6 +134,7 @@ class SelectModal extends Component {
       dropdownArrowStyle = {},
       placeholderRenderer = this._placeholderRenderer,
       hideAddNew = false,
+      hideSearch = false,
       hint
     } = this.props;
     let {
@@ -201,15 +202,17 @@ class SelectModal extends Component {
                 />
               </TouchableOpacity>
             </View>
-            <View style={styles.searchContainer}>
-              <TextInput
-                placeholder={I18n.t("component_items_search")}
-                underlineColorAndroid="transparent"
-                style={styles.searchInput}
-                value={searchInput}
-                onChangeText={text => this.setState({ searchInput: text })}
-              />
-            </View>
+            {!hideSearch && (
+              <View style={styles.searchContainer}>
+                <TextInput
+                  placeholder={I18n.t("component_items_search")}
+                  underlineColorAndroid="transparent"
+                  style={styles.searchInput}
+                  value={searchInput}
+                  onChangeText={text => this.setState({ searchInput: text })}
+                />
+              </View>
+            )}
           </View>
           {optionsAfterSearch.length > 0 && (
             <FlatList

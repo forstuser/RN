@@ -1104,6 +1104,43 @@ export const createCalendarItem = async ({
   });
 };
 
+export const updateCalendarItem = async ({
+  itemId,
+  productName,
+  providerName
+}) => {
+  return await apiRequest({
+    method: "put",
+    url: `/calendar/items/${itemId}`,
+    data: {
+      product_name: productName || undefined,
+      provider_name: providerName || undefined
+    }
+  });
+};
+
+export const addCalendarItemCalculationDetail = async ({
+  itemId,
+  selectedDays,
+  unitPrice,
+  unitType,
+  quantity,
+  effectiveDate
+}) => {
+  const data = {
+    selected_days: selectedDays || undefined,
+    unit_price: unitPrice || undefined,
+    unit_type: unitType || undefined,
+    quantity: quantity || undefined,
+    effective_date: effectiveDate || undefined
+  };
+  return await apiRequest({
+    method: "post",
+    url: `/calendar/items/${itemId}/calc`,
+    data: JSON.parse(JSON.stringify(data))
+  });
+};
+
 export const fetchCalendarItemById = async id => {
   return await apiRequest({
     method: "get",
@@ -1142,6 +1179,21 @@ export const updateCalendarServicePaymentDayToPresent = async ({
     url: `/calendar/items/${itemId}/payments/${paymentId}/present`,
     data: {
       absent_date: date
+    }
+  });
+};
+
+export const addCalendarItemPayment = async ({
+  itemId,
+  amountPaid,
+  paidOn
+}) => {
+  return await apiRequest({
+    method: "put",
+    url: `/calendar/items/${itemId}/paid`,
+    data: {
+      amount_paid: amountPaid,
+      paid_on: paidOn
     }
   });
 };

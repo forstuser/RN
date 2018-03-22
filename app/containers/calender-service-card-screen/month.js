@@ -26,9 +26,7 @@ class Month extends React.Component {
         colors={[colors.aquaBlue, colors.mainBlue]}
       >
         <Text weight="Bold" style={{ fontSize: 18, color: "#fff", flex: 1 }}>
-          {moment(activeMonth.start_date)
-            .utcOffset("+0000")
-            .format("MMMM YYYY")}
+          {moment(activeMonth.start_date.substr(0, 10)).format("MMMM YYYY")}
         </Text>
         <View style={styles.arrows}>
           <TouchableWithoutFeedback

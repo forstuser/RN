@@ -7,7 +7,8 @@ import {
   Alert,
   TouchableOpacity,
   Image,
-  ScrollView
+  ScrollView,
+  Picker
 } from "react-native";
 import I18n from "../../i18n";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -23,12 +24,13 @@ import ErrorOverlay from "../../components/error-overlay";
 import {
   SCREENS,
   WAGES_TYPES,
-  UNITS,
+  UNIT_TYPES,
   CALENDAR_SERVICE_TYPES
 } from "../../constants";
 
 import { colors } from "../../theme";
 
+import SelectModal from "../../components/select-modal";
 import CustomTextInput from "../../components/form-elements/text-input";
 import CustomDatePicker from "../../components/form-elements/date-picker";
 import SelectWeekDays from "../../components/select-week-days";
@@ -47,13 +49,15 @@ class AddEditCalendarServiceScreen extends Component {
       selectedServiceType: null,
       name: "",
       providerName: "",
-      wagesType: WAGES_TYPES.DAILY,
-      wages: "",
+      wagesType: WAGES_TYPES.MONTHLY,
       unitPrice: "",
       quantity: "",
       startingDate: null,
       type: "product",
-      selectedDays: [1, 2, 3, 4, 5, 6, 7]
+      selectedDays: [1, 2, 3, 4, 5, 6, 7],
+      unitTypes: [],
+      selectedUnitType: null,
+      actualSelectedUnitType: null
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -92,30 +96,57 @@ class AddEditCalendarServiceScreen extends Component {
     });
   };
 
-  openAddEditCalendarServiceScreen = () => {
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_CALENDAR_SERVICE_SCREEN
-    });
-  };
-
-  renderItem = ({ item, index }) => {
-    return null;
-  };
-
   onServiceTypeSelect = serviceType => {
     let type = "product";
-    if (
-      [
-        CALENDAR_SERVICE_TYPES.MILK,
-        CALENDAR_SERVICE_TYPES.DAIRY,
-        CALENDAR_SERVICE_TYPES.VEGETABLES
-      ].indexOf(serviceType.id) == -1
-    ) {
+    if (serviceType.main_category_id == 6 && serviceType.category_id == 24) {
       type = "service";
+    } else if (
+      serviceType.main_category_id == 6 &&
+      serviceType.category_id == 123
+    ) {
+      type = "classes";
+    }
+
+    let unitTypes = [];
+    switch (serviceType.id) {
+      case CALENDAR_SERVICE_TYPES.MILK:
+        unitTypes = [UNIT_TYPES.LITRE, UNIT_TYPES.MILLILITRE];
+        break;
+      case CALENDAR_SERVICE_TYPES.DAIRY:
+        unitTypes = [
+          UNIT_TYPES.LITRE,
+          UNIT_TYPES.MILLILITRE,
+          UNIT_TYPES.KILOGRAM,
+          UNIT_TYPES.GRAM
+        ];
+        break;
+      case CALENDAR_SERVICE_TYPES.VEGETABLES:
+        unitTypes = [UNIT_TYPES.KILOGRAM, UNIT_TYPES.GRAM];
+        break;
+      default:
+        unitTypes = [UNIT_TYPES.UNIT];
+        break;
     }
     this.setState({
       selectedServiceType: serviceType,
-      type
+      type,
+      wagesType: WAGES_TYPES.MONTHLY,
+      unitTypes,
+      selectedUnitType: unitTypes[0],
+      actualSelectedUnitType: unitTypes[0]
+    });
+  };
+
+  onUnitTypeSelect = unitType => {
+    let actualSelectedUnitType = unitType;
+    if (unitType == UNIT_TYPES.GRAM) {
+      actualSelectedUnitType = UNIT_TYPES.KILOGRAM;
+    } else if (unitType == UNIT_TYPES.MILLILITRE) {
+      actualSelectedUnitType = UNIT_TYPES.LITRE;
+    }
+    this.setState({
+      selectedUnitType: unitType,
+      actualSelectedUnitType
     });
   };
 
@@ -138,17 +169,19 @@ class AddEditCalendarServiceScreen extends Component {
       name,
       providerName,
       wagesType,
-      wages,
       unitPrice,
       quantity,
       startingDate,
-      selectedDays
+      selectedDays,
+      selectedUnitType,
+      actualSelectedUnitType,
+      type
     } = this.state;
 
     if (!name) {
       return Alert.alert("Please enter name");
     }
-    if (!wages && !unitPrice) {
+    if (!unitPrice) {
       return Alert.alert("Please unit price or wages");
     }
     if (!startingDate) {
@@ -162,14 +195,23 @@ class AddEditCalendarServiceScreen extends Component {
       isFetchingServiceTypes: true
     });
 
+    let actualQuantity = quantity;
+    if (
+      selectedUnitType.id == UNIT_TYPES.GRAM.id ||
+      selectedUnitType.id == UNIT_TYPES.MILLILITRE.id
+    ) {
+      actualQuantity = quantity / 1000;
+    }
+
     try {
       const res = await createCalendarItem({
         serviceTypeId: selectedServiceType.id,
         productName: name,
         providerName: providerName,
         wagesType: wagesType,
-        unitPrice: unitPrice || wages,
-        quantity: quantity,
+        unitType: actualSelectedUnitType.id,
+        unitPrice: unitPrice,
+        quantity: actualQuantity,
         effectiveDate: startingDate,
         selectedDays: selectedDays
       });
@@ -192,11 +234,13 @@ class AddEditCalendarServiceScreen extends Component {
       providerName,
       type,
       wagesType,
-      wages,
       unitPrice,
       quantity,
       startingDate,
-      selectedDays
+      selectedDays,
+      unitTypes,
+      selectedUnitType,
+      actualSelectedUnitType
     } = this.state;
     if (error) {
       return (
@@ -230,105 +274,141 @@ class AddEditCalendarServiceScreen extends Component {
                 value={providerName}
                 onChangeText={providerName => this.setState({ providerName })}
               />
-              {type == "service" && (
+              {(type == "service" || type == "classes") && (
                 <View>
-                  <Text weight="Medium" style={styles.label}>
-                    Wages Type
-                  </Text>
-                  <View style={{ flexDirection: "row", marginBottom: 10 }}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        this.setState({
-                          wagesType: WAGES_TYPES.MONTHLY
-                        });
-                      }}
-                      style={styles.radioBtn}
-                    >
-                      <Icon
-                        name={
-                          wagesType == WAGES_TYPES.MONTHLY
-                            ? "md-radio-button-on"
-                            : "md-radio-button-off"
-                        }
-                        color={
-                          wagesType == WAGES_TYPES.MONTHLY
-                            ? colors.pinkishOrange
-                            : colors.secondaryText
-                        }
-                        size={20}
-                      />
-                      <Text
-                        style={[
-                          styles.radioBtnLabel,
-                          {
-                            color:
+                  {type == "service" && (
+                    <View>
+                      <Text weight="Medium" style={styles.label}>
+                        Wages Type
+                      </Text>
+                      <View style={{ flexDirection: "row", marginBottom: 10 }}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            this.setState({
+                              wagesType: WAGES_TYPES.MONTHLY
+                            });
+                          }}
+                          style={styles.radioBtn}
+                        >
+                          <Icon
+                            name={
+                              wagesType == WAGES_TYPES.MONTHLY
+                                ? "md-radio-button-on"
+                                : "md-radio-button-off"
+                            }
+                            color={
                               wagesType == WAGES_TYPES.MONTHLY
                                 ? colors.pinkishOrange
                                 : colors.secondaryText
-                          }
-                        ]}
-                      >
-                        Monthly
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => {
-                        this.setState({
-                          wagesType: WAGES_TYPES.DAILY
-                        });
-                      }}
-                      style={styles.radioBtn}
-                    >
-                      <Icon
-                        name={
-                          wagesType == WAGES_TYPES.DAILY
-                            ? "md-radio-button-on"
-                            : "md-radio-button-off"
-                        }
-                        color={
-                          wagesType == WAGES_TYPES.DAILY
-                            ? colors.pinkishOrange
-                            : colors.secondaryText
-                        }
-                        size={20}
-                      />
-                      <Text
-                        style={[
-                          styles.radioBtnLabel,
-                          {
-                            color:
+                            }
+                            size={20}
+                          />
+                          <Text
+                            style={[
+                              styles.radioBtnLabel,
+                              {
+                                color:
+                                  wagesType == WAGES_TYPES.MONTHLY
+                                    ? colors.pinkishOrange
+                                    : colors.secondaryText
+                              }
+                            ]}
+                          >
+                            Monthly
+                          </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => {
+                            this.setState({
+                              wagesType: WAGES_TYPES.DAILY
+                            });
+                          }}
+                          style={styles.radioBtn}
+                        >
+                          <Icon
+                            name={
+                              wagesType == WAGES_TYPES.DAILY
+                                ? "md-radio-button-on"
+                                : "md-radio-button-off"
+                            }
+                            color={
                               wagesType == WAGES_TYPES.DAILY
                                 ? colors.pinkishOrange
                                 : colors.secondaryText
-                          }
-                        ]}
-                      >
-                        Daily
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+                            }
+                            size={20}
+                          />
+                          <Text
+                            style={[
+                              styles.radioBtnLabel,
+                              {
+                                color:
+                                  wagesType == WAGES_TYPES.DAILY
+                                    ? colors.pinkishOrange
+                                    : colors.secondaryText
+                              }
+                            ]}
+                          >
+                            Daily
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  )}
+
                   <CustomTextInput
-                    placeholder={I18n.t(
-                      "add_edit_calendar_service_screen_form_wages"
-                    )}
-                    value={wages}
-                    onChangeText={wages => this.setState({ wages })}
+                    placeholder={
+                      type == "service"
+                        ? I18n.t("add_edit_calendar_service_screen_form_wages")
+                        : I18n.t(
+                            "add_edit_calendar_service_screen_form_fees_per_month"
+                          )
+                    }
+                    value={unitPrice}
+                    onChangeText={unitPrice => this.setState({ unitPrice })}
                   />
                 </View>
               )}
               {type == "product" && (
                 <View>
                   <View style={{ flexDirection: "row" }}>
+                    <SelectModal
+                      style={styles.selectUnitType}
+                      dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                      placeholder="Choose Unit Type"
+                      placeholderRenderer={({ placeholder }) => (
+                        <Text
+                          weight="Medium"
+                          style={{ color: colors.secondaryText }}
+                        >
+                          {placeholder}
+                        </Text>
+                      )}
+                      selectedOption={selectedUnitType}
+                      options={unitTypes}
+                      onOptionSelect={value => {
+                        this.onUnitTypeSelect(value);
+                      }}
+                      hideAddNew={true}
+                      hideSearch={true}
+                    />
                     <CustomTextInput
+                      keyboardType="numeric"
+                      style={{ flex: 1 }}
                       placeholder={I18n.t("calendar_service_screen_quantity")}
                       value={quantity}
                       onChangeText={quantity => this.setState({ quantity })}
+                      rightSideText={selectedUnitType.name}
+                      rightSideTextWidth={70}
                     />
                   </View>
                   <CustomTextInput
+                    keyboardType="numeric"
                     placeholder={I18n.t("calendar_service_screen_unit_price")}
                     value={unitPrice}
                     onChangeText={unitPrice => this.setState({ unitPrice })}
+                    rightSideText={"Per " + actualSelectedUnitType.name}
+                    rightSideTextWidth={100}
                   />
                 </View>
               )}
@@ -385,6 +465,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.secondaryText,
     marginBottom: 10
+  },
+  selectUnitType: {
+    paddingVertical: 10,
+    borderColor: colors.lighterText,
+    borderBottomWidth: 2,
+    paddingTop: 20,
+    height: 50,
+    width: 80,
+    marginBottom: 25,
+    marginRight: 10
   },
   selectServiceMsgContainer: {
     flex: 1

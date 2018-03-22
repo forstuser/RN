@@ -15,15 +15,14 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import I18n from "../../../i18n";
 
-import {
-  updateCalendarServicePaymentDayToAbsent,
-  updateCalendarServicePaymentDayToPresent
-} from "../../../api";
+import { updateCalendarItem } from "../../../api";
 
 import { Text, Button } from "../../../elements";
 import KeyValueItem from "../../../components/key-value-item";
 import CustomTextInput from "../../../components/form-elements/text-input";
 import CustomDatePicker from "../../../components/form-elements/date-picker";
+import LoadingOverlay from "../../../components/loading-overlay";
+import CalculationDetailModal from "./calculation-detail-modal";
 
 import { defaultStyles, colors } from "../../../theme";
 
@@ -34,62 +33,107 @@ class Report extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditCalculationDetailModalOpen: false
+      isEditDetailModalOpen: false,
+      productNameToEdit: "",
+      providerNameToEdit: "",
+      isSavingDetails: false
     };
   }
+
+  componentDidMount() {
+    const { item } = this.props;
+    this.setState({
+      productNameToEdit: item.product_name,
+      providerNameToEdit: item.provider_name
+    });
+  }
+
   editCalculationDetail = calculationDetail => {
     this.setState({
       calculationDetailToEdit: calculationDetail
     });
-    this.showEditCalculationDetailModal();
+    this.showEditDetailModal();
   };
 
-  hideEditCalculationDetailModal = () => {
+  hideEditDetailModal = () => {
     this.setState({
-      isEditCalculationDetailModalOpen: false
+      isEditDetailModalOpen: false
     });
   };
-  showEditCalculationDetailModal = () => {
+
+  showEditDetailModal = () => {
     this.setState({
-      isEditCalculationDetailModalOpen: true
+      isEditDetailModalOpen: true
     });
+  };
+
+  saveDetails = async () => {
+    const {
+      isEditDetailModalOpen,
+      productNameToEdit,
+      providerNameToEdit,
+      isSavingDetails
+    } = this.state;
+    const { item, reloadScreen } = this.props;
+
+    if (!productNameToEdit.trim()) {
+      return Alert.alert("Please enter the name");
+    }
+
+    this.setState({
+      isSavingDetails: true
+    });
+    try {
+      await updateCalendarItem({
+        itemId: item.id,
+        productName: productNameToEdit,
+        providerName: providerNameToEdit
+      });
+      this.setState({
+        isEditDetailModalOpen: false,
+        isSavingDetails: false
+      });
+      reloadScreen();
+    } catch (e) {
+      Alert.alert(e.message);
+      this.setState({
+        isSavingDetails: false
+      });
+    }
   };
 
   render() {
     const {
-      calculationDetailToEdit,
-      isEditCalculationDetailModalOpen
+      isEditDetailModalOpen,
+      productNameToEdit,
+      providerNameToEdit,
+      isSavingDetails
     } = this.state;
-    const {
-      item,
-      activePaymentDetailIndex = 0,
-      onPaymentDetailIndexChange
-    } = this.props;
-    const paymentDetails = item.payment_detail;
-    const paymentDetail = paymentDetails[activePaymentDetailIndex];
+    const { item, reloadScreen } = this.props;
 
-    const calculationDetails = item.calculation_detail;
-    let activeCalculationDetail = calculationDetails[0];
-    for (let i = 0; i < calculationDetails.length; i++) {
-      const effectiveDate = calculationDetails[i].effective_date.substr(0, 10);
-      const diff = moment().diff(moment(effectiveDate), "days");
-      if (diff < 0) {
-        //if in future
-        continue;
-      } else {
-        activeCalculationDetail = calculationDetails[i];
-      }
+    const serviceType = item.service_type;
+    let priceText = I18n.t("calendar_service_screen_price");
+    if (serviceType.main_category_id == 6 && serviceType.category_id == 24) {
+      priceText = I18n.t("add_edit_calendar_service_screen_form_wages");
+    } else if (
+      serviceType.main_category_id == 6 &&
+      serviceType.category_id == 123
+    ) {
+      priceText = I18n.t(
+        "add_edit_calendar_service_screen_form_fees_per_month"
+      );
     }
 
-    const startDate = moment(paymentDetail.start_date).format("DD-MMM-YYYY");
-    const endDate = moment(paymentDetail.end_date).format("DD-MMM-YYYY");
+    const calculationDetails = item.calculation_detail;
+    const weekDays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
-    const daysPresent = paymentDetail.total_days;
-    const daysAbsent = paymentDetail.absent_day_detail.length;
     return (
       <View style={{ paddingHorizontal: 8 }}>
         <View style={styles.card}>
-          <TouchableOpacity style={{ flex: 1, backgroundColor: "#EBEBEB" }}>
+          <TouchableOpacity
+            onPress={this.showEditDetailModal}
+            style={{ flex: 1, backgroundColor: "#EBEBEB" }}
+          >
             <KeyValueItem
               KeyComponent={() => (
                 <Text
@@ -130,7 +174,7 @@ class Report extends React.Component {
           </View>
         </View>
         <ScrollView horizontal={true} style={styles.slider}>
-          {calculationDetails.map(calculationDetail => (
+          {calculationDetails.map((calculationDetail, index) => (
             <View
               key={calculationDetail.id}
               style={[
@@ -140,7 +184,7 @@ class Report extends React.Component {
                   : { width: cardWidthWhenOne }
               ]}
             >
-              <TouchableOpacity
+              <View
                 onPress={() => this.editCalculationDetail(calculationDetail)}
                 style={{ flex: 1, backgroundColor: "#EBEBEB" }}
               >
@@ -163,68 +207,94 @@ class Report extends React.Component {
                         )}
                     </Text>
                   )}
-                  ValueComponent={() => (
-                    <Text
-                      weight="Bold"
-                      style={{
-                        fontSize: 12,
-                        textAlign: "right",
-                        color: colors.pinkishOrange
-                      }}
-                    >
-                      {I18n.t("product_details_screen_edit")}
-                    </Text>
-                  )}
+                  ValueComponent={() => {
+                    if (index > 0) return null;
+                    return (
+                      <TouchableOpacity
+                        onPress={() => this.calculationDetailModal.show()}
+                      >
+                        <Text
+                          weight="Bold"
+                          style={{
+                            fontSize: 12,
+                            textAlign: "right",
+                            color: colors.pinkishOrange
+                          }}
+                        >
+                          {I18n.t("calendar_service_screen_change")}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  }}
                 />
-              </TouchableOpacity>
+              </View>
               <View style={styles.cardBody}>
+                {calculationDetail.quantity ? (
+                  <KeyValueItem
+                    keyText={I18n.t("calendar_service_screen_quantity")}
+                    valueText={calculationDetail.quantity}
+                  />
+                ) : null}
                 <KeyValueItem
-                  keyText={I18n.t("calendar_service_screen_quantity")}
-                  valueText={calculationDetail.quantity}
-                />
-                <KeyValueItem
-                  keyText={I18n.t("calendar_service_screen_price")}
+                  keyText={priceText}
                   valueText={calculationDetail.unit_price}
                 />
+                <View style={{ flexDirection: "row", padding: 10 }}>
+                  {calculationDetail.selected_days.map(day => (
+                    <View key={day} style={styles.weekDay}>
+                      <Text weight="Medium" style={styles.weekDayText}>
+                        {weekDays[day - 1]}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
               </View>
             </View>
           ))}
         </ScrollView>
         <Modal
-          isVisible={isEditCalculationDetailModalOpen}
+          isVisible={isEditDetailModalOpen}
           avoidKeyboard={Platform.OS == "ios"}
           animationIn="slideInUp"
           useNativeDriver={true}
-          onBackdropPress={this.hideEditCalculationDetailModal}
-          onBackButtonPress={this.hideEditCalculationDetailModal}
+          onBackdropPress={this.hideEditDetailModal}
+          onBackButtonPress={this.hideEditDetailModal}
         >
           <View style={[styles.card, styles.modalCard]}>
+            <LoadingOverlay visible={isSavingDetails} />
             <TouchableOpacity
               style={styles.modalCloseIcon}
-              onPress={this.hideEditCalculationDetailModal}
+              onPress={this.hideEditDetailModal}
             >
               <Icon name="md-close" size={30} color={colors.mainText} />
             </TouchableOpacity>
-            <Image style={styles.modalImage} />
             <CustomTextInput
-              placeholder={I18n.t("calendar_service_screen_amount_paid")}
-              value={amountPaid}
-              onChangeText={amountPaid => this.setState({ amountPaid })}
+              placeholder={I18n.t("calendar_service_screen_product_name")}
+              value={productNameToEdit}
+              onChangeText={productNameToEdit =>
+                this.setState({ productNameToEdit })
+              }
             />
-            <CustomDatePicker
-              date={paidOn}
-              placeholder={I18n.t("calendar_service_screen_paid_on")}
-              onDateChange={paidOn => {
-                this.setState({ paidOn });
-              }}
+            <CustomTextInput
+              placeholder={I18n.t("calendar_service_screen_provider_name")}
+              value={providerNameToEdit}
+              onChangeText={providerNameToEdit =>
+                this.setState({ providerNameToEdit })
+              }
             />
             <Button
+              onPress={this.saveDetails}
               style={[styles.markPaidBtn, styles.modalBtn]}
-              text={I18n.t("calendar_service_screen_mark_paid")}
+              text={I18n.t("calendar_service_screen_save")}
               color="secondary"
             />
           </View>
         </Modal>
+        <CalculationDetailModal
+          ref={ref => (this.calculationDetailModal = ref)}
+          item={item}
+          reloadScreen={reloadScreen}
+        />
       </View>
     );
   }
@@ -250,8 +320,22 @@ const styles = StyleSheet.create({
   slider: {
     paddingBottom: 20
   },
+  weekDay: {
+    backgroundColor: colors.success,
+    width: 18,
+    height: 18,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 8,
+    borderRadius: 9
+  },
+  weekDayText: {
+    fontSize: 8,
+    color: "#fff"
+  },
   modalCard: {
-    maxWidth: 300,
+    width: "100%",
+    maxWidth: 320,
     alignSelf: "center",
     alignItems: "center",
     padding: 16
@@ -261,16 +345,8 @@ const styles = StyleSheet.create({
     right: 15,
     top: 10
   },
-  modalImage: {
-    marginTop: 15,
-    marginBottom: 30,
-    width: 90,
-    height: 90,
-    backgroundColor: "#4b5aa7",
-    borderRadius: 45
-  },
   modalBtn: {
-    width: 200
+    width: 250
   }
 });
 

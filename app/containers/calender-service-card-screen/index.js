@@ -32,7 +32,7 @@ import { colors } from "../../theme";
 
 import Header from "./header";
 import Attendance from "./attendance";
-import Report from "./report";
+import Payments from "./payments";
 import OtherDetails from "./other-details";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
@@ -199,7 +199,7 @@ class CalendarServiceCard extends Component {
                 />
               )}
               {activeTabIndex == 1 && (
-                <Report
+                <Payments
                   item={item}
                   navigator={this.props.navigator}
                   activePaymentDetailIndex={activePaymentDetailIndex}

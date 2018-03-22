@@ -39,40 +39,28 @@ class Header extends Component {
     } = this.props;
 
     const paymentDetails = item.payment_detail;
-    const paymentDetail = paymentDetails[activePaymentDetailIndex];
+    const payments = item.payments;
 
-    const activeMonth = moment(paymentDetail.start_date.substr(0, 10)).format(
-      "MMMM YYYY"
+    const daysPresent = paymentDetails.reduce(
+      (total, paymentDetail) => total + paymentDetail.total_days,
+      0
     );
-    const daysPresent = paymentDetail.total_days;
-    const daysAbsent = paymentDetail.absent_day_detail.length;
+    const daysAbsent = paymentDetails.reduce(
+      (total, paymentDetail) => total + paymentDetail.absent_day_detail.length,
+      0
+    );
 
-    const calculationDetails = item.calculation_detail;
-    let activeCalculationDetail = calculationDetails[0];
-    for (let i = 0; i < calculationDetails.length; i++) {
-      const effectiveDate = calculationDetails[i].effective_date.substr(0, 10);
-      const diff = moment().diff(moment(effectiveDate), "days");
-      if (diff < 0) {
-        //if in future
-        continue;
-      } else {
-        activeCalculationDetail = calculationDetails[i];
-      }
-    }
+    const totalCalulatedAmount = paymentDetails.reduce(
+      (total, paymentDetail) => total + paymentDetail.total_amount,
+      0
+    );
 
-    const selectedDays =
-      activeCalculationDetail.selected_days || item.selected_days;
+    const totalPaidAmount = payments.reduce(
+      (total, payment) => total + payment.amount_paid,
+      0
+    );
 
-    const unitPrice =
-      activeCalculationDetail.unit_price +
-      (activeCalculationDetail.unit
-        ? "Rs." + activeCalculationDetail.unit.name
-        : "");
-    const quantity = activeCalculationDetail.quantity;
-
-    const weekDays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-
-    let imageSource = { uri: API_BASE_URL + "/" + item.cImageURL + "0" };
+    let imageSource = { uri: API_BASE_URL + item.cImageURL + "1" };
 
     return (
       <View style={styles.container}>
@@ -90,9 +78,6 @@ class Header extends Component {
               <Text weight="Bold" style={styles.name}>
                 {item.product_name}
               </Text>
-              <Text weight="Medium" style={[styles.key, { marginTop: 0 }]}>
-                {activeMonth}
-              </Text>
             </View>
             <Text weight="Medium" style={styles.key}>
               {item.provider_name}
@@ -100,7 +85,7 @@ class Header extends Component {
             <View style={{ flexDirection: "row" }}>
               <View style={{ flex: 1, flexDirection: "row" }}>
                 <Text weight="Medium" style={styles.key}>
-                  {I18n.t("calendar_service_screen_present")}:{" "}
+                  {I18n.t("calendar_service_screen_total_present")}:{" "}
                 </Text>
                 <Text
                   weight="Medium"
@@ -111,7 +96,7 @@ class Header extends Component {
               </View>
               <View style={{ flex: 1, flexDirection: "row" }}>
                 <Text weight="Medium" style={styles.key}>
-                  {I18n.t("calendar_service_screen_absent")}:{" "}
+                  {I18n.t("calendar_service_screen_total_present")}:{" "}
                 </Text>
                 <Text
                   weight="Medium"
@@ -122,42 +107,34 @@ class Header extends Component {
               </View>
             </View>
             <View style={{ flexDirection: "row" }}>
-              <View style={{ flex: 1, flexDirection: "row" }}>
+              <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
                 <Text weight="Medium" style={styles.key}>
-                  {I18n.t("calendar_service_screen_unit_price")}:{" "}
+                  {I18n.t("calendar_service_screen_total_calculated_amount")}:{" "}
                 </Text>
                 <Text
                   weight="Medium"
                   style={[styles.key, { color: colors.mainText }]}
                 >
-                  {unitPrice}
+                  {"₹ " + totalCalulatedAmount}
                 </Text>
               </View>
               <View style={{ flex: 1, flexDirection: "row" }}>
                 <Text weight="Medium" style={styles.key}>
-                  {I18n.t("calendar_service_screen_quantity")}:{" "}
+                  {I18n.t("calendar_service_screen_total_paid_amount")}:{" "}
                 </Text>
                 <Text
                   weight="Medium"
                   style={[styles.key, { color: colors.mainText }]}
                 >
-                  {quantity}
+                  {"₹ " + totalPaidAmount}
                 </Text>
               </View>
             </View>
-            <View style={{ flexDirection: "row", marginTop: 10 }}>
-              {selectedDays.map(day => (
-                <View key={day} style={styles.weekDay}>
-                  <Text weight="Medium" style={styles.weekDayText}>
-                    {weekDays[day - 1]}
-                  </Text>
-                </View>
-              ))}
-            </View>
+
             <View style={styles.tabs}>
               {[
                 I18n.t("calendar_service_screen_attendance"),
-                I18n.t("calendar_service_screen_report"),
+                I18n.t("calendar_service_screen_payments"),
                 I18n.t("calendar_service_screen_other_details")
               ].map((tab, index) => {
                 return (
@@ -240,19 +217,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 12,
     color: colors.secondaryText
-  },
-  weekDay: {
-    backgroundColor: colors.success,
-    width: 18,
-    height: 18,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 8,
-    borderRadius: 9
-  },
-  weekDayText: {
-    fontSize: 8,
-    color: "#fff"
   },
   tabs: {
     marginTop: 5,
