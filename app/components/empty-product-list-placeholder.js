@@ -135,27 +135,27 @@ class AddEmptyProductScreen extends Component {
 
       case MAIN_CATEGORY_IDS.HOUSEHOLD:
         if (categoryId == CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE) {
-          type = EXPENSE_TYPES.HOUSEHOLD;
+          type = EXPENSE_TYPES.HOME;
           desc = I18n.t("products_list_no_result_desc_household_expense");
           buttonText = I18n.t("add_household_expense");
           image = require("../images/categories/household.png");
         } else if (categoryId == CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS) {
-          type = EXPENSE_TYPES.HOUSEHOLD;
+          type = EXPENSE_TYPES.HOME;
           desc = I18n.t("products_list_no_result_desc_utility_bills");
           buttonText = I18n.t("add_utility_bills");
           image = require("../images/categories/utility_bill.png");
         } else if (categoryId == CATEGORY_IDS.HOUSEHOLD.EDUCATION) {
-          type = EXPENSE_TYPES.HOUSEHOLD;
+          type = EXPENSE_TYPES.HOME;
           desc = I18n.t("products_list_no_result_desc_education");
           buttonText = I18n.t("add_education");
           image = require("../images/categories/education.png");
         } else if (categoryId == CATEGORY_IDS.HOUSEHOLD.HOME_DECOR) {
-          type = EXPENSE_TYPES.HOUSEHOLD;
+          type = EXPENSE_TYPES.HOME;
           desc = I18n.t("products_list_no_result_desc_home_decor");
           buttonText = I18n.t("add_home_decor");
           image = require("../images/categories/home_decor.png");
         } else {
-          type = EXPENSE_TYPES.HOUSEHOLD;
+          type = EXPENSE_TYPES.HOME;
           desc = I18n.t("products_list_no_result_desc_other_household");
           buttonText = I18n.t("add_other_household");
           image = require("../images/main-categories/ic_home_expenses.png");
