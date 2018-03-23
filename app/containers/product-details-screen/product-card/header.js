@@ -41,7 +41,11 @@ class Header extends Component {
       activeTabIndex = 0,
       onTabChange,
       showCustomerCareTab = false,
-      showImportantTab = true
+      showImportantTab = true,
+      viewBillRef,
+      allInfoRef,
+      customerCareRef,
+      importantInfoRef
     } = this.props;
     let productName = product.productName;
     if (!productName) {
@@ -180,7 +184,11 @@ class Header extends Component {
         <View style={styles.lowerHalf}>
           <View style={styles.lowerHalfInner}>
             {product.categoryId != 664 && (
-              <ViewBillButton product={product} navigator={navigator} />
+              <ViewBillButton
+                ref={ref => viewBillRef(ref)}
+                product={product}
+                navigator={navigator}
+              />
             )}
             <Text weight="Bold" style={styles.name}>
               {productName}
@@ -224,6 +232,19 @@ class Header extends Component {
                     onPress={() => onTabChange(index)}
                     key={index}
                     style={[styles.tab]}
+                    ref={ref => {
+                      switch (index) {
+                        case 0:
+                          customerCareRef(ref);
+                          break;
+                        case 1:
+                          allInfoRef(ref);
+                          break;
+                        case 2:
+                          importantInfoRef(ref);
+                          break;
+                      }
+                    }}
                   >
                     <Text
                       numberOfLines={1}

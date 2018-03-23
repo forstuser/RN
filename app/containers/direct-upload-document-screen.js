@@ -265,9 +265,11 @@ class DirectUploadDocumentScreen extends React.Component {
     }
 
     if (
-      [MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
-        selectedMainCategory.id
-      ) > -1 &&
+      [
+        MAIN_CATEGORY_IDS.AUTOMOBILE,
+        MAIN_CATEGORY_IDS.ELECTRONICS,
+        MAIN_CATEGORY_IDS.FASHION
+      ].indexOf(selectedMainCategory.id) > -1 &&
       !selectedBrand
     ) {
       return Alert.alert("Please select brand");
@@ -451,7 +453,8 @@ class DirectUploadDocumentScreen extends React.Component {
           [
             MAIN_CATEGORY_IDS.AUTOMOBILE,
             MAIN_CATEGORY_IDS.ELECTRONICS,
-            MAIN_CATEGORY_IDS.FURNITURE
+            MAIN_CATEGORY_IDS.FURNITURE,
+            MAIN_CATEGORY_IDS.FASHION
           ].indexOf(selectedMainCategory.id) > -1 && (
             <SelectModal
               style={styles.input}

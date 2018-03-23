@@ -96,24 +96,30 @@ class MailBox extends Component {
         onPress={() => {
           switch (item.productType) {
             case 1:
-              if (
-                item.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
-                item.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS
-              ) {
-                this.props.navigator.push({
-                  screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-                  passProps: {
-                    productId: item.productId || item.id
-                  }
-                });
-              } else {
-                openBillsPopUp({
-                  id: item.productName,
-                  date: item.purchaseDate,
-                  copies: item.copies,
-                  type: "Product"
-                });
-              }
+              this.props.navigator.push({
+                screen: SCREENS.PRODUCT_DETAILS_SCREEN,
+                passProps: {
+                  productId: item.productId || item.id
+                }
+              });
+              // if (
+              //   item.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
+              //   item.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS
+              // ) {
+              //   this.props.navigator.push({
+              //     screen: SCREENS.PRODUCT_DETAILS_SCREEN,
+              //     passProps: {
+              //       productId: item.productId || item.id
+              //     }
+              //   });
+              // } else {
+              //   openBillsPopUp({
+              //     id: item.productName,
+              //     date: item.purchaseDate,
+              //     copies: item.copies,
+              //     type: "Product"
+              //   });
+              // }
               break;
             case 3:
               this.props.navigator.push({

@@ -23,11 +23,13 @@ import TabSearchHeader from "../../components/tab-screen-header";
 import InsightChart from "../../components/insight-chart";
 import UpcomingServicesList from "../../components/upcoming-services-list";
 import UploadBillOptions from "../../components/upload-bill-options";
-import { colors } from "../../theme";
+import { colors, defaultStyles } from "../../theme";
 import I18n from "../../i18n";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import SectionHeading from "../../components/section-heading";
+import Title from "./chamfered-background-title";
+
 import { SCREENS } from "../../constants";
 
 import ProductListItem from "../../components/product-list-item";
@@ -35,6 +37,8 @@ import ProductListItem from "../../components/product-list-item";
 import { actions as uiActions } from "../../modules/ui";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 
+const calendarIcon = require("../../images/ic_calendar_green.png");
+const chartIcon = require("../../images/ic_bar_chart.png");
 const dashBoardIcon = require("../../images/ic_nav_dashboard_off.png");
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
@@ -63,18 +67,6 @@ class DashboardScreen extends React.Component {
   }
 
   async componentDidMount() {
-    const { rateUsDialogTimestamp } = this.props;
-
-    if (
-      !rateUsDialogTimestamp ||
-      moment().diff(moment(rateUsDialogTimestamp).startOf("day"), "days") > 7
-    ) {
-      this.props.navigator.showModal({
-        screen: SCREENS.RATE_US_SCREEN,
-        animationType: "none"
-      });
-    }
-
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {
@@ -180,6 +172,22 @@ class DashboardScreen extends React.Component {
               }
             }, 1000);
           }
+
+          const { rateUsDialogTimestamp } = this.props;
+
+          if (
+            this.state.showDashboard &&
+            (!rateUsDialogTimestamp ||
+              moment().diff(
+                moment(rateUsDialogTimestamp).startOf("day"),
+                "days"
+              ) > 7)
+          ) {
+            this.props.navigator.showModal({
+              screen: SCREENS.RATE_US_SCREEN,
+              animationType: "none"
+            });
+          }
         }
       );
     } catch (error) {
@@ -219,6 +227,12 @@ class DashboardScreen extends React.Component {
     });
   };
 
+  openMyCalendarScreen = () => {
+    this.props.navigator.push({
+      screen: SCREENS.MY_CALENDAR_SCREEN
+    });
+  };
+
   render() {
     const {
       error,
@@ -240,49 +254,118 @@ class DashboardScreen extends React.Component {
               recentSearches={recentSearches}
               navigator={this.props.navigator}
             />
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled>
-              <View style={{ flex: 1, marginBottom: 150 }}>
+            <ScrollView>
+              <View style={{ flex: 1, marginBottom: 150, padding: 10 }}>
                 {this.state.upcomingServices.length > 0 && (
                   <View>
-                    <SectionHeading
+                    <Title
                       setRef={ref => (this.comingUpRef = ref)}
                       text={I18n.t("dashboard_screen_whats_coming_up")}
                     />
-                    <UpcomingServicesList
-                      upcomingServices={this.state.upcomingServices}
-                      navigator={this.props.navigator}
-                    />
+                    <View
+                      style={[
+                        defaultStyles.card,
+                        { backgroundColor: "#fff", marginBottom: 40 }
+                      ]}
+                    >
+                      <UpcomingServicesList
+                        upcomingServices={this.state.upcomingServices}
+                        navigator={this.props.navigator}
+                      />
+                    </View>
                   </View>
                 )}
                 {this.state.recentActivitiesProduct && (
                   <View>
-                    <SectionHeading
+                    <Title
+                      gradientColors={["#007bce", "#00c6ff"]}
                       text={I18n.t("dashboard_screen_recent_activity")}
                     />
-                    <ProductListItem
-                      product={this.state.recentActivitiesProduct}
-                      navigator={this.props.navigator}
-                      hideViewBillBtn={true}
-                      hideDirectionsAndCallBtns={true}
-                    />
+                    <View style={defaultStyles.card}>
+                      <ProductListItem
+                        style={{
+                          borderWidth: 0,
+                          marginBottom: 0
+                        }}
+                        product={this.state.recentActivitiesProduct}
+                        navigator={this.props.navigator}
+                        hideViewBillBtn={true}
+                        hideDirectionsAndCallBtns={true}
+                      />
+                    </View>
                   </View>
                 )}
-                <SectionHeading
+
+                <Title
+                  setRef={ref => (this.insightsRef = ref)}
+                  gradientColors={["#242841", "#707c93"]}
                   text={I18n.t("dashboard_screen_ehome_insights")}
                 />
-                <View style={{ paddingHorizontal: 16 }}>
-                  <InsightChart {...this.state.insightChartProps} />
-                  <TouchableOpacity
-                    onPress={() => this.openInsightScreen()}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 16,
-                      bottom: 0,
-                      right: 16
-                    }}
+                <TouchableOpacity
+                  onPress={() => this.openInsightScreen()}
+                  style={[defaultStyles.card, styles.expenseInsight]}
+                >
+                  <Image
+                    style={styles.expenseInsightImage}
+                    source={chartIcon}
+                    resizeMode="contain"
                   />
-                </View>
+                  <View style={styles.expenseInsightTitles}>
+                    <Text weight="Bold" style={styles.expenseInsightTitle}>
+                      {I18n.t("dashboard_screen_total_spends")}
+                    </Text>
+                    <Text style={styles.expenseInsightSubTitle}>
+                      {I18n.t("dashboard_screen_this_month")}
+                    </Text>
+                  </View>
+                  <View style={styles.expenseInsightDetails}>
+                    <Text weight="Bold" style={styles.expenseInsightAmount}>
+                      ₹ {this.state.insightChartProps.totalSpend}
+                    </Text>
+                    <Text
+                      weight="Medium"
+                      style={styles.expenseInsightDetailsText}
+                    >
+                      {I18n.t("dashboard_screen_see_details")}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+
+                <Title
+                  gradientColors={["#429321", "#b4ec51"]}
+                  text={I18n.t("dashboard_screen_ehome_my_calendar")}
+                />
+                <TouchableOpacity
+                  onPress={this.openMyCalendarScreen}
+                  style={[defaultStyles.card, styles.expenseInsight]}
+                >
+                  <Image
+                    style={styles.expenseInsightImage}
+                    source={calendarIcon}
+                    resizeMode="contain"
+                  />
+                  <View style={styles.expenseInsightTitles}>
+                    <Text weight="Bold" style={styles.expenseInsightTitle}>
+                      {I18n.t("dashboard_screen_total_items_added")}
+                    </Text>
+                    <Text style={styles.expenseInsightSubTitle}>
+                      {I18n.t("dashboard_screen_last_updated_on", {
+                        date: moment().format("DD MMM YYYY")
+                      })}
+                    </Text>
+                  </View>
+                  <View style={styles.expenseInsightDetails}>
+                    <Text weight="Bold" style={styles.expenseInsightAmount}>
+                      {this.state.insightChartProps.totalSpend}
+                    </Text>
+                    <Text
+                      weight="Medium"
+                      style={styles.expenseInsightDetailsText}
+                    >
+                      {I18n.t("dashboard_screen_see_details")}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               </View>
             </ScrollView>
           </View>
@@ -308,6 +391,7 @@ class DashboardScreen extends React.Component {
           steps={[
             { ref: this.ehomeTabItemRef, text: I18n.t("app_tour_tips_2") },
             { ref: this.ascTabItemRef, text: I18n.t("app_tour_tips_3") },
+            { ref: this.insightsRef, text: I18n.t("app_tour_tips_4") },
             { ref: this.comingUpRef, text: I18n.t("app_tour_tips_6") }
           ]}
         />
@@ -329,6 +413,26 @@ class DashboardScreen extends React.Component {
   }
 }
 const styles = StyleSheet.create({
+  expenseInsight: {
+    backgroundColor: "#fff",
+    padding: 16,
+    flexDirection: "row"
+  },
+  expenseInsightImage: {
+    height: 36,
+    width: 36,
+    marginRight: 20
+  },
+  expenseInsightTitles: {
+    flex: 1
+  },
+  expenseInsightSubTitle: {
+    fontSize: 12
+  },
+  expenseInsightDetailsText: {
+    fontSize: 12,
+    color: colors.pinkishOrange
+  },
   fab: {
     position: "absolute",
     bottom: 20,

@@ -13,7 +13,7 @@ import moment from "moment";
 import { Text } from "../../elements";
 import { colors } from "../../theme";
 
-const CalenderIcon = () => (
+const CalendarIcon = () => (
   <Icon name="calendar" size={17} color={colors.pinkishOrange} />
 );
 
@@ -89,8 +89,8 @@ class CustomDatePicker extends React.Component {
             </Text>
           </View>
 
-          <View style={styles.calenderIconContainer}>
-            <CalenderIcon />
+          <View style={styles.calendarIconContainer}>
+            <CalendarIcon />
           </View>
           <DatePicker
             ref={ref => (this.datePicker = ref)}
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     borderColor: colors.lighterText,
     borderBottomWidth: 2
   },
-  calenderIconContainer: {
+  calendarIconContainer: {
     position: "absolute",
     right: 0,
     bottom: 20

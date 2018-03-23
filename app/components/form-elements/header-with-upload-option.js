@@ -1,11 +1,14 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
+import { connect } from "react-redux";
 import I18n from "../../i18n";
 import { Text } from "../../elements";
 import { colors } from "../../theme";
 import { openBillsPopUp } from "../../navigation";
 import UploadBillOptions from "../../components/upload-bill-options";
+import { actions as uiActions } from "../../modules/ui";
+import Tour from "../../components/app-tour";
 
 const AttachmentIcon = () => (
   <Icon name="attachment" size={17} color={colors.pinkishOrange} />
@@ -39,6 +42,13 @@ class HeaderWithUploadOption extends React.Component {
     });
   };
 
+  showTooltip = () => {
+    if (!this.props.hasUploadBillTourShown) {
+      this.tour.startTour();
+      this.props.setUiHasUploadBillTourShown(true);
+    }
+  };
+
   render() {
     let {
       title,
@@ -66,7 +76,10 @@ class HeaderWithUploadOption extends React.Component {
           {title}
         </Text>
         {!hideUploadOption && (
-          <View>
+          <View
+            onLayout={this.showTooltip}
+            ref={ref => (this.uploadBillBtn = ref)}
+          >
             {copies.length > 0 && (
               <View style={styles.copiesContainer}>
                 <Text
@@ -143,6 +156,11 @@ class HeaderWithUploadOption extends React.Component {
             />
           </View>
         )}
+        <Tour
+          ref={ref => (this.tour = ref)}
+          enabled={true}
+          steps={[{ ref: this.uploadBillBtn, text: I18n.t("app_tour_tips_2") }]}
+        />
       </View>
     );
   }
@@ -183,4 +201,20 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HeaderWithUploadOption;
+const mapStateToProps = state => {
+  return {
+    hasUploadBillTourShown: state.ui.hasUploadBillTourShown
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUiHasUploadBillTourShown: newValue => {
+      dispatch(uiActions.setUiHasUploadBillTourShown(newValue));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  HeaderWithUploadOption
+);

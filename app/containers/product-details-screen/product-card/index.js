@@ -20,6 +20,10 @@ import Modal from "react-native-modal";
 
 import ActionSheet from "react-native-actionsheet";
 
+import { connect } from "react-redux";
+import { actions as uiActions } from "../../../modules/ui";
+import Tour from "../../../components/app-tour";
+
 import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 import { API_BASE_URL, getProductDetails } from "../../../api";
 import { Text, Button, ScreenContainer } from "../../../elements";
@@ -56,7 +60,7 @@ class ProductCard extends Component {
 
     let newState = {};
     if (
-      (brand && brand.status_type == 1) ||
+      (brand && brand.id > 0 && brand.status_type == 1) ||
       (insuranceDetails.length > 0 &&
         insuranceDetails[0].provider &&
         insuranceDetails[0].provider.status_type == 1) ||
@@ -86,6 +90,13 @@ class ProductCard extends Component {
     }
 
     this.setState(newState);
+
+    if (!this.props.hasProductCardTourShown) {
+      setTimeout(() => {
+        // this.tour.startTour();
+      }, 1000);
+      // this.props.setUiHasProductCardTourShown(true);
+    }
   }
 
   startBasicDetailsEdit = () => {
@@ -125,10 +136,7 @@ class ProductCard extends Component {
     if (!this.props.isScreenVisible) {
       return;
     }
-    console.log(
-      "event.nativeEvent.contentOffset: ",
-      event.nativeEvent.contentOffset
-    );
+
     if (event.nativeEvent.contentOffset.y > 0) {
       this.props.navigator.setStyle({
         navBarTransparent: false,
@@ -173,6 +181,11 @@ class ProductCard extends Component {
           style={styles.container}
         >
           <Header
+            ref={ref => (this.header = ref)}
+            viewBillRef={ref => (this.viewBillRef = ref)}
+            allInfoRef={ref => (this.allInfoRef = ref)}
+            customerCareRef={ref => (this.customerCareRef = ref)}
+            importantInfoRef={ref => (this.customerCareRef = ref)}
             activeTabIndex={activeTabIndex}
             showCustomerCareTab={showCustomerCareTab}
             showImportantTab={showImportantTab}
@@ -205,6 +218,17 @@ class ProductCard extends Component {
             )}
           </View>
         </ScrollView>
+        <Tour
+          ref={ref => (this.tour = ref)}
+          enabled={true}
+          steps={[
+            { ref: this.header, text: I18n.t("app_tour_tips_11") },
+            { ref: this.viewBillRef, text: I18n.t("app_tour_tips_12") },
+            { ref: this.allInfoRef, text: I18n.t("app_tour_tips_13") },
+            { ref: this.importantInfoRef, text: I18n.t("app_tour_tips_14") },
+            { ref: this.customerCareRef, text: I18n.t("app_tour_tips_15") }
+          ]}
+        />
       </View>
     );
   }
@@ -217,4 +241,18 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProductCard;
+const mapStateToProps = state => {
+  return {
+    hasProductCardTourShown: state.ui.hasProductCardTourShown
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUiHasProductCardTourShown: newValue => {
+      dispatch(uiActions.setUiHasProductCardTourShown(newValue));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCard);

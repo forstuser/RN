@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Platform
+} from "react-native";
 import I18n from "../../i18n";
 import { Text } from "../../elements";
 import { colors } from "../../theme";
@@ -40,7 +46,9 @@ class CustomTextInput extends React.Component {
       placeholder2,
       placeholder2Color = colors.secondaryText,
       hint,
-      keyboardType
+      keyboardType,
+      rightSideText = "",
+      rightSideTextWidth = 0
     } = this.props;
     const { value } = this.state;
     return (
@@ -48,6 +56,7 @@ class CustomTextInput extends React.Component {
         <View
           style={[
             styles.placeholderContainer,
+            { right: rightSideTextWidth },
             value ? styles.filledInputPlaceholderContainer : {}
           ]}
         >
@@ -71,10 +80,15 @@ class CustomTextInput extends React.Component {
         <TextInput
           underlineColorAndroid="transparent"
           keyboardType={keyboardType}
-          style={styles.textInput}
+          style={[styles.textInput, { paddingRight: rightSideTextWidth }]}
           value={value}
           onChangeText={text => this.onChangeText(text)}
         />
+        {rightSideText ? (
+          <Text weight="Medium" style={styles.rightSideText}>
+            {rightSideText}
+          </Text>
+        ) : null}
         {hint ? <Text style={styles.hint}>{hint}</Text> : null}
       </View>
     );
@@ -93,7 +107,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     top: 10,
-    left: 5,
+    left: Platform.OS == "ios" ? 0 : 5,
     paddingVertical: 10
   },
   filledInputPlaceholderContainer: {
@@ -114,9 +128,14 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     justifyContent: "center",
     height: 40,
-    width: "100%",
     borderColor: colors.lighterText,
     borderBottomWidth: 2
+  },
+  rightSideText: {
+    position: "absolute",
+    right: 5,
+    bottom: 23,
+    color: colors.secondaryText
   },
   hint: {
     fontSize: 12,

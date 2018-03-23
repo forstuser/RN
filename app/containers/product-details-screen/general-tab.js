@@ -89,7 +89,8 @@ class GeneralTab extends Component {
       [
         MAIN_CATEGORY_IDS.AUTOMOBILE,
         MAIN_CATEGORY_IDS.ELECTRONICS,
-        MAIN_CATEGORY_IDS.FURNITURE
+        MAIN_CATEGORY_IDS.FURNITURE,
+        MAIN_CATEGORY_IDS.FASHION
       ].indexOf(product.masterCategoryId) > -1
     ) {
       dateText = "Purchase Date";
