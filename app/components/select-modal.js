@@ -56,6 +56,7 @@ class SelectModal extends Component {
     const {
       selectedOption = null,
       valueKey = "id",
+      imageKey,
       visibleKey = "name",
       onChange
     } = this.props;
@@ -64,6 +65,13 @@ class SelectModal extends Component {
         onPress={() => this._onItemSelect(item)}
         style={styles.option}
       >
+        {imageKey && (
+          <Image
+            resizeMode="contain"
+            style={styles.optionImage}
+            source={{ uri: item[imageKey] }}
+          />
+        )}
         <Text style={styles.optionText}>{item[visibleKey]}</Text>
       </TouchableOpacity>
     );
@@ -124,6 +132,7 @@ class SelectModal extends Component {
       selectedOption = null,
       textInputValue = "",
       valueKey = "id",
+      imageKey,
       visibleKey = "name",
       placeholder = I18n.t("component_items_select_value"),
       textInputPlaceholder = I18n.t("component_items_enter_value"),
@@ -341,6 +350,14 @@ const styles = StyleSheet.create({
     padding: 16,
     borderColor: "#efefef",
     borderBottomWidth: StyleSheet.hairlineWidth
+  },
+  optionImage: {
+    width: 40,
+    height: 40,
+    marginRight: 20
+  },
+  optionText: {
+    flex: 1
   },
   addNewBtnText: {
     fontWeight: "bold",

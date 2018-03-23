@@ -111,15 +111,13 @@ class MyCalendarScreen extends Component {
                 refreshing={isFetchingItems}
               />
             </View>
-            {!isFetchingItems && (
-              <Button
-                onPress={this.openAddEditCalendarServiceScreen}
-                text={I18n.t("my_calendar_screen_add_btn")}
-                color="secondary"
-                borderRadius={0}
-                style={styles.addItemBtn}
-              />
-            )}
+            <Button
+              onPress={this.openAddEditCalendarServiceScreen}
+              text={I18n.t("my_calendar_screen_add_btn")}
+              color="secondary"
+              borderRadius={0}
+              style={styles.addItemBtn}
+            />
           </View>
         )}
         {items.length == 0 &&

@@ -46,6 +46,7 @@ class AddEditCalendarServiceScreen extends Component {
       error: null,
       isFetchingServiceTypes: true,
       serviceTypes: [],
+      visibleServiceTypeIds: [],
       selectedServiceType: null,
       name: "",
       providerName: "",
@@ -84,7 +85,8 @@ class AddEditCalendarServiceScreen extends Component {
     try {
       const res = await fetchCalendarReferenceData();
       this.setState({
-        serviceTypes: res.items
+        serviceTypes: res.items,
+        visibleServiceTypeIds: res.default_ids
       });
     } catch (error) {
       this.setState({
@@ -128,9 +130,10 @@ class AddEditCalendarServiceScreen extends Component {
         break;
     }
     this.setState({
+      name: serviceType.name,
       selectedServiceType: serviceType,
       type,
-      wagesType: WAGES_TYPES.MONTHLY,
+      wagesType: WAGES_TYPES.DAILY,
       unitTypes,
       selectedUnitType: unitTypes[0],
       actualSelectedUnitType: unitTypes[0]
@@ -181,8 +184,8 @@ class AddEditCalendarServiceScreen extends Component {
     if (!name) {
       return Alert.alert("Please enter name");
     }
-    if (!unitPrice) {
-      return Alert.alert("Please unit price or wages");
+    if (unitPrice && unitPrice < 0) {
+      return Alert.alert("Amount can't be less than zero");
     }
     if (!startingDate) {
       return Alert.alert("Please select a starting date");
@@ -229,6 +232,7 @@ class AddEditCalendarServiceScreen extends Component {
       error,
       isFetchingServiceTypes,
       serviceTypes,
+      visibleServiceTypeIds,
       selectedServiceType,
       name,
       providerName,
@@ -253,6 +257,7 @@ class AddEditCalendarServiceScreen extends Component {
           {!isFetchingServiceTypes && (
             <SelectServiceHeader
               serviceTypes={serviceTypes}
+              visibleServiceTypeIds={visibleServiceTypeIds}
               onServiceTypeSelect={this.onServiceTypeSelect}
             />
           )}
@@ -267,103 +272,107 @@ class AddEditCalendarServiceScreen extends Component {
                 value={name}
                 onChangeText={name => this.setState({ name })}
               />
-              <CustomTextInput
-                placeholder={I18n.t(
-                  "add_edit_calendar_service_screen_form_provider_name"
-                )}
-                value={providerName}
-                onChangeText={providerName => this.setState({ providerName })}
-              />
+              {false && (
+                <CustomTextInput
+                  placeholder={I18n.t(
+                    "add_edit_calendar_service_screen_form_provider_name"
+                  )}
+                  value={providerName}
+                  onChangeText={providerName => this.setState({ providerName })}
+                />
+              )}
               {(type == "service" || type == "classes") && (
                 <View>
-                  {type == "service" && (
-                    <View>
-                      <Text weight="Medium" style={styles.label}>
-                        Wages Type
-                      </Text>
-                      <View style={{ flexDirection: "row", marginBottom: 10 }}>
-                        <TouchableOpacity
-                          onPress={() => {
-                            this.setState({
-                              wagesType: WAGES_TYPES.MONTHLY
-                            });
-                          }}
-                          style={styles.radioBtn}
+                  <View>
+                    <Text weight="Medium" style={styles.label}>
+                      {type == "service"
+                        ? I18n.t(
+                            "add_edit_calendar_service_screen_form_wages_type"
+                          )
+                        : I18n.t(
+                            "add_edit_calendar_service_screen_form_fees_tye"
+                          )}
+                    </Text>
+                    <View style={{ flexDirection: "row", marginBottom: 10 }}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.setState({
+                            wagesType: WAGES_TYPES.MONTHLY
+                          });
+                        }}
+                        style={styles.radioBtn}
+                      >
+                        <Icon
+                          name={
+                            wagesType == WAGES_TYPES.MONTHLY
+                              ? "md-radio-button-on"
+                              : "md-radio-button-off"
+                          }
+                          color={
+                            wagesType == WAGES_TYPES.MONTHLY
+                              ? colors.pinkishOrange
+                              : colors.secondaryText
+                          }
+                          size={20}
+                        />
+                        <Text
+                          style={[
+                            styles.radioBtnLabel,
+                            {
+                              color:
+                                wagesType == WAGES_TYPES.MONTHLY
+                                  ? colors.pinkishOrange
+                                  : colors.secondaryText
+                            }
+                          ]}
                         >
-                          <Icon
-                            name={
-                              wagesType == WAGES_TYPES.MONTHLY
-                                ? "md-radio-button-on"
-                                : "md-radio-button-off"
+                          Monthly
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.setState({
+                            wagesType: WAGES_TYPES.DAILY
+                          });
+                        }}
+                        style={styles.radioBtn}
+                      >
+                        <Icon
+                          name={
+                            wagesType == WAGES_TYPES.DAILY
+                              ? "md-radio-button-on"
+                              : "md-radio-button-off"
+                          }
+                          color={
+                            wagesType == WAGES_TYPES.DAILY
+                              ? colors.pinkishOrange
+                              : colors.secondaryText
+                          }
+                          size={20}
+                        />
+                        <Text
+                          style={[
+                            styles.radioBtnLabel,
+                            {
+                              color:
+                                wagesType == WAGES_TYPES.DAILY
+                                  ? colors.pinkishOrange
+                                  : colors.secondaryText
                             }
-                            color={
-                              wagesType == WAGES_TYPES.MONTHLY
-                                ? colors.pinkishOrange
-                                : colors.secondaryText
-                            }
-                            size={20}
-                          />
-                          <Text
-                            style={[
-                              styles.radioBtnLabel,
-                              {
-                                color:
-                                  wagesType == WAGES_TYPES.MONTHLY
-                                    ? colors.pinkishOrange
-                                    : colors.secondaryText
-                              }
-                            ]}
-                          >
-                            Monthly
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={() => {
-                            this.setState({
-                              wagesType: WAGES_TYPES.DAILY
-                            });
-                          }}
-                          style={styles.radioBtn}
+                          ]}
                         >
-                          <Icon
-                            name={
-                              wagesType == WAGES_TYPES.DAILY
-                                ? "md-radio-button-on"
-                                : "md-radio-button-off"
-                            }
-                            color={
-                              wagesType == WAGES_TYPES.DAILY
-                                ? colors.pinkishOrange
-                                : colors.secondaryText
-                            }
-                            size={20}
-                          />
-                          <Text
-                            style={[
-                              styles.radioBtnLabel,
-                              {
-                                color:
-                                  wagesType == WAGES_TYPES.DAILY
-                                    ? colors.pinkishOrange
-                                    : colors.secondaryText
-                              }
-                            ]}
-                          >
-                            Daily
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
+                          Daily
+                        </Text>
+                      </TouchableOpacity>
                     </View>
-                  )}
-
+                  </View>
                   <CustomTextInput
                     placeholder={
                       type == "service"
                         ? I18n.t("add_edit_calendar_service_screen_form_wages")
-                        : I18n.t(
-                            "add_edit_calendar_service_screen_form_fees_per_month"
-                          )
+                        : I18n.t("add_edit_calendar_service_screen_form_fees")
                     }
+                    keyboardType="numeric"
                     value={unitPrice}
                     onChangeText={unitPrice => this.setState({ unitPrice })}
                   />

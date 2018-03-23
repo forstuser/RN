@@ -126,6 +126,7 @@ class CustomerCare extends React.Component {
     }
 
     let insuranceData = {
+      providerId: null,
       providerName: "",
       urls: [],
       emails: [],
@@ -136,6 +137,7 @@ class CustomerCare extends React.Component {
       const provider = insuranceDetails[0].provider;
 
       if (provider) {
+        insuranceData.providerId = provider.id;
         insuranceData.providerName = provider.name;
       }
 
@@ -159,7 +161,9 @@ class CustomerCare extends React.Component {
     }
 
     let warrantyData = {
+      providerId: null,
       providerName: "",
+
       urls: [],
       emails: [],
       phoneNumbers: []
@@ -169,6 +173,7 @@ class CustomerCare extends React.Component {
       const provider = warrantyDetails[0].provider;
 
       if (provider) {
+        warrantyData.id = provider.id;
         warrantyData.providerName = provider.name;
       }
 
@@ -208,7 +213,9 @@ class CustomerCare extends React.Component {
       connectItems.push({
         type: "insurance",
         title: I18n.t("product_details_screen_connect_insurance_provider"),
-        imageSource: insuranceIcon,
+        imageUrl: `${API_BASE_URL}/providers/${
+          insuranceData.providerId
+        }/images`,
         name: insuranceData.providerName,
         phoneNumbers: insuranceData.phoneNumbers,
         emails: insuranceData.emails,
@@ -220,6 +227,7 @@ class CustomerCare extends React.Component {
       connectItems.push({
         type: "warranty",
         title: I18n.t("product_details_screen_connect_warranty_provider"),
+        imageUrl: `${API_BASE_URL}/providers/${warrantyData.providerId}/images`,
         name: warrantyData.providerName,
         phoneNumbers: warrantyData.phoneNumbers,
         emails: warrantyData.emails,

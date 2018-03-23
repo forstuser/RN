@@ -12,7 +12,11 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import I18n from "../../i18n";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
-import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
+import {
+  API_BASE_URL,
+  getReferenceDataBrands,
+  getReferenceDataModels
+} from "../../api";
 
 import Collapsible from "../../components/collapsible";
 
@@ -216,7 +220,11 @@ class InsuranceForm extends React.Component {
               )}
               selectedOption={selectedProvider}
               textInputValue={providerName}
-              options={insuranceProviders}
+              options={insuranceProviders.map(provider => ({
+                ...provider,
+                image: `${API_BASE_URL}/providers/${provider.id}/images`
+              }))}
+              imageKey="image"
               onOptionSelect={value => {
                 this.onProviderSelect(value);
               }}

@@ -60,7 +60,9 @@ class Header extends Component {
       0
     );
 
-    let imageSource = { uri: API_BASE_URL + item.cImageURL + "1" };
+    let imageSource = {
+      uri: API_BASE_URL + item.service_type.calendarServiceImageUrl
+    };
 
     return (
       <View style={styles.container}>
@@ -96,7 +98,7 @@ class Header extends Component {
               </View>
               <View style={{ flex: 1, flexDirection: "row" }}>
                 <Text weight="Medium" style={styles.key}>
-                  {I18n.t("calendar_service_screen_total_present")}:{" "}
+                  {I18n.t("calendar_service_screen_total_absent")}:{" "}
                 </Text>
                 <Text
                   weight="Medium"

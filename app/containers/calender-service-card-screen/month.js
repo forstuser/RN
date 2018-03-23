@@ -40,7 +40,7 @@ class Month extends React.Component {
                 !isPreviousMonthAvailable && styles.disabledArrow
               ]}
             >
-              <Icon name="ios-arrow-back" size={15} color={colors.mainBlue} />
+              <Icon name="ios-arrow-back" size={23} color={colors.mainBlue} />
             </View>
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback
@@ -56,7 +56,7 @@ class Month extends React.Component {
             >
               <Icon
                 name="ios-arrow-forward"
-                size={15}
+                size={23}
                 color={colors.mainBlue}
               />
             </View>
@@ -79,9 +79,9 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   arrow: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     backgroundColor: "#fff",
     overflow: "hidden",
     alignItems: "center",

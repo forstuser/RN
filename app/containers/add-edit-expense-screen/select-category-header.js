@@ -38,28 +38,18 @@ class SelectCategoryHeader extends React.Component {
           visibleOptions: [
             {
               id: 139,
-              name: "Car",
+              name: "Four Wheeler",
               icon: require("../../images/categories/car.png")
             },
             {
               id: 138,
-              name: "Bike",
+              name: "Two Wheeler",
               icon: require("../../images/categories/bike.png")
-            },
-            {
-              id: 150,
-              name: "Scooter",
-              icon: require("../../images/categories/scooter.png")
             },
             {
               id: 154,
               name: "Cycle",
               icon: require("../../images/categories/bicycle.png")
-            },
-            {
-              id: 153,
-              name: "Van",
-              icon: require("../../images/categories/van.png")
             }
           ]
         }));

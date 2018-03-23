@@ -75,7 +75,9 @@ class Attendance extends React.Component {
     const startDateOfMonth = +moment(startDate).format("D");
 
     const endDate = paymentDetail.end_date;
-    const endDateOfMonth = +moment(endDate).format("D");
+    const endDateOfMonth = +moment(endDate)
+      .endOf("month")
+      .format("D");
 
     const monthAndYear = moment(endDate).format("YYYY-MM");
     const selectedDays = (
@@ -96,6 +98,17 @@ class Attendance extends React.Component {
 
     const daysPresent = paymentDetail.total_days;
     const daysAbsent = paymentDetail.absent_day_detail.length;
+
+    const serviceType = item.service_type;
+    let unitPriceText = I18n.t("calendar_service_screen_unit_price");
+    if (serviceType.main_category_id == 6 && serviceType.category_id == 24) {
+      unitPriceText = I18n.t("add_edit_calendar_service_screen_form_wages");
+    } else if (
+      serviceType.main_category_id == 6 &&
+      serviceType.category_id == 123
+    ) {
+      unitPriceText = I18n.t("add_edit_calendar_service_screen_form_fees");
+    }
 
     return (
       <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
@@ -136,38 +149,37 @@ class Attendance extends React.Component {
             <View style={styles.cardPart}>
               <VerticalKeyValue
                 keyText={I18n.t("my_calendar_screen_total_days")}
-                valueText={I18n.t("my_calendar_screen_days", {
-                  count: daysPresent + daysAbsent
-                })}
+                valueText={daysPresent + daysAbsent}
               />
               <VerticalKeyValue
                 keyText={I18n.t("my_calendar_screen_days_present")}
-                valueText={I18n.t("my_calendar_screen_days", {
-                  count: daysPresent
-                })}
+                valueText={daysPresent}
                 valueStyle={{ color: colors.success }}
               />
               <VerticalKeyValue
                 keyText={I18n.t("my_calendar_screen_days_absent")}
-                valueText={I18n.t("my_calendar_screen_days", {
-                  count: daysAbsent
-                })}
+                valueText={daysAbsent}
                 valueStyle={{ color: colors.danger }}
               />
             </View>
             <View style={styles.cardPart}>
+              {serviceType.main_category_id == 8 && (
+                <VerticalKeyValue
+                  keyText={I18n.t("my_calendar_screen_no_of_units")}
+                  valueText={paymentDetail.total_units}
+                />
+              )}
               <VerticalKeyValue
-                keyText={I18n.t("my_calendar_screen_no_of_units")}
-                valueText={paymentDetail.total_units}
-              />
-              <VerticalKeyValue
-                keyText={I18n.t("calendar_service_screen_unit_price")}
+                keyText={unitPriceText}
                 valueText={"₹ " + activeCalculationDetail.unit_price}
               />
               <VerticalKeyValue
                 keyText={I18n.t("calendar_service_screen_total_amount")}
                 valueText={"₹ " + paymentDetail.total_amount}
               />
+              {serviceType.main_category_id != 8 && (
+                <View style={{ flex: 1 }} />
+              )}
             </View>
           </View>
         </View>

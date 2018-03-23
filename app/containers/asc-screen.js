@@ -302,7 +302,11 @@ class AscScreen extends Component {
                 return true;
               }}
               selectedOption={selectedBrand}
-              options={brands}
+              options={brands.map(brand => ({
+                ...brand,
+                image: `${API_BASE_URL}/brands/${brand.id}/images`
+              }))}
+              imageKey="image"
               visibleKey="brandName"
               onOptionSelect={value => {
                 this.selectBrand(value);

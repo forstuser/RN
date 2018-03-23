@@ -87,7 +87,9 @@ class CalculationDetailModal extends React.Component {
       unitTypes,
       selectedUnitType: unitTypes[0],
       actualSelectedUnitType: unitTypes[0],
-      selectedDays: item.selected_days
+      selectedDays: item.selected_days,
+      unitPrice: item.calculation_detail[0].unit_price,
+      quantity: item.calculation_detail[0].quantity
     });
   };
 
@@ -209,9 +211,7 @@ class CalculationDetailModal extends React.Component {
       serviceType.main_category_id == 6 &&
       serviceType.category_id == 123
     ) {
-      priceText = I18n.t(
-        "add_edit_calendar_service_screen_form_fees_per_month"
-      );
+      priceText = I18n.t("add_edit_calendar_service_screen_form_fees");
     }
     return (
       <Modal

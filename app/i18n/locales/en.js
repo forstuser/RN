@@ -13,6 +13,9 @@ export default {
   dozen: "Dozen",
   dozen_symbol: "dz",
 
+  //common words
+  other: "Other",
+
   //app intro screen
   app_intro_1_title: `Timely Warranty, Service,\nInsurance Alerts`,
   app_intro_1_desc: `Create Your Product Card in less Than 10 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
@@ -408,8 +411,11 @@ export default {
   dashboard_screen_whats_coming_up: "What's Coming Up",
   dashboard_screen_recent_activity: "Recent Activity",
   dashboard_screen_ehome_insights: "Expense Insight",
+  dashboard_screen_ehome_my_calendar: "My Calendar",
   dashboard_screen_chart_last_7_days: "Last 7 Days",
   dashboard_screen_total_spends: "Total Spends",
+  dashboard_screen_total_items_added: "Total Items added",
+  dashboard_screen_last_updated_on: "Last updated on {{date}}",
   dashboard_screen_this_month: "This Month",
   dashboard_screen_see_details: "See Details",
 
@@ -426,6 +432,7 @@ export default {
   my_calendar_screen_empty_screen_msg:
     "Looks Like you have nothing added in My Calendar Section",
   my_calendar_screen_total_days: "Total Days",
+  my_calendar_screen_till_date: "Till {{date}}",
   my_calendar_screen_days_present: "Days Present",
   my_calendar_screen_days_absent: "Days Absent",
   my_calendar_screen_days: {
@@ -443,8 +450,10 @@ export default {
   add_edit_calendar_service_screen_title_slider: "Select Service Type",
   add_edit_calendar_service_screen_form_name: "Name",
   add_edit_calendar_service_screen_form_provider_name: "Provider Name",
+  add_edit_calendar_service_screen_form_wages_type: "Wages Type",
+  add_edit_calendar_service_screen_form_fees_tye: "Fees Type",
   add_edit_calendar_service_screen_form_wages: "Wages",
-  add_edit_calendar_service_screen_form_fees_per_month: "Fees per month",
+  add_edit_calendar_service_screen_form_fees: "Fees",
   add_edit_calendar_service_screen_form_starting_date: "Starting from Date",
 
   //calendar service card screen
@@ -454,8 +463,8 @@ export default {
   calendar_service_screen_absent: "Absent",
   calendar_service_screen_total_absent: "Total Absent",
   calendar_service_screen_price: "Price",
-  calendar_service_screen_total_calculated_amount: "Total Calculated Amount",
-  calendar_service_screen_total_paid_amount: "Total Paid Amount",
+  calendar_service_screen_total_calculated_amount: "Total Amount",
+  calendar_service_screen_total_paid_amount: "Total Paid",
   calendar_service_screen_unit_price: "Unit Price",
   calendar_service_screen_quantity: "Quantity",
   calendar_service_screen_attendance: "Attendance",
@@ -522,7 +531,7 @@ export default {
   add_edit_expense_screen_title_add_docs:
     "All the unsaved information and document copies related to this product would be deleted",
   add_edit_expense_screen_title_add_go_back: "Go Back",
-  add_edit_expense_screen_title_add_stay: "STAY",
+  add_edit_expense_screen_title_add_stay: "Stay",
   add_edit_expense_screen_title_add_rent_agreement: "Rent Agreement",
   add_edit_expense_screen_title_add_personal_doc: "Other Personal Doc",
   add_edit_expense_screen_title_add_visit_card: "Visiting Card",
@@ -534,8 +543,9 @@ export default {
   add_edit_expense_screen_title_add_doc_added: "Doc added to your eHome.",
   add_edit_expense_screen_title_add_select_type:
     "Select a type above and Add Product in Less Than 10 Sec",
-  add_edit_expense_screen_title_add_branch_name:
+  add_edit_expense_screen_title_add_brand_name:
     "Please select or enter brand name",
+  add_edit_expense_screen_title_add_type: "Please select a type",
   add_edit_expense_screen_title_add_purchase_date:
     "Please select a purchase date",
   add_edit_expense_screen_title_add_date: "Please select a date",
@@ -629,24 +639,34 @@ export default {
 
   //app-tour texts
   app_tour_tips_1:
-    "Upload your bills and important documents from here. Whenever you feel like managing bills, this is the icon to hit.",
+    "Click here to Add your Bills, Expenses and Important Documents.",
   app_tour_tips_2:
-    "All the bills that you uploaded are securely stored in your eHome, segregated under respective categories for your ease.",
+    "Click here to find all the Bills, Expenses, Documents that you saved as this is your eHome, private and secure.",
   app_tour_tips_3:
-    "Need after-sales service, this is the space to be. Find your after-sales vendor, for iPhone or Hyundai i20.",
+    "Click here to find Authorised Service Centres off any Brand and connect with them with just one simple click.",
   app_tour_tips_4:
-    "We are processing the bills, all the uploaded bills are processed for useful information, before being uploaded to the eHome.",
+    "It’s important to keep a track of your expenses. Keep a track of your expenses from this section.",
   app_tour_tips_5:
-    "This is your eHome's inbox, all the messages and notifications will be delivered over here. Please keep a track of this space.",
+    "This is your eHome’s inbox, all the Reminders and Notifications will be delivered here. Please keep a track of this space.",
   app_tour_tips_6:
     "This is your eHome's alert section. You can find all your renewal dates or expiring agreements over here.",
   app_tour_tips_7:
     "It's important to keep a track of your expenses. Be on the lookout for this space, as it summarises your expenses for you, and helps you keep it under the scanner.",
-  app_tour_tips_8:
-    "To add multiple bills at the same time to your eHome, use this icon.",
+  app_tour_tips_8: "To add multiple bills at the same time, use the + icon.",
   app_tour_tips_9:
-    "Just pinch out to zoom in your bills' images, to have a better view.",
-
+    "Just pinch out to zoom in your bills, to have a better view",
+  app_tour_tips_10:
+    "Upload Bill: You can upload Bills and Documents from here. If you don’t have the Bill you can always add it later on.",
+  app_tour_tips_11:
+    "This is the Product Card for your “Category”. It’s like a digital identity of your Product which you can access anytime anywhere.",
+  app_tour_tips_12:
+    "Upload Bill: Don’t want to add the details manually just upload the bill and leave rest upon us. Our experts will fill in the details for you.",
+  app_tour_tips_13:
+    "All Info: Add your Product related informations here. You can edit these details anytime.",
+  app_tour_tips_14:
+    "Important Info: You can add details and upload documents of Warranty, Insurance etc here. You can edit these details anytime.",
+  app_tour_tips_15:
+    "Customer Care: Connect with “Brand” and Authorised Service Centres of “Brand” near you from this section.",
   //blank dashboard
   blank_dashboard_headline: "Welcome to BinBill",
   blank_dashboard_text:
@@ -745,6 +765,7 @@ export default {
   add_edit_product_basic_unsaved_info:
     "All the unsaved information and document copies related to this product would be deleted",
   add_edit_product_basic_select_brand: "Please select or enter brand",
+  add_edit_product_basic_select_type: "Please select a type",
   add_edit_product_basic_select_amount: "Please enter amount",
   add_edit_product_basic_select_date: "Please select a date",
   add_edit_force_update_upgrade: "BinBill got Upgraded!",
@@ -868,8 +889,8 @@ export default {
   component_items_insurance_expiry: "Insurance expiring",
   component_items_amc_expiry: "AMC expiring",
   component_items_puc_expiry: "PUC expiring",
-  component_items_view_more: "View More +",
-  component_items_view_more: "View Less -",
+  component_items_view_more: "View More",
+  component_items_view_less: "View Less",
 
   //language options
   language_options_change: "Change",

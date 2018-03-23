@@ -36,9 +36,13 @@ class SelectCategoryHeader extends React.Component {
   }
 
   setVisibleOptionsFromProps = props => {
-    const { serviceTypes } = props;
+    const { serviceTypes, visibleServiceTypeIds } = props;
     this.setState({
-      visibleOptions: serviceTypes.slice(0, 5)
+      visibleOptions: visibleServiceTypeIds.map(serviceTypeId => {
+        return serviceTypes.find(
+          serviceType => serviceType.id == serviceTypeId
+        );
+      })
     });
   };
 
@@ -116,7 +120,7 @@ class SelectCategoryHeader extends React.Component {
                       ]}
                       resizeMode="contain"
                       source={{
-                        uri: API_BASE_URL + option.calendarServiceImageUrl + "1"
+                        uri: API_BASE_URL + option.calendarServiceImageUrl
                       }}
                     />
                   </View>
@@ -174,7 +178,7 @@ class SelectCategoryHeader extends React.Component {
                 />
               </View>
               <Text weight="Medium" style={styles.optionName}>
-                Others
+                {I18n.t("other")}
               </Text>
             </View>
           </TouchableWithoutFeedback>

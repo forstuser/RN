@@ -5,6 +5,7 @@ import moment from "moment";
 
 import { MAIN_CATEGORY_IDS } from "../../constants";
 import {
+  API_BASE_URL,
   getReferenceDataBrands,
   getReferenceDataModels,
   getReferenceDataForCategory
@@ -271,7 +272,11 @@ class HealthcareInsuranceForm extends React.Component {
                 )}
                 selectedOption={selectedProvider}
                 textInputValue={providerName}
-                options={insuranceProviders}
+                options={insuranceProviders.map(provider => ({
+                  ...provider,
+                  image: `${API_BASE_URL}/providers/${provider.id}/images`
+                }))}
+                imageKey="image"
                 onOptionSelect={value => {
                   this.onProviderSelect(value);
                 }}

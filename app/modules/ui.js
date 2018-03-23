@@ -36,6 +36,16 @@ export default function uiReducer(state = defaultState.ui, action) {
         ...state,
         hasUploadDocTourShown: action.payload.hasUploadDocTourShown
       };
+    case types.UI_SET_HAS_UPLOAD_BILL_TOUR_SHOWN:
+      return {
+        ...state,
+        hasUploadBillTourShown: action.payload.hasUploadBillTourShown
+      };
+    case types.UI_SET_HAS_PRODUCT_CARD_SHOWN:
+      return {
+        ...state,
+        hasProductCardTourShown: action.payload.hasProductCardTourShown
+      };
     case types.UI_SET_HAS_UPDATE_APP_SCREEN_SHOWN:
       return {
         ...state,
@@ -89,6 +99,18 @@ export const actions = {
     return {
       type: types.UI_SET_HAS_UPLOAD_DOC_TOUR_SHOWN,
       payload: { hasUploadDocTourShown }
+    };
+  },
+  setUiHasUploadBillTourShown: hasUploadBillTourShown => {
+    return {
+      type: types.UI_SET_HAS_UPLOAD_BILL_TOUR_SHOWN,
+      payload: { hasUploadBillTourShown }
+    };
+  },
+  setUiHasProductCardTourShown: hasProductCardTourShown => {
+    return {
+      type: types.UI_SET_HAS_PRODUCT_CARD_SHOWN,
+      payload: { hasProductCardTourShown }
     };
   },
   setUiHasUpdateAppScreenShown: hasUpdateAppScreenShown => {

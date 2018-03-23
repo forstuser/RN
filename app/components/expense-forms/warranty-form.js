@@ -14,7 +14,11 @@ import PropTypes from "prop-types";
 import moment from "moment";
 
 import { MAIN_CATEGORY_IDS, WARRANTY_TYPES } from "../../constants";
-import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
+import {
+  API_BASE_URL,
+  getReferenceDataBrands,
+  getReferenceDataModels
+} from "../../api";
 
 import Collapsible from "../collapsible";
 
@@ -244,7 +248,11 @@ class WarrantyForm extends React.Component {
                   )}
                   selectedOption={selectedProvider}
                   textInputValue={providerName}
-                  options={warrantyProviders}
+                  options={warrantyProviders.map(provider => ({
+                    ...provider,
+                    image: `${API_BASE_URL}/providers/${provider.id}/images`
+                  }))}
+                  imageKey="image"
                   onOptionSelect={value => {
                     this.onProviderSelect(value);
                   }}

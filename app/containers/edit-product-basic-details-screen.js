@@ -103,26 +103,30 @@ class EditProductBasicDetails extends React.Component {
       [
         MAIN_CATEGORY_IDS.AUTOMOBILE,
         MAIN_CATEGORY_IDS.ELECTRONICS,
-        MAIN_CATEGORY_IDS.FURNITURE
+        MAIN_CATEGORY_IDS.FASHION
       ].indexOf(data.mainCategoryId) > -1
     ) {
       if (data.brandId === undefined && !data.brandName) {
         return Alert.alert(I18n.t("add_edit_product_basic_select_brand"));
       }
-    } else {
-      if (!data.value) {
-        return Alert.alert(I18n.t("add_edit_product_basic_select_amount"));
+    } else if (MAIN_CATEGORY_IDS.FURNITURE == data.mainCategoryId) {
+      if (!data.subCategoryId) {
+        return Alert.alert(I18n.t("add_edit_product_basic_select_type"));
       }
+    } else if (!data.value) {
+      return Alert.alert(I18n.t("add_edit_product_basic_select_amount"));
     }
 
     if (!data.purchaseDate) {
       return Alert.alert(I18n.t("add_edit_product_basic_select_date"));
     }
+
     if (
       [
         MAIN_CATEGORY_IDS.AUTOMOBILE,
         MAIN_CATEGORY_IDS.ELECTRONICS,
-        MAIN_CATEGORY_IDS.FURNITURE
+        MAIN_CATEGORY_IDS.FURNITURE,
+        MAIN_CATEGORY_IDS.FASHION
       ].indexOf(data.mainCategoryId) == -1
     ) {
       if (!data.value) {
@@ -212,7 +216,8 @@ class EditProductBasicDetails extends React.Component {
       [
         MAIN_CATEGORY_IDS.AUTOMOBILE,
         MAIN_CATEGORY_IDS.ELECTRONICS,
-        MAIN_CATEGORY_IDS.FURNITURE
+        MAIN_CATEGORY_IDS.FURNITURE,
+        MAIN_CATEGORY_IDS.FASHION
       ].indexOf(product.masterCategoryId) > -1
     ) {
       showExpenseForm = false;

@@ -14,13 +14,14 @@ const Item = ({ item, onPress }) => {
     wages_type,
     present_days,
     absent_days,
-    service_type
+    service_type,
+    latest_payment_detail
   } = item;
-  const imageUrl = API_BASE_URL + service_type.calendarServiceImageUrl + "1";
+  const imageUrl = API_BASE_URL + service_type.calendarServiceImageUrl;
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
-      <AsyncImage style={styles.image} uri={imageUrl} />
+      <Image style={styles.image} source={{ uri: imageUrl }} />
       <View style={styles.texts}>
         <View style={styles.nameAndSeller}>
           <View style={{ flexDirection: "row" }}>
@@ -28,12 +29,18 @@ const Item = ({ item, onPress }) => {
               {product_name}
             </Text>
             <Text weight="Bold" style={styles.value}>
-              ₹ 25
+              ₹ {latest_payment_detail.total_amount}
             </Text>
           </View>
           <View style={{ flexDirection: "row" }}>
             <Text style={styles.offlineSellerName}>{provider_name}</Text>
-            <Text style={styles.onlineSellerName}>Till March</Text>
+            <Text style={styles.onlineSellerName}>
+              {I18n.t("my_calendar_screen_till_date", {
+                date: moment(latest_payment_detail.end_date).format(
+                  "DD MMM YYYY"
+                )
+              })}
+            </Text>
           </View>
         </View>
         <View style={styles.otherDetailContainer}>

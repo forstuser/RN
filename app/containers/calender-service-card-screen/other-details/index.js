@@ -119,9 +119,7 @@ class Report extends React.Component {
       serviceType.main_category_id == 6 &&
       serviceType.category_id == 123
     ) {
-      priceText = I18n.t(
-        "add_edit_calendar_service_screen_form_fees_per_month"
-      );
+      priceText = I18n.t("add_edit_calendar_service_screen_form_fees");
     }
 
     const calculationDetails = item.calculation_detail;
@@ -174,83 +172,93 @@ class Report extends React.Component {
           </View>
         </View>
         <ScrollView horizontal={true} style={styles.slider}>
-          {calculationDetails.map((calculationDetail, index) => (
-            <View
-              key={calculationDetail.id}
-              style={[
-                styles.card,
-                calculationDetails.length > 1
-                  ? { width: cardWidthWhenMany }
-                  : { width: cardWidthWhenOne }
-              ]}
-            >
+          {calculationDetails.map((calculationDetail, index) => {
+            const startDate = moment(calculationDetail.effective_date).format(
+              "DD MMM YYYY"
+            );
+
+            let endDate = moment().format("DD MMM YYYY");
+
+            if (index > 0) {
+              endDate = moment(calculationDetails[index - 1].effective_date)
+                .subtract(1, "days")
+                .format("DD MMM YYYY");
+            }
+
+            return (
               <View
-                onPress={() => this.editCalculationDetail(calculationDetail)}
-                style={{ flex: 1, backgroundColor: "#EBEBEB" }}
+                key={calculationDetail.id}
+                style={[
+                  styles.card,
+                  calculationDetails.length > 1
+                    ? { width: cardWidthWhenMany }
+                    : { width: cardWidthWhenOne }
+                ]}
               >
-                <KeyValueItem
-                  KeyComponent={() => (
-                    <Text
-                      weight="Bold"
-                      style={{
-                        flex: 1,
-                        color: colors.mainText,
-                        fontSize: 12
-                      }}
-                    >
-                      {moment(calculationDetail.effective_date).format(
-                        "DD MMM YYYY"
-                      ) +
-                        "-" +
-                        moment(calculationDetail.end_date).format(
-                          "DD MMM YYYY"
-                        )}
-                    </Text>
-                  )}
-                  ValueComponent={() => {
-                    if (index > 0) return null;
-                    return (
-                      <TouchableOpacity
-                        onPress={() => this.calculationDetailModal.show()}
-                      >
-                        <Text
-                          weight="Bold"
-                          style={{
-                            fontSize: 12,
-                            textAlign: "right",
-                            color: colors.pinkishOrange
-                          }}
-                        >
-                          {I18n.t("calendar_service_screen_change")}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  }}
-                />
-              </View>
-              <View style={styles.cardBody}>
-                {calculationDetail.quantity ? (
+                <View
+                  onPress={() => this.editCalculationDetail(calculationDetail)}
+                  style={{ flex: 1, backgroundColor: "#EBEBEB" }}
+                >
                   <KeyValueItem
-                    keyText={I18n.t("calendar_service_screen_quantity")}
-                    valueText={calculationDetail.quantity}
-                  />
-                ) : null}
-                <KeyValueItem
-                  keyText={priceText}
-                  valueText={calculationDetail.unit_price}
-                />
-                <View style={{ flexDirection: "row", padding: 10 }}>
-                  {calculationDetail.selected_days.map(day => (
-                    <View key={day} style={styles.weekDay}>
-                      <Text weight="Medium" style={styles.weekDayText}>
-                        {weekDays[day - 1]}
+                    KeyComponent={() => (
+                      <Text
+                        weight="Bold"
+                        style={{
+                          flex: 1,
+                          color: colors.mainText,
+                          fontSize: 12
+                        }}
+                      >
+                        {startDate + "-" + endDate}
                       </Text>
+                    )}
+                    ValueComponent={() => {
+                      if (index > 0) return null;
+                      return (
+                        <TouchableOpacity
+                          onPress={() => this.calculationDetailModal.show()}
+                        >
+                          <Text
+                            weight="Bold"
+                            style={{
+                              fontSize: 12,
+                              textAlign: "right",
+                              color: colors.pinkishOrange
+                            }}
+                          >
+                            {I18n.t("calendar_service_screen_change")}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    }}
+                  />
+                </View>
+                <View style={styles.cardBody}>
+                  {calculationDetail.quantity ? (
+                    <KeyValueItem
+                      keyText={I18n.t("calendar_service_screen_quantity")}
+                      valueText={calculationDetail.quantity}
+                    />
+                  ) : null}
+                  <KeyValueItem
+                    keyText={priceText}
+                    valueText={calculationDetail.unit_price}
+                  />
+                  {Array.isArray(calculationDetail.selected_days) && (
+                    <View style={{ flexDirection: "row", padding: 10 }}>
+                      {calculationDetail.selected_days.map(day => (
+                        <View key={day} style={styles.weekDay}>
+                          <Text weight="Medium" style={styles.weekDayText}>
+                            {weekDays[day - 1]}
+                          </Text>
+                        </View>
+                      ))}
                     </View>
-                  ))}
+                  )}
                 </View>
               </View>
-            </View>
-          ))}
+            );
+          })}
         </ScrollView>
         <Modal
           isVisible={isEditDetailModalOpen}

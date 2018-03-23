@@ -11,7 +11,11 @@ import {
 import moment from "moment";
 import I18n from "../../i18n";
 import { MAIN_CATEGORY_IDS } from "../../constants";
-import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
+import {
+  API_BASE_URL,
+  getReferenceDataBrands,
+  getReferenceDataModels
+} from "../../api";
 
 import Icon from "react-native-vector-icons/Entypo";
 import DatePicker from "react-native-datepicker";
@@ -133,7 +137,11 @@ class ExtendedWarrantyForm extends React.Component {
               )}
               selectedOption={selectedProvider}
               textInputValue={providerName}
-              options={providers}
+              options={providers.map(provider => ({
+                ...provider,
+                image: `${API_BASE_URL}/providers/${provider.id}/images`
+              }))}
+              imageKey="image"
               onOptionSelect={value => {
                 this.onProviderSelect(value);
               }}

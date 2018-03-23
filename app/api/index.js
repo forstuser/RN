@@ -1092,7 +1092,7 @@ export const createCalendarItem = async ({
     provider_name: providerName || undefined,
     wages_type: wagesType || undefined,
     selected_days: selectedDays || undefined,
-    unit_price: unitPrice || undefined,
+    unit_price: unitPrice || 0,
     unit_type: unitType || undefined,
     quantity: quantity || undefined,
     effective_date: effectiveDate || undefined
@@ -1129,7 +1129,7 @@ export const addCalendarItemCalculationDetail = async ({
 }) => {
   const data = {
     selected_days: selectedDays || undefined,
-    unit_price: unitPrice || undefined,
+    unit_price: unitPrice || 0,
     unit_type: unitType || undefined,
     quantity: quantity || undefined,
     effective_date: effectiveDate || undefined
@@ -1178,7 +1178,7 @@ export const updateCalendarServicePaymentDayToPresent = async ({
     method: "put",
     url: `/calendar/items/${itemId}/payments/${paymentId}/present`,
     data: {
-      absent_date: date
+      present_date: date
     }
   });
 };

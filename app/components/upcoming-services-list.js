@@ -7,6 +7,7 @@ import {
   FlatList
 } from "react-native";
 import moment from "moment";
+import Icon from "react-native-vector-icons/Ionicons";
 import { Text, Button } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
@@ -50,19 +51,33 @@ class UpcomingServicesList extends React.Component {
             />
           ))}
         </View>
-        {upcomingServices.length > 2 && (
-          <Button
+        {upcomingServices.length > -2 && (
+          <TouchableOpacity
+            style={styles.viewBtn}
             onPress={this.toggleListHeight}
-            color="secondary"
-            type="outline"
-            text={
-              listHeight == "less"
+          >
+            <View
+              style={{
+                backgroundColor: colors.pinkishOrange,
+                height: 36,
+                width: 36,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 18
+              }}
+            >
+              <Icon
+                name={listHeight == "less" ? "ios-arrow-down" : "ios-arrow-up"}
+                size={28}
+                color="#fff"
+              />
+            </View>
+            <Text style={{ color: colors.pinkishOrange, fontSize: 12 }}>
+              {listHeight == "less"
                 ? I18n.t("component_items_view_more")
-                : I18n.t("component_items_view_less")
-            }
-            style={styles.button}
-            textStyle={{ fontSize: 14 }}
-          />
+                : I18n.t("component_items_view_less")}
+            </Text>
+          </TouchableOpacity>
         )}
       </View>
     );
@@ -71,7 +86,8 @@ class UpcomingServicesList extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: 40
   },
   list: {
     width: "100%",
@@ -82,10 +98,10 @@ const styles = StyleSheet.create({
   listLessHeight: {
     maxHeight: 131
   },
-  button: {
-    marginTop: 16,
-    width: 130,
-    height: 36
+  viewBtn: {
+    alignItems: "center",
+    position: "absolute",
+    bottom: -75
   }
 });
 
