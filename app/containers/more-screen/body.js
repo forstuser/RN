@@ -45,6 +45,11 @@ class Body extends Component {
     ]);
   };
 
+  onAscItemPress = () => {
+    this.props.navigator.push({
+      screen: SCREENS.ASC_SCREEN
+    });
+  };
   onEhomeItemPress = () => {
     this.props.navigator.push({
       screen: SCREENS.TIPS_SCREEN
@@ -105,9 +110,15 @@ class Body extends Component {
     return (
       <ScrollView>
         <MoreItem
-          onPress={this.onFaqItemPress}
-          imageSource={require("../../images/ic_more_faq.png")}
-          text={I18n.t("more_screen_item_faq")}
+          onPress={this.onLanguageChangePress}
+          imageSource={require("../../images/ic_translate.png")}
+          text={language.name}
+          btnText={I18n.t("more_screen_item_app_language_change")}
+        />
+        <MoreItem
+          onPress={this.onAscItemPress}
+          imageSource={require("../../images/ic_nav_asc_on.png")}
+          text={I18n.t("more_screen_item_app_search_authorized")}
         />
         <MoreItem
           onPress={this.onEhomeItemPress}
@@ -131,11 +142,11 @@ class Body extends Component {
           imageSource={require("../../images/ic_share_blue.png")}
           text={I18n.t("more_screen_item_share")}
         />
+
         <MoreItem
-          onPress={this.onLanguageChangePress}
-          imageSource={require("../../images/ic_translate.png")}
-          text={language.name}
-          btnText={I18n.t("more_screen_item_app_language_change")}
+          onPress={this.onFaqItemPress}
+          imageSource={require("../../images/ic_more_faq.png")}
+          text={I18n.t("more_screen_item_faq")}
         />
         <MoreItem
           onPress={this.onVersionItemPress}
@@ -147,6 +158,7 @@ class Body extends Component {
               : null
           }
         />
+
         <MoreItem
           onPress={this.onLogoutItemPress}
           imageSource={require("../../images/ic_more_logout.png/")}
@@ -161,6 +173,10 @@ class Body extends Component {
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  navbar: {
+    backgroundColor: "red"
+  }
+});
 
 export default Body;
