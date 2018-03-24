@@ -230,6 +230,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     width: "100%"
+    // borderBottomWidth: 2,
+    // marginBottom: -30,
+    // color: "#f0f0f0",
+    // zIndex: 99
   },
   gri: {
     height: 120,
@@ -263,19 +267,13 @@ const styles = StyleSheet.create({
       },
       android: {}
     })
-    // backgroundColor: "#F0F0F0",
-    // width: "100%"
-    //   justifyContent: "center",
-    //   alignItems: "center",
-    //   zIndex: 99
-    // padding: 5
   },
   orContainer: {
     backgroundColor: "#F0F0F0",
     borderRadius: 32,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: -15,
+    marginTop: 15,
     marginBottom: -15,
     ...Platform.select({
       ios: {
@@ -298,7 +296,6 @@ const styles = StyleSheet.create({
     width: 300
   },
   item: {
-    height: 100,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
@@ -310,7 +307,15 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     width: "32%",
     marginRight: 4,
-    marginTop: 5
+    marginTop: 5,
+    ...Platform.select({
+      ios: {
+        height: 100
+      },
+      android: {
+        height: 120
+      }
+    })
   },
   itemIcon: {
     height: 52,
