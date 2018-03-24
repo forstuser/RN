@@ -856,5 +856,7 @@ export default {
   language_options_dont_change: "Don't Change",
   language_options_confirm_msg_title: "Change language to {{languageName}}?",
   language_options_confirm_msg_desc: "App may restart to reflect the changes.",
-  language_options_cancel: "Cancel"
+  language_options_cancel: "Cancel",
+  changing_text_please_wait: "changing.. please wait..",
+  resend_button: "Resend"
 };
