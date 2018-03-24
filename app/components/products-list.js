@@ -22,7 +22,8 @@ const ProductsList = props => {
     onEndReached,
     onEndReachedThreshold = 50,
     onRefresh,
-    mainCategoryId
+    mainCategoryId,
+    categoryId
   } = props;
   const renderProductItem = ({ item }) => (
     <ProductListItem navigator={navigator} product={item} />
@@ -31,6 +32,7 @@ const ProductsList = props => {
     return (
       <EmptyProductListPlaceholder
         mainCategoryId={mainCategoryId}
+        categoryId={categoryId}
         navigator={navigator}
       />
     );

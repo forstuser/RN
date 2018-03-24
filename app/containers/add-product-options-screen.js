@@ -60,6 +60,7 @@ class AddProductScreen extends React.Component {
       </TouchableOpacity>
     );
   };
+
   render() {
     const { isModalVisible, showCancelBtn } = this.state;
     const productOptions = [

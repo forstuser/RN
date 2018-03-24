@@ -33,7 +33,7 @@ class ProfileDetailEdit extends Component {
 
   onSubmit = async () => {
     showSnackbar({
-      text: "changing.. please wait..",
+      text: I18n.t("changing_text_please_wait"),
       autoDismissTimerSec: 4
     });
 
@@ -55,14 +55,14 @@ class ProfileDetailEdit extends Component {
 
   showResendEmailVerifyAlert = () => {
     Alert.alert(
-      "Email Verification",
-      "Please check your email inbox for the verification link we've sent.",
+      I18n.t("profile_screen_details_email_verification"),
+      I18n.t("profile_screen_details_sent_verification"),
       [
         {
-          text: "Resend",
+          text: I18n.t("resend_button"),
           onPress: async () => {
             showSnackbar({
-              text: "please wait..",
+              text: I18n.t("profile_screen_details_please_wait"),
               autoDismissTimerSec: 1000
             });
             try {
@@ -83,7 +83,7 @@ class ProfileDetailEdit extends Component {
           }
         },
         {
-          text: "Dismiss",
+          text: I18n.t("profile_screen_details_dismiss"),
           onPress: () => {},
           style: "cancel"
         }

@@ -164,25 +164,73 @@ export default {
   //products list
   products_list_no_result_title: "No Documents Found",
   products_list_no_result_desc_furniture:
-    "Bills of furniture, bathroom fittings, kitchen utensils, home decorations items etc. will appear under this section after you upload them",
+    "Looks Like You have no products added in Furniture Section",
+  products_list_no_result_desc_hardware:
+    "Looks Like You have no products added in Hardware Section",
+  products_list_no_result_desc_other_furniture:
+    "Looks Like You have no products added in Other Furniture Section",
   products_list_no_result_desc_electronics:
-    "Bills of electronics items like TV, fridge, washing Machine, mobile, laptop etc. will appear under this section after you upload them",
+    "Looks Like You have no products added in Electronics & Electricals Section",
   products_list_no_result_desc_automobile:
-    "Bills of automobiles like car, bike, bicycle, scooter etc. will appear under this section after you upload them",
+    "Looks Like you have nothing added in Automobile Section",
   products_list_no_result_desc_travel:
-    "Travel bills like flight tickets, train tickets, cab bills etc. will appear under this section after you upload them",
-  products_list_no_result_desc_healthcare:
-    "Your medical expenses, prescriptions and health reports will appear under this section after you upload them",
-  products_list_no_result_desc_services:
-    "Bills related to personal and professional services like spa, saloon, CA, lawyer, tutor, music classes etc. will appear under this section after you upload them",
+    "Looks Like You have no Expenses in Travel Section",
+  products_list_no_result_desc_hotel_stay:
+    "Looks Like You have no Expenses in Hotel Stay Section",
+  products_list_no_result_desc_dining:
+    "Looks Like You have no Expenses in Dining Section",
+  products_list_no_result_desc_expense:
+    "Looks Like You have nothing added in Expense Section",
+  products_list_no_result_desc_medical_docs:
+    "Looks Like You have nothing added in Medical Docs Section",
+  products_list_no_result_desc_insurance:
+    "Looks Like You have nothing added in Insurance Section",
+  products_list_no_result_desc_other_services:
+    "Looks Like You have no Expenses in Other Services Section",
+  products_list_no_result_desc_professional:
+    "Looks Like You have no Expenses in Professional Section",
+  products_list_no_result_desc_lessons:
+    "Looks Like You have no Expenses in Lessons & Hobbies Section",
   products_list_no_result_desc_fashion:
-    "Bills for your lifestyle related purchase like clothes, shoes, watches, bags, jewellery etc. will appear under this section after you upload them",
-  products_list_no_result_desc_household:
-    "Bills for household expense like groceries, stationary, electricity, water, broadband  etc. will appear under this section after you upload them",
+    "Looks Like You have nothing added in Fashion Section",
+  products_list_no_result_desc_household_expense:
+    "Looks Like You have no Expense added in Household Expense Section",
+  products_list_no_result_desc_utility_bills:
+    "Looks Like You have no Expense added in Utility Bills Section",
+  products_list_no_result_desc_education:
+    "Looks Like You have no Expense added in Education Section",
+  products_list_no_result_desc_home_decor:
+    "Looks Like You have no Expense added in Home Decor Section",
+  products_list_no_result_desc_other_household:
+    "Looks Like You have no Expense added in Other Household Expense Section",
   products_list_no_result_desc_others:
     "Any other document will appear under this section after you upload them",
   products_list_no_result_desc_personal:
-    "Documents like PAN card, aadhaar card, driving licence, etc. will appear under this section after you upload them",
+    "Looks Like You have no Documents added in Personal Catalouge Section",
+  product_list_click_below: "Click below to",
+
+  // add list button
+  add_fashion_expense: "ADD FASHION EXPENSE",
+  add_electronics: "ADD ELECTRONICS & ELECTRICALS",
+  add_automobile: "ADD AUTOMOBILE",
+  add_personal: "ADD PERSONAL DOC",
+  add_furniture: "ADD FURNITURE",
+  add_hardware: "ADD HARDWARE",
+  add_furniture_hardware: "ADD FURNITURE & HARDWARE",
+  add_travel: "ADD TRAVEL",
+  add_dining: "ADD DINING",
+  add_hotel_stay: "ADD HOTEL STAY",
+  add_expense: "ADD EXPENSE",
+  add_other_services: "ADD SERVICES",
+  add_professional: "ADD PROFESSIONAL",
+  add_lessons_hobbies: "ADD LESSIONS & HOBBIES",
+  add_household_expense: "ADD HOUSEHOLD EXPENSE",
+  add_utility_bills: "ADD UTILITY BILLS",
+  add_education: "ADD EDUCATION BILLS",
+  add_home_decor: "ADD HOME DECOR",
+  add_other_household: "ADD OTHER HOUSEHOLD",
+  add_medical_doc: "ADD MEDICAL DOC",
+  add_healthcare: "ADD HEALTHCARE",
 
   //more screen
   more_screen_item_faq: "FAQs",
@@ -191,7 +239,8 @@ export default {
   more_screen_item_email: "Email Us",
   more_screen_item_share: "Share App",
   more_screen_item_app_version: "App Version",
-  more_screen_item_app_language_change: "Change",
+  more_screen_item_app_language_change: "Change Language",
+  more_screen_item_app_search_authorized: "Search Authorized Service Center",
   more_screen_item_app_version_update_to: "Update Now",
   more_screen_item_logout: "Logout",
   more_screen_logout: "Yes, Logout",
@@ -897,5 +946,7 @@ export default {
   language_options_dont_change: "Don't Change",
   language_options_confirm_msg_title: "Change language to {{languageName}}?",
   language_options_confirm_msg_desc: "App may restart to reflect the changes.",
-  language_options_cancel: "Cancel"
+  language_options_cancel: "Cancel",
+  changing_text_please_wait: "changing.. please wait..",
+  resend_button: "Resend"
 };
