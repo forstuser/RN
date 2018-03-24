@@ -152,7 +152,7 @@ android {
             manifestPlaceholders = [trueCallerApiKey: "FpLdJ52343bd801e74bfebf37be778b5e66f4"]
         }
         debug {
-            debuggable true
+            debuggable false
         }
     }
     // applicationVariants are e.g. debug, release
