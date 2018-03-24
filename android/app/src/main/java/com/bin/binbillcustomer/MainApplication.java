@@ -15,10 +15,8 @@ import com.BV.LinearGradient.LinearGradientPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.reactnativenavigation.bridge.NavigationReactPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
-import com.reactlibrary.RNPdfScannerPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.cmcewen.blurview.BlurViewPackage;
@@ -94,9 +92,8 @@ public class MainApplication extends NavigationApplication {
         new FIRAnalyticsPackage(), new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
         new VectorIconsPackage(), new SvgPackage(), new RNSharePackage(), new PhotoViewPackage(),
         new NavigationReactPackage(), new LinearGradientPackage(), new PickerPackage(), new RNI18nPackage(),
-        new RNGestureHandlerPackage(), new RNFetchBlobPackage(), new FIRMessagingPackage(), new RNPdfScannerPackage(),
-        new ReactNativeDocumentPicker(), new RNDeviceInfo(), new BlurViewPackage(), new RNGooglePlacesPackage(),
-        new BinBillPackager());
+        new RNFetchBlobPackage(), new FIRMessagingPackage(), new ReactNativeDocumentPicker(), new RNDeviceInfo(),
+        new BlurViewPackage(), new RNGooglePlacesPackage(), new BinBillPackager());
   }
 
   @Override

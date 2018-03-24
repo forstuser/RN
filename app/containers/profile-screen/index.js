@@ -17,8 +17,10 @@ import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
 import { showSnackbar } from "../snackbar";
 import I18n from "../../i18n";
-import { actions as loggedInUserActions } from "../../modules/logged-in-user";
+import ProfileDetailEdit from "./profile-detail-edit";
+import Body from "./body";
 
+import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 const editIcon = require("../../images/ic_edit_white.png");
 const crossIcon = require("../../images/ic_close.png");
@@ -33,6 +35,7 @@ class ProfileScreen extends Component {
 
   constructor(props) {
     super(props);
+    // alert(JSON.stringify(props));
     this.state = {
       isNameModalVisible: false,
       isEmailModalVisible: false,
@@ -269,6 +272,10 @@ class ProfileScreen extends Component {
             source={require("../../images/ic_back_arrow_white.png")}
           />
         </TouchableOpacity>
+        <Header profile={profile} />
+
+        <Body profile={profile} />
+        {/* <View style={styles.information}>
         <Header profile={profile} authToken={authToken} />
         <View style={styles.information}>
           <TouchableOpacity
@@ -339,7 +346,7 @@ class ProfileScreen extends Component {
               {location}
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <Modal
           avoidKeyboard={true}

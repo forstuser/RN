@@ -314,7 +314,8 @@ const styles = StyleSheet.create({
   itemIcon: {
     height: 52,
     width: 52,
-    marginBottom: 5
+    marginBottom: 5,
+    marginTop: 5
   },
   itemTitle: {
     fontSize: 10,
