@@ -214,6 +214,7 @@ export default {
   add_other_household: "ADD OTHER HOUSEHOLD",
   add_medical_doc: "ADD MEDICAL DOC",
   add_healthcare: "ADD HEALTHCARE",
+  add_others: "ADD OTHERS",
 
   //more screen
   more_screen_item_faq: "FAQs",

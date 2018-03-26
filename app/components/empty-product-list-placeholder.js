@@ -165,6 +165,7 @@ class AddEmptyProductScreen extends Component {
       case MAIN_CATEGORY_IDS.OTHERS:
         type = EXPENSE_TYPES.OTHERS;
         desc = I18n.t("products_list_no_result_desc_others");
+        image = require("../images/main-categories/ic_personal_doc.png");
         break;
 
       case MAIN_CATEGORY_IDS.PERSONAL:
@@ -181,13 +182,17 @@ class AddEmptyProductScreen extends Component {
       <View style={styles.container}>
         <Image style={styles.image} source={image} />
         <Text style={styles.desc}>{desc}</Text>
-        <Text style={styles.below}>{I18n.t("product_list_click_below")}</Text>
-        <Button
-          onPress={() => onPressItem(type)}
-          text={buttonText}
-          color="secondary"
-          style={styles.button}
-        />
+        {this.props.mainCategoryId != 9 && (
+          <Text style={styles.below}>{I18n.t("product_list_click_below")}</Text>
+        )}
+        {this.props.mainCategoryId != 9 && (
+          <Button
+            onPress={() => onPressItem(type)}
+            text={buttonText}
+            color="secondary"
+            style={styles.button}
+          />
+        )}
       </View>
     );
   }

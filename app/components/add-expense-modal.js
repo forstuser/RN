@@ -134,7 +134,7 @@ class AddExpenseModal extends React.Component {
               weight="Bold"
               style={[styles.optionTitle, { color: colors.mainBlue }]}
             >
-              Add Product & Doc.
+              {/* {I18n.t(add_edit_product_option_product)} */}
             </Text>
             <GridView
               scrollEnabled={false}
@@ -147,7 +147,7 @@ class AddExpenseModal extends React.Component {
           <View style={styles.orOuterContainer}>
             <View style={styles.orContainer}>
               <Text style={styles.or} weight="Bold">
-                {/* OR */}
+                OR
               </Text>
             </View>
           </View>
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     width: 300
   },
   item: {
-    height: 98,
+    height: 100,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,

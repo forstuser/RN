@@ -229,7 +229,8 @@ const styles = StyleSheet.create({
   mainGrid: {
     flex: 1,
     flexDirection: "row",
-    width: "100%"
+    width: "100%",
+    zIndex: 99
     // borderBottomWidth: 2,
     // marginBottom: -30,
     // color: "#f0f0f0",
@@ -273,7 +274,7 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 15,
+    marginTop: 0,
     marginBottom: -15,
     ...Platform.select({
       ios: {
@@ -292,10 +293,11 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   closeBtn: {
-    margin: 10,
+    // margin: 10,
     width: 300
   },
   item: {
+    height: 95,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
@@ -307,15 +309,15 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     width: "32%",
     marginRight: 4,
-    marginTop: 5,
-    ...Platform.select({
-      ios: {
-        height: 100
-      },
-      android: {
-        height: 120
-      }
-    })
+    marginTop: 5
+    // ...Platform.select({
+    //   ios: {
+    //     height: 100
+    //   },
+    //   android: {
+    //     height: 94
+    //   }
+    // })
   },
   itemIcon: {
     height: 52,

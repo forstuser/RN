@@ -6,6 +6,7 @@ import {
   FlatList,
   Alert,
   Image,
+  Keyboard,
   TextInput,
   TouchableOpacity
 } from "react-native";
@@ -32,6 +33,9 @@ class ProfileDetailEdit extends Component {
   componentDidMount() {}
 
   onSubmit = async () => {
+    // this.props.onSubmit(data);
+    Keyboard.dismiss();
+
     showSnackbar({
       text: I18n.t("changing_text_please_wait"),
       autoDismissTimerSec: 4
@@ -174,16 +178,19 @@ const styles = StyleSheet.create({
     borderColor: "#ececec",
     borderBottomWidth: 1
   },
+
   verified: {
     color: "#4dbf1c",
     paddingTop: 18,
     fontSize: 12
   },
+
   notVerified: {
     color: "#f02d2d",
     paddingTop: 18,
     fontSize: 12
   },
+
   fieldValue: {
     color: "#3b3b3b",
     fontSize: 16,
@@ -203,6 +210,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: colors.tomato
   },
+
   icons: {
     marginTop: 15
   }
