@@ -29,7 +29,8 @@ class ViewBillButton extends React.Component {
       product,
       navigator,
       docType = "Product",
-      btnText = "Bill"
+      btnText = "Bill",
+      style
     } = this.props;
     if (product.copies && product.copies.length > 0) {
       return (
@@ -43,7 +44,7 @@ class ViewBillButton extends React.Component {
               type: docType
             });
           }}
-          style={styles.viewBillBtn}
+          style={[styles.viewBillBtn, style]}
         >
           <Image style={styles.viewBillIcon} source={viewBillIcon} />
           <Text style={styles.viewBillText}>View {btnText}</Text>
@@ -61,7 +62,7 @@ class ViewBillButton extends React.Component {
               product.id
             );
           }}
-          style={styles.viewBillBtn}
+          style={[styles.viewBillBtn, style]}
         >
           <UploadBillOptions
             ref={o => (this.uploadBillOptions = o)}
@@ -80,6 +81,7 @@ class ViewBillButton extends React.Component {
 
 const styles = StyleSheet.create({
   viewBillBtn: {
+    width: 80,
     position: "absolute",
     right: 10,
     top: 10,

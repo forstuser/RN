@@ -196,6 +196,30 @@ export const uploadProfilePic = async (file, onUploadProgress) => {
   });
 };
 
+export const uploadProductImage = async (productId, file, onUploadProgress) => {
+  const data = new FormData();
+  data.append(`filesName`, {
+    uri: file.uri,
+    type: file.mimeType,
+    name: file.filename || "product-image.jpeg"
+  });
+
+  return await apiRequest({
+    method: "post",
+    url: `consumer/products/${productId}/images`,
+    data: data,
+    headers: {
+      "Content-Type": "multipart/form-data"
+    },
+    onUploadProgress: progressEvent => {
+      let percentCompleted = Math.floor(
+        progressEvent.loaded * 100 / progressEvent.total
+      );
+      onUploadProgress(percentCompleted);
+    }
+  });
+};
+
 export const fetchFile = async (url, onDownloadProgress) => {
   const responseData = await apiRequest({
     method: "get",

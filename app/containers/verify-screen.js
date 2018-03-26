@@ -87,7 +87,8 @@ class VerifyScreen extends Component {
       this.props.setLoggedInUser({
         id: user.id,
         name: user.name,
-        phone: user.mobile_no
+        phone: user.mobile_no,
+        imageName: user.image_name
       });
       openAfterLoginScreen();
     } catch (e) {

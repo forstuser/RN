@@ -10,7 +10,7 @@ import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Text, Button } from "../elements";
 import I18n from "../i18n";
-import { colors } from "../theme";
+import { colors, defaultStyles } from "../theme";
 import UpcomingServiceItem from "./upcoming-service-item";
 
 class UpcomingServicesList extends React.Component {
@@ -40,6 +40,7 @@ class UpcomingServicesList extends React.Component {
         <View
           style={[
             styles.list,
+            defaultStyles.card,
             listHeight == "less" ? styles.listLessHeight : {}
           ]}
         >
@@ -86,22 +87,21 @@ class UpcomingServicesList extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    marginBottom: 40
+    alignItems: "center"
   },
   list: {
     width: "100%",
+    minHeight: 50,
     overflow: "hidden",
-    borderColor: "#eaeaea",
-    borderBottomWidth: 1
+    backgroundColor: "#fff"
   },
   listLessHeight: {
     maxHeight: 131
   },
   viewBtn: {
     alignItems: "center",
-    position: "absolute",
-    bottom: -75
+    marginTop: -20,
+    elevation: 3
   }
 });
 

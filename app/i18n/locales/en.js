@@ -15,6 +15,16 @@ export default {
 
   //common words
   other: "Other",
+  upload_product_image: "Upload Product Image",
+  add_product_image: "Add Product Image",
+  add_product_review: "Add Product Review",
+  uploading: "Uploading...",
+  product_image_updated: "Product Image Updated",
+  share: "Share",
+  share_card: "Share Card",
+  review: "Review",
+  max_words: "Max {{count}} words",
+  i_will_do_it_later: "I'll do it later",
 
   //app intro screen
   app_intro_1_title: `Timely Warranty, Service,\nInsurance Alerts`,
@@ -293,7 +303,7 @@ export default {
     "Product brand not available. Please upload your bill if you haven't",
   product_details_screen_open_email: "Can't open this email",
   product_details_screen_cancel: "Cancel",
-  product_details_screen_review_product: "REVIEW THIS PRODUCT",
+  product_details_screen_review_product: "Rate your Experience",
   product_details_screen_write_feedback: "Write your feedback…",
   product_details_screen_submit: "Submit",
   product_details_screen_your_review: "YOUR REVIEW",

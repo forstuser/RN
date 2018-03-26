@@ -131,9 +131,6 @@ class CalculationDetailModal extends React.Component {
       type
     } = this.state;
 
-    if (!unitPrice) {
-      return Alert.alert("Please unit price or wages");
-    }
     if (!startingDate) {
       return Alert.alert("Please select a starting date");
     }
@@ -164,9 +161,7 @@ class CalculationDetailModal extends React.Component {
       });
       this.setState({
         isModalVisible: false,
-        isSavingDetails: false,
-        unitPrice: "",
-        quantity: ""
+        isSavingDetails: false
       });
       reloadScreen();
     } catch (e) {
@@ -209,7 +204,7 @@ class CalculationDetailModal extends React.Component {
       priceText = I18n.t("add_edit_calendar_service_screen_form_wages");
     } else if (
       serviceType.main_category_id == 6 &&
-      serviceType.category_id == 123
+      (serviceType.category_id == 123 || serviceType.category_id == 635)
     ) {
       priceText = I18n.t("add_edit_calendar_service_screen_form_fees");
     }

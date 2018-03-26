@@ -105,7 +105,7 @@ class Attendance extends React.Component {
       unitPriceText = I18n.t("add_edit_calendar_service_screen_form_wages");
     } else if (
       serviceType.main_category_id == 6 &&
-      serviceType.category_id == 123
+      (serviceType.category_id == 123 || serviceType.category_id == 635)
     ) {
       unitPriceText = I18n.t("add_edit_calendar_service_screen_form_fees");
     }

@@ -7,6 +7,7 @@ export default {
     id: null,
     name: null,
     phone: null,
+    imageName: null,
     codepushDeploymentStaging: false
   },
 

@@ -24,7 +24,7 @@ import { Text, Button, ScreenContainer } from "../../elements";
 
 import I18n from "../../i18n";
 
-import { colors } from "../../theme";
+import { colors, defaultStyles } from "../../theme";
 
 import LoadingOverlay from "../../components/loading-overlay";
 import KeyValueItem from "../../components/key-value-item";
@@ -112,57 +112,57 @@ class MedicalDocsCard extends Component {
           <Text weight="Bold" style={styles.subCategoryName}>
             {product.sub_category_name}
           </Text>
-          <TouchableOpacity
-            onPress={this.onEditPress}
-            style={{
-              marginTop: 20,
-              width: "100%",
-              backgroundColor: "#EBEBEB"
-            }}
-          >
+          <View style={[defaultStyles.card, { margin: 16 }]}>
+            <TouchableOpacity
+              onPress={this.onEditPress}
+              style={{
+                width: "100%",
+                backgroundColor: "#EBEBEB"
+              }}
+            >
+              <KeyValueItem
+                KeyComponent={() => (
+                  <Text
+                    weight="Bold"
+                    style={{
+                      flex: 1,
+                      color: colors.mainText,
+                      fontSize: 16
+                    }}
+                  >
+                    {I18n.t("product_details_screen_general_info")}
+                  </Text>
+                )}
+                ValueComponent={() => (
+                  <Text
+                    weight="Bold"
+                    style={{
+                      textAlign: "right",
+                      flex: 1,
+                      color: colors.pinkishOrange
+                    }}
+                  >
+                    {I18n.t("product_details_screen_edits")}
+                  </Text>
+                )}
+              />
+            </TouchableOpacity>
+            <KeyValueItem keyText="Name" valueText={product.productName} />
             <KeyValueItem
-              KeyComponent={() => (
-                <Text
-                  weight="Bold"
-                  style={{
-                    flex: 1,
-                    color: colors.mainText,
-                    fontSize: 16
-                  }}
-                >
-                  {I18n.t("product_details_screen_general_info")}
-                </Text>
-              )}
+              keyText="Doctor/Hospital Name"
+              valueText={seller.name}
+            />
+            <KeyValueItem
+              keyText="Date"
+              valueText={moment(product.purchaseDate).format("MMM DD, YYYY")}
+            />
+            <KeyValueItem
+              keyText="Contact"
               ValueComponent={() => (
-                <Text
-                  weight="Bold"
-                  style={{
-                    textAlign: "right",
-                    flex: 1,
-                    color: colors.pinkishOrange
-                  }}
-                >
-                  {I18n.t(" product_details_screen_edits")}
-                </Text>
+                <MultipleContactNumbers contact={seller.contact} />
               )}
             />
-          </TouchableOpacity>
-          <KeyValueItem keyText="Name" valueText={product.productName} />
-
-          <KeyValueItem
-            keyText="Doctor/Hospital Name"
-            valueText={seller.name}
-          />
-          <KeyValueItem
-            keyText="Date"
-            valueText={moment(product.purchaseDate).format("MMM DD, YYYY")}
-          />
-          <KeyValueItem
-            keyText="Contact"
-            ValueComponent={() => (
-              <MultipleContactNumbers contact={seller.contact} />
-            )}
-          />
+          </View>
         </ScrollView>
       </View>
     );
@@ -172,7 +172,8 @@ class MedicalDocsCard extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30
+    marginTop: 30,
+    backgroundColor: "#f7f7f7"
   },
   contentContainer: {
     alignItems: "center"

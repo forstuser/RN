@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import moment from "moment";
-import { Text, Button, AsyncImage } from "../../elements";
+import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
 import { colors, defaultStyles } from "../../theme";
 import { API_BASE_URL } from "../../api";

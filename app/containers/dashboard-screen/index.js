@@ -60,6 +60,8 @@ class DashboardScreen extends React.Component {
       insightChartProps: {},
       notificationCount: 0,
       recentSearches: [],
+      totalCalendarItem: 0,
+      calendarItemUpdatedAt: null,
       showUploadOptions: false,
       showAddProductOptionsScreenOnAppear: false
     };
@@ -103,7 +105,8 @@ class DashboardScreen extends React.Component {
     this.props.setLoggedInUser({
       id: user.id,
       name: user.name,
-      phone: user.mobile_no
+      phone: user.mobile_no,
+      imageName: user.image_name
     });
   }
 
@@ -161,6 +164,8 @@ class DashboardScreen extends React.Component {
           upcomingServices: dashboardData.upcomingServices,
           recentActivitiesProduct: dashboardData.product,
           insightChartProps: insightChartProps,
+          totalCalendarItem: dashboardData.total_calendar_item,
+          calendarItemUpdatedAt: dashboardData.calendar_item_updated_at,
           isFetchingData: false
         },
         () => {
@@ -239,6 +244,8 @@ class DashboardScreen extends React.Component {
       showDashboard,
       notificationCount,
       recentSearches,
+      totalCalendarItem,
+      calendarItemUpdatedAt,
       isFetchingData
     } = this.state;
 
@@ -262,12 +269,7 @@ class DashboardScreen extends React.Component {
                       setRef={ref => (this.comingUpRef = ref)}
                       text={I18n.t("dashboard_screen_whats_coming_up")}
                     />
-                    <View
-                      style={[
-                        defaultStyles.card,
-                        { backgroundColor: "#fff", marginBottom: 40 }
-                      ]}
-                    >
+                    <View>
                       <UpcomingServicesList
                         upcomingServices={this.state.upcomingServices}
                         navigator={this.props.navigator}
@@ -281,9 +283,17 @@ class DashboardScreen extends React.Component {
                       gradientColors={["#007bce", "#00c6ff"]}
                       text={I18n.t("dashboard_screen_recent_activity")}
                     />
-                    <View style={defaultStyles.card}>
+                    <View
+                      style={[
+                        defaultStyles.card,
+                        {
+                          padding: 2
+                        }
+                      ]}
+                    >
                       <ProductListItem
                         style={{
+                          borderColor: undefined,
                           borderWidth: 0,
                           marginBottom: 0
                         }}
@@ -337,7 +347,10 @@ class DashboardScreen extends React.Component {
                 />
                 <TouchableOpacity
                   onPress={this.openMyCalendarScreen}
-                  style={[defaultStyles.card, styles.expenseInsight]}
+                  style={[
+                    defaultStyles.card,
+                    { flexDirection: "row", padding: 16, marginBottom: 60 }
+                  ]}
                 >
                   <Image
                     style={styles.expenseInsightImage}
@@ -349,14 +362,18 @@ class DashboardScreen extends React.Component {
                       {I18n.t("dashboard_screen_total_items_added")}
                     </Text>
                     <Text style={styles.expenseInsightSubTitle}>
-                      {I18n.t("dashboard_screen_last_updated_on", {
-                        date: moment().format("DD MMM YYYY")
-                      })}
+                      {calendarItemUpdatedAt
+                        ? I18n.t("dashboard_screen_last_updated_on", {
+                            date: moment(calendarItemUpdatedAt).format(
+                              "DD MMM YYYY"
+                            )
+                          })
+                        : null}
                     </Text>
                   </View>
                   <View style={styles.expenseInsightDetails}>
                     <Text weight="Bold" style={styles.expenseInsightAmount}>
-                      {this.state.insightChartProps.totalSpend}
+                      {totalCalendarItem}
                     </Text>
                     <Text
                       weight="Medium"

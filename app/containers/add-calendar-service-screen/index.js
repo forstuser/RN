@@ -103,8 +103,8 @@ class AddEditCalendarServiceScreen extends Component {
     if (serviceType.main_category_id == 6 && serviceType.category_id == 24) {
       type = "service";
     } else if (
-      serviceType.main_category_id == 6 &&
-      serviceType.category_id == 123
+      serviceType.category_id == 123 ||
+      serviceType.category_id == 635
     ) {
       type = "classes";
     }

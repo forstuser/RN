@@ -93,7 +93,8 @@ class Report extends React.Component {
         isEditDetailModalOpen: false,
         isSavingDetails: false
       });
-      reloadScreen();
+      //app crashes on Android without this timeout
+      setTimeout(() => reloadScreen(), 200);
     } catch (e) {
       Alert.alert(e.message);
       this.setState({
@@ -117,7 +118,7 @@ class Report extends React.Component {
       priceText = I18n.t("add_edit_calendar_service_screen_form_wages");
     } else if (
       serviceType.main_category_id == 6 &&
-      serviceType.category_id == 123
+      (serviceType.category_id == 123 || serviceType.category_id == 635)
     ) {
       priceText = I18n.t("add_edit_calendar_service_screen_form_fees");
     }

@@ -32,15 +32,25 @@ class AsyncImage extends Component {
       headers.Authorization = token;
     }
 
+    let source = this.props.source;
+    if (this.props.uri) {
+      source = {
+        uri: this.props.uri,
+        headers: headers
+      };
+    } else if (this.props.source && this.props.source.uri) {
+      source = {
+        uri: this.props.source.uri,
+        headers: headers
+      };
+    }
+
     if (!this.props.fileType || isImageFileType(this.props.fileType)) {
       const { isLoading, errorMsg, imageSource } = this.state;
       return (
         <Image
           style={[styles.image, this.props.style]}
-          source={{
-            uri: this.props.uri,
-            headers: headers
-          }}
+          source={source}
           resizeMode={this.props.resizeMode}
         />
       );

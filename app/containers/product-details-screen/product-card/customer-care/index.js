@@ -197,7 +197,7 @@ class CustomerCare extends React.Component {
     }
 
     let connectItems = [];
-    if (brand && brand.status_type == 1) {
+    if (brand && brand.status_type == 1 && brand.id > 0) {
       connectItems.push({
         type: "brand",
         title: I18n.t("product_details_screen_connect_brand_connect"),

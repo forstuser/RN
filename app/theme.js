@@ -9,11 +9,13 @@ export const colors = {
   cerulean: "#007bce",
   tomato: "#f0622d",
   success: "#7ed321",
-  danger: "#eb5d26"
+  danger: "#eb5d26",
+  yellow: "#ffd000"
 };
 
 export const defaultStyles = {
   card: {
+    backgroundColor: "#fff",
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },

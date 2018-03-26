@@ -24,7 +24,8 @@ export default function loggedInUserReducer(
         ...state,
         id: action.payload.id,
         name: action.payload.name,
-        phone: action.payload.phone
+        phone: action.payload.phone,
+        imageName: action.payload.imageName
       };
     case types.LOGGED_IN_USER_SET_CODEPUSH_DEPLOYEMENT_STAGING:
       return {
@@ -53,7 +54,7 @@ export const actions = {
     };
   },
   /**
-   * user object: {id, name: phone}
+   * user object: {id, name, phone, imageName}
    */
   setLoggedInUser: user => {
     return {

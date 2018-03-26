@@ -28,7 +28,7 @@ import { colors } from "../theme";
 import SelectModal from "../components/select-modal";
 import LoadingOverlay from "../components/loading-overlay";
 
-const uploadDocIllustration = require("../images/upload-doc-illustration.png");
+const uploadDocIllustration = require("../images/upload_doc_illustration.png");
 
 class DirectUploadDocumentScreen extends React.Component {
   static navigatorStyle = {
