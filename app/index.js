@@ -17,6 +17,7 @@ import { persistStore } from "redux-persist";
 import { Provider } from "react-redux";
 import codePush from "react-native-code-push";
 import { Navigation, NativeEventsReceiver } from "react-native-navigation";
+import moment from "moment";
 
 import { registerScreens } from "./screens";
 import I18n from "./i18n";
@@ -30,7 +31,7 @@ import {
   CODEPUSH_KEYS
 } from "./constants";
 
-import navigation, { openAppScreen } from "./navigation";
+import navigation, { openAppScreen, openEnterPinPopup } from "./navigation";
 
 import { addFcmToken, verifyEmail } from "./api";
 
@@ -273,7 +274,22 @@ function startApp() {
 
       //things to do on app resume
       AppState.addEventListener("change", nextAppState => {
-        if (nextAppState === "active") {
+        console.log("nextAppState: ", nextAppState);
+        if (nextAppState === "background") {
+          global[
+            GLOBAL_VARIABLES.LAST_ACTIVE_TIMESTAMP
+          ] = moment().toISOString();
+        } else if (nextAppState === "active") {
+          if (
+            global[GLOBAL_VARIABLES.LAST_ACTIVE_TIMESTAMP] &&
+            moment().diff(
+              moment(global[GLOBAL_VARIABLES.LAST_ACTIVE_TIMESTAMP]),
+              "seconds"
+            ) > 10
+          ) {
+            // openEnterPinPopup();
+          }
+
           if (Platform.OS == "android") {
             //a timeout so that native android can save the 'filePath' in shared preferences
             setTimeout(async () => {

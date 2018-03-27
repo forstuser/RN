@@ -8,6 +8,7 @@ export default {
     name: null,
     phone: null,
     imageName: null,
+    isPinSet: false,
     codepushDeploymentStaging: false
   },
 

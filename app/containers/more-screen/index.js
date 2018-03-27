@@ -99,7 +99,7 @@ class MoreScreen extends Component {
   };
 
   render() {
-    const { authToken } = this.props;
+    const { authToken, isPinSet } = this.props;
     const { profile, isAppUpdateAvailable, error, isFetchingData } = this.state;
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
@@ -115,6 +115,7 @@ class MoreScreen extends Component {
         />
         <Body
           profile={profile}
+          isPinSet={isPinSet}
           isAppUpdateAvailable={isAppUpdateAvailable}
           logoutUser={this.props.logoutUser}
           language={this.props.language}
@@ -133,6 +134,7 @@ class MoreScreen extends Component {
 const mapStateToProps = state => {
   return {
     authToken: state.loggedInUser.authToken,
+    isPinSet: state.loggedInUser.isPinSet,
     language: state.ui.language
   };
 };

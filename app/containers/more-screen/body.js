@@ -104,12 +104,43 @@ class Body extends Component {
     this.languageOptions.show();
   };
 
+  onAppPinPress = () => {
+    const { isPinSet } = this.props;
+    if (!isPinSet) {
+      this.props.navigator.push({
+        screen: SCREENS.PIN_SETUP_SCREEN
+      });
+    }
+  };
+
+  onPinOptionPress = i => {
+    if (i < 2) {
+    }
+  };
+
   render() {
     const appVersion = DeviceInfo.getVersion();
-    const { isAppUpdateAvailable, language } = this.props;
+    const { isAppUpdateAvailable, isPinSet, language } = this.props;
 
     return (
       <ScrollView>
+        <MoreItem
+          onPress={this.onAppPinPress}
+          imageSource={require("../../images/ic_translate.png")}
+          text={I18n.t("app_pin")}
+          btnText={isPinSet ? I18n.t("change") : I18n.t("set_now")}
+        />
+        <ActionSheet
+          onPress={this.onPinOptionPress}
+          ref={o => (this.pinOptions = o)}
+          cancelButtonIndex={2}
+          options={[
+            I18n.t("change_pin"),
+            I18n.t("remove_pin"),
+            I18n.t("cancel")
+          ]}
+        />
+
         <MoreItem
           onPress={this.onLanguageChangePress}
           imageSource={require("../../images/ic_translate.png")}

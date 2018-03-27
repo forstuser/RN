@@ -11,6 +11,14 @@ export const openBillsPopUp = props => {
   });
 };
 
+export const openEnterPinPopup = props => {
+  Navigation.showModal({
+    screen: SCREENS.ENTER_PIN_POPUP_SCREEN,
+    passProps: props,
+    overrideBackPress: true
+  });
+};
+
 export const openLoginScreen = () => {
   Navigation.startSingleScreenApp({
     screen: {
@@ -178,6 +186,7 @@ export default {
   openAfterLoginScreen,
   openAppScreen,
   openBillsPopUp,
+  openEnterPinPopup,
   openAddProductsScreen,
   openAddProductScreen
 };

@@ -27,6 +27,11 @@ export default function loggedInUserReducer(
         phone: action.payload.phone,
         imageName: action.payload.imageName
       };
+    case types.LOGGED_IN_USER_SET_IS_PIN_SET:
+      return {
+        ...state,
+        fcmToken: action.payload.isPinSet
+      };
     case types.LOGGED_IN_USER_SET_CODEPUSH_DEPLOYEMENT_STAGING:
       return {
         ...state,
@@ -60,6 +65,12 @@ export const actions = {
     return {
       type: types.LOGGED_IN_USER_SET_USER,
       payload: { ...user }
+    };
+  },
+  setLoggedInUserIsPinSet: isPinSet => {
+    return {
+      type: types.LOGGED_IN_USER_SET_IS_PIN_SET,
+      payload: { isPinSet: isPinSet }
     };
   },
   setLoggedInUserCodepushDeploymentStaging: codepushDeploymentStaging => {

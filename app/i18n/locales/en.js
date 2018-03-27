@@ -963,5 +963,13 @@ export default {
 
   //27-03-2018
   love_using_binbill: "Love using BinBill app?",
-  recommend_us: "Recommend us to others by rating us on {{storeName}} Store"
+  recommend_us: "Recommend us to others by rating us on {{storeName}} Store",
+  app_pin: "App Pin",
+  change: "Change",
+  set_now: "Set Now",
+  change_pin: "Change Pin",
+  remove_pin: "Remove Pin",
+  cancel: "Cancel",
+  set_app_pin: "Set App Pin",
+  reset_app_pin: "Reset App Pin"
 };

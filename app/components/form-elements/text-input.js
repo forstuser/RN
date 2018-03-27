@@ -48,7 +48,9 @@ class CustomTextInput extends React.Component {
       hint,
       keyboardType,
       rightSideText = "",
-      rightSideTextWidth = 0
+      rightSideTextWidth = 0,
+      maxLength,
+      secureTextEntry
     } = this.props;
     const { value } = this.state;
     return (
@@ -83,6 +85,8 @@ class CustomTextInput extends React.Component {
           style={[styles.textInput, { paddingRight: rightSideTextWidth }]}
           value={value}
           onChangeText={text => this.onChangeText(text)}
+          maxLength={maxLength}
+          secureTextEntry={secureTextEntry}
         />
         {rightSideText ? (
           <Text weight="Medium" style={styles.rightSideText}>
