@@ -96,7 +96,7 @@ def enableProguardInReleaseBuilds = true
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "com.bin.binbillcustomer"
@@ -106,7 +106,7 @@ android {
         versionName "1.0"
         multiDexEnabled true
         ndk {
-            abiFilters "armeabi-v7a"
+//            abiFilters "armeabi-v7a"
         }
 //        from react-native-blur
 //        renderscriptTargetApi 25
@@ -130,7 +130,7 @@ android {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a"
+            include "armeabi-v7a","x86"
         }
     }
 //    splits {
@@ -148,7 +148,7 @@ android {
             manifestPlaceholders = [trueCallerApiKey: "FpLdJ52343bd801e74bfebf37be778b5e66f4"]
         }
         debug {
-            debuggable false
+            debuggable true
             manifestPlaceholders = [trueCallerApiKey: "FpLdJ52343bd801e74bfebf37be778b5e66f4"]
         }
     }
