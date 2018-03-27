@@ -60,6 +60,7 @@ class AddProductScreen extends React.Component {
       </TouchableOpacity>
     );
   };
+
   render() {
     const { isModalVisible, showCancelBtn } = this.state;
     const productOptions = [
@@ -228,7 +229,12 @@ const styles = StyleSheet.create({
   mainGrid: {
     flex: 1,
     flexDirection: "row",
-    width: "100%"
+    width: "100%",
+    zIndex: 99
+    // borderBottomWidth: 2,
+    // marginBottom: -30,
+    // color: "#f0f0f0",
+    // zIndex: 99
   },
   gri: {
     height: 120,
@@ -262,19 +268,13 @@ const styles = StyleSheet.create({
       },
       android: {}
     })
-    // backgroundColor: "#F0F0F0",
-    // width: "100%"
-    //   justifyContent: "center",
-    //   alignItems: "center",
-    //   zIndex: 99
-    // padding: 5
   },
   orContainer: {
     backgroundColor: "#F0F0F0",
     borderRadius: 32,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: -15,
+    marginTop: 0,
     marginBottom: -15,
     ...Platform.select({
       ios: {
@@ -293,11 +293,11 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   closeBtn: {
-    margin: 10,
+    // margin: 10,
     width: 300
   },
   item: {
-    height: 100,
+    height: 95,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
@@ -310,6 +310,14 @@ const styles = StyleSheet.create({
     width: "32%",
     marginRight: 4,
     marginTop: 5
+    // ...Platform.select({
+    //   ios: {
+    //     height: 100
+    //   },
+    //   android: {
+    //     height: 94
+    //   }
+    // })
   },
   itemIcon: {
     height: 52,

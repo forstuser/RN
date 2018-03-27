@@ -79,6 +79,7 @@ class AddEditExpenseScreen extends React.Component {
   };
 
   componentDidMount() {
+    console.log(this.props, "propsdata");
     let title = "";
     switch (this.props.expenseType) {
       case EXPENSE_TYPES.AUTOMOBILE:

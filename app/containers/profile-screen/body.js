@@ -20,6 +20,7 @@ const editIcon = require("../../images/ic_edit_white.png");
 class Body extends Component {
   constructor(props) {
     super(props);
+
     // alert(JSON.stringify(props));
     this.state = {
       name: this.props.profile.name,
@@ -29,7 +30,11 @@ class Body extends Component {
       location: this.props.profile.location,
       textInputEnable: false
     };
+    // this.updateState = this.updateState.bind(this);
   }
+  // updateState(data) {
+  //   this.setState();
+  // }
 
   render() {
     return (
@@ -39,6 +44,7 @@ class Body extends Component {
           info={this.state.name}
           apiFieldName="name"
           editable={true}
+          // onSubmit={this.updateState}
         />
         <ProfileDetailEdit
           label={I18n.t("profile_screen_label_phone")}
