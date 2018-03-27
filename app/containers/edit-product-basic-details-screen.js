@@ -45,8 +45,8 @@ class EditProductBasicDetails extends React.Component {
     switch (event.id) {
       case "backPress":
         Alert.alert(
-          I18n.t(" add_edit_amc_are_you_sure"),
-          I18n.t(" add_edit_product_basic_unsaved_info"),
+          I18n.t("add_edit_amc_are_you_sure"),
+          I18n.t("add_edit_product_basic_unsaved_info"),
           [
             {
               text: I18n.t("add_edit_amc_go_back"),

@@ -67,12 +67,12 @@ class RateUsScreen extends Component {
           </TouchableOpacity>
           <Image source={image} style={styles.image} />
           <Text weight="Bold" style={styles.title}>
-            Love using BinBill app?
+            {I18n.t("love_using_binbill")}
           </Text>
           <Text weight="Bold" style={styles.desc}>
-            {`Recommend us to others by rating us on ${
-              Platform.OS == "ios" ? "App" : "Play"
-            } Store.`}
+            {I18n.t("recommend_us", {
+              storeName: Platform.OS == "ios" ? "App" : "Play"
+            })}
           </Text>
           <Button
             onPress={this.openAppStore}

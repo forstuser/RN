@@ -172,7 +172,7 @@ class SelectCategoryHeader extends React.Component {
             <View style={styles.option}>
               <View style={styles.optionIconContainer}>
                 <Image
-                  style={[styles.optionIcon]}
+                  style={[styles.optionIcon, { width: 50, height: 30 }]}
                   resizeMode="contain"
                   source={require("../../images/categories/others.png")}
                 />
@@ -237,8 +237,10 @@ const styles = StyleSheet.create({
     shadowRadius: 2
   },
   optionIcon: {
-    width: 50,
-    height: 30,
+    // width: 50,
+    // height: 30,
+    width: 75,
+    height: 75,
     opacity: 0.3
   },
   selectedOptionIcon: {

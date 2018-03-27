@@ -39,7 +39,8 @@ class AllInfo extends React.Component {
         screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
         passProps: {
           product: product
-        }
+        },
+        overrideBackPress: true
       });
     }
   };

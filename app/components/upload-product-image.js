@@ -10,6 +10,7 @@ import {
 import ImagePicker from "react-native-image-crop-picker";
 import ActionSheet from "react-native-actionsheet";
 
+import { requestCameraPermission } from "../android-permissions";
 import { uploadProductImage } from "../api";
 
 import I18n from "../i18n";
@@ -42,7 +43,9 @@ class UploadProductImage extends React.Component {
     }
   };
 
-  takeCameraImage = () => {
+  takeCameraImage = async () => {
+    Alert.alert("Camera");
+    if ((await requestCameraPermission()) == false) return;
     ImagePicker.openCamera({
       width: 800,
       height: 450,

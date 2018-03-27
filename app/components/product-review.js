@@ -91,6 +91,7 @@ class UploadProductImage extends React.Component {
         </View>
         <View style={styles.reviewInputWrapper}>
           <TextInput
+            underlineColorAndroid="transparent"
             ref={ref => (this.reviewInput = ref)}
             maxLength={1000}
             placeholder={I18n.t("product_details_screen_write_feedback")}

@@ -52,7 +52,7 @@ class UpcomingServicesList extends React.Component {
             />
           ))}
         </View>
-        {upcomingServices.length > -2 && (
+        {upcomingServices.length > 2 && (
           <TouchableOpacity
             style={styles.viewBtn}
             onPress={this.toggleListHeight}

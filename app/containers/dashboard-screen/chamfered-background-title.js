@@ -34,7 +34,7 @@ const Title = ({ gradientColors = ["#ff652e", "#ffa33c"], text = "" }) => (
           M0,40
           v-30
           a10,10 0 0 1 10 -10
-          h175
+          h135
           a10,10 0 0 1 5 5
           l10,35
           Z"
@@ -51,7 +51,7 @@ const Title = ({ gradientColors = ["#ff652e", "#ffa33c"], text = "" }) => (
 
 const styles = StyleSheet.create({
   container: {
-    width: 200,
+    width: 160,
     height: 40,
     marginTop: 20
   },

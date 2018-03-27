@@ -171,7 +171,7 @@ class Repair extends React.Component {
                 </Text>
               </TouchableOpacity>
               <Text style={styles.noProductsText}>
-                I18.t("add_edit_expense_screen_title_add_repair_details")
+                {I18n.t("add_edit_expense_screen_title_add_repair_details")}
               </Text>
             </View>
           )}

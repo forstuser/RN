@@ -147,7 +147,7 @@ class ShareModal extends React.Component {
         avoidKeyboard={Platform.OS == "ios"}
       >
         <View style={styles.modal}>
-          {ratings == null && (
+          {(!isProductImageStepDone || ratings == null) && (
             <View
               style={{ alignItems: "center", marginTop: 40, marginBottom: 20 }}
             >
@@ -222,75 +222,79 @@ class ShareModal extends React.Component {
                 />
               </View>
             )}
-          {ratings != null && (
-            <View style={styles.shareViewContainer}>
-              <View
-                collapsable={false}
-                style={styles.shareView}
-                ref={ref => (this.shareView = ref)}
-              >
-                {productImageUrl ? (
-                  <Image
-                    resizeMode={productImageResizeMode}
-                    style={styles.productImage}
-                    source={{ uri: productImageUrl }}
-                  />
-                ) : null}
-                <Text weight="Bold" style={styles.productName}>
-                  {product.productName}
-                </Text>
-                <Text weight="Medium" style={styles.productModel}>
-                  {product.model}
-                </Text>
-                <View style={styles.userImageView}>
-                  <View style={styles.userImageLine} />
-                  <Image
-                    style={styles.userImage}
-                    source={userImageSource}
-                    resize="cover"
-                  />
-                </View>
-                <Text style={styles.userName} weight="Bold">
-                  {loggedInUser.name}
-                </Text>
-                <StarRating
-                  starColor="#f8e71c"
-                  disabled={true}
-                  maxStars={5}
-                  rating={ratings}
-                  halfStarEnabled={true}
-                  starSize={18}
-                  starStyle={{ marginHorizontal: 2 }}
-                />
-                <Text style={styles.feedbackText}>{`"${feedbackText}"`}</Text>
-                <View style={styles.badges}>
-                  <View style={styles.binbillLogoWrapper}>
+          {isProductImageStepDone &&
+            ratings != null && (
+              <View style={styles.shareViewContainer}>
+                <View
+                  collapsable={false}
+                  style={styles.shareView}
+                  ref={ref => (this.shareView = ref)}
+                >
+                  {productImageUrl ? (
                     <Image
-                      resizeMode="contain"
-                      style={styles.binbillLogo}
-                      source={binbillLogo}
+                      resizeMode={productImageResizeMode}
+                      style={styles.productImage}
+                      source={{ uri: productImageUrl }}
+                    />
+                  ) : null}
+                  <Text weight="Bold" style={styles.productName}>
+                    {product.productName}
+                  </Text>
+                  <Text weight="Medium" style={styles.productModel}>
+                    {product.model}
+                  </Text>
+                  <View style={styles.userImageView}>
+                    <View style={styles.userImageLine} />
+                    <Image
+                      style={styles.userImage}
+                      source={userImageSource}
+                      resize="cover"
                     />
                   </View>
-                  <Image
-                    resizeMode="contain"
-                    style={styles.storeBadge}
-                    source={appStoreBadge}
+                  <Text style={styles.userName} weight="Bold">
+                    {loggedInUser.name}
+                  </Text>
+                  <StarRating
+                    starColor="#f8e71c"
+                    disabled={true}
+                    maxStars={5}
+                    rating={ratings}
+                    halfStarEnabled={true}
+                    starSize={18}
+                    starStyle={{ marginHorizontal: 2 }}
                   />
-                  <Image
-                    resizeMode="contain"
-                    style={styles.storeBadge}
-                    source={playStoreBadge}
-                  />
+                  <Text
+                    numberOfLines={4}
+                    style={styles.feedbackText}
+                  >{`"${feedbackText}"`}</Text>
+                  <View style={styles.badges}>
+                    <View style={styles.binbillLogoWrapper}>
+                      <Image
+                        resizeMode="contain"
+                        style={styles.binbillLogo}
+                        source={binbillLogo}
+                      />
+                    </View>
+                    <Image
+                      resizeMode="contain"
+                      style={styles.storeBadge}
+                      source={appStoreBadge}
+                    />
+                    <Image
+                      resizeMode="contain"
+                      style={styles.storeBadge}
+                      source={playStoreBadge}
+                    />
+                  </View>
                 </View>
+                <Button
+                  style={styles.shareBtn}
+                  onPress={this.onSharePress}
+                  text={I18n.t("share")}
+                  color="secondary"
+                />
               </View>
-              <Button
-                style={styles.shareBtn}
-                onPress={this.onSharePress}
-                text={I18n.t("share")}
-                color="secondary"
-              />
-            </View>
-          )}
+            )}
           <UploadProductImage
             ref={ref => (this.uploadProductImage = ref)}
             productId={product.id}
@@ -362,7 +366,8 @@ const styles = StyleSheet.create({
   },
   productImage: {
     width: "100%",
-    height: 190,
+    minHeight: 150,
+    maxHeight: 190,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     overflow: "hidden"

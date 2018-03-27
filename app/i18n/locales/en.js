@@ -2,7 +2,7 @@ export default {
   //units
   litre: "Litre",
   litre_symbol: "l",
-  millilitre: "Milli-Litre",
+  millilitre: "Millilitre",
   millilitre_symbol: "ml",
   kilogram: "Kilogram",
   kilogram_symbol: "Kg",
@@ -959,5 +959,9 @@ export default {
   language_options_confirm_msg_desc: "App may restart to reflect the changes.",
   language_options_cancel: "Cancel",
   changing_text_please_wait: "changing.. please wait..",
-  resend_button: "Resend"
+  resend_button: "Resend",
+
+  //27-03-2018
+  love_using_binbill: "Love using BinBill app?",
+  recommend_us: "Recommend us to others by rating us on {{storeName}} Store"
 };

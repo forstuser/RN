@@ -37,7 +37,7 @@ import ProductListItem from "../../components/product-list-item";
 import { actions as uiActions } from "../../modules/ui";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 
-const calendarIcon = require("../../images/ic_calendar_green.png");
+const ascIcon = require("../../images/ic_nav_asc_off.png");
 const chartIcon = require("../../images/ic_bar_chart.png");
 const dashBoardIcon = require("../../images/ic_nav_dashboard_off.png");
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
@@ -232,9 +232,9 @@ class DashboardScreen extends React.Component {
     });
   };
 
-  openMyCalendarScreen = () => {
+  openAscScreen = () => {
     this.props.navigator.push({
-      screen: SCREENS.MY_CALENDAR_SCREEN
+      screen: SCREENS.ASC_SCREEN
     });
   };
 
@@ -341,20 +341,20 @@ class DashboardScreen extends React.Component {
                   </View>
                 </TouchableOpacity>
 
-                <Title
-                  gradientColors={["#429321", "#b4ec51"]}
-                  text={I18n.t("dashboard_screen_ehome_my_calendar")}
-                />
+                <Title text={I18n.t("asc_screen_title")} />
                 <TouchableOpacity
-                  onPress={this.openMyCalendarScreen}
+                  onPress={this.openAscScreen}
                   style={[
                     defaultStyles.card,
                     { flexDirection: "row", padding: 16, marginBottom: 60 }
                   ]}
                 >
                   <Image
-                    style={styles.expenseInsightImage}
-                    source={calendarIcon}
+                    style={[
+                      styles.expenseInsightImage,
+                      { tintColor: colors.pinkishOrange }
+                    ]}
+                    source={ascIcon}
                     resizeMode="contain"
                   />
                   <View style={styles.expenseInsightTitles}>
