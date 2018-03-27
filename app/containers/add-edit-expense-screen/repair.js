@@ -179,7 +179,7 @@ class Repair extends React.Component {
           <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
             <View style={styles.header}>
               <Text weight="Medium" style={styles.selectProductText}>
-                I18.t(" add_edit_expense_screen_title_add_select_eHome")
+                {I18n.t("add_edit_expense_screen_title_add_select_eHome")}
               </Text>
               <ScrollView
                 style={styles.products}
@@ -234,9 +234,7 @@ class Repair extends React.Component {
                     style={styles.addProductBtn}
                   >
                     <Text weight="Bold" style={styles.addProductBtnText}>
-                      {I18n.t(
-                        " add_edit_expense_screen_title_add_add_products"
-                      )}
+                      {I18n.t("add_edit_expense_screen_title_add_add_products")}
                     </Text>
                   </TouchableOpacity>
                 </View>
