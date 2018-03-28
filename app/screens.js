@@ -39,6 +39,9 @@ import AddProductOptionsScreen from "./containers/add-product-options-screen";
 import DirectUploadDocumentScreen from "./containers/direct-upload-document-screen";
 import RateUsScreen from "./containers/rate-us-screen";
 import DoYouKnowScreen from "./containers/do-you-know-screen";
+import MyCalendarScreen from "./containers/my-calendar-screen";
+import AddCalendarServiceScreen from "./containers/add-calendar-service-screen";
+import CalendarServiceCardScreen from "./containers/calender-service-card-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -122,12 +125,6 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
-  // Navigation.registerComponent(
-  //   SCREENS.TOTAL_TAX_SCREEN,
-  //   () => TotalTaxScreen,
-  //   store,
-  //   Provider
-  // );
 
   Navigation.registerComponent(
     SCREENS.MAIN_CATEGORY_SCREEN,
@@ -141,12 +138,6 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
-  // Navigation.registerComponent(
-  //   SCREENS.DOCS_UNDER_PROCESSING_SCREEN,
-  //   () => DocsUnderProcessingScreen,
-  //   store,
-  //   Provider
-  // );
   Navigation.registerComponent(
     SCREENS.BILLS_POPUP_SCREEN,
     () => BillsPopUpScreen,
@@ -172,20 +163,6 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
-
-  // Navigation.registerComponent(
-  //   SCREENS.ADD_PRODUCTS_SCREEN,
-  //   () => AddProductsScreen,
-  //   store,
-  //   Provider
-  // );
-
-  // Navigation.registerComponent(
-  //   SCREENS.ADD_PRODUCT_SCREEN,
-  //   () => AddProductScreen,
-  //   store,
-  //   Provider
-  // );
 
   Navigation.registerComponent(
     SCREENS.UPLOAD_DOCUMENT_SCREEN,
@@ -302,6 +279,27 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     SCREENS.DO_YOU_KNOW_SCREEN,
     () => DoYouKnowScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.MY_CALENDAR_SCREEN,
+    () => MyCalendarScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.ADD_CALENDAR_SERVICE_SCREEN,
+    () => AddCalendarServiceScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.CALENDAR_SERVICE_CARD_SCREEN,
+    () => CalendarServiceCardScreen,
     store,
     Provider
   );

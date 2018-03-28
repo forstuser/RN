@@ -92,9 +92,8 @@ public class MainApplication extends NavigationApplication {
         new FIRAnalyticsPackage(), new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
         new VectorIconsPackage(), new SvgPackage(), new RNSharePackage(), new PhotoViewPackage(),
         new NavigationReactPackage(), new LinearGradientPackage(), new PickerPackage(), new RNI18nPackage(),
-        new RNFetchBlobPackage(), new FIRMessagingPackage(),
-        new ReactNativeDocumentPicker(), new RNDeviceInfo(), new BlurViewPackage(), new RNGooglePlacesPackage(),
-        new BinBillPackager());
+        new RNFetchBlobPackage(), new FIRMessagingPackage(), new ReactNativeDocumentPicker(), new RNDeviceInfo(),
+        new BlurViewPackage(), new RNGooglePlacesPackage(), new BinBillPackager());
   }
 
   @Override

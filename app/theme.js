@@ -7,7 +7,21 @@ export const colors = {
   lighterText: "#cdcdcd",
   pinkishOrange: "#ff732e",
   cerulean: "#007bce",
-  tomato: "#f0622d"
+  tomato: "#f0622d",
+  success: "#7ed321",
+  danger: "#eb5d26",
+  yellow: "#ffd000"
+};
+
+export const defaultStyles = {
+  card: {
+    backgroundColor: "#fff",
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1
+  }
 };
 
 export const defaultNavigatorStyle = {

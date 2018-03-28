@@ -70,7 +70,7 @@ class MedicalDoc extends React.Component {
     switch (event.id) {
       case "backPress":
         Alert.alert(
-          I18n.t(" add_edit_amc_are_you_sure"),
+          I18n.t("add_edit_amc_are_you_sure"),
           I18n.t("add_edit_medical_unsaved_info"),
           [
             {

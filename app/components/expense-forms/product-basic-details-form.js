@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import moment from "moment";
 
+import { API_BASE_URL } from "../../api";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
 import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 import I18n from "../../i18n";
@@ -81,7 +82,7 @@ class BasicDetailsForm extends React.Component {
       if (brandId > 0) {
         const selectedBrand = brands.find(brand => brand.id == brandId);
         this.setState({ selectedBrand }, () => this.fetchModels());
-      } else {
+      } else if (brandId == 0) {
         this.setState({ selectedBrand: { id: 0, name: "Non Branded" } });
       }
     }
@@ -399,6 +400,9 @@ class BasicDetailsForm extends React.Component {
                     >
                       {placeholder}
                     </Text>
+                    <Text weight="Medium" style={{ color: colors.mainBlue }}>
+                      *
+                    </Text>
                   </View>
                 )}
                 selectedOption={selectedSubCategory}
@@ -465,14 +469,20 @@ class BasicDetailsForm extends React.Component {
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
-                  <Text weight="Medium" style={{ color: colors.mainBlue }}>
-                    *
-                  </Text>
+                  {categoryId != CATEGORY_IDS.FURNITURE.FURNITURE && (
+                    <Text weight="Medium" style={{ color: colors.mainBlue }}>
+                      *
+                    </Text>
+                  )}
                 </View>
               )}
               selectedOption={selectedBrand}
               textInputValue={brandName}
-              options={brands}
+              options={brands.map(brand => ({
+                ...brand,
+                image: `${API_BASE_URL}/brands/${brand.id}/images`
+              }))}
+              imageKey="image"
               onOptionSelect={value => {
                 this.onBrandSelect(value);
               }}

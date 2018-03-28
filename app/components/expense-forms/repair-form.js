@@ -155,7 +155,7 @@ class RepairForm extends React.Component {
 
             <CustomDatePicker
               date={repairDate}
-              placeholder={I18n.t("expense_forms_repair_date ")}
+              placeholder={I18n.t("expense_forms_repair_date")}
               onDateChange={repairDate => {
                 this.setState({ repairDate });
               }}

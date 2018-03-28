@@ -126,6 +126,7 @@ class CustomerCare extends React.Component {
     }
 
     let insuranceData = {
+      providerId: null,
       providerName: "",
       urls: [],
       emails: [],
@@ -136,6 +137,7 @@ class CustomerCare extends React.Component {
       const provider = insuranceDetails[0].provider;
 
       if (provider) {
+        insuranceData.providerId = provider.id;
         insuranceData.providerName = provider.name;
       }
 
@@ -159,7 +161,9 @@ class CustomerCare extends React.Component {
     }
 
     let warrantyData = {
+      providerId: null,
       providerName: "",
+
       urls: [],
       emails: [],
       phoneNumbers: []
@@ -169,6 +173,7 @@ class CustomerCare extends React.Component {
       const provider = warrantyDetails[0].provider;
 
       if (provider) {
+        warrantyData.id = provider.id;
         warrantyData.providerName = provider.name;
       }
 
@@ -192,7 +197,7 @@ class CustomerCare extends React.Component {
     }
 
     let connectItems = [];
-    if (brand && brand.status_type == 1) {
+    if (brand && brand.status_type == 1 && brand.id > 0) {
       connectItems.push({
         type: "brand",
         title: I18n.t("product_details_screen_connect_brand_connect"),
@@ -208,7 +213,9 @@ class CustomerCare extends React.Component {
       connectItems.push({
         type: "insurance",
         title: I18n.t("product_details_screen_connect_insurance_provider"),
-        imageSource: insuranceIcon,
+        imageUrl: `${API_BASE_URL}/providers/${
+          insuranceData.providerId
+        }/images`,
         name: insuranceData.providerName,
         phoneNumbers: insuranceData.phoneNumbers,
         emails: insuranceData.emails,
@@ -220,6 +227,7 @@ class CustomerCare extends React.Component {
       connectItems.push({
         type: "warranty",
         title: I18n.t("product_details_screen_connect_warranty_provider"),
+        imageUrl: `${API_BASE_URL}/providers/${warrantyData.providerId}/images`,
         name: warrantyData.providerName,
         phoneNumbers: warrantyData.phoneNumbers,
         emails: warrantyData.emails,
@@ -262,7 +270,7 @@ class CustomerCare extends React.Component {
             );
           }}
         />
-        {brand && brand.status_type == 1 ? (
+        {brand && brand.id > 0 && brand.status_type == 1 ? (
           <View style={styles.ascContainer}>
             <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("product_details_screen_asc_title")}
@@ -273,7 +281,9 @@ class CustomerCare extends React.Component {
             >
               <Text weight="Medium" style={styles.locationPickerText}>
                 {place
-                  ? `${place.name} (${place.address})`
+                  ? `${place.name} ${
+                      place.address ? "(" + place.address + ")" : ""
+                    }`
                   : I18n.t("product_details_screen_asc_select_location")}
               </Text>
               <Icon

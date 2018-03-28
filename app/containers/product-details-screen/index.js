@@ -35,33 +35,64 @@ import GeneralTab from "./general-tab";
 import SellerTab from "./seller-tab";
 import ContactAfterSaleButton from "./after-sale-button";
 import LoadingOverlay from "../../components/loading-overlay";
+import UploadProductImage from "../../components/upload-product-image";
 import ProductCard from "./product-card";
 import PersonalDocCard from "./personal-doc-card";
 import InsuranceCard from "./insurance-card";
 import MedicalDocsCard from "./medical-docs-card";
 
-const NavOptionsButton = () => (
-  <TouchableOpacity
+const NavOptionsButton = ({ addImageText }) => (
+  <View
     style={{
+      flexDirection: "row",
+      backgroundColor: "transparent",
       ...Platform.select({
         ios: {},
         android: {
           position: "absolute",
           top: 10,
           right: 4,
-          width: 40,
+          width: 100,
           height: 30,
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "flex-end"
         }
       })
     }}
-    onPress={() =>
-      Navigation.handleDeepLink({ link: "product-nav-options-btn" })
-    }
   >
-    <Icon name="dots-three-vertical" size={17} color={colors.pinkishOrange} />
-  </TouchableOpacity>
+    {addImageText ? (
+      <TouchableOpacity
+        style={{ marginRight: 20, flexDirection: "row", alignItems: "center" }}
+        onPress={() =>
+          Navigation.handleDeepLink({ link: "product-nav-add-product-pic-btn" })
+        }
+      >
+        <Icon name="camera" size={17} color={colors.pinkishOrange} />
+        <Text
+          weight="Bold"
+          style={{ marginLeft: 5, fontSize: 9, color: colors.pinkishOrange }}
+        >
+          {addImageText}
+        </Text>
+      </TouchableOpacity>
+    ) : null}
+
+    <TouchableOpacity
+      style={{
+        ...Platform.select({
+          ios: {},
+          android: {
+            marginRight: 10
+          }
+        })
+      }}
+      onPress={() =>
+        Navigation.handleDeepLink({ link: "product-nav-options-btn" })
+      }
+    >
+      <Icon name="dots-three-vertical" size={17} color={colors.pinkishOrange} />
+    </TouchableOpacity>
+  </View>
 );
 
 Navigation.registerComponent("NavOptionsButton", () => NavOptionsButton);
@@ -71,14 +102,6 @@ class ProductDetailsScreen extends Component {
     tabBarHidden: true,
     drawUnderNavBar: true,
     navBarBackgroundColor: "#fff"
-  };
-  static navigatorButtons = {
-    rightButtons: [
-      {
-        component: "NavOptionsButton",
-        passProps: {}
-      }
-    ]
   };
 
   constructor(props) {
@@ -140,6 +163,8 @@ class ProductDetailsScreen extends Component {
       //when you press the button, it will be called here
       if (event.link == "product-nav-options-btn") {
         this.editOptions.show();
+      } else if (event.link == "product-nav-add-product-pic-btn") {
+        this.uploadProductImage.showOptions();
       }
     }
   };
@@ -204,6 +229,30 @@ class ProductDetailsScreen extends Component {
         });
       }
 
+      let addImageText = "";
+      if (
+        [
+          MAIN_CATEGORY_IDS.AUTOMOBILE,
+          MAIN_CATEGORY_IDS.ELECTRONICS,
+          MAIN_CATEGORY_IDS.FURNITURE,
+          MAIN_CATEGORY_IDS.FASHION
+        ].indexOf(res.product.masterCategoryId) > -1
+      ) {
+        addImageText = "Add";
+        if (res.product.file_type) {
+          addImageText = "Edit";
+        }
+      }
+      this.props.navigator.setButtons({
+        rightButtons: [
+          {
+            component: "NavOptionsButton",
+            passProps: { addImageText }
+          }
+        ],
+        animated: true
+      });
+
       this.setState(
         {
           product: res.product
@@ -256,6 +305,14 @@ class ProductDetailsScreen extends Component {
     return (
       <ScreenContainer style={{ padding: 0 }}>
         {content}
+        <UploadProductImage
+          ref={ref => (this.uploadProductImage = ref)}
+          productId={this.props.productId}
+          onImageUpload={() => {
+            Alert.alert(I18n.t("product_image_updated"));
+            this.fetchProductDetails();
+          }}
+        />
         <ActionSheet
           onPress={this.handleEditOptionPress}
           ref={o => (this.editOptions = o)}

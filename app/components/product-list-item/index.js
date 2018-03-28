@@ -21,7 +21,8 @@ const ProductListItem = ({
   onPress,
   navigator,
   hideViewBillBtn = false,
-  hideDirectionsAndCallBtns = false
+  hideDirectionsAndCallBtns = false,
+  style
 }) => {
   const ViewBillButton = ({ onPress }) => {
     if (product.copies && product.copies.length > 0 && !hideViewBillBtn) {
@@ -87,19 +88,19 @@ const ProductListItem = ({
     case MAIN_CATEGORY_IDS.ELECTRONICS:
     case MAIN_CATEGORY_IDS.AUTOMOBILE:
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
           <ProductType1 onPress={openProductScreen} product={product} />
         </View>
       );
     case MAIN_CATEGORY_IDS.PERSONAL:
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
           <ProductType3 product={product} onPress={openProductScreen} />
         </View>
       );
     default:
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
           <ProductType1
             product={product}
             onPress={openProductScreen}

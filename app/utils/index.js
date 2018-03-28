@@ -68,7 +68,8 @@ const isOfProductType = mainCategoryId => {
     [
       MAIN_CATEGORY_IDS.AUTOMOBILE,
       MAIN_CATEGORY_IDS.ELECTRONICS,
-      MAIN_CATEGORY_IDS.FURNITURE
+      MAIN_CATEGORY_IDS.FURNITURE,
+      MAIN_CATEGORY_IDS.FASHION
     ].indexOf(mainCategoryId) > -1
   );
 };
@@ -80,7 +81,6 @@ const isOfProductType = mainCategoryId => {
 const isOfExpenseType = mainCategoryId => {
   return (
     [
-      MAIN_CATEGORY_IDS.FASHION,
       MAIN_CATEGORY_IDS.HEALTHCARE,
       MAIN_CATEGORY_IDS.HOUSEHOLD,
       MAIN_CATEGORY_IDS.TRAVEL,

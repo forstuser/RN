@@ -7,9 +7,10 @@ import {
   FlatList
 } from "react-native";
 import moment from "moment";
+import Icon from "react-native-vector-icons/Ionicons";
 import { Text, Button } from "../elements";
 import I18n from "../i18n";
-import { colors } from "../theme";
+import { colors, defaultStyles } from "../theme";
 import UpcomingServiceItem from "./upcoming-service-item";
 
 class UpcomingServicesList extends React.Component {
@@ -39,6 +40,7 @@ class UpcomingServicesList extends React.Component {
         <View
           style={[
             styles.list,
+            defaultStyles.card,
             listHeight == "less" ? styles.listLessHeight : {}
           ]}
         >
@@ -51,18 +53,32 @@ class UpcomingServicesList extends React.Component {
           ))}
         </View>
         {upcomingServices.length > 2 && (
-          <Button
+          <TouchableOpacity
+            style={styles.viewBtn}
             onPress={this.toggleListHeight}
-            color="secondary"
-            type="outline"
-            text={
-              listHeight == "less"
+          >
+            <View
+              style={{
+                backgroundColor: colors.pinkishOrange,
+                height: 36,
+                width: 36,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 18
+              }}
+            >
+              <Icon
+                name={listHeight == "less" ? "ios-arrow-down" : "ios-arrow-up"}
+                size={28}
+                color="#fff"
+              />
+            </View>
+            <Text style={{ color: colors.pinkishOrange, fontSize: 12 }}>
+              {listHeight == "less"
                 ? I18n.t("component_items_view_more")
-                : I18n.t("component_items_view_less")
-            }
-            style={styles.button}
-            textStyle={{ fontSize: 14 }}
-          />
+                : I18n.t("component_items_view_less")}
+            </Text>
+          </TouchableOpacity>
         )}
       </View>
     );
@@ -75,17 +91,17 @@ const styles = StyleSheet.create({
   },
   list: {
     width: "100%",
+    minHeight: 50,
     overflow: "hidden",
-    borderColor: "#eaeaea",
-    borderBottomWidth: 1
+    backgroundColor: "#fff"
   },
   listLessHeight: {
     maxHeight: 131
   },
-  button: {
-    marginTop: 16,
-    width: 130,
-    height: 36
+  viewBtn: {
+    alignItems: "center",
+    marginTop: -20,
+    elevation: 3
   }
 });
 

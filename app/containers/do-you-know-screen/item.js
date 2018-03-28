@@ -37,7 +37,7 @@ export default class Item extends React.Component {
     if (Platform.OS == "ios") {
       try {
         await Share.open({
-          message: `Check out this app ${item.short_url}`
+          message: `Powered by BinBill - ${item.short_url}`
         });
       } catch (e) {
         console.log("e: ", e);
@@ -57,7 +57,7 @@ export default class Item extends React.Component {
             console.log("Image saved to", filePath + "/fact.jpg");
             return Share.open({
               url: `file://${filePath}`,
-              message: `Check out this awesome app - ${item.short_url}`
+              message: `Powered by BinBill - ${item.short_url}`
             });
           })
           .catch(error => console.error("Oops, snapshot failed", error));
@@ -268,6 +268,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 3,
     padding: 16,
+    paddingBottom: 10,
     marginTop: -38
   },
   shareAndLike: {
@@ -318,7 +319,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   tags: {
-    paddingVertical: 15,
+    paddingTop: 10,
     flexDirection: "row"
   },
   endMsg: {

@@ -19,11 +19,11 @@ import Modal from "react-native-modal";
 
 import { SCREENS } from "../../constants";
 import { API_BASE_URL, getProductDetails } from "../../api";
-import { Text, Button, ScreenContainer } from "../../elements";
+import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 
 import I18n from "../../i18n";
 
-import { colors } from "../../theme";
+import { colors, defaultStyles } from "../../theme";
 
 import Details from "./details";
 import ImportantTab from "./important-tab";
@@ -134,7 +134,7 @@ class PerosnalDocCard extends Component {
             docType="Personal Doc"
             btnText="Doc"
           />
-          <Image
+          <AsyncImage
             style={styles.image}
             source={imageSource}
             resizeMode="contain"
@@ -142,105 +142,112 @@ class PerosnalDocCard extends Component {
           <Text weight="Bold" style={styles.name}>
             {productName}
           </Text>
-          <TouchableOpacity
-            onPress={this.onEditPress}
-            style={{
-              marginTop: 20,
-              width: "100%",
-              backgroundColor: "#EBEBEB"
-            }}
-          >
-            <KeyValueItem
-              KeyComponent={() => (
-                <Text
-                  weight="Bold"
-                  style={{
-                    flex: 1,
-                    color: colors.mainText,
-                    fontSize: 16
-                  }}
-                >
-                  {I18n.t("product_details_screen_general_info")}
-                </Text>
-              )}
-              ValueComponent={() => (
-                <Text
-                  weight="Bold"
-                  style={{
-                    textAlign: "right",
-                    flex: 1,
-                    color: colors.pinkishOrange
-                  }}
-                >
-                  {I18n.t("product_details_screen_edit")}
-                </Text>
-              )}
-            />
-          </TouchableOpacity>
-          <KeyValueItem keyText="Name" valueText={product.productName} />
-          {product.categoryId == 27 && (
-            <View style={{ width: "100%" }}>
+          <View style={[defaultStyles.card, { margin: 16 }]}>
+            <TouchableOpacity
+              onPress={this.onEditPress}
+              style={{
+                width: "100%",
+                backgroundColor: "#EBEBEB"
+              }}
+            >
               <KeyValueItem
-                keyText="Business Name"
-                valueText={seller.sellerName}
-              />
-              <KeyValueItem
-                keyText="Phone Number"
+                KeyComponent={() => (
+                  <Text
+                    weight="Bold"
+                    style={{
+                      flex: 1,
+                      color: colors.mainText,
+                      fontSize: 16
+                    }}
+                  >
+                    {I18n.t("product_details_screen_general_info")}
+                  </Text>
+                )}
                 ValueComponent={() => (
-                  <MultipleContactNumbers contact={seller.contact} />
+                  <Text
+                    weight="Bold"
+                    style={{
+                      textAlign: "right",
+                      flex: 1,
+                      color: colors.pinkishOrange
+                    }}
+                  >
+                    {I18n.t("product_details_screen_edit")}
+                  </Text>
                 )}
               />
-              <KeyValueItem
-                keyText="Email"
-                ValueComponent={() => (
-                  <MultipleContactNumbers contact={seller.email} />
-                )}
-              />
-
-              {(seller.address.length > 0 ||
-                seller.city.length > 0 ||
-                seller.state.length > 0) && (
+            </TouchableOpacity>
+            <KeyValueItem keyText="Name" valueText={product.productName} />
+            {product.categoryId == 27 && (
+              <View style={{ width: "100%" }}>
                 <KeyValueItem
-                  KeyComponent={() => (
-                    <View style={{ flex: 1 }}>
-                      <Text style={{ color: colors.secondaryText }}>
-                        Full Address
-                      </Text>
-                      <Text weight="Medium" style={{ color: colors.mainText }}>
-                        {_.trim(
-                          seller.address +
-                            ", " +
-                            seller.city +
-                            ", " +
-                            seller.state,
-                          ", "
-                        )}
-                      </Text>
-                    </View>
-                  )}
+                  keyText="Business Name"
+                  valueText={seller.sellerName}
+                />
+                <KeyValueItem
+                  keyText="Phone Number"
                   ValueComponent={() => (
-                    <TouchableOpacity
-                      onPress={this.openMap}
-                      style={{ width: 70 }}
-                    >
-                      <View style={{ alignItems: "center" }}>
-                        <Image
-                          style={{ width: 24, height: 24 }}
-                          source={mapIcon}
-                        />
-                        <Text
-                          weight="Bold"
-                          style={{ fontSize: 10, color: colors.pinkishOrange }}
-                        >
-                          {I18n.t("product_details_screen_seller_find_store")}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
+                    <MultipleContactNumbers contact={seller.contact} />
                   )}
                 />
-              )}
-            </View>
-          )}
+                <KeyValueItem
+                  keyText="Email"
+                  ValueComponent={() => (
+                    <MultipleContactNumbers contact={seller.email} />
+                  )}
+                />
+
+                {(seller.address.length > 0 ||
+                  seller.city.length > 0 ||
+                  seller.state.length > 0) && (
+                  <KeyValueItem
+                    KeyComponent={() => (
+                      <View style={{ flex: 1 }}>
+                        <Text style={{ color: colors.secondaryText }}>
+                          Full Address
+                        </Text>
+                        <Text
+                          weight="Medium"
+                          style={{ color: colors.mainText }}
+                        >
+                          {_.trim(
+                            seller.address +
+                              ", " +
+                              seller.city +
+                              ", " +
+                              seller.state,
+                            ", "
+                          )}
+                        </Text>
+                      </View>
+                    )}
+                    ValueComponent={() => (
+                      <TouchableOpacity
+                        onPress={this.openMap}
+                        style={{ width: 70 }}
+                      >
+                        <View style={{ alignItems: "center" }}>
+                          <Image
+                            style={{ width: 24, height: 24 }}
+                            source={mapIcon}
+                          />
+                          <Text
+                            weight="Bold"
+                            style={{
+                              fontSize: 10,
+                              color: colors.pinkishOrange
+                            }}
+                          >
+                            {I18n.t("product_details_screen_seller_find_store")}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    )}
+                  />
+                )}
+              </View>
+            )}
+          </View>
         </ScrollView>
       </View>
     );

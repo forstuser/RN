@@ -16,7 +16,7 @@ import getDirections from "react-native-google-maps-directions";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 
 import { API_BASE_URL, getAscSearchResults } from "../../api";
-import { ScreenContainer, Text, Button, AsyncImage } from "../../elements";
+import { ScreenContainer, Text, Button } from "../../elements";
 import { colors } from "../../theme";
 
 import EmptyServicesListPlaceholder from "./empty-services-list-placeholder";

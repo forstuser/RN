@@ -1,3 +1,5 @@
+import I18n from "./i18n";
+
 const CODEPUSH_KEYS = {
   DEPLOYEMENT: "6Aey0a8FKAzWDwc32zUI5AVSNAphHJL0U-57f",
   PRODUCTION: "K3OHL8lYBDt_3Vj2pRemr_K9xzNpSJDAL-c7M"
@@ -117,7 +119,49 @@ const LANGUAGES = [
   }
 ];
 
+const UNIT_TYPES = {
+  LITRE: {
+    id: 1,
+    symbol: I18n.t("litre_symbol"),
+    name: I18n.t("litre")
+  },
+  MILLILITRE: {
+    id: 2,
+    symbol: I18n.t("millilitre_symbol"),
+    name: I18n.t("millilitre")
+  },
+  KILOGRAM: {
+    id: 3,
+    symbol: I18n.t("kilogram_symbol"),
+    name: I18n.t("kilogram")
+  },
+  GRAM: {
+    id: 4,
+    symbol: I18n.t("gram_symbol"),
+    name: I18n.t("gram")
+  },
+  UNIT: {
+    id: 5,
+    symbol: I18n.t("unit_symbol"),
+    name: I18n.t("unit")
+  },
+  DOZEN: {
+    id: 6,
+    symbol: I18n.t("dozen_symbol"),
+    name: I18n.t("dozen")
+  }
+};
+
+const CALENDAR_SERVICE_TYPES = {
+  MILK: 1,
+  DAIRY: 2,
+  VEGETABLES: 3
+};
+
 const SCREENS = {
+  CALENDAR_SERVICE_CARD_SCREEN: "CALENDAR_SERVICE_CARD_SCREEN",
+  ADD_CALENDAR_SERVICE_SCREEN: "ADD_CALENDAR_SERVICE_SCREEN",
+  MY_CALENDAR_SCREEN: "MY_CALENDAR_SCREEN",
   DO_YOU_KNOW_SCREEN: "DO_YOU_KNOW_SCREEN",
   RATE_US_SCREEN: "RATE_US_SCREEN",
   DIRECT_UPLOAD_DOCUMENT_SCREEN: "DIRECT_UPLOAD_DOCUMENT_SCREEN",
@@ -172,6 +216,11 @@ const SERVICE_TYPE_NAMES = {
   3: "Bonus"
 };
 
+const WAGES_TYPES = {
+  DAILY: 0,
+  MONTHLY: 1
+};
+
 const METADATA_KEYS = {
   VIN: "vin",
   IMEI_NUMBER: "IMEI Number",
@@ -188,6 +237,9 @@ export {
   GLOBAL_VARIABLES,
   MAIN_CATEGORY_IDS,
   CATEGORY_IDS,
+  UNIT_TYPES,
+  WAGES_TYPES,
+  CALENDAR_SERVICE_TYPES,
   LANGUAGES,
   SCREENS,
   EXPENSE_TYPES,

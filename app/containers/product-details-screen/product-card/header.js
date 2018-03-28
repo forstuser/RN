@@ -5,10 +5,13 @@ import {
   Image,
   Alert,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Platform
 } from "react-native";
+import Icon from "react-native-vector-icons/EvilIcons";
 import moment from "moment";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
+import { connect } from "react-redux";
 import I18n from "../../../i18n";
 import { API_BASE_URL } from "../../../api";
 import { Text, Button, ScreenContainer } from "../../../elements";
@@ -16,7 +19,7 @@ import KeyValueItem from "../../../components/key-value-item";
 
 import { openBillsPopUp } from "../../../navigation";
 
-import { colors } from "../../../theme";
+import { colors, defaultStyles } from "../../../theme";
 import { getProductMetasString } from "../../../utils";
 
 import UploadBillOptions from "../../../components/upload-bill-options";
@@ -24,10 +27,10 @@ import UploadBillOptions from "../../../components/upload-bill-options";
 const dropdownIcon = require("../../../images/ic_dropdown_arrow.png");
 const viewBillIcon = require("../../../images/ic_ehome_view_bill.png");
 
+import ReviewModal from "./review-modal";
+import ShareModal from "./share-modal";
 import ViewBillButton from "../view-bill-button";
 import { MAIN_CATEGORY_IDS } from "../../../constants";
-
-const headerBg = require("../../../images/product_card_header_bg.png");
 
 class Header extends Component {
   constructor(props) {
@@ -37,18 +40,28 @@ class Header extends Component {
   render() {
     const {
       product,
+      loggedInUser,
       navigator,
       activeTabIndex = 0,
       onTabChange,
       showCustomerCareTab = false,
-      showImportantTab = true
+      showImportantTab = true,
+      viewBillRef,
+      allInfoRef,
+      customerCareRef,
+      importantInfoRef
     } = this.props;
+
     let productName = product.productName;
     if (!productName) {
       productName = product.categoryName;
     }
 
-    const metaUnderName = getProductMetasString(product.metaData);
+    let ratings = null;
+    const { productReviews } = product;
+    if (productReviews.length > 0) {
+      ratings = productReviews[0].ratings;
+    }
 
     let amountBreakdownOptions = [];
 
@@ -158,7 +171,7 @@ class Header extends Component {
       </View>
     );
 
-    let imageSource = { uri: API_BASE_URL + "/" + product.cImageURL + "0" };
+    let imageSource = { uri: API_BASE_URL + product.cImageURL + "0" };
     if (
       product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS &&
       product.copies &&
@@ -167,11 +180,19 @@ class Header extends Component {
       imageSource = { uri: API_BASE_URL + product.copies[0].copyUrl };
     }
 
+    let headerBg = require("../../../images/product_card_header_bg.png");
+    if (product.file_type) {
+      headerBg = {
+        uri: API_BASE_URL + product.cImageURL + "?t=" + moment().format("X")
+      };
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.upparHalf}>
           <Image style={styles.bg} source={headerBg} resizeMode="cover" />
           <Image
+            key={new Date()}
             style={styles.image}
             source={imageSource}
             resizeMode="contain"
@@ -179,34 +200,82 @@ class Header extends Component {
         </View>
         <View style={styles.lowerHalf}>
           <View style={styles.lowerHalfInner}>
-            {product.categoryId != 664 && (
-              <ViewBillButton product={product} navigator={navigator} />
-            )}
-            <Text weight="Bold" style={styles.name}>
-              {productName}
-            </Text>
-            <Text weight="Bold" style={styles.brandAndModel}>
-              {product.brand ? product.brand.name : ""}
-              {product.brand && product.model ? "/" : ""}
-              {product.model ? product.model : null}
-            </Text>
-            <TouchableOpacity
-              onPress={() => this.priceBreakdown.show()}
-              style={styles.totalContainer}
-            >
-              <Text weight="Bold" style={styles.totalAmount}>
-                ₹ {totalAmount}
-              </Text>
-              <Image style={styles.dropdownIcon} source={dropdownIcon} />
-            </TouchableOpacity>
-            <ActionSheet
-              ref={o => (this.priceBreakdown = o)}
-              cancelButtonIndex={amountBreakdownOptions.length}
-              options={[
-                ...amountBreakdownOptions,
-                I18n.t("product_details_screen_cost_breakdown_close")
-              ]}
-            />
+            <View style={{ flexDirection: "row" }}>
+              <View style={styles.texts}>
+                <Text weight="Bold" style={styles.name}>
+                  {productName}
+                </Text>
+                <Text weight="Bold" style={styles.brandAndModel}>
+                  {product.brand ? product.brand.name : ""}
+                  {product.brand && product.model ? "/" : ""}
+                  {product.model ? product.model : null}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => this.priceBreakdown.show()}
+                  style={styles.totalContainer}
+                >
+                  <Text weight="Bold" style={styles.totalAmount}>
+                    ₹ {totalAmount}
+                  </Text>
+                  <Image style={styles.dropdownIcon} source={dropdownIcon} />
+                </TouchableOpacity>
+                <ActionSheet
+                  ref={o => (this.priceBreakdown = o)}
+                  cancelButtonIndex={amountBreakdownOptions.length}
+                  options={[
+                    ...amountBreakdownOptions,
+                    I18n.t("product_details_screen_cost_breakdown_close")
+                  ]}
+                />
+              </View>
+              <View style={styles.btns}>
+                {product.categoryId != 664 && (
+                  <ViewBillButton
+                    ref={ref => viewBillRef(ref)}
+                    product={product}
+                    navigator={navigator}
+                    style={{
+                      position: "relative",
+                      top: undefined,
+                      right: undefined
+                    }}
+                  />
+                )}
+                {[
+                  MAIN_CATEGORY_IDS.AUTOMOBILE,
+                  MAIN_CATEGORY_IDS.ELECTRONICS,
+                  MAIN_CATEGORY_IDS.FURNITURE,
+                  MAIN_CATEGORY_IDS.FASHION
+                ].indexOf(product.masterCategoryId) > -1 && (
+                  <View>
+                    <TouchableOpacity
+                      onPress={() => this.shareModal.show()}
+                      style={styles.btn}
+                    >
+                      <Icon
+                        name={
+                          Platform.OS == "ios" ? "share-apple" : "share-google"
+                        }
+                        size={20}
+                        color={colors.mainBlue}
+                      />
+                      <Text weight="Medium" style={styles.btnText}>
+                        {I18n.t("share_card")}
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => this.reviewModal.show()}
+                      style={styles.btn}
+                    >
+                      <Icon name="star" size={20} color={colors.yellow} />
+                      <Text weight="Medium" style={styles.btnText}>
+                        {ratings || I18n.t("review")}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </View>
+            </View>
             <View style={styles.tabs}>
               {[
                 I18n.t("product_details_screen_tab_customer_care"),
@@ -224,6 +293,19 @@ class Header extends Component {
                     onPress={() => onTabChange(index)}
                     key={index}
                     style={[styles.tab]}
+                    ref={ref => {
+                      switch (index) {
+                        case 0:
+                          customerCareRef(ref);
+                          break;
+                        case 1:
+                          allInfoRef(ref);
+                          break;
+                        case 2:
+                          importantInfoRef(ref);
+                          break;
+                      }
+                    }}
                   >
                     <Text
                       numberOfLines={1}
@@ -244,6 +326,15 @@ class Header extends Component {
                 );
               })}
             </View>
+            <ReviewModal
+              ref={ref => (this.reviewModal = ref)}
+              product={product}
+            />
+            <ShareModal
+              ref={ref => (this.shareModal = ref)}
+              product={product}
+              loggedInUser={loggedInUser}
+            />
           </View>
         </View>
       </View>
@@ -284,13 +375,27 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     borderRadius: 3,
     width: "100%",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.5,
-    shadowRadius: 1
+    ...defaultStyles.card
   },
-
+  texts: {
+    flex: 1
+  },
+  btns: {
+    width: 90
+  },
+  btn: {
+    marginTop: 10,
+    width: 80,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 2,
+    borderRadius: 2,
+    ...defaultStyles.card
+  },
+  btnText: {
+    fontSize: 10
+  },
   name: {
     fontSize: 18,
     marginRight: 85
@@ -344,4 +449,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Header;
+const mapStateToProps = state => {
+  return {
+    loggedInUser: state.loggedInUser
+  };
+};
+
+export default connect(mapStateToProps)(Header);

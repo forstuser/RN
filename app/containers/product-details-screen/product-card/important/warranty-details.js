@@ -102,7 +102,10 @@ class WarrantyDetails extends React.Component {
               <AddItemBtn
                 text={I18n.t("product_details_screen_add_extended_warranty")}
                 onPress={() =>
-                  this.openAddEditWarrantyScreen(null, WARRANTY_TYPES.EXTENDED)
+                  this.props.openAddEditWarrantyScreen(
+                    null,
+                    WARRANTY_TYPES.EXTENDED
+                  )
                 }
               />
             </ScrollView>

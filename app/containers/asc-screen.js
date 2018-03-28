@@ -22,21 +22,20 @@ import {
 import { Text, Button, ScreenContainer } from "../elements";
 import I18n from "../i18n";
 import SelectModal from "../components/select-modal";
-import TabSearchHeader from "../components/tab-screen-header";
+
 import Analytics from "../analytics";
 import { colors } from "../theme";
 import { getProductMetasString } from "../utils";
 import ErrorOverlay from "../components/error-overlay";
 import { SCREENS } from "../constants";
 
-const ascIcon = require("../images/ic_nav_asc_off.png");
 const crossIcon = require("../images/ic_close.png");
 const dropdownIcon = require("../images/ic_dropdown_arrow.png");
 
 class AscScreen extends Component {
   static navigatorStyle = {
-    navBarHidden: true,
-    tabBarHidden: false
+    navBarHidden: false,
+    tabBarHidden: true
   };
   constructor(props) {
     super(props);
@@ -76,6 +75,9 @@ class AscScreen extends Component {
   };
 
   async componentDidMount() {
+    this.props.navigator.setTitle({
+      title: I18n.t("asc_screen_title")
+    });
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       if (screenOpts.hitAccessApi) {
@@ -86,7 +88,7 @@ class AscScreen extends Component {
     try {
       const res = await getBrands();
       this.setState({
-        brands: res.brands
+        brands: res.brands.filter(brand => brand.id > 0)
       });
     } catch (e) {
       // Alert.alert(e.message);
@@ -221,15 +223,6 @@ class AscScreen extends Component {
     } = this.state;
     return (
       <ScreenContainer style={styles.container}>
-        <View style={styles.header}>
-          <TabSearchHeader
-            title={I18n.t("asc_screen_title")}
-            icon={ascIcon}
-            navigator={this.props.navigator}
-            showMailbox={false}
-            showSearchInput={false}
-          />
-        </View>
         <View style={styles.body}>
           <View style={styles.productsPart}>
             <Text weight="Bold" style={styles.sectionTitle}>
@@ -302,7 +295,11 @@ class AscScreen extends Component {
                 return true;
               }}
               selectedOption={selectedBrand}
-              options={brands}
+              options={brands.map(brand => ({
+                ...brand,
+                image: `${API_BASE_URL}/brands/${brand.id}/images`
+              }))}
+              imageKey="image"
               visibleKey="brandName"
               onOptionSelect={value => {
                 this.selectBrand(value);

@@ -7,6 +7,7 @@ export default {
     id: null,
     name: null,
     phone: null,
+    imageName: null,
     codepushDeploymentStaging: false
   },
 
@@ -17,6 +18,8 @@ export default {
     hasDashboardTourShown: false,
     hasEhomeTourShown: false,
     hasUploadDocTourShown: false,
+    hasUploadBillTourShown: false,
+    hasProductCardTourShown: false,
     hasUpdateAppScreenShown: false,
     rateUsDialogTimestamp: null
   }

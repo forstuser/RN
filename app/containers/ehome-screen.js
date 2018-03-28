@@ -195,13 +195,11 @@ class EhomeScreen extends Component {
             renderItem={this.renderCategoryItem}
           />
         </View>
-        <LoadingOverlay visible={this.state.isFetchingData} />
         <Tour
           ref={ref => (this.ehomeTour = ref)}
           enabled={true}
           steps={[
-            { ref: this.mailboxIconRef, text: I18n.t("app_tour_tips_5") },
-            { ref: this.processingItemsRef, text: I18n.t("app_tour_tips_4") }
+            { ref: this.mailboxIconRef, text: I18n.t("app_tour_tips_5") }
           ]}
         />
         <TouchableOpacity

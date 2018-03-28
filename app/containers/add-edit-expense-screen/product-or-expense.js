@@ -109,6 +109,9 @@ class ProductOrExpense extends React.Component {
             productBasicDetails: true
           };
           break;
+        case MAIN_CATEGORY_IDS.FASHION:
+          visibleModules.productBasicDetails = true;
+          break;
         case MAIN_CATEGORY_IDS.FURNITURE:
           visibleModules.productBasicDetails = true;
           break;
@@ -119,9 +122,6 @@ class ProductOrExpense extends React.Component {
           visibleModules.expenseBasicDetails = true;
           break;
         case MAIN_CATEGORY_IDS.HOUSEHOLD:
-          visibleModules.expenseBasicDetails = true;
-          break;
-        case MAIN_CATEGORY_IDS.FASHION:
           visibleModules.expenseBasicDetails = true;
           break;
         case MAIN_CATEGORY_IDS.HEALTHCARE:
@@ -266,14 +266,20 @@ class ProductOrExpense extends React.Component {
       switch (this.state.mainCategoryId) {
         case MAIN_CATEGORY_IDS.AUTOMOBILE:
         case MAIN_CATEGORY_IDS.ELECTRONICS:
-        case MAIN_CATEGORY_IDS.FURNITURE:
+        case MAIN_CATEGORY_IDS.FASHION:
           if (data.brandId === undefined && !data.brandName) {
             return Alert.alert(
-              I18n.t("add_edit_expense_screen_title_add_branch_name")
+              I18n.t("add_edit_expense_screen_title_add_brand_name")
             );
           }
           break;
-        case MAIN_CATEGORY_IDS.FASHION:
+        case MAIN_CATEGORY_IDS.FURNITURE:
+          if (!data.subCategoryId) {
+            return Alert.alert(
+              I18n.t("add_edit_expense_screen_title_add_type")
+            );
+          }
+          break;
         case MAIN_CATEGORY_IDS.HOUSEHOLD:
         case MAIN_CATEGORY_IDS.SERVICES:
         case MAIN_CATEGORY_IDS.TRAVEL:

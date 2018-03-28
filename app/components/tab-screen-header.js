@@ -45,7 +45,7 @@ class TabSearchHeader extends Component {
       <View style={styles.container}>
         <View style={styles.upperContainer}>
           <View style={styles.nameAndIcon}>
-            <Image style={styles.icon} source={icon} />
+            <Image style={styles.icon} source={icon} resizeMode="contain" />
             <Text weight="Medium" style={styles.screenName}>
               {title}
             </Text>

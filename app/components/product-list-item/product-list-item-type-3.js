@@ -35,7 +35,7 @@ const ProductListItem = ({ product, onPress }) => {
                 product.copies[0].file_type || product.copies[0].fileType
               }
               style={styles.image}
-              uri={API_BASE_URL + "/" + product.copies[0].copyUrl}
+              uri={API_BASE_URL + product.copies[0].copyUrl}
             />
           )}
         {product.copies &&
