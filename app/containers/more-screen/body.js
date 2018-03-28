@@ -65,7 +65,7 @@ class Body extends Component {
   onEmailItemPress = () => {
     const { profile } = this.props;
     Linking.openURL(
-      `mailto:support@binbill.com?cc=rohit@binbill.com?subject=BinBill:Customer Feedback(${
+      `mailto:support@binbill.com?cc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
         profile ? profile.mobile_no : ""
       })`
     );
