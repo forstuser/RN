@@ -15,7 +15,12 @@ import Analytics from "../analytics";
 
 import { Text, Button, ScreenContainer } from "../elements";
 import { colors } from "../theme";
-import { SCREENS, EXPENSE_TYPES } from "../constants";
+import {
+  SCREENS,
+  EXPENSE_TYPES,
+  MAIN_CATEGORY_IDS,
+  CATEGORY_IDS
+} from "../constants";
 
 class AddProductScreen extends React.Component {
   static navigatorStyle = {
