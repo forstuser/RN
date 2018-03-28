@@ -33,7 +33,7 @@ class ProfileDetailEdit extends Component {
   componentDidMount() {}
 
   onSubmit = async () => {
-    // this.props.onSubmit(data);
+    // this.props.updateState(info);
     Keyboard.dismiss();
 
     showSnackbar({
@@ -46,9 +46,7 @@ class ProfileDetailEdit extends Component {
         [this.props.apiFieldName]: this.state.info
       });
 
-      this.setState({
-        info: this.state.info
-      });
+      this.props.onUpdate(this.props.apiFieldName, this.state.info);
     } catch (e) {
       showSnackbar({
         text: e.message,
@@ -97,7 +95,6 @@ class ProfileDetailEdit extends Component {
 
   render() {
     const { label, editable, verify } = this.props;
-    // alert(verify);
     const { info } = this.state;
     return (
       <View>
@@ -114,41 +111,49 @@ class ProfileDetailEdit extends Component {
               onChangeText={text => this.setState({ info: text })}
             />
           </View>
-          {this.props.verify == false && (
-            <TouchableOpacity
-              onPress={this.showResendEmailVerifyAlert}
-              style={{ height: 40 }}
-            >
-              <View style={{ flex: 1, flexDirection: "row" }}>
-                <View>
-                  <Text style={styles.notVerified}>Not Verified</Text>
+          <View>
+            {this.props.verify == false &&
+              this.props.info && (
+                <TouchableOpacity
+                  onPress={this.showResendEmailVerifyAlert}
+                  style={{ height: 40, marginTop: -25 }}
+                >
+                  <View style={{ flex: 1, flexDirection: "row" }}>
+                    <View>
+                      <Text style={styles.notVerified}>Not Verified</Text>
+                    </View>
+                    <View>
+                      <Image style={styles.icons} source={unVerified} />
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              )}
+          </View>
+          {this.props.verify == true &&
+            this.props.info && (
+              <TouchableOpacity style={{ height: 40, marginTop: -25 }}>
+                <View style={{ flex: 1, flexDirection: "row" }}>
+                  <View>
+                    <Text style={styles.verified}>Verified</Text>
+                  </View>
+                  <View>
+                    <Image style={styles.icons} source={verified} />
+                  </View>
                 </View>
-                <View>
-                  <Image style={styles.icons} source={unVerified} />
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
-          {this.props.verify == true && (
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <View>
-                <Text style={styles.verified}>Verified</Text>
-              </View>
-              <View>
-                <Image style={styles.icons} source={verified} />
-              </View>
-            </View>
-          )}
+              </TouchableOpacity>
+            )}
           {this.props.info != this.state.info && (
             <View
               style={{
                 width: 40,
                 height: 40,
-                paddingTop: 18,
-                borderRadius: 23
+                borderRadius: 23,
+                position: "absolute",
+                right: 10,
+                top: 32
               }}
             >
-              <TouchableOpacity onPress={this.onSubmit}>
+              <TouchableOpacity onPress={() => this.onSubmit(info)}>
                 <Text style={{ color: colors.tomato }} weight="bold">
                   Save
                 </Text>

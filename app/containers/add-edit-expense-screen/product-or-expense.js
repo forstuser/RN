@@ -25,10 +25,6 @@ import {
   CATEGORY_IDS
 } from "../../constants";
 
-// const expenseIllustration = require("../../images/add-expense-illustration.png");
-// const productIllustration = require("../../images/add-product-illustration.png");
-// const docIllustration = require("../../images/add-doc-illustration.png");
-
 class ProductOrExpense extends React.Component {
   constructor(props) {
     super(props);
