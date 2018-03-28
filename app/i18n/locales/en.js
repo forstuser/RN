@@ -21,7 +21,7 @@ export default {
   uploading: "Uploading...",
   product_image_updated: "Product Image Updated",
   share: "Share",
-  share_card: "Share Card",
+  share_card: "Share Review",
   review: "Review",
   max_words: "Max {{count}} words",
   i_will_do_it_later: "I'll do it later",

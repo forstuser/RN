@@ -189,6 +189,7 @@ class Header extends Component {
 
     return (
       <View style={styles.container}>
+        {/* Category Image Start*/}
         <View style={styles.upparHalf}>
           <Image style={styles.bg} source={headerBg} resizeMode="cover" />
           <Image
@@ -198,6 +199,8 @@ class Header extends Component {
             resizeMode="contain"
           />
         </View>
+        {/* Category Image End */}
+
         <View style={styles.lowerHalf}>
           <View style={styles.lowerHalfInner}>
             <View style={{ flexDirection: "row" }}>
@@ -228,7 +231,12 @@ class Header extends Component {
                   ]}
                 />
               </View>
-              <View style={styles.btns}>
+            </View>
+            {/* 3 buttons (view bill,share and rating) start */}
+            <View style={styles.btns}>
+              <View style={{
+                alignItems: "center"
+              }}>
                 {product.categoryId != 664 && (
                   <ViewBillButton
                     ref={ref => viewBillRef(ref)}
@@ -236,46 +244,60 @@ class Header extends Component {
                     navigator={navigator}
                     style={{
                       position: "relative",
-                      top: undefined,
+                      top: 10,
                       right: undefined
                     }}
                   />
                 )}
-                {[
-                  MAIN_CATEGORY_IDS.AUTOMOBILE,
-                  MAIN_CATEGORY_IDS.ELECTRONICS,
-                  MAIN_CATEGORY_IDS.FURNITURE,
-                  MAIN_CATEGORY_IDS.FASHION
-                ].indexOf(product.masterCategoryId) > -1 && (
-                  <View>
+              </View>
+              {[
+                MAIN_CATEGORY_IDS.AUTOMOBILE,
+                MAIN_CATEGORY_IDS.ELECTRONICS,
+                MAIN_CATEGORY_IDS.FURNITURE,
+                MAIN_CATEGORY_IDS.FASHION
+              ].indexOf(product.masterCategoryId) > -1 && (
+                  <View style={{
+                    alignItems: "center"
+                  }}>
                     <TouchableOpacity
                       onPress={() => this.shareModal.show()}
-                      style={styles.btn}
+                      style={styles.btnShare}
                     >
                       <Icon
                         name={
                           Platform.OS == "ios" ? "share-apple" : "share-google"
                         }
-                        size={20}
+                        size={25}
                         color={colors.mainBlue}
                       />
-                      <Text weight="Medium" style={styles.btnText}>
-                        {I18n.t("share_card")}
-                      </Text>
                     </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {I18n.t("share_card").toUpperCase()}
+                    </Text>
+                  </View>
+                )}
+              {[
+                MAIN_CATEGORY_IDS.AUTOMOBILE,
+                MAIN_CATEGORY_IDS.ELECTRONICS,
+                MAIN_CATEGORY_IDS.FURNITURE,
+                MAIN_CATEGORY_IDS.FASHION
+              ].indexOf(product.masterCategoryId) > -1 && (
+                  <View style={{
+                    alignItems: "center"
+                  }}>
                     <TouchableOpacity
                       onPress={() => this.reviewModal.show()}
                       style={styles.btn}
                     >
-                      <Icon name="star" size={20} color={colors.yellow} />
-                      <Text weight="Medium" style={styles.btnText}>
-                        {ratings || I18n.t("review")}
-                      </Text>
+                      <Icon name="star" size={25} color={colors.yellow} />
                     </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {ratings || I18n.t("review").toUpperCase()}
+                    </Text>
                   </View>
                 )}
-              </View>
             </View>
+            {/* 3 buttons (view bill,share and rating) end */}
             <View style={styles.tabs}>
               {[
                 I18n.t("product_details_screen_tab_customer_care"),
@@ -381,20 +403,39 @@ const styles = StyleSheet.create({
     flex: 1
   },
   btns: {
-    width: 90
+    // width: 300,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  btnShare: {
+    marginTop: 10,
+    // marginLeft:10,
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    backgroundColor: "#fff",
+    paddingTop: 7,
+    borderColor: '#009ee6',
+    borderWidth: 2,
+    borderRadius: 100,
   },
   btn: {
     marginTop: 10,
-    width: 80,
-    flexDirection: "row",
+    width: 40,
+    height: 40,
     alignItems: "center",
     backgroundColor: "#fff",
-    padding: 2,
-    borderRadius: 2,
-    ...defaultStyles.card
+    paddingTop: 7,
+    borderColor: '#ffd000',
+    borderWidth: 2,
+    borderRadius: 100,
+    // ...defaultStyles.card
   },
   btnText: {
-    fontSize: 10
+    fontSize: 10,
+    textAlign: "center",
+    color: '#9b9b9b'
   },
   name: {
     fontSize: 18,

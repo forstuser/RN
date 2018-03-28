@@ -34,24 +34,31 @@ class ViewBillButton extends React.Component {
     } = this.props;
     if (product.copies && product.copies.length > 0) {
       return (
-        <TouchableOpacity
-          onPress={() => {
-            Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
-            openBillsPopUp({
-              date: product.purchaseDate,
-              id: product.id,
-              copies: product.copies,
-              type: docType
-            });
-          }}
-          style={[styles.viewBillBtn, style]}
-        >
-          <Image style={styles.viewBillIcon} source={viewBillIcon} />
-          <Text style={styles.viewBillText}>View {btnText}</Text>
-        </TouchableOpacity>
+        <View style={{
+          alignItems: "center"
+        }}>
+          <TouchableOpacity
+            onPress={() => {
+              Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
+              openBillsPopUp({
+                date: product.purchaseDate,
+                id: product.id,
+                copies: product.copies,
+                type: docType
+              });
+            }}
+            style={[styles.viewBillBtn, style]}
+          >
+            <Image style={styles.viewBillIcon} source={viewBillIcon} />
+          </TouchableOpacity>
+          <Text weight="Medium" style={styles.viewBillText}>VIEW {btnText.toUpperCase()}</Text>
+        </View>
       );
     } else {
       return (
+        <View style={{
+          alignItems: "center"
+        }}>
         <TouchableOpacity
           onPress={() => {
             Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
@@ -67,13 +74,14 @@ class ViewBillButton extends React.Component {
           <UploadBillOptions
             ref={o => (this.uploadBillOptions = o)}
             navigator={navigator}
-            uploadCallback={() => {}}
+            uploadCallback={() => { }}
           />
           <Image style={styles.viewBillIcon} source={viewBillIcon} />
-          <Text style={styles.viewBillText}>
-            {I18n.t("product_details_screen_your_upload")} {btnText}
-          </Text>
         </TouchableOpacity>
+        <Text style={styles.viewBillText} weight="Medium" >
+            {I18n.t("product_details_screen_your_upload").toUpperCase()} {btnText.toUpperCase()}
+          </Text>
+        </View>
       );
     }
   }
@@ -81,27 +89,29 @@ class ViewBillButton extends React.Component {
 
 const styles = StyleSheet.create({
   viewBillBtn: {
-    width: 80,
-    position: "absolute",
-    right: 10,
+    width: 40,
+    // position: "absolute",
+    // right: 10,
     top: 10,
     borderColor: colors.pinkishOrange,
     borderWidth: 2,
-    height: 22,
-    borderRadius: 2,
-    flexDirection: "row",
+    height: 40,
+    borderRadius: 100,
+    // flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 3,
+    // paddingHorizontal: 3,
     zIndex: 2
   },
   viewBillIcon: {
     width: 14,
     height: 14,
-    marginRight: 2
+    marginTop: 10
   },
   viewBillText: {
     fontSize: 10,
-    color: colors.pinkishOrange
+    textAlign: "center",
+    color: '#9b9b9b',
+    marginTop:10,
   }
 });
 
