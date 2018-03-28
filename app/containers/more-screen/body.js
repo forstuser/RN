@@ -110,11 +110,19 @@ class Body extends Component {
       this.props.navigator.push({
         screen: SCREENS.PIN_SETUP_SCREEN
       });
+    } else {
+      this.pinOptions.show();
     }
   };
 
   onPinOptionPress = i => {
     if (i < 2) {
+      if (i == 0) {
+        this.props.navigator.push({
+          screen: SCREENS.PIN_SETUP_SCREEN
+        });
+      } else {
+      }
     }
   };
 

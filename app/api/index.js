@@ -1221,3 +1221,44 @@ export const addCalendarItemPayment = async ({
     }
   });
 };
+
+export const verifyPin = async ({ pin }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/consumer/pin`,
+    data: {
+      pin
+    }
+  });
+};
+
+export const setPin = async ({ oldPin, pin }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/consumer/pin/reset`,
+    data: {
+      old_pin: oldPin,
+      pin
+    }
+  });
+};
+
+export const askOtpOnEmail = async ({ email }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/consumer/otp/send`,
+    data: {
+      email
+    }
+  });
+};
+
+export const validateEmailOtp = async ({ otp }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/consumer/otp/validate`,
+    data: {
+      token: otp
+    }
+  });
+};

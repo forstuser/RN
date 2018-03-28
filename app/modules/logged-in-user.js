@@ -30,7 +30,7 @@ export default function loggedInUserReducer(
     case types.LOGGED_IN_USER_SET_IS_PIN_SET:
       return {
         ...state,
-        fcmToken: action.payload.isPinSet
+        isPinSet: action.payload.isPinSet
       };
     case types.LOGGED_IN_USER_SET_CODEPUSH_DEPLOYEMENT_STAGING:
       return {

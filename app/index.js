@@ -74,6 +74,7 @@ const urlForDirectFileUpload = filePath => {
 function startApp() {
   persistStore(store, {}, async () => {
     const language = store.getState().ui.language;
+
     I18n.locale = language.code;
 
     registerScreens(store, Provider); // this is where you register all of your app's screens
@@ -82,6 +83,9 @@ function startApp() {
         // start the app
         // navigation.openAddProductsScreen();
         navigation.openAfterLoginScreen();
+        if (store.getState().loggedInUser.isPinSet) {
+          setTimeout(openEnterPinPopup, 300);
+        }
       } else {
         navigation.openIntroScreen();
       }
@@ -284,10 +288,11 @@ function startApp() {
             global[GLOBAL_VARIABLES.LAST_ACTIVE_TIMESTAMP] &&
             moment().diff(
               moment(global[GLOBAL_VARIABLES.LAST_ACTIVE_TIMESTAMP]),
-              "seconds"
-            ) > 10
+              "minutes"
+            ) > 10 &&
+            store.getState().loggedInUser.isPinSet
           ) {
-            // openEnterPinPopup();
+            openEnterPinPopup();
           }
 
           if (Platform.OS == "android") {

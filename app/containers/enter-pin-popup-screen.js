@@ -1,10 +1,20 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Dimensions,
+  Alert
+} from "react-native";
 
 import I18n from "../i18n";
+import { verifyPin } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 
 import CustomTextInput from "../components/form-elements/text-input";
+import PinInput from "../components/pin-input";
+import LoadingOverlay from "../components/loading-overlay";
+
 import { colors } from "../theme";
 import { SCREENS } from "../constants";
 
@@ -14,8 +24,7 @@ class EnterPinScreen extends React.Component {
   };
 
   state = {
-    pin: "",
-    isSavingPin: false
+    isLoading: false
   };
 
   onForgotPinPress = () => {
@@ -27,28 +36,37 @@ class EnterPinScreen extends React.Component {
     });
   };
 
+  verifyPin = async pin => {
+    if (pin.length != 4) {
+      return Alert.alert("Please enter 4 digit pin");
+    }
+    this.setState({
+      isLoading: true
+    });
+    try {
+      await verifyPin({ pin });
+      this.setState({
+        isLoading: false
+      });
+      this.props.navigator.dismissModal();
+    } catch (e) {
+      Alert.alert("Verification Failed", e.message);
+      this.setState({
+        isLoading: false
+      });
+    }
+  };
+
   render() {
     return (
       <ScreenContainer style={styles.container}>
-        <CustomTextInput
-          keyboardType="numeric"
-          placeholder="Enter App Pin"
-          onChangeText={pin => this.setState({ pin })}
-          maxLength={4}
-          secureTextEntry={true}
+        <PinInput
+          title="Enter App PIN"
+          showForgotOption={true}
+          onSubmitPress={this.verifyPin}
+          onForgotOptionPress={this.onForgotPinPress}
         />
-        <Button
-          text="Submit"
-          onPress={() => this.props.navigator.dismissLightBox()}
-        />
-
-        <Text
-          onPress={this.onForgotPinPress}
-          weight="Bold"
-          style={styles.forgotPin}
-        >
-          Forgot Pin?
-        </Text>
+        <LoadingOverlay visible={this.state.isLoading} />
       </ScreenContainer>
     );
   }
@@ -56,15 +74,9 @@ class EnterPinScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgba(255,255,255,0.9)",
+    padding: 0,
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height
-  },
-  forgotPin: {
-    fontSize: 16,
-    color: colors.pinkishOrange,
-    marginTop: 20,
-    textAlign: "center"
   }
 });
 

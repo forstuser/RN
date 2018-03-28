@@ -148,11 +148,11 @@ android {
             manifestPlaceholders = [trueCallerApiKey: "FpLdJ52343bd801e74bfebf37be778b5e66f4"]
         }
         debug {
-            debuggable false
+            debuggable true
             manifestPlaceholders = [trueCallerApiKey: "FpLdJ52343bd801e74bfebf37be778b5e66f4"]
         }
     }
-    // applicationVariants are e.g. debug, release
+// applicationVariants are e.g. debug, release
 //    applicationVariants.all { variant ->
 //        variant.outputs.each { output ->
 //            // For each separate APK per architecture, set a unique version code as described here:
