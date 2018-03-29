@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   },
   nameAndSeller: {
     paddingBottom: 10,
-    borderColor: "#ececec",
+    borderColor: "#00b2ff",
     borderBottomWidth: 1,
     marginBottom: 4
   },
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
   serviceSchedule: {
     marginTop: 5,
     paddingTop: 10,
-    borderColor: "#ececec",
+    borderColor: "#00b2ff",
     borderTopWidth: 1
   }
 });
