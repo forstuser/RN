@@ -133,7 +133,7 @@ class Body extends Component {
 
     return (
       <ScrollView>
-        {/*<MoreItem
+        <MoreItem
           onPress={this.onAppPinPress}
           imageSource={require("../../images/ic_translate.png")}
           text={I18n.t("app_pin")}
@@ -148,7 +148,7 @@ class Body extends Component {
             I18n.t("remove_pin"),
             I18n.t("cancel")
           ]}
-        />*/}
+        />
 
         <MoreItem
           onPress={this.onAscItemPress}

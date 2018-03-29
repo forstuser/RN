@@ -977,7 +977,7 @@ export default {
   delete_calendar_item_confirm_msg:
     "All the information related to this item will be deleted.",
   yes_delete: "Yes, Delete",
-  no_dont_delete: "No, don't Delete"
+  no_dont_delete: "No, don't Delete",
 
   //29-03-2018
   add_edit_expense_screen_title_select_travel:
