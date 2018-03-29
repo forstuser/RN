@@ -172,7 +172,7 @@ class BasicDetailsForm extends React.Component {
         <View style={styles.body}>
           {subCategories.length > 0 && (
             <SelectModal
-              style={styles.input}
+              // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_expense_basic_expense")}
               placeholderRenderer={({ placeholder }) => (

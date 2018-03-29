@@ -14,7 +14,8 @@ class CustomTextInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: ""
+      value: "",
+      isInputFocused:false
     };
   }
 
@@ -38,6 +39,16 @@ class CustomTextInput extends React.Component {
       value: newValue
     });
   };
+  onInputFocus = ()=>{
+    this.setState({
+      isInputFocused:true
+    })
+  }
+  onInputBlur = () =>{
+    this.setState({
+      isInputFocused:false
+    })
+  }
 
   render() {
     const {
@@ -52,21 +63,21 @@ class CustomTextInput extends React.Component {
       maxLength,
       secureTextEntry
     } = this.props;
-    const { value } = this.state;
+    const { value,isInputFocused } = this.state;
     return (
       <View style={[styles.container, style]}>
         <View
           style={[
             styles.placeholderContainer,
             { right: rightSideTextWidth },
-            value ? styles.filledInputPlaceholderContainer : {}
+            (value || isInputFocused) ? styles.filledInputPlaceholderContainer : {}
           ]}
         >
           <Text
             weight="Medium"
             style={[
               styles.placeholder,
-              value ? styles.filledInputPlaceholder : {}
+              (value || isInputFocused) ? styles.filledInputPlaceholder : {}
             ]}
           >
             {placeholder}
@@ -84,6 +95,8 @@ class CustomTextInput extends React.Component {
           keyboardType={keyboardType}
           style={[styles.textInput, { paddingRight: rightSideTextWidth }]}
           value={value}
+          onFocus={this.onInputFocus}
+          onBlur={this.onInputBlur}
           onChangeText={text => this.onChangeText(text)}
           maxLength={maxLength}
           secureTextEntry={secureTextEntry}
@@ -101,9 +114,19 @@ class CustomTextInput extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 10,
-    marginBottom: 15,
-    width: "100%"
+    // paddingVertical: 10,
+    // marginBottom: 15,
+    // width: "100%"
+    width: "100%",
+    height: 45,
+    backgroundColor: 'white',
+    borderColor:'transparent',
+    overflow: 'hidden',
+    shadowColor: 'black',
+    padding:10,
+    paddingRight:10,
+    marginBottom: 10,
+    elevation: 2,
   },
   placeholderContainer: {
     position: "absolute",
@@ -112,7 +135,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     top: 10,
     left: Platform.OS == "ios" ? 0 : 5,
-    paddingVertical: 10
+    // paddingVertical: 10
   },
   filledInputPlaceholderContainer: {
     alignItems: "flex-start",

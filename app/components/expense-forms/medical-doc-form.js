@@ -158,7 +158,7 @@ class MedicalDocForm extends React.Component {
           )}
 
           <SelectModal
-            style={styles.input}
+            // style={styles.input}
             dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
             placeholder={I18n.t("expense_forms_healthcare_type")}
             placeholderRenderer={({ placeholder }) => (

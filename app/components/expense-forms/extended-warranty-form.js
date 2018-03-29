@@ -124,7 +124,7 @@ class ExtendedWarrantyForm extends React.Component {
         <View style={styles.innerContainer}>
           <View style={styles.body}>
             <SelectModal
-              style={styles.input}
+              // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_extended_warranty_provider")}
               textInputPlaceholder={I18n.t(
@@ -156,7 +156,7 @@ class ExtendedWarrantyForm extends React.Component {
             />
 
             <SelectModal
-              style={styles.input}
+              // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_extended_warranty_upto")}
               placeholderRenderer={({ placeholder }) => (

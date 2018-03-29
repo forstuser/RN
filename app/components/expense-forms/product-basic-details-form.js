@@ -387,31 +387,31 @@ class BasicDetailsForm extends React.Component {
           )}
 
           {categoryId == CATEGORY_IDS.FURNITURE.FURNITURE && (
-            <SelectModal
-              style={styles.input}
-              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder={I18n.t("add_edit_direct_type")}
-              placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
-                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                    {placeholder}
-                  </Text>
-                  <Text weight="Medium" style={{ color: colors.mainBlue }}>
-                    *
-                  </Text>
-                </View>
-              )}
-              selectedOption={selectedSubCategory}
-              options={subCategories}
-              onOptionSelect={value => {
-                this.onSubCategorySelect(value);
-              }}
-              hideAddNew={true}
-            />
-          )}
-
-          {categoryId == CATEGORY_IDS.FURNITURE.FURNITURE ||
-            (MAIN_CATEGORY_IDS.FASHION && (
+            <View>
+              <SelectModal
+                // style={styles.input}
+                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                placeholder={I18n.t("add_edit_direct_type")}
+                placeholderRenderer={({ placeholder }) => (
+                  <View style={{ flexDirection: "row" }}>
+                    <Text
+                      weight="Medium"
+                      style={{ color: colors.secondaryText }}
+                    >
+                      {placeholder}
+                    </Text>
+                    <Text weight="Medium" style={{ color: colors.mainBlue }}>
+                      *
+                    </Text>
+                  </View>
+                )}
+                selectedOption={selectedSubCategory}
+                options={subCategories}
+                onOptionSelect={value => {
+                  this.onSubCategorySelect(value);
+                }}
+                hideAddNew={true}
+              />
               <View>
                 <TouchableOpacity
                   style={{
@@ -458,7 +458,7 @@ class BasicDetailsForm extends React.Component {
             (categoryId != CATEGORY_IDS.FURNITURE.FURNITURE &&
               mainCategoryId != MAIN_CATEGORY_IDS.FASHION)) && (
             <SelectModal
-              style={styles.input}
+              // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_product_basics_name_brand")}
               textInputPlaceholder={I18n.t(
@@ -493,7 +493,7 @@ class BasicDetailsForm extends React.Component {
           {(mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
             mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) && (
             <SelectModal
-              style={styles.input}
+              // style={styles.input}
               visibleKey="title"
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_product_basics_model")}

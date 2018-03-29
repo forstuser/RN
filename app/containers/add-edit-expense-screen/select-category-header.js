@@ -538,7 +538,8 @@ const styles = StyleSheet.create({
   },
   select: {
     height: 0,
-    overflow: "hidden"
+    overflow: "hidden",
+    padding:0
   }
 });
 
