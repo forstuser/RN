@@ -21,7 +21,11 @@ import Modal from "react-native-modal";
 import ActionSheet from "react-native-actionsheet";
 
 import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
-import { API_BASE_URL, fetchCalendarItemById } from "../../api";
+import {
+  API_BASE_URL,
+  fetchCalendarItemById,
+  deleteCalendarItem
+} from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 
 import Analytics from "../../analytics";
@@ -37,6 +41,35 @@ import OtherDetails from "./other-details";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 
+const NavOptionsButton = ({ addImageText }) => (
+  <TouchableOpacity
+    style={{
+      ...Platform.select({
+        ios: {},
+        android: {
+          position: "absolute",
+          top: 10,
+          right: 4,
+          width: 100,
+          height: 30,
+          alignItems: "center",
+          justifyContent: "flex-end"
+        }
+      })
+    }}
+    onPress={() =>
+      Navigation.handleDeepLink({ link: "calendar-nav-options-btn" })
+    }
+  >
+    <Icon name="dots-three-vertical" size={17} color={colors.pinkishOrange} />
+  </TouchableOpacity>
+);
+
+Navigation.registerComponent(
+  "CalendarNavOptionsButton",
+  () => NavOptionsButton
+);
+
 class CalendarServiceCard extends Component {
   static navigatorStyle = {
     tabBarHidden: true,
@@ -47,12 +80,20 @@ class CalendarServiceCard extends Component {
     topBarElevationShadowEnabled: false
   };
 
+  static navigatorButtons = {
+    rightButtons: [
+      {
+        component: "CalendarNavOptionsButton"
+      }
+    ]
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       isScreenVisible: true,
       item: null,
-      isFetchingItemDetails: true,
+      isLoading: true,
       activeTabIndex: 0,
       activePaymentDetailIndex: 0,
       showCustomerCareTab: false,
@@ -66,11 +107,46 @@ class CalendarServiceCard extends Component {
       title: I18n.t("calendar_service_screen_title")
     });
     this.fetchItemDetails();
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
+  onNavigatorEvent = event => {
+    if (event.type == "DeepLink") {
+      if (event.link == "calendar-nav-options-btn") {
+        this.editOptions.show();
+      }
+    }
+  };
+
+  handleEditOptionPress = index => {
+    const { item } = this.state;
+    switch (index) {
+      case 0:
+        Alert.alert(
+          I18n.t("are_you_sure"),
+          I18n.t("delete_calendar_item_confirm_msg"),
+          [
+            {
+              text: I18n.t("yes_delete"),
+              onPress: async () => {
+                this.setState({ isLoading: true });
+                await deleteCalendarItem(item.id);
+                this.props.navigator.pop();
+              }
+            },
+            {
+              text: I18n.t("no_dont_delete"),
+              style: "cancel"
+            }
+          ]
+        );
+        break;
+    }
+  };
 
   fetchItemDetails = async () => {
     this.setState({
-      isFetchingItemDetails: true,
+      isLoading: true,
       error: null
     });
 
@@ -81,7 +157,7 @@ class CalendarServiceCard extends Component {
     } catch (e) {
       newState.error = e;
     }
-    newState.isFetchingItemDetails = false;
+    newState.isLoading = false;
     this.setState(newState);
   };
 
@@ -160,7 +236,7 @@ class CalendarServiceCard extends Component {
   render() {
     const {
       item,
-      isFetchingItemDetails,
+      isLoading,
       activeTabIndex,
       activePaymentDetailIndex,
       showCustomerCareTab,
@@ -219,7 +295,13 @@ class CalendarServiceCard extends Component {
             </View>
           </ScrollView>
         )}
-        <LoadingOverlay visible={isFetchingItemDetails} />
+        <LoadingOverlay visible={isLoading} />
+        <ActionSheet
+          onPress={this.handleEditOptionPress}
+          ref={o => (this.editOptions = o)}
+          cancelButtonIndex={1}
+          options={["Delete", "Cancel"]}
+        />
       </View>
     );
   }

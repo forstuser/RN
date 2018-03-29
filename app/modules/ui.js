@@ -56,6 +56,11 @@ export default function uiReducer(state = defaultState.ui, action) {
         ...state,
         rateUsDialogTimestamp: action.payload.timestamp
       };
+    case types.UI_SET_LATEST_DO_YOU_KNOW_ID:
+      return {
+        ...state,
+        latestDoYouKnowId: action.payload.latestDoYouKnowId
+      };
     default:
       return state;
   }
@@ -123,6 +128,12 @@ export const actions = {
     return {
       type: types.UI_SET_RATE_US_DIALOG_TIMESTAMP,
       payload: { timestamp }
+    };
+  },
+  setLatestDoYouKnowId: newValue => {
+    return {
+      type: types.UI_SET_LATEST_DO_YOU_KNOW_ID,
+      payload: { newValue }
     };
   }
 };

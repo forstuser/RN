@@ -122,6 +122,7 @@ class Body extends Component {
           screen: SCREENS.PIN_SETUP_SCREEN
         });
       } else {
+        this.props.removePin();
       }
     }
   };

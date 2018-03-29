@@ -13,6 +13,7 @@ export default {
   },
 
   ui: {
+    latestDoYouKnowId: 0,
     language: LANGUAGES[0],
     screenToOpenAfterLogin: null,
     hasBlankDashboardTourShown: false,

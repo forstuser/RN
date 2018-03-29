@@ -1,7 +1,15 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  View,
+  Alert,
+  TouchableOpacity
+} from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
-import RNRestart from "react-native-restart";
+import Modal from "react-native-modal";
+import PinInput from "../../components/pin-input";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 import { actions as uiActions } from "../../modules/ui";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -9,7 +17,7 @@ import Body from "./body";
 import Header from "./header";
 import I18n from "../../i18n";
 import { SCREENS } from "../../constants";
-import { getProfileDetail, logout } from "../../api";
+import { getProfileDetail, deletePin, logout } from "../../api";
 import { openLoginScreen, openAppScreen } from "../../navigation";
 import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -28,7 +36,8 @@ class MoreScreen extends Component {
       profile: null,
       isAppUpdateAvailable: false,
       binbillDetails: {},
-      startWithProfileScreen: false
+      startWithProfileScreen: false,
+      isRemovePinModalVisible: false
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -91,6 +100,21 @@ class MoreScreen extends Component {
     });
   };
 
+  removePin = async pin => {
+    this.setState({
+      isFetchingData: true
+    });
+    try {
+      await deletePin({ pin });
+      this.props.removePin();
+    } catch (e) {
+      Alert.alert("Error", e.message);
+    }
+    this.setState({
+      isFetchingData: false
+    });
+  };
+
   openProfileScreen = () => {
     this.props.navigator.push({
       screen: SCREENS.PROFILE_SCREEN,
@@ -100,7 +124,13 @@ class MoreScreen extends Component {
 
   render() {
     const { authToken, isPinSet } = this.props;
-    const { profile, isAppUpdateAvailable, error, isFetchingData } = this.state;
+    const {
+      profile,
+      isAppUpdateAvailable,
+      error,
+      isFetchingData,
+      isRemovePinModalVisible
+    } = this.state;
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
     }
@@ -116,6 +146,7 @@ class MoreScreen extends Component {
         <Body
           profile={profile}
           isPinSet={isPinSet}
+          removePin={() => this.setState({ isRemovePinModalVisible: true })}
           isAppUpdateAvailable={isAppUpdateAvailable}
           logoutUser={this.props.logoutUser}
           language={this.props.language}
@@ -126,6 +157,21 @@ class MoreScreen extends Component {
           }}
           navigator={this.props.navigator}
         />
+        <Modal isVisible={isRemovePinModalVisible} style={{ padding: 0 }}>
+          <View style={{ flex: 1 }}>
+            <PinInput title="Enter App PIN" onSubmitPress={this.removePin} />
+            <TouchableOpacity
+              style={{
+                position: "absolute",
+                right: 10,
+                top: 5
+              }}
+              onPress={() => this.setState({ isRemovePinModalVisible: false })}
+            >
+              <Icon name="md-close" size={30} color="#fff" />
+            </TouchableOpacity>
+          </View>
+        </Modal>
       </ScreenContainer>
     );
   }
@@ -150,7 +196,10 @@ const mapDispatchToProps = dispatch => {
       }
       openLoginScreen();
     },
-    setLanguage: async language => {
+    removePin: () => {
+      dispatch(loggedInUserActions.setLoggedInUserIsPinSet(false));
+    },
+    setLanguage: language => {
       dispatch(uiActions.setLanguage(language));
     }
   };

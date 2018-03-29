@@ -159,7 +159,7 @@ class HeaderWithUploadOption extends React.Component {
         <Tour
           ref={ref => (this.tour = ref)}
           enabled={true}
-          steps={[{ ref: this.uploadBillBtn, text: I18n.t("app_tour_tips_2") }]}
+          steps={[{ ref: this.uploadBillBtn, text: I18n.t("upload_bill_tip") }]}
         />
       </View>
     );

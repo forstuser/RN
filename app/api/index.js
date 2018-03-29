@@ -1143,6 +1143,13 @@ export const updateCalendarItem = async ({
   });
 };
 
+export const deleteCalendarItem = async id => {
+  return await apiRequest({
+    method: "delete",
+    url: `/calendar/items/${id}`
+  });
+};
+
 export const addCalendarItemCalculationDetail = async ({
   itemId,
   selectedDays,
@@ -1232,12 +1239,21 @@ export const verifyPin = async ({ pin }) => {
   });
 };
 
-export const setPin = async ({ oldPin, pin }) => {
+export const setPin = async ({ pin }) => {
   return await apiRequest({
     method: "post",
     url: `/consumer/pin/reset`,
     data: {
-      old_pin: oldPin,
+      pin
+    }
+  });
+};
+
+export const deletePin = async ({ pin }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/consumer/pin`,
+    data: {
       pin
     }
   });

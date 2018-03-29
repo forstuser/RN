@@ -362,8 +362,8 @@ class UploadDocumentScreen extends Component {
           ref={ref => (this.uploadDocTour = ref)}
           enabled={true}
           steps={[
-            { ref: this.dummyViewForFile, text: I18n.t("app_tour_tips_9") },
-            { ref: this.dummyPlusIconRef, text: I18n.t("app_tour_tips_8") }
+            { ref: this.dummyViewForFile, text: I18n.t("zoom_image_tip") },
+            { ref: this.dummyPlusIconRef, text: I18n.t("add_bill_btn_tip") }
           ]}
         />
       </ScreenContainer>

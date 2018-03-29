@@ -25,7 +25,8 @@ export default function loggedInUserReducer(
         id: action.payload.id,
         name: action.payload.name,
         phone: action.payload.phone,
-        imageName: action.payload.imageName
+        imageName: action.payload.imageName,
+        isPinSet: action.payload.isPinSet
       };
     case types.LOGGED_IN_USER_SET_IS_PIN_SET:
       return {

@@ -90,7 +90,8 @@ class LoginScreen extends Component {
         id: user.id,
         name: user.name,
         phone: user.mobile_no,
-        imageName: user.image_name
+        imageName: user.image_name,
+        isPinSet: user.hasPin
       });
       openAfterLoginScreen();
     } catch (e) {

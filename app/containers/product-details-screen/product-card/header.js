@@ -47,9 +47,8 @@ class Header extends Component {
       showCustomerCareTab = false,
       showImportantTab = true,
       viewBillRef,
-      allInfoRef,
-      customerCareRef,
-      importantInfoRef
+      shareBtnRef,
+      reviewBtnRef
     } = this.props;
 
     let productName = product.productName;
@@ -231,7 +230,7 @@ class Header extends Component {
               <View style={styles.btns}>
                 {product.categoryId != 664 && (
                   <ViewBillButton
-                    ref={ref => viewBillRef(ref)}
+                    viewRef={ref => viewBillRef(ref)}
                     product={product}
                     navigator={navigator}
                     style={{
@@ -249,6 +248,7 @@ class Header extends Component {
                 ].indexOf(product.masterCategoryId) > -1 && (
                   <View>
                     <TouchableOpacity
+                      ref={ref => shareBtnRef(ref)}
                       onPress={() => this.shareModal.show()}
                       style={styles.btn}
                     >
@@ -264,6 +264,7 @@ class Header extends Component {
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
+                      ref={ref => reviewBtnRef(ref)}
                       onPress={() => this.reviewModal.show()}
                       style={styles.btn}
                     >
@@ -293,19 +294,6 @@ class Header extends Component {
                     onPress={() => onTabChange(index)}
                     key={index}
                     style={[styles.tab]}
-                    ref={ref => {
-                      switch (index) {
-                        case 0:
-                          customerCareRef(ref);
-                          break;
-                        case 1:
-                          allInfoRef(ref);
-                          break;
-                        case 2:
-                          importantInfoRef(ref);
-                          break;
-                      }
-                    }}
                   >
                     <Text
                       numberOfLines={1}

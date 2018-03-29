@@ -235,7 +235,8 @@ class ProductDetailsScreen extends Component {
           MAIN_CATEGORY_IDS.AUTOMOBILE,
           MAIN_CATEGORY_IDS.ELECTRONICS,
           MAIN_CATEGORY_IDS.FURNITURE,
-          MAIN_CATEGORY_IDS.FASHION
+          MAIN_CATEGORY_IDS.FASHION,
+          MAIN_CATEGORY_IDS.TRAVEL
         ].indexOf(res.product.masterCategoryId) > -1
       ) {
         addImageText = "Add";

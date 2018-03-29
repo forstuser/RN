@@ -106,7 +106,8 @@ class DashboardScreen extends React.Component {
       id: user.id,
       name: user.name,
       phone: user.mobile_no,
-      imageName: user.image_name
+      imageName: user.image_name,
+      isPinSet: user.hasPin
     });
   }
 
@@ -277,7 +278,7 @@ class DashboardScreen extends React.Component {
                     </View>
                   </View>
                 )}
-                {this.state.recentActivitiesProduct && (
+                {/* this.state.recentActivitiesProduct && (
                   <View>
                     <Title
                       gradientColors={["#007bce", "#00c6ff"]}
@@ -293,8 +294,8 @@ class DashboardScreen extends React.Component {
                     >
                       <ProductListItem
                         style={{
-                          borderColor: undefined,
-                          borderWidth: 0,
+                          elevation: undefined,
+                          shadowColor: "transparent",
                           marginBottom: 0
                         }}
                         product={this.state.recentActivitiesProduct}
@@ -304,7 +305,7 @@ class DashboardScreen extends React.Component {
                       />
                     </View>
                   </View>
-                )}
+                )*/}
 
                 <Title
                   setRef={ref => (this.insightsRef = ref)}
@@ -343,6 +344,7 @@ class DashboardScreen extends React.Component {
 
                 <Title text={I18n.t("asc_screen_title")} />
                 <TouchableOpacity
+                  ref={ref => (this.ascViewItemRef = ref)}
                   onPress={this.openAscScreen}
                   style={[
                     defaultStyles.card,
@@ -406,10 +408,11 @@ class DashboardScreen extends React.Component {
           ref={ref => (this.dashboardTour = ref)}
           enabled={true}
           steps={[
-            { ref: this.ehomeTabItemRef, text: I18n.t("app_tour_tips_2") },
-            { ref: this.ascTabItemRef, text: I18n.t("app_tour_tips_3") },
+            { ref: this.ehomeTabItemRef, text: I18n.t("ehome_tip") },
+            { ref: this.attendanceTabItemRef, text: I18n.t("attendance_tip") },
+            { ref: this.ascViewItemRef, text: I18n.t("asc_tip") },
             { ref: this.insightsRef, text: I18n.t("app_tour_tips_4") },
-            { ref: this.comingUpRef, text: I18n.t("app_tour_tips_6") }
+            { ref: this.comingUpRef, text: I18n.t("coming_up_tip") }
           ]}
         />
         <View style={styles.dummiesForTooltips}>
@@ -419,7 +422,7 @@ class DashboardScreen extends React.Component {
             style={styles.dummyForTooltip}
           />
           <View
-            ref={ref => (this.ascTabItemRef = ref)}
+            ref={ref => (this.attendanceTabItemRef = ref)}
             style={styles.dummyForTooltip}
           />
           <View style={styles.dummyForTooltip} />

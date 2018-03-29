@@ -30,11 +30,13 @@ class ViewBillButton extends React.Component {
       navigator,
       docType = "Product",
       btnText = "Bill",
-      style
+      style,
+      viewRef
     } = this.props;
     if (product.copies && product.copies.length > 0) {
       return (
         <TouchableOpacity
+          ref={ref => viewRef(ref)}
           onPress={() => {
             Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
             openBillsPopUp({
@@ -53,6 +55,7 @@ class ViewBillButton extends React.Component {
     } else {
       return (
         <TouchableOpacity
+          ref={ref => viewRef(ref)}
           onPress={() => {
             Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
             this.uploadBillOptions.show(

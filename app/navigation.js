@@ -139,7 +139,7 @@ export const openAppScreen = opts => {
         icon: require("./images/ic_nav_ehome_off.png")
       },
       {
-        label: "My Calendar",
+        label: "Attendance",
         screen: SCREENS.MY_CALENDAR_SCREEN,
         icon: require("./images/ic_calendar.png")
       },

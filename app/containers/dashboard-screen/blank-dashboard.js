@@ -123,7 +123,7 @@ class BlankDashboard extends React.Component {
         <Tour
           ref={ref => (this.blankDashboardTour = ref)}
           enabled={true}
-          steps={[{ ref: this.fabRef, text: I18n.t("app_tour_tips_1") }]}
+          steps={[{ ref: this.fabRef, text: I18n.t("plus_btn_tip") }]}
         />
       </View>
     );
