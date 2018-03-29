@@ -96,12 +96,14 @@ class MedicalDocsCard extends Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <ViewBillButton
-            product={product}
-            navigator={navigator}
-            docType="Medical Doc"
-            btnText={I18n.t("product_details_screen_docs")}
-          />
+          <View style={{ top: 10, position: 'absolute', right: 10 }}>
+            <ViewBillButton
+              product={product}
+              navigator={navigator}
+              docType="Medical Doc"
+              btnText={I18n.t("product_details_screen_docs")}
+            />
+          </View>
           <Image
             style={styles.image}
             source={{ uri: API_BASE_URL + "/" + product.cImageURL + "0" }}
