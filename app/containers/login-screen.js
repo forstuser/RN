@@ -176,7 +176,7 @@ class LoginScreen extends Component {
                 alignItems: "flex-end"
               }}
             >
-              <Text
+              {/* <Text
                 weight="Medium"
                 style={{
                   fontSize: 12,
@@ -190,7 +190,7 @@ class LoginScreen extends Component {
                 name="ios-arrow-down"
                 size={15}
                 color={colors.secondaryText}
-              />
+              /> */}
             </TouchableOpacity>
             <TextInput
               underlineColorAndroid="transparent"
