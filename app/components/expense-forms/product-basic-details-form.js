@@ -389,7 +389,7 @@ class BasicDetailsForm extends React.Component {
           {categoryId == CATEGORY_IDS.FURNITURE.FURNITURE && (
             <View>
               <SelectModal
-                style={styles.input}
+                // style={styles.input}
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder={I18n.t("add_edit_direct_type")}
                 placeholderRenderer={({ placeholder }) => (
@@ -458,7 +458,7 @@ class BasicDetailsForm extends React.Component {
             (selectedBrand && selectedBrand.id != 0) ||
             categoryId != CATEGORY_IDS.FURNITURE.FURNITURE) && (
             <SelectModal
-              style={styles.input}
+              // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_product_basics_name_brand")}
               textInputPlaceholder={I18n.t(
@@ -493,7 +493,7 @@ class BasicDetailsForm extends React.Component {
           {(mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
             mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) && (
             <SelectModal
-              style={styles.input}
+              // style={styles.input}
               visibleKey="title"
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_product_basics_model")}

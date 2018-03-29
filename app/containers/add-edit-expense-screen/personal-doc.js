@@ -235,9 +235,9 @@ class PersonalDoc extends React.Component {
             />
             {formType != "visiting_card" && (
               <SelectModal
-                style={styles.input}
+                // style={styles.input}
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-                placeholder="Type of doc"
+                placeholder="Type of Doc"
                 placeholderRenderer={({ placeholder }) => (
                   <View style={{ flexDirection: "row" }}>
                     <Text

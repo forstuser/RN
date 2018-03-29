@@ -264,7 +264,20 @@ class SelectModal extends Component {
   }
 }
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    height: 45,
+    backgroundColor: 'white',
+    // borderWidth: 1,
+    // borderColor:'#dcdbde',
+    borderColor:'transparent',
+    overflow: 'hidden',
+    shadowColor: 'black',
+    padding:8,
+    marginBottom: 12,
+    elevation: 2,
+    // shadowRadius: 10,
+    // shadowOpacity: 0.8,
+  },
   wrapper: {
     width: "100%",
     height: "100%",

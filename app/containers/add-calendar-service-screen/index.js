@@ -382,7 +382,7 @@ class AddEditCalendarServiceScreen extends Component {
                 <View>
                   <View style={{ flexDirection: "row" }}>
                     <SelectModal
-                      style={styles.selectUnitType}
+                      // style={styles.selectUnitType}
                       dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                       placeholder="Choose Unit Type"
                       placeholderRenderer={({ placeholder }) => (

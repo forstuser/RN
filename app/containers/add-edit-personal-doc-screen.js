@@ -303,7 +303,7 @@ class PersonalDoc extends React.Component {
             />
             {categoryId != 27 && (
               <SelectModal
-                style={styles.input}
+                // style={styles.input}
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder={I18n.t("add_edit_personal_doc_type_of_doc")}
                 placeholderRenderer={({ placeholder }) => (

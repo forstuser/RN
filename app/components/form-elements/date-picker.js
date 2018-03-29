@@ -118,9 +118,18 @@ class CustomDatePicker extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 10,
-    marginBottom: 15,
-    width: "100%"
+    // paddingVertical: 10,
+    // marginBottom: 15,
+    width: "100%",
+    height: 45,
+    backgroundColor: 'white',
+    borderColor:'transparent',
+    overflow: 'hidden',
+    shadowColor: 'black',
+    padding:10,
+    paddingRight:10,
+    marginBottom: 10,
+    elevation: 2,
   },
   placeholderContainer: {
     position: "absolute",
@@ -128,7 +137,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     top: 10,
-    paddingVertical: 10
+    paddingLeft:6
+    // paddingVertical: 10
   },
   filledInputPlaceholderContainer: {
     alignItems: "flex-start",
@@ -154,8 +164,8 @@ const styles = StyleSheet.create({
   },
   calendarIconContainer: {
     position: "absolute",
-    right: 0,
-    bottom: 20
+    right: 6,
+    bottom: 12
   },
   hint: {
     fontSize: 12,

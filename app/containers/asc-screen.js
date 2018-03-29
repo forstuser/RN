@@ -282,7 +282,7 @@ class AscScreen extends Component {
               {I18n.t("asc_screen_section_2_title")}
             </Text>
             <SelectModal
-              style={styles.select}
+              // style={styles.select}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("asc_screen_placeholder_select_brand")}
               placeholderRenderer={({ placeholder }) => (
@@ -308,7 +308,7 @@ class AscScreen extends Component {
             />
 
             <SelectModal
-              style={styles.select}
+              // style={styles.select}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("asc_screen_placeholder_select_category")}
               placeholderRenderer={({ placeholder }) => (

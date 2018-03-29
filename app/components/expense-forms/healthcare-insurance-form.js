@@ -224,7 +224,7 @@ class HealthcareInsuranceForm extends React.Component {
           )}
 
           <SelectModal
-            style={styles.input}
+            // style={styles.input}
             dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
             placeholder={I18n.t(
               "main_category_screen_filters_title_categories"
@@ -257,7 +257,7 @@ class HealthcareInsuranceForm extends React.Component {
           {!showOnlyGeneralInfo && (
             <View>
               <SelectModal
-                style={styles.input}
+                // style={styles.input}
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder={I18n.t("expense_forms_extended_warranty_provider")}
                 placeholderRenderer={({ placeholder }) => (
@@ -343,12 +343,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth
   },
   input: {
-    paddingVertical: 10,
-    borderColor: colors.lighterText,
-    borderBottomWidth: 2,
-    paddingTop: 20,
-    height: 50,
-    marginBottom: 25
+    // paddingVertical: 10,
+    // borderColor: colors.lighterText,
+    // borderBottomWidth: 2,
+    // paddingTop: 20,
+    // height: 50,
+    marginBottom: 10
   }
 });
 

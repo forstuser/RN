@@ -384,7 +384,7 @@ class DirectUploadDocumentScreen extends React.Component {
           {I18n.t("add_edit_direct_upload_docs")}
         </Text>
         <SelectModal
-          style={styles.input}
+          // style={styles.input}
           dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
           placeholder={I18n.t("add_edit_direct_category")}
           placeholderRenderer={({ placeholder }) => (
@@ -402,7 +402,7 @@ class DirectUploadDocumentScreen extends React.Component {
           hideAddNew={true}
         />
         <SelectModal
-          style={styles.input}
+          // style={styles.input}
           dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
           placeholder={I18n.t("add_edit_direct_subcategory")}
           placeholderRenderer={({ placeholder }) => (
@@ -430,7 +430,7 @@ class DirectUploadDocumentScreen extends React.Component {
         {selectedCategory &&
           selectedCategory.id == CATEGORY_IDS.FURNITURE.FURNITURE && (
             <SelectModal
-              style={styles.input}
+              // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("add_edit_direct_type")}
               placeholderRenderer={({ placeholder }) => (
@@ -457,7 +457,7 @@ class DirectUploadDocumentScreen extends React.Component {
             MAIN_CATEGORY_IDS.FASHION
           ].indexOf(selectedMainCategory.id) > -1 && (
             <SelectModal
-              style={styles.input}
+              // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("add_edit_direct_brand")}
               placeholderRenderer={({ placeholder }) => (
@@ -488,7 +488,7 @@ class DirectUploadDocumentScreen extends React.Component {
             selectedMainCategory.id
           ) > -1 && (
             <SelectModal
-              style={styles.input}
+              // style={styles.input}
               visibleKey="title"
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("add_edit_direct_model")}
