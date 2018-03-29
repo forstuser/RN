@@ -116,7 +116,12 @@ class ProfileDetailEdit extends Component {
               this.props.info && (
                 <TouchableOpacity
                   onPress={this.showResendEmailVerifyAlert}
-                  style={{ height: 40, marginTop: -25 }}
+                  style={{
+                    height: 40,
+                    position: "absolute",
+                    left: 0,
+                    top: -25
+                  }}
                 >
                   <View style={{ flex: 1, flexDirection: "row" }}>
                     <View>
@@ -131,7 +136,14 @@ class ProfileDetailEdit extends Component {
           </View>
           {this.props.verify == true &&
             this.props.info && (
-              <TouchableOpacity style={{ height: 40, marginTop: -25 }}>
+              <TouchableOpacity
+                style={{
+                  height: 40,
+                  position: "absolute",
+                  left: 0,
+                  top: -25
+                }}
+              >
                 <View style={{ flex: 1, flexDirection: "row" }}>
                   <View>
                     <Text style={styles.verified}>Verified</Text>

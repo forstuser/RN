@@ -963,5 +963,9 @@ export default {
 
   //27-03-2018
   love_using_binbill: "Love using BinBill app?",
-  recommend_us: "Recommend us to others by rating us on {{storeName}} Store"
+  recommend_us: "Recommend us to others by rating us on {{storeName}} Store",
+
+  //29-03-2018
+  add_edit_expense_screen_title_select_travel:
+    "Select Travel & Dining Expense Category"
 };

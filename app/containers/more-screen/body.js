@@ -110,12 +110,12 @@ class Body extends Component {
 
     return (
       <ScrollView>
-        <MoreItem
+        {/* <MoreItem
           onPress={this.onLanguageChangePress}
           imageSource={require("../../images/ic_translate.png")}
           text={language.name}
           btnText={I18n.t("more_screen_item_app_language_change")}
-        />
+        /> */}
         <MoreItem
           onPress={this.onAscItemPress}
           imageSource={require("../../images/ic_nav_asc_on.png")}
