@@ -254,6 +254,10 @@ class ShareModal extends React.Component {
                   <Text style={styles.userName} weight="Bold">
                     {loggedInUser.name}
                   </Text>
+                  <Text
+                    numberOfLines={4} weight="Bold"
+                    style={styles.reviewQuotesText}
+                  >{`"${I18n.t("review_quotes")}"`}</Text>
                   <StarRating
                     starColor="#f8e71c"
                     disabled={true}
@@ -406,6 +410,16 @@ const styles = StyleSheet.create({
   feedbackText: {
     margin: 10,
     fontSize: 10
+  },
+  reviewQuotesText:{
+    marginLeft: 10,
+    marginRight:10,
+    marginBottom:5,
+    fontSize: 9,
+    color:colors.success,
+    textAlign:'center',
+    // justifyContent: 'center',
+    // alignItems: 'center'  
   },
   badges: {
     flexDirection: "row",

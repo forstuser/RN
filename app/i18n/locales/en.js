@@ -963,5 +963,8 @@ export default {
 
   //27-03-2018
   love_using_binbill: "Love using BinBill app?",
-  recommend_us: "Recommend us to others by rating us on {{storeName}} Store"
+  recommend_us: "Recommend us to others by rating us on {{storeName}} Store",
+  
+  //29-03-2018
+  review_quotes:"Someday-N-Someway you will find this Review useful"
 };
