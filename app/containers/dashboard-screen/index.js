@@ -38,6 +38,7 @@ import ProductListItem from "../../components/product-list-item";
 
 import { actions as uiActions } from "../../modules/ui";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
+import RecentCalenderItems from "./recent-calender-items";
 
 const ascIcon = require("../../images/ic_nav_asc_off.png");
 const chartIcon = require("../../images/ic_bar_chart.png");
@@ -59,6 +60,7 @@ class DashboardScreen extends React.Component {
       showDashboard: true,
       upcomingServices: [],
       recentProducts: [],
+      recentCalenderItems: [],
       insightChartProps: {},
       notificationCount: 0,
       recentSearches: [],
@@ -135,6 +137,7 @@ class DashboardScreen extends React.Component {
     });
     try {
       const dashboardData = await consumerGetDashboard();
+      console.log("Dashboard Data :", dashboardData)
       if (
         dashboardData.hasProducts === false &&
         !DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE
@@ -166,6 +169,7 @@ class DashboardScreen extends React.Component {
           showDashboard: dashboardData.showDashboard,
           upcomingServices: dashboardData.upcomingServices,
           recentProducts: dashboardData.recent_products,
+          recentCalenderItems: dashboardData.recent_calendar_item,
           insightChartProps: insightChartProps,
           totalCalendarItem: dashboardData.total_calendar_item,
           calendarItemUpdatedAt: dashboardData.calendar_item_updated_at,
@@ -266,44 +270,8 @@ class DashboardScreen extends React.Component {
             />
             <ScrollView>
               <View style={{ flex: 1, marginBottom: 150, padding: 10 }}>
-                <TouchableOpacity
-                  ref={ref => (this.ascViewItemRef = ref)}
-                  onPress={this.openAscScreen}
-                  style={[
-                    defaultStyles.card,
-                    {
-                      flexDirection: "row",
-                      padding: 16,
-                      marginTop: 20,
-                      borderRadius: 3,
-                      alignItems: "center",
-                      backgroundColor: colors.mainBlue
-                    }
-                  ]}
-                >
-                  <Image
-                    style={[styles.expenseInsightImage, { tintColor: "#fff" }]}
-                    source={ascIcon}
-                    resizeMode="contain"
-                  />
-                  <View style={styles.expenseInsightTitles}>
-                    <Text
-                      weight="Bold"
-                      style={[styles.expenseInsightTitle, { color: "#fff" }]}
-                    >
-                      {I18n.t("asc_screen_title")}
-                    </Text>
-                    <Text
-                      style={[styles.expenseInsightSubTitle, { color: "#fff" }]}
-                    >
-                      Find ASC for your products with one click
-                    </Text>
-                  </View>
-                  <View style={styles.expenseInsightDetails}>
-                    <Icon name="ios-arrow-forward" size={30} color="#fff" />
-                  </View>
-                </TouchableOpacity>
                 {this.state.upcomingServices.length > 0 && (
+                  // what's coming up
                   <View>
                     <Title
                       setRef={ref => (this.comingUpRef = ref)}
@@ -318,6 +286,7 @@ class DashboardScreen extends React.Component {
                   </View>
                 )}
                 {this.state.recentProducts.length > 0 && (
+                  // recent activity
                   <View>
                     <Title
                       gradientColors={["#007bce", "#00c6ff"]}
@@ -329,7 +298,20 @@ class DashboardScreen extends React.Component {
                     />
                   </View>
                 )}
-
+                {this.state.recentCalenderItems.length > 0 && (
+                  // Calender
+                  <View>
+                    <Title
+                      gradientColors={["#429321", "#b4ec51"]}
+                      text={I18n.t("my_calendar")}
+                    />
+                    {/* <RecentCalenderItems
+                      items={this.state.recentCalenderItems}
+                      navigator={this.props.navigator}
+                    /> */}
+                  </View>
+                )}
+                {/* Expense Insights */}
                 <Title
                   setRef={ref => (this.insightsRef = ref)}
                   gradientColors={["#242841", "#707c93"]}
@@ -340,7 +322,7 @@ class DashboardScreen extends React.Component {
                   style={[
                     defaultStyles.card,
                     styles.expenseInsight,
-                    { marginBottom: 60 }
+                    { marginBottom: 20 }
                   ]}
                 >
                   <Image
@@ -366,6 +348,42 @@ class DashboardScreen extends React.Component {
                     >
                       {I18n.t("dashboard_screen_see_details")}
                     </Text>
+                  </View>
+                </TouchableOpacity>
+                {/* Authorised Service Centres */}
+                <Title
+                  setRef={ref => (this.ascViewItemRef = ref)}
+                  gradientColors={["#d01a35", "#f5515f"]}
+                  text={I18n.t("asc_screen_title")}
+                />
+                <TouchableOpacity
+                  onPress={this.openAscScreen}
+                  style={[
+                    defaultStyles.card,
+                    styles.expenseInsight,
+                    { marginBottom: 60 }
+                  ]}
+                >
+                  <Image
+                    style={[styles.expenseInsightImage, { tintColor: "#d20505" }]}
+                    source={ascIcon}
+                    resizeMode="contain"
+                  />
+                  <View style={styles.expenseInsightTitles}>
+                    <Text
+                      weight="Bold"
+                      style={[styles.expenseInsightTitle]}
+                    >
+                      {I18n.t("asc_screen_title")}
+                    </Text>
+                    <Text
+                      style={[styles.expenseInsightSubTitle]}
+                    >
+                      Find ASC for your products with one click
+                    </Text>
+                  </View>
+                  <View style={styles.expenseInsightDetails}>
+                    <Icon name="ios-arrow-forward" size={30} />
                   </View>
                 </TouchableOpacity>
               </View>

@@ -18,15 +18,15 @@ const ViewMore = ({ height, onPress }) => (
       }}
     >
       <Icon
-        name={height == "less" ? "ios-arrow-up" : "ios-arrow-down"}
+        name={height == "less" ? "ios-arrow-down" : "ios-arrow-up"}
         size={28}
         color="#fff"
       />
     </View>
     <Text style={{ color: colors.pinkishOrange, fontSize: 12 }}>
       {height == "less"
-        ? I18n.t("component_items_view_less")
-        : I18n.t("component_items_view_more")}
+        ? I18n.t("component_items_view_more")
+        : I18n.t("component_items_view_less")}
     </Text>
   </TouchableOpacity>
 );

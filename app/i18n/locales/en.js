@@ -487,6 +487,7 @@ export default {
   ehome_screen_items_category_item_last_updated: "LAST UPDATED {{date}}",
 
   //my calendar screen
+  my_calendar: 'My Calendar',
   my_calendar_screen_title: "Attendance",
   my_calendar_screen_add_btn: "Add Attendance Item",
   my_calendar_screen_empty_screen_msg:
