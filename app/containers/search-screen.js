@@ -16,8 +16,8 @@ import { ScreenContainer, Text, Button, AsyncImage } from "../elements";
 import { colors } from "../theme";
 import { openBillsPopUp } from "../navigation";
 import I18n from "../i18n";
-
 const backIcon = require("../images/ic_arrow_back_black.png");
+const noDocs = require("../images/ic_no_docs.png");
 
 class SearchBox extends Component {
   static navigatorStyle = {
@@ -114,6 +114,7 @@ class SearchBox extends Component {
             ))}
           </View>
         )}
+
         {searchHasRunOnce && (
           <ProductsList
             onRefresh={this.fetchResults}
@@ -122,6 +123,13 @@ class SearchBox extends Component {
             navigator={this.props.navigator}
           />
         )}
+
+        {/* {searchHasRunOnce.length == 0 && (
+          <View>
+            <Image source={noDocs} style={{ width: 140, height: 140 }} />
+            <Text style={{ fontSize: 24 }}>No Documents Found</Text>
+          </View>
+        )} */}
       </ScreenContainer>
     );
   }
