@@ -17,7 +17,7 @@ const Item = ({ item, onPress }) => {
     service_type,
     latest_payment_detail
   } = item;
-  const imageUrl = API_BASE_URL + service_type.calendarServiceImageUrl;
+  const imageUrl = service_type ? API_BASE_URL + service_type.calendarServiceImageUrl : '';
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>

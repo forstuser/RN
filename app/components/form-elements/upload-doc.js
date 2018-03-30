@@ -24,7 +24,16 @@ class UploadDoc extends React.Component {
       isDocUploaded: false
     };
   }
-
+  onUploadDocPress = () => {
+    const { jobId, type = 1, itemId, productId } = this.props;
+    if (typeof this.props.beforeUpload == "function") {
+      if (this.props.beforeUpload() == true) {
+        this.uploadBillOptions.show(jobId, type, itemId, productId);
+      }
+    } else {
+      this.uploadBillOptions.show(jobId, type, itemId, productId);
+    }
+  };
   onUpload = uploadResult => {
     if (typeof this.props.onUpload == "function") {
       this.props.onUpload(uploadResult);
@@ -84,12 +93,10 @@ class UploadDoc extends React.Component {
           </View>
         )}
         {copies.length == 0 && (
+
           <TouchableOpacity
+            onPress={this.onUploadDocPress}
             style={styles.noCopiesContainer}
-            onPress={() => {
-              console.log("jobId, type, itemId ", jobId, type, itemId);
-              this.uploadBillOptions.show(jobId, type, itemId);
-            }}
           >
             {!isDocUploaded && (
               <View style={styles.placeholderContainer}>
@@ -129,11 +136,22 @@ class UploadDoc extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: colors.lighterText,
-    borderBottomWidth: 2,
-    paddingTop: 10,
-    height: 50,
-    marginBottom: 25
+    // borderColor: colors.lighterText,
+    // borderBottomWidth: 2,
+    // paddingTop: 10,
+    // height: 50,
+    // marginBottom: 25,
+    width: "100%",
+    height: 45,
+    backgroundColor: 'white',
+    borderColor: 'transparent',
+    overflow: 'hidden',
+    shadowColor: 'black',
+    // padding:10,
+    paddingLeft: 5,
+    paddingRight: 10,
+    marginBottom: 10,
+    elevation: 2,
   },
   copiesContainer: {
     flexDirection: "row",

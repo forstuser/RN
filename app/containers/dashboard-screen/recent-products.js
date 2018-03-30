@@ -37,14 +37,13 @@ class RecentItems extends React.Component {
           ]}
         >
           {products.map((product, index) => (
-            <View
+            <View key={index}
               style={{
                 borderBottomColor: "#efefef",
                 borderBottomWidth: 1
               }}
             >
               <ProductListItem
-                key={index}
                 style={{
                   elevation: undefined,
                   shadowColor: "transparent",
@@ -59,7 +58,7 @@ class RecentItems extends React.Component {
           ))}
         </View>
         {products.length > 1 && (
-          <ViewMoreBtn text={listHeight} onPress={this.toggleListHeight} />
+          <ViewMoreBtn height={listHeight} onPress={this.toggleListHeight} />
         )}
       </View>
     );

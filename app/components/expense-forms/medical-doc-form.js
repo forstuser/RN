@@ -17,7 +17,7 @@ import { colors } from "../../theme";
 import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";
 import CustomDatePicker from "../form-elements/date-picker";
-import HeaderWithUploadOption from "../form-elements/header-with-upload-option";
+import UploadDoc from "../form-elements/upload-doc";
 
 class MedicalDocForm extends React.Component {
   constructor(props) {
@@ -132,22 +132,7 @@ class MedicalDocForm extends React.Component {
     } = this.state;
     return (
       <View style={styles.container}>
-        <HeaderWithUploadOption
-          title={I18n.t("expense_forms_expense_basic_detail")}
-          textBeforeUpload={I18n.t("expense_forms_healthcare_upload_doc")}
-          textBeforeUpload2="*"
-          textBeforeUpload2Color={colors.mainBlue}
-          productId={productId}
-          itemId={productId}
-          jobId={jobId ? jobId : null}
-          type={1}
-          copies={copies}
-          onUpload={uploadResult => {
-            console.log("upload result: ", uploadResult);
-            this.setState({ copies: uploadResult.product.copies });
-          }}
-          navigator={this.props.navigator}
-        />
+        <Text weight="Medium" style={styles.headerText}>{I18n.t("expense_forms_expense_basic_detail")}</Text>
         <View style={styles.body}>
           {showFullForm && (
             <CustomTextInput
@@ -200,6 +185,21 @@ class MedicalDocForm extends React.Component {
             </View>
           )}
         </View>
+        <UploadDoc
+          placeholder={I18n.t("expense_forms_healthcare_upload_doc")}
+          placeholder2="*"
+          placeholder2Color={colors.mainBlue}
+          productId={productId}
+          itemId={productId}
+          jobId={jobId ? jobId : null}
+          type={1}
+          copies={copies}
+          onUpload={uploadResult => {
+            console.log("upload result: ", uploadResult);
+            this.setState({ copies: uploadResult.product.copies });
+          }}
+          navigator={this.props.navigator}
+        />
       </View>
     );
   }
@@ -220,6 +220,11 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     height: 50,
     marginBottom: 25
+  },
+  headerText: {
+    fontSize: 18,
+    flex: 1,
+    marginBottom: 10
   }
 });
 
