@@ -26,7 +26,6 @@ import SelectModal from "../../components/select-modal";
 import CustomTextInput from "../../components/form-elements/text-input";
 import ContactFields from "../../components/form-elements/contact-fields";
 import CustomDatePicker from "../../components/form-elements/date-picker";
-import HeaderWithUploadOption from "../../components/form-elements/header-with-upload-option";
 import UploadDoc from "../../components/form-elements/upload-doc";
 
 import FinishModal from "./finish-modal";
@@ -242,26 +241,7 @@ class Repair extends React.Component {
             {selectedProduct && (
               <View style={styles.formContainer}>
                 <View style={styles.form}>
-                  <HeaderWithUploadOption
-                    title={I18n.t(
-                      "add_edit_expense_screen_title_add_repair_details"
-                    )}
-                    textBeforeUpload="Upload Bill "
-                    textBeforeUpload2="(Recommended) "
-                    textBeforeUpload2Color={colors.mainBlue}
-                    itemId={id}
-                    jobId={selectedProduct ? selectedProduct.jobId : null}
-                    type={4}
-                    copies={copies}
-                    onUpload={uploadResult => {
-                      this.setState({
-                        id: uploadResult.repair.id,
-                        copies: uploadResult.repair.copies
-                      });
-                    }}
-                    navigator={this.props.navigator}
-                  />
-
+                <Text weight="Medium" style={styles.headerText}>{I18n.t("add_edit_expense_screen_title_add_repair_details")}</Text>
                   <CustomDatePicker
                     date={repairDate}
                     placeholder={I18n.t(
@@ -306,6 +286,22 @@ class Repair extends React.Component {
                     onChangeText={warrantyUpto =>
                       this.setState({ warrantyUpto })
                     }
+                  /> 
+                <UploadDoc
+                    placeholder="Upload Bill "
+                    placeholder2="(Recommended) "
+                    placeholder2Color={colors.mainBlue}
+                    itemId={id}
+                    jobId={selectedProduct ? selectedProduct.jobId : null}
+                    type={4}
+                    copies={copies}
+                    onUpload={uploadResult => {
+                      this.setState({
+                        id: uploadResult.repair.id,
+                        copies: uploadResult.repair.copies
+                      });
+                    }}
+                    navigator={this.props.navigator}
                   />
                 </View>
               </View>
@@ -446,7 +442,13 @@ const styles = StyleSheet.create({
     height: 40,
     marginBottom: 32
   },
-  saveBtn: {}
+  saveBtn: {},
+  headerText: {
+    fontSize: 18,
+    flex: 1,
+    marginBottom: 10,
+    alignSelf:'flex-start'
+  }
 });
 
 export default Repair;

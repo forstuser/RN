@@ -459,15 +459,15 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   select: {
-    backgroundColor: "#fff",
-    borderColor: colors.secondaryText,
-    borderWidth: 1,
-    height: 50,
-    width: "100%",
-    borderRadius: 4,
-    padding: 14,
-    marginBottom: 20,
-    alignSelf: "center"
+    height: 45,
+    backgroundColor: 'white',
+    borderColor:'transparent',
+    overflow: 'hidden',
+    shadowColor: 'black',
+    padding:8,
+    marginBottom: 12,
+    alignSelf: "center",
+    elevation:2
   },
   searchBtn: {
     width: 300,

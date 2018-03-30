@@ -17,9 +17,8 @@ import SelectModal from "../../components/select-modal";
 
 import CustomTextInput from "../../components/form-elements/text-input";
 import ContactFields from "../../components/form-elements/contact-fields";
-import HeaderWithUploadOption from "../../components/form-elements/header-with-upload-option";
-
 import FinishModal from "./finish-modal";
+import UploadDoc from "../../components/form-elements/upload-doc";
 
 const AttachmentIcon = () => (
   <Icon name="attachment" size={20} color={colors.pinkishOrange} />
@@ -207,32 +206,12 @@ class PersonalDoc extends React.Component {
               }
             />
           </View>
-
           <View style={styles.form}>
-            <HeaderWithUploadOption
-              title={
-                formType == "visiting_card"
-                  ? "Add Card Details"
-                  : "Add Document Details"
-              }
-              textBeforeUpload={
-                formType == "visiting_card" ? "Upload Image" : "Upload Doc"
-              }
-              textBeforeUpload2="*"
-              textBeforeUpload2Color={colors.mainBlue}
-              productId={product ? product.id : null}
-              jobId={product ? product.job_id : null}
-              type={1}
-              copies={copies}
-              beforeUpload={this.beforeUpload}
-              onUpload={uploadResult => {
-                this.setState({
-                  isDocUploaded: true,
-                  copies: uploadResult.product.copies
-                });
-              }}
-              navigator={this.props.navigator}
-            />
+            <Text weight="Medium" style={styles.headerText}>{
+              formType == "visiting_card"
+                ? "Add Card Details"
+                : "Add Document Details"
+            }</Text>
             {formType != "visiting_card" && (
               <SelectModal
                 // style={styles.input}
@@ -293,6 +272,26 @@ class PersonalDoc extends React.Component {
                   />
                 </View>
               )}
+            <UploadDoc
+              placeholder={
+                formType == "visiting_card" ? "Upload Image" : "Upload Doc"
+              }
+              placeholder2="*"
+              placeholder2Color={colors.mainBlue}
+              productId={product ? product.id : null}
+              jobId={product ? product.job_id : null}
+              type={1}
+              copies={copies}
+              beforeUpload={this.beforeUpload}
+              onUpload={uploadResult => {
+                console.log("uploadResult", uploadResult);
+                this.setState({
+                  isDocUploaded: true,
+                  copies: uploadResult.product.copies
+                });
+              }}
+              navigator={this.props.navigator}
+            />
           </View>
         </KeyboardAwareScrollView>
         <Button
@@ -352,7 +351,13 @@ const styles = StyleSheet.create({
     height: 40,
     marginBottom: 32
   },
-  saveBtn: {}
+  saveBtn: {},
+  headerText: {
+    fontSize: 18,
+    flex: 1,
+    marginBottom: 10,
+    alignSelf: 'flex-start'
+  }
 });
 
 export default PersonalDoc;

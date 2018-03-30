@@ -20,10 +20,9 @@ import SelectModal from "../components/select-modal";
 
 import CustomTextInput from "../components/form-elements/text-input";
 import ContactFields from "../components/form-elements/contact-fields";
-import HeaderWithUploadOption from "../components/form-elements/header-with-upload-option";
-
 import FinishModal from "./add-edit-expense-screen/finish-modal";
 import ChangesSavedModal from "../components/changes-saved-modal";
+import UploadDoc from "../components/form-elements/upload-doc";
 
 const AttachmentIcon = () => (
   <Icon name="attachment" size={20} color={colors.pinkishOrange} />
@@ -280,27 +279,9 @@ class PersonalDoc extends React.Component {
           </View>
 
           <View style={styles.form}>
-            <HeaderWithUploadOption
-              title={
-                categoryId == 27 ? "Add Card Details" : "Add Document Details"
-              }
-              textBeforeUpload={
-                categoryId == 27 ? "Upload Image" : "Upload Doc"
-              }
-              textBeforeUpload2="*"
-              textBeforeUpload2Color={colors.mainBlue}
-              productId={productId}
-              itemId={productId}
-              jobId={jobId ? jobId : null}
-              type={1}
-              copies={copies}
-              beforeUpload={this.beforeUpload}
-              onUpload={uploadResult => {
-                console.log("upload result: ", uploadResult);
-                this.setState({ copies: uploadResult.product.copies });
-              }}
-              navigator={this.props.navigator}
-            />
+            <Text weight="Medium" style={styles.headerText}>{
+              categoryId == 27 ? "Add Card Details" : "Add Document Details"
+            }</Text>
             {categoryId != 27 && (
               <SelectModal
                 // style={styles.input}
@@ -363,6 +344,24 @@ class PersonalDoc extends React.Component {
                 />
               </View>
             )}
+            <UploadDoc
+              placeholder={
+                categoryId == 27 ? "Upload Image" : "Upload Doc"
+              }
+              placeholder2="*"
+              placeholder2Color={colors.mainBlue}
+              productId={productId}
+              itemId={productId}
+              jobId={jobId ? jobId : null}
+              type={1}
+              copies={copies}
+              beforeUpload={this.beforeUpload}
+              onUpload={uploadResult => {
+                console.log("upload result: ", uploadResult);
+                this.setState({ copies: uploadResult.product.copies });
+              }}
+              navigator={this.props.navigator}
+            />
           </View>
         </KeyboardAwareScrollView>
         <Button
@@ -422,7 +421,13 @@ const styles = StyleSheet.create({
     height: 50,
     marginBottom: 25
   },
-  saveBtn: {}
+  saveBtn: {},
+  headerText: {
+    fontSize: 18,
+    flex: 1,
+    marginBottom: 10,
+    alignSelf: 'flex-start'
+  }
 });
 
 export default PersonalDoc;

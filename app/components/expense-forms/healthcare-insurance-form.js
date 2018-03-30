@@ -18,7 +18,7 @@ import { colors } from "../../theme";
 import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";
 import CustomDatePicker from "../form-elements/date-picker";
-import HeaderWithUploadOption from "../form-elements/header-with-upload-option";
+import UploadDoc from "../form-elements/upload-doc";
 
 class HealthcareInsuranceForm extends React.Component {
   constructor(props) {
@@ -195,25 +195,7 @@ class HealthcareInsuranceForm extends React.Component {
     } = this.state;
     return (
       <View style={styles.container}>
-        <HeaderWithUploadOption
-          title={I18n.t("expense_forms_healthcare")}
-          textBeforeUpload={I18n.t("expense_forms_healthcare_upload_doc")}
-          textBeforeUpload2={I18n.t("expense_forms_amc_form_amc_recommended")}
-          textBeforeUpload2Color={colors.mainBlue}
-          productId={productId}
-          itemId={insuranceId}
-          jobId={jobId ? jobId : null}
-          type={3}
-          copies={copies}
-          onUpload={uploadResult => {
-            this.setState({
-              insuranceId: uploadResult.insurance.id,
-              copies: uploadResult.product.copies
-            });
-          }}
-          navigator={this.props.navigator}
-          hideUploadOption={showOnlyGeneralInfo}
-        />
+        <Text weight="Medium" style={styles.headerText}>{I18n.t("expense_forms_healthcare")}</Text>
         <View style={styles.body}>
           {showFullForm && (
             <CustomTextInput
@@ -329,6 +311,24 @@ class HealthcareInsuranceForm extends React.Component {
             </View>
           )}
         </View>
+        <UploadDoc
+          placeholder={I18n.t("expense_forms_healthcare_upload_doc")}
+          placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+          placeholder2Color={colors.mainBlue}
+          productId={productId}
+          itemId={insuranceId}
+          jobId={jobId ? jobId : null}
+          type={3}
+          copies={copies}
+          onUpload={uploadResult => {
+            this.setState({
+              insuranceId: uploadResult.insurance.id,
+              copies: uploadResult.product.copies
+            });
+          }}
+          navigator={this.props.navigator}
+          hideUploadOption={showOnlyGeneralInfo}
+        />
       </View>
     );
   }
@@ -348,6 +348,11 @@ const styles = StyleSheet.create({
     // borderBottomWidth: 2,
     // paddingTop: 20,
     // height: 50,
+    marginBottom: 10
+  },
+  headerText: {
+    fontSize: 18,
+    flex: 1,
     marginBottom: 10
   }
 });

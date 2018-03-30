@@ -13,7 +13,7 @@ import I18n from "../../i18n";
 import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";
 import CustomDatePicker from "../form-elements/date-picker";
-import HeaderWithUploadOption from "../form-elements/header-with-upload-option";
+import UploadDoc from "../form-elements/upload-doc";
 
 class BasicDetailsForm extends React.Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class BasicDetailsForm extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
@@ -153,22 +153,7 @@ class BasicDetailsForm extends React.Component {
     } = this.state;
     return (
       <View style={styles.container}>
-        <HeaderWithUploadOption
-          title={I18n.t("expense_forms_expense_basic_detail")}
-          textBeforeUpload={I18n.t("expense_forms_expense_basic_upload_bill")}
-          textBeforeUpload2={I18n.t("expense_forms_amc_form_amc_recommended")}
-          textBeforeUpload2Color={colors.mainBlue}
-          productId={productId}
-          itemId={productId}
-          jobId={jobId ? jobId : null}
-          copies={copies}
-          type={1}
-          onUpload={uploadResult => {
-            console.log("upload result: ", uploadResult);
-            this.setState({ copies: uploadResult.product.copies });
-          }}
-          navigator={this.props.navigator}
-        />
+        <Text weight="Medium" style={styles.headerText}>{I18n.t("expense_forms_expense_basic_detail")}</Text>
         <View style={styles.body}>
           {subCategories.length > 0 && (
             <SelectModal
@@ -251,6 +236,22 @@ class BasicDetailsForm extends React.Component {
             </View>
           )}
         </View>
+        <UploadDoc
+          title={I18n.t("expense_forms_expense_basic_detail")}
+          placeholder={I18n.t("expense_forms_expense_basic_upload_bill")}
+          placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+          placeholder2Color={colors.mainBlue}
+          productId={productId}
+          itemId={productId}
+          jobId={jobId ? jobId : null}
+          copies={copies}
+          type={1}
+          onUpload={uploadResult => {
+            console.log("upload result: ", uploadResult);
+            this.setState({ copies: uploadResult.product.copies });
+          }}
+          navigator={this.props.navigator}
+        />
       </View>
     );
   }
@@ -271,6 +272,11 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     height: 50,
     marginBottom: 25
+  },
+  headerText: {
+    fontSize: 18,
+    flex: 1,
+    marginBottom: 10
   }
 });
 

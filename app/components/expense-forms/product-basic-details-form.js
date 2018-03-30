@@ -14,8 +14,7 @@ import { colors } from "../../theme";
 import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";
 import CustomDatePicker from "../form-elements/date-picker";
-import HeaderWithUploadOption from "../form-elements/header-with-upload-option";
-
+import UploadDoc from "../form-elements/upload-doc";
 class BasicDetailsForm extends React.Component {
   constructor(props) {
     super(props);
@@ -357,25 +356,7 @@ class BasicDetailsForm extends React.Component {
     } = this.state;
     return (
       <View style={styles.container}>
-        <HeaderWithUploadOption
-          title={I18n.t("expense_forms_expense_basic_detail")}
-          textBeforeUpload={I18n.t("expense_forms_expense_basic_upload_bill")}
-          textBeforeUpload2={I18n.t("expense_forms_amc_form_amc_recommended")}
-          textBeforeUpload2Color={colors.mainBlue}
-          productId={id}
-          itemId={id}
-          jobId={jobId}
-          type={1}
-          copies={copies}
-          onUpload={uploadResult => {
-            this.setState({
-              id: uploadResult.product.id,
-              copies: uploadResult.product.copies
-            });
-          }}
-          navigator={this.props.navigator}
-        />
-
+        <Text weight="Medium" style={styles.headerText}>{I18n.t("expense_forms_expense_basic_detail")}</Text>
         <View style={styles.body}>
           {showFullForm && (
             <CustomTextInput
@@ -457,83 +438,83 @@ class BasicDetailsForm extends React.Component {
           {(!selectedBrand ||
             (selectedBrand && selectedBrand.id != 0) ||
             categoryId != CATEGORY_IDS.FURNITURE.FURNITURE) && (
-            <SelectModal
-              // style={styles.input}
-              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder={I18n.t("expense_forms_product_basics_name_brand")}
-              textInputPlaceholder={I18n.t(
-                "expense_forms_product_basics_brand_name"
-              )}
-              placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
-                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                    {placeholder}
-                  </Text>
-                  {categoryId != CATEGORY_IDS.FURNITURE.FURNITURE && (
-                    <Text weight="Medium" style={{ color: colors.mainBlue }}>
-                      *
+              <SelectModal
+                // style={styles.input}
+                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                placeholder={I18n.t("expense_forms_product_basics_name_brand")}
+                textInputPlaceholder={I18n.t(
+                  "expense_forms_product_basics_brand_name"
+                )}
+                placeholderRenderer={({ placeholder }) => (
+                  <View style={{ flexDirection: "row" }}>
+                    <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                      {placeholder}
                     </Text>
-                  )}
-                </View>
-              )}
-              selectedOption={selectedBrand}
-              textInputValue={brandName}
-              options={brands.map(brand => ({
-                ...brand,
-                image: `${API_BASE_URL}/brands/${brand.id}/images`
-              }))}
-              imageKey="image"
-              onOptionSelect={value => {
-                this.onBrandSelect(value);
-              }}
-              onTextInputChange={text => this.onBrandNameChange(text)}
-            />
-          )}
+                    {categoryId != CATEGORY_IDS.FURNITURE.FURNITURE && (
+                      <Text weight="Medium" style={{ color: colors.mainBlue }}>
+                        *
+                    </Text>
+                    )}
+                  </View>
+                )}
+                selectedOption={selectedBrand}
+                textInputValue={brandName}
+                options={brands.map(brand => ({
+                  ...brand,
+                  image: `${API_BASE_URL}/brands/${brand.id}/images`
+                }))}
+                imageKey="image"
+                onOptionSelect={value => {
+                  this.onBrandSelect(value);
+                }}
+                onTextInputChange={text => this.onBrandNameChange(text)}
+              />
+            )}
 
           {(mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
             mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) && (
-            <SelectModal
-              // style={styles.input}
-              visibleKey="title"
-              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder={I18n.t("expense_forms_product_basics_model")}
-              textInputPlaceholder={I18n.t(
-                "expense_forms_product_basics_enter_model"
-              )}
-              placeholderRenderer={({ placeholder }) => (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center"
-                  }}
-                >
-                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                    {placeholder}
+              <SelectModal
+                // style={styles.input}
+                visibleKey="title"
+                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                placeholder={I18n.t("expense_forms_product_basics_model")}
+                textInputPlaceholder={I18n.t(
+                  "expense_forms_product_basics_enter_model"
+                )}
+                placeholderRenderer={({ placeholder }) => (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                      {placeholder}
+                    </Text>
+                    <Text style={{ color: colors.mainBlue, fontSize: 12 }}>
+                      {" "}
+                      (Required for calculating warranty)
                   </Text>
-                  <Text style={{ color: colors.mainBlue, fontSize: 12 }}>
-                    {" "}
-                    (Required for calculating warranty)
-                  </Text>
-                </View>
-              )}
-              options={models}
-              beforeModalOpen={() => {
-                if (selectedBrand || brandName) {
-                  return true;
-                }
-                Alert.alert(
-                  I18n.t("expense_forms_product_basics_select_brand_first")
-                );
-                return false;
-              }}
-              selectedOption={selectedModel}
-              textInputValue={modelName}
-              onOptionSelect={value => {
-                this.onModelSelect(value);
-              }}
-              onTextInputChange={text => this.setState({ modelName: text })}
-            />
-          )}
+                  </View>
+                )}
+                options={models}
+                beforeModalOpen={() => {
+                  if (selectedBrand || brandName) {
+                    return true;
+                  }
+                  Alert.alert(
+                    I18n.t("expense_forms_product_basics_select_brand_first")
+                  );
+                  return false;
+                }}
+                selectedOption={selectedModel}
+                textInputValue={modelName}
+                onOptionSelect={value => {
+                  this.onModelSelect(value);
+                }}
+                onTextInputChange={text => this.setState({ modelName: text })}
+              />
+            )}
 
           {showFullForm && (
             <View>
@@ -622,6 +603,24 @@ class BasicDetailsForm extends React.Component {
             </View>
           )}
         </View>
+        <UploadDoc
+          // title={I18n.t("expense_forms_expense_basic_detail")}
+          placeholder={I18n.t("expense_forms_expense_basic_upload_bill")}
+          placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+          placeholder2Color={colors.mainBlue}
+          productId={id}
+          itemId={id}
+          jobId={jobId}
+          type={1}
+          copies={copies}
+          onUpload={uploadResult => {
+            this.setState({
+              id: uploadResult.product.id,
+              copies: uploadResult.product.copies
+            });
+          }}
+          navigator={this.props.navigator}
+        />
       </View>
     );
   }
@@ -642,7 +641,12 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     height: 50,
     marginBottom: 25
-  }
+  },
+  headerText: {
+    fontSize: 18,
+    flex: 1,
+    marginBottom: 10
+  },
 });
 
 export default BasicDetailsForm;
