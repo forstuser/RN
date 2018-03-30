@@ -15,7 +15,7 @@ class CustomTextInput extends React.Component {
     super(props);
     this.state = {
       value: "",
-      isInputFocused:false
+      isInputFocused: false
     };
   }
 
@@ -39,16 +39,16 @@ class CustomTextInput extends React.Component {
       value: newValue
     });
   };
-  onInputFocus = ()=>{
+  onInputFocus = () => {
     this.setState({
-      isInputFocused:true
-    })
-  }
-  onInputBlur = () =>{
+      isInputFocused: true
+    });
+  };
+  onInputBlur = () => {
     this.setState({
-      isInputFocused:false
-    })
-  }
+      isInputFocused: false
+    });
+  };
 
   render() {
     const {
@@ -63,21 +63,23 @@ class CustomTextInput extends React.Component {
       maxLength,
       secureTextEntry
     } = this.props;
-    const { value,isInputFocused } = this.state;
+    const { value, isInputFocused } = this.state;
     return (
       <View style={[styles.container, style]}>
         <View
           style={[
             styles.placeholderContainer,
             { right: rightSideTextWidth },
-            (value || isInputFocused) ? styles.filledInputPlaceholderContainer : {}
+            value || isInputFocused
+              ? styles.filledInputPlaceholderContainer
+              : {}
           ]}
         >
           <Text
             weight="Medium"
             style={[
               styles.placeholder,
-              (value || isInputFocused) ? styles.filledInputPlaceholder : {}
+              value || isInputFocused ? styles.filledInputPlaceholder : {}
             ]}
           >
             {placeholder}
@@ -119,14 +121,14 @@ const styles = StyleSheet.create({
     // width: "100%"
     width: "100%",
     height: 45,
-    backgroundColor: 'white',
-    borderColor:'transparent',
-    overflow: 'hidden',
-    shadowColor: 'black',
-    padding:10,
-    paddingRight:10,
+    backgroundColor: "white",
+    borderColor: "transparent",
+    overflow: "hidden",
+    shadowColor: "black",
+    padding: 10,
+    paddingRight: 10,
     marginBottom: 10,
-    elevation: 2,
+    elevation: 2
   },
   placeholderContainer: {
     position: "absolute",
@@ -134,7 +136,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     top: 10,
-    left: Platform.OS == "ios" ? 0 : 5,
+    left: Platform.OS == "ios" ? 0 : 5
     // paddingVertical: 10
   },
   filledInputPlaceholderContainer: {
@@ -161,7 +163,7 @@ const styles = StyleSheet.create({
   rightSideText: {
     position: "absolute",
     right: 5,
-    bottom: 23,
+    top: 10,
     color: colors.secondaryText
   },
   hint: {

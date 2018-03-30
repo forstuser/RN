@@ -320,6 +320,8 @@ class ProductOrExpense extends React.Component {
   };
 
   render() {
+    const { categoryId } = this.props;
+
     const {
       mainCategoryId,
       category,
@@ -353,6 +355,7 @@ class ProductOrExpense extends React.Component {
         >
           <SelectCategoryHeader
             mainCategoryId={mainCategoryId}
+            categoryId={categoryId}
             preSelectCategory={category}
             onCategorySelect={category => {
               this.onSelectCategory(category);

@@ -23,7 +23,8 @@ import ErrorOverlay from "../../components/error-overlay";
 
 import {
   SCREENS,
-  WAGES_TYPES,
+  WAGES_CYCLE,
+  CALENDAR_WAGES_TYPE,
   UNIT_TYPES,
   CALENDAR_SERVICE_TYPES
 } from "../../constants";
@@ -50,11 +51,10 @@ class AddEditCalendarServiceScreen extends Component {
       selectedServiceType: null,
       name: "",
       providerName: "",
-      wagesType: WAGES_TYPES.MONTHLY,
+      wagesType: WAGES_CYCLE.MONTHLY,
       unitPrice: "",
       quantity: "",
       startingDate: null,
-      type: "product",
       selectedDays: [1, 2, 3, 4, 5, 6, 7],
       unitTypes: [],
       selectedUnitType: null,
@@ -99,16 +99,6 @@ class AddEditCalendarServiceScreen extends Component {
   };
 
   onServiceTypeSelect = serviceType => {
-    let type = "product";
-    if (serviceType.main_category_id == 6 && serviceType.category_id == 24) {
-      type = "service";
-    } else if (
-      serviceType.category_id == 123 ||
-      serviceType.category_id == 635
-    ) {
-      type = "classes";
-    }
-
     let unitTypes = [];
     switch (serviceType.id) {
       case CALENDAR_SERVICE_TYPES.MILK:
@@ -132,8 +122,7 @@ class AddEditCalendarServiceScreen extends Component {
     this.setState({
       name: serviceType.name,
       selectedServiceType: serviceType,
-      type,
-      wagesType: WAGES_TYPES.DAILY,
+      wagesType: WAGES_CYCLE.DAILY,
       unitTypes,
       selectedUnitType: unitTypes[0],
       actualSelectedUnitType: unitTypes[0]
@@ -142,9 +131,9 @@ class AddEditCalendarServiceScreen extends Component {
 
   onUnitTypeSelect = unitType => {
     let actualSelectedUnitType = unitType;
-    if (unitType == UNIT_TYPES.GRAM) {
+    if (unitType.id == UNIT_TYPES.GRAM.id) {
       actualSelectedUnitType = UNIT_TYPES.KILOGRAM;
-    } else if (unitType == UNIT_TYPES.MILLILITRE) {
+    } else if (unitType.id == UNIT_TYPES.MILLILITRE.id) {
       actualSelectedUnitType = UNIT_TYPES.LITRE;
     }
     this.setState({
@@ -236,7 +225,6 @@ class AddEditCalendarServiceScreen extends Component {
       selectedServiceType,
       name,
       providerName,
-      type,
       wagesType,
       unitPrice,
       quantity,
@@ -281,11 +269,13 @@ class AddEditCalendarServiceScreen extends Component {
                   onChangeText={providerName => this.setState({ providerName })}
                 />
               )}
-              {(type == "service" || type == "classes") && (
+              {(selectedServiceType.wages_type == CALENDAR_WAGES_TYPE.WAGES ||
+                selectedServiceType.wages_type == CALENDAR_WAGES_TYPE.FEES) && (
                 <View>
                   <View>
                     <Text weight="Medium" style={styles.label}>
-                      {type == "service"
+                      {selectedServiceType.wages_type ==
+                      CALENDAR_WAGES_TYPE.WAGES
                         ? I18n.t(
                             "add_edit_calendar_service_screen_form_wages_type"
                           )
@@ -297,19 +287,19 @@ class AddEditCalendarServiceScreen extends Component {
                       <TouchableOpacity
                         onPress={() => {
                           this.setState({
-                            wagesType: WAGES_TYPES.MONTHLY
+                            wagesType: WAGES_CYCLE.MONTHLY
                           });
                         }}
                         style={styles.radioBtn}
                       >
                         <Icon
                           name={
-                            wagesType == WAGES_TYPES.MONTHLY
+                            wagesType == WAGES_CYCLE.MONTHLY
                               ? "md-radio-button-on"
                               : "md-radio-button-off"
                           }
                           color={
-                            wagesType == WAGES_TYPES.MONTHLY
+                            wagesType == WAGES_CYCLE.MONTHLY
                               ? colors.pinkishOrange
                               : colors.secondaryText
                           }
@@ -320,7 +310,7 @@ class AddEditCalendarServiceScreen extends Component {
                             styles.radioBtnLabel,
                             {
                               color:
-                                wagesType == WAGES_TYPES.MONTHLY
+                                wagesType == WAGES_CYCLE.MONTHLY
                                   ? colors.pinkishOrange
                                   : colors.secondaryText
                             }
@@ -332,19 +322,19 @@ class AddEditCalendarServiceScreen extends Component {
                       <TouchableOpacity
                         onPress={() => {
                           this.setState({
-                            wagesType: WAGES_TYPES.DAILY
+                            wagesType: WAGES_CYCLE.DAILY
                           });
                         }}
                         style={styles.radioBtn}
                       >
                         <Icon
                           name={
-                            wagesType == WAGES_TYPES.DAILY
+                            wagesType == WAGES_CYCLE.DAILY
                               ? "md-radio-button-on"
                               : "md-radio-button-off"
                           }
                           color={
-                            wagesType == WAGES_TYPES.DAILY
+                            wagesType == WAGES_CYCLE.DAILY
                               ? colors.pinkishOrange
                               : colors.secondaryText
                           }
@@ -355,7 +345,7 @@ class AddEditCalendarServiceScreen extends Component {
                             styles.radioBtnLabel,
                             {
                               color:
-                                wagesType == WAGES_TYPES.DAILY
+                                wagesType == WAGES_CYCLE.DAILY
                                   ? colors.pinkishOrange
                                   : colors.secondaryText
                             }
@@ -368,7 +358,8 @@ class AddEditCalendarServiceScreen extends Component {
                   </View>
                   <CustomTextInput
                     placeholder={
-                      type == "service"
+                      selectedServiceType.wages_type ==
+                      CALENDAR_WAGES_TYPE.WAGES
                         ? I18n.t("add_edit_calendar_service_screen_form_wages")
                         : I18n.t("add_edit_calendar_service_screen_form_fees")
                     }
@@ -378,11 +369,13 @@ class AddEditCalendarServiceScreen extends Component {
                   />
                 </View>
               )}
-              {type == "product" && (
+              {selectedServiceType.wages_type ==
+                CALENDAR_WAGES_TYPE.PRODUCT && (
                 <View>
                   <View style={{ flexDirection: "row" }}>
                     <SelectModal
-                      // style={styles.selectUnitType}
+                      style={styles.selectUnitType}
+                      visibleKey="symbol"
                       dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                       placeholder="Choose Unit Type"
                       placeholderRenderer={({ placeholder }) => (
@@ -407,7 +400,7 @@ class AddEditCalendarServiceScreen extends Component {
                       placeholder={I18n.t("calendar_service_screen_quantity")}
                       value={quantity}
                       onChangeText={quantity => this.setState({ quantity })}
-                      rightSideText={selectedUnitType.name}
+                      rightSideText={selectedUnitType.symbol}
                       rightSideTextWidth={70}
                     />
                   </View>
@@ -416,7 +409,7 @@ class AddEditCalendarServiceScreen extends Component {
                     placeholder={I18n.t("calendar_service_screen_unit_price")}
                     value={unitPrice}
                     onChangeText={unitPrice => this.setState({ unitPrice })}
-                    rightSideText={"Per " + actualSelectedUnitType.name}
+                    rightSideText={"Per " + actualSelectedUnitType.symbol}
                     rightSideTextWidth={100}
                   />
                 </View>
@@ -476,14 +469,8 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   selectUnitType: {
-    paddingVertical: 10,
-    borderColor: colors.lighterText,
-    borderBottomWidth: 2,
-    paddingTop: 20,
-    height: 50,
     width: 80,
-    marginBottom: 25,
-    marginRight: 10
+    marginRight: 20
   },
   selectServiceMsgContainer: {
     flex: 1

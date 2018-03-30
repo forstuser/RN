@@ -38,6 +38,11 @@ export default function loggedInUserReducer(
         ...state,
         codepushDeploymentStaging: action.payload.codepushDeploymentStaging
       };
+    case types.LOGGED_IN_USER_SET_LATEST_DO_YOU_KNOW_READ_ID:
+      return {
+        ...state,
+        latestDoYouKnowReadId: action.payload.latestDoYouKnowReadId
+      };
     default:
       return state;
   }
@@ -47,6 +52,11 @@ export default function loggedInUserReducer(
  * Actions
  */
 export const actions = {
+  loggedInUserClearAllData: () => {
+    return {
+      type: types.LOGGED_IN_USER_CLEAR_ALL_DATA
+    };
+  },
   setLoggedInUserAuthToken: authToken => {
     return {
       type: types.LOGGED_IN_USER_SET_AUTH_TOKEN,
@@ -60,7 +70,7 @@ export const actions = {
     };
   },
   /**
-   * user object: {id, name, phone, imageName}
+   * user object: {id, name, phone, imageName, isPinSet}
    */
   setLoggedInUser: user => {
     return {
@@ -78,6 +88,12 @@ export const actions = {
     return {
       type: types.LOGGED_IN_USER_SET_CODEPUSH_DEPLOYEMENT_STAGING,
       payload: { codepushDeploymentStaging: codepushDeploymentStaging }
+    };
+  },
+  setLatestDoYouKnowReadId: latestDoYouKnowReadId => {
+    return {
+      type: types.LOGGED_IN_USER_SET_LATEST_DO_YOU_KNOW_READ_ID,
+      payload: { latestDoYouKnowReadId }
     };
   }
 };

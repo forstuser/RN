@@ -48,9 +48,9 @@ const NavOptionsButton = ({ addImageText }) => (
         ios: {},
         android: {
           position: "absolute",
-          top: 10,
+          top: 5,
           right: 4,
-          width: 100,
+          width: 30,
           height: 30,
           alignItems: "center",
           justifyContent: "flex-end"

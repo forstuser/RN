@@ -45,6 +45,7 @@ class AddEditExpenseScreen extends React.Component {
     this.state = {
       formType: null,
       mainCategoryId: null,
+      categoryId: null,
       product: null,
       confirmBackNavigation: false
     };
@@ -79,9 +80,10 @@ class AddEditExpenseScreen extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props, "propsdata");
     let title = "";
-    switch (this.props.expenseType) {
+    const { expenseType, categoryId } = this.props;
+    this.setState({ categoryId });
+    switch (expenseType) {
       case EXPENSE_TYPES.AUTOMOBILE:
         title = I18n.t("add_edit_expense_screen_title_add_automobile");
         this.setState({
@@ -180,13 +182,14 @@ class AddEditExpenseScreen extends React.Component {
   };
 
   render() {
-    const { formType, mainCategoryId } = this.state;
+    const { formType, mainCategoryId, categoryId } = this.state;
     switch (formType) {
       case "product":
       case "expense":
         return (
           <ProductOrExpense
             mainCategoryId={mainCategoryId}
+            categoryId={categoryId}
             navigator={this.props.navigator}
             confirmBackNavigation={this.confirmBackNavigation}
           />
@@ -201,6 +204,7 @@ class AddEditExpenseScreen extends React.Component {
         return (
           <ProductOrExpense
             mainCategoryId={mainCategoryId}
+            categoryId={categoryId}
             healthcareFormType={formType}
             navigator={this.props.navigator}
             confirmBackNavigation={this.confirmBackNavigation}

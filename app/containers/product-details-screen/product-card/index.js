@@ -92,11 +92,19 @@ class ProductCard extends Component {
 
     this.setState(newState);
 
-    if (!this.props.hasProductCardTourShown) {
+    if (
+      !this.props.hasProductCardTourShown &&
+      [
+        MAIN_CATEGORY_IDS.AUTOMOBILE,
+        MAIN_CATEGORY_IDS.ELECTRONICS,
+        MAIN_CATEGORY_IDS.FURNITURE,
+        MAIN_CATEGORY_IDS.FASHION
+      ].indexOf(product.masterCategoryId) > -1
+    ) {
       setTimeout(() => {
         this.tour.startTour();
+        this.props.setUiHasProductCardTourShown(true);
       }, 1000);
-      // this.props.setUiHasProductCardTourShown(true);
     }
   }
 
@@ -265,10 +273,21 @@ const styles = StyleSheet.create({
   },
   addProductImageBtnDummy: {
     position: "absolute",
-    top: 27,
-    right: 47,
-    width: 50,
-    height: 30
+    opacity: 1,
+    ...Platform.select({
+      ios: {
+        top: 27,
+        right: 47,
+        width: 50,
+        height: 30
+      },
+      android: {
+        top: 15,
+        right: 45,
+        width: 50,
+        height: 30
+      }
+    })
   }
 });
 

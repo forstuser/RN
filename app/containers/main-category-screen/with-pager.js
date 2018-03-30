@@ -17,6 +17,7 @@ import ScrollableTabView, {
 
 import { getCategoryProducts } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
+import ErrorOverlay from "../../components/error-overlay";
 
 import ProductsList from "../../components/products-list";
 import { colors } from "../../theme";
@@ -37,7 +38,8 @@ class CategoryWithPager extends Component {
             ...subCategory,
             products: [],
             pageNo: 1,
-            isFetchingProducts: true
+            isFetchingProducts: true,
+            error: null
           };
         })
       },
@@ -71,7 +73,7 @@ class CategoryWithPager extends Component {
   };
 
   loadProductsFirstPage = async index => {
-    let subCategory = this.state.subCategories[index];
+    let subCategory = { ...this.state.subCategories[index] };
     subCategory.products = [];
     subCategory.pageNo = 1;
     this.updateStateSubCategory(index, subCategory);
@@ -81,6 +83,7 @@ class CategoryWithPager extends Component {
   loadProducts = async index => {
     let subCategory = this.state.subCategories[index];
     subCategory.isFetchingProducts = true;
+    subCategory.error = null;
     this.updateStateSubCategory(index, subCategory);
     try {
       const res = await getCategoryProducts({
@@ -94,7 +97,9 @@ class CategoryWithPager extends Component {
 
       this.updateStateSubCategory(index, subCategory);
     } catch (e) {
-      Alert.alert(e.message);
+      subCategory.isFetchingProducts = false;
+      subCategory.error = e;
+      this.updateStateSubCategory(index, subCategory);
     }
   };
 
@@ -114,22 +119,38 @@ class CategoryWithPager extends Component {
           tabBarActiveTextColor={colors.mainBlue}
           tabBarInactiveTextColor={colors.secondaryText}
         >
-          {this.state.subCategories.map((subCategory, index) => (
-            <View
-              tabLabel={subCategory.name.toUpperCase()}
-              style={{ flex: 1 }}
-              key={subCategory.id}
-            >
-              <ProductsList
-                mainCategoryId={this.props.category.id}
-                categoryId={subCategory.id}
-                onRefresh={() => this.loadProductsFirstPage(index)}
-                isLoading={subCategory.isFetchingProducts}
-                products={subCategory.products}
-                navigator={this.props.navigator}
-              />
-            </View>
-          ))}
+          {this.state.subCategories.map((subCategory, index) => {
+            if (subCategory.error) {
+              return (
+                <View
+                  tabLabel={subCategory.name.toUpperCase()}
+                  style={{ flex: 1 }}
+                  key={subCategory.id}
+                >
+                  <ErrorOverlay
+                    error={subCategory.error}
+                    onRetryPress={() => this.loadProducts(index)}
+                  />
+                </View>
+              );
+            }
+            return (
+              <View
+                tabLabel={subCategory.name.toUpperCase()}
+                style={{ flex: 1 }}
+                key={subCategory.id}
+              >
+                <ProductsList
+                  mainCategoryId={this.props.category.id}
+                  categoryId={subCategory.id}
+                  onRefresh={() => this.loadProductsFirstPage(index)}
+                  isLoading={subCategory.isFetchingProducts}
+                  products={subCategory.products}
+                  navigator={this.props.navigator}
+                />
+              </View>
+            );
+          })}
         </ScrollableTabView>
       </ScreenContainer>
     );

@@ -9,11 +9,11 @@ export default {
     phone: null,
     imageName: null,
     isPinSet: false,
-    codepushDeploymentStaging: false
+    codepushDeploymentStaging: false,
+    latestDoYouKnowReadId: 0
   },
 
   ui: {
-    latestDoYouKnowId: 0,
     language: LANGUAGES[0],
     screenToOpenAfterLogin: null,
     hasBlankDashboardTourShown: false,

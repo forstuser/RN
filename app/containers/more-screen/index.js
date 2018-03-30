@@ -188,7 +188,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     logoutUser: async () => {
-      dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
+      dispatch(loggedInUserActions.loggedInUserClearAllData());
       try {
         logout();
       } catch (e) {

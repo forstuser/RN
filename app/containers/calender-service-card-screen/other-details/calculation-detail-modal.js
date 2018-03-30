@@ -12,7 +12,7 @@ import moment from "moment";
 
 import {
   SCREENS,
-  WAGES_TYPES,
+  WAGES_CYCLE,
   UNIT_TYPES,
   CALENDAR_SERVICE_TYPES
 } from "../../../constants";
@@ -159,11 +159,15 @@ class CalculationDetailModal extends React.Component {
         effectiveDate: startingDate,
         selectedDays: selectedDays
       });
+
       this.setState({
         isModalVisible: false,
         isSavingDetails: false
       });
-      reloadScreen();
+
+      setTimeout(() => {
+        reloadScreen();
+      }, 200);
     } catch (e) {
       Alert.alert(e.message);
       this.setState({
@@ -199,7 +203,7 @@ class CalculationDetailModal extends React.Component {
     } = this.state;
     const { item } = this.props;
     const serviceType = item.service_type;
-    let priceText = I18n.t("calendar_service_screen_price");
+    let priceText = I18n.t("calendar_service_screen_unit_price");
     if (serviceType.main_category_id == 6 && serviceType.category_id == 24) {
       priceText = I18n.t("add_edit_calendar_service_screen_form_wages");
     } else if (
@@ -312,7 +316,7 @@ const styles = StyleSheet.create({
     maxWidth: 320,
     alignSelf: "center",
     padding: 16,
-    paddingTop: 30,
+    paddingTop: 50,
     ...defaultStyles.card
   },
   modalCloseIcon: {
@@ -338,13 +342,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   selectUnitType: {
-    paddingVertical: 10,
-    borderColor: colors.lighterText,
-    borderBottomWidth: 2,
-    paddingTop: 20,
-    height: 50,
     width: 80,
-    marginBottom: 25,
     marginRight: 10
   }
 });

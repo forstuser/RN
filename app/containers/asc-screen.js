@@ -22,6 +22,7 @@ import {
 import { Text, Button, ScreenContainer } from "../elements";
 import I18n from "../i18n";
 import SelectModal from "../components/select-modal";
+import LoadingOverlay from "../components/loading-overlay";
 
 import Analytics from "../analytics";
 import { colors } from "../theme";
@@ -41,7 +42,9 @@ class AscScreen extends Component {
     super(props);
     this.state = {
       error: null,
-      isFetchingData: false,
+      isFetchingProducts: false,
+      isFetchingBrands: false,
+      isFetchingCategories: false,
       products: [],
       brands: [],
       categories: [],
@@ -85,23 +88,43 @@ class AscScreen extends Component {
       }
     }
 
+    this.fetchBrands();
+  }
+
+  fetchBrands = async () => {
+    this.setState({
+      isFetchingBrands: true
+    });
     try {
       const res = await getBrands();
       this.setState({
         brands: res.brands.filter(brand => brand.id > 0)
       });
     } catch (e) {
-      // Alert.alert(e.message);
+      Alert.alert(e.message);
+    } finally {
+      this.setState({
+        isFetchingBrands: false
+      });
     }
-  }
+  };
 
   fetchProducts = async () => {
-    {
+    this.setState({
+      isFetchingProducts: true
+    });
+    try {
       const res = await getProductsForAsc();
       this.setState({
         products: res.productList,
         error: null,
         isFetchingData: false
+      });
+    } catch (e) {
+      Alert.alert(e.message);
+    } finally {
+      this.setState({
+        isFetchingProducts: false
       });
     }
   };
@@ -113,8 +136,7 @@ class AscScreen extends Component {
         selectedBrand: brand,
         selectedCategoryId: null,
         selectedCategory: null,
-        error: null,
-        isFetchingData: false
+        error: null
       },
       () => {
         this.fetchCategories();
@@ -123,6 +145,9 @@ class AscScreen extends Component {
   };
 
   fetchCategories = async () => {
+    this.setState({
+      isFetchingCategories: true
+    });
     try {
       const res = await getCategories(this.state.selectedBrand.id);
       this.setState(
@@ -142,6 +167,10 @@ class AscScreen extends Component {
       );
     } catch (e) {
       Alert.alert(e.message);
+    } finally {
+      this.setState({
+        isFetchingCategories: false
+      });
     }
   };
 
@@ -219,7 +248,10 @@ class AscScreen extends Component {
       brandTextInput,
       categoryTextInput,
       isBrandsModalVisible,
-      isCategoriesModalVisible
+      isCategoriesModalVisible,
+      isFetchingBrands,
+      isFetchingCategories,
+      isFetchingProducts
     } = this.state;
     return (
       <ScreenContainer style={styles.container}>
@@ -357,6 +389,11 @@ class AscScreen extends Component {
             />
           </View>
         </View>
+        <LoadingOverlay
+          visible={
+            isFetchingBrands || isFetchingCategories || isFetchingProducts
+          }
+        />
       </ScreenContainer>
     );
   }

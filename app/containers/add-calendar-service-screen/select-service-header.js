@@ -150,10 +150,7 @@ class SelectCategoryHeader extends React.Component {
                     style={[styles.optionIcon]}
                     resizeMode="contain"
                     source={{
-                      uri:
-                        API_BASE_URL +
-                        selectedOption.calendarServiceImageUrl +
-                        "1"
+                      uri: API_BASE_URL + selectedOption.calendarServiceImageUrl
                     }}
                   />
                 </View>

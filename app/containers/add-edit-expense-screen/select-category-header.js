@@ -30,261 +30,264 @@ class SelectCategoryHeader extends React.Component {
     };
   }
   componentDidMount() {
+    let title = "Select Type";
+    let genericIcon = null;
+    let visibleOptions = [];
+
     switch (this.props.mainCategoryId) {
       case MAIN_CATEGORY_IDS.AUTOMOBILE:
-        this.setState(() => ({
-          title: I18n.t("add_edit_expense_screen_title_select_automobile"),
-          genericIcon: require("../../images/categories/generic_automobile.png"),
-          visibleOptions: [
-            {
-              id: 139,
-              name: "Four Wheeler",
-              icon: require("../../images/categories/car.png")
-            },
-            {
-              id: 138,
-              name: "Two Wheeler",
-              icon: require("../../images/categories/bike.png")
-            },
-            {
-              id: 154,
-              name: "Cycle",
-              icon: require("../../images/categories/bicycle.png")
-            }
-          ]
-        }));
+        title = I18n.t("add_edit_expense_screen_title_select_automobile");
+        genericIcon = require("../../images/categories/generic_automobile.png");
+        visibleOptions = [
+          {
+            id: 139,
+            name: "Four Wheeler",
+            icon: require("../../images/categories/car.png")
+          },
+          {
+            id: 138,
+            name: "Two Wheeler",
+            icon: require("../../images/categories/bike.png")
+          },
+          {
+            id: 154,
+            name: "Cycle",
+            icon: require("../../images/categories/bicycle.png")
+          }
+        ];
         if (typeof this.props.onCategorySelect == "function") {
           this.fetchCategories();
         }
         break;
       case MAIN_CATEGORY_IDS.ELECTRONICS:
-        this.setState(() => ({
-          title: I18n.t("add_edit_expense_screen_title_select_electronics"),
-          genericIcon: require("../../images/categories/generic_electronic.png"),
-          visibleOptions: [
-            {
-              id: 327,
-              name: "Mobile",
-              icon: require("../../images/categories/mobile.png")
-            },
-            {
-              id: 581,
-              name: "T.V.",
-              icon: require("../../images/categories/television.png")
-            },
-            {
-              id: 487,
-              name: "Laptop",
-              icon: require("../../images/categories/laptop.png")
-            },
-            {
-              id: 162,
-              name: "A.C.",
-              icon: require("../../images/categories/air_conditioner.png")
-            },
-            {
-              id: 530,
-              name: "Water Purifier",
-              icon: require("../../images/categories/water_purifier.png")
-            },
-            {
-              id: 491,
-              name: "Refrigerator",
-              icon: require("../../images/categories/fridge.png")
-            },
-            {
-              id: 541,
-              name: "Washing Machine",
-              icon: require("../../images/categories/washing_machine.png")
-            }
-          ]
-        }));
+        title = I18n.t("add_edit_expense_screen_title_select_electronics");
+        genericIcon = require("../../images/categories/generic_electronic.png");
+        visibleOptions = [
+          {
+            id: 327,
+            name: "Mobile",
+            icon: require("../../images/categories/mobile.png")
+          },
+          {
+            id: 581,
+            name: "T.V.",
+            icon: require("../../images/categories/television.png")
+          },
+          {
+            id: 487,
+            name: "Laptop",
+            icon: require("../../images/categories/laptop.png")
+          },
+          {
+            id: 162,
+            name: "A.C.",
+            icon: require("../../images/categories/air_conditioner.png")
+          },
+          {
+            id: 530,
+            name: "Water Purifier",
+            icon: require("../../images/categories/water_purifier.png")
+          },
+          {
+            id: 491,
+            name: "Refrigerator",
+            icon: require("../../images/categories/fridge.png")
+          },
+          {
+            id: 541,
+            name: "Washing Machine",
+            icon: require("../../images/categories/washing_machine.png")
+          }
+        ];
         if (typeof this.props.onCategorySelect == "function") {
           this.fetchCategories();
         }
         break;
       case MAIN_CATEGORY_IDS.FURNITURE:
-        this.setState(() => ({
-          title: I18n.t("add_edit_expense_screen_title_select_furniture"),
-          visibleOptions: [
-            {
-              id: 20,
-              name: "Furniture",
-              icon: require("../../images/categories/furniture.png")
-            },
-            {
-              id: 72,
-              name: "Hardware",
-              icon: require("../../images/categories/hardware.png")
-            },
-            {
-              id: 73,
-              name: "Other Furniture/Hardware",
-              icon: require("../../images/categories/bathroom_fittings.png")
-            }
-          ]
-        }));
+        title = I18n.t("add_edit_expense_screen_title_select_furniture");
+        visibleOptions = [
+          {
+            id: 20,
+            name: "Furniture",
+            icon: require("../../images/categories/furniture.png")
+          },
+          {
+            id: 72,
+            name: "Hardware",
+            icon: require("../../images/categories/hardware.png")
+          },
+          {
+            id: 73,
+            name: "Other Furniture/Hardware",
+            icon: require("../../images/categories/bathroom_fittings.png")
+          }
+        ];
         break;
       case MAIN_CATEGORY_IDS.SERVICES:
-        this.setState(() => ({
-          title: I18n.t("add_edit_expense_screen_title_select_service_expense"),
-          visibleOptions: [
-            {
-              id: 122,
-              name: "Professional",
-              icon: require("../../images/categories/professional.png")
-            },
-            {
-              id: 123,
-              name: "Lessons & Hobbies",
-              icon: require("../../images/categories/hobbies.png")
-            },
-            {
-              id: 24,
-              name: "Other Services",
-              icon: require("../../images/categories/house_helps.png")
-            }
-          ]
-        }));
+        title = I18n.t("add_edit_expense_screen_title_select_service_expense");
+        visibleOptions = [
+          {
+            id: 122,
+            name: "Professional",
+            icon: require("../../images/categories/professional.png")
+          },
+          {
+            id: 123,
+            name: "Lessons & Hobbies",
+            icon: require("../../images/categories/hobbies.png")
+          },
+          {
+            id: 24,
+            name: "Other Services",
+            icon: require("../../images/categories/house_helps.png")
+          }
+        ];
         break;
       case MAIN_CATEGORY_IDS.TRAVEL:
-        this.setState(() => ({
-          title: I18n.t("add_edit_expense_screen_title_select_travel"),
-          visibleOptions: [
-            {
-              id: 22,
-              name: "Travel",
-              icon: require("../../images/categories/travel.png")
-            },
-            {
-              id: 85,
-              name: "Dining",
-              icon: require("../../images/categories/dining.png")
-            },
-            {
-              id: 84,
-              name: "Hotel Stay",
-              icon: require("../../images/categories/hotel.png")
-            }
-          ]
-        }));
+        title = I18n.t("add_edit_expense_screen_title_select_travel");
+        visibleOptions = [
+          {
+            id: 22,
+            name: "Travel",
+            icon: require("../../images/categories/travel.png")
+          },
+          {
+            id: 85,
+            name: "Dining",
+            icon: require("../../images/categories/dining.png")
+          },
+          {
+            id: 84,
+            name: "Hotel Stay",
+            icon: require("../../images/categories/hotel.png")
+          }
+        ];
         break;
 
       case MAIN_CATEGORY_IDS.FASHION:
-        this.setState(() => ({
-          title: I18n.t("add_edit_expense_screen_title_select_fashion_expense"),
-          visibleOptions: [
-            {
-              id: 644,
-              name: "Footwear",
-              icon: require("../../images/categories/shoes.png")
-            },
-            {
-              id: 645,
-              name: "Shades",
-              icon: require("../../images/categories/shades.png")
-            },
-            {
-              id: 646,
-              name: "Watches",
-              icon: require("../../images/categories/watches.png")
-            },
-            {
-              id: 647,
-              name: "Clothes",
-              icon: require("../../images/categories/clothes.png")
-            },
-            {
-              id: 648,
-              name: "Bags",
-              icon: require("../../images/categories/bags.png")
-            },
-            {
-              id: 649,
-              name: "Jewellary & Accessories",
-              icon: require("../../images/categories/jewellary.png")
-            },
-            {
-              id: 729,
-              name: "Make-Up",
-              icon: require("../../images/categories/make_up.png")
-            }
-          ]
-        }));
+        title = I18n.t("add_edit_expense_screen_title_select_fashion_expense");
+        visibleOptions = [
+          {
+            id: 644,
+            name: "Footwear",
+            icon: require("../../images/categories/shoes.png")
+          },
+          {
+            id: 645,
+            name: "Shades",
+            icon: require("../../images/categories/shades.png")
+          },
+          {
+            id: 646,
+            name: "Watches",
+            icon: require("../../images/categories/watches.png")
+          },
+          {
+            id: 647,
+            name: "Clothes",
+            icon: require("../../images/categories/clothes.png")
+          },
+          {
+            id: 648,
+            name: "Bags",
+            icon: require("../../images/categories/bags.png")
+          },
+          {
+            id: 649,
+            name: "Jewellary & Accessories",
+            icon: require("../../images/categories/jewellary.png")
+          },
+          {
+            id: 729,
+            name: "Make-Up",
+            icon: require("../../images/categories/make_up.png")
+          }
+        ];
         break;
       case MAIN_CATEGORY_IDS.HOUSEHOLD:
-        this.setState(() => ({
-          title: I18n.t("add_edit_expense_screen_title_select_home_expense"),
-          visibleOptions: [
-            {
-              id: 26,
-              name: "Household Expense",
-              icon: require("../../images/categories/household.png")
-            },
-            {
-              id: 635,
-              name: "Education",
-              icon: require("../../images/categories/education.png")
-            },
-            {
-              id: 634,
-              name: "Utility Bills",
-              icon: require("../../images/categories/utility_bill.png")
-            },
-            {
-              id: 697,
-              name: "Home Decor",
-              icon: require("../../images/categories/home_decor.png")
-            },
-            {
-              id: 698,
-              name: "Other Household Expenses",
-              icon: require("../../images/categories/kitchen_utensils.png")
-            }
-          ]
-        }));
+        title = I18n.t("add_edit_expense_screen_title_select_home_expense");
+        visibleOptions = [
+          {
+            id: 26,
+            name: "Household Expense",
+            icon: require("../../images/categories/household.png")
+          },
+          {
+            id: 635,
+            name: "Education",
+            icon: require("../../images/categories/education.png")
+          },
+          {
+            id: 634,
+            name: "Utility Bills",
+            icon: require("../../images/categories/utility_bill.png")
+          },
+          {
+            id: 697,
+            name: "Home Decor",
+            icon: require("../../images/categories/home_decor.png")
+          },
+          {
+            id: 698,
+            name: "Other Household Expenses",
+            icon: require("../../images/categories/kitchen_utensils.png")
+          }
+        ];
         break;
       case MAIN_CATEGORY_IDS.HEALTHCARE:
         if (this.props.healthcareFormType == "medical_docs") {
-          this.setState(() => ({
-            title: I18n.t(
-              "add_edit_expense_screen_title_select_medical_document"
-            ),
-            visibleOptions: [
-              {
-                id: 86,
-                name: "Medical Docs",
-                icon: require("../../images/categories/medical_docs.png")
-              },
-              {
-                id: 664,
-                name: "Insurance",
-                icon: require("../../images/categories/insurance.png")
-              }
-            ]
-          }));
+          title = I18n.t(
+            "add_edit_expense_screen_title_select_medical_document"
+          );
+          visibleOptions = [
+            {
+              id: 86,
+              name: "Medical Docs",
+              icon: require("../../images/categories/medical_docs.png")
+            },
+            {
+              id: 664,
+              name: "Insurance",
+              icon: require("../../images/categories/insurance.png")
+            }
+          ];
         } else {
-          this.setState(() => ({
-            title: I18n.t(
-              "add_edit_expense_screen_title_select_health_expense"
-            ),
-            visibleOptions: [
-              {
-                id: 704,
-                name: "Medical Bills",
-                icon: require("../../images/categories/medical_bill.png")
-              },
-              {
-                id: 705,
-                name: "Hospital Bills",
-                icon: require("../../images/categories/hospital.png")
-              }
-            ]
-          }));
+          title = I18n.t("add_edit_expense_screen_title_select_health_expense");
+          visibleOptions = [
+            {
+              id: 704,
+              name: "Medical Bills",
+              icon: require("../../images/categories/medical_bill.png")
+            },
+            {
+              id: 705,
+              name: "Hospital Bills",
+              icon: require("../../images/categories/hospital.png")
+            }
+          ];
           break;
         }
         break;
     }
+
+    this.setState(
+      {
+        title,
+        genericIcon,
+        visibleOptions
+      },
+      () => {
+        //if category is already selected
+        if (this.props.categoryId) {
+          console.log("this.props.categoryId: ", this.props.categoryId);
+          console.log("this.state.visibleOptions: ", this.state.visibleOptions);
+          const category = this.state.visibleOptions.find(
+            option => option.id == this.props.categoryId
+          );
+          if (category) this.changeOption(category);
+        }
+      }
+    );
 
     if (this.props.preSelectCategory) {
       this.setState(

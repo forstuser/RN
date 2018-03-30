@@ -14,6 +14,7 @@ import {
   PanResponder,
   Modal
 } from "react-native";
+import { connect } from "react-redux";
 import {
   API_BASE_URL,
   fetchDoYouKnowItems,
@@ -28,6 +29,7 @@ import TabSearchHeader from "../../components/tab-screen-header";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { SCREENS, GLOBAL_VARIABLES } from "../../constants";
+import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 
 import TagsModal from "./tags-modal";
 import Item from "./item";
@@ -94,9 +96,16 @@ class DoYouKNowScreen extends Component {
             duration: 300
           }).start(() => {
             this.currentCardTranslateY.setValue(0);
-            this.setState({
-              currentIndex: this.state.currentIndex + 1
-            });
+            this.setState(
+              {
+                currentIndex: this.state.currentIndex + 1
+              },
+              () => {
+                this.props.setLatestDoYouKnowReadId(
+                  this.state.items[this.state.currentIndex].id
+                );
+              }
+            );
           });
         } else {
           Animated.parallel([
@@ -126,7 +135,11 @@ class DoYouKNowScreen extends Component {
     });
     try {
       const res = await fetchDoYouKnowItems({
-        tagIds: tagIds || []
+        tagIds: tagIds || [],
+        latestDoYouKnowReadId:
+          tagIds.length == 0
+            ? this.props.latestDoYouKnowReadId || undefined
+            : undefined
       });
 
       const newState = {
@@ -354,4 +367,19 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DoYouKNowScreen;
+const mapStateToProps = state => {
+  return {
+    latestDoYouKnowReadId: state.loggedInUser.latestDoYouKnowReadId
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setLatestDoYouKnowReadId: newValue => {
+      console.log("newValue: ", newValue);
+      dispatch(loggedInUserActions.setLatestDoYouKnowReadId(newValue));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DoYouKNowScreen);

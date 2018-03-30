@@ -113,7 +113,7 @@ class Report extends React.Component {
     const { item, reloadScreen } = this.props;
 
     const serviceType = item.service_type;
-    let priceText = I18n.t("calendar_service_screen_price");
+    let priceText = I18n.t("calendar_service_screen_unit_price");
     if (serviceType.main_category_id == 6 && serviceType.category_id == 24) {
       priceText = I18n.t("add_edit_calendar_service_screen_form_wages");
     } else if (

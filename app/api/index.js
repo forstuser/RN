@@ -1064,11 +1064,15 @@ export const deletePuc = async ({ productId, pucId }) => {
   });
 };
 
-export const fetchDoYouKnowItems = async ({ tagIds }) => {
+export const fetchDoYouKnowItems = async ({
+  tagIds,
+  latestDoYouKnowReadId
+}) => {
   return await apiRequest({
     method: "post",
     url: "/know/items",
-    data: { tag_id: tagIds }
+    data: { tag_id: tagIds },
+    queryParams: { offset: latestDoYouKnowReadId }
   });
 };
 

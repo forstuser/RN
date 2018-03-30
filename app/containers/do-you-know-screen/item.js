@@ -65,6 +65,7 @@ export default class Item extends React.Component {
     }
   };
   render() {
+    console.log("SCREEN_HEIGHT", SCREEN_HEIGHT);
     const { item, onLikePress } = this.props;
     if (item) {
       const {
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   image: {
-    flex: SCREEN_WIDTH > 320 ? 3 : 2,
+    flex: SCREEN_HEIGHT > 620 ? 3 : 2,
     borderRadius: 5,
     overflow: "hidden"
   },
@@ -310,11 +311,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   title: {
-    fontSize: SCREEN_WIDTH > 320 ? 18 : 14,
+    fontSize: SCREEN_HEIGHT > 620 ? 18 : 14,
     color: colors.mainText
   },
   description: {
-    fontSize: SCREEN_WIDTH > 320 ? 14 : 12,
+    fontSize: SCREEN_HEIGHT > 620 ? 14 : 12,
     marginTop: 10,
     flex: 1
   },

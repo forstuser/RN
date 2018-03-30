@@ -7,14 +7,15 @@ import {
   Alert,
   Modal,
   Platform,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from "react-native";
 import GridView from "react-native-super-grid";
 import I18n from "../i18n";
 import Analytics from "../analytics";
 
 import { Text, Button, ScreenContainer } from "../elements";
-import { colors } from "../theme";
+import { colors, defaultStyles } from "../theme";
 import {
   SCREENS,
   EXPENSE_TYPES,
@@ -134,75 +135,79 @@ class AddProductScreen extends React.Component {
       }
     ];
 
+    const Item = ({ item }) => (
+      <TouchableOpacity
+        onPress={() => this.onPressItem(item.type)}
+        key={item.title}
+        style={styles.item}
+      >
+        <Image
+          style={styles.itemIcon}
+          source={item.icon}
+          resizeMode="contain"
+        />
+        <Text style={styles.itemTitle}>{item.title}</Text>
+      </TouchableOpacity>
+    );
+
     return (
       <View style={styles.container}>
-        <View style={styles.option}>
+        <View style={[styles.option, styles.option1]}>
           <Text
             weight="Bold"
             style={[styles.optionTitle, { color: colors.mainBlue }]}
           >
             {I18n.t("add_edit_product_option_product")}
           </Text>
-          <View style={styles.mainGrid}>
-            <View style={styles.gri}>
-              {productOptions.map((item, index) => (
-                <TouchableOpacity
-                  onPress={() => this.onPressItem(item.type)}
-                  key={item.title}
-                  style={styles.item}
-                >
-                  <Image
-                    style={styles.itemIcon}
-                    source={item.icon}
-                    resizeMode="contain"
-                  />
-                  <Text style={styles.itemTitle}>{item.title}</Text>
-                </TouchableOpacity>
-              ))}
+          <View style={styles.grid}>
+            <View style={styles.itemsRow}>
+              {productOptions
+                .slice(0, 3)
+                .map((item, index) => <Item key={index} item={item} />)}
+            </View>
+            <View style={styles.itemsRow}>
+              {productOptions
+                .slice(3, 6)
+                .map((item, index) => <Item key={index} item={item} />)}
             </View>
           </View>
         </View>
-        <View style={styles.orOuterContainer}>
-          <View style={styles.orContainer}>
-            <Text style={styles.or} weight="Bold">
-              {I18n.t("add_edit_product_option_or")}
-            </Text>
-          </View>
-        </View>
-        <View style={styles.option}>
+
+        <View style={[styles.option, styles.option2]}>
           <Text
             weight="Bold"
             style={[styles.optionTitle, { color: colors.pinkishOrange }]}
           >
             {I18n.t("add_edit_product_option_expense")}
           </Text>
-          <View style={styles.mainGrid}>
-            <View style={styles.gri}>
-              {expenseOptions.map((item, index) => (
-                <TouchableOpacity
-                  onPress={() => this.onPressItem(item.type)}
-                  key={item.title}
-                  style={styles.item}
-                >
-                  <Image
-                    style={styles.itemIcon}
-                    source={item.icon}
-                    resizeMode="contain"
-                  />
-                  <Text style={styles.itemTitle}>{item.title}</Text>
-                </TouchableOpacity>
-              ))}
+          <View style={styles.grid}>
+            <View style={styles.itemsRow}>
+              {expenseOptions
+                .slice(0, 3)
+                .map((item, index) => <Item key={index} item={item} />)}
+            </View>
+            <View style={styles.itemsRow}>
+              {expenseOptions
+                .slice(3, 6)
+                .map((item, index) => <Item key={index} item={item} />)}
             </View>
           </View>
+          {Platform.OS == "ios" && (
+            <Button
+              onPress={this.hide}
+              style={styles.closeBtn}
+              text={I18n.t("add_expenses_options_cancel_btn")}
+              type="outline"
+              color="secondary"
+              outlineBtnStyle={{ borderColor: "transparent" }}
+            />
+          )}
         </View>
-        <Button
-          onPress={this.hide}
-          style={styles.closeBtn}
-          text={I18n.t("add_expenses_options_cancel_btn")}
-          type="outline"
-          color="secondary"
-          outlineBtnStyle={{ borderColor: "transparent" }}
-        />
+        <View style={styles.orContainer}>
+          <Text style={styles.or} weight="Bold">
+            {I18n.t("add_edit_product_option_or")}
+          </Text>
+        </View>
       </View>
     );
   }
@@ -211,128 +216,86 @@ class AddProductScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f7f7f7",
     padding: 0,
+    justifyContent: "space-between"
+  },
+  option: {
+    height: Dimensions.get("window").height / 2 - 5,
+    padding: 16,
     justifyContent: "center",
-    alignItems: "center",
-    borderColor: "rgba(0, 0, 0, 0.1)",
-    backgroundColor: "#FFF",
+    ...defaultStyles.card
+  },
+  option1: {
+    marginBottom: 10,
     ...Platform.select({
       ios: {
-        paddingTop: 30
+        paddingTop: 20
       },
       android: {
-        paddingTop: 10
+        paddingTop: 0
       }
     })
   },
-  option: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "white"
-  },
-  mainGrid: {
-    flex: 1,
-    flexDirection: "row",
-    width: "100%",
-    zIndex: 99
-    // borderBottomWidth: 2,
-    // marginBottom: -30,
-    // color: "#f0f0f0",
-    // zIndex: 99
-  },
-  gri: {
-    height: 120,
-    width: "100%",
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap"
-  },
-  grid: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  optionTitle: {
-    fontSize: 21,
-    marginLeft: 10
-  },
-  gridView: {
-    backgroundColor: "grey",
-    width: 56,
-    height: 49
-  },
-  orOuterContainer: {
+  option2: {
     ...Platform.select({
       ios: {
-        backgroundColor: "#F0F0F0",
-        width: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 99
+        paddingBottom: 5
       },
       android: {}
     })
   },
-  orContainer: {
-    backgroundColor: "#F0F0F0",
-    borderRadius: 32,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 0,
-    marginBottom: -15,
-    ...Platform.select({
-      ios: {
-        width: 38,
-        height: 38
-      },
-      android: {
-        width: 42,
-        height: 42,
-        backgroundColor: "#f0f0f0",
-        zIndex: 99
-      }
-    })
-  },
-  or: {
+  optionTitle: {
     fontSize: 18
   },
-  closeBtn: {
-    // margin: 10,
-    width: 300
+  grid: {},
+  itemsRow: {
+    flexDirection: "row",
+    marginHorizontal: -5
   },
   item: {
+    flex: 1,
     height: 95,
+    margin: 5,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
-    padding: 20,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    width: "32%",
-    marginRight: 4,
-    marginTop: 5
-    // ...Platform.select({
-    //   ios: {
-    //     height: 100
-    //   },
-    //   android: {
-    //     height: 94
-    //   }
-    // })
+    padding: 10,
+    ...defaultStyles.card
   },
   itemIcon: {
     height: 52,
-    width: 52,
+    width: "100%",
+    maxWidth: 52,
     marginBottom: 5,
     marginTop: 5
   },
   itemTitle: {
     fontSize: 10,
     textAlign: "center"
+  },
+  orContainer: {
+    ...defaultStyles.card,
+    position: "absolute",
+    top: Dimensions.get("window").height / 2 - 25,
+    left: Dimensions.get("window").width / 2 - 25,
+    backgroundColor: "#f7f7f7",
+    width: 50,
+    height: 50,
+    elevation: 3,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  or: {
+    fontSize: 18
+  },
+  closeBtn: {
+    // margin: 10,
+    width: 300,
+    height: 30,
+    alignSelf: "center",
+    marginTop: 10
   }
 });
 export default AddProductScreen;

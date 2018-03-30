@@ -224,6 +224,7 @@ export default {
   add_electronics: "ADD ELECTRONICS & ELECTRICALS",
   add_automobile: "ADD AUTOMOBILE",
   add_personal: "ADD PERSONAL DOC",
+  add_visiting_card: "ADD VISITING CARD",
   add_furniture: "ADD FURNITURE",
   add_hardware: "ADD HARDWARE",
   add_furniture_hardware: "ADD FURNITURE & HARDWARE",
@@ -518,8 +519,8 @@ export default {
 
   //calendar service card screen
   calendar_service_screen_title: "Service Details",
-  calendar_service_screen_present: "Presnt",
-  calendar_service_screen_total_present: "Total Presnt",
+  calendar_service_screen_present: "Present",
+  calendar_service_screen_total_present: "Total Present",
   calendar_service_screen_absent: "Absent",
   calendar_service_screen_total_absent: "Total Absent",
   calendar_service_screen_price: "Price",
@@ -725,7 +726,7 @@ export default {
     "Share your product experience with your Friends, Family and Followers to help them make a wise purchase.",
   product_card_review_tip: "Review your product experience.",
   product_card_add_image_tip:
-    "This helps you personalize your Product, Document or Expense Card. For example you can upload image of your own photo with the product say with Car. Adding real image to your card makes it more sharable.",
+    "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more sharable with your friends and family.",
   //blank dashboard
   blank_dashboard_headline: "Welcome to BinBill",
   blank_dashboard_text:

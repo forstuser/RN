@@ -12,6 +12,7 @@ import {
 import { getCategoryProducts } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import ProductsList from "../../components/products-list";
+import ErrorOverlay from "../../components/error-overlay";
 import { colors } from "../../theme";
 
 import Filters from "./filters";
@@ -34,7 +35,9 @@ class CategoryWithFilters extends Component {
         onlineSellerIds: [],
         offlineSellerIds: []
       },
-      products: []
+      products: [],
+      isFetchingProducts: false,
+      error: null
     };
   }
   async componentDidMount() {
@@ -71,6 +74,10 @@ class CategoryWithFilters extends Component {
   };
 
   loadProducts = async () => {
+    this.setState({
+      isFetchingProducts: true,
+      error: null
+    });
     try {
       const {
         pageNo,
@@ -103,11 +110,21 @@ class CategoryWithFilters extends Component {
       }
       this.setState(newState);
     } catch (e) {
-      Alert.alert(e.message);
+      this.setState({
+        error: e
+      });
+    } finally {
+      this.setState({
+        isFetchingProducts: false
+      });
     }
   };
 
   render() {
+    const { state, isFetchingProducts, error } = this.state;
+    if (error) {
+      return <ErrorOverlay error={error} onRetryPress={this.loadProducts} />;
+    }
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#fafafa" }}>
         <Filters {...this.state.filters} applyFilters={this.applyFilters} />
@@ -115,6 +132,8 @@ class CategoryWithFilters extends Component {
           mainCategoryId={this.props.category.id}
           products={this.state.products}
           navigator={this.props.navigator}
+          onRefresh={() => this.loadProducts()}
+          isLoading={this.state.isFetchingProducts}
         />
       </ScreenContainer>
     );

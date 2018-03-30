@@ -23,156 +23,161 @@ class AddEmptyProductScreen extends Component {
     navigator
   }) => {};
 
+  onPressItem = item => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PRODUCT_OPTION);
+    this.props.navigator.push({
+      screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
+      passProps: { expenseType: item.type, categoryId: item.categoryId },
+      overrideBackPress: true
+    });
+  };
+
   render() {
     const { mainCategoryId, categoryId, navigator } = this.props;
-    onPressItem = type => {
-      Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PRODUCT_OPTION);
-      this.props.navigator.push({
-        screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
-        passProps: { expenseType: type },
-        overrideBackPress: true
-      });
-      console.log(this.props, "passprops");
-    };
+
+    let item = { categoryId: categoryId };
+    let item2 = null;
     // alert(mainCategoryId);
     switch (mainCategoryId) {
       case MAIN_CATEGORY_IDS.FURNITURE:
+        item.type = EXPENSE_TYPES.FURNITURE;
         if (categoryId == CATEGORY_IDS.FURNITURE.FURNITURE) {
-          type = EXPENSE_TYPES.FURNITURE;
-          desc = I18n.t("products_list_no_result_desc_furniture");
-          image = require("../images/main-categories/ic_furniture.png");
-          buttonText = I18n.t("add_furniture");
+          item.desc = I18n.t("products_list_no_result_desc_furniture");
+          item.image = require("../images/main-categories/ic_furniture.png");
+          item.buttonText = I18n.t("add_furniture");
         } else if (categoryId == CATEGORY_IDS.FURNITURE.HARDWARE) {
-          type = EXPENSE_TYPES.FURNITURE;
-          desc = I18n.t("products_list_no_result_desc_hardware");
-          image = require("../images/categories/hardware.png");
-          buttonText = I18n.t("add_hardware");
+          item.desc = I18n.t("products_list_no_result_desc_hardware");
+          item.image = require("../images/categories/hardware.png");
+          item.buttonText = I18n.t("add_hardware");
         } else {
-          type = EXPENSE_TYPES.FURNITURE;
-          desc = I18n.t("products_list_no_result_desc_other_furniture");
-          image = require("../images/main-categories/ic_furniture.png");
-          buttonText = I18n.t("add_furniture_hardware");
+          item.desc = I18n.t("products_list_no_result_desc_other_furniture");
+          item.image = require("../images/main-categories/ic_furniture.png");
+          item.buttonText = I18n.t("add_furniture_hardware");
         }
         break;
 
       case MAIN_CATEGORY_IDS.ELECTRONICS:
-        type = EXPENSE_TYPES.ELECTRONICS;
-        desc = I18n.t("products_list_no_result_desc_electronics");
-        buttonText = I18n.t("add_electronics");
-        image = require("../images/main-categories/ic_electronics.png");
+        item = {
+          type: EXPENSE_TYPES.ELECTRONICS,
+          desc: I18n.t("products_list_no_result_desc_electronics"),
+          buttonText: I18n.t("add_electronics"),
+          image: require("../images/main-categories/ic_electronics.png")
+        };
         break;
 
       case MAIN_CATEGORY_IDS.AUTOMOBILE:
-        type = EXPENSE_TYPES.AUTOMOBILE;
-        desc = I18n.t("products_list_no_result_desc_automobile");
-        buttonText = I18n.t("add_automobile");
-        image = require("../images/main-categories/ic_automobile.png");
+        item = {
+          type: EXPENSE_TYPES.AUTOMOBILE,
+          desc: I18n.t("products_list_no_result_desc_automobile"),
+          buttonText: I18n.t("add_automobile"),
+          image: require("../images/main-categories/ic_automobile.png")
+        };
         break;
 
       case MAIN_CATEGORY_IDS.TRAVEL:
+        item.type = EXPENSE_TYPES.TRAVEL;
         if (categoryId == CATEGORY_IDS.TRAVEL.TRAVEL) {
-          type = EXPENSE_TYPES.TRAVEL;
-          desc = I18n.t("products_list_no_result_desc_travel");
-          buttonText = I18n.t("add_travel");
-          image = require("../images/main-categories/ic_travel_dining.png");
+          item.desc = I18n.t("products_list_no_result_desc_travel");
+          item.buttonText = I18n.t("add_travel");
+          item.image = require("../images/main-categories/ic_travel_dining.png");
         } else if (categoryId == CATEGORY_IDS.TRAVEL.HOTEL_STAY) {
-          type = EXPENSE_TYPES.TRAVEL;
-          desc = I18n.t("products_list_no_result_desc_hotel_stay");
-          buttonText = I18n.t("add_hotel_stay");
-          image = require("../images/categories/hotel.png");
+          item.desc = I18n.t("products_list_no_result_desc_hotel_stay");
+          item.buttonText = I18n.t("add_hotel_stay");
+          item.image = require("../images/categories/hotel.png");
         } else {
-          type = EXPENSE_TYPES.TRAVEL;
-          desc = I18n.t("products_list_no_result_desc_dining");
-          buttonText = I18n.t("add_dining");
-          image = require("../images/categories/dining.png");
+          item.desc = I18n.t("products_list_no_result_desc_dining");
+          item.buttonText = I18n.t("add_dining");
+          item.image = require("../images/categories/dining.png");
         }
         break;
 
       case MAIN_CATEGORY_IDS.HEALTHCARE:
+        item.type = EXPENSE_TYPES.HEALTHCARE;
         if (categoryId == CATEGORY_IDS.HEALTHCARE.EXPENSE) {
-          type = EXPENSE_TYPES.HEALTHCARE;
-          desc = I18n.t("products_list_no_result_desc_expense");
-          buttonText = I18n.t("add_expense");
-          image = require("../images/main-categories/ic_healthcare.png");
+          item.desc = I18n.t("products_list_no_result_desc_expense");
+          item.buttonText = I18n.t("add_expense");
+          item.image = require("../images/main-categories/ic_healthcare.png");
         } else if (categoryId == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
-          type = EXPENSE_TYPES.HEALTHCARE;
-          desc = I18n.t("products_list_no_result_desc_medical_docs");
-          buttonText = I18n.t("add_medical_doc");
-          image = require("../images/categories/medical_docs.png");
+          item.desc = I18n.t("products_list_no_result_desc_medical_docs");
+          item.buttonText = I18n.t("add_medical_doc");
+          item.image = require("../images/categories/medical_docs.png");
         } else {
-          type = EXPENSE_TYPES.HEALTHCARE;
-          desc = I18n.t("products_list_no_result_desc_insurance");
-          buttonText = I18n.t("add_healthcare");
-          image = require("../images/categories/insurance.png");
+          item.desc = I18n.t("products_list_no_result_desc_insurance");
+          item.buttonText = I18n.t("add_healthcare");
+          item.image = require("../images/categories/insurance.png");
         }
         break;
 
       case MAIN_CATEGORY_IDS.SERVICES:
+        item.type = EXPENSE_TYPES.SERVICES;
         if (categoryId == CATEGORY_IDS.SERVICES.OTHER_SERVICES) {
-          type = EXPENSE_TYPES.SERVICES;
-          desc = I18n.t("products_list_no_result_desc_other_services");
-          buttonText = I18n.t("add_other_services");
-          image = require("../images/main-categories/ic_services.png");
+          item.desc = I18n.t("products_list_no_result_desc_other_services");
+          item.buttonText = I18n.t("add_other_services");
+          item.image = require("../images/main-categories/ic_services.png");
         } else if (categoryId == CATEGORY_IDS.SERVICES.PROFESSIONAL) {
-          type = EXPENSE_TYPES.SERVICES;
-          desc = I18n.t("products_list_no_result_desc_professional");
-          buttonText = I18n.t("add_professional");
-          image = require("../images/categories/professional.png");
+          item.desc = I18n.t("products_list_no_result_desc_professional");
+          item.buttonText = I18n.t("add_professional");
+          item.image = require("../images/categories/professional.png");
         } else {
-          type = EXPENSE_TYPES.SERVICES;
-          desc = I18n.t("products_list_no_result_desc_lessons");
-          buttonText = I18n.t("add_lessons_hobbies");
-          image = require("../images/categories/hobbies.png");
+          item.desc = I18n.t("products_list_no_result_desc_lessons");
+          item.buttonText = I18n.t("add_lessons_hobbies");
+          item.image = require("../images/categories/hobbies.png");
         }
         break;
 
       case MAIN_CATEGORY_IDS.FASHION:
-        type = EXPENSE_TYPES.FASHION;
-        image = require("../images/main-categories/ic_fashion.png");
-        desc = I18n.t("products_list_no_result_desc_fashion");
-        buttonText = I18n.t("add_fashion_expense");
+        item = {
+          type: EXPENSE_TYPES.FASHION,
+          desc: I18n.t("products_list_no_result_desc_fashion"),
+          buttonText: I18n.t("add_fashion_expense"),
+          image: require("../images/main-categories/ic_fashion.png")
+        };
         break;
 
       case MAIN_CATEGORY_IDS.HOUSEHOLD:
+        item.type = EXPENSE_TYPES.HOME;
         if (categoryId == CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE) {
-          type = EXPENSE_TYPES.HOME;
-          desc = I18n.t("products_list_no_result_desc_household_expense");
-          buttonText = I18n.t("add_household_expense");
-          image = require("../images/categories/household.png");
+          item.desc = I18n.t("products_list_no_result_desc_household_expense");
+          item.buttonText = I18n.t("add_household_expense");
+          item.image = require("../images/categories/household.png");
         } else if (categoryId == CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS) {
-          type = EXPENSE_TYPES.HOME;
-          desc = I18n.t("products_list_no_result_desc_utility_bills");
-          buttonText = I18n.t("add_utility_bills");
-          image = require("../images/categories/utility_bill.png");
+          item.desc = I18n.t("products_list_no_result_desc_utility_bills");
+          item.buttonText = I18n.t("add_utility_bills");
+          item.image = require("../images/categories/utility_bill.png");
         } else if (categoryId == CATEGORY_IDS.HOUSEHOLD.EDUCATION) {
-          type = EXPENSE_TYPES.HOME;
-          desc = I18n.t("products_list_no_result_desc_education");
-          buttonText = I18n.t("add_education");
-          image = require("../images/categories/education.png");
+          item.desc = I18n.t("products_list_no_result_desc_education");
+          item.buttonText = I18n.t("add_education");
+          item.image = require("../images/categories/education.png");
         } else if (categoryId == CATEGORY_IDS.HOUSEHOLD.HOME_DECOR) {
-          type = EXPENSE_TYPES.HOME;
-          desc = I18n.t("products_list_no_result_desc_home_decor");
-          buttonText = I18n.t("add_home_decor");
-          image = require("../images/categories/home_decor.png");
+          item.desc = I18n.t("products_list_no_result_desc_home_decor");
+          item.buttonText = I18n.t("add_home_decor");
+          item.image = require("../images/categories/home_decor.png");
         } else {
-          type = EXPENSE_TYPES.HOME;
-          desc = I18n.t("products_list_no_result_desc_other_household");
-          buttonText = I18n.t("add_other_household");
-          image = require("../images/main-categories/ic_home_expenses.png");
+          item.desc = I18n.t("products_list_no_result_desc_other_household");
+          item.buttonText = I18n.t("add_other_household");
+          item.image = require("../images/main-categories/ic_home_expenses.png");
         }
         break;
 
       case MAIN_CATEGORY_IDS.OTHERS:
-        type = EXPENSE_TYPES.OTHERS;
-        desc = I18n.t("products_list_no_result_desc_others");
-        image = require("../images/main-categories/ic_personal_doc.png");
+        item = {
+          type: EXPENSE_TYPES.OTHERS,
+          desc: I18n.t("products_list_no_result_desc_others"),
+          image: require("../images/main-categories/ic_personal_doc.png")
+        };
         break;
 
       case MAIN_CATEGORY_IDS.PERSONAL:
-        type = EXPENSE_TYPES.PERSONAL;
-        desc = I18n.t("products_list_no_result_desc_personal");
-        buttonText = I18n.t("add_personal");
-        image = require("../images/main-categories/ic_personal_doc.png");
+        item = {
+          type: EXPENSE_TYPES.PERSONAL,
+          desc: I18n.t("products_list_no_result_desc_personal"),
+          buttonText: I18n.t("add_personal"),
+          image: require("../images/main-categories/ic_personal_doc.png")
+        };
+        item2 = {
+          type: EXPENSE_TYPES.VISITING_CARD,
+          buttonText: I18n.t("add_visiting_card")
+        };
         break;
 
       default:
@@ -180,18 +185,28 @@ class AddEmptyProductScreen extends Component {
     }
     return (
       <View style={styles.container}>
-        <Image style={styles.image} source={image} />
-        <Text style={styles.desc}>{desc}</Text>
+        <Image style={styles.image} source={item.image} />
+        <Text style={styles.desc}>{item.desc}</Text>
         {this.props.mainCategoryId != 9 && (
           <Text style={styles.below}>{I18n.t("product_list_click_below")}</Text>
         )}
         {this.props.mainCategoryId != 9 && (
-          <Button
-            onPress={() => onPressItem(type)}
-            text={buttonText}
-            color="secondary"
-            style={styles.button}
-          />
+          <View>
+            <Button
+              onPress={() => this.onPressItem(item)}
+              text={item.buttonText}
+              color="secondary"
+              style={styles.button}
+            />
+            {item2 ? (
+              <Button
+                onPress={() => this.onPressItem(item2)}
+                text={item2.buttonText}
+                color="secondary"
+                style={[styles.button, { marginTop: 20 }]}
+              />
+            ) : null}
+          </View>
         )}
       </View>
     );

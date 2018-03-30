@@ -31,6 +31,7 @@ export default class TagsModal extends React.Component {
 
   show = () => {
     this.setState({
+      searchText: "",
       isModalVisible: true
     });
   };

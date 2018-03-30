@@ -30,8 +30,8 @@ class ViewBillButton extends React.Component {
       navigator,
       docType = "Product",
       btnText = "Bill",
-      style,
-      viewRef
+      viewRef = () => {},
+      style
     } = this.props;
     if (product.copies && product.copies.length > 0) {
       return (
