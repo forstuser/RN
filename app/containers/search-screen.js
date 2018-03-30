@@ -115,21 +115,38 @@ class SearchBox extends Component {
           </View>
         )}
 
-        {searchHasRunOnce && (
-          <ProductsList
-            onRefresh={this.fetchResults}
-            isLoading={isFetchingResults}
-            products={products}
-            navigator={this.props.navigator}
-          />
-        )}
+        {searchHasRunOnce &&
+          products.length > 0 && (
+            <ProductsList
+              onRefresh={this.fetchResults}
+              isLoading={isFetchingResults}
+              products={products}
+              navigator={this.props.navigator}
+            />
+          )}
 
-        {/* {searchHasRunOnce.length == 0 && (
-          <View>
-            <Image source={noDocs} style={{ width: 140, height: 140 }} />
-            <Text style={{ fontSize: 24 }}>No Documents Found</Text>
-          </View>
-        )} */}
+        {searchHasRunOnce &&
+          products.length == 0 && (
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <Image source={noDocs} style={{ width: 160, height: 160 }} />
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: `Quicksand-Bold`,
+                  color: "#3b3b3b",
+                  marginTop: 10
+                }}
+              >
+                No Documents Found
+              </Text>
+            </View>
+          )}
       </ScreenContainer>
     );
   }
