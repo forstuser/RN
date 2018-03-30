@@ -77,7 +77,7 @@ const ProductListItem = ({ product, onPress }) => {
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <Image
         style={styles.image}
-        source={{ uri: API_BASE_URL + product.cImageURL + "1" }}
+        source={{ uri: API_BASE_URL + product.cImageURL }}
       />
       <View style={styles.texts}>
         <View style={styles.nameAndSeller}>

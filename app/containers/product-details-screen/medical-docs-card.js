@@ -85,7 +85,7 @@ class MedicalDocsCard extends Component {
       };
     }
 
-    let imageSource = { uri: API_BASE_URL + "/" + product.cImageURL + "0" };
+    let imageSource = { uri: API_BASE_URL + "/" + product.cImageURL };
     if (product.copies && product.copies.length > 0) {
       imageSource = { uri: API_BASE_URL + product.copies[0].copyUrl };
     }
@@ -96,7 +96,7 @@ class MedicalDocsCard extends Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View style={{ top: 10, position: 'absolute', right: 10 }}>
+          <View style={{ top: 10, position: "absolute", right: 10 }}>
             <ViewBillButton
               product={product}
               navigator={navigator}
@@ -106,7 +106,7 @@ class MedicalDocsCard extends Component {
           </View>
           <Image
             style={styles.image}
-            source={{ uri: API_BASE_URL + "/" + product.cImageURL + "0" }}
+            source={{ uri: API_BASE_URL + "/" + product.cImageURL }}
           />
           <Text weight="Bold" style={styles.name}>
             {product.productName}

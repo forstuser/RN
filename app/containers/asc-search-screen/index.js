@@ -133,7 +133,7 @@ class AscSearchScreen extends Component {
                 <View style={styles.imageWrapper}>
                   <Image
                     style={styles.itemImage}
-                    source={{ uri: API_BASE_URL + "/" + item.cImageURL + "1" }}
+                    source={{ uri: API_BASE_URL + "/" + item.cImageURL }}
                     resizeMode="contain"
                   />
                 </View>

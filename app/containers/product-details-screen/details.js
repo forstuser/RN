@@ -150,7 +150,7 @@ class Details extends Component {
       </View>
     );
 
-    let imageSource = { uri: API_BASE_URL + "/" + product.cImageURL + "0" };
+    let imageSource = { uri: API_BASE_URL + "/" + product.cImageURL };
     if (
       product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS &&
       product.copies &&

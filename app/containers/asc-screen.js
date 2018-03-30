@@ -272,7 +272,7 @@ class AscScreen extends Component {
                     >
                       <Image
                         style={styles.productImage}
-                        source={{ uri: API_BASE_URL + product.cImageURL + "1" }}
+                        source={{ uri: API_BASE_URL + product.cImageURL }}
                       />
                       <View style={styles.productTexts}>
                         <Text

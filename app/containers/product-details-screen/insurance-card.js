@@ -124,7 +124,7 @@ class InsuranceCard extends Component {
           />
           <Image
             style={styles.image}
-            source={{ uri: API_BASE_URL + "/" + product.cImageURL + "0" }}
+            source={{ uri: API_BASE_URL + "/" + product.cImageURL }}
           />
           <Text weight="Bold" style={styles.name}>
             {product.productName}

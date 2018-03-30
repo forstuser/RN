@@ -242,7 +242,7 @@ class TransactionsScreen extends Component {
                     {product.dataIndex == 1 && (
                       <Image
                         style={styles.image}
-                        source={{ uri: API_BASE_URL + product.cImageURL + "1" }}
+                        source={{ uri: API_BASE_URL + product.cImageURL }}
                       />
                     )}
                     {product.dataIndex > 1 && (

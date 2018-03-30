@@ -93,7 +93,7 @@ class ProductListItem extends React.Component {
         <View style={styles.details}>
           <Image
             style={styles.image}
-            source={{ uri: API_BASE_URL + "/" + product.cImageURL + "1" }}
+            source={{ uri: API_BASE_URL + "/" + product.cImageURL }}
           />
           <View style={styles.texts}>
             <Text weight="Bold" style={styles.name}>
