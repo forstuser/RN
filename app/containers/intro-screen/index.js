@@ -83,7 +83,6 @@ class Intro extends Component {
         onSkip={openLoginScreen}
         slides={slides}
         renderItem={IntroSlide}
-        showSkipButton
       />
     );
   }

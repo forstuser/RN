@@ -305,10 +305,10 @@ class DashboardScreen extends React.Component {
                       gradientColors={["#429321", "#b4ec51"]}
                       text={I18n.t("my_calendar")}
                     />
-                    {/* <RecentCalenderItems
+                    <RecentCalenderItems
                       items={this.state.recentCalenderItems}
                       navigator={this.props.navigator}
-                    /> */}
+                    />
                   </View>
                 )}
                 {/* Expense Insights */}

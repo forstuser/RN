@@ -27,13 +27,13 @@ export default {
   i_will_do_it_later: "I'll do it later",
 
   //app intro screen
-  app_intro_1_title: `Timely Warranty, Service,\nInsurance Alerts`,
+  app_intro_1_title: `Smart & 100% secure way of saving\n your Bills, Expenses and Important\n Documents in a Digital Format`,
   app_intro_1_desc: `Create Your Product Card in less Than 10 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
-  app_intro_2_title: `Easiest Way to Connect with\nBrands, Insurance Providers`,
+  app_intro_2_title: `Recieve Timely Reminders for Expiry\n and Renewal Dates as well as connect\n with Brands Service Centres in one Touch`,
   app_intro_2_desc: `Create product card and reach out to Brands, Insurance Providers or Nearest Service Center with just One Touch.`,
-  app_intro_3_title: `Maintenance of Your\nAppliances, Car and Bike`,
+  app_intro_3_title: `Your Own Attendance Manager for\n the Milkman, Maid, Newspaper Wala\n and Others`,
   app_intro_3_desc: `Know the Life Cycle Cost of All Your Products. Based on this You Can Decide Whether to Continue Maintaining the Product or Replacing it.`,
-  app_intro_4_title: `Manage your expenses, Know\nHow Much, When, Why and Where`,
+  app_intro_4_title: `Be The Product Review Expert.Help\n Your Friends, Family and Followers\n make a wise purchase`,
   app_intro_4_desc: `You Can Capture and Track All Expenses Across Categories Such As Household and Utility, Travel, Dining, Healthcare and More.`,
   app_intro_next: "NEXT",
   app_intro_skip: "SKIP",
@@ -487,7 +487,7 @@ export default {
   ehome_screen_items_category_item_last_updated: "LAST UPDATED {{date}}",
 
   //my calendar screen
-  my_calendar: 'My Calendar',
+  my_calendar: 'Recent Attendence',
   my_calendar_screen_title: "Attendance",
   my_calendar_screen_add_btn: "Add Attendance Item",
   my_calendar_screen_empty_screen_msg:
