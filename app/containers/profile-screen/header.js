@@ -24,7 +24,6 @@ const editIcon = require("../../images/ic_edit_white.png");
 class ProfileScreen extends Component {
   constructor(props) {
     super(props);
-    // alert(JSON.stringify(props));
     this.state = {
       profilePic: null,
       blurViewRef: null
@@ -201,6 +200,7 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%"
+    // backgroundColor: "gray"
   },
   editImg: {
     position: "absolute",
