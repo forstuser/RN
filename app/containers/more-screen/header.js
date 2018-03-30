@@ -15,6 +15,7 @@ import { API_BASE_URL } from "../../api";
 
 import LoadingOverlay from "../../components/loading-overlay";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
+// const platform = Platform.OS == "ios" ? 2 : 1;
 
 class Header extends Component {
   constructor(props) {
@@ -58,12 +59,15 @@ class Header extends Component {
         {profile && (
           <TouchableOpacity style={styles.header} onPress={this.props.onPress}>
             <View style={styles.backgroundImg}>{profilePic}</View>
-            {/* <BlurView
-              style={styles.overlay}
-              viewRef={this.state.blurViewRef}
-              blurType="light"
-              blurAmount={5}
-            /> */}
+            {/* if (Platform.OS == "ios")
+            {
+              <BlurView
+                style={styles.overlay}
+                viewRef={this.state.blurViewRef}
+                blurType="light"
+                blurAmount={5}
+              />
+            } */}
             <View style={styles.headerInner}>
               <View style={styles.profilePicWrapper}>
                 <View style={styles.profilePicCircleWrapper}>{profilePic}</View>

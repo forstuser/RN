@@ -275,181 +275,10 @@ class ProfileScreen extends Component {
         <Header profile={profile} />
 
         <Body profile={profile} />
-        {/* <View style={styles.information}>
-        <Header profile={profile} authToken={authToken} />
-        <View style={styles.information}>
-          <TouchableOpacity
-            style={styles.field}
-            onPress={this.showNameEditModal}
-          >
-            <Text style={styles.fieldName}>
-              {I18n.t("profile_screen_label_name")}
-            </Text>
-            <Text style={styles.fieldValue} weight="Medium">
-              {name}
-            </Text>
-          </TouchableOpacity>
-          <View style={styles.field}>
-            <Text style={styles.fieldName}>
-              {I18n.t("profile_screen_label_phone")}
-            </Text>
-            <Text style={styles.fieldValue} weight="Medium">
-              {phone}
-            </Text>
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.field}
-              onPress={this.showEmailEditModal}
-            >
-              <View style={{ flexDirection: "row" }}>
-                <Text style={[styles.fieldName, { flex: 1 }]}>
-                  {I18n.t("profile_screen_label_email")}
-                </Text>
-              </View>
-              <Text style={styles.fieldValue} weight="Medium">
-                {email}
-              </Text>
-            </TouchableOpacity>
 
-            {showEmailVerifyText &&
-              isEmailVerified && (
-                <View style={styles.emailVerifiedContainer}>
-                  <Text
-                    weight="Medium"
-                    style={{ fontSize: 12, color: "green" }}
-                  >
-                    {I18n.t("profile_screen_email_verified")}
-                  </Text>
-                </View>
-              )}
-            {showEmailVerifyText &&
-              !isEmailVerified && (
-                <TouchableOpacity
-                  onPress={this.showResendEmailVerifyAlert}
-                  style={styles.emailVerifiedContainer}
-                >
-                  <Text weight="Medium" style={{ fontSize: 12, color: "red" }}>
-                    {I18n.t("profile_screen_email_not_verified")}
-                  </Text>
-                </TouchableOpacity>
-              )}
-          </View>
-          <TouchableOpacity
-            style={styles.field}
-            onPress={this.showLocationEditModal}
-          >
-            <Text style={styles.fieldName}>
-              {I18n.t("profile_screen_label_address")}
-            </Text>
-            <Text style={styles.fieldValue} weight="Medium">
-              {location}
-            </Text>
-          </TouchableOpacity>
-        </View> */}
-
-        <Modal
-          avoidKeyboard={true}
-          onBackdropPress={this.closeModal}
-          useNativeDriver={true}
-          isVisible={isNameModalVisible}
-        >
-          <View keyboardVerticalOffset={20} style={styles.modal}>
-            <TouchableOpacity
-              onPress={this.closeModal}
-              style={styles.modalCloseBtn}
-            >
-              <Image style={styles.modalCrossIcon} source={crossIcon} />
-            </TouchableOpacity>
-            <Text style={styles.name}>
-              {I18n.t("profile_screen_label_name")}
-            </Text>
-            <TextInput
-              underlineColorAndroid="transparent"
-              onSubmitEditing={this.onSubmitName}
-              ref={ref => (this.nameInput = ref)}
-              value={nameTemp}
-              onChangeText={text => this.setState({ nameTemp: text })}
-              style={styles.modalTextInput}
-            />
-            <Button
-              text={I18n.t("profile_screen_save_btn")}
-              color="secondary"
-              onPress={this.onSubmitName}
-            />
-          </View>
-        </Modal>
-
-        <Modal
-          avoidKeyboard={true}
-          onBackdropPress={this.closeModal}
-          useNativeDriver={true}
-          isVisible={isEmailModalVisible}
-        >
-          <View keyboardVerticalOffset={20} style={styles.modal}>
-            <TouchableOpacity
-              onPress={this.closeModal}
-              style={styles.modalCloseBtn}
-            >
-              <Image style={styles.modalCrossIcon} source={crossIcon} />
-            </TouchableOpacity>
-            <Text style={styles.name}>
-              {I18n.t("profile_screen_label_email")}
-            </Text>
-            <TextInput
-              underlineColorAndroid="transparent"
-              onSubmitEditing={this.onSubmitEmail}
-              keyboardType="email-address"
-              ref={ref => (this.emailInput = ref)}
-              value={emailTemp}
-              onChangeText={text => this.setState({ emailTemp: text })}
-              style={styles.modalTextInput}
-            />
-            <Button
-              text={I18n.t("profile_screen_save_btn")}
-              color="secondary"
-              onPress={this.onSubmitEmail}
-            />
-          </View>
-        </Modal>
-
-        <Modal
-          avoidKeyboard={true}
-          onBackdropPress={this.closeModal}
-          useNativeDriver={true}
-          isVisible={isLocationModalVisible}
-        >
-          <View keyboardVerticalOffset={20} style={styles.modal}>
-            <TouchableOpacity
-              onPress={this.closeModal}
-              style={styles.modalCloseBtn}
-            >
-              <Image style={styles.modalCrossIcon} source={crossIcon} />
-            </TouchableOpacity>
-            <Text style={styles.name}>
-              {I18n.t("profile_screen_label_address")}
-            </Text>
-            <TextInput
-              underlineColorAndroid="transparent"
-              multiline={true}
-              autogrow={true}
-              maxHeight={100}
-              ref={ref => (this.locationInput = ref)}
-              value={locationTemp}
-              onChangeText={text => this.setState({ locationTemp: text })}
-              style={styles.modalTextInput}
-            />
-            <Button
-              text={I18n.t("profile_screen_save_btn")}
-              color="secondary"
-              onPress={this.onSubmitLocation}
-            />
-          </View>
-        </Modal>
         <TouchableOpacity
           style={styles.codepushToggleBtn}
           onLongPress={() => {
-            Alert.alert("Beta update settings changed!");
             this.props.setLoggedInUserCodepushDeploymentStaging(
               !this.props.codepushDeploymentStaging
             );
@@ -493,7 +322,10 @@ const styles = StyleSheet.create({
   arrow: {
     position: "absolute",
     width: 24,
-    height: 24
+    height: 24,
+    shadowColor: "black",
+    shadowOffset: { width: 10, height: 0 },
+    shadowRadius: 5
   },
   information: {
     marginTop: 80,
