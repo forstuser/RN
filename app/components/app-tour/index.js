@@ -50,6 +50,7 @@ export default class AppTour extends React.Component {
     const { steps } = this.props;
     const { activeStepIndex } = this.state;
     const activeStep = steps[activeStepIndex];
+
     if (activeStep && activeStep.ref) {
       activeStep.ref.measureInWindow((x, y, width, height) => {
         const windowHeight = Dimensions.get("window").height;

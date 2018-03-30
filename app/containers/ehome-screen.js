@@ -198,9 +198,7 @@ class EhomeScreen extends Component {
         <Tour
           ref={ref => (this.ehomeTour = ref)}
           enabled={true}
-          steps={[
-            { ref: this.mailboxIconRef, text: I18n.t("app_tour_tips_5") }
-          ]}
+          steps={[{ ref: this.mailboxIconRef, text: I18n.t("mailbox_tip") }]}
         />
         <TouchableOpacity
           style={styles.fab}

@@ -82,7 +82,7 @@ class BasicDetailsForm extends React.Component {
         const selectedBrand = brands.find(brand => brand.id == brandId);
         this.setState({ selectedBrand }, () => this.fetchModels());
       } else if (brandId == 0) {
-        this.setState({ selectedBrand: { id: 0, name: "Non Branded" } });
+        this.setState({ selectedBrand: { id: 0, name: "Unbranded" } });
       }
     }
 
@@ -252,7 +252,7 @@ class BasicDetailsForm extends React.Component {
     if (this.state.selectedBrand && this.state.selectedBrand.id == 0) {
       newState.selectedBrand = null;
     } else {
-      newState.selectedBrand = { id: 0, name: "Non Branded" };
+      newState.selectedBrand = { id: 0, name: "Unbranded" };
     }
     this.setState(newState, () => {
       console.log("brand: ", this.state.selectedBrand);
@@ -358,7 +358,7 @@ class BasicDetailsForm extends React.Component {
       <View style={styles.container}>
         <Text weight="Medium" style={styles.headerText}>{I18n.t("expense_forms_expense_basic_detail")}</Text>
         <View style={styles.body}>
-          {showFullForm && (
+          {(showFullForm || mainCategoryId == MAIN_CATEGORY_IDS.FASHION) && (
             <CustomTextInput
               placeholder={I18n.t("expense_forms_product_basics_name")}
               value={productName}
@@ -368,31 +368,30 @@ class BasicDetailsForm extends React.Component {
           )}
 
           {categoryId == CATEGORY_IDS.FURNITURE.FURNITURE && (
-            <View>
-              <SelectModal
-                // style={styles.input}
-                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-                placeholder={I18n.t("add_edit_direct_type")}
-                placeholderRenderer={({ placeholder }) => (
-                  <View style={{ flexDirection: "row" }}>
-                    <Text
-                      weight="Medium"
-                      style={{ color: colors.secondaryText }}
-                    >
-                      {placeholder}
-                    </Text>
-                    <Text weight="Medium" style={{ color: colors.mainBlue }}>
-                      *
-                    </Text>
-                  </View>
-                )}
-                selectedOption={selectedSubCategory}
-                options={subCategories}
-                onOptionSelect={value => {
-                  this.onSubCategorySelect(value);
-                }}
-                hideAddNew={true}
-              />
+            <SelectModal
+              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+              placeholder={I18n.t("add_edit_direct_type")}
+              placeholderRenderer={({ placeholder }) => (
+                <View style={{ flexDirection: "row" }}>
+                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                    {placeholder}
+                  </Text>
+                  <Text weight="Medium" style={{ color: colors.mainBlue }}>
+                    *
+                  </Text>
+                </View>
+              )}
+              selectedOption={selectedSubCategory}
+              options={subCategories}
+              onOptionSelect={value => {
+                this.onSubCategorySelect(value);
+              }}
+              hideAddNew={true}
+            />
+          )}
+
+          {categoryId == CATEGORY_IDS.FURNITURE.FURNITURE ||
+            (MAIN_CATEGORY_IDS.FASHION && (
               <View>
                 <TouchableOpacity
                   style={{
@@ -428,16 +427,16 @@ class BasicDetailsForm extends React.Component {
                   </View>
 
                   <Text weight="Medium" style={{ marginLeft: 8, flex: 1 }}>
-                    Non Branded
+                    Unbranded
                   </Text>
                 </TouchableOpacity>
               </View>
-            </View>
-          )}
+            ))}
 
           {(!selectedBrand ||
             (selectedBrand && selectedBrand.id != 0) ||
-            categoryId != CATEGORY_IDS.FURNITURE.FURNITURE) && (
+            (categoryId != CATEGORY_IDS.FURNITURE.FURNITURE &&
+              mainCategoryId != MAIN_CATEGORY_IDS.FASHION)) && (
               <SelectModal
                 // style={styles.input}
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
@@ -575,17 +574,19 @@ class BasicDetailsForm extends React.Component {
             }}
           />
 
+          {(showFullForm || mainCategoryId == MAIN_CATEGORY_IDS.FASHION) && (
+            <CustomTextInput
+              placeholder={I18n.t(
+                "expense_forms_product_basics_purchase_amount"
+              )}
+              value={value ? String(value) : ""}
+              onChangeText={value => this.setState({ value })}
+              keyboardType="numeric"
+            />
+          )}
+
           {showFullForm && (
             <View>
-              <CustomTextInput
-                placeholder={I18n.t(
-                  "expense_forms_product_basics_purchase_amount"
-                )}
-                value={value ? String(value) : ""}
-                onChangeText={value => this.setState({ value })}
-                keyboardType="numeric"
-              />
-
               <CustomTextInput
                 placeholder={I18n.t("expense_forms_product_basics_seller_name")}
                 value={sellerName}

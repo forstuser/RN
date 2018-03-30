@@ -12,6 +12,7 @@ import {
 import { connect } from "react-redux";
 
 import moment from "moment";
+import Icon from "react-native-vector-icons/Ionicons";
 
 import Tour from "../../components/app-tour";
 import Analytics from "../../analytics";
@@ -29,6 +30,7 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import SectionHeading from "../../components/section-heading";
 import Title from "./chamfered-background-title";
+import RecentProducts from "./recent-products";
 
 import { SCREENS } from "../../constants";
 
@@ -56,7 +58,7 @@ class DashboardScreen extends React.Component {
       isFetchingData: true,
       showDashboard: true,
       upcomingServices: [],
-      recentActivitiesProduct: null,
+      recentProducts: [],
       insightChartProps: {},
       notificationCount: 0,
       recentSearches: [],
@@ -106,7 +108,8 @@ class DashboardScreen extends React.Component {
       id: user.id,
       name: user.name,
       phone: user.mobile_no,
-      imageName: user.image_name
+      imageName: user.image_name,
+      isPinSet: user.hasPin
     });
   }
 
@@ -162,7 +165,7 @@ class DashboardScreen extends React.Component {
           recentSearches: dashboardData.recentSearches,
           showDashboard: dashboardData.showDashboard,
           upcomingServices: dashboardData.upcomingServices,
-          recentActivitiesProduct: dashboardData.product,
+          recentProducts: dashboardData.recent_products,
           insightChartProps: insightChartProps,
           totalCalendarItem: dashboardData.total_calendar_item,
           calendarItemUpdatedAt: dashboardData.calendar_item_updated_at,
@@ -263,6 +266,43 @@ class DashboardScreen extends React.Component {
             />
             <ScrollView>
               <View style={{ flex: 1, marginBottom: 150, padding: 10 }}>
+                <TouchableOpacity
+                  ref={ref => (this.ascViewItemRef = ref)}
+                  onPress={this.openAscScreen}
+                  style={[
+                    defaultStyles.card,
+                    {
+                      flexDirection: "row",
+                      padding: 16,
+                      marginTop: 20,
+                      borderRadius: 3,
+                      alignItems: "center",
+                      backgroundColor: colors.mainBlue
+                    }
+                  ]}
+                >
+                  <Image
+                    style={[styles.expenseInsightImage, { tintColor: "#fff" }]}
+                    source={ascIcon}
+                    resizeMode="contain"
+                  />
+                  <View style={styles.expenseInsightTitles}>
+                    <Text
+                      weight="Bold"
+                      style={[styles.expenseInsightTitle, { color: "#fff" }]}
+                    >
+                      {I18n.t("asc_screen_title")}
+                    </Text>
+                    <Text
+                      style={[styles.expenseInsightSubTitle, { color: "#fff" }]}
+                    >
+                      Find ASC for your products with one click
+                    </Text>
+                  </View>
+                  <View style={styles.expenseInsightDetails}>
+                    <Icon name="ios-arrow-forward" size={30} color="#fff" />
+                  </View>
+                </TouchableOpacity>
                 {this.state.upcomingServices.length > 0 && (
                   <View>
                     <Title
@@ -277,32 +317,16 @@ class DashboardScreen extends React.Component {
                     </View>
                   </View>
                 )}
-                {this.state.recentActivitiesProduct && (
+                {this.state.recentProducts.length > 0 && (
                   <View>
                     <Title
                       gradientColors={["#007bce", "#00c6ff"]}
                       text={I18n.t("dashboard_screen_recent_activity")}
                     />
-                    <View
-                      style={[
-                        defaultStyles.card,
-                        {
-                          padding: 2
-                        }
-                      ]}
-                    >
-                      <ProductListItem
-                        style={{
-                          borderColor: undefined,
-                          borderWidth: 0,
-                          marginBottom: 0
-                        }}
-                        product={this.state.recentActivitiesProduct}
-                        navigator={this.props.navigator}
-                        hideViewBillBtn={true}
-                        hideDirectionsAndCallBtns={true}
-                      />
-                    </View>
+                    <RecentProducts
+                      products={this.state.recentProducts}
+                      navigator={this.props.navigator}
+                    />
                   </View>
                 )}
 
@@ -313,7 +337,11 @@ class DashboardScreen extends React.Component {
                 />
                 <TouchableOpacity
                   onPress={() => this.openInsightScreen()}
-                  style={[defaultStyles.card, styles.expenseInsight]}
+                  style={[
+                    defaultStyles.card,
+                    styles.expenseInsight,
+                    { marginBottom: 60 }
+                  ]}
                 >
                   <Image
                     style={styles.expenseInsightImage}
@@ -331,49 +359,6 @@ class DashboardScreen extends React.Component {
                   <View style={styles.expenseInsightDetails}>
                     <Text weight="Bold" style={styles.expenseInsightAmount}>
                       ₹ {this.state.insightChartProps.totalSpend}
-                    </Text>
-                    <Text
-                      weight="Medium"
-                      style={styles.expenseInsightDetailsText}
-                    >
-                      {I18n.t("dashboard_screen_see_details")}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-
-                <Title text={I18n.t("asc_screen_title")} />
-                <TouchableOpacity
-                  onPress={this.openAscScreen}
-                  style={[
-                    defaultStyles.card,
-                    { flexDirection: "row", padding: 16, marginBottom: 60 }
-                  ]}
-                >
-                  <Image
-                    style={[
-                      styles.expenseInsightImage,
-                      { tintColor: colors.pinkishOrange }
-                    ]}
-                    source={ascIcon}
-                    resizeMode="contain"
-                  />
-                  <View style={styles.expenseInsightTitles}>
-                    <Text weight="Bold" style={styles.expenseInsightTitle}>
-                      {I18n.t("dashboard_screen_total_items_added")}
-                    </Text>
-                    <Text style={styles.expenseInsightSubTitle}>
-                      {calendarItemUpdatedAt
-                        ? I18n.t("dashboard_screen_last_updated_on", {
-                            date: moment(calendarItemUpdatedAt).format(
-                              "DD MMM YYYY"
-                            )
-                          })
-                        : null}
-                    </Text>
-                  </View>
-                  <View style={styles.expenseInsightDetails}>
-                    <Text weight="Bold" style={styles.expenseInsightAmount}>
-                      {totalCalendarItem}
                     </Text>
                     <Text
                       weight="Medium"
@@ -406,10 +391,11 @@ class DashboardScreen extends React.Component {
           ref={ref => (this.dashboardTour = ref)}
           enabled={true}
           steps={[
-            { ref: this.ehomeTabItemRef, text: I18n.t("app_tour_tips_2") },
-            { ref: this.ascTabItemRef, text: I18n.t("app_tour_tips_3") },
+            { ref: this.ehomeTabItemRef, text: I18n.t("ehome_tip") },
+            { ref: this.attendanceTabItemRef, text: I18n.t("attendance_tip") },
+            { ref: this.ascViewItemRef, text: I18n.t("asc_tip") },
             { ref: this.insightsRef, text: I18n.t("app_tour_tips_4") },
-            { ref: this.comingUpRef, text: I18n.t("app_tour_tips_6") }
+            { ref: this.comingUpRef, text: I18n.t("coming_up_tip") }
           ]}
         />
         <View style={styles.dummiesForTooltips}>
@@ -419,7 +405,7 @@ class DashboardScreen extends React.Component {
             style={styles.dummyForTooltip}
           />
           <View
-            ref={ref => (this.ascTabItemRef = ref)}
+            ref={ref => (this.attendanceTabItemRef = ref)}
             style={styles.dummyForTooltip}
           />
           <View style={styles.dummyForTooltip} />

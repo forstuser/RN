@@ -1143,6 +1143,13 @@ export const updateCalendarItem = async ({
   });
 };
 
+export const deleteCalendarItem = async id => {
+  return await apiRequest({
+    method: "delete",
+    url: `/calendar/items/${id}`
+  });
+};
+
 export const addCalendarItemCalculationDetail = async ({
   itemId,
   selectedDays,
@@ -1218,6 +1225,56 @@ export const addCalendarItemPayment = async ({
     data: {
       amount_paid: amountPaid,
       paid_on: paidOn
+    }
+  });
+};
+
+export const verifyPin = async ({ pin }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/consumer/pin`,
+    data: {
+      pin
+    }
+  });
+};
+
+export const setPin = async ({ pin }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/consumer/pin/reset`,
+    data: {
+      pin
+    }
+  });
+};
+
+export const deletePin = async ({ pin }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/consumer/pin`,
+    data: {
+      pin
+    }
+  });
+};
+
+export const askOtpOnEmail = async ({ email }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/consumer/otp/send`,
+    data: {
+      email
+    }
+  });
+};
+
+export const validateEmailOtp = async ({ otp }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/consumer/otp/validate`,
+    data: {
+      token: otp
     }
   });
 };

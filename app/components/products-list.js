@@ -39,7 +39,12 @@ const ProductsList = props => {
   } else {
     return (
       <FlatList
-        style={{ flex: 1, backgroundColor: "#FAFAFA" }}
+        style={{
+          flex: 1,
+          backgroundColor: "#FAFAFA",
+          paddingHorizontal: 10,
+          paddingTop: 10
+        }}
         data={products}
         keyExtractor={(item, index) => item.id}
         renderItem={renderProductItem}

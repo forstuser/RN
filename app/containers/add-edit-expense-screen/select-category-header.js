@@ -203,6 +203,11 @@ class SelectCategoryHeader extends React.Component {
               id: 649,
               name: "Jewellary & Accessories",
               icon: require("../../images/categories/jewellary.png")
+            },
+            {
+              id: 729,
+              name: "Make-Up",
+              icon: require("../../images/categories/make_up.png")
             }
           ]
         }));
@@ -539,7 +544,7 @@ const styles = StyleSheet.create({
   select: {
     height: 0,
     overflow: "hidden",
-    padding:0
+    padding: 0
   }
 });
 

@@ -60,13 +60,14 @@ class ProductCard extends Component {
 
     let newState = {};
     if (
-      (brand && brand.id > 0 && brand.status_type == 1) ||
-      (insuranceDetails.length > 0 &&
-        insuranceDetails[0].provider &&
-        insuranceDetails[0].provider.status_type == 1) ||
-      (warrantyDetails.length > 0 &&
-        warrantyDetails[0].provider &&
-        warrantyDetails[0].provider.status_type == 1)
+      ((brand && brand.id > 0 && brand.status_type == 1) ||
+        (insuranceDetails.length > 0 &&
+          insuranceDetails[0].provider &&
+          insuranceDetails[0].provider.status_type == 1) ||
+        (warrantyDetails.length > 0 &&
+          warrantyDetails[0].provider &&
+          warrantyDetails[0].provider.status_type == 1)) &&
+      product.masterCategoryId != MAIN_CATEGORY_IDS.FASHION
     ) {
       newState = {
         activeTabIndex: 0,
@@ -93,7 +94,7 @@ class ProductCard extends Component {
 
     if (!this.props.hasProductCardTourShown) {
       setTimeout(() => {
-        // this.tour.startTour();
+        this.tour.startTour();
       }, 1000);
       // this.props.setUiHasProductCardTourShown(true);
     }
@@ -181,11 +182,9 @@ class ProductCard extends Component {
           style={styles.container}
         >
           <Header
-            ref={ref => (this.header = ref)}
             viewBillRef={ref => (this.viewBillRef = ref)}
-            allInfoRef={ref => (this.allInfoRef = ref)}
-            customerCareRef={ref => (this.customerCareRef = ref)}
-            importantInfoRef={ref => (this.customerCareRef = ref)}
+            shareBtnRef={ref => (this.shareBtnRef = ref)}
+            reviewBtnRef={ref => (this.reviewBtnRef = ref)}
             activeTabIndex={activeTabIndex}
             showCustomerCareTab={showCustomerCareTab}
             showImportantTab={showImportantTab}
@@ -218,15 +217,29 @@ class ProductCard extends Component {
             )}
           </View>
         </ScrollView>
+        <View
+          style={styles.centerRefDummy}
+          ref={ref => (this.centerRef = ref)}
+        />
+        <View
+          style={styles.addProductImageBtnDummy}
+          ref={ref => (this.addProductImageRef = ref)}
+        />
         <Tour
           ref={ref => (this.tour = ref)}
           enabled={true}
           steps={[
-            { ref: this.header, text: I18n.t("app_tour_tips_11") },
-            { ref: this.viewBillRef, text: I18n.t("app_tour_tips_12") },
-            { ref: this.allInfoRef, text: I18n.t("app_tour_tips_13") },
-            { ref: this.importantInfoRef, text: I18n.t("app_tour_tips_14") },
-            { ref: this.customerCareRef, text: I18n.t("app_tour_tips_15") }
+            { ref: this.centerRef, text: I18n.t("product_card_tip") },
+            {
+              ref: this.viewBillRef,
+              text: I18n.t("product_card_upload_bill_tip")
+            },
+            { ref: this.shareBtnRef, text: I18n.t("product_card_share_tip") },
+            { ref: this.reviewBtnRef, text: I18n.t("product_card_review_tip") },
+            {
+              ref: this.addProductImageRef,
+              text: I18n.t("product_card_add_image_tip")
+            }
           ]}
         />
       </View>
@@ -235,9 +248,27 @@ class ProductCard extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f7f7f7" },
+  container: {
+    flex: 1,
+    backgroundColor: "#f7f7f7"
+  },
   pages: {
     marginTop: 20
+  },
+  centerRefDummy: {
+    position: "absolute",
+    top: "50%",
+    right: "50%",
+    width: 1,
+    height: 0,
+    backgroundColor: "transparent"
+  },
+  addProductImageBtnDummy: {
+    position: "absolute",
+    top: 27,
+    right: 47,
+    width: 50,
+    height: 30
   }
 });
 

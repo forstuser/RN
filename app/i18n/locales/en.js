@@ -23,7 +23,7 @@ export default {
   share: "Share",
   share_card: "Share Review",
   review: "Review",
-  max_words: "Max {{count}} words",
+  max_chars: "Max {{count}} characters",
   i_will_do_it_later: "I'll do it later",
 
   //app intro screen
@@ -470,8 +470,8 @@ export default {
   dashboard_screen_title: "Dashboard",
   dashboard_screen_whats_coming_up: "What's Coming Up",
   dashboard_screen_recent_activity: "Recent Activity",
+  dashboard_screen_recent_attendance: "Recent Attendance",
   dashboard_screen_ehome_insights: "Expense Insight",
-  dashboard_screen_ehome_my_calendar: "My Calendar",
   dashboard_screen_chart_last_7_days: "Last 7 Days",
   dashboard_screen_total_spends: "Total Spends",
   dashboard_screen_total_items_added: "Total Items added",
@@ -487,10 +487,10 @@ export default {
   ehome_screen_items_category_item_last_updated: "LAST UPDATED {{date}}",
 
   //my calendar screen
-  my_calendar_screen_title: "My Calendar",
-  my_calendar_screen_add_btn: "Add Calendar Item",
+  my_calendar_screen_title: "Attendance",
+  my_calendar_screen_add_btn: "Add Attendance Item",
   my_calendar_screen_empty_screen_msg:
-    "Looks Like you have nothing added in My Calendar Section",
+    "Mark attendance and payouts for all your household services like milkman, maid, newspaper wala here.\n\n\nClick below to:",
   my_calendar_screen_total_days: "Total Days",
   my_calendar_screen_till_date: "Till {{date}}",
   my_calendar_screen_days_present: "Days Present",
@@ -698,35 +698,34 @@ export default {
   add_expenses_options_cancel_btn: "CANCEL",
 
   //app-tour texts
-  app_tour_tips_1:
+  plus_btn_tip:
     "Click here to Add your Bills, Expenses and Important Documents.",
-  app_tour_tips_2:
-    "Click here to find all the Bills, Expenses, Documents that you saved as this is your eHome, private and secure.",
-  app_tour_tips_3:
-    "Click here to find Authorised Service Centres off any Brand and connect with them with just one simple click.",
+  ehome_tip:
+    "Click here to find your saved Bills, Expenses, Documents in your eHome.",
+  attendance_tip:
+    "Mark attendance and payouts for all your household services like milkman, maid, newspaper wala here.",
+  asc_tip:
+    "Click here to find and connect with Authorised Service Centres of any Brand with just one simple click.",
   app_tour_tips_4:
     "It’s important to keep a track of your expenses. Keep a track of your expenses from this section.",
-  app_tour_tips_5:
-    "This is your eHome’s inbox, all the Reminders and Notifications will be delivered here. Please keep a track of this space.",
-  app_tour_tips_6:
-    "This is your eHome's alert section. You can find all your renewal dates or expiring agreements over here.",
-  app_tour_tips_7:
-    "It's important to keep a track of your expenses. Be on the lookout for this space, as it summarises your expenses for you, and helps you keep it under the scanner.",
-  app_tour_tips_8: "To add multiple bills at the same time, use the + icon.",
-  app_tour_tips_9:
-    "Just pinch out to zoom in your bills, to have a better view",
-  app_tour_tips_10:
-    "Upload Bill: You can upload Bills and Documents from here. If you don’t have the Bill you can always add it later on.",
-  app_tour_tips_11:
-    "This is the Product Card for your “Category”. It’s like a digital identity of your Product which you can access anytime anywhere.",
-  app_tour_tips_12:
-    "Upload Bill: Don’t want to add the details manually just upload the bill and leave rest upon us. Our experts will fill in the details for you.",
-  app_tour_tips_13:
-    "All Info: Add your Product related informations here. You can edit these details anytime.",
-  app_tour_tips_14:
-    "Important Info: You can add details and upload documents of Warranty, Insurance etc here. You can edit these details anytime.",
-  app_tour_tips_15:
-    "Customer Care: Connect with “Brand” and Authorised Service Centres of “Brand” near you from this section.",
+  mailbox_tip:
+    "This is your eHome inbox wherein all reminders and notifications will be delivered. Track them here.",
+  coming_up_tip:
+    "This is the eHome section where you will find all the alerts related to renewal and expiry dates.",
+  add_bill_btn_tip: "To add multiple bills at the same time, use the + icon.",
+  zoom_image_tip:
+    "Just pinch out to zoom in your bills, to have a better view.",
+  upload_bill_tip:
+    "Upload Bill: You can upload your Bills and Documents here (optional).",
+  product_card_tip:
+    "This is the Product Card for your {{categoryName}}. It’s like a digital identity of your Product which you can access anytime anywhere.",
+  product_card_upload_bill_tip:
+    "Don’t want to add the details manually just upload the bill and leave rest upon us. Our experts will fill in the details for you.",
+  product_card_share_tip:
+    "Share your product experience with your Friends, Family and Followers to help them make a wise purchase.",
+  product_card_review_tip: "Review your product experience.",
+  product_card_add_image_tip:
+    "This helps you personalize your Product, Document or Expense Card. For example you can upload image of your own photo with the product say with Car. Adding real image to your card makes it more sharable.",
   //blank dashboard
   blank_dashboard_headline: "Welcome to BinBill",
   blank_dashboard_text:
@@ -964,7 +963,26 @@ export default {
   //27-03-2018
   love_using_binbill: "Love using BinBill app?",
   recommend_us: "Recommend us to others by rating us on {{storeName}} Store",
-  
+  app_pin: "App Pin",
+  change: "Change",
+  set_now: "Set Now",
+  change_pin: "Change Pin",
+  remove_pin: "Remove Pin",
+  cancel: "Cancel",
+  set_app_pin: "Set App Pin",
+  reset_app_pin: "Reset App Pin",
+
   //29-03-2018
-  review_quotes:"Someday-N-Someway you will find this Review useful"
+  are_you_sure: "Are you sure?",
+  delete_calendar_item_confirm_msg:
+    "All the information related to this item will be deleted.",
+  yes_delete: "Yes, Delete",
+  no_dont_delete: "No, don't Delete",
+
+  //29-03-2018
+  add_edit_expense_screen_title_select_travel:
+    "Select Travel & Dining Expense Category",
+
+  //29-03-2018
+  review_quotes: "Someday-N-Someway you will find this Review useful"
 };

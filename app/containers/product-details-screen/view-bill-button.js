@@ -30,14 +30,18 @@ class ViewBillButton extends React.Component {
       navigator,
       docType = "Product",
       btnText = "Bill",
-      style
+      style,
+      viewRef
     } = this.props;
     if (product.copies && product.copies.length > 0) {
       return (
-        <View style={{
-          alignItems: "center"
-        }}>
+        <View
+          style={{
+            alignItems: "center"
+          }}
+        >
           <TouchableOpacity
+            ref={ref => viewRef(ref)}
             onPress={() => {
               Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
               openBillsPopUp({
@@ -51,35 +55,41 @@ class ViewBillButton extends React.Component {
           >
             <Image style={styles.viewBillIcon} source={viewBillIcon} />
           </TouchableOpacity>
-          <Text weight="Medium" style={styles.viewBillText}>VIEW {btnText.toUpperCase()}</Text>
+          <Text weight="Medium" style={styles.viewBillText}>
+            VIEW {btnText.toUpperCase()}
+          </Text>
         </View>
       );
     } else {
       return (
-        <View style={{
-          alignItems: "center"
-        }}>
-        <TouchableOpacity
-          onPress={() => {
-            Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
-            this.uploadBillOptions.show(
-              product.jobId,
-              1,
-              product.id,
-              product.id
-            );
+        <View
+          style={{
+            alignItems: "center"
           }}
-          style={[styles.viewBillBtn, style]}
         >
-          <UploadBillOptions
-            ref={o => (this.uploadBillOptions = o)}
-            navigator={navigator}
-            uploadCallback={() => { }}
-          />
-          <Image style={styles.viewBillIcon} source={viewBillIcon} />
-        </TouchableOpacity>
-        <Text style={styles.viewBillText} weight="Medium" >
-            {I18n.t("product_details_screen_your_upload").toUpperCase()} {btnText.toUpperCase()}
+          <TouchableOpacity
+            ref={ref => viewRef(ref)}
+            onPress={() => {
+              Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
+              this.uploadBillOptions.show(
+                product.jobId,
+                1,
+                product.id,
+                product.id
+              );
+            }}
+            style={[styles.viewBillBtn, style]}
+          >
+            <UploadBillOptions
+              ref={o => (this.uploadBillOptions = o)}
+              navigator={navigator}
+              uploadCallback={() => {}}
+            />
+            <Image style={styles.viewBillIcon} source={viewBillIcon} />
+          </TouchableOpacity>
+          <Text style={styles.viewBillText} weight="Medium">
+            {I18n.t("product_details_screen_your_upload").toUpperCase()}{" "}
+            {btnText.toUpperCase()}
           </Text>
         </View>
       );
@@ -110,8 +120,8 @@ const styles = StyleSheet.create({
   viewBillText: {
     fontSize: 10,
     textAlign: "center",
-    color: '#9b9b9b',
-    marginTop:10,
+    color: "#9b9b9b",
+    marginTop: 10
   }
 });
 

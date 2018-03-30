@@ -13,28 +13,28 @@ import { SCREENS } from "../../constants";
 import { Text, Button, ScreenContainer } from "../../elements";
 import ProfileDetailEdit from "./profile-detail-edit";
 import call from "react-native-phone-call";
-
 import I18n from "../../i18n";
 const editIcon = require("../../images/ic_edit_white.png");
 
 class Body extends Component {
   constructor(props) {
     super(props);
-
-    // alert(JSON.stringify(props));
     this.state = {
       name: this.props.profile.name,
       phone: this.props.profile.mobile_no,
       email: this.props.profile.email,
       isEmailVerified: this.props.profile.email_verified,
       location: this.props.profile.location,
-      textInputEnable: false
+      textInputEnable: false,
+      show: false
     };
-    // this.updateState = this.updateState.bind(this);
   }
-  // updateState(data) {
-  //   this.setState();
-  // }
+
+  updateState = (key, value) => {
+    this.setState({
+      [key]: value
+    });
+  };
 
   render() {
     return (
@@ -44,7 +44,7 @@ class Body extends Component {
           info={this.state.name}
           apiFieldName="name"
           editable={true}
-          // onSubmit={this.updateState}
+          onUpdate={this.updateState}
         />
         <ProfileDetailEdit
           label={I18n.t("profile_screen_label_phone")}
@@ -59,12 +59,14 @@ class Body extends Component {
           editable={true}
           verify={this.state.isEmailVerified}
           email={this.state.email}
+          onUpdate={this.updateState}
         />
         <ProfileDetailEdit
           label={I18n.t("profile_screen_label_address")}
           info={this.state.location}
           apiFieldName="location"
           editable={true}
+          onUpdate={this.updateState}
         />
       </View>
     );

@@ -42,6 +42,8 @@ import DoYouKnowScreen from "./containers/do-you-know-screen";
 import MyCalendarScreen from "./containers/my-calendar-screen";
 import AddCalendarServiceScreen from "./containers/add-calendar-service-screen";
 import CalendarServiceCardScreen from "./containers/calender-service-card-screen";
+import EnterPinPopupScreen from "./containers/enter-pin-popup-screen";
+import PinSetupScreen from "./containers/pin-setup-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -300,6 +302,20 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     SCREENS.CALENDAR_SERVICE_CARD_SCREEN,
     () => CalendarServiceCardScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.ENTER_PIN_POPUP_SCREEN,
+    () => EnterPinPopupScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.PIN_SETUP_SCREEN,
+    () => PinSetupScreen,
     store,
     Provider
   );

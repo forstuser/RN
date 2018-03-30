@@ -224,8 +224,8 @@ const styles = StyleSheet.create({
   },
   nameAndSeller: {
     paddingBottom: 10,
-    borderColor: "#00b2ff",
-    borderBottomWidth: 1,
+    borderColor: colors.mainBlue,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     marginBottom: 4
   },
   name: {

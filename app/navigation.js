@@ -11,6 +11,14 @@ export const openBillsPopUp = props => {
   });
 };
 
+export const openEnterPinPopup = props => {
+  Navigation.showModal({
+    screen: SCREENS.ENTER_PIN_POPUP_SCREEN,
+    passProps: props,
+    overrideBackPress: true
+  });
+};
+
 export const openLoginScreen = () => {
   Navigation.startSingleScreenApp({
     screen: {
@@ -131,7 +139,7 @@ export const openAppScreen = opts => {
         icon: require("./images/ic_nav_ehome_off.png")
       },
       {
-        label: "My Calendar",
+        label: "Attendance",
         screen: SCREENS.MY_CALENDAR_SCREEN,
         icon: require("./images/ic_calendar.png")
       },
@@ -178,6 +186,7 @@ export default {
   openAfterLoginScreen,
   openAppScreen,
   openBillsPopUp,
+  openEnterPinPopup,
   openAddProductsScreen,
   openAddProductScreen
 };

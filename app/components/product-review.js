@@ -108,7 +108,7 @@ class UploadProductImage extends React.Component {
               color: colors.secondaryText
             }}
           >
-            {I18n.t("max_words", { count: 1000 })}
+            {I18n.t("max_chars", { count: 1000 })}
           </Text>
         </View>
         <Button

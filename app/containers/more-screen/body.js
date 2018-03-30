@@ -65,7 +65,7 @@ class Body extends Component {
   onEmailItemPress = () => {
     const { profile } = this.props;
     Linking.openURL(
-      `mailto:support@binbill.com?cc=rohit@binbill.com?subject=BinBill:Customer Feedback(${
+      `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
         profile ? profile.mobile_no : ""
       })`
     );
@@ -104,18 +104,52 @@ class Body extends Component {
     this.languageOptions.show();
   };
 
+  onAppPinPress = () => {
+    const { isPinSet } = this.props;
+    if (!isPinSet) {
+      this.props.navigator.push({
+        screen: SCREENS.PIN_SETUP_SCREEN
+      });
+    } else {
+      this.pinOptions.show();
+    }
+  };
+
+  onPinOptionPress = i => {
+    if (i < 2) {
+      if (i == 0) {
+        this.props.navigator.push({
+          screen: SCREENS.PIN_SETUP_SCREEN
+        });
+      } else {
+        this.props.removePin();
+      }
+    }
+  };
+
   render() {
     const appVersion = DeviceInfo.getVersion();
-    const { isAppUpdateAvailable, language } = this.props;
+    const { isAppUpdateAvailable, isPinSet, language } = this.props;
 
     return (
       <ScrollView>
         <MoreItem
-          onPress={this.onLanguageChangePress}
+          onPress={this.onAppPinPress}
           imageSource={require("../../images/ic_translate.png")}
-          text={language.name}
-          btnText={I18n.t("more_screen_item_app_language_change")}
+          text={I18n.t("app_pin")}
+          btnText={isPinSet ? I18n.t("change") : I18n.t("set_now")}
         />
+        <ActionSheet
+          onPress={this.onPinOptionPress}
+          ref={o => (this.pinOptions = o)}
+          cancelButtonIndex={2}
+          options={[
+            I18n.t("change_pin"),
+            I18n.t("remove_pin"),
+            I18n.t("cancel")
+          ]}
+        />
+
         <MoreItem
           onPress={this.onAscItemPress}
           imageSource={require("../../images/ic_nav_asc_on.png")}

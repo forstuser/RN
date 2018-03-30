@@ -131,7 +131,7 @@ class MyCalendarScreen extends Component {
           !isFetchingItems && (
             <View style={styles.emptyStateView}>
               <Image
-                source={calendarIcon}
+                source={calendarIconColor}
                 style={styles.emptyStateImage}
                 resizeMode="contain"
               />

@@ -103,7 +103,7 @@ class AddEmptyProductScreen extends Component {
           type = EXPENSE_TYPES.HEALTHCARE;
           desc = I18n.t("products_list_no_result_desc_insurance");
           buttonText = I18n.t("add_healthcare");
-          image = require("../images/main-categories/ic_healthcare.png");
+          image = require("../images/categories/insurance.png");
         }
         break;
 

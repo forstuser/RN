@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import moment from "moment";
 import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
-import { colors } from "../../theme";
+import { colors, defaultStyles } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { openBillsPopUp } from "../../navigation";
 import UploadBillOptions from "../../components/upload-bill-options";
@@ -114,9 +114,9 @@ const ProductListItem = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    borderColor: "#eaeaea",
-    borderWidth: 1,
-    marginBottom: 10
+    marginBottom: 10,
+    borderRadius: 3,
+    ...defaultStyles.card
   },
   viewBillBtn: {
     position: "absolute",
