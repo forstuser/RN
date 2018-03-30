@@ -237,10 +237,8 @@ const styles = StyleSheet.create({
     shadowRadius: 2
   },
   optionIcon: {
-    // width: 50,
-    // height: 30,
-    width: 75,
-    height: 75,
+    width: 50,
+    height: 30,
     opacity: 0.3
   },
   selectedOptionIcon: {
@@ -257,7 +255,8 @@ const styles = StyleSheet.create({
   },
   select: {
     height: 0,
-    overflow: "hidden"
+    overflow: "hidden",
+    opacity: 0
   }
 });
 

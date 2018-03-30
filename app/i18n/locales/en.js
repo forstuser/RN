@@ -981,8 +981,8 @@ export default {
 
   //29-03-2018
   add_edit_expense_screen_title_select_travel:
-    "Select Travel & Dining Expense Category"
-  
+    "Select Travel & Dining Expense Category",
+
   //29-03-2018
-  review_quotes:"Someday-N-Someway you will find this Review useful"
+  review_quotes: "Someday-N-Someway you will find this Review useful"
 };

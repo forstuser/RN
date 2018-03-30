@@ -387,31 +387,30 @@ class BasicDetailsForm extends React.Component {
           )}
 
           {categoryId == CATEGORY_IDS.FURNITURE.FURNITURE && (
-            <View>
-              <SelectModal
-                // style={styles.input}
-                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-                placeholder={I18n.t("add_edit_direct_type")}
-                placeholderRenderer={({ placeholder }) => (
-                  <View style={{ flexDirection: "row" }}>
-                    <Text
-                      weight="Medium"
-                      style={{ color: colors.secondaryText }}
-                    >
-                      {placeholder}
-                    </Text>
-                    <Text weight="Medium" style={{ color: colors.mainBlue }}>
-                      *
-                    </Text>
-                  </View>
-                )}
-                selectedOption={selectedSubCategory}
-                options={subCategories}
-                onOptionSelect={value => {
-                  this.onSubCategorySelect(value);
-                }}
-                hideAddNew={true}
-              />
+            <SelectModal
+              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+              placeholder={I18n.t("add_edit_direct_type")}
+              placeholderRenderer={({ placeholder }) => (
+                <View style={{ flexDirection: "row" }}>
+                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                    {placeholder}
+                  </Text>
+                  <Text weight="Medium" style={{ color: colors.mainBlue }}>
+                    *
+                  </Text>
+                </View>
+              )}
+              selectedOption={selectedSubCategory}
+              options={subCategories}
+              onOptionSelect={value => {
+                this.onSubCategorySelect(value);
+              }}
+              hideAddNew={true}
+            />
+          )}
+
+          {categoryId == CATEGORY_IDS.FURNITURE.FURNITURE ||
+            (MAIN_CATEGORY_IDS.FASHION && (
               <View>
                 <TouchableOpacity
                   style={{

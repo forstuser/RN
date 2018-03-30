@@ -21,7 +21,11 @@ const Item = ({ item, onPress }) => {
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
-      <Image style={styles.image} source={{ uri: imageUrl }} />
+      <Image
+        style={styles.image}
+        source={{ uri: imageUrl }}
+        resizeMode="contain"
+      />
       <View style={styles.texts}>
         <View style={styles.nameAndSeller}>
           <View style={{ flexDirection: "row" }}>
@@ -76,8 +80,8 @@ const styles = StyleSheet.create({
     ...defaultStyles.card
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     marginRight: 16
   },
   texts: {
