@@ -29,7 +29,7 @@ export default {
   //app intro screen
   app_intro_1_title: `Smart & 100% secure way of saving\n your Bills, Expenses and Important\n Documents in a Digital Format`,
   app_intro_1_desc: `Create Your Product Card in less Than 10 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
-  app_intro_2_title: `Recieve Timely Reminders for Expiry\n and Renewal Dates as well as connect\n with Brands Service Centres in one Touch`,
+  app_intro_2_title: `Recieve Reminders for Expiry\n and Renewal as well as connect\n with Brands Service Centres`,
   app_intro_2_desc: `Create product card and reach out to Brands, Insurance Providers or Nearest Service Center with just One Touch.`,
   app_intro_3_title: `Your Own Attendance Manager for\n the Milkman, Maid, Newspaper Wala\n and Others`,
   app_intro_3_desc: `Know the Life Cycle Cost of All Your Products. Based on this You Can Decide Whether to Continue Maintaining the Product or Replacing it.`,
@@ -488,7 +488,7 @@ export default {
   ehome_screen_items_category_item_last_updated: "LAST UPDATED {{date}}",
 
   //my calendar screen
-  my_calendar: 'Recent Attendence',
+  my_calendar: 'Recent Attendance',
   my_calendar_screen_title: "Attendance",
   my_calendar_screen_add_btn: "Add Attendance Item",
   my_calendar_screen_empty_screen_msg:
