@@ -25,7 +25,6 @@ import android.widget.ImageView;
 
 import com.reactnativenavigation.controllers.SplashActivity;
 
-import org.devio.rn.splashscreen.SplashScreen;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;

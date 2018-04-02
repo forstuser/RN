@@ -3748,7 +3748,7 @@ prop-types@15.5.10:
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
 
-prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0:
+prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -3900,12 +3900,6 @@ react-native-button@^2.1.0:
   dependencies:
     prop-types "^15.5.10"
 
-"react-native-callout@https://github.com/pramjeet/react-native-callout":
-  version "0.0.8"
-  resolved "https://github.com/pramjeet/react-native-callout#1fa5ed1984bbedba4a5805e3e7868c25f7920c4a"
-  dependencies:
-    prop-types "^15.6.0"
-
 react-native-check-box@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-native-check-box/-/react-native-check-box-2.1.0.tgz#a4e5fa2c1860cfc3f5758ae3493b6ec2ec7c2878"
@@ -3936,12 +3930,6 @@ react-native-device-info@0.12.1:
 react-native-document-picker@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-native-document-picker/-/react-native-document-picker-2.1.0.tgz#61bbe113435a9d7bf67ab77093a4092d76b52fe3"
-
-react-native-document-scanner@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/react-native-document-scanner/-/react-native-document-scanner-1.4.2.tgz#64ac74f2045882e6f98fe4fa2d59858ed27d8764"
-  dependencies:
-    react "16.0.0-beta.5"
 
 react-native-fbsdk@^0.7.0:
   version "0.7.0"
@@ -4050,10 +4038,6 @@ react-native-photo-view@^1.5.2:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-restart@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-restart/-/react-native-restart-0.0.6.tgz#77770d078683947b2c1f2adb876f179269d8443a"
-
 "react-native-scrollable-tab-view@https://github.com/compojoom/react-native-scrollable-tab-view#fixes_android":
   version "0.8.0"
   resolved "https://github.com/compojoom/react-native-scrollable-tab-view#ade702c7f35b1899444ff6a450730ae990000a26"
@@ -4062,21 +4046,9 @@ react-native-restart@^0.0.6:
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.3"
 
-react-native-share-extension@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-share-extension/-/react-native-share-extension-1.2.1.tgz#e71b87126f7c3c2b400f2c5f3d7d30e72ed9c0ad"
-
 react-native-share@^1.0.23:
   version "1.0.23"
   resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-1.0.23.tgz#6476f10d34e5274b9e0ef2c93def6c3a282ffe94"
-
-react-native-shared-preferences@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-shared-preferences/-/react-native-shared-preferences-1.0.0.tgz#e6f6fab0de0ab44ec8b857307d1dfde70ca4d42c"
-
-react-native-splash-screen@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.0.6.tgz#c0bbf2c8ae40a313c4c7044f55e569414ff68332"
 
 react-native-star-rating@^1.0.8:
   version "1.0.8"
@@ -4106,12 +4078,6 @@ react-native-tab-view@^0.0.74:
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.74.tgz#62c0c882d9232b461ce181d440d683b4f99d1bd8"
   dependencies:
     prop-types "^15.6.0"
-
-"react-native-tourguide@https://github.com/pramjeet/react-native-tourguide":
-  version "0.0.1"
-  resolved "https://github.com/pramjeet/react-native-tourguide#5d275f3dc5ac30282d5321121c72c9041ebee830"
-  dependencies:
-    react-native-callout "https://github.com/pramjeet/react-native-callout"
 
 react-native-vector-icons@^4.2.0, react-native-vector-icons@^4.4.2:
   version "4.4.2"
@@ -4226,15 +4192,6 @@ react@16.0.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.0"
-
-react@16.0.0-beta.5:
-  version "16.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.0.0-beta.5.tgz#b4abba9bce7db72c30633db54a148614b6574e79"
-  dependencies:
-    fbjs "^0.8.9"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
-    prop-types "^15.5.6"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"

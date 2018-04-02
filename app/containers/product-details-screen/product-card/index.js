@@ -205,8 +205,8 @@ class ProductCard extends Component {
               <CustomerCare
                 product={product}
                 navigator={this.props.navigator}
-                scrollScreenToBottom={() =>
-                  this.scrollView.scrollToEnd({ animated: true })
+                scrollScreenToAsc={y =>
+                  this.scrollView.scrollTo({ y: y + 100, animated: true })
                 }
                 cardWidthWhenMany={cardWidthWhenMany}
                 cardWidthWhenOne={cardWidthWhenOne}

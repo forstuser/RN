@@ -35,7 +35,8 @@ class RecentItems extends React.Component {
           ]}
         >
           {products.map((product, index) => (
-            <View key={index}
+            <View
+              key={index}
               style={{
                 borderBottomColor: "#efefef",
                 borderBottomWidth: 1
@@ -68,10 +69,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   list: {
-    width: "100%",
-    minHeight: 50,
-    overflow: "hidden",
-    backgroundColor: "#fff"
+    width: "100%"
   },
   listLessHeight: {
     maxHeight: 70

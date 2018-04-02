@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/Entypo";
 import I18n from "../../i18n";
 import { openBillsPopUp } from "../../navigation";
 import { Text } from "../../elements";
-import { colors } from "../../theme";
+import { colors, defaultStyles } from "../../theme";
 import UploadBillOptions from "../../components/upload-bill-options";
 
 const AttachmentIcon = () => (
@@ -93,7 +93,6 @@ class UploadDoc extends React.Component {
           </View>
         )}
         {copies.length == 0 && (
-
           <TouchableOpacity
             onPress={this.onUploadDocPress}
             style={styles.noCopiesContainer}
@@ -136,22 +135,12 @@ class UploadDoc extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    // borderColor: colors.lighterText,
-    // borderBottomWidth: 2,
-    // paddingTop: 10,
-    // height: 50,
-    // marginBottom: 25,
     width: "100%",
     height: 45,
-    backgroundColor: 'white',
-    borderColor: 'transparent',
-    overflow: 'hidden',
-    shadowColor: 'black',
-    // padding:10,
     paddingLeft: 5,
     paddingRight: 10,
     marginBottom: 10,
-    elevation: 2,
+    ...defaultStyles.card
   },
   copiesContainer: {
     flexDirection: "row",

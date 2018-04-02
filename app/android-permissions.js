@@ -1,19 +1,39 @@
-import { PermissionsAndroid, Platform } from "react-native";
+import {
+  PermissionsAndroid,
+  Platform,
+  Alert,
+  NativeModules
+} from "react-native";
 
 export const requestCameraPermission = async () => {
   if (Platform.OS != "android") return true;
   try {
     const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.CAMERA,
-      {
-        title: "BinBill Camera Permission",
-        message: "So that you can take photos of bills and products."
-      }
+      PermissionsAndroid.PERMISSIONS.CAMERA
     );
+    console.log("granted:", granted);
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       return true;
+    } else if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+      setTimeout(() => {
+        Alert.alert(
+          "You need to provide permission to access Camera.",
+          "Please open app settings and turn on the camera permission.",
+          [
+            {
+              text: "Cancel",
+              onPress: () => {}
+            },
+            {
+              text: "Open Settings",
+              onPress: () =>
+                NativeModules.RNOpenAppSettingsModule.openAppSettings()
+            }
+          ]
+        );
+      }, 200);
+      return false;
     } else {
-      console.log("Camera permission denied");
       return false;
     }
   } catch (err) {
@@ -26,16 +46,30 @@ export const requestStoragePermission = async () => {
   if (Platform.OS != "android") return true;
   try {
     const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      {
-        title: "BinBill  Permission",
-        message: "So that you can upload and share bills and documents"
-      }
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       return true;
+    } else if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+      setTimeout(() => {
+        Alert.alert(
+          "You need to provide permission to access Media files.",
+          "Please open app settings and turn on the storage permission.",
+          [
+            {
+              text: "Cancel",
+              onPress: () => {}
+            },
+            {
+              text: "Open Settings",
+              onPress: () =>
+                NativeModules.RNOpenAppSettingsModule.openAppSettings()
+            }
+          ]
+        );
+      }, 200);
+      return false;
     } else {
-      console.log("Storage permission denied");
       return false;
     }
   } catch (err) {

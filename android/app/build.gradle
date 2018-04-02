@@ -130,7 +130,7 @@ android {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a"
+            include "armeabi-v7a", "x86"
         }
     }
 //    splits {
@@ -174,13 +174,10 @@ repositories {
 }
 
 dependencies {
-    compile project(':react-native-restart')
     compile project(':react-native-view-shot')
     compile(name: "truesdk-0.6", ext: "aar")
     compile project(':react-native-fbsdk')
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
-    compile project(':react-native-shared-preferences')
-    compile project(':react-native-splash-screen')
     compile project(':react-native-firebase-analytics')
     compile project(':react-native-google-places')
     compile project(':react-native-code-push')
@@ -193,10 +190,8 @@ dependencies {
     compile project(':react-native-linear-gradient')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-i18n')
-//    compile project(':react-native-gesture-handler')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-fcm')
-//    compile project(':react-native-document-scanner')
     compile project(':react-native-document-picker')
     compile project(':react-native-device-info')
     compile project(':react-native-blur')

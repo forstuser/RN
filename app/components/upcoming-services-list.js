@@ -12,6 +12,7 @@ import { Text, Button } from "../elements";
 import I18n from "../i18n";
 import { colors, defaultStyles } from "../theme";
 import UpcomingServiceItem from "./upcoming-service-item";
+import ViewMoreBtn from "./view-more-btn";
 
 class UpcomingServicesList extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class UpcomingServicesList extends React.Component {
       });
     }
   };
+
   render() {
     const upcomingServices = this.props.upcomingServices;
     const listHeight = this.state.listHeight;
@@ -44,41 +46,19 @@ class UpcomingServicesList extends React.Component {
             listHeight == "less" ? styles.listLessHeight : {}
           ]}
         >
-          {upcomingServices.map((item, index) => (
-            <UpcomingServiceItem
-              key={index}
-              item={item}
-              navigator={this.props.navigator}
-            />
-          ))}
-        </View>
-        {upcomingServices.length > 2 && (
-          <TouchableOpacity
-            style={styles.viewBtn}
-            onPress={this.toggleListHeight}
-          >
-            <View
-              style={{
-                backgroundColor: colors.pinkishOrange,
-                height: 36,
-                width: 36,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 18
-              }}
-            >
-              <Icon
-                name={listHeight == "less" ? "ios-arrow-down" : "ios-arrow-up"}
-                size={28}
-                color="#fff"
+          {upcomingServices.map((item, index) => {
+            if (listHeight == "less" && index > 1) return null;
+            return (
+              <UpcomingServiceItem
+                key={index}
+                item={item}
+                navigator={this.props.navigator}
               />
-            </View>
-            <Text style={{ color: colors.pinkishOrange, fontSize: 12 }}>
-              {listHeight == "less"
-                ? I18n.t("component_items_view_more")
-                : I18n.t("component_items_view_less")}
-            </Text>
-          </TouchableOpacity>
+            );
+          })}
+        </View>
+        {upcomingServices.length > 1 && (
+          <ViewMoreBtn height={listHeight} onPress={this.toggleListHeight} />
         )}
       </View>
     );
@@ -91,9 +71,7 @@ const styles = StyleSheet.create({
   },
   list: {
     width: "100%",
-    minHeight: 50,
-    overflow: "hidden",
-    backgroundColor: "#fff"
+    minHeight: 50
   },
   listLessHeight: {
     maxHeight: 131

@@ -32,17 +32,18 @@ class CustomerCare extends React.Component {
     super(props);
     this.state = {
       place: null,
-      ascItems: []
+      ascItems: [],
+      ascContainerPositionY: 0
     };
   }
 
   fetchAscItems = async () => {
-    const { place } = this.state;
-    const { product, loggedInUser, scrollScreenToBottom } = this.props;
+    const { place, ascContainerPositionY } = this.state;
+    const { product, loggedInUser, scrollScreenToAsc } = this.props;
     const { brand } = product;
 
     setTimeout(() => {
-      scrollScreenToBottom();
+      scrollScreenToAsc(ascContainerPositionY);
     }, 200);
 
     this.setState({ isFetchingAscItems: true });
@@ -58,7 +59,7 @@ class CustomerCare extends React.Component {
         isFetchingAscItems: false
       });
       setTimeout(() => {
-        scrollScreenToBottom();
+        scrollScreenToAsc(ascContainerPositionY);
       }, 200);
     } catch (e) {
       this.setState({
@@ -67,6 +68,10 @@ class CustomerCare extends React.Component {
       });
       Alert.alert(e.message);
     }
+  };
+
+  onAscContainerLayout = event => {
+    this.setState({ ascContainerPositionY: event.nativeEvent.layout.y });
   };
 
   openLocationPicker = async () => {
@@ -271,7 +276,10 @@ class CustomerCare extends React.Component {
           }}
         />
         {brand && brand.id > 0 && brand.status_type == 1 ? (
-          <View style={styles.ascContainer}>
+          <View
+            style={styles.ascContainer}
+            onLayout={this.onAscContainerLayout}
+          >
             <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("product_details_screen_asc_title")}
             </Text>

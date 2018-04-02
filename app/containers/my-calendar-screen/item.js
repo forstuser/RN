@@ -7,66 +7,84 @@ import { colors, defaultStyles } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { MAIN_CATEGORY_IDS } from "../../constants";
 
-const Item = ({ item, onPress }) => {
-  const {
-    product_name,
-    provider_name,
-    wages_type,
-    present_days,
-    absent_days,
-    service_type,
-    latest_payment_detail
-  } = item;
-  const imageUrl = service_type ? API_BASE_URL + service_type.calendarServiceImageUrl : '';
+class Item extends React.Component {
+  onPress = () => {
+    const { item } = this.props;
+    this.props.navigator.push({
+      screen: SCREENS.CALENDAR_SERVICE_CARD_SCREEN,
+      passProps: {
+        itemId: item.id
+      }
+    });
+  };
 
-  return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
-      <Image
-        style={styles.image}
-        source={{ uri: imageUrl }}
-        resizeMode="contain"
-      />
-      <View style={styles.texts}>
-        <View style={styles.nameAndSeller}>
-          <View style={{ flexDirection: "row" }}>
-            <Text weight="Bold" style={styles.name}>
-              {product_name}
+  render() {
+    const { item, style } = this.props;
+    const {
+      product_name,
+      provider_name,
+      wages_type,
+      present_days,
+      absent_days,
+      service_type,
+      latest_payment_detail
+    } = item;
+    const imageUrl = service_type
+      ? API_BASE_URL + service_type.calendarServiceImageUrl
+      : "";
+
+    return (
+      <TouchableOpacity
+        onPress={this.onPress}
+        style={[styles.container, style]}
+      >
+        <Image
+          style={styles.image}
+          source={{ uri: imageUrl }}
+          resizeMode="contain"
+        />
+        <View style={styles.texts}>
+          <View style={styles.nameAndSeller}>
+            <View style={{ flexDirection: "row" }}>
+              <Text weight="Bold" style={styles.name}>
+                {product_name}
+              </Text>
+              <Text weight="Bold" style={styles.value}>
+                ₹ {latest_payment_detail.total_amount}
+              </Text>
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={styles.offlineSellerName}>{provider_name}</Text>
+              <Text style={styles.onlineSellerName}>
+                {I18n.t("my_calendar_screen_till_date", {
+                  date: moment(latest_payment_detail.end_date).format(
+                    "DD MMM YYYY"
+                  )
+                })}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.otherDetailContainer}>
+            <Text style={styles.detailName}>
+              {I18n.t("my_calendar_screen_days_present")}:{" "}
             </Text>
-            <Text weight="Bold" style={styles.value}>
-              ₹ {latest_payment_detail.total_amount}
+            <Text weight="Medium" style={styles.presentDays}>
+              {I18n.t("my_calendar_screen_days", { count: present_days })}
             </Text>
           </View>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={styles.offlineSellerName}>{provider_name}</Text>
-            <Text style={styles.onlineSellerName}>
-              {I18n.t("my_calendar_screen_till_date", {
-                date: moment(latest_payment_detail.end_date).format(
-                  "DD MMM YYYY"
-                )
-              })}
+          <View style={styles.otherDetailContainer}>
+            <Text style={styles.detailName}>
+              {I18n.t("my_calendar_screen_days_absent")}:{" "}
+            </Text>
+            <Text weight="Medium" style={styles.absentDays}>
+              {I18n.t("my_calendar_screen_days", { count: absent_days })}
             </Text>
           </View>
         </View>
-        <View style={styles.otherDetailContainer}>
-          <Text style={styles.detailName}>
-            {I18n.t("my_calendar_screen_days_present")}:{" "}
-          </Text>
-          <Text weight="Medium" style={styles.presentDays}>
-            {I18n.t("my_calendar_screen_days", { count: present_days })}
-          </Text>
-        </View>
-        <View style={styles.otherDetailContainer}>
-          <Text style={styles.detailName}>
-            {I18n.t("my_calendar_screen_days_absent")}:{" "}
-          </Text>
-          <Text weight="Medium" style={styles.absentDays}>
-            {I18n.t("my_calendar_screen_days", { count: absent_days })}
-          </Text>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
-};
+      </TouchableOpacity>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -77,7 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 3,
     margin: 5,
-    // ...defaultStyles.card
+    ...defaultStyles.card
   },
   image: {
     width: 40,

@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   },
   keyboardRow: {
     width: "100%",
-    maxWidth: 320,
+    maxWidth: 420,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"

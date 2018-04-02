@@ -23,11 +23,8 @@ import com.cmcewen.blurview.BlurViewPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import in.sriraman.sharedpreferences.RNSharedPreferencesReactPackage;
 import com.reactnativenavigation.controllers.ActivityCallbacks;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
-import com.avishayil.rnrestart.ReactNativeRestartPackage;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -87,8 +84,8 @@ public class MainApplication extends NavigationApplication {
   protected List<ReactPackage> getPackages() {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(new MainReactPackage(), new ReactNativeRestartPackage(), new RNViewShotPackage(),
-        new FBSDKPackage(mCallbackManager), new RNSharedPreferencesReactPackage(), new SplashScreenReactPackage(),
+    return Arrays.<ReactPackage>asList(new MainReactPackage(),  new RNViewShotPackage(),
+        new FBSDKPackage(mCallbackManager),
         new FIRAnalyticsPackage(), new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
         new VectorIconsPackage(), new SvgPackage(), new RNSharePackage(), new PhotoViewPackage(),
         new NavigationReactPackage(), new LinearGradientPackage(), new PickerPackage(), new RNI18nPackage(),
