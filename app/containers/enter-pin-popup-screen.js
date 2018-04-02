@@ -16,7 +16,7 @@ import PinInput from "../components/pin-input";
 import LoadingOverlay from "../components/loading-overlay";
 
 import { colors } from "../theme";
-import { SCREENS } from "../constants";
+import { SCREENS, GLOBAL_VARIABLES } from "../constants";
 
 class EnterPinScreen extends React.Component {
   static navigatorStyle = {

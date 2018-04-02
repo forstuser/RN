@@ -5,7 +5,7 @@ import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
 import { colors, defaultStyles } from "../../theme";
 import { API_BASE_URL } from "../../api";
-import { MAIN_CATEGORY_IDS } from "../../constants";
+import { SCREENS, MAIN_CATEGORY_IDS } from "../../constants";
 
 class Item extends React.Component {
   onPress = () => {

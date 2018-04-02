@@ -1,8 +1,15 @@
+import { Platform } from "react-native";
 import I18n from "./i18n";
 
 const CODEPUSH_KEYS = {
-  DEPLOYEMENT: "6Aey0a8FKAzWDwc32zUI5AVSNAphHJL0U-57f",
-  PRODUCTION: "K3OHL8lYBDt_3Vj2pRemr_K9xzNpSJDAL-c7M"
+  DEPLOYEMENT:
+    Platform.OS == "ios"
+      ? "6Aey0a8FKAzWDwc32zUI5AVSNAphHJL0U-57f"
+      : "lbLu7tymLbfASj5eYvyhm9Y2nOKdS1mmOpkiG",
+  PRODUCTION:
+    Platform.OS == "ios"
+      ? "K3OHL8lYBDt_3Vj2pRemr_K9xzNpSJDAL-c7M"
+      : "zvQIi4UyOza2yFLxBdk5F2nKCaFTS1BmdpyoG"
 };
 
 const GLOBAL_VARIABLES = {
