@@ -73,9 +73,6 @@ const styles = StyleSheet.create({
   },
   list: {
     width: "100%",
-    minHeight: 50,
-    overflow: "hidden",
-    backgroundColor: "#fff",
     marginBottom: 5
   },
   listLessHeight: {

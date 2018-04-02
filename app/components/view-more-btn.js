@@ -15,7 +15,8 @@ const ViewMore = ({ height, onPress }) => (
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 18,
-        paddingTop: 3
+        paddingTop: 3,
+        overflow: "hidden"
       }}
     >
       <Icon
