@@ -37,6 +37,7 @@ class Body extends Component {
   };
 
   render() {
+    const { isEmailVerified } = this.state;
     return (
       <View style={{ marginTop: 80 }}>
         <ProfileDetailEdit
@@ -52,15 +53,29 @@ class Body extends Component {
           editable={false}
           selectTextOnFocus={false}
         />
-        <ProfileDetailEdit
-          label={I18n.t("profile_screen_label_email")}
-          info={this.state.email}
-          apiFieldName="email"
-          editable={true}
-          verify={this.state.isEmailVerified}
-          email={this.state.email}
-          onUpdate={this.updateState}
-        />
+        {isEmailVerified == false && (
+          <ProfileDetailEdit
+            label={I18n.t("profile_screen_label_email")}
+            info={this.state.email}
+            apiFieldName="email"
+            editable={true}
+            verify={this.state.isEmailVerified}
+            email={this.state.email}
+            onUpdate={this.updateState}
+          />
+        )}
+        {isEmailVerified == true && (
+          <ProfileDetailEdit
+            label={I18n.t("profile_screen_label_email")}
+            info={this.state.email}
+            apiFieldName="email"
+            editable={false}
+            verify={this.state.isEmailVerified}
+            email={this.state.email}
+            onUpdate={this.updateState}
+          />
+        )}
+
         <ProfileDetailEdit
           label={I18n.t("profile_screen_label_address")}
           info={this.state.location}

@@ -70,11 +70,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   list: {
-    width: "100%",
-    minHeight: 50
-  },
-  listLessHeight: {
-    maxHeight: 131
+    width: "100%"
   },
   viewBtn: {
     alignItems: "center",

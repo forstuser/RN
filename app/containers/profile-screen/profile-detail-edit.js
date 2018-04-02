@@ -30,7 +30,7 @@ class ProfileDetailEdit extends Component {
     };
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
   onSubmit = async () => {
     // this.props.updateState(info);
@@ -86,7 +86,7 @@ class ProfileDetailEdit extends Component {
         },
         {
           text: I18n.t("profile_screen_details_dismiss"),
-          onPress: () => { },
+          onPress: () => {},
           style: "cancel"
         }
       ]
@@ -118,9 +118,9 @@ class ProfileDetailEdit extends Component {
                   onPress={this.showResendEmailVerifyAlert}
                   style={{
                     position: "absolute",
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end',
-                    alignItems: 'flex-end',
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    alignItems: "flex-end"
                   }}
                 >
                   <View style={{ flex: 1, flexDirection: "row" }}>
@@ -140,9 +140,9 @@ class ProfileDetailEdit extends Component {
                 <TouchableOpacity
                   style={{
                     position: "absolute",
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end',
-                    alignItems: 'flex-end',
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    alignItems: "flex-end"
                   }}
                 >
                   <View style={{ flex: 1, flexDirection: "row" }}>

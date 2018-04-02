@@ -94,8 +94,8 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     backgroundColor: "#fff",
     borderRadius: 3,
-    margin: 5,
-    ...defaultStyles.card
+    margin: 5
+    // ...defaultStyles.card
   },
   image: {
     width: 40,

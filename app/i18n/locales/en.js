@@ -488,7 +488,7 @@ export default {
   ehome_screen_items_category_item_last_updated: "LAST UPDATED {{date}}",
 
   //my calendar screen
-  my_calendar: 'Recent Attendance',
+  my_calendar: "Recent Attendance",
   my_calendar_screen_title: "Attendance",
   my_calendar_screen_add_btn: "Add Attendance Item",
   my_calendar_screen_empty_screen_msg:
@@ -797,9 +797,9 @@ export default {
     "All the information and document copies related to this warranty will be deleted.",
   add_edit_warranty_effective_date: "Please enter the Effective Date",
   add_edit_warranty_uptoo: "Please select warranty upto",
-  add_edit_product_option_product: "Add Product & Doc.",
+  add_edit_product_option_product: "Add Products & Documents",
   add_edit_product_option_or: "OR",
-  add_edit_product_option_expense: "Add Expense",
+  add_edit_product_option_expense: "Add Expenses & Moments",
   add_edit_direct_upload_docs:
     "Document Uploaded, Provide further details to complete the process",
   add_edit_direct_category: "Select Category",
