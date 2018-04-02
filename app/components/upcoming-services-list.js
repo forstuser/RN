@@ -64,7 +64,8 @@ class UpcomingServicesList extends React.Component {
                 width: 36,
                 alignItems: "center",
                 justifyContent: "center",
-                borderRadius: 18
+                borderRadius: 18,
+                paddingTop: 3
               }}
             >
               <Icon
