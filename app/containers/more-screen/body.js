@@ -50,6 +50,7 @@ class Body extends Component {
       screen: SCREENS.ASC_SCREEN
     });
   };
+
   onEhomeItemPress = () => {
     this.props.navigator.push({
       screen: SCREENS.TIPS_SCREEN
@@ -66,7 +67,7 @@ class Body extends Component {
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-      profile ? profile.mobile_no : ""
+        profile ? profile.mobile_no : ""
       })`
     );
   };

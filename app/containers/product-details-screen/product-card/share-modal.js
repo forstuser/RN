@@ -14,6 +14,8 @@ import ViewShot, { captureRef } from "react-native-view-shot";
 import Share from "react-native-share";
 import RNFetchBlob from "react-native-fetch-blob";
 
+import moment from "moment";
+
 import { API_BASE_URL } from "../../../api";
 import I18n from "../../../i18n";
 import { Text, Button } from "../../../elements";
@@ -118,7 +120,8 @@ class ShareModal extends React.Component {
 
     if (isProductImageAvailable) {
       productImageUrl =
-        API_BASE_URL + `/consumer/products/${product.id}/images`;
+        API_BASE_URL +
+        `/consumer/products/${product.id}/images?t=${moment().format("X")}`;
       productImageResizeMode = "cover";
     } else if (
       !isProductImageAvailable &&
@@ -255,7 +258,8 @@ class ShareModal extends React.Component {
                     {loggedInUser.name}
                   </Text>
                   <Text
-                    numberOfLines={4} weight="Bold"
+                    numberOfLines={4}
+                    weight="Bold"
                     style={styles.reviewQuotesText}
                   >{`"${I18n.t("review_quotes")}"`}</Text>
                   <StarRating
@@ -411,15 +415,15 @@ const styles = StyleSheet.create({
     margin: 10,
     fontSize: 10
   },
-  reviewQuotesText:{
+  reviewQuotesText: {
     marginLeft: 10,
-    marginRight:10,
-    marginBottom:5,
+    marginRight: 10,
+    marginBottom: 5,
     fontSize: 9,
-    color:colors.success,
-    textAlign:'center',
+    color: colors.success,
+    textAlign: "center"
     // justifyContent: 'center',
-    // alignItems: 'center'  
+    // alignItems: 'center'
   },
   badges: {
     flexDirection: "row",

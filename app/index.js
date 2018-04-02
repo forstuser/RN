@@ -85,7 +85,7 @@ function startApp() {
         navigation.openAfterLoginScreen();
 
         if (store.getState().loggedInUser.isPinSet) {
-          // setTimeout(openEnterPinPopup, 300);
+          setTimeout(openEnterPinPopup, 300);
         }
       } else {
         navigation.openIntroScreen();
