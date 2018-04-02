@@ -73,7 +73,12 @@ class UpcomingServicesList extends React.Component {
                 color="#fff"
               />
             </View>
-            <Text style={{ color: colors.pinkishOrange, fontSize: 12 }}>
+            <Text
+              style={{
+                color: colors.pinkishOrange,
+                fontSize: 12
+              }}
+            >
               {listHeight == "less"
                 ? I18n.t("component_items_view_more")
                 : I18n.t("component_items_view_less")}
@@ -93,7 +98,8 @@ const styles = StyleSheet.create({
     width: "100%",
     minHeight: 50,
     overflow: "hidden",
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    marginBottom: 8
   },
   listLessHeight: {
     maxHeight: 131

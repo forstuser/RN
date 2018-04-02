@@ -137,7 +137,7 @@ class DashboardScreen extends React.Component {
     });
     try {
       const dashboardData = await consumerGetDashboard();
-      console.log("Dashboard Data :", dashboardData)
+      console.log("Dashboard Data :", dashboardData);
       if (
         dashboardData.hasProducts === false &&
         !DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE
@@ -365,20 +365,18 @@ class DashboardScreen extends React.Component {
                   ]}
                 >
                   <Image
-                    style={[styles.expenseInsightImage, { tintColor: "#d20505" }]}
+                    style={[
+                      styles.expenseInsightImage,
+                      { tintColor: "#d20505" }
+                    ]}
                     source={ascIcon}
                     resizeMode="contain"
                   />
                   <View style={styles.expenseInsightTitles}>
-                    <Text
-                      weight="Bold"
-                      style={[styles.expenseInsightTitle]}
-                    >
+                    <Text weight="Bold" style={[styles.expenseInsightTitle]}>
                       {I18n.t("asc_screen_title")}
                     </Text>
-                    <Text
-                      style={[styles.expenseInsightSubTitle]}
-                    >
+                    <Text style={[styles.expenseInsightSubTitle]}>
                       Find ASC for your products with one click
                     </Text>
                   </View>

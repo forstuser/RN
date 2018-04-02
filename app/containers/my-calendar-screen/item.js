@@ -17,7 +17,9 @@ const Item = ({ item, onPress }) => {
     service_type,
     latest_payment_detail
   } = item;
-  const imageUrl = service_type ? API_BASE_URL + service_type.calendarServiceImageUrl : '';
+  const imageUrl = service_type
+    ? API_BASE_URL + service_type.calendarServiceImageUrl
+    : "";
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
@@ -76,8 +78,8 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     backgroundColor: "#fff",
     borderRadius: 3,
-    margin: 5,
-    ...defaultStyles.card
+    margin: 5
+    // ...defaultStyles.card
   },
   image: {
     width: 40,

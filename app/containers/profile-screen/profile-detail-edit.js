@@ -140,8 +140,8 @@ class ProfileDetailEdit extends Component {
                 style={{
                   height: 40,
                   position: "absolute",
-                  left: 0,
-                  top: -25
+                  right: 10,
+                  top: -15
                 }}
               >
                 <View style={{ flex: 1, flexDirection: "row" }}>
