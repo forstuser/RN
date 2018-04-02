@@ -147,7 +147,7 @@ class SelectCategoryHeader extends React.Component {
                   ]}
                 >
                   <Image
-                    style={[styles.optionIcon]}
+                    style={[styles.optionIconForOther]}
                     resizeMode="contain"
                     source={{
                       uri: API_BASE_URL + selectedOption.calendarServiceImageUrl
@@ -237,6 +237,11 @@ const styles = StyleSheet.create({
     width: 50,
     height: 30,
     opacity: 0.3
+  },
+  optionIconForOther: {
+    width: 50,
+    height: 30,
+    opacity: 1
   },
   selectedOptionIcon: {
     opacity: 1

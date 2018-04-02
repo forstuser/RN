@@ -55,12 +55,16 @@ const styles = StyleSheet.create({
   content: {
     height: Dimensions.get("window").height - 100,
     width: Dimensions.get("window").width,
-    justifyContent: "flex-start",
-    flex: 1,
-    top: 50
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 3,
+    // top: 50
   },
   texts: {
-    height: 100
+    height: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1
   },
   title: {
     fontSize: 18,

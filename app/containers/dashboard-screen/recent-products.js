@@ -1,8 +1,6 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
-
 import { colors, defaultStyles } from "../../theme";
-
 import ViewMoreBtn from "../../components/view-more-btn";
 import ProductListItem from "../../components/product-list-item";
 import { Text, Button } from "../../elements";
