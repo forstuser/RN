@@ -797,9 +797,9 @@ export default {
     "All the information and document copies related to this warranty will be deleted.",
   add_edit_warranty_effective_date: "Please enter the Effective Date",
   add_edit_warranty_uptoo: "Please select warranty upto",
-  add_edit_product_option_product: "Add Product & Doc.",
+  add_edit_product_option_product: "Add Products & Documents",
   add_edit_product_option_or: "OR",
-  add_edit_product_option_expense: "Add Expense",
+  add_edit_product_option_expense: "Add Expenses & Moments",
   add_edit_direct_upload_docs:
     "Document Uploaded, Provide further details to complete the process",
   add_edit_direct_category: "Select Category",
