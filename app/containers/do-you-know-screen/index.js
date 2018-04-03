@@ -51,11 +51,13 @@ class DoYouKNowScreen extends Component {
     this.justSwipedCardTranslateY = new Animated.Value(-SCREEN_HEIGHT);
     this.state = {
       currentIndex: 0,
+      nextIndex: 1,
       isFetchingItems: true,
       isFetchingTags: true,
       items: [],
       tags: [],
       selectedTagIds: [],
+      offsetId: 0,
       error: null,
       isModalVisible: false
     };
@@ -83,11 +85,12 @@ class DoYouKNowScreen extends Component {
           }).start(() => {
             this.justSwipedCardTranslateY.setValue(-SCREEN_HEIGHT);
             this.setState({
-              currentIndex: currentIndex - 1
+              currentIndex: currentIndex - 1,
+              nextIndex: currentIndex
             });
           });
         } else if (
-          currentIndex < items.length - 1 &&
+          currentIndex < items.length &&
           (-vy >= 0.5 || -dy >= 0.5 * SCREEN_HEIGHT)
         ) {
           Animated.timing(this.currentCardTranslateY, {
@@ -95,16 +98,20 @@ class DoYouKNowScreen extends Component {
             duration: 300
           }).start(() => {
             this.currentCardTranslateY.setValue(0);
-            this.setState(
-              {
-                currentIndex: this.state.currentIndex + 1
-              },
-              () => {
-                this.props.setLatestDoYouKnowReadId(
-                  this.state.items[this.state.currentIndex].id
-                );
+            const nextState = {
+              currentIndex: this.state.nextIndex
+            };
+            if (this.state.nextIndex == items.length - 1) {
+              nextState.nextIndex = 0;
+            } else {
+              nextState.nextIndex = this.state.nextIndex + 1;
+            }
+            this.setState(nextState, () => {
+              const newId = this.state.items[this.state.currentIndex].id;
+              if (newId > this.props.latestDoYouKnowReadId) {
+                this.props.setLatestDoYouKnowReadId(newId);
               }
-            );
+            });
           });
         } else {
           Animated.parallel([
@@ -123,11 +130,20 @@ class DoYouKNowScreen extends Component {
   }
 
   componentDidMount() {
-    this.loadItems([]);
+    this.setState(
+      {
+        offsetId: this.props.latestDoYouKnowReadId
+      },
+      () => {
+        this.loadItems();
+      }
+    );
+
     this.loadTags();
   }
 
-  loadItems = async tagIds => {
+  loadItems = async () => {
+    const tagIds = this.state.selectedTagIds;
     this.setState({
       error: null,
       isFetchingItems: true
@@ -135,29 +151,38 @@ class DoYouKNowScreen extends Component {
     try {
       const res = await fetchDoYouKnowItems({
         tagIds: tagIds || [],
-        latestDoYouKnowReadId:
-          tagIds.length == 0
-            ? this.props.latestDoYouKnowReadId || undefined
-            : undefined
+        offsetId:
+          tagIds.length == 0 ? this.state.offsetId || undefined : undefined
       });
 
+      if (res.items.length == 0 && this.state.items.length == 0) {
+        this.setState(
+          {
+            offsetId: 0
+          },
+          () => {
+            this.loadItems();
+          }
+        );
+        return;
+      }
       const newState = {
-        items: res.items,
+        items: [...this.state.items, ...res.items],
         currentIndex: 0
       };
 
       //deep linking handling
-      if (global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]) {
-        for (let i = 0; i < res.items.length; i++) {
-          if (
-            res.items[i].id ==
-            global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]
-          ) {
-            newState.currentIndex = i;
-            break;
-          }
-        }
-      }
+      // if (global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]) {
+      //   for (let i = 0; i < res.items.length; i++) {
+      //     if (
+      //       res.items[i].id ==
+      //       global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]
+      //     ) {
+      //       newState.currentIndex = i;
+      //       break;
+      //     }
+      //   }
+      // }
 
       this.setState(newState);
     } catch (error) {
@@ -226,6 +251,7 @@ class DoYouKNowScreen extends Component {
     const {
       items,
       currentIndex,
+      nextIndex,
       error,
       isFetchingItems,
       isFetchingTags,
@@ -236,6 +262,64 @@ class DoYouKNowScreen extends Component {
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.loadItems} />;
     }
+
+    let previousItemRender = null;
+    let currentItemRender = null;
+    let nextItemRender = null;
+
+    items.forEach((item, index) => {
+      if (index == currentIndex - 1) {
+        previousItemRender = (
+          <Animated.View
+            key={item.id}
+            {...this.panResponder.panHandlers}
+            style={[
+              styles.item,
+              {
+                transform: [{ translateY: this.justSwipedCardTranslateY }]
+              }
+            ]}
+          >
+            <Item item={item} />
+          </Animated.View>
+        );
+      } else if (index == currentIndex) {
+        currentItemRender = (
+          <Animated.View
+            key={item.id}
+            {...this.panResponder.panHandlers}
+            style={[
+              styles.item,
+              {
+                transform: [{ translateY: this.currentCardTranslateY }]
+              }
+            ]}
+          >
+            <Item
+              item={item}
+              onLikePress={() => this.toggleLike(index)}
+              isFetchingItems={isFetchingItems}
+            />
+          </Animated.View>
+        );
+      } else if (index == nextIndex) {
+        nextItemRender = (
+          <Animated.View
+            key={item.id}
+            {...this.panResponder.panHandlers}
+            style={[
+              styles.item,
+              {
+                transform: [{ translateX: 0 }, { translateY: 0 }]
+              }
+            ]}
+          >
+            <Item item={item} />
+          </Animated.View>
+        );
+      }
+    });
+
     return (
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
@@ -265,69 +349,19 @@ class DoYouKNowScreen extends Component {
               <Item />
             </Animated.View>
           )}
-          {items
-            .map((item, index) => {
-              if (index == currentIndex - 1) {
-                return (
-                  <Animated.View
-                    key={item.id}
-                    {...this.panResponder.panHandlers}
-                    style={[
-                      styles.item,
-                      {
-                        transform: [
-                          { translateY: this.justSwipedCardTranslateY }
-                        ]
-                      }
-                    ]}
-                  >
-                    <Item item={item} />
-                  </Animated.View>
-                );
-              } else if (index == currentIndex) {
-                return (
-                  <Animated.View
-                    key={item.id}
-                    {...this.panResponder.panHandlers}
-                    style={[
-                      styles.item,
-                      {
-                        transform: [{ translateY: this.currentCardTranslateY }]
-                      }
-                    ]}
-                  >
-                    <Item
-                      item={item}
-                      onLikePress={() => this.toggleLike(index)}
-                      isFetchingItems={isFetchingItems}
-                    />
-                  </Animated.View>
-                );
-              } else if (index == currentIndex + 1) {
-                return (
-                  <Animated.View
-                    key={item.id}
-                    {...this.panResponder.panHandlers}
-                    style={[
-                      styles.item,
-                      {
-                        transform: [{ translateX: 0 }, { translateY: 0 }]
-                      }
-                    ]}
-                  >
-                    <Item item={item} />
-                  </Animated.View>
-                );
-              } else {
-                return null;
-              }
-            })
-            .reverse()}
+
+          {nextItemRender}
+          {currentItemRender}
+          {previousItemRender}
         </View>
         <LoadingOverlay visible={isFetchingItems || isFetchingTags} />
         <TagsModal
           ref={ref => (this.tagsModal = ref)}
           tags={tags}
+          selectedTagIds={selectedTagIds}
+          setSelectedTagIds={setSelectedTagIds =>
+            this.setState({ setSelectedTagIds })
+          }
           onSearchPress={this.loadItems}
         />
       </ScreenContainer>

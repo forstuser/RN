@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "android-bundle": "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "android-bundle":
+      "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
     "android-clean": "cd ./android && ./gradlew clean",
     "android-build-debug": "cd ./android && ./gradlew assembleDebug"
   },
@@ -16,7 +17,7 @@
     "moment": "^2.19.2",
     "prop-types": "^15.6.0",
     "react": "16.0.0",
-    "react-native": "0.50.4",
+    "react-native": "0.54.4",
     "react-native-actionsheet": "^2.3.0",
     "react-native-app-intro-slider": "^0.2.2",
     "react-native-app-link": "^0.4.0",
@@ -37,14 +38,14 @@
     "react-native-i18n": "^2.0.9",
     "react-native-image-crop-picker": "^0.18.1",
     "react-native-keyboard-aware-scroll-view": "^0.4.1",
-    "react-native-linear-gradient": "^2.3.0",
+    "react-native-linear-gradient": "^2.4.0",
     "react-native-loading-spinner-overlay": "^0.5.2",
-    "react-native-mixpanel": "^0.0.16",
     "react-native-modal": "^4.1.1",
     "react-native-navigation": "^1.1.382",
     "react-native-phone-call": "^1.0.4",
     "react-native-photo-view": "^1.5.2",
-    "react-native-scrollable-tab-view": "https://github.com/compojoom/react-native-scrollable-tab-view#fixes_android",
+    "react-native-scrollable-tab-view":
+      "https://github.com/compojoom/react-native-scrollable-tab-view#fixes_android",
     "react-native-share": "^1.0.23",
     "react-native-star-rating": "^1.0.8",
     "react-native-super-grid": "^2.0.1",
@@ -70,8 +71,6 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": [
-      "./assets/fonts/"
-    ]
+    "assets": ["./assets/fonts/"]
   }
 }

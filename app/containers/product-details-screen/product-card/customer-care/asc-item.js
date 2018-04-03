@@ -86,7 +86,7 @@ class AscItem extends React.Component {
         <View style={styles.imageWrapper}>
           <Image
             style={styles.itemImage}
-            source={{ uri: API_BASE_URL + "/" + item.cImageURL }}
+            source={{ uri: API_BASE_URL + item.cImageURL }}
             resizeMode="contain"
           />
         </View>

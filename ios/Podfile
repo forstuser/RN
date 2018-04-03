@@ -26,8 +26,6 @@ target 'BinBill' do
   pod 'FirebaseMessaging'
   pod 'Firebase/Core'
 
-  pod 'TrueSDK'
-
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
   pod 'RNViewShot', :path => '../node_modules/react-native-view-shot'

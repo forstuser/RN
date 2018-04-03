@@ -47,7 +47,7 @@ class UploadProductImage extends React.Component {
     if ((await requestCameraPermission()) == false) return;
     ImagePicker.openCamera({
       width: 800,
-      height: 450,
+      height: 500,
       cropping: true,
       compressImageQuality: 0.75
     })
@@ -64,7 +64,7 @@ class UploadProductImage extends React.Component {
   pickGalleryImage = () => {
     ImagePicker.openPicker({
       width: 800,
-      height: 450,
+      height: 500,
       cropping: true,
       compressImageQuality: 0.75
     })

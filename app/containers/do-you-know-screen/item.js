@@ -47,7 +47,8 @@ export default class Item extends React.Component {
         const filePath = RNFetchBlob.fs.dirs.DCIMDir + `/fact.jpg`;
 
         captureRef(this.viewToShare, {
-          format: "png"
+          format: "jpg",
+          quality: 0.8
         })
           .then(uri => {
             console.log("Image saved to", uri);

@@ -4,7 +4,8 @@ import {
   StyleSheet,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from "react-native";
 import I18n from "../i18n";
 import { Navigation } from "react-native-navigation";
@@ -14,14 +15,26 @@ import { colors } from "../theme";
 
 const showSnackbar = ({ text = "", autoDismissTimerSec = 5 }) => {
   Navigation.dismissInAppNotification();
-  return Navigation.showInAppNotification({
-    screen: SCREENS.SNACKBAR_SCREEN,
-    passProps: {
-      text: text
-    },
-    position: "bottom", // 'top' or 'bottom',
-    autoDismissTimerSec: autoDismissTimerSec
-  });
+  if (Platform.OS == "ios") {
+    return Navigation.showInAppNotification({
+      screen: SCREENS.SNACKBAR_SCREEN,
+      passProps: {
+        text: text
+      },
+      position: "bottom", // 'top' or 'bottom',
+      autoDismissTimerSec: autoDismissTimerSec
+    });
+  } else {
+    return Navigation.showSnackbar({
+      text,
+      actionText: "OK",
+      actionId: "fabClicked", // Mandatory if you've set actionText
+      actionColor: colors.pinkishOrange, // optional
+      textColor: "#fff", // optional
+      backgroundColor: "#323232", // optional
+      duration: autoDismissTimerSec > 10 ? "long" : "short" // default is `short`. Available options: short, long, indefinite
+    });
+  }
 };
 
 const hideSnackbar = () => {

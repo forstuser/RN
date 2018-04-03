@@ -274,7 +274,10 @@ class ProductOrExpense extends React.Component {
           }
           break;
         case MAIN_CATEGORY_IDS.FURNITURE:
-          if (!data.subCategoryId) {
+          if (
+            data.categoryId == CATEGORY_IDS.FURNITURE.FURNITURE &&
+            !data.subCategoryId
+          ) {
             return Alert.alert(
               I18n.t("add_edit_expense_screen_title_add_type")
             );

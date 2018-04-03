@@ -87,7 +87,8 @@ class ShareModal extends React.Component {
         // const filePath = RNFetchBlob.fs.dirs.DCIMDir + `/fact.jpg`;
 
         let uri = await captureRef(this.shareView, {
-          format: "png"
+          format: "jpg",
+          quality: 0.8
         });
         if (Platform.OS == "android") {
           let filePath = RNFetchBlob.fs.dirs.DCIMDir + `/product-share.jpg`;
@@ -374,8 +375,7 @@ const styles = StyleSheet.create({
   },
   productImage: {
     width: "100%",
-    minHeight: 150,
-    maxHeight: 190,
+    height: 210,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     overflow: "hidden"
@@ -447,7 +447,7 @@ const styles = StyleSheet.create({
     marginLeft: 5
   },
   shareBtn: {
-    margin: 10,
+    margin: 5,
     width: 160,
     height: 35,
     alignSelf: "center"

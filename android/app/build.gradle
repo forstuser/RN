@@ -106,7 +106,7 @@ android {
         versionName "1.0"
         multiDexEnabled true
         ndk {
-            abiFilters "armeabi-v7a"
+//            abiFilters "armeabi-v7a"
         }
 //        from react-native-blur
 //        renderscriptTargetApi 25
@@ -130,7 +130,7 @@ android {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a"
+            include "armeabi-v7a", "x86"
         }
     }
 //    splits {
@@ -145,11 +145,9 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            manifestPlaceholders = [trueCallerApiKey: "FpLdJ52343bd801e74bfebf37be778b5e66f4"]
         }
         debug {
             debuggable true
-            manifestPlaceholders = [trueCallerApiKey: "FpLdJ52343bd801e74bfebf37be778b5e66f4"]
         }
     }
 // applicationVariants are e.g. debug, release
@@ -175,7 +173,6 @@ repositories {
 
 dependencies {
     compile project(':react-native-view-shot')
-    compile(name: "truesdk-0.6", ext: "aar")
     compile project(':react-native-fbsdk')
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile project(':react-native-firebase-analytics')

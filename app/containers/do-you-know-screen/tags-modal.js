@@ -24,7 +24,6 @@ export default class TagsModal extends React.Component {
     super(props);
     this.state = {
       isModalVisible: false,
-      selectedTagIds: [],
       searchText: ""
     };
   }
@@ -43,19 +42,19 @@ export default class TagsModal extends React.Component {
   };
 
   onTagPress = tag => {
-    const { selectedTagIds } = this.state;
+    const { selectedTagIds, setSelectedTagIds } = this.props;
     const idx = selectedTagIds.indexOf(tag.id);
     if (idx > -1) {
       selectedTagIds.splice(idx, 1);
     } else {
       selectedTagIds.push(tag.id);
     }
-    this.setState({ selectedTagIds });
+    setSelectedTagIds(selectedTagIds);
   };
 
   render() {
-    const { tags, onSearchPress } = this.props;
-    const { searchText, selectedTagIds, isModalVisible } = this.state;
+    const { tags, onSearchPress, selectedTagIds } = this.props;
+    const { searchText, isModalVisible } = this.state;
     return (
       <Modal visible={isModalVisible} animationType="slide">
         <View style={styles.container}>
@@ -111,7 +110,7 @@ export default class TagsModal extends React.Component {
             <Button
               onPress={() => {
                 this.hide();
-                onSearchPress(selectedTagIds);
+                onSearchPress();
               }}
               text={I18n.t("do_you_know_screen_tags_search_cta")}
               color="secondary"
