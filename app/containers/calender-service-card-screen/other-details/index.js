@@ -25,6 +25,7 @@ import LoadingOverlay from "../../../components/loading-overlay";
 import CalculationDetailModal from "./calculation-detail-modal";
 
 import { defaultStyles, colors } from "../../../theme";
+import call from "react-native-phone-call";
 
 const cardWidthWhenMany = Dimensions.get("window").width - 52;
 const cardWidthWhenOne = Dimensions.get("window").width - 32;
@@ -37,7 +38,7 @@ class Report extends React.Component {
       productNameToEdit: "",
       providerNameToEdit: "",
       providerNumberToEdit: "",
-      isSavingDetails: false
+      isSavingDetails: false,
     };
   }
 
@@ -90,7 +91,6 @@ class Report extends React.Component {
       isSavingDetails: true
     });
     try {
-      console.log("PN")
       await updateCalendarItem({
         itemId: item.id,
         productName: productNameToEdit,
@@ -110,7 +110,13 @@ class Report extends React.Component {
       });
     }
   };
+  handlePhonePress = () => {
+    console.log("inside call function")
+    call({ number: this.state.providerNumberToEdit }).catch(e =>
+      Alert.alert(e.message)
+    );
 
+  };
   render() {
     const {
       isEditDetailModalOpen,
@@ -181,7 +187,9 @@ class Report extends React.Component {
             />
             <KeyValueItem
               keyText={I18n.t("calendar_service_screen_provider_number")}
-              valueText={item.provider_number}
+              ValueComponent={() => <TouchableOpacity style={styles.callText} onPress={this.handlePhonePress}>
+                <Text style={{ color: colors.pinkishOrange }}>{item.provider_number} <Icon name="md-call" size={15} color={colors.tomato} /></Text>
+              </TouchableOpacity>}
             />
           </View>
         </View>
@@ -376,6 +384,12 @@ const styles = StyleSheet.create({
   },
   modalBtn: {
     width: 250
+  },
+  callText: {
+    // backgroundColor: 'green',
+    flex: 1,
+
+    alignItems: "flex-end",
   }
 });
 
