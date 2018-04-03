@@ -153,43 +153,47 @@ class AddProductScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={[styles.option, styles.option1]}>
-          <Text
-            weight="Bold"
-            style={[styles.optionTitle, { color: colors.mainBlue }]}
-          >
-            {I18n.t("add_edit_product_option_product")}
-          </Text>
-          <View style={styles.grid}>
-            <View style={styles.itemsRow}>
-              {productOptions
-                .slice(0, 3)
-                .map((item, index) => <Item key={index} item={item} />)}
-            </View>
-            <View style={styles.itemsRow}>
-              {productOptions
-                .slice(3, 6)
-                .map((item, index) => <Item key={index} item={item} />)}
+          <View style={[styles.optionInner]}>
+            <Text
+              weight="Bold"
+              style={[styles.optionTitle, { color: colors.mainBlue }]}
+            >
+              {I18n.t("add_edit_product_option_product")}
+            </Text>
+            <View style={styles.grid}>
+              <View style={styles.itemsRow}>
+                {productOptions
+                  .slice(0, 3)
+                  .map((item, index) => <Item key={index} item={item} />)}
+              </View>
+              <View style={styles.itemsRow}>
+                {productOptions
+                  .slice(3, 6)
+                  .map((item, index) => <Item key={index} item={item} />)}
+              </View>
             </View>
           </View>
         </View>
 
         <View style={[styles.option, styles.option2]}>
-          <Text
-            weight="Bold"
-            style={[styles.optionTitle, { color: colors.pinkishOrange }]}
-          >
-            {I18n.t("add_edit_product_option_expense")}
-          </Text>
-          <View style={styles.grid}>
-            <View style={styles.itemsRow}>
-              {expenseOptions
-                .slice(0, 3)
-                .map((item, index) => <Item key={index} item={item} />)}
-            </View>
-            <View style={styles.itemsRow}>
-              {expenseOptions
-                .slice(3, 6)
-                .map((item, index) => <Item key={index} item={item} />)}
+          <View style={[styles.optionInner]}>
+            <Text
+              weight="Bold"
+              style={[styles.optionTitle, { color: colors.pinkishOrange }]}
+            >
+              {I18n.t("add_edit_product_option_expense")}
+            </Text>
+            <View style={styles.grid}>
+              <View style={styles.itemsRow}>
+                {expenseOptions
+                  .slice(0, 3)
+                  .map((item, index) => <Item key={index} item={item} />)}
+              </View>
+              <View style={styles.itemsRow}>
+                {expenseOptions
+                  .slice(3, 6)
+                  .map((item, index) => <Item key={index} item={item} />)}
+              </View>
             </View>
           </View>
           {Platform.OS == "ios" && (
@@ -224,6 +228,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height / 2 - 5,
     padding: 16,
     justifyContent: "center",
+    alignItems: "center",
     ...defaultStyles.card
   },
   option1: {
@@ -242,16 +247,24 @@ const styles = StyleSheet.create({
       ios: {
         paddingBottom: 5
       },
-      android: {}
+      android: {
+        paddingBottom: 45
+      }
     })
   },
+  optionInner: {
+    justifyContent: "center",
+    width: "100%",
+    maxWidth: 350
+  },
   optionTitle: {
-    fontSize: 18
+    fontSize: 18,
+    margin: 5
   },
   grid: {},
   itemsRow: {
     flexDirection: "row",
-    marginHorizontal: -5
+    justifyContent: "space-between"
   },
   item: {
     flex: 1,
