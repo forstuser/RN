@@ -122,7 +122,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => { }
+  onUploadProgress = () => {}
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -1139,7 +1139,7 @@ export const updateCalendarItem = async ({
   providerName,
   providerNumber
 }) => {
-  console.log("pro", providerNumber)
+  console.log("pro", providerNumber);
   return await apiRequest({
     method: "put",
     url: `/calendar/items/${itemId}`,
