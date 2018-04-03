@@ -58,7 +58,7 @@ class Attendance extends React.Component {
     const paymentDetails = item.payment_detail;
     const paymentDetail = paymentDetails[activePaymentDetailIndex];
 
-    const calculationDetails = item.calculation_detail;
+    let calculationDetails = item.calculation_detail;
     let activeCalculationDetail = calculationDetails[0];
     for (let i = 0; i < calculationDetails.length; i++) {
       const effectiveDate = calculationDetails[i].effective_date;
@@ -68,6 +68,7 @@ class Attendance extends React.Component {
         continue;
       } else {
         activeCalculationDetail = calculationDetails[i];
+        break;
       }
     }
 
@@ -109,7 +110,46 @@ class Attendance extends React.Component {
     ) {
       unitPriceText = I18n.t("add_edit_calendar_service_screen_form_fees");
     }
+    //  Pritam Dirty code here
 
+    // function which will return active days of months
+    const calculationFunction = (startDateforCalculation, endDateForCalculation, selectedDaysArray) => {
+      const availbaleDays = [];
+      const selectedDaysArrayIntoMomentFormat = selectedDaysArray.map(day => {
+        if (day == 7) return 0;
+        return day;
+      });
+      console.log(selectedDaysArrayIntoMomentFormat);
+      let sDate = +moment(startDateforCalculation).format("D");
+      let eDate = +moment(endDateForCalculation).format("D");
+      for (let i = sDate; i < eDate + 1; i++) {
+        let date = monthAndYear + "-" + ("0" + i).substr(-2);
+        const weekday = +moment(date).format("d");
+        if (selectedDaysArrayIntoMomentFormat.includes(weekday)) {
+          availbaleDays.push(date)
+        }
+      }
+      return availbaleDays;
+    }
+    // case 1: if current months starting date is greater than effective date of activeCalculation details
+    let availableDaysofMonth = [];
+    // if (startDate > activeCalculationDetail.effective_date) {
+    //   // call function which will give availbale days of months according to calculation detail
+    //   availableDaysofMonth.push(calculationFunction(startDate, endDate, activeCalculationDetail.selected_days))
+    // } else {
+    for (let i = calculationDetails.length - 1; i > -1; i--) {
+
+      let calculationDetailEndDate = +moment(endDate)
+        .endOf("month");
+      let calculationDetailStartDate = startDate;
+      if (calculationDetails[i - 1]) {
+        calculationDetailEndDate = calculationDetails[i - 1].effective_date;
+        calculationDetailStartDate = calculationDetails[i].effective_date;
+      }
+      availableDaysofMonth.push(calculationFunction(calculationDetailStartDate, calculationDetailEndDate, calculationDetails[i].selected_days))
+    }
+    // }
+    availableDaysofMonth = [].concat.apply([], availableDaysofMonth);
     return (
       <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
         <Month
@@ -186,23 +226,29 @@ class Attendance extends React.Component {
         <View>
           {daysOfMonth.map(day => {
             const date = monthAndYear + "-" + ("0" + day).substr(-2);
-            const weekday = +moment(date).format("d");
-            if (selectedDays.indexOf(weekday) == -1) return null;
             const isPresent = absentDates.indexOf(date) == -1;
-            return (
-              <Day
-                key={date}
-                date={date}
-                isPresent={isPresent}
-                toggleAttendance={() => {
-                  if (isPresent) {
-                    this.markDayAbsent(date);
-                  } else {
-                    this.markDayPresent(date);
-                  }
-                }}
-              />
-            );
+            // const weekday = +moment(date).format("d");
+            // availableDaysofMonth.includes(date) ? null : null;
+            if (availableDaysofMonth.includes(date)) {
+              return (
+                <Day
+                  key={date}
+                  date={date}
+                  isPresent={isPresent}
+                  toggleAttendance={() => {
+                    if (isPresent) {
+                      this.markDayAbsent(date);
+                    } else {
+                      this.markDayPresent(date);
+                    }
+                  }}
+                />
+              );
+            } else {
+              return null;
+            }
+            console.log(date)
+
           })}
         </View>
       </View>

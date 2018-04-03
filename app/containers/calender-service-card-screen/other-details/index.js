@@ -25,6 +25,7 @@ import LoadingOverlay from "../../../components/loading-overlay";
 import CalculationDetailModal from "./calculation-detail-modal";
 
 import { defaultStyles, colors } from "../../../theme";
+import call from "react-native-phone-call";
 
 const cardWidthWhenMany = Dimensions.get("window").width - 52;
 const cardWidthWhenOne = Dimensions.get("window").width - 32;
@@ -36,7 +37,8 @@ class Report extends React.Component {
       isEditDetailModalOpen: false,
       productNameToEdit: "",
       providerNameToEdit: "",
-      isSavingDetails: false
+      providerNumberToEdit: "",
+      isSavingDetails: false,
     };
   }
 
@@ -44,7 +46,8 @@ class Report extends React.Component {
     const { item } = this.props;
     this.setState({
       productNameToEdit: item.product_name,
-      providerNameToEdit: item.provider_name
+      providerNameToEdit: item.provider_name,
+      providerNumberToEdit: item.provider_number
     });
   }
 
@@ -72,6 +75,7 @@ class Report extends React.Component {
       isEditDetailModalOpen,
       productNameToEdit,
       providerNameToEdit,
+      providerNumberToEdit,
       isSavingDetails
     } = this.state;
     const { item, reloadScreen } = this.props;
@@ -80,6 +84,9 @@ class Report extends React.Component {
       return Alert.alert("Please enter the name");
     }
 
+    if (!providerNumberToEdit.trim()) {
+      return Alert.alert("Please enter the number");
+    }
     this.setState({
       isSavingDetails: true
     });
@@ -87,7 +94,8 @@ class Report extends React.Component {
       await updateCalendarItem({
         itemId: item.id,
         productName: productNameToEdit,
-        providerName: providerNameToEdit
+        providerName: providerNameToEdit,
+        providerNumber: providerNumberToEdit
       });
       this.setState({
         isEditDetailModalOpen: false,
@@ -102,12 +110,19 @@ class Report extends React.Component {
       });
     }
   };
+  handlePhonePress = () => {
+    console.log("inside call function")
+    call({ number: this.state.providerNumberToEdit }).catch(e =>
+      Alert.alert(e.message)
+    );
 
+  };
   render() {
     const {
       isEditDetailModalOpen,
       productNameToEdit,
       providerNameToEdit,
+      providerNumberToEdit,
       isSavingDetails
     } = this.state;
     const { item, reloadScreen } = this.props;
@@ -169,6 +184,12 @@ class Report extends React.Component {
             <KeyValueItem
               keyText={I18n.t("calendar_service_screen_provider_name")}
               valueText={item.provider_name}
+            />
+            <KeyValueItem
+              keyText={I18n.t("calendar_service_screen_provider_number")}
+              ValueComponent={() => <TouchableOpacity style={styles.callText} onPress={this.handlePhonePress}>
+                <Text style={{ color: colors.pinkishOrange }}>{item.provider_number} <Icon name="md-call" size={15} color={colors.tomato} /></Text>
+              </TouchableOpacity>}
             />
           </View>
         </View>
@@ -291,6 +312,13 @@ class Report extends React.Component {
                 this.setState({ providerNameToEdit })
               }
             />
+            <CustomTextInput
+              placeholder={I18n.t("calendar_service_screen_provider_number")}
+              value={providerNumberToEdit}
+              onChangeText={providerNumberToEdit =>
+                this.setState({ providerNumberToEdit })
+              }
+            />
             <Button
               onPress={this.saveDetails}
               style={[styles.markPaidBtn, styles.modalBtn]}
@@ -356,6 +384,12 @@ const styles = StyleSheet.create({
   },
   modalBtn: {
     width: 250
+  },
+  callText: {
+    // backgroundColor: 'green',
+    flex: 1,
+
+    alignItems: "flex-end",
   }
 });
 

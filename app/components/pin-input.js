@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   title: {
     textAlign: "center",
     color: "#fff",
-    fontSize: 40,
+    fontSize: 35,
     marginBottom: 20
   },
   dots: {

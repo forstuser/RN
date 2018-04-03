@@ -20,6 +20,7 @@ class Item extends React.Component {
 
   render() {
     const { item, style } = this.props;
+    // console.log("Item", item);
     const {
       product_name,
       provider_name,
@@ -27,7 +28,8 @@ class Item extends React.Component {
       present_days,
       absent_days,
       service_type,
-      latest_payment_detail
+      latest_payment_detail,
+      outstanding_amount
     } = item;
     const imageUrl = service_type
       ? API_BASE_URL + service_type.calendarServiceImageUrl
@@ -49,9 +51,14 @@ class Item extends React.Component {
               <Text weight="Bold" style={styles.name}>
                 {product_name}
               </Text>
-              <Text weight="Bold" style={styles.value}>
-                ₹ {latest_payment_detail.total_amount}
-              </Text>
+              {outstanding_amount > -1 ? <Text style={styles.positiveValue}>
+                ₹ {outstanding_amount}
+              </Text> : <Text style={styles.negativeValue}>
+                  ₹ {outstanding_amount}
+                </Text>}
+              {/* <Text weight="Bold" style={styles.value}>
+                ₹ {outstanding_amount}
+              </Text> */}
             </View>
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.offlineSellerName}>{provider_name}</Text>
@@ -68,7 +75,7 @@ class Item extends React.Component {
             <Text style={styles.detailName}>
               {I18n.t("my_calendar_screen_days_present")}:{" "}
             </Text>
-            <Text weight="Medium" style={styles.presentDays}>
+            <Text style={styles.presentDays}>
               {I18n.t("my_calendar_screen_days", { count: present_days })}
             </Text>
           </View>
@@ -76,7 +83,7 @@ class Item extends React.Component {
             <Text style={styles.detailName}>
               {I18n.t("my_calendar_screen_days_absent")}:{" "}
             </Text>
-            <Text weight="Medium" style={styles.absentDays}>
+            <Text style={styles.absentDays}>
               {I18n.t("my_calendar_screen_days", { count: absent_days })}
             </Text>
           </View>
@@ -118,6 +125,16 @@ const styles = StyleSheet.create({
   },
   value: {
     marginLeft: 20
+  },
+  positiveValue: {
+    marginLeft: 20,
+    color: colors.success,
+    fontSize: 15
+  },
+  negativeValue: {
+    marginLeft: 20,
+    color: colors.pinkishOrange,
+    fontSize: 15
   },
   offlineSellerName: {
     fontSize: 12,

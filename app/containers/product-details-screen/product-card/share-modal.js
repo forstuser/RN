@@ -24,6 +24,7 @@ import { requestStoragePermission } from "../../../android-permissions";
 import ProductReview from "../../../components/product-review";
 import UploadProductImage from "../../../components/upload-product-image";
 import { colors } from "../../../theme";
+import LoadingOverlay from "../../../components/loading-overlay";
 
 const uploadDocIllustration = require("../../../images/upload_doc_illustration.png");
 const starIllustration = require("../../../images/star_illustration.png");
@@ -37,7 +38,8 @@ class ShareModal extends React.Component {
     isProductImageAvailable: false,
     isProductImageStepDone: false,
     ratings: null,
-    feedbackText: ""
+    feedbackText: "",
+    isImageLoaded: true
   };
 
   componentDidMount() {
@@ -80,6 +82,11 @@ class ShareModal extends React.Component {
       isModalVisible: false
     });
   };
+  hideLoader = () => {
+    this.setState({
+      isImageLoaded: false
+    });
+  };
 
   onSharePress = async () => {
     try {
@@ -112,7 +119,8 @@ class ShareModal extends React.Component {
       isProductImageAvailable,
       isProductImageStepDone,
       ratings,
-      feedbackText
+      feedbackText,
+      isImageLoaded
     } = this.state;
     const { product, loggedInUser } = this.props;
     const { brand } = product;
@@ -151,6 +159,7 @@ class ShareModal extends React.Component {
         avoidKeyboard={Platform.OS == "ios"}
       >
         <View style={styles.modal}>
+          <LoadingOverlay visible={isImageLoaded} />
           {(!isProductImageStepDone || ratings == null) && (
             <View
               style={{ alignItems: "center", marginTop: 40, marginBottom: 20 }}
@@ -236,6 +245,7 @@ class ShareModal extends React.Component {
                 >
                   {productImageUrl ? (
                     <Image
+                      onLoad={this.hideLoader}
                       resizeMode={productImageResizeMode}
                       style={styles.productImage}
                       source={{ uri: productImageUrl }}
@@ -421,7 +431,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 9,
     color: colors.success,
-    textAlign: "center"
+    textAlign: 'center',
     // justifyContent: 'center',
     // alignItems: 'center'
   },
