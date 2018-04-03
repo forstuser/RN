@@ -40,8 +40,8 @@ import { actions as uiActions } from "../../modules/ui";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 import RecentCalenderItems from "./recent-calender-items";
 
-const ascIcon = require("../../images/ic_nav_asc_off.png");
-const chartIcon = require("../../images/ic_bar_chart.png");
+const ascIcon = require("../../images/ic_nav_asc_on.png");
+const chartIcon = require("../../images/ic_bars_chart.png");
 const dashBoardIcon = require("../../images/ic_nav_dashboard_off.png");
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 

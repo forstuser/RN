@@ -47,7 +47,7 @@ class MyCalendarScreen extends Component {
     }
   };
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   fetchItems = async () => {
     this.setState({

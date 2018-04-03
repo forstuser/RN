@@ -26,7 +26,12 @@ const ProductsList = props => {
     categoryId
   } = props;
   const renderProductItem = ({ item }) => (
-    <ProductListItem navigator={navigator} product={item} />
+    <View style={{
+      marginHorizontal: 10,
+      marginTop: 2
+    }}>
+      <ProductListItem navigator={navigator} product={item} />
+    </View>
   );
   if (!isLoading && products.length == 0) {
     return (
@@ -42,8 +47,8 @@ const ProductsList = props => {
         style={{
           flex: 1,
           backgroundColor: "#FAFAFA",
-          paddingHorizontal: 10,
-          paddingTop: 10
+          paddingTop: 0,
+          marginTop: 10
         }}
         data={products}
         keyExtractor={(item, index) => item.id}

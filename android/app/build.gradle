@@ -74,7 +74,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js"
+        entryFile: "index.js"
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -111,7 +111,7 @@ android {
 //        from react-native-blur
 //        renderscriptTargetApi 25
 //        renderscriptSupportModeEnabled true
-}
+    }
     signingConfigs {
         release {
             if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
