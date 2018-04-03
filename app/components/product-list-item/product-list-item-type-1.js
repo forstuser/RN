@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     paddingTop: 10,
     borderColor: "#00b2ff",
-    borderTopWidth: 1
+    borderTopWidth: StyleSheet.hairlineWidth
   }
 });
 export default ProductListItem;

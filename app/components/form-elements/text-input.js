@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import I18n from "../../i18n";
 import { Text } from "../../elements";
-import { colors } from "../../theme";
+import { colors, defaultStyles } from "../../theme";
 
 class CustomTextInput extends React.Component {
   constructor(props) {
@@ -122,13 +122,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 45,
     backgroundColor: "white",
-    borderColor: "transparent",
-    overflow: "hidden",
-    shadowColor: "black",
     padding: 10,
     paddingRight: 10,
     marginBottom: 10,
-    elevation: 2
+    ...defaultStyles.card
   },
   placeholderContainer: {
     position: "absolute",
@@ -156,9 +153,7 @@ const styles = StyleSheet.create({
   textInput: {
     backgroundColor: "transparent",
     justifyContent: "center",
-    height: 40,
-    borderColor: colors.lighterText,
-    borderBottomWidth: 2
+    height: 40
   },
   rightSideText: {
     position: "absolute",

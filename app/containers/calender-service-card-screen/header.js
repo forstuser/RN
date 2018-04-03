@@ -104,7 +104,7 @@ class Header extends Component {
                   weight="Medium"
                   style={[styles.key, { color: colors.danger }]}
                 >
-                  {item.absent_days}
+                  {daysAbsent}
                 </Text>
               </View>
             </View>

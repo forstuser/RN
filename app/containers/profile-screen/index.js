@@ -156,7 +156,7 @@ class ProfileScreen extends Component {
         },
         {
           text: I18n.t("profile_screen_details_dismiss"),
-          onPress: () => {},
+          onPress: () => { },
           style: "cancel"
         }
       ]

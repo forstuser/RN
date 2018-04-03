@@ -36,6 +36,7 @@ class Report extends React.Component {
       isEditDetailModalOpen: false,
       productNameToEdit: "",
       providerNameToEdit: "",
+      providerNumberToEdit: "",
       isSavingDetails: false
     };
   }
@@ -44,7 +45,8 @@ class Report extends React.Component {
     const { item } = this.props;
     this.setState({
       productNameToEdit: item.product_name,
-      providerNameToEdit: item.provider_name
+      providerNameToEdit: item.provider_name,
+      providerNumberToEdit: item.provider_number
     });
   }
 
@@ -72,6 +74,7 @@ class Report extends React.Component {
       isEditDetailModalOpen,
       productNameToEdit,
       providerNameToEdit,
+      providerNumberToEdit,
       isSavingDetails
     } = this.state;
     const { item, reloadScreen } = this.props;
@@ -80,14 +83,19 @@ class Report extends React.Component {
       return Alert.alert("Please enter the name");
     }
 
+    if (!providerNumberToEdit.trim()) {
+      return Alert.alert("Please enter the number");
+    }
     this.setState({
       isSavingDetails: true
     });
     try {
+      console.log("PN")
       await updateCalendarItem({
         itemId: item.id,
         productName: productNameToEdit,
-        providerName: providerNameToEdit
+        providerName: providerNameToEdit,
+        providerNumber: providerNumberToEdit
       });
       this.setState({
         isEditDetailModalOpen: false,
@@ -108,6 +116,7 @@ class Report extends React.Component {
       isEditDetailModalOpen,
       productNameToEdit,
       providerNameToEdit,
+      providerNumberToEdit,
       isSavingDetails
     } = this.state;
     const { item, reloadScreen } = this.props;
@@ -169,6 +178,10 @@ class Report extends React.Component {
             <KeyValueItem
               keyText={I18n.t("calendar_service_screen_provider_name")}
               valueText={item.provider_name}
+            />
+            <KeyValueItem
+              keyText={I18n.t("calendar_service_screen_provider_number")}
+              valueText={item.provider_number}
             />
           </View>
         </View>
@@ -289,6 +302,13 @@ class Report extends React.Component {
               value={providerNameToEdit}
               onChangeText={providerNameToEdit =>
                 this.setState({ providerNameToEdit })
+              }
+            />
+            <CustomTextInput
+              placeholder={I18n.t("calendar_service_screen_provider_number")}
+              value={providerNumberToEdit}
+              onChangeText={providerNumberToEdit =>
+                this.setState({ providerNumberToEdit })
               }
             />
             <Button

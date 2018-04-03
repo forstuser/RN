@@ -32,7 +32,7 @@ import SectionHeading from "../../components/section-heading";
 import Title from "./chamfered-background-title";
 import RecentProducts from "./recent-products";
 
-import { SCREENS } from "../../constants";
+import { SCREENS, GLOBAL_VARIABLES } from "../../constants";
 
 import ProductListItem from "../../components/product-list-item";
 
@@ -140,7 +140,8 @@ class DashboardScreen extends React.Component {
       console.log("Dashboard Data :", dashboardData);
       if (
         dashboardData.hasProducts === false &&
-        !DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE
+        !DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE &&
+        !global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE]
       ) {
         DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = true;
         return this.showAddProductOptionsScreen();

@@ -51,6 +51,7 @@ class CalculationDetailModal extends React.Component {
 
   componentDidMount = () => {
     const { item } = this.props;
+    // console.log("Item", item)
     let type = "product";
     if (
       [
@@ -89,6 +90,7 @@ class CalculationDetailModal extends React.Component {
       actualSelectedUnitType: unitTypes[0],
       selectedDays: item.selected_days,
       unitPrice: item.calculation_detail[0].unit_price,
+      startingDate: item.calculation_detail[0].effective_date,
       quantity: item.calculation_detail[0].quantity
     });
   };

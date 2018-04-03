@@ -117,10 +117,10 @@ class ProfileDetailEdit extends Component {
                 <TouchableOpacity
                   onPress={this.showResendEmailVerifyAlert}
                   style={{
-                    height: 40,
                     position: "absolute",
-                    left: 0,
-                    top: -25
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    alignItems: "flex-end"
                   }}
                 >
                   <View style={{ flex: 1, flexDirection: "row" }}>
@@ -136,23 +136,25 @@ class ProfileDetailEdit extends Component {
           </View>
           {this.props.verify == true &&
             this.props.info && (
-              <TouchableOpacity
-                style={{
-                  height: 40,
-                  position: "absolute",
-                  right: 10,
-                  top: -15
-                }}
-              >
-                <View style={{ flex: 1, flexDirection: "row" }}>
-                  <View>
-                    <Text style={styles.verified}>Verified</Text>
+              <View>
+                <TouchableOpacity
+                  style={{
+                    position: "absolute",
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    alignItems: "flex-end"
+                  }}
+                >
+                  <View style={{ flex: 1, flexDirection: "row" }}>
+                    <View>
+                      <Text style={styles.verified}>Verified</Text>
+                    </View>
+                    <View>
+                      <Image style={styles.icons} source={verified} />
+                    </View>
                   </View>
-                  <View>
-                    <Image style={styles.icons} source={verified} />
-                  </View>
-                </View>
-              </TouchableOpacity>
+                </TouchableOpacity>
+              </View>
             )}
           {this.props.info != this.state.info && (
             <View

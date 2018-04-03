@@ -102,7 +102,8 @@ class MoreScreen extends Component {
 
   removePin = async pin => {
     this.setState({
-      isFetchingData: true
+      isFetchingData: true,
+      isRemovePinModalVisible: false
     });
     try {
       await deletePin({ pin });
@@ -136,7 +137,7 @@ class MoreScreen extends Component {
     }
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
-        <LoadingOverlay visible={profile == null} />
+        <LoadingOverlay visible={isFetchingData} />
         <Header
           authToken={authToken}
           onPress={this.openProfileScreen}
@@ -157,14 +158,22 @@ class MoreScreen extends Component {
           }}
           navigator={this.props.navigator}
         />
-        <Modal isVisible={isRemovePinModalVisible} style={{ padding: 0 }}>
+        <Modal
+          isVisible={isRemovePinModalVisible}
+          style={{ margin: 0 }}
+          onBackButtonPress={() =>
+            this.setState({
+              isRemovePinModalVisible: false
+            })
+          }
+        >
           <View style={{ flex: 1 }}>
             <PinInput title="Enter App PIN" onSubmitPress={this.removePin} />
             <TouchableOpacity
               style={{
                 position: "absolute",
                 right: 10,
-                top: 5
+                top: 25
               }}
               onPress={() => this.setState({ isRemovePinModalVisible: false })}
             >

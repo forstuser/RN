@@ -36,27 +36,31 @@ class RecentCalenderItems extends React.Component {
             listHeight == "less" ? styles.listLessHeight : {}
           ]}
         >
-          {items.map((item, index) => (
-            <View
-              style={{
-                borderBottomColor: "#efefef",
-                borderBottomWidth: 1
-              }}
-            >
-              <Item
-                key={index}
+          {items.map((item, index) => {
+            if (listHeight == "less" && index > 0) return null;
+
+            return (
+              <View
                 style={{
-                  elevation: undefined,
-                  shadowColor: "transparent",
-                  marginBottom: 0
+                  borderBottomColor: "#efefef",
+                  borderBottomWidth: 1
                 }}
-                item={item}
-                navigator={navigator}
-                hideViewBillBtn={true}
-                hideDirectionsAndCallBtns={true}
-              />
-            </View>
-          ))}
+              >
+                <Item
+                  key={index}
+                  style={{
+                    elevation: undefined,
+                    shadowColor: "transparent",
+                    marginBottom: 0
+                  }}
+                  item={item}
+                  navigator={navigator}
+                  hideViewBillBtn={true}
+                  hideDirectionsAndCallBtns={true}
+                />
+              </View>
+            );
+          })}
         </View>
         {items.length > 1 && (
           <ViewMoreBtn height={listHeight} onPress={this.toggleListHeight} />
@@ -71,13 +75,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   list: {
-    width: "100%",
-    minHeight: 50,
-    overflow: "hidden",
-    backgroundColor: "#fff"
-  },
-  listLessHeight: {
-    maxHeight: 137
+    width: "100%"
   },
   viewBtn: {
     alignItems: "center",

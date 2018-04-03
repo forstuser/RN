@@ -205,8 +205,8 @@ class ProductCard extends Component {
               <CustomerCare
                 product={product}
                 navigator={this.props.navigator}
-                scrollScreenToBottom={() =>
-                  this.scrollView.scrollToEnd({ animated: true })
+                scrollScreenToAsc={y =>
+                  this.scrollView.scrollTo({ y: y + 100, animated: true })
                 }
                 cardWidthWhenMany={cardWidthWhenMany}
                 cardWidthWhenOne={cardWidthWhenOne}
@@ -237,7 +237,12 @@ class ProductCard extends Component {
           ref={ref => (this.tour = ref)}
           enabled={true}
           steps={[
-            { ref: this.centerRef, text: I18n.t("product_card_tip") },
+            {
+              ref: this.centerRef,
+              text: I18n.t("product_card_tip", {
+                categoryName: product.categoryName || ""
+              })
+            },
             {
               ref: this.viewBillRef,
               text: I18n.t("product_card_upload_bill_tip")

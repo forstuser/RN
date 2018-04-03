@@ -3,7 +3,7 @@ import { Navigation } from "react-native-navigation";
 import axios from "axios";
 import store from "../store";
 import DeviceInfo from "react-native-device-info";
-import navigation, { openLoginScreen } from "../navigation";
+import navigation, { openLoginScreen, openEnterPinPopup } from "../navigation";
 import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
@@ -109,6 +109,8 @@ const apiRequest = async ({
     if (error.statusCode == 401) {
       store.dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
       openLoginScreen();
+    } else if (error.statusCode == 402) {
+      openEnterPinPopup();
     }
     throw error;
   }
@@ -1108,6 +1110,7 @@ export const createCalendarItem = async ({
   serviceTypeId,
   productName,
   providerName,
+  providerNumber,
   wagesType,
   selectedDays,
   unitPrice,
@@ -1118,6 +1121,7 @@ export const createCalendarItem = async ({
   const data = {
     product_name: productName || undefined,
     provider_name: providerName || undefined,
+    provider_number: providerNumber || undefined,
     wages_type: wagesType || undefined,
     selected_days: selectedDays || undefined,
     unit_price: unitPrice || 0,
@@ -1135,14 +1139,17 @@ export const createCalendarItem = async ({
 export const updateCalendarItem = async ({
   itemId,
   productName,
-  providerName
+  providerName,
+  providerNumber
 }) => {
+  console.log("pro", providerNumber)
   return await apiRequest({
     method: "put",
     url: `/calendar/items/${itemId}`,
     data: {
       product_name: productName || undefined,
-      provider_name: providerName || undefined
+      provider_name: providerName || undefined,
+      provider_number: providerNumber || undefined
     }
   });
 };

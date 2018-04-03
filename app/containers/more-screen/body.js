@@ -50,6 +50,7 @@ class Body extends Component {
       screen: SCREENS.ASC_SCREEN
     });
   };
+
   onEhomeItemPress = () => {
     this.props.navigator.push({
       screen: SCREENS.TIPS_SCREEN
@@ -136,6 +137,7 @@ class Body extends Component {
         <MoreItem
           onPress={this.onAppPinPress}
           imageSource={require("../../images/ic_app_pin.png")}
+
           text={I18n.t("app_pin")}
           btnText={isPinSet ? I18n.t("change") : I18n.t("set_now")}
         />

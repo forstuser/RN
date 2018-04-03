@@ -65,7 +65,6 @@ export default class Item extends React.Component {
     }
   };
   render() {
-    console.log("SCREEN_HEIGHT", SCREEN_HEIGHT);
     const { item, onLikePress } = this.props;
     if (item) {
       const {

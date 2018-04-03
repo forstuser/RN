@@ -14,6 +14,8 @@ import ViewShot, { captureRef } from "react-native-view-shot";
 import Share from "react-native-share";
 import RNFetchBlob from "react-native-fetch-blob";
 
+import moment from "moment";
+
 import { API_BASE_URL } from "../../../api";
 import I18n from "../../../i18n";
 import { Text, Button } from "../../../elements";
@@ -22,6 +24,7 @@ import { requestStoragePermission } from "../../../android-permissions";
 import ProductReview from "../../../components/product-review";
 import UploadProductImage from "../../../components/upload-product-image";
 import { colors } from "../../../theme";
+import LoadingOverlay from "../../../components/loading-overlay";
 
 const uploadDocIllustration = require("../../../images/upload_doc_illustration.png");
 const starIllustration = require("../../../images/star_illustration.png");
@@ -35,7 +38,8 @@ class ShareModal extends React.Component {
     isProductImageAvailable: false,
     isProductImageStepDone: false,
     ratings: null,
-    feedbackText: ""
+    feedbackText: "",
+    isImageLoaded: true
   };
 
   componentDidMount() {
@@ -78,6 +82,11 @@ class ShareModal extends React.Component {
       isModalVisible: false
     });
   };
+  hideLoader = () => {
+    this.setState({
+      isImageLoaded: false
+    });
+  };
 
   onSharePress = async () => {
     try {
@@ -109,7 +118,8 @@ class ShareModal extends React.Component {
       isProductImageAvailable,
       isProductImageStepDone,
       ratings,
-      feedbackText
+      feedbackText,
+      isImageLoaded
     } = this.state;
     const { product, loggedInUser } = this.props;
     const { brand } = product;
@@ -118,7 +128,8 @@ class ShareModal extends React.Component {
 
     if (isProductImageAvailable) {
       productImageUrl =
-        API_BASE_URL + `/consumer/products/${product.id}/images`;
+        API_BASE_URL +
+        `/consumer/products/${product.id}/images?t=${moment().format("X")}`;
       productImageResizeMode = "cover";
     } else if (
       !isProductImageAvailable &&
@@ -147,6 +158,7 @@ class ShareModal extends React.Component {
         avoidKeyboard={Platform.OS == "ios"}
       >
         <View style={styles.modal}>
+          <LoadingOverlay visible={isImageLoaded} />
           {(!isProductImageStepDone || ratings == null) && (
             <View
               style={{ alignItems: "center", marginTop: 40, marginBottom: 20 }}
@@ -232,6 +244,7 @@ class ShareModal extends React.Component {
                 >
                   {productImageUrl ? (
                     <Image
+                      onLoad={this.hideLoader}
                       resizeMode={productImageResizeMode}
                       style={styles.productImage}
                       source={{ uri: productImageUrl }}
@@ -255,7 +268,8 @@ class ShareModal extends React.Component {
                     {loggedInUser.name}
                   </Text>
                   <Text
-                    numberOfLines={4} weight="Bold"
+                    numberOfLines={4}
+                    weight="Bold"
                     style={styles.reviewQuotesText}
                   >{`"${I18n.t("review_quotes")}"`}</Text>
                   <StarRating
@@ -411,15 +425,15 @@ const styles = StyleSheet.create({
     margin: 10,
     fontSize: 10
   },
-  reviewQuotesText:{
+  reviewQuotesText: {
     marginLeft: 10,
-    marginRight:10,
-    marginBottom:5,
+    marginRight: 10,
+    marginBottom: 5,
     fontSize: 9,
-    color:colors.success,
-    textAlign:'center',
+    color: colors.success,
+    textAlign: 'center',
     // justifyContent: 'center',
-    // alignItems: 'center'  
+    // alignItems: 'center'
   },
   badges: {
     flexDirection: "row",

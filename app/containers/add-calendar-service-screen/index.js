@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import I18n from "../../i18n";
 import Icon from "react-native-vector-icons/Ionicons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   API_BASE_URL,
   fetchCalendarReferenceData,
@@ -241,7 +242,7 @@ class AddEditCalendarServiceScreen extends Component {
     }
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#f7f7f7" }}>
-        <ScrollView style={{ flex: 1 }}>
+        <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }}>
           {!isFetchingServiceTypes && (
             <SelectServiceHeader
               serviceTypes={serviceTypes}
@@ -271,149 +272,149 @@ class AddEditCalendarServiceScreen extends Component {
               )}
               {(selectedServiceType.wages_type == CALENDAR_WAGES_TYPE.WAGES ||
                 selectedServiceType.wages_type == CALENDAR_WAGES_TYPE.FEES) && (
-                <View>
                   <View>
-                    <Text weight="Medium" style={styles.label}>
-                      {selectedServiceType.wages_type ==
-                      CALENDAR_WAGES_TYPE.WAGES
-                        ? I18n.t(
+                    <View>
+                      <Text weight="Medium" style={styles.label}>
+                        {selectedServiceType.wages_type ==
+                          CALENDAR_WAGES_TYPE.WAGES
+                          ? I18n.t(
                             "add_edit_calendar_service_screen_form_wages_type"
                           )
-                        : I18n.t(
+                          : I18n.t(
                             "add_edit_calendar_service_screen_form_fees_tye"
                           )}
-                    </Text>
-                    <View style={{ flexDirection: "row", marginBottom: 10 }}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.setState({
-                            wagesType: WAGES_CYCLE.MONTHLY
-                          });
-                        }}
-                        style={styles.radioBtn}
-                      >
-                        <Icon
-                          name={
-                            wagesType == WAGES_CYCLE.MONTHLY
-                              ? "md-radio-button-on"
-                              : "md-radio-button-off"
-                          }
-                          color={
-                            wagesType == WAGES_CYCLE.MONTHLY
-                              ? colors.pinkishOrange
-                              : colors.secondaryText
-                          }
-                          size={20}
-                        />
-                        <Text
-                          style={[
-                            styles.radioBtnLabel,
-                            {
-                              color:
-                                wagesType == WAGES_CYCLE.MONTHLY
-                                  ? colors.pinkishOrange
-                                  : colors.secondaryText
-                            }
-                          ]}
+                      </Text>
+                      <View style={{ flexDirection: "row", marginBottom: 10 }}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            this.setState({
+                              wagesType: WAGES_CYCLE.MONTHLY
+                            });
+                          }}
+                          style={styles.radioBtn}
                         >
-                          Monthly
-                        </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.setState({
-                            wagesType: WAGES_CYCLE.DAILY
-                          });
-                        }}
-                        style={styles.radioBtn}
-                      >
-                        <Icon
-                          name={
-                            wagesType == WAGES_CYCLE.DAILY
-                              ? "md-radio-button-on"
-                              : "md-radio-button-off"
-                          }
-                          color={
-                            wagesType == WAGES_CYCLE.DAILY
-                              ? colors.pinkishOrange
-                              : colors.secondaryText
-                          }
-                          size={20}
-                        />
-                        <Text
-                          style={[
-                            styles.radioBtnLabel,
-                            {
-                              color:
-                                wagesType == WAGES_CYCLE.DAILY
-                                  ? colors.pinkishOrange
-                                  : colors.secondaryText
+                          <Icon
+                            name={
+                              wagesType == WAGES_CYCLE.MONTHLY
+                                ? "md-radio-button-on"
+                                : "md-radio-button-off"
                             }
-                          ]}
-                        >
-                          Daily
+                            color={
+                              wagesType == WAGES_CYCLE.MONTHLY
+                                ? colors.pinkishOrange
+                                : colors.secondaryText
+                            }
+                            size={20}
+                          />
+                          <Text
+                            style={[
+                              styles.radioBtnLabel,
+                              {
+                                color:
+                                  wagesType == WAGES_CYCLE.MONTHLY
+                                    ? colors.pinkishOrange
+                                    : colors.secondaryText
+                              }
+                            ]}
+                          >
+                            Monthly
                         </Text>
-                      </TouchableOpacity>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => {
+                            this.setState({
+                              wagesType: WAGES_CYCLE.DAILY
+                            });
+                          }}
+                          style={styles.radioBtn}
+                        >
+                          <Icon
+                            name={
+                              wagesType == WAGES_CYCLE.DAILY
+                                ? "md-radio-button-on"
+                                : "md-radio-button-off"
+                            }
+                            color={
+                              wagesType == WAGES_CYCLE.DAILY
+                                ? colors.pinkishOrange
+                                : colors.secondaryText
+                            }
+                            size={20}
+                          />
+                          <Text
+                            style={[
+                              styles.radioBtnLabel,
+                              {
+                                color:
+                                  wagesType == WAGES_CYCLE.DAILY
+                                    ? colors.pinkishOrange
+                                    : colors.secondaryText
+                              }
+                            ]}
+                          >
+                            Daily
+                        </Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
+                    <CustomTextInput
+                      placeholder={
+                        selectedServiceType.wages_type ==
+                          CALENDAR_WAGES_TYPE.WAGES
+                          ? I18n.t("add_edit_calendar_service_screen_form_wages")
+                          : I18n.t("add_edit_calendar_service_screen_form_fees")
+                      }
+                      keyboardType="numeric"
+                      value={unitPrice}
+                      onChangeText={unitPrice => this.setState({ unitPrice })}
+                    />
                   </View>
-                  <CustomTextInput
-                    placeholder={
-                      selectedServiceType.wages_type ==
-                      CALENDAR_WAGES_TYPE.WAGES
-                        ? I18n.t("add_edit_calendar_service_screen_form_wages")
-                        : I18n.t("add_edit_calendar_service_screen_form_fees")
-                    }
-                    keyboardType="numeric"
-                    value={unitPrice}
-                    onChangeText={unitPrice => this.setState({ unitPrice })}
-                  />
-                </View>
-              )}
+                )}
               {selectedServiceType.wages_type ==
                 CALENDAR_WAGES_TYPE.PRODUCT && (
-                <View>
-                  <View style={{ flexDirection: "row" }}>
-                    <SelectModal
-                      style={styles.selectUnitType}
-                      visibleKey="symbol"
-                      dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-                      placeholder="Choose Unit Type"
-                      placeholderRenderer={({ placeholder }) => (
-                        <Text
-                          weight="Medium"
-                          style={{ color: colors.secondaryText }}
-                        >
-                          {placeholder}
-                        </Text>
-                      )}
-                      selectedOption={selectedUnitType}
-                      options={unitTypes}
-                      onOptionSelect={value => {
-                        this.onUnitTypeSelect(value);
-                      }}
-                      hideAddNew={true}
-                      hideSearch={true}
-                    />
+                  <View>
+                    <View style={{ flexDirection: "row" }}>
+                      <SelectModal
+                        style={styles.selectUnitType}
+                        visibleKey="symbol"
+                        dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                        placeholder="Choose Unit Type"
+                        placeholderRenderer={({ placeholder }) => (
+                          <Text
+                            weight="Medium"
+                            style={{ color: colors.secondaryText }}
+                          >
+                            {placeholder}
+                          </Text>
+                        )}
+                        selectedOption={selectedUnitType}
+                        options={unitTypes}
+                        onOptionSelect={value => {
+                          this.onUnitTypeSelect(value);
+                        }}
+                        hideAddNew={true}
+                        hideSearch={true}
+                      />
+                      <CustomTextInput
+                        keyboardType="numeric"
+                        style={{ flex: 1 }}
+                        placeholder={I18n.t("calendar_service_screen_quantity")}
+                        value={quantity}
+                        onChangeText={quantity => this.setState({ quantity })}
+                        rightSideText={selectedUnitType.symbol}
+                        rightSideTextWidth={70}
+                      />
+                    </View>
                     <CustomTextInput
                       keyboardType="numeric"
-                      style={{ flex: 1 }}
-                      placeholder={I18n.t("calendar_service_screen_quantity")}
-                      value={quantity}
-                      onChangeText={quantity => this.setState({ quantity })}
-                      rightSideText={selectedUnitType.symbol}
-                      rightSideTextWidth={70}
+                      placeholder={I18n.t("calendar_service_screen_unit_price")}
+                      value={unitPrice}
+                      onChangeText={unitPrice => this.setState({ unitPrice })}
+                      rightSideText={"₹ per " + actualSelectedUnitType.symbol}
+                      rightSideTextWidth={100}
                     />
                   </View>
-                  <CustomTextInput
-                    keyboardType="numeric"
-                    placeholder={I18n.t("calendar_service_screen_unit_price")}
-                    value={unitPrice}
-                    onChangeText={unitPrice => this.setState({ unitPrice })}
-                    rightSideText={"Per " + actualSelectedUnitType.symbol}
-                    rightSideTextWidth={100}
-                  />
-                </View>
-              )}
+                )}
               <CustomDatePicker
                 date={startingDate}
                 placeholder={I18n.t(
@@ -432,7 +433,7 @@ class AddEditCalendarServiceScreen extends Component {
               />
             </View>
           )}
-        </ScrollView>
+        </KeyboardAwareScrollView>
         {selectedServiceType && (
           <Button
             onPress={this.createCalendarItem}

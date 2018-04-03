@@ -51,7 +51,8 @@ class VerifyScreen extends Component {
     this.otpInput.blur();
     try {
       this.setState({
-        isVerifyingOtp: true
+        isVerifyingOtp: true,
+        otp: ""
       });
       await consumerGetOtp(this.props.phoneNumber);
 

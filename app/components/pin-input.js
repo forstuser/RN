@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   title: {
     textAlign: "center",
     color: "#fff",
-    fontSize: 40,
+    fontSize: 35,
     marginBottom: 20
   },
   dots: {
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   },
   keyboardRow: {
     width: "100%",
-    maxWidth: 320,
+    maxWidth: 420,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"

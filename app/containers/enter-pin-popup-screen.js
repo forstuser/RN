@@ -16,7 +16,7 @@ import PinInput from "../components/pin-input";
 import LoadingOverlay from "../components/loading-overlay";
 
 import { colors } from "../theme";
-import { SCREENS } from "../constants";
+import { SCREENS, GLOBAL_VARIABLES } from "../constants";
 
 class EnterPinScreen extends React.Component {
   static navigatorStyle = {
@@ -49,6 +49,7 @@ class EnterPinScreen extends React.Component {
         isLoading: false
       });
       this.props.navigator.dismissModal();
+      global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE] = false;
     } catch (e) {
       Alert.alert("Verification Failed", e.message);
       this.setState({

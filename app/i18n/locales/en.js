@@ -29,7 +29,7 @@ export default {
   //app intro screen
   app_intro_1_title: `Smart & 100% secure way of saving\n your Bills, Expenses and Important\n Documents in a Digital Format`,
   app_intro_1_desc: `Create Your Product Card in less Than 10 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
-  app_intro_2_title: `Recieve Timely Reminders for Expiry\n and Renewal Dates as well as connect\n with Brands Service Centres in one Touch`,
+  app_intro_2_title: `Recieve Reminders for Expiry\n and Renewal as well as connect\n with Brands Service Centres`,
   app_intro_2_desc: `Create product card and reach out to Brands, Insurance Providers or Nearest Service Center with just One Touch.`,
   app_intro_3_title: `Your Own Attendance Manager for\n the Milkman, Maid, Newspaper Wala\n and Others`,
   app_intro_3_desc: `Know the Life Cycle Cost of All Your Products. Based on this You Can Decide Whether to Continue Maintaining the Product or Replacing it.`,
@@ -542,6 +542,7 @@ export default {
   calendar_service_screen_item_details: "Item Details",
   calendar_service_screen_product_name: "Product Name",
   calendar_service_screen_provider_name: "Provider Name",
+  calendar_service_screen_provider_number: "Provider Number",
   //FAQs screen
   faq_screen_title: "FAQs",
 
@@ -604,7 +605,7 @@ export default {
   add_edit_expense_screen_title_add_doc: "ADD DOC",
   add_edit_expense_screen_title_add_doc_added: "Doc added to your eHome.",
   add_edit_expense_screen_title_add_select_type:
-    "Select a type above and Add Product in Less Than 10 Sec",
+    "Select a type above",
   add_edit_expense_screen_title_add_brand_name:
     "Please select or enter brand name",
   add_edit_expense_screen_title_add_type: "Please select a type",
@@ -829,9 +830,12 @@ export default {
   add_edit_product_basic_select_type: "Please select a type",
   add_edit_product_basic_select_amount: "Please enter amount",
   add_edit_product_basic_select_date: "Please select a date",
-  add_edit_force_update_upgrade: "BinBill got Upgraded!",
+  add_edit_force_update_upgrade: "Update the all new BinBill App available with snazzy new features",
   add_edit_force_update_versions:
     "The new version brings a whole host of fantastic features and improvements.",
+  add_edit_force_update_text1: 'Home Attendance Manager',
+  add_edit_force_update_text2: 'Share Personalised Review',
+  add_edit_force_update_text3: 'Do You Know series',
   add_edit_force_update_now: "UPDATE NOW",
   add_edit_force_not_now: "Not Now",
   add_edit_force_ok: "OK",

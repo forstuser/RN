@@ -136,7 +136,10 @@ class PinSetupScreen extends React.Component {
 
       await setPin({ pin });
       this.props.setLoggedInUserIsPinSet(true);
-      Alert.alert("Pin Successfully Changed");
+      setTimeout(() => {
+        Alert.alert("Pin Successfully Changed");
+      }, 200);
+
       this.props.navigator.pop();
     } catch (e) {
       this.setState({
