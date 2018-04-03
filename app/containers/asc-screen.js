@@ -496,15 +496,17 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   select: {
-    height: 45,
+    height: "auto",
     backgroundColor: 'white',
-    borderColor:'transparent',
+    borderColor: 'transparent',
     overflow: 'hidden',
     shadowColor: 'black',
-    padding:8,
+    padding: 8,
+    paddingBottom: 15,
+    paddingTop: 10,
     marginBottom: 12,
     alignSelf: "center",
-    elevation:2
+    elevation: 2
   },
   searchBtn: {
     width: 300,

@@ -5,8 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "android-bundle":
-      "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "android-bundle": "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
     "android-clean": "cd ./android && ./gradlew clean",
     "android-build-debug": "cd ./android && ./gradlew assembleDebug"
   },
@@ -47,8 +46,7 @@
     "react-native-phone-call": "^1.0.4",
     "react-native-photo-view": "^1.5.2",
     "react-native-restart": "^0.0.6",
-    "react-native-scrollable-tab-view":
-      "https://github.com/compojoom/react-native-scrollable-tab-view#fixes_android",
+    "react-native-scrollable-tab-view": "https://github.com/compojoom/react-native-scrollable-tab-view#fixes_android",
     "react-native-share": "^1.0.23",
     "react-native-share-extension": "^1.2.1",
     "react-native-shared-preferences": "^1.0.0",
@@ -57,8 +55,7 @@
     "react-native-super-grid": "^2.0.1",
     "react-native-svg": "6.0.0",
     "react-native-tab-view": "^0.0.74",
-    "react-native-tourguide":
-      "https://github.com/pramjeet/react-native-tourguide",
+    "react-native-tourguide": "https://github.com/pramjeet/react-native-tourguide",
     "react-native-vector-icons": "^4.4.2",
     "react-native-view-shot": "^2.3.0",
     "react-redux": "^5.0.6",
@@ -79,6 +76,8 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": ["./assets/fonts/"]
+    "assets": [
+      "./assets/fonts/"
+    ]
   }
 }

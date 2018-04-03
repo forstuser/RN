@@ -66,7 +66,7 @@ class Body extends Component {
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-        profile ? profile.mobile_no : ""
+      profile ? profile.mobile_no : ""
       })`
     );
   };
@@ -135,7 +135,7 @@ class Body extends Component {
       <ScrollView>
         <MoreItem
           onPress={this.onAppPinPress}
-          imageSource={require("../../images/ic_translate.png")}
+          imageSource={require("../../images/ic_app_pin.png")}
           text={I18n.t("app_pin")}
           btnText={isPinSet ? I18n.t("change") : I18n.t("set_now")}
         />
