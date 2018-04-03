@@ -542,6 +542,7 @@ export default {
   calendar_service_screen_item_details: "Item Details",
   calendar_service_screen_product_name: "Product Name",
   calendar_service_screen_provider_name: "Provider Name",
+  calendar_service_screen_provider_number: "Provider Number",
   //FAQs screen
   faq_screen_title: "FAQs",
 
@@ -829,9 +830,12 @@ export default {
   add_edit_product_basic_select_type: "Please select a type",
   add_edit_product_basic_select_amount: "Please enter amount",
   add_edit_product_basic_select_date: "Please select a date",
-  add_edit_force_update_upgrade: "BinBill got Upgraded!",
+  add_edit_force_update_upgrade: "Update the all new BinBill App available with snazzy new features",
   add_edit_force_update_versions:
     "The new version brings a whole host of fantastic features and improvements.",
+  add_edit_force_update_text1: 'Home Attendance Manager',
+  add_edit_force_update_text2: 'Share Personalised Review',
+  add_edit_force_update_text3: 'Do You Know series',
   add_edit_force_update_now: "UPDATE NOW",
   add_edit_force_not_now: "Not Now",
   add_edit_force_ok: "OK",

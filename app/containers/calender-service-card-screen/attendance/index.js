@@ -122,28 +122,15 @@ class Attendance extends React.Component {
       console.log(selectedDaysArrayIntoMomentFormat);
       let sDate = +moment(startDateforCalculation).format("D");
       let eDate = +moment(endDateForCalculation).format("D");
-      // const weekday = +moment(endDateForCalculation).format("d");
-      // console.log(weekday);
       for (let i = sDate; i < eDate + 1; i++) {
         let date = monthAndYear + "-" + ("0" + i).substr(-2);
         const weekday = +moment(date).format("d");
-        // console.log(weekday);
         if (selectedDaysArrayIntoMomentFormat.includes(weekday)) {
           availbaleDays.push(date)
         }
-        // console.log(weekday);
       }
-      // console.log(availbaleDays)
       return availbaleDays;
-      // console.log(eDate);
     }
-    console.log('Start date', startDate);
-    console.log('End date', endDate);
-    console.log('End date of Month', endDateOfMonth);
-    console.log('Payment Details', paymentDetails);
-    console.log('Payment Detail', paymentDetail); // is range ke bich nikalna hai
-    console.log('Calculation Details', calculationDetails);
-    console.log('active month payment deails', activeCalculationDetail);
     // case 1: if current months starting date is greater than effective date of activeCalculation details
     let availableDaysofMonth = [];
     // if (startDate > activeCalculationDetail.effective_date) {
@@ -163,7 +150,6 @@ class Attendance extends React.Component {
     }
     // }
     availableDaysofMonth = [].concat.apply([], availableDaysofMonth);
-    console.log(availableDaysofMonth);
     return (
       <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
         <Month
