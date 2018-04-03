@@ -32,7 +32,7 @@ const expiringInText = date => {
   } else if (diff == 1) {
     return "Expiring Tomorrow!";
   } else {
-    return "Expiring in " + diff + " days!";
+    return diff + " days left";
   }
 };
 
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     paddingTop: 10,
     borderColor: "#00b2ff",
-    borderTopWidth: 1
+    borderTopWidth: StyleSheet.hairlineWidth
   }
 });
 export default ProductListItem;

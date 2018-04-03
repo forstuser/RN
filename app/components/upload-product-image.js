@@ -44,7 +44,6 @@ class UploadProductImage extends React.Component {
   };
 
   takeCameraImage = async () => {
-    Alert.alert("Camera");
     if ((await requestCameraPermission()) == false) return;
     ImagePicker.openCamera({
       width: 800,

@@ -43,6 +43,10 @@ export default function loggedInUserReducer(
         ...state,
         latestDoYouKnowReadId: action.payload.latestDoYouKnowReadId
       };
+    case types.LOGGED_IN_USER_CLEAR_ALL_DATA:
+      return {
+        ...state
+      };
     default:
       return state;
   }

@@ -3,7 +3,7 @@ import { Navigation } from "react-native-navigation";
 import axios from "axios";
 import store from "../store";
 import DeviceInfo from "react-native-device-info";
-import navigation, { openLoginScreen } from "../navigation";
+import navigation, { openLoginScreen, openEnterPinPopup } from "../navigation";
 import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
@@ -109,6 +109,8 @@ const apiRequest = async ({
     if (error.statusCode == 401) {
       store.dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
       openLoginScreen();
+    } else if (error.statusCode == 402) {
+      openEnterPinPopup();
     }
     throw error;
   }
@@ -120,7 +122,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => { }
+  onUploadProgress = () => {}
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {

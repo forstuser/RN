@@ -34,26 +34,30 @@ class RecentItems extends React.Component {
             listHeight == "less" ? styles.listLessHeight : {}
           ]}
         >
-          {products.map((product, index) => (
-            <View key={index}
-              style={{
-                borderBottomColor: "#efefef",
-                borderBottomWidth: 1
-              }}
-            >
-              <ProductListItem
+          {products.map((product, index) => {
+            if (listHeight == "less" && index > 0) return null;
+            return (
+              <View
+                key={index}
                 style={{
-                  elevation: undefined,
-                  shadowColor: "transparent",
-                  marginBottom: 0
+                  borderBottomColor: "#efefef",
+                  borderBottomWidth: 1
                 }}
-                product={product}
-                navigator={navigator}
-                hideViewBillBtn={true}
-                hideDirectionsAndCallBtns={true}
-              />
-            </View>
-          ))}
+              >
+                <ProductListItem
+                  style={{
+                    elevation: undefined,
+                    shadowColor: "transparent",
+                    marginBottom: 0
+                  }}
+                  product={product}
+                  navigator={navigator}
+                  hideViewBillBtn={true}
+                  hideDirectionsAndCallBtns={true}
+                />
+              </View>
+            );
+          })}
         </View>
         {products.length > 1 && (
           <ViewMoreBtn height={listHeight} onPress={this.toggleListHeight} />
@@ -69,12 +73,10 @@ const styles = StyleSheet.create({
   },
   list: {
     width: "100%",
-    minHeight: 50,
-    overflow: "hidden",
-    backgroundColor: "#fff"
+    marginBottom: 5
   },
   listLessHeight: {
-    maxHeight: 70
+    height: "auto"
   },
   viewBtn: {
     alignItems: "center",

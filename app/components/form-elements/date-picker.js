@@ -11,7 +11,7 @@ import DatePicker from "react-native-datepicker";
 import moment from "moment";
 
 import { Text } from "../../elements";
-import { colors } from "../../theme";
+import { colors, defaultStyles } from "../../theme";
 
 const CalendarIcon = () => (
   <Icon name="calendar" size={17} color={colors.pinkishOrange} />
@@ -122,14 +122,10 @@ const styles = StyleSheet.create({
     // marginBottom: 15,
     width: "100%",
     height: 45,
-    backgroundColor: 'white',
-    borderColor:'transparent',
-    overflow: 'hidden',
-    shadowColor: 'black',
-    padding:10,
-    paddingRight:10,
+    padding: 10,
+    paddingRight: 10,
     marginBottom: 10,
-    elevation: 2,
+    ...defaultStyles.card
   },
   placeholderContainer: {
     position: "absolute",
@@ -137,7 +133,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     top: 10,
-    paddingLeft:6
+    paddingLeft: 6
     // paddingVertical: 10
   },
   filledInputPlaceholderContainer: {
@@ -158,9 +154,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     justifyContent: "center",
     height: 40,
-    width: "100%",
-    borderColor: colors.lighterText,
-    borderBottomWidth: 2
+    width: "100%"
   },
   calendarIconContainer: {
     position: "absolute",

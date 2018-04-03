@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import I18n from "../../i18n";
 import Icon from "react-native-vector-icons/Ionicons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   API_BASE_URL,
   fetchCalendarReferenceData,
@@ -241,7 +242,7 @@ class AddEditCalendarServiceScreen extends Component {
     }
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#f7f7f7" }}>
-        <ScrollView style={{ flex: 1 }}>
+        <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }}>
           {!isFetchingServiceTypes && (
             <SelectServiceHeader
               serviceTypes={serviceTypes}
@@ -432,7 +433,7 @@ class AddEditCalendarServiceScreen extends Component {
               />
             </View>
           )}
-        </ScrollView>
+        </KeyboardAwareScrollView>
         {selectedServiceType && (
           <Button
             onPress={this.createCalendarItem}

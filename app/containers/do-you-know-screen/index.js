@@ -66,7 +66,6 @@ class DoYouKNowScreen extends Component {
       onMoveShouldSetPanResponder: (evt, { dy }) => {
         return dy > 10 || dy < -10;
       },
-
       onPanResponderMove: (evt, { dy }) => {
         const { items, currentIndex } = this.state;
         if (currentIndex > 0 && dy > 0) {
@@ -124,7 +123,7 @@ class DoYouKNowScreen extends Component {
   }
 
   componentDidMount() {
-    this.loadItems();
+    this.loadItems([]);
     this.loadTags();
   }
 
@@ -376,7 +375,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setLatestDoYouKnowReadId: newValue => {
-      console.log("newValue: ", newValue);
       dispatch(loggedInUserActions.setLatestDoYouKnowReadId(newValue));
     }
   };

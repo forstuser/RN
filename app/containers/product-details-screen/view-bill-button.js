@@ -113,9 +113,9 @@ const styles = StyleSheet.create({
     zIndex: 2
   },
   viewBillIcon: {
-    width: 14,
-    height: 14,
-    marginTop: 10
+    width: 20,
+    height: 20,
+    marginTop: 8
   },
   viewBillText: {
     fontSize: 10,
