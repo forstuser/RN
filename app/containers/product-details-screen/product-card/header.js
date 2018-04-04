@@ -29,12 +29,16 @@ const viewBillIcon = require("../../../images/ic_ehome_view_bill.png");
 
 import ReviewModal from "./review-modal";
 import ShareModal from "./share-modal";
+import ImageModal from "./image-model";
 import ViewBillButton from "../view-bill-button";
 import { MAIN_CATEGORY_IDS } from "../../../constants";
 
 class Header extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+
+    }
   }
 
   render() {
@@ -185,11 +189,10 @@ class Header extends Component {
         uri: API_BASE_URL + product.cImageURL + "?t=" + moment().format("X")
       };
     }
-
     return (
       <View style={styles.container}>
         {/* Category Image Start*/}
-        <View style={styles.upparHalf}>
+        <TouchableOpacity onPress={() => { product.file_type ? this.imageModal.show() : '' }} style={styles.upparHalf} >
           <Image style={styles.bg} source={headerBg} resizeMode="cover" />
           {!product.file_type && (
             <Image
@@ -199,7 +202,7 @@ class Header extends Component {
               resizeMode="contain"
             />
           )}
-        </View>
+        </TouchableOpacity>
         {/* Category Image End */}
 
         <View style={styles.lowerHalf}>
@@ -259,52 +262,52 @@ class Header extends Component {
                 MAIN_CATEGORY_IDS.FURNITURE,
                 MAIN_CATEGORY_IDS.FASHION
               ].indexOf(product.masterCategoryId) > -1 && (
-                <View
-                  style={{
-                    alignItems: "center"
-                  }}
-                >
-                  <TouchableOpacity
-                    ref={ref => shareBtnRef(ref)}
-                    onPress={() => this.shareModal.show()}
-                    style={styles.btnShare}
+                  <View
+                    style={{
+                      alignItems: "center"
+                    }}
                   >
-                    <Icon
-                      name={
-                        Platform.OS == "ios" ? "share-apple" : "share-google"
-                      }
-                      size={25}
-                      color={colors.mainBlue}
-                    />
-                  </TouchableOpacity>
-                  <Text weight="Medium" style={styles.btnText}>
-                    {I18n.t("share_card").toUpperCase()}
-                  </Text>
-                </View>
-              )}
+                    <TouchableOpacity
+                      ref={ref => shareBtnRef(ref)}
+                      onPress={() => this.shareModal.show()}
+                      style={styles.btnShare}
+                    >
+                      <Icon
+                        name={
+                          Platform.OS == "ios" ? "share-apple" : "share-google"
+                        }
+                        size={25}
+                        color={colors.mainBlue}
+                      />
+                    </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {I18n.t("share_card").toUpperCase()}
+                    </Text>
+                  </View>
+                )}
               {[
                 MAIN_CATEGORY_IDS.AUTOMOBILE,
                 MAIN_CATEGORY_IDS.ELECTRONICS,
                 MAIN_CATEGORY_IDS.FURNITURE,
                 MAIN_CATEGORY_IDS.FASHION
               ].indexOf(product.masterCategoryId) > -1 && (
-                <View
-                  style={{
-                    alignItems: "center"
-                  }}
-                >
-                  <TouchableOpacity
-                    ref={ref => reviewBtnRef(ref)}
-                    onPress={() => this.reviewModal.show()}
-                    style={styles.btn}
+                  <View
+                    style={{
+                      alignItems: "center"
+                    }}
                   >
-                    <Icon name="star" size={25} color={colors.yellow} />
-                  </TouchableOpacity>
-                  <Text weight="Medium" style={styles.btnText}>
-                    {ratings || I18n.t("review").toUpperCase()}
-                  </Text>
-                </View>
-              )}
+                    <TouchableOpacity
+                      ref={ref => reviewBtnRef(ref)}
+                      onPress={() => this.reviewModal.show()}
+                      style={styles.btn}
+                    >
+                      <Icon name="star" size={25} color={colors.yellow} />
+                    </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {ratings || I18n.t("review").toUpperCase()}
+                    </Text>
+                  </View>
+                )}
             </View>
             {/* 3 buttons (view bill,share and rating) end */}
             <View style={styles.tabs}>
@@ -352,6 +355,10 @@ class Header extends Component {
               ref={ref => (this.shareModal = ref)}
               product={product}
               loggedInUser={loggedInUser}
+            />
+            <ImageModal
+              ref={ref => (this.imageModal = ref)}
+              product={product}
             />
           </View>
         </View>
