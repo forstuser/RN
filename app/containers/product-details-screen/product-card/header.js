@@ -37,7 +37,19 @@ import { MAIN_CATEGORY_IDS } from "../../../constants";
 class Header extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      ratings: null
+    };
   }
+
+  componentDidMount = () => {
+    const { productReviews } = this.props.product;
+    if (productReviews.length > 0) {
+      this.setState({
+        ratings: productReviews[0].ratings
+      });
+    }
+  };
 
   render() {
     const {
@@ -54,15 +66,11 @@ class Header extends Component {
       reviewBtnRef
     } = this.props;
 
+    const { ratings } = this.state;
+
     let productName = product.productName;
     if (!productName) {
       productName = product.categoryName;
-    }
-
-    let ratings = null;
-    const { productReviews } = product;
-    if (productReviews.length > 0) {
-      ratings = productReviews[0].ratings;
     }
 
     let amountBreakdownOptions = [];
@@ -350,12 +358,14 @@ class Header extends Component {
             <ReviewModal
               ref={ref => (this.reviewModal = ref)}
               product={product}
+              onNewRatings={ratings => this.setState({ ratings })}
             />
             <ShareModal
               ref={ref => (this.shareModal = ref)}
               product={product}
               loggedInUser={loggedInUser}
               setLoggedInUserName={setLoggedInUserName}
+              onNewRatings={ratings => this.setState({ ratings })}
             />
           </View>
         </View>

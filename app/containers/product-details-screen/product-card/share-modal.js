@@ -115,7 +115,7 @@ class ShareModal extends React.Component {
         };
 
         if (Platform.OS == "android") {
-          shareContent.text = "Powered by BinBIll-http://bit.ly/2rIabk0";
+          shareContent.message = "Powered by BinBIll-http://bit.ly/2rIabk0";
         }
         await Share.open(shareContent);
       }
@@ -159,7 +159,7 @@ class ShareModal extends React.Component {
       isImageLoading,
       isSavingName
     } = this.state;
-    const { product, loggedInUser } = this.props;
+    const { product, loggedInUser, onNewRatings } = this.props;
     const { brand } = product;
 
     let productImageUrl, productImageResizeMode;
@@ -295,7 +295,10 @@ class ShareModal extends React.Component {
             <View>
               <ProductReview
                 product={product}
-                onReviewSubmit={review => this.onReviewStepDone(review)}
+                onReviewSubmit={review => {
+                  this.onReviewStepDone(review);
+                  onNewRatings(review.ratings);
+                }}
               />
             </View>
           )}
@@ -310,7 +313,10 @@ class ShareModal extends React.Component {
                   <Image
                     onLoad={this.hideLoader}
                     resizeMode={productImageResizeMode}
-                    style={styles.productImage}
+                    style={[
+                      styles.productImage,
+                      productImageResizeMode == "contain" ? { padding: 20 } : {}
+                    ]}
                     source={{ uri: productImageUrl }}
                   />
                 ) : null}
