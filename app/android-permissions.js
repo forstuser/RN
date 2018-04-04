@@ -52,5 +52,7 @@ export const requestCameraPermission = async () => {
 
   if (cameraPermission) {
     return requestStoragePermission();
+  } else {
+    return false;
   }
 };

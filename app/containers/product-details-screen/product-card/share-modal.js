@@ -35,8 +35,6 @@ const playStoreBadge = require("../../../images/playstore_badge.png");
 const appStoreBadge = require("../../../images/appstore_badge.png");
 const userImagePlaceholder = require("../../../images/ic_more_no_profile_pic.png");
 
-import { showSnackbar } from "../../../containers/snackbar";
-
 class ShareModal extends React.Component {
   state = {
     isModalVisible: false,
@@ -123,7 +121,7 @@ class ShareModal extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       console.error("Oops, snapshot failed", e);
     }
   };

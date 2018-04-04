@@ -82,7 +82,7 @@ class PinSetupScreen extends React.Component {
     if (!email) {
       return showSnackbar({
         text: "Please enter email address"
-      })
+      });
     }
     try {
       this.setState({
@@ -97,7 +97,7 @@ class PinSetupScreen extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({
         isLoading: false
       });
@@ -109,7 +109,7 @@ class PinSetupScreen extends React.Component {
     if (otp.length != 4) {
       return showSnackbar({
         text: "Please enter 4 digit OTP sent to your email address."
-      })
+      });
     }
     try {
       this.setState({
@@ -123,7 +123,7 @@ class PinSetupScreen extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({
         isLoading: false
       });
@@ -136,7 +136,7 @@ class PinSetupScreen extends React.Component {
     if (pin !== pin1) {
       return showSnackbar({
         text: "Retry PIN does not match with PIN."
-      })
+      });
     }
 
     try {
@@ -149,7 +149,7 @@ class PinSetupScreen extends React.Component {
       setTimeout(() => {
         showSnackbar({
           text: "Pin Successfully Changed"
-        })
+        });
       }, 200);
 
       this.props.navigator.pop();
@@ -159,7 +159,7 @@ class PinSetupScreen extends React.Component {
       });
       return showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 

@@ -138,7 +138,8 @@ const BillCopyItem = ({
 
 const styles = StyleSheet.create({
   bill: {
-    alignItems: "center"
+    alignItems: "center",
+    zIndex: 0
   },
   billCountTextWrapper: {
     backgroundColor: "rgba(135,135,135,0.8)",
