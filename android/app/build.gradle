@@ -172,6 +172,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-snackbar')
     compile project(':react-native-view-shot')
     compile project(':react-native-fbsdk')
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'

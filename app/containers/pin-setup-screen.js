@@ -148,7 +148,8 @@ class PinSetupScreen extends React.Component {
       this.props.setLoggedInUserIsPinSet(true);
       setTimeout(() => {
         showSnackbar({
-          text: "Pin Successfully Changed"
+          text: "Pin Successfully Changed",
+          isOnTabsScreen: true
         });
       }, 200);
 

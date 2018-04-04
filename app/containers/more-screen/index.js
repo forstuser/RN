@@ -109,10 +109,15 @@ class MoreScreen extends Component {
     try {
       await deletePin({ pin });
       this.props.removePin();
+      showSnackbar({
+        text: "Pin Removed",
+        isOnTabsScreen: true
+      });
     } catch (e) {
       showSnackbar({
-        text: e.message
-      })
+        text: e.message,
+        isOnTabsScreen: true
+      });
     }
     this.setState({
       isFetchingData: false
