@@ -186,9 +186,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderColor: "#ececec",
     borderTopWidth: 1,
-    padding: 20,
+    paddingLeft: 20,
     paddingTop: 15,
-    paddingBottom: 50,
+    // paddingBottom: 50,
     backgroundColor: "white"
   },
 

@@ -19,6 +19,7 @@ import { showSnackbar } from "../snackbar";
 import I18n from "../../i18n";
 import ProfileDetailEdit from "./profile-detail-edit";
 import Body from "./body";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
@@ -156,7 +157,7 @@ class ProfileScreen extends Component {
         },
         {
           text: I18n.t("profile_screen_details_dismiss"),
-          onPress: () => { },
+          onPress: () => {},
           style: "cancel"
         }
       ]
@@ -262,41 +263,43 @@ class ProfileScreen extends Component {
       showEmailVerifyText = true;
     }
     return (
-      <ScreenContainer style={styles.container}>
-        <TouchableOpacity
-          style={styles.opacityArrow}
-          onPress={this.backToMoreScreen}
-        >
-          <Image
-            style={styles.arrow}
-            source={require("../../images/ic_back_arrow_white.png")}
-          />
-        </TouchableOpacity>
-        <Header profile={profile} />
+      <KeyboardAwareScrollView>
+        <ScreenContainer style={styles.container}>
+          <TouchableOpacity
+            style={styles.opacityArrow}
+            onPress={this.backToMoreScreen}
+          >
+            <Image
+              style={styles.arrow}
+              source={require("../../images/ic_back_arrow_white.png")}
+            />
+          </TouchableOpacity>
+          <Header profile={profile} />
 
-        <Body profile={profile} />
+          <Body profile={profile} />
 
-        <TouchableOpacity
-          style={styles.codepushToggleBtn}
-          onLongPress={() => {
-            this.props.setLoggedInUserCodepushDeploymentStaging(
-              !this.props.codepushDeploymentStaging
-            );
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 12,
-              color: colors.secondaryText,
-              textAlign: "center"
+          <TouchableOpacity
+            style={styles.codepushToggleBtn}
+            onLongPress={() => {
+              this.props.setLoggedInUserCodepushDeploymentStaging(
+                !this.props.codepushDeploymentStaging
+              );
             }}
           >
-            {this.props.codepushDeploymentStaging
-              ? "Subscribed to Beta Updates (Long Press to change)"
-              : ""}
-          </Text>
-        </TouchableOpacity>
-      </ScreenContainer>
+            <Text
+              style={{
+                fontSize: 12,
+                color: colors.secondaryText,
+                textAlign: "center"
+              }}
+            >
+              {this.props.codepushDeploymentStaging
+                ? "Subscribed to Beta Updates (Long Press to change)"
+                : ""}
+            </Text>
+          </TouchableOpacity>
+        </ScreenContainer>
+      </KeyboardAwareScrollView>
     );
   }
 }
