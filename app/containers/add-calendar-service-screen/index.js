@@ -11,6 +11,7 @@ import {
   Picker
 } from "react-native";
 import I18n from "../../i18n";
+import { showSnackBar } from "../snackbar"
 import Icon from "react-native-vector-icons/Ionicons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
@@ -172,16 +173,24 @@ class AddEditCalendarServiceScreen extends Component {
     } = this.state;
 
     if (!name) {
-      return Alert.alert("Please enter name");
+      return showSnackBar({
+        text: "Please enter name"
+      })
     }
     if (unitPrice && unitPrice < 0) {
-      return Alert.alert("Amount can't be less than zero");
+      returnshowSnackBar({
+        text: "Amount can't be less than zero"
+      })
     }
     if (!startingDate) {
-      return Alert.alert("Please select a starting date");
+      return showSnackBar({
+        text: "Please select a starting date"
+      })
     }
     if (selectedDays.length == 0) {
-      return Alert.alert("Please select week days for this service");
+      return showSnackBar({
+        text: "Please select week days for this service"
+      })
     }
 
     this.setState({
@@ -210,7 +219,9 @@ class AddEditCalendarServiceScreen extends Component {
       });
       this.props.navigator.pop();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackBar({
+        text: e.message
+      })
       this.setState({
         isFetchingServiceTypes: false
       });
