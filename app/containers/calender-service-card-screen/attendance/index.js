@@ -118,7 +118,8 @@ class Attendance extends React.Component {
       unitPriceText = I18n.t("add_edit_calendar_service_screen_form_fees");
     }
     //  Pritam Dirty code here
-
+    console.log("calculation details", calculationDetails)
+    console.log("payment detail", paymentDetails)
     // function which will return active days of months
     const calculationFunction = (
       startDateforCalculation,
@@ -165,6 +166,7 @@ class Attendance extends React.Component {
     }
     // }
     availableDaysofMonth = [].concat.apply([], availableDaysofMonth);
+    console.log("availableDaysofMonth", availableDaysofMonth)
     return (
       <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
         <Month

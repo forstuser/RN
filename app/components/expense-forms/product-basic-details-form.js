@@ -436,6 +436,7 @@ class BasicDetailsForm extends React.Component {
               </Text>
             </TouchableOpacity>
           )}
+
           {(!selectedBrand ||
             (selectedBrand && selectedBrand.id != 0) ||
             (categoryId != CATEGORY_IDS.FURNITURE.FURNITURE &&
@@ -472,6 +473,7 @@ class BasicDetailsForm extends React.Component {
               onTextInputChange={text => this.onBrandNameChange(text)}
             />
           )}
+
           {(mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
             mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) && (
             <SelectModal
@@ -492,7 +494,6 @@ class BasicDetailsForm extends React.Component {
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
-
                   <Text style={{ color: colors.mainBlue, fontSize: 12 }}>
                     {" "}
                     (Required for calculating warranty)
@@ -519,7 +520,7 @@ class BasicDetailsForm extends React.Component {
               onTextInputChange={text => this.setState({ modelName: text })}
             />
           )}
-          >>>>>>> pritam
+
           {showFullForm && (
             <View>
               {categoryId == 327 && (

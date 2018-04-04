@@ -87,13 +87,10 @@ class Report extends React.Component {
       });
     }
 
-    if (!providerNumberToEdit.trim()) {
-      return showSnackbar({
-        text: "Please enter the number"
-      });
-    }
     // if (!providerNumberToEdit.trim()) {
-    //   return Alert.alert("Please enter the number");
+    //   return showSnackbar({
+    //     text: "Please enter the number"
+    //   })
     // }
     this.setState({
       isSavingDetails: true
