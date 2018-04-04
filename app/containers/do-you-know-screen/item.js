@@ -161,10 +161,9 @@ export default class Item extends React.Component {
                 {title}
               </Text>
               <Text style={styles.description}>{description}</Text>
-
               <View style={styles.tags}>
-                <Text
-                  style={{ height: 30, marginRight: 5, color: colors.secondaryText }}
+                <Text weight="bold"
+                  style={{ height: 15, marginRight: 5, color: colors.mainBlue, fontSize: 10 }}
                 >Tags: {tags.map(tag => tag.title).join(', ')}</Text>
               </View>
             </View>
@@ -236,7 +235,7 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   image: {
-    flex: SCREEN_HEIGHT > 620 ? 3 : 2,
+    flex: SCREEN_HEIGHT > 620 ? 2 : 2,
     borderRadius: 5,
     overflow: "hidden"
   },
@@ -311,11 +310,11 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: SCREEN_HEIGHT > 620 ? 14 : 12,
-    marginTop: 10,
+    // marginTop: 1,
     flex: 1
   },
   tags: {
-    paddingTop: 10,
+    // paddingTop: 10,
     flexDirection: "row"
   },
   endMsg: {

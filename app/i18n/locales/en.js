@@ -510,8 +510,8 @@ export default {
   my_calendar_screen_payment_type: "Payment Type",
 
   //add/edit calendar service screen
-  add_edit_calendar_service_screen_title: "Add Service",
-  add_edit_calendar_service_screen_title_slider: "Select Service Type",
+  add_edit_calendar_service_screen_title: "Add Attendance",
+  add_edit_calendar_service_screen_title_slider: "Select service type for attendance",
   add_edit_calendar_service_screen_form_name: "Name",
   add_edit_calendar_service_screen_form_provider_name: "Provider Name",
   add_edit_calendar_service_screen_form_wages_type: "Wages Type",
