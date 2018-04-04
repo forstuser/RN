@@ -133,12 +133,12 @@ class SelectCategoryHeader extends React.Component {
         title = I18n.t("add_edit_expense_screen_title_select_service_expense");
         visibleOptions = [
           {
-            id: 122,
+            id: 11,
             name: "Professional",
             icon: require("../../images/categories/professional.png")
           },
           {
-            id: 123,
+            id: 12,
             name: "Lessons & Hobbies",
             icon: require("../../images/categories/hobbies.png")
           },
@@ -317,7 +317,7 @@ class SelectCategoryHeader extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
