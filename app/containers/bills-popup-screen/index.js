@@ -14,6 +14,7 @@ import moment from "moment";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import { connect } from "react-redux";
 import I18n from "../../i18n";
+import { showSnackbar } from "../snackbar";
 
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -46,8 +47,11 @@ class BillsPopUpScreen extends Component {
 
   shareCopies = selectedCopies => {
     if (selectedCopies.length == 0) {
-      return Alert.alert("Select some files to share!");
+      return showSnackbar({
+        text: "Select some files to share!"
+      })
     }
+
 
     this.setState({
       isDownloadingFiles: true
@@ -84,7 +88,9 @@ class BillsPopUpScreen extends Component {
         this.setState({
           isDownloadingFiles: false
         });
-        Alert.alert("Some error occurred!");
+        showSnackbar({
+          text: "Some error occurred!"
+        })
       });
   };
 
@@ -124,7 +130,9 @@ class BillsPopUpScreen extends Component {
         pendingDocs: items
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -140,7 +148,9 @@ class BillsPopUpScreen extends Component {
         copies
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 

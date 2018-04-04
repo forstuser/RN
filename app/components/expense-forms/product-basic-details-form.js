@@ -10,6 +10,7 @@ import I18n from "../../i18n";
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
 import { colors } from "../../theme";
+import { showSnackbar } from "../../containers/snackbar";
 
 import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";
@@ -294,7 +295,9 @@ class BasicDetailsForm extends React.Component {
         );
         this.setState({ models });
       } catch (e) {
-        Alert.alert(e.message);
+        showSnackbar({
+          text: e.message
+        })
       }
     }
   };
@@ -501,9 +504,9 @@ class BasicDetailsForm extends React.Component {
                   if (selectedBrand || brandName) {
                     return true;
                   }
-                  Alert.alert(
-                    I18n.t("expense_forms_product_basics_select_brand_first")
-                  );
+                  showSnackbar({
+                    text: I18n.t("expense_forms_product_basics_select_brand_first")
+                  })
                   return false;
                 }}
                 selectedOption={selectedModel}

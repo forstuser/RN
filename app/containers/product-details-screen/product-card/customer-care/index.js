@@ -17,6 +17,7 @@ import { API_BASE_URL, getAscSearchResults } from "../../../../api";
 import { Text } from "../../../../elements";
 import I18n from "../../../../i18n";
 import LoadingOverlay from "../../../../components/loading-overlay";
+import { showSnackbar } from "../../../snackbar";
 
 import ConnectItem from "./connect-item";
 import AscItem from "./asc-item";
@@ -66,7 +67,9 @@ class CustomerCare extends React.Component {
         ascItems: [],
         isFetchingAscItems: false
       });
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -89,7 +92,9 @@ class CustomerCare extends React.Component {
       );
     } catch (e) {
       console.log("e: ", e);
-      alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -220,7 +225,7 @@ class CustomerCare extends React.Component {
         title: I18n.t("product_details_screen_connect_insurance_provider"),
         imageUrl: `${API_BASE_URL}/providers/${
           insuranceData.providerId
-        }/images`,
+          }/images`,
         name: insuranceData.providerName,
         phoneNumbers: insuranceData.phoneNumbers,
         emails: insuranceData.emails,
@@ -290,8 +295,8 @@ class CustomerCare extends React.Component {
               <Text weight="Medium" style={styles.locationPickerText}>
                 {place
                   ? `${place.name} ${
-                      place.address ? "(" + place.address + ")" : ""
-                    }`
+                  place.address ? "(" + place.address + ")" : ""
+                  }`
                   : I18n.t("product_details_screen_asc_select_location")}
               </Text>
               <Icon

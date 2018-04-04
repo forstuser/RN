@@ -9,6 +9,8 @@ import {
   updateRepair,
   deleteRepair
 } from "../api";
+import { showSnackbar } from "./snackbar";
+
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
 import RepairForm from "../components/expense-forms/repair-form";
@@ -114,14 +116,16 @@ class AddEditRepair extends React.Component {
                   await deleteRepair({ productId, repairId: repair.id });
                   this.props.navigator.pop();
                 } catch (e) {
-                  Alert.alert(I18n.t("add_edit_amc_could_not_delete"));
+                  showSnackbar({
+                    text: I18n.t("add_edit_amc_could_not_delete")
+                  })
                   this.setState({ isLoading: false });
                 }
               }
             },
             {
               text: I18n.t("add_edit_no_dnt_delete"),
-              onPress: () => {},
+              onPress: () => { },
               style: "cancel"
             }
           ]
@@ -148,7 +152,9 @@ class AddEditRepair extends React.Component {
     };
 
     if (!data.repairDate) {
-      return Alert.alert(I18n.t("add_edit_repair_date"));
+      return showSnackbar({
+        text: I18n.t("add_edit_repair_date")
+      })
     }
 
     try {
@@ -161,7 +167,9 @@ class AddEditRepair extends React.Component {
       this.setState({ isLoading: false });
       this.changesSavedModal.show();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({ isLoading: false });
     }
   };

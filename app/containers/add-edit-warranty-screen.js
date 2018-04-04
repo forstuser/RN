@@ -3,6 +3,7 @@ import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import I18n from "../i18n";
+import { showSnackbar } from "./snackbar";
 
 import {
   getReferenceDataForCategory,
@@ -138,14 +139,16 @@ class AddEditWarranty extends React.Component {
                   await deleteWarranty({ productId, warrantyId: warranty.id });
                   this.props.navigator.pop();
                 } catch (e) {
-                  Alert.alert(I18n.t("add_edit_amc_could_not_delete"));
+                  showSnackbar({
+                    text: I18n.t("add_edit_amc_could_not_delete")
+                  })
                   this.setState({ isLoading: false });
                 }
               }
             },
             {
               text: I18n.t("add_edit_no_dnt_delete"),
-              onPress: () => {},
+              onPress: () => { },
               style: "cancel"
             }
           ]
@@ -164,7 +167,9 @@ class AddEditWarranty extends React.Component {
         isLoading: false
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -188,11 +193,15 @@ class AddEditWarranty extends React.Component {
     };
 
     if (warrantyType == WARRANTY_TYPES.EXTENDED && !data.effectiveDate) {
-      return Alert.alert(I18n.t("add_edit_warranty_effective_date"));
+      return showSnackbar({
+        text: I18n.t("add_edit_warranty_effective_date")
+      })
     }
 
     if (!data.renewalType) {
-      return Alert.alert(I18n.t("add_edit_warranty_uptoo"));
+      return showSnackbar({
+        text: I18n.t("add_edit_warranty_uptoo")
+      })
     }
 
     console.log("data: ", data);
@@ -207,7 +216,9 @@ class AddEditWarranty extends React.Component {
       this.setState({ isLoading: false });
       this.changesSavedModal.show();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({ isLoading: false });
     }
   };

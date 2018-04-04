@@ -31,6 +31,7 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import Analytics from "../../analytics";
 
 import I18n from "../../i18n";
+import { showSnackbar } from "../snackbar";
 
 import { colors } from "../../theme";
 

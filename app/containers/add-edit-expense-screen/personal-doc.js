@@ -8,6 +8,7 @@ import Analytics from "../../analytics";
 import { API_BASE_URL, initProduct, updateProduct } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
 import I18n from "../../i18n";
+import { showSnackbar } from "../snackbar";
 
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
@@ -75,7 +76,9 @@ class PersonalDoc extends React.Component {
   beforeUpload = () => {
     const product = this.state.product;
     if (!product) {
-      Alert.alert(I18n.t("add_edit_expense_screen_title_add_select_doc"));
+      showSnackbar({
+        text: I18n.t("add_edit_expense_screen_title_add_select_doc")
+      })
       return false;
     }
     return true;
@@ -109,7 +112,9 @@ class PersonalDoc extends React.Component {
         isLoading: false
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -126,15 +131,15 @@ class PersonalDoc extends React.Component {
       } = this.state;
 
       if (!product) {
-        return Alert.alert(
-          I18n.t("add_edit_expense_screen_title_add_select_doc")
-        );
+        return showSnackbar({
+          text: I18n.t("add_edit_expense_screen_title_add_select_doc")
+        })
       }
 
       if (!isDocUploaded) {
-        return Alert.alert(
-          I18n.t("add_edit_expense_screen_title_add_upload_doc")
-        );
+        return showSnackbar({
+          text: I18n.t("add_edit_expense_screen_title_add_upload_doc")
+        })
       }
       const data = {
         productId: product.id,
@@ -172,7 +177,9 @@ class PersonalDoc extends React.Component {
         isFinishModalVisible: true
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({
         isLoading: false
       });

@@ -18,6 +18,7 @@ import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import { API_BASE_URL, getAscSearchResults } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
 import { colors } from "../../theme";
+import { showSnackbar } from "../snackbar";
 
 import EmptyServicesListPlaceholder from "./empty-services-list-placeholder";
 
@@ -67,7 +68,9 @@ class AscSearchScreen extends Component {
         serviceCenters: [],
         isFetchingResults: false
       });
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -95,7 +98,9 @@ class AscSearchScreen extends Component {
       }
     }
     if (phoneNumbers.length == 0) {
-      return Alert.alert(I18n.t("asc_search_screen_phone_not_available"));
+      return showSnackbar({
+        text: I18n.t("asc_search_screen_phone_not_available")
+      })
     }
     this.setState(
       {
@@ -110,7 +115,9 @@ class AscSearchScreen extends Component {
   handlePhonePress = index => {
     if (index < this.state.phoneNumbers.length) {
       call({ number: this.state.phoneNumbers[index] }).catch(e =>
-        Alert.alert(e.message)
+        showSnackbar({
+          text: e.message
+        })
       );
     }
   };

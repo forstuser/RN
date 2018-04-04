@@ -18,6 +18,8 @@ import StarRating from "react-native-star-rating";
 
 import { Text, Button, ScreenContainer } from "../../elements";
 import I18n from "../../i18n";
+import { showSnackbar } from "../snackbar";
+
 import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -71,10 +73,14 @@ class SellerTab extends Component {
         ratings: this.state.starCount,
         feedback: this.state.reviewInput
       });
-      Alert.alert(I18n.t("product_details_screen_review_added"));
+      showSnackbar({
+        text: I18n.t("product_details_screen_review_added")
+      })
       this.props.fetchProductDetails();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     } finally {
       this.setState({
         isAddingReview: false
@@ -159,35 +165,35 @@ class SellerTab extends Component {
         {(seller.address.length > 0 ||
           seller.city.length > 0 ||
           seller.state.length > 0) && (
-          <KeyValueItem
-            KeyComponent={() => (
-              <View style={{ flex: 1 }}>
-                <Text style={{ color: colors.secondaryText }}>
-                  {I18n.t("product_details_screen_seller_address")}
-                </Text>
-                <Text weight="Medium" style={{ color: colors.mainText }}>
-                  {_.trim(
-                    seller.address + ", " + seller.city + ", " + seller.state,
-                    ", "
-                  )}
-                </Text>
-              </View>
-            )}
-            ValueComponent={() => (
-              <TouchableOpacity onPress={this.openMap} style={{ width: 70 }}>
-                <View style={{ alignItems: "center" }}>
-                  <Image style={{ width: 24, height: 24 }} source={mapIcon} />
-                  <Text
-                    weight="Bold"
-                    style={{ fontSize: 10, color: colors.pinkishOrange }}
-                  >
-                    {I18n.t("product_details_screen_seller_find_store")}
+            <KeyValueItem
+              KeyComponent={() => (
+                <View style={{ flex: 1 }}>
+                  <Text style={{ color: colors.secondaryText }}>
+                    {I18n.t("product_details_screen_seller_address")}
+                  </Text>
+                  <Text weight="Medium" style={{ color: colors.mainText }}>
+                    {_.trim(
+                      seller.address + ", " + seller.city + ", " + seller.state,
+                      ", "
+                    )}
                   </Text>
                 </View>
-              </TouchableOpacity>
-            )}
-          />
-        )}
+              )}
+              ValueComponent={() => (
+                <TouchableOpacity onPress={this.openMap} style={{ width: 70 }}>
+                  <View style={{ alignItems: "center" }}>
+                    <Image style={{ width: 24, height: 24 }} source={mapIcon} />
+                    <Text
+                      weight="Bold"
+                      style={{ fontSize: 10, color: colors.pinkishOrange }}
+                    >
+                      {I18n.t("product_details_screen_seller_find_store")}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+          )}
         {product.sellers &&
           false && (
             <View style={styles.review}>

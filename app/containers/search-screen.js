@@ -16,6 +16,7 @@ import { ScreenContainer, Text, Button, AsyncImage } from "../elements";
 import { colors } from "../theme";
 import { openBillsPopUp } from "../navigation";
 import I18n from "../i18n";
+import { showSnackbar } from "./snackbar";
 const backIcon = require("../images/ic_arrow_back_black.png");
 const noDocs = require("../images/ic_no_docs.png");
 
@@ -34,11 +35,13 @@ class SearchBox extends Component {
       searchHasRunOnce: false
     };
   }
-  componentDidMount() {}
+  componentDidMount() { }
 
   fetchResults = async () => {
     if (!this.state.textInput.trim()) {
-      return Alert.alert("Please enter text to search");
+      return showSnackbar({
+        text: "Please enter text to search"
+      })
     }
     this.textInput.blur();
     this.setState({ isFetchingResults: true });
@@ -50,7 +53,9 @@ class SearchBox extends Component {
         searchHasRunOnce: true
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 

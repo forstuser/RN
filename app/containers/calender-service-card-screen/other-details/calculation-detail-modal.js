@@ -20,6 +20,7 @@ import {
 import { addCalendarItemCalculationDetail } from "../../../api";
 
 import I18n from "../../../i18n";
+import { showSnackbar } from "../../snackbar";
 
 import { updateCalendarItem } from "../../../api";
 import { Text, Button } from "../../../elements";
@@ -134,10 +135,14 @@ class CalculationDetailModal extends React.Component {
     } = this.state;
 
     if (!startingDate) {
-      return Alert.alert("Please select a starting date");
+      return showSnackbar({
+        text: "Please select a starting date"
+      })
     }
     if (selectedDays.length == 0) {
-      return Alert.alert("Please select week days for this service");
+      return showSnackbar({
+        text: "Please select week days for this service"
+      })
     }
 
     this.setState({
@@ -171,7 +176,9 @@ class CalculationDetailModal extends React.Component {
         reloadScreen();
       }, 200);
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({
         isSavingDetails: false
       });

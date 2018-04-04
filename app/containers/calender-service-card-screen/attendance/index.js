@@ -3,6 +3,7 @@ import { StyleSheet, View, Alert } from "react-native";
 import moment from "moment";
 
 import I18n from "../../../i18n";
+import { showSnackbar } from "../../snackbar";
 
 import {
   updateCalendarServicePaymentDayToAbsent,
@@ -30,7 +31,9 @@ class Attendance extends React.Component {
       });
       this.props.reloadScreen();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -45,7 +48,9 @@ class Attendance extends React.Component {
       });
       this.props.reloadScreen();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 

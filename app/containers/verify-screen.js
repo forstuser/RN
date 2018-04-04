@@ -60,7 +60,9 @@ class VerifyScreen extends Component {
         text: "OTP sent again successfully!!"
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
     this.setState({
       isVerifyingOtp: false
@@ -69,7 +71,9 @@ class VerifyScreen extends Component {
 
   onSubmitOtp = async () => {
     if (this.state.otp.length != 4) {
-      return Alert.alert(I18n.t("verify_screen_invalid_otp_error"));
+      return showSnackbar({
+        text: I18n.t("verify_screen_invalid_otp_error")
+      })
     }
 
     try {
@@ -94,7 +98,9 @@ class VerifyScreen extends Component {
       });
       openAfterLoginScreen();
     } catch (e) {
-      Alert.alert(e.statusCode == 401 ? "Wrong OTP" : e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({
         isVerifyingOtp: false
       });

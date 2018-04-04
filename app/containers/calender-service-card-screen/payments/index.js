@@ -12,6 +12,7 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import I18n from "../../../i18n";
+import { showSnackbar } from "../../snackbar";
 
 import { addCalendarItemPayment } from "../../../api";
 
@@ -56,11 +57,15 @@ class Report extends React.Component {
     const { item, reloadScreen } = this.props;
 
     if (!amountPaid) {
-      return Alert.alert("Please enter amount paid");
+      return showSnackbar({
+        text: "Please enter amount paid"
+      })
     }
 
     if (!paidOn) {
-      return Alert.alert("Please select the date amount paid on");
+      return showSnackbar({
+        text: "Please select the date amount paid on"
+      })
     }
 
     this.setState({
@@ -76,7 +81,9 @@ class Report extends React.Component {
       });
       reloadScreen();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({
         isAddingPayment: false
       });

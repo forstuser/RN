@@ -21,6 +21,8 @@ import {
 } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 import I18n from "../i18n";
+import { showSnackbar } from "./snackbar";
+
 import SelectModal from "../components/select-modal";
 import LoadingOverlay from "../components/loading-overlay";
 
@@ -101,7 +103,9 @@ class AscScreen extends Component {
         brands: res.brands.filter(brand => brand.id > 0)
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     } finally {
       this.setState({
         isFetchingBrands: false
@@ -121,7 +125,9 @@ class AscScreen extends Component {
         isFetchingData: false
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     } finally {
       this.setState({
         isFetchingProducts: false
@@ -166,7 +172,9 @@ class AscScreen extends Component {
         }
       );
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     } finally {
       this.setState({
         isFetchingCategories: false
@@ -184,11 +192,15 @@ class AscScreen extends Component {
 
   startSearch = () => {
     if (!this.state.selectedBrand || !this.state.selectedCategory) {
-      return Alert.alert(I18n.t("asc_screen_select_fields_first"));
+      return showSnackbar({
+        text: I18n.t("asc_screen_select_fields_first")
+      })
     }
 
     if (!this.state.latitude) {
-      return Alert.alert(I18n.t("asc_screen_select_location"));
+      return showSnackbar({
+        text: I18n.t("asc_screen_select_location")
+      })
     }
 
     Analytics.logEvent(Analytics.EVENTS.SEARCH_ASC);
@@ -350,7 +362,9 @@ class AscScreen extends Component {
               )}
               beforeModalOpen={() => {
                 if (!this.state.selectedBrand) {
-                  Alert.alert(I18n.t("asc_screen_select_brand_first"));
+                  showSnackbar({
+                    text: I18n.t("asc_screen_select_brand_first")
+                  })
                   return false;
                 }
                 this.setState({ clearSelectedValuesOnScreenAppear: false });

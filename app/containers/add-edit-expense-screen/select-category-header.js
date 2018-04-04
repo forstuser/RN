@@ -12,6 +12,7 @@ import I18n from "../../i18n";
 import { MAIN_CATEGORY_IDS } from "../../constants";
 import { Text } from "../../elements";
 import { colors } from "../../theme";
+import { showSnackbar } from "../snackbar";
 
 import { getReferenceDataCategories } from "../../api";
 
@@ -309,7 +310,9 @@ class SelectCategoryHeader extends React.Component {
       );
       this.setState({ otherOptions: categories });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 

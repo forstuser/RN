@@ -24,6 +24,8 @@ import {
 } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import I18n from "../../i18n";
+import { showSnackbar } from "../snackbar";
+
 import { colors } from "../../theme";
 import TabSearchHeader from "../../components/tab-screen-header";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -240,7 +242,9 @@ class DoYouKNowScreen extends Component {
 
       this.setState({ items });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
     item.isTogglingLike = false;
     items[index] = item;

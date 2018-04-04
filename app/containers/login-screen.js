@@ -21,6 +21,8 @@ import { consumerGetOtp, consumerValidate, getProfileDetail } from "../api";
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
 import I18n from "../i18n";
+import { showSnackbar } from "./snackbar";
+
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import { actions as uiActions } from "../modules/ui";
 import Analytics from "../analytics";
@@ -50,7 +52,9 @@ class LoginScreen extends Component {
 
   onSubmitPhoneNumber = async () => {
     if (this.state.phoneNumber.length != 10) {
-      return Alert.alert(I18n.t("login_screen_invalid_number_error"));
+      return showSnackbar({
+        text: I18n.t("login_screen_invalid_number_error")
+      })
     }
     try {
       this.setState({
@@ -70,7 +74,9 @@ class LoginScreen extends Component {
       this.setState({
         isGettingOtp: false
       });
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -98,7 +104,9 @@ class LoginScreen extends Component {
       this.setState({
         isGettingOtp: false
       });
-      Alert.alert("Some error occurred");
+      showSnackbar({
+        text: "Some error occurred"
+      })
     }
   };
 
@@ -130,7 +138,9 @@ class LoginScreen extends Component {
       if (!result.isCancelled) {
         if (result.grantedPermissions.indexOf("email") == -1) {
           setTimeout(() => {
-            Alert.alert("Email address is required");
+            showSnackbar({
+              text: "Email address is required"
+            })
           }, 200);
           return;
         }
@@ -152,7 +162,9 @@ class LoginScreen extends Component {
       this.setState({
         isGettingOtp: false
       });
-      Alert.alert("Some error occurred");
+      showSnackbar({
+        text: "Some error occurred"
+      })
     }
   };
   render() {

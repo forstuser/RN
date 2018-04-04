@@ -10,6 +10,7 @@ import {
 import StarRating from "react-native-star-rating";
 
 import { addProductReview } from "../api";
+import { showSnackbar } from "../containers/snackbar";
 
 import I18n from "../i18n";
 
@@ -63,7 +64,9 @@ class UploadProductImage extends React.Component {
         });
       }
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     } finally {
       this.setState({
         isSaving: false
