@@ -41,7 +41,7 @@ class EnterPinScreen extends React.Component {
     if (pin.length != 4) {
       return showSnackbar({
         text: "Please enter 4 digit pin"
-      })
+      });
     }
     this.setState({
       isLoading: true
@@ -54,6 +54,7 @@ class EnterPinScreen extends React.Component {
       this.props.navigator.dismissModal();
       global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE] = false;
     } catch (e) {
+      this.pinInput.clearPin();
       showSnackbar({
         text: e.message
       });
@@ -67,6 +68,7 @@ class EnterPinScreen extends React.Component {
     return (
       <ScreenContainer style={styles.container}>
         <PinInput
+          ref={ref => (this.pinInput = ref)}
           title="Enter App PIN"
           showForgotOption={true}
           onSubmitPress={this.verifyPin}

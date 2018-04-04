@@ -14,6 +14,12 @@ class PinInput extends React.Component {
     pin: ""
   };
 
+  clearPin = () => {
+    this.setState({
+      pin: ""
+    });
+  };
+
   onKeyPress = number => {
     if (this.state.pin.length == 4) return;
     this.setState({

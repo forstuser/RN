@@ -7,15 +7,33 @@ import {
   TouchableOpacity,
   Platform
 } from "react-native";
+
+import Snackbar from "react-native-snackbar";
+
 import I18n from "../i18n";
 import { Navigation } from "react-native-navigation";
 import { SCREENS } from "../constants";
 import Text from "../elements/text";
 import { colors } from "../theme";
 
-const showSnackbar = ({ text = "", autoDismissTimerSec = 5 }) => {
-  Navigation.dismissInAppNotification();
-  if (Platform.OS == "ios") {
+const showSnackbar = ({
+  text = "",
+  autoDismissTimerSec = 2,
+  isOnTabsScreen = false
+}) => {
+  hideSnackbar();
+
+  if (Platform.OS == "android" && isOnTabsScreen) {
+    return Navigation.showSnackbar({
+      text,
+      actionText: "OK",
+      actionId: "fabClicked", // Mandatory if you've set actionText
+      actionColor: colors.pinkishOrange, // optional
+      textColor: "#fff", // optional
+      backgroundColor: "#323232", // optional
+      duration: autoDismissTimerSec > 5 ? "long" : "short" // default is `short`. Available options: short, long, indefinite
+    });
+  } else {
     return Navigation.showInAppNotification({
       screen: SCREENS.SNACKBAR_SCREEN,
       passProps: {
@@ -24,16 +42,6 @@ const showSnackbar = ({ text = "", autoDismissTimerSec = 5 }) => {
       position: "bottom", // 'top' or 'bottom',
       autoDismissTimerSec: autoDismissTimerSec
     });
-  } else {
-    return Navigation.showSnackbar({
-      text,
-      actionText: "OK",
-      actionId: "fabClicked", // Mandatory if you've set actionText
-      actionColor: colors.pinkishOrange, // optional
-      textColor: "#fff", // optional
-      backgroundColor: "#323232", // optional
-      duration: autoDismissTimerSec > 10 ? "long" : "short" // default is `short`. Available options: short, long, indefinite
-    });
   }
 };
 
@@ -41,7 +49,7 @@ const hideSnackbar = () => {
   Navigation.dismissInAppNotification();
 };
 
-class Snackbar extends React.Component {
+class SnackbarView extends React.Component {
   render() {
     const { text, navigator } = this.props;
     return (
@@ -68,7 +76,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     width: Dimensions.get("screen").width,
-    maxWidth: 400,
     backgroundColor: "#323232",
     padding: 0,
     alignItems: "center"
@@ -90,5 +97,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Snackbar;
+export default SnackbarView;
 export { showSnackbar, hideSnackbar };
