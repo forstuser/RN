@@ -200,7 +200,7 @@ class ProductOrExpense extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -216,14 +216,14 @@ class ProductOrExpense extends React.Component {
         if (!data.subCategoryId) {
           return showSnackbar({
             text: "Please select insurance type"
-          })
+          });
         }
       } else if (this.healthcareMedicalDocForm) {
         data = this.healthcareMedicalDocForm.getFilledData();
         if (data.copies.length == 0) {
           return showSnackbar({
             text: "Please upload the report doc"
-          })
+          });
         }
         delete data.isDocUploaded;
       }
@@ -277,7 +277,7 @@ class ProductOrExpense extends React.Component {
           if (data.brandId === undefined && !data.brandName) {
             return showSnackbar({
               text: I18n.t("add_edit_expense_screen_title_add_brand_name")
-            })
+            });
           }
           break;
         case MAIN_CATEGORY_IDS.FURNITURE:
@@ -287,7 +287,7 @@ class ProductOrExpense extends React.Component {
           ) {
             return showSnackbar({
               text: I18n.t("add_edit_expense_screen_title_add_type")
-            })
+            });
           }
           break;
         case MAIN_CATEGORY_IDS.HOUSEHOLD:
@@ -306,7 +306,7 @@ class ProductOrExpense extends React.Component {
           ) {
             return showSnackbar({
               text: I18n.t("add_edit_expense_screen_title_add_amount")
-            })
+            });
           }
       }
 
@@ -327,8 +327,7 @@ class ProductOrExpense extends React.Component {
       });
       showSnackbar({
         text: e.message
-
-      })
+      });
     }
   };
 
@@ -380,10 +379,13 @@ class ProductOrExpense extends React.Component {
             <View style={styles.selectCategoryMsgContainer}>
               <Text weight="Medium" style={styles.selectCategoryMsg}>
                 {startMsg}
-
               </Text>
               {reasons.map(reason => {
-                return (<Text weight="Medium" style={styles.reason}>• {reason}</Text>)
+                return (
+                  <Text weight="Medium" style={styles.reason}>
+                    • {reason}
+                  </Text>
+                );
               })}
             </View>
           )}
@@ -606,13 +608,12 @@ const styles = StyleSheet.create({
     color: colors.secondaryText,
     // textAlign: 'left',
     fontSize: 12,
-    marginLeft: 80,
-    alignSelf: 'flex-start',
+    marginLeft: 100,
+    alignSelf: "flex-start"
     // color: 'red',
     // flex: 1,
     // alignItems: 'flex-start',
     // selfAlign: 'left'
-
   },
   container: {
     padding: 0,

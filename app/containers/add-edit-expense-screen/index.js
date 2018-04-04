@@ -91,8 +91,16 @@ class AddEditExpenseScreen extends React.Component {
         this.setState({
           formType: "product",
           mainCategoryId: MAIN_CATEGORY_IDS.AUTOMOBILE,
-          reasons:
-            ['Connect with brands', 'Receive insurance & warranty reminders', 'Connect with nearest service centres', 'Receive service schedule', 'Retrieve a product bill/invoice', 'Track lifetime expenses', 'Share personalised reviews', 'And much more..']
+          reasons: [
+            "Connect with brands",
+            "Receive insurance & warranty reminders",
+            "Connect with nearest service centres",
+            "Receive service schedule",
+            "Retrieve a product bill/invoice",
+            "Track lifetime expenses",
+            "Share personalised reviews",
+            "And much more.."
+          ]
         });
         break;
       case EXPENSE_TYPES.ELECTRONICS:
@@ -100,7 +108,15 @@ class AddEditExpenseScreen extends React.Component {
         this.setState({
           formType: "product",
           mainCategoryId: MAIN_CATEGORY_IDS.ELECTRONICS,
-          reasons: ['Connect with brands', 'Receive warranty & insurance reminders', 'Connect with nearest service centres', 'Retrieve a product bill/invoice', 'Track lifetime expenses', 'Share personalised reviews', 'And much more..']
+          reasons: [
+            "Connect with brands",
+            "Receive warranty & insurance reminders",
+            "Connect with nearest service centres",
+            "Retrieve a product bill/invoice",
+            "Track lifetime expenses",
+            "Share personalised reviews",
+            "And much more.."
+          ]
         });
         break;
       case EXPENSE_TYPES.FURNITURE:
@@ -108,7 +124,15 @@ class AddEditExpenseScreen extends React.Component {
         this.setState({
           formType: "product",
           mainCategoryId: MAIN_CATEGORY_IDS.FURNITURE,
-          reasons: ['Connect with brands', 'Receive warranty reminders', 'Connect with nearest service centres', 'Retrieve a product bill/invoice', 'Track lifetime expenses', 'Share personalised reviews', 'And much more..']
+          reasons: [
+            "Connect with brands",
+            "Receive warranty reminders",
+            "Connect with nearest service centres",
+            "Retrieve a product bill/invoice",
+            "Track lifetime expenses",
+            "Share personalised reviews",
+            "And much more.."
+          ]
         });
         break;
       case EXPENSE_TYPES.MEDICAL_DOCS:
@@ -116,7 +140,13 @@ class AddEditExpenseScreen extends React.Component {
         this.setState({
           formType: "medical_docs",
           mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE,
-          reasons: ['Retrieve an insurance policy/record', 'Connect with insurance providers', 'Receive insurance reminders', 'Share personalised reviews', 'And much more..']
+          reasons: [
+            "Retrieve an insurance policy/record",
+            "Connect with insurance providers",
+            "Receive insurance reminders",
+            "Share personalised reviews",
+            "And much more.."
+          ]
         });
         break;
       case EXPENSE_TYPES.VISITING_CARD:
@@ -125,7 +155,7 @@ class AddEditExpenseScreen extends React.Component {
           formType: "visiting_card",
           mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL,
           confirmBackNavigation: true,
-          reasons: ['']
+          reasons: [""]
         });
         break;
       case EXPENSE_TYPES.PERSONAL:
@@ -134,7 +164,7 @@ class AddEditExpenseScreen extends React.Component {
           formType: "personal_doc",
           mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL,
           confirmBackNavigation: true,
-          reasons: ['']
+          reasons: [""]
         });
         break;
       case EXPENSE_TYPES.TRAVEL:
@@ -142,7 +172,12 @@ class AddEditExpenseScreen extends React.Component {
         this.setState({
           formType: "expense",
           mainCategoryId: MAIN_CATEGORY_IDS.TRAVEL,
-          reasons: ['Personalise your expenses', 'Retrieve a bill anytime', 'Get expense insights', 'And much more..']
+          reasons: [
+            "Personalise your expenses",
+            "Retrieve a bill anytime",
+            "Get expense insights",
+            "And much more.."
+          ]
         });
         break;
       case EXPENSE_TYPES.HEALTHCARE:
@@ -150,7 +185,11 @@ class AddEditExpenseScreen extends React.Component {
         this.setState({
           formType: "healthcare_expense",
           mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE,
-          reasons: ['Retrieve a bill/record/prescription', 'Get expense insights', 'And much more..']
+          reasons: [
+            "Retrieve a bill/record/prescription",
+            "Get expense insights",
+            "And much more.."
+          ]
         });
         break;
       case EXPENSE_TYPES.FASHION:
@@ -158,7 +197,13 @@ class AddEditExpenseScreen extends React.Component {
         this.setState({
           formType: "expense",
           mainCategoryId: MAIN_CATEGORY_IDS.FASHION,
-          reasons: ['Personalise your expenses', 'Retrieve a bill anytime', 'Get expense insights', 'Share personalised review', 'And much more..']
+          reasons: [
+            "Personalise your expenses",
+            "Retrieve a bill anytime",
+            "Get expense insights",
+            "Share personalised review",
+            "And much more.."
+          ]
         });
         break;
       case EXPENSE_TYPES.SERVICES:
@@ -166,7 +211,11 @@ class AddEditExpenseScreen extends React.Component {
         this.setState({
           formType: "expense",
           mainCategoryId: MAIN_CATEGORY_IDS.SERVICES,
-          reasons: ['Retrieve a bill anytime', 'Get expense insights', 'And much more..']
+          reasons: [
+            "Retrieve a bill anytime",
+            "Get expense insights",
+            "And much more.."
+          ]
         });
         break;
       case EXPENSE_TYPES.HOME:
@@ -174,14 +223,18 @@ class AddEditExpenseScreen extends React.Component {
         this.setState({
           formType: "expense",
           mainCategoryId: MAIN_CATEGORY_IDS.HOUSEHOLD,
-          reasons: ['Retrieve a bill anytime', 'Get expense insights', 'And much more..']
+          reasons: [
+            "Retrieve a bill anytime",
+            "Get expense insights",
+            "And much more.."
+          ]
         });
         break;
       case EXPENSE_TYPES.REPAIR:
         title = I18n.t("add_edit_expense_screen_title_add_repair");
         this.setState({
           formType: "repair",
-          reasons: ['']
+          reasons: [""]
         });
         break;
     }
@@ -213,7 +266,10 @@ class AddEditExpenseScreen extends React.Component {
       case "personal_doc":
       case "visiting_card":
         return (
-          <PersonalDoc formType={formType} navigator={this.props.navigator} reasons={reasons}
+          <PersonalDoc
+            formType={formType}
+            navigator={this.props.navigator}
+            reasons={reasons}
           />
         );
       case "medical_docs":
