@@ -8,8 +8,6 @@ import {
   Platform
 } from "react-native";
 
-import Snackbar from "react-native-snackbar";
-
 import I18n from "../i18n";
 import { Navigation } from "react-native-navigation";
 import { SCREENS } from "../constants";
