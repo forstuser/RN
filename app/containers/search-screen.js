@@ -25,6 +25,7 @@ class SearchBox extends Component {
     navBarHidden: true,
     tabBarHidden: true
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -34,17 +35,25 @@ class SearchBox extends Component {
       showRecentSearches: true,
       searchHasRunOnce: false
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
-  componentDidMount() { }
+  onNavigatorEvent = event => {
+    switch (event.id) {
+      case "didAppear":
+        if (this.state.textInput.trim()) {
+          this.fetchResults();
+        }
+    }
+  };
 
   fetchResults = async () => {
     if (!this.state.textInput.trim()) {
       return showSnackbar({
         text: "Please enter text to search"
-      })
+      });
     }
     this.textInput.blur();
-    this.setState({ isFetchingResults: true });
+    this.setState({ isFetchingResults: true, products: [] });
     try {
       const res = await getSearchResults(this.state.textInput);
       this.setState({
@@ -55,7 +64,7 @@ class SearchBox extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 

@@ -5,75 +5,54 @@ import {
   NativeModules
 } from "react-native";
 
-export const requestCameraPermission = async () => {
+const requestPermission = async ({ permission, title, desc }) => {
   if (Platform.OS != "android") return true;
   try {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.CAMERA
-    );
+    const granted = await PermissionsAndroid.request(permission);
     console.log("granted:", granted);
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       return true;
     } else if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
       setTimeout(() => {
-        Alert.alert(
-          "You need to provide permission to access Camera.",
-          "Please open app settings and turn on the camera permission.",
-          [
-            {
-              text: "Cancel",
-              onPress: () => {}
-            },
-            {
-              text: "Open Settings",
-              onPress: () =>
-                NativeModules.RNOpenAppSettingsModule.openAppSettings()
-            }
-          ]
-        );
+        Alert.alert(title, desc, [
+          {
+            text: "Cancel",
+            onPress: () => {}
+          },
+          {
+            text: "Open Settings",
+            onPress: () =>
+              NativeModules.RNOpenAppSettingsModule.openAppSettings()
+          }
+        ]);
       }, 200);
       return false;
     } else {
       return false;
     }
   } catch (err) {
-    console.log("Camera permission denied 2");
     return false;
   }
 };
 
 export const requestStoragePermission = async () => {
-  if (Platform.OS != "android") return true;
-  try {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-    );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      return true;
-    } else if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
-      setTimeout(() => {
-        Alert.alert(
-          "You need to provide permission to access Media files.",
-          "Please open app settings and turn on the storage permission.",
-          [
-            {
-              text: "Cancel",
-              onPress: () => {}
-            },
-            {
-              text: "Open Settings",
-              onPress: () =>
-                NativeModules.RNOpenAppSettingsModule.openAppSettings()
-            }
-          ]
-        );
-      }, 200);
-      return false;
-    } else {
-      return false;
-    }
-  } catch (err) {
-    console.log("Storage permission denied 2");
+  return requestPermission({
+    permission: PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+    title: "You need to provide permission to access Media files.",
+    desc: "Please open app settings and turn on the storage permission."
+  });
+};
+
+export const requestCameraPermission = async () => {
+  const cameraPermission = requestPermission({
+    permission: PermissionsAndroid.PERMISSIONS.CAMERA,
+    title: "You need to provide permission to access Camera.",
+    desc: "Please open app settings and turn on the camera permission."
+  });
+
+  if (cameraPermission) {
+    return requestStoragePermission();
+  } else {
     return false;
   }
 };

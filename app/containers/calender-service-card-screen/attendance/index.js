@@ -109,12 +109,9 @@ class Attendance extends React.Component {
 
     const serviceType = item.service_type;
     let unitPriceText = I18n.t("calendar_service_screen_unit_price");
-    if (serviceType.main_category_id == 6 && serviceType.category_id == 24) {
+    if (serviceType.wages_type == CALENDAR_WAGES_TYPE.WAGES) {
       unitPriceText = I18n.t("add_edit_calendar_service_screen_form_wages");
-    } else if (
-      serviceType.main_category_id == 6 &&
-      (serviceType.category_id == 123 || serviceType.category_id == 635)
-    ) {
+    } else if (serviceType.wages_type == CALENDAR_WAGES_TYPE.FEES) {
       unitPriceText = I18n.t("add_edit_calendar_service_screen_form_fees");
     }
     //  Pritam Dirty code here

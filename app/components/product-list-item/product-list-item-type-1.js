@@ -77,7 +77,9 @@ const ProductListItem = ({ product, onPress }) => {
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <Image
         style={styles.image}
-        source={{ uri: API_BASE_URL + product.cImageURL }}
+        source={{
+          uri: API_BASE_URL + product.cImageURL + "?t=" + moment().format("X")
+        }}
       />
       <View style={styles.texts}>
         <View style={styles.nameAndSeller}>
@@ -117,12 +119,12 @@ const ProductListItem = ({ product, onPress }) => {
               {isDateInPastOrInNextTenDays(
                 moment(product.warrantyDetails[0].expiryDate)
               ) && (
-                  <Text style={styles.expiringText}>
-                    {expiringInText(
-                      moment(product.warrantyDetails[0].expiryDate)
-                    )}
-                  </Text>
-                )}
+                <Text style={styles.expiringText}>
+                  {expiringInText(
+                    moment(product.warrantyDetails[0].expiryDate)
+                  )}
+                </Text>
+              )}
             </View>
           )}
         {product.insuranceDetails &&
@@ -137,12 +139,12 @@ const ProductListItem = ({ product, onPress }) => {
               {isDateInPastOrInNextTenDays(
                 moment(product.insuranceDetails[0].expiryDate)
               ) && (
-                  <Text style={styles.expiringText}>
-                    {expiringInText(
-                      moment(product.insuranceDetails[0].expiryDate)
-                    )}
-                  </Text>
-                )}
+                <Text style={styles.expiringText}>
+                  {expiringInText(
+                    moment(product.insuranceDetails[0].expiryDate)
+                  )}
+                </Text>
+              )}
             </View>
           )}
         {product.amcDetails &&
@@ -157,10 +159,10 @@ const ProductListItem = ({ product, onPress }) => {
               {isDateInPastOrInNextTenDays(
                 moment(product.amcDetails[0].expiryDate)
               ) && (
-                  <Text style={styles.expiringText}>
-                    {expiringInText(moment(product.amcDetails[0].expiryDate))}
-                  </Text>
-                )}
+                <Text style={styles.expiringText}>
+                  {expiringInText(moment(product.amcDetails[0].expiryDate))}
+                </Text>
+              )}
             </View>
           )}
         {product.pucDetails &&
@@ -175,10 +177,10 @@ const ProductListItem = ({ product, onPress }) => {
               {isDateInPastOrInNextTenDays(
                 moment(product.pucDetails[0].expiryDate)
               ) && (
-                  <Text style={styles.expiringText}>
-                    {expiringInText(moment(product.pucDetails[0].expiryDate))}
-                  </Text>
-                )}
+                <Text style={styles.expiringText}>
+                  {expiringInText(moment(product.pucDetails[0].expiryDate))}
+                </Text>
+              )}
             </View>
           )}
         {product.schedule && (
@@ -190,15 +192,15 @@ const ProductListItem = ({ product, onPress }) => {
                   "MMM DD, YYYY"
                 )} or ${product.schedule.distance}Kms (${
                   SERVICE_TYPE_NAMES[product.schedule.service_type]
-                  })`}
+                })`}
               </Text>
               {isDateInPastOrInNextTenDays(
                 moment(product.schedule.due_date)
               ) && (
-                  <Text style={styles.expiringText}>
-                    {expiringInText(moment(product.schedule.due_date))}
-                  </Text>
-                )}
+                <Text style={styles.expiringText}>
+                  {expiringInText(moment(product.schedule.due_date))}
+                </Text>
+              )}
             </View>
           </View>
         )}

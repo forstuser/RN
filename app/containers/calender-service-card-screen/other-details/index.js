@@ -84,9 +84,14 @@ class Report extends React.Component {
     if (!productNameToEdit.trim()) {
       return showSnackbar({
         text: "Please enter the name"
-      })
+      });
     }
 
+    if (!providerNumberToEdit.trim()) {
+      return showSnackbar({
+        text: "Please enter the number"
+      });
+    }
     // if (!providerNumberToEdit.trim()) {
     //   return showSnackbar({
     //     text: "Please enter the number"
@@ -111,7 +116,7 @@ class Report extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({
         isSavingDetails: false
       });
@@ -195,9 +200,21 @@ class Report extends React.Component {
             />
             <KeyValueItem
               keyText={I18n.t("calendar_service_screen_provider_number")}
-              ValueComponent={() => <TouchableOpacity style={styles.callText} onPress={this.handlePhonePress}>
-                <Text style={{ color: colors.pinkishOrange }}>{item.provider_number} {item.provider_number ? <Icon name="md-call" size={15} color={colors.tomato} /> : ''}</Text>
-              </TouchableOpacity>}
+              ValueComponent={() => (
+                <TouchableOpacity
+                  style={styles.callText}
+                  onPress={this.handlePhonePress}
+                >
+                  <Text style={{ color: colors.pinkishOrange }}>
+                    {item.provider_number}{" "}
+                    {item.provider_number ? (
+                      <Icon name="md-call" size={15} color={colors.tomato} />
+                    ) : (
+                      ""
+                    )}
+                  </Text>
+                </TouchableOpacity>
+              )}
             />
           </View>
         </View>
