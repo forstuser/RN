@@ -28,7 +28,7 @@ class ReviewModal extends React.Component {
 
   render() {
     const { isModalVisible } = this.state;
-    const { product } = this.props;
+    const { product, onNewRatings } = this.props;
     return (
       <Modal
         isVisible={isModalVisible}
@@ -47,7 +47,13 @@ class ReviewModal extends React.Component {
           >
             {I18n.t("product_details_screen_review_product").toUpperCase()}
           </Text>
-          <ProductReview product={product} onReviewSubmit={this.hide} />
+          <ProductReview
+            product={product}
+            onReviewSubmit={review => {
+              this.hide();
+              onNewRatings(review.ratings);
+            }}
+          />
         </View>
       </Modal>
     );

@@ -53,7 +53,7 @@ class DoYouKNowScreen extends Component {
     this.justSwipedCardTranslateY = new Animated.Value(-SCREEN_HEIGHT);
     this.state = {
       currentIndex: 0,
-      nextIndex: 1,
+      nextIndex: 0,
       isFetchingItems: true,
       isFetchingTags: true,
       items: [],
@@ -100,18 +100,28 @@ class DoYouKNowScreen extends Component {
             duration: 300
           }).start(() => {
             this.currentCardTranslateY.setValue(0);
-            const nextState = {
+            const newState = {
               currentIndex: this.state.nextIndex
             };
-            if (this.state.nextIndex == items.length - 1) {
-              nextState.nextIndex = 0;
+            if (this.state.nextIndex >= items.length - 1) {
+              newState.nextIndex = 0;
+            } else if (items.length > 1) {
+              newState.nextIndex = this.state.nextIndex + 1;
             } else {
-              nextState.nextIndex = this.state.nextIndex + 1;
+              newState.nextIndex = 0;
             }
-            this.setState(nextState, () => {
+            this.setState(newState, () => {
               const newId = this.state.items[this.state.currentIndex].id;
               if (newId > this.props.latestDoYouKnowReadId) {
                 this.props.setLatestDoYouKnowReadId(newId);
+              }
+
+              console.log(
+                "items.length - currentIndex: ",
+                items.length - currentIndex
+              );
+              if (items.length - currentIndex == 4 || items.length < 5) {
+                this.loadItems();
               }
             });
           });
@@ -144,8 +154,14 @@ class DoYouKNowScreen extends Component {
     this.loadTags();
   }
 
-  loadItems = async () => {
+  loadItems = async clearPreviousItems => {
     const tagIds = this.state.selectedTagIds;
+    let offsetId = this.state.offsetId;
+
+    if (clearPreviousItems) {
+      offsetId = 0;
+    }
+
     this.setState({
       error: null,
       isFetchingItems: true
@@ -153,9 +169,15 @@ class DoYouKNowScreen extends Component {
     try {
       const res = await fetchDoYouKnowItems({
         tagIds: tagIds || [],
-        offsetId:
-          tagIds.length == 0 ? this.state.offsetId || undefined : undefined
+        offsetId: offsetId
       });
+
+      if (res.items.length > 0) {
+        const newLastItem = res.items.pop();
+        this.setState({
+          offsetId: newLastItem.id
+        });
+      }
 
       if (res.items.length == 0 && this.state.items.length == 0) {
         this.setState(
@@ -167,13 +189,23 @@ class DoYouKNowScreen extends Component {
           }
         );
         return;
+      } else if (res.items.length > 1 && this.state.items.length == 0) {
+        this.setState({
+          nextIndex: 1
+        });
+      }
+
+      let items = [...this.state.items];
+      let currentIndex = this.state.currentIndex;
+      if (clearPreviousItems) {
+        (items = []), (currentIndex = 0);
       }
       const newState = {
-        items: [...this.state.items, ...res.items],
-        currentIndex: 0
+        items: [...items, ...res.items],
+        currentIndex
       };
 
-      //deep linking handling
+      // deep linking handling
       // if (global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]) {
       //   for (let i = 0; i < res.items.length; i++) {
       //     if (
@@ -333,7 +365,7 @@ class DoYouKNowScreen extends Component {
             navigator={this.props.navigator}
             showMailbox={false}
             showSearchInput={false}
-            showRightSideSearchIcon={false}
+            showRightSideSearchIcon={true}
             onRightSideSearchIconPress={() => {
               this.tagsModal.show();
             }}
@@ -353,12 +385,12 @@ class DoYouKNowScreen extends Component {
               <Item />
             </Animated.View>
           )}
-
+          <LoadingOverlay visible={isFetchingItems || isFetchingTags} />
           {nextItemRender}
           {currentItemRender}
           {previousItemRender}
         </View>
-        <LoadingOverlay visible={isFetchingItems || isFetchingTags} />
+
         <TagsModal
           ref={ref => (this.tagsModal = ref)}
           tags={tags}
@@ -366,7 +398,7 @@ class DoYouKNowScreen extends Component {
           setSelectedTagIds={setSelectedTagIds =>
             this.setState({ setSelectedTagIds })
           }
-          onSearchPress={this.loadItems}
+          onSearchPress={() => this.loadItems(true)}
         />
       </ScreenContainer>
     );

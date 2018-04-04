@@ -58,7 +58,7 @@ class SelectCategoryHeader extends React.Component {
           {
             id: 152,
             name: "Passenger Carrier",
-            icon: require("../../images/categories/bicycle.png")
+            icon: require("../../images/categories/passenger_carrier.png")
           }
         ];
         if (typeof this.props.onCategorySelect == "function") {

@@ -24,7 +24,6 @@ import LanguageOptions from "../../components/language-options";
 import I18n from "../../i18n";
 import { showSnackbar } from "../snackbar";
 
-
 class Body extends Component {
   constructor(props) {
     super(props);
@@ -32,8 +31,10 @@ class Body extends Component {
   }
 
   onLogoutItemPress = () => {
-    Alert.alert("Are you sure you want to logout?",
-      "No worries! You can always login again with just a simple click.", [
+    Alert.alert(
+      "Are you sure you want to logout?",
+      "No worries! You can always login again with just a simple click.",
+      [
         {
           text: I18n.t("more_screen_logout"),
           onPress: () => this.props.logoutUser()
@@ -43,7 +44,8 @@ class Body extends Component {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         }
-      ]);
+      ]
+    );
   };
 
   onAscItemPress = () => {
@@ -68,7 +70,7 @@ class Body extends Component {
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-      profile ? profile.mobile_no : ""
+        profile ? profile.mobile_no : ""
       })`
     );
   };
@@ -88,8 +90,9 @@ class Body extends Component {
     const { isAppUpdateAvailable } = this.props;
     if (!isAppUpdateAvailable) {
       showSnackbar({
-        text: I18n.t("more_screen_no_update_available"),
-        autoDismissTimerSec: 5
+        text: `${I18n.t("more_screen_no_update_available")}`,
+        autoDismissTimerSec: 5,
+        isOnTabsScreen: true
       });
     } else {
       AppLink.openInStore("id1328873045", "com.bin.binbillcustomer")
@@ -138,7 +141,6 @@ class Body extends Component {
         <MoreItem
           onPress={this.onAppPinPress}
           imageSource={require("../../images/ic_app_pin.png")}
-
           text={I18n.t("app_pin")}
           btnText={isPinSet ? I18n.t("change") : I18n.t("set_now")}
         />
@@ -165,9 +167,10 @@ class Body extends Component {
         />
         <MoreItem
           onPress={() =>
-            call({ number: "+917600919189" }).catch(e => showSnackbar({
-              text: e.message
-            })
+            call({ number: "+917600919189" }).catch(e =>
+              showSnackbar({
+                text: e.message
+              })
             )
           }
           imageSource={require("../../images/ic_more_call.png")}

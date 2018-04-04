@@ -35,7 +35,7 @@ class Attendance extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -52,7 +52,7 @@ class Attendance extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -109,17 +109,14 @@ class Attendance extends React.Component {
 
     const serviceType = item.service_type;
     let unitPriceText = I18n.t("calendar_service_screen_unit_price");
-    if (serviceType.main_category_id == 6 && serviceType.category_id == 24) {
+    if (serviceType.wages_type == CALENDAR_WAGES_TYPE.WAGES) {
       unitPriceText = I18n.t("add_edit_calendar_service_screen_form_wages");
-    } else if (
-      serviceType.main_category_id == 6 &&
-      (serviceType.category_id == 123 || serviceType.category_id == 635)
-    ) {
+    } else if (serviceType.wages_type == CALENDAR_WAGES_TYPE.FEES) {
       unitPriceText = I18n.t("add_edit_calendar_service_screen_form_fees");
     }
     //  Pritam Dirty code here
-    console.log("calculation details", calculationDetails)
-    console.log("payment detail", paymentDetails)
+    console.log("calculation details", calculationDetails);
+    console.log("payment detail", paymentDetails);
     // function which will return active days of months
     const calculationFunction = (
       startDateforCalculation,
@@ -166,7 +163,7 @@ class Attendance extends React.Component {
     }
     // }
     availableDaysofMonth = [].concat.apply([], availableDaysofMonth);
-    console.log("availableDaysofMonth", availableDaysofMonth)
+    console.log("availableDaysofMonth", availableDaysofMonth);
     return (
       <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
         <Month
@@ -244,9 +241,6 @@ class Attendance extends React.Component {
                 keyText={I18n.t("calendar_service_screen_total_amount")}
                 valueText={"₹ " + paymentDetail.total_amount}
               />
-              {serviceType.main_category_id != 8 && (
-                <View style={{ flex: 1 }} />
-              )}
             </View>
           </View>
         </View>

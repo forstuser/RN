@@ -36,7 +36,6 @@ class Header extends Component {
         }}
         style={{ width: "100%", height: "100%" }}
         source={noPicPlaceholderIcon}
-        onLoadEnd={this.imageLoaded}
       />
     );
     if (profile && profile.image_name) {
@@ -50,7 +49,7 @@ class Header extends Component {
             uri: API_BASE_URL + profile.imageUrl,
             headers: { Authorization: authToken }
           }}
-          onLoadEnd={this.imageLoaded}
+          cache="reload"
         />
       );
     }
