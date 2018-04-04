@@ -18,6 +18,8 @@ import { defaultStyles, colors } from "../../../theme";
 import KeyValueItem from "../../../components/key-value-item";
 import VerticalKeyValue from "./vertical-key-value";
 
+import { CALENDAR_WAGES_TYPE, WAGES_CYCLE } from "../../../constants";
+
 class Attendance extends React.Component {
   markDayAbsent = async date => {
     const { item, activePaymentDetailIndex = 0 } = this.props;
@@ -113,7 +115,11 @@ class Attendance extends React.Component {
     //  Pritam Dirty code here
 
     // function which will return active days of months
-    const calculationFunction = (startDateforCalculation, endDateForCalculation, selectedDaysArray) => {
+    const calculationFunction = (
+      startDateforCalculation,
+      endDateForCalculation,
+      selectedDaysArray
+    ) => {
       const availbaleDays = [];
       const selectedDaysArrayIntoMomentFormat = selectedDaysArray.map(day => {
         if (day == 7) return 0;
@@ -126,11 +132,11 @@ class Attendance extends React.Component {
         let date = monthAndYear + "-" + ("0" + i).substr(-2);
         const weekday = +moment(date).format("d");
         if (selectedDaysArrayIntoMomentFormat.includes(weekday)) {
-          availbaleDays.push(date)
+          availbaleDays.push(date);
         }
       }
       return availbaleDays;
-    }
+    };
     // case 1: if current months starting date is greater than effective date of activeCalculation details
     let availableDaysofMonth = [];
     // if (startDate > activeCalculationDetail.effective_date) {
@@ -138,15 +144,19 @@ class Attendance extends React.Component {
     //   availableDaysofMonth.push(calculationFunction(startDate, endDate, activeCalculationDetail.selected_days))
     // } else {
     for (let i = calculationDetails.length - 1; i > -1; i--) {
-
-      let calculationDetailEndDate = +moment(endDate)
-        .endOf("month");
+      let calculationDetailEndDate = +moment(endDate).endOf("month");
       let calculationDetailStartDate = startDate;
       if (calculationDetails[i - 1]) {
         calculationDetailEndDate = calculationDetails[i - 1].effective_date;
         calculationDetailStartDate = calculationDetails[i].effective_date;
       }
-      availableDaysofMonth.push(calculationFunction(calculationDetailStartDate, calculationDetailEndDate, calculationDetails[i].selected_days))
+      availableDaysofMonth.push(
+        calculationFunction(
+          calculationDetailStartDate,
+          calculationDetailEndDate,
+          calculationDetails[i].selected_days
+        )
+      );
     }
     // }
     availableDaysofMonth = [].concat.apply([], availableDaysofMonth);
@@ -203,10 +213,20 @@ class Attendance extends React.Component {
               />
             </View>
             <View style={styles.cardPart}>
-              {serviceType.main_category_id == 8 && (
+              {serviceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
                 <VerticalKeyValue
                   keyText={I18n.t("my_calendar_screen_no_of_units")}
                   valueText={paymentDetail.total_units}
+                />
+              )}
+              {serviceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT && (
+                <VerticalKeyValue
+                  keyText={I18n.t("my_calendar_screen_payment_type")}
+                  valueText={
+                    item.wages_type == WAGES_CYCLE.DAILY
+                      ? I18n.t("daily")
+                      : I18n.t("monthly")
+                  }
                 />
               )}
               <VerticalKeyValue
@@ -247,8 +267,7 @@ class Attendance extends React.Component {
             } else {
               return null;
             }
-            console.log(date)
-
+            console.log(date);
           })}
         </View>
       </View>

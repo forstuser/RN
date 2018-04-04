@@ -329,7 +329,7 @@ class DoYouKNowScreen extends Component {
             navigator={this.props.navigator}
             showMailbox={false}
             showSearchInput={false}
-            showRightSideSearchIcon={true}
+            showRightSideSearchIcon={false}
             onRightSideSearchIconPress={() => {
               this.tagsModal.show();
             }}

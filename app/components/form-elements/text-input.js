@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     top: 10,
-    left: Platform.OS == "ios" ? 0 : 5
+    left: 5
     // paddingVertical: 10
   },
   filledInputPlaceholderContainer: {

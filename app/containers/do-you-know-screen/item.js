@@ -160,6 +160,7 @@ export default class Item extends React.Component {
                 {title}
               </Text>
               <Text style={styles.description}>{description}</Text>
+
               <View style={styles.tags}>
                 {tags.map(tag => (
                   <Button

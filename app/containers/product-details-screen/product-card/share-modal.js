@@ -16,7 +16,7 @@ import RNFetchBlob from "react-native-fetch-blob";
 
 import moment from "moment";
 
-import { API_BASE_URL } from "../../../api";
+import { API_BASE_URL, updateProfile } from "../../../api";
 import I18n from "../../../i18n";
 import { Text, Button } from "../../../elements";
 import { requestStoragePermission } from "../../../android-permissions";
@@ -25,21 +25,27 @@ import ProductReview from "../../../components/product-review";
 import UploadProductImage from "../../../components/upload-product-image";
 import { colors } from "../../../theme";
 import LoadingOverlay from "../../../components/loading-overlay";
+import CustomTextInput from "../../../components/form-elements/text-input";
 
 const uploadDocIllustration = require("../../../images/upload_doc_illustration.png");
 const starIllustration = require("../../../images/star_illustration.png");
 const binbillLogo = require("../../../images/binbill_logo_long.png");
 const playStoreBadge = require("../../../images/playstore_badge.png");
 const appStoreBadge = require("../../../images/appstore_badge.png");
+const userImagePlaceholder = require("../../../images/ic_more_no_profile_pic.png");
+
+import { showSnackbar } from "../../../containers/snackbar";
 
 class ShareModal extends React.Component {
   state = {
     isModalVisible: false,
     isProductImageAvailable: false,
     isProductImageStepDone: false,
+    nameInput: "",
     ratings: null,
     feedbackText: "",
-    isImageLoaded: true
+    isImageLoading: true,
+    isSavingName: false
   };
 
   componentDidMount() {
@@ -82,9 +88,10 @@ class ShareModal extends React.Component {
       isModalVisible: false
     });
   };
+
   hideLoader = () => {
     this.setState({
-      isImageLoaded: false
+      isImageLoading: false
     });
   };
 
@@ -102,14 +109,43 @@ class ShareModal extends React.Component {
           await RNFetchBlob.fs.cp(uri, filePath);
           uri = `file://${filePath}`;
         }
-        console.log("Image saved to", uri);
-        await Share.open({
+
+        const shareContent = {
           url: uri
-        });
+        };
+
+        if (Platform.OS == "android") {
+          shareContent.text = "Powered by BinBIll-http://bit.ly/2rIabk0";
+        }
+        await Share.open(shareContent);
       }
     } catch (e) {
       Alert.alert("Some error occurred", e.message);
       console.error("Oops, snapshot failed", e);
+    }
+  };
+
+  saveUserName = async () => {
+    const { nameInput } = this.state;
+    if (!nameInput) {
+      return showSnackbar({ text: "Please enter your name" });
+    }
+    this.setState({
+      isSavingName: true
+    });
+    try {
+      await updateProfile({
+        name: nameInput
+      });
+      this.props.setLoggedInUserName(nameInput);
+    } catch (e) {
+      showSnackbar({
+        text: e.message
+      });
+    } finally {
+      this.setState({
+        isSavingName: false
+      });
     }
   };
 
@@ -120,7 +156,8 @@ class ShareModal extends React.Component {
       isProductImageStepDone,
       ratings,
       feedbackText,
-      isImageLoaded
+      isImageLoading,
+      isSavingName
     } = this.state;
     const { product, loggedInUser } = this.props;
     const { brand } = product;
@@ -142,12 +179,29 @@ class ShareModal extends React.Component {
       productImageResizeMode = "contain";
     }
 
-    let userImageSource = require("../../../images/ic_more_no_profile_pic.png");
+    let userImageSource = userImagePlaceholder;
     if (loggedInUser.imageName) {
       userImageSource = {
         uri: API_BASE_URL + `/consumer/${loggedInUser.id}/images`,
         headers: { Authorization: loggedInUser.authToken }
       };
+    }
+
+    let step = 1;
+    let stepImage = uploadDocIllustration;
+    let stepText = I18n.t("add_product_image");
+    if (!isProductImageStepDone) {
+      step = 1;
+    } else if (!loggedInUser.name) {
+      step = 2;
+      stepText = I18n.t("add_your_name");
+      stepImage = userImagePlaceholder;
+    } else if (!ratings) {
+      step = 3;
+      stepText = I18n.t("add_product_review");
+      stepImage = starIllustration;
+    } else {
+      step = 4;
     }
 
     return (
@@ -159,51 +213,49 @@ class ShareModal extends React.Component {
         avoidKeyboard={Platform.OS == "ios"}
       >
         <View style={styles.modal}>
-          <LoadingOverlay visible={isImageLoaded} />
-          {(!isProductImageStepDone || ratings == null) && (
+          <LoadingOverlay
+            visible={isSavingName || (step == 4 && isImageLoading)}
+          />
+          {step < 4 && (
             <View
               style={{ alignItems: "center", marginTop: 40, marginBottom: 20 }}
             >
               <Image
-                style={styles.illustration}
-                source={
-                  isProductImageStepDone
-                    ? starIllustration
-                    : uploadDocIllustration
-                }
+                style={[
+                  styles.illustration,
+                  step == 2 ? styles.userImageIllustration : {}
+                ]}
+                source={stepImage}
               />
-              <View style={styles.steps}>
-                <View style={[styles.step]}>
-                  {!isProductImageStepDone && (
-                    <Text weight="Bold" style={styles.stepText}>
-                      1
-                    </Text>
-                  )}
-                  {isProductImageStepDone && (
-                    <View style={styles.tick}>
-                      <Icon name="md-checkmark" size={20} color="#fff" />
-                    </View>
-                  )}
-                </View>
+              <View style={styles.stepsContainer}>
                 <View style={styles.stepLine} />
-                <View style={[styles.step]}>
-                  <Text weight="Bold" style={styles.stepText}>
-                    2
-                  </Text>
+                <View style={styles.steps}>
+                  {[1, 2, 3].map(s => (
+                    <View style={[styles.step]}>
+                      {s >= step && (
+                        <Text weight="Bold" style={styles.stepText}>
+                          {s}
+                        </Text>
+                      )}
+                      {s < step && (
+                        <View style={styles.tick}>
+                          <Icon name="md-checkmark" size={20} color="#fff" />
+                        </View>
+                      )}
+                    </View>
+                  ))}
                 </View>
               </View>
               <Text
                 weight="Bold"
                 style={{ marginTop: 20, color: colors.mainBlue, fontSize: 16 }}
               >
-                {isProductImageStepDone
-                  ? I18n.t("add_product_review")
-                  : I18n.t("add_product_image")}
+                {stepText}
               </Text>
             </View>
           )}
 
-          {!isProductImageStepDone && (
+          {step == 1 && (
             <View style={{ padding: 30 }}>
               <Button
                 onPress={() => this.uploadProductImage.showOptions()}
@@ -225,95 +277,105 @@ class ShareModal extends React.Component {
               </TouchableOpacity>
             </View>
           )}
-
-          {isProductImageStepDone &&
-            ratings == null && (
-              <View>
-                <ProductReview
-                  product={product}
-                  onReviewSubmit={review => this.onReviewStepDone(review)}
-                />
-              </View>
-            )}
-          {isProductImageStepDone &&
-            ratings != null && (
-              <View style={styles.shareViewContainer}>
-                <View
-                  collapsable={false}
-                  style={styles.shareView}
-                  ref={ref => (this.shareView = ref)}
-                >
-                  {productImageUrl ? (
-                    <Image
-                      onLoad={this.hideLoader}
-                      resizeMode={productImageResizeMode}
-                      style={styles.productImage}
-                      source={{ uri: productImageUrl }}
-                    />
-                  ) : null}
-                  <Text weight="Bold" style={styles.productName}>
-                    {product.productName}
-                  </Text>
-                  <Text weight="Medium" style={styles.productModel}>
-                    {product.model}
-                  </Text>
-                  <View style={styles.userImageView}>
-                    <View style={styles.userImageLine} />
-                    <Image
-                      style={styles.userImage}
-                      source={userImageSource}
-                      resize="cover"
-                    />
-                  </View>
-                  <Text style={styles.userName} weight="Bold">
-                    {loggedInUser.name}
-                  </Text>
-                  <Text
-                    numberOfLines={4}
-                    weight="Bold"
-                    style={styles.reviewQuotesText}
-                  >{`"${I18n.t("review_quotes")}"`}</Text>
-                  <StarRating
-                    starColor="#f8e71c"
-                    disabled={true}
-                    maxStars={5}
-                    rating={ratings}
-                    halfStarEnabled={true}
-                    starSize={18}
-                    starStyle={{ marginHorizontal: 2 }}
+          {step == 2 && (
+            <View style={{ padding: 20 }}>
+              <CustomTextInput
+                placeholder={I18n.t("profile_screen_label_name")}
+                onChangeText={nameInput => this.setState({ nameInput })}
+              />
+              <Button
+                onPress={this.saveUserName}
+                style={{ marginTop: 10 }}
+                text={I18n.t("save")}
+                color="secondary"
+              />
+            </View>
+          )}
+          {step == 3 && (
+            <View>
+              <ProductReview
+                product={product}
+                onReviewSubmit={review => this.onReviewStepDone(review)}
+              />
+            </View>
+          )}
+          {step == 4 && (
+            <View style={styles.shareViewContainer}>
+              <View
+                collapsable={false}
+                style={styles.shareView}
+                ref={ref => (this.shareView = ref)}
+              >
+                {productImageUrl ? (
+                  <Image
+                    onLoad={this.hideLoader}
+                    resizeMode={productImageResizeMode}
+                    style={styles.productImage}
+                    source={{ uri: productImageUrl }}
                   />
-                  <Text
-                    numberOfLines={4}
-                    style={styles.feedbackText}
-                  >{`"${feedbackText}"`}</Text>
-                  <View style={styles.badges}>
-                    <View style={styles.binbillLogoWrapper}>
-                      <Image
-                        resizeMode="contain"
-                        style={styles.binbillLogo}
-                        source={binbillLogo}
-                      />
-                    </View>
+                ) : null}
+                <Text weight="Bold" style={styles.productName}>
+                  {product.productName}
+                </Text>
+                <Text weight="Medium" style={styles.productModel}>
+                  {product.model}
+                </Text>
+                <View style={styles.userImageView}>
+                  <View style={styles.userImageLine} />
+                  <Image
+                    style={styles.userImage}
+                    source={userImageSource}
+                    resize="cover"
+                  />
+                </View>
+                <Text style={styles.userName} weight="Bold">
+                  {loggedInUser.name}
+                </Text>
+                <Text
+                  numberOfLines={4}
+                  weight="Bold"
+                  style={styles.reviewQuotesText}
+                >{`"${I18n.t("review_quotes")}"`}</Text>
+                <StarRating
+                  starColor="#f8e71c"
+                  disabled={true}
+                  maxStars={5}
+                  rating={ratings}
+                  halfStarEnabled={true}
+                  starSize={18}
+                  starStyle={{ marginHorizontal: 2 }}
+                />
+                <Text numberOfLines={4} style={styles.feedbackText}>
+                  {feedbackText ? `"${feedbackText}"` : ""}
+                </Text>
+                <View style={styles.badges}>
+                  <View style={styles.binbillLogoWrapper}>
                     <Image
                       resizeMode="contain"
-                      style={styles.storeBadge}
-                      source={appStoreBadge}
-                    />
-                    <Image
-                      resizeMode="contain"
-                      style={styles.storeBadge}
-                      source={playStoreBadge}
+                      style={styles.binbillLogo}
+                      source={binbillLogo}
                     />
                   </View>
+                  <Image
+                    resizeMode="contain"
+                    style={styles.storeBadge}
+                    source={appStoreBadge}
+                  />
+                  <Image
+                    resizeMode="contain"
+                    style={styles.storeBadge}
+                    source={playStoreBadge}
+                  />
                 </View>
-                <Button
-                  style={styles.shareBtn}
-                  onPress={this.onSharePress}
-                  text={I18n.t("share")}
-                  color="secondary"
-                />
               </View>
-            )}
+              <Button
+                style={styles.shareBtn}
+                onPress={this.onSharePress}
+                text={I18n.t("share")}
+                color="secondary"
+              />
+            </View>
+          )}
           <UploadProductImage
             ref={ref => (this.uploadProductImage = ref)}
             productId={product.id}
@@ -344,12 +406,27 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80
   },
-  steps: {
+  userImageIllustration: {
+    backgroundColor: "#eee",
+    borderRadius: 40
+  },
+  stepsContainer: {
     flexDirection: "row",
     width: 170,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 15
+  },
+  stepLine: {
+    position: "absolute",
+    width: "100%",
+    height: 2,
+    backgroundColor: colors.mainBlue
+  },
+  steps: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   step: {
     width: 30,
@@ -358,7 +435,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: colors.mainBlue
+    borderColor: colors.mainBlue,
+    backgroundColor: "#fff"
   },
   tick: {
     width: 30,
@@ -369,11 +447,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: "hidden"
   },
-  stepLine: {
-    flex: 1,
-    height: 2,
-    backgroundColor: colors.mainBlue
-  },
+
   stepText: {
     color: colors.mainBlue
   },
@@ -431,7 +505,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 9,
     color: colors.success,
-    textAlign: 'center',
+    textAlign: "center"
     // justifyContent: 'center',
     // alignItems: 'center'
   },
