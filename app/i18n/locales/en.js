@@ -15,7 +15,7 @@ export default {
 
   //common words
   other: "Other",
-  upload_product_image: "Want to add product image before sharing",
+  upload_product_image: "Upload Product Image",
   add_product_image: "Add Product Image",
   add_product_review: "Add Product Review",
   add_your_name: "Add Your Name",
