@@ -189,17 +189,17 @@ const styles = StyleSheet.create({
   },
   keyboardRow: {
     width: "100%",
-    maxWidth: 420,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"
   },
   keyboardKey: {
     flex: 1,
-    height: 50,
+    height: 60,
     alignItems: "center",
     justifyContent: "center",
-    margin: 5
+    borderWidth: 0,
+    borderColor: "#fff"
   },
   keyboardKeyText: {
     color: "#fff",

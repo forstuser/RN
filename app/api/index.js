@@ -8,7 +8,7 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-export const API_BASE_URL = "https://consumer-stage.binbill.com";
+export const API_BASE_URL = "https://consumer-eb.binbill.com";
 
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 const platform = Platform.OS == "ios" ? 2 : 1;
@@ -107,7 +107,7 @@ const apiRequest = async ({
     );
 
     if (error.statusCode == 401) {
-      store.dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
+      store.dispatch(loggedInUserActions.loggedInUserClearAllData());
       openLoginScreen();
     } else if (error.statusCode == 402) {
       openEnterPinPopup();

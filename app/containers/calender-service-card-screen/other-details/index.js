@@ -38,7 +38,7 @@ class Report extends React.Component {
       productNameToEdit: "",
       providerNameToEdit: "",
       providerNumberToEdit: "",
-      isSavingDetails: false,
+      isSavingDetails: false
     };
   }
 
@@ -111,11 +111,10 @@ class Report extends React.Component {
     }
   };
   handlePhonePress = () => {
-    console.log("inside call function")
+    console.log("inside call function");
     call({ number: this.state.providerNumberToEdit }).catch(e =>
       Alert.alert(e.message)
     );
-
   };
   render() {
     const {
@@ -389,7 +388,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'green',
     flex: 1,
 
-    alignItems: "flex-end",
+    alignItems: "flex-end"
   }
 });
 

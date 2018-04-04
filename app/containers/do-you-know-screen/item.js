@@ -161,6 +161,7 @@ export default class Item extends React.Component {
                 {title}
               </Text>
               <Text style={styles.description}>{description}</Text>
+
               <View style={styles.tags}>
                 <Text
                   style={{ height: 30, marginRight: 5, color: colors.secondaryText }}

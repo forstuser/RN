@@ -1,7 +1,7 @@
 export default {
   //units
   litre: "Litre",
-  litre_symbol: "l",
+  litre_symbol: "L",
   millilitre: "Millilitre",
   millilitre_symbol: "ml",
   kilogram: "Kilogram",
@@ -17,7 +17,8 @@ export default {
   other: "Other",
   upload_product_image: "Want to add product image before sharing",
   add_product_image: "Add Product Image",
-  add_product_review: "Share your product experience with your friends to help them in their next purchase.",
+  add_product_review: "Add Product Review",
+  add_your_name: "Add Your Name",
   uploading: "Uploading...",
   product_image_updated: "Product Image Updated",
   share: "Share",
@@ -506,6 +507,7 @@ export default {
   my_calendar_screen_from: "From",
   my_calendar_screen_to: "To",
   my_calendar_screen_no_of_units: "No. of Units",
+  my_calendar_screen_payment_type: "Payment Type",
 
   //add/edit calendar service screen
   add_edit_calendar_service_screen_title: "Add Service",
@@ -604,8 +606,7 @@ export default {
     "Please upload the document first",
   add_edit_expense_screen_title_add_doc: "ADD DOC",
   add_edit_expense_screen_title_add_doc_added: "Doc added to your eHome.",
-  add_edit_expense_screen_title_add_select_type:
-    "Select a type above",
+  add_edit_expense_screen_title_add_select_type: "Select a type above",
   add_edit_expense_screen_title_add_brand_name:
     "Please select or enter brand name",
   add_edit_expense_screen_title_add_type: "Please select a type",
@@ -830,12 +831,13 @@ export default {
   add_edit_product_basic_select_type: "Please select a type",
   add_edit_product_basic_select_amount: "Please enter amount",
   add_edit_product_basic_select_date: "Please select a date",
-  add_edit_force_update_upgrade: "Update the all new BinBill App available with snazzy new features",
+  add_edit_force_update_upgrade:
+    "Update the all new BinBill App available with snazzy new features",
   add_edit_force_update_versions:
     "The new version brings a whole host of fantastic features and improvements.",
-  add_edit_force_update_text1: 'Home Attendance Manager',
-  add_edit_force_update_text2: 'Share Personalised Review',
-  add_edit_force_update_text3: 'Do You Know series',
+  add_edit_force_update_text1: "Home Attendance Manager",
+  add_edit_force_update_text2: "Share Personalised Review",
+  add_edit_force_update_text3: "Do You Know series",
   add_edit_force_update_now: "UPDATE NOW",
   add_edit_force_not_now: "Not Now",
   add_edit_force_ok: "OK",
@@ -990,5 +992,10 @@ export default {
     "Select Travel & Dining Expense Category",
 
   //29-03-2018
-  review_quotes: "Someday-N-Someway you will find this Review useful"
+  review_quotes: "Someday-N-Someway you will find this Review useful",
+
+  //04-04-2018
+  daily: "Daily",
+  monthly: "monthly",
+  save: "Save"
 };

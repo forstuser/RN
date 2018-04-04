@@ -12,6 +12,8 @@ import Icon from "react-native-vector-icons/EvilIcons";
 import moment from "moment";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import { connect } from "react-redux";
+
+import { actions as loggedInUserActions } from "../../../modules/logged-in-user";
 import I18n from "../../../i18n";
 import { API_BASE_URL } from "../../../api";
 import { Text, Button, ScreenContainer } from "../../../elements";
@@ -45,6 +47,7 @@ class Header extends Component {
     const {
       product,
       loggedInUser,
+      setLoggedInUserName,
       navigator,
       activeTabIndex = 0,
       onTabChange,
@@ -355,6 +358,7 @@ class Header extends Component {
               ref={ref => (this.shareModal = ref)}
               product={product}
               loggedInUser={loggedInUser}
+              setLoggedInUserName={setLoggedInUserName}
             />
             <ImageModal
               ref={ref => (this.imageModal = ref)}
@@ -499,4 +503,12 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = dispatch => {
+  return {
+    setLoggedInUserName: name => {
+      dispatch(loggedInUserActions.setLoggedInUserName(name));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
