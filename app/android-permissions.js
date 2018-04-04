@@ -22,7 +22,7 @@ export const requestCameraPermission = async () => {
           [
             {
               text: "Cancel",
-              onPress: () => {}
+              onPress: () => { }
             },
             {
               text: "Open Settings",
@@ -58,7 +58,7 @@ export const requestStoragePermission = async () => {
           [
             {
               text: "Cancel",
-              onPress: () => {}
+              onPress: () => { }
             },
             {
               text: "Open Settings",
