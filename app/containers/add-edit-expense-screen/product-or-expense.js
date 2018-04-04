@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { API_BASE_URL, initProduct, updateProduct } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
 import I18n from "../../i18n";
+import { showSnackbar } from "../snackbar";
 import Analytics from "../../analytics";
 import FinishModal from "./finish-modal";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -197,7 +198,9 @@ class ProductOrExpense extends React.Component {
         dualWarrantyItem: res.categories[0].dual_warranty_item
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -211,12 +214,16 @@ class ProductOrExpense extends React.Component {
       } else if (this.healthcareInsuranceForm) {
         data = this.healthcareInsuranceForm.getFilledData();
         if (!data.subCategoryId) {
-          return Alert.alert("Please select insurance type");
+          return showSnackbar({
+            text: "Please select insurance type"
+          })
         }
       } else if (this.healthcareMedicalDocForm) {
         data = this.healthcareMedicalDocForm.getFilledData();
         if (data.copies.length == 0) {
-          return Alert.alert("Please upload the report doc");
+          return showSnackbar({
+            text: "Please upload the report doc"
+          })
         }
         delete data.isDocUploaded;
       }
@@ -268,9 +275,9 @@ class ProductOrExpense extends React.Component {
         case MAIN_CATEGORY_IDS.ELECTRONICS:
         case MAIN_CATEGORY_IDS.FASHION:
           if (data.brandId === undefined && !data.brandName) {
-            return Alert.alert(
-              I18n.t("add_edit_expense_screen_title_add_brand_name")
-            );
+            return showSnackbar({
+              text: I18n.t("add_edit_expense_screen_title_add_brand_name")
+            })
           }
           break;
         case MAIN_CATEGORY_IDS.FURNITURE:
@@ -278,18 +285,18 @@ class ProductOrExpense extends React.Component {
             data.categoryId == CATEGORY_IDS.FURNITURE.FURNITURE &&
             !data.subCategoryId
           ) {
-            return Alert.alert(
-              I18n.t("add_edit_expense_screen_title_add_type")
-            );
+            return showSnackbar({
+              text: I18n.t("add_edit_expense_screen_title_add_type")
+            })
           }
           break;
         case MAIN_CATEGORY_IDS.HOUSEHOLD:
         case MAIN_CATEGORY_IDS.SERVICES:
         case MAIN_CATEGORY_IDS.TRAVEL:
           if (!data.value) {
-            return Alert.alert(
-              I18n.t("add_edit_expense_screen_title_add_amount")
-            );
+            return showSnackbar({
+              text: I18n.t("add_edit_expense_screen_title_add_amount")
+            });
           }
           break;
         case MAIN_CATEGORY_IDS.HEALTHCARE:
@@ -297,9 +304,9 @@ class ProductOrExpense extends React.Component {
             this.props.healthcareFormType == "healthcare_expense" &&
             !data.value
           ) {
-            return Alert.alert(
-              I18n.t("add_edit_expense_screen_title_add_amount")
-            );
+            return showSnackbar({
+              text: I18n.t("add_edit_expense_screen_title_add_amount")
+            })
           }
       }
 
@@ -318,12 +325,15 @@ class ProductOrExpense extends React.Component {
       this.setState({
         isSavingProduct: false
       });
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+
+      })
     }
   };
 
   render() {
-    const { categoryId } = this.props;
+    const { categoryId, reasons } = this.props;
 
     const {
       mainCategoryId,
@@ -370,12 +380,11 @@ class ProductOrExpense extends React.Component {
             <View style={styles.selectCategoryMsgContainer}>
               <Text weight="Medium" style={styles.selectCategoryMsg}>
                 {startMsg}
+
               </Text>
-              {/*<Image
-                resizeMode="contain"
-                style={styles.selectCategoryImage}
-                source={startGraphics}
-              />*/}
+              {reasons.map(reason => {
+                return (<Text weight="Medium" style={{ color: colors.secondaryText }}>{reason}</Text>)
+              })}
             </View>
           )}
           {product != null && (
@@ -612,7 +621,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     width: 300,
     textAlign: "center",
-    color: colors.mainBlue
+    color: colors.mainBlue,
+    marginBottom: 10
   },
   selectCategoryImage: {
     marginTop: 20,

@@ -14,6 +14,7 @@ import { ScreenContainer, Text, Button, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
 import { openBillsPopUp } from "../../navigation";
 import I18n from "../../i18n";
+import { showSnackbar } from "../snackbar";
 
 import { MAIN_CATEGORY_IDS, SCREENS } from "../../constants";
 
@@ -68,7 +69,9 @@ class MailBox extends Component {
 
       await updateMailboxRead(res.notifications.map(notif => notif.id));
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 

@@ -10,6 +10,7 @@ import {
   deletePuc
 } from "../api";
 import I18n from "../i18n";
+import { showSnackbar } from "./snackbar";
 
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
@@ -115,14 +116,16 @@ class AddEditPuc extends React.Component {
                   await deletePuc({ productId, pucId: puc.id });
                   this.props.navigator.pop();
                 } catch (e) {
-                  Alert.alert(I18n.t("add_edit_amc_could_not_delete"));
+                  showSnackbar({
+                    text: I18n.t("add_edit_amc_could_not_delete")
+                  })
                   this.setState({ isLoading: false });
                 }
               }
             },
             {
               text: I18n.t("add_edit_no_dnt_delete"),
-              onPress: () => {},
+              onPress: () => { },
               style: "cancel"
             }
           ]
@@ -149,7 +152,9 @@ class AddEditPuc extends React.Component {
     };
 
     if (!data.effectiveDate && !data.expiryPeriod) {
-      return Alert.alert(I18n.t("add_edit_puc_select_puc"));
+      return showSnackbar({
+        text: I18n.t("add_edit_puc_select_puc")
+      })
     }
 
     try {
@@ -162,7 +167,9 @@ class AddEditPuc extends React.Component {
       this.setState({ isLoading: false });
       this.changesSavedModal.show();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({ isLoading: false });
     }
   };

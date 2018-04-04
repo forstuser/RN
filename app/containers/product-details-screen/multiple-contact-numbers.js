@@ -1,6 +1,7 @@
 import React from "react";
 import { Alert, View } from "react-native";
 import call from "react-native-phone-call";
+import { showSnackbar } from "../snackbar";
 
 import { Text } from "../../elements";
 import { colors } from "../../theme";
@@ -32,7 +33,9 @@ const MultipleContactNumbers = ({ contact = "" }) => {
             key={number}
             onPress={() =>
               call({ number: String(number) }).catch(e =>
-                Alert.alert(e.message)
+                showSnackbar({
+                  text: e.message
+                })
               )
             }
             weight="Medium"

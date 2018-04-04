@@ -4,6 +4,7 @@ import RNFetchBlob from "react-native-fetch-blob";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import Modal from "react-native-modal";
 import I18n from "../i18n";
+import { showSnackbar } from "./snackbar";
 
 import {
   API_BASE_URL,
@@ -78,7 +79,7 @@ class DirectUploadDocumentScreen extends React.Component {
           this.uploadDocuments();
         }
       );
-    } catch (e) {}
+    } catch (e) { }
   };
 
   uploadDocuments = async () => {
@@ -173,7 +174,9 @@ class DirectUploadDocumentScreen extends React.Component {
           brands: res.categories[0].brands
         });
       } catch (e) {
-        Alert.alert(e.message);
+        showSnackbar({
+          text: e.message
+        })
       }
     }
   };
@@ -225,7 +228,9 @@ class DirectUploadDocumentScreen extends React.Component {
         );
         this.setState({ models });
       } catch (e) {
-        Alert.alert(e.message);
+        showSnackbar({
+          text: e.message
+        })
       }
     }
   };
@@ -261,7 +266,9 @@ class DirectUploadDocumentScreen extends React.Component {
     } = this.state;
 
     if (!selectedMainCategory || !selectedCategory) {
-      return Alert.alert("Please select category and sub-category both.");
+      return showSnackbar({
+        text: "Please select category and sub-category both."
+      })
     }
 
     if (
@@ -272,14 +279,18 @@ class DirectUploadDocumentScreen extends React.Component {
       ].indexOf(selectedMainCategory.id) > -1 &&
       !selectedBrand
     ) {
-      return Alert.alert("Please select brand");
+      return showSnackbar({
+        text: "Please select brand"
+      })
     }
 
     if (
       selectedCategory.id == CATEGORY_IDS.FURNITURE.FURNITURE &&
       !selectedSubCategory
     ) {
-      return Alert.alert("Please select type");
+      return showSnackbar({
+        text: "Please select type"
+      })
     }
 
     this.setState({
@@ -418,7 +429,9 @@ class DirectUploadDocumentScreen extends React.Component {
             if (selectedMainCategory) {
               return true;
             }
-            Alert.alert(I18n.t("add_edit_direct_select_main_category_first"));
+            showSnackbar({
+              text: I18n.t("add_edit_direct_select_main_category_first")
+            })
             return false;
           }}
           onOptionSelect={value => {
@@ -474,7 +487,9 @@ class DirectUploadDocumentScreen extends React.Component {
                 if (selectedCategory) {
                   return true;
                 }
-                Alert.alert(I18n.t("add_edit_direct_select_category_first"));
+                showSnackbar({
+                  text: I18n.t("add_edit_direct_select_category_first")
+                })
                 return false;
               }}
               onOptionSelect={value => {
@@ -504,7 +519,9 @@ class DirectUploadDocumentScreen extends React.Component {
                 if (selectedBrand || brandName) {
                   return true;
                 }
-                Alert.alert(I18n.t("add_edit_direct_select_brand_first"));
+                showSnackbar({
+                  text: I18n.t("add_edit_direct_select_brand_first")
+                })
                 return false;
               }}
               selectedOption={selectedModel}
@@ -529,7 +546,7 @@ class DirectUploadDocumentScreen extends React.Component {
                 uri:
                   API_BASE_URL +
                   `/categories/${
-                    selectedMainCategory ? selectedMainCategory.id : 2
+                  selectedMainCategory ? selectedMainCategory.id : 2
                   }/images/1`
               }}
               resizeMode="contain"

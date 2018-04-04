@@ -31,6 +31,7 @@ const viewBillIcon = require("../../../images/ic_ehome_view_bill.png");
 
 import ReviewModal from "./review-modal";
 import ShareModal from "./share-modal";
+import ImageModal from "./image-model";
 import ViewBillButton from "../view-bill-button";
 import { MAIN_CATEGORY_IDS } from "../../../constants";
 
@@ -196,11 +197,15 @@ class Header extends Component {
         uri: API_BASE_URL + product.cImageURL + "?t=" + moment().format("X")
       };
     }
-
     return (
       <View style={styles.container}>
         {/* Category Image Start*/}
-        <View style={styles.upparHalf}>
+        <TouchableOpacity
+          onPress={() => {
+            product.file_type ? this.imageModal.show() : "";
+          }}
+          style={styles.upparHalf}
+        >
           <Image style={styles.bg} source={headerBg} resizeMode="cover" />
           {!product.file_type && (
             <Image
@@ -210,7 +215,7 @@ class Header extends Component {
               resizeMode="contain"
             />
           )}
-        </View>
+        </TouchableOpacity>
         {/* Category Image End */}
 
         <View style={styles.lowerHalf}>
@@ -366,6 +371,10 @@ class Header extends Component {
               loggedInUser={loggedInUser}
               setLoggedInUserName={setLoggedInUserName}
               onNewRatings={ratings => this.setState({ ratings })}
+            />
+            <ImageModal
+              ref={ref => (this.imageModal = ref)}
+              product={product}
             />
           </View>
         </View>

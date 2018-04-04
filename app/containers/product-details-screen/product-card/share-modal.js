@@ -18,6 +18,7 @@ import moment from "moment";
 
 import { API_BASE_URL, updateProfile } from "../../../api";
 import I18n from "../../../i18n";
+
 import { Text, Button } from "../../../elements";
 import { requestStoragePermission } from "../../../android-permissions";
 
@@ -120,7 +121,9 @@ class ShareModal extends React.Component {
         await Share.open(shareContent);
       }
     } catch (e) {
-      Alert.alert("Some error occurred", e.message);
+      showSnackbar({
+        text: e.message
+      })
       console.error("Oops, snapshot failed", e);
     }
   };

@@ -122,7 +122,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => {}
+  onUploadProgress = () => { }
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -1067,11 +1067,15 @@ export const deletePuc = async ({ productId, pucId }) => {
 };
 
 export const fetchDoYouKnowItems = async ({ tagIds, offsetId }) => {
+  let queryParams = {};
+  if (offsetId) {
+    queryParams.offset = offsetId
+  }
   return await apiRequest({
     method: "post",
     url: "/know/items",
     data: { tag_id: tagIds },
-    queryParams: { offset: offsetId }
+    queryParams
   });
 };
 
@@ -1144,9 +1148,9 @@ export const updateCalendarItem = async ({
     method: "put",
     url: `/calendar/items/${itemId}`,
     data: {
-      product_name: productName || undefined,
-      provider_name: providerName || undefined,
-      provider_number: providerNumber || undefined
+      product_name: productName || '',
+      provider_name: providerName || '',
+      provider_number: providerNumber || ''
     }
   });
 };

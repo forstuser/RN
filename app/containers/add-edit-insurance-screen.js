@@ -3,6 +3,7 @@ import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import I18n from "../i18n";
+import { showSnackbar } from "./snackbar";
 
 import {
   getReferenceDataForCategory,
@@ -125,14 +126,16 @@ class AddEditInsurance extends React.Component {
                   });
                   this.props.navigator.pop();
                 } catch (e) {
-                  Alert.alert(I18n.t("add_edit_amc_could_not_delete"));
+                  showSnackbar({
+                    text: I18n.t("add_edit_amc_could_not_delete")
+                  })
                   this.setState({ isLoading: false });
                 }
               }
             },
             {
               text: I18n.t("add_edit_no_dnt_delete"),
-              onPress: () => {},
+              onPress: () => { },
               style: "cancel"
             }
           ]
@@ -150,7 +153,9 @@ class AddEditInsurance extends React.Component {
         isLoading: false
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -172,7 +177,9 @@ class AddEditInsurance extends React.Component {
     };
 
     if (!data.providerId && !data.providerName) {
-      return Alert.alert(I18n.t("add_edit_insurance_provider_name"));
+      return showSnackbar({
+        text: I18n.t("add_edit_insurance_provider_name")
+      })
     }
 
     console.log("data: ", data);
@@ -187,7 +194,9 @@ class AddEditInsurance extends React.Component {
       this.setState({ isLoading: false });
       this.changesSavedModal.show();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({ isLoading: false });
     }
   };

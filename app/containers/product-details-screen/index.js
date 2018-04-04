@@ -26,6 +26,7 @@ import { API_BASE_URL, getProductDetails, deleteProduct } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 
 import I18n from "../../i18n";
+import { showSnackbar } from "../snackbar";
 
 import { colors } from "../../theme";
 
@@ -264,7 +265,9 @@ class ProductDetailsScreen extends Component {
           })
       );
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -310,7 +313,9 @@ class ProductDetailsScreen extends Component {
           ref={ref => (this.uploadProductImage = ref)}
           productId={this.props.productId}
           onImageUpload={() => {
-            Alert.alert(I18n.t("product_image_updated"));
+            showSnackbar({
+              text: I18n.t("product_image_updated")
+            })
             this.fetchProductDetails();
           }}
         />

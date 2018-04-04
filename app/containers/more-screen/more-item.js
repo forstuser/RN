@@ -41,7 +41,8 @@ const styles = StyleSheet.create({
   logo: {
     width: 24,
     height: 24,
-    marginRight: 12
+    marginRight: 12,
+    tintColor: colors.mainBlue
   },
   textContainer: {
     height: 24,

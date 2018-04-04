@@ -14,6 +14,7 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import I18n from "../../../i18n";
+import { showSnackbar } from "../../snackbar";
 
 import { updateCalendarItem } from "../../../api";
 
@@ -81,12 +82,16 @@ class Report extends React.Component {
     const { item, reloadScreen } = this.props;
 
     if (!productNameToEdit.trim()) {
-      return Alert.alert("Please enter the name");
+      return showSnackbar({
+        text: "Please enter the name"
+      })
     }
 
-    if (!providerNumberToEdit.trim()) {
-      return Alert.alert("Please enter the number");
-    }
+    // if (!providerNumberToEdit.trim()) {
+    //   return showSnackbar({
+    //     text: "Please enter the number"
+    //   })
+    // }
     this.setState({
       isSavingDetails: true
     });
@@ -104,7 +109,9 @@ class Report extends React.Component {
       //app crashes on Android without this timeout
       setTimeout(() => reloadScreen(), 200);
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({
         isSavingDetails: false
       });
@@ -113,7 +120,9 @@ class Report extends React.Component {
   handlePhonePress = () => {
     console.log("inside call function");
     call({ number: this.state.providerNumberToEdit }).catch(e =>
-      Alert.alert(e.message)
+      showSnackbar({
+        text: e.message
+      })
     );
   };
   render() {
@@ -186,17 +195,9 @@ class Report extends React.Component {
             />
             <KeyValueItem
               keyText={I18n.t("calendar_service_screen_provider_number")}
-              ValueComponent={() => (
-                <TouchableOpacity
-                  style={styles.callText}
-                  onPress={this.handlePhonePress}
-                >
-                  <Text style={{ color: colors.pinkishOrange }}>
-                    {item.provider_number}{" "}
-                    <Icon name="md-call" size={15} color={colors.tomato} />
-                  </Text>
-                </TouchableOpacity>
-              )}
+              ValueComponent={() => <TouchableOpacity style={styles.callText} onPress={this.handlePhonePress}>
+                <Text style={{ color: colors.pinkishOrange }}>{item.provider_number} {item.provider_number ? <Icon name="md-call" size={15} color={colors.tomato} /> : ''}</Text>
+              </TouchableOpacity>}
             />
           </View>
         </View>

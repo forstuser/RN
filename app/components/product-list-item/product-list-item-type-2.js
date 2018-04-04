@@ -10,10 +10,12 @@ import {
 } from "react-native";
 import call from "react-native-phone-call";
 import getDirections from "react-native-google-maps-directions";
+import { showSnackbar } from "../../containers/snackbar";
 
 import moment from "moment";
 import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
+
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
 
@@ -37,17 +39,23 @@ const openMap = product => {
 
     return getDirections(data);
   }
-  Alert.alert(I18n.t("expense_forms_product_list_address_not_available"));
+  showSnackbar({
+    text: I18n.t("expense_forms_product_list_address_not_available")
+  });
 };
 
 const callSeller = product => {
   const seller = product.sellers;
   if (seller && seller.contact) {
     return call({ number: String(product.sellers.contact) }).catch(e =>
-      Alert.alert(e.message)
+      showSnackbar({
+        text: e.message
+      })
     );
   }
-  Alert.alert(I18n.t("expense_forms_product_list_phone_not_available"));
+  showSnackbar({
+    text: I18n.t("expense_forms_product_list_phone_not_available")
+  })
 };
 
 class ProductListItem extends React.Component {
@@ -82,7 +90,9 @@ class ProductListItem extends React.Component {
   handlePhonePress = index => {
     if (index < this.state.phoneNumbers.length) {
       call({ number: this.state.phoneNumbers[index] }).catch(e =>
-        Alert.alert(e.message)
+        showSnackbar({
+          text: e.message
+        })
       );
     }
   };
