@@ -383,7 +383,7 @@ class ProductOrExpense extends React.Component {
 
               </Text>
               {reasons.map(reason => {
-                return (<Text weight="Medium" style={{ color: colors.secondaryText }}>{reason}</Text>)
+                return (<Text weight="Medium" style={styles.reason}>• {reason}</Text>)
               })}
             </View>
           )}
@@ -602,6 +602,18 @@ class ProductOrExpense extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  reason: {
+    color: colors.secondaryText,
+    // textAlign: 'left',
+    fontSize: 12,
+    marginLeft: 80,
+    alignSelf: 'flex-start',
+    // color: 'red',
+    // flex: 1,
+    // alignItems: 'flex-start',
+    // selfAlign: 'left'
+
+  },
   container: {
     padding: 0,
     backgroundColor: "#FAFAFA"
