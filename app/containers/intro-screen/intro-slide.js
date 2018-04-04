@@ -18,7 +18,7 @@ const IntroSlide = ({ image, title, desc }) => (
         source={require("../../images/onboarding/background.png")}
       /> */}
       <View style={styles.texts}>
-        <Text weight="Bold" style={styles.title}>
+        <Text style={styles.title}>
           {title}
         </Text>
         {/* <Text style={styles.desc}>{desc}</Text> */}
@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#fff",
     paddingHorizontal: 20,
-    marginTop: 25
+    marginTop: 25,
+    lineHeight: 30
   },
   desc: {
     marginTop: 15,

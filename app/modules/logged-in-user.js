@@ -28,6 +28,11 @@ export default function loggedInUserReducer(
         imageName: action.payload.imageName,
         isPinSet: action.payload.isPinSet
       };
+    case types.LOGGED_IN_USER_SET_USER_NAME:
+      return {
+        ...state,
+        name: action.payload.name
+      };
     case types.LOGGED_IN_USER_SET_IS_PIN_SET:
       return {
         ...state,
@@ -45,7 +50,7 @@ export default function loggedInUserReducer(
       };
     case types.LOGGED_IN_USER_CLEAR_ALL_DATA:
       return {
-        ...state
+        ...defaultState.loggedInUser
       };
     default:
       return state;
@@ -80,6 +85,12 @@ export const actions = {
     return {
       type: types.LOGGED_IN_USER_SET_USER,
       payload: { ...user }
+    };
+  },
+  setLoggedInUserName: name => {
+    return {
+      type: types.LOGGED_IN_USER_SET_USER_NAME,
+      payload: { name }
     };
   },
   setLoggedInUserIsPinSet: isPinSet => {

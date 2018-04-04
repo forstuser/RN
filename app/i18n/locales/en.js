@@ -1,7 +1,7 @@
 export default {
   //units
   litre: "Litre",
-  litre_symbol: "l",
+  litre_symbol: "L",
   millilitre: "Millilitre",
   millilitre_symbol: "ml",
   kilogram: "Kilogram",
@@ -15,9 +15,10 @@ export default {
 
   //common words
   other: "Other",
-  upload_product_image: "Upload Product Image",
+  upload_product_image: "Want to add product image before sharing",
   add_product_image: "Add Product Image",
   add_product_review: "Add Product Review",
+  add_your_name: "Add Your Name",
   uploading: "Uploading...",
   product_image_updated: "Product Image Updated",
   share: "Share",
@@ -27,13 +28,13 @@ export default {
   i_will_do_it_later: "I'll do it later",
 
   //app intro screen
-  app_intro_1_title: `Smart & 100% secure way of saving\n your Bills, Expenses and Important\n Documents in a Digital Format`,
+  app_intro_1_title: `Smart & 100% secure way of saving your Bills, Expenses and Important Documents in a Digital Format`,
   app_intro_1_desc: `Create Your Product Card in less Than 10 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
-  app_intro_2_title: `Recieve Reminders for Expiry\n and Renewal as well as connect\n with Brands Service Centres`,
+  app_intro_2_title: `Recieve Reminders for Expiry and Renewal as well as connect with Brand Service Centres`,
   app_intro_2_desc: `Create product card and reach out to Brands, Insurance Providers or Nearest Service Center with just One Touch.`,
-  app_intro_3_title: `Your Own Attendance Manager for\n the Milkman, Maid, Newspaper Wala\n and Others`,
+  app_intro_3_title: `Your Own Attendance Manager for the Milkman, Maid, Newspaper Wala and Others`,
   app_intro_3_desc: `Know the Life Cycle Cost of All Your Products. Based on this You Can Decide Whether to Continue Maintaining the Product or Replacing it.`,
-  app_intro_4_title: `Be The Product Review Expert.Help\n Your Friends, Family and Followers\n make a wise purchase`,
+  app_intro_4_title: `Be The Product Review Expert. Help Your Friends, Family and Followers make a wise purchase`,
   app_intro_4_desc: `You Can Capture and Track All Expenses Across Categories Such As Household and Utility, Travel, Dining, Healthcare and More.`,
   app_intro_next: "NEXT",
   app_intro_skip: "SKIP",
@@ -102,7 +103,7 @@ export default {
   add_product_screen_alert_select_expense: "Please select expense type",
   add_product_screen_alert_select_product: "Please select product type",
   add_product_screen_alert_select_purchase_date:
-    "Please select the closest date in case you forgot the actual date of purchase.",
+    "Please select the purchase (closest to purchase) date to activate warranty alerts and expense insights.",
   add_product_screen_purchase_date_hint:
     "Purchase date helps in activating warranty alerts as well as expense insights.",
   add_product_screen_placeholder_main_category: "Select Expense Category",
@@ -120,10 +121,10 @@ export default {
 
   //ASC search screen
   asc_search_screen_title: "Search Results for {{brandAndCategory}}",
-  asc_search_screen_no_results_title: "No Nearby Services",
+  asc_search_screen_no_results_title: "No nearby Service centers",
   asc_search_screen_no_results_desc:
-    "Currently there are no services near you. Please come back later for the nearby services",
-  asc_search_screen_phone_not_available: "Phone number not available to call",
+    "Currently there are no Servie centers near you",
+  asc_search_screen_phone_not_available: "No Phone no available for the center",
   asc_search_screen_directions: "Directions",
   asc_search_screen_call: "Call",
 
@@ -190,33 +191,33 @@ export default {
   products_list_no_result_desc_dining:
     "Looks Like You have no Expenses in Dining Section",
   products_list_no_result_desc_expense:
-    "Looks Like You have nothing added in Expense Section",
+    "Looks like you have nothing added in Medical expense section",
   products_list_no_result_desc_medical_docs:
-    "Looks Like You have nothing added in Medical Docs Section",
+    "Add your Prescriptions, Test reports and other Medical reports here",
   products_list_no_result_desc_insurance:
-    "Looks Like You have nothing added in Insurance Section",
+    "Add your Life insurance, Health insurance and other Medical insurance documents here",
   products_list_no_result_desc_other_services:
     "Looks Like You have no Expenses in Other Services Section",
   products_list_no_result_desc_professional:
-    "Looks Like You have no Expenses in Professional Section",
+    "Add your expenses for Professional services like CA, Lawyer, Photographer and any other",
   products_list_no_result_desc_lessons:
-    "Looks Like You have no Expenses in Lessons & Hobbies Section",
+    "Looks like you have no expenses in Lessons & Hobbies section",
   products_list_no_result_desc_fashion:
-    "Looks Like You have nothing added in Fashion Section",
+    "Looks Like You have no expenses added in Fashion Section",
   products_list_no_result_desc_household_expense:
-    "Looks Like You have no Expense added in Household Expense Section",
+    "Add your Household expenses like grocery, vegetables, maid, stationery, newspaper etc",
   products_list_no_result_desc_utility_bills:
-    "Looks Like You have no Expense added in Utility Bills Section",
+    "Add your Utility expenses like rent, phone, electricity, water, gas and maintenance",
   products_list_no_result_desc_education:
-    "Looks Like You have no Expense added in Education Section",
+    "Looks like you have no expense added in Education section",
   products_list_no_result_desc_home_decor:
-    "Looks Like You have no Expense added in Home Decor Section",
+    "Looks like you have no expense added in Home Decor section",
   products_list_no_result_desc_other_household:
-    "Looks Like You have no Expense added in Other Household Expense Section",
+    "Looks like you have no expense added in Other Household section",
   products_list_no_result_desc_others:
     "Any other document will appear under this section after you upload them",
   products_list_no_result_desc_personal:
-    "Looks Like You have no Documents added in Personal Catalouge Section",
+    "Add your personal documents like Visitng cards, Rent agreement, Educational certificates here",
   product_list_click_below: "Click below to",
 
   // add list button
@@ -363,7 +364,7 @@ export default {
   product_details_screen_no_dnt_delete: "No, don't Delete",
   product_details_screen_docs: "Doc",
   product_details_screen_general_info: "General Info",
-  product_details_screen_important: "IMPORTANT",
+  product_details_screen_important: "IMPORTANT INFO",
   product_details_screen_sellers: "SELLER",
   product_details_screen_gen_info: "GENERAL INFO",
   product_details_screen_review_added: "Review Added",
@@ -375,16 +376,16 @@ export default {
   //new
   product_details_screen_tab_customer_care: "CUSTOMER CARE",
   product_details_screen_tab_all_info: "ALL INFO",
-  product_details_screen_tab_important: "IMPORTANT",
-  product_details_screen_connect_brand_connect: "BRAND CONNECT",
-  product_details_screen_connect_insurance_provider: "INSURANCE PROVIDER",
+  product_details_screen_tab_important: "IMPORTANT INFO",
+  product_details_screen_connect_brand_connect: "Connect with Brand",
+  product_details_screen_connect_insurance_provider: "Connect with Insurance Provider",
   product_details_screen_connect_warranty_provider: "WARRANTY PROVIDER",
   product_details_screen_connect_numbers: "Customer Care Numbers",
   product_details_screen_connect_links: "Request Service",
   product_details_screen_connect_emails: "Email ID",
   product_details_screen_asc_title: "NEAREST AUTHORISED SERVICE CENTRE",
   product_details_screen_asc_select_location: "Select your location",
-  product_details_screen_asc_no_results: "No Nearby Services",
+  product_details_screen_asc_no_results: "No nearby Service centers ",
   product_details_screen_asc_directions: "Directions",
   product_details_screen_general_details: "General Details",
   product_details_screen_seller_details: "Seller Details",
@@ -448,8 +449,8 @@ export default {
 
   //ASC screen
   asc_screen_title: "Authorised Service Centres",
-  asc_screen_section_1_title: "Search ASC for already added product in eHome",
-  asc_screen_section_2_title: "Or Search ASC for other products",
+  asc_screen_section_1_title: "Search ASC for your products in eHome",
+  asc_screen_section_2_title: "Or search ASC for any brand",
   asc_screen_section_no_products_msg: "No Products Added",
   asc_screen_section_add_product_btn: "ADD PRODUCT",
   asc_screen_placeholder_select_brand: "Select a Brand",
@@ -463,7 +464,7 @@ export default {
   //Do You Know screen
   do_you_know_screen_title: "Do You Know",
   do_you_know_screen_end_msg:
-    "You have reached the end, Stay updated for more.",
+    "You have reached the end. Staye tuned for more.",
   do_you_know_screen_tags_search_placeholder: "Search...",
   do_you_know_screen_tags_search_cta: "Search",
 
@@ -506,6 +507,7 @@ export default {
   my_calendar_screen_from: "From",
   my_calendar_screen_to: "To",
   my_calendar_screen_no_of_units: "No. of Units",
+  my_calendar_screen_payment_type: "Payment Type",
 
   //add/edit calendar service screen
   add_edit_calendar_service_screen_title: "Add Service",
@@ -604,8 +606,7 @@ export default {
     "Please upload the document first",
   add_edit_expense_screen_title_add_doc: "ADD DOC",
   add_edit_expense_screen_title_add_doc_added: "Doc added to your eHome.",
-  add_edit_expense_screen_title_add_select_type:
-    "Select a type above",
+  add_edit_expense_screen_title_add_select_type: "Select a type above",
   add_edit_expense_screen_title_add_brand_name:
     "Please select or enter brand name",
   add_edit_expense_screen_title_add_type: "Please select a type",
@@ -702,7 +703,7 @@ export default {
 
   //app-tour texts
   plus_btn_tip:
-    "Click here to Add your Bills, Expenses and Important Documents.",
+    "Click here to add your Bills, Expenses and important Documents.",
   ehome_tip:
     "Click here to find your saved Bills, Expenses, Documents in your eHome.",
   attendance_tip:
@@ -710,7 +711,7 @@ export default {
   asc_tip:
     "Click here to find and connect with Authorised Service Centres of any Brand with just one simple click.",
   app_tour_tips_4:
-    "It’s important to keep a track of your expenses. Keep a track of your expenses from this section.",
+    "Keep a track of your expenses here.",
   mailbox_tip:
     "This is your eHome inbox wherein all reminders and notifications will be delivered. Track them here.",
   coming_up_tip:
@@ -830,12 +831,13 @@ export default {
   add_edit_product_basic_select_type: "Please select a type",
   add_edit_product_basic_select_amount: "Please enter amount",
   add_edit_product_basic_select_date: "Please select a date",
-  add_edit_force_update_upgrade: "Update the all new BinBill App available with snazzy new features",
+  add_edit_force_update_upgrade:
+    "Update the all new BinBill App available with snazzy new features",
   add_edit_force_update_versions:
     "The new version brings a whole host of fantastic features and improvements.",
-  add_edit_force_update_text1: 'Home Attendance Manager',
-  add_edit_force_update_text2: 'Share Personalised Review',
-  add_edit_force_update_text3: 'Do You Know series',
+  add_edit_force_update_text1: "Home Attendance Manager",
+  add_edit_force_update_text2: "Share Personalised Review",
+  add_edit_force_update_text3: "Do You Know series",
   add_edit_force_update_now: "UPDATE NOW",
   add_edit_force_not_now: "Not Now",
   add_edit_force_ok: "OK",
@@ -874,7 +876,7 @@ export default {
   expense_forms_healthcare: "Basic Details",
   expense_forms_healthcare_upload_doc: "Upload Doc",
   expense_forms_healthcare_plan_name: "Plan Name",
-  // expense_forms_healthcare_type: "Type",
+  expense_forms_healthcare_type: "Type",
   expense_forms_healthcare_for: "For (Self/Child/Wife/Parents/Family/Etc.)",
   expense_forms_healthcare_policy: "Policy No",
   expense_forms_healthcare_effective_date: "Effective Date",
@@ -990,5 +992,10 @@ export default {
     "Select Travel & Dining Expense Category",
 
   //29-03-2018
-  review_quotes: "Someday-N-Someway you will find this Review useful"
+  review_quotes: "Someday-N-Someway you will find this Review useful",
+
+  //04-04-2018
+  daily: "Daily",
+  monthly: "monthly",
+  save: "Save"
 };

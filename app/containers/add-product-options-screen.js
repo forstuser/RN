@@ -72,7 +72,7 @@ class AddProductScreen extends React.Component {
     const productOptions = [
       {
         type: EXPENSE_TYPES.AUTOMOBILE,
-        title: "Automobile",
+        title: "Automobiles",
         icon: require("../images/main-categories/ic_automobile.png")
       },
       {

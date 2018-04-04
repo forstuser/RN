@@ -12,6 +12,7 @@ import moment from "moment";
 
 import {
   SCREENS,
+  CALENDAR_WAGES_TYPE,
   WAGES_CYCLE,
   UNIT_TYPES,
   CALENDAR_SERVICE_TYPES
@@ -45,24 +46,12 @@ class CalculationDetailModal extends React.Component {
       selectedDays: [1, 2, 3, 4, 5, 6, 7],
       unitTypes: [],
       selectedUnitType: null,
-      actualSelectedUnitType: null,
-      type: "product"
+      actualSelectedUnitType: null
     };
   }
 
   componentDidMount = () => {
     const { item } = this.props;
-    // console.log("Item", item)
-    let type = "product";
-    if (
-      [
-        CALENDAR_SERVICE_TYPES.MILK,
-        CALENDAR_SERVICE_TYPES.DAIRY,
-        CALENDAR_SERVICE_TYPES.VEGETABLES
-      ].indexOf(item.service_id) == -1
-    ) {
-      type = "service";
-    }
 
     let unitTypes = [];
     switch (item.service_id) {
@@ -85,7 +74,6 @@ class CalculationDetailModal extends React.Component {
         break;
     }
     this.setState({
-      type,
       unitTypes,
       selectedUnitType: unitTypes[0],
       actualSelectedUnitType: unitTypes[0],
@@ -130,8 +118,7 @@ class CalculationDetailModal extends React.Component {
       startingDate,
       selectedDays,
       selectedUnitType,
-      actualSelectedUnitType,
-      type
+      actualSelectedUnitType
     } = this.state;
 
     if (!startingDate) {
@@ -207,18 +194,14 @@ class CalculationDetailModal extends React.Component {
       selectedDays,
       unitTypes,
       selectedUnitType,
-      actualSelectedUnitType,
-      type
+      actualSelectedUnitType
     } = this.state;
     const { item } = this.props;
     const serviceType = item.service_type;
     let priceText = I18n.t("calendar_service_screen_unit_price");
-    if (serviceType.main_category_id == 6 && serviceType.category_id == 24) {
+    if (serviceType.wages_type == CALENDAR_WAGES_TYPE.WAGES) {
       priceText = I18n.t("add_edit_calendar_service_screen_form_wages");
-    } else if (
-      serviceType.main_category_id == 6 &&
-      (serviceType.category_id == 123 || serviceType.category_id == 635)
-    ) {
+    } else if (serviceType.wages_type == CALENDAR_WAGES_TYPE.FEES) {
       priceText = I18n.t("add_edit_calendar_service_screen_form_fees");
     }
     return (
@@ -235,14 +218,14 @@ class CalculationDetailModal extends React.Component {
           <TouchableOpacity style={styles.modalCloseIcon} onPress={this.hide}>
             <Icon name="md-close" size={30} color={colors.mainText} />
           </TouchableOpacity>
-          {type == "service" && (
+          {serviceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT && (
             <CustomTextInput
               placeholder={priceText}
               value={String(unitPrice)}
               onChangeText={unitPrice => this.setState({ unitPrice })}
             />
           )}
-          {type == "product" && (
+          {serviceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
             <View style={{ width: "100%" }}>
               <View style={{ flexDirection: "row" }}>
                 <SelectModal
@@ -269,7 +252,7 @@ class CalculationDetailModal extends React.Component {
                   keyboardType="numeric"
                   style={{ flex: 1 }}
                   placeholder={I18n.t("calendar_service_screen_quantity")}
-                  value={String(quantity)}
+                  value={quantity !== null ? String(quantity) : ""}
                   onChangeText={quantity => this.setState({ quantity })}
                   rightSideText={selectedUnitType ? selectedUnitType.name : ""}
                   rightSideTextWidth={70}

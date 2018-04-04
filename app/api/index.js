@@ -107,7 +107,7 @@ const apiRequest = async ({
     );
 
     if (error.statusCode == 401) {
-      store.dispatch(loggedInUserActions.setLoggedInUserAuthToken(null));
+      store.dispatch(loggedInUserActions.loggedInUserClearAllData());
       openLoginScreen();
     } else if (error.statusCode == 402) {
       openEnterPinPopup();
@@ -1067,11 +1067,15 @@ export const deletePuc = async ({ productId, pucId }) => {
 };
 
 export const fetchDoYouKnowItems = async ({ tagIds, offsetId }) => {
+  let queryParams = {};
+  if (offsetId) {
+    queryParams.offset = offsetId
+  }
   return await apiRequest({
     method: "post",
     url: "/know/items",
     data: { tag_id: tagIds },
-    queryParams: { offset: offsetId }
+    queryParams
   });
 };
 
@@ -1144,9 +1148,9 @@ export const updateCalendarItem = async ({
     method: "put",
     url: `/calendar/items/${itemId}`,
     data: {
-      product_name: productName || undefined,
-      provider_name: providerName || undefined,
-      provider_number: providerNumber || undefined
+      product_name: productName || '',
+      provider_name: providerName || '',
+      provider_number: providerNumber || ''
     }
   });
 };

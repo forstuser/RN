@@ -66,6 +66,7 @@ export default class Item extends React.Component {
     }
   };
   render() {
+    console.log("Screen height", SCREEN_HEIGHT)
     const { item, onLikePress } = this.props;
     if (item) {
       const {
@@ -160,17 +161,11 @@ export default class Item extends React.Component {
                 {title}
               </Text>
               <Text style={styles.description}>{description}</Text>
+
               <View style={styles.tags}>
-                {tags.map(tag => (
-                  <Button
-                    key={tag.title}
-                    text={tag.title.toUpperCase()}
-                    color="secondary"
-                    style={{ height: 30, marginRight: 5 }}
-                    gradientStyle={{ paddingHorizontal: 10 }}
-                    textStyle={{ fontSize: 10 }}
-                  />
-                ))}
+                <Text
+                  style={{ height: 30, marginRight: 5, color: colors.secondaryText }}
+                >Tags: {tags.map(tag => tag.title).join(', ')}</Text>
               </View>
             </View>
           </View>
@@ -311,7 +306,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   title: {
-    fontSize: SCREEN_HEIGHT > 620 ? 18 : 14,
+    fontSize: SCREEN_HEIGHT > 620 ? 17 : 14,
     color: colors.mainText
   },
   description: {

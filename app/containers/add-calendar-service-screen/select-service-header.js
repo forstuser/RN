@@ -184,6 +184,11 @@ class SelectCategoryHeader extends React.Component {
           ref={ref => (this.otherOptionsModal = ref)}
           style={styles.select}
           options={serviceTypes}
+          options={serviceTypes.map(option => ({
+            ...option,
+            image: API_BASE_URL + option.calendarServiceImageUrl
+          }))}
+          imageKey="image"
           selectedOption={selectedOption}
           onOptionSelect={value => {
             this.onOptionSelect(value);
