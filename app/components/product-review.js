@@ -22,9 +22,10 @@ import LoadingOverlay from "../components/loading-overlay";
 
 class UploadProductImage extends React.Component {
   state = {
-    starCount: 1,
+    starCount: 0,
     reviewInput: "",
-    isSaving: false
+    isSaving: false,
+    isStarIsZero: false
   };
 
   componentDidMount() {
@@ -39,14 +40,18 @@ class UploadProductImage extends React.Component {
 
   onStarRatingPress(rating) {
     this.setState({
-      starCount: rating || 1
+      starCount: rating || 0
     });
   }
 
   onSubmitReview = async () => {
     const { starCount, reviewInput, isSaving } = this.state;
     const { product, onReviewSubmit } = this.props;
-
+    if (!starCount) {
+      return this.setState({
+        isStarIsZero: true
+      })
+    }
     try {
       this.setState({
         isSaving: true
@@ -75,7 +80,7 @@ class UploadProductImage extends React.Component {
   };
 
   render() {
-    const { starCount, reviewInput, isSaving } = this.state;
+    const { starCount, reviewInput, isSaving, isStarIsZero } = this.state;
     return (
       <View style={styles.container}>
         <LoadingOverlay visible={isSaving} />
@@ -91,6 +96,7 @@ class UploadProductImage extends React.Component {
               selectedStar={rating => this.onStarRatingPress(rating)}
             />
           </View>
+          <Text style={styles.ratingMsg}>{isStarIsZero ? "Please provide rating or feedback before Submit!" : ''}</Text>
         </View>
         <View style={styles.reviewInputWrapper}>
           <TextInput
@@ -134,6 +140,9 @@ const styles = StyleSheet.create({
   reviewHeader: {
     padding: 20
   },
+  starsWrapper: {
+    marginBottom: 10
+  },
   reviewInputWrapper: {
     borderColor: colors.lighterText,
     borderWidth: 1,
@@ -148,6 +157,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     height: 36,
     width: 170
+  },
+  ratingMsg: {
+    textAlign: 'center',
+    color: colors.tomato
   }
 });
 export default UploadProductImage;

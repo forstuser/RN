@@ -606,7 +606,7 @@ export default {
     "Please upload the document first",
   add_edit_expense_screen_title_add_doc: "ADD DOC",
   add_edit_expense_screen_title_add_doc_added: "Doc added to your eHome.",
-  add_edit_expense_screen_title_add_select_type: "Select a type above",
+  add_edit_expense_screen_title_add_select_type: "Select a type above to",
   add_edit_expense_screen_title_add_brand_name:
     "Please select or enter brand name",
   add_edit_expense_screen_title_add_type: "Please select a type",

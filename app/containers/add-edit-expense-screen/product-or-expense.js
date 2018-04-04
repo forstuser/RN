@@ -333,7 +333,7 @@ class ProductOrExpense extends React.Component {
   };
 
   render() {
-    const { categoryId } = this.props;
+    const { categoryId, reasons } = this.props;
 
     const {
       mainCategoryId,
@@ -380,12 +380,11 @@ class ProductOrExpense extends React.Component {
             <View style={styles.selectCategoryMsgContainer}>
               <Text weight="Medium" style={styles.selectCategoryMsg}>
                 {startMsg}
+
               </Text>
-              {/*<Image
-                resizeMode="contain"
-                style={styles.selectCategoryImage}
-                source={startGraphics}
-              />*/}
+              {reasons.map(reason => {
+                return (<Text weight="Medium" style={{ color: colors.secondaryText }}>{reason}</Text>)
+              })}
             </View>
           )}
           {product != null && (
@@ -622,7 +621,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     width: 300,
     textAlign: "center",
-    color: colors.mainBlue
+    color: colors.mainBlue,
+    marginBottom: 10
   },
   selectCategoryImage: {
     marginTop: 20,
