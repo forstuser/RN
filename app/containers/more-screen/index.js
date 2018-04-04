@@ -16,6 +16,7 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import Body from "./body";
 import Header from "./header";
 import I18n from "../../i18n";
+import { showSnackbar } from "../snackbar";
 import { SCREENS } from "../../constants";
 import { getProfileDetail, deletePin, logout } from "../../api";
 import { openLoginScreen, openAppScreen } from "../../navigation";
@@ -109,7 +110,9 @@ class MoreScreen extends Component {
       await deletePin({ pin });
       this.props.removePin();
     } catch (e) {
-      Alert.alert("Error", e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
     this.setState({
       isFetchingData: false

@@ -17,6 +17,7 @@ import {
 } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
 import I18n from "../../i18n";
+import { showSnackbar } from "../snackbar";
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
 import { MAIN_CATEGORY_IDS } from "../../constants";
@@ -61,7 +62,9 @@ class Repair extends React.Component {
         isLoading: false
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -100,7 +103,9 @@ class Repair extends React.Component {
       } = this.state;
 
       if (!repairDate) {
-        return Alert.alert(I18n.t("add_edit_expense_screen_title_add_repairs"));
+        return showSnackbar({
+          text: I18n.t("add_edit_expense_screen_title_add_repairs")
+        })
       }
 
       const data = {
@@ -126,7 +131,9 @@ class Repair extends React.Component {
         isFinishModalVisible: true
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({
         isLoading: false
       });
@@ -241,7 +248,7 @@ class Repair extends React.Component {
             {selectedProduct && (
               <View style={styles.formContainer}>
                 <View style={styles.form}>
-                <Text weight="Medium" style={styles.headerText}>{I18n.t("add_edit_expense_screen_title_add_repair_details")}</Text>
+                  <Text weight="Medium" style={styles.headerText}>{I18n.t("add_edit_expense_screen_title_add_repair_details")}</Text>
                   <CustomDatePicker
                     date={repairDate}
                     placeholder={I18n.t(
@@ -286,8 +293,8 @@ class Repair extends React.Component {
                     onChangeText={warrantyUpto =>
                       this.setState({ warrantyUpto })
                     }
-                  /> 
-                <UploadDoc
+                  />
+                  <UploadDoc
                     placeholder="Upload Bill "
                     placeholder2="(Recommended) "
                     placeholder2Color={colors.mainBlue}
@@ -447,7 +454,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     flex: 1,
     marginBottom: 10,
-    alignSelf:'flex-start'
+    alignSelf: 'flex-start'
   }
 });
 

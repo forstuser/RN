@@ -18,9 +18,9 @@ import { Provider } from "react-redux";
 import codePush from "react-native-code-push";
 import { Navigation, NativeEventsReceiver } from "react-native-navigation";
 import moment from "moment";
-
 import { registerScreens } from "./screens";
 import I18n from "./i18n";
+import { showSnackBar } from "./containers/snackbar"
 import store from "./store";
 import { actions as loggedInUserActions } from "./modules/logged-in-user";
 import { actions as uiActions } from "./modules/ui";
@@ -112,7 +112,7 @@ function startApp() {
         store.dispatch(loggedInUserActions.setLoggedInUserFcmToken(token));
         try {
           await addFcmToken(token);
-        } catch (e) {}
+        } catch (e) { }
       });
 
       FCM.on(FCMEvent.Notification, notif => {
@@ -196,12 +196,18 @@ function startApp() {
         if (uri.hasQuery("verificationId")) {
           verifyEmail(uri.query(true).verificationId)
             .then(() => {
-              Alert.alert("Email Verified");
+              showSnackBar({
+                text: "Email Verified"
+
+              })
             })
             .catch(() => {
-              Alert.alert("Couldn't Verify Email");
-            });
+              showSnackBar({
+                text: "Couldn't Verify Email"
+              });
+            })
         }
+
 
         const pathItem1 = path.split("/")[1];
 

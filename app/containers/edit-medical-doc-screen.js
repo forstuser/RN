@@ -24,6 +24,8 @@ import SelectModal from "../components/select-modal";
 
 import MedicalDocForm from "../components/expense-forms/medical-doc-form";
 import I18n from "../i18n";
+import { showSnackbar } from "./snackbar";
+
 import CustomTextInput from "../components/form-elements/text-input";
 import ContactFields from "../components/form-elements/contact-fields";
 import HeaderWithUploadOption from "../components/form-elements/header-with-upload-option";
@@ -104,7 +106,9 @@ class MedicalDoc extends React.Component {
         isLoading: false
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -119,7 +123,9 @@ class MedicalDoc extends React.Component {
     console.log("data: ", data);
 
     if (data.copies.length == 0) {
-      return Alert.alert(I18n.t("add_edit_medical_upload_doc"));
+      return showSnackbar({
+        text: I18n.t("add_edit_medical_upload_doc")
+      })
     }
 
     try {
@@ -128,7 +134,9 @@ class MedicalDoc extends React.Component {
       this.setState({ isLoading: false });
       this.changesSavedModal.show();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({ isLoading: false });
     }
   };

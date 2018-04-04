@@ -17,6 +17,7 @@ import { colors } from "../theme";
 import { MAIN_CATEGORY_IDS } from "../constants";
 import UploadBillOptions from "../components/upload-bill-options";
 import SelectModal from "../components/select-modal";
+import { showSnackbar } from "./snackbar";
 
 import CustomTextInput from "../components/form-elements/text-input";
 import ContactFields from "../components/form-elements/contact-fields";
@@ -152,7 +153,9 @@ class PersonalDoc extends React.Component {
   beforeUpload = () => {
     const productId = this.state.productId;
     if (!productId) {
-      Alert.alert(I18n.t("add_edit_personal_doc_first"));
+      showSnackbar({
+        text: I18n.t("add_edit_personal_doc_first")
+      })
       return false;
     }
     return true;
@@ -190,7 +193,9 @@ class PersonalDoc extends React.Component {
         isLoading: false
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -208,11 +213,15 @@ class PersonalDoc extends React.Component {
       } = this.state;
 
       if (!productId) {
-        return Alert.alert(I18n.t("add_edit_personal_doc_first"));
+        return showSnackbar({
+          text: I18n.t("add_edit_personal_doc_first")
+        })
       }
 
       if (copies.length == 0) {
-        return Alert.alert(I18n.t("add_edit_personal_doc_upload_first"));
+        return showSnackbar({
+          text: I18n.t("add_edit_personal_doc_upload_first")
+        })
       }
       const data = {
         productId: productId,
@@ -240,7 +249,9 @@ class PersonalDoc extends React.Component {
       });
       this.changesSavedModal.show();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({
         isLoading: false
       });

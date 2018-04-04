@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { getReferenceDataForCategory, updateProduct } from "../api";
 import I18n from "../i18n";
+import { showSnackbar } from "./snackbar";
+
 import LoadingOverlay from "../components/loading-overlay";
 import { MAIN_CATEGORY_IDS } from "../constants";
 import { ScreenContainer, Text, Button } from "../elements";
@@ -84,7 +86,9 @@ class EditProductBasicDetails extends React.Component {
         isLoading: false
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -107,18 +111,26 @@ class EditProductBasicDetails extends React.Component {
       ].indexOf(data.mainCategoryId) > -1
     ) {
       if (data.brandId === undefined && !data.brandName) {
-        return Alert.alert(I18n.t("add_edit_product_basic_select_brand"));
+        return showSnackbar({
+          text: I18n.t("add_edit_product_basic_select_brand")
+        })
       }
     } else if (MAIN_CATEGORY_IDS.FURNITURE == data.mainCategoryId) {
       if (!data.subCategoryId) {
-        return Alert.alert(I18n.t("add_edit_product_basic_select_type"));
+        return showSnackbar({
+          text: I18n.t("add_edit_product_basic_select_type")
+        })
       }
     } else if (!data.value) {
-      return Alert.alert(I18n.t("add_edit_product_basic_select_amount"));
+      return showSnackbar({
+        text: I18n.t("add_edit_product_basic_select_amount")
+      })
     }
 
     if (!data.purchaseDate) {
-      return Alert.alert(I18n.t("add_edit_product_basic_select_date"));
+      return showSnackbar({
+        text: I18n.t("add_edit_product_basic_select_date")
+      })
     }
 
     if (
@@ -130,7 +142,9 @@ class EditProductBasicDetails extends React.Component {
       ].indexOf(data.mainCategoryId) == -1
     ) {
       if (!data.value) {
-        return Alert.alert(I18n.t("add_edit_product_basic_select_amount"));
+        return showSnackbar({
+          text: I18n.t("add_edit_product_basic_select_amount")
+        })
       }
     }
 
@@ -140,7 +154,9 @@ class EditProductBasicDetails extends React.Component {
       this.setState({ isLoading: false });
       this.changesSavedModal.show();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({ isLoading: false });
     }
   };

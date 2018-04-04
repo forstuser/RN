@@ -6,6 +6,7 @@ import {
   Dimensions,
   Alert
 } from "react-native";
+import { showSnackbar } from "./snackbar";
 
 import I18n from "../i18n";
 import { verifyPin } from "../api";
@@ -38,7 +39,9 @@ class EnterPinScreen extends React.Component {
 
   verifyPin = async pin => {
     if (pin.length != 4) {
-      return Alert.alert("Please enter 4 digit pin");
+      return showSnackbar({
+        text: "Please enter 4 digit pin"
+      })
     }
     this.setState({
       isLoading: true
@@ -51,7 +54,9 @@ class EnterPinScreen extends React.Component {
       this.props.navigator.dismissModal();
       global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE] = false;
     } catch (e) {
-      Alert.alert("Verification Failed", e.message);
+      showSnackbar({
+        text: e.message
+      });
       this.setState({
         isLoading: false
       });

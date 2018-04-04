@@ -14,6 +14,7 @@ import { requestCameraPermission } from "../android-permissions";
 import { uploadProductImage } from "../api";
 
 import I18n from "../i18n";
+import { showSnackbar } from "../containers/snackbar";
 
 import { Text, Button } from "../elements";
 import { colors } from "../theme";
@@ -58,7 +59,7 @@ class UploadProductImage extends React.Component {
           mimeType: file.mime
         });
       })
-      .catch(e => {});
+      .catch(e => { });
   };
 
   pickGalleryImage = () => {
@@ -75,7 +76,7 @@ class UploadProductImage extends React.Component {
           mimeType: file.mime
         });
       })
-      .catch(e => {});
+      .catch(e => { });
   };
 
   uploadFile = async file => {
@@ -108,7 +109,9 @@ class UploadProductImage extends React.Component {
         },
         () => {
           setTimeout(() => {
-            Alert.alert(e.message);
+            showSnackbar({
+              text: e.message
+            })
           }, 200);
         }
       );

@@ -32,7 +32,10 @@ const MultipleContactNumbers = ({ contact = "" }) => {
             key={number}
             onPress={() =>
               call({ number: String(number) }).catch(e =>
-                Alert.alert(e.message)
+                showSnackbar({
+                  text: e.message
+
+                })
               )
             }
             weight="Medium"

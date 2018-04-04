@@ -22,6 +22,8 @@ import UploadBillOptions from "../components/upload-bill-options";
 import SelectModal from "../components/select-modal";
 import HealthcareInsuranceForm from "../components/expense-forms/healthcare-insurance-form";
 import I18n from "../i18n";
+import { showSnackbar } from "./snackbar";
+
 import CustomTextInput from "../components/form-elements/text-input";
 import ContactFields from "../components/form-elements/contact-fields";
 import HeaderWithUploadOption from "../components/form-elements/header-with-upload-option";
@@ -98,7 +100,9 @@ class MedicalDoc extends React.Component {
         isLoading: false
       });
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     }
   };
 
@@ -118,7 +122,9 @@ class MedicalDoc extends React.Component {
       this.setState({ isLoading: false });
       this.changesSavedModal.show();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({ isLoading: false });
     }
   };

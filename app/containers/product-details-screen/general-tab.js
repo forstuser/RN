@@ -13,6 +13,8 @@ import StarRating from "react-native-star-rating";
 
 import { Text, Button, ScreenContainer } from "../../elements";
 import I18n from "../../i18n";
+import { showSnackbar } from "../snackbar";
+
 import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
 import SectionHeading from "../../components/section-heading";
@@ -60,10 +62,14 @@ class GeneralTab extends Component {
         ratings: this.state.starCount,
         feedback: this.state.reviewInput
       });
-      Alert.alert("Review Added");
+      showSnackbar({
+        text: "Review Added"
+      })
       this.props.fetchProductDetails();
     } catch (e) {
-      Alert.alert(e.message);
+      showSnackbar({
+        text: e.message
+      })
     } finally {
       this.setState({
         isAddingReview: false

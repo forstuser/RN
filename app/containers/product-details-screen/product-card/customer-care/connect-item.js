@@ -21,6 +21,7 @@ import {
 
 import Analytics from "../../../../analytics";
 import I18n from "../../../../i18n";
+import { showSnackbar } from "../../../snackbar";
 
 import { Text, AsyncImage } from "../../../../elements";
 import { colors } from "../../../../theme";
@@ -221,19 +222,27 @@ class Card extends React.Component {
     Linking.canOpenURL(url)
       .then(supported => {
         if (!supported) {
-          Alert.alert("Can't open this email");
+          snackbar({
+            text: "Can't open this email"
+          })
         } else {
           return Linking.openURL(url);
         }
       })
-      .catch(e => Alert.alert(e.message));
+      .catch(e => snackbar({
+        text: e.message
+      })
+      )
   };
 
   handlePhonePress = phoneNumber => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_CALL);
     call({
       number: phoneNumber.replace(/\(.+\)/, "").trim()
-    }).catch(e => Alert.alert(e.message));
+    }).catch(e => snackbar({
+      text: e.message
+    })
+    )
   };
 
   handleUrlPress = url => {
@@ -241,7 +250,9 @@ class Card extends React.Component {
       if (supported) {
         Linking.openURL(url);
       } else {
-        Alert.alert("Don't know how to open URI: " + url);
+        snackbar({
+          text: "Don't know how to open URI: " + url
+        })
       }
     });
   };

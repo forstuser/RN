@@ -22,8 +22,8 @@ import MoreItem from "./more-item";
 import LanguageOptions from "../../components/language-options";
 
 import I18n from "../../i18n";
-
 import { showSnackbar } from "../snackbar";
+
 
 class Body extends Component {
   constructor(props) {
@@ -164,7 +164,10 @@ class Body extends Component {
         />
         <MoreItem
           onPress={() =>
-            call({ number: "+917600919189" }).catch(e => Alert.alert(e.message))
+            call({ number: "+917600919189" }).catch(e => showSnackbar({
+              text: e.message
+            })
+            )
           }
           imageSource={require("../../images/ic_more_call.png")}
           text={I18n.t("more_screen_item_call")}

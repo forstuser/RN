@@ -3,6 +3,8 @@ import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import { connect } from "react-redux";
 
 import I18n from "../i18n";
+import { showSnackbar } from "./snackbar";
+
 import {
   getProfileDetail,
   setPin,
@@ -78,7 +80,9 @@ class PinSetupScreen extends React.Component {
   askForOtp = async () => {
     const { email } = this.state;
     if (!email) {
-      return Alert.alert("Please enter email address");
+      return showSnackbar({
+        text: "Please enter email address"
+      })
     }
     try {
       this.setState({
@@ -91,7 +95,9 @@ class PinSetupScreen extends React.Component {
         showOtpInput: true
       });
     } catch (e) {
-      Alert.alert("Error", e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({
         isLoading: false
       });
@@ -101,9 +107,9 @@ class PinSetupScreen extends React.Component {
   validateOtp = async () => {
     const { otp } = this.state;
     if (otp.length != 4) {
-      return Alert.alert(
-        "Please enter 4 digit OTP sent to your email address."
-      );
+      return showSnackbar({
+        text: "Please enter 4 digit OTP sent to your email address."
+      })
     }
     try {
       this.setState({
@@ -115,7 +121,9 @@ class PinSetupScreen extends React.Component {
         showOtpInput: false
       });
     } catch (e) {
-      Alert.alert("Error", e.message);
+      showSnackbar({
+        text: e.message
+      })
       this.setState({
         isLoading: false
       });
@@ -126,7 +134,9 @@ class PinSetupScreen extends React.Component {
     const { pin1 } = this.state;
 
     if (pin !== pin1) {
-      return Alert.alert("Retry PIN does not match with PIN.");
+      return showSnackbar({
+        text: "Retry PIN does not match with PIN."
+      })
     }
 
     try {
@@ -137,7 +147,9 @@ class PinSetupScreen extends React.Component {
       await setPin({ pin });
       this.props.setLoggedInUserIsPinSet(true);
       setTimeout(() => {
-        Alert.alert("Pin Successfully Changed");
+        showSnackbar({
+          text: "Pin Successfully Changed"
+        })
       }, 200);
 
       this.props.navigator.pop();
@@ -145,7 +157,9 @@ class PinSetupScreen extends React.Component {
       this.setState({
         isLoading: false
       });
-      return Alert.alert("Error", e.message);
+      return showSnackbar({
+        text: e.message
+      })
     }
   };
 

@@ -23,6 +23,7 @@ import {
 
 import Analytics from "../../../../analytics";
 import I18n from "../../../../i18n";
+import { showSnackbar } from "../../../snackbar";
 
 import { API_BASE_URL } from "../../../../api";
 import { Text, AsyncImage } from "../../../../elements";
@@ -49,7 +50,10 @@ class AscItem extends React.Component {
   handlePhonePress = phoneNumber => {
     call({
       number: phoneNumber.replace(/\(.+\)/, "").trim()
-    }).catch(e => Alert.alert(e.message));
+    }).catch(e => showSnackbar({
+      text: e.message
+    })
+    )
   };
 
   handleEmailPress = email => {
@@ -58,7 +62,9 @@ class AscItem extends React.Component {
       if (supported) {
         Linking.openURL(url);
       } else {
-        Alert.alert("Don't know how to open URI: " + url);
+        showSnackbar({
+          text: "Don't know how to open URI: " + url
+        })
       }
     });
   };
