@@ -8,7 +8,7 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-export const API_BASE_URL = "https://consumer-eb.binbill.com";
+export const API_BASE_URL = "https://consumer-stage.binbill.com";
 
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 const platform = Platform.OS == "ios" ? 2 : 1;
@@ -1067,11 +1067,15 @@ export const deletePuc = async ({ productId, pucId }) => {
 };
 
 export const fetchDoYouKnowItems = async ({ tagIds, offsetId }) => {
+  let queryParams = {};
+  if (offsetId) {
+    queryParams.offset = offsetId
+  }
   return await apiRequest({
     method: "post",
     url: "/know/items",
     data: { tag_id: tagIds },
-    queryParams: { offset: offsetId }
+    queryParams
   });
 };
 
@@ -1144,9 +1148,9 @@ export const updateCalendarItem = async ({
     method: "put",
     url: `/calendar/items/${itemId}`,
     data: {
-      product_name: productName || undefined,
-      provider_name: providerName || undefined,
-      provider_number: providerNumber || undefined
+      product_name: productName || '',
+      provider_name: providerName || '',
+      provider_number: providerNumber || ''
     }
   });
 };

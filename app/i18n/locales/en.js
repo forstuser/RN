@@ -874,7 +874,7 @@ export default {
   expense_forms_healthcare: "Basic Details",
   expense_forms_healthcare_upload_doc: "Upload Doc",
   expense_forms_healthcare_plan_name: "Plan Name",
-  // expense_forms_healthcare_type: "Type",
+  expense_forms_healthcare_type: "Type",
   expense_forms_healthcare_for: "For (Self/Child/Wife/Parents/Family/Etc.)",
   expense_forms_healthcare_policy: "Policy No",
   expense_forms_healthcare_effective_date: "Effective Date",

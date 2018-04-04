@@ -84,9 +84,9 @@ class Report extends React.Component {
       return Alert.alert("Please enter the name");
     }
 
-    if (!providerNumberToEdit.trim()) {
-      return Alert.alert("Please enter the number");
-    }
+    // if (!providerNumberToEdit.trim()) {
+    //   return Alert.alert("Please enter the number");
+    // }
     this.setState({
       isSavingDetails: true
     });
@@ -188,7 +188,7 @@ class Report extends React.Component {
             <KeyValueItem
               keyText={I18n.t("calendar_service_screen_provider_number")}
               ValueComponent={() => <TouchableOpacity style={styles.callText} onPress={this.handlePhonePress}>
-                <Text style={{ color: colors.pinkishOrange }}>{item.provider_number} <Icon name="md-call" size={15} color={colors.tomato} /></Text>
+                <Text style={{ color: colors.pinkishOrange }}>{item.provider_number} {item.provider_number ? <Icon name="md-call" size={15} color={colors.tomato} /> : ''}</Text>
               </TouchableOpacity>}
             />
           </View>
