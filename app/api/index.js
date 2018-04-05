@@ -10,6 +10,7 @@ import Analytics from "../analytics";
 
 export const API_BASE_URL = "https://consumer-eb.binbill.com";
 
+const ANDROID_APP_VERSION = 17;
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 const platform = Platform.OS == "ios" ? 2 : 1;
 
@@ -38,7 +39,7 @@ const apiRequest = async ({
     if (Platform.OS == "ios") {
       headers.ios_app_version = DeviceInfo.getBuildNumber();
     } else {
-      headers.app_version = 17; //android app version
+      headers.app_version = ANDROID_APP_VERSION; //android app version
     }
 
     console.log(
@@ -122,7 +123,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => { }
+  onUploadProgress = () => {}
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -1069,7 +1070,7 @@ export const deletePuc = async ({ productId, pucId }) => {
 export const fetchDoYouKnowItems = async ({ tagIds, offsetId }) => {
   let queryParams = {};
   if (offsetId) {
-    queryParams.offset = offsetId
+    queryParams.offset = offsetId;
   }
   return await apiRequest({
     method: "post",
@@ -1148,9 +1149,9 @@ export const updateCalendarItem = async ({
     method: "put",
     url: `/calendar/items/${itemId}`,
     data: {
-      product_name: productName || '',
-      provider_name: providerName || '',
-      provider_number: providerNumber || ''
+      product_name: productName || "",
+      provider_name: providerName || "",
+      provider_number: providerNumber || ""
     }
   });
 };

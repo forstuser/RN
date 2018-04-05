@@ -120,10 +120,31 @@ class BlankDashboard extends React.Component {
         >
           <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
         </TouchableOpacity>
+        <View style={styles.dummiesForTooltips}>
+          <View style={styles.dummyForTooltip} />
+          <View
+            ref={ref => (this.ehomeTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
+          <View
+            ref={ref => (this.attendanceTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
+          <View
+            ref={ref => (this.doYouKnowTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
+          <View style={styles.dummyForTooltip} />
+        </View>
         <Tour
           ref={ref => (this.blankDashboardTour = ref)}
           enabled={true}
-          steps={[{ ref: this.fabRef, text: I18n.t("plus_btn_tip") }]}
+          steps={[
+            { ref: this.fabRef, text: I18n.t("plus_btn_tip") },
+            { ref: this.ehomeTabItemRef, text: I18n.t("ehome_tip") },
+            { ref: this.attendanceTabItemRef, text: I18n.t("attendance_tip") },
+            { ref: this.doYouKnowTabItemRef, text: I18n.t("do_you_know_tip") }
+          ]}
         />
       </View>
     );
@@ -217,6 +238,19 @@ const styles = StyleSheet.create({
   uploadFabIcon: {
     width: 30,
     height: 30
+  },
+  dummiesForTooltips: {
+    position: "absolute",
+    width: "100%",
+    bottom: -68,
+    height: 68,
+    flexDirection: "row",
+    backgroundColor: "transparent"
+  },
+  dummyForTooltip: {
+    flex: 1,
+    height: "100%",
+    opacity: 1
   }
 });
 

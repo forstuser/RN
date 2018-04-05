@@ -6,7 +6,8 @@ import {
   Alert,
   TouchableOpacity,
   ScrollView,
-  Text as NativeText
+  Text as NativeText,
+  Platform
 } from "react-native";
 import _ from "lodash";
 import ScrollableTabView, {
@@ -258,7 +259,12 @@ class PerosnalDocCard extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    ...Platform.select({
+      android: {
+        marginTop: 25
+      }
+    })
   },
   contentContainer: {
     alignItems: "center"

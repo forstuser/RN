@@ -12,7 +12,7 @@ import { showSnackbar } from "../snackbar";
 
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
-import { MAIN_CATEGORY_IDS } from "../../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
 import UploadBillOptions from "../../components/upload-bill-options";
 import SelectModal from "../../components/select-modal";
 
@@ -37,11 +37,11 @@ class PersonalDoc extends React.Component {
       isDocUploaded: false,
       docTypes: [
         {
-          id: 120,
+          id: CATEGORY_IDS.PERSONAL.RENT_AGREEMENT,
           name: I18n.t("add_edit_expense_screen_title_add_rent_agreement")
         },
         {
-          id: 111,
+          id: CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC,
           name: I18n.t("add_edit_expense_screen_title_add_personal_doc")
         }
       ],
@@ -62,7 +62,7 @@ class PersonalDoc extends React.Component {
       this.setState(
         {
           selectedDocType: {
-            id: 27,
+            id: CATEGORY_IDS.PERSONAL.VISITING_CARD,
             name: I18n.t("add_edit_expense_screen_title_add_visit_card")
           }
         },
@@ -168,7 +168,7 @@ class PersonalDoc extends React.Component {
       await updateProduct(data);
 
       Analytics.logEvent(Analytics.EVENTS.ADD_PRODUCT_COMPLETED, {
-        maincategory: 10,
+        maincategory: MAIN_CATEGORY_IDS.PERSONAL,
         category: selectedDocType.name
       });
 

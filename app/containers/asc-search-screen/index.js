@@ -70,7 +70,7 @@ class AscSearchScreen extends Component {
       });
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -92,15 +92,19 @@ class AscSearchScreen extends Component {
     for (let i = 0; i < serviceCenter.centerDetails.length; i++) {
       if (
         serviceCenter.centerDetails[i].type == 3 &&
-        serviceCenter.centerDetails[i].details != null
+        serviceCenter.centerDetails[i].details
       ) {
+        console.log(
+          "serviceCenter.centerDetails[i].details: ",
+          serviceCenter.centerDetails[i].details
+        );
         phoneNumbers.push(String(serviceCenter.centerDetails[i].details));
       }
     }
     if (phoneNumbers.length == 0) {
       return showSnackbar({
         text: I18n.t("asc_search_screen_phone_not_available")
-      })
+      });
     }
     this.setState(
       {

@@ -712,6 +712,8 @@ export default {
     "Click here to find your saved Bills, Expenses, Documents in your eHome.",
   attendance_tip:
     "Mark attendance and payouts for all your household services like milkman, maid, newspaper wala here.",
+  do_you_know_tip:
+    "Discover amazing facts & tips related to brands and lifestyle that would fill you with awe! ",
   asc_tip:
     "Click here to find and connect with Authorised Service Centres of any Brand with just one simple click.",
   app_tour_tips_4: "Keep a track of your expenses here.",

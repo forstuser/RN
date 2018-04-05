@@ -28,7 +28,7 @@ class ReviewModal extends React.Component {
 
   render() {
     const { isModalVisible } = this.state;
-    const { product, onNewReview } = this.props;
+    const { product, onNewReview, review } = this.props;
     return (
       <Modal
         isVisible={isModalVisible}
@@ -49,6 +49,7 @@ class ReviewModal extends React.Component {
           </Text>
           <ProductReview
             product={product}
+            review={review}
             onReviewSubmit={review => {
               this.hide();
               onNewReview(review);

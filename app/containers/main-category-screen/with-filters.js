@@ -127,7 +127,7 @@ class CategoryWithFilters extends Component {
     }
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#fafafa" }}>
-        <Filters {...this.state.filters} applyFilters={this.applyFilters} />
+        {/*<Filters {...this.state.filters} applyFilters={this.applyFilters} />*/}
         <ProductsList
           mainCategoryId={this.props.category.id}
           products={this.state.products}

@@ -74,8 +74,19 @@ const urlForDirectFileUpload = filePath => {
 function startApp() {
   persistStore(store, {}, async () => {
     const language = store.getState().ui.language;
+    // I18n.locale = language.code;
 
-    I18n.locale = language.code;
+    let previousAppAuthToken = null;
+    try {
+      previousAppAuthToken = await NativeModules.RNGetPreviousAppAuthToken.getAuthToken();
+    } catch (e) {}
+    if (previousAppAuthToken) {
+      store.dispatch(
+        loggedInUserActions.setLoggedInUserAuthToken(previousAppAuthToken)
+      );
+    }
+
+    console.log("previousAppAuthToken:", previousAppAuthToken);
 
     registerScreens(store, Provider); // this is where you register all of your app's screens
     const openFirstScreen = () => {

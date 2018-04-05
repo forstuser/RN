@@ -179,6 +179,11 @@ class DoYouKNowScreen extends Component {
         });
       }
 
+      if (res.items.length == 0) {
+        this.setState({
+          nextIndex: 0
+        });
+      }
       if (res.items.length == 0 && this.state.items.length == 0) {
         this.setState(
           {
@@ -276,7 +281,7 @@ class DoYouKNowScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
     item.isTogglingLike = false;
     items[index] = item;
@@ -365,7 +370,7 @@ class DoYouKNowScreen extends Component {
             navigator={this.props.navigator}
             showMailbox={false}
             showSearchInput={false}
-            showRightSideSearchIcon={true}
+            showRightSideSearchIcon={false}
             onRightSideSearchIconPress={() => {
               this.tagsModal.show();
             }}

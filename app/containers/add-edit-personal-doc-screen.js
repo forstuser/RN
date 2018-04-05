@@ -14,7 +14,7 @@ import { ScreenContainer, Text, Button } from "../elements";
 import I18n from "../i18n";
 import LoadingOverlay from "../components/loading-overlay";
 import { colors } from "../theme";
-import { MAIN_CATEGORY_IDS } from "../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../constants";
 import UploadBillOptions from "../components/upload-bill-options";
 import SelectModal from "../components/select-modal";
 import { showSnackbar } from "./snackbar";
@@ -60,11 +60,11 @@ class PersonalDoc extends React.Component {
       copies: [],
       categories: [
         {
-          id: 120,
+          id: CATEGORY_IDS.PERSONAL.RENT_AGREEMENT,
           name: "Rent Agreement"
         },
         {
-          id: 111,
+          id: CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC,
           name: "Other Personal Doc"
         }
       ],
@@ -107,8 +107,11 @@ class PersonalDoc extends React.Component {
     let selectedCategory = null;
 
     // if visiting card
-    if (this.props.categoryId == 27) {
-      selectedCategory = { id: 27, name: "Visiting Card" };
+    if (this.props.categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
+      selectedCategory = {
+        id: CATEGORY_IDS.PERSONAL.VISITING_CARD,
+        name: "Visiting Card"
+      };
     } else if (this.props.categoryId) {
       const { categories } = this.state;
       selectedCategory = categories.find(
@@ -155,7 +158,7 @@ class PersonalDoc extends React.Component {
     if (!productId) {
       showSnackbar({
         text: I18n.t("add_edit_personal_doc_first")
-      })
+      });
       return false;
     }
     return true;
@@ -195,7 +198,7 @@ class PersonalDoc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -215,13 +218,13 @@ class PersonalDoc extends React.Component {
       if (!productId) {
         return showSnackbar({
           text: I18n.t("add_edit_personal_doc_first")
-        })
+        });
       }
 
       if (copies.length == 0) {
         return showSnackbar({
           text: I18n.t("add_edit_personal_doc_upload_first")
-        })
+        });
       }
       const data = {
         productId: productId,
@@ -230,7 +233,7 @@ class PersonalDoc extends React.Component {
         productName: name || selectedCategory.name
       };
 
-      if (this.props.categoryId == 27) {
+      if (this.props.categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
         data = {
           ...data,
           sellerName: businessName,
@@ -251,7 +254,7 @@ class PersonalDoc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({
         isLoading: false
       });
@@ -290,9 +293,9 @@ class PersonalDoc extends React.Component {
           </View>
 
           <View style={styles.form}>
-            <Text weight="Medium" style={styles.headerText}>{
-              categoryId == 27 ? "Add Card Details" : "Add Document Details"
-            }</Text>
+            <Text weight="Medium" style={styles.headerText}>
+              {categoryId == 27 ? "Add Card Details" : "Add Document Details"}
+            </Text>
             {categoryId != 27 && (
               <SelectModal
                 // style={styles.input}
@@ -356,9 +359,7 @@ class PersonalDoc extends React.Component {
               </View>
             )}
             <UploadDoc
-              placeholder={
-                categoryId == 27 ? "Upload Image" : "Upload Doc"
-              }
+              placeholder={categoryId == 27 ? "Upload Image" : "Upload Doc"}
               placeholder2="*"
               placeholder2Color={colors.mainBlue}
               productId={productId}
@@ -437,7 +438,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     flex: 1,
     marginBottom: 10,
-    alignSelf: 'flex-start'
+    alignSelf: "flex-start"
   }
 });
 

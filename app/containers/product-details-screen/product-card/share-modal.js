@@ -151,7 +151,7 @@ class ShareModal extends React.Component {
   };
 
   render() {
-    const {
+    let {
       isModalVisible,
       isProductImageAvailable,
       isProductImageStepDone,
@@ -170,14 +170,11 @@ class ShareModal extends React.Component {
         API_BASE_URL +
         `/consumer/products/${product.id}/images?t=${moment().format("X")}`;
       productImageResizeMode = "cover";
-    } else if (
-      !isProductImageAvailable &&
-      brand &&
-      brand.status_type == 1 &&
-      brand.id > 0
-    ) {
+    } else if (brand && brand.status_type == 1 && brand.id > 0) {
       productImageUrl = API_BASE_URL + "/" + brand.imageUrl;
       productImageResizeMode = "contain";
+    } else {
+      isImageLoading = false;
     }
 
     let userImageSource = userImagePlaceholder;

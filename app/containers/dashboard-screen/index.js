@@ -408,26 +408,11 @@ class DashboardScreen extends React.Component {
           ref={ref => (this.dashboardTour = ref)}
           enabled={true}
           steps={[
-            { ref: this.ehomeTabItemRef, text: I18n.t("ehome_tip") },
-            { ref: this.attendanceTabItemRef, text: I18n.t("attendance_tip") },
             { ref: this.ascViewItemRef, text: I18n.t("asc_tip") },
             { ref: this.insightsRef, text: I18n.t("app_tour_tips_4") },
             { ref: this.comingUpRef, text: I18n.t("coming_up_tip") }
           ]}
         />
-        <View style={styles.dummiesForTooltips}>
-          <View style={styles.dummyForTooltip} />
-          <View
-            ref={ref => (this.ehomeTabItemRef = ref)}
-            style={styles.dummyForTooltip}
-          />
-          <View
-            ref={ref => (this.attendanceTabItemRef = ref)}
-            style={styles.dummyForTooltip}
-          />
-          <View style={styles.dummyForTooltip} />
-          <View style={styles.dummyForTooltip} />
-        </View>
       </ScreenContainer>
     );
   }
@@ -468,19 +453,6 @@ const styles = StyleSheet.create({
   uploadFabIcon: {
     width: 25,
     height: 25
-  },
-  dummiesForTooltips: {
-    position: "absolute",
-    width: "100%",
-    bottom: -68,
-    height: 68,
-    flexDirection: "row",
-    backgroundColor: "transparent"
-  },
-  dummyForTooltip: {
-    flex: 1,
-    height: "100%",
-    opacity: 1
   }
 });
 

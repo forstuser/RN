@@ -21,6 +21,7 @@ public class BinBillPackager implements ReactPackage {
         modules.add(new RNMultipleFilesShareModule(reactContext));
         modules.add(new RNDirectUploadFileModule(reactContext));
         modules.add(new RNOpenAppSettingsModule(reactContext));
+        modules.add(new RNGetPreviousAppAuthToken(reactContext));
         return modules;
     }
 
