@@ -473,7 +473,7 @@ export default {
 
   //Dashboard Screen
   dashboard_screen_title: "Dashboard",
-  dashboard_screen_whats_coming_up: "What's Coming Up",
+  dashboard_screen_whats_coming_up: "What's Coming",
   dashboard_screen_recent_activity: "Recent Activity",
   dashboard_screen_recent_attendance: "Recent Attendance",
   dashboard_screen_ehome_insights: "Expense Insight",

@@ -1,5 +1,21 @@
+buildscript {
+  repositories {
+    maven { url 'https://maven.fabric.io/public' }
+  }
+
+  dependencies {
+    // These docs use an open ended version so that our plugin
+    // can be updated quickly in response to Android tooling updates
+
+    // We recommend changing it to the latest version from our changelog:
+    // https://docs.fabric.io/android/changelog.html#fabric-gradle-plugin
+    classpath 'io.fabric.tools:gradle:1.+'
+  }
+}
+
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 
 import com.android.build.OutputFile
 
@@ -78,6 +94,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -147,7 +164,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
         debug {
-            debuggable true
+            debuggable false
         }
     }
 // applicationVariants are e.g. debug, release
@@ -166,13 +183,16 @@ android {
 }
 
 repositories {
+  maven { url 'https://maven.fabric.io/public' }
     flatDir {
         dirs 'libs'
     }
 }
 
 dependencies {
-    compile project(':react-native-snackbar')
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+      transitive = true;
+    }
     compile project(':react-native-view-shot')
     compile project(':react-native-fbsdk')
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'

@@ -25,7 +25,6 @@ import com.facebook.react.shell.MainReactPackage;
 import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 import com.reactnativenavigation.controllers.ActivityCallbacks;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
-import com.azendoo.reactnativesnackbar.SnackbarPackage;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -36,6 +35,9 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
 public class MainApplication extends NavigationApplication {
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
@@ -43,6 +45,7 @@ public class MainApplication extends NavigationApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    Fabric.with(this, new Crashlytics());
 
     setActivityCallbacks(new ActivityCallbacks() {
       @Override
@@ -82,16 +85,21 @@ public class MainApplication extends NavigationApplication {
     return BuildConfig.DEBUG;
   }
 
+  @Override
+  public String getJSBundleFile() {
+    return CodePush.getJSBundleFile();
+  }
+
   protected List<ReactPackage> getPackages() {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(new MainReactPackage(), new SnackbarPackage(), new RNViewShotPackage(),
-        new FBSDKPackage(mCallbackManager),
-        new FIRAnalyticsPackage(), new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
-        new VectorIconsPackage(), new SvgPackage(), new RNSharePackage(), new PhotoViewPackage(),
-        new NavigationReactPackage(), new LinearGradientPackage(), new PickerPackage(), new RNI18nPackage(),
-        new RNFetchBlobPackage(), new FIRMessagingPackage(), new ReactNativeDocumentPicker(), new RNDeviceInfo(),
-        new BlurViewPackage(), new RNGooglePlacesPackage(), new BinBillPackager());
+    return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNViewShotPackage(),
+        new FBSDKPackage(mCallbackManager), new FIRAnalyticsPackage(),
+        new CodePush(null, getApplicationContext(), BuildConfig.DEBUG), new VectorIconsPackage(), new SvgPackage(),
+        new RNSharePackage(), new PhotoViewPackage(), new NavigationReactPackage(), new LinearGradientPackage(),
+        new PickerPackage(), new RNI18nPackage(), new RNFetchBlobPackage(), new FIRMessagingPackage(),
+        new ReactNativeDocumentPicker(), new RNDeviceInfo(), new BlurViewPackage(), new RNGooglePlacesPackage(),
+        new BinBillPackager());
   }
 
   @Override

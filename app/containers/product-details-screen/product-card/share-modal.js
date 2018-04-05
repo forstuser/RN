@@ -310,6 +310,7 @@ class ShareModal extends React.Component {
                 {productImageUrl ? (
                   <Image
                     onLoad={this.hideLoader}
+                    onError={this.hideLoader}
                     resizeMode={productImageResizeMode}
                     style={[
                       styles.productImage,

@@ -263,8 +263,8 @@ class ProfileScreen extends Component {
       showEmailVerifyText = true;
     }
     return (
-      <KeyboardAwareScrollView>
-        <ScreenContainer style={styles.container}>
+      <ScreenContainer style={styles.container}>
+        <KeyboardAwareScrollView>
           <TouchableOpacity
             style={styles.opacityArrow}
             onPress={this.backToMoreScreen}
@@ -277,29 +277,28 @@ class ProfileScreen extends Component {
           <Header profile={profile} />
 
           <Body profile={profile} />
-
-          <TouchableOpacity
-            style={styles.codepushToggleBtn}
-            onLongPress={() => {
-              this.props.setLoggedInUserCodepushDeploymentStaging(
-                !this.props.codepushDeploymentStaging
-              );
+        </KeyboardAwareScrollView>
+        <TouchableOpacity
+          style={styles.codepushToggleBtn}
+          onLongPress={() => {
+            this.props.setLoggedInUserCodepushDeploymentStaging(
+              !this.props.codepushDeploymentStaging
+            );
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 12,
+              color: colors.secondaryText,
+              textAlign: "center"
             }}
           >
-            <Text
-              style={{
-                fontSize: 12,
-                color: colors.secondaryText,
-                textAlign: "center"
-              }}
-            >
-              {this.props.codepushDeploymentStaging
-                ? "Subscribed to Beta Updates (Long Press to change)"
-                : ""}
-            </Text>
-          </TouchableOpacity>
-        </ScreenContainer>
-      </KeyboardAwareScrollView>
+            {this.props.codepushDeploymentStaging
+              ? "Subscribed to Beta Updates (Long Press to change)"
+              : ""}
+          </Text>
+        </TouchableOpacity>
+      </ScreenContainer>
     );
   }
 }

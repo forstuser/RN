@@ -88,7 +88,7 @@ class EditProductBasicDetails extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -113,24 +113,24 @@ class EditProductBasicDetails extends React.Component {
       if (data.brandId === undefined && !data.brandName) {
         return showSnackbar({
           text: I18n.t("add_edit_product_basic_select_brand")
-        })
+        });
       }
-    } else if (MAIN_CATEGORY_IDS.FURNITURE == data.mainCategoryId) {
+    } else if (MAIN_CATEGORY_IDS.FURNITURE.FURNITURE == data.categoryId) {
       if (!data.subCategoryId) {
         return showSnackbar({
           text: I18n.t("add_edit_product_basic_select_type")
-        })
+        });
       }
     } else if (!data.value) {
       return showSnackbar({
         text: I18n.t("add_edit_product_basic_select_amount")
-      })
+      });
     }
 
     if (!data.purchaseDate) {
       return showSnackbar({
         text: I18n.t("add_edit_product_basic_select_date")
-      })
+      });
     }
 
     if (
@@ -144,7 +144,7 @@ class EditProductBasicDetails extends React.Component {
       if (!data.value) {
         return showSnackbar({
           text: I18n.t("add_edit_product_basic_select_amount")
-        })
+        });
       }
     }
 
@@ -156,7 +156,7 @@ class EditProductBasicDetails extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({ isLoading: false });
     }
   };

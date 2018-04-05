@@ -55,7 +55,15 @@ class ProductCard extends Component {
   }
 
   componentDidMount() {
-    const { product } = this.props;
+    this.updateStateFromProps(this.props);
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.updateStateFromProps(newProps);
+  }
+
+  updateStateFromProps = props => {
+    const { product } = props;
     const { brand, insuranceDetails, warrantyDetails } = product;
 
     let newState = {};
@@ -93,7 +101,7 @@ class ProductCard extends Component {
     this.setState(newState);
 
     if (
-      !this.props.hasProductCardTourShown &&
+      !props.hasProductCardTourShown &&
       [
         MAIN_CATEGORY_IDS.AUTOMOBILE,
         MAIN_CATEGORY_IDS.ELECTRONICS,
@@ -103,10 +111,10 @@ class ProductCard extends Component {
     ) {
       setTimeout(() => {
         this.tour.startTour();
-        this.props.setUiHasProductCardTourShown(true);
+        props.setUiHasProductCardTourShown(true);
       }, 1000);
     }
-  }
+  };
 
   startBasicDetailsEdit = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_EDIT);

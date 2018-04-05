@@ -38,15 +38,18 @@ class RateUsScreen extends Component {
   }
 
   openAppStore = async () => {
-    try {
-      await AppLink.openInStore("id1328873045", "com.bin.binbillcustomer");
-      this.props.setRateUsDialogTimestamp(new Date(2100, 0).toISOString());
-      this.props.navigator.dismissModal({
-        animationType: "none"
-      });
-    } catch (e) {
-      console.log(e);
-    }
+    setTimeout(async () => {
+      try {
+        await AppLink.openInStore("id1328873045", "com.bin.binbillcustomer");
+        this.props.setRateUsDialogTimestamp(new Date(2100, 0).toISOString());
+      } catch (e) {
+        console.log(e);
+      }
+    }, 400);
+
+    this.props.navigator.dismissModal({
+      animationType: "none"
+    });
   };
 
   closeDialog = () => {

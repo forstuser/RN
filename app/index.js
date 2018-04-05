@@ -322,13 +322,15 @@ function startApp() {
             }, 1000);
           }
 
-          codePush.sync({
-            deploymentKey: store.getState().loggedInUser
-              .codepushDeploymentStaging
-              ? CODEPUSH_KEYS.DEPLOYEMENT
-              : CODEPUSH_KEYS.PRODUCTION,
-            installMode: codePush.InstallMode.ON_NEXT_RESUME
-          });
+          setTimeout(() => {
+            codePush.sync({
+              deploymentKey: store.getState().loggedInUser
+                .codepushDeploymentStaging
+                ? CODEPUSH_KEYS.DEPLOYEMENT
+                : CODEPUSH_KEYS.PRODUCTION,
+              installMode: codePush.InstallMode.ON_NEXT_RESTART
+            });
+          }, 5000);
         }
       });
 
@@ -338,7 +340,7 @@ function startApp() {
           deploymentKey: store.getState().loggedInUser.codepushDeploymentStaging
             ? CODEPUSH_KEYS.DEPLOYEMENT
             : CODEPUSH_KEYS.PRODUCTION,
-          installMode: codePush.InstallMode.ON_NEXT_RESUME
+          installMode: codePush.InstallMode.ON_NEXT_RESTART
         });
       }, 5000);
     } catch (e) {
