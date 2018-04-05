@@ -456,14 +456,22 @@ class AddEditCalendarServiceScreen extends Component {
         )}
         {!selectedServiceType && (
           <View style={styles.selectServiceMsgContainer}>
-            <Text weight="Bold" style={styles.selectServiceMsg}>
+            <Text weight="Medium" style={styles.selectServiceMsg}>
               Please Select a Type Above
             </Text>
             <View style={styles.reason}>
-              <Text> • Mark present and absent days</Text>
-              <Text> • Know your monthly payouts</Text>
-              <Text> • your total outstanding payments</Text>
-              <Text> • Track your daily household expenses</Text>
+              <Text style={styles.reasons} weight="Medium">
+                • Mark present and absent days
+              </Text>
+              <Text style={styles.reasons} weight="Medium">
+                • Know your monthly payouts
+              </Text>
+              <Text style={styles.reasons} weight="Medium">
+                • your total outstanding payments
+              </Text>
+              <Text style={styles.reasons} weight="Medium">
+                • Track your daily household expenses
+              </Text>
             </View>
           </View>
         )}
@@ -475,11 +483,12 @@ class AddEditCalendarServiceScreen extends Component {
 
 const styles = StyleSheet.create({
   reason: {
-    color: colors.secondaryText,
-    // textAlign: 'left',
-    fontSize: 12,
     marginLeft: 80,
     alignSelf: "flex-start"
+  },
+  reasons: {
+    color: colors.secondaryText,
+    fontSize: 12
   },
   form: {
     padding: 16,
@@ -503,8 +512,11 @@ const styles = StyleSheet.create({
   },
   selectServiceMsg: {
     fontSize: 20,
+    fontWeight: "normal",
     color: colors.mainBlue,
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: 6,
+    marginTop: -80
   },
   radioBtn: {
     flex: 1,
