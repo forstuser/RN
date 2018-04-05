@@ -19,7 +19,7 @@ import { colors } from "../theme";
 import { SCREENS } from "../constants";
 
 import LoadingOverlay from "../components/loading-overlay";
-
+import Analytics from "../analytics";
 class UploadProductImage extends React.Component {
   state = {
     starCount: 0,
@@ -64,6 +64,7 @@ class UploadProductImage extends React.Component {
       this.setState({
         isSaving: true
       });
+      Analytics.logEvent(Analytics.EVENTS.SUBMIT_REVIEW);
       await addProductReview({
         productId: product.id,
         ratings: starCount,

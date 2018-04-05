@@ -156,7 +156,7 @@ class AddEditPuc extends React.Component {
         text: I18n.t("add_edit_puc_select_puc")
       })
     }
-
+    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: 'puc' });
     try {
       this.setState({ isLoading: true });
       if (!data.id) {

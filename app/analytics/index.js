@@ -5,7 +5,7 @@ const FbSdkAppEventsLogger = FBSDK.AppEventsLogger;
 import store from "../store";
 
 const EVENTS = {
-  REGISTRATION_TRUECALLER: "registration_tc",
+  REGISTRATION_FB: "registration_fb",
   REGISTRATION_OTP: "registration_otp",
   CLICK_PLUS_ICON: "plus_addproduct",
   CLICK_ON_ELECTRONIC_AND_ELECTRICAL: "plus_addpdct_electronics",
@@ -20,28 +20,87 @@ const EVENTS = {
   CLICK_ON_SERVICES: "plus_addproduct_Services",
   CLICK_ON_HOME_EXPENSES: "plus_addproduct_HomeExpenses",
   CLICK_ON_REPAIR: "plus_addproduct_Repair",
-  CLICK_ADD_PRODUCT_OPTION: "click_addproduct",
   ADD_PRODUCT_COMPLETED: "add_addproduct",
   ADD_ANOTHER_PRODUCT: "addanother_addproduct",
   CLICK_I_WILL_DO_IT_LATER: "Click_addproduct_Later",
-  CLICK_PLAY_VIDEO: "Click_playvideo",
+  CLICK_PLAY_VIDEO: "Click_playvideo", // remaining
   //eHome
   OPEN_EHOME: "click_ehome",
   OPEN_EHOME_CATEGORY: "categoryclick_ehome",
   ADD_PRODUCT_INSIDE_EHOME_MAIN_CATEGORIES: "addproduct_insideehome",
+  USER_SEARCH_IN_EHOME: "clicksearch_eHome ",
+  //product card
   CLICK_VIEW_BILL: "addbill_pc",
+  CLICK_ON_ADD_PRODUCT_IMAGE: "Click_AddProductImage",
+  CLICK_ON_SHARE_PRODUCT_CARD: "Click_Shareproductcard",
+  COMPLETE_SHARE_PRODUCT: "Click_Shareproductcardcomplete",
+  CLICK_ON_REVIEW: "click_review",
+  SUBMIT_REVIEW: "Submit_review",
+  CLICK_ON_ALL_INFO: "click_allinfo",
+  CLICK_ON_IMPORTANT: "click_important",
+  CLICK_ON_ADD_WARRANTY: "click_adwarranty ",
+  CLICK_ON_ADD_INSURANCE: "click_addinsurance",
+  CLICK_ON_ADD_AMC: "click_addamc",
+  CLICK_ON_ADD_PUC: "click_addpuc",
+  CLICK_ON_ADD_REPAIR: "click_addrepair",
+  CLICK_ON_ADD_EXTENDED_WARRANTY: "click_extendedwarranty",
+  CLICK_SAVE: "click_save",
+  CLICK_EDIT: "click_edit",
+  CLICK_ASC_INSIDE_PRODUCT_CARD: "Click_Ascproductcard",
+  CLICK_CALL: "contact_call",
+  CLICK_EMAIL: "click_email",
+  CLICK_ON_SERVICE_REQUEST: "Click_servicerequest",
+  //ASC
+  OPEN_ASC_SCREEN: "click_asc",
+  SEARCH_ASC: "search_asc",
+  CLICK_EXPENSE_CHART: "click_expense",
+  //OTHERS
+  OPEN_MAILS: "click_mail",
+  SHARE_VIA_SCREEN_SHOTS: "Share_Via",
+  //ATTENDANCE MANAGER
+  CLICK_ON_ATTENDANCE: "Attendance",
+  CLICK_ON_ATTENDANCE_ITEMS: "click_attendanceitem",
+  ADD_ATTENDANCE_ITEM: "Add_Attendance",
+  CLICK_ABSENT: "Click_Absent",
+  ADD_ADD_ATTENDANCE_ITEM: "Add _Add Calendar Item",
+  CLICK_ADD_PAYMENT: "Add_Payment_Calendar",
+  CLICK_CHANGE_CALENDAR: "Add_Change_Calendar",
+  CLICK_CALENDAR_SERVICE_TYPE_: "Click_",
+  CLICK_MILK_ABSENT: "Click_Milk_Absent",
+  CLICK_MAID_ABSENT: "Click_Maid_Absent",
+  CLICK_STAFF_ABSENT: "Click_Staff_Absent",
+  CLICK_NEWSPAPER_ABSENT: "Click_Newspaper_Absent",
+  CLICK_ADD_PAYMENT_MILK: "Click Add Payment_Milk",
+  CLICK_ADD_PAYMENT_MAID: "Click Add Payment_Maid",
+  CLICK_ADD_PAYMENT_STAFF: "Click Add Payment_Staff",
+  CLICK_ADD_PAYMENT_NEWSPAPER: "Click Add Payment_Newspaper",
+  //DO YOU KNOW
+  CLICK_ON_DO_YOU_KNOW: "Click_duk",
+  CLICK_ON_SHARE_DYK: "Share_Duk",
+  CLICK_ON_LIKE_DUK: "like_DUK",
+  CLICK_ON_SEARCH_TAG: "searchtag_duk",
+  SWIPE_DYK_CARD: "swepecard_Duk ",
+  //MORE
+  CLICK_MORE: "click_more",
+  CLICK_ADD_PIN: "click_Pin ",
+  CLICK_SHARE_APP: "Click_ShareApp",
+  CLICK_TIPS_TO_BUILD_YOUR_EHOME: "Click_BuildyoureHome",
+  CLICK_FAQ: "Click_FAQ",
+  CLICK_LOGOUT_YES: "Click_logoutyes",
+  CLICK_ASC_FROM_MORE: "Click_ASC_More ",
+  // DASHBOARD
+  CLICK_ON_EXPENSE_INSIGHT: "click_expenseinsights",
+  CLICK_ON_ASC: "Click_ASC",
+  CLICK_SEARCH_ON_DASHBOARD: "Click_search_dashboard",
+  CLICK_ON_MAILBOX: "Click_mailbox",
+
   CLICK_CONTACT_AFTER_SALES: "aftersales_pc",
   CLICK_CONTACT_BRAND: "contact_brand",
   CLICK_CONTACT_INSURANCE_PROVIDER: "contact_IP",
   CLICK_CONTACT_WARRANTY_PROVIDER: "contact_thwp",
   CLICK_PRODUCT_EDIT: "product_edit",
-  CLICK_CALL: "contact_call",
-  CLICK_EMAIL: "click_email",
   CLICK_URL: "click_url",
-  OPEN_ASC_SCREEN: "click_asc",
-  SEARCH_ASC: "search_asc",
-  CLICK_EXPENSE_CHART: "click_expense",
-  OPEN_MAILS: "click_mail",
+
   PRODUCT_DELETE_INITIATED: "product_delete_initiated",
   PRODUCT_DELETE_CANCELED: "product_delete_canceled",
   PRODUCT_DELETE_COMPLETE: "product_delete_complete",
@@ -50,7 +109,7 @@ const EVENTS = {
 };
 
 const logEvent = (eventName, data = {}) => {
-  if (!__DEV__) {
+  if (__DEV__) {
     const user = store.getState().loggedInUser;
     FirebaseAnalytics.logEvent(eventName, {
       Platform: "iOS",

@@ -16,6 +16,7 @@ import { colors } from "../../theme";
 import { getReferenceDataCategories, API_BASE_URL } from "../../api";
 
 import SelectModal from "../../components/select-modal";
+import Analytics from "../../analytics";
 
 class SelectCategoryHeader extends React.Component {
   constructor(props) {
@@ -47,6 +48,7 @@ class SelectCategoryHeader extends React.Component {
   };
 
   onOptionSelect = option => {
+    Analytics.logEvent(CLICK_CALENDAR_SERVICE_TYPE_ + option.name)
     const selectedOption = this.props.selectedOption;
     //if clicked on already selected option
     if (selectedOption && selectedOption.id == option.id) {

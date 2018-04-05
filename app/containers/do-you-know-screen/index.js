@@ -35,6 +35,7 @@ import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 
 import TagsModal from "./tags-modal";
 import Item from "./item";
+import Analytics from "../../analytics";
 
 const doYouKnowIcon = require("../../images/ic_do_you_know.png");
 
@@ -63,7 +64,15 @@ class DoYouKNowScreen extends Component {
       error: null,
       isModalVisible: false
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
+  onNavigatorEvent = event => {
+    switch (event.id) {
+      case "didAppear":
+        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW)
+    }
+  };
 
   componentWillMount() {
     this.panResponder = PanResponder.create({
@@ -99,6 +108,7 @@ class DoYouKNowScreen extends Component {
             toValue: -SCREEN_HEIGHT,
             duration: 300
           }).start(() => {
+            Analytics.logEvent(Analytics.EVENTS.SWIPE_DYK_CARD)
             this.currentCardTranslateY.setValue(0);
             const newState = {
               currentIndex: this.state.nextIndex
@@ -251,6 +261,7 @@ class DoYouKNowScreen extends Component {
   };
 
   toggleLike = async index => {
+
     const { items } = this.state;
     const item = items[index];
     const itemId = item.id;
@@ -261,6 +272,7 @@ class DoYouKNowScreen extends Component {
 
     try {
       if (!item.isLikedByUser) {
+        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_LIKE_DUK)
         await likeDoYouKnowItem({ itemId });
         item.isLikedByUser = true;
         item.totalLikes = item.totalLikes + 1;

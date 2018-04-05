@@ -8,6 +8,7 @@ import { Text } from "../../../elements";
 
 import ProductReview from "../../../components/product-review";
 import { colors } from "../../../theme";
+import Analytics from "../../../analytics";
 
 class ReviewModal extends React.Component {
   state = {
@@ -15,6 +16,7 @@ class ReviewModal extends React.Component {
   };
 
   show = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_REVIEW);
     this.setState({
       isModalVisible: true
     });

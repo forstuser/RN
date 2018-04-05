@@ -32,6 +32,7 @@ class AmcDetails extends React.Component {
         <EditOptionRow
           text={I18n.t("product_details_screen_amc_details")}
           onEditPress={() => {
+            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'amc' });
             this.props.openAddEditAmcScreen(amc);
           }}
         />

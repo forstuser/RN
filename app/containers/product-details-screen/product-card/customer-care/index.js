@@ -22,7 +22,7 @@ import { showSnackbar } from "../../../snackbar";
 import ConnectItem from "./connect-item";
 import AscItem from "./asc-item";
 import ServiceSchedules from "./service-schedules";
-
+import Analytics from "../../../../analytics";
 import { colors } from "../../../../theme";
 
 const insuranceIcon = require("../../../../images/categories/insurance.png");
@@ -78,6 +78,7 @@ class CustomerCare extends React.Component {
   };
 
   openLocationPicker = async () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ASC_INSIDE_PRODUCT_CARD);
     try {
       const place = await RNGooglePlaces.openPlacePickerModal();
       console.log("place: ", place);

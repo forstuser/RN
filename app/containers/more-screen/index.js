@@ -9,6 +9,7 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
+import Analytics from "../../analytics";
 import PinInput from "../../components/pin-input";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 import { actions as uiActions } from "../../modules/ui";
@@ -64,6 +65,7 @@ class MoreScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        Analytics.logEvent(Analytics.EVENTS.CLICK_MORE);
         this.fetchProfile();
         break;
     }

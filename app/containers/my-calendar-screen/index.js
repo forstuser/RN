@@ -15,7 +15,7 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import TabSearchHeader from "../../components/tab-screen-header";
-
+import Analytics from "../../analytics"
 import { SCREENS } from "../../constants";
 
 import { colors } from "../../theme";
@@ -42,6 +42,7 @@ class MyCalendarScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ATTENDANCE);
         this.fetchItems();
         break;
     }
@@ -70,6 +71,7 @@ class MyCalendarScreen extends Component {
   };
 
   openAddEditCalendarServiceScreen = () => {
+    Analytics.logEvent(Analytics.EVENTS.ADD_ATTENDANCE_ITEM);
     this.props.navigator.push({
       screen: SCREENS.ADD_CALENDAR_SERVICE_SCREEN
     });

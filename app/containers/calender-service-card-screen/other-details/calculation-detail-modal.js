@@ -10,6 +10,8 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 import moment from "moment";
 
+import Analytics from "../../../analytics";
+
 import {
   SCREENS,
   CALENDAR_WAGES_TYPE,
@@ -143,6 +145,8 @@ class CalculationDetailModal extends React.Component {
     ) {
       actualQuantity = quantity / 1000;
     }
+
+    Analytics.logEvent(Analytics.EVENTS.CLICK_CHANGE_CALENDAR);
 
     try {
       const res = await addCalendarItemCalculationDetail({

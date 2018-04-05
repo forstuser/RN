@@ -183,6 +183,7 @@ class AddEditInsurance extends React.Component {
     }
 
     console.log("data: ", data);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: 'insurance' });
 
     try {
       this.setState({ isLoading: true });

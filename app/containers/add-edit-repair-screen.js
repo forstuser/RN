@@ -156,7 +156,7 @@ class AddEditRepair extends React.Component {
         text: I18n.t("add_edit_repair_date")
       })
     }
-
+    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: 'repair' });
     try {
       this.setState({ isLoading: true });
       if (!data.id) {

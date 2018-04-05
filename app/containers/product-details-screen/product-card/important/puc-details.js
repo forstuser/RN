@@ -32,6 +32,7 @@ class PucDetails extends React.Component {
         <EditOptionRow
           text={I18n.t("product_details_screen_puc_details")}
           onEditPress={() => {
+            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'puc' });
             this.props.openAddEditPucScreen(puc);
           }}
         />

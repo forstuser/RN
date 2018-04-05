@@ -17,6 +17,7 @@ import Share from "react-native-share";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Icon2 from "react-native-vector-icons/EvilIcons";
 
+import Analytics from "../../analytics";
 import { requestStoragePermission } from "../../android-permissions";
 import { API_BASE_URL } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -33,6 +34,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default class Item extends React.Component {
   onSharePress = async () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SHARE_DYK)
     const { item } = this.props;
     if (Platform.OS == "ios") {
       try {

@@ -32,6 +32,7 @@ class RepairDetails extends React.Component {
         <EditOptionRow
           text={I18n.t("product_details_screen_repair_details")}
           onEditPress={() => {
+            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'repair' });
             this.props.openAddEditRepairScreen(repair);
           }}
         />

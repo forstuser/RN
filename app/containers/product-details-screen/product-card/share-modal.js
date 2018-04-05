@@ -27,6 +27,7 @@ import UploadProductImage from "../../../components/upload-product-image";
 import { colors } from "../../../theme";
 import LoadingOverlay from "../../../components/loading-overlay";
 import CustomTextInput from "../../../components/form-elements/text-input";
+import Analytics from "../../../analytics";
 
 const uploadDocIllustration = require("../../../images/upload_doc_illustration.png");
 const starIllustration = require("../../../images/star_illustration.png");
@@ -52,6 +53,7 @@ class ShareModal extends React.Component {
   }
 
   show = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SHARE_PRODUCT_CARD);
     let newState = {
       isModalVisible: true
     };
@@ -116,6 +118,7 @@ class ShareModal extends React.Component {
         if (Platform.OS == "android") {
           shareContent.message = "Powered by BinBill - http://bit.ly/2rIabk0";
         }
+        Analytics.logEvent(Analytics.EVENTS.Click_Shareproductcardcomplete);
         await Share.open(shareContent);
       }
     } catch (e) {
