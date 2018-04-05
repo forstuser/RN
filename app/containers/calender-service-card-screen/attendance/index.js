@@ -82,9 +82,10 @@ class Attendance extends React.Component {
     const startDate = paymentDetail.start_date;
     const startDateOfMonth = +moment(startDate).format("D");
     const todayDate = paymentDetail.end_date;
-    const endDate = moment(paymentDetail.end_date).endOf("month").format('YYYY-MM-DD');
-    const endDateOfMonth = +moment(endDate)
-      .format("D");
+    const endDate = moment(paymentDetail.end_date)
+      .endOf("month")
+      .format("YYYY-MM-DD");
+    const endDateOfMonth = +moment(endDate).format("D");
 
     const monthAndYear = moment(endDate).format("YYYY-MM");
     const selectedDays = (
@@ -145,13 +146,19 @@ class Attendance extends React.Component {
     let availableDaysofMonth = [];
     let calculationDetailEndDate = endDate;
     for (let i = 0; i < calculationDetails.length; i++) {
-      const diffDays = moment(calculationDetailEndDate).diff(moment(calculationDetails[i].effective_date), 'days');
+      const diffDays = moment(calculationDetailEndDate).diff(
+        moment(calculationDetails[i].effective_date),
+        "days"
+      );
 
       if (diffDays < 0) continue;
 
       let calculationDetailStartDate = calculationDetails[i].effective_date;
 
-      const startDateDiff = moment(startDate).diff(moment(calculationDetailStartDate), 'days');
+      const startDateDiff = moment(startDate).diff(
+        moment(calculationDetailStartDate),
+        "days"
+      );
       if (startDateDiff > 0) {
         calculationDetailStartDate = startDate;
       }
@@ -164,8 +171,15 @@ class Attendance extends React.Component {
 
       availableDaysofMonth = [...availableDaysofMonth, ...availableDays];
 
-      if (moment(startDate).format('MM-YYYY') == moment(calculationDetailStartDate).subtract(1, 'days').format('MM-YYYY')) {
-        calculationDetailEndDate = moment(calculationDetailStartDate).subtract(1, 'days').format('YYYY-MM-DD');
+      if (
+        moment(startDate).format("MM-YYYY") ==
+        moment(calculationDetailStartDate)
+          .subtract(1, "days")
+          .format("MM-YYYY")
+      ) {
+        calculationDetailEndDate = moment(calculationDetailStartDate)
+          .subtract(1, "days")
+          .format("YYYY-MM-DD");
       } else {
         break;
       }
@@ -236,21 +250,32 @@ class Attendance extends React.Component {
                   keyText={I18n.t("my_calendar_screen_payment_type")}
                   valueText={
                     item.wages_type == WAGES_CYCLE.DAILY
-                      ? I18n.t("daily")
-                      : I18n.t("monthly")
+                      ? I18n.t("Daily")
+                      : I18n.t("Monthly")
                   }
                 />
               )}
               {serviceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
                 <VerticalKeyValue
                   keyText={unitPriceText}
-                  valueText={"₹ " + paymentDetail.total_amount / (paymentDetail.total_units || paymentDetail.total_days)}
+                  valueText={
+                    "₹ " +
+                    (
+                      paymentDetail.total_amount /
+                      (paymentDetail.total_units || paymentDetail.total_days)
+                    ).toFixed(2)
+                  }
                 />
               )}
               {serviceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT && (
                 <VerticalKeyValue
                   keyText={unitPriceText}
-                  valueText={"₹ " + paymentDetail.total_amount / paymentDetail.total_days}
+                  valueText={
+                    "₹ " +
+                    (
+                      paymentDetail.total_amount / paymentDetail.total_days
+                    ).toFixed(2)
+                  }
                 />
               )}
               {/* <VerticalKeyValue
