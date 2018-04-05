@@ -20,12 +20,14 @@ import KeyValueItem from "../../../components/key-value-item";
 import VerticalKeyValue from "./vertical-key-value";
 
 import { CALENDAR_WAGES_TYPE, WAGES_CYCLE } from "../../../constants";
-import Analytics from "../../../analytics"
+import Analytics from "../../../analytics";
 class Attendance extends React.Component {
   markDayAbsent = async date => {
     const { item, activePaymentDetailIndex = 0 } = this.props;
 
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ABSENT, { type: item.service_type.name });
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ABSENT, {
+      type: item.service_type.name
+    });
 
     const paymentDetails = item.payment_detail;
     try {
@@ -267,7 +269,8 @@ class Attendance extends React.Component {
                       ? (
                           paymentDetail.total_amount /
                           (paymentDetail.total_units ||
-                            paymentDetail.total_days)
+                            paymentDetail.total_days ||
+                            1)
                         ).toFixed(2)
                       : 0
                   }

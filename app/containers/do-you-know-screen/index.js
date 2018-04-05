@@ -70,7 +70,7 @@ class DoYouKNowScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW)
+        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW);
     }
   };
 
@@ -108,17 +108,18 @@ class DoYouKNowScreen extends Component {
             toValue: -SCREEN_HEIGHT,
             duration: 300
           }).start(() => {
-            Analytics.logEvent(Analytics.EVENTS.SWIPE_DYK_CARD)
+            Analytics.logEvent(Analytics.EVENTS.SWIPE_DYK_CARD);
             this.currentCardTranslateY.setValue(0);
-            const newState = {
-              currentIndex: this.state.nextIndex
-            };
-            if (this.state.nextIndex >= items.length - 1) {
-              newState.nextIndex = 0;
+            const newState = {};
+            if (this.state.nextIndex >= items.length) {
+              newState.nextIndex = 1;
+              newState.currentIndex = 0;
             } else if (items.length > 1) {
+              newState.currentIndex = this.state.nextIndex;
               newState.nextIndex = this.state.nextIndex + 1;
             } else {
               newState.nextIndex = 0;
+              newState.currentIndex = 0;
             }
             this.setState(newState, () => {
               const newId = this.state.items[this.state.currentIndex].id;
@@ -130,7 +131,7 @@ class DoYouKNowScreen extends Component {
                 "items.length - currentIndex: ",
                 items.length - currentIndex
               );
-              if (items.length - currentIndex == 4 || items.length < 5) {
+              if (items.length - currentIndex == 2 || items.length < 3) {
                 this.loadItems();
               }
             });
@@ -182,19 +183,18 @@ class DoYouKNowScreen extends Component {
         offsetId: offsetId
       });
 
-      if (res.items.length > 0) {
-        const newLastItem = res.items.pop();
+      let resItems = JSON.parse(JSON.stringify(res.items));
+
+      console.log("resItems: ", resItems);
+
+      if (resItems.length > 0) {
+        const newLastItem = resItems.pop();
         this.setState({
           offsetId: newLastItem.id
         });
       }
 
-      if (res.items.length == 0) {
-        this.setState({
-          nextIndex: 0
-        });
-      }
-      if (res.items.length == 0 && this.state.items.length == 0) {
+      if (resItems.length == 0 && this.state.items.length == 0) {
         this.setState(
           {
             offsetId: 0
@@ -204,7 +204,7 @@ class DoYouKNowScreen extends Component {
           }
         );
         return;
-      } else if (res.items.length > 1 && this.state.items.length == 0) {
+      } else if (resItems.length > 1 && this.state.items.length == 0) {
         this.setState({
           nextIndex: 1
         });
@@ -213,10 +213,11 @@ class DoYouKNowScreen extends Component {
       let items = [...this.state.items];
       let currentIndex = this.state.currentIndex;
       if (clearPreviousItems) {
-        (items = []), (currentIndex = 0);
+        items = [];
+        currentIndex = 0;
       }
       const newState = {
-        items: [...items, ...res.items],
+        items: [...items, ...resItems],
         currentIndex
       };
 
@@ -266,7 +267,6 @@ class DoYouKNowScreen extends Component {
   };
 
   toggleLike = async index => {
-
     const { items } = this.state;
     const item = items[index];
     const itemId = item.id;
@@ -277,7 +277,7 @@ class DoYouKNowScreen extends Component {
 
     try {
       if (!item.isLikedByUser) {
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_LIKE_DUK)
+        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_LIKE_DUK);
         await likeDoYouKnowItem({ itemId });
         item.isLikedByUser = true;
         item.totalLikes = item.totalLikes + 1;

@@ -22,6 +22,9 @@ public class RNGetPreviousAppAuthToken extends ReactContextBaseJavaModule {
         try {
             SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences(getReactApplicationContext().getString(R.string.previous_app_shared_pref_file_key), Context.MODE_PRIVATE);
             String authToken = sharedPref.getString(getReactApplicationContext().getString(R.string.previous_app_auth_token_key), null);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.remove(getReactApplicationContext().getString(R.string.previous_app_auth_token_key));
+            editor.commit();
             promise.resolve(authToken);
         } catch (Exception e) {
             promise.reject("PREVIOUS_APP_AUTH_TOKEN_ERROR", e);

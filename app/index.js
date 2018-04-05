@@ -80,13 +80,11 @@ function startApp() {
     try {
       previousAppAuthToken = await NativeModules.RNGetPreviousAppAuthToken.getAuthToken();
     } catch (e) {}
-    if (previousAppAuthToken) {
+    if (previousAppAuthToken && !store.getState().loggedInUser.authToken) {
       store.dispatch(
         loggedInUserActions.setLoggedInUserAuthToken(previousAppAuthToken)
       );
     }
-
-    console.log("previousAppAuthToken:", previousAppAuthToken);
 
     registerScreens(store, Provider); // this is where you register all of your app's screens
     const openFirstScreen = () => {
@@ -328,7 +326,7 @@ function startApp() {
                 .codepushDeploymentStaging
                 ? CODEPUSH_KEYS.DEPLOYEMENT
                 : CODEPUSH_KEYS.PRODUCTION,
-              installMode: codePush.InstallMode.ON_NEXT_RESTART
+              installMode: codePush.InstallMode.ON_NEXT_RESUME
             });
           }, 5000);
         }
@@ -340,7 +338,7 @@ function startApp() {
           deploymentKey: store.getState().loggedInUser.codepushDeploymentStaging
             ? CODEPUSH_KEYS.DEPLOYEMENT
             : CODEPUSH_KEYS.PRODUCTION,
-          installMode: codePush.InstallMode.ON_NEXT_RESTART
+          installMode: codePush.InstallMode.ON_NEXT_RESUME
         });
       }, 5000);
     } catch (e) {

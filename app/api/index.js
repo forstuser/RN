@@ -8,7 +8,7 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-export const API_BASE_URL = "https://consumer-eb.binbill.com";
+export const API_BASE_URL = "https://consumer.binbill.com";
 
 const ANDROID_APP_VERSION = 17;
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;

@@ -36,7 +36,7 @@ const requestPermission = async ({ permission, title, desc }) => {
 };
 
 export const requestStoragePermission = async () => {
-  return requestPermission({
+  return await requestPermission({
     permission: PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
     title: "You need to provide permission to access Media files.",
     desc: "Please open app settings and turn on the storage permission."
@@ -44,7 +44,7 @@ export const requestStoragePermission = async () => {
 };
 
 export const requestCameraPermission = async () => {
-  const cameraPermission = requestPermission({
+  const cameraPermission = await requestPermission({
     permission: PermissionsAndroid.PERMISSIONS.CAMERA,
     title: "You need to provide permission to access Camera.",
     desc: "Please open app settings and turn on the camera permission."
