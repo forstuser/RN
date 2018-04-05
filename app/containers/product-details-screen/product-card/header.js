@@ -39,7 +39,7 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ratings: null
+      review: null
     };
   }
 
@@ -47,7 +47,10 @@ class Header extends Component {
     const { productReviews } = this.props.product;
     if (productReviews.length > 0) {
       this.setState({
-        ratings: productReviews[0].ratings
+        review: {
+          ratings: productReviews[0].ratings,
+          feedback: productReviews[0].feedback
+        }
       });
     }
   };
@@ -67,7 +70,7 @@ class Header extends Component {
       reviewBtnRef
     } = this.props;
 
-    const { ratings } = this.state;
+    const { review } = this.state;
 
     let productName = product.productName;
     if (!productName) {
@@ -317,7 +320,7 @@ class Header extends Component {
                     <Icon name="star" size={25} color={colors.yellow} />
                   </TouchableOpacity>
                   <Text weight="Medium" style={styles.btnText}>
-                    {ratings || I18n.t("review").toUpperCase()}
+                    {review ? review.ratings : I18n.t("review").toUpperCase()}
                   </Text>
                 </View>
               )}
@@ -363,14 +366,30 @@ class Header extends Component {
             <ReviewModal
               ref={ref => (this.reviewModal = ref)}
               product={product}
-              onNewRatings={ratings => this.setState({ ratings })}
+              review={review}
+              onNewReview={review =>
+                this.setState({
+                  review: {
+                    ratings: review.ratings,
+                    feedback: review.feedback
+                  }
+                })
+              }
             />
             <ShareModal
               ref={ref => (this.shareModal = ref)}
               product={product}
               loggedInUser={loggedInUser}
               setLoggedInUserName={setLoggedInUserName}
-              onNewRatings={ratings => this.setState({ ratings })}
+              review={review}
+              onNewReview={review =>
+                this.setState({
+                  review: {
+                    ratings: review.ratings,
+                    feedback: review.feedback
+                  }
+                })
+              }
             />
             <ImageModal
               ref={ref => (this.imageModal = ref)}

@@ -234,7 +234,7 @@ class AllInfo extends React.Component {
                   </Text>
                 </View>
               )}
-              ValueComponent={() => (
+              /*ValueComponent={() => (
                 <TouchableOpacity onPress={this.openMap} style={{ width: 70 }}>
                   <View style={{ alignItems: "center" }}>
                     <Image style={{ width: 24, height: 24 }} source={mapIcon} />
@@ -246,7 +246,7 @@ class AllInfo extends React.Component {
                     </Text>
                   </View>
                 </TouchableOpacity>
-              )}
+              )}*/
             />
           )}
         </View>

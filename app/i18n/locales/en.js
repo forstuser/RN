@@ -217,7 +217,9 @@ export default {
   products_list_no_result_desc_others:
     "Any other document will appear under this section after you upload them",
   products_list_no_result_desc_personal:
-    "Add your personal documents like Visitng cards, Rent agreement, Educational certificates here",
+    "Add your personal documents like Educational certificates here",
+  products_list_no_result_desc_visiting_card: "Add your Visitng cards here",
+  products_list_no_result_desc_rent_agreement: "Add your Rent agreement here",
   product_list_click_below: "Click below to",
 
   // add list button
@@ -225,6 +227,7 @@ export default {
   add_electronics: "ADD ELECTRONICS & ELECTRICALS",
   add_automobile: "ADD AUTOMOBILE",
   add_personal: "ADD PERSONAL DOC",
+  add_rent_agreement: "ADD RENT AGREEMENT",
   add_visiting_card: "ADD VISITING CARD",
   add_furniture: "ADD FURNITURE",
   add_hardware: "ADD HARDWARE",
@@ -378,7 +381,8 @@ export default {
   product_details_screen_tab_all_info: "ALL INFO",
   product_details_screen_tab_important: "IMPORTANT INFO",
   product_details_screen_connect_brand_connect: "Connect with Brand",
-  product_details_screen_connect_insurance_provider: "Connect with Insurance Provider",
+  product_details_screen_connect_insurance_provider:
+    "Connect with Insurance Provider",
   product_details_screen_connect_warranty_provider: "WARRANTY PROVIDER",
   product_details_screen_connect_numbers: "Customer Care Numbers",
   product_details_screen_connect_links: "Request Service",
@@ -463,8 +467,7 @@ export default {
 
   //Do You Know screen
   do_you_know_screen_title: "Do You Know",
-  do_you_know_screen_end_msg:
-    "You have reached the end. Staye tuned for more.",
+  do_you_know_screen_end_msg: "You have reached the end. Staye tuned for more.",
   do_you_know_screen_tags_search_placeholder: "Search...",
   do_you_know_screen_tags_search_cta: "Search",
 
@@ -511,7 +514,8 @@ export default {
 
   //add/edit calendar service screen
   add_edit_calendar_service_screen_title: "Add Attendance",
-  add_edit_calendar_service_screen_title_slider: "Select service type for attendance",
+  add_edit_calendar_service_screen_title_slider:
+    "Select service type for attendance",
   add_edit_calendar_service_screen_form_name: "Name",
   add_edit_calendar_service_screen_form_provider_name: "Provider Name",
   add_edit_calendar_service_screen_form_wages_type: "Wages Type",
@@ -710,8 +714,7 @@ export default {
     "Mark attendance and payouts for all your household services like milkman, maid, newspaper wala here.",
   asc_tip:
     "Click here to find and connect with Authorised Service Centres of any Brand with just one simple click.",
-  app_tour_tips_4:
-    "Keep a track of your expenses here.",
+  app_tour_tips_4: "Keep a track of your expenses here.",
   mailbox_tip:
     "This is your eHome inbox wherein all reminders and notifications will be delivered. Track them here.",
   coming_up_tip:

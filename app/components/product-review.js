@@ -29,11 +29,19 @@ class UploadProductImage extends React.Component {
   };
 
   componentDidMount() {
-    const { productReviews } = this.props.product;
-    if (productReviews.length > 0) {
+    this.setReviewFromProps(this.props);
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setReviewFromProps(newProps);
+  }
+
+  setReviewFromProps(props) {
+    const review = props.review;
+    if (review) {
       this.setState({
-        starCount: productReviews[0].ratings,
-        reviewInput: productReviews[0].feedback
+        starCount: review.ratings,
+        reviewInput: review.feedback
       });
     }
   }
@@ -50,7 +58,7 @@ class UploadProductImage extends React.Component {
     if (!starCount) {
       return this.setState({
         isStarIsZero: true
-      })
+      });
     }
     try {
       this.setState({
@@ -71,7 +79,7 @@ class UploadProductImage extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     } finally {
       this.setState({
         isSaving: false
@@ -96,7 +104,11 @@ class UploadProductImage extends React.Component {
               selectedStar={rating => this.onStarRatingPress(rating)}
             />
           </View>
-          <Text style={styles.ratingMsg}>{isStarIsZero ? "Please provide rating or feedback before Submit!" : ''}</Text>
+          <Text style={styles.ratingMsg}>
+            {isStarIsZero
+              ? "Please provide rating or feedback before Submit!"
+              : ""}
+          </Text>
         </View>
         <View style={styles.reviewInputWrapper}>
           <TextInput
@@ -159,7 +171,7 @@ const styles = StyleSheet.create({
     width: 170
   },
   ratingMsg: {
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.tomato
   }
 });

@@ -128,7 +128,7 @@ class PerosnalDocCard extends Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View style={{top: 10, position: 'absolute', right: 10 }}>
+          <View style={{ top: 10, position: "absolute", right: 20 }}>
             <ViewBillButton
               product={product}
               navigator={navigator}
@@ -202,51 +202,51 @@ class PerosnalDocCard extends Component {
                 {(seller.address.length > 0 ||
                   seller.city.length > 0 ||
                   seller.state.length > 0) && (
-                    <KeyValueItem
-                      KeyComponent={() => (
-                        <View style={{ flex: 1 }}>
-                          <Text style={{ color: colors.secondaryText }}>
-                            Full Address
+                  <KeyValueItem
+                    KeyComponent={() => (
+                      <View style={{ flex: 1 }}>
+                        <Text style={{ color: colors.secondaryText }}>
+                          Full Address
                         </Text>
-                          <Text
-                            weight="Medium"
-                            style={{ color: colors.mainText }}
-                          >
-                            {_.trim(
-                              seller.address +
+                        <Text
+                          weight="Medium"
+                          style={{ color: colors.mainText }}
+                        >
+                          {_.trim(
+                            seller.address +
                               ", " +
                               seller.city +
                               ", " +
                               seller.state,
-                              ", "
-                            )}
+                            ", "
+                          )}
+                        </Text>
+                      </View>
+                    )}
+                    ValueComponent={() => (
+                      <TouchableOpacity
+                        onPress={this.openMap}
+                        style={{ width: 70 }}
+                      >
+                        <View style={{ alignItems: "center" }}>
+                          <Image
+                            style={{ width: 24, height: 24 }}
+                            source={mapIcon}
+                          />
+                          <Text
+                            weight="Bold"
+                            style={{
+                              fontSize: 10,
+                              color: colors.pinkishOrange
+                            }}
+                          >
+                            {I18n.t("product_details_screen_seller_find_store")}
                           </Text>
                         </View>
-                      )}
-                      ValueComponent={() => (
-                        <TouchableOpacity
-                          onPress={this.openMap}
-                          style={{ width: 70 }}
-                        >
-                          <View style={{ alignItems: "center" }}>
-                            <Image
-                              style={{ width: 24, height: 24 }}
-                              source={mapIcon}
-                            />
-                            <Text
-                              weight="Bold"
-                              style={{
-                                fontSize: 10,
-                                color: colors.pinkishOrange
-                              }}
-                            >
-                              {I18n.t("product_details_screen_seller_find_store")}
-                            </Text>
-                          </View>
-                        </TouchableOpacity>
-                      )}
-                    />
-                  )}
+                      </TouchableOpacity>
+                    )}
+                  />
+                )}
               </View>
             )}
           </View>
@@ -258,8 +258,7 @@ class PerosnalDocCard extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginTop: 30
+    flex: 1
   },
   contentContainer: {
     alignItems: "center"

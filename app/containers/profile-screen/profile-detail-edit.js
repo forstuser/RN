@@ -19,8 +19,6 @@ import I18n from "../../i18n";
 import { BlurView } from "react-native-blur";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 const editIcon = require("../../images/ic_edit_white.png");
-const verified = require("../../images/ic_profile_verified.png");
-const unVerified = require("../../images/ic_profile_unverified.png");
 
 class ProfileDetailEdit extends Component {
   constructor(props) {
@@ -111,51 +109,6 @@ class ProfileDetailEdit extends Component {
               onChangeText={text => this.setState({ info: text })}
             />
           </View>
-          <View>
-            {this.props.verify == false &&
-              this.props.info && (
-                <TouchableOpacity
-                  onPress={this.showResendEmailVerifyAlert}
-                  style={{
-                    position: "absolute",
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                    alignItems: "flex-end"
-                  }}
-                >
-                  <View style={{ flex: 1, flexDirection: "row" }}>
-                    <View>
-                      <Text style={styles.notVerified}>Not Verified</Text>
-                    </View>
-                    <View>
-                      <Image style={styles.icons} source={unVerified} />
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              )}
-          </View>
-          {this.props.verify == true &&
-            this.props.info && (
-              <View>
-                <TouchableOpacity
-                  style={{
-                    position: "absolute",
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                    alignItems: "flex-end"
-                  }}
-                >
-                  <View style={{ flex: 1, flexDirection: "row" }}>
-                    <View>
-                      <Text style={styles.verified}>Verified</Text>
-                    </View>
-                    <View>
-                      <Image style={styles.icons} source={verified} />
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            )}
           {this.props.info != this.state.info && (
             <View
               style={{
@@ -191,25 +144,21 @@ const styles = StyleSheet.create({
     // paddingBottom: 50,
     backgroundColor: "white"
   },
-
   field: {
     padding: 15,
     borderColor: "#ececec",
     borderBottomWidth: 1
   },
-
   verified: {
     color: "#4dbf1c",
     paddingTop: 18,
     fontSize: 12
   },
-
   notVerified: {
     color: "#f02d2d",
     paddingTop: 18,
     fontSize: 12
   },
-
   fieldValue: {
     color: "#3b3b3b",
     fontSize: 16,
@@ -217,19 +166,16 @@ const styles = StyleSheet.create({
     marginTop: -5,
     marginLeft: -4
   },
-
   fieldName: {
     fontSize: 12,
     color: "#9c9c9c"
   },
-
   editIcon: {
     width: 20,
     height: 20,
     borderRadius: 10,
     backgroundColor: colors.tomato
   },
-
   icons: {
     marginTop: 15
   }

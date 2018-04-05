@@ -6,7 +6,8 @@ import { MAIN_CATEGORY_IDS } from "../../constants";
 
 class MainCategoryScreen extends Component {
   static navigatorStyle = {
-    tabBarHidden: true
+    tabBarHidden: true,
+    drawUnderNavBar: false
   };
   constructor(props) {
     super(props);
@@ -26,6 +27,12 @@ class MainCategoryScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        this.props.navigator.setStyle({
+          drawUnderNavBar: false
+        });
+        this.props.navigator.setButtons({
+          rightButtons: []
+        });
         if (!this.state.isAppearingFirstTime) {
           this.setState({
             reloadList: true
@@ -54,6 +61,7 @@ class MainCategoryScreen extends Component {
       case MAIN_CATEGORY_IDS.HEALTHCARE:
       case MAIN_CATEGORY_IDS.SERVICES:
       case MAIN_CATEGORY_IDS.HOUSEHOLD:
+      case MAIN_CATEGORY_IDS.PERSONAL:
         return (
           <CategoryScreenWithPager
             navigator={this.props.navigator}
@@ -63,7 +71,6 @@ class MainCategoryScreen extends Component {
         );
       case MAIN_CATEGORY_IDS.FASHION:
       case MAIN_CATEGORY_IDS.OTHERS:
-      case MAIN_CATEGORY_IDS.PERSONAL:
         return (
           <Direct
             navigator={this.props.navigator}

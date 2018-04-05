@@ -25,11 +25,14 @@ const ProductsList = props => {
     mainCategoryId,
     categoryId
   } = props;
+
   const renderProductItem = ({ item }) => (
-    <View style={{
-      marginHorizontal: 10,
-      marginTop: 2
-    }}>
+    <View
+      style={{
+        marginHorizontal: 10,
+        marginTop: 2
+      }}
+    >
       <ProductListItem navigator={navigator} product={item} />
     </View>
   );
@@ -43,21 +46,24 @@ const ProductsList = props => {
     );
   } else {
     return (
-      <FlatList
+      <View
         style={{
           flex: 1,
           backgroundColor: "#FAFAFA",
           paddingTop: 0,
           marginTop: 10
         }}
-        data={products}
-        keyExtractor={(item, index) => item.id}
-        renderItem={renderProductItem}
-        onEndReached={onEndReached}
-        onEndReachedThreshold={onEndReachedThreshold}
-        onRefresh={onRefresh}
-        refreshing={isLoading}
-      />
+      >
+        <FlatList
+          data={products}
+          keyExtractor={(item, index) => item.id}
+          renderItem={renderProductItem}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={onEndReachedThreshold}
+          onRefresh={onRefresh}
+          refreshing={isLoading}
+        />
+      </View>
     );
   }
 };
