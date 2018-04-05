@@ -201,7 +201,7 @@ class AddEditExpenseScreen extends React.Component {
             "Personalise your expenses",
             "Retrieve a bill anytime",
             "Get expense insights",
-            "Share personalised review",
+            "Share personalised reviews",
             "And much more.."
           ]
         });

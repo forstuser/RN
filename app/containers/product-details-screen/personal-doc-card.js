@@ -132,7 +132,7 @@ class PerosnalDocCard extends Component {
             <ViewBillButton
               product={product}
               navigator={navigator}
-              docType="Personal Doc"
+              docType="Personal Docs"
               btnText="Doc"
             />
           </View>

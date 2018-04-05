@@ -533,7 +533,7 @@ export default {
   calendar_service_screen_price: "Price",
   calendar_service_screen_total_calculated_amount: "Total Amount",
   calendar_service_screen_total_paid_amount: "Total Paid",
-  calendar_service_screen_unit_price: "Unit Price",
+  calendar_service_screen_unit_price: "Unit Price (avg)",
   calendar_service_screen_quantity: "Quantity",
   calendar_service_screen_attendance: "Attendance",
   calendar_service_screen_payments: "Payments",
