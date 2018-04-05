@@ -635,7 +635,8 @@ const styles = StyleSheet.create({
     width: 300,
     textAlign: "center",
     color: colors.mainBlue,
-    marginBottom: 10
+    marginBottom: 10,
+    marginTop: -150
   },
   selectCategoryImage: {
     marginTop: 20,
