@@ -18,6 +18,7 @@ import call from "react-native-phone-call";
 import { SCREENS } from "../../constants";
 import { Text, Button, ScreenContainer } from "../../elements";
 import MoreItem from "./more-item";
+import Analytics from "../../analytics";
 
 import LanguageOptions from "../../components/language-options";
 
@@ -37,7 +38,10 @@ class Body extends Component {
       [
         {
           text: I18n.t("more_screen_logout"),
-          onPress: () => this.props.logoutUser()
+          onPress: () => {
+            Analytics.logEvent(Analytics.EVENTS.CLICK_LOGOUT_YES);
+            this.props.logoutUser()
+          }
         },
         {
           text: I18n.t("more_screen_stay"),
@@ -49,18 +53,21 @@ class Body extends Component {
   };
 
   onAscItemPress = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ASC_FROM_MORE);
     this.props.navigator.push({
       screen: SCREENS.ASC_SCREEN
     });
   };
 
   onEhomeItemPress = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_TIPS_TO_BUILD_YOUR_EHOME);
     this.props.navigator.push({
       screen: SCREENS.TIPS_SCREEN
     });
   };
 
   onFaqItemPress = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_FAQ);
     this.props.navigator.push({
       screen: SCREENS.FAQS_SCREEN
     });
@@ -70,16 +77,17 @@ class Body extends Component {
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-        profile ? profile.mobile_no : ""
+      profile ? profile.mobile_no : ""
       })`
     );
   };
 
   onShareItemPress = async () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_SHARE_APP);
     try {
       Share.share({
         message:
-          "Save time. Download BinBill, India's best product and appliance management app, to manage products, expenses and important documents. - http://bit.ly/2rIabk0"
+          "Install this wonder app on your phone and simplify your life. Consider it your Personal Home Manager - on the go. - http://bit.ly/2rIabk0"
       });
     } catch (e) {
       console.log(e);
@@ -110,6 +118,7 @@ class Body extends Component {
   };
 
   onAppPinPress = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PIN);
     const { isPinSet } = this.props;
     if (!isPinSet) {
       this.props.navigator.push({

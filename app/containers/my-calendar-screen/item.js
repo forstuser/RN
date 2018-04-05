@@ -6,9 +6,10 @@ import I18n from "../../i18n";
 import { colors, defaultStyles } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { SCREENS, MAIN_CATEGORY_IDS } from "../../constants";
-
+import Analytics from "../../analytics"
 class Item extends React.Component {
   onPress = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ATTENDANCE_ITEMS);
     const { item } = this.props;
     this.props.navigator.push({
       screen: SCREENS.CALENDAR_SERVICE_CARD_SCREEN,
@@ -51,9 +52,9 @@ class Item extends React.Component {
               <Text weight="Bold" style={styles.name}>
                 {product_name}
               </Text>
-              {outstanding_amount > 0 ? <Text style={styles.negativeValue}>
+              {outstanding_amount > 0 ? <Text style={styles.positiveValue}>
                 ₹ {outstanding_amount}
-              </Text> : <Text style={styles.positiveValue}>
+              </Text> : <Text style={styles.negativeValue}>
                   ₹ {outstanding_amount}
                 </Text>}
               {/* <Text weight="Bold" style={styles.value}>

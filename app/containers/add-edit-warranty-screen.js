@@ -17,6 +17,7 @@ import { ScreenContainer, Text, Button } from "../elements";
 import WarrantyForm from "../components/expense-forms/warranty-form";
 import { WARRANTY_TYPES } from "../constants";
 import ChangesSavedModal from "../components/changes-saved-modal";
+import Analytics from "../analytics"
 
 class AddEditWarranty extends React.Component {
   static navigatorStyle = {
@@ -205,7 +206,11 @@ class AddEditWarranty extends React.Component {
     }
 
     console.log("data: ", data);
-
+    if ((warrantyType == WARRANTY_TYPES.EXTENDED)) {
+      Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: 'extended warranty' });
+    } else {
+      Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: 'warranty' });
+    }
     try {
       this.setState({ isLoading: true });
       if (!data.id) {

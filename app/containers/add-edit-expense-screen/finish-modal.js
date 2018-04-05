@@ -44,6 +44,7 @@ class FinishModal extends React.Component {
   };
 
   onDoItLaterClick = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_I_WILL_DO_IT_LATER);
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
         this.props.navigator.pop({ animationType: "fade" });
@@ -76,8 +77,8 @@ class FinishModal extends React.Component {
             source={
               mainCategoryId
                 ? {
-                    uri: API_BASE_URL + `/categories/${mainCategoryId}/images/1`
-                  }
+                  uri: API_BASE_URL + `/categories/${mainCategoryId}/images/1`
+                }
                 : repairIcon
             }
             resizeMode="contain"

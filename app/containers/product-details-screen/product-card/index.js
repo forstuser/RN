@@ -144,6 +144,11 @@ class ProductCard extends Component {
   };
 
   onTabChange = index => {
+    if (index === 1) {
+      Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ALL_INFO);
+    } else if (index === 2) {
+      Analytics.logEvent(Analytics.EVENTS.CLICK_ON_IMPORTANT);
+    }
     this.setState({
       activeTabIndex: index
     });

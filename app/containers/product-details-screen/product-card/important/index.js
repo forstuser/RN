@@ -29,7 +29,6 @@ import PucDetails from "./puc-details";
 class Important extends React.Component {
   openAddEditWarrantyScreen = (warranty, warrantyType) => {
     const { product } = this.props;
-
     this.props.navigator.push({
       screen: SCREENS.ADD_EDIT_WARRANTY_SCREEN,
       passProps: {
@@ -46,7 +45,6 @@ class Important extends React.Component {
 
   openAddEditInsuranceScreen = insurance => {
     const { product } = this.props;
-
     this.props.navigator.push({
       screen: SCREENS.ADD_EDIT_INSURANCE_SCREEN,
       passProps: {
@@ -62,7 +60,6 @@ class Important extends React.Component {
 
   openAddEditAmcScreen = amc => {
     const { product } = this.props;
-
     this.props.navigator.push({
       screen: SCREENS.ADD_EDIT_AMC_SCREEN,
       passProps: {
@@ -78,7 +75,6 @@ class Important extends React.Component {
 
   openAddEditRepairScreen = repair => {
     const { product } = this.props;
-
     this.props.navigator.push({
       screen: SCREENS.ADD_EDIT_REPAIR_SCREEN,
       passProps: {
@@ -219,9 +215,10 @@ class Important extends React.Component {
               <AddItemBtn
                 biggerSize={true}
                 text={I18n.t("product_details_screen_add_warranty")}
-                onPress={() =>
+                onPress={() => {
+                  Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_WARRANTY);
                   this.openAddEditWarrantyScreen(null, WARRANTY_TYPES.NORMAL)
-                }
+                }}
               />
             )}
           {(product.categoryId != 664 ||
@@ -235,9 +232,10 @@ class Important extends React.Component {
               <AddItemBtn
                 biggerSize={true}
                 text={I18n.t("product_details_screen_add_extended_warranty")}
-                onPress={() =>
+                onPress={() => {
+                  Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_EXTENDED_WARRANTY);
                   this.openAddEditWarrantyScreen(null, WARRANTY_TYPES.EXTENDED)
-                }
+                }}
               />
             )}
 
@@ -250,7 +248,11 @@ class Important extends React.Component {
               <AddItemBtn
                 biggerSize={true}
                 text={I18n.t("product_details_screen_add_insurance")}
-                onPress={() => this.openAddEditInsuranceScreen(null)}
+                onPress={() => {
+                  Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_INSURANCE);
+                  this.openAddEditInsuranceScreen(null)
+                }
+                }
               />
             )}
 
@@ -262,7 +264,10 @@ class Important extends React.Component {
               <AddItemBtn
                 biggerSize={true}
                 text={I18n.t("product_details_screen_add_amc")}
-                onPress={() => this.openAddEditAmcScreen(null)}
+                onPress={() => {
+                  Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_AMC);
+                  this.openAddEditAmcScreen(null)
+                }}
               />
             )}
 
@@ -275,7 +280,11 @@ class Important extends React.Component {
               <AddItemBtn
                 biggerSize={true}
                 text={I18n.t("product_details_screen_add_repair")}
-                onPress={() => this.openAddEditRepairScreen(null)}
+                onPress={() => {
+                  Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_REPAIR);
+                  this.openAddEditRepairScreen(null)
+                }
+                }
               />
             )}
 
@@ -284,7 +293,11 @@ class Important extends React.Component {
               <AddItemBtn
                 biggerSize={true}
                 text={I18n.t("product_details_screen_add_puc")}
-                onPress={() => this.openAddEditPucScreen(null)}
+                onPress={() => {
+                  Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_PUC);
+                  this.openAddEditPucScreen(null)
+                }
+                }
               />
             )}
         </View>

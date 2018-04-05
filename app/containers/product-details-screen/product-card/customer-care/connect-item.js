@@ -246,6 +246,7 @@ class Card extends React.Component {
   };
 
   handleUrlPress = url => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SERVICE_REQUEST);
     Linking.canOpenURL(url).then(supported => {
       if (supported) {
         Linking.openURL(url);

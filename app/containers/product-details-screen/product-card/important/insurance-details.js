@@ -32,6 +32,7 @@ class InsuranceDetails extends React.Component {
         <EditOptionRow
           text={I18n.t("product_details_screen_insurance_details")}
           onEditPress={() => {
+            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'insurance' });
             this.props.openAddEditInsuranceScreen(insurance);
           }}
         />

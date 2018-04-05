@@ -27,6 +27,7 @@ import UploadProductImage from "../../../components/upload-product-image";
 import { colors } from "../../../theme";
 import LoadingOverlay from "../../../components/loading-overlay";
 import CustomTextInput from "../../../components/form-elements/text-input";
+import Analytics from "../../../analytics";
 
 const uploadDocIllustration = require("../../../images/upload_doc_illustration.png");
 const starIllustration = require("../../../images/star_illustration.png");
@@ -52,6 +53,7 @@ class ShareModal extends React.Component {
   }
 
   show = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SHARE_PRODUCT_CARD);
     let newState = {
       isModalVisible: true
     };
@@ -116,6 +118,7 @@ class ShareModal extends React.Component {
         if (Platform.OS == "android") {
           shareContent.message = "Powered by BinBill - http://bit.ly/2rIabk0";
         }
+        Analytics.logEvent(Analytics.EVENTS.Click_Shareproductcardcomplete);
         await Share.open(shareContent);
       }
     } catch (e) {
@@ -319,40 +322,43 @@ class ShareModal extends React.Component {
                     source={{ uri: productImageUrl }}
                   />
                 ) : null}
-                <Text weight="Bold" style={styles.productName}>
-                  {product.productName}
-                </Text>
-                <Text weight="Medium" style={styles.productModel}>
-                  {product.model}
-                </Text>
                 <View style={styles.userImageView}>
-                  <View style={styles.userImageLine} />
+                  {/* <View style={styles.userImageLine} /> */}
                   <Image
                     style={styles.userImage}
                     source={userImageSource}
                     resize="cover"
                   />
                 </View>
-                <Text style={styles.userName} weight="Bold">
-                  {loggedInUser.name}
+                <View style={{ flexDirection: 'row', height: 'auto', marginBottom: 10 }}>
+                  <Text style={styles.userName} weight="Bold">
+                    {loggedInUser.name}
+                  </Text>
+                  <Text> has rated</Text>
+                </View>
+                <Text weight="Bold" style={styles.productName}>
+                  {product.productName}
+                </Text>
+                <Text weight="Medium" style={styles.productModel}>
+                  {product.model}
+                </Text>
+                <StarRating
+                  starColor={colors.pinkishOrange}
+                  disabled={true}
+                  maxStars={5}
+                  rating={ratings}
+                  halfStarEnabled={true}
+                  starSize={18}
+                  starStyle={{ marginHorizontal: 2, marginVertical: 5 }}
+                />
+                <Text numberOfLines={4} style={styles.feedbackText}>
+                  {feedbackText ? `"${feedbackText}"` : ""}
                 </Text>
                 <Text
                   numberOfLines={4}
                   weight="Bold"
                   style={styles.reviewQuotesText}
                 >{`"${I18n.t("review_quotes")}"`}</Text>
-                <StarRating
-                  starColor="#f8e71c"
-                  disabled={true}
-                  maxStars={5}
-                  rating={ratings}
-                  halfStarEnabled={true}
-                  starSize={18}
-                  starStyle={{ marginHorizontal: 2 }}
-                />
-                <Text numberOfLines={4} style={styles.feedbackText}>
-                  {feedbackText ? `"${feedbackText}"` : ""}
-                </Text>
                 <View style={styles.badges}>
                   <View style={styles.binbillLogoWrapper}>
                     <Image
@@ -471,12 +477,13 @@ const styles = StyleSheet.create({
   },
   productName: {
     color: colors.mainBlue,
-    marginTop: 7
+    marginTop: -15,
+    fontSize: 18
   },
   productModel: {
     fontSize: 10,
     color: colors.secondaryText,
-    marginTop: 7
+    // marginTop: 10
   },
   userImageView: {
     marginTop: 7,
@@ -498,7 +505,7 @@ const styles = StyleSheet.create({
     overflow: "hidden"
   },
   userName: {
-    marginVertical: 7
+    // marginVertical: 7
   },
   feedbackText: {
     margin: 10,
@@ -509,7 +516,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginBottom: 5,
     fontSize: 9,
-    color: colors.success,
+    color: colors.mainBlue,
     textAlign: "center"
     // justifyContent: 'center',
     // alignItems: 'center'

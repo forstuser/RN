@@ -22,7 +22,7 @@ import { showSnackbar } from "../containers/snackbar";
 import { Text, Button } from "../elements";
 import { colors } from "../theme";
 import { SCREENS } from "../constants";
-
+import Analytics from "../../analytics";
 import LoadingOverlay from "../components/loading-overlay";
 
 class UploadProductImage extends React.Component {
@@ -32,6 +32,7 @@ class UploadProductImage extends React.Component {
   };
 
   showOptions = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_PRODUCT_IMAGE);
     this.uploadOptions.show();
   };
 
@@ -62,7 +63,7 @@ class UploadProductImage extends React.Component {
           mimeType: file.mime
         });
       })
-      .catch(e => {});
+      .catch(e => { });
   };
 
   pickGalleryImage = async () => {
@@ -80,7 +81,7 @@ class UploadProductImage extends React.Component {
           mimeType: file.mime
         });
       })
-      .catch(e => {});
+      .catch(e => { });
   };
 
   uploadFile = async file => {

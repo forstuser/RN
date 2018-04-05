@@ -21,7 +21,7 @@ import KeyValueItem from "../../../components/key-value-item";
 import CustomTextInput from "../../../components/form-elements/text-input";
 import CustomDatePicker from "../../../components/form-elements/date-picker";
 import LoadingOverlay from "../../../components/loading-overlay";
-
+import Analytics from "../../../analytics"
 import { defaultStyles, colors } from "../../../theme";
 
 const getMoneyImage = require("../../../images/get_money.png");
@@ -71,6 +71,7 @@ class Report extends React.Component {
     this.setState({
       isAddingPayment: true
     });
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PAYMENT, { type: item.service_type.name });
     try {
       await addCalendarItemPayment({ itemId: item.id, amountPaid, paidOn });
       this.setState({

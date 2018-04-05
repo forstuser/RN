@@ -21,10 +21,10 @@ class AddEmptyProductScreen extends Component {
     mainCategoryId,
     categoryId,
     navigator
-  }) => {};
+  }) => { };
 
   onPressItem = item => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PRODUCT_OPTION);
+    Analytics.logEvent(Analytics.EVENTS.ADD_PRODUCT_INSIDE_EHOME_MAIN_CATEGORIES);
     this.props.navigator.push({
       screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
       passProps: { expenseType: item.type, categoryId: item.categoryId },

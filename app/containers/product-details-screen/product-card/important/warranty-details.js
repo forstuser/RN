@@ -36,6 +36,11 @@ class WarrantyDetails extends React.Component {
               : I18n.t("product_details_screen_service_third_party_warranty")
           }
           onEditPress={() => {
+            if (warranty.warranty_type == WARRANTY_TYPES.NORMAL) {
+              Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'warranty' });
+            } else {
+              Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'extended warranty' });
+            }
             this.props.openAddEditWarrantyScreen(
               warranty,
               warranty.warranty_type
