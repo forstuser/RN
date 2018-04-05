@@ -128,11 +128,11 @@ class PerosnalDocCard extends Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View style={{top: 10, position: 'absolute', right: 10 }}>
+          <View style={{ top: 10, position: 'absolute', right: 10 }}>
             <ViewBillButton
               product={product}
               navigator={navigator}
-              docType="Personal Doc"
+              docType="Personal Docs"
               btnText="Doc"
             />
           </View>

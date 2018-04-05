@@ -217,7 +217,7 @@ export default {
   products_list_no_result_desc_others:
     "Any other document will appear under this section after you upload them",
   products_list_no_result_desc_personal:
-    "Add your personal documents like Visitng cards, Rent agreement, Educational certificates here",
+    "Add your personal documents like Visiting cards, Rent agreement, Educational certificates here",
   product_list_click_below: "Click below to",
 
   // add list button
@@ -529,7 +529,7 @@ export default {
   calendar_service_screen_price: "Price",
   calendar_service_screen_total_calculated_amount: "Total Amount",
   calendar_service_screen_total_paid_amount: "Total Paid",
-  calendar_service_screen_unit_price: "Unit Price",
+  calendar_service_screen_unit_price: "Unit Price (avg)",
   calendar_service_screen_quantity: "Quantity",
   calendar_service_screen_attendance: "Attendance",
   calendar_service_screen_payments: "Payments",

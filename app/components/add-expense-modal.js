@@ -83,7 +83,7 @@ class AddExpenseModal extends React.Component {
       },
       {
         type: EXPENSE_TYPES.PERSONAL,
-        title: "Personal Doc.",
+        title: "Personal Docs",
         icon: require("../images/main-categories/ic_personal_doc.png")
       },
       {
@@ -96,7 +96,7 @@ class AddExpenseModal extends React.Component {
     const expenseOptions = [
       {
         type: EXPENSE_TYPES.TRAVEL,
-        title: "Travel & Dinning",
+        title: "Travel & Dining",
         icon: require("../images/main-categories/ic_travel_dining.png")
       },
       {

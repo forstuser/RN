@@ -158,7 +158,7 @@ class AddEditExpenseScreen extends React.Component {
         this.setState({
           formType: "expense",
           mainCategoryId: MAIN_CATEGORY_IDS.FASHION,
-          reasons: ['Personalise your expenses', 'Retrieve a bill anytime', 'Get expense insights', 'Share personalised review', 'And much more..']
+          reasons: ['Personalise your expenses', 'Retrieve a bill anytime', 'Get expense insights', 'Share personalised reviews', 'And much more..']
         });
         break;
       case EXPENSE_TYPES.SERVICES:

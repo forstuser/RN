@@ -92,12 +92,12 @@ class AddProductScreen extends React.Component {
       },
       {
         type: EXPENSE_TYPES.PERSONAL,
-        title: "Personal Doc.",
+        title: "Personal Docs",
         icon: require("../images/main-categories/ic_personal_doc.png")
       },
       {
         type: EXPENSE_TYPES.VISITING_CARD,
-        title: "Visiting Card",
+        title: "Visiting Cards",
         icon: require("../images/main-categories/ic_visiting_card.png")
       }
     ];
@@ -105,7 +105,7 @@ class AddProductScreen extends React.Component {
     const expenseOptions = [
       {
         type: EXPENSE_TYPES.TRAVEL,
-        title: "Travel & Dinning",
+        title: "Travel & Dining",
         icon: require("../images/main-categories/ic_travel_dining.png")
       },
       {

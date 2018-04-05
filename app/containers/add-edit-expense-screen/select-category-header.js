@@ -200,7 +200,7 @@ class SelectCategoryHeader extends React.Component {
           },
           {
             id: 649,
-            name: "Jewellary & Accessories",
+            name: "Jewellery & Accessories",
             icon: require("../../images/categories/jewellary.png")
           },
           {
