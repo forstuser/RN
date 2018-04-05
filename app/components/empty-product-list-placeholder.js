@@ -170,16 +170,21 @@ class AddEmptyProductScreen extends Component {
         break;
 
       case MAIN_CATEGORY_IDS.PERSONAL:
-        item = {
-          type: EXPENSE_TYPES.PERSONAL,
-          desc: I18n.t("products_list_no_result_desc_personal"),
-          buttonText: I18n.t("add_personal"),
-          image: require("../images/main-categories/ic_personal_doc.png")
-        };
-        item2 = {
-          type: EXPENSE_TYPES.VISITING_CARD,
-          buttonText: I18n.t("add_visiting_card")
-        };
+        item.type = EXPENSE_TYPES.PERSONAL;
+        if (categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
+          item.type = EXPENSE_TYPES.VISITING_CARD;
+          item.desc = I18n.t("products_list_no_result_desc_visiting_card");
+          item.buttonText = I18n.t("add_visiting_card");
+          item.image = require("../images/main-categories/ic_visiting_card.png");
+        } else if (categoryId == CATEGORY_IDS.PERSONAL.RENT_AGREEMENT) {
+          item.desc = I18n.t("products_list_no_result_desc_rent_agreement");
+          item.buttonText = I18n.t("add_rent_agreement");
+          item.image = require("../images/main-categories/ic_personal_doc.png");
+        } else {
+          item.desc = I18n.t("products_list_no_result_desc_personal");
+          item.buttonText = I18n.t("add_personal");
+          item.image = require("../images/main-categories/ic_personal_doc.png");
+        }
         break;
 
       default:

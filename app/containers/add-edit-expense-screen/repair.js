@@ -64,7 +64,7 @@ class Repair extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -105,7 +105,7 @@ class Repair extends React.Component {
       if (!repairDate) {
         return showSnackbar({
           text: I18n.t("add_edit_expense_screen_title_add_repairs")
-        })
+        });
       }
 
       const data = {
@@ -133,7 +133,7 @@ class Repair extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({
         isLoading: false
       });
@@ -248,7 +248,9 @@ class Repair extends React.Component {
             {selectedProduct && (
               <View style={styles.formContainer}>
                 <View style={styles.form}>
-                  <Text weight="Medium" style={styles.headerText}>{I18n.t("add_edit_expense_screen_title_add_repair_details")}</Text>
+                  <Text weight="Medium" style={styles.headerText}>
+                    {I18n.t("add_edit_expense_screen_title_add_repair_details")}
+                  </Text>
                   <CustomDatePicker
                     date={repairDate}
                     placeholder={I18n.t(
@@ -331,6 +333,7 @@ class Repair extends React.Component {
           showRepairIcon={true}
           productId={selectedProduct ? selectedProduct.id : null}
           navigator={this.props.navigator}
+          isPreviousScreenOfAddOptions={this.props.isPreviousScreenOfAddOptions}
         />
       </View>
     );
@@ -454,7 +457,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     flex: 1,
     marginBottom: 10,
-    alignSelf: 'flex-start'
+    alignSelf: "flex-start"
   }
 });
 

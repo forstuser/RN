@@ -10,7 +10,10 @@ import {
 import ImagePicker from "react-native-image-crop-picker";
 import ActionSheet from "react-native-actionsheet";
 
-import { requestCameraPermission } from "../android-permissions";
+import {
+  requestCameraPermission,
+  requestStoragePermission
+} from "../android-permissions";
 import { uploadProductImage } from "../api";
 
 import I18n from "../i18n";
@@ -59,10 +62,11 @@ class UploadProductImage extends React.Component {
           mimeType: file.mime
         });
       })
-      .catch(e => { });
+      .catch(e => {});
   };
 
-  pickGalleryImage = () => {
+  pickGalleryImage = async () => {
+    if ((await requestStoragePermission()) == false) return;
     ImagePicker.openPicker({
       width: 800,
       height: 500,
@@ -76,7 +80,7 @@ class UploadProductImage extends React.Component {
           mimeType: file.mime
         });
       })
-      .catch(e => { });
+      .catch(e => {});
   };
 
   uploadFile = async file => {
@@ -111,7 +115,7 @@ class UploadProductImage extends React.Component {
           setTimeout(() => {
             showSnackbar({
               text: e.message
-            })
+            });
           }, 200);
         }
       );

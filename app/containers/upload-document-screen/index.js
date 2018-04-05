@@ -20,6 +20,11 @@ import {
 
 import { connect } from "react-redux";
 
+import {
+  requestCameraPermission,
+  requestStoragePermission
+} from "../../android-permissions";
+
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 import { colors } from "../../theme";
 
@@ -151,7 +156,8 @@ class UploadDocumentScreen extends Component {
     );
   };
 
-  takeCameraImage = () => {
+  takeCameraImage = async () => {
+    if ((await requestCameraPermission()) == false) return;
     ImagePicker.openCamera({
       compressImageMaxWidth: 1500,
       compressImageMaxHeight: 1500,
@@ -168,7 +174,8 @@ class UploadDocumentScreen extends Component {
       .catch(e => {});
   };
 
-  pickGalleryImage = () => {
+  pickGalleryImage = async () => {
+    if ((await requestStoragePermission()) == false) return;
     ImagePicker.openPicker({
       compressImageMaxWidth: 1500,
       compressImageMaxHeight: 1500,

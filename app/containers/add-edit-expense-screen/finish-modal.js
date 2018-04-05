@@ -33,6 +33,13 @@ class FinishModal extends React.Component {
     Analytics.logEvent(Analytics.EVENTS.ADD_ANOTHER_PRODUCT);
     this.setState({ visible: false }, () => {
       this.props.navigator.pop();
+      setTimeout(() => {
+        if (!this.props.isPreviousScreenOfAddOptions) {
+          this.props.navigator.showModal({
+            screen: SCREENS.ADD_PRODUCT_OPTIONS_SCREEN
+          });
+        }
+      }, 350);
     });
   };
 
@@ -62,7 +69,7 @@ class FinishModal extends React.Component {
     } = this.props;
     const { visible } = this.state;
     return (
-      <Modal useNativeDriver={true} isVisible={visible}>
+      <Modal useNativeDriver={true} isVisible={visible} animationOutTiming={10}>
         <View style={styles.finishModal}>
           <Image
             style={styles.finishImage}

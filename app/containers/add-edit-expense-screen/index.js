@@ -251,6 +251,7 @@ class AddEditExpenseScreen extends React.Component {
 
   render() {
     const { formType, mainCategoryId, categoryId, reasons } = this.state;
+    const { isPreviousScreenOfAddOptions } = this.props;
     switch (formType) {
       case "product":
       case "expense":
@@ -261,6 +262,7 @@ class AddEditExpenseScreen extends React.Component {
             navigator={this.props.navigator}
             confirmBackNavigation={this.confirmBackNavigation}
             reasons={reasons}
+            isPreviousScreenOfAddOptions={isPreviousScreenOfAddOptions}
           />
         );
       case "personal_doc":
@@ -270,6 +272,10 @@ class AddEditExpenseScreen extends React.Component {
             formType={formType}
             navigator={this.props.navigator}
             reasons={reasons}
+<<<<<<< HEAD
+            isPreviousScreenOfAddOptions={isPreviousScreenOfAddOptions}
+=======
+>>>>>>> shobhit
           />
         );
       case "medical_docs":
@@ -282,6 +288,7 @@ class AddEditExpenseScreen extends React.Component {
             navigator={this.props.navigator}
             confirmBackNavigation={this.confirmBackNavigation}
             reasons={reasons}
+            isPreviousScreenOfAddOptions={isPreviousScreenOfAddOptions}
           />
         );
       case "repair":
@@ -290,6 +297,7 @@ class AddEditExpenseScreen extends React.Component {
             navigator={this.props.navigator}
             confirmBackNavigation={this.confirmBackNavigation}
             reasons={reasons}
+            isPreviousScreenOfAddOptions={isPreviousScreenOfAddOptions}
           />
         );
       default:

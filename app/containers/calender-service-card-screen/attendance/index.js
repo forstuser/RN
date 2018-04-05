@@ -81,10 +81,9 @@ class Attendance extends React.Component {
 
     const startDate = paymentDetail.start_date;
     const startDateOfMonth = +moment(startDate).format("D");
-
-    const endDate = paymentDetail.end_date;
+    const todayDate = paymentDetail.end_date;
+    const endDate = moment(paymentDetail.end_date).endOf("month").format('YYYY-MM-DD');
     const endDateOfMonth = +moment(endDate)
-      .endOf("month")
       .format("D");
 
     const monthAndYear = moment(endDate).format("YYYY-MM");
@@ -115,54 +114,63 @@ class Attendance extends React.Component {
       unitPriceText = I18n.t("add_edit_calendar_service_screen_form_fees");
     }
     //  Pritam Dirty code here
-    console.log("calculation details", calculationDetails);
     console.log("payment detail", paymentDetails);
+    console.log("calculation details", calculationDetails);
+    // console.log("Start Date", startDate);
+    // console.log("End Date", endDate);
     // function which will return active days of months
     const calculationFunction = (
       startDateforCalculation,
       endDateForCalculation,
       selectedDaysArray
     ) => {
-      const availbaleDays = [];
+      const availableDays = [];
       const selectedDaysArrayIntoMomentFormat = selectedDaysArray.map(day => {
         if (day == 7) return 0;
         return day;
       });
-      console.log(selectedDaysArrayIntoMomentFormat);
+      // console.log(selectedDaysArrayIntoMomentFormat);
       let sDate = +moment(startDateforCalculation).format("D");
       let eDate = +moment(endDateForCalculation).format("D");
       for (let i = sDate; i < eDate + 1; i++) {
         let date = monthAndYear + "-" + ("0" + i).substr(-2);
         const weekday = +moment(date).format("d");
         if (selectedDaysArrayIntoMomentFormat.includes(weekday)) {
-          availbaleDays.push(date);
+          availableDays.push(date);
         }
       }
-      return availbaleDays;
+      // console.log("available", availableDays)
+      return availableDays;
     };
-    // case 1: if current months starting date is greater than effective date of activeCalculation details
     let availableDaysofMonth = [];
-    // if (startDate > activeCalculationDetail.effective_date) {
-    //   // call function which will give availbale days of months according to calculation detail
-    //   availableDaysofMonth.push(calculationFunction(startDate, endDate, activeCalculationDetail.selected_days))
-    // } else {
-    for (let i = calculationDetails.length - 1; i > -1; i--) {
-      let calculationDetailEndDate = +moment(endDate).endOf("month");
-      let calculationDetailStartDate = startDate;
-      if (calculationDetails[i - 1]) {
-        calculationDetailEndDate = calculationDetails[i - 1].effective_date;
-        calculationDetailStartDate = calculationDetails[i].effective_date;
+    let calculationDetailEndDate = endDate;
+    for (let i = 0; i < calculationDetails.length; i++) {
+      const diffDays = moment(calculationDetailEndDate).diff(moment(calculationDetails[i].effective_date), 'days');
+
+      if (diffDays < 0) continue;
+
+      let calculationDetailStartDate = calculationDetails[i].effective_date;
+
+      const startDateDiff = moment(startDate).diff(moment(calculationDetailStartDate), 'days');
+      if (startDateDiff > 0) {
+        calculationDetailStartDate = startDate;
       }
-      availableDaysofMonth.push(
-        calculationFunction(
-          calculationDetailStartDate,
-          calculationDetailEndDate,
-          calculationDetails[i].selected_days
-        )
+
+      const availableDays = calculationFunction(
+        calculationDetailStartDate,
+        calculationDetailEndDate,
+        calculationDetails[i].selected_days
       );
+
+      availableDaysofMonth = [...availableDaysofMonth, ...availableDays];
+
+      if (moment(startDate).format('MM-YYYY') == moment(calculationDetailStartDate).subtract(1, 'days').format('MM-YYYY')) {
+        calculationDetailEndDate = moment(calculationDetailStartDate).subtract(1, 'days').format('YYYY-MM-DD');
+      } else {
+        break;
+      }
     }
-    // }
-    availableDaysofMonth = [].concat.apply([], availableDaysofMonth);
+
     console.log("availableDaysofMonth", availableDaysofMonth);
     return (
       <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
@@ -196,7 +204,7 @@ class Attendance extends React.Component {
               />
               <VerticalKeyValue
                 keyText={I18n.t("my_calendar_screen_to")}
-                valueText={moment(endDate).format("DD MMM YYYY")}
+                valueText={moment(todayDate).format("DD MMM YYYY")}
               />
               <View style={{ flex: 1 }} />
             </View>
@@ -233,10 +241,22 @@ class Attendance extends React.Component {
                   }
                 />
               )}
-              <VerticalKeyValue
+              {serviceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
+                <VerticalKeyValue
+                  keyText={unitPriceText}
+                  valueText={"₹ " + paymentDetail.total_amount / (paymentDetail.total_units || paymentDetail.total_days)}
+                />
+              )}
+              {serviceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT && (
+                <VerticalKeyValue
+                  keyText={unitPriceText}
+                  valueText={"₹ " + paymentDetail.total_amount / paymentDetail.total_days}
+                />
+              )}
+              {/* <VerticalKeyValue
                 keyText={unitPriceText}
                 valueText={"₹ " + activeCalculationDetail.unit_price}
-              />
+              /> */}
               <VerticalKeyValue
                 keyText={I18n.t("calendar_service_screen_total_amount")}
                 valueText={"₹ " + paymentDetail.total_amount}
@@ -248,8 +268,6 @@ class Attendance extends React.Component {
           {daysOfMonth.map(day => {
             const date = monthAndYear + "-" + ("0" + day).substr(-2);
             const isPresent = absentDates.indexOf(date) == -1;
-            // const weekday = +moment(date).format("d");
-            // availableDaysofMonth.includes(date) ? null : null;
             if (availableDaysofMonth.includes(date)) {
               return (
                 <Day
@@ -268,7 +286,7 @@ class Attendance extends React.Component {
             } else {
               return null;
             }
-            console.log(date);
+            // console.log(date);
           })}
         </View>
       </View>

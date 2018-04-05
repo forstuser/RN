@@ -55,11 +55,11 @@ class ShareModal extends React.Component {
     let newState = {
       isModalVisible: true
     };
-    const { product } = this.props;
+    const { product, review } = this.props;
     const { productReviews } = product;
-    if (productReviews.length > 0) {
-      newState.ratings = productReviews[0].ratings;
-      newState.feedbackText = productReviews[0].feedback;
+    if (review) {
+      newState.ratings = review.ratings;
+      newState.feedbackText = review.feedback;
     }
     if (product.file_type) {
       newState.isProductImageAvailable = true;
@@ -160,7 +160,7 @@ class ShareModal extends React.Component {
       isImageLoading,
       isSavingName
     } = this.state;
-    const { product, loggedInUser, onNewRatings } = this.props;
+    const { product, loggedInUser, onNewReview } = this.props;
     const { brand } = product;
 
     let productImageUrl, productImageResizeMode;
@@ -298,7 +298,7 @@ class ShareModal extends React.Component {
                 product={product}
                 onReviewSubmit={review => {
                   this.onReviewStepDone(review);
-                  onNewRatings(review.ratings);
+                  onNewReview(review);
                 }}
               />
             </View>

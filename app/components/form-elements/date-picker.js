@@ -100,6 +100,14 @@ class CustomDatePicker extends React.Component {
               height: 0,
               overflow: "hidden"
             }}
+            customStyles={{
+              btnTextConfirm: {
+                height: 20
+              },
+              btnTextCancel: {
+                height: 20
+              }
+            }}
             date={date}
             mode="date"
             placeholder="Choose date"

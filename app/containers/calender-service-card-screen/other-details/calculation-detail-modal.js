@@ -77,7 +77,7 @@ class CalculationDetailModal extends React.Component {
       unitTypes,
       selectedUnitType: unitTypes[0],
       actualSelectedUnitType: unitTypes[0],
-      selectedDays: item.selected_days,
+      selectedDays: item.calculation_detail[0].selected_days,
       unitPrice: item.calculation_detail[0].unit_price,
       startingDate: item.calculation_detail[0].effective_date,
       quantity: item.calculation_detail[0].quantity

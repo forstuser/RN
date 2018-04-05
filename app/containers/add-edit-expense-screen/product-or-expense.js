@@ -597,6 +597,7 @@ class ProductOrExpense extends React.Component {
           mainCategoryId={mainCategoryId}
           productId={product ? product.id : null}
           navigator={this.props.navigator}
+          isPreviousScreenOfAddOptions={this.props.isPreviousScreenOfAddOptions}
         />
       </ScreenContainer>
     );
