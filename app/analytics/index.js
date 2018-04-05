@@ -109,7 +109,7 @@ const EVENTS = {
 };
 
 const logEvent = (eventName, data = {}) => {
-  if (__DEV__) {
+  if (!__DEV__) {
     const user = store.getState().loggedInUser;
     FirebaseAnalytics.logEvent(eventName, {
       Platform: "iOS",
