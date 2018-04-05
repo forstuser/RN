@@ -652,43 +652,37 @@ export default {
   //faqs
   faq_question_1: "What is BinBill?",
   faq_answer_1:
-    "BinBill is an application that manages your bills, analyzing expense and one can avail after-sales benefits at one place. It converts your ordinary bills into smart bills and stores them safely in the eHome virtual home.",
-  faq_question_2: "Who can all use BinBill?",
-  faq_answer_2:
-    "It is everyone and especially for those who cannot manage their expenses and bills. It declutters individual’s lives around bills and documents. It's for all and for free.",
-  faq_question_3: "What is eHome and how do I create it?",
-  faq_answer_3:
-    "eHome is a virtual home in the BinBill account, where all your bills and documents are stored under clearly defined categories of Electricals and Electronics, Automobiles, Furniture Fittings and Utensils, Fashion and Fashion Accessories, Healthcare and Medical, Household Expenses, Travel and Dine out, and Services. Under the Personal Catalogue, you can store any other important document besides bills.",
-  faq_question_4: "What all can I upload in BinBill?",
-  faq_answer_4:
-    "You can upload as per your convenience, there is no restriction. Any type of a bill or a document can be uploaded at BinBill, which can be useful for future communication or expense tracking. The more you upload, the more value we add to your eHome.",
-  faq_question_5: "How do I upload a bill?",
-  faq_answer_5:
-    "Launch the application on your phone and tap on the Upload Doc button. Using the scanner through our application, fit the bill/document being scanned in the edges as marked on the screen and tap on the camera button. Alternatively, you can upload the bills or documents directly from your phone gallery or on the website. Just click on upload tab in the App or log into www.binbill.com. For the best experience, we suggest using our Mobile App.",
-  faq_question_6: "How does BinBill add value to my bills?",
-  faq_answer_6:
-    "BinBill not only captures important details in the bill like product information, manufacturer’s details, the amount spent etc., but also integrates relevant information from its existing database such as authorized service centres, customer care details, warranty information etc. This way BinBill converts ordinary bills into smart bills and sort out the bills for the users, based on the categories. The users can search, download, and share bills and bill’s information. For example, it notifies the users about the vehicle pollution check up or an upcoming vehicle service.",
-  faq_question_7: "How does BinBill help me in after sales service?",
-  faq_answer_7:
-    "BinBill helps you with all the manufacturer’s details and authorized service centre of your product, which will help you in getting things sorted.",
-  faq_question_8: "Is uploading the documents to BinBill secure?",
-  faq_answer_8: "Yes, all your bills/documents are safe and secure.",
-  faq_question_9: "For, how long do my bills stay in the BinBill?",
+    "BinBill App complements your On-The-Go lifestyle. The One App for all your After Sales needs and complete Product Life Time usage. You can track your expenses and be aware of your financial position. It also has your personal Attendance Manager for all your monthly or periodic services.",
+  faq_question_2: "What is eHome? How can I create it?",
+  faq_answer_2: "An eHome is a digital recreation of your House. You can select a category and add products that you own including Home Appliances, Car, Bike, Electrical items etc. Bills of your regular expenses like Grocery, Restaurant, Medical and other Day To Day purchase can also be added. eHome sorts these expenses into relevant categories. You can now retrieve all information with just one touch. It also has your personal Attendance Manager for all monthly or periodic services.",
+  faq_question_3: "How does eHome help organize my life?",
+  faq_answer_3: "BinBill Smartly organises your products and expenses in relevant categories. You can manage your product’s after purchase life cycle. All related expenses and important documents are available with just one touch. Now you will never have to look for this information anywhere else except in your eHome.",
+  faq_question_4: "What is a Product Card?",
+  faq_answer_4: "Product cards are building blocks of your eHome. It is a digital snapshot of all the critical information such as Warranty, Insurance, PUC, Service expenses, Customer care, Nearest Authorised Service Center for all your products. Once a Product Card is created, you will never have to worry about remembering the whereabouts of the bill of purchase, the warranty card, insurance due date etc.",
+  faq_question_5: "How does Product Card help me in after sales service?",
+  faq_answer_5: "Among other benefits, a product card once created lets you know the prescribed Service Schedules, Warranty, Customer Service and Nearest Service station. All this information is available at one place at one touch.",
+  faq_question_6: "What is the Share Review feature and how is it useful?",
+  faq_answer_6: "Share Review feature is designed to help your friends, family learn from your product experience. With this feature you can be your network’s Product Review Expert.",
+  faq_question_7: "What is Attendance Manager?",
+  faq_answer_7: "This feature emphasises our offering of One Home: Multiple Needs: One Platform. With the Attendance Manager, you can  very simply manage monthly/periodic attendance and payouts for services of your Milkman, Newspaper wala, Maids etc. Now no more jotting down dates everywhere and manual calculations for all these services.",
+  faq_question_8: "Who all can use BinBill?",
+  faq_answer_8: "It starts with YOU.BinBill can be used by all and sundry who want to stay organized, manage their expenses and stay in control of their finances.",
+  faq_question_9: "What type of bills and documents can I upload?",
   faq_answer_9:
-    "For as long as you wish, your bills will be available in your BinBill Account.",
-  faq_question_10: "How do I find stored bills on BinBill?",
-  faq_answer_10:
-    "Use the search bar in the app or web, type the name of seller or products and you will be directed to the page to locate the bill. If still cannot find sorted bills, feel free to write us at support@binbill.com",
-  faq_question_11: "I’m new to BinBill, how do I start my journey?",
-  faq_answer_11:
-    "The first step is to register your own e-Home, which is free of cost. Start uploading bills or documents and leave rest to us for creating your beautiful eHome.",
-  faq_question_12: "Can I save bills to my phone, from BinBill?",
-  faq_answer_12:
-    "We have made sure, that life of our users is easy and hassle-free. The users can download the bills directly to their phones, anytime.",
-  faq_question_13: "Can I access BinBill through my Desktop/Laptop?",
-  faq_answer_13: "Yes. Visit our website www.binbill.com.",
-  faq_question_14: "Do I need to pay anything to enjoy these services?",
-  faq_answer_14: "We are absolutely free.",
+    "You can upload all your Expense bills. This includes - Bills of Home Appliances, Durables, Cars, Grocery, Travel and Hotel accomodation, Restaurants, Household expenses etc. You can also save your important documents like RC Book, PUC certificate, Insurance invoices, Educational certificates here. If you think a document is important, you can upload it on BinBill.",
+  faq_question_10: "How do I benefit by adding an expense bill?",
+  faq_answer_10: "All our spending habits are sporadic. We go out on trips and plan weekends with friends, families etc. sharing our expenses. It is difficult to track these expenses. However if you record theses expenses on BinBill, it helps you know the What, When, Why and Where of these expenses. It also gives you an insight on your spending  helping you to know where you could have saved.",
+  faq_question_11: " Do I need to pay anything to avail these services?",
+  faq_answer_11: "No! This is absolutely free for end users. We are just assisting you to stay more organized and hasslefree. Refer and add more members to enjoy our advanced features in the coming time.",
+  faq_question_12: "As I am new to BinBill, how do I start my journey?",
+  faq_answer_12: "The first step is to register your eHome, which is free of cost. Start adding product bills and documents leaving the rest to us to create your wonderful eHome. BinBill has a user-friendly interface making it easy for anyone to use.",
+  faq_question_13: "For how long do my bills stay in BinBill?",
+  faq_answer_13: "Your bills will be available in your BinBill Account for as long as you wish.",
+  faq_question_14: "Can I retrieve stored bills?",
+  faq_answer_14: "Yes. You can view and download bills anytime just with one touch.",
+  faq_answer_15: "Can I add Product Card information later?",
+  faq_answer_15: "Yes, you can. However, it it is recommended to add details of products while creating your product card. Remember, it is only a one-time effort and convenience for lifetime.",
+
 
   //tab screen header
   tab_screen_header_search_placeholder: "Search...",

@@ -68,6 +68,10 @@ class FaqScreen extends Component {
         {
           question: I18n.t("faq_question_14"),
           answer: I18n.t("faq_answer_14")
+        },
+        {
+          question: I18n.t("faq_question_15"),
+          answer: I18n.t("faq_answer_15")
         }
       ]
     };
