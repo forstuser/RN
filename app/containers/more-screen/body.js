@@ -70,7 +70,7 @@ class Body extends Component {
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-        profile ? profile.mobile_no : ""
+      profile ? profile.mobile_no : ""
       })`
     );
   };
@@ -79,7 +79,7 @@ class Body extends Component {
     try {
       Share.share({
         message:
-          "Save time. Download BinBill, India's best product and appliance management app, to manage products, expenses and important documents. - http://bit.ly/2rIabk0"
+          "Install this wonder app on your phone and simplify your life. Consider it your Personal Home Manager - on the go. - http://bit.ly/2rIabk0"
       });
     } catch (e) {
       console.log(e);

@@ -272,10 +272,7 @@ class AddEditExpenseScreen extends React.Component {
             formType={formType}
             navigator={this.props.navigator}
             reasons={reasons}
-<<<<<<< HEAD
             isPreviousScreenOfAddOptions={isPreviousScreenOfAddOptions}
-=======
->>>>>>> shobhit
           />
         );
       case "medical_docs":

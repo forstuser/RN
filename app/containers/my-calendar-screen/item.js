@@ -51,9 +51,9 @@ class Item extends React.Component {
               <Text weight="Bold" style={styles.name}>
                 {product_name}
               </Text>
-              {outstanding_amount > 0 ? <Text style={styles.negativeValue}>
+              {outstanding_amount > 0 ? <Text style={styles.positiveValue}>
                 ₹ {outstanding_amount}
-              </Text> : <Text style={styles.positiveValue}>
+              </Text> : <Text style={styles.negativeValue}>
                   ₹ {outstanding_amount}
                 </Text>}
               {/* <Text weight="Bold" style={styles.value}>

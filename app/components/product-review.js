@@ -114,7 +114,7 @@ class UploadProductImage extends React.Component {
           <TextInput
             underlineColorAndroid="transparent"
             ref={ref => (this.reviewInput = ref)}
-            maxLength={1000}
+            maxLength={500}
             placeholder={I18n.t("product_details_screen_write_feedback")}
             value={reviewInput}
             onChangeText={text => this.setState({ reviewInput: text })}
@@ -129,7 +129,7 @@ class UploadProductImage extends React.Component {
               color: colors.secondaryText
             }}
           >
-            {I18n.t("max_chars", { count: 1000 })}
+            {I18n.t("max_chars", { count: 500 })}
           </Text>
         </View>
         <Button

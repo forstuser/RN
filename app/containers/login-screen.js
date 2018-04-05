@@ -89,7 +89,7 @@ class LoginScreen extends Component {
   setAuthTokenAndOpenApp = async authToken => {
     try {
       this.props.setLoggedInUserAuthToken(authToken);
-      Analytics.logEvent(Analytics.EVENTS.REGISTRATION_OTP);
+
       const r2 = await getProfileDetail();
       const user = r2.userProfile;
       this.props.setLoggedInUser({
@@ -156,6 +156,7 @@ class LoginScreen extends Component {
           fcmToken: this.props.fcmToken,
           bbLoginType: 3
         });
+        Analytics.logEvent(Analytics.EVENTS.registration_fb);
         this.setAuthTokenAndOpenApp(r.authorization);
       }
     } catch (e) {
