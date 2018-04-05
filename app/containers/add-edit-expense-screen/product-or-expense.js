@@ -609,7 +609,7 @@ const styles = StyleSheet.create({
     color: colors.secondaryText,
     // textAlign: 'left',
     fontSize: 12,
-    marginLeft: 80,
+    marginLeft: 100,
     alignSelf: "flex-start"
     // color: 'red',
     // flex: 1,

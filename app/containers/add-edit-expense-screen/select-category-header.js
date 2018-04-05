@@ -135,7 +135,7 @@ class SelectCategoryHeader extends React.Component {
           {
             id: 11,
             name: "Professional",
-            icon: require("../../images/categories/professional.png")
+            icon: require("../../images/main-categories/ic_services.png")
           },
           {
             id: 12,

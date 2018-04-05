@@ -201,7 +201,7 @@ class AddEditExpenseScreen extends React.Component {
             "Personalise your expenses",
             "Retrieve a bill anytime",
             "Get expense insights",
-            "Share personalised reviews",
+            "Share personalised review",
             "And much more.."
           ]
         });
@@ -272,7 +272,10 @@ class AddEditExpenseScreen extends React.Component {
             formType={formType}
             navigator={this.props.navigator}
             reasons={reasons}
+<<<<<<< HEAD
             isPreviousScreenOfAddOptions={isPreviousScreenOfAddOptions}
+=======
+>>>>>>> shobhit
           />
         );
       case "medical_docs":
