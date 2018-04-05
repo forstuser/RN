@@ -114,7 +114,7 @@ class ShareModal extends React.Component {
         };
 
         if (Platform.OS == "android") {
-          shareContent.message = "Powered by BinBIll-http://bit.ly/2rIabk0";
+          shareContent.message = "Powered by BinBill - http://bit.ly/2rIabk0";
         }
         await Share.open(shareContent);
       }

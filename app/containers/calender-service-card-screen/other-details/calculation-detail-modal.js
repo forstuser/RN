@@ -124,12 +124,12 @@ class CalculationDetailModal extends React.Component {
     if (!startingDate) {
       return showSnackbar({
         text: "Please select a starting date"
-      })
+      });
     }
     if (selectedDays.length == 0) {
       return showSnackbar({
         text: "Please select week days for this service"
-      })
+      });
     }
 
     this.setState({
@@ -165,7 +165,7 @@ class CalculationDetailModal extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({
         isSavingDetails: false
       });

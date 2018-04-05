@@ -34,7 +34,6 @@ class AddEmptyProductScreen extends Component {
 
   render() {
     const { mainCategoryId, categoryId, navigator } = this.props;
-
     let item = { categoryId: categoryId };
     let item2 = null;
     // alert(mainCategoryId);
@@ -98,10 +97,13 @@ class AddEmptyProductScreen extends Component {
           item.buttonText = I18n.t("add_expense");
           item.image = require("../images/main-categories/ic_healthcare.png");
         } else if (categoryId == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
+          item.type = EXPENSE_TYPES.MEDICAL_DOCS;
+
           item.desc = I18n.t("products_list_no_result_desc_medical_docs");
           item.buttonText = I18n.t("add_medical_doc");
           item.image = require("../images/categories/medical_docs.png");
         } else {
+          item.type = EXPENSE_TYPES.MEDICAL_DOCS;
           item.desc = I18n.t("products_list_no_result_desc_insurance");
           item.buttonText = I18n.t("add_healthcare");
           item.image = require("../images/categories/insurance.png");

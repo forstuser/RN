@@ -11,7 +11,7 @@ import {
   Picker
 } from "react-native";
 import I18n from "../../i18n";
-import { showSnackBar } from "../snackbar"
+import { showSnackBar } from "../snackbar";
 import Icon from "react-native-vector-icons/Ionicons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
@@ -175,22 +175,22 @@ class AddEditCalendarServiceScreen extends Component {
     if (!name) {
       return showSnackBar({
         text: "Please enter name"
-      })
+      });
     }
     if (unitPrice && unitPrice < 0) {
       returnshowSnackBar({
         text: "Amount can't be less than zero"
-      })
+      });
     }
     if (!startingDate) {
       return showSnackBar({
         text: "Please select a starting date"
-      })
+      });
     }
     if (selectedDays.length == 0) {
       return showSnackBar({
         text: "Please select week days for this service"
-      })
+      });
     }
 
     this.setState({
@@ -221,7 +221,7 @@ class AddEditCalendarServiceScreen extends Component {
     } catch (e) {
       showSnackBar({
         text: e.message
-      })
+      });
       this.setState({
         isFetchingServiceTypes: false
       });
@@ -459,6 +459,12 @@ class AddEditCalendarServiceScreen extends Component {
             <Text weight="Bold" style={styles.selectServiceMsg}>
               Please Select a Type Above
             </Text>
+            <View style={styles.reason}>
+              <Text> • Mark present and absent days</Text>
+              <Text> • Know your monthly payouts</Text>
+              <Text> • your total outstanding payments</Text>
+              <Text> • Track your daily household expenses</Text>
+            </View>
           </View>
         )}
         <LoadingOverlay visible={isFetchingServiceTypes} />
@@ -468,6 +474,13 @@ class AddEditCalendarServiceScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  reason: {
+    color: colors.secondaryText,
+    // textAlign: 'left',
+    fontSize: 12,
+    marginLeft: 80,
+    alignSelf: "flex-start"
+  },
   form: {
     padding: 16,
     backgroundColor: "#fff",
@@ -485,7 +498,8 @@ const styles = StyleSheet.create({
     marginRight: 20
   },
   selectServiceMsgContainer: {
-    flex: 1
+    flex: 1,
+    marginTop: -90
   },
   selectServiceMsg: {
     fontSize: 20,

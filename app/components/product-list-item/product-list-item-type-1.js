@@ -110,7 +110,7 @@ const ProductListItem = ({ product, onPress }) => {
         {product.warrantyDetails &&
           product.warrantyDetails.length > 0 && (
             <View style={styles.otherDetailContainer}>
-              <Text style={styles.detailName}>Warrenty till: </Text>
+              <Text style={styles.detailName}>Warranty till: </Text>
               <Text weight="Medium" style={styles.detailValue}>
                 {moment(product.warrantyDetails[0].expiryDate).format(
                   "MMM DD, YYYY"
