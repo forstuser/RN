@@ -1001,6 +1001,6 @@ export default {
 
   //04-04-2018
   daily: "Daily",
-  monthly: "monthly",
+  monthly: "Monthly",
   save: "Save"
 };

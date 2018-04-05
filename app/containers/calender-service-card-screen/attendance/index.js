@@ -250,8 +250,8 @@ class Attendance extends React.Component {
                   keyText={I18n.t("my_calendar_screen_payment_type")}
                   valueText={
                     item.wages_type == WAGES_CYCLE.DAILY
-                      ? I18n.t("Daily")
-                      : I18n.t("Monthly")
+                      ? I18n.t("daily")
+                      : I18n.t("monthly")
                   }
                 />
               )}
@@ -260,10 +260,13 @@ class Attendance extends React.Component {
                   keyText={unitPriceText}
                   valueText={
                     "₹ " +
-                    (
-                      paymentDetail.total_amount /
-                      (paymentDetail.total_units || paymentDetail.total_days)
-                    ).toFixed(2)
+                    (paymentDetail.total_units || paymentDetail.total_days)
+                      ? (
+                          paymentDetail.total_amount /
+                          (paymentDetail.total_units ||
+                            paymentDetail.total_days)
+                        ).toFixed(2)
+                      : 0
                   }
                 />
               )}
@@ -271,10 +274,11 @@ class Attendance extends React.Component {
                 <VerticalKeyValue
                   keyText={unitPriceText}
                   valueText={
-                    "₹ " +
-                    (
-                      paymentDetail.total_amount / paymentDetail.total_days
-                    ).toFixed(2)
+                    "₹ " + paymentDetail.total_days
+                      ? (
+                          paymentDetail.total_amount / paymentDetail.total_days
+                        ).toFixed(2)
+                      : 0
                   }
                 />
               )}
