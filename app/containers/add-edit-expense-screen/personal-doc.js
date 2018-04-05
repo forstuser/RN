@@ -78,7 +78,7 @@ class PersonalDoc extends React.Component {
     if (!product) {
       showSnackbar({
         text: I18n.t("add_edit_expense_screen_title_add_select_doc")
-      })
+      });
       return false;
     }
     return true;
@@ -114,7 +114,7 @@ class PersonalDoc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -133,13 +133,13 @@ class PersonalDoc extends React.Component {
       if (!product) {
         return showSnackbar({
           text: I18n.t("add_edit_expense_screen_title_add_select_doc")
-        })
+        });
       }
 
       if (!isDocUploaded) {
         return showSnackbar({
           text: I18n.t("add_edit_expense_screen_title_add_upload_doc")
-        })
+        });
       }
       const data = {
         productId: product.id,
@@ -179,7 +179,7 @@ class PersonalDoc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({
         isLoading: false
       });
@@ -214,11 +214,11 @@ class PersonalDoc extends React.Component {
             />
           </View>
           <View style={styles.form}>
-            <Text weight="Medium" style={styles.headerText}>{
-              formType == "visiting_card"
+            <Text weight="Medium" style={styles.headerText}>
+              {formType == "visiting_card"
                 ? "Add Card Details"
-                : "Add Document Details"
-            }</Text>
+                : "Add Document Details"}
+            </Text>
             {formType != "visiting_card" && (
               <SelectModal
                 // style={styles.input}
@@ -315,6 +315,7 @@ class PersonalDoc extends React.Component {
           mainCategoryId={mainCategoryId}
           productId={product ? product.id : null}
           navigator={this.props.navigator}
+          isPreviousScreenOfAddOptions={this.props.isPreviousScreenOfAddOptions}
         />
       </View>
     );
@@ -363,7 +364,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     flex: 1,
     marginBottom: 10,
-    alignSelf: 'flex-start'
+    alignSelf: "flex-start"
   }
 });
 
