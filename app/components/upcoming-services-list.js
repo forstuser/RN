@@ -57,7 +57,7 @@ class UpcomingServicesList extends React.Component {
             );
           })}
         </View>
-        {upcomingServices.length > 1 && (
+        {upcomingServices.length > 2 && (
           <ViewMoreBtn height={listHeight} onPress={this.toggleListHeight} />
         )}
       </View>

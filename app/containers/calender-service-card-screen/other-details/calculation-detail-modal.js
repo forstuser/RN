@@ -233,6 +233,7 @@ class CalculationDetailModal extends React.Component {
             <View style={{ width: "100%" }}>
               <View style={{ flexDirection: "row" }}>
                 <SelectModal
+                  visibleKey="symbol"
                   style={styles.selectUnitType}
                   dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                   placeholder="Choose Unit Type"
@@ -338,7 +339,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   selectUnitType: {
-    width: 80,
+    width: 60,
     marginRight: 10
   }
 });
