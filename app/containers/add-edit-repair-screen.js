@@ -15,7 +15,7 @@ import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
 import RepairForm from "../components/expense-forms/repair-form";
 import ChangesSavedModal from "../components/changes-saved-modal";
-
+import Analytics from "../analytics";
 class AddEditRepair extends React.Component {
   static navigatorStyle = {
     tabBarHidden: true,

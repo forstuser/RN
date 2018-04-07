@@ -123,7 +123,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => {}
+  onUploadProgress = () => { }
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -1128,7 +1128,7 @@ export const createCalendarItem = async ({
     selected_days: selectedDays || undefined,
     unit_price: unitPrice || 0,
     unit_type: unitType || undefined,
-    quantity: quantity || undefined,
+    quantity: quantity || 0,
     effective_date: effectiveDate || undefined
   };
   return await apiRequest({
@@ -1175,7 +1175,7 @@ export const addCalendarItemCalculationDetail = async ({
     selected_days: selectedDays || undefined,
     unit_price: unitPrice || 0,
     unit_type: unitType || undefined,
-    quantity: quantity || undefined,
+    quantity: quantity || 0,
     effective_date: effectiveDate || undefined
   };
   return await apiRequest({
