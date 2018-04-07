@@ -10,7 +10,7 @@ import Analytics from "../analytics";
 
 export const API_BASE_URL = "https://consumer.binbill.com";
 
-const ANDROID_APP_VERSION = 17;
+const ANDROID_APP_VERSION = 18;
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 const platform = Platform.OS == "ios" ? 2 : 1;
 

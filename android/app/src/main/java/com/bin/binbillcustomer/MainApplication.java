@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.StrictMode;
 
 import com.evollu.react.fa.FIRAnalyticsPackage;
+import com.facebook.react.ReactInstanceManager;
 import com.microsoft.codepush.react.CodePush;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.horcrux.svg.SvgPackage;
@@ -38,7 +39,10 @@ import java.util.List;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
-public class MainApplication extends NavigationApplication {
+import com.microsoft.codepush.react.ReactInstanceHolder;
+
+public class MainApplication extends NavigationApplication implements ReactInstanceHolder {
+
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
@@ -90,10 +94,21 @@ public class MainApplication extends NavigationApplication {
     return CodePush.getJSBundleFile();
   }
 
+  @Override
+  public String getJSMainModuleName() {
+    return "index";
+  }
+
+  @Override
+  public ReactInstanceManager getReactInstanceManager() {
+    // CodePush must be told how to find React Native instance
+    return getReactNativeHost().getReactInstanceManager();
+  }
+
   protected List<ReactPackage> getPackages() {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNViewShotPackage(),
+    return Arrays.<ReactPackage>asList(new RNViewShotPackage(),
         new FBSDKPackage(mCallbackManager), new FIRAnalyticsPackage(),
         new CodePush(null, getApplicationContext(), BuildConfig.DEBUG), new VectorIconsPackage(), new SvgPackage(),
         new RNSharePackage(), new PhotoViewPackage(), new NavigationReactPackage(), new LinearGradientPackage(),

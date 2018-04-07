@@ -354,12 +354,9 @@ class DashboardScreen extends React.Component {
                   </View>
                 </TouchableOpacity>
                 {/* Authorised Service Centres */}
-                <Title
-                  setRef={ref => (this.ascViewItemRef = ref)}
-                  gradientColors={["#d01a35", "#f5515f"]}
-                  text={I18n.t("asc_screen_title")}
-                />
+
                 <TouchableOpacity
+                  ref={ref => (this.ascViewItemRef = ref)}
                   onPress={this.openAscScreen}
                   style={[
                     defaultStyles.card,

@@ -1,1 +1,0 @@
-../../../TrueSDK/TrueSDK/External/TCTrueSDK.h
