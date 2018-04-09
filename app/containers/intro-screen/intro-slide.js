@@ -18,16 +18,13 @@ const IntroSlide = ({ image, title, desc }) => (
         source={require("../../images/onboarding/background.png")}
       /> */}
       <View style={styles.texts}>
-        <Text style={styles.title}>
-          {title}
-        </Text>
+        <Text style={styles.title}>{title}</Text>
         {/* <Text style={styles.desc}>{desc}</Text> */}
       </View>
       <View style={styles.content}>
         <View style={styles.imageWrapper}>
           <Image style={styles.image} source={image} resizeMode="contain" />
         </View>
-
       </View>
     </LinearGradient>
   </View>
@@ -57,7 +54,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     alignItems: "center",
     justifyContent: "center",
-    flex: 3,
+    flex: 3
     // top: 50
   },
   texts: {
@@ -72,7 +69,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     paddingHorizontal: 20,
     marginTop: 25,
-    lineHeight: 30
+    lineHeight: 30,
+    maxWidth: 400
   },
   desc: {
     marginTop: 15,
@@ -83,7 +81,7 @@ const styles = StyleSheet.create({
   imageWrapper: {
     width: "100%",
     padding: 40,
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
     maxWidth: 370,
     maxHeight: 377
