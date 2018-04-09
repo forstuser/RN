@@ -90,6 +90,12 @@ export function registerScreens(store, Provider) {
     Provider
   );
   Navigation.registerComponent(
+    SCREENS.MORE_SCREEN,
+    () => MoreScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
     SCREENS.FAQS_SCREEN,
     () => FaqScreen,
     store,
@@ -109,12 +115,6 @@ export function registerScreens(store, Provider) {
     Provider
   );
 
-  Navigation.registerComponent(
-    SCREENS.MORE_SCREEN,
-    () => MoreScreen,
-    store,
-    Provider
-  );
   Navigation.registerComponent(
     SCREENS.PROFILE_SCREEN,
     () => ProfileScreen,

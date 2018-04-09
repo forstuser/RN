@@ -73,6 +73,8 @@ const urlForDirectFileUpload = filePath => {
 
 function startApp() {
   persistStore(store, {}, async () => {
+    registerScreens(store, Provider); // this is where you register all of your app's screens
+
     const language = store.getState().ui.language;
     // I18n.locale = language.code;
 
@@ -86,7 +88,6 @@ function startApp() {
       );
     }
 
-    registerScreens(store, Provider); // this is where you register all of your app's screens
     const openFirstScreen = () => {
       if (store.getState().loggedInUser.authToken) {
         // start the app
@@ -320,15 +321,12 @@ function startApp() {
             }, 1000);
           }
 
-          setTimeout(() => {
-            codePush.sync({
-              deploymentKey: store.getState().loggedInUser
-                .codepushDeploymentStaging
-                ? CODEPUSH_KEYS.DEPLOYEMENT
-                : CODEPUSH_KEYS.PRODUCTION,
-              installMode: codePush.InstallMode.ON_NEXT_RESTART
-            });
-          }, 5000);
+          codePush.sync({
+            deploymentKey: store.getState().loggedInUser
+              .codepushDeploymentStaging
+              ? CODEPUSH_KEYS.STAGING
+              : CODEPUSH_KEYS.PRODUCTION
+          });
         }
       });
 
@@ -336,9 +334,8 @@ function startApp() {
       setTimeout(() => {
         codePush.sync({
           deploymentKey: store.getState().loggedInUser.codepushDeploymentStaging
-            ? CODEPUSH_KEYS.DEPLOYEMENT
-            : CODEPUSH_KEYS.PRODUCTION,
-          installMode: codePush.InstallMode.ON_NEXT_RESTART
+            ? CODEPUSH_KEYS.STAGING
+            : CODEPUSH_KEYS.PRODUCTION
         });
       }, 5000);
     } catch (e) {

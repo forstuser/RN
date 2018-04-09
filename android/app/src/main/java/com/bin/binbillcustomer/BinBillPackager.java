@@ -1,5 +1,7 @@
 package com.bin.binbillcustomer;
 
+import android.app.Activity;
+
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -15,6 +17,13 @@ import java.util.List;
  */
 
 public class BinBillPackager implements ReactPackage {
+//
+//    private Activity mActivity = null;
+//
+//    public BinBillPackager(Activity activity) {
+//        mActivity = activity;
+//    }
+
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();

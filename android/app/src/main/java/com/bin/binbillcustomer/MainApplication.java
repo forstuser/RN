@@ -43,7 +43,6 @@ import com.microsoft.codepush.react.ReactInstanceHolder;
 
 public class MainApplication extends NavigationApplication implements ReactInstanceHolder {
 
-
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
   @Override
@@ -108,13 +107,12 @@ public class MainApplication extends NavigationApplication implements ReactInsta
   protected List<ReactPackage> getPackages() {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(new RNViewShotPackage(),
-        new FBSDKPackage(mCallbackManager), new FIRAnalyticsPackage(),
-        new CodePush(null, getApplicationContext(), BuildConfig.DEBUG), new VectorIconsPackage(), new SvgPackage(),
-        new RNSharePackage(), new PhotoViewPackage(), new NavigationReactPackage(), new LinearGradientPackage(),
-        new PickerPackage(), new RNI18nPackage(), new RNFetchBlobPackage(), new FIRMessagingPackage(),
-        new ReactNativeDocumentPicker(), new RNDeviceInfo(), new BlurViewPackage(), new RNGooglePlacesPackage(),
-        new BinBillPackager());
+    return Arrays.<ReactPackage>asList(new RNViewShotPackage(), new FBSDKPackage(mCallbackManager),
+        new FIRAnalyticsPackage(), new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
+        new VectorIconsPackage(), new SvgPackage(), new RNSharePackage(), new PhotoViewPackage(),
+        new NavigationReactPackage(), new LinearGradientPackage(), new PickerPackage(), new RNI18nPackage(),
+        new RNFetchBlobPackage(), new FIRMessagingPackage(), new ReactNativeDocumentPicker(), new RNDeviceInfo(),
+        new BlurViewPackage(), new RNGooglePlacesPackage(), new BinBillPackager());
   }
 
   @Override

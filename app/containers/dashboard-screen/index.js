@@ -31,6 +31,7 @@ import ErrorOverlay from "../../components/error-overlay";
 import SectionHeading from "../../components/section-heading";
 import Title from "./chamfered-background-title";
 import RecentProducts from "./recent-products";
+import RateUsDialog from "./rate-us-dialog";
 
 import { SCREENS, GLOBAL_VARIABLES } from "../../constants";
 
@@ -196,10 +197,7 @@ class DashboardScreen extends React.Component {
                 "days"
               ) > 7)
           ) {
-            this.props.navigator.showModal({
-              screen: SCREENS.RATE_US_SCREEN,
-              animationType: "none"
-            });
+            this.rateUsDialog.show();
           }
         }
       );
@@ -403,6 +401,10 @@ class DashboardScreen extends React.Component {
         )}
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
         <LoadingOverlay visible={isFetchingData} />
+        <RateUsDialog
+          ref={ref => (this.rateUsDialog = ref)}
+          setRateUsDialogTimestamp={this.props.setRateUsDialogTimestamp}
+        />
         <Tour
           ref={ref => (this.dashboardTour = ref)}
           enabled={true}
@@ -464,6 +466,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    setRateUsDialogTimestamp: timestamp => {
+      dispatch(uiActions.setRateUsDialogTimestamp(timestamp));
+    },
     setUiHasDashboardTourShown: newValue => {
       dispatch(uiActions.setUiHasDashboardTourShown(newValue));
     },
