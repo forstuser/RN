@@ -37,7 +37,7 @@ const apiRequest = async ({
     }
 
     if (Platform.OS == "ios") {
-      headers.ios_app_version = APP_VERSION_FOR_API;//DeviceInfo.getBuildNumber();
+      headers.ios_app_version = APP_VERSION_FOR_API; //DeviceInfo.getBuildNumber();
     } else {
       headers.app_version = APP_VERSION_FOR_API; //android app version
     }
@@ -123,7 +123,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => { }
+  onUploadProgress = () => {}
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {

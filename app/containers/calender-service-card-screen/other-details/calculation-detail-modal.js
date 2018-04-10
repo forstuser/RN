@@ -45,6 +45,7 @@ class CalculationDetailModal extends React.Component {
       unitPrice: "",
       quantity: "",
       startingDate: moment().format("YYYY-MM-DD"),
+      endDate: null,
       selectedDays: [1, 2, 3, 4, 5, 6, 7],
       unitTypes: [],
       selectedUnitType: null,
@@ -81,7 +82,6 @@ class CalculationDetailModal extends React.Component {
       actualSelectedUnitType: unitTypes[0],
       selectedDays: item.calculation_detail[0].selected_days,
       unitPrice: item.calculation_detail[0].unit_price,
-      startingDate: item.calculation_detail[0].effective_date,
       quantity: item.calculation_detail[0].quantity
     });
   };
@@ -112,12 +112,13 @@ class CalculationDetailModal extends React.Component {
     });
   };
 
-  createCalendarItemCalculationDetail = async () => {
+  onSavePress = async () => {
     const { item, reloadScreen } = this.props;
     const {
       unitPrice,
       quantity,
       startingDate,
+      endDate,
       selectedDays,
       selectedUnitType,
       actualSelectedUnitType
@@ -149,7 +150,7 @@ class CalculationDetailModal extends React.Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_CHANGE_CALENDAR);
 
     try {
-      const res = await addCalendarItemCalculationDetail({
+      await addCalendarItemCalculationDetail({
         itemId: item.id,
         unitType: actualSelectedUnitType.id,
         unitPrice: unitPrice,
@@ -158,6 +159,16 @@ class CalculationDetailModal extends React.Component {
         selectedDays: selectedDays
       });
 
+      if (endDate) {
+        await addCalendarItemCalculationDetail({
+          itemId: item.id,
+          effectiveDate: endDate,
+          unitType: item.calculation_detail[0].unit.id,
+          selectedDays: item.calculation_detail[0].selected_days,
+          unitPrice: item.calculation_detail[0].unit_price,
+          quantity: item.calculation_detail[0].quantity
+        });
+      }
       this.setState({
         isModalVisible: false,
         isSavingDetails: false
@@ -195,6 +206,7 @@ class CalculationDetailModal extends React.Component {
       unitPrice,
       quantity,
       startingDate,
+      endDate,
       selectedDays,
       unitTypes,
       selectedUnitType,
@@ -214,6 +226,7 @@ class CalculationDetailModal extends React.Component {
         avoidKeyboard={Platform.OS == "ios"}
         animationIn="slideInUp"
         useNativeDriver={true}
+        hideModalContentWhileAnimating={true}
         onBackdropPress={this.hide}
         onBackButtonPress={this.hide}
       >
@@ -282,7 +295,21 @@ class CalculationDetailModal extends React.Component {
               "add_edit_calendar_service_screen_form_starting_date"
             )}
             onDateChange={startingDate => {
-              this.setState({ startingDate });
+              this.setState({ startingDate, endDate: null });
+            }}
+            maxDate={null}
+          />
+          <CustomDatePicker
+            maxDate={null}
+            minDate={moment(startingDate)
+              .add(1, "days")
+              .format("YYYY-MM-DD")}
+            date={endDate}
+            placeholder={I18n.t(
+              "add_edit_calendar_service_screen_form_end_date"
+            )}
+            onDateChange={endDate => {
+              this.setState({ endDate });
             }}
           />
           <Text weight="Medium" style={styles.label}>
@@ -294,7 +321,7 @@ class CalculationDetailModal extends React.Component {
             itemSize={28}
           />
           <Button
-            onPress={this.createCalendarItemCalculationDetail}
+            onPress={this.onSavePress}
             style={[styles.modalBtn]}
             text={I18n.t("calendar_service_screen_save")}
             color="secondary"

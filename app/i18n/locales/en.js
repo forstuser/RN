@@ -523,6 +523,7 @@ export default {
   add_edit_calendar_service_screen_form_wages: "Wages",
   add_edit_calendar_service_screen_form_fees: "Fees",
   add_edit_calendar_service_screen_form_starting_date: "Starting from Date",
+  add_edit_calendar_service_screen_form_end_date: "End Date",
 
   //calendar service card screen
   calendar_service_screen_title: "Service Details",

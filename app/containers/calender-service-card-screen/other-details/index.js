@@ -224,7 +224,7 @@ class Report extends React.Component {
               "DD MMM YYYY"
             );
 
-            let endDate = moment().format("DD MMM YYYY");
+            let endDate = "";
 
             if (index > 0) {
               endDate = moment(calculationDetails[index - 1].effective_date)
@@ -244,7 +244,7 @@ class Report extends React.Component {
               >
                 <View
                   onPress={() => this.editCalculationDetail(calculationDetail)}
-                  style={{ flex: 1, backgroundColor: "#EBEBEB" }}
+                  style={{ backgroundColor: "#EBEBEB" }}
                 >
                   <KeyValueItem
                     KeyComponent={() => (
@@ -286,7 +286,9 @@ class Report extends React.Component {
                       keyText={I18n.t("calendar_service_screen_quantity")}
                       valueText={calculationDetail.quantity}
                     />
-                  ) : null}
+                  ) : (
+                    <View />
+                  )}
                   <KeyValueItem
                     keyText={priceText}
                     valueText={calculationDetail.unit_price}
@@ -372,12 +374,6 @@ const styles = StyleSheet.create({
   },
   cardBody: {
     paddingHorizontal: 5
-  },
-  cardPart: {
-    flexDirection: "row",
-    borderColor: "#efefef",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    padding: 10
   },
   slider: {
     paddingBottom: 20

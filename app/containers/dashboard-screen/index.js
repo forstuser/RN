@@ -178,6 +178,7 @@ class DashboardScreen extends React.Component {
           isFetchingData: false
         },
         () => {
+          const { rateUsDialogTimestamp } = this.props;
           if (this.state.showDashboard && !this.props.hasDashboardTourShown) {
             setTimeout(() => {
               if (!this.screenHasDisappeared) {
@@ -185,11 +186,7 @@ class DashboardScreen extends React.Component {
                 this.props.setUiHasDashboardTourShown(true);
               }
             }, 1000);
-          }
-
-          const { rateUsDialogTimestamp } = this.props;
-
-          if (
+          } else if (
             this.state.showDashboard &&
             (!rateUsDialogTimestamp ||
               moment().diff(
