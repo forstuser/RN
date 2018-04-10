@@ -31,7 +31,7 @@ class BasicDetailsForm extends React.Component {
     };
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
@@ -153,7 +153,9 @@ class BasicDetailsForm extends React.Component {
     } = this.state;
     return (
       <View style={styles.container}>
-        <Text weight="Medium" style={styles.headerText}>{I18n.t("expense_forms_expense_basic_detail")}</Text>
+        <Text weight="Medium" style={styles.headerText}>
+          {I18n.t("expense_forms_expense_basic_detail")}
+        </Text>
         <View style={styles.body}>
           {subCategories.length > 0 && (
             <SelectModal
@@ -210,7 +212,7 @@ class BasicDetailsForm extends React.Component {
               placeholder={I18n.t(
                 "expense_forms_expense_basic_expense_next_date"
               )}
-              maxDate={null}
+              maxDate={"2100-01-01"}
               onDateChange={nextDueDate => {
                 this.setState({ nextDueDate });
               }}

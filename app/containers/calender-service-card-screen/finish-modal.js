@@ -87,7 +87,7 @@ class FinishModal extends React.Component {
               item.calculation_detail[item.calculation_detail.length - 1]
                 .effective_date
             }
-            maxDate={null}
+            maxDate={"2100-01-01"}
             placeholder={I18n.t(
               "add_edit_calendar_service_screen_form_finish_date"
             )}
