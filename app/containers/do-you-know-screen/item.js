@@ -164,7 +164,7 @@ export default class Item extends React.Component {
               </Text>
               <Text style={styles.description}>{description}</Text>
               <View style={styles.tags}>
-                <Text weight="bold"
+                <Text weight="Bold"
                   style={{ height: 15, marginRight: 5, color: colors.mainBlue, fontSize: 10 }}
                 >Tags: {tags.map(tag => tag.title).join(', ')}</Text>
               </View>

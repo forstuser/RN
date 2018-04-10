@@ -40,7 +40,7 @@ class RecentCalenderItems extends React.Component {
             if (listHeight == "less" && index > 0) return null;
 
             return (
-              <View
+              <View key={index}
                 style={{
                   borderBottomColor: "#efefef",
                   borderBottomWidth: 1

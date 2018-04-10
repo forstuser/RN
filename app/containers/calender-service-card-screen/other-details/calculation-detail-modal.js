@@ -33,7 +33,6 @@ import CustomDatePicker from "../../../components/form-elements/date-picker";
 import LoadingOverlay from "../../../components/loading-overlay";
 import SelectModal from "../../../components/select-modal";
 import SelectWeekDays from "../../../components/select-week-days";
-
 import { defaultStyles, colors } from "../../../theme";
 
 class CalculationDetailModal extends React.Component {

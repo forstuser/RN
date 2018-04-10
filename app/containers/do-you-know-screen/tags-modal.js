@@ -56,7 +56,7 @@ export default class TagsModal extends React.Component {
     const { tags, onSearchPress, selectedTagIds } = this.props;
     const { searchText, isModalVisible } = this.state;
     return (
-      <Modal visible={isModalVisible} animationType="slide">
+      <Modal visible={isModalVisible} animationType="slide" onRequestClose={() => { }}>
         <View style={styles.container}>
           <View style={styles.header}>
             <View style={styles.searchContainer}>
@@ -82,12 +82,13 @@ export default class TagsModal extends React.Component {
           </View>
           <View style={styles.body}>
             <View style={styles.tags}>
-              {tags.map(tag => {
+              {tags.map((tag, index) => {
                 if (
                   tag.title.toLowerCase().indexOf(searchText.toLowerCase()) > -1
                 ) {
                   return (
                     <Button
+                      key={index}
                       onPress={() => this.onTagPress(tag)}
                       text={tag.title}
                       color="secondary"
