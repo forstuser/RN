@@ -15,14 +15,14 @@ class Month extends React.Component {
     super(props);
     this.state = {
       isEditQuantityModalOpen: false,
-      quantity: this.props.calculationDetail.quantity || 0,
+      quantity: this.props.calculationDetail.quantity || 0
     };
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({
       quantity: newProps.calculationDetail.quantity || 0
-    })
+    });
   }
 
   hideEditQuantityModal = () => {
@@ -38,22 +38,26 @@ class Month extends React.Component {
 
   decreaseQuantity = () => {
     if (this.state.quantity > 0) {
-      this.setState({
-        quantity: this.state.quantity - 1,
-      }, () => {
-        this.changeQuantity()
-      });
-
+      this.setState(
+        {
+          quantity: this.state.quantity - 1
+        },
+        () => {
+          this.changeQuantity();
+        }
+      );
     }
-
-  }
+  };
   increaseQuantity = () => {
-    this.setState({
-      quantity: this.state.quantity + 1,
-    }, () => {
-      this.changeQuantity()
-    });
-  }
+    this.setState(
+      {
+        quantity: this.state.quantity + 1
+      },
+      () => {
+        this.changeQuantity();
+      }
+    );
+  };
   changeQuantity = async () => {
     const quantity = this.state.quantity;
     const { item, calculationDetail, date } = this.props;
@@ -70,7 +74,9 @@ class Month extends React.Component {
       });
 
       let isNextDateRequestRequired = true;
-      const nextDate = moment(date).add(1, 'days').format('YYYY-MM-DD');
+      const nextDate = moment(date)
+        .add(1, "days")
+        .format("YYYY-MM-DD");
       for (let i = 0; i < item.calculation_detail.length; i++) {
         if (item.calculation_detail[i].effective_date === nextDate) {
           isNextDateRequestRequired = false;
@@ -86,13 +92,12 @@ class Month extends React.Component {
           quantity: calculationDetail.quantity,
           effectiveDate: nextDate,
           selectedDays: calculationDetail.selected_days
-        })
+        });
       }
-
 
       this.props.reloadScreen();
       this.setState({
-        isEditQuantityModalOpen: false,
+        isEditQuantityModalOpen: false
         // isSavingDetails: false
       });
 
@@ -106,10 +111,13 @@ class Month extends React.Component {
     }
   };
 
-
-
   render() {
-    const { date, isPresent = true, toggleAttendance } = this.props;
+    const {
+      date,
+      isPresent = true,
+      toggleAttendance,
+      calculationDetail
+    } = this.props;
     // console.log("calculationDetails in props", calculationDetails)
     const { quantity, isEditQuantityModalOpen } = this.state;
     return (
@@ -118,20 +126,23 @@ class Month extends React.Component {
           {moment(date).format("D MMM YYYY")}
         </Text>
         <View style={{ flex: 1, flexDirection: "row" }}>
-          <TouchableOpacity onPress={this.decreaseQuantity} style={{ marginTop: 3, flex: 1, flexDirection: "row" }}>
-            <Icon
-              name="md-remove"
-              size={16}
-              color={colors.pinkishOrange}
-            />
+          <TouchableOpacity
+            onPress={this.decreaseQuantity}
+            style={{ marginTop: 3, flex: 1, flexDirection: "row" }}
+          >
+            <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.showEditQuantityModal} style={{ flex: 1, flexDirection: "row" }}><Text>{quantity}</Text></TouchableOpacity>
-          <TouchableOpacity onPress={this.increaseQuantity} style={{ marginTop: 3, flex: 1, flexDirection: "row" }}>
-            <Icon
-              name="md-add"
-              size={16}
-              color={colors.pinkishOrange}
-            />
+          <TouchableOpacity
+            onPress={this.showEditQuantityModal}
+            style={{ flex: 1, flexDirection: "row" }}
+          >
+            <Text>{quantity}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.increaseQuantity}
+            style={{ marginTop: 3, flex: 1, flexDirection: "row" }}
+          >
+            <Icon name="md-add" size={16} color={colors.pinkishOrange} />
           </TouchableOpacity>
         </View>
         <TouchableOpacity
@@ -167,11 +178,23 @@ class Month extends React.Component {
             >
               <Icon name="md-close" size={30} color={colors.mainText} />
             </TouchableOpacity>
+            <Text
+              weight="Bold"
+              style={{
+                marginTop: 30,
+                marginBottom: 10,
+                alignSelf: "flex-start"
+              }}
+            >
+              {moment(date).format("D MMM YYYY")}
+            </Text>
             <CustomTextInput
-              style={{ marginTop: 50 }}
               placeholder={"Change Quantity"}
               value={String(quantity)}
               onChangeText={quantity => this.setState({ quantity })}
+              rightSideText={
+                calculationDetail.unit ? calculationDetail.unit.title : ""
+              }
             />
             <Button
               onPress={this.changeQuantity}
@@ -181,7 +204,7 @@ class Month extends React.Component {
             />
           </View>
         </Modal>
-      </View >
+      </View>
     );
   }
 }
@@ -232,6 +255,7 @@ const styles = StyleSheet.create({
     padding: 16
   },
   changeQuantityBtn: {
+    marginTop: 10,
     marginBottom: 5
   },
   modalBtn: {
@@ -243,7 +267,7 @@ const styles = StyleSheet.create({
     top: 10,
     // bottom: 10,
     marginTop: 10
-  },
+  }
 });
 
 export default Month;
