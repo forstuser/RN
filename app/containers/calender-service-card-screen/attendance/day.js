@@ -15,13 +15,13 @@ class Month extends React.Component {
     super(props);
     this.state = {
       isEditQuantityModalOpen: false,
-      quantity: this.props.calculationDetail.quantity || 0,
+      quantity: this.props.calculationDetail.quantity.toFixed(2) || 0,
     };
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({
-      quantity: newProps.calculationDetail.quantity || 0
+      quantity: newProps.calculationDetail.quantity.toFixed(2) || 0
     })
   }
 
@@ -57,8 +57,8 @@ class Month extends React.Component {
   changeQuantity = async () => {
     const quantity = this.state.quantity;
     const { item, calculationDetail, date } = this.props;
-    console.log("calculationDetail", calculationDetail);
-    console.log("item", item);
+    // console.log("calculationDetail", calculationDetail);
+    // console.log("item", item);
     try {
       await addCalendarItemCalculationDetail({
         itemId: item.id,
@@ -88,17 +88,10 @@ class Month extends React.Component {
           selectedDays: calculationDetail.selected_days
         })
       }
-
-
       this.props.reloadScreen();
       this.setState({
         isEditQuantityModalOpen: false,
-        // isSavingDetails: false
       });
-
-      // setTimeout(() => {
-      //   this.props.reloadScreen();
-      // }, 200);
     } catch (e) {
       showSnackbar({
         text: e.message
@@ -117,23 +110,25 @@ class Month extends React.Component {
         <Text weight="Medium" style={styles.date}>
           {moment(date).format("D MMM YYYY")}
         </Text>
-        <View style={{ flex: 1, flexDirection: "row" }}>
-          <TouchableOpacity onPress={this.decreaseQuantity} style={{ marginTop: 3, flex: 1, flexDirection: "row" }}>
-            <Icon
-              name="md-remove"
-              size={16}
-              color={colors.pinkishOrange}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.showEditQuantityModal} style={{ flex: 1, flexDirection: "row" }}><Text>{quantity}</Text></TouchableOpacity>
-          <TouchableOpacity onPress={this.increaseQuantity} style={{ marginTop: 3, flex: 1, flexDirection: "row" }}>
-            <Icon
-              name="md-add"
-              size={16}
-              color={colors.pinkishOrange}
-            />
-          </TouchableOpacity>
-        </View>
+        {isPresent &&
+          <View style={{ flex: 1, flexDirection: "row" }}>
+            <TouchableOpacity onPress={this.decreaseQuantity} style={{ marginTop: 3, flex: 1, flexDirection: "row", justifyContent: "center" }}>
+              <Icon
+                name="md-remove"
+                size={16}
+                color={colors.pinkishOrange}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.showEditQuantityModal} style={{ flex: 1, flexDirection: "row", justifyContent: "center", minWidth: 10 }}><Text>{quantity}</Text></TouchableOpacity>
+            <TouchableOpacity onPress={this.increaseQuantity} style={{ marginTop: 3, flex: 1, flexDirection: "row", justifyContent: "center" }}>
+              <Icon
+                name="md-add"
+                size={16}
+                color={colors.pinkishOrange}
+              />
+            </TouchableOpacity>
+          </View>
+        }
         <TouchableOpacity
           onPress={toggleAttendance}
           style={styles.presentAbsentContainer}

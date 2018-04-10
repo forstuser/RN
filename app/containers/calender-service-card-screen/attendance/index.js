@@ -139,7 +139,6 @@ class Attendance extends React.Component {
       // console.log(selectedDaysArrayIntoMomentFormat);
       let sDate = +moment(startDateforCalculation).format("D");
       let eDate = +moment(endDateForCalculation).format("D");
-      console.log("sDate", sDate)
       for (let i = sDate; i < eDate + 1; i++) {
         let date = monthAndYear + "-" + ("0" + i).substr(-2);
         const weekday = +moment(date).format("d");
@@ -192,12 +191,11 @@ class Attendance extends React.Component {
         break;
       }
     }
-    console.log("availableDaysofMonth", availableDaysofMonth);
     availableDaysofMonth.sort(function (a, b) {
       return moment(a.date).format("D") - moment(b.date).format("D");
     });
 
-    console.log("availableDaysofMonth", availableDaysofMonth);
+    // console.log("availableDaysofMonth", availableDaysofMonth);
     return (
       <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
         <Month
