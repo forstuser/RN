@@ -179,9 +179,10 @@ class DashboardScreen extends React.Component {
         },
         () => {
           const { rateUsDialogTimestamp } = this.props;
+
           if (this.state.showDashboard && !this.props.hasDashboardTourShown) {
             setTimeout(() => {
-              if (!this.screenHasDisappeared) {
+              if (!this.screenHasDisappeared && this.comingUpRef) {
                 this.dashboardTour.startTour();
                 this.props.setUiHasDashboardTourShown(true);
               }
@@ -311,11 +312,11 @@ class DashboardScreen extends React.Component {
                 )}
                 {/* Expense Insights */}
                 <Title
-                  setRef={ref => (this.insightsRef = ref)}
                   gradientColors={["#242841", "#707c93"]}
                   text={I18n.t("dashboard_screen_ehome_insights")}
                 />
                 <TouchableOpacity
+                  ref={ref => (this.insightsRef = ref)}
                   onPress={() => this.openInsightScreen()}
                   style={[
                     defaultStyles.card,
@@ -351,7 +352,6 @@ class DashboardScreen extends React.Component {
                 {/* Authorised Service Centres */}
 
                 <TouchableOpacity
-                  ref={ref => (this.ascViewItemRef = ref)}
                   onPress={this.openAscScreen}
                   style={[
                     defaultStyles.card,
@@ -406,9 +406,8 @@ class DashboardScreen extends React.Component {
           ref={ref => (this.dashboardTour = ref)}
           enabled={true}
           steps={[
-            { ref: this.ascViewItemRef, text: I18n.t("asc_tip") },
-            { ref: this.insightsRef, text: I18n.t("app_tour_tips_4") },
-            { ref: this.comingUpRef, text: I18n.t("coming_up_tip") }
+            { ref: this.comingUpRef, text: I18n.t("coming_up_tip") },
+            { ref: this.insightsRef, text: I18n.t("app_tour_tips_4") }
           ]}
         />
       </ScreenContainer>

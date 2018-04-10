@@ -142,7 +142,8 @@ class Attendance extends React.Component {
         let date = monthAndYear + "-" + ("0" + i).substr(-2);
         const weekday = +moment(date).format("d");
         if (selectedDaysArrayIntoMomentFormat.includes(weekday)) {
-          availableDays.push(date);
+          if (!item.end_date || !moment(date).isAfter(moment(item.end_date)))
+            availableDays.push(date);
         }
       }
       // console.log("available", availableDays)

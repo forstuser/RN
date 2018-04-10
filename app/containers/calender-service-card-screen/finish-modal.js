@@ -17,9 +17,15 @@ class FinishModal extends React.Component {
     super(props);
     this.state = {
       isModalVisible: false,
-      finishDate: moment().format("YYYY-MM-DD"),
+      finishDate: this.props.item.end_date || moment().format("YYYY-MM-DD"),
       isSavingDetails: false
     };
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      finishDate: newProps.item.end_date || moment().format("YYYY-MM-DD")
+    });
   }
 
   finishDateSave = async () => {
@@ -77,7 +83,8 @@ class FinishModal extends React.Component {
           </TouchableOpacity>
           <CustomDatePicker
             date={finishDate}
-            minDate={item.calculationDetails[0].effective_date}
+            minDate={item.calculation_detail[0].effective_date}
+            maxDate={null}
             placeholder={I18n.t(
               "add_edit_calendar_service_screen_form_finish_date"
             )}

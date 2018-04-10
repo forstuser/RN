@@ -162,7 +162,9 @@ class CalculationDetailModal extends React.Component {
       if (endDate) {
         await addCalendarItemCalculationDetail({
           itemId: item.id,
-          effectiveDate: endDate,
+          effectiveDate: moment(endDate)
+            .add(1, "days")
+            .format("YYYY-MM-DD"),
           unitType: item.calculation_detail[0].unit.id,
           selectedDays: item.calculation_detail[0].selected_days,
           unitPrice: item.calculation_detail[0].unit_price,
@@ -297,21 +299,23 @@ class CalculationDetailModal extends React.Component {
             onDateChange={startingDate => {
               this.setState({ startingDate, endDate: null });
             }}
-            maxDate={null}
+            maxDate={item.end_date}
           />
-          <CustomDatePicker
-            maxDate={null}
-            minDate={moment(startingDate)
-              .add(1, "days")
-              .format("YYYY-MM-DD")}
-            date={endDate}
-            placeholder={I18n.t(
-              "add_edit_calendar_service_screen_form_end_date"
-            )}
-            onDateChange={endDate => {
-              this.setState({ endDate });
-            }}
-          />
+          {startingDate != item.end_date && (
+            <CustomDatePicker
+              maxDate={item.end_date}
+              minDate={moment(startingDate)
+                .add(1, "days")
+                .format("YYYY-MM-DD")}
+              date={endDate}
+              placeholder={I18n.t(
+                "add_edit_calendar_service_screen_form_end_date"
+              )}
+              onDateChange={endDate => {
+                this.setState({ endDate });
+              }}
+            />
+          )}
           <Text weight="Medium" style={styles.label}>
             Days
           </Text>

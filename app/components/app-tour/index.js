@@ -4,6 +4,7 @@ import {
   View,
   Modal,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Dimensions
 } from "react-native";
 import I18n from "../../i18n";
@@ -114,80 +115,85 @@ export default class AppTour extends React.Component {
     }
     return (
       <Modal transparent={true} ref={this.props.setRef}>
-        <View style={styles.container}>
-          <View style={[styles.border, styles.borderTop, { height: y }]} />
-          <View
-            style={[
-              styles.border,
-              styles.borderRight,
-              { top: y, left: x + width, height: height }
-            ]}
-          />
-          <View
-            style={[styles.border, styles.borderBottom, { top: y + height }]}
-          />
-          <View
-            style={[
-              styles.border,
-              styles.borderLeft,
-              { top: y, width: x, height: height }
-            ]}
-          />
-          <TouchableOpacity
-            onPress={this.next}
-            style={[
-              styles.visibleArea,
-              { top: y, left: x, width: width, height: height }
-            ]}
-          />
-          <View
-            style={[
-              styles.tooltipArrow,
-              tooltipVerticalPosition == "top"
-                ? {
-                    top: y - 25,
-                    left: x + width / 2 - 10,
-                    borderTopColor: "#00C3E3"
-                  }
-                : {
-                    top: y + height,
-                    left: x + width / 2 - 10,
-                    borderBottomColor: "#00C3E3"
-                  }
-            ]}
-          />
-          <View
-            style={[
-              styles.tooltipContainer,
-              tooltipVerticalPosition == "top"
-                ? {
-                    top: y - (toolTipContainerHeight + 45)
-                  }
-                : {
-                    top: y + height
-                  },
-              tooltipHorizontalPosition == "left"
-                ? {
-                    right: 10
-                  }
-                : {
-                    left: 10
-                  }
-            ]}
-          >
+        <TouchableWithoutFeedback onPress={this.next}>
+          <View style={styles.container}>
+            <View style={[styles.border, styles.borderTop, { height: y }]} />
             <View
-              style={styles.tooltipTextWrapper}
-              onLayout={this.onTooltipContainerRender}
+              style={[
+                styles.border,
+                styles.borderRight,
+                { top: y, left: x + width, height: height }
+              ]}
+            />
+            <View
+              style={[styles.border, styles.borderBottom, { top: y + height }]}
+            />
+            <View
+              style={[
+                styles.border,
+                styles.borderLeft,
+                { top: y, width: x, height: height }
+              ]}
+            />
+            <TouchableOpacity
+              onPress={this.next}
+              style={[
+                styles.visibleArea,
+                { top: y, left: x, width: width, height: height }
+              ]}
+            />
+            <View
+              style={[
+                styles.tooltipArrow,
+                tooltipVerticalPosition == "top"
+                  ? {
+                      top: y - 25,
+                      left: x + width / 2 - 10,
+                      borderTopColor: "#00C3E3"
+                    }
+                  : {
+                      top: y + height,
+                      left: x + width / 2 - 10,
+                      borderBottomColor: "#00C3E3"
+                    }
+              ]}
+            />
+            <View
+              style={[
+                styles.tooltipContainer,
+                tooltipVerticalPosition == "top"
+                  ? {
+                      top: y - (toolTipContainerHeight + 45)
+                    }
+                  : {
+                      top: y + height
+                    },
+                tooltipHorizontalPosition == "left"
+                  ? {
+                      right: 10
+                    }
+                  : {
+                      left: 10
+                    }
+              ]}
             >
-              <Text style={[styles.tooltipText]}>{tooltipText}</Text>
-              <TouchableOpacity onPress={this.next} style={[styles.gotIt, {}]}>
-                <Text weight="Bold" style={[styles.gotItText, {}]}>
-                  {I18n.t("add_app_tour")}
-                </Text>
-              </TouchableOpacity>
+              <View
+                style={styles.tooltipTextWrapper}
+                onLayout={this.onTooltipContainerRender}
+              >
+                <Text style={[styles.tooltipText]}>{tooltipText}</Text>
+                <TouchableOpacity
+                  onPress={this.next}
+                  style={[styles.gotIt, {}]}
+                >
+                  <Text weight="Bold" style={[styles.gotItText, {}]}>
+                    {I18n.t("add_app_tour")}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
     );
   }

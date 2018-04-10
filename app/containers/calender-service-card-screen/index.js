@@ -303,11 +303,13 @@ class CalendarServiceCard extends Component {
           cancelButtonIndex={2}
           options={["Delete", "Finish", "Cancel"]}
         />
-        <FinishModal
-          item={item}
-          reloadScreen={this.fetchItemDetails}
-          ref={ref => (this.finishModal = ref)}
-        />
+        {item && (
+          <FinishModal
+            item={item}
+            reloadScreen={this.fetchItemDetails}
+            ref={ref => (this.finishModal = ref)}
+          />
+        )}
       </View>
     );
   }
