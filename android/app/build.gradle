@@ -113,7 +113,7 @@ def enableProguardInReleaseBuilds = true
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "com.bin.binbillcustomer"
@@ -149,22 +149,22 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
-    splits {
-        abi {
-            reset()
-            enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a"
-        }
-    }
 //    splits {
 //        abi {
 //            reset()
 //            enable enableSeparateBuildPerCPUArchitecture
 //            universalApk false  // If true, also generate a universal APK
-//            include "armeabi-v7a", "x86"
+//            include "armeabi-v7a"
 //        }
 //    }
+    splits {
+        abi {
+            reset()
+            enable enableSeparateBuildPerCPUArchitecture
+            universalApk false  // If true, also generate a universal APK
+            include "armeabi-v7a", "x86"
+        }
+    }
     buildTypes {
         release {
             signingConfig signingConfigs.release
