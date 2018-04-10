@@ -51,8 +51,8 @@ class EnterPinScreen extends React.Component {
       this.setState({
         isLoading: false
       });
-      this.props.navigator.dismissModal();
       global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE] = false;
+      this.props.navigator.dismissModal();
     } catch (e) {
       this.pinInput.clearPin();
       showSnackbar({

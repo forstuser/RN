@@ -65,7 +65,8 @@ class Attendance extends React.Component {
     const {
       item,
       activePaymentDetailIndex = 0,
-      onPaymentDetailIndexChange
+      onPaymentDetailIndexChange,
+      reloadScreen
     } = this.props;
     const paymentDetails = item.payment_detail;
     const paymentDetail = paymentDetails[activePaymentDetailIndex];
@@ -138,6 +139,7 @@ class Attendance extends React.Component {
       // console.log(selectedDaysArrayIntoMomentFormat);
       let sDate = +moment(startDateforCalculation).format("D");
       let eDate = +moment(endDateForCalculation).format("D");
+      console.log("sDate", sDate)
       for (let i = sDate; i < eDate + 1; i++) {
         let date = monthAndYear + "-" + ("0" + i).substr(-2);
         const weekday = +moment(date).format("d");
@@ -151,6 +153,7 @@ class Attendance extends React.Component {
     let availableDaysofMonth = [];
     let calculationDetailEndDate = endDate;
     for (let i = 0; i < calculationDetails.length; i++) {
+
       const diffDays = moment(calculationDetailEndDate).diff(
         moment(calculationDetails[i].effective_date),
         "days"
@@ -174,7 +177,7 @@ class Attendance extends React.Component {
         calculationDetails[i].selected_days
       );
 
-      availableDaysofMonth = [...availableDaysofMonth, ...availableDays];
+      availableDaysofMonth = [...availableDaysofMonth, ...availableDays.map(day => ({ date: day, calculationDetail: calculationDetails[i] }))];
 
       if (
         moment(startDate).format("MM-YYYY") ==
@@ -189,6 +192,10 @@ class Attendance extends React.Component {
         break;
       }
     }
+    console.log("availableDaysofMonth", availableDaysofMonth);
+    availableDaysofMonth.sort(function (a, b) {
+      return moment(a.date).format("D") - moment(b.date).format("D");
+    });
 
     console.log("availableDaysofMonth", availableDaysofMonth);
     return (
@@ -265,13 +272,13 @@ class Attendance extends React.Component {
                   keyText={unitPriceText}
                   valueText={
                     "₹ " +
-                    (paymentDetail.total_units || paymentDetail.total_days)
+                      (paymentDetail.total_units || paymentDetail.total_days)
                       ? (
-                          paymentDetail.total_amount /
-                          (paymentDetail.total_units ||
-                            paymentDetail.total_days ||
-                            1)
-                        ).toFixed(2)
+                        paymentDetail.total_amount /
+                        (paymentDetail.total_units ||
+                          paymentDetail.total_days ||
+                          1)
+                      ).toFixed(2)
                       : 0
                   }
                 />
@@ -282,8 +289,8 @@ class Attendance extends React.Component {
                   valueText={
                     "₹ " + paymentDetail.total_days
                       ? (
-                          paymentDetail.total_amount / paymentDetail.total_days
-                        ).toFixed(2)
+                        paymentDetail.total_amount / paymentDetail.total_days
+                      ).toFixed(2)
                       : 0
                   }
                 />
@@ -300,28 +307,28 @@ class Attendance extends React.Component {
           </View>
         </View>
         <View>
-          {daysOfMonth.map(day => {
-            const date = monthAndYear + "-" + ("0" + day).substr(-2);
-            const isPresent = absentDates.indexOf(date) == -1;
-            if (availableDaysofMonth.includes(date)) {
-              return (
-                <Day
-                  key={date}
-                  date={date}
-                  isPresent={isPresent}
-                  toggleAttendance={() => {
-                    if (isPresent) {
-                      this.markDayAbsent(date);
-                    } else {
-                      this.markDayPresent(date);
-                    }
-                  }}
-                />
-              );
-            } else {
-              return null;
-            }
-            // console.log(date);
+          {availableDaysofMonth.map(day => {
+            // console.log("day", day)
+            // const date = monthAndYear + "-" + ("0" + day).substr(-2);
+            const isPresent = absentDates.indexOf(day.date) == -1;
+            // if (availableDaysofMonth.map(day => day.date).includes(date)) {
+            return (
+              <Day
+                key={day.date}
+                date={day.date}
+                item={item}
+                reloadScreen={reloadScreen}
+                calculationDetail={day.calculationDetail}
+                isPresent={isPresent}
+                toggleAttendance={() => {
+                  if (isPresent) {
+                    this.markDayAbsent(day.date);
+                  } else {
+                    this.markDayPresent(day.date);
+                  }
+                }}
+              />
+            );
           })}
         </View>
       </View>

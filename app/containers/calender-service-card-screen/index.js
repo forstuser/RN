@@ -246,7 +246,7 @@ class CalendarServiceCard extends Component {
     } = this.state;
 
     if (error) {
-      return <ErrorOverlay error={error} onRetryPress={this.fetchItems} />;
+      return <ErrorOverlay error={error} onRetryPress={this.fetchItemDetails} />;
     }
 
     return (
