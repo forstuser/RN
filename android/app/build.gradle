@@ -119,8 +119,8 @@ android {
         applicationId "com.bin.binbillcustomer"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 8000049
-        versionName "2.01"
+        versionCode 8000051
+        versionName "2.0.2"
         multiDexEnabled true
         ndk {
 //            abiFilters "armeabi-v7a"
@@ -129,16 +129,23 @@ android {
 //        renderscriptTargetApi 25
 //        renderscriptSupportModeEnabled true
     }
+    
     signingConfigs {
         release {
-            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-                storeFile file(MYAPP_RELEASE_STORE_FILE)
-                storePassword MYAPP_RELEASE_STORE_PASSWORD
-                keyAlias MYAPP_RELEASE_KEY_ALIAS
-                keyPassword MYAPP_RELEASE_KEY_PASSWORD
-            }
+          if(project.hasProperty("BinBill.properties")
+                  && new File(project.property("BinBill.properties")).exists()) {
+
+            Properties props = new Properties()
+            props.load(new FileInputStream(file(project.property("BinBill.properties"))))
+
+            storeFile file(props['keystore'])
+            storePassword props['keystore.password']
+            keyAlias props['keyAlias']
+            keyPassword props['keyPassword']
+          }
         }
     }
+    
     dexOptions {
         javaMaxHeapSize "4g"
     }
@@ -147,7 +154,7 @@ android {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86"
+            include "armeabi-v7a"
         }
     }
 //    splits {
@@ -160,6 +167,7 @@ android {
 //    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

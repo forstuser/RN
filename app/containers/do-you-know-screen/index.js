@@ -71,6 +71,7 @@ class DoYouKNowScreen extends Component {
     switch (event.id) {
       case "didAppear":
         Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW);
+        this.loadItems();
     }
   };
 
@@ -131,7 +132,7 @@ class DoYouKNowScreen extends Component {
                 "items.length - currentIndex: ",
                 items.length - currentIndex
               );
-              if (items.length - currentIndex == 2 || items.length < 3) {
+              if (items.length - currentIndex == 4 || items.length < 5) {
                 this.loadItems();
               }
             });
@@ -153,14 +154,9 @@ class DoYouKNowScreen extends Component {
   }
 
   componentDidMount() {
-    this.setState(
-      {
-        offsetId: this.props.latestDoYouKnowReadId
-      },
-      () => {
-        this.loadItems();
-      }
-    );
+    this.setState({
+      offsetId: this.props.latestDoYouKnowReadId
+    });
 
     this.loadTags();
   }
@@ -183,9 +179,9 @@ class DoYouKNowScreen extends Component {
         offsetId: offsetId
       });
 
-      let resItems = JSON.parse(JSON.stringify(res.items));
+      let resItems = res.items;
 
-      console.log("resItems: ", resItems);
+      console.log("res: ", JSON.stringify(res));
 
       if (resItems.length > 0) {
         const newLastItem = resItems.pop();
@@ -194,7 +190,7 @@ class DoYouKNowScreen extends Component {
         });
       }
 
-      if (resItems.length == 0 && this.state.items.length == 0) {
+      if (resItems.length == 0) {
         this.setState(
           {
             offsetId: 0
@@ -216,6 +212,7 @@ class DoYouKNowScreen extends Component {
         items = [];
         currentIndex = 0;
       }
+
       const newState = {
         items: [...items, ...resItems],
         currentIndex
@@ -402,7 +399,13 @@ class DoYouKNowScreen extends Component {
               <Item />
             </Animated.View>
           )}
-          <LoadingOverlay visible={isFetchingItems || isFetchingTags} />
+          <LoadingOverlay
+            style={{
+              zIndex: 0,
+              elevation: 0
+            }}
+            visible={isFetchingItems || isFetchingTags}
+          />
           {nextItemRender}
           {currentItemRender}
           {previousItemRender}

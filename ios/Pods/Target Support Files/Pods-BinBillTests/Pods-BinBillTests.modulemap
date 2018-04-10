@@ -1,0 +1,6 @@
+framework module Pods_BinBillTests {
+  umbrella header "Pods-BinBillTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

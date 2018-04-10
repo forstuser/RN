@@ -2,7 +2,7 @@ import { Platform } from "react-native";
 import I18n from "./i18n";
 
 const CODEPUSH_KEYS = {
-  DEPLOYEMENT:
+  STAGING:
     Platform.OS == "ios"
       ? "6Aey0a8FKAzWDwc32zUI5AVSNAphHJL0U-57f"
       : "lbLu7tymLbfASj5eYvyhm9Y2nOKdS1mmOpkiG",

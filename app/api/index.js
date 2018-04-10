@@ -10,7 +10,7 @@ import Analytics from "../analytics";
 
 export const API_BASE_URL = "https://consumer.binbill.com";
 
-const ANDROID_APP_VERSION = 17;
+const APP_VERSION_FOR_API = 18;
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
@@ -38,9 +38,9 @@ const apiRequest = async ({
     }
 
     if (Platform.OS == "ios") {
-      headers.ios_app_version = DeviceInfo.getBuildNumber();
+      headers.ios_app_version = APP_VERSION_FOR_API;//DeviceInfo.getBuildNumber();
     } else {
-      headers.app_version = ANDROID_APP_VERSION; //android app version
+      headers.app_version = APP_VERSION_FOR_API; //android app version
     }
 
     console.log(

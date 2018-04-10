@@ -25,7 +25,6 @@ import android.widget.ImageView;
 
 import com.reactnativenavigation.controllers.SplashActivity;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -37,9 +36,13 @@ public class MainActivity extends SplashActivity {
 
   private ImageView splash1, splash2, splash3;
 
+  private static Activity mCurrentActivity = null;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+
     super.onCreate(savedInstanceState);
+    mCurrentActivity = this;
     Log.d("INTENT", "intent");
     if (getIntent() != null) {
 
@@ -254,5 +257,11 @@ public class MainActivity extends SplashActivity {
     inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
     String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
     return Uri.parse(path);
+  }
+
+  public static Activity getActivity() {
+    Activity activity = new Activity();
+    activity = mCurrentActivity;
+    return activity;
   }
 }

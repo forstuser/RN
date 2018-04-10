@@ -1,1 +1,0 @@
-../../../TrueSDK/TrueSDK/Core/TCTrueSDKLogger.h

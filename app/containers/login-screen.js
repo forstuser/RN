@@ -54,7 +54,7 @@ class LoginScreen extends Component {
     if (this.state.phoneNumber.length != 10) {
       return showSnackbar({
         text: I18n.t("login_screen_invalid_number_error")
-      })
+      });
     }
     try {
       this.setState({
@@ -76,7 +76,7 @@ class LoginScreen extends Component {
       });
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -89,7 +89,6 @@ class LoginScreen extends Component {
   setAuthTokenAndOpenApp = async authToken => {
     try {
       this.props.setLoggedInUserAuthToken(authToken);
-
       const r2 = await getProfileDetail();
       const user = r2.userProfile;
       this.props.setLoggedInUser({
@@ -106,25 +105,7 @@ class LoginScreen extends Component {
       });
       showSnackbar({
         text: "Some error occurred"
-      })
-    }
-  };
-
-  loginWithTrueCaller = async () => {
-    try {
-      this.setState({
-        isGettingOtp: true
       });
-      const result = await NativeModules.RNTrueCaller.getProfileDetails();
-      console.log("TrueCaller login result: ", result);
-      this.setState({
-        isGettingOtp: false
-      });
-    } catch (e) {
-      this.setState({
-        isGettingOtp: false
-      });
-      console.log("Some error occurred: ", e);
     }
   };
 
@@ -140,7 +121,7 @@ class LoginScreen extends Component {
           setTimeout(() => {
             showSnackbar({
               text: "Email address is required"
-            })
+            });
           }, 200);
           return;
         }
@@ -165,7 +146,7 @@ class LoginScreen extends Component {
       });
       showSnackbar({
         text: "Some error occurred"
-      })
+      });
     }
   };
   render() {
