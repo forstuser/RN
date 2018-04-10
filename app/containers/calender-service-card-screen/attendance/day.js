@@ -9,20 +9,20 @@ import Modal from "react-native-modal";
 import LoadingOverlay from "../../../components/loading-overlay";
 import CustomTextInput from "../../../components/form-elements/text-input";
 import { addCalendarItemCalculationDetail } from "../../../api";
-import { CALENDAR_WAGES_TYPE } from "../../../constants";
+import { CALENDAR_SERVICE_TYPES } from "../../../constants";
 
 class Month extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isEditQuantityModalOpen: false,
-      quantity: this.props.calculationDetail.quantity || 0
+      quantity: Number(this.props.calculationDetail.quantity) || 0
     };
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({
-      quantity: newProps.calculationDetail.quantity || 0
+      quantity: Number(newProps.calculationDetail.quantity) || 0
     });
   }
 
@@ -38,10 +38,19 @@ class Month extends React.Component {
   };
 
   decreaseQuantity = () => {
+    const { item } = this.props;
+
     if (this.state.quantity > 0) {
+      let newQuantity = this.state.quantity - 1;
+      if (item.service_type.id == CALENDAR_SERVICE_TYPES.MILK) {
+        newQuantity = this.state.quantity - 0.25;
+      }
+      if (newQuantity < 0) {
+        newQuantity = 0;
+      }
       this.setState(
         {
-          quantity: this.state.quantity - 1
+          quantity: newQuantity
         },
         () => {
           this.changeQuantity();
@@ -50,20 +59,23 @@ class Month extends React.Component {
     }
   };
   increaseQuantity = () => {
+    const { item } = this.props;
     this.setState(
       {
-        quantity: this.state.quantity + 1
+        quantity:
+          item.service_type.id == CALENDAR_SERVICE_TYPES.MILK
+            ? this.state.quantity + 0.25
+            : this.state.quantity + 1
       },
       () => {
         this.changeQuantity();
       }
     );
   };
+
   changeQuantity = async () => {
     const quantity = this.state.quantity;
     const { item, calculationDetail, date } = this.props;
-    // console.log("calculationDetail", calculationDetail);
-    // console.log("item", item);
     try {
       await addCalendarItemCalculationDetail({
         itemId: item.id,
@@ -121,44 +133,43 @@ class Month extends React.Component {
         <Text weight="Medium" style={styles.date}>
           {moment(date).format("D MMM YYYY")}
         </Text>
-        {isPresent &&
-          item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={this.decreaseQuantity}
-                style={{
-                  marginTop: 3,
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "center"
-                }}
-              >
-                <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={this.showEditQuantityModal}
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  minWidth: 10
-                }}
-              >
-                <Text>{quantity}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={this.increaseQuantity}
-                style={{
-                  marginTop: 3,
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "center"
-                }}
-              >
-                <Icon name="md-add" size={16} color={colors.pinkishOrange} />
-              </TouchableOpacity>
-            </View>
-          )}
+        {isPresent && (
+          <View style={{ flexDirection: "row", width: 80 }}>
+            <TouchableOpacity
+              onPress={this.decreaseQuantity}
+              style={{
+                marginTop: 3,
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "center"
+              }}
+            >
+              <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.showEditQuantityModal}
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "center",
+                minWidth: 20
+              }}
+            >
+              <Text>{quantity}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.increaseQuantity}
+              style={{
+                marginTop: 3,
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "center"
+              }}
+            >
+              <Icon name="md-add" size={16} color={colors.pinkishOrange} />
+            </TouchableOpacity>
+          </View>
+        )}
         <TouchableOpacity
           onPress={toggleAttendance}
           style={styles.presentAbsentContainer}
@@ -203,6 +214,8 @@ class Month extends React.Component {
               {moment(date).format("D MMM YYYY")}
             </Text>
             <CustomTextInput
+              keyboardType="numeric"
+              style={{ marginTop: 50 }}
               placeholder={"Change Quantity"}
               value={String(quantity)}
               onChangeText={quantity => this.setState({ quantity })}
@@ -225,16 +238,20 @@ class Month extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     marginTop: 10,
     borderRadius: 3,
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 18,
     paddingVertical: 13,
     ...defaultStyles.card
   },
   date: {
-    flex: 1
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center"
   },
   presentAbsentContainer: {
     flexDirection: "row",
