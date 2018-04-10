@@ -1009,5 +1009,6 @@ export default {
   //04-04-2018
   daily: "Daily",
   monthly: "Monthly",
-  save: "Save"
+  save: "Save",
+  add_edit_calendar_service_screen_form_finish_date: "Finish Date"
 };

@@ -9,17 +9,13 @@ import {
   Platform,
   Dimensions
 } from "react-native";
-
 import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
 import { Navigation } from "react-native-navigation";
-
 import Modal from "react-native-modal";
-
 import ActionSheet from "react-native-actionsheet";
-
 import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
 import {
   API_BASE_URL,
@@ -41,6 +37,7 @@ import Payments from "./payments";
 import OtherDetails from "./other-details";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
+import FinishModal from "./finish-modal";
 
 const NavOptionsButton = ({ addImageText }) => (
   <TouchableOpacity
@@ -142,6 +139,9 @@ class CalendarServiceCard extends Component {
           ]
         );
         break;
+
+      case 1:
+        this.finishModal.show();
     }
   };
 
@@ -300,8 +300,13 @@ class CalendarServiceCard extends Component {
         <ActionSheet
           onPress={this.handleEditOptionPress}
           ref={o => (this.editOptions = o)}
-          cancelButtonIndex={1}
-          options={["Delete", "Cancel"]}
+          cancelButtonIndex={2}
+          options={["Delete", "Finish", "Cancel"]}
+        />
+        <FinishModal
+          item={item}
+          reloadScreen={this.fetchItemDetails}
+          ref={ref => (this.finishModal = ref)}
         />
       </View>
     );

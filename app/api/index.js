@@ -1242,6 +1242,16 @@ export const addCalendarItemPayment = async ({
   });
 };
 
+export const setCalendarItemFinishDate = async ({ itemId, finishDate }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/calendar/items/${itemId}/finish`,
+    data: {
+      end_date: finishDate
+    }
+  });
+};
+
 export const verifyPin = async ({ pin }) => {
   return await apiRequest({
     method: "post",
