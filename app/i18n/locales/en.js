@@ -519,9 +519,11 @@ export default {
   add_edit_calendar_service_screen_form_name: "Name",
   add_edit_calendar_service_screen_form_provider_name: "Provider Name",
   add_edit_calendar_service_screen_form_wages_type: "Wages Type",
-  add_edit_calendar_service_screen_form_fees_tye: "Fees Type",
+  add_edit_calendar_service_screen_form_fees_type: "Fees Type",
   add_edit_calendar_service_screen_form_wages: "Wages",
   add_edit_calendar_service_screen_form_fees: "Fees",
+  add_edit_calendar_service_screen_form_rental: "Rental",
+  add_edit_calendar_service_screen_form_rental_type: "Rental Type",
   add_edit_calendar_service_screen_form_starting_date: "Starting from Date",
   add_edit_calendar_service_screen_form_end_date: "End Date",
 

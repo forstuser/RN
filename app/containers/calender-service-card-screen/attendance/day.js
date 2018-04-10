@@ -9,7 +9,10 @@ import Modal from "react-native-modal";
 import LoadingOverlay from "../../../components/loading-overlay";
 import CustomTextInput from "../../../components/form-elements/text-input";
 import { addCalendarItemCalculationDetail } from "../../../api";
-import { CALENDAR_SERVICE_TYPES } from "../../../constants";
+import {
+  CALENDAR_SERVICE_TYPES,
+  CALENDAR_WAGES_TYPE
+} from "../../../constants";
 
 class Month extends React.Component {
   constructor(props) {
@@ -133,43 +136,44 @@ class Month extends React.Component {
         <Text weight="Medium" style={styles.date}>
           {moment(date).format("D MMM YYYY")}
         </Text>
-        {isPresent && (
-          <View style={{ flexDirection: "row", width: 80 }}>
-            <TouchableOpacity
-              onPress={this.decreaseQuantity}
-              style={{
-                marginTop: 3,
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "center"
-              }}
-            >
-              <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.showEditQuantityModal}
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "center",
-                minWidth: 20
-              }}
-            >
-              <Text>{quantity}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.increaseQuantity}
-              style={{
-                marginTop: 3,
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "center"
-              }}
-            >
-              <Icon name="md-add" size={16} color={colors.pinkishOrange} />
-            </TouchableOpacity>
-          </View>
-        )}
+        {isPresent &&
+          item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
+            <View style={{ flexDirection: "row", width: 80 }}>
+              <TouchableOpacity
+                onPress={this.decreaseQuantity}
+                style={{
+                  marginTop: 3,
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center"
+                }}
+              >
+                <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.showEditQuantityModal}
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  minWidth: 20
+                }}
+              >
+                <Text>{quantity}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.increaseQuantity}
+                style={{
+                  marginTop: 3,
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center"
+                }}
+              >
+                <Icon name="md-add" size={16} color={colors.pinkishOrange} />
+              </TouchableOpacity>
+            </View>
+          )}
         <TouchableOpacity
           onPress={toggleAttendance}
           style={styles.presentAbsentContainer}

@@ -175,7 +175,8 @@ const CALENDAR_SERVICE_TYPES = {
 const CALENDAR_WAGES_TYPE = {
   PRODUCT: 1,
   WAGES: 2,
-  FEES: 3
+  FEES: 3,
+  RENTAL: 4
 };
 
 const SCREENS = {

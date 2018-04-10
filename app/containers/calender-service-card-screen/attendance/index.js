@@ -119,6 +119,8 @@ class Attendance extends React.Component {
       unitPriceText = I18n.t("add_edit_calendar_service_screen_form_wages");
     } else if (serviceType.wages_type == CALENDAR_WAGES_TYPE.FEES) {
       unitPriceText = I18n.t("add_edit_calendar_service_screen_form_fees");
+    } else if (serviceType.wages_type == CALENDAR_WAGES_TYPE.RENTAL) {
+      unitPriceText = I18n.t("add_edit_calendar_service_screen_form_rental");
     }
     //  Pritam Dirty code here
     console.log("payment detail", paymentDetails);
@@ -153,7 +155,6 @@ class Attendance extends React.Component {
     let availableDaysofMonth = [];
     let calculationDetailEndDate = endDate;
     for (let i = 0; i < calculationDetails.length; i++) {
-
       const diffDays = moment(calculationDetailEndDate).diff(
         moment(calculationDetails[i].effective_date),
         "days"
@@ -177,7 +178,13 @@ class Attendance extends React.Component {
         calculationDetails[i].selected_days
       );
 
-      availableDaysofMonth = [...availableDaysofMonth, ...availableDays.map(day => ({ date: day, calculationDetail: calculationDetails[i] }))];
+      availableDaysofMonth = [
+        ...availableDaysofMonth,
+        ...availableDays.map(day => ({
+          date: day,
+          calculationDetail: calculationDetails[i]
+        }))
+      ];
 
       if (
         moment(startDate).format("MM-YYYY") ==
@@ -192,7 +199,7 @@ class Attendance extends React.Component {
         break;
       }
     }
-    availableDaysofMonth.sort(function (a, b) {
+    availableDaysofMonth.sort(function(a, b) {
       return moment(a.date).format("D") - moment(b.date).format("D");
     });
 
@@ -271,13 +278,13 @@ class Attendance extends React.Component {
                   keyText={unitPriceText}
                   valueText={
                     "₹ " +
-                      (paymentDetail.total_units || paymentDetail.total_days)
+                    (paymentDetail.total_units || paymentDetail.total_days)
                       ? (
-                        paymentDetail.total_amount /
-                        (paymentDetail.total_units ||
-                          paymentDetail.total_days ||
-                          1)
-                      ).toFixed(2)
+                          paymentDetail.total_amount /
+                          (paymentDetail.total_units ||
+                            paymentDetail.total_days ||
+                            1)
+                        ).toFixed(2)
                       : 0
                   }
                 />
@@ -288,8 +295,8 @@ class Attendance extends React.Component {
                   valueText={
                     "₹ " + paymentDetail.total_days
                       ? (
-                        paymentDetail.total_amount / paymentDetail.total_days
-                      ).toFixed(2)
+                          paymentDetail.total_amount / paymentDetail.total_days
+                        ).toFixed(2)
                       : 0
                   }
                 />

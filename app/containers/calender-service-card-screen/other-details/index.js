@@ -27,6 +27,7 @@ import CalculationDetailModal from "./calculation-detail-modal";
 
 import { defaultStyles, colors } from "../../../theme";
 import call from "react-native-phone-call";
+import { CALENDAR_WAGES_TYPE } from "../../../constants";
 
 const cardWidthWhenMany = Dimensions.get("window").width - 52;
 const cardWidthWhenOne = Dimensions.get("window").width - 32;
@@ -141,14 +142,13 @@ class Report extends React.Component {
     const { item, reloadScreen } = this.props;
 
     const serviceType = item.service_type;
-    let priceText = I18n.t("calendar_service_screen_unit_price");
-    if (serviceType.main_category_id == 6 && serviceType.category_id == 24) {
-      priceText = I18n.t("add_edit_calendar_service_screen_form_wages");
-    } else if (
-      serviceType.main_category_id == 6 &&
-      (serviceType.category_id == 123 || serviceType.category_id == 635)
-    ) {
-      priceText = I18n.t("add_edit_calendar_service_screen_form_fees");
+    let unitPriceText = I18n.t("calendar_service_screen_unit_price");
+    if (serviceType.wages_type == CALENDAR_WAGES_TYPE.WAGES) {
+      unitPriceText = I18n.t("add_edit_calendar_service_screen_form_wages");
+    } else if (serviceType.wages_type == CALENDAR_WAGES_TYPE.FEES) {
+      unitPriceText = I18n.t("add_edit_calendar_service_screen_form_fees");
+    } else if (serviceType.wages_type == CALENDAR_WAGES_TYPE.RENTAL) {
+      unitPriceText = I18n.t("add_edit_calendar_service_screen_form_rental");
     }
 
     const calculationDetails = item.calculation_detail;
@@ -224,7 +224,7 @@ class Report extends React.Component {
               "DD MMM YYYY"
             );
 
-            let endDate = "";
+            let endDate = "Till End";
 
             if (index > 0) {
               endDate = moment(calculationDetails[index - 1].effective_date)
@@ -290,7 +290,7 @@ class Report extends React.Component {
                     <View />
                   )}
                   <KeyValueItem
-                    keyText={priceText}
+                    keyText={unitPriceText}
                     valueText={calculationDetail.unit_price}
                   />
                   {Array.isArray(calculationDetail.selected_days) && (

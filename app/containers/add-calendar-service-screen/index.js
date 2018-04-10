@@ -246,6 +246,34 @@ class AddEditCalendarServiceScreen extends Component {
       selectedUnitType,
       actualSelectedUnitType
     } = this.state;
+
+    let unitPriceText = I18n.t("calendar_service_screen_unit_price");
+    let unitPricePlaceholder = I18n.t("calendar_service_screen_unit_price");
+    if (selectedServiceType) {
+      switch (selectedServiceType.wages_type) {
+        case CALENDAR_WAGES_TYPE.WAGES:
+          unitPriceText = I18n.t("add_edit_calendar_service_screen_form_wages");
+          unitPricePlaceholder = I18n.t(
+            "add_edit_calendar_service_screen_form_wages"
+          );
+          break;
+        case CALENDAR_WAGES_TYPE.FEES:
+          unitPriceText = I18n.t("add_edit_calendar_service_screen_form_fees");
+          unitPricePlaceholder = I18n.t(
+            "add_edit_calendar_service_screen_form_fees"
+          );
+          break;
+        case CALENDAR_WAGES_TYPE.RENTAL:
+          unitPriceText = I18n.t(
+            "add_edit_calendar_service_screen_form_rental_type"
+          );
+          unitPricePlaceholder = I18n.t(
+            "add_edit_calendar_service_screen_form_rental"
+          );
+          break;
+      }
+    }
+
     if (error) {
       return (
         <ErrorOverlay error={error} onRetryPress={this.fetchReferenceData} />
@@ -281,19 +309,12 @@ class AddEditCalendarServiceScreen extends Component {
                   onChangeText={providerName => this.setState({ providerName })}
                 />
               )}
-              {(selectedServiceType.wages_type == CALENDAR_WAGES_TYPE.WAGES ||
-                selectedServiceType.wages_type == CALENDAR_WAGES_TYPE.FEES) && (
+              {selectedServiceType.wages_type !=
+                CALENDAR_WAGES_TYPE.PRODUCT && (
                 <View>
                   <View>
                     <Text weight="Medium" style={styles.label}>
-                      {selectedServiceType.wages_type ==
-                      CALENDAR_WAGES_TYPE.WAGES
-                        ? I18n.t(
-                            "add_edit_calendar_service_screen_form_wages_type"
-                          )
-                        : I18n.t(
-                            "add_edit_calendar_service_screen_form_fees_tye"
-                          )}
+                      {unitPriceText}
                     </Text>
                     <View style={{ flexDirection: "row", marginBottom: 10 }}>
                       <TouchableOpacity
@@ -369,12 +390,7 @@ class AddEditCalendarServiceScreen extends Component {
                     </View>
                   </View>
                   <CustomTextInput
-                    placeholder={
-                      selectedServiceType.wages_type ==
-                      CALENDAR_WAGES_TYPE.WAGES
-                        ? I18n.t("add_edit_calendar_service_screen_form_wages")
-                        : I18n.t("add_edit_calendar_service_screen_form_fees")
-                    }
+                    placeholder={unitPricePlaceholder + " (₹)"}
                     keyboardType="numeric"
                     value={unitPrice}
                     onChangeText={unitPrice => this.setState({ unitPrice })}
