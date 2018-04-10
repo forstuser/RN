@@ -83,7 +83,10 @@ class FinishModal extends React.Component {
           </TouchableOpacity>
           <CustomDatePicker
             date={finishDate}
-            minDate={item.calculation_detail[0].effective_date}
+            minDate={
+              item.calculation_detail[item.calculation_detail.length - 1]
+                .effective_date
+            }
             maxDate={null}
             placeholder={I18n.t(
               "add_edit_calendar_service_screen_form_finish_date"
@@ -92,6 +95,12 @@ class FinishModal extends React.Component {
               this.setState({ finishDate });
             }}
           />
+          <Text
+            weight="Medium"
+            style={{ fontSize: 12, color: colors.danger, marginBottom: 10 }}
+          >
+            {I18n.t("calendar_service_finish_date_warning")}
+          </Text>
           <Button
             onPress={this.finishDateSave}
             style={[styles.modalBtn]}

@@ -1011,5 +1011,7 @@ export default {
   daily: "Daily",
   monthly: "Monthly",
   save: "Save",
-  add_edit_calendar_service_screen_form_finish_date: "Finish Date"
+  add_edit_calendar_service_screen_form_finish_date: "Finish Date",
+  calendar_service_finish_date_warning:
+    "Details after this date will not be available."
 };
