@@ -9,19 +9,20 @@ import Modal from "react-native-modal";
 import LoadingOverlay from "../../../components/loading-overlay";
 import CustomTextInput from "../../../components/form-elements/text-input";
 import { addCalendarItemCalculationDetail } from "../../../api";
+import { CALENDAR_WAGES_TYPE } from "../../../constants";
 
 class Month extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isEditQuantityModalOpen: false,
-      quantity: this.props.calculationDetail.quantity.toFixed(2) || 0
+      quantity: this.props.calculationDetail.quantity || 0
     };
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({
-      quantity: newProps.calculationDetail.quantity.toFixed(2) || 0
+      quantity: newProps.calculationDetail.quantity || 0
     });
   }
 
@@ -110,7 +111,8 @@ class Month extends React.Component {
       date,
       isPresent = true,
       toggleAttendance,
-      calculationDetail
+      calculationDetail,
+      item
     } = this.props;
     // console.log("calculationDetails in props", calculationDetails)
     const { quantity, isEditQuantityModalOpen } = this.state;
@@ -119,43 +121,44 @@ class Month extends React.Component {
         <Text weight="Medium" style={styles.date}>
           {moment(date).format("D MMM YYYY")}
         </Text>
-        {isPresent && (
-          <View style={{ flex: 1, flexDirection: "row" }}>
-            <TouchableOpacity
-              onPress={this.decreaseQuantity}
-              style={{
-                marginTop: 3,
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "center"
-              }}
-            >
-              <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.showEditQuantityModal}
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "center",
-                minWidth: 10
-              }}
-            >
-              <Text>{quantity}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.increaseQuantity}
-              style={{
-                marginTop: 3,
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "center"
-              }}
-            >
-              <Icon name="md-add" size={16} color={colors.pinkishOrange} />
-            </TouchableOpacity>
-          </View>
-        )}
+        {isPresent &&
+          item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={this.decreaseQuantity}
+                style={{
+                  marginTop: 3,
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center"
+                }}
+              >
+                <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.showEditQuantityModal}
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  minWidth: 10
+                }}
+              >
+                <Text>{quantity}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.increaseQuantity}
+                style={{
+                  marginTop: 3,
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center"
+                }}
+              >
+                <Icon name="md-add" size={16} color={colors.pinkishOrange} />
+              </TouchableOpacity>
+            </View>
+          )}
         <TouchableOpacity
           onPress={toggleAttendance}
           style={styles.presentAbsentContainer}
