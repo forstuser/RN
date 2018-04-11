@@ -52,8 +52,17 @@ class CalculationDetailModal extends React.Component {
     };
   }
 
-  componentDidMount = () => {
-    const { item } = this.props;
+  componentDidMount() {
+    this.updateStateFromProps(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateStateFromProps(nextProps);
+  }
+
+  updateStateFromProps = props => {
+    const { item } = props;
+    let startingDate = moment().format("YYYY-MM-DD");
 
     let unitTypes = [];
     switch (item.service_id) {
@@ -75,8 +84,14 @@ class CalculationDetailModal extends React.Component {
         unitTypes = [UNIT_TYPES.UNIT];
         break;
     }
+
+    if (moment(item.end_date).isBefore(moment(), "days")) {
+      startingDate = item.calculation_detail[0].effective_date;
+    }
+
     this.setState({
       unitTypes,
+      startingDate: startingDate,
       selectedUnitType: unitTypes[0],
       actualSelectedUnitType: unitTypes[0],
       selectedDays: item.calculation_detail[0].selected_days,
@@ -140,10 +155,24 @@ class CalculationDetailModal extends React.Component {
 
     let actualQuantity = quantity;
     if (
-      selectedUnitType.id == UNIT_TYPES.GRAM.id ||
-      selectedUnitType.id == UNIT_TYPES.MILLILITRE.id
+      (selectedUnitType.id == UNIT_TYPES.GRAM.id ||
+        selectedUnitType.id == UNIT_TYPES.MILLILITRE.id) &&
+      quantity
     ) {
       actualQuantity = quantity / 1000;
+    }
+
+    let quantityToSend = actualQuantity;
+    if (
+      !quantityToSend &&
+      item.service_type.wages_type != CALENDAR_WAGES_TYPE.PRODUCT
+    ) {
+      quantityToSend = null;
+    } else if (
+      !quantityToSend &&
+      item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT
+    ) {
+      quantityToSend = 0;
     }
 
     Analytics.logEvent(Analytics.EVENTS.CLICK_CHANGE_CALENDAR);
@@ -153,7 +182,7 @@ class CalculationDetailModal extends React.Component {
         itemId: item.id,
         unitType: actualSelectedUnitType.id,
         unitPrice: unitPrice,
-        quantity: actualQuantity,
+        quantity: quantityToSend,
         effectiveDate: startingDate,
         selectedDays: selectedDays
       });
@@ -170,6 +199,7 @@ class CalculationDetailModal extends React.Component {
           quantity: item.calculation_detail[0].quantity
         });
       }
+
       this.setState({
         isModalVisible: false,
         isSavingDetails: false
@@ -298,11 +328,11 @@ class CalculationDetailModal extends React.Component {
             onDateChange={startingDate => {
               this.setState({ startingDate, endDate: null });
             }}
-            maxDate={item.end_date}
+            maxDate={item.end_date || "2100-01-01"}
           />
           {startingDate != item.end_date && (
             <CustomDatePicker
-              maxDate={item.end_date}
+              maxDate={item.end_date || "2100-01-01"}
               minDate={moment(startingDate)
                 .add(1, "days")
                 .format("YYYY-MM-DD")}

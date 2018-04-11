@@ -8,9 +8,9 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-export const API_BASE_URL = "https://consumer-eb.binbill.com";
+export const API_BASE_URL = "https://consumer.binbill.com";
 
-const APP_VERSION_FOR_API = 18;
+const APP_VERSION_FOR_API = 20002;
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
@@ -1129,7 +1129,7 @@ export const createCalendarItem = async ({
     selected_days: selectedDays || undefined,
     unit_price: unitPrice || 0,
     unit_type: unitType || undefined,
-    quantity: quantity || 0,
+    quantity: quantity,
     effective_date: effectiveDate || undefined
   };
   return await apiRequest({
@@ -1176,7 +1176,7 @@ export const addCalendarItemCalculationDetail = async ({
     selected_days: selectedDays || undefined,
     unit_price: unitPrice || 0,
     unit_type: unitType || undefined,
-    quantity: quantity || 0,
+    quantity: quantity,
     effective_date: effectiveDate || undefined
   };
   return await apiRequest({

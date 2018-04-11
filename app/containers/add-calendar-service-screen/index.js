@@ -102,6 +102,10 @@ class AddEditCalendarServiceScreen extends Component {
 
   onServiceTypeSelect = serviceType => {
     let unitTypes = [];
+    let wagesType = WAGES_CYCLE.DAILY;
+    if (serviceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT) {
+      wagesType = WAGES_CYCLE.MONTHLY;
+    }
     switch (serviceType.id) {
       case CALENDAR_SERVICE_TYPES.MILK:
         unitTypes = [UNIT_TYPES.LITRE, UNIT_TYPES.MILLILITRE];
@@ -124,7 +128,7 @@ class AddEditCalendarServiceScreen extends Component {
     this.setState({
       name: serviceType.name,
       selectedServiceType: serviceType,
-      wagesType: WAGES_CYCLE.DAILY,
+      wagesType: wagesType,
       unitTypes,
       selectedUnitType: unitTypes[0],
       actualSelectedUnitType: unitTypes[0]
@@ -199,10 +203,24 @@ class AddEditCalendarServiceScreen extends Component {
 
     let actualQuantity = quantity;
     if (
-      selectedUnitType.id == UNIT_TYPES.GRAM.id ||
-      selectedUnitType.id == UNIT_TYPES.MILLILITRE.id
+      (selectedUnitType.id == UNIT_TYPES.GRAM.id ||
+        selectedUnitType.id == UNIT_TYPES.MILLILITRE.id) &&
+      quantity
     ) {
       actualQuantity = quantity / 1000;
+    }
+
+    let quantityToSend = actualQuantity;
+    if (
+      !quantityToSend &&
+      selectedServiceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT
+    ) {
+      quantityToSend = null;
+    } else if (
+      !quantityToSend &&
+      selectedServiceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT
+    ) {
+      quantityToSend = 0;
     }
     Analytics.logEvent(Analytics.EVENTS.ADD_ADD_ATTENDANCE_ITEM);
     try {
@@ -213,7 +231,7 @@ class AddEditCalendarServiceScreen extends Component {
         wagesType: wagesType,
         unitType: actualSelectedUnitType.id,
         unitPrice: unitPrice,
-        quantity: actualQuantity,
+        quantity: quantityToSend,
         effectiveDate: startingDate,
         selectedDays: selectedDays
       });

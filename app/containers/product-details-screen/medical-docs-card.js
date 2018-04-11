@@ -72,7 +72,7 @@ class MedicalDocsCard extends Component {
   };
 
   render() {
-    const { product } = this.props;
+    const { product, navigator } = this.props;
     let seller = {
       name: "",
       contact: ""
