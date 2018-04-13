@@ -18,12 +18,10 @@ import TipsScreen from "./containers/tips-screen";
 import ProfileScreen from "./containers/profile-screen";
 import SearchScreen from "./containers/search-screen";
 import AscSearchScreen from "./containers/asc-search-screen";
-// import AddProductsScreen from "./containers/add-products-screen";
 import UploadDocumentScreen from "./containers/upload-document-screen";
 import InsightScreen from "./containers/insight-screen";
-// import TotalTaxScreen from "./containers/total-tax-screen";
 import TransactionsScreen from "./containers/transactions-screen";
-// import AddProductScreen from "./containers/add-product-screen";
+import AddProductScreen from "./containers/add-product-screen";
 import ForceUpdateScreen from "./containers/force-update-screen";
 import AddEditExpenseScreen from "./containers/add-edit-expense-screen";
 import AddEditWarrantyScreen from "./containers/add-edit-warranty-screen";
@@ -316,6 +314,13 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     SCREENS.PIN_SETUP_SCREEN,
     () => PinSetupScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.ADD_PRODUCT_SCREEN,
+    () => AddProductScreen,
     store,
     Provider
   );
