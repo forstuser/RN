@@ -30,7 +30,7 @@ class ViewBillButton extends React.Component {
       navigator,
       docType = "Product",
       btnText = "Bill",
-      viewRef = () => {},
+      viewRef = () => { },
       style
     } = this.props;
     if (product.copies && product.copies.length > 0) {
@@ -83,7 +83,7 @@ class ViewBillButton extends React.Component {
             <UploadBillOptions
               ref={o => (this.uploadBillOptions = o)}
               navigator={navigator}
-              uploadCallback={() => {}}
+              uploadCallback={() => { }}
             />
             <Image style={styles.viewBillIcon} source={viewBillIcon} />
           </TouchableOpacity>

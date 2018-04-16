@@ -403,14 +403,15 @@ class SelectCategoryHeader extends React.Component {
           horizontal={true}
           alwaysBounceHorizontal={false}
         >
-          {visibleOptions.map(option => {
+          {visibleOptions.map((option, index) => {
             const isSelectedOption =
               selectedOption && selectedOption.id == option.id;
             return (
               <TouchableWithoutFeedback
                 onPress={() => this.onOptionSelect(option)}
+                key={index}
               >
-                <View style={styles.option}>
+                <View style={styles.option} key={index}>
                   <View
                     style={[
                       styles.optionIconContainer,

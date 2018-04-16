@@ -71,7 +71,7 @@ class AmcDetails extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView horizontal={true} style={styles.slider}>
-          {amcDetails.map(amc => <AmcItem amc={amc} />)}
+          {amcDetails.map((amc, index) => <AmcItem key={index} amc={amc} />)}
           <AddItemBtn
             text={I18n.t("product_details_screen_add_amc")}
             onPress={() => this.props.openAddEditAmcScreen(null)}

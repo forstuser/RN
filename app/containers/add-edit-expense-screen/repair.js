@@ -192,7 +192,7 @@ class Repair extends React.Component {
                 contentContainerStyle={styles.productsContentContainer}
                 horizontal={true}
               >
-                {products.map(product => {
+                {products.map((product, index) => {
                   return (
                     <TouchableOpacity
                       key={product.key}
@@ -208,7 +208,7 @@ class Repair extends React.Component {
                         style={styles.productImage}
                         source={{ uri: API_BASE_URL + product.cImageURL }}
                       />
-                      <View style={styles.productTexts}>
+                      <View style={styles.productTexts} key={index}>
                         <Text
                           numberOfLines={1}
                           weight="Bold"

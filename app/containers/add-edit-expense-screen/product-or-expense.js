@@ -380,9 +380,9 @@ class ProductOrExpense extends React.Component {
               <Text weight="Medium" style={styles.selectCategoryMsg}>
                 {startMsg}
               </Text>
-              {reasons.map(reason => {
+              {reasons.map((reason, index) => {
                 return (
-                  <Text weight="Medium" style={styles.reason}>
+                  <Text weight="Medium" key={index} style={styles.reason}>
                     • {reason}
                   </Text>
                 );

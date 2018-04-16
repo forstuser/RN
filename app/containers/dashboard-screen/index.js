@@ -230,7 +230,7 @@ class DashboardScreen extends React.Component {
   };
 
   openInsightScreen = props => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_EXPENSE_CHART);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EXPENSE_INSIGHT);
     this.props.navigator.push({
       screen: SCREENS.INSIGHTS_SCREEN,
       passProps: props || {}

@@ -118,7 +118,7 @@ class ShareModal extends React.Component {
         if (Platform.OS == "android") {
           shareContent.message = "Powered by BinBill - http://bit.ly/2rIabk0";
         }
-        Analytics.logEvent(Analytics.EVENTS.Click_Shareproductcardcomplete);
+        Analytics.logEvent(Analytics.EVENTS.COMPLETE_SHARE_PRODUCT);
         await Share.open(shareContent);
       }
     } catch (e) {
@@ -231,8 +231,8 @@ class ShareModal extends React.Component {
               <View style={styles.stepsContainer}>
                 <View style={styles.stepLine} />
                 <View style={styles.steps}>
-                  {[1, 2, 3].map(s => (
-                    <View style={[styles.step]}>
+                  {[1, 2, 3].map((s, index) => (
+                    <View key={index} style={[styles.step]}>
                       {s >= step && (
                         <Text weight="Bold" style={styles.stepText}>
                           {s}

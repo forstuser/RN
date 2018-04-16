@@ -80,7 +80,7 @@ class RepairDetails extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView horizontal={true} style={styles.slider}>
-          {repairBills.map(repair => <RepairItem repair={repair} />)}
+          {repairBills.map((repair, index) => <RepairItem key={index} repair={repair} />)}
           <AddItemBtn
             text={I18n.t("product_details_screen_add_repair")}
             onPress={() => this.props.openAddEditRepairScreen(null)}

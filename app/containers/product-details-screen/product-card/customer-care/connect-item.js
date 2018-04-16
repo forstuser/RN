@@ -222,14 +222,14 @@ class Card extends React.Component {
     Linking.canOpenURL(url)
       .then(supported => {
         if (!supported) {
-          snackbar({
+          showSnackbar({
             text: "Can't open this email"
           })
         } else {
           return Linking.openURL(url);
         }
       })
-      .catch(e => snackbar({
+      .catch(e => showSnackbar({
         text: e.message
       })
       )
@@ -239,7 +239,7 @@ class Card extends React.Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_CALL);
     call({
       number: phoneNumber.replace(/\(.+\)/, "").trim()
-    }).catch(e => snackbar({
+    }).catch(e => showSnackbar({
       text: e.message
     })
     )
@@ -251,7 +251,7 @@ class Card extends React.Component {
       if (supported) {
         Linking.openURL(url);
       } else {
-        snackbar({
+        showSnackbar({
           text: "Don't know how to open URI: " + url
         })
       }

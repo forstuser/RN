@@ -74,7 +74,7 @@ class TipsScreen extends Component {
 }
 const styles = StyleSheet.create({
   centerText: {
-    fontSize: 14,
+    // fontSize: 14,
     backgroundColor: "#eff1f6",
     padding: 0,
     height: "100%"

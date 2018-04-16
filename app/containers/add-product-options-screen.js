@@ -45,7 +45,6 @@ class AddProductScreen extends React.Component {
   };
 
   onPressItem = type => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PRODUCT_OPTION);
     switch (type) {
       case EXPENSE_TYPES.AUTOMOBILE:
         Analytics.logEvent(Analytics.EVENTS.CLICK_ON_AUTOMOBILE);
@@ -84,8 +83,6 @@ class AddProductScreen extends React.Component {
         Analytics.logEvent(Analytics.EVENTS.CLICK_ON_REPAIR);
         break;
       default:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PRODUCT_OPTION);
-
     }
     this.props.navigator.push({
       screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
