@@ -9,7 +9,7 @@ import {
   Alert
 } from "react-native";
 import I18n from "../../../i18n";
-import { API_BASE_URL, updateProduct, getReferenceDataBrands } from "../../../api";
+import { API_BASE_URL, updateProduct, getReferenceDataModels } from "../../../api";
 import { MAIN_CATEGORY_IDS } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
@@ -22,28 +22,37 @@ import SelectOrCreateItem from "../../../components/select-or-create-item";
 
 import Step from "./step";
 
-class SelectBrandStep extends React.Component {
+class SelectModelStep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      brands: [],
+      models: this.props.models || [],
       isLoading: false
     };
   }
 
   componentDidMount() {
-    this.fetchBrands();
+    console.log('this.props.product: ', this.props.product);
+    this.fetchModels();
   }
 
-  fetchBrands = async () => {
-    const { mainCategoryId, category, product } = this.props;
+  componentWillReceiveProps(newProps) {
+    if (models && models.length > 0) {
+      this.setState({
+        models: newProps.models
+      });
+    }
+  }
+
+  fetchModels = async () => {
+    const { mainCategoryId, category, product, onModelStepDone } = this.props;
     this.setState({
       isLoading: true
     })
     try {
-      const res = await getReferenceDataBrands(category.id);
+      const res = await getReferenceDataModels(category.id, product.brand_id);
       this.setState({
-        brands: res
+        models: res
       })
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -54,21 +63,20 @@ class SelectBrandStep extends React.Component {
     }
   }
 
-  onSelectBrand = async brand => {
-    const { mainCategoryId, category, product, onBrandStepDone } = this.props;
+  onSelectModel = async model => {
+    const { mainCategoryId, category, product, onModelStepDone } = this.props;
     this.setState({
       isLoading: true
     })
     try {
       const res = await updateProduct({
-        mainCategoryId: mainCategoryId,
-        categoryId: category.id,
         productId: product.id,
-        brandId: brand.id
+        model: model.title,
+        isNewModel: false
       });
 
-      if (typeof onBrandStepDone == "function") {
-        onBrandStepDone(res.product);
+      if (typeof onModelStepDone == "function") {
+        onModelStepDone(res.product);
       }
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -79,21 +87,19 @@ class SelectBrandStep extends React.Component {
     }
   };
 
-  onAddBrand = async brandName => {
-    const { mainCategoryId, category, product, onBrandStepDone } = this.props;
+  onAddModel = async modelName => {
+    const { mainCategoryId, category, product, onModelStepDone } = this.props;
     this.setState({
       isLoading: true
     })
     try {
       const res = await updateProduct({
-        mainCategoryId: mainCategoryId,
-        categoryId: category.id,
         productId: product.id,
-        brandId: null,
-        brandName
+        model: modelName,
+        isNewModel: true
       });
-      if (typeof onBrandStepDone == "function") {
-        onBrandStepDone(res.product);
+      if (typeof onModelStepDone == "function") {
+        onModelStepDone(res.product);
       }
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -105,26 +111,23 @@ class SelectBrandStep extends React.Component {
   };
 
   render() {
-    const { brands, isLoading } = this.state;
-    console.log("brands: ", brands);
+    const { models, isLoading } = this.state;
+    console.log("models: ", models);
 
     const { mainCategoryId, category, product } = this.props;
 
     return (
       <Step
-        title={`Select ${category.name} brand`}
+        title={`Select ${category.name} model`}
         skippable={false}
         showLoader={isLoading}
         {...this.props}
       >
         <SelectOrCreateItem
-          items={brands.map(brand => ({
-            ...brand,
-            image: `${API_BASE_URL}/brands/${brand.id}/images`
-          }))}
-          onSelectItem={this.onSelectBrand}
-          onAddItem={this.onAddBrand}
-          imageKey="image"
+          items={models}
+          visibleKey='title'
+          onSelectItem={this.onSelectModel}
+          onAddItem={this.onAddModel}
         />
       </Step>
     );
@@ -137,4 +140,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SelectBrandStep;
+export default SelectModelStep;

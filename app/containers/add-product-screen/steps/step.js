@@ -2,12 +2,13 @@ import React from "react";
 import { StyleSheet, View, Platform, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
+import LoadingOverlay from "../../../components/loading-overlay";
 import { Text, ScreenContainer } from "../../../elements";
 import { colors } from "../../../theme";
 
 class Step extends React.Component {
   render() {
-    const { onBackPress, title, skippable = false, children } = this.props;
+    const { onBackPress, onSkipPress, title, skippable = false, children, showLoader = false } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -18,7 +19,7 @@ class Step extends React.Component {
             {title}
           </Text>
           {skippable && (
-            <TouchableOpacity style={styles.skipBtn}>
+            <TouchableOpacity style={styles.skipBtn} onPress={onSkipPress}>
               <Text weight="Bold" style={styles.skipText}>
                 SKIP
               </Text>
@@ -26,6 +27,7 @@ class Step extends React.Component {
           )}
         </View>
         <View style={styles.body}>{children}</View>
+        <LoadingOverlay visible={showLoader} />
       </View>
     );
   }

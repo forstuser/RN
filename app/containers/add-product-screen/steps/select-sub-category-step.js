@@ -8,9 +8,8 @@ import {
   TouchableWithoutFeedback,
   Alert
 } from "react-native";
-import moment from "moment";
 import I18n from "../../../i18n";
-import { API_BASE_URL, updateProduct } from "../../../api";
+import { API_BASE_URL, updateProduct, getReferenceDatasubCategorys } from "../../../api";
 import { MAIN_CATEGORY_IDS } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
@@ -19,39 +18,34 @@ import { showSnackbar } from "../../snackbar";
 import { getReferenceDataCategories } from "../../../api";
 
 import LoadingOverlay from "../../../components/loading-overlay";
-import DatePickerRn from "../../../components/date-picker-rn";
+import SelectOrCreateItem from "../../../components/select-or-create-item";
 
 import Step from "./step";
 
-class SelectPurchaseDateStep extends React.Component {
+class SelectSubCategoryStep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
-      activeDate: moment(props.product.document_date).format('YYYY-MM-DD')
+      subCategories: this.props.subCategories || [],
+      isLoading: false
     };
   }
 
-  componentWillReceiveProps(newProps) {
+  onSelectSubCategory = async subCategory => {
+    const { mainCategoryId, category, product, onSubCategoryStepDone } = this.props;
     this.setState({
-      activeDate: moment(newProps.product.document_date).format('YYYY-MM-DD')
-    })
-  }
-
-  onSelectDate = async date => {
-    const { mainCategoryId, category, product, onPurchaseDateStepDone } = this.props;
-    this.setState({
-      isLoading: true,
-      activeDate: date
+      isLoading: true
     })
     try {
       const res = await updateProduct({
+        mainCategoryId: mainCategoryId,
+        categoryId: category.id,
         productId: product.id,
-        purchaseDate: date
+        subCategoryId: subCategory.id
       });
 
-      if (typeof onPurchaseDateStepDone == "function") {
-        onPurchaseDateStepDone(res.product);
+      if (typeof onSubCategoryStepDone == "function") {
+        onSubCategoryStepDone(res.product);
       }
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -62,23 +56,24 @@ class SelectPurchaseDateStep extends React.Component {
     }
   };
 
+
   render() {
-    const { isLoading, activeDate } = this.state;
+    const { subCategories, isLoading } = this.state;
+    console.log("subCategories: ", subCategories);
 
     const { mainCategoryId, category, product } = this.props;
-    console.log('product.document_date: ', product.document_date)
+
     return (
       <Step
-        title={`Select Purchase Date`}
-        skippable={true}
+        title={`Select ${category.name} type`}
         showLoader={isLoading}
         {...this.props}
       >
-
-        <DatePickerRn
-          activeDate={activeDate}
-          maxDate={moment().format('YYYY-MM-DD')}
-          onSelectDate={this.onSelectDate} />
+        <SelectOrCreateItem
+          items={subCategories}
+          onSelectItem={this.onSelectSubCategory}
+          hideAddNew={true}
+        />
       </Step>
     );
   }
@@ -90,4 +85,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SelectPurchaseDateStep;
+export default SelectSubCategoryStep;

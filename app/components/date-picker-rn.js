@@ -17,8 +17,14 @@ class DatePickerRn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      yearAndMonth: moment(this.props.date).format("YYYY-MM")
+      yearAndMonth: moment(this.props.activeDate).format("YYYY-MM")
     };
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      yearAndMonth: moment(newProps.activeDate).format("YYYY-MM")
+    })
   }
 
   previousMonth = () => {
@@ -37,8 +43,16 @@ class DatePickerRn extends React.Component {
     });
   };
 
+  onDatePress = (date, isOutOfRange) => {
+    if (isOutOfRange) return;
+    const { onSelectDate } = this.props;
+    if (typeof onSelectDate == 'function') {
+      onSelectDate(date);
+    }
+  }
+
   render() {
-    const { maxDate, minDate } = this.props;
+    const { activeDate, maxDate, minDate } = this.props;
     const { yearAndMonth } = this.state;
 
     const maxDateMoment = maxDate ? moment(maxDate) : null;
@@ -95,6 +109,8 @@ class DatePickerRn extends React.Component {
 
     const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
+
+    console.log('activeDate: ', activeDate)
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -140,20 +156,26 @@ class DatePickerRn extends React.Component {
           {_.chunk(days, 7).map((week, index) => (
             <View key={index} style={styles.week}>
               {week.map(day => {
-                let isAvailableDay = !day.isAdjacentMonthDay;
-
+                let isOutOfRange = false;
+                const momentDate = moment(day.isoDate);
+                if ((maxDate && momentDate.isAfter(moment(maxDate))) || (minDate && momentDate.isBefore(moment(minDate)))) {
+                  isOutOfRange = true;
+                }
                 return (
-                  <View style={styles.day}>
-                    <Text
-                      weight={isAvailableDay ? "Bold" : "Medium"}
-                      style={[
-                        styles.dayText,
-                        isAvailableDay ? {} : styles.unavailableDay
-                      ]}
-                    >
-                      {day.date}
-                    </Text>
-                  </View>
+                  <TouchableWithoutFeedback onPress={() => this.onDatePress(day.isoDate, isOutOfRange)}>
+                    <View style={[styles.day, moment(day.isoDate).isSame(activeDate) ? styles.activeDate : {}]}>
+                      <Text
+                        weight={day.isAdjacentMonthDay || isOutOfRange ? "Bold" : "Medium"}
+                        style={[
+                          styles.dayText,
+                          day.isAdjacentMonthDay || isOutOfRange ? styles.unavailableDay : {},
+                          momentDate.isSame(activeDate) ? styles.activeDateText : {}
+                        ]}
+                      >
+                        {day.date}
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
                 );
               })}
             </View>
@@ -208,6 +230,12 @@ const styles = StyleSheet.create({
   },
   unavailableDay: {
     color: colors.secondaryText
+  },
+  activeDate: {
+    backgroundColor: colors.mainBlue,
+  },
+  activeDateText: {
+    color: '#fff'
   }
 });
 

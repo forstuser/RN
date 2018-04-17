@@ -53,7 +53,8 @@ const CATEGORY_IDS = {
     BIKE: 138,
     SCOOTER: 150,
     CYCLE: 154,
-    VAN: 153
+    VAN: 153,
+    PASSENGER_CARRIER: 152
   },
   ELECTRONICS: {
     MOBILE: 327,
@@ -85,6 +86,15 @@ const CATEGORY_IDS = {
     TRAVEL: 22,
     HOTEL_STAY: 84,
     DINING: 85
+  },
+  FASHION: {
+    FOOTWEAR: 644,
+    SHADES: 645,
+    WATCHES: 646,
+    CLOTHS: 647,
+    BAGS: 648,
+    JEWELLERY: 649,
+    MAKEUP: 729
   },
   SERVICES: {
     OTHER_SERVICES: 24,

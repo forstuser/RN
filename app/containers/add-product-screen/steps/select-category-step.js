@@ -9,12 +9,12 @@ import {
   Alert
 } from "react-native";
 import I18n from "../../../i18n";
-import { MAIN_CATEGORY_IDS } from "../../../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS, EXPENSE_TYPES } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
 import { showSnackbar } from "../../snackbar";
 
-import { getReferenceDataCategories } from "../../../api";
+import { getReferenceDataCategories, initProduct } from "../../../api";
 
 import SelectModal from "../../../components/select-modal";
 
@@ -43,22 +43,22 @@ class SelectCategoryHeader extends React.Component {
         genericIcon = require("../../../images/categories/generic_automobile.png");
         visibleOptions = [
           {
-            id: 139,
+            id: CATEGORY_IDS.AUTOMOBILE.CAR,
             name: "Four Wheeler",
             icon: require("../../../images/categories/car.png")
           },
           {
-            id: 138,
+            id: CATEGORY_IDS.AUTOMOBILE.BIKE,
             name: "Two Wheeler",
             icon: require("../../../images/categories/bike.png")
           },
           {
-            id: 154,
+            id: CATEGORY_IDS.AUTOMOBILE.CYCLE,
             name: "Cycle",
             icon: require("../../../images/categories/bicycle.png")
           },
           {
-            id: 152,
+            id: CATEGORY_IDS.AUTOMOBILE.PASSENGER_CARRIER,
             name: "Passenger Carrier",
             icon: require("../../../images/categories/passenger_carrier.png")
           }
@@ -72,37 +72,37 @@ class SelectCategoryHeader extends React.Component {
         genericIcon = require("../../../images/categories/generic_electronic.png");
         visibleOptions = [
           {
-            id: 327,
+            id: CATEGORY_IDS.ELECTRONICS.MOBILE,
             name: "Mobile",
             icon: require("../../../images/categories/mobile.png")
           },
           {
-            id: 581,
+            id: CATEGORY_IDS.ELECTRONICS.TV,
             name: "T.V.",
             icon: require("../../../images/categories/television.png")
           },
           {
-            id: 487,
+            id: CATEGORY_IDS.ELECTRONICS.LAPTOP,
             name: "Laptop",
             icon: require("../../../images/categories/laptop.png")
           },
           {
-            id: 162,
+            id: CATEGORY_IDS.ELECTRONICS.AC,
             name: "A.C.",
             icon: require("../../../images/categories/air_conditioner.png")
           },
           {
-            id: 530,
+            id: CATEGORY_IDS.ELECTRONICS.WATER_PURIFIER,
             name: "Water Purifier",
             icon: require("../../../images/categories/water_purifier.png")
           },
           {
-            id: 491,
+            id: CATEGORY_IDS.ELECTRONICS.REFRIGERATOR,
             name: "Refrigerator",
             icon: require("../../../images/categories/fridge.png")
           },
           {
-            id: 541,
+            id: CATEGORY_IDS.ELECTRONICS.WASHING_MACHINE,
             name: "Washing Machine",
             icon: require("../../../images/categories/washing_machine.png")
           }
@@ -115,17 +115,17 @@ class SelectCategoryHeader extends React.Component {
         title = I18n.t("add_edit_expense_screen_title_select_furniture");
         visibleOptions = [
           {
-            id: 20,
+            id: CATEGORY_IDS.FURNITURE.FURNITURE,
             name: "Furniture",
             icon: require("../../../images/categories/furniture.png")
           },
           {
-            id: 72,
+            id: CATEGORY_IDS.FURNITURE.HARDWARE,
             name: "Hardware",
             icon: require("../../../images/categories/hardware.png")
           },
           {
-            id: 73,
+            id: CATEGORY_IDS.FURNITURE.OTHER_FURNITURE_HARDWARE,
             name: "Other Furniture/Hardware",
             icon: require("../../../images/categories/bathroom_fittings.png")
           }
@@ -135,17 +135,17 @@ class SelectCategoryHeader extends React.Component {
         title = I18n.t("add_edit_expense_screen_title_select_service_expense");
         visibleOptions = [
           {
-            id: 11,
+            id: CATEGORY_IDS.SERVICES.PROFESSIONAL,
             name: "Professional",
             icon: require("../../../images/main-categories/ic_services.png")
           },
           {
-            id: 12,
+            id: CATEGORY_IDS.SERVICES.LESSIONS_HOBBIES,
             name: "Lessons & Hobbies",
             icon: require("../../../images/categories/hobbies.png")
           },
           {
-            id: 24,
+            id: CATEGORY_IDS.SERVICES.OTHER_SERVICES,
             name: "Other Services",
             icon: require("../../../images/categories/house_helps.png")
           }
@@ -155,17 +155,17 @@ class SelectCategoryHeader extends React.Component {
         title = I18n.t("add_edit_expense_screen_title_select_travel");
         visibleOptions = [
           {
-            id: 22,
+            id: CATEGORY_IDS.TRAVEL.TRAVEL,
             name: "Travel",
             icon: require("../../../images/categories/travel.png")
           },
           {
-            id: 85,
+            id: CATEGORY_IDS.TRAVEL.DINING,
             name: "Dining",
             icon: require("../../../images/categories/dining.png")
           },
           {
-            id: 84,
+            id: CATEGORY_IDS.TRAVEL.HOTEL_STAY,
             name: "Hotel Stay",
             icon: require("../../../images/categories/hotel.png")
           }
@@ -176,37 +176,37 @@ class SelectCategoryHeader extends React.Component {
         title = I18n.t("add_edit_expense_screen_title_select_fashion_expense");
         visibleOptions = [
           {
-            id: 644,
+            id: CATEGORY_IDS.FASHION.FOOTWEAR,
             name: "Footwear",
             icon: require("../../../images/categories/shoes.png")
           },
           {
-            id: 645,
+            id: CATEGORY_IDS.FASHION.SHADES,
             name: "Shades",
             icon: require("../../../images/categories/shades.png")
           },
           {
-            id: 646,
+            id: CATEGORY_IDS.FASHION.WATCHES,
             name: "Watches",
             icon: require("../../../images/categories/watches.png")
           },
           {
-            id: 647,
+            id: CATEGORY_IDS.FASHION.CLOTHS,
             name: "Clothes",
             icon: require("../../../images/categories/clothes.png")
           },
           {
-            id: 648,
+            id: CATEGORY_IDS.FASHION.BAGS,
             name: "Bags",
             icon: require("../../../images/categories/bags.png")
           },
           {
-            id: 649,
+            id: CATEGORY_IDS.FASHION.JEWELLERY,
             name: "Jewellery & Accessories",
             icon: require("../../../images/categories/jewellary.png")
           },
           {
-            id: 729,
+            id: CATEGORY_IDS.FASHION.MAKEUP,
             name: "Make-Up",
             icon: require("../../../images/categories/make_up.png")
           }
@@ -216,45 +216,45 @@ class SelectCategoryHeader extends React.Component {
         title = I18n.t("add_edit_expense_screen_title_select_home_expense");
         visibleOptions = [
           {
-            id: 26,
+            id: CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE,
             name: "Household Expense",
             icon: require("../../../images/categories/household.png")
           },
           {
-            id: 635,
+            id: CATEGORY_IDS.HOUSEHOLD.EDUCATION,
             name: "Education",
             icon: require("../../../images/categories/education.png")
           },
           {
-            id: 634,
+            id: CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS,
             name: "Utility Bills",
             icon: require("../../../images/categories/utility_bill.png")
           },
           {
-            id: 697,
+            id: CATEGORY_IDS.HOUSEHOLD.HOME_DECOR,
             name: "Home Decor",
             icon: require("../../../images/categories/home_decor.png")
           },
           {
-            id: 698,
+            id: CATEGORY_IDS.HOUSEHOLD.OTHER_HOUSEHOLD_EXPENSE,
             name: "Other Household Expenses",
             icon: require("../../../images/categories/kitchen_utensils.png")
           }
         ];
         break;
       case MAIN_CATEGORY_IDS.HEALTHCARE:
-        if (this.props.healthcareFormType == "medical_docs") {
+        if (this.props.expenseType == EXPENSE_TYPES.MEDICAL_DOCS) {
           title = I18n.t(
             "add_edit_expense_screen_title_select_medical_document"
           );
           visibleOptions = [
             {
-              id: 86,
+              id: CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC,
               name: "Medical Docs",
               icon: require("../../../images/categories/medical_docs.png")
             },
             {
-              id: 664,
+              id: CATEGORY_IDS.HEALTHCARE.INSURANCE,
               name: "Insurance",
               icon: require("../../../images/categories/insurance.png")
             }
@@ -329,41 +329,26 @@ class SelectCategoryHeader extends React.Component {
     if (selectedOption && selectedOption.id == option.id) {
       return;
     } else {
-      // else if (selectedOption && selectedOption.id != option.id) {
-      //   return setTimeout(() => {
-      //     Alert.alert(
-      //       "Change category type?",
-      //       "All your filled data will be lost?",
-      //       [
-      //         {
-      //           text: "Yes, Change",
-      //           onPress: () => this.changeOption(option)
-      //         },
-      //         {
-      //           text: "No, Don't change",
-      //           onPress: () => {},
-      //           style: "cancel"
-      //         }
-      //       ]
-      //     );
-      //   }, 100);
-      // }
       this.changeOption(option);
     }
   };
 
-  changeOption = option => {
-    if (typeof this.props.onCategorySelect != "function") {
-      return;
+  changeOption = category => {
+    let subCategoryId = null;
+    if (this.props.expenseType == EXPENSE_TYPES.HEALTHCARE) {
+      category = { id: CATEGORY_IDS.HEALTHCARE.EXPENSE, name: "Expenses" };
+      subCategoryId = category.id;
     }
-    this.props.onCategorySelect(option);
+
+    this.initProduct({ category, subCategoryId });
+
     this.setState(
       {
-        selectedOption: option
+        selectedOption: category
       },
       () => {
-        const visibleIds = this.state.visibleOptions.map(option => option.id);
-        const idx = visibleIds.indexOf(option.id);
+        const visibleIds = this.state.visibleOptions.map(option => category.id);
+        const idx = visibleIds.indexOf(category.id);
         if (idx > -1) {
           if (
             this.props.mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
@@ -386,6 +371,38 @@ class SelectCategoryHeader extends React.Component {
     );
   };
 
+  initProduct = async ({ category, subCategoryId }) => {
+    if (typeof this.props.onCategorySelect != "function") {
+      return;
+    }
+    this.setState({ isLoading: true, product: null });
+    const { mainCategoryId } = this.props;
+    try {
+      const res = await initProduct(mainCategoryId, category.id);
+      this.props.onCategorySelect(
+        {
+          product: res.product,
+          category: category,
+          // categoryReferenceData: res.categories[0],
+          // renewalTypes: res.renewalTypes || [],
+          // warrantyProviders: res.categories[0].warrantyProviders,
+          insuranceProviders: res.categories[0].insuranceProviders,
+          // brands: res.categories[0].brands,
+          // categoryForms: res.categories[0].categoryForms,
+          subCategories: res.categories[0].subCategories
+        }
+      );
+    } catch (e) {
+      console.log("error: ", e);
+      this.setState({
+        isLoading: false
+      });
+      showSnackbar({
+        text: e.message
+      });
+    }
+  };
+
   render() {
     const {
       title,
@@ -393,10 +410,11 @@ class SelectCategoryHeader extends React.Component {
       selectedOption,
       otherOptions,
       showOtherOption,
-      genericIcon
+      genericIcon,
+      isLoading
     } = this.state;
     return (
-      <Step title={title} skippable={false} {...this.props}>
+      <Step title={title} skippable={false} showLoader={isLoading} {...this.props}>
         <View style={styles.container}>
           <View style={styles.header}>
             <SelectModal

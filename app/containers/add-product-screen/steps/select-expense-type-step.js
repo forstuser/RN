@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     padding: 16,
     justifyContent: "center",
     alignItems: "center",
-    ...defaultStyles.card
+    backgroundColor: '#fff'
   },
   option1: {
     marginBottom: 10,

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import moment from "moment";
 import I18n from "../../../i18n";
-import { API_BASE_URL, updateProduct } from "../../../api";
+import { API_BASE_URL, addInsurance } from "../../../api";
 import { MAIN_CATEGORY_IDS } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
@@ -27,31 +27,25 @@ class SelectPurchaseDateStep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
-      activeDate: moment(props.product.document_date).format('YYYY-MM-DD')
+      isLoading: false
     };
   }
 
-  componentWillReceiveProps(newProps) {
-    this.setState({
-      activeDate: moment(newProps.product.document_date).format('YYYY-MM-DD')
-    })
-  }
-
   onSelectDate = async date => {
-    const { mainCategoryId, category, product, onPurchaseDateStepDone } = this.props;
+    const { mainCategoryId, category, product, onInsuranceEffectiveDateStepDone, providerId, providerName } = this.props;
     this.setState({
-      isLoading: true,
-      activeDate: date
+      isLoading: true
     })
     try {
-      const res = await updateProduct({
+      const res = await addInsurance({
         productId: product.id,
-        purchaseDate: date
+        effectiveDate: date,
+        providerId,
+        providerName
       });
 
-      if (typeof onPurchaseDateStepDone == "function") {
-        onPurchaseDateStepDone(res.product);
+      if (typeof onInsuranceEffectiveDateStepDone == "function") {
+        onInsuranceEffectiveDateStepDone(res.product);
       }
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -63,20 +57,20 @@ class SelectPurchaseDateStep extends React.Component {
   };
 
   render() {
-    const { isLoading, activeDate } = this.state;
+    const { isLoading } = this.state;
 
     const { mainCategoryId, category, product } = this.props;
     console.log('product.document_date: ', product.document_date)
     return (
       <Step
-        title={`Select Purchase Date`}
+        title={`Select Insurance Effective Date`}
         skippable={true}
         showLoader={isLoading}
         {...this.props}
       >
 
         <DatePickerRn
-          activeDate={activeDate}
+          activeDate={moment(product.document_date).format('YYYY-MM-DD')}
           maxDate={moment().format('YYYY-MM-DD')}
           onSelectDate={this.onSelectDate} />
       </Step>
