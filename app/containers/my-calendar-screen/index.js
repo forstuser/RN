@@ -42,13 +42,14 @@ class MyCalendarScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ATTENDANCE);
         this.fetchItems();
         break;
     }
   };
 
-  componentDidMount() { }
+  componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ATTENDANCE);
+  }
 
   fetchItems = async () => {
     this.setState({

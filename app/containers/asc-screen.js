@@ -64,7 +64,6 @@ class AscScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
-        Analytics.logEvent(Analytics.EVENTS.OPEN_ASC_SCREEN);
         this.fetchProducts();
         if (this.state.clearSelectedValuesOnScreenAppear) {
           this.setState({

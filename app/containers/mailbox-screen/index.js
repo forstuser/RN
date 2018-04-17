@@ -15,7 +15,7 @@ import { colors } from "../../theme";
 import { openBillsPopUp } from "../../navigation";
 import I18n from "../../i18n";
 import { showSnackbar } from "../snackbar";
-
+import Analytics from "../../analytics";
 import { MAIN_CATEGORY_IDS, SCREENS } from "../../constants";
 
 import EmptyMailboxPlaceholder from "./empty-mailbox-placeholder";
@@ -97,6 +97,7 @@ class MailBox extends Component {
     return (
       <TouchableOpacity
         onPress={() => {
+          Analytics.logEvent(Analytics.EVENTS.CLICK_MAIL);
           switch (item.productType) {
             case 1:
               this.props.navigator.push({

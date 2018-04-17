@@ -53,7 +53,6 @@ class EhomeScreen extends Component {
     switch (event.id) {
       case "didAppear":
         this.screenHasDisappeared = false;
-        Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
         this.fetchEhomeData();
         break;
       case "didDisappear":
@@ -63,6 +62,7 @@ class EhomeScreen extends Component {
   };
 
   componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {
