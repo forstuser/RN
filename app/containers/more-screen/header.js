@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   findNodeHandle
 } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import Profile from "./profile";
 
 import { BlurView } from "react-native-blur";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
@@ -20,7 +22,10 @@ const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = { blurViewRef: null };
+    this.state = {
+      blurViewRef: null,
+      isProfileVisible: false
+    };
   }
 
   imageLoaded = () => {
@@ -28,7 +33,8 @@ class Header extends Component {
   };
 
   render() {
-    const { profile, authToken } = this.props;
+    const { profile, authToken, isProfileVisible } = this.props;
+
     let profilePic = (
       <Image
         ref={img => {
@@ -68,22 +74,46 @@ class Header extends Component {
               />
             )}
             {Platform.OS == "android" && <View style={styles.overlay} />}
+
             <View style={styles.headerInner}>
-              <View style={styles.profilePicWrapper}>
-                <View style={styles.profilePicCircleWrapper}>{profilePic}</View>
-              </View>
-              <View style={styles.centerText}>
-                <Text style={styles.name} weight="Bold">
-                  {profile.name}
-                </Text>
-                <Text style={styles.mobile} weight="Medium">
-                  {profile.mobile_no}
-                </Text>
-              </View>
-              <Image
-                style={{ width: 12, height: 12 }}
-                source={require("../../images/ic_processing_arrow.png")}
-              />
+              {!isProfileVisible && (
+                <View style={styles.profilePicWrapper}>
+                  <View style={styles.profilePicCircleWrapper}>
+                    {profilePic}
+                  </View>
+                </View>
+              )}
+
+              {isProfileVisible && (
+                <View style={styles.profileWrapper}>
+                  <View style={styles.profileCircleWrapper}>{profilePic}</View>
+                </View>
+              )}
+
+              {!isProfileVisible && (
+                <View style={styles.centerText}>
+                  <Text style={styles.name} weight="Bold">
+                    {profile.name}
+                  </Text>
+                  <Text style={styles.mobile} weight="Medium">
+                    {profile.mobile_no}
+                  </Text>
+                </View>
+              )}
+              {!isProfileVisible && (
+                <Image
+                  style={{ width: 12, height: 12 }}
+                  source={require("../../images/ic_processing_arrow.png")}
+                />
+              )}
+              <TouchableOpacity
+                style={styles.modalCloseIcon}
+                onPress={() => this.setState({ isProfileVisible: false })}
+              >
+                {isProfileVisible && (
+                  <Icon name="md-close" size={30} color="white" />
+                )}
+              </TouchableOpacity>
             </View>
           </TouchableOpacity>
         )}
@@ -99,7 +129,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-    height: 120
+    height: 140
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.55)",
@@ -108,6 +138,15 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0
+  },
+  mainText: {
+    width: 30,
+    fontSize: 30
+  },
+  modalCloseIcon: {
+    position: "absolute",
+    right: 15,
+    top: 10
   },
   headerInner: {
     flexDirection: "row",
@@ -135,6 +174,20 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
+    overflow: "hidden"
+  },
+  profileWrapper: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1
+  },
+  profileCircleWrapper: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
     overflow: "hidden"
   },
   centerText: {

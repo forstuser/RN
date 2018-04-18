@@ -32,10 +32,10 @@ import { showSnackbar } from "../../containers/snackbar";
 const verified = require("../../images/ic_profile_verified.png");
 const unVerified = require("../../images/ic_profile_unverified.png");
 
-class Body extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
-    // alert(JSON.stringify(props));
+    // Alert.alert(JSON.stringify(props));
     this.state = {
       name: this.props.profile.name,
       phoneInput: this.props.profile.mobile_no,
@@ -131,6 +131,7 @@ class Body extends Component {
   };
 
   render() {
+    const { profile, visible } = this.props;
     const {
       isEmailVerified,
       isEmailModalVisible,
@@ -142,7 +143,7 @@ class Body extends Component {
       isLoading
     } = this.state;
     return (
-      <View style={{ marginTop: 80 }}>
+      <View>
         <ProfileDetailEdit
           label={I18n.t("profile_screen_label_name")}
           info={this.state.name}
@@ -332,4 +333,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Body;
+export default Profile;

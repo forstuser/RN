@@ -38,19 +38,19 @@ class ProfileScreen extends Component {
     super(props);
     // alert(JSON.stringify(props));
     this.state = {
-      isNameModalVisible: false,
-      isEmailModalVisible: false,
-      isLocationModalVisible: false,
-      name: this.props.profile.name,
-      phone: this.props.profile.mobile_no,
-      email: this.props.profile.email,
-      isEmailVerified: this.props.profile.email_verified,
-      location: this.props.profile.location,
-      nameTemp: null,
-      emailTemp: null,
-      locationTemp: null,
-      latitude: null,
-      longitude: null
+      //   isNameModalVisible: false,
+      //   isEmailModalVisible: false,
+      //   isLocationModalVisible: false,
+      //   name: this.props.profile.name,
+      //   phone: this.props.profile.mobile_no,
+      email: this.props.profile.email
+      //   isEmailVerified: this.props.profile.email_verified,
+      //   location: this.props.profile.location,
+      //   nameTemp: null,
+      //   emailTemp: null,
+      //   locationTemp: null,
+      //   latitude: null,
+      //   longitude: null
     };
   }
 
@@ -245,17 +245,17 @@ class ProfileScreen extends Component {
   render() {
     const { profile, authToken } = this.props;
     const {
-      isNameModalVisible,
-      isEmailModalVisible,
-      isLocationModalVisible,
-      name,
-      phone,
-      email,
-      isEmailVerified,
-      location,
-      nameTemp,
-      emailTemp,
-      locationTemp
+      //   isNameModalVisible,
+      //   isEmailModalVisible,
+      //   isLocationModalVisible,
+      //   name,
+      //   phone,
+      email
+      //   isEmailVerified,
+      //   location,
+      //   nameTemp,
+      //   emailTemp,
+      //   locationTemp
     } = this.state;
 
     let showEmailVerifyText = false;
