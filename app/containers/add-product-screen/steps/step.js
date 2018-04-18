@@ -19,7 +19,7 @@ class Step extends React.Component {
             {title}
           </Text>
           {skippable && (
-            <TouchableOpacity style={styles.skipBtn} onPress={onSkipPress}>
+            <TouchableOpacity style={styles.skipBtn} onPress={() => onSkipPress()}>
               <Text weight="Bold" style={styles.skipText}>
                 SKIP
               </Text>

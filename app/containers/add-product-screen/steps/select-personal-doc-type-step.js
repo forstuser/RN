@@ -9,30 +9,29 @@ import {
   Alert
 } from "react-native";
 import I18n from "../../../i18n";
-import { API_BASE_URL, updateProduct, getReferenceDatasubCategorys } from "../../../api";
+import { API_BASE_URL, updateProduct } from "../../../api";
 import { MAIN_CATEGORY_IDS } from "../../../constants";
-import { Text } from "../../../elements";
+import { Text, Button } from "../../../elements";
 import { colors } from "../../../theme";
 import { showSnackbar } from "../../snackbar";
 
-import { getReferenceDataCategories } from "../../../api";
-
 import LoadingOverlay from "../../../components/loading-overlay";
 import SelectOrCreateItem from "../../../components/select-or-create-item";
+import CustomTextInput from "../../../components/form-elements/text-input";
 
 import Step from "./step";
 
-class SelectSubCategoryStep extends React.Component {
+class AddAmountStep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      subCategories: this.props.subCategories || [],
-      isLoading: false
+      isLoading: false,
+      value: props.product.value || ''
     };
   }
 
-  onSelectSubCategory = async subCategory => {
-    const { mainCategoryId, category, product, onSubCategoryStepDone } = this.props;
+  onPressNext = async () => {
+    const { mainCategoryId, category, product, onStepDone } = this.props;
     this.setState({
       isLoading: true
     })
@@ -41,11 +40,11 @@ class SelectSubCategoryStep extends React.Component {
         mainCategoryId: mainCategoryId,
         categoryId: category.id,
         productId: product.id,
-        subCategoryId: subCategory.id
+        value: this.state.value
       });
 
-      if (typeof onSubCategoryStepDone == "function") {
-        onSubCategoryStepDone(res.product);
+      if (typeof onStepDone == "function") {
+        onStepDone(res.product);
       }
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -56,23 +55,26 @@ class SelectSubCategoryStep extends React.Component {
     }
   };
 
-
   render() {
-    const { subCategories, isLoading } = this.state;
+    const { isLoading, value } = this.state;
 
     const { mainCategoryId, category, product } = this.props;
 
     return (
       <Step
-        title={`Select ${category.name} type`}
+        title={`Add Amount`}
         showLoader={isLoading}
         {...this.props}
       >
-        <SelectOrCreateItem
-          items={subCategories}
-          onSelectItem={this.onSelectSubCategory}
-          hideAddNew={true}
-        />
+        <View style={{ padding: 20 }}>
+          <CustomTextInput
+            placeholder={I18n.t("expense_forms_expense_basic_expense_amount")}
+            value={value ? String(value) : ""}
+            onChangeText={value => this.setState({ value })}
+            keyboardType="numeric"
+          />
+          <Button onPress={this.onPressNext} text='Next' style={{ width: 100, height: 40, alignSelf: 'center', marginTop: 20 }} />
+        </View>
       </Step>
     );
   }
@@ -84,4 +86,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SelectSubCategoryStep;
+export default AddAmountStep;

@@ -206,7 +206,11 @@ class ChooseExpenseTypeScreen extends React.Component {
               </View>
             </View>
           </View>
-
+          <View style={styles.orContainer}>
+            <Text style={styles.or} weight="Bold">
+              {I18n.t("add_edit_product_option_or")}
+            </Text>
+          </View>
           <View style={[styles.option, styles.option2]}>
             <View style={[styles.optionInner]}>
               <Text
@@ -228,21 +232,8 @@ class ChooseExpenseTypeScreen extends React.Component {
                 </View>
               </View>
             </View>
-            {Platform.OS == "ios" && (
-              <Button
-                style={styles.closeBtn}
-                text={I18n.t("add_expenses_options_cancel_btn")}
-                type="outline"
-                color="secondary"
-                outlineBtnStyle={{ borderColor: "transparent" }}
-              />
-            )}
           </View>
-          <View style={styles.orContainer}>
-            <Text style={styles.or} weight="Bold">
-              {I18n.t("add_edit_product_option_or")}
-            </Text>
-          </View>
+
         </View>
       </Step>
     );
@@ -257,32 +248,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   option: {
-    height: Dimensions.get("window").height / 2 - 5,
+    flex: 1,
     padding: 16,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: '#fff'
   },
   option1: {
-    marginBottom: 10,
-    ...Platform.select({
-      ios: {
-        paddingTop: 0
-      },
-      android: {
-        paddingTop: 0
-      }
-    })
   },
   option2: {
-    ...Platform.select({
-      ios: {
-        paddingBottom: 5
-      },
-      android: {
-        paddingBottom: 45
-      }
-    })
+
   },
   optionInner: {
     justifyContent: "center",
@@ -320,20 +295,14 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   orContainer: {
-    ...defaultStyles.card,
-    position: "absolute",
-    top: Dimensions.get("window").height / 2 - 25,
-    left: Dimensions.get("window").width / 2 - 25,
     backgroundColor: "#f7f7f7",
-    width: 50,
-    height: 50,
-    elevation: 3,
-    borderRadius: 25,
+    height: 30,
     justifyContent: "center",
     alignItems: "center"
   },
   or: {
-    fontSize: 18
+    fontSize: 14,
+    color: colors.secondaryText
   },
   closeBtn: {
     // margin: 10,

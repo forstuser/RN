@@ -273,8 +273,22 @@ class SelectCategoryHeader extends React.Component {
               icon: require("../../../images/categories/hospital.png")
             }
           ];
-          break;
         }
+        break;
+      case MAIN_CATEGORY_IDS.PERSONAL:
+        title = I18n.t("add_edit_expense_screen_title_select_personal_doc");
+        visibleOptions = [
+          {
+            id: CATEGORY_IDS.PERSONAL.RENT_AGREEMENT,
+            name: "Rent Agreement",
+            icon: require("../../../images/categories/household.png")
+          },
+          {
+            id: CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC,
+            name: "Other Personal Docs",
+            icon: require("../../../images/main-categories/ic_personal_doc.png")
+          }
+        ];
         break;
     }
 

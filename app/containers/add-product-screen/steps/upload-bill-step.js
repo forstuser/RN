@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import I18n from "../../../i18n";
 import { API_BASE_URL, updateProduct } from "../../../api";
-import { MAIN_CATEGORY_IDS } from "../../../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 import { Text, Button } from "../../../elements";
 import { colors } from "../../../theme";
 import { showSnackbar } from "../../snackbar";
@@ -35,15 +35,22 @@ class UploadBillStep extends React.Component {
 
     const { mainCategoryId, category, product, onUploadBillStepDone, navigator } = this.props;
 
+    let title = I18n.t("expense_forms_expense_basic_upload_bill");
+    if (category.id == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
+      title = 'Upload Visiting Card'
+    } else if (category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
+      title = 'Upload Medical Doc'
+    }
+
     return (
       <Step
-        title={`Upload Bill`}
+        title={title}
         showLoader={isLoading}
         {...this.props}
       >
         <View style={{ padding: 20 }}>
           <UploadDoc
-            placeholder={I18n.t("expense_forms_expense_basic_upload_bill")}
+            placeholder={'Select File'}
             productId={product.id}
             itemId={product.id}
             jobId={product.job_id}

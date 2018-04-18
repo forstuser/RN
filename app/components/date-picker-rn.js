@@ -69,10 +69,12 @@ class DatePickerRn extends React.Component {
       .format("e");
 
     if (firstWeekDayOfMonth > 0) {
-      const daysInPreviousMonth = moment(yearAndMonth)
-        .subtract(1, "months")
-        .daysInMonth();
+      const previousMonthMoment = moment(yearAndMonth)
+        .subtract(1, "months");
 
+      const daysInPreviousMonth = previousMonthMoment.daysInMonth();
+
+      const previousMonthYearAndMonth = previousMonthMoment.format('YYYY-MM');
       const daysFromPreviousMonth = [];
       for (
         let i = daysInPreviousMonth - firstWeekDayOfMonth + 1;
@@ -81,7 +83,7 @@ class DatePickerRn extends React.Component {
       ) {
         daysFromPreviousMonth.push({
           date: i,
-          isoDate: yearAndMonth + "-" + ("0" + i).slice(-2),
+          isoDate: previousMonthYearAndMonth + "-" + ("0" + i).slice(-2),
           isAdjacentMonthDay: true
         });
       }
@@ -94,14 +96,16 @@ class DatePickerRn extends React.Component {
 
     const daysFromNextMonth = 6 - lastWeekDayOfMonth;
     if (daysFromNextMonth > 0) {
-      const daysInNextMonth = moment(yearAndMonth)
+      const nextMonthMoment = moment(yearAndMonth)
         .add(1, "months")
-        .daysInMonth();
 
+      const daysInNextMonth = nextMonthMoment.daysInMonth();
+
+      const nextMonthYearAndMonth = nextMonthMoment.format('YYYY-MM');
       for (let i = 1; i <= daysFromNextMonth; i++) {
         days.push({
           date: i,
-          isoDate: yearAndMonth + "-" + ("0" + i).slice(-2),
+          isoDate: nextMonthYearAndMonth + "-" + ("0" + i).slice(-2),
           isAdjacentMonthDay: true
         });
       }
