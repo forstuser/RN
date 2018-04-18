@@ -18,7 +18,7 @@ const searchIcon = require("../images/ic_top_search.png");
 
 class TabSearchHeader extends Component {
   openSearchScreen = () => {
-    Analytics.logEvent(Analytics.EVENTS.USER_SEARCH_IN_EHOME);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_SEARCH);
     this.props.navigator.push({
       screen: SCREENS.SEARCH_SCREEN,
       passProps: {

@@ -55,7 +55,7 @@ class SearchBox extends Component {
     }
     this.textInput.blur();
     this.setState({ isFetchingResults: true, products: [] });
-    Analytics.logEvent(Analytics.EVENTS.USER_SEARCH_IN_EHOME);
+    Analytics.logEvent(Analytics.EVENTS.USE_SEARCH);
     try {
       const res = await getSearchResults(this.state.textInput);
       this.setState({

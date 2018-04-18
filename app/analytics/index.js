@@ -28,7 +28,8 @@ const EVENTS = {
   OPEN_EHOME: "click_ehome",
   OPEN_EHOME_CATEGORY: "categoryclick_ehome",
   ADD_PRODUCT_INSIDE_EHOME_MAIN_CATEGORIES: "addproduct_insideehome",
-  USER_SEARCH_IN_EHOME: "clicksearch_eHome",
+  CLICK_SEARCH: "click_search",
+  USE_SEARCH: "use_search",
   //product card
   CLICK_VIEW_BILL: "addbill_pc",
   CLICK_ON_ADD_PRODUCT_IMAGE: "Click_AddProductImage",
@@ -91,7 +92,6 @@ const EVENTS = {
   // DASHBOARD
   CLICK_ON_EXPENSE_INSIGHT: "click_expenseinsights",
   CLICK_ON_ASC: "Click_ASC",
-  CLICK_SEARCH_ON_DASHBOARD: "Click_search_dashboard",
   CLICK_ON_MAILBOX: "Click_mail",
 
   CLICK_CONTACT_AFTER_SALES: "aftersales_pc",
@@ -110,7 +110,7 @@ const EVENTS = {
 
 const logEvent = (eventName, data = {}) => {
   console.log("eventName: -", eventName);
-  if (!__DEV__) {
+  if (__DEV__) {
     const user = store.getState().loggedInUser;
     FirebaseAnalytics.logEvent(eventName, {
       Platform: "iOS",
