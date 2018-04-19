@@ -33,7 +33,8 @@ class SelectCategoryStep extends React.Component {
     };
   }
   componentDidMount() {
-    console.log('mounted');
+    console.log('this.props: ', this.props);
+
     let title = "Select Type";
     let genericIcon = null;
     let visibleOptions = [];
@@ -284,7 +285,7 @@ class SelectCategoryStep extends React.Component {
           {
             id: CATEGORY_IDS.PERSONAL.RENT_AGREEMENT,
             name: "Rent Agreement",
-            icon: require("../../../images/categories/household.png")
+            icon: require("../../../images/categories/rent_agreement.png")
           },
           {
             id: CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC,
@@ -304,7 +305,7 @@ class SelectCategoryStep extends React.Component {
       () => {
         //if category is already selected
         if (this.props.category) {
-          console.log("this.props.categoryId: ", this.props.categoryId);
+          console.log("this.props.category: ", this.props.category);
           console.log("this.state.visibleOptions: ", this.state.visibleOptions);
           const category = this.state.visibleOptions.find(
             option => option.id == this.props.category.id

@@ -36,10 +36,24 @@ class UploadBillStep extends React.Component {
     const { mainCategoryId, category, product, onUploadBillStepDone, navigator } = this.props;
 
     let title = I18n.t("expense_forms_expense_basic_upload_bill");
-    if (category.id == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
-      title = 'Upload Visiting Card'
-    } else if (category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
-      title = 'Upload Medical Doc'
+    let btnText = 'Done';
+    switch (category.id) {
+      case CATEGORY_IDS.PERSONAL.VISITING_CARD:
+        title = 'Upload Visiting Card';
+        btnText = 'Next';
+        break;
+      case CATEGORY_IDS.PERSONAL.RENT_AGREEMENT:
+        title = 'Upload Rent Agreement';
+        btnText = 'Next';
+        break;
+      case CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC:
+        title = 'Upload Personal Doc';
+        btnText = 'Next';
+        break;
+      case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
+        title = 'Upload Medical Doc';
+        btnText = 'Next';
+        break;
     }
 
     return (
@@ -63,7 +77,7 @@ class UploadBillStep extends React.Component {
             }}
             navigator={navigator}
           />
-          <Button onPress={onUploadBillStepDone} text='Done' style={{ width: 100, height: 40, alignSelf: 'center', marginTop: 20 }} />
+          <Button onPress={onUploadBillStepDone} text={btnText} style={{ width: 100, height: 40, alignSelf: 'center', marginTop: 20 }} />
         </View>
       </Step>
     );

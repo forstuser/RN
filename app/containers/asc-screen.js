@@ -245,8 +245,9 @@ class AscScreen extends Component {
   };
 
   openAddProductScreen = () => {
-    this.props.navigator.showModal({
-      screen: SCREENS.ADD_PRODUCT_OPTIONS_SCREEN
+    this.props.navigator.push({
+      screen: SCREENS.ADD_PRODUCT_SCREEN,
+      overrideBackPress: true
     });
   };
 

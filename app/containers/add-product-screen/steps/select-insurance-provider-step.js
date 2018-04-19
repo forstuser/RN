@@ -9,7 +9,7 @@ import {
   Alert
 } from "react-native";
 import I18n from "../../../i18n";
-import { API_BASE_URL, updateProduct } from "../../../api";
+import { API_BASE_URL, addInsurance } from "../../../api";
 import { MAIN_CATEGORY_IDS } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
@@ -38,22 +38,53 @@ class SelectInsuranceProviderStep extends React.Component {
   }
 
   onSelectProvider = async provider => {
-    const { onInsuranceProviderStepDone } = this.props;
-    if (typeof onInsuranceProviderStepDone == "function") {
-      onInsuranceProviderStepDone({ providerId: provider.id });
+    const { product, onInsuranceProviderStepDone } = this.props;
+    this.setState({
+      isLoading: true
+    })
+    try {
+      const res = await addInsurance({
+        productId: product.id,
+        providerId: provider.id
+      });
+
+      if (typeof onInsuranceProviderStepDone == "function") {
+        onInsuranceProviderStepDone({ insurance: res.insurance });
+      }
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({
+        isLoading: false
+      })
     }
   };
 
   onAddProvider = async providerName => {
-    const { onInsuranceProviderStepDone } = this.props;
-    if (typeof onInsuranceProviderStepDone == "function") {
-      onInsuranceProviderStepDone({ providerName });
+    const { product, onInsuranceProviderStepDone } = this.props;
+    this.setState({
+      isLoading: true
+    })
+    try {
+      const res = await addInsurance({
+        productId: product.id,
+        providerName
+      });
+
+      if (typeof onInsuranceProviderStepDone == "function") {
+        onInsuranceProviderStepDone({ insurance: res.insurance });
+      }
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({
+        isLoading: false
+      })
     }
   };
 
   render() {
     const { providers, isLoading } = this.state;
-    console.log("providers: ", providers);
 
     const { mainCategoryId, category, product } = this.props;
 
@@ -61,9 +92,9 @@ class SelectInsuranceProviderStep extends React.Component {
       <Step
         title={`Select insurance provider`}
         skippable={false}
+        showLoader={isLoading}
         {...this.props}
       >
-        <LoadingOverlay isVisible={isLoading} />
         <SelectOrCreateItem
           items={providers.map(provider => ({
             ...provider,

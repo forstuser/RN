@@ -225,7 +225,8 @@ class DashboardScreen extends React.Component {
     });
     Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
     this.props.navigator.push({
-      screen: SCREENS.ADD_PRODUCT_SCREEN
+      screen: SCREENS.ADD_PRODUCT_SCREEN,
+      overrideBackPress: true
     });
   };
 

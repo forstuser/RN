@@ -4,7 +4,7 @@ import { Text, Button } from "../../elements";
 import Modal from "react-native-modal";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
-import { SCREENS } from "../../constants";
+import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
 import I18n from "../../i18n";
 import Analytics from "../../analytics";
 
@@ -41,7 +41,7 @@ class FinishModal extends React.Component {
           }
         });
       } else {
-        this.props.navigator.dismissAllModals();
+        this.props.navigator.pop();
       }
     });
   };
@@ -49,11 +49,34 @@ class FinishModal extends React.Component {
   render() {
     const {
       mainCategoryId,
+      category,
       showRepairIcon = false,
-      title = I18n.t("add_edit_expense_screen_title_add_eHome"),
       navigator
     } = this.props;
     const { visible } = this.state;
+
+    let title = I18n.t("add_edit_expense_screen_title_add_eHome");
+    switch (mainCategoryId) {
+      case MAIN_CATEGORY_IDS.AUTOMOBILE:
+      case MAIN_CATEGORY_IDS.ELECTRONICS:
+      case MAIN_CATEGORY_IDS.FURNITURE:
+      case MAIN_CATEGORY_IDS.FASHION:
+        title = 'Product added to your eHome';
+        break;
+      case MAIN_CATEGORY_IDS.PERSONAL:
+      case MAIN_CATEGORY_IDS.HEALTHCARE:
+        if (category && category.id != CATEGORY_IDS.HEALTHCARE.EXPENSE) {
+          title = 'Document added to your eHome';
+          break;
+        }
+      default:
+        title = 'Expense added to your eHome'
+    }
+
+    if (!mainCategoryId) {
+      title = 'Repair added to the product';
+    }
+
     return (
       <Modal useNativeDriver={true} isVisible={visible} animationOutTiming={10}>
         <View style={styles.finishModal}>

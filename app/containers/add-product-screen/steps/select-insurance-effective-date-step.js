@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import moment from "moment";
 import I18n from "../../../i18n";
-import { API_BASE_URL, addInsurance } from "../../../api";
+import { API_BASE_URL, addInsurance, updateInsurance } from "../../../api";
 import { MAIN_CATEGORY_IDS } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
@@ -32,20 +32,19 @@ class SelectPurchaseDateStep extends React.Component {
   }
 
   onSelectDate = async date => {
-    const { mainCategoryId, category, product, onInsuranceEffectiveDateStepDone, providerId, providerName } = this.props;
+    const { product, insurance, onInsuranceEffectiveDateStepDone } = this.props;
     this.setState({
       isLoading: true
     })
     try {
-      const res = await addInsurance({
+      const res = await updateInsurance({
         productId: product.id,
-        effectiveDate: date,
-        providerId,
-        providerName
+        id: insurance.id,
+        effectiveDate: date
       });
 
       if (typeof onInsuranceEffectiveDateStepDone == "function") {
-        onInsuranceEffectiveDateStepDone(res.product);
+        onInsuranceEffectiveDateStepDone();
       }
     } catch (e) {
       showSnackbar({ text: e.message });

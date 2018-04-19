@@ -44,7 +44,6 @@ class Repair extends React.Component {
       sellerContact: "",
       warrantyUpto: "",
       isLoading: false,
-      isFinishModalVisible: false,
       copies: []
     };
   }
@@ -92,6 +91,7 @@ class Repair extends React.Component {
   };
 
   saveRepair = async () => {
+    const { onStepDone } = this.props;
     try {
       const {
         id,
@@ -128,8 +128,11 @@ class Repair extends React.Component {
       }
       this.setState({
         isLoading: false,
-        isFinishModalVisible: true
       });
+
+      if (typeof onStepDone == 'function') {
+        onStepDone();
+      }
     } catch (e) {
       showSnackbar({
         text: e.message

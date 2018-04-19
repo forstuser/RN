@@ -70,6 +70,8 @@ class SelectBrandStep extends React.Component {
       if (typeof onBrandStepDone == "function") {
         onBrandStepDone(res.product);
       }
+
+
     } catch (e) {
       showSnackbar({ text: e.message });
     } finally {
@@ -92,9 +94,11 @@ class SelectBrandStep extends React.Component {
         brandId: null,
         brandName
       });
+
       if (typeof onBrandStepDone == "function") {
         onBrandStepDone(res.product);
       }
+
     } catch (e) {
       showSnackbar({ text: e.message });
     } finally {

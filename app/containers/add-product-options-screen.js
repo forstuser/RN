@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     ...defaultStyles.card,
-    borderRadius: 50
+    borderRadius: 5
   },
   itemIcon: {
     height: 52,
