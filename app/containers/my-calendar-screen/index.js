@@ -9,19 +9,15 @@ import {
   Image
 } from "react-native";
 import I18n from "../../i18n";
-
 import { API_BASE_URL, fetchCalendarItems } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import TabSearchHeader from "../../components/tab-screen-header";
-import Analytics from "../../analytics"
+import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
-
 import { colors } from "../../theme";
-
 import Item from "./item";
-
 const calendarIcon = require("../../images/ic_calendar.png");
 const calendarIconColor = require("../../images/ic_calendar_color.png");
 
@@ -48,7 +44,7 @@ class MyCalendarScreen extends Component {
     }
   };
 
-  componentDidMount() { }
+  componentDidMount() {}
 
   fetchItems = async () => {
     this.setState({

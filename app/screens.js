@@ -40,10 +40,13 @@ import DirectUploadDocumentScreen from "./containers/direct-upload-document-scre
 import RateUsScreen from "./containers/rate-us-screen";
 import DoYouKnowScreen from "./containers/do-you-know-screen";
 import MyCalendarScreen from "./containers/my-calendar-screen";
+import EasyLifeScreen from "./containers/easy-life-screen";
+import AddCookingScreen from "./containers/add-cooking-screen";
 import AddCalendarServiceScreen from "./containers/add-calendar-service-screen";
 import CalendarServiceCardScreen from "./containers/calender-service-card-screen";
 import EnterPinPopupScreen from "./containers/enter-pin-popup-screen";
 import PinSetupScreen from "./containers/pin-setup-screen";
+import DishCalendarScreen from "./containers/add-cooking-screen/dish-calendar";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -242,10 +245,23 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
+  Navigation.registerComponent(
+    SCREENS.DISH_CALENDAR_SCREEN,
+    () => DishCalendarScreen,
+    store,
+    Provider
+  );
 
   Navigation.registerComponent(
     SCREENS.EDIT_MEDICAL_DOCS_SCREEN,
     () => EditMedicalDocScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.ADD_COOKING_SCREEN,
+    () => AddCookingScreen,
     store,
     Provider
   );
@@ -288,6 +304,13 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     SCREENS.MY_CALENDAR_SCREEN,
     () => MyCalendarScreen,
+    store,
+    Provider
+  );
+
+  Navigation.registerComponent(
+    SCREENS.EASY_LIFE_SCREEN,
+    () => EasyLifeScreen,
     store,
     Provider
   );
