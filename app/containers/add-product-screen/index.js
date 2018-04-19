@@ -130,6 +130,8 @@ class AddProductScreen extends React.Component {
     const steps = [...this.state.steps];
     steps.pop();
     this.setState(() => ({ steps }));
+
+    console.log('current state: ', this.state);
   };
 
   nextStep = () => {
@@ -155,6 +157,7 @@ class AddProductScreen extends React.Component {
     this.pushStep(
       <SelectCategoryStep
         mainCategoryId={mainCategoryId}
+        category={category}
         onBackPress={this.previousStep}
         onCategorySelect={this.onCategorySelect}
         expenseType={expenseType}
@@ -172,6 +175,7 @@ class AddProductScreen extends React.Component {
         skippable={true}
         onBackPress={this.previousStep}
         onSkipPress={this.onPurchaseDateStepDone}
+        subtitle={'It helps in warranty, service and other details'}
       />)
   }
 
@@ -640,7 +644,7 @@ class AddProductScreen extends React.Component {
               </View>]
             })}
           </View>
-          <Text weight='Bold' style={{ fontSize: 12, marginTop: 10, color: colors.secondaryText }}>Purchase date helps in warranty, service and other details</Text>
+          {/* <Text weight='Bold' style={{ fontSize: 12, marginTop: 10, color: colors.secondaryText }}>Purchase date helps in warranty, service and other details</Text> */}
         </View>
         }
         <FinishModal
@@ -668,7 +672,7 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH
   },
   stepIndicatorsAndText: {
-    height: 80,
+    height: 40,
     paddingHorizontal: 20,
     paddingVertical: 5,
     backgroundColor: '#fff'

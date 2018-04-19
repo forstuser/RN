@@ -243,7 +243,6 @@ class ChooseExpenseTypeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f7f7f7",
     padding: 0,
     justifyContent: "space-between"
   },
@@ -266,7 +265,8 @@ const styles = StyleSheet.create({
   },
   optionTitle: {
     fontSize: 18,
-    margin: 5
+    margin: 5,
+    marginTop: 0
   },
   grid: {},
   itemsRow: {

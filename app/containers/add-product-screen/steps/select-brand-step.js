@@ -106,7 +106,6 @@ class SelectBrandStep extends React.Component {
 
   render() {
     const { brands, isLoading } = this.state;
-    console.log("brands: ", brands);
 
     const { mainCategoryId, category, product } = this.props;
 

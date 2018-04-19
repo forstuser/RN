@@ -20,7 +20,7 @@ import SelectModal from "../../../components/select-modal";
 
 import Step from "./step";
 
-class SelectCategoryHeader extends React.Component {
+class SelectCategoryStep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,9 +33,12 @@ class SelectCategoryHeader extends React.Component {
     };
   }
   componentDidMount() {
+    console.log('mounted');
     let title = "Select Type";
     let genericIcon = null;
     let visibleOptions = [];
+
+
 
     switch (this.props.mainCategoryId) {
       case MAIN_CATEGORY_IDS.AUTOMOBILE:
@@ -300,13 +303,13 @@ class SelectCategoryHeader extends React.Component {
       },
       () => {
         //if category is already selected
-        if (this.props.categoryId) {
+        if (this.props.category) {
           console.log("this.props.categoryId: ", this.props.categoryId);
           console.log("this.state.visibleOptions: ", this.state.visibleOptions);
           const category = this.state.visibleOptions.find(
-            option => option.id == this.props.categoryId
+            option => option.id == this.props.category.id
           );
-          if (category) this.changeOption(category);
+          if (category) this.selectOption(category);
         }
       }
     );
@@ -337,52 +340,44 @@ class SelectCategoryHeader extends React.Component {
     }
   };
 
-  onOptionSelect = option => {
-    const selectedOption = this.state.selectedOption;
-    //if clicked on already selected option
-    if (selectedOption && selectedOption.id == option.id) {
-      return;
-    } else {
-      this.changeOption(option);
+  selectOption = (category) => {
+    if (this.props.expenseType == EXPENSE_TYPES.HEALTHCARE) {
+      category = { id: CATEGORY_IDS.HEALTHCARE.EXPENSE, name: "Expenses" };
     }
-  };
+    this.setState({
+      selectedOption: category
+    }, () => {
+      const visibleIds = this.state.visibleOptions.map(option => category.id);
+      const idx = visibleIds.indexOf(category.id);
+      if (idx > -1) {
+        if (
+          this.props.mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
+          this.props.mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS
+        ) {
+          this.scrollView.scrollTo({ x: idx * 70, animated: false });
+        }
+        this.setState({
+          showOtherOption: false
+        });
+      } else {
+        this.setState(
+          {
+            showOtherOption: true
+          },
+          () => this.scrollView.scrollToEnd()
+        );
+      }
+    })
+  }
 
   changeOption = category => {
     let subCategoryId = null;
     if (this.props.expenseType == EXPENSE_TYPES.HEALTHCARE) {
-      category = { id: CATEGORY_IDS.HEALTHCARE.EXPENSE, name: "Expenses" };
       subCategoryId = category.id;
     }
 
     this.initProduct({ category, subCategoryId });
-
-    this.setState(
-      {
-        selectedOption: category
-      },
-      () => {
-        const visibleIds = this.state.visibleOptions.map(option => category.id);
-        const idx = visibleIds.indexOf(category.id);
-        if (idx > -1) {
-          if (
-            this.props.mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
-            this.props.mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS
-          ) {
-            this.scrollView.scrollTo({ x: idx * 70, animated: false });
-          }
-          this.setState({
-            showOtherOption: false
-          });
-        } else {
-          this.setState(
-            {
-              showOtherOption: true
-            },
-            () => this.scrollView.scrollToEnd()
-          );
-        }
-      }
-    );
+    this.selectOption(category);
   };
 
   initProduct = async ({ category, subCategoryId }) => {
@@ -438,7 +433,7 @@ class SelectCategoryHeader extends React.Component {
               options={otherOptions}
               selectedOption={selectedOption}
               onOptionSelect={value => {
-                this.onOptionSelect(value);
+                this.changeOption(value);
               }}
               hideAddNew={true}
             />
@@ -453,7 +448,7 @@ class SelectCategoryHeader extends React.Component {
                   selectedOption && selectedOption.id == option.id;
                 return (
                   <TouchableWithoutFeedback
-                    onPress={() => this.onOptionSelect(option)}
+                    onPress={() => this.changeOption(option)}
                   >
                     <View style={styles.option}>
                       <View
@@ -601,4 +596,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SelectCategoryHeader;
+export default SelectCategoryStep;

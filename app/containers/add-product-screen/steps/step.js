@@ -8,16 +8,21 @@ import { colors } from "../../../theme";
 
 class Step extends React.Component {
   render() {
-    const { onBackPress, onSkipPress, title, skippable = false, children, showLoader = false } = this.props;
+    const { onBackPress, onSkipPress, title, subtitle, skippable = false, children, showLoader = false } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity style={styles.backBtn} onPress={onBackPress}>
             <Icon name="md-arrow-back" size={24} color="#000" />
           </TouchableOpacity>
-          <Text weight="Bold" numberOfLines={1} style={styles.title}>
-            {title}
-          </Text>
+          <View style={styles.titlesContainer}>
+            <Text weight="Bold" numberOfLines={1} style={styles.title}>
+              {title}
+            </Text>
+            {subtitle && <Text numberOfLines={1} style={styles.subtitle}>
+              {subtitle}
+            </Text>}
+          </View>
           {skippable && (
             <TouchableOpacity style={styles.skipBtn} onPress={() => onSkipPress()}>
               <Text weight="Bold" style={styles.skipText}>
@@ -49,15 +54,21 @@ const styles = StyleSheet.create({
     height: 56
   },
   backBtn: {
-    width: 56,
+    width: 50,
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
     paddingTop: 2
   },
+  titlesContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   title: {
     fontSize: 16,
-    flex: 1
+  },
+  subtitle: {
+    fontSize: 12,
   },
   skipBtn: {
     paddingHorizontal: 16,
