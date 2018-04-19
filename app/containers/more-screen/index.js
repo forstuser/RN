@@ -16,10 +16,12 @@ import { actions as uiActions } from "../../modules/ui";
 import { Text, Button, ScreenContainer } from "../../elements";
 import Body from "./body";
 import Header from "./header";
+import Profile from "./profile";
+
 import I18n from "../../i18n";
 import { showSnackbar } from "../snackbar";
 import { SCREENS } from "../../constants";
-import { getProfileDetail, deletePin, logout } from "../../api";
+import { getProfileDetail, deletePin, logout, updateProfile } from "../../api";
 import { openLoginScreen, openAppScreen } from "../../navigation";
 import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -32,6 +34,7 @@ class MoreScreen extends Component {
 
   constructor(props) {
     super(props);
+    // Alert.alert(JSON.stringify(props));
     this.state = {
       error: null,
       isFetchingData: false,
@@ -39,7 +42,8 @@ class MoreScreen extends Component {
       isAppUpdateAvailable: false,
       binbillDetails: {},
       startWithProfileScreen: false,
-      isRemovePinModalVisible: false
+      isRemovePinModalVisible: false,
+      isProfileVisible: false
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -127,9 +131,12 @@ class MoreScreen extends Component {
   };
 
   openProfileScreen = () => {
-    this.props.navigator.push({
-      screen: SCREENS.PROFILE_SCREEN,
-      passProps: { profile: this.state.profile }
+    // this.props.navigator.push({
+    //   screen: SCREENS.PROFILE_SCREEN,
+    //   passProps: { profile: this.state.profile }
+    // });
+    this.setState({
+      isProfileVisible: true
     });
   };
 
@@ -140,8 +147,10 @@ class MoreScreen extends Component {
       isAppUpdateAvailable,
       error,
       isFetchingData,
-      isRemovePinModalVisible
+      isRemovePinModalVisible,
+      isProfileVisible
     } = this.state;
+    // Alert.alert(this.setState.profile);
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
     }
@@ -153,21 +162,25 @@ class MoreScreen extends Component {
           onPress={this.openProfileScreen}
           profile={profile}
           navigator={this.props.navigator}
+          isProfileVisible={this.state.isProfileVisible}
         />
-        <Body
-          profile={profile}
-          isPinSet={isPinSet}
-          removePin={() => this.setState({ isRemovePinModalVisible: true })}
-          isAppUpdateAvailable={isAppUpdateAvailable}
-          logoutUser={this.props.logoutUser}
-          language={this.props.language}
-          setLanguage={language => {
-            this.props.setLanguage(language);
-            I18n.locale = language.code;
-            openAppScreen();
-          }}
-          navigator={this.props.navigator}
-        />
+        {!isProfileVisible && (
+          <Body
+            profile={profile}
+            isPinSet={isPinSet}
+            removePin={() => this.setState({ isRemovePinModalVisible: true })}
+            isAppUpdateAvailable={isAppUpdateAvailable}
+            logoutUser={this.props.logoutUser}
+            language={this.props.language}
+            setLanguage={language => {
+              this.props.setLanguage(language);
+              I18n.locale = language.code;
+              openAppScreen();
+            }}
+            navigator={this.props.navigator}
+          />
+        )}
+        {profile && isProfileVisible && <Profile profile={profile} />}
         <Modal
           isVisible={isRemovePinModalVisible}
           style={{ margin: 0 }}

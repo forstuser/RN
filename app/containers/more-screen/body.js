@@ -40,7 +40,7 @@ class Body extends Component {
           text: I18n.t("more_screen_logout"),
           onPress: () => {
             Analytics.logEvent(Analytics.EVENTS.CLICK_LOGOUT_YES);
-            this.props.logoutUser()
+            this.props.logoutUser();
           }
         },
         {
@@ -77,7 +77,7 @@ class Body extends Component {
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-      profile ? profile.mobile_no : ""
+        profile ? profile.mobile_no : ""
       })`
     );
   };
