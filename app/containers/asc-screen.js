@@ -104,7 +104,7 @@ class AscScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     } finally {
       this.setState({
         isFetchingBrands: false
@@ -126,7 +126,7 @@ class AscScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     } finally {
       this.setState({
         isFetchingProducts: false
@@ -173,7 +173,7 @@ class AscScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     } finally {
       this.setState({
         isFetchingCategories: false
@@ -193,13 +193,13 @@ class AscScreen extends Component {
     if (!this.state.selectedBrand || !this.state.selectedCategory) {
       return showSnackbar({
         text: I18n.t("asc_screen_select_fields_first")
-      })
+      });
     }
 
     if (!this.state.latitude) {
       return showSnackbar({
         text: I18n.t("asc_screen_select_location")
-      })
+      });
     }
 
     Analytics.logEvent(Analytics.EVENTS.SEARCH_ASC);
@@ -365,7 +365,7 @@ class AscScreen extends Component {
                 if (!this.state.selectedBrand) {
                   showSnackbar({
                     text: I18n.t("asc_screen_select_brand_first")
-                  })
+                  });
                   return false;
                 }
                 this.setState({ clearSelectedValuesOnScreenAppear: false });
@@ -512,10 +512,10 @@ const styles = StyleSheet.create({
   },
   select: {
     height: "auto",
-    backgroundColor: 'white',
-    borderColor: 'transparent',
-    overflow: 'hidden',
-    shadowColor: 'black',
+    backgroundColor: "white",
+    borderColor: "transparent",
+    overflow: "hidden",
+    shadowColor: "black",
     padding: 8,
     paddingBottom: 15,
     paddingTop: 10,
