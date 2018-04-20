@@ -22,9 +22,7 @@ const attendance = require("../../images/attendance.png");
 const todo = require("../../images/to_do.png");
 
 class EasyLifeScreen extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true
-  };
+
   componentDidMount() {
     this.props.navigator.setTitle({
       title: "Easy Life"
