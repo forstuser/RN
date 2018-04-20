@@ -31,7 +31,11 @@ class AddAmountStep extends React.Component {
   }
 
   onPressNext = async () => {
-    const { mainCategoryId, category, product, onStepDone } = this.props;
+    const { mainCategoryId, category, product, onStepDone, skippable } = this.props;
+    const { value } = this.state;
+    if ((!value || !value.trim()) && !skippable) {
+      return showSnackbar({ text: 'Please enter amount first' })
+    }
     this.setState({
       isLoading: true
     })
@@ -62,13 +66,13 @@ class AddAmountStep extends React.Component {
 
     return (
       <Step
-        title={`Add Amount`}
+        title={`Add ${category} Amount`}
         showLoader={isLoading}
         {...this.props}
       >
         <View style={{ padding: 20 }}>
           <CustomTextInput
-            placeholder={I18n.t("expense_forms_expense_basic_expense_amount")}
+            placeholder={'Enter Amount Here'}
             value={value ? String(value) : ""}
             onChangeText={value => this.setState({ value })}
             keyboardType="numeric"

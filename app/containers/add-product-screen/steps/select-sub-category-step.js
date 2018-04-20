@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import I18n from "../../../i18n";
 import { API_BASE_URL, updateProduct, getReferenceDatasubCategorys } from "../../../api";
-import { MAIN_CATEGORY_IDS } from "../../../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
 import { showSnackbar } from "../../snackbar";
@@ -72,6 +72,7 @@ class SelectSubCategoryStep extends React.Component {
           items={subCategories}
           onSelectItem={this.onSelectSubCategory}
           hideAddNew={true}
+          hideSearch={category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC}
         />
       </Step>
     );

@@ -88,9 +88,15 @@ class SelectInsuranceProviderStep extends React.Component {
 
     const { mainCategoryId, category, product } = this.props;
 
+    title = `Select insurance provider`;
+    if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
+      title = `Select insurance provider`;
+    }
+
     return (
       <Step
-        title={`Select insurance provider`}
+        title={title}
+        subtitle='Required for customer care support and renewal reminder'
         skippable={false}
         showLoader={isLoading}
         {...this.props}

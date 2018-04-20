@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import I18n from "../../../i18n";
 import { API_BASE_URL, updateProduct, getReferenceDataBrands } from "../../../api";
-import { MAIN_CATEGORY_IDS } from "../../../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
 import { showSnackbar } from "../../snackbar";
@@ -109,22 +109,30 @@ class SelectBrandStep extends React.Component {
   };
 
   render() {
-    const { brands, isLoading } = this.state;
+    let { brands, isLoading } = this.state;
 
     const { mainCategoryId, category, product } = this.props;
+
+    brands = brands.map(brand => ({
+      ...brand,
+      image: `${API_BASE_URL}/brands/${brand.id}/images`
+    }))
+
+    if (category.id == CATEGORY_IDS.FURNITURE.FURNITURE ||
+      mainCategoryId == MAIN_CATEGORY_IDS.FASHION) {
+      brands = [{ id: 0, name: 'Non-branded' }, ...brands]
+    }
 
     return (
       <Step
         title={`Select ${category.name} brand`}
+        subtitle='Required for customer care support'
         skippable={false}
         showLoader={isLoading}
         {...this.props}
       >
         <SelectOrCreateItem
-          items={brands.map(brand => ({
-            ...brand,
-            image: `${API_BASE_URL}/brands/${brand.id}/images`
-          }))}
+          items={brands}
           onSelectItem={this.onSelectBrand}
           onAddItem={this.onAddBrand}
           imageKey="image"

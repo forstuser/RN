@@ -63,11 +63,11 @@ class SelectPurchaseDateStep extends React.Component {
     return (
       <Step
         title={`Select Insurance Effective Date`}
+        subtitle='Required for renewal reminder'
         skippable={true}
         showLoader={isLoading}
         {...this.props}
       >
-
         <DatePickerRn
           activeDate={moment(product.document_date).format('YYYY-MM-DD')}
           maxDate={moment().format('YYYY-MM-DD')}

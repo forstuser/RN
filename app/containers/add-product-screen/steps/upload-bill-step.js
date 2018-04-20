@@ -26,14 +26,28 @@ class UploadBillStep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false
+      isLoading: false,
+      copies: []
     };
+  }
+
+  componentDidMount() {
+    this.uploadDoc.onUploadDocPress();
+  }
+
+  onNextPress = () => {
+    const { isLoading, copies } = this.state;
+    const { skippable, onUploadBillStepDone } = this.props;
+    if (copies.length == 0 && !skippable) {
+      return showSnackbar({ text: 'Please select a file first' })
+    }
+    onUploadBillStepDone();
   }
 
   render() {
     const { isLoading, copies } = this.state;
 
-    const { mainCategoryId, category, product, onUploadBillStepDone, navigator } = this.props;
+    const { mainCategoryId, category, product, navigator } = this.props;
 
     let title = I18n.t("expense_forms_expense_basic_upload_bill");
     let btnText = 'Done';
@@ -64,6 +78,7 @@ class UploadBillStep extends React.Component {
       >
         <View style={{ padding: 20 }}>
           <UploadDoc
+            ref={ref => this.uploadDoc = ref}
             placeholder={'Select File'}
             productId={product.id}
             itemId={product.id}
@@ -76,8 +91,9 @@ class UploadBillStep extends React.Component {
               });
             }}
             navigator={navigator}
+            actionSheetTitle={title}
           />
-          <Button onPress={onUploadBillStepDone} text={btnText} style={{ width: 100, height: 40, alignSelf: 'center', marginTop: 20 }} />
+          <Button onPress={this.onNextPress} text={btnText} style={{ width: 100, height: 40, alignSelf: 'center', marginTop: 20 }} />
         </View>
       </Step>
     );

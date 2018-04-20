@@ -31,10 +31,16 @@ class AddAmountStep extends React.Component {
   }
 
   onPressNext = async () => {
-    const { mainCategoryId, category, product, onStepDone } = this.props;
+    const { mainCategoryId, category, product, onStepDone, skippable } = this.props;
+    const { name } = this.state;
+    if ((!name || !name.trim()) && !skippable) {
+      return showSnackbar({ text: 'Please enter name first' })
+    }
+
     this.setState({
       isLoading: true
     })
+
     try {
       const res = await updateProduct({
         mainCategoryId: mainCategoryId,

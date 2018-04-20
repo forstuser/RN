@@ -56,21 +56,23 @@ class FinishModal extends React.Component {
     const { visible } = this.state;
 
     let title = I18n.t("add_edit_expense_screen_title_add_eHome");
+    let btnText = I18n.t("add_edit_expense_screen_title_add_products");
     switch (mainCategoryId) {
       case MAIN_CATEGORY_IDS.AUTOMOBILE:
       case MAIN_CATEGORY_IDS.ELECTRONICS:
       case MAIN_CATEGORY_IDS.FURNITURE:
       case MAIN_CATEGORY_IDS.FASHION:
-        title = 'Product added to your eHome';
         break;
       case MAIN_CATEGORY_IDS.PERSONAL:
       case MAIN_CATEGORY_IDS.HEALTHCARE:
         if (category && category.id != CATEGORY_IDS.HEALTHCARE.EXPENSE) {
           title = 'Document added to your eHome';
+          btnText = 'ADD MORE DOCUMENTS';
           break;
         }
       default:
-        title = 'Expense added to your eHome'
+        title = 'Expense added to your eHome';
+        btnText = 'ADD MORE EXPENSE'
     }
 
     if (!mainCategoryId) {
@@ -97,7 +99,7 @@ class FinishModal extends React.Component {
           <Button
             onPress={this.onMoreProductsClick}
             style={styles.finishBtn}
-            text={I18n.t("add_edit_expense_screen_title_add_products")}
+            text={btnText}
             color="secondary"
           />
           <Text

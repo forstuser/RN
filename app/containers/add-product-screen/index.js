@@ -181,7 +181,6 @@ class AddProductScreen extends React.Component {
         skippable={true}
         onBackPress={this.previousStep}
         onSkipPress={this.onPurchaseDateStepDone}
-        subtitle={'It helps in warranty, service and other details'}
       />)
   }
 
@@ -258,6 +257,21 @@ class AddProductScreen extends React.Component {
         onBackPress={this.previousStep}
         skippable={skippable}
         onSkipPress={() => this.finishModal.show()}
+      />
+    );
+  }
+
+  pushNameStep = (skippable = false) => {
+    const { mainCategoryId, category, product } = this.state;
+    this.pushStep(
+      <AddNameStep
+        product={product}
+        mainCategoryId={mainCategoryId}
+        category={category}
+        onStepDone={this.onNameStepDone}
+        onBackPress={this.previousStep}
+        skippable={skippable}
+        onSkipPress={this.onNameStepDone}
       />
     );
   }
@@ -437,10 +451,15 @@ class AddProductScreen extends React.Component {
           }
           break;
         case MAIN_CATEGORY_IDS.TRAVEL:
-        case MAIN_CATEGORY_IDS.HOUSEHOLD:
         case MAIN_CATEGORY_IDS.SERVICES:
           this.setState({
             numberOfStepsToShowInFooter: 3
+          })
+          this.pushAmountStep();
+          break;
+        case MAIN_CATEGORY_IDS.HOUSEHOLD:
+          this.setState({
+            numberOfStepsToShowInFooter: 4
           })
           this.pushAmountStep();
           break;
@@ -476,7 +495,11 @@ class AddProductScreen extends React.Component {
     const { mainCategoryId, category } = this.state;
     this.setState({ product }, () => {
       showSnackbar({ text: 'Expense card has been created' });
-      this.pushPurchaseDateStep();
+      if (mainCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD) {
+        this.pushSubCategoryStep(true);
+      } else {
+        this.pushPurchaseDateStep();
+      }
     })
   }
 
@@ -493,10 +516,14 @@ class AddProductScreen extends React.Component {
           break;
         case MAIN_CATEGORY_IDS.HEALTHCARE:
           if (category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
-            this.pushPurchaseDateStep();
+            this.pushNameStep(true);
           } else if (category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
             this.pushInsuranceProviderStep();
           }
+          break;
+        case MAIN_CATEGORY_IDS.HOUSEHOLD:
+          this.pushPurchaseDateStep();
+          break;
       }
     });
   }
@@ -587,17 +614,7 @@ class AddProductScreen extends React.Component {
     const { mainCategoryId, category, product, expenseType } = this.state;
     if (mainCategoryId == MAIN_CATEGORY_IDS.PERSONAL) {
       showSnackbar({ text: 'Document card has been created' });
-      this.pushStep(
-        <AddNameStep
-          product={product}
-          mainCategoryId={mainCategoryId}
-          category={category}
-          onStepDone={this.onNameStepDone}
-          onBackPress={this.previousStep}
-          skippable={true}
-          onSkipPress={this.onNameStepDone}
-        />
-      );
+      this.pushNameStep(true);
     } else if (expenseType == EXPENSE_TYPES.MEDICAL_DOCS) {
       showSnackbar({ text: 'Document card has been created' });
       this.pushSubCategoryStep(true);

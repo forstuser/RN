@@ -128,7 +128,7 @@ class DatePickerRn extends React.Component {
           <View style={[styles.activeMonthAndYear]}>
             <Text weight="Bold" style={styles.activeMonthText}>
               {moment(yearAndMonth)
-                .format("MMM")
+                .format("MMMM")
                 .toUpperCase()}
             </Text>
             <Text weight="Bold" style={styles.activeMonthText}>

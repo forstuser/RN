@@ -19,7 +19,7 @@ class Step extends React.Component {
             <Text weight="Bold" numberOfLines={1} style={styles.title}>
               {title}
             </Text>
-            {subtitle && <Text numberOfLines={1} style={styles.subtitle}>
+            {subtitle && <Text numberOfLines={2} style={styles.subtitle}>
               {subtitle}
             </Text>}
           </View>
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.lighterText,
     flexDirection: "row",
     alignItems: "center",
-    height: 56
+    height: 76
   },
   backBtn: {
     width: 50,

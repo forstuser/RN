@@ -70,6 +70,7 @@ class SelectPurchaseDateStep extends React.Component {
     return (
       <Step
         title={`Select Purchase Date`}
+        subtitle='Required for calculating warranty'
         skippable={true}
         showLoader={isLoading}
         {...this.props}
