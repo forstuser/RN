@@ -30,6 +30,10 @@ class AddAmountStep extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.input.focus();
+  }
+
   onPressNext = async () => {
     const { mainCategoryId, category, product, onStepDone, skippable } = this.props;
     const { value } = this.state;
@@ -66,12 +70,13 @@ class AddAmountStep extends React.Component {
 
     return (
       <Step
-        title={`Add ${category} Amount`}
+        title={`Add ${category.name} Amount`}
         showLoader={isLoading}
         {...this.props}
       >
         <View style={{ padding: 20 }}>
           <CustomTextInput
+            ref={ref => this.input = ref}
             placeholder={'Enter Amount Here'}
             value={value ? String(value) : ""}
             onChangeText={value => this.setState({ value })}

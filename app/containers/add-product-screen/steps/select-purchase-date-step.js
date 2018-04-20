@@ -66,11 +66,21 @@ class SelectPurchaseDateStep extends React.Component {
     const { isLoading, activeDate } = this.state;
 
     const { mainCategoryId, category, product } = this.props;
-    console.log('product.document_date: ', product.document_date)
+
+    let subtitle;
+    switch (mainCategoryId) {
+      case MAIN_CATEGORY_IDS.AUTOMOBILE:
+      case MAIN_CATEGORY_IDS.ELECTRONICS:
+      case MAIN_CATEGORY_IDS.FASHION:
+      case MAIN_CATEGORY_IDS.FURNITURE:
+        subtitle = 'Required for calculating warranty';
+    }
+
+
     return (
       <Step
         title={`Select Purchase Date`}
-        subtitle='Required for calculating warranty'
+        subtitle={subtitle}
         skippable={true}
         showLoader={isLoading}
         {...this.props}

@@ -50,6 +50,10 @@ class CustomTextInput extends React.Component {
     });
   };
 
+  focus = () => {
+    this.input.focus();
+  }
+
   render() {
     const {
       style = {},
@@ -93,6 +97,7 @@ class CustomTextInput extends React.Component {
         </View>
 
         <TextInput
+          ref={ref => this.input = ref}
           underlineColorAndroid="transparent"
           keyboardType={keyboardType}
           style={[styles.textInput, { paddingRight: rightSideTextWidth }]}
