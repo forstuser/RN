@@ -47,7 +47,7 @@ import CalendarServiceCardScreen from "./containers/calender-service-card-screen
 import EnterPinPopupScreen from "./containers/enter-pin-popup-screen";
 import PinSetupScreen from "./containers/pin-setup-screen";
 import DishCalendarScreen from "./containers/add-cooking-screen/dish-calendar";
-
+import WhatToWearListScreen from "./containers/what-to-wear-list-screen";
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
   Navigation.registerComponent(
@@ -339,6 +339,12 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     SCREENS.PIN_SETUP_SCREEN,
     () => PinSetupScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    SCREENS.WHAT_TO_WEAR_LIST_SCREEN,
+    () => WhatToWearListScreen,
     store,
     Provider
   );
