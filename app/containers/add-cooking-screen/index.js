@@ -6,7 +6,8 @@ import {
   FlatList,
   Alert,
   TouchableOpacity,
-  Image
+  Image,
+  ScrollView
 } from "react-native";
 import I18n from "../../i18n";
 import { API_BASE_URL } from "../../api";
@@ -17,14 +18,64 @@ import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 import SelectModal from "../../components/select-modal";
+import ScrollableTabView from "react-native-scrollable-tab-view";
 const cooking = require("../../images/cooking.png");
 
 class AddCookingScreen extends Component {
+  static navigatorStyle = {
+    tabBarHidden: true
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      states: [
+        { name: "delhi", id: 1 },
+        { name: "hariyana", id: 2 },
+        { name: "up", id: 3 },
+        { name: "uk", id: 4 }
+      ],
+      dishes: [
+        { name: "bread", id: 1 },
+        { name: "butter", id: 2 },
+        { name: "poha", id: 3 },
+        { name: "bread", id: 1 },
+        { name: "butter", id: 2 },
+        { name: "poha", id: 3 },
+        { name: "bread", id: 1 },
+        { name: "butter", id: 2 },
+        { name: "poha", id: 3 },
+        { name: "bread", id: 1 },
+        { name: "butter", id: 2 },
+        { name: "poha", id: 3 },
+        { name: "bread", id: 1 },
+        { name: "butter", id: 2 },
+        { name: "poha", id: 3 }
+      ],
+      selectedDishesIds: []
+    };
+  }
+
   componentDidMount() {
     this.props.navigator.setTitle({
       title: "What to Cook"
     });
+    // this.loadStates();
   }
+
+  selectStates = states => {
+    this.setState({
+      categoryTextInput: "",
+      isCategoriesModalVisible: false,
+      selectedCategory: category
+    });
+  };
+  // loadStates() {
+  //   this.setState({
+  //     states
+  //   });
+  // }
 
   next = () => {
     this.props.navigator.push({
@@ -32,6 +83,8 @@ class AddCookingScreen extends Component {
     });
   };
   render() {
+    const { loading, states, dishes } = this.state;
+    alert(JSON.stringify(dishes));
     return (
       <ScreenContainer style={styles.container}>
         <View style={{ padding: 20 }}>
@@ -41,6 +94,13 @@ class AddCookingScreen extends Component {
             placeholderRenderer={({ placeholder }) => (
               <Text weight="Bold">{placeholder}</Text>
             )}
+            options={this.state.states}
+            valueKey="id"
+            visibleKey="name"
+            hideAddNew={true}
+            // onOptionSelect={value => {
+            //   this.selectCategory(value);
+            // }}
           />
         </View>
         {/* if condition
@@ -61,6 +121,15 @@ class AddCookingScreen extends Component {
         <View style={{ marginTop: 20 }}>
           <Text style={styles.dishType}>Select Dishes that you like</Text>
         </View>
+        {dishes.map((item, key) => (
+          <ScrollView>
+            <View>
+              <Text key={key} style={styles.TextStyle}>
+                {item.name}
+              </Text>
+            </View>
+          </ScrollView>
+        ))}
         <TouchableOpacity>
           <View style={{ marginTop: 20, padding: 20 }}>
             <Text style={styles.addDish}>+ Add new Dish</Text>

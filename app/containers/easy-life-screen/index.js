@@ -22,9 +22,6 @@ const attendance = require("../../images/attendance.png");
 const todo = require("../../images/to_do.png");
 
 class EasyLifeScreen extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true
-  };
   componentDidMount() {
     this.props.navigator.setTitle({
       title: "Easy Life"
@@ -37,6 +34,11 @@ class EasyLifeScreen extends Component {
     });
   };
 
+  // toDoItemPress = () => {
+  //   this.props.navigator.push({
+  //     screen: SCREENS.ADD_TODO_SCREEN
+  //   });
+  // };
   cookingItemPress = () => {
     this.props.navigator.push({
       screen: SCREENS.ADD_COOKING_SCREEN
@@ -78,7 +80,7 @@ class EasyLifeScreen extends Component {
           </TouchableOpacity>
         </View>
 
-        <View style={{ flex: 1, flexDirection: "row", marginTop: -170 }}>
+        <View style={{ flex: 1, flexDirection: "row", marginTop: -120 }}>
           <TouchableOpacity style={styles.card}>
             <View
               style={{
