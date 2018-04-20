@@ -17,9 +17,14 @@ import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 import SelectModal from "../../components/select-modal";
+import EasyLifeItem from "../../components/easy-life-item";
 const cooking = require("../../images/cooking.png");
 
 class AddCookingScreen extends Component {
+  static navigatorStyle = {
+    tabBarHidden: true
+  };
+
   componentDidMount() {
     this.props.navigator.setTitle({
       title: "What to Cook"
@@ -61,6 +66,17 @@ class AddCookingScreen extends Component {
         <View style={{ marginTop: 20 }}>
           <Text style={styles.dishType}>Select Dishes that you like</Text>
         </View>
+
+        <View style={{ padding: 20 }}>
+          <EasyLifeItem
+            text='Dish Name'
+            bottomText='Today'
+            showCheckbox={false}
+            isChecked={true}
+            imageUri='https://weddinginventory.co.za/wp-content/uploads/Cupid-Dresses-Bridal-Dress-Hire-Bothasig-Cape-Town-14-256x256.jpg'
+          />
+        </View>
+
         <TouchableOpacity>
           <View style={{ marginTop: 20, padding: 20 }}>
             <Text style={styles.addDish}>+ Add new Dish</Text>

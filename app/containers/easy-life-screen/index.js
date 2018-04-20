@@ -23,6 +23,10 @@ const todo = require("../../images/to_do.png");
 const whatToWear = require("../../images/whatToWear.png");
 
 class EasyLifeScreen extends Component {
+<<<<<<< HEAD
+=======
+
+>>>>>>> pram
   componentDidMount() {
     this.props.navigator.setTitle({
       title: "Easy Life"
