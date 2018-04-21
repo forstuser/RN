@@ -49,6 +49,7 @@ class MoreScreen extends Component {
   }
 
   componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_MORE);
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {
@@ -69,7 +70,6 @@ class MoreScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
-        Analytics.logEvent(Analytics.EVENTS.CLICK_MORE);
         this.fetchProfile();
         break;
     }

@@ -64,7 +64,6 @@ class AscScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
-        Analytics.logEvent(Analytics.EVENTS.OPEN_ASC_SCREEN);
         this.fetchProducts();
         if (this.state.clearSelectedValuesOnScreenAppear) {
           this.setState({
@@ -274,7 +273,7 @@ class AscScreen extends Component {
             </Text>
             {products.length > 0 && (
               <ScrollView style={styles.productsContainer} horizontal={true}>
-                {products.map(product => {
+                {products.map((product, index) => {
                   const meta = getProductMetasString(product.productMetaData);
                   return (
                     <TouchableOpacity
@@ -286,7 +285,7 @@ class AscScreen extends Component {
                         style={styles.productImage}
                         source={{ uri: API_BASE_URL + product.cImageURL }}
                       />
-                      <View style={styles.productTexts}>
+                      <View key={index} style={styles.productTexts}>
                         <Text
                           numberOfLines={1}
                           weight="Bold"
@@ -339,10 +338,12 @@ class AscScreen extends Component {
                 return true;
               }}
               selectedOption={selectedBrand}
-              options={brands.map(brand => ({
+              options={brands.map((brand, index) => ({
                 ...brand,
-                image: `${API_BASE_URL}/brands/${brand.id}/images`
+                image: `${API_BASE_URL}/brands/${brand.id}/images`,
+                key: { index }
               }))}
+
               imageKey="image"
               visibleKey="brandName"
               onOptionSelect={value => {

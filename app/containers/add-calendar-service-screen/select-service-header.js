@@ -49,7 +49,7 @@ class SelectCategoryHeader extends React.Component {
 
   onOptionSelect = option => {
     Analytics.logEvent(
-      Analytics.EVENTS.CLICK_CALENDAR_SERVICE_TYPE_ + option.name
+      Analytics.EVENTS.CLICK_CALENDAR_SERVICE_TYPE_ + option.name.replace(/\s/g, '')
     );
     const selectedOption = this.props.selectedOption;
     //if clicked on already selected option

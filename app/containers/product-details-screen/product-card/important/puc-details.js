@@ -75,7 +75,7 @@ class PucDetails extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView horizontal={true} style={styles.slider}>
-          {pucDetails.map(puc => <PucItem puc={puc} />)}
+          {pucDetails.map((puc, index) => <PucItem key={index} puc={puc} />)}
           <AddItemBtn
             text={I18n.t("product_details_screen_add_puc")}
             onPress={() => this.props.openAddEditPucScreen(null)}

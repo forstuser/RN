@@ -79,7 +79,7 @@ class WarrantyDetails extends React.Component {
               .filter(
                 warranty => warranty.warranty_type == WARRANTY_TYPES.NORMAL
               )
-              .map(warranty => <WarrantyItem warranty={warranty} />)}
+              .map((warranty, index) => <WarrantyItem key={index} warranty={warranty} />)}
             <AddItemBtn
               text={I18n.t("product_details_screen_add_warranty")}
               onPress={() =>

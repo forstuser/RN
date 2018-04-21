@@ -19,6 +19,7 @@ import I18n from "../i18n";
 import { showSnackbar } from "./snackbar";
 const backIcon = require("../images/ic_arrow_back_black.png");
 const noDocs = require("../images/ic_no_docs.png");
+import Analytics from "../analytics";
 
 class SearchBox extends Component {
   static navigatorStyle = {
@@ -54,6 +55,7 @@ class SearchBox extends Component {
     }
     this.textInput.blur();
     this.setState({ isFetchingResults: true, products: [] });
+    Analytics.logEvent(Analytics.EVENTS.USE_SEARCH);
     try {
       const res = await getSearchResults(this.state.textInput);
       this.setState({

@@ -34,7 +34,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default class Item extends React.Component {
   onSharePress = async () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SHARE_DYK)
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SHARE_DYK);
     const { item } = this.props;
     if (Platform.OS == "ios") {
       try {
@@ -68,7 +68,7 @@ export default class Item extends React.Component {
     }
   };
   render() {
-    console.log("Screen height", SCREEN_HEIGHT)
+    console.log("Screen height", SCREEN_HEIGHT);
     const { item, onLikePress } = this.props;
     if (item) {
       const {
@@ -164,9 +164,17 @@ export default class Item extends React.Component {
               </Text>
               <Text style={styles.description}>{description}</Text>
               <View style={styles.tags}>
-                <Text weight="Bold"
-                  style={{ height: 15, marginRight: 5, color: colors.mainBlue, fontSize: 10 }}
-                >Tags: {tags.map(tag => tag.title).join(', ')}</Text>
+                <Text
+                  weight="Bold"
+                  style={{
+                    height: 15,
+                    marginRight: 5,
+                    color: colors.mainBlue,
+                    fontSize: 10
+                  }}
+                >
+                  Tags: {tags.map(tag => tag.title).join(", ")}
+                </Text>
               </View>
             </View>
           </View>
@@ -308,12 +316,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: SCREEN_HEIGHT > 620 ? 17 : 14,
-    color: colors.mainText
+    color: colors.mainText,
+    marginTop: 5
   },
   description: {
     fontSize: SCREEN_HEIGHT > 620 ? 14 : 12,
-    // marginTop: 1,
-    flex: 1
+    marginTop: 10,
+    flex: 1,
+    textAlign: "justify"
   },
   tags: {
     // paddingTop: 10,

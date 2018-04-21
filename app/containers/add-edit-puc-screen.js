@@ -3,6 +3,8 @@ import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import Analytics from "../analytics";
+
 import {
   getReferenceDataForCategory,
   addPuc,
@@ -118,14 +120,14 @@ class AddEditPuc extends React.Component {
                 } catch (e) {
                   showSnackbar({
                     text: I18n.t("add_edit_amc_could_not_delete")
-                  })
+                  });
                   this.setState({ isLoading: false });
                 }
               }
             },
             {
               text: I18n.t("add_edit_no_dnt_delete"),
-              onPress: () => { },
+              onPress: () => {},
               style: "cancel"
             }
           ]
@@ -154,9 +156,9 @@ class AddEditPuc extends React.Component {
     if (!data.effectiveDate && !data.expiryPeriod) {
       return showSnackbar({
         text: I18n.t("add_edit_puc_select_puc")
-      })
+      });
     }
-    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: 'puc' });
+    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: "puc" });
     try {
       this.setState({ isLoading: true });
       if (!data.id) {
@@ -169,7 +171,7 @@ class AddEditPuc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({ isLoading: false });
     }
   };

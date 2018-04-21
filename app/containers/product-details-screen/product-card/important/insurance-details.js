@@ -99,8 +99,9 @@ class InsuranceDetails extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView horizontal={true} style={styles.slider}>
-          {insuranceDetails.map(insurance => (
+          {insuranceDetails.map((insurance, index) => (
             <InsuranceItem
+              key={index}
               insurance={insurance}
               insuranceType={WARRANTY_TYPES.NORMAL}
             />

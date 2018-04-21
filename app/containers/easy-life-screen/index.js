@@ -20,6 +20,7 @@ import { colors, defaultStyles } from "../../theme";
 const cooking = require("../../images/cooking.png");
 const attendance = require("../../images/attendance.png");
 const todo = require("../../images/to_do.png");
+const whatToWear = require("../../images/whatToWear.png");
 
 class EasyLifeScreen extends Component {
   componentDidMount() {
@@ -42,6 +43,11 @@ class EasyLifeScreen extends Component {
   cookingItemPress = () => {
     this.props.navigator.push({
       screen: SCREENS.ADD_COOKING_SCREEN
+    });
+  };
+  wearItemPress = () => {
+    this.props.navigator.push({
+      screen: SCREENS.WHAT_TO_WEAR_LIST_SCREEN
     });
   };
 
@@ -80,8 +86,8 @@ class EasyLifeScreen extends Component {
           </TouchableOpacity>
         </View>
 
-        <View style={{ flex: 1, flexDirection: "row", marginTop: -120 }}>
-          <TouchableOpacity style={styles.card}>
+        <View style={{ flex: 1, flexDirection: "row", marginTop: -170 }}>
+          <TouchableOpacity style={styles.card} onPress={this.wearItemPress}>
             <View
               style={{
                 width: 150,
@@ -90,8 +96,8 @@ class EasyLifeScreen extends Component {
                 alignItems: "center"
               }}
             >
-              <Image style={styles.image} source={cooking} />
-              <Text style={styles.text}>What to Wear</Text>
+              <Image style={styles.image} source={whatToWear} />
+              <Text style={styles.text}>What to Wear Today</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.card}>
