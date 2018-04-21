@@ -35,6 +35,11 @@ class EasyLifeScreen extends Component {
     });
   };
 
+  // toDoItemPress = () => {
+  //   this.props.navigator.push({
+  //     screen: SCREENS.ADD_TODO_SCREEN
+  //   });
+  // };
   cookingItemPress = () => {
     this.props.navigator.push({
       screen: SCREENS.ADD_COOKING_SCREEN
@@ -82,10 +87,7 @@ class EasyLifeScreen extends Component {
         </View>
 
         <View style={{ flex: 1, flexDirection: "row", marginTop: -170 }}>
-          <TouchableOpacity
-            style={styles.card}
-            onPress={this.wearItemPress}
-          >
+          <TouchableOpacity style={styles.card} onPress={this.wearItemPress}>
             <View
               style={{
                 width: 150,

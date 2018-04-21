@@ -6,7 +6,8 @@ import {
   FlatList,
   Alert,
   TouchableOpacity,
-  Image
+  Image,
+  ScrollView
 } from "react-native";
 import I18n from "../../i18n";
 import { API_BASE_URL } from "../../api";
@@ -17,6 +18,7 @@ import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 import SelectModal from "../../components/select-modal";
+import ScrollableTabView from "react-native-scrollable-tab-view";
 import EasyLifeItem from "../../components/easy-life-item";
 const cooking = require("../../images/cooking.png");
 
@@ -25,11 +27,46 @@ class AddCookingScreen extends Component {
     tabBarHidden: true
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      states: [
+        { name: "Andhra Pradesh", id: 1 },
+        { name: "Arunachal Pradesh", id: 2 },
+        { name: "Andhra Pradesh", id: 3 },
+        { name: "Manipur", id: 4 },
+        { name: "Uttarakhand", id: 5 },
+        { name: "Haryana", id: 6 }
+      ],
+      dishes: [
+        { name: "bread", id: 1 },
+        { name: "butter", id: 2 },
+        { name: "poha", id: 3 },
+        { name: "rice", id: 4 },
+        { name: "maggi", id: 5 }
+      ],
+      selectedDishesIds: []
+    };
+  }
+
   componentDidMount() {
     this.props.navigator.setTitle({
       title: "What to Cook"
     });
   }
+
+  selectStates = states => {
+    this.setState({
+      categoryTextInput: "",
+      isCategoriesModalVisible: false,
+      selectedCategory: category
+    });
+  };
+
+  clicked = id => {
+    alert(id);
+  };
 
   next = () => {
     this.props.navigator.push({
@@ -37,6 +74,7 @@ class AddCookingScreen extends Component {
     });
   };
   render() {
+    const { loading, states, dishes } = this.state;
     return (
       <ScreenContainer style={styles.container}>
         <View style={{ padding: 20 }}>
@@ -46,9 +84,16 @@ class AddCookingScreen extends Component {
             placeholderRenderer={({ placeholder }) => (
               <Text weight="Bold">{placeholder}</Text>
             )}
+            options={this.state.states}
+            valueKey="id"
+            visibleKey="name"
+            hideAddNew={true}
+            // onOptionSelect={value => {
+            //   this.selectCategory(value);
+            // }}
           />
         </View>
-        {/* if condition
+        {dishes.length == 0 && (
           <View
             style={{
               justifyContent: "center",
@@ -61,21 +106,22 @@ class AddCookingScreen extends Component {
               source={cooking}
             />
             <Text style={styles.dishType}>Select Dishes that you like</Text>
-          </View> */}
+          </View>
+        )}
 
-        <View style={{ marginTop: 20 }}>
+        <View style={{ marginTop: 10 }}>
           <Text style={styles.dishType}>Select Dishes that you like</Text>
         </View>
 
-        <View style={{ padding: 20 }}>
-          <EasyLifeItem
-            text='Dish Name'
-            bottomText='Today'
-            showCheckbox={false}
-            isChecked={true}
-            imageUri='https://weddinginventory.co.za/wp-content/uploads/Cupid-Dresses-Bridal-Dress-Hire-Bothasig-Cape-Town-14-256x256.jpg'
-          />
-        </View>
+        {dishes.map((item, key) => (
+          <View style={{ padding: 20, paddingBottom: 0, paddingTop: 8 }}>
+            <EasyLifeItem
+              text={item.name}
+              isChecked={true}
+              onPress={() => this.clicked(item.id)}
+            />
+          </View>
+        ))}
 
         <TouchableOpacity>
           <View style={{ marginTop: 20, padding: 20 }}>
