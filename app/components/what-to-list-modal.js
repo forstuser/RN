@@ -14,7 +14,8 @@ class WhatToListModal extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      item: ""
+      name: "",
+      list: [{ id: "", name: "" }]
     };
   }
 
@@ -28,13 +29,26 @@ class WhatToListModal extends React.Component {
     });
   };
 
-  onSaveBtn = () => {
+  addRow = () => {
     this.setState({
-      visible: false
+      list: this.state.list.concat([{ name: "" }])
     });
   };
 
+  onSaveBtn = () => {
+    const addObject = [
+      {
+        id: Math.floor(Math.random() * 90 + 10),
+        name: this.state.name
+      }
+    ];
+    console.log(addObject, "arrayList");
+    this.props.addDetails(addObject);
+    this.setState({ visible: false });
+  };
+
   render() {
+    const { name, list } = this.state;
     const { navigator } = this.props;
     const { visible, item } = this.state;
     return (
@@ -43,13 +57,25 @@ class WhatToListModal extends React.Component {
           <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
             <Icon name="md-close" size={20} color={colors.mainText} />
           </TouchableOpacity>
-          <CustomTextInput
-            placeholder="Add Item"
-            underlineColorAndroid="transparent"
-            style={{ marginTop: 15 }}
-            value={item}
-            onChangeText={item => this.setState({ item })}
-          />
+          {this.state.list.map((item, id) => (
+            <CustomTextInput
+              placeholder="Add Item"
+              underlineColorAndroid="transparent"
+              style={{ marginTop: 15 }}
+              value={item.name}
+              onChangeText={name => this.setState({ name })}
+            />
+          ))}
+          <TouchableOpacity onPress={this.addRow}>
+            <Text
+              style={{
+                textAlign: "left",
+                marginBottom: 15
+              }}
+            >
+              Add more
+            </Text>
+          </TouchableOpacity>
           <Button
             onPress={this.onSaveBtn}
             style={styles.finishBtn}

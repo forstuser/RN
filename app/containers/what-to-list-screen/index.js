@@ -21,7 +21,6 @@ import { colors, defaultStyles } from "../../theme";
 import AddNewBtn from "../../components/add-new-btn";
 import WhatToListModal from "../../components/what-to-list-modal";
 import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader";
-import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader";
 import EasyLifeItem from "../../components/easy-life-item";
 
 const cooking = require("../../images/cooking.png");
@@ -74,7 +73,7 @@ class WhatToListScreen extends Component {
   }
 
   showCloathesImageUploader = () => {
-    this.cloathesImageUploader.showActionSheet();
+    // this.cloathesImageUploader.showActionSheet();
     this.WhatToListModal.show();
   };
   getItemDetails = item => {
@@ -132,6 +131,7 @@ class WhatToListScreen extends Component {
         <WhatToListModal
           ref={ref => (this.WhatToListModal = ref)}
           navigator={this.props.navigator}
+          addDetails={this.getItemDetails}
         />
       </ScreenContainer>
     );
