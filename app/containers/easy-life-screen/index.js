@@ -43,12 +43,14 @@ class EasyLifeScreen extends Component {
   };
   cookingItemPress = () => {
     this.props.navigator.push({
-      screen: SCREENS.ADD_COOKING_SCREEN
+      screen: SCREENS.WHAT_TO_LIST_SCREEN,
+      passProps: { type: EASY_LIFE_TYPES.WHAT_TO_COOK }
     });
   };
   wearItemPress = () => {
     this.props.navigator.push({
-      screen: SCREENS.WHAT_TO_WEAR_LIST_SCREEN
+      screen: SCREENS.WHAT_TO_LIST_SCREEN,
+      passProps: { type: EASY_LIFE_TYPES.WHAT_TO_WEAR }
     });
   };
 
