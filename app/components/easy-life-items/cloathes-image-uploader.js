@@ -75,7 +75,7 @@ class CloathesImageUploader extends React.Component {
     }
 
     addImageToList = () => {
-        const uploadedImageObject = { id: Math.floor(Math.random() * 90 + 10), loathesName: this.state.cloathesName, cloathesImageURL: this.state.file.path }
+        const uploadedImageObject = { id: Math.floor(Math.random() * 90 + 10), name: this.state.cloathesName, url: this.state.file.path }
         this.props.addImageDetails(uploadedImageObject);
         this.setState({ isModalVisible: false })
     }

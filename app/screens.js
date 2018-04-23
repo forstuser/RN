@@ -48,7 +48,6 @@ import EnterPinPopupScreen from "./containers/enter-pin-popup-screen";
 import PinSetupScreen from "./containers/pin-setup-screen";
 import WhatToScreen from "./containers/what-to-screen";
 import WhatToListScreen from "./containers/what-to-list-screen";
-import WhatToWearListScreen from "./containers/what-to-wear-list-screen";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -329,23 +328,15 @@ export function registerScreens(store, Provider) {
     store,
     Provider
   );
-
   Navigation.registerComponent(
     SCREENS.ENTER_PIN_POPUP_SCREEN,
     () => EnterPinPopupScreen,
     store,
     Provider
   );
-
   Navigation.registerComponent(
     SCREENS.PIN_SETUP_SCREEN,
     () => PinSetupScreen,
-    store,
-    Provider
-  );
-  Navigation.registerComponent(
-    SCREENS.WHAT_TO_WEAR_LIST_SCREEN,
-    () => WhatToWearListScreen,
     store,
     Provider
   );
