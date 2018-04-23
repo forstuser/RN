@@ -15,7 +15,7 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import TabSearchHeader from "../../components/tab-screen-header";
 import Analytics from "../../analytics";
-import { SCREENS } from "../../constants";
+import { SCREENS, EASY_LIFE_TYPES } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 const cooking = require("../../images/cooking.png");
 const attendance = require("../../images/attendance.png");
@@ -35,11 +35,12 @@ class EasyLifeScreen extends Component {
     });
   };
 
-  // toDoItemPress = () => {
-  //   this.props.navigator.push({
-  //     screen: SCREENS.ADD_TODO_SCREEN
-  //   });
-  // };
+  toDoItemPress = () => {
+    this.props.navigator.push({
+      screen: SCREENS.WHAT_TO_SCREEN,
+      passProps: { type: EASY_LIFE_TYPES.WHAT_TO_DO }
+    });
+  };
   cookingItemPress = () => {
     this.props.navigator.push({
       screen: SCREENS.ADD_COOKING_SCREEN
@@ -100,7 +101,7 @@ class EasyLifeScreen extends Component {
               <Text style={styles.text}>What to Wear Today</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.card}>
+          <TouchableOpacity style={styles.card} onPress={this.toDoItemPress}>
             <View
               style={{
                 width: 150,

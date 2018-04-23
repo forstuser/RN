@@ -15,7 +15,7 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import Analytics from "../../analytics";
-import { SCREENS } from "../../constants";
+import { SCREENS, EASY_LIFE_TYPES } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 import SelectModal from "../../components/select-modal";
 import ScrollableTabView from "react-native-scrollable-tab-view";
@@ -70,7 +70,8 @@ class AddCookingScreen extends Component {
 
   next = () => {
     this.props.navigator.push({
-      screen: SCREENS.DISH_CALENDAR_SCREEN
+      screen: SCREENS.WHAT_TO_SCREEN,
+      passProps: { type: EASY_LIFE_TYPES.WHAT_TO_COOK }
     });
   };
   render() {
