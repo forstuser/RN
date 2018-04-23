@@ -330,7 +330,13 @@ class ShareModal extends React.Component {
                     resize="cover"
                   />
                 </View>
-                <View style={{ flexDirection: 'row', height: 'auto', marginBottom: 10 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    height: "auto",
+                    marginBottom: 10
+                  }}
+                >
                   <Text style={styles.userName} weight="Bold">
                     {loggedInUser.name}
                   </Text>
@@ -482,7 +488,7 @@ const styles = StyleSheet.create({
   },
   productModel: {
     fontSize: 10,
-    color: colors.secondaryText,
+    color: colors.secondaryText
     // marginTop: 10
   },
   userImageView: {

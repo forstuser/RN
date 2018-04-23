@@ -6,8 +6,11 @@ import {
   FlatList,
   Alert,
   TouchableOpacity,
-  Image
+  Image,
+  Modal
 } from "react-native";
+// import Modal from "react-native-modal";
+
 import I18n from "../../i18n";
 import { API_BASE_URL } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -17,12 +20,13 @@ import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 import AddNewBtn from "../../components/add-new-btn";
-import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader"
+import WhatToListModal from "../../components/what-to-list-modal";
+import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader";
 const whatToWear = require("../../images/whatToWear.png");
 
 class WhatToListScreen extends Component {
   static navigatorStyle = {
-    tabBarHidden: true,
+    tabBarHidden: true
   };
   state = {
     clothesArray: []
@@ -32,29 +36,43 @@ class WhatToListScreen extends Component {
       title: "What To Wear Today"
     });
   }
+
   showCloathesImageUploader = () => {
-    this.cloathesImageUploader.showActionSheet();
-  }
-  getImageDetails = (singleCloathDetails) => {
-    this.setState({ clothesArray: [...this.state.clothesArray, singleCloathDetails] }, () => {
-      console.log(this.state.clothesArray)
-    });
-  }
+    // this.cloathesImageUploader.showActionSheet();
+    this.WhatToListModal.show();
+  };
+  getImageDetails = singleCloathDetails => {
+    this.setState(
+      { clothesArray: [...this.state.clothesArray, singleCloathDetails] },
+      () => {
+        console.log(this.state.clothesArray);
+      }
+    );
+  };
   render() {
-    const { clothesArray } = this.state;
+    const { clothesArray, isModalVisible } = this.state;
     return (
       <ScreenContainer>
-        {clothesArray.length <= 0 &&
+        {clothesArray.length <= 0 && (
           <View style={styles.container}>
             <Image style={styles.whatToWearImage} source={whatToWear} />
-            <Text weight="Medium" style={styles.whatToWearText}>Select Cloathes that you like</Text>
+            <Text weight="Medium" style={styles.whatToWearText}>
+              Select Cloathes that you like
+            </Text>
           </View>
-        }
-        <AddNewBtn style={styles.addNewBtn} text={"Add New Cloathing Item"} onPress={this.showCloathesImageUploader}></AddNewBtn>
+        )}
+        <AddNewBtn
+          text={"Add New Cloathing Item"}
+          onPress={this.showCloathesImageUploader}
+        />
         <CloathesImageUploader
           ref={ref => (this.cloathesImageUploader = ref)}
           navigator={navigator}
           addImageDetails={this.getImageDetails}
+        />
+        <WhatToListModal
+          ref={ref => (this.WhatToListModal = ref)}
+          navigator={this.props.navigator}
         />
       </ScreenContainer>
     );
@@ -64,21 +82,18 @@ class WhatToListScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center"
   },
   whatToWearImage: {
     height: 70,
     width: 70,
-    alignItems: 'center',
-    alignSelf: 'center'
+    alignItems: "center",
+    alignSelf: "center"
   },
   whatToWearText: {
     fontSize: 14,
-    color: '#9b9b9b',
-  },
-  addNewBtn: {
-    flex: 1
+    color: "#9b9b9b"
   }
 });
 
