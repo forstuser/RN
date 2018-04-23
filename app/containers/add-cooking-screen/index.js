@@ -54,6 +54,13 @@ class AddCookingScreen extends Component {
     this.props.navigator.setTitle({
       title: "What to Cook"
     });
+    this.checkSelect();
+  }
+
+  checkSelect() {
+    for (let i = 0; i < this.state.dishes.length; i++) {
+      this.state.selectedDishesIds.push(this.state.dishes[i].id);
+    }
   }
 
   selectStates = states => {
@@ -65,7 +72,18 @@ class AddCookingScreen extends Component {
   };
 
   clicked = id => {
-    alert(id);
+    const newArray = this.state.selectedDishesIds.slice();
+    for (let i = 0; i <= newArray.length; i++) {
+      if (newArray[i] == id) {
+        delete newArray[i];
+        console.log("delete", id);
+        this.setState({
+          selectedDishesIds: newArray
+        });
+        console.log("arr1", newArray);
+      }
+      // alert(newArray);
+    }
   };
 
   next = () => {
@@ -74,7 +92,7 @@ class AddCookingScreen extends Component {
     });
   };
   render() {
-    const { loading, states, dishes } = this.state;
+    const { loading, states, dishes, selectedDishesIds } = this.state;
     return (
       <ScreenContainer style={styles.container}>
         <View style={{ padding: 20 }}>
@@ -113,11 +131,11 @@ class AddCookingScreen extends Component {
           <Text style={styles.dishType}>Select Dishes that you like</Text>
         </View>
 
-        {dishes.map((item, key) => (
+        {dishes.map((item, key, index) => (
           <View style={{ padding: 20, paddingBottom: 0, paddingTop: 8 }}>
             <EasyLifeItem
               text={item.name}
-              isChecked={true}
+              isChecked={item[index] == selectedDishesIds[key] ? true : false}
               onPress={() => this.clicked(item.id)}
             />
           </View>
