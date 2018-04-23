@@ -9,8 +9,6 @@ import {
   Image,
   Modal
 } from "react-native";
-// import Modal from "react-native-modal";
-
 import I18n from "../../i18n";
 import { API_BASE_URL } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";

@@ -13,7 +13,8 @@ class WhatToListModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false
+      visible: false,
+      item: ""
     };
   }
 
@@ -27,11 +28,15 @@ class WhatToListModal extends React.Component {
     });
   };
 
-  onSaveBtn = () => {};
+  onSaveBtn = () => {
+    this.setState({
+      visible: false
+    });
+  };
 
   render() {
     const { navigator } = this.props;
-    const { visible } = this.state;
+    const { visible, item } = this.state;
     return (
       <Modal isVisible={visible}>
         <View style={styles.finishModal}>
@@ -42,8 +47,8 @@ class WhatToListModal extends React.Component {
             placeholder="Add Item"
             underlineColorAndroid="transparent"
             style={{ marginTop: 15 }}
-            // value={Item}
-            // onChangeText={sellerName => this.setState({ sellerName })}
+            value={item}
+            onChangeText={item => this.setState({ item })}
           />
           <Button
             onPress={this.onSaveBtn}
@@ -74,23 +79,11 @@ const styles = StyleSheet.create({
     top: 10,
     backgroundColor: "transparent"
   },
-  finishImage: {
-    width: 200,
-    height: 200
-  },
   text: {
     textAlign: "left"
   },
-  finishMsg: {
-    color: colors.mainBlue,
-    fontSize: 24,
-    textAlign: "center",
-    marginTop: 25,
-    width: 200
-  },
   finishBtn: {
     width: "100%"
-    // marginTop: 20
   }
 });
 
