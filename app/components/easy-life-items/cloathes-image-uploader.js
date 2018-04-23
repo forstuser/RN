@@ -16,7 +16,8 @@ import CustomTextInput from "../../components/form-elements/text-input"
 class CloathesImageUploader extends React.Component {
     state = {
         isModalVisible: false,
-        file: null
+        file: null,
+        cloathesName: '',
     };
 
     handleOptionPress = index => {
@@ -67,9 +68,19 @@ class CloathesImageUploader extends React.Component {
 
     showActionSheet = () => {
         this.uploadOptions.show();
+        this.setState({
+            cloathesName: '',
+            file: null
+        })
+    }
+
+    addImageToList = () => {
+        const uploadedImageObject = { id: Math.floor(Math.random() * 90 + 10), loathesName: this.state.cloathesName, cloathesImageURL: this.state.file.path }
+        this.props.addImageDetails(uploadedImageObject);
+        this.setState({ isModalVisible: false })
     }
     render() {
-        const { file, isModalVisible } = this.state;
+        const { file, isModalVisible, cloathesName } = this.state;
         return (
             <View>
                 <ActionSheet
@@ -94,10 +105,11 @@ class CloathesImageUploader extends React.Component {
                     <View style={{ width: '90%' }}>
                         <CustomTextInput
                             placeholder={"Add Name"}
+                            onChangeText={cloathesName => this.setState({ cloathesName })}
                         />
                     </View>
                     <Button
-                        onPress={this.openAddEditCalendarServiceScreen}
+                        onPress={this.addImageToList}
                         text={"ADD TO MY LIST"}
                         color="secondary"
                         borderRadius={0}

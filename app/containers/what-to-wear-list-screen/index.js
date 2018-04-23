@@ -22,7 +22,10 @@ const whatToWear = require("../../images/whatToWear.png");
 
 class WhatToWearListScreen extends Component {
     static navigatorStyle = {
-        tabBarHidden: true
+        tabBarHidden: true,
+    };
+    state = {
+        clothesArray: []
     };
     componentDidMount() {
         this.props.navigator.setTitle({
@@ -32,18 +35,26 @@ class WhatToWearListScreen extends Component {
     showCloathesImageUploader = () => {
         this.cloathesImageUploader.showActionSheet();
     }
-
+    getImageDetails = (singleCloathDetails) => {
+        this.setState({ clothesArray: [...this.state.clothesArray, singleCloathDetails] }, () => {
+            console.log(this.state.clothesArray)
+        });
+    }
     render() {
+        const { clothesArray } = this.state;
         return (
             <ScreenContainer>
-                <View style={styles.container}>
-                    <Image style={styles.whatToWearImage} source={whatToWear} />
-                    <Text weight="Medium" style={styles.whatToWearText}>Select Cloathes that you like</Text>
-                </View>
-                <AddNewBtn text={"Add New Cloathing Item"} onPress={this.showCloathesImageUploader}></AddNewBtn>
+                {clothesArray.length <= 0 &&
+                    <View style={styles.container}>
+                        <Image style={styles.whatToWearImage} source={whatToWear} />
+                        <Text weight="Medium" style={styles.whatToWearText}>Select Cloathes that you like</Text>
+                    </View>
+                }
+                <AddNewBtn style={styles.addNewBtn} text={"Add New Cloathing Item"} onPress={this.showCloathesImageUploader}></AddNewBtn>
                 <CloathesImageUploader
                     ref={ref => (this.cloathesImageUploader = ref)}
                     navigator={navigator}
+                    addImageDetails={this.getImageDetails}
                 />
             </ScreenContainer>
         );
@@ -65,8 +76,10 @@ const styles = StyleSheet.create({
     whatToWearText: {
         fontSize: 14,
         color: '#9b9b9b',
+    },
+    addNewBtn: {
+        flex: 1
     }
-
 });
 
 export default WhatToWearListScreen;
