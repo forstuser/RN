@@ -15,7 +15,7 @@ class WhatToListModal extends React.Component {
     this.state = {
       visible: false,
       name: "",
-      list: [{ id: "", name: "" }]
+      list: [{ name: "" }]
     };
   }
 
@@ -35,34 +35,41 @@ class WhatToListModal extends React.Component {
     });
   };
 
+  // handleShareholderNameChange = index => event => {
+  //   const newList = this.state.list.map((list, indx) => {
+  //     if (index !== indx) return list;
+  //     return { ...list, name: event.target.value };
+  //   });
+  //   this.setState({ list: newLists });
+  // };
+
   onSaveBtn = () => {
-    const addObject = [
-      {
-        id: Math.floor(Math.random() * 90 + 10),
-        name: this.state.name
-      }
-    ];
-    console.log(addObject, "arrayList");
-    this.props.addDetails(addObject);
+    const list = {
+      id: Math.floor(Math.random() * 90 + 10),
+      name: this.state.name
+    };
+
+    console.log(list, "arrayList");
+    this.props.addDetails(list);
     this.setState({ visible: false });
   };
 
   render() {
-    const { name, list } = this.state;
+    const { name, list, visible } = this.state;
     const { navigator } = this.props;
-    const { visible, item } = this.state;
     return (
       <Modal isVisible={visible}>
         <View style={styles.finishModal}>
           <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
             <Icon name="md-close" size={20} color={colors.mainText} />
           </TouchableOpacity>
-          {this.state.list.map((item, id) => (
+          {this.state.list.map((item, index) => (
             <CustomTextInput
               placeholder="Add Item"
               underlineColorAndroid="transparent"
               style={{ marginTop: 15 }}
               value={item.name}
+              // onChange={this.handleShareholderNameChange(index)}
               onChangeText={name => this.setState({ name })}
             />
           ))}
