@@ -66,19 +66,11 @@ class CloathesImageUploader extends React.Component {
       .catch(e => {});
   };
 
-  showActionSheet = () => {
-    this.uploadOptions.show();
-    this.setState({
-      cloathesName: "",
-      file: null
-    });
-  };
-
   addImageToList = () => {
     const uploadedImageObject = {
       id: Math.floor(Math.random() * 90 + 10),
-      loathesName: this.state.cloathesName,
-      cloathesImageURL: this.state.file.path
+      name: this.state.cloathesName,
+      url: this.state.file.path
     };
     this.props.addImageDetails(uploadedImageObject);
     this.setState({ isModalVisible: false });

@@ -7,7 +7,8 @@ import {
   Alert,
   TouchableOpacity,
   Image,
-  Modal
+  Modal,
+  ScrollView
 } from "react-native";
 import I18n from "../../i18n";
 import { API_BASE_URL } from "../../api";
@@ -15,58 +16,118 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import Analytics from "../../analytics";
-import { SCREENS } from "../../constants";
+import { SCREENS, EASY_LIFE_TYPES } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 import AddNewBtn from "../../components/add-new-btn";
 import WhatToListModal from "../../components/what-to-list-modal";
 import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader";
+import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader";
+import EasyLifeItem from "../../components/easy-life-item";
+
+const cooking = require("../../images/cooking.png");
+const todo = require("../../images/to_do.png");
 const whatToWear = require("../../images/whatToWear.png");
+const headerBg = require("../../images/product_card_header_bg.png");
 
 class WhatToListScreen extends Component {
   static navigatorStyle = {
     tabBarHidden: true
   };
   state = {
-    clothesArray: []
+    text: "",
+    btnText: "",
+    image: cooking,
+    selectedItemIds: [],
+    items: []
   };
   componentDidMount() {
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    const { type } = this.props;
+    let title = "What to Cook";
+    let text = "Select Dishes that you like";
+    let image = cooking;
+    let btnText = "Add New Dish";
+    switch (type) {
+      case EASY_LIFE_TYPES.WHAT_TO_DO: // WHAT_TO_DO = 2
+        title = "What to Do";
+        text = "Select items that you would like to do";
+        image = todo;
+        btnText = "Add a New To Do Item";
+        break;
+      case EASY_LIFE_TYPES.WHAT_TO_WEAR: // WHAT_TO_WEAR = 3
+        title = "What to Wear Today";
+        text = "Select items that you would like to wear";
+        image = whatToWear;
+        btnText = "Add New Cloathing Item";
+        break;
+    }
+
+    this.setState({
+      image,
+      text,
+      btnText
+    });
+
     this.props.navigator.setTitle({
-      title: "What To Wear Today"
+      title
     });
   }
 
   showCloathesImageUploader = () => {
-    // this.cloathesImageUploader.showActionSheet();
+    this.cloathesImageUploader.showActionSheet();
     this.WhatToListModal.show();
   };
-  getImageDetails = singleCloathDetails => {
+  getItemDetails = item => {
+    this.setState({ items: [...this.state.items, item] }, () => {
+      console.log(this.state.items);
+    });
+  };
+  onItemPress = item => {
     this.setState(
-      { clothesArray: [...this.state.clothesArray, singleCloathDetails] },
+      { selectedItemIds: [...this.state.selectedItemIds, item.id] },
       () => {
-        console.log(this.state.clothesArray);
+        console.log(this.state.selectedItemIds);
       }
     );
   };
+
   render() {
-    const { clothesArray, isModalVisible } = this.state;
+    const { items, image, text, selectedItemIds, btnText } = this.state;
     return (
       <ScreenContainer>
-        {clothesArray.length <= 0 && (
+        {items.length <= 0 && (
           <View style={styles.container}>
-            <Image style={styles.whatToWearImage} source={whatToWear} />
+            <Image style={styles.whatToWearImage} source={image} />
             <Text weight="Medium" style={styles.whatToWearText}>
-              Select Cloathes that you like
+              {text}
             </Text>
           </View>
         )}
-        <AddNewBtn
-          text={"Add New Cloathing Item"}
-          onPress={this.showCloathesImageUploader}
-        />
+        {items.length > 0 && (
+          <ScrollView style={styles.body}>
+            {items.map((item, index) => {
+              const isChecked = selectedItemIds.indexOf(item.id) > -1;
+              return (
+                <View key={item.id}>
+                  <EasyLifeItem
+                    showCheckbox={true}
+                    text={item.name}
+                    imageUri={item.url}
+                    isChecked={isChecked}
+                    onPress={() => this.onItemPress(item)}
+                  />
+                </View>
+              );
+            })}
+          </ScrollView>
+        )}
+        <View style={styles.addNewBtn}>
+          <AddNewBtn text={btnText} onPress={this.showCloathesImageUploader} />
+        </View>
         <CloathesImageUploader
           ref={ref => (this.cloathesImageUploader = ref)}
           navigator={navigator}
-          addImageDetails={this.getImageDetails}
+          addImageDetails={this.getItemDetails}
         />
         <WhatToListModal
           ref={ref => (this.WhatToListModal = ref)}
@@ -92,6 +153,12 @@ const styles = StyleSheet.create({
   whatToWearText: {
     fontSize: 14,
     color: "#9b9b9b"
+  },
+  body: {
+    flex: 1
+  },
+  addNewBtn: {
+    padding: 8
   }
 });
 
