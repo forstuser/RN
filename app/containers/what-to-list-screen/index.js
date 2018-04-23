@@ -7,6 +7,7 @@ import {
   Alert,
   TouchableOpacity,
   Image,
+  Modal,
   ScrollView
 } from "react-native";
 import I18n from "../../i18n";
@@ -18,7 +19,8 @@ import Analytics from "../../analytics";
 import { SCREENS, EASY_LIFE_TYPES } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 import AddNewBtn from "../../components/add-new-btn";
-import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader"
+import WhatToListModal from "../../components/what-to-list-modal";
+import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader";
 import EasyLifeItem from "../../components/easy-life-item";
 
 const cooking = require("../../images/cooking.png");
@@ -28,7 +30,7 @@ const headerBg = require("../../images/product_card_header_bg.png");
 
 class WhatToListScreen extends Component {
   static navigatorStyle = {
-    tabBarHidden: true,
+    tabBarHidden: true
   };
   state = {
     text: "",
@@ -45,7 +47,7 @@ class WhatToListScreen extends Component {
     let image = cooking;
     let btnText = "Add New Dish";
     switch (type) {
-      case EASY_LIFE_TYPES.WHAT_TO_DO: // WHAT_TO_DO = 2  
+      case EASY_LIFE_TYPES.WHAT_TO_DO: // WHAT_TO_DO = 2
         title = "What to Do";
         text = "Select items that you would like to do";
         image = todo;
@@ -68,15 +70,15 @@ class WhatToListScreen extends Component {
     this.props.navigator.setTitle({
       title
     });
-
   }
 
   showCloathesImageUploader = () => {
-    this.cloathesImageUploader.showActionSheet();
-  }
-  getItemDetails = (item) => {
+    // this.cloathesImageUploader.showActionSheet();
+    this.WhatToListModal.show();
+  };
+  getItemDetails = item => {
     this.setState({ items: [...this.state.items, item] }, () => {
-      console.log(this.state.items)
+      console.log(this.state.items);
     });
   }
   removeItem = (item) => {
@@ -118,6 +120,11 @@ class WhatToListScreen extends Component {
             navigator={navigator}
             addImageDetails={this.getItemDetails}
           />
+          <WhatToListModal
+            ref={ref => (this.WhatToListModal = ref)}
+            navigator={this.props.navigator}
+            addDetails={this.getItemDetails}
+          />
         </ScreenContainer>
         {items.length > 0 && <View>
           <Button
@@ -136,18 +143,18 @@ class WhatToListScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center"
   },
   whatToWearImage: {
     height: 70,
     width: 70,
-    alignItems: 'center',
-    alignSelf: 'center'
+    alignItems: "center",
+    alignSelf: "center"
   },
   whatToWearText: {
     fontSize: 14,
-    color: '#9b9b9b',
+    color: "#9b9b9b"
   },
   body: {
     flex: 1
