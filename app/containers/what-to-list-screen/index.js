@@ -79,47 +79,56 @@ class WhatToListScreen extends Component {
       console.log(this.state.items)
     });
   }
-  onItemPress = item => {
-    this.setState({ selectedItemIds: [...this.state.selectedItemIds, item.id] }, () => {
-      console.log(this.state.selectedItemIds)
-    });
+  removeItem = (item) => {
+    console.log(item);
+  }
+  addItemsToMyList = () => {
 
-  };
-
+  }
   render() {
     const { items, image, text, selectedItemIds, btnText } = this.state;
     return (
-      <ScreenContainer>
-        {items.length <= 0 &&
-          <View style={styles.container}>
-            <Image style={styles.whatToWearImage} source={image} />
-            <Text weight="Medium" style={styles.whatToWearText}>{text}</Text>
+      <View style={{ flex: 1 }}>
+        <ScreenContainer>
+          {items.length <= 0 &&
+            <View style={styles.container}>
+              <Image style={styles.whatToWearImage} source={image} />
+              <Text weight="Medium" style={styles.whatToWearText}>{text}</Text>
+            </View>
+          }
+          {items.length > 0 && <ScrollView style={styles.body}>
+            {items.map((item, index) => {
+              return (
+                <View key={item.id}>
+                  <EasyLifeItem
+                    showCheckbox={false}
+                    text={item.name}
+                    imageUri={item.url}
+                    showRemoveBtn={true}
+                    onRemoveBtnPress={() => this.removeItem(item)}
+                  />
+                </View>)
+            })}
+          </ScrollView>}
+          <View>
+            <AddNewBtn text={btnText} onPress={this.showCloathesImageUploader}></AddNewBtn>
           </View>
-        }
-        {items.length > 0 && <ScrollView style={styles.body}>
-          {items.map((item, index) => {
-            const isChecked = selectedItemIds.indexOf(item.id) > -1;
-            return (
-              <View key={item.id}>
-                <EasyLifeItem
-                  showCheckbox={true}
-                  text={item.name}
-                  imageUri={item.url}
-                  isChecked={isChecked}
-                  onPress={() => this.onItemPress(item)}
-                />
-              </View>)
-          })}
-        </ScrollView>}
-        <View style={styles.addNewBtn}>
-          <AddNewBtn text={btnText} onPress={this.showCloathesImageUploader}></AddNewBtn>
-        </View>
-        <CloathesImageUploader
-          ref={ref => (this.cloathesImageUploader = ref)}
-          navigator={navigator}
-          addImageDetails={this.getItemDetails}
-        />
-      </ScreenContainer>
+          <CloathesImageUploader
+            ref={ref => (this.cloathesImageUploader = ref)}
+            navigator={navigator}
+            addImageDetails={this.getItemDetails}
+          />
+        </ScreenContainer>
+        {items.length > 0 && <View>
+          <Button
+            onPress={this.addItemsToMyList}
+            text={"ADD TO MY LIST"}
+            color="secondary"
+            borderRadius={0}
+            style={styles.addItemBtn}
+          />
+        </View>}
+      </View>
     );
   }
 }
@@ -143,9 +152,10 @@ const styles = StyleSheet.create({
   body: {
     flex: 1
   },
-  addNewBtn: {
-    padding: 8
-  }
+  addItemBtn: {
+    width: "100%",
+    // backgroundColor: 'green',
+  },
 });
 
 export default WhatToListScreen;
