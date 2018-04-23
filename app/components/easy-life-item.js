@@ -14,51 +14,65 @@ class EasyLifeItem extends React.Component {
       showCheckbox = true,
       isChecked,
       imageUri,
-      onPress
+      onPress,
+      showRemoveBtn = false,
+      onRemoveBtnPress
     } = this.props;
     return (
-      <TouchableOpacity
-        style={[
-          styles.container,
-          bottomText || imageUri ? styles.bigContainer : {}
-        ]}
-        onPress={onPress}
-      >
-        {showCheckbox && (
-          <View style={styles.checkbox}>
-            {isChecked && (
-              <Icon
-                name="ios-checkmark"
-                color={colors.pinkishOrange}
-                size={30}
-              />
-            )}
+      <View>
+        <TouchableOpacity
+          style={[
+            styles.container,
+            bottomText || imageUri ? styles.bigContainer : {}
+          ]}
+          onPress={onPress}
+        >
+          {showCheckbox && (
+            <View style={styles.checkbox}>
+              {isChecked && (
+                <Icon
+                  name="md-checkmark"
+                  color={colors.pinkishOrange}
+                  size={15}
+                />
+              )}
+            </View>
+          )}
+          {!showCheckbox && (
+            <View
+              style={[styles.selectBox, isChecked ? styles.selectedBox : {}]}
+            >
+              {isChecked && (
+                <Icon name="md-checkmark" color={"#fff"} size={15} />
+              )}
+            </View>
+          )}
+          <View style={styles.texts}>
+            <Text weight="Medium" style={styles.text} numberOfLines={1}>
+              {text}
+            </Text>
+            {bottomText ? (
+              <Text style={styles.subText}>{bottomText}</Text>
+            ) : null}
           </View>
+          {rightText ? <Text style={styles.subText}>{rightText}</Text> : null}
+          {imageUri ? (
+            <Image source={{ uri: imageUri }} style={styles.image} />
+          ) : null}
+        </TouchableOpacity>
+        {showRemoveBtn && (
+          <TouchableOpacity style={styles.removeBtn} onPress={onRemoveBtnPress}>
+            <Icon name="md-remove-circle" color={colors.danger} size={30} />
+          </TouchableOpacity>
         )}
-        {!showCheckbox && (
-          <View style={[styles.selectBox, isChecked ? styles.selectedBox : {}]}>
-            {isChecked && (
-              <Icon name="ios-checkmark" color={"#fff"} size={30} />
-            )}
-          </View>
-        )}
-        <View style={styles.texts}>
-          <Text weight="Medium" style={styles.text} numberOfLines={1}>
-            {text}
-          </Text>
-          {bottomText ? <Text style={styles.subText}>{bottomText}</Text> : null}
-        </View>
-        {rightText ? <Text style={styles.subText}>{rightText}</Text> : null}
-        {imageUri ? (
-          <Image source={{ uri: imageUri }} style={styles.image} />
-        ) : null}
-      </TouchableOpacity>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    margin: 5,
     height: 45,
     flexDirection: "row",
     ...defaultStyles.card,
@@ -68,6 +82,11 @@ const styles = StyleSheet.create({
   },
   bigContainer: {
     height: 70
+  },
+  removeBtn: {
+    position: "absolute",
+    top: -3,
+    right: 0
   },
   checkbox: {
     width: 20,
