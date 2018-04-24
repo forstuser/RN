@@ -96,23 +96,34 @@ class WhatToListScreen extends Component {
       console.log(res);
       this.setState({ items: res.mealList })
     } catch (e) { }
-  }
-  showCloathesImageUploader = () => {
-    // this.cloathesImageUploader.showActionSheet();
-    this.WhatToListModal.show();
   };
-  getItemDetails = item => {
+  addItem = item => {
     this.setState({ items: [...this.state.items, item] }, () => {
       console.log(this.state.items);
     });
   };
+
+  showCloathesImageUploader = () => {
+    // this.cloathesImageUploader.showActionSheet();
+    this.WhatToListModal.show();
+  };
+
+  addItems = items => {
+    this.setState(
+      {
+        items: [...this.state.items, ...items]
+      },
+      () => {
+        // console.log(this.state.items);
+      }
+    );
+  };
   removeItem = item => {
-    // const index = this.state.items.indexOf(item);
-    // console.log(index);
-    // this.setState({
-    //   items: this.state.items.splice(index, 1)
-    // })
-    //  this.setState
+    const index = this.state.items.indexOf(item);
+    console.log(index);
+    this.setState({
+      items: this.state.items.splice(index, 1)
+    })
   };
   addItemsToMyList = () => { };
   toggleVegOrNonveg = () => {
@@ -121,6 +132,14 @@ class WhatToListScreen extends Component {
     }, () => {
       this.selectCategory(this.state.selectedState)
     });
+  }
+  onItemPress = item => {
+    this.setState(
+      { selectedItemIds: [...this.state.selectedItemIds, item.id] },
+      () => {
+        console.log(this.state.selectedItemIds);
+      }
+    );
   };
   render() {
     const { type } = this.props;
@@ -179,34 +198,20 @@ class WhatToListScreen extends Component {
               })}
             </ScrollView>
           )}
-          <View>
-            <AddNewBtn
-              text={btnText}
-              onPress={this.showCloathesImageUploader}
-            />
+          <View style={styles.addNewBtn}>
+            <AddNewBtn text={btnText} onPress={this.showCloathesImageUploader} />
           </View>
           <CloathesImageUploader
             ref={ref => (this.cloathesImageUploader = ref)}
             navigator={navigator}
-            addImageDetails={this.getItemDetails}
+            addImageDetails={this.addItem}
           />
           <WhatToListModal
             ref={ref => (this.WhatToListModal = ref)}
             navigator={this.props.navigator}
-            addDetails={this.getItemDetails}
+            addItems={this.addItems}
           />
         </ScreenContainer>
-        {items.length > 0 && (
-          <View>
-            <Button
-              onPress={this.addItemsToMyList}
-              text={"SAVE MY LIST"}
-              color="secondary"
-              borderRadius={0}
-              style={styles.addItemBtn}
-            />
-          </View>
-        )}
       </View>
     );
   }

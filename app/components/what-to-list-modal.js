@@ -14,7 +14,6 @@ class WhatToListModal extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      name: "",
       list: [{ name: "" }]
     };
   }
@@ -35,27 +34,28 @@ class WhatToListModal extends React.Component {
     });
   };
 
-  // handleShareholderNameChange = index => event => {
-  //   const newList = this.state.list.map((list, indx) => {
-  //     if (index !== indx) return list;
-  //     return { ...list, name: event.target.value };
-  //   });
-  //   this.setState({ list: newLists });
-  // };
+  textChange = (name, index) => {
+    console.log(name, index, "name and index");
+    const newList = [...this.state.list];
+    newList[index].name = name;
+    this.setState({
+      list: newList
+    });
+    console.log(this.state.list);
+  };
 
   onSaveBtn = () => {
-    const list = {
-      id: Math.floor(Math.random() * 90 + 10),
-      name: this.state.name
-    };
+    const itemList = this.state.list.map(function(item) {
+      item.id = Math.floor(Math.random() * 90 + 10);
+      return item;
+    });
 
-    console.log(list, "arrayList");
-    this.props.addDetails(list);
+    this.props.addItems(itemList);
     this.setState({ visible: false });
   };
 
   render() {
-    const { name, list, visible } = this.state;
+    const { list, visible } = this.state;
     const { navigator } = this.props;
     return (
       <Modal isVisible={visible}>
@@ -68,16 +68,16 @@ class WhatToListModal extends React.Component {
               placeholder="Add Item"
               underlineColorAndroid="transparent"
               style={{ marginTop: 15 }}
-              value={item.name}
-              // onChange={this.handleShareholderNameChange(index)}
-              onChangeText={name => this.setState({ name })}
+              value={item}
+              onChangeText={name => this.textChange(name, index)}
             />
           ))}
           <TouchableOpacity onPress={this.addRow}>
             <Text
               style={{
                 textAlign: "left",
-                marginBottom: 15
+                marginBottom: 15,
+                color: "#ff732e"
               }}
             >
               Add more
