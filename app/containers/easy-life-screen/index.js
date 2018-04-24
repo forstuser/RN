@@ -38,7 +38,7 @@ class EasyLifeScreen extends Component {
   toDoItemPress = () => {
     this.props.navigator.push({
       screen: SCREENS.WHAT_TO_SCREEN,
-      passProps: { type: EASY_LIFE_TYPES.WHAT_TO_DO }
+      passProps: { type: EASY_LIFE_TYPES.WHAT_TO_COOK }
     });
   };
   cookingItemPress = () => {

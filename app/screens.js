@@ -41,7 +41,6 @@ import RateUsScreen from "./containers/rate-us-screen";
 import DoYouKnowScreen from "./containers/do-you-know-screen";
 import MyCalendarScreen from "./containers/my-calendar-screen";
 import EasyLifeScreen from "./containers/easy-life-screen";
-import AddCookingScreen from "./containers/add-cooking-screen";
 import AddCalendarServiceScreen from "./containers/add-calendar-service-screen";
 import CalendarServiceCardScreen from "./containers/calender-service-card-screen";
 import EnterPinPopupScreen from "./containers/enter-pin-popup-screen";
@@ -255,13 +254,6 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent(
     SCREENS.EDIT_MEDICAL_DOCS_SCREEN,
     () => EditMedicalDocScreen,
-    store,
-    Provider
-  );
-
-  Navigation.registerComponent(
-    SCREENS.ADD_COOKING_SCREEN,
-    () => AddCookingScreen,
     store,
     Provider
   );

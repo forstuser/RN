@@ -15,7 +15,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import ActionSheet from "react-native-actionsheet";
 
 import I18n from "../../i18n";
-import { API_BASE_URL } from "../../api";
+import { API_BASE_URL, getMealListByDate } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
@@ -26,6 +26,7 @@ import DateSelector from "./date-selector";
 import EasyLifeItem from "../../components/easy-life-item";
 import AddNewBtn from "../../components/add-new-btn";
 import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader";
+import WhatToListModal from "../../components/what-to-list-modal";
 
 const cooking = require("../../images/cooking.png");
 const todo = require("../../images/to_do.png");
@@ -152,71 +153,11 @@ class DishCalendarScreen extends Component {
     }
   };
 
-  fetchItems = () => {
+  fetchItems = async () => {
+    const res = await getMealListByDate(this.state.date);
+    console.log(res.mealList, "mealList");
     this.setState({
-      items: [
-        {
-          id: 1,
-          name: "Dish1",
-          date: "2018-04-21"
-        },
-        {
-          id: 2,
-          name: "Dish2",
-          date: "2018-04-20"
-        },
-        {
-          id: 3,
-          name: "Dish3",
-          date: "2018-04-11"
-        },
-        {
-          id: 4,
-          name: "Dish1",
-          date: "2018-04-21"
-        },
-        {
-          id: 5,
-          name: "Dish2",
-          date: "2018-04-20"
-        },
-        {
-          id: 6,
-          name: "Dish3",
-          date: "2018-04-11"
-        },
-        {
-          id: 7,
-          name: "Dish1",
-          date: "2018-04-21"
-        },
-        {
-          id: 8,
-          name: "Dish2",
-          date: "2018-04-20"
-        },
-        {
-          id: 9,
-          name: "Dish3",
-          date: "2018-04-11"
-        },
-        {
-          id: 10,
-          name: "Dish1",
-          date: "2018-04-21"
-        },
-        {
-          id: 11,
-          name: "Dish2",
-          date: "2018-04-20"
-        },
-        {
-          id: 12,
-          name: "Dish3",
-          date: "2018-04-11"
-        }
-      ],
-      selectedItemIds: [1, 2]
+      items: res.mealList
     });
   };
 
@@ -226,6 +167,8 @@ class DishCalendarScreen extends Component {
     const { type } = this.props;
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_COOK:
+        this.WhatToListModal.show();
+
         break;
       case EASY_LIFE_TYPES.WHAT_TO_DO:
         // this.cloathesImageUploader.showActionSheet();
@@ -234,6 +177,15 @@ class DishCalendarScreen extends Component {
         this.cloathesImageUploader.showActionSheet();
         break;
     }
+  };
+
+  addItems = items => {
+    this.setState(
+      {
+        items: [...this.state.items, ...items]
+      },
+      () => {}
+    );
   };
 
   handleEditOptionPress = index => {
@@ -291,6 +243,11 @@ class DishCalendarScreen extends Component {
             <CloathesImageUploader
               ref={ref => (this.cloathesImageUploader = ref)}
               navigator={navigator}
+            />
+            <WhatToListModal
+              ref={ref => (this.WhatToListModal = ref)}
+              navigator={this.props.navigator}
+              addItems={this.addItems}
             />
           </View>
         </ScrollView>
