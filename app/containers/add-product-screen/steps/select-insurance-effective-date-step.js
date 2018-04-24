@@ -21,7 +21,7 @@ import { getReferenceDataCategories } from "../../../api";
 import LoadingOverlay from "../../../components/loading-overlay";
 import DatePickerRn from "../../../components/date-picker-rn";
 
-import Step from "./step";
+import Step from "../../../components/step";
 
 class SelectPurchaseDateStep extends React.Component {
   constructor(props) {

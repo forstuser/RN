@@ -29,7 +29,7 @@ import ContactFields from "../../../components/form-elements/contact-fields";
 import CustomDatePicker from "../../../components/form-elements/date-picker";
 import UploadDoc from "../../../components/form-elements/upload-doc";
 
-import Step from './step';
+import Step from '../../../components/step';
 
 class Repair extends React.Component {
   constructor(props) {

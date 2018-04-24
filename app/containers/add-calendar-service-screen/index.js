@@ -1,180 +1,171 @@
-import React, { Component } from "react";
+import React from "react";
 import {
-  Platform,
   StyleSheet,
   View,
-  FlatList,
-  Alert,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  Picker
+  BackHandler,
+  Animated,
+  Easing,
+  Dimensions
 } from "react-native";
-import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
-import Icon from "react-native-vector-icons/Ionicons";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {
-  API_BASE_URL,
-  fetchCalendarReferenceData,
-  createCalendarItem
-} from "../../api";
-import { Text, Button, ScreenContainer } from "../../elements";
+import _ from "lodash";
+import { createCalendarItem } from "../../api";
+
+import { Text, ScreenContainer } from "../../elements";
+import Analytics from "../../analytics";
+
 import LoadingOverlay from "../../components/loading-overlay";
-import ErrorOverlay from "../../components/error-overlay";
+import { showSnackbar } from "../snackbar";
+
+import SelectServiceStep from "./select-service-step";
+import SelectStartingDateStep from "./select-starting-date-step";
 
 import {
   SCREENS,
-  WAGES_CYCLE,
-  CALENDAR_WAGES_TYPE,
-  UNIT_TYPES,
-  CALENDAR_SERVICE_TYPES
+  EXPENSE_TYPES,
+  MAIN_CATEGORY_IDS,
+  CATEGORY_IDS
 } from "../../constants";
+import { defaultStyles, colors } from "../../theme";
 
-import { colors } from "../../theme";
-import Analytics from "../../analytics";
-import SelectModal from "../../components/select-modal";
-import CustomTextInput from "../../components/form-elements/text-input";
-import CustomDatePicker from "../../components/form-elements/date-picker";
-import SelectWeekDays from "../../components/select-week-days";
-import SelectServiceHeader from "./select-service-header";
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
-class AddEditCalendarServiceScreen extends Component {
+class AddCalendarServiceScreen extends React.Component {
   static navigatorStyle = {
+    navBarHidden: true,
     tabBarHidden: true
+    // disabledBackGesture: true
   };
+  state = {
+    activeStepIndex: 0,
+    steps: [],
+    numberOfStepsToShowInFooter: 0,
+    serviceType: null,
+    item: null,
+    isLoading: false
+  };
+
+  stepsContainerPositionX = new Animated.Value(-SCREEN_WIDTH);
+
   constructor(props) {
     super(props);
-    this.state = {
-      error: null,
-      isFetchingServiceTypes: true,
-      serviceTypes: [],
-      visibleServiceTypeIds: [],
-      selectedServiceType: null,
-      name: "",
-      providerName: "",
-      wagesType: WAGES_CYCLE.MONTHLY,
-      unitPrice: "",
-      quantity: "",
-      startingDate: null,
-      selectedDays: [1, 2, 3, 4, 5, 6, 7],
-      unitTypes: [],
-      selectedUnitType: null,
-      actualSelectedUnitType: null
-    };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
     switch (event.id) {
-      case "didAppear":
+      case "backPress":
+        this.previousStep();
+      default:
         break;
     }
   };
 
   componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("add_edit_calendar_service_screen_title")
-    });
-    this.fetchReferenceData();
+    this.pushStep(
+      <SelectServiceStep
+        onBackPress={this.previousStep}
+        onStepDone={this.onServiceTypeStepDone}
+      />,
+      false
+    );
   }
 
-  fetchReferenceData = async () => {
-    this.setState({
-      isFetchingServiceTypes: true,
-      error: null
+  goToStep = step => {
+    const steps = [...this.state.steps];
+    steps.length = step + 1;
+    let newState = { steps, activeStepIndex: step };
+    if (step < 2) {
+      newState = {
+        ...newState,
+        serviceType: null
+      };
+    }
+    this.setState(() => newState);
+  };
+
+  close = () => {
+    this.props.navigator.pop();
+  };
+
+  previousStep = () => {
+    const { activeStepIndex, category } = this.state;
+
+    if (activeStepIndex == 0) this.close();
+
+    const newState = { activeStepIndex: activeStepIndex - 1 };
+    this.setState(newState);
+
+    this.stepsContainerPositionX.setValue(-SCREEN_WIDTH * 2);
+    Animated.timing(this.stepsContainerPositionX, {
+      toValue: -SCREEN_WIDTH,
+      duration: 300,
+      useNativeDriver: true
+    }).start();
+    const steps = [...this.state.steps];
+    steps.pop();
+    this.setState(() => ({ steps }));
+
+    console.log("current state: ", this.state);
+  };
+
+  nextStep = () => {
+    this.setState({ activeStepIndex: this.state.activeStepIndex + 1 });
+    this.stepsContainerPositionX.setValue(0);
+    Animated.timing(this.stepsContainerPositionX, {
+      toValue: -SCREEN_WIDTH,
+      duration: 300,
+      useNativeDriver: true
+    }).start();
+  };
+
+  pushStep(step, pushToNext = true) {
+    const steps = [...this.state.steps];
+    steps.push(step);
+    this.setState({ steps }, () => {
+      if (pushToNext) this.nextStep();
     });
+  }
+
+  onServiceTypeStepDone = serviceType => {
+    this.setState(
+      {
+        serviceType
+      },
+      () => {
+        this.pushStep(
+          <SelectStartingDateStep onStepDone={this.onStartingDateStepDone} />
+        );
+      }
+    );
+  };
+
+  onStartingDateStepDone = async date => {
+    const { serviceType } = this.state;
+
+    this.setState({
+      isLoading: true
+    });
+
+    Analytics.logEvent(Analytics.EVENTS.ADD_ADD_ATTENDANCE_ITEM);
     try {
-      const res = await fetchCalendarReferenceData();
-      this.setState({
-        serviceTypes: res.items,
-        visibleServiceTypeIds: res.default_ids
+      const res = await createCalendarItem({
+        serviceTypeId: serviceType.id,
+        effectiveDate: date
       });
-    } catch (error) {
-      this.setState({
-        error
+      console.log("res: ", res);
+    } catch (e) {
+      showSnackbar({
+        text: e.message
       });
     }
     this.setState({
-      isFetchingServiceTypes: false
-    });
-  };
-
-  onServiceTypeSelect = serviceType => {
-    let unitTypes = [];
-    let wagesType = WAGES_CYCLE.DAILY;
-    if (serviceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT) {
-      wagesType = WAGES_CYCLE.MONTHLY;
-    }
-    switch (serviceType.id) {
-      case CALENDAR_SERVICE_TYPES.MILK:
-        unitTypes = [UNIT_TYPES.LITRE, UNIT_TYPES.MILLILITRE];
-        break;
-      case CALENDAR_SERVICE_TYPES.DAIRY:
-        unitTypes = [
-          UNIT_TYPES.LITRE,
-          UNIT_TYPES.MILLILITRE,
-          UNIT_TYPES.KILOGRAM,
-          UNIT_TYPES.GRAM
-        ];
-        break;
-      case CALENDAR_SERVICE_TYPES.VEGETABLES:
-        unitTypes = [UNIT_TYPES.KILOGRAM, UNIT_TYPES.GRAM];
-        break;
-      default:
-        unitTypes = [UNIT_TYPES.UNIT];
-        break;
-    }
-    this.setState({
-      name: serviceType.name,
-      selectedServiceType: serviceType,
-      wagesType: wagesType,
-      unitTypes,
-      selectedUnitType: unitTypes[0],
-      actualSelectedUnitType: unitTypes[0]
-    });
-  };
-
-  onUnitTypeSelect = unitType => {
-    let actualSelectedUnitType = unitType;
-    if (unitType.id == UNIT_TYPES.GRAM.id) {
-      actualSelectedUnitType = UNIT_TYPES.KILOGRAM;
-    } else if (unitType.id == UNIT_TYPES.MILLILITRE.id) {
-      actualSelectedUnitType = UNIT_TYPES.LITRE;
-    }
-    this.setState({
-      selectedUnitType: unitType,
-      actualSelectedUnitType
-    });
-  };
-
-  toggleDay = day => {
-    let selectedDays = [...this.state.selectedDays];
-    const idx = selectedDays.indexOf(day);
-    if (idx == -1) {
-      selectedDays.push(day);
-    } else {
-      selectedDays.splice(idx, 1);
-    }
-    this.setState({
-      selectedDays
+      isLoading: false
     });
   };
 
   createCalendarItem = async () => {
-    const {
-      selectedServiceType,
-      name,
-      providerName,
-      wagesType,
-      unitPrice,
-      quantity,
-      startingDate,
-      selectedDays,
-      selectedUnitType,
-      actualSelectedUnitType,
-      type
-    } = this.state;
+    const { serviceType } = this.state;
 
     if (!name) {
       return showSnackbar({
@@ -246,325 +237,155 @@ class AddEditCalendarServiceScreen extends Component {
     }
   };
 
+  onInsuranceEffectiveDateStepDone = () => {
+    this.finishModal.show();
+  };
+
   render() {
     const {
-      error,
-      isFetchingServiceTypes,
-      serviceTypes,
-      visibleServiceTypeIds,
-      selectedServiceType,
-      name,
-      providerName,
-      wagesType,
-      unitPrice,
-      quantity,
-      startingDate,
-      selectedDays,
-      unitTypes,
-      selectedUnitType,
-      actualSelectedUnitType
+      serviceType,
+      steps,
+      activeStepIndex,
+      isLoading,
+      numberOfStepsToShowInFooter
     } = this.state;
 
-    let unitPriceText = I18n.t("calendar_service_screen_unit_price");
-    let unitPricePlaceholder = I18n.t("calendar_service_screen_unit_price");
-    if (selectedServiceType) {
-      switch (selectedServiceType.wages_type) {
-        case CALENDAR_WAGES_TYPE.WAGES:
-          unitPriceText = I18n.t("add_edit_calendar_service_screen_form_wages");
-          unitPricePlaceholder = I18n.t(
-            "add_edit_calendar_service_screen_form_wages"
-          );
-          break;
-        case CALENDAR_WAGES_TYPE.FEES:
-          unitPriceText = I18n.t("add_edit_calendar_service_screen_form_fees");
-          unitPricePlaceholder = I18n.t(
-            "add_edit_calendar_service_screen_form_fees"
-          );
-          break;
-        case CALENDAR_WAGES_TYPE.RENTAL:
-          unitPriceText = I18n.t(
-            "add_edit_calendar_service_screen_form_rental_type"
-          );
-          unitPricePlaceholder = I18n.t(
-            "add_edit_calendar_service_screen_form_rental"
-          );
-          break;
-      }
-    }
+    let nextStep = null;
+    let currentStep = null;
+    let previousStep = null;
 
-    if (error) {
-      return (
-        <ErrorOverlay error={error} onRetryPress={this.fetchReferenceData} />
-      );
-    }
+    steps.forEach((step, index) => {
+      if (index == activeStepIndex) {
+        currentStep = step;
+      } else if (index == activeStepIndex - 1) {
+        previousStep = steps[activeStepIndex - 1];
+      } else if (index == activeStepIndex + 1) {
+        nextStep = steps[activeStepIndex + 1];
+      }
+    });
+
     return (
-      <ScreenContainer style={{ padding: 0, backgroundColor: "#f7f7f7" }}>
-        <KeyboardAwareScrollView>
-          {!isFetchingServiceTypes && (
-            <SelectServiceHeader
-              serviceTypes={serviceTypes}
-              visibleServiceTypeIds={visibleServiceTypeIds}
-              onServiceTypeSelect={this.onServiceTypeSelect}
-            />
-          )}
-          {selectedServiceType && (
-            <View style={styles.form}>
-              <CustomTextInput
-                placeholder={I18n.t(
-                  "add_edit_calendar_service_screen_form_name"
-                )}
-                placeholder2="*"
-                placeholder2Color={colors.mainBlue}
-                value={name}
-                onChangeText={name => this.setState({ name })}
-              />
-              {false && (
-                <CustomTextInput
-                  placeholder={I18n.t(
-                    "add_edit_calendar_service_screen_form_provider_name"
-                  )}
-                  value={providerName}
-                  onChangeText={providerName => this.setState({ providerName })}
-                />
-              )}
-              {selectedServiceType.wages_type !=
-                CALENDAR_WAGES_TYPE.PRODUCT && (
-                <View>
-                  <View>
-                    <Text weight="Medium" style={styles.label}>
-                      {unitPriceText}
-                    </Text>
-                    <View style={{ flexDirection: "row", marginBottom: 10 }}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.setState({
-                            wagesType: WAGES_CYCLE.MONTHLY
-                          });
-                        }}
-                        style={styles.radioBtn}
-                      >
-                        <Icon
-                          name={
-                            wagesType == WAGES_CYCLE.MONTHLY
-                              ? "md-radio-button-on"
-                              : "md-radio-button-off"
-                          }
-                          color={
-                            wagesType == WAGES_CYCLE.MONTHLY
-                              ? colors.pinkishOrange
-                              : colors.secondaryText
-                          }
-                          size={20}
-                        />
-                        <Text
-                          style={[
-                            styles.radioBtnLabel,
-                            {
-                              color:
-                                wagesType == WAGES_CYCLE.MONTHLY
-                                  ? colors.pinkishOrange
-                                  : colors.secondaryText
-                            }
-                          ]}
-                        >
-                          Monthly
-                        </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.setState({
-                            wagesType: WAGES_CYCLE.DAILY
-                          });
-                        }}
-                        style={styles.radioBtn}
-                      >
-                        <Icon
-                          name={
-                            wagesType == WAGES_CYCLE.DAILY
-                              ? "md-radio-button-on"
-                              : "md-radio-button-off"
-                          }
-                          color={
-                            wagesType == WAGES_CYCLE.DAILY
-                              ? colors.pinkishOrange
-                              : colors.secondaryText
-                          }
-                          size={20}
-                        />
-                        <Text
-                          style={[
-                            styles.radioBtnLabel,
-                            {
-                              color:
-                                wagesType == WAGES_CYCLE.DAILY
-                                  ? colors.pinkishOrange
-                                  : colors.secondaryText
-                            }
-                          ]}
-                        >
-                          Daily
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                  <CustomTextInput
-                    placeholder={unitPricePlaceholder + " (₹)"}
-                    keyboardType="numeric"
-                    value={unitPrice}
-                    onChangeText={unitPrice => this.setState({ unitPrice })}
-                  />
-                </View>
-              )}
-              {selectedServiceType.wages_type ==
-                CALENDAR_WAGES_TYPE.PRODUCT && (
-                <View>
-                  <View style={{ flexDirection: "row" }}>
-                    <SelectModal
-                      style={styles.selectUnitType}
-                      visibleKey="symbol"
-                      dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-                      placeholder="Choose Unit Type"
-                      placeholderRenderer={({ placeholder }) => (
-                        <Text
-                          weight="Medium"
-                          style={{ color: colors.secondaryText }}
-                        >
-                          {placeholder}
-                        </Text>
-                      )}
-                      selectedOption={selectedUnitType}
-                      options={unitTypes}
-                      onOptionSelect={value => {
-                        this.onUnitTypeSelect(value);
-                      }}
-                      hideAddNew={true}
-                      hideSearch={true}
+      <View style={styles.container}>
+        <LoadingOverlay visible={isLoading} />
+        <Animated.View
+          style={[
+            styles.stepsContainer,
+            {
+              transform: [
+                {
+                  translateX: this.stepsContainerPositionX
+                }
+              ]
+            }
+          ]}
+        >
+          <View style={styles.stepContainer}>{previousStep}</View>
+          <View style={styles.stepContainer}>{currentStep}</View>
+          <View style={styles.stepContainer}>{nextStep}</View>
+        </Animated.View>
+        {numberOfStepsToShowInFooter > 0 && (
+          <View style={styles.stepIndicatorsAndText}>
+            <View style={styles.stepIndicators}>
+              {_.range(numberOfStepsToShowInFooter).map((item, index) => {
+                activeStepIndicatorIndex =
+                  activeStepIndex -
+                  (category.id != CATEGORY_IDS.PERSONAL.VISITING_CARD ? 2 : 1);
+                idDoneStep = index <= activeStepIndicatorIndex;
+                isActiveStep = index == activeStepIndicatorIndex;
+                return [
+                  index > 0 && (
+                    <View
+                      style={[
+                        styles.stepIndicatorLine,
+                        idDoneStep ? styles.doneStepIndicatorLine : {}
+                      ]}
                     />
-                    <CustomTextInput
-                      keyboardType="numeric"
-                      style={{ flex: 1 }}
-                      placeholder={I18n.t("calendar_service_screen_quantity")}
-                      value={quantity}
-                      onChangeText={quantity => this.setState({ quantity })}
-                      rightSideText={selectedUnitType.symbol}
-                      rightSideTextWidth={70}
-                    />
-                  </View>
-                  <CustomTextInput
-                    keyboardType="numeric"
-                    placeholder={I18n.t(
-                      "calendar_service_screen_unit_price_not_avg"
+                  ),
+                  <View
+                    style={[
+                      styles.stepIndicatorDot,
+                      idDoneStep ? styles.doneStepIndicatorDot : {},
+                      isActiveStep ? styles.activeStepIndicatorDot : {}
+                    ]}
+                  >
+                    {isActiveStep && (
+                      <View style={styles.activeStepIndicatorDotInnerRing} />
                     )}
-                    value={unitPrice}
-                    onChangeText={unitPrice => this.setState({ unitPrice })}
-                    rightSideText={"₹ per " + actualSelectedUnitType.symbol}
-                    rightSideTextWidth={100}
-                  />
-                </View>
-              )}
-              <CustomDatePicker
-                date={startingDate}
-                placeholder={I18n.t(
-                  "add_edit_calendar_service_screen_form_starting_date"
-                )}
-                onDateChange={startingDate => {
-                  this.setState({ startingDate });
-                }}
-              />
-              <Text weight="Medium" style={styles.label}>
-                Days
-              </Text>
-              <SelectWeekDays
-                selectedDays={selectedDays}
-                onDayPress={this.toggleDay}
-              />
-            </View>
-          )}
-        </KeyboardAwareScrollView>
-        {selectedServiceType && (
-          <Button
-            onPress={this.createCalendarItem}
-            text={I18n.t("my_calendar_screen_add_btn")}
-            color="secondary"
-            borderRadius={0}
-            style={styles.addItemBtn}
-          />
-        )}
-        {!selectedServiceType && (
-          <View style={styles.selectServiceMsgContainer}>
-            <Text weight="Medium" style={styles.selectServiceMsg}>
-              Please Select a Type Above
-            </Text>
-            <View style={styles.reason}>
-              <Text style={styles.reasons} weight="Medium">
-                • Mark present and absent days
-              </Text>
-              <Text style={styles.reasons} weight="Medium">
-                • Know your monthly payouts
-              </Text>
-              <Text style={styles.reasons} weight="Medium">
-                • your total outstanding payments
-              </Text>
-              <Text style={styles.reasons} weight="Medium">
-                • Track your daily household expenses
-              </Text>
+                  </View>
+                ];
+              })}
             </View>
           </View>
         )}
-        <LoadingOverlay visible={isFetchingServiceTypes} />
-      </ScreenContainer>
+        {/* <FinishModal
+          ref={ref => this.finishModal = ref}
+          title="Product added to your eHome."
+          mainCategoryId={mainCategoryId}
+          category={category}
+          productId={product ? product.id : null}
+          navigator={this.props.navigator}
+          goToStep={this.goToStep}
+        /> */}
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  reason: {
-    marginLeft: 80,
-    alignSelf: "flex-start"
+  container: {
+    padding: 0,
+    flex: 1
   },
-  reasons: {
-    color: colors.secondaryText,
-    fontSize: 12
-  },
-  form: {
-    padding: 16,
-    backgroundColor: "#fff",
-    marginTop: 10,
-    borderColor: "#eee",
-    borderTopWidth: StyleSheet.hairlineWidth
-  },
-  label: {
-    fontSize: 12,
-    color: colors.secondaryText,
-    marginBottom: 10
-  },
-  selectUnitType: {
-    width: 80,
-    marginRight: 20
-  },
-  selectServiceMsgContainer: {
-    flex: 1,
-    marginTop: -90
-  },
-  selectServiceMsg: {
-    fontSize: 20,
-    fontWeight: "normal",
-    color: colors.mainBlue,
-    textAlign: "center",
-    marginBottom: 6,
-    marginTop: -80
-  },
-  radioBtn: {
+  stepsContainer: {
     flex: 1,
     flexDirection: "row",
-    alignItems: "center"
+    width: SCREEN_WIDTH * 3
   },
-  radioBtnLabel: {
-    marginLeft: 10
+  stepContainer: {
+    width: SCREEN_WIDTH
   },
-  addItemBtn: {
-    width: "100%"
+  stepIndicatorsAndText: {
+    height: 40,
+    paddingHorizontal: 20,
+    paddingVertical: 5
+  },
+  stepIndicators: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1
+  },
+  stepIndicatorLine: {
+    height: 2,
+    backgroundColor: "#eee",
+    flex: 1
+  },
+  doneStepIndicatorLine: {
+    backgroundColor: colors.mainBlue
+  },
+  stepIndicatorDot: {
+    width: 15,
+    height: 15,
+    backgroundColor: "#eee",
+    borderRadius: 10
+  },
+  activeStepIndicatorDot: {
+    width: 20,
+    height: 20,
+    backgroundColor: colors.mainBlue,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  activeStepIndicatorDotInnerRing: {
+    width: 15,
+    height: 15,
+    backgroundColor: colors.mainBlue,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#fff"
+  },
+  doneStepIndicatorDot: {
+    backgroundColor: colors.success
   }
 });
 
-export default AddEditCalendarServiceScreen;
+export default AddCalendarServiceScreen;
