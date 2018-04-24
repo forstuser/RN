@@ -62,7 +62,7 @@ class EasyLifeItem extends React.Component {
         </TouchableOpacity>
         {showRemoveBtn && (
           <TouchableOpacity style={styles.removeBtn} onPress={onRemoveBtnPress}>
-            <Icon name="md-remove-circle" color={colors.danger} size={30} />
+            <Icon name="md-remove" color='white' size={20} />
           </TouchableOpacity>
         )}
       </View>
@@ -84,9 +84,16 @@ const styles = StyleSheet.create({
     height: 70
   },
   removeBtn: {
+    height: 27,
+    width: 27,
     position: "absolute",
-    top: -3,
-    right: 0
+    top: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 0,
+    elevation: 2,
+    borderRadius: 15,
+    backgroundColor: 'red'
   },
   checkbox: {
     width: 20,
