@@ -8,7 +8,7 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-export const API_BASE_URL = "https://consumer.binbill.com";
+export const API_BASE_URL = "https://consumer-stage.binbill.com";
 
 const APP_VERSION_FOR_API = 20002;
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
@@ -1299,6 +1299,23 @@ export const validateEmailOtp = async ({ otp }) => {
     url: `/consumer/otp/validate`,
     data: {
       token: otp
+    }
+  });
+};
+
+export const fetchStates = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/states`
+  });
+};
+
+export const fetchStateMeals = async ({ stateId, isVeg }) => {
+  return await apiRequest({
+    method: "get",
+    url: `/states/${stateId}/meals`,
+    queryParams: {
+      is_veg: isVeg
     }
   });
 };

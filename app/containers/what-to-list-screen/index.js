@@ -22,6 +22,7 @@ import AddNewBtn from "../../components/add-new-btn";
 import WhatToListModal from "../../components/what-to-list-modal";
 import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader";
 import EasyLifeItem from "../../components/easy-life-item";
+import SelectModal from "../../components/select-modal";
 
 const cooking = require("../../images/cooking.png");
 const todo = require("../../images/to_do.png");
@@ -37,8 +38,10 @@ class WhatToListScreen extends Component {
     btnText: "",
     image: cooking,
     selectedItemIds: [],
-    items: []
+    items: [],
+    states: []
   };
+
   componentDidMount() {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
     const { type } = this.props;
@@ -70,7 +73,25 @@ class WhatToListScreen extends Component {
     this.props.navigator.setTitle({
       title
     });
+
+    this.loadStates();
   }
+
+  loadStates = () => {
+    //api call
+    try {
+      this.setState({
+        states: [
+          { name: "Andhra Pradesh", id: 1 },
+          { name: "Arunachal Pradesh", id: 2 },
+          { name: "Andhra Pradesh", id: 3 },
+          { name: "Manipur", id: 4 },
+          { name: "Uttarakhand", id: 5 },
+          { name: "Haryana", id: 6 }
+        ]
+      });
+    } catch (e) {}
+  };
 
   showCloathesImageUploader = () => {
     // this.cloathesImageUploader.showActionSheet();
@@ -80,40 +101,66 @@ class WhatToListScreen extends Component {
     this.setState({ items: [...this.state.items, item] }, () => {
       console.log(this.state.items);
     });
-  }
-  removeItem = (item) => {
+  };
+  removeItem = item => {
     console.log(item);
-  }
-  addItemsToMyList = () => {
+  };
 
-  }
+  addItemsToMyList = () => {};
+
   render() {
+    const { type } = this.props;
     const { items, image, text, selectedItemIds, btnText } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <ScreenContainer>
-          {items.length <= 0 &&
+          {type == EASY_LIFE_TYPES.WHAT_TO_COOK && (
+            <View style={{ padding: 5 }}>
+              <SelectModal
+                placeholder="Select State"
+                placeholderRenderer={({ placeholder }) => (
+                  <Text weight="Bold">{placeholder}</Text>
+                )}
+                options={this.state.states}
+                valueKey="id"
+                visibleKey="name"
+                hideAddNew={true}
+                onOptionSelect={value => {
+                  this.selectCategory(value);
+                }}
+              />
+            </View>
+          )}
+          {items.length <= 0 && (
             <View style={styles.container}>
               <Image style={styles.whatToWearImage} source={image} />
-              <Text weight="Medium" style={styles.whatToWearText}>{text}</Text>
+              <Text weight="Medium" style={styles.whatToWearText}>
+                {text}
+              </Text>
             </View>
-          }
-          {items.length > 0 && <ScrollView style={styles.body}>
-            {items.map((item, index) => {
-              return (
-                <View key={item.id}>
-                  <EasyLifeItem
-                    showCheckbox={false}
-                    text={item.name}
-                    imageUri={item.url}
-                    showRemoveBtn={true}
-                    onRemoveBtnPress={() => this.removeItem(item)}
-                  />
-                </View>)
-            })}
-          </ScrollView>}
+          )}
+          {items.length > 0 && (
+            <ScrollView style={styles.body}>
+              {items.map((item, index) => {
+                return (
+                  <View key={item.id}>
+                    <EasyLifeItem
+                      showCheckbox={false}
+                      text={item.name}
+                      imageUri={item.url}
+                      showRemoveBtn={true}
+                      onRemoveBtnPress={() => this.removeItem(item)}
+                    />
+                  </View>
+                );
+              })}
+            </ScrollView>
+          )}
           <View>
-            <AddNewBtn text={btnText} onPress={this.showCloathesImageUploader}></AddNewBtn>
+            <AddNewBtn
+              text={btnText}
+              onPress={this.showCloathesImageUploader}
+            />
           </View>
           <CloathesImageUploader
             ref={ref => (this.cloathesImageUploader = ref)}
@@ -126,15 +173,17 @@ class WhatToListScreen extends Component {
             addDetails={this.getItemDetails}
           />
         </ScreenContainer>
-        {items.length > 0 && <View>
-          <Button
-            onPress={this.addItemsToMyList}
-            text={"ADD TO MY LIST"}
-            color="secondary"
-            borderRadius={0}
-            style={styles.addItemBtn}
-          />
-        </View>}
+        {items.length > 0 && (
+          <View>
+            <Button
+              onPress={this.addItemsToMyList}
+              text={"SAVE MY LIST"}
+              color="secondary"
+              borderRadius={0}
+              style={styles.addItemBtn}
+            />
+          </View>
+        )}
       </View>
     );
   }
@@ -160,9 +209,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   addItemBtn: {
-    width: "100%",
+    width: "100%"
     // backgroundColor: 'green',
-  },
+  }
 });
 
 export default WhatToListScreen;
