@@ -72,15 +72,28 @@ class WhatToListScreen extends Component {
     });
   }
 
-  showCloathesImageUploader = () => {
-    // this.cloathesImageUploader.showActionSheet();
-    this.WhatToListModal.show();
-  };
-  getItemDetails = item => {
+  addItem = item => {
     this.setState({ items: [...this.state.items, item] }, () => {
       console.log(this.state.items);
     });
   };
+
+  showCloathesImageUploader = () => {
+    // this.cloathesImageUploader.showActionSheet();
+    this.WhatToListModal.show();
+  };
+
+  addItems = items => {
+    this.setState(
+      {
+        items: [...this.state.items, ...items]
+      },
+      () => {
+        // console.log(this.state.items);
+      }
+    );
+  };
+
   onItemPress = item => {
     this.setState(
       { selectedItemIds: [...this.state.selectedItemIds, item.id] },
@@ -92,6 +105,7 @@ class WhatToListScreen extends Component {
 
   render() {
     const { items, image, text, selectedItemIds, btnText } = this.state;
+    // console.log(items, "items");
     return (
       <ScreenContainer>
         {items.length <= 0 && (
@@ -126,12 +140,12 @@ class WhatToListScreen extends Component {
         <CloathesImageUploader
           ref={ref => (this.cloathesImageUploader = ref)}
           navigator={navigator}
-          addImageDetails={this.getItemDetails}
+          addImageDetails={this.addItem}
         />
         <WhatToListModal
           ref={ref => (this.WhatToListModal = ref)}
           navigator={this.props.navigator}
-          addDetails={this.getItemDetails}
+          addItems={this.addItems}
         />
       </ScreenContainer>
     );
