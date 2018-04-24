@@ -452,9 +452,7 @@ class AddEditCalendarServiceScreen extends Component {
                   </View>
                   <CustomTextInput
                     keyboardType="numeric"
-                    placeholder={I18n.t(
-                      "calendar_service_screen_unit_price_not_avg"
-                    )}
+                    placeholder={I18n.t("calendar_service_screen_unit_price")}
                     value={unitPrice}
                     onChangeText={unitPrice => this.setState({ unitPrice })}
                     rightSideText={"₹ per " + actualSelectedUnitType.symbol}

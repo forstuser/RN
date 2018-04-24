@@ -8,7 +8,10 @@ import {
   Dimensions
 } from "react-native";
 import _ from "lodash";
-import { createCalendarItem } from "../../api";
+import {
+  createCalendarItem,
+  addCalendarItemCalculationDetail
+} from "../../api";
 
 import { Text, ScreenContainer } from "../../elements";
 import Analytics from "../../analytics";
@@ -18,13 +21,12 @@ import { showSnackbar } from "../snackbar";
 
 import SelectServiceStep from "./select-service-step";
 import SelectStartingDateStep from "./select-starting-date-step";
+import QuantityStep from "./quantity-step";
+import UnitPriceStep from "./unit-price-step";
+import SelectWeekdaysStep from "./select-weekdays-step";
+import WagesCycleStep from "./wages-cycle-step";
 
-import {
-  SCREENS,
-  EXPENSE_TYPES,
-  MAIN_CATEGORY_IDS,
-  CATEGORY_IDS
-} from "../../constants";
+import { SCREENS, WAGES_CYCLE, CALENDAR_WAGES_TYPE } from "../../constants";
 import { defaultStyles, colors } from "../../theme";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -42,6 +44,12 @@ class AddCalendarServiceScreen extends React.Component {
     numberOfStepsToShowInFooter: 0,
     serviceType: null,
     item: null,
+    wagesCycle: WAGES_CYCLE.DAILY,
+    effectiveDate: null,
+    quantity: "",
+    unitType: null,
+    unitPrice: "",
+    selectedDays: [1, 2, 3, 4, 5, 6, 7],
     isLoading: false
   };
 
@@ -140,20 +148,45 @@ class AddCalendarServiceScreen extends React.Component {
     );
   };
 
-  onStartingDateStepDone = async date => {
-    const { serviceType } = this.state;
+  pushQuantityStep = () => {
+    this.push(
+      <QuantityStep
+        skippable={true}
+        serviceType={this.state.serviceType}
+        onStepDone={this.onQuantityStepDone}
+        onSkipPress={() =>
+          this.onQuantityStepDone({ quantity: "", unitType: null })
+        }
+      />
+    );
+  };
 
+  createItem = async () => {
+    Analytics.logEvent(Analytics.EVENTS.ADD_ADD_ATTENDANCE_ITEM);
     this.setState({
       isLoading: true
     });
 
-    Analytics.logEvent(Analytics.EVENTS.ADD_ADD_ATTENDANCE_ITEM);
+    const { serviceType, effectiveDate, wagesCycle } = this.state;
     try {
       const res = await createCalendarItem({
+        productName: serviceType.name,
         serviceTypeId: serviceType.id,
-        effectiveDate: date
+        effectiveDate: effectiveDate,
+        wagesType: wagesCycle
       });
-      console.log("res: ", res);
+      this.setState(
+        {
+          item: res.calendar_item
+        },
+        () => {
+          if (serviceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT) {
+            this.pushQuantityStep();
+          } else {
+            this.pushUnitPriceStep();
+          }
+        }
+      );
     } catch (e) {
       showSnackbar({
         text: e.message
@@ -164,81 +197,115 @@ class AddCalendarServiceScreen extends React.Component {
     });
   };
 
-  createCalendarItem = async () => {
+  onStartingDateStepDone = date => {
     const { serviceType } = this.state;
+    this.setState(
+      {
+        effectiveDate: date
+      },
+      () => {
+        if (serviceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT) {
+          this.createItem();
+        } else {
+          this.pushStep(
+            <WagesCycleStep
+              serviceType={serviceType}
+              onStepDone={this.onWagesCycleStepDone}
+            />
+          );
+        }
+      }
+    );
+  };
 
-    if (!name) {
-      return showSnackbar({
-        text: "Please enter name"
-      });
-    }
-    if (unitPrice && unitPrice < 0) {
-      returnshowSnackbar({
-        text: "Amount can't be less than zero"
-      });
-    }
-    if (!startingDate) {
-      return showSnackbar({
-        text: "Please select a starting date"
-      });
-    }
-    if (selectedDays.length == 0) {
-      return showSnackbar({
-        text: "Please select week days for this service"
-      });
-    }
+  onWagesCycleStepDone = wagesCycle => {
+    this.setState(
+      {
+        wagesCycle
+      },
+      () => {
+        this.createItem();
+      }
+    );
+  };
+
+  editCalculationDetails = async () => {
+    const {
+      item,
+      effectiveDate,
+      quantity,
+      unitType,
+      unitPrice,
+      selectedDays
+    } = this.state;
 
     this.setState({
-      isFetchingServiceTypes: true
+      isLoading: true
     });
 
-    let actualQuantity = quantity;
-    if (
-      (selectedUnitType.id == UNIT_TYPES.GRAM.id ||
-        selectedUnitType.id == UNIT_TYPES.MILLILITRE.id) &&
-      quantity
-    ) {
-      actualQuantity = quantity / 1000;
-    }
-
-    let quantityToSend = actualQuantity;
-    if (
-      !quantityToSend &&
-      selectedServiceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT
-    ) {
-      quantityToSend = null;
-    } else if (
-      !quantityToSend &&
-      selectedServiceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT
-    ) {
-      quantityToSend = 0;
-    }
-    Analytics.logEvent(Analytics.EVENTS.ADD_ADD_ATTENDANCE_ITEM);
     try {
-      const res = await createCalendarItem({
-        serviceTypeId: selectedServiceType.id,
-        productName: name,
-        providerName: providerName,
-        wagesType: wagesType,
-        unitType: actualSelectedUnitType.id,
+      await addCalendarItemCalculationDetail({
+        itemId: item.id,
+        effectiveDate: effectiveDate,
+        unitType: unitType ? unitType.id : null,
+        quantity: quantity || undefined,
         unitPrice: unitPrice,
-        quantity: quantityToSend,
-        effectiveDate: startingDate,
         selectedDays: selectedDays
       });
-      this.props.navigator.pop();
+      console.log("calculation details saved");
     } catch (e) {
-      showSnackbar({
-        text: e.message
-      });
+      showSnackbar({ text: e.message });
+    } finally {
       this.setState({
-        isFetchingServiceTypes: false
+        isLoading: false
       });
     }
   };
 
-  onInsuranceEffectiveDateStepDone = () => {
-    this.finishModal.show();
+  pushUnitPriceStep = () => {
+    this.pushStep(
+      <UnitPriceStep
+        serviceType={this.state.serviceType}
+        unitType={this.state.unitType}
+        skippable={true}
+        onStepDone={this.onUnitPriceStepDone}
+        onSkipPress={this.onUnitPriceStepDone}
+      />
+    );
+  };
+
+  onQuantityStepDone = ({ quantity, unitType }) => {
+    this.setState(
+      {
+        quantity,
+        unitType
+      },
+      async () => {
+        await this.editCalculationDetails();
+        this.pushUnitPriceStep();
+      }
+    );
+  };
+
+  onUnitPriceStepDone = unitPrice => {
+    this.setState({ unitPrice }, async () => {
+      await this.editCalculationDetails();
+      this.pushStep(
+        <SelectWeekdaysStep
+          selectedDays={this.state.selectedDays}
+          onStepDone={this.onSelectedDaysStepDone}
+          skippable={true}
+          onSkipPress={this.onSelectedDaysStepDone}
+        />
+      );
+    });
+  };
+
+  onSelectedDaysStepDone = selectedDays => {
+    this.setState({ selectedDays }, async () => {
+      await this.editCalculationDetails();
+      this.props.navigator.pop();
+    });
   };
 
   render() {

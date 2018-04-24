@@ -114,7 +114,7 @@ class Attendance extends React.Component {
     const daysAbsent = paymentDetail.absent_day_detail.length;
 
     const serviceType = item.service_type;
-    let unitPriceText = I18n.t("calendar_service_screen_unit_price");
+    let unitPriceText = I18n.t("calendar_service_screen_unit_price_avg");
     if (serviceType.wages_type == CALENDAR_WAGES_TYPE.WAGES) {
       unitPriceText = I18n.t("add_edit_calendar_service_screen_form_wages");
     } else if (serviceType.wages_type == CALENDAR_WAGES_TYPE.FEES) {
