@@ -11,7 +11,7 @@ import {
   ScrollView
 } from "react-native";
 import I18n from "../../i18n";
-import { API_BASE_URL } from "../../api";
+import { fetchStates, fetchStateMeals } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
@@ -23,6 +23,7 @@ import WhatToListModal from "../../components/what-to-list-modal";
 import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader";
 import EasyLifeItem from "../../components/easy-life-item";
 import SelectModal from "../../components/select-modal";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const cooking = require("../../images/cooking.png");
 const todo = require("../../images/to_do.png");
@@ -39,7 +40,10 @@ class WhatToListScreen extends Component {
     image: cooking,
     selectedItemIds: [],
     items: [],
-    states: []
+    states: [],
+    isVeg: false,
+    placeholderText: 'Select State',
+    selectedState: null
   };
 
   componentDidMount() {
@@ -63,36 +67,36 @@ class WhatToListScreen extends Component {
         btnText = "Add New Cloathing Item";
         break;
     }
-
     this.setState({
       image,
       text,
       btnText
     });
-
     this.props.navigator.setTitle({
       title
     });
-
     this.loadStates();
   }
 
-  loadStates = () => {
-    //api call
+  loadStates = async () => {
     try {
+      const res = await fetchStates();
       this.setState({
-        states: [
-          { name: "Andhra Pradesh", id: 1 },
-          { name: "Arunachal Pradesh", id: 2 },
-          { name: "Andhra Pradesh", id: 3 },
-          { name: "Manipur", id: 4 },
-          { name: "Uttarakhand", id: 5 },
-          { name: "Haryana", id: 6 }
-        ]
+        states: res.states
       });
-    } catch (e) {}
+    } catch (e) { }
   };
-
+  selectCategory = async (value) => {
+    this.setState({
+      placeholderText: value.state_name,
+      selectedState: value
+    })
+    try {
+      const res = await fetchStateMeals({ stateId: value.id, isVeg: this.state.isVeg });
+      console.log(res);
+      this.setState({ items: res.mealList })
+    } catch (e) { }
+  }
   showCloathesImageUploader = () => {
     // this.cloathesImageUploader.showActionSheet();
     this.WhatToListModal.show();
@@ -103,32 +107,51 @@ class WhatToListScreen extends Component {
     });
   };
   removeItem = item => {
-    console.log(item);
+    // const index = this.state.items.indexOf(item);
+    // console.log(index);
+    // this.setState({
+    //   items: this.state.items.splice(index, 1)
+    // })
+    //  this.setState
   };
-
-  addItemsToMyList = () => {};
-
+  addItemsToMyList = () => { };
+  toggleVegOrNonveg = () => {
+    this.setState({
+      isVeg: this.state.isVeg ? false : true
+    }, () => {
+      this.selectCategory(this.state.selectedState)
+    });
+  };
   render() {
     const { type } = this.props;
-    const { items, image, text, selectedItemIds, btnText } = this.state;
+    const { placeholderText, items, image, text, selectedItemIds, btnText, isVeg } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <ScreenContainer>
           {type == EASY_LIFE_TYPES.WHAT_TO_COOK && (
             <View style={{ padding: 5 }}>
               <SelectModal
-                placeholder="Select State"
+                placeholder={placeholderText}
                 placeholderRenderer={({ placeholder }) => (
                   <Text weight="Bold">{placeholder}</Text>
                 )}
                 options={this.state.states}
                 valueKey="id"
-                visibleKey="name"
+                visibleKey="state_name"
                 hideAddNew={true}
                 onOptionSelect={value => {
                   this.selectCategory(value);
                 }}
               />
+              <View style={styles.checkboxWrapper}>
+                <TouchableOpacity
+                  style={styles.box}
+                  onPress={this.toggleVegOrNonveg}>
+                  {isVeg && <Icon
+                    name="md-checkmark"
+                    color={colors.pinkishOrange}
+                    size={15}
+                  />}</TouchableOpacity><Text> Veg Only</Text></View>
             </View>
           )}
           {items.length <= 0 && (
@@ -146,9 +169,9 @@ class WhatToListScreen extends Component {
                   <View key={item.id}>
                     <EasyLifeItem
                       showCheckbox={false}
-                      text={item.name}
+                      text={item.meal_name}
                       imageUri={item.url}
-                      showRemoveBtn={true}
+                      showRemoveBtn={false}
                       onRemoveBtnPress={() => this.removeItem(item)}
                     />
                   </View>
@@ -195,6 +218,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
+  checkboxWrapper: {
+    // backgroundColor: 'yellow',
+    width: 150,
+    flexDirection: 'row'
+  },
   whatToWearImage: {
     height: 70,
     width: 70,
@@ -211,6 +239,13 @@ const styles = StyleSheet.create({
   addItemBtn: {
     width: "100%"
     // backgroundColor: 'green',
+  },
+  box: {
+    borderColor: colors.secondaryText,
+    borderWidth: 1,
+    height: 20,
+    width: 20,
+    alignItems: 'center'
   }
 });
 
