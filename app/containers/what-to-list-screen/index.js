@@ -38,8 +38,10 @@ class WhatToListScreen extends Component {
     text: "",
     btnText: "",
     image: cooking,
-    selectedItemIds: [],
-    items: [],
+    systemItems: [],
+    userCreatedItems: [],
+    selectedSystemItemIds: [],
+    selectedUserCreatedItemIds: [],
     states: [],
     isVeg: false,
     placeholderText: 'Select State',
@@ -94,56 +96,65 @@ class WhatToListScreen extends Component {
     try {
       const res = await fetchStateMeals({ stateId: value.id, isVeg: this.state.isVeg });
       console.log(res);
-      this.setState({ items: res.mealList })
+      this.setState({ systemItems: res.mealList })
     } catch (e) { }
   };
+  // to wear case
   addItem = item => {
-    this.setState({ items: [...this.state.items, item] }, () => {
-      console.log(this.state.items);
+    this.setState({ userCreatedItems: [...this.state.userCreatedItems, item] }, () => {
+      console.log(this.state.userCreatedItems);
     });
   };
 
-  showCloathesImageUploader = () => {
+  addNewItemModelShow = () => {
     // this.cloathesImageUploader.showActionSheet();
     this.WhatToListModal.show();
   };
-
+  // cook and to do 
   addItems = items => {
+    console.log(items)
     this.setState(
       {
-        items: [...this.state.items, ...items]
+        userCreatedItems: [...this.state.userCreatedItems, ...items]
       },
       () => {
-        // console.log(this.state.items);
+        console.log(this.state.userCreatedItems);
       }
     );
   };
+
   removeItem = item => {
-    const index = this.state.items.indexOf(item);
+    const index = this.state.userCreatedItems.indexOf(item);
     console.log(index);
     this.setState({
-      items: this.state.items.splice(index, 1)
+      userCreatedItems: this.state.userCreatedItems.splice(index, 1)
     })
   };
-  addItemsToMyList = () => { };
+
   toggleVegOrNonveg = () => {
     this.setState({
       isVeg: this.state.isVeg ? false : true
     }, () => {
-      this.selectCategory(this.state.selectedState)
+      if (this.state.selectedState) {
+        this.selectCategory(this.state.selectedState)
+      }
     });
   }
+
   onItemPress = item => {
     this.setState(
-      { selectedItemIds: [...this.state.selectedItemIds, item.id] },
+      { selectedUserCreatedItemIds: [...this.state.selectedUserCreatedItemIds, item.id] },
       () => {
-        console.log(this.state.selectedItemIds);
+        console.log(this.state.selectedUserCreatedItemIds);
       }
     );
   };
+
+  addItemsToMyList = () => { };
+
   render() {
     const { type } = this.props;
-    const { placeholderText, items, image, text, selectedItemIds, btnText, isVeg } = this.state;
+    const { placeholderText, image, text, systemItems, userCreatedItems, selectedSystemItemIds, selectedUserCreatedItemIds, btnText, isVeg } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <ScreenContainer>
@@ -170,36 +181,52 @@ class WhatToListScreen extends Component {
                     name="md-checkmark"
                     color={colors.pinkishOrange}
                     size={15}
-                  />}</TouchableOpacity><Text> Veg Only</Text></View>
+                  />}
+                </TouchableOpacity>
+                <Text> Veg Only</Text>
+              </View>
             </View>
           )}
-          {items.length <= 0 && (
+          {systemItems.length == 0 && userCreatedItems.length == 0 && (
             <View style={styles.container}>
-              <Image style={styles.whatToWearImage} source={image} />
-              <Text weight="Medium" style={styles.whatToWearText}>
+              <Image style={styles.blankPageImage} source={image} />
+              <Text weight="Medium" style={styles.blankPageText}>
                 {text}
               </Text>
             </View>
           )}
-          {items.length > 0 && (
-            <ScrollView style={styles.body}>
-              {items.map((item, index) => {
-                return (
-                  <View key={item.id}>
-                    <EasyLifeItem
-                      showCheckbox={false}
-                      text={item.meal_name}
-                      imageUri={item.url}
-                      showRemoveBtn={false}
-                      onRemoveBtnPress={() => this.removeItem(item)}
-                    />
-                  </View>
-                );
-              })}
-            </ScrollView>
-          )}
+          <ScrollView style={styles.body}>
+            {systemItems.length > 0 && systemItems.map((item, index) => {
+              return (
+                <View key={index}>
+                  <EasyLifeItem
+                    showCheckbox={true}
+                    text={item.name}
+                    imageUri={item.url}
+                    showRemoveBtn={false}
+                    isChecked={true}
+                    onRemoveBtnPress={() => this.removeItem(item)}
+                  />
+                </View>
+              );
+            })}
+            {userCreatedItems.length > 0 && userCreatedItems.map((item, index) => {
+              return (
+                <View key={index}>
+                  <EasyLifeItem
+                    showCheckbox={true}
+                    text={item.name}
+                    imageUri={item.url}
+                    showRemoveBtn={false}
+                    isChecked={true}
+                    onRemoveBtnPress={() => this.removeItem(item)}
+                  />
+                </View>
+              );
+            })}
+          </ScrollView>
           <View style={styles.addNewBtn}>
-            <AddNewBtn text={btnText} onPress={this.showCloathesImageUploader} />
+            <AddNewBtn text={btnText} onPress={this.addNewItemModelShow} />
           </View>
           <CloathesImageUploader
             ref={ref => (this.cloathesImageUploader = ref)}
@@ -212,6 +239,17 @@ class WhatToListScreen extends Component {
             addItems={this.addItems}
           />
         </ScreenContainer>
+        {systemItems.length > 0 || userCreatedItems.length > 0 && (
+          <View>
+            <Button
+              onPress={this.addItemsToMyList}
+              text={"SAVE MY LIST"}
+              color="secondary"
+              borderRadius={0}
+              style={styles.addItemBtn}
+            />
+          </View>
+        )}
       </View>
     );
   }
@@ -224,17 +262,16 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   checkboxWrapper: {
-    // backgroundColor: 'yellow',
     width: 150,
     flexDirection: 'row'
   },
-  whatToWearImage: {
+  blankPageImage: {
     height: 70,
     width: 70,
     alignItems: "center",
     alignSelf: "center"
   },
-  whatToWearText: {
+  blankPageText: {
     fontSize: 14,
     color: "#9b9b9b"
   },
@@ -243,7 +280,6 @@ const styles = StyleSheet.create({
   },
   addItemBtn: {
     width: "100%"
-    // backgroundColor: 'green',
   },
   box: {
     borderColor: colors.secondaryText,
