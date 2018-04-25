@@ -58,27 +58,27 @@ class EasyLifeScreen extends Component {
     return (
       <ScreenContainer style={styles.container}>
         <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity style={styles.card} onPress={this.cookingItemPress}>
-            <Image style={styles.image} source={cooking} />
-            <Text style={styles.text}>What to Cook</Text>
-          </TouchableOpacity>
           <TouchableOpacity
             style={styles.card}
             onPress={this.attendanceItemPress}
           >
             <Image style={styles.image} source={attendance} />
-            <Text style={styles.text}>Attendance</Text>
+            <Text style={styles.text}>Attendance Manager</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.card} onPress={this.cookingItemPress}>
+            <Image style={styles.image} source={cooking} />
+            <Text style={styles.text}>What to Cook Today</Text>
           </TouchableOpacity>
         </View>
 
-        <View style={{ flexDirection: "row", width: "100%", marginTop: "5%" }}>
+        <View style={{ flexDirection: "row", marginTop: "5%" }}>
           <TouchableOpacity style={styles.card} onPress={this.wearItemPress}>
             <Image style={styles.image} source={whatToWear} />
             <Text style={styles.text}>What to Wear Today</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.card} onPress={this.toDoItemPress}>
             <Image style={styles.image} source={todo} />
-            <Text style={styles.text}>What to Do</Text>
+            <Text style={styles.text}>What to Do Today</Text>
           </TouchableOpacity>
         </View>
       </ScreenContainer>
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain"
   },
   text: {
-    fontSize: 14,
+    fontSize: 12,
     marginTop: 15,
     fontFamily: `Quicksand-Bold`,
     color: "#4a4a4a"
