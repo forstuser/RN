@@ -11,7 +11,7 @@ import {
   ScrollView
 } from "react-native";
 import I18n from "../../i18n";
-import { fetchStates, fetchStateMeals } from "../../api";
+import { fetchStates, fetchStateMeals, saveMyList, removeMealById } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
@@ -42,10 +42,8 @@ class WhatToListScreen extends Component {
     text: "",
     btnText: "",
     image: cooking,
-    systemItems: [],
-    userCreatedItems: [],
-    selectedSystemItemIds: [],
-    selectedUserCreatedItemIds: [],
+    items: [],
+    selectedItemIds: [],
     states: [],
     isVeg: false,
     selectedState: null,
@@ -60,13 +58,13 @@ class WhatToListScreen extends Component {
     let image = cooking;
     let btnText = "Add New Dish";
     switch (type) {
-      case EASY_LIFE_TYPES.WHAT_TO_DO: // WHAT_TO_DO = 2
+      case EASY_LIFE_TYPES.WHAT_TO_DO:
         title = "What to Do";
         text = "Select items that you would like to do";
         image = todo;
         btnText = "Add a New To Do Item";
         break;
-      case EASY_LIFE_TYPES.WHAT_TO_WEAR: // WHAT_TO_WEAR = 3
+      case EASY_LIFE_TYPES.WHAT_TO_WEAR:
         title = "What to Wear Today";
         text = "Select items that you would like to wear";
         image = whatToWear;
@@ -96,6 +94,10 @@ class WhatToListScreen extends Component {
       this.setState({
         states: res.states
       });
+      if (this.props.stateId) {
+        const state = this.state.states.find(state => state.id == this.props.stateId)
+        this.onSelectState(state);
+      }
     } catch (e) {
     } finally {
       this.setState({
@@ -126,8 +128,8 @@ class WhatToListScreen extends Component {
       });
       console.log(res);
       this.setState({
-        systemItems: res.mealList,
-        selectedSystemItemIds: res.mealList.map(meal => meal.id)
+        items: res.mealList,
+        selectedItemIds: res.mealList.map(meal => meal.id)
       });
     } catch (e) {
     } finally {
@@ -139,9 +141,9 @@ class WhatToListScreen extends Component {
   // to wear case
   addItem = item => {
     this.setState(
-      { userCreatedItems: [...this.state.userCreatedItems, item] },
+      { items: [...this.state.items, item] },
       () => {
-        console.log(this.state.userCreatedItems);
+        console.log(this.state.items);
       }
     );
   };
@@ -152,23 +154,37 @@ class WhatToListScreen extends Component {
   };
   // cook and to do
   addItems = items => {
-    console.log(items);
+    console.log("index", items);
     this.setState(
       {
-        userCreatedItems: [...this.state.userCreatedItems, ...items]
+        items: [...this.state.items, ...items],
+        selectedItemIds: [
+          ...this.state.selectedItemIds,
+          ...items.map(item => item.id)
+        ]
       },
       () => {
-        console.log(this.state.userCreatedItems);
+        console.log("user", this.state.items);
       }
     );
   };
 
-  removeItem = item => {
-    const index = this.state.userCreatedItems.indexOf(item);
-    console.log(index);
-    this.setState({
-      userCreatedItems: this.state.userCreatedItems.splice(index, 1)
-    });
+  removeItem = async (item) => {
+    try {
+      await removeMealById({ mealId: item.id });
+      let newItems = [...this.state.items];
+      const idx = newItems.indexOf(item);
+      if (idx > -1) {
+        newItems.splice(idx, 1);
+      }
+      this.setState({
+        items: newItems
+      });
+    } catch (e) {
+      showSnackbar({
+        text: e.message
+      });
+    }
   };
 
   toggleVegOrNonveg = () => {
@@ -183,7 +199,7 @@ class WhatToListScreen extends Component {
   };
 
   toggleSystemItemSelect = id => {
-    let newSelectedSystemItemIds = [...this.state.selectedSystemItemIds];
+    let newSelectedSystemItemIds = [...this.state.selectedItemIds];
     const idx = newSelectedSystemItemIds.indexOf(id);
     if (idx > -1) {
       newSelectedSystemItemIds.splice(idx, 1);
@@ -191,36 +207,30 @@ class WhatToListScreen extends Component {
       newSelectedSystemItemIds.push(id);
     }
     this.setState({
-      selectedSystemItemIds: newSelectedSystemItemIds
+      selectedItemIds: newSelectedSystemItemIds
     });
   };
-  toggleUserCreatedItemSelect = id => {};
 
-  onItemPress = item => {
-    this.setState(
-      {
-        selectedUserCreatedItemIds: [
-          ...this.state.selectedUserCreatedItemIds,
-          item.id
-        ]
-      },
-      () => {
-        console.log(this.state.selectedUserCreatedItemIds);
-      }
-    );
+
+  addItemsToMyList = async () => {
+    console.log("selectedItemIds", this.state.selectedItemIds)
+    // try {
+    //   await saveMyList({ selectedItemIds: this.state.selectedItemIds, selectedState: this.state.selectedState.id });
+    //   this.props.navigator.pop();
+    // } catch (e) {
+    //   showSnackbar({
+    //     text: e.message
+    //   });
+    // }
   };
-
-  addItemsToMyList = () => {};
 
   render() {
     const { type } = this.props;
     const {
       image,
       text,
-      systemItems,
-      userCreatedItems,
-      selectedSystemItemIds,
-      selectedUserCreatedItemIds,
+      items,
+      selectedItemIds,
       btnText,
       isVeg,
       selectedState,
@@ -264,44 +274,45 @@ class WhatToListScreen extends Component {
               )}
             </View>
           )}
-          {systemItems.length == 0 &&
-            userCreatedItems.length == 0 && (
-              <View style={styles.container}>
-                <Image style={styles.blankPageImage} source={image} />
-                <Text weight="Medium" style={styles.blankPageText}>
-                  {text}
-                </Text>
-              </View>
-            )}
+          {items.length == 0 && (
+            <View style={styles.container}>
+              <Image style={styles.blankPageImage} source={image} />
+              <Text weight="Medium" style={styles.blankPageText}>
+                {text}
+              </Text>
+            </View>
+          )}
           <ScrollView style={styles.body}>
-            {systemItems.length > 0 &&
-              systemItems.map((item, index) => {
+            {items.length > 0 && <Text>State Wise</Text>}
+            {items.length > 0 &&
+              items.map((item, index) => {
                 return (
                   <View key={index}>
-                    <EasyLifeItem
+                    {item.status_type == 1 && <EasyLifeItem
                       showCheckbox={true}
                       text={item.name}
                       imageUri={item.url}
                       showRemoveBtn={false}
-                      isChecked={selectedSystemItemIds.includes(item.id)}
+                      isChecked={selectedItemIds.includes(item.id)}
                       onPress={() => this.toggleSystemItemSelect(item.id)}
-                    />
+                    />}
                   </View>
                 );
               })}
-            {userCreatedItems.length > 0 &&
-              userCreatedItems.map((item, index) => {
+            {items.length > 0 && <Text>User Created</Text>}
+            {items.length > 0 &&
+              items.map((item, index) => {
                 return (
                   <View key={index}>
-                    <EasyLifeItem
+                    {item.status_type == 11 && <EasyLifeItem
                       showCheckbox={true}
                       text={item.name}
                       imageUri={item.url}
-                      showRemoveBtn={false}
-                      isChecked={selectedUserCreatedItemIds.includes(item.id)}
-                      onPress={() => this.toggleUserCreatedItemSelect(item.id)}
+                      showRemoveBtn={true}
+                      isChecked={selectedItemIds.includes(item.id)}
+                      onPress={() => this.toggleSystemItemSelect(item.id)}
                       onRemoveBtnPress={() => this.removeItem(item)}
-                    />
+                    />}
                   </View>
                 );
               })}
@@ -322,7 +333,7 @@ class WhatToListScreen extends Component {
           />
         </ScreenContainer>
 
-        {(systemItems.length > 0 || userCreatedItems.length) > 0 && (
+        {items.length > 0 && (
           <View>
             <Button
               onPress={this.addItemsToMyList}
