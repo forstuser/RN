@@ -56,7 +56,9 @@ class AddProductScreen extends React.Component {
         Analytics.logEvent(Analytics.EVENTS.CLICK_ON_FURNITURE_AND_HARDWARE);
         break;
       case EXPENSE_TYPES.MEDICAL_DOCS:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_INSURANCE_AND_MEDICAL_DOCS);
+        Analytics.logEvent(
+          Analytics.EVENTS.CLICK_ON_INSURANCE_AND_MEDICAL_DOCS
+        );
         break;
       case EXPENSE_TYPES.PERSONAL:
         Analytics.logEvent(Analytics.EVENTS.CLICK_ON_PERSONAL_DOCS);
