@@ -11,7 +11,15 @@ import {
   ScrollView
 } from "react-native";
 import I18n from "../../i18n";
-import { fetchStates, fetchStateMeals, saveMyList, removeMealById } from "../../api";
+import {
+  fetchStates,
+  fetchStateMeals,
+  saveMyList,
+  removeMealById,
+  fetchAllTodos,
+  removeTodoById,
+  removeClothById
+} from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
@@ -24,6 +32,7 @@ import CloathesImageUploader from "../../components/easy-life-items/cloathes-ima
 import EasyLifeItem from "../../components/easy-life-item";
 import SelectModal from "../../components/select-modal";
 import Icon from "react-native-vector-icons/Ionicons";
+import { showSnackbar } from "../snackbar";
 
 const cooking = require("../../images/cooking.png");
 const todo = require("../../images/to_do.png");
@@ -82,6 +91,8 @@ class WhatToListScreen extends Component {
 
     if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_COOK) {
       this.loadStates();
+    } else {
+      this.fetchItems();
     }
   }
 
@@ -95,7 +106,9 @@ class WhatToListScreen extends Component {
         states: res.states
       });
       if (this.props.stateId) {
-        const state = this.state.states.find(state => state.id == this.props.stateId)
+        const state = this.state.states.find(
+          state => state.id == this.props.stateId
+        );
         this.onSelectState(state);
       }
     } catch (e) {
@@ -112,24 +125,47 @@ class WhatToListScreen extends Component {
         isLoading: true
       },
       () => {
-        this.loadStateMeals();
+        this.fetchItems();
       }
     );
   };
 
-  loadStateMeals = async () => {
+  fetchItems = async () => {
     this.setState({
       isLoading: true
     });
     try {
-      const res = await fetchStateMeals({
-        stateId: this.state.selectedState.id,
-        isVeg: this.state.isVeg
-      });
-      console.log(res);
+      let res;
+      let items = [];
+      switch (this.props.type) {
+        case EASY_LIFE_TYPES.WHAT_TO_COOK:
+          res = await fetchStateMeals({
+            stateId: this.state.selectedState.id,
+            isVeg: this.state.isVeg
+          });
+          items = res.mealList;
+          break;
+        case EASY_LIFE_TYPES.WHAT_TO_DO:
+          res = await fetchAllTodos();
+          items = res.todoList;
+          break;
+        case EASY_LIFE_TYPES.WHAT_TO_WEAR:
+          res = await fetchStateMeals({
+            stateId: this.state.selectedState.id,
+            isVeg: this.state.isVeg
+          });
+          newState = {
+            items: res.mealList,
+            selectedItemIds: res.mealList.map(meal => meal.id)
+          };
+          break;
+      }
+
       this.setState({
-        items: res.mealList,
-        selectedItemIds: res.mealList.map(meal => meal.id)
+        items,
+        selectedItemIds: items
+          .filter(item => item.isSelected)
+          .map(item => item.id)
       });
     } catch (e) {
     } finally {
@@ -140,12 +176,9 @@ class WhatToListScreen extends Component {
   };
   // to wear case
   addItem = item => {
-    this.setState(
-      { items: [...this.state.items, item] },
-      () => {
-        console.log(this.state.items);
-      }
-    );
+    this.setState({ items: [...this.state.items, item] }, () => {
+      console.log(this.state.items);
+    });
   };
 
   addNewItemModelShow = () => {
@@ -169,9 +202,20 @@ class WhatToListScreen extends Component {
     );
   };
 
-  removeItem = async (item) => {
+  removeItem = async item => {
     try {
-      await removeMealById({ mealId: item.id });
+      switch (this.props.type) {
+        case EASY_LIFE_TYPES.WHAT_TO_COOK:
+          await removeMealById({ mealId: item.id });
+          break;
+        case EASY_LIFE_TYPES.WHAT_TO_DO:
+          await removeTodoById({ todoId: item.id });
+          break;
+        case EASY_LIFE_TYPES.WHAT_TO_COOK:
+          await removeClothById({ clothId: item.id });
+          break;
+      }
+
       let newItems = [...this.state.items];
       const idx = newItems.indexOf(item);
       if (idx > -1) {
@@ -193,7 +237,7 @@ class WhatToListScreen extends Component {
         isVeg: !this.state.isVeg
       },
       () => {
-        this.loadStateMeals();
+        this.fetchItems();
       }
     );
   };
@@ -211,9 +255,8 @@ class WhatToListScreen extends Component {
     });
   };
 
-
   addItemsToMyList = async () => {
-    console.log("selectedItemIds", this.state.selectedItemIds)
+    console.log("selectedItemIds", this.state.selectedItemIds);
     // try {
     //   await saveMyList({ selectedItemIds: this.state.selectedItemIds, selectedState: this.state.selectedState.id });
     //   this.props.navigator.pop();
@@ -283,28 +326,31 @@ class WhatToListScreen extends Component {
             </View>
           )}
           <ScrollView style={styles.body}>
-            {items.length > 0 && <Text>State Wise</Text>}
             {items.length > 0 &&
               items.map((item, index) => {
                 return (
                   <View key={index}>
-                    {item.status_type == 1 && <EasyLifeItem
-                      showCheckbox={true}
-                      text={item.name}
-                      imageUri={item.url}
-                      showRemoveBtn={false}
-                      isChecked={selectedItemIds.includes(item.id)}
-                      onPress={() => this.toggleSystemItemSelect(item.id)}
-                    />}
+                    {item.status_type == 1 && (
+                      <EasyLifeItem
+                        showCheckbox={true}
+                        text={item.name}
+                        imageUri={item.url}
+                        showRemoveBtn={false}
+                        isChecked={selectedItemIds.includes(item.id)}
+                        onPress={() => this.toggleSystemItemSelect(item.id)}
+                      />
+                    )}
                   </View>
                 );
               })}
-            {items.length > 0 && <Text>User Created</Text>}
-            {items.length > 0 &&
-              items.map((item, index) => {
-                return (
-                  <View key={index}>
-                    {item.status_type == 11 && <EasyLifeItem
+            {items.filter(item => item.status_type == 11).length > 0 && (
+              <Text>User Created</Text>
+            )}
+            {items.map((item, index) => {
+              return (
+                <View key={index}>
+                  {item.status_type == 11 && (
+                    <EasyLifeItem
                       showCheckbox={true}
                       text={item.name}
                       imageUri={item.url}
@@ -312,10 +358,11 @@ class WhatToListScreen extends Component {
                       isChecked={selectedItemIds.includes(item.id)}
                       onPress={() => this.toggleSystemItemSelect(item.id)}
                       onRemoveBtnPress={() => this.removeItem(item)}
-                    />}
-                  </View>
-                );
-              })}
+                    />
+                  )}
+                </View>
+              );
+            })}
           </ScrollView>
           <View style={styles.addNewBtn}>
             <AddNewBtn text={btnText} onPress={this.addNewItemModelShow} />
@@ -329,6 +376,7 @@ class WhatToListScreen extends Component {
             ref={ref => (this.WhatToListModal = ref)}
             navigator={this.props.navigator}
             addItems={this.addItems}
+            type={this.props.type}
             stateId={selectedState ? selectedState.id : null}
           />
         </ScreenContainer>

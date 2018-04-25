@@ -10,8 +10,8 @@ import { Text, Button } from "../elements";
 import Modal from "react-native-modal";
 import { colors } from "../theme";
 import Icon from "react-native-vector-icons/Ionicons";
-import { API_BASE_URL, addUserCreatedMeals } from "../api";
-import { SCREENS } from "../constants";
+import { API_BASE_URL, addUserCreatedMeals, addUserCreatedTodos } from "../api";
+import { SCREENS, EASY_LIFE_TYPES } from "../constants";
 import CustomTextInput from "./form-elements/text-input";
 import { showSnackbar } from "../containers/snackbar";
 import LoadingOverlay from "./loading-overlay";
@@ -56,11 +56,19 @@ class WhatToListModal extends React.Component {
       isLoading: true
     });
     try {
-      const res = await addUserCreatedMeals({
-        meals: this.state.list.filter(item => item && item.trim().length > 0),
-        stateId: this.props.stateId
-      });
-      this.props.addItems(res.mealList);
+      if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_COOK) {
+        const res = await addUserCreatedMeals({
+          meals: this.state.list.filter(item => item && item.trim().length > 0),
+          stateId: this.props.stateId
+        });
+        this.props.addItems(res.mealList);
+      } else {
+        let names = this.state.list.filter(
+          item => item && item.trim().length > 0
+        );
+        const res = await addUserCreatedTodos(names);
+        this.props.addItems(res.todoList);
+      }
       this.setState({ visible: false, list: [""] });
     } catch (e) {
       showSnackbar({ text: e.message });

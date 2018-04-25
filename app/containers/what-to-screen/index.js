@@ -21,7 +21,11 @@ import {
   addMealForADate,
   removeMealForADate,
   getTodoListByDate,
-  getClothesListByDate
+  getClothesListByDate,
+  addTodoForADate,
+  removeTodoForADate,
+  removeClothForADate,
+  addClothForADate
 } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -283,10 +287,46 @@ class DishCalendarScreen extends Component {
     this.setState({ isLoading: true });
     try {
       if (idx > -1) {
-        await removeMealForADate({ mealId: item.id, date: this.state.date });
+        switch (this.props.type) {
+          case EASY_LIFE_TYPES.WHAT_TO_COOK:
+            await removeMealForADate({
+              mealId: item.id,
+              date: this.state.date
+            });
+            break;
+          case EASY_LIFE_TYPES.WHAT_TO_DO:
+            await removeTodoForADate({
+              todoId: item.id,
+              date: this.state.date
+            });
+            break;
+          case EASY_LIFE_TYPES.WHAT_TO_WEAR:
+            await removeClothForADate({
+              clothId: item.id,
+              date: this.state.date
+            });
+            break;
+        }
+
         newSelectedItemIds.splice(idx, 1);
       } else {
-        await addMealForADate({ mealId: item.id, date: this.state.date });
+        switch (this.props.type) {
+          case EASY_LIFE_TYPES.WHAT_TO_COOK:
+            await addMealForADate({ mealId: item.id, date: this.state.date });
+            break;
+          case EASY_LIFE_TYPES.WHAT_TO_DO:
+            await addTodoForADate({
+              todoId: item.id,
+              date: this.state.date
+            });
+            break;
+          case EASY_LIFE_TYPES.WHAT_TO_WEAR:
+            await addClothForADate({
+              clothId: item.id,
+              date: this.state.date
+            });
+            break;
+        }
         newSelectedItemIds.push(item.id);
       }
 

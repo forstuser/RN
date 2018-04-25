@@ -124,7 +124,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => { }
+  onUploadProgress = () => {}
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -1324,20 +1324,34 @@ export const removeMealById = async ({ mealId }) => {
   console.log(mealId);
   return await apiRequest({
     method: "delete",
-    url: `/user/meals/${mealId}/remove`,
+    url: `/user/meals/${mealId}/remove`
+  });
+};
+
+export const removeTodoById = async ({ todoId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/user/todos/${todoId}/remove`
+  });
+};
+
+export const removeClothById = async ({ clothId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/wearables/${clothId}`
   });
 };
 
 export const saveMyList = async ({ selectedIds, selectedState }) => {
   return await apiRequest({
     method: "post",
-    url: '/user/meals',
+    url: "/user/meals",
     data: {
       selected_ids: selectedIds,
       state_id: selectedState
     }
-  })
-}
+  });
+};
 
 export const getMealListByDate = async date => {
   return await apiRequest({
@@ -1356,10 +1370,50 @@ export const addMealForADate = async ({ mealId, date }) => {
   });
 };
 
+export const addTodoForADate = async ({ todoId, date }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/user/todos/${todoId}`,
+    data: {
+      current_date: date
+    }
+  });
+};
+
+export const addClothForADate = async ({ clothId, date }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/user/wearables/${clothId}`,
+    data: {
+      current_date: date
+    }
+  });
+};
+
 export const removeMealForADate = async ({ mealId, date }) => {
   return await apiRequest({
     method: "delete",
     url: `/user/meals/${mealId}`,
+    data: {
+      current_date: date
+    }
+  });
+};
+
+export const removeTodoForADate = async ({ todoId, date }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/user/todos/${todoId}`,
+    data: {
+      current_date: date
+    }
+  });
+};
+
+export const removeClothForADate = async ({ clothId, date }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/user/wearables/${clothId}`,
     data: {
       current_date: date
     }
@@ -1377,6 +1431,13 @@ export const addUserCreatedMeals = async ({ meals, stateId }) => {
   });
 };
 
+export const fetchAllTodos = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/todos`
+  });
+};
+
 export const getTodoListByDate = async date => {
   return await apiRequest({
     method: "get",
@@ -1388,5 +1449,13 @@ export const getClothesListByDate = async date => {
   return await apiRequest({
     method: "get",
     url: `/wearables?current_date=${date}`
+  });
+};
+
+export const addUserCreatedTodos = async names => {
+  return await apiRequest({
+    method: "post",
+    url: `/user/todos/add`,
+    data: { names }
   });
 };

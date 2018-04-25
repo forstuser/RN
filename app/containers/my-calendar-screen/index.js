@@ -13,7 +13,7 @@ import { API_BASE_URL, fetchCalendarItems } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
-import TabSearchHeader from "../../components/tab-screen-header";
+
 import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
 import { colors } from "../../theme";
@@ -23,7 +23,7 @@ const calendarIconColor = require("../../images/ic_calendar_color.png");
 
 class MyCalendarScreen extends Component {
   static navigatorStyle = {
-    navBarHidden: true
+    tabBarHidden: true
   };
   constructor(props) {
     super(props);
@@ -44,6 +44,9 @@ class MyCalendarScreen extends Component {
   };
 
   componentDidMount() {
+    this.props.navigator.setTitle({
+      title: I18n.t("my_calendar_screen_title")
+    });
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ATTENDANCE);
   }
 
@@ -92,15 +95,6 @@ class MyCalendarScreen extends Component {
     }
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#f7f7f7" }}>
-        <View style={styles.header}>
-          <TabSearchHeader
-            title={I18n.t("my_calendar_screen_title")}
-            icon={calendarIcon}
-            navigator={this.props.navigator}
-            showMailbox={false}
-            showSearchInput={false}
-          />
-        </View>
         {(items.length > 0 || isFetchingItems) && (
           <View style={{ flex: 1 }}>
             <View style={{ flex: 1 }}>
@@ -147,15 +141,6 @@ class MyCalendarScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    width: "100%",
-    ...Platform.select({
-      ios: {
-        zIndex: 1
-      },
-      android: {}
-    })
-  },
   addItemBtn: {
     width: "100%"
   },
