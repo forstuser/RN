@@ -14,6 +14,7 @@ import {
 import CustomTextInput from "../../components/form-elements/text-input";
 import { addWearables, uploadWearableImage } from "../../api";
 import { showSnackbar } from "../../containers/snackbar";
+import Icon from "react-native-vector-icons/Ionicons";
 
 class CloathesImageUploader extends React.Component {
   state = {
@@ -109,6 +110,12 @@ class CloathesImageUploader extends React.Component {
     this.props.addImageDetails(uploadedImageObject); // send to parent
     this.setState({ isModalVisible: false });
   };
+
+  closeDialog = () => {
+    this.setState({ isModalVisible: false });
+  };
+
+
   render() {
     const { file, isModalVisible, cloathesName } = this.state;
     return (
@@ -137,6 +144,9 @@ class CloathesImageUploader extends React.Component {
                 resizeMode="contain"
               />
             )}
+            <TouchableOpacity style={styles.closeIcon} onPress={this.closeDialog}>
+              <Icon name="md-close" size={30} color={colors.mainText} />
+            </TouchableOpacity>
           </View>
           <View style={{ width: "90%" }}>
             <CustomTextInput
@@ -171,6 +181,11 @@ const styles = StyleSheet.create({
   },
   addItemBtn: {
     width: "100%"
-  }
+  },
+  closeIcon: {
+    position: "absolute",
+    right: 10,
+    top: 5
+  },
 });
 export default CloathesImageUploader;
