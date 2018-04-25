@@ -1,6 +1,7 @@
 import { Platform } from "react-native";
 import { Navigation } from "react-native-navigation";
 import axios from "axios";
+import moment from "moment";
 import store from "../store";
 import DeviceInfo from "react-native-device-info";
 import navigation, { openLoginScreen, openEnterPinPopup } from "../navigation";
@@ -1448,6 +1449,13 @@ export const fetchAllTodos = async () => {
   });
 };
 
+export const fetchAllCloths = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/todos`
+  });
+};
+
 export const getTodoListByDate = async date => {
   return await apiRequest({
     method: "get",
@@ -1455,7 +1463,9 @@ export const getTodoListByDate = async date => {
   });
 };
 
-export const getClothesListByDate = async date => {
+export const getClothesListByDate = async (
+  date = moment().format("YYYY-MM-DD")
+) => {
   return await apiRequest({
     method: "get",
     url: `/wearables?current_date=${date}`

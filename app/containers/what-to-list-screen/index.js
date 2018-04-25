@@ -12,12 +12,14 @@ import {
 } from "react-native";
 import I18n from "../../i18n";
 import {
+  API_BASE_URL,
   fetchStates,
   fetchStateMeals,
   saveMealList,
   saveTodoList,
   removeMealById,
   fetchAllTodos,
+  getClothesListByDate,
   removeTodoById,
   removeClothById
 } from "../../api";
@@ -151,14 +153,8 @@ class WhatToListScreen extends Component {
           items = res.todoList;
           break;
         case EASY_LIFE_TYPES.WHAT_TO_WEAR:
-          res = await fetchStateMeals({
-            stateId: this.state.selectedState.id,
-            isVeg: this.state.isVeg
-          });
-          newState = {
-            items: res.mealList,
-            selectedItemIds: res.mealList.map(meal => meal.id)
-          };
+          res = await getClothesListByDate();
+          items = res.wearableList;
           break;
       }
 
@@ -169,6 +165,7 @@ class WhatToListScreen extends Component {
           .map(item => item.id)
       });
     } catch (e) {
+      alert(e.message);
     } finally {
       this.setState({
         isLoading: false
@@ -355,13 +352,22 @@ class WhatToListScreen extends Component {
           <ScrollView style={styles.body}>
             {items.length > 0 &&
               items.map((item, index) => {
+                let imageUrl = null;
+                if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
+                  imageUrl =
+                    API_BASE_URL +
+                    "/wearable/" +
+                    item.id +
+                    "/images/" +
+                    item.image_code;
+                }
                 return (
                   <View key={index}>
                     {item.status_type == 1 && (
                       <EasyLifeItem
                         showCheckbox={true}
                         text={item.name}
-                        imageUri={item.url}
+                        imageUrl={imageUrl}
                         showRemoveBtn={false}
                         isChecked={selectedItemIds.includes(item.id)}
                         onPress={() => this.toggleSystemItemSelect(item.id)}
@@ -374,13 +380,22 @@ class WhatToListScreen extends Component {
               <Text>User Created</Text>
             )}
             {items.map((item, index) => {
+              let imageUrl = null;
+              if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
+                imageUrl =
+                  API_BASE_URL +
+                  "/wearable/" +
+                  item.id +
+                  "/images/" +
+                  item.image_code;
+              }
               return (
                 <View key={index}>
                   {item.status_type == 11 && (
                     <EasyLifeItem
                       showCheckbox={true}
                       text={item.name}
-                      imageUri={item.url}
+                      imageUrl={imageUrl}
                       showRemoveBtn={true}
                       isChecked={selectedItemIds.includes(item.id)}
                       onPress={() => this.toggleSystemItemSelect(item.id)}

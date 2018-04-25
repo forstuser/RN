@@ -12,7 +12,7 @@ import {
   requestStoragePermission
 } from "../../android-permissions";
 import CustomTextInput from "../../components/form-elements/text-input";
-import { addWearables, uploadWearableImage } from "../../api";
+import { addWearables, uploadWearableImage, API_BASE_URL } from "../../api";
 import { showSnackbar } from "../../containers/snackbar";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -62,7 +62,7 @@ class CloathesImageUploader extends React.Component {
           isModalVisible: true
         });
       })
-      .catch(e => { });
+      .catch(e => {});
   };
 
   pickGalleryImage = async () => {
@@ -74,7 +74,7 @@ class CloathesImageUploader extends React.Component {
       cropping: false
     })
       .then(file => {
-        console.log("uplaod file", file)
+        console.log("uplaod file", file);
         this.setState({
           file: {
             filename: file.filename || "gallery-image.jpeg",
@@ -84,37 +84,43 @@ class CloathesImageUploader extends React.Component {
           isModalVisible: true
         });
       })
-      .catch(e => { });
+      .catch(e => {});
   };
   addImageToList = async () => {
     try {
-      const res = await addWearables({ name: this.state.cloathesName })
-      console.log(res.wearable.id);
-      await uploadWearableImage(res.wearable.id, this.state.file, percentCompleted => {
-        this.setState({
-          uploadingProgressText: percentCompleted + "%"
-        });
-      });
+      const res1 = await addWearables({ name: this.state.cloathesName });
+      console.log(res1.wearable.id);
+      const res2 = await uploadWearableImage(
+        res1.wearable.id,
+        this.state.file,
+        percentCompleted => {
+          this.setState({
+            uploadingProgressText: percentCompleted + "%"
+          });
+        }
+      );
+
+      const uploadedImageObject = {
+        ...res2.wearableResult,
+        imageUrl:
+          API_BASE_URL +
+          "/wearable/" +
+          res1.wearable.id +
+          "/images/" +
+          res2.wearableResult.image_code
+      };
+      this.props.addImageDetails(uploadedImageObject); // send to parent
+      this.setState({ isModalVisible: false });
     } catch (e) {
       showSnackbar({
         text: e.message
       });
     }
-
-    const uploadedImageObject = {
-      id: Math.floor(Math.random() * 90 + 10),
-      name: this.state.cloathesName,
-      url: this.state.file.path,
-      status_type: 1
-    };
-    this.props.addImageDetails(uploadedImageObject); // send to parent
-    this.setState({ isModalVisible: false });
   };
 
   closeDialog = () => {
     this.setState({ isModalVisible: false });
   };
-
 
   render() {
     const { file, isModalVisible, cloathesName } = this.state;
@@ -144,7 +150,10 @@ class CloathesImageUploader extends React.Component {
                 resizeMode="contain"
               />
             )}
-            <TouchableOpacity style={styles.closeIcon} onPress={this.closeDialog}>
+            <TouchableOpacity
+              style={styles.closeIcon}
+              onPress={this.closeDialog}
+            >
               <Icon name="md-close" size={30} color={colors.mainText} />
             </TouchableOpacity>
           </View>
@@ -186,6 +195,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     top: 5
-  },
+  }
 });
 export default CloathesImageUploader;

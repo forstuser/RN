@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { Text } from "../elements";
+import { Text, AsyncImage } from "../elements";
 import { defaultStyles, colors } from "../theme";
 
 class EasyLifeItem extends React.Component {
@@ -13,17 +13,18 @@ class EasyLifeItem extends React.Component {
       bottomText,
       showCheckbox = true,
       isChecked,
-      imageUri,
+      imageUrl,
       onPress,
       showRemoveBtn = false,
       onRemoveBtnPress
     } = this.props;
+    console.log("imageUrl: ", imageUrl);
     return (
       <View>
         <TouchableOpacity
           style={[
             styles.container,
-            bottomText || imageUri ? styles.bigContainer : {}
+            bottomText || imageUrl ? styles.bigContainer : {}
           ]}
           onPress={onPress}
         >
@@ -56,13 +57,13 @@ class EasyLifeItem extends React.Component {
             ) : null}
           </View>
           {rightText ? <Text style={styles.subText}>{rightText}</Text> : null}
-          {imageUri ? (
-            <Image source={{ uri: imageUri }} style={styles.image} />
+          {imageUrl ? (
+            <AsyncImage source={{ uri: imageUrl }} style={styles.image} />
           ) : null}
         </TouchableOpacity>
         {showRemoveBtn && (
           <TouchableOpacity style={styles.removeBtn} onPress={onRemoveBtnPress}>
-            <Icon name="md-remove" color='white' size={20} />
+            <Icon name="md-remove" color="white" size={20} />
           </TouchableOpacity>
         )}
       </View>
@@ -88,12 +89,12 @@ const styles = StyleSheet.create({
     width: 27,
     position: "absolute",
     top: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     right: 0,
     elevation: 2,
     borderRadius: 15,
-    backgroundColor: 'red'
+    backgroundColor: "red"
   },
   checkbox: {
     width: 20,

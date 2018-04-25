@@ -423,30 +423,43 @@ class DishCalendarScreen extends Component {
             <Text style={styles.titleText}>{text}</Text>
             {items.map((item, index) => {
               const isChecked = selectedItemIds.indexOf(item.id) > -1;
-              let rightText = "";
+              let secondaryText = "";
+              let imageUrl = null;
               if (item.current_date) {
                 const diff = moment()
                   .startOf("day")
                   .diff(moment(item.current_date).startOf("day"), "days");
 
                 if (!diff) {
-                  rightText = "Today";
+                  secondaryText = "Today";
                 } else if (diff == 1) {
-                  rightText = "Yesterday";
+                  secondaryText = "Yesterday";
                 } else if (diff == -1) {
-                  rightText = "Tomorrow";
+                  secondaryText = "Tomorrow";
                 } else if (diff > 1) {
-                  rightText = `${diff} days ago`;
+                  secondaryText = `${diff} days ago`;
                 } else if (diff < -1) {
-                  rightText = moment(item.current_date).format("DD MMM, YYYY");
+                  secondaryText = moment(item.current_date).format(
+                    "DD MMM, YYYY"
+                  );
                 }
+              }
+
+              if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
+                imageUrl =
+                  API_BASE_URL +
+                  "/wearable/" +
+                  item.id +
+                  "/images/" +
+                  item.image_code;
               }
               return (
                 <View key={item.id} style={styles.item}>
                   <EasyLifeItem
                     showCheckbox={false}
                     text={item.name}
-                    rightText={rightText}
+                    secondaryText={secondaryText}
+                    imageUrl={imageUrl}
                     isChecked={isChecked}
                     onPress={() => this.toggleItemSelect(item)}
                   />
