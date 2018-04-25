@@ -124,7 +124,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => {}
+  onUploadProgress = () => { }
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -1315,10 +1315,29 @@ export const fetchStateMeals = async ({ stateId, isVeg }) => {
     method: "get",
     url: `/states/${stateId}/meals`,
     queryParams: {
-      is_veg: isVeg
+      is_veg: isVeg || undefined
     }
   });
 };
+
+export const removeMealById = async ({ mealId }) => {
+  console.log(mealId);
+  return await apiRequest({
+    method: "delete",
+    url: `/user/meals/${mealId}/remove`,
+  });
+};
+
+export const saveMyList = async ({ selectedIds, selectedState }) => {
+  return await apiRequest({
+    method: "post",
+    url: '/user/meals',
+    data: {
+      selected_ids: selectedIds,
+      state_id: selectedState
+    }
+  })
+}
 
 export const getMealListByDate = async date => {
   return await apiRequest({
