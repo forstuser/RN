@@ -44,8 +44,8 @@ class WhatToListScreen extends Component {
     selectedUserCreatedItemIds: [],
     states: [],
     isVeg: false,
-    placeholderText: 'Select State',
-    selectedState: null
+    selectedState: null,
+    isLoading: false
   };
 
   componentDidMount() {
@@ -77,42 +77,78 @@ class WhatToListScreen extends Component {
     this.props.navigator.setTitle({
       title
     });
-    this.loadStates();
+
+    if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_COOK) {
+      this.loadStates();
+    }
   }
 
   loadStates = async () => {
+    this.setState({
+      isLoading: true
+    });
     try {
       const res = await fetchStates();
       this.setState({
         states: res.states
       });
-    } catch (e) { }
+    } catch (e) {
+    } finally {
+      this.setState({
+        isLoading: false
+      });
+    }
   };
-  selectCategory = async (value) => {
+  onSelectState = async value => {
+    this.setState(
+      {
+        selectedState: value,
+        isLoading: true
+      },
+      () => {
+        this.loadStateMeals();
+      }
+    );
+  };
+
+  loadStateMeals = async () => {
     this.setState({
-      placeholderText: value.state_name,
-      selectedState: value
-    })
+      isLoading: true
+    });
     try {
-      const res = await fetchStateMeals({ stateId: value.id, isVeg: this.state.isVeg });
+      const res = await fetchStateMeals({
+        stateId: this.state.selectedState.id,
+        isVeg: this.state.isVeg
+      });
       console.log(res);
-      this.setState({ systemItems: res.mealList })
-    } catch (e) { }
+      this.setState({
+        systemItems: res.mealList,
+        selectedSystemItemIds: res.mealList.map(meal => meal.id)
+      });
+    } catch (e) {
+    } finally {
+      this.setState({
+        isLoading: false
+      });
+    }
   };
   // to wear case
   addItem = item => {
-    this.setState({ userCreatedItems: [...this.state.userCreatedItems, item] }, () => {
-      console.log(this.state.userCreatedItems);
-    });
+    this.setState(
+      { userCreatedItems: [...this.state.userCreatedItems, item] },
+      () => {
+        console.log(this.state.userCreatedItems);
+      }
+    );
   };
 
   addNewItemModelShow = () => {
     // this.cloathesImageUploader.showActionSheet();
     this.WhatToListModal.show();
   };
-  // cook and to do 
+  // cook and to do
   addItems = items => {
-    console.log(items)
+    console.log(items);
     this.setState(
       {
         userCreatedItems: [...this.state.userCreatedItems, ...items]
@@ -128,102 +164,143 @@ class WhatToListScreen extends Component {
     console.log(index);
     this.setState({
       userCreatedItems: this.state.userCreatedItems.splice(index, 1)
-    })
+    });
   };
 
   toggleVegOrNonveg = () => {
-    this.setState({
-      isVeg: this.state.isVeg ? false : true
-    }, () => {
-      if (this.state.selectedState) {
-        this.selectCategory(this.state.selectedState)
+    this.setState(
+      {
+        isVeg: !this.state.isVeg
+      },
+      () => {
+        this.loadStateMeals();
       }
+    );
+  };
+
+  toggleSystemItemSelect = id => {
+    let newSelectedSystemItemIds = [...this.state.selectedSystemItemIds];
+    const idx = newSelectedSystemItemIds.indexOf(id);
+    if (idx > -1) {
+      newSelectedSystemItemIds.splice(idx, 1);
+    } else {
+      newSelectedSystemItemIds.push(id);
+    }
+    this.setState({
+      selectedSystemItemIds: newSelectedSystemItemIds
     });
-  }
+  };
+  toggleUserCreatedItemSelect = id => {};
 
   onItemPress = item => {
     this.setState(
-      { selectedUserCreatedItemIds: [...this.state.selectedUserCreatedItemIds, item.id] },
+      {
+        selectedUserCreatedItemIds: [
+          ...this.state.selectedUserCreatedItemIds,
+          item.id
+        ]
+      },
       () => {
         console.log(this.state.selectedUserCreatedItemIds);
       }
     );
   };
 
-  addItemsToMyList = () => { };
+  addItemsToMyList = () => {};
 
   render() {
     const { type } = this.props;
-    const { placeholderText, image, text, systemItems, userCreatedItems, selectedSystemItemIds, selectedUserCreatedItemIds, btnText, isVeg } = this.state;
+    const {
+      image,
+      text,
+      systemItems,
+      userCreatedItems,
+      selectedSystemItemIds,
+      selectedUserCreatedItemIds,
+      btnText,
+      isVeg,
+      selectedState,
+      isLoading
+    } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <ScreenContainer>
           {type == EASY_LIFE_TYPES.WHAT_TO_COOK && (
             <View style={{ padding: 5 }}>
               <SelectModal
-                placeholder={placeholderText}
+                placeholder={"Select State"}
                 placeholderRenderer={({ placeholder }) => (
-                  <Text weight="Bold">{placeholder}</Text>
+                  <Text>{placeholder}</Text>
                 )}
                 options={this.state.states}
+                selectedOption={selectedState}
                 valueKey="id"
                 visibleKey="state_name"
                 hideAddNew={true}
                 onOptionSelect={value => {
-                  this.selectCategory(value);
+                  this.onSelectState(value);
                 }}
               />
-              <View style={styles.checkboxWrapper}>
+              {selectedState && (
                 <TouchableOpacity
-                  style={styles.box}
-                  onPress={this.toggleVegOrNonveg}>
-                  {isVeg && <Icon
-                    name="md-checkmark"
-                    color={colors.pinkishOrange}
-                    size={15}
-                  />}
+                  style={styles.checkboxWrapper}
+                  onPress={this.toggleVegOrNonveg}
+                >
+                  <View style={styles.box}>
+                    {isVeg && (
+                      <Icon
+                        name="md-checkmark"
+                        color={colors.pinkishOrange}
+                        size={15}
+                      />
+                    )}
+                  </View>
+                  <Text> Veg Only</Text>
                 </TouchableOpacity>
-                <Text> Veg Only</Text>
+              )}
+            </View>
+          )}
+          {systemItems.length == 0 &&
+            userCreatedItems.length == 0 && (
+              <View style={styles.container}>
+                <Image style={styles.blankPageImage} source={image} />
+                <Text weight="Medium" style={styles.blankPageText}>
+                  {text}
+                </Text>
               </View>
-            </View>
-          )}
-          {systemItems.length == 0 && userCreatedItems.length == 0 && (
-            <View style={styles.container}>
-              <Image style={styles.blankPageImage} source={image} />
-              <Text weight="Medium" style={styles.blankPageText}>
-                {text}
-              </Text>
-            </View>
-          )}
+            )}
           <ScrollView style={styles.body}>
-            {systemItems.length > 0 && systemItems.map((item, index) => {
-              return (
-                <View key={index}>
-                  <EasyLifeItem
-                    showCheckbox={true}
-                    text={item.name}
-                    imageUri={item.url}
-                    showRemoveBtn={false}
-                    isChecked={true}
-                    onRemoveBtnPress={() => this.removeItem(item)}
-                  />
-                </View>
-              );
-            })}
-            {userCreatedItems.length > 0 && userCreatedItems.map((item, index) => {
-              return (
-                <View key={index}>
-                  <EasyLifeItem
-                    showCheckbox={true}
-                    text={item.name}
-                    imageUri={item.url}
-                    showRemoveBtn={false}
-                    isChecked={true}
-                    onRemoveBtnPress={() => this.removeItem(item)}
-                  />
-                </View>
-              );
-            })}
+            {systemItems.length > 0 &&
+              systemItems.map((item, index) => {
+                return (
+                  <View key={index}>
+                    <EasyLifeItem
+                      showCheckbox={true}
+                      text={item.name}
+                      imageUri={item.url}
+                      showRemoveBtn={false}
+                      isChecked={selectedSystemItemIds.includes(item.id)}
+                      onPress={() => this.toggleSystemItemSelect(item.id)}
+                    />
+                  </View>
+                );
+              })}
+            {userCreatedItems.length > 0 &&
+              userCreatedItems.map((item, index) => {
+                return (
+                  <View key={index}>
+                    <EasyLifeItem
+                      showCheckbox={true}
+                      text={item.name}
+                      imageUri={item.url}
+                      showRemoveBtn={false}
+                      isChecked={selectedUserCreatedItemIds.includes(item.id)}
+                      onPress={() => this.toggleUserCreatedItemSelect(item.id)}
+                      onRemoveBtnPress={() => this.removeItem(item)}
+                    />
+                  </View>
+                );
+              })}
           </ScrollView>
           <View style={styles.addNewBtn}>
             <AddNewBtn text={btnText} onPress={this.addNewItemModelShow} />
@@ -239,7 +316,8 @@ class WhatToListScreen extends Component {
             addItems={this.addItems}
           />
         </ScreenContainer>
-        {systemItems.length > 0 || userCreatedItems.length > 0 && (
+
+        {(systemItems.length > 0 || userCreatedItems.length) > 0 && (
           <View>
             <Button
               onPress={this.addItemsToMyList}
@@ -250,6 +328,7 @@ class WhatToListScreen extends Component {
             />
           </View>
         )}
+        <LoadingOverlay visible={isLoading} />
       </View>
     );
   }
@@ -263,7 +342,8 @@ const styles = StyleSheet.create({
   },
   checkboxWrapper: {
     width: 150,
-    flexDirection: 'row'
+    flexDirection: "row",
+    marginBottom: 10
   },
   blankPageImage: {
     height: 70,
@@ -286,7 +366,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     height: 20,
     width: 20,
-    alignItems: 'center'
+    alignItems: "center",
+    borderRadius: 3
   }
 });
 
