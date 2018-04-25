@@ -15,7 +15,12 @@ import Icon from "react-native-vector-icons/Ionicons";
 import ActionSheet from "react-native-actionsheet";
 
 import I18n from "../../i18n";
-import { API_BASE_URL, getMealListByDate } from "../../api";
+import {
+  API_BASE_URL,
+  getMealListByDate,
+  addMealForADate,
+  removeMealForADate
+} from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
@@ -27,6 +32,7 @@ import EasyLifeItem from "../../components/easy-life-item";
 import AddNewBtn from "../../components/add-new-btn";
 import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader";
 import WhatToListModal from "../../components/what-to-list-modal";
+import { showSnackbar } from "../snackbar";
 
 const cooking = require("../../images/cooking.png");
 const todo = require("../../images/to_do.png");
@@ -154,21 +160,53 @@ class DishCalendarScreen extends Component {
   };
 
   fetchItems = async () => {
-    const res = await getMealListByDate(this.state.date);
-    console.log(res.mealList, "mealList");
     this.setState({
-      items: res.mealList
+      isLoading: true
     });
+    try {
+      const res = await getMealListByDate(this.state.date);
+      this.setState({
+        items: res.mealList
+      });
+    } catch (e) {
+    } finally {
+      this.setState({
+        isLoading: false
+      });
+    }
   };
 
-  onItemPress = item => {};
+  toggleItemSelect = async item => {
+    let newSelectedItemIds = [...this.state.selectedItemIds];
+    const idx = newSelectedItemIds.indexOf(item.id);
+
+    this.setState({ isLoading: true });
+    try {
+      if (idx > -1) {
+        await removeMealForADate({ mealId: item.id, date: this.state.date });
+        newSelectedItemIds.splice(idx, 1);
+      } else {
+        await addMealForADate({ mealId: item.id, date: this.state.date });
+        newSelectedItemIds.push(item.id);
+      }
+
+      this.setState({
+        selectedItemIds: newSelectedItemIds
+      });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({
+        isLoading: false
+      });
+    }
+  };
 
   onAddNewPress = () => {
     const { type } = this.props;
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_COOK:
         this.WhatToListModal.show();
-
         break;
       case EASY_LIFE_TYPES.WHAT_TO_DO:
         // this.cloathesImageUploader.showActionSheet();
@@ -182,7 +220,11 @@ class DishCalendarScreen extends Component {
   addItems = items => {
     this.setState(
       {
-        items: [...this.state.items, ...items]
+        items: [...this.state.items, ...items],
+        selectedItemIds: [
+          ...this.state.selectedItemIds,
+          ...items.map(item => item.id)
+        ]
       },
       () => {}
     );
@@ -230,7 +272,7 @@ class DishCalendarScreen extends Component {
                       text={item.name}
                       rightText={rightText}
                       isChecked={isChecked}
-                      onPress={() => this.onItemPress(item)}
+                      onPress={() => this.toggleItemSelect(item)}
                     />
                   </View>
                 );
@@ -248,6 +290,7 @@ class DishCalendarScreen extends Component {
               ref={ref => (this.WhatToListModal = ref)}
               navigator={this.props.navigator}
               addItems={this.addItems}
+              stateId={items.length > 0 ? items[0].state_id : null}
             />
           </View>
         </ScrollView>

@@ -328,6 +328,7 @@ class WhatToListScreen extends Component {
             ref={ref => (this.WhatToListModal = ref)}
             navigator={this.props.navigator}
             addItems={this.addItems}
+            stateId={selectedState ? selectedState.id : null}
           />
         </ScreenContainer>
 

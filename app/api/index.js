@@ -1326,3 +1326,34 @@ export const getMealListByDate = async date => {
     url: `/user/meals?current_date=${date}`
   });
 };
+
+export const addMealForADate = async ({ mealId, date }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/user/meals/${mealId}`,
+    data: {
+      current_date: date
+    }
+  });
+};
+
+export const removeMealForADate = async ({ mealId, date }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/user/meals/${mealId}`,
+    data: {
+      current_date: date
+    }
+  });
+};
+
+export const addUserCreatedMeals = async ({ meals, stateId }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/user/meals/add`,
+    data: {
+      names: meals,
+      state_id: stateId
+    }
+  });
+};
