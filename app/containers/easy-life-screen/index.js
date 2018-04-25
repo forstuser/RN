@@ -57,64 +57,28 @@ class EasyLifeScreen extends Component {
   render() {
     return (
       <ScreenContainer style={styles.container}>
-        <View style={{ flex: 1, flexDirection: "row" }}>
-          <TouchableOpacity style={styles.card} onPress={this.cookingItemPress}>
-            <View
-              style={{
-                width: 150,
-                height: 150,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Image style={styles.image} source={cooking} />
-              <Text style={styles.text}>What to Cook</Text>
-            </View>
-          </TouchableOpacity>
+        <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
             style={styles.card}
             onPress={this.attendanceItemPress}
           >
-            <View
-              style={{
-                width: 150,
-                height: 150,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Image style={styles.image} source={attendance} />
-              <Text style={styles.text}>Attendance</Text>
-            </View>
+            <Image style={styles.image} source={attendance} />
+            <Text style={styles.text}>Attendance Manager</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.card} onPress={this.cookingItemPress}>
+            <Image style={styles.image} source={cooking} />
+            <Text style={styles.text}>What to Cook Today</Text>
           </TouchableOpacity>
         </View>
 
-        <View style={{ flex: 1, flexDirection: "row", marginTop: -170 }}>
+        <View style={{ flexDirection: "row", marginTop: "5%" }}>
           <TouchableOpacity style={styles.card} onPress={this.wearItemPress}>
-            <View
-              style={{
-                width: 150,
-                height: 150,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Image style={styles.image} source={whatToWear} />
-              <Text style={styles.text}>What to Wear Today</Text>
-            </View>
+            <Image style={styles.image} source={whatToWear} />
+            <Text style={styles.text}>What to Wear Today</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.card} onPress={this.toDoItemPress}>
-            <View
-              style={{
-                width: 150,
-                height: 150,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Image style={styles.image} source={todo} />
-              <Text style={styles.text}>What to Do</Text>
-            </View>
+            <Image style={styles.image} source={todo} />
+            <Text style={styles.text}>What to Do Today</Text>
           </TouchableOpacity>
         </View>
       </ScreenContainer>
@@ -124,8 +88,7 @@ class EasyLifeScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    height: "auto"
+    padding: 20
   },
   image: {
     width: 96,
@@ -133,7 +96,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain"
   },
   text: {
-    fontSize: 14,
+    fontSize: 12,
     marginTop: 15,
     fontFamily: `Quicksand-Bold`,
     color: "#4a4a4a"
@@ -141,6 +104,9 @@ const styles = StyleSheet.create({
   card: {
     marginRight: 20,
     height: 150,
+    width: "46%",
+    justifyContent: "center",
+    alignItems: "center",
     ...defaultStyles.card
   }
 });
