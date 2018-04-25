@@ -58,7 +58,8 @@ class UploadDoc extends React.Component {
       placeholderAfterUpload = I18n.t(
         "expense_forms_header_upload_doc_successfully"
       ),
-      placeholder2Color = colors.secondaryText
+      placeholder2Color = colors.secondaryText,
+      actionSheetTitle
     } = this.props;
     const { isDocUploaded } = this.state;
     if (!copies) {
@@ -127,6 +128,7 @@ class UploadDoc extends React.Component {
           ref={ref => (this.uploadBillOptions = ref)}
           navigator={navigator}
           uploadCallback={this.onUpload}
+          actionSheetTitle={actionSheetTitle}
         />
       </View>
     );

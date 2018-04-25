@@ -144,7 +144,7 @@ class ProductOrExpense extends React.Component {
 
     const healthcareFormType = this.props.healthcareFormType;
     if (healthcareFormType == "medical_docs") {
-      if (category.id == 664) {
+      if (category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
         //category 'insurance'
         this.setState({
           visibleModules: {

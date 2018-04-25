@@ -61,11 +61,12 @@ class UploadBillOptions extends React.Component {
   };
 
   render() {
+    const { actionSheetTitle = I18n.t("upload_document_screen_upload_options_title") } = this.props;
     return (
       <ActionSheet
         onPress={this.handleOptionPress}
         ref={o => (this.uploadOptions = o)}
-        title={I18n.t("upload_document_screen_upload_options_title")}
+        title={actionSheetTitle}
         cancelButtonIndex={3}
         options={[
           I18n.t("upload_document_screen_upload_options_camera"),

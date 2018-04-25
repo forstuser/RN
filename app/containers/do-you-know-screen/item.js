@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: SCREEN_HEIGHT > 620 ? 17 : 14,
     color: colors.mainText,
-    marginTop: 5
+    marginTop: 10
   },
   description: {
     fontSize: SCREEN_HEIGHT > 620 ? 14 : 12,
