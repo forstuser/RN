@@ -142,15 +142,19 @@ class AddCalendarServiceScreen extends React.Component {
       },
       () => {
         this.pushStep(
-          <SelectStartingDateStep onStepDone={this.onStartingDateStepDone} />
+          <SelectStartingDateStep
+            onBackPress={this.previousStep}
+            onStepDone={this.onStartingDateStepDone}
+          />
         );
       }
     );
   };
 
   pushQuantityStep = () => {
-    this.push(
+    this.pushStep(
       <QuantityStep
+        onBackPress={this.previousStep}
         skippable={true}
         serviceType={this.state.serviceType}
         onStepDone={this.onQuantityStepDone}
@@ -209,6 +213,7 @@ class AddCalendarServiceScreen extends React.Component {
         } else {
           this.pushStep(
             <WagesCycleStep
+              onBackPress={this.previousStep}
               serviceType={serviceType}
               onStepDone={this.onWagesCycleStepDone}
             />
@@ -265,6 +270,7 @@ class AddCalendarServiceScreen extends React.Component {
   pushUnitPriceStep = () => {
     this.pushStep(
       <UnitPriceStep
+        onBackPress={this.previousStep}
         serviceType={this.state.serviceType}
         unitType={this.state.unitType}
         skippable={true}
@@ -292,6 +298,7 @@ class AddCalendarServiceScreen extends React.Component {
       await this.editCalculationDetails();
       this.pushStep(
         <SelectWeekdaysStep
+          onBackPress={this.previousStep}
           selectedDays={this.state.selectedDays}
           onStepDone={this.onSelectedDaysStepDone}
           skippable={true}
