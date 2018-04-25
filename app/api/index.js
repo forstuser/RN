@@ -1319,3 +1319,10 @@ export const fetchStateMeals = async ({ stateId, isVeg }) => {
     }
   });
 };
+
+export const getMealListByDate = async date => {
+  return await apiRequest({
+    method: "get",
+    url: `/user/meals?current_date=${date}`
+  });
+};

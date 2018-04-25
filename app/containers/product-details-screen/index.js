@@ -267,7 +267,7 @@ class ProductDetailsScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -315,7 +315,7 @@ class ProductDetailsScreen extends Component {
           onImageUpload={() => {
             showSnackbar({
               text: I18n.t("product_image_updated")
-            })
+            });
             this.fetchProductDetails();
           }}
         />
