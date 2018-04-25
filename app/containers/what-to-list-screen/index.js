@@ -148,13 +148,13 @@ class WhatToListScreen extends Component {
   };
   // cook and to do
   addItems = items => {
-    console.log(items);
+    console.log("index", items);
     this.setState(
       {
         userCreatedItems: [...this.state.userCreatedItems, ...items]
       },
       () => {
-        console.log(this.state.userCreatedItems);
+        console.log("user", this.state.userCreatedItems);
       }
     );
   };
@@ -190,7 +190,18 @@ class WhatToListScreen extends Component {
       selectedSystemItemIds: newSelectedSystemItemIds
     });
   };
-  toggleUserCreatedItemSelect = id => {};
+  toggleUserCreatedItemSelect = id => {
+    let newSelectedUserCreatedItemIds = [...this.state.selectedUserCreatedItemIds];
+    const idx = newSelectedUserCreatedItemIds.indexOf(id);
+    if (idx > -1) {
+      newSelectedUserCreatedItemIds.splice(idx, 1);
+    } else {
+      newSelectedUserCreatedItemIds.push(id);
+    }
+    this.setState({
+      selectedUserCreatedItemIds: newSelectedUserCreatedItemIds
+    })
+  };
 
   onItemPress = item => {
     this.setState(
@@ -206,7 +217,10 @@ class WhatToListScreen extends Component {
     );
   };
 
-  addItemsToMyList = () => {};
+  addItemsToMyList = () => {
+    console.log("selectd system ids", this.state.selectedSystemItemIds);
+    console.log("selectd user ids", this.state.selectedUserCreatedItemIds);
+  };
 
   render() {
     const { type } = this.props;
@@ -293,7 +307,7 @@ class WhatToListScreen extends Component {
                       showCheckbox={true}
                       text={item.name}
                       imageUri={item.url}
-                      showRemoveBtn={false}
+                      showRemoveBtn={true}
                       isChecked={selectedUserCreatedItemIds.includes(item.id)}
                       onPress={() => this.toggleUserCreatedItemSelect(item.id)}
                       onRemoveBtnPress={() => this.removeItem(item)}

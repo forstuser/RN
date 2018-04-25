@@ -41,11 +41,11 @@ class WhatToListModal extends React.Component {
     this.setState({
       list: newList
     });
-    console.log(this.state.list);
+    console.log("modal", this.state.list);
   };
 
   onSaveBtn = () => {
-    const itemList = this.state.list.map(function(item) {
+    const itemList = this.state.list.map(function (item) {
       item.id = Math.floor(Math.random() * 90 + 10);
       return item;
     });
