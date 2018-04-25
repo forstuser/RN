@@ -140,6 +140,12 @@ class MoreScreen extends Component {
     });
   };
 
+  visible = item => {
+    this.setState({
+      isProfileVisible: item
+    });
+  };
+
   render() {
     const { authToken, isPinSet } = this.props;
     const {
@@ -163,6 +169,7 @@ class MoreScreen extends Component {
           profile={profile}
           navigator={this.props.navigator}
           isProfileVisible={this.state.isProfileVisible}
+          visible={this.visible}
         />
         {!isProfileVisible && (
           <Body

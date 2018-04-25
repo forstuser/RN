@@ -8,28 +8,106 @@ import {
   TouchableOpacity,
   findNodeHandle
 } from "react-native";
+import ActionSheet from "react-native-actionsheet";
 import Icon from "react-native-vector-icons/Ionicons";
 import Profile from "./profile";
-
+import I18n from "../../i18n";
+import {
+  requestCameraPermission,
+  requestStoragePermission
+} from "../../android-permissions";
+import ImagePicker from "react-native-image-crop-picker";
 import { BlurView } from "react-native-blur";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
-import { API_BASE_URL } from "../../api";
-
+import { API_BASE_URL, uploadProfilePic } from "../../api";
+import { colors } from "../../theme";
+import { showSnackbar } from "../snackbar";
 import LoadingOverlay from "../../components/loading-overlay";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
-// const platform = Platform.OS == "ios" ? 2 : 1;
+const editIcon = require("../../images/ic_edit_white.png");
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
       blurViewRef: null,
-      isProfileVisible: false
+      isProfileVisible: this.props.isProfileVisible
     };
   }
 
   imageLoaded = () => {
     // this.setState({ blurViewRef: findNodeHandle(this.backgroundImage) });
+  };
+
+  close = () => {
+    this.props.visible(false);
+  };
+
+  handleOptionPress = index => {
+    switch (index) {
+      case 0:
+        this.takeCameraImage();
+        break;
+      case 1:
+        this.pickGalleryImage();
+        break;
+    }
+  };
+
+  takeCameraImage = async () => {
+    if ((await requestCameraPermission()) == false) return;
+    ImagePicker.openCamera({
+      width: 900,
+      height: 900,
+      cropping: true
+    })
+      .then(file => {
+        this.uploadImage({
+          filename: "profile-pic.jpeg",
+          uri: file.path,
+          mimeType: file.mime
+        });
+      })
+      .catch(e => {});
+  };
+
+  pickGalleryImage = async () => {
+    if ((await requestStoragePermission()) == false) return;
+    ImagePicker.openPicker({
+      width: 900,
+      height: 900,
+      cropping: true
+    })
+      .then(file => {
+        this.uploadImage({
+          filename: file.filename,
+          uri: file.path,
+          mimeType: file.mime
+        });
+      })
+      .catch(e => {});
+  };
+
+  uploadImage = async file => {
+    showSnackbar({
+      text: I18n.t("profile_screen_please_wait"),
+      autoDismissTimerSec: 1000
+    });
+    try {
+      await uploadProfilePic(file, () => {});
+      this.setState({
+        profilePic: <Image style={styles.image} source={{ uri: file.uri }} />
+      });
+
+      showSnackbar({
+        text: I18n.t("profile_screen_details_updated"),
+        autoDismissTimerSec: 3
+      });
+    } catch (e) {
+      showSnackbar({
+        text: e.message
+      });
+    }
   };
 
   render() {
@@ -44,6 +122,7 @@ class Header extends Component {
         source={noPicPlaceholderIcon}
       />
     );
+
     if (profile && profile.image_name) {
       profilePic = (
         <Image
@@ -59,6 +138,7 @@ class Header extends Component {
         />
       );
     }
+
     return (
       <View style={styles.container}>
         {profile && (
@@ -87,7 +167,26 @@ class Header extends Component {
               {isProfileVisible && (
                 <View style={styles.profileWrapper}>
                   <View style={styles.profileCircleWrapper}>{profilePic}</View>
+                  <TouchableOpacity
+                    onPress={() => this.uploadOptions.show()}
+                    style={styles.editImg}
+                  >
+                    <Image style={styles.editIcon} source={editIcon} />
+                  </TouchableOpacity>
                 </View>
+              )}
+              {isProfileVisible && (
+                <ActionSheet
+                  onPress={this.handleOptionPress}
+                  ref={o => (this.uploadOptions = o)}
+                  title={I18n.t("profile_screen_details_upload_pic")}
+                  cancelButtonIndex={2}
+                  options={[
+                    "Take picture using camera",
+                    "Upload image from gallery",
+                    "Cancel"
+                  ]}
+                />
               )}
 
               {!isProfileVisible && (
@@ -106,14 +205,14 @@ class Header extends Component {
                   source={require("../../images/ic_processing_arrow.png")}
                 />
               )}
-              <TouchableOpacity
-                style={styles.modalCloseIcon}
-                onPress={() => this.setState({ isProfileVisible: false })}
-              >
-                {isProfileVisible && (
+              {isProfileVisible && (
+                <TouchableOpacity
+                  style={styles.modalCloseIcon}
+                  onPress={this.close}
+                >
                   <Icon name="md-close" size={30} color="white" />
-                )}
-              </TouchableOpacity>
+                </TouchableOpacity>
+              )}
             </View>
           </TouchableOpacity>
         )}
@@ -146,7 +245,8 @@ const styles = StyleSheet.create({
   modalCloseIcon: {
     position: "absolute",
     right: 15,
-    top: 10
+    top: 10,
+    width: 30
   },
   headerInner: {
     flexDirection: "row",
@@ -210,6 +310,22 @@ const styles = StyleSheet.create({
   mobile: {
     fontSize: 14,
     color: "#ffffff"
+  },
+  editIcon: {
+    height: 16,
+    width: 16
+  },
+  editImg: {
+    position: "absolute",
+    top: 80,
+    right: 90,
+    height: 30,
+    width: 30,
+    overflow: "hidden",
+    backgroundColor: colors.tomato,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20
   }
 });
 
