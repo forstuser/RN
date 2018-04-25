@@ -1342,13 +1342,23 @@ export const removeClothById = async ({ clothId }) => {
   });
 };
 
-export const saveMyList = async ({ selectedIds, selectedState }) => {
+export const saveMealList = async ({ selectedItemIds, selectedState }) => {
   return await apiRequest({
     method: "post",
     url: "/user/meals",
     data: {
-      selected_ids: selectedIds,
+      selected_ids: selectedItemIds,
       state_id: selectedState
+    }
+  });
+};
+
+export const saveTodoList = async ({ selectedItemIds }) => {
+  return await apiRequest({
+    method: "post",
+    url: "/user/todos",
+    data: {
+      selected_ids: selectedItemIds
     }
   });
 };
@@ -1457,5 +1467,38 @@ export const addUserCreatedTodos = async names => {
     method: "post",
     url: `/user/todos/add`,
     data: { names }
+  });
+};
+export const addWearables = async ({ name }) => {
+  return await apiRequest({
+    method: "post",
+    url: "/wearables",
+    data: {
+      name: name
+    }
+  });
+};
+export const uploadWearableImage = async (clothId, file, onUploadProgress) => {
+  console.log("file", file);
+  const data = new FormData();
+  data.append(`filesName`, {
+    uri: file.uri,
+    type: file.mimeType,
+    name: file.filename || "cloth-image.jpeg"
+  });
+
+  return await apiRequest({
+    method: "post",
+    url: `/wearable/${clothId}/images`,
+    data: data,
+    headers: {
+      "Content-Type": "multipart/form-data"
+    },
+    onUploadProgress: progressEvent => {
+      let percentCompleted = Math.floor(
+        progressEvent.loaded * 100 / progressEvent.total
+      );
+      onUploadProgress(percentCompleted);
+    }
   });
 };

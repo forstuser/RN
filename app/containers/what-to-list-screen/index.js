@@ -14,7 +14,8 @@ import I18n from "../../i18n";
 import {
   fetchStates,
   fetchStateMeals,
-  saveMyList,
+  saveMealList,
+  saveTodoList,
   removeMealById,
   fetchAllTodos,
   removeTodoById,
@@ -181,9 +182,19 @@ class WhatToListScreen extends Component {
     });
   };
 
-  addNewItemModelShow = () => {
-    // this.cloathesImageUploader.showActionSheet();
-    this.WhatToListModal.show();
+  onAddNewPress = () => {
+    const { type } = this.props;
+    switch (type) {
+      case EASY_LIFE_TYPES.WHAT_TO_COOK:
+        this.WhatToListModal.show();
+        break;
+      case EASY_LIFE_TYPES.WHAT_TO_DO:
+        this.WhatToListModal.show();
+        break;
+      case EASY_LIFE_TYPES.WHAT_TO_WEAR:
+        this.clothesImageUploader.showActionSheet();
+        break;
+    }
   };
   // cook and to do
   addItems = items => {
@@ -221,8 +232,15 @@ class WhatToListScreen extends Component {
       if (idx > -1) {
         newItems.splice(idx, 1);
       }
+
+      let newSelectedItemIds = [...this.state.selectedItemIds];
+      const idxId = newItems.indexOf(item);
+      if (idxId > -1) {
+        newSelectedItemIds.splice(idxId, 1);
+      }
       this.setState({
-        items: newItems
+        items: newItems,
+        selectedItemIds: newSelectedItemIds
       });
     } catch (e) {
       showSnackbar({
@@ -257,14 +275,23 @@ class WhatToListScreen extends Component {
 
   addItemsToMyList = async () => {
     console.log("selectedItemIds", this.state.selectedItemIds);
-    // try {
-    //   await saveMyList({ selectedItemIds: this.state.selectedItemIds, selectedState: this.state.selectedState.id });
-    //   this.props.navigator.pop();
-    // } catch (e) {
-    //   showSnackbar({
-    //     text: e.message
-    //   });
-    // }
+    try {
+      if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_COOK) {
+        await saveMealList({
+          selectedItemIds: this.state.selectedItemIds,
+          selectedState: this.state.selectedState.id
+        });
+      } else if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_DO) {
+        await saveTodoList({
+          selectedItemIds: this.state.selectedItemIds
+        });
+      }
+      this.props.navigator.pop();
+    } catch (e) {
+      showSnackbar({
+        text: e.message
+      });
+    }
   };
 
   render() {
@@ -365,11 +392,11 @@ class WhatToListScreen extends Component {
             })}
           </ScrollView>
           <View style={styles.addNewBtn}>
-            <AddNewBtn text={btnText} onPress={this.addNewItemModelShow} />
+            <AddNewBtn text={btnText} onPress={this.onAddNewPress} />
           </View>
           <CloathesImageUploader
-            ref={ref => (this.cloathesImageUploader = ref)}
-            navigator={navigator}
+            ref={ref => (this.clothesImageUploader = ref)}
+            navigator={this.props.navigator}
             addImageDetails={this.addItem}
           />
           <WhatToListModal
@@ -381,17 +408,18 @@ class WhatToListScreen extends Component {
           />
         </ScreenContainer>
 
-        {items.length > 0 && (
-          <View>
-            <Button
-              onPress={this.addItemsToMyList}
-              text={"SAVE MY LIST"}
-              color="secondary"
-              borderRadius={0}
-              style={styles.addItemBtn}
-            />
-          </View>
-        )}
+        {items.length > 0 &&
+          type != EASY_LIFE_TYPES.WHAT_TO_WEAR && (
+            <View>
+              <Button
+                onPress={this.addItemsToMyList}
+                text={"SAVE MY LIST"}
+                color="secondary"
+                borderRadius={0}
+                style={styles.addItemBtn}
+              />
+            </View>
+          )}
         <LoadingOverlay visible={isLoading} />
       </View>
     );

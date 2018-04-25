@@ -12,12 +12,23 @@ import {
   requestStoragePermission
 } from "../../android-permissions";
 import CustomTextInput from "../../components/form-elements/text-input";
+import { addWearables, uploadWearableImage } from "../../api";
+import { showSnackbar } from "../../containers/snackbar";
 
 class CloathesImageUploader extends React.Component {
   state = {
     isModalVisible: false,
     file: null,
-    cloathesName: ""
+    cloathesName: "",
+    uploadingProgressText: "0%"
+  };
+
+  showActionSheet = () => {
+    this.uploadOptions.show();
+    this.setState({
+      cloathesName: "",
+      file: null
+    });
   };
 
   handleOptionPress = index => {
@@ -42,11 +53,15 @@ class CloathesImageUploader extends React.Component {
     })
       .then(file => {
         this.setState({
-          file: file,
+          file: {
+            filename: "camera-image.jpeg",
+            uri: file.path,
+            mimeType: file.mime
+          },
           isModalVisible: true
         });
       })
-      .catch(e => {});
+      .catch(e => { });
   };
 
   pickGalleryImage = async () => {
@@ -58,21 +73,40 @@ class CloathesImageUploader extends React.Component {
       cropping: false
     })
       .then(file => {
+        console.log("uplaod file", file)
         this.setState({
-          file: file,
+          file: {
+            filename: file.filename || "gallery-image.jpeg",
+            uri: file.path,
+            mimeType: file.mime
+          },
           isModalVisible: true
         });
       })
-      .catch(e => {});
+      .catch(e => { });
   };
+  addImageToList = async () => {
+    try {
+      const res = await addWearables({ name: this.state.cloathesName })
+      console.log(res.wearable.id);
+      await uploadWearableImage(res.wearable.id, this.state.file, percentCompleted => {
+        this.setState({
+          uploadingProgressText: percentCompleted + "%"
+        });
+      });
+    } catch (e) {
+      showSnackbar({
+        text: e.message
+      });
+    }
 
-  addImageToList = () => {
     const uploadedImageObject = {
       id: Math.floor(Math.random() * 90 + 10),
       name: this.state.cloathesName,
-      url: this.state.file.path
+      url: this.state.file.path,
+      status_type: 1
     };
-    this.props.addImageDetails(uploadedImageObject);
+    this.props.addImageDetails(uploadedImageObject); // send to parent
     this.setState({ isModalVisible: false });
   };
   render() {
@@ -99,7 +133,7 @@ class CloathesImageUploader extends React.Component {
             {file && (
               <Image
                 style={styles.uploadImage}
-                source={{ uri: file.path }}
+                source={{ uri: file.uri }}
                 resizeMode="contain"
               />
             )}
