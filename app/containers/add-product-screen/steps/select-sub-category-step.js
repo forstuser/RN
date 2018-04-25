@@ -20,7 +20,7 @@ import { getReferenceDataCategories } from "../../../api";
 import LoadingOverlay from "../../../components/loading-overlay";
 import SelectOrCreateItem from "../../../components/select-or-create-item";
 
-import Step from "./step";
+import Step from "../../../components/step";
 
 class SelectSubCategoryStep extends React.Component {
   constructor(props) {

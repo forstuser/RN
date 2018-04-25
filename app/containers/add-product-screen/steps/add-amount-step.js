@@ -19,14 +19,14 @@ import LoadingOverlay from "../../../components/loading-overlay";
 import SelectOrCreateItem from "../../../components/select-or-create-item";
 import CustomTextInput from "../../../components/form-elements/text-input";
 
-import Step from "./step";
+import Step from "../../../components/step";
 
 class AddAmountStep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      value: props.product.value || ''
+      value: props.product.value || ""
     };
   }
 
@@ -35,14 +35,20 @@ class AddAmountStep extends React.Component {
   }
 
   onPressNext = async () => {
-    const { mainCategoryId, category, product, onStepDone, skippable } = this.props;
+    const {
+      mainCategoryId,
+      category,
+      product,
+      onStepDone,
+      skippable
+    } = this.props;
     const { value } = this.state;
     if ((!value || !value.trim()) && !skippable) {
-      return showSnackbar({ text: 'Please enter amount first' })
+      return showSnackbar({ text: "Please enter amount first" });
     }
     this.setState({
       isLoading: true
-    })
+    });
     try {
       const res = await updateProduct({
         mainCategoryId: mainCategoryId,
@@ -59,7 +65,7 @@ class AddAmountStep extends React.Component {
     } finally {
       this.setState({
         isLoading: false
-      })
+      });
     }
   };
 
@@ -76,13 +82,22 @@ class AddAmountStep extends React.Component {
       >
         <View style={{ padding: 20 }}>
           <CustomTextInput
-            ref={ref => this.input = ref}
-            placeholder={'Enter Amount Here'}
+            ref={ref => (this.input = ref)}
+            placeholder={"Enter Amount Here"}
             value={value ? String(value) : ""}
             onChangeText={value => this.setState({ value })}
             keyboardType="numeric"
           />
-          <Button onPress={this.onPressNext} text='Next' style={{ width: 100, height: 40, alignSelf: 'center', marginTop: 20 }} />
+          <Button
+            onPress={this.onPressNext}
+            text="Next"
+            style={{
+              width: 100,
+              height: 40,
+              alignSelf: "center",
+              marginTop: 20
+            }}
+          />
         </View>
       </Step>
     );

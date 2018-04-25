@@ -18,7 +18,7 @@ import { getReferenceDataCategories, initProduct } from "../../../api";
 
 import SelectModal from "../../../components/select-modal";
 
-import Step from "./step";
+import Step from "../../../components/step";
 
 class SelectCategoryStep extends React.Component {
   constructor(props) {

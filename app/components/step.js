@@ -2,13 +2,21 @@ import React from "react";
 import { StyleSheet, View, Platform, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-import LoadingOverlay from "../../../components/loading-overlay";
-import { Text, ScreenContainer } from "../../../elements";
-import { colors } from "../../../theme";
+import LoadingOverlay from "./loading-overlay";
+import { Text, ScreenContainer } from "../elements";
+import { colors } from "../theme";
 
 class Step extends React.Component {
   render() {
-    const { onBackPress, onSkipPress, title, subtitle, skippable = false, children, showLoader = false } = this.props;
+    const {
+      onBackPress,
+      onSkipPress,
+      title,
+      subtitle,
+      skippable = false,
+      children,
+      showLoader = false
+    } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -19,12 +27,17 @@ class Step extends React.Component {
             <Text weight="Bold" numberOfLines={1} style={styles.title}>
               {title}
             </Text>
-            {subtitle && <Text numberOfLines={2} style={styles.subtitle}>
-              {subtitle}
-            </Text>}
+            {subtitle && (
+              <Text numberOfLines={2} style={styles.subtitle}>
+                {subtitle}
+              </Text>
+            )}
           </View>
           {skippable && (
-            <TouchableOpacity style={styles.skipBtn} onPress={() => onSkipPress()}>
+            <TouchableOpacity
+              style={styles.skipBtn}
+              onPress={() => onSkipPress()}
+            >
               <Text weight="Bold" style={styles.skipText}>
                 SKIP
               </Text>
@@ -62,13 +75,13 @@ const styles = StyleSheet.create({
   },
   titlesContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center"
   },
   title: {
-    fontSize: 16,
+    fontSize: 16
   },
   subtitle: {
-    fontSize: 12,
+    fontSize: 12
   },
   skipBtn: {
     paddingHorizontal: 16,

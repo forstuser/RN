@@ -536,8 +536,8 @@ export default {
   calendar_service_screen_price: "Price",
   calendar_service_screen_total_calculated_amount: "Total Amount",
   calendar_service_screen_total_paid_amount: "Total Paid",
-  calendar_service_screen_unit_price: "Unit Price (avg)",
-  calendar_service_screen_unit_price_not_avg: "Unit Price ",
+  calendar_service_screen_unit_price_avg: "Unit Price (avg)",
+  calendar_service_screen_unit_price: "Unit Price ",
   calendar_service_screen_quantity: "Quantity",
   calendar_service_screen_attendance: "Attendance",
   calendar_service_screen_payments: "Payments",
@@ -652,8 +652,7 @@ export default {
     "Select Medical Documents Type",
   add_edit_expense_screen_title_select_health_expense:
     "Select Healthcare Expense Category",
-  add_edit_expense_screen_title_select_personal_doc:
-    "Select Personal Doc Type",
+  add_edit_expense_screen_title_select_personal_doc: "Select Personal Doc Type",
 
   //faqs
   faq_question_1: "What is BinBill?",

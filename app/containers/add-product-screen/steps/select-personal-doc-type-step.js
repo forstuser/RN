@@ -19,7 +19,7 @@ import LoadingOverlay from "../../../components/loading-overlay";
 import SelectOrCreateItem from "../../../components/select-or-create-item";
 import CustomTextInput from "../../../components/form-elements/text-input";
 
-import Step from "./step";
+import Step from "../../../components/step";
 
 class AddAmountStep extends React.Component {
   constructor(props) {

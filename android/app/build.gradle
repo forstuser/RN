@@ -119,8 +119,8 @@ android {
         applicationId "com.bin.binbillcustomer"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 8020002
-        versionName "2.0.2"
+        versionCode 8020003
+        versionName "2.0.3"
         multiDexEnabled true
         ndk {
 //            abiFilters "armeabi-v7a"
@@ -172,6 +172,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
         debug {
+            ext.enableCrashlytics = false
             debuggable true
         }
     }
