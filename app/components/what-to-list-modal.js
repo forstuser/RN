@@ -1,12 +1,19 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  Platform
+} from "react-native";
 import { Text, Button } from "../elements";
 import Modal from "react-native-modal";
 import { colors } from "../theme";
 import Icon from "react-native-vector-icons/Ionicons";
-import { API_BASE_URL } from "../api";
+import { API_BASE_URL, addUserCreatedMeals } from "../api";
 import { SCREENS } from "../constants";
 import CustomTextInput from "./form-elements/text-input";
+import { showSnackbar } from "../containers/snackbar";
 const tick = require("../images/tick.png");
 
 class WhatToListModal extends React.Component {
@@ -14,7 +21,8 @@ class WhatToListModal extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      list: [{ name: "" }]
+      list: [""],
+      isLoading: false
     };
   }
 
@@ -30,53 +38,66 @@ class WhatToListModal extends React.Component {
 
   addRow = () => {
     this.setState({
-      list: this.state.list.concat([{ name: "" }])
+      list: [...this.state.list, ""]
     });
   };
 
-  textChange = (name, index) => {
-    console.log(name, index, "name and index");
+  textChange = (text, index) => {
     const newList = [...this.state.list];
-    newList[index].name = name;
+    newList[index] = text;
     this.setState({
       list: newList
     });
-    console.log(this.state.list);
   };
 
-  onSaveBtn = () => {
-    const itemList = this.state.list.map(function(item) {
-      item.id = Math.floor(Math.random() * 90 + 10);
-      return item;
+  onSaveBtn = async () => {
+    this.setState({
+      isLoading: true
     });
-
-    this.props.addItems(itemList);
-    this.setState({ visible: false });
+    try {
+      const res = await addUserCreatedMeals({
+        meals: this.state.list.filter(item => item && item.trim().length > 0),
+        stateId: this.props.stateId
+      });
+      this.props.addItems(res.mealList);
+      this.setState({ visible: false, list: [""] });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({
+        isLoading: false
+      });
+    }
   };
 
   render() {
     const { list, visible } = this.state;
     const { navigator } = this.props;
     return (
-      <Modal isVisible={visible}>
+      <Modal
+        isVisible={visible}
+        onBackButtonPress={this.hide}
+        avoidKeyboard={Platform.OS == "ios"}
+      >
         <View style={styles.finishModal}>
           <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
-            <Icon name="md-close" size={20} color={colors.mainText} />
+            <Icon name="md-close" size={30} color={colors.mainText} />
           </TouchableOpacity>
-          {this.state.list.map((item, index) => (
-            <CustomTextInput
-              placeholder="Add Item"
-              underlineColorAndroid="transparent"
-              style={{ marginTop: 15 }}
-              value={item}
-              onChangeText={name => this.textChange(name, index)}
-            />
-          ))}
+          <View style={{ marginTop: 30 }}>
+            {this.state.list.map((item, index) => (
+              <CustomTextInput
+                placeholder="Enter Item Name"
+                underlineColorAndroid="transparent"
+                value={item}
+                onChangeText={text => this.textChange(text, index)}
+              />
+            ))}
+          </View>
           <TouchableOpacity onPress={this.addRow}>
             <Text
+              weight="Medium"
               style={{
-                textAlign: "left",
-                marginBottom: 15,
+                marginBottom: 25,
                 color: "#ff732e"
               }}
             >
@@ -102,7 +123,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 10,
     justifyContent: "center",
-    alignItems: "center",
     width: 300,
     alignSelf: "center"
   },
@@ -116,7 +136,9 @@ const styles = StyleSheet.create({
     textAlign: "left"
   },
   finishBtn: {
-    width: "100%"
+    width: 120,
+    height: 40,
+    alignSelf: "center"
   }
 });
 
