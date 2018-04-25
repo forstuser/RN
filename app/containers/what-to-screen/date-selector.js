@@ -20,11 +20,7 @@ const DateSelector = ({
       end={{ x: 0.9, y: 0.9 }}
       colors={[colors.aquaBlue, colors.mainBlue]}
     >
-      <TouchableOpacity
-      // onPress={() =>
-      //   onPaymentDetailIndexChange(activePaymentDetailIndex + 1)
-      // }
-      >
+      <TouchableOpacity onPress={onLeftArrowPress}>
         <View
           style={[
             styles.arrow
@@ -41,11 +37,7 @@ const DateSelector = ({
         {moment(date).format("DD MMMM, YYYY")}
       </Text>
       <View style={styles.arrows}>
-        <TouchableOpacity
-        // onPress={() =>
-        //   onPaymentDetailIndexChange(activePaymentDetailIndex - 1)
-        // }
-        >
+        <TouchableOpacity onPress={onRightArrowPress}>
           <View
             style={[
               styles.arrow

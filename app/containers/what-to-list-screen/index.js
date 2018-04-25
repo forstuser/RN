@@ -32,7 +32,11 @@ const headerBg = require("../../images/product_card_header_bg.png");
 
 class WhatToListScreen extends Component {
   static navigatorStyle = {
-    tabBarHidden: true
+    tabBarHidden: true,
+    drawUnderNavBar: false,
+    navBarTranslucent: false,
+    navBarTransparent: false,
+    navBarBackgroundColor: "#fff"
   };
   state = {
     text: "",

@@ -19,7 +19,9 @@ import {
   API_BASE_URL,
   getMealListByDate,
   addMealForADate,
-  removeMealForADate
+  removeMealForADate,
+  getTodoListByDate,
+  getClothesListByDate
 } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -86,6 +88,7 @@ class DishCalendarScreen extends Component {
   };
 
   state = {
+    isScreenVisible: true,
     image: cooking,
     text: "",
     date: moment().format("YYYY-MM-DD"),
@@ -121,11 +124,18 @@ class DishCalendarScreen extends Component {
     this.props.navigator.setTitle({
       title
     });
-
-    this.fetchItems();
   }
 
   onNavigatorEvent = event => {
+    switch (event.id) {
+      case "didAppear":
+        this.setState({ isScreenVisible: true });
+        this.fetchItems();
+      // case "didDisappear":
+      //   console.log("willDisappear");
+      //   this.setState({ isScreenVisible: false });
+      //   this.isScreenVisible = false;
+    }
     if (event.type == "DeepLink") {
       if (event.link == "what-to-nav-options-btn") {
         this.editOptions.show();
@@ -134,6 +144,10 @@ class DishCalendarScreen extends Component {
   };
 
   handleScroll = event => {
+    console.log("this.state.isScreenVisible: ", this.state.isScreenVisible);
+    if (!this.state.isScreenVisible) {
+      return;
+    }
     if (event.nativeEvent.contentOffset.y > 0) {
       this.props.navigator.setStyle({
         navBarTransparent: false,
@@ -159,14 +173,74 @@ class DishCalendarScreen extends Component {
     }
   };
 
+  nextDate = () => {
+    this.setState(
+      {
+        date: moment(this.state.date)
+          .add(1, "days")
+          .format("YYYY-MM-DD")
+      },
+      () => {
+        this.fetchItems();
+      }
+    );
+  };
+
+  previousDate = () => {
+    this.setState(
+      {
+        date: moment(this.state.date)
+          .subtract(1, "days")
+          .format("YYYY-MM-DD")
+      },
+      () => {
+        this.fetchItems();
+      }
+    );
+  };
+
   fetchItems = async () => {
     this.setState({
       isLoading: true
     });
     try {
-      const res = await getMealListByDate(this.state.date);
-      this.setState({
-        items: res.mealList
+      let res;
+      let newState = {};
+
+      switch (this.props.type) {
+        case EASY_LIFE_TYPES.WHAT_TO_COOK:
+          res = await getMealListByDate(this.state.date);
+          newState = {
+            items: res.mealList,
+            selectedItemIds: res.mealList
+              .filter(item => moment(this.state.date).isSame(item.current_date))
+              .map(item => item.id)
+          };
+          break;
+        case EASY_LIFE_TYPES.WHAT_TO_DO:
+          res = await getTodoListByDate(this.state.date);
+          newState = {
+            items: res.todoList,
+            selectedItemIds: res.todoList
+              .filter(item => moment(this.state.date).isSame(item.current_date))
+              .map(item => item.id)
+          };
+          break;
+        case EASY_LIFE_TYPES.WHAT_TO_WEAR:
+          res = await getClothesListByDate(this.state.date);
+          newState = {
+            items: res.wearableList,
+            selectedItemIds: res.wearableList
+              .filter(item => moment(this.state.date).isSame(item.current_date))
+              .map(item => item.id)
+          };
+          break;
+      }
+
+      this.setState(newState, () => {
+        if (this.state.items.length == 0) {
+          this.showCreateListAlert();
+        }
       });
     } catch (e) {
     } finally {
@@ -174,6 +248,32 @@ class DishCalendarScreen extends Component {
         isLoading: false
       });
     }
+  };
+
+  showCreateListAlert = () => {
+    let listName = "dishes";
+    if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_DO) {
+      listName = "to-do";
+    } else if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
+      listName = "wearables";
+    }
+    Alert.alert(
+      "Create List First",
+      `You don't have any items in your ${listName} list, please create your list first`,
+      [
+        {
+          text: "Create Your List",
+          onPress: this.goToEditScreen,
+          style: "cancel"
+        },
+        {
+          text: "Go Back",
+          onPress: () => {
+            this.props.navigator.pop();
+          }
+        }
+      ]
+    );
   };
 
   toggleItemSelect = async item => {
@@ -220,13 +320,33 @@ class DishCalendarScreen extends Component {
   addItems = items => {
     this.setState(
       {
-        items: [...this.state.items, ...items],
+        items: [...items, ...this.state.items],
         selectedItemIds: [
           ...this.state.selectedItemIds,
           ...items.map(item => item.id)
         ]
       },
-      () => {}
+      () => {
+        this.scrollView.scrollTo({ y: 0, animated: true });
+      }
+    );
+  };
+
+  goToEditScreen = () => {
+    const { items } = this.state;
+    this.setState(
+      {
+        isScreenVisible: false
+      },
+      () => {
+        this.props.navigator.push({
+          screen: SCREENS.WHAT_TO_LIST_SCREEN,
+          passProps: {
+            type: this.props.type,
+            stateId: items.length > 0 ? items[0].state_id : null
+          }
+        });
+      }
     );
   };
 
@@ -234,6 +354,7 @@ class DishCalendarScreen extends Component {
     const { type } = this.props;
     switch (index) {
       case 0:
+        this.goToEditScreen();
         break;
     }
   };
@@ -242,13 +363,20 @@ class DishCalendarScreen extends Component {
     const { isLoading, date, image, text, items, selectedItemIds } = this.state;
     return (
       <ScreenContainer style={styles.container}>
-        <ScrollView onScroll={this.handleScroll}>
+        <ScrollView
+          onScroll={this.handleScroll}
+          ref={ref => (this.scrollView = ref)}
+        >
           <View style={styles.header}>
             <Image style={styles.headerBg} source={headerBg} />
             <Image style={styles.image} source={image} />
 
             <View style={styles.dateSelector}>
-              <DateSelector date={date} />
+              <DateSelector
+                date={date}
+                onRightArrowPress={this.nextDate}
+                onLeftArrowPress={this.previousDate}
+              />
             </View>
           </View>
           <View style={styles.body}>
@@ -256,26 +384,34 @@ class DishCalendarScreen extends Component {
             {items.map((item, index) => {
               const isChecked = selectedItemIds.indexOf(item.id) > -1;
               let rightText = "";
-              const diff = moment().diff(item.date, "days");
-              if (!diff) {
-                rightText = "Today";
-              } else if (diff == 1) {
-                rightText = "Yesterday";
-              } else if (diff > 1) {
-                rightText = `${diff} days ago`;
+              if (item.current_date) {
+                const diff = moment()
+                  .startOf("day")
+                  .diff(moment(item.current_date).startOf("day"), "days");
+
+                if (!diff) {
+                  rightText = "Today";
+                } else if (diff == 1) {
+                  rightText = "Yesterday";
+                } else if (diff == -1) {
+                  rightText = "Tomorrow";
+                } else if (diff > 1) {
+                  rightText = `${diff} days ago`;
+                } else if (diff < -1) {
+                  rightText = moment(item.current_date).format("DD MMM, YYYY");
+                }
               }
-              if (date)
-                return (
-                  <View key={item.id} style={styles.item}>
-                    <EasyLifeItem
-                      showCheckbox={false}
-                      text={item.name}
-                      rightText={rightText}
-                      isChecked={isChecked}
-                      onPress={() => this.toggleItemSelect(item)}
-                    />
-                  </View>
-                );
+              return (
+                <View key={item.id} style={styles.item}>
+                  <EasyLifeItem
+                    showCheckbox={false}
+                    text={item.name}
+                    rightText={rightText}
+                    isChecked={isChecked}
+                    onPress={() => this.toggleItemSelect(item)}
+                  />
+                </View>
+              );
             })}
             <AddNewBtn
               style={{ margin: 5 }}

@@ -1357,3 +1357,17 @@ export const addUserCreatedMeals = async ({ meals, stateId }) => {
     }
   });
 };
+
+export const getTodoListByDate = async date => {
+  return await apiRequest({
+    method: "get",
+    url: `/user/todos?current_date=${date}`
+  });
+};
+
+export const getClothesListByDate = async date => {
+  return await apiRequest({
+    method: "get",
+    url: `/wearables?current_date=${date}`
+  });
+};

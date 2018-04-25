@@ -14,6 +14,7 @@ import { API_BASE_URL, addUserCreatedMeals } from "../api";
 import { SCREENS } from "../constants";
 import CustomTextInput from "./form-elements/text-input";
 import { showSnackbar } from "../containers/snackbar";
+import LoadingOverlay from "./loading-overlay";
 const tick = require("../images/tick.png");
 
 class WhatToListModal extends React.Component {
@@ -71,7 +72,7 @@ class WhatToListModal extends React.Component {
   };
 
   render() {
-    const { list, visible } = this.state;
+    const { list, visible, isLoading } = this.state;
     const { navigator } = this.props;
     return (
       <Modal
@@ -110,6 +111,7 @@ class WhatToListModal extends React.Component {
             text="SAVE"
             color="secondary"
           />
+          <LoadingOverlay visible={isLoading} />
         </View>
       </Modal>
     );
