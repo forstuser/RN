@@ -24,6 +24,7 @@ import CloathesImageUploader from "../../components/easy-life-items/cloathes-ima
 import EasyLifeItem from "../../components/easy-life-item";
 import SelectModal from "../../components/select-modal";
 import Icon from "react-native-vector-icons/Ionicons";
+import { showSnackbar } from "../../containers/snackbar";
 
 const cooking = require("../../images/cooking.png");
 const todo = require("../../images/to_do.png");
@@ -140,6 +141,7 @@ class WhatToListScreen extends Component {
   };
   // to wear case
   addItem = item => {
+    console.log("index", item)
     this.setState(
       { items: [...this.state.items, item] },
       () => {
@@ -148,9 +150,19 @@ class WhatToListScreen extends Component {
     );
   };
 
-  addNewItemModelShow = () => {
-    // this.cloathesImageUploader.showActionSheet();
-    this.WhatToListModal.show();
+  onAddNewPress = () => {
+    const { type } = this.props;
+    switch (type) {
+      case EASY_LIFE_TYPES.WHAT_TO_COOK:
+        this.WhatToListModal.show();
+        break;
+      case EASY_LIFE_TYPES.WHAT_TO_DO:
+        // this.cloathesImageUploader.showActionSheet();
+        break;
+      case EASY_LIFE_TYPES.WHAT_TO_WEAR:
+        this.clothesImageUploader.showActionSheet();
+        break;
+    }
   };
   // cook and to do
   addItems = items => {
@@ -172,13 +184,20 @@ class WhatToListScreen extends Component {
   removeItem = async (item) => {
     try {
       await removeMealById({ mealId: item.id });
+      let newSelectedItemIds = [...this.state.selectedItemIds];
+      const idsex = newSelectedItemIds.indexOf(item.id);
+      if (idsex > -1) {
+        newSelectedItemIds.splice(idsex, 1);
+      }
+
       let newItems = [...this.state.items];
       const idx = newItems.indexOf(item);
       if (idx > -1) {
         newItems.splice(idx, 1);
       }
       this.setState({
-        items: newItems
+        items: newItems,
+        selectedItemIds: newSelectedItemIds
       });
     } catch (e) {
       showSnackbar({
@@ -214,14 +233,14 @@ class WhatToListScreen extends Component {
 
   addItemsToMyList = async () => {
     console.log("selectedItemIds", this.state.selectedItemIds)
-    // try {
-    //   await saveMyList({ selectedItemIds: this.state.selectedItemIds, selectedState: this.state.selectedState.id });
-    //   this.props.navigator.pop();
-    // } catch (e) {
-    //   showSnackbar({
-    //     text: e.message
-    //   });
-    // }
+    try {
+      await saveMyList({ selectedItemIds: this.state.selectedItemIds, selectedState: this.state.selectedState.id });
+      this.props.navigator.pop();
+    } catch (e) {
+      showSnackbar({
+        text: e.message
+      });
+    }
   };
 
   render() {
@@ -318,11 +337,11 @@ class WhatToListScreen extends Component {
               })}
           </ScrollView>
           <View style={styles.addNewBtn}>
-            <AddNewBtn text={btnText} onPress={this.addNewItemModelShow} />
+            <AddNewBtn text={btnText} onPress={this.onAddNewPress} />
           </View>
           <CloathesImageUploader
-            ref={ref => (this.cloathesImageUploader = ref)}
-            navigator={navigator}
+            ref={ref => (this.clothesImageUploader = ref)}
+            navigator={this.props.navigator}
             addImageDetails={this.addItem}
           />
           <WhatToListModal
