@@ -72,7 +72,27 @@ class FaqScreen extends Component {
         {
           question: I18n.t("faq_question_15"),
           answer: I18n.t("faq_answer_15")
-        }
+        },
+        {
+          question: I18n.t("faq_question_16"),
+          answer: I18n.t("faq_answer_16")
+        },
+        {
+          question: I18n.t("faq_question_17"),
+          answer: I18n.t("faq_answer_17")
+        },
+        {
+          question: I18n.t("faq_question_18"),
+          answer: I18n.t("faq_answer_18")
+        },
+        {
+          question: I18n.t("faq_question_19"),
+          answer: I18n.t("faq_answer_19")
+        },
+        {
+          question: I18n.t("faq_question_20"),
+          answer: I18n.t("faq_answer_20")
+        },
       ]
     };
   }
@@ -80,6 +100,12 @@ class FaqScreen extends Component {
     this.props.navigator.setTitle({
       title: I18n.t("faq_screen_title")
     });
+    if (this.props.scrollToBottom) {
+      setTimeout(() => {
+        this.faqList.scrollToEnd()
+      }, 1000
+      )
+    }
   }
 
   render() {
@@ -88,6 +114,7 @@ class FaqScreen extends Component {
         <FlatList
           data={this.state.faqs}
           keyExtractor={(item, index) => index}
+          ref={ref => this.faqList = ref}
           renderItem={({ item }) => (
             <Collapsible headerText={item.question} weight="Medium">
               <Text style={styles.text}>{item.answer}</Text>

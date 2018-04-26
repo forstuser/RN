@@ -54,6 +54,7 @@ class WhatToListScreen extends Component {
   state = {
     text: "",
     btnText: "",
+    systemListTitle: "",
     image: cooking,
     items: [],
     selectedItemIds: [],
@@ -62,7 +63,7 @@ class WhatToListScreen extends Component {
     checkAll: false,
     selectedState: null,
     isLoading: true,
-    error: null
+    error: null,
   };
 
   componentDidMount() {
@@ -71,25 +72,29 @@ class WhatToListScreen extends Component {
     let title = "What's Cooking?";
     let text = "A comprehensive list of local and popular dishes can be selected for your state or add your own dish to help you decide what to cook for the day";
     let image = cooking;
+    let systemListTitle = "List of Meals";
     let btnText = "Add New Dish";
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_DO:
         title = "What to Do?";
-        text = "Plan your day by selecting or adding tasks to be completed for the day.";
+        text = "Plan your day by selecting or adding tasks to be completed for the day";
         image = todo;
         btnText = `Add a New ‘To Do’ Item`;
+        systemListTitle = "List of Tasks"
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
         title = "What to Wear?";
-        text = "Plan your wardrobe by selecting or adding items to be worn for the day.";
+        text = "Plan your wardrobe by selecting or adding items to be worn";
         image = whatToWear;
         btnText = "Add New Item";
+        systemListTitle = ""
         break;
     }
     this.setState({
       image,
       text,
-      btnText
+      btnText,
+      systemListTitle
     });
     this.props.navigator.setTitle({
       title
@@ -209,7 +214,6 @@ class WhatToListScreen extends Component {
   };
   // cook and to do
   addItems = items => {
-    console.log("index", items);
     this.setState(
       {
         items: [...this.state.items, ...items],
@@ -349,6 +353,12 @@ class WhatToListScreen extends Component {
     }
   };
 
+  goToFaq = () => {
+    this.props.navigator.push({
+      screen: SCREENS.FAQS_SCREEN,
+      passProps: { scrollToBottom: true }
+    })
+  }
   render() {
     const { type } = this.props;
     const {
@@ -361,7 +371,8 @@ class WhatToListScreen extends Component {
       selectedState,
       isLoading,
       checkAll,
-      error
+      error,
+      systemListTitle
     } = this.state;
     return (
       <View style={{ flex: 1 }}>
@@ -385,12 +396,11 @@ class WhatToListScreen extends Component {
                 beforeModalOpen={this.beforeOpenStatesModal}
               />
               {selectedState && (
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ color: colors.mainText }}>is Veg ?</Text><Switch onValueChange={this.toggleVegOrNonveg} value={isVeg} />
+                <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
                   <TouchableOpacity
                     style={styles.checkboxWrapper}
                     onPress={this.checkAllBox}
-                  ><Text style={{ color: colors.mainText }}> Select All </Text>
+                  >
                     <View style={styles.box}>
                       {checkAll && (
                         <Icon
@@ -400,7 +410,12 @@ class WhatToListScreen extends Component {
                         />
                       )}
                     </View>
+                    <Text style={{ color: colors.mainText }}> Select All </Text>
                   </TouchableOpacity>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ color: colors.mainText }}>Veg Only </Text>
+                    <Switch onValueChange={this.toggleVegOrNonveg} value={isVeg} />
+                  </View>
                 </View>
               )}
             </View>
@@ -408,12 +423,21 @@ class WhatToListScreen extends Component {
           {items.length == 0 && (
             <View style={styles.container}>
               <Image style={styles.blankPageImage} source={image} />
-              <Text weight="Medium" style={styles.blankPageText}>
-                {text}
-              </Text>
+              <View style={styles.blankPageView}>
+                <Text weight="Medium" style={styles.blankPageText}>
+                  {text}
+                </Text>
+              </View>
+              <Text style={styles.faqText} weight="Medium">You can also create your own list without selecting the State</Text>
+              <View style={styles.faqView}>
+                <Text style={styles.faqText} weight="Medium">To know more How it Works,</Text>
+                <TouchableOpacity style={{ paddingVertical: 10 }} onPress={this.goToFaq}>
+                  <Text weight="Medium" style={{ color: colors.pinkishOrange }}> click here</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           )}
-          <ScrollView style={styles.body} ref={ref => (this.scrollView = ref)}>
+          {items.length > 0 && (<ScrollView style={styles.body} ref={ref => (this.scrollView = ref)}>
             {items.filter(item => item.status_type == 11).length > 0 && (
               <Text>User Created</Text>
             )}
@@ -446,7 +470,7 @@ class WhatToListScreen extends Component {
 
             {items.filter(item => item.status_type == 1).length > 0 &&
               type != EASY_LIFE_TYPES.WHAT_TO_WEAR && (
-                <Text>List of Tasks</Text>
+                <Text>{systemListTitle}</Text>
               )}
             {items.length > 0 &&
               items.map((item, index) => {
@@ -475,7 +499,7 @@ class WhatToListScreen extends Component {
                   </View>
                 );
               })}
-          </ScrollView>
+          </ScrollView>)}
           <View style={styles.addNewBtn}>
             <AddNewBtn text={btnText} onPress={this.onAddNewPress} />
           </View>
@@ -516,10 +540,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    alignSelf: "center"
   },
   checkboxWrapper: {
     // width: 150,
+    marginLeft: 14,
     flexDirection: "row",
     // marginBottom: 10
   },
@@ -529,9 +555,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center"
   },
+  blankPageView: {
+    marginTop: 20,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+  },
   blankPageText: {
     fontSize: 14,
-    color: "#9b9b9b"
+    color: "#9b9b9b",
+    textAlign: "center",
+  },
+  faqView: {
+    // flex: 1,
+    flexDirection: 'row',
+    // textAlign: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  faqText: {
+    fontSize: 14,
+    color: "#9b9b9b",
+    textAlign: "center",
   },
   body: {
     flex: 1
@@ -545,7 +592,7 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
     alignItems: "center",
-    borderRadius: 3
+    // borderRadius: 3
   }
 });
 

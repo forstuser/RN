@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#9b9b9b",
     textAlign: "center",
-    marginVertical: 10
+    marginVertical: 10,
+    width: '90%'
   },
   createListBtn: {
     width: 150

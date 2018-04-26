@@ -345,7 +345,7 @@ class SelectCategoryStep extends React.Component {
         break;
       case MAIN_CATEGORY_IDS.PERSONAL:
         title = I18n.t("add_edit_expense_screen_title_select_personal_doc");
-        reasons = []
+        reasons = ["To retrieve your document anytime anywhere"]
         visibleOptions = [
           {
             id: CATEGORY_IDS.PERSONAL.RENT_AGREEMENT,

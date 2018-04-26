@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     right: 0,
     elevation: 2,
     borderRadius: 15,
-    backgroundColor: "red"
+    backgroundColor: colors.pinkishOrange
   },
   checkbox: {
     width: 20,

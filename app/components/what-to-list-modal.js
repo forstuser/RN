@@ -82,7 +82,11 @@ class WhatToListModal extends React.Component {
 
   render() {
     const { list, visible, isLoading } = this.state;
-    const { navigator } = this.props;
+    const { navigator, type } = this.props;
+    let placeHolderText = "Enter Task Name";
+    if (type == EASY_LIFE_TYPES.WHAT_TO_COOK) {
+      placeHolderText = "Enter Meal Name";
+    }
     return (
       <Modal
         isVisible={visible}
@@ -96,7 +100,7 @@ class WhatToListModal extends React.Component {
           <View style={{ marginTop: 30 }}>
             {this.state.list.map((item, index) => (
               <CustomTextInput
-                placeholder="Enter Item Name"
+                placeholder={placeHolderText}
                 underlineColorAndroid="transparent"
                 value={item}
                 onChangeText={text => this.textChange(text, index)}
