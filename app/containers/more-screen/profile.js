@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
   field: {
     padding: 17,
     borderColor: "#ececec",
-    borderTopWidth: 1
+    borderWidth: 1
   },
   verifiedField: {
     backgroundColor: "#f7f7f7",
