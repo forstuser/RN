@@ -100,31 +100,36 @@ class DishCalendarScreen extends Component {
     items: [],
     selectedItemIds: [],
     isLoading: true,
-    error: null
+    error: null,
+    btnText: ""
   };
 
   componentDidMount() {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
     const { type } = this.props;
-    let title = "What to Cook";
-    let text = "Select Dishes that you like";
+    let title = "What's Cooking?";
+    let text = "Select Dishes to be cooked";
     let image = cooking;
+    let btnText = "Add New Dish";
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_DO:
-        title = "What to Do";
-        text = "Select items that you would like to do";
+        title = "What to Do?";
+        text = "Select Tasks to be done";
         image = todo;
+        btnText = `Add a New ‘To Do’ Item`;
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
-        title = "What to Wear";
+        title = "What to Wear?";
         text = "Select items that you would like to wear";
         image = whatToWear;
+        btnText = "Add New Item";
         break;
     }
 
     this.setState({
       image,
-      text
+      text,
+      btnText
     });
 
     this.props.navigator.setTitle({
@@ -260,6 +265,10 @@ class DishCalendarScreen extends Component {
     // this.setState({ isLoading: true });
     try {
       if (idx > -1) {
+        newSelectedItemIds.splice(idx, 1);
+        this.setState({
+          selectedItemIds: newSelectedItemIds
+        });
         switch (this.props.type) {
           case EASY_LIFE_TYPES.WHAT_TO_COOK:
             await removeMealForADate({
@@ -280,9 +289,11 @@ class DishCalendarScreen extends Component {
             });
             break;
         }
-
-        newSelectedItemIds.splice(idx, 1);
       } else {
+        newSelectedItemIds.push(item.id);
+        this.setState({
+          selectedItemIds: newSelectedItemIds
+        });
         switch (this.props.type) {
           case EASY_LIFE_TYPES.WHAT_TO_COOK:
             await addMealForADate({ mealId: item.id, date: this.state.date });
@@ -300,12 +311,7 @@ class DishCalendarScreen extends Component {
             });
             break;
         }
-        newSelectedItemIds.push(item.id);
       }
-
-      this.setState({
-        selectedItemIds: newSelectedItemIds
-      });
     } catch (e) {
       showSnackbar({ text: e.message });
     } finally {
@@ -331,7 +337,8 @@ class DishCalendarScreen extends Component {
   addItem = item => {
     this.setState(
       {
-        items: [...items, this.state.item]
+        items: [item, ...this.state.items],
+        selectedItemIds: [item.id, ...this.state.selectedItemIds]
       },
       async () => {
         this.scrollView.scrollTo({ y: 0, animated: true });
@@ -342,7 +349,11 @@ class DishCalendarScreen extends Component {
   addItems = items => {
     this.setState(
       {
-        items: [...items, ...this.state.items]
+        items: [...items, ...this.state.items],
+        selectedItemIds: [
+          ...items.map(item => item.id),
+          ...this.state.selectedItemIds
+        ]
       },
       async () => {
         this.scrollView.scrollTo({ y: 0, animated: true });
@@ -385,7 +396,8 @@ class DishCalendarScreen extends Component {
       text,
       items,
       selectedItemIds,
-      error
+      error,
+      btnText
     } = this.state;
     return (
       <ScreenContainer style={styles.container}>
@@ -454,12 +466,14 @@ class DishCalendarScreen extends Component {
               })}
               <AddNewBtn
                 style={{ margin: 5 }}
-                text={"Add New Item"}
+                text={btnText}
                 onPress={this.onAddNewPress}
               />
               <ClothesImageUploader
                 ref={ref => (this.clothesImageUploader = ref)}
                 navigator={navigator}
+                addImageDetails={this.addItem}
+                date={date}
               />
               <WhatToListModal
                 ref={ref => (this.WhatToListModal = ref)}
@@ -467,6 +481,7 @@ class DishCalendarScreen extends Component {
                 addItems={this.addItems}
                 type={this.props.type}
                 stateId={items.length > 0 ? items[0].state_id : null}
+                date={date}
               />
             </View>
           </ScrollView>

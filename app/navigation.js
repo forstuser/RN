@@ -142,7 +142,7 @@ export const openAppScreen = opts => {
         icon: require("./images/ic_nav_ehome_off.png")
       },
       {
-        label: "Attendance",
+        label: "EazyDay",
         // screen: SCREENS.MY_CALENDAR_SCREEN,
         screen: SCREENS.EASY_LIFE_SCREEN,
         icon: require("./images/ic_calendar.png")

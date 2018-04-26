@@ -92,7 +92,10 @@ class ClothesImageUploader extends React.Component {
       isLoading: true
     });
     try {
-      const res1 = await addWearables({ name: this.state.clothesName });
+      const res1 = await addWearables({
+        name: this.state.clothesName,
+        date: this.props.date
+      });
       console.log(res1.wearable.id);
       const res2 = await uploadWearableImage(
         res1.wearable.id,

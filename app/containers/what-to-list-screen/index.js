@@ -68,22 +68,25 @@ class WhatToListScreen extends Component {
   componentDidMount() {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
     const { type } = this.props;
-    let title = "What to Cook";
-    let text = "Select Dishes that you like";
+    let title = "What's Cooking?";
+    let text =
+      "A comprehensive list of local and popular dishes can be selected for your state or add your own dish to help you decide what to cook for the day";
     let image = cooking;
     let btnText = "Add New Dish";
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_DO:
-        title = "What to Do";
-        text = "Select items that you would like to do";
+        title = "What to Do?";
+        text =
+          "Plan your day by selecting or adding tasks to be completed for the day.";
         image = todo;
-        btnText = "Add a New To Do Item";
+        btnText = `Add a New ‘To Do’ Item`;
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
-        title = "What to Wear Today";
-        text = "Select items that you would like to wear";
+        title = "What to Wear?";
+        text =
+          "Plan your wardrobe by selecting or adding items to be worn for the day.";
         image = whatToWear;
-        btnText = "Add New Clothing Item";
+        btnText = "Add New Item";
         break;
     }
     this.setState({
@@ -360,8 +363,8 @@ class WhatToListScreen extends Component {
       isVeg,
       selectedState,
       isLoading,
-      error,
-      checkAll
+      checkAll,
+      error
     } = this.state;
     return (
       <View style={{ flex: 1 }}>
@@ -451,7 +454,7 @@ class WhatToListScreen extends Component {
 
             {items.filter(item => item.status_type == 1).length > 0 &&
               type != EASY_LIFE_TYPES.WHAT_TO_WEAR && (
-                <Text>System Provided</Text>
+                <Text>List of Tasks</Text>
               )}
             {items.length > 0 &&
               items.map((item, index) => {

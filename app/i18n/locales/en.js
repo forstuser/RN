@@ -494,7 +494,7 @@ export default {
   //my calendar screen
   my_calendar: "Recent Attendance",
   my_calendar_screen_title: "Attendance",
-  my_calendar_screen_add_btn: "Add Attendance Item",
+  my_calendar_screen_add_btn: "Add Service",
   my_calendar_screen_empty_screen_msg:
     "Mark attendance and payouts for all your household services like milkman, maid, newspaper wala here.\n\n\nClick below to:",
   my_calendar_screen_total_days: "Total Days",
@@ -722,7 +722,7 @@ export default {
   ehome_tip:
     "Click here to find your saved Bills, Expenses, Documents in your eHome.",
   attendance_tip:
-    "Mark attendance and payouts for all your household services like milkman, maid, newspaper wala here.",
+    "Plan your Day for tasks to be done, clothes to wear and dishes to be cooked. Also track attendance & payouts for all household services.",
   do_you_know_tip:
     "Discover amazing facts & tips related to brands and lifestyle that would fill you with awe! ",
   asc_tip:

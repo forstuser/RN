@@ -43,7 +43,7 @@ class WhatToListEmptyState extends React.Component {
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
         text =
-          "You don't have any items in your cloths list, please create your list first";
+          "You don’t have any items in your wardrobe list, please create your list first";
         image = whatToWear;
         break;
     }
