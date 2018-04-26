@@ -43,7 +43,6 @@ class HealthcareInsuranceForm extends React.Component {
 
   componentDidMount() {
     this.fetchTypes();
-    this.updateStateFromProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -100,9 +99,14 @@ class HealthcareInsuranceForm extends React.Component {
   fetchTypes = async () => {
     try {
       const res = await getReferenceDataForCategory(this.props.categoryId);
-      this.setState({
-        types: res.categories[0].subCategories
-      });
+      this.setState(
+        {
+          types: res.categories[0].subCategories
+        },
+        () => {
+          this.updateStateFromProps(this.props);
+        }
+      );
     } catch (e) {
       console.log(e);
     }
@@ -195,7 +199,9 @@ class HealthcareInsuranceForm extends React.Component {
     } = this.state;
     return (
       <View style={styles.container}>
-        <Text weight="Medium" style={styles.headerText}>{I18n.t("expense_forms_healthcare")}</Text>
+        <Text weight="Medium" style={styles.headerText}>
+          {I18n.t("expense_forms_healthcare")}
+        </Text>
         <View style={styles.body}>
           {showFullForm && (
             <CustomTextInput
@@ -297,7 +303,6 @@ class HealthcareInsuranceForm extends React.Component {
                     onChangeText={value => this.setState({ value })}
                     keyboardType="numeric"
                   />
-
                   <CustomTextInput
                     placeholder={I18n.t("expense_forms_healthcare_coverage")}
                     value={amountInsured > 0 ? String(amountInsured) : ""}
@@ -316,13 +321,12 @@ class HealthcareInsuranceForm extends React.Component {
           placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
           placeholder2Color={colors.mainBlue}
           productId={productId}
-          itemId={insuranceId}
+          itemId={productId}
           jobId={jobId ? jobId : null}
-          type={3}
+          type={1}
           copies={copies}
           onUpload={uploadResult => {
             this.setState({
-              insuranceId: uploadResult.insurance.id,
               copies: uploadResult.product.copies
             });
           }}

@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions
+} from "react-native";
 import moment from "moment";
 import _ from "lodash";
 import getDirections from "react-native-google-maps-directions";
@@ -12,8 +18,11 @@ import { Text, Button } from "../../../../elements";
 import { colors } from "../../../../theme";
 import I18n from "../../../../i18n";
 
+const SCREEN_WIDTH = Dimensions.get("window").width;
+
 import {
   MAIN_CATEGORY_IDS,
+  CATEGORY_IDS,
   SCREENS,
   WARRANTY_TYPES
 } from "../../../../constants";
@@ -28,11 +37,20 @@ class InsuranceDetails extends React.Component {
     const { insuranceDetails } = product;
 
     const InsuranceItem = ({ insurance }) => (
-      <View style={styles.card}>
+      <View
+        style={[
+          styles.card,
+          product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE
+            ? styles.fullCard
+            : {}
+        ]}
+      >
         <EditOptionRow
           text={I18n.t("product_details_screen_insurance_details")}
           onEditPress={() => {
-            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'insurance' });
+            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, {
+              entity: "insurance"
+            });
             this.props.openAddEditInsuranceScreen(insurance);
           }}
         />
@@ -43,12 +61,14 @@ class InsuranceDetails extends React.Component {
             moment(insurance.expiryDate).format("DD MMM YYYY")
           }
         />
-        <ViewBillRow
-          expiryDate={insurance.expiryDate}
-          purchaseDate={insurance.purchaseDate}
-          docType="Insurance"
-          copies={insurance.copies || []}
-        />
+        {(insurance.copies || []).length > 0 && (
+          <ViewBillRow
+            expiryDate={insurance.expiryDate}
+            purchaseDate={insurance.purchaseDate}
+            docType="Insurance"
+            copies={insurance.copies || []}
+          />
+        )}
         <KeyValueItem
           keyText={I18n.t("product_details_screen_insurance_provider")}
           ValueComponent={() => (
@@ -100,16 +120,14 @@ class InsuranceDetails extends React.Component {
       <View style={styles.container}>
         <ScrollView horizontal={true} style={styles.slider}>
           {insuranceDetails.map((insurance, index) => (
-            <InsuranceItem
-              key={index}
-              insurance={insurance}
-              insuranceType={WARRANTY_TYPES.NORMAL}
-            />
+            <InsuranceItem key={index} insurance={insurance} />
           ))}
-          <AddItemBtn
-            text={I18n.t("product_details_screen_add_insurance")}
-            onPress={() => this.props.openAddEditInsuranceScreen(null)}
-          />
+          {product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE && (
+            <AddItemBtn
+              text={I18n.t("product_details_screen_add_insurance")}
+              onPress={() => this.props.openAddEditInsuranceScreen(null)}
+            />
+          )}
         </ScrollView>
       </View>
     );
@@ -134,6 +152,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 1
+  },
+  fullCard: {
+    width: SCREEN_WIDTH - 40,
+    marginRight: 0
   }
 });
 

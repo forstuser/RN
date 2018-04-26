@@ -21,7 +21,7 @@ import Modal from "react-native-modal";
 
 import ActionSheet from "react-native-actionsheet";
 
-import { SCREENS, MAIN_CATEGORY_IDS } from "../../constants";
+import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
 import { API_BASE_URL, getProductDetails, deleteProduct } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 
@@ -117,9 +117,9 @@ class ProductDetailsScreen extends Component {
   }
 
   async componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("product_details_screen_title")
-    });
+    // this.props.navigator.setTitle({
+    //   title: I18n.t("product_details_screen_title")
+    // });
 
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
@@ -211,7 +211,7 @@ class ProductDetailsScreen extends Component {
       const { product } = res;
       if (
         product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
-        product.categoryId == 86
+        product.categoryId == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC
       ) {
         this.props.navigator.setStyle({
           drawUnderNavBar: false,
@@ -245,6 +245,25 @@ class ProductDetailsScreen extends Component {
           addImageText = "Edit";
         }
       }
+
+      let title = I18n.t("product_details_screen_title");
+      switch (product.categoryId) {
+        case CATEGORY_IDS.HEALTHCARE.INSURANCE:
+          title = "Insurance Details";
+          break;
+        case CATEGORY_IDS.PERSONAL.VISITING_CARD:
+          title = "Visiting Card Details";
+          break;
+        case CATEGORY_IDS.PERSONAL.RENT_AGREEMENT:
+        case CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC:
+        case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
+          title = "Document Details";
+          break;
+      }
+
+      this.props.navigator.setTitle({
+        title
+      });
       this.props.navigator.setButtons({
         rightButtons: [
           {

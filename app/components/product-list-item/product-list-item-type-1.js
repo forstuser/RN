@@ -25,7 +25,9 @@ const expiringInText = date => {
       .startOf("day"),
     "days"
   );
-  if (diff < 0) {
+  if (diff < -10) {
+    return "";
+  } else if (diff < 0) {
     return "Expired!";
   } else if (diff == 0) {
     return "Expiring Today!";

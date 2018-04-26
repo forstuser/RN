@@ -213,6 +213,7 @@ class AddProductScreen extends React.Component {
         mainCategoryId={mainCategoryId}
         category={category}
         onStepDone={this.onAmountStepDone}
+        onSkipPress={this.onAmountStepDone}
         onBackPress={this.previousStep}
         skippable={skippable}
       />
@@ -438,6 +439,7 @@ class AddProductScreen extends React.Component {
           case EXPENSE_TYPES.REPAIR:
             this.pushStep(
               <RepairStep
+                navigator={this.props.navigator}
                 onBackPress={this.previousStep}
                 onStepDone={() => this.finishModal.show()}
               />
@@ -543,10 +545,18 @@ class AddProductScreen extends React.Component {
   };
 
   onAmountStepDone = product => {
-    const { mainCategoryId, category } = this.state;
-    this.setState({ product }, () => {
-      showSnackbar({ text: "Expense card has been created in your eHome" });
-      if (mainCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD) {
+    const { mainCategoryId, category, subCategories } = this.state;
+    let newState = {};
+    if (product) newState.product = product;
+
+    this.setState(newState, () => {
+      if (mainCategoryId != MAIN_CATEGORY_IDS.FASHION) {
+        showSnackbar({ text: "Expense card has been created in your eHome" });
+      }
+      if (
+        mainCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD &&
+        subCategories.length > 0
+      ) {
         this.pushSubCategoryStep(true);
       } else {
         this.pushPurchaseDateStep();

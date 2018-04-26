@@ -17,7 +17,7 @@ import {
 import { ScreenContainer, Text, Button } from "../elements";
 import LoadingOverlay from "../components/loading-overlay";
 import { colors } from "../theme";
-import { MAIN_CATEGORY_IDS } from "../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../constants";
 import UploadBillOptions from "../components/upload-bill-options";
 import SelectModal from "../components/select-modal";
 import HealthcareInsuranceForm from "../components/expense-forms/healthcare-insurance-form";
@@ -53,7 +53,7 @@ class MedicalDoc extends React.Component {
     super(props);
     this.state = {
       mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE,
-      categoryId: 664,
+      categoryId: CATEGORY_IDS.HEALTHCARE.INSURANCE,
       isLoading: false,
       isFinishModalVisible: false,
       insuranceProviders: []
@@ -102,7 +102,7 @@ class MedicalDoc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -124,7 +124,7 @@ class MedicalDoc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({ isLoading: false });
     }
   };
@@ -163,7 +163,8 @@ class MedicalDoc extends React.Component {
           <HealthcareInsuranceForm
             showFullForm={true}
             ref={ref => (this.insuranceForm = ref)}
-            showOnlyGeneralInfo={true}
+            showOnlyGeneralInfo={false}
+            showFullForm={true}
             {...{
               typeId,
               categoryId,

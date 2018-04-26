@@ -114,7 +114,7 @@ class Repair extends React.Component {
         repairDate,
         sellerName,
         sellerContact: this.phoneRef.getFilledData(),
-        repairAmount,
+        value: repairAmount,
         warrantyUpto
       };
 
@@ -277,6 +277,7 @@ class Repair extends React.Component {
                       onChangeText={repairAmount =>
                         this.setState({ repairAmount })
                       }
+                      keyboardType="numeric"
                     />
 
                     <CustomTextInput

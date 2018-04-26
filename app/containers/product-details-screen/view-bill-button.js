@@ -17,6 +17,7 @@ import { openBillsPopUp } from "../../navigation";
 import { colors } from "../../theme";
 
 import UploadBillOptions from "../../components/upload-bill-options";
+import { CATEGORY_IDS } from "../../constants";
 
 const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 
@@ -25,14 +26,17 @@ class ViewBillButton extends React.Component {
     super(props);
   }
   render() {
-    const {
+    let {
       product,
       navigator,
       docType = "Product",
       btnText = "Bill",
-      viewRef = () => { },
+      viewRef = () => {},
       style
     } = this.props;
+    if (product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
+      btnText = "Doc";
+    }
     if (product.copies && product.copies.length > 0) {
       return (
         <View
@@ -83,7 +87,7 @@ class ViewBillButton extends React.Component {
             <UploadBillOptions
               ref={o => (this.uploadBillOptions = o)}
               navigator={navigator}
-              uploadCallback={() => { }}
+              uploadCallback={() => {}}
             />
             <Image style={styles.viewBillIcon} source={viewBillIcon} />
           </TouchableOpacity>

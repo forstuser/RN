@@ -31,7 +31,7 @@ class AddAmountStep extends React.Component {
   }
 
   componentDidMount() {
-    this.input.focus();
+    // this.input.focus();
   }
 
   onPressNext = async () => {
