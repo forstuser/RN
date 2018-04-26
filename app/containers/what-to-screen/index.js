@@ -46,33 +46,33 @@ const todo = require("../../images/to_do.png");
 const whatToWear = require("../../images/whatToWear.png");
 const headerBg = require("../../images/product_card_header_bg.png");
 
-const NavOptionsButton = ({ addImageText }) => (
-  <TouchableOpacity
-    style={{
-      ...Platform.select({
-        ios: {
-          paddingLeft: 15
-        },
-        android: {
-          position: "absolute",
-          top: 5,
-          right: 4,
-          width: 30,
-          height: 30,
-          alignItems: "center",
-          justifyContent: "flex-end"
-        }
-      })
-    }}
-    onPress={() =>
-      Navigation.handleDeepLink({ link: "what-to-nav-options-btn" })
-    }
-  >
-    <Icon name="md-more" size={30} color={colors.pinkishOrange} />
-  </TouchableOpacity>
-);
+// const NavOptionsButton = ({ addImageText }) => (
+//   <TouchableOpacity
+//     style={{
+//       ...Platform.select({
+//         ios: {
+//           paddingLeft: 15
+//         },
+//         android: {
+//           position: "absolute",
+//           top: 5,
+//           right: 4,
+//           width: 30,
+//           height: 30,
+//           alignItems: "center",
+//           justifyContent: "flex-end"
+//         }
+//       })
+//     }}
+//     onPress={() =>
+//       Navigation.handleDeepLink({ link: "what-to-nav-options-btn" })
+//     }
+//   >
+//     <Icon name="md-more" size={30} color={colors.pinkishOrange} />
+//   </TouchableOpacity>
+// );
 
-Navigation.registerComponent("WhatToOptionsButton", () => NavOptionsButton);
+// Navigation.registerComponent("WhatToOptionsButton", () => NavOptionsButton);
 
 class DishCalendarScreen extends Component {
   static navigatorStyle = {
@@ -84,13 +84,13 @@ class DishCalendarScreen extends Component {
     topBarElevationShadowEnabled: false
   };
 
-  static navigatorButtons = {
-    rightButtons: [
-      {
-        component: "WhatToOptionsButton"
-      }
-    ]
-  };
+  // static navigatorButtons = {
+  //   rightButtons: [
+  //     {
+  //       component: "WhatToOptionsButton"
+  //     }
+  //   ]
+  // };
 
   state = {
     isScreenVisible: true,
@@ -142,16 +142,12 @@ class DishCalendarScreen extends Component {
       case "didAppear":
         this.setState({ isScreenVisible: true });
         this.fetchItems();
-      // case "didDisappear":
-      //   console.log("willDisappear");
-      //   this.setState({ isScreenVisible: false });
-      //   this.isScreenVisible = false;
     }
-    if (event.type == "DeepLink") {
-      if (event.link == "what-to-nav-options-btn") {
-        this.editOptions.show();
-      }
-    }
+    // if (event.type == "DeepLink") {
+    //   if (event.link == "what-to-nav-options-btn") {
+    //     this.editOptions.show();
+    //   }
+    // }
   };
 
   handleScroll = event => {
@@ -291,8 +287,14 @@ class DishCalendarScreen extends Component {
         }
       } else {
         newSelectedItemIds.push(item.id);
+
+        let items = [...this.state.items];
+        let itemIdx = items.findIndex(i => i.id == item.id);
+        items[itemIdx].current_date = this.state.date;
+
         this.setState({
-          selectedItemIds: newSelectedItemIds
+          selectedItemIds: newSelectedItemIds,
+          items
         });
         switch (this.props.type) {
           case EASY_LIFE_TYPES.WHAT_TO_COOK:
@@ -469,6 +471,18 @@ class DishCalendarScreen extends Component {
                 text={btnText}
                 onPress={this.onAddNewPress}
               />
+              <TouchableOpacity
+                style={styles.editBtn}
+                onPress={this.goToEditScreen}
+              >
+                <Icon name="md-create" size={18} color={colors.pinkishOrange} />
+                <Text
+                  weight="Medium"
+                  style={{ color: "#9b9b9b", marginLeft: 10 }}
+                >
+                  Edit List
+                </Text>
+              </TouchableOpacity>
               <ClothesImageUploader
                 ref={ref => (this.clothesImageUploader = ref)}
                 navigator={navigator}
@@ -539,6 +553,15 @@ const styles = StyleSheet.create({
   },
   item: {
     marginBottom: 5
+  },
+  editBtn: {
+    margin: 5,
+    padding: 12,
+    ...defaultStyles.card,
+    flexDirection: "row",
+    borderRadius: 4,
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 

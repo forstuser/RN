@@ -131,9 +131,7 @@ class WhatToListScreen extends Component {
         const state = this.state.states.find(state => state.id == stateId);
         this.onSelectState(state);
       } else {
-        this.setState({
-          isLoading: false
-        });
+        this.fetchItems();
       }
     } catch (error) {
       this.setState({
@@ -146,8 +144,7 @@ class WhatToListScreen extends Component {
   onSelectState = async value => {
     this.setState(
       {
-        selectedState: value,
-        isLoading: true
+        selectedState: value
       },
       () => {
         this.fetchItems();
@@ -166,8 +163,9 @@ class WhatToListScreen extends Component {
       switch (this.props.type) {
         case EASY_LIFE_TYPES.WHAT_TO_COOK:
           res = await fetchStateMeals({
-            stateId: this.state.selectedState.id,
-            isVeg: this.state.isVeg
+            stateId: this.state.selectedState
+              ? this.state.selectedState.id
+              : null
           });
           items = res.mealList;
           break;
@@ -272,10 +270,15 @@ class WhatToListScreen extends Component {
         isVeg: !this.state.isVeg
       },
       () => {
-        this.fetchItems();
+        if (!this.state.isVeg) {
+          this.setState({
+            checkAll: false
+          });
+        }
       }
     );
   };
+
   checkAllBox = () => {
     this.setState(
       {
@@ -283,11 +286,19 @@ class WhatToListScreen extends Component {
       },
       () => {
         if (this.state.checkAll) {
+          let selectedItemIds = [];
+          if (
+            this.props.type == EASY_LIFE_TYPES.WHAT_TO_COOK &&
+            this.state.isVeg
+          ) {
+            selectedItemIds = this.state.items
+              .filter(item => item.is_veg == true)
+              .map(item => item.id);
+          } else {
+            selectedItemIds = this.state.items.map(item => item.id);
+          }
           this.setState({
-            selectedItemIds: [
-              ...this.state.selectedItemIds,
-              ...this.state.items.map(item => item.id)
-            ]
+            selectedItemIds
           });
         } else {
           this.setState({
@@ -316,7 +327,9 @@ class WhatToListScreen extends Component {
       if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_COOK) {
         await saveMealList({
           selectedItemIds: this.state.selectedItemIds,
-          selectedState: this.state.selectedState.id
+          selectedState: this.state.selectedState
+            ? this.state.selectedState.id
+            : null
         });
       } else if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_DO) {
         await saveTodoList({
@@ -465,7 +478,7 @@ class WhatToListScreen extends Component {
               )}
               {items.map((item, index) => {
                 let imageUrl = null;
-                if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
+                if (type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
                   imageUrl =
                     API_BASE_URL +
                     "/wearable/" +
@@ -497,13 +510,17 @@ class WhatToListScreen extends Component {
               {items.length > 0 &&
                 items.map((item, index) => {
                   let imageUrl = null;
-                  if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
+                  if (type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
                     imageUrl =
                       API_BASE_URL +
                       "/wearable/" +
                       item.id +
                       "/images/" +
                       item.image_code;
+                  } else if (type == EASY_LIFE_TYPES.WHAT_TO_COOK) {
+                    if (isVeg && !item.is_veg) {
+                      return null;
+                    }
                   }
                   return (
                     <View key={index}>
