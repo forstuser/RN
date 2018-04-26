@@ -460,6 +460,8 @@ class DishCalendarScreen extends Component {
               <CloathesImageUploader
                 ref={ref => (this.cloathesImageUploader = ref)}
                 navigator={navigator}
+                addImageDetails={this.addItem}
+                date={date}
               />
               <WhatToListModal
                 ref={ref => (this.WhatToListModal = ref)}
@@ -467,6 +469,7 @@ class DishCalendarScreen extends Component {
                 addItems={this.addItems}
                 type={this.props.type}
                 stateId={items.length > 0 ? items[0].state_id : null}
+                date={date}
               />
             </View>
           </ScrollView>

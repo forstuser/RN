@@ -125,7 +125,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => {}
+  onUploadProgress = () => { }
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -1431,13 +1431,14 @@ export const removeClothForADate = async ({ clothId, date }) => {
   });
 };
 
-export const addUserCreatedMeals = async ({ meals, stateId }) => {
+export const addUserCreatedMeals = async ({ meals, stateId, date }) => {
   return await apiRequest({
     method: "post",
     url: `/user/meals/add`,
     data: {
       names: meals,
-      state_id: stateId
+      state_id: stateId,
+      current_date: date
     }
   });
 };
@@ -1472,19 +1473,20 @@ export const getClothesListByDate = async (
   });
 };
 
-export const addUserCreatedTodos = async names => {
+export const addUserCreatedTodos = async ({ names, date }) => {
   return await apiRequest({
     method: "post",
     url: `/user/todos/add`,
-    data: { names }
+    data: { names: names, current_date: date }
   });
 };
-export const addWearables = async ({ name }) => {
+export const addWearables = async ({ name, date }) => {
   return await apiRequest({
     method: "post",
     url: "/wearables",
     data: {
-      name: name
+      name: name,
+      current_date: date
     }
   });
 };

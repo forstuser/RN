@@ -59,14 +59,15 @@ class WhatToListModal extends React.Component {
       if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_COOK) {
         const res = await addUserCreatedMeals({
           meals: this.state.list.filter(item => item && item.trim().length > 0),
-          stateId: this.props.stateId
+          stateId: this.props.stateId,
+          date: this.props.date
         });
         this.props.addItems(res.mealList);
       } else {
         let names = this.state.list.filter(
           item => item && item.trim().length > 0
         );
-        const res = await addUserCreatedTodos(names);
+        const res = await addUserCreatedTodos({ names: names, date: this.props.date });
         this.props.addItems(res.todoList);
       }
       this.setState({ visible: false, list: [""] });

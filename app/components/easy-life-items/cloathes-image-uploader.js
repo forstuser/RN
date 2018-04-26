@@ -62,7 +62,7 @@ class CloathesImageUploader extends React.Component {
           isModalVisible: true
         });
       })
-      .catch(e => {});
+      .catch(e => { });
   };
 
   pickGalleryImage = async () => {
@@ -84,11 +84,11 @@ class CloathesImageUploader extends React.Component {
           isModalVisible: true
         });
       })
-      .catch(e => {});
+      .catch(e => { });
   };
   addImageToList = async () => {
     try {
-      const res1 = await addWearables({ name: this.state.cloathesName });
+      const res1 = await addWearables({ name: this.state.cloathesName, date: this.props.date });
       console.log(res1.wearable.id);
       const res2 = await uploadWearableImage(
         res1.wearable.id,
