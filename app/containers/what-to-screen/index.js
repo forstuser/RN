@@ -100,31 +100,36 @@ class DishCalendarScreen extends Component {
     items: [],
     selectedItemIds: [],
     isLoading: true,
-    error: null
+    error: null,
+    btnText: ""
   };
 
   componentDidMount() {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
     const { type } = this.props;
-    let title = "What to Cook";
-    let text = "Select Dishes that you like";
+    let title = "What's Cooking?";
+    let text = "Select Dishes to be cooked";
     let image = cooking;
+    let btnText = "Add New Dish";
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_DO:
-        title = "What to Do";
-        text = "Select items that you would like to do";
+        title = "What to Do?";
+        text = "Select Tasks to be done";
         image = todo;
+        btnText = `Add a New ‘To Do’ Item`;
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
-        title = "What to Wear";
+        title = "What to Wear?";
         text = "Select items that you would like to wear";
         image = whatToWear;
+        btnText = "Add New Item";
         break;
     }
 
     this.setState({
       image,
-      text
+      text,
+      btnText
     });
 
     this.props.navigator.setTitle({
@@ -385,7 +390,8 @@ class DishCalendarScreen extends Component {
       text,
       items,
       selectedItemIds,
-      error
+      error,
+      btnText
     } = this.state;
     return (
       <ScreenContainer style={styles.container}>
@@ -454,7 +460,7 @@ class DishCalendarScreen extends Component {
               })}
               <AddNewBtn
                 style={{ margin: 5 }}
-                text={"Add New Item"}
+                text={btnText}
                 onPress={this.onAddNewPress}
               />
               <CloathesImageUploader

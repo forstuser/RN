@@ -59,7 +59,7 @@ class EasyLifeScreen extends Component {
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
           <TabSearchHeader
-            title={"Easy Life"}
+            title={"EazyDay"}
             icon={calendarIcon}
             navigator={this.props.navigator}
             showMailbox={false}
@@ -73,25 +73,25 @@ class EasyLifeScreen extends Component {
               onPress={this.attendanceItemPress}
             >
               <Image style={styles.image} source={attendance} />
-              <Text style={styles.text}>Attendance Manager</Text>
+              <Text style={styles.text}>Who’s Absent Today?</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.card}
               onPress={this.cookingItemPress}
             >
               <Image style={styles.image} source={cooking} />
-              <Text style={styles.text}>What to Cook Today</Text>
+              <Text style={styles.text}>What’s Cooking Today?</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.cardRow}>
             <TouchableOpacity style={styles.card} onPress={this.wearItemPress}>
               <Image style={styles.image} source={whatToWear} />
-              <Text style={styles.text}>What to Wear Today</Text>
+              <Text style={styles.text}>What To Wear Today?</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.card} onPress={this.toDoItemPress}>
               <Image style={styles.image} source={todo} />
-              <Text style={styles.text}>What to Do Today</Text>
+              <Text style={styles.text}>What To Do Today?</Text>
             </TouchableOpacity>
           </View>
         </View>
