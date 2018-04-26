@@ -101,40 +101,40 @@ class ProfileDetailEdit extends Component {
     const { label, editable, verify } = this.props;
     const { info } = this.state;
     return (
-      <View>
-        <View style={styles.information}>
-          <View style={{ width: 240 }}>
-            <Text style={styles.fieldName}>{label}</Text>
-            <TextInput
-              style={styles.fieldValue}
-              weight="Medium"
-              value={info}
-              editable={this.props.editable}
-              underlineColorAndroid="transparent"
-              keyboardType="default"
-              onChangeText={text => this.setState({ info: text })}
-            />
-          </View>
-          {this.props.info != this.state.info && (
-            <View
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 23,
-                position: "absolute",
-                right: 10,
-                top: 32
-              }}
-            >
-              <TouchableOpacity onPress={() => this.onSubmit(info)}>
-                <Text style={{ color: colors.tomato }} weight="bold">
-                  Save
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
+      // <View>
+      <View style={styles.information}>
+        <View style={{ width: 240 }}>
+          <Text style={styles.fieldName}>{label}</Text>
+          <TextInput
+            style={styles.fieldValue}
+            weight="Medium"
+            value={info}
+            editable={this.props.editable}
+            underlineColorAndroid="transparent"
+            keyboardType="default"
+            onChangeText={text => this.setState({ info: text })}
+          />
         </View>
+        {this.props.info != this.state.info && (
+          <View
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 23,
+              position: "absolute",
+              right: 10,
+              top: 32
+            }}
+          >
+            <TouchableOpacity onPress={() => this.onSubmit(info)}>
+              <Text style={{ color: colors.tomato }} weight="bold">
+                Save
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
+      // </View>
     );
   }
 }
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   information: {
     flexDirection: "row",
     borderColor: "#ececec",
-    borderTopWidth: 1,
+    borderBottomWidth: 1,
     paddingLeft: 20,
     paddingTop: 15,
     backgroundColor: "white"

@@ -121,7 +121,7 @@ class Header extends Component {
         ref={img => {
           this.backgroundImage = img;
         }}
-        style={{ width: "100%", height: "100%" }}
+        style={styles.backgroundImg}
         source={noPicPlaceholderIcon}
       />
     );
@@ -132,7 +132,7 @@ class Header extends Component {
           ref={img => {
             this.backgroundImage = img;
           }}
-          style={{ width: "100%", height: "100%" }}
+          style={styles.backgroundImg}
           source={{
             uri: API_BASE_URL + profile.imageUrl,
             headers: { Authorization: authToken }
@@ -143,31 +143,69 @@ class Header extends Component {
     }
 
     return (
-      <View style={styles.container}>
-        {profile && (
-          <TouchableOpacity style={styles.header} onPress={this.props.onPress}>
-            <View style={styles.backgroundImg}>{profilePic}</View>
+      <View>
+        {profile &&
+          !isProfileVisible && (
+            <TouchableOpacity
+              style={styles.header}
+              onPress={this.props.onPress}
+            >
+              <View style={styles.backgroundImg}>{profilePic}</View>
 
-            {Platform.OS == "ios" && (
-              <BlurView
-                style={styles.overlay}
-                viewRef={this.state.blurViewRef}
-                blurType="light"
-                blurAmount={5}
-              />
-            )}
-            {Platform.OS == "android" && <View style={styles.overlay} />}
+              {Platform.OS == "ios" && (
+                <BlurView
+                  style={styles.overlay}
+                  viewRef={this.state.blurViewRef}
+                  blurType="light"
+                  blurAmount={5}
+                />
+              )}
 
-            <View style={styles.headerInner}>
-              {!isProfileVisible && (
+              {Platform.OS == "android" && <View style={styles.overlay} />}
+
+              <View style={styles.headerInner}>
                 <View style={styles.profilePicWrapper}>
                   <View style={styles.profilePicCircleWrapper}>
                     {profilePic}
                   </View>
                 </View>
+
+                <View style={styles.centerText}>
+                  <Text style={styles.name} weight="Bold">
+                    {name}
+                  </Text>
+                  <Text style={styles.mobile} weight="Medium">
+                    {profile.mobile_no}
+                  </Text>
+                </View>
+
+                <Image
+                  style={{ width: 12, height: 12 }}
+                  source={require("../../images/ic_processing_arrow.png")}
+                />
+              </View>
+            </TouchableOpacity>
+          )}
+        {profile &&
+          isProfileVisible && (
+            <TouchableOpacity
+              style={styles.headers}
+              onPress={this.props.onPress}
+            >
+              <View style={styles.backgroundImgs}>{profilePic}</View>
+
+              {Platform.OS == "ios" && (
+                <BlurView
+                  style={styles.overlay}
+                  viewRef={this.state.blurViewRef}
+                  blurType="light"
+                  blurAmount={5}
+                />
               )}
 
-              {isProfileVisible && (
+              {Platform.OS == "android" && <View style={styles.overlay} />}
+
+              <View style={styles.headerInners}>
                 <View style={styles.profileWrapper}>
                   <View style={styles.profileCircleWrapper}>{profilePic}</View>
                   <TouchableOpacity
@@ -177,8 +215,7 @@ class Header extends Component {
                     <Image style={styles.editIcon} source={editIcon} />
                   </TouchableOpacity>
                 </View>
-              )}
-              {isProfileVisible && (
+
                 <ActionSheet
                   onPress={this.handleOptionPress}
                   ref={o => (this.uploadOptions = o)}
@@ -190,55 +227,38 @@ class Header extends Component {
                     "Cancel"
                   ]}
                 />
-              )}
 
-              {!isProfileVisible && (
-                <View style={styles.centerText}>
-                  <Text style={styles.name} weight="Bold">
-                    {name}
-                  </Text>
-                  <Text style={styles.mobile} weight="Medium">
-                    {profile.mobile_no}
-                  </Text>
-                </View>
-              )}
-
-              {!isProfileVisible && (
-                <Image
-                  style={{ width: 12, height: 12 }}
-                  source={require("../../images/ic_processing_arrow.png")}
-                />
-              )}
-              {isProfileVisible && (
                 <TouchableOpacity
                   style={styles.modalCloseIcon}
                   onPress={this.close}
                 >
                   <Icon name="md-close" size={30} color="white" />
                 </TouchableOpacity>
-              )}
-            </View>
-          </TouchableOpacity>
-        )}
+              </View>
+            </TouchableOpacity>
+          )}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    height: 120,
-    overflow: "hidden"
-  },
+  // container: {
+  //   height: 120,
+  //   overflow: "hidden",
+  //   alignItems: "center"
+  // },
   header: {
     width: "100%",
-    height: 140
+    height: 120
+  },
+  headers: {
+    width: "100%",
+    height: 185
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.55)",
     position: "absolute",
-    left: 0,
-    right: 0,
     top: 0,
     bottom: 0
   },
@@ -255,8 +275,24 @@ const styles = StyleSheet.create({
   headerInner: {
     flexDirection: "row",
     alignItems: "center",
-    height: 120,
+    height: 140,
     padding: 16,
+    zIndex: 3,
+    ...Platform.select({
+      ios: {
+        paddingTop: 36
+      },
+      android: {
+        paddingTop: 16
+      }
+    })
+  },
+  headerInners: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 180,
+    padding: 16,
+    zIndex: 3,
     ...Platform.select({
       ios: {
         paddingTop: 36
@@ -272,7 +308,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#d8d8d8",
     borderRadius: 40,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    zIndex: 3
   },
   profilePicCircleWrapper: {
     width: 80,
@@ -281,6 +318,7 @@ const styles = StyleSheet.create({
     overflow: "hidden"
   },
   profileWrapper: {
+    marginTop: 60,
     width: 120,
     height: 120,
     borderRadius: 60,
@@ -305,7 +343,12 @@ const styles = StyleSheet.create({
   backgroundImg: {
     position: "absolute",
     width: "100%",
-    height: "100%"
+    height: 120
+  },
+  backgroundImgs: {
+    position: "absolute",
+    width: "100%",
+    height: 100
   },
   name: {
     fontSize: 18,
@@ -321,8 +364,8 @@ const styles = StyleSheet.create({
   },
   editImg: {
     position: "absolute",
-    top: 80,
-    right: 90,
+    top: 90,
+    right: 110,
     height: 30,
     width: 30,
     overflow: "hidden",
