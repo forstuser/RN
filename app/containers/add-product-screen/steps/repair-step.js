@@ -29,7 +29,7 @@ import ContactFields from "../../../components/form-elements/contact-fields";
 import CustomDatePicker from "../../../components/form-elements/date-picker";
 import UploadDoc from "../../../components/form-elements/upload-doc";
 
-import Step from '../../../components/step';
+import Step from "../../../components/step";
 
 class Repair extends React.Component {
   constructor(props) {
@@ -127,10 +127,10 @@ class Repair extends React.Component {
         await updateRepair(data);
       }
       this.setState({
-        isLoading: false,
+        isLoading: false
       });
 
-      if (typeof onStepDone == 'function') {
+      if (typeof onStepDone == "function") {
         onStepDone();
       }
     } catch (e) {
@@ -144,7 +144,7 @@ class Repair extends React.Component {
   };
 
   openAddProductScreen = () => {
-    this.props.navigator.pop();
+    this.props.onBackPress();
   };
 
   render() {
@@ -162,11 +162,7 @@ class Repair extends React.Component {
       copies
     } = this.state;
     return (
-      <Step
-        title={`Add Repair`}
-        showLoader={isLoading}
-        {...this.props}
-      >
+      <Step title={`Add Repair`} showLoader={isLoading} {...this.props}>
         <View style={styles.container}>
           {products.length == 0 &&
             !isLoading && (
@@ -246,7 +242,9 @@ class Repair extends React.Component {
                       style={styles.addProductBtn}
                     >
                       <Text weight="Bold" style={styles.addProductBtnText}>
-                        {I18n.t("add_edit_expense_screen_title_add_add_products")}
+                        {I18n.t(
+                          "add_edit_expense_screen_title_add_add_products"
+                        )}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -255,7 +253,9 @@ class Repair extends React.Component {
                 <View style={styles.formContainer}>
                   <View style={styles.form}>
                     <Text weight="Medium" style={styles.headerText}>
-                      {I18n.t("add_edit_expense_screen_title_add_repair_details")}
+                      {I18n.t(
+                        "add_edit_expense_screen_title_add_repair_details"
+                      )}
                     </Text>
                     <CustomDatePicker
                       date={repairDate}

@@ -233,6 +233,25 @@ class SelectServiceTypeStep extends React.Component {
             </TouchableWithoutFeedback>
           </ScrollView>
         </View>
+        <View style={styles.selectServiceMsgContainer}>
+          <Text weight="Medium" style={styles.selectServiceMsg}>
+            Please Select a Type Above
+            </Text>
+          <View style={styles.reason}>
+            <Text style={styles.reasons} weight="Medium">
+              • Mark present and absent days
+              </Text>
+            <Text style={styles.reasons} weight="Medium">
+              • Know your monthly payouts
+              </Text>
+            <Text style={styles.reasons} weight="Medium">
+              • your total outstanding payments
+              </Text>
+            <Text style={styles.reasons} weight="Medium">
+              • Track your daily household expenses
+              </Text>
+          </View>
+        </View>
       </Step>
     );
   }
@@ -304,7 +323,27 @@ const styles = StyleSheet.create({
     opacity: 0,
     padding: 0,
     margin: 0
-  }
+  },
+  selectServiceMsgContainer: {
+    flex: 1,
+    marginTop: 30
+  },
+  selectServiceMsg: {
+    fontSize: 20,
+    fontWeight: "normal",
+    color: colors.mainBlue,
+    textAlign: "center",
+    marginBottom: 6,
+    // marginTop: -80
+  },
+  reason: {
+    marginLeft: 80,
+    alignSelf: "flex-start"
+  },
+  reasons: {
+    color: colors.secondaryText,
+    fontSize: 12
+  },
 });
 
 export default SelectServiceTypeStep;

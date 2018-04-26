@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Image,
   Modal,
-  ScrollView
+  ScrollView,
+  Switch
 } from "react-native";
 import I18n from "../../i18n";
 import {
@@ -58,6 +59,7 @@ class WhatToListScreen extends Component {
     selectedItemIds: [],
     states: [],
     isVeg: false,
+    checkAll: false,
     selectedState: null,
     isLoading: true,
     error: null
@@ -148,7 +150,8 @@ class WhatToListScreen extends Component {
 
   fetchItems = async () => {
     this.setState({
-      isLoading: true
+      isLoading: true,
+      checkAll: false
     });
     try {
       let res;
@@ -267,7 +270,27 @@ class WhatToListScreen extends Component {
       }
     );
   };
-
+  checkAllBox = () => {
+    this.setState(
+      {
+        checkAll: !this.state.checkAll
+      },
+      () => {
+        if (this.state.checkAll) {
+          this.setState({
+            selectedItemIds: [
+              ...this.state.selectedItemIds,
+              ...this.state.items.map(item => item.id)
+            ]
+          });
+        } else {
+          this.setState({
+            selectedItemIds: []
+          });
+        }
+      }
+    );
+  };
   toggleSystemItemSelect = id => {
     let newSelectedSystemItemIds = [...this.state.selectedItemIds];
     const idx = newSelectedSystemItemIds.indexOf(id);
@@ -337,7 +360,8 @@ class WhatToListScreen extends Component {
       isVeg,
       selectedState,
       isLoading,
-      error
+      error,
+      checkAll
     } = this.state;
     return (
       <View style={{ flex: 1 }}>
@@ -361,21 +385,28 @@ class WhatToListScreen extends Component {
                 beforeModalOpen={this.beforeOpenStatesModal}
               />
               {selectedState && (
-                <TouchableOpacity
-                  style={styles.checkboxWrapper}
-                  onPress={this.toggleVegOrNonveg}
-                >
-                  <View style={styles.box}>
-                    {isVeg && (
-                      <Icon
-                        name="md-checkmark"
-                        color={colors.pinkishOrange}
-                        size={15}
-                      />
-                    )}
-                  </View>
-                  <Text> Veg Only</Text>
-                </TouchableOpacity>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={{ color: colors.mainText }}>is Veg ?</Text>
+                  <Switch
+                    onValueChange={this.toggleVegOrNonveg}
+                    value={isVeg}
+                  />
+                  <TouchableOpacity
+                    style={styles.checkboxWrapper}
+                    onPress={this.checkAllBox}
+                  >
+                    <Text style={{ color: colors.mainText }}> Select All </Text>
+                    <View style={styles.box}>
+                      {checkAll && (
+                        <Icon
+                          name="md-checkmark"
+                          color={colors.pinkishOrange}
+                          size={15}
+                        />
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                </View>
               )}
             </View>
           )}
@@ -493,9 +524,9 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   checkboxWrapper: {
-    width: 150,
-    flexDirection: "row",
-    marginBottom: 10
+    // width: 150,
+    flexDirection: "row"
+    // marginBottom: 10
   },
   blankPageImage: {
     height: 70,

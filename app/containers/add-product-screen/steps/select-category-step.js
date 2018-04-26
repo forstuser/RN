@@ -29,7 +29,8 @@ class SelectCategoryStep extends React.Component {
       visibleOptions: [],
       otherOptions: [],
       genericIcon: null,
-      showOtherOption: false
+      showOtherOption: false,
+      reasons: []
     };
   }
   componentDidMount() {
@@ -38,13 +39,23 @@ class SelectCategoryStep extends React.Component {
     let title = "Select Type";
     let genericIcon = null;
     let visibleOptions = [];
-
+    let reasons = [];
 
 
     switch (this.props.mainCategoryId) {
       case MAIN_CATEGORY_IDS.AUTOMOBILE:
         title = I18n.t("add_edit_expense_screen_title_select_automobile");
         genericIcon = require("../../../images/categories/generic_automobile.png");
+        reasons = [
+          "Connect with brands",
+          "Receive insurance & warranty reminders",
+          "Connect with nearest service centres",
+          "Receive service schedule",
+          "Retrieve a product bill/invoice",
+          "Track lifetime expenses",
+          "Share personalised reviews",
+          "And much more.."
+        ]
         visibleOptions = [
           {
             id: CATEGORY_IDS.AUTOMOBILE.CAR,
@@ -74,6 +85,15 @@ class SelectCategoryStep extends React.Component {
       case MAIN_CATEGORY_IDS.ELECTRONICS:
         title = I18n.t("add_edit_expense_screen_title_select_electronics");
         genericIcon = require("../../../images/categories/generic_electronic.png");
+        reasons = [
+          "Connect with brands",
+          "Receive warranty & insurance reminders",
+          "Connect with nearest service centres",
+          "Retrieve a product bill/invoice",
+          "Track lifetime expenses",
+          "Share personalised reviews",
+          "And much more.."
+        ]
         visibleOptions = [
           {
             id: CATEGORY_IDS.ELECTRONICS.MOBILE,
@@ -117,6 +137,15 @@ class SelectCategoryStep extends React.Component {
         break;
       case MAIN_CATEGORY_IDS.FURNITURE:
         title = I18n.t("add_edit_expense_screen_title_select_furniture");
+        reasons = [
+          "Connect with brands",
+          "Receive warranty reminders",
+          "Connect with nearest service centres",
+          "Retrieve a product bill/invoice",
+          "Track lifetime expenses",
+          "Share personalised reviews",
+          "And much more.."
+        ]
         visibleOptions = [
           {
             id: CATEGORY_IDS.FURNITURE.FURNITURE,
@@ -137,6 +166,11 @@ class SelectCategoryStep extends React.Component {
         break;
       case MAIN_CATEGORY_IDS.SERVICES:
         title = I18n.t("add_edit_expense_screen_title_select_service_expense");
+        reasons = [
+          "Retrieve a bill anytime",
+          "Get expense insights",
+          "And much more.."
+        ]
         visibleOptions = [
           {
             id: CATEGORY_IDS.SERVICES.PROFESSIONAL,
@@ -157,6 +191,12 @@ class SelectCategoryStep extends React.Component {
         break;
       case MAIN_CATEGORY_IDS.TRAVEL:
         title = I18n.t("add_edit_expense_screen_title_select_travel");
+        reasons = [
+          "Personalise your expenses",
+          "Retrieve a bill anytime",
+          "Get expense insights",
+          "And much more.."
+        ]
         visibleOptions = [
           {
             id: CATEGORY_IDS.TRAVEL.TRAVEL,
@@ -178,6 +218,13 @@ class SelectCategoryStep extends React.Component {
 
       case MAIN_CATEGORY_IDS.FASHION:
         title = I18n.t("add_edit_expense_screen_title_select_fashion_expense");
+        reasons = [
+          "Personalise your expenses",
+          "Retrieve a bill anytime",
+          "Get expense insights",
+          "Share personalised review",
+          "And much more.."
+        ]
         visibleOptions = [
           {
             id: CATEGORY_IDS.FASHION.FOOTWEAR,
@@ -218,6 +265,11 @@ class SelectCategoryStep extends React.Component {
         break;
       case MAIN_CATEGORY_IDS.HOUSEHOLD:
         title = I18n.t("add_edit_expense_screen_title_select_home_expense");
+        reasons = [
+          "Retrieve a bill anytime",
+          "Get expense insights",
+          "And much more.."
+        ]
         visibleOptions = [
           {
             id: CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE,
@@ -251,6 +303,13 @@ class SelectCategoryStep extends React.Component {
           title = I18n.t(
             "add_edit_expense_screen_title_select_medical_document"
           );
+          reasons = [
+            "Retrieve an insurance policy/record",
+            "Connect with insurance providers",
+            "Receive insurance reminders",
+            "Share personalised reviews",
+            "And much more.."
+          ]
           visibleOptions = [
             {
               id: CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC,
@@ -265,6 +324,11 @@ class SelectCategoryStep extends React.Component {
           ];
         } else {
           title = I18n.t("add_edit_expense_screen_title_select_health_expense");
+          reasons = [
+            "Retrieve a bill/record/prescription",
+            "Get expense insights",
+            "And much more.."
+          ]
           visibleOptions = [
             {
               id: 704,
@@ -281,6 +345,7 @@ class SelectCategoryStep extends React.Component {
         break;
       case MAIN_CATEGORY_IDS.PERSONAL:
         title = I18n.t("add_edit_expense_screen_title_select_personal_doc");
+        reasons = []
         visibleOptions = [
           {
             id: CATEGORY_IDS.PERSONAL.RENT_AGREEMENT,
@@ -296,11 +361,13 @@ class SelectCategoryStep extends React.Component {
         break;
     }
 
+
     this.setState(
       {
         title,
         genericIcon,
-        visibleOptions
+        visibleOptions,
+        reasons
       },
       () => {
         //if category is already selected
@@ -421,7 +488,8 @@ class SelectCategoryStep extends React.Component {
       otherOptions,
       showOtherOption,
       genericIcon,
-      isLoading
+      isLoading,
+      reasons
     } = this.state;
     return (
       <Step title={title} skippable={false} showLoader={isLoading} {...this.props}>
@@ -526,6 +594,18 @@ class SelectCategoryStep extends React.Component {
             </ScrollView>
           </View>
           <View style={styles.body}>
+            <View style={styles.selectCategoryMsgContainer}>
+              <Text weight="Medium" style={styles.selectCategoryMsg}>
+                Select a type above to
+                </Text>
+              {reasons.map((reason, index) => {
+                return (
+                  <Text weight="Medium" key={index} style={styles.reason}>
+                    • {reason}
+                  </Text>
+                );
+              })}
+            </View>
             <View />
           </View>
         </View>
@@ -535,6 +615,10 @@ class SelectCategoryStep extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  body: {
+    backgroundColor: "red",
+    flex: 1
+  },
   container: {
     flex: 1,
     backgroundColor: "#f7f7f7"
@@ -594,7 +678,29 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     padding: 0,
     margin: 0
-  }
+  },
+  selectCategoryMsgContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    flex: 1,
+    borderColor: "#eee",
+    borderTopWidth: StyleSheet.hairlineWidth
+  },
+  selectCategoryMsg: {
+    fontSize: 20,
+    width: 300,
+    textAlign: "center",
+    color: colors.mainBlue,
+    marginBottom: 10,
+    marginTop: -150
+  },
+  reason: {
+    color: colors.secondaryText,
+    fontSize: 12,
+    marginLeft: 100,
+    alignSelf: "flex-start"
+  },
 });
 
 export default SelectCategoryStep;
