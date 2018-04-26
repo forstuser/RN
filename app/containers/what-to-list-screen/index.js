@@ -334,9 +334,7 @@ class WhatToListScreen extends Component {
     } else {
       Alert.alert(
         "Are you sure?",
-        `Changing state will remove the list of state ${
-          this.state.selectedState.name
-        }`,
+        `Changing state will remove the list of current state`,
         [
           {
             text: "Cancel",
