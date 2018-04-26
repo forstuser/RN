@@ -36,7 +36,7 @@ import { colors, defaultStyles } from "../../theme";
 import DateSelector from "./date-selector";
 import EasyLifeItem from "../../components/easy-life-item";
 import AddNewBtn from "../../components/add-new-btn";
-import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader";
+import ClothesImageUploader from "../../components/easy-life-items/clothes-image-uploader";
 import WhatToListModal from "../../components/what-to-list-modal";
 import WhatToListEmptyState from "../../components/what-to-list-empty-state";
 import { showSnackbar } from "../snackbar";
@@ -323,7 +323,7 @@ class DishCalendarScreen extends Component {
         this.WhatToListModal.show();
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
-        this.cloathesImageUploader.showActionSheet();
+        this.clothesImageUploader.showActionSheet();
         break;
     }
   };
@@ -457,8 +457,8 @@ class DishCalendarScreen extends Component {
                 text={"Add New Item"}
                 onPress={this.onAddNewPress}
               />
-              <CloathesImageUploader
-                ref={ref => (this.cloathesImageUploader = ref)}
+              <ClothesImageUploader
+                ref={ref => (this.clothesImageUploader = ref)}
                 navigator={navigator}
               />
               <WhatToListModal

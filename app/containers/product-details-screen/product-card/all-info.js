@@ -12,7 +12,7 @@ import { Text, Button } from "../../../elements";
 import { colors } from "../../../theme";
 import I18n from "../../../i18n";
 
-import { MAIN_CATEGORY_IDS, SCREENS } from "../../../constants";
+import { MAIN_CATEGORY_IDS, SCREENS, CATEGORY_IDS } from "../../../constants";
 
 let mapIcon = require("../../../images/ic_details_map.png");
 
@@ -95,6 +95,7 @@ class AllInfo extends React.Component {
       <View style={styles.container}>
         <View style={styles.card}>
           <TouchableOpacity
+            disabled={product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE}
             onPress={this.onEditPress}
             style={{ flex: 1, backgroundColor: "#EBEBEB" }}
           >
@@ -120,7 +121,9 @@ class AllInfo extends React.Component {
                     color: colors.pinkishOrange
                   }}
                 >
-                  {I18n.t("product_details_screen_edit")}
+                  {product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE
+                    ? I18n.t("product_details_screen_edit")
+                    : ""}
                 </Text>
               )}
             />
@@ -167,74 +170,79 @@ class AllInfo extends React.Component {
             />
           ))}
         </View>
-        <View style={styles.card}>
-          <TouchableOpacity
-            onPress={this.onEditPress}
-            style={{ flex: 1, backgroundColor: "#EBEBEB" }}
-          >
+        {product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE && (
+          <View style={styles.card}>
+            <TouchableOpacity
+              onPress={this.onEditPress}
+              style={{ flex: 1, backgroundColor: "#EBEBEB" }}
+            >
+              <KeyValueItem
+                KeyComponent={() => (
+                  <Text
+                    weight="Bold"
+                    style={{
+                      flex: 1,
+                      color: colors.mainText,
+                      fontSize: 16
+                    }}
+                  >
+                    {I18n.t("product_details_screen_seller_details")}
+                  </Text>
+                )}
+                ValueComponent={() => (
+                  <Text
+                    weight="Bold"
+                    style={{
+                      textAlign: "right",
+                      flex: 1,
+                      color: colors.pinkishOrange
+                    }}
+                  >
+                    {I18n.t("product_details_screen_edit")}
+                  </Text>
+                )}
+              />
+            </TouchableOpacity>
             <KeyValueItem
-              KeyComponent={() => (
-                <Text
-                  weight="Bold"
-                  style={{
-                    flex: 1,
-                    color: colors.mainText,
-                    fontSize: 16
-                  }}
-                >
-                  {I18n.t("product_details_screen_seller_details")}
-                </Text>
-              )}
+              keyText={I18n.t("product_details_screen_seller_category")}
+              valueText={product.categoryName || "-"}
+            />
+            <KeyValueItem
+              keyText={I18n.t("product_details_screen_seller_name")}
+              valueText={seller.sellerName || "-"}
+            />
+            <KeyValueItem
+              keyText={I18n.t("product_details_screen_seller_location")}
+              valueText={_.trim(seller.city + ", " + seller.state, ", ") || "-"}
+            />
+            <KeyValueItem
+              keyText="Contact No."
               ValueComponent={() => (
-                <Text
-                  weight="Bold"
-                  style={{
-                    textAlign: "right",
-                    flex: 1,
-                    color: colors.pinkishOrange
-                  }}
-                >
-                  {I18n.t("product_details_screen_edit")}
-                </Text>
+                <MultipleContactNumbers contact={seller.contact} />
               )}
             />
-          </TouchableOpacity>
-          <KeyValueItem
-            keyText={I18n.t("product_details_screen_seller_category")}
-            valueText={product.categoryName || "-"}
-          />
-          <KeyValueItem
-            keyText={I18n.t("product_details_screen_seller_name")}
-            valueText={seller.sellerName || "-"}
-          />
-          <KeyValueItem
-            keyText={I18n.t("product_details_screen_seller_location")}
-            valueText={_.trim(seller.city + ", " + seller.state, ", ") || "-"}
-          />
-          <KeyValueItem
-            keyText="Contact No."
-            ValueComponent={() => (
-              <MultipleContactNumbers contact={seller.contact} />
-            )}
-          />
-          {(seller.address.length > 0 ||
-            seller.city.length > 0 ||
-            seller.state.length > 0) && (
-            <KeyValueItem
-              KeyComponent={() => (
-                <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.secondaryText }}>
-                    {I18n.t("product_details_screen_seller_address")}
-                  </Text>
-                  <Text weight="Medium" style={{ color: colors.mainText }}>
-                    {_.trim(
-                      seller.address + ", " + seller.city + ", " + seller.state,
-                      ", "
-                    )}
-                  </Text>
-                </View>
-              )}
-              /*ValueComponent={() => (
+            {(seller.address.length > 0 ||
+              seller.city.length > 0 ||
+              seller.state.length > 0) && (
+              <KeyValueItem
+                KeyComponent={() => (
+                  <View style={{ flex: 1 }}>
+                    <Text style={{ color: colors.secondaryText }}>
+                      {I18n.t("product_details_screen_seller_address")}
+                    </Text>
+                    <Text weight="Medium" style={{ color: colors.mainText }}>
+                      {_.trim(
+                        seller.address +
+                          ", " +
+                          seller.city +
+                          ", " +
+                          seller.state,
+                        ", "
+                      )}
+                    </Text>
+                  </View>
+                )}
+                /*ValueComponent={() => (
                 <TouchableOpacity onPress={this.openMap} style={{ width: 70 }}>
                   <View style={{ alignItems: "center" }}>
                     <Image style={{ width: 24, height: 24 }} source={mapIcon} />
@@ -247,9 +255,10 @@ class AllInfo extends React.Component {
                   </View>
                 </TouchableOpacity>
               )}*/
-            />
-          )}
-        </View>
+              />
+            )}
+          </View>
+        )}
       </View>
     );
   }

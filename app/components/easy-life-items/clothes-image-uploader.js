@@ -16,18 +16,19 @@ import { addWearables, uploadWearableImage, API_BASE_URL } from "../../api";
 import { showSnackbar } from "../../containers/snackbar";
 import Icon from "react-native-vector-icons/Ionicons";
 
-class CloathesImageUploader extends React.Component {
+class ClothesImageUploader extends React.Component {
   state = {
     isModalVisible: false,
     file: null,
-    cloathesName: "",
-    uploadingProgressText: "0%"
+    clothesName: "",
+    uploadingProgressText: "0%",
+    isLoading: false
   };
 
   showActionSheet = () => {
     this.uploadOptions.show();
     this.setState({
-      cloathesName: "",
+      clothesName: "",
       file: null
     });
   };
@@ -87,8 +88,11 @@ class CloathesImageUploader extends React.Component {
       .catch(e => {});
   };
   addImageToList = async () => {
+    this.setState({
+      isLoading: true
+    });
     try {
-      const res1 = await addWearables({ name: this.state.cloathesName });
+      const res1 = await addWearables({ name: this.state.clothesName });
       console.log(res1.wearable.id);
       const res2 = await uploadWearableImage(
         res1.wearable.id,
@@ -115,6 +119,10 @@ class CloathesImageUploader extends React.Component {
       showSnackbar({
         text: e.message
       });
+    } finally {
+      this.setState({
+        isLoading: false
+      });
     }
   };
 
@@ -123,7 +131,7 @@ class CloathesImageUploader extends React.Component {
   };
 
   render() {
-    const { file, isModalVisible, cloathesName } = this.state;
+    const { file, isModalVisible, clothesName, isLoading } = this.state;
     return (
       <View>
         <ActionSheet
@@ -160,7 +168,7 @@ class CloathesImageUploader extends React.Component {
           <View style={{ width: "90%" }}>
             <CustomTextInput
               placeholder={"Add Name"}
-              onChangeText={cloathesName => this.setState({ cloathesName })}
+              onChangeText={clothesName => this.setState({ clothesName })}
             />
           </View>
           <Button
@@ -170,6 +178,7 @@ class CloathesImageUploader extends React.Component {
             borderRadius={0}
             style={styles.addItemBtn}
           />
+          <LoadingOverlay visible={isLoading} />
         </Modal>
       </View>
     );
@@ -197,4 +206,4 @@ const styles = StyleSheet.create({
     top: 5
   }
 });
-export default CloathesImageUploader;
+export default ClothesImageUploader;

@@ -9,12 +9,11 @@ import {
   Alert
 } from "react-native";
 import I18n from "../../../i18n";
-import { API_BASE_URL, updateProduct } from "../../../api";
+import { API_BASE_URL, updateProduct, getProductDetails } from "../../../api";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 import { Text, Button } from "../../../elements";
 import { colors } from "../../../theme";
 import { showSnackbar } from "../../snackbar";
-
 
 import LoadingOverlay from "../../../components/loading-overlay";
 import SelectOrCreateItem from "../../../components/select-or-create-item";
@@ -32,17 +31,70 @@ class UploadBillStep extends React.Component {
   }
 
   componentDidMount() {
-    this.uploadDoc.onUploadDocPress();
+    this.fetchProduct();
   }
 
-  onNextPress = () => {
+  fetchProduct = async () => {
+    this.setState({
+      isLoading: true
+    });
+    try {
+      const res = await getProductDetails(this.props.product.id);
+      this.setState(
+        {
+          copies: res.product.copies || []
+        },
+        () => {
+          if (this.state.copies.length == 0) {
+            this.uploadDoc.onUploadDocPress();
+          }
+        }
+      );
+    } catch (e) {
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  onNextPress = async () => {
+    const { mainCategoryId, category, product } = this.props;
     const { isLoading, copies } = this.state;
     const { skippable, onUploadBillStepDone } = this.props;
     if (copies.length == 0 && !skippable) {
-      return showSnackbar({ text: 'Please select a file first' })
+      return showSnackbar({ text: "Please select a file first" });
     }
-    onUploadBillStepDone();
-  }
+
+    if (
+      category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC ||
+      mainCategoryId == MAIN_CATEGORY_IDS.PERSONAL
+    ) {
+      this.setState({
+        isLoading: true
+      });
+      try {
+        const res = await updateProduct({
+          mainCategoryId: mainCategoryId,
+          categoryId: category.id,
+          productId: product.id,
+          productName: category.name
+        });
+
+        if (typeof onUploadBillStepDone == "function") {
+          onUploadBillStepDone(res.product);
+        }
+      } catch (e) {
+        showSnackbar({ text: e.message });
+      } finally {
+        this.setState({
+          isLoading: false
+        });
+      }
+    } else {
+      if (typeof onUploadBillStepDone == "function") {
+        onUploadBillStepDone();
+      }
+    }
+  };
 
   render() {
     const { isLoading, copies } = this.state;
@@ -50,36 +102,32 @@ class UploadBillStep extends React.Component {
     const { mainCategoryId, category, product, navigator } = this.props;
 
     let title = I18n.t("expense_forms_expense_basic_upload_bill");
-    let btnText = 'Done';
+    let btnText = "Done";
     switch (category.id) {
       case CATEGORY_IDS.PERSONAL.VISITING_CARD:
-        title = 'Upload Visiting Card';
-        btnText = 'Next';
+        title = "Upload Visiting Card";
+        btnText = "Next";
         break;
       case CATEGORY_IDS.PERSONAL.RENT_AGREEMENT:
-        title = 'Upload Rent Agreement';
-        btnText = 'Next';
+        title = "Upload Rent Agreement";
+        btnText = "Next";
         break;
       case CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC:
-        title = 'Upload Personal Doc';
-        btnText = 'Next';
+        title = "Upload Personal Doc";
+        btnText = "Next";
         break;
       case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
-        title = 'Upload Medical Doc';
-        btnText = 'Next';
+        title = "Upload Medical Doc";
+        btnText = "Next";
         break;
     }
 
     return (
-      <Step
-        title={title}
-        showLoader={isLoading}
-        {...this.props}
-      >
+      <Step title={title} showLoader={isLoading} {...this.props}>
         <View style={{ padding: 20 }}>
           <UploadDoc
-            ref={ref => this.uploadDoc = ref}
-            placeholder={'Select File'}
+            ref={ref => (this.uploadDoc = ref)}
+            placeholder={"Select File"}
             productId={product.id}
             itemId={product.id}
             jobId={product.job_id}
@@ -93,7 +141,16 @@ class UploadBillStep extends React.Component {
             navigator={navigator}
             actionSheetTitle={title}
           />
-          <Button onPress={this.onNextPress} text={btnText} style={{ width: 100, height: 40, alignSelf: 'center', marginTop: 20 }} />
+          <Button
+            onPress={this.onNextPress}
+            text={btnText}
+            style={{
+              width: 100,
+              height: 40,
+              alignSelf: "center",
+              marginTop: 20
+            }}
+          />
         </View>
       </Step>
     );

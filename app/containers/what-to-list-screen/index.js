@@ -32,7 +32,7 @@ import { SCREENS, EASY_LIFE_TYPES } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 import AddNewBtn from "../../components/add-new-btn";
 import WhatToListModal from "../../components/what-to-list-modal";
-import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader";
+import ClothesImageUploader from "../../components/easy-life-items/clothes-image-uploader";
 import EasyLifeItem from "../../components/easy-life-item";
 import SelectModal from "../../components/select-modal";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -83,7 +83,7 @@ class WhatToListScreen extends Component {
         title = "What to Wear Today";
         text = "Select items that you would like to wear";
         image = whatToWear;
-        btnText = "Add New Cloathing Item";
+        btnText = "Add New Clothing Item";
         break;
     }
     this.setState({
@@ -484,7 +484,7 @@ class WhatToListScreen extends Component {
           <View style={styles.addNewBtn}>
             <AddNewBtn text={btnText} onPress={this.onAddNewPress} />
           </View>
-          <CloathesImageUploader
+          <ClothesImageUploader
             ref={ref => (this.clothesImageUploader = ref)}
             navigator={this.props.navigator}
             addImageDetails={this.addItem}

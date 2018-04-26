@@ -7,7 +7,7 @@ import {
   Easing,
   Dimensions
 } from "react-native";
-import _ from 'lodash';
+import _ from "lodash";
 import { initProduct, updateProduct } from "../../api";
 
 import { Text, ScreenContainer } from "../../elements";
@@ -56,7 +56,7 @@ class AddProductScreen extends React.Component {
     product: null,
     insuranceProviders: [],
     subCategories: [],
-    isLoading: false,
+    isLoading: false
   };
 
   stepsContainerPositionX = new Animated.Value(-SCREEN_WIDTH);
@@ -66,7 +66,7 @@ class AddProductScreen extends React.Component {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  onNavigatorEvent = (event) => {
+  onNavigatorEvent = event => {
     switch (event.id) {
       case "willAppear":
         // this.backHandler = BackHandler.addEventListener(
@@ -79,14 +79,15 @@ class AddProductScreen extends React.Component {
       default:
         break;
     }
-  }
+  };
 
   componentDidMount() {
     this.pushStep(
       <SelectExpenseTypeStep
         onBackPress={this.previousStep}
         onExpenseTypePress={this.chooseExpenseType}
-      />, false
+      />,
+      false
     );
 
     const { expenseType } = this.props;
@@ -96,7 +97,7 @@ class AddProductScreen extends React.Component {
     }
   }
 
-  goToStep = (step) => {
+  goToStep = step => {
     const steps = [...this.state.steps];
     steps.length = step + 1;
     let newState = { steps, activeStepIndex: step };
@@ -108,10 +109,10 @@ class AddProductScreen extends React.Component {
         insuranceProviders: [],
         subCategories: [],
         numberOfStepsToShowInFooter: 0
-      }
+      };
     }
-    this.setState(() => (newState));
-  }
+    this.setState(() => newState);
+  };
 
   close = () => {
     this.props.navigator.pop();
@@ -123,7 +124,10 @@ class AddProductScreen extends React.Component {
     if (activeStepIndex == 0) this.close();
 
     const newState = { activeStepIndex: activeStepIndex - 1 };
-    if (activeStepIndex <= (category && category.id == CATEGORY_IDS.PERSONAL.VISITING_CARD ? 1 : 2)) {
+    if (
+      activeStepIndex <=
+      (category && category.id == CATEGORY_IDS.PERSONAL.VISITING_CARD ? 1 : 2)
+    ) {
       newState.numberOfStepsToShowInFooter = 0;
     }
     this.setState(newState);
@@ -137,7 +141,7 @@ class AddProductScreen extends React.Component {
     steps.pop();
     this.setState(() => ({ steps }));
 
-    console.log('current state: ', this.state);
+    console.log("current state: ", this.state);
   };
 
   nextStep = () => {
@@ -167,8 +171,9 @@ class AddProductScreen extends React.Component {
         onBackPress={this.previousStep}
         onCategorySelect={this.onCategorySelect}
         expenseType={expenseType}
-      />)
-  }
+      />
+    );
+  };
 
   pushPurchaseDateStep = () => {
     const { mainCategoryId, category, product } = this.state;
@@ -181,8 +186,9 @@ class AddProductScreen extends React.Component {
         skippable={true}
         onBackPress={this.previousStep}
         onSkipPress={this.onPurchaseDateStepDone}
-      />)
-  }
+      />
+    );
+  };
 
   pushBrandStep = (skippable = false) => {
     const { mainCategoryId, category, product } = this.state;
@@ -197,7 +203,7 @@ class AddProductScreen extends React.Component {
         skippable={skippable}
       />
     );
-  }
+  };
 
   pushAmountStep = (skippable = false) => {
     const { mainCategoryId, category, product } = this.state;
@@ -211,10 +217,11 @@ class AddProductScreen extends React.Component {
         skippable={skippable}
       />
     );
-  }
+  };
 
   pushUploadBillStep = (skippable = false) => {
     const { mainCategoryId, category, product } = this.state;
+
     this.pushStep(
       <UploadBillStep
         product={product}
@@ -227,7 +234,7 @@ class AddProductScreen extends React.Component {
         onSkipPress={() => this.finishModal.show()}
       />
     );
-  }
+  };
 
   pushSubCategoryStep = (skippable = false) => {
     const { mainCategoryId, category, product, subCategories } = this.state;
@@ -242,11 +249,16 @@ class AddProductScreen extends React.Component {
         onBackPress={this.previousStep}
         skippable={skippable}
       />
-    )
-  }
+    );
+  };
 
   pushInsuranceProviderStep = (skippable = false) => {
-    const { mainCategoryId, category, product, insuranceProviders } = this.state;
+    const {
+      mainCategoryId,
+      category,
+      product,
+      insuranceProviders
+    } = this.state;
     this.pushStep(
       <SelectInsuranceProviderStep
         product={product}
@@ -259,7 +271,7 @@ class AddProductScreen extends React.Component {
         onSkipPress={() => this.finishModal.show()}
       />
     );
-  }
+  };
 
   pushNameStep = (skippable = false) => {
     const { mainCategoryId, category, product } = this.state;
@@ -274,24 +286,27 @@ class AddProductScreen extends React.Component {
         onSkipPress={this.onNameStepDone}
       />
     );
-  }
+  };
 
   initProduct = async () => {
     this.setState({ isLoading: true, product: null });
     const { mainCategoryId, category } = this.state;
     try {
       const res = await initProduct(mainCategoryId, category.id);
-      this.setState({
-        product: res.product,
-        isLoading: false
-      }, () => {
-        if (category.id == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
-          this.pushUploadBillStep();
-          this.setState({
-            numberOfStepsToShowInFooter: 2
-          })
+      this.setState(
+        {
+          product: res.product,
+          isLoading: false
+        },
+        () => {
+          if (category.id == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
+            this.pushUploadBillStep();
+            this.setState({
+              numberOfStepsToShowInFooter: 2
+            });
+          }
         }
-      });
+      );
     } catch (e) {
       this.setState({
         isLoading: false
@@ -304,103 +319,137 @@ class AddProductScreen extends React.Component {
 
   chooseExpenseType = type => {
     const { category = null } = this.props;
-    this.setState({
-      expenseType: type,
-      mainCategoryId: null,
-      category: category,
-      product: null,
-      insuranceProviders: [],
-      subCategories: [],
-    }, () => {
-      switch (type) {
-        case EXPENSE_TYPES.AUTOMOBILE:
-          this.setState({
-            mainCategoryId: MAIN_CATEGORY_IDS.AUTOMOBILE
-          }, () => {
-            this.pushCategoryStep();
-          });
-          break;
-        case EXPENSE_TYPES.ELECTRONICS:
-          this.setState({
-            mainCategoryId: MAIN_CATEGORY_IDS.ELECTRONICS
-          }, () => {
-            this.pushCategoryStep();
-          });
-          break;
-        case EXPENSE_TYPES.FURNITURE:
-          this.setState({
-            mainCategoryId: MAIN_CATEGORY_IDS.FURNITURE
-          }, () => {
-            this.pushCategoryStep();
-          });
-          break;
-        case EXPENSE_TYPES.MEDICAL_DOCS:
-        case EXPENSE_TYPES.HEALTHCARE:
-          this.setState({
-            mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE
-          }, () => {
-            this.pushCategoryStep();
-          });
-          break;
-        case EXPENSE_TYPES.TRAVEL:
-          this.setState({
-            mainCategoryId: MAIN_CATEGORY_IDS.TRAVEL
-          }, () => {
-            this.pushCategoryStep();
-          });
-          break;
-        case EXPENSE_TYPES.FASHION:
-          this.setState({
-            mainCategoryId: MAIN_CATEGORY_IDS.FASHION
-          }, () => {
-            this.pushCategoryStep();
-          });
-          break;
-        case EXPENSE_TYPES.SERVICES:
-          this.setState({
-            mainCategoryId: MAIN_CATEGORY_IDS.SERVICES
-          }, () => {
-            this.pushCategoryStep();
-          });
-          break;
-        case EXPENSE_TYPES.HOME:
-          this.setState({
-            mainCategoryId: MAIN_CATEGORY_IDS.HOUSEHOLD
-          }, () => {
-            this.pushCategoryStep();
-          });
-          break;
-        case EXPENSE_TYPES.PERSONAL:
-          this.setState({
-            mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL
-          }, () => {
-            this.pushCategoryStep();
-          });
-          break;
-        case EXPENSE_TYPES.VISITING_CARD:
-          this.setState({
-            mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL,
-            category: {
-              id: CATEGORY_IDS.PERSONAL.VISITING_CARD,
-              name: 'Visiting Card'
-            }
-          }, () => {
-            this.initProduct();
-          });
-          break;
-        case EXPENSE_TYPES.REPAIR:
-          this.pushStep(
-            <RepairStep
-              onBackPress={this.previousStep}
-              onStepDone={() => this.finishModal.show()}
-            />
-          );
-          break;
+    this.setState(
+      {
+        expenseType: type,
+        mainCategoryId: null,
+        category: category,
+        product: null,
+        insuranceProviders: [],
+        subCategories: []
+      },
+      () => {
+        switch (type) {
+          case EXPENSE_TYPES.AUTOMOBILE:
+            this.setState(
+              {
+                mainCategoryId: MAIN_CATEGORY_IDS.AUTOMOBILE
+              },
+              () => {
+                this.pushCategoryStep();
+              }
+            );
+            break;
+          case EXPENSE_TYPES.ELECTRONICS:
+            this.setState(
+              {
+                mainCategoryId: MAIN_CATEGORY_IDS.ELECTRONICS
+              },
+              () => {
+                this.pushCategoryStep();
+              }
+            );
+            break;
+          case EXPENSE_TYPES.FURNITURE:
+            this.setState(
+              {
+                mainCategoryId: MAIN_CATEGORY_IDS.FURNITURE
+              },
+              () => {
+                this.pushCategoryStep();
+              }
+            );
+            break;
+          case EXPENSE_TYPES.MEDICAL_DOCS:
+          case EXPENSE_TYPES.HEALTHCARE:
+            this.setState(
+              {
+                mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE
+              },
+              () => {
+                this.pushCategoryStep();
+              }
+            );
+            break;
+          case EXPENSE_TYPES.TRAVEL:
+            this.setState(
+              {
+                mainCategoryId: MAIN_CATEGORY_IDS.TRAVEL
+              },
+              () => {
+                this.pushCategoryStep();
+              }
+            );
+            break;
+          case EXPENSE_TYPES.FASHION:
+            this.setState(
+              {
+                mainCategoryId: MAIN_CATEGORY_IDS.FASHION
+              },
+              () => {
+                this.pushCategoryStep();
+              }
+            );
+            break;
+          case EXPENSE_TYPES.SERVICES:
+            this.setState(
+              {
+                mainCategoryId: MAIN_CATEGORY_IDS.SERVICES
+              },
+              () => {
+                this.pushCategoryStep();
+              }
+            );
+            break;
+          case EXPENSE_TYPES.HOME:
+            this.setState(
+              {
+                mainCategoryId: MAIN_CATEGORY_IDS.HOUSEHOLD
+              },
+              () => {
+                this.pushCategoryStep();
+              }
+            );
+            break;
+          case EXPENSE_TYPES.PERSONAL:
+            this.setState(
+              {
+                mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL
+              },
+              () => {
+                this.pushCategoryStep();
+              }
+            );
+            break;
+          case EXPENSE_TYPES.VISITING_CARD:
+            this.setState(
+              {
+                mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL,
+                category: {
+                  id: CATEGORY_IDS.PERSONAL.VISITING_CARD,
+                  name: "Visiting Card"
+                }
+              },
+              () => {
+                this.initProduct();
+              }
+            );
+            break;
+          case EXPENSE_TYPES.REPAIR:
+            this.pushStep(
+              <RepairStep
+                onBackPress={this.previousStep}
+                onStepDone={() => this.finishModal.show()}
+              />
+            );
+            break;
+        }
       }
-    })
+    );
   };
 
-  onCategorySelect = ({ product,
+  onCategorySelect = ({
+    product,
     category,
     categoryReferenceData,
     renewalTypes,
@@ -408,100 +457,102 @@ class AddProductScreen extends React.Component {
     insuranceProviders,
     brands,
     categoryForms,
-    subCategories }) => {
-
+    subCategories
+  }) => {
     const { mainCategoryId, expenseType } = this.state;
-    this.setState({ product, category, subCategories, insuranceProviders }, () => {
-      switch (mainCategoryId) {
-        case MAIN_CATEGORY_IDS.AUTOMOBILE:
-          if (category.id != CATEGORY_IDS.AUTOMOBILE.CYCLE) {
-            this.setState({
-              numberOfStepsToShowInFooter: 5
-            })
-          } else {
-            this.setState({
-              numberOfStepsToShowInFooter: 4
-            })
-          }
-          this.pushBrandStep();
-          break;
-        case MAIN_CATEGORY_IDS.ELECTRONICS:
-          this.setState({
-            numberOfStepsToShowInFooter: 4
-          })
-          this.pushBrandStep();
-          break;
-        case MAIN_CATEGORY_IDS.FASHION:
-          this.setState({
-            numberOfStepsToShowInFooter: 4
-          })
-          this.pushBrandStep();
-          break;
-        case MAIN_CATEGORY_IDS.FURNITURE:
-          if (category.id == CATEGORY_IDS.FURNITURE.FURNITURE) {
-            this.setState({
-              numberOfStepsToShowInFooter: 4
-            })
-            this.pushSubCategoryStep();
-          } else {
-            this.setState({
-              numberOfStepsToShowInFooter: 3
-            })
+    this.setState(
+      { product, category, subCategories, insuranceProviders },
+      () => {
+        switch (mainCategoryId) {
+          case MAIN_CATEGORY_IDS.AUTOMOBILE:
+            if (category.id != CATEGORY_IDS.AUTOMOBILE.CYCLE) {
+              this.setState({
+                numberOfStepsToShowInFooter: 5
+              });
+            } else {
+              this.setState({
+                numberOfStepsToShowInFooter: 4
+              });
+            }
             this.pushBrandStep();
-          }
-          break;
-        case MAIN_CATEGORY_IDS.TRAVEL:
-        case MAIN_CATEGORY_IDS.SERVICES:
-          this.setState({
-            numberOfStepsToShowInFooter: 3
-          })
-          this.pushAmountStep();
-          break;
-        case MAIN_CATEGORY_IDS.HOUSEHOLD:
-          this.setState({
-            numberOfStepsToShowInFooter: 4
-          })
-          this.pushAmountStep();
-          break;
-        case MAIN_CATEGORY_IDS.HEALTHCARE:
-          if (category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
+            break;
+          case MAIN_CATEGORY_IDS.ELECTRONICS:
+            this.setState({
+              numberOfStepsToShowInFooter: 4
+            });
+            this.pushBrandStep();
+            break;
+          case MAIN_CATEGORY_IDS.FASHION:
+            this.setState({
+              numberOfStepsToShowInFooter: 4
+            });
+            this.pushBrandStep();
+            break;
+          case MAIN_CATEGORY_IDS.FURNITURE:
+            if (category.id == CATEGORY_IDS.FURNITURE.FURNITURE) {
+              this.setState({
+                numberOfStepsToShowInFooter: 4
+              });
+              this.pushSubCategoryStep();
+            } else {
+              this.setState({
+                numberOfStepsToShowInFooter: 3
+              });
+              this.pushBrandStep();
+            }
+            break;
+          case MAIN_CATEGORY_IDS.TRAVEL:
+          case MAIN_CATEGORY_IDS.SERVICES:
             this.setState({
               numberOfStepsToShowInFooter: 3
-            })
-            this.pushUploadBillStep();
-          } else if (category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
-            this.setState({
-              numberOfStepsToShowInFooter: 3
-            })
-            this.pushSubCategoryStep();
-          } else {
-            this.setState({
-              numberOfStepsToShowInFooter: 3
-            })
+            });
             this.pushAmountStep();
-          }
-          break;
-        case MAIN_CATEGORY_IDS.PERSONAL:
-          this.setState({
-            numberOfStepsToShowInFooter: 2
-          })
-          this.pushUploadBillStep();
+            break;
+          case MAIN_CATEGORY_IDS.HOUSEHOLD:
+            this.setState({
+              numberOfStepsToShowInFooter: 4
+            });
+            this.pushAmountStep();
+            break;
+          case MAIN_CATEGORY_IDS.HEALTHCARE:
+            if (category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
+              this.setState({
+                numberOfStepsToShowInFooter: 3
+              });
+              this.pushUploadBillStep();
+            } else if (category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
+              this.setState({
+                numberOfStepsToShowInFooter: 3
+              });
+              this.pushSubCategoryStep();
+            } else {
+              this.setState({
+                numberOfStepsToShowInFooter: 3
+              });
+              this.pushAmountStep();
+            }
+            break;
+          case MAIN_CATEGORY_IDS.PERSONAL:
+            this.setState({
+              numberOfStepsToShowInFooter: 2
+            });
+            this.pushUploadBillStep();
+        }
       }
-    })
+    );
   };
-
 
   onAmountStepDone = product => {
     const { mainCategoryId, category } = this.state;
     this.setState({ product }, () => {
-      showSnackbar({ text: 'Expense card has been created' });
+      showSnackbar({ text: "Expense card has been created in your eHome" });
       if (mainCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD) {
         this.pushSubCategoryStep(true);
       } else {
         this.pushPurchaseDateStep();
       }
-    })
-  }
+    });
+  };
 
   onSubCategoryStepDone = product => {
     const { mainCategoryId, category, expenseType } = this.state;
@@ -511,7 +562,7 @@ class AddProductScreen extends React.Component {
     this.setState(newState, () => {
       switch (mainCategoryId) {
         case MAIN_CATEGORY_IDS.FURNITURE:
-          showSnackbar({ text: 'Product card has been created' });
+          showSnackbar({ text: "Product card has been created in your eHome" });
           this.pushBrandStep(true);
           break;
         case MAIN_CATEGORY_IDS.HEALTHCARE:
@@ -526,7 +577,7 @@ class AddProductScreen extends React.Component {
           break;
       }
     });
-  }
+  };
 
   onBrandStepDone = product => {
     const { mainCategoryId, category } = this.state;
@@ -536,7 +587,7 @@ class AddProductScreen extends React.Component {
       switch (mainCategoryId) {
         case MAIN_CATEGORY_IDS.AUTOMOBILE:
         case MAIN_CATEGORY_IDS.ELECTRONICS:
-          showSnackbar({ text: 'Product card has been created' });
+          showSnackbar({ text: "Product card has been created in your eHome" });
           this.pushStep(
             <SelectModelStep
               product={product}
@@ -550,8 +601,8 @@ class AddProductScreen extends React.Component {
           );
           break;
         case MAIN_CATEGORY_IDS.FASHION:
-          showSnackbar({ text: 'Product card has been created' });
-          this.pushAmountStep(true)
+          showSnackbar({ text: "Product card has been created in your eHome" });
+          this.pushAmountStep(true);
           break;
         default:
           this.pushPurchaseDateStep();
@@ -560,37 +611,41 @@ class AddProductScreen extends React.Component {
   };
 
   onModelStepDone = product => {
-    product && this.setState({ product });
-    const { mainCategoryId, category } = this.state;
-    this.pushPurchaseDateStep();
+    let newState = {};
+    if (product) newState.product = product;
+    this.setState(newState, () => {
+      this.pushPurchaseDateStep();
+    });
   };
 
   onPurchaseDateStepDone = product => {
-    product && this.setState({ product });
-    const { mainCategoryId, category } = this.state;
-    switch (mainCategoryId) {
-      case MAIN_CATEGORY_IDS.AUTOMOBILE:
-        if (category.id != CATEGORY_IDS.AUTOMOBILE.CYCLE) {
-          this.pushInsuranceProviderStep(true);
-        }
-        else {
-          this.pushUploadBillStep(true)
-        }
-        break;
-      case MAIN_CATEGORY_IDS.HEALTHCARE:
-        if (category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
-          this.finishModal.show();
+    let newState = {};
+    if (product) newState.product = product;
+    this.setState(newState, () => {
+      const { mainCategoryId, category } = this.state;
+      switch (mainCategoryId) {
+        case MAIN_CATEGORY_IDS.AUTOMOBILE:
+          if (category.id != CATEGORY_IDS.AUTOMOBILE.CYCLE) {
+            this.pushInsuranceProviderStep(true);
+          } else {
+            this.pushUploadBillStep(true);
+          }
           break;
-        }
-      default:
-        this.pushUploadBillStep(true)
-    }
+        case MAIN_CATEGORY_IDS.HEALTHCARE:
+          if (category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
+            this.finishModal.show();
+            break;
+          }
+        default:
+          this.pushUploadBillStep(true);
+      }
+    });
   };
 
   onInsuranceProviderStepDone = ({ insurance }) => {
     const { mainCategoryId, category, product } = this.state;
     if (category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
-      showSnackbar({ text: 'Insurance card has been created' });
+      showSnackbar({ text: "Insurance card has been created in your eHome" });
     }
     this.pushStep(
       <SelectInsuranceEffectiveDateStep
@@ -608,30 +663,44 @@ class AddProductScreen extends React.Component {
 
   onInsuranceEffectiveDateStepDone = () => {
     this.finishModal.show();
-  }
+  };
 
-  onUploadBillStepDone = () => {
-    const { mainCategoryId, category, product, expenseType } = this.state;
-    if (mainCategoryId == MAIN_CATEGORY_IDS.PERSONAL) {
-      showSnackbar({ text: 'Document card has been created' });
-      this.pushNameStep(true);
-    } else if (expenseType == EXPENSE_TYPES.MEDICAL_DOCS) {
-      showSnackbar({ text: 'Document card has been created' });
-      this.pushSubCategoryStep(true);
-    } else {
-      this.finishModal.show();
-    }
-  }
+  onUploadBillStepDone = product => {
+    let newState = {};
+    if (product) newState.product = product;
+    this.setState(newState, () => {
+      const { mainCategoryId, expenseType } = this.state;
 
-  onNameStepDone = (product) => {
-    const { mainCategoryId, category } = this.state;
-    this.setState({ product }, () => {
+      if (mainCategoryId == MAIN_CATEGORY_IDS.PERSONAL) {
+        showSnackbar({ text: "Document card has been created in your eHome" });
+        this.pushNameStep(true);
+      } else if (expenseType == EXPENSE_TYPES.MEDICAL_DOCS) {
+        showSnackbar({ text: "Document card has been created in your eHome" });
+        this.pushSubCategoryStep(true);
+      } else {
+        this.finishModal.show();
+      }
+    });
+  };
+
+  onNameStepDone = product => {
+    let newState = {};
+    if (product) newState.product = product;
+    this.setState(newState, () => {
       this.finishModal.show();
-    })
-  }
+    });
+  };
 
   render() {
-    const { mainCategoryId, category, product, steps, activeStepIndex, isLoading, numberOfStepsToShowInFooter } = this.state;
+    const {
+      mainCategoryId,
+      category,
+      product,
+      steps,
+      activeStepIndex,
+      isLoading,
+      numberOfStepsToShowInFooter
+    } = this.state;
 
     let nextStep = null;
     let currentStep = null;
@@ -647,7 +716,7 @@ class AddProductScreen extends React.Component {
       }
     });
 
-    console.log('activeStepIndex: ', activeStepIndex);
+    console.log("activeStepIndex: ", activeStepIndex);
 
     return (
       <View style={styles.container}>
@@ -668,24 +737,43 @@ class AddProductScreen extends React.Component {
           <View style={styles.stepContainer}>{currentStep}</View>
           <View style={styles.stepContainer}>{nextStep}</View>
         </Animated.View>
-        {numberOfStepsToShowInFooter > 0 && <View style={styles.stepIndicatorsAndText}>
-          <View style={styles.stepIndicators}>
-            {_.range(numberOfStepsToShowInFooter).map((item, index) => {
-              activeStepIndicatorIndex = activeStepIndex - (category.id != CATEGORY_IDS.PERSONAL.VISITING_CARD ? 2 : 1);
-              idDoneStep = index <= activeStepIndicatorIndex;
-              isActiveStep = index == activeStepIndicatorIndex;
-              return [index > 0 && <View style={[styles.stepIndicatorLine, idDoneStep ? styles.doneStepIndicatorLine : {}]} />,
-              <View style={[styles.stepIndicatorDot, idDoneStep ? styles.doneStepIndicatorDot : {}, isActiveStep ? styles.activeStepIndicatorDot : {}]} >
-                {isActiveStep && <View style={styles.activeStepIndicatorDotInnerRing}>
-                </View>}
-              </View>]
-            })}
+        {numberOfStepsToShowInFooter > 0 && (
+          <View style={styles.stepIndicatorsAndText}>
+            <View style={styles.stepIndicators}>
+              {_.range(numberOfStepsToShowInFooter).map((item, index) => {
+                activeStepIndicatorIndex =
+                  activeStepIndex -
+                  (category.id != CATEGORY_IDS.PERSONAL.VISITING_CARD ? 2 : 1);
+                idDoneStep = index <= activeStepIndicatorIndex;
+                isActiveStep = index == activeStepIndicatorIndex;
+                return [
+                  index > 0 && (
+                    <View
+                      style={[
+                        styles.stepIndicatorLine,
+                        idDoneStep ? styles.doneStepIndicatorLine : {}
+                      ]}
+                    />
+                  ),
+                  <View
+                    style={[
+                      styles.stepIndicatorDot,
+                      idDoneStep ? styles.doneStepIndicatorDot : {},
+                      isActiveStep ? styles.activeStepIndicatorDot : {}
+                    ]}
+                  >
+                    {isActiveStep && (
+                      <View style={styles.activeStepIndicatorDotInnerRing} />
+                    )}
+                  </View>
+                ];
+              })}
+            </View>
+            {/* <Text weight='Bold' style={{ fontSize: 12, marginTop: 10, color: colors.secondaryText }}>Purchase date helps in warranty, service and other details</Text> */}
           </View>
-          {/* <Text weight='Bold' style={{ fontSize: 12, marginTop: 10, color: colors.secondaryText }}>Purchase date helps in warranty, service and other details</Text> */}
-        </View>
-        }
+        )}
         <FinishModal
-          ref={ref => this.finishModal = ref}
+          ref={ref => (this.finishModal = ref)}
           title="Product added to your eHome."
           mainCategoryId={mainCategoryId}
           category={category}
@@ -714,16 +802,16 @@ const styles = StyleSheet.create({
   stepIndicatorsAndText: {
     height: 40,
     paddingHorizontal: 20,
-    paddingVertical: 5,
+    paddingVertical: 5
   },
   stepIndicators: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1
   },
   stepIndicatorLine: {
     height: 2,
-    backgroundColor: '#eee',
+    backgroundColor: "#eee",
     flex: 1
   },
   doneStepIndicatorLine: {
@@ -732,15 +820,15 @@ const styles = StyleSheet.create({
   stepIndicatorDot: {
     width: 15,
     height: 15,
-    backgroundColor: '#eee',
+    backgroundColor: "#eee",
     borderRadius: 10
   },
   activeStepIndicatorDot: {
     width: 20,
     height: 20,
     backgroundColor: colors.mainBlue,
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center"
   },
   activeStepIndicatorDotInnerRing: {
     width: 15,
@@ -748,7 +836,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.mainBlue,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#fff'
+    borderColor: "#fff"
   },
   doneStepIndicatorDot: {
     backgroundColor: colors.success

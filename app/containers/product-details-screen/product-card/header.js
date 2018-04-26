@@ -33,7 +33,7 @@ import ReviewModal from "./review-modal";
 import ShareModal from "./share-modal";
 import ImageModal from "./image-model";
 import ViewBillButton from "../view-bill-button";
-import { MAIN_CATEGORY_IDS } from "../../../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 
 class Header extends Component {
   constructor(props) {
@@ -259,18 +259,16 @@ class Header extends Component {
                   alignItems: "center"
                 }}
               >
-                {product.categoryId != 664 && (
-                  <ViewBillButton
-                    viewRef={ref => viewBillRef(ref)}
-                    product={product}
-                    navigator={navigator}
-                    style={{
-                      position: "relative",
-                      top: 10,
-                      right: undefined
-                    }}
-                  />
-                )}
+                <ViewBillButton
+                  viewRef={ref => viewBillRef(ref)}
+                  product={product}
+                  navigator={navigator}
+                  style={{
+                    position: "relative",
+                    top: 10,
+                    right: undefined
+                  }}
+                />
               </View>
               {[
                 MAIN_CATEGORY_IDS.AUTOMOBILE,

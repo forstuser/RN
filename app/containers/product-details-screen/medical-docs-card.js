@@ -6,7 +6,7 @@ import {
   Alert,
   TouchableOpacity,
   ScrollView,
-  Text as NativeText
+  Platform
 } from "react-native";
 import _ from "lodash";
 import moment from "moment";
@@ -174,8 +174,12 @@ class MedicalDocsCard extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30,
-    backgroundColor: "#f7f7f7"
+    backgroundColor: "#f7f7f7",
+    ...Platform.select({
+      android: {
+        marginTop: 25
+      }
+    })
   },
   contentContainer: {
     alignItems: "center"

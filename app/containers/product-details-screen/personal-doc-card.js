@@ -18,7 +18,7 @@ import { Navigation } from "react-native-navigation";
 
 import Modal from "react-native-modal";
 
-import { SCREENS } from "../../constants";
+import { SCREENS, CATEGORY_IDS } from "../../constants";
 import { API_BASE_URL, getProductDetails } from "../../api";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
 
@@ -181,7 +181,7 @@ class PerosnalDocCard extends Component {
               />
             </TouchableOpacity>
             <KeyValueItem keyText="Name" valueText={product.productName} />
-            {product.categoryId == 27 && (
+            {product.categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD && (
               <View style={{ width: "100%" }}>
                 <KeyValueItem
                   keyText="Business Name"
