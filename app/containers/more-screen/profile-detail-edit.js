@@ -36,7 +36,8 @@ class ProfileDetailEdit extends Component {
 
     showSnackbar({
       text: I18n.t("changing_text_please_wait"),
-      autoDismissTimerSec: 4
+      autoDismissTimerSec: 4,
+      isOnTabsScreen: true
     });
 
     try {
@@ -45,10 +46,12 @@ class ProfileDetailEdit extends Component {
       });
 
       this.props.onUpdate(this.props.apiFieldName, this.state.info);
+      console.log("values", this.props.apiFieldName, this.state.info);
     } catch (e) {
       showSnackbar({
         text: e.message,
-        autoDismissTimerSec: 4
+        autoDismissTimerSec: 4,
+        isOnTabsScreen: true
       });
     }
   };
@@ -63,7 +66,8 @@ class ProfileDetailEdit extends Component {
           onPress: async () => {
             showSnackbar({
               text: I18n.t("profile_screen_details_please_wait"),
-              autoDismissTimerSec: 1000
+              autoDismissTimerSec: 1000,
+              isOnTabsScreen: true
             });
             try {
               await updateProfile({
@@ -72,12 +76,14 @@ class ProfileDetailEdit extends Component {
               // alert(this.state.info);
               showSnackbar({
                 text: I18n.t("profile_screen_change_msg_resend_email"),
-                autoDismissTimerSec: 3
+                autoDismissTimerSec: 3,
+                isOnTabsScreen: true
               });
             } catch (e) {
               showSnackbar({
                 text: e.message,
-                autoDismissTimerSec: 5
+                autoDismissTimerSec: 5,
+                isOnTabsScreen: true
               });
             }
           }

@@ -26,7 +26,7 @@ import CustomTextInput from "../../components/form-elements/text-input";
 const editIcon = require("../../images/ic_edit_white.png");
 import { colors } from "../../theme";
 import LoadingOverlay from "../../components/loading-overlay";
-
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { showSnackbar } from "../../containers/snackbar";
 
 const verified = require("../../images/ic_profile_verified.png");
@@ -69,11 +69,13 @@ class Profile extends Component {
     const { email, emailInput, isEmailVerified } = this.state;
     if (!emailInput) {
       return showSnackbar({
-        text: "Please enter email address"
+        text: "Please enter email address",
+        isOnTabsScreen: true
       });
     } else if (email == emailInput && isEmailVerified) {
       return showSnackbar({
-        text: "Please enter new email address"
+        text: "Please enter new email address",
+        isOnTabsScreen: true
       });
     }
     try {
@@ -95,7 +97,8 @@ class Profile extends Component {
       this.setState(newState);
     } catch (e) {
       showSnackbar({
-        text: e.message
+        text: e.message,
+        isOnTabsScreen: true
       });
       this.setState({
         isLoading: false
@@ -144,139 +147,147 @@ class Profile extends Component {
     } = this.state;
     return (
       <View>
-        <ProfileDetailEdit
-          label={I18n.t("profile_screen_label_name")}
-          info={this.state.name}
-          apiFieldName="name"
-          editable={true}
-          onUpdate={this.updateState}
-        />
-        {this.state.phone && (
-          <View style={[styles.field, styles.verifiedField]}>
-            <View style={{ flexDirection: "row" }}>
-              <Text style={styles.label}>
-                {I18n.t("profile_screen_label_phone")}
-              </Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center"
-                }}
-              >
-                <Text style={styles.verified}>Verified</Text>
-                <Image style={styles.verifyIcon} source={verified} />
-              </View>
-            </View>
-            <Text weight="Medium" style={styles.value}>
-              {this.state.phone}
-            </Text>
-          </View>
-        )}
-
-        <TouchableWithoutFeedback
-          onPress={() => {
-            if (!isEmailVerified) {
-              this.setState({ isEmailModalVisible: true, showOtpInput: false });
-            }
-          }}
-        >
-          <View
-            style={[styles.field, isEmailVerified ? styles.verifiedField : {}]}
-          >
-            <View style={{ flexDirection: "row" }}>
-              <Text style={styles.label}>
-                {I18n.t("profile_screen_label_email")}
-              </Text>
-              {email ? (
+        <KeyboardAwareScrollView>
+          <ProfileDetailEdit
+            label={I18n.t("profile_screen_label_name")}
+            info={this.state.name}
+            apiFieldName="name"
+            editable={true}
+            onUpdate={this.updateState}
+          />
+          {this.state.phone && (
+            <View style={[styles.field, styles.verifiedField]}>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={styles.label}>
+                  {I18n.t("profile_screen_label_phone")}
+                </Text>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center"
                   }}
                 >
-                  <Text
-                    style={
-                      isEmailVerified ? styles.verified : styles.notVerified
-                    }
-                  >
-                    {isEmailVerified ? `Verified` : `Not Verified`}
-                  </Text>
-                  <Image
-                    style={styles.verifyIcon}
-                    source={isEmailVerified ? verified : unVerified}
-                  />
+                  <Text style={styles.verified}>Verified</Text>
+                  <Image style={styles.verifyIcon} source={verified} />
                 </View>
-              ) : null}
-            </View>
-            <Text weight="Medium" style={styles.value}>
-              {this.state.email}
-            </Text>
-          </View>
-        </TouchableWithoutFeedback>
-
-        <ProfileDetailEdit
-          label={I18n.t("profile_screen_label_address")}
-          info={this.state.location}
-          apiFieldName="location"
-          editable={true}
-          onUpdate={this.updateState}
-        />
-
-        <Modal
-          isVisible={isEmailModalVisible}
-          onBackButtonPress={this.hideEmailModal}
-          avoidKeyboard={Platform.OS == "ios"}
-          useNativeDriver={true}
-        >
-          <View style={styles.emailModal}>
-            <View style={styles.modalHeader}>
-              <Text weight="Bold" style={{ flex: 1 }}>
-                {showOtpInput ? `Enter OTP` : `Enter Email Address`}
+              </View>
+              <Text weight="Medium" style={styles.value}>
+                {this.state.phone}
               </Text>
-              <TouchableOpacity
-                style={styles.closeIcon}
-                onPress={this.hideEmailModal}
-              >
-                <Icon name="md-close" size={24} color={colors.mainText} />
-              </TouchableOpacity>
             </View>
-            <View style={styles.modalBody}>
-              {!showOtpInput && (
-                <View>
-                  <CustomTextInput
-                    placeholder="Enter Email Address"
-                    keyboardType="email-address"
-                    value={emailInput}
-                    onChangeText={emailInput => this.setState({ emailInput })}
-                  />
-                  <Button
-                    onPress={this.askForEmailOtp}
-                    style={{ marginTop: 10 }}
-                    text="Verify Email"
-                  />
-                </View>
-              )}
-              {showOtpInput && (
-                <View>
-                  <CustomTextInput
-                    placeholder="OTP"
-                    keyboardType="numeric"
-                    value={emailOtpInput}
-                    onChangeText={emailOtpInput =>
-                      this.setState({ emailOtpInput })
-                    }
-                  />
-                  <Button
-                    onPress={this.validateEmailOtp}
-                    style={{ marginTop: 10 }}
-                    text="Submit"
-                  />
-                </View>
-              )}
-              <LoadingOverlay visible={isLoading} />
+          )}
+
+          <TouchableWithoutFeedback
+            onPress={() => {
+              if (!isEmailVerified) {
+                this.setState({
+                  isEmailModalVisible: true,
+                  showOtpInput: false
+                });
+              }
+            }}
+          >
+            <View
+              style={[
+                styles.field,
+                isEmailVerified ? styles.verifiedField : {}
+              ]}
+            >
+              <View style={{ flexDirection: "row" }}>
+                <Text style={styles.label}>
+                  {I18n.t("profile_screen_label_email")}
+                </Text>
+                {email ? (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text
+                      style={
+                        isEmailVerified ? styles.verified : styles.notVerified
+                      }
+                    >
+                      {isEmailVerified ? `Verified` : `Not Verified`}
+                    </Text>
+                    <Image
+                      style={styles.verifyIcon}
+                      source={isEmailVerified ? verified : unVerified}
+                    />
+                  </View>
+                ) : null}
+              </View>
+              <Text weight="Medium" style={styles.value}>
+                {this.state.email}
+              </Text>
             </View>
-          </View>
-        </Modal>
+          </TouchableWithoutFeedback>
+
+          <ProfileDetailEdit
+            label={I18n.t("profile_screen_label_address")}
+            info={this.state.location}
+            apiFieldName="location"
+            editable={true}
+            onUpdate={this.updateState}
+          />
+
+          <Modal
+            isVisible={isEmailModalVisible}
+            onBackButtonPress={this.hideEmailModal}
+            avoidKeyboard={Platform.OS == "ios"}
+            useNativeDriver={true}
+          >
+            <View style={styles.emailModal}>
+              <View style={styles.modalHeader}>
+                <Text weight="Bold" style={{ flex: 1 }}>
+                  {showOtpInput ? `Enter OTP` : `Enter Email Address`}
+                </Text>
+                <TouchableOpacity
+                  style={styles.closeIcon}
+                  onPress={this.hideEmailModal}
+                >
+                  <Icon name="md-close" size={24} color={colors.mainText} />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.modalBody}>
+                {!showOtpInput && (
+                  <View>
+                    <CustomTextInput
+                      placeholder="Enter Email Address"
+                      keyboardType="email-address"
+                      value={emailInput}
+                      onChangeText={emailInput => this.setState({ emailInput })}
+                    />
+                    <Button
+                      onPress={this.askForEmailOtp}
+                      style={{ marginTop: 10 }}
+                      text="Verify Email"
+                    />
+                  </View>
+                )}
+                {showOtpInput && (
+                  <View>
+                    <CustomTextInput
+                      placeholder="OTP"
+                      keyboardType="numeric"
+                      value={emailOtpInput}
+                      onChangeText={emailOtpInput =>
+                        this.setState({ emailOtpInput })
+                      }
+                    />
+                    <Button
+                      onPress={this.validateEmailOtp}
+                      style={{ marginTop: 10 }}
+                      text="Submit"
+                    />
+                  </View>
+                )}
+                <LoadingOverlay visible={isLoading} />
+              </View>
+            </View>
+          </Modal>
+        </KeyboardAwareScrollView>
       </View>
     );
   }

@@ -91,7 +91,8 @@ class Header extends Component {
   uploadImage = async file => {
     showSnackbar({
       text: I18n.t("profile_screen_please_wait"),
-      autoDismissTimerSec: 1000
+      autoDismissTimerSec: 1000,
+      isOnTabsScreen: true
     });
     try {
       await uploadProfilePic(file, () => {});
@@ -101,18 +102,20 @@ class Header extends Component {
 
       showSnackbar({
         text: I18n.t("profile_screen_details_updated"),
-        autoDismissTimerSec: 3
+        autoDismissTimerSec: 3,
+        isOnTabsScreen: true
       });
     } catch (e) {
       showSnackbar({
-        text: e.message
+        text: e.message,
+        isOnTabsScreen: true
       });
     }
   };
 
   render() {
-    const { profile, authToken, isProfileVisible } = this.props;
-
+    const { profile, authToken, isProfileVisible, name } = this.props;
+    console.log(name, "propsName");
     let profilePic = (
       <Image
         ref={img => {
@@ -192,13 +195,14 @@ class Header extends Component {
               {!isProfileVisible && (
                 <View style={styles.centerText}>
                   <Text style={styles.name} weight="Bold">
-                    {profile.name}
+                    {name}
                   </Text>
                   <Text style={styles.mobile} weight="Medium">
                     {profile.mobile_no}
                   </Text>
                 </View>
               )}
+
               {!isProfileVisible && (
                 <Image
                   style={{ width: 12, height: 12 }}
