@@ -30,24 +30,28 @@ class EasyLifeScreen extends Component {
   };
 
   attendanceItemPress = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_WHO_IS_ABSENT);
     this.props.navigator.push({
       screen: SCREENS.MY_CALENDAR_SCREEN
     });
   };
 
   toDoItemPress = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_DO_TODAY);
     this.props.navigator.push({
       screen: SCREENS.WHAT_TO_SCREEN,
       passProps: { type: EASY_LIFE_TYPES.WHAT_TO_DO }
     });
   };
   cookingItemPress = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_COOK);
     this.props.navigator.push({
       screen: SCREENS.WHAT_TO_SCREEN,
       passProps: { type: EASY_LIFE_TYPES.WHAT_TO_COOK }
     });
   };
   wearItemPress = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_WEAR_TODAY);
     this.props.navigator.push({
       screen: SCREENS.WHAT_TO_SCREEN,
       passProps: { type: EASY_LIFE_TYPES.WHAT_TO_WEAR }

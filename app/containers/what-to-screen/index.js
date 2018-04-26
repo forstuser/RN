@@ -325,10 +325,15 @@ class DishCalendarScreen extends Component {
     const { type } = this.props;
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_COOK:
+        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_NEW_DISH);
+        this.WhatToListModal.show();
+        break;
       case EASY_LIFE_TYPES.WHAT_TO_DO:
+        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_NEW_WHAT_TO_DO);
         this.WhatToListModal.show();
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
+        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_NEW_WEAR_ITEM);
         this.clothesImageUploader.showActionSheet();
         break;
     }
@@ -490,6 +495,7 @@ class DishCalendarScreen extends Component {
           !isLoading && (
             <WhatToListEmptyState
               type={this.props.type}
+              navigator={this.props.navigator}
               onCreateListBtnPress={this.goToEditScreen}
             />
           )}
