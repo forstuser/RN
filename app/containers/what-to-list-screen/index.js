@@ -61,7 +61,8 @@ class WhatToListScreen extends Component {
     isVeg: false,
     checkAll: false,
     selectedState: null,
-    isLoading: false
+    isLoading: true,
+    error: null
   };
 
   componentDidMount() {
@@ -94,12 +95,16 @@ class WhatToListScreen extends Component {
       title
     });
 
+    this.fetchStatesOrItems();
+  }
+
+  fetchStatesOrItems = () => {
     if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_COOK) {
       this.loadStates();
     } else {
       this.fetchItems();
     }
-  }
+  };
 
   loadStates = async () => {
     this.setState({
@@ -110,19 +115,27 @@ class WhatToListScreen extends Component {
       this.setState({
         states: res.states
       });
-      if (this.props.stateId) {
-        const state = this.state.states.find(
-          state => state.id == this.props.stateId
-        );
-        this.onSelectState(state);
+
+      let stateId = this.props.stateId;
+      if (this.state.selectedState) {
+        stateId = this.state.selectedState.id;
       }
-    } catch (e) {
-    } finally {
+      if (stateId) {
+        const state = this.state.states.find(state => state.id == stateId);
+        this.onSelectState(state);
+      } else {
+        this.setState({
+          isLoading: false
+        });
+      }
+    } catch (error) {
       this.setState({
+        error,
         isLoading: false
       });
     }
   };
+
   onSelectState = async value => {
     this.setState(
       {
@@ -178,7 +191,7 @@ class WhatToListScreen extends Component {
   // to wear case
   addItem = item => {
     this.setState({ items: [...this.state.items, item] }, () => {
-      console.log(this.state.items);
+      this.scrollView.scrollToEnd();
     });
   };
 
@@ -186,8 +199,6 @@ class WhatToListScreen extends Component {
     const { type } = this.props;
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_COOK:
-        this.WhatToListModal.show();
-        break;
       case EASY_LIFE_TYPES.WHAT_TO_DO:
         this.WhatToListModal.show();
         break;
@@ -208,7 +219,7 @@ class WhatToListScreen extends Component {
         ]
       },
       () => {
-        console.log("user", this.state.items);
+        this.scrollView.scrollTo({ y: 0, animated: true });
       }
     );
   };
@@ -222,7 +233,7 @@ class WhatToListScreen extends Component {
         case EASY_LIFE_TYPES.WHAT_TO_DO:
           await removeTodoById({ todoId: item.id });
           break;
-        case EASY_LIFE_TYPES.WHAT_TO_COOK:
+        case EASY_LIFE_TYPES.WHAT_TO_WEAR:
           await removeClothById({ clothId: item.id });
           break;
       }
@@ -314,6 +325,30 @@ class WhatToListScreen extends Component {
     }
   };
 
+  beforeOpenStatesModal = () => {
+    if (!this.state.selectedState) {
+      return true;
+    } else {
+      Alert.alert(
+        "Are you sure?",
+        `Changing state will remove the list of state ${
+        this.state.selectedState.name
+        }`,
+        [
+          {
+            text: "Cancel",
+            onPress: () => { },
+            style: "cancel"
+          },
+          {
+            text: "Continue",
+            onPress: () => this.selectStateModal.openModal()
+          }
+        ]
+      );
+    }
+  };
+
   render() {
     const { type } = this.props;
     const {
@@ -325,7 +360,8 @@ class WhatToListScreen extends Component {
       isVeg,
       selectedState,
       isLoading,
-      checkAll
+      checkAll,
+      error
     } = this.state;
     return (
       <View style={{ flex: 1 }}>
@@ -333,6 +369,7 @@ class WhatToListScreen extends Component {
           {type == EASY_LIFE_TYPES.WHAT_TO_COOK && (
             <View style={{ padding: 5 }}>
               <SelectModal
+                ref={ref => (this.selectStateModal = ref)}
                 placeholder={"Select State"}
                 placeholderRenderer={({ placeholder }) => (
                   <Text>{placeholder}</Text>
@@ -345,6 +382,7 @@ class WhatToListScreen extends Component {
                 onOptionSelect={value => {
                   this.onSelectState(value);
                 }}
+                beforeModalOpen={this.beforeOpenStatesModal}
               />
               {selectedState && (
                 <View style={{ flexDirection: 'row' }}>
@@ -375,33 +413,7 @@ class WhatToListScreen extends Component {
               </Text>
             </View>
           )}
-          <ScrollView style={styles.body}>
-            {items.length > 0 &&
-              items.map((item, index) => {
-                let imageUrl = null;
-                if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
-                  imageUrl =
-                    API_BASE_URL +
-                    "/wearable/" +
-                    item.id +
-                    "/images/" +
-                    item.image_code;
-                }
-                return (
-                  <View key={index}>
-                    {item.status_type == 1 && (
-                      <EasyLifeItem
-                        showCheckbox={true}
-                        text={item.name}
-                        imageUrl={imageUrl}
-                        showRemoveBtn={false}
-                        isChecked={selectedItemIds.includes(item.id)}
-                        onPress={() => this.toggleSystemItemSelect(item.id)}
-                      />
-                    )}
-                  </View>
-                );
-              })}
+          <ScrollView style={styles.body} ref={ref => (this.scrollView = ref)}>
             {items.filter(item => item.status_type == 11).length > 0 && (
               <Text>User Created</Text>
             )}
@@ -431,6 +443,38 @@ class WhatToListScreen extends Component {
                 </View>
               );
             })}
+
+            {items.filter(item => item.status_type == 1).length > 0 &&
+              type != EASY_LIFE_TYPES.WHAT_TO_WEAR && (
+                <Text>System Provided</Text>
+              )}
+            {items.length > 0 &&
+              items.map((item, index) => {
+                let imageUrl = null;
+                if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
+                  imageUrl =
+                    API_BASE_URL +
+                    "/wearable/" +
+                    item.id +
+                    "/images/" +
+                    item.image_code;
+                }
+                return (
+                  <View key={index}>
+                    {item.status_type == 1 && (
+                      <EasyLifeItem
+                        showCheckbox={type != EASY_LIFE_TYPES.WHAT_TO_WEAR}
+                        text={item.name}
+                        imageUrl={imageUrl}
+                        showRemoveBtn={type == EASY_LIFE_TYPES.WHAT_TO_WEAR}
+                        isChecked={selectedItemIds.includes(item.id)}
+                        onPress={() => this.toggleSystemItemSelect(item.id)}
+                        onRemoveBtnPress={() => this.removeItem(item)}
+                      />
+                    )}
+                  </View>
+                );
+              })}
           </ScrollView>
           <View style={styles.addNewBtn}>
             <AddNewBtn text={btnText} onPress={this.onAddNewPress} />
@@ -462,6 +506,7 @@ class WhatToListScreen extends Component {
             </View>
           )}
         <LoadingOverlay visible={isLoading} />
+        <ErrorOverlay error={error} onRetryPress={this.fetchStatesOrItems} />
       </View>
     );
   }
