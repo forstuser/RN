@@ -9,42 +9,39 @@ class EasyLifeItem extends React.Component {
   render() {
     const {
       text,
-      rightText,
-      bottomText,
+      secondaryText,
       showCheckbox = true,
+      checkBoxStyle = "box", //or 'circle'
       isChecked,
       imageUrl,
       onPress,
       showRemoveBtn = false,
       onRemoveBtnPress
     } = this.props;
-    console.log("imageUrl: ", imageUrl);
+
     return (
       <View>
         <TouchableOpacity
-          style={[
-            styles.container,
-            bottomText || imageUrl ? styles.bigContainer : {}
-          ]}
+          style={[styles.container, imageUrl ? styles.bigContainer : {}]}
           onPress={onPress}
         >
           {showCheckbox && (
-            <View style={styles.checkbox}>
+            <View
+              style={[
+                checkBoxStyle == "box" ? styles.checkbox : styles.selectBox,
+                checkBoxStyle != "box" && isChecked
+                  ? { backgroundColor: colors.success }
+                  : {}
+              ]}
+            >
               {isChecked && (
                 <Icon
                   name="md-checkmark"
-                  color={colors.pinkishOrange}
+                  color={
+                    checkBoxStyle == "box" ? colors.pinkishOrange : "white"
+                  }
                   size={15}
                 />
-              )}
-            </View>
-          )}
-          {!showCheckbox && (
-            <View
-              style={[styles.selectBox, isChecked ? styles.selectedBox : {}]}
-            >
-              {isChecked && (
-                <Icon name="md-checkmark" color={"#fff"} size={15} />
               )}
             </View>
           )}
@@ -52,11 +49,13 @@ class EasyLifeItem extends React.Component {
             <Text weight="Medium" style={styles.text} numberOfLines={1}>
               {text}
             </Text>
-            {bottomText ? (
-              <Text style={styles.subText}>{bottomText}</Text>
+            {secondaryText && imageUrl ? (
+              <Text style={styles.subText}>{secondaryText}</Text>
             ) : null}
           </View>
-          {rightText ? <Text style={styles.subText}>{rightText}</Text> : null}
+          {secondaryText && !imageUrl ? (
+            <Text style={styles.subText}>{secondaryText}</Text>
+          ) : null}
           {imageUrl ? (
             <AsyncImage source={{ uri: imageUrl }} style={styles.image} />
           ) : null}

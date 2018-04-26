@@ -38,6 +38,7 @@ import EasyLifeItem from "../../components/easy-life-item";
 import AddNewBtn from "../../components/add-new-btn";
 import CloathesImageUploader from "../../components/easy-life-items/cloathes-image-uploader";
 import WhatToListModal from "../../components/what-to-list-modal";
+import WhatToListEmptyState from "../../components/what-to-list-empty-state";
 import { showSnackbar } from "../snackbar";
 
 const cooking = require("../../images/cooking.png");
@@ -98,7 +99,8 @@ class DishCalendarScreen extends Component {
     date: moment().format("YYYY-MM-DD"),
     items: [],
     selectedItemIds: [],
-    isLoading: false
+    isLoading: true,
+    error: null
   };
 
   componentDidMount() {
@@ -241,12 +243,9 @@ class DishCalendarScreen extends Component {
           break;
       }
 
-      this.setState(newState, () => {
-        if (this.state.items.length == 0) {
-          this.showCreateListAlert();
-        }
-      });
+      this.setState(newState);
     } catch (e) {
+      this.setState({ error: e });
     } finally {
       this.setState({
         isLoading: false
@@ -254,37 +253,11 @@ class DishCalendarScreen extends Component {
     }
   };
 
-  showCreateListAlert = () => {
-    let listName = "dishes";
-    if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_DO) {
-      listName = "to-do";
-    } else if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
-      listName = "wearables";
-    }
-    Alert.alert(
-      "Create List First",
-      `You don't have any items in your ${listName} list, please create your list first`,
-      [
-        {
-          text: "Create Your List",
-          onPress: this.goToEditScreen,
-          style: "cancel"
-        },
-        {
-          text: "Go Back",
-          onPress: () => {
-            this.props.navigator.pop();
-          }
-        }
-      ]
-    );
-  };
-
   toggleItemSelect = async item => {
     let newSelectedItemIds = [...this.state.selectedItemIds];
     const idx = newSelectedItemIds.indexOf(item.id);
 
-    this.setState({ isLoading: true });
+    // this.setState({ isLoading: true });
     try {
       if (idx > -1) {
         switch (this.props.type) {
@@ -346,10 +319,8 @@ class DishCalendarScreen extends Component {
     const { type } = this.props;
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_COOK:
-        this.WhatToListModal.show();
-        break;
       case EASY_LIFE_TYPES.WHAT_TO_DO:
-        // this.cloathesImageUploader.showActionSheet();
+        this.WhatToListModal.show();
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
         this.cloathesImageUploader.showActionSheet();
@@ -357,16 +328,23 @@ class DishCalendarScreen extends Component {
     }
   };
 
+  addItem = item => {
+    this.setState(
+      {
+        items: [...items, this.state.item]
+      },
+      async () => {
+        this.scrollView.scrollTo({ y: 0, animated: true });
+      }
+    );
+  };
+
   addItems = items => {
     this.setState(
       {
-        items: [...items, ...this.state.items],
-        selectedItemIds: [
-          ...this.state.selectedItemIds,
-          ...items.map(item => item.id)
-        ]
+        items: [...items, ...this.state.items]
       },
-      () => {
+      async () => {
         this.scrollView.scrollTo({ y: 0, animated: true });
       }
     );
@@ -400,89 +378,106 @@ class DishCalendarScreen extends Component {
   };
 
   render() {
-    const { isLoading, date, image, text, items, selectedItemIds } = this.state;
+    const {
+      isLoading,
+      date,
+      image,
+      text,
+      items,
+      selectedItemIds,
+      error
+    } = this.state;
     return (
       <ScreenContainer style={styles.container}>
-        <ScrollView
-          onScroll={this.handleScroll}
-          ref={ref => (this.scrollView = ref)}
-        >
-          <View style={styles.header}>
-            <Image style={styles.headerBg} source={headerBg} />
-            <Image style={styles.image} source={image} />
+        {items.length > 0 && (
+          <ScrollView
+            onScroll={this.handleScroll}
+            ref={ref => (this.scrollView = ref)}
+          >
+            <View style={styles.header}>
+              <Image style={styles.headerBg} source={headerBg} />
+              <Image style={styles.image} source={image} />
 
-            <View style={styles.dateSelector}>
-              <DateSelector
-                date={date}
-                onRightArrowPress={this.nextDate}
-                onLeftArrowPress={this.previousDate}
+              <View style={styles.dateSelector}>
+                <DateSelector
+                  date={date}
+                  onRightArrowPress={this.nextDate}
+                  onLeftArrowPress={this.previousDate}
+                />
+              </View>
+            </View>
+            <View style={styles.body}>
+              <Text style={styles.titleText}>{text}</Text>
+              {items.map((item, index) => {
+                const isChecked = selectedItemIds.indexOf(item.id) > -1;
+                let secondaryText = "";
+                let imageUrl = null;
+                if (item.current_date) {
+                  const diff = moment()
+                    .startOf("day")
+                    .diff(moment(item.current_date).startOf("day"), "days");
+                  if (!diff) {
+                    secondaryText = "Today";
+                  } else if (diff == 1) {
+                    secondaryText = "Yesterday";
+                  } else if (diff == -1) {
+                    secondaryText = "Tomorrow";
+                  } else if (diff > 1) {
+                    secondaryText = `${diff} days ago`;
+                  } else if (diff < -1) {
+                    secondaryText = moment(item.current_date).format(
+                      "DD MMM, YYYY"
+                    );
+                  }
+                }
+
+                if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
+                  imageUrl =
+                    API_BASE_URL +
+                    "/wearable/" +
+                    item.id +
+                    "/images/" +
+                    item.image_code;
+                }
+                return (
+                  <View key={item.id} style={styles.item}>
+                    <EasyLifeItem
+                      checkBoxStyle="circle"
+                      text={item.name}
+                      secondaryText={secondaryText}
+                      imageUrl={imageUrl}
+                      isChecked={isChecked}
+                      onPress={() => this.toggleItemSelect(item)}
+                    />
+                  </View>
+                );
+              })}
+              <AddNewBtn
+                style={{ margin: 5 }}
+                text={"Add New Item"}
+                onPress={this.onAddNewPress}
+              />
+              <CloathesImageUploader
+                ref={ref => (this.cloathesImageUploader = ref)}
+                navigator={navigator}
+              />
+              <WhatToListModal
+                ref={ref => (this.WhatToListModal = ref)}
+                navigator={this.props.navigator}
+                addItems={this.addItems}
+                type={this.props.type}
+                stateId={items.length > 0 ? items[0].state_id : null}
               />
             </View>
-          </View>
-          <View style={styles.body}>
-            <Text style={styles.titleText}>{text}</Text>
-            {items.map((item, index) => {
-              const isChecked = selectedItemIds.indexOf(item.id) > -1;
-              let secondaryText = "";
-              let imageUrl = null;
-              if (item.current_date) {
-                const diff = moment()
-                  .startOf("day")
-                  .diff(moment(item.current_date).startOf("day"), "days");
-
-                if (!diff) {
-                  secondaryText = "Today";
-                } else if (diff == 1) {
-                  secondaryText = "Yesterday";
-                } else if (diff == -1) {
-                  secondaryText = "Tomorrow";
-                } else if (diff > 1) {
-                  secondaryText = `${diff} days ago`;
-                } else if (diff < -1) {
-                  secondaryText = moment(item.current_date).format(
-                    "DD MMM, YYYY"
-                  );
-                }
-              }
-
-              if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
-                imageUrl =
-                  API_BASE_URL +
-                  "/wearable/" +
-                  item.id +
-                  "/images/" +
-                  item.image_code;
-              }
-              return (
-                <View key={item.id} style={styles.item}>
-                  <EasyLifeItem
-                    showCheckbox={false}
-                    text={item.name}
-                    secondaryText={secondaryText}
-                    imageUrl={imageUrl}
-                    isChecked={isChecked}
-                    onPress={() => this.toggleItemSelect(item)}
-                  />
-                </View>
-              );
-            })}
-            <AddNewBtn
-              style={{ margin: 5 }}
-              text={"Add New Item"}
-              onPress={this.onAddNewPress}
+          </ScrollView>
+        )}
+        {items.length == 0 &&
+          !isLoading && (
+            <WhatToListEmptyState
+              type={this.props.type}
+              onCreateListBtnPress={this.goToEditScreen}
             />
-            <CloathesImageUploader
-              ref={ref => (this.cloathesImageUploader = ref)}
-              navigator={navigator}
-            />
-            <WhatToListModal
-              ref={ref => (this.WhatToListModal = ref)}
-              navigator={this.props.navigator}
-              addItems={this.addItems}
-              stateId={items.length > 0 ? items[0].state_id : null}
-            />
-          </View>
-        </ScrollView>
+          )}
         <ActionSheet
           onPress={this.handleEditOptionPress}
           ref={o => (this.editOptions = o)}
@@ -490,6 +485,7 @@ class DishCalendarScreen extends Component {
           options={["Edit List", "Cancel"]}
         />
         <LoadingOverlay visible={isLoading} />
+        <ErrorOverlay error={error} onRetryPress={this.fetchItems} />
       </ScreenContainer>
     );
   }
