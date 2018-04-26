@@ -47,7 +47,7 @@ class MyCalendarScreen extends Component {
     this.props.navigator.setTitle({
       title: I18n.t("my_calendar_screen_title")
     });
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ATTENDANCE);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
   }
 
   fetchItems = async () => {

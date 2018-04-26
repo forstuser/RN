@@ -59,7 +59,7 @@ const EVENTS = {
   CLICK_MAIL: "Click_mail",
   SHARE_VIA_SCREEN_SHOTS: "Share_Via",
   //ATTENDANCE MANAGER
-  CLICK_ON_ATTENDANCE: "Click_attendance",
+  CLICK_ON_EAZYDAY: "Click_eazyday",
   CLICK_ON_ATTENDANCE_ITEMS: "click_attendanceitem",
   ADD_ATTENDANCE_ITEM: "Add_attendance",
   CLICK_ABSENT: "Click_Absent",
@@ -105,7 +105,19 @@ const EVENTS = {
   PRODUCT_DELETE_CANCELED: "product_delete_canceled",
   PRODUCT_DELETE_COMPLETE: "product_delete_complete",
   API_ERROR: "api_error",
-  SHARE_VIA: "share_via"
+  SHARE_VIA: "share_via",
+
+  //eazyday
+  CLICK_WHO_IS_ABSENT: "Open_attendance",
+  CLICK_WHAT_TO_COOK: "Open_Cook",
+  CLICK_WHAT_TO_WEAR_TODAY: "Open_wear",
+  CLICK_WHAT_TO_DO_TODAY: "Open_todo",
+  CLICK_CREATE_FIRST_LIST_COOK: "Click_List_Cook",
+  CLICK_CREATE_FIRST_LIST_WEAR: "Click_List_wear",
+  CLICK_CREATE_FIRST_LIST_TODO: "Click_List_todo",
+  CLICK_ON_ADD_NEW_DISH: "Click_addnew_Dish",
+  CLICK_ON_ADD_NEW_WEAR_ITEM: "Click_addnew_cloth",
+  CLICK_ON_ADD_NEW_WHAT_TO_DO: "Click_addnew_todo"
 };
 
 const logEvent = (eventName, data = {}) => {
