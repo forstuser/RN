@@ -12,12 +12,10 @@ import {
 import Modal from "react-native-modal";
 import ActionSheet from "react-native-actionsheet";
 import ImagePicker from "react-native-image-crop-picker";
-
 import {
   requestCameraPermission,
   requestStoragePermission
 } from "../../android-permissions";
-
 import I18n from "../../i18n";
 import { API_BASE_URL, uploadProfilePic } from "../../api";
 import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";

@@ -17,7 +17,6 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import Body from "./body";
 import Header from "./header";
 import Profile from "./profile";
-
 import I18n from "../../i18n";
 import { showSnackbar } from "../snackbar";
 import { SCREENS } from "../../constants";
@@ -26,6 +25,7 @@ import { openLoginScreen, openAppScreen } from "../../navigation";
 import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 class MoreScreen extends Component {
   static navigatorStyle = {
@@ -43,7 +43,8 @@ class MoreScreen extends Component {
       binbillDetails: {},
       startWithProfileScreen: false,
       isRemovePinModalVisible: false,
-      isProfileVisible: false
+      isProfileVisible: false,
+      name: null
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -87,9 +88,14 @@ class MoreScreen extends Component {
       this.setState(
         {
           profile: res.userProfile,
+          name: res.userProfile.name,
           isAppUpdateAvailable: res.forceUpdate === false,
           isFetchingData: false
         },
+        () => {
+          console.log(this.state.name, "api name");
+        },
+
         () => {
           if (this.state.startWithProfileScreen) {
             this.setState({ startWithProfileScreen: false });
@@ -140,6 +146,23 @@ class MoreScreen extends Component {
     });
   };
 
+  visible = item => {
+    this.setState({
+      isProfileVisible: item
+    });
+  };
+
+  updateState = (key, value) => {
+    this.setState(
+      {
+        [key]: value
+      },
+      () => {
+        console.log(this.state.name, "stateName");
+      }
+    );
+  };
+
   render() {
     const { authToken, isPinSet } = this.props;
     const {
@@ -148,8 +171,10 @@ class MoreScreen extends Component {
       error,
       isFetchingData,
       isRemovePinModalVisible,
-      isProfileVisible
+      isProfileVisible,
+      name
     } = this.state;
+    console.lo;
     // Alert.alert(this.setState.profile);
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
@@ -157,30 +182,36 @@ class MoreScreen extends Component {
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
         <LoadingOverlay visible={isFetchingData} />
-        <Header
-          authToken={authToken}
-          onPress={this.openProfileScreen}
-          profile={profile}
-          navigator={this.props.navigator}
-          isProfileVisible={this.state.isProfileVisible}
-        />
-        {!isProfileVisible && (
-          <Body
+        <KeyboardAwareScrollView>
+          <Header
+            authToken={authToken}
+            onPress={this.openProfileScreen}
             profile={profile}
-            isPinSet={isPinSet}
-            removePin={() => this.setState({ isRemovePinModalVisible: true })}
-            isAppUpdateAvailable={isAppUpdateAvailable}
-            logoutUser={this.props.logoutUser}
-            language={this.props.language}
-            setLanguage={language => {
-              this.props.setLanguage(language);
-              I18n.locale = language.code;
-              openAppScreen();
-            }}
+            name={name}
             navigator={this.props.navigator}
+            isProfileVisible={this.state.isProfileVisible}
+            visible={this.visible}
+            onUpdate={this.updateState}
           />
-        )}
-        {profile && isProfileVisible && <Profile profile={profile} />}
+          {!isProfileVisible && (
+            <Body
+              profile={profile}
+              isPinSet={isPinSet}
+              removePin={() => this.setState({ isRemovePinModalVisible: true })}
+              isAppUpdateAvailable={isAppUpdateAvailable}
+              logoutUser={this.props.logoutUser}
+              language={this.props.language}
+              setLanguage={language => {
+                this.props.setLanguage(language);
+                I18n.locale = language.code;
+                openAppScreen();
+              }}
+              navigator={this.props.navigator}
+            />
+          )}
+          {profile && isProfileVisible && <Profile profile={profile} />}
+        </KeyboardAwareScrollView>
+
         <Modal
           isVisible={isRemovePinModalVisible}
           style={{ margin: 0 }}
