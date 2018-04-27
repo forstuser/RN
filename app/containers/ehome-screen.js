@@ -115,7 +115,11 @@ class EhomeScreen extends Component {
           //   this.openDocsUnderProcessingScreen();
           // }
 
-          if (!this.props.hasEhomeTourShown && !this.screenHasDisappeared) {
+          if (
+            !this.props.hasEhomeTourShown &&
+            !this.screenHasDisappeared &&
+            this.ehomeTour
+          ) {
             this.ehomeTour.startTour();
             this.props.setUiHasEhomeTourShown(true);
           }

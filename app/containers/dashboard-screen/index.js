@@ -182,7 +182,11 @@ class DashboardScreen extends React.Component {
 
           if (this.state.showDashboard && !this.props.hasDashboardTourShown) {
             setTimeout(() => {
-              if (!this.screenHasDisappeared && this.comingUpRef) {
+              if (
+                !this.screenHasDisappeared &&
+                this.comingUpRef &&
+                this.dashboardTour
+              ) {
                 this.dashboardTour.startTour();
                 this.props.setUiHasDashboardTourShown(true);
               }
