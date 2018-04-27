@@ -32,7 +32,11 @@ class FinishModal extends React.Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_I_WILL_DO_IT_LATER);
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
-        this.props.startOver();
+        if (!this.props.popOnDoItLater) {
+          this.props.startOver();
+        } else {
+          this.props.navigator.pop({ animationType: "fade" });
+        }
 
         this.props.navigator.push({
           screen: SCREENS.PRODUCT_DETAILS_SCREEN,
@@ -41,7 +45,7 @@ class FinishModal extends React.Component {
           }
         });
       } else {
-        this.props.navigator.pop();
+        this.props.navigator.pop({ animationType: "fade" });
       }
     });
   };

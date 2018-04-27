@@ -182,7 +182,12 @@ class ChooseExpenseTypeScreen extends React.Component {
     );
 
     return (
-      <Step skippable={false} title="Add a Product/Expense" {...this.props}>
+      <Step
+        skippable={false}
+        hideHeader={true}
+        title="Add a Product/Expense"
+        {...this.props}
+      >
         <View style={styles.container}>
           <View style={[styles.option, styles.option1]}>
             <View style={[styles.optionInner]}>
@@ -232,8 +237,17 @@ class ChooseExpenseTypeScreen extends React.Component {
                 </View>
               </View>
             </View>
+            {Platform.OS == "ios" && (
+              <Button
+                onPress={this.props.onBackPress}
+                style={styles.closeBtn}
+                text={I18n.t("add_expenses_options_cancel_btn")}
+                type="outline"
+                color="secondary"
+                outlineBtnStyle={{ borderColor: "transparent" }}
+              />
+            )}
           </View>
-
         </View>
       </Step>
     );
@@ -251,13 +265,10 @@ const styles = StyleSheet.create({
     padding: 16,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: '#fff'
+    backgroundColor: "#fff"
   },
-  option1: {
-  },
-  option2: {
-
-  },
+  option1: {},
+  option2: {},
   optionInner: {
     justifyContent: "center",
     width: "100%",

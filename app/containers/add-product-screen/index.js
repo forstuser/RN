@@ -56,7 +56,8 @@ class AddProductScreen extends React.Component {
     product: null,
     insuranceProviders: [],
     subCategories: [],
-    isLoading: false
+    isLoading: false,
+    popOnDoItLater: false
   };
 
   stepsContainerPositionX = new Animated.Value(-SCREEN_WIDTH);
@@ -84,6 +85,7 @@ class AddProductScreen extends React.Component {
   componentDidMount() {
     const { expenseType } = this.props;
     if (expenseType) {
+      this.setState({ popOnDoItLater: true });
       this.chooseExpenseType(expenseType, false);
     } else {
       this.pushStep(
@@ -237,7 +239,7 @@ class AddProductScreen extends React.Component {
     );
   };
 
-  pushUploadBillStep = (skippable = false) => {
+  pushUploadBillStep = (skippable = false, pushToNextStep = true) => {
     const { mainCategoryId, category, product } = this.state;
 
     this.pushStep(
@@ -250,7 +252,8 @@ class AddProductScreen extends React.Component {
         onBackPress={this.previousStep}
         skippable={skippable}
         onSkipPress={() => this.finishModal.show()}
-      />
+      />,
+      pushToNextStep
     );
   };
 
@@ -306,7 +309,7 @@ class AddProductScreen extends React.Component {
     );
   };
 
-  initProduct = async () => {
+  initProduct = async pushToNextStep => {
     this.setState({ isLoading: true, product: null });
     const { mainCategoryId, category } = this.state;
     try {
@@ -318,7 +321,7 @@ class AddProductScreen extends React.Component {
         },
         () => {
           if (category.id == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
-            this.pushUploadBillStep();
+            this.pushUploadBillStep(false, pushToNextStep);
             this.setState({
               numberOfStepsToShowInFooter: 2
             });
@@ -449,7 +452,7 @@ class AddProductScreen extends React.Component {
                 }
               },
               () => {
-                this.initProduct();
+                this.initProduct(pushToNextStep);
               }
             );
             break;
@@ -732,7 +735,8 @@ class AddProductScreen extends React.Component {
       steps,
       activeStepIndex,
       isLoading,
-      numberOfStepsToShowInFooter
+      numberOfStepsToShowInFooter,
+      popOnDoItLater
     } = this.state;
 
     let nextStep = null;
@@ -811,6 +815,7 @@ class AddProductScreen extends React.Component {
           mainCategoryId={mainCategoryId}
           category={category}
           productId={product ? product.id : null}
+          popOnDoItLater={popOnDoItLater}
           navigator={this.props.navigator}
           startOver={this.startOver}
         />

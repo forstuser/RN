@@ -123,8 +123,10 @@ class WhatToListScreen extends Component {
         states: res.states
       });
 
-      let stateId = this.props.stateId;
-      if (this.state.selectedState) {
+      let stateId = null;
+      if (this.props.stateId) {
+        stateId = this.props.stateId;
+      } else if (this.state.selectedState) {
         stateId = this.state.selectedState.id;
       }
       if (stateId) {
@@ -228,7 +230,9 @@ class WhatToListScreen extends Component {
         ]
       },
       () => {
-        this.scrollView.scrollTo({ y: 0, animated: true });
+        if (this.scrollView) {
+          this.scrollView.scrollTo({ y: 0, animated: true });
+        }
       }
     );
   };

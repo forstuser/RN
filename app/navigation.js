@@ -106,7 +106,7 @@ export const openAfterLoginScreen = () => {
 };
 
 export const openAppScreen = opts => {
-  let initialTabIndex = 0;
+  let initialTabIndex = 2;
   let props = {};
   if (opts) {
     props.screenOpts = opts;
@@ -116,7 +116,7 @@ export const openAppScreen = opts => {
       case SCREENS.DOCS_UNDER_PROCESSING_SCREEN:
         initialTabIndex = 1;
         break;
-      case SCREENS.ASC_SCREEN:
+      case SCREENS.EASY_LIFE_SCREEN:
         initialTabIndex = 2;
         break;
       case SCREENS.DO_YOU_KNOW_SCREEN:

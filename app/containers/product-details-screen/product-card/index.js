@@ -88,7 +88,8 @@ class ProductCard extends Component {
         MAIN_CATEGORY_IDS.FASHION,
         MAIN_CATEGORY_IDS.HEALTHCARE,
         MAIN_CATEGORY_IDS.TRAVEL,
-        MAIN_CATEGORY_IDS.HOUSEHOLD
+        MAIN_CATEGORY_IDS.HOUSEHOLD,
+        MAIN_CATEGORY_IDS.SERVICES
       ].indexOf(product.masterCategoryId) > -1
     ) {
       newState.showImportantTab = false;

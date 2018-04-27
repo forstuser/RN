@@ -194,6 +194,8 @@ function startApp() {
           case "23":
           case "24":
             return openAppScreen({ startScreen: SCREENS.MAILBOX_SCREEN });
+          case "26":
+            return openAppScreen({ startScreen: SCREENS.EASY_LIFE_SCREEN });
           default:
         }
       };

@@ -279,30 +279,36 @@ class Repair extends React.Component {
                       }
                       keyboardType="numeric"
                     />
+                    {false && (
+                      <View>
+                        <CustomTextInput
+                          placeholder={I18n.t(
+                            "add_edit_expense_screen_title_add_sellers_name"
+                          )}
+                          value={sellerName}
+                          onChangeText={sellerName =>
+                            this.setState({ sellerName })
+                          }
+                        />
 
-                    <CustomTextInput
-                      placeholder={I18n.t(
-                        "add_edit_expense_screen_title_add_sellers_name"
-                      )}
-                      value={sellerName}
-                      onChangeText={sellerName => this.setState({ sellerName })}
-                    />
+                        <ContactFields
+                          ref={ref => (this.phoneRef = ref)}
+                          value={sellerContact}
+                          placeholder="Seller Contact"
+                        />
 
-                    <ContactFields
-                      ref={ref => (this.phoneRef = ref)}
-                      value={sellerContact}
-                      placeholder="Seller Contact"
-                    />
+                        <CustomTextInput
+                          placeholder={I18n.t(
+                            "add_edit_expense_screen_title_add_warranty_upto"
+                          )}
+                          value={warrantyUpto}
+                          onChangeText={warrantyUpto =>
+                            this.setState({ warrantyUpto })
+                          }
+                        />
+                      </View>
+                    )}
 
-                    <CustomTextInput
-                      placeholder={I18n.t(
-                        "add_edit_expense_screen_title_add_warranty_upto"
-                      )}
-                      value={warrantyUpto}
-                      onChangeText={warrantyUpto =>
-                        this.setState({ warrantyUpto })
-                      }
-                    />
                     <UploadDoc
                       placeholder="Upload Bill "
                       placeholder2="(Recommended) "

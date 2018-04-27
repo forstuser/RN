@@ -371,8 +371,10 @@ class DishCalendarScreen extends Component {
           ...this.state.selectedItemIds
         ]
       },
-      async () => {
-        this.scrollView.scrollTo({ y: 0, animated: true });
+      () => {
+        if (this.scrollView) {
+          this.scrollView.scrollTo({ y: 0, animated: true });
+        }
       }
     );
   };
@@ -464,13 +466,17 @@ class DishCalendarScreen extends Component {
                   style={styles.editBtn}
                   onPress={this.goToEditScreen}
                 >
-                  <Icon name="md-create" size={18} color={colors.pinkishOrange} />
+                  <Icon
+                    name="md-create"
+                    size={18}
+                    color={colors.pinkishOrange}
+                  />
                   <Text
                     weight="Medium"
                     style={{ color: colors.pinkishOrange, marginLeft: 10 }}
                   >
                     Edit List
-                </Text>
+                  </Text>
                 </TouchableOpacity>
               </View>
               <Text style={styles.titleText}>{text}</Text>
@@ -609,7 +615,7 @@ const styles = StyleSheet.create({
   titleText: {
     textAlign: "center",
     fontSize: 14,
-    color: "#9b9b9b",
+    color: "#9b9b9b"
     // marginLeft: 10
   },
   item: {
