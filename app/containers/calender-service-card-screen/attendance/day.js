@@ -131,6 +131,10 @@ class Month extends React.Component {
     } = this.props;
     // console.log("calculationDetails in props", calculationDetails)
     const { quantity, isEditQuantityModalOpen } = this.state;
+    const isDateAfterToday = moment(date).isAfter(moment().startOf("day"));
+
+    console.log("date: ", date, "isDateAfterToday: ", isDateAfterToday);
+
     return (
       <View style={styles.container}>
         <Text weight="Medium" style={styles.date}>
@@ -186,7 +190,11 @@ class Month extends React.Component {
           </Text>
           <Text
             weight="Medium"
-            style={[styles.presentAbsent, isPresent ? styles.present : {}]}
+            style={[
+              styles.presentAbsent,
+              isPresent && !isDateAfterToday ? styles.present : {},
+              isPresent && isDateAfterToday ? styles.presentAfterToday : {}
+            ]}
           >
             {I18n.t("calendar_service_screen_present")}
           </Text>
@@ -271,6 +279,9 @@ const styles = StyleSheet.create({
   present: {
     backgroundColor: colors.success,
     color: "#fff"
+  },
+  presentAfterToday: {
+    backgroundColor: "#999"
   },
   absent: {
     backgroundColor: colors.danger,
