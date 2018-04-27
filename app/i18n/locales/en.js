@@ -30,7 +30,7 @@ export default {
   //app intro screen
   app_intro_1_title: `Smart & 100% secure way of saving your Bills, Expenses and Important Documents in a Digital Format`,
   app_intro_1_desc: `Create Your Product Card in less Than 10 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
-  app_intro_2_title: `Recieve Reminders for Expiry and Renewal as well as connect with Brand Service Centres`,
+  app_intro_2_title: `Receive Reminders for Expiry and Renewal as well as connect with Brand Service Centres`,
   app_intro_2_desc: `Create product card and reach out to Brands, Insurance Providers or Nearest Service Center with just One Touch.`,
   app_intro_3_title: `Our EazyDay section Plans your Day and helps you decide your Meals, your Wardrobe as well as your Tasks for the Day`,
   app_intro_3_desc: `Know the Life Cycle Cost of All Your Products. Based on this You Can Decide Whether to Continue Maintaining the Product or Replacing it.`,
@@ -759,7 +759,7 @@ export default {
   product_card_upload_bill_tip:
     "Don’t want to add the details manually just upload the bill and leave rest upon us. Our experts will fill in the details for you.",
   product_card_share_tip:
-    "Share your product experience with your Friends, Family and Followers to help them make a wise purchase.",
+    "Share your product experience with your Friends, Family and Followers to help them make a wise purchase decision.",
   product_card_review_tip: "Review your product experience.",
   product_card_add_image_tip:
     "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more shareable with your friends and family.",

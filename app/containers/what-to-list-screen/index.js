@@ -71,7 +71,7 @@ class WhatToListScreen extends Component {
     const { type } = this.props;
     let title = "What's Cooking?";
     let text =
-      "Select from a representative list of local & popular dishes of your state to decide what to cook.";
+      "Create your Digital Kitchen by adding your menu list from the representative list of your state or on your own.";
     let image = cooking;
     let systemListTitle = "List of Meals";
     let btnText = "Add New Dish";
@@ -86,7 +86,7 @@ class WhatToListScreen extends Component {
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
         title = "What to Wear?";
-        text = "Create your Digital Wardrobe by adding images of your clothes. This  gives you an overview of your entire wardrobe and also shows you what you had worn when.";
+        text = "Create your Digital Wardrobe by adding images of your clothes. This gives you an overview of your entire wardrobe and also shows what you had worn and when.";
         image = whatToWear;
         btnText = "Add New Item";
         systemListTitle = "";
@@ -465,7 +465,7 @@ class WhatToListScreen extends Component {
               </View>
               {type == EASY_LIFE_TYPES.WHAT_TO_COOK && (
                 <Text style={styles.faqText} weight="Regular">
-                  Or create your own list without selecting state.
+                  This gives you an overview of your entire kitchen menu and also shows what you had cooked and when.
                 </Text>
               )}
               <View style={styles.faqView}>
@@ -478,7 +478,7 @@ class WhatToListScreen extends Component {
                 >
                   <Text
                     weight="Medium"
-                    style={{ color: colors.pinkishOrange, fontSize: 18 }}
+                    style={{ color: colors.pinkishOrange, fontSize: 18, top: 10 }}
                   >
                     {" "}
                     click here
@@ -634,6 +634,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   faqText: {
+    top: 10,
     fontSize: 18,
     color: "#4a4a4a",
     textAlign: "center"
