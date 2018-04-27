@@ -49,15 +49,17 @@ class BillsPopUpScreen extends Component {
     if (selectedCopies.length == 0) {
       return showSnackbar({
         text: "Select some files to share!"
-      })
+      });
     }
-
 
     this.setState({
       isDownloadingFiles: true
     });
     Promise.all(
       selectedCopies.map((selectedCopy, index) => {
+        console.log("url: ", API_BASE_URL + selectedCopy.copyUrl);
+        console.log(this.props.authToken);
+
         return RNFetchBlob.config({
           ...Platform.select({
             ios: {
@@ -65,7 +67,13 @@ class BillsPopUpScreen extends Component {
               appendExt: selectedCopy.file_type
             },
             android: {
-              path: RNFetchBlob.fs.dirs.DCIMDir + `/${selectedCopy.copyName}`
+              fileCache: true,
+              path:
+                RNFetchBlob.fs.dirs.DCIMDir +
+                `/${selectedCopy.copyName ||
+                  moment().format("x") +
+                    "." +
+                    selectedCopy.file_type.toLowerCase()}`
             }
           })
         })
@@ -90,7 +98,7 @@ class BillsPopUpScreen extends Component {
         });
         showSnackbar({
           text: "Some error occurred!"
-        })
+        });
       });
   };
 
@@ -132,7 +140,7 @@ class BillsPopUpScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -150,7 +158,7 @@ class BillsPopUpScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 

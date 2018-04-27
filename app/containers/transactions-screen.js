@@ -251,7 +251,7 @@ class TransactionsScreen extends Component {
                     <View style={styles.texts}>
                       <View style={styles.nameWrapper}>
                         <Text weight="Bold" style={styles.name}>
-                          {product.productName}
+                          {product.productName || product.categoryName}
                         </Text>
                         <Text weight="Bold" style={styles.productType}>
                           {this.productType(product.dataIndex)}
