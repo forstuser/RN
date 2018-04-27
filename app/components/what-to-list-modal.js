@@ -111,7 +111,7 @@ class WhatToListModal extends React.Component {
     const { navigator, type } = this.props;
     let placeHolderText = "Enter Task Name";
     if (type == EASY_LIFE_TYPES.WHAT_TO_COOK) {
-      placeHolderText = "Enter Meal Name";
+      placeHolderText = "Enter Dish Name";
     }
     return (
       <Modal
