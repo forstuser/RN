@@ -137,13 +137,13 @@ class MoreScreen extends Component {
   };
 
   openProfileScreen = () => {
-    // this.props.navigator.push({
-    //   screen: SCREENS.PROFILE_SCREEN,
-    //   passProps: { profile: this.state.profile }
-    // });
-    this.setState({
-      isProfileVisible: true
+    this.props.navigator.push({
+      screen: SCREENS.PROFILE_SCREEN,
+      passProps: { profile: this.state.profile }
     });
+    // this.setState({
+    //   isProfileVisible: true
+    // });
   };
 
   visible = item => {

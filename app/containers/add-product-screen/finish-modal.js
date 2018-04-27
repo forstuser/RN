@@ -18,13 +18,13 @@ class FinishModal extends React.Component {
   }
 
   show = () => {
-    this.setState({ visible: true })
-  }
+    this.setState({ visible: true });
+  };
 
   onMoreProductsClick = () => {
     Analytics.logEvent(Analytics.EVENTS.ADD_ANOTHER_PRODUCT);
     this.setState({ visible: false }, () => {
-      this.props.goToStep(0);
+      this.props.startOver();
     });
   };
 
@@ -32,7 +32,7 @@ class FinishModal extends React.Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_I_WILL_DO_IT_LATER);
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
-        this.props.goToStep(0);
+        this.props.startOver();
 
         this.props.navigator.push({
           screen: SCREENS.PRODUCT_DETAILS_SCREEN,
@@ -66,17 +66,18 @@ class FinishModal extends React.Component {
       case MAIN_CATEGORY_IDS.PERSONAL:
       case MAIN_CATEGORY_IDS.HEALTHCARE:
         if (category && category.id != CATEGORY_IDS.HEALTHCARE.EXPENSE) {
-          title = 'Document added to your eHome';
-          btnText = 'ADD MORE DOCUMENTS';
+          title = "Document added to your eHome";
+          btnText = "ADD MORE DOCUMENTS";
           break;
         }
       default:
-        title = 'Expense added to your eHome';
-        btnText = 'ADD MORE EXPENSE'
+        title = "Expense added to your eHome";
+        btnText = "ADD MORE EXPENSE";
     }
 
     if (!mainCategoryId) {
-      title = 'Repair added to the product';
+      title = "Repair added to the product";
+      btnText = "ADD MORE PRODUCTS";
     }
 
     return (
@@ -87,8 +88,8 @@ class FinishModal extends React.Component {
             source={
               mainCategoryId
                 ? {
-                  uri: API_BASE_URL + `/categories/${mainCategoryId}/images/1`
-                }
+                    uri: API_BASE_URL + `/categories/${mainCategoryId}/images/1`
+                  }
                 : repairIcon
             }
             resizeMode="contain"

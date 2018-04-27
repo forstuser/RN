@@ -131,7 +131,7 @@ class Repair extends React.Component {
       });
 
       if (typeof onStepDone == "function") {
-        onStepDone();
+        onStepDone(selectedProduct);
       }
     } catch (e) {
       showSnackbar({

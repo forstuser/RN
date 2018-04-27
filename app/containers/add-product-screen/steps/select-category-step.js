@@ -178,7 +178,7 @@ class SelectCategoryStep extends React.Component {
           {
             id: CATEGORY_IDS.SERVICES.PROFESSIONAL,
             name: "Beauty and Saloon",
-            icon: require("../../../images/main-categories/ic_services.png")
+            icon: require("../../../images/categories/beauty_and_salon.png")
           },
           {
             id: CATEGORY_IDS.SERVICES.LESSIONS_HOBBIES,

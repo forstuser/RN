@@ -96,6 +96,23 @@ class AddProductScreen extends React.Component {
     }
   }
 
+  startOver = () => {
+    this.setState({
+      steps: [
+        <SelectExpenseTypeStep
+          onBackPress={this.previousStep}
+          onExpenseTypePress={this.chooseExpenseType}
+        />
+      ],
+      activeStepIndex: 0,
+      category: null,
+      product: null,
+      insuranceProviders: [],
+      subCategories: [],
+      numberOfStepsToShowInFooter: 0
+    });
+  };
+
   goToStep = step => {
     const steps = [...this.state.steps];
     steps.length = step + 1;
@@ -441,13 +458,19 @@ class AddProductScreen extends React.Component {
               <RepairStep
                 navigator={this.props.navigator}
                 onBackPress={this.previousStep}
-                onStepDone={() => this.finishModal.show()}
+                onStepDone={this.onRepairStepDone}
               />
             );
             break;
         }
       }
     );
+  };
+
+  onRepairStepDone = product => {
+    this.setState({ product }, () => {
+      this.finishModal.show();
+    });
   };
 
   onCategorySelect = ({
@@ -789,7 +812,7 @@ class AddProductScreen extends React.Component {
           category={category}
           productId={product ? product.id : null}
           navigator={this.props.navigator}
-          goToStep={this.goToStep}
+          startOver={this.startOver}
         />
       </View>
     );
