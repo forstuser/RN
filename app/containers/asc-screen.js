@@ -292,7 +292,7 @@ class AscScreen extends Component {
                           weight="Bold"
                           style={styles.name}
                         >
-                          {product.productName}
+                          {product.productName || product.categoryName}
                         </Text>
                         <View style={styles.productMetaContainer}>
                           <Text numberOfLines={2} style={styles.productMeta}>
@@ -344,7 +344,6 @@ class AscScreen extends Component {
                 image: `${API_BASE_URL}/brands/${brand.id}/images`,
                 key: { index }
               }))}
-
               imageKey="image"
               visibleKey="brandName"
               onOptionSelect={value => {

@@ -61,7 +61,7 @@ class WhatToListScreen extends Component {
     states: [],
     isVeg: false,
     checkAll: false,
-    selectedState: null,
+    selectedState: { id: 0, state_name: "Select State" },
     isLoading: true,
     error: null
   };
@@ -350,7 +350,7 @@ class WhatToListScreen extends Component {
   };
 
   beforeOpenStatesModal = () => {
-    if (!this.state.selectedState) {
+    if (!this.state.selectedState || this.state.selectedState.id == 0) {
       return true;
     } else {
       Alert.alert(
@@ -359,7 +359,7 @@ class WhatToListScreen extends Component {
         [
           {
             text: "Cancel",
-            onPress: () => { },
+            onPress: () => {},
             style: "cancel"
           },
           {
@@ -392,6 +392,7 @@ class WhatToListScreen extends Component {
       error,
       systemListTitle
     } = this.state;
+
     return (
       <View style={{ flex: 1 }}>
         <ScreenContainer>
@@ -413,59 +414,66 @@ class WhatToListScreen extends Component {
                 }}
                 beforeModalOpen={this.beforeOpenStatesModal}
               />
-              {selectedState && (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between"
-                  }}
-                >
-                  <TouchableOpacity
-                    style={styles.checkboxWrapper}
-                    onPress={this.checkAllBox}
+              {selectedState &&
+                selectedState.id > 0 && (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between"
+                    }}
                   >
-                    <View style={styles.box}>
-                      {checkAll && (
-                        <Icon
-                          name="md-checkmark"
-                          color={colors.pinkishOrange}
-                          size={15}
-                        />
-                      )}
+                    <TouchableOpacity
+                      style={styles.checkboxWrapper}
+                      onPress={this.checkAllBox}
+                    >
+                      <View style={styles.box}>
+                        {checkAll && (
+                          <Icon
+                            name="md-checkmark"
+                            color={colors.pinkishOrange}
+                            size={15}
+                          />
+                        )}
+                      </View>
+                      <Text style={{ color: colors.mainText }}>
+                        {" "}
+                        Select All{" "}
+                      </Text>
+                    </TouchableOpacity>
+                    <View style={{ flexDirection: "row" }}>
+                      <Text style={{ color: colors.mainText }}>Veg Only </Text>
+                      <Switch
+                        onValueChange={this.toggleVegOrNonveg}
+                        value={isVeg}
+                      />
                     </View>
-                    <Text style={{ color: colors.mainText }}> Select All </Text>
-                  </TouchableOpacity>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={{ color: colors.mainText }}>Veg Only </Text>
-                    <Switch
-                      onValueChange={this.toggleVegOrNonveg}
-                      value={isVeg}
-                    />
                   </View>
-                </View>
-              )}
+                )}
             </View>
           )}
           {items.length == 0 && (
             <View style={styles.container}>
               <Image style={styles.blankPageImage} source={image} />
               <View style={styles.blankPageView}>
-                <Text weight="Medium" style={styles.blankPageText}>
+                <Text weight="Regular" style={styles.blankPageText}>
                   {text}
                 </Text>
               </View>
-              <Text style={styles.faqText} weight="Medium">
+              <Text style={styles.faqText} weight="Regular">
                 You can also create your own list without selecting the State
               </Text>
               <View style={styles.faqView}>
-                <Text style={styles.faqText} weight="Medium">
+                <Text style={styles.faqText} weight="Regular">
                   To know more How it Works,
                 </Text>
                 <TouchableOpacity
                   style={{ paddingVertical: 10 }}
                   onPress={this.goToFaq}
                 >
-                  <Text weight="Medium" style={{ color: colors.pinkishOrange }}>
+                  <Text
+                    weight="Medium"
+                    style={{ color: colors.pinkishOrange, fontSize: 18 }}
+                  >
                     {" "}
                     click here
                   </Text>
@@ -596,8 +604,8 @@ const styles = StyleSheet.create({
     // marginBottom: 10
   },
   blankPageImage: {
-    height: 70,
-    width: 70,
+    height: 100,
+    width: 100,
     alignItems: "center",
     alignSelf: "center"
   },
@@ -609,8 +617,8 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   blankPageText: {
-    fontSize: 14,
-    color: "#9b9b9b",
+    fontSize: 18,
+    color: "#4a4a4a",
     textAlign: "center"
   },
   faqView: {
@@ -620,8 +628,8 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   faqText: {
-    fontSize: 14,
-    color: "#9b9b9b",
+    fontSize: 18,
+    color: "#4a4a4a",
     textAlign: "center"
   },
   body: {

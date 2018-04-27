@@ -39,6 +39,7 @@ class AscSearchScreen extends Component {
       phoneNumbers: []
     };
   }
+
   componentDidMount() {
     this.props.navigator.setTitle({
       title: I18n.t("asc_search_screen_title", {

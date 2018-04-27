@@ -101,7 +101,8 @@ class DishCalendarScreen extends Component {
     selectedItemIds: [],
     isLoading: true,
     error: null,
-    btnText: ""
+    btnText: "",
+    showSelectedItems: false
   };
 
   componentDidMount() {
@@ -151,7 +152,15 @@ class DishCalendarScreen extends Component {
   };
 
   handleScroll = event => {
-    console.log("this.state.isScreenVisible: ", this.state.isScreenVisible);
+    if (event.nativeEvent.contentOffset.y > 220) {
+      this.setState({
+        showSelectedItems: true
+      });
+    } else {
+      this.setState({
+        showSelectedItems: false
+      });
+    }
     if (!this.state.isScreenVisible) {
       return;
     }
@@ -404,8 +413,32 @@ class DishCalendarScreen extends Component {
       items,
       selectedItemIds,
       error,
-      btnText
+      btnText,
+      showSelectedItems
     } = this.state;
+
+    let selectedItemsNames = [];
+    let selectedItemsDateText = "";
+    if (showSelectedItems) {
+      selectedItemsNames = items
+        .filter(item => selectedItemIds.indexOf(item.id) > -1)
+        .map(item => item.name);
+      const diff = moment()
+        .startOf("day")
+        .diff(moment(date).startOf("day"), "days");
+      if (!diff) {
+        selectedItemsDateText = "Today";
+      } else if (diff == 1) {
+        selectedItemsDateText = "Yesterday";
+      } else if (diff == -1) {
+        selectedItemsDateText = "Tomorrow";
+      } else {
+        selectedItemsDateText = moment(item.current_date).format(
+          "DD MMM, YYYY"
+        );
+      }
+    }
+
     return (
       <ScreenContainer style={styles.container}>
         {items.length > 0 && (
@@ -505,6 +538,25 @@ class DishCalendarScreen extends Component {
             </View>
           </ScrollView>
         )}
+        {selectedItemsNames.length > 0 && (
+          <View style={styles.selectedItems}>
+            <View style={styles.selectedItemsTitle}>
+              <View style={styles.selectedItemsTitleCheckmark}>
+                <Icon name="md-checkmark" size={15} color="#fff" />
+              </View>
+              <Text weight="Bold" style={styles.selectedItemsTitleText}>
+                Selected for {selectedItemsDateText}
+              </Text>
+            </View>
+            <Text
+              weight="Medium"
+              numberOfLines={3}
+              style={styles.selectedItemsText}
+            >
+              {selectedItemsNames.join(", ")}
+            </Text>
+          </View>
+        )}
         {items.length == 0 &&
           !isLoading && (
             <WhatToListEmptyState
@@ -531,7 +583,8 @@ const styles = StyleSheet.create({
     padding: 0
   },
   header: {
-    alignItems: "center"
+    alignItems: "center",
+    height: 260
   },
   headerBg: {
     position: "absolute",
@@ -568,6 +621,28 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     justifyContent: "center",
     alignItems: "center"
+  },
+  selectedItems: {
+    borderTopWidth: 1,
+    borderColor: "#eee",
+    padding: 10,
+    backgroundColor: "white"
+  },
+  selectedItemsTitle: {
+    flexDirection: "row",
+    color: "#fff",
+    marginBottom: 5
+  },
+  selectedItemsTitleCheckmark: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: colors.success,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  selectedItemsText: {
+    color: "#4a4a4a"
   }
 });
 

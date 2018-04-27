@@ -4,7 +4,8 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Platform
+  Platform,
+  ScrollView
 } from "react-native";
 import { Text, Button } from "../elements";
 import Modal from "react-native-modal";
@@ -29,6 +30,11 @@ class WhatToListModal extends React.Component {
 
   show = () => {
     this.setState({ visible: true });
+    setTimeout(() => {
+      if (this["input0"]) {
+        this["input0"].focus();
+      }
+    }, 200);
   };
 
   hide = () => {
@@ -38,9 +44,19 @@ class WhatToListModal extends React.Component {
   };
 
   addRow = () => {
-    this.setState({
-      list: [...this.state.list, ""]
-    });
+    this.setState(
+      {
+        list: [...this.state.list, ""]
+      },
+      () => {
+        const i = this.state.list.length - 1;
+        setTimeout(() => {
+          if (this[`input${i}`]) {
+            this[`input${i}`].focus();
+          }
+        }, 200);
+      }
+    );
   };
 
   textChange = (text, index) => {
@@ -62,12 +78,16 @@ class WhatToListModal extends React.Component {
           stateId: this.props.stateId,
           date: this.props.date
         });
+
         this.props.addItems(res.mealList);
       } else {
         let names = this.state.list.filter(
           item => item && item.trim().length > 0
         );
-        const res = await addUserCreatedTodos({ names: names, date: this.props.date });
+        const res = await addUserCreatedTodos({
+          names: names,
+          date: this.props.date
+        });
         this.props.addItems(res.todoList);
       }
       this.setState({ visible: false, list: [""] });
@@ -78,6 +98,12 @@ class WhatToListModal extends React.Component {
         isLoading: false
       });
     }
+  };
+
+  onRemoveBtnPress = index => {
+    let list = [...this.state.list];
+    list.splice(index, 1);
+    this.setState({ list });
   };
 
   render() {
@@ -97,21 +123,37 @@ class WhatToListModal extends React.Component {
           <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
             <Icon name="md-close" size={30} color={colors.mainText} />
           </TouchableOpacity>
-          <View style={{ marginTop: 30 }}>
+          <ScrollView
+            style={{ marginTop: 30 }}
+            contentContainerStyle={{ padding: 5 }}
+          >
             {this.state.list.map((item, index) => (
-              <CustomTextInput
-                placeholder={placeHolderText}
-                underlineColorAndroid="transparent"
-                value={item}
-                onChangeText={text => this.textChange(text, index)}
-              />
+              <View>
+                <CustomTextInput
+                  ref={ref => {
+                    this["input" + index] = ref;
+                  }}
+                  placeholder={placeHolderText}
+                  value={item}
+                  onChangeText={text => this.textChange(text, index)}
+                />
+                {index > 0 && (
+                  <TouchableOpacity
+                    style={styles.removeBtn}
+                    onPress={() => this.onRemoveBtnPress(index)}
+                  >
+                    <Icon name="md-close" color="white" size={20} />
+                  </TouchableOpacity>
+                )}
+              </View>
             ))}
-          </View>
+          </ScrollView>
           <TouchableOpacity onPress={this.addRow}>
             <Text
               weight="Medium"
               style={{
                 marginBottom: 25,
+                paddingLeft: 5,
                 color: "#ff732e"
               }}
             >
@@ -138,7 +180,9 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 10,
     justifyContent: "center",
-    width: 300,
+    marginVertical: 40,
+    width: "100%",
+    maxWidth: 350,
     alignSelf: "center"
   },
   closeIcon: {
@@ -154,6 +198,18 @@ const styles = StyleSheet.create({
     width: 120,
     height: 40,
     alignSelf: "center"
+  },
+  removeBtn: {
+    height: 30,
+    width: 30,
+    position: "absolute",
+    top: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    right: 5,
+    elevation: 2,
+    borderRadius: 15,
+    backgroundColor: colors.pinkishOrange
   }
 });
 
