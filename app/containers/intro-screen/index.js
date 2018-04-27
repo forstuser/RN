@@ -15,25 +15,31 @@ const slides = [
     key: "slide1",
     title: I18n.t("app_intro_1_title"),
     desc: I18n.t("app_intro_1_desc"),
-    image: require("../../images/onboarding/onboarding_apple_1.png")
+    image: require("../../images/onboarding/onboarding1.png")
   },
   {
     key: "slide2",
     title: I18n.t("app_intro_2_title"),
     desc: I18n.t("app_intro_2_desc"),
-    image: require("../../images/onboarding/onboarding_apple_2.png")
+    image: require("../../images/onboarding/onboarding2.png")
   },
   {
     key: "slide3",
-    title: I18n.t("app_intro_3_title"),
-    desc: I18n.t("app_intro_3_desc"),
-    image: require("../../images/onboarding/onboarding_apple_3.png")
+    title: I18n.t("app_intro_5_title"),
+    desc: I18n.t("app_intro_5_desc"),
+    image: require("../../images/onboarding/onboarding5.png")
   },
   {
     key: "slide4",
+    title: I18n.t("app_intro_3_title"),
+    desc: I18n.t("app_intro_3_desc"),
+    image: require("../../images/onboarding/onboarding3.png")
+  },
+  {
+    key: "slide5",
     title: I18n.t("app_intro_4_title"),
     desc: I18n.t("app_intro_4_desc"),
-    image: require("../../images/onboarding/onboarding_apple_4.png")
+    image: require("../../images/onboarding/onboarding4.png")
   }
 ];
 
@@ -44,10 +50,10 @@ class Intro extends Component {
         <Text weight="Bold" style={styles.nextBtnText}>
           {I18n.t("app_intro_next")}
         </Text>
-        {/*<Image
+        {/* <Image
           style={styles.nextBtnArrow}
           source={require("../../images/ic_arrow_forward.png")}
-        />*/}
+        /> */}
       </View>
     );
   };
@@ -77,8 +83,8 @@ class Intro extends Component {
         renderSkipButton={this.renderSkipButton}
         renderDoneButton={this.renderDoneButton}
         renderNextButton={this.renderNextButton}
-        dotColor="rgba(255, 255, 255, 0.3)"
-        activeDotColor="#fff"
+        dotColor="#cef0ff"
+        activeDotColor="#00b2ff"
         onDone={openLoginScreen}
         onSkip={openLoginScreen}
         slides={slides}
@@ -97,7 +103,7 @@ const styles = StyleSheet.create({
   },
   nextBtnText: {
     fontSize: 16,
-    color: "#fff"
+    color: colors.mainText
   },
   nextBtnArrow: {
     height: 25,

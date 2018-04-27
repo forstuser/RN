@@ -121,7 +121,6 @@ const EVENTS = {
 };
 
 const logEvent = (eventName, data = {}) => {
-  // console.log("eventName: -", eventName);
   if (!__DEV__) {
     const user = store.getState().loggedInUser;
     FirebaseAnalytics.logEvent(eventName, {

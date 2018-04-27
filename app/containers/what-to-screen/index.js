@@ -459,6 +459,20 @@ class DishCalendarScreen extends Component {
               </View>
             </View>
             <View style={styles.body}>
+              <View style={{ alignItems: "flex-end" }}>
+                <TouchableOpacity
+                  style={styles.editBtn}
+                  onPress={this.goToEditScreen}
+                >
+                  <Icon name="md-create" size={18} color={colors.pinkishOrange} />
+                  <Text
+                    weight="Medium"
+                    style={{ color: colors.pinkishOrange, marginLeft: 10 }}
+                  >
+                    Edit List
+                </Text>
+                </TouchableOpacity>
+              </View>
               <Text style={styles.titleText}>{text}</Text>
               {items.map((item, index) => {
                 const isChecked = selectedItemIds.indexOf(item.id) > -1;
@@ -509,18 +523,6 @@ class DishCalendarScreen extends Component {
                 text={btnText}
                 onPress={this.onAddNewPress}
               />
-              <TouchableOpacity
-                style={styles.editBtn}
-                onPress={this.goToEditScreen}
-              >
-                <Icon name="md-create" size={18} color={colors.pinkishOrange} />
-                <Text
-                  weight="Medium"
-                  style={{ color: "#9b9b9b", marginLeft: 10 }}
-                >
-                  Edit List
-                </Text>
-              </TouchableOpacity>
               <ClothesImageUploader
                 ref={ref => (this.clothesImageUploader = ref)}
                 navigator={navigator}
@@ -608,15 +610,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 14,
     color: "#9b9b9b",
-    marginBottom: 10
+    // marginLeft: 10
   },
   item: {
     marginBottom: 5
   },
   editBtn: {
     margin: 5,
-    padding: 12,
-    ...defaultStyles.card,
+    paddingRight: 10,
+    // ...defaultStyles.card,
     flexDirection: "row",
     borderRadius: 4,
     justifyContent: "center",

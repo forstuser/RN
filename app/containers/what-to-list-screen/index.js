@@ -71,7 +71,7 @@ class WhatToListScreen extends Component {
     const { type } = this.props;
     let title = "What's Cooking?";
     let text =
-      "A comprehensive list of local and popular dishes can be selected for your state or add your own dish to help you decide what to cook for the day";
+      "A representative list of local and popular dishes can be selected for your state or add your own dish to help you decide what to cook for the day";
     let image = cooking;
     let systemListTitle = "List of Meals";
     let btnText = "Add New Dish";
@@ -459,9 +459,11 @@ class WhatToListScreen extends Component {
                   {text}
                 </Text>
               </View>
-              <Text style={styles.faqText} weight="Regular">
-                You can also create your own list without selecting the State
-              </Text>
+              {type == EASY_LIFE_TYPES.WHAT_TO_COOK && (
+                <Text style={styles.faqText} weight="Regular">
+                  You can also create your own list without selecting the State
+                </Text>
+              )}
               <View style={styles.faqView}>
                 <Text style={styles.faqText} weight="Regular">
                   To know more How it Works,
