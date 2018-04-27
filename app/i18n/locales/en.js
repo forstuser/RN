@@ -36,6 +36,8 @@ export default {
   app_intro_3_desc: `Know the Life Cycle Cost of All Your Products. Based on this You Can Decide Whether to Continue Maintaining the Product or Replacing it.`,
   app_intro_4_title: `Be The Product Review Expert. Help Your Friends, Family and Followers make a wise purchase`,
   app_intro_4_desc: `You Can Capture and Track All Expenses Across Categories Such As Household and Utility, Travel, Dining, Healthcare and More.`,
+  app_intro_5_title: `Our EazyDay section Plans your Day and helps you decide your Meals, your Wardrobe as well as your Tasks for the Day.`,
+  app_intro_5_desc: ``,
   app_intro_next: "NEXT",
   app_intro_skip: "SKIP",
   app_intro_register: "REGISTER",

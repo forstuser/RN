@@ -21,7 +21,7 @@ const cooking = require("../../images/cooking.png");
 const attendance = require("../../images/attendance.png");
 const todo = require("../../images/to_do.png");
 const whatToWear = require("../../images/whatToWear.png");
-
+const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 const calendarIcon = require("../../images/ic_calendar.png");
 
 class EasyLifeScreen extends Component {
@@ -55,6 +55,14 @@ class EasyLifeScreen extends Component {
     this.props.navigator.push({
       screen: SCREENS.WHAT_TO_SCREEN,
       passProps: { type: EASY_LIFE_TYPES.WHAT_TO_WEAR }
+    });
+  };
+
+  showAddProductOptionsScreen = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
+    this.props.navigator.push({
+      screen: SCREENS.ADD_PRODUCT_SCREEN,
+      overrideBackPress: true
     });
   };
 
@@ -99,6 +107,12 @@ class EasyLifeScreen extends Component {
             </TouchableOpacity>
           </View>
         </View>
+        <TouchableOpacity
+          style={styles.fab}
+          onPress={() => this.showAddProductOptionsScreen()}
+        >
+          <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+        </TouchableOpacity>
       </ScreenContainer>
     );
   }
@@ -145,6 +159,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     ...defaultStyles.card
+  },
+  fab: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    width: 56,
+    height: 56,
+    zIndex: 2,
+    backgroundColor: colors.tomato,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  uploadFabIcon: {
+    width: 25,
+    height: 25
   }
 });
 
