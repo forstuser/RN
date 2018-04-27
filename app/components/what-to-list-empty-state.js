@@ -60,7 +60,7 @@ class WhatToListEmptyState extends React.Component {
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_DO:
         text =
-          "You don't have any items in your to-do list, please create your list first";
+          "Plan your day by selecting or adding tasks to be completed for the day";
         image = todo;
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
