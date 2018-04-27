@@ -82,18 +82,17 @@ class AddProductScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.pushStep(
-      <SelectExpenseTypeStep
-        onBackPress={this.previousStep}
-        onExpenseTypePress={this.chooseExpenseType}
-      />,
-      false
-    );
-
     const { expenseType } = this.props;
-
     if (expenseType) {
-      this.chooseExpenseType(expenseType);
+      this.chooseExpenseType(expenseType, false);
+    } else {
+      this.pushStep(
+        <SelectExpenseTypeStep
+          onBackPress={this.previousStep}
+          onExpenseTypePress={this.chooseExpenseType}
+        />,
+        false
+      );
     }
   }
 
@@ -162,7 +161,7 @@ class AddProductScreen extends React.Component {
     });
   }
 
-  pushCategoryStep = () => {
+  pushCategoryStep = (pushToNext = true) => {
     const { expenseType, mainCategoryId, category, product } = this.state;
     this.pushStep(
       <SelectCategoryStep
@@ -171,7 +170,8 @@ class AddProductScreen extends React.Component {
         onBackPress={this.previousStep}
         onCategorySelect={this.onCategorySelect}
         expenseType={expenseType}
-      />
+      />,
+      pushToNext
     );
   };
 
@@ -318,13 +318,13 @@ class AddProductScreen extends React.Component {
     }
   };
 
-  chooseExpenseType = type => {
-    const { category = null } = this.props;
+  chooseExpenseType = (type, pushToNextStep = true) => {
+    // const { category = null } = this.props;
     this.setState(
       {
         expenseType: type,
         mainCategoryId: null,
-        category: category,
+        category: null,
         product: null,
         insuranceProviders: [],
         subCategories: []
@@ -337,7 +337,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.AUTOMOBILE
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -347,7 +347,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.ELECTRONICS
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -357,7 +357,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.FURNITURE
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -368,7 +368,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -378,7 +378,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.TRAVEL
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -388,7 +388,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.FASHION
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -398,7 +398,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.SERVICES
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -408,7 +408,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.HOUSEHOLD
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -418,7 +418,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
