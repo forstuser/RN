@@ -750,18 +750,18 @@ export default {
   upload_bill_tip:
     "Upload Bill: You can upload your Bills and Documents here (optional).",
   product_card_tip:
-    "This is the Product Card for your {{categoryName}}. It’s like a digital identity of your Product which you can access anytime anywhere.",
+    "This is the Product Card for your {{categoryName}}. You can access this anytime, anywhere.",
   product_card_upload_bill_tip:
     "Don’t want to add the details manually just upload the bill and leave rest upon us. Our experts will fill in the details for you.",
   product_card_share_tip:
     "Share your product experience with your Friends, Family and Followers to help them make a wise purchase.",
   product_card_review_tip: "Review your product experience.",
   product_card_add_image_tip:
-    "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more sharable with your friends and family.",
+    "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more shareable with your friends and family.",
   //blank dashboard
   blank_dashboard_headline: "Welcome to BinBill",
   blank_dashboard_text:
-    "Start adding your Products, Bills, Expenses and Documents",
+    "Your Own Home Manager",
   blank_dashboard_btn_text: "UPLOAD DOC",
   blank_dashboard_know_more_text: "Know More",
   blank_dashboard_one_step: "One Stop For",
