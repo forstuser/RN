@@ -363,7 +363,7 @@ class WhatToListScreen extends Component {
         [
           {
             text: "Cancel",
-            onPress: () => {},
+            onPress: () => { },
             style: "cancel"
           },
           {
@@ -470,7 +470,7 @@ class WhatToListScreen extends Component {
               )}
               <View style={styles.faqView}>
                 <Text style={styles.faqText} weight="Regular">
-                  To know more How it Works,
+                  To know more, How it Works
                 </Text>
                 <TouchableOpacity
                   style={{ paddingVertical: 10 }}

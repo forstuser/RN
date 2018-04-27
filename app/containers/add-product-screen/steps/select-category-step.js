@@ -608,8 +608,8 @@ class SelectCategoryStep extends React.Component {
               </Text>
               {reasons.map((reason, index) => {
                 return (
-                  <Text weight="Medium" key={index} style={styles.reason}>
-                    • {reason}
+                  <Text key={index} style={styles.reason}>
+                    - {reason} -
                   </Text>
                 );
               })}
@@ -704,10 +704,11 @@ const styles = StyleSheet.create({
     marginTop: -150
   },
   reason: {
-    color: colors.secondaryText,
-    fontSize: 12,
-    marginLeft: 100,
-    alignSelf: "flex-start"
+    color: "#4a4a4a",
+    fontSize: 14,
+    lineHeight: 22,
+    // marginLeft: 100,
+    alignSelf: "center"
   }
 });
 
