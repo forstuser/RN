@@ -754,7 +754,7 @@ export default {
   product_card_upload_bill_tip:
     "Don’t want to add the details manually just upload the bill and leave rest upon us. Our experts will fill in the details for you.",
   product_card_share_tip:
-    "Share your product experience with your Friends, Family and Followers to help them make a wise purchase.",
+    "Share your product experience with your Friends, Family and Followers to help them make a wise purchase decision.",
   product_card_review_tip: "Review your product experience.",
   product_card_add_image_tip:
     "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more shareable with your friends and family.",
