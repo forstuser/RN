@@ -544,7 +544,7 @@ class DishCalendarScreen extends Component {
           <View style={styles.selectedItems}>
             <View style={styles.selectedItemsTitle}>
               <View style={styles.selectedItemsTitleCheckmark}>
-                <Icon name="md-checkmark" size={15} color="#fff" />
+                <Icon name="md-checkmark" size={12} color="#fff" />
               </View>
               <Text weight="Bold" style={styles.selectedItemsTitleText}>
                 Selected for {selectedItemsDateText}
@@ -633,7 +633,9 @@ const styles = StyleSheet.create({
   selectedItemsTitle: {
     flexDirection: "row",
     color: "#fff",
-    marginBottom: 5
+    marginBottom: 5,
+    justifyContent: "flex-start",
+    alignItems: "center"
   },
   selectedItemsTitleCheckmark: {
     width: 30,
@@ -645,6 +647,9 @@ const styles = StyleSheet.create({
   },
   selectedItemsText: {
     color: "#4a4a4a"
+  },
+  selectedItemsTitleText: {
+    paddingLeft: 2
   }
 });
 
