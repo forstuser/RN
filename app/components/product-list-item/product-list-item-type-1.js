@@ -15,7 +15,7 @@ const isDateInPastOrInNextTenDays = date => {
       .startOf("day"),
     "days"
   );
-  return diff <= 10 && dif > -11;
+  return diff <= 10 && diff > -11;
 };
 
 const expiringInText = date => {
