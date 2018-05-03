@@ -87,7 +87,10 @@ class AddAmountStep extends React.Component {
             value={value ? String(value) : ""}
             onChangeText={value => this.setState({ value })}
             keyboardType="numeric"
+            rightSideText="₹"
+            rightSideTextWidth={80}
           />
+
           <Button
             onPress={this.onPressNext}
             text="Next"

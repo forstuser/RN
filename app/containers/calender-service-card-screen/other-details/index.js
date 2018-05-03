@@ -180,10 +180,10 @@ class Report extends React.Component {
             />
           </TouchableOpacity>
           <View style={styles.cardBody}>
-            <KeyValueItem
+            {/* <KeyValueItem
               keyText={I18n.t("calendar_service_screen_product_name")}
               valueText={item.product_name}
-            />
+            /> */}
             <KeyValueItem
               keyText={I18n.t("calendar_service_screen_provider_name")}
               valueText={item.provider_name}
@@ -315,13 +315,13 @@ class Report extends React.Component {
             >
               <Icon name="md-close" size={30} color={colors.mainText} />
             </TouchableOpacity>
-            <CustomTextInput
+            {/* <CustomTextInput
               placeholder={I18n.t("calendar_service_screen_product_name")}
               value={productNameToEdit}
               onChangeText={productNameToEdit =>
                 this.setState({ productNameToEdit })
               }
-            />
+            /> */}
             <CustomTextInput
               placeholder={I18n.t("calendar_service_screen_provider_name")}
               value={providerNameToEdit}
