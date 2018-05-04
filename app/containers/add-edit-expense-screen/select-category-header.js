@@ -230,7 +230,7 @@ class SelectCategoryHeader extends React.Component {
           },
           {
             id: 697,
-            name: "Home Decor",
+            name: "Home Decor & Beddings",
             icon: require("../../images/categories/home_decor.png")
           },
           {

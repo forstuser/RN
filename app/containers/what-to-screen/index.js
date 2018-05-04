@@ -102,7 +102,8 @@ class DishCalendarScreen extends Component {
     isLoading: true,
     error: null,
     btnText: "",
-    showSelectedItems: false
+    showSelectedItems: false,
+    item: {}
   };
 
   componentDidMount() {
@@ -416,7 +417,8 @@ class DishCalendarScreen extends Component {
       selectedItemIds,
       error,
       btnText,
-      showSelectedItems
+      showSelectedItems,
+      item
     } = this.state;
 
     let selectedItemsNames = [];

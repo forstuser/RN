@@ -118,14 +118,14 @@ class AddEditRepair extends React.Component {
                 } catch (e) {
                   showSnackbar({
                     text: I18n.t("add_edit_amc_could_not_delete")
-                  })
+                  });
                   this.setState({ isLoading: false });
                 }
               }
             },
             {
               text: I18n.t("add_edit_no_dnt_delete"),
-              onPress: () => { },
+              onPress: () => {},
               style: "cancel"
             }
           ]
@@ -154,9 +154,9 @@ class AddEditRepair extends React.Component {
     if (!data.repairDate) {
       return showSnackbar({
         text: I18n.t("add_edit_repair_date")
-      })
+      });
     }
-    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: 'repair' });
+    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: "repair" });
     try {
       this.setState({ isLoading: true });
       if (!data.id) {
@@ -169,7 +169,7 @@ class AddEditRepair extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({ isLoading: false });
     }
   };
