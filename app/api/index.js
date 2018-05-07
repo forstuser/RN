@@ -9,7 +9,7 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-export const API_BASE_URL = "https://consumer-stage.binbill.com";
+export const API_BASE_URL = "https://consumer.binbill.com";
 
 const APP_VERSION_FOR_API = 20003;
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
@@ -28,7 +28,7 @@ const apiRequest = async ({
 }) => {
   try {
     const token = store.getState().loggedInUser.authToken;
-    if (token) {
+    if (typeof token == "string") {
       headers.Authorization = token;
       console.log("auth token: ", token);
     }
@@ -104,10 +104,13 @@ const apiRequest = async ({
       error.statusCode = e.response.status;
       errorMessage = e.response.data.message;
     }
-    Analytics.logEvent(
-      Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
-      { message: errorMessage }
-    );
+
+    if (error.statusCode != 401 && error.statusCode != 402) {
+      Analytics.logEvent(
+        Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
+        { message: errorMessage }
+      );
+    }
 
     if (error.statusCode == 401) {
       store.dispatch(loggedInUserActions.loggedInUserClearAllData());
@@ -125,7 +128,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => { }
+  onUploadProgress = () => {}
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {

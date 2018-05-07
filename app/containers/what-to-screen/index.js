@@ -101,7 +101,9 @@ class DishCalendarScreen extends Component {
     selectedItemIds: [],
     isLoading: true,
     error: null,
-    btnText: ""
+    btnText: "",
+    showSelectedItems: false,
+    item: {}
   };
 
   componentDidMount() {
@@ -151,7 +153,15 @@ class DishCalendarScreen extends Component {
   };
 
   handleScroll = event => {
-    console.log("this.state.isScreenVisible: ", this.state.isScreenVisible);
+    if (event.nativeEvent.contentOffset.y > 220) {
+      this.setState({
+        showSelectedItems: true
+      });
+    } else {
+      this.setState({
+        showSelectedItems: false
+      });
+    }
     if (!this.state.isScreenVisible) {
       return;
     }
@@ -362,8 +372,10 @@ class DishCalendarScreen extends Component {
           ...this.state.selectedItemIds
         ]
       },
-      async () => {
-        this.scrollView.scrollTo({ y: 0, animated: true });
+      () => {
+        if (this.scrollView) {
+          this.scrollView.scrollTo({ y: 0, animated: true });
+        }
       }
     );
   };
@@ -404,8 +416,33 @@ class DishCalendarScreen extends Component {
       items,
       selectedItemIds,
       error,
-      btnText
+      btnText,
+      showSelectedItems,
+      item
     } = this.state;
+
+    let selectedItemsNames = [];
+    let selectedItemsDateText = "";
+    if (showSelectedItems) {
+      selectedItemsNames = items
+        .filter(item => selectedItemIds.indexOf(item.id) > -1)
+        .map(item => item.name);
+      const diff = moment()
+        .startOf("day")
+        .diff(moment(date).startOf("day"), "days");
+      if (!diff) {
+        selectedItemsDateText = "Today";
+      } else if (diff == 1) {
+        selectedItemsDateText = "Yesterday";
+      } else if (diff == -1) {
+        selectedItemsDateText = "Tomorrow";
+      } else {
+        selectedItemsDateText = moment(item.current_date).format(
+          "DD MMM, YYYY"
+        );
+      }
+    }
+
     return (
       <ScreenContainer style={styles.container}>
         {items.length > 0 && (
@@ -426,6 +463,24 @@ class DishCalendarScreen extends Component {
               </View>
             </View>
             <View style={styles.body}>
+              <View style={{ alignItems: "flex-end" }}>
+                <TouchableOpacity
+                  style={styles.editBtn}
+                  onPress={this.goToEditScreen}
+                >
+                  <Icon
+                    name="md-create"
+                    size={18}
+                    color={colors.pinkishOrange}
+                  />
+                  <Text
+                    weight="Medium"
+                    style={{ color: colors.pinkishOrange, marginLeft: 10 }}
+                  >
+                    Edit List
+                  </Text>
+                </TouchableOpacity>
+              </View>
               <Text style={styles.titleText}>{text}</Text>
               {items.map((item, index) => {
                 const isChecked = selectedItemIds.indexOf(item.id) > -1;
@@ -476,18 +531,6 @@ class DishCalendarScreen extends Component {
                 text={btnText}
                 onPress={this.onAddNewPress}
               />
-              <TouchableOpacity
-                style={styles.editBtn}
-                onPress={this.goToEditScreen}
-              >
-                <Icon name="md-create" size={18} color={colors.pinkishOrange} />
-                <Text
-                  weight="Medium"
-                  style={{ color: "#9b9b9b", marginLeft: 10 }}
-                >
-                  Edit List
-                </Text>
-              </TouchableOpacity>
               <ClothesImageUploader
                 ref={ref => (this.clothesImageUploader = ref)}
                 navigator={navigator}
@@ -504,6 +547,25 @@ class DishCalendarScreen extends Component {
               />
             </View>
           </ScrollView>
+        )}
+        {selectedItemsNames.length > 0 && (
+          <View style={styles.selectedItems}>
+            <View style={styles.selectedItemsTitle}>
+              <View style={styles.selectedItemsTitleCheckmark}>
+                <Icon name="md-checkmark" size={12} color="#fff" />
+              </View>
+              <Text weight="Bold" style={styles.selectedItemsTitleText}>
+                Selected for {selectedItemsDateText}
+              </Text>
+            </View>
+            <Text
+              weight="Medium"
+              numberOfLines={3}
+              style={styles.selectedItemsText}
+            >
+              {selectedItemsNames.join(", ")}
+            </Text>
+          </View>
         )}
         {items.length == 0 &&
           !isLoading && (
@@ -531,7 +593,8 @@ const styles = StyleSheet.create({
     padding: 0
   },
   header: {
-    alignItems: "center"
+    alignItems: "center",
+    height: 260
   },
   headerBg: {
     position: "absolute",
@@ -554,20 +617,47 @@ const styles = StyleSheet.create({
   titleText: {
     textAlign: "center",
     fontSize: 14,
-    color: "#9b9b9b",
-    marginBottom: 10
+    color: "#9b9b9b"
+    // marginLeft: 10
   },
   item: {
     marginBottom: 5
   },
   editBtn: {
     margin: 5,
-    padding: 12,
-    ...defaultStyles.card,
+    paddingRight: 10,
+    // ...defaultStyles.card,
     flexDirection: "row",
     borderRadius: 4,
     justifyContent: "center",
     alignItems: "center"
+  },
+  selectedItems: {
+    borderTopWidth: 1,
+    borderColor: "#eee",
+    padding: 10,
+    backgroundColor: "white"
+  },
+  selectedItemsTitle: {
+    flexDirection: "row",
+    color: "#fff",
+    marginBottom: 5,
+    justifyContent: "flex-start",
+    alignItems: "center"
+  },
+  selectedItemsTitleCheckmark: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: colors.success,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  selectedItemsText: {
+    color: "#4a4a4a"
+  },
+  selectedItemsTitleText: {
+    paddingLeft: 2
   }
 });
 

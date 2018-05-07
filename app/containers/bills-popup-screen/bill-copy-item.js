@@ -102,9 +102,10 @@ const BillCopyItem = ({
         </Text>
       </View>
       {isImageFileType(copy.file_type || copy.fileType) && (
-        <Image
+        <AsyncImage
           style={styles.billImage}
-          source={{ uri: API_BASE_URL + copy.copyUrl }}
+          fileType={copy.file_type || copy.fileType}
+          uri={API_BASE_URL + "/" + copy.copyUrl}
         />
       )}
       {!isImageFileType(copy.file_type || copy.fileType) && (

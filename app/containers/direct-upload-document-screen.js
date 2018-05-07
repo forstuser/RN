@@ -79,7 +79,7 @@ class DirectUploadDocumentScreen extends React.Component {
           this.uploadDocuments();
         }
       );
-    } catch (e) { }
+    } catch (e) {}
   };
 
   uploadDocuments = async () => {
@@ -176,7 +176,7 @@ class DirectUploadDocumentScreen extends React.Component {
       } catch (e) {
         showSnackbar({
           text: e.message
-        })
+        });
       }
     }
   };
@@ -230,7 +230,7 @@ class DirectUploadDocumentScreen extends React.Component {
       } catch (e) {
         showSnackbar({
           text: e.message
-        })
+        });
       }
     }
   };
@@ -268,7 +268,7 @@ class DirectUploadDocumentScreen extends React.Component {
     if (!selectedMainCategory || !selectedCategory) {
       return showSnackbar({
         text: "Please select category and sub-category both."
-      })
+      });
     }
 
     if (
@@ -281,7 +281,7 @@ class DirectUploadDocumentScreen extends React.Component {
     ) {
       return showSnackbar({
         text: "Please select brand"
-      })
+      });
     }
 
     if (
@@ -290,7 +290,7 @@ class DirectUploadDocumentScreen extends React.Component {
     ) {
       return showSnackbar({
         text: "Please select type"
-      })
+      });
     }
 
     this.setState({
@@ -371,6 +371,7 @@ class DirectUploadDocumentScreen extends React.Component {
       isLoading,
       isFinishModalVisible
     } = this.state;
+    if (!isFinishModalVisible) return null;
     return (
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={isFetchingCategories || isLoading} />
@@ -431,7 +432,7 @@ class DirectUploadDocumentScreen extends React.Component {
             }
             showSnackbar({
               text: I18n.t("add_edit_direct_select_main_category_first")
-            })
+            });
             return false;
           }}
           onOptionSelect={value => {
@@ -489,7 +490,7 @@ class DirectUploadDocumentScreen extends React.Component {
                 }
                 showSnackbar({
                   text: I18n.t("add_edit_direct_select_category_first")
-                })
+                });
                 return false;
               }}
               onOptionSelect={value => {
@@ -521,7 +522,7 @@ class DirectUploadDocumentScreen extends React.Component {
                 }
                 showSnackbar({
                   text: I18n.t("add_edit_direct_select_brand_first")
-                })
+                });
                 return false;
               }}
               selectedOption={selectedModel}
@@ -538,37 +539,41 @@ class DirectUploadDocumentScreen extends React.Component {
           color="secondary"
           style={{ width: 300, marginTop: 20 }}
         />
-        <Modal useNativeDriver={true} isVisible={isFinishModalVisible}>
-          <View style={styles.finishModal}>
-            <Image
-              style={styles.finishImage}
-              source={{
-                uri:
-                  API_BASE_URL +
-                  `/categories/${
-                  selectedMainCategory ? selectedMainCategory.id : 2
-                  }/images/1`
-              }}
-              resizeMode="contain"
-            />
-            <Text weight="Bold" style={styles.finishMsg}>
-              {I18n.t("add_edit_direct_doc_successfully")}
-            </Text>
-            <Button
-              onPress={this.onAddMoreProductsClick}
-              style={styles.finishBtn}
-              text={I18n.t("add_edit_direct_add_eHome")}
-              color="secondary"
-            />
-            <Text
-              onPress={this.onDoItLaterClick}
-              weight="Bold"
-              style={styles.doItLaterText}
-            >
-              {I18n.t("add_edit_direct_later")}
-            </Text>
+        {isFinishModalVisible && (
+          <View>
+            <Modal useNativeDriver={true} isVisible={true}>
+              <View style={styles.finishModal}>
+                <Image
+                  style={styles.finishImage}
+                  source={{
+                    uri:
+                      API_BASE_URL +
+                      `/categories/${
+                        selectedMainCategory ? selectedMainCategory.id : 2
+                      }/images/1`
+                  }}
+                  resizeMode="contain"
+                />
+                <Text weight="Bold" style={styles.finishMsg}>
+                  {I18n.t("add_edit_direct_doc_successfully")}
+                </Text>
+                <Button
+                  onPress={this.onAddMoreProductsClick}
+                  style={styles.finishBtn}
+                  text={I18n.t("add_edit_direct_add_eHome")}
+                  color="secondary"
+                />
+                <Text
+                  onPress={this.onDoItLaterClick}
+                  weight="Bold"
+                  style={styles.doItLaterText}
+                >
+                  {I18n.t("add_edit_direct_later")}
+                </Text>
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        )}
       </ScreenContainer>
     );
   }

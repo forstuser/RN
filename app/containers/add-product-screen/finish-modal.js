@@ -18,13 +18,13 @@ class FinishModal extends React.Component {
   }
 
   show = () => {
-    this.setState({ visible: true })
-  }
+    this.setState({ visible: true });
+  };
 
   onMoreProductsClick = () => {
     Analytics.logEvent(Analytics.EVENTS.ADD_ANOTHER_PRODUCT);
     this.setState({ visible: false }, () => {
-      this.props.goToStep(0);
+      this.props.startOver();
     });
   };
 
@@ -32,7 +32,11 @@ class FinishModal extends React.Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_I_WILL_DO_IT_LATER);
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
-        this.props.goToStep(0);
+        if (!this.props.popOnDoItLater) {
+          this.props.startOver();
+        } else {
+          this.props.navigator.pop({ animationType: "fade" });
+        }
 
         this.props.navigator.push({
           screen: SCREENS.PRODUCT_DETAILS_SCREEN,
@@ -41,7 +45,7 @@ class FinishModal extends React.Component {
           }
         });
       } else {
-        this.props.navigator.pop();
+        this.props.navigator.pop({ animationType: "fade" });
       }
     });
   };
@@ -66,51 +70,65 @@ class FinishModal extends React.Component {
       case MAIN_CATEGORY_IDS.PERSONAL:
       case MAIN_CATEGORY_IDS.HEALTHCARE:
         if (category && category.id != CATEGORY_IDS.HEALTHCARE.EXPENSE) {
-          title = 'Document added to your eHome';
-          btnText = 'ADD MORE DOCUMENTS';
+          title = "Document added to your eHome";
+          btnText = "ADD MORE DOCUMENTS";
           break;
         }
       default:
-        title = 'Expense added to your eHome';
-        btnText = 'ADD MORE EXPENSE'
+        title = "Expense added to your eHome";
+        btnText = "ADD MORE EXPENSE";
     }
 
     if (!mainCategoryId) {
-      title = 'Repair added to the product';
+      title = "Repair added to the product";
+      btnText = "ADD MORE PRODUCTS";
     }
+    if (!visible) return null;
 
     return (
-      <Modal useNativeDriver={true} isVisible={visible} animationOutTiming={10}>
-        <View style={styles.finishModal}>
-          <Image
-            style={styles.finishImage}
-            source={
-              mainCategoryId
-                ? {
-                  uri: API_BASE_URL + `/categories/${mainCategoryId}/images/1`
-                }
-                : repairIcon
-            }
-            resizeMode="contain"
-          />
-          <Text weight="Bold" style={styles.finishMsg}>
-            {title}
-          </Text>
-          <Button
-            onPress={this.onMoreProductsClick}
-            style={styles.finishBtn}
-            text={btnText}
-            color="secondary"
-          />
-          <Text
-            onPress={this.onDoItLaterClick}
-            weight="Bold"
-            style={styles.doItLaterText}
-          >
-            {I18n.t("add_edit_expense_screen_title_add_later")}
-          </Text>
-        </View>
-      </Modal>
+      <View>
+        {visible && (
+          <View>
+            <Modal
+              useNativeDriver={true}
+              isVisible={visible}
+              animationOutTiming={10}
+            >
+              <View style={styles.finishModal}>
+                <Image
+                  style={styles.finishImage}
+                  source={
+                    mainCategoryId
+                      ? {
+                          uri:
+                            API_BASE_URL +
+                            `/categories/${mainCategoryId}/images/1`
+                        }
+                      : repairIcon
+                  }
+                  resizeMode="contain"
+                />
+                <Text weight="Bold" style={styles.finishMsg}>
+                  {title}
+                </Text>
+                <Button
+                  onPress={this.onMoreProductsClick}
+                  style={styles.finishBtn}
+                  text={btnText}
+                  color="secondary"
+                />
+                <Text
+                  onPress={this.onDoItLaterClick}
+                  weight="Bold"
+                  style={styles.doItLaterText}
+                >
+                  {I18n.t("add_edit_expense_screen_title_add_later")}
+                </Text>
+              </View>
+            </Modal>
+          </View>
+        )}
+      </View>
     );
   }
 }

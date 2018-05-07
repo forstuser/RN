@@ -55,71 +55,85 @@ export default class TagsModal extends React.Component {
   render() {
     const { tags, onSearchPress, selectedTagIds } = this.props;
     const { searchText, isModalVisible } = this.state;
+    if (!isModalVisible) return null;
+
     return (
-      <Modal visible={isModalVisible} animationType="slide" onRequestClose={() => { }}>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <View style={styles.searchContainer}>
-              <Icon
-                name="md-search"
-                size={24}
-                color={colors.lighterText}
-                style={styles.searchIcon}
-              />
-              <TextInput
-                onChangeText={searchText => this.setState({ searchText })}
-                underlineColorAndroid="transparent"
-                style={styles.searchTextInput}
-                placeholder={I18n.t(
-                  "do_you_know_screen_tags_search_placeholder"
-                )}
-                placeholderTextColor={colors.lighterText}
-              />
-            </View>
-            <TouchableOpacity onPress={this.hide} style={styles.closeBtn}>
-              <Icon name="md-close" size={24} color={colors.mainText} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.body}>
-            <View style={styles.tags}>
-              {tags.map((tag, index) => {
-                if (
-                  tag.title.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-                ) {
-                  return (
-                    <Button
-                      key={index}
-                      onPress={() => this.onTagPress(tag)}
-                      text={tag.title}
-                      color="secondary"
-                      style={styles.tag}
-                      outlineBtnStyle={{ paddingHorizontal: 10 }}
-                      gradientStyle={{ paddingHorizontal: 11 }}
-                      textStyle={{ fontSize: 10 }}
-                      type={
-                        selectedTagIds.indexOf(tag.id) > -1
-                          ? "normal"
-                          : "outline"
-                      }
+      <View>
+        {isModalVisible && (
+          <View>
+            <Modal
+              visible={true}
+              animationType="slide"
+              onRequestClose={() => {}}
+            >
+              <View style={styles.container}>
+                <View style={styles.header}>
+                  <View style={styles.searchContainer}>
+                    <Icon
+                      name="md-search"
+                      size={24}
+                      color={colors.lighterText}
+                      style={styles.searchIcon}
                     />
-                  );
-                } else {
-                  return null;
-                }
-              })}
-            </View>
-            <Button
-              onPress={() => {
-                this.hide();
-                onSearchPress();
-              }}
-              text={I18n.t("do_you_know_screen_tags_search_cta")}
-              color="secondary"
-              borderRadius={0}
-            />
+                    <TextInput
+                      onChangeText={searchText => this.setState({ searchText })}
+                      underlineColorAndroid="transparent"
+                      style={styles.searchTextInput}
+                      placeholder={I18n.t(
+                        "do_you_know_screen_tags_search_placeholder"
+                      )}
+                      placeholderTextColor={colors.lighterText}
+                    />
+                  </View>
+                  <TouchableOpacity onPress={this.hide} style={styles.closeBtn}>
+                    <Icon name="md-close" size={24} color={colors.mainText} />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.body}>
+                  <View style={styles.tags}>
+                    {tags.map((tag, index) => {
+                      if (
+                        tag.title
+                          .toLowerCase()
+                          .indexOf(searchText.toLowerCase()) > -1
+                      ) {
+                        return (
+                          <Button
+                            key={index}
+                            onPress={() => this.onTagPress(tag)}
+                            text={tag.title}
+                            color="secondary"
+                            style={styles.tag}
+                            outlineBtnStyle={{ paddingHorizontal: 10 }}
+                            gradientStyle={{ paddingHorizontal: 11 }}
+                            textStyle={{ fontSize: 10 }}
+                            type={
+                              selectedTagIds.indexOf(tag.id) > -1
+                                ? "normal"
+                                : "outline"
+                            }
+                          />
+                        );
+                      } else {
+                        return null;
+                      }
+                    })}
+                  </View>
+                  <Button
+                    onPress={() => {
+                      this.hide();
+                      onSearchPress();
+                    }}
+                    text={I18n.t("do_you_know_screen_tags_search_cta")}
+                    color="secondary"
+                    borderRadius={0}
+                  />
+                </View>
+              </View>
+            </Modal>
           </View>
-        </View>
-      </Modal>
+        )}
+      </View>
     );
   }
 }

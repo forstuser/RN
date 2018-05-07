@@ -211,13 +211,15 @@ class AddCalendarServiceScreen extends React.Component {
         if (serviceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT) {
           this.createItem();
         } else {
-          this.pushStep(
-            <WagesCycleStep
-              onBackPress={this.previousStep}
-              serviceType={serviceType}
-              onStepDone={this.onWagesCycleStepDone}
-            />
-          );
+          setTimeout(() => {
+            this.pushStep(
+              <WagesCycleStep
+                onBackPress={this.previousStep}
+                serviceType={serviceType}
+                onStepDone={this.onWagesCycleStepDone}
+              />
+            );
+          }, 200);
         }
       }
     );

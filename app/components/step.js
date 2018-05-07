@@ -9,6 +9,7 @@ import { colors } from "../theme";
 class Step extends React.Component {
   render() {
     const {
+      hideHeader = false,
       onBackPress,
       onSkipPress,
       title,
@@ -19,31 +20,33 @@ class Step extends React.Component {
     } = this.props;
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.backBtn} onPress={onBackPress}>
-            <Icon name="md-arrow-back" size={24} color="#000" />
-          </TouchableOpacity>
-          <View style={styles.titlesContainer}>
-            <Text weight="Bold" numberOfLines={1} style={styles.title}>
-              {title}
-            </Text>
-            {subtitle && (
-              <Text numberOfLines={2} style={styles.subtitle}>
-                {subtitle}
+        {!hideHeader && (
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.backBtn} onPress={onBackPress}>
+              <Icon name="md-arrow-back" size={24} color="#000" />
+            </TouchableOpacity>
+            <View style={styles.titlesContainer}>
+              <Text weight="Bold" numberOfLines={1} style={styles.title}>
+                {title}
               </Text>
+              {subtitle && (
+                <Text numberOfLines={2} style={styles.subtitle}>
+                  {subtitle}
+                </Text>
+              )}
+            </View>
+            {skippable && (
+              <TouchableOpacity
+                style={styles.skipBtn}
+                onPress={() => onSkipPress()}
+              >
+                <Text weight="Bold" style={styles.skipText}>
+                  SKIP
+                </Text>
+              </TouchableOpacity>
             )}
           </View>
-          {skippable && (
-            <TouchableOpacity
-              style={styles.skipBtn}
-              onPress={() => onSkipPress()}
-            >
-              <Text weight="Bold" style={styles.skipText}>
-                SKIP
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
+        )}
         <View style={styles.body}>{children}</View>
         <LoadingOverlay visible={showLoader} />
       </View>

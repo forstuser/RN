@@ -6,7 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Alert
+  Alert,
+  TextInput
 } from "react-native";
 import I18n from "../../../i18n";
 import { API_BASE_URL, updateProduct } from "../../../api";
@@ -79,14 +80,29 @@ class AddAmountStep extends React.Component {
         title={`Add ${category.name} Amount`}
         showLoader={isLoading}
         {...this.props}
+        // style={{ fontSize: 28 }}
       >
         <View style={{ padding: 20 }}>
-          <CustomTextInput
+          {/* <CustomTextInput
             ref={ref => (this.input = ref)}
             placeholder={"Enter Amount Here"}
             value={value ? String(value) : ""}
             onChangeText={value => this.setState({ value })}
             keyboardType="numeric"
+            // rightSideText="₹"
+            // rightSideTextWidth={80}
+            style={styles.input}
+          /> */}
+          <TextInput
+            underlineColorAndroid="transparent"
+            placeholder={"Amount ₹"}
+            maxLength={10}
+            style={styles.phoneInput}
+            value={"₹" + value ? String(value) : "₹"}
+            onChangeText={value => this.setState({ value })}
+            keyboardType="phone-pad"
+            style={styles.input}
+            leftSideText="₹"
           />
           {/* <TextInput
             underlineColorAndroid="transparent"
@@ -118,6 +134,11 @@ class AddAmountStep extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  input: {
+    borderBottomWidth: 1,
+    borderBottomColor: "grey",
+    fontSize: 30
   }
 
   // amount: {

@@ -10,13 +10,13 @@ const IntroSlide = ({ image, title, desc }) => (
     <LinearGradient
       start={{ x: 0.0, y: 0.4 }}
       end={{ x: 0.0, y: 1 }}
-      colors={["#008bd8", "#00acee"]}
+      colors={["#fff", "#fff"]}
       style={styles.gradientBackground}
     >
-      {/* <Image
+      <Image
         style={styles.bg}
         source={require("../../images/onboarding/background.png")}
-      /> */}
+      />
       <View style={styles.texts}>
         <Text style={styles.title}>{title}</Text>
         {/* <Text style={styles.desc}>{desc}</Text> */}
@@ -54,19 +54,20 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     alignItems: "center",
     justifyContent: "center",
-    flex: 3
-    // top: 50
+    flex: 3,
+    bottom: 20
   },
   texts: {
     height: 100,
+    top: 20,
     alignItems: "center",
     justifyContent: "center",
-    flex: 1
+    flex: 1,
   },
   title: {
     fontSize: 18,
     textAlign: "center",
-    color: "#fff",
+    color: colors.mainText,
     paddingHorizontal: 20,
     marginTop: 25,
     lineHeight: 30,

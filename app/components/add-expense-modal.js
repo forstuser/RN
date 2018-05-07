@@ -126,58 +126,69 @@ class AddExpenseModal extends React.Component {
       }
     ];
 
+    if (!isModalVisible) return null;
+
     return (
-      <Modal visible={isModalVisible} animationType="slide">
-        <View style={styles.container}>
-          <View style={styles.option}>
-            <Text
-              weight="Bold"
-              style={[styles.optionTitle, { color: colors.mainBlue }]}
-            >
-              {/* {I18n.t(add_edit_product_option_product)} */}
-            </Text>
-            <GridView
-              scrollEnabled={false}
-              itemDimension={98}
-              items={productOptions}
-              renderItem={this.renderItem}
-              contentContainerStyle={styles.grid}
-            />
+      <View>
+        {isModalVisible && (
+          <View>
+            <Modal visible={true} animationType="slide">
+              <View style={styles.container}>
+                <View style={styles.option}>
+                  <Text
+                    weight="Bold"
+                    style={[styles.optionTitle, { color: colors.mainBlue }]}
+                  >
+                    {/* {I18n.t(add_edit_product_option_product)} */}
+                  </Text>
+                  <GridView
+                    scrollEnabled={false}
+                    itemDimension={98}
+                    items={productOptions}
+                    renderItem={this.renderItem}
+                    contentContainerStyle={styles.grid}
+                  />
+                </View>
+                <View style={styles.orOuterContainer}>
+                  <View style={styles.orContainer}>
+                    <Text style={styles.or} weight="Bold">
+                      OR
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.option}>
+                  <Text
+                    weight="Bold"
+                    style={[
+                      styles.optionTitle,
+                      { color: colors.pinkishOrange }
+                    ]}
+                  >
+                    Add Expense
+                  </Text>
+                  <GridView
+                    scrollEnabled={false}
+                    itemDimension={98}
+                    items={expenseOptions}
+                    renderItem={this.renderItem}
+                    contentContainerStyle={styles.grid}
+                  />
+                </View>
+                {showCancelBtn && (
+                  <Button
+                    onPress={this.hide}
+                    style={styles.closeBtn}
+                    text={I18n.t("add_expenses_options_cancel_btn")}
+                    type="outline"
+                    color="secondary"
+                    outlineBtnStyle={{ borderColor: "transparent" }}
+                  />
+                )}
+              </View>
+            </Modal>
           </View>
-          <View style={styles.orOuterContainer}>
-            <View style={styles.orContainer}>
-              <Text style={styles.or} weight="Bold">
-                OR
-              </Text>
-            </View>
-          </View>
-          <View style={styles.option}>
-            <Text
-              weight="Bold"
-              style={[styles.optionTitle, { color: colors.pinkishOrange }]}
-            >
-              Add Expense
-            </Text>
-            <GridView
-              scrollEnabled={false}
-              itemDimension={98}
-              items={expenseOptions}
-              renderItem={this.renderItem}
-              contentContainerStyle={styles.grid}
-            />
-          </View>
-          {showCancelBtn && (
-            <Button
-              onPress={this.hide}
-              style={styles.closeBtn}
-              text={I18n.t("add_expenses_options_cancel_btn")}
-              type="outline"
-              color="secondary"
-              outlineBtnStyle={{ borderColor: "transparent" }}
-            />
-          )}
-        </View>
-      </Modal>
+        )}
+      </View>
     );
   }
 }

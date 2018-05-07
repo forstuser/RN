@@ -237,9 +237,11 @@ class Header extends Component {
                   onPress={() => this.priceBreakdown.show()}
                   style={styles.totalContainer}
                 >
-                  <Text weight="Bold" style={styles.totalAmount}>
-                    ₹ {totalAmount}
-                  </Text>
+                  <View>
+                    <Text weight="Bold" style={styles.totalAmount}>
+                      ₹ {totalAmount}
+                    </Text>
+                  </View>
                   <Image style={styles.dropdownIcon} source={dropdownIcon} />
                 </TouchableOpacity>
                 <ActionSheet

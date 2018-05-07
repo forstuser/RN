@@ -70,7 +70,6 @@ class Attendance extends React.Component {
     } = this.props;
     const paymentDetails = item.payment_detail;
     const paymentDetail = paymentDetails[activePaymentDetailIndex];
-
     let calculationDetails = item.calculation_detail;
     let activeCalculationDetail = calculationDetails[0];
     for (let i = 0; i < calculationDetails.length; i++) {
@@ -199,7 +198,7 @@ class Attendance extends React.Component {
         break;
       }
     }
-    availableDaysofMonth.sort(function(a, b) {
+    availableDaysofMonth.sort(function (a, b) {
       return moment(a.date).format("D") - moment(b.date).format("D");
     });
 
@@ -277,15 +276,7 @@ class Attendance extends React.Component {
                 <VerticalKeyValue
                   keyText={unitPriceText}
                   valueText={
-                    "₹ " +
-                    (paymentDetail.total_units || paymentDetail.total_days)
-                      ? (
-                          paymentDetail.total_amount /
-                          (paymentDetail.total_units ||
-                            paymentDetail.total_days ||
-                            1)
-                        ).toFixed(2)
-                      : 0
+                    "₹ " + activeCalculationDetail.unit_price
                   }
                 />
               )}
@@ -293,11 +284,7 @@ class Attendance extends React.Component {
                 <VerticalKeyValue
                   keyText={unitPriceText}
                   valueText={
-                    "₹ " + paymentDetail.total_days
-                      ? (
-                          paymentDetail.total_amount / paymentDetail.total_days
-                        ).toFixed(2)
-                      : 0
+                    "₹ " + activeCalculationDetail.unit_price
                   }
                 />
               )}

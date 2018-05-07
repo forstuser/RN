@@ -48,7 +48,7 @@ class WhatToListEmptyState extends React.Component {
         break;
     }
     this.props.onCreateListBtnPress();
-  }
+  };
 
   render() {
     const { type } = this.props;
@@ -60,40 +60,44 @@ class WhatToListEmptyState extends React.Component {
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_DO:
         text =
-          "You don't have any items in your to-do list, please create your list first";
+          "Plan your day by selecting or adding tasks to be completed for the day";
         image = todo;
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
         text =
-          "You don’t have any items in your wardrobe list, please create your list first";
+          "You are here because you want us to help you decide everyday What to Wear. Let’s Get Started ";
         image = whatToWear;
         break;
     }
     return (
       <View style={styles.container}>
         <Image style={styles.blankPageImage} source={image} />
-        <Text weight="Medium" style={styles.blankPageText}>
+        <Text weight="Regular" style={styles.blankPageText}>
           {text}
         </Text>
+        {type == EASY_LIFE_TYPES.WHAT_TO_DO && (
+          <View style={styles.faqView}>
+            <Text style={styles.faqText} weight="Regular">
+              To know more, How it Works
+            </Text>
+            <TouchableOpacity
+              style={{ paddingVertical: 10 }}
+              onPress={this.goToFaq}
+            >
+              <Text
+                weight="Medium"
+                style={{ fontSize: 18, color: colors.pinkishOrange }}
+              >
+                Click here
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
         <Button
           onPress={this.onPressCreateList}
           text="Create List"
           style={styles.createListBtn}
         />
-        {type == EASY_LIFE_TYPES.WHAT_TO_DO && <View style={styles.faqView}>
-          <Text style={styles.faqText} weight="Medium">
-            To know more How it Works,
-                </Text>
-          <TouchableOpacity
-            style={{ paddingVertical: 10 }}
-            onPress={this.goToFaq}
-          >
-            <Text weight="Medium" style={{ color: colors.pinkishOrange }}>
-              {" "}
-              click here
-                  </Text>
-          </TouchableOpacity>
-        </View>}
       </View>
     );
   }
@@ -106,32 +110,36 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   blankPageImage: {
-    height: 70,
-    width: 70,
+    height: 100,
+    width: 100,
     alignItems: "center",
     alignSelf: "center"
   },
   blankPageText: {
-    fontSize: 14,
-    color: "#9b9b9b",
+    fontSize: 18,
+    color: "#4a4a4a",
     textAlign: "center",
     marginVertical: 10,
-    width: '90%'
+    maxWidth: 350,
+    padding: 10
   },
   createListBtn: {
-    width: 150
+    width: 150,
+    marginTop: 10
   },
   faqView: {
     flexDirection: "row",
     alignSelf: "center",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: 10
   },
   faqText: {
-    fontSize: 14,
-    color: "#9b9b9b",
-    textAlign: "center"
-  },
+    fontSize: 18,
+    color: "#4a4a4a",
+    textAlign: "center",
+    marginRight: 5
+  }
 });
 
 export default WhatToListEmptyState;

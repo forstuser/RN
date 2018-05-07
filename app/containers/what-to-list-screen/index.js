@@ -61,7 +61,7 @@ class WhatToListScreen extends Component {
     states: [],
     isVeg: false,
     checkAll: false,
-    selectedState: null,
+    selectedState: { id: 0, state_name: "Select State" },
     isLoading: true,
     error: null
   };
@@ -71,7 +71,7 @@ class WhatToListScreen extends Component {
     const { type } = this.props;
     let title = "What's Cooking?";
     let text =
-      "A comprehensive list of local and popular dishes can be selected for your state or add your own dish to help you decide what to cook for the day";
+      "Create your Digital Kitchen by adding your menu list from the representative list of your state or on your own.";
     let image = cooking;
     let systemListTitle = "List of Meals";
     let btnText = "Add New Dish";
@@ -86,7 +86,7 @@ class WhatToListScreen extends Component {
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
         title = "What to Wear?";
-        text = "Plan your wardrobe by selecting or adding items to be worn";
+        text = "Create your Digital Wardrobe by adding images of your clothes. This gives you an overview of your entire wardrobe and also shows what you had worn and when.";
         image = whatToWear;
         btnText = "Add New Item";
         systemListTitle = "";
@@ -123,8 +123,10 @@ class WhatToListScreen extends Component {
         states: res.states
       });
 
-      let stateId = this.props.stateId;
-      if (this.state.selectedState) {
+      let stateId = null;
+      if (this.props.stateId) {
+        stateId = this.props.stateId;
+      } else if (this.state.selectedState) {
         stateId = this.state.selectedState.id;
       }
       if (stateId) {
@@ -228,7 +230,9 @@ class WhatToListScreen extends Component {
         ]
       },
       () => {
-        this.scrollView.scrollTo({ y: 0, animated: true });
+        if (this.scrollView) {
+          this.scrollView.scrollTo({ y: 0, animated: true });
+        }
       }
     );
   };
@@ -350,7 +354,7 @@ class WhatToListScreen extends Component {
   };
 
   beforeOpenStatesModal = () => {
-    if (!this.state.selectedState) {
+    if (!this.state.selectedState || this.state.selectedState.id == 0) {
       return true;
     } else {
       Alert.alert(
@@ -392,6 +396,7 @@ class WhatToListScreen extends Component {
       error,
       systemListTitle
     } = this.state;
+
     return (
       <View style={{ flex: 1 }}>
         <ScreenContainer>
@@ -413,59 +418,68 @@ class WhatToListScreen extends Component {
                 }}
                 beforeModalOpen={this.beforeOpenStatesModal}
               />
-              {selectedState && (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between"
-                  }}
-                >
-                  <TouchableOpacity
-                    style={styles.checkboxWrapper}
-                    onPress={this.checkAllBox}
+              {selectedState &&
+                selectedState.id > 0 && (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between"
+                    }}
                   >
-                    <View style={styles.box}>
-                      {checkAll && (
-                        <Icon
-                          name="md-checkmark"
-                          color={colors.pinkishOrange}
-                          size={15}
-                        />
-                      )}
+                    <TouchableOpacity
+                      style={styles.checkboxWrapper}
+                      onPress={this.checkAllBox}
+                    >
+                      <View style={styles.box}>
+                        {checkAll && (
+                          <Icon
+                            name="md-checkmark"
+                            color={colors.pinkishOrange}
+                            size={15}
+                          />
+                        )}
+                      </View>
+                      <Text style={{ color: colors.mainText }}>
+                        {" "}
+                        Select All{" "}
+                      </Text>
+                    </TouchableOpacity>
+                    <View style={{ flexDirection: "row" }}>
+                      <Text style={{ color: colors.mainText }}>Veg Only </Text>
+                      <Switch
+                        onValueChange={this.toggleVegOrNonveg}
+                        value={isVeg}
+                      />
                     </View>
-                    <Text style={{ color: colors.mainText }}> Select All </Text>
-                  </TouchableOpacity>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={{ color: colors.mainText }}>Veg Only </Text>
-                    <Switch
-                      onValueChange={this.toggleVegOrNonveg}
-                      value={isVeg}
-                    />
                   </View>
-                </View>
-              )}
+                )}
             </View>
           )}
           {items.length == 0 && (
             <View style={styles.container}>
               <Image style={styles.blankPageImage} source={image} />
               <View style={styles.blankPageView}>
-                <Text weight="Medium" style={styles.blankPageText}>
+                <Text weight="Regular" style={styles.blankPageText}>
                   {text}
                 </Text>
               </View>
-              <Text style={styles.faqText} weight="Medium">
-                You can also create your own list without selecting the State
-              </Text>
+              {type == EASY_LIFE_TYPES.WHAT_TO_COOK && (
+                <Text style={styles.faqText} weight="Regular">
+                  This gives you an overview of your entire kitchen menu and also shows what you had cooked and when.
+                </Text>
+              )}
               <View style={styles.faqView}>
-                <Text style={styles.faqText} weight="Medium">
-                  To know more How it Works,
+                <Text style={styles.faqText} weight="Regular">
+                  To know more, How it Works
                 </Text>
                 <TouchableOpacity
                   style={{ paddingVertical: 10 }}
                   onPress={this.goToFaq}
                 >
-                  <Text weight="Medium" style={{ color: colors.pinkishOrange }}>
+                  <Text
+                    weight="Medium"
+                    style={{ color: colors.pinkishOrange, fontSize: 18, top: 10 }}
+                  >
                     {" "}
                     click here
                   </Text>
@@ -596,8 +610,8 @@ const styles = StyleSheet.create({
     // marginBottom: 10
   },
   blankPageImage: {
-    height: 70,
-    width: 70,
+    height: 100,
+    width: 100,
     alignItems: "center",
     alignSelf: "center"
   },
@@ -609,8 +623,8 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   blankPageText: {
-    fontSize: 14,
-    color: "#9b9b9b",
+    fontSize: 18,
+    color: "#4a4a4a",
     textAlign: "center"
   },
   faqView: {
@@ -620,8 +634,9 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   faqText: {
-    fontSize: 14,
-    color: "#9b9b9b",
+    top: 10,
+    fontSize: 18,
+    color: "#4a4a4a",
     textAlign: "center"
   },
   body: {

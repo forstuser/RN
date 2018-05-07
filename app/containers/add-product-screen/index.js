@@ -56,7 +56,8 @@ class AddProductScreen extends React.Component {
     product: null,
     insuranceProviders: [],
     subCategories: [],
-    isLoading: false
+    isLoading: false,
+    popOnDoItLater: false
   };
 
   stepsContainerPositionX = new Animated.Value(-SCREEN_WIDTH);
@@ -82,20 +83,37 @@ class AddProductScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.pushStep(
-      <SelectExpenseTypeStep
-        onBackPress={this.previousStep}
-        onExpenseTypePress={this.chooseExpenseType}
-      />,
-      false
-    );
-
     const { expenseType } = this.props;
-
     if (expenseType) {
-      this.chooseExpenseType(expenseType);
+      this.setState({ popOnDoItLater: true });
+      this.chooseExpenseType(expenseType, false);
+    } else {
+      this.pushStep(
+        <SelectExpenseTypeStep
+          onBackPress={this.previousStep}
+          onExpenseTypePress={this.chooseExpenseType}
+        />,
+        false
+      );
     }
   }
+
+  startOver = () => {
+    this.setState({
+      steps: [
+        <SelectExpenseTypeStep
+          onBackPress={this.previousStep}
+          onExpenseTypePress={this.chooseExpenseType}
+        />
+      ],
+      activeStepIndex: 0,
+      category: null,
+      product: null,
+      insuranceProviders: [],
+      subCategories: [],
+      numberOfStepsToShowInFooter: 0
+    });
+  };
 
   goToStep = step => {
     const steps = [...this.state.steps];
@@ -162,7 +180,7 @@ class AddProductScreen extends React.Component {
     });
   }
 
-  pushCategoryStep = () => {
+  pushCategoryStep = (pushToNext = true) => {
     const { expenseType, mainCategoryId, category, product } = this.state;
     this.pushStep(
       <SelectCategoryStep
@@ -171,7 +189,8 @@ class AddProductScreen extends React.Component {
         onBackPress={this.previousStep}
         onCategorySelect={this.onCategorySelect}
         expenseType={expenseType}
-      />
+      />,
+      pushToNext
     );
   };
 
@@ -220,7 +239,7 @@ class AddProductScreen extends React.Component {
     );
   };
 
-  pushUploadBillStep = (skippable = false) => {
+  pushUploadBillStep = (skippable = false, pushToNextStep = true) => {
     const { mainCategoryId, category, product } = this.state;
 
     this.pushStep(
@@ -233,7 +252,8 @@ class AddProductScreen extends React.Component {
         onBackPress={this.previousStep}
         skippable={skippable}
         onSkipPress={() => this.finishModal.show()}
-      />
+      />,
+      pushToNextStep
     );
   };
 
@@ -289,7 +309,7 @@ class AddProductScreen extends React.Component {
     );
   };
 
-  initProduct = async () => {
+  initProduct = async pushToNextStep => {
     this.setState({ isLoading: true, product: null });
     const { mainCategoryId, category } = this.state;
     try {
@@ -301,7 +321,7 @@ class AddProductScreen extends React.Component {
         },
         () => {
           if (category.id == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
-            this.pushUploadBillStep();
+            this.pushUploadBillStep(false, pushToNextStep);
             this.setState({
               numberOfStepsToShowInFooter: 2
             });
@@ -318,13 +338,13 @@ class AddProductScreen extends React.Component {
     }
   };
 
-  chooseExpenseType = type => {
-    const { category = null } = this.props;
+  chooseExpenseType = (type, pushToNextStep = true) => {
+    // const { category = null } = this.props;
     this.setState(
       {
         expenseType: type,
         mainCategoryId: null,
-        category: category,
+        category: null,
         product: null,
         insuranceProviders: [],
         subCategories: []
@@ -337,7 +357,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.AUTOMOBILE
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -347,7 +367,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.ELECTRONICS
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -357,7 +377,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.FURNITURE
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -368,7 +388,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -378,7 +398,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.TRAVEL
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -388,7 +408,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.FASHION
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -398,7 +418,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.SERVICES
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -408,7 +428,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.HOUSEHOLD
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -418,7 +438,7 @@ class AddProductScreen extends React.Component {
                 mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL
               },
               () => {
-                this.pushCategoryStep();
+                this.pushCategoryStep(pushToNextStep);
               }
             );
             break;
@@ -432,7 +452,7 @@ class AddProductScreen extends React.Component {
                 }
               },
               () => {
-                this.initProduct();
+                this.initProduct(pushToNextStep);
               }
             );
             break;
@@ -441,13 +461,19 @@ class AddProductScreen extends React.Component {
               <RepairStep
                 navigator={this.props.navigator}
                 onBackPress={this.previousStep}
-                onStepDone={() => this.finishModal.show()}
+                onStepDone={this.onRepairStepDone}
               />
             );
             break;
         }
       }
     );
+  };
+
+  onRepairStepDone = product => {
+    this.setState({ product }, () => {
+      this.finishModal.show();
+    });
   };
 
   onCategorySelect = ({
@@ -709,7 +735,8 @@ class AddProductScreen extends React.Component {
       steps,
       activeStepIndex,
       isLoading,
-      numberOfStepsToShowInFooter
+      numberOfStepsToShowInFooter,
+      popOnDoItLater
     } = this.state;
 
     let nextStep = null;
@@ -788,8 +815,9 @@ class AddProductScreen extends React.Component {
           mainCategoryId={mainCategoryId}
           category={category}
           productId={product ? product.id : null}
+          popOnDoItLater={popOnDoItLater}
           navigator={this.props.navigator}
-          goToStep={this.goToStep}
+          startOver={this.startOver}
         />
       </View>
     );

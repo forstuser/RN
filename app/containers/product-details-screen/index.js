@@ -247,6 +247,16 @@ class ProductDetailsScreen extends Component {
       }
 
       let title = I18n.t("product_details_screen_title");
+      if (
+        [
+          MAIN_CATEGORY_IDS.TRAVEL,
+          MAIN_CATEGORY_IDS.SERVICES,
+          MAIN_CATEGORY_IDS.HEALTHCARE,
+          MAIN_CATEGORY_IDS.HOUSEHOLD
+        ].indexOf(product.masterCategoryId) > -1
+      ) {
+        title = "Expense Details";
+      }
       switch (product.categoryId) {
         case CATEGORY_IDS.HEALTHCARE.INSURANCE:
           title = "Insurance Details";

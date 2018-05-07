@@ -30,12 +30,14 @@ export default {
   //app intro screen
   app_intro_1_title: `Smart & 100% secure way of saving your Bills, Expenses and Important Documents in a Digital Format`,
   app_intro_1_desc: `Create Your Product Card in less Than 10 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
-  app_intro_2_title: `Recieve Reminders for Expiry and Renewal as well as connect with Brand Service Centres`,
+  app_intro_2_title: `Receive Reminders for Expiry and Renewal as well as connect with Brand Service Centres`,
   app_intro_2_desc: `Create product card and reach out to Brands, Insurance Providers or Nearest Service Center with just One Touch.`,
-  app_intro_3_title: `Your Own Attendance Manager for the Milkman, Maid, Newspaper Wala and Others`,
+  app_intro_3_title: `Our EazyDay section Plans your Day and helps you decide your Meals, your Wardrobe as well as your Tasks for the Day`,
   app_intro_3_desc: `Know the Life Cycle Cost of All Your Products. Based on this You Can Decide Whether to Continue Maintaining the Product or Replacing it.`,
-  app_intro_4_title: `Be The Product Review Expert. Help Your Friends, Family and Followers make a wise purchase`,
+  app_intro_4_title: `Be The Product Review Expert. Help Your Friends, Family and Followers make a wise purchase decision`,
   app_intro_4_desc: `You Can Capture and Track All Expenses Across Categories Such As Household and Utility, Travel, Dining, Healthcare and More.`,
+  app_intro_5_title: `Your Own Attendance Manager for the Milkman, Maid, Newspaper Wala and Others`,
+  app_intro_5_desc: ``,
   app_intro_next: "NEXT",
   app_intro_skip: "SKIP",
   app_intro_register: "REGISTER",
@@ -520,9 +522,9 @@ export default {
   add_edit_calendar_service_screen_form_provider_name: "Provider Name",
   add_edit_calendar_service_screen_form_wages_type: "Wages Type",
   add_edit_calendar_service_screen_form_fees_type: "Fees Type",
-  add_edit_calendar_service_screen_form_wages: "Wages",
-  add_edit_calendar_service_screen_form_fees: "Fees",
-  add_edit_calendar_service_screen_form_rental: "Rental",
+  add_edit_calendar_service_screen_form_wages: "Current Wage",
+  add_edit_calendar_service_screen_form_fees: "Current Fee",
+  add_edit_calendar_service_screen_form_rental: "Current Rental",
   add_edit_calendar_service_screen_form_rental_type: "Rental Type",
   add_edit_calendar_service_screen_form_starting_date: "Starting from Date",
   add_edit_calendar_service_screen_form_end_date: "End Date",
@@ -536,7 +538,7 @@ export default {
   calendar_service_screen_price: "Price",
   calendar_service_screen_total_calculated_amount: "Total Amount",
   calendar_service_screen_total_paid_amount: "Total Paid",
-  calendar_service_screen_unit_price_avg: "Unit Price (avg)",
+  calendar_service_screen_unit_price_avg: "Current Unit Price",
   calendar_service_screen_unit_price: "Unit Price ",
   calendar_service_screen_quantity: "Quantity",
   calendar_service_screen_attendance: "Attendance",
@@ -701,15 +703,20 @@ export default {
   faq_answer_15:
     "Yes, you can. However, it it is recommended to add details of products while creating your product card. Remember, it is only a one-time effort and convenience for lifetime.",
   faq_question_16: "How is ‘EazyDay’ section useful for me?",
-  faq_answer_16: "This section helps you plan your day with ease and gives you an overview of all activities for the day. This works on the principle of non repeat and works on items which we do periodically and not frequently. Our unique algorithm not only helps you maintain a list of your favourite food/clothes/tasks but also tells you when a particular dish was cooked, a shirt was worn or a task was done. This helps you decide better what to cook/wear/do in the present day. It even helps you manage daily attendance of your house help, milkman and newspaper wala!",
+  faq_answer_16:
+    "This section helps you plan your day with ease and gives you an overview of all activities for the day. This works on the principle of non repeat and works on items which we do periodically and not frequently. Our unique algorithm not only helps you maintain a list of your favourite food/clothes/tasks but also tells you when a particular dish was cooked, a shirt was worn or a task was done. This helps you decide better what to cook/wear/do in the present day. It even helps you manage daily attendance of your house help, milkman and newspaper wala!",
   faq_question_17: "What is ‘Who’s Absent Today’ section?",
-  faq_answer_17: "This feature helps you manage all your household services like your house help, milkman and newspaper wala by keeping their attendance and payout record for the month. Now no more jotting down dates everywhere and manual calculations for all these services.",
+  faq_answer_17:
+    "This feature helps you manage all your household services like your house help, milkman and newspaper wala by keeping their attendance and payout record for the month. Now no more jotting down dates everywhere and manual calculations for all these services.",
   faq_question_18: "How does ‘What’s Cooking Today’ section work for me?",
-  faq_answer_18: "It’s always difficult to decide what to cook today and because of that we tend to miss out on many delicacies for a long period of time. This section helps you decide what needs to be cooked for the day, tomorrow or later. This works on the principle of Non Repeat and works on items which we do periodically and not frequently. Our unique algorithm not only helps you maintain your favourite food list but also tells you when a particular dish was cooked. This helps you decide better what to cook today. We have a representative list of local and popular dishes that you can select for your state as well as create your own list of dishes to be cooked.",
+  faq_answer_18:
+    "It’s always difficult to decide what to cook today and because of that we tend to miss out on many delicacies for a long period of time. This section helps you decide what needs to be cooked for the day, tomorrow or later. This works on the principle of Non Repeat and works on items which we do periodically and not frequently. Our unique algorithm not only helps you maintain your favourite food list but also tells you when a particular dish was cooked. This helps you decide better what to cook today. We have a representative list of local and popular dishes that you can select for your state as well as create your own list of dishes to be cooked.",
   faq_question_19: "How does ‘What to Wear Today’ section work for me?",
-  faq_answer_19: "It’s always a difficult task deciding what to wear each day especially when you have an extensive wardrobe so much so that you very often don’t even remember you own a particular dress or trouser stacked somewhere! This section helps you create a digital wardrobe of all the clothing or accessory items you own alongwith their pictures for an easy recall and decision on what to wear each day. You could also key in an item without a picture if you wish.",
+  faq_answer_19:
+    "It’s always a difficult task deciding what to wear each day especially when you have an extensive wardrobe so much so that you very often don’t even remember you own a particular dress or trouser stacked somewhere! This section helps you create a digital wardrobe of all the clothing or accessory items you own alongwith their pictures for an easy recall and decision on what to wear each day. You could also key in an item without a picture if you wish.",
   faq_question_20: "How does ‘What to Do Today’ section work for me?",
-  faq_answer_20: "This is a very useful section helping you plan all tasks to be completed in the entire day. We have listed down various periodic household tasks not done very frequently and hence are difficult to recall. You can also add any other task not appearing in the list to create your daily ‘to do’ list.This section helps you decide what needs to be done for the day, tomorrow or later.This works on the principle of non repeat and works on items which we do periodically and not frequently.Our unique algorithm not only helps you maintain your necessary task list but also tells you when a particular task was done.This helps you decide better what to do today or later.",
+  faq_answer_20:
+    "This is a very useful section helping you plan all tasks to be completed in the entire day. We have listed down various periodic household tasks not done very frequently and hence are difficult to recall. You can also add any other task not appearing in the list to create your daily ‘to do’ list.This section helps you decide what needs to be done for the day, tomorrow or later.This works on the principle of non repeat and works on items which we do periodically and not frequently.Our unique algorithm not only helps you maintain your necessary task list but also tells you when a particular task was done.This helps you decide better what to do today or later.",
 
   //tab screen header
   tab_screen_header_search_placeholder: "Search...",
@@ -748,18 +755,18 @@ export default {
   upload_bill_tip:
     "Upload Bill: You can upload your Bills and Documents here (optional).",
   product_card_tip:
-    "This is the Product Card for your {{categoryName}}. It’s like a digital identity of your Product which you can access anytime anywhere.",
+    "This is the Product Card for your {{categoryName}}. You can access this anytime, anywhere.",
   product_card_upload_bill_tip:
     "Don’t want to add the details manually just upload the bill and leave rest upon us. Our experts will fill in the details for you.",
   product_card_share_tip:
-    "Share your product experience with your Friends, Family and Followers to help them make a wise purchase.",
+    "Share your product experience with your Friends, Family and Followers to help them make a wise purchase decision.",
   product_card_review_tip: "Review your product experience.",
   product_card_add_image_tip:
-    "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more sharable with your friends and family.",
+    "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more shareable with your friends and family.",
   //blank dashboard
   blank_dashboard_headline: "Welcome to BinBill",
   blank_dashboard_text:
-    "Start adding your Products, Bills, Expenses and Documents",
+    "Your Own Home Manager",
   blank_dashboard_btn_text: "UPLOAD DOC",
   blank_dashboard_know_more_text: "Know More",
   blank_dashboard_one_step: "One Stop For",
