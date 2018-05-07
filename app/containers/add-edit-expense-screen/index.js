@@ -99,7 +99,7 @@ class AddEditExpenseScreen extends React.Component {
             "Retrieve a product bill/invoice",
             "Track lifetime expenses",
             "Share personalised reviews",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -115,7 +115,7 @@ class AddEditExpenseScreen extends React.Component {
             "Retrieve a product bill/invoice",
             "Track lifetime expenses",
             "Share personalised reviews",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -131,7 +131,7 @@ class AddEditExpenseScreen extends React.Component {
             "Retrieve a product bill/invoice",
             "Track lifetime expenses",
             "Share personalised reviews",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -145,7 +145,7 @@ class AddEditExpenseScreen extends React.Component {
             "Connect with insurance providers",
             "Receive insurance reminders",
             "Share personalised reviews",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -174,9 +174,9 @@ class AddEditExpenseScreen extends React.Component {
           mainCategoryId: MAIN_CATEGORY_IDS.TRAVEL,
           reasons: [
             "Personalise your expenses",
-            "Retrieve a bill anytime",
+            "Retrieve a bill anytime, anywhere",
             "Get expense insights",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -188,7 +188,7 @@ class AddEditExpenseScreen extends React.Component {
           reasons: [
             "Retrieve a bill/record/prescription",
             "Get expense insights",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -199,10 +199,10 @@ class AddEditExpenseScreen extends React.Component {
           mainCategoryId: MAIN_CATEGORY_IDS.FASHION,
           reasons: [
             "Personalise your expenses",
-            "Retrieve a bill anytime",
+            "Retrieve a bill anytime, anywhere",
             "Get expense insights",
             "Share personalised review",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -212,9 +212,9 @@ class AddEditExpenseScreen extends React.Component {
           formType: "expense",
           mainCategoryId: MAIN_CATEGORY_IDS.SERVICES,
           reasons: [
-            "Retrieve a bill anytime",
+            "Retrieve a bill anytime, anywhere",
             "Get expense insights",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -224,9 +224,9 @@ class AddEditExpenseScreen extends React.Component {
           formType: "expense",
           mainCategoryId: MAIN_CATEGORY_IDS.HOUSEHOLD,
           reasons: [
-            "Retrieve a bill anytime",
+            "Retrieve a bill anytime, anywhere",
             "Get expense insights",
-            "And much more.."
+            "And much more"
           ]
         });
         break;

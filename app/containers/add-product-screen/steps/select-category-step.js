@@ -57,7 +57,7 @@ class SelectCategoryStep extends React.Component {
           "Retrieve a product bill/invoice",
           "Track lifetime expenses",
           "Share personalised reviews",
-          "And much more.."
+          "And much more"
         ];
         visibleOptions = [
           {
@@ -95,7 +95,7 @@ class SelectCategoryStep extends React.Component {
           "Retrieve a product bill/invoice",
           "Track lifetime expenses",
           "Share personalised reviews",
-          "And much more.."
+          "And much more"
         ];
         visibleOptions = [
           {
@@ -147,7 +147,7 @@ class SelectCategoryStep extends React.Component {
           "Retrieve a product bill/invoice",
           "Track lifetime expenses",
           "Share personalised reviews",
-          "And much more.."
+          "And much more"
         ];
         visibleOptions = [
           {
@@ -170,14 +170,14 @@ class SelectCategoryStep extends React.Component {
       case MAIN_CATEGORY_IDS.SERVICES:
         title = I18n.t("add_edit_expense_screen_title_select_service_expense");
         reasons = [
-          "Retrieve a bill anytime",
+          "Retrieve a bill anytime, anywhere",
           "Get expense insights",
-          "And much more.."
+          "And much more"
         ];
         visibleOptions = [
           {
             id: CATEGORY_IDS.SERVICES.PROFESSIONAL,
-            name: "Beauty and Salon",
+            name: "Beauty & Salon",
             icon: require("../../../images/categories/beauty_and_salon.png")
           },
           {
@@ -196,9 +196,9 @@ class SelectCategoryStep extends React.Component {
         title = I18n.t("add_edit_expense_screen_title_select_travel");
         reasons = [
           "Personalise your expenses",
-          "Retrieve a bill anytime",
+          "Retrieve a bill anytime, anywhere",
           "Get expense insights",
-          "And much more.."
+          "And much more"
         ];
         visibleOptions = [
           {
@@ -223,10 +223,10 @@ class SelectCategoryStep extends React.Component {
         title = I18n.t("add_edit_expense_screen_title_select_fashion_expense");
         reasons = [
           "Personalise your expenses",
-          "Retrieve a bill anytime",
+          "Retrieve a bill anytime, anywhere",
           "Get expense insights",
           "Share personalised review",
-          "And much more.."
+          "And much more"
         ];
         visibleOptions = [
           {
@@ -269,14 +269,14 @@ class SelectCategoryStep extends React.Component {
       case MAIN_CATEGORY_IDS.HOUSEHOLD:
         title = I18n.t("add_edit_expense_screen_title_select_home_expense");
         reasons = [
-          "Retrieve a bill anytime",
+          "Retrieve a bill anytime, anywhere",
           "Get expense insights",
-          "And much more.."
+          "And much more"
         ];
         visibleOptions = [
           {
             id: CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE,
-            name: "Household Expense",
+            name: "Household Expenses",
             icon: require("../../../images/categories/household.png")
           },
           {
@@ -291,7 +291,7 @@ class SelectCategoryStep extends React.Component {
           },
           {
             id: CATEGORY_IDS.HOUSEHOLD.HOME_DECOR,
-            name: "Home Decor & Beddings",
+            name: "Home & Furnishing",
             icon: require("../../../images/categories/home_decor.png")
           },
           {
@@ -311,7 +311,7 @@ class SelectCategoryStep extends React.Component {
             "Connect with insurance providers",
             "Receive insurance reminders",
             "Share personalised reviews",
-            "And much more.."
+            "And much more"
           ];
           visibleOptions = [
             {
@@ -330,7 +330,7 @@ class SelectCategoryStep extends React.Component {
           reasons = [
             "Retrieve a bill/record/prescription",
             "Get expense insights",
-            "And much more.."
+            "And much more"
           ];
           visibleOptions = [
             {
@@ -348,7 +348,7 @@ class SelectCategoryStep extends React.Component {
         break;
       case MAIN_CATEGORY_IDS.PERSONAL:
         title = I18n.t("add_edit_expense_screen_title_select_personal_doc");
-        reasons = ["To retrieve your document anytime anywhere"];
+        reasons = ["To retrieve your document anytime, anywhere"];
         visibleOptions = [
           {
             id: CATEGORY_IDS.PERSONAL.RENT_AGREEMENT,

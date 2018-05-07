@@ -159,7 +159,8 @@ class AddEmptyProductScreen extends Component {
         item = {
           type: EXPENSE_TYPES.OTHERS,
           desc: I18n.t("products_list_no_result_desc_others"),
-          image: require("../images/main-categories/ic_personal_doc.png")
+          image: require("../images/main-categories/ic_personal_doc.png"),
+          buttonText: "Add Others"
         };
         break;
 
@@ -191,16 +192,16 @@ class AddEmptyProductScreen extends Component {
         {this.props.mainCategoryId != 9 && (
           <Text style={styles.below}>{I18n.t("product_list_click_below")}</Text>
         )}
-        {this.props.mainCategoryId != 9 && (
-          <View>
-            <Button
-              onPress={() => this.onPressItem(item)}
-              text={item.buttonText}
-              color="secondary"
-              style={styles.button}
-            />
-          </View>
-        )}
+        {/* {this.props.mainCategoryId == 9 && ( */}
+        <View>
+          <Button
+            onPress={() => this.onPressItem(item)}
+            text={item.buttonText}
+            color="secondary"
+            style={styles.button}
+          />
+        </View>
+        {/* )} */}
       </View>
     );
   }

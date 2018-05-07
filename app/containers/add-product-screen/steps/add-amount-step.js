@@ -6,7 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Alert
+  Alert,
+  TextInput
 } from "react-native";
 import I18n from "../../../i18n";
 import { API_BASE_URL, updateProduct } from "../../../api";

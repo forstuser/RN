@@ -497,8 +497,7 @@ export default {
   my_calendar: "Recent Attendance",
   my_calendar_screen_title: "Attendance Manager",
   my_calendar_screen_add_btn: "Add Service",
-  my_calendar_screen_empty_screen_msg:
-    "Mark attendance and payouts for all your household services like milkman, maid, newspaper wala here.\n\n\nClick below to:",
+  my_calendar_screen_empty_screen_msg: "Track and manage attendance & payouts for all your household services like your maid, milkman and newspaper wala.",
   my_calendar_screen_total_days: "Total Days",
   my_calendar_screen_till_date: "Till {{date}}",
   my_calendar_screen_days_present: "Days Present",
@@ -641,17 +640,17 @@ export default {
     "Repair added with the product.",
   add_edit_expense_screen_title_select_automobile: "Select Automobile Type",
   add_edit_expense_screen_title_select_electronics:
-    "Select Electronics & Electricals Type",
+    "Select Electronic & Electrical Type",
   add_edit_expense_screen_title_select_furniture:
     "Select Furniture & Hardware Type",
   add_edit_expense_screen_title_select_service_expense:
-    "Select Services Expense Category",
+    "Select Service Expense Category",
   add_edit_expense_screen_title_select_fashion_expense:
     "Select Fashion Expense Category",
   add_edit_expense_screen_title_select_home_expense:
     "Select Home Expense Category",
   add_edit_expense_screen_title_select_medical_document:
-    "Select Medical Documents Type",
+    "Select Medical Document Type",
   add_edit_expense_screen_title_select_health_expense:
     "Select Healthcare Expense Category",
   add_edit_expense_screen_title_select_personal_doc: "Select Personal Doc Type",
@@ -1033,5 +1032,5 @@ export default {
   save: "Save",
   add_edit_calendar_service_screen_form_finish_date: "Finish Date",
   calendar_service_finish_date_warning:
-    "Details after this date will not be available."
+    "Service Details post this date will not be recorded"
 };

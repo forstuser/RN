@@ -73,7 +73,7 @@ class SelectPurchaseDateStep extends React.Component {
       case MAIN_CATEGORY_IDS.ELECTRONICS:
       case MAIN_CATEGORY_IDS.FASHION:
       case MAIN_CATEGORY_IDS.FURNITURE:
-        subtitle = 'Required for calculating warranty';
+        subtitle = 'Required for warranty calculation';
     }
 
 
