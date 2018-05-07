@@ -118,6 +118,12 @@ class AddAmountStep extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+
+  amount: {
+    borderBottomWidth: 1,
+    borderBottomColor: "grey",
+    fontSize: 30
   }
 });
 
