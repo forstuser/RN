@@ -28,7 +28,7 @@ const apiRequest = async ({
 }) => {
   try {
     const token = store.getState().loggedInUser.authToken;
-    if (token) {
+    if (typeof token == "string") {
       headers.Authorization = token;
       console.log("auth token: ", token);
     }
@@ -104,10 +104,13 @@ const apiRequest = async ({
       error.statusCode = e.response.status;
       errorMessage = e.response.data.message;
     }
-    Analytics.logEvent(
-      Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
-      { message: errorMessage }
-    );
+
+    if (error.statusCode != 401 && error.statusCode != 402) {
+      Analytics.logEvent(
+        Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
+        { message: errorMessage }
+      );
+    }
 
     if (error.statusCode == 401) {
       store.dispatch(loggedInUserActions.loggedInUserClearAllData());

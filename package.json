@@ -9,7 +9,9 @@
       "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
     "android-clean": "cd ./android && ./gradlew clean",
     "android-build-debug": "cd ./android && ./gradlew assembleDebug",
-    "android-build-release": "cd ./android && ./gradlew assembleRelease"
+    "android-build-release": "cd ./android && ./gradlew assembleRelease",
+    "android-codepush-release-format":
+      "appcenter codepush release-react -a appcenterbin/BinBill-Android --description \"Removed analytics API logging for 401 and 402 errors\""
   },
   "dependencies": {
     "add": "^2.0.6",
@@ -37,7 +39,7 @@
     "react-native-google-places": "2.4.2",
     "react-native-hyperlink": "^0.0.12",
     "react-native-i18n": "^2.0.9",
-    "react-native-image-crop-picker": "^0.18.1",
+    "react-native-image-crop-picker": "^0.20.1",
     "react-native-keyboard-aware-scroll-view": "^0.4.1",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-loading-spinner-overlay": "^0.5.2",
