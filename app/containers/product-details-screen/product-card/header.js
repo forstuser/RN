@@ -233,13 +233,21 @@ class Header extends Component {
                   {product.brand && product.model ? "/" : ""}
                   {product.model ? product.model : null}
                 </Text>
+
+                <View>
+                  <Text>purchase Date : May 02,2018</Text>
+                  <Text>Warranty till: Aug 01,2018</Text>
+                  <Text>Insurance till: May 01,2019</Text>
+                </View>
                 <TouchableOpacity
                   onPress={() => this.priceBreakdown.show()}
                   style={styles.totalContainer}
                 >
-                  <Text weight="Bold" style={styles.totalAmount}>
-                    ₹ {totalAmount}
-                  </Text>
+                  <View>
+                    <Text weight="Bold" style={styles.totalAmount}>
+                      ₹ {totalAmount}
+                    </Text>
+                  </View>
                   <Image style={styles.dropdownIcon} source={dropdownIcon} />
                 </TouchableOpacity>
                 <ActionSheet

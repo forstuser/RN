@@ -255,7 +255,7 @@ class ProductDetailsScreen extends Component {
           MAIN_CATEGORY_IDS.HOUSEHOLD
         ].indexOf(product.masterCategoryId)
       ) {
-        title = "Expense Details";
+        title = "Product Details";
       }
       switch (product.categoryId) {
         case CATEGORY_IDS.HEALTHCARE.INSURANCE:
