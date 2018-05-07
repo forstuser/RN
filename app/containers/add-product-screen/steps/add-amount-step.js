@@ -81,12 +81,23 @@ class AddAmountStep extends React.Component {
         {...this.props}
       >
         <View style={{ padding: 20 }}>
-          <CustomTextInput
+          {/* <CustomTextInput
             ref={ref => (this.input = ref)}
             placeholder={"Enter Amount Here"}
             value={value ? String(value) : ""}
             onChangeText={value => this.setState({ value })}
             keyboardType="numeric"
+          /> */}
+          <TextInput
+            underlineColorAndroid="transparent"
+            placeholder={"Amount ₹"}
+            maxLength={10}
+            style={styles.phoneInput}
+            value={"₹" + value ? String(value) : "₹"}
+            onChangeText={value => this.setState({ value })}
+            keyboardType="phone-pad"
+            style={styles.amount}
+            leftSideText="₹"
           />
           <Button
             onPress={this.onPressNext}
