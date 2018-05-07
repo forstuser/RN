@@ -177,8 +177,8 @@ class SelectCategoryStep extends React.Component {
         visibleOptions = [
           {
             id: CATEGORY_IDS.SERVICES.PROFESSIONAL,
-            name: "Beauty and Saloon",
-            icon: require("../../../images/main-categories/ic_services.png")
+            name: "Beauty and Salon",
+            icon: require("../../../images/categories/beauty_and_salon.png")
           },
           {
             id: CATEGORY_IDS.SERVICES.LESSIONS_HOBBIES,
@@ -291,7 +291,7 @@ class SelectCategoryStep extends React.Component {
           },
           {
             id: CATEGORY_IDS.HOUSEHOLD.HOME_DECOR,
-            name: "Home Decor",
+            name: "Home Decor & Beddings",
             icon: require("../../../images/categories/home_decor.png")
           },
           {
@@ -533,13 +533,15 @@ class SelectCategoryStep extends React.Component {
                           styles.optionIconContainer,
                           isSelectedOption
                             ? styles.selectedOptionIconContainer
-                            : {}
+                            : styles.selectedOptionIconContainer
                         ]}
                       >
                         <Image
                           style={[
                             styles.optionIcon,
-                            isSelectedOption ? styles.selectedOptionIcon : {}
+                            isSelectedOption
+                              ? styles.selectedOptionIcon
+                              : styles.selectedOptionIcon
                           ]}
                           resizeMode="contain"
                           source={option.icon}
@@ -549,7 +551,9 @@ class SelectCategoryStep extends React.Component {
                         weight="Medium"
                         style={[
                           styles.optionName,
-                          isSelectedOption ? styles.selectedOptionName : {}
+                          isSelectedOption
+                            ? styles.selectedOptionName
+                            : styles.selectedOptionName
                         ]}
                       >
                         {option.name}
@@ -608,8 +612,8 @@ class SelectCategoryStep extends React.Component {
               </Text>
               {reasons.map((reason, index) => {
                 return (
-                  <Text weight="Medium" key={index} style={styles.reason}>
-                    • {reason}
+                  <Text key={index} style={styles.reason}>
+                    - {reason} -
                   </Text>
                 );
               })}
@@ -704,10 +708,11 @@ const styles = StyleSheet.create({
     marginTop: -150
   },
   reason: {
-    color: colors.secondaryText,
-    fontSize: 12,
-    marginLeft: 100,
-    alignSelf: "flex-start"
+    color: "#4a4a4a",
+    fontSize: 14,
+    lineHeight: 22,
+    // marginLeft: 100,
+    alignSelf: "center"
   }
 });
 
