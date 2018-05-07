@@ -69,7 +69,7 @@ class SelectedDaysStep extends React.Component {
     const { isLoading, selectedDays } = this.state;
 
     return (
-      <Step title={`Select Week Days`} {...this.props}>
+      <Step title={`Deselect weekly off days`} {...this.props}>
         <View style={{ padding: 20 }}>
           <SelectWeekDays
             selectedDays={selectedDays}
