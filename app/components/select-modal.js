@@ -165,6 +165,7 @@ class SelectModal extends Component {
     } else {
       optionsAfterSearch = options;
     }
+    if (!isModalVisible) return null;
 
     return (
       <View style={[styles.container, style]}>
@@ -198,68 +199,74 @@ class SelectModal extends Component {
           </View>
         )}
         {hint ? <Text style={styles.hint}>{hint}</Text> : null}
-        <Modal visible={isModalVisible} animationType="slide">
-          <View style={{ backgroundColor: "#fff" }}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalHeaderText}>{placeholder}</Text>
-              <TouchableOpacity
-                onPress={() => this.setState({ isModalVisible: false })}
-                style={styles.modalCloseBtn}
-              >
-                <Image
-                  style={styles.modalCloseIcon}
-                  source={{ uri: crossIcon }}
-                />
-              </TouchableOpacity>
-            </View>
-            {!hideSearch && (
-              <View style={styles.searchContainer}>
-                <TextInput
-                  placeholder={I18n.t("component_items_search")}
-                  underlineColorAndroid="transparent"
-                  style={styles.searchInput}
-                  value={searchInput}
-                  onChangeText={text => this.setState({ searchInput: text })}
-                />
-              </View>
-            )}
-          </View>
-          {optionsAfterSearch.length > 0 && (
-            <FlatList
-              style={style.optionsList}
-              data={optionsAfterSearch}
-              keyExtractor={(item, index) => index}
-              renderItem={this._renderOption}
-              ListFooterComponent={() => {
-                if (hideAddNew) {
-                  return null;
-                }
-                return (
+        {isModalVisible && (
+          <View>
+            <Modal visible={true} animationType="slide">
+              <View style={{ backgroundColor: "#fff" }}>
+                <View style={styles.modalHeader}>
+                  <Text style={styles.modalHeaderText}>{placeholder}</Text>
                   <TouchableOpacity
-                    style={styles.option}
-                    onPress={this._onAddNewClick}
+                    onPress={() => this.setState({ isModalVisible: false })}
+                    style={styles.modalCloseBtn}
                   >
-                    <Text style={styles.addNewBtnText}>Add New</Text>
+                    <Image
+                      style={styles.modalCloseIcon}
+                      source={{ uri: crossIcon }}
+                    />
                   </TouchableOpacity>
-                );
-              }}
-            />
-          )}
-          {optionsAfterSearch.length == 0 && (
-            <View style={styles.noResultContainer}>
-              <Text style={styles.noResultText}>No result found</Text>
-
-              {!hideAddNew && (
-                <TouchableOpacity
-                  style={styles.addNewBtn}
-                  onPress={this._onAddNewClick}
-                >
-                  <Text style={styles.addNewBtnText}>Add New</Text>
-                </TouchableOpacity>
+                </View>
+                {!hideSearch && (
+                  <View style={styles.searchContainer}>
+                    <TextInput
+                      placeholder={I18n.t("component_items_search")}
+                      underlineColorAndroid="transparent"
+                      style={styles.searchInput}
+                      value={searchInput}
+                      onChangeText={text =>
+                        this.setState({ searchInput: text })
+                      }
+                    />
+                  </View>
+                )}
+              </View>
+              {optionsAfterSearch.length > 0 && (
+                <FlatList
+                  style={style.optionsList}
+                  data={optionsAfterSearch}
+                  keyExtractor={(item, index) => index}
+                  renderItem={this._renderOption}
+                  ListFooterComponent={() => {
+                    if (hideAddNew) {
+                      return null;
+                    }
+                    return (
+                      <TouchableOpacity
+                        style={styles.option}
+                        onPress={this._onAddNewClick}
+                      >
+                        <Text style={styles.addNewBtnText}>Add New</Text>
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
               )}
-            </View>
-          )}
-        </Modal>
+              {optionsAfterSearch.length == 0 && (
+                <View style={styles.noResultContainer}>
+                  <Text style={styles.noResultText}>No result found</Text>
+
+                  {!hideAddNew && (
+                    <TouchableOpacity
+                      style={styles.addNewBtn}
+                      onPress={this._onAddNewClick}
+                    >
+                      <Text style={styles.addNewBtnText}>Add New</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              )}
+            </Modal>
+          </View>
+        )}
       </View>
     );
   }

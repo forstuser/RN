@@ -204,205 +204,228 @@ class ShareModal extends React.Component {
     } else {
       step = 4;
     }
+    if (!isModalVisible) return null;
 
     return (
-      <Modal
-        isVisible={isModalVisible}
-        useNativeDriver={true}
-        onBackButtonPress={this.hide}
-        onBackdropPress={this.hide}
-        avoidKeyboard={Platform.OS == "ios"}
-      >
-        <View style={styles.modal}>
-          <LoadingOverlay
-            visible={isSavingName || (step == 4 && isImageLoading)}
-          />
-          {step < 4 && (
-            <View
-              style={{ alignItems: "center", marginTop: 40, marginBottom: 20 }}
+      <View>
+        {isModalVisible && (
+          <View>
+            <Modal
+              isVisible={true}
+              useNativeDriver={true}
+              onBackButtonPress={this.hide}
+              onBackdropPress={this.hide}
+              avoidKeyboard={Platform.OS == "ios"}
             >
-              <Image
-                style={[
-                  styles.illustration,
-                  step == 2 ? styles.userImageIllustration : {}
-                ]}
-                source={stepImage}
-              />
-              <View style={styles.stepsContainer}>
-                <View style={styles.stepLine} />
-                <View style={styles.steps}>
-                  {[1, 2, 3].map((s, index) => (
-                    <View key={index} style={[styles.step]}>
-                      {s >= step && (
-                        <Text weight="Bold" style={styles.stepText}>
-                          {s}
-                        </Text>
-                      )}
-                      {s < step && (
-                        <View style={styles.tick}>
-                          <Icon name="md-checkmark" size={20} color="#fff" />
-                        </View>
-                      )}
-                    </View>
-                  ))}
-                </View>
-              </View>
-              <Text
-                weight="Bold"
-                style={{ marginTop: 20, color: colors.mainBlue, fontSize: 16 }}
-              >
-                {stepText}
-              </Text>
-            </View>
-          )}
-
-          {step == 1 && (
-            <View style={{ padding: 30 }}>
-              <Button
-                onPress={() => this.uploadProductImage.showOptions()}
-                text={I18n.t("upload_product_image")}
-                color="secondary"
-              />
-              <TouchableOpacity onPress={() => this.onImageStepDone(false)}>
-                <Text
-                  weight="Bold"
-                  style={{
-                    marginTop: 20,
-                    color: colors.pinkishOrange,
-                    textAlign: "center",
-                    fontSize: 16
-                  }}
-                >
-                  {I18n.t("i_will_do_it_later")}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          {step == 2 && (
-            <View style={{ padding: 20 }}>
-              <CustomTextInput
-                placeholder={I18n.t("profile_screen_label_name")}
-                onChangeText={nameInput => this.setState({ nameInput })}
-              />
-              <Button
-                onPress={this.saveUserName}
-                style={{ marginTop: 10 }}
-                text={I18n.t("save")}
-                color="secondary"
-              />
-            </View>
-          )}
-          {step == 3 && (
-            <View>
-              <ProductReview
-                product={product}
-                onReviewSubmit={review => {
-                  this.onReviewStepDone(review);
-                  onNewReview(review);
-                }}
-              />
-            </View>
-          )}
-          {step == 4 && (
-            <View style={styles.shareViewContainer}>
-              <View
-                collapsable={false}
-                style={styles.shareView}
-                ref={ref => (this.shareView = ref)}
-              >
-                {productImageUrl ? (
-                  <Image
-                    onLoad={this.hideLoader}
-                    onError={this.hideLoader}
-                    resizeMode={productImageResizeMode}
-                    style={[
-                      styles.productImage,
-                      productImageResizeMode == "contain" ? { padding: 20 } : {}
-                    ]}
-                    source={{ uri: productImageUrl }}
-                  />
-                ) : null}
-                <View style={styles.userImageView}>
-                  {/* <View style={styles.userImageLine} /> */}
-                  <Image
-                    style={styles.userImage}
-                    source={userImageSource}
-                    resize="cover"
-                  />
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    height: "auto",
-                    marginBottom: 10
-                  }}
-                >
-                  <Text style={styles.userName} weight="Bold">
-                    {loggedInUser.name}
-                  </Text>
-                  <Text> has rated</Text>
-                </View>
-                <Text weight="Bold" style={styles.productName}>
-                  {product.productName}
-                </Text>
-                <Text weight="Medium" style={styles.productModel}>
-                  {product.model}
-                </Text>
-                <StarRating
-                  starColor={colors.pinkishOrange}
-                  disabled={true}
-                  maxStars={5}
-                  rating={ratings}
-                  halfStarEnabled={true}
-                  starSize={18}
-                  starStyle={{ marginHorizontal: 2, marginVertical: 5 }}
+              <View style={styles.modal}>
+                <LoadingOverlay
+                  visible={isSavingName || (step == 4 && isImageLoading)}
                 />
-                <Text numberOfLines={4} style={styles.feedbackText}>
-                  {feedbackText ? `"${feedbackText}"` : ""}
-                </Text>
-                <Text
-                  numberOfLines={4}
-                  weight="Bold"
-                  style={styles.reviewQuotesText}
-                >{`"${I18n.t("review_quotes")}"`}</Text>
-                <View style={styles.badges}>
-                  <View style={styles.binbillLogoWrapper}>
+                {step < 4 && (
+                  <View
+                    style={{
+                      alignItems: "center",
+                      marginTop: 40,
+                      marginBottom: 20
+                    }}
+                  >
                     <Image
-                      resizeMode="contain"
-                      style={styles.binbillLogo}
-                      source={binbillLogo}
+                      style={[
+                        styles.illustration,
+                        step == 2 ? styles.userImageIllustration : {}
+                      ]}
+                      source={stepImage}
+                    />
+                    <View style={styles.stepsContainer}>
+                      <View style={styles.stepLine} />
+                      <View style={styles.steps}>
+                        {[1, 2, 3].map((s, index) => (
+                          <View key={index} style={[styles.step]}>
+                            {s >= step && (
+                              <Text weight="Bold" style={styles.stepText}>
+                                {s}
+                              </Text>
+                            )}
+                            {s < step && (
+                              <View style={styles.tick}>
+                                <Icon
+                                  name="md-checkmark"
+                                  size={20}
+                                  color="#fff"
+                                />
+                              </View>
+                            )}
+                          </View>
+                        ))}
+                      </View>
+                    </View>
+                    <Text
+                      weight="Bold"
+                      style={{
+                        marginTop: 20,
+                        color: colors.mainBlue,
+                        fontSize: 16
+                      }}
+                    >
+                      {stepText}
+                    </Text>
+                  </View>
+                )}
+
+                {step == 1 && (
+                  <View style={{ padding: 30 }}>
+                    <Button
+                      onPress={() => this.uploadProductImage.showOptions()}
+                      text={I18n.t("upload_product_image")}
+                      color="secondary"
+                    />
+                    <TouchableOpacity
+                      onPress={() => this.onImageStepDone(false)}
+                    >
+                      <Text
+                        weight="Bold"
+                        style={{
+                          marginTop: 20,
+                          color: colors.pinkishOrange,
+                          textAlign: "center",
+                          fontSize: 16
+                        }}
+                      >
+                        {I18n.t("i_will_do_it_later")}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+                {step == 2 && (
+                  <View style={{ padding: 20 }}>
+                    <CustomTextInput
+                      placeholder={I18n.t("profile_screen_label_name")}
+                      onChangeText={nameInput => this.setState({ nameInput })}
+                    />
+                    <Button
+                      onPress={this.saveUserName}
+                      style={{ marginTop: 10 }}
+                      text={I18n.t("save")}
+                      color="secondary"
                     />
                   </View>
-                  <Image
-                    resizeMode="contain"
-                    style={styles.storeBadge}
-                    source={appStoreBadge}
-                  />
-                  <Image
-                    resizeMode="contain"
-                    style={styles.storeBadge}
-                    source={playStoreBadge}
-                  />
-                </View>
+                )}
+                {step == 3 && (
+                  <View>
+                    <ProductReview
+                      product={product}
+                      onReviewSubmit={review => {
+                        this.onReviewStepDone(review);
+                        onNewReview(review);
+                      }}
+                    />
+                  </View>
+                )}
+                {step == 4 && (
+                  <View style={styles.shareViewContainer}>
+                    <View
+                      collapsable={false}
+                      style={styles.shareView}
+                      ref={ref => (this.shareView = ref)}
+                    >
+                      {productImageUrl ? (
+                        <Image
+                          onLoad={this.hideLoader}
+                          onError={this.hideLoader}
+                          resizeMode={productImageResizeMode}
+                          style={[
+                            styles.productImage,
+                            productImageResizeMode == "contain"
+                              ? { padding: 20 }
+                              : {}
+                          ]}
+                          source={{ uri: productImageUrl }}
+                        />
+                      ) : null}
+                      <View style={styles.userImageView}>
+                        {/* <View style={styles.userImageLine} /> */}
+                        <Image
+                          style={styles.userImage}
+                          source={userImageSource}
+                          resize="cover"
+                        />
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          height: "auto",
+                          marginBottom: 10
+                        }}
+                      >
+                        <Text style={styles.userName} weight="Bold">
+                          {loggedInUser.name}
+                        </Text>
+                        <Text> has rated</Text>
+                      </View>
+                      <Text weight="Bold" style={styles.productName}>
+                        {product.productName}
+                      </Text>
+                      <Text weight="Medium" style={styles.productModel}>
+                        {product.model}
+                      </Text>
+                      <StarRating
+                        starColor={colors.pinkishOrange}
+                        disabled={true}
+                        maxStars={5}
+                        rating={ratings}
+                        halfStarEnabled={true}
+                        starSize={18}
+                        starStyle={{ marginHorizontal: 2, marginVertical: 5 }}
+                      />
+                      <Text numberOfLines={4} style={styles.feedbackText}>
+                        {feedbackText ? `"${feedbackText}"` : ""}
+                      </Text>
+                      <Text
+                        numberOfLines={4}
+                        weight="Bold"
+                        style={styles.reviewQuotesText}
+                      >{`"${I18n.t("review_quotes")}"`}</Text>
+                      <View style={styles.badges}>
+                        <View style={styles.binbillLogoWrapper}>
+                          <Image
+                            resizeMode="contain"
+                            style={styles.binbillLogo}
+                            source={binbillLogo}
+                          />
+                        </View>
+                        <Image
+                          resizeMode="contain"
+                          style={styles.storeBadge}
+                          source={appStoreBadge}
+                        />
+                        <Image
+                          resizeMode="contain"
+                          style={styles.storeBadge}
+                          source={playStoreBadge}
+                        />
+                      </View>
+                    </View>
+                    <Button
+                      style={styles.shareBtn}
+                      onPress={this.onSharePress}
+                      text={I18n.t("share")}
+                      color="secondary"
+                    />
+                  </View>
+                )}
+                <UploadProductImage
+                  ref={ref => (this.uploadProductImage = ref)}
+                  productId={product.id}
+                  onImageUpload={() => this.onImageStepDone(true)}
+                />
+                <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
               </View>
-              <Button
-                style={styles.shareBtn}
-                onPress={this.onSharePress}
-                text={I18n.t("share")}
-                color="secondary"
-              />
-            </View>
-          )}
-          <UploadProductImage
-            ref={ref => (this.uploadProductImage = ref)}
-            productId={product.id}
-            onImageUpload={() => this.onImageStepDone(true)}
-          />
-          <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
-            <Icon name="md-close" size={30} color={colors.mainText} />
-          </TouchableOpacity>
-        </View>
-      </Modal>
+            </Modal>
+          </View>
+        )}
+      </View>
     );
   }
 }
