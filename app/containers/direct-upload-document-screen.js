@@ -371,7 +371,7 @@ class DirectUploadDocumentScreen extends React.Component {
       isLoading,
       isFinishModalVisible
     } = this.state;
-    if (!isFinishModalVisible) return null;
+    // if (!isFinishModalVisible) return null;
     return (
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={isFetchingCategories || isLoading} />

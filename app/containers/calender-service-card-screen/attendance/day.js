@@ -134,7 +134,7 @@ class Month extends React.Component {
     const isDateAfterToday = moment(date).isAfter(moment().startOf("day"));
 
     console.log("date: ", date, "isDateAfterToday: ", isDateAfterToday);
-    if (!isEditQuantityModalOpen) return null;
+    // if (!isEditQuantityModalOpen) return null;
 
     return (
       <View style={styles.container}>

@@ -179,7 +179,7 @@ class MoreScreen extends Component {
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
     }
-    if (!isRemovePinModalVisible) return null;
+    // if (!isRemovePinModalVisible) return null;
 
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>

@@ -102,7 +102,7 @@ class Report extends React.Component {
     } = this.state;
     const { item } = this.props;
     const payments = item.payments;
-    if (!isMarkPaidModalOpen) return null;
+    // if (!isMarkPaidModalOpen) return null;
     return (
       <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
         <Button
