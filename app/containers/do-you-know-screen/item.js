@@ -10,6 +10,7 @@ import {
   Alert,
   ToastAndroid
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import RNFetchBlob from "react-native-fetch-blob";
 import ViewShot, { captureRef } from "react-native-view-shot";
 import Share from "react-native-share";
@@ -88,7 +89,7 @@ export default class Item extends React.Component {
             style={styles.shareView}
             collapsable={false}
           >
-            <Image
+            <FastImage
               style={styles.image}
               source={{ uri: API_BASE_URL + imageUrl }}
             />
@@ -120,7 +121,7 @@ export default class Item extends React.Component {
             </View>
           </View>
           <View style={styles.innerContainer}>
-            <Image
+            <FastImage
               style={styles.image}
               source={{ uri: API_BASE_URL + imageUrl }}
             />

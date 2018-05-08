@@ -8,6 +8,7 @@ import {
   ScrollView,
   Platform
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import _ from "lodash";
 import moment from "moment";
 import ScrollableTabView, {
@@ -104,7 +105,7 @@ class MedicalDocsCard extends Component {
               btnText={I18n.t("product_details_screen_docs")}
             />
           </View>
-          <Image
+          <FastImage
             style={styles.image}
             source={{ uri: API_BASE_URL + "/" + product.cImageURL }}
           />

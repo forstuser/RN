@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Alert
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import I18n from "../../i18n";
 import { MAIN_CATEGORY_IDS } from "../../constants";
 import { Text } from "../../elements";
@@ -118,7 +119,7 @@ class SelectCategoryHeader extends React.Component {
                       isSelectedOption ? styles.selectedOptionIconContainer : {}
                     ]}
                   >
-                    <Image
+                    <FastImage
                       style={[
                         styles.optionIcon,
                         isSelectedOption ? styles.selectedOptionIcon : {}
@@ -151,7 +152,7 @@ class SelectCategoryHeader extends React.Component {
                     styles.selectedOptionIconContainer
                   ]}
                 >
-                  <Image
+                  <FastImage
                     style={[styles.optionIconForOther]}
                     resizeMode="contain"
                     source={{

@@ -6,6 +6,7 @@ import {
   Platform,
   Image
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 import { API_BASE_URL } from "../../../api";
@@ -64,7 +65,7 @@ class ImageModal extends React.Component {
             >
               <LoadingOverlay visible={isImageLoading} />
               <View style={styles.modal}>
-                <Image
+                <FastImage
                   onLoad={this.hideLoader}
                   style={styles.bg}
                   source={headerBg}

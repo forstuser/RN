@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import FastImage from "react-native-fast-image";
 import moment from "moment";
 import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
@@ -75,11 +76,12 @@ const ProductListItem = ({ product, onPress }) => {
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
-      <Image
+      <FastImage
         style={styles.image}
         source={{
-          uri: API_BASE_URL + product.cImageURL + "?t=" + moment().format("X")
+          uri: API_BASE_URL + product.cImageURL
         }}
+        resizeMode="contain"
       />
       <View style={styles.texts}>
         <View style={styles.nameAndSeller}>
