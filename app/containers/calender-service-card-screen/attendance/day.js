@@ -134,6 +134,7 @@ class Month extends React.Component {
     const isDateAfterToday = moment(date).isAfter(moment().startOf("day"));
 
     console.log("date: ", date, "isDateAfterToday: ", isDateAfterToday);
+    // if (!isEditQuantityModalOpen) return null;
 
     return (
       <View style={styles.container}>
@@ -199,50 +200,54 @@ class Month extends React.Component {
             {I18n.t("calendar_service_screen_present")}
           </Text>
         </TouchableOpacity>
-        <Modal
-          isVisible={isEditQuantityModalOpen}
-          avoidKeyboard={Platform.OS == "ios"}
-          animationIn="slideInUp"
-          useNativeDriver={true}
-          onBackdropPress={this.hideEditQuantityModal}
-          onBackButtonPress={this.hideEditQuantityModal}
-        >
-          <View style={[styles.card, styles.modalCard]}>
-            {/* <LoadingOverlay visible={isAddingPayment} /> */}
-            <TouchableOpacity
-              style={styles.modalCloseIcon}
-              onPress={this.hideEditQuantityModal}
+        {isEditQuantityModalOpen && (
+          <View>
+            <Modal
+              isVisible={true}
+              avoidKeyboard={Platform.OS == "ios"}
+              animationIn="slideInUp"
+              useNativeDriver={true}
+              onBackdropPress={this.hideEditQuantityModal}
+              onBackButtonPress={this.hideEditQuantityModal}
             >
-              <Icon name="md-close" size={30} color={colors.mainText} />
-            </TouchableOpacity>
-            <Text
-              weight="Bold"
-              style={{
-                marginTop: 30,
-                marginBottom: 10,
-                alignSelf: "flex-start"
-              }}
-            >
-              {moment(date).format("D MMM YYYY")}
-            </Text>
-            <CustomTextInput
-              keyboardType="numeric"
-              style={{ marginTop: 50 }}
-              placeholder={"Change Quantity"}
-              value={String(quantity)}
-              onChangeText={quantity => this.setState({ quantity })}
-              rightSideText={
-                calculationDetail.unit ? calculationDetail.unit.title : ""
-              }
-            />
-            <Button
-              onPress={this.changeQuantity}
-              style={[styles.changeQuantityBtn, styles.modalBtn]}
-              text={"Save"}
-              color="secondary"
-            />
+              <View style={[styles.card, styles.modalCard]}>
+                {/* <LoadingOverlay visible={isAddingPayment} /> */}
+                <TouchableOpacity
+                  style={styles.modalCloseIcon}
+                  onPress={this.hideEditQuantityModal}
+                >
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
+                <Text
+                  weight="Bold"
+                  style={{
+                    marginTop: 30,
+                    marginBottom: 10,
+                    alignSelf: "flex-start"
+                  }}
+                >
+                  {moment(date).format("D MMM YYYY")}
+                </Text>
+                <CustomTextInput
+                  keyboardType="numeric"
+                  style={{ marginTop: 50 }}
+                  placeholder={"Change Quantity"}
+                  value={String(quantity)}
+                  onChangeText={quantity => this.setState({ quantity })}
+                  rightSideText={
+                    calculationDetail.unit ? calculationDetail.unit.title : ""
+                  }
+                />
+                <Button
+                  onPress={this.changeQuantity}
+                  style={[styles.changeQuantityBtn, styles.modalBtn]}
+                  text={"Save"}
+                  color="secondary"
+                />
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        )}
       </View>
     );
   }

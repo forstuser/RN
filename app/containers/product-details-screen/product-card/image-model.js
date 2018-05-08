@@ -49,28 +49,36 @@ class ImageModal extends React.Component {
         uri: API_BASE_URL + product.cImageURL + "?t=" + moment().format("X")
       };
     }
+    if (!isModalVisible) return null;
+
     return (
-      <Modal
-        isVisible={isModalVisible}
-        useNativeDriver={true}
-        onBackButtonPress={this.hide}
-        onBackdropPress={this.hide}
-        avoidKeyboard={Platform.OS == "ios"}
-        style={{ flex: 1, margin: 0 }}
-      >
-        <LoadingOverlay visible={isImageLoading} />
-        <View style={styles.modal}>
-          <FastImage
-            onLoad={this.hideLoader}
-            style={styles.bg}
-            source={headerBg}
-            resizeMode="contain"
-          />
-          <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
-            <Icon name="md-close" size={30} color={colors.mainText} />
-          </TouchableOpacity>
-        </View>
-      </Modal>
+      <View>
+        {isModalVisible && (
+          <View>
+            <Modal
+              isVisible={true}
+              useNativeDriver={true}
+              onBackButtonPress={this.hide}
+              onBackdropPress={this.hide}
+              avoidKeyboard={Platform.OS == "ios"}
+              style={{ flex: 1, margin: 0 }}
+            >
+              <LoadingOverlay visible={isImageLoading} />
+              <View style={styles.modal}>
+                <FastImage
+                  onLoad={this.hideLoader}
+                  style={styles.bg}
+                  source={headerBg}
+                  resizeMode="contain"
+                />
+                <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
+              </View>
+            </Modal>
+          </View>
+        )}
+      </View>
     );
   }
 }

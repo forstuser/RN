@@ -215,7 +215,7 @@ class SelectCategoryHeader extends React.Component {
         visibleOptions = [
           {
             id: 26,
-            name: "Household Expense",
+            name: "Household Expenses",
             icon: require("../../images/categories/household.png")
           },
           {
@@ -230,7 +230,7 @@ class SelectCategoryHeader extends React.Component {
           },
           {
             id: 697,
-            name: "Home Decor",
+            name: "Home Decor & Beddings",
             icon: require("../../images/categories/home_decor.png")
           },
           {

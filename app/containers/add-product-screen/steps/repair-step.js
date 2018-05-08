@@ -114,7 +114,7 @@ class Repair extends React.Component {
         id,
         repairDate,
         sellerName,
-        sellerContact: this.phoneRef.getFilledData(),
+        // sellerContact: this.phoneRef.getFilledData(),
         value: repairAmount,
         warrantyUpto
       };
@@ -163,7 +163,7 @@ class Repair extends React.Component {
       copies
     } = this.state;
     return (
-      <Step title={`Add Repair`} showLoader={isLoading} {...this.props}>
+      <Step title={`Add Repair Item`} showLoader={isLoading} {...this.props}>
         <View style={styles.container}>
           {products.length == 0 &&
             !isLoading && (

@@ -398,128 +398,128 @@ class BasicDetailsForm extends React.Component {
           )}
           {(categoryId == CATEGORY_IDS.FURNITURE.FURNITURE ||
             mainCategoryId == MAIN_CATEGORY_IDS.FASHION) && (
-            <TouchableOpacity
-              style={{
-                paddingTop: 10,
-                paddingBottom:
-                  selectedBrand != null && selectedBrand.id == 0 ? 30 : 10,
-                flexDirection: "row"
-              }}
-              onPress={this.toggleNonBranded}
-            >
-              <View
+              <TouchableOpacity
                 style={{
-                  width: 20,
-                  height: 20,
-                  borderRadius: 3,
-                  borderWidth: 1,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderColor:
-                    selectedBrand && selectedBrand.id == 0
-                      ? colors.pinkishOrange
-                      : colors.secondaryText
+                  paddingTop: 10,
+                  paddingBottom:
+                    selectedBrand != null && selectedBrand.id == 0 ? 30 : 10,
+                  flexDirection: "row"
                 }}
+                onPress={this.toggleNonBranded}
               >
-                {selectedBrand &&
-                  selectedBrand.id == 0 && (
-                    <Icon
-                      name="md-checkmark"
-                      size={16}
-                      color={colors.pinkishOrange}
-                    />
-                  )}
-              </View>
+                <View
+                  style={{
+                    width: 20,
+                    height: 20,
+                    borderRadius: 3,
+                    borderWidth: 1,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderColor:
+                      selectedBrand && selectedBrand.id == 0
+                        ? colors.pinkishOrange
+                        : colors.secondaryText
+                  }}
+                >
+                  {selectedBrand &&
+                    selectedBrand.id == 0 && (
+                      <Icon
+                        name="md-checkmark"
+                        size={16}
+                        color={colors.pinkishOrange}
+                      />
+                    )}
+                </View>
 
-              <Text weight="Medium" style={{ marginLeft: 8, flex: 1 }}>
-                Unbranded
+                <Text weight="Medium" style={{ marginLeft: 8, flex: 1 }}>
+                  Unbranded
               </Text>
-            </TouchableOpacity>
-          )}
+              </TouchableOpacity>
+            )}
 
           {(!selectedBrand ||
             (selectedBrand && selectedBrand.id != 0) ||
             (categoryId != CATEGORY_IDS.FURNITURE.FURNITURE &&
               mainCategoryId != MAIN_CATEGORY_IDS.FASHION)) && (
-            <SelectModal
-              // style={styles.input}
-              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder={I18n.t("expense_forms_product_basics_name_brand")}
-              textInputPlaceholder={I18n.t(
-                "expense_forms_product_basics_brand_name"
-              )}
-              placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
-                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                    {placeholder}
-                  </Text>
-                  {categoryId != CATEGORY_IDS.FURNITURE.FURNITURE && (
-                    <Text weight="Medium" style={{ color: colors.mainBlue }}>
-                      *
+              <SelectModal
+                // style={styles.input}
+                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                placeholder={I18n.t("expense_forms_product_basics_name_brand")}
+                textInputPlaceholder={I18n.t(
+                  "expense_forms_product_basics_brand_name"
+                )}
+                placeholderRenderer={({ placeholder }) => (
+                  <View style={{ flexDirection: "row" }}>
+                    <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                      {placeholder}
                     </Text>
-                  )}
-                </View>
-              )}
-              selectedOption={selectedBrand}
-              textInputValue={brandName}
-              options={brands.map(brand => ({
-                ...brand,
-                image: `${API_BASE_URL}/brands/${brand.id}/images`
-              }))}
-              imageKey="image"
-              onOptionSelect={value => {
-                this.onBrandSelect(value);
-              }}
-              onTextInputChange={text => this.onBrandNameChange(text)}
-            />
-          )}
+                    {categoryId != CATEGORY_IDS.FURNITURE.FURNITURE && (
+                      <Text weight="Medium" style={{ color: colors.mainBlue }}>
+                        *
+                    </Text>
+                    )}
+                  </View>
+                )}
+                selectedOption={selectedBrand}
+                textInputValue={brandName}
+                options={brands.map(brand => ({
+                  ...brand,
+                  image: `${API_BASE_URL}/brands/${brand.id}/images`
+                }))}
+                imageKey="image"
+                onOptionSelect={value => {
+                  this.onBrandSelect(value);
+                }}
+                onTextInputChange={text => this.onBrandNameChange(text)}
+              />
+            )}
 
           {(mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
             mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) && (
-            <SelectModal
-              // style={styles.input}
-              visibleKey="title"
-              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder={I18n.t("expense_forms_product_basics_model")}
-              textInputPlaceholder={I18n.t(
-                "expense_forms_product_basics_enter_model"
-              )}
-              placeholderRenderer={({ placeholder }) => (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center"
-                  }}
-                >
-                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                    {placeholder}
+              <SelectModal
+                // style={styles.input}
+                visibleKey="title"
+                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                placeholder={I18n.t("expense_forms_product_basics_model")}
+                textInputPlaceholder={I18n.t(
+                  "expense_forms_product_basics_enter_model"
+                )}
+                placeholderRenderer={({ placeholder }) => (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                      {placeholder}
+                    </Text>
+                    <Text style={{ color: colors.mainBlue, fontSize: 12 }}>
+                      {" "}
+                      (Required for warranty calculation)
                   </Text>
-                  <Text style={{ color: colors.mainBlue, fontSize: 12 }}>
-                    {" "}
-                    (Required for calculating warranty)
-                  </Text>
-                </View>
-              )}
-              options={models}
-              beforeModalOpen={() => {
-                if (selectedBrand || brandName) {
-                  return true;
-                }
-                showSnackbar({
-                  text: I18n.t(
-                    "expense_forms_product_basics_select_brand_first"
-                  )
-                });
-                return false;
-              }}
-              selectedOption={selectedModel}
-              textInputValue={modelName}
-              onOptionSelect={value => {
-                this.onModelSelect(value);
-              }}
-              onTextInputChange={text => this.setState({ modelName: text })}
-            />
-          )}
+                  </View>
+                )}
+                options={models}
+                beforeModalOpen={() => {
+                  if (selectedBrand || brandName) {
+                    return true;
+                  }
+                  showSnackbar({
+                    text: I18n.t(
+                      "expense_forms_product_basics_select_brand_first"
+                    )
+                  });
+                  return false;
+                }}
+                selectedOption={selectedModel}
+                textInputValue={modelName}
+                onOptionSelect={value => {
+                  this.onModelSelect(value);
+                }}
+                onTextInputChange={text => this.setState({ modelName: text })}
+              />
+            )}
 
           {showFullForm && (
             <View>

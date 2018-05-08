@@ -113,7 +113,7 @@ class Repair extends React.Component {
         id,
         repairDate,
         sellerName,
-        sellerContact: this.phoneRef.getFilledData(),
+        // sellerContact: this.phoneRef.getFilledData(),
         repairAmount,
         warrantyUpto
       };

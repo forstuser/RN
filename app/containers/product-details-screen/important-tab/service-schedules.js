@@ -73,6 +73,8 @@ class ServiceSchedules extends Component {
     const { product } = this.props;
     const { schedule, serviceSchedules } = product;
     const { isModalVisible } = this.state;
+    // if (!isModalVisible) return null;
+
     return (
       <View>
         <Collapsible
@@ -91,33 +93,37 @@ class ServiceSchedules extends Component {
               </TouchableOpacity>
             )}
         </Collapsible>
-        <Modal
-          isVisible={isModalVisible}
-          useNativeDriver={true}
-          onBackdropPress={this.toggleModal}
-        >
-          <View style={styles.modal}>
-            <View style={styles.modalHeader}>
-              <Text weight="Bold" style={styles.modalHeaderTitle}>
-                Service Schedule
-              </Text>
-              <Text weight="Bold" style={styles.modalHeaderProductName}>
-                {product.model}
-              </Text>
-            </View>
-            <ScrollView style={styles.modalScheduleContainer}>
-              {serviceSchedules.map(serviceSchedule =>
-                this.scheduleItem(serviceSchedule)
-              )}
-            </ScrollView>
-            <Button
-              onPress={this.toggleModal}
-              text={I18n.t("product_details_screen_ok")}
-              color="secondary"
-              style={styles.modalOkBtn}
-            />
+        {isModalVisible && (
+          <View>
+            <Modal
+              isVisible={true}
+              useNativeDriver={true}
+              onBackdropPress={this.toggleModal}
+            >
+              <View style={styles.modal}>
+                <View style={styles.modalHeader}>
+                  <Text weight="Bold" style={styles.modalHeaderTitle}>
+                    Service Schedule
+                  </Text>
+                  <Text weight="Bold" style={styles.modalHeaderProductName}>
+                    {product.model}
+                  </Text>
+                </View>
+                <ScrollView style={styles.modalScheduleContainer}>
+                  {serviceSchedules.map(serviceSchedule =>
+                    this.scheduleItem(serviceSchedule)
+                  )}
+                </ScrollView>
+                <Button
+                  onPress={this.toggleModal}
+                  text={I18n.t("product_details_screen_ok")}
+                  color="secondary"
+                  style={styles.modalOkBtn}
+                />
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        )}
       </View>
     );
   }

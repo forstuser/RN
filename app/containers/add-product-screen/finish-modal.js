@@ -83,39 +83,52 @@ class FinishModal extends React.Component {
       title = "Repair added to the product";
       btnText = "ADD MORE PRODUCTS";
     }
+    if (!visible) return null;
 
     return (
-      <Modal useNativeDriver={true} isVisible={visible} animationOutTiming={10}>
-        <View style={styles.finishModal}>
-          <Image
-            style={styles.finishImage}
-            source={
-              mainCategoryId
-                ? {
-                    uri: API_BASE_URL + `/categories/${mainCategoryId}/images/1`
+      <View>
+        {visible && (
+          <View>
+            <Modal
+              useNativeDriver={true}
+              isVisible={visible}
+              animationOutTiming={10}
+            >
+              <View style={styles.finishModal}>
+                <Image
+                  style={styles.finishImage}
+                  source={
+                    mainCategoryId
+                      ? {
+                          uri:
+                            API_BASE_URL +
+                            `/categories/${mainCategoryId}/images/1`
+                        }
+                      : repairIcon
                   }
-                : repairIcon
-            }
-            resizeMode="contain"
-          />
-          <Text weight="Bold" style={styles.finishMsg}>
-            {title}
-          </Text>
-          <Button
-            onPress={this.onMoreProductsClick}
-            style={styles.finishBtn}
-            text={btnText}
-            color="secondary"
-          />
-          <Text
-            onPress={this.onDoItLaterClick}
-            weight="Bold"
-            style={styles.doItLaterText}
-          >
-            {I18n.t("add_edit_expense_screen_title_add_later")}
-          </Text>
-        </View>
-      </Modal>
+                  resizeMode="contain"
+                />
+                <Text weight="Bold" style={styles.finishMsg}>
+                  {title}
+                </Text>
+                <Button
+                  onPress={this.onMoreProductsClick}
+                  style={styles.finishBtn}
+                  text={btnText}
+                  color="secondary"
+                />
+                <Text
+                  onPress={this.onDoItLaterClick}
+                  weight="Bold"
+                  style={styles.doItLaterText}
+                >
+                  {I18n.t("add_edit_expense_screen_title_add_later")}
+                </Text>
+              </View>
+            </Modal>
+          </View>
+        )}
+      </View>
     );
   }
 }

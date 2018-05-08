@@ -71,7 +71,7 @@ class EasyLifeScreen extends Component {
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
           <TabSearchHeader
-            title={"EazyDay"}
+            title={"EazyDay Planner"}
             icon={calendarIcon}
             navigator={this.props.navigator}
             showMailbox={false}

@@ -103,7 +103,7 @@ class QuantityStep extends React.Component {
     const { isLoading, unitTypes, selectedUnitType, quantity } = this.state;
 
     return (
-      <Step title={`Add Quantity`} {...this.props}>
+      <Step title={`Add Daily Quantity`} {...this.props}>
         <View style={{ padding: 20 }}>
           <View style={{ flexDirection: "row" }}>
             <CustomTextInput

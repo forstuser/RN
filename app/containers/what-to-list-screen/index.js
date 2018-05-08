@@ -81,7 +81,7 @@ class WhatToListScreen extends Component {
         text =
           "Plan your day by selecting or adding tasks to be completed for the day";
         image = todo;
-        btnText = `Add a New ‘To Do’ Item`;
+        btnText = `Add a New ‘To-Do’ Task`;
         systemListTitle = "List of Tasks";
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
@@ -493,7 +493,7 @@ class WhatToListScreen extends Component {
               ref={ref => (this.scrollView = ref)}
             >
               {items.filter(item => item.status_type == 11).length > 0 && (
-                <Text>User Created</Text>
+                <Text>Your List</Text>
               )}
               {items.map((item, index) => {
                 let imageUrl = null;

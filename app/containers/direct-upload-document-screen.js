@@ -372,6 +372,7 @@ class DirectUploadDocumentScreen extends React.Component {
       isLoading,
       isFinishModalVisible
     } = this.state;
+    // if (!isFinishModalVisible) return null;
     return (
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={isFetchingCategories || isLoading} />
@@ -539,37 +540,41 @@ class DirectUploadDocumentScreen extends React.Component {
           color="secondary"
           style={{ width: 300, marginTop: 20 }}
         />
-        <Modal useNativeDriver={true} isVisible={isFinishModalVisible}>
-          <View style={styles.finishModal}>
-            <FastImage
-              style={styles.finishImage}
-              source={{
-                uri:
-                  API_BASE_URL +
-                  `/categories/${
-                    selectedMainCategory ? selectedMainCategory.id : 2
-                  }/images/1`
-              }}
-              resizeMode="contain"
-            />
-            <Text weight="Bold" style={styles.finishMsg}>
-              {I18n.t("add_edit_direct_doc_successfully")}
-            </Text>
-            <Button
-              onPress={this.onAddMoreProductsClick}
-              style={styles.finishBtn}
-              text={I18n.t("add_edit_direct_add_eHome")}
-              color="secondary"
-            />
-            <Text
-              onPress={this.onDoItLaterClick}
-              weight="Bold"
-              style={styles.doItLaterText}
-            >
-              {I18n.t("add_edit_direct_later")}
-            </Text>
+        {isFinishModalVisible && (
+          <View>
+            <Modal useNativeDriver={true} isVisible={true}>
+              <View style={styles.finishModal}>
+                <FastImage
+                  style={styles.finishImage}
+                  source={{
+                    uri:
+                      API_BASE_URL +
+                      `/categories/${
+                        selectedMainCategory ? selectedMainCategory.id : 2
+                      }/images/1`
+                  }}
+                  resizeMode="contain"
+                />
+                <Text weight="Bold" style={styles.finishMsg}>
+                  {I18n.t("add_edit_direct_doc_successfully")}
+                </Text>
+                <Button
+                  onPress={this.onAddMoreProductsClick}
+                  style={styles.finishBtn}
+                  text={I18n.t("add_edit_direct_add_eHome")}
+                  color="secondary"
+                />
+                <Text
+                  onPress={this.onDoItLaterClick}
+                  weight="Bold"
+                  style={styles.doItLaterText}
+                >
+                  {I18n.t("add_edit_direct_later")}
+                </Text>
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        )}
       </ScreenContainer>
     );
   }

@@ -17,7 +17,7 @@ import { ScreenContainer, Text, Button } from "../elements";
 import WarrantyForm from "../components/expense-forms/warranty-form";
 import { WARRANTY_TYPES } from "../constants";
 import ChangesSavedModal from "../components/changes-saved-modal";
-import Analytics from "../analytics"
+import Analytics from "../analytics";
 
 class AddEditWarranty extends React.Component {
   static navigatorStyle = {
@@ -142,14 +142,14 @@ class AddEditWarranty extends React.Component {
                 } catch (e) {
                   showSnackbar({
                     text: I18n.t("add_edit_amc_could_not_delete")
-                  })
+                  });
                   this.setState({ isLoading: false });
                 }
               }
             },
             {
               text: I18n.t("add_edit_no_dnt_delete"),
-              onPress: () => { },
+              onPress: () => {},
               style: "cancel"
             }
           ]
@@ -170,7 +170,7 @@ class AddEditWarranty extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -196,20 +196,22 @@ class AddEditWarranty extends React.Component {
     if (warrantyType == WARRANTY_TYPES.EXTENDED && !data.effectiveDate) {
       return showSnackbar({
         text: I18n.t("add_edit_warranty_effective_date")
-      })
+      });
     }
 
     if (!data.renewalType) {
       return showSnackbar({
         text: I18n.t("add_edit_warranty_uptoo")
-      })
+      });
     }
 
     console.log("data: ", data);
-    if ((warrantyType == WARRANTY_TYPES.EXTENDED)) {
-      Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: 'extended warranty' });
+    if (warrantyType == WARRANTY_TYPES.EXTENDED) {
+      Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, {
+        entity: "extended warranty"
+      });
     } else {
-      Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: 'warranty' });
+      Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: "warranty" });
     }
     try {
       this.setState({ isLoading: true });
@@ -223,7 +225,7 @@ class AddEditWarranty extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({ isLoading: false });
     }
   };

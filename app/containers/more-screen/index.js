@@ -179,6 +179,8 @@ class MoreScreen extends Component {
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
     }
+    // if (!isRemovePinModalVisible) return null;
+
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
         <LoadingOverlay visible={isFetchingData} />
@@ -211,30 +213,38 @@ class MoreScreen extends Component {
           )}
           {profile && isProfileVisible && <Profile profile={profile} />}
         </KeyboardAwareScrollView>
-
-        <Modal
-          isVisible={isRemovePinModalVisible}
-          style={{ margin: 0 }}
-          onBackButtonPress={() =>
-            this.setState({
-              isRemovePinModalVisible: false
-            })
-          }
-        >
-          <View style={{ flex: 1 }}>
-            <PinInput title="Enter App PIN" onSubmitPress={this.removePin} />
-            <TouchableOpacity
-              style={{
-                position: "absolute",
-                right: 10,
-                top: 25
-              }}
-              onPress={() => this.setState({ isRemovePinModalVisible: false })}
+        {isRemovePinModalVisible && (
+          <View>
+            <Modal
+              isVisible={true}
+              style={{ margin: 0 }}
+              onBackButtonPress={() =>
+                this.setState({
+                  isRemovePinModalVisible: false
+                })
+              }
             >
-              <Icon name="md-close" size={30} color="#fff" />
-            </TouchableOpacity>
+              <View style={{ flex: 1 }}>
+                <PinInput
+                  title="Enter App PIN"
+                  onSubmitPress={this.removePin}
+                />
+                <TouchableOpacity
+                  style={{
+                    position: "absolute",
+                    right: 10,
+                    top: 25
+                  }}
+                  onPress={() =>
+                    this.setState({ isRemovePinModalVisible: false })
+                  }
+                >
+                  <Icon name="md-close" size={30} color="#fff" />
+                </TouchableOpacity>
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        )}
       </ScreenContainer>
     );
   }

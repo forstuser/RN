@@ -67,31 +67,37 @@ class RateUsScreen extends Component {
 
   render() {
     return (
-      <Modal
-        isVisible={this.state.isModalVisible}
-        useNativeDriver={true}
-        animationIn="bounceIn"
-      >
-        <Animated.View style={[styles.popup]}>
-          <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
-            <Icon name="md-close" size={30} color={colors.mainText} />
-          </TouchableOpacity>
-          <Image source={image} style={styles.image} />
-          <Text weight="Bold" style={styles.title}>
-            {I18n.t("love_using_binbill")}
-          </Text>
-          <Text weight="Bold" style={styles.desc}>
-            {I18n.t("recommend_us", {
-              storeName: Platform.OS == "ios" ? "App" : "Play"
-            })}
-          </Text>
-          <Button
-            onPress={this.openAppStore}
-            style={styles.btn}
-            text="RATE US"
-          />
-        </Animated.View>
-      </Modal>
+      <View>
+        {this.state.isModalVisible && (
+          <View>
+            <Modal
+              isVisible={true}
+              useNativeDriver={true}
+              animationIn="bounceIn"
+            >
+              <Animated.View style={[styles.popup]}>
+                <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
+                <Image source={image} style={styles.image} />
+                <Text weight="Bold" style={styles.title}>
+                  {I18n.t("love_using_binbill")}
+                </Text>
+                <Text weight="Bold" style={styles.desc}>
+                  {I18n.t("recommend_us", {
+                    storeName: Platform.OS == "ios" ? "App" : "Play"
+                  })}
+                </Text>
+                <Button
+                  onPress={this.openAppStore}
+                  style={styles.btn}
+                  text="RATE US"
+                />
+              </Animated.View>
+            </Modal>
+          </View>
+        )}
+      </View>
     );
   }
 }
