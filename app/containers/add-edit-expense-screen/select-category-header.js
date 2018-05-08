@@ -215,7 +215,7 @@ class SelectCategoryHeader extends React.Component {
         visibleOptions = [
           {
             id: 26,
-            name: "Household Expense",
+            name: "Household Expenses",
             icon: require("../../images/categories/household.png")
           },
           {

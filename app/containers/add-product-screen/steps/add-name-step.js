@@ -26,9 +26,19 @@ class AddAmountStep extends React.Component {
     super(props);
     this.state = {
       isLoading: false,
+      title: 'Add Name',
       name: props.product.name || ''
     };
   }
+  componentDidMount() {
+    // this.input.focus();
+    if (this.props.mainCategoryId == MAIN_CATEGORY_IDS.PERSONAL) {
+      this.setState({
+        title: "Add Document Name"
+      })
+    }
+  }
+
 
   onPressNext = async () => {
     const { mainCategoryId, category, product, onStepDone, skippable } = this.props;
@@ -62,13 +72,13 @@ class AddAmountStep extends React.Component {
   };
 
   render() {
-    const { isLoading, name } = this.state;
+    const { isLoading, name, title } = this.state;
 
     const { mainCategoryId, category, product } = this.props;
 
     return (
       <Step
-        title={`Add Name`}
+        title={title}
         showLoader={isLoading}
         {...this.props}
       >

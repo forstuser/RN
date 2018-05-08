@@ -119,7 +119,7 @@ class SelectModelStep extends React.Component {
     return (
       <Step
         title={`Select ${category.name} model`}
-        subtitle='Required for calculating warranty'
+        subtitle='Required for warranty calculation'
         skippable={false}
         showLoader={isLoading}
         {...this.props}

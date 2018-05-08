@@ -118,7 +118,7 @@ class DishCalendarScreen extends Component {
         title = "What to Do?";
         text = "Select Tasks to be done";
         image = todo;
-        btnText = `Add a New ‘To Do’ Item`;
+        btnText = `Add a New ‘To-Do’ Task`;
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
         title = "What to Wear?";
@@ -477,7 +477,7 @@ class DishCalendarScreen extends Component {
                     weight="Medium"
                     style={{ color: colors.pinkishOrange, marginLeft: 10 }}
                   >
-                    Edit List
+                    Edit Your List
                   </Text>
                 </TouchableOpacity>
               </View>
