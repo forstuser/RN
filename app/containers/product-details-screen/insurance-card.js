@@ -8,6 +8,7 @@ import {
   ScrollView,
   Text as NativeText
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import _ from "lodash";
 import moment from "moment";
 import ScrollableTabView, {
@@ -122,7 +123,7 @@ class InsuranceCard extends Component {
             navigator={navigator}
             docType="Insurance"
           />
-          <Image
+          <FastImage
             style={styles.image}
             source={{ uri: API_BASE_URL + "/" + product.cImageURL }}
           />

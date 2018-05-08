@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native";
+import FastImage from "react-native-fast-image";
 import RNFetchBlob from "react-native-fetch-blob";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import Modal from "react-native-modal";
@@ -79,7 +80,7 @@ class DirectUploadDocumentScreen extends React.Component {
           this.uploadDocuments();
         }
       );
-    } catch (e) { }
+    } catch (e) {}
   };
 
   uploadDocuments = async () => {
@@ -176,7 +177,7 @@ class DirectUploadDocumentScreen extends React.Component {
       } catch (e) {
         showSnackbar({
           text: e.message
-        })
+        });
       }
     }
   };
@@ -230,7 +231,7 @@ class DirectUploadDocumentScreen extends React.Component {
       } catch (e) {
         showSnackbar({
           text: e.message
-        })
+        });
       }
     }
   };
@@ -268,7 +269,7 @@ class DirectUploadDocumentScreen extends React.Component {
     if (!selectedMainCategory || !selectedCategory) {
       return showSnackbar({
         text: "Please select category and sub-category both."
-      })
+      });
     }
 
     if (
@@ -281,7 +282,7 @@ class DirectUploadDocumentScreen extends React.Component {
     ) {
       return showSnackbar({
         text: "Please select brand"
-      })
+      });
     }
 
     if (
@@ -290,7 +291,7 @@ class DirectUploadDocumentScreen extends React.Component {
     ) {
       return showSnackbar({
         text: "Please select type"
-      })
+      });
     }
 
     this.setState({
@@ -431,7 +432,7 @@ class DirectUploadDocumentScreen extends React.Component {
             }
             showSnackbar({
               text: I18n.t("add_edit_direct_select_main_category_first")
-            })
+            });
             return false;
           }}
           onOptionSelect={value => {
@@ -489,7 +490,7 @@ class DirectUploadDocumentScreen extends React.Component {
                 }
                 showSnackbar({
                   text: I18n.t("add_edit_direct_select_category_first")
-                })
+                });
                 return false;
               }}
               onOptionSelect={value => {
@@ -521,7 +522,7 @@ class DirectUploadDocumentScreen extends React.Component {
                 }
                 showSnackbar({
                   text: I18n.t("add_edit_direct_select_brand_first")
-                })
+                });
                 return false;
               }}
               selectedOption={selectedModel}
@@ -540,13 +541,13 @@ class DirectUploadDocumentScreen extends React.Component {
         />
         <Modal useNativeDriver={true} isVisible={isFinishModalVisible}>
           <View style={styles.finishModal}>
-            <Image
+            <FastImage
               style={styles.finishImage}
               source={{
                 uri:
                   API_BASE_URL +
                   `/categories/${
-                  selectedMainCategory ? selectedMainCategory.id : 2
+                    selectedMainCategory ? selectedMainCategory.id : 2
                   }/images/1`
               }}
               resizeMode="contain"

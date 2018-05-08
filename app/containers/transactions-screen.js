@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import moment from "moment";
 import ActionSheet from "react-native-actionsheet";
 import { API_BASE_URL, getCategoryInsightData } from "../api";
@@ -240,7 +241,7 @@ class TransactionsScreen extends Component {
                     key={index}
                   >
                     {product.dataIndex == 1 && (
-                      <Image
+                      <FastImage
                         style={styles.image}
                         source={{ uri: API_BASE_URL + product.cImageURL }}
                       />

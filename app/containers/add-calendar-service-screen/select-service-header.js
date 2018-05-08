@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Alert
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import I18n from "../../i18n";
 import { MAIN_CATEGORY_IDS } from "../../constants";
 import { Text } from "../../elements";
@@ -49,7 +50,8 @@ class SelectCategoryHeader extends React.Component {
 
   onOptionSelect = option => {
     Analytics.logEvent(
-      Analytics.EVENTS.CLICK_CALENDAR_SERVICE_TYPE_ + option.name.replace(/\s/g, '')
+      Analytics.EVENTS.CLICK_CALENDAR_SERVICE_TYPE_ +
+        option.name.replace(/\s/g, "")
     );
     const selectedOption = this.props.selectedOption;
     //if clicked on already selected option
@@ -117,7 +119,7 @@ class SelectCategoryHeader extends React.Component {
                       isSelectedOption ? styles.selectedOptionIconContainer : {}
                     ]}
                   >
-                    <Image
+                    <FastImage
                       style={[
                         styles.optionIcon,
                         isSelectedOption ? styles.selectedOptionIcon : {}
@@ -150,7 +152,7 @@ class SelectCategoryHeader extends React.Component {
                     styles.selectedOptionIconContainer
                   ]}
                 >
-                  <Image
+                  <FastImage
                     style={[styles.optionIconForOther]}
                     resizeMode="contain"
                     source={{

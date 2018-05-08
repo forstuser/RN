@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import moment from "moment";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import I18n from "../../i18n";
@@ -164,7 +165,11 @@ class Details extends Component {
         {product.categoryId != 664 && (
           <ViewBillButton product={product} navigator={navigator} />
         )}
-        <Image style={styles.image} source={imageSource} resizeMode="contain" />
+        <FastImage
+          style={styles.image}
+          source={imageSource}
+          resizeMode="contain"
+        />
         <Text weight="Bold" style={styles.name}>
           {productName}
         </Text>

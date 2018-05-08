@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import call from "react-native-phone-call";
 import getDirections from "react-native-google-maps-directions";
 import { showSnackbar } from "../../containers/snackbar";
@@ -55,7 +56,7 @@ const callSeller = product => {
   }
   showSnackbar({
     text: I18n.t("expense_forms_product_list_phone_not_available")
-  })
+  });
 };
 
 class ProductListItem extends React.Component {
@@ -101,7 +102,7 @@ class ProductListItem extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.details}>
-          <Image
+          <FastImage
             style={styles.image}
             source={{ uri: API_BASE_URL + "/" + product.cImageURL }}
           />

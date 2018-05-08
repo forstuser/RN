@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Image } from "react-native";
+import FastImage from "react-native-fast-image";
 import { Text, Button } from "../../elements";
 import Modal from "react-native-modal";
 import { colors } from "../../theme";
@@ -72,13 +73,13 @@ class FinishModal extends React.Component {
     return (
       <Modal useNativeDriver={true} isVisible={visible} animationOutTiming={10}>
         <View style={styles.finishModal}>
-          <Image
+          <FastImage
             style={styles.finishImage}
             source={
               mainCategoryId
                 ? {
-                  uri: API_BASE_URL + `/categories/${mainCategoryId}/images/1`
-                }
+                    uri: API_BASE_URL + `/categories/${mainCategoryId}/images/1`
+                  }
                 : repairIcon
             }
             resizeMode="contain"
