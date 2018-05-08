@@ -145,6 +145,8 @@ class Profile extends Component {
       showOtpInput,
       isLoading
     } = this.state;
+    if (!isRemovePinModalVisible) return null;
+
     return (
       <View>
         <KeyboardAwareScrollView>
@@ -231,62 +233,67 @@ class Profile extends Component {
             editable={true}
             onUpdate={this.updateState}
           />
-
-          <Modal
-            isVisible={isEmailModalVisible}
-            onBackButtonPress={this.hideEmailModal}
-            avoidKeyboard={Platform.OS == "ios"}
-            useNativeDriver={true}
-          >
-            <View style={styles.emailModal}>
-              <View style={styles.modalHeader}>
-                <Text weight="Bold" style={{ flex: 1 }}>
-                  {showOtpInput ? `Enter OTP` : `Enter Email Address`}
-                </Text>
-                <TouchableOpacity
-                  style={styles.closeIcon}
-                  onPress={this.hideEmailModal}
-                >
-                  <Icon name="md-close" size={24} color={colors.mainText} />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.modalBody}>
-                {!showOtpInput && (
-                  <View>
-                    <CustomTextInput
-                      placeholder="Enter Email Address"
-                      keyboardType="email-address"
-                      value={emailInput}
-                      onChangeText={emailInput => this.setState({ emailInput })}
-                    />
-                    <Button
-                      onPress={this.askForEmailOtp}
-                      style={{ marginTop: 10 }}
-                      text="Verify Email"
-                    />
+          {isEmailModalVisible && (
+            <View>
+              <Modal
+                isVisible={true}
+                onBackButtonPress={this.hideEmailModal}
+                avoidKeyboard={Platform.OS == "ios"}
+                useNativeDriver={true}
+              >
+                <View style={styles.emailModal}>
+                  <View style={styles.modalHeader}>
+                    <Text weight="Bold" style={{ flex: 1 }}>
+                      {showOtpInput ? `Enter OTP` : `Enter Email Address`}
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.closeIcon}
+                      onPress={this.hideEmailModal}
+                    >
+                      <Icon name="md-close" size={24} color={colors.mainText} />
+                    </TouchableOpacity>
                   </View>
-                )}
-                {showOtpInput && (
-                  <View>
-                    <CustomTextInput
-                      placeholder="OTP"
-                      keyboardType="numeric"
-                      value={emailOtpInput}
-                      onChangeText={emailOtpInput =>
-                        this.setState({ emailOtpInput })
-                      }
-                    />
-                    <Button
-                      onPress={this.validateEmailOtp}
-                      style={{ marginTop: 10 }}
-                      text="Submit"
-                    />
+                  <View style={styles.modalBody}>
+                    {!showOtpInput && (
+                      <View>
+                        <CustomTextInput
+                          placeholder="Enter Email Address"
+                          keyboardType="email-address"
+                          value={emailInput}
+                          onChangeText={emailInput =>
+                            this.setState({ emailInput })
+                          }
+                        />
+                        <Button
+                          onPress={this.askForEmailOtp}
+                          style={{ marginTop: 10 }}
+                          text="Verify Email"
+                        />
+                      </View>
+                    )}
+                    {showOtpInput && (
+                      <View>
+                        <CustomTextInput
+                          placeholder="OTP"
+                          keyboardType="numeric"
+                          value={emailOtpInput}
+                          onChangeText={emailOtpInput =>
+                            this.setState({ emailOtpInput })
+                          }
+                        />
+                        <Button
+                          onPress={this.validateEmailOtp}
+                          style={{ marginTop: 10 }}
+                          text="Submit"
+                        />
+                      </View>
+                    )}
+                    <LoadingOverlay visible={isLoading} />
                   </View>
-                )}
-                <LoadingOverlay visible={isLoading} />
-              </View>
+                </View>
+              </Modal>
             </View>
-          </Modal>
+          )}
         </KeyboardAwareScrollView>
       </View>
     );

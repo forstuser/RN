@@ -143,6 +143,7 @@ class Report extends React.Component {
 
     const calculationDetails = item.calculation_detail;
     const weekDays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+    if (!isEditDetailModalOpen) return null;
 
     return (
       <View style={{ paddingHorizontal: 8 }}>
@@ -180,10 +181,10 @@ class Report extends React.Component {
             />
           </TouchableOpacity>
           <View style={styles.cardBody}>
-            <KeyValueItem
+            {/* <KeyValueItem
               keyText={I18n.t("calendar_service_screen_product_name")}
               valueText={item.product_name}
-            />
+            /> */}
             <KeyValueItem
               keyText={I18n.t("calendar_service_screen_provider_name")}
               valueText={item.provider_name}
@@ -299,51 +300,57 @@ class Report extends React.Component {
             );
           })}
         </ScrollView>
-        <Modal
-          isVisible={isEditDetailModalOpen}
-          avoidKeyboard={Platform.OS == "ios"}
-          animationIn="slideInUp"
-          useNativeDriver={true}
-          onBackdropPress={this.hideEditDetailModal}
-          onBackButtonPress={this.hideEditDetailModal}
-        >
-          <View style={[styles.card, styles.modalCard]}>
-            <LoadingOverlay visible={isSavingDetails} />
-            <TouchableOpacity
-              style={styles.modalCloseIcon}
-              onPress={this.hideEditDetailModal}
+        {isEditDetailModalOpen && (
+          <View>
+            <Modal
+              isVisible={true}
+              avoidKeyboard={Platform.OS == "ios"}
+              animationIn="slideInUp"
+              useNativeDriver={true}
+              onBackdropPress={this.hideEditDetailModal}
+              onBackButtonPress={this.hideEditDetailModal}
             >
-              <Icon name="md-close" size={30} color={colors.mainText} />
-            </TouchableOpacity>
-            <CustomTextInput
+              <View style={[styles.card, styles.modalCard]}>
+                <LoadingOverlay visible={isSavingDetails} />
+                <TouchableOpacity
+                  style={styles.modalCloseIcon}
+                  onPress={this.hideEditDetailModal}
+                >
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
+                {/* <CustomTextInput
               placeholder={I18n.t("calendar_service_screen_product_name")}
               value={productNameToEdit}
               onChangeText={productNameToEdit =>
                 this.setState({ productNameToEdit })
               }
-            />
-            <CustomTextInput
-              placeholder={I18n.t("calendar_service_screen_provider_name")}
-              value={providerNameToEdit}
-              onChangeText={providerNameToEdit =>
-                this.setState({ providerNameToEdit })
-              }
-            />
-            <CustomTextInput
-              placeholder={I18n.t("calendar_service_screen_provider_number")}
-              value={providerNumberToEdit}
-              onChangeText={providerNumberToEdit =>
-                this.setState({ providerNumberToEdit })
-              }
-            />
-            <Button
-              onPress={this.saveDetails}
-              style={[styles.markPaidBtn, styles.modalBtn]}
-              text={I18n.t("calendar_service_screen_save")}
-              color="secondary"
-            />
+            /> */}
+                <CustomTextInput
+                  placeholder={I18n.t("calendar_service_screen_provider_name")}
+                  value={providerNameToEdit}
+                  onChangeText={providerNameToEdit =>
+                    this.setState({ providerNameToEdit })
+                  }
+                />
+                <CustomTextInput
+                  placeholder={I18n.t(
+                    "calendar_service_screen_provider_number"
+                  )}
+                  value={providerNumberToEdit}
+                  onChangeText={providerNumberToEdit =>
+                    this.setState({ providerNumberToEdit })
+                  }
+                />
+                <Button
+                  onPress={this.saveDetails}
+                  style={[styles.markPaidBtn, styles.modalBtn]}
+                  text={I18n.t("calendar_service_screen_save")}
+                  color="secondary"
+                />
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        )}
         <CalculationDetailModal
           ref={ref => (this.calculationDetailModal = ref)}
           item={item}

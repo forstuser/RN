@@ -113,62 +113,70 @@ class WhatToListModal extends React.Component {
     if (type == EASY_LIFE_TYPES.WHAT_TO_COOK) {
       placeHolderText = "Enter Dish Name";
     }
+
+    if (!visible) return null;
     return (
-      <Modal
-        isVisible={visible}
-        onBackButtonPress={this.hide}
-        avoidKeyboard={Platform.OS == "ios"}
-      >
-        <View style={styles.finishModal}>
-          <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
-            <Icon name="md-close" size={30} color={colors.mainText} />
-          </TouchableOpacity>
-          <ScrollView
-            style={{ marginTop: 30 }}
-            contentContainerStyle={{ padding: 5 }}
-          >
-            {this.state.list.map((item, index) => (
-              <View>
-                <CustomTextInput
-                  ref={ref => {
-                    this["input" + index] = ref;
-                  }}
-                  placeholder={placeHolderText}
-                  value={item}
-                  onChangeText={text => this.textChange(text, index)}
-                />
-                {index > 0 && (
-                  <TouchableOpacity
-                    style={styles.removeBtn}
-                    onPress={() => this.onRemoveBtnPress(index)}
-                  >
-                    <Icon name="md-close" color="white" size={20} />
-                  </TouchableOpacity>
-                )}
-              </View>
-            ))}
-          </ScrollView>
-          <TouchableOpacity onPress={this.addRow}>
-            <Text
-              weight="Medium"
-              style={{
-                marginBottom: 25,
-                paddingLeft: 5,
-                color: "#ff732e"
-              }}
+      <View>
+        {visible && (
+          <View>
+            <Modal
+              isVisible={true}
+              onBackButtonPress={this.hide}
+              avoidKeyboard={Platform.OS == "ios"}
             >
-              Add more
-            </Text>
-          </TouchableOpacity>
-          <Button
-            onPress={this.onSaveBtn}
-            style={styles.finishBtn}
-            text="SAVE"
-            color="secondary"
-          />
-          <LoadingOverlay visible={isLoading} />
-        </View>
-      </Modal>
+              <View style={styles.finishModal}>
+                <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
+                <ScrollView
+                  style={{ marginTop: 30 }}
+                  contentContainerStyle={{ padding: 5 }}
+                >
+                  {this.state.list.map((item, index) => (
+                    <View>
+                      <CustomTextInput
+                        ref={ref => {
+                          this["input" + index] = ref;
+                        }}
+                        placeholder={placeHolderText}
+                        value={item}
+                        onChangeText={text => this.textChange(text, index)}
+                      />
+                      {index > 0 && (
+                        <TouchableOpacity
+                          style={styles.removeBtn}
+                          onPress={() => this.onRemoveBtnPress(index)}
+                        >
+                          <Icon name="md-close" color="white" size={20} />
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  ))}
+                </ScrollView>
+                <TouchableOpacity onPress={this.addRow}>
+                  <Text
+                    weight="Medium"
+                    style={{
+                      marginBottom: 25,
+                      paddingLeft: 5,
+                      color: "#ff732e"
+                    }}
+                  >
+                    Add more
+                  </Text>
+                </TouchableOpacity>
+                <Button
+                  onPress={this.onSaveBtn}
+                  style={styles.finishBtn}
+                  text="SAVE"
+                  color="secondary"
+                />
+                <LoadingOverlay visible={isLoading} />
+              </View>
+            </Modal>
+          </View>
+        )}
+      </View>
     );
   }
 }

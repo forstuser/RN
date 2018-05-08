@@ -41,25 +41,33 @@ class ChangesSavedModal extends React.Component {
   render() {
     const { title = "Changes Saved Successfully", navigator } = this.props;
     const { visible } = this.state;
+    if (!visible) return null;
+
     return (
-      <Modal useNativeDriver={true} isVisible={visible}>
-        <View style={styles.finishModal}>
-          <Image
-            style={styles.finishImage}
-            source={tick}
-            resizeMode="contain"
-          />
-          <Text weight="Bold" style={styles.finishMsg}>
-            {title}
-          </Text>
-          <Button
-            onPress={this.onOkayClick}
-            style={styles.finishBtn}
-            text={I18n.t("component_items_okey")}
-            color="secondary"
-          />
-        </View>
-      </Modal>
+      <View>
+        {visible && (
+          <View>
+            <Modal useNativeDriver={true} isVisible={visible}>
+              <View style={styles.finishModal}>
+                <Image
+                  style={styles.finishImage}
+                  source={tick}
+                  resizeMode="contain"
+                />
+                <Text weight="Bold" style={styles.finishMsg}>
+                  {title}
+                </Text>
+                <Button
+                  onPress={this.onOkayClick}
+                  style={styles.finishBtn}
+                  text={I18n.t("component_items_okey")}
+                  color="secondary"
+                />
+              </View>
+            </Modal>
+          </View>
+        )}
+      </View>
     );
   }
 }

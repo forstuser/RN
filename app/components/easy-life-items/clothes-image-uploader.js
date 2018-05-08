@@ -135,6 +135,8 @@ class ClothesImageUploader extends React.Component {
 
   render() {
     const { file, isModalVisible, clothesName, isLoading } = this.state;
+    if (!isModalVisible) return null;
+
     return (
       <View>
         <ActionSheet
@@ -147,42 +149,46 @@ class ClothesImageUploader extends React.Component {
             I18n.t("upload_document_screen_upload_options_cancel")
           ]}
         />
-        <Modal
-          style={styles.container}
-          useNativeDriver={true}
-          isVisible={isModalVisible}
-          onBackButtonPress={() => this.setState({ isModalVisible: false })}
-        >
-          <View style={{ flex: 1, width: "100%" }}>
-            {file && (
-              <Image
-                style={styles.uploadImage}
-                source={{ uri: file.uri }}
-                resizeMode="contain"
-              />
-            )}
-            <TouchableOpacity
-              style={styles.closeIcon}
-              onPress={this.closeDialog}
+        {isModalVisible && (
+          <View>
+            <Modal
+              style={styles.container}
+              useNativeDriver={true}
+              isVisible={true}
+              onBackButtonPress={() => this.setState({ isModalVisible: false })}
             >
-              <Icon name="md-close" size={30} color={colors.mainText} />
-            </TouchableOpacity>
+              <View style={{ flex: 1, width: "100%" }}>
+                {file && (
+                  <Image
+                    style={styles.uploadImage}
+                    source={{ uri: file.uri }}
+                    resizeMode="contain"
+                  />
+                )}
+                <TouchableOpacity
+                  style={styles.closeIcon}
+                  onPress={this.closeDialog}
+                >
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
+              </View>
+              <View style={{ width: "90%" }}>
+                <CustomTextInput
+                  placeholder={"Add Name"}
+                  onChangeText={clothesName => this.setState({ clothesName })}
+                />
+              </View>
+              <Button
+                onPress={this.addImageToList}
+                text={"ADD TO MY LIST"}
+                color="secondary"
+                borderRadius={0}
+                style={styles.addItemBtn}
+              />
+              <LoadingOverlay visible={isLoading} />
+            </Modal>
           </View>
-          <View style={{ width: "90%" }}>
-            <CustomTextInput
-              placeholder={"Add Name"}
-              onChangeText={clothesName => this.setState({ clothesName })}
-            />
-          </View>
-          <Button
-            onPress={this.addImageToList}
-            text={"ADD TO MY LIST"}
-            color="secondary"
-            borderRadius={0}
-            style={styles.addItemBtn}
-          />
-          <LoadingOverlay visible={isLoading} />
-        </Modal>
+        )}
       </View>
     );
   }

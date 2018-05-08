@@ -128,11 +128,17 @@ class UploadProductImage extends React.Component {
 
   render() {
     const { isUploadingImage } = this.state;
+    if (!isUploadingImage) return null;
+
     return (
       <View>
-        <Modal visible={isUploadingImage} transparent={true}>
-          <LoadingOverlay visible={true} text={I18n.t("uploading")} />
-        </Modal>
+        {isUploadingImage && (
+          <View>
+            <Modal visible={true} transparent={true}>
+              <LoadingOverlay visible={true} text={I18n.t("uploading")} />
+            </Modal>
+          </View>
+        )}
         <ActionSheet
           onPress={this.handleOptionPress}
           ref={o => (this.uploadOptions = o)}

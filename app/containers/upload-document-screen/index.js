@@ -272,6 +272,9 @@ class UploadDocumentScreen extends Component {
       uploadPercentCompleted,
       isUploadingOverlayVisible
     } = this.state;
+    if (!isUploadingOverlayVisible) return null;
+    if (!isSuccessModalVisible) return null;
+
     return (
       <ScreenContainer style={styles.container}>
         {files.length == 0 && (
@@ -331,34 +334,41 @@ class UploadDocumentScreen extends Component {
             I18n.t("upload_document_screen_upload_options_cancel")
           ]}
         />
-
-        <Modal transparent visible={isUploadingOverlayVisible}>
-          <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color={colors.mainBlue} />
-            <Text weight="Bold">{`${uploadPercentCompleted}% uploaded...`}</Text>
+        {isUploadingOverlayVisible && (
+          <View>
+            <Modal transparent visible={true}>
+              <View style={styles.loadingOverlay}>
+                <ActivityIndicator size="large" color={colors.mainBlue} />
+                <Text weight="Bold">{`${uploadPercentCompleted}% uploaded...`}</Text>
+              </View>
+            </Modal>
           </View>
-        </Modal>
-        <Modal visible={isSuccessModalVisible}>
-          <View style={styles.successModal}>
-            <Image
-              style={styles.successImage}
-              source={ehomeImage}
-              resizeMode="contain"
-            />
-            <Text weight="Bold" style={styles.successTitle}>
-              {I18n.t("upload_document_screen_success_title")}
-            </Text>
-            <Text style={styles.successMsg}>
-              {I18n.t("upload_document_screen_success_msg")}
-            </Text>
-            <Button
-              onPress={this.onSuccessOkClick}
-              style={styles.successOkWrapper}
-              text={I18n.t("upload_document_screen_success_ok")}
-              color="secondary"
-            />
+        )}
+        {isSuccessModalVisible && (
+          <View>
+            <Modal visible={true}>
+              <View style={styles.successModal}>
+                <Image
+                  style={styles.successImage}
+                  source={ehomeImage}
+                  resizeMode="contain"
+                />
+                <Text weight="Bold" style={styles.successTitle}>
+                  {I18n.t("upload_document_screen_success_title")}
+                </Text>
+                <Text style={styles.successMsg}>
+                  {I18n.t("upload_document_screen_success_msg")}
+                </Text>
+                <Button
+                  onPress={this.onSuccessOkClick}
+                  style={styles.successOkWrapper}
+                  text={I18n.t("upload_document_screen_success_ok")}
+                  color="secondary"
+                />
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        )}
         <View
           style={styles.dummyViewForFile}
           ref={ref => (this.dummyViewForFile = ref)}

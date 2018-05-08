@@ -31,34 +31,44 @@ class ReviewModal extends React.Component {
   render() {
     const { isModalVisible } = this.state;
     const { product, onNewReview, review } = this.props;
+    if (!isModalVisible) return null;
+
     return (
-      <Modal
-        isVisible={isModalVisible}
-        useNativeDriver={true}
-        onBackButtonPress={this.hide}
-        onBackdropPress={this.hide}
-        avoidKeyboard={Platform.OS == "ios"}
-      >
-        <View style={styles.modal}>
-          <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
-            <Icon name="md-close" size={30} color={colors.mainText} />
-          </TouchableOpacity>
-          <Text
-            weight="Bold"
-            style={{ fontSize: 12, textAlign: "center", marginBottom: 5 }}
-          >
-            {I18n.t("product_details_screen_review_product").toUpperCase()}
-          </Text>
-          <ProductReview
-            product={product}
-            review={review}
-            onReviewSubmit={review => {
-              this.hide();
-              onNewReview(review);
-            }}
-          />
-        </View>
-      </Modal>
+      <View>
+        {isModalVisible && (
+          <View>
+            <Modal
+              isVisible={true}
+              useNativeDriver={true}
+              onBackButtonPress={this.hide}
+              onBackdropPress={this.hide}
+              avoidKeyboard={Platform.OS == "ios"}
+            >
+              <View style={styles.modal}>
+                <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
+                <Text
+                  weight="Bold"
+                  style={{ fontSize: 12, textAlign: "center", marginBottom: 5 }}
+                >
+                  {I18n.t(
+                    "product_details_screen_review_product"
+                  ).toUpperCase()}
+                </Text>
+                <ProductReview
+                  product={product}
+                  review={review}
+                  onReviewSubmit={review => {
+                    this.hide();
+                    onNewReview(review);
+                  }}
+                />
+              </View>
+            </Modal>
+          </View>
+        )}
+      </View>
     );
   }
 }
