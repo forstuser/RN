@@ -9,7 +9,7 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-export const API_BASE_URL = "https://consumer.binbill.com";
+export const API_BASE_URL = "https://consumer-eb.binbill.com";
 
 const APP_VERSION_FOR_API = 20003;
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;

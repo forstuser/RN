@@ -81,7 +81,8 @@ class CalendarServiceCard extends Component {
   static navigatorButtons = {
     rightButtons: [
       {
-        component: "CalendarNavOptionsButton"
+        component: "CalendarNavOptionsButton",
+        passProps: {}
       }
     ]
   };
@@ -246,7 +247,9 @@ class CalendarServiceCard extends Component {
     } = this.state;
 
     if (error) {
-      return <ErrorOverlay error={error} onRetryPress={this.fetchItemDetails} />;
+      return (
+        <ErrorOverlay error={error} onRetryPress={this.fetchItemDetails} />
+      );
     }
 
     return (

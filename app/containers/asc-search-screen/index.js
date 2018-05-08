@@ -10,6 +10,7 @@ import {
   Linking,
   Platform
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import moment from "moment";
 import call from "react-native-phone-call";
 import getDirections from "react-native-google-maps-directions";
@@ -143,7 +144,7 @@ class AscSearchScreen extends Component {
             renderItem={({ item }) => (
               <View style={styles.item}>
                 <View style={styles.imageWrapper}>
-                  <Image
+                  <FastImage
                     style={styles.itemImage}
                     source={{ uri: API_BASE_URL + item.cImageURL }}
                     resizeMode="contain"

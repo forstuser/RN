@@ -10,6 +10,7 @@ import {
   TextInput,
   ScrollView
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import Modal from "react-native-modal";
 import RNGooglePlaces from "react-native-google-places";
 import {
@@ -282,7 +283,7 @@ class AscScreen extends Component {
                       onPress={() => this.onProductPress(product)}
                       style={styles.product}
                     >
-                      <Image
+                      <FastImage
                         style={styles.productImage}
                         source={{ uri: API_BASE_URL + product.cImageURL }}
                       />

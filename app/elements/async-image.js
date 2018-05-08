@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Image, Alert } from "react-native";
-
+import FastImage from "react-native-fast-image";
 import { fetchFile } from "../api";
 import { isImageFileType } from "../utils";
 
@@ -48,7 +48,7 @@ class AsyncImage extends Component {
     if (!this.props.fileType || isImageFileType(this.props.fileType)) {
       const { isLoading, errorMsg, imageSource } = this.state;
       return (
-        <Image
+        <FastImage
           style={[styles.image, this.props.style]}
           source={source}
           resizeMode={this.props.resizeMode}

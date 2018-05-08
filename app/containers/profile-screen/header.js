@@ -10,6 +10,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import Modal from "react-native-modal";
+import FastImage from "react-native-fast-image";
 import ActionSheet from "react-native-actionsheet";
 import ImagePicker from "react-native-image-crop-picker";
 import {
@@ -37,7 +38,7 @@ class ProfileScreen extends Component {
   componentDidMount() {
     const profile = this.props.profile;
     let profilePic = (
-      <Image
+      <FastImage
         ref={img => {
           this.backgroundImage = img;
         }}
@@ -47,7 +48,7 @@ class ProfileScreen extends Component {
     );
     if (profile.image_name) {
       profilePic = (
-        <Image
+        <FastImage
           ref={img => {
             this.backgroundImage = img;
           }}
@@ -121,7 +122,9 @@ class ProfileScreen extends Component {
     try {
       await uploadProfilePic(file, () => {});
       this.setState({
-        profilePic: <Image style={styles.image} source={{ uri: file.uri }} />
+        profilePic: (
+          <FastImage style={styles.image} source={{ uri: file.uri }} />
+        )
       });
 
       showSnackbar({

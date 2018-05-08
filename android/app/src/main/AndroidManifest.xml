@@ -22,6 +22,7 @@
         android:targetSdkVersion="22" />
 
     <application
+        android:largeHeap="true"
         android:name="com.bin.binbillcustomer.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
