@@ -9,6 +9,7 @@ import {
   Platform
 } from "react-native";
 import Modal from "react-native-modal";
+import FastImage from "react-native-fast-image";
 
 import I18n from "../i18n";
 import { defaultStyles, colors } from "../theme";
@@ -61,7 +62,7 @@ class SelectModal extends Component {
         style={styles.item}
       >
         {imageKey && (
-          <Image
+          <FastImage
             resizeMode="contain"
             style={styles.itemImage}
             source={{ uri: item[imageKey] }}

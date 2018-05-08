@@ -11,6 +11,8 @@ import {
   Button,
   Platform
 } from "react-native";
+import FastImage from "react-native-fast-image";
+
 import I18n from "../i18n";
 import { defaultStyles } from "../theme";
 const dropdownIcon = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhDAkMGjg4AXstAAAAcklEQVRIx+3Tuw3AIAxF0avMxQAMwNKeiYIUUSSE+NimQ7zU9wQK4O6IBYTi/ITARl4oyLN/hUh2/z8TAZKTyKT/FB6iyj1Ek1uJTm4hBrmWmOQaYpGvCEU+I5T5iDDkPcKYt4QjrwlnDhAR5Htxd0fvBYOKNVDm/h2pAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTEyLTA5VDEyOjI2OjU2KzAxOjAw6KWTZgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0xMi0wOVQxMjoyNjo1NiswMTowMJn4K9oAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC`;
@@ -67,7 +69,7 @@ class SelectModal extends Component {
         style={styles.option}
       >
         {imageKey && (
-          <Image
+          <FastImage
             resizeMode="contain"
             style={styles.optionImage}
             source={{ uri: item[imageKey] }}

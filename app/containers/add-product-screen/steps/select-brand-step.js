@@ -138,7 +138,7 @@ class SelectBrandStep extends React.Component {
           items={brands}
           onSelectItem={this.onSelectBrand}
           onAddItem={this.onAddBrand}
-          // imageKey="image"
+          imageKey="image"
         />
       </Step>
     );
