@@ -435,9 +435,7 @@ class DishCalendarScreen extends Component {
       } else if (diff == -1) {
         selectedItemsDateText = "Tomorrow";
       } else {
-        selectedItemsDateText = moment(item.current_date).format(
-          "DD MMM, YYYY"
-        );
+        selectedItemsDateText = moment(date).format("DD MMM, YYYY");
       }
     }
 

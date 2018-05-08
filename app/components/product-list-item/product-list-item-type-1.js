@@ -79,8 +79,9 @@ const ProductListItem = ({ product, onPress }) => {
       <FastImage
         style={styles.image}
         source={{
-          uri: API_BASE_URL + product.cImageURL + "?t=" + moment().format("X")
+          uri: API_BASE_URL + product.cImageURL
         }}
+        resizeMode="contain"
       />
       <View style={styles.texts}>
         <View style={styles.nameAndSeller}>

@@ -197,7 +197,7 @@ class Header extends Component {
     let headerBg = require("../../../images/product_card_header_bg.png");
     if (product.file_type) {
       headerBg = {
-        uri: API_BASE_URL + product.cImageURL + "?t=" + moment().format("X")
+        uri: API_BASE_URL + product.cImageURL
       };
     }
     return (

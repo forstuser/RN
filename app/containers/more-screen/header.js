@@ -191,7 +191,7 @@ class Header extends Component {
                     </Text>
                   </View>
 
-                  <FastImage
+                  <Image
                     style={{ width: 12, height: 12 }}
                     source={require("../../images/ic_processing_arrow.png")}
                   />
