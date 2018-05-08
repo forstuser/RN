@@ -127,9 +127,9 @@ const logEvent = (eventName, data = {}) => {
     const user = store.getState().loggedInUser;
     FirebaseAnalytics.logEvent(eventName, {
       Platform: Platform.OS,
-      "User Id": user.id,
-      "User Name": user.name,
-      "User Mobile": user.phone,
+      User_Id: user.id,
+      User_Name: user.name,
+      User_Mobile: user.phone,
       ...data
     });
     FbSdkAppEventsLogger.logEvent(eventName);
