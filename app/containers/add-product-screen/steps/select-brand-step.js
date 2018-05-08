@@ -116,7 +116,7 @@ class SelectBrandStep extends React.Component {
 
     brands = brands.map(brand => ({
       ...brand,
-      image: `${API_BASE_URL}/brands/${brand.id}/images`
+      image: `${API_BASE_URL}/brands/${brand.id}/images/thumbnails`
     }));
 
     if (
