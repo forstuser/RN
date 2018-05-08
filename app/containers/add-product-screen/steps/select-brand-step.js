@@ -9,7 +9,11 @@ import {
   Alert
 } from "react-native";
 import I18n from "../../../i18n";
-import { API_BASE_URL, updateProduct, getReferenceDataBrands } from "../../../api";
+import {
+  API_BASE_URL,
+  updateProduct,
+  getReferenceDataBrands
+} from "../../../api";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
@@ -39,26 +43,26 @@ class SelectBrandStep extends React.Component {
     const { mainCategoryId, category, product } = this.props;
     this.setState({
       isLoading: true
-    })
+    });
     try {
       const res = await getReferenceDataBrands(category.id);
       this.setState({
         brands: res
-      })
+      });
     } catch (e) {
       showSnackbar({ text: e.message });
     } finally {
       this.setState({
         isLoading: false
-      })
+      });
     }
-  }
+  };
 
   onSelectBrand = async brand => {
     const { mainCategoryId, category, product, onBrandStepDone } = this.props;
     this.setState({
       isLoading: true
-    })
+    });
     try {
       const res = await updateProduct({
         mainCategoryId: mainCategoryId,
@@ -70,14 +74,12 @@ class SelectBrandStep extends React.Component {
       if (typeof onBrandStepDone == "function") {
         onBrandStepDone(res.product);
       }
-
-
     } catch (e) {
       showSnackbar({ text: e.message });
     } finally {
       this.setState({
         isLoading: false
-      })
+      });
     }
   };
 
@@ -85,7 +87,7 @@ class SelectBrandStep extends React.Component {
     const { mainCategoryId, category, product, onBrandStepDone } = this.props;
     this.setState({
       isLoading: true
-    })
+    });
     try {
       const res = await updateProduct({
         mainCategoryId: mainCategoryId,
@@ -98,13 +100,12 @@ class SelectBrandStep extends React.Component {
       if (typeof onBrandStepDone == "function") {
         onBrandStepDone(res.product);
       }
-
     } catch (e) {
       showSnackbar({ text: e.message });
     } finally {
       this.setState({
         isLoading: false
-      })
+      });
     }
   };
 
@@ -116,17 +117,19 @@ class SelectBrandStep extends React.Component {
     brands = brands.map(brand => ({
       ...brand,
       image: `${API_BASE_URL}/brands/${brand.id}/images`
-    }))
+    }));
 
-    if (category.id == CATEGORY_IDS.FURNITURE.FURNITURE ||
-      mainCategoryId == MAIN_CATEGORY_IDS.FASHION) {
-      brands = [{ id: 0, name: 'Non-branded' }, ...brands]
+    if (
+      category.id == CATEGORY_IDS.FURNITURE.FURNITURE ||
+      mainCategoryId == MAIN_CATEGORY_IDS.FASHION
+    ) {
+      brands = [{ id: 0, name: "Non-branded" }, ...brands];
     }
 
     return (
       <Step
         title={`Select ${category.name} brand`}
-        subtitle='Required for customer care support'
+        subtitle="Required for customer care support"
         skippable={false}
         showLoader={isLoading}
         {...this.props}
@@ -135,7 +138,7 @@ class SelectBrandStep extends React.Component {
           items={brands}
           onSelectItem={this.onSelectBrand}
           onAddItem={this.onAddBrand}
-          imageKey="image"
+          // imageKey="image"
         />
       </Step>
     );

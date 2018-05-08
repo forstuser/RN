@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import FirebaseAnalytics from "react-native-firebase-analytics";
 const FBSDK = require("react-native-fbsdk");
 const FbSdkAppEventsLogger = FBSDK.AppEventsLogger;
@@ -11,7 +12,8 @@ const EVENTS = {
   CLICK_ON_ELECTRONIC_AND_ELECTRICAL: "plus_addpdct_electronics",
   CLICK_ON_AUTOMOBILE: "plus_addproduct_Atomobile",
   CLICK_ON_FURNITURE_AND_HARDWARE: "plus_addproduct_FurnitureAndHardware",
-  CLICK_ON_INSURANCE_AND_MEDICAL_DOCS: "plus_addproduct_InsuranceAndMedicalDocs",
+  CLICK_ON_INSURANCE_AND_MEDICAL_DOCS:
+    "plus_addproduct_InsuranceAndMedicalDocs",
   CLICK_ON_PERSONAL_DOCS: "plus_addproduct_PersonalDocs",
   CLICK_ON_VISITING_CARD: "plus_addproduct_VisitingCards",
   CLICK_ON_TRAVEL_AND_DINING: "plus_addproduct_TravelAndDining",
@@ -124,7 +126,7 @@ const logEvent = (eventName, data = {}) => {
   if (!__DEV__) {
     const user = store.getState().loggedInUser;
     FirebaseAnalytics.logEvent(eventName, {
-      Platform: "iOS",
+      Platform: Platform.OS,
       "User Id": user.id,
       "User Name": user.name,
       "User Mobile": user.phone,
