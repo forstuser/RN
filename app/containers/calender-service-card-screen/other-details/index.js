@@ -143,7 +143,7 @@ class Report extends React.Component {
 
     const calculationDetails = item.calculation_detail;
     const weekDays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-    if (!isEditDetailModalOpen) return null;
+    // if (!isEditDetailModalOpen) return null;
 
     return (
       <View style={{ paddingHorizontal: 8 }}>

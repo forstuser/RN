@@ -73,7 +73,7 @@ class ServiceSchedules extends Component {
     const { product } = this.props;
     const { schedule, serviceSchedules } = product;
     const { isModalVisible } = this.state;
-    if (!isModalVisible) return null;
+    // if (!isModalVisible) return null;
 
     return (
       <View>

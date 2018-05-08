@@ -135,7 +135,7 @@ class ClothesImageUploader extends React.Component {
 
   render() {
     const { file, isModalVisible, clothesName, isLoading } = this.state;
-    if (!isModalVisible) return null;
+    // if (!isModalVisible) return null;
 
     return (
       <View>

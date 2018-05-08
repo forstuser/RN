@@ -145,7 +145,7 @@ class Profile extends Component {
       showOtpInput,
       isLoading
     } = this.state;
-    if (!isRemovePinModalVisible) return null;
+    // if (!isRemovePinModalVisible) return null;
 
     return (
       <View>

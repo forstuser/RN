@@ -141,7 +141,7 @@ class Body extends Component {
       showOtpInput,
       isLoading
     } = this.state;
-    if (!isEmailModalVisible) return null;
+    // if (!isEmailModalVisible) return null;
 
     return (
       <View style={{ marginTop: 80 }}>

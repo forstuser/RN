@@ -165,7 +165,7 @@ class SelectModal extends Component {
     } else {
       optionsAfterSearch = options;
     }
-    if (!isModalVisible) return null;
+    // if (!isModalVisible) return null;
 
     return (
       <View style={[styles.container, style]}>

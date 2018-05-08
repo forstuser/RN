@@ -272,8 +272,8 @@ class UploadDocumentScreen extends Component {
       uploadPercentCompleted,
       isUploadingOverlayVisible
     } = this.state;
-    if (!isUploadingOverlayVisible) return null;
-    if (!isSuccessModalVisible) return null;
+    // if (!isUploadingOverlayVisible) return null;
+    // if (!isSuccessModalVisible) return null;
 
     return (
       <ScreenContainer style={styles.container}>
