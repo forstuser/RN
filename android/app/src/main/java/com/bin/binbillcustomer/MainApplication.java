@@ -26,6 +26,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 import com.reactnativenavigation.controllers.ActivityCallbacks;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -107,7 +108,7 @@ public class MainApplication extends NavigationApplication implements ReactInsta
   protected List<ReactPackage> getPackages() {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(new RNViewShotPackage(), new FBSDKPackage(mCallbackManager),
+    return Arrays.<ReactPackage>asList(new FastImageViewPackage(), new RNViewShotPackage(), new FBSDKPackage(mCallbackManager),
         new FIRAnalyticsPackage(), new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
         new VectorIconsPackage(), new SvgPackage(), new RNSharePackage(), new PhotoViewPackage(),
         new NavigationReactPackage(), new LinearGradientPackage(), new PickerPackage(), new RNI18nPackage(),
@@ -121,6 +122,7 @@ public class MainApplication extends NavigationApplication implements ReactInsta
   }
 
   // private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+    
   //   @Override
   //   public boolean getUseDeveloperSupport() {
   //     return BuildConfig.DEBUG;

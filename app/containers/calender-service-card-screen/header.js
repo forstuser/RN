@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import moment from "moment";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import I18n from "../../i18n";
@@ -68,7 +69,7 @@ class Header extends Component {
       <View style={styles.container}>
         <View style={styles.upparHalf}>
           <Image style={styles.bg} source={headerBg} resizeMode="cover" />
-          <Image
+          <FastImage
             style={styles.image}
             source={imageSource}
             resizeMode="contain"

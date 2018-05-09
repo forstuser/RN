@@ -209,7 +209,7 @@ export default {
   products_list_no_result_desc_household_expense:
     "Add your Household expenses like grocery, vegetables, maid, stationery, newspaper etc",
   products_list_no_result_desc_utility_bills:
-    "Add your Utility expenses like rent, phone, electricity, water, gas and maintenance",
+    "Add your Utility expenses like phone, electricity, water, gas and maintenance",
   products_list_no_result_desc_education:
     "Looks like you have no expense added in Education section",
   products_list_no_result_desc_home_decor:

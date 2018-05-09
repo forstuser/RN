@@ -8,6 +8,7 @@ import {
   Alert
 } from "react-native";
 import Modal from "react-native-modal";
+import FastImage from "react-native-fast-image";
 import Icon from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
 import ViewShot, { captureRef } from "react-native-view-shot";
@@ -329,7 +330,7 @@ class ShareModal extends React.Component {
                       ref={ref => (this.shareView = ref)}
                     >
                       {productImageUrl ? (
-                        <Image
+                        <FastImage
                           onLoad={this.hideLoader}
                           onError={this.hideLoader}
                           resizeMode={productImageResizeMode}
@@ -344,7 +345,7 @@ class ShareModal extends React.Component {
                       ) : null}
                       <View style={styles.userImageView}>
                         {/* <View style={styles.userImageLine} /> */}
-                        <Image
+                        <FastImage
                           style={styles.userImage}
                           source={userImageSource}
                           resize="cover"

@@ -580,7 +580,7 @@ class AddProductScreen extends React.Component {
         showSnackbar({ text: "Expense card has been created in your eHome" });
       }
       if (
-        mainCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD &&
+        (mainCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD || mainCategoryId == MAIN_CATEGORY_IDS.SERVICES) &&
         subCategories.length > 0
       ) {
         this.pushSubCategoryStep(true);
@@ -609,6 +609,7 @@ class AddProductScreen extends React.Component {
           }
           break;
         case MAIN_CATEGORY_IDS.HOUSEHOLD:
+        case MAIN_CATEGORY_IDS.SERVICES:
           this.pushPurchaseDateStep();
           break;
       }

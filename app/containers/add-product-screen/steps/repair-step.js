@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Icon from "react-native-vector-icons/Entypo";
 import {
@@ -206,7 +207,7 @@ class Repair extends React.Component {
                             : {}
                         ]}
                       >
-                        <Image
+                        <FastImage
                           style={styles.productImage}
                           source={{ uri: API_BASE_URL + product.cImageURL }}
                         />

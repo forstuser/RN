@@ -1,12 +1,13 @@
 import React from "react";
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import FastImage from "react-native-fast-image";
 import moment from "moment";
 import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
 import { colors, defaultStyles } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { SCREENS, MAIN_CATEGORY_IDS } from "../../constants";
-import Analytics from "../../analytics"
+import Analytics from "../../analytics";
 class Item extends React.Component {
   onPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ATTENDANCE_ITEMS);
@@ -41,7 +42,7 @@ class Item extends React.Component {
         onPress={this.onPress}
         style={[styles.container, style]}
       >
-        <Image
+        <FastImage
           style={styles.image}
           source={{ uri: imageUrl }}
           resizeMode="contain"
@@ -52,11 +53,11 @@ class Item extends React.Component {
               <Text weight="Bold" style={styles.name}>
                 {product_name}
               </Text>
-              {outstanding_amount > 0 ? <Text style={styles.positiveValue}>
-                ₹ {outstanding_amount}
-              </Text> : <Text style={styles.negativeValue}>
-                  ₹ {outstanding_amount}
-                </Text>}
+              {outstanding_amount > 0 ? (
+                <Text style={styles.positiveValue}>₹ {outstanding_amount}</Text>
+              ) : (
+                <Text style={styles.negativeValue}>₹ {outstanding_amount}</Text>
+              )}
               {/* <Text weight="Bold" style={styles.value}>
                 ₹ {outstanding_amount}
               </Text> */}

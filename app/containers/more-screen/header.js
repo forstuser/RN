@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import ActionSheet from "react-native-actionsheet";
 import Icon from "react-native-vector-icons/Ionicons";
+import FastImage from "react-native-fast-image";
 import Profile from "./profile";
 import I18n from "../../i18n";
 import {
@@ -96,7 +97,9 @@ class Header extends Component {
     try {
       await uploadProfilePic(file, () => {});
       this.setState({
-        profilePic: <Image style={styles.image} source={{ uri: file.uri }} />
+        profilePic: (
+          <FastImage style={styles.image} source={{ uri: file.uri }} />
+        )
       });
 
       showSnackbar({
@@ -124,7 +127,7 @@ class Header extends Component {
     }
 
     let profilePic = (
-      <Image
+      <FastImage
         ref={img => {
           this.backgroundImage = img;
         }}
@@ -135,7 +138,7 @@ class Header extends Component {
 
     if (profile && profile.image_name) {
       profilePic = (
-        <Image
+        <FastImage
           ref={img => {
             this.backgroundImage = img;
           }}
