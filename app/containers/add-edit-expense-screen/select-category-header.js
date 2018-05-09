@@ -126,6 +126,11 @@ class SelectCategoryHeader extends React.Component {
             id: 73,
             name: "Other Furniture/Hardware",
             icon: require("../../images/categories/bathroom_fittings.png")
+          },
+          {
+            id: 13,
+            name: "Kitchen Utensils",
+            icon: require("../../images/categories/hardware.png")
           }
         ];
         break;

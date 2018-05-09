@@ -355,7 +355,7 @@ class AddProductScreen extends React.Component {
               this.pushBrandStep();
               break;
             case MAIN_CATEGORY_IDS.FURNITURE:
-              if (category.id == CATEGORY_IDS.FURNITURE.FURNITURE) {
+              if (category.id == CATEGORY_IDS.FURNITURE.FURNITURE || category.id == CATEGORY_IDS.FURNITURE.KITCHEN_UTENSILS) {
                 this.setState({
                   numberOfStepsToShowInFooter: 4
                 });

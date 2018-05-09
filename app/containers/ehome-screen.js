@@ -91,7 +91,7 @@ class EhomeScreen extends Component {
       const ehomeData = await consumerGetEhome();
       const categoriesList = ehomeData.categoryList.map(item => {
         return {
-          imageUrl: API_BASE_URL + "/" + item.categoryImageUrl + "1",
+          imageUrl: API_BASE_URL + item.categoryImageUrl,
           id: item.id,
           name: item.name,
           itemsCount: item.productCounts,

@@ -164,6 +164,11 @@ class SelectCategoryStep extends React.Component {
             id: CATEGORY_IDS.FURNITURE.OTHER_FURNITURE_HARDWARE,
             name: "Other Furniture/Hardware",
             icon: require("../../../images/categories/bathroom_fittings.png")
+          },
+          {
+            id: CATEGORY_IDS.FURNITURE.KITCHEN_UTENSILS,
+            name: "Kitchen Utensils",
+            icon: require("../../../images/categories/hardware.png")
           }
         ];
         break;
