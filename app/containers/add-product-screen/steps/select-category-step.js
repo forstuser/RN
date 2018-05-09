@@ -384,7 +384,7 @@ class SelectCategoryStep extends React.Component {
           const category = this.state.visibleOptions.find(
             option => option.id == this.props.category.id
           );
-          if (category) this.selectOption(category);
+          if (category) this.changeOption(category);
         }
       }
     );
@@ -454,38 +454,14 @@ class SelectCategoryStep extends React.Component {
       subCategoryId = category.id;
     }
 
-    this.initProduct({ category, subCategoryId });
-    this.selectOption(category);
-  };
-
-  initProduct = async ({ category, subCategoryId }) => {
     if (typeof this.props.onCategorySelect != "function") {
       return;
     }
-    this.setState({ isLoading: true, product: null });
-    const { mainCategoryId } = this.props;
-    try {
-      const res = await initProduct(mainCategoryId, category.id);
-      this.props.onCategorySelect({
-        product: res.product,
-        category: category,
-        // categoryReferenceData: res.categories[0],
-        // renewalTypes: res.renewalTypes || [],
-        // warrantyProviders: res.categories[0].warrantyProviders,
-        insuranceProviders: res.categories[0].insuranceProviders,
-        // brands: res.categories[0].brands,
-        // categoryForms: res.categories[0].categoryForms,
-        subCategories: res.categories[0].subCategories
-      });
-    } catch (e) {
-      console.log("error: ", e);
-      this.setState({
-        isLoading: false
-      });
-      showSnackbar({
-        text: e.message
-      });
-    }
+    this.props.onCategorySelect({
+      category: category,
+      subCategoryId
+    });
+    this.selectOption(category);
   };
 
   render() {

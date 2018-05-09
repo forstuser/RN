@@ -130,7 +130,7 @@ class AddExpenseModal extends React.Component {
 
     return (
       <View>
-        {isModalVisible && (
+        {isModalVisible ? (
           <View>
             <Modal visible={true} animationType="slide">
               <View style={styles.container}>
@@ -174,7 +174,7 @@ class AddExpenseModal extends React.Component {
                     contentContainerStyle={styles.grid}
                   />
                 </View>
-                {showCancelBtn && (
+                {showCancelBtn ? (
                   <Button
                     onPress={this.hide}
                     style={styles.closeBtn}
@@ -183,10 +183,14 @@ class AddExpenseModal extends React.Component {
                     color="secondary"
                     outlineBtnStyle={{ borderColor: "transparent" }}
                   />
+                ) : (
+                  <View />
                 )}
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );
