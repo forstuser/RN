@@ -87,10 +87,10 @@ class FinishModal extends React.Component {
                   source={
                     mainCategoryId
                       ? {
-                          uri:
-                            API_BASE_URL +
-                            `/categories/${mainCategoryId}/images/1`
-                        }
+                        uri:
+                          API_BASE_URL +
+                          `/categories/${mainCategoryId}/images/1`
+                      }
                       : repairIcon
                   }
                   resizeMode="contain"

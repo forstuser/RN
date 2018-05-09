@@ -80,7 +80,7 @@ class DirectUploadDocumentScreen extends React.Component {
           this.uploadDocuments();
         }
       );
-    } catch (e) {}
+    } catch (e) { }
   };
 
   uploadDocuments = async () => {
@@ -550,7 +550,7 @@ class DirectUploadDocumentScreen extends React.Component {
                     uri:
                       API_BASE_URL +
                       `/categories/${
-                        selectedMainCategory ? selectedMainCategory.id : 2
+                      selectedMainCategory ? selectedMainCategory.id : 2
                       }/images/1`
                   }}
                   resizeMode="contain"
