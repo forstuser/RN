@@ -48,7 +48,7 @@ class ProductCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTabIndex: 1,
+      activeTabIndex: 0,
       showCustomerCareTab: false,
       showImportantTab: true
     };
@@ -78,8 +78,12 @@ class ProductCard extends Component {
       product.masterCategoryId != MAIN_CATEGORY_IDS.FASHION
     ) {
       newState = {
-        activeTabIndex: 0,
+        // activeTabIndex: 0,
         showCustomerCareTab: true
+      };
+    } else {
+      newState = {
+        activeTabIndex: 1
       };
     }
 

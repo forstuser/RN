@@ -45,7 +45,7 @@ class ChangesSavedModal extends React.Component {
 
     return (
       <View>
-        {visible && (
+        {visible ? (
           <View>
             <Modal useNativeDriver={true} isVisible={visible}>
               <View style={styles.finishModal}>
@@ -66,6 +66,8 @@ class ChangesSavedModal extends React.Component {
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );

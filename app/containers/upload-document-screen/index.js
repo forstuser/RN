@@ -242,6 +242,9 @@ class UploadDocumentScreen extends Component {
         }
       );
     } catch (e) {
+      this.setState({
+        isUploadingOverlayVisible: false
+      });
       return showSnackbar({
         text: e.message
       });
