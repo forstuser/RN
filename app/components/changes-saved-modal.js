@@ -47,7 +47,7 @@ class ChangesSavedModal extends React.Component {
       <View>
         {visible ? (
           <View>
-            <Modal useNativeDriver={true} isVisible={visible}>
+            <Modal useNativeDriver={true} isVisible={true}>
               <View style={styles.finishModal}>
                 <Image
                   style={styles.finishImage}
