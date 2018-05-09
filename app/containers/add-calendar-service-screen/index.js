@@ -359,7 +359,7 @@ class AddCalendarServiceScreen extends React.Component {
           <View style={styles.stepContainer}>{currentStep}</View>
           <View style={styles.stepContainer}>{nextStep}</View>
         </Animated.View>
-        {numberOfStepsToShowInFooter > 0 && (
+        {numberOfStepsToShowInFooter > 0 ? (
           <View style={styles.stepIndicatorsAndText}>
             <View style={styles.stepIndicators}>
               {_.range(numberOfStepsToShowInFooter).map((item, index) => {
@@ -384,14 +384,18 @@ class AddCalendarServiceScreen extends React.Component {
                       isActiveStep ? styles.activeStepIndicatorDot : {}
                     ]}
                   >
-                    {isActiveStep && (
+                    {isActiveStep ? (
                       <View style={styles.activeStepIndicatorDotInnerRing} />
+                    ) : (
+                      <View />
                     )}
                   </View>
                 ];
               })}
             </View>
           </View>
+        ) : (
+          <View />
         )}
         {/* <FinishModal
           ref={ref => this.finishModal = ref}

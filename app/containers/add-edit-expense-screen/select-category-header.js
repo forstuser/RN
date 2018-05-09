@@ -440,29 +440,30 @@ class SelectCategoryHeader extends React.Component {
               </TouchableWithoutFeedback>
             );
           })}
-          {selectedOption &&
-            showOtherOption && (
-              <View style={styles.option}>
-                <View
-                  style={[
-                    styles.optionIconContainer,
-                    styles.selectedOptionIconContainer
-                  ]}
-                >
-                  <Image
-                    style={[styles.optionIcon]}
-                    resizeMode="contain"
-                    source={genericIcon}
-                  />
-                </View>
-                <Text
-                  weight="Medium"
-                  style={[styles.optionName, styles.selectedOptionName]}
-                >
-                  {selectedOption.name}
-                </Text>
+          {selectedOption && showOtherOption ? (
+            <View style={styles.option}>
+              <View
+                style={[
+                  styles.optionIconContainer,
+                  styles.selectedOptionIconContainer
+                ]}
+              >
+                <Image
+                  style={[styles.optionIcon]}
+                  resizeMode="contain"
+                  source={genericIcon}
+                />
               </View>
-            )}
+              <Text
+                weight="Medium"
+                style={[styles.optionName, styles.selectedOptionName]}
+              >
+                {selectedOption.name}
+              </Text>
+            </View>
+          ) : (
+            <View />
+          )}
           {otherOptions.length > 0 && (
             <TouchableWithoutFeedback
               onPress={() => this.otherOptionsModal.openModal()}

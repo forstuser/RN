@@ -387,12 +387,11 @@ class DashboardScreen extends React.Component {
             </ScrollView>
           </View>
         )}
-        {!showDashboard && (
+        {!showDashboard ? (
           <BlankDashboard
             onUploadButtonClick={() => this.showAddProductOptionsScreen()}
           />
-        )}
-        {showDashboard && (
+        ) : (
           <TouchableOpacity
             style={styles.fab}
             onPress={() => this.showAddProductOptionsScreen()}

@@ -189,32 +189,32 @@ class SelectServiceTypeStep extends React.Component {
                 </TouchableWithoutFeedback>
               );
             })}
-            {selectedOption &&
-              showOtherOption && (
-                <View style={styles.option}>
-                  <View
-                    style={[
-                      styles.optionIconContainer,
-                      styles.selectedOptionIconContainer
-                    ]}
-                  >
-                    <FastImage
-                      style={[styles.optionIconForOther]}
-                      resizeMode="contain"
-                      source={{
-                        uri:
-                          API_BASE_URL + selectedOption.calendarServiceImageUrl
-                      }}
-                    />
-                  </View>
-                  <Text
-                    weight="Medium"
-                    style={[styles.optionName, styles.selectedOptionName]}
-                  >
-                    {selectedOption.name}
-                  </Text>
+            {selectedOption && showOtherOption ? (
+              <View style={styles.option}>
+                <View
+                  style={[
+                    styles.optionIconContainer,
+                    styles.selectedOptionIconContainer
+                  ]}
+                >
+                  <FastImage
+                    style={[styles.optionIconForOther]}
+                    resizeMode="contain"
+                    source={{
+                      uri: API_BASE_URL + selectedOption.calendarServiceImageUrl
+                    }}
+                  />
                 </View>
-              )}
+                <Text
+                  weight="Medium"
+                  style={[styles.optionName, styles.selectedOptionName]}
+                >
+                  {selectedOption.name}
+                </Text>
+              </View>
+            ) : (
+              <View />
+            )}
 
             <TouchableWithoutFeedback
               onPress={() => this.otherOptionsModal.openModal()}

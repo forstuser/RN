@@ -250,35 +250,34 @@ class PersonalDoc extends React.Component {
               value={name}
               onChangeText={name => this.setState({ name })}
             />
-            {formType == "visiting_card" &&
-              showFullForm && (
-                <View style={{ width: "100%", marginBottom: 10 }}>
-                  <CustomTextInput
-                    placeholder="Business Name"
-                    value={businessName}
-                    onChangeText={businessName =>
-                      this.setState({ businessName })
-                    }
-                  />
-                  <ContactFields
-                    ref={ref => (this.phoneRef = ref)}
-                    value={phone}
-                    placeholder="Phone Number"
-                  />
-                  <ContactFields
-                    ref={ref => (this.emailRef = ref)}
-                    value={email}
-                    placeholder="Email"
-                    keyboardType="email-address"
-                  />
-                  <CustomTextInput
-                    style={{ marginBottom: 10 }}
-                    placeholder="Address"
-                    value={address}
-                    onChangeText={address => this.setState({ address })}
-                  />
-                </View>
-              )}
+            {formType == "visiting_card" && showFullForm ? (
+              <View style={{ width: "100%", marginBottom: 10 }}>
+                <CustomTextInput
+                  placeholder="Business Name"
+                  value={businessName}
+                  onChangeText={businessName => this.setState({ businessName })}
+                />
+                <ContactFields
+                  ref={ref => (this.phoneRef = ref)}
+                  value={phone}
+                  placeholder="Phone Number"
+                />
+                <ContactFields
+                  ref={ref => (this.emailRef = ref)}
+                  value={email}
+                  placeholder="Email"
+                  keyboardType="email-address"
+                />
+                <CustomTextInput
+                  style={{ marginBottom: 10 }}
+                  placeholder="Address"
+                  value={address}
+                  onChangeText={address => this.setState({ address })}
+                />
+              </View>
+            ) : (
+              <View />
+            )}
             <UploadDoc
               placeholder={
                 formType == "visiting_card" ? "Upload Image" : "Upload Doc"

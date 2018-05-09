@@ -772,7 +772,7 @@ class AddProductScreen extends React.Component {
           <View style={styles.stepContainer}>{currentStep}</View>
           <View style={styles.stepContainer}>{nextStep}</View>
         </Animated.View>
-        {numberOfStepsToShowInFooter > 0 && (
+        {numberOfStepsToShowInFooter > 0 ? (
           <View style={styles.stepIndicatorsAndText}>
             <View style={styles.stepIndicators}>
               {_.range(numberOfStepsToShowInFooter).map((item, index) => {
@@ -797,8 +797,10 @@ class AddProductScreen extends React.Component {
                       isActiveStep ? styles.activeStepIndicatorDot : {}
                     ]}
                   >
-                    {isActiveStep && (
+                    {isActiveStep ? (
                       <View style={styles.activeStepIndicatorDotInnerRing} />
+                    ) : (
+                      <View />
                     )}
                   </View>
                 ];
@@ -806,6 +808,8 @@ class AddProductScreen extends React.Component {
             </View>
             {/* <Text weight='Bold' style={{ fontSize: 12, marginTop: 10, color: colors.secondaryText }}>Purchase date helps in warranty, service and other details</Text> */}
           </View>
+        ) : (
+          <View />
         )}
         <FinishModal
           ref={ref => (this.finishModal = ref)}

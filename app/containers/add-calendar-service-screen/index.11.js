@@ -307,7 +307,7 @@ class AddEditCalendarServiceScreen extends Component {
               onServiceTypeSelect={this.onServiceTypeSelect}
             />
           )}
-          {selectedServiceType && (
+          {selectedServiceType ? (
             <View style={styles.form}>
               <CustomTextInput
                 placeholder={I18n.t(
@@ -415,8 +415,7 @@ class AddEditCalendarServiceScreen extends Component {
                   />
                 </View>
               )}
-              {selectedServiceType.wages_type ==
-                CALENDAR_WAGES_TYPE.PRODUCT && (
+              {selectedServiceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT ? (
                 <View>
                   <View style={{ flexDirection: "row" }}>
                     <SelectModal
@@ -459,6 +458,8 @@ class AddEditCalendarServiceScreen extends Component {
                     rightSideTextWidth={100}
                   />
                 </View>
+              ) : (
+                <View />
               )}
               <CustomDatePicker
                 date={startingDate}
@@ -477,6 +478,8 @@ class AddEditCalendarServiceScreen extends Component {
                 onDayPress={this.toggleDay}
               />
             </View>
+          ) : (
+            <View />
           )}
         </KeyboardAwareScrollView>
         {selectedServiceType && (
