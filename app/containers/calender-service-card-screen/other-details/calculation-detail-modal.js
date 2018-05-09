@@ -274,14 +274,13 @@ class CalculationDetailModal extends React.Component {
                 >
                   <Icon name="md-close" size={30} color={colors.mainText} />
                 </TouchableOpacity>
-                {serviceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT && (
+                {serviceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT ? (
                   <CustomTextInput
                     placeholder={priceText}
                     value={String(unitPrice)}
                     onChangeText={unitPrice => this.setState({ unitPrice })}
                   />
-                )}
-                {serviceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
+                ) : (
                   <View style={{ width: "100%" }}>
                     <View style={{ flexDirection: "row" }}>
                       <SelectModal

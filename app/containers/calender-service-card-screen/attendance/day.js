@@ -142,43 +142,45 @@ class Month extends React.Component {
           {moment(date).format("D MMM YYYY")}
         </Text>
         {isPresent &&
-          item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
-            <View style={{ flexDirection: "row", width: 80 }}>
-              <TouchableOpacity
-                onPress={this.decreaseQuantity}
-                style={{
-                  marginTop: 3,
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "center"
-                }}
-              >
-                <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={this.showEditQuantityModal}
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  minWidth: 20
-                }}
-              >
-                <Text>{quantity}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={this.increaseQuantity}
-                style={{
-                  marginTop: 3,
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "center"
-                }}
-              >
-                <Icon name="md-add" size={16} color={colors.pinkishOrange} />
-              </TouchableOpacity>
-            </View>
-          )}
+        item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT ? (
+          <View style={{ flexDirection: "row", width: 80 }}>
+            <TouchableOpacity
+              onPress={this.decreaseQuantity}
+              style={{
+                marginTop: 3,
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "center"
+              }}
+            >
+              <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.showEditQuantityModal}
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "center",
+                minWidth: 20
+              }}
+            >
+              <Text>{quantity}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.increaseQuantity}
+              style={{
+                marginTop: 3,
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "center"
+              }}
+            >
+              <Icon name="md-add" size={16} color={colors.pinkishOrange} />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View />
+        )}
         <TouchableOpacity
           onPress={toggleAttendance}
           style={styles.presentAbsentContainer}
@@ -200,7 +202,7 @@ class Month extends React.Component {
             {I18n.t("calendar_service_screen_present")}
           </Text>
         </TouchableOpacity>
-        {isEditQuantityModalOpen && (
+        {isEditQuantityModalOpen ? (
           <View>
             <Modal
               isVisible={true}
@@ -247,6 +249,8 @@ class Month extends React.Component {
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );

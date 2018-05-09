@@ -254,7 +254,7 @@ class CalendarServiceCard extends Component {
 
     return (
       <View style={styles.container}>
-        {item && (
+        {item ? (
           <ScrollView
             ref={ref => (this.scrollView = ref)}
             onScroll={this.handleScroll}
@@ -298,6 +298,8 @@ class CalendarServiceCard extends Component {
               )}
             </View>
           </ScrollView>
+        ) : (
+          <View />
         )}
         <LoadingOverlay visible={isLoading} />
         <ActionSheet
@@ -306,12 +308,14 @@ class CalendarServiceCard extends Component {
           cancelButtonIndex={2}
           options={["Delete", "Finish", "Cancel"]}
         />
-        {item && (
+        {item ? (
           <FinishModal
             item={item}
             reloadScreen={this.fetchItemDetails}
             ref={ref => (this.finishModal = ref)}
           />
+        ) : (
+          <View />
         )}
       </View>
     );

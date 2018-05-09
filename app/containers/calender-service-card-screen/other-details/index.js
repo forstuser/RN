@@ -284,7 +284,7 @@ class Report extends React.Component {
                     keyText={unitPriceText}
                     valueText={calculationDetail.unit_price}
                   />
-                  {Array.isArray(calculationDetail.selected_days) && (
+                  {Array.isArray(calculationDetail.selected_days) ? (
                     <View style={{ flexDirection: "row", padding: 10 }}>
                       {calculationDetail.selected_days.map(day => (
                         <View key={day} style={styles.weekDay}>
@@ -294,13 +294,15 @@ class Report extends React.Component {
                         </View>
                       ))}
                     </View>
+                  ) : (
+                    <View />
                   )}
                 </View>
               </View>
             );
           })}
         </ScrollView>
-        {isEditDetailModalOpen && (
+        {isEditDetailModalOpen ? (
           <View>
             <Modal
               isVisible={true}
@@ -350,6 +352,8 @@ class Report extends React.Component {
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
         <CalculationDetailModal
           ref={ref => (this.calculationDetailModal = ref)}

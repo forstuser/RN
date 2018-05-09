@@ -76,7 +76,7 @@ class FinishModal extends React.Component {
     if (!isModalVisible) return null;
     return (
       <View>
-        {isModalVisible && (
+        {isModalVisible ? (
           <View>
             <Modal useNativeDriver={true} isVisible={true}>
               <View style={[styles.card, styles.modalCard]}>
@@ -121,6 +121,8 @@ class FinishModal extends React.Component {
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );

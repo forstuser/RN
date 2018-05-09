@@ -198,7 +198,7 @@ class Attendance extends React.Component {
         break;
       }
     }
-    availableDaysofMonth.sort(function (a, b) {
+    availableDaysofMonth.sort(function(a, b) {
       return moment(a.date).format("D") - moment(b.date).format("D");
     });
 
@@ -275,17 +275,13 @@ class Attendance extends React.Component {
               {serviceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
                 <VerticalKeyValue
                   keyText={unitPriceText}
-                  valueText={
-                    "₹ " + activeCalculationDetail.unit_price
-                  }
+                  valueText={"₹ " + activeCalculationDetail.unit_price}
                 />
               )}
               {serviceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT && (
                 <VerticalKeyValue
                   keyText={unitPriceText}
-                  valueText={
-                    "₹ " + activeCalculationDetail.unit_price
-                  }
+                  valueText={"₹ " + activeCalculationDetail.unit_price}
                 />
               )}
               {/* <VerticalKeyValue

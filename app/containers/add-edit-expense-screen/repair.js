@@ -162,26 +162,24 @@ class Repair extends React.Component {
     return (
       <View style={styles.container}>
         <LoadingOverlay visible={isLoading} />
-        {products.length == 0 &&
-          !isLoading && (
-            <View style={styles.noProductsScreen}>
-              <Text style={styles.noProductsText}>
-                {I18n.t("add_edit_expense_screen_title_add_no_products")}
+        {products.length == 0 && !isLoading ? (
+          <View style={styles.noProductsScreen}>
+            <Text style={styles.noProductsText}>
+              {I18n.t("add_edit_expense_screen_title_add_no_products")}
+            </Text>
+            <TouchableOpacity
+              onPress={this.openAddProductScreen}
+              style={styles.addProductBtn}
+            >
+              <Text weight="Bold" style={styles.addProductBtnText}>
+                {I18n.t("add_edit_expense_screen_title_add_add_products")}
               </Text>
-              <TouchableOpacity
-                onPress={this.openAddProductScreen}
-                style={styles.addProductBtn}
-              >
-                <Text weight="Bold" style={styles.addProductBtnText}>
-                  {I18n.t("add_edit_expense_screen_title_add_add_products")}
-                </Text>
-              </TouchableOpacity>
-              <Text style={styles.noProductsText}>
-                {I18n.t("add_edit_expense_screen_title_add_repair_details")}
-              </Text>
-            </View>
-          )}
-        {products.length > 0 && (
+            </TouchableOpacity>
+            <Text style={styles.noProductsText}>
+              {I18n.t("add_edit_expense_screen_title_add_repair_details")}
+            </Text>
+          </View>
+        ) : (
           <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
             <View style={styles.header}>
               <Text weight="Medium" style={styles.selectProductText}>

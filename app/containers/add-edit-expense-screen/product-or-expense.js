@@ -375,7 +375,7 @@ class ProductOrExpense extends React.Component {
             healthcareFormType={this.props.healthcareFormType}
           />
           <View style={styles.separator} />
-          {product == null && (
+          {product == null ? (
             <View style={styles.selectCategoryMsgContainer}>
               <Text weight="Medium" style={styles.selectCategoryMsg}>
                 {startMsg}
@@ -388,10 +388,9 @@ class ProductOrExpense extends React.Component {
                 );
               })}
             </View>
-          )}
-          {product != null && (
+          ) : (
             <View style={styles.formsContainer}>
-              {visibleModules.productBasicDetails && (
+              {visibleModules.productBasicDetails ? (
                 <View>
                   <ProductBasicDetailsForm
                     ref={ref => (this.productBasicDetailsForm = ref)}
@@ -415,9 +414,11 @@ class ProductOrExpense extends React.Component {
                   />
                   <View style={styles.separator} />
                 </View>
+              ) : (
+                <View />
               )}
 
-              {visibleModules.expenseBasicDetails && (
+              {visibleModules.expenseBasicDetails ? (
                 <View>
                   <ExpenseBasicDetailsForm
                     ref={ref => (this.expenseBasicDetailsForm = ref)}
@@ -431,9 +432,11 @@ class ProductOrExpense extends React.Component {
                   />
                   <View style={styles.separator} />
                 </View>
+              ) : (
+                <View />
               )}
 
-              {visibleModules.healthcareInsuranceForm && (
+              {visibleModules.healthcareInsuranceForm ? (
                 <View>
                   <HealthcareInsuranceForm
                     ref={ref => (this.healthcareInsuranceForm = ref)}
@@ -447,9 +450,11 @@ class ProductOrExpense extends React.Component {
                   />
                   <View style={styles.separator} />
                 </View>
+              ) : (
+                <View />
               )}
 
-              {visibleModules.healthcareMedicalDocuments && (
+              {visibleModules.healthcareMedicalDocuments ? (
                 <View>
                   <MedicalDocForm
                     ref={ref => (this.healthcareMedicalDocForm = ref)}
@@ -464,9 +469,11 @@ class ProductOrExpense extends React.Component {
                   />
                   <View style={styles.separator} />
                 </View>
+              ) : (
+                <View />
               )}
 
-              {visibleModules.insurance && (
+              {visibleModules.insurance ? (
                 <View>
                   <InsuranceForm
                     ref={ref => (this.insuranceForm = ref)}
@@ -483,9 +490,11 @@ class ProductOrExpense extends React.Component {
                   />
                   <View style={styles.separator} />
                 </View>
+              ) : (
+                <View />
               )}
 
-              {visibleModules.warranty && (
+              {visibleModules.warranty ? (
                 <View>
                   <WarrantyForm
                     ref={ref => (this.warrantyForm = ref)}
@@ -499,9 +508,11 @@ class ProductOrExpense extends React.Component {
                   />
                   <View style={styles.separator} />
                 </View>
+              ) : (
+                <View />
               )}
 
-              {visibleModules.dualWarranty && (
+              {visibleModules.dualWarranty ? (
                 <View>
                   <WarrantyForm
                     ref={ref => (this.dualWarrantyForm = ref)}
@@ -517,9 +528,11 @@ class ProductOrExpense extends React.Component {
                   />
                   <View style={styles.separator} />
                 </View>
+              ) : (
+                <View />
               )}
 
-              {visibleModules.extendedWarranty && (
+              {visibleModules.extendedWarranty ? (
                 <View>
                   <WarrantyForm
                     ref={ref => (this.extendedWarrantyForm = ref)}
@@ -534,9 +547,11 @@ class ProductOrExpense extends React.Component {
                   />
                   <View style={styles.separator} />
                 </View>
+              ) : (
+                <View />
               )}
 
-              {visibleModules.amc && (
+              {visibleModules.amc ? (
                 <View>
                   <AmcForm
                     ref={ref => (this.amcForm = ref)}
@@ -550,9 +565,11 @@ class ProductOrExpense extends React.Component {
                   />
                   <View style={styles.separator} />
                 </View>
+              ) : (
+                <View />
               )}
 
-              {visibleModules.repair && (
+              {visibleModules.repair ? (
                 <View>
                   <RepairForm
                     ref={ref => (this.repairForm = ref)}
@@ -564,9 +581,11 @@ class ProductOrExpense extends React.Component {
                   />
                   <View style={styles.separator} />
                 </View>
+              ) : (
+                <View />
               )}
 
-              {visibleModules.puc && (
+              {visibleModules.puc ? (
                 <View>
                   <PucForm
                     ref={ref => (this.pucForm = ref)}
@@ -578,6 +597,8 @@ class ProductOrExpense extends React.Component {
                   />
                   <View style={styles.separator} />
                 </View>
+              ) : (
+                <View />
               )}
             </View>
           )}

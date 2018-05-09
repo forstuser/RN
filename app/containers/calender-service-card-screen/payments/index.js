@@ -140,7 +140,7 @@ class Report extends React.Component {
             </View>
           ))}
         </View>
-        {isMarkPaidModalOpen && (
+        {isMarkPaidModalOpen ? (
           <View>
             <Modal
               isVisible={true}
@@ -180,6 +180,8 @@ class Report extends React.Component {
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );

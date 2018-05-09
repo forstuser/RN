@@ -9,7 +9,11 @@ import {
   Alert
 } from "react-native";
 import I18n from "../../../i18n";
-import { API_BASE_URL, updateProduct, getReferenceDataModels } from "../../../api";
+import {
+  API_BASE_URL,
+  updateProduct,
+  getReferenceDataModels
+} from "../../../api";
 import { MAIN_CATEGORY_IDS } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
@@ -32,7 +36,7 @@ class SelectModelStep extends React.Component {
   }
 
   componentDidMount() {
-    console.log('this.props.product: ', this.props.product);
+    console.log("this.props.product: ", this.props.product);
     this.fetchModels();
   }
 
@@ -48,26 +52,26 @@ class SelectModelStep extends React.Component {
     const { mainCategoryId, category, product, onModelStepDone } = this.props;
     this.setState({
       isLoading: true
-    })
+    });
     try {
       const res = await getReferenceDataModels(category.id, product.brand_id);
       this.setState({
         models: res
-      })
+      });
     } catch (e) {
       showSnackbar({ text: e.message });
     } finally {
       this.setState({
         isLoading: false
-      })
+      });
     }
-  }
+  };
 
   onSelectModel = async model => {
     const { mainCategoryId, category, product, onModelStepDone } = this.props;
     this.setState({
       isLoading: true
-    })
+    });
     try {
       const res = await updateProduct({
         productId: product.id,
@@ -83,7 +87,7 @@ class SelectModelStep extends React.Component {
     } finally {
       this.setState({
         isLoading: false
-      })
+      });
     }
   };
 
@@ -91,7 +95,7 @@ class SelectModelStep extends React.Component {
     const { mainCategoryId, category, product, onModelStepDone } = this.props;
     this.setState({
       isLoading: true
-    })
+    });
     try {
       const res = await updateProduct({
         productId: product.id,
@@ -106,7 +110,7 @@ class SelectModelStep extends React.Component {
     } finally {
       this.setState({
         isLoading: false
-      })
+      });
     }
   };
 
@@ -119,14 +123,14 @@ class SelectModelStep extends React.Component {
     return (
       <Step
         title={`Select ${category.name} model`}
-        subtitle='Required for warranty calculation'
+        subtitle="Required for warranty calculation"
         skippable={false}
         showLoader={isLoading}
         {...this.props}
       >
         <SelectOrCreateItem
           items={models}
-          visibleKey='title'
+          visibleKey="title"
           onSelectItem={this.onSelectModel}
           onAddItem={this.onAddModel}
         />

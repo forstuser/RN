@@ -169,16 +169,20 @@ class BillsPopUpScreen extends Component {
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
           <View style={styles.dateAndId}>
-            {date && (
+            {date ? (
               <Text weight="Medium" style={styles.date}>
                 {moment(date).isValid() && moment(date).format("DD MMM, YYYY")}
               </Text>
+            ) : (
+              <View />
             )}
             <Text style={styles.id}>{!isNaN(id) && "ID: " + id}</Text>
-            {type && (
+            {type ? (
               <View style={styles.type}>
                 <Text style={styles.typeText}>{type}</Text>
               </View>
+            ) : (
+              <View />
             )}
           </View>
           <TouchableOpacity
