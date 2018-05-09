@@ -230,7 +230,7 @@ class ShareModal extends React.Component {
                       marginBottom: 20
                     }}
                   >
-                    <Image
+                    <FastImage
                       style={[
                         styles.illustration,
                         step == 2 ? styles.userImageIllustration : {}

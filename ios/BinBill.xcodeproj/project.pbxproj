@@ -41,6 +41,7 @@
 		4319DDF620738F5700A6B5B5 /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4319DDF220738F4D00A6B5B5 /* libRNShare.a */; };
 		433BC259207785F100DEC7E0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 433BC258207785F000DEC7E0 /* Default-568h@2x.png */; };
 		433F22632056CB9E001D9C7E /* libRNViewShot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 433F22622056CB86001D9C7E /* libRNViewShot.a */; };
+		4385717220A1ED2A003517E3 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4385713720A1ED18003517E3 /* libFastImage.a */; };
 		438EB1451FEBD62A00C2D66A /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1441FEBD62A00C2D66A /* GameKit.framework */; };
 		438EB1471FEBD62F00C2D66A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1461FEBD62F00C2D66A /* StoreKit.framework */; };
 		438EB1491FEBD79400C2D66A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438EB1481FEBD79400C2D66A /* CloudKit.framework */; };
@@ -318,6 +319,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
 			remoteInfo = RCTFBSDK;
+		};
+		4385713620A1ED18003517E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4385712D20A1ED17003517E3 /* FastImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A287971D1DE0C0A60081BDFA;
+			remoteInfo = FastImage;
 		};
 		43B079141FC4569F00F4C1A0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -605,6 +613,7 @@
 		4319DDAF20738F4D00A6B5B5 /* RNShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
 		433BC258207785F000DEC7E0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		433F22222056CB85001D9C7E /* RNViewShot.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNViewShot.xcodeproj; path = "../node_modules/react-native-view-shot/ios/RNViewShot.xcodeproj"; sourceTree = "<group>"; };
+		4385712D20A1ED17003517E3 /* FastImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
 		438EB1441FEBD62A00C2D66A /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		438EB1461FEBD62F00C2D66A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		438EB1481FEBD79400C2D66A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -688,6 +697,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4385717220A1ED2A003517E3 /* libFastImage.a in Frameworks */,
 				4319DDF620738F5700A6B5B5 /* libRNShare.a in Frameworks */,
 				433F22632056CB9E001D9C7E /* libRNViewShot.a in Frameworks */,
 				43C09D67202DA99B00AE02E0 /* libCodePush.a in Frameworks */,
@@ -933,6 +943,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		4385712E20A1ED17003517E3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4385713720A1ED18003517E3 /* libFastImage.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		43B0790D1FC4569F00F4C1A0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1119,6 +1137,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				4385712D20A1ED17003517E3 /* FastImage.xcodeproj */,
 				4319DDAF20738F4D00A6B5B5 /* RNShare.xcodeproj */,
 				433F22222056CB85001D9C7E /* RNViewShot.xcodeproj */,
 				43C09D26202DA93300AE02E0 /* CodePush.xcodeproj */,
@@ -1426,6 +1445,10 @@
 				{
 					ProductGroup = 43C09D27202DA93300AE02E0 /* Products */;
 					ProjectRef = 43C09D26202DA93300AE02E0 /* CodePush.xcodeproj */;
+				},
+				{
+					ProductGroup = 4385712E20A1ED17003517E3 /* Products */;
+					ProjectRef = 4385712D20A1ED17003517E3 /* FastImage.xcodeproj */;
 				},
 				{
 					ProductGroup = 4300FE2E1FD29E330008E1F2 /* Products */;
@@ -1764,6 +1787,13 @@
 			fileType = archive.ar;
 			path = libRCTFBSDK.a;
 			remoteRef = 4375E8AA204574590059CD02 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4385713720A1ED18003517E3 /* libFastImage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFastImage.a;
+			remoteRef = 4385713620A1ED18003517E3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		43B079151FC4569F00F4C1A0 /* libBVLinearGradient.a */ = {

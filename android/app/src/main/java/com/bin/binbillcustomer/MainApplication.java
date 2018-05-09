@@ -49,8 +49,11 @@ public class MainApplication extends NavigationApplication implements ReactInsta
   @Override
   public void onCreate() {
     super.onCreate();
-    Fabric.with(this, new Crashlytics());
 
+    if (!BuildConfig.DEBUG) {
+      Fabric.with(this, new Crashlytics());
+    }
+    
     setActivityCallbacks(new ActivityCallbacks() {
       @Override
       public void onActivityResumed(Activity activity) {

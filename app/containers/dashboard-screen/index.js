@@ -133,8 +133,7 @@ class DashboardScreen extends React.Component {
 
   fetchDashboardData = async () => {
     this.setState({
-      error: null,
-      isFetchingData: true
+      error: null
     });
     try {
       const dashboardData = await consumerGetDashboard();

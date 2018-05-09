@@ -11,7 +11,7 @@ import Analytics from "../analytics";
 
 export const API_BASE_URL = "https://consumer-eb.binbill.com";
 
-const APP_VERSION_FOR_API = 20003;
+const APP_VERSION_FOR_API = 20004;
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
