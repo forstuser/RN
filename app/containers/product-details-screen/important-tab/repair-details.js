@@ -57,7 +57,7 @@ class RepairDetails extends Component {
         <Collapsible
           headerText={I18n.t("product_details_screen_repairs_title")}
         >
-          {repairBills.length > 0 && (
+          {repairBills.length > 0 ? (
             <View>
               {repairBills.map(repairBill => (
                 <View>
@@ -118,8 +118,7 @@ class RepairDetails extends Component {
                 </View>
               ))}
             </View>
-          )}
-          {repairBills.length == 0 && (
+          ) : (
             <Text
               weight="Bold"
               style={{ textAlign: "center", padding: 16, color: "red" }}

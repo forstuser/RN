@@ -181,7 +181,7 @@ class PerosnalDocCard extends Component {
               />
             </TouchableOpacity>
             <KeyValueItem keyText="Name" valueText={product.productName} />
-            {product.categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD && (
+            {product.categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD ? (
               <View style={{ width: "100%" }}>
                 <KeyValueItem
                   keyText="Business Name"
@@ -249,6 +249,8 @@ class PerosnalDocCard extends Component {
                   />
                 )}
               </View>
+            ) : (
+              <View />
             )}
           </View>
         </ScrollView>

@@ -36,7 +36,7 @@ class Card extends React.Component {
 
     let subject = `Issue with ${product.brand ? product.brand.name : ""} ${
       product.categoryName
-      }`;
+    }`;
 
     let brandNameToAddress = product.brand ? product.brand.name : "";
 
@@ -72,8 +72,8 @@ class Card extends React.Component {
       productDetails.insuranceEffectiveDate = product.insuranceDetails[0]
         .effectiveDate
         ? moment(product.insuranceDetails[0].effectiveDate).format(
-          "MMM DD, YYYY"
-        )
+            "MMM DD, YYYY"
+          )
         : "NA";
       if (
         product.insuranceDetails[0].provider &&
@@ -101,25 +101,25 @@ class Card extends React.Component {
     if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
       subject = `${subject}${
         productDetails.vin ? ", Vin No. " + productDetails.vin : ""
-        }`;
+      }`;
     } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
       subject = `${subject}${
         productDetails.imeiNumber
           ? ", IMEI No. " + productDetails.imeiNumber
           : ""
-        }`;
+      }`;
     } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
       subject = `${subject}${
         productDetails.serialNumber
           ? ", Serial No. " + productDetails.serialNumber
           : ""
-        }`;
+      }`;
     }
 
     if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
       subject = `Issue with ${product.brand ? product.brand.name : ""} ${
         product.model ? product.model : ""
-        } ${product.categoryName}`;
+      } ${product.categoryName}`;
     }
 
     switch (type) {
@@ -127,79 +127,79 @@ class Card extends React.Component {
         if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
           productDetailsText = `VIN No./Chasis Number: ${
             productDetails.vin
-            }\nRegisteration Number: ${
+          }\nRegisteration Number: ${
             productDetails.registrationNumber
-            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-            }\nInsurance Poilcy Number: ${
+          }\nInsurance Poilcy Number: ${
             productDetails.insurancePolicyNo
-            }\nInsurance Provider: ${productDetails.insuranceProviderName}`;
+          }\nInsurance Provider: ${productDetails.insuranceProviderName}`;
         } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
           productDetailsText = `IMEI Number: ${
             productDetails.imeiNumber
-            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-            }`;
+          }`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
           productDetailsText = `Serial Number: ${
             productDetails.serialNumber
-            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-            }`;
+          }`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.FURNITURE) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-            }\nPurchase Date: ${productDetails.purchaseDate}`;
+          }\nPurchase Date: ${productDetails.purchaseDate}`;
         }
         break;
       case "warranty":
         if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
           productDetailsText = `VIN No./Chasis Number: ${
             productDetails.vin
-            }\nRegisteration Number: ${
+          }\nRegisteration Number: ${
             productDetails.registrationNumber
-            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-            }`;
+          }`;
         } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-            }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
+          }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
             productDetails.modelNumber
-            }\nPurchase Date: ${productDetails.purchaseDate}`;
+          }\nPurchase Date: ${productDetails.purchaseDate}`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-            }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
+          }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
             productDetails.modelNumber
-            }\nPurchase Date: ${productDetails.purchaseDate}`;
+          }\nPurchase Date: ${productDetails.purchaseDate}`;
         }
         break;
       case "insurance":
         if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
           productDetailsText = `VIN No./Chasis Number: ${
             productDetails.vin
-            }\nRegisteration Number: ${
+          }\nRegisteration Number: ${
             productDetails.registrationNumber
-            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-            }\nPoilcy Number: ${productDetails.insurancePolicyNo}`;
+          }\nPoilcy Number: ${productDetails.insurancePolicyNo}`;
         } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-            }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
+          }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
             productDetails.modelNumber
-            }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
+          }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
             productDetails.insurancePolicyNo
-            }`;
+          }`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-            }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
+          }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
             productDetails.modelNumber
-            }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
+          }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
             productDetails.insurancePolicyNo
-            }`;
+          }`;
         }
         break;
       default:
@@ -210,10 +210,10 @@ class Card extends React.Component {
         productDetails.insurancePolicyNo != "NA"
           ? "No. " + productDetails.insurancePolicyNo
           : ""
-        }`;
+      }`;
       productDetailsText = `Plan Name: ${product.productName}\nPoilcy Number: ${
         productDetails.insurancePolicyNo
-        }\nEffective Date: ${productDetails.insuranceEffectiveDate}`;
+      }\nEffective Date: ${productDetails.insuranceEffectiveDate}`;
     }
 
     const url = `mailto:${email}?subject=${subject}&body=Dear ${brandNameToAddress} Team,\n\nThe issue I am facing is : 
@@ -224,25 +224,27 @@ class Card extends React.Component {
         if (!supported) {
           showSnackbar({
             text: "Can't open this email"
-          })
+          });
         } else {
           return Linking.openURL(url);
         }
       })
-      .catch(e => showSnackbar({
-        text: e.message
-      })
-      )
+      .catch(e =>
+        showSnackbar({
+          text: e.message
+        })
+      );
   };
 
   handlePhonePress = phoneNumber => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_CALL);
     call({
       number: phoneNumber.replace(/\(.+\)/, "").trim()
-    }).catch(e => showSnackbar({
-      text: e.message
-    })
-    )
+    }).catch(e =>
+      showSnackbar({
+        text: e.message
+      })
+    );
   };
 
   handleUrlPress = url => {
@@ -253,7 +255,7 @@ class Card extends React.Component {
       } else {
         showSnackbar({
           text: "Don't know how to open URI: " + url
-        })
+        });
       }
     });
   };
@@ -296,7 +298,7 @@ class Card extends React.Component {
             <Text weight="Bold" style={styles.name}>
               {name}
             </Text>
-            {phoneNumbers.length > 0 && (
+            {phoneNumbers.length > 0 ? (
               <View>
                 <Text weight="Medium" style={styles.sectionTitle}>
                   {I18n.t("product_details_screen_connect_numbers")}
@@ -320,9 +322,11 @@ class Card extends React.Component {
                   ))}
                 </View>
               </View>
+            ) : (
+              <View />
             )}
 
-            {urls.length > 0 && (
+            {urls.length > 0 ? (
               <View>
                 <Text weight="Medium" style={styles.sectionTitle}>
                   {I18n.t("product_details_screen_connect_links")}
@@ -346,8 +350,10 @@ class Card extends React.Component {
                   ))}
                 </View>
               </View>
+            ) : (
+              <View />
             )}
-            {emails.length > 0 && (
+            {emails.length > 0 ? (
               <View>
                 <Text weight="Medium" style={styles.sectionTitle}>
                   {I18n.t("product_details_screen_connect_emails")}
@@ -371,6 +377,8 @@ class Card extends React.Component {
                   ))}
                 </View>
               </View>
+            ) : (
+              <View />
             )}
           </View>
         </View>

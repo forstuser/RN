@@ -55,7 +55,7 @@ class AmcDetails extends Component {
     return (
       <View>
         <Collapsible headerText={I18n.t("product_details_screen_amc_title")}>
-          {amcDetails.length > 0 && (
+          {amcDetails.length > 0 ? (
             <View>
               {amcDetails.map(amc => (
                 <View>
@@ -101,8 +101,7 @@ class AmcDetails extends Component {
                 </View>
               ))}
             </View>
-          )}
-          {amcDetails.length == 0 && (
+          ) : (
             <Text
               weight="Bold"
               style={{ textAlign: "center", padding: 16, color: "red" }}

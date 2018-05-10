@@ -128,8 +128,6 @@ class UploadProductImage extends React.Component {
 
   render() {
     const { isUploadingImage } = this.state;
-    if (!isUploadingImage) return null;
-
     return (
       <View>
         {isUploadingImage && (

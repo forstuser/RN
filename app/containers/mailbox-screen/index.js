@@ -71,7 +71,7 @@ class MailBox extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -188,7 +188,7 @@ class MailBox extends Component {
                 </Text>
               </View>
             </View>
-            {amount && <Text weight="Medium">{amount}</Text>}
+            {amount ? <Text weight="Medium">{amount}</Text> : <View />}
           </View>
         </View>
         <Text weight="Medium" style={styles.desc}>

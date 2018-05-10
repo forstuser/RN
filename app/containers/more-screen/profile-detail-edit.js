@@ -115,7 +115,7 @@ class ProfileDetailEdit extends Component {
             onChangeText={text => this.setState({ info: text })}
           />
         </View>
-        {this.props.info != this.state.info && (
+        {this.props.info != this.state.info ? (
           <View
             style={{
               width: 40,
@@ -132,6 +132,8 @@ class ProfileDetailEdit extends Component {
               </Text>
             </TouchableOpacity>
           </View>
+        ) : (
+          <View />
         )}
       </View>
       // </View>

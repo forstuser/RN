@@ -58,16 +58,6 @@ class ImportantTab extends Component {
           />
         )}
 
-        {/*[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
-          product.masterCategoryId
-        ) > -1 && (
-          <WarrantyDetails
-            warrantyType={WARRANTY_TYPES.DUAL}
-            product={product}
-            navigator={navigator}
-          />
-        )*/}
-
         {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
           product.masterCategoryId
         ) > -1 && (

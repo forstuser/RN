@@ -154,7 +154,7 @@ class Header extends Component {
 
     return (
       <View>
-        {profile && (
+        {profile ? (
           <TouchableOpacity
             disabled={isProfileVisible}
             style={[
@@ -220,6 +220,8 @@ class Header extends Component {
               </TouchableOpacity>
             )}
           </TouchableOpacity>
+        ) : (
+          <View />
         )}
       </View>
     );

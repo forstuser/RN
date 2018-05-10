@@ -48,7 +48,7 @@ class ForceUpdateScreen extends Component {
               style={styles.btn}
               text={I18n.t("add_edit_force_update_now")}
             />
-            {this.props.allowSkip && (
+            {this.props.allowSkip ? (
               <TouchableOpacity
                 style={styles.notNow}
                 onPress={() => this.props.navigator.dismissAllModals()}
@@ -57,6 +57,8 @@ class ForceUpdateScreen extends Component {
                   {I18n.t("add_edit_force_not_now")}
                 </Text>
               </TouchableOpacity>
+            ) : (
+              <View />
             )}
           </View>
         </View>
@@ -75,14 +77,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: 'center',
+    alignSelf: "center"
     // marginTop: 200
   },
   textContainer: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: 'center',
+    alignSelf: "center"
   },
   subTextContainer: {
     // flex: 1,
@@ -95,17 +97,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: 'center',
+    alignSelf: "center",
     marginBottom: 20
   },
   image: {
-    resizeMode: 'contain',
+    resizeMode: "contain",
     width: 300,
     height: 300
   },
   title: {
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 16
     // marginTop: 20
   },
   desc: {

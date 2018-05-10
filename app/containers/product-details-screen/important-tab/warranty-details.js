@@ -79,7 +79,7 @@ class WarrantyDetails extends Component {
                       }
                     />
 
-                    {warrantyType == WARRANTY_TYPES.EXTENDED && (
+                    {warrantyType == WARRANTY_TYPES.EXTENDED ? (
                       <KeyValueItem
                         keyText={I18n.t(
                           "product_details_screen_warranty_provider"
@@ -88,6 +88,8 @@ class WarrantyDetails extends Component {
                           warranty.provider ? warranty.provider.name : "-"
                         }
                       />
+                    ) : (
+                      <View />
                     )}
 
                     <ViewBillRow
