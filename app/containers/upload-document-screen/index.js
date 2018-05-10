@@ -148,7 +148,7 @@ class UploadDocumentScreen extends Component {
         files: [...this.state.files, file]
       },
       () => {
-        if (!this.props.hasUploadDocTourShown) {
+        if (!this.props.hasUploadDocTourShown && this.uploadDocTour) {
           setTimeout(() => this.uploadDocTour.startTour(), 1000);
           this.props.setUiHasUploadDocTourShown(true);
         }

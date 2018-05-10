@@ -7,7 +7,7 @@ import I18n from "../i18n";
 import { showSnackbar } from "./snackbar";
 
 import LoadingOverlay from "../components/loading-overlay";
-import { MAIN_CATEGORY_IDS } from "../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../constants";
 import { ScreenContainer, Text, Button } from "../elements";
 import ProductBasicDetailsForm from "../components/expense-forms/product-basic-details-form";
 import ExpenseBasicDetailsForm from "../components/expense-forms/expense-basic-details-form";
@@ -115,10 +115,21 @@ class EditProductBasicDetails extends React.Component {
           text: I18n.t("add_edit_product_basic_select_brand")
         });
       }
-    } else if (MAIN_CATEGORY_IDS.FURNITURE.FURNITURE == data.categoryId) {
-      if (!data.subCategoryId) {
+    } else if (MAIN_CATEGORY_IDS.FURNITURE == data.mainCategoryId) {
+      if (
+        CATEGORY_IDS.FURNITURE.FURNITURE == data.categoryId &&
+        !data.subCategoryId
+      ) {
         return showSnackbar({
           text: I18n.t("add_edit_product_basic_select_type")
+        });
+      } else if (
+        CATEGORY_IDS.FURNITURE.FURNITURE != data.categoryId &&
+        data.brandId === undefined &&
+        !data.brandName
+      ) {
+        return showSnackbar({
+          text: I18n.t("add_edit_product_basic_select_brand")
         });
       }
     } else if (!data.value) {

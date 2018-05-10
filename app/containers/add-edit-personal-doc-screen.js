@@ -328,7 +328,7 @@ class PersonalDoc extends React.Component {
               value={name}
               onChangeText={name => this.setState({ name })}
             />
-            {categoryId == 27 && (
+            {categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD && (
               <View style={{ width: "100%", marginBottom: 10 }}>
                 <CustomTextInput
                   placeholder={I18n.t("add_edit_personal_doc_business_name")}

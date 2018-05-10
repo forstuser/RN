@@ -232,6 +232,12 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  return {
+    isPinSet: state.loggedInUser.isPinSet
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     setLoggedInUserIsPinSet: newValue => {
@@ -240,4 +246,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(PinSetupScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(PinSetupScreen);

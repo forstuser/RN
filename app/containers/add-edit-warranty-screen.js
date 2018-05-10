@@ -111,6 +111,10 @@ class AddEditWarranty extends React.Component {
   onNavigatorEvent = event => {
     if (event.type == "NavBarButtonPress") {
       if (event.id == "backPress") {
+        let data = this.warrantyForm.getFilledData();
+        if (!data.renewalType && data.copies.length == 0) {
+          return this.props.navigator.pop();
+        }
         Alert.alert(
           I18n.t("add_edit_amc_are_you_sure"),
           I18n.t("add_edit_warranty_unsaved_info"),
@@ -199,9 +203,9 @@ class AddEditWarranty extends React.Component {
       });
     }
 
-    if (!data.renewalType) {
+    if (!data.renewalType && data.copies.length == 0) {
       return showSnackbar({
-        text: I18n.t("add_edit_warranty_uptoo")
+        text: "Please upload doc or select warranty upto"
       });
     }
 

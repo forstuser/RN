@@ -142,7 +142,7 @@ class CalendarServiceCard extends Component {
         break;
 
       case 1:
-        this.finishModal.show();
+        if (this.finishModal) this.finishModal.show();
     }
   };
 

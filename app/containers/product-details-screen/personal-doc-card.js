@@ -85,7 +85,7 @@ class PerosnalDocCard extends Component {
   };
 
   render() {
-    const { product } = this.props;
+    const { product, navigator } = this.props;
 
     let productName = product.productName;
     if (!productName) {
@@ -93,7 +93,7 @@ class PerosnalDocCard extends Component {
     }
 
     let seller = {
-      sellerName: "",
+      sellerName: "-",
       city: "",
       contact: "",
       email: "",
@@ -103,7 +103,7 @@ class PerosnalDocCard extends Component {
 
     if (product.sellers) {
       seller = {
-        sellerName: product.sellers.sellerName || "",
+        sellerName: product.sellers.sellerName || "-",
         city: product.sellers.city || "",
         state: product.sellers.state || "",
         contact: product.sellers.contact || "",

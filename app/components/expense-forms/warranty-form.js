@@ -129,7 +129,8 @@ class WarrantyForm extends React.Component {
       effectiveDate,
       selectedRenewalType,
       selectedProvider,
-      providerName
+      providerName,
+      copies
     } = this.state;
 
     let data = {
@@ -137,7 +138,8 @@ class WarrantyForm extends React.Component {
       effectiveDate: effectiveDate,
       renewalType: selectedRenewalType ? selectedRenewalType.id : null,
       providerId: selectedProvider ? selectedProvider.id : null,
-      providerName
+      providerName,
+      copies
     };
 
     return data;
