@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   },
   nameAndSeller: {
     paddingBottom: 10,
-    borderColor: colors.mainBlue,
+    borderColor: "#ececec",
     borderBottomWidth: StyleSheet.hairlineWidth,
     marginBottom: 4
   },
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
   serviceSchedule: {
     marginTop: 5,
     paddingTop: 10,
-    borderColor: "#00b2ff",
+    borderColor: "#ececec",
     borderTopWidth: StyleSheet.hairlineWidth
   }
 });

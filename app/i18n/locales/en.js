@@ -389,6 +389,7 @@ export default {
   product_details_screen_connect_warranty_provider: "WARRANTY PROVIDER",
   product_details_screen_connect_numbers: "Customer Care Numbers",
   product_details_screen_connect_links: "Request Service",
+  product_details_screen_brand_portal: "Brand Portal",
   product_details_screen_connect_emails: "Email ID",
   product_details_screen_asc_title: "NEAREST AUTHORISED SERVICE CENTRE",
   product_details_screen_asc_select_location: "Select your location",
@@ -655,7 +656,8 @@ export default {
     "Select Medical Document Type",
   add_edit_expense_screen_title_select_health_expense:
     "Select Healthcare Expense Category",
-  add_edit_expense_screen_title_select_personal_doc: "Select Personal Doc Type",
+  add_edit_expense_screen_title_select_personal_doc:
+    "Select Personal Document Type",
 
   //faqs
   faq_question_1: "What is BinBill?",

@@ -129,7 +129,9 @@ class SelectBrandStep extends React.Component {
     return (
       <Step
         title={`Select ${category.name} brand`}
-        subtitle="Required for customer care support"
+        subtitle={
+          mainCategoryId != 7 ? "Required for customer care support" : ""
+        }
         skippable={false}
         showLoader={isLoading}
         {...this.props}

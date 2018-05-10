@@ -160,13 +160,15 @@ class SelectServiceTypeStep extends React.Component {
                         styles.optionIconContainer,
                         isSelectedOption
                           ? styles.selectedOptionIconContainer
-                          : {}
+                          : styles.selectedOptionIconContainer
                       ]}
                     >
                       <Image
                         style={[
                           styles.optionIcon,
-                          isSelectedOption ? styles.selectedOptionIcon : {}
+                          isSelectedOption
+                            ? styles.selectedOptionIcon
+                            : styles.selectedOptionIcon
                         ]}
                         resizeMode="contain"
                         source={{
@@ -178,7 +180,9 @@ class SelectServiceTypeStep extends React.Component {
                       weight="Medium"
                       style={[
                         styles.optionName,
-                        isSelectedOption ? styles.selectedOptionName : {}
+                        isSelectedOption
+                          ? styles.selectedOptionName
+                          : styles.selectedOptionName
                       ]}
                     >
                       {option.name}

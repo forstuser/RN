@@ -290,7 +290,7 @@ class Attendance extends React.Component {
               /> */}
               <VerticalKeyValue
                 keyText={I18n.t("calendar_service_screen_total_amount")}
-                valueText={"₹ " + paymentDetail.total_amount}
+                valueText={"₹" + paymentDetail.total_amount}
               />
             </View>
           </View>

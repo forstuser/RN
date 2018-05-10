@@ -324,34 +324,6 @@ class Card extends React.Component {
             ) : (
               <View />
             )}
-
-            {urls.length > 0 ? (
-              <View>
-                <Text weight="Medium" style={styles.sectionTitle}>
-                  {I18n.t("product_details_screen_connect_links")}
-                </Text>
-                <View>
-                  {urls.map(url => (
-                    <TouchableOpacity
-                      key={url}
-                      onPress={() => this.handleUrlPress(url)}
-                      style={styles.item}
-                    >
-                      <Icon
-                        name="ios-globe-outline"
-                        size={15}
-                        color={colors.pinkishOrange}
-                      />
-                      <Text style={styles.itemText} weight="Medium">
-                        {url}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
-            ) : (
-              <View />
-            )}
             {emails.length > 0 ? (
               <View>
                 <Text weight="Medium" style={styles.sectionTitle}>
@@ -371,6 +343,33 @@ class Card extends React.Component {
                       />
                       <Text style={styles.itemText} weight="Medium">
                         {email}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+            ) : (
+              <View />
+            )}
+            {urls.length > 0 ? (
+              <View>
+                <Text weight="Medium" style={styles.sectionTitle}>
+                  {I18n.t("product_details_screen_brand_portal")}
+                </Text>
+                <View>
+                  {urls.map(url => (
+                    <TouchableOpacity
+                      key={url}
+                      onPress={() => this.handleUrlPress(url)}
+                      style={styles.item}
+                    >
+                      <Icon
+                        name="ios-globe-outline"
+                        size={15}
+                        color={colors.pinkishOrange}
+                      />
+                      <Text style={styles.itemText} weight="Medium">
+                        {url}
                       </Text>
                     </TouchableOpacity>
                   ))}
@@ -431,7 +430,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   itemText: {
-    fontSize: 12,
+    fontSize: 13,
     color: colors.secondaryText,
     marginLeft: 8
   }

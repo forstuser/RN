@@ -45,7 +45,7 @@ const ProductListItem = ({
           <Text style={styles.viewBillText}>
             VIEW{" "}
             {product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
-              product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS
+            product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS
               ? "DOC"
               : "BILL"}
           </Text>
@@ -61,7 +61,7 @@ const ProductListItem = ({
           <Text style={styles.viewBillText}>
             UPLOAD{" "}
             {product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
-              product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS
+            product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS
               ? "DOC"
               : "BILL"}
           </Text>
