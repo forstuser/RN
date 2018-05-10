@@ -43,7 +43,6 @@ class ShareModal extends React.Component {
     nameInput: "",
     ratings: null,
     feedbackText: "",
-    isImageLoading: true,
     isSavingName: false
   };
 
@@ -86,12 +85,6 @@ class ShareModal extends React.Component {
   hide = () => {
     this.setState({
       isModalVisible: false
-    });
-  };
-
-  hideLoader = () => {
-    this.setState({
-      isImageLoading: false
     });
   };
 
@@ -159,7 +152,6 @@ class ShareModal extends React.Component {
       isProductImageStepDone,
       ratings,
       feedbackText,
-      isImageLoading,
       isSavingName
     } = this.state;
     const { product, loggedInUser, onNewReview } = this.props;
@@ -168,22 +160,17 @@ class ShareModal extends React.Component {
     let productImageUrl, productImageResizeMode;
 
     if (isProductImageAvailable) {
-      productImageUrl =
-        API_BASE_URL +
-        `/consumer/products/${product.id}/images?t=${moment().format("X")}`;
+      productImageUrl = API_BASE_URL + product.cImageURL;
       productImageResizeMode = "cover";
     } else if (brand && brand.status_type == 1 && brand.id > 0) {
       productImageUrl = API_BASE_URL + "/" + brand.imageUrl;
       productImageResizeMode = "contain";
-    } else {
-      isImageLoading = false;
     }
 
     let userImageSource = userImagePlaceholder;
-    if (loggedInUser.imageName) {
+    if (loggedInUser.imageUrl) {
       userImageSource = {
-        uri: API_BASE_URL + `/consumer/${loggedInUser.id}/images`,
-        headers: { Authorization: loggedInUser.authToken }
+        uri: API_BASE_URL + loggedInUser.imageUrl
       };
     }
 
@@ -217,9 +204,7 @@ class ShareModal extends React.Component {
               avoidKeyboard={Platform.OS == "ios"}
             >
               <View style={styles.modal}>
-                <LoadingOverlay
-                  visible={isSavingName || (step == 4 && isImageLoading)}
-                />
+                <LoadingOverlay visible={isSavingName} />
                 {step < 4 && (
                   <View
                     style={{
@@ -329,8 +314,6 @@ class ShareModal extends React.Component {
                     >
                       {productImageUrl ? (
                         <Image
-                          onLoad={this.hideLoader}
-                          onError={this.hideLoader}
                           resizeMode={productImageResizeMode}
                           style={[
                             styles.productImage,
@@ -530,7 +513,8 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    overflow: "hidden"
+    overflow: "hidden",
+    backgroundColor: "#eee"
   },
   userName: {
     // marginVertical: 7

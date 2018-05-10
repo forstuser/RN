@@ -215,7 +215,12 @@ class PinSetupScreen extends React.Component {
                   onSubmitPress={this.showRetryPin}
                 />
               ) : (
+                <View />
+              )}
+              {showRetryPin ? (
                 <PinInput title="Confirm App PIN" onSubmitPress={this.setPin} />
+              ) : (
+                <View />
               )}
             </View>
           )}

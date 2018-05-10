@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import FastImage from "react-native-fast-image";
+import PhotoView from "react-native-photo-view";
 import { isImageFileType } from "../utils";
 
 import store from "../store";
 import Text from "./text";
 
 import brokenImageIcon from "../images/broken_image.png";
+import { colors } from "../theme";
 const fileIcon = require("../images/ic_file.png");
 
 class Image extends Component {
@@ -18,7 +20,16 @@ class Image extends Component {
     };
   }
 
+  componentDidMount() {
+    // if (this.props.source && !this.props.source.uri) {
+    //   this.setState({
+    //     isLoading: false
+    //   });
+    // }
+  }
+
   render() {
+    let { source, fileType, style, fileStyle, usePhotoView } = this.props;
     let headers = {
       Authorization: ""
     };
@@ -27,27 +38,40 @@ class Image extends Component {
       headers.Authorization = token;
     }
 
-    let source = this.props.source;
-    if (this.props.source && this.props.source.uri) {
+    if (source && source.uri) {
       source = {
-        uri: this.props.source.uri,
-        headers: headers
+        ...source,
+        headers
       };
     }
 
-    if (!this.props.fileType || isImageFileType(this.props.fileType)) {
+    if (!fileType || isImageFileType(fileType)) {
       return (
-        <View style={[styles.container, this.props.style]}>
-          <View style={styles.loader}>
-            <ActivityIndicator size="small" animating={this.state.isLoading} />
-          </View>
-          <FastImage
-            onLoadEnd={() => this.setState({ isLoading: false })}
-            onError={() => this.setState({ error: true })}
-            style={styles.image}
-            source={source}
-            {...this.props}
-          />
+        <View style={[styles.container, style]}>
+          {usePhotoView ? (
+            <PhotoView
+              onLoadEnd={() => this.setState({ isLoading: false })}
+              onError={() => this.setState({ error: true })}
+              style={styles.image}
+              source={source}
+              {...this.props}
+            />
+          ) : (
+            <FastImage
+              onLoadEnd={() => this.setState({ isLoading: false })}
+              onError={() => this.setState({ error: true })}
+              style={styles.image}
+              source={source}
+              {...this.props}
+            />
+          )}
+          {this.state.isLoading ? (
+            <View style={styles.loader}>
+              <ActivityIndicator size="small" color={colors.mainBlue} />
+            </View>
+          ) : (
+            <View />
+          )}
           {this.state.error ? (
             <View style={styles.errorImageContainer}>
               <FastImage
@@ -64,7 +88,7 @@ class Image extends Component {
     } else {
       return (
         <Image
-          style={[this.props.style, this.props.fileStyle]}
+          style={[this.props.style, fileStyle]}
           source={fileIcon}
           {...this.props}
         />

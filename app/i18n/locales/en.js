@@ -839,6 +839,7 @@ export default {
     "Document Uploaded, Provide further details to complete the process",
   add_edit_direct_category: "Select Category",
   add_edit_direct_subcategory: "Select Sub-Category",
+  add_edit_direct_insurance_provider: "Select Insurance Provider",
   add_edit_direct_type: "Select Type",
   add_edit_direct_brand: "Select Brand",
   add_edit_direct_model: "Select Model",

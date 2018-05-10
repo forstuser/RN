@@ -3,7 +3,8 @@ import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from "react-native";
 
 import moment from "moment";
@@ -13,18 +14,21 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { Text, Button } from "../elements";
 import { colors } from "../theme";
 
+const YEAR_ITEM_HEIGHT = 50;
 class DatePickerRn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      yearAndMonth: moment(this.props.activeDate).format("YYYY-MM")
+      yearAndMonth: moment(this.props.activeDate).format("YYYY-MM"),
+      currentView: "days",
+      years: []
     };
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({
       yearAndMonth: moment(newProps.activeDate).format("YYYY-MM")
-    })
+    });
   }
 
   previousMonth = () => {
@@ -46,14 +50,47 @@ class DatePickerRn extends React.Component {
   onDatePress = (date, isOutOfRange) => {
     if (isOutOfRange) return;
     const { onSelectDate } = this.props;
-    if (typeof onSelectDate == 'function') {
+    if (typeof onSelectDate == "function") {
       onSelectDate(date);
     }
-  }
+  };
+
+  showSelectMonthView = () => {
+    this.setState({ currentView: "months" });
+  };
+
+  showSelectYearView = () => {
+    const years = _.range(
+      1900,
+      moment()
+        .add(1, "years")
+        .format("YYYY")
+    );
+    this.setState(
+      {
+        currentView: "years",
+        years
+      },
+      () => {
+        setTimeout(() => {
+          this.yearList.scrollToEnd({
+            animated: false
+          });
+        }, 200);
+      }
+    );
+  };
+
+  selectYear = year => {
+    this.setState({
+      yearAndMonth: year + "-" + this.state.yearAndMonth.split("-")[1],
+      currentView: "days"
+    });
+  };
 
   render() {
     const { activeDate, maxDate, minDate } = this.props;
-    const { yearAndMonth } = this.state;
+    const { yearAndMonth, currentView, years } = this.state;
 
     const maxDateMoment = maxDate ? moment(maxDate) : null;
     const minDateMoment = minDate ? moment(minDate) : null;
@@ -69,12 +106,11 @@ class DatePickerRn extends React.Component {
       .format("e");
 
     if (firstWeekDayOfMonth > 0) {
-      const previousMonthMoment = moment(yearAndMonth)
-        .subtract(1, "months");
+      const previousMonthMoment = moment(yearAndMonth).subtract(1, "months");
 
       const daysInPreviousMonth = previousMonthMoment.daysInMonth();
 
-      const previousMonthYearAndMonth = previousMonthMoment.format('YYYY-MM');
+      const previousMonthYearAndMonth = previousMonthMoment.format("YYYY-MM");
       const daysFromPreviousMonth = [];
       for (
         let i = daysInPreviousMonth - firstWeekDayOfMonth + 1;
@@ -96,12 +132,11 @@ class DatePickerRn extends React.Component {
 
     const daysFromNextMonth = 6 - lastWeekDayOfMonth;
     if (daysFromNextMonth > 0) {
-      const nextMonthMoment = moment(yearAndMonth)
-        .add(1, "months")
+      const nextMonthMoment = moment(yearAndMonth).add(1, "months");
 
       const daysInNextMonth = nextMonthMoment.daysInMonth();
 
-      const nextMonthYearAndMonth = nextMonthMoment.format('YYYY-MM');
+      const nextMonthYearAndMonth = nextMonthMoment.format("YYYY-MM");
       for (let i = 1; i <= daysFromNextMonth; i++) {
         days.push({
           date: i,
@@ -113,8 +148,6 @@ class DatePickerRn extends React.Component {
 
     const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-
-    console.log('activeDate: ', activeDate)
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -126,12 +159,20 @@ class DatePickerRn extends React.Component {
             </View>
           </TouchableWithoutFeedback>
           <View style={[styles.activeMonthAndYear]}>
-            <Text weight="Bold" style={styles.activeMonthText}>
+            <Text
+              weight="Bold"
+              style={styles.activeMonthText}
+              onPress={this.showSelectMonthView}
+            >
               {moment(yearAndMonth)
                 .format("MMMM")
                 .toUpperCase()}
             </Text>
-            <Text weight="Bold" style={styles.activeMonthText}>
+            <Text
+              weight="Bold"
+              style={styles.activeMonthText}
+              onPress={this.showSelectYearView}
+            >
               {moment(yearAndMonth).format("YYYY")}
             </Text>
           </View>
@@ -147,44 +188,102 @@ class DatePickerRn extends React.Component {
             </View>
           </TouchableWithoutFeedback>
         </View>
-        <View style={styles.month}>
-          <View style={styles.week}>
-            {weekDays.map(weekday => (
-              <View key={weekday} style={[styles.day, styles.weekday]}>
-                <Text weight="Bold" style={styles.dayText}>
-                  {weekday}
-                </Text>
+        {currentView == "days" ? (
+          <View style={styles.month}>
+            <View style={styles.week}>
+              {weekDays.map(weekday => (
+                <View key={weekday} style={[styles.day, styles.weekday]}>
+                  <Text weight="Bold" style={styles.dayText}>
+                    {weekday}
+                  </Text>
+                </View>
+              ))}
+            </View>
+            {_.chunk(days, 7).map((week, index) => (
+              <View key={index} style={styles.week}>
+                {week.map(day => {
+                  let isOutOfRange = false;
+                  const momentDate = moment(day.isoDate);
+                  if (
+                    (maxDate && momentDate.isAfter(moment(maxDate))) ||
+                    (minDate && momentDate.isBefore(moment(minDate)))
+                  ) {
+                    isOutOfRange = true;
+                  }
+                  return (
+                    <TouchableWithoutFeedback
+                      onPress={() =>
+                        this.onDatePress(day.isoDate, isOutOfRange)
+                      }
+                    >
+                      <View
+                        style={[
+                          styles.day,
+                          moment(day.isoDate).isSame(activeDate)
+                            ? styles.activeDate
+                            : {}
+                        ]}
+                      >
+                        <Text
+                          weight={
+                            day.isAdjacentMonthDay || isOutOfRange
+                              ? "Bold"
+                              : "Medium"
+                          }
+                          style={[
+                            styles.dayText,
+                            day.isAdjacentMonthDay || isOutOfRange
+                              ? styles.unavailableDay
+                              : {},
+                            momentDate.isSame(activeDate)
+                              ? styles.activeDateText
+                              : {}
+                          ]}
+                        >
+                          {day.date}
+                        </Text>
+                      </View>
+                    </TouchableWithoutFeedback>
+                  );
+                })}
               </View>
             ))}
           </View>
-          {_.chunk(days, 7).map((week, index) => (
-            <View key={index} style={styles.week}>
-              {week.map(day => {
-                let isOutOfRange = false;
-                const momentDate = moment(day.isoDate);
-                if ((maxDate && momentDate.isAfter(moment(maxDate))) || (minDate && momentDate.isBefore(moment(minDate)))) {
-                  isOutOfRange = true;
-                }
+        ) : (
+          <View />
+        )}
+        {currentView == "years" ? (
+          <View style={styles.month}>
+            <ScrollView
+              ref={ref => (this.yearList = ref)}
+              style={styles.yearList}
+            >
+              {years.map(year => {
+                const isActiveYear =
+                  year == moment(yearAndMonth).format("YYYY");
                 return (
-                  <TouchableWithoutFeedback onPress={() => this.onDatePress(day.isoDate, isOutOfRange)}>
-                    <View style={[styles.day, moment(day.isoDate).isSame(activeDate) ? styles.activeDate : {}]}>
-                      <Text
-                        weight={day.isAdjacentMonthDay || isOutOfRange ? "Bold" : "Medium"}
-                        style={[
-                          styles.dayText,
-                          day.isAdjacentMonthDay || isOutOfRange ? styles.unavailableDay : {},
-                          momentDate.isSame(activeDate) ? styles.activeDateText : {}
-                        ]}
-                      >
-                        {day.date}
-                      </Text>
-                    </View>
-                  </TouchableWithoutFeedback>
+                  <TouchableOpacity
+                    key={year}
+                    style={styles.yearItem}
+                    onPress={() => this.selectYear(year)}
+                  >
+                    <Text
+                      weight="Bold"
+                      style={[
+                        styles.yearItemText,
+                        isActiveYear ? styles.activeYearItemText : {}
+                      ]}
+                    >
+                      {year}
+                    </Text>
+                  </TouchableOpacity>
                 );
               })}
-            </View>
-          ))}
-        </View>
+            </ScrollView>
+          </View>
+        ) : (
+          <View />
+        )}
       </View>
     );
   }
@@ -195,7 +294,14 @@ const styles = StyleSheet.create({
     flex: 1
   },
   header: {
-    flexDirection: "row"
+    flexDirection: "row",
+    borderColor: colors.lighterText,
+    borderBottomWidth: 1
+  },
+  yearList: {
+    borderColor: colors.lighterText,
+    borderBottomWidth: 1,
+    marginBottom: 65
   },
   adjacentMonth: {
     width: 60,
@@ -214,10 +320,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     margin: 10
   },
-  month: {
-    borderColor: colors.lighterText,
-    borderWidth: 1
-  },
+  month: {},
   week: {
     flexDirection: "row"
   },
@@ -227,7 +330,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderColor: colors.lighterText,
-    borderWidth: 1
+    borderRadius: 5
   },
   dayText: {
     color: "#000"
@@ -236,10 +339,18 @@ const styles = StyleSheet.create({
     color: colors.secondaryText
   },
   activeDate: {
-    backgroundColor: colors.mainBlue,
+    backgroundColor: colors.mainBlue
   },
   activeDateText: {
-    color: '#fff'
+    color: "#fff"
+  },
+  yearItem: {
+    height: YEAR_ITEM_HEIGHT,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  activeYearItemText: {
+    color: colors.mainBlue
   }
 });
 

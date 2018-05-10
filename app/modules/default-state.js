@@ -7,7 +7,7 @@ export default {
     id: null,
     name: null,
     phone: null,
-    imageName: null,
+    imageUrl: null,
     isPinSet: false,
     codepushDeploymentStaging: false,
     latestDoYouKnowReadId: 0

@@ -1,7 +1,9 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import RNFetchBlob from "react-native-fetch-blob";
+import moment from "moment";
 import Icon from "react-native-vector-icons/dist/Ionicons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Modal from "react-native-modal";
 import I18n from "../i18n";
 import { showSnackbar } from "./snackbar";
@@ -43,6 +45,7 @@ class DirectUploadDocumentScreen extends React.Component {
       mainCategories: [],
       categories: [],
       subCategories: [],
+      insuranceProviders: [],
       brands: [],
       models: [],
       selectedMainCategory: null,
@@ -52,6 +55,8 @@ class DirectUploadDocumentScreen extends React.Component {
       selectedModel: null,
       brandName: "",
       modelName: "",
+      selectedInsuranceProvider: null,
+      providerName: "",
       isLoading: true,
       isFetchingCategories: true,
       productId: null,
@@ -134,7 +139,9 @@ class DirectUploadDocumentScreen extends React.Component {
       selectedBrand: null,
       selectedModel: null,
       brandName: "",
-      modelName: ""
+      modelName: "",
+      selectedInsuranceProvider: null,
+      providerName: ""
     });
   };
 
@@ -155,7 +162,9 @@ class DirectUploadDocumentScreen extends React.Component {
         selectedBrand: null,
         selectedModel: null,
         brandName: "",
-        modelName: ""
+        modelName: "",
+        selectedInsuranceProvider: null,
+        providerName: ""
       },
       () => {
         this.fetchBrandsAndSubCategories();
@@ -171,6 +180,7 @@ class DirectUploadDocumentScreen extends React.Component {
         );
         this.setState({
           subCategories: res.categories[0].subCategories,
+          insuranceProviders: res.categories[0].insuranceProviders,
           brands: res.categories[0].brands
         });
       } catch (e) {
@@ -190,6 +200,25 @@ class DirectUploadDocumentScreen extends React.Component {
     }
     this.setState({
       selectedSubCategory: subCategory
+    });
+  };
+
+  onInsuranceProviderSelect = insuranceProvider => {
+    if (
+      this.state.selectedInsuranceProvider &&
+      this.state.insuranceProvider.id == insuranceProvider.id
+    ) {
+      return;
+    }
+    this.setState({
+      selectedInsuranceProvider: insuranceProvider
+    });
+  };
+
+  onProviderNameChange = text => {
+    this.setState({
+      providerName: text,
+      selectedInsuranceProvider: null
     });
   };
 
@@ -260,8 +289,10 @@ class DirectUploadDocumentScreen extends React.Component {
       selectedSubCategory,
       selectedBrand,
       selectedModel,
+      selectedInsuranceProvider,
       brandName,
       modelName,
+      providerName,
       productId
     } = this.state;
 
@@ -277,7 +308,8 @@ class DirectUploadDocumentScreen extends React.Component {
         MAIN_CATEGORY_IDS.ELECTRONICS,
         MAIN_CATEGORY_IDS.FASHION
       ].indexOf(selectedMainCategory.id) > -1 &&
-      !selectedBrand
+      !selectedBrand &&
+      !brandName
     ) {
       return showSnackbar({
         text: "Please select brand"
@@ -293,6 +325,22 @@ class DirectUploadDocumentScreen extends React.Component {
       });
     }
 
+    let insurance;
+    if (selectedCategory.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
+      if (!selectedInsuranceProvider && !providerName) {
+        return showSnackbar({
+          text: "Please select or add insurance provider"
+        });
+      }
+      insurance = {
+        effectiveDate: moment().format("YYYY-MM-DD"),
+        providerId: selectedInsuranceProvider
+          ? selectedInsuranceProvider.id
+          : null,
+        providerName: providerName
+      };
+    }
+
     this.setState({
       isLoading: true
     });
@@ -306,7 +354,8 @@ class DirectUploadDocumentScreen extends React.Component {
       brandId: selectedBrand ? selectedBrand.id : undefined,
       brandName: brandName,
       model: selectedModel ? selectedModel.title : modelName,
-      isNewModel: selectedModel ? false : true
+      isNewModel: selectedModel ? false : true,
+      insurance
     });
 
     this.setState({
@@ -358,6 +407,7 @@ class DirectUploadDocumentScreen extends React.Component {
       mainCategories,
       categories,
       subCategories,
+      insuranceProviders,
       brands,
       models,
       selectedSubCategory,
@@ -365,6 +415,8 @@ class DirectUploadDocumentScreen extends React.Component {
       selectedCategory,
       selectedBrand,
       selectedModel,
+      selectedInsuranceProvider,
+      providerName,
       brandName,
       modelName,
       isFetchingCategories,
@@ -374,171 +426,212 @@ class DirectUploadDocumentScreen extends React.Component {
     // if (!isFinishModalVisible) return null;
     return (
       <ScreenContainer style={styles.container}>
+        <KeyboardAwareScrollView
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          contentContainerStyle={styles.innerContainer}
+        >
+          <Image style={styles.illustration} source={uploadDocIllustration} />
+          <View style={styles.steps}>
+            <View style={[styles.step, styles.firstStep]}>
+              <View weight="Bold" style={styles.tick}>
+                <Icon name="md-checkmark" size={20} color="#fff" />
+              </View>
+            </View>
+            <View style={styles.stepLine} />
+            <View style={[styles.step, styles.firstStep]}>
+              <Text weight="Bold" style={styles.stepText}>
+                2
+              </Text>
+            </View>
+          </View>
+          <Text weight="Bold" style={styles.mainText}>
+            {I18n.t("add_edit_direct_upload_docs")}
+          </Text>
+          <SelectModal
+            // style={styles.input}
+            dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+            placeholder={I18n.t("add_edit_direct_category")}
+            placeholderRenderer={({ placeholder }) => (
+              <View style={{ flexDirection: "row" }}>
+                <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                  {placeholder}
+                </Text>
+              </View>
+            )}
+            selectedOption={selectedMainCategory}
+            options={mainCategories}
+            onOptionSelect={value => {
+              this.onMainCategorySelect(value);
+            }}
+            hideAddNew={true}
+          />
+          <SelectModal
+            // style={styles.input}
+            dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+            placeholder={I18n.t("add_edit_direct_subcategory")}
+            placeholderRenderer={({ placeholder }) => (
+              <View style={{ flexDirection: "row" }}>
+                <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                  {placeholder}
+                </Text>
+              </View>
+            )}
+            selectedOption={selectedCategory}
+            options={categories}
+            beforeModalOpen={() => {
+              if (selectedMainCategory) {
+                return true;
+              }
+              showSnackbar({
+                text: I18n.t("add_edit_direct_select_main_category_first")
+              });
+              return false;
+            }}
+            onOptionSelect={value => {
+              this.onCategorySelect(value);
+            }}
+            hideAddNew={true}
+          />
+
+          {selectedCategory &&
+            selectedCategory.id == CATEGORY_IDS.FURNITURE.FURNITURE && (
+              <SelectModal
+                // style={styles.input}
+                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                placeholder={I18n.t("add_edit_direct_type")}
+                placeholderRenderer={({ placeholder }) => (
+                  <View style={{ flexDirection: "row" }}>
+                    <Text
+                      weight="Medium"
+                      style={{ color: colors.secondaryText }}
+                    >
+                      {placeholder}
+                    </Text>
+                  </View>
+                )}
+                selectedOption={selectedSubCategory}
+                options={subCategories}
+                onOptionSelect={value => {
+                  this.onSubCategorySelect(value);
+                }}
+                hideAddNew={true}
+              />
+            )}
+
+          {selectedMainCategory &&
+            [
+              MAIN_CATEGORY_IDS.AUTOMOBILE,
+              MAIN_CATEGORY_IDS.ELECTRONICS,
+              MAIN_CATEGORY_IDS.FURNITURE,
+              MAIN_CATEGORY_IDS.FASHION
+            ].indexOf(selectedMainCategory.id) > -1 && (
+              <SelectModal
+                // style={styles.input}
+                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                placeholder={I18n.t("add_edit_direct_brand")}
+                placeholderRenderer={({ placeholder }) => (
+                  <View style={{ flexDirection: "row" }}>
+                    <Text
+                      weight="Medium"
+                      style={{ color: colors.secondaryText }}
+                    >
+                      {placeholder}
+                    </Text>
+                  </View>
+                )}
+                selectedOption={selectedBrand}
+                textInputValue={brandName}
+                options={brands}
+                beforeModalOpen={() => {
+                  if (selectedCategory) {
+                    return true;
+                  }
+                  showSnackbar({
+                    text: I18n.t("add_edit_direct_select_category_first")
+                  });
+                  return false;
+                }}
+                onOptionSelect={value => {
+                  this.onBrandSelect(value);
+                }}
+                onTextInputChange={text => this.onBrandNameChange(text)}
+              />
+            )}
+          {selectedMainCategory &&
+            [
+              MAIN_CATEGORY_IDS.AUTOMOBILE,
+              MAIN_CATEGORY_IDS.ELECTRONICS
+            ].indexOf(selectedMainCategory.id) > -1 && (
+              <SelectModal
+                // style={styles.input}
+                visibleKey="title"
+                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                placeholder={I18n.t("add_edit_direct_model")}
+                placeholderRenderer={({ placeholder }) => (
+                  <View style={{ flexDirection: "row" }}>
+                    <Text
+                      weight="Medium"
+                      style={{ color: colors.secondaryText }}
+                    >
+                      {placeholder}
+                    </Text>
+                  </View>
+                )}
+                options={models}
+                beforeModalOpen={() => {
+                  if (selectedBrand || brandName) {
+                    return true;
+                  }
+                  showSnackbar({
+                    text: I18n.t("add_edit_direct_select_brand_first")
+                  });
+                  return false;
+                }}
+                selectedOption={selectedModel}
+                textInputValue={modelName}
+                onOptionSelect={value => {
+                  this.onModelSelect(value);
+                }}
+                onTextInputChange={text => this.setState({ modelName: text })}
+              />
+            )}
+
+          {selectedCategory &&
+            selectedCategory.id == CATEGORY_IDS.HEALTHCARE.INSURANCE && (
+              <SelectModal
+                // style={styles.input}
+                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                placeholder={I18n.t("add_edit_direct_insurance_provider")}
+                placeholderRenderer={({ placeholder }) => (
+                  <View style={{ flexDirection: "row" }}>
+                    <Text
+                      weight="Medium"
+                      style={{ color: colors.secondaryText }}
+                    >
+                      {placeholder}
+                    </Text>
+                  </View>
+                )}
+                selectedOption={selectedInsuranceProvider}
+                textInputValue={providerName}
+                options={insuranceProviders}
+                onOptionSelect={value => {
+                  this.onInsuranceProviderSelect(value);
+                }}
+                onTextInputChange={text => this.onProviderNameChange(text)}
+              />
+            )}
+          <Button
+            onPress={this.updateProduct}
+            text={I18n.t("add_edit_direct_add_docs")}
+            color="secondary"
+            style={{ width: 300, marginTop: 20 }}
+          />
+        </KeyboardAwareScrollView>
         <LoadingOverlay visible={isFetchingCategories || isLoading} />
         <TouchableOpacity onPress={this.onCrossPress} style={styles.closeBtn}>
           <Icon name="md-close" size={30} color={colors.mainText} />
         </TouchableOpacity>
-        <Image style={styles.illustration} source={uploadDocIllustration} />
-        <View style={styles.steps}>
-          <View style={[styles.step, styles.firstStep]}>
-            <View weight="Bold" style={styles.tick}>
-              <Icon name="md-checkmark" size={20} color="#fff" />
-            </View>
-          </View>
-          <View style={styles.stepLine} />
-          <View style={[styles.step, styles.firstStep]}>
-            <Text weight="Bold" style={styles.stepText}>
-              2
-            </Text>
-          </View>
-        </View>
-        <Text weight="Bold" style={styles.mainText}>
-          {I18n.t("add_edit_direct_upload_docs")}
-        </Text>
-        <SelectModal
-          // style={styles.input}
-          dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-          placeholder={I18n.t("add_edit_direct_category")}
-          placeholderRenderer={({ placeholder }) => (
-            <View style={{ flexDirection: "row" }}>
-              <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                {placeholder}
-              </Text>
-            </View>
-          )}
-          selectedOption={selectedMainCategory}
-          options={mainCategories}
-          onOptionSelect={value => {
-            this.onMainCategorySelect(value);
-          }}
-          hideAddNew={true}
-        />
-        <SelectModal
-          // style={styles.input}
-          dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-          placeholder={I18n.t("add_edit_direct_subcategory")}
-          placeholderRenderer={({ placeholder }) => (
-            <View style={{ flexDirection: "row" }}>
-              <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                {placeholder}
-              </Text>
-            </View>
-          )}
-          selectedOption={selectedCategory}
-          options={categories}
-          beforeModalOpen={() => {
-            if (selectedMainCategory) {
-              return true;
-            }
-            showSnackbar({
-              text: I18n.t("add_edit_direct_select_main_category_first")
-            });
-            return false;
-          }}
-          onOptionSelect={value => {
-            this.onCategorySelect(value);
-          }}
-          hideAddNew={true}
-        />
-
-        {selectedCategory &&
-          selectedCategory.id == CATEGORY_IDS.FURNITURE.FURNITURE && (
-            <SelectModal
-              // style={styles.input}
-              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder={I18n.t("add_edit_direct_type")}
-              placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
-                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                    {placeholder}
-                  </Text>
-                </View>
-              )}
-              selectedOption={selectedSubCategory}
-              options={subCategories}
-              onOptionSelect={value => {
-                this.onSubCategorySelect(value);
-              }}
-              hideAddNew={true}
-            />
-          )}
-
-        {selectedMainCategory &&
-          [
-            MAIN_CATEGORY_IDS.AUTOMOBILE,
-            MAIN_CATEGORY_IDS.ELECTRONICS,
-            MAIN_CATEGORY_IDS.FURNITURE,
-            MAIN_CATEGORY_IDS.FASHION
-          ].indexOf(selectedMainCategory.id) > -1 && (
-            <SelectModal
-              // style={styles.input}
-              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder={I18n.t("add_edit_direct_brand")}
-              placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
-                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                    {placeholder}
-                  </Text>
-                </View>
-              )}
-              selectedOption={selectedBrand}
-              textInputValue={brandName}
-              options={brands}
-              beforeModalOpen={() => {
-                if (selectedCategory) {
-                  return true;
-                }
-                showSnackbar({
-                  text: I18n.t("add_edit_direct_select_category_first")
-                });
-                return false;
-              }}
-              onOptionSelect={value => {
-                this.onBrandSelect(value);
-              }}
-              onTextInputChange={text => this.onBrandNameChange(text)}
-            />
-          )}
-        {selectedMainCategory &&
-          [MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
-            selectedMainCategory.id
-          ) > -1 && (
-            <SelectModal
-              // style={styles.input}
-              visibleKey="title"
-              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder={I18n.t("add_edit_direct_model")}
-              placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
-                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                    {placeholder}
-                  </Text>
-                </View>
-              )}
-              options={models}
-              beforeModalOpen={() => {
-                if (selectedBrand || brandName) {
-                  return true;
-                }
-                showSnackbar({
-                  text: I18n.t("add_edit_direct_select_brand_first")
-                });
-                return false;
-              }}
-              selectedOption={selectedModel}
-              textInputValue={modelName}
-              onOptionSelect={value => {
-                this.onModelSelect(value);
-              }}
-              onTextInputChange={text => this.setState({ modelName: text })}
-            />
-          )}
-        <Button
-          onPress={this.updateProduct}
-          text={I18n.t("add_edit_direct_add_docs")}
-          color="secondary"
-          style={{ width: 300, marginTop: 20 }}
-        />
         {isFinishModalVisible ? (
           <View>
             <Modal useNativeDriver={true} isVisible={true}>
@@ -583,8 +676,15 @@ class DirectUploadDocumentScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    padding: 0,
     alignItems: "center",
     justifyContent: "center"
+  },
+  innerContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+    flex: 1
   },
   closeBtn: {
     position: "absolute",

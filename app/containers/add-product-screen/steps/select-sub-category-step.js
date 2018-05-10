@@ -9,7 +9,11 @@ import {
   Alert
 } from "react-native";
 import I18n from "../../../i18n";
-import { API_BASE_URL, updateProduct, getReferenceDatasubCategorys } from "../../../api";
+import {
+  API_BASE_URL,
+  updateProduct,
+  getReferenceDatasubCategorys
+} from "../../../api";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
@@ -32,10 +36,15 @@ class SelectSubCategoryStep extends React.Component {
   }
 
   onSelectSubCategory = async subCategory => {
-    const { mainCategoryId, category, product, onSubCategoryStepDone } = this.props;
+    const {
+      mainCategoryId,
+      category,
+      product,
+      onSubCategoryStepDone
+    } = this.props;
     this.setState({
       isLoading: true
-    })
+    });
     try {
       const res = await updateProduct({
         mainCategoryId: mainCategoryId,
@@ -52,10 +61,9 @@ class SelectSubCategoryStep extends React.Component {
     } finally {
       this.setState({
         isLoading: false
-      })
+      });
     }
   };
-
 
   render() {
     const { subCategories, isLoading } = this.state;
@@ -69,10 +77,14 @@ class SelectSubCategoryStep extends React.Component {
         {...this.props}
       >
         <SelectOrCreateItem
-          items={subCategories}
+          items={subCategories.map(subCategory => ({
+            ...subCategory,
+            image: API_BASE_URL + subCategory.categoryImageUrl
+          }))}
           onSelectItem={this.onSelectSubCategory}
           hideAddNew={true}
           hideSearch={category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC}
+          imageKey="image"
         />
       </Step>
     );

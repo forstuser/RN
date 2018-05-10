@@ -10,7 +10,7 @@ import {
   Dimensions
 } from "react-native";
 import moment from "moment";
-import PhotoView from "react-native-photo-view";
+
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import RNFetchBlob from "react-native-fetch-blob";
 import Share from "react-native-share";
@@ -19,7 +19,7 @@ import { API_BASE_URL } from "../../api";
 import { isImageFileType, getMimeTypeByExtension } from "../../utils";
 import { showSnackbar, hideSnackbar } from "../snackbar";
 import I18n from "../../i18n";
-import ImageZoom from 'react-native-image-pan-zoom';
+import ImageZoom from "react-native-image-pan-zoom";
 
 const fileIcon = require("../../images/ic_file.png");
 const billDownloadIcon = require("../../images/ic_bill_download.png");
@@ -108,14 +108,12 @@ const BillCopyItem = ({
         //   fileType={copy.file_type || copy.fileType}
         //   uri={API_BASE_URL + "/" + copy.copyUrl}
         // />
-        <ImageZoom
-          cropWidth={Dimensions.get('window').width}
-          cropHeight={Dimensions.get('window').height}>
-          imageWidth={200}
-          imageHeight={200} >
-          <Image style={styles.billImage}
-            source={{ uri: API_BASE_URL + "/" + copy.copyUrl }} />
-        </ImageZoom>
+        <Image
+          usePhotoView={true}
+          style={styles.billImage}
+          source={{ uri: API_BASE_URL + "/" + copy.copyUrl }}
+          resizeMode="contain"
+        />
       )}
       {!isImageFileType(copy.file_type || copy.fileType) && (
         <View style={styles.file}>
