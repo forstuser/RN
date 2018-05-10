@@ -213,8 +213,8 @@ class SelectServiceTypeStep extends React.Component {
                 </Text>
               </View>
             ) : (
-              <View />
-            )}
+                <View />
+              )}
 
             <TouchableWithoutFeedback
               onPress={() => this.otherOptionsModal.openModal()}
@@ -246,7 +246,7 @@ class SelectServiceTypeStep extends React.Component {
               - Know your monthly payouts -
             </Text>
             <Text style={styles.reasons} weight="Medium">
-              - your total outstanding payments -
+              - Your total outstanding payments -
             </Text>
             <Text style={styles.reasons} weight="Medium">
               - Track your daily household expenses -

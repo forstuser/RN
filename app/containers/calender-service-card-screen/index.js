@@ -299,14 +299,14 @@ class CalendarServiceCard extends Component {
             </View>
           </ScrollView>
         ) : (
-          <View />
-        )}
+            <View />
+          )}
         <LoadingOverlay visible={isLoading} />
         <ActionSheet
           onPress={this.handleEditOptionPress}
           ref={o => (this.editOptions = o)}
           cancelButtonIndex={2}
-          options={["Delete", "Finish", "Cancel"]}
+          options={["Delete", "End", "Cancel"]}
         />
         {item ? (
           <FinishModal
@@ -315,8 +315,8 @@ class CalendarServiceCard extends Component {
             ref={ref => (this.finishModal = ref)}
           />
         ) : (
-          <View />
-        )}
+            <View />
+          )}
       </View>
     );
   }

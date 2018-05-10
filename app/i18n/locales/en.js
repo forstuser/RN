@@ -217,7 +217,7 @@ export default {
   products_list_no_result_desc_other_household:
     "Looks like you have no expense added in Other Household section",
   products_list_no_result_desc_others:
-    "Any other document will appear under this section after you upload them",
+    "Any other document will appear under this section after you upload it",
   products_list_no_result_desc_personal:
     "Add your personal documents like Educational certificates here",
   products_list_no_result_desc_visiting_card: "Add your Visitng cards here",
@@ -756,7 +756,7 @@ export default {
   product_card_tip:
     "This is the Product Card for your {{categoryName}}. You can access this anytime, anywhere.",
   product_card_upload_bill_tip:
-    "Don’t want to add the details manually just upload the bill and leave rest upon us. Our experts will fill in the details for you.",
+    "Don’t want to add the details manually just upload the bill and leave the rest to us. Our experts will fill in the details for you.",
   product_card_share_tip:
     "Share your product experience with your Friends, Family and Followers to help them make a wise purchase decision.",
   product_card_review_tip: "Review your product experience.",
@@ -1015,7 +1015,7 @@ export default {
   //29-03-2018
   are_you_sure: "Are you sure?",
   delete_calendar_item_confirm_msg:
-    "All the information related to this item will be deleted.",
+    "All the information related to this service will be deleted.",
   yes_delete: "Yes, Delete",
   no_dont_delete: "No, don't Delete",
 
@@ -1030,7 +1030,7 @@ export default {
   daily: "Daily",
   monthly: "Monthly",
   save: "Save",
-  add_edit_calendar_service_screen_form_finish_date: "Finish Date",
+  add_edit_calendar_service_screen_form_finish_date: "End Date",
   calendar_service_finish_date_warning:
     "Service Details post this date will not be recorded"
 };
