@@ -11,11 +11,10 @@ import {
 import moment from "moment";
 import I18n from "../../../i18n";
 import { API_BASE_URL, updateProduct } from "../../../api";
-import { MAIN_CATEGORY_IDS } from "../../../constants";
+import { MAIN_CATEGORY_IDS, SUB_CATEGORY_IDS } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
 import { showSnackbar } from "../../snackbar";
-
 import { getReferenceDataCategories } from "../../../api";
 
 import LoadingOverlay from "../../../components/loading-overlay";
@@ -28,10 +27,17 @@ class SelectPurchaseDateStep extends React.Component {
     super(props);
     this.state = {
       isLoading: false,
-      activeDate: moment(props.product.document_date).format('YYYY-MM-DD')
+      activeDate: moment(props.product.document_date).format('YYYY-MM-DD'),
+      title: 'Select Purchase Date'
     };
   }
-
+  componentDidMount() {
+    if (this.props.product.sub_category_id == SUB_CATEGORY_IDS.HOUSERENT) {
+      this.setState({
+        title: 'Select Payment Date'
+      })
+    }
+  }
   componentWillReceiveProps(newProps) {
     this.setState({
       activeDate: moment(newProps.product.document_date).format('YYYY-MM-DD')
@@ -63,7 +69,7 @@ class SelectPurchaseDateStep extends React.Component {
   };
 
   render() {
-    const { isLoading, activeDate } = this.state;
+    const { isLoading, activeDate, title } = this.state;
 
     const { mainCategoryId, category, product } = this.props;
 
@@ -79,7 +85,7 @@ class SelectPurchaseDateStep extends React.Component {
 
     return (
       <Step
-        title={`Select Purchase Date`}
+        title={title}
         subtitle={subtitle}
         skippable={true}
         showLoader={isLoading}

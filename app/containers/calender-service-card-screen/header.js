@@ -118,7 +118,7 @@ class Header extends Component {
                   weight="Medium"
                   style={[styles.key, { color: colors.mainText }]}
                 >
-                  {"₹ " + totalCalulatedAmount}
+                  {"₹ " + totalCalulatedAmount.toFixed(2)}
                 </Text>
               </View>
               <View style={{ flex: 1, flexDirection: "row" }}>
