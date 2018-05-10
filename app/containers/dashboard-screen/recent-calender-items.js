@@ -40,7 +40,8 @@ class RecentCalenderItems extends React.Component {
             if (listHeight == "less" && index > 0) return null;
 
             return (
-              <View key={index}
+              <View
+                key={index}
                 style={{
                   borderBottomColor: "#efefef",
                   borderBottomWidth: 1
@@ -62,8 +63,10 @@ class RecentCalenderItems extends React.Component {
             );
           })}
         </View>
-        {items.length > 1 && (
+        {items.length > 1 ? (
           <ViewMoreBtn height={listHeight} onPress={this.toggleListHeight} />
+        ) : (
+          <View />
         )}
       </View>
     );

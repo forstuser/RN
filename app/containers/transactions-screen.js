@@ -216,12 +216,11 @@ class TransactionsScreen extends Component {
               ]}
             />
           </View>
-          {this.state.activeData.products.length == 0 && (
+          {this.state.activeData.products.length == 0 ? (
             <SectionHeading
               text={I18n.t("transactions_screen_no_transactions")}
             />
-          )}
-          {this.state.activeData.products.length > 0 && (
+          ) : (
             <View>
               <SectionHeading
                 text={I18n.t("transactions_screen_transactions")}
@@ -258,10 +257,12 @@ class TransactionsScreen extends Component {
                           {this.productType(product.dataIndex)}
                         </Text>
                       </View>
-                      {product.sellers != null && (
+                      {product.sellers != null ? (
                         <Text style={styles.sellerName}>
                           {product.sellers.sellerName}
                         </Text>
+                      ) : (
+                        <View />
                       )}
                       <Text weight="Medium" style={styles.purchaseDate}>
                         {moment(product.purchaseDate).format("MMM DD, YYYY")}

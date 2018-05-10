@@ -112,7 +112,7 @@ class SearchBox extends Component {
             placeholder={I18n.t("search_screen_placeholder")}
           />
         </View>
-        {showRecentSearches && (
+        {showRecentSearches ? (
           <View style={styles.recentSearches}>
             <View style={styles.recentSearchTitleWrapper}>
               <Text weight="Bold" style={styles.recentSearchTitle}>
@@ -129,6 +129,8 @@ class SearchBox extends Component {
               </TouchableOpacity>
             ))}
           </View>
+        ) : (
+          <View />
         )}
 
         {searchHasRunOnce &&

@@ -26,7 +26,7 @@ const FileItem = ({ file, index, total, removeFile }) => (
         {index + 1} of {total}
       </Text>
     </View>
-    {isImageFileType(file.mimeType) && (
+    {isImageFileType(file.mimeType)(
       <PhotoView
         style={styles.billImage}
         source={{ uri: Platform.OS == "ios" ? `file://${file.uri}` : file.uri }}

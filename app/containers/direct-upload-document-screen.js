@@ -80,7 +80,7 @@ class DirectUploadDocumentScreen extends React.Component {
           this.uploadDocuments();
         }
       );
-    } catch (e) { }
+    } catch (e) {}
   };
 
   uploadDocuments = async () => {
@@ -540,7 +540,7 @@ class DirectUploadDocumentScreen extends React.Component {
           color="secondary"
           style={{ width: 300, marginTop: 20 }}
         />
-        {isFinishModalVisible && (
+        {isFinishModalVisible ? (
           <View>
             <Modal useNativeDriver={true} isVisible={true}>
               <View style={styles.finishModal}>
@@ -550,7 +550,7 @@ class DirectUploadDocumentScreen extends React.Component {
                     uri:
                       API_BASE_URL +
                       `/categories/${
-                      selectedMainCategory ? selectedMainCategory.id : 2
+                        selectedMainCategory ? selectedMainCategory.id : 2
                       }/images/1`
                   }}
                   resizeMode="contain"
@@ -574,6 +574,8 @@ class DirectUploadDocumentScreen extends React.Component {
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
       </ScreenContainer>
     );

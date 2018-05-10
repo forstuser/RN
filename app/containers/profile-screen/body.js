@@ -141,7 +141,6 @@ class Body extends Component {
       showOtpInput,
       isLoading
     } = this.state;
-    // if (!isEmailModalVisible) return null;
 
     return (
       <View style={{ marginTop: 80 }}>
@@ -152,7 +151,7 @@ class Body extends Component {
           editable={true}
           onUpdate={this.updateState}
         />
-        {this.state.phone && (
+        {this.state.phone ? (
           <View style={[styles.field, styles.verifiedField]}>
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.label}>
@@ -172,6 +171,8 @@ class Body extends Component {
               {this.state.phone}
             </Text>
           </View>
+        ) : (
+          <View />
         )}
         <TouchableWithoutFeedback
           onPress={() => {
@@ -220,7 +221,7 @@ class Body extends Component {
           editable={true}
           onUpdate={this.updateState}
         />
-        {isEmailModalVisible && (
+        {isEmailModalVisible ? (
           <View>
             <Modal
               isVisible={true}
@@ -280,6 +281,8 @@ class Body extends Component {
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );

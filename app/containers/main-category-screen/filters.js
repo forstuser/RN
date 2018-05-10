@@ -346,7 +346,7 @@ class Filters extends Component {
             }
           })}
         </ScrollView>
-        {this.state.isModalVisible && (
+        {this.state.isModalVisible ? (
           <View>
             <Modal isVisible={true}>
               <View style={styles.modal}>
@@ -413,6 +413,8 @@ class Filters extends Component {
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );

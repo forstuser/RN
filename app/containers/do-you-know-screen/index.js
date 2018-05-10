@@ -386,7 +386,7 @@ class DoYouKNowScreen extends Component {
           />
         </View>
         <View style={styles.body}>
-          {items.length > 0 && (
+          {items.length > 0 ? (
             <Animated.View
               style={[
                 styles.item,
@@ -398,6 +398,8 @@ class DoYouKNowScreen extends Component {
             >
               <Item />
             </Animated.View>
+          ) : (
+            <View />
           )}
           <LoadingOverlay
             style={{

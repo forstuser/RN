@@ -248,7 +248,7 @@ class EditProductBasicDetails extends React.Component {
         />
         <KeyboardAwareScrollView>
           <View style={{ flex: 1 }}>
-            {showExpenseForm && (
+            {showExpenseForm ? (
               <ExpenseBasicDetailsForm
                 showFullForm={true}
                 ref={ref => (this.basicDetailsForm = ref)}
@@ -274,8 +274,7 @@ class EditProductBasicDetails extends React.Component {
                   nextDueDateId
                 }}
               />
-            )}
-            {!showExpenseForm && (
+            ) : (
               <ProductBasicDetailsForm
                 showFullForm={true}
                 ref={ref => (this.basicDetailsForm = ref)}

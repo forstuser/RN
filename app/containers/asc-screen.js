@@ -273,7 +273,7 @@ class AscScreen extends Component {
             <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("asc_screen_section_1_title")}
             </Text>
-            {products.length > 0 && (
+            {products.length > 0 ? (
               <ScrollView style={styles.productsContainer} horizontal={true}>
                 {products.map((product, index) => {
                   const meta = getProductMetasString(product.productMetaData);
@@ -305,8 +305,7 @@ class AscScreen extends Component {
                   );
                 })}
               </ScrollView>
-            )}
-            {products.length == 0 && (
+            ) : (
               <View style={styles.noProductsContainer}>
                 <Text style={styles.noProductsMsg}>
                   {I18n.t("asc_screen_section_no_products_msg")}

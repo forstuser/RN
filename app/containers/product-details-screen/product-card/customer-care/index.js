@@ -69,7 +69,7 @@ class CustomerCare extends React.Component {
       });
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -95,7 +95,7 @@ class CustomerCare extends React.Component {
       console.log("e: ", e);
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -226,7 +226,7 @@ class CustomerCare extends React.Component {
         title: I18n.t("product_details_screen_connect_insurance_provider"),
         imageUrl: `${API_BASE_URL}/providers/${
           insuranceData.providerId
-          }/images`,
+        }/images`,
         name: insuranceData.providerName,
         phoneNumbers: insuranceData.phoneNumbers,
         emails: insuranceData.emails,
@@ -296,8 +296,8 @@ class CustomerCare extends React.Component {
               <Text weight="Medium" style={styles.locationPickerText}>
                 {place
                   ? `${place.name} ${
-                  place.address ? "(" + place.address + ")" : ""
-                  }`
+                      place.address ? "(" + place.address + ")" : ""
+                    }`
                   : I18n.t("product_details_screen_asc_select_location")}
               </Text>
               <Icon
@@ -325,15 +325,16 @@ class CustomerCare extends React.Component {
                   }}
                   refreshing={isFetchingAscItems}
                 />
-                {ascItems.length == 0 &&
-                  !isFetchingAscItems && (
-                    <View>
-                      <Image style={styles.noAscImage} source={nearbyIcon} />
-                      <Text style={styles.noAscMsg}>
-                        {I18n.t("product_details_screen_asc_no_results")}
-                      </Text>
-                    </View>
-                  )}
+                {ascItems.length == 0 && !isFetchingAscItems ? (
+                  <View>
+                    <Image style={styles.noAscImage} source={nearbyIcon} />
+                    <Text style={styles.noAscMsg}>
+                      {I18n.t("product_details_screen_asc_no_results")}
+                    </Text>
+                  </View>
+                ) : (
+                  <View />
+                )}
                 <LoadingOverlay visible={isFetchingAscItems} />
               </View>
             )}

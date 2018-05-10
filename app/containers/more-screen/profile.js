@@ -157,7 +157,7 @@ class Profile extends Component {
             editable={true}
             onUpdate={this.updateState}
           />
-          {this.state.phone && (
+          {this.state.phone ? (
             <View style={[styles.field, styles.verifiedField]}>
               <View style={{ flexDirection: "row" }}>
                 <Text style={styles.label}>
@@ -177,6 +177,8 @@ class Profile extends Component {
                 {this.state.phone}
               </Text>
             </View>
+          ) : (
+            <View />
           )}
 
           <TouchableWithoutFeedback
@@ -233,7 +235,7 @@ class Profile extends Component {
             editable={true}
             onUpdate={this.updateState}
           />
-          {isEmailModalVisible && (
+          {isEmailModalVisible ? (
             <View>
               <Modal
                 isVisible={true}
@@ -293,6 +295,8 @@ class Profile extends Component {
                 </View>
               </Modal>
             </View>
+          ) : (
+            <View />
           )}
         </KeyboardAwareScrollView>
       </View>

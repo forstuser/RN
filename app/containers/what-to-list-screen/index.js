@@ -86,7 +86,8 @@ class WhatToListScreen extends Component {
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
         title = "What to Wear?";
-        text = "Create your Digital Wardrobe by adding images of your clothes. This gives you an overview of your entire wardrobe and also shows what you had worn and when.";
+        text =
+          "Create your Digital Wardrobe by adding images of your clothes. This gives you an overview of your entire wardrobe and also shows what you had worn and when.";
         image = whatToWear;
         btnText = "Add New Item";
         systemListTitle = "";
@@ -363,7 +364,7 @@ class WhatToListScreen extends Component {
         [
           {
             text: "Cancel",
-            onPress: () => { },
+            onPress: () => {},
             style: "cancel"
           },
           {
@@ -431,12 +432,14 @@ class WhatToListScreen extends Component {
                       onPress={this.checkAllBox}
                     >
                       <View style={styles.box}>
-                        {checkAll && (
+                        {checkAll ? (
                           <Icon
                             name="md-checkmark"
                             color={colors.pinkishOrange}
                             size={15}
                           />
+                        ) : (
+                          <View />
                         )}
                       </View>
                       <Text style={{ color: colors.mainText }}>
@@ -463,10 +466,13 @@ class WhatToListScreen extends Component {
                   {text}
                 </Text>
               </View>
-              {type == EASY_LIFE_TYPES.WHAT_TO_COOK && (
+              {type == EASY_LIFE_TYPES.WHAT_TO_COOK ? (
                 <Text style={styles.faqText} weight="Regular">
-                  This gives you an overview of your entire kitchen menu and also shows what you had cooked and when.
+                  This gives you an overview of your entire kitchen menu and
+                  also shows what you had cooked and when.
                 </Text>
+              ) : (
+                <View />
               )}
               <View style={styles.faqView}>
                 <Text style={styles.faqText} weight="Regular">
@@ -478,7 +484,11 @@ class WhatToListScreen extends Component {
                 >
                   <Text
                     weight="Medium"
-                    style={{ color: colors.pinkishOrange, fontSize: 18, top: 10 }}
+                    style={{
+                      color: colors.pinkishOrange,
+                      fontSize: 18,
+                      top: 10
+                    }}
                   >
                     {" "}
                     click here
@@ -507,7 +517,7 @@ class WhatToListScreen extends Component {
                 }
                 return (
                   <View key={index}>
-                    {item.status_type == 11 && (
+                    {item.status_type == 11 ? (
                       <EasyLifeItem
                         showCheckbox={true}
                         text={item.name}
@@ -517,6 +527,8 @@ class WhatToListScreen extends Component {
                         onPress={() => this.toggleSystemItemSelect(item.id)}
                         onRemoveBtnPress={() => this.removeItem(item)}
                       />
+                    ) : (
+                      <View />
                     )}
                   </View>
                 );
@@ -543,7 +555,7 @@ class WhatToListScreen extends Component {
                   }
                   return (
                     <View key={index}>
-                      {item.status_type == 1 && (
+                      {item.status_type == 1 ? (
                         <EasyLifeItem
                           showCheckbox={type != EASY_LIFE_TYPES.WHAT_TO_WEAR}
                           text={item.name}
@@ -553,6 +565,8 @@ class WhatToListScreen extends Component {
                           onPress={() => this.toggleSystemItemSelect(item.id)}
                           onRemoveBtnPress={() => this.removeItem(item)}
                         />
+                      ) : (
+                        <View />
                       )}
                     </View>
                   );

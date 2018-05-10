@@ -135,13 +135,15 @@ class ProductCard extends Component {
               ? importantTab
               : generalTab}
 
-            {product.categoryId != 664 && (
+            {product.categoryId != 664 ? (
               <SellerTab
                 tabLabel="SELLER"
                 product={product}
                 onEditPress={this.startBasicDetailsEdit}
                 fetchProductDetails={this.fetchProductDetails}
               />
+            ) : (
+              <View />
             )}
 
             {[
@@ -153,13 +155,15 @@ class ProductCard extends Component {
               : importantTab}
           </ScrollableTabView>
         </ScrollView>
-        {showCustomerCareBtn && (
+        {showCustomerCareBtn ? (
           <View style={styles.contactAfterSalesBtn}>
             <ContactAfterSaleButton
               product={product}
               navigator={this.props.navigator}
             />
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );

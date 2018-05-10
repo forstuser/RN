@@ -337,7 +337,7 @@ class UploadDocumentScreen extends Component {
             I18n.t("upload_document_screen_upload_options_cancel")
           ]}
         />
-        {isUploadingOverlayVisible && (
+        {isUploadingOverlayVisible ? (
           <View>
             <Modal transparent visible={true}>
               <View style={styles.loadingOverlay}>
@@ -346,8 +346,10 @@ class UploadDocumentScreen extends Component {
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
-        {isSuccessModalVisible && (
+        {isSuccessModalVisible ? (
           <View>
             <Modal visible={true}>
               <View style={styles.successModal}>
@@ -371,6 +373,8 @@ class UploadDocumentScreen extends Component {
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
         <View
           style={styles.dummyViewForFile}
