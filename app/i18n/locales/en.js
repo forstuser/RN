@@ -307,6 +307,7 @@ export default {
   product_details_screen_warranty_expiry: "Expiry Date",
   product_details_screen_warranty_type: "Warranty Type",
   product_details_screen_warranty_provider: "Provider",
+  product_details_screen_warranty_amount: "Amount",
   product_details_screen_warranty_seller: "Seller",
   product_details_screen_warranty_seller_contact: "Seller Contact",
   product_details_screen_warranty_no_info: "Details Not Available!",
@@ -497,7 +498,8 @@ export default {
   my_calendar: "Recent Attendance",
   my_calendar_screen_title: "Attendance Manager",
   my_calendar_screen_add_btn: "Add Service",
-  my_calendar_screen_empty_screen_msg: "Track and manage attendance & payouts for all your household services like your maid, milkman and newspaper wala.",
+  my_calendar_screen_empty_screen_msg:
+    "Track and manage attendance & payouts for all your household services like your maid, milkman and newspaper wala.",
   my_calendar_screen_total_days: "Total Days",
   my_calendar_screen_till_date: "Till {{date}}",
   my_calendar_screen_days_present: "Days Present",
@@ -764,8 +766,7 @@ export default {
     "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more shareable with your friends and family.",
   //blank dashboard
   blank_dashboard_headline: "Welcome to BinBill",
-  blank_dashboard_text:
-    "Your Own Home Manager",
+  blank_dashboard_text: "Your Own Home Manager",
   blank_dashboard_btn_text: "UPLOAD DOC",
   blank_dashboard_know_more_text: "Know More",
   blank_dashboard_one_step: "One Stop For",
@@ -956,6 +957,7 @@ export default {
   expense_forms_repair_upload_repair: "Upload Repair/Service Bill",
   expense_forms_repair_warranty_upto: "Warranty Upto",
   expense_forms_warranty_Warranty: "Warranty (If Applicable)",
+  expense_forms_warranty_amount: "Amount",
   expense_forms_warranty_manufacturers: "Manufacturer Warranty (Optional)",
   expense_forms_warranty_applicable: "Warranty (If Applicable)",
   expense_forms_warranty_dual_warranty: "Dual Warranty (If Applicable)",

@@ -833,6 +833,7 @@ export const updateWarranty = async ({
   renewalType,
   effectiveDate,
   warrantyType,
+  value,
   mainCategoryId,
   categoryId
 }) => {
@@ -843,6 +844,7 @@ export const updateWarranty = async ({
     renewal_type: renewalType || undefined,
     effective_date: effectiveDate || undefined,
     warranty_type: warrantyType || undefined,
+    value: value || undefined,
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
   };
@@ -862,6 +864,7 @@ export const addWarranty = async ({
   renewalType,
   effectiveDate,
   warrantyType,
+  value,
   mainCategoryId,
   categoryId
 }) => {
@@ -872,6 +875,7 @@ export const addWarranty = async ({
     renewal_type: renewalType || undefined,
     effective_date: effectiveDate || undefined,
     warranty_type: warrantyType || undefined,
+    value: value || undefined,
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
   };

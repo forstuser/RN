@@ -28,6 +28,7 @@ import { colors } from "../../theme";
 
 import UploadDoc from "../form-elements/upload-doc";
 import CustomDatePicker from "../form-elements/date-picker";
+import CustomTextInput from "../form-elements/text-input";
 
 class WarrantyForm extends React.Component {
   static propTypes = {
@@ -76,7 +77,8 @@ class WarrantyForm extends React.Component {
       selectedRenewalType: null,
       copies: [],
       selectedProvider: null,
-      providerName: null
+      providerName: null,
+      value: ""
     };
   }
 
@@ -105,6 +107,7 @@ class WarrantyForm extends React.Component {
 
       this.setState({
         id: warranty.id,
+        value: String(warranty.value),
         effectiveDate: moment(warranty.effectiveDate).format("YYYY-MM-DD"),
         selectedRenewalType: selectedRenewalType,
         selectedProvider: selectedProvider,
@@ -130,6 +133,7 @@ class WarrantyForm extends React.Component {
       selectedRenewalType,
       selectedProvider,
       providerName,
+      value,
       copies
     } = this.state;
 
@@ -139,6 +143,7 @@ class WarrantyForm extends React.Component {
       renewalType: selectedRenewalType ? selectedRenewalType.id : null,
       providerId: selectedProvider ? selectedProvider.id : null,
       providerName,
+      value,
       copies
     };
 
@@ -195,7 +200,8 @@ class WarrantyForm extends React.Component {
       selectedRenewalType,
       copies,
       selectedProvider,
-      providerName
+      providerName,
+      value
     } = this.state;
 
     let title = I18n.t("expense_forms_warranty_Warranty");
@@ -271,6 +277,14 @@ class WarrantyForm extends React.Component {
                   onDateChange={effectiveDate => {
                     this.setState({ effectiveDate });
                   }}
+                />
+
+                <CustomTextInput
+                  placeholder={I18n.t("expense_forms_repair_amount")}
+                  underlineColorAndroid="transparent"
+                  value={value}
+                  onChangeText={value => this.setState({ value })}
+                  keyboardType="numeric"
                 />
               </View>
             )}
