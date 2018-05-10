@@ -37,9 +37,13 @@ class WarrantyDetails extends React.Component {
           }
           onEditPress={() => {
             if (warranty.warranty_type == WARRANTY_TYPES.NORMAL) {
-              Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'warranty' });
+              Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, {
+                entity: "warranty"
+              });
             } else {
-              Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'extended warranty' });
+              Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, {
+                entity: "extended warranty"
+              });
             }
             this.props.openAddEditWarrantyScreen(
               warranty,
@@ -62,6 +66,13 @@ class WarrantyDetails extends React.Component {
           />
         )}
 
+        {warranty.warranty_type == WARRANTY_TYPES.EXTENDED && (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_warranty_amount")}
+            valueText={warranty.value ? warranty.value : "-"}
+          />
+        )}
+
         <ViewBillRow
           expiryDate={warranty.expiryDate}
           purchaseDate={warranty.purchaseDate}
@@ -79,7 +90,9 @@ class WarrantyDetails extends React.Component {
               .filter(
                 warranty => warranty.warranty_type == WARRANTY_TYPES.NORMAL
               )
-              .map((warranty, index) => <WarrantyItem key={index} warranty={warranty} />)}
+              .map((warranty, index) => (
+                <WarrantyItem key={index} warranty={warranty} />
+              ))}
             <AddItemBtn
               text={I18n.t("product_details_screen_add_warranty")}
               onPress={() =>

@@ -203,12 +203,14 @@ class HealthcareInsuranceForm extends React.Component {
           {I18n.t("expense_forms_healthcare")}
         </Text>
         <View style={styles.body}>
-          {showFullForm && (
+          {showFullForm ? (
             <CustomTextInput
               placeholder={I18n.t("expense_forms_healthcare_plan_name")}
               value={planName}
               onChangeText={planName => this.setState({ planName })}
             />
+          ) : (
+            <View />
           )}
 
           <SelectModal
@@ -235,14 +237,16 @@ class HealthcareInsuranceForm extends React.Component {
             hideAddNew={true}
           />
 
-          {showFullForm && (
+          {showFullForm ? (
             <CustomTextInput
               placeholder={I18n.t("expense_forms_healthcare_for")}
               value={insuranceFor}
               onChangeText={insuranceFor => this.setState({ insuranceFor })}
             />
+          ) : (
+            <View />
           )}
-          {!showOnlyGeneralInfo && (
+          {!showOnlyGeneralInfo ? (
             <View>
               <SelectModal
                 // style={styles.input}
@@ -273,7 +277,7 @@ class HealthcareInsuranceForm extends React.Component {
                 }
               />
 
-              {showFullForm && (
+              {showFullForm ? (
                 <CustomTextInput
                   placeholder={I18n.t("expense_forms_healthcare_policy")}
                   placeholder2={I18n.t(
@@ -283,6 +287,8 @@ class HealthcareInsuranceForm extends React.Component {
                   value={policyNo}
                   onChangeText={policyNo => this.setState({ policyNo })}
                 />
+              ) : (
+                <View />
               )}
 
               <CustomDatePicker
@@ -293,7 +299,7 @@ class HealthcareInsuranceForm extends React.Component {
                 }}
               />
 
-              {showFullForm && (
+              {showFullForm ? (
                 <View>
                   <CustomTextInput
                     placeholder={I18n.t(
@@ -312,8 +318,12 @@ class HealthcareInsuranceForm extends React.Component {
                     keyboardType="numeric"
                   />
                 </View>
+              ) : (
+                <View />
               )}
             </View>
+          ) : (
+            <View />
           )}
         </View>
         <UploadDoc

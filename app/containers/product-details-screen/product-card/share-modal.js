@@ -4,11 +4,9 @@ import {
   View,
   TouchableOpacity,
   Platform,
-  Image,
   Alert
 } from "react-native";
 import Modal from "react-native-modal";
-import FastImage from "react-native-fast-image";
 import Icon from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
 import ViewShot, { captureRef } from "react-native-view-shot";
@@ -20,7 +18,7 @@ import moment from "moment";
 import { API_BASE_URL, updateProfile } from "../../../api";
 import I18n from "../../../i18n";
 
-import { Text, Button } from "../../../elements";
+import { Text, Button, Image } from "../../../elements";
 import { requestStoragePermission } from "../../../android-permissions";
 
 import ProductReview from "../../../components/product-review";
@@ -230,7 +228,7 @@ class ShareModal extends React.Component {
                       marginBottom: 20
                     }}
                   >
-                    <FastImage
+                    <Image
                       style={[
                         styles.illustration,
                         step == 2 ? styles.userImageIllustration : {}
@@ -330,7 +328,7 @@ class ShareModal extends React.Component {
                       ref={ref => (this.shareView = ref)}
                     >
                       {productImageUrl ? (
-                        <FastImage
+                        <Image
                           onLoad={this.hideLoader}
                           onError={this.hideLoader}
                           resizeMode={productImageResizeMode}
@@ -345,7 +343,7 @@ class ShareModal extends React.Component {
                       ) : null}
                       <View style={styles.userImageView}>
                         {/* <View style={styles.userImageLine} /> */}
-                        <FastImage
+                        <Image
                           style={styles.userImage}
                           source={userImageSource}
                           resize="cover"

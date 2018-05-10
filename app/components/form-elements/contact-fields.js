@@ -63,10 +63,12 @@ class ContactFields extends React.Component {
               onChangeText={text => this.onTextChange(index, text)}
               keyboardType={keyboardType}
             />
-            {index === 0 && (
+            {index === 0 ? (
               <TouchableOpacity onPress={this.addField} style={styles.plusBtn}>
                 <PlusIcon />
               </TouchableOpacity>
+            ) : (
+              <View />
             )}
           </View>
         ))}

@@ -207,13 +207,15 @@ class ProductCard extends Component {
             initialLayout={initialLayout}
           />
         </ScrollView>
-        {showCustomerCareBtn && (
+        {showCustomerCareBtn ? (
           <View style={styles.contactAfterSalesBtn}>
             <ContactAfterSaleButton
               product={product}
               navigator={this.props.navigator}
             />
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );

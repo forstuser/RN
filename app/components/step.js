@@ -20,7 +20,7 @@ class Step extends React.Component {
     } = this.props;
     return (
       <View style={styles.container}>
-        {!hideHeader && (
+        {!hideHeader ? (
           <View style={styles.header}>
             <TouchableOpacity style={styles.backBtn} onPress={onBackPress}>
               <Icon name="md-arrow-back" size={24} color="#000" />
@@ -29,13 +29,15 @@ class Step extends React.Component {
               <Text weight="Bold" numberOfLines={1} style={styles.title}>
                 {title}
               </Text>
-              {subtitle && (
+              {subtitle ? (
                 <Text numberOfLines={2} style={styles.subtitle}>
                   {subtitle}
                 </Text>
+              ) : (
+                <View />
               )}
             </View>
-            {skippable && (
+            {skippable ? (
               <TouchableOpacity
                 style={styles.skipBtn}
                 onPress={() => onSkipPress()}
@@ -44,8 +46,12 @@ class Step extends React.Component {
                   SKIP
                 </Text>
               </TouchableOpacity>
+            ) : (
+              <View />
             )}
           </View>
+        ) : (
+          <View />
         )}
         <View style={styles.body}>{children}</View>
         <LoadingOverlay visible={showLoader} />

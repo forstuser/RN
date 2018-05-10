@@ -273,7 +273,7 @@ class DashboardScreen extends React.Component {
             />
             <ScrollView>
               <View style={{ flex: 1, marginBottom: 150, padding: 10 }}>
-                {this.state.upcomingServices.length > 0 && (
+                {this.state.upcomingServices.length > 0 ? (
                   // what's coming up
                   <View>
                     <Title
@@ -287,8 +287,10 @@ class DashboardScreen extends React.Component {
                       />
                     </View>
                   </View>
+                ) : (
+                  <View />
                 )}
-                {this.state.recentProducts.length > 0 && (
+                {this.state.recentProducts.length > 0 ? (
                   // recent activity
                   <View>
                     <Title
@@ -300,8 +302,10 @@ class DashboardScreen extends React.Component {
                       navigator={this.props.navigator}
                     />
                   </View>
+                ) : (
+                  <View />
                 )}
-                {this.state.recentCalenderItems.length > 0 && (
+                {this.state.recentCalenderItems.length > 0 ? (
                   // Calender
                   <View>
                     <Title
@@ -313,6 +317,8 @@ class DashboardScreen extends React.Component {
                       navigator={this.props.navigator}
                     />
                   </View>
+                ) : (
+                  <View />
                 )}
                 {/* Expense Insights */}
                 <Title

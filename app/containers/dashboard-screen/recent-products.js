@@ -59,8 +59,10 @@ class RecentItems extends React.Component {
             );
           })}
         </View>
-        {products.length > 1 && (
+        {products.length > 1 ? (
           <ViewMoreBtn height={listHeight} onPress={this.toggleListHeight} />
+        ) : (
+          <View />
         )}
       </View>
     );

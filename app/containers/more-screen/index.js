@@ -213,7 +213,7 @@ class MoreScreen extends Component {
           )}
           {profile && isProfileVisible && <Profile profile={profile} />}
         </KeyboardAwareScrollView>
-        {isRemovePinModalVisible && (
+        {isRemovePinModalVisible ? (
           <View>
             <Modal
               isVisible={true}
@@ -244,6 +244,8 @@ class MoreScreen extends Component {
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
       </ScreenContainer>
     );

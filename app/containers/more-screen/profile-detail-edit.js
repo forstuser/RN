@@ -13,7 +13,7 @@ import {
 import { showSnackbar } from "../snackbar";
 import Modal from "react-native-modal";
 import { API_BASE_URL, updateProfile } from "../../api";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
 import I18n from "../../i18n";
 import { BlurView } from "react-native-blur";
@@ -115,7 +115,7 @@ class ProfileDetailEdit extends Component {
             onChangeText={text => this.setState({ info: text })}
           />
         </View>
-        {this.props.info != this.state.info && (
+        {this.props.info != this.state.info ? (
           <View
             style={{
               width: 40,
@@ -132,6 +132,8 @@ class ProfileDetailEdit extends Component {
               </Text>
             </TouchableOpacity>
           </View>
+        ) : (
+          <View />
         )}
       </View>
       // </View>

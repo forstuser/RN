@@ -67,7 +67,7 @@ class UploadDoc extends React.Component {
     }
     return (
       <View style={styles.container}>
-        {copies.length > 0 && (
+        {copies.length > 0 ? (
           <View style={styles.copiesContainer}>
             <Text
               weight="Medium"
@@ -92,13 +92,12 @@ class UploadDoc extends React.Component {
               {I18n.t("expense_forms_header_upload_add")}
             </Text>
           </View>
-        )}
-        {copies.length == 0 && (
+        ) : (
           <TouchableOpacity
             onPress={this.onUploadDocPress}
             style={styles.noCopiesContainer}
           >
-            {!isDocUploaded && (
+            {!isDocUploaded ? (
               <View style={styles.placeholderContainer}>
                 <Text weight="Medium" style={styles.placeholder}>
                   {placeholder}
@@ -110,8 +109,7 @@ class UploadDoc extends React.Component {
                   {placeholder2}
                 </Text>
               </View>
-            )}
-            {isDocUploaded && (
+            ) : (
               <View style={styles.placeholderContainer}>
                 <Text weight="Medium" style={{ color: colors.mainText }}>
                   {placeholderAfterUpload}

@@ -75,12 +75,12 @@ class SellerTab extends Component {
       });
       showSnackbar({
         text: I18n.t("product_details_screen_review_added")
-      })
+      });
       this.props.fetchProductDetails();
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     } finally {
       this.setState({
         isAddingReview: false
@@ -162,112 +162,116 @@ class SellerTab extends Component {
             <MultipleContactNumbers contact={seller.contact} />
           )}
         />
-        {(seller.address.length > 0 ||
-          seller.city.length > 0 ||
-          seller.state.length > 0) && (
-            <KeyValueItem
-              KeyComponent={() => (
-                <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.secondaryText }}>
-                    {I18n.t("product_details_screen_seller_address")}
-                  </Text>
-                  <Text weight="Medium" style={{ color: colors.mainText }}>
-                    {_.trim(
-                      seller.address + ", " + seller.city + ", " + seller.state,
-                      ", "
-                    )}
-                  </Text>
-                </View>
-              )}
-              ValueComponent={() => (
-                <TouchableOpacity onPress={this.openMap} style={{ width: 70 }}>
-                  <View style={{ alignItems: "center" }}>
-                    <Image style={{ width: 24, height: 24 }} source={mapIcon} />
-                    <Text
-                      weight="Bold"
-                      style={{ fontSize: 10, color: colors.pinkishOrange }}
-                    >
-                      {I18n.t("product_details_screen_seller_find_store")}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-            />
-          )}
-        {product.sellers &&
-          false && (
-            <View style={styles.review}>
-              <LoadingOverlay visible={this.state.isAddingReview} />
-              <SectionHeading
-                text={I18n.t("product_details_screen_your_experience")}
-              />
-              <View style={styles.reviewInner}>
-                <View style={styles.reviewHeader}>
-                  <View style={styles.starsWrapper}>
-                    <StarRating
-                      starColor="#FFA909"
-                      disabled={false}
-                      maxStars={5}
-                      rating={this.state.starCount}
-                      halfStarEnabled={true}
-                      selectedStar={rating => this.onStarRatingPress(rating)}
-                    />
-                  </View>
-                </View>
-                <TextInput
-                  ref={ref => (this.reviewInput = ref)}
-                  placeholder={I18n.t("product_details_screen_write_feedback")}
-                  value={this.state.reviewInput}
-                  onChangeText={text => this.setState({ reviewInput: text })}
-                  style={styles.reviewInput}
-                  multiline={true}
-                />
-                <View style={styles.reviewFooter}>
-                  <Button
-                    onPress={this.onSubmitReview}
-                    style={styles.reviewSubmitBtn}
-                    text={I18n.t("product_details_screen_submit")}
-                    color="secondary"
-                    type="outline"
-                  />
-                </View>
-              </View>
-            </View>
-          )}
-        {product.sellers &&
-          false && (
-            <View style={styles.editReview}>
-              <SectionHeading
-                text={I18n.t("product_details_screen_your_review")}
-              />
-              <View style={styles.reviewInner}>
-                <View style={styles.reviewHeader}>
-                  <View style={styles.starsWrapper}>
-                    <StarRating
-                      disabled={true}
-                      starColor="#FFA909"
-                      maxStars={5}
-                      rating={this.state.starCount}
-                      halfStarEnabled={true}
-                      selectedStar={rating => this.onStarRatingPress(rating)}
-                    />
-                  </View>
-                </View>
-                <Text weight="Bold" style={styles.reviewText}>
-                  {this.state.reviewInput}
+        {seller.address.length > 0 ||
+        seller.city.length > 0 ||
+        seller.state.length > 0 ? (
+          <KeyValueItem
+            KeyComponent={() => (
+              <View style={{ flex: 1 }}>
+                <Text style={{ color: colors.secondaryText }}>
+                  {I18n.t("product_details_screen_seller_address")}
                 </Text>
-                <View style={styles.reviewFooter}>
-                  <Button
-                    onPress={this.onEditReviewClick}
-                    style={styles.reviewSubmitBtn}
-                    text={I18n.t("product_details_screen_edits")}
-                    color="secondary"
-                    type="outline"
+                <Text weight="Medium" style={{ color: colors.mainText }}>
+                  {_.trim(
+                    seller.address + ", " + seller.city + ", " + seller.state,
+                    ", "
+                  )}
+                </Text>
+              </View>
+            )}
+            ValueComponent={() => (
+              <TouchableOpacity onPress={this.openMap} style={{ width: 70 }}>
+                <View style={{ alignItems: "center" }}>
+                  <Image style={{ width: 24, height: 24 }} source={mapIcon} />
+                  <Text
+                    weight="Bold"
+                    style={{ fontSize: 10, color: colors.pinkishOrange }}
+                  >
+                    {I18n.t("product_details_screen_seller_find_store")}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        ) : (
+          <View />
+        )}
+        {product.sellers && false ? (
+          <View style={styles.review}>
+            <LoadingOverlay visible={this.state.isAddingReview} />
+            <SectionHeading
+              text={I18n.t("product_details_screen_your_experience")}
+            />
+            <View style={styles.reviewInner}>
+              <View style={styles.reviewHeader}>
+                <View style={styles.starsWrapper}>
+                  <StarRating
+                    starColor="#FFA909"
+                    disabled={false}
+                    maxStars={5}
+                    rating={this.state.starCount}
+                    halfStarEnabled={true}
+                    selectedStar={rating => this.onStarRatingPress(rating)}
                   />
                 </View>
               </View>
+              <TextInput
+                ref={ref => (this.reviewInput = ref)}
+                placeholder={I18n.t("product_details_screen_write_feedback")}
+                value={this.state.reviewInput}
+                onChangeText={text => this.setState({ reviewInput: text })}
+                style={styles.reviewInput}
+                multiline={true}
+              />
+              <View style={styles.reviewFooter}>
+                <Button
+                  onPress={this.onSubmitReview}
+                  style={styles.reviewSubmitBtn}
+                  text={I18n.t("product_details_screen_submit")}
+                  color="secondary"
+                  type="outline"
+                />
+              </View>
             </View>
-          )}
+          </View>
+        ) : (
+          <View />
+        )}
+        {product.sellers && false ? (
+          <View style={styles.editReview}>
+            <SectionHeading
+              text={I18n.t("product_details_screen_your_review")}
+            />
+            <View style={styles.reviewInner}>
+              <View style={styles.reviewHeader}>
+                <View style={styles.starsWrapper}>
+                  <StarRating
+                    disabled={true}
+                    starColor="#FFA909"
+                    maxStars={5}
+                    rating={this.state.starCount}
+                    halfStarEnabled={true}
+                    selectedStar={rating => this.onStarRatingPress(rating)}
+                  />
+                </View>
+              </View>
+              <Text weight="Bold" style={styles.reviewText}>
+                {this.state.reviewInput}
+              </Text>
+              <View style={styles.reviewFooter}>
+                <Button
+                  onPress={this.onEditReviewClick}
+                  style={styles.reviewSubmitBtn}
+                  text={I18n.t("product_details_screen_edits")}
+                  color="secondary"
+                  type="outline"
+                />
+              </View>
+            </View>
+          </View>
+        ) : (
+          <View />
+        )}
       </View>
     );
   }

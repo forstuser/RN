@@ -18,7 +18,7 @@ import { showSnackbar } from "../snackbar";
 
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer } from "../../elements";
 import { API_BASE_URL, deleteBill } from "../../api";
 import { colors } from "../../theme";
 import BillCopyItem from "./bill-copy-item";
@@ -198,39 +198,40 @@ class BillsPopUpScreen extends Component {
             <Text weight="Bold" style={styles.noCopiesMsg} />
           </View>
         )}
-        {!isSelectViewVisible &&
-          copies &&
-          copies.length > 0 && (
-            <ScrollableTabView
-              tabBarUnderlineStyle={{
-                backgroundColor: colors.mainBlue,
-                height: 1,
-                marginBottom: -1
-              }}
-              tabBarPosition="bottom"
-              renderTabBar={null}
-            >
-              {copies.map((copy, index) => (
-                <BillCopyItem
-                  key={copy.copyId}
-                  billId={id}
-                  copy={copy}
-                  index={index}
-                  total={copies.length}
-                  onShareBtnClick={this.onShareBtnClick}
-                  authToken={this.props.authToken}
-                  onDeleteBtnClick={
-                    onCopyDelete ? () => this.deleteCopy(index) : undefined
-                  }
-                />
-              ))}
-            </ScrollableTabView>
-          )}
+        {!isSelectViewVisible && copies && copies.length > 0 ? (
+          <ScrollableTabView
+            tabBarUnderlineStyle={{
+              backgroundColor: colors.mainBlue,
+              height: 1,
+              marginBottom: -1
+            }}
+            tabBarPosition="bottom"
+            renderTabBar={null}
+          >
+            {copies.map((copy, index) => (
+              <BillCopyItem
+                key={copy.copyId}
+                billId={id}
+                copy={copy}
+                index={index}
+                total={copies.length}
+                onShareBtnClick={this.onShareBtnClick}
+                authToken={this.props.authToken}
+                onDeleteBtnClick={
+                  onCopyDelete ? () => this.deleteCopy(index) : undefined
+                }
+              />
+            ))}
+          </ScrollableTabView>
+        ) : (
+          <View />
+        )}
 
-        {copies &&
-          isSelectViewVisible && (
-            <SelectView copies={copies} passSelectedCopies={this.shareCopies} />
-          )}
+        {copies && isSelectViewVisible ? (
+          <SelectView copies={copies} passSelectedCopies={this.shareCopies} />
+        ) : (
+          <View />
+        )}
         <LoadingOverlay
           visible={isDownloadingFiles}
           text="Downloading.. please wait..."

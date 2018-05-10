@@ -26,7 +26,7 @@ import I18n from "../../../../i18n";
 import { showSnackbar } from "../../../snackbar";
 
 import { API_BASE_URL } from "../../../../api";
-import { Text, AsyncImage } from "../../../../elements";
+import { Text } from "../../../../elements";
 import { colors } from "../../../../theme";
 
 import { getMetaValueByKey } from "../../../../utils";
@@ -50,10 +50,11 @@ class AscItem extends React.Component {
   handlePhonePress = phoneNumber => {
     call({
       number: phoneNumber.replace(/\(.+\)/, "").trim()
-    }).catch(e => showSnackbar({
-      text: e.message
-    })
-    )
+    }).catch(e =>
+      showSnackbar({
+        text: e.message
+      })
+    );
   };
 
   handleEmailPress = email => {
@@ -64,7 +65,7 @@ class AscItem extends React.Component {
       } else {
         showSnackbar({
           text: "Don't know how to open URI: " + url
-        })
+        });
       }
     });
   };
@@ -109,7 +110,7 @@ class AscItem extends React.Component {
               {item.address}
             </Text>
           </View>
-          {phoneNumbers.length > 0 && (
+          {phoneNumbers.length > 0 ? (
             <View style={styles.itemDetailSection}>
               {phoneNumbers.map(phoneNumber => (
                 <TouchableOpacity
@@ -128,8 +129,10 @@ class AscItem extends React.Component {
                 </TouchableOpacity>
               ))}
             </View>
+          ) : (
+            <View />
           )}
-          {emails.length > 0 && (
+          {emails.length > 0 ? (
             <View style={styles.itemDetailSection}>
               {emails.map(email => (
                 <TouchableOpacity
@@ -148,6 +151,8 @@ class AscItem extends React.Component {
                 </TouchableOpacity>
               ))}
             </View>
+          ) : (
+            <View />
           )}
           <View style={styles.itemDetailSection}>
             <Text weight="Medium" style={styles.itemDetail}>

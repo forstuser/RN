@@ -67,7 +67,7 @@ class PinInput extends React.Component {
               />
             ))}
           </View>
-          {showForgotOption && (
+          {showForgotOption ? (
             <Text
               onPress={onForgotOptionPress}
               weight="Light"
@@ -75,6 +75,8 @@ class PinInput extends React.Component {
             >
               Forgot PIN?
             </Text>
+          ) : (
+            <View />
           )}
         </View>
         <View style={styles.keyboard}>

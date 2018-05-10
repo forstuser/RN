@@ -55,7 +55,7 @@ class PucDetails extends Component {
     return (
       <View>
         <Collapsible headerText={I18n.t("product_details_screen_puc_title")}>
-          {pucDetails.length > 0 && (
+          {pucDetails.length > 0 ? (
             <View>
               {pucDetails.map(puc => (
                 <View>
@@ -107,8 +107,7 @@ class PucDetails extends Component {
                 </View>
               ))}
             </View>
-          )}
-          {pucDetails.length == 0 && (
+          ) : (
             <Text
               weight="Bold"
               style={{ textAlign: "center", padding: 16, color: "red" }}

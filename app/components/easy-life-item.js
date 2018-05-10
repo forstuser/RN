@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { Text, AsyncImage } from "../elements";
+import { Text, Image } from "../elements";
 import { defaultStyles, colors } from "../theme";
 
 class EasyLifeItem extends React.Component {
@@ -25,7 +25,7 @@ class EasyLifeItem extends React.Component {
           style={[styles.container, imageUrl ? styles.bigContainer : {}]}
           onPress={onPress}
         >
-          {showCheckbox && (
+          {showCheckbox ? (
             <View
               style={[
                 checkBoxStyle == "box" ? styles.checkbox : styles.selectBox,
@@ -34,7 +34,7 @@ class EasyLifeItem extends React.Component {
                   : {}
               ]}
             >
-              {isChecked && (
+              {isChecked ? (
                 <Icon
                   name="md-checkmark"
                   color={
@@ -42,8 +42,12 @@ class EasyLifeItem extends React.Component {
                   }
                   size={15}
                 />
+              ) : (
+                <View />
               )}
             </View>
+          ) : (
+            <View />
           )}
           <View style={styles.texts}>
             <Text weight="Medium" style={styles.text} numberOfLines={1}>
@@ -57,13 +61,15 @@ class EasyLifeItem extends React.Component {
             <Text style={styles.subText}>{secondaryText}</Text>
           ) : null}
           {imageUrl ? (
-            <AsyncImage source={{ uri: imageUrl }} style={styles.image} />
+            <Image source={{ uri: imageUrl }} style={styles.image} />
           ) : null}
         </TouchableOpacity>
-        {showRemoveBtn && (
+        {showRemoveBtn ? (
           <TouchableOpacity style={styles.removeBtn} onPress={onRemoveBtnPress}>
             <Icon name="md-remove" color="white" size={20} />
           </TouchableOpacity>
+        ) : (
+          <View />
         )}
       </View>
     );

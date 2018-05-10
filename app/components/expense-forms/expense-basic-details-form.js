@@ -157,7 +157,7 @@ class BasicDetailsForm extends React.Component {
           {I18n.t("expense_forms_expense_basic_detail")}
         </Text>
         <View style={styles.body}>
-          {subCategories.length > 0 && (
+          {subCategories.length > 0 ? (
             <SelectModal
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
@@ -176,15 +176,19 @@ class BasicDetailsForm extends React.Component {
               }}
               hideAddNew={true}
             />
+          ) : (
+            <View />
           )}
 
-          {showFullForm && (
+          {showFullForm ? (
             <CustomTextInput
               placeholder={I18n.t("expense_forms_expense_basic_expense_name")}
               value={expenseName}
               onChangeText={expenseName => this.setState({ expenseName })}
               hint={I18n.t("expense_forms_expense_basic_expense_recommend")}
             />
+          ) : (
+            <View />
           )}
 
           <CustomDatePicker
@@ -206,7 +210,7 @@ class BasicDetailsForm extends React.Component {
           />
 
           {/* if category is of 'utility' type */}
-          {categoryId == 634 && (
+          {categoryId == 634 ? (
             <CustomDatePicker
               date={nextDueDate}
               placeholder={I18n.t(
@@ -217,9 +221,11 @@ class BasicDetailsForm extends React.Component {
                 this.setState({ nextDueDate });
               }}
             />
+          ) : (
+            <View />
           )}
 
-          {showFullForm && (
+          {showFullForm ? (
             <View>
               <CustomTextInput
                 placeholder={I18n.t(
@@ -236,6 +242,8 @@ class BasicDetailsForm extends React.Component {
                 )}
               />
             </View>
+          ) : (
+            <View />
           )}
         </View>
         <UploadDoc

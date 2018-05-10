@@ -59,7 +59,7 @@ class AsyncImage extends Component {
         <Image
           style={[this.props.style, this.props.fileStyle]}
           source={fileIcon}
-          resize={this.props.resize}
+          resizeMode={this.props.resizeMode}
         />
       );
     }

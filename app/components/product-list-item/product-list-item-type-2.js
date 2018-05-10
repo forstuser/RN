@@ -4,17 +4,15 @@ import {
   Platform,
   StyleSheet,
   View,
-  Image,
   TouchableOpacity,
   Alert
 } from "react-native";
-import FastImage from "react-native-fast-image";
 import call from "react-native-phone-call";
 import getDirections from "react-native-google-maps-directions";
 import { showSnackbar } from "../../containers/snackbar";
 
 import moment from "moment";
-import { Text, Button } from "../../elements";
+import { Text, Button, Image } from "../../elements";
 import I18n from "../../i18n";
 
 import { colors } from "../../theme";
@@ -102,7 +100,7 @@ class ProductListItem extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.details}>
-          <FastImage
+          <Image
             style={styles.image}
             source={{ uri: API_BASE_URL + "/" + product.cImageURL }}
           />
@@ -110,10 +108,12 @@ class ProductListItem extends React.Component {
             <Text weight="Bold" style={styles.name}>
               {product.productName}
             </Text>
-            {product.sellers != null && (
+            {product.sellers != null ? (
               <Text style={styles.sellerName}>
                 {product.sellers.sellerName}
               </Text>
+            ) : (
+              <View />
             )}
             <Text weight="Medium" style={styles.purchaseDate}>
               {moment(product.purchaseDate).format("MMM DD, YYYY")}
@@ -123,32 +123,33 @@ class ProductListItem extends React.Component {
             ₹ {product.value}
           </Text>
         </View>
-        {product.categoryId != 22 &&
-          !hideDirectionsAndCallBtns && (
-            <View style={styles.directionAndCall}>
-              <TouchableOpacity
-                onPress={() => openMap(product)}
-                style={styles.directionAndCallItem}
-              >
-                <Text weight="Bold" style={styles.directionAndCallText}>
-                  Directions
-                </Text>
-                <Image
-                  style={styles.directionAndCallIcon}
-                  source={directionIcon}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.phoneOptions.show()}
-                style={styles.directionAndCallItem}
-              >
-                <Text weight="Bold" style={styles.directionAndCallText}>
-                  Call
-                </Text>
-                <Image style={styles.directionAndCallIcon} source={callIcon} />
-              </TouchableOpacity>
-            </View>
-          )}
+        {product.categoryId != 22 && !hideDirectionsAndCallBtns ? (
+          <View style={styles.directionAndCall}>
+            <TouchableOpacity
+              onPress={() => openMap(product)}
+              style={styles.directionAndCallItem}
+            >
+              <Text weight="Bold" style={styles.directionAndCallText}>
+                Directions
+              </Text>
+              <Image
+                style={styles.directionAndCallIcon}
+                source={directionIcon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.phoneOptions.show()}
+              style={styles.directionAndCallItem}
+            >
+              <Text weight="Bold" style={styles.directionAndCallText}>
+                Call
+              </Text>
+              <Image style={styles.directionAndCallIcon} source={callIcon} />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View />
+        )}
         <ActionSheet
           onPress={this.handlePhonePress}
           ref={o => (this.phoneOptions = o)}

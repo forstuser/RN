@@ -57,7 +57,7 @@ class InsuranceDetails extends Component {
         <Collapsible
           headerText={I18n.t("product_details_screen_insurance_title")}
         >
-          {insuranceDetails.length > 0 && (
+          {insuranceDetails.length > 0 ? (
             <View>
               {insuranceDetails.map(insurance => (
                 <View>
@@ -106,7 +106,7 @@ class InsuranceDetails extends Component {
                     )}
                     valueText={insurance.amountInsured || "-"}
                   />
-                  {insurance.sellers != null && (
+                  {insurance.sellers != null ? (
                     <KeyValueItem
                       keyText={I18n.t(
                         "product_details_screen_insurance_seller"
@@ -115,8 +115,10 @@ class InsuranceDetails extends Component {
                         insurance.sellers ? insurance.sellers.sellerName : "-"
                       }
                     />
+                  ) : (
+                    <View />
                   )}
-                  {insurance.sellers != null && (
+                  {insurance.sellers != null ? (
                     <KeyValueItem
                       keyText={I18n.t(
                         "product_details_screen_insurance_seller_contact"
@@ -129,12 +131,13 @@ class InsuranceDetails extends Component {
                         />
                       )}
                     />
+                  ) : (
+                    <View />
                   )}
                 </View>
               ))}
             </View>
-          )}
-          {insuranceDetails.length == 0 && (
+          ) : (
             <Text
               weight="Bold"
               style={{ textAlign: "center", padding: 16, color: "red" }}

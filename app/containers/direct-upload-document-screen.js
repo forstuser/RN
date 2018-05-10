@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native";
-import FastImage from "react-native-fast-image";
+import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import RNFetchBlob from "react-native-fetch-blob";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import Modal from "react-native-modal";
@@ -18,7 +17,7 @@ import {
 } from "../api";
 
 import Analytics from "../analytics";
-import { Text, Button, ScreenContainer } from "../elements";
+import { Text, Button, ScreenContainer, Image } from "../elements";
 import {
   GLOBAL_VARIABLES,
   SCREENS,
@@ -80,7 +79,7 @@ class DirectUploadDocumentScreen extends React.Component {
           this.uploadDocuments();
         }
       );
-    } catch (e) { }
+    } catch (e) {}
   };
 
   uploadDocuments = async () => {
@@ -540,17 +539,17 @@ class DirectUploadDocumentScreen extends React.Component {
           color="secondary"
           style={{ width: 300, marginTop: 20 }}
         />
-        {isFinishModalVisible && (
+        {isFinishModalVisible ? (
           <View>
             <Modal useNativeDriver={true} isVisible={true}>
               <View style={styles.finishModal}>
-                <FastImage
+                <Image
                   style={styles.finishImage}
                   source={{
                     uri:
                       API_BASE_URL +
                       `/categories/${
-                      selectedMainCategory ? selectedMainCategory.id : 2
+                        selectedMainCategory ? selectedMainCategory.id : 2
                       }/images/1`
                   }}
                   resizeMode="contain"
@@ -574,6 +573,8 @@ class DirectUploadDocumentScreen extends React.Component {
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
       </ScreenContainer>
     );

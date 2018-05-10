@@ -5,19 +5,17 @@ import {
   Alert,
   TouchableOpacity,
   StyleSheet,
-  Image,
   TextInput,
   Linking,
   Platform
 } from "react-native";
-import FastImage from "react-native-fast-image";
 import moment from "moment";
 import call from "react-native-phone-call";
 import getDirections from "react-native-google-maps-directions";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 
 import { API_BASE_URL, getAscSearchResults } from "../../api";
-import { ScreenContainer, Text, Button } from "../../elements";
+import { ScreenContainer, Text, Button, Image } from "../../elements";
 import { colors } from "../../theme";
 import { showSnackbar } from "../snackbar";
 
@@ -144,7 +142,7 @@ class AscSearchScreen extends Component {
             renderItem={({ item }) => (
               <View style={styles.item}>
                 <View style={styles.imageWrapper}>
-                  <FastImage
+                  <Image
                     style={styles.itemImage}
                     source={{ uri: API_BASE_URL + item.cImageURL }}
                     resizeMode="contain"

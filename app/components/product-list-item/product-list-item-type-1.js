@@ -1,8 +1,7 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
-import FastImage from "react-native-fast-image";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import moment from "moment";
-import { Text, Button } from "../../elements";
+import { Text, Button, Image } from "../../elements";
 import I18n from "../../i18n";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
@@ -76,7 +75,7 @@ const ProductListItem = ({ product, onPress }) => {
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
-      <FastImage
+      <Image
         style={styles.image}
         source={{
           uri: API_BASE_URL + product.cImageURL
@@ -94,11 +93,13 @@ const ProductListItem = ({ product, onPress }) => {
             </Text>
           </View>
 
-          {(offlineSellerName.length > 0 || onlineSellerName.length > 0) && (
+          {offlineSellerName.length > 0 || onlineSellerName.length > 0 ? (
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.offlineSellerName}>{offlineSellerName}</Text>
               <Text style={styles.onlineSellerName}>{onlineSellerName}</Text>
             </View>
+          ) : (
+            <View />
           )}
         </View>
         <View style={styles.otherDetailContainer}>
@@ -109,83 +110,87 @@ const ProductListItem = ({ product, onPress }) => {
               : "-"}
           </Text>
         </View>
-        {product.warrantyDetails &&
-          product.warrantyDetails.length > 0 && (
-            <View style={styles.otherDetailContainer}>
-              <Text style={styles.detailName}>Warranty till: </Text>
-              <Text weight="Medium" style={styles.detailValue}>
-                {moment(product.warrantyDetails[0].expiryDate).format(
-                  "MMM DD, YYYY"
-                )}
-              </Text>
-              {isDateInPastOrInNextTenDays(
-                moment(product.warrantyDetails[0].expiryDate)
-              ) && (
-                <Text style={styles.expiringText}>
-                  {expiringInText(
-                    moment(product.warrantyDetails[0].expiryDate)
-                  )}
-                </Text>
+        {product.warrantyDetails && product.warrantyDetails.length > 0 ? (
+          <View style={styles.otherDetailContainer}>
+            <Text style={styles.detailName}>Warranty till: </Text>
+            <Text weight="Medium" style={styles.detailValue}>
+              {moment(product.warrantyDetails[0].expiryDate).format(
+                "MMM DD, YYYY"
               )}
-            </View>
-          )}
-        {product.insuranceDetails &&
-          product.insuranceDetails.length > 0 && (
-            <View style={styles.otherDetailContainer}>
-              <Text style={styles.detailName}>Insurance till: </Text>
-              <Text weight="Medium" style={styles.detailValue}>
-                {moment(product.insuranceDetails[0].expiryDate).format(
-                  "MMM DD, YYYY"
-                )}
+            </Text>
+            {isDateInPastOrInNextTenDays(
+              moment(product.warrantyDetails[0].expiryDate)
+            ) ? (
+              <Text style={styles.expiringText}>
+                {expiringInText(moment(product.warrantyDetails[0].expiryDate))}
               </Text>
-              {isDateInPastOrInNextTenDays(
-                moment(product.insuranceDetails[0].expiryDate)
-              ) && (
-                <Text style={styles.expiringText}>
-                  {expiringInText(
-                    moment(product.insuranceDetails[0].expiryDate)
-                  )}
-                </Text>
+            ) : (
+              <View />
+            )}
+          </View>
+        ) : (
+          <View />
+        )}
+        {product.insuranceDetails && product.insuranceDetails.length > 0 ? (
+          <View style={styles.otherDetailContainer}>
+            <Text style={styles.detailName}>Insurance till: </Text>
+            <Text weight="Medium" style={styles.detailValue}>
+              {moment(product.insuranceDetails[0].expiryDate).format(
+                "MMM DD, YYYY"
               )}
-            </View>
-          )}
-        {product.amcDetails &&
-          product.amcDetails.length > 0 && (
-            <View style={styles.otherDetailContainer}>
-              <Text style={styles.detailName}>AMC till: </Text>
-              <Text weight="Medium" style={styles.detailValue}>
-                {moment(product.amcDetails[0].expiryDate).format(
-                  "MMM DD, YYYY"
-                )}
+            </Text>
+            {isDateInPastOrInNextTenDays(
+              moment(product.insuranceDetails[0].expiryDate)
+            ) ? (
+              <Text style={styles.expiringText}>
+                {expiringInText(moment(product.insuranceDetails[0].expiryDate))}
               </Text>
-              {isDateInPastOrInNextTenDays(
-                moment(product.amcDetails[0].expiryDate)
-              ) && (
-                <Text style={styles.expiringText}>
-                  {expiringInText(moment(product.amcDetails[0].expiryDate))}
-                </Text>
-              )}
-            </View>
-          )}
-        {product.pucDetails &&
-          product.pucDetails.length > 0 && (
-            <View style={styles.otherDetailContainer}>
-              <Text style={styles.detailName}>Polution Certificate: </Text>
-              <Text weight="Medium" style={styles.detailValue}>
-                {moment(product.pucDetails[0].expiryDate).format(
-                  "MMM DD, YYYY"
-                )}
+            ) : (
+              <View />
+            )}
+          </View>
+        ) : (
+          <View />
+        )}
+        {product.amcDetails && product.amcDetails.length > 0 ? (
+          <View style={styles.otherDetailContainer}>
+            <Text style={styles.detailName}>AMC till: </Text>
+            <Text weight="Medium" style={styles.detailValue}>
+              {moment(product.amcDetails[0].expiryDate).format("MMM DD, YYYY")}
+            </Text>
+            {isDateInPastOrInNextTenDays(
+              moment(product.amcDetails[0].expiryDate)
+            ) ? (
+              <Text style={styles.expiringText}>
+                {expiringInText(moment(product.amcDetails[0].expiryDate))}
               </Text>
-              {isDateInPastOrInNextTenDays(
-                moment(product.pucDetails[0].expiryDate)
-              ) && (
-                <Text style={styles.expiringText}>
-                  {expiringInText(moment(product.pucDetails[0].expiryDate))}
-                </Text>
-              )}
-            </View>
-          )}
-        {product.schedule && (
+            ) : (
+              <View />
+            )}
+          </View>
+        ) : (
+          <View />
+        )}
+        {product.pucDetails && product.pucDetails.length > 0 ? (
+          <View style={styles.otherDetailContainer}>
+            <Text style={styles.detailName}>Polution Certificate: </Text>
+            <Text weight="Medium" style={styles.detailValue}>
+              {moment(product.pucDetails[0].expiryDate).format("MMM DD, YYYY")}
+            </Text>
+            {isDateInPastOrInNextTenDays(
+              moment(product.pucDetails[0].expiryDate)
+            ) ? (
+              <Text style={styles.expiringText}>
+                {expiringInText(moment(product.pucDetails[0].expiryDate))}
+              </Text>
+            ) : (
+              <View />
+            )}
+          </View>
+        ) : (
+          <View />
+        )}
+        {product.schedule ? (
           <View style={styles.serviceSchedule}>
             <Text style={styles.detailName}>Next Service Schedule</Text>
             <View style={{ flexDirection: "row" }}>
@@ -198,13 +203,17 @@ const ProductListItem = ({ product, onPress }) => {
               </Text>
               {isDateInPastOrInNextTenDays(
                 moment(product.schedule.due_date)
-              ) && (
+              ) ? (
                 <Text style={styles.expiringText}>
                   {expiringInText(moment(product.schedule.due_date))}
                 </Text>
+              ) : (
+                <View />
               )}
             </View>
           </View>
+        ) : (
+          <View />
         )}
       </View>
     </TouchableOpacity>

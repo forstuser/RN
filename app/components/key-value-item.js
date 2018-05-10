@@ -12,20 +12,24 @@ const KeyValueItem = ({
 }) => {
   return (
     <View style={styles.container}>
-      {keyText.length > 0 && (
+      {keyText.length > 0 ? (
         <View style={styles.key}>
           <Text style={styles.keyText}>{keyText}</Text>
         </View>
+      ) : (
+        <View />
       )}
-      {KeyComponent && <KeyComponent />}
-      {String(valueText).length > 0 && (
+      {KeyComponent ? <KeyComponent /> : <View />}
+      {String(valueText).length > 0 ? (
         <View style={styles.value}>
           <Text weight="Medium" style={styles.valueText}>
             {valueText}
           </Text>
         </View>
+      ) : (
+        <View />
       )}
-      {ValueComponent && <ValueComponent />}
+      {ValueComponent ? <ValueComponent /> : <View />}
     </View>
   );
 };

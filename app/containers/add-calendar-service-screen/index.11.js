@@ -300,12 +300,14 @@ class AddEditCalendarServiceScreen extends Component {
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#f7f7f7" }}>
         <KeyboardAwareScrollView>
-          {!isFetchingServiceTypes && (
+          {!isFetchingServiceTypes ? (
             <SelectServiceHeader
               serviceTypes={serviceTypes}
               visibleServiceTypeIds={visibleServiceTypeIds}
               onServiceTypeSelect={this.onServiceTypeSelect}
             />
+          ) : (
+            <View />
           )}
           {selectedServiceType ? (
             <View style={styles.form}>
@@ -318,7 +320,7 @@ class AddEditCalendarServiceScreen extends Component {
                 value={name}
                 onChangeText={name => this.setState({ name })}
               />
-              {false && (
+              {false ? (
                 <CustomTextInput
                   placeholder={I18n.t(
                     "add_edit_calendar_service_screen_form_provider_name"
@@ -326,6 +328,8 @@ class AddEditCalendarServiceScreen extends Component {
                   value={providerName}
                   onChangeText={providerName => this.setState({ providerName })}
                 />
+              ) : (
+                <View />
               )}
               {selectedServiceType.wages_type !=
                 CALENDAR_WAGES_TYPE.PRODUCT && (
@@ -482,7 +486,7 @@ class AddEditCalendarServiceScreen extends Component {
             <View />
           )}
         </KeyboardAwareScrollView>
-        {selectedServiceType && (
+        {selectedServiceType ? (
           <Button
             onPress={this.createCalendarItem}
             text={I18n.t("my_calendar_screen_add_btn")}
@@ -490,8 +494,7 @@ class AddEditCalendarServiceScreen extends Component {
             borderRadius={0}
             style={styles.addItemBtn}
           />
-        )}
-        {!selectedServiceType && (
+        ) : (
           <View style={styles.selectServiceMsgContainer}>
             <Text weight="Medium" style={styles.selectServiceMsg}>
               Please Select a Type Above

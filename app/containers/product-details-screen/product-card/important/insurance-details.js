@@ -122,11 +122,13 @@ class InsuranceDetails extends React.Component {
           {insuranceDetails.map((insurance, index) => (
             <InsuranceItem key={index} insurance={insurance} />
           ))}
-          {product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE && (
+          {product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ? (
             <AddItemBtn
               text={I18n.t("product_details_screen_add_insurance")}
               onPress={() => this.props.openAddEditInsuranceScreen(null)}
             />
+          ) : (
+            <View />
           )}
         </ScrollView>
       </View>

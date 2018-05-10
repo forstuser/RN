@@ -5,7 +5,6 @@ import {
   View,
   FlatList,
   Alert,
-  Image,
   TouchableOpacity,
   CameraRoll,
   Dimensions
@@ -15,8 +14,8 @@ import PhotoView from "react-native-photo-view";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import RNFetchBlob from "react-native-fetch-blob";
 import Share from "react-native-share";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
-import { API_BASE_URL, fetchFile } from "../../api";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
+import { API_BASE_URL } from "../../api";
 import { isImageFileType, getMimeTypeByExtension } from "../../utils";
 import { showSnackbar, hideSnackbar } from "../snackbar";
 import I18n from "../../i18n";

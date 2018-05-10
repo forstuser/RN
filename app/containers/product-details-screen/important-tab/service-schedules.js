@@ -81,19 +81,20 @@ class ServiceSchedules extends Component {
           headerText={I18n.t("product_details_screen_service_schedule_title")}
         >
           {schedule && this.scheduleItem(schedule)}
-          {serviceSchedules &&
-            serviceSchedules.length > 0 && (
-              <TouchableOpacity
-                onPress={this.toggleModal}
-                style={{ alignItems: "center", padding: 10 }}
-              >
-                <Text weight="Medium" style={{ color: colors.pinkishOrange }}>
-                  View Complete Schedule
-                </Text>
-              </TouchableOpacity>
-            )}
+          {serviceSchedules && serviceSchedules.length > 0 ? (
+            <TouchableOpacity
+              onPress={this.toggleModal}
+              style={{ alignItems: "center", padding: 10 }}
+            >
+              <Text weight="Medium" style={{ color: colors.pinkishOrange }}>
+                View Complete Schedule
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <View />
+          )}
         </Collapsible>
-        {isModalVisible && (
+        {isModalVisible ? (
           <View>
             <Modal
               isVisible={true}
@@ -123,6 +124,8 @@ class ServiceSchedules extends Component {
               </View>
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );

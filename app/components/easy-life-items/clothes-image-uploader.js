@@ -149,7 +149,7 @@ class ClothesImageUploader extends React.Component {
             I18n.t("upload_document_screen_upload_options_cancel")
           ]}
         />
-        {isModalVisible && (
+        {isModalVisible ? (
           <View>
             <Modal
               style={styles.container}
@@ -158,12 +158,14 @@ class ClothesImageUploader extends React.Component {
               onBackButtonPress={() => this.setState({ isModalVisible: false })}
             >
               <View style={{ flex: 1, width: "100%" }}>
-                {file && (
+                {file ? (
                   <Image
                     style={styles.uploadImage}
                     source={{ uri: file.uri }}
                     resizeMode="contain"
                   />
+                ) : (
+                  <View />
                 )}
                 <TouchableOpacity
                   style={styles.closeIcon}
@@ -188,6 +190,8 @@ class ClothesImageUploader extends React.Component {
               <LoadingOverlay visible={isLoading} />
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );

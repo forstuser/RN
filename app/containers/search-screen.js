@@ -12,7 +12,7 @@ import {
 import moment from "moment";
 import { API_BASE_URL, getSearchResults } from "../api";
 import ProductsList from "../components/products-list";
-import { ScreenContainer, Text, Button, AsyncImage } from "../elements";
+import { ScreenContainer, Text, Button } from "../elements";
 import { colors } from "../theme";
 import { openBillsPopUp } from "../navigation";
 import I18n from "../i18n";
@@ -112,7 +112,7 @@ class SearchBox extends Component {
             placeholder={I18n.t("search_screen_placeholder")}
           />
         </View>
-        {showRecentSearches && (
+        {showRecentSearches ? (
           <View style={styles.recentSearches}>
             <View style={styles.recentSearchTitleWrapper}>
               <Text weight="Bold" style={styles.recentSearchTitle}>
@@ -129,6 +129,8 @@ class SearchBox extends Component {
               </TouchableOpacity>
             ))}
           </View>
+        ) : (
+          <View />
         )}
 
         {searchHasRunOnce &&

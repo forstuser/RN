@@ -63,7 +63,7 @@ class UploadProductImage extends React.Component {
           mimeType: file.mime
         });
       })
-      .catch(e => { });
+      .catch(e => {});
   };
 
   pickGalleryImage = async () => {
@@ -81,7 +81,7 @@ class UploadProductImage extends React.Component {
           mimeType: file.mime
         });
       })
-      .catch(e => { });
+      .catch(e => {});
   };
 
   uploadFile = async file => {
@@ -128,15 +128,16 @@ class UploadProductImage extends React.Component {
 
   render() {
     const { isUploadingImage } = this.state;
-
     return (
       <View>
-        {isUploadingImage && (
+        {isUploadingImage ? (
           <View>
             <Modal visible={true} transparent={true}>
               <LoadingOverlay visible={true} text={I18n.t("uploading")} />
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
         <ActionSheet
           onPress={this.handleOptionPress}

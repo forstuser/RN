@@ -228,17 +228,6 @@ export const uploadProductImage = async (productId, file, onUploadProgress) => {
   });
 };
 
-export const fetchFile = async (url, onDownloadProgress) => {
-  const responseData = await apiRequest({
-    method: "get",
-    url: url,
-    responseType: "arraybuffer",
-    onDownloadProgress
-  });
-
-  return new Buffer(responseData, "binary").toString("base64");
-};
-
 export const verifyEmail = async verificationId => {
   return await apiRequest({
     method: "get",
@@ -833,6 +822,7 @@ export const updateWarranty = async ({
   renewalType,
   effectiveDate,
   warrantyType,
+  value,
   mainCategoryId,
   categoryId
 }) => {
@@ -843,6 +833,7 @@ export const updateWarranty = async ({
     renewal_type: renewalType || undefined,
     effective_date: effectiveDate || undefined,
     warranty_type: warrantyType || undefined,
+    value: value || undefined,
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
   };
@@ -862,6 +853,7 @@ export const addWarranty = async ({
   renewalType,
   effectiveDate,
   warrantyType,
+  value,
   mainCategoryId,
   categoryId
 }) => {
@@ -872,6 +864,7 @@ export const addWarranty = async ({
     renewal_type: renewalType || undefined,
     effective_date: effectiveDate || undefined,
     warranty_type: warrantyType || undefined,
+    value: value || undefined,
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
   };

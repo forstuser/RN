@@ -5,7 +5,6 @@ import {
   FlatList,
   Alert,
   NativeModules,
-  Image,
   TouchableWithoutFeedback
 } from "react-native";
 import GridView from "react-native-super-grid";
@@ -15,7 +14,7 @@ import moment from "moment";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import { connect } from "react-redux";
 
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
 import { API_BASE_URL } from "../../api";
 import { colors } from "../../theme";
 
@@ -82,9 +81,9 @@ class SelectView extends Component {
                   ]}
                 >
                   {isImageFileType(item.file_type || item.fileType) && (
-                    <AsyncImage
+                    <Image
                       style={styles.itemImage}
-                      uri={API_BASE_URL + item.copyUrl}
+                      source={{ uri: API_BASE_URL + item.copyUrl }}
                     />
                   )}
                   {!isImageFileType(item.file_type || item.fileType) && (

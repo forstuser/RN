@@ -546,7 +546,7 @@ class DishCalendarScreen extends Component {
             </View>
           </ScrollView>
         )}
-        {selectedItemsNames.length > 0 && (
+        {selectedItemsNames.length > 0 ? (
           <View style={styles.selectedItems}>
             <View style={styles.selectedItemsTitle}>
               <View style={styles.selectedItemsTitleCheckmark}>
@@ -564,6 +564,8 @@ class DishCalendarScreen extends Component {
               {selectedItemsNames.join(", ")}
             </Text>
           </View>
+        ) : (
+          <View />
         )}
         {items.length == 0 &&
           !isLoading && (

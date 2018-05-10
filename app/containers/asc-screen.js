@@ -4,13 +4,11 @@ import {
   StyleSheet,
   View,
   FlatList,
-  Image,
   Alert,
   TouchableOpacity,
   TextInput,
   ScrollView
 } from "react-native";
-import FastImage from "react-native-fast-image";
 import Modal from "react-native-modal";
 import RNGooglePlaces from "react-native-google-places";
 import {
@@ -20,7 +18,7 @@ import {
   getProductsForAsc,
   ascAccessed
 } from "../api";
-import { Text, Button, ScreenContainer } from "../elements";
+import { Text, Button, ScreenContainer, Image } from "../elements";
 import I18n from "../i18n";
 import { showSnackbar } from "./snackbar";
 
@@ -273,7 +271,7 @@ class AscScreen extends Component {
             <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("asc_screen_section_1_title")}
             </Text>
-            {products.length > 0 && (
+            {products.length > 0 ? (
               <ScrollView style={styles.productsContainer} horizontal={true}>
                 {products.map((product, index) => {
                   const meta = getProductMetasString(product.productMetaData);
@@ -283,7 +281,7 @@ class AscScreen extends Component {
                       onPress={() => this.onProductPress(product)}
                       style={styles.product}
                     >
-                      <FastImage
+                      <Image
                         style={styles.productImage}
                         source={{ uri: API_BASE_URL + product.cImageURL }}
                       />
@@ -305,8 +303,7 @@ class AscScreen extends Component {
                   );
                 })}
               </ScrollView>
-            )}
-            {products.length == 0 && (
+            ) : (
               <View style={styles.noProductsContainer}>
                 <Text style={styles.noProductsMsg}>
                   {I18n.t("asc_screen_section_no_products_msg")}

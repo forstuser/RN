@@ -132,14 +132,18 @@ class MedicalDocForm extends React.Component {
     } = this.state;
     return (
       <View style={styles.container}>
-        <Text weight="Medium" style={styles.headerText}>{I18n.t("expense_forms_expense_basic_detail")}</Text>
+        <Text weight="Medium" style={styles.headerText}>
+          {I18n.t("expense_forms_expense_basic_detail")}
+        </Text>
         <View style={styles.body}>
-          {showFullForm && (
+          {showFullForm ? (
             <CustomTextInput
               placeholder={I18n.t("expense_forms_medical_doc_title")}
               value={reportTitle}
               onChangeText={reportTitle => this.setState({ reportTitle })}
             />
+          ) : (
+            <View />
           )}
 
           <SelectModal
@@ -169,7 +173,7 @@ class MedicalDocForm extends React.Component {
             }}
           />
 
-          {showFullForm && (
+          {showFullForm ? (
             <View>
               <CustomTextInput
                 placeholder={I18n.t("expense_forms_medical_doc_doctor_name")}
@@ -183,6 +187,8 @@ class MedicalDocForm extends React.Component {
                 placeholder={I18n.t("expense_forms_medical_doc_doctor_contact")}
               />
             </View>
+          ) : (
+            <View />
           )}
         </View>
         <UploadDoc

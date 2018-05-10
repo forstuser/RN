@@ -64,12 +64,12 @@ class GeneralTab extends Component {
       });
       showSnackbar({
         text: "Review Added"
-      })
+      });
       this.props.fetchProductDetails();
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     } finally {
       this.setState({
         isAddingReview: false
@@ -148,11 +148,13 @@ class GeneralTab extends Component {
             valueText={product.sub_category_name}
           />
         )}
-        {product.brand && (
+        {product.brand ? (
           <KeyValueItem
             keyText={I18n.t("product_details_screen_brand")}
             valueText={product.brand.name}
           />
+        ) : (
+          <View />
         )}
         {product.model ? (
           <KeyValueItem
@@ -176,7 +178,7 @@ class GeneralTab extends Component {
           />
         ))}
 
-        {false && (
+        {false ? (
           <View style={styles.review}>
             <LoadingOverlay visible={this.state.isAddingReview} />
             <SectionHeading
@@ -214,8 +216,10 @@ class GeneralTab extends Component {
               </View>
             </View>
           </View>
+        ) : (
+          <View />
         )}
-        {false && (
+        {false ? (
           <View style={styles.editReview}>
             <SectionHeading
               text={I18n.t("product_details_screen_your_review")}
@@ -247,6 +251,8 @@ class GeneralTab extends Component {
               </View>
             </View>
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );

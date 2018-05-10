@@ -2,17 +2,15 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  Image,
   Alert,
   TouchableOpacity,
   ScrollView
 } from "react-native";
-import FastImage from "react-native-fast-image";
 import moment from "moment";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import I18n from "../../i18n";
 import { API_BASE_URL } from "../../api";
-import { Text, Button, ScreenContainer } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
 import KeyValueItem from "../../components/key-value-item";
 
 import { openBillsPopUp } from "../../navigation";
@@ -69,7 +67,7 @@ class Header extends Component {
       <View style={styles.container}>
         <View style={styles.upparHalf}>
           <Image style={styles.bg} source={headerBg} resizeMode="cover" />
-          <FastImage
+          <Image
             style={styles.image}
             source={imageSource}
             resizeMode="contain"
