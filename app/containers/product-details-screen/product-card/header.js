@@ -9,7 +9,7 @@ import {
   Platform
 } from "react-native";
 import Icon from "react-native-vector-icons/EvilIcons";
-import moment from "moment";
+import Vicon from "react-native-vector-icons/Ionicons";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import { connect } from "react-redux";
 
@@ -17,7 +17,6 @@ import { actions as loggedInUserActions } from "../../../modules/logged-in-user"
 import I18n from "../../../i18n";
 import { API_BASE_URL } from "../../../api";
 import { Text, Button, ScreenContainer } from "../../../elements";
-import KeyValueItem from "../../../components/key-value-item";
 
 import { openBillsPopUp } from "../../../navigation";
 
@@ -31,7 +30,8 @@ const viewBillIcon = require("../../../images/ic_ehome_view_bill.png");
 
 import ReviewModal from "./review-modal";
 import ShareModal from "./share-modal";
-import ImageModal from "./image-model";
+import ImageModal from "./image-modal";
+import PriceEditModal from "./price-edit-modal";
 import ViewBillButton from "../view-bill-button";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 
@@ -67,7 +67,7 @@ class Header extends Component {
       showImportantTab = true,
       viewBillRef,
       shareBtnRef,
-      reviewBtnRef
+      reviewBtnRef,
     } = this.props;
 
     const { review } = this.state;
@@ -76,81 +76,6 @@ class Header extends Component {
     if (!productName) {
       productName = product.categoryName;
     }
-
-    let amountBreakdownOptions = [];
-
-    if (product.categoryId != 664) {
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={I18n.t("product_details_screen_cost_breakdown_product")}
-            valueText={`₹ ${product.value}`}
-          />
-        </View>
-      );
-    }
-
-    product.warrantyDetails.forEach(item => {
-      let date = moment(item.purchaseDate).isValid()
-        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
-        : ``;
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={
-              I18n.t("product_details_screen_cost_breakdown_warranty") + date
-            }
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
-      );
-    });
-
-    product.insuranceDetails.forEach(item => {
-      let date = moment(item.purchaseDate).isValid()
-        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
-        : ``;
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={
-              I18n.t("product_details_screen_cost_breakdown_insurance") + date
-            }
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
-      );
-    });
-
-    product.amcDetails.forEach(item => {
-      let date = moment(item.purchaseDate).isValid()
-        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
-        : ``;
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={I18n.t("product_details_screen_cost_breakdown_amc") + date}
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
-      );
-    });
-
-    product.repairBills.forEach(item => {
-      let date = moment(item.purchaseDate).isValid()
-        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
-        : ``;
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={
-              I18n.t("product_details_screen_cost_breakdown_repairs") + date
-            }
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
-      );
-    });
 
     const warrantyAmount = product.warrantyDetails.reduce(
       (total, item) => total + item.premiumAmount,
@@ -175,15 +100,6 @@ class Header extends Component {
       insuranceAmount +
       amcAmount +
       repairAmount;
-
-    amountBreakdownOptions.push(
-      <View style={{ width: "100%" }}>
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_cost_breakdown_total")}
-          valueText={`₹ ${totalAmount}`}
-        />
-      </View>
-    );
 
     let imageSource = { uri: API_BASE_URL + product.cImageURL };
     if (
@@ -224,17 +140,17 @@ class Header extends Component {
         <View style={styles.lowerHalf}>
           <View style={styles.lowerHalfInner}>
             <View style={{ flexDirection: "row" }}>
-              <View style={styles.texts}>
+              <View style={{ flex: 1.5 }}>
                 <Text weight="Bold" style={styles.name}>
                   {productName}
                 </Text>
                 <Text weight="Bold" style={styles.brandAndModel}>
-                  {product.brand ? product.brand.name : ""}
-                  {product.brand && product.model ? "/" : ""}
+                  {/* {product.brand ? product.brand.name : ""} */}
+                  {/* {product.brand && product.model ? "/" : ""} */}
                   {product.model ? product.model : null}
                 </Text>
                 <TouchableOpacity
-                  onPress={() => this.priceBreakdown.show()}
+                  onPress={() => this.priceEditModal.show()}
                   style={styles.totalContainer}
                 >
                   <View>
@@ -244,14 +160,28 @@ class Header extends Component {
                   </View>
                   <Image style={styles.dropdownIcon} source={dropdownIcon} />
                 </TouchableOpacity>
-                <ActionSheet
+                {/* <ActionSheet
                   ref={o => (this.priceBreakdown = o)}
                   cancelButtonIndex={amountBreakdownOptions.length}
                   options={[
                     ...amountBreakdownOptions,
                     I18n.t("product_details_screen_cost_breakdown_close")
                   ]}
-                />
+                /> */}
+              </View>
+              <Vicon
+                style={{ paddingRight: 10, marginTop: -5 }}
+                name="ios-bookmark"
+                color={colors.pinkishOrange}
+                size={30}
+              />
+              <View style={styles.texts}>
+                <Text weight="Bold" style={{ color: colors.mainBlue }}>Warranty</Text>
+                <Text style={{ color: colors.mainText, fontSize: 10 }}>Upto 15 May 2018</Text>
+              </View>
+              <View style={styles.texts}>
+                <Text weight="Bold" style={{ color: colors.mainBlue }}>Insurances</Text>
+                <Text style={{ color: colors.mainText, fontSize: 10 }}>Upto 15 May 2018</Text>
               </View>
             </View>
             {/* 3 buttons (view bill,share and rating) start */}
@@ -278,52 +208,52 @@ class Header extends Component {
                 MAIN_CATEGORY_IDS.FURNITURE,
                 MAIN_CATEGORY_IDS.FASHION
               ].indexOf(product.masterCategoryId) > -1 && (
-                <View
-                  style={{
-                    alignItems: "center"
-                  }}
-                >
-                  <TouchableOpacity
-                    ref={ref => shareBtnRef(ref)}
-                    onPress={() => this.shareModal.show()}
-                    style={styles.btnShare}
+                  <View
+                    style={{
+                      alignItems: "center"
+                    }}
                   >
-                    <Icon
-                      name={
-                        Platform.OS == "ios" ? "share-apple" : "share-google"
-                      }
-                      size={25}
-                      color={colors.mainBlue}
-                    />
-                  </TouchableOpacity>
-                  <Text weight="Medium" style={styles.btnText}>
-                    {I18n.t("share_card").toUpperCase()}
-                  </Text>
-                </View>
-              )}
+                    <TouchableOpacity
+                      ref={ref => shareBtnRef(ref)}
+                      onPress={() => this.shareModal.show()}
+                      style={styles.btnShare}
+                    >
+                      <Icon
+                        name={
+                          Platform.OS == "ios" ? "share-apple" : "share-google"
+                        }
+                        size={25}
+                        color={colors.mainBlue}
+                      />
+                    </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {I18n.t("share_card").toUpperCase()}
+                    </Text>
+                  </View>
+                )}
               {[
                 MAIN_CATEGORY_IDS.AUTOMOBILE,
                 MAIN_CATEGORY_IDS.ELECTRONICS,
                 MAIN_CATEGORY_IDS.FURNITURE,
                 MAIN_CATEGORY_IDS.FASHION
               ].indexOf(product.masterCategoryId) > -1 && (
-                <View
-                  style={{
-                    alignItems: "center"
-                  }}
-                >
-                  <TouchableOpacity
-                    ref={ref => reviewBtnRef(ref)}
-                    onPress={() => this.reviewModal.show()}
-                    style={styles.btn}
+                  <View
+                    style={{
+                      alignItems: "center"
+                    }}
                   >
-                    <Icon name="star" size={25} color={colors.yellow} />
-                  </TouchableOpacity>
-                  <Text weight="Medium" style={styles.btnText}>
-                    {review ? review.ratings : I18n.t("review").toUpperCase()}
-                  </Text>
-                </View>
-              )}
+                    <TouchableOpacity
+                      ref={ref => reviewBtnRef(ref)}
+                      onPress={() => this.reviewModal.show()}
+                      style={styles.btn}
+                    >
+                      <Icon name="star" size={25} color={colors.yellow} />
+                    </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {review ? review.ratings : I18n.t("review").toUpperCase()}
+                    </Text>
+                  </View>
+                )}
             </View>
             {/* 3 buttons (view bill,share and rating) end */}
             <View style={styles.tabs}>
@@ -395,7 +325,13 @@ class Header extends Component {
               ref={ref => (this.imageModal = ref)}
               product={product}
             />
+            <PriceEditModal
+              ref={ref => (this.priceEditModal = ref)}
+              product={product}
+              totalAmount={totalAmount}
+            />
           </View>
+
         </View>
       </View>
     );
@@ -427,15 +363,16 @@ const styles = StyleSheet.create({
   lowerHalf: {
     marginTop: -65,
     width: "100%",
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   },
   lowerHalfInner: {
     backgroundColor: "#fff",
-    padding: 10,
+    padding: 5,
     paddingBottom: 0,
+    paddingTop: 0,
     borderRadius: 3,
     width: "100%",
-    ...defaultStyles.card
+    ...defaultStyles.card,
   },
   texts: {
     flex: 1
@@ -477,15 +414,15 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 18,
-    marginRight: 85
+    // marginRight: 85
   },
   brandAndModel: {
     fontSize: 12,
     color: colors.secondaryText,
-    marginTop: 8
+    marginTop: 0
   },
   totalContainer: {
-    marginTop: 8,
+    marginTop: 0,
     flexDirection: "row",
     alignItems: "center"
   },

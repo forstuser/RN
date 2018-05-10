@@ -40,7 +40,7 @@ class Report extends React.Component {
       productNameToEdit: "",
       providerNameToEdit: "",
       providerNumberToEdit: "",
-      isSavingDetails: false
+      isSavingDetails: false,
     };
   }
 
