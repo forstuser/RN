@@ -280,7 +280,7 @@ class WarrantyForm extends React.Component {
                 />
 
                 <CustomTextInput
-                  placeholder={I18n.t("expense_forms_repair_amount")}
+                  placeholder={I18n.t("expense_forms_warranty_amount")}
                   underlineColorAndroid="transparent"
                   value={value}
                   onChangeText={value => this.setState({ value })}
