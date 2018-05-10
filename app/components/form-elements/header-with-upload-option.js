@@ -43,7 +43,7 @@ class HeaderWithUploadOption extends React.Component {
   };
 
   showTooltip = () => {
-    if (!this.props.hasUploadBillTourShown) {
+    if (!this.props.hasUploadBillTourShown && this.tour) {
       this.tour.startTour();
       this.props.setUiHasUploadBillTourShown(true);
     }
