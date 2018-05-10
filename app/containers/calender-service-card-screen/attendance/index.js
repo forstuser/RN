@@ -198,7 +198,7 @@ class Attendance extends React.Component {
         break;
       }
     }
-    availableDaysofMonth.sort(function(a, b) {
+    availableDaysofMonth.sort(function (a, b) {
       return moment(a.date).format("D") - moment(b.date).format("D");
     });
 

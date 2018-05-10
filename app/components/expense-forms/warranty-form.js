@@ -76,7 +76,8 @@ class WarrantyForm extends React.Component {
       selectedRenewalType: null,
       copies: [],
       selectedProvider: null,
-      providerName: null
+      providerName: null,
+      value: "",
     };
   }
 
