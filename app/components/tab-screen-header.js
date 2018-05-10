@@ -51,32 +51,38 @@ class TabSearchHeader extends Component {
               {title}
             </Text>
           </View>
-          {showMailbox && (
+          {showMailbox ? (
             <TouchableOpacity
               onPress={this.openMailboxScreen}
               style={styles.messagesContainer}
               ref={this.props.mailboxIconRef}
             >
               <Image style={styles.messagesIcon} source={messagesIcon} />
-              {notificationCount > 0 && (
+              {notificationCount > 0 ? (
                 <View style={styles.messagesCountContainer}>
                   <Text weight="Bold" style={styles.messagesCount}>
                     {notificationCount}
                   </Text>
                 </View>
+              ) : (
+                <View />
               )}
             </TouchableOpacity>
+          ) : (
+            <View />
           )}
-          {showRightSideSearchIcon && (
+          {showRightSideSearchIcon ? (
             <TouchableOpacity
               onPress={onRightSideSearchIconPress}
               style={styles.messagesContainer}
             >
               <Image style={styles.messagesIcon} source={searchIcon} />
             </TouchableOpacity>
+          ) : (
+            <View />
           )}
         </View>
-        {showSearchInput && (
+        {showSearchInput ? (
           <TouchableOpacity
             onPress={this.openSearchScreen}
             style={styles.searchContainer}
@@ -86,6 +92,8 @@ class TabSearchHeader extends Component {
               {I18n.t("tab_screen_header_search_placeholder")}
             </Text>
           </TouchableOpacity>
+        ) : (
+          <View />
         )}
       </View>
     );

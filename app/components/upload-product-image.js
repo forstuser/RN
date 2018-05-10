@@ -130,12 +130,14 @@ class UploadProductImage extends React.Component {
     const { isUploadingImage } = this.state;
     return (
       <View>
-        {isUploadingImage && (
+        {isUploadingImage ? (
           <View>
             <Modal visible={true} transparent={true}>
               <LoadingOverlay visible={true} text={I18n.t("uploading")} />
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
         <ActionSheet
           onPress={this.handleOptionPress}

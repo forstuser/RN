@@ -171,7 +171,7 @@ class SelectModal extends Component {
 
     return (
       <View style={[styles.container, style]}>
-        {!isTextInputVisible && (
+        {!isTextInputVisible ? (
           <TouchableOpacity onPress={this._tryOpenModal} style={styles.wrapper}>
             <View style={{ flex: 1 }}>
               {selectedOption == null && placeholderRenderer({ placeholder })}
@@ -184,8 +184,7 @@ class SelectModal extends Component {
               source={{ uri: dropdownIcon }}
             />
           </TouchableOpacity>
-        )}
-        {isTextInputVisible && (
+        ) : (
           <View style={styles.wrapper}>
             <TextInput
               underlineColorAndroid="transparent"
@@ -201,7 +200,7 @@ class SelectModal extends Component {
           </View>
         )}
         {hint ? <Text style={styles.hint}>{hint}</Text> : null}
-        {isModalVisible && (
+        {isModalVisible ? (
           <View>
             <Modal visible={true} animationType="slide">
               <View style={{ backgroundColor: "#fff" }}>
@@ -217,7 +216,7 @@ class SelectModal extends Component {
                     />
                   </TouchableOpacity>
                 </View>
-                {!hideSearch && (
+                {!hideSearch ? (
                   <View style={styles.searchContainer}>
                     <TextInput
                       placeholder={I18n.t("component_items_search")}
@@ -229,9 +228,11 @@ class SelectModal extends Component {
                       }
                     />
                   </View>
+                ) : (
+                  <View />
                 )}
               </View>
-              {optionsAfterSearch.length > 0 && (
+              {optionsAfterSearch.length > 0 ? (
                 <FlatList
                   style={style.optionsList}
                   data={optionsAfterSearch}
@@ -251,23 +252,26 @@ class SelectModal extends Component {
                     );
                   }}
                 />
-              )}
-              {optionsAfterSearch.length == 0 && (
+              ) : (
                 <View style={styles.noResultContainer}>
                   <Text style={styles.noResultText}>No result found</Text>
 
-                  {!hideAddNew && (
+                  {!hideAddNew ? (
                     <TouchableOpacity
                       style={styles.addNewBtn}
                       onPress={this._onAddNewClick}
                     >
                       <Text style={styles.addNewBtnText}>Add New</Text>
                     </TouchableOpacity>
+                  ) : (
+                    <View />
                   )}
                 </View>
               )}
             </Modal>
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );

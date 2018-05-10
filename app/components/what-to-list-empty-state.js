@@ -75,7 +75,7 @@ class WhatToListEmptyState extends React.Component {
         <Text weight="Regular" style={styles.blankPageText}>
           {text}
         </Text>
-        {type == EASY_LIFE_TYPES.WHAT_TO_DO && (
+        {type == EASY_LIFE_TYPES.WHAT_TO_DO ? (
           <View style={styles.faqView}>
             <Text style={styles.faqText} weight="Regular">
               To know more, How it Works
@@ -92,6 +92,8 @@ class WhatToListEmptyState extends React.Component {
               </Text>
             </TouchableOpacity>
           </View>
+        ) : (
+          <View />
         )}
         <Button
           onPress={this.onPressCreateList}

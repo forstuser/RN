@@ -211,10 +211,12 @@ class InsuranceForm extends React.Component {
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
-                  {categoryId != 664 && (
+                  {categoryId != 664 ? (
                     <Text weight="Medium" style={{ color: colors.mainBlue }}>
                       *
                     </Text>
+                  ) : (
+                    <View />
                   )}
                 </View>
               )}

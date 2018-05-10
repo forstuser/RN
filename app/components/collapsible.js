@@ -61,7 +61,7 @@ class Collapsible extends React.Component {
           style={styles.headerContainer}
         >
           <View>
-            {headerText.length > 0 && (
+            {headerText.length > 0 ? (
               <View style={[styles.headerInner, headerStyle]}>
                 <Text
                   weight="Bold"
@@ -84,8 +84,10 @@ class Collapsible extends React.Component {
                   icon == "plus" &&
                   !isCollapsed && <MinusIcon />}
               </View>
+            ) : (
+              <View />
             )}
-            {HeaderComponent && <HeaderComponent />}
+            {HeaderComponent ? <HeaderComponent /> : <View />}
           </View>
         </TouchableWithoutFeedback>
         <View

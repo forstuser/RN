@@ -110,10 +110,12 @@ class ProductListItem extends React.Component {
             <Text weight="Bold" style={styles.name}>
               {product.productName}
             </Text>
-            {product.sellers != null && (
+            {product.sellers != null ? (
               <Text style={styles.sellerName}>
                 {product.sellers.sellerName}
               </Text>
+            ) : (
+              <View />
             )}
             <Text weight="Medium" style={styles.purchaseDate}>
               {moment(product.purchaseDate).format("MMM DD, YYYY")}
@@ -123,32 +125,33 @@ class ProductListItem extends React.Component {
             ₹ {product.value}
           </Text>
         </View>
-        {product.categoryId != 22 &&
-          !hideDirectionsAndCallBtns && (
-            <View style={styles.directionAndCall}>
-              <TouchableOpacity
-                onPress={() => openMap(product)}
-                style={styles.directionAndCallItem}
-              >
-                <Text weight="Bold" style={styles.directionAndCallText}>
-                  Directions
-                </Text>
-                <Image
-                  style={styles.directionAndCallIcon}
-                  source={directionIcon}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.phoneOptions.show()}
-                style={styles.directionAndCallItem}
-              >
-                <Text weight="Bold" style={styles.directionAndCallText}>
-                  Call
-                </Text>
-                <Image style={styles.directionAndCallIcon} source={callIcon} />
-              </TouchableOpacity>
-            </View>
-          )}
+        {product.categoryId != 22 && !hideDirectionsAndCallBtns ? (
+          <View style={styles.directionAndCall}>
+            <TouchableOpacity
+              onPress={() => openMap(product)}
+              style={styles.directionAndCallItem}
+            >
+              <Text weight="Bold" style={styles.directionAndCallText}>
+                Directions
+              </Text>
+              <Image
+                style={styles.directionAndCallIcon}
+                source={directionIcon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.phoneOptions.show()}
+              style={styles.directionAndCallItem}
+            >
+              <Text weight="Bold" style={styles.directionAndCallText}>
+                Call
+              </Text>
+              <Image style={styles.directionAndCallIcon} source={callIcon} />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View />
+        )}
         <ActionSheet
           onPress={this.handlePhonePress}
           ref={o => (this.phoneOptions = o)}

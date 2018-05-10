@@ -49,17 +49,19 @@ const InsightChart = ({
           <Text weight="Bold" style={[styles.filterText, { color: textColor }]}>
             {filterText}
           </Text>
-          {!hideFilterDropdownIcon && (
+          {!hideFilterDropdownIcon ? (
             <Image
               style={[styles.filterDropdown, { tintColor: textColor }]}
               source={dropdownIcon}
             />
+          ) : (
+            <View />
           )}
         </TouchableOpacity>
       </View>
 
       <View style={styles.totalSpendContainer}>
-        {totalSpend !== null && (
+        {totalSpend !== null ? (
           <View style={styles.totalSpendInner}>
             <Text style={[styles.totalSpendText, { color: textColor }]}>
               {I18n.t("insights_screen_total_spends")}
@@ -71,9 +73,11 @@ const InsightChart = ({
               ₹ {totalSpend}
             </Text>
           </View>
+        ) : (
+          <View />
         )}
       </View>
-      {chartData.length > 0 && (
+      {chartData.length > 0 ? (
         <View>
           <VictoryChart
             domainPadding={{ x: 20, y: 5 }}
@@ -136,8 +140,7 @@ const InsightChart = ({
             {I18n.t("component_items_all_amount")}
           </Text>
         </View>
-      )}
-      {chartData.length == 0 && (
+      ) : (
         <View style={styles.noDataContainer}>
           <Text weight="Bold" style={[styles.noDataText, { color: textColor }]}>
             {I18n.t("component_items_no_data_chart")}

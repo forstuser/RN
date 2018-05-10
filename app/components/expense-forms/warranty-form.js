@@ -227,7 +227,7 @@ class WarrantyForm extends React.Component {
       >
         <View style={styles.innerContainer}>
           <View style={styles.body}>
-            {warrantyType == WARRANTY_TYPES.EXTENDED && (
+            {warrantyType == WARRANTY_TYPES.EXTENDED ? (
               <View>
                 <SelectModal
                   // style={styles.input}
@@ -271,6 +271,8 @@ class WarrantyForm extends React.Component {
                   }}
                 />
               </View>
+            ) : (
+              <View />
             )}
             <SelectModal
               // style={styles.input}
