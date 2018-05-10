@@ -15,10 +15,9 @@ import { MAIN_CATEGORY_IDS } from "../../../constants";
 import { Text, Button } from "../../../elements";
 import { colors } from "../../../theme";
 import { showSnackbar } from "../../snackbar";
-
 import LoadingOverlay from "../../../components/loading-overlay";
 import SelectOrCreateItem from "../../../components/select-or-create-item";
-import CustomTextInput from "../../../components/form-elements/text-input";
+import AmountTextInput from "../../../components/form-elements/amount-text-input";
 
 import Step from "../../../components/step";
 
@@ -26,7 +25,6 @@ class AddAmountStep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rs: "i",
       isLoading: false,
       value: props.product.value || ""
     };
@@ -72,7 +70,7 @@ class AddAmountStep extends React.Component {
   };
 
   render() {
-    const { isLoading, value, rs } = this.state;
+    const { isLoading, value } = this.state;
 
     const { mainCategoryId, category, product } = this.props;
 
@@ -81,18 +79,23 @@ class AddAmountStep extends React.Component {
         title={`Add ${category.name} Amount`}
         showLoader={isLoading}
         {...this.props}
-        // style={{ fontSize: 28 }}
       >
         <View style={{ padding: 20 }}>
-          {/* <CustomTextInput
+          <AmountTextInput
             ref={ref => (this.input = ref)}
             placeholder={"Amount"}
-            value={"" + value ? String(value) : ""}
+            value={
+              value.includes("₹") && value == "₹"
+                ? String(value)
+                : !value.includes("₹")
+                  ? "₹" + String(value)
+                  : String(value)
+            }
             onChangeText={value => this.setState({ value })}
             keyboardType="numeric"
-            style={styles.input}
-          /> */}
-          <TextInput
+            style={styles.inputAmount}
+          />
+          {/* <TextInput
             underlineColorAndroid="transparent"
             placeholder={"Amount"}
             maxLength={10}
@@ -102,7 +105,7 @@ class AddAmountStep extends React.Component {
             keyboardType="phone-pad"
             style={styles.input}
             // leftSideText="₹"
-          />
+          /> */}
 
           <Button
             onPress={this.onPressNext}
@@ -123,18 +126,7 @@ class AddAmountStep extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  input: {
-    borderBottomWidth: 1,
-    borderBottomColor: "grey",
-    fontSize: 30
   }
-
-  // amount: {
-  //   borderBottomWidth: 1,
-  //   borderBottomColor: "grey",
-  //   fontSize: 30
-  // }
 });
 
 export default AddAmountStep;

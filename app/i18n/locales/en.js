@@ -655,7 +655,8 @@ export default {
     "Select Medical Document Type",
   add_edit_expense_screen_title_select_health_expense:
     "Select Healthcare Expense Category",
-  add_edit_expense_screen_title_select_personal_doc: "Select Personal Doc Type",
+  add_edit_expense_screen_title_select_personal_doc:
+    "Select Personal Document Type",
 
   //faqs
   faq_question_1: "What is BinBill?",
