@@ -26,6 +26,7 @@ class AddAmountStep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      rs: "i",
       isLoading: false,
       value: props.product.value || ""
     };
@@ -71,7 +72,7 @@ class AddAmountStep extends React.Component {
   };
 
   render() {
-    const { isLoading, value } = this.state;
+    const { isLoading, value, rs } = this.state;
 
     const { mainCategoryId, category, product } = this.props;
 
@@ -85,12 +86,10 @@ class AddAmountStep extends React.Component {
         <View style={{ padding: 20 }}>
           {/* <CustomTextInput
             ref={ref => (this.input = ref)}
-            placeholder={"Enter Amount Here"}
-            value={value ? String(value) : ""}
+            placeholder={"Amount"}
+            value={"" + value ? String(value) : ""}
             onChangeText={value => this.setState({ value })}
             keyboardType="numeric"
-            // rightSideText="₹"
-            // rightSideTextWidth={80}
             style={styles.input}
           /> */}
           <TextInput
@@ -102,7 +101,7 @@ class AddAmountStep extends React.Component {
             onChangeText={value => this.setState({ value })}
             keyboardType="phone-pad"
             style={styles.input}
-            leftSideText="₹"
+            // leftSideText="₹"
           />
 
           <Button

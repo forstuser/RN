@@ -388,6 +388,7 @@ export default {
   product_details_screen_connect_warranty_provider: "WARRANTY PROVIDER",
   product_details_screen_connect_numbers: "Customer Care Numbers",
   product_details_screen_connect_links: "Request Service",
+  product_details_screen_brand_portal: "Brand Portal",
   product_details_screen_connect_emails: "Email ID",
   product_details_screen_asc_title: "NEAREST AUTHORISED SERVICE CENTRE",
   product_details_screen_asc_select_location: "Select your location",
@@ -497,7 +498,8 @@ export default {
   my_calendar: "Recent Attendance",
   my_calendar_screen_title: "Attendance Manager",
   my_calendar_screen_add_btn: "Add Service",
-  my_calendar_screen_empty_screen_msg: "Track and manage attendance & payouts for all your household services like your maid, milkman and newspaper wala.",
+  my_calendar_screen_empty_screen_msg:
+    "Track and manage attendance & payouts for all your household services like your maid, milkman and newspaper wala.",
   my_calendar_screen_total_days: "Total Days",
   my_calendar_screen_till_date: "Till {{date}}",
   my_calendar_screen_days_present: "Days Present",
@@ -764,8 +766,7 @@ export default {
     "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more shareable with your friends and family.",
   //blank dashboard
   blank_dashboard_headline: "Welcome to BinBill",
-  blank_dashboard_text:
-    "Your Own Home Manager",
+  blank_dashboard_text: "Your Own Home Manager",
   blank_dashboard_btn_text: "UPLOAD DOC",
   blank_dashboard_know_more_text: "Know More",
   blank_dashboard_one_step: "One Stop For",
