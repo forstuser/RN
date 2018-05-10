@@ -25,7 +25,7 @@ import {
   requestStoragePermission
 } from "../../android-permissions";
 
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
 
 import { showSnackbar } from "../snackbar";

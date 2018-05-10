@@ -228,17 +228,6 @@ export const uploadProductImage = async (productId, file, onUploadProgress) => {
   });
 };
 
-export const fetchFile = async (url, onDownloadProgress) => {
-  const responseData = await apiRequest({
-    method: "get",
-    url: url,
-    responseType: "arraybuffer",
-    onDownloadProgress
-  });
-
-  return new Buffer(responseData, "binary").toString("base64");
-};
-
 export const verifyEmail = async verificationId => {
   return await apiRequest({
     method: "get",

@@ -12,7 +12,7 @@ import {
 import moment from "moment";
 import { API_BASE_URL, getSearchResults } from "../api";
 import ProductsList from "../components/products-list";
-import { ScreenContainer, Text, Button, AsyncImage } from "../elements";
+import { ScreenContainer, Text, Button } from "../elements";
 import { colors } from "../theme";
 import { openBillsPopUp } from "../navigation";
 import I18n from "../i18n";

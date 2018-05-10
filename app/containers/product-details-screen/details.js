@@ -2,17 +2,15 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  Image,
   Alert,
   TouchableOpacity,
   ScrollView
 } from "react-native";
-import FastImage from "react-native-fast-image";
 import moment from "moment";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import I18n from "../../i18n";
 import { API_BASE_URL } from "../../api";
-import { Text, Button, ScreenContainer } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
 import KeyValueItem from "../../components/key-value-item";
 
 import { openBillsPopUp } from "../../navigation";
@@ -165,11 +163,7 @@ class Details extends Component {
         {product.categoryId != 664 && (
           <ViewBillButton product={product} navigator={navigator} />
         )}
-        <FastImage
-          style={styles.image}
-          source={imageSource}
-          resizeMode="contain"
-        />
+        <Image style={styles.image} source={imageSource} resizeMode="contain" />
         <Text weight="Bold" style={styles.name}>
           {productName}
         </Text>

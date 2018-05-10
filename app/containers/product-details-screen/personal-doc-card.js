@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  Image,
   Alert,
   TouchableOpacity,
   ScrollView,
@@ -20,7 +19,7 @@ import Modal from "react-native-modal";
 
 import { SCREENS, CATEGORY_IDS } from "../../constants";
 import { API_BASE_URL, getProductDetails } from "../../api";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
 
 import I18n from "../../i18n";
 
@@ -137,7 +136,7 @@ class PerosnalDocCard extends Component {
               btnText="Doc"
             />
           </View>
-          <AsyncImage
+          <Image
             style={styles.image}
             source={imageSource}
             resizeMode="contain"

@@ -5,7 +5,6 @@ import {
   View,
   FlatList,
   Alert,
-  Image,
   TouchableOpacity,
   CameraRoll
 } from "react-native";
@@ -14,8 +13,8 @@ import PhotoView from "react-native-photo-view";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import RNFetchBlob from "react-native-fetch-blob";
 import Share from "react-native-share";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
-import { API_BASE_URL, fetchFile } from "../../api";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
+import { API_BASE_URL } from "../../api";
 import { isImageFileType, getMimeTypeByExtension } from "../../utils";
 import { showSnackbar, hideSnackbar } from "../snackbar";
 import I18n from "../../i18n";
@@ -102,10 +101,10 @@ const BillCopyItem = ({
         </Text>
       </View>
       {isImageFileType(copy.file_type || copy.fileType) && (
-        <AsyncImage
+        <Image
           style={styles.billImage}
           fileType={copy.file_type || copy.fileType}
-          uri={API_BASE_URL + "/" + copy.copyUrl}
+          source={{ uri: API_BASE_URL + "/" + copy.copyUrl }}
         />
       )}
       {!isImageFileType(copy.file_type || copy.fileType) && (

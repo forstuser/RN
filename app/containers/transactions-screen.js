@@ -3,17 +3,15 @@ import {
   Platform,
   StyleSheet,
   View,
-  Image,
   FlatList,
   Alert,
   TouchableOpacity,
   ScrollView
 } from "react-native";
-import FastImage from "react-native-fast-image";
 import moment from "moment";
 import ActionSheet from "react-native-actionsheet";
 import { API_BASE_URL, getCategoryInsightData } from "../api";
-import { Text, Button, ScreenContainer } from "../elements";
+import { Text, Button, ScreenContainer, Image } from "../elements";
 import InsightChart from "../components/insight-chart";
 import SectionHeading from "../components/section-heading";
 import { colors } from "../theme";
@@ -240,7 +238,7 @@ class TransactionsScreen extends Component {
                     key={index}
                   >
                     {product.dataIndex == 1 && (
-                      <FastImage
+                      <Image
                         style={styles.image}
                         source={{ uri: API_BASE_URL + product.cImageURL }}
                       />

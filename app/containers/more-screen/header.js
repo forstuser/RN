@@ -3,14 +3,12 @@ import {
   Platform,
   StyleSheet,
   View,
-  Image,
   Alert,
   TouchableOpacity,
   findNodeHandle
 } from "react-native";
 import ActionSheet from "react-native-actionsheet";
 import Icon from "react-native-vector-icons/Ionicons";
-import FastImage from "react-native-fast-image";
 import Profile from "./profile";
 import I18n from "../../i18n";
 import {
@@ -19,7 +17,7 @@ import {
 } from "../../android-permissions";
 import ImagePicker from "react-native-image-crop-picker";
 import { BlurView } from "react-native-blur";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
 import { API_BASE_URL, uploadProfilePic } from "../../api";
 import { colors } from "../../theme";
 import { showSnackbar } from "../snackbar";
@@ -97,9 +95,7 @@ class Header extends Component {
     try {
       await uploadProfilePic(file, () => {});
       this.setState({
-        profilePic: (
-          <FastImage style={styles.image} source={{ uri: file.uri }} />
-        )
+        profilePic: <Image style={styles.image} source={{ uri: file.uri }} />
       });
 
       showSnackbar({
@@ -127,7 +123,7 @@ class Header extends Component {
     }
 
     let profilePic = (
-      <FastImage
+      <Image
         ref={img => {
           this.backgroundImage = img;
         }}
@@ -138,7 +134,7 @@ class Header extends Component {
 
     if (profile && profile.image_name) {
       profilePic = (
-        <FastImage
+        <Image
           ref={img => {
             this.backgroundImage = img;
           }}

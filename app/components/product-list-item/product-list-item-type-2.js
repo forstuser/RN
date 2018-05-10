@@ -4,17 +4,15 @@ import {
   Platform,
   StyleSheet,
   View,
-  Image,
   TouchableOpacity,
   Alert
 } from "react-native";
-import FastImage from "react-native-fast-image";
 import call from "react-native-phone-call";
 import getDirections from "react-native-google-maps-directions";
 import { showSnackbar } from "../../containers/snackbar";
 
 import moment from "moment";
-import { Text, Button } from "../../elements";
+import { Text, Button, Image } from "../../elements";
 import I18n from "../../i18n";
 
 import { colors } from "../../theme";
@@ -102,7 +100,7 @@ class ProductListItem extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.details}>
-          <FastImage
+          <Image
             style={styles.image}
             source={{ uri: API_BASE_URL + "/" + product.cImageURL }}
           />

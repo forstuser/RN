@@ -3,7 +3,6 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  Image,
   TouchableOpacity,
   Alert,
   Linking
@@ -23,7 +22,7 @@ import Analytics from "../../../../analytics";
 import I18n from "../../../../i18n";
 import { showSnackbar } from "../../../snackbar";
 
-import { Text, AsyncImage } from "../../../../elements";
+import { Text, Image } from "../../../../elements";
 import { colors } from "../../../../theme";
 
 import { getMetaValueByKey } from "../../../../utils";
@@ -280,9 +279,9 @@ class Card extends React.Component {
         <View style={[styles.card, cardStyle]}>
           <View style={styles.imageContainer}>
             {imageUrl ? (
-              <AsyncImage
+              <Image
                 style={styles.image}
-                uri={imageUrl}
+                source={{ uri: imageUrl }}
                 resizeMode="contain"
               />
             ) : null}

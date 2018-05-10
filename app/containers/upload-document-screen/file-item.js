@@ -12,7 +12,7 @@ import moment from "moment";
 import PhotoView from "react-native-photo-view";
 
 import ScrollableTabView from "react-native-scrollable-tab-view";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer } from "../../elements";
 import { API_BASE_URL } from "../../api";
 import { isImageFileType } from "../../utils";
 
@@ -26,14 +26,13 @@ const FileItem = ({ file, index, total, removeFile }) => (
         {index + 1} of {total}
       </Text>
     </View>
-    {isImageFileType(file.mimeType)(
+    {isImageFileType(file.mimeType) ? (
       <PhotoView
         style={styles.billImage}
         source={{ uri: Platform.OS == "ios" ? `file://${file.uri}` : file.uri }}
         resizeMode="contain"
       />
-    )}
-    {!isImageFileType(file.mimeType) && (
+    ) : (
       <View style={styles.file}>
         <Image style={styles.fileIcon} source={fileIcon} />
         <Text weight="Medium" style={styles.fileName}>

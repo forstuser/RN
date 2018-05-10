@@ -1,17 +1,10 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Platform,
-  Image
-} from "react-native";
-import FastImage from "react-native-fast-image";
+import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 import { API_BASE_URL } from "../../../api";
 import I18n from "../../../i18n";
-import { Text } from "../../../elements";
+import { Text, Image } from "../../../elements";
 import { colors } from "../../../theme";
 import moment from "moment";
 import LoadingOverlay from "../../../components/loading-overlay";
@@ -65,7 +58,7 @@ class ImageModal extends React.Component {
             >
               <LoadingOverlay visible={isImageLoading} />
               <View style={styles.modal}>
-                <FastImage
+                <Image
                   onLoad={this.hideLoader}
                   style={styles.bg}
                   source={headerBg}

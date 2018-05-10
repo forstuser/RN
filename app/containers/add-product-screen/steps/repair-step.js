@@ -2,12 +2,10 @@ import React from "react";
 import {
   StyleSheet,
   View,
-  Image,
   Alert,
   TouchableOpacity,
   ScrollView
 } from "react-native";
-import FastImage from "react-native-fast-image";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Icon from "react-native-vector-icons/Entypo";
 import {
@@ -16,7 +14,7 @@ import {
   addRepair,
   updateRepair
 } from "../../../api";
-import { ScreenContainer, Text, Button } from "../../../elements";
+import { ScreenContainer, Text, Button, Image } from "../../../elements";
 import I18n from "../../../i18n";
 import { showSnackbar } from "../../snackbar";
 import LoadingOverlay from "../../../components/loading-overlay";
@@ -205,7 +203,7 @@ class Repair extends React.Component {
                             : {}
                         ]}
                       >
-                        <FastImage
+                        <Image
                           style={styles.productImage}
                           source={{ uri: API_BASE_URL + product.cImageURL }}
                         />

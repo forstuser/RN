@@ -26,7 +26,7 @@ import I18n from "../../../../i18n";
 import { showSnackbar } from "../../../snackbar";
 
 import { API_BASE_URL } from "../../../../api";
-import { Text, AsyncImage } from "../../../../elements";
+import { Text } from "../../../../elements";
 import { colors } from "../../../../theme";
 
 import { getMetaValueByKey } from "../../../../utils";

@@ -4,13 +4,11 @@ import {
   StyleSheet,
   View,
   FlatList,
-  Image,
   Alert,
   TouchableOpacity,
   TextInput,
   ScrollView
 } from "react-native";
-import FastImage from "react-native-fast-image";
 import Modal from "react-native-modal";
 import RNGooglePlaces from "react-native-google-places";
 import {
@@ -20,7 +18,7 @@ import {
   getProductsForAsc,
   ascAccessed
 } from "../api";
-import { Text, Button, ScreenContainer } from "../elements";
+import { Text, Button, ScreenContainer, Image } from "../elements";
 import I18n from "../i18n";
 import { showSnackbar } from "./snackbar";
 
@@ -283,7 +281,7 @@ class AscScreen extends Component {
                       onPress={() => this.onProductPress(product)}
                       style={styles.product}
                     >
-                      <FastImage
+                      <Image
                         style={styles.productImage}
                         source={{ uri: API_BASE_URL + product.cImageURL }}
                       />

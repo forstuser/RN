@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { Text, AsyncImage } from "../elements";
+import { Text, Image } from "../elements";
 import { defaultStyles, colors } from "../theme";
 
 class EasyLifeItem extends React.Component {
@@ -57,7 +57,7 @@ class EasyLifeItem extends React.Component {
             <Text style={styles.subText}>{secondaryText}</Text>
           ) : null}
           {imageUrl ? (
-            <AsyncImage source={{ uri: imageUrl }} style={styles.image} />
+            <Image source={{ uri: imageUrl }} style={styles.image} />
           ) : null}
         </TouchableOpacity>
         {showRemoveBtn && (

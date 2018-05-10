@@ -13,7 +13,7 @@ import {
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
 import { API_BASE_URL, updateProfile } from "../../api";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
 import { showSnackbar } from "../snackbar";
 import I18n from "../../i18n";

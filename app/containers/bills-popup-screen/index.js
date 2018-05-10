@@ -18,7 +18,7 @@ import { showSnackbar } from "../snackbar";
 
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer } from "../../elements";
 import { API_BASE_URL, deleteBill } from "../../api";
 import { colors } from "../../theme";
 import BillCopyItem from "./bill-copy-item";

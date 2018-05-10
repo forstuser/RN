@@ -2,16 +2,14 @@ import React from "react";
 import {
   StyleSheet,
   View,
-  Image,
   ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Alert
 } from "react-native";
-import FastImage from "react-native-fast-image";
 import I18n from "../../i18n";
 import { MAIN_CATEGORY_IDS } from "../../constants";
-import { Text } from "../../elements";
+import { Text, Image } from "../../elements";
 import { colors } from "../../theme";
 
 import { API_BASE_URL, fetchCalendarReferenceData } from "../../api";
@@ -165,7 +163,7 @@ class SelectServiceTypeStep extends React.Component {
                           : {}
                       ]}
                     >
-                      <FastImage
+                      <Image
                         style={[
                           styles.optionIcon,
                           isSelectedOption ? styles.selectedOptionIcon : {}
@@ -197,7 +195,7 @@ class SelectServiceTypeStep extends React.Component {
                     styles.selectedOptionIconContainer
                   ]}
                 >
-                  <FastImage
+                  <Image
                     style={[styles.optionIconForOther]}
                     resizeMode="contain"
                     source={{

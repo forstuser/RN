@@ -5,12 +5,10 @@ import {
   View,
   FlatList,
   Alert,
-  Image,
   TextInput,
   TouchableOpacity
 } from "react-native";
 import Modal from "react-native-modal";
-import FastImage from "react-native-fast-image";
 import ActionSheet from "react-native-actionsheet";
 import ImagePicker from "react-native-image-crop-picker";
 import {
@@ -19,7 +17,7 @@ import {
 } from "../../android-permissions";
 import I18n from "../../i18n";
 import { API_BASE_URL, uploadProfilePic } from "../../api";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
 import { colors } from "../../theme";
 import { showSnackbar } from "../snackbar";
 import { BlurView } from "react-native-blur";
@@ -38,7 +36,7 @@ class ProfileScreen extends Component {
   componentDidMount() {
     const profile = this.props.profile;
     let profilePic = (
-      <FastImage
+      <Image
         ref={img => {
           this.backgroundImage = img;
         }}
@@ -48,7 +46,7 @@ class ProfileScreen extends Component {
     );
     if (profile.image_name) {
       profilePic = (
-        <FastImage
+        <Image
           ref={img => {
             this.backgroundImage = img;
           }}
@@ -122,9 +120,7 @@ class ProfileScreen extends Component {
     try {
       await uploadProfilePic(file, () => {});
       this.setState({
-        profilePic: (
-          <FastImage style={styles.image} source={{ uri: file.uri }} />
-        )
+        profilePic: <Image style={styles.image} source={{ uri: file.uri }} />
       });
 
       showSnackbar({

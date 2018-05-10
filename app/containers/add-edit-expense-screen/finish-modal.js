@@ -1,7 +1,6 @@
 import React from "react";
-import { StyleSheet, View, Image } from "react-native";
-import FastImage from "react-native-fast-image";
-import { Text, Button } from "../../elements";
+import { StyleSheet, View } from "react-native";
+import { Text, Button, Image } from "../../elements";
 import Modal from "react-native-modal";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
@@ -82,7 +81,7 @@ class FinishModal extends React.Component {
               animationOutTiming={10}
             >
               <View style={styles.finishModal}>
-                <FastImage
+                <Image
                   style={styles.finishImage}
                   source={
                     mainCategoryId

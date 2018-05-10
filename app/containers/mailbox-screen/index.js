@@ -4,13 +4,12 @@ import {
   FlatList,
   Alert,
   TouchableOpacity,
-  StyleSheet,
-  Image
+  StyleSheet
 } from "react-native";
 import moment from "moment";
 import { API_BASE_URL, getMailboxData, updateMailboxRead } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
-import { ScreenContainer, Text, Button, AsyncImage } from "../../elements";
+import { ScreenContainer, Text, Button, Image } from "../../elements";
 import { colors } from "../../theme";
 import { openBillsPopUp } from "../../navigation";
 import I18n from "../../i18n";
@@ -153,7 +152,7 @@ class MailBox extends Component {
         <View style={styles.imageAndDetails}>
           <View style={styles.imageWrapper}>
             {(!item.copies || (item.copies && item.copies.length == 0)) && (
-              <AsyncImage
+              <Image
                 style={styles.image}
                 fileStyle={{ width: 50, height: 50 }}
                 fileType="pdf"
@@ -162,11 +161,11 @@ class MailBox extends Component {
 
             {item.copies &&
               item.copies.length > 0 && (
-                <AsyncImage
+                <Image
                   style={styles.image}
                   fileStyle={{ width: 50, height: 50 }}
                   fileType={item.copies[0].file_type || item.copies[0].fileType}
-                  uri={API_BASE_URL + "/" + item.copies[0].copyUrl}
+                  source={{ uri: API_BASE_URL + "/" + item.copies[0].copyUrl }}
                 />
               )}
           </View>

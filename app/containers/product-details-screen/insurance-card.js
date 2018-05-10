@@ -2,13 +2,11 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  Image,
   Alert,
   TouchableOpacity,
   ScrollView,
   Text as NativeText
 } from "react-native";
-import FastImage from "react-native-fast-image";
 import _ from "lodash";
 import moment from "moment";
 import ScrollableTabView, {
@@ -21,7 +19,7 @@ import Modal from "react-native-modal";
 
 import { SCREENS } from "../../constants";
 import { API_BASE_URL, getProductDetails } from "../../api";
-import { Text, Button, ScreenContainer } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
 
 import I18n from "../../i18n";
 
@@ -123,7 +121,7 @@ class InsuranceCard extends Component {
             navigator={navigator}
             docType="Insurance"
           />
-          <FastImage
+          <Image
             style={styles.image}
             source={{ uri: API_BASE_URL + "/" + product.cImageURL }}
           />

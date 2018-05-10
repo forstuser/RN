@@ -1,8 +1,7 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
-import FastImage from "react-native-fast-image";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import moment from "moment";
-import { Text, Button } from "../elements";
+import { Text, Button, Image } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
 
@@ -15,7 +14,7 @@ const EhomeCategoryItem = ({
 }) => (
   <TouchableOpacity onPress={onPress} style={styles.container}>
     <View style={styles.imageAndName}>
-      <FastImage
+      <Image
         style={styles.image}
         source={{
           uri: imageUrl
