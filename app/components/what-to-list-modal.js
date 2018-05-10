@@ -142,13 +142,15 @@ class WhatToListModal extends React.Component {
                         value={item}
                         onChangeText={text => this.textChange(text, index)}
                       />
-                      {index > 0 && (
+                      {index > 0 ? (
                         <TouchableOpacity
                           style={styles.removeBtn}
                           onPress={() => this.onRemoveBtnPress(index)}
                         >
                           <Icon name="md-close" color="white" size={20} />
                         </TouchableOpacity>
+                      ) : (
+                        <View />
                       )}
                     </View>
                   ))}

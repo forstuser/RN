@@ -30,7 +30,7 @@ const EhomeCategoryItem = ({
           count: itemsCount
         })}
       </Text>
-      {lastUpdatedTime && (
+      {lastUpdatedTime ? (
         <Text style={styles.lastUpdateTime}>
           {I18n.t("ehome_screen_items_category_item_last_updated", {
             date: moment(lastUpdatedTime)
@@ -38,6 +38,8 @@ const EhomeCategoryItem = ({
               .toUpperCase()
           })}
         </Text>
+      ) : (
+        <View />
       )}
     </View>
   </TouchableOpacity>

@@ -18,7 +18,9 @@ class AddEmptyProductScreen extends Component {
   }
 
   onPressItem = item => {
-    Analytics.logEvent(Analytics.EVENTS.ADD_PRODUCT_INSIDE_EHOME_MAIN_CATEGORIES);
+    Analytics.logEvent(
+      Analytics.EVENTS.ADD_PRODUCT_INSIDE_EHOME_MAIN_CATEGORIES
+    );
     this.props.navigator.push({
       screen: SCREENS.ADD_PRODUCT_SCREEN,
       passProps: { expenseType: item.type, category: item.category },
@@ -189,8 +191,10 @@ class AddEmptyProductScreen extends Component {
       <View style={styles.container}>
         <Image style={styles.image} source={item.image} />
         <Text style={styles.desc}>{item.desc}</Text>
-        {this.props.mainCategoryId != 9 && (
+        {this.props.mainCategoryId != 9 ? (
           <Text style={styles.below}>{I18n.t("product_list_click_below")}</Text>
+        ) : (
+          <View />
         )}
         {/* {this.props.mainCategoryId == 9 && ( */}
         <View>

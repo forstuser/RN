@@ -398,130 +398,130 @@ class BasicDetailsForm extends React.Component {
           )}
           {(categoryId == CATEGORY_IDS.FURNITURE.FURNITURE ||
             mainCategoryId == MAIN_CATEGORY_IDS.FASHION) && (
-              <TouchableOpacity
+            <TouchableOpacity
+              style={{
+                paddingTop: 10,
+                paddingBottom:
+                  selectedBrand != null && selectedBrand.id == 0 ? 30 : 10,
+                flexDirection: "row"
+              }}
+              onPress={this.toggleNonBranded}
+            >
+              <View
                 style={{
-                  paddingTop: 10,
-                  paddingBottom:
-                    selectedBrand != null && selectedBrand.id == 0 ? 30 : 10,
-                  flexDirection: "row"
+                  width: 20,
+                  height: 20,
+                  borderRadius: 3,
+                  borderWidth: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderColor:
+                    selectedBrand && selectedBrand.id == 0
+                      ? colors.pinkishOrange
+                      : colors.secondaryText
                 }}
-                onPress={this.toggleNonBranded}
               >
-                <View
-                  style={{
-                    width: 20,
-                    height: 20,
-                    borderRadius: 3,
-                    borderWidth: 1,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderColor:
-                      selectedBrand && selectedBrand.id == 0
-                        ? colors.pinkishOrange
-                        : colors.secondaryText
-                  }}
-                >
-                  {selectedBrand &&
-                    selectedBrand.id == 0 && (
-                      <Icon
-                        name="md-checkmark"
-                        size={16}
-                        color={colors.pinkishOrange}
-                      />
-                    )}
-                </View>
+                {selectedBrand &&
+                  selectedBrand.id == 0 && (
+                    <Icon
+                      name="md-checkmark"
+                      size={16}
+                      color={colors.pinkishOrange}
+                    />
+                  )}
+              </View>
 
-                <Text weight="Medium" style={{ marginLeft: 8, flex: 1 }}>
-                  Unbranded
+              <Text weight="Medium" style={{ marginLeft: 8, flex: 1 }}>
+                Unbranded
               </Text>
-              </TouchableOpacity>
-            )}
+            </TouchableOpacity>
+          )}
 
           {(!selectedBrand ||
             (selectedBrand && selectedBrand.id != 0) ||
             (categoryId != CATEGORY_IDS.FURNITURE.FURNITURE &&
               mainCategoryId != MAIN_CATEGORY_IDS.FASHION)) && (
-              <SelectModal
-                // style={styles.input}
-                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-                placeholder={I18n.t("expense_forms_product_basics_name_brand")}
-                textInputPlaceholder={I18n.t(
-                  "expense_forms_product_basics_brand_name"
-                )}
-                placeholderRenderer={({ placeholder }) => (
-                  <View style={{ flexDirection: "row" }}>
-                    <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                      {placeholder}
+            <SelectModal
+              // style={styles.input}
+              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+              placeholder={I18n.t("expense_forms_product_basics_name_brand")}
+              textInputPlaceholder={I18n.t(
+                "expense_forms_product_basics_brand_name"
+              )}
+              placeholderRenderer={({ placeholder }) => (
+                <View style={{ flexDirection: "row" }}>
+                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                    {placeholder}
+                  </Text>
+                  {categoryId != CATEGORY_IDS.FURNITURE.FURNITURE && (
+                    <Text weight="Medium" style={{ color: colors.mainBlue }}>
+                      *
                     </Text>
-                    {categoryId != CATEGORY_IDS.FURNITURE.FURNITURE && (
-                      <Text weight="Medium" style={{ color: colors.mainBlue }}>
-                        *
-                    </Text>
-                    )}
-                  </View>
-                )}
-                selectedOption={selectedBrand}
-                textInputValue={brandName}
-                options={brands.map(brand => ({
-                  ...brand,
-                  image: `${API_BASE_URL}/brands/${brand.id}/images`
-                }))}
-                imageKey="image"
-                onOptionSelect={value => {
-                  this.onBrandSelect(value);
-                }}
-                onTextInputChange={text => this.onBrandNameChange(text)}
-              />
-            )}
+                  )}
+                </View>
+              )}
+              selectedOption={selectedBrand}
+              textInputValue={brandName}
+              options={brands.map(brand => ({
+                ...brand,
+                image: `${API_BASE_URL}/brands/${brand.id}/images`
+              }))}
+              imageKey="image"
+              onOptionSelect={value => {
+                this.onBrandSelect(value);
+              }}
+              onTextInputChange={text => this.onBrandNameChange(text)}
+            />
+          )}
 
           {(mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
             mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) && (
-              <SelectModal
-                // style={styles.input}
-                visibleKey="title"
-                dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-                placeholder={I18n.t("expense_forms_product_basics_model")}
-                textInputPlaceholder={I18n.t(
-                  "expense_forms_product_basics_enter_model"
-                )}
-                placeholderRenderer={({ placeholder }) => (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center"
-                    }}
-                  >
-                    <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                      {placeholder}
-                    </Text>
-                    <Text style={{ color: colors.mainBlue, fontSize: 12 }}>
-                      {" "}
-                      (Required for warranty calculation)
+            <SelectModal
+              // style={styles.input}
+              visibleKey="title"
+              dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+              placeholder={I18n.t("expense_forms_product_basics_model")}
+              textInputPlaceholder={I18n.t(
+                "expense_forms_product_basics_enter_model"
+              )}
+              placeholderRenderer={({ placeholder }) => (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center"
+                  }}
+                >
+                  <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                    {placeholder}
                   </Text>
-                  </View>
-                )}
-                options={models}
-                beforeModalOpen={() => {
-                  if (selectedBrand || brandName) {
-                    return true;
-                  }
-                  showSnackbar({
-                    text: I18n.t(
-                      "expense_forms_product_basics_select_brand_first"
-                    )
-                  });
-                  return false;
-                }}
-                selectedOption={selectedModel}
-                textInputValue={modelName}
-                onOptionSelect={value => {
-                  this.onModelSelect(value);
-                }}
-                onTextInputChange={text => this.setState({ modelName: text })}
-              />
-            )}
+                  <Text style={{ color: colors.mainBlue, fontSize: 12 }}>
+                    {" "}
+                    (Required for warranty calculation)
+                  </Text>
+                </View>
+              )}
+              options={models}
+              beforeModalOpen={() => {
+                if (selectedBrand || brandName) {
+                  return true;
+                }
+                showSnackbar({
+                  text: I18n.t(
+                    "expense_forms_product_basics_select_brand_first"
+                  )
+                });
+                return false;
+              }}
+              selectedOption={selectedModel}
+              textInputValue={modelName}
+              onOptionSelect={value => {
+                this.onModelSelect(value);
+              }}
+              onTextInputChange={text => this.setState({ modelName: text })}
+            />
+          )}
 
-          {showFullForm && (
+          {showFullForm ? (
             <View>
               {categoryId == 327 && (
                 <CustomTextInput
@@ -548,7 +548,7 @@ class BasicDetailsForm extends React.Component {
                   />
                 )}
 
-              {mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE && (
+              {mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ? (
                 <View>
                   <CustomTextInput
                     placeholder={I18n.t("expense_forms_product_basics_vin_no")}
@@ -569,8 +569,12 @@ class BasicDetailsForm extends React.Component {
                     }
                   />
                 </View>
+              ) : (
+                <View />
               )}
             </View>
+          ) : (
+            <View />
           )}
           <CustomDatePicker
             date={purchaseDate}
@@ -579,7 +583,7 @@ class BasicDetailsForm extends React.Component {
               this.setState({ purchaseDate });
             }}
           />
-          {(showFullForm || mainCategoryId == MAIN_CATEGORY_IDS.FASHION) && (
+          {showFullForm || mainCategoryId == MAIN_CATEGORY_IDS.FASHION ? (
             <CustomTextInput
               placeholder={I18n.t(
                 "expense_forms_product_basics_purchase_amount"
@@ -588,8 +592,10 @@ class BasicDetailsForm extends React.Component {
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"
             />
+          ) : (
+            <View />
           )}
-          {showFullForm && (
+          {showFullForm ? (
             <View>
               <CustomTextInput
                 placeholder={I18n.t("expense_forms_product_basics_seller_name")}
@@ -606,6 +612,8 @@ class BasicDetailsForm extends React.Component {
                 keyboardType="numeric"
               />
             </View>
+          ) : (
+            <View />
           )}
         </View>
         <UploadDoc

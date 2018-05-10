@@ -153,9 +153,9 @@ class SelectModal extends Component {
 
     return (
       <View style={[styles.container, style]}>
-        {!isAddNewVisible && (
+        {!isAddNewVisible ? (
           <View style={{ flex: 1 }}>
-            {!hideSearch && (
+            {!hideSearch ? (
               <View style={styles.searchContainer}>
                 <TextInput
                   placeholder={I18n.t("component_items_search")}
@@ -165,6 +165,8 @@ class SelectModal extends Component {
                   onChangeText={text => this.setState({ searchInput: text })}
                 />
               </View>
+            ) : (
+              <View />
             )}
             <FlatList
               style={style.itemsList}
@@ -186,8 +188,7 @@ class SelectModal extends Component {
               }}
             />
           </View>
-        )}
-        {isAddNewVisible && (
+        ) : (
           <View style={styles.addNewContainer}>
             <Text
               weight="Bold"

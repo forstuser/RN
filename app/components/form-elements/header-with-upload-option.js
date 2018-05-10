@@ -75,12 +75,12 @@ class HeaderWithUploadOption extends React.Component {
         <Text weight="Medium" style={styles.headerText}>
           {title}
         </Text>
-        {!hideUploadOption && (
+        {!hideUploadOption ? (
           <View
             onLayout={this.showTooltip}
             ref={ref => (this.uploadBillBtn = ref)}
           >
-            {copies.length > 0 && (
+            {copies.length > 0 ? (
               <View style={styles.copiesContainer}>
                 <Text
                   weight="Medium"
@@ -105,13 +105,12 @@ class HeaderWithUploadOption extends React.Component {
                   {I18n.t("expense_forms_header_upload_add")}
                 </Text>
               </View>
-            )}
-            {copies.length == 0 && (
+            ) : (
               <TouchableOpacity
                 onPress={this.onUploadDocPress}
                 style={styles.uploadBillBtn}
               >
-                {!isDocUploaded && (
+                {!isDocUploaded ? (
                   <View style={styles.uploadBillBtnTexts}>
                     <Text
                       weight="Medium"
@@ -132,8 +131,7 @@ class HeaderWithUploadOption extends React.Component {
                       {textBeforeUpload2}
                     </Text>
                   </View>
-                )}
-                {isDocUploaded && (
+                ) : (
                   <Text
                     weight="Medium"
                     style={[
@@ -155,6 +153,8 @@ class HeaderWithUploadOption extends React.Component {
               }}
             />
           </View>
+        ) : (
+          <View />
         )}
         <Tour
           ref={ref => (this.tour = ref)}

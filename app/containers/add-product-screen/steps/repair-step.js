@@ -246,7 +246,7 @@ class Repair extends React.Component {
                     </TouchableOpacity>
                   </View>
                 )}
-              {selectedProduct && (
+              {selectedProduct ? (
                 <View style={styles.formContainer}>
                   <View style={styles.form}>
                     <Text weight="Medium" style={styles.headerText}>
@@ -324,6 +324,8 @@ class Repair extends React.Component {
                     />
                   </View>
                 </View>
+              ) : (
+                <View />
               )}
             </KeyboardAwareScrollView>
           )}
