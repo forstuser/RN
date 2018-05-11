@@ -73,10 +73,12 @@ class DatePickerRn extends React.Component {
       },
       () => {
         setTimeout(() => {
-          this.yearList.scrollToEnd({
-            animated: false
-          });
-        }, 200);
+          if (this.yearList) {
+            this.yearList.scrollToEnd({
+              animated: false
+            });
+          }
+        }, 300);
       }
     );
   };
