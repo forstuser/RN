@@ -104,19 +104,9 @@ class UploadDocumentScreen extends Component {
       title: I18n.t("upload_document_screen_title")
     });
 
-    setTimeout(() => {
-      switch (this.props.openPickerOnStart) {
-        case "camera":
-          this.takeCameraImage();
-          break;
-        case "images":
-          this.pickGalleryImage();
-          break;
-        case "documents":
-          this.pickDocument();
-          break;
-      }
-    }, 1000);
+    if (this.props.file) {
+      this.pushFileToState(this.props.file);
+    }
   }
 
   onNavigatorEvent = event => {

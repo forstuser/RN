@@ -233,13 +233,12 @@ class AddEditWarranty extends React.Component {
       });
     }
 
-    if (!data.renewalType && data.copies.length == 0) {
+    if (!data.renewalType) {
       return showSnackbar({
         text: "Please upload doc or select warranty upto"
       });
     }
 
-    console.log("data: ", data);
     if (warrantyType == WARRANTY_TYPES.EXTENDED) {
       Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, {
         entity: "extended warranty"

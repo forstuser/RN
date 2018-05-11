@@ -132,15 +132,22 @@ class ProductDetailsScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        console.log("didAppear");
         if (!this.props.productId) {
           return this.props.navigator.pop();
         }
-        this.setState({
-          isScreenVisible: true
-        });
-        this.fetchProductDetails();
+        this.setState(
+          {
+            isScreenVisible: true
+          },
+          () => {
+            this.fetchProductDetails();
+          }
+        );
+
         break;
       case "willDisappear":
+        console.log("willDisappear");
         this.setState(
           {
             isScreenVisible: false
@@ -208,91 +215,94 @@ class ProductDetailsScreen extends Component {
         // isLoading: true
       });
       const res = await getProductDetails(this.props.productId);
-      const { product } = res;
-      if (
-        product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
-        product.categoryId == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC
-      ) {
-        this.props.navigator.setStyle({
-          drawUnderNavBar: false,
-          navBarTranslucent: false,
-          navBarTransparent: false,
-          navBarBackgroundColor: "#fff",
-          topBarElevationShadowEnabled: true
-        });
-      } else if (this.state.isLoading) {
-        this.props.navigator.setStyle({
-          drawUnderNavBar: true,
-          navBarTranslucent: Platform.OS === "ios",
-          navBarTransparent: true,
-          navBarBackgroundColor: "#fff",
-          topBarElevationShadowEnabled: false
-        });
-      }
 
-      let addImageText = "";
-      if (
-        [
-          MAIN_CATEGORY_IDS.AUTOMOBILE,
-          MAIN_CATEGORY_IDS.ELECTRONICS,
-          MAIN_CATEGORY_IDS.FURNITURE,
-          MAIN_CATEGORY_IDS.FASHION,
-          MAIN_CATEGORY_IDS.TRAVEL
-        ].indexOf(res.product.masterCategoryId) > -1
-      ) {
-        addImageText = "Add";
-        if (res.product.file_type) {
-          addImageText = "Edit";
+      if (this.state.isScreenVisible) {
+        const { product } = res;
+        if (
+          product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
+          product.categoryId == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC
+        ) {
+          this.props.navigator.setStyle({
+            drawUnderNavBar: false,
+            navBarTranslucent: false,
+            navBarTransparent: false,
+            navBarBackgroundColor: "#fff",
+            topBarElevationShadowEnabled: true
+          });
+        } else if (this.state.isLoading) {
+          this.props.navigator.setStyle({
+            drawUnderNavBar: true,
+            navBarTranslucent: Platform.OS === "ios",
+            navBarTransparent: true,
+            navBarBackgroundColor: "#fff",
+            topBarElevationShadowEnabled: false
+          });
         }
-      }
 
-      let title = I18n.t("product_details_screen_title");
-      if (
-        [
-          MAIN_CATEGORY_IDS.TRAVEL,
-          MAIN_CATEGORY_IDS.SERVICES,
-          MAIN_CATEGORY_IDS.HEALTHCARE,
-          MAIN_CATEGORY_IDS.HOUSEHOLD
-        ].indexOf(product.masterCategoryId) > -1
-      ) {
-        title = "Expense Details";
-      }
-      switch (product.categoryId) {
-        case CATEGORY_IDS.HEALTHCARE.INSURANCE:
-          title = "Insurance Details";
-          break;
-        case CATEGORY_IDS.PERSONAL.VISITING_CARD:
-          title = "Visiting Card Details";
-          break;
-        case CATEGORY_IDS.PERSONAL.RENT_AGREEMENT:
-        case CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC:
-        case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
-          title = "Document Details";
-          break;
-      }
-
-      this.props.navigator.setTitle({
-        title
-      });
-      this.props.navigator.setButtons({
-        rightButtons: [
-          {
-            component: "NavOptionsButton",
-            passProps: { addImageText }
+        let addImageText = "";
+        if (
+          [
+            MAIN_CATEGORY_IDS.AUTOMOBILE,
+            MAIN_CATEGORY_IDS.ELECTRONICS,
+            MAIN_CATEGORY_IDS.FURNITURE,
+            MAIN_CATEGORY_IDS.FASHION,
+            MAIN_CATEGORY_IDS.TRAVEL
+          ].indexOf(res.product.masterCategoryId) > -1
+        ) {
+          addImageText = "Add";
+          if (res.product.file_type) {
+            addImageText = "Edit";
           }
-        ],
-        animated: true
-      });
+        }
 
-      this.setState(
-        {
-          product: res.product
-        },
-        () =>
-          this.setState({
-            isLoading: false
-          })
-      );
+        let title = I18n.t("product_details_screen_title");
+        if (
+          [
+            MAIN_CATEGORY_IDS.TRAVEL,
+            MAIN_CATEGORY_IDS.SERVICES,
+            MAIN_CATEGORY_IDS.HEALTHCARE,
+            MAIN_CATEGORY_IDS.HOUSEHOLD
+          ].indexOf(product.masterCategoryId) > -1
+        ) {
+          title = "Expense Details";
+        }
+        switch (product.categoryId) {
+          case CATEGORY_IDS.HEALTHCARE.INSURANCE:
+            title = "Insurance Details";
+            break;
+          case CATEGORY_IDS.PERSONAL.VISITING_CARD:
+            title = "Visiting Card Details";
+            break;
+          case CATEGORY_IDS.PERSONAL.RENT_AGREEMENT:
+          case CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC:
+          case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
+            title = "Document Details";
+            break;
+        }
+
+        this.props.navigator.setTitle({
+          title
+        });
+        this.props.navigator.setButtons({
+          rightButtons: [
+            {
+              component: "NavOptionsButton",
+              passProps: { addImageText }
+            }
+          ],
+          animated: true
+        });
+
+        this.setState(
+          {
+            product: res.product
+          },
+          () =>
+            this.setState({
+              isLoading: false
+            })
+        );
+      }
     } catch (e) {
       showSnackbar({
         text: e.message
