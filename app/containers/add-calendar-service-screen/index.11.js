@@ -307,10 +307,10 @@ class AddEditCalendarServiceScreen extends Component {
               onServiceTypeSelect={this.onServiceTypeSelect}
             />
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
           {selectedServiceType ? (
-            <View style={styles.form}>
+            <View collapsable={false}  style={styles.form}>
               <CustomTextInput
                 placeholder={I18n.t(
                   "add_edit_calendar_service_screen_form_name"
@@ -329,16 +329,16 @@ class AddEditCalendarServiceScreen extends Component {
                   onChangeText={providerName => this.setState({ providerName })}
                 />
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
               {selectedServiceType.wages_type !=
                 CALENDAR_WAGES_TYPE.PRODUCT && (
-                <View>
-                  <View>
+                <View collapsable={false} >
+                  <View collapsable={false} >
                     <Text weight="Medium" style={styles.label}>
                       {unitPriceText}
                     </Text>
-                    <View style={{ flexDirection: "row", marginBottom: 10 }}>
+                    <View collapsable={false}  style={{ flexDirection: "row", marginBottom: 10 }}>
                       <TouchableOpacity
                         onPress={() => {
                           this.setState({
@@ -420,8 +420,8 @@ class AddEditCalendarServiceScreen extends Component {
                 </View>
               )}
               {selectedServiceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT ? (
-                <View>
-                  <View style={{ flexDirection: "row" }}>
+                <View collapsable={false} >
+                  <View collapsable={false}  style={{ flexDirection: "row" }}>
                     <SelectModal
                       style={styles.selectUnitType}
                       visibleKey="symbol"
@@ -463,7 +463,7 @@ class AddEditCalendarServiceScreen extends Component {
                   />
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
               <CustomDatePicker
                 date={startingDate}
@@ -483,7 +483,7 @@ class AddEditCalendarServiceScreen extends Component {
               />
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
         </KeyboardAwareScrollView>
         {selectedServiceType ? (
@@ -495,11 +495,11 @@ class AddEditCalendarServiceScreen extends Component {
             style={styles.addItemBtn}
           />
         ) : (
-          <View style={styles.selectServiceMsgContainer}>
+          <View collapsable={false}  style={styles.selectServiceMsgContainer}>
             <Text weight="Medium" style={styles.selectServiceMsg}>
               Please Select a Type Above
             </Text>
-            <View style={styles.reason}>
+            <View collapsable={false}  style={styles.reason}>
               <Text style={styles.reasons} weight="Medium">
                 • Mark present and absent days
               </Text>

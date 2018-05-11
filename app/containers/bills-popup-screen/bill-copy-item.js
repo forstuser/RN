@@ -96,8 +96,8 @@ const BillCopyItem = ({
   };
 
   return (
-    <View style={styles.bill}>
-      <View style={styles.billCountTextWrapper}>
+    <View collapsable={false}  style={styles.bill}>
+      <View collapsable={false}  style={styles.billCountTextWrapper}>
         <Text style={styles.billCountText}>
           {index + 1} of {total}
         </Text>
@@ -116,7 +116,7 @@ const BillCopyItem = ({
         />
       )}
       {!isImageFileType(copy.file_type || copy.fileType) && (
-        <View style={styles.file}>
+        <View collapsable={false}  style={styles.file}>
           <Image style={styles.fileIcon} source={fileIcon} />
           <Text weight="Medium" style={styles.fileName}>
             {!isNaN(billId) &&
@@ -125,7 +125,7 @@ const BillCopyItem = ({
           </Text>
         </View>
       )}
-      <View style={styles.optionsWrapper}>
+      <View collapsable={false}  style={styles.optionsWrapper}>
         {(isImageFileType(copy.file_type) || Platform.OS == "android") && (
           <TouchableOpacity style={styles.option} onPress={onDownloadPress}>
             <Image style={styles.optionIcon} source={billDownloadIcon} />

@@ -148,7 +148,7 @@ class Profile extends Component {
     // if (!isRemovePinModalVisible) return null;
 
     return (
-      <View>
+      <View collapsable={false} >
         <KeyboardAwareScrollView>
           <ProfileDetailEdit
             label={I18n.t("profile_screen_label_name")}
@@ -158,12 +158,12 @@ class Profile extends Component {
             onUpdate={this.updateState}
           />
           {this.state.phone ? (
-            <View style={[styles.field, styles.verifiedField]}>
-              <View style={{ flexDirection: "row" }}>
+            <View collapsable={false}  style={[styles.field, styles.verifiedField]}>
+              <View collapsable={false}  style={{ flexDirection: "row" }}>
                 <Text style={styles.label}>
                   {I18n.t("profile_screen_label_phone")}
                 </Text>
-                <View
+                <View collapsable={false} 
                   style={{
                     flexDirection: "row",
                     alignItems: "center"
@@ -178,7 +178,7 @@ class Profile extends Component {
               </Text>
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
 
           <TouchableWithoutFeedback
@@ -191,18 +191,18 @@ class Profile extends Component {
               }
             }}
           >
-            <View
+            <View collapsable={false} 
               style={[
                 styles.field,
                 isEmailVerified ? styles.verifiedField : {}
               ]}
             >
-              <View style={{ flexDirection: "row" }}>
+              <View collapsable={false}  style={{ flexDirection: "row" }}>
                 <Text style={styles.label}>
                   {I18n.t("profile_screen_label_email")}
                 </Text>
                 {email ? (
-                  <View
+                  <View collapsable={false} 
                     style={{
                       flexDirection: "row",
                       alignItems: "center"
@@ -236,15 +236,15 @@ class Profile extends Component {
             onUpdate={this.updateState}
           />
           {isEmailModalVisible ? (
-            <View>
+            <View collapsable={false} >
               <Modal
                 isVisible={true}
                 onBackButtonPress={this.hideEmailModal}
                 avoidKeyboard={Platform.OS == "ios"}
                 useNativeDriver={true}
               >
-                <View style={styles.emailModal}>
-                  <View style={styles.modalHeader}>
+                <View collapsable={false}  style={styles.emailModal}>
+                  <View collapsable={false}  style={styles.modalHeader}>
                     <Text weight="Bold" style={{ flex: 1 }}>
                       {showOtpInput ? `Enter OTP` : `Enter Email Address`}
                     </Text>
@@ -255,9 +255,9 @@ class Profile extends Component {
                       <Icon name="md-close" size={24} color={colors.mainText} />
                     </TouchableOpacity>
                   </View>
-                  <View style={styles.modalBody}>
+                  <View collapsable={false}  style={styles.modalBody}>
                     {!showOtpInput && (
-                      <View>
+                      <View collapsable={false} >
                         <CustomTextInput
                           placeholder="Enter Email Address"
                           keyboardType="email-address"
@@ -274,7 +274,7 @@ class Profile extends Component {
                       </View>
                     )}
                     {showOtpInput && (
-                      <View>
+                      <View collapsable={false} >
                         <CustomTextInput
                           placeholder="OTP"
                           keyboardType="numeric"
@@ -296,7 +296,7 @@ class Profile extends Component {
               </Modal>
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
         </KeyboardAwareScrollView>
       </View>

@@ -12,13 +12,13 @@ const ErrorOverlay = ({ error, onRetryPress }) => {
     return null;
   }
   return (
-    <View style={styles.container}>
+    <View collapsable={false}  style={styles.container}>
       <Image
         style={styles.image}
         source={error.statusCode === 0 ? netErrorIcon : apiErrorIcon}
       />
       {error.statusCode === 0 && (
-        <View>
+        <View collapsable={false} >
           <Text weight="Bold" style={styles.title}>
             {I18n.t("component_items_no_internet")}
           </Text>
@@ -27,7 +27,7 @@ const ErrorOverlay = ({ error, onRetryPress }) => {
       )}
 
       {error.statusCode !== 0 && (
-        <View>
+        <View collapsable={false} >
           <Text weight="Bold" style={styles.title}>
             {I18n.t("component_items_something_went_wrong")}
           </Text>

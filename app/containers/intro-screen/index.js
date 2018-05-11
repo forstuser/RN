@@ -46,7 +46,7 @@ const slides = [
 class Intro extends Component {
   renderNextButton = () => {
     return (
-      <View style={styles.nextBtn}>
+      <View collapsable={false} style={styles.nextBtn}>
         <Text weight="Bold" style={styles.nextBtnText}>
           {I18n.t("app_intro_next")}
         </Text>
@@ -60,7 +60,7 @@ class Intro extends Component {
 
   renderSkipButton = () => {
     return (
-      <View style={styles.nextBtn}>
+      <View collapsable={false} style={styles.nextBtn}>
         <Text weight="Bold" style={styles.nextBtnText}>
           {I18n.t("app_intro_skip")}
         </Text>
@@ -70,7 +70,7 @@ class Intro extends Component {
 
   renderDoneButton = () => {
     return (
-      <View style={styles.doneBtnContainer}>
+      <View collapsable={false} style={styles.doneBtnContainer}>
         <Button
           onPress={openLoginScreen}
           text={I18n.t("app_intro_register")}

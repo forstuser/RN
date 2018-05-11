@@ -13,13 +13,13 @@ import { colors } from "../../theme";
 const MoreItem = ({ imageSource, text, onPress, btnText }) => (
   <TouchableOpacity onPress={onPress} style={styles.data}>
     <Image style={styles.logo} source={imageSource} resizeMode="contain" />
-    <View style={styles.textContainer}>
+    <View collapsable={false}  style={styles.textContainer}>
       <Text style={styles.text} weight="Medium">
         {text}
       </Text>
     </View>
     {btnText ? (
-      <View style={styles.btn}>
+      <View collapsable={false}  style={styles.btn}>
         <Text style={styles.btnText} weight="Bold">
           {btnText}
         </Text>

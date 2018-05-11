@@ -137,8 +137,8 @@ class ProfileScreen extends Component {
   render() {
     const profilePic = this.state.profilePic;
     return (
-      <View style={styles.header}>
-        <View style={styles.backgroundImg}>{profilePic}</View>
+      <View collapsable={false}  style={styles.header}>
+        <View collapsable={false}  style={styles.backgroundImg}>{profilePic}</View>
         {Platform.OS == "ios" && (
           <BlurView
             style={styles.overlay}
@@ -148,8 +148,8 @@ class ProfileScreen extends Component {
           />
         )}
 
-        <View style={styles.profilePicWrapper}>
-          <View style={styles.profilePicCircleWrapper}>{profilePic}</View>
+        <View collapsable={false}  style={styles.profilePicWrapper}>
+          <View collapsable={false}  style={styles.profilePicCircleWrapper}>{profilePic}</View>
           <TouchableOpacity
             onPress={() => this.uploadOptions.show()}
             style={styles.editImg}

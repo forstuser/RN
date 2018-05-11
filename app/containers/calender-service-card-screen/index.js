@@ -253,7 +253,7 @@ class CalendarServiceCard extends Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         {item ? (
           <ScrollView
             ref={ref => (this.scrollView = ref)}
@@ -268,7 +268,7 @@ class CalendarServiceCard extends Component {
               item={item}
               navigator={this.props.navigator}
             />
-            <View style={styles.pages}>
+            <View collapsable={false}  style={styles.pages}>
               {activeTabIndex == 0 && (
                 <Attendance
                   item={item}
@@ -299,7 +299,7 @@ class CalendarServiceCard extends Component {
             </View>
           </ScrollView>
         ) : (
-            <View />
+            <View collapsable={false}  />
           )}
         <LoadingOverlay visible={isLoading} />
         <ActionSheet
@@ -315,7 +315,7 @@ class CalendarServiceCard extends Component {
             ref={ref => (this.finishModal = ref)}
           />
         ) : (
-            <View />
+            <View collapsable={false}  />
           )}
       </View>
     );

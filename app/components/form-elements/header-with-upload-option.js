@@ -71,17 +71,17 @@ class HeaderWithUploadOption extends React.Component {
     }
     const { isDocUploaded } = this.state;
     return (
-      <View style={styles.header}>
+      <View collapsable={false}  style={styles.header}>
         <Text weight="Medium" style={styles.headerText}>
           {title}
         </Text>
         {!hideUploadOption ? (
-          <View
+          <View collapsable={false} 
             onLayout={this.showTooltip}
             ref={ref => (this.uploadBillBtn = ref)}
           >
             {copies.length > 0 ? (
-              <View style={styles.copiesContainer}>
+              <View collapsable={false}  style={styles.copiesContainer}>
                 <Text
                   weight="Medium"
                   style={styles.copiesCount}
@@ -111,7 +111,7 @@ class HeaderWithUploadOption extends React.Component {
                 style={styles.uploadBillBtn}
               >
                 {!isDocUploaded ? (
-                  <View style={styles.uploadBillBtnTexts}>
+                  <View collapsable={false}  style={styles.uploadBillBtnTexts}>
                     <Text
                       weight="Medium"
                       style={[
@@ -154,7 +154,7 @@ class HeaderWithUploadOption extends React.Component {
             />
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
         <Tour
           ref={ref => (this.tour = ref)}

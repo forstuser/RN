@@ -72,15 +72,15 @@ class FinishModal extends React.Component {
     if (!visible) return null;
 
     return (
-      <View>
+      <View collapsable={false} >
         {visible ? (
-          <View>
+          <View collapsable={false} >
             <Modal
               useNativeDriver={true}
               isVisible={true}
               animationOutTiming={10}
             >
-              <View style={styles.finishModal}>
+              <View collapsable={false}  style={styles.finishModal}>
                 <Image
                   style={styles.finishImage}
                   source={
@@ -114,7 +114,7 @@ class FinishModal extends React.Component {
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );

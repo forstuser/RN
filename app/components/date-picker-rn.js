@@ -151,10 +151,10 @@ class DatePickerRn extends React.Component {
     const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
+      <View collapsable={false}  style={styles.container}>
+        <View collapsable={false}  style={styles.header}>
           <TouchableWithoutFeedback onPress={this.previousMonth}>
-            <View style={[styles.adjacentMonth, styles.previousMonth]}>
+            <View collapsable={false}  style={[styles.adjacentMonth, styles.previousMonth]}>
               <Text>
                 <Icon name="ios-arrow-back" size={30} color={colors.mainBlue} />
               </Text>
@@ -178,7 +178,7 @@ class DatePickerRn extends React.Component {
             </Text>
           </TouchableOpacity>
           <TouchableWithoutFeedback onPress={this.nextMonth}>
-            <View style={[styles.adjacentMonth, styles.nextMonth]}>
+            <View collapsable={false}  style={[styles.adjacentMonth, styles.nextMonth]}>
               <Text>
                 <Icon
                   name="ios-arrow-forward"
@@ -190,10 +190,10 @@ class DatePickerRn extends React.Component {
           </TouchableWithoutFeedback>
         </View>
         {currentView == "days" ? (
-          <View style={styles.month}>
-            <View style={styles.week}>
+          <View collapsable={false}  style={styles.month}>
+            <View collapsable={false}  style={styles.week}>
               {weekDays.map(weekday => (
-                <View key={weekday} style={[styles.day, styles.weekday]}>
+                <View collapsable={false}  key={weekday} style={[styles.day, styles.weekday]}>
                   <Text weight="Bold" style={styles.dayText}>
                     {weekday}
                   </Text>
@@ -201,7 +201,7 @@ class DatePickerRn extends React.Component {
               ))}
             </View>
             {_.chunk(days, 7).map((week, index) => (
-              <View key={index} style={styles.week}>
+              <View collapsable={false}  key={index} style={styles.week}>
                 {week.map(day => {
                   let isOutOfRange = false;
                   const momentDate = moment(day.isoDate);
@@ -217,7 +217,7 @@ class DatePickerRn extends React.Component {
                         this.onDatePress(day.isoDate, isOutOfRange)
                       }
                     >
-                      <View
+                      <View collapsable={false} 
                         style={[
                           styles.day,
                           moment(day.isoDate).isSame(activeDate)
@@ -251,10 +251,10 @@ class DatePickerRn extends React.Component {
             ))}
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
         {currentView == "years" ? (
-          <View style={styles.month}>
+          <View collapsable={false}  style={styles.month}>
             <ScrollView
               ref={ref => (this.yearList = ref)}
               style={styles.yearList}
@@ -283,7 +283,7 @@ class DatePickerRn extends React.Component {
             </ScrollView>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );

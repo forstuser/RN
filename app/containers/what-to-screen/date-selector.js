@@ -21,7 +21,7 @@ const DateSelector = ({
       colors={[colors.aquaBlue, colors.mainBlue]}
     >
       <TouchableOpacity onPress={onLeftArrowPress}>
-        <View
+        <View collapsable={false} 
           style={[
             styles.arrow
             //     !isPreviousMonthAvailable && styles.disabledArrow
@@ -36,9 +36,9 @@ const DateSelector = ({
       >
         {moment(date).format("DD MMMM, YYYY")}
       </Text>
-      <View style={styles.arrows}>
+      <View collapsable={false}  style={styles.arrows}>
         <TouchableOpacity onPress={onRightArrowPress}>
-          <View
+          <View collapsable={false} 
             style={[
               styles.arrow
               //     !isNextMonthAvailable && styles.disabledArrow

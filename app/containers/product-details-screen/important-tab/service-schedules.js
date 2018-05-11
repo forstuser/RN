@@ -76,7 +76,7 @@ class ServiceSchedules extends Component {
     // if (!isModalVisible) return null;
 
     return (
-      <View>
+      <View collapsable={false} >
         <Collapsible
           headerText={I18n.t("product_details_screen_service_schedule_title")}
         >
@@ -91,18 +91,18 @@ class ServiceSchedules extends Component {
               </Text>
             </TouchableOpacity>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
         </Collapsible>
         {isModalVisible ? (
-          <View>
+          <View collapsable={false} >
             <Modal
               isVisible={true}
               useNativeDriver={true}
               onBackdropPress={this.toggleModal}
             >
-              <View style={styles.modal}>
-                <View style={styles.modalHeader}>
+              <View collapsable={false}  style={styles.modal}>
+                <View collapsable={false}  style={styles.modalHeader}>
                   <Text weight="Bold" style={styles.modalHeaderTitle}>
                     Service Schedule
                   </Text>
@@ -125,7 +125,7 @@ class ServiceSchedules extends Component {
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );

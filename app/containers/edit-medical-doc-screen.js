@@ -161,7 +161,7 @@ class MedicalDoc extends React.Component {
       isFinishModalVisible
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
           navigator={this.props.navigator}

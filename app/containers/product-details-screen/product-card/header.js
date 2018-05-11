@@ -81,7 +81,7 @@ class Header extends Component {
 
     if (product.categoryId != 664) {
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false} style={{ width: "100%" }}>
           <KeyValueItem
             keyText={I18n.t("product_details_screen_cost_breakdown_product")}
             valueText={`₹ ${product.value}`}
@@ -95,7 +95,7 @@ class Header extends Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false} style={{ width: "100%" }}>
           <KeyValueItem
             keyText={
               I18n.t("product_details_screen_cost_breakdown_warranty") + date
@@ -111,7 +111,7 @@ class Header extends Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false} style={{ width: "100%" }}>
           <KeyValueItem
             keyText={
               I18n.t("product_details_screen_cost_breakdown_insurance") + date
@@ -127,7 +127,7 @@ class Header extends Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false} style={{ width: "100%" }}>
           <KeyValueItem
             keyText={I18n.t("product_details_screen_cost_breakdown_amc") + date}
             valueText={`₹ ${item.premiumAmount}`}
@@ -141,7 +141,7 @@ class Header extends Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false} style={{ width: "100%" }}>
           <KeyValueItem
             keyText={
               I18n.t("product_details_screen_cost_breakdown_repairs") + date
@@ -177,7 +177,7 @@ class Header extends Component {
       repairAmount;
 
     amountBreakdownOptions.push(
-      <View style={{ width: "100%" }}>
+      <View collapsable={false} style={{ width: "100%" }}>
         <KeyValueItem
           keyText={I18n.t("product_details_screen_cost_breakdown_total")}
           valueText={`₹ ${totalAmount}`}
@@ -201,7 +201,7 @@ class Header extends Component {
       };
     }
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         {/* Category Image Start*/}
         <TouchableOpacity
           onPress={() => {
@@ -221,10 +221,10 @@ class Header extends Component {
         </TouchableOpacity>
         {/* Category Image End */}
 
-        <View style={styles.lowerHalf}>
-          <View style={styles.lowerHalfInner}>
-            <View style={{ flexDirection: "row" }}>
-              <View style={styles.texts}>
+        <View collapsable={false} style={styles.lowerHalf}>
+          <View collapsable={false} style={styles.lowerHalfInner}>
+            <View collapsable={false} style={{ flexDirection: "row" }}>
+              <View collapsable={false} style={styles.texts}>
                 <Text weight="Bold" style={styles.name}>
                   {productName}
                 </Text>
@@ -237,7 +237,7 @@ class Header extends Component {
                   onPress={() => this.priceBreakdown.show()}
                   style={styles.totalContainer}
                 >
-                  <View>
+                  <View collapsable={false}>
                     <Text weight="Bold" style={styles.totalAmount}>
                       ₹ {totalAmount}
                     </Text>
@@ -255,8 +255,9 @@ class Header extends Component {
               </View>
             </View>
             {/* 3 buttons (view bill,share and rating) start */}
-            <View style={styles.btns}>
+            <View collapsable={false} style={styles.btns}>
               <View
+                collapsable={false}
                 style={{
                   alignItems: "center"
                 }}
@@ -279,6 +280,7 @@ class Header extends Component {
                 MAIN_CATEGORY_IDS.FASHION
               ].indexOf(product.masterCategoryId) > -1 && (
                 <View
+                  collapsable={false}
                   style={{
                     alignItems: "center"
                   }}
@@ -308,6 +310,7 @@ class Header extends Component {
                 MAIN_CATEGORY_IDS.FASHION
               ].indexOf(product.masterCategoryId) > -1 && (
                 <View
+                  collapsable={false}
                   style={{
                     alignItems: "center"
                   }}
@@ -326,7 +329,7 @@ class Header extends Component {
               )}
             </View>
             {/* 3 buttons (view bill,share and rating) end */}
-            <View style={styles.tabs}>
+            <View collapsable={false} style={styles.tabs}>
               {[
                 I18n.t("product_details_screen_tab_customer_care"),
                 I18n.t("product_details_screen_tab_all_info"),
@@ -355,6 +358,7 @@ class Header extends Component {
                       {tab}
                     </Text>
                     <View
+                      collapsable={false}
                       style={
                         index == activeTabIndex ? styles.activeIndicator : {}
                       }

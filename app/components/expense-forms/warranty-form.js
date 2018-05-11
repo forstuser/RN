@@ -233,10 +233,10 @@ class WarrantyForm extends React.Component {
         icon="plus"
         isCollapsible={isCollapsible}
       >
-        <View style={styles.innerContainer}>
-          <View style={styles.body}>
+        <View collapsable={false}  style={styles.innerContainer}>
+          <View collapsable={false}  style={styles.body}>
             {warrantyType == WARRANTY_TYPES.EXTENDED ? (
-              <View>
+              <View collapsable={false} >
                 <SelectModal
                   // style={styles.input}
                   dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
@@ -288,7 +288,7 @@ class WarrantyForm extends React.Component {
                 />
               </View>
             ) : (
-              <View />
+              <View collapsable={false}  />
             )}
             <SelectModal
               // style={styles.input}

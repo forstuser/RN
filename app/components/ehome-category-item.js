@@ -13,7 +13,7 @@ const EhomeCategoryItem = ({
   onPress
 }) => (
   <TouchableOpacity onPress={onPress} style={styles.container}>
-    <View style={styles.imageAndName}>
+    <View collapsable={false}  style={styles.imageAndName}>
       <Image
         style={styles.image}
         source={{
@@ -24,7 +24,7 @@ const EhomeCategoryItem = ({
         {name}
       </Text>
     </View>
-    <View style={styles.countAndTime}>
+    <View collapsable={false}  style={styles.countAndTime}>
       <Text weight="Medium" style={styles.itemsCount}>
         {I18n.t("ehome_screen_items_category_item_count", {
           count: itemsCount
@@ -39,7 +39,7 @@ const EhomeCategoryItem = ({
           })}
         </Text>
       ) : (
-        <View />
+        <View collapsable={false}  />
       )}
     </View>
   </TouchableOpacity>

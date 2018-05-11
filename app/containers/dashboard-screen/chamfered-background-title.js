@@ -20,7 +20,7 @@ import Svg, {
 } from "react-native-svg";
 
 const Title = ({ gradientColors = ["#ff652e", "#ffa33c"], text = "" }) => (
-  <View style={styles.container}>
+  <View collapsable={false}  style={styles.container}>
     <Svg style={styles.svg}>
       <Defs>
         <LinearGradient id="grad" x1="0" y1="0" x2="170" y2="0">
@@ -41,7 +41,7 @@ const Title = ({ gradientColors = ["#ff652e", "#ffa33c"], text = "" }) => (
         fill="url(#grad)"
       />
     </Svg>
-    <View style={styles.textContainer}>
+    <View collapsable={false}  style={styles.textContainer}>
       <Text weight="Bold" style={{ color: "#fff" }}>
         {text.toUpperCase()}
       </Text>

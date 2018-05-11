@@ -89,15 +89,15 @@ class AscItem extends React.Component {
     }
 
     return (
-      <View style={[styles.item, style]}>
-        <View style={styles.imageWrapper}>
+      <View collapsable={false}  style={[styles.item, style]}>
+        <View collapsable={false}  style={styles.imageWrapper}>
           <Image
             style={styles.itemImage}
             source={{ uri: API_BASE_URL + item.cImageURL }}
             resizeMode="contain"
           />
         </View>
-        <View style={styles.itemDetails}>
+        <View collapsable={false}  style={styles.itemDetails}>
           <Text weight="Bold" style={styles.itemName}>
             {item.centerName.toUpperCase()}
           </Text>
@@ -105,13 +105,13 @@ class AscItem extends React.Component {
           <Text weight="Medium" style={styles.itemDistance}>
             {item.distance + " " + item.distanceMetrics}
           </Text>
-          <View style={styles.itemDetailSection}>
+          <View collapsable={false}  style={styles.itemDetailSection}>
             <Text weight="Medium" style={styles.itemDetail}>
               {item.address}
             </Text>
           </View>
           {phoneNumbers.length > 0 ? (
-            <View style={styles.itemDetailSection}>
+            <View collapsable={false}  style={styles.itemDetailSection}>
               {phoneNumbers.map(phoneNumber => (
                 <TouchableOpacity
                   key={phoneNumber}
@@ -130,10 +130,10 @@ class AscItem extends React.Component {
               ))}
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
           {emails.length > 0 ? (
-            <View style={styles.itemDetailSection}>
+            <View collapsable={false}  style={styles.itemDetailSection}>
               {emails.map(email => (
                 <TouchableOpacity
                   key={email}
@@ -152,9 +152,9 @@ class AscItem extends React.Component {
               ))}
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
-          <View style={styles.itemDetailSection}>
+          <View collapsable={false}  style={styles.itemDetailSection}>
             <Text weight="Medium" style={styles.itemDetail}>
               {item.openingDays}
             </Text>
@@ -163,7 +163,7 @@ class AscItem extends React.Component {
             </Text>
           </View>
         </View>
-        <View style={styles.directionAndCall}>
+        <View collapsable={false}  style={styles.directionAndCall}>
           <TouchableOpacity
             onPress={() => this.openMap(item.centerAddress)}
             style={styles.directionAndCallItem}

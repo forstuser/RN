@@ -53,8 +53,8 @@ class WagesCycleStep extends React.Component {
 
     return (
       <Step title={`Select Cycle`} {...this.props}>
-        <View style={{ padding: 20 }}>
-          <View style={{ flexDirection: "row", marginBottom: 10 }}>
+        <View collapsable={false}  style={{ padding: 20 }}>
+          <View collapsable={false}  style={{ flexDirection: "row", marginBottom: 10 }}>
             <TouchableOpacity
               onPress={() => {
                 this.setState({

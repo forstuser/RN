@@ -60,7 +60,7 @@ class SelectView extends Component {
     const { selectedCopies } = this.state;
     const { copies, passSelectedCopies } = this.props;
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <GridView
           itemDimension={150}
           items={copies}
@@ -74,7 +74,7 @@ class SelectView extends Component {
                 onPress={() => this.toggleCopySelect(item)}
                 style={styles.item}
               >
-                <View
+                <View collapsable={false} 
                   style={[
                     styles.itemInner,
                     { borderColor: itemIndex > -1 ? colors.mainBlue : "#999" }
@@ -87,12 +87,12 @@ class SelectView extends Component {
                     />
                   )}
                   {!isImageFileType(item.file_type || item.fileType) && (
-                    <View style={styles.file}>
+                    <View collapsable={false}  style={styles.file}>
                       <Image style={styles.fileIcon} source={fileIcon} />
                     </View>
                   )}
 
-                  <View style={styles.checkboxWrapper}>
+                  <View collapsable={false}  style={styles.checkboxWrapper}>
                     <Icon
                       style={styles.checkbox}
                       name="ios-checkmark-circle"

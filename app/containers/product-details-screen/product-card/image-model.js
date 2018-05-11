@@ -45,9 +45,9 @@ class ImageModal extends React.Component {
     if (!isModalVisible) return null;
 
     return (
-      <View>
+      <View collapsable={false} >
         {isModalVisible && (
-          <View>
+          <View collapsable={false} >
             <Modal
               isVisible={true}
               useNativeDriver={true}
@@ -57,7 +57,7 @@ class ImageModal extends React.Component {
               style={{ flex: 1, margin: 0 }}
             >
               <LoadingOverlay visible={isImageLoading} />
-              <View style={styles.modal}>
+              <View collapsable={false}  style={styles.modal}>
                 <Image
                   onLoad={this.hideLoader}
                   style={styles.bg}

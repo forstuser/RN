@@ -185,7 +185,7 @@ class PinSetupScreen extends React.Component {
       <ScreenContainer style={styles.container}>
         {showEmailInput &&
           !showOtpInput && (
-            <View style={{ padding: 16 }}>
+            <View collapsable={false}  style={{ padding: 16 }}>
               <CustomTextInput
                 keyboardType="email-address"
                 placeholder="Enter Email Id"
@@ -196,7 +196,7 @@ class PinSetupScreen extends React.Component {
           )}
         {!showEmailInput &&
           showOtpInput && (
-            <View style={{ padding: 16 }}>
+            <View collapsable={false}  style={{ padding: 16 }}>
               <CustomTextInput
                 keyboardType="numeric"
                 placeholder="Enter OTP"
@@ -208,19 +208,19 @@ class PinSetupScreen extends React.Component {
           )}
         {!showEmailInput &&
           !showOtpInput && (
-            <View style={{ flex: 1 }}>
+            <View collapsable={false}  style={{ flex: 1 }}>
               {!showRetryPin ? (
                 <PinInput
                   title="Create App PIN"
                   onSubmitPress={this.showRetryPin}
                 />
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
               {showRetryPin ? (
                 <PinInput title="Confirm App PIN" onSubmitPress={this.setPin} />
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
             </View>
           )}

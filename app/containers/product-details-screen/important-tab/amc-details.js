@@ -53,19 +53,19 @@ class AmcDetails extends Component {
     const { amcDetails } = product;
 
     return (
-      <View>
+      <View collapsable={false} >
         <Collapsible headerText={I18n.t("product_details_screen_amc_title")}>
           {amcDetails.length > 0 ? (
-            <View>
+            <View collapsable={false} >
               {amcDetails.map(amc => (
-                <View>
+                <View collapsable={false} >
                   <EditOptionRow
                     date={amc.expiryDate}
                     onEditPress={() => {
                       this.openAddEditAmcScreen(amc);
                     }}
                   />
-                  <ViewBillRow
+                  <View collapsable={false} BillRow
                     expiryDate={amc.expiryDate}
                     purchaseDate={amc.purchaseDate}
                     docType="AMC"

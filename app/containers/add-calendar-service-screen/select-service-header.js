@@ -94,7 +94,7 @@ class SelectCategoryHeader extends React.Component {
     const { visibleOptions, selectedOption, showOtherOption } = this.state;
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <Text weight="Medium" style={styles.title}>
           {I18n.t("add_edit_calendar_service_screen_title_slider")}
         </Text>
@@ -110,8 +110,8 @@ class SelectCategoryHeader extends React.Component {
               <TouchableWithoutFeedback
                 onPress={() => this.onOptionSelect(option)}
               >
-                <View style={styles.option}>
-                  <View
+                <View collapsable={false}  style={styles.option}>
+                  <View collapsable={false} 
                     style={[
                       styles.optionIconContainer,
                       isSelectedOption ? styles.selectedOptionIconContainer : {}
@@ -142,8 +142,8 @@ class SelectCategoryHeader extends React.Component {
             );
           })}
           {selectedOption && showOtherOption ? (
-            <View style={styles.option}>
-              <View
+            <View collapsable={false}  style={styles.option}>
+              <View collapsable={false} 
                 style={[
                   styles.optionIconContainer,
                   styles.selectedOptionIconContainer
@@ -165,14 +165,14 @@ class SelectCategoryHeader extends React.Component {
               </Text>
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
 
           <TouchableWithoutFeedback
             onPress={() => this.otherOptionsModal.openModal()}
           >
-            <View style={styles.option}>
-              <View style={styles.optionIconContainer}>
+            <View collapsable={false}  style={styles.option}>
+              <View collapsable={false}  style={styles.optionIconContainer}>
                 <Image
                   style={[styles.optionIcon, { width: 50, height: 30 }]}
                   resizeMode="contain"

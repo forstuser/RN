@@ -30,7 +30,7 @@ const InsightChart = ({
   ],
   chartData = []
 }) => (
-  <View style={styles.container}>
+  <View collapsable={false}  style={styles.container}>
     <VictoryPie
       colorScale={colors}
       height={300}

@@ -78,13 +78,13 @@ const UpcomingServiceItem = ({ item, navigator }) => {
       style={styles.container}
     >
       <Image style={styles.icon} source={icon} />
-      <View style={styles.centerContainer}>
+      <View collapsable={false}  style={styles.centerContainer}>
         <Text weight="Medium" style={styles.title}>
           {title}
         </Text>
         <Text style={styles.subTitle}>{subTitle}</Text>
       </View>
-      <View style={styles.rightContainer}>
+      <View collapsable={false}  style={styles.rightContainer}>
         <Text weight="Medium" style={styles.title}>
           {sidebarTitle}
         </Text>

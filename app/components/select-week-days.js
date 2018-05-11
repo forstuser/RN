@@ -7,7 +7,7 @@ import { colors } from "../theme";
 const weekDays = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 const SelectWeekDays = ({ selectedDays = [], onDayPress, itemSize = 34 }) => {
   return (
-    <View style={styles.container}>
+    <View collapsable={false}  style={styles.container}>
       {[1, 2, 3, 4, 5, 6, 7].map(day => (
         <TouchableOpacity
           key={day}

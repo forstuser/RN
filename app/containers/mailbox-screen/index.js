@@ -118,8 +118,8 @@ class MailBox extends Component {
         }}
         style={styles.item}
       >
-        <View style={styles.imageAndDetails}>
-          <View style={styles.imageWrapper}>
+        <View collapsable={false}  style={styles.imageAndDetails}>
+          <View collapsable={false}  style={styles.imageWrapper}>
             {!item.copies || (item.copies && item.copies.length == 0) ? (
               <Image
                 style={styles.image}
@@ -135,15 +135,15 @@ class MailBox extends Component {
               />
             )}
           </View>
-          <View style={styles.titleAndDetails}>
+          <View collapsable={false}  style={styles.titleAndDetails}>
             <Text weight="Medium" style={{ color: titleColor }}>
               {item.title}
             </Text>
-            <View style={styles.dateAndCounts}>
+            <View collapsable={false}  style={styles.dateAndCounts}>
               <Text style={styles.date}>
                 {moment(date).format("DD MMM, YYYY")}
               </Text>
-              <View style={styles.count}>
+              <View collapsable={false}  style={styles.count}>
                 <Image
                   style={styles.countIcon}
                   source={require("../../images/ic_filter_none_black.png")}
@@ -153,7 +153,7 @@ class MailBox extends Component {
                 </Text>
               </View>
             </View>
-            {amount ? <Text weight="Medium">{amount}</Text> : <View />}
+            {amount ? <Text weight="Medium">{amount}</Text> : <View collapsable={false}  />}
           </View>
         </View>
         <Text weight="Medium" style={styles.desc}>

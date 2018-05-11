@@ -27,7 +27,7 @@ const ProductsList = props => {
   } = props;
 
   const renderProductItem = ({ item }) => (
-    <View
+    <View collapsable={false} 
       style={{
         marginHorizontal: 10,
         marginTop: 2
@@ -46,7 +46,7 @@ const ProductsList = props => {
     );
   } else {
     return (
-      <View
+      <View collapsable={false} 
         style={{
           flex: 1,
           backgroundColor: "#FAFAFA",

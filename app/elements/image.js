@@ -47,7 +47,7 @@ class Image extends Component {
 
     if (!fileType || isImageFileType(fileType)) {
       return (
-        <View style={[styles.container, style]}>
+        <View collapsable={false}  style={[styles.container, style]}>
           {usePhotoView ? (
             <PhotoView
               onLoadEnd={() => this.setState({ isLoading: false })}
@@ -66,14 +66,14 @@ class Image extends Component {
             />
           )}
           {this.state.isLoading ? (
-            <View style={styles.loader}>
+            <View collapsable={false}  style={styles.loader}>
               <ActivityIndicator size="small" color={colors.mainBlue} />
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
           {this.state.error ? (
-            <View style={styles.errorImageContainer}>
+            <View collapsable={false}  style={styles.errorImageContainer}>
               <FastImage
                 style={styles.errorImage}
                 source={brokenImageIcon}
@@ -81,7 +81,7 @@ class Image extends Component {
               />
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
         </View>
       );

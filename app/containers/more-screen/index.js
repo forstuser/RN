@@ -211,7 +211,7 @@ class MoreScreen extends Component {
           {profile && isProfileVisible && <Profile profile={profile} />}
         </KeyboardAwareScrollView>
         {isRemovePinModalVisible ? (
-          <View>
+          <View collapsable={false} >
             <Modal
               isVisible={true}
               style={{ margin: 0 }}
@@ -221,7 +221,7 @@ class MoreScreen extends Component {
                 })
               }
             >
-              <View style={{ flex: 1 }}>
+              <View collapsable={false}  style={{ flex: 1 }}>
                 <PinInput
                   title="Enter App PIN"
                   onSubmitPress={this.removePin}
@@ -242,7 +242,7 @@ class MoreScreen extends Component {
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </ScreenContainer>
     );

@@ -272,12 +272,12 @@ class Card extends React.Component {
     } = this.props;
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <Text weight="Bold" style={styles.title}>
           {title}
         </Text>
-        <View style={[styles.card, cardStyle]}>
-          <View style={styles.imageContainer}>
+        <View collapsable={false}  style={[styles.card, cardStyle]}>
+          <View collapsable={false}  style={styles.imageContainer}>
             {imageUrl ? (
               <Image
                 style={styles.image}
@@ -293,16 +293,16 @@ class Card extends React.Component {
               />
             ) : null}
           </View>
-          <View style={styles.cardBody}>
+          <View collapsable={false}  style={styles.cardBody}>
             <Text weight="Bold" style={styles.name}>
               {name}
             </Text>
             {phoneNumbers.length > 0 ? (
-              <View>
+              <View collapsable={false} >
                 <Text weight="Medium" style={styles.sectionTitle}>
                   {I18n.t("product_details_screen_connect_numbers")}
                 </Text>
-                <View>
+                <View collapsable={false} >
                   {phoneNumbers.map(phoneNumber => (
                     <TouchableOpacity
                       key={phoneNumber}
@@ -322,14 +322,14 @@ class Card extends React.Component {
                 </View>
               </View>
             ) : (
-              <View />
+              <View collapsable={false}  />
             )}
             {emails.length > 0 ? (
-              <View>
+              <View collapsable={false} >
                 <Text weight="Medium" style={styles.sectionTitle}>
                   {I18n.t("product_details_screen_connect_emails")}
                 </Text>
-                <View>
+                <View collapsable={false} >
                   {emails.map(email => (
                     <TouchableOpacity
                       key={email}
@@ -349,14 +349,14 @@ class Card extends React.Component {
                 </View>
               </View>
             ) : (
-              <View />
+              <View collapsable={false}  />
             )}
             {urls.length > 0 ? (
-              <View>
+              <View collapsable={false} >
                 <Text weight="Medium" style={styles.sectionTitle}>
                   {I18n.t("product_details_screen_brand_portal")}
                 </Text>
-                <View>
+                <View collapsable={false} >
                   {urls.map(url => (
                     <TouchableOpacity
                       key={url}
@@ -376,7 +376,7 @@ class Card extends React.Component {
                 </View>
               </View>
             ) : (
-              <View />
+              <View collapsable={false}  />
             )}
           </View>
         </View>

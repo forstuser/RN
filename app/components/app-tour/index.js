@@ -116,19 +116,19 @@ export default class AppTour extends React.Component {
     return (
       <Modal transparent={true} ref={this.props.setRef}>
         <TouchableWithoutFeedback onPress={this.next}>
-          <View style={styles.container}>
-            <View style={[styles.border, styles.borderTop, { height: y }]} />
-            <View
+          <View collapsable={false}  style={styles.container}>
+            <View collapsable={false}  style={[styles.border, styles.borderTop, { height: y }]} />
+            <View collapsable={false} 
               style={[
                 styles.border,
                 styles.borderRight,
                 { top: y, left: x + width, height: height }
               ]}
             />
-            <View
+            <View collapsable={false} 
               style={[styles.border, styles.borderBottom, { top: y + height }]}
             />
-            <View
+            <View collapsable={false} 
               style={[
                 styles.border,
                 styles.borderLeft,
@@ -142,7 +142,7 @@ export default class AppTour extends React.Component {
                 { top: y, left: x, width: width, height: height }
               ]}
             />
-            <View
+            <View collapsable={false} 
               style={[
                 styles.tooltipArrow,
                 tooltipVerticalPosition == "top"
@@ -158,7 +158,7 @@ export default class AppTour extends React.Component {
                     }
               ]}
             />
-            <View
+            <View collapsable={false} 
               style={[
                 styles.tooltipContainer,
                 tooltipVerticalPosition == "top"
@@ -177,7 +177,7 @@ export default class AppTour extends React.Component {
                     }
               ]}
             >
-              <View
+              <View collapsable={false} 
                 style={styles.tooltipTextWrapper}
                 onLayout={this.onTooltipContainerRender}
               >

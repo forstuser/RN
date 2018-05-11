@@ -98,13 +98,13 @@ class ProductListItem extends React.Component {
   render() {
     const { product, hideDirectionsAndCallBtns = false } = this.props;
     return (
-      <View style={styles.container}>
-        <View style={styles.details}>
+      <View collapsable={false}  style={styles.container}>
+        <View collapsable={false}  style={styles.details}>
           <Image
             style={styles.image}
             source={{ uri: API_BASE_URL + "/" + product.cImageURL }}
           />
-          <View style={styles.texts}>
+          <View collapsable={false}  style={styles.texts}>
             <Text weight="Bold" style={styles.name}>
               {product.productName}
             </Text>
@@ -113,7 +113,7 @@ class ProductListItem extends React.Component {
                 {product.sellers.sellerName}
               </Text>
             ) : (
-              <View />
+              <View collapsable={false}  />
             )}
             <Text weight="Medium" style={styles.purchaseDate}>
               {moment(product.purchaseDate).format("MMM DD, YYYY")}
@@ -124,7 +124,7 @@ class ProductListItem extends React.Component {
           </Text>
         </View>
         {product.categoryId != 22 && !hideDirectionsAndCallBtns ? (
-          <View style={styles.directionAndCall}>
+          <View collapsable={false}  style={styles.directionAndCall}>
             <TouchableOpacity
               onPress={() => openMap(product)}
               style={styles.directionAndCallItem}
@@ -148,7 +148,7 @@ class ProductListItem extends React.Component {
             </TouchableOpacity>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
         <ActionSheet
           onPress={this.handlePhonePress}

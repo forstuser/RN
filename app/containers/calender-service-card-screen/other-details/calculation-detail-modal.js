@@ -254,9 +254,9 @@ class CalculationDetailModal extends React.Component {
 
     if (!isModalVisible) return null;
     return (
-      <View>
+      <View collapsable={false} >
         {isModalVisible && (
-          <View>
+          <View collapsable={false} >
             <Modal
               isVisible={true}
               avoidKeyboard={Platform.OS == "ios"}
@@ -266,7 +266,7 @@ class CalculationDetailModal extends React.Component {
               onBackdropPress={this.hide}
               onBackButtonPress={this.hide}
             >
-              <View style={[styles.card, styles.modalCard]}>
+              <View collapsable={false}  style={[styles.card, styles.modalCard]}>
                 <LoadingOverlay visible={isSavingDetails} />
                 <TouchableOpacity
                   style={styles.modalCloseIcon}
@@ -281,8 +281,8 @@ class CalculationDetailModal extends React.Component {
                     onChangeText={unitPrice => this.setState({ unitPrice })}
                   />
                 ) : (
-                  <View style={{ width: "100%" }}>
-                    <View style={{ flexDirection: "row" }}>
+                  <View collapsable={false}  style={{ width: "100%" }}>
+                    <View collapsable={false}  style={{ flexDirection: "row" }}>
                       <SelectModal
                         visibleKey="symbol"
                         style={styles.selectUnitType}

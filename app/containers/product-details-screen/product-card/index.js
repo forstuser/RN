@@ -203,7 +203,7 @@ class ProductCard extends Component {
     const cardWidthWhenOne = Dimensions.get("window").width - 32;
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ScrollView
           ref={ref => (this.scrollView = ref)}
           onScroll={this.handleScroll}
@@ -221,7 +221,7 @@ class ProductCard extends Component {
             fetchProductDetails={this.props.fetchProductDetails}
             navigator={this.props.navigator}
           />
-          <View style={styles.pages}>
+          <View collapsable={false} style={styles.pages}>
             {activeTabIndex == 0 && (
               <CustomerCare
                 product={product}
@@ -247,10 +247,12 @@ class ProductCard extends Component {
           </View>
         </ScrollView>
         <View
+          collapsable={false}
           style={styles.centerRefDummy}
           ref={ref => (this.centerRef = ref)}
         />
         <View
+          collapsable={false}
           style={styles.addProductImageBtnDummy}
           ref={ref => (this.addProductImageRef = ref)}
         />

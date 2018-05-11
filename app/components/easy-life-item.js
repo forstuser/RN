@@ -20,13 +20,13 @@ class EasyLifeItem extends React.Component {
     } = this.props;
 
     return (
-      <View>
+      <View collapsable={false} >
         <TouchableOpacity
           style={[styles.container, imageUrl ? styles.bigContainer : {}]}
           onPress={onPress}
         >
           {showCheckbox ? (
-            <View
+            <View collapsable={false} 
               style={[
                 checkBoxStyle == "box" ? styles.checkbox : styles.selectBox,
                 checkBoxStyle != "box" && isChecked
@@ -43,13 +43,13 @@ class EasyLifeItem extends React.Component {
                   size={15}
                 />
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
-          <View style={styles.texts}>
+          <View collapsable={false}  style={styles.texts}>
             <Text weight="Medium" style={styles.text} numberOfLines={1}>
               {text}
             </Text>
@@ -69,7 +69,7 @@ class EasyLifeItem extends React.Component {
             <Icon name="md-remove" color="white" size={20} />
           </TouchableOpacity>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );

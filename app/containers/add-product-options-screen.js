@@ -192,22 +192,22 @@ class AddProductScreen extends React.Component {
     );
 
     return (
-      <View style={styles.container}>
-        <View style={[styles.option, styles.option1]}>
-          <View style={[styles.optionInner]}>
+      <View collapsable={false}  style={styles.container}>
+        <View collapsable={false}  style={[styles.option, styles.option1]}>
+          <View collapsable={false}  style={[styles.optionInner]}>
             <Text
               weight="Bold"
               style={[styles.optionTitle, { color: colors.mainBlue }]}
             >
               {I18n.t("add_edit_product_option_product")}
             </Text>
-            <View style={styles.grid}>
-              <View style={styles.itemsRow}>
+            <View collapsable={false}  style={styles.grid}>
+              <View collapsable={false}  style={styles.itemsRow}>
                 {productOptions
                   .slice(0, 3)
                   .map((item, index) => <Item key={index} item={item} />)}
               </View>
-              <View style={styles.itemsRow}>
+              <View collapsable={false}  style={styles.itemsRow}>
                 {productOptions
                   .slice(3, 6)
                   .map((item, index) => <Item key={index} item={item} />)}
@@ -216,21 +216,21 @@ class AddProductScreen extends React.Component {
           </View>
         </View>
 
-        <View style={[styles.option, styles.option2]}>
-          <View style={[styles.optionInner]}>
+        <View collapsable={false}  style={[styles.option, styles.option2]}>
+          <View collapsable={false}  style={[styles.optionInner]}>
             <Text
               weight="Bold"
               style={[styles.optionTitle, { color: colors.pinkishOrange }]}
             >
               {I18n.t("add_edit_product_option_expense")}
             </Text>
-            <View style={styles.grid}>
-              <View style={styles.itemsRow}>
+            <View collapsable={false}  style={styles.grid}>
+              <View collapsable={false}  style={styles.itemsRow}>
                 {expenseOptions
                   .slice(0, 3)
                   .map((item, index) => <Item key={index} item={item} />)}
               </View>
-              <View style={styles.itemsRow}>
+              <View collapsable={false}  style={styles.itemsRow}>
                 {expenseOptions
                   .slice(3, 6)
                   .map((item, index) => <Item key={index} item={item} />)}
@@ -248,7 +248,7 @@ class AddProductScreen extends React.Component {
             />
           )}
         </View>
-        <View style={styles.orContainer}>
+        <View collapsable={false}  style={styles.orContainer}>
           <Text style={styles.or} weight="Bold">
             {I18n.t("add_edit_product_option_or")}
           </Text>

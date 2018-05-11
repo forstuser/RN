@@ -131,11 +131,11 @@ class MedicalDocForm extends React.Component {
       copies
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <Text weight="Medium" style={styles.headerText}>
           {I18n.t("expense_forms_expense_basic_detail")}
         </Text>
-        <View style={styles.body}>
+        <View collapsable={false}  style={styles.body}>
           {showFullForm ? (
             <CustomTextInput
               placeholder={I18n.t("expense_forms_medical_doc_title")}
@@ -143,7 +143,7 @@ class MedicalDocForm extends React.Component {
               onChangeText={reportTitle => this.setState({ reportTitle })}
             />
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
 
           <SelectModal
@@ -151,7 +151,7 @@ class MedicalDocForm extends React.Component {
             dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
             placeholder={I18n.t("expense_forms_healthcare_type")}
             placeholderRenderer={({ placeholder }) => (
-              <View style={{ flexDirection: "row" }}>
+              <View collapsable={false}  style={{ flexDirection: "row" }}>
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
                 </Text>
@@ -174,7 +174,7 @@ class MedicalDocForm extends React.Component {
           />
 
           {showFullForm ? (
-            <View>
+            <View collapsable={false} >
               <CustomTextInput
                 placeholder={I18n.t("expense_forms_medical_doc_doctor_name")}
                 value={doctorName}
@@ -188,7 +188,7 @@ class MedicalDocForm extends React.Component {
               />
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
         </View>
         <UploadDoc

@@ -123,12 +123,15 @@ class PerosnalDocCard extends Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View style={{ top: 10, position: "absolute", right: 20 }}>
+          <View
+            collapsable={false}
+            style={{ top: 10, position: "absolute", right: 20 }}
+          >
             <ViewBillButton
               product={product}
               navigator={navigator}
@@ -144,7 +147,10 @@ class PerosnalDocCard extends Component {
           <Text weight="Bold" style={styles.name}>
             {productName}
           </Text>
-          <View style={[defaultStyles.card, { margin: 16 }]}>
+          <View
+            collapsable={false}
+            style={[defaultStyles.card, { margin: 16 }]}
+          >
             <TouchableOpacity
               onPress={this.onEditPress}
               style={{
@@ -181,7 +187,7 @@ class PerosnalDocCard extends Component {
             </TouchableOpacity>
             <KeyValueItem keyText="Name" valueText={product.productName} />
             {product.categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD ? (
-              <View style={{ width: "100%" }}>
+              <View collapsable={false} style={{ width: "100%" }}>
                 <KeyValueItem
                   keyText="Business Name"
                   valueText={seller.sellerName}
@@ -204,7 +210,7 @@ class PerosnalDocCard extends Component {
                   seller.state.length > 0) && (
                   <KeyValueItem
                     KeyComponent={() => (
-                      <View style={{ flex: 1 }}>
+                      <View collapsable={false} style={{ flex: 1 }}>
                         <Text style={{ color: colors.secondaryText }}>
                           Full Address
                         </Text>
@@ -228,7 +234,10 @@ class PerosnalDocCard extends Component {
                         onPress={this.openMap}
                         style={{ width: 70 }}
                       >
-                        <View style={{ alignItems: "center" }}>
+                        <View
+                          collapsable={false}
+                          style={{ alignItems: "center" }}
+                        >
                           <Image
                             style={{ width: 24, height: 24 }}
                             source={mapIcon}
@@ -249,7 +258,7 @@ class PerosnalDocCard extends Component {
                 )}
               </View>
             ) : (
-              <View />
+              <View collapsable={false} />
             )}
           </View>
         </ScrollView>

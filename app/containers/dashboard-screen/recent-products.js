@@ -26,8 +26,9 @@ class RecentItems extends React.Component {
     const { products, navigator } = this.props;
     const { listHeight } = this.state;
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <View
+          collapsable={false}
           style={[
             styles.list,
             defaultStyles.card,
@@ -38,6 +39,7 @@ class RecentItems extends React.Component {
             if (listHeight == "less" && index > 0) return null;
             return (
               <View
+                collapsable={false}
                 key={index}
                 style={{
                   borderBottomColor: "#efefef",
@@ -60,9 +62,13 @@ class RecentItems extends React.Component {
           })}
         </View>
         {products.length > 1 ? (
-          <ViewMoreBtn height={listHeight} onPress={this.toggleListHeight} />
+          <ViewMoreBtn
+            collapsable={false}
+            height={listHeight}
+            onPress={this.toggleListHeight}
+          />
         ) : (
-          <View />
+          <View collapsable={false} />
         )}
       </View>
     );

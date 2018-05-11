@@ -17,7 +17,7 @@ const MultipleContactNumbers = ({ contact = "" }) => {
   //split by ',' or '/' or '\'
   let contactNumbers = contact.split(/,|\/|\\/);
   return (
-    <View
+    <View collapsable={false} 
       style={{
         flexDirection: "row",
         flex: 1,
