@@ -111,7 +111,7 @@ class WarrantyForm extends React.Component {
         effectiveDate: moment(warranty.effectiveDate).format("YYYY-MM-DD"),
         selectedRenewalType: selectedRenewalType,
         selectedProvider: selectedProvider,
-        copies: warranty.copies
+        copies: warranty.copies ? warranty.copies : []
       });
     } else if (props.renewalTypeId) {
       const { renewalTypeId, renewalTypes } = props;

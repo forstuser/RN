@@ -18,7 +18,11 @@ import { Text } from "../../../elements";
 import { colors } from "../../../theme";
 import { showSnackbar } from "../../snackbar";
 
-import { getReferenceDataCategories, initProduct } from "../../../api";
+import {
+  API_BASE_URL,
+  getReferenceDataCategories,
+  initProduct
+} from "../../../api";
 
 import SelectModal from "../../../components/select-modal";
 
@@ -488,7 +492,11 @@ class SelectCategoryStep extends React.Component {
               ref={ref => (this.otherOptionsModal = ref)}
               style={styles.select}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              options={otherOptions}
+              options={otherOptions.map(option => ({
+                ...option,
+                image: API_BASE_URL + option.categoryImageUrl
+              }))}
+              imageKey="image"
               selectedOption={selectedOption}
               onOptionSelect={value => {
                 this.changeOption(value);

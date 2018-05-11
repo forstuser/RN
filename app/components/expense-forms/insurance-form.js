@@ -67,8 +67,8 @@ class InsuranceForm extends React.Component {
       selectedProvider: null,
       providerName: "",
       policyNo: "",
-      value: null,
-      amountInsured: null
+      value: "",
+      amountInsured: ""
     };
   }
 

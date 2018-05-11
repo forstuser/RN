@@ -53,7 +53,7 @@ class AmcForm extends React.Component {
       effectiveDate: null,
       sellerName: "",
       sellerContact: "",
-      value: null,
+      value: "",
       copies: []
     };
   }

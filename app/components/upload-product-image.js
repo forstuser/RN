@@ -102,7 +102,7 @@ class UploadProductImage extends React.Component {
         () => {
           setTimeout(() => {
             if (typeof onImageUpload == "function") {
-              onImageUpload();
+              onImageUpload(file.uri);
             }
           }, 200);
         }

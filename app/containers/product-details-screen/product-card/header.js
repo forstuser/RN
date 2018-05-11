@@ -379,6 +379,7 @@ class Header extends Component {
             <ShareModal
               ref={ref => (this.shareModal = ref)}
               product={product}
+              fetchProductDetails={this.props.fetchProductDetails}
               loggedInUser={loggedInUser}
               setLoggedInUserName={setLoggedInUserName}
               review={review}

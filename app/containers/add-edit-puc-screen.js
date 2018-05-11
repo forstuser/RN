@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
+import moment from "moment";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Analytics from "../analytics";
@@ -56,7 +57,14 @@ class AddEditPuc extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false
+      isLoading: false,
+      initialValues: {
+        effectiveDate: null,
+        value: "",
+        renewalType: null,
+        sellerName: "",
+        sellerContact: ""
+      }
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -71,6 +79,19 @@ class AddEditPuc extends React.Component {
     this.props.navigator.setTitle({ title });
 
     if (puc) {
+      this.setState({
+        initialValues: {
+          effectiveDate: puc.effectiveDate
+            ? moment(puc.effectiveDate).format("YYYY-MM-DD")
+            : null,
+          value: puc.value,
+          renewalType: puc.renewal_type,
+          sellerName:
+            puc.sellers && puc.sellers.sellerName ? puc.sellers.sellerName : "",
+          sellerContact:
+            puc.sellers && puc.sellers.contact ? puc.sellers.contact : ""
+        }
+      });
       this.props.navigator.setButtons({
         rightButtons: [
           {
@@ -89,6 +110,20 @@ class AddEditPuc extends React.Component {
   onNavigatorEvent = event => {
     if (event.type == "NavBarButtonPress") {
       if (event.id == "backPress") {
+        let initialValues = this.state.initialValues;
+        let newData = this.pucForm.getFilledData();
+
+        console.log("initialValues: ", initialValues, "newData: ", newData);
+
+        if (
+          newData.effectiveDate == initialValues.effectiveDate &&
+          newData.value == initialValues.value &&
+          newData.expiryPeriod == initialValues.renewalType &&
+          newData.sellerName == initialValues.sellerName &&
+          newData.sellerContact == initialValues.sellerContact
+        ) {
+          return this.props.navigator.pop();
+        }
         Alert.alert(
           I18n.t("add_edit_amc_are_you_sure"),
           I18n.t("add_edit_puc_unsaved_info"),

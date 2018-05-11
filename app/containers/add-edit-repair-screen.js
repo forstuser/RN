@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
+import moment from "moment";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import I18n from "../i18n";
 import {
@@ -54,7 +55,15 @@ class AddEditRepair extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false
+      isLoading: false,
+      initialValues: {
+        purchaseDate: null,
+        value: "",
+        repairFor: "",
+        warrantyUpto: "",
+        sellerName: "",
+        sellerContact: ""
+      }
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -69,6 +78,24 @@ class AddEditRepair extends React.Component {
     this.props.navigator.setTitle({ title });
 
     if (repair) {
+      this.setState({
+        initialValues: {
+          purchaseDate: repair.purchaseDate
+            ? moment(repair.purchaseDate).format("YYYY-MM-DD")
+            : null,
+          value: repair.value,
+          repairFor: repair.repair_for,
+          warrantyUpto: repair.warranty_upto,
+          sellerName:
+            repair.sellers && repair.sellers.sellerName
+              ? repair.sellers.sellerName
+              : "",
+          sellerContact:
+            repair.sellers && repair.sellers.contact
+              ? repair.sellers.contact
+              : ""
+        }
+      });
       this.props.navigator.setButtons({
         rightButtons: [
           {
@@ -87,6 +114,21 @@ class AddEditRepair extends React.Component {
   onNavigatorEvent = event => {
     if (event.type == "NavBarButtonPress") {
       if (event.id == "backPress") {
+        let initialValues = this.state.initialValues;
+        let newData = this.repairForm.getFilledData();
+
+        console.log("initialValues: ", initialValues, "newData: ", newData);
+
+        if (
+          newData.repairDate == initialValues.purchaseDate &&
+          newData.value == initialValues.value &&
+          newData.repairFor == initialValues.repairFor &&
+          newData.warrantyUpto == initialValues.warrantyUpto &&
+          newData.sellerName == initialValues.sellerName &&
+          newData.sellerContact == initialValues.sellerContact
+        ) {
+          return this.props.navigator.pop();
+        }
         Alert.alert(
           I18n.t("add_edit_amc_are_you_sure"),
           I18n.t("add_edit_repair_unsaved_info"),

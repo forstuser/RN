@@ -330,6 +330,7 @@ class ProductDetailsScreen extends Component {
         <ProductCard
           isScreenVisible={isScreenVisible}
           product={product}
+          fetchProductDetails={this.fetchProductDetails}
           navigator={this.props.navigator}
           openServiceSchedule={openServiceSchedule}
         />

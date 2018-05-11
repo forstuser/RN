@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import moment from "moment";
 import Analytics from "../analytics";
 import I18n from "../i18n";
 import { showSnackbar } from "./snackbar";
@@ -60,7 +61,15 @@ class AddEditInsurance extends React.Component {
     super(props);
     this.state = {
       insuranceProviders: [],
-      isLoading: false
+      isLoading: false,
+      initialValues: {
+        effectiveDate: null,
+        value: "",
+        policyNo: "",
+        amountInsured: 0,
+        providerId: null,
+        providerName: ""
+      }
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -77,6 +86,18 @@ class AddEditInsurance extends React.Component {
     this.fetchCategoryData();
 
     if (insurance) {
+      this.setState({
+        initialValues: {
+          effectiveDate: insurance.effectiveDate
+            ? moment(insurance.effectiveDate).format("YYYY-MM-DD")
+            : null,
+          value: insurance.value,
+          policyNo: insurance.policyNo,
+          amountInsured: insurance.amountInsured || 0,
+          providerId: insurance.provider ? insurance.provider.id : null,
+          providerName: ""
+        }
+      });
       this.props.navigator.setButtons({
         rightButtons: [
           {
@@ -95,6 +116,21 @@ class AddEditInsurance extends React.Component {
   onNavigatorEvent = event => {
     if (event.type == "NavBarButtonPress") {
       if (event.id == "backPress") {
+        let initialValues = this.state.initialValues;
+        let newData = this.insuranceForm.getFilledData();
+
+        console.log("initialValues: ", initialValues, "newData: ", newData);
+
+        if (
+          newData.effectiveDate == initialValues.effectiveDate &&
+          newData.providerId == initialValues.providerId &&
+          newData.providerName == initialValues.providerName &&
+          newData.policyNo == initialValues.policyNo &&
+          newData.value == initialValues.value &&
+          newData.amountInsured == initialValues.amountInsured
+        ) {
+          return this.props.navigator.pop();
+        }
         Alert.alert(
           I18n.t("add_edit_amc_are_you_sure"),
           I18n.t("add_edit_insurance_unsaved_info"),

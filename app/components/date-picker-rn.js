@@ -158,24 +158,23 @@ class DatePickerRn extends React.Component {
               </Text>
             </View>
           </TouchableWithoutFeedback>
-          <View style={[styles.activeMonthAndYear]}>
+          <TouchableOpacity
+            style={[styles.activeMonthAndYear]}
+            onPress={this.showSelectYearView}
+          >
             <Text
               weight="Bold"
               style={styles.activeMonthText}
-              onPress={this.showSelectMonthView}
+              // onPress={this.showSelectMonthView}
             >
               {moment(yearAndMonth)
                 .format("MMMM")
                 .toUpperCase()}
             </Text>
-            <Text
-              weight="Bold"
-              style={styles.activeMonthText}
-              onPress={this.showSelectYearView}
-            >
+            <Text weight="Bold" style={styles.activeMonthText}>
               {moment(yearAndMonth).format("YYYY")}
             </Text>
-          </View>
+          </TouchableOpacity>
           <TouchableWithoutFeedback onPress={this.nextMonth}>
             <View style={[styles.adjacentMonth, styles.nextMonth]}>
               <Text>

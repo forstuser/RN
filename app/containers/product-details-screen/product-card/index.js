@@ -216,6 +216,7 @@ class ProductCard extends Component {
             showImportantTab={showImportantTab}
             onTabChange={this.onTabChange}
             product={product}
+            fetchProductDetails={this.props.fetchProductDetails}
             navigator={this.props.navigator}
           />
           <View style={styles.pages}>

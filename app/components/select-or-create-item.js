@@ -155,7 +155,7 @@ class SelectModal extends Component {
       <View style={[styles.container, style]}>
         {!isAddNewVisible ? (
           <View style={{ flex: 1 }}>
-            {!hideSearch ? (
+            {!hideSearch && items.length > 15 ? (
               <View style={styles.searchContainer}>
                 <TextInput
                   placeholder={I18n.t("component_items_search")}

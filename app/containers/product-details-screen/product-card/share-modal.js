@@ -43,7 +43,8 @@ class ShareModal extends React.Component {
     nameInput: "",
     ratings: null,
     feedbackText: "",
-    isSavingName: false
+    isSavingName: false,
+    localfileUri: null
   };
 
   componentDidMount() {
@@ -64,13 +65,15 @@ class ShareModal extends React.Component {
     if (product.file_type) {
       newState.isProductImageAvailable = true;
       newState.isProductImageStepDone = true;
+      localfileUri: null;
     }
     this.setState(newState);
   };
 
-  onImageStepDone = isProductImageAvailable => {
+  onImageStepDone = localfileUri => {
+    this.props.fetchProductDetails();
     this.setState({
-      isProductImageAvailable,
+      localfileUri,
       isProductImageStepDone: true
     });
   };
@@ -150,6 +153,7 @@ class ShareModal extends React.Component {
       isModalVisible,
       isProductImageAvailable,
       isProductImageStepDone,
+      localfileUri,
       ratings,
       feedbackText,
       isSavingName
@@ -159,7 +163,9 @@ class ShareModal extends React.Component {
 
     let productImageUrl, productImageResizeMode;
 
-    if (isProductImageAvailable) {
+    if (localfileUri) {
+      productImageUrl = localfileUri;
+    } else if (isProductImageAvailable) {
       productImageUrl = API_BASE_URL + product.cImageURL;
       productImageResizeMode = "cover";
     } else if (brand && brand.status_type == 1 && brand.id > 0) {
@@ -398,7 +404,9 @@ class ShareModal extends React.Component {
                 <UploadProductImage
                   ref={ref => (this.uploadProductImage = ref)}
                   productId={product.id}
-                  onImageUpload={() => this.onImageStepDone(true)}
+                  onImageUpload={localfileUri =>
+                    this.onImageStepDone(localfileUri)
+                  }
                 />
                 <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
                   <Icon name="md-close" size={30} color={colors.mainText} />

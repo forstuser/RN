@@ -216,7 +216,7 @@ class SelectModal extends Component {
                     />
                   </TouchableOpacity>
                 </View>
-                {!hideSearch ? (
+                {!hideSearch && options.length > 15 ? (
                   <View style={styles.searchContainer}>
                     <TextInput
                       placeholder={I18n.t("component_items_search")}

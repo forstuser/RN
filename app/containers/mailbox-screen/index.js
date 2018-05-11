@@ -97,77 +97,43 @@ class MailBox extends Component {
       <TouchableOpacity
         onPress={() => {
           Analytics.logEvent(Analytics.EVENTS.CLICK_MAIL);
-          switch (item.productType) {
-            case 1:
-              this.props.navigator.push({
-                screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-                passProps: {
-                  productId: item.productId || item.id
-                }
-              });
-              // if (
-              //   item.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
-              //   item.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS
-              // ) {
-              //   this.props.navigator.push({
-              //     screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-              //     passProps: {
-              //       productId: item.productId || item.id
-              //     }
-              //   });
-              // } else {
-              //   openBillsPopUp({
-              //     id: item.productName,
-              //     date: item.purchaseDate,
-              //     copies: item.copies,
-              //     type: "Product"
-              //   });
-              // }
-              break;
-            case 3:
-              this.props.navigator.push({
-                screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-                passProps: {
-                  productId: item.productId || item.id
-                }
-              });
-              break;
-            case 4:
-              openBillsPopUp({
-                id: item.productName,
-                date: item.purchaseDate,
-                copies: item.copies
-              });
-              break;
-            default:
-              openBillsPopUp({
-                id: item.id,
-                date: item.createdAt,
-                copies: item.copies
-              });
+
+          if (
+            item.productType == 1 ||
+            (item.productType == 3 && item.productId)
+          ) {
+            this.props.navigator.push({
+              screen: SCREENS.PRODUCT_DETAILS_SCREEN,
+              passProps: {
+                productId: item.productId
+              }
+            });
+          } else {
+            openBillsPopUp({
+              id: item.productName,
+              date: item.purchaseDate,
+              copies: item.copies
+            });
           }
         }}
         style={styles.item}
       >
         <View style={styles.imageAndDetails}>
           <View style={styles.imageWrapper}>
-            {(!item.copies || (item.copies && item.copies.length == 0)) && (
+            {!item.copies || (item.copies && item.copies.length == 0) ? (
               <Image
                 style={styles.image}
                 fileStyle={{ width: 50, height: 50 }}
                 fileType="pdf"
               />
+            ) : (
+              <Image
+                style={styles.image}
+                fileStyle={{ width: 50, height: 50 }}
+                fileType={item.copies[0].file_type || item.copies[0].fileType}
+                source={{ uri: API_BASE_URL + item.copies[0].copyUrl }}
+              />
             )}
-
-            {item.copies &&
-              item.copies.length > 0 && (
-                <Image
-                  style={styles.image}
-                  fileStyle={{ width: 50, height: 50 }}
-                  fileType={item.copies[0].file_type || item.copies[0].fileType}
-                  source={{ uri: API_BASE_URL + "/" + item.copies[0].copyUrl }}
-                />
-              )}
           </View>
           <View style={styles.titleAndDetails}>
             <Text weight="Medium" style={{ color: titleColor }}>
@@ -207,7 +173,7 @@ class MailBox extends Component {
           <FlatList
             style={{ flex: 1, backgroundColor: "#fff" }}
             data={notifications}
-            keyExtractor={(item, index) => index}
+            keyExtractor={(item, index) => item.id}
             renderItem={this.renderNotificationItem}
             onRefresh={this.fetchNotifications}
             refreshing={isFetchingNotifications}
