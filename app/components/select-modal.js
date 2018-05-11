@@ -282,6 +282,7 @@ const styles = StyleSheet.create({
     height: 45,
     padding: 8,
     marginBottom: 12,
+    borderRadius: 10,
     ...defaultStyles.card
   },
   wrapper: {

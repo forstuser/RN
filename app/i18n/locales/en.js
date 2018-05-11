@@ -28,11 +28,11 @@ export default {
   i_will_do_it_later: "I'll do it later",
 
   //app intro screen
-  app_intro_1_title: `Smart & 100% secure way of saving your Bills, Expenses and Important Documents in a Digital Format`,
+  app_intro_1_title: `Smart & 100% secure way of saving your Bills,Important Documents and Expenses in a Digital Format`,
   app_intro_1_desc: `Create Your Product Card in less Than 10 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
-  app_intro_2_title: `Receive Reminders for Expiry and Renewal as well as connect with Brand Service Centres`,
+  app_intro_2_title: `Receive Warranty Renewal & Insurance Expiry Alerts as well as connect with Brand Service Centres`,
   app_intro_2_desc: `Create product card and reach out to Brands, Insurance Providers or Nearest Service Center with just One Touch.`,
-  app_intro_3_title: `Our EazyDay section Plans your Day and helps you decide your Meals, your Wardrobe as well as your Tasks for the Day`,
+  app_intro_3_title: `EazyDay Planner helps you decide your Meals, Wardrobe as well as Tasks for the Day`,
   app_intro_3_desc: `Know the Life Cycle Cost of All Your Products. Based on this You Can Decide Whether to Continue Maintaining the Product or Replacing it.`,
   app_intro_4_title: `Be The Product Review Expert. Help Your Friends, Family and Followers make a wise purchase decision`,
   app_intro_4_desc: `You Can Capture and Track All Expenses Across Categories Such As Household and Utility, Travel, Dining, Healthcare and More.`,
