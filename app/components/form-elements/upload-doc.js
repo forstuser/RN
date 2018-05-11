@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 10,
     marginBottom: 10,
+    borderRadius: 10,
     ...defaultStyles.card
   },
   copiesContainer: {
