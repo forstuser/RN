@@ -167,22 +167,22 @@ class BillsPopUpScreen extends Component {
     const { date, id, type = null, onCopyDelete } = this.props;
     return (
       <ScreenContainer style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.dateAndId}>
+        <View collapsable={false}  style={styles.header}>
+          <View collapsable={false}  style={styles.dateAndId}>
             {date ? (
               <Text weight="Medium" style={styles.date}>
                 {moment(date).isValid() && moment(date).format("DD MMM, YYYY")}
               </Text>
             ) : (
-              <View />
+              <View collapsable={false}  />
             )}
             <Text style={styles.id}>{!isNaN(id) && "ID: " + id}</Text>
             {type ? (
-              <View style={styles.type}>
+              <View collapsable={false}  style={styles.type}>
                 <Text style={styles.typeText}>{type}</Text>
               </View>
             ) : (
-              <View />
+              <View collapsable={false}  />
             )}
           </View>
           <TouchableOpacity
@@ -194,7 +194,7 @@ class BillsPopUpScreen extends Component {
           </TouchableOpacity>
         </View>
         {(!copies || copies.length == 0) && (
-          <View style={styles.noCopiesMsgWrapper}>
+          <View collapsable={false}  style={styles.noCopiesMsgWrapper}>
             <Text weight="Bold" style={styles.noCopiesMsg} />
           </View>
         )}
@@ -224,13 +224,13 @@ class BillsPopUpScreen extends Component {
             ))}
           </ScrollableTabView>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
 
         {copies && isSelectViewVisible ? (
           <SelectView copies={copies} passSelectedCopies={this.shareCopies} />
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
         <LoadingOverlay
           visible={isDownloadingFiles}

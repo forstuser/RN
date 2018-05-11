@@ -8,7 +8,7 @@ import I18n from "../../i18n";
 const noMailIcon = require("../../images/no_mailbox.png");
 
 const EmptyMailboxPlaceholder = () => (
-  <View style={styles.container}>
+  <View collapsable={false}  style={styles.container}>
     <Image style={styles.image} source={noMailIcon} />
     <Text weight="Bold" style={styles.title}>
       {I18n.t("mailbox_screen_no_result_title")}

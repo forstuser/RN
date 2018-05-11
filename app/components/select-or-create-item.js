@@ -152,11 +152,11 @@ class SelectModal extends Component {
     }
 
     return (
-      <View style={[styles.container, style]}>
+      <View collapsable={false}  style={[styles.container, style]}>
         {!isAddNewVisible ? (
-          <View style={{ flex: 1 }}>
+          <View collapsable={false}  style={{ flex: 1 }}>
             {!hideSearch && items.length > 15 ? (
-              <View style={styles.searchContainer}>
+              <View collapsable={false}  style={styles.searchContainer}>
                 <TextInput
                   placeholder={I18n.t("component_items_search")}
                   underlineColorAndroid="transparent"
@@ -166,7 +166,7 @@ class SelectModal extends Component {
                 />
               </View>
             ) : (
-              <View />
+              <View collapsable={false}  />
             )}
             <FlatList
               style={style.itemsList}
@@ -189,7 +189,7 @@ class SelectModal extends Component {
             />
           </View>
         ) : (
-          <View style={styles.addNewContainer}>
+          <View collapsable={false}  style={styles.addNewContainer}>
             <Text
               weight="Bold"
               style={{ alignSelf: "flex-start", marginBottom: 10 }}

@@ -39,7 +39,7 @@ class ViewBillButton extends React.Component {
     }
     if (product.copies && product.copies.length > 0) {
       return (
-        <View
+        <View collapsable={false} 
           style={{
             alignItems: "center"
           }}
@@ -66,7 +66,7 @@ class ViewBillButton extends React.Component {
       );
     } else {
       return (
-        <View
+        <View collapsable={false} 
           style={{
             alignItems: "center"
           }}

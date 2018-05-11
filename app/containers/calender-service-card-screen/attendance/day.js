@@ -137,13 +137,13 @@ class Month extends React.Component {
     // if (!isEditQuantityModalOpen) return null;
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <Text weight="Medium" style={styles.date}>
           {moment(date).format("D MMM YYYY")}
         </Text>
         {isPresent &&
         item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT ? (
-          <View style={{ flexDirection: "row", width: 80 }}>
+          <View collapsable={false}  style={{ flexDirection: "row", width: 80 }}>
             <TouchableOpacity
               onPress={this.decreaseQuantity}
               style={{
@@ -179,7 +179,7 @@ class Month extends React.Component {
             </TouchableOpacity>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
         <TouchableOpacity
           onPress={toggleAttendance}
@@ -203,7 +203,7 @@ class Month extends React.Component {
           </Text>
         </TouchableOpacity>
         {isEditQuantityModalOpen ? (
-          <View>
+          <View collapsable={false} >
             <Modal
               isVisible={true}
               avoidKeyboard={Platform.OS == "ios"}
@@ -212,7 +212,7 @@ class Month extends React.Component {
               onBackdropPress={this.hideEditQuantityModal}
               onBackButtonPress={this.hideEditQuantityModal}
             >
-              <View style={[styles.card, styles.modalCard]}>
+              <View collapsable={false}  style={[styles.card, styles.modalCard]}>
                 {/* <LoadingOverlay visible={isAddingPayment} /> */}
                 <TouchableOpacity
                   style={styles.modalCloseIcon}
@@ -250,7 +250,7 @@ class Month extends React.Component {
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );

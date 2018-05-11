@@ -3,8 +3,8 @@ import { StyleSheet, View } from "react-native";
 import { Text } from "../elements";
 
 const SectionHeading = ({ text, setRef }) => (
-  <View ref={setRef} style={styles.sectionHeading}>
-    <View style={styles.sectionHeadingTopBorder} />
+  <View collapsable={false}  ref={setRef} style={styles.sectionHeading}>
+    <View collapsable={false}  style={styles.sectionHeadingTopBorder} />
     <Text weight={"Bold"} style={styles.sectionHeadingText}>
       {text}
     </Text>

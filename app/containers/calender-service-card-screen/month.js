@@ -28,13 +28,13 @@ class Month extends React.Component {
         <Text weight="Bold" style={{ fontSize: 18, color: "#fff", flex: 1 }}>
           {moment(activeMonth.start_date.substr(0, 10)).format("MMMM YYYY")}
         </Text>
-        <View style={styles.arrows}>
+        <View collapsable={false}  style={styles.arrows}>
           <TouchableWithoutFeedback
             onPress={() =>
               onPaymentDetailIndexChange(activePaymentDetailIndex + 1)
             }
           >
-            <View
+            <View collapsable={false} 
               style={[
                 styles.arrow,
                 !isPreviousMonthAvailable && styles.disabledArrow
@@ -48,7 +48,7 @@ class Month extends React.Component {
               onPaymentDetailIndexChange(activePaymentDetailIndex - 1)
             }
           >
-            <View
+            <View collapsable={false} 
               style={[
                 styles.arrow,
                 !isNextMonthAvailable && styles.disabledArrow

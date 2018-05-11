@@ -188,16 +188,16 @@ class AddEmptyProductScreen extends Component {
         desc = "";
     }
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <Image style={styles.image} source={item.image} />
         <Text style={styles.desc}>{item.desc}</Text>
         {this.props.mainCategoryId != 9 ? (
           <Text style={styles.below}>{I18n.t("product_list_click_below")}</Text>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
         {/* {this.props.mainCategoryId == 9 && ( */}
-        <View>
+        <View collapsable={false} >
           <Button
             onPress={() => this.onPressItem(item)}
             text={item.buttonText}

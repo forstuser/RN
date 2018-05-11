@@ -164,8 +164,8 @@ class PucForm extends React.Component {
         headerTextStyle={styles.headerTextStyle}
         icon="plus"
       >
-        <View style={styles.innerContainer}>
-          <View style={styles.body}>
+        <View collapsable={false}  style={styles.innerContainer}>
+          <View collapsable={false}  style={styles.body}>
             <CustomDatePicker
               date={effectiveDate}
               placeholder={I18n.t("expense_forms_puc_effective_date")}

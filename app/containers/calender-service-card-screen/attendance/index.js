@@ -204,14 +204,14 @@ class Attendance extends React.Component {
 
     // console.log("availableDaysofMonth", availableDaysofMonth);
     return (
-      <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
+      <View collapsable={false}  style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
         <Month
           paymentDetails={paymentDetails}
           activePaymentDetailIndex={activePaymentDetailIndex}
           onPaymentDetailIndexChange={onPaymentDetailIndexChange}
         />
-        <View style={styles.card}>
-          <View style={{ flex: 1, backgroundColor: "#EBEBEB" }}>
+        <View collapsable={false}  style={styles.card}>
+          <View collapsable={false}  style={{ flex: 1, backgroundColor: "#EBEBEB" }}>
             <KeyValueItem
               KeyComponent={() => (
                 <Text
@@ -227,8 +227,8 @@ class Attendance extends React.Component {
               )}
             />
           </View>
-          <View style={styles.cardBody}>
-            <View style={styles.cardPart}>
+          <View collapsable={false}  style={styles.cardBody}>
+            <View collapsable={false}  style={styles.cardPart}>
               <VerticalKeyValue
                 keyText={I18n.t("my_calendar_screen_from")}
                 valueText={moment(startDate).format("DD MMM YYYY")}
@@ -237,9 +237,9 @@ class Attendance extends React.Component {
                 keyText={I18n.t("my_calendar_screen_to")}
                 valueText={moment(todayDate).format("DD MMM YYYY")}
               />
-              <View style={{ flex: 1 }} />
+              <View collapsable={false}  style={{ flex: 1 }} />
             </View>
-            <View style={styles.cardPart}>
+            <View collapsable={false}  style={styles.cardPart}>
               <VerticalKeyValue
                 keyText={I18n.t("my_calendar_screen_total_days")}
                 valueText={daysPresent + daysAbsent}
@@ -255,7 +255,7 @@ class Attendance extends React.Component {
                 valueStyle={{ color: colors.danger }}
               />
             </View>
-            <View style={styles.cardPart}>
+            <View collapsable={false}  style={styles.cardPart}>
               {serviceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
                 <VerticalKeyValue
                   keyText={I18n.t("my_calendar_screen_no_of_units")}
@@ -295,7 +295,7 @@ class Attendance extends React.Component {
             </View>
           </View>
         </View>
-        <View>
+        <View collapsable={false} >
           {availableDaysofMonth.map(day => {
             // console.log("day", day)
             // const date = monthAndYear + "-" + ("0" + day).substr(-2);

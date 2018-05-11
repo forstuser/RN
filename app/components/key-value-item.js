@@ -11,25 +11,25 @@ const KeyValueItem = ({
   ValueComponent
 }) => {
   return (
-    <View style={styles.container}>
+    <View collapsable={false}  style={styles.container}>
       {keyText.length > 0 ? (
-        <View style={styles.key}>
+        <View collapsable={false}  style={styles.key}>
           <Text style={styles.keyText}>{keyText}</Text>
         </View>
       ) : (
-        <View />
+        <View collapsable={false}  />
       )}
-      {KeyComponent ? <KeyComponent /> : <View />}
+      {KeyComponent ? <KeyComponent /> : <View collapsable={false}  />}
       {String(valueText).length > 0 ? (
-        <View style={styles.value}>
+        <View collapsable={false}  style={styles.value}>
           <Text weight="Medium" style={styles.valueText}>
             {valueText}
           </Text>
         </View>
       ) : (
-        <View />
+        <View collapsable={false}  />
       )}
-      {ValueComponent ? <ValueComponent /> : <View />}
+      {ValueComponent ? <ValueComponent /> : <View collapsable={false}  />}
     </View>
   );
 };

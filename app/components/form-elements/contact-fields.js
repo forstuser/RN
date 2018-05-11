@@ -53,9 +53,9 @@ class ContactFields extends React.Component {
   render() {
     const { placeholder, keyboardType = "numeric", style = {} } = this.props;
     return (
-      <View>
+      <View collapsable={false} >
         {this.state.contacts.map((contact, index) => (
-          <View key={index} style={[styles.field, style]}>
+          <View collapsable={false}  key={index} style={[styles.field, style]}>
             <CustomTextInput
               style={styles.textInput}
               placeholder={placeholder + " " + (index > 0 ? index + 1 : "")}
@@ -68,7 +68,7 @@ class ContactFields extends React.Component {
                 <PlusIcon />
               </TouchableOpacity>
             ) : (
-              <View />
+              <View collapsable={false}  />
             )}
           </View>
         ))}

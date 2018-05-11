@@ -187,8 +187,8 @@ class InsuranceForm extends React.Component {
         headerTextStyle={styles.headerTextStyle}
         icon="plus"
       >
-        <View style={styles.innerContainer}>
-          <View style={styles.body}>
+        <View collapsable={false}  style={styles.innerContainer}>
+          <View collapsable={false}  style={styles.body}>
             <CustomDatePicker
               date={effectiveDate}
               placeholder={I18n.t("expense_forms_healthcare_effective_date")}
@@ -207,7 +207,7 @@ class InsuranceForm extends React.Component {
                 "expense_forms_insurance_provider_name"
               )}
               placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
+                <View collapsable={false}  style={{ flexDirection: "row" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
@@ -216,7 +216,7 @@ class InsuranceForm extends React.Component {
                       *
                     </Text>
                   ) : (
-                    <View />
+                    <View collapsable={false}  />
                   )}
                 </View>
               )}

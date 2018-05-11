@@ -28,7 +28,7 @@ class WarrantyDetails extends React.Component {
     const { warrantyDetails } = product;
 
     const WarrantyItem = ({ warranty, warrantyType }) => (
-      <View style={styles.card}>
+      <View collapsable={false}  style={styles.card}>
         <EditOptionRow
           text={
             warranty.warranty_type == WARRANTY_TYPES.NORMAL
@@ -73,7 +73,7 @@ class WarrantyDetails extends React.Component {
           />
         )}
 
-        <ViewBillRow
+        <View collapsable={false} BillRow
           expiryDate={warranty.expiryDate}
           purchaseDate={warranty.purchaseDate}
           docType="Warranty"
@@ -83,7 +83,7 @@ class WarrantyDetails extends React.Component {
     );
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         {product.categoryId != 664 && (
           <ScrollView horizontal={true} style={styles.slider}>
             {warrantyDetails

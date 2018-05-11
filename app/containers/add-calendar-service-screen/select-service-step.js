@@ -126,7 +126,7 @@ class SelectServiceTypeStep extends React.Component {
 
     return (
       <Step title="Select Service Type" showLoader={isLoading} {...this.props}>
-        <View style={styles.container}>
+        <View collapsable={false}  style={styles.container}>
           <SelectModal
             ref={ref => (this.otherOptionsModal = ref)}
             style={styles.select}
@@ -154,8 +154,8 @@ class SelectServiceTypeStep extends React.Component {
                 <TouchableWithoutFeedback
                   onPress={() => this.onOptionSelect(option)}
                 >
-                  <View style={styles.option}>
-                    <View
+                  <View collapsable={false}  style={styles.option}>
+                    <View collapsable={false} 
                       style={[
                         styles.optionIconContainer,
                         isSelectedOption
@@ -192,8 +192,8 @@ class SelectServiceTypeStep extends React.Component {
               );
             })}
             {selectedOption && showOtherOption ? (
-              <View style={styles.option}>
-                <View
+              <View collapsable={false}  style={styles.option}>
+                <View collapsable={false} 
                   style={[
                     styles.optionIconContainer,
                     styles.selectedOptionIconContainer
@@ -215,14 +215,14 @@ class SelectServiceTypeStep extends React.Component {
                 </Text>
               </View>
             ) : (
-                <View />
+                <View collapsable={false}  />
               )}
 
             <TouchableWithoutFeedback
               onPress={() => this.otherOptionsModal.openModal()}
             >
-              <View style={styles.option}>
-                <View style={styles.optionIconContainer}>
+              <View collapsable={false}  style={styles.option}>
+                <View collapsable={false}  style={styles.optionIconContainer}>
                   <Image
                     style={[styles.optionIcon, { width: 50, height: 30 }]}
                     resizeMode="contain"
@@ -236,11 +236,11 @@ class SelectServiceTypeStep extends React.Component {
             </TouchableWithoutFeedback>
           </ScrollView>
         </View>
-        <View style={styles.selectServiceMsgContainer}>
+        <View collapsable={false}  style={styles.selectServiceMsgContainer}>
           <Text weight="Medium" style={styles.selectServiceMsg}>
             Please Select a Type Above
           </Text>
-          <View style={styles.reason}>
+          <View collapsable={false}  style={styles.reason}>
             <Text style={styles.reasons} weight="Medium">
               - Mark present and absent days -
             </Text>

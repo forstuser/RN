@@ -203,9 +203,9 @@ class PersonalDoc extends React.Component {
       copies
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
-          <View style={styles.imageHeader}>
+          <View collapsable={false}  style={styles.imageHeader}>
             <Image
               style={styles.headerImage}
               source={
@@ -213,7 +213,7 @@ class PersonalDoc extends React.Component {
               }
             />
           </View>
-          <View style={styles.form}>
+          <View collapsable={false}  style={styles.form}>
             <Text weight="Medium" style={styles.headerText}>
               {formType == "visiting_card"
                 ? "Add Card Details"
@@ -225,7 +225,7 @@ class PersonalDoc extends React.Component {
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder="Type of Doc"
                 placeholderRenderer={({ placeholder }) => (
-                  <View style={{ flexDirection: "row" }}>
+                  <View collapsable={false}  style={{ flexDirection: "row" }}>
                     <Text
                       weight="Medium"
                       style={{ color: colors.secondaryText }}
@@ -251,7 +251,7 @@ class PersonalDoc extends React.Component {
               onChangeText={name => this.setState({ name })}
             />
             {formType == "visiting_card" && showFullForm ? (
-              <View style={{ width: "100%", marginBottom: 10 }}>
+              <View collapsable={false}  style={{ width: "100%", marginBottom: 10 }}>
                 <CustomTextInput
                   placeholder="Business Name"
                   value={businessName}
@@ -276,7 +276,7 @@ class PersonalDoc extends React.Component {
                 />
               </View>
             ) : (
-              <View />
+              <View collapsable={false}  />
             )}
             <UploadDoc
               placeholder={

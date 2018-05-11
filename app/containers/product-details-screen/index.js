@@ -43,7 +43,7 @@ import InsuranceCard from "./insurance-card";
 import MedicalDocsCard from "./medical-docs-card";
 
 const NavOptionsButton = ({ addImageText }) => (
-  <View
+  <View collapsable={false} 
     style={{
       flexDirection: "row",
       backgroundColor: "transparent",

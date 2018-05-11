@@ -144,8 +144,8 @@ class RepairForm extends React.Component {
         icon="plus"
         isCollapsible={isCollapsible}
       >
-        <View style={styles.innerContainer}>
-          <View style={styles.body}>
+        <View collapsable={false}  style={styles.innerContainer}>
+          <View collapsable={false}  style={styles.body}>
             <CustomTextInput
               placeholder={I18n.t("expense_forms_repair_for")}
               underlineColorAndroid="transparent"

@@ -45,7 +45,7 @@ class Details extends Component {
 
     if (product.categoryId != 664) {
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false}  style={{ width: "100%" }}>
           <KeyValueItem
             keyText={I18n.t("product_details_screen_cost_breakdown_product")}
             valueText={`₹ ${product.value}`}
@@ -59,7 +59,7 @@ class Details extends Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false}  style={{ width: "100%" }}>
           <KeyValueItem
             keyText={
               I18n.t("product_details_screen_cost_breakdown_warranty") + date
@@ -75,7 +75,7 @@ class Details extends Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false}  style={{ width: "100%" }}>
           <KeyValueItem
             keyText={
               I18n.t("product_details_screen_cost_breakdown_insurance") + date
@@ -91,7 +91,7 @@ class Details extends Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false}  style={{ width: "100%" }}>
           <KeyValueItem
             keyText={I18n.t("product_details_screen_cost_breakdown_amc") + date}
             valueText={`₹ ${item.premiumAmount}`}
@@ -105,7 +105,7 @@ class Details extends Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false}  style={{ width: "100%" }}>
           <KeyValueItem
             keyText={
               I18n.t("product_details_screen_cost_breakdown_repairs") + date
@@ -141,7 +141,7 @@ class Details extends Component {
       repairAmount;
 
     amountBreakdownOptions.push(
-      <View style={{ width: "100%" }}>
+      <View collapsable={false}  style={{ width: "100%" }}>
         <KeyValueItem
           keyText={I18n.t("product_details_screen_cost_breakdown_total")}
           valueText={`₹ ${totalAmount}`}
@@ -159,9 +159,9 @@ class Details extends Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         {product.categoryId != 664 && (
-          <ViewBillButton product={product} navigator={navigator} />
+          <View collapsable={false} BillButton product={product} navigator={navigator} />
         )}
         <Image style={styles.image} source={imageSource} resizeMode="contain" />
         <Text weight="Bold" style={styles.name}>

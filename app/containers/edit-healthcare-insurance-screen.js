@@ -153,7 +153,7 @@ class MedicalDoc extends React.Component {
       isFinishModalVisible
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
           <LoadingOverlay visible={isLoading} />
           <ChangesSavedModal

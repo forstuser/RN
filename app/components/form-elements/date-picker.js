@@ -60,8 +60,8 @@ class CustomDatePicker extends React.Component {
     const { date } = this.state;
     return (
       <TouchableWithoutFeedback onPress={() => this.datePicker.onPressDate()}>
-        <View style={[styles.container, style]}>
-          <View
+        <View collapsable={false}  style={[styles.container, style]}>
+          <View collapsable={false} 
             style={[
               styles.placeholderContainer,
               date ? styles.filledInputPlaceholderContainer : {}
@@ -84,13 +84,13 @@ class CustomDatePicker extends React.Component {
             </Text>
           </View>
 
-          <View style={styles.textInput}>
+          <View collapsable={false}  style={styles.textInput}>
             <Text weight="Medium" style={{ color: colors.mainText }}>
               {date && moment(date).format("DD MMM, YYYY")}
             </Text>
           </View>
 
-          <View style={styles.calendarIconContainer}>
+          <View collapsable={false}  style={styles.calendarIconContainer}>
             <CalendarIcon />
           </View>
           <DatePicker

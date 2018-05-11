@@ -129,12 +129,12 @@ class AddExpenseModal extends React.Component {
     if (!isModalVisible) return null;
 
     return (
-      <View>
+      <View collapsable={false} >
         {isModalVisible ? (
-          <View>
+          <View collapsable={false} >
             <Modal visible={true} animationType="slide">
-              <View style={styles.container}>
-                <View style={styles.option}>
+              <View collapsable={false}  style={styles.container}>
+                <View collapsable={false}  style={styles.option}>
                   <Text
                     weight="Bold"
                     style={[styles.optionTitle, { color: colors.mainBlue }]}
@@ -149,14 +149,14 @@ class AddExpenseModal extends React.Component {
                     contentContainerStyle={styles.grid}
                   />
                 </View>
-                <View style={styles.orOuterContainer}>
-                  <View style={styles.orContainer}>
+                <View collapsable={false}  style={styles.orOuterContainer}>
+                  <View collapsable={false}  style={styles.orContainer}>
                     <Text style={styles.or} weight="Bold">
                       OR
                     </Text>
                   </View>
                 </View>
-                <View style={styles.option}>
+                <View collapsable={false}  style={styles.option}>
                   <Text
                     weight="Bold"
                     style={[
@@ -184,13 +184,13 @@ class AddExpenseModal extends React.Component {
                     outlineBtnStyle={{ borderColor: "transparent" }}
                   />
                 ) : (
-                  <View />
+                  <View collapsable={false}  />
                 )}
               </View>
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );

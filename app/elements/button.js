@@ -21,7 +21,7 @@ const AppButton = ({
   gradientStyle,
   outlineBtnStyle
 }) => (
-  <View
+  <View collapsable={false} 
     style={[
       styles.container,
       style,
@@ -45,7 +45,7 @@ const AppButton = ({
       </LinearGradient>
     )}
     {type === "outline" && (
-      <View
+      <View collapsable={false} 
         style={[
           styles.gradientStyle,
           styles.outlineStyle,

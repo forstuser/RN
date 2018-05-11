@@ -51,7 +51,7 @@ class TabsHeader extends React.Component {
             >
               {route.text}
             </Text>
-            <View
+            <View collapsable={false} 
               style={index == activeTabIndex ? styles.activeIndicator : {}}
             />
           </TouchableOpacity>

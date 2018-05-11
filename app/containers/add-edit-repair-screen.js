@@ -235,7 +235,7 @@ class AddEditRepair extends React.Component {
           navigator={this.props.navigator}
         />
         <KeyboardAwareScrollView>
-          <View style={{ flex: 1 }}>
+          <View collapsable={false}  style={{ flex: 1 }}>
             <RepairForm
               ref={ref => (this.repairForm = ref)}
               {...{

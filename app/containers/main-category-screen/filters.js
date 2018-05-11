@@ -286,7 +286,7 @@ class Filters extends Component {
     );
 
     return (
-      <View>
+      <View collapsable={false} >
         <TouchableOpacity onPress={this.showModal} style={styles.alwaysVisible}>
           <Image style={styles.filterIcon} source={filterIcon} />
           <Text weight="Medium" style={styles.filterText}>
@@ -347,10 +347,10 @@ class Filters extends Component {
           })}
         </ScrollView>
         {this.state.isModalVisible ? (
-          <View>
+          <View collapsable={false} >
             <Modal isVisible={true}>
-              <View style={styles.modal}>
-                <View style={styles.modalHeader}>
+              <View collapsable={false}  style={styles.modal}>
+                <View collapsable={false}  style={styles.modalHeader}>
                   <Text
                     weight="Medium"
                     style={{ color: "red" }}
@@ -372,7 +372,7 @@ class Filters extends Component {
                     {I18n.t("main_category_screen_filters_apply")}
                   </Text>
                 </View>
-                <View>
+                <View collapsable={false} >
                   <Collapsible
                     headerText={I18n.t(
                       "main_category_screen_filters_title_categories"
@@ -414,7 +414,7 @@ class Filters extends Component {
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );

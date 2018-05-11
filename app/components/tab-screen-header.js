@@ -43,9 +43,9 @@ class TabSearchHeader extends Component {
       onRightSideSearchIconPress
     } = this.props;
     return (
-      <View style={styles.container}>
-        <View style={styles.upperContainer}>
-          <View style={styles.nameAndIcon}>
+      <View collapsable={false}  style={styles.container}>
+        <View collapsable={false}  style={styles.upperContainer}>
+          <View collapsable={false}  style={styles.nameAndIcon}>
             <Image style={styles.icon} source={icon} resizeMode="contain" />
             <Text weight="Medium" style={styles.screenName}>
               {title}
@@ -59,17 +59,17 @@ class TabSearchHeader extends Component {
             >
               <Image style={styles.messagesIcon} source={messagesIcon} />
               {notificationCount > 0 ? (
-                <View style={styles.messagesCountContainer}>
+                <View collapsable={false}  style={styles.messagesCountContainer}>
                   <Text weight="Bold" style={styles.messagesCount}>
                     {notificationCount}
                   </Text>
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
             </TouchableOpacity>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
           {showRightSideSearchIcon ? (
             <TouchableOpacity
@@ -79,7 +79,7 @@ class TabSearchHeader extends Component {
               <Image style={styles.messagesIcon} source={searchIcon} />
             </TouchableOpacity>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
         </View>
         {showSearchInput ? (
@@ -93,7 +93,7 @@ class TabSearchHeader extends Component {
             </Text>
           </TouchableOpacity>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );

@@ -57,19 +57,19 @@ class TipsScreen extends Component {
           data={this.state.tips}
           keyExtractor={(item, index) => index}
           renderItem={({ item, index }) => (
-            <View
+            <View collapsable={false} 
               style={{
                 backgroundColor: tipsColors[index % 4],
                 marginBottom: 10,
                 borderRadius: 4
               }}
             >
-              <View style={styles.overlay} />
+              <View collapsable={false}  style={styles.overlay} />
               <Text style={styles.mainText} weight="Medium">
                 {item.tip}
               </Text>
 
-              <View
+              <View collapsable={false} 
                 style={{
                   marginTop: 35,
                   marginBottom: 20,

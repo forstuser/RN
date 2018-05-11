@@ -24,7 +24,7 @@ const ProductListItem = ({ product, onPress }) => {
 
   return (
     <TouchableOpacity onPress={() => onPress()} style={styles.container}>
-      <View style={styles.details}>
+      <View collapsable={false}  style={styles.details}>
         {product.copies &&
           product.copies.length > 0 &&
           isImageFileType(
@@ -48,7 +48,7 @@ const ProductListItem = ({ product, onPress }) => {
             <Image style={styles.image} source={imageSource} />
           )}
         {!product.copies && <Image style={styles.image} source={imageSource} />}
-        <View style={styles.texts}>
+        <View collapsable={false}  style={styles.texts}>
           <Text weight="Bold" style={styles.name}>
             {productName.toUpperCase()}
           </Text>

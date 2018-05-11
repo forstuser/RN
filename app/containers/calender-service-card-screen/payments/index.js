@@ -104,7 +104,7 @@ class Report extends React.Component {
     const payments = item.payments;
     // if (!isMarkPaidModalOpen) return null;
     return (
-      <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
+      <View collapsable={false}  style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
         <Button
           onPress={this.showMarkPaidModal}
           text="Add Payment"
@@ -112,12 +112,12 @@ class Report extends React.Component {
           color="secondary"
         />
 
-        <View style={styles.paymentHistory}>
-          <View style={styles.paymentHistoryItem}>
-            <View style={styles.paymentHistoryItemColumn}>
+        <View collapsable={false}  style={styles.paymentHistory}>
+          <View collapsable={false}  style={styles.paymentHistoryItem}>
+            <View collapsable={false}  style={styles.paymentHistoryItemColumn}>
               <Text weight="Bold">Total Amount Paid</Text>
             </View>
-            <View style={styles.paymentHistoryItemColumn}>
+            <View collapsable={false}  style={styles.paymentHistoryItemColumn}>
               <Text weight="Bold">{`₹ ${payments.reduce(
                 (total, payment) => total + payment.amount_paid,
                 0
@@ -125,13 +125,13 @@ class Report extends React.Component {
             </View>
           </View>
           {payments.map(payment => (
-            <View key={payment.id} style={styles.paymentHistoryItem}>
-              <View style={styles.paymentHistoryItemColumn}>
+            <View collapsable={false}  key={payment.id} style={styles.paymentHistoryItem}>
+              <View collapsable={false}  style={styles.paymentHistoryItemColumn}>
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {moment(payment.paid_on).format("DD MMM YYYY")}
                 </Text>
               </View>
-              <View style={styles.paymentHistoryItemColumn}>
+              <View collapsable={false}  style={styles.paymentHistoryItemColumn}>
                 <Text
                   weight="Medium"
                   style={{ color: colors.secondaryText }}
@@ -141,7 +141,7 @@ class Report extends React.Component {
           ))}
         </View>
         {isMarkPaidModalOpen ? (
-          <View>
+          <View collapsable={false} >
             <Modal
               isVisible={true}
               avoidKeyboard={Platform.OS == "ios"}
@@ -150,7 +150,7 @@ class Report extends React.Component {
               onBackdropPress={this.hideMarkPaidModal}
               onBackButtonPress={this.hideMarkPaidModal}
             >
-              <View style={[styles.card, styles.modalCard]}>
+              <View collapsable={false}  style={[styles.card, styles.modalCard]}>
                 <LoadingOverlay visible={isAddingPayment} />
                 <TouchableOpacity
                   style={styles.modalCloseIcon}
@@ -181,7 +181,7 @@ class Report extends React.Component {
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );

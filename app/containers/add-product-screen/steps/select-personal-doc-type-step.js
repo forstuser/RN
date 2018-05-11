@@ -66,7 +66,7 @@ class AddAmountStep extends React.Component {
         showLoader={isLoading}
         {...this.props}
       >
-        <View style={{ padding: 20 }}>
+        <View collapsable={false}  style={{ padding: 20 }}>
           <CustomTextInput
             placeholder={I18n.t("expense_forms_expense_basic_expense_amount")}
             value={value ? String(value) : ""}

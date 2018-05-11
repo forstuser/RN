@@ -37,7 +37,7 @@ class InsuranceDetails extends React.Component {
     const { insuranceDetails } = product;
 
     const InsuranceItem = ({ insurance }) => (
-      <View
+      <View collapsable={false} 
         style={[
           styles.card,
           product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE
@@ -62,7 +62,7 @@ class InsuranceDetails extends React.Component {
           }
         />
         {(insurance.copies || []).length > 0 && (
-          <ViewBillRow
+          <View collapsable={false} BillRow
             expiryDate={insurance.expiryDate}
             purchaseDate={insurance.purchaseDate}
             docType="Insurance"
@@ -117,7 +117,7 @@ class InsuranceDetails extends React.Component {
     );
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <ScrollView horizontal={true} style={styles.slider}>
           {insuranceDetails.map((insurance, index) => (
             <InsuranceItem key={index} insurance={insurance} />
@@ -128,7 +128,7 @@ class InsuranceDetails extends React.Component {
               onPress={() => this.props.openAddEditInsuranceScreen(null)}
             />
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
         </ScrollView>
       </View>

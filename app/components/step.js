@@ -19,13 +19,13 @@ class Step extends React.Component {
       showLoader = false
     } = this.props;
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         {!hideHeader ? (
-          <View style={styles.header}>
+          <View collapsable={false}  style={styles.header}>
             <TouchableOpacity style={styles.backBtn} onPress={onBackPress}>
               <Icon name="md-arrow-back" size={24} color="#000" />
             </TouchableOpacity>
-            <View style={styles.titlesContainer}>
+            <View collapsable={false}  style={styles.titlesContainer}>
               <Text weight="Bold" numberOfLines={1} style={styles.title}>
                 {title}
               </Text>
@@ -34,7 +34,7 @@ class Step extends React.Component {
                   {subtitle}
                 </Text>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
             </View>
             {skippable ? (
@@ -47,13 +47,13 @@ class Step extends React.Component {
                 </Text>
               </TouchableOpacity>
             ) : (
-              <View />
+              <View collapsable={false}  />
             )}
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
-        <View style={styles.body}>{children}</View>
+        <View collapsable={false}  style={styles.body}>{children}</View>
         <LoadingOverlay visible={showLoader} />
       </View>
     );

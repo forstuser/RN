@@ -28,7 +28,7 @@ class AmcDetails extends React.Component {
     const { amcDetails } = product;
 
     const AmcItem = ({ amc }) => (
-      <View style={styles.card}>
+      <View collapsable={false}  style={styles.card}>
         <EditOptionRow
           text={I18n.t("product_details_screen_amc_details")}
           onEditPress={() => {
@@ -36,7 +36,7 @@ class AmcDetails extends React.Component {
             this.props.openAddEditAmcScreen(amc);
           }}
         />
-        <ViewBillRow
+        <View collapsable={false} BillRow
           expiryDate={amc.expiryDate}
           purchaseDate={amc.purchaseDate}
           docType="AMC"
@@ -69,7 +69,7 @@ class AmcDetails extends React.Component {
     );
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <ScrollView horizontal={true} style={styles.slider}>
           {amcDetails.map((amc, index) => <AmcItem key={index} amc={amc} />)}
           <AddItemBtn

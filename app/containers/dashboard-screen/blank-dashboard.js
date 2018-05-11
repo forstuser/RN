@@ -53,14 +53,14 @@ class BlankDashboard extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <LinearGradient
           start={{ x: 0.0, y: 0.8 }}
           end={{ x: 0.0, y: 1 }}
           colors={["#01c8ff", "#0ae2f1"]}
           style={styles.gradientBackground}
         >
-          <View
+          <View collapsable={false} 
             style={[
               styles.webViewContainer,
               {
@@ -78,7 +78,7 @@ class BlankDashboard extends React.Component {
               source={cornerImageBottomLeft}
               resizeMode="contain"
             />
-            <View
+            <View collapsable={false} 
               style={[
                 styles.webView,
                 {
@@ -103,7 +103,7 @@ class BlankDashboard extends React.Component {
               />
             </View>
           </View>
-          <View style={styles.welcome}>
+          <View collapsable={false}  style={styles.welcome}>
             <Image style={styles.image} source={image} resizeMode="contain" />
             <Text weight="Bold" style={styles.welcomeTitle}>
               {I18n.t("blank_dashboard_headline")}
@@ -120,21 +120,21 @@ class BlankDashboard extends React.Component {
         >
           <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
         </TouchableOpacity>
-        <View style={styles.dummiesForTooltips}>
-          <View style={styles.dummyForTooltip} />
-          <View
+        <View collapsable={false}  style={styles.dummiesForTooltips}>
+          <View collapsable={false}  style={styles.dummyForTooltip} />
+          <View collapsable={false} 
             ref={ref => (this.ehomeTabItemRef = ref)}
             style={styles.dummyForTooltip}
           />
-          <View
+          <View collapsable={false} 
             ref={ref => (this.attendanceTabItemRef = ref)}
             style={styles.dummyForTooltip}
           />
-          <View
+          <View collapsable={false} 
             ref={ref => (this.doYouKnowTabItemRef = ref)}
             style={styles.dummyForTooltip}
           />
-          <View style={styles.dummyForTooltip} />
+          <View collapsable={false}  style={styles.dummyForTooltip} />
         </View>
         <Tour
           ref={ref => (this.blankDashboardTour = ref)}
