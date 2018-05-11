@@ -33,18 +33,9 @@ class FaqScreen extends Component {
     this.setState({ isLoading: true, error: null });
     try {
       const res = await getFaqs();
-      this.setState(
-        {
-          faqs: res.faq
-        },
-        () => {
-          if (this.props.scrollToBottom) {
-            setTimeout(() => {
-              this.faqList.scrollToEnd();
-            }, 500);
-          }
-        }
-      );
+      this.setState({
+        faqs: res.faq
+      });
     } catch (error) {
       this.setState({ error });
     } finally {

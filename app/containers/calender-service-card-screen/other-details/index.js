@@ -186,7 +186,7 @@ class Report extends React.Component {
               valueText={item.product_name}
             /> */}
             <KeyValueItem
-              keyText={"Provider Name"}
+              keyText={"Service Name"}
               valueText={item.provider_name}
             />
             <KeyValueItem
@@ -201,8 +201,8 @@ class Report extends React.Component {
                     {item.provider_number ? (
                       <Icon name="md-call" size={15} color={colors.tomato} />
                     ) : (
-                        ""
-                      )}
+                      ""
+                    )}
                   </Text>
                 </TouchableOpacity>
               )}
@@ -278,8 +278,8 @@ class Report extends React.Component {
                       valueText={calculationDetail.quantity}
                     />
                   ) : (
-                      <View />
-                    )}
+                    <View />
+                  )}
                   <KeyValueItem
                     keyText={unitPriceText}
                     valueText={calculationDetail.unit_price}
@@ -295,8 +295,8 @@ class Report extends React.Component {
                       ))}
                     </View>
                   ) : (
-                      <View />
-                    )}
+                    <View />
+                  )}
                 </View>
               </View>
             );
@@ -328,7 +328,7 @@ class Report extends React.Component {
               }
             /> */}
                 <CustomTextInput
-                  placeholder={I18n.t("calendar_service_screen_provider_name")}
+                  placeholder="Service Name"
                   value={providerNameToEdit}
                   onChangeText={providerNameToEdit =>
                     this.setState({ providerNameToEdit })
@@ -353,8 +353,8 @@ class Report extends React.Component {
             </Modal>
           </View>
         ) : (
-            <View />
-          )}
+          <View />
+        )}
         <CalculationDetailModal
           ref={ref => (this.calculationDetailModal = ref)}
           item={item}

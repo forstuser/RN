@@ -54,9 +54,13 @@ class AddAmountStep extends React.Component {
         mainCategoryId: mainCategoryId,
         categoryId: category.id,
         productId: product.id,
-        value: this.state.value
+        value: this.state.value.substr(1, this.state.value.length)
+        // this.state.value.charAt(0) == "₹"
+        //   ? (value = value.substr(1))
+        //   : this.state.value
       });
 
+      console.log(value, "values");
       if (typeof onStepDone == "function") {
         onStepDone(res.product);
       }
