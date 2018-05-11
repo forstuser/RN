@@ -3,14 +3,11 @@ import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 import moment from "moment";
-import I18n from "../../../i18n";
 import { Text } from "../../../elements";
 import KeyValueItem from "../../../components/key-value-item";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
-import ProductReview from "../../../components/product-review";
 import { colors } from "../../../theme";
-import Analytics from "../../../analytics";
-
+import PriceEditInput from "./price-edit-input"
 class PriceEditModal extends React.Component {
   state = {
     isModalVisible: false
@@ -37,16 +34,10 @@ class PriceEditModal extends React.Component {
     let amountBreakdownObject = {};
     if (product.categoryId != 664) {
       amountBreakdownOptions.push(
-        // <View style={{ width: "100%" }}>
-        //   <KeyValueItem
-        //     keyText={I18n.t("product_details_screen_cost_breakdown_product")}
-        //     valueText={`₹ ${product.value}`}
-        //   />
-        // </View>
-        amountBreakdownObject = {
+        {
           name: "Product Cost",
           date: '',
-          value: product.value
+          price: product.value
         }
       );
     }
@@ -56,14 +47,11 @@ class PriceEditModal extends React.Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={
-              I18n.t("product_details_screen_cost_breakdown_warranty") + date
-            }
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
+        {
+          name: "Warranty",
+          date: date,
+          price: item.premiumAmount
+        }
       );
     });
 
@@ -72,14 +60,11 @@ class PriceEditModal extends React.Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={
-              I18n.t("product_details_screen_cost_breakdown_insurance") + date
-            }
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
+        {
+          name: "Insurance",
+          date: date,
+          price: item.premiumAmount
+        }
       );
     });
 
@@ -88,12 +73,11 @@ class PriceEditModal extends React.Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={I18n.t("product_details_screen_cost_breakdown_amc") + date}
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
+        {
+          name: "Amc",
+          date: date,
+          price: item.premiumAmount
+        }
       );
     });
 
@@ -102,26 +86,21 @@ class PriceEditModal extends React.Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={
-              I18n.t("product_details_screen_cost_breakdown_repairs") + date
-            }
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
+        {
+          name: "Repair",
+          date: date,
+          price: item.premiumAmount
+        }
       );
     });
 
-    amountBreakdownOptions.push(
-      <View style={{ width: "100%" }}>
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_cost_breakdown_total")}
-          valueText={`₹ ${totalAmount}`}
-        />
-      </View>
-    );
-    console.log("total amount", totalAmount)
+    // amountBreakdownOptions.push(
+    //   {
+    //     name: "Total Amount",
+    //     date: '',
+    //     price: totalAmount
+    //   }
+    // );
     console.log("final ", amountBreakdownOptions)
     return (
       <View>
@@ -140,11 +119,24 @@ class PriceEditModal extends React.Component {
                 </TouchableOpacity>
                 <Text
                   weight="Bold"
-                  style={{ fontSize: 12, textAlign: "center", marginBottom: 5 }}
+                  style={{ fontSize: 18, marginLeft: 10, textAlign: "left", marginBottom: 5, color: colors.mainBlue }}
                 >
-                  Price Break
+                  Product Cost Breakup
                 </Text>
-                />
+                {amountBreakdownOptions.map((item, index) => (
+                  <View key={index} style={{ paddingLeft: 10, borderBottomWidth: 1 }}>
+                    <PriceEditInput
+                      name={item.name}
+                      date={item.date}
+                      price={item.price}
+                    /></View>
+                ))}
+                <View style={{ paddingLeft: 10, borderBottomWidth: 1, backgroundColor: '#f3f3f3' }}>
+                  <PriceEditInput
+                    name="Total Amount"
+                    date=""
+                    price={totalAmount}
+                  /></View>
               </View>
             </Modal>
           </View>
@@ -156,7 +148,7 @@ class PriceEditModal extends React.Component {
 
 const styles = StyleSheet.create({
   modal: {
-    paddingTop: 40,
+    paddingTop: 20,
     backgroundColor: "#fff",
     borderRadius: 5
   },
