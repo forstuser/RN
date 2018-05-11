@@ -115,8 +115,10 @@ class ProductCard extends Component {
       ].indexOf(product.masterCategoryId) > -1
     ) {
       setTimeout(() => {
-        this.tour.startTour();
-        props.setUiHasProductCardTourShown(true);
+        if (this.tour) {
+          this.tour.startTour();
+          props.setUiHasProductCardTourShown(true);
+        }
       }, 1000);
     }
   };
