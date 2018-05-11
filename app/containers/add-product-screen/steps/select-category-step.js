@@ -296,7 +296,7 @@ class SelectCategoryStep extends React.Component {
           },
           {
             id: CATEGORY_IDS.HOUSEHOLD.HOME_DECOR,
-            name: "Home Decor & Furnishing",
+            name: "Home Décor & Furnishing",
             icon: require("../../../images/categories/home_decor.png")
           },
           {

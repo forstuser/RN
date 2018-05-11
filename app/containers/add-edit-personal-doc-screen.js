@@ -379,7 +379,11 @@ class PersonalDoc extends React.Component {
         <Button
           style={styles.saveBtn}
           onPress={this.saveDoc}
-          text={I18n.t("add_edit_personal_doc_add_doc")}
+          text={
+            categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD
+              ? "SAVE"
+              : I18n.t("add_edit_personal_doc_add_doc")
+          }
           borderRadius={0}
           color="secondary"
         />

@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 100,
     alignSelf: "center",
-    marginTop: 50,
+    marginTop: 20,
     marginBottom: 20
   },
   name: {
