@@ -111,12 +111,13 @@ class InsuranceCard extends Component {
     }
 
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View collapsable={false} BillButton
+          <ViewBillButton
+            collapsable={false}
             product={product}
             navigator={navigator}
             docType="Insurance"
@@ -185,7 +186,7 @@ class InsuranceCard extends Component {
             valueText={insurance.amountInsured}
           />
         </ScrollView>
-        <View collapsable={false}  style={styles.contactAfterSalesBtn}>
+        <View collapsable={false} style={styles.contactAfterSalesBtn}>
           <ContactAfterSaleButton
             product={product}
             navigator={this.props.navigator}

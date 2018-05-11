@@ -90,13 +90,17 @@ class MedicalDocsCard extends Component {
     }
 
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View collapsable={false}  style={{ top: 10, position: "absolute", right: 10 }}>
-            <View collapsable={false} BillButton
+          <View
+            collapsable={false}
+            style={{ top: 10, position: "absolute", right: 10 }}
+          >
+            <ViewBillButton
+              collapsable={false}
               product={product}
               navigator={navigator}
               docType="Medical Doc"
@@ -113,7 +117,10 @@ class MedicalDocsCard extends Component {
           <Text weight="Bold" style={styles.subCategoryName}>
             {product.sub_category_name}
           </Text>
-          <View collapsable={false}  style={[defaultStyles.card, { margin: 16 }]}>
+          <View
+            collapsable={false}
+            style={[defaultStyles.card, { margin: 16 }]}
+          >
             <TouchableOpacity
               onPress={this.onEditPress}
               style={{
