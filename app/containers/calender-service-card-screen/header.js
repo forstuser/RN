@@ -64,8 +64,8 @@ class Header extends Component {
     };
 
     return (
-      <View collapsable={false}  style={styles.container}>
-        <View collapsable={false}  style={styles.upparHalf}>
+      <View collapsable={false} style={styles.container}>
+        <View collapsable={false} style={styles.upparHalf}>
           <Image style={styles.bg} source={headerBg} resizeMode="cover" />
           <Image
             style={styles.image}
@@ -73,9 +73,12 @@ class Header extends Component {
             resizeMode="contain"
           />
         </View>
-        <View collapsable={false}  style={styles.lowerHalf}>
-          <View collapsable={false}  style={styles.lowerHalfInner}>
-            <View collapsable={false}  style={{ flexDirection: "row", alignItems: "center" }}>
+        <View collapsable={false} style={styles.lowerHalf}>
+          <View collapsable={false} style={styles.lowerHalfInner}>
+            <View
+              collapsable={false}
+              style={{ flexDirection: "row", alignItems: "center" }}
+            >
               <Text weight="Bold" style={styles.name}>
                 {item.product_name}
               </Text>
@@ -83,8 +86,11 @@ class Header extends Component {
             <Text weight="Medium" style={styles.key}>
               {item.provider_name}
             </Text>
-            <View collapsable={false}  style={{ flexDirection: "row" }}>
-              <View collapsable={false}  style={{ flex: 1, flexDirection: "row" }}>
+            <View collapsable={false} style={{ flexDirection: "row" }}>
+              <View
+                collapsable={false}
+                style={{ flex: 1, flexDirection: "row" }}
+              >
                 <Text weight="Medium" style={styles.key}>
                   {I18n.t("calendar_service_screen_total_present")}:{" "}
                 </Text>
@@ -95,7 +101,10 @@ class Header extends Component {
                   {daysPresent}
                 </Text>
               </View>
-              <View collapsable={false}  style={{ flex: 1, flexDirection: "row" }}>
+              <View
+                collapsable={false}
+                style={{ flex: 1, flexDirection: "row" }}
+              >
                 <Text weight="Medium" style={styles.key}>
                   {I18n.t("calendar_service_screen_total_absent")}:{" "}
                 </Text>
@@ -107,8 +116,11 @@ class Header extends Component {
                 </Text>
               </View>
             </View>
-            <View collapsable={false}  style={{ flexDirection: "row" }}>
-              <View collapsable={false}  style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
+            <View collapsable={false} style={{ flexDirection: "row" }}>
+              <View
+                collapsable={false}
+                style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}
+              >
                 <Text weight="Medium" style={styles.key}>
                   {I18n.t("calendar_service_screen_total_calculated_amount")}:{" "}
                 </Text>
@@ -119,7 +131,10 @@ class Header extends Component {
                   {"₹ " + totalCalulatedAmount.toFixed(2)}
                 </Text>
               </View>
-              <View collapsable={false}  style={{ flex: 1, flexDirection: "row" }}>
+              <View
+                collapsable={false}
+                style={{ flex: 1, flexDirection: "row" }}
+              >
                 <Text weight="Medium" style={styles.key}>
                   {I18n.t("calendar_service_screen_total_paid_amount")}:{" "}
                 </Text>
@@ -132,7 +147,7 @@ class Header extends Component {
               </View>
             </View>
 
-            <View collapsable={false}  style={styles.tabs}>
+            <View collapsable={false} style={styles.tabs}>
               {[
                 I18n.t("calendar_service_screen_attendance"),
                 I18n.t("calendar_service_screen_payments"),
@@ -154,7 +169,8 @@ class Header extends Component {
                     >
                       {tab.toUpperCase()}
                     </Text>
-                    <View collapsable={false} 
+                    <View
+                      collapsable={false}
                       style={
                         index == activeTabIndex ? styles.activeIndicator : {}
                       }

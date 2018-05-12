@@ -8,6 +8,11 @@ import {
   requestStoragePermission
 } from "../android-permissions";
 
+import {
+  DocumentPicker,
+  DocumentPickerUtil
+} from "react-native-document-picker";
+
 import I18n from "../i18n";
 
 import { Text, Button } from "../elements";
