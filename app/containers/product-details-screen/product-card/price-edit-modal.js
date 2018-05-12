@@ -7,11 +7,28 @@ import { Text } from "../../../elements";
 import KeyValueItem from "../../../components/key-value-item";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import { colors } from "../../../theme";
-import PriceEditInput from "./price-edit-input"
+import PriceEditInput from "./price-edit-input";
+import { showSnackbar } from "../../snackbar";
+import {
+  updateProduct,
+  updateWarranty,
+  updateInsurance,
+  updateAmc,
+  updatePuc,
+  updateRepair
+} from "../../../api";
+
+
 class PriceEditModal extends React.Component {
   state = {
-    isModalVisible: false
+    isModalVisible: false,
+    productId: '',
   };
+  componentDidMount() {
+    this.setState({
+      productId: this.props.product.id
+    })
+  }
 
   show = () => {
     this.setState({
@@ -24,10 +41,40 @@ class PriceEditModal extends React.Component {
       isModalVisible: false
     });
   };
+  getData = async (value, id, type) => {
+    console.log(value, id, type);
+    try {
+      if (type) {
+        switch (type) {
+          case 'product':
+            await updateProduct({ productId: id, value: value })
+            break;
+          case 'warranty':
+            await updateWarranty({ productId: this.state.productId, id: id, value: value })
+            break;
+          case 'insurance':
+            await updateInsurance({ productId: this.state.productId, id: id, value: value })
+            break;
+          case 'amc':
+            await updateAmc({ productId: this.state.productId, id: id, value: value })
+            break;
+          case 'repair':
+            await updateRepair({ productId: this.state.productId, id: id, value: value })
+            break;
+        }
+      }
+    } catch (e) {
+      showSnackbar({
+        text: e.message
+      });
+    }
+
+  }
 
   render() {
     const { isModalVisible } = this.state;
     const { product, totalAmount } = this.props;
+    console.log("Product Details", product);
     if (!isModalVisible) return null;
 
     let amountBreakdownOptions = [];
@@ -36,6 +83,8 @@ class PriceEditModal extends React.Component {
       amountBreakdownOptions.push(
         {
           name: "Product Cost",
+          type: 'product',
+          id: product.id,
           date: '',
           price: product.value
         }
@@ -49,6 +98,8 @@ class PriceEditModal extends React.Component {
       amountBreakdownOptions.push(
         {
           name: "Warranty",
+          type: 'warranty',
+          id: item.id,
           date: date,
           price: item.premiumAmount
         }
@@ -62,6 +113,8 @@ class PriceEditModal extends React.Component {
       amountBreakdownOptions.push(
         {
           name: "Insurance",
+          type: 'insurance',
+          id: item.id,
           date: date,
           price: item.premiumAmount
         }
@@ -75,6 +128,8 @@ class PriceEditModal extends React.Component {
       amountBreakdownOptions.push(
         {
           name: "Amc",
+          type: 'amc',
+          id: item.id,
           date: date,
           price: item.premiumAmount
         }
@@ -88,6 +143,8 @@ class PriceEditModal extends React.Component {
       amountBreakdownOptions.push(
         {
           name: "Repair",
+          type: 'repair',
+          id: item.id,
           date: date,
           price: item.premiumAmount
         }
@@ -127,8 +184,12 @@ class PriceEditModal extends React.Component {
                   <View key={index} style={{ paddingLeft: 10, borderBottomWidth: 1 }}>
                     <PriceEditInput
                       name={item.name}
+                      type={item.type}
+                      id={item.id}
                       date={item.date}
                       price={item.price}
+                      editable={true}
+                      sendData={this.getData}
                     /></View>
                 ))}
                 <View style={{ paddingLeft: 10, borderBottomWidth: 1, backgroundColor: '#f3f3f3' }}>
@@ -136,6 +197,7 @@ class PriceEditModal extends React.Component {
                     name="Total Amount"
                     date=""
                     price={totalAmount}
+                    editable={false}
                   /></View>
               </View>
             </Modal>

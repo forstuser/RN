@@ -17,6 +17,8 @@ class PriceEditInput extends React.Component {
         this.input = null
         this.state = {
             value: "",
+            type: "",
+            id: "",
             isInputFocused: false,
             correctIcon: false
         };
@@ -24,7 +26,7 @@ class PriceEditInput extends React.Component {
 
     componentDidMount() {
         if (this.props.price) {
-            this.setState({ value: JSON.stringify(this.props.price) });
+            this.setState({ value: JSON.stringify(this.props.price), type: this.props.type, id: this.props.id });
         }
     }
 
@@ -73,14 +75,17 @@ class PriceEditInput extends React.Component {
         }
     }
     updateAmount = () => {
-        console.log("updated amount sent it to parent", this.state.value)
+        this.props.sendData(this.state.value, this.props.id, this.props.type);
     }
 
     render() {
         const {
             name,
+            type,
+            id,
             date,
             price,
+            editable
         } = this.props;
         const { value, isInputFocused, correctIcon } = this.state;
 
@@ -96,7 +101,7 @@ class PriceEditInput extends React.Component {
                     <View style={styles.textInput}>
                         <TextInput
                             ref={ref => (this.input = ref)}
-                            // style={correctIcon ? styles.grey : styles.white}
+                            style={correctIcon ? styles.grey : styles.white}
                             underlineColorAndroid="transparent"
                             value={value}
                             onFocus={this.onInputFocus}
@@ -105,14 +110,14 @@ class PriceEditInput extends React.Component {
                             maxLength={10}
                         />
                     </View>
-                    <View style={styles.icon}>
+                    {editable ? <View style={styles.icon}>
                         {!correctIcon && <TouchableOpacity style={{ marginTop: 5 }} onPress={(event) => { this.input.focus(), this.toggleIcon() }}>
                             <Eicon name="pencil" size={30} color={colors.mainBlue} />
                         </TouchableOpacity>}
                         {correctIcon && <TouchableOpacity style={{ marginTop: 4 }} onPress={(event) => { this.toggleIcon(), this.updateAmount() }}>
                             <Icon name="ios-checkmark-circle" size={30} color={colors.mainBlue} />
                         </TouchableOpacity>}
-                    </View>
+                    </View> : <View style={styles.icon}></View>}
                 </View>
             </View >
         );
@@ -144,7 +149,11 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     grey: {
-        backgroundColor: colors.secondaryText,
+        // backgroundColor: colors.secondaryText,
+        borderBottomWidth: 1,
+        marginBottom: 10,
+        paddingBottom: 0,
+        // borderStyle: 'dotted'
     },
     white: {
         backgroundColor: 'transparent'
