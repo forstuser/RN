@@ -18,16 +18,15 @@ import {
   updateRepair
 } from "../../../api";
 
-
 class PriceEditModal extends React.Component {
   state = {
     isModalVisible: false,
-    productId: '',
+    productId: ""
   };
   componentDidMount() {
     this.setState({
       productId: this.props.product.id
-    })
+    });
   }
 
   show = () => {
@@ -42,34 +41,49 @@ class PriceEditModal extends React.Component {
     });
   };
   getData = async (value, id, type) => {
-    console.log(value, id, type);
     try {
       if (type) {
         switch (type) {
-          case 'product':
-            await updateProduct({ productId: id, value: value })
+          case "product":
+            await updateProduct({ productId: id, value: value });
             break;
-          case 'warranty':
-            await updateWarranty({ productId: this.state.productId, id: id, value: value })
+          case "warranty":
+            await updateWarranty({
+              productId: this.state.productId,
+              id: id,
+              value: value
+            });
             break;
-          case 'insurance':
-            await updateInsurance({ productId: this.state.productId, id: id, value: value })
+          case "insurance":
+            await updateInsurance({
+              productId: this.state.productId,
+              id: id,
+              value: value
+            });
             break;
-          case 'amc':
-            await updateAmc({ productId: this.state.productId, id: id, value: value })
+          case "amc":
+            await updateAmc({
+              productId: this.state.productId,
+              id: id,
+              value: value
+            });
             break;
-          case 'repair':
-            await updateRepair({ productId: this.state.productId, id: id, value: value })
+          case "repair":
+            await updateRepair({
+              productId: this.state.productId,
+              id: id,
+              value: value
+            });
             break;
         }
+        this.props.fetchProductDetails();
       }
     } catch (e) {
       showSnackbar({
         text: e.message
       });
     }
-
-  }
+  };
 
   render() {
     const { isModalVisible } = this.state;
@@ -80,75 +94,65 @@ class PriceEditModal extends React.Component {
     let amountBreakdownOptions = [];
     let amountBreakdownObject = {};
     if (product.categoryId != 664) {
-      amountBreakdownOptions.push(
-        {
-          name: "Product Cost",
-          type: 'product',
-          id: product.id,
-          date: '',
-          price: product.value
-        }
-      );
+      amountBreakdownOptions.push({
+        name: "Product Cost",
+        type: "product",
+        id: product.id,
+        date: "",
+        price: product.value
+      });
     }
 
     product.warrantyDetails.forEach(item => {
       let date = moment(item.purchaseDate).isValid()
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
-      amountBreakdownOptions.push(
-        {
-          name: "Warranty",
-          type: 'warranty',
-          id: item.id,
-          date: date,
-          price: item.premiumAmount
-        }
-      );
+      amountBreakdownOptions.push({
+        name: "Warranty",
+        type: "warranty",
+        id: item.id,
+        date: date,
+        price: item.premiumAmount
+      });
     });
 
     product.insuranceDetails.forEach(item => {
       let date = moment(item.purchaseDate).isValid()
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
-      amountBreakdownOptions.push(
-        {
-          name: "Insurance",
-          type: 'insurance',
-          id: item.id,
-          date: date,
-          price: item.premiumAmount
-        }
-      );
+      amountBreakdownOptions.push({
+        name: "Insurance",
+        type: "insurance",
+        id: item.id,
+        date: date,
+        price: item.premiumAmount
+      });
     });
 
     product.amcDetails.forEach(item => {
       let date = moment(item.purchaseDate).isValid()
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
-      amountBreakdownOptions.push(
-        {
-          name: "Amc",
-          type: 'amc',
-          id: item.id,
-          date: date,
-          price: item.premiumAmount
-        }
-      );
+      amountBreakdownOptions.push({
+        name: "Amc",
+        type: "amc",
+        id: item.id,
+        date: date,
+        price: item.premiumAmount
+      });
     });
 
     product.repairBills.forEach(item => {
       let date = moment(item.purchaseDate).isValid()
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
-      amountBreakdownOptions.push(
-        {
-          name: "Repair",
-          type: 'repair',
-          id: item.id,
-          date: date,
-          price: item.premiumAmount
-        }
-      );
+      amountBreakdownOptions.push({
+        name: "Repair",
+        type: "repair",
+        id: item.id,
+        date: date,
+        price: item.premiumAmount
+      });
     });
 
     // amountBreakdownOptions.push(
@@ -158,7 +162,7 @@ class PriceEditModal extends React.Component {
     //     price: totalAmount
     //   }
     // );
-    console.log("final ", amountBreakdownOptions)
+    console.log("final ", amountBreakdownOptions);
     return (
       <View>
         {isModalVisible && (
@@ -176,12 +180,21 @@ class PriceEditModal extends React.Component {
                 </TouchableOpacity>
                 <Text
                   weight="Bold"
-                  style={{ fontSize: 18, marginLeft: 10, textAlign: "left", marginBottom: 5, color: colors.mainBlue }}
+                  style={{
+                    fontSize: 18,
+                    marginLeft: 10,
+                    textAlign: "left",
+                    marginBottom: 5,
+                    color: colors.mainBlue
+                  }}
                 >
                   Product Cost Breakup
                 </Text>
                 {amountBreakdownOptions.map((item, index) => (
-                  <View key={index} style={{ paddingLeft: 10, borderBottomWidth: 1 }}>
+                  <View
+                    key={index}
+                    style={{ paddingLeft: 10, borderBottomWidth: 1 }}
+                  >
                     <PriceEditInput
                       name={item.name}
                       type={item.type}
@@ -190,15 +203,23 @@ class PriceEditModal extends React.Component {
                       price={item.price}
                       editable={true}
                       sendData={this.getData}
-                    /></View>
+                    />
+                  </View>
                 ))}
-                <View style={{ paddingLeft: 10, borderBottomWidth: 1, backgroundColor: '#f3f3f3' }}>
+                <View
+                  style={{
+                    paddingLeft: 10,
+                    borderBottomWidth: 1,
+                    backgroundColor: "#f3f3f3"
+                  }}
+                >
                   <PriceEditInput
                     name="Total Amount"
                     date=""
                     price={totalAmount}
                     editable={false}
-                  /></View>
+                  />
+                </View>
               </View>
             </Modal>
           </View>

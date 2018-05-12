@@ -67,7 +67,7 @@ class Header extends Component {
       showImportantTab = true,
       viewBillRef,
       shareBtnRef,
-      reviewBtnRef,
+      reviewBtnRef
     } = this.props;
 
     const { review } = this.state;
@@ -139,7 +139,7 @@ class Header extends Component {
 
         <View style={styles.lowerHalf}>
           <View style={styles.lowerHalfInner}>
-            <View style={{ flexDirection: 'column' }}>
+            <View style={{ flexDirection: "column" }}>
               <View style={{ flex: 1, flexDirection: "row" }}>
                 <Text weight="Bold" style={styles.name}>
                   {productName}
@@ -157,12 +157,22 @@ class Header extends Component {
                 </TouchableOpacity>
               </View>
               <View style={styles.texts}>
-                {product.warrantyDetails.length > 0 && < Text weight="Medium" style={styles.brandAndModel}>
-                  Warranty till {moment(product.warrantyDetails[0].expiryDate).format("DD MMM YYYY")}
-                </Text>}
-                {product.insuranceDetails.length > 0 && <Text weight="Bold" style={styles.brandAndModel}>
-                  Insurance till {moment(product.insuranceDetails[0].expiryDate).format("DD MMM YYYY")}
-                </Text>}
+                {product.warrantyDetails.length > 0 && (
+                  <Text weight="Medium" style={styles.brandAndModel}>
+                    Warranty till{" "}
+                    {moment(product.warrantyDetails[0].expiryDate).format(
+                      "DD MMM YYYY"
+                    )}
+                  </Text>
+                )}
+                {product.insuranceDetails.length > 0 && (
+                  <Text weight="Bold" style={styles.brandAndModel}>
+                    Insurance till{" "}
+                    {moment(product.insuranceDetails[0].expiryDate).format(
+                      "DD MMM YYYY"
+                    )}
+                  </Text>
+                )}
               </View>
             </View>
             {/* 3 buttons (view bill,share and rating) start */}
@@ -189,52 +199,52 @@ class Header extends Component {
                 MAIN_CATEGORY_IDS.FURNITURE,
                 MAIN_CATEGORY_IDS.FASHION
               ].indexOf(product.masterCategoryId) > -1 && (
-                  <View
-                    style={{
-                      alignItems: "center"
-                    }}
+                <View
+                  style={{
+                    alignItems: "center"
+                  }}
+                >
+                  <TouchableOpacity
+                    ref={ref => shareBtnRef(ref)}
+                    onPress={() => this.shareModal.show()}
+                    style={styles.btnShare}
                   >
-                    <TouchableOpacity
-                      ref={ref => shareBtnRef(ref)}
-                      onPress={() => this.shareModal.show()}
-                      style={styles.btnShare}
-                    >
-                      <Icon
-                        name={
-                          Platform.OS == "ios" ? "share-apple" : "share-google"
-                        }
-                        size={25}
-                        color={colors.mainBlue}
-                      />
-                    </TouchableOpacity>
-                    <Text weight="Medium" style={styles.btnText}>
-                      {I18n.t("share_card").toUpperCase()}
-                    </Text>
-                  </View>
-                )}
+                    <Icon
+                      name={
+                        Platform.OS == "ios" ? "share-apple" : "share-google"
+                      }
+                      size={25}
+                      color={colors.mainBlue}
+                    />
+                  </TouchableOpacity>
+                  <Text weight="Medium" style={styles.btnText}>
+                    {I18n.t("share_card").toUpperCase()}
+                  </Text>
+                </View>
+              )}
               {[
                 MAIN_CATEGORY_IDS.AUTOMOBILE,
                 MAIN_CATEGORY_IDS.ELECTRONICS,
                 MAIN_CATEGORY_IDS.FURNITURE,
                 MAIN_CATEGORY_IDS.FASHION
               ].indexOf(product.masterCategoryId) > -1 && (
-                  <View
-                    style={{
-                      alignItems: "center"
-                    }}
+                <View
+                  style={{
+                    alignItems: "center"
+                  }}
+                >
+                  <TouchableOpacity
+                    ref={ref => reviewBtnRef(ref)}
+                    onPress={() => this.reviewModal.show()}
+                    style={styles.btn}
                   >
-                    <TouchableOpacity
-                      ref={ref => reviewBtnRef(ref)}
-                      onPress={() => this.reviewModal.show()}
-                      style={styles.btn}
-                    >
-                      <Icon name="star" size={25} color={colors.yellow} />
-                    </TouchableOpacity>
-                    <Text weight="Medium" style={styles.btnText}>
-                      {review ? review.ratings : I18n.t("review").toUpperCase()}
-                    </Text>
-                  </View>
-                )}
+                    <Icon name="star" size={25} color={colors.yellow} />
+                  </TouchableOpacity>
+                  <Text weight="Medium" style={styles.btnText}>
+                    {review ? review.ratings : I18n.t("review").toUpperCase()}
+                  </Text>
+                </View>
+              )}
             </View>
             {/* 3 buttons (view bill,share and rating) end */}
             <View style={styles.tabs}>
@@ -290,6 +300,7 @@ class Header extends Component {
             <ShareModal
               ref={ref => (this.shareModal = ref)}
               product={product}
+              fetchProductDetails={this.props.fetchProductDetails}
               loggedInUser={loggedInUser}
               setLoggedInUserName={setLoggedInUserName}
               review={review}
@@ -309,12 +320,12 @@ class Header extends Component {
             <PriceEditModal
               ref={ref => (this.priceEditModal = ref)}
               product={product}
+              fetchProductDetails={this.props.fetchProductDetails}
               totalAmount={totalAmount}
             />
           </View>
-
         </View>
-      </View >
+      </View>
     );
   }
 }
@@ -344,7 +355,7 @@ const styles = StyleSheet.create({
   lowerHalf: {
     marginTop: -65,
     width: "100%",
-    paddingHorizontal: 16,
+    paddingHorizontal: 16
   },
   lowerHalfInner: {
     backgroundColor: "#fff",
@@ -353,10 +364,10 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     borderRadius: 3,
     width: "100%",
-    ...defaultStyles.card,
+    ...defaultStyles.card
   },
   texts: {
-    flex: 1,
+    flex: 1
     // flexDirection: 'row',
     // justifyContent: "flex-end",
     // alignItems: 'flex-end',
@@ -398,12 +409,12 @@ const styles = StyleSheet.create({
     color: "#9b9b9b"
   },
   name: {
-    fontSize: 18,
+    fontSize: 18
     // marginRight: 85
   },
   brandAndModel: {
     fontSize: 12,
-    color: colors.secondaryText,
+    color: colors.secondaryText
     // marginTop: 0
   },
   totalContainer: {
@@ -412,12 +423,12 @@ const styles = StyleSheet.create({
     textAlign: "right",
     flexDirection: "row",
     justifyContent: "flex-end",
-    alignItems: 'flex-end',
+    alignItems: "center"
     // alignSelf: 'flex-end'
   },
   totalAmount: {
     fontSize: 14,
-    color: colors.secondaryText,
+    color: colors.secondaryText
   },
   dropdownIcon: {
     width: 24,
