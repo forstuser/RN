@@ -69,7 +69,7 @@ class EasyLifeScreen extends Component {
   render() {
     return (
       <ScreenContainer style={styles.container}>
-        <View collapsable={false}  style={styles.header}>
+        <View collapsable={false} style={styles.header}>
           <TabSearchHeader
             title={"EazyDay Planner"}
             icon={calendarIcon}
@@ -78,8 +78,8 @@ class EasyLifeScreen extends Component {
             showSearchInput={false}
           />
         </View>
-        <View collapsable={false}  style={styles.body}>
-          <View collapsable={false}  style={styles.cardRow}>
+        <View collapsable={false} style={styles.body}>
+          <View collapsable={false} style={styles.cardRow}>
             <TouchableOpacity
               style={styles.card}
               onPress={this.attendanceItemPress}
@@ -96,7 +96,7 @@ class EasyLifeScreen extends Component {
             </TouchableOpacity>
           </View>
 
-          <View collapsable={false}  style={styles.cardRow}>
+          <View collapsable={false} style={styles.cardRow}>
             <TouchableOpacity style={styles.card} onPress={this.wearItemPress}>
               <Image style={styles.image} source={whatToWear} />
               <Text style={styles.text}>What To Wear Today?</Text>
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     padding: 0
   },
   header: {
+    paddingBottom: 2,
     width: "100%",
     ...Platform.select({
       ios: {
