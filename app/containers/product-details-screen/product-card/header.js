@@ -12,7 +12,7 @@ import Icon from "react-native-vector-icons/EvilIcons";
 import Vicon from "react-native-vector-icons/Ionicons";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import { connect } from "react-redux";
-
+import moment from "moment";
 import { actions as loggedInUserActions } from "../../../modules/logged-in-user";
 import I18n from "../../../i18n";
 import { API_BASE_URL } from "../../../api";
@@ -67,7 +67,7 @@ class Header extends Component {
       showImportantTab = true,
       viewBillRef,
       shareBtnRef,
-      reviewBtnRef
+      reviewBtnRef,
     } = this.props;
 
     const { review } = this.state;
@@ -117,7 +117,7 @@ class Header extends Component {
       };
     }
     return (
-      <View collapsable={false} style={styles.container}>
+      <View style={styles.container}>
         {/* Category Image Start*/}
         <TouchableOpacity
           onPress={() => {
@@ -137,65 +137,37 @@ class Header extends Component {
         </TouchableOpacity>
         {/* Category Image End */}
 
-        <View collapsable={false} style={styles.lowerHalf}>
-          <View collapsable={false} style={styles.lowerHalfInner}>
-            <View collapsable={false} style={{ flexDirection: "row" }}>
-              <View collapsable={false} style={{ flex: 1.5 }}>
+        <View style={styles.lowerHalf}>
+          <View style={styles.lowerHalfInner}>
+            <View style={{ flexDirection: 'column' }}>
+              <View style={{ flex: 1, flexDirection: "row" }}>
                 <Text weight="Bold" style={styles.name}>
                   {productName}
-                </Text>
-                <Text weight="Bold" style={styles.brandAndModel}>
-                  {/* {product.brand ? product.brand.name : ""} */}
-                  {/* {product.brand && product.model ? "/" : ""} */}
-                  {product.model ? product.model : null}
                 </Text>
                 <TouchableOpacity
                   onPress={() => this.priceEditModal.show()}
                   style={styles.totalContainer}
                 >
-                  <View collapsable={false}>
+                  <View>
                     <Text weight="Bold" style={styles.totalAmount}>
                       ₹ {totalAmount}
                     </Text>
                   </View>
                   <Image style={styles.dropdownIcon} source={dropdownIcon} />
                 </TouchableOpacity>
-                {/* <ActionSheet
-                  ref={o => (this.priceBreakdown = o)}
-                  cancelButtonIndex={amountBreakdownOptions.length}
-                  options={[
-                    ...amountBreakdownOptions,
-                    I18n.t("product_details_screen_cost_breakdown_close")
-                  ]}
-                /> */}
-              </View>
-              <Vicon
-                style={{ paddingRight: 10, marginTop: -5 }}
-                name="ios-bookmark"
-                color={colors.pinkishOrange}
-                size={30}
-              />
-              <View style={styles.texts}>
-                <Text weight="Bold" style={{ color: colors.mainBlue }}>
-                  Warranty
-                </Text>
-                <Text style={{ color: colors.mainText, fontSize: 10 }}>
-                  Upto 15 May 2018
-                </Text>
               </View>
               <View style={styles.texts}>
-                <Text weight="Bold" style={{ color: colors.mainBlue }}>
-                  Insurances
-                </Text>
-                <Text style={{ color: colors.mainText, fontSize: 10 }}>
-                  Upto 15 May 2018
-                </Text>
+                {product.warrantyDetails.length > 0 && < Text weight="Medium" style={styles.brandAndModel}>
+                  Warranty till {moment(product.warrantyDetails[0].expiryDate).format("DD MMM YYYY")}
+                </Text>}
+                {product.insuranceDetails.length > 0 && <Text weight="Bold" style={styles.brandAndModel}>
+                  Insurance till {moment(product.insuranceDetails[0].expiryDate).format("DD MMM YYYY")}
+                </Text>}
               </View>
             </View>
             {/* 3 buttons (view bill,share and rating) start */}
-            <View collapsable={false} style={styles.btns}>
+            <View style={styles.btns}>
               <View
-                collapsable={false}
                 style={{
                   alignItems: "center"
                 }}
@@ -217,57 +189,55 @@ class Header extends Component {
                 MAIN_CATEGORY_IDS.FURNITURE,
                 MAIN_CATEGORY_IDS.FASHION
               ].indexOf(product.masterCategoryId) > -1 && (
-                <View
-                  collapsable={false}
-                  style={{
-                    alignItems: "center"
-                  }}
-                >
-                  <TouchableOpacity
-                    ref={ref => shareBtnRef(ref)}
-                    onPress={() => this.shareModal.show()}
-                    style={styles.btnShare}
+                  <View
+                    style={{
+                      alignItems: "center"
+                    }}
                   >
-                    <Icon
-                      name={
-                        Platform.OS == "ios" ? "share-apple" : "share-google"
-                      }
-                      size={25}
-                      color={colors.mainBlue}
-                    />
-                  </TouchableOpacity>
-                  <Text weight="Medium" style={styles.btnText}>
-                    {I18n.t("share_card").toUpperCase()}
-                  </Text>
-                </View>
-              )}
+                    <TouchableOpacity
+                      ref={ref => shareBtnRef(ref)}
+                      onPress={() => this.shareModal.show()}
+                      style={styles.btnShare}
+                    >
+                      <Icon
+                        name={
+                          Platform.OS == "ios" ? "share-apple" : "share-google"
+                        }
+                        size={25}
+                        color={colors.mainBlue}
+                      />
+                    </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {I18n.t("share_card").toUpperCase()}
+                    </Text>
+                  </View>
+                )}
               {[
                 MAIN_CATEGORY_IDS.AUTOMOBILE,
                 MAIN_CATEGORY_IDS.ELECTRONICS,
                 MAIN_CATEGORY_IDS.FURNITURE,
                 MAIN_CATEGORY_IDS.FASHION
               ].indexOf(product.masterCategoryId) > -1 && (
-                <View
-                  collapsable={false}
-                  style={{
-                    alignItems: "center"
-                  }}
-                >
-                  <TouchableOpacity
-                    ref={ref => reviewBtnRef(ref)}
-                    onPress={() => this.reviewModal.show()}
-                    style={styles.btn}
+                  <View
+                    style={{
+                      alignItems: "center"
+                    }}
                   >
-                    <Icon name="star" size={25} color={colors.yellow} />
-                  </TouchableOpacity>
-                  <Text weight="Medium" style={styles.btnText}>
-                    {review ? review.ratings : I18n.t("review").toUpperCase()}
-                  </Text>
-                </View>
-              )}
+                    <TouchableOpacity
+                      ref={ref => reviewBtnRef(ref)}
+                      onPress={() => this.reviewModal.show()}
+                      style={styles.btn}
+                    >
+                      <Icon name="star" size={25} color={colors.yellow} />
+                    </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {review ? review.ratings : I18n.t("review").toUpperCase()}
+                    </Text>
+                  </View>
+                )}
             </View>
             {/* 3 buttons (view bill,share and rating) end */}
-            <View collapsable={false} style={styles.tabs}>
+            <View style={styles.tabs}>
               {[
                 I18n.t("product_details_screen_tab_customer_care"),
                 I18n.t("product_details_screen_tab_all_info"),
@@ -296,7 +266,6 @@ class Header extends Component {
                       {tab}
                     </Text>
                     <View
-                      collapsable={false}
                       style={
                         index == activeTabIndex ? styles.activeIndicator : {}
                       }
@@ -321,7 +290,6 @@ class Header extends Component {
             <ShareModal
               ref={ref => (this.shareModal = ref)}
               product={product}
-              fetchProductDetails={this.props.fetchProductDetails}
               loggedInUser={loggedInUser}
               setLoggedInUserName={setLoggedInUserName}
               review={review}
@@ -344,8 +312,9 @@ class Header extends Component {
               totalAmount={totalAmount}
             />
           </View>
+
         </View>
-      </View>
+      </View >
     );
   }
 }
@@ -375,7 +344,7 @@ const styles = StyleSheet.create({
   lowerHalf: {
     marginTop: -65,
     width: "100%",
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   },
   lowerHalfInner: {
     backgroundColor: "#fff",
@@ -384,10 +353,14 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     borderRadius: 3,
     width: "100%",
-    ...defaultStyles.card
+    ...defaultStyles.card,
   },
   texts: {
-    flex: 1
+    flex: 1,
+    // flexDirection: 'row',
+    // justifyContent: "flex-end",
+    // alignItems: 'flex-end',
+    // selfrrAlign: 'flex-end'
   },
   btns: {
     // width: 300,
@@ -425,21 +398,26 @@ const styles = StyleSheet.create({
     color: "#9b9b9b"
   },
   name: {
-    fontSize: 18
+    fontSize: 18,
     // marginRight: 85
   },
   brandAndModel: {
     fontSize: 12,
     color: colors.secondaryText,
-    marginTop: 0
+    // marginTop: 0
   },
   totalContainer: {
     marginTop: 0,
+    flex: 1,
+    textAlign: "right",
     flexDirection: "row",
-    alignItems: "center"
+    justifyContent: "flex-end",
+    alignItems: 'flex-end',
+    // alignSelf: 'flex-end'
   },
   totalAmount: {
-    fontSize: 18
+    fontSize: 14,
+    color: colors.secondaryText,
   },
   dropdownIcon: {
     width: 24,
