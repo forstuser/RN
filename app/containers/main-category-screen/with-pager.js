@@ -122,7 +122,7 @@ class CategoryWithPager extends Component {
           {this.state.subCategories.map((subCategory, index) => {
             if (subCategory.error) {
               return (
-                <View
+                <View collapsable={false} 
                   tabLabel={subCategory.name.toUpperCase()}
                   style={{ flex: 1 }}
                   key={subCategory.id}
@@ -135,7 +135,7 @@ class CategoryWithPager extends Component {
               );
             }
             return (
-              <View
+              <View collapsable={false} 
                 tabLabel={subCategory.name.toUpperCase()}
                 style={{ flex: 1 }}
                 key={subCategory.id}

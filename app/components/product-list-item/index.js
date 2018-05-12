@@ -45,7 +45,7 @@ const ProductListItem = ({
           <Text style={styles.viewBillText}>
             VIEW{" "}
             {product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
-              product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS
+            product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS
               ? "DOC"
               : "BILL"}
           </Text>
@@ -61,7 +61,7 @@ const ProductListItem = ({
           <Text style={styles.viewBillText}>
             UPLOAD{" "}
             {product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
-              product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS
+            product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS
               ? "DOC"
               : "BILL"}
           </Text>
@@ -88,19 +88,19 @@ const ProductListItem = ({
     case MAIN_CATEGORY_IDS.ELECTRONICS:
     case MAIN_CATEGORY_IDS.AUTOMOBILE:
       return (
-        <View style={[styles.container, style]}>
+        <View collapsable={false}  style={[styles.container, style]}>
           <ProductType1 onPress={openProductScreen} product={product} />
         </View>
       );
     case MAIN_CATEGORY_IDS.PERSONAL:
       return (
-        <View style={[styles.container, style]}>
+        <View collapsable={false}  style={[styles.container, style]}>
           <ProductType3 product={product} onPress={openProductScreen} />
         </View>
       );
     default:
       return (
-        <View style={[styles.container, style]}>
+        <View collapsable={false}  style={[styles.container, style]}>
           <ProductType1
             product={product}
             onPress={openProductScreen}

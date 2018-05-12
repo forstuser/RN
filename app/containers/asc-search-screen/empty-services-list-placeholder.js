@@ -7,7 +7,7 @@ import I18n from "../../i18n";
 const nearbyIcon = require("../../images/ic_nearby.png");
 
 const EmptyServicesListPlaceholder = () => (
-  <View style={styles.container}>
+  <View collapsable={false}  style={styles.container}>
     <Image style={styles.image} source={nearbyIcon} />
     <Text weight="Bold" style={styles.title}>
       {I18n.t("asc_search_screen_no_results_title")}

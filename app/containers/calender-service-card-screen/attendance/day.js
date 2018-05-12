@@ -137,50 +137,55 @@ class Month extends React.Component {
     // if (!isEditQuantityModalOpen) return null;
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <Text weight="Medium" style={styles.date}>
           {moment(date).format("D MMM YYYY")}
         </Text>
-        {isPresent &&
-        item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT ? (
-          <View style={{ flexDirection: "row", width: 80 }}>
-            <TouchableOpacity
-              onPress={this.decreaseQuantity}
-              style={{
-                marginTop: 3,
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "center"
-              }}
+        <View style={{ flex: 1, alignItems: "center" }}>
+          {isPresent &&
+          item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT ? (
+            <View
+              collapsable={false}
+              style={{ flexDirection: "row", width: 80 }}
             >
-              <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.showEditQuantityModal}
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "center",
-                minWidth: 20
-              }}
-            >
-              <Text>{quantity}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.increaseQuantity}
-              style={{
-                marginTop: 3,
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "center"
-              }}
-            >
-              <Icon name="md-add" size={16} color={colors.pinkishOrange} />
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <View />
-        )}
+              <TouchableOpacity
+                onPress={this.decreaseQuantity}
+                style={{
+                  marginTop: 3,
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center"
+                }}
+              >
+                <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.showEditQuantityModal}
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  minWidth: 20
+                }}
+              >
+                <Text>{quantity}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.increaseQuantity}
+                style={{
+                  marginTop: 3,
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center"
+                }}
+              >
+                <Icon name="md-add" size={16} color={colors.pinkishOrange} />
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View collapsable={false} />
+          )}
+        </View>
         <TouchableOpacity
           onPress={toggleAttendance}
           style={styles.presentAbsentContainer}
@@ -203,7 +208,7 @@ class Month extends React.Component {
           </Text>
         </TouchableOpacity>
         {isEditQuantityModalOpen ? (
-          <View>
+          <View collapsable={false}>
             <Modal
               isVisible={true}
               avoidKeyboard={Platform.OS == "ios"}
@@ -212,7 +217,7 @@ class Month extends React.Component {
               onBackdropPress={this.hideEditQuantityModal}
               onBackButtonPress={this.hideEditQuantityModal}
             >
-              <View style={[styles.card, styles.modalCard]}>
+              <View collapsable={false} style={[styles.card, styles.modalCard]}>
                 {/* <LoadingOverlay visible={isAddingPayment} /> */}
                 <TouchableOpacity
                   style={styles.modalCloseIcon}
@@ -250,7 +255,7 @@ class Month extends React.Component {
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false} />
         )}
       </View>
     );

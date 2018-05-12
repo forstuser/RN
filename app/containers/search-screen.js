@@ -95,7 +95,7 @@ class SearchBox extends Component {
     const { recentSearches = [] } = this.props;
     return (
       <ScreenContainer style={{ padding: 0 }}>
-        <View style={styles.searchContainer}>
+        <View collapsable={false}  style={styles.searchContainer}>
           <TouchableOpacity onPress={this.goBack} style={{ zIndex: 2 }}>
             <Image style={styles.searchIcon} source={backIcon} />
           </TouchableOpacity>
@@ -113,8 +113,8 @@ class SearchBox extends Component {
           />
         </View>
         {showRecentSearches ? (
-          <View style={styles.recentSearches}>
-            <View style={styles.recentSearchTitleWrapper}>
+          <View collapsable={false}  style={styles.recentSearches}>
+            <View collapsable={false}  style={styles.recentSearchTitleWrapper}>
               <Text weight="Bold" style={styles.recentSearchTitle}>
                 {I18n.t("search_screen_recent_searches")}
               </Text>
@@ -130,7 +130,7 @@ class SearchBox extends Component {
             ))}
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
 
         {searchHasRunOnce &&
@@ -145,7 +145,7 @@ class SearchBox extends Component {
 
         {searchHasRunOnce &&
           products.length == 0 && (
-            <View
+            <View collapsable={false} 
               style={{
                 flex: 1,
                 alignItems: "center",

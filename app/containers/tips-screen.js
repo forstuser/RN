@@ -4,6 +4,9 @@ import { API_BASE_URL, getTips } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
 import I18n from "../i18n";
 
+import LoadingOverlay from "../components/loading-overlay";
+import ErrorOverlay from "../components/error-overlay";
+
 const tipsColors = ["#54ddff", "#ff9b9b", "#9baaf9", "#3eefdc", "#dbf62d"];
 
 class TipsScreen extends Component {
@@ -14,7 +17,9 @@ class TipsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tips: []
+      tips: [],
+      isLoading: true,
+      error: null
     };
   }
 
@@ -22,17 +27,29 @@ class TipsScreen extends Component {
     this.props.navigator.setTitle({
       title: I18n.t("tips_screen_title")
     });
+    this.getTips();
+  }
+
+  getTips = async () => {
+    this.setState({ isLoading: true, error: null });
     try {
       const res = await getTips();
       this.setState({
         tips: res.tips
       });
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      this.setState({ error });
+    } finally {
+      this.setState({ isLoading: false });
     }
-  }
+  };
 
   render() {
+    if (this.state.error) {
+      return (
+        <ErrorOverlay error={this.state.error} onRetryPress={this.getFaqs} />
+      );
+    }
     return (
       <ScreenContainer style={styles.centerText}>
         <FlatList
@@ -40,19 +57,19 @@ class TipsScreen extends Component {
           data={this.state.tips}
           keyExtractor={(item, index) => index}
           renderItem={({ item, index }) => (
-            <View
+            <View collapsable={false} 
               style={{
                 backgroundColor: tipsColors[index % 4],
                 marginBottom: 10,
                 borderRadius: 4
               }}
             >
-              <View style={styles.overlay} />
+              <View collapsable={false}  style={styles.overlay} />
               <Text style={styles.mainText} weight="Medium">
                 {item.tip}
               </Text>
 
-              <View
+              <View collapsable={false} 
                 style={{
                   marginTop: 35,
                   marginBottom: 20,
@@ -68,6 +85,7 @@ class TipsScreen extends Component {
             </View>
           )}
         />
+        <LoadingOverlay visible={this.state.isLoading} />
       </ScreenContainer>
     );
   }

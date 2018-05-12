@@ -257,7 +257,7 @@ class CustomerCare extends React.Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <FlatList
           style={styles.slider}
           horizontal={true}
@@ -282,7 +282,7 @@ class CustomerCare extends React.Component {
           }}
         />
         {brand && brand.id > 0 && brand.status_type == 1 ? (
-          <View
+          <View collapsable={false} 
             style={styles.ascContainer}
             onLayout={this.onAscContainerLayout}
           >
@@ -308,7 +308,7 @@ class CustomerCare extends React.Component {
               />
             </TouchableOpacity>
             {place && (
-              <View style={styles.ascListContainer}>
+              <View collapsable={false}  style={styles.ascListContainer}>
                 <FlatList
                   style={styles.ascList}
                   horizontal={true}
@@ -326,14 +326,14 @@ class CustomerCare extends React.Component {
                   refreshing={isFetchingAscItems}
                 />
                 {ascItems.length == 0 && !isFetchingAscItems ? (
-                  <View>
+                  <View collapsable={false} >
                     <Image style={styles.noAscImage} source={nearbyIcon} />
                     <Text style={styles.noAscMsg}>
                       {I18n.t("product_details_screen_asc_no_results")}
                     </Text>
                   </View>
                 ) : (
-                  <View />
+                  <View collapsable={false}  />
                 )}
                 <LoadingOverlay visible={isFetchingAscItems} />
               </View>
@@ -342,7 +342,7 @@ class CustomerCare extends React.Component {
         ) : null}
         {serviceSchedules &&
           serviceSchedules.length > 0 && (
-            <View>
+            <View collapsable={false} >
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_service_schedule_title")}
               </Text>

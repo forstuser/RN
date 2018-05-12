@@ -104,19 +104,9 @@ class UploadDocumentScreen extends Component {
       title: I18n.t("upload_document_screen_title")
     });
 
-    setTimeout(() => {
-      switch (this.props.openPickerOnStart) {
-        case "camera":
-          this.takeCameraImage();
-          break;
-        case "images":
-          this.pickGalleryImage();
-          break;
-        case "documents":
-          this.pickDocument();
-          break;
-      }
-    }, 1000);
+    if (this.props.file) {
+      this.pushFileToState(this.props.file);
+    }
   }
 
   onNavigatorEvent = event => {
@@ -281,7 +271,7 @@ class UploadDocumentScreen extends Component {
     return (
       <ScreenContainer style={styles.container}>
         {files.length == 0 && (
-          <View style={styles.noFilesView}>
+          <View collapsable={false}  style={styles.noFilesView}>
             <Image style={styles.noFilesIcon} source={fileIcon} />
             <Text weight="Bold" style={{ color: colors.secondaryText }}>
               {I18n.t("upload_document_screen_no_document_msg")}
@@ -294,7 +284,7 @@ class UploadDocumentScreen extends Component {
           </View>
         )}
         {files.length > 0 && (
-          <View style={styles.filesContainer}>
+          <View collapsable={false}  style={styles.filesContainer}>
             <ScrollableTabView
               tabBarUnderlineStyle={{
                 backgroundColor: colors.mainBlue,
@@ -338,21 +328,21 @@ class UploadDocumentScreen extends Component {
           ]}
         />
         {isUploadingOverlayVisible ? (
-          <View>
+          <View collapsable={false} >
             <Modal transparent visible={true}>
-              <View style={styles.loadingOverlay}>
+              <View collapsable={false}  style={styles.loadingOverlay}>
                 <ActivityIndicator size="large" color={colors.mainBlue} />
                 <Text weight="Bold">{`${uploadPercentCompleted}% uploaded...`}</Text>
               </View>
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
         {isSuccessModalVisible ? (
-          <View>
+          <View collapsable={false} >
             <Modal visible={true}>
-              <View style={styles.successModal}>
+              <View collapsable={false}  style={styles.successModal}>
                 <Image
                   style={styles.successImage}
                   source={ehomeImage}
@@ -374,13 +364,13 @@ class UploadDocumentScreen extends Component {
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
-        <View
+        <View collapsable={false} 
           style={styles.dummyViewForFile}
           ref={ref => (this.dummyViewForFile = ref)}
         />
-        <View
+        <View collapsable={false} 
           style={styles.dummyViewForPlusIcon}
           ref={ref => (this.dummyPlusIconRef = ref)}
         />

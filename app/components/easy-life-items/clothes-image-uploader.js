@@ -138,7 +138,7 @@ class ClothesImageUploader extends React.Component {
     // if (!isModalVisible) return null;
 
     return (
-      <View>
+      <View collapsable={false} >
         <ActionSheet
           onPress={this.handleOptionPress}
           ref={o => (this.uploadOptions = o)}
@@ -150,14 +150,14 @@ class ClothesImageUploader extends React.Component {
           ]}
         />
         {isModalVisible ? (
-          <View>
+          <View collapsable={false} >
             <Modal
               style={styles.container}
               useNativeDriver={true}
               isVisible={true}
               onBackButtonPress={() => this.setState({ isModalVisible: false })}
             >
-              <View style={{ flex: 1, width: "100%" }}>
+              <View collapsable={false}  style={{ flex: 1, width: "100%" }}>
                 {file ? (
                   <Image
                     style={styles.uploadImage}
@@ -165,7 +165,7 @@ class ClothesImageUploader extends React.Component {
                     resizeMode="contain"
                   />
                 ) : (
-                  <View />
+                  <View collapsable={false}  />
                 )}
                 <TouchableOpacity
                   style={styles.closeIcon}
@@ -174,7 +174,7 @@ class ClothesImageUploader extends React.Component {
                   <Icon name="md-close" size={30} color={colors.mainText} />
                 </TouchableOpacity>
               </View>
-              <View style={{ width: "90%" }}>
+              <View collapsable={false}  style={{ width: "90%" }}>
                 <CustomTextInput
                   placeholder={"Add Name"}
                   onChangeText={clothesName => this.setState({ clothesName })}
@@ -191,7 +191,7 @@ class ClothesImageUploader extends React.Component {
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );

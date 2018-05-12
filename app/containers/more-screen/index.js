@@ -37,7 +37,7 @@ class MoreScreen extends Component {
     // Alert.alert(JSON.stringify(props));
     this.state = {
       error: null,
-      isFetchingData: false,
+      isFetchingData: true,
       profile: null,
       isAppUpdateAvailable: false,
       binbillDetails: {},
@@ -78,9 +78,7 @@ class MoreScreen extends Component {
 
   fetchProfile = async () => {
     this.setState({
-      error: null,
-      isFetchingData: false,
-      profile: null
+      error: null
     });
     try {
       const res = await getProfileDetail();
@@ -174,7 +172,6 @@ class MoreScreen extends Component {
       isProfileVisible,
       name
     } = this.state;
-    console.lo;
     // Alert.alert(this.setState.profile);
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
@@ -214,7 +211,7 @@ class MoreScreen extends Component {
           {profile && isProfileVisible && <Profile profile={profile} />}
         </KeyboardAwareScrollView>
         {isRemovePinModalVisible ? (
-          <View>
+          <View collapsable={false} >
             <Modal
               isVisible={true}
               style={{ margin: 0 }}
@@ -224,7 +221,7 @@ class MoreScreen extends Component {
                 })
               }
             >
-              <View style={{ flex: 1 }}>
+              <View collapsable={false}  style={{ flex: 1 }}>
                 <PinInput
                   title="Enter App PIN"
                   onSubmitPress={this.removePin}
@@ -245,7 +242,7 @@ class MoreScreen extends Component {
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </ScreenContainer>
     );

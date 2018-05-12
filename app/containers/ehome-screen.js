@@ -188,7 +188,7 @@ class EhomeScreen extends Component {
           recentSearches={this.state.recentSearches}
           mailboxIconRef={ref => (this.mailboxIconRef = ref)}
         />
-        <View style={{ flex: 1, marginVertical: 10 }}>
+        <View collapsable={false}  style={{ flex: 1, marginVertical: 10 }}>
           <FlatList
             style={{ paddingHorizontal: 8 }}
             data={this.state.categoriesList}

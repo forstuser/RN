@@ -51,8 +51,8 @@ class SnackbarView extends React.Component {
   render() {
     const { text, navigator } = this.props;
     return (
-      <View style={styles.container}>
-        <View style={styles.textWrapper}>
+      <View collapsable={false}  style={styles.container}>
+        <View collapsable={false}  style={styles.textWrapper}>
           <Text weight="Medium" style={styles.text}>
             {text}
           </Text>

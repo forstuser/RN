@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, View, Image } from "react-native";
+import { Platform, StyleSheet, View, Image, Dimensions } from "react-native";
 
 import AppIntroSlider from "react-native-app-intro-slider";
 import { openLoginScreen } from "../../navigation";
 import I18n from "../../i18n";
 
-import { Text } from "../../elements";
+import { Text, Button } from "../../elements";
 import { colors } from "../../theme";
 
 import IntroSlide from "./intro-slide";
@@ -46,7 +46,7 @@ const slides = [
 class Intro extends Component {
   renderNextButton = () => {
     return (
-      <View style={styles.nextBtn}>
+      <View collapsable={false} style={styles.nextBtn}>
         <Text weight="Bold" style={styles.nextBtnText}>
           {I18n.t("app_intro_next")}
         </Text>
@@ -60,7 +60,7 @@ class Intro extends Component {
 
   renderSkipButton = () => {
     return (
-      <View style={styles.nextBtn}>
+      <View collapsable={false} style={styles.nextBtn}>
         <Text weight="Bold" style={styles.nextBtnText}>
           {I18n.t("app_intro_skip")}
         </Text>
@@ -70,13 +70,17 @@ class Intro extends Component {
 
   renderDoneButton = () => {
     return (
-      <View style={styles.nextBtn}>
-        <Text weight="Bold" style={styles.nextBtnText}>
-          {I18n.t("app_intro_register")}
-        </Text>
+      <View collapsable={false} style={styles.doneBtnContainer}>
+        <Button
+          onPress={openLoginScreen}
+          text={I18n.t("app_intro_register")}
+          weight="Bold"
+          style={styles.doneBtn}
+        />
       </View>
     );
   };
+
   render() {
     return (
       <AppIntroSlider
@@ -108,6 +112,13 @@ const styles = StyleSheet.create({
   nextBtnArrow: {
     height: 25,
     width: 40
+  },
+  doneBtnContainer: {
+    width: Dimensions.get("window").width - 32,
+    alignItems: "center"
+  },
+  doneBtn: {
+    width: 250
   }
 });
 export default Intro;

@@ -28,7 +28,7 @@ class RepairDetails extends React.Component {
     const { repairBills } = product;
 
     const RepairItem = ({ repair }) => (
-      <View style={styles.card}>
+      <View collapsable={false}  style={styles.card}>
         <EditOptionRow
           text={I18n.t("product_details_screen_repair_details")}
           onEditPress={() => {
@@ -36,7 +36,7 @@ class RepairDetails extends React.Component {
             this.props.openAddEditRepairScreen(repair);
           }}
         />
-        <ViewBillRow
+        <View collapsable={false} BillRow
           expiryDate={repair.expiryDate}
           purchaseDate={repair.purchaseDate}
           docType="Repair Bill"
@@ -78,7 +78,7 @@ class RepairDetails extends React.Component {
     );
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <ScrollView horizontal={true} style={styles.slider}>
           {repairBills.map((repair, index) => <RepairItem key={index} repair={repair} />)}
           <AddItemBtn

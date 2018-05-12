@@ -258,7 +258,7 @@ class EditProductBasicDetails extends React.Component {
           navigator={this.props.navigator}
         />
         <KeyboardAwareScrollView>
-          <View style={{ flex: 1 }}>
+          <View collapsable={false}  style={{ flex: 1 }}>
             {showExpenseForm ? (
               <ExpenseBasicDetailsForm
                 showFullForm={true}

@@ -399,7 +399,7 @@ class SelectCategoryHeader extends React.Component {
       genericIcon
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <Text weight="Medium" style={styles.title}>
           {title}
         </Text>
@@ -416,8 +416,8 @@ class SelectCategoryHeader extends React.Component {
                 onPress={() => this.onOptionSelect(option)}
                 key={index}
               >
-                <View style={styles.option} key={index}>
-                  <View
+                <View collapsable={false}  style={styles.option} key={index}>
+                  <View collapsable={false} 
                     style={[
                       styles.optionIconContainer,
                       isSelectedOption ? styles.selectedOptionIconContainer : {}
@@ -446,8 +446,8 @@ class SelectCategoryHeader extends React.Component {
             );
           })}
           {selectedOption && showOtherOption ? (
-            <View style={styles.option}>
-              <View
+            <View collapsable={false}  style={styles.option}>
+              <View collapsable={false} 
                 style={[
                   styles.optionIconContainer,
                   styles.selectedOptionIconContainer
@@ -467,14 +467,14 @@ class SelectCategoryHeader extends React.Component {
               </Text>
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
           {otherOptions.length > 0 && (
             <TouchableWithoutFeedback
               onPress={() => this.otherOptionsModal.openModal()}
             >
-              <View style={styles.option}>
-                <View style={styles.optionIconContainer}>
+              <View collapsable={false}  style={styles.option}>
+                <View collapsable={false}  style={styles.optionIconContainer}>
                   <Image
                     style={[styles.optionIcon]}
                     resizeMode="contain"

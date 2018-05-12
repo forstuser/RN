@@ -194,7 +194,7 @@ class ProductCard extends Component {
     );
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <ScrollView contentContainerStyle={{}}>
           <Details product={product} navigator={this.props.navigator} />
 
@@ -208,14 +208,14 @@ class ProductCard extends Component {
           />
         </ScrollView>
         {showCustomerCareBtn ? (
-          <View style={styles.contactAfterSalesBtn}>
+          <View collapsable={false}  style={styles.contactAfterSalesBtn}>
             <ContactAfterSaleButton
               product={product}
               navigator={this.props.navigator}
             />
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );

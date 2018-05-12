@@ -1,7 +1,17 @@
 import React from "react";
 import { StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native";
-
 import ActionSheet from "react-native-actionsheet";
+import ImagePicker from "react-native-image-crop-picker";
+
+import {
+  requestCameraPermission,
+  requestStoragePermission
+} from "../android-permissions";
+
+import {
+  DocumentPicker,
+  DocumentPickerUtil
+} from "react-native-document-picker";
 
 import I18n from "../i18n";
 
@@ -31,37 +41,77 @@ class UploadBillOptions extends React.Component {
     );
   };
 
-  handleOptionPress = index => {
-    let openPickerOnStart = null;
+  handleOptionPress = async index => {
+    let file = null;
     switch (index) {
       case 0:
-        openPickerOnStart = "camera";
+        if ((await requestCameraPermission()) == false) return;
+        const file = await ImagePicker.openCamera({
+          compressImageMaxWidth: 1500,
+          compressImageMaxHeight: 1500,
+          compressImageQuality: 0.75,
+          cropping: false
+        });
+
+        this.openUploadScreen({
+          filename: "camera-image-1.jpg",
+          uri: file.path,
+          mimeType: file.mime
+        });
         break;
       case 1:
-        openPickerOnStart = "images";
+        if ((await requestStoragePermission()) == false) return;
+        file = await ImagePicker.openPicker({
+          compressImageMaxWidth: 1500,
+          compressImageMaxHeight: 1500,
+          compressImageQuality: 0.75,
+          cropping: false
+        });
+
+        this.openUploadScreen({
+          filename: file.filename,
+          uri: file.path,
+          mimeType: file.mime
+        });
+
         break;
       case 2:
-        openPickerOnStart = "documents";
+        DocumentPicker.show(
+          {
+            filetype: [DocumentPickerUtil.pdf(), DocumentPickerUtil.plainText()]
+          },
+          (error, file) => {
+            if (file) {
+              this.openUploadScreen({
+                filename: file.fileName,
+                uri: file.uri,
+                mimeType: file.type || file.fileName.split(".").pop()
+              });
+            }
+          }
+        );
         break;
-    }
-
-    if (openPickerOnStart) {
-      this.props.navigator.push({
-        screen: SCREENS.UPLOAD_DOCUMENT_SCREEN,
-        passProps: {
-          jobId: this.state.jobId,
-          type: this.state.type,
-          itemId: this.state.itemId,
-          productId: this.state.productId,
-          openPickerOnStart,
-          uploadCallback: this.props.uploadCallback
-        }
-      });
     }
   };
 
+  openUploadScreen = file => {
+    this.props.navigator.push({
+      screen: SCREENS.UPLOAD_DOCUMENT_SCREEN,
+      passProps: {
+        jobId: this.state.jobId,
+        type: this.state.type,
+        itemId: this.state.itemId,
+        productId: this.state.productId,
+        file: file,
+        uploadCallback: this.props.uploadCallback
+      }
+    });
+  };
+
   render() {
-    const { actionSheetTitle = I18n.t("upload_document_screen_upload_options_title") } = this.props;
+    const {
+      actionSheetTitle = I18n.t("upload_document_screen_upload_options_title")
+    } = this.props;
     return (
       <ActionSheet
         onPress={this.handleOptionPress}

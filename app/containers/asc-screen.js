@@ -266,8 +266,8 @@ class AscScreen extends Component {
     } = this.state;
     return (
       <ScreenContainer style={styles.container}>
-        <View style={styles.body}>
-          <View style={styles.productsPart}>
+        <View collapsable={false}  style={styles.body}>
+          <View collapsable={false}  style={styles.productsPart}>
             <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("asc_screen_section_1_title")}
             </Text>
@@ -285,7 +285,7 @@ class AscScreen extends Component {
                         style={styles.productImage}
                         source={{ uri: API_BASE_URL + product.cImageURL }}
                       />
-                      <View key={index} style={styles.productTexts}>
+                      <View collapsable={false}  key={index} style={styles.productTexts}>
                         <Text
                           numberOfLines={1}
                           weight="Bold"
@@ -293,7 +293,7 @@ class AscScreen extends Component {
                         >
                           {product.productName || product.categoryName}
                         </Text>
-                        <View style={styles.productMetaContainer}>
+                        <View collapsable={false}  style={styles.productMetaContainer}>
                           <Text numberOfLines={2} style={styles.productMeta}>
                             {meta}
                           </Text>
@@ -304,7 +304,7 @@ class AscScreen extends Component {
                 })}
               </ScrollView>
             ) : (
-              <View style={styles.noProductsContainer}>
+              <View collapsable={false}  style={styles.noProductsContainer}>
                 <Text style={styles.noProductsMsg}>
                   {I18n.t("asc_screen_section_no_products_msg")}
                 </Text>
@@ -319,7 +319,7 @@ class AscScreen extends Component {
               </View>
             )}
           </View>
-          <View style={styles.selectsPart}>
+          <View collapsable={false}  style={styles.selectsPart}>
             <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("asc_screen_section_2_title")}
             </Text>

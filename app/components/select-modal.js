@@ -170,10 +170,10 @@ class SelectModal extends Component {
     // if (!isModalVisible) return null;
 
     return (
-      <View style={[styles.container, style]}>
+      <View collapsable={false}  style={[styles.container, style]}>
         {!isTextInputVisible ? (
           <TouchableOpacity onPress={this._tryOpenModal} style={styles.wrapper}>
-            <View style={{ flex: 1 }}>
+            <View collapsable={false}  style={{ flex: 1 }}>
               {selectedOption == null && placeholderRenderer({ placeholder })}
               {selectedOption != null && (
                 <Text>{selectedOption[visibleKey]}</Text>
@@ -185,7 +185,7 @@ class SelectModal extends Component {
             />
           </TouchableOpacity>
         ) : (
-          <View style={styles.wrapper}>
+          <View collapsable={false}  style={styles.wrapper}>
             <TextInput
               underlineColorAndroid="transparent"
               ref={ref => (this.textInput = ref)}
@@ -201,10 +201,10 @@ class SelectModal extends Component {
         )}
         {hint ? <Text style={styles.hint}>{hint}</Text> : null}
         {isModalVisible ? (
-          <View>
+          <View collapsable={false} >
             <Modal visible={true} animationType="slide">
-              <View style={{ backgroundColor: "#fff" }}>
-                <View style={styles.modalHeader}>
+              <View collapsable={false}  style={{ backgroundColor: "#fff" }}>
+                <View collapsable={false}  style={styles.modalHeader}>
                   <Text style={styles.modalHeaderText}>{placeholder}</Text>
                   <TouchableOpacity
                     onPress={() => this.setState({ isModalVisible: false })}
@@ -216,8 +216,8 @@ class SelectModal extends Component {
                     />
                   </TouchableOpacity>
                 </View>
-                {!hideSearch ? (
-                  <View style={styles.searchContainer}>
+                {!hideSearch && options.length > 15 ? (
+                  <View collapsable={false}  style={styles.searchContainer}>
                     <TextInput
                       placeholder={I18n.t("component_items_search")}
                       underlineColorAndroid="transparent"
@@ -229,7 +229,7 @@ class SelectModal extends Component {
                     />
                   </View>
                 ) : (
-                  <View />
+                  <View collapsable={false}  />
                 )}
               </View>
               {optionsAfterSearch.length > 0 ? (
@@ -253,7 +253,7 @@ class SelectModal extends Component {
                   }}
                 />
               ) : (
-                <View style={styles.noResultContainer}>
+                <View collapsable={false}  style={styles.noResultContainer}>
                   <Text style={styles.noResultText}>No result found</Text>
 
                   {!hideAddNew ? (
@@ -264,14 +264,14 @@ class SelectModal extends Component {
                       <Text style={styles.addNewBtnText}>Add New</Text>
                     </TouchableOpacity>
                   ) : (
-                    <View />
+                    <View collapsable={false}  />
                   )}
                 </View>
               )}
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );
@@ -282,6 +282,7 @@ const styles = StyleSheet.create({
     height: 45,
     padding: 8,
     marginBottom: 12,
+    borderRadius: 10,
     ...defaultStyles.card
   },
   wrapper: {

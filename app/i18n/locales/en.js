@@ -28,11 +28,11 @@ export default {
   i_will_do_it_later: "I'll do it later",
 
   //app intro screen
-  app_intro_1_title: `Smart & 100% secure way of saving your Bills, Expenses and Important Documents in a Digital Format`,
+  app_intro_1_title: `Smart & 100% secure way of saving your Bills,Important Documents and Expenses in a Digital Format`,
   app_intro_1_desc: `Create Your Product Card in less Than 10 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
-  app_intro_2_title: `Receive Reminders for Expiry and Renewal as well as connect with Brand Service Centres`,
+  app_intro_2_title: `Receive Warranty Renewal & Insurance Expiry Alerts as well as connect with Brand Service Centres`,
   app_intro_2_desc: `Create product card and reach out to Brands, Insurance Providers or Nearest Service Center with just One Touch.`,
-  app_intro_3_title: `Our EazyDay section Plans your Day and helps you decide your Meals, your Wardrobe as well as your Tasks for the Day`,
+  app_intro_3_title: `EazyDay Planner helps you decide your Meals, Wardrobe as well as Tasks for the Day`,
   app_intro_3_desc: `Know the Life Cycle Cost of All Your Products. Based on this You Can Decide Whether to Continue Maintaining the Product or Replacing it.`,
   app_intro_4_title: `Be The Product Review Expert. Help Your Friends, Family and Followers make a wise purchase decision`,
   app_intro_4_desc: `You Can Capture and Track All Expenses Across Categories Such As Household and Utility, Travel, Dining, Healthcare and More.`,
@@ -389,6 +389,7 @@ export default {
   product_details_screen_connect_warranty_provider: "WARRANTY PROVIDER",
   product_details_screen_connect_numbers: "Customer Care Numbers",
   product_details_screen_connect_links: "Request Service",
+  product_details_screen_brand_portal: "Brand Portal",
   product_details_screen_connect_emails: "Email ID",
   product_details_screen_asc_title: "NEAREST AUTHORISED SERVICE CENTRE",
   product_details_screen_asc_select_location: "Select your location",
@@ -655,7 +656,8 @@ export default {
     "Select Medical Document Type",
   add_edit_expense_screen_title_select_health_expense:
     "Select Healthcare Expense Category",
-  add_edit_expense_screen_title_select_personal_doc: "Select Personal Doc Type",
+  add_edit_expense_screen_title_select_personal_doc:
+    "Select Personal Document Type",
 
   //faqs
   faq_question_1: "What is BinBill?",
@@ -839,6 +841,7 @@ export default {
     "Document Uploaded, Provide further details to complete the process",
   add_edit_direct_category: "Select Category",
   add_edit_direct_subcategory: "Select Sub-Category",
+  add_edit_direct_insurance_provider: "Select Insurance Provider",
   add_edit_direct_type: "Select Type",
   add_edit_direct_brand: "Select Brand",
   add_edit_direct_model: "Select Model",

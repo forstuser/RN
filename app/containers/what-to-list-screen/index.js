@@ -399,10 +399,10 @@ class WhatToListScreen extends Component {
     } = this.state;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View collapsable={false}  style={{ flex: 1 }}>
         <ScreenContainer>
           {type == EASY_LIFE_TYPES.WHAT_TO_COOK && (
-            <View style={{ padding: 5 }}>
+            <View collapsable={false}  style={{ padding: 5 }}>
               <SelectModal
                 ref={ref => (this.selectStateModal = ref)}
                 placeholder={"Select State"}
@@ -421,7 +421,7 @@ class WhatToListScreen extends Component {
               />
               {selectedState &&
                 selectedState.id > 0 && (
-                  <View
+                  <View collapsable={false} 
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-between"
@@ -431,7 +431,7 @@ class WhatToListScreen extends Component {
                       style={styles.checkboxWrapper}
                       onPress={this.checkAllBox}
                     >
-                      <View style={styles.box}>
+                      <View collapsable={false}  style={styles.box}>
                         {checkAll ? (
                           <Icon
                             name="md-checkmark"
@@ -439,7 +439,7 @@ class WhatToListScreen extends Component {
                             size={15}
                           />
                         ) : (
-                          <View />
+                          <View collapsable={false}  />
                         )}
                       </View>
                       <Text style={{ color: colors.mainText }}>
@@ -447,7 +447,7 @@ class WhatToListScreen extends Component {
                         Select All{" "}
                       </Text>
                     </TouchableOpacity>
-                    <View style={{ flexDirection: "row" }}>
+                    <View collapsable={false}  style={{ flexDirection: "row" }}>
                       <Text style={{ color: colors.mainText }}>Veg Only </Text>
                       <Switch
                         onValueChange={this.toggleVegOrNonveg}
@@ -459,9 +459,9 @@ class WhatToListScreen extends Component {
             </View>
           )}
           {items.length == 0 && (
-            <View style={styles.container}>
+            <View collapsable={false}  style={styles.container}>
               <Image style={styles.blankPageImage} source={image} />
-              <View style={styles.blankPageView}>
+              <View collapsable={false}  style={styles.blankPageView}>
                 <Text weight="Regular" style={styles.blankPageText}>
                   {text}
                 </Text>
@@ -472,9 +472,9 @@ class WhatToListScreen extends Component {
                   also shows what you had cooked and when.
                 </Text>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
-              <View style={styles.faqView}>
+              <View collapsable={false}  style={styles.faqView}>
                 <Text style={styles.faqText} weight="Regular">
                   To know more, How it Works
                 </Text>
@@ -516,7 +516,7 @@ class WhatToListScreen extends Component {
                     item.image_code;
                 }
                 return (
-                  <View key={index}>
+                  <View collapsable={false}  key={index}>
                     {item.status_type == 11 ? (
                       <EasyLifeItem
                         showCheckbox={true}
@@ -528,7 +528,7 @@ class WhatToListScreen extends Component {
                         onRemoveBtnPress={() => this.removeItem(item)}
                       />
                     ) : (
-                      <View />
+                      <View collapsable={false}  />
                     )}
                   </View>
                 );
@@ -554,7 +554,7 @@ class WhatToListScreen extends Component {
                     }
                   }
                   return (
-                    <View key={index}>
+                    <View collapsable={false}  key={index}>
                       {item.status_type == 1 ? (
                         <EasyLifeItem
                           showCheckbox={type != EASY_LIFE_TYPES.WHAT_TO_WEAR}
@@ -566,14 +566,14 @@ class WhatToListScreen extends Component {
                           onRemoveBtnPress={() => this.removeItem(item)}
                         />
                       ) : (
-                        <View />
+                        <View collapsable={false}  />
                       )}
                     </View>
                   );
                 })}
             </ScrollView>
           )}
-          <View style={styles.addNewBtn}>
+          <View collapsable={false}  style={styles.addNewBtn}>
             <AddNewBtn text={btnText} onPress={this.onAddNewPress} />
           </View>
           <ClothesImageUploader
@@ -592,7 +592,7 @@ class WhatToListScreen extends Component {
 
         {items.length > 0 &&
           type != EASY_LIFE_TYPES.WHAT_TO_WEAR && (
-            <View>
+            <View collapsable={false} >
               <Button
                 onPress={this.addItemsToMyList}
                 text={"SAVE MY LIST"}

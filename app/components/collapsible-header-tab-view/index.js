@@ -48,7 +48,7 @@ class CollipsibleHeaderWithTabs extends React.Component {
     });
 
     return (
-      <View style={[styles.container, style]}>
+      <View collapsable={false}  style={[styles.container, style]}>
         <TabsView
           onTabScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: scroll } } }],
@@ -61,8 +61,8 @@ class CollipsibleHeaderWithTabs extends React.Component {
           {...tabsViewProps}
         />
         <Animated.View style={[styles.header, { transform: [{ translateY }] }]}>
-          <View style={{ flex: 1 }}>{headerView}</View>
-          <View
+          <View collapsable={false}  style={{ flex: 1 }}>{headerView}</View>
+          <View collapsable={false} 
             style={{
               height: 50
             }}

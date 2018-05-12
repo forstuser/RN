@@ -140,15 +140,15 @@ class AscSearchScreen extends Component {
             onRefresh={this.fetchResults}
             refreshing={isFetchingResults}
             renderItem={({ item }) => (
-              <View style={styles.item}>
-                <View style={styles.imageWrapper}>
+              <View collapsable={false}  style={styles.item}>
+                <View collapsable={false}  style={styles.imageWrapper}>
                   <Image
                     style={styles.itemImage}
                     source={{ uri: API_BASE_URL + item.cImageURL }}
                     resizeMode="contain"
                   />
                 </View>
-                <View style={styles.itemDetails}>
+                <View collapsable={false}  style={styles.itemDetails}>
                   <Text weight="Bold" style={styles.itemName}>
                     {item.centerName}
                   </Text>
@@ -159,7 +159,7 @@ class AscSearchScreen extends Component {
                     {item.address}
                   </Text>
                 </View>
-                <View style={styles.directionAndCall}>
+                <View collapsable={false}  style={styles.directionAndCall}>
                   <TouchableOpacity
                     onPress={() => this.openMap(item.centerAddress)}
                     style={styles.directionAndCallItem}

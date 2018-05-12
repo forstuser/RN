@@ -10,7 +10,7 @@ import I18n from "../../i18n";
 import { Text } from "../../elements";
 import { colors, defaultStyles } from "../../theme";
 
-class CustomTextInput extends React.Component {
+class AmountTextInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     // marginBottom: 15,
     // width: "100%"
     width: "100%",
-    height: 45,
+    height: 60,
     backgroundColor: "white",
     padding: 10,
     paddingRight: 10,
@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    top: 10,
-    left: 5
+    top: 18,
+    left: 15
     // paddingVertical: 10
   },
   filledInputPlaceholderContainer: {
@@ -152,15 +152,17 @@ const styles = StyleSheet.create({
     color: colors.secondaryText
   },
   filledInputPlaceholder: {
-    fontSize: 10
+    fontSize: 16
   },
   placeholder2: {
-    fontSize: 10
+    fontSize: 16
   },
   textInput: {
     backgroundColor: "transparent",
     justifyContent: "center",
-    height: 40
+    height: 70,
+    paddingBottom: 15,
+    fontSize: 20
   },
   rightSideText: {
     position: "absolute",
@@ -174,4 +176,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CustomTextInput;
+export default AmountTextInput;

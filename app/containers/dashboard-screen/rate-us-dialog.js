@@ -67,9 +67,9 @@ class RateUsScreen extends Component {
 
   render() {
     return (
-      <View>
+      <View collapsable={false} >
         {this.state.isModalVisible && (
-          <View>
+          <View collapsable={false} >
             <Modal
               isVisible={true}
               useNativeDriver={true}

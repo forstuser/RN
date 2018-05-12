@@ -95,7 +95,7 @@ class LoginScreen extends Component {
         id: user.id,
         name: user.name,
         phone: user.mobile_no,
-        imageName: user.image_name,
+        imageUrl: user.imageUrl,
         isPinSet: user.hasPin
       });
       openAfterLoginScreen();
@@ -154,7 +154,7 @@ class LoginScreen extends Component {
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={this.state.isGettingOtp} />
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <View style={styles.content}>
+          <View collapsable={false}  style={styles.content}>
             <Image
               style={styles.logo}
               source={binbillLogo}
@@ -202,12 +202,12 @@ class LoginScreen extends Component {
               text={I18n.t("login_screen_btn_text")}
               style={{ width: 275 }}
             />
-            <View style={styles.or}>
-              <View style={styles.orLine} />
+            <View collapsable={false}  style={styles.or}>
+              <View collapsable={false}  style={styles.orLine} />
               <Text weight="Medium" style={styles.orText}>
                 {I18n.t("login_screen_or_text")}
               </Text>
-              <View style={styles.orLine} />
+              <View collapsable={false}  style={styles.orLine} />
             </View>
             {/*<TouchableOpacity
               onPress={this.loginWithTrueCaller}
@@ -234,7 +234,7 @@ class LoginScreen extends Component {
             </Text>
           </View>
         </TouchableWithoutFeedback>
-        <View>
+        <View collapsable={false} >
           <Hyperlink
             linkDefault={true}
             linkStyle={{ color: colors.pinkishOrange, fontSize: 14 }}

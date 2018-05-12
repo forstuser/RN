@@ -111,7 +111,7 @@ class ProductCard extends Component {
     );
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <ScrollView style={styles.container}>
           <Details product={product} navigator={this.props.navigator} />
           <ScrollableTabView
@@ -143,7 +143,7 @@ class ProductCard extends Component {
                 fetchProductDetails={this.fetchProductDetails}
               />
             ) : (
-              <View />
+              <View collapsable={false}  />
             )}
 
             {[
@@ -156,14 +156,14 @@ class ProductCard extends Component {
           </ScrollableTabView>
         </ScrollView>
         {showCustomerCareBtn ? (
-          <View style={styles.contactAfterSalesBtn}>
+          <View collapsable={false}  style={styles.contactAfterSalesBtn}>
             <ContactAfterSaleButton
               product={product}
               navigator={this.props.navigator}
             />
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );

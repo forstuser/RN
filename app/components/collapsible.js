@@ -55,14 +55,14 @@ class Collapsible extends React.Component {
       icon = "dropdown"
     } = this.props;
     return (
-      <View style={style}>
+      <View collapsable={false}  style={style}>
         <TouchableWithoutFeedback
           onPress={this.toggleCollapse}
           style={styles.headerContainer}
         >
-          <View>
+          <View collapsable={false} >
             {headerText.length > 0 ? (
-              <View style={[styles.headerInner, headerStyle]}>
+              <View collapsable={false}  style={[styles.headerInner, headerStyle]}>
                 <Text
                   weight="Bold"
                   style={[styles.headerText, headerTextStyle]}
@@ -85,12 +85,12 @@ class Collapsible extends React.Component {
                   !isCollapsed && <MinusIcon />}
               </View>
             ) : (
-              <View />
+              <View collapsable={false}  />
             )}
-            {HeaderComponent ? <HeaderComponent /> : <View />}
+            {HeaderComponent ? <HeaderComponent /> : <View collapsable={false}  />}
           </View>
         </TouchableWithoutFeedback>
-        <View
+        <View collapsable={false} 
           style={[
             styles.bodyContainer,
             this.state.isCollapsed ? styles.collapsedBody : {}

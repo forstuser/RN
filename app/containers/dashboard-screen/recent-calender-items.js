@@ -28,8 +28,9 @@ class RecentCalenderItems extends React.Component {
     const { items, navigator } = this.props;
     const { listHeight } = this.state;
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <View
+          collapsable={false}
           style={[
             styles.list,
             defaultStyles.card,
@@ -41,6 +42,7 @@ class RecentCalenderItems extends React.Component {
 
             return (
               <View
+                collapsable={false}
                 key={index}
                 style={{
                   borderBottomColor: "#efefef",
@@ -64,9 +66,13 @@ class RecentCalenderItems extends React.Component {
           })}
         </View>
         {items.length > 1 ? (
-          <ViewMoreBtn height={listHeight} onPress={this.toggleListHeight} />
+          <ViewMoreBtn
+            collapsable={false}
+            height={listHeight}
+            onPress={this.toggleListHeight}
+          />
         ) : (
-          <View />
+          <View collapsable={false} />
         )}
       </View>
     );

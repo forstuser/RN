@@ -754,7 +754,7 @@ class AddProductScreen extends React.Component {
     console.log("activeStepIndex: ", activeStepIndex);
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <LoadingOverlay visible={isLoading} />
         <Animated.View
           style={[
@@ -768,13 +768,13 @@ class AddProductScreen extends React.Component {
             }
           ]}
         >
-          <View style={styles.stepContainer}>{previousStep}</View>
-          <View style={styles.stepContainer}>{currentStep}</View>
-          <View style={styles.stepContainer}>{nextStep}</View>
+          <View collapsable={false}  style={styles.stepContainer}>{previousStep}</View>
+          <View collapsable={false}  style={styles.stepContainer}>{currentStep}</View>
+          <View collapsable={false}  style={styles.stepContainer}>{nextStep}</View>
         </Animated.View>
         {numberOfStepsToShowInFooter > 0 ? (
-          <View style={styles.stepIndicatorsAndText}>
-            <View style={styles.stepIndicators}>
+          <View collapsable={false}  style={styles.stepIndicatorsAndText}>
+            <View collapsable={false}  style={styles.stepIndicators}>
               {_.range(numberOfStepsToShowInFooter).map((item, index) => {
                 activeStepIndicatorIndex =
                   activeStepIndex -
@@ -783,14 +783,14 @@ class AddProductScreen extends React.Component {
                 isActiveStep = index == activeStepIndicatorIndex;
                 return [
                   index > 0 && (
-                    <View
+                    <View collapsable={false} 
                       style={[
                         styles.stepIndicatorLine,
                         idDoneStep ? styles.doneStepIndicatorLine : {}
                       ]}
                     />
                   ),
-                  <View
+                  <View collapsable={false} 
                     style={[
                       styles.stepIndicatorDot,
                       idDoneStep ? styles.doneStepIndicatorDot : {},
@@ -798,9 +798,9 @@ class AddProductScreen extends React.Component {
                     ]}
                   >
                     {isActiveStep ? (
-                      <View style={styles.activeStepIndicatorDotInnerRing} />
+                      <View collapsable={false}  style={styles.activeStepIndicatorDotInnerRing} />
                     ) : (
-                      <View />
+                      <View collapsable={false}  />
                     )}
                   </View>
                 ];
@@ -809,7 +809,7 @@ class AddProductScreen extends React.Component {
             {/* <Text weight='Bold' style={{ fontSize: 12, marginTop: 10, color: colors.secondaryText }}>Purchase date helps in warranty, service and other details</Text> */}
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
         <FinishModal
           ref={ref => (this.finishModal = ref)}

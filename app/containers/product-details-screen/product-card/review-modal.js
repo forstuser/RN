@@ -34,9 +34,9 @@ class ReviewModal extends React.Component {
     if (!isModalVisible) return null;
 
     return (
-      <View>
+      <View collapsable={false} >
         {isModalVisible && (
-          <View>
+          <View collapsable={false} >
             <Modal
               isVisible={true}
               useNativeDriver={true}
@@ -44,7 +44,7 @@ class ReviewModal extends React.Component {
               onBackdropPress={this.hide}
               avoidKeyboard={Platform.OS == "ios"}
             >
-              <View style={styles.modal}>
+              <View collapsable={false}  style={styles.modal}>
                 <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
                   <Icon name="md-close" size={30} color={colors.mainText} />
                 </TouchableOpacity>

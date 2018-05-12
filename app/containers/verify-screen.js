@@ -62,7 +62,7 @@ class VerifyScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
     this.setState({
       isVerifyingOtp: false
@@ -73,7 +73,7 @@ class VerifyScreen extends Component {
     if (this.state.otp.length != 4) {
       return showSnackbar({
         text: I18n.t("verify_screen_invalid_otp_error")
-      })
+      });
     }
 
     try {
@@ -93,14 +93,14 @@ class VerifyScreen extends Component {
         id: user.id,
         name: user.name,
         phone: user.mobile_no,
-        imageName: user.image_name,
+        imageUrl: user.imageUrl,
         isPinSet: user.hasPin
       });
       openAfterLoginScreen();
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({
         isVerifyingOtp: false
       });

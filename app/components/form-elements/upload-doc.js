@@ -66,9 +66,9 @@ class UploadDoc extends React.Component {
       copies = [];
     }
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         {copies.length > 0 ? (
-          <View style={styles.copiesContainer}>
+          <View collapsable={false}  style={styles.copiesContainer}>
             <Text
               weight="Medium"
               style={styles.copiesCount}
@@ -98,7 +98,7 @@ class UploadDoc extends React.Component {
             style={styles.noCopiesContainer}
           >
             {!isDocUploaded ? (
-              <View style={styles.placeholderContainer}>
+              <View collapsable={false}  style={styles.placeholderContainer}>
                 <Text weight="Medium" style={styles.placeholder}>
                   {placeholder}
                 </Text>
@@ -110,14 +110,14 @@ class UploadDoc extends React.Component {
                 </Text>
               </View>
             ) : (
-              <View style={styles.placeholderContainer}>
+              <View collapsable={false}  style={styles.placeholderContainer}>
                 <Text weight="Medium" style={{ color: colors.mainText }}>
                   {placeholderAfterUpload}
                 </Text>
               </View>
             )}
 
-            <View style={styles.attachmentIconContainer}>
+            <View collapsable={false}  style={styles.attachmentIconContainer}>
               <AttachmentIcon />
             </View>
           </TouchableOpacity>
@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 10,
     marginBottom: 10,
+    borderRadius: 10,
     ...defaultStyles.card
   },
   copiesContainer: {

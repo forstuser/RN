@@ -111,7 +111,7 @@ class DashboardScreen extends React.Component {
       id: user.id,
       name: user.name,
       phone: user.mobile_no,
-      imageName: user.image_name,
+      imageUrl: user.imageUrl,
       isPinSet: user.hasPin
     });
   }
@@ -262,7 +262,7 @@ class DashboardScreen extends React.Component {
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
         {showDashboard && (
-          <View>
+          <View collapsable={false}>
             <TabSearchHeader
               ref="tabSearchHeader"
               title={I18n.t("dashboard_screen_title")}
@@ -272,15 +272,18 @@ class DashboardScreen extends React.Component {
               navigator={this.props.navigator}
             />
             <ScrollView>
-              <View style={{ flex: 1, marginBottom: 150, padding: 10 }}>
+              <View
+                collapsable={false}
+                style={{ flex: 1, marginBottom: 150, padding: 10 }}
+              >
                 {this.state.upcomingServices.length > 0 ? (
                   // what's coming up
-                  <View>
+                  <View collapsable={false}>
                     <Title
                       setRef={ref => (this.comingUpRef = ref)}
                       text={I18n.t("dashboard_screen_whats_coming_up")}
                     />
-                    <View>
+                    <View collapsable={false}>
                       <UpcomingServicesList
                         upcomingServices={this.state.upcomingServices}
                         navigator={this.props.navigator}
@@ -288,11 +291,11 @@ class DashboardScreen extends React.Component {
                     </View>
                   </View>
                 ) : (
-                  <View />
+                  <View collapsable={false} />
                 )}
                 {this.state.recentProducts.length > 0 ? (
                   // recent activity
-                  <View>
+                  <View collapsable={false}>
                     <Title
                       gradientColors={["#007bce", "#00c6ff"]}
                       text={I18n.t("dashboard_screen_recent_activity")}
@@ -303,11 +306,11 @@ class DashboardScreen extends React.Component {
                     />
                   </View>
                 ) : (
-                  <View />
+                  <View collapsable={false} />
                 )}
                 {this.state.recentCalenderItems.length > 0 ? (
                   // Calender
-                  <View>
+                  <View collapsable={false}>
                     <Title
                       gradientColors={["#429321", "#b4ec51"]}
                       text={I18n.t("my_calendar")}
@@ -318,7 +321,7 @@ class DashboardScreen extends React.Component {
                     />
                   </View>
                 ) : (
-                  <View />
+                  <View collapsable={false} />
                 )}
                 {/* Expense Insights */}
                 <Title
@@ -339,7 +342,7 @@ class DashboardScreen extends React.Component {
                     source={chartIcon}
                     resizeMode="contain"
                   />
-                  <View style={styles.expenseInsightTitles}>
+                  <View collapsable={false} style={styles.expenseInsightTitles}>
                     <Text weight="Bold" style={styles.expenseInsightTitle}>
                       {I18n.t("dashboard_screen_total_spends")}
                     </Text>
@@ -347,7 +350,10 @@ class DashboardScreen extends React.Component {
                       {I18n.t("dashboard_screen_this_month")}
                     </Text>
                   </View>
-                  <View style={styles.expenseInsightDetails}>
+                  <View
+                    collapsable={false}
+                    style={styles.expenseInsightDetails}
+                  >
                     <Text weight="Bold" style={styles.expenseInsightAmount}>
                       ₹ {this.state.insightChartProps.totalSpend}
                     </Text>
@@ -377,7 +383,7 @@ class DashboardScreen extends React.Component {
                     source={ascIcon}
                     resizeMode="contain"
                   />
-                  <View style={styles.expenseInsightTitles}>
+                  <View collapsable={false} style={styles.expenseInsightTitles}>
                     <Text weight="Bold" style={[styles.expenseInsightTitle]}>
                       {I18n.t("asc_screen_title")}
                     </Text>
@@ -385,7 +391,10 @@ class DashboardScreen extends React.Component {
                       Find ASC for your products with one click
                     </Text>
                   </View>
-                  <View style={styles.expenseInsightDetails}>
+                  <View
+                    collapsable={false}
+                    style={styles.expenseInsightDetails}
+                  >
                     <Icon name="ios-arrow-forward" size={30} />
                   </View>
                 </TouchableOpacity>
