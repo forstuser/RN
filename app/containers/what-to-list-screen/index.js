@@ -70,8 +70,7 @@ class WhatToListScreen extends Component {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
     const { type } = this.props;
     let title = "What's Cooking?";
-    let text =
-      "Get an overview of your kitchen’s menu and history of which dish was cooked and when.";
+    let text = "Get to know which dish was cooked and when.";
     let image = cooking;
     let systemListTitle = "List of Meals";
     let btnText = "Add New Dish";
@@ -469,9 +468,8 @@ class WhatToListScreen extends Component {
               </View>
               {type == EASY_LIFE_TYPES.WHAT_TO_COOK ? (
                 <Text style={styles.faqText} weight="Regular">
-                  Create your Digital Kitchen by selecting from our list of
-                  popular dishes for your state or by adding your own favourite
-                  dishes.
+                  Select popular dishes for your state or by adding your own
+                  favourite dishes.
                 </Text>
               ) : (
                 <View collapsable={false} />

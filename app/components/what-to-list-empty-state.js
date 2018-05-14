@@ -81,10 +81,7 @@ class WhatToListEmptyState extends React.Component {
               Get an overview of your entire task list and history of what you
               did and when.
             </Text>
-            <Text style={styles.faqText} weight="Regular">
-              Create your To-Do list by selecting or adding important tasks to
-              be completed for the Day.
-            </Text>
+
             <Text style={styles.faqText} weight="Regular">
               To know more, How it Works
             </Text>
@@ -134,7 +131,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   createListBtn: {
-    width: 150,
+    width: 180,
     marginTop: 10
   },
   faqView: {
