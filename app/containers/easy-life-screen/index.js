@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     padding: 0
   },
   header: {
+    paddingBottom: 2,
     width: "100%",
     ...Platform.select({
       ios: {

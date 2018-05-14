@@ -52,12 +52,15 @@ class UploadBillOptions extends React.Component {
           compressImageQuality: 0.75,
           cropping: false
         });
+        //in some devices, next screen doesn't open after taking photo
+        setTimeout(() => {
+          this.openUploadScreen({
+            filename: "camera-image-1.jpg",
+            uri: file.path,
+            mimeType: file.mime
+          });
+        }, 100);
 
-        this.openUploadScreen({
-          filename: "camera-image-1.jpg",
-          uri: file.path,
-          mimeType: file.mime
-        });
         break;
       case 1:
         if ((await requestStoragePermission()) == false) return;
