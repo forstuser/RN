@@ -27,13 +27,13 @@ const slides = [
     key: "slide3",
     title: I18n.t("app_intro_5_title"),
     desc: I18n.t("app_intro_5_desc"),
-    image: require("../../images/onboarding/onboarding5.png")
+    image: require("../../images/onboarding/onboarding3.png")
   },
   {
     key: "slide4",
     title: I18n.t("app_intro_3_title"),
     desc: I18n.t("app_intro_3_desc"),
-    image: require("../../images/onboarding/onboarding3.png")
+    image: require("../../images/onboarding/onboarding5.png")
   },
   {
     key: "slide5",
@@ -73,7 +73,7 @@ class Intro extends Component {
       <View collapsable={false} style={styles.doneBtnContainer}>
         <Button
           onPress={openLoginScreen}
-          text={I18n.t("app_intro_register")}
+          text={I18n.t("app_intro_start")}
           weight="Bold"
           style={styles.doneBtn}
         />

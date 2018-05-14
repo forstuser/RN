@@ -28,19 +28,19 @@ export default {
   i_will_do_it_later: "I'll do it later",
 
   //app intro screen
-  app_intro_1_title: `Smart & 100% secure way of saving your Bills,Important Documents and Expenses in a Digital Format`,
+  app_intro_1_title: `Smart & 100% secure way of saving your Bills, Important Documents and Expenses in a Digital Format`,
   app_intro_1_desc: `Create Your Product Card in less Than 10 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
-  app_intro_2_title: `Receive Warranty Renewal & Insurance Expiry Alerts as well as connect with Brand Service Centres`,
+  app_intro_2_title: `Keep Track of  Brand Warranty, Repair Warranty, Insurance & AMC Renewal and Receive Timely Reminders`,
   app_intro_2_desc: `Create product card and reach out to Brands, Insurance Providers or Nearest Service Center with just One Touch.`,
-  app_intro_3_title: `EazyDay Planner helps you decide your Meals, Wardrobe as well as Tasks for the Day`,
+  app_intro_3_title: `Your Own Attendance & Payout Manager for the Milkman, Maid, Newspaper wala & Others`,
   app_intro_3_desc: `Know the Life Cycle Cost of All Your Products. Based on this You Can Decide Whether to Continue Maintaining the Product or Replacing it.`,
   app_intro_4_title: `Be The Product Review Expert. Help Your Friends, Family and Followers make a wise purchase decision`,
   app_intro_4_desc: `You Can Capture and Track All Expenses Across Categories Such As Household and Utility, Travel, Dining, Healthcare and More.`,
-  app_intro_5_title: `Your Own Attendance Manager for the Milkman, Maid, Newspaper Wala and Others`,
   app_intro_5_desc: ``,
+  app_intro_5_title: `EazyDay Planner helps you decide your Meals, Wardrobe as well as Tasks for the Day`,
   app_intro_next: "NEXT",
   app_intro_skip: "SKIP",
-  app_intro_register: "REGISTER",
+  app_intro_start: "START",
 
   //login screen
   login_screen_title: "Get Started",
@@ -557,6 +557,7 @@ export default {
   calendar_service_screen_product_name: "Product Name",
   calendar_service_screen_provider_name: "Provider Name",
   calendar_service_screen_provider_number: "Provider Number",
+  calendar_service_screen_service_number: "Service Number",
   //FAQs screen
   faq_screen_title: "FAQs",
 

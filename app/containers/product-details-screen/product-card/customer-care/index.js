@@ -124,7 +124,7 @@ class CustomerCare extends React.Component {
       brand.details.forEach(item => {
         switch (item.typeId) {
           case 1:
-            brandData.urls.push(item.details);
+            brandData.urls.push(item);
             break;
           case 2:
             brandData.emails.push(item.details);
@@ -167,7 +167,13 @@ class CustomerCare extends React.Component {
       if (provider && provider.url) {
         insuranceData.urls = provider.url
           .split(/\\/)
-          .filter(url => url.length > 0);
+          .filter(url => url.length > 0)
+          .map(val => {
+            return {
+              displayName: val,
+              details: val
+            };
+          });
       }
     }
 
@@ -203,7 +209,13 @@ class CustomerCare extends React.Component {
       if (provider && provider.url) {
         warrantyData.urls = provider.url
           .split(/\\/)
-          .filter(url => url.length > 0);
+          .filter(url => url.length > 0)
+          .map(val => {
+            return {
+              displayName: val,
+              details: val
+            };
+          });
       }
     }
 
@@ -257,7 +269,7 @@ class CustomerCare extends React.Component {
     }
 
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <FlatList
           style={styles.slider}
           horizontal={true}
@@ -282,7 +294,8 @@ class CustomerCare extends React.Component {
           }}
         />
         {brand && brand.id > 0 && brand.status_type == 1 ? (
-          <View collapsable={false} 
+          <View
+            collapsable={false}
             style={styles.ascContainer}
             onLayout={this.onAscContainerLayout}
           >
@@ -308,7 +321,7 @@ class CustomerCare extends React.Component {
               />
             </TouchableOpacity>
             {place && (
-              <View collapsable={false}  style={styles.ascListContainer}>
+              <View collapsable={false} style={styles.ascListContainer}>
                 <FlatList
                   style={styles.ascList}
                   horizontal={true}
@@ -326,14 +339,14 @@ class CustomerCare extends React.Component {
                   refreshing={isFetchingAscItems}
                 />
                 {ascItems.length == 0 && !isFetchingAscItems ? (
-                  <View collapsable={false} >
+                  <View collapsable={false}>
                     <Image style={styles.noAscImage} source={nearbyIcon} />
                     <Text style={styles.noAscMsg}>
                       {I18n.t("product_details_screen_asc_no_results")}
                     </Text>
                   </View>
                 ) : (
-                  <View collapsable={false}  />
+                  <View collapsable={false} />
                 )}
                 <LoadingOverlay visible={isFetchingAscItems} />
               </View>
@@ -342,7 +355,7 @@ class CustomerCare extends React.Component {
         ) : null}
         {serviceSchedules &&
           serviceSchedules.length > 0 && (
-            <View collapsable={false} >
+            <View collapsable={false}>
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_service_schedule_title")}
               </Text>
