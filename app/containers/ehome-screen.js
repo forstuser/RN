@@ -32,6 +32,7 @@ const eHomeIcon = require("../images/ic_nav_ehome_off.png");
 const uploadFabIcon = require("../images/ic_upload_fabs.png");
 
 class EhomeScreen extends Component {
+  static OPEN_EHOME_EVENT_DONE = false;
   static navigatorStyle = {
     navBarHidden: true,
     tabBarHidden: false
@@ -52,6 +53,10 @@ class EhomeScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        if (!EhomeScreen.OPEN_EHOME_EVENT_DONE) {
+          Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
+          EhomeScreen.OPEN_EHOME_EVENT_DONE = true;
+        }
         this.screenHasDisappeared = false;
         this.fetchEhomeData();
         break;
@@ -62,7 +67,6 @@ class EhomeScreen extends Component {
   };
 
   componentDidMount() {
-    Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {

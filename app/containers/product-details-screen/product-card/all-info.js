@@ -20,7 +20,7 @@ import InsuranceDetails from "./important/insurance-details";
 
 class AllInfo extends React.Component {
   onEditPress = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_EDIT);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: "product" });
     const { product } = this.props;
     if (product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
       const insurance = product.insuranceDetails[0] || {};
@@ -102,10 +102,10 @@ class AllInfo extends React.Component {
     }
 
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         {product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ? (
-          <View collapsable={false} >
-            <View collapsable={false}  style={styles.card}>
+          <View collapsable={false}>
+            <View collapsable={false} style={styles.card}>
               <TouchableOpacity
                 onPress={this.onEditPress}
                 style={{ flex: 1, backgroundColor: "#EBEBEB" }}
@@ -180,7 +180,7 @@ class AllInfo extends React.Component {
               ))}
             </View>
 
-            <View collapsable={false}  style={styles.card}>
+            <View collapsable={false} style={styles.card}>
               <TouchableOpacity
                 onPress={this.onEditPress}
                 style={{ flex: 1, backgroundColor: "#EBEBEB" }}
@@ -237,7 +237,7 @@ class AllInfo extends React.Component {
                 seller.state.length > 0) && (
                 <KeyValueItem
                   KeyComponent={() => (
-                    <View collapsable={false}  style={{ flex: 1 }}>
+                    <View collapsable={false} style={{ flex: 1 }}>
                       <Text style={{ color: colors.secondaryText }}>
                         {I18n.t("product_details_screen_seller_address")}
                       </Text>

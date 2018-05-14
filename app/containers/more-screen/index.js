@@ -28,6 +28,7 @@ import { colors } from "../../theme";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 class MoreScreen extends Component {
+  static OPEN_MORE_EVENT_DONE = false;
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -50,7 +51,6 @@ class MoreScreen extends Component {
   }
 
   componentDidMount() {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_MORE);
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {
@@ -71,6 +71,10 @@ class MoreScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
+        if (!MoreScreen.OPEN_MORE_EVENT_DONE) {
+          Analytics.logEvent(Analytics.EVENTS.CLICK_MORE);
+          MoreScreen.OPEN_MORE_EVENT_DONE = true;
+        }
         this.fetchProfile();
         break;
     }
@@ -211,7 +215,7 @@ class MoreScreen extends Component {
           {profile && isProfileVisible && <Profile profile={profile} />}
         </KeyboardAwareScrollView>
         {isRemovePinModalVisible ? (
-          <View collapsable={false} >
+          <View collapsable={false}>
             <Modal
               isVisible={true}
               style={{ margin: 0 }}
@@ -221,7 +225,7 @@ class MoreScreen extends Component {
                 })
               }
             >
-              <View collapsable={false}  style={{ flex: 1 }}>
+              <View collapsable={false} style={{ flex: 1 }}>
                 <PinInput
                   title="Enter App PIN"
                   onSubmitPress={this.removePin}
@@ -242,7 +246,7 @@ class MoreScreen extends Component {
             </Modal>
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
       </ScreenContainer>
     );

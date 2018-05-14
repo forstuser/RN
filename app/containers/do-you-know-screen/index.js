@@ -43,6 +43,7 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class DoYouKNowScreen extends Component {
+  static OPEN_DYK_EVENT_DONE = false;
   static navigatorStyle = {
     navBarHidden: true,
     tabBarHidden: false
@@ -70,7 +71,10 @@ class DoYouKNowScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW);
+        if (!DoYouKNowScreen.OPEN_DYK_EVENT_DONE) {
+          Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW);
+          DoYouKNowScreen.OPEN_DYK_EVENT_DONE = true;
+        }
         this.loadItems();
     }
   };

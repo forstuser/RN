@@ -89,7 +89,7 @@ const EVENTS = {
 
   //delete
   CLICK_PRODUCT_EDIT: "product_edit",
-  CLICK_URL: "click_url",
+  CLICK_URL: "click_url"
 };
 
 const logEvent = (eventName, data = {}) => {
@@ -97,6 +97,7 @@ const logEvent = (eventName, data = {}) => {
   if (__DEV__) {
     const user = store.getState().loggedInUser;
     FirebaseAnalytics.logEvent(eventName, {
+      FCM_Id: user.fcmToken,
       User_Id: user.id,
       User_Name: user.name,
       User_Mobile: user.phone,

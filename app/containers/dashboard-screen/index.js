@@ -178,28 +178,27 @@ class DashboardScreen extends React.Component {
         },
         () => {
           const { rateUsDialogTimestamp } = this.props;
-
-          if (this.state.showDashboard && !this.props.hasDashboardTourShown) {
-            setTimeout(() => {
-              if (
-                !this.screenHasDisappeared &&
-                this.comingUpRef &&
-                this.dashboardTour
-              ) {
-                this.dashboardTour.startTour();
-                this.props.setUiHasDashboardTourShown(true);
-              }
-            }, 1000);
-          } else if (
-            this.state.showDashboard &&
-            (!rateUsDialogTimestamp ||
-              moment().diff(
-                moment(rateUsDialogTimestamp).startOf("day"),
-                "days"
-              ) > 7)
-          ) {
-            this.rateUsDialog.show();
-          }
+          setTimeout(() => {
+            if (
+              this.state.showDashboard &&
+              !this.props.hasDashboardTourShown &&
+              !this.screenHasDisappeared &&
+              this.comingUpRef &&
+              this.dashboardTour
+            ) {
+              this.dashboardTour.startTour();
+              this.props.setUiHasDashboardTourShown(true);
+            } else if (
+              this.state.showDashboard &&
+              (!rateUsDialogTimestamp ||
+                moment().diff(
+                  moment(rateUsDialogTimestamp).startOf("day"),
+                  "days"
+                ) > 7)
+            ) {
+              this.rateUsDialog.show();
+            }
+          }, 1000);
         }
       );
     } catch (error) {

@@ -39,7 +39,8 @@ class ViewBillButton extends React.Component {
     }
     if (product.copies && product.copies.length > 0) {
       return (
-        <View collapsable={false} 
+        <View
+          collapsable={false}
           style={{
             alignItems: "center"
           }}
@@ -47,7 +48,10 @@ class ViewBillButton extends React.Component {
           <TouchableOpacity
             ref={ref => viewRef(ref)}
             onPress={() => {
-              Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
+              Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL, {
+                main_category: product.masterCategoryName,
+                category_name: product.categoryName
+              });
               openBillsPopUp({
                 date: product.purchaseDate,
                 id: product.id,
@@ -66,7 +70,8 @@ class ViewBillButton extends React.Component {
       );
     } else {
       return (
-        <View collapsable={false} 
+        <View
+          collapsable={false}
           style={{
             alignItems: "center"
           }}
@@ -74,7 +79,10 @@ class ViewBillButton extends React.Component {
           <TouchableOpacity
             ref={ref => viewRef(ref)}
             onPress={() => {
-              Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
+              Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL, {
+                main_category: product.masterCategoryName,
+                category_name: product.categoryName
+              });
               this.uploadBillOptions.show(
                 product.jobId,
                 1,

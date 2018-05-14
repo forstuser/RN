@@ -78,6 +78,7 @@ class AscScreen extends Component {
   };
 
   async componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.OPEN_ASC_SCREEN);
     this.props.navigator.setTitle({
       title: I18n.t("asc_screen_title")
     });
@@ -201,7 +202,11 @@ class AscScreen extends Component {
       });
     }
 
-    Analytics.logEvent(Analytics.EVENTS.SEARCH_ASC);
+    Analytics.logEvent(Analytics.EVENTS.SEARCH_ASC, {
+      brand_name: this.state.selectedBrand.brandName,
+      category_name: this.state.selectedCategory.category_name
+    });
+
     this.props.navigator.push({
       screen: SCREENS.ASC_SEARCH_SCREEN,
       passProps: {
@@ -266,8 +271,8 @@ class AscScreen extends Component {
     } = this.state;
     return (
       <ScreenContainer style={styles.container}>
-        <View collapsable={false}  style={styles.body}>
-          <View collapsable={false}  style={styles.productsPart}>
+        <View collapsable={false} style={styles.body}>
+          <View collapsable={false} style={styles.productsPart}>
             <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("asc_screen_section_1_title")}
             </Text>
@@ -285,7 +290,11 @@ class AscScreen extends Component {
                         style={styles.productImage}
                         source={{ uri: API_BASE_URL + product.cImageURL }}
                       />
-                      <View collapsable={false}  key={index} style={styles.productTexts}>
+                      <View
+                        collapsable={false}
+                        key={index}
+                        style={styles.productTexts}
+                      >
                         <Text
                           numberOfLines={1}
                           weight="Bold"
@@ -293,7 +302,10 @@ class AscScreen extends Component {
                         >
                           {product.productName || product.categoryName}
                         </Text>
-                        <View collapsable={false}  style={styles.productMetaContainer}>
+                        <View
+                          collapsable={false}
+                          style={styles.productMetaContainer}
+                        >
                           <Text numberOfLines={2} style={styles.productMeta}>
                             {meta}
                           </Text>
@@ -304,7 +316,7 @@ class AscScreen extends Component {
                 })}
               </ScrollView>
             ) : (
-              <View collapsable={false}  style={styles.noProductsContainer}>
+              <View collapsable={false} style={styles.noProductsContainer}>
                 <Text style={styles.noProductsMsg}>
                   {I18n.t("asc_screen_section_no_products_msg")}
                 </Text>
@@ -319,7 +331,7 @@ class AscScreen extends Component {
               </View>
             )}
           </View>
-          <View collapsable={false}  style={styles.selectsPart}>
+          <View collapsable={false} style={styles.selectsPart}>
             <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("asc_screen_section_2_title")}
             </Text>
