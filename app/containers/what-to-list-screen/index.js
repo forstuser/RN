@@ -468,20 +468,13 @@ class WhatToListScreen extends Component {
               </View>
               {type == EASY_LIFE_TYPES.WHAT_TO_COOK ? (
                 <Text style={styles.faqText} weight="Regular">
-                  Select popular dishes for your state or by adding your own
-                  favourite dishes.
+                  Select popular dishes for your state and don’t you panic, each
+                  state also includes PAN India popular dishes!
                 </Text>
               ) : (
                 <View collapsable={false} />
               )}
-              {type == EASY_LIFE_TYPES.WHAT_TO_COOK ? (
-                <Text style={styles.faqText} weight="Regular">
-                  And don’t you panic, each state also includes PAN India
-                  popular dishes!
-                </Text>
-              ) : (
-                <View collapsable={false} />
-              )}
+
               <View collapsable={false} style={styles.faqView}>
                 <Text style={styles.faqText} weight="Regular">
                   To know more, How it Works
