@@ -44,11 +44,11 @@ class ChangesSavedModal extends React.Component {
     if (!visible) return null;
 
     return (
-      <View collapsable={false} >
+      <View collapsable={false}>
         {visible ? (
-          <View collapsable={false} >
+          <View collapsable={false}>
             <Modal useNativeDriver={true} isVisible={true}>
-              <View collapsable={false}  style={styles.finishModal}>
+              <View collapsable={false} style={styles.finishModal}>
                 <Image
                   style={styles.finishImage}
                   source={tick}
@@ -67,7 +67,7 @@ class ChangesSavedModal extends React.Component {
             </Modal>
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
       </View>
     );

@@ -73,7 +73,7 @@ class Intro extends Component {
       <View collapsable={false} style={styles.doneBtnContainer}>
         <Button
           onPress={openLoginScreen}
-          text={I18n.t("app_intro_register")}
+          text={I18n.t("app_intro_start")}
           weight="Bold"
           style={styles.doneBtn}
         />
