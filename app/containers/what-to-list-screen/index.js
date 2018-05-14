@@ -71,7 +71,7 @@ class WhatToListScreen extends Component {
     const { type } = this.props;
     let title = "What's Cooking?";
     let text =
-      "Create your Digital Kitchen by adding your menu list from the representative list of your state or on your own.";
+      "Get an overview of your kitchen’s menu and history of which dish was cooked and when.";
     let image = cooking;
     let systemListTitle = "List of Meals";
     let btnText = "Add New Dish";
@@ -79,7 +79,7 @@ class WhatToListScreen extends Component {
       case EASY_LIFE_TYPES.WHAT_TO_DO:
         title = "What to Do?";
         text =
-          "Plan your day by selecting or adding tasks to be completed for the day";
+          "You are here because you want us to help you decide What to Do today, tomorrow or even the entire week.";
         image = todo;
         btnText = `Add a New ‘To-Do’ Task`;
         systemListTitle = "List of Tasks";
@@ -87,7 +87,7 @@ class WhatToListScreen extends Component {
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
         title = "What to Wear?";
         text =
-          "Create your Digital Wardrobe by adding images of your clothes. This gives you an overview of your entire wardrobe and also shows what you had worn and when.";
+          "Get an overview of your entire wardrobe and history of what you had worn and when.Create your Digital Wardrobe by adding images of your clothes & accessories.";
         image = whatToWear;
         btnText = "Add New Item";
         systemListTitle = "";
@@ -469,8 +469,17 @@ class WhatToListScreen extends Component {
               </View>
               {type == EASY_LIFE_TYPES.WHAT_TO_COOK ? (
                 <Text style={styles.faqText} weight="Regular">
-                  This gives you an overview of your entire kitchen menu and
-                  also shows what you had cooked and when.
+                  Create your Digital Kitchen by selecting from our list of
+                  popular dishes for your state or by adding your own favourite
+                  dishes.
+                </Text>
+              ) : (
+                <View collapsable={false} />
+              )}
+              {type == EASY_LIFE_TYPES.WHAT_TO_COOK ? (
+                <Text style={styles.faqText} weight="Regular">
+                  And don’t you panic, each state also includes PAN India
+                  popular dishes!
                 </Text>
               ) : (
                 <View collapsable={false} />
