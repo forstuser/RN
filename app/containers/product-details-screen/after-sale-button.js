@@ -79,7 +79,6 @@ class AfterSaleButton extends Component {
   }
 
   showBaseOptions = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_CONTACT_AFTER_SALES);
     if (this.state.baseOptions.length > 0) {
       this.baseOptions.show();
     } else {
@@ -95,18 +94,15 @@ class AfterSaleButton extends Component {
     if (option) {
       switch (option.type) {
         case "brand":
-          Analytics.logEvent(Analytics.EVENTS.CLICK_CONTACT_BRAND);
           this.showBrandOptions();
           break;
         case "insurance":
-          Analytics.logEvent(Analytics.EVENTS.CLICK_CONTACT_INSURANCE_PROVIDER);
           this.showInsuranceOrWarranty(
             insuranceDetails[0].provider,
             "insurance"
           );
           break;
         case "warranty":
-          Analytics.logEvent(Analytics.EVENTS.CLICK_CONTACT_WARRANTY_PROVIDER);
           this.showInsuranceOrWarranty(warrantyDetails[0].provider, "warranty");
           break;
         case "asc":

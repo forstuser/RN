@@ -30,7 +30,7 @@ class EasyLifeScreen extends Component {
   };
 
   attendanceItemPress = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_WHO_IS_ABSENT);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_WHO_IS_ABSENT_TODAY);
     this.props.navigator.push({
       screen: SCREENS.MY_CALENDAR_SCREEN
     });
@@ -69,7 +69,7 @@ class EasyLifeScreen extends Component {
   render() {
     return (
       <ScreenContainer style={styles.container}>
-        <View collapsable={false}  style={styles.header}>
+        <View collapsable={false} style={styles.header}>
           <TabSearchHeader
             title={"EazyDay Planner"}
             icon={calendarIcon}
@@ -78,8 +78,8 @@ class EasyLifeScreen extends Component {
             showSearchInput={false}
           />
         </View>
-        <View collapsable={false}  style={styles.body}>
-          <View collapsable={false}  style={styles.cardRow}>
+        <View collapsable={false} style={styles.body}>
+          <View collapsable={false} style={styles.cardRow}>
             <TouchableOpacity
               style={styles.card}
               onPress={this.attendanceItemPress}
@@ -96,7 +96,7 @@ class EasyLifeScreen extends Component {
             </TouchableOpacity>
           </View>
 
-          <View collapsable={false}  style={styles.cardRow}>
+          <View collapsable={false} style={styles.cardRow}>
             <TouchableOpacity style={styles.card} onPress={this.wearItemPress}>
               <Image style={styles.image} source={whatToWear} />
               <Text style={styles.text}>What To Wear Today?</Text>

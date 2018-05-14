@@ -18,7 +18,6 @@ const searchIcon = require("../images/ic_top_search.png");
 
 class TabSearchHeader extends Component {
   openSearchScreen = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_SEARCH);
     this.props.navigator.push({
       screen: SCREENS.SEARCH_SCREEN,
       passProps: {
@@ -43,9 +42,9 @@ class TabSearchHeader extends Component {
       onRightSideSearchIconPress
     } = this.props;
     return (
-      <View collapsable={false}  style={styles.container}>
-        <View collapsable={false}  style={styles.upperContainer}>
-          <View collapsable={false}  style={styles.nameAndIcon}>
+      <View collapsable={false} style={styles.container}>
+        <View collapsable={false} style={styles.upperContainer}>
+          <View collapsable={false} style={styles.nameAndIcon}>
             <Image style={styles.icon} source={icon} resizeMode="contain" />
             <Text weight="Medium" style={styles.screenName}>
               {title}
@@ -59,18 +58,18 @@ class TabSearchHeader extends Component {
             >
               <Image style={styles.messagesIcon} source={messagesIcon} />
               {notificationCount > 0 ? (
-                <View collapsable={false}  style={styles.messagesCountContainer}>
+                <View collapsable={false} style={styles.messagesCountContainer}>
                   <Text weight="Bold" style={styles.messagesCount}>
                     {notificationCount}
                   </Text>
                 </View>
               ) : (
-                <View collapsable={false}  />
-              )}
+                  <View collapsable={false} />
+                )}
             </TouchableOpacity>
           ) : (
-            <View collapsable={false}  />
-          )}
+              <View collapsable={false} />
+            )}
           {showRightSideSearchIcon ? (
             <TouchableOpacity
               onPress={onRightSideSearchIconPress}
@@ -79,8 +78,8 @@ class TabSearchHeader extends Component {
               <Image style={styles.messagesIcon} source={searchIcon} />
             </TouchableOpacity>
           ) : (
-            <View collapsable={false}  />
-          )}
+              <View collapsable={false} />
+            )}
         </View>
         {showSearchInput ? (
           <TouchableOpacity
@@ -93,8 +92,8 @@ class TabSearchHeader extends Component {
             </Text>
           </TouchableOpacity>
         ) : (
-          <View collapsable={false}  />
-        )}
+            <View collapsable={false} />
+          )}
       </View>
     );
   }

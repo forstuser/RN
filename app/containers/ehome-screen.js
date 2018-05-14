@@ -158,7 +158,7 @@ class EhomeScreen extends Component {
       {...item}
       onPress={() => {
         Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME_CATEGORY, {
-          maincategory: item.id
+          main_category: item.id
         });
         this.openMainCategoryScreen(item);
       }}
@@ -188,7 +188,7 @@ class EhomeScreen extends Component {
           recentSearches={this.state.recentSearches}
           mailboxIconRef={ref => (this.mailboxIconRef = ref)}
         />
-        <View collapsable={false}  style={{ flex: 1, marginVertical: 10 }}>
+        <View collapsable={false} style={{ flex: 1, marginVertical: 10 }}>
           <FlatList
             style={{ paddingHorizontal: 8 }}
             data={this.state.categoriesList}

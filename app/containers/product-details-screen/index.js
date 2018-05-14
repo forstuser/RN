@@ -43,7 +43,7 @@ import InsuranceCard from "./insurance-card";
 import MedicalDocsCard from "./medical-docs-card";
 
 const NavOptionsButton = ({ addImageText }) => (
-  <View collapsable={false} 
+  <View collapsable={false}
     style={{
       flexDirection: "row",
       backgroundColor: "transparent",
@@ -182,7 +182,6 @@ class ProductDetailsScreen extends Component {
     let openPickerOnStart = null;
     switch (index) {
       case 0:
-        Analytics.logEvent(Analytics.EVENTS.PRODUCT_DELETE_INITIATED);
         Alert.alert(
           `Are you sure?`,
           "All the information and document copies related to this product will be deleted.",
@@ -190,7 +189,7 @@ class ProductDetailsScreen extends Component {
             {
               text: I18n.t("product_details_screen_yes_delete"),
               onPress: async () => {
-                Analytics.logEvent(Analytics.EVENTS.PRODUCT_DELETE_COMPLETE);
+                Analytics.logEvent(Analytics.EVENTS.DELETE_PRODUCT);
                 this.setState({ isLoading: true });
                 await deleteProduct(product.id);
                 this.props.navigator.pop();
@@ -199,7 +198,6 @@ class ProductDetailsScreen extends Component {
             {
               text: I18n.t("product_details_screen_no_dnt_delete"),
               onPress: () => {
-                Analytics.logEvent(Analytics.EVENTS.PRODUCT_DELETE_CANCELED);
               },
               style: "cancel"
             }

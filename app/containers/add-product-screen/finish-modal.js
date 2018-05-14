@@ -22,14 +22,14 @@ class FinishModal extends React.Component {
   };
 
   onMoreProductsClick = () => {
-    Analytics.logEvent(Analytics.EVENTS.ADD_ANOTHER_PRODUCT);
+    Analytics.logEvent(Analytics.EVENTS.ADD_MORE_PRODUCT, { category_name: this.props.mainCategoryId });
     this.setState({ visible: false }, () => {
       this.props.startOver();
     });
   };
 
   onDoItLaterClick = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_I_WILL_DO_IT_LATER);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_I_WILL_DO_IT_LATER, { category_id: this.props.mainCategoryId });
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
         if (!this.props.popOnDoItLater) {
@@ -94,16 +94,16 @@ class FinishModal extends React.Component {
               isVisible={visible}
               animationOutTiming={10}
             >
-              <View collapsable={false}  style={styles.finishModal}>
+              <View collapsable={false} style={styles.finishModal}>
                 <Image
                   style={styles.finishImage}
                   source={
                     mainCategoryId
                       ? {
-                          uri:
-                            API_BASE_URL +
-                            `/categories/${mainCategoryId}/images/1`
-                        }
+                        uri:
+                          API_BASE_URL +
+                          `/categories/${mainCategoryId}/images/1`
+                      }
                       : repairIcon
                   }
                   resizeMode="contain"

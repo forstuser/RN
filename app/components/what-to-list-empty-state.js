@@ -41,10 +41,10 @@ class WhatToListEmptyState extends React.Component {
         Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_COOK);
         break;
       case EASY_LIFE_TYPES.WHAT_TO_DO:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_WEAR);
+        Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_TODO);
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_TODO);
+        Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_WEAR);
         break;
     }
     this.props.onCreateListBtnPress();
@@ -70,13 +70,13 @@ class WhatToListEmptyState extends React.Component {
         break;
     }
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <Image style={styles.blankPageImage} source={image} />
         <Text weight="Regular" style={styles.blankPageText}>
           {text}
         </Text>
         {type == EASY_LIFE_TYPES.WHAT_TO_DO ? (
-          <View collapsable={false}  style={styles.faqView}>
+          <View collapsable={false} style={styles.faqView}>
             <Text style={styles.faqText} weight="Regular">
               To know more, How it Works
             </Text>
@@ -93,8 +93,8 @@ class WhatToListEmptyState extends React.Component {
             </TouchableOpacity>
           </View>
         ) : (
-          <View collapsable={false}  />
-        )}
+            <View collapsable={false} />
+          )}
         <Button
           onPress={this.onPressCreateList}
           text="Create List"

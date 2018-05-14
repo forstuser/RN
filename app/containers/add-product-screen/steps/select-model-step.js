@@ -117,7 +117,6 @@ class SelectModelStep extends React.Component {
   render() {
     const { models, isLoading } = this.state;
     console.log("models: ", models);
-
     const { mainCategoryId, category, product } = this.props;
 
     return (

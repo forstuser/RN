@@ -29,13 +29,13 @@ import { getMetaValueByKey } from "../../../../utils";
 
 class Card extends React.Component {
   handleEmailPress = email => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_EMAIL);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_EMAIL, { type: this.props.type });
     const { product, loggedInUser, type } = this.props;
     const userName = loggedInUser.name || "";
 
     let subject = `Issue with ${product.brand ? product.brand.name : ""} ${
       product.categoryName
-    }`;
+      }`;
 
     let brandNameToAddress = product.brand ? product.brand.name : "";
 
@@ -71,8 +71,8 @@ class Card extends React.Component {
       productDetails.insuranceEffectiveDate = product.insuranceDetails[0]
         .effectiveDate
         ? moment(product.insuranceDetails[0].effectiveDate).format(
-            "MMM DD, YYYY"
-          )
+          "MMM DD, YYYY"
+        )
         : "NA";
       if (
         product.insuranceDetails[0].provider &&
@@ -100,25 +100,25 @@ class Card extends React.Component {
     if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
       subject = `${subject}${
         productDetails.vin ? ", Vin No. " + productDetails.vin : ""
-      }`;
+        }`;
     } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
       subject = `${subject}${
         productDetails.imeiNumber
           ? ", IMEI No. " + productDetails.imeiNumber
           : ""
-      }`;
+        }`;
     } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
       subject = `${subject}${
         productDetails.serialNumber
           ? ", Serial No. " + productDetails.serialNumber
           : ""
-      }`;
+        }`;
     }
 
     if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
       subject = `Issue with ${product.brand ? product.brand.name : ""} ${
         product.model ? product.model : ""
-      } ${product.categoryName}`;
+        } ${product.categoryName}`;
     }
 
     switch (type) {
@@ -126,79 +126,79 @@ class Card extends React.Component {
         if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
           productDetailsText = `VIN No./Chasis Number: ${
             productDetails.vin
-          }\nRegisteration Number: ${
+            }\nRegisteration Number: ${
             productDetails.registrationNumber
-          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-          }\nInsurance Poilcy Number: ${
+            }\nInsurance Poilcy Number: ${
             productDetails.insurancePolicyNo
-          }\nInsurance Provider: ${productDetails.insuranceProviderName}`;
+            }\nInsurance Provider: ${productDetails.insuranceProviderName}`;
         } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
           productDetailsText = `IMEI Number: ${
             productDetails.imeiNumber
-          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-          }`;
+            }`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
           productDetailsText = `Serial Number: ${
             productDetails.serialNumber
-          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-          }`;
+            }`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.FURNITURE) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-          }\nPurchase Date: ${productDetails.purchaseDate}`;
+            }\nPurchase Date: ${productDetails.purchaseDate}`;
         }
         break;
       case "warranty":
         if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
           productDetailsText = `VIN No./Chasis Number: ${
             productDetails.vin
-          }\nRegisteration Number: ${
+            }\nRegisteration Number: ${
             productDetails.registrationNumber
-          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-          }`;
+            }`;
         } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-          }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
+            }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
             productDetails.modelNumber
-          }\nPurchase Date: ${productDetails.purchaseDate}`;
+            }\nPurchase Date: ${productDetails.purchaseDate}`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-          }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
+            }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
             productDetails.modelNumber
-          }\nPurchase Date: ${productDetails.purchaseDate}`;
+            }\nPurchase Date: ${productDetails.purchaseDate}`;
         }
         break;
       case "insurance":
         if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
           productDetailsText = `VIN No./Chasis Number: ${
             productDetails.vin
-          }\nRegisteration Number: ${
+            }\nRegisteration Number: ${
             productDetails.registrationNumber
-          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-          }\nPoilcy Number: ${productDetails.insurancePolicyNo}`;
+            }\nPoilcy Number: ${productDetails.insurancePolicyNo}`;
         } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-          }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
+            }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
             productDetails.modelNumber
-          }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
+            }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
             productDetails.insurancePolicyNo
-          }`;
+            }`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-          }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
+            }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
             productDetails.modelNumber
-          }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
+            }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
             productDetails.insurancePolicyNo
-          }`;
+            }`;
         }
         break;
       default:
@@ -209,10 +209,10 @@ class Card extends React.Component {
         productDetails.insurancePolicyNo != "NA"
           ? "No. " + productDetails.insurancePolicyNo
           : ""
-      }`;
+        }`;
       productDetailsText = `Plan Name: ${product.productName}\nPoilcy Number: ${
         productDetails.insurancePolicyNo
-      }\nEffective Date: ${productDetails.insuranceEffectiveDate}`;
+        }\nEffective Date: ${productDetails.insuranceEffectiveDate}`;
     }
 
     const url = `mailto:${email}?subject=${subject}&body=Dear ${brandNameToAddress} Team,\n\nThe issue I am facing is : 
@@ -236,7 +236,7 @@ class Card extends React.Component {
   };
 
   handlePhonePress = phoneNumber => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_CALL);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_CALL, { type: this.props.type });
     call({
       number: phoneNumber.replace(/\(.+\)/, "").trim()
     }).catch(e =>
@@ -247,7 +247,7 @@ class Card extends React.Component {
   };
 
   handleUrlPress = url => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SERVICE_REQUEST);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_WEB_URL, { type: this.props.type });
     Linking.canOpenURL(url).then(supported => {
       if (supported) {
         Linking.openURL(url);
@@ -260,6 +260,7 @@ class Card extends React.Component {
   };
 
   render() {
+    console.log("props is ", this.props)
     const {
       cardStyle,
       title,
@@ -268,16 +269,16 @@ class Card extends React.Component {
       name,
       phoneNumbers = [],
       emails = [],
-      urls = []
+      urls = [],
     } = this.props;
 
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <Text weight="Bold" style={styles.title}>
           {title}
         </Text>
-        <View collapsable={false}  style={[styles.card, cardStyle]}>
-          <View collapsable={false}  style={styles.imageContainer}>
+        <View collapsable={false} style={[styles.card, cardStyle]}>
+          <View collapsable={false} style={styles.imageContainer}>
             {imageUrl ? (
               <Image
                 style={styles.image}
@@ -293,7 +294,7 @@ class Card extends React.Component {
               />
             ) : null}
           </View>
-          <View collapsable={false}  style={styles.cardBody}>
+          <View collapsable={false} style={styles.cardBody}>
             <Text weight="Bold" style={styles.name}>
               {name}
             </Text>
@@ -322,8 +323,8 @@ class Card extends React.Component {
                 </View>
               </View>
             ) : (
-              <View collapsable={false}  />
-            )}
+                <View collapsable={false} />
+              )}
             {emails.length > 0 ? (
               <View collapsable={false} >
                 <Text weight="Medium" style={styles.sectionTitle}>
@@ -349,8 +350,8 @@ class Card extends React.Component {
                 </View>
               </View>
             ) : (
-              <View collapsable={false}  />
-            )}
+                <View collapsable={false} />
+              )}
             {urls.length > 0 ? (
               <View collapsable={false} >
                 <Text weight="Medium" style={styles.sectionTitle}>
@@ -376,8 +377,8 @@ class Card extends React.Component {
                 </View>
               </View>
             ) : (
-              <View collapsable={false}  />
-            )}
+                <View collapsable={false} />
+              )}
           </View>
         </View>
       </View>

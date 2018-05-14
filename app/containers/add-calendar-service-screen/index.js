@@ -166,7 +166,6 @@ class AddCalendarServiceScreen extends React.Component {
   };
 
   createItem = async () => {
-    Analytics.logEvent(Analytics.EVENTS.ADD_ADD_ATTENDANCE_ITEM);
     this.setState({
       isLoading: true
     });
@@ -341,7 +340,7 @@ class AddCalendarServiceScreen extends React.Component {
     });
 
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <LoadingOverlay visible={isLoading} />
         <Animated.View
           style={[
@@ -355,13 +354,13 @@ class AddCalendarServiceScreen extends React.Component {
             }
           ]}
         >
-          <View collapsable={false}  style={styles.stepContainer}>{previousStep}</View>
-          <View collapsable={false}  style={styles.stepContainer}>{currentStep}</View>
-          <View collapsable={false}  style={styles.stepContainer}>{nextStep}</View>
+          <View collapsable={false} style={styles.stepContainer}>{previousStep}</View>
+          <View collapsable={false} style={styles.stepContainer}>{currentStep}</View>
+          <View collapsable={false} style={styles.stepContainer}>{nextStep}</View>
         </Animated.View>
         {numberOfStepsToShowInFooter > 0 ? (
-          <View collapsable={false}  style={styles.stepIndicatorsAndText}>
-            <View collapsable={false}  style={styles.stepIndicators}>
+          <View collapsable={false} style={styles.stepIndicatorsAndText}>
+            <View collapsable={false} style={styles.stepIndicators}>
               {_.range(numberOfStepsToShowInFooter).map((item, index) => {
                 activeStepIndicatorIndex =
                   activeStepIndex -
@@ -370,14 +369,14 @@ class AddCalendarServiceScreen extends React.Component {
                 isActiveStep = index == activeStepIndicatorIndex;
                 return [
                   index > 0 && (
-                    <View collapsable={false} 
+                    <View collapsable={false}
                       style={[
                         styles.stepIndicatorLine,
                         idDoneStep ? styles.doneStepIndicatorLine : {}
                       ]}
                     />
                   ),
-                  <View collapsable={false} 
+                  <View collapsable={false}
                     style={[
                       styles.stepIndicatorDot,
                       idDoneStep ? styles.doneStepIndicatorDot : {},
@@ -385,18 +384,18 @@ class AddCalendarServiceScreen extends React.Component {
                     ]}
                   >
                     {isActiveStep ? (
-                      <View collapsable={false}  style={styles.activeStepIndicatorDotInnerRing} />
+                      <View collapsable={false} style={styles.activeStepIndicatorDotInnerRing} />
                     ) : (
-                      <View collapsable={false}  />
-                    )}
+                        <View collapsable={false} />
+                      )}
                   </View>
                 ];
               })}
             </View>
           </View>
         ) : (
-          <View collapsable={false}  />
-        )}
+            <View collapsable={false} />
+          )}
         {/* <FinishModal
           ref={ref => this.finishModal = ref}
           title="Product added to your eHome."
