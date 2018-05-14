@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
+import moment from "moment";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import I18n from "../i18n";
 import { showSnackbar } from "./snackbar";
@@ -34,6 +35,7 @@ class AddEditWarranty extends React.Component {
     warranty: PropTypes.shape({
       id: PropTypes.number,
       effectiveDate: PropTypes.string,
+      value: PropTypes.number,
       renewal_type: PropTypes.number,
       provider: PropTypes.object,
       copies: PropTypes.array
@@ -62,7 +64,14 @@ class AddEditWarranty extends React.Component {
     this.state = {
       renewalTypes: [],
       warrantyProviders: [],
-      isLoading: false
+      isLoading: false,
+      initialValues: {
+        effectiveDate: null,
+        value: "",
+        renewalType: null,
+        providerId: null,
+        providerName: null
+      }
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -93,6 +102,17 @@ class AddEditWarranty extends React.Component {
     this.fetchCategoryData();
 
     if (warranty) {
+      this.setState({
+        initialValues: {
+          effectiveDate: warranty.effectiveDate
+            ? moment(warranty.effectiveDate).format("YYYY-MM-DD")
+            : null,
+          value: warranty.value,
+          renewalType: warranty.renewal_type,
+          providerId: warranty.provider ? warranty.provider.id : null,
+          providerName: null
+        }
+      });
       this.props.navigator.setButtons({
         rightButtons: [
           {
@@ -111,8 +131,18 @@ class AddEditWarranty extends React.Component {
   onNavigatorEvent = event => {
     if (event.type == "NavBarButtonPress") {
       if (event.id == "backPress") {
-        let data = this.warrantyForm.getFilledData();
-        if (!data.renewalType && data.copies.length == 0) {
+        let initialValues = this.state.initialValues;
+        let newData = this.warrantyForm.getFilledData();
+
+        // console.log("initialValues: ", initialValues, "newData: ", newData);
+
+        if (
+          newData.effectiveDate == initialValues.effectiveDate &&
+          newData.providerId == initialValues.providerId &&
+          newData.providerName == initialValues.providerName &&
+          newData.renewalType == initialValues.renewalType &&
+          newData.value == initialValues.value
+        ) {
           return this.props.navigator.pop();
         }
         Alert.alert(
@@ -203,13 +233,12 @@ class AddEditWarranty extends React.Component {
       });
     }
 
-    if (!data.renewalType && data.copies.length == 0) {
+    if (!data.renewalType) {
       return showSnackbar({
         text: "Please upload doc or select warranty upto"
       });
     }
 
-    console.log("data: ", data);
     if (warrantyType == WARRANTY_TYPES.EXTENDED) {
       Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, {
         entity: "extended warranty"

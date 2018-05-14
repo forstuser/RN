@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import moment from "moment";
 import I18n from "../i18n";
 import {
   getReferenceDataForCategory,
@@ -56,7 +57,13 @@ class AddEditAmc extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false
+      isLoading: false,
+      initialValues: {
+        effectiveDate: null,
+        value: "",
+        sellerName: "",
+        sellerContact: ""
+      }
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -71,6 +78,18 @@ class AddEditAmc extends React.Component {
     this.props.navigator.setTitle({ title });
 
     if (amc) {
+      this.setState({
+        initialValues: {
+          effectiveDate: amc.effectiveDate
+            ? moment(amc.effectiveDate).format("YYYY-MM-DD")
+            : null,
+          value: amc.value,
+          sellerName:
+            amc.sellers && amc.sellers.sellerName ? amc.sellers.sellerName : "",
+          sellerContact:
+            amc.sellers && amc.sellers.contact ? amc.sellers.contact : ""
+        }
+      });
       this.props.navigator.setButtons({
         rightButtons: [
           {
@@ -89,6 +108,20 @@ class AddEditAmc extends React.Component {
   onNavigatorEvent = event => {
     if (event.type == "NavBarButtonPress") {
       if (event.id == "backPress") {
+        let initialValues = this.state.initialValues;
+        let newData = this.amcForm.getFilledData();
+
+        console.log("initialValues: ", initialValues, "newData: ", newData);
+
+        if (
+          newData.effectiveDate == initialValues.effectiveDate &&
+          newData.value == initialValues.value &&
+          newData.sellerName == initialValues.sellerName &&
+          newData.sellerContact == initialValues.sellerContact
+        ) {
+          return this.props.navigator.pop();
+        }
+
         Alert.alert(
           I18n.t("add_edit_amc_are_you_sure"),
           I18n.t("add_edit_amc_unsaved_info"),
@@ -119,14 +152,14 @@ class AddEditAmc extends React.Component {
                   this.props.navigator.pop();
                 } catch (e) {
                   console.log("e: ", e);
-                  (I18n.t("add_edit_amc_could_not_delete"));
+                  I18n.t("add_edit_amc_could_not_delete");
                   this.setState({ isLoading: false });
                 }
               }
             },
             {
               text: I18n.t("add_edit_no_dnt_delete"),
-              onPress: () => { },
+              onPress: () => {},
               style: "cancel"
             }
           ]
@@ -155,7 +188,7 @@ class AddEditAmc extends React.Component {
     if (!data.effectiveDate) {
       return showSnackbar({
         text: I18n.t("add_edit_amc_effective_date")
-      })
+      });
     }
 
     try {
@@ -170,7 +203,7 @@ class AddEditAmc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({ isLoading: false });
     }
   };

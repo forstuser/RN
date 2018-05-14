@@ -70,8 +70,8 @@ class CustomTextInput extends React.Component {
     } = this.props;
     const { value, isInputFocused } = this.state;
     return (
-      <View ref={ref => getRef(ref)} style={[styles.container, style]}>
-        <View
+      <View collapsable={false}  ref={ref => getRef(ref)} style={[styles.container, style]}>
+        <View collapsable={false} 
           style={[
             styles.placeholderContainer,
             { right: rightSideTextWidth },

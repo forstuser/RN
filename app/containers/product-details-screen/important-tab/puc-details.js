@@ -53,19 +53,19 @@ class PucDetails extends Component {
     const { pucDetails } = product;
 
     return (
-      <View>
+      <View collapsable={false} >
         <Collapsible headerText={I18n.t("product_details_screen_puc_title")}>
           {pucDetails.length > 0 ? (
-            <View>
+            <View collapsable={false} >
               {pucDetails.map(puc => (
-                <View>
+                <View collapsable={false} >
                   <EditOptionRow
                     date={puc.expiryDate}
                     onEditPress={() => {
                       this.openAddEditPucScreen(puc);
                     }}
                   />
-                  <ViewBillRow
+                  <View collapsable={false} BillRow
                     expiryDate={puc.expiryDate}
                     purchaseDate={puc.purchaseDate}
                     docType="PUC"

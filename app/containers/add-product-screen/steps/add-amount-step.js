@@ -84,7 +84,7 @@ class AddAmountStep extends React.Component {
         showLoader={isLoading}
         {...this.props}
       >
-        <View style={{ padding: 20 }}>
+        <View collapsable={false}  style={{ padding: 20 }}>
           <AmountTextInput
             ref={ref => (this.input = ref)}
             placeholder={"Amount"}

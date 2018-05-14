@@ -361,11 +361,11 @@ class BasicDetailsForm extends React.Component {
     console.log("categoryId:", categoryId);
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <Text weight="Medium" style={styles.headerText}>
           {I18n.t("expense_forms_expense_basic_detail")}
         </Text>
-        <View style={styles.body}>
+        <View collapsable={false}  style={styles.body}>
           {(showFullForm || mainCategoryId == MAIN_CATEGORY_IDS.FASHION) && (
             <CustomTextInput
               placeholder={I18n.t("expense_forms_product_basics_name")}
@@ -379,7 +379,7 @@ class BasicDetailsForm extends React.Component {
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("add_edit_direct_type")}
               placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
+                <View collapsable={false}  style={{ flexDirection: "row" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
@@ -407,7 +407,7 @@ class BasicDetailsForm extends React.Component {
               }}
               onPress={this.toggleNonBranded}
             >
-              <View
+              <View collapsable={false} 
                 style={{
                   width: 20,
                   height: 20,
@@ -449,7 +449,7 @@ class BasicDetailsForm extends React.Component {
                 "expense_forms_product_basics_brand_name"
               )}
               placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
+                <View collapsable={false}  style={{ flexDirection: "row" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
@@ -485,7 +485,7 @@ class BasicDetailsForm extends React.Component {
                 "expense_forms_product_basics_enter_model"
               )}
               placeholderRenderer={({ placeholder }) => (
-                <View
+                <View collapsable={false} 
                   style={{
                     flexDirection: "row",
                     alignItems: "center"
@@ -522,7 +522,7 @@ class BasicDetailsForm extends React.Component {
           )}
 
           {showFullForm ? (
-            <View>
+            <View collapsable={false} >
               {categoryId == 327 && (
                 <CustomTextInput
                   placeholder={I18n.t("expense_forms_product_basics_imei")}
@@ -549,7 +549,7 @@ class BasicDetailsForm extends React.Component {
                 )}
 
               {mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ? (
-                <View>
+                <View collapsable={false} >
                   <CustomTextInput
                     placeholder={I18n.t("expense_forms_product_basics_vin_no")}
                     value={vinNo}
@@ -570,11 +570,11 @@ class BasicDetailsForm extends React.Component {
                   />
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
           <CustomDatePicker
             date={purchaseDate}
@@ -593,10 +593,10 @@ class BasicDetailsForm extends React.Component {
               keyboardType="numeric"
             />
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
           {showFullForm ? (
-            <View>
+            <View collapsable={false} >
               <CustomTextInput
                 placeholder={I18n.t("expense_forms_product_basics_seller_name")}
                 value={sellerName}
@@ -613,7 +613,7 @@ class BasicDetailsForm extends React.Component {
               />
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
         </View>
         <UploadDoc

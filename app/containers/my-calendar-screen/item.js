@@ -46,9 +46,9 @@ class Item extends React.Component {
           source={{ uri: imageUrl }}
           resizeMode="contain"
         />
-        <View style={styles.texts}>
-          <View style={styles.nameAndSeller}>
-            <View style={{ flexDirection: "row" }}>
+        <View collapsable={false}  style={styles.texts}>
+          <View collapsable={false}  style={styles.nameAndSeller}>
+            <View collapsable={false}  style={{ flexDirection: "row" }}>
               <Text weight="Bold" style={styles.name}>
                 {product_name}
               </Text>
@@ -61,7 +61,7 @@ class Item extends React.Component {
                 ₹ {outstanding_amount}
               </Text> */}
             </View>
-            <View style={{ flexDirection: "row" }}>
+            <View collapsable={false}  style={{ flexDirection: "row" }}>
               <Text style={styles.offlineSellerName}>{provider_name}</Text>
               <Text style={styles.onlineSellerName}>
                 {I18n.t("my_calendar_screen_till_date", {
@@ -72,7 +72,7 @@ class Item extends React.Component {
               </Text>
             </View>
           </View>
-          <View style={styles.otherDetailContainer}>
+          <View collapsable={false}  style={styles.otherDetailContainer}>
             <Text style={styles.detailName}>
               {I18n.t("my_calendar_screen_days_present")}:{" "}
             </Text>
@@ -80,7 +80,7 @@ class Item extends React.Component {
               {I18n.t("my_calendar_screen_days", { count: present_days })}
             </Text>
           </View>
-          <View style={styles.otherDetailContainer}>
+          <View collapsable={false}  style={styles.otherDetailContainer}>
             <Text style={styles.detailName}>
               {I18n.t("my_calendar_screen_days_absent")}:{" "}
             </Text>

@@ -70,13 +70,13 @@ class WhatToListEmptyState extends React.Component {
         break;
     }
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <Image style={styles.blankPageImage} source={image} />
         <Text weight="Regular" style={styles.blankPageText}>
           {text}
         </Text>
         {type == EASY_LIFE_TYPES.WHAT_TO_DO ? (
-          <View style={styles.faqView}>
+          <View collapsable={false}  style={styles.faqView}>
             <Text style={styles.faqText} weight="Regular">
               To know more, How it Works
             </Text>
@@ -93,7 +93,7 @@ class WhatToListEmptyState extends React.Component {
             </TouchableOpacity>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
         <Button
           onPress={this.onPressCreateList}

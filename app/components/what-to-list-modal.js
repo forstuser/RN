@@ -116,15 +116,15 @@ class WhatToListModal extends React.Component {
 
     if (!visible) return null;
     return (
-      <View>
+      <View collapsable={false} >
         {visible && (
-          <View>
+          <View collapsable={false} >
             <Modal
               isVisible={true}
               onBackButtonPress={this.hide}
               avoidKeyboard={Platform.OS == "ios"}
             >
-              <View style={styles.finishModal}>
+              <View collapsable={false}  style={styles.finishModal}>
                 <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
                   <Icon name="md-close" size={30} color={colors.mainText} />
                 </TouchableOpacity>
@@ -133,7 +133,7 @@ class WhatToListModal extends React.Component {
                   contentContainerStyle={{ padding: 5 }}
                 >
                   {this.state.list.map((item, index) => (
-                    <View>
+                    <View collapsable={false} >
                       <CustomTextInput
                         ref={ref => {
                           this["input" + index] = ref;
@@ -150,7 +150,7 @@ class WhatToListModal extends React.Component {
                           <Icon name="md-close" color="white" size={20} />
                         </TouchableOpacity>
                       ) : (
-                        <View />
+                        <View collapsable={false}  />
                       )}
                     </View>
                   ))}

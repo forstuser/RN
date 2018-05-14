@@ -484,7 +484,7 @@ class AfterSaleButton extends Component {
       name = "Warranty Provider";
     }
     return (
-      <View>
+      <View collapsable={false} >
         <Button
           onPress={this.showBaseOptions}
           color="secondary"
@@ -529,7 +529,7 @@ class AfterSaleButton extends Component {
           cancelButtonIndex={this.state.urls.length}
           options={[
             ...urls.map(url => (
-              <View>
+              <View collapsable={false} >
                 <Text weight="Bold" style={{ color: colors.mainBlue }}>
                   {url}
                 </Text>

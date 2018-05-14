@@ -374,9 +374,9 @@ class ProductOrExpense extends React.Component {
             }}
             healthcareFormType={this.props.healthcareFormType}
           />
-          <View style={styles.separator} />
+          <View collapsable={false}  style={styles.separator} />
           {product == null ? (
-            <View style={styles.selectCategoryMsgContainer}>
+            <View collapsable={false}  style={styles.selectCategoryMsgContainer}>
               <Text weight="Medium" style={styles.selectCategoryMsg}>
                 {startMsg}
               </Text>
@@ -389,9 +389,9 @@ class ProductOrExpense extends React.Component {
               })}
             </View>
           ) : (
-            <View style={styles.formsContainer}>
+            <View collapsable={false}  style={styles.formsContainer}>
               {visibleModules.productBasicDetails ? (
-                <View>
+                <View collapsable={false} >
                   <ProductBasicDetailsForm
                     ref={ref => (this.productBasicDetailsForm = ref)}
                     mainCategoryId={mainCategoryId}
@@ -412,14 +412,14 @@ class ProductOrExpense extends React.Component {
                       });
                     }}
                   />
-                  <View style={styles.separator} />
+                  <View collapsable={false}  style={styles.separator} />
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
 
               {visibleModules.expenseBasicDetails ? (
-                <View>
+                <View collapsable={false} >
                   <ExpenseBasicDetailsForm
                     ref={ref => (this.expenseBasicDetailsForm = ref)}
                     mainCategoryId={mainCategoryId}
@@ -430,14 +430,14 @@ class ProductOrExpense extends React.Component {
                     subCategories={subCategories}
                     navigator={this.props.navigator}
                   />
-                  <View style={styles.separator} />
+                  <View collapsable={false}  style={styles.separator} />
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
 
               {visibleModules.healthcareInsuranceForm ? (
-                <View>
+                <View collapsable={false} >
                   <HealthcareInsuranceForm
                     ref={ref => (this.healthcareInsuranceForm = ref)}
                     mainCategoryId={mainCategoryId}
@@ -448,14 +448,14 @@ class ProductOrExpense extends React.Component {
                     insuranceProviders={insuranceProviders}
                     navigator={this.props.navigator}
                   />
-                  <View style={styles.separator} />
+                  <View collapsable={false}  style={styles.separator} />
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
 
               {visibleModules.healthcareMedicalDocuments ? (
-                <View>
+                <View collapsable={false} >
                   <MedicalDocForm
                     ref={ref => (this.healthcareMedicalDocForm = ref)}
                     mainCategoryId={mainCategoryId}
@@ -467,14 +467,14 @@ class ProductOrExpense extends React.Component {
                     navigator={this.props.navigator}
                     subCategories={subCategories}
                   />
-                  <View style={styles.separator} />
+                  <View collapsable={false}  style={styles.separator} />
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
 
               {visibleModules.insurance ? (
-                <View>
+                <View collapsable={false} >
                   <InsuranceForm
                     ref={ref => (this.insuranceForm = ref)}
                     mainCategoryId={mainCategoryId}
@@ -488,14 +488,14 @@ class ProductOrExpense extends React.Component {
                       category.id == CATEGORY_IDS.AUTOMOBILE.CYCLE
                     }
                   />
-                  <View style={styles.separator} />
+                  <View collapsable={false}  style={styles.separator} />
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
 
               {visibleModules.warranty ? (
-                <View>
+                <View collapsable={false} >
                   <WarrantyForm
                     ref={ref => (this.warrantyForm = ref)}
                     mainCategoryId={mainCategoryId}
@@ -506,14 +506,14 @@ class ProductOrExpense extends React.Component {
                     renewalTypeId={defaultWarrantyRenewalTypeId}
                     navigator={this.props.navigator}
                   />
-                  <View style={styles.separator} />
+                  <View collapsable={false}  style={styles.separator} />
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
 
               {visibleModules.dualWarranty ? (
-                <View>
+                <View collapsable={false} >
                   <WarrantyForm
                     ref={ref => (this.dualWarrantyForm = ref)}
                     mainCategoryId={mainCategoryId}
@@ -526,14 +526,14 @@ class ProductOrExpense extends React.Component {
                     dualWarrantyItem={dualWarrantyItem}
                     navigator={this.props.navigator}
                   />
-                  <View style={styles.separator} />
+                  <View collapsable={false}  style={styles.separator} />
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
 
               {visibleModules.extendedWarranty ? (
-                <View>
+                <View collapsable={false} >
                   <WarrantyForm
                     ref={ref => (this.extendedWarrantyForm = ref)}
                     mainCategoryId={mainCategoryId}
@@ -545,14 +545,14 @@ class ProductOrExpense extends React.Component {
                     warrantyType={WARRANTY_TYPES.EXTENDED}
                     navigator={this.props.navigator}
                   />
-                  <View style={styles.separator} />
+                  <View collapsable={false}  style={styles.separator} />
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
 
               {visibleModules.amc ? (
-                <View>
+                <View collapsable={false} >
                   <AmcForm
                     ref={ref => (this.amcForm = ref)}
                     mainCategoryId={mainCategoryId}
@@ -563,14 +563,14 @@ class ProductOrExpense extends React.Component {
                     renewalTypes={renewalTypes}
                     navigator={this.props.navigator}
                   />
-                  <View style={styles.separator} />
+                  <View collapsable={false}  style={styles.separator} />
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
 
               {visibleModules.repair ? (
-                <View>
+                <View collapsable={false} >
                   <RepairForm
                     ref={ref => (this.repairForm = ref)}
                     mainCategoryId={mainCategoryId}
@@ -579,14 +579,14 @@ class ProductOrExpense extends React.Component {
                     jobId={product.job_id}
                     navigator={this.props.navigator}
                   />
-                  <View style={styles.separator} />
+                  <View collapsable={false}  style={styles.separator} />
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
 
               {visibleModules.puc ? (
-                <View>
+                <View collapsable={false} >
                   <PucForm
                     ref={ref => (this.pucForm = ref)}
                     mainCategoryId={mainCategoryId}
@@ -595,10 +595,10 @@ class ProductOrExpense extends React.Component {
                     jobId={product.job_id}
                     navigator={this.props.navigator}
                   />
-                  <View style={styles.separator} />
+                  <View collapsable={false}  style={styles.separator} />
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
             </View>
           )}

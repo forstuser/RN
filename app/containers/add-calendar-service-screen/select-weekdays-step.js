@@ -70,7 +70,7 @@ class SelectedDaysStep extends React.Component {
 
     return (
       <Step title={`Deselect weekly off days`} {...this.props}>
-        <View style={{ padding: 20 }}>
+        <View collapsable={false} style={{ padding: 20 }}>
           <SelectWeekDays
             selectedDays={selectedDays}
             onDayPress={this.toggleDay}

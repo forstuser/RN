@@ -7,7 +7,7 @@ import { Text, Button } from "../elements";
 
 const ViewMore = ({ height, onPress }) => (
   <TouchableOpacity style={styles.viewBtn} onPress={onPress}>
-    <View
+    <View collapsable={false} 
       style={{
         backgroundColor: colors.pinkishOrange,
         height: 36,

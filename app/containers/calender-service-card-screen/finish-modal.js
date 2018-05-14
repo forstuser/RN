@@ -75,11 +75,11 @@ class FinishModal extends React.Component {
     const { item } = this.props;
     if (!isModalVisible) return null;
     return (
-      <View>
+      <View collapsable={false} >
         {isModalVisible ? (
-          <View>
+          <View collapsable={false} >
             <Modal useNativeDriver={true} isVisible={true}>
-              <View style={[styles.card, styles.modalCard]}>
+              <View collapsable={false}  style={[styles.card, styles.modalCard]}>
                 <LoadingOverlay visible={isSavingDetails} />
 
                 <TouchableOpacity
@@ -122,7 +122,7 @@ class FinishModal extends React.Component {
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
       </View>
     );

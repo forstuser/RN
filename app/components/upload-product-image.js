@@ -102,7 +102,7 @@ class UploadProductImage extends React.Component {
         () => {
           setTimeout(() => {
             if (typeof onImageUpload == "function") {
-              onImageUpload();
+              onImageUpload(file.uri);
             }
           }, 200);
         }
@@ -129,15 +129,15 @@ class UploadProductImage extends React.Component {
   render() {
     const { isUploadingImage } = this.state;
     return (
-      <View>
+      <View collapsable={false} >
         {isUploadingImage ? (
-          <View>
+          <View collapsable={false} >
             <Modal visible={true} transparent={true}>
               <LoadingOverlay visible={true} text={I18n.t("uploading")} />
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
         <ActionSheet
           onPress={this.handleOptionPress}

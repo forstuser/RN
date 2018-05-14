@@ -120,13 +120,13 @@ class Important extends React.Component {
     } = product;
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         {(product.categoryId != 664 ||
           [MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
             product.masterCategoryId
           ) > -1) &&
           warrantyDetails.length > 0 && (
-            <View>
+            <View collapsable={false} >
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_warranty_title")}
               </Text>
@@ -143,7 +143,7 @@ class Important extends React.Component {
         ) > -1 ||
           product.categoryId == 664) &&
           insuranceDetails.length > 0 && (
-            <View>
+            <View collapsable={false} >
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_insurance_title")}
               </Text>
@@ -159,7 +159,7 @@ class Important extends React.Component {
           product.masterCategoryId
         ) > -1 &&
           amcDetails.length > 0 && (
-            <View>
+            <View collapsable={false} >
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_amc_title")}
               </Text>
@@ -177,7 +177,7 @@ class Important extends React.Component {
           MAIN_CATEGORY_IDS.FURNITURE
         ].indexOf(product.masterCategoryId) > -1 &&
           repairBills.length > 0 && (
-            <View>
+            <View collapsable={false} >
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_repairs_title")}
               </Text>
@@ -191,7 +191,7 @@ class Important extends React.Component {
 
         {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
           pucDetails.length > 0 && (
-            <View>
+            <View collapsable={false} >
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_puc_title")}
               </Text>
@@ -203,7 +203,7 @@ class Important extends React.Component {
             </View>
           )}
 
-        <View style={styles.addBtns}>
+        <View collapsable={false}  style={styles.addBtns}>
           {(product.categoryId != 664 ||
             [
               MAIN_CATEGORY_IDS.AUTOMOBILE,

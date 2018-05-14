@@ -42,8 +42,8 @@ class ServiceSchedules extends React.Component {
     );
 
     return (
-      <View style={styles.container}>
-        <View style={styles.card}>
+      <View collapsable={false}  style={styles.container}>
+        <View collapsable={false}  style={styles.card}>
           {serviceSchedules.map(schedule => (
             <ScheduleItem schedule={schedule} />
           ))}

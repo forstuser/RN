@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 const AddNewBtn = ({ text, onPress, style }) => (
   <TouchableOpacity style={[styles.addNewBtn, style]} onPress={onPress}>
-    <View style={styles.container}>
+    <View collapsable={false}  style={styles.container}>
       <Icon name="md-add" size={20} color={colors.pinkishOrange} />
       <Text weight="Medium" style={{ color: "#9b9b9b", marginLeft: 10 }}>
         {" "}

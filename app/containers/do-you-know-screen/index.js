@@ -372,7 +372,7 @@ class DoYouKNowScreen extends Component {
 
     return (
       <ScreenContainer style={styles.container}>
-        <View style={styles.header}>
+        <View collapsable={false} style={styles.header}>
           <TabSearchHeader
             title={I18n.t("do_you_know_screen_title")}
             icon={doYouKnowIcon}
@@ -385,7 +385,7 @@ class DoYouKNowScreen extends Component {
             }}
           />
         </View>
-        <View style={styles.body}>
+        <View collapsable={false} style={styles.body}>
           {items.length > 0 ? (
             <Animated.View
               style={[
@@ -399,7 +399,7 @@ class DoYouKNowScreen extends Component {
               <Item />
             </Animated.View>
           ) : (
-            <View />
+            <View collapsable={false} />
           )}
           <LoadingOverlay
             style={{
@@ -434,6 +434,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
+    paddingBottom: 2,
     ...Platform.select({
       ios: {
         zIndex: 1

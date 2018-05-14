@@ -102,10 +102,10 @@ class AllInfo extends React.Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         {product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ? (
-          <View>
-            <View style={styles.card}>
+          <View collapsable={false} >
+            <View collapsable={false}  style={styles.card}>
               <TouchableOpacity
                 onPress={this.onEditPress}
                 style={{ flex: 1, backgroundColor: "#EBEBEB" }}
@@ -180,7 +180,7 @@ class AllInfo extends React.Component {
               ))}
             </View>
 
-            <View style={styles.card}>
+            <View collapsable={false}  style={styles.card}>
               <TouchableOpacity
                 onPress={this.onEditPress}
                 style={{ flex: 1, backgroundColor: "#EBEBEB" }}
@@ -237,7 +237,7 @@ class AllInfo extends React.Component {
                 seller.state.length > 0) && (
                 <KeyValueItem
                   KeyComponent={() => (
-                    <View style={{ flex: 1 }}>
+                    <View collapsable={false}  style={{ flex: 1 }}>
                       <Text style={{ color: colors.secondaryText }}>
                         {I18n.t("product_details_screen_seller_address")}
                       </Text>
@@ -255,7 +255,7 @@ class AllInfo extends React.Component {
                   )}
                   /*ValueComponent={() => (
                 <TouchableOpacity onPress={this.openMap} style={{ width: 70 }}>
-                  <View style={{ alignItems: "center" }}>
+                  <View collapsable={false}  style={{ alignItems: "center" }}>
                     <Image style={{ width: 24, height: 24 }} source={mapIcon} />
                     <Text
                       weight="Bold"

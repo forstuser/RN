@@ -40,7 +40,7 @@ class Report extends React.Component {
       productNameToEdit: "",
       providerNameToEdit: "",
       providerNumberToEdit: "",
-      isSavingDetails: false
+      isSavingDetails: false,
     };
   }
 
@@ -146,8 +146,8 @@ class Report extends React.Component {
     // if (!isEditDetailModalOpen) return null;
 
     return (
-      <View style={{ paddingHorizontal: 8 }}>
-        <View style={styles.card}>
+      <View collapsable={false} style={{ paddingHorizontal: 8 }}>
+        <View collapsable={false} style={styles.card}>
           <TouchableOpacity
             onPress={this.showEditDetailModal}
             style={{ flex: 1, backgroundColor: "#EBEBEB" }}
@@ -180,7 +180,7 @@ class Report extends React.Component {
               )}
             />
           </TouchableOpacity>
-          <View style={styles.cardBody}>
+          <View collapsable={false} style={styles.cardBody}>
             {/* <KeyValueItem
               keyText={I18n.t("calendar_service_screen_product_name")}
               valueText={item.product_name}
@@ -225,6 +225,7 @@ class Report extends React.Component {
 
             return (
               <View
+                collapsable={false}
                 key={calculationDetail.id}
                 style={[
                   styles.card,
@@ -234,6 +235,7 @@ class Report extends React.Component {
                 ]}
               >
                 <View
+                  collapsable={false}
                   onPress={() => this.editCalculationDetail(calculationDetail)}
                   style={{ backgroundColor: "#EBEBEB" }}
                 >
@@ -271,23 +273,30 @@ class Report extends React.Component {
                     }}
                   />
                 </View>
-                <View style={styles.cardBody}>
+                <View collapsable={false} style={styles.cardBody}>
                   {calculationDetail.quantity ? (
                     <KeyValueItem
                       keyText={I18n.t("calendar_service_screen_quantity")}
                       valueText={calculationDetail.quantity}
                     />
                   ) : (
-                    <View />
+                    <View collapsable={false} />
                   )}
                   <KeyValueItem
                     keyText={unitPriceText}
                     valueText={calculationDetail.unit_price}
                   />
                   {Array.isArray(calculationDetail.selected_days) ? (
-                    <View style={{ flexDirection: "row", padding: 10 }}>
+                    <View
+                      collapsable={false}
+                      style={{ flexDirection: "row", padding: 10 }}
+                    >
                       {calculationDetail.selected_days.map(day => (
-                        <View key={day} style={styles.weekDay}>
+                        <View
+                          collapsable={false}
+                          key={day}
+                          style={styles.weekDay}
+                        >
                           <Text weight="Medium" style={styles.weekDayText}>
                             {weekDays[day - 1]}
                           </Text>
@@ -295,7 +304,7 @@ class Report extends React.Component {
                       ))}
                     </View>
                   ) : (
-                    <View />
+                    <View collapsable={false} />
                   )}
                 </View>
               </View>
@@ -303,7 +312,7 @@ class Report extends React.Component {
           })}
         </ScrollView>
         {isEditDetailModalOpen ? (
-          <View>
+          <View collapsable={false}>
             <Modal
               isVisible={true}
               avoidKeyboard={Platform.OS == "ios"}
@@ -312,7 +321,7 @@ class Report extends React.Component {
               onBackdropPress={this.hideEditDetailModal}
               onBackButtonPress={this.hideEditDetailModal}
             >
-              <View style={[styles.card, styles.modalCard]}>
+              <View collapsable={false} style={[styles.card, styles.modalCard]}>
                 <LoadingOverlay visible={isSavingDetails} />
                 <TouchableOpacity
                   style={styles.modalCloseIcon}
@@ -353,7 +362,7 @@ class Report extends React.Component {
             </Modal>
           </View>
         ) : (
-          <View />
+          <View collapsable={false} />
         )}
         <CalculationDetailModal
           ref={ref => (this.calculationDetailModal = ref)}

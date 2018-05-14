@@ -53,21 +53,21 @@ class RepairDetails extends Component {
     const { repairBills } = product;
 
     return (
-      <View>
+      <View collapsable={false} >
         <Collapsible
           headerText={I18n.t("product_details_screen_repairs_title")}
         >
           {repairBills.length > 0 ? (
-            <View>
+            <View collapsable={false} >
               {repairBills.map(repairBill => (
-                <View>
+                <View collapsable={false} >
                   <EditOptionRow
                     date={repairBill.expiryDate}
                     onEditPress={() => {
                       this.openAddEditRepairScreen(repairBill);
                     }}
                   />
-                  <ViewBillRow
+                  <View collapsable={false} BillRow
                     expiryDate={repairBill.expiryDate}
                     purchaseDate={repairBill.purchaseDate}
                     docType="Repair Bill"

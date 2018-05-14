@@ -6,7 +6,7 @@ import { Text } from "../../elements";
 import { colors } from "../../theme";
 
 const IntroSlide = ({ image, title, desc }) => (
-  <View style={styles.container}>
+  <View collapsable={false}  style={styles.container}>
     <LinearGradient
       start={{ x: 0.0, y: 0.4 }}
       end={{ x: 0.0, y: 1 }}
@@ -17,12 +17,12 @@ const IntroSlide = ({ image, title, desc }) => (
         style={styles.bg}
         source={require("../../images/onboarding/background.png")}
       />
-      <View style={styles.texts}>
+      <View collapsable={false}  style={styles.texts}>
         <Text style={styles.title}>{title}</Text>
         {/* <Text style={styles.desc}>{desc}</Text> */}
       </View>
-      <View style={styles.content}>
-        <View style={styles.imageWrapper}>
+      <View collapsable={false}  style={styles.content}>
+        <View collapsable={false}  style={styles.imageWrapper}>
           <Image style={styles.image} source={image} resizeMode="contain" />
         </View>
       </View>

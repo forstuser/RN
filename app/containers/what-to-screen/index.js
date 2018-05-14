@@ -448,11 +448,11 @@ class DishCalendarScreen extends Component {
             onScroll={this.handleScroll}
             ref={ref => (this.scrollView = ref)}
           >
-            <View style={styles.header}>
+            <View collapsable={false}  style={styles.header}>
               <Image style={styles.headerBg} source={headerBg} />
               <Image style={styles.image} source={image} />
 
-              <View style={styles.dateSelector}>
+              <View collapsable={false}  style={styles.dateSelector}>
                 <DateSelector
                   date={date}
                   onRightArrowPress={this.nextDate}
@@ -460,8 +460,8 @@ class DishCalendarScreen extends Component {
                 />
               </View>
             </View>
-            <View style={styles.body}>
-              <View style={{ alignItems: "flex-end" }}>
+            <View collapsable={false}  style={styles.body}>
+              <View collapsable={false}  style={{ alignItems: "flex-end" }}>
                 <TouchableOpacity
                   style={styles.editBtn}
                   onPress={this.goToEditScreen}
@@ -512,7 +512,7 @@ class DishCalendarScreen extends Component {
                     item.image_code;
                 }
                 return (
-                  <View key={item.id} style={styles.item}>
+                  <View collapsable={false}  key={item.id} style={styles.item}>
                     <EasyLifeItem
                       checkBoxStyle="circle"
                       text={item.name}
@@ -547,9 +547,9 @@ class DishCalendarScreen extends Component {
           </ScrollView>
         )}
         {selectedItemsNames.length > 0 ? (
-          <View style={styles.selectedItems}>
-            <View style={styles.selectedItemsTitle}>
-              <View style={styles.selectedItemsTitleCheckmark}>
+          <View collapsable={false}  style={styles.selectedItems}>
+            <View collapsable={false}  style={styles.selectedItemsTitle}>
+              <View collapsable={false}  style={styles.selectedItemsTitleCheckmark}>
                 <Icon name="md-checkmark" size={12} color="#fff" />
               </View>
               <Text weight="Bold" style={styles.selectedItemsTitleText}>
@@ -565,7 +565,7 @@ class DishCalendarScreen extends Component {
             </Text>
           </View>
         ) : (
-          <View />
+          <View collapsable={false}  />
         )}
         {items.length == 0 &&
           !isLoading && (

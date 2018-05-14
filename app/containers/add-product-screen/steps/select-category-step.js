@@ -18,7 +18,11 @@ import { Text } from "../../../elements";
 import { colors } from "../../../theme";
 import { showSnackbar } from "../../snackbar";
 
-import { getReferenceDataCategories, initProduct } from "../../../api";
+import {
+  API_BASE_URL,
+  getReferenceDataCategories,
+  initProduct
+} from "../../../api";
 
 import SelectModal from "../../../components/select-modal";
 
@@ -482,13 +486,17 @@ class SelectCategoryStep extends React.Component {
         showLoader={isLoading}
         {...this.props}
       >
-        <View style={styles.container}>
-          <View style={styles.header}>
+        <View collapsable={false}  style={styles.container}>
+          <View collapsable={false}  style={styles.header}>
             <SelectModal
               ref={ref => (this.otherOptionsModal = ref)}
               style={styles.select}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              options={otherOptions}
+              options={otherOptions.map(option => ({
+                ...option,
+                image: API_BASE_URL + option.categoryImageUrl
+              }))}
+              imageKey="image"
               selectedOption={selectedOption}
               onOptionSelect={value => {
                 this.changeOption(value);
@@ -508,8 +516,8 @@ class SelectCategoryStep extends React.Component {
                   <TouchableWithoutFeedback
                     onPress={() => this.changeOption(option)}
                   >
-                    <View style={styles.option}>
-                      <View
+                    <View collapsable={false}  style={styles.option}>
+                      <View collapsable={false} 
                         style={[
                           styles.optionIconContainer,
                           isSelectedOption
@@ -544,8 +552,8 @@ class SelectCategoryStep extends React.Component {
                 );
               })}
               {selectedOption && showOtherOption ? (
-                <View style={styles.option}>
-                  <View
+                <View collapsable={false}  style={styles.option}>
+                  <View collapsable={false} 
                     style={[
                       styles.optionIconContainer,
                       styles.selectedOptionIconContainer
@@ -565,14 +573,14 @@ class SelectCategoryStep extends React.Component {
                   </Text>
                 </View>
               ) : (
-                <View />
+                <View collapsable={false}  />
               )}
               {otherOptions.length > 0 && (
                 <TouchableWithoutFeedback
                   onPress={() => this.otherOptionsModal.openModal()}
                 >
-                  <View style={styles.option}>
-                    <View style={styles.optionIconContainer}>
+                  <View collapsable={false}  style={styles.option}>
+                    <View collapsable={false}  style={styles.optionIconContainer}>
                       <Image
                         style={[styles.optionIcon]}
                         resizeMode="contain"
@@ -587,8 +595,8 @@ class SelectCategoryStep extends React.Component {
               )}
             </ScrollView>
           </View>
-          <View style={styles.body}>
-            <View style={styles.selectCategoryMsgContainer}>
+          <View collapsable={false}  style={styles.body}>
+            <View collapsable={false}  style={styles.selectCategoryMsgContainer}>
               <Text weight="Medium" style={styles.selectCategoryMsg}>
                 Select a type above to
               </Text>
@@ -600,7 +608,7 @@ class SelectCategoryStep extends React.Component {
                 );
               })}
             </View>
-            <View />
+            <View collapsable={false}  />
           </View>
         </View>
       </Step>

@@ -43,7 +43,8 @@ class ShareModal extends React.Component {
     nameInput: "",
     ratings: null,
     feedbackText: "",
-    isSavingName: false
+    isSavingName: false,
+    localfileUri: null
   };
 
   componentDidMount() {
@@ -64,13 +65,15 @@ class ShareModal extends React.Component {
     if (product.file_type) {
       newState.isProductImageAvailable = true;
       newState.isProductImageStepDone = true;
+      localfileUri: null;
     }
     this.setState(newState);
   };
 
-  onImageStepDone = isProductImageAvailable => {
+  onImageStepDone = localfileUri => {
+    this.props.fetchProductDetails();
     this.setState({
-      isProductImageAvailable,
+      localfileUri,
       isProductImageStepDone: true
     });
   };
@@ -150,6 +153,7 @@ class ShareModal extends React.Component {
       isModalVisible,
       isProductImageAvailable,
       isProductImageStepDone,
+      localfileUri,
       ratings,
       feedbackText,
       isSavingName
@@ -159,7 +163,9 @@ class ShareModal extends React.Component {
 
     let productImageUrl, productImageResizeMode;
 
-    if (isProductImageAvailable) {
+    if (localfileUri) {
+      productImageUrl = localfileUri;
+    } else if (isProductImageAvailable) {
       productImageUrl = API_BASE_URL + product.cImageURL;
       productImageResizeMode = "cover";
     } else if (brand && brand.status_type == 1 && brand.id > 0) {
@@ -193,9 +199,9 @@ class ShareModal extends React.Component {
     if (!isModalVisible) return null;
 
     return (
-      <View>
+      <View collapsable={false} >
         {isModalVisible && (
-          <View>
+          <View collapsable={false} >
             <Modal
               isVisible={true}
               useNativeDriver={true}
@@ -203,10 +209,10 @@ class ShareModal extends React.Component {
               onBackdropPress={this.hide}
               avoidKeyboard={Platform.OS == "ios"}
             >
-              <View style={styles.modal}>
+              <View collapsable={false}  style={styles.modal}>
                 <LoadingOverlay visible={isSavingName} />
                 {step < 4 && (
-                  <View
+                  <View collapsable={false} 
                     style={{
                       alignItems: "center",
                       marginTop: 40,
@@ -220,18 +226,18 @@ class ShareModal extends React.Component {
                       ]}
                       source={stepImage}
                     />
-                    <View style={styles.stepsContainer}>
-                      <View style={styles.stepLine} />
-                      <View style={styles.steps}>
+                    <View collapsable={false}  style={styles.stepsContainer}>
+                      <View collapsable={false}  style={styles.stepLine} />
+                      <View collapsable={false}  style={styles.steps}>
                         {[1, 2, 3].map((s, index) => (
-                          <View key={index} style={[styles.step]}>
+                          <View collapsable={false}  key={index} style={[styles.step]}>
                             {s >= step && (
                               <Text weight="Bold" style={styles.stepText}>
                                 {s}
                               </Text>
                             )}
                             {s < step && (
-                              <View style={styles.tick}>
+                              <View collapsable={false}  style={styles.tick}>
                                 <Icon
                                   name="md-checkmark"
                                   size={20}
@@ -257,7 +263,7 @@ class ShareModal extends React.Component {
                 )}
 
                 {step == 1 && (
-                  <View style={{ padding: 30 }}>
+                  <View collapsable={false}  style={{ padding: 30 }}>
                     <Button
                       onPress={() => this.uploadProductImage.showOptions()}
                       text={I18n.t("upload_product_image")}
@@ -281,7 +287,7 @@ class ShareModal extends React.Component {
                   </View>
                 )}
                 {step == 2 && (
-                  <View style={{ padding: 20 }}>
+                  <View collapsable={false}  style={{ padding: 20 }}>
                     <CustomTextInput
                       placeholder={I18n.t("profile_screen_label_name")}
                       onChangeText={nameInput => this.setState({ nameInput })}
@@ -295,7 +301,7 @@ class ShareModal extends React.Component {
                   </View>
                 )}
                 {step == 3 && (
-                  <View>
+                  <View collapsable={false} >
                     <ProductReview
                       product={product}
                       onReviewSubmit={review => {
@@ -306,8 +312,8 @@ class ShareModal extends React.Component {
                   </View>
                 )}
                 {step == 4 && (
-                  <View style={styles.shareViewContainer}>
-                    <View
+                  <View collapsable={false}  style={styles.shareViewContainer}>
+                    <View collapsable={false} 
                       collapsable={false}
                       style={styles.shareView}
                       ref={ref => (this.shareView = ref)}
@@ -324,15 +330,15 @@ class ShareModal extends React.Component {
                           source={{ uri: productImageUrl }}
                         />
                       ) : null}
-                      <View style={styles.userImageView}>
-                        {/* <View style={styles.userImageLine} /> */}
+                      <View collapsable={false}  style={styles.userImageView}>
+                        {/* <View collapsable={false}  style={styles.userImageLine} /> */}
                         <Image
                           style={styles.userImage}
                           source={userImageSource}
                           resize="cover"
                         />
                       </View>
-                      <View
+                      <View collapsable={false} 
                         style={{
                           flexDirection: "row",
                           height: "auto",
@@ -367,8 +373,8 @@ class ShareModal extends React.Component {
                         weight="Bold"
                         style={styles.reviewQuotesText}
                       >{`"${I18n.t("review_quotes")}"`}</Text>
-                      <View style={styles.badges}>
-                        <View style={styles.binbillLogoWrapper}>
+                      <View collapsable={false}  style={styles.badges}>
+                        <View collapsable={false}  style={styles.binbillLogoWrapper}>
                           <Image
                             resizeMode="contain"
                             style={styles.binbillLogo}
@@ -398,7 +404,9 @@ class ShareModal extends React.Component {
                 <UploadProductImage
                   ref={ref => (this.uploadProductImage = ref)}
                   productId={product.id}
-                  onImageUpload={() => this.onImageStepDone(true)}
+                  onImageUpload={localfileUri =>
+                    this.onImageStepDone(localfileUri)
+                  }
                 />
                 <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
                   <Icon name="md-close" size={30} color={colors.mainText} />

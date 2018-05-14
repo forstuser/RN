@@ -9,15 +9,14 @@ import {
   Platform
 } from "react-native";
 import Icon from "react-native-vector-icons/EvilIcons";
-import moment from "moment";
+import Vicon from "react-native-vector-icons/Ionicons";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import { connect } from "react-redux";
-
+import moment from "moment";
 import { actions as loggedInUserActions } from "../../../modules/logged-in-user";
 import I18n from "../../../i18n";
 import { API_BASE_URL } from "../../../api";
 import { Text, Button, ScreenContainer } from "../../../elements";
-import KeyValueItem from "../../../components/key-value-item";
 
 import { openBillsPopUp } from "../../../navigation";
 
@@ -31,7 +30,8 @@ const viewBillIcon = require("../../../images/ic_ehome_view_bill.png");
 
 import ReviewModal from "./review-modal";
 import ShareModal from "./share-modal";
-import ImageModal from "./image-model";
+import ImageModal from "./image-modal";
+import PriceEditModal from "./price-edit-modal";
 import ViewBillButton from "../view-bill-button";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 
@@ -77,81 +77,6 @@ class Header extends Component {
       productName = product.categoryName;
     }
 
-    let amountBreakdownOptions = [];
-
-    if (product.categoryId != 664) {
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={I18n.t("product_details_screen_cost_breakdown_product")}
-            valueText={`₹ ${product.value}`}
-          />
-        </View>
-      );
-    }
-
-    product.warrantyDetails.forEach(item => {
-      let date = moment(item.purchaseDate).isValid()
-        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
-        : ``;
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={
-              I18n.t("product_details_screen_cost_breakdown_warranty") + date
-            }
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
-      );
-    });
-
-    product.insuranceDetails.forEach(item => {
-      let date = moment(item.purchaseDate).isValid()
-        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
-        : ``;
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={
-              I18n.t("product_details_screen_cost_breakdown_insurance") + date
-            }
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
-      );
-    });
-
-    product.amcDetails.forEach(item => {
-      let date = moment(item.purchaseDate).isValid()
-        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
-        : ``;
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={I18n.t("product_details_screen_cost_breakdown_amc") + date}
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
-      );
-    });
-
-    product.repairBills.forEach(item => {
-      let date = moment(item.purchaseDate).isValid()
-        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
-        : ``;
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={
-              I18n.t("product_details_screen_cost_breakdown_repairs") + date
-            }
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
-      );
-    });
-
     const warrantyAmount = product.warrantyDetails.reduce(
       (total, item) => total + item.premiumAmount,
       0
@@ -175,15 +100,6 @@ class Header extends Component {
       insuranceAmount +
       amcAmount +
       repairAmount;
-
-    amountBreakdownOptions.push(
-      <View style={{ width: "100%" }}>
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_cost_breakdown_total")}
-          valueText={`₹ ${totalAmount}`}
-        />
-      </View>
-    );
 
     let imageSource = { uri: API_BASE_URL + product.cImageURL };
     if (
@@ -223,18 +139,13 @@ class Header extends Component {
 
         <View style={styles.lowerHalf}>
           <View style={styles.lowerHalfInner}>
-            <View style={{ flexDirection: "row" }}>
-              <View style={styles.texts}>
+            <View style={{ flexDirection: "column" }}>
+              <View style={{ flex: 1, flexDirection: "row" }}>
                 <Text weight="Bold" style={styles.name}>
                   {productName}
                 </Text>
-                <Text weight="Bold" style={styles.brandAndModel}>
-                  {product.brand ? product.brand.name : ""}
-                  {product.brand && product.model ? "/" : ""}
-                  {product.model ? product.model : null}
-                </Text>
                 <TouchableOpacity
-                  onPress={() => this.priceBreakdown.show()}
+                  onPress={() => this.priceEditModal.show()}
                   style={styles.totalContainer}
                 >
                   <View>
@@ -244,14 +155,24 @@ class Header extends Component {
                   </View>
                   <Image style={styles.dropdownIcon} source={dropdownIcon} />
                 </TouchableOpacity>
-                <ActionSheet
-                  ref={o => (this.priceBreakdown = o)}
-                  cancelButtonIndex={amountBreakdownOptions.length}
-                  options={[
-                    ...amountBreakdownOptions,
-                    I18n.t("product_details_screen_cost_breakdown_close")
-                  ]}
-                />
+              </View>
+              <View style={styles.texts}>
+                {product.warrantyDetails.length > 0 && (
+                  <Text weight="Medium" style={styles.brandAndModel}>
+                    Warranty till{" "}
+                    {moment(product.warrantyDetails[0].expiryDate).format(
+                      "DD MMM YYYY"
+                    )}
+                  </Text>
+                )}
+                {product.insuranceDetails.length > 0 && (
+                  <Text weight="Bold" style={styles.brandAndModel}>
+                    Insurance till{" "}
+                    {moment(product.insuranceDetails[0].expiryDate).format(
+                      "DD MMM YYYY"
+                    )}
+                  </Text>
+                )}
               </View>
             </View>
             {/* 3 buttons (view bill,share and rating) start */}
@@ -379,6 +300,7 @@ class Header extends Component {
             <ShareModal
               ref={ref => (this.shareModal = ref)}
               product={product}
+              fetchProductDetails={this.props.fetchProductDetails}
               loggedInUser={loggedInUser}
               setLoggedInUserName={setLoggedInUserName}
               review={review}
@@ -394,6 +316,12 @@ class Header extends Component {
             <ImageModal
               ref={ref => (this.imageModal = ref)}
               product={product}
+            />
+            <PriceEditModal
+              ref={ref => (this.priceEditModal = ref)}
+              product={product}
+              fetchProductDetails={this.props.fetchProductDetails}
+              totalAmount={totalAmount}
             />
           </View>
         </View>
@@ -431,14 +359,19 @@ const styles = StyleSheet.create({
   },
   lowerHalfInner: {
     backgroundColor: "#fff",
-    padding: 10,
+    padding: 5,
     paddingBottom: 0,
+    paddingTop: 0,
     borderRadius: 3,
     width: "100%",
     ...defaultStyles.card
   },
   texts: {
     flex: 1
+    // flexDirection: 'row',
+    // justifyContent: "flex-end",
+    // alignItems: 'flex-end',
+    // selfrrAlign: 'flex-end'
   },
   btns: {
     // width: 300,
@@ -476,21 +409,26 @@ const styles = StyleSheet.create({
     color: "#9b9b9b"
   },
   name: {
-    fontSize: 18,
-    marginRight: 85
+    fontSize: 18
+    // marginRight: 85
   },
   brandAndModel: {
     fontSize: 12,
-    color: colors.secondaryText,
-    marginTop: 8
+    color: colors.secondaryText
+    // marginTop: 0
   },
   totalContainer: {
-    marginTop: 8,
+    marginTop: 0,
+    flex: 1,
+    textAlign: "right",
     flexDirection: "row",
+    justifyContent: "flex-end",
     alignItems: "center"
+    // alignSelf: 'flex-end'
   },
   totalAmount: {
-    fontSize: 18
+    fontSize: 14,
+    color: colors.secondaryText
   },
   dropdownIcon: {
     width: 24,

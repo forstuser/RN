@@ -21,7 +21,7 @@ const ScreenContainer = ({
   bottomTabs = false,
   navBar = true
 }) => (
-  <View
+  <View collapsable={false} 
     style={[
       styles.containerStyle,
       bottomTabs && !navBar ? styles.withBottomTabs : {},

@@ -58,17 +58,17 @@ export default class TagsModal extends React.Component {
     if (!isModalVisible) return null;
 
     return (
-      <View>
+      <View collapsable={false} >
         {isModalVisible && (
-          <View>
+          <View collapsable={false} >
             <Modal
               visible={true}
               animationType="slide"
               onRequestClose={() => {}}
             >
-              <View style={styles.container}>
-                <View style={styles.header}>
-                  <View style={styles.searchContainer}>
+              <View collapsable={false}  style={styles.container}>
+                <View collapsable={false}  style={styles.header}>
+                  <View collapsable={false}  style={styles.searchContainer}>
                     <Icon
                       name="md-search"
                       size={24}
@@ -89,8 +89,8 @@ export default class TagsModal extends React.Component {
                     <Icon name="md-close" size={24} color={colors.mainText} />
                   </TouchableOpacity>
                 </View>
-                <View style={styles.body}>
-                  <View style={styles.tags}>
+                <View collapsable={false}  style={styles.body}>
+                  <View collapsable={false}  style={styles.tags}>
                     {tags.map((tag, index) => {
                       if (
                         tag.title

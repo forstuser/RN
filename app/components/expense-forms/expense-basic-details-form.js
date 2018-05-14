@@ -152,18 +152,18 @@ class BasicDetailsForm extends React.Component {
       copies
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View collapsable={false}  style={styles.container}>
         <Text weight="Medium" style={styles.headerText}>
           {I18n.t("expense_forms_expense_basic_detail")}
         </Text>
-        <View style={styles.body}>
+        <View collapsable={false}  style={styles.body}>
           {subCategories.length > 0 ? (
             <SelectModal
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_expense_basic_expense")}
               placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
+                <View collapsable={false}  style={{ flexDirection: "row" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
@@ -177,7 +177,7 @@ class BasicDetailsForm extends React.Component {
               hideAddNew={true}
             />
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
 
           {showFullForm ? (
@@ -188,7 +188,7 @@ class BasicDetailsForm extends React.Component {
               hint={I18n.t("expense_forms_expense_basic_expense_recommend")}
             />
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
 
           <CustomDatePicker
@@ -222,11 +222,11 @@ class BasicDetailsForm extends React.Component {
               }}
             />
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
 
           {showFullForm ? (
-            <View>
+            <View collapsable={false} >
               <CustomTextInput
                 placeholder={I18n.t(
                   "expense_forms_expense_basic_expense_seller_name"
@@ -243,7 +243,7 @@ class BasicDetailsForm extends React.Component {
               />
             </View>
           ) : (
-            <View />
+            <View collapsable={false}  />
           )}
         </View>
         <UploadDoc

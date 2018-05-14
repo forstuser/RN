@@ -53,7 +53,7 @@ class AmcForm extends React.Component {
       effectiveDate: null,
       sellerName: "",
       sellerContact: "",
-      value: null,
+      value: "",
       copies: []
     };
   }
@@ -126,8 +126,8 @@ class AmcForm extends React.Component {
         headerTextStyle={styles.headerTextStyle}
         icon="plus"
       >
-        <View style={styles.innerContainer}>
-          <View style={styles.body}>
+        <View collapsable={false}  style={styles.innerContainer}>
+          <View collapsable={false}  style={styles.body}>
             <CustomDatePicker
               date={effectiveDate}
               placeholder={I18n.t("expense_forms_amc_form_amc_effective_date")}
