@@ -40,7 +40,7 @@ export default {
   app_intro_5_title: `EazyDay Planner helps you decide your Meals, Wardrobe as well as Tasks for the Day`,
   app_intro_next: "NEXT",
   app_intro_skip: "SKIP",
-  app_intro_start: "START",
+  app_intro_start: "Let's Get Started ",
 
   //login screen
   login_screen_title: "Get Started",
