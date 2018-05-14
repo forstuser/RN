@@ -54,29 +54,37 @@ class WhatToListEmptyState extends React.Component {
     const { type } = this.props;
 
     let text =
-      "You don't have any items in your meals list, please create your list first";
+      "You are here because you want us to help you decide What to Cook today, tomorrow or even the entire week";
     let image = cooking;
 
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_DO:
         text =
-          "Plan your day by selecting or adding tasks to be completed for the day";
+          "You are here because you want us to help you decide What to Do today, tomorrow or even the entire week.";
         image = todo;
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
         text =
-          "You are here because you want us to help you decide everyday What to Wear. Let’s Get Started ";
+          "You are here because you want us to help you decide What to Wear today, tomorrow or even the entire week";
         image = whatToWear;
         break;
     }
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <Image style={styles.blankPageImage} source={image} />
         <Text weight="Regular" style={styles.blankPageText}>
           {text}
         </Text>
         {type == EASY_LIFE_TYPES.WHAT_TO_DO ? (
-          <View collapsable={false}  style={styles.faqView}>
+          <View collapsable={false} style={styles.faqView}>
+            <Text style={styles.faqText} weight="Regular">
+              Get an overview of your entire task list and history of what you
+              did and when.
+            </Text>
+            <Text style={styles.faqText} weight="Regular">
+              Create your To-Do list by selecting or adding important tasks to
+              be completed for the Day.
+            </Text>
             <Text style={styles.faqText} weight="Regular">
               To know more, How it Works
             </Text>
@@ -93,11 +101,11 @@ class WhatToListEmptyState extends React.Component {
             </TouchableOpacity>
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
         <Button
           onPress={this.onPressCreateList}
-          text="Create List"
+          text="Let’s Get Started"
           style={styles.createListBtn}
         />
       </View>

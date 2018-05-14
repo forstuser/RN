@@ -71,7 +71,7 @@ class WhatToListScreen extends Component {
     const { type } = this.props;
     let title = "What's Cooking?";
     let text =
-      "Create your Digital Kitchen by adding your menu list from the representative list of your state or on your own.";
+      "Get an overview of your kitchen’s menu and history of which dish was cooked and when.";
     let image = cooking;
     let systemListTitle = "List of Meals";
     let btnText = "Add New Dish";
@@ -79,7 +79,7 @@ class WhatToListScreen extends Component {
       case EASY_LIFE_TYPES.WHAT_TO_DO:
         title = "What to Do?";
         text =
-          "Plan your day by selecting or adding tasks to be completed for the day";
+          "You are here because you want us to help you decide What to Do today, tomorrow or even the entire week.";
         image = todo;
         btnText = `Add a New ‘To-Do’ Task`;
         systemListTitle = "List of Tasks";
@@ -87,7 +87,7 @@ class WhatToListScreen extends Component {
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
         title = "What to Wear?";
         text =
-          "Create your Digital Wardrobe by adding images of your clothes. This gives you an overview of your entire wardrobe and also shows what you had worn and when.";
+          "Get an overview of your entire wardrobe and history of what you had worn and when.Create your Digital Wardrobe by adding images of your clothes & accessories.";
         image = whatToWear;
         btnText = "Add New Item";
         systemListTitle = "";
@@ -399,10 +399,10 @@ class WhatToListScreen extends Component {
     } = this.state;
 
     return (
-      <View collapsable={false}  style={{ flex: 1 }}>
+      <View collapsable={false} style={{ flex: 1 }}>
         <ScreenContainer>
           {type == EASY_LIFE_TYPES.WHAT_TO_COOK && (
-            <View collapsable={false}  style={{ padding: 5 }}>
+            <View collapsable={false} style={{ padding: 5 }}>
               <SelectModal
                 ref={ref => (this.selectStateModal = ref)}
                 placeholder={"Select State"}
@@ -421,7 +421,8 @@ class WhatToListScreen extends Component {
               />
               {selectedState &&
                 selectedState.id > 0 && (
-                  <View collapsable={false} 
+                  <View
+                    collapsable={false}
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-between"
@@ -431,7 +432,7 @@ class WhatToListScreen extends Component {
                       style={styles.checkboxWrapper}
                       onPress={this.checkAllBox}
                     >
-                      <View collapsable={false}  style={styles.box}>
+                      <View collapsable={false} style={styles.box}>
                         {checkAll ? (
                           <Icon
                             name="md-checkmark"
@@ -439,7 +440,7 @@ class WhatToListScreen extends Component {
                             size={15}
                           />
                         ) : (
-                          <View collapsable={false}  />
+                          <View collapsable={false} />
                         )}
                       </View>
                       <Text style={{ color: colors.mainText }}>
@@ -447,7 +448,7 @@ class WhatToListScreen extends Component {
                         Select All{" "}
                       </Text>
                     </TouchableOpacity>
-                    <View collapsable={false}  style={{ flexDirection: "row" }}>
+                    <View collapsable={false} style={{ flexDirection: "row" }}>
                       <Text style={{ color: colors.mainText }}>Veg Only </Text>
                       <Switch
                         onValueChange={this.toggleVegOrNonveg}
@@ -459,22 +460,31 @@ class WhatToListScreen extends Component {
             </View>
           )}
           {items.length == 0 && (
-            <View collapsable={false}  style={styles.container}>
+            <View collapsable={false} style={styles.container}>
               <Image style={styles.blankPageImage} source={image} />
-              <View collapsable={false}  style={styles.blankPageView}>
+              <View collapsable={false} style={styles.blankPageView}>
                 <Text weight="Regular" style={styles.blankPageText}>
                   {text}
                 </Text>
               </View>
               {type == EASY_LIFE_TYPES.WHAT_TO_COOK ? (
                 <Text style={styles.faqText} weight="Regular">
-                  This gives you an overview of your entire kitchen menu and
-                  also shows what you had cooked and when.
+                  Create your Digital Kitchen by selecting from our list of
+                  popular dishes for your state or by adding your own favourite
+                  dishes.
                 </Text>
               ) : (
-                <View collapsable={false}  />
+                <View collapsable={false} />
               )}
-              <View collapsable={false}  style={styles.faqView}>
+              {type == EASY_LIFE_TYPES.WHAT_TO_COOK ? (
+                <Text style={styles.faqText} weight="Regular">
+                  And don’t you panic, each state also includes PAN India
+                  popular dishes!
+                </Text>
+              ) : (
+                <View collapsable={false} />
+              )}
+              <View collapsable={false} style={styles.faqView}>
                 <Text style={styles.faqText} weight="Regular">
                   To know more, How it Works
                 </Text>
@@ -516,7 +526,7 @@ class WhatToListScreen extends Component {
                     item.image_code;
                 }
                 return (
-                  <View collapsable={false}  key={index}>
+                  <View collapsable={false} key={index}>
                     {item.status_type == 11 ? (
                       <EasyLifeItem
                         showCheckbox={true}
@@ -528,7 +538,7 @@ class WhatToListScreen extends Component {
                         onRemoveBtnPress={() => this.removeItem(item)}
                       />
                     ) : (
-                      <View collapsable={false}  />
+                      <View collapsable={false} />
                     )}
                   </View>
                 );
@@ -554,7 +564,7 @@ class WhatToListScreen extends Component {
                     }
                   }
                   return (
-                    <View collapsable={false}  key={index}>
+                    <View collapsable={false} key={index}>
                       {item.status_type == 1 ? (
                         <EasyLifeItem
                           showCheckbox={type != EASY_LIFE_TYPES.WHAT_TO_WEAR}
@@ -566,14 +576,14 @@ class WhatToListScreen extends Component {
                           onRemoveBtnPress={() => this.removeItem(item)}
                         />
                       ) : (
-                        <View collapsable={false}  />
+                        <View collapsable={false} />
                       )}
                     </View>
                   );
                 })}
             </ScrollView>
           )}
-          <View collapsable={false}  style={styles.addNewBtn}>
+          <View collapsable={false} style={styles.addNewBtn}>
             <AddNewBtn text={btnText} onPress={this.onAddNewPress} />
           </View>
           <ClothesImageUploader
@@ -592,7 +602,7 @@ class WhatToListScreen extends Component {
 
         {items.length > 0 &&
           type != EASY_LIFE_TYPES.WHAT_TO_WEAR && (
-            <View collapsable={false} >
+            <View collapsable={false}>
               <Button
                 onPress={this.addItemsToMyList}
                 text={"SAVE MY LIST"}
