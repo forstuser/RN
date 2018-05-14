@@ -71,7 +71,7 @@ class MyCalendarScreen extends Component {
   };
 
   openAddEditCalendarServiceScreen = () => {
-    Analytics.logEvent(Analytics.EVENTS.ADD_ATTENDANCE_ITEM);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_SERVICE);
     this.props.navigator.push({
       screen: SCREENS.ADD_CALENDAR_SERVICE_SCREEN
     });
@@ -96,8 +96,8 @@ class MyCalendarScreen extends Component {
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#f7f7f7" }}>
         {(items.length > 0 || isFetchingItems) && (
-          <View collapsable={false}  style={{ flex: 1 }}>
-            <View collapsable={false}  style={{ flex: 1 }}>
+          <View collapsable={false} style={{ flex: 1 }}>
+            <View collapsable={false} style={{ flex: 1 }}>
               <FlatList
                 contentContainerStyle={{ padding: 5 }}
                 data={items}
@@ -118,7 +118,7 @@ class MyCalendarScreen extends Component {
         )}
         {items.length == 0 &&
           !isFetchingItems && (
-            <View collapsable={false}  style={styles.emptyStateView}>
+            <View collapsable={false} style={styles.emptyStateView}>
               <Image
                 source={calendarIconColor}
                 style={styles.emptyStateImage}

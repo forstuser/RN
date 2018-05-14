@@ -175,7 +175,6 @@ class CalculationDetailModal extends React.Component {
       quantityToSend = 0;
     }
 
-    Analytics.logEvent(Analytics.EVENTS.CLICK_CHANGE_CALENDAR);
 
     try {
       await addCalendarItemCalculationDetail({
@@ -266,7 +265,7 @@ class CalculationDetailModal extends React.Component {
               onBackdropPress={this.hide}
               onBackButtonPress={this.hide}
             >
-              <View collapsable={false}  style={[styles.card, styles.modalCard]}>
+              <View collapsable={false} style={[styles.card, styles.modalCard]}>
                 <LoadingOverlay visible={isSavingDetails} />
                 <TouchableOpacity
                   style={styles.modalCloseIcon}
@@ -281,56 +280,56 @@ class CalculationDetailModal extends React.Component {
                     onChangeText={unitPrice => this.setState({ unitPrice })}
                   />
                 ) : (
-                  <View collapsable={false}  style={{ width: "100%" }}>
-                    <View collapsable={false}  style={{ flexDirection: "row" }}>
-                      <SelectModal
-                        visibleKey="symbol"
-                        style={styles.selectUnitType}
-                        dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-                        placeholder="Choose Unit Type"
-                        placeholderRenderer={({ placeholder }) => (
-                          <Text
-                            weight="Medium"
-                            style={{ color: colors.secondaryText }}
-                          >
-                            {placeholder}
-                          </Text>
-                        )}
-                        selectedOption={selectedUnitType}
-                        options={unitTypes}
-                        onOptionSelect={value => {
-                          this.onUnitTypeSelect(value);
-                        }}
-                        hideAddNew={true}
-                        hideSearch={true}
-                      />
+                    <View collapsable={false} style={{ width: "100%" }}>
+                      <View collapsable={false} style={{ flexDirection: "row" }}>
+                        <SelectModal
+                          visibleKey="symbol"
+                          style={styles.selectUnitType}
+                          dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                          placeholder="Choose Unit Type"
+                          placeholderRenderer={({ placeholder }) => (
+                            <Text
+                              weight="Medium"
+                              style={{ color: colors.secondaryText }}
+                            >
+                              {placeholder}
+                            </Text>
+                          )}
+                          selectedOption={selectedUnitType}
+                          options={unitTypes}
+                          onOptionSelect={value => {
+                            this.onUnitTypeSelect(value);
+                          }}
+                          hideAddNew={true}
+                          hideSearch={true}
+                        />
+                        <CustomTextInput
+                          keyboardType="numeric"
+                          style={{ flex: 1 }}
+                          placeholder={I18n.t("calendar_service_screen_quantity")}
+                          value={quantity !== null ? String(quantity) : ""}
+                          onChangeText={quantity => this.setState({ quantity })}
+                          rightSideText={
+                            selectedUnitType ? selectedUnitType.name : ""
+                          }
+                          rightSideTextWidth={70}
+                        />
+                      </View>
                       <CustomTextInput
                         keyboardType="numeric"
-                        style={{ flex: 1 }}
-                        placeholder={I18n.t("calendar_service_screen_quantity")}
-                        value={quantity !== null ? String(quantity) : ""}
-                        onChangeText={quantity => this.setState({ quantity })}
+                        placeholder={I18n.t("calendar_service_screen_unit_price")}
+                        value={String(unitPrice)}
+                        onChangeText={unitPrice => this.setState({ unitPrice })}
                         rightSideText={
-                          selectedUnitType ? selectedUnitType.name : ""
+                          "Per " +
+                          (actualSelectedUnitType
+                            ? actualSelectedUnitType.name
+                            : "")
                         }
-                        rightSideTextWidth={70}
+                        rightSideTextWidth={100}
                       />
                     </View>
-                    <CustomTextInput
-                      keyboardType="numeric"
-                      placeholder={I18n.t("calendar_service_screen_unit_price")}
-                      value={String(unitPrice)}
-                      onChangeText={unitPrice => this.setState({ unitPrice })}
-                      rightSideText={
-                        "Per " +
-                        (actualSelectedUnitType
-                          ? actualSelectedUnitType.name
-                          : "")
-                      }
-                      rightSideTextWidth={100}
-                    />
-                  </View>
-                )}
+                  )}
                 <CustomDatePicker
                   date={startingDate}
                   placeholder={I18n.t(

@@ -9,7 +9,6 @@ import { SCREENS, MAIN_CATEGORY_IDS } from "../../constants";
 import Analytics from "../../analytics";
 class Item extends React.Component {
   onPress = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ATTENDANCE_ITEMS);
     const { item } = this.props;
     this.props.navigator.push({
       screen: SCREENS.CALENDAR_SERVICE_CARD_SCREEN,
@@ -46,22 +45,22 @@ class Item extends React.Component {
           source={{ uri: imageUrl }}
           resizeMode="contain"
         />
-        <View collapsable={false}  style={styles.texts}>
-          <View collapsable={false}  style={styles.nameAndSeller}>
-            <View collapsable={false}  style={{ flexDirection: "row" }}>
+        <View collapsable={false} style={styles.texts}>
+          <View collapsable={false} style={styles.nameAndSeller}>
+            <View collapsable={false} style={{ flexDirection: "row" }}>
               <Text weight="Bold" style={styles.name}>
                 {product_name}
               </Text>
               {outstanding_amount > 0 ? (
                 <Text style={styles.positiveValue}>₹ {outstanding_amount}</Text>
               ) : (
-                <Text style={styles.negativeValue}>₹ {outstanding_amount}</Text>
-              )}
+                  <Text style={styles.negativeValue}>₹ {outstanding_amount}</Text>
+                )}
               {/* <Text weight="Bold" style={styles.value}>
                 ₹ {outstanding_amount}
               </Text> */}
             </View>
-            <View collapsable={false}  style={{ flexDirection: "row" }}>
+            <View collapsable={false} style={{ flexDirection: "row" }}>
               <Text style={styles.offlineSellerName}>{provider_name}</Text>
               <Text style={styles.onlineSellerName}>
                 {I18n.t("my_calendar_screen_till_date", {
@@ -72,7 +71,7 @@ class Item extends React.Component {
               </Text>
             </View>
           </View>
-          <View collapsable={false}  style={styles.otherDetailContainer}>
+          <View collapsable={false} style={styles.otherDetailContainer}>
             <Text style={styles.detailName}>
               {I18n.t("my_calendar_screen_days_present")}:{" "}
             </Text>
@@ -80,7 +79,7 @@ class Item extends React.Component {
               {I18n.t("my_calendar_screen_days", { count: present_days })}
             </Text>
           </View>
-          <View collapsable={false}  style={styles.otherDetailContainer}>
+          <View collapsable={false} style={styles.otherDetailContainer}>
             <Text style={styles.detailName}>
               {I18n.t("my_calendar_screen_days_absent")}:{" "}
             </Text>

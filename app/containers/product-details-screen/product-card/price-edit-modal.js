@@ -4,7 +4,6 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 import moment from "moment";
 import { Text } from "../../../elements";
-import KeyValueItem from "../../../components/key-value-item";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import { colors } from "../../../theme";
 import PriceEditInput from "./price-edit-input";

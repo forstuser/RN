@@ -47,45 +47,30 @@ class AddProductScreen extends React.Component {
   onPressItem = type => {
     switch (type) {
       case EXPENSE_TYPES.AUTOMOBILE:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_AUTOMOBILE);
         break;
       case EXPENSE_TYPES.ELECTRONICS:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ELECTRONIC_AND_ELECTRICAL);
         break;
       case EXPENSE_TYPES.FURNITURE:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_FURNITURE_AND_HARDWARE);
         break;
       case EXPENSE_TYPES.MEDICAL_DOCS:
-        Analytics.logEvent(
-          Analytics.EVENTS.CLICK_ON_INSURANCE_AND_MEDICAL_DOCS
-        );
         break;
       case EXPENSE_TYPES.PERSONAL:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_PERSONAL_DOCS);
         break;
       case EXPENSE_TYPES.VISITING_CARD:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_VISITING_CARD);
         break;
       case EXPENSE_TYPES.TRAVEL:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_TRAVEL_AND_DINING);
         break;
       case EXPENSE_TYPES.HEALTHCARE:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_HEALTHCARE);
         break;
       case EXPENSE_TYPES.FASHION:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_FASHION);
         break;
       case EXPENSE_TYPES.SERVICES:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SERVICES);
         break;
       case EXPENSE_TYPES.HOME:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_HOME_EXPENSES);
         break;
       case EXPENSE_TYPES.REPAIR:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_REPAIR);
         break;
       default:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PRODUCT_OPTION);
     }
     this.props.navigator.push({
       screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
@@ -192,22 +177,22 @@ class AddProductScreen extends React.Component {
     );
 
     return (
-      <View collapsable={false}  style={styles.container}>
-        <View collapsable={false}  style={[styles.option, styles.option1]}>
-          <View collapsable={false}  style={[styles.optionInner]}>
+      <View collapsable={false} style={styles.container}>
+        <View collapsable={false} style={[styles.option, styles.option1]}>
+          <View collapsable={false} style={[styles.optionInner]}>
             <Text
               weight="Bold"
               style={[styles.optionTitle, { color: colors.mainBlue }]}
             >
               {I18n.t("add_edit_product_option_product")}
             </Text>
-            <View collapsable={false}  style={styles.grid}>
-              <View collapsable={false}  style={styles.itemsRow}>
+            <View collapsable={false} style={styles.grid}>
+              <View collapsable={false} style={styles.itemsRow}>
                 {productOptions
                   .slice(0, 3)
                   .map((item, index) => <Item key={index} item={item} />)}
               </View>
-              <View collapsable={false}  style={styles.itemsRow}>
+              <View collapsable={false} style={styles.itemsRow}>
                 {productOptions
                   .slice(3, 6)
                   .map((item, index) => <Item key={index} item={item} />)}
@@ -216,21 +201,21 @@ class AddProductScreen extends React.Component {
           </View>
         </View>
 
-        <View collapsable={false}  style={[styles.option, styles.option2]}>
-          <View collapsable={false}  style={[styles.optionInner]}>
+        <View collapsable={false} style={[styles.option, styles.option2]}>
+          <View collapsable={false} style={[styles.optionInner]}>
             <Text
               weight="Bold"
               style={[styles.optionTitle, { color: colors.pinkishOrange }]}
             >
               {I18n.t("add_edit_product_option_expense")}
             </Text>
-            <View collapsable={false}  style={styles.grid}>
-              <View collapsable={false}  style={styles.itemsRow}>
+            <View collapsable={false} style={styles.grid}>
+              <View collapsable={false} style={styles.itemsRow}>
                 {expenseOptions
                   .slice(0, 3)
                   .map((item, index) => <Item key={index} item={item} />)}
               </View>
-              <View collapsable={false}  style={styles.itemsRow}>
+              <View collapsable={false} style={styles.itemsRow}>
                 {expenseOptions
                   .slice(3, 6)
                   .map((item, index) => <Item key={index} item={item} />)}
@@ -248,7 +233,7 @@ class AddProductScreen extends React.Component {
             />
           )}
         </View>
-        <View collapsable={false}  style={styles.orContainer}>
+        <View collapsable={false} style={styles.orContainer}>
           <Text style={styles.or} weight="Bold">
             {I18n.t("add_edit_product_option_or")}
           </Text>

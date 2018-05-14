@@ -30,7 +30,7 @@ class EasyLifeScreen extends Component {
   };
 
   attendanceItemPress = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_WHO_IS_ABSENT);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_WHO_IS_ABSENT_TODAY);
     this.props.navigator.push({
       screen: SCREENS.MY_CALENDAR_SCREEN
     });

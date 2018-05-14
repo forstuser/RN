@@ -222,7 +222,6 @@ class AddEditCalendarServiceScreen extends Component {
     ) {
       quantityToSend = 0;
     }
-    Analytics.logEvent(Analytics.EVENTS.ADD_ADD_ATTENDANCE_ITEM);
     try {
       const res = await createCalendarItem({
         serviceTypeId: selectedServiceType.id,
@@ -307,10 +306,10 @@ class AddEditCalendarServiceScreen extends Component {
               onServiceTypeSelect={this.onServiceTypeSelect}
             />
           ) : (
-            <View collapsable={false}  />
-          )}
+              <View collapsable={false} />
+            )}
           {selectedServiceType ? (
-            <View collapsable={false}  style={styles.form}>
+            <View collapsable={false} style={styles.form}>
               <CustomTextInput
                 placeholder={I18n.t(
                   "add_edit_calendar_service_screen_form_name"
@@ -329,99 +328,99 @@ class AddEditCalendarServiceScreen extends Component {
                   onChangeText={providerName => this.setState({ providerName })}
                 />
               ) : (
-                <View collapsable={false}  />
-              )}
+                  <View collapsable={false} />
+                )}
               {selectedServiceType.wages_type !=
                 CALENDAR_WAGES_TYPE.PRODUCT && (
-                <View collapsable={false} >
                   <View collapsable={false} >
-                    <Text weight="Medium" style={styles.label}>
-                      {unitPriceText}
-                    </Text>
-                    <View collapsable={false}  style={{ flexDirection: "row", marginBottom: 10 }}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.setState({
-                            wagesType: WAGES_CYCLE.MONTHLY
-                          });
-                        }}
-                        style={styles.radioBtn}
-                      >
-                        <Icon
-                          name={
-                            wagesType == WAGES_CYCLE.MONTHLY
-                              ? "md-radio-button-on"
-                              : "md-radio-button-off"
-                          }
-                          color={
-                            wagesType == WAGES_CYCLE.MONTHLY
-                              ? colors.pinkishOrange
-                              : colors.secondaryText
-                          }
-                          size={20}
-                        />
-                        <Text
-                          style={[
-                            styles.radioBtnLabel,
-                            {
-                              color:
-                                wagesType == WAGES_CYCLE.MONTHLY
-                                  ? colors.pinkishOrange
-                                  : colors.secondaryText
-                            }
-                          ]}
+                    <View collapsable={false} >
+                      <Text weight="Medium" style={styles.label}>
+                        {unitPriceText}
+                      </Text>
+                      <View collapsable={false} style={{ flexDirection: "row", marginBottom: 10 }}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            this.setState({
+                              wagesType: WAGES_CYCLE.MONTHLY
+                            });
+                          }}
+                          style={styles.radioBtn}
                         >
-                          Monthly
-                        </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.setState({
-                            wagesType: WAGES_CYCLE.DAILY
-                          });
-                        }}
-                        style={styles.radioBtn}
-                      >
-                        <Icon
-                          name={
-                            wagesType == WAGES_CYCLE.DAILY
-                              ? "md-radio-button-on"
-                              : "md-radio-button-off"
-                          }
-                          color={
-                            wagesType == WAGES_CYCLE.DAILY
-                              ? colors.pinkishOrange
-                              : colors.secondaryText
-                          }
-                          size={20}
-                        />
-                        <Text
-                          style={[
-                            styles.radioBtnLabel,
-                            {
-                              color:
-                                wagesType == WAGES_CYCLE.DAILY
-                                  ? colors.pinkishOrange
-                                  : colors.secondaryText
+                          <Icon
+                            name={
+                              wagesType == WAGES_CYCLE.MONTHLY
+                                ? "md-radio-button-on"
+                                : "md-radio-button-off"
                             }
-                          ]}
-                        >
-                          Daily
+                            color={
+                              wagesType == WAGES_CYCLE.MONTHLY
+                                ? colors.pinkishOrange
+                                : colors.secondaryText
+                            }
+                            size={20}
+                          />
+                          <Text
+                            style={[
+                              styles.radioBtnLabel,
+                              {
+                                color:
+                                  wagesType == WAGES_CYCLE.MONTHLY
+                                    ? colors.pinkishOrange
+                                    : colors.secondaryText
+                              }
+                            ]}
+                          >
+                            Monthly
                         </Text>
-                      </TouchableOpacity>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => {
+                            this.setState({
+                              wagesType: WAGES_CYCLE.DAILY
+                            });
+                          }}
+                          style={styles.radioBtn}
+                        >
+                          <Icon
+                            name={
+                              wagesType == WAGES_CYCLE.DAILY
+                                ? "md-radio-button-on"
+                                : "md-radio-button-off"
+                            }
+                            color={
+                              wagesType == WAGES_CYCLE.DAILY
+                                ? colors.pinkishOrange
+                                : colors.secondaryText
+                            }
+                            size={20}
+                          />
+                          <Text
+                            style={[
+                              styles.radioBtnLabel,
+                              {
+                                color:
+                                  wagesType == WAGES_CYCLE.DAILY
+                                    ? colors.pinkishOrange
+                                    : colors.secondaryText
+                              }
+                            ]}
+                          >
+                            Daily
+                        </Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
+                    <CustomTextInput
+                      placeholder={unitPricePlaceholder + " (₹)"}
+                      keyboardType="numeric"
+                      value={unitPrice}
+                      onChangeText={unitPrice => this.setState({ unitPrice })}
+                    />
                   </View>
-                  <CustomTextInput
-                    placeholder={unitPricePlaceholder + " (₹)"}
-                    keyboardType="numeric"
-                    value={unitPrice}
-                    onChangeText={unitPrice => this.setState({ unitPrice })}
-                  />
-                </View>
-              )}
+                )}
               {selectedServiceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT ? (
                 <View collapsable={false} >
-                  <View collapsable={false}  style={{ flexDirection: "row" }}>
+                  <View collapsable={false} style={{ flexDirection: "row" }}>
                     <SelectModal
                       style={styles.selectUnitType}
                       visibleKey="symbol"
@@ -463,8 +462,8 @@ class AddEditCalendarServiceScreen extends Component {
                   />
                 </View>
               ) : (
-                <View collapsable={false}  />
-              )}
+                  <View collapsable={false} />
+                )}
               <CustomDatePicker
                 date={startingDate}
                 placeholder={I18n.t(
@@ -483,8 +482,8 @@ class AddEditCalendarServiceScreen extends Component {
               />
             </View>
           ) : (
-            <View collapsable={false}  />
-          )}
+              <View collapsable={false} />
+            )}
         </KeyboardAwareScrollView>
         {selectedServiceType ? (
           <Button
@@ -495,26 +494,26 @@ class AddEditCalendarServiceScreen extends Component {
             style={styles.addItemBtn}
           />
         ) : (
-          <View collapsable={false}  style={styles.selectServiceMsgContainer}>
-            <Text weight="Medium" style={styles.selectServiceMsg}>
-              Please Select a Type Above
+            <View collapsable={false} style={styles.selectServiceMsgContainer}>
+              <Text weight="Medium" style={styles.selectServiceMsg}>
+                Please Select a Type Above
             </Text>
-            <View collapsable={false}  style={styles.reason}>
-              <Text style={styles.reasons} weight="Medium">
-                • Mark present and absent days
+              <View collapsable={false} style={styles.reason}>
+                <Text style={styles.reasons} weight="Medium">
+                  • Mark present and absent days
               </Text>
-              <Text style={styles.reasons} weight="Medium">
-                • Know your monthly payouts
+                <Text style={styles.reasons} weight="Medium">
+                  • Know your monthly payouts
               </Text>
-              <Text style={styles.reasons} weight="Medium">
-                • your total outstanding payments
+                <Text style={styles.reasons} weight="Medium">
+                  • your total outstanding payments
               </Text>
-              <Text style={styles.reasons} weight="Medium">
-                • Track your daily household expenses
+                <Text style={styles.reasons} weight="Medium">
+                  • Track your daily household expenses
               </Text>
+              </View>
             </View>
-          </View>
-        )}
+          )}
         <LoadingOverlay visible={isFetchingServiceTypes} />
       </ScreenContainer>
     );

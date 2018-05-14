@@ -311,13 +311,6 @@ export const getTips = async () => {
   });
 };
 
-export const getFaqs = async () => {
-  return await apiRequest({
-    method: "get",
-    url: "/faqs"
-  });
-};
-
 export const consumerGetDashboard = async () => {
   return await apiRequest({
     method: "get",

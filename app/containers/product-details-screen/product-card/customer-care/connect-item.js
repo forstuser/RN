@@ -29,7 +29,7 @@ import { getMetaValueByKey } from "../../../../utils";
 
 class Card extends React.Component {
   handleEmailPress = email => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_EMAIL);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_EMAIL, { type: this.props.type });
     const { product, loggedInUser, type } = this.props;
     const userName = loggedInUser.name || "";
 
@@ -236,7 +236,7 @@ class Card extends React.Component {
   };
 
   handlePhonePress = phoneNumber => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_CALL);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_CALL, { type: this.props.type });
     call({
       number: phoneNumber.replace(/\(.+\)/, "").trim()
     }).catch(e =>
@@ -247,7 +247,9 @@ class Card extends React.Component {
   };
 
   handleUrlPress = url => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SERVICE_REQUEST);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_WEB_URL, {
+      type: this.props.type
+    });
     Linking.canOpenURL(url).then(supported => {
       if (supported) {
         Linking.openURL(url);
@@ -260,6 +262,7 @@ class Card extends React.Component {
   };
 
   render() {
+    console.log("props is ", this.props);
     const {
       cardStyle,
       title,

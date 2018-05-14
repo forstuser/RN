@@ -133,7 +133,7 @@ class Month extends React.Component {
     const { quantity, isEditQuantityModalOpen } = this.state;
     const isDateAfterToday = moment(date).isAfter(moment().startOf("day"));
 
-    console.log("date: ", date, "isDateAfterToday: ", isDateAfterToday);
+    // console.log("date: ", date, "isDateAfterToday: ", isDateAfterToday);
     // if (!isEditQuantityModalOpen) return null;
 
     return (
@@ -143,48 +143,48 @@ class Month extends React.Component {
         </Text>
         <View style={{ flex: 1, alignItems: "center" }}>
           {isPresent &&
-          item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT ? (
-            <View
-              collapsable={false}
-              style={{ flexDirection: "row", width: 80 }}
-            >
-              <TouchableOpacity
-                onPress={this.decreaseQuantity}
-                style={{
-                  marginTop: 3,
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "center"
-                }}
+            item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT ? (
+              <View
+                collapsable={false}
+                style={{ flexDirection: "row", width: 80 }}
               >
-                <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={this.showEditQuantityModal}
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  minWidth: 20
-                }}
-              >
-                <Text>{quantity}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={this.increaseQuantity}
-                style={{
-                  marginTop: 3,
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "center"
-                }}
-              >
-                <Icon name="md-add" size={16} color={colors.pinkishOrange} />
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <View collapsable={false} />
-          )}
+                <TouchableOpacity
+                  onPress={this.decreaseQuantity}
+                  style={{
+                    marginTop: 3,
+                    flex: 1,
+                    flexDirection: "row",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={this.showEditQuantityModal}
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    minWidth: 20
+                  }}
+                >
+                  <Text>{quantity}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={this.increaseQuantity}
+                  style={{
+                    marginTop: 3,
+                    flex: 1,
+                    flexDirection: "row",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Icon name="md-add" size={16} color={colors.pinkishOrange} />
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View collapsable={false} />
+            )}
         </View>
         <TouchableOpacity
           onPress={toggleAttendance}
@@ -255,8 +255,8 @@ class Month extends React.Component {
             </Modal>
           </View>
         ) : (
-          <View collapsable={false} />
-        )}
+            <View collapsable={false} />
+          )}
       </View>
     );
   }

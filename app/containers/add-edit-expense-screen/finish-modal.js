@@ -30,7 +30,7 @@ class FinishModal extends React.Component {
   };
 
   onMoreProductsClick = () => {
-    Analytics.logEvent(Analytics.EVENTS.ADD_ANOTHER_PRODUCT);
+    Analytics.logEvent(Analytics.EVENTS.ADD_MORE_PRODUCT, { category_id: this.props.mainCategoryId });
     this.setState({ visible: false }, () => {
       this.props.navigator.pop();
       setTimeout(() => {
@@ -44,7 +44,7 @@ class FinishModal extends React.Component {
   };
 
   onDoItLaterClick = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_I_WILL_DO_IT_LATER);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_I_WILL_DO_IT_LATER, { category_id: this.props.mainCategoryId });
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
         this.props.navigator.pop({ animationType: "fade" });
@@ -68,6 +68,8 @@ class FinishModal extends React.Component {
       title = I18n.t("add_edit_expense_screen_title_add_eHome"),
       navigator
     } = this.props;
+    // console.log("props", this.props)
+    // console.log("state", this.state)
     const { visible } = this.state;
     if (!visible) return null;
 
@@ -80,16 +82,16 @@ class FinishModal extends React.Component {
               isVisible={true}
               animationOutTiming={10}
             >
-              <View collapsable={false}  style={styles.finishModal}>
+              <View collapsable={false} style={styles.finishModal}>
                 <Image
                   style={styles.finishImage}
                   source={
                     mainCategoryId
                       ? {
-                          uri:
-                            API_BASE_URL +
-                            `/categories/${mainCategoryId}/images/1`
-                        }
+                        uri:
+                          API_BASE_URL +
+                          `/categories/${mainCategoryId}/images/1`
+                      }
                       : repairIcon
                   }
                   resizeMode="contain"
@@ -114,8 +116,8 @@ class FinishModal extends React.Component {
             </Modal>
           </View>
         ) : (
-          <View collapsable={false}  />
-        )}
+            <View collapsable={false} />
+          )}
       </View>
     );
   }

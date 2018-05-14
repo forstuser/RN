@@ -41,10 +41,10 @@ class WhatToListEmptyState extends React.Component {
         Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_COOK);
         break;
       case EASY_LIFE_TYPES.WHAT_TO_DO:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_WEAR);
+        Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_TODO);
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_TODO);
+        Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_WEAR);
         break;
     }
     this.props.onCreateListBtnPress();
