@@ -53,6 +53,13 @@ const UpcomingServiceItem = ({ item, navigator }) => {
       sidebarTitle = "on " + moment(item.schedule.due_date).format("DD MMM");
       sidebarSubTitle = "";
       break;
+    case 7:
+      icon = require("../images/ic_comingup_expiring.png");
+      title = I18n.t("component_items_repair_warranty_expiry");
+      subTitle = item.productName;
+      sidebarTitle = "on " + moment(item.dueDate).format("DD MMM");
+      sidebarSubTitle = "";
+      break;
 
     //case 1:
     default:
@@ -78,13 +85,13 @@ const UpcomingServiceItem = ({ item, navigator }) => {
       style={styles.container}
     >
       <Image style={styles.icon} source={icon} />
-      <View collapsable={false}  style={styles.centerContainer}>
+      <View collapsable={false} style={styles.centerContainer}>
         <Text weight="Medium" style={styles.title}>
           {title}
         </Text>
         <Text style={styles.subTitle}>{subTitle}</Text>
       </View>
-      <View collapsable={false}  style={styles.rightContainer}>
+      <View collapsable={false} style={styles.rightContainer}>
         <Text weight="Medium" style={styles.title}>
           {sidebarTitle}
         </Text>

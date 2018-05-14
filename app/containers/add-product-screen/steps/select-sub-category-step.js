@@ -81,10 +81,10 @@ class SelectSubCategoryStep extends React.Component {
             ...subCategory,
             image: API_BASE_URL + subCategory.categoryImageUrl
           }))}
+          imageKey="image"
           onSelectItem={this.onSelectSubCategory}
           hideAddNew={true}
           hideSearch={category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC}
-          imageKey="image"
         />
       </Step>
     );

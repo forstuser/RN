@@ -55,16 +55,16 @@ class WarrantyDetails extends Component {
 
     let headerText = I18n.t("product_details_screen_warranty_title");
     return (
-      <View collapsable={false} >
+      <View collapsable={false}>
         <Collapsible headerText={headerText}>
           {warrantyDetails.length > 0 && (
-            <View collapsable={false} >
+            <View collapsable={false}>
               {warrantyDetails.map(warranty => {
                 if (warranty.warranty_type != warrantyType) {
                   return null;
                 }
                 return (
-                  <View collapsable={false} >
+                  <View collapsable={false}>
                     <EditOptionRow
                       date={warranty.expiryDate}
                       onEditPress={() => {
@@ -89,10 +89,11 @@ class WarrantyDetails extends Component {
                         }
                       />
                     ) : (
-                      <View collapsable={false}  />
+                      <View collapsable={false} />
                     )}
 
-                    <View collapsable={false} BillRow
+                    <ViewBillRow
+                      collapsable={false}
                       expiryDate={warranty.expiryDate}
                       purchaseDate={warranty.purchaseDate}
                       docType="Warranty"

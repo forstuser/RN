@@ -449,8 +449,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   tabText: {
-    color: colors.lighterText,
-    fontSize: 11
+    color: colors.mainText,
+    fontSize: 12
   },
   activeTabText: {
     fontWeight: "500",

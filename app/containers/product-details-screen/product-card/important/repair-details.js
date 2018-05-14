@@ -28,15 +28,18 @@ class RepairDetails extends React.Component {
     const { repairBills } = product;
 
     const RepairItem = ({ repair }) => (
-      <View collapsable={false}  style={styles.card}>
+      <View collapsable={false} style={styles.card}>
         <EditOptionRow
           text={I18n.t("product_details_screen_repair_details")}
           onEditPress={() => {
-            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'repair' });
+            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, {
+              entity: "repair"
+            });
             this.props.openAddEditRepairScreen(repair);
           }}
         />
-        <View collapsable={false} BillRow
+        <ViewBillRow
+          collapsable={false}
           expiryDate={repair.expiryDate}
           purchaseDate={repair.purchaseDate}
           docType="Repair Bill"
@@ -78,9 +81,11 @@ class RepairDetails extends React.Component {
     );
 
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ScrollView horizontal={true} style={styles.slider}>
-          {repairBills.map((repair, index) => <RepairItem key={index} repair={repair} />)}
+          {repairBills.map((repair, index) => (
+            <RepairItem key={index} repair={repair} />
+          ))}
           <AddItemBtn
             text={I18n.t("product_details_screen_add_repair")}
             onPress={() => this.props.openAddEditRepairScreen(null)}

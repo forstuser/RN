@@ -28,7 +28,7 @@ class PucDetails extends React.Component {
     const { pucDetails } = product;
 
     const PucItem = ({ puc }) => (
-      <View collapsable={false}  style={styles.card}>
+      <View collapsable={false} style={styles.card}>
         <EditOptionRow
           text={I18n.t("product_details_screen_puc_details")}
           onEditPress={() => {
@@ -36,7 +36,8 @@ class PucDetails extends React.Component {
             this.props.openAddEditPucScreen(puc);
           }}
         />
-        <View collapsable={false} BillRow
+        <ViewBillRow
+          collapsable={false}
           expiryDate={puc.expiryDate}
           purchaseDate={puc.purchaseDate}
           docType="PUC"
@@ -73,7 +74,7 @@ class PucDetails extends React.Component {
     );
 
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ScrollView horizontal={true} style={styles.slider}>
           {pucDetails.map((puc, index) => <PucItem key={index} puc={puc} />)}
           <AddItemBtn

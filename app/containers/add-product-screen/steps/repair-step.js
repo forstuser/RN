@@ -162,9 +162,9 @@ class Repair extends React.Component {
     } = this.state;
     return (
       <Step title={`Add Repair Item`} showLoader={isLoading} {...this.props}>
-        <View collapsable={false}  style={styles.container}>
+        <View collapsable={false} style={styles.container}>
           {products.length == 0 && !isLoading ? (
-            <View collapsable={false}  style={styles.noProductsScreen}>
+            <View collapsable={false} style={styles.noProductsScreen}>
               <Text style={styles.noProductsText}>
                 {I18n.t("add_edit_expense_screen_title_add_no_products")}
               </Text>
@@ -182,7 +182,7 @@ class Repair extends React.Component {
             </View>
           ) : (
             <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
-              <View collapsable={false}  style={styles.header}>
+              <View collapsable={false} style={styles.header}>
                 <Text weight="Medium" style={styles.selectProductText}>
                   {I18n.t("add_edit_expense_screen_title_add_select_eHome")}
                 </Text>
@@ -207,7 +207,7 @@ class Repair extends React.Component {
                           style={styles.productImage}
                           source={{ uri: API_BASE_URL + product.cImageURL }}
                         />
-                        <View collapsable={false}  style={styles.productTexts}>
+                        <View collapsable={false} style={styles.productTexts}>
                           <Text
                             numberOfLines={1}
                             weight="Bold"
@@ -215,7 +215,10 @@ class Repair extends React.Component {
                           >
                             {product.productName}
                           </Text>
-                          <View collapsable={false}  style={styles.productMetaContainer}>
+                          <View
+                            collapsable={false}
+                            style={styles.productMetaContainer}
+                          >
                             <Text numberOfLines={2} style={styles.productMeta}>
                               {product.categoryName}
                             </Text>
@@ -228,7 +231,10 @@ class Repair extends React.Component {
               </View>
               {products.length > 0 &&
                 selectedProduct == null && (
-                  <View collapsable={false}  style={styles.selectProductMsgContainer}>
+                  <View
+                    collapsable={false}
+                    style={styles.selectProductMsgContainer}
+                  >
                     <Text weight="Medium" style={styles.selectProductMsg}>
                       {I18n.t(
                         "add_edit_expense_screen_title_add_select_product_above"
@@ -247,8 +253,8 @@ class Repair extends React.Component {
                   </View>
                 )}
               {selectedProduct ? (
-                <View collapsable={false}  style={styles.formContainer}>
-                  <View collapsable={false}  style={styles.form}>
+                <View collapsable={false} style={styles.formContainer}>
+                  <View collapsable={false} style={styles.form}>
                     <Text weight="Medium" style={styles.headerText}>
                       {I18n.t(
                         "add_edit_expense_screen_title_add_repair_details"
@@ -277,7 +283,7 @@ class Repair extends React.Component {
                       keyboardType="numeric"
                     />
                     {false && (
-                      <View collapsable={false} >
+                      <View collapsable={false}>
                         <CustomTextInput
                           placeholder={I18n.t(
                             "add_edit_expense_screen_title_add_sellers_name"
@@ -293,18 +299,19 @@ class Repair extends React.Component {
                           value={sellerContact}
                           placeholder="Seller Contact"
                         />
-
-                        <CustomTextInput
-                          placeholder={I18n.t(
-                            "add_edit_expense_screen_title_add_warranty_upto"
-                          )}
-                          value={warrantyUpto}
-                          onChangeText={warrantyUpto =>
-                            this.setState({ warrantyUpto })
-                          }
-                        />
                       </View>
                     )}
+
+                    <CustomDatePicker
+                      placeholder={I18n.t(
+                        "add_edit_expense_screen_title_add_warranty_upto"
+                      )}
+                      date={warrantyUpto}
+                      onDateChange={warrantyUpto =>
+                        this.setState({ warrantyUpto })
+                      }
+                      maxDate={null}
+                    />
 
                     <UploadDoc
                       placeholder="Upload Bill "
@@ -325,7 +332,7 @@ class Repair extends React.Component {
                   </View>
                 </View>
               ) : (
-                <View collapsable={false}  />
+                <View collapsable={false} />
               )}
             </KeyboardAwareScrollView>
           )}

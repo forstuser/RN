@@ -4,7 +4,11 @@ import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 import moment from "moment";
 
 import { MAIN_CATEGORY_IDS } from "../../constants";
-import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
+import {
+  API_BASE_URL,
+  getReferenceDataBrands,
+  getReferenceDataModels
+} from "../../api";
 
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
@@ -152,32 +156,36 @@ class BasicDetailsForm extends React.Component {
       copies
     } = this.state;
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <Text weight="Medium" style={styles.headerText}>
           {I18n.t("expense_forms_expense_basic_detail")}
         </Text>
-        <View collapsable={false}  style={styles.body}>
+        <View collapsable={false} style={styles.body}>
           {subCategories.length > 0 ? (
             <SelectModal
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_expense_basic_expense")}
               placeholderRenderer={({ placeholder }) => (
-                <View collapsable={false}  style={{ flexDirection: "row" }}>
+                <View collapsable={false} style={{ flexDirection: "row" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
                 </View>
               )}
               selectedOption={selectedSubCategory}
-              options={subCategories}
+              options={subCategories.map(subCategory => ({
+                ...subCategory,
+                image: API_BASE_URL + subCategory.categoryImageUrl
+              }))}
+              imageKey="image"
               onOptionSelect={value => {
                 this.onSubCategorySelect(value);
               }}
               hideAddNew={true}
             />
           ) : (
-            <View collapsable={false}  />
+            <View collapsable={false} />
           )}
 
           {showFullForm ? (
@@ -188,7 +196,7 @@ class BasicDetailsForm extends React.Component {
               hint={I18n.t("expense_forms_expense_basic_expense_recommend")}
             />
           ) : (
-            <View collapsable={false}  />
+            <View collapsable={false} />
           )}
 
           <CustomDatePicker
@@ -222,11 +230,11 @@ class BasicDetailsForm extends React.Component {
               }}
             />
           ) : (
-            <View collapsable={false}  />
+            <View collapsable={false} />
           )}
 
           {showFullForm ? (
-            <View collapsable={false} >
+            <View collapsable={false}>
               <CustomTextInput
                 placeholder={I18n.t(
                   "expense_forms_expense_basic_expense_seller_name"
@@ -243,7 +251,7 @@ class BasicDetailsForm extends React.Component {
               />
             </View>
           ) : (
-            <View collapsable={false}  />
+            <View collapsable={false} />
           )}
         </View>
         <UploadDoc

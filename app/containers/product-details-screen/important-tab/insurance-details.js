@@ -53,21 +53,22 @@ class InsuranceDetails extends Component {
     const { insuranceDetails } = product;
 
     return (
-      <View collapsable={false} >
+      <View collapsable={false}>
         <Collapsible
           headerText={I18n.t("product_details_screen_insurance_title")}
         >
           {insuranceDetails.length > 0 ? (
-            <View collapsable={false} >
+            <View collapsable={false}>
               {insuranceDetails.map(insurance => (
-                <View collapsable={false} >
+                <View collapsable={false}>
                   <EditOptionRow
                     date={insurance.expiryDate}
                     onEditPress={() => {
                       this.openAddEditInsuranceScreen(insurance);
                     }}
                   />
-                  <View collapsable={false} BillRow
+                  <ViewBillRow
+                    collapsable={false}
                     expiryDate={insurance.expiryDate}
                     purchaseDate={insurance.purchaseDate}
                     docType="Insurance"
@@ -116,7 +117,7 @@ class InsuranceDetails extends Component {
                       }
                     />
                   ) : (
-                    <View collapsable={false}  />
+                    <View collapsable={false} />
                   )}
                   {insurance.sellers != null ? (
                     <KeyValueItem
@@ -132,7 +133,7 @@ class InsuranceDetails extends Component {
                       )}
                     />
                   ) : (
-                    <View collapsable={false}  />
+                    <View collapsable={false} />
                   )}
                 </View>
               ))}

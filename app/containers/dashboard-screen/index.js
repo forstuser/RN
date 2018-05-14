@@ -137,15 +137,15 @@ class DashboardScreen extends React.Component {
     });
     try {
       const dashboardData = await consumerGetDashboard();
-      console.log("Dashboard Data :", dashboardData);
-      if (
-        dashboardData.hasProducts === false &&
-        !DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE &&
-        !global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE]
-      ) {
-        DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = true;
-        return this.showAddProductOptionsScreen();
-      }
+      // console.log("Dashboard Data :", dashboardData);
+      // if (
+      //   dashboardData.hasProducts === false &&
+      //   !DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE &&
+      //   !global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE]
+      // ) {
+      //   DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = true;
+      //   return this.showAddProductOptionsScreen();
+      // }
       const insight = dashboardData.insight;
       const insightChartProps = {
         timeSpanText:

@@ -112,6 +112,7 @@ class PerosnalDocCard extends Component {
     }
 
     let imageSource = personalDocIcon;
+    let fileType = "jpg";
 
     //visiting card
     if (product.categoryId == 27) {
@@ -120,6 +121,7 @@ class PerosnalDocCard extends Component {
 
     if (product.copies && product.copies.length > 0) {
       imageSource = { uri: API_BASE_URL + product.copies[0].copyUrl };
+      fileType = product.copies[0].file_type;
     }
 
     return (
@@ -143,6 +145,7 @@ class PerosnalDocCard extends Component {
             style={styles.image}
             source={imageSource}
             resizeMode="contain"
+            fileType={fileType}
           />
           <Text weight="Bold" style={styles.name}>
             {productName}

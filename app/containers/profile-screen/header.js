@@ -137,8 +137,10 @@ class ProfileScreen extends Component {
   render() {
     const profilePic = this.state.profilePic;
     return (
-      <View collapsable={false}  style={styles.header}>
-        <View collapsable={false}  style={styles.backgroundImg}>{profilePic}</View>
+      <View collapsable={false} style={styles.header}>
+        <View collapsable={false} style={styles.backgroundImg}>
+          {profilePic}
+        </View>
         {Platform.OS == "ios" && (
           <BlurView
             style={styles.overlay}
@@ -148,8 +150,10 @@ class ProfileScreen extends Component {
           />
         )}
 
-        <View collapsable={false}  style={styles.profilePicWrapper}>
-          <View collapsable={false}  style={styles.profilePicCircleWrapper}>{profilePic}</View>
+        <View collapsable={false} style={styles.profilePicWrapper}>
+          <View collapsable={false} style={styles.profilePicCircleWrapper}>
+            {profilePic}
+          </View>
           <TouchableOpacity
             onPress={() => this.uploadOptions.show()}
             style={styles.editImg}
@@ -174,20 +178,21 @@ class ProfileScreen extends Component {
 }
 const styles = StyleSheet.create({
   header: {
-    height: 150,
-    alignItems: "center"
+    height: 200,
+    alignItems: "center",
+    overflow: "hidden"
   },
   backgroundImg: {
     position: "absolute",
     width: "100%",
-    height: "100%"
+    height: 150
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.55)",
     position: "absolute",
     width: "100%",
     top: 0,
-    bottom: 0
+    height: 150
   },
   profilePicWrapper: {
     marginTop: 80,

@@ -40,7 +40,7 @@ class Report extends React.Component {
       productNameToEdit: "",
       providerNameToEdit: "",
       providerNumberToEdit: "",
-      isSavingDetails: false,
+      isSavingDetails: false
     };
   }
 
@@ -185,12 +185,9 @@ class Report extends React.Component {
               keyText={I18n.t("calendar_service_screen_product_name")}
               valueText={item.product_name}
             /> */}
+            <KeyValueItem keyText={"Name"} valueText={item.product_name} />
             <KeyValueItem
-              keyText={"Service Name"}
-              valueText={item.provider_name}
-            />
-            <KeyValueItem
-              keyText={I18n.t("calendar_service_screen_provider_number")}
+              keyText={"Contact Number"}
               ValueComponent={() => (
                 <TouchableOpacity
                   style={styles.callText}

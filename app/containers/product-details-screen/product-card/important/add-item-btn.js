@@ -34,7 +34,7 @@ const AddItemBtn = ({ text, onPress, biggerSize = false }) => {
       <Text
         weight="Medium"
         style={{
-          fontSize: 12,
+          fontSize: 14,
           textAlign: "center",
           color: colors.secondaryText
         }}

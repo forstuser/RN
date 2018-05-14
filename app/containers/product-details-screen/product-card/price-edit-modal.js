@@ -175,9 +175,6 @@ class PriceEditModal extends React.Component {
               avoidKeyboard={Platform.OS == "ios"}
             >
               <View style={styles.modal}>
-                <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
-                  <Icon name="md-close" size={30} color={colors.mainText} />
-                </TouchableOpacity>
                 <Text
                   weight="Bold"
                   style={{
@@ -191,10 +188,7 @@ class PriceEditModal extends React.Component {
                   Product Cost Breakup
                 </Text>
                 {amountBreakdownOptions.map((item, index) => (
-                  <View
-                    key={index}
-                    style={{ paddingLeft: 10, borderBottomWidth: 1 }}
-                  >
+                  <View key={index}>
                     <PriceEditInput
                       name={item.name}
                       type={item.type}
@@ -206,13 +200,7 @@ class PriceEditModal extends React.Component {
                     />
                   </View>
                 ))}
-                <View
-                  style={{
-                    paddingLeft: 10,
-                    borderBottomWidth: 1,
-                    backgroundColor: "#f3f3f3"
-                  }}
-                >
+                <View>
                   <PriceEditInput
                     name="Total Amount"
                     date=""
@@ -220,6 +208,9 @@ class PriceEditModal extends React.Component {
                     editable={false}
                   />
                 </View>
+                <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
               </View>
             </Modal>
           </View>
@@ -237,8 +228,9 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     position: "absolute",
-    right: 15,
-    top: 10
+    right: 5,
+    top: 10,
+    paddingHorizontal: 10
   }
 });
 

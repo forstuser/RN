@@ -59,7 +59,7 @@ class RepairForm extends React.Component {
       sellerName: "",
       sellerContact: "",
       value: "",
-      warrantyUpto: ""
+      warrantyUpto: null
     };
   }
 
@@ -144,8 +144,8 @@ class RepairForm extends React.Component {
         icon="plus"
         isCollapsible={isCollapsible}
       >
-        <View collapsable={false}  style={styles.innerContainer}>
-          <View collapsable={false}  style={styles.body}>
+        <View collapsable={false} style={styles.innerContainer}>
+          <View collapsable={false} style={styles.body}>
             <CustomTextInput
               placeholder={I18n.t("expense_forms_repair_for")}
               underlineColorAndroid="transparent"
@@ -201,11 +201,11 @@ class RepairForm extends React.Component {
               }}
             />
 
-            <CustomTextInput
+            <CustomDatePicker
               placeholder={I18n.t("expense_forms_repair_warranty_upto")}
-              underlineColorAndroid="transparent"
-              value={warrantyUpto}
-              onChangeText={warrantyUpto => this.setState({ warrantyUpto })}
+              date={warrantyUpto}
+              onDateChange={warrantyUpto => this.setState({ warrantyUpto })}
+              maxDate={null}
             />
           </View>
         </View>

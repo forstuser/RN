@@ -149,9 +149,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     height: 45,
-    borderWidth: 1,
-    borderColor: "#fefefe",
-    alignItems: "center"
+    borderTopWidth: 1,
+    borderColor: "#efefef",
+    alignItems: "center",
+    paddingHorizontal: 10
   },
   innerContainer: {
     flex: 1,
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     flex: 1,
-    justifyContent: "flex-start"
+    marginTop: -3
   },
 
   white: {

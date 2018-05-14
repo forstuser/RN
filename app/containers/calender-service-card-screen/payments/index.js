@@ -104,7 +104,10 @@ class Report extends React.Component {
     const payments = item.payments;
     // if (!isMarkPaidModalOpen) return null;
     return (
-      <View collapsable={false}  style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
+      <View
+        collapsable={false}
+        style={{ paddingHorizontal: 16, paddingBottom: 16 }}
+      >
         <Button
           onPress={this.showMarkPaidModal}
           text="Add Payment"
@@ -112,12 +115,12 @@ class Report extends React.Component {
           color="secondary"
         />
 
-        <View collapsable={false}  style={styles.paymentHistory}>
-          <View collapsable={false}  style={styles.paymentHistoryItem}>
-            <View collapsable={false}  style={styles.paymentHistoryItemColumn}>
+        <View collapsable={false} style={styles.paymentHistory}>
+          <View collapsable={false} style={styles.paymentHistoryItem}>
+            <View collapsable={false} style={styles.paymentHistoryItemColumn}>
               <Text weight="Bold">Total Amount Paid</Text>
             </View>
-            <View collapsable={false}  style={styles.paymentHistoryItemColumn}>
+            <View collapsable={false} style={styles.paymentHistoryItemColumn}>
               <Text weight="Bold">{`₹ ${payments.reduce(
                 (total, payment) => total + payment.amount_paid,
                 0
@@ -125,13 +128,17 @@ class Report extends React.Component {
             </View>
           </View>
           {payments.map(payment => (
-            <View collapsable={false}  key={payment.id} style={styles.paymentHistoryItem}>
-              <View collapsable={false}  style={styles.paymentHistoryItemColumn}>
+            <View
+              collapsable={false}
+              key={payment.id}
+              style={styles.paymentHistoryItem}
+            >
+              <View collapsable={false} style={styles.paymentHistoryItemColumn}>
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {moment(payment.paid_on).format("DD MMM YYYY")}
                 </Text>
               </View>
-              <View collapsable={false}  style={styles.paymentHistoryItemColumn}>
+              <View collapsable={false} style={styles.paymentHistoryItemColumn}>
                 <Text
                   weight="Medium"
                   style={{ color: colors.secondaryText }}
@@ -141,7 +148,7 @@ class Report extends React.Component {
           ))}
         </View>
         {isMarkPaidModalOpen ? (
-          <View collapsable={false} >
+          <View collapsable={false}>
             <Modal
               isVisible={true}
               avoidKeyboard={Platform.OS == "ios"}
@@ -150,7 +157,7 @@ class Report extends React.Component {
               onBackdropPress={this.hideMarkPaidModal}
               onBackButtonPress={this.hideMarkPaidModal}
             >
-              <View collapsable={false}  style={[styles.card, styles.modalCard]}>
+              <View collapsable={false} style={[styles.card, styles.modalCard]}>
                 <LoadingOverlay visible={isAddingPayment} />
                 <TouchableOpacity
                   style={styles.modalCloseIcon}
@@ -163,6 +170,7 @@ class Report extends React.Component {
                   placeholder={I18n.t("calendar_service_screen_amount_paid")}
                   value={amountPaid}
                   onChangeText={amountPaid => this.setState({ amountPaid })}
+                  keyboardType="numeric"
                 />
                 <CustomDatePicker
                   date={paidOn}
@@ -181,7 +189,7 @@ class Report extends React.Component {
             </Modal>
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
       </View>
     );

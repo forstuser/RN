@@ -448,11 +448,11 @@ class DishCalendarScreen extends Component {
             onScroll={this.handleScroll}
             ref={ref => (this.scrollView = ref)}
           >
-            <View collapsable={false}  style={styles.header}>
+            <View collapsable={false} style={styles.header}>
               <Image style={styles.headerBg} source={headerBg} />
               <Image style={styles.image} source={image} />
 
-              <View collapsable={false}  style={styles.dateSelector}>
+              <View collapsable={false} style={styles.dateSelector}>
                 <DateSelector
                   date={date}
                   onRightArrowPress={this.nextDate}
@@ -460,8 +460,26 @@ class DishCalendarScreen extends Component {
                 />
               </View>
             </View>
-            <View collapsable={false}  style={styles.body}>
-              <View collapsable={false}  style={{ alignItems: "flex-end" }}>
+            <View collapsable={false} style={styles.body}>
+              <View
+                collapsable={false}
+                style={{
+                  justifyContent: "space-between",
+                  flexDirection: "row"
+                }}
+              >
+                <TouchableOpacity
+                  style={styles.editBtn}
+                  onPress={this.onAddNewPress}
+                >
+                  <Icon name="md-add" size={18} color={colors.pinkishOrange} />
+                  <Text
+                    weight="Medium"
+                    style={{ color: colors.pinkishOrange, marginLeft: 10 }}
+                  >
+                    {btnText}
+                  </Text>
+                </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.editBtn}
                   onPress={this.goToEditScreen}
@@ -512,7 +530,7 @@ class DishCalendarScreen extends Component {
                     item.image_code;
                 }
                 return (
-                  <View collapsable={false}  key={item.id} style={styles.item}>
+                  <View collapsable={false} key={item.id} style={styles.item}>
                     <EasyLifeItem
                       checkBoxStyle="circle"
                       text={item.name}
@@ -524,11 +542,11 @@ class DishCalendarScreen extends Component {
                   </View>
                 );
               })}
-              <AddNewBtn
+              {/* <AddNewBtn
                 style={{ margin: 5 }}
                 text={btnText}
                 onPress={this.onAddNewPress}
-              />
+              /> */}
               <ClothesImageUploader
                 ref={ref => (this.clothesImageUploader = ref)}
                 navigator={navigator}
@@ -547,9 +565,12 @@ class DishCalendarScreen extends Component {
           </ScrollView>
         )}
         {selectedItemsNames.length > 0 ? (
-          <View collapsable={false}  style={styles.selectedItems}>
-            <View collapsable={false}  style={styles.selectedItemsTitle}>
-              <View collapsable={false}  style={styles.selectedItemsTitleCheckmark}>
+          <View collapsable={false} style={styles.selectedItems}>
+            <View collapsable={false} style={styles.selectedItemsTitle}>
+              <View
+                collapsable={false}
+                style={styles.selectedItemsTitleCheckmark}
+              >
                 <Icon name="md-checkmark" size={12} color="#fff" />
               </View>
               <Text weight="Bold" style={styles.selectedItemsTitleText}>
@@ -565,7 +586,7 @@ class DishCalendarScreen extends Component {
             </Text>
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
         {items.length == 0 &&
           !isLoading && (
@@ -624,13 +645,17 @@ const styles = StyleSheet.create({
     marginBottom: 5
   },
   editBtn: {
-    margin: 5,
-    paddingRight: 10,
+    marginHorizontal: 5,
+    marginBottom: 10,
+    marginTop: 0,
+    padding: 5,
     // ...defaultStyles.card,
     flexDirection: "row",
     borderRadius: 4,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    borderColor: colors.pinkishOrange,
+    borderWidth: 1
   },
   selectedItems: {
     borderTopWidth: 1,

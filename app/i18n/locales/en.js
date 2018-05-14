@@ -993,6 +993,7 @@ export default {
   component_items_insurance_expiry: "Insurance expiring",
   component_items_amc_expiry: "AMC expiring",
   component_items_puc_expiry: "PUC expiring",
+  component_items_repair_warranty_expiry: "Repair Warranty expiring",
   component_items_view_more: "View More",
   component_items_view_less: "View Less",
 
