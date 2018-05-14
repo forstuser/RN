@@ -86,7 +86,7 @@ class WhatToListScreen extends Component {
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
         title = "What to Wear?";
         text =
-          "Get an overview of your entire wardrobe and history of what you had worn and when.Create your Digital Wardrobe by adding images of your clothes & accessories.";
+          "Get an overview of your entire wardrobe and history of what you had worn and when.\nCreate your Digital Wardrobe by adding images of your clothes & accessories.";
         image = whatToWear;
         btnText = "Add New Item";
         systemListTitle = "";

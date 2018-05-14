@@ -9,7 +9,7 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-export const API_BASE_URL = "https://consumer-eb.binbill.com";
+export const API_BASE_URL = "https://consumer.binbill.com";
 
 const APP_VERSION_FOR_API = 20004;
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
@@ -308,6 +308,13 @@ export const getTips = async () => {
   return await apiRequest({
     method: "get",
     url: "/tips"
+  });
+};
+
+export const getFaqs = async () => {
+  return await apiRequest({
+    method: "get",
+    url: "/faqs"
   });
 };
 

@@ -37,6 +37,7 @@ class FaqScreen extends Component {
         faqs: res.faq
       });
     } catch (error) {
+      console.log(error);
       this.setState({ error });
     } finally {
       this.setState({ isLoading: false });

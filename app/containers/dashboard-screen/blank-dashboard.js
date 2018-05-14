@@ -53,14 +53,15 @@ class BlankDashboard extends React.Component {
 
   render() {
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <LinearGradient
           start={{ x: 0.0, y: 0.8 }}
           end={{ x: 0.0, y: 1 }}
           colors={["#01c8ff", "#0ae2f1"]}
           style={styles.gradientBackground}
         >
-          <View collapsable={false} 
+          <View
+            collapsable={false}
             style={[
               styles.webViewContainer,
               {
@@ -78,7 +79,8 @@ class BlankDashboard extends React.Component {
               source={cornerImageBottomLeft}
               resizeMode="contain"
             />
-            <View collapsable={false} 
+            <View
+              collapsable={false}
               style={[
                 styles.webView,
                 {
@@ -96,14 +98,14 @@ class BlankDashboard extends React.Component {
                 domStorageEnabled={true}
                 source={{
                   uri:
-                    "https://www.youtube.com/embed/U_Y6tu_jmt0?modestbranding=1&playsinline=1&showinfo=0&rel=0"
+                    "https://www.youtube.com/embed/fexOvhPe5EM&t?modestbranding=1&playsinline=1&showinfo=0&rel=0"
                 }}
                 onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest} //for iOS
                 onNavigationStateChange={this.onShouldStartLoadWithRequest} //for Android
               />
             </View>
           </View>
-          <View collapsable={false}  style={styles.welcome}>
+          <View collapsable={false} style={styles.welcome}>
             <Image style={styles.image} source={image} resizeMode="contain" />
             <Text weight="Bold" style={styles.welcomeTitle}>
               {I18n.t("blank_dashboard_headline")}
@@ -120,21 +122,24 @@ class BlankDashboard extends React.Component {
         >
           <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
         </TouchableOpacity>
-        <View collapsable={false}  style={styles.dummiesForTooltips}>
-          <View collapsable={false}  style={styles.dummyForTooltip} />
-          <View collapsable={false} 
+        <View collapsable={false} style={styles.dummiesForTooltips}>
+          <View collapsable={false} style={styles.dummyForTooltip} />
+          <View
+            collapsable={false}
             ref={ref => (this.ehomeTabItemRef = ref)}
             style={styles.dummyForTooltip}
           />
-          <View collapsable={false} 
+          <View
+            collapsable={false}
             ref={ref => (this.attendanceTabItemRef = ref)}
             style={styles.dummyForTooltip}
           />
-          <View collapsable={false} 
+          <View
+            collapsable={false}
             ref={ref => (this.doYouKnowTabItemRef = ref)}
             style={styles.dummyForTooltip}
           />
-          <View collapsable={false}  style={styles.dummyForTooltip} />
+          <View collapsable={false} style={styles.dummyForTooltip} />
         </View>
         <Tour
           ref={ref => (this.blankDashboardTour = ref)}

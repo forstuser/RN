@@ -60,7 +60,7 @@ class WhatToListEmptyState extends React.Component {
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_DO:
         text =
-          "You are here because you want us to help you decide What to Do today, tomorrow or even the entire week.";
+          "Get an overview of your entire task list and history of what you did and when.";
         image = todo;
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
@@ -77,11 +77,6 @@ class WhatToListEmptyState extends React.Component {
         </Text>
         {type == EASY_LIFE_TYPES.WHAT_TO_DO ? (
           <View collapsable={false} style={styles.faqView}>
-            <Text style={styles.faqText} weight="Regular">
-              Get an overview of your entire task list and history of what you
-              did and when.
-            </Text>
-
             <Text style={styles.faqText} weight="Regular">
               To know more, How it Works
             </Text>

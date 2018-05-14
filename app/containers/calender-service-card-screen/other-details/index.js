@@ -334,14 +334,14 @@ class Report extends React.Component {
               }
             /> */}
                 <CustomTextInput
-                  placeholder="Service Name"
+                  placeholder="Name"
                   value={providerNameToEdit}
                   onChangeText={providerNameToEdit =>
                     this.setState({ providerNameToEdit })
                   }
                 />
                 <CustomTextInput
-                  placeholder={I18n.t("calendar_service_screen_service_number")}
+                  placeholder={"Contact Number"}
                   value={providerNumberToEdit}
                   onChangeText={providerNumberToEdit =>
                     this.setState({ providerNumberToEdit })
