@@ -310,7 +310,7 @@ class Repair extends React.Component {
                       onDateChange={warrantyUpto =>
                         this.setState({ warrantyUpto })
                       }
-                      maxDate={null}
+                      maxDate="2100-01-01"
                     />
 
                     <UploadDoc

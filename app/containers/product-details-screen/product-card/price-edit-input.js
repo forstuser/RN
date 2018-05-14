@@ -97,6 +97,7 @@ class PriceEditInput extends React.Component {
         <View style={styles.innerContainer}>
           <View style={styles.textInput}>
             <TextInput
+              style={editable ? {} : { fontWeight: "bold", color: "#000" }}
               ref={ref => (this.input = ref)}
               underlineColorAndroid="transparent"
               value={value}

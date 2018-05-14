@@ -12,14 +12,13 @@ export const openBillsPopUp = props => {
 };
 
 export const openEnterPinPopup = props => {
-  console.log("opening enter pin modal");
   if (global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE]) return;
+  global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE] = true;
   Navigation.showModal({
     screen: SCREENS.ENTER_PIN_POPUP_SCREEN,
     passProps: props,
     overrideBackPress: true
   });
-  global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE] = true;
 };
 
 export const openLoginScreen = () => {

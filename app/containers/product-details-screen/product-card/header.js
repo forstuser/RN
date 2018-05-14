@@ -166,7 +166,7 @@ class Header extends Component {
                   </Text>
                 )}
                 {product.insuranceDetails.length > 0 && (
-                  <Text weight="Bold" style={styles.brandAndModel}>
+                  <Text weight="Medium" style={styles.brandAndModel}>
                     Insurance till{" "}
                     {moment(product.insuranceDetails[0].expiryDate).format(
                       "DD MMM YYYY"

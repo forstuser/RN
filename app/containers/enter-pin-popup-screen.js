@@ -4,7 +4,8 @@ import {
   View,
   TouchableOpacity,
   Dimensions,
-  Alert
+  Alert,
+  BackAndroid
 } from "react-native";
 import { showSnackbar } from "./snackbar";
 
@@ -26,6 +27,21 @@ class EnterPinScreen extends React.Component {
 
   state = {
     isLoading: false
+  };
+
+  constructor(props) {
+    super(props);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+  }
+
+  onNavigatorEvent = event => {
+    switch (event.id) {
+      case "backPress":
+        BackAndroid.exitApp();
+        break;
+      case "willDisappear":
+        global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE] = false;
+    }
   };
 
   onForgotPinPress = () => {
@@ -51,8 +67,10 @@ class EnterPinScreen extends React.Component {
       this.setState({
         isLoading: false
       });
-      global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE] = false;
-      this.props.navigator.dismissModal();
+
+      this.props.navigator.dismissModal({
+        animationType: "none"
+      });
     } catch (e) {
       this.pinInput.clearPin();
       showSnackbar({

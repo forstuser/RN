@@ -400,64 +400,70 @@ class WhatToListScreen extends Component {
     return (
       <View collapsable={false} style={{ flex: 1 }}>
         <ScreenContainer>
-          {type == EASY_LIFE_TYPES.WHAT_TO_COOK && (
-            <View collapsable={false} style={{ padding: 5 }}>
-              <SelectModal
-                ref={ref => (this.selectStateModal = ref)}
-                placeholder={"Select State"}
-                placeholderRenderer={({ placeholder }) => (
-                  <Text>{placeholder}</Text>
-                )}
-                options={this.state.states}
-                selectedOption={selectedState}
-                valueKey="id"
-                visibleKey="state_name"
-                hideAddNew={true}
-                onOptionSelect={value => {
-                  this.onSelectState(value);
-                }}
-                beforeModalOpen={this.beforeOpenStatesModal}
-              />
-              {selectedState &&
-                selectedState.id > 0 && (
-                  <View
-                    collapsable={false}
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between"
-                    }}
-                  >
-                    <TouchableOpacity
-                      style={styles.checkboxWrapper}
-                      onPress={this.checkAllBox}
+          {type == EASY_LIFE_TYPES.WHAT_TO_COOK &&
+            items.length > 0 && (
+              <View collapsable={false} style={{ padding: 5 }}>
+                <SelectModal
+                  ref={ref => (this.selectStateModal = ref)}
+                  placeholder={"Select State"}
+                  placeholderRenderer={({ placeholder }) => (
+                    <Text>{placeholder}</Text>
+                  )}
+                  options={this.state.states}
+                  selectedOption={selectedState}
+                  valueKey="id"
+                  visibleKey="state_name"
+                  hideAddNew={true}
+                  onOptionSelect={value => {
+                    this.onSelectState(value);
+                  }}
+                  beforeModalOpen={this.beforeOpenStatesModal}
+                />
+                {selectedState &&
+                  selectedState.id > 0 && (
+                    <View
+                      collapsable={false}
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between"
+                      }}
                     >
-                      <View collapsable={false} style={styles.box}>
-                        {checkAll ? (
-                          <Icon
-                            name="md-checkmark"
-                            color={colors.pinkishOrange}
-                            size={15}
-                          />
-                        ) : (
-                          <View collapsable={false} />
-                        )}
+                      <TouchableOpacity
+                        style={styles.checkboxWrapper}
+                        onPress={this.checkAllBox}
+                      >
+                        <View collapsable={false} style={styles.box}>
+                          {checkAll ? (
+                            <Icon
+                              name="md-checkmark"
+                              color={colors.pinkishOrange}
+                              size={15}
+                            />
+                          ) : (
+                            <View collapsable={false} />
+                          )}
+                        </View>
+                        <Text style={{ color: colors.mainText }}>
+                          {" "}
+                          Select All{" "}
+                        </Text>
+                      </TouchableOpacity>
+                      <View
+                        collapsable={false}
+                        style={{ flexDirection: "row" }}
+                      >
+                        <Text style={{ color: colors.mainText }}>
+                          Veg Only{" "}
+                        </Text>
+                        <Switch
+                          onValueChange={this.toggleVegOrNonveg}
+                          value={isVeg}
+                        />
                       </View>
-                      <Text style={{ color: colors.mainText }}>
-                        {" "}
-                        Select All{" "}
-                      </Text>
-                    </TouchableOpacity>
-                    <View collapsable={false} style={{ flexDirection: "row" }}>
-                      <Text style={{ color: colors.mainText }}>Veg Only </Text>
-                      <Switch
-                        onValueChange={this.toggleVegOrNonveg}
-                        value={isVeg}
-                      />
                     </View>
-                  </View>
-                )}
-            </View>
-          )}
+                  )}
+              </View>
+            )}
           {items.length == 0 && (
             <View collapsable={false} style={styles.container}>
               <Image style={styles.blankPageImage} source={image} />
@@ -582,7 +588,33 @@ class WhatToListScreen extends Component {
             </ScrollView>
           )}
           <View collapsable={false} style={styles.addNewBtn}>
-            <AddNewBtn text={btnText} onPress={this.onAddNewPress} />
+            {type == EASY_LIFE_TYPES.WHAT_TO_COOK && items.length == 0 ? (
+              <View collapsable={false} style={{ padding: 5 }}>
+                <SelectModal
+                  ref={ref => (this.selectStateModal = ref)}
+                  placeholder={"Select State"}
+                  placeholderRenderer={({ placeholder }) => (
+                    <Text>{placeholder}</Text>
+                  )}
+                  options={this.state.states}
+                  selectedOption={selectedState}
+                  valueKey="id"
+                  visibleKey="state_name"
+                  hideAddNew={true}
+                  onOptionSelect={value => {
+                    this.onSelectState(value);
+                  }}
+                  beforeModalOpen={this.beforeOpenStatesModal}
+                />
+              </View>
+            ) : (
+              <View />
+            )}
+            {type != EASY_LIFE_TYPES.WHAT_TO_COOK ? (
+              <AddNewBtn text={btnText} onPress={this.onAddNewPress} />
+            ) : (
+              <View />
+            )}
           </View>
           <ClothesImageUploader
             ref={ref => (this.clothesImageUploader = ref)}

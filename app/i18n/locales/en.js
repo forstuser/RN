@@ -30,7 +30,7 @@ export default {
   //app intro screen
   app_intro_1_title: `Smart & 100% secure way of saving your Bills, Important Documents and Expenses in a Digital Format`,
   app_intro_1_desc: `Create Your Product Card in less Than 10 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
-  app_intro_2_title: `Keep Track of  Brand Warranty, Repair Warranty, Insurance & AMC Renewal and Receive Timely Reminders`,
+  app_intro_2_title: `Keep Track of Brand Warranty, Repair Warranty, Insurance & AMC Renewal through Timely Reminders`,
   app_intro_2_desc: `Create product card and reach out to Brands, Insurance Providers or Nearest Service Center with just One Touch.`,
   app_intro_3_title: `Your Own Attendance & Payout Manager for the Milkman, Maid, Newspaper wala & Others`,
   app_intro_3_desc: `Know the Life Cycle Cost of All Your Products. Based on this You Can Decide Whether to Continue Maintaining the Product or Replacing it.`,
@@ -850,7 +850,7 @@ export default {
   add_edit_direct_select_category_first: "Select Sub-Category First",
   add_edit_direct_select_brand_first: "Select Brand First",
   add_edit_direct_select_model_first: "Select Model First",
-  add_edit_direct_add_docs: "Add Document",
+  add_edit_direct_add_docs: "Update Details",
   add_edit_direct_doc_successfully: "Document Uploaded Successfully",
   add_edit_direct_add_eHome: "ADD PRODUCTS TO eHOME",
   add_edit_direct_later: "I'll Do it Later",
