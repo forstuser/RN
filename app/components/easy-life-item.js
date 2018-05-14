@@ -20,13 +20,14 @@ class EasyLifeItem extends React.Component {
     } = this.props;
 
     return (
-      <View collapsable={false} >
+      <View collapsable={false}>
         <TouchableOpacity
           style={[styles.container, imageUrl ? styles.bigContainer : {}]}
           onPress={onPress}
         >
           {showCheckbox ? (
-            <View collapsable={false} 
+            <View
+              collapsable={false}
               style={[
                 checkBoxStyle == "box" ? styles.checkbox : styles.selectBox,
                 checkBoxStyle != "box" && isChecked
@@ -43,33 +44,39 @@ class EasyLifeItem extends React.Component {
                   size={15}
                 />
               ) : (
-                <View collapsable={false}  />
+                <View collapsable={false} />
               )}
             </View>
           ) : (
-            <View collapsable={false}  />
+            <View collapsable={false} />
           )}
-          <View collapsable={false}  style={styles.texts}>
+          <View collapsable={false} style={styles.texts}>
             <Text weight="Medium" style={styles.text} numberOfLines={1}>
               {text}
             </Text>
             {secondaryText && imageUrl ? (
               <Text style={styles.subText}>{secondaryText}</Text>
-            ) : null}
+            ) : (
+              <Text />
+            )}
           </View>
           {secondaryText && !imageUrl ? (
             <Text style={styles.subText}>{secondaryText}</Text>
-          ) : null}
+          ) : (
+            <Text />
+          )}
           {imageUrl ? (
             <Image source={{ uri: imageUrl }} style={styles.image} />
-          ) : null}
+          ) : (
+            <View />
+          )}
         </TouchableOpacity>
         {showRemoveBtn ? (
           <TouchableOpacity style={styles.removeBtn} onPress={onRemoveBtnPress}>
             <Icon name="md-remove" color="white" size={20} />
           </TouchableOpacity>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
       </View>
     );

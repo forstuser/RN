@@ -529,6 +529,12 @@ class DishCalendarScreen extends Component {
                     "/images/" +
                     item.image_code;
                 }
+
+                if (item.selected_times) {
+                  secondaryText =
+                    secondaryText + ", " + item.selected_times + "x";
+                }
+
                 return (
                   <View collapsable={false} key={item.id} style={styles.item}>
                     <EasyLifeItem
