@@ -40,7 +40,7 @@ class Report extends React.Component {
       productNameToEdit: "",
       providerNameToEdit: "",
       providerNumberToEdit: "",
-      isSavingDetails: false,
+      isSavingDetails: false
     };
   }
 
@@ -190,7 +190,7 @@ class Report extends React.Component {
               valueText={item.provider_name}
             />
             <KeyValueItem
-              keyText={I18n.t("calendar_service_screen_provider_number")}
+              keyText={I18n.t("calendar_service_screen_service_number")}
               ValueComponent={() => (
                 <TouchableOpacity
                   style={styles.callText}
@@ -344,9 +344,7 @@ class Report extends React.Component {
                   }
                 />
                 <CustomTextInput
-                  placeholder={I18n.t(
-                    "calendar_service_screen_provider_number"
-                  )}
+                  placeholder={I18n.t("calendar_service_screen_service_number")}
                   value={providerNumberToEdit}
                   onChangeText={providerNumberToEdit =>
                     this.setState({ providerNumberToEdit })

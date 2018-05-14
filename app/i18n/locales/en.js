@@ -557,6 +557,7 @@ export default {
   calendar_service_screen_product_name: "Product Name",
   calendar_service_screen_provider_name: "Provider Name",
   calendar_service_screen_provider_number: "Provider Number",
+  calendar_service_screen_service_number: "Service Number",
   //FAQs screen
   faq_screen_title: "FAQs",
 
