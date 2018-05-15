@@ -242,6 +242,11 @@ function startApp() {
               uiActions.setScreenToOpenAferLogin(SCREENS.FAQS_SCREEN)
             );
             break;
+          case "eazy-day":
+            store.dispatch(
+              uiActions.setScreenToOpenAferLogin(SCREENS.EASY_LIFE_SCREEN)
+            );
+            break;
           case "do-you-know":
             global[
               GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY

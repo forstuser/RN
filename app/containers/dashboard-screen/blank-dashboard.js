@@ -98,7 +98,7 @@ class BlankDashboard extends React.Component {
                 domStorageEnabled={true}
                 source={{
                   uri:
-                    "https://www.youtube.com/embed/fexOvhPe5EM&t?modestbranding=1&playsinline=1&showinfo=0&rel=0"
+                    "https://www.youtube.com/embed/fexOvhPe5EM?modestbranding=1&playsinline=1&showinfo=0&rel=0"
                 }}
                 onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest} //for iOS
                 onNavigationStateChange={this.onShouldStartLoadWithRequest} //for Android
