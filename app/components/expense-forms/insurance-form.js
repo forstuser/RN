@@ -30,7 +30,7 @@ import UploadDoc from "../form-elements/upload-doc";
 
 class InsuranceForm extends React.Component {
   static propTypes = {
-    navigator: PropTypes.object,
+    navigation: PropTypes.object,
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
@@ -149,7 +149,7 @@ class InsuranceForm extends React.Component {
 
   render() {
     const {
-      navigator,
+      navigation,
       mainCategoryId,
       categoryId,
       insuranceProviders,
@@ -258,7 +258,7 @@ class InsuranceForm extends React.Component {
               docType="Insurance"
               type={3}
               placeholder={I18n.t("expense_forms_insurance_upload_policy")}
-              navigator={navigator}
+              navigation={navigation}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
                 this.setState({

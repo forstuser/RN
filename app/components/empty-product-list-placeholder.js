@@ -21,7 +21,7 @@ class AddEmptyProductScreen extends Component {
     Analytics.logEvent(
       Analytics.EVENTS.ADD_PRODUCT_INSIDE_EHOME_MAIN_CATEGORIES
     );
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_PRODUCT_SCREEN,
       passProps: { expenseType: item.type, category: item.category },
       overrideBackPress: true
@@ -29,7 +29,7 @@ class AddEmptyProductScreen extends Component {
   };
 
   render() {
-    const { mainCategoryId, category, navigator } = this.props;
+    const { mainCategoryId, category, navigation } = this.props;
     let item = { category };
     let item2 = null;
     // alert(mainCategoryId);

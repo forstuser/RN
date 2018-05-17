@@ -19,7 +19,7 @@ const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 const ProductListItem = ({
   product,
   onPress,
-  navigator,
+  navigation,
   hideViewBillBtn = false,
   hideDirectionsAndCallBtns = false,
   style
@@ -67,7 +67,7 @@ const ProductListItem = ({
           </Text>
           <UploadBillOptions
             ref={o => (this.uploadBillOptions = o)}
-            navigator={navigator}
+            navigation={navigation}
           />
         </TouchableOpacity>
       );
@@ -77,7 +77,7 @@ const ProductListItem = ({
   };
 
   const openProductScreen = () => {
-    navigator.push({
+    navigation.push({
       screen: SCREENS.PRODUCT_DETAILS_SCREEN,
       passProps: {
         productId: product.id

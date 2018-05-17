@@ -332,7 +332,7 @@ class BasicDetailsForm extends React.Component {
       mainCategoryId,
       categoryId,
       jobId = null,
-      navigator,
+      navigation,
       subCategories,
       brands,
       category,
@@ -632,7 +632,7 @@ class BasicDetailsForm extends React.Component {
               copies: uploadResult.product.copies
             });
           }}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
       </View>
     );

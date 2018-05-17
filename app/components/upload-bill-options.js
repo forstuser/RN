@@ -98,7 +98,7 @@ class UploadBillOptions extends React.Component {
   };
 
   openUploadScreen = file => {
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.UPLOAD_DOCUMENT_SCREEN,
       passProps: {
         jobId: this.state.jobId,

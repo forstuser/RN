@@ -39,7 +39,7 @@ class AddExpenseModal extends React.Component {
 
   onPressItem = type => {
     this.hide();
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
       passProps: { expenseType: type }
     });

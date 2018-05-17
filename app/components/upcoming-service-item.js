@@ -8,7 +8,7 @@ import { API_BASE_URL } from "../api";
 import { openBillsPopUp } from "../navigation";
 import { SCREENS, SERVICE_TYPE_NAMES } from "../constants";
 
-const UpcomingServiceItem = ({ item, navigator }) => {
+const UpcomingServiceItem = ({ item, navigation }) => {
   let icon = require("../images/ic_comingup_bill.png");
   let title = "";
   let subTitle = "";
@@ -75,7 +75,7 @@ const UpcomingServiceItem = ({ item, navigator }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigator.push({
+        navigation.push({
           screen: SCREENS.PRODUCT_DETAILS_SCREEN,
           passProps: {
             productId: item.productId || item.id

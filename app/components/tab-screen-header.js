@@ -18,7 +18,7 @@ const searchIcon = require("../images/ic_top_search.png");
 
 class TabSearchHeader extends Component {
   openSearchScreen = () => {
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.SEARCH_SCREEN,
       passProps: {
         recentSearches: this.props.recentSearches
@@ -27,7 +27,7 @@ class TabSearchHeader extends Component {
   };
   openMailboxScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.OPEN_MAILS);
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.MAILBOX_SCREEN
     });
   };

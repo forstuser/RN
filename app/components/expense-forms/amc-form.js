@@ -27,7 +27,7 @@ import UploadDoc from "../form-elements/upload-doc";
 
 class AmcForm extends React.Component {
   static propTypes = {
-    navigator: PropTypes.object,
+    navigation: PropTypes.object,
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
@@ -102,7 +102,7 @@ class AmcForm extends React.Component {
 
   render() {
     const {
-      navigator,
+      navigation,
       mainCategoryId,
       categoryId,
       productId,
@@ -168,7 +168,7 @@ class AmcForm extends React.Component {
               placeholder={I18n.t("expense_forms_amc_form_amc_upload")}
               placeholder2=" (Recommended)"
               placeholder2Color={colors.mainBlue}
-              navigator={navigator}
+              navigation={navigation}
               onUpload={uploadResult => {
                 this.setState({
                   id: uploadResult.amc.id,

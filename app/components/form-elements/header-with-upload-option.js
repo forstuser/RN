@@ -52,7 +52,7 @@ class HeaderWithUploadOption extends React.Component {
   render() {
     let {
       title,
-      navigator,
+      navigation,
       itemId,
       copies = [],
       productId,
@@ -147,7 +147,7 @@ class HeaderWithUploadOption extends React.Component {
             )}
             <UploadBillOptions
               ref={ref => (this.uploadBillOptions = ref)}
-              navigator={navigator}
+              navigation={navigation}
               uploadCallback={uploadResult => {
                 this.onUpload(uploadResult);
               }}

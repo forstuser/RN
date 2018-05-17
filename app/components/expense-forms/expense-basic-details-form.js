@@ -268,7 +268,7 @@ class BasicDetailsForm extends React.Component {
             console.log("upload result: ", uploadResult);
             this.setState({ copies: uploadResult.product.copies });
           }}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
       </View>
     );
