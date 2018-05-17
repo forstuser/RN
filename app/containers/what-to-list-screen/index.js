@@ -603,11 +603,7 @@ class WhatToListScreen extends Component {
             ) : (
               <View />
             )}
-            {type != EASY_LIFE_TYPES.WHAT_TO_COOK ? (
-              <AddNewBtn text={btnText} onPress={this.onAddNewPress} />
-            ) : (
-              <View />
-            )}
+            {/* <AddNewBtn text={btnText} onPress={this.onAddNewPress} /> */}
           </View>
           <ClothesImageUploader
             ref={ref => (this.clothesImageUploader = ref)}

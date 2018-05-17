@@ -63,7 +63,11 @@ class RepairDetails extends React.Component {
         />
         <KeyValueItem
           keyText={I18n.t("product_details_screen_repairs_warranty_upto")}
-          valueText={repair.warranty_upto || "-"}
+          valueText={
+            repair.warranty_upto
+              ? moment(repair.warranty_upto).format("DD MMM, YYYY")
+              : "-"
+          }
         />
         <KeyValueItem
           keyText={I18n.t("product_details_screen_repairs_seller")}

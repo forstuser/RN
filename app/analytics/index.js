@@ -92,9 +92,9 @@ const EVENTS = {
   CLICK_URL: "click_url"
 };
 
+const logEventInDebug = false;
 const logEvent = (eventName, data = {}) => {
-  console.log(eventName);
-  if (__DEV__) {
+  if (!__DEV__ || logEventInDebug) {
     const user = store.getState().loggedInUser;
     FirebaseAnalytics.logEvent(eventName, {
       FCM_Id: user.fcmToken,
