@@ -9,7 +9,7 @@ import I18n from "../i18n";
 
 class FaqScreen extends Component {
   static navigationOptions = {
-    tabBarHidden: true
+    title: I18n.t("faq_screen_title")
   };
 
   constructor(props) {
@@ -22,10 +22,6 @@ class FaqScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.navigation.setTitle({
-      title: I18n.t("faq_screen_title")
-    });
-
     this.getFaqs();
   }
 

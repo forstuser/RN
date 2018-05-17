@@ -371,7 +371,7 @@ class DirectUploadDocumentScreen extends React.Component {
       () => {
         setTimeout(() => {
           this.props.showAddProductOptionsScreenOnAppear();
-          this.props.navigation.pop();
+          this.props.navigation.goBack();
         }, 500);
       }
     );
@@ -384,7 +384,7 @@ class DirectUploadDocumentScreen extends React.Component {
       },
       () => {
         setTimeout(() => {
-          this.props.navigation.pop({
+          this.props.navigation.goBack({
             animationType: "fade"
           });
           this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
@@ -396,7 +396,7 @@ class DirectUploadDocumentScreen extends React.Component {
   };
 
   onCrossPress = () => {
-    this.props.navigation.pop();
+    this.props.navigation.goBack();
   };
 
   render() {

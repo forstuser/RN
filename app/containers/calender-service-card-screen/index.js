@@ -69,27 +69,14 @@ import FinishModal from "./finish-modal";
 
 class CalendarServiceCard extends Component {
   static navigationOptions = {
-    tabBarHidden: true,
-    drawUnderNavBar: true,
-    navBarTranslucent: Platform.OS === "ios",
-    navBarTransparent: true,
-    navBarBackgroundColor: "#fff",
-    topBarElevationShadowEnabled: false
-  };
-
-  static navigationButtons = {
-    rightButtons: [
-      {
-        component: "CalendarNavOptionsButton",
-        passProps: {}
-      }
-    ]
+    title: I18n.t("calendar_service_screen_title")
   };
 
   constructor(props) {
     super(props);
     this.state = {
       isScreenVisible: true,
+      itemId: null,
       item: null,
       isLoading: true,
       activeTabIndex: 0,
@@ -101,10 +88,15 @@ class CalendarServiceCard extends Component {
   }
 
   componentDidMount() {
-    this.props.navigation.setTitle({
-      title: I18n.t("calendar_service_screen_title")
-    });
-    this.fetchItemDetails();
+    this.setState(
+      {
+        itemId: this.props.navigation.state.params.itemId
+      },
+      () => {
+        this.fetchItemDetails();
+      }
+    );
+
     // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
@@ -129,7 +121,7 @@ class CalendarServiceCard extends Component {
               onPress: async () => {
                 this.setState({ isLoading: true });
                 await deleteCalendarItem(item.id);
-                this.props.navigation.pop();
+                this.props.navigation.goBack();
               }
             },
             {
@@ -153,7 +145,7 @@ class CalendarServiceCard extends Component {
 
     const newState = {};
     try {
-      const res = await fetchCalendarItemById(this.props.itemId);
+      const res = await fetchCalendarItemById(this.state.itemId);
       newState.item = res.item;
     } catch (e) {
       newState.error = e;

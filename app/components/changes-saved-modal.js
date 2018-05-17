@@ -34,7 +34,7 @@ class ChangesSavedModal extends React.Component {
 
   onOkayClick = () => {
     this.setState({ visible: false }, () => {
-      this.props.navigation.pop();
+      this.props.navigation.goBack();
     });
   };
 

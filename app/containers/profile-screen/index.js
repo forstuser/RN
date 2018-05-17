@@ -30,8 +30,7 @@ import Header from "./header";
 
 class ProfileScreen extends Component {
   static navigationOptions = {
-    navBarHidden: true,
-    tabBarHidden: true
+    header: null
   };
 
   constructor(props) {
@@ -43,7 +42,7 @@ class ProfileScreen extends Component {
       //   isLocationModalVisible: false,
       //   name: this.props.profile.name,
       //   phone: this.props.profile.mobile_no,
-      email: this.props.profile.email
+      email: this.props.navigation.state.params.profile.email
       //   isEmailVerified: this.props.profile.email_verified,
       //   location: this.props.profile.location,
       //   nameTemp: null,
@@ -195,7 +194,7 @@ class ProfileScreen extends Component {
   };
 
   backToMoreScreen = () => {
-    this.props.navigation.pop();
+    this.props.navigation.goBack();
   };
 
   showNameEditModal = () => {
@@ -243,7 +242,7 @@ class ProfileScreen extends Component {
   };
 
   render() {
-    const { profile, authToken } = this.props;
+    const { profile, authToken } = this.props.navigation.state.params;
     const {
       //   isNameModalVisible,
       //   isEmailModalVisible,

@@ -20,8 +20,13 @@ export const openAfterLoginScreen = () => {
   navigate(SCREENS.APP_STACK);
 };
 
+export const openBillsPopUp = params => {
+  navigate(SCREENS.BILLS_POPUP_SCREEN, params);
+};
+
 export default {
   navigate,
   setTopLevelNavigator,
-  openAfterLoginScreen
+  openAfterLoginScreen,
+  openBillsPopUp
 };

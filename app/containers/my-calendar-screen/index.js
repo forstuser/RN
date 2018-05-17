@@ -23,7 +23,7 @@ const calendarIconColor = require("../../images/ic_calendar_color.png");
 
 class MyCalendarScreen extends Component {
   static navigationOptions = {
-    tabBarHidden: true
+    title: I18n.t("my_calendar_screen_title")
   };
   constructor(props) {
     super(props);
@@ -32,7 +32,6 @@ class MyCalendarScreen extends Component {
       isFetchingItems: true,
       items: []
     };
-    this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -44,10 +43,18 @@ class MyCalendarScreen extends Component {
   };
 
   componentDidMount() {
-    this.props.navigation.setTitle({
-      title: I18n.t("my_calendar_screen_title")
-    });
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
+    this.fetchItems();
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.fetchItems();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   fetchItems = async () => {

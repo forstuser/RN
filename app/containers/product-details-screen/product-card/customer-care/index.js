@@ -359,7 +359,10 @@ class CustomerCare extends React.Component {
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_service_schedule_title")}
               </Text>
-              <ServiceSchedules product={product} navigation={navigation} />
+              <ServiceSchedules
+                product={product}
+                navigation={this.props.navigation}
+              />
             </View>
           )}
       </View>

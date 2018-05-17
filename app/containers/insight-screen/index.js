@@ -41,7 +41,7 @@ import { SCREENS } from "../../constants";
 
 class InsightScreen extends Component {
   static navigationOptions = {
-    tabBarHidden: true
+    title: I18n.t("insights_screen_title")
   };
   constructor(props) {
     super(props);
@@ -92,10 +92,6 @@ class InsightScreen extends Component {
   }
 
   async componentDidMount() {
-    this.props.navigation.setTitle({
-      title: I18n.t("insights_screen_title")
-    });
-
     try {
       const res = await getInsightData();
       const weeklyData = {

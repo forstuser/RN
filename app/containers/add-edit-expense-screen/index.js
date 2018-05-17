@@ -58,7 +58,7 @@ class AddEditExpenseScreen extends React.Component {
     switch (event.id) {
       case "backPress":
         if (!this.state.confirmBackNavigation) {
-          this.props.navigation.pop();
+          this.props.navigation.goBack();
           return;
         }
         Alert.alert(
@@ -67,7 +67,7 @@ class AddEditExpenseScreen extends React.Component {
           [
             {
               text: I18n.t("add_edit_expense_screen_title_add_go_back"),
-              onPress: () => this.props.navigation.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_expense_screen_title_add_stay"),

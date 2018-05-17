@@ -77,7 +77,7 @@ class MedicalDoc extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigation.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -94,7 +94,7 @@ class MedicalDoc extends React.Component {
   componentDidMount() {
     this.fetchCategoryData();
     let title = "Edit Doc";
-    this.props.navigation.setTitle({ title });
+    // this.props.navigation.setTitle({ title });
   }
 
   fetchCategoryData = async () => {
@@ -108,12 +108,14 @@ class MedicalDoc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
   saveDoc = async () => {
-    const { mainCategoryId, categoryId, navigation } = this.props;
+    const { navigation } = this.props;
+    const { mainCategoryId, categoryId } = navigation.state.params;
+
     let data = {
       mainCategoryId,
       categoryId,
@@ -125,7 +127,7 @@ class MedicalDoc extends React.Component {
     if (data.copies.length == 0) {
       return showSnackbar({
         text: I18n.t("add_edit_medical_upload_doc")
-      })
+      });
     }
 
     try {
@@ -136,12 +138,14 @@ class MedicalDoc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({ isLoading: false });
     }
   };
 
   render() {
+    const { navigation } = this.props;
+
     const {
       productId,
       jobId,
@@ -150,9 +154,9 @@ class MedicalDoc extends React.Component {
       date,
       doctorName,
       doctorContact,
-      copies,
-      navigation
-    } = this.props;
+      copies
+    } = navigation.state.params;
+
     const {
       mainCategoryId,
       categoryId,
@@ -161,7 +165,7 @@ class MedicalDoc extends React.Component {
       isFinishModalVisible
     } = this.state;
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
           navigation={this.props.navigation}

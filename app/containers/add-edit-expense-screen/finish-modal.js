@@ -32,7 +32,7 @@ class FinishModal extends React.Component {
   onMoreProductsClick = () => {
     Analytics.logEvent(Analytics.EVENTS.ADD_MORE_PRODUCT);
     this.setState({ visible: false }, () => {
-      this.props.navigation.pop();
+      this.props.navigation.goBack();
       setTimeout(() => {
         if (!this.props.isPreviousScreenOfAddOptions) {
           this.props.navigation.showModal({
@@ -49,7 +49,7 @@ class FinishModal extends React.Component {
     });
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
-        this.props.navigation.pop({ animationType: "fade" });
+        this.props.navigation.goBack({ animationType: "fade" });
 
         this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
           productId: this.props.productId

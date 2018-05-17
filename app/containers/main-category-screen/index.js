@@ -5,23 +5,28 @@ import Direct from "./direct";
 import { MAIN_CATEGORY_IDS } from "../../constants";
 
 class MainCategoryScreen extends Component {
-  static navigationOptions = {
-    tabBarHidden: true,
-    drawUnderNavBar: false
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      title: params.title ? params.title : ""
+    };
   };
+
   constructor(props) {
     super(props);
     this.state = {
+      mainCategory: {},
       isAppearingFirstTime: true,
       reloadList: false
     };
   }
 
   async componentDidMount() {
-    this.props.navigation.setTitle({
-      title: this.props.category.name
+    const mainCategory = this.props.navigation.state.params.category;
+    this.props.navigation.setParams({ title: mainCategory.name });
+    this.setState({
+      mainCategory
     });
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -40,13 +45,14 @@ class MainCategoryScreen extends Component {
   };
 
   render() {
-    switch (+this.props.category.id) {
+    const mainCategory = this.state.mainCategory;
+    switch (+mainCategory.id) {
       case MAIN_CATEGORY_IDS.AUTOMOBILE:
       case MAIN_CATEGORY_IDS.ELECTRONICS:
         return (
           <CategoryScreenWithFilters
             navigation={this.props.navigation}
-            category={this.props.category}
+            category={mainCategory}
             reloadList={this.state.reloadList}
           />
         );
@@ -59,7 +65,7 @@ class MainCategoryScreen extends Component {
         return (
           <CategoryScreenWithPager
             navigation={this.props.navigation}
-            category={this.props.category}
+            category={mainCategory}
             reloadList={this.state.reloadList}
           />
         );
@@ -68,7 +74,7 @@ class MainCategoryScreen extends Component {
         return (
           <Direct
             navigation={this.props.navigation}
-            category={this.props.category}
+            category={mainCategory}
             reloadList={this.state.reloadList}
           />
         );

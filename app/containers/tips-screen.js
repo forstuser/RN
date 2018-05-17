@@ -11,7 +11,7 @@ const tipsColors = ["#54ddff", "#ff9b9b", "#9baaf9", "#3eefdc", "#dbf62d"];
 
 class TipsScreen extends Component {
   static navigationOptions = {
-    tabBarHidden: true
+    title: I18n.t("tips_screen_title")
   };
 
   constructor(props) {
@@ -24,9 +24,6 @@ class TipsScreen extends Component {
   }
 
   async componentDidMount() {
-    this.props.navigation.setTitle({
-      title: I18n.t("tips_screen_title")
-    });
     this.getTips();
   }
 
@@ -57,19 +54,21 @@ class TipsScreen extends Component {
           data={this.state.tips}
           keyExtractor={(item, index) => index}
           renderItem={({ item, index }) => (
-            <View collapsable={false} 
+            <View
+              collapsable={false}
               style={{
                 backgroundColor: tipsColors[index % 4],
                 marginBottom: 10,
                 borderRadius: 4
               }}
             >
-              <View collapsable={false}  style={styles.overlay} />
+              <View collapsable={false} style={styles.overlay} />
               <Text style={styles.mainText} weight="Medium">
                 {item.tip}
               </Text>
 
-              <View collapsable={false} 
+              <View
+                collapsable={false}
                 style={{
                   marginTop: 35,
                   marginBottom: 20,

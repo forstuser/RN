@@ -143,7 +143,7 @@ class ProductDetailsScreen extends Component {
       case "didAppear":
         console.log("didAppear");
         if (!this.state.productId) {
-          return this.props.navigation.pop();
+          return this.props.navigation.goBack();
         }
         this.setState(
           {
@@ -190,7 +190,7 @@ class ProductDetailsScreen extends Component {
                 Analytics.logEvent(Analytics.EVENTS.DELETE_PRODUCT);
                 this.setState({ isLoading: true });
                 await deleteProduct(product.id);
-                this.props.navigation.pop();
+                this.props.navigation.goBack();
               }
             },
             {

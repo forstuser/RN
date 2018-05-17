@@ -41,7 +41,7 @@ class AddProductScreen extends React.Component {
   };
 
   hide = () => {
-    this.props.navigation.dismissModal();
+    this.props.navigation.goBack();
   };
 
   onPressItem = type => {

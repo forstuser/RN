@@ -42,9 +42,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class AddProductScreen extends React.Component {
   static navigationOptions = {
-    navBarHidden: true,
-    tabBarHidden: true
-    // disabledBackGesture: true
+    header: null
   };
   state = {
     activeStepIndex: 0,
@@ -127,7 +125,7 @@ class AddProductScreen extends React.Component {
   };
 
   close = () => {
-    this.props.navigation.pop();
+    this.props.navigation.goBack();
   };
 
   previousStep = () => {
@@ -355,7 +353,10 @@ class AddProductScreen extends React.Component {
               this.pushBrandStep();
               break;
             case MAIN_CATEGORY_IDS.FURNITURE:
-              if (category.id == CATEGORY_IDS.FURNITURE.FURNITURE || category.id == CATEGORY_IDS.FURNITURE.KITCHEN_UTENSILS) {
+              if (
+                category.id == CATEGORY_IDS.FURNITURE.FURNITURE ||
+                category.id == CATEGORY_IDS.FURNITURE.KITCHEN_UTENSILS
+              ) {
                 this.setState({
                   numberOfStepsToShowInFooter: 4
                 });
@@ -754,7 +755,7 @@ class AddProductScreen extends React.Component {
     console.log("activeStepIndex: ", activeStepIndex);
 
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <LoadingOverlay visible={isLoading} />
         <Animated.View
           style={[
@@ -768,13 +769,19 @@ class AddProductScreen extends React.Component {
             }
           ]}
         >
-          <View collapsable={false}  style={styles.stepContainer}>{previousStep}</View>
-          <View collapsable={false}  style={styles.stepContainer}>{currentStep}</View>
-          <View collapsable={false}  style={styles.stepContainer}>{nextStep}</View>
+          <View collapsable={false} style={styles.stepContainer}>
+            {previousStep}
+          </View>
+          <View collapsable={false} style={styles.stepContainer}>
+            {currentStep}
+          </View>
+          <View collapsable={false} style={styles.stepContainer}>
+            {nextStep}
+          </View>
         </Animated.View>
         {numberOfStepsToShowInFooter > 0 ? (
-          <View collapsable={false}  style={styles.stepIndicatorsAndText}>
-            <View collapsable={false}  style={styles.stepIndicators}>
+          <View collapsable={false} style={styles.stepIndicatorsAndText}>
+            <View collapsable={false} style={styles.stepIndicators}>
               {_.range(numberOfStepsToShowInFooter).map((item, index) => {
                 activeStepIndicatorIndex =
                   activeStepIndex -
@@ -783,14 +790,16 @@ class AddProductScreen extends React.Component {
                 isActiveStep = index == activeStepIndicatorIndex;
                 return [
                   index > 0 && (
-                    <View collapsable={false} 
+                    <View
+                      collapsable={false}
                       style={[
                         styles.stepIndicatorLine,
                         idDoneStep ? styles.doneStepIndicatorLine : {}
                       ]}
                     />
                   ),
-                  <View collapsable={false} 
+                  <View
+                    collapsable={false}
                     style={[
                       styles.stepIndicatorDot,
                       idDoneStep ? styles.doneStepIndicatorDot : {},
@@ -798,9 +807,12 @@ class AddProductScreen extends React.Component {
                     ]}
                   >
                     {isActiveStep ? (
-                      <View collapsable={false}  style={styles.activeStepIndicatorDotInnerRing} />
+                      <View
+                        collapsable={false}
+                        style={styles.activeStepIndicatorDotInnerRing}
+                      />
                     ) : (
-                      <View collapsable={false}  />
+                      <View collapsable={false} />
                     )}
                   </View>
                 ];
@@ -809,7 +821,7 @@ class AddProductScreen extends React.Component {
             {/* <Text weight='Bold' style={{ fontSize: 12, marginTop: 10, color: colors.secondaryText }}>Purchase date helps in warranty, service and other details</Text> */}
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
         <FinishModal
           ref={ref => (this.finishModal = ref)}
@@ -829,7 +841,8 @@ class AddProductScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     padding: 0,
-    flex: 1
+    flex: 1,
+    backgroundColor: "#fff"
   },
   stepsContainer: {
     flex: 1,

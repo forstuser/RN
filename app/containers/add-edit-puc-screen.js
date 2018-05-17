@@ -70,13 +70,18 @@ class AddEditPuc extends React.Component {
   }
 
   async componentDidMount() {
-    const { mainCategoryId, productId, jobId, puc } = this.props;
+    const {
+      mainCategoryId,
+      productId,
+      jobId,
+      puc
+    } = this.props.navigation.state.params;
     let title = I18n.t("add_edit_puc_add_puc");
     if (puc) {
       title = I18n.t("add_edit_puc_edit_puc");
     }
 
-    this.props.navigation.setTitle({ title });
+    // this.props.navigation.setTitle({ title });
 
     if (puc) {
       this.setState({
@@ -92,18 +97,18 @@ class AddEditPuc extends React.Component {
             puc.sellers && puc.sellers.contact ? puc.sellers.contact : ""
         }
       });
-      this.props.navigation.setButtons({
-        rightButtons: [
-          {
-            title: I18n.t("add_edit_insurance_delete"),
-            id: "delete",
-            buttonColor: "red",
-            buttonFontSize: 16,
-            buttonFontWeight: "600"
-          }
-        ],
-        animated: true
-      });
+      // this.props.navigation.setButtons({
+      //   rightButtons: [
+      //     {
+      //       title: I18n.t("add_edit_insurance_delete"),
+      //       id: "delete",
+      //       buttonColor: "red",
+      //       buttonFontSize: 16,
+      //       buttonFontWeight: "600"
+      //     }
+      //   ],
+      //   animated: true
+      // });
     }
   }
 
@@ -122,7 +127,7 @@ class AddEditPuc extends React.Component {
           newData.sellerName == initialValues.sellerName &&
           newData.sellerContact == initialValues.sellerContact
         ) {
-          return this.props.navigation.pop();
+          return this.props.navigation.goBack();
         }
         Alert.alert(
           I18n.t("add_edit_amc_are_you_sure"),
@@ -130,7 +135,7 @@ class AddEditPuc extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigation.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -140,7 +145,7 @@ class AddEditPuc extends React.Component {
           ]
         );
       } else if (event.id == "delete") {
-        const { productId, puc } = this.props;
+        const { productId, puc } = this.props.navigation.state.params;
         Alert.alert(
           I18n.t("add_edit_puc_delete_puc"),
           I18n.t("add_edit_puc_delete_puc_desc"),
@@ -151,7 +156,7 @@ class AddEditPuc extends React.Component {
                 try {
                   this.setState({ isLoading: true });
                   await deletePuc({ productId, pucId: puc.id });
-                  this.props.navigation.pop();
+                  this.props.navigation.goBack();
                 } catch (e) {
                   showSnackbar({
                     text: I18n.t("add_edit_amc_could_not_delete")
@@ -172,14 +177,15 @@ class AddEditPuc extends React.Component {
   };
 
   onSavePress = async () => {
+    const { navigation } = this.props;
     const {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
-      puc,
-      navigation
-    } = this.props;
+      puc
+    } = navigation.state.params;
+
     let data = {
       mainCategoryId,
       categoryId,
@@ -212,14 +218,15 @@ class AddEditPuc extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+
     const {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
-      puc,
-      navigation
-    } = this.props;
+      puc
+    } = navigation.state.params;
 
     const { isLoading } = this.state;
     return (

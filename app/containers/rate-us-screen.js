@@ -47,14 +47,14 @@ class RateUsScreen extends Component {
       }
     }, 400);
 
-    this.props.navigation.dismissModal({
+    this.props.navigation.goBack({
       animationType: "none"
     });
   };
 
   closeDialog = () => {
     this.props.setRateUsDialogTimestamp(new Date().toISOString());
-    this.props.navigation.dismissModal({
+    this.props.navigation.goBack({
       animationType: "none"
     });
   };

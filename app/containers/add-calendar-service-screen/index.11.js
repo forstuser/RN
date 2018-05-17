@@ -235,7 +235,7 @@ class AddEditCalendarServiceScreen extends Component {
         effectiveDate: startingDate,
         selectedDays: selectedDays
       });
-      this.props.navigation.pop();
+      this.props.navigation.goBack();
     } catch (e) {
       showSnackbar({
         text: e.message

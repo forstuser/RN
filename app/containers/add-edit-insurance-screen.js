@@ -75,13 +75,18 @@ class AddEditInsurance extends React.Component {
   }
 
   async componentDidMount() {
-    const { mainCategoryId, productId, jobId, insurance } = this.props;
+    const {
+      mainCategoryId,
+      productId,
+      jobId,
+      insurance
+    } = this.props.navigation.state.params;
     let title = I18n.t("add_edit_insurance_add_insurance");
     if (insurance) {
       title = I18n.t("add_edit_insurance_edit_insurance");
     }
 
-    this.props.navigation.setTitle({ title });
+    // this.props.navigation.setTitle({ title });
 
     this.fetchCategoryData();
 
@@ -98,18 +103,18 @@ class AddEditInsurance extends React.Component {
           providerName: ""
         }
       });
-      this.props.navigation.setButtons({
-        rightButtons: [
-          {
-            title: I18n.t("add_edit_insurance_delete"),
-            id: "delete",
-            buttonColor: "red",
-            buttonFontSize: 16,
-            buttonFontWeight: "600"
-          }
-        ],
-        animated: true
-      });
+      // this.props.navigation.setButtons({
+      //   rightButtons: [
+      //     {
+      //       title: I18n.t("add_edit_insurance_delete"),
+      //       id: "delete",
+      //       buttonColor: "red",
+      //       buttonFontSize: 16,
+      //       buttonFontWeight: "600"
+      //     }
+      //   ],
+      //   animated: true
+      // });
     }
   }
 
@@ -129,7 +134,7 @@ class AddEditInsurance extends React.Component {
           newData.value == initialValues.value &&
           newData.amountInsured == initialValues.amountInsured
         ) {
-          return this.props.navigation.pop();
+          return this.props.navigation.goBack();
         }
         Alert.alert(
           I18n.t("add_edit_amc_are_you_sure"),
@@ -137,7 +142,7 @@ class AddEditInsurance extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigation.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -147,7 +152,7 @@ class AddEditInsurance extends React.Component {
           ]
         );
       } else if (event.id == "delete") {
-        const { productId, insurance } = this.props;
+        const { productId, insurance } = this.props.navigation.state.params;
         Alert.alert(
           I18n.t("add_edit_insurance_delete_insurance"),
           I18n.t("add_edit_insurance_delete_insurance_desc"),
@@ -161,7 +166,7 @@ class AddEditInsurance extends React.Component {
                     productId,
                     insuranceId: insurance.id
                   });
-                  this.props.navigation.pop();
+                  this.props.navigation.goBack();
                 } catch (e) {
                   showSnackbar({
                     text: I18n.t("add_edit_amc_could_not_delete")
@@ -184,7 +189,9 @@ class AddEditInsurance extends React.Component {
   fetchCategoryData = async () => {
     try {
       this.setState({ isLoading: true });
-      const res = await getReferenceDataForCategory(this.props.categoryId);
+      const res = await getReferenceDataForCategory(
+        this.props.navigation.state.params.categoryId
+      );
       this.setState({
         insuranceProviders: res.categories[0].insuranceProviders,
         isLoading: false
@@ -197,14 +204,14 @@ class AddEditInsurance extends React.Component {
   };
 
   onSavePress = async () => {
+    const { navigation } = this.props;
     const {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
-      insurance,
-      navigation
-    } = this.props;
+      insurance
+    } = navigation.state.params;
     let data = {
       mainCategoryId,
       categoryId,
@@ -240,14 +247,14 @@ class AddEditInsurance extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
     const {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
-      insurance,
-      navigation
-    } = this.props;
+      insurance
+    } = navigation.state.params;
 
     const { insuranceProviders, isLoading } = this.state;
     return (

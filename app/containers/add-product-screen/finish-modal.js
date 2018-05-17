@@ -34,17 +34,11 @@ class FinishModal extends React.Component {
     });
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
-        if (!this.props.popOnDoItLater) {
-          this.props.startOver();
-        } else {
-          this.props.navigation.pop({ animationType: "fade" });
-        }
-
-        this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+        this.props.navigation.replace(SCREENS.PRODUCT_DETAILS_SCREEN, {
           productId: this.props.productId
         });
       } else {
-        this.props.navigation.pop({ animationType: "fade" });
+        this.props.navigation.goBack({ animationType: "fade" });
       }
     });
   };

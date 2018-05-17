@@ -141,7 +141,7 @@ class Repair extends React.Component {
   };
 
   openAddProductScreen = () => {
-    this.props.navigation.pop();
+    this.props.navigation.goBack();
   };
 
   render() {

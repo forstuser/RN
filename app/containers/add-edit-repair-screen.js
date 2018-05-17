@@ -69,13 +69,18 @@ class AddEditRepair extends React.Component {
   }
 
   async componentDidMount() {
-    const { mainCategoryId, productId, jobId, repair } = this.props;
+    const {
+      mainCategoryId,
+      productId,
+      jobId,
+      repair
+    } = this.props.navigation.state.params;
     let title = I18n.t("add_edit_repair_add_repair");
     if (repair) {
       title = I18n.t("add_edit_repair_edit_repair");
     }
 
-    this.props.navigation.setTitle({ title });
+    // this.props.navigation.setTitle({ title });
 
     if (repair) {
       this.setState({
@@ -96,18 +101,18 @@ class AddEditRepair extends React.Component {
               : ""
         }
       });
-      this.props.navigation.setButtons({
-        rightButtons: [
-          {
-            title: I18n.t("add_edit_insurance_delete"),
-            id: "delete",
-            buttonColor: "red",
-            buttonFontSize: 16,
-            buttonFontWeight: "600"
-          }
-        ],
-        animated: true
-      });
+      // this.props.navigation.setButtons({
+      //   rightButtons: [
+      //     {
+      //       title: I18n.t("add_edit_insurance_delete"),
+      //       id: "delete",
+      //       buttonColor: "red",
+      //       buttonFontSize: 16,
+      //       buttonFontWeight: "600"
+      //     }
+      //   ],
+      //   animated: true
+      // });
     }
   }
 
@@ -127,7 +132,7 @@ class AddEditRepair extends React.Component {
           newData.sellerName == initialValues.sellerName &&
           newData.sellerContact == initialValues.sellerContact
         ) {
-          return this.props.navigation.pop();
+          return this.props.navigation.goBack();
         }
         Alert.alert(
           I18n.t("add_edit_amc_are_you_sure"),
@@ -135,7 +140,7 @@ class AddEditRepair extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigation.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -145,7 +150,7 @@ class AddEditRepair extends React.Component {
           ]
         );
       } else if (event.id == "delete") {
-        const { productId, repair } = this.props;
+        const { productId, repair } = this.props.navigation.state.params;
         Alert.alert(
           I18n.t("add_edit_repair_delete_repair"),
           I18n.t("add_edit_repair_delete_repair_desc"),
@@ -156,7 +161,7 @@ class AddEditRepair extends React.Component {
                 try {
                   this.setState({ isLoading: true });
                   await deleteRepair({ productId, repairId: repair.id });
-                  this.props.navigation.pop();
+                  this.props.navigation.goBack();
                 } catch (e) {
                   showSnackbar({
                     text: I18n.t("add_edit_amc_could_not_delete")
@@ -177,14 +182,16 @@ class AddEditRepair extends React.Component {
   };
 
   onSavePress = async () => {
+    const { navigation } = this.props;
+
     const {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
-      repair,
-      navigation
-    } = this.props;
+      repair
+    } = navigation.state.params;
+
     let data = {
       mainCategoryId,
       categoryId,
@@ -217,14 +224,15 @@ class AddEditRepair extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+
     const {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
-      repair,
-      navigation
-    } = this.props;
+      repair
+    } = navigation.state.params;
 
     const { isLoading } = this.state;
     return (
@@ -235,7 +243,7 @@ class AddEditRepair extends React.Component {
           navigation={this.props.navigation}
         />
         <KeyboardAwareScrollView>
-          <View collapsable={false}  style={{ flex: 1 }}>
+          <View collapsable={false} style={{ flex: 1 }}>
             <RepairForm
               ref={ref => (this.repairForm = ref)}
               {...{

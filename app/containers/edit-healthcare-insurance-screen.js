@@ -70,7 +70,7 @@ class MedicalDoc extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigation.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -88,7 +88,7 @@ class MedicalDoc extends React.Component {
     this.fetchCategoryData();
     let title = I18n.t("add_edit_healthcare_edit_insurance");
 
-    this.props.navigation.setTitle({ title });
+    // this.props.navigation.setTitle({ title });
   }
 
   fetchCategoryData = async () => {
@@ -107,7 +107,8 @@ class MedicalDoc extends React.Component {
   };
 
   saveDoc = async () => {
-    const { mainCategoryId, categoryId, navigation } = this.props;
+    const { navigation } = this.props;
+    const { mainCategoryId, categoryId } = navigation.state.params;
     let data = {
       mainCategoryId,
       categoryId,
@@ -130,6 +131,8 @@ class MedicalDoc extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+
     const {
       typeId,
       productId,
@@ -142,9 +145,9 @@ class MedicalDoc extends React.Component {
       effectiveDate,
       policyNo,
       amountInsured,
-      copies,
-      navigation
-    } = this.props;
+      copies
+    } = navigation.state.params;
+
     const {
       mainCategoryId,
       categoryId,
@@ -153,7 +156,7 @@ class MedicalDoc extends React.Component {
       isFinishModalVisible
     } = this.state;
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
           <LoadingOverlay visible={isLoading} />
           <ChangesSavedModal

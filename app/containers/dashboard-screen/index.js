@@ -73,7 +73,7 @@ class DashboardScreen extends React.Component {
     // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-   componentDidMount() {
+  async componentDidMount() {
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -102,9 +102,7 @@ class DashboardScreen extends React.Component {
           this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN);
           break;
         case SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN:
-          this.props.navigation.navigate(
-            SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN
-          );
+          this.props.navigation.navigate(SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN);
           break;
         case SCREENS.TIPS_SCREEN:
           this.props.navigation.navigate(SCREENS.TIPS_SCREEN);
@@ -124,7 +122,7 @@ class DashboardScreen extends React.Component {
     });
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.didFocusSubscription.remove();
     this.willBlurSubscription.remove();
   }

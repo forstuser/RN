@@ -73,7 +73,7 @@ const AddPicButton = () => (
 
 class UploadDocumentScreen extends Component {
   static navigationOptions = {
-    tabBarHidden: true
+    title: I18n.t("upload_document_screen_title")
   };
   static navigationButtons = {
     rightButtons: [
@@ -99,12 +99,9 @@ class UploadDocumentScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.navigation.setTitle({
-      title: I18n.t("upload_document_screen_title")
-    });
-
-    if (this.props.file) {
-      this.pushFileToState(this.props.file);
+    const file = this.props.navigation.getParam("file", null);
+    if (file) {
+      this.pushFileToState(file);
     }
   }
 
@@ -203,12 +200,13 @@ class UploadDocumentScreen extends Component {
       isUploadingOverlayVisible: true,
       uploadPercentCompleted: 0
     });
+
     try {
       const res = await uploadDocuments({
-        productId: this.props.productId,
-        jobId: this.props.jobId,
-        type: this.props.type,
-        itemId: this.props.itemId,
+        productId: this.props.navigation.getParam("productId", undefined),
+        jobId: this.props.navigation.getParam("jobId", undefined),
+        type: this.props.navigation.getParam("type", undefined),
+        itemId: this.props.navigation.getParam("itemId", undefined),
         files: this.state.files,
         onUploadProgress: percentCompleted => {
           this.setState({
@@ -243,9 +241,7 @@ class UploadDocumentScreen extends Component {
   onSuccessOkClick = () => {
     if (typeof this.props.uploadCallback == "function") {
       this.props.uploadCallback(this.state.uploadResult);
-      this.props.navigation.pop();
-    } else {
-      openAppScreen({ startScreen: SCREENS.DOCS_UNDER_PROCESSING_SCREEN });
+      this.props.navigation.goBack();
     }
   };
 

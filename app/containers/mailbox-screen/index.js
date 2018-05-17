@@ -23,7 +23,7 @@ import filterIcon from "../../images/ic_filter_none_black.png";
 
 class MailBox extends Component {
   static navigationOptions = {
-    tabBarHidden: true
+    title: I18n.t("mailbox_screen_title")
   };
   constructor(props) {
     super(props);
@@ -34,9 +34,6 @@ class MailBox extends Component {
     };
   }
   componentDidMount() {
-    this.props.navigation.setTitle({
-      title: I18n.t("mailbox_screen_title")
-    });
     this.fetchNotifications();
   }
 

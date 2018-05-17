@@ -69,13 +69,18 @@ class AddEditAmc extends React.Component {
   }
 
   async componentDidMount() {
-    const { mainCategoryId, productId, jobId, amc } = this.props;
+    const {
+      mainCategoryId,
+      productId,
+      jobId,
+      amc
+    } = this.props.navigation.state.params;
     let title = I18n.t("add_edit_amc_add_amc");
     if (amc) {
       title = I18n.t("add_edit_amc_edit_amc");
     }
 
-    this.props.navigation.setTitle({ title });
+    //this.props.navigation.setTitle({ title });
 
     if (amc) {
       this.setState({
@@ -90,18 +95,18 @@ class AddEditAmc extends React.Component {
             amc.sellers && amc.sellers.contact ? amc.sellers.contact : ""
         }
       });
-      this.props.navigation.setButtons({
-        rightButtons: [
-          {
-            title: "Delete",
-            id: "delete",
-            buttonColor: "red",
-            buttonFontSize: 16,
-            buttonFontWeight: "600"
-          }
-        ],
-        animated: true
-      });
+      // this.props.navigation.setButtons({
+      //   rightButtons: [
+      //     {
+      //       title: "Delete",
+      //       id: "delete",
+      //       buttonColor: "red",
+      //       buttonFontSize: 16,
+      //       buttonFontWeight: "600"
+      //     }
+      //   ],
+      //   animated: true
+      // });
     }
   }
 
@@ -119,7 +124,7 @@ class AddEditAmc extends React.Component {
           newData.sellerName == initialValues.sellerName &&
           newData.sellerContact == initialValues.sellerContact
         ) {
-          return this.props.navigation.pop();
+          return this.props.navigation.goBack();
         }
 
         Alert.alert(
@@ -128,7 +133,7 @@ class AddEditAmc extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigation.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -138,7 +143,7 @@ class AddEditAmc extends React.Component {
           ]
         );
       } else if (event.id == "delete") {
-        const { productId, amc } = this.props;
+        const { productId, amc } = this.props.navigation.state.params;
         Alert.alert(
           I18n.t("add_edit_amc_delete_amc"),
           I18n.t("add_edit_amc_delete_amc_desc"),
@@ -149,7 +154,7 @@ class AddEditAmc extends React.Component {
                 try {
                   this.setState({ isLoading: true });
                   await deleteAmc({ productId, amcId: amc.id });
-                  this.props.navigation.pop();
+                  this.props.navigation.goBack();
                 } catch (e) {
                   console.log("e: ", e);
                   I18n.t("add_edit_amc_could_not_delete");
@@ -169,14 +174,15 @@ class AddEditAmc extends React.Component {
   };
 
   onSavePress = async () => {
+    const { navigation } = this.props;
     const {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
-      amc,
-      navigation
-    } = this.props;
+      amc
+    } = navigation.state.params;
+
     let data = {
       mainCategoryId,
       categoryId,
@@ -209,14 +215,14 @@ class AddEditAmc extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
     const {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
-      amc,
-      navigation
-    } = this.props;
+      amc
+    } = navigation.state.params;
 
     const { isLoading } = this.state;
     return (

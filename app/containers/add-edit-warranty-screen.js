@@ -83,7 +83,7 @@ class AddEditWarranty extends React.Component {
       jobId,
       warrantyType,
       warranty
-    } = this.props;
+    } = this.props.navigation.state.params;
     let title = "Add Warranty";
     if (warrantyType == WARRANTY_TYPES.NORMAL && warranty) {
       title = "Edit Warranty";
@@ -97,7 +97,7 @@ class AddEditWarranty extends React.Component {
       title = "Edit Third Party Warranty";
     }
 
-    this.props.navigation.setTitle({ title });
+    // this.props.navigation.setTitle({ title });
 
     this.fetchCategoryData();
 
@@ -113,18 +113,18 @@ class AddEditWarranty extends React.Component {
           providerName: null
         }
       });
-      this.props.navigation.setButtons({
-        rightButtons: [
-          {
-            title: I18n.t("add_edit_insurance_delete"),
-            id: "delete",
-            buttonColor: "red",
-            buttonFontSize: 16,
-            buttonFontWeight: "600"
-          }
-        ],
-        animated: true
-      });
+      // this.props.navigation.setButtons({
+      //   rightButtons: [
+      //     {
+      //       title: I18n.t("add_edit_insurance_delete"),
+      //       id: "delete",
+      //       buttonColor: "red",
+      //       buttonFontSize: 16,
+      //       buttonFontWeight: "600"
+      //     }
+      //   ],
+      //   animated: true
+      // });
     }
   }
 
@@ -143,7 +143,7 @@ class AddEditWarranty extends React.Component {
           newData.renewalType == initialValues.renewalType &&
           newData.value == initialValues.value
         ) {
-          return this.props.navigation.pop();
+          return this.props.navigation.goBack();
         }
         Alert.alert(
           I18n.t("add_edit_amc_are_you_sure"),
@@ -151,7 +151,7 @@ class AddEditWarranty extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigation.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -161,7 +161,7 @@ class AddEditWarranty extends React.Component {
           ]
         );
       } else if (event.id == "delete") {
-        const { productId, warranty } = this.props;
+        const { productId, warranty } = this.props.navigation.state.params;
         Alert.alert(
           I18n.t("add_edit_warranty_delete_warranty"),
           I18n.t("add_edit_warranty_delete_warranty_desc"),
@@ -172,7 +172,7 @@ class AddEditWarranty extends React.Component {
                 try {
                   this.setState({ isLoading: true });
                   await deleteWarranty({ productId, warrantyId: warranty.id });
-                  this.props.navigation.pop();
+                  this.props.navigation.goBack();
                 } catch (e) {
                   showSnackbar({
                     text: I18n.t("add_edit_amc_could_not_delete")
@@ -195,7 +195,9 @@ class AddEditWarranty extends React.Component {
   fetchCategoryData = async () => {
     try {
       this.setState({ isLoading: true });
-      const res = await getReferenceDataForCategory(this.props.categoryId);
+      const res = await getReferenceDataForCategory(
+        this.props.navigation.state.params.categoryId
+      );
       this.setState({
         renewalTypes: res.renewalTypes,
         warrantyProviders: res.categories[0].warrantyProviders,
@@ -209,15 +211,17 @@ class AddEditWarranty extends React.Component {
   };
 
   onSavePress = async () => {
+    const { navigation } = this.props;
+
     const {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
       warranty,
-      navigation,
       warrantyType
-    } = this.props;
+    } = navigation.state.params;
+
     let data = {
       mainCategoryId,
       categoryId,
@@ -264,15 +268,16 @@ class AddEditWarranty extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+
     const {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
       warranty,
-      navigation,
       warrantyType
-    } = this.props;
+    } = navigation.state.params;
 
     const { renewalTypes, warrantyProviders, isLoading } = this.state;
     return (

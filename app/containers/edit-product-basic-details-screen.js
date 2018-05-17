@@ -20,19 +20,6 @@ class EditProductBasicDetails extends React.Component {
     disabledBackGesture: true
   };
 
-  static navigationButtons = {
-    ...Platform.select({
-      ios: {
-        leftButtons: [
-          {
-            id: "backPress",
-            icon: require("../images/ic_back_ios.png")
-          }
-        ]
-      }
-    })
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +40,7 @@ class EditProductBasicDetails extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigation.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -68,18 +55,16 @@ class EditProductBasicDetails extends React.Component {
   };
 
   async componentDidMount() {
-    const { product } = this.props;
+    const { product } = this.props.navigation.state.params;
     let title = "Edit " + (product.productName || "Product");
-    this.props.navigation.setTitle({ title });
-    this.fetchCategoryData();
+    // this.props.navigation.setTitle({ title });
+    this.fetchCategoryData(product);
   }
 
-  fetchCategoryData = async () => {
+  fetchCategoryData = async product => {
     try {
       this.setState({ isLoading: true });
-      const res = await getReferenceDataForCategory(
-        this.props.product.categoryId
-      );
+      const res = await getReferenceDataForCategory(product.categoryId);
       this.setState({
         brands: res.categories[0].brands,
         categoryForms: res.categories[0].categoryForms,
@@ -94,7 +79,9 @@ class EditProductBasicDetails extends React.Component {
   };
 
   onSavePress = async () => {
-    const { navigation, product } = this.props;
+    const { navigation } = this.props;
+    const { product } = navigation.state.params;
+
     let data = {
       mainCategoryId: product.masterCategoryId,
       categoryId: product.categoryId,
@@ -175,7 +162,8 @@ class EditProductBasicDetails extends React.Component {
   };
 
   render() {
-    const { product, navigation } = this.props;
+    const { navigation } = this.props;
+    const { product } = navigation.state.params;
 
     const { brands, categoryForms, subCategories, isLoading } = this.state;
 

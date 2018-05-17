@@ -65,7 +65,7 @@ class EnterPinScreen extends React.Component {
         isLoading: false
       });
 
-      this.props.navigation.dismissModal({
+      this.props.navigation.goBack({
         animationType: "none"
       });
     } catch (e) {
