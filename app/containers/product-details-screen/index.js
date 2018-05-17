@@ -107,6 +107,7 @@ class ProductDetailsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      productId: null,
       isScreenVisible: true,
       isLoading: true,
       product: {},
@@ -119,7 +120,15 @@ class ProductDetailsScreen extends Component {
     // this.props.navigation.setTitle({
     //   title: I18n.t("product_details_screen_title")
     // });
-
+    const { navigation } = this.props;
+    this.setState(
+      {
+        productId: navigation.getParam("productId", null)
+      },
+      () => {
+        this.fetchProductDetails();
+      }
+    );
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       if (screenOpts.openServiceSchedule) {
@@ -132,7 +141,7 @@ class ProductDetailsScreen extends Component {
     switch (event.id) {
       case "didAppear":
         console.log("didAppear");
-        if (!this.props.productId) {
+        if (!this.state.productId) {
           return this.props.navigation.pop();
         }
         this.setState(
@@ -151,18 +160,7 @@ class ProductDetailsScreen extends Component {
           {
             isScreenVisible: false
           },
-          () => {
-            this.props.navigation.setStyle({
-              navBarTransparent: false,
-              navBarBackgroundColor: "#fff",
-              ...Platform.select({
-                ios: {},
-                android: {
-                  topBarElevationShadowEnabled: true
-                }
-              })
-            });
-          }
+          () => {}
         );
     }
 
@@ -210,7 +208,7 @@ class ProductDetailsScreen extends Component {
       this.setState({
         // isLoading: true
       });
-      const res = await getProductDetails(this.props.productId);
+      const res = await getProductDetails(this.state.productId);
 
       if (this.state.isScreenVisible) {
         const { product } = res;
@@ -218,21 +216,9 @@ class ProductDetailsScreen extends Component {
           product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
           product.categoryId == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC
         ) {
-          this.props.navigation.setStyle({
-            drawUnderNavBar: false,
-            navBarTranslucent: false,
-            navBarTransparent: false,
-            navBarBackgroundColor: "#fff",
-            topBarElevationShadowEnabled: true
-          });
+          //normal header bar
         } else if (this.state.isLoading) {
-          this.props.navigation.setStyle({
-            drawUnderNavBar: true,
-            navBarTranslucent: Platform.OS === "ios",
-            navBarTransparent: true,
-            navBarBackgroundColor: "#fff",
-            topBarElevationShadowEnabled: false
-          });
+          //transparent header bar
         }
 
         let addImageText = "";
@@ -276,18 +262,18 @@ class ProductDetailsScreen extends Component {
             break;
         }
 
-        this.props.navigation.setTitle({
-          title
-        });
-        this.props.navigation.setButtons({
-          rightButtons: [
-            {
-              component: "NavOptionsButton",
-              passProps: { addImageText }
-            }
-          ],
-          animated: true
-        });
+        // this.props.navigation.setTitle({
+        //   title
+        // });
+        // this.props.navigation.setButtons({
+        //   rightButtons: [
+        //     {
+        //       component: "NavOptionsButton",
+        //       passProps: { addImageText }
+        //     }
+        //   ],
+        //   animated: true
+        // });
 
         this.setState(
           {
@@ -347,7 +333,7 @@ class ProductDetailsScreen extends Component {
         {content}
         <UploadProductImage
           ref={ref => (this.uploadProductImage = ref)}
-          productId={this.props.productId}
+          productId={this.state.productId}
           onImageUpload={() => {
             showSnackbar({
               text: I18n.t("product_image_updated")

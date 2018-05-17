@@ -14,6 +14,8 @@ import EasyLifeScreen from "../containers/easy-life-screen";
 import DoYouKnowScreen from "../containers/do-you-know-screen";
 import MoreScreen from "../containers/more-screen";
 
+import AscScreen from "../containers/asc-screen";
+import ProductDetailsScreen from "../containers/product-details-screen";
 import MainCategoryScreen from "../containers/main-category-screen";
 import BillsPopUpScreen from "../containers/bills-popup-screen";
 import FaqScreen from "../containers/faq-screen";
@@ -47,8 +49,6 @@ import EnterPinPopupScreen from "../containers/enter-pin-popup-screen";
 import PinSetupScreen from "../containers/pin-setup-screen";
 import WhatToScreen from "../containers/what-to-screen";
 import WhatToListScreen from "../containers/what-to-list-screen";
-import AscScreen from "../containers/asc-screen";
-import ProductDetailsScreen from "../containers/product-details-screen";
 
 import { SCREENS } from "../constants";
 

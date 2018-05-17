@@ -27,12 +27,6 @@ class MainCategoryScreen extends Component {
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
-        this.props.navigation.setStyle({
-          drawUnderNavBar: false
-        });
-        this.props.navigation.setButtons({
-          rightButtons: []
-        });
         if (!this.state.isAppearingFirstTime) {
           this.setState({
             reloadList: true

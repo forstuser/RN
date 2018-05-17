@@ -166,27 +166,9 @@ class ProductCard extends Component {
     }
 
     if (event.nativeEvent.contentOffset.y > 0) {
-      this.props.navigation.setStyle({
-        navBarTransparent: false,
-        navBarBackgroundColor: "#fff",
-        ...Platform.select({
-          ios: {},
-          android: {
-            topBarElevationShadowEnabled: true
-          }
-        })
-      });
+      //non transparent header
     } else {
-      this.props.navigation.setStyle({
-        navBarTransparent: true,
-        navBarBackgroundColor: "transparent",
-        ...Platform.select({
-          ios: {},
-          android: {
-            topBarElevationShadowEnabled: false
-          }
-        })
-      });
+      //transparent header
     }
   };
 
