@@ -21,7 +21,7 @@ class AddEmptyProductScreen extends Component {
     Analytics.logEvent(
       Analytics.EVENTS.ADD_PRODUCT_INSIDE_EHOME_MAIN_CATEGORIES
     );
-    this.props.navigation.push(SCREENS.ADD_PRODUCT_SCREEN, {
+    this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN, {
       expenseType: item.type,
       category: item.category
     });

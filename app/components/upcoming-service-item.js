@@ -75,7 +75,7 @@ const UpcomingServiceItem = ({ item, navigation }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.push(SCREENS.PRODUCT_DETAILS_SCREEN, {
+        navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
           productId: item.productId || item.id
         });
       }}
