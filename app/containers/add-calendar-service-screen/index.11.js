@@ -75,7 +75,7 @@ class AddEditCalendarServiceScreen extends Component {
 
   componentDidMount() {
     this.props.navigation.setTitle({
-      title: I18n.t("add_edit_calendar_service_screen_title")
+      title: I18n.t("add_  edit_calendar_service_screen_title")
     });
     this.fetchReferenceData();
   }
