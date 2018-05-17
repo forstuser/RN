@@ -29,9 +29,8 @@ class WhatToListEmptyState extends React.Component {
     this.state = {};
   }
   goToFaq = () => {
-    this.props.navigation.push({
-      screen: SCREENS.FAQS_SCREEN,
-      passProps: { scrollToBottom: true }
+    this.props.navigation.navigate(SCREENS.FAQS_SCREEN, {
+      scrollToBottom: true
     });
   };
 
