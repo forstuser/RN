@@ -278,31 +278,30 @@ class PersonalDoc extends React.Component {
       isFinishModalVisible
     } = this.state;
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
           navigation={this.props.navigation}
         />
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
           <LoadingOverlay visible={isLoading} />
-          <View collapsable={false}  style={styles.imageHeader}>
+          <View collapsable={false} style={styles.imageHeader}>
             <Image
               style={styles.headerImage}
               source={categoryId == 27 ? visitingCardIcon : personalDocIcon}
             />
           </View>
 
-          <View collapsable={false}  style={styles.form}>
+          <View collapsable={false} style={styles.form}>
             <Text weight="Medium" style={styles.headerText}>
               {categoryId == 27 ? "Add Card Details" : "Add Document Details"}
             </Text>
             {categoryId != 27 && (
               <SelectModal
-                // style={styles.input}
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder={I18n.t("add_edit_personal_doc_type_of_doc")}
                 placeholderRenderer={({ placeholder }) => (
-                  <View collapsable={false}  style={{ flexDirection: "row" }}>
+                  <View collapsable={false} style={{ flexDirection: "row" }}>
                     <Text
                       weight="Medium"
                       style={{ color: colors.secondaryText }}
@@ -329,7 +328,10 @@ class PersonalDoc extends React.Component {
               onChangeText={name => this.setState({ name })}
             />
             {categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD && (
-              <View collapsable={false}  style={{ width: "100%", marginBottom: 10 }}>
+              <View
+                collapsable={false}
+                style={{ width: "100%", marginBottom: 10 }}
+              >
                 <CustomTextInput
                   placeholder={I18n.t("add_edit_personal_doc_business_name")}
                   underlineColorAndroid="transparent"

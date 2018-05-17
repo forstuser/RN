@@ -78,7 +78,7 @@ class SelectServiceTypeStep extends React.Component {
     });
 
     const { selectedOption } = this.state;
-    //if clicked on already selected option
+    //if clicked on already selected options
     if (selectedOption && selectedOption.id == option.id) {
       return;
     } else {
