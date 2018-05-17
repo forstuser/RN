@@ -9,7 +9,11 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-export const API_BASE_URL = "https://consumer.binbill.com";
+let API_BASE_URL = "https://consumer-eb.binbill.com";
+if (!__DEV__) {
+  API_BASE_URL = "https://consumer.binbill.com";
+}
+export { API_BASE_URL };
 
 const APP_VERSION_FOR_API = 20004;
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
@@ -128,7 +132,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => {}
+  onUploadProgress = () => { }
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
