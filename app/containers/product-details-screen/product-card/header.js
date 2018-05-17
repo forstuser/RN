@@ -60,7 +60,7 @@ class Header extends Component {
       product,
       loggedInUser,
       setLoggedInUserName,
-      navigator,
+      navigation,
       activeTabIndex = 0,
       onTabChange,
       showCustomerCareTab = false,
@@ -185,7 +185,7 @@ class Header extends Component {
                 <ViewBillButton
                   viewRef={ref => viewBillRef(ref)}
                   product={product}
-                  navigator={navigator}
+                  navigation={navigation}
                   style={{
                     position: "relative",
                     top: 10,

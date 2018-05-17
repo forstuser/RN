@@ -46,7 +46,7 @@ class ProductCard extends Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_EDIT);
     const { product } = this.props;
     if (product.categoryId == 664) {
-      this.props.navigator.push({
+      this.props.navigation.push({
         screen: SCREENS.EDIT_INSURANCE_SCREEN,
         passProps: {
           typeId: product.sub_category_id,
@@ -60,7 +60,7 @@ class ProductCard extends Component {
         }
       });
     } else {
-      this.props.navigator.push({
+      this.props.navigation.push({
         screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
         passProps: {
           product: product
@@ -88,7 +88,7 @@ class ProductCard extends Component {
         <ImportantTab
           tabLabel={I18n.t("product_details_screen_important")}
           product={product}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           openServiceSchedule={openServiceSchedule}
         />
       ) : null;
@@ -113,7 +113,7 @@ class ProductCard extends Component {
     return (
       <View collapsable={false}  style={styles.container}>
         <ScrollView style={styles.container}>
-          <Details product={product} navigator={this.props.navigator} />
+          <Details product={product} navigation={this.props.navigation} />
           <ScrollableTabView
             style={{ marginTop: 20, marginBottom: 70 }}
             renderTabBar={() => <DefaultTabBar />}
@@ -159,7 +159,7 @@ class ProductCard extends Component {
           <View collapsable={false}  style={styles.contactAfterSalesBtn}>
             <ContactAfterSaleButton
               product={product}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
           </View>
         ) : (

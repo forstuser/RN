@@ -10,7 +10,7 @@ import Analytics from "../../analytics";
 class Item extends React.Component {
   onPress = () => {
     const { item } = this.props;
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.CALENDAR_SERVICE_CARD_SCREEN,
       passProps: {
         itemId: item.id

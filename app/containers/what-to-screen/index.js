@@ -47,7 +47,7 @@ const whatToWear = require("../../images/whatToWear.png");
 const headerBg = require("../../images/product_card_header_bg.png");
 
 class DishCalendarScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     drawUnderNavBar: true,
     navBarTranslucent: Platform.OS === "ios",
@@ -56,7 +56,7 @@ class DishCalendarScreen extends Component {
     topBarElevationShadowEnabled: false
   };
 
-  // static navigatorButtons = {
+  // static navigationButtons = {
   //   rightButtons: [
   //     {
   //       component: "WhatToOptionsButton"
@@ -79,7 +79,7 @@ class DishCalendarScreen extends Component {
   };
 
   componentDidMount() {
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
     const { type } = this.props;
     let title = "What's Cooking?";
     let text = "Select Dishes to be cooked";
@@ -106,7 +106,7 @@ class DishCalendarScreen extends Component {
       btnText
     });
 
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title
     });
   }
@@ -138,7 +138,7 @@ class DishCalendarScreen extends Component {
       return;
     }
     if (event.nativeEvent.contentOffset.y > 0) {
-      this.props.navigator.setStyle({
+      this.props.navigation.setStyle({
         navBarTransparent: false,
         navBarBackgroundColor: "#fff",
         ...Platform.select({
@@ -149,7 +149,7 @@ class DishCalendarScreen extends Component {
         })
       });
     } else {
-      this.props.navigator.setStyle({
+      this.props.navigation.setStyle({
         navBarTransparent: true,
         navBarBackgroundColor: "transparent",
         ...Platform.select({
@@ -359,7 +359,7 @@ class DishCalendarScreen extends Component {
         isScreenVisible: false
       },
       () => {
-        this.props.navigator.push({
+        this.props.navigation.push({
           screen: SCREENS.WHAT_TO_LIST_SCREEN,
           passProps: {
             type: this.props.type,
@@ -527,13 +527,13 @@ class DishCalendarScreen extends Component {
               /> */}
               <ClothesImageUploader
                 ref={ref => (this.clothesImageUploader = ref)}
-                navigator={navigator}
+                navigation={navigation}
                 addImageDetails={this.addItem}
                 date={date}
               />
               <WhatToListModal
                 ref={ref => (this.WhatToListModal = ref)}
-                navigator={this.props.navigator}
+                navigation={this.props.navigation}
                 addItems={this.addItems}
                 type={this.props.type}
                 stateId={items.length > 0 ? items[0].state_id : null}
@@ -570,7 +570,7 @@ class DishCalendarScreen extends Component {
           !isLoading && (
             <WhatToListEmptyState
               type={this.props.type}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
               onCreateListBtnPress={this.goToEditScreen}
             />
           )}

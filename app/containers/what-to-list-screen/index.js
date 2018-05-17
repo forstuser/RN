@@ -44,7 +44,7 @@ const whatToWear = require("../../images/whatToWear.png");
 const headerBg = require("../../images/product_card_header_bg.png");
 
 class WhatToListScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     drawUnderNavBar: false,
     navBarTranslucent: false,
@@ -67,7 +67,7 @@ class WhatToListScreen extends Component {
   };
 
   componentDidMount() {
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
     const { type } = this.props;
     let title = "What's Cooking?";
     let text = "Get to know which dish was cooked and when.";
@@ -98,7 +98,7 @@ class WhatToListScreen extends Component {
       btnText,
       systemListTitle
     });
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title
     });
 
@@ -345,7 +345,7 @@ class WhatToListScreen extends Component {
           selectedItemIds: this.state.selectedItemIds
         });
       }
-      this.props.navigator.pop();
+      this.props.navigation.pop();
     } catch (e) {
       showSnackbar({
         text: e.message
@@ -376,7 +376,7 @@ class WhatToListScreen extends Component {
   };
 
   goToFaq = () => {
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.FAQS_SCREEN,
       passProps: { scrollToBottom: true }
     });
@@ -611,12 +611,12 @@ class WhatToListScreen extends Component {
           </View>
           <ClothesImageUploader
             ref={ref => (this.clothesImageUploader = ref)}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             addImageDetails={this.addItem}
           />
           <WhatToListModal
             ref={ref => (this.WhatToListModal = ref)}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             addItems={this.addItems}
             type={this.props.type}
             stateId={selectedState ? selectedState.id : null}

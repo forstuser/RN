@@ -33,12 +33,12 @@ const visitingCardIcon = require("../images/main-categories/ic_visiting_card.png
 const personalDocIcon = require("../images/main-categories/ic_personal_doc.png");
 
 class PersonalDoc extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     disabledBackGesture: true
   };
 
-  static navigatorButtons = {
+  static navigationButtons = {
     ...Platform.select({
       ios: {
         leftButtons: [
@@ -77,7 +77,7 @@ class PersonalDoc extends React.Component {
       isLoading: false,
       isFinishModalVisible: false
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -89,7 +89,7 @@ class PersonalDoc extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigator.pop()
+              onPress: () => this.props.navigation.pop()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -150,7 +150,7 @@ class PersonalDoc extends React.Component {
       title = "Edit Document";
     }
 
-    this.props.navigator.setTitle({ title });
+    this.props.navigation.setTitle({ title });
   }
 
   beforeUpload = () => {
@@ -281,7 +281,7 @@ class PersonalDoc extends React.Component {
       <View collapsable={false}  style={styles.container}>
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
           <LoadingOverlay visible={isLoading} />
@@ -372,7 +372,7 @@ class PersonalDoc extends React.Component {
                 console.log("upload result: ", uploadResult);
                 this.setState({ copies: uploadResult.product.copies });
               }}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
           </View>
         </KeyboardAwareScrollView>
@@ -391,7 +391,7 @@ class PersonalDoc extends React.Component {
           title={I18n.t("add_edit_personal_doc_doc_added")}
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           productId={productId}
         />
       </View>

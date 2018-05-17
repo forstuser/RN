@@ -33,7 +33,7 @@ const uploadFabIcon = require("../images/ic_upload_fabs.png");
 
 class EhomeScreen extends Component {
   static OPEN_EHOME_EVENT_DONE = false;
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: false
   };
@@ -47,7 +47,7 @@ class EhomeScreen extends Component {
       notificationCount: 0,
       startWithPendingDocsScreen: false
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -77,7 +77,7 @@ class EhomeScreen extends Component {
           });
           break;
         case SCREENS.PRODUCT_DETAILS_SCREEN:
-          this.props.navigator.push({
+          this.props.navigation.push({
             screen: SCREENS.PRODUCT_DETAILS_SCREEN,
             passProps: {
               productId: screenOpts.productId
@@ -141,7 +141,7 @@ class EhomeScreen extends Component {
   };
 
   openMainCategoryScreen = category => {
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.MAIN_CATEGORY_SCREEN,
       passProps: {
         category
@@ -150,7 +150,7 @@ class EhomeScreen extends Component {
   };
 
   openDocsUnderProcessingScreen = () => {
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.DOCS_UNDER_PROCESSING_SCREEN,
       passProps: {
         pendingDocs: this.state.pendingDocs
@@ -172,7 +172,7 @@ class EhomeScreen extends Component {
 
   showAddProductOptionsScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_PRODUCT_SCREEN,
       overrideBackPress: true
     });
@@ -186,7 +186,7 @@ class EhomeScreen extends Component {
     return (
       <ScreenContainer style={{ padding: 0 }}>
         <TabSearchHeader
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           title={I18n.t("ehome_screen_title")}
           icon={eHomeIcon}
           notificationCount={this.state.notificationCount}

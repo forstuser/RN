@@ -38,12 +38,12 @@ const AttachmentIcon = () => (
 );
 
 class MedicalDoc extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     disabledBackGesture: true
   };
 
-  static navigatorButtons = {
+  static navigationButtons = {
     ...Platform.select({
       ios: {
         leftButtons: [
@@ -65,7 +65,7 @@ class MedicalDoc extends React.Component {
       subCategories: [],
       isFinishModalVisible: false
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -77,7 +77,7 @@ class MedicalDoc extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigator.pop()
+              onPress: () => this.props.navigation.pop()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -94,7 +94,7 @@ class MedicalDoc extends React.Component {
   componentDidMount() {
     this.fetchCategoryData();
     let title = "Edit Doc";
-    this.props.navigator.setTitle({ title });
+    this.props.navigation.setTitle({ title });
   }
 
   fetchCategoryData = async () => {
@@ -113,7 +113,7 @@ class MedicalDoc extends React.Component {
   };
 
   saveDoc = async () => {
-    const { mainCategoryId, categoryId, navigator } = this.props;
+    const { mainCategoryId, categoryId, navigation } = this.props;
     let data = {
       mainCategoryId,
       categoryId,
@@ -151,7 +151,7 @@ class MedicalDoc extends React.Component {
       doctorName,
       doctorContact,
       copies,
-      navigator
+      navigation
     } = this.props;
     const {
       mainCategoryId,
@@ -164,7 +164,7 @@ class MedicalDoc extends React.Component {
       <View collapsable={false}  style={styles.container}>
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
           <LoadingOverlay visible={isLoading} />
@@ -182,7 +182,7 @@ class MedicalDoc extends React.Component {
               doctorName,
               doctorContact,
               copies,
-              navigator
+              navigation
             }}
           />
         </KeyboardAwareScrollView>
@@ -197,7 +197,7 @@ class MedicalDoc extends React.Component {
           title={I18n.t("add_edit_healthcare_doc_added")}
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
       </View>
     );

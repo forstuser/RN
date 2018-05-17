@@ -40,7 +40,7 @@ import ExpensesChart from "./expenses-chart";
 import { SCREENS } from "../../constants";
 
 class InsightScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true
   };
   constructor(props) {
@@ -92,7 +92,7 @@ class InsightScreen extends Component {
   }
 
   async componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: I18n.t("insights_screen_title")
     });
 
@@ -152,7 +152,7 @@ class InsightScreen extends Component {
   }
 
   openTaxPaidScreen = () => {
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.TOTAL_TAX_SCREEN,
       passProps: {
         weeklyData: this.state.weeklyData,
@@ -197,7 +197,7 @@ class InsightScreen extends Component {
   };
 
   openTransactionsScreen = ({ category, color }) => {
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.TRANSACTIONS_SCREEN,
       passProps: {
         index: this.state.activeData.index,

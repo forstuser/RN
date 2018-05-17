@@ -33,7 +33,7 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class AddCalendarServiceScreen extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: true
     // disabledBackGesture: true
@@ -57,7 +57,7 @@ class AddCalendarServiceScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -93,7 +93,7 @@ class AddCalendarServiceScreen extends React.Component {
   };
 
   close = () => {
-    this.props.navigator.pop();
+    this.props.navigation.pop();
   };
 
   previousStep = () => {
@@ -312,7 +312,7 @@ class AddCalendarServiceScreen extends React.Component {
   onSelectedDaysStepDone = selectedDays => {
     this.setState({ selectedDays }, async () => {
       await this.editCalculationDetails();
-      this.props.navigator.pop();
+      this.props.navigation.pop();
     });
   };
 
@@ -402,7 +402,7 @@ class AddCalendarServiceScreen extends React.Component {
           mainCategoryId={mainCategoryId}
           category={category}
           productId={product ? product.id : null}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           goToStep={this.goToStep}
         /> */}
       </View>

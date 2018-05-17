@@ -25,7 +25,7 @@ class AllInfo extends React.Component {
     if (product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
       const insurance = product.insuranceDetails[0] || {};
 
-      this.props.navigator.push({
+      this.props.navigation.push({
         screen: SCREENS.EDIT_INSURANCE_SCREEN,
         passProps: {
           typeId: product.sub_category_id,
@@ -45,7 +45,7 @@ class AllInfo extends React.Component {
         }
       });
     } else {
-      this.props.navigator.push({
+      this.props.navigation.push({
         screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
         passProps: {
           product: product
@@ -69,7 +69,7 @@ class AllInfo extends React.Component {
     getDirections(data);
   };
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     let dateText = "Date";
     if (
       [
@@ -273,7 +273,7 @@ class AllInfo extends React.Component {
         ) : (
           <InsuranceDetails
             product={product}
-            navigator={navigator}
+            navigation={navigation}
             openAddEditInsuranceScreen={this.onEditPress}
           />
         )}

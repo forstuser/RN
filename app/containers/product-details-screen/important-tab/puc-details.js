@@ -35,7 +35,7 @@ class PucDetails extends Component {
   openAddEditPucScreen = puc => {
     const { product } = this.props;
 
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_EDIT_PUC_SCREEN,
       passProps: {
         mainCategoryId: product.masterCategoryId,

@@ -54,21 +54,21 @@ class Body extends Component {
 
   onAscItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ASC_FROM_MORE);
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ASC_SCREEN
     });
   };
 
   onEhomeItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_TIPS_TO_BUILD_YOUR_EHOME);
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.TIPS_SCREEN
     });
   };
 
   onFaqItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_FAQ);
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.FAQS_SCREEN
     });
   };
@@ -121,7 +121,7 @@ class Body extends Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PIN);
     const { isPinSet } = this.props;
     if (!isPinSet) {
-      this.props.navigator.push({
+      this.props.navigation.push({
         screen: SCREENS.PIN_SETUP_SCREEN
       });
     } else {
@@ -132,7 +132,7 @@ class Body extends Component {
   onPinOptionPress = i => {
     if (i < 2) {
       if (i == 0) {
-        this.props.navigator.push({
+        this.props.navigation.push({
           screen: SCREENS.PIN_SETUP_SCREEN
         });
       } else {

@@ -27,7 +27,7 @@ const directionIcon = require("../../images/ic_directions.png");
 const callIcon = require("../../images/ic_call.png");
 
 class AscSearchScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true
   };
   constructor(props) {
@@ -40,7 +40,7 @@ class AscSearchScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: I18n.t("asc_search_screen_title", {
         brandAndCategory:
           this.props.brand.brandName + " " + this.props.category.category_name

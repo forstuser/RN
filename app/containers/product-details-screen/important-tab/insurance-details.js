@@ -35,7 +35,7 @@ class InsuranceDetails extends Component {
   openAddEditInsuranceScreen = insurance => {
     const { product } = this.props;
 
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_EDIT_INSURANCE_SCREEN,
       passProps: {
         mainCategoryId: product.masterCategoryId,

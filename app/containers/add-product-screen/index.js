@@ -41,7 +41,7 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class AddProductScreen extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: true
     // disabledBackGesture: true
@@ -64,7 +64,7 @@ class AddProductScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -127,7 +127,7 @@ class AddProductScreen extends React.Component {
   };
 
   close = () => {
-    this.props.navigator.pop();
+    this.props.navigation.pop();
   };
 
   previousStep = () => {
@@ -250,7 +250,7 @@ class AddProductScreen extends React.Component {
         mainCategoryId={mainCategoryId}
         category={category}
         onUploadBillStepDone={this.onUploadBillStepDone}
-        navigator={this.props.navigator}
+        navigation={this.props.navigation}
         onBackPress={this.previousStep}
         skippable={skippable}
         onSkipPress={() => this.finishModal.show()}
@@ -543,7 +543,7 @@ class AddProductScreen extends React.Component {
           case EXPENSE_TYPES.REPAIR:
             this.pushStep(
               <RepairStep
-                navigator={this.props.navigator}
+                navigation={this.props.navigation}
                 onBackPress={this.previousStep}
                 onStepDone={this.onRepairStepDone}
               />
@@ -818,7 +818,7 @@ class AddProductScreen extends React.Component {
           category={category}
           productId={product ? product.id : null}
           popOnDoItLater={popOnDoItLater}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           startOver={this.startOver}
         />
       </View>

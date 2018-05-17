@@ -29,7 +29,7 @@ const crossIcon = require("../../images/ic_close.png");
 import Header from "./header";
 
 class ProfileScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: true
   };
@@ -55,7 +55,7 @@ class ProfileScreen extends Component {
   }
 
   componentDidMount() {
-    // navigator.geolocation.getCurrentPosition(
+    // navigation.geolocation.getCurrentPosition(
     //   position => {
     //     this.setState({
     //       latitude: position.coords.latitude,
@@ -195,7 +195,7 @@ class ProfileScreen extends Component {
   };
 
   backToMoreScreen = () => {
-    this.props.navigator.pop();
+    this.props.navigation.pop();
   };
 
   showNameEditModal = () => {

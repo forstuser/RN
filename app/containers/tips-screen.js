@@ -10,7 +10,7 @@ import ErrorOverlay from "../components/error-overlay";
 const tipsColors = ["#54ddff", "#ff9b9b", "#9baaf9", "#3eefdc", "#dbf62d"];
 
 class TipsScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true
   };
 
@@ -24,7 +24,7 @@ class TipsScreen extends Component {
   }
 
   async componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: I18n.t("tips_screen_title")
     });
     this.getTips();

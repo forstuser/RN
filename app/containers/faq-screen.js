@@ -8,7 +8,7 @@ import Collapsible from "./../components/collapsible";
 import I18n from "../i18n";
 
 class FaqScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true
   };
 
@@ -22,7 +22,7 @@ class FaqScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: I18n.t("faq_screen_title")
     });
 

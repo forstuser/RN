@@ -22,7 +22,7 @@ const noDocs = require("../images/ic_no_docs.png");
 import Analytics from "../analytics";
 
 class SearchBox extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: true
   };
@@ -36,7 +36,7 @@ class SearchBox extends Component {
       showRecentSearches: true,
       searchHasRunOnce: false
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
   onNavigatorEvent = event => {
     switch (event.id) {
@@ -82,7 +82,7 @@ class SearchBox extends Component {
   };
 
   goBack = () => {
-    this.props.navigator.pop();
+    this.props.navigation.pop();
   };
 
   render() {
@@ -139,7 +139,7 @@ class SearchBox extends Component {
               onRefresh={this.fetchResults}
               isLoading={isFetchingResults}
               products={products}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
           )}
 

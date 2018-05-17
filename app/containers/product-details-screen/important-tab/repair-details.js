@@ -35,7 +35,7 @@ class RepairDetails extends Component {
   openAddEditRepairScreen = repair => {
     const { product } = this.props;
 
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_EDIT_REPAIR_SCREEN,
       passProps: {
         mainCategoryId: product.masterCategoryId,

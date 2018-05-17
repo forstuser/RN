@@ -28,7 +28,7 @@ class ViewBillButton extends React.Component {
   render() {
     let {
       product,
-      navigator,
+      navigation,
       docType = "Product",
       btnText = "Bill",
       viewRef = () => {},
@@ -94,7 +94,7 @@ class ViewBillButton extends React.Component {
           >
             <UploadBillOptions
               ref={o => (this.uploadBillOptions = o)}
-              navigator={navigator}
+              navigation={navigation}
               uploadCallback={() => {}}
             />
             <Image style={styles.viewBillIcon} source={viewBillIcon} />

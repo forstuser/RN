@@ -35,7 +35,7 @@ class AmcDetails extends Component {
   openAddEditAmcScreen = amc => {
     const { product } = this.props;
 
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_EDIT_AMC_SCREEN,
       passProps: {
         mainCategoryId: product.masterCategoryId,

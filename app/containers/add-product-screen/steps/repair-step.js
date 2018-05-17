@@ -327,7 +327,7 @@ class Repair extends React.Component {
                           copies: uploadResult.repair.copies
                         });
                       }}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                     />
                   </View>
                 </View>

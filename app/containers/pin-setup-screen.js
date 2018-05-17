@@ -21,7 +21,7 @@ import LoadingOverlay from "../components/loading-overlay";
 import ErrorOverlay from "../components/error-overlay";
 
 class PinSetupScreen extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true
   };
 
@@ -41,7 +41,7 @@ class PinSetupScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: this.props.resetPin
         ? I18n.t("reset_app_pin")
         : I18n.t("set_app_pin")
@@ -153,7 +153,7 @@ class PinSetupScreen extends React.Component {
         });
       }, 200);
 
-      this.props.navigator.pop();
+      this.props.navigation.pop();
     } catch (e) {
       this.setState({
         isLoading: false

@@ -49,7 +49,7 @@ const hideSnackbar = () => {
 
 class SnackbarView extends React.Component {
   render() {
-    const { text, navigator } = this.props;
+    const { text, navigation } = this.props;
     return (
       <View collapsable={false}  style={styles.container}>
         <View collapsable={false}  style={styles.textWrapper}>

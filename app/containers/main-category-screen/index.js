@@ -5,7 +5,7 @@ import Direct from "./direct";
 import { MAIN_CATEGORY_IDS } from "../../constants";
 
 class MainCategoryScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     drawUnderNavBar: false
   };
@@ -18,19 +18,19 @@ class MainCategoryScreen extends Component {
   }
 
   async componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: this.props.category.name
     });
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
     switch (event.id) {
       case "didAppear":
-        this.props.navigator.setStyle({
+        this.props.navigation.setStyle({
           drawUnderNavBar: false
         });
-        this.props.navigator.setButtons({
+        this.props.navigation.setButtons({
           rightButtons: []
         });
         if (!this.state.isAppearingFirstTime) {
@@ -51,7 +51,7 @@ class MainCategoryScreen extends Component {
       case MAIN_CATEGORY_IDS.ELECTRONICS:
         return (
           <CategoryScreenWithFilters
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             category={this.props.category}
             reloadList={this.state.reloadList}
           />
@@ -64,7 +64,7 @@ class MainCategoryScreen extends Component {
       case MAIN_CATEGORY_IDS.PERSONAL:
         return (
           <CategoryScreenWithPager
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             category={this.props.category}
             reloadList={this.state.reloadList}
           />
@@ -73,7 +73,7 @@ class MainCategoryScreen extends Component {
       case MAIN_CATEGORY_IDS.OTHERS:
         return (
           <Direct
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             category={this.props.category}
             reloadList={this.state.reloadList}
           />

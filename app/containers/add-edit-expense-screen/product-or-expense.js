@@ -402,7 +402,7 @@ class ProductOrExpense extends React.Component {
                       subCategories={subCategories}
                       brands={brands}
                       categoryForms={categoryForms}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                       setWarrantyTypesOnModelSelect={data => {
                         this.setState({
                           defaultWarrantyRenewalTypeId:
@@ -428,7 +428,7 @@ class ProductOrExpense extends React.Component {
                       productId={product.id}
                       jobId={product.job_id}
                       subCategories={subCategories}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                     />
                     <View collapsable={false} style={styles.separator} />
                   </View>
@@ -446,7 +446,7 @@ class ProductOrExpense extends React.Component {
                       productId={product.id}
                       jobId={product.job_id}
                       insuranceProviders={insuranceProviders}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                     />
                     <View collapsable={false} style={styles.separator} />
                   </View>
@@ -464,7 +464,7 @@ class ProductOrExpense extends React.Component {
                       productId={product.id}
                       jobId={product.job_id}
                       categoryReferenceData={categoryReferenceData}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                       subCategories={subCategories}
                     />
                     <View collapsable={false} style={styles.separator} />
@@ -482,7 +482,7 @@ class ProductOrExpense extends React.Component {
                       productId={product.id}
                       jobId={product.job_id}
                       insuranceProviders={insuranceProviders}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                       isCollapsible={
                         mainCategoryId != MAIN_CATEGORY_IDS.AUTOMOBILE ||
                         category.id == CATEGORY_IDS.AUTOMOBILE.CYCLE
@@ -504,7 +504,7 @@ class ProductOrExpense extends React.Component {
                       jobId={product.job_id}
                       renewalTypes={renewalTypes}
                       renewalTypeId={defaultWarrantyRenewalTypeId}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                     />
                     <View collapsable={false} style={styles.separator} />
                   </View>
@@ -524,7 +524,7 @@ class ProductOrExpense extends React.Component {
                       renewalTypeId={defaultDualWarrantyRenewalTypeId}
                       warrantyType={WARRANTY_TYPES.DUAL}
                       dualWarrantyItem={dualWarrantyItem}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                     />
                     <View collapsable={false} style={styles.separator} />
                   </View>
@@ -543,7 +543,7 @@ class ProductOrExpense extends React.Component {
                       renewalTypes={renewalTypes}
                       warrantyProviders={warrantyProviders}
                       warrantyType={WARRANTY_TYPES.EXTENDED}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                     />
                     <View collapsable={false} style={styles.separator} />
                   </View>
@@ -561,7 +561,7 @@ class ProductOrExpense extends React.Component {
                       jobId={product.job_id}
                       categoryReferenceData={categoryReferenceData}
                       renewalTypes={renewalTypes}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                     />
                     <View collapsable={false} style={styles.separator} />
                   </View>
@@ -577,7 +577,7 @@ class ProductOrExpense extends React.Component {
                       categoryId={category.id}
                       productId={product.id}
                       jobId={product.job_id}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                     />
                     <View collapsable={false} style={styles.separator} />
                   </View>
@@ -593,7 +593,7 @@ class ProductOrExpense extends React.Component {
                       categoryId={category.id}
                       productId={product.id}
                       jobId={product.job_id}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                     />
                     <View collapsable={false} style={styles.separator} />
                   </View>
@@ -617,7 +617,7 @@ class ProductOrExpense extends React.Component {
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
           productId={product ? product.id : null}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           isPreviousScreenOfAddOptions={this.props.isPreviousScreenOfAddOptions}
         />
       </ScreenContainer>

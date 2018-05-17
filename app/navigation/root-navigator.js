@@ -11,13 +11,13 @@ import LoadingOverlay from "../components/loading-overlay";
 
 import NavigationService from "./index";
 import AuthStack from "./auth-stack";
-import MainTabsStack from "./main-tabs-stack";
+import AppStack from "./app-stack";
 
 class AppLoadingComponent extends React.Component {
   componentWillMount() {
     console.log("this.props: ", this.props);
     this.props.navigation.navigate(
-      this.props.authToken ? SCREENS.MAIN_TABS_STACK : SCREENS.AUTH_STACK
+      this.props.authToken ? SCREENS.APP_STACK : SCREENS.AUTH_STACK
     );
   }
   render() {
@@ -33,7 +33,7 @@ const RootNavigator = createSwitchNavigator(
   {
     AppLoading: AppLoading,
     [SCREENS.AUTH_STACK]: AuthStack,
-    [SCREENS.MAIN_TABS_STACK]: MainTabsStack
+    [SCREENS.APP_STACK]: AppStack
   },
   { initialRouteName: "AppLoading" }
 );

@@ -23,7 +23,7 @@ const fileIcon = require("../../images/ic_file.png");
 import { isImageFileType } from "../../utils";
 
 class SelectView extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: true,
     statusBarTextColorScheme: "light"
@@ -38,7 +38,7 @@ class SelectView extends Component {
   componentDidMount() {}
 
   closeThisScreen = () => {
-    this.props.navigator.dismissModal();
+    this.props.navigation.dismissModal();
   };
 
   toggleCopySelect = copy => {

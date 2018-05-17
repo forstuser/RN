@@ -19,7 +19,7 @@ import { actions as uiActions } from "../modules/ui";
 const image = require("../images/rate_us_star.png");
 
 class RateUsScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true
   };
 
@@ -47,14 +47,14 @@ class RateUsScreen extends Component {
       }
     }, 400);
 
-    this.props.navigator.dismissModal({
+    this.props.navigation.dismissModal({
       animationType: "none"
     });
   };
 
   closeDialog = () => {
     this.props.setRateUsDialogTimestamp(new Date().toISOString());
-    this.props.navigator.dismissModal({
+    this.props.navigation.dismissModal({
       animationType: "none"
     });
   };

@@ -296,7 +296,7 @@ class PersonalDoc extends React.Component {
                   copies: uploadResult.product.copies
                 });
               }}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
           </View>
         </KeyboardAwareScrollView>
@@ -313,7 +313,7 @@ class PersonalDoc extends React.Component {
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
           productId={product ? product.id : null}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           isPreviousScreenOfAddOptions={this.props.isPreviousScreenOfAddOptions}
         />
       </View>

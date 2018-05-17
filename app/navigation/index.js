@@ -17,7 +17,7 @@ export function navigate(routeName, params) {
 }
 
 export const openAfterLoginScreen = () => {
-  navigate(SCREENS.MAIN_TABS_STACK);
+  navigate(SCREENS.APP_STACK);
 };
 
 export default {

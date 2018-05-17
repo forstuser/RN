@@ -44,7 +44,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class DoYouKNowScreen extends Component {
   static OPEN_DYK_EVENT_DONE = false;
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: false
   };
@@ -65,7 +65,7 @@ class DoYouKNowScreen extends Component {
       error: null,
       isModalVisible: false
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -380,7 +380,7 @@ class DoYouKNowScreen extends Component {
           <TabSearchHeader
             title={I18n.t("do_you_know_screen_title")}
             icon={doYouKnowIcon}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             showMailbox={false}
             showSearchInput={false}
             showRightSideSearchIcon={false}

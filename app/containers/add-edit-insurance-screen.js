@@ -20,12 +20,12 @@ import InsuranceForm from "../components/expense-forms/insurance-form";
 import ChangesSavedModal from "../components/changes-saved-modal";
 
 class AddEditInsurance extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     disabledBackGesture: true
   };
   static propTypes = {
-    navigator: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
@@ -44,7 +44,7 @@ class AddEditInsurance extends React.Component {
     })
   };
 
-  static navigatorButtons = {
+  static navigationButtons = {
     ...Platform.select({
       ios: {
         leftButtons: [
@@ -71,7 +71,7 @@ class AddEditInsurance extends React.Component {
         providerName: ""
       }
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
@@ -81,7 +81,7 @@ class AddEditInsurance extends React.Component {
       title = I18n.t("add_edit_insurance_edit_insurance");
     }
 
-    this.props.navigator.setTitle({ title });
+    this.props.navigation.setTitle({ title });
 
     this.fetchCategoryData();
 
@@ -98,7 +98,7 @@ class AddEditInsurance extends React.Component {
           providerName: ""
         }
       });
-      this.props.navigator.setButtons({
+      this.props.navigation.setButtons({
         rightButtons: [
           {
             title: I18n.t("add_edit_insurance_delete"),
@@ -129,7 +129,7 @@ class AddEditInsurance extends React.Component {
           newData.value == initialValues.value &&
           newData.amountInsured == initialValues.amountInsured
         ) {
-          return this.props.navigator.pop();
+          return this.props.navigation.pop();
         }
         Alert.alert(
           I18n.t("add_edit_amc_are_you_sure"),
@@ -137,7 +137,7 @@ class AddEditInsurance extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigator.pop()
+              onPress: () => this.props.navigation.pop()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -161,7 +161,7 @@ class AddEditInsurance extends React.Component {
                     productId,
                     insuranceId: insurance.id
                   });
-                  this.props.navigator.pop();
+                  this.props.navigation.pop();
                 } catch (e) {
                   showSnackbar({
                     text: I18n.t("add_edit_amc_could_not_delete")
@@ -203,7 +203,7 @@ class AddEditInsurance extends React.Component {
       productId,
       jobId,
       insurance,
-      navigator
+      navigation
     } = this.props;
     let data = {
       mainCategoryId,
@@ -246,7 +246,7 @@ class AddEditInsurance extends React.Component {
       productId,
       jobId,
       insurance,
-      navigator
+      navigation
     } = this.props;
 
     const { insuranceProviders, isLoading } = this.state;
@@ -255,7 +255,7 @@ class AddEditInsurance extends React.Component {
         <LoadingOverlay visible={isLoading} />
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
         <KeyboardAwareScrollView>
           <InsuranceForm
@@ -267,7 +267,7 @@ class AddEditInsurance extends React.Component {
               jobId,
               insurance,
               insuranceProviders,
-              navigator,
+              navigation,
               isCollapsible: false
             }}
           />

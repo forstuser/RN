@@ -72,10 +72,10 @@ const AddPicButton = () => (
 // Navigation.registerComponent("AddPicButton", () => AddPicButton);
 
 class UploadDocumentScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true
   };
-  static navigatorButtons = {
+  static navigationButtons = {
     rightButtons: [
       {
         id: "new-pic-upload-btn",
@@ -95,11 +95,11 @@ class UploadDocumentScreen extends Component {
       uploadResult: null
     };
 
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: I18n.t("upload_document_screen_title")
     });
 
@@ -243,7 +243,7 @@ class UploadDocumentScreen extends Component {
   onSuccessOkClick = () => {
     if (typeof this.props.uploadCallback == "function") {
       this.props.uploadCallback(this.state.uploadResult);
-      this.props.navigator.pop();
+      this.props.navigation.pop();
     } else {
       openAppScreen({ startScreen: SCREENS.DOCS_UNDER_PROCESSING_SCREEN });
     }

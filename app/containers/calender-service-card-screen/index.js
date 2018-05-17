@@ -68,7 +68,7 @@ import FinishModal from "./finish-modal";
 // );
 
 class CalendarServiceCard extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     drawUnderNavBar: true,
     navBarTranslucent: Platform.OS === "ios",
@@ -77,7 +77,7 @@ class CalendarServiceCard extends Component {
     topBarElevationShadowEnabled: false
   };
 
-  static navigatorButtons = {
+  static navigationButtons = {
     rightButtons: [
       {
         component: "CalendarNavOptionsButton",
@@ -101,11 +101,11 @@ class CalendarServiceCard extends Component {
   }
 
   componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: I18n.t("calendar_service_screen_title")
     });
     this.fetchItemDetails();
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -129,7 +129,7 @@ class CalendarServiceCard extends Component {
               onPress: async () => {
                 this.setState({ isLoading: true });
                 await deleteCalendarItem(item.id);
-                this.props.navigator.pop();
+                this.props.navigation.pop();
               }
             },
             {
@@ -166,7 +166,7 @@ class CalendarServiceCard extends Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_EDIT);
     const { product } = this.props;
     if (product.categoryId == 664) {
-      this.props.navigator.push({
+      this.props.navigation.push({
         screen: SCREENS.EDIT_INSURANCE_SCREEN,
         passProps: {
           typeId: product.sub_category_id,
@@ -180,7 +180,7 @@ class CalendarServiceCard extends Component {
         }
       });
     } else {
-      this.props.navigator.push({
+      this.props.navigation.push({
         screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
         passProps: {
           product: product
@@ -210,7 +210,7 @@ class CalendarServiceCard extends Component {
     }
 
     if (event.nativeEvent.contentOffset.y > 0) {
-      this.props.navigator.setStyle({
+      this.props.navigation.setStyle({
         navBarTransparent: false,
         navBarBackgroundColor: "#fff",
         ...Platform.select({
@@ -221,7 +221,7 @@ class CalendarServiceCard extends Component {
         })
       });
     } else {
-      this.props.navigator.setStyle({
+      this.props.navigation.setStyle({
         navBarTransparent: true,
         navBarBackgroundColor: "transparent",
         ...Platform.select({
@@ -265,13 +265,13 @@ class CalendarServiceCard extends Component {
               activePaymentDetailIndex={activePaymentDetailIndex}
               onPaymentDetailIndexChange={this.onPaymentDetailIndexChange}
               item={item}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
             <View collapsable={false} style={styles.pages}>
               {activeTabIndex == 0 && (
                 <Attendance
                   item={item}
-                  navigator={this.props.navigator}
+                  navigation={this.props.navigation}
                   activePaymentDetailIndex={activePaymentDetailIndex}
                   onPaymentDetailIndexChange={this.onPaymentDetailIndexChange}
                   reloadScreen={this.fetchItemDetails}
@@ -280,7 +280,7 @@ class CalendarServiceCard extends Component {
               {activeTabIndex == 1 && (
                 <Payments
                   item={item}
-                  navigator={this.props.navigator}
+                  navigation={this.props.navigation}
                   activePaymentDetailIndex={activePaymentDetailIndex}
                   onPaymentDetailIndexChange={this.onPaymentDetailIndexChange}
                   reloadScreen={this.fetchItemDetails}
@@ -289,7 +289,7 @@ class CalendarServiceCard extends Component {
               {activeTabIndex == 2 && (
                 <OtherDetails
                   item={item}
-                  navigator={this.props.navigator}
+                  navigation={this.props.navigation}
                   activePaymentDetailIndex={activePaymentDetailIndex}
                   onPaymentDetailIndexChange={this.onPaymentDetailIndexChange}
                   reloadScreen={this.fetchItemDetails}

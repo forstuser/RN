@@ -126,7 +126,7 @@ class ProductCard extends Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_EDIT);
     const { product } = this.props;
     if (product.categoryId == 664) {
-      this.props.navigator.push({
+      this.props.navigation.push({
         screen: SCREENS.EDIT_INSURANCE_SCREEN,
         passProps: {
           typeId: product.sub_category_id,
@@ -140,7 +140,7 @@ class ProductCard extends Component {
         }
       });
     } else {
-      this.props.navigator.push({
+      this.props.navigation.push({
         screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
         passProps: {
           product: product
@@ -166,7 +166,7 @@ class ProductCard extends Component {
     }
 
     if (event.nativeEvent.contentOffset.y > 0) {
-      this.props.navigator.setStyle({
+      this.props.navigation.setStyle({
         navBarTransparent: false,
         navBarBackgroundColor: "#fff",
         ...Platform.select({
@@ -177,7 +177,7 @@ class ProductCard extends Component {
         })
       });
     } else {
-      this.props.navigator.setStyle({
+      this.props.navigation.setStyle({
         navBarTransparent: true,
         navBarBackgroundColor: "transparent",
         ...Platform.select({
@@ -218,13 +218,13 @@ class ProductCard extends Component {
             onTabChange={this.onTabChange}
             product={product}
             fetchProductDetails={this.props.fetchProductDetails}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
           />
           <View collapsable={false} style={styles.pages}>
             {activeTabIndex == 0 && (
               <CustomerCare
                 product={product}
-                navigator={this.props.navigator}
+                navigation={this.props.navigation}
                 scrollScreenToAsc={y =>
                   this.scrollView.scrollTo({ y: y + 100, animated: true })
                 }
@@ -233,12 +233,12 @@ class ProductCard extends Component {
               />
             )}
             {activeTabIndex == 1 && (
-              <AllInfo product={product} navigator={this.props.navigator} />
+              <AllInfo product={product} navigation={this.props.navigation} />
             )}
             {activeTabIndex == 2 && (
               <Important
                 product={product}
-                navigator={this.props.navigator}
+                navigation={this.props.navigation}
                 cardWidthWhenMany={cardWidthWhenMany}
                 cardWidthWhenOne={cardWidthWhenOne}
               />

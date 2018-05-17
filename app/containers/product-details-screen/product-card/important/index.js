@@ -29,7 +29,7 @@ import PucDetails from "./puc-details";
 class Important extends React.Component {
   openAddEditWarrantyScreen = (warranty, warrantyType) => {
     const { product } = this.props;
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_EDIT_WARRANTY_SCREEN,
       passProps: {
         mainCategoryId: product.masterCategoryId,
@@ -45,7 +45,7 @@ class Important extends React.Component {
 
   openAddEditInsuranceScreen = insurance => {
     const { product } = this.props;
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_EDIT_INSURANCE_SCREEN,
       passProps: {
         mainCategoryId: product.masterCategoryId,
@@ -60,7 +60,7 @@ class Important extends React.Component {
 
   openAddEditAmcScreen = amc => {
     const { product } = this.props;
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_EDIT_AMC_SCREEN,
       passProps: {
         mainCategoryId: product.masterCategoryId,
@@ -75,7 +75,7 @@ class Important extends React.Component {
 
   openAddEditRepairScreen = repair => {
     const { product } = this.props;
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_EDIT_REPAIR_SCREEN,
       passProps: {
         mainCategoryId: product.masterCategoryId,
@@ -90,7 +90,7 @@ class Important extends React.Component {
 
   openAddEditPucScreen = puc => {
     const { product } = this.props;
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_EDIT_PUC_SCREEN,
       passProps: {
         mainCategoryId: product.masterCategoryId,
@@ -106,7 +106,7 @@ class Important extends React.Component {
   render() {
     const {
       product,
-      navigator,
+      navigation,
       cardWidthWhenMany,
       cardWidthWhenOne
     } = this.props;
@@ -132,7 +132,7 @@ class Important extends React.Component {
               </Text>
               <WarrantyDetails
                 product={product}
-                navigator={navigator}
+                navigation={navigation}
                 openAddEditWarrantyScreen={this.openAddEditWarrantyScreen}
               />
             </View>
@@ -149,7 +149,7 @@ class Important extends React.Component {
               </Text>
               <InsuranceDetails
                 product={product}
-                navigator={navigator}
+                navigation={navigation}
                 openAddEditInsuranceScreen={this.openAddEditInsuranceScreen}
               />
             </View>
@@ -165,7 +165,7 @@ class Important extends React.Component {
               </Text>
               <AmcDetails
                 product={product}
-                navigator={navigator}
+                navigation={navigation}
                 openAddEditAmcScreen={this.openAddEditAmcScreen}
               />
             </View>
@@ -183,7 +183,7 @@ class Important extends React.Component {
               </Text>
               <RepairDetails
                 product={product}
-                navigator={navigator}
+                navigation={navigation}
                 openAddEditRepairScreen={this.openAddEditRepairScreen}
               />
             </View>
@@ -197,7 +197,7 @@ class Important extends React.Component {
               </Text>
               <PucDetails
                 product={product}
-                navigator={navigator}
+                navigation={navigation}
                 openAddEditPucScreen={this.openAddEditPucScreen}
               />
             </View>

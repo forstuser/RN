@@ -33,7 +33,7 @@ const legendColors = [
 ];
 
 class TotalTaxScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true
   };
   constructor(props) {
@@ -51,7 +51,7 @@ class TotalTaxScreen extends Component {
   }
 
   async componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: I18n.t("total_tax_screen_title")
     });
 

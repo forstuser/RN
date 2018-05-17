@@ -65,7 +65,7 @@ class PerosnalDocCard extends Component {
       };
     }
 
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_EDIT_PERSONAL_DOC_SCREEN,
       passProps: {
         categoryId: product.categoryId,
@@ -83,7 +83,7 @@ class PerosnalDocCard extends Component {
   };
 
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
 
     let productName = product.productName;
     if (!productName) {
@@ -135,7 +135,7 @@ class PerosnalDocCard extends Component {
           >
             <ViewBillButton
               product={product}
-              navigator={navigator}
+              navigation={navigation}
               docType="Personal Docs"
               btnText="Doc"
             />

@@ -141,7 +141,7 @@ class Repair extends React.Component {
   };
 
   openAddProductScreen = () => {
-    this.props.navigator.pop();
+    this.props.navigation.pop();
   };
 
   render() {
@@ -308,7 +308,7 @@ class Repair extends React.Component {
                         copies: uploadResult.repair.copies
                       });
                     }}
-                    navigator={this.props.navigator}
+                    navigation={this.props.navigation}
                   />
                 </View>
               </View>
@@ -330,7 +330,7 @@ class Repair extends React.Component {
           mainCategoryId={null}
           showRepairIcon={true}
           productId={selectedProduct ? selectedProduct.id : null}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           isPreviousScreenOfAddOptions={this.props.isPreviousScreenOfAddOptions}
         />
       </View>

@@ -132,7 +132,7 @@ class AfterSaleButton extends Component {
 
       const place = await RNGooglePlaces.openPlacePickerModal();
       console.log("place: ", place);
-      this.props.navigator.push({
+      this.props.navigation.push({
         screen: SCREENS.ASC_SEARCH_SCREEN,
         passProps: {
           brand: brand,

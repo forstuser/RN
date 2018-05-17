@@ -34,7 +34,7 @@ import LoadingOverlay from "../components/loading-overlay";
 const uploadDocIllustration = require("../images/upload_doc_illustration.png");
 
 class DirectUploadDocumentScreen extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: true
   };
@@ -371,7 +371,7 @@ class DirectUploadDocumentScreen extends React.Component {
       () => {
         setTimeout(() => {
           this.props.showAddProductOptionsScreenOnAppear();
-          this.props.navigator.pop();
+          this.props.navigation.pop();
         }, 500);
       }
     );
@@ -384,10 +384,10 @@ class DirectUploadDocumentScreen extends React.Component {
       },
       () => {
         setTimeout(() => {
-          this.props.navigator.pop({
+          this.props.navigation.pop({
             animationType: "fade"
           });
-          this.props.navigator.push({
+          this.props.navigation.push({
             screen: SCREENS.PRODUCT_DETAILS_SCREEN,
             passProps: {
               productId: this.state.productId
@@ -399,7 +399,7 @@ class DirectUploadDocumentScreen extends React.Component {
   };
 
   onCrossPress = () => {
-    this.props.navigator.pop();
+    this.props.navigation.pop();
   };
 
   render() {

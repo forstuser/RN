@@ -22,7 +22,7 @@ import EmptyMailboxPlaceholder from "./empty-mailbox-placeholder";
 import filterIcon from "../../images/ic_filter_none_black.png";
 
 class MailBox extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true
   };
   constructor(props) {
@@ -34,7 +34,7 @@ class MailBox extends Component {
     };
   }
   componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: I18n.t("mailbox_screen_title")
     });
     this.fetchNotifications();
@@ -80,7 +80,7 @@ class MailBox extends Component {
 
 
     if (item.productType == 1 || (item.productType == 3 && item.productId)) {
-      this.props.navigator.push({
+      this.props.navigation.push({
         screen: SCREENS.PRODUCT_DETAILS_SCREEN,
         passProps: {
           productId: item.productId

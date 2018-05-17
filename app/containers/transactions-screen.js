@@ -24,7 +24,7 @@ import { MAIN_CATEGORY_IDS, SCREENS } from "../constants";
 const billIcon = require("../images/ic_comingup_bill.png");
 
 class TransactionsScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true
   };
 
@@ -67,7 +67,7 @@ class TransactionsScreen extends Component {
   }
 
   async componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: this.props.category.cName
     });
 
@@ -227,7 +227,7 @@ class TransactionsScreen extends Component {
                 {this.state.activeData.products.map((product, index) => (
                   <TouchableOpacity
                     onPress={() => {
-                      this.props.navigator.push({
+                      this.props.navigation.push({
                         screen: SCREENS.PRODUCT_DETAILS_SCREEN,
                         passProps: {
                           productId: product.productId || product.id

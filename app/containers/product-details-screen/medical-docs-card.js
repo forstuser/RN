@@ -53,7 +53,7 @@ class MedicalDocsCard extends Component {
       };
     }
 
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.EDIT_MEDICAL_DOCS_SCREEN,
       passProps: {
         typeId: product.sub_category_id,
@@ -70,7 +70,7 @@ class MedicalDocsCard extends Component {
   };
 
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     let seller = {
       name: "",
       contact: ""
@@ -101,7 +101,7 @@ class MedicalDocsCard extends Component {
             <ViewBillButton
               collapsable={false}
               product={product}
-              navigator={navigator}
+              navigation={navigation}
               docType="Medical Doc"
               btnText={I18n.t("product_details_screen_docs")}
             />

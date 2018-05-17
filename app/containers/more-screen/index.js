@@ -29,7 +29,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 class MoreScreen extends Component {
   static OPEN_MORE_EVENT_DONE = false;
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true
   };
 
@@ -47,7 +47,7 @@ class MoreScreen extends Component {
       isProfileVisible: false,
       name: null
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   componentDidMount() {
@@ -56,7 +56,7 @@ class MoreScreen extends Component {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {
         case SCREENS.FAQS_SCREEN:
-          this.props.navigator.push({
+          this.props.navigation.push({
             screen: SCREENS.FAQS_SCREEN
           });
           break;
@@ -140,7 +140,7 @@ class MoreScreen extends Component {
   };
 
   openProfileScreen = () => {
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.PROFILE_SCREEN,
       passProps: { profile: this.state.profile }
     });
@@ -192,7 +192,7 @@ class MoreScreen extends Component {
             onPress={this.openProfileScreen}
             profile={profile}
             name={name}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             isProfileVisible={this.state.isProfileVisible}
             visible={this.visible}
             onUpdate={this.updateState}
@@ -210,7 +210,7 @@ class MoreScreen extends Component {
                 I18n.locale = language.code;
                 openAppScreen();
               }}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
           )}
           {profile && isProfileVisible && <Profile profile={profile} />}

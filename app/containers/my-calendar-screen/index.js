@@ -22,7 +22,7 @@ const calendarIcon = require("../../images/ic_calendar.png");
 const calendarIconColor = require("../../images/ic_calendar_color.png");
 
 class MyCalendarScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true
   };
   constructor(props) {
@@ -32,7 +32,7 @@ class MyCalendarScreen extends Component {
       isFetchingItems: true,
       items: []
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -44,7 +44,7 @@ class MyCalendarScreen extends Component {
   };
 
   componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: I18n.t("my_calendar_screen_title")
     });
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
@@ -72,7 +72,7 @@ class MyCalendarScreen extends Component {
 
   openAddEditCalendarServiceScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_SERVICE);
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_CALENDAR_SERVICE_SCREEN
     });
   };
@@ -82,7 +82,7 @@ class MyCalendarScreen extends Component {
       <Item
         key={item.id}
         item={item}
-        navigator={this.props.navigator}
+        navigation={this.props.navigation}
         onPress={() => this.onItemPress(item)}
       />
     );

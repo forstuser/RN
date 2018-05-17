@@ -64,7 +64,7 @@ class InsuranceCard extends Component {
       }
     }
 
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.EDIT_INSURANCE_SCREEN,
       passProps: {
         typeId: product.sub_category_id,
@@ -87,7 +87,7 @@ class InsuranceCard extends Component {
   };
 
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     let insurance = {
       value: 0,
       effectiveDate: "",
@@ -118,7 +118,7 @@ class InsuranceCard extends Component {
           <ViewBillButton
             collapsable={false}
             product={product}
-            navigator={navigator}
+            navigation={navigation}
             docType="Insurance"
           />
           <Image
@@ -188,7 +188,7 @@ class InsuranceCard extends Component {
         <View collapsable={false} style={styles.contactAfterSalesBtn}>
           <ContactAfterSaleButton
             product={product}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
           />
         </View>
       </View>

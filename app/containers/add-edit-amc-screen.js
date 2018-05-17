@@ -19,7 +19,7 @@ import AmcForm from "../components/expense-forms/amc-form";
 import ChangesSavedModal from "../components/changes-saved-modal";
 
 class AddEditAmc extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     navBarTranslucent: false,
     navBarTransparent: false,
@@ -27,7 +27,7 @@ class AddEditAmc extends React.Component {
   };
 
   static propTypes = {
-    navigator: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
@@ -41,7 +41,7 @@ class AddEditAmc extends React.Component {
     })
   };
 
-  static navigatorButtons = {
+  static navigationButtons = {
     ...Platform.select({
       ios: {
         leftButtons: [
@@ -65,7 +65,7 @@ class AddEditAmc extends React.Component {
         sellerContact: ""
       }
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
@@ -75,7 +75,7 @@ class AddEditAmc extends React.Component {
       title = I18n.t("add_edit_amc_edit_amc");
     }
 
-    this.props.navigator.setTitle({ title });
+    this.props.navigation.setTitle({ title });
 
     if (amc) {
       this.setState({
@@ -90,7 +90,7 @@ class AddEditAmc extends React.Component {
             amc.sellers && amc.sellers.contact ? amc.sellers.contact : ""
         }
       });
-      this.props.navigator.setButtons({
+      this.props.navigation.setButtons({
         rightButtons: [
           {
             title: "Delete",
@@ -119,7 +119,7 @@ class AddEditAmc extends React.Component {
           newData.sellerName == initialValues.sellerName &&
           newData.sellerContact == initialValues.sellerContact
         ) {
-          return this.props.navigator.pop();
+          return this.props.navigation.pop();
         }
 
         Alert.alert(
@@ -128,7 +128,7 @@ class AddEditAmc extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigator.pop()
+              onPress: () => this.props.navigation.pop()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -149,7 +149,7 @@ class AddEditAmc extends React.Component {
                 try {
                   this.setState({ isLoading: true });
                   await deleteAmc({ productId, amcId: amc.id });
-                  this.props.navigator.pop();
+                  this.props.navigation.pop();
                 } catch (e) {
                   console.log("e: ", e);
                   I18n.t("add_edit_amc_could_not_delete");
@@ -175,7 +175,7 @@ class AddEditAmc extends React.Component {
       productId,
       jobId,
       amc,
-      navigator
+      navigation
     } = this.props;
     let data = {
       mainCategoryId,
@@ -215,7 +215,7 @@ class AddEditAmc extends React.Component {
       productId,
       jobId,
       amc,
-      navigator
+      navigation
     } = this.props;
 
     const { isLoading } = this.state;
@@ -223,7 +223,7 @@ class AddEditAmc extends React.Component {
       <ScreenContainer style={styles.container}>
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
         <LoadingOverlay visible={isLoading} />
         <KeyboardAwareScrollView>
@@ -235,7 +235,7 @@ class AddEditAmc extends React.Component {
               productId,
               jobId,
               amc,
-              navigator,
+              navigation,
               isCollapsible: false
             }}
           />

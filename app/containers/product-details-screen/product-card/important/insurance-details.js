@@ -33,7 +33,7 @@ import EditOptionRow from "./edit-option-row";
 
 class InsuranceDetails extends React.Component {
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     const { insuranceDetails } = product;
 
     const InsuranceItem = ({ insurance }) => (

@@ -98,7 +98,7 @@ import MedicalDocsCard from "./medical-docs-card";
 // Navigation.registerComponent("NavOptionsButton", () => NavOptionsButton);
 
 class ProductDetailsScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     drawUnderNavBar: true,
     navBarBackgroundColor: "#fff"
@@ -112,11 +112,11 @@ class ProductDetailsScreen extends Component {
       product: {},
       openServiceSchedule: false
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
-    // this.props.navigator.setTitle({
+    // this.props.navigation.setTitle({
     //   title: I18n.t("product_details_screen_title")
     // });
 
@@ -133,7 +133,7 @@ class ProductDetailsScreen extends Component {
       case "didAppear":
         console.log("didAppear");
         if (!this.props.productId) {
-          return this.props.navigator.pop();
+          return this.props.navigation.pop();
         }
         this.setState(
           {
@@ -152,7 +152,7 @@ class ProductDetailsScreen extends Component {
             isScreenVisible: false
           },
           () => {
-            this.props.navigator.setStyle({
+            this.props.navigation.setStyle({
               navBarTransparent: false,
               navBarBackgroundColor: "#fff",
               ...Platform.select({
@@ -191,7 +191,7 @@ class ProductDetailsScreen extends Component {
                 Analytics.logEvent(Analytics.EVENTS.DELETE_PRODUCT);
                 this.setState({ isLoading: true });
                 await deleteProduct(product.id);
-                this.props.navigator.pop();
+                this.props.navigation.pop();
               }
             },
             {
@@ -218,7 +218,7 @@ class ProductDetailsScreen extends Component {
           product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
           product.categoryId == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC
         ) {
-          this.props.navigator.setStyle({
+          this.props.navigation.setStyle({
             drawUnderNavBar: false,
             navBarTranslucent: false,
             navBarTransparent: false,
@@ -226,7 +226,7 @@ class ProductDetailsScreen extends Component {
             topBarElevationShadowEnabled: true
           });
         } else if (this.state.isLoading) {
-          this.props.navigator.setStyle({
+          this.props.navigation.setStyle({
             drawUnderNavBar: true,
             navBarTranslucent: Platform.OS === "ios",
             navBarTransparent: true,
@@ -276,10 +276,10 @@ class ProductDetailsScreen extends Component {
             break;
         }
 
-        this.props.navigator.setTitle({
+        this.props.navigation.setTitle({
           title
         });
-        this.props.navigator.setButtons({
+        this.props.navigation.setButtons({
           rightButtons: [
             {
               component: "NavOptionsButton",
@@ -318,18 +318,18 @@ class ProductDetailsScreen extends Component {
       content = <LoadingOverlay visible={isLoading} />;
     } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL) {
       content = (
-        <PersonalDocCard product={product} navigator={this.props.navigator} />
+        <PersonalDocCard product={product} navigation={this.props.navigation} />
       );
     } else if (product.categoryId == 86) {
       // else if (product.categoryId == 664) {
       //   //insurance
       //   content = (
-      //     <InsuranceCard product={product} navigator={this.props.navigator} />
+      //     <InsuranceCard product={product} navigation={this.props.navigation} />
       //   );
       // }
       //medical docs
       content = (
-        <MedicalDocsCard product={product} navigator={this.props.navigator} />
+        <MedicalDocsCard product={product} navigation={this.props.navigation} />
       );
     } else {
       content = (
@@ -337,7 +337,7 @@ class ProductDetailsScreen extends Component {
           isScreenVisible={isScreenVisible}
           product={product}
           fetchProductDetails={this.fetchProductDetails}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           openServiceSchedule={openServiceSchedule}
         />
       );

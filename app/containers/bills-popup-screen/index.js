@@ -26,7 +26,7 @@ import SelectView from "./select-view";
 import LoadingOverlay from "../../components/loading-overlay";
 
 class BillsPopUpScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: true,
     statusBarTextColorScheme: "light"
@@ -113,7 +113,7 @@ class BillsPopUpScreen extends Component {
   };
 
   closeThisScreen = () => {
-    this.props.navigator.dismissModal();
+    this.props.navigation.dismissModal();
   };
 
   onItemCopyDelete = async (itemIndex, copyIndex) => {
@@ -129,7 +129,7 @@ class BillsPopUpScreen extends Component {
       if (copies.length == 0) {
         //if all copies are deleted, remove the item
         items.splice(itemIndex, 1);
-        this.props.navigator.dismissAllModals();
+        this.props.navigation.dismissAllModals();
       } else {
         items[itemIndex] = item;
       }

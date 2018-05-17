@@ -8,7 +8,7 @@ import { colors } from "../theme";
 const image = require("../images/upgrade.png");
 
 class ForceUpdateScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true
   };
 
@@ -51,7 +51,7 @@ class ForceUpdateScreen extends Component {
             {this.props.allowSkip ? (
               <TouchableOpacity
                 style={styles.notNow}
-                onPress={() => this.props.navigator.dismissAllModals()}
+                onPress={() => this.props.navigation.dismissAllModals()}
               >
                 <Text weight="Bold" style={styles.notNowText}>
                   {I18n.t("add_edit_force_not_now")}

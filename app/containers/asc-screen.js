@@ -35,9 +35,8 @@ const crossIcon = require("../images/ic_close.png");
 const dropdownIcon = require("../images/ic_dropdown_arrow.png");
 
 class AscScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: false,
-    tabBarHidden: true
+  static navigationOptions = {
+    title: I18n.t("asc_screen_title")
   };
   constructor(props) {
     super(props);
@@ -57,7 +56,7 @@ class AscScreen extends Component {
       address: "",
       clearSelectedValuesOnScreenAppear: true
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -79,9 +78,7 @@ class AscScreen extends Component {
 
   async componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.OPEN_ASC_SCREEN);
-    this.props.navigator.setTitle({
-      title: I18n.t("asc_screen_title")
-    });
+
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       if (screenOpts.hitAccessApi) {
@@ -207,7 +204,7 @@ class AscScreen extends Component {
       category_name: this.state.selectedCategory.category_name
     });
 
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ASC_SEARCH_SCREEN,
       passProps: {
         brand: this.state.selectedBrand,
@@ -248,7 +245,7 @@ class AscScreen extends Component {
   };
 
   openAddProductScreen = () => {
-    this.props.navigator.push({
+    this.props.navigation.push({
       screen: SCREENS.ADD_PRODUCT_SCREEN,
       overrideBackPress: true
     });

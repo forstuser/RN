@@ -21,12 +21,12 @@ import ChangesSavedModal from "../components/changes-saved-modal";
 import Analytics from "../analytics";
 
 class AddEditWarranty extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     disabledBackGesture: true
   };
   static propTypes = {
-    navigator: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
@@ -46,7 +46,7 @@ class AddEditWarranty extends React.Component {
     warrantyType: WARRANTY_TYPES.NORMAL
   };
 
-  static navigatorButtons = {
+  static navigationButtons = {
     ...Platform.select({
       ios: {
         leftButtons: [
@@ -73,7 +73,7 @@ class AddEditWarranty extends React.Component {
         providerName: null
       }
     };
-    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
@@ -97,7 +97,7 @@ class AddEditWarranty extends React.Component {
       title = "Edit Third Party Warranty";
     }
 
-    this.props.navigator.setTitle({ title });
+    this.props.navigation.setTitle({ title });
 
     this.fetchCategoryData();
 
@@ -113,7 +113,7 @@ class AddEditWarranty extends React.Component {
           providerName: null
         }
       });
-      this.props.navigator.setButtons({
+      this.props.navigation.setButtons({
         rightButtons: [
           {
             title: I18n.t("add_edit_insurance_delete"),
@@ -143,7 +143,7 @@ class AddEditWarranty extends React.Component {
           newData.renewalType == initialValues.renewalType &&
           newData.value == initialValues.value
         ) {
-          return this.props.navigator.pop();
+          return this.props.navigation.pop();
         }
         Alert.alert(
           I18n.t("add_edit_amc_are_you_sure"),
@@ -151,7 +151,7 @@ class AddEditWarranty extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigator.pop()
+              onPress: () => this.props.navigation.pop()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -172,7 +172,7 @@ class AddEditWarranty extends React.Component {
                 try {
                   this.setState({ isLoading: true });
                   await deleteWarranty({ productId, warrantyId: warranty.id });
-                  this.props.navigator.pop();
+                  this.props.navigation.pop();
                 } catch (e) {
                   showSnackbar({
                     text: I18n.t("add_edit_amc_could_not_delete")
@@ -215,7 +215,7 @@ class AddEditWarranty extends React.Component {
       productId,
       jobId,
       warranty,
-      navigator,
+      navigation,
       warrantyType
     } = this.props;
     let data = {
@@ -270,7 +270,7 @@ class AddEditWarranty extends React.Component {
       productId,
       jobId,
       warranty,
-      navigator,
+      navigation,
       warrantyType
     } = this.props;
 
@@ -280,7 +280,7 @@ class AddEditWarranty extends React.Component {
         <LoadingOverlay visible={isLoading} />
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
         <KeyboardAwareScrollView>
           <WarrantyForm
@@ -294,7 +294,7 @@ class AddEditWarranty extends React.Component {
               warranty,
               renewalTypes,
               warrantyProviders,
-              navigator,
+              navigation,
               isCollapsible: false
             }}
           />
