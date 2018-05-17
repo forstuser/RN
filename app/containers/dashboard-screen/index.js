@@ -68,13 +68,27 @@ class DashboardScreen extends React.Component {
       recentSearches: [],
       totalCalendarItem: 0,
       calendarItemUpdatedAt: null,
-      showUploadOptions: false,
-      showAddProductOptionsScreenOnAppear: false
+      showUploadOptions: false
     };
     // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  async componentDidMount() {
+   componentDidMount() {
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.screenHasDisappeared = false;
+        this.fetchDashboardData();
+      }
+    );
+
+    this.willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        this.screenHasDisappeared = true;
+      }
+    );
+
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {
@@ -91,11 +105,7 @@ class DashboardScreen extends React.Component {
           break;
         case SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN:
           this.props.navigation.push({
-            screen: SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN,
-            passProps: {
-              showAddProductOptionsScreenOnAppear: this
-                .showAddProductOptionsScreenOnAppear
-            }
+            screen: SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN
           });
           break;
         case SCREENS.TIPS_SCREEN:
@@ -118,20 +128,10 @@ class DashboardScreen extends React.Component {
     });
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        this.screenHasDisappeared = false;
-        if (this.state.showAddProductOptionsScreenOnAppear) {
-          this.showAddProductOptionsScreen();
-        }
-        this.fetchDashboardData();
-        break;
-      case "didDisappear":
-        this.screenHasDisappeared = true;
-        break;
-    }
-  };
+  componentWillUnmount(){
+    this.didFocusSubscription.remove();
+    this.willBlurSubscription.remove();
+  }
 
   fetchDashboardData = async () => {
     this.setState({
@@ -217,16 +217,7 @@ class DashboardScreen extends React.Component {
     });
   };
 
-  showAddProductOptionsScreenOnAppear = () => {
-    this.setState({
-      showAddProductOptionsScreenOnAppear: true
-    });
-  };
-
   showAddProductOptionsScreen = () => {
-    this.setState({
-      showAddProductOptionsScreenOnAppear: false
-    });
     Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
     this.props.navigation.push({
       screen: SCREENS.ADD_PRODUCT_SCREEN,

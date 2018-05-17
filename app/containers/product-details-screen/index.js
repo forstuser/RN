@@ -98,10 +98,12 @@ import MedicalDocsCard from "./medical-docs-card";
 // Navigation.registerComponent("NavOptionsButton", () => NavOptionsButton);
 
 class ProductDetailsScreen extends Component {
-  static navigationOptions = {
-    tabBarHidden: true,
-    drawUnderNavBar: true,
-    navBarBackgroundColor: "#fff"
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      title: params.title ? params.title : "Product Details",
+      headerTransparent: false //params.headerTransparent
+    };
   };
 
   constructor(props) {
@@ -113,7 +115,6 @@ class ProductDetailsScreen extends Component {
       product: {},
       openServiceSchedule: false
     };
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
@@ -129,12 +130,12 @@ class ProductDetailsScreen extends Component {
         this.fetchProductDetails();
       }
     );
-    if (this.props.screenOpts) {
-      const screenOpts = this.props.screenOpts;
-      if (screenOpts.openServiceSchedule) {
-        this.setState({ openServiceSchedule: true });
+    const didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      payload => {
+        console.debug("didFocus", payload);
       }
-    }
+    );
   }
 
   onNavigatorEvent = event => {
@@ -218,7 +219,7 @@ class ProductDetailsScreen extends Component {
         ) {
           //normal header bar
         } else if (this.state.isLoading) {
-          //transparent header bar
+          this.props.navigation.setParams({ headerTransparent: true });
         }
 
         let addImageText = "";
@@ -262,6 +263,7 @@ class ProductDetailsScreen extends Component {
             break;
         }
 
+        this.props.navigation.setParams({ title: title });
         // this.props.navigation.setTitle({
         //   title
         // });
