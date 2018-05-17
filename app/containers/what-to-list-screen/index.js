@@ -603,7 +603,11 @@ class WhatToListScreen extends Component {
             ) : (
               <View />
             )}
-            {/* <AddNewBtn text={btnText} onPress={this.onAddNewPress} /> */}
+            {type == EASY_LIFE_TYPES.WHAT_TO_WEAR ? (
+              <AddNewBtn text={btnText} onPress={this.onAddNewPress} />
+            ) : (
+              <View />
+            )}
           </View>
           <ClothesImageUploader
             ref={ref => (this.clothesImageUploader = ref)}
