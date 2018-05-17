@@ -64,25 +64,21 @@ class InsuranceCard extends Component {
       }
     }
 
-    this.props.navigation.push({
-      screen: SCREENS.EDIT_INSURANCE_SCREEN,
-      passProps: {
-        typeId: product.sub_category_id,
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        planName: product.productName,
-        insuranceFor: product.model,
-        insuranceId: insurance.id,
-        value: insurance.value,
-        providerId: insurance.providerId,
-        effectiveDate: insurance.effectiveDate,
-        policyNo: insurance.policyNo,
-        amountInsured: insurance.amountInsured,
-        copies: product.copies || []
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.EDIT_INSURANCE_SCREEN, {
+      typeId: product.sub_category_id,
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      planName: product.productName,
+      insuranceFor: product.model,
+      insuranceId: insurance.id,
+      value: insurance.value,
+      providerId: insurance.providerId,
+      effectiveDate: insurance.effectiveDate,
+      policyNo: insurance.policyNo,
+      amountInsured: insurance.amountInsured,
+      copies: product.copies || []
     });
   };
 

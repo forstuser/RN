@@ -40,11 +40,8 @@ class FinishModal extends React.Component {
           this.props.navigation.pop({ animationType: "fade" });
         }
 
-        this.props.navigation.push({
-          screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-          passProps: {
-            productId: this.props.productId
-          }
+        this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+          productId: this.props.productId
         });
       } else {
         this.props.navigation.pop({ animationType: "fade" });

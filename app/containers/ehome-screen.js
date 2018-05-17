@@ -77,11 +77,8 @@ class EhomeScreen extends Component {
           });
           break;
         case SCREENS.PRODUCT_DETAILS_SCREEN:
-          this.props.navigation.push({
-            screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-            passProps: {
-              productId: screenOpts.productId
-            }
+          this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+            productId: screenOpts.productId
           });
           break;
       }
@@ -141,20 +138,14 @@ class EhomeScreen extends Component {
   };
 
   openMainCategoryScreen = category => {
-    this.props.navigation.push({
-      screen: SCREENS.MAIN_CATEGORY_SCREEN,
-      passProps: {
-        category
-      }
+    this.props.navigation.navigate(SCREENS.MAIN_CATEGORY_SCREEN, {
+      category
     });
   };
 
   openDocsUnderProcessingScreen = () => {
-    this.props.navigation.push({
-      screen: SCREENS.DOCS_UNDER_PROCESSING_SCREEN,
-      passProps: {
-        pendingDocs: this.state.pendingDocs
-      }
+    this.props.navigation.navigate(SCREENS.DOCS_UNDER_PROCESSING_SCREEN, {
+      pendingDocs: this.state.pendingDocs
     });
   };
 
@@ -172,10 +163,7 @@ class EhomeScreen extends Component {
 
   showAddProductOptionsScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
-    this.props.navigation.push({
-      screen: SCREENS.ADD_PRODUCT_SCREEN,
-      overrideBackPress: true
-    });
+    this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN);
   };
 
   render() {

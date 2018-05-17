@@ -65,20 +65,16 @@ class PerosnalDocCard extends Component {
       };
     }
 
-    this.props.navigation.push({
-      screen: SCREENS.ADD_EDIT_PERSONAL_DOC_SCREEN,
-      passProps: {
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        name: product.productName,
-        businessName: seller.name,
-        phone: seller.contact,
-        email: seller.email,
-        address: seller.address,
-        copies: product.copies || []
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_PERSONAL_DOC_SCREEN, {
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      name: product.productName,
+      businessName: seller.name,
+      phone: seller.contact,
+      email: seller.email,
+      address: seller.address,
+      copies: product.copies || []
     });
   };
 

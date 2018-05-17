@@ -204,14 +204,11 @@ class AscScreen extends Component {
       category_name: this.state.selectedCategory.category_name
     });
 
-    this.props.navigation.push({
-      screen: SCREENS.ASC_SEARCH_SCREEN,
-      passProps: {
-        brand: this.state.selectedBrand,
-        category: this.state.selectedCategory,
-        latitude: this.state.latitude,
-        longitude: this.state.longitude
-      }
+    this.props.navigation.navigate(SCREENS.ASC_SEARCH_SCREEN, {
+      brand: this.state.selectedBrand,
+      category: this.state.selectedCategory,
+      latitude: this.state.latitude,
+      longitude: this.state.longitude
     });
   };
 
@@ -245,10 +242,7 @@ class AscScreen extends Component {
   };
 
   openAddProductScreen = () => {
-    this.props.navigation.push({
-      screen: SCREENS.ADD_PRODUCT_SCREEN,
-      overrideBackPress: true
-    });
+    this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN);
   };
 
   render() {

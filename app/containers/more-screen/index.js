@@ -56,9 +56,7 @@ class MoreScreen extends Component {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {
         case SCREENS.FAQS_SCREEN:
-          this.props.navigation.push({
-            screen: SCREENS.FAQS_SCREEN
-          });
+          this.props.navigation.navigate(SCREENS.FAQS_SCREEN);
           break;
         case SCREENS.PROFILE_SCREEN:
           this.setState({
@@ -140,9 +138,8 @@ class MoreScreen extends Component {
   };
 
   openProfileScreen = () => {
-    this.props.navigation.push({
-      screen: SCREENS.PROFILE_SCREEN,
-      passProps: { profile: this.state.profile }
+    this.props.navigation.navigate(SCREENS.PROFILE_SCREEN, {
+      profile: this.state.profile
     });
     // this.setState({
     //   isProfileVisible: true

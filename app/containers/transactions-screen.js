@@ -192,7 +192,7 @@ class TransactionsScreen extends Component {
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={isFetchingData} />
         <ScrollView>
-          <View collapsable={false}  style={{ padding: 16 }}>
+          <View collapsable={false} style={{ padding: 16 }}>
             <InsightChart
               onFiltersPress={() => this.filterOptions.show()}
               bgColors={[this.props.color, this.props.color]}
@@ -219,20 +219,20 @@ class TransactionsScreen extends Component {
               text={I18n.t("transactions_screen_no_transactions")}
             />
           ) : (
-            <View collapsable={false} >
+            <View collapsable={false}>
               <SectionHeading
                 text={I18n.t("transactions_screen_transactions")}
               />
-              <View collapsable={false} >
+              <View collapsable={false}>
                 {this.state.activeData.products.map((product, index) => (
                   <TouchableOpacity
                     onPress={() => {
-                      this.props.navigation.push({
-                        screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-                        passProps: {
+                      this.props.navigation.navigate(
+                        SCREENS.PRODUCT_DETAILS_SCREEN,
+                        {
                           productId: product.productId || product.id
                         }
-                      });
+                      );
                     }}
                     style={styles.product}
                     key={index}
@@ -246,8 +246,8 @@ class TransactionsScreen extends Component {
                     {product.dataIndex > 1 && (
                       <Image style={styles.image} source={billIcon} />
                     )}
-                    <View collapsable={false}  style={styles.texts}>
-                      <View collapsable={false}  style={styles.nameWrapper}>
+                    <View collapsable={false} style={styles.texts}>
+                      <View collapsable={false} style={styles.nameWrapper}>
                         <Text weight="Bold" style={styles.name}>
                           {product.productName || product.categoryName}
                         </Text>
@@ -260,7 +260,7 @@ class TransactionsScreen extends Component {
                           {product.sellers.sellerName}
                         </Text>
                       ) : (
-                        <View collapsable={false}  />
+                        <View collapsable={false} />
                       )}
                       <Text weight="Medium" style={styles.purchaseDate}>
                         {moment(product.purchaseDate).format("MMM DD, YYYY")}

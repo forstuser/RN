@@ -72,9 +72,7 @@ class MyCalendarScreen extends Component {
 
   openAddEditCalendarServiceScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_SERVICE);
-    this.props.navigation.push({
-      screen: SCREENS.ADD_CALENDAR_SERVICE_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.ADD_CALENDAR_SERVICE_SCREEN);
   };
 
   renderItem = ({ item, index }) => {

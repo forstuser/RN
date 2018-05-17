@@ -45,11 +45,8 @@ class EnterPinScreen extends React.Component {
   };
 
   onForgotPinPress = () => {
-    this.props.navigation.push({
-      screen: SCREENS.PIN_SETUP_SCREEN,
-      passProps: {
-        resetPin: true
-      }
+    this.props.navigation.navigate(SCREENS.PIN_SETUP_SCREEN, {
+      resetPin: true
     });
   };
 

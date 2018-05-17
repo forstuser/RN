@@ -77,14 +77,9 @@ class MailBox extends Component {
   };
 
   onItemPress = item => {
-
-
     if (item.productType == 1 || (item.productType == 3 && item.productId)) {
-      this.props.navigation.push({
-        screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-        passProps: {
-          productId: item.productId
-        }
+      this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+        productId: item.productId
       });
     } else {
       openBillsPopUp({
@@ -127,13 +122,13 @@ class MailBox extends Component {
                   fileType="pdf"
                 />
               ) : (
-                  <Image
-                    style={styles.image}
-                    fileStyle={{ width: 50, height: 50 }}
-                    fileType={item.copies[0].file_type || item.copies[0].fileType}
-                    source={{ uri: API_BASE_URL + item.copies[0].copyUrl }}
-                  />
-                )}
+                <Image
+                  style={styles.image}
+                  fileStyle={{ width: 50, height: 50 }}
+                  fileType={item.copies[0].file_type || item.copies[0].fileType}
+                  source={{ uri: API_BASE_URL + item.copies[0].copyUrl }}
+                />
+              )}
             </View>
             <View collapsable={false} style={styles.titleAndDetails}>
               <Text weight="Medium" style={{ color: titleColor }}>
@@ -153,8 +148,8 @@ class MailBox extends Component {
               {amount ? (
                 <Text weight="Medium">{amount}</Text>
               ) : (
-                  <View collapsable={false} />
-                )}
+                <View collapsable={false} />
+              )}
             </View>
           </View>
           <Text weight="Medium" style={styles.desc}>
