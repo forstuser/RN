@@ -10,11 +10,8 @@ import Analytics from "../../analytics";
 class Item extends React.Component {
   onPress = () => {
     const { item } = this.props;
-    this.props.navigation.push({
-      screen: SCREENS.CALENDAR_SERVICE_CARD_SCREEN,
-      passProps: {
-        itemId: item.id
-      }
+    this.props.navigation.navigate(SCREENS.CALENDAR_SERVICE_CARD_SCREEN, {
+      itemId: item.id
     });
   };
 
@@ -54,8 +51,8 @@ class Item extends React.Component {
               {outstanding_amount > 0 ? (
                 <Text style={styles.positiveValue}>₹ {outstanding_amount}</Text>
               ) : (
-                  <Text style={styles.negativeValue}>₹ {outstanding_amount}</Text>
-                )}
+                <Text style={styles.negativeValue}>₹ {outstanding_amount}</Text>
+              )}
               {/* <Text weight="Bold" style={styles.value}>
                 ₹ {outstanding_amount}
               </Text> */}

@@ -99,19 +99,15 @@ class DashboardScreen extends React.Component {
           this.openInsightScreen({ screenOpts: screenOpts });
           break;
         case SCREENS.ADD_PRODUCT_SCREEN:
-          this.props.navigation.push({
-            screen: SCREENS.ADD_PRODUCT_SCREEN
-          });
+          this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN);
           break;
         case SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN:
-          this.props.navigation.push({
-            screen: SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN
-          });
+          this.props.navigation.navigate(
+            SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN
+          );
           break;
         case SCREENS.TIPS_SCREEN:
-          this.props.navigation.push({
-            screen: SCREENS.TIPS_SCREEN
-          });
+          this.props.navigation.navigate(SCREENS.TIPS_SCREEN);
           break;
       }
     }
@@ -219,18 +215,12 @@ class DashboardScreen extends React.Component {
 
   showAddProductOptionsScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
-    this.props.navigation.push({
-      screen: SCREENS.ADD_PRODUCT_SCREEN,
-      overrideBackPress: true
-    });
+    this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN);
   };
 
   openInsightScreen = props => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EXPENSE_INSIGHT);
-    this.props.navigation.push({
-      screen: SCREENS.INSIGHTS_SCREEN,
-      passProps: props || {}
-    });
+    this.props.navigation.navigate(SCREENS.INSIGHTS_SCREEN);
   };
 
   openAscScreen = () => {

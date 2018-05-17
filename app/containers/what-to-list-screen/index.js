@@ -376,9 +376,8 @@ class WhatToListScreen extends Component {
   };
 
   goToFaq = () => {
-    this.props.navigation.push({
-      screen: SCREENS.FAQS_SCREEN,
-      passProps: { scrollToBottom: true }
+    this.props.navigation.navigate(SCREENS.FAQS_SCREEN, {
+      scrollToBottom: true
     });
   };
   render() {

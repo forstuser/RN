@@ -359,12 +359,9 @@ class DishCalendarScreen extends Component {
         isScreenVisible: false
       },
       () => {
-        this.props.navigation.push({
-          screen: SCREENS.WHAT_TO_LIST_SCREEN,
-          passProps: {
-            type: this.props.type,
-            stateId: items.length > 0 ? items[0].state_id : null
-          }
+        this.props.navigation.navigator(SCREENS.WHAT_TO_LIST_SCREEN, {
+          type: this.props.type,
+          stateId: items.length > 0 ? items[0].state_id : null
         });
       }
     );

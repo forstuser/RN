@@ -53,19 +53,15 @@ class MedicalDocsCard extends Component {
       };
     }
 
-    this.props.navigation.push({
-      screen: SCREENS.EDIT_MEDICAL_DOCS_SCREEN,
-      passProps: {
-        typeId: product.sub_category_id,
-        productId: product.id,
-        jobId: product.jobId,
-        reportTitle: product.productName,
-        date: product.purchaseDate,
-        doctorName: seller.name,
-        doctorContact: seller.contact,
-        copies: product.copies || []
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.EDIT_MEDICAL_DOCS_SCREEN, {
+      typeId: product.sub_category_id,
+      productId: product.id,
+      jobId: product.jobId,
+      reportTitle: product.productName,
+      date: product.purchaseDate,
+      doctorName: seller.name,
+      doctorContact: seller.contact,
+      copies: product.copies || []
     });
   };
 

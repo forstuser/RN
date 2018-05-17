@@ -47,38 +47,32 @@ class EasyLifeScreen extends Component {
 
   attendanceItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_WHO_IS_ABSENT_TODAY);
-    this.props.navigation.push({
-      screen: SCREENS.MY_CALENDAR_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.MY_CALENDAR_SCREEN);
   };
 
   toDoItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_DO_TODAY);
-    this.props.navigation.push({
-      screen: SCREENS.WHAT_TO_SCREEN,
-      passProps: { type: EASY_LIFE_TYPES.WHAT_TO_DO }
+    this.props.navigation.navigate(SCREENS.WHAT_TO_SCREEN, {
+      type: EASY_LIFE_TYPES.WHAT_TO_DO
     });
   };
   cookingItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_COOK);
-    this.props.navigation.push({
-      screen: SCREENS.WHAT_TO_SCREEN,
-      passProps: { type: EASY_LIFE_TYPES.WHAT_TO_COOK }
+    this.props.navigation.navigate(SCREENS.WHAT_TO_SCREEN, {
+      type: EASY_LIFE_TYPES.WHAT_TO_COOK
     });
   };
   wearItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_WEAR_TODAY);
-    this.props.navigation.push({
-      screen: SCREENS.WHAT_TO_SCREEN,
-      passProps: { type: EASY_LIFE_TYPES.WHAT_TO_WEAR }
+    this.props.navigation.navigate(SCREENS.WHAT_TO_SCREEN, {
+      type: EASY_LIFE_TYPES.WHAT_TO_WEAR
     });
   };
 
   showAddProductOptionsScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
-    this.props.navigation.push({
-      screen: SCREENS.ADD_PRODUCT_SCREEN,
-      overrideBackPress: true
+    this.props.navigation.navigate({
+      screen: SCREENS.ADD_PRODUCT_SCREEN
     });
   };
 

@@ -72,10 +72,9 @@ class AddProductScreen extends React.Component {
         break;
       default:
     }
-    this.props.navigation.push({
-      screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
-      passProps: { expenseType: type, isPreviousScreenOfAddOptions: true },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_EXPENSE_SCREEN, {
+      expenseType: type,
+      isPreviousScreenOfAddOptions: true
     });
   };
 

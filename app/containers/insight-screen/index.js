@@ -152,15 +152,12 @@ class InsightScreen extends Component {
   }
 
   openTaxPaidScreen = () => {
-    this.props.navigation.push({
-      screen: SCREENS.TOTAL_TAX_SCREEN,
-      passProps: {
-        weeklyData: this.state.weeklyData,
-        monthlyData: this.state.monthlyData,
-        yearlyData: this.state.yearlyData,
-        overallData: this.state.overallData,
-        index: this.state.activeData.index
-      }
+    this.props.navigation.navigate(SCREENS.TOTAL_TAX_SCREEN, {
+      weeklyData: this.state.weeklyData,
+      monthlyData: this.state.monthlyData,
+      yearlyData: this.state.yearlyData,
+      overallData: this.state.overallData,
+      index: this.state.activeData.index
     });
   };
 
@@ -197,13 +194,10 @@ class InsightScreen extends Component {
   };
 
   openTransactionsScreen = ({ category, color }) => {
-    this.props.navigation.push({
-      screen: SCREENS.TRANSACTIONS_SCREEN,
-      passProps: {
-        index: this.state.activeData.index,
-        category,
-        color
-      }
+    this.props.navigation.navigate(SCREENS.TRANSACTIONS_SCREEN, {
+      index: this.state.activeData.index,
+      category,
+      color
     });
   };
 
@@ -219,7 +213,7 @@ class InsightScreen extends Component {
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={this.state.isFetchingData} />
         <ScrollView>
-          <View collapsable={false}  style={styles.filterHeader}>
+          <View collapsable={false} style={styles.filterHeader}>
             <Text weight="Bold" style={styles.timeSpan}>
               {timeSpanText}
             </Text>
@@ -319,7 +313,8 @@ class InsightScreen extends Component {
             />
           )}
           {totalSpend == 0 && (
-            <View collapsable={false} 
+            <View
+              collapsable={false}
               style={{
                 flex: 1,
                 justifyContent: "center",
@@ -336,7 +331,7 @@ class InsightScreen extends Component {
               {/* <Text style={{ textAlign: "center" }}>No Expenses</Text> */}
             </View>
           )}
-          <View collapsable={false}  style={styles.spends}>
+          <View collapsable={false} style={styles.spends}>
             <Text style={{ fontSize: 24, color: "#9c9c9c" }} weight="Regular">
               {I18n.t("insights_screen_total_spends")}
             </Text>
@@ -345,7 +340,7 @@ class InsightScreen extends Component {
             </Text>
           </View>
 
-          <View collapsable={false} >
+          <View collapsable={false}>
             {categories.map((category, index) => (
               <TouchableOpacity
                 onPress={() =>
@@ -357,13 +352,14 @@ class InsightScreen extends Component {
                 key={category.cName}
                 style={styles.item}
               >
-                <View collapsable={false} 
+                <View
+                  collapsable={false}
                   style={[
                     styles.itemColorDot,
                     { backgroundColor: legendColors[index] }
                   ]}
                 />
-                <View collapsable={false}  style={styles.texts}>
+                <View collapsable={false} style={styles.texts}>
                   <Text style={styles.categoryName} weight="Medium">
                     {category.cName}
                   </Text>
