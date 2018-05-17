@@ -14,6 +14,8 @@ import EasyLifeScreen from "../containers/easy-life-screen";
 import DoYouKnowScreen from "../containers/do-you-know-screen";
 import MoreScreen from "../containers/more-screen";
 
+import AscScreen from "../containers/asc-screen";
+import ProductDetailsScreen from "../containers/product-details-screen";
 import MainCategoryScreen from "../containers/main-category-screen";
 import BillsPopUpScreen from "../containers/bills-popup-screen";
 import FaqScreen from "../containers/faq-screen";
@@ -47,10 +49,9 @@ import EnterPinPopupScreen from "../containers/enter-pin-popup-screen";
 import PinSetupScreen from "../containers/pin-setup-screen";
 import WhatToScreen from "../containers/what-to-screen";
 import WhatToListScreen from "../containers/what-to-list-screen";
-import AscScreen from "../containers/asc-screen";
-import ProductDetailsScreen from "../containers/product-details-screen";
 
 import { SCREENS } from "../constants";
+import rateUsScreen from "../containers/rate-us-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -127,7 +128,40 @@ export default createStackNavigator(
       navigationOptions: { header: null }
     },
     [SCREENS.ASC_SCREEN]: AscScreen,
-    [SCREENS.PRODUCT_DETAILS_SCREEN]: ProductDetailsScreen
+    [SCREENS.PRODUCT_DETAILS_SCREEN]: ProductDetailsScreen,
+    [SCREENS.MAIN_CATEGORY_SCREEN]: MainCategoryScreen,
+    [SCREENS.BILLS_POPUP_SCREEN]: BillsPopUpScreen,
+    [SCREENS.FAQS_SCREEN]: FaqScreen,
+    [SCREENS.MAILBOX_SCREEN]: MailboxScreen,
+    [SCREENS.TIPS_SCREEN]: TipsScreen,
+    [SCREENS.PROFILE_SCREEN]: ProfileScreen,
+    [SCREENS.SEARCH_SCREEN]: SearchScreen,
+    [SCREENS.ASC_SEARCH_SCREEN]: AscSearchScreen,
+    [SCREENS.UPLOAD_DOCUMENT_SCREEN]: UploadDocumentScreen,
+    [SCREENS.INSIGHTS_SCREEN]: InsightScreen,
+    [SCREENS.TRANSACTIONS_SCREEN]: TransactionsScreen,
+    [SCREENS.ADD_PRODUCT_SCREEN]: AddProductScreen,
+    [SCREENS.FORCE_UPDATE_SCREEN]: ForceUpdateScreen,
+    [SCREENS.ADD_EDIT_EXPENSE_SCREEN]: AddEditExpenseScreen,
+    [SCREENS.ADD_EDIT_WARRANTY_SCREEN]: AddEditWarrantyScreen,
+    [SCREENS.ADD_EDIT_INSURANCE_SCREEN]: AddEditInsuranceScreen,
+    [SCREENS.ADD_EDIT_AMC_SCREEN]: AddEditAmcScreen,
+    [SCREENS.ADD_EDIT_REPAIR_SCREEN]: AddEditRepairScreen,
+    [SCREENS.ADD_EDIT_PUC_SCREEN]: AddEditPucScreen,
+    [SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN]: EditProductBasicDetailsScreen,
+    [SCREENS.ADD_EDIT_PERSONAL_DOC_SCREEN]: AddEditPersonalDocScreen,
+    [SCREENS.EDIT_MEDICAL_DOCS_SCREEN]: EditMedicalDocScreen,
+    [SCREENS.EDIT_INSURANCE_SCREEN]: EditInsuranceScreen,
+    [SCREENS.ADD_PRODUCT_OPTIONS_SCREEN]: AddProductOptionsScreen,
+    [SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN]: DirectUploadDocumentScreen,
+    [SCREENS.RATE_US_SCREEN]: rateUsScreen,
+    [SCREENS.MY_CALENDAR_SCREEN]: MyCalendarScreen,
+    [SCREENS.ADD_CALENDAR_SERVICE_SCREEN]: AddCalendarServiceScreen,
+    [SCREENS.CALENDAR_SERVICE_CARD_SCREEN]: CalendarServiceCardScreen,
+    [SCREENS.ENTER_PIN_POPUP_SCREEN]: EnterPinPopupScreen,
+    [SCREENS.PIN_SETUP_SCREEN]: PinSetupScreen,
+    [SCREENS.WHAT_TO_SCREEN]: WhatToScreen,
+    [SCREENS.WHAT_TO_LIST_SCREEN]: WhatToListScreen
   },
   {}
 );
