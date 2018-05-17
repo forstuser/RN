@@ -1,9 +1,8 @@
 package com.bin.binbillcustomer;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.StrictMode;
 
+import com.reactlibrary.RNReactNativeDocViewerPackage;
 import com.evollu.react.fa.FIRAnalyticsPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.microsoft.codepush.react.CodePush;
@@ -39,6 +38,7 @@ import java.util.List;
 
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
+import android.app.Activity;
 
 import com.microsoft.codepush.react.ReactInstanceHolder;
 
@@ -56,7 +56,7 @@ public class MainApplication extends NavigationApplication implements ReactInsta
     
     setActivityCallbacks(new ActivityCallbacks() {
       @Override
-      public void onActivityResumed(Activity activity) {
+      public void onActivityResumed(Activity activity ) {
         // Do stuff
       }
 
@@ -111,8 +111,8 @@ public class MainApplication extends NavigationApplication implements ReactInsta
   protected List<ReactPackage> getPackages() {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(new FastImageViewPackage(), new RNViewShotPackage(), new FBSDKPackage(mCallbackManager),
-        new FIRAnalyticsPackage(), new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
+    return Arrays.<ReactPackage>asList(new RNReactNativeDocViewerPackage(), new FastImageViewPackage(), new RNViewShotPackage(), new FBSDKPackage(mCallbackManager),
+        new FIRAnalyticsPackage(),  new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
         new VectorIconsPackage(), new SvgPackage(), new RNSharePackage(), new PhotoViewPackage(),
         new NavigationReactPackage(), new LinearGradientPackage(), new PickerPackage(), new RNI18nPackage(),
         new RNFetchBlobPackage(), new FIRMessagingPackage(), new ReactNativeDocumentPicker(), new RNDeviceInfo(),

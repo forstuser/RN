@@ -35,6 +35,8 @@ target 'BinBill' do
 
   pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
 
+  pod 'RNReactNativeDocViewer', :path => '../node_modules/react-native-doc-viewer'
+
   target 'BinBillTests' do
     inherit! :search_paths
     # Pods for testing
