@@ -329,7 +329,6 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   closeBtn: {
-    // margin: 10,
     width: 300,
     height: 30,
     alignSelf: "center",

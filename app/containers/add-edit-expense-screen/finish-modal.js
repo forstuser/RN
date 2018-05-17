@@ -67,8 +67,8 @@ class FinishModal extends React.Component {
       title = I18n.t("add_edit_expense_screen_title_add_eHome"),
       navigation
     } = this.props;
-    // console.log("props", this.props)
-    // console.log("state", this.state)
+    // console.log("props",  this.props)
+    // console.log("state",  this.state)
     const { visible } = this.state;
     if (!visible) return null;
 

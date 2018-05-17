@@ -141,9 +141,6 @@ class MoreScreen extends Component {
     this.props.navigation.navigate(SCREENS.PROFILE_SCREEN, {
       profile: this.state.profile
     });
-    // this.setState({
-    //   isProfileVisible: true
-    // });
   };
 
   visible = item => {

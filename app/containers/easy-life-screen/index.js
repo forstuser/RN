@@ -32,7 +32,6 @@ class EasyLifeScreen extends Component {
 
   constructor(props) {
     super(props);
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {

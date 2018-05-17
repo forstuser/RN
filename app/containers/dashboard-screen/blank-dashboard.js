@@ -46,7 +46,7 @@ class BlankDashboard extends React.Component {
     if (navigation.url.indexOf("embed") !== -1) {
       return true;
     } else {
-      this.videoPlayer.stopLoading(); //Some reference to your WebView to make it stop loading that URL
+      this.videoPlayer.stopLoading(); //Some Reference to your WebView to make it stop loading that URL
       return false;
     }
   };

@@ -37,7 +37,7 @@ const showSnackbar = ({
       passProps: {
         text: text
       },
-      position: "bottom", // 'top' or 'bottom',
+      position: "bottom",
       autoDismissTimerSec: autoDismissTimerSec
     });
   }
@@ -51,8 +51,8 @@ class SnackbarView extends React.Component {
   render() {
     const { text, navigation } = this.props;
     return (
-      <View collapsable={false}  style={styles.container}>
-        <View collapsable={false}  style={styles.textWrapper}>
+      <View collapsable={false} style={styles.container}>
+        <View collapsable={false} style={styles.textWrapper}>
           <Text weight="Medium" style={styles.text}>
             {text}
           </Text>

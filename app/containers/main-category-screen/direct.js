@@ -56,7 +56,6 @@ class Direct extends Component {
       });
     }
   };
-
   render() {
     const { products, isFetchingProducts, error } = this.state;
     if (error) {
