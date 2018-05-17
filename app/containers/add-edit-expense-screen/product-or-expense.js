@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { API_BASE_URL, initProduct, updateProduct } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import Analytics from "../../analytics";
 import FinishModal from "./finish-modal";
 import LoadingOverlay from "../../components/loading-overlay";

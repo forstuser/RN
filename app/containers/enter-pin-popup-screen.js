@@ -7,7 +7,7 @@ import {
   Alert,
   BackAndroid
 } from "react-native";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import I18n from "../i18n";
 import { verifyPin } from "../api";
@@ -31,7 +31,7 @@ class EnterPinScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {

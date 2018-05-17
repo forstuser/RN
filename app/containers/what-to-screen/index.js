@@ -9,7 +9,7 @@ import {
   Image,
   ScrollView
 } from "react-native";
-import { Navigation } from "react-native-navigation";
+
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
 import ActionSheet from "react-native-actionsheet";
@@ -39,40 +39,12 @@ import AddNewBtn from "../../components/add-new-btn";
 import ClothesImageUploader from "../../components/easy-life-items/clothes-image-uploader";
 import WhatToListModal from "../../components/what-to-list-modal";
 import WhatToListEmptyState from "../../components/what-to-list-empty-state";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 const cooking = require("../../images/cooking.png");
 const todo = require("../../images/to_do.png");
 const whatToWear = require("../../images/whatToWear.png");
 const headerBg = require("../../images/product_card_header_bg.png");
-
-// const NavOptionsButton = ({ addImageText }) => (
-//   <TouchableOpacity
-//     style={{
-//       ...Platform.select({
-//         ios: {
-//           paddingLeft: 15
-//         },
-//         android: {
-//           position: "absolute",
-//           top: 5,
-//           right: 4,
-//           width: 30,
-//           height: 30,
-//           alignItems: "center",
-//           justifyContent: "flex-end"
-//         }
-//       })
-//     }}
-//     onPress={() =>
-//       Navigation.handleDeepLink({ link: "what-to-nav-options-btn" })
-//     }
-//   >
-//     <Icon name="md-more" size={30} color={colors.pinkishOrange} />
-//   </TouchableOpacity>
-// );
-
-// Navigation.registerComponent("WhatToOptionsButton", () => NavOptionsButton);
 
 class DishCalendarScreen extends Component {
   static navigatorStyle = {
@@ -107,7 +79,7 @@ class DishCalendarScreen extends Component {
   };
 
   componentDidMount() {
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
     const { type } = this.props;
     let title = "What's Cooking?";
     let text = "Select Dishes to be cooked";

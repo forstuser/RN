@@ -5,7 +5,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { getReferenceDataForCategory, updateProduct } from "../api";
 import Analytics from "../analytics";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import LoadingOverlay from "../components/loading-overlay";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../constants";
@@ -41,7 +41,7 @@ class EditProductBasicDetails extends React.Component {
       subCategories: [],
       isLoading: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {

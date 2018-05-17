@@ -13,7 +13,7 @@ import {
   deletePuc
 } from "../api";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
@@ -66,7 +66,7 @@ class AddEditPuc extends React.Component {
         sellerContact: ""
       }
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {

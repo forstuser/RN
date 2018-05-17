@@ -13,7 +13,6 @@ import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { Navigation } from "react-native-navigation";
 
 import Modal from "react-native-modal";
 

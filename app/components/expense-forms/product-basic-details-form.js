@@ -10,7 +10,7 @@ import I18n from "../../i18n";
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
 import { colors } from "../../theme";
-import { showSnackbar } from "../../containers/snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";

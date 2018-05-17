@@ -48,9 +48,8 @@ const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
 class DashboardScreen extends React.Component {
   static HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = false;
-  static navigatorStyle = {
-    navBarHidden: true,
-    tabBarHidden: false
+  static navigationOptions = {
+    header: null
   };
 
   constructor(props) {
@@ -70,7 +69,7 @@ class DashboardScreen extends React.Component {
       showUploadOptions: false,
       showAddProductOptionsScreenOnAppear: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
@@ -105,6 +104,7 @@ class DashboardScreen extends React.Component {
       }
     }
 
+    this.fetchDashboardData();
     const r = await getProfileDetail();
     const user = r.userProfile;
     this.props.setLoggedInUser({

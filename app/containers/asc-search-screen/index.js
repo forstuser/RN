@@ -17,7 +17,7 @@ import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import { API_BASE_URL, getAscSearchResults } from "../../api";
 import { ScreenContainer, Text, Button, Image } from "../../elements";
 import { colors } from "../../theme";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import EmptyServicesListPlaceholder from "./empty-services-list-placeholder";
 

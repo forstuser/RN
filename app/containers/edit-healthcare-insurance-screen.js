@@ -22,7 +22,7 @@ import UploadBillOptions from "../components/upload-bill-options";
 import SelectModal from "../components/select-modal";
 import HealthcareInsuranceForm from "../components/expense-forms/healthcare-insurance-form";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import CustomTextInput from "../components/form-elements/text-input";
 import ContactFields from "../components/form-elements/contact-fields";
@@ -58,7 +58,7 @@ class MedicalDoc extends React.Component {
       isFinishModalVisible: false,
       insuranceProviders: []
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {

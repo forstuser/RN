@@ -18,7 +18,7 @@ import StarRating from "react-native-star-rating";
 
 import { Text, Button, ScreenContainer } from "../../elements";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";

@@ -36,7 +36,7 @@ import ClothesImageUploader from "../../components/easy-life-items/clothes-image
 import EasyLifeItem from "../../components/easy-life-item";
 import SelectModal from "../../components/select-modal";
 import Icon from "react-native-vector-icons/Ionicons";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 const cooking = require("../../images/cooking.png");
 const todo = require("../../images/to_do.png");
@@ -67,7 +67,7 @@ class WhatToListScreen extends Component {
   };
 
   componentDidMount() {
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
     const { type } = this.props;
     let title = "What's Cooking?";
     let text = "Get to know which dish was cooked and when.";

@@ -17,7 +17,7 @@ import Share from "react-native-share";
 import { Text, Button, ScreenContainer, Image } from "../../elements";
 import { API_BASE_URL } from "../../api";
 import { isImageFileType, getMimeTypeByExtension } from "../../utils";
-import { showSnackbar, hideSnackbar } from "../snackbar";
+import { showSnackbar, hideSnackbar } from "../../utils/snackbar";
 import I18n from "../../i18n";
 import ImageZoom from "react-native-image-pan-zoom";
 

@@ -23,20 +23,25 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
-import com.reactnativenavigation.controllers.SplashActivity;
+import com.facebook.react.ReactActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MainActivity extends SplashActivity {
+public class MainActivity extends ReactActivity {
 
   private static final int REQUEST_STORAGE = 131;
 
   private ImageView splash1, splash2, splash3;
 
   private static Activity mCurrentActivity = null;
+
+  @Override
+  protected String getMainComponentName() {
+    return "BinBill";
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +71,7 @@ public class MainActivity extends SplashActivity {
     MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
   }
 
-  @Override
+//  @Override
   public View createSplashLayout() {
     LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     View view = inflater.inflate(R.layout.splash, null);

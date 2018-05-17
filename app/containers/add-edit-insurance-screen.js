@@ -5,7 +5,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import moment from "moment";
 import Analytics from "../analytics";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import {
   getReferenceDataForCategory,
@@ -71,7 +71,7 @@ class AddEditInsurance extends React.Component {
         providerName: ""
       }
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {

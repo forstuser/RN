@@ -13,7 +13,6 @@ import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { Navigation } from "react-native-navigation";
 import Modal from "react-native-modal";
 import ActionSheet from "react-native-actionsheet";
 import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
@@ -27,7 +26,7 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import Analytics from "../../analytics";
 
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import { colors } from "../../theme";
 
@@ -39,34 +38,34 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import FinishModal from "./finish-modal";
 
-const NavOptionsButton = ({ addImageText }) => (
-  <TouchableOpacity
-    style={{
-      ...Platform.select({
-        ios: {},
-        android: {
-          position: "absolute",
-          top: 5,
-          right: 4,
-          width: 30,
-          height: 30,
-          alignItems: "center",
-          justifyContent: "flex-end"
-        }
-      })
-    }}
-    onPress={() =>
-      Navigation.handleDeepLink({ link: "calendar-nav-options-btn" })
-    }
-  >
-    <Icon name="dots-three-vertical" size={17} color={colors.pinkishOrange} />
-  </TouchableOpacity>
-);
+// const NavOptionsButton = ({ addImageText }) => (
+//   <TouchableOpacity
+//     style={{
+//       ...Platform.select({
+//         ios: {},
+//         android: {
+//           position: "absolute",
+//           top: 5,
+//           right: 4,
+//           width: 30,
+//           height: 30,
+//           alignItems: "center",
+//           justifyContent: "flex-end"
+//         }
+//       })
+//     }}
+//     onPress={() =>
+//       Navigation.handleDeepLink({ link: "calendar-nav-options-btn" })
+//     }
+//   >
+//     <Icon name="dots-three-vertical" size={17} color={colors.pinkishOrange} />
+//   </TouchableOpacity>
+// );
 
-Navigation.registerComponent(
-  "CalendarNavOptionsButton",
-  () => NavOptionsButton
-);
+// Navigation.registerComponent(
+//   "CalendarNavOptionsButton",
+//   () => NavOptionsButton
+// );
 
 class CalendarServiceCard extends Component {
   static navigatorStyle = {
@@ -106,7 +105,7 @@ class CalendarServiceCard extends Component {
       title: I18n.t("calendar_service_screen_title")
     });
     this.fetchItemDetails();
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -253,7 +252,7 @@ class CalendarServiceCard extends Component {
     }
 
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         {item ? (
           <ScrollView
             ref={ref => (this.scrollView = ref)}
@@ -268,7 +267,7 @@ class CalendarServiceCard extends Component {
               item={item}
               navigator={this.props.navigator}
             />
-            <View collapsable={false}  style={styles.pages}>
+            <View collapsable={false} style={styles.pages}>
               {activeTabIndex == 0 && (
                 <Attendance
                   item={item}
@@ -299,8 +298,8 @@ class CalendarServiceCard extends Component {
             </View>
           </ScrollView>
         ) : (
-            <View collapsable={false}  />
-          )}
+          <View collapsable={false} />
+        )}
         <LoadingOverlay visible={isLoading} />
         <ActionSheet
           onPress={this.handleEditOptionPress}
@@ -315,8 +314,8 @@ class CalendarServiceCard extends Component {
             ref={ref => (this.finishModal = ref)}
           />
         ) : (
-            <View collapsable={false}  />
-          )}
+          <View collapsable={false} />
+        )}
       </View>
     );
   }

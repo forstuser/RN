@@ -16,7 +16,7 @@ import { ScreenContainer, Text, Button } from "../elements";
 import { colors } from "../theme";
 import { openBillsPopUp } from "../navigation";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 const backIcon = require("../images/ic_arrow_back_black.png");
 const noDocs = require("../images/ic_no_docs.png");
 import Analytics from "../analytics";
@@ -36,7 +36,7 @@ class SearchBox extends Component {
       showRecentSearches: true,
       searchHasRunOnce: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
   onNavigatorEvent = event => {
     switch (event.id) {

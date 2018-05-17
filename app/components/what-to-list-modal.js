@@ -14,7 +14,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { API_BASE_URL, addUserCreatedMeals, addUserCreatedTodos } from "../api";
 import { SCREENS, EASY_LIFE_TYPES } from "../constants";
 import CustomTextInput from "./form-elements/text-input";
-import { showSnackbar } from "../containers/snackbar";
+import { showSnackbar } from "../utils/snackbar";
 import LoadingOverlay from "./loading-overlay";
 const tick = require("../images/tick.png");
 

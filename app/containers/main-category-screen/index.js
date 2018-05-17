@@ -21,7 +21,7 @@ class MainCategoryScreen extends Component {
     this.props.navigator.setTitle({
       title: this.props.category.name
     });
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {

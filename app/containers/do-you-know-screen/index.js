@@ -24,7 +24,7 @@ import {
 } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import { colors } from "../../theme";
 import TabSearchHeader from "../../components/tab-screen-header";
@@ -65,7 +65,7 @@ class DoYouKNowScreen extends Component {
       error: null,
       isModalVisible: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -161,7 +161,7 @@ class DoYouKNowScreen extends Component {
     this.setState({
       offsetId: this.props.latestDoYouKnowReadId
     });
-
+    this.loadItems();
     this.loadTags();
   }
 

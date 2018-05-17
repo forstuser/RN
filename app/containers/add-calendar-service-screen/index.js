@@ -17,7 +17,7 @@ import { Text, ScreenContainer } from "../../elements";
 import Analytics from "../../analytics";
 
 import LoadingOverlay from "../../components/loading-overlay";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import SelectServiceStep from "./select-service-step";
 import SelectStartingDateStep from "./select-starting-date-step";
@@ -57,7 +57,7 @@ class AddCalendarServiceScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {

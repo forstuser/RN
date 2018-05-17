@@ -16,7 +16,7 @@ import {
 } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
-import { showSnackbar } from "../../snackbar";
+import { showSnackbar } from "../../../utils/snackbar";
 
 import {
   API_BASE_URL,

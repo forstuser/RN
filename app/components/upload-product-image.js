@@ -17,7 +17,7 @@ import {
 import { uploadProductImage } from "../api";
 
 import I18n from "../i18n";
-import { showSnackbar } from "../containers/snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import { Text, Button } from "../elements";
 import { colors } from "../theme";

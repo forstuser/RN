@@ -17,7 +17,7 @@ import { API_BASE_URL, getAscSearchResults } from "../../../../api";
 import { Text } from "../../../../elements";
 import I18n from "../../../../i18n";
 import LoadingOverlay from "../../../../components/loading-overlay";
-import { showSnackbar } from "../../../snackbar";
+import { showSnackbar } from "../../../../utils/snackbar";
 
 import ConnectItem from "./connect-item";
 import AscItem from "./asc-item";

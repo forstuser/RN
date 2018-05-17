@@ -15,7 +15,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 import { MAIN_CATEGORY_IDS, EXPENSE_TYPES } from "../../constants";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import ProductOrExpense from "./product-or-expense";
 import PersonalDoc from "./personal-doc";
@@ -51,7 +51,7 @@ class AddEditExpenseScreen extends React.Component {
       confirmBackNavigation: false,
       reasons: []
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {

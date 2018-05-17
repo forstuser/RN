@@ -10,7 +10,7 @@ import {
   TextInput,
   TouchableOpacity
 } from "react-native";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import Modal from "react-native-modal";
 import { API_BASE_URL, updateProfile } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";

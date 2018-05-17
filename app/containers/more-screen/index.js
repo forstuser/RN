@@ -18,7 +18,7 @@ import Body from "./body";
 import Header from "./header";
 import Profile from "./profile";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import { SCREENS } from "../../constants";
 import { getProfileDetail, deletePin, logout, updateProfile } from "../../api";
 import { openLoginScreen, openAppScreen } from "../../navigation";
@@ -47,10 +47,11 @@ class MoreScreen extends Component {
       isProfileVisible: false,
       name: null
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   componentDidMount() {
+    this.fetchProfile();
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {

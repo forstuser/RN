@@ -19,7 +19,7 @@ import I18n from "../../i18n";
 import { API_BASE_URL, uploadProfilePic } from "../../api";
 import { Text, Button, ScreenContainer, Image } from "../../elements";
 import { colors } from "../../theme";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import { BlurView } from "react-native-blur";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 const editIcon = require("../../images/ic_edit_white.png");

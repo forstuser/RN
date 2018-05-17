@@ -9,7 +9,6 @@ import {
   Alert,
   Platform
 } from "react-native";
-import { Navigation } from "react-native-navigation";
 import ActionSheet from "react-native-actionsheet";
 import ImagePicker from "react-native-image-crop-picker";
 import ScrollableTabView from "react-native-scrollable-tab-view";
@@ -28,7 +27,7 @@ import {
 import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
 
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import { uploadDocuments } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 
@@ -64,13 +63,13 @@ const AddPicButton = () => (
         }
       })
     }}
-    onPress={() => Navigation.handleDeepLink({ link: "new-pic-upload" })}
+    onPress={() => {}}
   >
     <Image style={{ width: 24, height: 24 }} source={newPicIcon} />
   </TouchableOpacity>
 );
 
-Navigation.registerComponent("AddPicButton", () => AddPicButton);
+// Navigation.registerComponent("AddPicButton", () => AddPicButton);
 
 class UploadDocumentScreen extends Component {
   static navigatorStyle = {
@@ -96,7 +95,7 @@ class UploadDocumentScreen extends Component {
       uploadResult: null
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   componentDidMount() {
@@ -271,7 +270,7 @@ class UploadDocumentScreen extends Component {
     return (
       <ScreenContainer style={styles.container}>
         {files.length == 0 && (
-          <View collapsable={false}  style={styles.noFilesView}>
+          <View collapsable={false} style={styles.noFilesView}>
             <Image style={styles.noFilesIcon} source={fileIcon} />
             <Text weight="Bold" style={{ color: colors.secondaryText }}>
               {I18n.t("upload_document_screen_no_document_msg")}
@@ -284,7 +283,7 @@ class UploadDocumentScreen extends Component {
           </View>
         )}
         {files.length > 0 && (
-          <View collapsable={false}  style={styles.filesContainer}>
+          <View collapsable={false} style={styles.filesContainer}>
             <ScrollableTabView
               tabBarUnderlineStyle={{
                 backgroundColor: colors.mainBlue,
@@ -328,21 +327,21 @@ class UploadDocumentScreen extends Component {
           ]}
         />
         {isUploadingOverlayVisible ? (
-          <View collapsable={false} >
+          <View collapsable={false}>
             <Modal transparent visible={true}>
-              <View collapsable={false}  style={styles.loadingOverlay}>
+              <View collapsable={false} style={styles.loadingOverlay}>
                 <ActivityIndicator size="large" color={colors.mainBlue} />
                 <Text weight="Bold">{`${uploadPercentCompleted}% uploaded...`}</Text>
               </View>
             </Modal>
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
         {isSuccessModalVisible ? (
-          <View collapsable={false} >
+          <View collapsable={false}>
             <Modal visible={true}>
-              <View collapsable={false}  style={styles.successModal}>
+              <View collapsable={false} style={styles.successModal}>
                 <Image
                   style={styles.successImage}
                   source={ehomeImage}
@@ -364,13 +363,15 @@ class UploadDocumentScreen extends Component {
             </Modal>
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
-        <View collapsable={false} 
+        <View
+          collapsable={false}
           style={styles.dummyViewForFile}
           ref={ref => (this.dummyViewForFile = ref)}
         />
-        <View collapsable={false} 
+        <View
+          collapsable={false}
           style={styles.dummyViewForPlusIcon}
           ref={ref => (this.dummyPlusIconRef = ref)}
         />

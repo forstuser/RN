@@ -17,7 +17,7 @@ import { colors } from "../theme";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../constants";
 import UploadBillOptions from "../components/upload-bill-options";
 import SelectModal from "../components/select-modal";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import CustomTextInput from "../components/form-elements/text-input";
 import ContactFields from "../components/form-elements/contact-fields";
@@ -77,7 +77,7 @@ class PersonalDoc extends React.Component {
       isLoading: false,
       isFinishModalVisible: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {

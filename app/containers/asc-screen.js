@@ -20,7 +20,7 @@ import {
 } from "../api";
 import { Text, Button, ScreenContainer, Image } from "../elements";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import SelectModal from "../components/select-modal";
 import LoadingOverlay from "../components/loading-overlay";
@@ -57,7 +57,7 @@ class AscScreen extends Component {
       address: "",
       clearSelectedValuesOnScreenAppear: true
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {

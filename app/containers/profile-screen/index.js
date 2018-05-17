@@ -15,7 +15,7 @@ import Modal from "react-native-modal";
 import { API_BASE_URL, updateProfile } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import I18n from "../../i18n";
 import ProfileDetailEdit from "./profile-detail-edit";
 import Body from "./body";

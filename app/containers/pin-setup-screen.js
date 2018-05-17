@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import { connect } from "react-redux";
 
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import {
   getProfileDetail,

@@ -13,7 +13,7 @@ import { ScreenContainer, Text, Button, Image } from "../../elements";
 import { colors } from "../../theme";
 import { openBillsPopUp } from "../../navigation";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import Analytics from "../../analytics";
 import { MAIN_CATEGORY_IDS, SCREENS } from "../../constants";
 

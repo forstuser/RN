@@ -15,7 +15,6 @@ import ScrollableTabView, {
 } from "react-native-scrollable-tab-view";
 import { TabViewAnimated, TabBar, SceneMap } from "react-native-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { Navigation } from "react-native-navigation";
 
 import Modal from "react-native-modal";
 
@@ -194,7 +193,7 @@ class ProductCard extends Component {
     );
 
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ScrollView contentContainerStyle={{}}>
           <Details product={product} navigator={this.props.navigator} />
 
@@ -208,14 +207,14 @@ class ProductCard extends Component {
           />
         </ScrollView>
         {showCustomerCareBtn ? (
-          <View collapsable={false}  style={styles.contactAfterSalesBtn}>
+          <View collapsable={false} style={styles.contactAfterSalesBtn}>
             <ContactAfterSaleButton
               product={product}
               navigator={this.props.navigator}
             />
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
       </View>
     );

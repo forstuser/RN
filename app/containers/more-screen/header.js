@@ -20,7 +20,7 @@ import { BlurView } from "react-native-blur";
 import { Text, Button, ScreenContainer, Image } from "../../elements";
 import { API_BASE_URL, uploadProfilePic } from "../../api";
 import { colors } from "../../theme";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import LoadingOverlay from "../../components/loading-overlay";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 

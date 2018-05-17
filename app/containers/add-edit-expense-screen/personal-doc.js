@@ -8,7 +8,7 @@ import Analytics from "../../analytics";
 import { API_BASE_URL, initProduct, updateProduct } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";

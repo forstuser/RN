@@ -13,7 +13,7 @@ import { initProduct, updateProduct } from "../../api";
 import { Text, ScreenContainer } from "../../elements";
 
 import LoadingOverlay from "../../components/loading-overlay";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import SelectExpenseTypeStep from "./steps/select-expense-type-step";
 import SelectCategoryStep from "./steps/select-category-step";
@@ -64,7 +64,7 @@ class AddProductScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {

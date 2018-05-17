@@ -16,13 +16,13 @@ import call from "react-native-phone-call";
 import { connect } from "react-redux";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import { Text, Button, ScreenContainer } from "../../elements";
 
 import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
 
-// import { showSnackbar } from "../../containers/snackbar";
+// import { showSnackbar } from "../../utils/snackbar";
 import {
   SCREENS,
   MAIN_CATEGORY_IDS,

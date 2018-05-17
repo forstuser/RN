@@ -119,8 +119,8 @@ android {
         applicationId "com.bin.binbillcustomer"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 8020005
-        versionName "2.0.5"
+        versionCode 8020006
+        versionName "2.0.6"
         multiDexEnabled true
         ndk {
 //            abiFilters "armeabi-v7a"
@@ -129,7 +129,7 @@ android {
 //        renderscriptTargetApi 25
 //        renderscriptSupportModeEnabled true
     }
-    
+
     signingConfigs {
         release {
           if(project.hasProperty("BinBill.properties")
@@ -213,7 +213,6 @@ dependencies {
     compile project(':react-native-svg')
     compile project(':react-native-share')
     compile project(':react-native-photo-view')
-    compile project(':react-native-navigation')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-i18n')

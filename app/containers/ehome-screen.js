@@ -47,7 +47,7 @@ class EhomeScreen extends Component {
       notificationCount: 0,
       startWithPendingDocsScreen: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -67,6 +67,7 @@ class EhomeScreen extends Component {
   };
 
   componentDidMount() {
+    this.fetchEhomeData();
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
       switch (screenOpts.startScreen) {

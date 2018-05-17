@@ -13,7 +13,7 @@ import {
 } from "../../android-permissions";
 import CustomTextInput from "../../components/form-elements/text-input";
 import { addWearables, uploadWearableImage, API_BASE_URL } from "../../api";
-import { showSnackbar } from "../../containers/snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import Icon from "react-native-vector-icons/Ionicons";
 
 class ClothesImageUploader extends React.Component {

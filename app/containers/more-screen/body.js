@@ -23,7 +23,7 @@ import Analytics from "../../analytics";
 import LanguageOptions from "../../components/language-options";
 
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 class Body extends Component {
   constructor(props) {

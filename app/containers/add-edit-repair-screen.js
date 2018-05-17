@@ -10,7 +10,7 @@ import {
   updateRepair,
   deleteRepair
 } from "../api";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
@@ -65,7 +65,7 @@ class AddEditRepair extends React.Component {
         sellerContact: ""
       }
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
