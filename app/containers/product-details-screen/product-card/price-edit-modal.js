@@ -158,7 +158,7 @@ class PriceEditModal extends React.Component {
     //   {
     //     name: "Total Amount",
     //     date: '',
-    //     price: totalAmount
+    //     price: totalAmount,
     //   }
     // );
     console.log("final ", amountBreakdownOptions);
