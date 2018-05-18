@@ -24,8 +24,10 @@ import { MAIN_CATEGORY_IDS, SCREENS } from "../constants";
 const billIcon = require("../images/ic_comingup_bill.png");
 
 class TransactionsScreen extends Component {
-  static navigationOptions = {
-    tabBarHidden: true
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.state.params.category.cName
+    };
   };
 
   constructor(props) {
@@ -67,12 +69,10 @@ class TransactionsScreen extends Component {
   }
 
   async componentDidMount() {
-    this.props.navigation.setTitle({
-      title: this.props.category.cName
-    });
-
     try {
-      const res = await getCategoryInsightData(this.props.category.id);
+      const res = await getCategoryInsightData(
+        this.props.navigation.state.params.category.id
+      );
       const weeklyData = {
         timeSpanText:
           "For " +
@@ -111,7 +111,9 @@ class TransactionsScreen extends Component {
           overallData
         },
         () => {
-          this.handleFilterOptionPress(this.props.index);
+          this.handleFilterOptionPress(
+            this.props.navigation.state.params.index
+          );
         }
       );
     } catch (e) {}
@@ -195,7 +197,10 @@ class TransactionsScreen extends Component {
           <View collapsable={false} style={{ padding: 16 }}>
             <InsightChart
               onFiltersPress={() => this.filterOptions.show()}
-              bgColors={[this.props.color, this.props.color]}
+              bgColors={[
+                this.props.navigation.state.params.color,
+                this.props.navigation.state.params.color
+              ]}
               timeSpanText={timeSpanText}
               filterText={filterText}
               chartData={chartData}

@@ -47,13 +47,11 @@ const whatToWear = require("../../images/whatToWear.png");
 const headerBg = require("../../images/product_card_header_bg.png");
 
 class DishCalendarScreen extends Component {
-  static navigationOptions = {
-    tabBarHidden: true,
-    drawUnderNavBar: true,
-    navBarTranslucent: Platform.OS === "ios",
-    navBarTransparent: true,
-    navBarBackgroundColor: "#fff",
-    topBarElevationShadowEnabled: false
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      title: params.title ? params.title : ""
+    };
   };
 
   // static navigationButtons = {
@@ -65,6 +63,7 @@ class DishCalendarScreen extends Component {
   // };
 
   state = {
+    type: "",
     isScreenVisible: true,
     image: cooking,
     text: "",
@@ -80,7 +79,8 @@ class DishCalendarScreen extends Component {
 
   componentDidMount() {
     // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
-    const { type } = this.props;
+
+    const { type } = this.props.navigation.state.params;
     let title = "What's Cooking?";
     let text = "Select Dishes to be cooked";
     let image = cooking;
@@ -100,15 +100,21 @@ class DishCalendarScreen extends Component {
         break;
     }
 
-    this.setState({
-      image,
-      text,
-      btnText
-    });
-
-    this.props.navigation.setTitle({
+    this.props.navigation.setParams({
       title
     });
+
+    this.setState(
+      {
+        type,
+        image,
+        text,
+        btnText
+      },
+      () => {
+        this.fetchItems();
+      }
+    );
   }
 
   onNavigatorEvent = event => {
@@ -196,7 +202,7 @@ class DishCalendarScreen extends Component {
       let res;
       let newState = {};
 
-      switch (this.props.type) {
+      switch (this.props.navigation.state.params.type) {
         case EASY_LIFE_TYPES.WHAT_TO_COOK:
           res = await getMealListByDate(this.state.date);
           newState = {
@@ -247,7 +253,7 @@ class DishCalendarScreen extends Component {
         this.setState({
           selectedItemIds: newSelectedItemIds
         });
-        switch (this.props.type) {
+        switch (this.props.navigation.state.params.type) {
           case EASY_LIFE_TYPES.WHAT_TO_COOK:
             await removeMealForADate({
               mealId: item.id,
@@ -278,7 +284,7 @@ class DishCalendarScreen extends Component {
           selectedItemIds: newSelectedItemIds,
           items
         });
-        switch (this.props.type) {
+        switch (this.props.navigation.state.params.type) {
           case EASY_LIFE_TYPES.WHAT_TO_COOK:
             await addMealForADate({ mealId: item.id, date: this.state.date });
             break;
@@ -306,7 +312,7 @@ class DishCalendarScreen extends Component {
   };
 
   onAddNewPress = () => {
-    const { type } = this.props;
+    const { type } = this.props.navigation.state.params;
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_COOK:
         Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_NEW_DISH);
@@ -359,8 +365,8 @@ class DishCalendarScreen extends Component {
         isScreenVisible: false
       },
       () => {
-        this.props.navigation.navigator(SCREENS.WHAT_TO_LIST_SCREEN, {
-          type: this.props.type,
+        this.props.navigation.navigate(SCREENS.WHAT_TO_LIST_SCREEN, {
+          type: this.props.navigation.state.params.type,
           stateId: items.length > 0 ? items[0].state_id : null
         });
       }
@@ -368,7 +374,6 @@ class DishCalendarScreen extends Component {
   };
 
   handleEditOptionPress = index => {
-    const { type } = this.props;
     switch (index) {
       case 0:
         this.goToEditScreen();
@@ -377,6 +382,7 @@ class DishCalendarScreen extends Component {
   };
 
   render() {
+    const { navigation } = this.props;
     const {
       isLoading,
       date,
@@ -490,7 +496,10 @@ class DishCalendarScreen extends Component {
                   }
                 }
 
-                if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_WEAR) {
+                if (
+                  this.props.navigation.state.params.type ==
+                  EASY_LIFE_TYPES.WHAT_TO_WEAR
+                ) {
                   imageUrl =
                     API_BASE_URL +
                     "/wearable/" +
@@ -532,7 +541,7 @@ class DishCalendarScreen extends Component {
                 ref={ref => (this.WhatToListModal = ref)}
                 navigation={this.props.navigation}
                 addItems={this.addItems}
-                type={this.props.type}
+                type={this.props.navigation.state.params.type}
                 stateId={items.length > 0 ? items[0].state_id : null}
                 date={date}
               />
@@ -566,7 +575,7 @@ class DishCalendarScreen extends Component {
         {items.length == 0 &&
           !isLoading && (
             <WhatToListEmptyState
-              type={this.props.type}
+              type={this.props.navigation.state.params.type}
               navigation={this.props.navigation}
               onCreateListBtnPress={this.goToEditScreen}
             />

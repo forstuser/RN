@@ -44,14 +44,15 @@ const whatToWear = require("../../images/whatToWear.png");
 const headerBg = require("../../images/product_card_header_bg.png");
 
 class WhatToListScreen extends Component {
-  static navigationOptions = {
-    tabBarHidden: true,
-    drawUnderNavBar: false,
-    navBarTranslucent: false,
-    navBarTransparent: false,
-    navBarBackgroundColor: "#fff"
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      title: params.title ? params.title : ""
+    };
   };
+
   state = {
+    type: "",
     text: "",
     btnText: "",
     systemListTitle: "",
@@ -67,8 +68,11 @@ class WhatToListScreen extends Component {
   };
 
   componentDidMount() {
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
-    const { type } = this.props;
+    console.log(
+      "this.props.navigation.state.params.type: ",
+      this.props.navigation.state.params.type
+    );
+    const { type } = this.props.navigation.state.params;
     let title = "What's Cooking?";
     let text = "Get to know which dish was cooked and when.";
     let image = cooking;
@@ -98,15 +102,24 @@ class WhatToListScreen extends Component {
       btnText,
       systemListTitle
     });
-    this.props.navigation.setTitle({
+    this.props.navigation.setParams({
       title
     });
 
-    this.fetchStatesOrItems();
+    this.setState(
+      {
+        type
+      },
+      () => {
+        this.fetchStatesOrItems();
+      }
+    );
   }
 
   fetchStatesOrItems = () => {
-    if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_COOK) {
+    if (
+      this.props.navigation.state.params.type == EASY_LIFE_TYPES.WHAT_TO_COOK
+    ) {
       this.loadStates();
     } else {
       this.fetchItems();
@@ -124,8 +137,8 @@ class WhatToListScreen extends Component {
       });
 
       let stateId = null;
-      if (this.props.stateId) {
-        stateId = this.props.stateId;
+      if (this.props.navigation.state.params.stateId) {
+        stateId = this.props.navigation.state.params.stateId;
       } else if (this.state.selectedState) {
         stateId = this.state.selectedState.id;
       }
@@ -162,7 +175,7 @@ class WhatToListScreen extends Component {
     try {
       let res;
       let items = [];
-      switch (this.props.type) {
+      switch (this.props.navigation.state.params.type) {
         case EASY_LIFE_TYPES.WHAT_TO_COOK:
           res = await fetchStateMeals({
             stateId: this.state.selectedState
@@ -203,7 +216,7 @@ class WhatToListScreen extends Component {
   };
 
   onAddNewPress = () => {
-    const { type } = this.props;
+    const { type } = this.props.navigation.state.params;
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_COOK:
         Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_NEW_DISH);
@@ -239,7 +252,7 @@ class WhatToListScreen extends Component {
 
   removeItem = async item => {
     try {
-      switch (this.props.type) {
+      switch (this.props.navigation.state.params.type) {
         case EASY_LIFE_TYPES.WHAT_TO_COOK:
           await removeMealById({ mealId: item.id });
           break;
@@ -297,7 +310,8 @@ class WhatToListScreen extends Component {
         if (this.state.checkAll) {
           let selectedItemIds = [];
           if (
-            this.props.type == EASY_LIFE_TYPES.WHAT_TO_COOK &&
+            this.props.navigation.state.params.type ==
+              EASY_LIFE_TYPES.WHAT_TO_COOK &&
             this.state.isVeg
           ) {
             selectedItemIds = this.state.items
@@ -333,14 +347,18 @@ class WhatToListScreen extends Component {
   addItemsToMyList = async () => {
     console.log("selectedItemIds", this.state.selectedItemIds);
     try {
-      if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_COOK) {
+      if (
+        this.props.navigation.state.params.type == EASY_LIFE_TYPES.WHAT_TO_COOK
+      ) {
         await saveMealList({
           selectedItemIds: this.state.selectedItemIds,
           selectedState: this.state.selectedState
             ? this.state.selectedState.id
             : null
         });
-      } else if (this.props.type == EASY_LIFE_TYPES.WHAT_TO_DO) {
+      } else if (
+        this.props.navigation.state.params.type == EASY_LIFE_TYPES.WHAT_TO_DO
+      ) {
         await saveTodoList({
           selectedItemIds: this.state.selectedItemIds
         });
@@ -381,7 +399,7 @@ class WhatToListScreen extends Component {
     });
   };
   render() {
-    const { type } = this.props;
+    const { type } = this.props.navigation.state.params;
     const {
       image,
       text,
@@ -617,7 +635,7 @@ class WhatToListScreen extends Component {
             ref={ref => (this.WhatToListModal = ref)}
             navigation={this.props.navigation}
             addItems={this.addItems}
-            type={this.props.type}
+            type={this.props.navigation.state.params.type}
             stateId={selectedState ? selectedState.id : null}
           />
         </ScreenContainer>
