@@ -59,6 +59,12 @@ class Body extends Component {
     });
   };
 
+  onAmazonPress = () => {
+    this.props.navigator.push({
+      screen: SCREENS.AMAZON_SCREEN
+    });
+  };
+
   onEhomeItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_TIPS_TO_BUILD_YOUR_EHOME);
     this.props.navigator.push({
@@ -77,7 +83,7 @@ class Body extends Component {
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-        profile ? profile.mobile_no : ""
+      profile ? profile.mobile_no : ""
       })`
     );
   };
@@ -168,6 +174,11 @@ class Body extends Component {
           onPress={this.onAscItemPress}
           imageSource={require("../../images/ic_nav_asc_on.png")}
           text={I18n.t("more_screen_item_app_search_authorized")}
+        />
+        <MoreItem
+          onPress={this.onAmazonPress}
+          imageSource={require("../../images/ic_nav_asc_on.png")}
+          text="Amazon"
         />
         <MoreItem
           onPress={this.onEhomeItemPress}
