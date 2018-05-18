@@ -38,9 +38,13 @@ class AmazonScreen extends Component {
             url: "https://www.amazon.in/gp/aw/ya/ref=typ_rev_edit?ie=UTF8&ac=os&oid=" + event.nativeEvent.data,
             orderId: true
         })
-        // this.setState({
-        //     url: "https://www.amazon.in/gp/aw/ya/ref=typ_rev_edit?ie=UTF8&ac=os&oid=" + event.nativeEvent.data
-        // })
+    }
+    onGetDataMessage = (event) => {
+        console.log('event.nativeEvent.data: ', event.nativeEvent.data);
+        this.setState({
+            orderId: false,
+            url: "https://www.amazon.in",
+        })
     }
 
     render() {
@@ -55,13 +59,21 @@ class AmazonScreen extends Component {
                 window.postMessage(orderId);
             }
         })()`;
+        let scrapData = `
+        (function(){
+            alert("scrap data");
+            var data = document.getElementsByClassName("a-section a-padding-medium")[0].innerText;
+            if(data){
+                window.postMessage(data);
+            }
+        })()`
         return (
             <ScreenContainer style={styles.container}>
                 <WebView
-                    injectedJavaScript={orderId ? `` : dirtyScript}
+                    injectedJavaScript={orderId ? scrapData : dirtyScript}
                     scrollEnabled={false}
                     source={{ uri: this.state.url }}
-                    onMessage={this.onWebViewMessage}
+                    onMessage={orderId ? this.onGetDataMessage : this.onWebViewMessage}
                 />
             </ScreenContainer>
         );
