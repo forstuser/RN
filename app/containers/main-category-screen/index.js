@@ -27,11 +27,10 @@ class MainCategoryScreen extends Component {
     this.setState({
       mainCategory
     });
-  }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
         if (!this.state.isAppearingFirstTime) {
           this.setState({
             reloadList: true
@@ -40,9 +39,13 @@ class MainCategoryScreen extends Component {
         this.setState({
           isAppearingFirstTime: false
         });
-        break;
-    }
-  };
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+  }
 
   render() {
     const mainCategory = this.state.mainCategory;

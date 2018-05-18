@@ -34,14 +34,6 @@ class MyCalendarScreen extends Component {
     };
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        this.fetchItems();
-        break;
-    }
-  };
-
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
     this.fetchItems();

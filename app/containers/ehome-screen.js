@@ -32,11 +32,11 @@ const eHomeIcon = require("../images/ic_nav_ehome_off.png");
 const uploadFabIcon = require("../images/ic_upload_fabs.png");
 
 class EhomeScreen extends Component {
-  static OPEN_EHOME_EVENT_DONE = false;
   static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: false
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -47,26 +47,10 @@ class EhomeScreen extends Component {
       notificationCount: 0,
       startWithPendingDocsScreen: false
     };
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        if (!EhomeScreen.OPEN_EHOME_EVENT_DONE) {
-          Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
-          EhomeScreen.OPEN_EHOME_EVENT_DONE = true;
-        }
-        this.screenHasDisappeared = false;
-        this.fetchEhomeData();
-        break;
-      case "didDisappear":
-        this.screenHasDisappeared = true;
-        break;
-    }
-  };
-
   componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
     this.fetchEhomeData();
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
@@ -83,6 +67,26 @@ class EhomeScreen extends Component {
           break;
       }
     }
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.screenHasDisappeared = false;
+        this.fetchEhomeData();
+      }
+    );
+
+    this.willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        this.screenHasDisappeared = true;
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+    this.willBlurSubscription.remove();
   }
 
   fetchEhomeData = async () => {

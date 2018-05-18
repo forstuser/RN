@@ -28,14 +28,12 @@ import { colors } from "../../theme";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 class MoreScreen extends Component {
-  static OPEN_MORE_EVENT_DONE = false;
   static navigationOptions = {
     navBarHidden: true
   };
 
   constructor(props) {
     super(props);
-    // Alert.alert(JSON.stringify(props));
     this.state = {
       error: null,
       isFetchingData: true,
@@ -47,10 +45,10 @@ class MoreScreen extends Component {
       isProfileVisible: false,
       name: null
     };
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_MORE);
     this.fetchProfile();
     if (this.props.screenOpts) {
       const screenOpts = this.props.screenOpts;
@@ -65,19 +63,17 @@ class MoreScreen extends Component {
           break;
       }
     }
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.fetchProfile();
+      }
+    );
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        if (!MoreScreen.OPEN_MORE_EVENT_DONE) {
-          Analytics.logEvent(Analytics.EVENTS.CLICK_MORE);
-          MoreScreen.OPEN_MORE_EVENT_DONE = true;
-        }
-        this.fetchProfile();
-        break;
-    }
-  };
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+  }
 
   fetchProfile = async () => {
     this.setState({

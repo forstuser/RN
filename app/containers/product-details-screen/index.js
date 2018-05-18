@@ -41,68 +41,121 @@ import PersonalDocCard from "./personal-doc-card";
 import InsuranceCard from "./insurance-card";
 import MedicalDocsCard from "./medical-docs-card";
 
-// const NavOptionsButton = ({ addImageText }) => (
-//   <View collapsable={false}
-//     style={{
-//       flexDirection: "row",
-//       backgroundColor: "transparent",
-//       ...Platform.select({
-//         ios: {},
-//         android: {
-//           position: "absolute",
-//           top: 10,
-//           right: 4,
-//           width: 100,
-//           height: 30,
-//           alignItems: "center",
-//           justifyContent: "flex-end"
-//         }
-//       })
-//     }}
-//   >
-//     {addImageText ? (
-//       <TouchableOpacity
-//         style={{ marginRight: 20, flexDirection: "row", alignItems: "center" }}
-//         onPress={() =>
-//           Navigation.handleDeepLink({ link: "product-nav-add-product-pic-btn" })
-//         }
-//       >
-//         <Icon name="camera" size={17} color={colors.pinkishOrange} />
-//         <Text
-//           weight="Bold"
-//           style={{ marginLeft: 5, fontSize: 9, color: colors.pinkishOrange }}
-//         >
-//           {addImageText}
-//         </Text>
-//       </TouchableOpacity>
-//     ) : null}
+const NavOptionsButton = ({ addImageText }) => (
+  <View
+    collapsable={false}
+    style={{
+      flexDirection: "row",
+      backgroundColor: "transparent",
+      ...Platform.select({
+        ios: {},
+        android: {
+          position: "absolute",
+          top: 10,
+          right: 4,
+          width: 100,
+          height: 30,
+          alignItems: "center",
+          justifyContent: "flex-end"
+        }
+      })
+    }}
+  >
+    {addImageText ? (
+      <TouchableOpacity
+        style={{ marginRight: 20, flexDirection: "row", alignItems: "center" }}
+        onPress={() =>
+          Navigation.handleDeepLink({ link: "product-nav-add-product-pic-btn" })
+        }
+      >
+        <Icon name="camera" size={17} color={colors.pinkishOrange} />
+        <Text
+          weight="Bold"
+          style={{ marginLeft: 5, fontSize: 9, color: colors.pinkishOrange }}
+        >
+          {addImageText}
+        </Text>
+      </TouchableOpacity>
+    ) : null}
 
-//     <TouchableOpacity
-//       style={{
-//         ...Platform.select({
-//           ios: {},
-//           android: {
-//             marginRight: 10
-//           }
-//         })
-//       }}
-//       onPress={() =>
-//         Navigation.handleDeepLink({ link: "product-nav-options-btn" })
-//       }
-//     >
-//       <Icon name="dots-three-vertical" size={17} color={colors.pinkishOrange} />
-//     </TouchableOpacity>
-//   </View>
-// );
+    <TouchableOpacity
+      style={{
+        ...Platform.select({
+          ios: {},
+          android: {
+            marginRight: 10
+          }
+        })
+      }}
+      onPress={() =>
+        Navigation.handleDeepLink({ link: "product-nav-options-btn" })
+      }
+    >
+      <Icon name="dots-three-vertical" size={17} color={colors.pinkishOrange} />
+    </TouchableOpacity>
+  </View>
+);
 
 // Navigation.registerComponent("NavOptionsButton", () => NavOptionsButton);
 
 class ProductDetailsScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
+    const { addImageText, title, onEditImagePress, onOptionsPress } = params;
+
     return {
-      title: params.title ? params.title : "Product Details",
-      headerTransparent: false //params.headerTransparent
+      title: title ? title : "Product Details",
+      headerTransparent: false, //params.headerTransparent,
+      headerRight: (
+        <View
+          collapsable={false}
+          style={{
+            flexDirection: "row",
+            backgroundColor: "transparent"
+          }}
+        >
+          {addImageText ? (
+            <TouchableOpacity
+              style={{
+                marginRight: 20,
+                flexDirection: "row",
+                alignItems: "center"
+              }}
+              onPress={onEditImagePress}
+            >
+              <Icon name="camera" size={17} color={colors.pinkishOrange} />
+              <Text
+                weight="Bold"
+                style={{
+                  marginLeft: 5,
+                  fontSize: 9,
+                  color: colors.pinkishOrange
+                }}
+              >
+                {addImageText}
+              </Text>
+            </TouchableOpacity>
+          ) : null}
+
+          <TouchableOpacity
+            style={{
+              ...Platform.select({
+                ios: {},
+                android: {
+                  marginRight: 10
+                }
+              })
+            }}
+            onPress={onOptionsPress}
+          >
+            <Icon
+              name="dots-three-vertical"
+              size={17}
+              color={colors.pinkishOrange}
+            />
+          </TouchableOpacity>
+        </View>
+      )
     };
   };
 
@@ -118,9 +171,6 @@ class ProductDetailsScreen extends Component {
   }
 
   async componentDidMount() {
-    // this.props.navigation.setTitle({
-    //   title: I18n.t("product_details_screen_title")
-    // });
     const { navigation } = this.props;
     this.setState(
       {
@@ -130,18 +180,10 @@ class ProductDetailsScreen extends Component {
         this.fetchProductDetails();
       }
     );
-    const didFocusSubscription = this.props.navigation.addListener(
-      "didFocus",
-      payload => {
-        console.debug("didFocus", payload);
-      }
-    );
-  }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        console.log("didAppear");
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
         if (!this.state.productId) {
           return this.props.navigation.goBack();
         }
@@ -153,27 +195,26 @@ class ProductDetailsScreen extends Component {
             this.fetchProductDetails();
           }
         );
+      }
+    );
 
-        break;
-      case "willDisappear":
-        console.log("willDisappear");
+    this.willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
         this.setState(
           {
             isScreenVisible: false
           },
           () => {}
         );
-    }
-
-    if (event.type == "DeepLink") {
-      //when you press the button, it will be called here
-      if (event.link == "product-nav-options-btn") {
-        this.editOptions.show();
-      } else if (event.link == "product-nav-add-product-pic-btn") {
-        this.uploadProductImage.showOptions();
       }
-    }
-  };
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+    this.willBlurSubscription.remove();
+  }
 
   handleEditOptionPress = index => {
     const { product } = this.state;
@@ -263,19 +304,16 @@ class ProductDetailsScreen extends Component {
             break;
         }
 
-        this.props.navigation.setParams({ title: title });
-        // this.props.navigation.setTitle({
-        //   title
-        // });
-        // this.props.navigation.setButtons({
-        //   rightButtons: [
-        //     {
-        //       component: "NavOptionsButton",
-        //       passProps: { addImageText }
-        //     }
-        //   ],
-        //   animated: true
-        // });
+        this.props.navigation.setParams({
+          title: title,
+          addImageText,
+          onEditImagePress: () => {
+            this.uploadProductImage.showOptions();
+          },
+          onOptionsPress: () => {
+            this.editOptions.show();
+          }
+        });
 
         this.setState(
           {

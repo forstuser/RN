@@ -43,7 +43,6 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class DoYouKNowScreen extends Component {
-  static OPEN_DYK_EVENT_DONE = false;
   static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: false
@@ -65,19 +64,7 @@ class DoYouKNowScreen extends Component {
       error: null,
       isModalVisible: false
     };
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
-
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        if (!DoYouKNowScreen.OPEN_DYK_EVENT_DONE) {
-          Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW);
-          DoYouKNowScreen.OPEN_DYK_EVENT_DONE = true;
-        }
-        this.loadItems();
-    }
-  };
 
   componentWillMount() {
     this.panResponder = PanResponder.create({
@@ -158,11 +145,23 @@ class DoYouKNowScreen extends Component {
   }
 
   componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW);
     this.setState({
       offsetId: this.props.latestDoYouKnowReadId
     });
     this.loadItems();
     this.loadTags();
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.loadItems();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   loadItems = async clearPreviousItems => {

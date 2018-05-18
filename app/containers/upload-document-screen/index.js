@@ -47,42 +47,19 @@ import { actions as uiActions } from "../../modules/ui";
 
 import Tour from "../../components/app-tour";
 
-const AddPicButton = () => (
-  <TouchableOpacity
-    style={{
-      ...Platform.select({
-        ios: {},
-        android: {
-          position: "absolute",
-          top: 10,
-          right: 4,
-          width: 40,
-          height: 30,
-          alignItems: "center",
-          justifyContent: "center"
-        }
-      })
-    }}
-    onPress={() => {}}
-  >
-    <Image style={{ width: 24, height: 24 }} source={newPicIcon} />
-  </TouchableOpacity>
-);
-
-// Navigation.registerComponent("AddPicButton", () => AddPicButton);
-
 class UploadDocumentScreen extends Component {
-  static navigationOptions = {
-    title: I18n.t("upload_document_screen_title")
-  };
-  static navigationButtons = {
-    rightButtons: [
-      {
-        id: "new-pic-upload-btn",
-        component: "AddPicButton",
-        passProps: {}
-      }
-    ]
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    const { onOptionsPress } = params;
+
+    return {
+      title: I18n.t("upload_document_screen_title"),
+      headerRight: (
+        <TouchableOpacity onPress={onOptionsPress}>
+          <Image style={{ width: 24, height: 24 }} source={newPicIcon} />
+        </TouchableOpacity>
+      )
+    };
   };
 
   constructor(props) {
@@ -94,8 +71,6 @@ class UploadDocumentScreen extends Component {
       isSuccessModalVisible: false,
       uploadResult: null
     };
-
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   componentDidMount() {
@@ -103,16 +78,13 @@ class UploadDocumentScreen extends Component {
     if (file) {
       this.pushFileToState(file);
     }
-  }
 
-  onNavigatorEvent = event => {
-    if (event.type == "DeepLink") {
-      //when you press the button, it will be called here
-      if (event.link == "new-pic-upload") {
+    this.props.navigation.setParams({
+      onOptionsPress: () => {
         this.uploadOptions.show();
       }
-    }
-  };
+    });
+  }
 
   handleOptionPress = index => {
     switch (index) {
@@ -239,10 +211,11 @@ class UploadDocumentScreen extends Component {
   };
 
   onSuccessOkClick = () => {
-    if (typeof this.props.uploadCallback == "function") {
-      this.props.uploadCallback(this.state.uploadResult);
-      this.props.navigation.goBack();
+    const { uploadCallback } = this.props.navigation.state.params;
+    if (typeof uploadCallback == "function") {
+      uploadCallback(this.state.uploadResult);
     }
+    this.props.navigation.goBack();
   };
 
   removeFile = index => {

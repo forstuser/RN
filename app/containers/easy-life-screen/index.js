@@ -25,7 +25,6 @@ const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 const calendarIcon = require("../../images/ic_calendar.png");
 
 class EasyLifeScreen extends Component {
-  static OPEN_EASY_DAY_EVENT_DONE = false;
   static navigationOptions = {
     navBarHidden: true
   };
@@ -34,15 +33,9 @@ class EasyLifeScreen extends Component {
     super(props);
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        if (!EasyLifeScreen.OPEN_EASY_DAY_EVENT_DONE) {
-          Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
-          EasyLifeScreen.OPEN_EASY_DAY_EVENT_DONE = true;
-        }
-    }
-  };
+  componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
+  }
 
   attendanceItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_WHO_IS_ABSENT_TODAY);

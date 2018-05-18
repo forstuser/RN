@@ -56,25 +56,7 @@ class AscScreen extends Component {
       address: "",
       clearSelectedValuesOnScreenAppear: true
     };
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
-
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        this.fetchProducts();
-        if (this.state.clearSelectedValuesOnScreenAppear) {
-          this.setState({
-            selectedBrand: null,
-            selectedCategory: null
-          });
-        }
-        this.setState({
-          clearSelectedValuesOnScreenAppear: true
-        });
-        break;
-    }
-  };
 
   async componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.OPEN_ASC_SCREEN);
@@ -87,6 +69,26 @@ class AscScreen extends Component {
     }
 
     this.fetchBrands();
+
+    this.fetchProducts();
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        if (this.state.clearSelectedValuesOnScreenAppear) {
+          this.setState({
+            selectedBrand: null,
+            selectedCategory: null
+          });
+        }
+        this.setState({
+          clearSelectedValuesOnScreenAppear: true
+        });
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   fetchBrands = async () => {

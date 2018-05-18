@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Alert, Platform } from "react-native";
+import { StyleSheet, View, Alert, Platform, BackHandler } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import moment from "moment";
@@ -18,12 +18,28 @@ import AmcForm from "../components/expense-forms/amc-form";
 
 import ChangesSavedModal from "../components/changes-saved-modal";
 
+import HeaderBackBtn from "../components/header-nav-back-btn";
+import { colors } from "../theme";
+
 class AddEditAmc extends React.Component {
-  static navigationOptions = {
-    tabBarHidden: true,
-    navBarTranslucent: false,
-    navBarTransparent: false,
-    navBarBackgroundColor: "#fff"
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
+
+    return {
+      title: params.isEditing
+        ? I18n.t("add_edit_amc_edit_amc")
+        : I18n.t("add_edit_amc_add_amc"),
+      headerRight: params.isEditing ? (
+        <Text
+          onPress={params.onDeletePress}
+          weight="Bold"
+          style={{ color: colors.danger, marginRight: 10 }}
+        >
+          Delete
+        </Text>
+      ) : null,
+      headerLeft: <HeaderBackBtn onPress={params.onBackPress} />
+    };
   };
 
   static propTypes = {
@@ -41,19 +57,6 @@ class AddEditAmc extends React.Component {
     })
   };
 
-  static navigationButtons = {
-    ...Platform.select({
-      ios: {
-        leftButtons: [
-          {
-            id: "backPress",
-            icon: require("../images/ic_back_ios.png")
-          }
-        ]
-      }
-    })
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -65,24 +68,26 @@ class AddEditAmc extends React.Component {
         sellerContact: ""
       }
     };
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    this.props.navigation.setParams({
+      onBackPress: this.onBackPress
+    });
+
     const {
       mainCategoryId,
       productId,
       jobId,
       amc
     } = this.props.navigation.state.params;
-    let title = I18n.t("add_edit_amc_add_amc");
-    if (amc) {
-      title = I18n.t("add_edit_amc_edit_amc");
-    }
-
-    //this.props.navigation.setTitle({ title });
 
     if (amc) {
+      this.props.navigation.setParams({
+        isEditing: true,
+        onDeletePress: this.onDeletePress
+      });
       this.setState({
         initialValues: {
           effectiveDate: amc.effectiveDate
@@ -95,82 +100,74 @@ class AddEditAmc extends React.Component {
             amc.sellers && amc.sellers.contact ? amc.sellers.contact : ""
         }
       });
-      // this.props.navigation.setButtons({
-      //   rightButtons: [
-      //     {
-      //       title: "Delete",
-      //       id: "delete",
-      //       buttonColor: "red",
-      //       buttonFontSize: 16,
-      //       buttonFontWeight: "600"
-      //     }
-      //   ],
-      //   animated: true
-      // });
     }
   }
 
-  onNavigatorEvent = event => {
-    if (event.type == "NavBarButtonPress") {
-      if (event.id == "backPress") {
-        let initialValues = this.state.initialValues;
-        let newData = this.amcForm.getFilledData();
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+  }
 
-        console.log("initialValues: ", initialValues, "newData: ", newData);
+  onBackPress = () => {
+    let initialValues = this.state.initialValues;
+    let newData = this.amcForm.getFilledData();
 
-        if (
-          newData.effectiveDate == initialValues.effectiveDate &&
-          newData.value == initialValues.value &&
-          newData.sellerName == initialValues.sellerName &&
-          newData.sellerContact == initialValues.sellerContact
-        ) {
-          return this.props.navigation.goBack();
-        }
+    console.log("initialValues: ", initialValues, "newData: ", newData);
 
-        Alert.alert(
-          I18n.t("add_edit_amc_are_you_sure"),
-          I18n.t("add_edit_amc_unsaved_info"),
-          [
-            {
-              text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigation.goBack()
-            },
-            {
-              text: I18n.t("add_edit_amc_stay"),
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel"
-            }
-          ]
-        );
-      } else if (event.id == "delete") {
-        const { productId, amc } = this.props.navigation.state.params;
-        Alert.alert(
-          I18n.t("add_edit_amc_delete_amc"),
-          I18n.t("add_edit_amc_delete_amc_desc"),
-          [
-            {
-              text: I18n.t("product_details_screen_yes_delete"),
-              onPress: async () => {
-                try {
-                  this.setState({ isLoading: true });
-                  await deleteAmc({ productId, amcId: amc.id });
-                  this.props.navigation.goBack();
-                } catch (e) {
-                  console.log("e: ", e);
-                  I18n.t("add_edit_amc_could_not_delete");
-                  this.setState({ isLoading: false });
-                }
-              }
-            },
-            {
-              text: I18n.t("add_edit_no_dnt_delete"),
-              onPress: () => {},
-              style: "cancel"
-            }
-          ]
-        );
-      }
+    if (
+      newData.effectiveDate == initialValues.effectiveDate &&
+      newData.value == initialValues.value &&
+      newData.sellerName == initialValues.sellerName &&
+      newData.sellerContact == initialValues.sellerContact
+    ) {
+      this.props.navigation.goBack();
+    } else {
+      Alert.alert(
+        I18n.t("add_edit_amc_are_you_sure"),
+        I18n.t("add_edit_amc_unsaved_info"),
+        [
+          {
+            text: I18n.t("add_edit_amc_go_back"),
+            onPress: () => this.props.navigation.goBack()
+          },
+          {
+            text: I18n.t("add_edit_amc_stay"),
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          }
+        ]
+      );
     }
+
+    return true;
+  };
+
+  onDeletePress = () => {
+    const { productId, amc } = this.props.navigation.state.params;
+    Alert.alert(
+      I18n.t("add_edit_amc_delete_amc"),
+      I18n.t("add_edit_amc_delete_amc_desc"),
+      [
+        {
+          text: I18n.t("product_details_screen_yes_delete"),
+          onPress: async () => {
+            try {
+              this.setState({ isLoading: true });
+              await deleteAmc({ productId, amcId: amc.id });
+              this.props.navigation.goBack();
+            } catch (e) {
+              console.log("e: ", e);
+              I18n.t("add_edit_amc_could_not_delete");
+              this.setState({ isLoading: false });
+            }
+          }
+        },
+        {
+          text: I18n.t("add_edit_no_dnt_delete"),
+          onPress: () => {},
+          style: "cancel"
+        }
+      ]
+    );
   };
 
   onSavePress = async () => {

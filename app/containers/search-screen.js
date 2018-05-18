@@ -35,16 +35,22 @@ class SearchBox extends Component {
       showRecentSearches: true,
       searchHasRunOnce: false
     };
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
+
+  componentDidMount() {
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
         if (this.state.textInput.trim()) {
           this.fetchResults();
         }
-    }
-  };
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+  }
 
   fetchResults = async () => {
     if (!this.state.textInput.trim()) {

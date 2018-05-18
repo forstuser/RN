@@ -23,6 +23,7 @@ class VerifyScreen extends Component {
       headerRight: (
         <Text
           onPress={params.resendOtp}
+          weight="Bold"
           style={{ color: colors.pinkishOrange, marginRight: 10 }}
         >
           RESEND OTP

@@ -54,14 +54,6 @@ class DishCalendarScreen extends Component {
     };
   };
 
-  // static navigationButtons = {
-  //   rightButtons: [
-  //     {
-  //       component: "WhatToOptionsButton"
-  //     }
-  //   ]
-  // };
-
   state = {
     type: "",
     isScreenVisible: true,
@@ -78,8 +70,6 @@ class DishCalendarScreen extends Component {
   };
 
   componentDidMount() {
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
-
     const { type } = this.props.navigation.state.params;
     let title = "What's Cooking?";
     let text = "Select Dishes to be cooked";
@@ -115,20 +105,18 @@ class DishCalendarScreen extends Component {
         this.fetchItems();
       }
     );
-  }
-
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
         this.setState({ isScreenVisible: true });
         this.fetchItems();
-    }
-    // if (event.type == "DeepLink") {
-    //   if (event.link == "what-to-nav-options-btn") {
-    //     this.editOptions.show();
-    //   }
-    // }
-  };
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+  }
 
   handleScroll = event => {
     if (event.nativeEvent.contentOffset.y > 220) {
