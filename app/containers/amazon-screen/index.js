@@ -17,7 +17,6 @@ import { ScreenContainer, Text, Button, Image } from "../../elements";
 import { colors } from "../../theme";
 import { showSnackbar } from "../snackbar";
 
-// import WebViewBridge from 'react-native-webview-bridge-updated';
 
 
 class AmazonScreen extends Component {
@@ -26,26 +25,43 @@ class AmazonScreen extends Component {
     };
     constructor(props) {
         super(props);
-        // this.state = {
-
-        // };
-    }
-    onMessage(data) {
-        console.log("data", data);
-    }
-    componentDidMount() {
+        this.state = {
+            url: "https://www.amazon.in",
+            orderId: null
+        };
 
     }
+
+    onWebViewMessage = (event) => {
+        console.log('event.nativeEvent.data: ', event.nativeEvent.data);
+        this.setState({
+            url: "https://www.amazon.in/gp/aw/ya/ref=typ_rev_edit?ie=UTF8&ac=os&oid=" + event.nativeEvent.data,
+            orderId: true
+        })
+        // this.setState({
+        //     url: "https://www.amazon.in/gp/aw/ya/ref=typ_rev_edit?ie=UTF8&ac=os&oid=" + event.nativeEvent.data
+        // })
+    }
+
     render() {
-        let jsCode = `
-        window.postMessage("Sending data from WebView");
-    `;
+        const { orderId } = this.state;
+        let dirtyScript =
+            ` (function(){
+            alert("Working");
+             var _url = window.location.href;
+             var regexp =  /.*\orderId=(.*?)\&/;
+            if(regexp){
+                var orderId = _url.match(regexp)[1];
+                window.postMessage(orderId);
+            }
+        })()`;
         return (
             <ScreenContainer style={styles.container}>
                 <WebView
-                    style={styles.WebViewStyle}
-                    source={{ uri: 'https://www.amazon.in' }}
-                    injectedJavaScript={jsCode}
+                    injectedJavaScript={orderId ? `` : dirtyScript}
+                    scrollEnabled={false}
+                    source={{ uri: this.state.url }}
+                    onMessage={this.onWebViewMessage}
                 />
             </ScreenContainer>
         );
