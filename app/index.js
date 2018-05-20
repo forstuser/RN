@@ -44,6 +44,7 @@ const showLocalNotification = notif => {
       priority: "high", // as FCM payload
       icon: "ic_launcher", // as FCM payload, you can relace this with custom icon you put in mipmap
       lights: true, // Android only, LED blinking (default false),
+      show_in_foreground: true,
       picture: notif.image_url || undefined,
       ...notif
     });
@@ -52,7 +53,9 @@ const showLocalNotification = notif => {
 
 FCM.on(FCMEvent.Notification, notif => {
   console.log("notification in background: ", notif);
-  showLocalNotification(notif);
+  if (!notif.opened_from_tray) {
+    showLocalNotification(notif);
+  }
 });
 
 if (Platform.OS == "android") {
