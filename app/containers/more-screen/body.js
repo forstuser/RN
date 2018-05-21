@@ -54,7 +54,7 @@ class Body extends Component {
 
   onAscItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ASC_FROM_MORE);
-    this.props.navigation.navigator(SCREENS.ASC_SCREEN);
+    this.props.navigation.navigate(SCREENS.ASC_SCREEN);
   };
 
   onEhomeItemPress = () => {

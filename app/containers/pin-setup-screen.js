@@ -16,15 +16,17 @@ import PinInput from "../components/pin-input";
 import CustomTextInput from "../components/form-elements/text-input";
 import LoadingOverlay from "../components/loading-overlay";
 import ErrorOverlay from "../components/error-overlay";
+import HeaderBackButton from "react-navigation/src/views/Header/HeaderBackButton";
 
 class PinSetupScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    const resetPin = navigation.getParam("resetPin", false);
+    const params = navigation.state.params || {};
+
     return {
-      title: resetPin ? I18n.t("reset_app_pin") : I18n.t("set_app_pin")
+      title: params.resetPin ? I18n.t("reset_app_pin") : I18n.t("set_app_pin"),
+      headerLeft: <HeaderBackButton onPress={params.onBackPress} />
     };
   };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -42,11 +44,10 @@ class PinSetupScreen extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.navigation.setTitle({
-    //   title: this.props.resetPin
-    //     ? I18n.t("reset_app_pin")
-    //     : I18n.t("set_app_pin")
-    // });
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    this.props.navigation.setParams({
+      onBackPress: this.onBackPress
+    });
     const resetPin = this.props.navigation.getParam("resetPin", false);
     const updatePin = this.props.navigation.getParam("updatePin", false);
     if (updatePin == false) {
@@ -58,7 +59,22 @@ class PinSetupScreen extends React.Component {
       this.checkIfEmailAvailable();
     }
   }
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+  }
 
+  onBackPress = () => {
+    if (this.state.showVerifyPin && this.state.showRetryPin) {
+      this.setState({
+        showVerifyPin: true,
+        showRetryPin: false
+      })
+    }
+    else {
+      this.props.navigation.goBack();
+    }
+    return true;
+  }
   checkIfEmailAvailable = async () => {
     this.setState({
       isLoading: true
