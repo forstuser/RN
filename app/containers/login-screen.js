@@ -25,9 +25,9 @@ import { showSnackbar } from "../utils/snackbar";
 
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import { actions as uiActions } from "../modules/ui";
-// import Analytics from "../analytics";
-// import { openAfterLoginScreen } from "../navigation";
-// import LanguageOptions from "../components/language-options";
+import Analytics from "../analytics";
+import { openAfterLoginScreen } from "../navigation";
+import LanguageOptions from "../components/language-options";
 
 const binbillLogo = require("../images/binbill_logo.png");
 // const truecallerLogo = require("../images/truecaller_logo.png");

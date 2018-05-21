@@ -35,8 +35,7 @@ const uploadDocIllustration = require("../images/upload_doc_illustration.png");
 
 class DirectUploadDocumentScreen extends React.Component {
   static navigationOptions = {
-    navBarHidden: true,
-    tabBarHidden: true
+    header: null
   };
 
   constructor(props) {

@@ -116,7 +116,7 @@ class Header extends Component {
 
     if (!profile) {
       return (
-        <View collapsable={false}  style={styles.header}>
+        <View collapsable={false} style={styles.header}>
           <LoadingOverlay visible={true} />
         </View>
       );
@@ -149,7 +149,7 @@ class Header extends Component {
     }
 
     return (
-      <View collapsable={false} >
+      <View collapsable={false}>
         {profile ? (
           <TouchableOpacity
             disabled={isProfileVisible}
@@ -159,13 +159,16 @@ class Header extends Component {
             ]}
             onPress={this.props.onPress}
           >
-            <View collapsable={false} 
+            <View
+              collapsable={false}
               style={[
                 styles.headerInner,
                 isProfileVisible ? styles.headerInnerProfile : {}
               ]}
             >
-              <View collapsable={false}  style={styles.backgroundImg}>{profilePic}</View>
+              <View collapsable={false} style={styles.backgroundImg}>
+                {profilePic}
+              </View>
               {Platform.OS == "ios" && (
                 <BlurView
                   style={styles.overlay}
@@ -174,11 +177,13 @@ class Header extends Component {
                   blurAmount={5}
                 />
               )}
-              {Platform.OS == "android" && <View collapsable={false}  style={styles.overlay} />}
+              {Platform.OS == "android" && (
+                <View collapsable={false} style={styles.overlay} />
+              )}
 
               {!isProfileVisible && (
-                <View collapsable={false}  style={styles.texts}>
-                  <View collapsable={false}  style={styles.centerText}>
+                <View collapsable={false} style={styles.texts}>
+                  <View collapsable={false} style={styles.centerText}>
                     <Text style={styles.name} weight="Bold">
                       {name}
                     </Text>
@@ -194,13 +199,16 @@ class Header extends Component {
                 </View>
               )}
             </View>
-            <View collapsable={false} 
+            <View
+              collapsable={false}
               style={[
                 styles.profilePicWrapper,
                 isProfileVisible ? styles.profilePicCenter : {}
               ]}
             >
-              <View collapsable={false}  style={styles.profilePicCircleWrapper}>{profilePic}</View>
+              <View collapsable={false} style={styles.profilePicCircleWrapper}>
+                {profilePic}
+              </View>
               {isProfileVisible && (
                 <TouchableOpacity style={styles.profilePicEditBtn}>
                   <Icon name="md-create" size={16} color="#fff" />
@@ -217,7 +225,7 @@ class Header extends Component {
             )}
           </TouchableOpacity>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
       </View>
     );

@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Alert,
-  BackAndroid
+  BackHandler
 } from "react-native";
 import { showSnackbar } from "../utils/snackbar";
 
@@ -22,7 +22,7 @@ import { SCREENS, GLOBAL_VARIABLES } from "../constants";
 
 class EnterPinScreen extends React.Component {
   static navigationOptions = {
-    navBarHidden: true
+    header: null
   };
 
   state = {
@@ -34,13 +34,17 @@ class EnterPinScreen extends React.Component {
     // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "backPress":
-        BackAndroid.exitApp();
-        break;
-      case "willDisappear":
-        global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE] = false;
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+  }
+
+  onBackPress = () => {
+    if (this.props.navigation.isFocused()) {
+      BackHandler.exitApp();
     }
   };
 
@@ -65,9 +69,7 @@ class EnterPinScreen extends React.Component {
         isLoading: false
       });
 
-      this.props.navigation.goBack({
-        animationType: "none"
-      });
+      this.props.navigation.goBack();
     } catch (e) {
       this.pinInput.clearPin();
       showSnackbar({
