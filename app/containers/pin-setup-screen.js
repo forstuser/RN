@@ -1,20 +1,17 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Alert, BackHandler } from "react-native";
 import { connect } from "react-redux";
-
 import I18n from "../i18n";
 import { showSnackbar } from "../utils/snackbar";
-
 import {
   getProfileDetail,
   setPin,
   askOtpOnEmail,
-  validateEmailOtp
+  validateEmailOtp,
+  verifyPin
 } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
-
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
-
 import PinInput from "../components/pin-input";
 import CustomTextInput from "../components/form-elements/text-input";
 import LoadingOverlay from "../components/loading-overlay";
@@ -36,6 +33,7 @@ class PinSetupScreen extends React.Component {
       showEmailInput: props.resetPin || false,
       showOtpInput: false,
       showRetryPin: false,
+      showVerifyPin: false,
       email: "",
       otp: "",
       pin1: "",
@@ -50,6 +48,12 @@ class PinSetupScreen extends React.Component {
     //     : I18n.t("set_app_pin")
     // });
     const resetPin = this.props.navigation.getParam("resetPin", false);
+    const updatePin = this.props.navigation.getParam("updatePin", false);
+    if (updatePin == false) {
+      this.setState({
+        showVerifyPin: true
+      })
+    }
     if (!resetPin) {
       this.checkIfEmailAvailable();
     }
@@ -137,9 +141,14 @@ class PinSetupScreen extends React.Component {
     const { pin1 } = this.state;
 
     if (pin !== pin1) {
+      this.setState({
+        showVerifyPin: true,
+        showRetryPin: false
+      })
       return showSnackbar({
         text: "Retry PIN does not match with PIN."
       });
+
     }
 
     try {
@@ -167,15 +176,34 @@ class PinSetupScreen extends React.Component {
     }
   };
 
+  showVerifyPin = async pin => {
+    try {
+      this.setState({
+        isLoading: true
+      });
+      await verifyPin({ pin });
+      this.setState({ showVerifyPin: true, isLoading: false });
+    } catch (e) {
+      this.setState({ isLoading: false, showVerifyPin: false });
+      this.verifyPinRef.clearPin()
+      return showSnackbar({
+        text: e.message
+      });
+    }
+
+  };
+
   showRetryPin = pin => {
     this.setState({ pin1: pin, showRetryPin: true });
   };
+
 
   render() {
     const {
       showEmailInput,
       showOtpInput,
       showRetryPin,
+      showVerifyPin,
       isLoading,
       error,
       retryFunction
@@ -212,19 +240,28 @@ class PinSetupScreen extends React.Component {
         {!showEmailInput &&
           !showOtpInput && (
             <View collapsable={false} style={{ flex: 1 }}>
-              {!showRetryPin ? (
+              {!showVerifyPin ? (
+                <PinInput
+                  title="Verify App PIN"
+                  ref={ref => this.verifyPinRef = ref}
+                  onSubmitPress={this.showVerifyPin}
+                />
+              ) : (
+                  <View collapsable={false} />
+                )}
+              {showVerifyPin && !showRetryPin ? (
                 <PinInput
                   title="Create App PIN"
                   onSubmitPress={this.showRetryPin}
                 />
               ) : (
-                <View collapsable={false} />
-              )}
+                  <View collapsable={false} />
+                )}
               {showRetryPin ? (
                 <PinInput title="Confirm App PIN" onSubmitPress={this.setPin} />
               ) : (
-                <View collapsable={false} />
-              )}
+                  <View collapsable={false} />
+                )}
             </View>
           )}
         <LoadingOverlay visible={isLoading} />
