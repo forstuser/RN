@@ -1,9 +1,26 @@
-/**
- * @flow
- */
-
 import React, { Component } from "react";
-import { AppRegistry } from "react-native";
+import { AppRegistry, View, Text } from "react-native";
+import { Provider, connect } from "react-redux";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/es/integration/react";
+import store, { persistor } from "./store";
+import LoadingOverlay from "./components/loading-overlay";
 import RootNavigator from "./navigation/root-navigator";
+import NavigationService from "./navigation";
 
-AppRegistry.registerComponent("BinBill", () => RootNavigator);
+class App extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <PersistGate
+          loading={<LoadingOverlay visible={true} />}
+          persistor={persistor}
+        >
+          <RootNavigator />
+        </PersistGate>
+      </Provider>
+    );
+  }
+}
+
+AppRegistry.registerComponent("BinBill", () => App);

@@ -48,10 +48,10 @@ class ForceUpdateScreen extends Component {
               style={styles.btn}
               text={I18n.t("add_edit_force_update_now")}
             />
-            {this.props.allowSkip ? (
+            {this.props.navigation.state.params.allowSkip ? (
               <TouchableOpacity
                 style={styles.notNow}
-                onPress={() => this.props.navigation.dismissAllModals()}
+                onPress={() => this.props.navigation.goBack()}
               >
                 <Text weight="Bold" style={styles.notNowText}>
                   {I18n.t("add_edit_force_not_now")}

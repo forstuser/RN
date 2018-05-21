@@ -20,8 +20,8 @@ import Profile from "./profile";
 import I18n from "../../i18n";
 import { showSnackbar } from "../../utils/snackbar";
 import { SCREENS } from "../../constants";
+import NavigationService from "../../navigation";
 import { getProfileDetail, deletePin, logout, updateProfile } from "../../api";
-import { openLoginScreen, openAppScreen } from "../../navigation";
 import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
@@ -198,7 +198,6 @@ class MoreScreen extends Component {
               setLanguage={language => {
                 this.props.setLanguage(language);
                 I18n.locale = language.code;
-                openAppScreen();
               }}
               navigation={this.props.navigation}
             />
@@ -255,13 +254,14 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     logoutUser: async () => {
-      dispatch(loggedInUserActions.loggedInUserClearAllData());
       try {
         logout();
+        dispatch(loggedInUserActions.loggedInUserClearAllData());
       } catch (e) {
         console.log(e);
       }
-      openLoginScreen();
+
+      NavigationService.navigate(SCREENS.AUTH_STACK);
     },
     removePin: () => {
       dispatch(loggedInUserActions.setLoggedInUserIsPinSet(false));
