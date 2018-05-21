@@ -72,14 +72,16 @@ const apiRequest = async ({
     if (r.data.forceUpdate === true) {
       if (!HAS_OPENED_FORCE_UPDATE_SCREEN) {
         HAS_OPENED_FORCE_UPDATE_SCREEN = true;
-        navigation.openForceUpdateScreen();
+        NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN);
       }
     } else if (
       r.data.forceUpdate === false &&
       !store.getState().ui.hasUpdateAppScreenShown
     ) {
       store.dispatch(uiActions.setUiHasUpdateAppScreenShown(true));
-      navigation.openForceUpdateModal();
+      NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN, {
+        allowSkip: true
+      });
     }
 
     if (r.data.status == false) {
@@ -116,7 +118,7 @@ const apiRequest = async ({
       store.dispatch(loggedInUserActions.loggedInUserClearAllData());
       NavigationService.navigate(SCREENS.AUTH_STACK);
     } else if (error.statusCode == 402) {
-      openEnterPinPopup();
+      NavigationService.navigate(SCREENS.ENTER_PIN_POPUP_SCREEN);
     }
     throw error;
   }
