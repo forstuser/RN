@@ -14,7 +14,7 @@ import { API_BASE_URL, updateProduct } from "../../api";
 import { MAIN_CATEGORY_IDS } from "../../constants";
 import { Text } from "../../elements";
 import { colors } from "../../theme";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import DatePickerRn from "../../components/date-picker-rn";
 

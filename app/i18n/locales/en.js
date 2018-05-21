@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 export default {
   //units
   litre: "Litre",
@@ -1009,7 +1010,9 @@ export default {
 
   //27-03-2018
   love_using_binbill: "Love using BinBill app?",
-  recommend_us: "Recommend us to others by rating us on {{storeName}} Store",
+  recommend_us: `If you are happy with your Home Manager, please rate us on ${
+    Platform.OS == "ios" ? "App" : "Play"
+  } store.`,
   app_pin: "App Pin",
   change: "Change",
   set_now: "Set Now",

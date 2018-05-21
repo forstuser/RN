@@ -7,7 +7,7 @@ import {
   Alert,
   BackAndroid
 } from "react-native";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import I18n from "../i18n";
 import { verifyPin } from "../api";
@@ -21,7 +21,7 @@ import { colors } from "../theme";
 import { SCREENS, GLOBAL_VARIABLES } from "../constants";
 
 class EnterPinScreen extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true
   };
 
@@ -31,7 +31,7 @@ class EnterPinScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -45,11 +45,8 @@ class EnterPinScreen extends React.Component {
   };
 
   onForgotPinPress = () => {
-    this.props.navigator.push({
-      screen: SCREENS.PIN_SETUP_SCREEN,
-      passProps: {
-        resetPin: true
-      }
+    this.props.navigation.navigate(SCREENS.PIN_SETUP_SCREEN, {
+      resetPin: true
     });
   };
 
@@ -68,7 +65,7 @@ class EnterPinScreen extends React.Component {
         isLoading: false
       });
 
-      this.props.navigator.dismissModal({
+      this.props.navigation.goBack({
         animationType: "none"
       });
     } catch (e) {

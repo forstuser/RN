@@ -17,7 +17,7 @@ import { Text, ScreenContainer } from "../../elements";
 import Analytics from "../../analytics";
 
 import LoadingOverlay from "../../components/loading-overlay";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import SelectServiceStep from "./select-service-step";
 import SelectStartingDateStep from "./select-starting-date-step";
@@ -33,10 +33,8 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class AddCalendarServiceScreen extends React.Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    tabBarHidden: true
-    // disabledBackGesture: true
+  static navigationOptions = {
+    header: null
   };
   state = {
     activeStepIndex: 0,
@@ -57,7 +55,7 @@ class AddCalendarServiceScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -93,7 +91,7 @@ class AddCalendarServiceScreen extends React.Component {
   };
 
   close = () => {
-    this.props.navigator.pop();
+    this.props.navigation.goBack();
   };
 
   previousStep = () => {
@@ -312,7 +310,7 @@ class AddCalendarServiceScreen extends React.Component {
   onSelectedDaysStepDone = selectedDays => {
     this.setState({ selectedDays }, async () => {
       await this.editCalculationDetails();
-      this.props.navigator.pop();
+      this.props.navigation.goBack();
     });
   };
 
@@ -354,9 +352,15 @@ class AddCalendarServiceScreen extends React.Component {
             }
           ]}
         >
-          <View collapsable={false} style={styles.stepContainer}>{previousStep}</View>
-          <View collapsable={false} style={styles.stepContainer}>{currentStep}</View>
-          <View collapsable={false} style={styles.stepContainer}>{nextStep}</View>
+          <View collapsable={false} style={styles.stepContainer}>
+            {previousStep}
+          </View>
+          <View collapsable={false} style={styles.stepContainer}>
+            {currentStep}
+          </View>
+          <View collapsable={false} style={styles.stepContainer}>
+            {nextStep}
+          </View>
         </Animated.View>
         {numberOfStepsToShowInFooter > 0 ? (
           <View collapsable={false} style={styles.stepIndicatorsAndText}>
@@ -369,14 +373,16 @@ class AddCalendarServiceScreen extends React.Component {
                 isActiveStep = index == activeStepIndicatorIndex;
                 return [
                   index > 0 && (
-                    <View collapsable={false}
+                    <View
+                      collapsable={false}
                       style={[
                         styles.stepIndicatorLine,
                         idDoneStep ? styles.doneStepIndicatorLine : {}
                       ]}
                     />
                   ),
-                  <View collapsable={false}
+                  <View
+                    collapsable={false}
                     style={[
                       styles.stepIndicatorDot,
                       idDoneStep ? styles.doneStepIndicatorDot : {},
@@ -384,25 +390,28 @@ class AddCalendarServiceScreen extends React.Component {
                     ]}
                   >
                     {isActiveStep ? (
-                      <View collapsable={false} style={styles.activeStepIndicatorDotInnerRing} />
+                      <View
+                        collapsable={false}
+                        style={styles.activeStepIndicatorDotInnerRing}
+                      />
                     ) : (
-                        <View collapsable={false} />
-                      )}
+                      <View collapsable={false} />
+                    )}
                   </View>
                 ];
               })}
             </View>
           </View>
         ) : (
-            <View collapsable={false} />
-          )}
+          <View collapsable={false} />
+        )}
         {/* <FinishModal
           ref={ref => this.finishModal = ref}
           title="Product added to your eHome."
           mainCategoryId={mainCategoryId}
           category={category}
           productId={product ? product.id : null}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           goToStep={this.goToStep}
         /> */}
       </View>
@@ -413,7 +422,8 @@ class AddCalendarServiceScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     padding: 0,
-    flex: 1
+    flex: 1,
+    backgroundColor: "#fff"
   },
   stepsContainer: {
     flex: 1,

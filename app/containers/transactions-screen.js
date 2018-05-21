@@ -24,8 +24,10 @@ import { MAIN_CATEGORY_IDS, SCREENS } from "../constants";
 const billIcon = require("../images/ic_comingup_bill.png");
 
 class TransactionsScreen extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.state.params.category.cName
+    };
   };
 
   constructor(props) {
@@ -67,12 +69,10 @@ class TransactionsScreen extends Component {
   }
 
   async componentDidMount() {
-    this.props.navigator.setTitle({
-      title: this.props.category.cName
-    });
-
     try {
-      const res = await getCategoryInsightData(this.props.category.id);
+      const res = await getCategoryInsightData(
+        this.props.navigation.state.params.category.id
+      );
       const weeklyData = {
         timeSpanText:
           "For " +
@@ -111,7 +111,9 @@ class TransactionsScreen extends Component {
           overallData
         },
         () => {
-          this.handleFilterOptionPress(this.props.index);
+          this.handleFilterOptionPress(
+            this.props.navigation.state.params.index
+          );
         }
       );
     } catch (e) {}
@@ -192,10 +194,13 @@ class TransactionsScreen extends Component {
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={isFetchingData} />
         <ScrollView>
-          <View collapsable={false}  style={{ padding: 16 }}>
+          <View collapsable={false} style={{ padding: 16 }}>
             <InsightChart
               onFiltersPress={() => this.filterOptions.show()}
-              bgColors={[this.props.color, this.props.color]}
+              bgColors={[
+                this.props.navigation.state.params.color,
+                this.props.navigation.state.params.color
+              ]}
               timeSpanText={timeSpanText}
               filterText={filterText}
               chartData={chartData}
@@ -219,20 +224,20 @@ class TransactionsScreen extends Component {
               text={I18n.t("transactions_screen_no_transactions")}
             />
           ) : (
-            <View collapsable={false} >
+            <View collapsable={false}>
               <SectionHeading
                 text={I18n.t("transactions_screen_transactions")}
               />
-              <View collapsable={false} >
+              <View collapsable={false}>
                 {this.state.activeData.products.map((product, index) => (
                   <TouchableOpacity
                     onPress={() => {
-                      this.props.navigator.push({
-                        screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-                        passProps: {
+                      this.props.navigation.navigate(
+                        SCREENS.PRODUCT_DETAILS_SCREEN,
+                        {
                           productId: product.productId || product.id
                         }
-                      });
+                      );
                     }}
                     style={styles.product}
                     key={index}
@@ -246,8 +251,8 @@ class TransactionsScreen extends Component {
                     {product.dataIndex > 1 && (
                       <Image style={styles.image} source={billIcon} />
                     )}
-                    <View collapsable={false}  style={styles.texts}>
-                      <View collapsable={false}  style={styles.nameWrapper}>
+                    <View collapsable={false} style={styles.texts}>
+                      <View collapsable={false} style={styles.nameWrapper}>
                         <Text weight="Bold" style={styles.name}>
                           {product.productName || product.categoryName}
                         </Text>
@@ -260,7 +265,7 @@ class TransactionsScreen extends Component {
                           {product.sellers.sellerName}
                         </Text>
                       ) : (
-                        <View collapsable={false}  />
+                        <View collapsable={false} />
                       )}
                       <Text weight="Medium" style={styles.purchaseDate}>
                         {moment(product.purchaseDate).format("MMM DD, YYYY")}

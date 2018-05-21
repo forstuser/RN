@@ -24,7 +24,7 @@ import {
 } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import { colors } from "../../theme";
 import TabSearchHeader from "../../components/tab-screen-header";
@@ -43,8 +43,7 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class DoYouKNowScreen extends Component {
-  static OPEN_DYK_EVENT_DONE = false;
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: false
   };
@@ -65,19 +64,7 @@ class DoYouKNowScreen extends Component {
       error: null,
       isModalVisible: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
-
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        if (!DoYouKNowScreen.OPEN_DYK_EVENT_DONE) {
-          Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW);
-          DoYouKNowScreen.OPEN_DYK_EVENT_DONE = true;
-        }
-        this.loadItems();
-    }
-  };
 
   componentWillMount() {
     this.panResponder = PanResponder.create({
@@ -158,11 +145,23 @@ class DoYouKNowScreen extends Component {
   }
 
   componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW);
     this.setState({
       offsetId: this.props.latestDoYouKnowReadId
     });
-
+    this.loadItems();
     this.loadTags();
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.loadItems();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   loadItems = async clearPreviousItems => {
@@ -380,7 +379,7 @@ class DoYouKNowScreen extends Component {
           <TabSearchHeader
             title={I18n.t("do_you_know_screen_title")}
             icon={doYouKnowIcon}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             showMailbox={false}
             showSearchInput={false}
             showRightSideSearchIcon={false}

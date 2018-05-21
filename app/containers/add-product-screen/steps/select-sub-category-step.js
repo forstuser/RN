@@ -17,7 +17,7 @@ import {
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
-import { showSnackbar } from "../../snackbar";
+import { showSnackbar } from "../../../utils/snackbar";
 
 import { getReferenceDataCategories } from "../../../api";
 

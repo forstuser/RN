@@ -13,7 +13,6 @@ import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { Navigation } from "react-native-navigation";
 
 import Modal from "react-native-modal";
 
@@ -54,24 +53,20 @@ class MedicalDocsCard extends Component {
       };
     }
 
-    this.props.navigator.push({
-      screen: SCREENS.EDIT_MEDICAL_DOCS_SCREEN,
-      passProps: {
-        typeId: product.sub_category_id,
-        productId: product.id,
-        jobId: product.jobId,
-        reportTitle: product.productName,
-        date: product.purchaseDate,
-        doctorName: seller.name,
-        doctorContact: seller.contact,
-        copies: product.copies || []
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.EDIT_MEDICAL_DOCS_SCREEN, {
+      typeId: product.sub_category_id,
+      productId: product.id,
+      jobId: product.jobId,
+      reportTitle: product.productName,
+      date: product.purchaseDate,
+      doctorName: seller.name,
+      doctorContact: seller.contact,
+      copies: product.copies || []
     });
   };
 
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     let seller = {
       name: "",
       contact: ""
@@ -102,7 +97,7 @@ class MedicalDocsCard extends Component {
             <ViewBillButton
               collapsable={false}
               product={product}
-              navigator={navigator}
+              navigation={navigation}
               docType="Medical Doc"
               btnText={I18n.t("product_details_screen_docs")}
             />

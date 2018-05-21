@@ -20,7 +20,7 @@ import {
 } from "../api";
 import { Text, Button, ScreenContainer, Image } from "../elements";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import SelectModal from "../components/select-modal";
 import LoadingOverlay from "../components/loading-overlay";
@@ -35,9 +35,8 @@ const crossIcon = require("../images/ic_close.png");
 const dropdownIcon = require("../images/ic_dropdown_arrow.png");
 
 class AscScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: false,
-    tabBarHidden: true
+  static navigationOptions = {
+    title: I18n.t("asc_screen_title")
   };
   constructor(props) {
     super(props);
@@ -57,13 +56,24 @@ class AscScreen extends Component {
       address: "",
       clearSelectedValuesOnScreenAppear: true
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        this.fetchProducts();
+  async componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.OPEN_ASC_SCREEN);
+
+    if (this.props.screenOpts) {
+      const screenOpts = this.props.screenOpts;
+      if (screenOpts.hitAccessApi) {
+        await ascAccessed();
+      }
+    }
+
+    this.fetchBrands();
+
+    this.fetchProducts();
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
         if (this.state.clearSelectedValuesOnScreenAppear) {
           this.setState({
             selectedBrand: null,
@@ -73,23 +83,12 @@ class AscScreen extends Component {
         this.setState({
           clearSelectedValuesOnScreenAppear: true
         });
-        break;
-    }
-  };
-
-  async componentDidMount() {
-    Analytics.logEvent(Analytics.EVENTS.OPEN_ASC_SCREEN);
-    this.props.navigator.setTitle({
-      title: I18n.t("asc_screen_title")
-    });
-    if (this.props.screenOpts) {
-      const screenOpts = this.props.screenOpts;
-      if (screenOpts.hitAccessApi) {
-        await ascAccessed();
       }
-    }
+    );
+  }
 
-    this.fetchBrands();
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   fetchBrands = async () => {
@@ -207,14 +206,11 @@ class AscScreen extends Component {
       category_name: this.state.selectedCategory.category_name
     });
 
-    this.props.navigator.push({
-      screen: SCREENS.ASC_SEARCH_SCREEN,
-      passProps: {
-        brand: this.state.selectedBrand,
-        category: this.state.selectedCategory,
-        latitude: this.state.latitude,
-        longitude: this.state.longitude
-      }
+    this.props.navigation.navigate(SCREENS.ASC_SEARCH_SCREEN, {
+      brand: this.state.selectedBrand,
+      category: this.state.selectedCategory,
+      latitude: this.state.latitude,
+      longitude: this.state.longitude
     });
   };
 
@@ -248,10 +244,7 @@ class AscScreen extends Component {
   };
 
   openAddProductScreen = () => {
-    this.props.navigator.push({
-      screen: SCREENS.ADD_PRODUCT_SCREEN,
-      overrideBackPress: true
-    });
+    this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN);
   };
 
   render() {

@@ -146,7 +146,7 @@ class CategoryWithPager extends Component {
                   onRefresh={() => this.loadProductsFirstPage(index)}
                   isLoading={subCategory.isFetchingProducts}
                   products={subCategory.products}
-                  navigator={this.props.navigator}
+                  navigation={this.props.navigation}
                 />
               </View>
             );

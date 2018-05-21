@@ -42,11 +42,11 @@ class BlankDashboard extends React.Component {
     }
   }
 
-  onShouldStartLoadWithRequest = navigator => {
-    if (navigator.url.indexOf("embed") !== -1) {
+  onShouldStartLoadWithRequest = navigation => {
+    if (navigation.url.indexOf("embed") !== -1) {
       return true;
     } else {
-      this.videoPlayer.stopLoading(); //Some reference to your WebView to make it stop loading that URL
+      this.videoPlayer.stopLoading(); //Some Reference to your WebView to make it stop loading that URL
       return false;
     }
   };
@@ -98,7 +98,7 @@ class BlankDashboard extends React.Component {
                 domStorageEnabled={true}
                 source={{
                   uri:
-                    "https://www.youtube.com/embed/fexOvhPe5EM&t?modestbranding=1&playsinline=1&showinfo=0&rel=0"
+                    "https://www.youtube.com/embed/fexOvhPe5EM?modestbranding=1&playsinline=1&showinfo=0&rel=0"
                 }}
                 onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest} //for iOS
                 onNavigationStateChange={this.onShouldStartLoadWithRequest} //for Android

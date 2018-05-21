@@ -14,7 +14,7 @@ import moment from "moment";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import { connect } from "react-redux";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -26,10 +26,8 @@ import SelectView from "./select-view";
 import LoadingOverlay from "../../components/loading-overlay";
 
 class BillsPopUpScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    tabBarHidden: true,
-    statusBarTextColorScheme: "light"
+  static navigationOptions = {
+    header: null
   };
   constructor(props) {
     super(props);
@@ -40,8 +38,9 @@ class BillsPopUpScreen extends Component {
     };
   }
   componentDidMount() {
+    const copies = this.props.navigation.getParam("copies", []);
     this.setState({
-      copies: this.props.copies
+      copies
     });
   }
 
@@ -113,7 +112,7 @@ class BillsPopUpScreen extends Component {
   };
 
   closeThisScreen = () => {
-    this.props.navigator.dismissModal();
+    this.props.navigation.goBack();
   };
 
   onItemCopyDelete = async (itemIndex, copyIndex) => {
@@ -129,7 +128,7 @@ class BillsPopUpScreen extends Component {
       if (copies.length == 0) {
         //if all copies are deleted, remove the item
         items.splice(itemIndex, 1);
-        this.props.navigator.dismissAllModals();
+        this.props.navigation.dismissAllModals();
       } else {
         items[itemIndex] = item;
       }
@@ -167,22 +166,22 @@ class BillsPopUpScreen extends Component {
     const { date, id, type = null, onCopyDelete } = this.props;
     return (
       <ScreenContainer style={styles.container}>
-        <View collapsable={false}  style={styles.header}>
-          <View collapsable={false}  style={styles.dateAndId}>
+        <View collapsable={false} style={styles.header}>
+          <View collapsable={false} style={styles.dateAndId}>
             {date ? (
               <Text weight="Medium" style={styles.date}>
                 {moment(date).isValid() && moment(date).format("DD MMM, YYYY")}
               </Text>
             ) : (
-              <View collapsable={false}  />
+              <View collapsable={false} />
             )}
             <Text style={styles.id}>{!isNaN(id) && "ID: " + id}</Text>
             {type ? (
-              <View collapsable={false}  style={styles.type}>
+              <View collapsable={false} style={styles.type}>
                 <Text style={styles.typeText}>{type}</Text>
               </View>
             ) : (
-              <View collapsable={false}  />
+              <View collapsable={false} />
             )}
           </View>
           <TouchableOpacity
@@ -194,7 +193,7 @@ class BillsPopUpScreen extends Component {
           </TouchableOpacity>
         </View>
         {(!copies || copies.length == 0) && (
-          <View collapsable={false}  style={styles.noCopiesMsgWrapper}>
+          <View collapsable={false} style={styles.noCopiesMsgWrapper}>
             <Text weight="Bold" style={styles.noCopiesMsg} />
           </View>
         )}
@@ -224,13 +223,13 @@ class BillsPopUpScreen extends Component {
             ))}
           </ScrollableTabView>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
 
         {copies && isSelectViewVisible ? (
           <SelectView copies={copies} passSelectedCopies={this.shareCopies} />
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
         <LoadingOverlay
           visible={isDownloadingFiles}

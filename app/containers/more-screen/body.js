@@ -23,7 +23,7 @@ import Analytics from "../../analytics";
 import LanguageOptions from "../../components/language-options";
 
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 class Body extends Component {
   constructor(props) {
@@ -54,23 +54,17 @@ class Body extends Component {
 
   onAscItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ASC_FROM_MORE);
-    this.props.navigator.push({
-      screen: SCREENS.ASC_SCREEN
-    });
+    this.props.navigation.navigator(SCREENS.ASC_SCREEN);
   };
 
   onEhomeItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_TIPS_TO_BUILD_YOUR_EHOME);
-    this.props.navigator.push({
-      screen: SCREENS.TIPS_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.TIPS_SCREEN);
   };
 
   onFaqItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_FAQ);
-    this.props.navigator.push({
-      screen: SCREENS.FAQS_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.FAQS_SCREEN);
   };
 
   onEmailItemPress = () => {
@@ -121,9 +115,7 @@ class Body extends Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PIN);
     const { isPinSet } = this.props;
     if (!isPinSet) {
-      this.props.navigator.push({
-        screen: SCREENS.PIN_SETUP_SCREEN
-      });
+      this.props.navigation.navigate(SCREENS.PIN_SETUP_SCREEN);
     } else {
       this.pinOptions.show();
     }
@@ -132,9 +124,7 @@ class Body extends Component {
   onPinOptionPress = i => {
     if (i < 2) {
       if (i == 0) {
-        this.props.navigator.push({
-          screen: SCREENS.PIN_SETUP_SCREEN
-        });
+        this.props.navigation.navigate(SCREENS.PIN_SETUP_SCREEN);
       } else {
         this.props.removePin();
       }

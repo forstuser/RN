@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, View } from "react-native";
 import call from "react-native-phone-call";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import { Text } from "../../elements";
 import { colors } from "../../theme";

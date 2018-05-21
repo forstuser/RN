@@ -5,7 +5,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { getReferenceDataForCategory, updateProduct } from "../api";
 import Analytics from "../analytics";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import LoadingOverlay from "../components/loading-overlay";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../constants";
@@ -15,22 +15,9 @@ import ExpenseBasicDetailsForm from "../components/expense-forms/expense-basic-d
 import ChangesSavedModal from "../components/changes-saved-modal";
 
 class EditProductBasicDetails extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     disabledBackGesture: true
-  };
-
-  static navigatorButtons = {
-    ...Platform.select({
-      ios: {
-        leftButtons: [
-          {
-            id: "backPress",
-            icon: require("../images/ic_back_ios.png")
-          }
-        ]
-      }
-    })
   };
 
   constructor(props) {
@@ -41,7 +28,7 @@ class EditProductBasicDetails extends React.Component {
       subCategories: [],
       isLoading: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -53,7 +40,7 @@ class EditProductBasicDetails extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigator.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -68,18 +55,16 @@ class EditProductBasicDetails extends React.Component {
   };
 
   async componentDidMount() {
-    const { product } = this.props;
+    const { product } = this.props.navigation.state.params;
     let title = "Edit " + (product.productName || "Product");
-    this.props.navigator.setTitle({ title });
-    this.fetchCategoryData();
+    // this.props.navigation.setTitle({ title });
+    this.fetchCategoryData(product);
   }
 
-  fetchCategoryData = async () => {
+  fetchCategoryData = async product => {
     try {
       this.setState({ isLoading: true });
-      const res = await getReferenceDataForCategory(
-        this.props.product.categoryId
-      );
+      const res = await getReferenceDataForCategory(product.categoryId);
       this.setState({
         brands: res.categories[0].brands,
         categoryForms: res.categories[0].categoryForms,
@@ -94,7 +79,9 @@ class EditProductBasicDetails extends React.Component {
   };
 
   onSavePress = async () => {
-    const { navigator, product } = this.props;
+    const { navigation } = this.props;
+    const { product } = navigation.state.params;
+
     let data = {
       mainCategoryId: product.masterCategoryId,
       categoryId: product.categoryId,
@@ -175,7 +162,8 @@ class EditProductBasicDetails extends React.Component {
   };
 
   render() {
-    const { product, navigator } = this.props;
+    const { navigation } = this.props;
+    const { product } = navigation.state.params;
 
     const { brands, categoryForms, subCategories, isLoading } = this.state;
 
@@ -257,7 +245,7 @@ class EditProductBasicDetails extends React.Component {
         <LoadingOverlay visible={isLoading} />
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
         <KeyboardAwareScrollView>
           <View collapsable={false} style={{ flex: 1 }}>
@@ -273,7 +261,7 @@ class EditProductBasicDetails extends React.Component {
                 }}
                 jobId={product.jobId}
                 subCategories={subCategories}
-                navigator={navigator}
+                navigation={navigation}
                 {...{
                   productId: id,
                   expenseName: productName,
@@ -303,7 +291,7 @@ class EditProductBasicDetails extends React.Component {
                 jobId={product.jobId}
                 brands={brands}
                 categoryForms={categoryForms}
-                navigator={navigator}
+                navigation={navigation}
                 {...{
                   id,
                   productName,

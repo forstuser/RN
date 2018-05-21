@@ -73,12 +73,12 @@ class SelectServiceTypeStep extends React.Component {
   };
 
   onOptionSelect = option => {
-    Analytics.logEvent(
-      Analytics.EVENTS.SELECT_SERVICE_TYPE, { type: option.name }
-    );
+    Analytics.logEvent(Analytics.EVENTS.SELECT_SERVICE_TYPE, {
+      type: option.name
+    });
 
     const { selectedOption } = this.state;
-    //if clicked on already selected option
+    //if clicked on already selected options
     if (selectedOption && selectedOption.id == option.id) {
       return;
     } else {
@@ -155,7 +155,8 @@ class SelectServiceTypeStep extends React.Component {
                   onPress={() => this.onOptionSelect(option)}
                 >
                   <View collapsable={false} style={styles.option}>
-                    <View collapsable={false}
+                    <View
+                      collapsable={false}
                       style={[
                         styles.optionIconContainer,
                         isSelectedOption
@@ -193,7 +194,8 @@ class SelectServiceTypeStep extends React.Component {
             })}
             {selectedOption && showOtherOption ? (
               <View collapsable={false} style={styles.option}>
-                <View collapsable={false}
+                <View
+                  collapsable={false}
                   style={[
                     styles.optionIconContainer,
                     styles.selectedOptionIconContainer
@@ -215,8 +217,8 @@ class SelectServiceTypeStep extends React.Component {
                 </Text>
               </View>
             ) : (
-                <View collapsable={false} />
-              )}
+              <View collapsable={false} />
+            )}
 
             <TouchableWithoutFeedback
               onPress={() => this.otherOptionsModal.openModal()}
@@ -337,7 +339,6 @@ const styles = StyleSheet.create({
     color: colors.mainBlue,
     textAlign: "center",
     marginBottom: 6
-    // marginTop: -80
   },
   reason: {
     alignSelf: "center"

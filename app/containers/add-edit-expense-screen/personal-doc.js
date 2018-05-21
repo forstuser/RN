@@ -8,7 +8,7 @@ import Analytics from "../../analytics";
 import { API_BASE_URL, initProduct, updateProduct } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
@@ -296,7 +296,7 @@ class PersonalDoc extends React.Component {
                   copies: uploadResult.product.copies
                 });
               }}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
           </View>
         </KeyboardAwareScrollView>
@@ -313,7 +313,7 @@ class PersonalDoc extends React.Component {
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
           productId={product ? product.id : null}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           isPreviousScreenOfAddOptions={this.props.isPreviousScreenOfAddOptions}
         />
       </View>

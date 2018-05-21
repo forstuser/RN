@@ -16,7 +16,7 @@ import KeyValueItem from "../../../../components/key-value-item";
 
 class ServiceSchedules extends React.Component {
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     const { schedule, serviceSchedules } = product;
 
     const ScheduleItem = ({ schedule }) => (

@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import { connect } from "react-redux";
 
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import {
   getProfileDetail,
@@ -21,8 +21,11 @@ import LoadingOverlay from "../components/loading-overlay";
 import ErrorOverlay from "../components/error-overlay";
 
 class PinSetupScreen extends React.Component {
-  static navigatorStyle = {
-    tabBarHidden: true
+  static navigationOptions = ({ navigation }) => {
+    const resetPin = navigation.getParam("resetPin", false);
+    return {
+      title: resetPin ? I18n.t("reset_app_pin") : I18n.t("set_app_pin")
+    };
   };
 
   constructor(props) {
@@ -41,13 +44,13 @@ class PinSetupScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.navigator.setTitle({
-      title: this.props.resetPin
-        ? I18n.t("reset_app_pin")
-        : I18n.t("set_app_pin")
-    });
-
-    if (!this.props.resetPin) {
+    // this.props.navigation.setTitle({
+    //   title: this.props.resetPin
+    //     ? I18n.t("reset_app_pin")
+    //     : I18n.t("set_app_pin")
+    // });
+    const resetPin = this.props.navigation.getParam("resetPin", false);
+    if (!resetPin) {
       this.checkIfEmailAvailable();
     }
   }
@@ -153,7 +156,7 @@ class PinSetupScreen extends React.Component {
         });
       }, 200);
 
-      this.props.navigator.pop();
+      this.props.navigation.goBack();
     } catch (e) {
       this.setState({
         isLoading: false
@@ -185,7 +188,7 @@ class PinSetupScreen extends React.Component {
       <ScreenContainer style={styles.container}>
         {showEmailInput &&
           !showOtpInput && (
-            <View collapsable={false}  style={{ padding: 16 }}>
+            <View collapsable={false} style={{ padding: 16 }}>
               <CustomTextInput
                 keyboardType="email-address"
                 placeholder="Enter Email Id"
@@ -196,7 +199,7 @@ class PinSetupScreen extends React.Component {
           )}
         {!showEmailInput &&
           showOtpInput && (
-            <View collapsable={false}  style={{ padding: 16 }}>
+            <View collapsable={false} style={{ padding: 16 }}>
               <CustomTextInput
                 keyboardType="numeric"
                 placeholder="Enter OTP"
@@ -208,19 +211,19 @@ class PinSetupScreen extends React.Component {
           )}
         {!showEmailInput &&
           !showOtpInput && (
-            <View collapsable={false}  style={{ flex: 1 }}>
+            <View collapsable={false} style={{ flex: 1 }}>
               {!showRetryPin ? (
                 <PinInput
                   title="Create App PIN"
                   onSubmitPress={this.showRetryPin}
                 />
               ) : (
-                <View collapsable={false}  />
+                <View collapsable={false} />
               )}
               {showRetryPin ? (
                 <PinInput title="Confirm App PIN" onSubmitPress={this.setPin} />
               ) : (
-                <View collapsable={false}  />
+                <View collapsable={false} />
               )}
             </View>
           )}

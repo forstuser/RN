@@ -340,7 +340,7 @@ class HealthcareInsuranceForm extends React.Component {
               copies: uploadResult.product.copies
             });
           }}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           hideUploadOption={showOnlyGeneralInfo}
         />
       </View>

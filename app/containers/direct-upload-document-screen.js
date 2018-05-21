@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/dist/Ionicons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Modal from "react-native-modal";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import {
   API_BASE_URL,
@@ -34,7 +34,7 @@ import LoadingOverlay from "../components/loading-overlay";
 const uploadDocIllustration = require("../images/upload_doc_illustration.png");
 
 class DirectUploadDocumentScreen extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: true
   };
@@ -371,7 +371,7 @@ class DirectUploadDocumentScreen extends React.Component {
       () => {
         setTimeout(() => {
           this.props.showAddProductOptionsScreenOnAppear();
-          this.props.navigator.pop();
+          this.props.navigation.goBack();
         }, 500);
       }
     );
@@ -384,14 +384,11 @@ class DirectUploadDocumentScreen extends React.Component {
       },
       () => {
         setTimeout(() => {
-          this.props.navigator.pop({
+          this.props.navigation.goBack({
             animationType: "fade"
           });
-          this.props.navigator.push({
-            screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-            passProps: {
-              productId: this.state.productId
-            }
+          this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+            productId: this.state.productId
           });
         }, 200);
       }
@@ -399,7 +396,7 @@ class DirectUploadDocumentScreen extends React.Component {
   };
 
   onCrossPress = () => {
-    this.props.navigator.pop();
+    this.props.navigation.goBack();
   };
 
   render() {
@@ -431,14 +428,14 @@ class DirectUploadDocumentScreen extends React.Component {
           contentContainerStyle={styles.innerContainer}
         >
           <Image style={styles.illustration} source={uploadDocIllustration} />
-          <View collapsable={false}  style={styles.steps}>
-            <View collapsable={false}  style={[styles.step, styles.firstStep]}>
-              <View collapsable={false}  weight="Bold" style={styles.tick}>
+          <View collapsable={false} style={styles.steps}>
+            <View collapsable={false} style={[styles.step, styles.firstStep]}>
+              <View collapsable={false} weight="Bold" style={styles.tick}>
                 <Icon name="md-checkmark" size={20} color="#fff" />
               </View>
             </View>
-            <View collapsable={false}  style={styles.stepLine} />
-            <View collapsable={false}  style={[styles.step, styles.firstStep]}>
+            <View collapsable={false} style={styles.stepLine} />
+            <View collapsable={false} style={[styles.step, styles.firstStep]}>
               <Text weight="Bold" style={styles.stepText}>
                 2
               </Text>
@@ -452,7 +449,7 @@ class DirectUploadDocumentScreen extends React.Component {
             dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
             placeholder={I18n.t("add_edit_direct_category")}
             placeholderRenderer={({ placeholder }) => (
-              <View collapsable={false}  style={{ flexDirection: "row" }}>
+              <View collapsable={false} style={{ flexDirection: "row" }}>
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
                 </Text>
@@ -470,7 +467,7 @@ class DirectUploadDocumentScreen extends React.Component {
             dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
             placeholder={I18n.t("add_edit_direct_subcategory")}
             placeholderRenderer={({ placeholder }) => (
-              <View collapsable={false}  style={{ flexDirection: "row" }}>
+              <View collapsable={false} style={{ flexDirection: "row" }}>
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
                 </Text>
@@ -500,7 +497,7 @@ class DirectUploadDocumentScreen extends React.Component {
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder={I18n.t("add_edit_direct_type")}
                 placeholderRenderer={({ placeholder }) => (
-                  <View collapsable={false}  style={{ flexDirection: "row" }}>
+                  <View collapsable={false} style={{ flexDirection: "row" }}>
                     <Text
                       weight="Medium"
                       style={{ color: colors.secondaryText }}
@@ -530,7 +527,7 @@ class DirectUploadDocumentScreen extends React.Component {
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder={I18n.t("add_edit_direct_brand")}
                 placeholderRenderer={({ placeholder }) => (
-                  <View collapsable={false}  style={{ flexDirection: "row" }}>
+                  <View collapsable={false} style={{ flexDirection: "row" }}>
                     <Text
                       weight="Medium"
                       style={{ color: colors.secondaryText }}
@@ -568,7 +565,7 @@ class DirectUploadDocumentScreen extends React.Component {
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder={I18n.t("add_edit_direct_model")}
                 placeholderRenderer={({ placeholder }) => (
-                  <View collapsable={false}  style={{ flexDirection: "row" }}>
+                  <View collapsable={false} style={{ flexDirection: "row" }}>
                     <Text
                       weight="Medium"
                       style={{ color: colors.secondaryText }}
@@ -603,7 +600,7 @@ class DirectUploadDocumentScreen extends React.Component {
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder={I18n.t("add_edit_direct_insurance_provider")}
                 placeholderRenderer={({ placeholder }) => (
-                  <View collapsable={false}  style={{ flexDirection: "row" }}>
+                  <View collapsable={false} style={{ flexDirection: "row" }}>
                     <Text
                       weight="Medium"
                       style={{ color: colors.secondaryText }}
@@ -633,9 +630,9 @@ class DirectUploadDocumentScreen extends React.Component {
           <Icon name="md-close" size={30} color={colors.mainText} />
         </TouchableOpacity>
         {isFinishModalVisible ? (
-          <View collapsable={false} >
+          <View collapsable={false}>
             <Modal useNativeDriver={true} isVisible={true}>
-              <View collapsable={false}  style={styles.finishModal}>
+              <View collapsable={false} style={styles.finishModal}>
                 <Image
                   style={styles.finishImage}
                   source={{
@@ -667,7 +664,7 @@ class DirectUploadDocumentScreen extends React.Component {
             </Modal>
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
       </ScreenContainer>
     );

@@ -20,7 +20,7 @@ import {
 
 import Analytics from "../../../../analytics";
 import I18n from "../../../../i18n";
-import { showSnackbar } from "../../../snackbar";
+import { showSnackbar } from "../../../../utils/snackbar";
 
 import { Text, Image } from "../../../../elements";
 import { colors } from "../../../../theme";

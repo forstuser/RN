@@ -18,18 +18,13 @@ const searchIcon = require("../images/ic_top_search.png");
 
 class TabSearchHeader extends Component {
   openSearchScreen = () => {
-    this.props.navigator.push({
-      screen: SCREENS.SEARCH_SCREEN,
-      passProps: {
-        recentSearches: this.props.recentSearches
-      }
+    this.props.navigation.navigate(SCREENS.SEARCH_SCREEN, {
+      recentSearches: this.props.recentSearches
     });
   };
   openMailboxScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.OPEN_MAILS);
-    this.props.navigator.push({
-      screen: SCREENS.MAILBOX_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.MAILBOX_SCREEN);
   };
   render() {
     const {
@@ -64,12 +59,12 @@ class TabSearchHeader extends Component {
                   </Text>
                 </View>
               ) : (
-                  <View collapsable={false} />
-                )}
+                <View collapsable={false} />
+              )}
             </TouchableOpacity>
           ) : (
-              <View collapsable={false} />
-            )}
+            <View collapsable={false} />
+          )}
           {showRightSideSearchIcon ? (
             <TouchableOpacity
               onPress={onRightSideSearchIconPress}
@@ -78,8 +73,8 @@ class TabSearchHeader extends Component {
               <Image style={styles.messagesIcon} source={searchIcon} />
             </TouchableOpacity>
           ) : (
-              <View collapsable={false} />
-            )}
+            <View collapsable={false} />
+          )}
         </View>
         {showSearchInput ? (
           <TouchableOpacity
@@ -92,8 +87,8 @@ class TabSearchHeader extends Component {
             </Text>
           </TouchableOpacity>
         ) : (
-            <View collapsable={false} />
-          )}
+          <View collapsable={false} />
+        )}
       </View>
     );
   }

@@ -13,7 +13,6 @@ import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { Navigation } from "react-native-navigation";
 
 import Modal from "react-native-modal";
 
@@ -66,25 +65,21 @@ class PerosnalDocCard extends Component {
       };
     }
 
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_PERSONAL_DOC_SCREEN,
-      passProps: {
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        name: product.productName,
-        businessName: seller.name,
-        phone: seller.contact,
-        email: seller.email,
-        address: seller.address,
-        copies: product.copies || []
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_PERSONAL_DOC_SCREEN, {
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      name: product.productName,
+      businessName: seller.name,
+      phone: seller.contact,
+      email: seller.email,
+      address: seller.address,
+      copies: product.copies || []
     });
   };
 
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
 
     let productName = product.productName;
     if (!productName) {
@@ -136,7 +131,7 @@ class PerosnalDocCard extends Component {
           >
             <ViewBillButton
               product={product}
-              navigator={navigator}
+              navigation={navigation}
               docType="Personal Docs"
               btnText="Doc"
             />

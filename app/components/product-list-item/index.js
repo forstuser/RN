@@ -19,7 +19,7 @@ const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 const ProductListItem = ({
   product,
   onPress,
-  navigator,
+  navigation,
   hideViewBillBtn = false,
   hideDirectionsAndCallBtns = false,
   style
@@ -67,7 +67,7 @@ const ProductListItem = ({
           </Text>
           <UploadBillOptions
             ref={o => (this.uploadBillOptions = o)}
-            navigator={navigator}
+            navigation={navigation}
           />
         </TouchableOpacity>
       );
@@ -77,30 +77,27 @@ const ProductListItem = ({
   };
 
   const openProductScreen = () => {
-    navigator.push({
-      screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-      passProps: {
-        productId: product.id
-      }
+    navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+      productId: product.id
     });
   };
   switch (product.masterCategoryId) {
     case MAIN_CATEGORY_IDS.ELECTRONICS:
     case MAIN_CATEGORY_IDS.AUTOMOBILE:
       return (
-        <View collapsable={false}  style={[styles.container, style]}>
+        <View collapsable={false} style={[styles.container, style]}>
           <ProductType1 onPress={openProductScreen} product={product} />
         </View>
       );
     case MAIN_CATEGORY_IDS.PERSONAL:
       return (
-        <View collapsable={false}  style={[styles.container, style]}>
+        <View collapsable={false} style={[styles.container, style]}>
           <ProductType3 product={product} onPress={openProductScreen} />
         </View>
       );
     default:
       return (
-        <View collapsable={false}  style={[styles.container, style]}>
+        <View collapsable={false} style={[styles.container, style]}>
           <ProductType1
             product={product}
             onPress={openProductScreen}

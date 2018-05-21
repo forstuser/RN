@@ -56,7 +56,6 @@ class Direct extends Component {
       });
     }
   };
-
   render() {
     const { products, isFetchingProducts, error } = this.state;
     if (error) {
@@ -67,7 +66,7 @@ class Direct extends Component {
         <ProductsList
           mainCategoryId={this.props.category.id}
           products={products}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           onRefresh={() => this.loadProducts()}
           isLoading={isFetchingProducts}
         />

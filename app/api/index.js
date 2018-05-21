@@ -1,10 +1,10 @@
 import { Platform } from "react-native";
-import { Navigation } from "react-native-navigation";
 import axios from "axios";
 import moment from "moment";
 import store from "../store";
 import DeviceInfo from "react-native-device-info";
-import navigation, { openLoginScreen, openEnterPinPopup } from "../navigation";
+import { SCREENS } from "../constants";
+import NavigationService from "../navigation";
 import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
@@ -15,7 +15,7 @@ if (!__DEV__) {
 }
 export { API_BASE_URL };
 
-const APP_VERSION_FOR_API = 20004;
+const APP_VERSION_FOR_API = 20005;
 let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
@@ -118,7 +118,7 @@ const apiRequest = async ({
 
     if (error.statusCode == 401) {
       store.dispatch(loggedInUserActions.loggedInUserClearAllData());
-      openLoginScreen();
+      NavigationService.navigate(SCREENS.AUTH_STACK);
     } else if (error.statusCode == 402) {
       openEnterPinPopup();
     }

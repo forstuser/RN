@@ -34,12 +34,12 @@ class ChangesSavedModal extends React.Component {
 
   onOkayClick = () => {
     this.setState({ visible: false }, () => {
-      this.props.navigator.pop();
+      this.props.navigation.goBack();
     });
   };
 
   render() {
-    const { title = "Changes Saved Successfully", navigator } = this.props;
+    const { title = "Changes Saved Successfully", navigation } = this.props;
     const { visible } = this.state;
     if (!visible) return null;
 

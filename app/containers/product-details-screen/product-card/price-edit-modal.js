@@ -7,7 +7,7 @@ import { Text } from "../../../elements";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import { colors } from "../../../theme";
 import PriceEditInput from "./price-edit-input";
-import { showSnackbar } from "../../snackbar";
+import { showSnackbar } from "../../../utils/snackbar";
 import {
   updateProduct,
   updateWarranty,
@@ -158,7 +158,7 @@ class PriceEditModal extends React.Component {
     //   {
     //     name: "Total Amount",
     //     date: '',
-    //     price: totalAmount
+    //     price: totalAmount,
     //   }
     // );
     console.log("final ", amountBreakdownOptions);

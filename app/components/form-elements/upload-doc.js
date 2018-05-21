@@ -45,7 +45,7 @@ class UploadDoc extends React.Component {
 
   render() {
     let {
-      navigator,
+      navigation,
       itemId,
       copies = [],
       productId,
@@ -124,7 +124,7 @@ class UploadDoc extends React.Component {
         )}
         <UploadBillOptions
           ref={ref => (this.uploadBillOptions = ref)}
-          navigator={navigator}
+          navigation={navigation}
           uploadCallback={this.onUpload}
           actionSheetTitle={actionSheetTitle}
         />

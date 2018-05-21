@@ -24,7 +24,7 @@ import EditOptionRow from "./edit-option-row";
 
 class WarrantyDetails extends React.Component {
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     const { warrantyDetails } = product;
 
     const WarrantyItem = ({ warranty, warrantyType }) => (

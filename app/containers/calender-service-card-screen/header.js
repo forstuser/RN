@@ -30,7 +30,7 @@ class Header extends Component {
   render() {
     const {
       item,
-      navigator,
+      navigation,
       activeTabIndex = 0,
       onTabChange,
       activePaymentDetailIndex = 0,

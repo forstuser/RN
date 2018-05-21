@@ -9,7 +9,7 @@ import I18n from "../../i18n";
 import Icon from "react-native-vector-icons/Ionicons";
 import CustomDatePicker from "../../components/form-elements/date-picker";
 import LoadingOverlay from "../../components/loading-overlay";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import moment from "moment";
 
 class FinishModal extends React.Component {

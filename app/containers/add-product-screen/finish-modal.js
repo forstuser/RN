@@ -34,20 +34,11 @@ class FinishModal extends React.Component {
     });
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
-        if (!this.props.popOnDoItLater) {
-          this.props.startOver();
-        } else {
-          this.props.navigator.pop({ animationType: "fade" });
-        }
-
-        this.props.navigator.push({
-          screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-          passProps: {
-            productId: this.props.productId
-          }
+        this.props.navigation.replace(SCREENS.PRODUCT_DETAILS_SCREEN, {
+          productId: this.props.productId
         });
       } else {
-        this.props.navigator.pop({ animationType: "fade" });
+        this.props.navigation.goBack({ animationType: "fade" });
       }
     });
   };
@@ -57,7 +48,7 @@ class FinishModal extends React.Component {
       mainCategoryId,
       category,
       showRepairIcon = false,
-      navigator
+      navigation
     } = this.props;
     const { visible } = this.state;
 

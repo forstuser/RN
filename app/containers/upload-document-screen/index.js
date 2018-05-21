@@ -9,7 +9,6 @@ import {
   Alert,
   Platform
 } from "react-native";
-import { Navigation } from "react-native-navigation";
 import ActionSheet from "react-native-actionsheet";
 import ImagePicker from "react-native-image-crop-picker";
 import ScrollableTabView from "react-native-scrollable-tab-view";
@@ -28,7 +27,7 @@ import {
 import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
 
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import { uploadDocuments } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 
@@ -48,42 +47,19 @@ import { actions as uiActions } from "../../modules/ui";
 
 import Tour from "../../components/app-tour";
 
-const AddPicButton = () => (
-  <TouchableOpacity
-    style={{
-      ...Platform.select({
-        ios: {},
-        android: {
-          position: "absolute",
-          top: 10,
-          right: 4,
-          width: 40,
-          height: 30,
-          alignItems: "center",
-          justifyContent: "center"
-        }
-      })
-    }}
-    onPress={() => Navigation.handleDeepLink({ link: "new-pic-upload" })}
-  >
-    <Image style={{ width: 24, height: 24 }} source={newPicIcon} />
-  </TouchableOpacity>
-);
-
-Navigation.registerComponent("AddPicButton", () => AddPicButton);
-
 class UploadDocumentScreen extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true
-  };
-  static navigatorButtons = {
-    rightButtons: [
-      {
-        id: "new-pic-upload-btn",
-        component: "AddPicButton",
-        passProps: {}
-      }
-    ]
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    const { onOptionsPress } = params;
+
+    return {
+      title: I18n.t("upload_document_screen_title"),
+      headerRight: (
+        <TouchableOpacity onPress={onOptionsPress}>
+          <Image style={{ width: 24, height: 24 }} source={newPicIcon} />
+        </TouchableOpacity>
+      )
+    };
   };
 
   constructor(props) {
@@ -95,28 +71,20 @@ class UploadDocumentScreen extends Component {
       isSuccessModalVisible: false,
       uploadResult: null
     };
-
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("upload_document_screen_title")
-    });
-
-    if (this.props.file) {
-      this.pushFileToState(this.props.file);
+    const file = this.props.navigation.getParam("file", null);
+    if (file) {
+      this.pushFileToState(file);
     }
-  }
 
-  onNavigatorEvent = event => {
-    if (event.type == "DeepLink") {
-      //when you press the button, it will be called here
-      if (event.link == "new-pic-upload") {
+    this.props.navigation.setParams({
+      onOptionsPress: () => {
         this.uploadOptions.show();
       }
-    }
-  };
+    });
+  }
 
   handleOptionPress = index => {
     switch (index) {
@@ -204,12 +172,13 @@ class UploadDocumentScreen extends Component {
       isUploadingOverlayVisible: true,
       uploadPercentCompleted: 0
     });
+
     try {
       const res = await uploadDocuments({
-        productId: this.props.productId,
-        jobId: this.props.jobId,
-        type: this.props.type,
-        itemId: this.props.itemId,
+        productId: this.props.navigation.getParam("productId", undefined),
+        jobId: this.props.navigation.getParam("jobId", undefined),
+        type: this.props.navigation.getParam("type", undefined),
+        itemId: this.props.navigation.getParam("itemId", undefined),
         files: this.state.files,
         onUploadProgress: percentCompleted => {
           this.setState({
@@ -242,12 +211,11 @@ class UploadDocumentScreen extends Component {
   };
 
   onSuccessOkClick = () => {
-    if (typeof this.props.uploadCallback == "function") {
-      this.props.uploadCallback(this.state.uploadResult);
-      this.props.navigator.pop();
-    } else {
-      openAppScreen({ startScreen: SCREENS.DOCS_UNDER_PROCESSING_SCREEN });
+    const { uploadCallback } = this.props.navigation.state.params;
+    if (typeof uploadCallback == "function") {
+      uploadCallback(this.state.uploadResult);
     }
+    this.props.navigation.goBack();
   };
 
   removeFile = index => {
@@ -271,7 +239,7 @@ class UploadDocumentScreen extends Component {
     return (
       <ScreenContainer style={styles.container}>
         {files.length == 0 && (
-          <View collapsable={false}  style={styles.noFilesView}>
+          <View collapsable={false} style={styles.noFilesView}>
             <Image style={styles.noFilesIcon} source={fileIcon} />
             <Text weight="Bold" style={{ color: colors.secondaryText }}>
               {I18n.t("upload_document_screen_no_document_msg")}
@@ -284,7 +252,7 @@ class UploadDocumentScreen extends Component {
           </View>
         )}
         {files.length > 0 && (
-          <View collapsable={false}  style={styles.filesContainer}>
+          <View collapsable={false} style={styles.filesContainer}>
             <ScrollableTabView
               tabBarUnderlineStyle={{
                 backgroundColor: colors.mainBlue,
@@ -328,21 +296,21 @@ class UploadDocumentScreen extends Component {
           ]}
         />
         {isUploadingOverlayVisible ? (
-          <View collapsable={false} >
+          <View collapsable={false}>
             <Modal transparent visible={true}>
-              <View collapsable={false}  style={styles.loadingOverlay}>
+              <View collapsable={false} style={styles.loadingOverlay}>
                 <ActivityIndicator size="large" color={colors.mainBlue} />
                 <Text weight="Bold">{`${uploadPercentCompleted}% uploaded...`}</Text>
               </View>
             </Modal>
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
         {isSuccessModalVisible ? (
-          <View collapsable={false} >
+          <View collapsable={false}>
             <Modal visible={true}>
-              <View collapsable={false}  style={styles.successModal}>
+              <View collapsable={false} style={styles.successModal}>
                 <Image
                   style={styles.successImage}
                   source={ehomeImage}
@@ -364,13 +332,15 @@ class UploadDocumentScreen extends Component {
             </Modal>
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
-        <View collapsable={false} 
+        <View
+          collapsable={false}
           style={styles.dummyViewForFile}
           ref={ref => (this.dummyViewForFile = ref)}
         />
-        <View collapsable={false} 
+        <View
+          collapsable={false}
           style={styles.dummyViewForPlusIcon}
           ref={ref => (this.dummyPlusIconRef = ref)}
         />

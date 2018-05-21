@@ -25,33 +25,29 @@ class AllInfo extends React.Component {
     if (product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
       const insurance = product.insuranceDetails[0] || {};
 
-      this.props.navigator.push({
-        screen: SCREENS.EDIT_INSURANCE_SCREEN,
-        passProps: {
-          typeId: product.sub_category_id,
-          mainCategoryId: product.masterCategoryId,
-          categoryId: product.categoryId,
-          productId: product.id,
-          jobId: product.jobId,
-          planName: product.productName,
-          insuranceFor: product.model,
-          copies: product.copies || [],
-          insuranceId: insurance.id,
-          value: insurance.value,
-          providerId: insurance.provider_id,
-          effectiveDate: insurance.effectiveDate,
-          policyNo: insurance.policyNo,
-          amountInsured: insurance.amountInsured
-        }
+      this.props.navigation.navigate(SCREENS.EDIT_INSURANCE_SCREEN, {
+        typeId: product.sub_category_id,
+        mainCategoryId: product.masterCategoryId,
+        categoryId: product.categoryId,
+        productId: product.id,
+        jobId: product.jobId,
+        planName: product.productName,
+        insuranceFor: product.model,
+        copies: product.copies || [],
+        insuranceId: insurance.id,
+        value: insurance.value,
+        providerId: insurance.provider_id,
+        effectiveDate: insurance.effectiveDate,
+        policyNo: insurance.policyNo,
+        amountInsured: insurance.amountInsured
       });
     } else {
-      this.props.navigator.push({
-        screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
-        passProps: {
+      this.props.navigation.navigate(
+        SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
+        {
           product: product
-        },
-        overrideBackPress: true
-      });
+        }
+      );
     }
   };
   openMap = () => {
@@ -69,7 +65,7 @@ class AllInfo extends React.Component {
     getDirections(data);
   };
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     let dateText = "Date";
     if (
       [
@@ -273,7 +269,7 @@ class AllInfo extends React.Component {
         ) : (
           <InsuranceDetails
             product={product}
-            navigator={navigator}
+            navigation={navigation}
             openAddEditInsuranceScreen={this.onEditPress}
           />
         )}

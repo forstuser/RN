@@ -22,8 +22,8 @@ const calendarIcon = require("../../images/ic_calendar.png");
 const calendarIconColor = require("../../images/ic_calendar_color.png");
 
 class MyCalendarScreen extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true
+  static navigationOptions = {
+    title: I18n.t("my_calendar_screen_title")
   };
   constructor(props) {
     super(props);
@@ -32,22 +32,21 @@ class MyCalendarScreen extends Component {
       isFetchingItems: true,
       items: []
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        this.fetchItems();
-        break;
-    }
-  };
-
   componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("my_calendar_screen_title")
-    });
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
+    this.fetchItems();
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.fetchItems();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   fetchItems = async () => {
@@ -72,9 +71,7 @@ class MyCalendarScreen extends Component {
 
   openAddEditCalendarServiceScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_SERVICE);
-    this.props.navigator.push({
-      screen: SCREENS.ADD_CALENDAR_SERVICE_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.ADD_CALENDAR_SERVICE_SCREEN);
   };
 
   renderItem = ({ item, index }) => {
@@ -82,7 +79,7 @@ class MyCalendarScreen extends Component {
       <Item
         key={item.id}
         item={item}
-        navigator={this.props.navigator}
+        navigation={this.props.navigation}
         onPress={() => this.onItemPress(item)}
       />
     );

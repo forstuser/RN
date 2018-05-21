@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import call from "react-native-phone-call";
 import getDirections from "react-native-google-maps-directions";
-import { showSnackbar } from "../../containers/snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import moment from "moment";
 import { Text, Button, Image } from "../../elements";

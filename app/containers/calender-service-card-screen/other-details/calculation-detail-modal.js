@@ -23,7 +23,7 @@ import {
 import { addCalendarItemCalculationDetail } from "../../../api";
 
 import I18n from "../../../i18n";
-import { showSnackbar } from "../../snackbar";
+import { showSnackbar } from "../../../utils/snackbar";
 
 import { updateCalendarItem } from "../../../api";
 import { Text, Button } from "../../../elements";

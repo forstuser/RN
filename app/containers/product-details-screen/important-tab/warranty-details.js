@@ -35,17 +35,13 @@ class WarrantyDetails extends Component {
   openAddEditWarrantyScreen = warranty => {
     const { product, warrantyType } = this.props;
 
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_WARRANTY_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        warranty: warranty,
-        warrantyType: warrantyType
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_WARRANTY_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      warranty: warranty,
+      warrantyType: warrantyType
     });
   };
 

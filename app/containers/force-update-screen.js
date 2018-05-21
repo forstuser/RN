@@ -8,8 +8,8 @@ import { colors } from "../theme";
 const image = require("../images/upgrade.png");
 
 class ForceUpdateScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: true
+  static navigationOptions = {
+    header: null
   };
 
   openAppStore = () => {
@@ -24,14 +24,14 @@ class ForceUpdateScreen extends Component {
   render() {
     return (
       <ScreenContainer style={styles.container}>
-        <View collapsable={false}  style={styles.imageContainer}>
+        <View collapsable={false} style={styles.imageContainer}>
           <Image source={image} style={styles.image} />
         </View>
-        <View collapsable={false}  style={styles.textContainer}>
+        <View collapsable={false} style={styles.textContainer}>
           <Text style={styles.title}>
             {I18n.t("add_edit_force_update_upgrade")}
           </Text>
-          <View collapsable={false}  style={styles.subTextContainer}>
+          <View collapsable={false} style={styles.subTextContainer}>
             <Text weight="Bold" style={styles.desc}>
               {I18n.t("add_edit_force_update_text1")}
             </Text>
@@ -42,7 +42,7 @@ class ForceUpdateScreen extends Component {
               {I18n.t("add_edit_force_update_text3")}
             </Text>
           </View>
-          <View collapsable={false}  style={styles.buttonView}>
+          <View collapsable={false} style={styles.buttonView}>
             <Button
               onPress={this.openAppStore}
               style={styles.btn}
@@ -51,14 +51,14 @@ class ForceUpdateScreen extends Component {
             {this.props.allowSkip ? (
               <TouchableOpacity
                 style={styles.notNow}
-                onPress={() => this.props.navigator.dismissAllModals()}
+                onPress={() => this.props.navigation.dismissAllModals()}
               >
                 <Text weight="Bold" style={styles.notNowText}>
                   {I18n.t("add_edit_force_not_now")}
                 </Text>
               </TouchableOpacity>
             ) : (
-              <View collapsable={false}  />
+              <View collapsable={false} />
             )}
           </View>
         </View>
@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "center"
-    // marginTop: 200
   },
   textContainer: {
     flex: 1,
