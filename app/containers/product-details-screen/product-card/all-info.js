@@ -231,24 +231,24 @@ class AllInfo extends React.Component {
               {(seller.address.length > 0 ||
                 seller.city.length > 0 ||
                 seller.state.length > 0) && (
-                <KeyValueItem
-                  KeyComponent={() => (
-                    <View collapsable={false} style={{ flex: 1 }}>
-                      <Text style={{ color: colors.secondaryText }}>
-                        {I18n.t("product_details_screen_seller_address")}
-                      </Text>
-                      <Text weight="Medium" style={{ color: colors.mainText }}>
-                        {_.trim(
-                          seller.address +
+                  <KeyValueItem
+                    KeyComponent={() => (
+                      <View collapsable={false} style={{ flex: 1 }}>
+                        <Text style={{ color: colors.secondaryText }}>
+                          {I18n.t("product_details_screen_seller_address")}
+                        </Text>
+                        <Text weight="Medium" style={{ color: colors.mainText }}>
+                          {_.trim(
+                            seller.address +
                             ", " +
                             seller.city +
                             ", " +
                             seller.state,
-                          ", "
-                        )}
-                      </Text>
-                    </View>
-                  )}
+                            ", "
+                          )}
+                        </Text>
+                      </View>
+                    )}
                   /*ValueComponent={() => (
                 <TouchableOpacity onPress={this.openMap} style={{ width: 70 }}>
                   <View collapsable={false}  style={{ alignItems: "center" }}>
@@ -262,17 +262,17 @@ class AllInfo extends React.Component {
                   </View>
                 </TouchableOpacity>
               )}*/
-                />
-              )}
+                  />
+                )}
             </View>
           </View>
         ) : (
-          <InsuranceDetails
-            product={product}
-            navigation={navigation}
-            openAddEditInsuranceScreen={this.onEditPress}
-          />
-        )}
+            <InsuranceDetails
+              product={product}
+              navigation={navigation}
+              openAddEditInsuranceScreen={this.onEditPress}
+            />
+          )}
       </View>
     );
   }

@@ -31,11 +31,12 @@ class BasicDetailsForm extends React.Component {
       nextDueDate: null,
       nextDueDateId: null,
       sellerName: "",
-      sellerContact: ""
+      sellerAddress: "",
+      sellerContact: "",
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
@@ -57,6 +58,7 @@ class BasicDetailsForm extends React.Component {
       value = null,
       sellerName = "",
       sellerContact = "",
+      sellerAddress = "",
       copies = []
     } = props;
 
@@ -80,6 +82,7 @@ class BasicDetailsForm extends React.Component {
       selectedSubCategory,
       value,
       sellerName,
+      sellerAddress,
       sellerContact,
       copies
     });
@@ -94,6 +97,7 @@ class BasicDetailsForm extends React.Component {
       nextDueDate,
       nextDueDateId,
       sellerName,
+      sellerAddress,
       value
     } = this.state;
 
@@ -112,6 +116,7 @@ class BasicDetailsForm extends React.Component {
       productName: expenseName || category.name,
       purchaseDate: date,
       sellerName: sellerName,
+      sellerAddress: sellerAddress,
       sellerContact: this.sellerContactRef
         ? this.sellerContactRef.getFilledData()
         : undefined,
@@ -152,6 +157,7 @@ class BasicDetailsForm extends React.Component {
       selectedSubCategory,
       value,
       sellerName,
+      sellerAddress,
       sellerContact,
       copies
     } = this.state;
@@ -185,8 +191,8 @@ class BasicDetailsForm extends React.Component {
               hideAddNew={true}
             />
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
 
           {showFullForm ? (
             <CustomTextInput
@@ -196,8 +202,8 @@ class BasicDetailsForm extends React.Component {
               hint={I18n.t("expense_forms_expense_basic_expense_recommend")}
             />
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
 
           <CustomDatePicker
             date={date}
@@ -230,8 +236,8 @@ class BasicDetailsForm extends React.Component {
               }}
             />
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
 
           {showFullForm ? (
             <View collapsable={false}>
@@ -242,6 +248,11 @@ class BasicDetailsForm extends React.Component {
                 value={sellerName}
                 onChangeText={sellerName => this.setState({ sellerName })}
               />
+              <CustomTextInput
+                placeholder={"Seller Address"}
+                value={sellerAddress}
+                onChangeText={sellerAddress => this.setState({ sellerAddress })}
+              />
               <ContactFields
                 ref={ref => (this.sellerContactRef = ref)}
                 value={sellerContact}
@@ -251,8 +262,8 @@ class BasicDetailsForm extends React.Component {
               />
             </View>
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
         </View>
         <UploadDoc
           title={I18n.t("expense_forms_expense_basic_detail")}
