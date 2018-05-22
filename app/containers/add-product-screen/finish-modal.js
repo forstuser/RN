@@ -68,12 +68,12 @@ class FinishModal extends React.Component {
           break;
         }
       default:
-        title = "Expense added to your eHome";
+        title = "Expense added in your eHome";
         btnText = "ADD MORE EXPENSE";
     }
 
     if (!mainCategoryId) {
-      title = "Repair added to the product";
+      title = "Repair details added to the product card";
       btnText = "ADD MORE PRODUCTS";
     }
     if (!visible) return null;

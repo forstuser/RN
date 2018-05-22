@@ -282,13 +282,14 @@ class ProductDetailsScreen extends Component {
         let title = I18n.t("product_details_screen_title");
         if (
           [
+            MAIN_CATEGORY_IDS.FASHION,
             MAIN_CATEGORY_IDS.TRAVEL,
             MAIN_CATEGORY_IDS.SERVICES,
             MAIN_CATEGORY_IDS.HEALTHCARE,
             MAIN_CATEGORY_IDS.HOUSEHOLD
           ].indexOf(product.masterCategoryId) > -1
         ) {
-          title = "Expense Details";
+          title = "Expense Card";
         }
         switch (product.categoryId) {
           case CATEGORY_IDS.HEALTHCARE.INSURANCE:
@@ -298,6 +299,8 @@ class ProductDetailsScreen extends Component {
             title = "Visiting Card Details";
             break;
           case CATEGORY_IDS.PERSONAL.RENT_AGREEMENT:
+            title = "Agreement Details";
+            break;
           case CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC:
           case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
             title = "Document Details";

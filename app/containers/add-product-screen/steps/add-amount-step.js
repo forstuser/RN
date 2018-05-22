@@ -11,14 +11,13 @@ import {
 } from "react-native";
 import I18n from "../../../i18n";
 import { API_BASE_URL, updateProduct } from "../../../api";
-import { MAIN_CATEGORY_IDS } from "../../../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 import { Text, Button } from "../../../elements";
 import { colors } from "../../../theme";
 import { showSnackbar } from "../../../utils/snackbar";
 import LoadingOverlay from "../../../components/loading-overlay";
 import SelectOrCreateItem from "../../../components/select-or-create-item";
 import AmountTextInput from "../../../components/form-elements/amount-text-input";
-
 import Step from "../../../components/step";
 
 class AddAmountStep extends React.Component {
@@ -78,13 +77,75 @@ class AddAmountStep extends React.Component {
 
     const { mainCategoryId, category, product } = this.props;
 
+    switch (category.id) {
+      case CATEGORY_IDS.TRAVEL.TRAVEL:
+        title = "Add Travel Expense Amount";
+        break;
+      case CATEGORY_IDS.TRAVEL.HOTEL_STAY:
+        title = "Add Hotel Stay Expense Amount";
+        break;
+      case CATEGORY_IDS.TRAVEL.DINING:
+        title = "Add Dining Expense Amount";
+        break;
+
+      case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
+        title = "Add Medical Bill Expense Amount";
+        break;
+      case CATEGORY_IDS.HEALTHCARE.HOSPITAL_DOC:
+        title = "Add Hospital Bill Expense Amount";
+        break;
+
+      case CATEGORY_IDS.FASHION.FOOTWEAR:
+        title = "Add Footware Expense Amount";
+        break;
+      case CATEGORY_IDS.FASHION.SHADES:
+        title = "Add Shades Expense Amount";
+        break;
+      case CATEGORY_IDS.FASHION.WATCHES:
+        title = "Add Watch Expense Amount";
+        break;
+      case CATEGORY_IDS.FASHION.CLOTHS:
+        title = "Add Cloth Expense Amount";
+        break;
+      case CATEGORY_IDS.FASHION.BAGS:
+        title = "Add Bag Expense Amount";
+        break;
+      case CATEGORY_IDS.FASHION.JEWELLERY:
+        title = "Add Jewellery & Accessories Expense Amount";
+        break;
+      case CATEGORY_IDS.FASHION.MAKEUP:
+        title = "Add Make-Up Expense Amount";
+        break;
+
+      case CATEGORY_IDS.SERVICES.PROFESSIONAL:
+        title = "Add Beauty & Salon Expense Amount";
+        break;
+      case CATEGORY_IDS.SERVICES.LESSIONS_HOBBIES:
+        title = "Add Lessons & Hobbies Expense Amount";
+        break;
+      case CATEGORY_IDS.SERVICES.OTHER_SERVICES:
+        title = "Add Other Services Expense Amount";
+        break;
+
+      case CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE:
+        title = "Add Household Expense Amount";
+        break;
+      case CATEGORY_IDS.HOUSEHOLD.EDUCATION:
+        title = "Add Education Expense Amount";
+        break;
+      case CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS:
+        title = "Add Utility Bill Expense Amount";
+        break;
+      case CATEGORY_IDS.HOUSEHOLD.HOME_DECOR:
+        title = "Add Home Decor & Furnishing Expense Amount";
+        break;
+      case CATEGORY_IDS.HOUSEHOLD.OTHER_HOUSEHOLD_EXPENSE:
+        title = "Add Other Household Expense Amount";
+        break;
+    }
     return (
-      <Step
-        title={`Add ${category.name} Amount`}
-        showLoader={isLoading}
-        {...this.props}
-      >
-        <View collapsable={false}  style={{ padding: 20 }}>
+      <Step title={title} showLoader={isLoading} {...this.props}>
+        <View collapsable={false} style={{ padding: 20 }}>
           <AmountTextInput
             ref={ref => (this.input = ref)}
             placeholder={"Amount"}

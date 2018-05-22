@@ -267,7 +267,7 @@ export default {
   more_screen_no_update_available: "No update available",
 
   //product details screen
-  product_details_screen_title: "Product Details",
+  product_details_screen_title: "Product Card",
   product_details_screen_view_bill_btn: "VIEW BILL",
   product_details_screen_upload_bill_btn: "UPLOAD BILL",
   product_details_screen_no_bill_msg: "*Product bill not added",
