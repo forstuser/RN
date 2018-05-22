@@ -2,6 +2,7 @@ import React from "react";
 import { Linking, NativeModules, Platform } from "react-native";
 import { createSwitchNavigator } from "react-navigation";
 import { connect } from "react-redux";
+import SplashScreen from "react-native-splash-screen";
 import URI from "urijs";
 import FCM, {
   FCMEvent,
@@ -205,6 +206,7 @@ handleDeeplink = url => {
 
 class RootNavigation extends React.Component {
   async componentDidMount() {
+    SplashScreen.hide();
     console.log("this.props: ", this.props);
     if (!this.props.isUserLoggedIn) {
       NavigationService.navigate(SCREENS.AUTH_STACK);

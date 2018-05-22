@@ -1,6 +1,5 @@
 package com.bin.binbillcustomer;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.os.StrictMode;
@@ -27,6 +26,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -177,6 +177,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
               new MainReactPackage(),
+              new SplashScreenReactPackage(),
               new RNSharePackage(),
               new RNFetchBlobPackage(),
               new RNViewShotPackage(),
