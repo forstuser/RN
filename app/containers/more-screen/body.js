@@ -54,7 +54,7 @@ class Body extends Component {
 
   onAscItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ASC_FROM_MORE);
-    this.props.navigation.navigator(SCREENS.ASC_SCREEN);
+    this.props.navigation.navigate(SCREENS.ASC_SCREEN);
   };
 
   onEhomeItemPress = () => {
@@ -71,7 +71,7 @@ class Body extends Component {
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-        profile ? profile.mobile_no : ""
+      profile ? profile.mobile_no : ""
       })`
     );
   };
@@ -124,7 +124,7 @@ class Body extends Component {
   onPinOptionPress = i => {
     if (i < 2) {
       if (i == 0) {
-        this.props.navigation.navigate(SCREENS.PIN_SETUP_SCREEN);
+        this.props.navigation.navigate(SCREENS.PIN_SETUP_SCREEN, { updatePin: true });
       } else {
         this.props.removePin();
       }

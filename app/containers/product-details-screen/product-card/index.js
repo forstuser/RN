@@ -212,7 +212,8 @@ class ProductCard extends Component {
               />
             )}
             {activeTabIndex == 1 && (
-              <AllInfo product={product} navigation={this.props.navigation} />
+              <AllInfo product={product} navigation={this.props.navigation} cardWidthWhenMany={cardWidthWhenMany}
+                cardWidthWhenOne={cardWidthWhenOne} />
             )}
             {activeTabIndex == 2 && (
               <Important
