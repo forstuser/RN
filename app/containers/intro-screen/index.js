@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { Platform, StyleSheet, View, Image, Dimensions } from "react-native";
 
 import AppIntroSlider from "react-native-app-intro-slider";
-import { openLoginScreen } from "../../navigation";
 import I18n from "../../i18n";
 
 import { Text, Button } from "../../elements";
 import { colors } from "../../theme";
 
 import IntroSlide from "./intro-slide";
+import { SCREENS } from "../../constants";
 
 const slides = [
   {
@@ -44,6 +44,10 @@ const slides = [
 ];
 
 class Intro extends Component {
+  openLoginScreen = () => {
+    this.props.navigation.navigate(SCREENS.AUTH_STACK);
+  };
+
   renderNextButton = () => {
     return (
       <View collapsable={false} style={styles.nextBtn}>
@@ -72,7 +76,7 @@ class Intro extends Component {
     return (
       <View collapsable={false} style={styles.doneBtnContainer}>
         <Button
-          onPress={openLoginScreen}
+          onPress={this.openLoginScreen}
           text={I18n.t("app_intro_start")}
           weight="Bold"
           style={styles.doneBtn}
@@ -89,8 +93,8 @@ class Intro extends Component {
         renderNextButton={this.renderNextButton}
         dotColor="#cef0ff"
         activeDotColor="#00b2ff"
-        onDone={openLoginScreen}
-        onSkip={openLoginScreen}
+        onDone={this.openLoginScreen}
+        onSkip={this.openLoginScreen}
         slides={slides}
         renderItem={IntroSlide}
       />
