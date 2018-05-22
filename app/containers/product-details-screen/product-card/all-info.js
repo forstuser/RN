@@ -18,6 +18,7 @@ let mapIcon = require("../../../images/ic_details_map.png");
 
 import InsuranceDetails from "./important/insurance-details";
 import ViewMoreBtn from "../../../components/view-more-btn";
+import Important from "./important"
 
 class AllInfo extends React.Component {
   state = {
@@ -89,7 +90,7 @@ class AllInfo extends React.Component {
   };
   render() {
     const { listHeight, sellerName } = this.state;
-    const { product, navigation } = this.props;
+    const { product, navigation, cardWidthWhenMany, cardWidthWhenOne } = this.props;
     let dateText = "Date";
     if (
       [
@@ -238,6 +239,12 @@ class AllInfo extends React.Component {
                 onPress={this.toggleListHeight}
               />
             </View>
+            <Important
+              product={product}
+              navigation={navigation}
+              cardWidthWhenMany={cardWidthWhenMany}
+              cardWidthWhenOne={cardWidthWhenOne}
+            />
           </View>
         ) : (
             <InsuranceDetails
