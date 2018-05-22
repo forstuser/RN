@@ -89,27 +89,6 @@ class DashboardScreen extends React.Component {
       }
     );
 
-    if (this.props.screenOpts) {
-      const screenOpts = this.props.screenOpts;
-      switch (screenOpts.startScreen) {
-        case SCREENS.MAILBOX_SCREEN:
-          this.refs.tabSearchHeader.openMailboxScreen();
-          break;
-        case SCREENS.INSIGHTS_SCREEN:
-          this.openInsightScreen({ screenOpts: screenOpts });
-          break;
-        case SCREENS.ADD_PRODUCT_SCREEN:
-          this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN);
-          break;
-        case SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN:
-          this.props.navigation.navigate(SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN);
-          break;
-        case SCREENS.TIPS_SCREEN:
-          this.props.navigation.navigate(SCREENS.TIPS_SCREEN);
-          break;
-      }
-    }
-
     this.fetchDashboardData();
     const r = await getProfileDetail();
     const user = r.userProfile;

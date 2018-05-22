@@ -1,6 +1,8 @@
 import React from "react";
-import { Linking, NativeModules, Platform } from "react-native";
+import { Linking, NativeModules, Platform, AppState } from "react-native";
 import { createSwitchNavigator } from "react-navigation";
+import codePush from "react-native-code-push";
+import moment from "moment";
 import { connect } from "react-redux";
 import SplashScreen from "react-native-splash-screen";
 import URI from "urijs";
@@ -23,7 +25,7 @@ import store from "../store";
 import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 
-import { openAppScreen, openEnterPinPopup } from "./index";
+import { openEnterPinPopup } from "./index";
 
 import { addFcmToken, verifyEmail } from "../api";
 
@@ -96,14 +98,19 @@ handleNotification = notif => {
     case "7":
       screenToOpen = SCREENS.EHOME_SCREEN;
       break;
-    case ("8", "10", "11", "12", "13", "14", "18", "25"):
+    case "8":
+    case "10":
+    case "11":
+    case "12":
+    case "13":
+    case "14":
+    case "18":
+    case "25":
       screenToOpen = SCREENS.PRODUCT_DETAILS_SCREEN;
       params = { productId: notif.id };
       break;
     case "9":
-      return Linking.openURL(
-        "https://itunes.apple.com/in/app/binbill/id1328873045"
-      ).catch(err => openAppScreen());
+      return Linking.openURL("http://onelink.to/yemp45").catch(err => {});
     case "16":
     case "17":
       screenToOpen = SCREENS.PRODUCT_DETAILS_SCREEN;
@@ -130,6 +137,8 @@ handleNotification = notif => {
       break;
     default:
   }
+
+  console.log("screenToOpen: ", screenToOpen);
 
   if (authToken && screenToOpen) {
     NavigationService.navigate(screenToOpen, params);
@@ -204,8 +213,55 @@ handleDeeplink = url => {
   }
 };
 
+const urlForDirectFileUpload = filePath => {
+  // 2 'files' because it should be array when parsed
+  return `https://www.binbill.com/direct-upload-document?files=${filePath}&files=${filePath}`;
+};
+
+//things to do on app resume
+AppState.addEventListener("change", nextAppState => {
+  console.log("nextAppState: ", nextAppState);
+  if (nextAppState === "background") {
+    global[GLOBAL_VARIABLES.LAST_ACTIVE_TIMESTAMP] = moment().toISOString();
+  } else if (nextAppState === "active") {
+    if (
+      global[GLOBAL_VARIABLES.LAST_ACTIVE_TIMESTAMP] &&
+      moment().diff(
+        moment(global[GLOBAL_VARIABLES.LAST_ACTIVE_TIMESTAMP]),
+        "minutes"
+      ) > 10 &&
+      store.getState().loggedInUser.isPinSet
+    ) {
+      NavigationService.navigate(SCREENS.ENTER_PIN_POPUP_SCREEN);
+    }
+
+    if (Platform.OS == "android") {
+      //a timeout so that native android can save the 'filePath' in shared preferences
+      setTimeout(async () => {
+        const filePath = await NativeModules.RNDirectUploadFileModule.getFIlePath();
+        if (filePath) {
+          url = urlForDirectFileUpload(filePath);
+          handleDeeplink(url);
+        }
+      }, 1000);
+    }
+
+    codePush.sync({
+      deploymentKey: store.getState().loggedInUser.codepushDeploymentStaging
+        ? CODEPUSH_KEYS.STAGING
+        : CODEPUSH_KEYS.PRODUCTION
+    });
+  }
+});
+
 class RootNavigation extends React.Component {
   async componentDidMount() {
+    codePush.sync({
+      deploymentKey: this.props.codepushDeploymentStaging
+        ? CODEPUSH_KEYS.STAGING
+        : CODEPUSH_KEYS.PRODUCTION
+    });
+
     SplashScreen.hide();
     console.log("this.props: ", this.props);
     if (!this.props.isUserLoggedIn) {
@@ -250,7 +306,7 @@ class RootNavigation extends React.Component {
       console.log("FilePath: ", filePath);
       if (filePath) {
         // 2 'files' because it should be array when parsed
-        url = `https://www.binbill.com/direct-upload-document?files=${filePath}&files=${filePath}`;
+        url = urlForDirectFileUpload(filePath);
       }
     }
     if (url) {
@@ -282,8 +338,10 @@ class RootNavigation extends React.Component {
   }
 }
 
-export default connect(store => ({
+const mapStateToProps = store => ({
   isUserLoggedIn: store.loggedInUser.authToken ? true : false,
   isPinSet: store.loggedInUser.isPinSet,
-  authToken: store.loggedInUser.authToken
-}))(RootNavigation);
+  authToken: store.loggedInUser.authToken,
+  codepushDeploymentStaging: store.loggedInUser.codepushDeploymentStaging
+});
+export default connect(mapStateToProps)(RootNavigation);

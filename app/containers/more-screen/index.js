@@ -50,19 +50,7 @@ class MoreScreen extends Component {
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.CLICK_MORE);
     this.fetchProfile();
-    if (this.props.screenOpts) {
-      const screenOpts = this.props.screenOpts;
-      switch (screenOpts.startScreen) {
-        case SCREENS.FAQS_SCREEN:
-          this.props.navigation.navigate(SCREENS.FAQS_SCREEN);
-          break;
-        case SCREENS.PROFILE_SCREEN:
-          this.setState({
-            startWithProfileScreen: true
-          });
-          break;
-      }
-    }
+
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {

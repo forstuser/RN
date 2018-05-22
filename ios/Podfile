@@ -37,6 +37,8 @@ target 'BinBill' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'RNSnackbar', :path => '../node_modules/react-native-snackbar'
+
   target 'BinBillTests' do
     inherit! :search_paths
     # Pods for testing

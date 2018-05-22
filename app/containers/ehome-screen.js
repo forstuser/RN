@@ -52,21 +52,6 @@ class EhomeScreen extends Component {
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
     this.fetchEhomeData();
-    if (this.props.screenOpts) {
-      const screenOpts = this.props.screenOpts;
-      switch (screenOpts.startScreen) {
-        case SCREENS.DOCS_UNDER_PROCESSING_SCREEN:
-          this.setState({
-            startWithPendingDocsScreen: true
-          });
-          break;
-        case SCREENS.PRODUCT_DETAILS_SCREEN:
-          this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
-            productId: screenOpts.productId
-          });
-          break;
-      }
-    }
 
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
