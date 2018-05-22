@@ -6,8 +6,15 @@ import {
   Alert,
   TouchableOpacity,
   ScrollView,
-  Platform
+  Platform,
+  ActivityIndicator,
+  NativeAppEventEmitter,
+  DeviceEventEmitter,
+  NativeModules,
+  NativeEventEmitter,
+  Modal
 } from "react-native";
+import OpenFile from "react-native-doc-viewer";
 import Icon from "react-native-vector-icons/EvilIcons";
 import Vicon from "react-native-vector-icons/Ionicons";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
@@ -39,9 +46,20 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      review: null
+      review: null,
+      visible: false
     };
   }
+
+  // this.eventEmitter = new NativeEventEmitter(NativeModules.RNReactNativeDocViewer);
+  // this.eventEmitter.addListener('DoneButtonEvent', (data) => {
+  //   /*
+  //   *Done Button Clicked
+  //   * return true
+  //   */
+  //   console.log(data.close);
+  //   this.setState({donebuttonclicked: data.close});
+  // })
 
   componentDidMount = () => {
     const { productReviews } = this.props.product;
@@ -53,6 +71,54 @@ class Header extends Component {
         }
       });
     }
+  };
+
+  close = () => {
+    this.setState({ visible: false });
+  };
+
+  handlePress = () => {
+    // this.setState({ visible: true });
+    alert("test");
+    OpenFile.openDoc(
+      [
+        {
+          url:
+            "https://www.mrright.in/Content/Assets/MrRightDevelopersAPI_Version1-2.pdf",
+          // url: "https://calibre-ebook.com/downloads/demos/demo.doc",
+          fileName: "sample",
+          cache: false,
+          fileType: "pdf"
+        }
+      ],
+      (error, url) => {
+        console.log("error: ", error);
+      }
+    );
+    // else {
+    //   //Android
+    //   this.setState({ animating: true });
+    //   OpenFile.openDoc(
+    //     [
+    //       {
+    //         url:
+    //           "https://www.huf-haus.com/fileadmin/Bilder/Header/ART_3/Header_HUF_Haus_ART_3___1_.jpg", // Local "file://" + filepath
+    //         fileName: "sample",
+    //         cache: false,
+    //         fileType: "jpg"
+    //       }
+    //     ],
+    //     (error, url) => {
+    //       if (error) {
+    //         this.setState({ animating: false });
+    //         console.error(error);
+    //       } else {
+    //         this.setState({ animating: false });
+    //         console.log(url);
+    //       }
+    //     }
+    //   );
+    // }
   };
 
   render() {
@@ -70,7 +136,7 @@ class Header extends Component {
       reviewBtnRef
     } = this.props;
 
-    const { review } = this.state;
+    const { review, visible } = this.state;
 
     let productName = product.productName;
     if (!productName) {
@@ -117,215 +183,238 @@ class Header extends Component {
       };
     }
     return (
-      <View style={styles.container}>
-        {/* Category Image Start*/}
-        <TouchableOpacity
-          onPress={() => {
-            product.file_type ? this.imageModal.show() : "";
-          }}
-          style={styles.upparHalf}
-        >
-          <Image style={styles.bg} source={headerBg} resizeMode="cover" />
-          {!product.file_type && (
-            <Image
-              key={new Date()}
-              style={styles.image}
-              source={imageSource}
-              resizeMode="contain"
-            />
-          )}
-        </TouchableOpacity>
-        {/* Category Image End */}
+      <TouchableOpacity>
+        {visible && (
+          <Modal useNativeDriver={true} isVisible={true}>
+            <View collapsable={false} style={styles.finishModal}>
+              <Text weight="Bold">POPUP</Text>
+              <TouchableOpacity onPress={this.close}>
+                <Text>Close</Text>
+              </TouchableOpacity>
+              <Image
+                source={{
+                  uri: "https://calibre-ebook.com/downloads/demos/demo.docx"
+                }}
+                resizeMode="contain"
+              />
+            </View>
+          </Modal>
+        )}
 
-        <View style={styles.lowerHalf}>
-          <View style={styles.lowerHalfInner}>
-            <View style={{ flexDirection: "column" }}>
-              <View style={{ flex: 1, flexDirection: "row" }}>
-                <Text weight="Bold" style={styles.name}>
-                  {productName}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => this.priceEditModal.show()}
-                  style={styles.totalContainer}
+        <View style={styles.container}>
+          {/* Category Image Start*/}
+          <TouchableOpacity
+            onPress={() => {
+              product.file_type ? this.imageModal.show() : "";
+            }}
+            style={styles.upparHalf}
+          >
+            <Image style={styles.bg} source={headerBg} resizeMode="cover" />
+            {!product.file_type && (
+              <Image
+                key={new Date()}
+                style={styles.image}
+                source={imageSource}
+                resizeMode="contain"
+              />
+            )}
+          </TouchableOpacity>
+          {/* Category Image End */}
+
+          <View style={styles.lowerHalf}>
+            <View style={styles.lowerHalfInner}>
+              <View style={{ flexDirection: "column" }}>
+                <View style={{ flex: 1, flexDirection: "row" }}>
+                  <Text weight="Bold" style={styles.name}>
+                    {productName}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => this.priceEditModal.show()}
+                    style={styles.totalContainer}
+                  >
+                    <View>
+                      <Text weight="Bold" style={styles.totalAmount}>
+                        ₹ {totalAmount}
+                      </Text>
+                    </View>
+                    <Image style={styles.dropdownIcon} source={dropdownIcon} />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.texts}>
+                  {product.warrantyDetails.length > 0 && (
+                    <Text weight="Medium" style={styles.brandAndModel}>
+                      Warranty till
+                      {moment(product.warrantyDetails[0].expiryDate).format(
+                        "DD MMM YYYY"
+                      )}
+                    </Text>
+                  )}
+                  {product.insuranceDetails.length > 0 && (
+                    <Text weight="Medium" style={styles.brandAndModel}>
+                      Insurance till
+                      {moment(product.insuranceDetails[0].expiryDate).format(
+                        "DD MMM YYYY"
+                      )}
+                    </Text>
+                  )}
+                </View>
+              </View>
+              {/* 3 buttons (view bill,share and rating) start */}
+              <TouchableOpacity onPress={this.handlePress.bind(this)}>
+                <Text>Open</Text>
+              </TouchableOpacity>
+
+              <View style={styles.btns}>
+                <View
+                  style={{
+                    alignItems: "center"
+                  }}
                 >
-                  <View>
-                    <Text weight="Bold" style={styles.totalAmount}>
-                      ₹ {totalAmount}
+                  <ViewBillButton
+                    viewRef={ref => viewBillRef(ref)}
+                    product={product}
+                    navigator={navigator}
+                    style={{
+                      position: "relative",
+                      top: 10,
+                      right: undefined
+                    }}
+                  />
+                </View>
+                {[
+                  MAIN_CATEGORY_IDS.AUTOMOBILE,
+                  MAIN_CATEGORY_IDS.ELECTRONICS,
+                  MAIN_CATEGORY_IDS.FURNITURE,
+                  MAIN_CATEGORY_IDS.FASHION
+                ].indexOf(product.masterCategoryId) > -1 && (
+                  <View
+                    style={{
+                      alignItems: "center"
+                    }}
+                  >
+                    <TouchableOpacity
+                      ref={ref => shareBtnRef(ref)}
+                      onPress={() => this.shareModal.show()}
+                      style={styles.btnShare}
+                    >
+                      <Icon
+                        name={
+                          Platform.OS == "ios" ? "share-apple" : "share-google"
+                        }
+                        size={25}
+                        color={colors.mainBlue}
+                      />
+                    </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {I18n.t("share_card").toUpperCase()}
                     </Text>
                   </View>
-                  <Image style={styles.dropdownIcon} source={dropdownIcon} />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.texts}>
-                {product.warrantyDetails.length > 0 && (
-                  <Text weight="Medium" style={styles.brandAndModel}>
-                    Warranty till{" "}
-                    {moment(product.warrantyDetails[0].expiryDate).format(
-                      "DD MMM YYYY"
-                    )}
-                  </Text>
                 )}
-                {product.insuranceDetails.length > 0 && (
-                  <Text weight="Medium" style={styles.brandAndModel}>
-                    Insurance till{" "}
-                    {moment(product.insuranceDetails[0].expiryDate).format(
-                      "DD MMM YYYY"
-                    )}
-                  </Text>
-                )}
-              </View>
-            </View>
-            {/* 3 buttons (view bill,share and rating) start */}
-            <View style={styles.btns}>
-              <View
-                style={{
-                  alignItems: "center"
-                }}
-              >
-                <ViewBillButton
-                  viewRef={ref => viewBillRef(ref)}
-                  product={product}
-                  navigator={navigator}
-                  style={{
-                    position: "relative",
-                    top: 10,
-                    right: undefined
-                  }}
-                />
-              </View>
-              {[
-                MAIN_CATEGORY_IDS.AUTOMOBILE,
-                MAIN_CATEGORY_IDS.ELECTRONICS,
-                MAIN_CATEGORY_IDS.FURNITURE,
-                MAIN_CATEGORY_IDS.FASHION
-              ].indexOf(product.masterCategoryId) > -1 && (
-                <View
-                  style={{
-                    alignItems: "center"
-                  }}
-                >
-                  <TouchableOpacity
-                    ref={ref => shareBtnRef(ref)}
-                    onPress={() => this.shareModal.show()}
-                    style={styles.btnShare}
+                {[
+                  MAIN_CATEGORY_IDS.AUTOMOBILE,
+                  MAIN_CATEGORY_IDS.ELECTRONICS,
+                  MAIN_CATEGORY_IDS.FURNITURE,
+                  MAIN_CATEGORY_IDS.FASHION
+                ].indexOf(product.masterCategoryId) > -1 && (
+                  <View
+                    style={{
+                      alignItems: "center"
+                    }}
                   >
-                    <Icon
-                      name={
-                        Platform.OS == "ios" ? "share-apple" : "share-google"
-                      }
-                      size={25}
-                      color={colors.mainBlue}
-                    />
-                  </TouchableOpacity>
-                  <Text weight="Medium" style={styles.btnText}>
-                    {I18n.t("share_card").toUpperCase()}
-                  </Text>
-                </View>
-              )}
-              {[
-                MAIN_CATEGORY_IDS.AUTOMOBILE,
-                MAIN_CATEGORY_IDS.ELECTRONICS,
-                MAIN_CATEGORY_IDS.FURNITURE,
-                MAIN_CATEGORY_IDS.FASHION
-              ].indexOf(product.masterCategoryId) > -1 && (
-                <View
-                  style={{
-                    alignItems: "center"
-                  }}
-                >
-                  <TouchableOpacity
-                    ref={ref => reviewBtnRef(ref)}
-                    onPress={() => this.reviewModal.show()}
-                    style={styles.btn}
-                  >
-                    <Icon name="star" size={25} color={colors.yellow} />
-                  </TouchableOpacity>
-                  <Text weight="Medium" style={styles.btnText}>
-                    {review ? review.ratings : I18n.t("review").toUpperCase()}
-                  </Text>
-                </View>
-              )}
-            </View>
-            {/* 3 buttons (view bill,share and rating) end */}
-            <View style={styles.tabs}>
-              {[
-                I18n.t("product_details_screen_tab_customer_care"),
-                I18n.t("product_details_screen_tab_all_info"),
-                I18n.t("product_details_screen_tab_important")
-              ].map((tab, index) => {
-                if (
-                  (!showCustomerCareTab && index == 0) ||
-                  (!showImportantTab && index == 2)
-                ) {
-                  return null;
-                }
-                return (
-                  <TouchableOpacity
-                    onPress={() => onTabChange(index)}
-                    key={index}
-                    style={[styles.tab]}
-                  >
-                    <Text
-                      numberOfLines={1}
-                      weight="Bold"
-                      style={[
-                        styles.tabText,
-                        index == activeTabIndex ? styles.activeTabText : {}
-                      ]}
+                    <TouchableOpacity
+                      ref={ref => reviewBtnRef(ref)}
+                      onPress={() => this.reviewModal.show()}
+                      style={styles.btn}
                     >
-                      {tab}
+                      <Icon name="star" size={25} color={colors.yellow} />
+                    </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {review ? review.ratings : I18n.t("review").toUpperCase()}
                     </Text>
-                    <View
-                      style={
-                        index == activeTabIndex ? styles.activeIndicator : {}
-                      }
-                    />
-                  </TouchableOpacity>
-                );
-              })}
+                  </View>
+                )}
+              </View>
+              {/* 3 buttons (view bill,share and rating) end */}
+              <View style={styles.tabs}>
+                {[
+                  I18n.t("product_details_screen_tab_customer_care"),
+                  I18n.t("product_details_screen_tab_all_info"),
+                  I18n.t("product_details_screen_tab_important")
+                ].map((tab, index) => {
+                  if (
+                    (!showCustomerCareTab && index == 0) ||
+                    (!showImportantTab && index == 2)
+                  ) {
+                    return null;
+                  }
+                  return (
+                    <TouchableOpacity
+                      onPress={() => onTabChange(index)}
+                      key={index}
+                      style={[styles.tab]}
+                    >
+                      <Text
+                        numberOfLines={1}
+                        weight="Bold"
+                        style={[
+                          styles.tabText,
+                          index == activeTabIndex ? styles.activeTabText : {}
+                        ]}
+                      >
+                        {tab}
+                      </Text>
+                      <View
+                        style={
+                          index == activeTabIndex ? styles.activeIndicator : {}
+                        }
+                      />
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              <ReviewModal
+                ref={ref => (this.reviewModal = ref)}
+                product={product}
+                review={review}
+                onNewReview={review =>
+                  this.setState({
+                    review: {
+                      ratings: review.ratings,
+                      feedback: review.feedback
+                    }
+                  })
+                }
+              />
+              <ShareModal
+                ref={ref => (this.shareModal = ref)}
+                product={product}
+                fetchProductDetails={this.props.fetchProductDetails}
+                loggedInUser={loggedInUser}
+                setLoggedInUserName={setLoggedInUserName}
+                review={review}
+                onNewReview={review =>
+                  this.setState({
+                    review: {
+                      ratings: review.ratings,
+                      feedback: review.feedback
+                    }
+                  })
+                }
+              />
+              <ImageModal
+                ref={ref => (this.imageModal = ref)}
+                product={product}
+              />
+              <PriceEditModal
+                ref={ref => (this.priceEditModal = ref)}
+                product={product}
+                fetchProductDetails={this.props.fetchProductDetails}
+                totalAmount={totalAmount}
+              />
             </View>
-            <ReviewModal
-              ref={ref => (this.reviewModal = ref)}
-              product={product}
-              review={review}
-              onNewReview={review =>
-                this.setState({
-                  review: {
-                    ratings: review.ratings,
-                    feedback: review.feedback
-                  }
-                })
-              }
-            />
-            <ShareModal
-              ref={ref => (this.shareModal = ref)}
-              product={product}
-              fetchProductDetails={this.props.fetchProductDetails}
-              loggedInUser={loggedInUser}
-              setLoggedInUserName={setLoggedInUserName}
-              review={review}
-              onNewReview={review =>
-                this.setState({
-                  review: {
-                    ratings: review.ratings,
-                    feedback: review.feedback
-                  }
-                })
-              }
-            />
-            <ImageModal
-              ref={ref => (this.imageModal = ref)}
-              product={product}
-            />
-            <PriceEditModal
-              ref={ref => (this.priceEditModal = ref)}
-              product={product}
-              fetchProductDetails={this.props.fetchProductDetails}
-              totalAmount={totalAmount}
-            />
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }

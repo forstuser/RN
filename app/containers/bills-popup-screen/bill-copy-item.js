@@ -7,10 +7,15 @@ import {
   Alert,
   TouchableOpacity,
   CameraRoll,
-  Dimensions
+  Dimensions,
+  ActivityIndicator,
+  NativeAppEventEmitter,
+  DeviceEventEmitter,
+  NativeModules,
+  NativeEventEmitter
 } from "react-native";
 import moment from "moment";
-
+import OpenFile from "react-native-doc-viewer";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import RNFetchBlob from "react-native-fetch-blob";
 import Share from "react-native-share";
@@ -112,7 +117,9 @@ const BillCopyItem = ({
         <Image
           usePhotoView={true}
           style={styles.billImage}
-          source={{ uri: API_BASE_URL + "/" + copy.copyUrl }}
+          source={{
+            uri: "https://calibre-ebook.com/downloads/demos/demo.docx"
+          }}
           resizeMode="contain"
         />
       )}

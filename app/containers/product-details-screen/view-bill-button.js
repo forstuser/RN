@@ -5,7 +5,12 @@ import {
   Image,
   Alert,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  ActivityIndicator,
+  NativeAppEventEmitter,
+  DeviceEventEmitter,
+  NativeModules,
+  NativeEventEmitter
 } from "react-native";
 import Analytics from "../../analytics";
 import I18n from "../../i18n";
@@ -18,6 +23,7 @@ import { colors } from "../../theme";
 
 import UploadBillOptions from "../../components/upload-bill-options";
 import { CATEGORY_IDS } from "../../constants";
+import OpenFile from "react-native-doc-viewer";
 
 const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 
@@ -52,12 +58,26 @@ class ViewBillButton extends React.Component {
                 main_category: product.masterCategoryName,
                 category_name: product.categoryName
               });
-              openBillsPopUp({
-                date: product.purchaseDate,
-                id: product.id,
-                copies: product.copies,
-                type: docType
-              });
+              OpenFile.openDoc(
+                [
+                  {
+                    url:
+                      "https://www.mrright.in/Content/Assets/MrRightDevelopersAPI_Version1-2.pdf",
+                    fileName: "sample",
+                    cache: false,
+                    fileType: "pdf"
+                  }
+                ],
+                (error, url) => {
+                  console.log("error: ", error);
+                }
+              );
+              // openBillsPopUp({
+              //   date: product.purchaseDate,
+              //   id: product.id,
+              //   copies: product.copies,
+              //   type: docType
+              // });
             }}
             style={[styles.viewBillBtn, style]}
           >
