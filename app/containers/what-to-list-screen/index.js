@@ -620,7 +620,7 @@ class WhatToListScreen extends Component {
             ) : (
               <View />
             )}
-            {type != EASY_LIFE_TYPES.WHAT_TO_COOK ? (
+            {type == EASY_LIFE_TYPES.WHAT_TO_WEAR ? (
               <AddNewBtn text={btnText} onPress={this.onAddNewPress} />
             ) : (
               <View />

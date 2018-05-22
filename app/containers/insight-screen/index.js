@@ -132,7 +132,10 @@ class InsightScreen extends Component {
         categories: res.categoryData.overallData
       };
 
-      const screenOpts = this.props.screenOpts || {};
+      const initialFilterIndex = this.props.navigation.getParam(
+        "initialFilterIndex",
+        0
+      );
       this.setState(
         {
           weeklyData,
@@ -141,7 +144,7 @@ class InsightScreen extends Component {
           overallData
         },
         () => {
-          this.handleFilterOptionPress(screenOpts.initialFilterIndex || 0);
+          this.handleFilterOptionPress(initialFilterIndex || 0);
         }
       );
     } catch (e) {}

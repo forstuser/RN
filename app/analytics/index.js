@@ -91,9 +91,10 @@ const EVENTS = {
   CLICK_PRODUCT_EDIT: "product_edit",
   CLICK_URL: "click_url"
 };
-let enableDebug = false; // true in case of dev mode
+
+const logEventInDebug = false;
 const logEvent = (eventName, data = {}) => {
-  if (!__DEV__ || enableDebug) {
+  if (!__DEV__ || logEventInDebug) {
     const user = store.getState().loggedInUser;
     FirebaseAnalytics.logEvent(eventName, {
       FCM_Id: user.fcmToken,

@@ -61,11 +61,9 @@ class AscScreen extends Component {
   async componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.OPEN_ASC_SCREEN);
 
-    if (this.props.screenOpts) {
-      const screenOpts = this.props.screenOpts;
-      if (screenOpts.hitAccessApi) {
-        await ascAccessed();
-      }
+    const hitAccessApi = this.props.navigation.getParam("hitAccessApi", false);
+    if (hitAccessApi) {
+      await ascAccessed();
     }
 
     this.fetchBrands();

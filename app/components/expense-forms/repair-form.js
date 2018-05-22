@@ -205,7 +205,7 @@ class RepairForm extends React.Component {
               placeholder={I18n.t("expense_forms_repair_warranty_upto")}
               date={warrantyUpto}
               onDateChange={warrantyUpto => this.setState({ warrantyUpto })}
-              maxDate={'2100-01-01'}
+              maxDate={"2100-01-01"}
             />
           </View>
         </View>
