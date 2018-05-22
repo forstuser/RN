@@ -32,7 +32,7 @@ class Details extends Component {
   }
 
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
 
     let productName = product.productName;
     if (!productName) {
@@ -164,7 +164,7 @@ class Details extends Component {
           <ViewBillButton
             collapsable={false}
             product={product}
-            navigator={navigator}
+            navigation={navigation}
           />
         )}
         <Image style={styles.image} source={imageSource} resizeMode="contain" />

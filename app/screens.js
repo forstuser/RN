@@ -1,6 +1,6 @@
 import { Navigation } from "react-native-navigation";
 import { SCREENS } from "./constants";
-import Snackbar from "./containers/snackbar";
+import Snackbar from "./utils/snackbar";
 import DashboardScreen from "./containers/dashboard-screen";
 import EhomeScreen from "./containers/ehome-screen";
 import AscScreen from "./containers/asc-screen";

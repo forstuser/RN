@@ -24,7 +24,7 @@ import EditOptionRow from "./edit-option-row";
 
 class RepairDetails extends React.Component {
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     const { repairBills } = product;
 
     const RepairItem = ({ repair }) => (

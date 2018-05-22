@@ -4,7 +4,7 @@ import I18n from "../i18n";
 
 class TermsScreen extends Component {
   componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: "Terms of Use"
     });
   }

@@ -16,7 +16,7 @@ import EmptyProductListPlaceholder from "./empty-product-list-placeholder";
 // destructuring not working for some reasons
 const ProductsList = props => {
   const {
-    navigator,
+    navigation,
     products = [],
     isLoading = false,
     onEndReached,
@@ -33,7 +33,7 @@ const ProductsList = props => {
         marginTop: 2
       }}
     >
-      <ProductListItem navigator={navigator} product={item} />
+      <ProductListItem navigation={navigation} product={item} />
     </View>
   );
   if (!isLoading && products.length == 0) {
@@ -41,7 +41,7 @@ const ProductsList = props => {
       <EmptyProductListPlaceholder
         mainCategoryId={mainCategoryId}
         category={category}
-        navigator={navigator}
+        navigation={navigation}
       />
     );
   } else {

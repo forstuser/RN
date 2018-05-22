@@ -1,10 +1,10 @@
 import { Platform } from "react-native";
-import { Navigation } from "react-native-navigation";
 import axios from "axios";
 import moment from "moment";
 import store from "../store";
 import DeviceInfo from "react-native-device-info";
-import navigation, { openLoginScreen, openEnterPinPopup } from "../navigation";
+import { SCREENS } from "../constants";
+import NavigationService from "../navigation";
 import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
@@ -72,14 +72,16 @@ const apiRequest = async ({
     if (r.data.forceUpdate === true) {
       if (!HAS_OPENED_FORCE_UPDATE_SCREEN) {
         HAS_OPENED_FORCE_UPDATE_SCREEN = true;
-        navigation.openForceUpdateScreen();
+        NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN);
       }
     } else if (
       r.data.forceUpdate === false &&
       !store.getState().ui.hasUpdateAppScreenShown
     ) {
       store.dispatch(uiActions.setUiHasUpdateAppScreenShown(true));
-      navigation.openForceUpdateModal();
+      NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN, {
+        allowSkip: true
+      });
     }
 
     if (r.data.status == false) {
@@ -114,9 +116,9 @@ const apiRequest = async ({
 
     if (error.statusCode == 401) {
       store.dispatch(loggedInUserActions.loggedInUserClearAllData());
-      openLoginScreen();
+      NavigationService.navigate(SCREENS.AUTH_STACK);
     } else if (error.statusCode == 402) {
-      openEnterPinPopup();
+      NavigationService.navigate(SCREENS.ENTER_PIN_POPUP_SCREEN);
     }
     throw error;
   }

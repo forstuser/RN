@@ -24,7 +24,7 @@ import EditOptionRow from "./edit-option-row";
 
 class AmcDetails extends React.Component {
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     const { amcDetails } = product;
 
     const AmcItem = ({ amc }) => (

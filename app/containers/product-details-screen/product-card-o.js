@@ -46,26 +46,23 @@ class ProductCard extends Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_EDIT);
     const { product } = this.props;
     if (product.categoryId == 664) {
-      this.props.navigator.push({
-        screen: SCREENS.EDIT_INSURANCE_SCREEN,
-        passProps: {
-          typeId: product.sub_category_id,
-          mainCategoryId: product.masterCategoryId,
-          categoryId: product.categoryId,
-          productId: product.id,
-          jobId: product.jobId,
-          planName: product.productName,
-          insuranceFor: product.model,
-          copies: []
-        }
+      this.props.navigation.navigate(SCREENS.EDIT_INSURANCE_SCREEN, {
+        typeId: product.sub_category_id,
+        mainCategoryId: product.masterCategoryId,
+        categoryId: product.categoryId,
+        productId: product.id,
+        jobId: product.jobId,
+        planName: product.productName,
+        insuranceFor: product.model,
+        copies: []
       });
     } else {
-      this.props.navigator.push({
-        screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
-        passProps: {
+      this.props.navigation.navigate(
+        SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
+        {
           product: product
         }
-      });
+      );
     }
   };
 
@@ -88,7 +85,7 @@ class ProductCard extends Component {
         <ImportantTab
           tabLabel={I18n.t("product_details_screen_important")}
           product={product}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           openServiceSchedule={openServiceSchedule}
         />
       ) : null;
@@ -111,9 +108,9 @@ class ProductCard extends Component {
     );
 
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ScrollView style={styles.container}>
-          <Details product={product} navigator={this.props.navigator} />
+          <Details product={product} navigation={this.props.navigation} />
           <ScrollableTabView
             style={{ marginTop: 20, marginBottom: 70 }}
             renderTabBar={() => <DefaultTabBar />}
@@ -143,7 +140,7 @@ class ProductCard extends Component {
                 fetchProductDetails={this.fetchProductDetails}
               />
             ) : (
-              <View collapsable={false}  />
+              <View collapsable={false} />
             )}
 
             {[
@@ -156,14 +153,14 @@ class ProductCard extends Component {
           </ScrollableTabView>
         </ScrollView>
         {showCustomerCareBtn ? (
-          <View collapsable={false}  style={styles.contactAfterSalesBtn}>
+          <View collapsable={false} style={styles.contactAfterSalesBtn}>
             <ContactAfterSaleButton
               product={product}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
       </View>
     );

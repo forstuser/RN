@@ -185,7 +185,7 @@ class ExtendedWarrantyForm extends React.Component {
               jobId={product.job_id}
               type={8}
               placeholder={I18n.t("expense_forms_extended_warranty_doc")}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
                 this.setState({

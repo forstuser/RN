@@ -17,7 +17,7 @@ import { colors } from "../theme";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../constants";
 import UploadBillOptions from "../components/upload-bill-options";
 import SelectModal from "../components/select-modal";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import CustomTextInput from "../components/form-elements/text-input";
 import ContactFields from "../components/form-elements/contact-fields";
@@ -33,12 +33,12 @@ const visitingCardIcon = require("../images/main-categories/ic_visiting_card.png
 const personalDocIcon = require("../images/main-categories/ic_personal_doc.png");
 
 class PersonalDoc extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     disabledBackGesture: true
   };
 
-  static navigatorButtons = {
+  static navigationButtons = {
     ...Platform.select({
       ios: {
         leftButtons: [
@@ -77,7 +77,7 @@ class PersonalDoc extends React.Component {
       isLoading: false,
       isFinishModalVisible: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -89,7 +89,7 @@ class PersonalDoc extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigator.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -107,15 +107,18 @@ class PersonalDoc extends React.Component {
     let selectedCategory = null;
 
     // if visiting card
-    if (this.props.categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
+    if (
+      this.props.navigation.state.params.categoryId ==
+      CATEGORY_IDS.PERSONAL.VISITING_CARD
+    ) {
       selectedCategory = {
         id: CATEGORY_IDS.PERSONAL.VISITING_CARD,
         name: "Visiting Card"
       };
-    } else if (this.props.categoryId) {
+    } else if (this.props.navigation.state.params.categoryId) {
       const { categories } = this.state;
       selectedCategory = categories.find(
-        category => category.id == this.props.categoryId
+        category => category.id == this.props.navigation.state.params.categoryId
       );
     }
 
@@ -128,7 +131,7 @@ class PersonalDoc extends React.Component {
       email = "",
       address = "",
       copies = []
-    } = this.props;
+    } = this.props.navigation.state.params;
 
     this.setState(
       {
@@ -150,7 +153,7 @@ class PersonalDoc extends React.Component {
       title = "Edit Document";
     }
 
-    this.props.navigator.setTitle({ title });
+    // this.props.navigation.setTitle({ title });
   }
 
   beforeUpload = () => {
@@ -233,7 +236,10 @@ class PersonalDoc extends React.Component {
         productName: name || selectedCategory.name
       };
 
-      if (this.props.categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
+      if (
+        this.props.navigation.state.params.categoryId ==
+        CATEGORY_IDS.PERSONAL.VISITING_CARD
+      ) {
         data = {
           ...data,
           sellerName: businessName,
@@ -261,7 +267,7 @@ class PersonalDoc extends React.Component {
     }
   };
   render() {
-    const { categoryId } = this.props;
+    const { categoryId } = this.props.navigation.state.params;
     const {
       productId,
       jobId,
@@ -278,31 +284,30 @@ class PersonalDoc extends React.Component {
       isFinishModalVisible
     } = this.state;
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
           <LoadingOverlay visible={isLoading} />
-          <View collapsable={false}  style={styles.imageHeader}>
+          <View collapsable={false} style={styles.imageHeader}>
             <Image
               style={styles.headerImage}
               source={categoryId == 27 ? visitingCardIcon : personalDocIcon}
             />
           </View>
 
-          <View collapsable={false}  style={styles.form}>
+          <View collapsable={false} style={styles.form}>
             <Text weight="Medium" style={styles.headerText}>
               {categoryId == 27 ? "Add Card Details" : "Add Document Details"}
             </Text>
             {categoryId != 27 && (
               <SelectModal
-                // style={styles.input}
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder={I18n.t("add_edit_personal_doc_type_of_doc")}
                 placeholderRenderer={({ placeholder }) => (
-                  <View collapsable={false}  style={{ flexDirection: "row" }}>
+                  <View collapsable={false} style={{ flexDirection: "row" }}>
                     <Text
                       weight="Medium"
                       style={{ color: colors.secondaryText }}
@@ -329,7 +334,10 @@ class PersonalDoc extends React.Component {
               onChangeText={name => this.setState({ name })}
             />
             {categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD && (
-              <View collapsable={false}  style={{ width: "100%", marginBottom: 10 }}>
+              <View
+                collapsable={false}
+                style={{ width: "100%", marginBottom: 10 }}
+              >
                 <CustomTextInput
                   placeholder={I18n.t("add_edit_personal_doc_business_name")}
                   underlineColorAndroid="transparent"
@@ -372,7 +380,7 @@ class PersonalDoc extends React.Component {
                 console.log("upload result: ", uploadResult);
                 this.setState({ copies: uploadResult.product.copies });
               }}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
           </View>
         </KeyboardAwareScrollView>
@@ -391,7 +399,7 @@ class PersonalDoc extends React.Component {
           title={I18n.t("add_edit_personal_doc_doc_added")}
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           productId={productId}
         />
       </View>

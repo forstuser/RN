@@ -19,7 +19,7 @@ import {
 } from "../../constants";
 import { Text, Button } from "../../elements";
 import { colors } from "../../theme";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import SelectModal from "../../components/select-modal";
 import SelectWeekDays from "../../components/select-week-days";

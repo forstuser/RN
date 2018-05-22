@@ -18,24 +18,22 @@ import Body from "./body";
 import Header from "./header";
 import Profile from "./profile";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import { SCREENS } from "../../constants";
+import NavigationService from "../../navigation";
 import { getProfileDetail, deletePin, logout, updateProfile } from "../../api";
-import { openLoginScreen, openAppScreen } from "../../navigation";
 import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 class MoreScreen extends Component {
-  static OPEN_MORE_EVENT_DONE = false;
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true
   };
 
   constructor(props) {
     super(props);
-    // Alert.alert(JSON.stringify(props));
     this.state = {
       error: null,
       isFetchingData: true,
@@ -47,38 +45,23 @@ class MoreScreen extends Component {
       isProfileVisible: false,
       name: null
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   componentDidMount() {
-    if (this.props.screenOpts) {
-      const screenOpts = this.props.screenOpts;
-      switch (screenOpts.startScreen) {
-        case SCREENS.FAQS_SCREEN:
-          this.props.navigator.push({
-            screen: SCREENS.FAQS_SCREEN
-          });
-          break;
-        case SCREENS.PROFILE_SCREEN:
-          this.setState({
-            startWithProfileScreen: true
-          });
-          break;
+    Analytics.logEvent(Analytics.EVENTS.CLICK_MORE);
+    this.fetchProfile();
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.fetchProfile();
       }
-    }
+    );
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        if (!MoreScreen.OPEN_MORE_EVENT_DONE) {
-          Analytics.logEvent(Analytics.EVENTS.CLICK_MORE);
-          MoreScreen.OPEN_MORE_EVENT_DONE = true;
-        }
-        this.fetchProfile();
-        break;
-    }
-  };
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+  }
 
   fetchProfile = async () => {
     this.setState({
@@ -139,13 +122,9 @@ class MoreScreen extends Component {
   };
 
   openProfileScreen = () => {
-    this.props.navigator.push({
-      screen: SCREENS.PROFILE_SCREEN,
-      passProps: { profile: this.state.profile }
+    this.props.navigation.navigate(SCREENS.PROFILE_SCREEN, {
+      profile: this.state.profile
     });
-    // this.setState({
-    //   isProfileVisible: true
-    // });
   };
 
   visible = item => {
@@ -191,7 +170,7 @@ class MoreScreen extends Component {
             onPress={this.openProfileScreen}
             profile={profile}
             name={name}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             isProfileVisible={this.state.isProfileVisible}
             visible={this.visible}
             onUpdate={this.updateState}
@@ -207,9 +186,8 @@ class MoreScreen extends Component {
               setLanguage={language => {
                 this.props.setLanguage(language);
                 I18n.locale = language.code;
-                openAppScreen();
               }}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
           )}
           {profile && isProfileVisible && <Profile profile={profile} />}
@@ -264,13 +242,14 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     logoutUser: async () => {
-      dispatch(loggedInUserActions.loggedInUserClearAllData());
       try {
         logout();
+        dispatch(loggedInUserActions.loggedInUserClearAllData());
       } catch (e) {
         console.log(e);
       }
-      openLoginScreen();
+
+      NavigationService.navigate(SCREENS.AUTH_STACK);
     },
     removePin: () => {
       dispatch(loggedInUserActions.setLoggedInUserIsPinSet(false));

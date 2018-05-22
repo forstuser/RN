@@ -24,7 +24,7 @@ import SelectModal from "../components/select-modal";
 
 import MedicalDocForm from "../components/expense-forms/medical-doc-form";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import CustomTextInput from "../components/form-elements/text-input";
 import ContactFields from "../components/form-elements/contact-fields";
@@ -38,12 +38,12 @@ const AttachmentIcon = () => (
 );
 
 class MedicalDoc extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     disabledBackGesture: true
   };
 
-  static navigatorButtons = {
+  static navigationButtons = {
     ...Platform.select({
       ios: {
         leftButtons: [
@@ -65,7 +65,7 @@ class MedicalDoc extends React.Component {
       subCategories: [],
       isFinishModalVisible: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -77,7 +77,7 @@ class MedicalDoc extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigator.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -94,7 +94,7 @@ class MedicalDoc extends React.Component {
   componentDidMount() {
     this.fetchCategoryData();
     let title = "Edit Doc";
-    this.props.navigator.setTitle({ title });
+    // this.props.navigation.setTitle({ title });
   }
 
   fetchCategoryData = async () => {
@@ -108,12 +108,14 @@ class MedicalDoc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
   saveDoc = async () => {
-    const { mainCategoryId, categoryId, navigator } = this.props;
+    const { navigation } = this.props;
+    const { mainCategoryId, categoryId } = navigation.state.params;
+
     let data = {
       mainCategoryId,
       categoryId,
@@ -125,7 +127,7 @@ class MedicalDoc extends React.Component {
     if (data.copies.length == 0) {
       return showSnackbar({
         text: I18n.t("add_edit_medical_upload_doc")
-      })
+      });
     }
 
     try {
@@ -136,12 +138,14 @@ class MedicalDoc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({ isLoading: false });
     }
   };
 
   render() {
+    const { navigation } = this.props;
+
     const {
       productId,
       jobId,
@@ -150,9 +154,9 @@ class MedicalDoc extends React.Component {
       date,
       doctorName,
       doctorContact,
-      copies,
-      navigator
-    } = this.props;
+      copies
+    } = navigation.state.params;
+
     const {
       mainCategoryId,
       categoryId,
@@ -161,10 +165,10 @@ class MedicalDoc extends React.Component {
       isFinishModalVisible
     } = this.state;
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
           <LoadingOverlay visible={isLoading} />
@@ -182,7 +186,7 @@ class MedicalDoc extends React.Component {
               doctorName,
               doctorContact,
               copies,
-              navigator
+              navigation
             }}
           />
         </KeyboardAwareScrollView>
@@ -197,7 +201,7 @@ class MedicalDoc extends React.Component {
           title={I18n.t("add_edit_healthcare_doc_added")}
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
       </View>
     );

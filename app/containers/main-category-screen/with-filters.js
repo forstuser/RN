@@ -131,7 +131,7 @@ class CategoryWithFilters extends Component {
         <ProductsList
           mainCategoryId={this.props.category.id}
           products={this.state.products}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           onRefresh={() => this.loadProducts()}
           isLoading={this.state.isFetchingProducts}
         />

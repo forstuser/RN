@@ -45,9 +45,9 @@ class ImageModal extends React.Component {
     if (!isModalVisible) return null;
 
     return (
-      <View collapsable={false} >
+      <View collapsable={false}>
         {isModalVisible && (
-          <View collapsable={false} >
+          <View collapsable={false}>
             <Modal
               isVisible={true}
               useNativeDriver={true}
@@ -57,7 +57,7 @@ class ImageModal extends React.Component {
               style={{ flex: 1, margin: 0 }}
             >
               <LoadingOverlay visible={isImageLoading} />
-              <View collapsable={false}  style={styles.modal}>
+              <View collapsable={false} style={styles.modal}>
                 <Image
                   onLoad={this.hideLoader}
                   style={styles.bg}
@@ -78,13 +78,11 @@ class ImageModal extends React.Component {
 
 const styles = StyleSheet.create({
   modal: {
-    // paddingTop: 40,
-    // backgroundColor: "rgba(0,0,0,0.5)",
     backgroundColor: "#fff",
     borderRadius: 5,
     flex: 1,
     margin: 0,
-    // backgroundColor: 'red',
+
     width: "100%"
   },
   closeIcon: {

@@ -24,7 +24,7 @@ import EditOptionRow from "./edit-option-row";
 
 class PucDetails extends React.Component {
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     const { pucDetails } = product;
 
     const PucItem = ({ puc }) => (

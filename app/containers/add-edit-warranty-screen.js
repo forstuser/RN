@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, View, Alert, Platform } from "react-native";
+import { StyleSheet, View, Alert, Platform, BackHandler } from "react-native";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import {
   getReferenceDataForCategory,
@@ -20,13 +20,30 @@ import { WARRANTY_TYPES } from "../constants";
 import ChangesSavedModal from "../components/changes-saved-modal";
 import Analytics from "../analytics";
 
+import HeaderBackBtn from "../components/header-nav-back-btn";
+import { colors } from "../theme";
+
 class AddEditWarranty extends React.Component {
-  static navigatorStyle = {
-    tabBarHidden: true,
-    disabledBackGesture: true
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
+
+    return {
+      title: params.title ? params.title : "Add Warranty",
+      headerRight: params.isEditing ? (
+        <Text
+          onPress={params.onDeletePress}
+          weight="Bold"
+          style={{ color: colors.danger, marginRight: 10 }}
+        >
+          Delete
+        </Text>
+      ) : null,
+      headerLeft: <HeaderBackBtn onPress={params.onBackPress} />
+    };
   };
+
   static propTypes = {
-    navigator: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
@@ -46,7 +63,7 @@ class AddEditWarranty extends React.Component {
     warrantyType: WARRANTY_TYPES.NORMAL
   };
 
-  static navigatorButtons = {
+  static navigationButtons = {
     ...Platform.select({
       ios: {
         leftButtons: [
@@ -73,7 +90,6 @@ class AddEditWarranty extends React.Component {
         providerName: null
       }
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
@@ -83,7 +99,7 @@ class AddEditWarranty extends React.Component {
       jobId,
       warrantyType,
       warranty
-    } = this.props;
+    } = this.props.navigation.state.params;
     let title = "Add Warranty";
     if (warrantyType == WARRANTY_TYPES.NORMAL && warranty) {
       title = "Edit Warranty";
@@ -97,11 +113,19 @@ class AddEditWarranty extends React.Component {
       title = "Edit Third Party Warranty";
     }
 
-    this.props.navigator.setTitle({ title });
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    this.props.navigation.setParams({
+      title,
+      onBackPress: this.onBackPress
+    });
 
     this.fetchCategoryData();
 
     if (warranty) {
+      this.props.navigation.setParams({
+        isEditing: true,
+        onDeletePress: this.onDeletePress
+      });
       this.setState({
         initialValues: {
           effectiveDate: warranty.effectiveDate
@@ -113,89 +137,82 @@ class AddEditWarranty extends React.Component {
           providerName: null
         }
       });
-      this.props.navigator.setButtons({
-        rightButtons: [
-          {
-            title: I18n.t("add_edit_insurance_delete"),
-            id: "delete",
-            buttonColor: "red",
-            buttonFontSize: 16,
-            buttonFontWeight: "600"
-          }
-        ],
-        animated: true
-      });
     }
   }
 
-  onNavigatorEvent = event => {
-    if (event.type == "NavBarButtonPress") {
-      if (event.id == "backPress") {
-        let initialValues = this.state.initialValues;
-        let newData = this.warrantyForm.getFilledData();
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+  }
 
-        // console.log("initialValues: ", initialValues, "newData: ", newData);
+  onBackPress = () => {
+    let initialValues = this.state.initialValues;
+    let newData = this.warrantyForm.getFilledData();
 
-        if (
-          newData.effectiveDate == initialValues.effectiveDate &&
-          newData.providerId == initialValues.providerId &&
-          newData.providerName == initialValues.providerName &&
-          newData.renewalType == initialValues.renewalType &&
-          newData.value == initialValues.value
-        ) {
-          return this.props.navigator.pop();
-        }
-        Alert.alert(
-          I18n.t("add_edit_amc_are_you_sure"),
-          I18n.t("add_edit_warranty_unsaved_info"),
-          [
-            {
-              text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigator.pop()
-            },
-            {
-              text: I18n.t("add_edit_amc_stay"),
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel"
-            }
-          ]
-        );
-      } else if (event.id == "delete") {
-        const { productId, warranty } = this.props;
-        Alert.alert(
-          I18n.t("add_edit_warranty_delete_warranty"),
-          I18n.t("add_edit_warranty_delete_warranty_desc"),
-          [
-            {
-              text: I18n.t("add_edit_insurance_yes_delete"),
-              onPress: async () => {
-                try {
-                  this.setState({ isLoading: true });
-                  await deleteWarranty({ productId, warrantyId: warranty.id });
-                  this.props.navigator.pop();
-                } catch (e) {
-                  showSnackbar({
-                    text: I18n.t("add_edit_amc_could_not_delete")
-                  });
-                  this.setState({ isLoading: false });
-                }
-              }
-            },
-            {
-              text: I18n.t("add_edit_no_dnt_delete"),
-              onPress: () => {},
-              style: "cancel"
-            }
-          ]
-        );
-      }
+    if (
+      newData.effectiveDate == initialValues.effectiveDate &&
+      newData.providerId == initialValues.providerId &&
+      newData.providerName == initialValues.providerName &&
+      newData.renewalType == initialValues.renewalType &&
+      newData.value == initialValues.value
+    ) {
+      this.props.navigation.goBack();
+    } else {
+      Alert.alert(
+        I18n.t("add_edit_amc_are_you_sure"),
+        I18n.t("add_edit_warranty_unsaved_info"),
+        [
+          {
+            text: I18n.t("add_edit_amc_go_back"),
+            onPress: () => this.props.navigation.goBack()
+          },
+          {
+            text: I18n.t("add_edit_amc_stay"),
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          }
+        ]
+      );
     }
+
+    return true;
+  };
+
+  onDeletePress = () => {
+    const { productId, warranty } = this.props.navigation.state.params;
+    Alert.alert(
+      I18n.t("add_edit_warranty_delete_warranty"),
+      I18n.t("add_edit_warranty_delete_warranty_desc"),
+      [
+        {
+          text: I18n.t("add_edit_insurance_yes_delete"),
+          onPress: async () => {
+            try {
+              this.setState({ isLoading: true });
+              await deleteWarranty({ productId, warrantyId: warranty.id });
+              this.props.navigation.goBack();
+            } catch (e) {
+              showSnackbar({
+                text: I18n.t("add_edit_amc_could_not_delete")
+              });
+              this.setState({ isLoading: false });
+            }
+          }
+        },
+        {
+          text: I18n.t("add_edit_no_dnt_delete"),
+          onPress: () => {},
+          style: "cancel"
+        }
+      ]
+    );
   };
 
   fetchCategoryData = async () => {
     try {
       this.setState({ isLoading: true });
-      const res = await getReferenceDataForCategory(this.props.categoryId);
+      const res = await getReferenceDataForCategory(
+        this.props.navigation.state.params.categoryId
+      );
       this.setState({
         renewalTypes: res.renewalTypes,
         warrantyProviders: res.categories[0].warrantyProviders,
@@ -209,15 +226,17 @@ class AddEditWarranty extends React.Component {
   };
 
   onSavePress = async () => {
+    const { navigation } = this.props;
+
     const {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
       warranty,
-      navigator,
       warrantyType
-    } = this.props;
+    } = navigation.state.params;
+
     let data = {
       mainCategoryId,
       categoryId,
@@ -264,15 +283,16 @@ class AddEditWarranty extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+
     const {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
       warranty,
-      navigator,
       warrantyType
-    } = this.props;
+    } = navigation.state.params;
 
     const { renewalTypes, warrantyProviders, isLoading } = this.state;
     return (
@@ -280,7 +300,7 @@ class AddEditWarranty extends React.Component {
         <LoadingOverlay visible={isLoading} />
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
         <KeyboardAwareScrollView>
           <WarrantyForm
@@ -294,7 +314,7 @@ class AddEditWarranty extends React.Component {
               warranty,
               renewalTypes,
               warrantyProviders,
-              navigator,
+              navigation,
               isCollapsible: false
             }}
           />

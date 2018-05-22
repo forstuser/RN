@@ -32,10 +32,10 @@ class FinishModal extends React.Component {
   onMoreProductsClick = () => {
     Analytics.logEvent(Analytics.EVENTS.ADD_MORE_PRODUCT);
     this.setState({ visible: false }, () => {
-      this.props.navigator.pop();
+      this.props.navigation.goBack();
       setTimeout(() => {
         if (!this.props.isPreviousScreenOfAddOptions) {
-          this.props.navigator.showModal({
+          this.props.navigation.showModal({
             screen: SCREENS.ADD_PRODUCT_OPTIONS_SCREEN
           });
         }
@@ -49,16 +49,13 @@ class FinishModal extends React.Component {
     });
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
-        this.props.navigator.pop({ animationType: "fade" });
+        this.props.navigation.goBack({ animationType: "fade" });
 
-        this.props.navigator.push({
-          screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-          passProps: {
-            productId: this.props.productId
-          }
+        this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+          productId: this.props.productId
         });
       } else {
-        this.props.navigator.dismissAllModals();
+        this.props.navigation.dismissAllModals();
       }
     });
   };
@@ -68,10 +65,10 @@ class FinishModal extends React.Component {
       mainCategoryId,
       showRepairIcon = false,
       title = I18n.t("add_edit_expense_screen_title_add_eHome"),
-      navigator
+      navigation
     } = this.props;
-    // console.log("props", this.props)
-    // console.log("state", this.state)
+    // console.log("props",  this.props)
+    // console.log("state",  this.state)
     const { visible } = this.state;
     if (!visible) return null;
 

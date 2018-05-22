@@ -10,7 +10,7 @@ import {
 import StarRating from "react-native-star-rating";
 
 import { addProductReview } from "../api";
-import { showSnackbar } from "../containers/snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import I18n from "../i18n";
 

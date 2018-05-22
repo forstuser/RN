@@ -17,7 +17,7 @@ import { API_BASE_URL, getAscSearchResults } from "../../../../api";
 import { Text } from "../../../../elements";
 import I18n from "../../../../i18n";
 import LoadingOverlay from "../../../../components/loading-overlay";
-import { showSnackbar } from "../../../snackbar";
+import { showSnackbar } from "../../../../utils/snackbar";
 
 import ConnectItem from "./connect-item";
 import AscItem from "./asc-item";
@@ -359,7 +359,10 @@ class CustomerCare extends React.Component {
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_service_schedule_title")}
               </Text>
-              <ServiceSchedules product={product} navigator={navigator} />
+              <ServiceSchedules
+                product={product}
+                navigation={this.props.navigation}
+              />
             </View>
           )}
       </View>

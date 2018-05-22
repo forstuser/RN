@@ -23,7 +23,7 @@ class RecentItems extends React.Component {
   };
 
   render() {
-    const { products, navigator } = this.props;
+    const { products, navigation } = this.props;
     const { listHeight } = this.state;
     return (
       <View collapsable={false} style={styles.container}>
@@ -53,7 +53,7 @@ class RecentItems extends React.Component {
                     marginBottom: 0
                   }}
                   product={product}
-                  navigator={navigator}
+                  navigation={navigation}
                   hideViewBillBtn={true}
                   hideDirectionsAndCallBtns={true}
                 />

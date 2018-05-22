@@ -28,7 +28,7 @@ import UploadDoc from "../form-elements/upload-doc";
 
 class PucForm extends React.Component {
   static propTypes = {
-    navigator: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
@@ -137,7 +137,7 @@ class PucForm extends React.Component {
 
   render() {
     const {
-      navigator,
+      navigation,
       mainCategoryId,
       categoryId,
       productId,
@@ -226,7 +226,7 @@ class PucForm extends React.Component {
               placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
               placeholder2Color={colors.mainBlue}
               placeholderAfterUpload="Doc Uploaded Successfully"
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
                 this.setState({

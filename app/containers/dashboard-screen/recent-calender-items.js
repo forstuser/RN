@@ -25,7 +25,7 @@ class RecentCalenderItems extends React.Component {
   };
 
   render() {
-    const { items, navigator } = this.props;
+    const { items, navigation } = this.props;
     const { listHeight } = this.state;
     return (
       <View collapsable={false} style={styles.container}>
@@ -57,7 +57,7 @@ class RecentCalenderItems extends React.Component {
                     marginBottom: 0
                   }}
                   item={item}
-                  navigator={navigator}
+                  navigation={navigation}
                   hideViewBillBtn={true}
                   hideDirectionsAndCallBtns={true}
                 />

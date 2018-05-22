@@ -14,7 +14,6 @@ import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { Navigation } from "react-native-navigation";
 
 import Modal from "react-native-modal";
 
@@ -127,26 +126,23 @@ class ProductCard extends Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_EDIT);
     const { product } = this.props;
     if (product.categoryId == 664) {
-      this.props.navigator.push({
-        screen: SCREENS.EDIT_INSURANCE_SCREEN,
-        passProps: {
-          typeId: product.sub_category_id,
-          mainCategoryId: product.masterCategoryId,
-          categoryId: product.categoryId,
-          productId: product.id,
-          jobId: product.jobId,
-          planName: product.productName,
-          insuranceFor: product.model,
-          copies: []
-        }
+      this.props.navigation.navigate(SCREENS.EDIT_INSURANCE_SCREEN, {
+        typeId: product.sub_category_id,
+        mainCategoryId: product.masterCategoryId,
+        categoryId: product.categoryId,
+        productId: product.id,
+        jobId: product.jobId,
+        planName: product.productName,
+        insuranceFor: product.model,
+        copies: []
       });
     } else {
-      this.props.navigator.push({
-        screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
-        passProps: {
+      this.props.navigation.navigate(
+        SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
+        {
           product: product
         }
-      });
+      );
     }
   };
 
@@ -167,27 +163,9 @@ class ProductCard extends Component {
     }
 
     if (event.nativeEvent.contentOffset.y > 0) {
-      this.props.navigator.setStyle({
-        navBarTransparent: false,
-        navBarBackgroundColor: "#fff",
-        ...Platform.select({
-          ios: {},
-          android: {
-            topBarElevationShadowEnabled: true
-          }
-        })
-      });
+      //non transparent header
     } else {
-      this.props.navigator.setStyle({
-        navBarTransparent: true,
-        navBarBackgroundColor: "transparent",
-        ...Platform.select({
-          ios: {},
-          android: {
-            topBarElevationShadowEnabled: false
-          }
-        })
-      });
+      //transparent header
     }
   };
 
@@ -219,13 +197,13 @@ class ProductCard extends Component {
             onTabChange={this.onTabChange}
             product={product}
             fetchProductDetails={this.props.fetchProductDetails}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
           />
           <View collapsable={false} style={styles.pages}>
             {activeTabIndex == 0 && (
               <CustomerCare
                 product={product}
-                navigator={this.props.navigator}
+                navigation={this.props.navigation}
                 scrollScreenToAsc={y =>
                   this.scrollView.scrollTo({ y: y + 100, animated: true })
                 }
@@ -234,12 +212,12 @@ class ProductCard extends Component {
               />
             )}
             {activeTabIndex == 1 && (
-              <AllInfo product={product} navigator={this.props.navigator} />
+              <AllInfo product={product} navigation={this.props.navigation} />
             )}
             {activeTabIndex == 2 && (
               <Important
                 product={product}
-                navigator={this.props.navigator}
+                navigation={this.props.navigation}
                 cardWidthWhenMany={cardWidthWhenMany}
                 cardWidthWhenOne={cardWidthWhenOne}
               />

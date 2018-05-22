@@ -52,7 +52,7 @@ class SelectCategoryHeader extends React.Component {
         option.name.replace(/\s/g, "")
     );
     const selectedOption = this.props.selectedOption;
-    //if clicked on already selected option
+    //if clicked on already selected options
     if (selectedOption && selectedOption.id == option.id) {
       return;
     } else {
@@ -94,7 +94,7 @@ class SelectCategoryHeader extends React.Component {
     const { visibleOptions, selectedOption, showOtherOption } = this.state;
 
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <Text weight="Medium" style={styles.title}>
           {I18n.t("add_edit_calendar_service_screen_title_slider")}
         </Text>
@@ -110,8 +110,9 @@ class SelectCategoryHeader extends React.Component {
               <TouchableWithoutFeedback
                 onPress={() => this.onOptionSelect(option)}
               >
-                <View collapsable={false}  style={styles.option}>
-                  <View collapsable={false} 
+                <View collapsable={false} style={styles.option}>
+                  <View
+                    collapsable={false}
                     style={[
                       styles.optionIconContainer,
                       isSelectedOption ? styles.selectedOptionIconContainer : {}
@@ -142,8 +143,9 @@ class SelectCategoryHeader extends React.Component {
             );
           })}
           {selectedOption && showOtherOption ? (
-            <View collapsable={false}  style={styles.option}>
-              <View collapsable={false} 
+            <View collapsable={false} style={styles.option}>
+              <View
+                collapsable={false}
                 style={[
                   styles.optionIconContainer,
                   styles.selectedOptionIconContainer
@@ -165,14 +167,14 @@ class SelectCategoryHeader extends React.Component {
               </Text>
             </View>
           ) : (
-            <View collapsable={false}  />
+            <View collapsable={false} />
           )}
 
           <TouchableWithoutFeedback
             onPress={() => this.otherOptionsModal.openModal()}
           >
-            <View collapsable={false}  style={styles.option}>
-              <View collapsable={false}  style={styles.optionIconContainer}>
+            <View collapsable={false} style={styles.option}>
+              <View collapsable={false} style={styles.optionIconContainer}>
                 <Image
                   style={[styles.optionIcon, { width: 50, height: 30 }]}
                   resizeMode="contain"

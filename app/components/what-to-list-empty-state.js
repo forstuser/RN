@@ -13,7 +13,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { API_BASE_URL, addUserCreatedMeals, addUserCreatedTodos } from "../api";
 import { SCREENS, EASY_LIFE_TYPES } from "../constants";
 import CustomTextInput from "./form-elements/text-input";
-import { showSnackbar } from "../containers/snackbar";
+import { showSnackbar } from "../utils/snackbar";
 import LoadingOverlay from "./loading-overlay";
 import Analytics from "../analytics";
 const tick = require("../images/tick.png");
@@ -29,9 +29,8 @@ class WhatToListEmptyState extends React.Component {
     this.state = {};
   }
   goToFaq = () => {
-    this.props.navigator.push({
-      screen: SCREENS.FAQS_SCREEN,
-      passProps: { scrollToBottom: true }
+    this.props.navigation.navigate(SCREENS.FAQS_SCREEN, {
+      scrollToBottom: true
     });
   };
 

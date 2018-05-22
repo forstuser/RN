@@ -32,11 +32,11 @@ const eHomeIcon = require("../images/ic_nav_ehome_off.png");
 const uploadFabIcon = require("../images/ic_upload_fabs.png");
 
 class EhomeScreen extends Component {
-  static OPEN_EHOME_EVENT_DONE = false;
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: false
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -47,44 +47,31 @@ class EhomeScreen extends Component {
       notificationCount: 0,
       startWithPendingDocsScreen: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        if (!EhomeScreen.OPEN_EHOME_EVENT_DONE) {
-          Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
-          EhomeScreen.OPEN_EHOME_EVENT_DONE = true;
-        }
+  componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
+    this.fetchEhomeData();
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
         this.screenHasDisappeared = false;
         this.fetchEhomeData();
-        break;
-      case "didDisappear":
-        this.screenHasDisappeared = true;
-        break;
-    }
-  };
-
-  componentDidMount() {
-    if (this.props.screenOpts) {
-      const screenOpts = this.props.screenOpts;
-      switch (screenOpts.startScreen) {
-        case SCREENS.DOCS_UNDER_PROCESSING_SCREEN:
-          this.setState({
-            startWithPendingDocsScreen: true
-          });
-          break;
-        case SCREENS.PRODUCT_DETAILS_SCREEN:
-          this.props.navigator.push({
-            screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-            passProps: {
-              productId: screenOpts.productId
-            }
-          });
-          break;
       }
-    }
+    );
+
+    this.willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        this.screenHasDisappeared = true;
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+    this.willBlurSubscription.remove();
   }
 
   fetchEhomeData = async () => {
@@ -140,20 +127,14 @@ class EhomeScreen extends Component {
   };
 
   openMainCategoryScreen = category => {
-    this.props.navigator.push({
-      screen: SCREENS.MAIN_CATEGORY_SCREEN,
-      passProps: {
-        category
-      }
+    this.props.navigation.navigate(SCREENS.MAIN_CATEGORY_SCREEN, {
+      category
     });
   };
 
   openDocsUnderProcessingScreen = () => {
-    this.props.navigator.push({
-      screen: SCREENS.DOCS_UNDER_PROCESSING_SCREEN,
-      passProps: {
-        pendingDocs: this.state.pendingDocs
-      }
+    this.props.navigation.navigate(SCREENS.DOCS_UNDER_PROCESSING_SCREEN, {
+      pendingDocs: this.state.pendingDocs
     });
   };
 
@@ -171,10 +152,7 @@ class EhomeScreen extends Component {
 
   showAddProductOptionsScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
-    this.props.navigator.push({
-      screen: SCREENS.ADD_PRODUCT_SCREEN,
-      overrideBackPress: true
-    });
+    this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN);
   };
 
   render() {
@@ -185,7 +163,7 @@ class EhomeScreen extends Component {
     return (
       <ScreenContainer style={{ padding: 0 }}>
         <TabSearchHeader
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           title={I18n.t("ehome_screen_title")}
           icon={eHomeIcon}
           notificationCount={this.state.notificationCount}

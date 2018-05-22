@@ -24,7 +24,7 @@ import {
 } from "../constants";
 
 class AddProductScreen extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true
   };
 
@@ -41,7 +41,7 @@ class AddProductScreen extends React.Component {
   };
 
   hide = () => {
-    this.props.navigator.dismissModal();
+    this.props.navigation.goBack();
   };
 
   onPressItem = type => {
@@ -72,10 +72,9 @@ class AddProductScreen extends React.Component {
         break;
       default:
     }
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
-      passProps: { expenseType: type, isPreviousScreenOfAddOptions: true },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_EXPENSE_SCREEN, {
+      expenseType: type,
+      isPreviousScreenOfAddOptions: true
     });
   };
 
@@ -330,7 +329,6 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   closeBtn: {
-    // margin: 10,
     width: 300,
     height: 30,
     alignSelf: "center",

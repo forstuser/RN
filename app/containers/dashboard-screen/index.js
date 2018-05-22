@@ -48,9 +48,10 @@ const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
 class DashboardScreen extends React.Component {
   static HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = false;
-  static navigatorStyle = {
-    navBarHidden: true,
-    tabBarHidden: false
+  static navigationOptions = {};
+
+  static navigationOptions = {
+    header: null
   };
 
   constructor(props) {
@@ -67,44 +68,28 @@ class DashboardScreen extends React.Component {
       recentSearches: [],
       totalCalendarItem: 0,
       calendarItemUpdatedAt: null,
-      showUploadOptions: false,
-      showAddProductOptionsScreenOnAppear: false
+      showUploadOptions: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
-    if (this.props.screenOpts) {
-      const screenOpts = this.props.screenOpts;
-      switch (screenOpts.startScreen) {
-        case SCREENS.MAILBOX_SCREEN:
-          this.refs.tabSearchHeader.openMailboxScreen();
-          break;
-        case SCREENS.INSIGHTS_SCREEN:
-          this.openInsightScreen({ screenOpts: screenOpts });
-          break;
-        case SCREENS.ADD_PRODUCT_SCREEN:
-          this.props.navigator.push({
-            screen: SCREENS.ADD_PRODUCT_SCREEN
-          });
-          break;
-        case SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN:
-          this.props.navigator.push({
-            screen: SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN,
-            passProps: {
-              showAddProductOptionsScreenOnAppear: this
-                .showAddProductOptionsScreenOnAppear
-            }
-          });
-          break;
-        case SCREENS.TIPS_SCREEN:
-          this.props.navigator.push({
-            screen: SCREENS.TIPS_SCREEN
-          });
-          break;
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.screenHasDisappeared = false;
+        this.fetchDashboardData();
       }
-    }
+    );
 
+    this.willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        this.screenHasDisappeared = true;
+      }
+    );
+
+    this.fetchDashboardData();
     const r = await getProfileDetail();
     const user = r.userProfile;
     this.props.setLoggedInUser({
@@ -116,20 +101,10 @@ class DashboardScreen extends React.Component {
     });
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        this.screenHasDisappeared = false;
-        if (this.state.showAddProductOptionsScreenOnAppear) {
-          this.showAddProductOptionsScreen();
-        }
-        this.fetchDashboardData();
-        break;
-      case "didDisappear":
-        this.screenHasDisappeared = true;
-        break;
-    }
-  };
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+    this.willBlurSubscription.remove();
+  }
 
   fetchDashboardData = async () => {
     this.setState({
@@ -215,36 +190,19 @@ class DashboardScreen extends React.Component {
     });
   };
 
-  showAddProductOptionsScreenOnAppear = () => {
-    this.setState({
-      showAddProductOptionsScreenOnAppear: true
-    });
-  };
-
   showAddProductOptionsScreen = () => {
-    this.setState({
-      showAddProductOptionsScreenOnAppear: false
-    });
     Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
-    this.props.navigator.push({
-      screen: SCREENS.ADD_PRODUCT_SCREEN,
-      overrideBackPress: true
-    });
+    this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN);
   };
 
   openInsightScreen = props => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EXPENSE_INSIGHT);
-    this.props.navigator.push({
-      screen: SCREENS.INSIGHTS_SCREEN,
-      passProps: props || {}
-    });
+    this.props.navigation.navigate(SCREENS.INSIGHTS_SCREEN);
   };
 
   openAscScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ASC);
-    this.props.navigator.push({
-      screen: SCREENS.ASC_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.ASC_SCREEN);
   };
 
   render() {
@@ -268,7 +226,7 @@ class DashboardScreen extends React.Component {
               icon={dashBoardIcon}
               notificationCount={notificationCount}
               recentSearches={recentSearches}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
             <ScrollView>
               <View
@@ -285,7 +243,7 @@ class DashboardScreen extends React.Component {
                     <View collapsable={false}>
                       <UpcomingServicesList
                         upcomingServices={this.state.upcomingServices}
-                        navigator={this.props.navigator}
+                        navigation={this.props.navigation}
                       />
                     </View>
                   </View>
@@ -301,7 +259,7 @@ class DashboardScreen extends React.Component {
                     />
                     <RecentProducts
                       products={this.state.recentProducts}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                     />
                   </View>
                 ) : (
@@ -316,7 +274,7 @@ class DashboardScreen extends React.Component {
                     />
                     <RecentCalenderItems
                       items={this.state.recentCalenderItems}
-                      navigator={this.props.navigator}
+                      navigation={this.props.navigation}
                     />
                   </View>
                 ) : (

@@ -14,7 +14,7 @@ import { API_BASE_URL, addInsurance, updateInsurance } from "../../../api";
 import { MAIN_CATEGORY_IDS } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
-import { showSnackbar } from "../../snackbar";
+import { showSnackbar } from "../../../utils/snackbar";
 
 import { getReferenceDataCategories } from "../../../api";
 

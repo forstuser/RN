@@ -25,60 +25,46 @@ const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 const calendarIcon = require("../../images/ic_calendar.png");
 
 class EasyLifeScreen extends Component {
-  static OPEN_EASY_DAY_EVENT_DONE = false;
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true
   };
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        if (!EasyLifeScreen.OPEN_EASY_DAY_EVENT_DONE) {
-          Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
-          EasyLifeScreen.OPEN_EASY_DAY_EVENT_DONE = true;
-        }
-    }
-  };
+  componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
+  }
 
   attendanceItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_WHO_IS_ABSENT_TODAY);
-    this.props.navigator.push({
-      screen: SCREENS.MY_CALENDAR_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.MY_CALENDAR_SCREEN);
   };
 
   toDoItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_DO_TODAY);
-    this.props.navigator.push({
-      screen: SCREENS.WHAT_TO_SCREEN,
-      passProps: { type: EASY_LIFE_TYPES.WHAT_TO_DO }
+    this.props.navigation.navigate(SCREENS.WHAT_TO_SCREEN, {
+      type: EASY_LIFE_TYPES.WHAT_TO_DO
     });
   };
   cookingItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_COOK);
-    this.props.navigator.push({
-      screen: SCREENS.WHAT_TO_SCREEN,
-      passProps: { type: EASY_LIFE_TYPES.WHAT_TO_COOK }
+    this.props.navigation.navigate(SCREENS.WHAT_TO_SCREEN, {
+      type: EASY_LIFE_TYPES.WHAT_TO_COOK
     });
   };
   wearItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_WEAR_TODAY);
-    this.props.navigator.push({
-      screen: SCREENS.WHAT_TO_SCREEN,
-      passProps: { type: EASY_LIFE_TYPES.WHAT_TO_WEAR }
+    this.props.navigation.navigate(SCREENS.WHAT_TO_SCREEN, {
+      type: EASY_LIFE_TYPES.WHAT_TO_WEAR
     });
   };
 
   showAddProductOptionsScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
-    this.props.navigator.push({
-      screen: SCREENS.ADD_PRODUCT_SCREEN,
-      overrideBackPress: true
+    this.props.navigation.navigate({
+      screen: SCREENS.ADD_PRODUCT_SCREEN
     });
   };
 
@@ -89,7 +75,7 @@ class EasyLifeScreen extends Component {
           <TabSearchHeader
             title={"EazyDay Planner"}
             icon={calendarIcon}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             showMailbox={false}
             showSearchInput={false}
           />

@@ -21,7 +21,7 @@ import { consumerGetOtp, consumerValidate, getProfileDetail } from "../api";
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import { actions as uiActions } from "../modules/ui";
@@ -30,24 +30,20 @@ import { openAfterLoginScreen } from "../navigation";
 import LanguageOptions from "../components/language-options";
 
 const binbillLogo = require("../images/binbill_logo.png");
-const truecallerLogo = require("../images/truecaller_logo.png");
+// const truecallerLogo = require("../images/truecaller_logo.png");
 const facebookLogo = require("../images/facebook_logo.png");
 
 class LoginScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: true
+  static navigationOptions = {
+    title: I18n.t("login_screen_title")
   };
+
   constructor(props) {
     super(props);
     this.state = {
       phoneNumber: "",
       isGettingOtp: false
     };
-  }
-  componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("login_screen_title")
-    });
   }
 
   onSubmitPhoneNumber = async () => {
@@ -64,11 +60,8 @@ class LoginScreen extends Component {
       this.setState({
         isGettingOtp: false
       });
-      this.props.navigator.push({
-        screen: SCREENS.VERIFY_SCREEN,
-        passProps: {
-          phoneNumber: this.state.phoneNumber
-        }
+      this.props.navigation.navigate(SCREENS.VERIFY_SCREEN, {
+        phoneNumber: this.state.phoneNumber
       });
     } catch (e) {
       this.setState({
@@ -78,12 +71,6 @@ class LoginScreen extends Component {
         text: e.message
       });
     }
-  };
-
-  openTermsScreen = () => {
-    this.props.navigator.push({
-      screen: SCREENS.TERMS_SCREEN
-    });
   };
 
   setAuthTokenAndOpenApp = async authToken => {
@@ -160,7 +147,7 @@ class LoginScreen extends Component {
               source={binbillLogo}
               resizeMode="contain"
             />
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 this.languageOptions.show();
               }}
@@ -170,7 +157,7 @@ class LoginScreen extends Component {
                 alignItems: "flex-end"
               }}
             >
-              {/* <Text
+              <Text
                 weight="Medium"
                 style={{
                   fontSize: 12,
@@ -184,8 +171,8 @@ class LoginScreen extends Component {
                 name="ios-arrow-down"
                 size={15}
                 color={colors.secondaryText}
-              /> */}
-            </TouchableOpacity>
+              />
+            </TouchableOpacity> */}
             <TextInput
               underlineColorAndroid="transparent"
               placeholder={I18n.t("login_screen_input_placeholder")}
@@ -259,14 +246,14 @@ class LoginScreen extends Component {
             </Text>
           </Hyperlink>
         </View>
-        <LanguageOptions
+        {/* <LanguageOptions
           ref={o => (this.languageOptions = o)}
           onLanguageChange={language => {
             this.props.setLanguage(language);
             I18n.locale = language.code;
             this.forceUpdate();
           }}
-        />
+        /> */}
       </ScreenContainer>
     );
   }

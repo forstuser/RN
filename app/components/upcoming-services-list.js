@@ -52,7 +52,7 @@ class UpcomingServicesList extends React.Component {
               <UpcomingServiceItem
                 key={index}
                 item={item}
-                navigator={this.props.navigator}
+                navigation={this.props.navigation}
               />
             );
           })}

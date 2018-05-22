@@ -27,7 +27,7 @@ const editIcon = require("../../images/ic_edit_white.png");
 import { colors } from "../../theme";
 import LoadingOverlay from "../../components/loading-overlay";
 
-import { showSnackbar } from "../../containers/snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 const verified = require("../../images/ic_profile_verified.png");
 const unVerified = require("../../images/ic_profile_unverified.png");

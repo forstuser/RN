@@ -32,7 +32,7 @@ import CustomTextInput from "../form-elements/text-input";
 
 class WarrantyForm extends React.Component {
   static propTypes = {
-    navigator: PropTypes.object,
+    navigation: PropTypes.object,
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
@@ -192,7 +192,7 @@ class WarrantyForm extends React.Component {
       renewalTypes,
       warrantyProviders,
       isCollapsible,
-      navigator
+      navigation
     } = this.props;
     const {
       id,
@@ -315,7 +315,7 @@ class WarrantyForm extends React.Component {
               docType="Warranty"
               type={warrantyType == WARRANTY_TYPES.NORMAL ? 5 : 6}
               placeholder={I18n.t("expense_forms_warranty_upload_warr_doc")}
-              navigator={navigator}
+              navigation={navigation}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
                 this.setState({

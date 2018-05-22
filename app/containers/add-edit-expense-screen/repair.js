@@ -17,7 +17,7 @@ import {
 } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
 import { MAIN_CATEGORY_IDS } from "../../constants";
@@ -141,7 +141,7 @@ class Repair extends React.Component {
   };
 
   openAddProductScreen = () => {
-    this.props.navigator.pop();
+    this.props.navigation.goBack();
   };
 
   render() {
@@ -308,7 +308,7 @@ class Repair extends React.Component {
                         copies: uploadResult.repair.copies
                       });
                     }}
-                    navigator={this.props.navigator}
+                    navigation={this.props.navigation}
                   />
                 </View>
               </View>
@@ -330,7 +330,7 @@ class Repair extends React.Component {
           mainCategoryId={null}
           showRepairIcon={true}
           productId={selectedProduct ? selectedProduct.id : null}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           isPreviousScreenOfAddOptions={this.props.isPreviousScreenOfAddOptions}
         />
       </View>

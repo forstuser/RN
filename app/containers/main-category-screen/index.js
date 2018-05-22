@@ -5,34 +5,32 @@ import Direct from "./direct";
 import { MAIN_CATEGORY_IDS } from "../../constants";
 
 class MainCategoryScreen extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true,
-    drawUnderNavBar: false
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      title: params.title ? params.title : ""
+    };
   };
+
   constructor(props) {
     super(props);
     this.state = {
+      mainCategory: {},
       isAppearingFirstTime: true,
       reloadList: false
     };
   }
 
   async componentDidMount() {
-    this.props.navigator.setTitle({
-      title: this.props.category.name
+    const mainCategory = this.props.navigation.state.params.category;
+    this.props.navigation.setParams({ title: mainCategory.name });
+    this.setState({
+      mainCategory
     });
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-  }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        this.props.navigator.setStyle({
-          drawUnderNavBar: false
-        });
-        this.props.navigator.setButtons({
-          rightButtons: []
-        });
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
         if (!this.state.isAppearingFirstTime) {
           this.setState({
             reloadList: true
@@ -41,18 +39,23 @@ class MainCategoryScreen extends Component {
         this.setState({
           isAppearingFirstTime: false
         });
-        break;
-    }
-  };
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+  }
 
   render() {
-    switch (+this.props.category.id) {
+    const mainCategory = this.state.mainCategory;
+    switch (+mainCategory.id) {
       case MAIN_CATEGORY_IDS.AUTOMOBILE:
       case MAIN_CATEGORY_IDS.ELECTRONICS:
         return (
           <CategoryScreenWithFilters
-            navigator={this.props.navigator}
-            category={this.props.category}
+            navigation={this.props.navigation}
+            category={mainCategory}
             reloadList={this.state.reloadList}
           />
         );
@@ -64,8 +67,8 @@ class MainCategoryScreen extends Component {
       case MAIN_CATEGORY_IDS.PERSONAL:
         return (
           <CategoryScreenWithPager
-            navigator={this.props.navigator}
-            category={this.props.category}
+            navigation={this.props.navigation}
+            category={mainCategory}
             reloadList={this.state.reloadList}
           />
         );
@@ -73,8 +76,8 @@ class MainCategoryScreen extends Component {
       case MAIN_CATEGORY_IDS.OTHERS:
         return (
           <Direct
-            navigator={this.props.navigator}
-            category={this.props.category}
+            navigation={this.props.navigation}
+            category={mainCategory}
             reloadList={this.state.reloadList}
           />
         );

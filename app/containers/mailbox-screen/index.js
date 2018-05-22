@@ -13,7 +13,7 @@ import { ScreenContainer, Text, Button, Image } from "../../elements";
 import { colors } from "../../theme";
 import { openBillsPopUp } from "../../navigation";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import Analytics from "../../analytics";
 import { MAIN_CATEGORY_IDS, SCREENS } from "../../constants";
 
@@ -22,8 +22,8 @@ import EmptyMailboxPlaceholder from "./empty-mailbox-placeholder";
 import filterIcon from "../../images/ic_filter_none_black.png";
 
 class MailBox extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true
+  static navigationOptions = {
+    title: I18n.t("mailbox_screen_title")
   };
   constructor(props) {
     super(props);
@@ -34,9 +34,6 @@ class MailBox extends Component {
     };
   }
   componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("mailbox_screen_title")
-    });
     this.fetchNotifications();
   }
 
@@ -77,14 +74,9 @@ class MailBox extends Component {
   };
 
   onItemPress = item => {
-
-
     if (item.productType == 1 || (item.productType == 3 && item.productId)) {
-      this.props.navigator.push({
-        screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-        passProps: {
-          productId: item.productId
-        }
+      this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+        productId: item.productId
       });
     } else {
       openBillsPopUp({
@@ -127,13 +119,13 @@ class MailBox extends Component {
                   fileType="pdf"
                 />
               ) : (
-                  <Image
-                    style={styles.image}
-                    fileStyle={{ width: 50, height: 50 }}
-                    fileType={item.copies[0].file_type || item.copies[0].fileType}
-                    source={{ uri: API_BASE_URL + item.copies[0].copyUrl }}
-                  />
-                )}
+                <Image
+                  style={styles.image}
+                  fileStyle={{ width: 50, height: 50 }}
+                  fileType={item.copies[0].file_type || item.copies[0].fileType}
+                  source={{ uri: API_BASE_URL + item.copies[0].copyUrl }}
+                />
+              )}
             </View>
             <View collapsable={false} style={styles.titleAndDetails}>
               <Text weight="Medium" style={{ color: titleColor }}>
@@ -153,8 +145,8 @@ class MailBox extends Component {
               {amount ? (
                 <Text weight="Medium">{amount}</Text>
               ) : (
-                  <View collapsable={false} />
-                )}
+                <View collapsable={false} />
+              )}
             </View>
           </View>
           <Text weight="Medium" style={styles.desc}>

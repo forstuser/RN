@@ -13,7 +13,7 @@ import { API_BASE_URL, updateProduct, getProductDetails } from "../../../api";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 import { Text, Button } from "../../../elements";
 import { colors } from "../../../theme";
-import { showSnackbar } from "../../snackbar";
+import { showSnackbar } from "../../../utils/snackbar";
 
 import LoadingOverlay from "../../../components/loading-overlay";
 import SelectOrCreateItem from "../../../components/select-or-create-item";
@@ -99,7 +99,7 @@ class UploadBillStep extends React.Component {
   render() {
     const { isLoading, copies } = this.state;
 
-    const { mainCategoryId, category, product, navigator } = this.props;
+    const { mainCategoryId, category, product, navigation } = this.props;
 
     let title = I18n.t("expense_forms_expense_basic_upload_bill");
     let btnText = "Done";
@@ -138,7 +138,7 @@ class UploadBillStep extends React.Component {
                 copies: uploadResult.product.copies
               });
             }}
-            navigator={navigator}
+            navigation={navigation}
             actionSheetTitle={title}
           />
           <Button

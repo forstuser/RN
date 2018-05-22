@@ -21,15 +21,14 @@ class AddEmptyProductScreen extends Component {
     Analytics.logEvent(
       Analytics.EVENTS.ADD_PRODUCT_INSIDE_EHOME_MAIN_CATEGORIES
     );
-    this.props.navigator.push({
-      screen: SCREENS.ADD_PRODUCT_SCREEN,
-      passProps: { expenseType: item.type, category: item.category },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN, {
+      expenseType: item.type,
+      category: item.category
     });
   };
 
   render() {
-    const { mainCategoryId, category, navigator } = this.props;
+    const { mainCategoryId, category, navigation } = this.props;
     let item = { category };
     let item2 = null;
     // alert(mainCategoryId);
@@ -188,16 +187,16 @@ class AddEmptyProductScreen extends Component {
         desc = "";
     }
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <Image style={styles.image} source={item.image} />
         <Text style={styles.desc}>{item.desc}</Text>
         {this.props.mainCategoryId != 9 ? (
           <Text style={styles.below}>{I18n.t("product_list_click_below")}</Text>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
         {/* {this.props.mainCategoryId == 9 && ( */}
-        <View collapsable={false} >
+        <View collapsable={false}>
           <Button
             onPress={() => this.onPressItem(item)}
             text={item.buttonText}

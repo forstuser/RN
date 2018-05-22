@@ -3,7 +3,7 @@ import { StyleSheet, View, Alert } from "react-native";
 import moment from "moment";
 
 import I18n from "../../../i18n";
-import { showSnackbar } from "../../snackbar";
+import { showSnackbar } from "../../../utils/snackbar";
 
 import {
   updateCalendarServicePaymentDayToAbsent,
