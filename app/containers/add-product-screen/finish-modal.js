@@ -32,13 +32,15 @@ class FinishModal extends React.Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_I_WILL_DO_IT_LATER, {
       category_id: this.props.mainCategoryId
     });
+    console.log("this.props.productId: ", this.props.productId);
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
-        this.props.navigation.replace(SCREENS.PRODUCT_DETAILS_SCREEN, {
+        this.props.navigation.goBack();
+        this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
           productId: this.props.productId
         });
       } else {
-        this.props.navigation.goBack({ animationType: "fade" });
+        this.props.navigation.goBack();
       }
     });
   };
@@ -84,7 +86,7 @@ class FinishModal extends React.Component {
           <View collapsable={false}>
             <Modal
               useNativeDriver={true}
-              isVisible={visible}
+              isVisible={true}
               animationOutTiming={10}
             >
               <View collapsable={false} style={styles.finishModal}>

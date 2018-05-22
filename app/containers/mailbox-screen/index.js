@@ -74,7 +74,7 @@ class MailBox extends Component {
   };
 
   onItemPress = item => {
-    if (item.productType == 1 || (item.productType == 3 && item.productId)) {
+    if (item.productType != 2 && item.productId) {
       this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
         productId: item.productId
       });
@@ -109,7 +109,10 @@ class MailBox extends Component {
 
     return (
       <View>
-        <TouchableOpacity onPress={this.onItemPress} style={styles.item}>
+        <TouchableOpacity
+          onPress={() => this.onItemPress(item)}
+          style={styles.item}
+        >
           <View collapsable={false} style={styles.imageAndDetails}>
             <View collapsable={false} style={styles.imageWrapper}>
               {!item.copies || item.copies.length == 0 ? (
@@ -169,7 +172,7 @@ class MailBox extends Component {
             data={notifications}
             keyExtractor={(item, index) => String(item.id)}
             renderItem={this.renderNotificationItem}
-            onRefresh={this.fetchNotifications}
+            onRefresh={this.fetchNotificationsFirstPage}
             refreshing={isFetchingNotifications}
           />
         </ScreenContainer>

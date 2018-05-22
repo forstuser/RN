@@ -44,8 +44,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class DoYouKNowScreen extends Component {
   static navigationOptions = {
-    navBarHidden: true,
-    tabBarHidden: false
+    header: null
   };
 
   constructor(props) {
@@ -119,10 +118,6 @@ class DoYouKNowScreen extends Component {
                 this.props.setLatestDoYouKnowReadId(newId);
               }
 
-              console.log(
-                "items.length - currentIndex: ",
-                items.length - currentIndex
-              );
               if (items.length - currentIndex == 4 || items.length < 5) {
                 this.loadItems();
               }
@@ -146,16 +141,37 @@ class DoYouKNowScreen extends Component {
 
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW);
-    this.setState({
-      offsetId: this.props.latestDoYouKnowReadId
-    });
-    this.loadItems();
-    this.loadTags();
+    console.log(
+      "this.props.latestDoYouKnowReadId: ",
+      this.props.latestDoYouKnowReadId
+    );
+    this.setState(
+      {
+        offsetId: this.props.latestDoYouKnowReadId
+      },
+      () => {
+        // this.loadItems();
+      }
+    );
+
+    // this.loadTags();
 
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
-        this.loadItems();
+        if (!this.state.offsetId) {
+          this.setState(
+            {
+              offsetId: this.props.latestDoYouKnowReadId
+            },
+            () => {
+              this.loadItems();
+            }
+          );
+        } else {
+          this.loadItems();
+        }
+        console.log("didFocused");
       }
     );
   }
@@ -183,11 +199,10 @@ class DoYouKNowScreen extends Component {
       });
 
       let resItems = res.items;
-
-      console.log("res: ", JSON.stringify(res));
+      console.log("resItems.length: ", resItems.length);
 
       if (resItems.length > 0) {
-        const newLastItem = resItems.pop();
+        const newLastItem = resItems[resItems.length - 1];
         this.setState({
           offsetId: newLastItem.id
         });

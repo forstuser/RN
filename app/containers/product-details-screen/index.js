@@ -172,11 +172,15 @@ class ProductDetailsScreen extends Component {
 
   async componentDidMount() {
     const { navigation } = this.props;
+
     this.setState(
       {
         productId: navigation.getParam("productId", null)
       },
       () => {
+        if (!this.state.productId) {
+          return this.props.navigation.goBack();
+        }
         this.fetchProductDetails();
       }
     );
