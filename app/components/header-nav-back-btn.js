@@ -7,7 +7,7 @@ const BackBtn = ({ onPress }) => (
     onPress={onPress}
     style={{
       height: "100%",
-      width: 56,
+      width: Platform.OS == "ios" ? 34 : 56,
       justifyContent: "center",
       alignItems: "center"
     }}
@@ -15,7 +15,7 @@ const BackBtn = ({ onPress }) => (
     <Icon
       name={Platform.OS == "ios" ? "ios-arrow-back" : "md-arrow-back"}
       color={Platform.OS == "ios" ? "#007AFF" : "black"}
-      size={Platform.OS == "ios" ? 15 : 25}
+      size={Platform.OS == "ios" ? 34 : 25}
     />
   </TouchableOpacity>
 );

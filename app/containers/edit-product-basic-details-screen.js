@@ -179,10 +179,12 @@ class EditProductBasicDetails extends React.Component {
     const modelName = product.model;
 
     let sellerName,
-      sellerContact = "";
+      sellerContact = "",
+      sellerAddress = "";
     if (product.sellers) {
       sellerName = product.sellers.sellerName;
       sellerContact = product.sellers.contact;
+      sellerAddress = product.sellers.address;
     } else if (product.onlineSellers) {
       sellerName = product.onlineSellers.sellerName;
       sellerContact = product.onlineSellers.contact;
@@ -271,48 +273,50 @@ class EditProductBasicDetails extends React.Component {
                   copies,
                   sellerName,
                   sellerContact,
+                  sellerAddress,
                   nextDueDate,
                   nextDueDateId
                 }}
               />
             ) : (
-              <ProductBasicDetailsForm
-                showFullForm={true}
-                ref={ref => (this.basicDetailsForm = ref)}
-                mainCategoryId={product.masterCategoryId}
-                categoryId={product.categoryId}
-                subCategories={subCategories}
-                subCategoryId={sub_category_id}
-                category={{
-                  id: product.categoryId,
-                  name: product.categoryName
-                }}
-                id={product.id}
-                jobId={product.jobId}
-                brands={brands}
-                categoryForms={categoryForms}
-                navigation={navigation}
-                {...{
-                  id,
-                  productName,
-                  purchaseDate,
-                  brandId,
-                  value,
-                  copies,
-                  modelName,
-                  sellerName,
-                  sellerContact,
-                  vinNo,
-                  vinNoId,
-                  registrationNo,
-                  registrationNoId,
-                  imeiNo,
-                  imeiNoId,
-                  serialNo,
-                  serialNoId
-                }}
-              />
-            )}
+                <ProductBasicDetailsForm
+                  showFullForm={true}
+                  ref={ref => (this.basicDetailsForm = ref)}
+                  mainCategoryId={product.masterCategoryId}
+                  categoryId={product.categoryId}
+                  subCategories={subCategories}
+                  subCategoryId={sub_category_id}
+                  category={{
+                    id: product.categoryId,
+                    name: product.categoryName
+                  }}
+                  id={product.id}
+                  jobId={product.jobId}
+                  brands={brands}
+                  categoryForms={categoryForms}
+                  navigation={navigation}
+                  {...{
+                    id,
+                    productName,
+                    purchaseDate,
+                    brandId,
+                    value,
+                    copies,
+                    modelName,
+                    sellerName,
+                    sellerContact,
+                    sellerAddress,
+                    vinNo,
+                    vinNoId,
+                    registrationNo,
+                    registrationNoId,
+                    imeiNo,
+                    imeiNoId,
+                    serialNo,
+                    serialNoId
+                  }}
+                />
+              )}
           </View>
         </KeyboardAwareScrollView>
         <Button

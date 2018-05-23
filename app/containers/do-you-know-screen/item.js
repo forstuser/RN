@@ -67,7 +67,6 @@ export default class Item extends React.Component {
     }
   };
   render() {
-    console.log("Screen height", SCREEN_HEIGHT);
     const { item, onLikePress } = this.props;
     if (item) {
       const {
@@ -81,8 +80,9 @@ export default class Item extends React.Component {
         isTogglingLike
       } = item;
       return (
-        <View collapsable={false}  style={styles.container}>
-          <View collapsable={false} 
+        <View collapsable={false} style={styles.container}>
+          <View
+            collapsable={false}
             ref={ref => (this.viewToShare = ref)}
             style={styles.shareView}
             collapsable={false}
@@ -91,15 +91,15 @@ export default class Item extends React.Component {
               style={styles.image}
               source={{ uri: API_BASE_URL + imageUrl }}
             />
-            <View collapsable={false}  style={styles.content}>
-              <View collapsable={false}  style={styles.shareAndLike} />
+            <View collapsable={false} style={styles.content}>
+              <View collapsable={false} style={styles.shareAndLike} />
               <Text weight="Medium" style={styles.title}>
                 {title}
               </Text>
               <Text style={styles.description}>{description}</Text>
             </View>
-            <View collapsable={false}  style={styles.badges}>
-              <View collapsable={false}  style={styles.binbillLogoWrapper}>
+            <View collapsable={false} style={styles.badges}>
+              <View collapsable={false} style={styles.binbillLogoWrapper}>
                 <Image
                   resizeMode="contain"
                   style={styles.binbillLogo}
@@ -118,19 +118,19 @@ export default class Item extends React.Component {
               />
             </View>
           </View>
-          <View collapsable={false}  style={styles.innerContainer}>
+          <View collapsable={false} style={styles.innerContainer}>
             <Image
               style={styles.image}
               source={{ uri: API_BASE_URL + imageUrl }}
             />
-            <View collapsable={false}  style={styles.likes}>
+            <View collapsable={false} style={styles.likes}>
               <Icon name="heart" size={12} color="red" />
               <Text weight="Medium" style={styles.likesCount}>
                 {totalLikes}
               </Text>
             </View>
-            <View collapsable={false}  style={styles.content}>
-              <View collapsable={false}  style={styles.shareAndLike}>
+            <View collapsable={false} style={styles.content}>
+              <View collapsable={false} style={styles.shareAndLike}>
                 <TouchableOpacity
                   onPress={this.onSharePress}
                   style={styles.shareButton}
@@ -142,7 +142,7 @@ export default class Item extends React.Component {
                   />
                 </TouchableOpacity>
 
-                <View collapsable={false}  style={styles.likeButtonContainer}>
+                <View collapsable={false} style={styles.likeButtonContainer}>
                   {isTogglingLike && <ActivityIndicator size="small" />}
                   {!isTogglingLike && (
                     <TouchableOpacity
@@ -162,7 +162,7 @@ export default class Item extends React.Component {
                 {title}
               </Text>
               <Text style={styles.description}>{description}</Text>
-              <View collapsable={false}  style={styles.tags}>
+              <View collapsable={false} style={styles.tags}>
                 <Text
                   weight="Bold"
                   style={{
@@ -181,8 +181,8 @@ export default class Item extends React.Component {
       );
     } else {
       return (
-        <View collapsable={false}  style={styles.container}>
-          <View collapsable={false}  style={styles.endMsg}>
+        <View collapsable={false} style={styles.container}>
+          <View collapsable={false} style={styles.endMsg}>
             <Image style={styles.roadBlockIcon} source={roadblockIcon} />
             <Text weight="Medium" style={styles.endMsgText}>
               {I18n.t("do_you_know_screen_end_msg")}

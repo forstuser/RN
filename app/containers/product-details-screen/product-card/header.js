@@ -139,8 +139,8 @@ class Header extends Component {
 
         <View style={styles.lowerHalf}>
           <View style={styles.lowerHalfInner}>
-            <View style={{ flexDirection: "column" }}>
-              <View style={{ flex: 1, flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", flex: 1 }}>
+              <View style={{ flexDirection: "column", flex: 1.7 }}>
                 <Text weight="Bold" style={styles.name}>
                   {productName}
                 </Text>
@@ -155,107 +155,105 @@ class Header extends Component {
                   </View>
                   <Image style={styles.dropdownIcon} source={dropdownIcon} />
                 </TouchableOpacity>
+                <View style={styles.texts}>
+                  {product.warrantyDetails.length > 0 && (
+                    <Text weight="Medium" style={styles.brandAndModel}>
+                      Warranty till{" "}
+                      {moment(product.warrantyDetails[0].expiryDate).format(
+                        "DD MMM YYYY"
+                      )}
+                    </Text>
+                  )}
+                  {product.insuranceDetails.length > 0 && (
+                    <Text weight="Medium" style={styles.brandAndModel}>
+                      Insurance till{" "}
+                      {moment(product.insuranceDetails[0].expiryDate).format(
+                        "DD MMM YYYY"
+                      )}
+                    </Text>
+                  )}
+                </View>
               </View>
-              <View style={styles.texts}>
-                {product.warrantyDetails.length > 0 && (
-                  <Text weight="Medium" style={styles.brandAndModel}>
-                    Warranty till{" "}
-                    {moment(product.warrantyDetails[0].expiryDate).format(
-                      "DD MMM YYYY"
-                    )}
-                  </Text>
-                )}
-                {product.insuranceDetails.length > 0 && (
-                  <Text weight="Medium" style={styles.brandAndModel}>
-                    Insurance till{" "}
-                    {moment(product.insuranceDetails[0].expiryDate).format(
-                      "DD MMM YYYY"
-                    )}
-                  </Text>
-                )}
-              </View>
-            </View>
-            {/* 3 buttons (view bill,share and rating) start */}
-            <View style={styles.btns}>
-              <View
-                style={{
-                  alignItems: "center"
-                }}
-              >
-                <ViewBillButton
-                  viewRef={ref => viewBillRef(ref)}
-                  product={product}
-                  navigation={navigation}
-                  style={{
-                    position: "relative",
-                    top: 10,
-                    right: undefined
-                  }}
-                />
-              </View>
-              {[
-                MAIN_CATEGORY_IDS.AUTOMOBILE,
-                MAIN_CATEGORY_IDS.ELECTRONICS,
-                MAIN_CATEGORY_IDS.FURNITURE,
-                MAIN_CATEGORY_IDS.FASHION
-              ].indexOf(product.masterCategoryId) > -1 && (
+              {/* 2 buttons (view bill,share) start */}
+              <View style={styles.btns}>
                 <View
                   style={{
                     alignItems: "center"
                   }}
                 >
-                  <TouchableOpacity
-                    ref={ref => shareBtnRef(ref)}
-                    onPress={() => this.shareModal.show()}
-                    style={styles.btnShare}
-                  >
-                    <Icon
-                      name={
-                        Platform.OS == "ios" ? "share-apple" : "share-google"
-                      }
-                      size={25}
-                      color={colors.mainBlue}
-                    />
-                  </TouchableOpacity>
-                  <Text weight="Medium" style={styles.btnText}>
-                    {I18n.t("share_card").toUpperCase()}
-                  </Text>
+                  <ViewBillButton
+                    viewRef={ref => viewBillRef(ref)}
+                    product={product}
+                    navigation={navigation}
+                    style={{
+                      position: "relative",
+                      top: 10,
+                      right: undefined
+                    }}
+                  />
                 </View>
-              )}
-              {[
+                {[
+                  MAIN_CATEGORY_IDS.AUTOMOBILE,
+                  MAIN_CATEGORY_IDS.ELECTRONICS,
+                  MAIN_CATEGORY_IDS.FURNITURE,
+                  MAIN_CATEGORY_IDS.FASHION
+                ].indexOf(product.masterCategoryId) > -1 && (
+                    <View
+                      style={{
+                        alignItems: "center"
+                      }}
+                    >
+                      <TouchableOpacity
+                        ref={ref => shareBtnRef(ref)}
+                        onPress={() => this.shareModal.show()}
+                        style={styles.btnShare}
+                      >
+                        <Icon
+                          name={
+                            Platform.OS == "ios" ? "share-apple" : "share-google"
+                          }
+                          size={25}
+                          color={colors.mainBlue}
+                        />
+                      </TouchableOpacity>
+                      <Text weight="Medium" style={styles.btnText}>
+                        {I18n.t("share_card").toUpperCase()}
+                      </Text>
+                    </View>
+                  )}
+                {/* {[
                 MAIN_CATEGORY_IDS.AUTOMOBILE,
                 MAIN_CATEGORY_IDS.ELECTRONICS,
                 MAIN_CATEGORY_IDS.FURNITURE,
                 MAIN_CATEGORY_IDS.FASHION
               ].indexOf(product.masterCategoryId) > -1 && (
-                <View
-                  style={{
-                    alignItems: "center"
-                  }}
-                >
-                  <TouchableOpacity
-                    ref={ref => reviewBtnRef(ref)}
-                    onPress={() => this.reviewModal.show()}
-                    style={styles.btn}
+                  <View
+                    style={{
+                      alignItems: "center"
+                    }}
                   >
-                    <Icon name="star" size={25} color={colors.yellow} />
-                  </TouchableOpacity>
-                  <Text weight="Medium" style={styles.btnText}>
-                    {review ? review.ratings : I18n.t("review").toUpperCase()}
-                  </Text>
-                </View>
-              )}
+                    <TouchableOpacity
+                      ref={ref => reviewBtnRef(ref)}
+                      onPress={() => this.reviewModal.show()}
+                      style={styles.btn}
+                    >
+                      <Icon name="star" size={25} color={colors.yellow} />
+                    </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {review ? review.ratings : ("review").toUpperCase()}
+                    </Text>
+                  </View>
+                )} */}
+              </View>
             </View>
             {/* 3 buttons (view bill,share and rating) end */}
             <View style={styles.tabs}>
               {[
                 I18n.t("product_details_screen_tab_customer_care"),
-                I18n.t("product_details_screen_tab_all_info"),
-                I18n.t("product_details_screen_tab_important")
+                I18n.t("product_details_screen_tab_all_info")
               ].map((tab, index) => {
                 if (
-                  (!showCustomerCareTab && index == 0) ||
-                  (!showImportantTab && index == 2)
+                  (!showCustomerCareTab && index == 0)
                 ) {
                   return null;
                 }
@@ -360,23 +358,24 @@ const styles = StyleSheet.create({
   lowerHalfInner: {
     backgroundColor: "#fff",
     padding: 5,
+    justifyContent: "space-between",
     paddingBottom: 0,
     paddingTop: 0,
     borderRadius: 3,
     width: "100%",
     ...defaultStyles.card
+    // flexDirection: 'row',
   },
   texts: {
-    flex: 1
+    // flex: 1
     // flexDirection: 'row',
     // justifyContent: "flex-end",
     // alignItems: 'flex-end',
     // selfrrAlign: 'flex-end'
   },
   btns: {
-    // width: 300,
     flex: 1,
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-around"
   },
   btnShare: {
@@ -413,22 +412,22 @@ const styles = StyleSheet.create({
     // marginRight: 85
   },
   brandAndModel: {
-    fontSize: 12,
+    fontSize: 14,
     color: colors.secondaryText
     // marginTop: 0
   },
   totalContainer: {
     marginTop: 0,
-    flex: 1,
+    // flex: 1,
     textAlign: "right",
     flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center"
+    // justifyContent: "flex-end",
+    // alignItems: "center"
     // alignSelf: 'flex-end'
   },
   totalAmount: {
-    fontSize: 14,
-    color: colors.secondaryText
+    fontSize: 18,
+    color: colors.mainText
   },
   dropdownIcon: {
     width: 24,
@@ -450,7 +449,7 @@ const styles = StyleSheet.create({
   },
   tabText: {
     color: colors.mainText,
-    fontSize: 10
+    fontSize: 14
   },
   activeTabText: {
     fontWeight: "500",

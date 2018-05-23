@@ -32,6 +32,7 @@ import { addFcmToken, verifyEmail } from "../api";
 import LoadingOverlay from "../components/loading-overlay";
 
 import { showSnackbar } from "../utils/snackbar";
+import IntroScreen from "../containers/intro-screen";
 
 import NavigationService from "./index";
 import AuthStack from "./auth-stack";
@@ -40,6 +41,7 @@ import AppStack from "./app-stack";
 const RootNavigator = createSwitchNavigator(
   {
     AppLoading: LoadingOverlay,
+    [SCREENS.INTRO_SCREEN]: IntroScreen,
     [SCREENS.AUTH_STACK]: AuthStack,
     [SCREENS.APP_STACK]: AppStack
   },
@@ -262,13 +264,13 @@ class RootNavigation extends React.Component {
         : CODEPUSH_KEYS.PRODUCTION
     });
 
-    SplashScreen.hide();
     console.log("this.props: ", this.props);
     if (!this.props.isUserLoggedIn) {
-      NavigationService.navigate(SCREENS.AUTH_STACK);
+      NavigationService.navigate(SCREENS.INTRO_SCREEN);
     } else {
       NavigationService.navigate(SCREENS.APP_STACK);
     }
+    SplashScreen.hide();
 
     FCM.requestPermissions()
       .then(() => console.log("granted"))

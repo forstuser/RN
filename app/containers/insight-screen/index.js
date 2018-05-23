@@ -306,10 +306,21 @@ class InsightScreen extends Component {
           />
 
           {totalSpend > 0 && (
-            <ExpensesChart
-              colors={legendColors}
-              chartData={this.state.chartData}
-            />
+            <View
+              collapsable={false}
+              style={{
+                width: 240,
+                height: 240,
+                justifyContent: "center",
+                alignItems: "center",
+                alignSelf: "center"
+              }}
+            >
+              <ExpensesChart
+                colors={legendColors}
+                chartData={this.state.chartData}
+              />
+            </View>
           )}
           {totalSpend == 0 && (
             <View

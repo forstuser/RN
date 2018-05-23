@@ -82,9 +82,9 @@ const ProductListItem = ({ product, onPress }) => {
         }}
         resizeMode="contain"
       />
-      <View collapsable={false}  style={styles.texts}>
-        <View collapsable={false}  style={styles.nameAndSeller}>
-          <View collapsable={false}  style={{ flexDirection: "row" }}>
+      <View collapsable={false} style={styles.texts}>
+        <View collapsable={false} style={styles.nameAndSeller}>
+          <View collapsable={false} style={{ flexDirection: "row" }}>
             <Text weight="Bold" style={styles.name}>
               {productName.toUpperCase()}
             </Text>
@@ -94,15 +94,15 @@ const ProductListItem = ({ product, onPress }) => {
           </View>
 
           {offlineSellerName.length > 0 || onlineSellerName.length > 0 ? (
-            <View collapsable={false}  style={{ flexDirection: "row" }}>
+            <View collapsable={false} style={{ flexDirection: "row" }}>
               <Text style={styles.offlineSellerName}>{offlineSellerName}</Text>
               <Text style={styles.onlineSellerName}>{onlineSellerName}</Text>
             </View>
           ) : (
-            <View collapsable={false}  />
+            <View collapsable={false} />
           )}
         </View>
-        <View collapsable={false}  style={styles.otherDetailContainer}>
+        <View collapsable={false} style={styles.otherDetailContainer}>
           <Text style={styles.detailName}>{dateText} </Text>
           <Text weight="Medium" style={styles.detailValue}>
             {product.purchaseDate
@@ -111,7 +111,7 @@ const ProductListItem = ({ product, onPress }) => {
           </Text>
         </View>
         {product.warrantyDetails && product.warrantyDetails.length > 0 ? (
-          <View collapsable={false}  style={styles.otherDetailContainer}>
+          <View collapsable={false} style={styles.otherDetailContainer}>
             <Text style={styles.detailName}>Warranty till: </Text>
             <Text weight="Medium" style={styles.detailValue}>
               {moment(product.warrantyDetails[0].expiryDate).format(
@@ -125,14 +125,14 @@ const ProductListItem = ({ product, onPress }) => {
                 {expiringInText(moment(product.warrantyDetails[0].expiryDate))}
               </Text>
             ) : (
-              <View collapsable={false}  />
+              <View collapsable={false} />
             )}
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
         {product.insuranceDetails && product.insuranceDetails.length > 0 ? (
-          <View collapsable={false}  style={styles.otherDetailContainer}>
+          <View collapsable={false} style={styles.otherDetailContainer}>
             <Text style={styles.detailName}>Insurance till: </Text>
             <Text weight="Medium" style={styles.detailValue}>
               {moment(product.insuranceDetails[0].expiryDate).format(
@@ -146,14 +146,14 @@ const ProductListItem = ({ product, onPress }) => {
                 {expiringInText(moment(product.insuranceDetails[0].expiryDate))}
               </Text>
             ) : (
-              <View collapsable={false}  />
+              <View collapsable={false} />
             )}
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
         {product.amcDetails && product.amcDetails.length > 0 ? (
-          <View collapsable={false}  style={styles.otherDetailContainer}>
+          <View collapsable={false} style={styles.otherDetailContainer}>
             <Text style={styles.detailName}>AMC till: </Text>
             <Text weight="Medium" style={styles.detailValue}>
               {moment(product.amcDetails[0].expiryDate).format("MMM DD, YYYY")}
@@ -165,14 +165,14 @@ const ProductListItem = ({ product, onPress }) => {
                 {expiringInText(moment(product.amcDetails[0].expiryDate))}
               </Text>
             ) : (
-              <View collapsable={false}  />
+              <View collapsable={false} />
             )}
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
         {product.pucDetails && product.pucDetails.length > 0 ? (
-          <View collapsable={false}  style={styles.otherDetailContainer}>
+          <View collapsable={false} style={styles.otherDetailContainer}>
             <Text style={styles.detailName}>Polution Certificate: </Text>
             <Text weight="Medium" style={styles.detailValue}>
               {moment(product.pucDetails[0].expiryDate).format("MMM DD, YYYY")}
@@ -184,16 +184,16 @@ const ProductListItem = ({ product, onPress }) => {
                 {expiringInText(moment(product.pucDetails[0].expiryDate))}
               </Text>
             ) : (
-              <View collapsable={false}  />
+              <View collapsable={false} />
             )}
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
         {product.schedule ? (
-          <View collapsable={false}  style={styles.serviceSchedule}>
+          <View collapsable={false} style={styles.serviceSchedule}>
             <Text style={styles.detailName}>Next Service Schedule</Text>
-            <View collapsable={false}  style={{ flexDirection: "row" }}>
+            <View collapsable={false} style={{ flexDirection: "row" }}>
               <Text weight="Medium" style={styles.detailValue}>
                 {`${moment(product.schedule.due_date).format(
                   "MMM DD, YYYY"
@@ -208,12 +208,12 @@ const ProductListItem = ({ product, onPress }) => {
                   {expiringInText(moment(product.schedule.due_date))}
                 </Text>
               ) : (
-                <View collapsable={false}  />
+                <View collapsable={false} />
               )}
             </View>
           </View>
         ) : (
-          <View collapsable={false}  />
+          <View collapsable={false} />
         )}
       </View>
     </TouchableOpacity>
@@ -230,8 +230,7 @@ const styles = StyleSheet.create({
   image: {
     width: 50,
     height: 50,
-    marginRight: 16,
-    resizeMode: "contain"
+    marginRight: 16
   },
   texts: {
     flex: 1

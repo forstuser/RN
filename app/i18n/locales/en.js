@@ -382,7 +382,7 @@ export default {
   product_details_screen_edit_text: "EDIT",
   //new
   product_details_screen_tab_customer_care: "CUSTOMER CARE",
-  product_details_screen_tab_all_info: "ALL INFO",
+  product_details_screen_tab_all_info: "PRODUCT LIFE CYCLE",
   product_details_screen_tab_important: "IMPORTANT INFO",
   product_details_screen_connect_brand_connect: "Connect with Brand",
   product_details_screen_connect_insurance_provider:
@@ -1011,7 +1011,7 @@ export default {
   love_using_binbill: "Love using BinBill app?",
   recommend_us: `If you are happy with your Home Manager, please rate us on ${
     Platform.OS == "ios" ? "App" : "Play"
-  } store.`,
+    } store.`,
   app_pin: "App Pin",
   change: "Change",
   set_now: "Set Now",

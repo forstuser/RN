@@ -46,6 +46,22 @@ const MAIN_CATEGORY_IDS = {
   OTHERS: 9,
   PERSONAL: 10
 };
+const MAIN_CATEGORIES = [
+  { id: 1, name: 'Furniture' },
+  { id: 2, name: 'Electronics' },
+  { id: 3, name: 'Automobile' },
+  { id: 4, name: 'Travel' },
+  { id: 5, name: 'Healthcare' },
+  { id: 6, name: 'Services' },
+  { id: 7, name: 'Fashion' },
+  { id: 8, name: 'Household' },
+  { id: 9, name: 'Others' },
+  { id: 10, name: 'Personal' }
+];
+
+
+
+
 
 const CATEGORY_IDS = {
   AUTOMOBILE: {
@@ -298,5 +314,6 @@ export {
   WARRANTY_TYPES,
   SERVICE_TYPE_NAMES,
   METADATA_KEYS,
-  SUB_CATEGORY_IDS
+  SUB_CATEGORY_IDS,
+  MAIN_CATEGORIES
 };
