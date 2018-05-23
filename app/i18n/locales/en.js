@@ -649,15 +649,14 @@ export default {
   add_edit_expense_screen_title_select_furniture:
     "Select Furniture & Hardware Type",
   add_edit_expense_screen_title_select_service_expense:
-    "Select Service Expense Category",
+    "Select Service Expense Type",
   add_edit_expense_screen_title_select_fashion_expense:
-    "Select Fashion Expense Category",
-  add_edit_expense_screen_title_select_home_expense:
-    "Select Home Expense Category",
+    "Select Fashion Expense Type",
+  add_edit_expense_screen_title_select_home_expense: "Select Home Expense Type",
   add_edit_expense_screen_title_select_medical_document:
     "Select Medical Document Type",
   add_edit_expense_screen_title_select_health_expense:
-    "Select Healthcare Expense Category",
+    "Select Healthcare Expense Type",
   add_edit_expense_screen_title_select_personal_doc:
     "Select Personal Document Type",
 
@@ -1031,7 +1030,7 @@ export default {
 
   //29-03-2018
   add_edit_expense_screen_title_select_travel:
-    "Select Travel & Dining Expense Category",
+    "Select Travel & Dining Expense Type",
 
   //29-03-2018
   review_quotes: "Someday-N-Someway you will find this Review useful",
