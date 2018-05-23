@@ -35,7 +35,7 @@ class SelectPurchaseDateStep extends React.Component {
     const { product, insurance, onInsuranceEffectiveDateStepDone } = this.props;
     this.setState({
       isLoading: true
-    })
+    });
     try {
       const res = await updateInsurance({
         productId: product.id,
@@ -51,7 +51,7 @@ class SelectPurchaseDateStep extends React.Component {
     } finally {
       this.setState({
         isLoading: false
-      })
+      });
     }
   };
 
@@ -59,19 +59,20 @@ class SelectPurchaseDateStep extends React.Component {
     const { isLoading } = this.state;
 
     const { mainCategoryId, category, product } = this.props;
-    console.log('product.document_date: ', product.document_date)
+    console.log("product.document_date: ", product.document_date);
     return (
       <Step
         title={`Select Insurance Effective Date`}
-        subtitle='Required for renewal reminder'
+        subtitle="Required for renewal reminder"
         skippable={true}
         showLoader={isLoading}
         {...this.props}
       >
         <DatePickerRn
-          activeDate={moment(product.document_date).format('YYYY-MM-DD')}
-          maxDate={moment().format('YYYY-MM-DD')}
-          onSelectDate={this.onSelectDate} />
+          activeDate={moment(product.document_date).format("YYYY-MM-DD")}
+          maxDate={moment().format("YYYY-MM-DD")}
+          onSelectDate={this.onSelectDate}
+        />
       </Step>
     );
   }
