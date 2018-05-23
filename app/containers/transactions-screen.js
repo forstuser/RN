@@ -116,7 +116,7 @@ class TransactionsScreen extends Component {
           );
         }
       );
-    } catch (e) {}
+    } catch (e) { }
   }
 
   handleFilterOptionPress = index => {
@@ -224,61 +224,66 @@ class TransactionsScreen extends Component {
               text={I18n.t("transactions_screen_no_transactions")}
             />
           ) : (
-            <View collapsable={false}>
-              <SectionHeading
-                text={I18n.t("transactions_screen_transactions")}
-              />
               <View collapsable={false}>
-                {this.state.activeData.products.map((product, index) => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.props.navigation.navigate(
-                        SCREENS.PRODUCT_DETAILS_SCREEN,
-                        {
-                          productId: product.productId || product.id
-                        }
-                      );
-                    }}
-                    style={styles.product}
-                    key={index}
-                  >
-                    {product.dataIndex == 1 && (
-                      <Image
-                        style={styles.image}
-                        source={{ uri: API_BASE_URL + product.cImageURL }}
-                      />
-                    )}
-                    {product.dataIndex > 1 && (
-                      <Image style={styles.image} source={billIcon} />
-                    )}
-                    <View collapsable={false} style={styles.texts}>
-                      <View collapsable={false} style={styles.nameWrapper}>
-                        <Text weight="Bold" style={styles.name}>
-                          {product.productName || product.categoryName}
-                        </Text>
-                        <Text weight="Bold" style={styles.productType}>
-                          {this.productType(product.dataIndex)}
+                <SectionHeading
+                  text={I18n.t("transactions_screen_transactions")}
+                />
+                <View collapsable={false}>
+                  {this.state.activeData.products.map((product, index) => (
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.props.navigation.navigate(
+                          SCREENS.PRODUCT_DETAILS_SCREEN,
+                          {
+                            productId: product.productId || product.id
+                          }
+                        );
+                      }}
+                      style={styles.product}
+                      key={index}
+                    >
+                      {product.dataIndex == 1 && (
+                        <Image
+                          style={styles.image}
+                          source={{ uri: API_BASE_URL + product.cImageURL }}
+                        />
+                      )}
+                      {product.dataIndex > 1 && (
+                        <Image style={styles.image} source={billIcon} />
+                      )}
+                      <View collapsable={false} style={styles.texts}>
+                        <View collapsable={false} style={styles.nameWrapper}>
+                          <Text weight="Bold" style={styles.name}>
+                            {product.productName || product.categoryName}
+                          </Text>
+                          {product.masterCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD && product.sub_category_name != null &&
+                            <Text weight="Bold" style={styles.sub_category_name}>
+                              {product.sub_category_name}
+                            </Text>
+                          }
+                          <Text weight="Bold" style={styles.productType}>
+                            {this.productType(product.dataIndex)}
+                          </Text>
+                        </View>
+                        {product.sellers != null ? (
+                          <Text style={styles.sellerName}>
+                            {product.sellers.sellerName}
+                          </Text>
+                        ) : (
+                            <View collapsable={false} />
+                          )}
+                        <Text weight="Medium" style={styles.purchaseDate}>
+                          {moment(product.purchaseDate).format("MMM DD, YYYY")}
                         </Text>
                       </View>
-                      {product.sellers != null ? (
-                        <Text style={styles.sellerName}>
-                          {product.sellers.sellerName}
-                        </Text>
-                      ) : (
-                        <View collapsable={false} />
-                      )}
-                      <Text weight="Medium" style={styles.purchaseDate}>
-                        {moment(product.purchaseDate).format("MMM DD, YYYY")}
+                      <Text weight="Bold" style={styles.amount}>
+                        ₹ {product.value}
                       </Text>
-                    </View>
-                    <Text weight="Bold" style={styles.amount}>
-                      ₹ {product.value}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
+                    </TouchableOpacity>
+                  ))}
+                </View>
               </View>
-            </View>
-          )}
+            )}
         </ScrollView>
       </ScreenContainer>
     );
@@ -307,10 +312,14 @@ const styles = StyleSheet.create({
     flex: 1
   },
   nameWrapper: {
-    flexDirection: "row"
+    flexDirection: "column"
   },
   name: {
     fontSize: 14,
+    color: colors.mainText
+  },
+  sub_category_name: {
+    fontSize: 13,
     color: colors.mainText
   },
   sellerName: {
