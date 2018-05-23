@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    fcmToken: state.loggedInUser.fcmToken,
+    fcmToken: state.ui.fcmToken,
     language: state.ui.language
   };
 };

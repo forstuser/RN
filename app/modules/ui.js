@@ -6,6 +6,11 @@ import defaultState from "./default-state";
  */
 export default function uiReducer(state = defaultState.ui, action) {
   switch (action.type) {
+    case types.UI_SET_FCM_TOKEN:
+      return {
+        ...state,
+        fcmToken: action.payload.fcmToken
+      };
     case types.UI_SET_LANGUAGE:
       return {
         ...state,
@@ -65,6 +70,12 @@ export default function uiReducer(state = defaultState.ui, action) {
  * Actions
  */
 export const actions = {
+  setFcmToken: fcmToken => {
+    return {
+      type: types.UI_SET_FCM_TOKEN,
+      payload: { fcmToken: fcmToken }
+    };
+  },
   setLanguage: language => {
     return {
       type: types.UI_SET_LANGUAGE,
