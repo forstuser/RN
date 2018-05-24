@@ -156,7 +156,7 @@ class VerifyScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    fcmToken: state.loggedInUser.fcmToken
+    fcmToken: state.ui.fcmToken
   };
 };
 

@@ -56,7 +56,7 @@ const showLocalNotification = notif => {
       show_in_foreground: true,
       sound: "default", // as FCM payload
       priority: "high", // as FCM payload
-      icon: "ic_launcher", // as FCM payload, you can relace this with custom icon you put in mipmap
+      icon: "ic_notify", // as FCM payload, you can relace this with custom icon you put in mipmap
       lights: true, // Android only, LED blinking (default false),
       picture: notif.image_url || undefined,
       ...notif
@@ -278,7 +278,7 @@ class RootNavigation extends React.Component {
 
     FCM.getFCMToken()
       .then(async token => {
-        store.dispatch(loggedInUserActions.setLoggedInUserFcmToken(token));
+        store.dispatch(uiActions.setFcmToken(token));
         try {
           await addFcmToken(token);
         } catch (e) {
@@ -288,7 +288,7 @@ class RootNavigation extends React.Component {
       .catch(e => console.log("token error: ", e));
 
     FCM.on(FCMEvent.RefreshToken, async token => {
-      store.dispatch(loggedInUserActions.setLoggedInUserFcmToken(token));
+      store.dispatch(uiActions.setFcmToken(token));
       try {
         await addFcmToken(token);
       } catch (e) {}

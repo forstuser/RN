@@ -134,7 +134,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => { }
+  onUploadProgress = () => {}
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -297,7 +297,7 @@ export const logout = async fcmToken => {
     method: "post",
     url: "/consumer/logout",
     data: {
-      fcmId: store.getState().loggedInUser.fcmToken,
+      fcmId: store.getState().ui.fcmToken,
       platform: platform
     }
   });

@@ -3,7 +3,6 @@ import { LANGUAGES } from "../constants";
 export default {
   loggedInUser: {
     authToken: null,
-    fcmToken: null,
     id: null,
     name: null,
     phone: null,
@@ -15,6 +14,7 @@ export default {
 
   ui: {
     language: LANGUAGES[0],
+    fcmToken: null,
     screenToOpenAfterLogin: null,
     hasBlankDashboardTourShown: false,
     hasDashboardTourShown: false,
