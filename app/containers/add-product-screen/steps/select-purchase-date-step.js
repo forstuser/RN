@@ -79,9 +79,8 @@ class SelectPurchaseDateStep extends React.Component {
 
   render() {
     const { isLoading, activeDate } = this.state;
-    let title = "Purchase Date";
     const { mainCategoryId, category, product } = this.props;
-    let title = "Select Purchase Date"
+    let title = "Select Purchase Date";
     switch (category.id) {
       case CATEGORY_IDS.TRAVEL.TRAVEL:
         title = "Select Travel Expense Date";
