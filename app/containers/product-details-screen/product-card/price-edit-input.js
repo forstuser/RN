@@ -27,7 +27,7 @@ class PriceEditInput extends React.Component {
   componentDidMount() {
     if (this.props.price) {
       this.setState({
-        value: JSON.stringify(this.props.price),
+        value: String(this.props.price),
         type: this.props.type,
         id: this.props.id
       });

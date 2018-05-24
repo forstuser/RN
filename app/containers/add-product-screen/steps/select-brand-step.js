@@ -114,7 +114,29 @@ class SelectBrandStep extends React.Component {
     let { brands, isLoading } = this.state;
 
     const { mainCategoryId, category, product } = this.props;
-
+    switch (category.id) {
+      case CATEGORY_IDS.FASHION.FOOTWEAR:
+        title = "Select Footware Brand";
+        break;
+      case CATEGORY_IDS.FASHION.SHADES:
+        title = "Select Shades Brand";
+        break;
+      case CATEGORY_IDS.FASHION.WATCHES:
+        title = "Select Watch Brand";
+        break;
+      case CATEGORY_IDS.FASHION.CLOTHS:
+        title = "Select Cloth Brand";
+        break;
+      case CATEGORY_IDS.FASHION.BAGS:
+        title = "Select Bag Brand";
+        break;
+      case CATEGORY_IDS.FASHION.JEWELLERY:
+        title = "Select Jewellery & Accessories Brand";
+        break;
+      case CATEGORY_IDS.FASHION.MAKEUP:
+        title = "Select Make-Up Brand";
+        break;
+    }
     brands = brands.map(brand => ({
       ...brand,
       image: `${API_BASE_URL}/brands/${brand.id}/images/thumbnails`
@@ -129,7 +151,7 @@ class SelectBrandStep extends React.Component {
 
     return (
       <Step
-        title={`Select ${category.name} brand`}
+        title={title}
         subtitle={
           mainCategoryId != 7 ? "Required for customer care support" : ""
         }
