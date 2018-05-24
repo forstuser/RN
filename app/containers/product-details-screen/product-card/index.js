@@ -212,8 +212,12 @@ class ProductCard extends Component {
               />
             )}
             {activeTabIndex == 1 && (
-              <AllInfo product={product} navigation={this.props.navigation} cardWidthWhenMany={cardWidthWhenMany}
-                cardWidthWhenOne={cardWidthWhenOne} />
+              <AllInfo
+                product={product}
+                navigation={this.props.navigation}
+                cardWidthWhenMany={cardWidthWhenMany}
+                cardWidthWhenOne={cardWidthWhenOne}
+              />
             )}
             {activeTabIndex == 2 && (
               <Important
@@ -281,20 +285,10 @@ const styles = StyleSheet.create({
   addProductImageBtnDummy: {
     position: "absolute",
     opacity: 1,
-    ...Platform.select({
-      ios: {
-        top: 27,
-        right: 47,
-        width: 50,
-        height: 30
-      },
-      android: {
-        top: 15,
-        right: 45,
-        width: 50,
-        height: 30
-      }
-    })
+    top: -37,
+    right: 30,
+    width: 50,
+    height: 30
   }
 });
 

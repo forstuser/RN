@@ -132,7 +132,7 @@ export default {
   asc_search_screen_call: "Call",
 
   //bill copy popup screen
-  bill_copy_popup_screen_downloading_image: "Downloading image.. please wait..",
+  bill_copy_popup_screen_downloading_file: "Downloading.. please wait..",
   bill_copy_popup_screen_downloaded_image_ios:
     "Image downloaded, check 'Photos' app!",
   bill_copy_popup_screen_downloaded_image_android:

@@ -49,7 +49,8 @@ const RootNavigator = createSwitchNavigator(
 );
 
 const showLocalNotification = notif => {
-  if (notif && notif.title && Platform.OS == "android") {
+  console.log("show notification", notif);
+  if (notif && notif.title) {
     FCM.presentLocalNotification({
       title: notif.title, // as FCM payload
       body: notif.description, // as FCM payload (required)
@@ -59,6 +60,7 @@ const showLocalNotification = notif => {
       icon: "ic_notify", // as FCM payload, you can relace this with custom icon you put in mipmap
       lights: true, // Android only, LED blinking (default false),
       picture: notif.image_url || undefined,
+      hasShownOnce: true, //necessary for iOS, as it will fire the notification event right now
       ...notif
     });
   }
@@ -66,13 +68,19 @@ const showLocalNotification = notif => {
 
 FCM.on(FCMEvent.Notification, notif => {
   console.log("notification: ", notif);
-  if (
-    notif.local_notification ||
-    (Platform.OS == "ios" && notif.opened_from_tray)
-  ) {
-    handleNotification(notif);
-  } else if (Platform.OS == "android") {
-    showLocalNotification(notif);
+  console.log("AppState.currentState: ", AppState.currentState);
+  if (Platform.OS == "android") {
+    if (notif.local_notification) {
+      handleNotification(notif);
+    } else {
+      showLocalNotification(notif);
+    }
+  } else if (Platform.OS == "ios") {
+    if (notif.opened_from_tray) {
+      handleNotification(notif);
+    } else if (!notif.hasShownOnce) {
+      showLocalNotification(notif);
+    }
   }
 });
 

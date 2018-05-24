@@ -50,13 +50,17 @@ import Tour from "../../components/app-tour";
 class UploadDocumentScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
-    const { onOptionsPress } = params;
+    const { onOptionsPress, getImageRef = () => {} } = params;
 
     return {
       title: I18n.t("upload_document_screen_title"),
       headerRight: (
-        <TouchableOpacity onPress={onOptionsPress}>
-          <Image style={{ width: 24, height: 24 }} source={newPicIcon} />
+        <TouchableOpacity onPress={onOptionsPress} style={{ marginRight: 15 }}>
+          <Image
+            ref={ref => getImageRef(ref)}
+            style={{ width: 24, height: 24 }}
+            source={newPicIcon}
+          />
         </TouchableOpacity>
       )
     };
@@ -82,6 +86,9 @@ class UploadDocumentScreen extends Component {
     this.props.navigation.setParams({
       onOptionsPress: () => {
         this.uploadOptions.show();
+      },
+      getImageRef: ref => {
+        this.plusIconRef = ref;
       }
     });
   }
@@ -339,17 +346,13 @@ class UploadDocumentScreen extends Component {
           style={styles.dummyViewForFile}
           ref={ref => (this.dummyViewForFile = ref)}
         />
-        <View
-          collapsable={false}
-          style={styles.dummyViewForPlusIcon}
-          ref={ref => (this.dummyPlusIconRef = ref)}
-        />
+
         <Tour
           ref={ref => (this.uploadDocTour = ref)}
           enabled={true}
           steps={[
             { ref: this.dummyViewForFile, text: I18n.t("zoom_image_tip") },
-            { ref: this.dummyPlusIconRef, text: I18n.t("add_bill_btn_tip") }
+            { ref: this.plusIconRef, text: I18n.t("add_bill_btn_tip") }
           ]}
         />
       </ScreenContainer>
@@ -449,23 +452,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     color: colors.pinkishOrange
-  },
-
-  dummyViewForPlusIcon: {
-    position: "absolute",
-    width: 32,
-    height: 32,
-    opacity: 1,
-    ...Platform.select({
-      ios: {
-        top: -37,
-        right: 12
-      },
-      android: {
-        top: -42,
-        right: 8
-      }
-    })
   }
 });
 

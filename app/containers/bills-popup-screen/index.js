@@ -15,7 +15,7 @@ import ScrollableTabView from "react-native-scrollable-tab-view";
 import { connect } from "react-redux";
 import I18n from "../../i18n";
 import { showSnackbar } from "../../utils/snackbar";
-
+import { requestStoragePermission } from "../../android-permissions";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -44,7 +44,8 @@ class BillsPopUpScreen extends Component {
     });
   }
 
-  shareCopies = selectedCopies => {
+  shareCopies = async selectedCopies => {
+    if ((await requestStoragePermission()) == false) return;
     if (selectedCopies.length == 0) {
       return showSnackbar({
         text: "Select some files to share!"
@@ -102,8 +103,8 @@ class BillsPopUpScreen extends Component {
   };
 
   onShareBtnClick = () => {
-    if (this.props.copies.length == 1) {
-      this.shareCopies([this.props.copies[0]]);
+    if (this.state.copies.length == 1) {
+      this.shareCopies([this.state.copies[0]]);
     } else {
       this.setState({
         isSelectViewVisible: true
@@ -241,10 +242,10 @@ class BillsPopUpScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: "rgba(0,0,0,1)" },
+  container: { backgroundColor: "rgba(0,0,0,1)", padding: 0 },
   header: {
     flexDirection: "row",
-    marginBottom: 20
+    marginBottom: 10
   },
   dateAndId: {
     flex: 1
@@ -253,6 +254,9 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     marginBottom: 5
+  },
+  crossIcon: {
+    margin: 10
   },
   id: {
     color: "#fff"
