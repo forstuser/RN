@@ -58,10 +58,6 @@ class RepairDetails extends React.Component {
           valueText={repair.premiumAmount || "-"}
         />
         <KeyValueItem
-          keyText={I18n.t("product_details_screen_repairs_for")}
-          valueText={repair.repair_for}
-        />
-        <KeyValueItem
           keyText={I18n.t("product_details_screen_repairs_warranty_upto")}
           valueText={
             repair.warranty_upto
@@ -70,11 +66,15 @@ class RepairDetails extends React.Component {
           }
         />
         <KeyValueItem
-          keyText={I18n.t("product_details_screen_repairs_seller")}
+          keyText={I18n.t("product_details_screen_repairs_for")}
+          valueText={repair.repair_for}
+        />
+        <KeyValueItem
+          keyText={"Repair Seller Name"}
           valueText={repair.sellers ? repair.sellers.sellerName : "-"}
         />
         <KeyValueItem
-          keyText={I18n.t("product_details_screen_repairs_seller_contact")}
+          keyText={"Repair Seller Contact"}
           ValueComponent={() => (
             <MultipleContactNumbers
               contact={repair.sellers ? repair.sellers.contact : "-"}

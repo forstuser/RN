@@ -51,6 +51,13 @@ class WarrantyDetails extends React.Component {
             );
           }}
         />
+        {warranty.warranty_type == WARRANTY_TYPES.EXTENDED && (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_warranty_provider")}
+            valueText={warranty.provider ? warranty.provider.name : "-"}
+          />
+        )}
+
         <KeyValueItem
           keyText={I18n.t("product_details_screen_warranty_expiry_date")}
           valueText={
@@ -58,13 +65,6 @@ class WarrantyDetails extends React.Component {
             moment(warranty.expiryDate).format("DD MMM YYYY")
           }
         />
-
-        {warranty.warranty_type == WARRANTY_TYPES.EXTENDED && (
-          <KeyValueItem
-            keyText={I18n.t("product_details_screen_warranty_provider")}
-            valueText={warranty.provider ? warranty.provider.name : "-"}
-          />
-        )}
 
         {warranty.warranty_type == WARRANTY_TYPES.EXTENDED && (
           <KeyValueItem

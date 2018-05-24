@@ -58,18 +58,18 @@ class PucDetails extends React.Component {
           }
         />
         <KeyValueItem
-          keyText={I18n.t("product_details_screen_puc_seller")}
-          valueText={puc.sellers ? puc.sellers.sellerName : "-"}
+          keyText={"PUC Amount"}
+          valueText={puc.value}
         />
 
-        <KeyValueItem
+        {/* <KeyValueItem
           keyText={I18n.t("product_details_screen_puc_seller_contact")}
           ValueComponent={() => (
             <MultipleContactNumbers
               contact={puc.sellers ? puc.sellers.contact : "-"}
             />
           )}
-        />
+        /> */}
       </View>
     );
 
