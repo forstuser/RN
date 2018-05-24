@@ -79,7 +79,11 @@ class PriceEditInput extends React.Component {
     }
   };
   updateAmount = () => {
-    this.props.sendData(this.state.value, this.props.id, this.props.type);
+    this.props.sendData(
+      this.state.value.substr(1, this.state.value.length),
+      this.props.id,
+      this.props.type
+    );
   };
 
   render() {
@@ -100,7 +104,13 @@ class PriceEditInput extends React.Component {
               style={editable ? {} : { fontWeight: "bold", color: "#000" }}
               ref={ref => (this.input = ref)}
               underlineColorAndroid="transparent"
-              value={value}
+              value={
+                value.includes("₹") && value == "₹"
+                  ? String(value)
+                  : !value.includes("₹")
+                    ? "₹" + String(value)
+                    : String(value)
+              }
               onFocus={this.onInputFocus}
               onBlur={this.onInputBlur}
               onChangeText={text => this.onChangeText(text)}

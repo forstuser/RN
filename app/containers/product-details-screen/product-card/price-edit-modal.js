@@ -203,7 +203,7 @@ class PriceEditModal extends React.Component {
                   <PriceEditInput
                     name="Total Amount"
                     date=""
-                    price={totalAmount}
+                    price={"₹" + totalAmount}
                     editable={false}
                   />
                 </View>
