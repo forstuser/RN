@@ -52,8 +52,8 @@ class PucForm extends React.Component {
     this.state = {
       id: null,
       effectiveDate: null,
-      sellerName: "",
-      sellerContact: "",
+      // sellerName: "",
+      // sellerContact: "",
       value: "",
       selectedRenewalType: null,
       renewalTypes: [
@@ -90,8 +90,8 @@ class PucForm extends React.Component {
           id: puc.id,
           effectiveDate: moment(puc.effectiveDate).format("YYYY-MM-DD"),
           value: String(puc.value),
-          sellerName: puc.sellers ? puc.sellers.sellerName : "",
-          sellerContact: puc.sellers ? puc.sellers.contact : "",
+          // sellerName: puc.sellers ? puc.sellers.sellerName : "",
+          // sellerContact: puc.sellers ? puc.sellers.contact : "",
           selectedRenewalType: selectedRenewalType,
           copies: puc.copies
         },
@@ -106,15 +106,15 @@ class PucForm extends React.Component {
     const {
       id,
       effectiveDate,
-      sellerName,
+      // sellerName,
       value,
       selectedRenewalType
     } = this.state;
 
     let data = {
       id: id,
-      sellerName: sellerName,
-      sellerContact: this.sellerContactRef.getFilledData(),
+      // sellerName: sellerName,
+      // sellerContact: this.sellerContactRef.getFilledData(),
       value: value,
       effectiveDate: effectiveDate,
       expiryPeriod: selectedRenewalType ? selectedRenewalType.id : null
@@ -164,12 +164,12 @@ class PucForm extends React.Component {
         headerTextStyle={styles.headerTextStyle}
         icon="plus"
       >
-        <View collapsable={false}  style={styles.innerContainer}>
-          <View collapsable={false}  style={styles.body}>
+        <View collapsable={false} style={styles.innerContainer}>
+          <View collapsable={false} style={styles.body}>
             <CustomDatePicker
               date={effectiveDate}
               placeholder={I18n.t("expense_forms_puc_effective_date")}
-              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+              placeholder2={" (Recommended)"}
               placeholder2Color={colors.mainBlue}
               onDateChange={effectiveDate => {
                 this.setState({ effectiveDate });
@@ -180,6 +180,8 @@ class PucForm extends React.Component {
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_puc_upto")}
+              hint={"(For sending PUC expiry reminder)"}
+              style={{ paddingTop: 0 }}
               placeholderRenderer={({ placeholder }) => (
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
@@ -192,29 +194,6 @@ class PucForm extends React.Component {
               }}
               hideAddNew={true}
             />
-
-            <CustomTextInput
-              placeholder={I18n.t("expense_forms_puc_seller_name")}
-              underlineColorAndroid="transparent"
-              value={sellerName}
-              onChangeText={sellerName => this.setState({ sellerName })}
-            />
-
-            <ContactFields
-              ref={ref => (this.sellerContactRef = ref)}
-              value={sellerContact}
-              placeholder={I18n.t("expense_forms_puc_seller_contact")}
-              keyboardType="numeric"
-            />
-
-            <CustomTextInput
-              placeholder={I18n.t("expense_forms_puc_amount")}
-              underlineColorAndroid="transparent"
-              value={value}
-              onChangeText={value => this.setState({ value })}
-              keyboardType="numeric"
-            />
-
             <UploadDoc
               productId={productId}
               itemId={id}
@@ -235,6 +214,29 @@ class PucForm extends React.Component {
                 });
               }}
             />
+            {/* <CustomTextInput
+              placeholder={I18n.t("expense_forms_puc_seller_name")}
+              underlineColorAndroid="transparent"
+              value={sellerName}
+              onChangeText={sellerName => this.setState({ sellerName })}
+            />
+
+            <ContactFields
+              ref={ref => (this.sellerContactRef = ref)}
+              value={sellerContact}
+              placeholder={I18n.t("expense_forms_puc_seller_contact")}
+              keyboardType="numeric"
+            /> */}
+
+            <CustomTextInput
+              placeholder={I18n.t("expense_forms_puc_amount")}
+              underlineColorAndroid="transparent"
+              value={value}
+              onChangeText={value => this.setState({ value })}
+              keyboardType="numeric"
+            />
+
+
           </View>
         </View>
       </Collapsible>

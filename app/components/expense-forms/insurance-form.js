@@ -187,18 +187,8 @@ class InsuranceForm extends React.Component {
         headerTextStyle={styles.headerTextStyle}
         icon="plus"
       >
-        <View collapsable={false}  style={styles.innerContainer}>
-          <View collapsable={false}  style={styles.body}>
-            <CustomDatePicker
-              date={effectiveDate}
-              placeholder={I18n.t("expense_forms_healthcare_effective_date")}
-              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
-              placeholder2Color={colors.mainBlue}
-              onDateChange={effectiveDate => {
-                this.setState({ effectiveDate });
-              }}
-            />
-
+        <View collapsable={false} style={styles.innerContainer}>
+          <View collapsable={false} style={styles.body}>
             <SelectModal
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
@@ -207,7 +197,7 @@ class InsuranceForm extends React.Component {
                 "expense_forms_insurance_provider_name"
               )}
               placeholderRenderer={({ placeholder }) => (
-                <View collapsable={false}  style={{ flexDirection: "row" }}>
+                <View collapsable={false} style={{ flexDirection: "row" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
@@ -216,8 +206,8 @@ class InsuranceForm extends React.Component {
                       *
                     </Text>
                   ) : (
-                    <View collapsable={false}  />
-                  )}
+                      <View collapsable={false} />
+                    )}
                 </View>
               )}
               selectedOption={selectedProvider}
@@ -232,22 +222,15 @@ class InsuranceForm extends React.Component {
               }}
               onTextInputChange={text => this.onProviderNameChange(text)}
             />
-
-            <CustomTextInput
-              placeholder={I18n.t("expense_forms_insurance_polocy_no")}
-              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
-              underlineColorAndroid="transparent"
+            <CustomDatePicker
+              date={effectiveDate}
+              placeholder={I18n.t("expense_forms_healthcare_effective_date")}
+              placeholder2={" (Recommended)"}
+              hint={"(For sending insurance renewal reminder)"}
               placeholder2Color={colors.mainBlue}
-              value={policyNo}
-              onChangeText={policyNo => this.setState({ policyNo })}
-            />
-
-            <CustomTextInput
-              placeholder={I18n.t("expense_forms_insurance_premium_amount")}
-              underlineColorAndroid="transparent"
-              value={value ? String(value) : ""}
-              onChangeText={value => this.setState({ value })}
-              keyboardType="numeric"
+              onDateChange={effectiveDate => {
+                this.setState({ effectiveDate });
+              }}
             />
 
             <UploadDoc
@@ -267,6 +250,26 @@ class InsuranceForm extends React.Component {
                 });
               }}
             />
+
+            <CustomTextInput
+              placeholder={I18n.t("expense_forms_insurance_polocy_no")}
+              placeholder2={" (Recommended)"}
+              hint={"(Helps in communication)"}
+              underlineColorAndroid="transparent"
+              placeholder2Color={colors.mainBlue}
+              value={policyNo}
+              onChangeText={policyNo => this.setState({ policyNo })}
+            />
+
+            <CustomTextInput
+              placeholder={I18n.t("expense_forms_insurance_premium_amount")}
+              underlineColorAndroid="transparent"
+              value={value ? String(value) : ""}
+              onChangeText={value => this.setState({ value })}
+              keyboardType="numeric"
+            />
+
+
 
             <CustomTextInput
               placeholder={I18n.t("expense_forms_insurance_total_coverage")}

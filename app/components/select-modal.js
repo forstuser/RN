@@ -14,7 +14,7 @@ import {
 import FastImage from "react-native-fast-image";
 
 import I18n from "../i18n";
-import { defaultStyles } from "../theme";
+import { defaultStyles, colors } from "../theme";
 const dropdownIcon = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhDAkMGjg4AXstAAAAcklEQVRIx+3Tuw3AIAxF0avMxQAMwNKeiYIUUSSE+NimQ7zU9wQK4O6IBYTi/ITARl4oyLN/hUh2/z8TAZKTyKT/FB6iyj1Ek1uJTm4hBrmWmOQaYpGvCEU+I5T5iDDkPcKYt4QjrwlnDhAR5Htxd0fvBYOKNVDm/h2pAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTEyLTA5VDEyOjI2OjU2KzAxOjAw6KWTZgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0xMi0wOVQxMjoyNjo1NiswMTowMJn4K9oAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC`;
 const crossIcon = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhDAsIDg3tHAgMAAAAkElEQVQ4y6WUuQ2AMBAER5BQAQWQUxsSTUBCSohETkZON26DI0Li8cOKy6zdkX2fc1oWSjaMeGR0zAAOw5jIEvYJw3DQY0nktBv99RBCXo444lXDSFDxC9G732Iyu7shXYwH8sF+Rz7Zn4g31Z8hPklMWiyr2DhxNMThE8dbXiB5RcVPIAdqRhr2KGCsFFQMB2e3sbEqrADlAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTEyLTExVDA4OjE0OjEzKzAxOjAw8CXXWwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0xMi0xMVQwODoxNDoxMyswMTowMIF4b+cAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC`;
 
@@ -113,7 +113,7 @@ class SelectModal extends Component {
       onTextInputChange(text);
     }
     this.setState({
-      textInput: text
+      textInput: text,
     });
   };
 
@@ -153,7 +153,7 @@ class SelectModal extends Component {
       isTextInputVisible,
       isModalVisible,
       searchInput,
-      textInput
+      textInput,
     } = this.state;
 
     const searchText = searchInput.trim();
@@ -170,10 +170,10 @@ class SelectModal extends Component {
     // if (!isModalVisible) return null;
 
     return (
-      <View collapsable={false}  style={[styles.container, style]}>
+      <View collapsable={false} style={[styles.container, style]}>
         {!isTextInputVisible ? (
           <TouchableOpacity onPress={this._tryOpenModal} style={styles.wrapper}>
-            <View collapsable={false}  style={{ flex: 1 }}>
+            <View collapsable={false} style={{ flex: 1 }}>
               {selectedOption == null && placeholderRenderer({ placeholder })}
               {selectedOption != null && (
                 <Text>{selectedOption[visibleKey]}</Text>
@@ -185,26 +185,26 @@ class SelectModal extends Component {
             />
           </TouchableOpacity>
         ) : (
-          <View collapsable={false}  style={styles.wrapper}>
-            <TextInput
-              underlineColorAndroid="transparent"
-              ref={ref => (this.textInput = ref)}
-              placeholder={textInputPlaceholder}
-              style={styles.textInput}
-              value={textInput}
-              onChangeText={text => this._onTextInputChange(text)}
-            />
-            <Text onPress={this._tryOpenModal} style={styles.textInputSelect}>
-              Select
+            <View collapsable={false} style={styles.wrapper}>
+              <TextInput
+                underlineColorAndroid="transparent"
+                ref={ref => (this.textInput = ref)}
+                placeholder={textInputPlaceholder}
+                style={styles.textInput}
+                value={textInput}
+                onChangeText={text => this._onTextInputChange(text)}
+              />
+              <Text onPress={this._tryOpenModal} style={styles.textInputSelect}>
+                Select
             </Text>
-          </View>
-        )}
-        {hint ? <Text style={styles.hint}>{hint}</Text> : null}
+            </View>
+          )}
+        {!selectedOption && !textInput && hint ? <Text style={styles.hint}>{hint}</Text> : null}
         {isModalVisible ? (
           <View collapsable={false} >
             <Modal visible={true} animationType="slide">
-              <View collapsable={false}  style={{ backgroundColor: "#fff" }}>
-                <View collapsable={false}  style={styles.modalHeader}>
+              <View collapsable={false} style={{ backgroundColor: "#fff" }}>
+                <View collapsable={false} style={styles.modalHeader}>
                   <Text style={styles.modalHeaderText}>{placeholder}</Text>
                   <TouchableOpacity
                     onPress={() => this.setState({ isModalVisible: false })}
@@ -217,7 +217,7 @@ class SelectModal extends Component {
                   </TouchableOpacity>
                 </View>
                 {!hideSearch && options.length > 15 ? (
-                  <View collapsable={false}  style={styles.searchContainer}>
+                  <View collapsable={false} style={styles.searchContainer}>
                     <TextInput
                       placeholder={I18n.t("component_items_search")}
                       underlineColorAndroid="transparent"
@@ -229,8 +229,8 @@ class SelectModal extends Component {
                     />
                   </View>
                 ) : (
-                  <View collapsable={false}  />
-                )}
+                    <View collapsable={false} />
+                  )}
               </View>
               {optionsAfterSearch.length > 0 ? (
                 <FlatList
@@ -253,26 +253,26 @@ class SelectModal extends Component {
                   }}
                 />
               ) : (
-                <View collapsable={false}  style={styles.noResultContainer}>
-                  <Text style={styles.noResultText}>No result found</Text>
+                  <View collapsable={false} style={styles.noResultContainer}>
+                    <Text style={styles.noResultText}>No result found</Text>
 
-                  {!hideAddNew ? (
-                    <TouchableOpacity
-                      style={styles.addNewBtn}
-                      onPress={this._onAddNewClick}
-                    >
-                      <Text style={styles.addNewBtnText}>Add New</Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <View collapsable={false}  />
-                  )}
-                </View>
-              )}
+                    {!hideAddNew ? (
+                      <TouchableOpacity
+                        style={styles.addNewBtn}
+                        onPress={this._onAddNewClick}
+                      >
+                        <Text style={styles.addNewBtnText}>Add New</Text>
+                      </TouchableOpacity>
+                    ) : (
+                        <View collapsable={false} />
+                      )}
+                  </View>
+                )}
             </Modal>
           </View>
         ) : (
-          <View collapsable={false}  />
-        )}
+            <View collapsable={false} />
+          )}
       </View>
     );
   }
@@ -281,6 +281,7 @@ const styles = StyleSheet.create({
   container: {
     height: 45,
     padding: 8,
+    // paddingTop: 0,
     marginBottom: 12,
     borderRadius: 10,
     ...defaultStyles.card
@@ -396,6 +397,12 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: "center",
     justifyContent: "center"
+  },
+  hint: {
+    color: colors.mainBlue,
+    position: 'relative',
+    bottom: 8,
+    fontSize: 10
   }
 });
 export default SelectModal;

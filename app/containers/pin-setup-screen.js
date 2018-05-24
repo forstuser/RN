@@ -32,7 +32,7 @@ class PinSetupScreen extends React.Component {
     this.state = {
       retryFunction: "",
       error: null,
-      showEmailInput: props.navigation.state.params.resetPin || false,
+      showEmailInput: this.props.navigation.getParam("resetPin", false),
       showOtpInput: false,
       showRetryPin: false,
       showVerifyPin: false,

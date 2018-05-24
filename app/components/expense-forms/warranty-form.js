@@ -233,8 +233,8 @@ class WarrantyForm extends React.Component {
         icon="plus"
         isCollapsible={isCollapsible}
       >
-        <View collapsable={false}  style={styles.innerContainer}>
-          <View collapsable={false}  style={styles.body}>
+        <View collapsable={false} style={styles.innerContainer}>
+          <View collapsable={false} style={styles.body}>
             {warrantyType == WARRANTY_TYPES.EXTENDED ? (
               <View collapsable={false} >
                 <SelectModal
@@ -288,17 +288,19 @@ class WarrantyForm extends React.Component {
                 />
               </View>
             ) : (
-              <View collapsable={false}  />
-            )}
+                <View collapsable={false} />
+              )}
             <SelectModal
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_extended_warranty_upto")}
+              hint={"( For sending  warranty expiry reminder )"}
               placeholderRenderer={({ placeholder }) => (
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
                 </Text>
               )}
+              style={{ paddingTop: 0 }}
               selectedOption={selectedRenewalType}
               options={renewalTypes}
               visibleKey="title"

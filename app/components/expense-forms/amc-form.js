@@ -126,18 +126,42 @@ class AmcForm extends React.Component {
         headerTextStyle={styles.headerTextStyle}
         icon="plus"
       >
-        <View collapsable={false}  style={styles.innerContainer}>
-          <View collapsable={false}  style={styles.body}>
+        <View collapsable={false} style={styles.innerContainer}>
+          <View collapsable={false} style={styles.body}>
             <CustomDatePicker
               date={effectiveDate}
               placeholder={I18n.t("expense_forms_amc_form_amc_effective_date")}
-              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+              placeholder2={" (Recommended)"}
+              hint={" (For sending AMC expiry reminder)"}
               placeholder2Color={colors.mainBlue}
               onDateChange={effectiveDate => {
                 this.setState({ effectiveDate });
               }}
             />
-
+            <UploadDoc
+              productId={productId}
+              itemId={id}
+              copies={copies}
+              jobId={jobId}
+              docType="AMC"
+              type={2}
+              placeholder={I18n.t("expense_forms_amc_form_amc_upload")}
+              placeholder2={" (Recommended)"}
+              placeholder2Color={colors.mainBlue}
+              navigation={navigation}
+              onUpload={uploadResult => {
+                this.setState({
+                  id: uploadResult.amc.id,
+                  copies: uploadResult.amc.copies
+                });
+              }}
+            />
+            <CustomTextInput
+              placeholder={I18n.t("expense_forms_amc_form_amc_amount")}
+              value={value}
+              onChangeText={value => this.setState({ value })}
+              keyboardType="numeric"
+            />
             <CustomTextInput
               placeholder={I18n.t("expense_forms_amc_form_amc_seller_name")}
               value={sellerName}
@@ -151,31 +175,9 @@ class AmcForm extends React.Component {
               keyboardType="numeric"
             />
 
-            <CustomTextInput
-              placeholder={I18n.t("expense_forms_amc_form_amc_amount")}
-              value={value}
-              onChangeText={value => this.setState({ value })}
-              keyboardType="numeric"
-            />
 
-            <UploadDoc
-              productId={productId}
-              itemId={id}
-              copies={copies}
-              jobId={jobId}
-              docType="AMC"
-              type={2}
-              placeholder={I18n.t("expense_forms_amc_form_amc_upload")}
-              placeholder2=" (Recommended)"
-              placeholder2Color={colors.mainBlue}
-              navigation={navigation}
-              onUpload={uploadResult => {
-                this.setState({
-                  id: uploadResult.amc.id,
-                  copies: uploadResult.amc.copies
-                });
-              }}
-            />
+
+
           </View>
         </View>
       </Collapsible>
