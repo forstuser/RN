@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     top: 10,
-    left: 5
+    left: 10
     // paddingVertical: 10
   },
   filledInputPlaceholderContainer: {
@@ -156,7 +156,8 @@ const styles = StyleSheet.create({
     fontSize: 10
   },
   placeholder2: {
-    fontSize: 10
+    fontSize: 10,
+    marginLeft: 2
   },
   textInput: {
     backgroundColor: "transparent",

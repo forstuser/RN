@@ -225,7 +225,7 @@ class InsuranceForm extends React.Component {
             <CustomDatePicker
               date={effectiveDate}
               placeholder={I18n.t("expense_forms_healthcare_effective_date")}
-              placeholder2={" (Recommended)"}
+              placeholder2={"(Recommended)"}
               hint={"(For sending insurance renewal reminder)"}
               placeholder2Color={colors.mainBlue}
               onDateChange={effectiveDate => {
@@ -253,7 +253,7 @@ class InsuranceForm extends React.Component {
 
             <CustomTextInput
               placeholder={I18n.t("expense_forms_insurance_polocy_no")}
-              placeholder2={" (Recommended)"}
+              placeholder2={"(Recommended)"}
               hint={"(Helps in communication)"}
               underlineColorAndroid="transparent"
               placeholder2Color={colors.mainBlue}

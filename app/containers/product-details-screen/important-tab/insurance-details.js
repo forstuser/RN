@@ -113,8 +113,8 @@ class InsuranceDetails extends Component {
                       }
                     />
                   ) : (
-                    <View collapsable={false} />
-                  )}
+                      <View collapsable={false} />
+                    )}
                   {insurance.sellers != null ? (
                     <KeyValueItem
                       keyText={I18n.t(
@@ -129,19 +129,19 @@ class InsuranceDetails extends Component {
                       )}
                     />
                   ) : (
-                    <View collapsable={false} />
-                  )}
+                      <View collapsable={false} />
+                    )}
                 </View>
               ))}
             </View>
           ) : (
-            <Text
-              weight="Bold"
-              style={{ textAlign: "center", padding: 16, color: "red" }}
-            >
-              {I18n.t("product_details_screen_insurance_no_info")}
-            </Text>
-          )}
+              <Text
+                weight="Bold"
+                style={{ textAlign: "center", padding: 16, color: "red" }}
+              >
+                {I18n.t("product_details_screen_insurance_no_info")}
+              </Text>
+            )}
           <Button
             text={I18n.t("product_details_screen_add_insurance")}
             onPress={() => this.openAddEditInsuranceScreen(null)}
