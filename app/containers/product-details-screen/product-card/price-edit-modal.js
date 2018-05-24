@@ -90,7 +90,6 @@ class PriceEditModal extends React.Component {
     const { product, totalAmount } = this.props;
     console.log("Product Details", product);
     if (!isModalVisible) return null;
-
     let amountBreakdownOptions = [];
     let amountBreakdownObject = {};
     if (product.categoryId != 664) {
@@ -187,6 +186,7 @@ class PriceEditModal extends React.Component {
                 >
                   Life Cycle Cost Breakup
                 </Text>
+
                 {amountBreakdownOptions.map((item, index) => (
                   <View key={index}>
                     <PriceEditInput
@@ -194,7 +194,7 @@ class PriceEditModal extends React.Component {
                       type={item.type}
                       id={item.id}
                       date={item.date}
-                      price={item.price}
+                      price={item.price > 0 ? item.price : "0"}
                       editable={true}
                       sendData={this.getData}
                     />
@@ -204,7 +204,7 @@ class PriceEditModal extends React.Component {
                   <PriceEditInput
                     name="Total Amount"
                     date=""
-                    price={totalAmount}
+                    price={totalAmount > 0 ? totalAmount : "0"}
                     editable={false}
                   />
                 </View>
