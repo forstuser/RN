@@ -41,70 +41,13 @@ import PersonalDocCard from "./personal-doc-card";
 import InsuranceCard from "./insurance-card";
 import MedicalDocsCard from "./medical-docs-card";
 
-const NavOptionsButton = ({ addImageText }) => (
-  <View
-    collapsable={false}
-    style={{
-      flexDirection: "row",
-      backgroundColor: "transparent",
-      ...Platform.select({
-        ios: {},
-        android: {
-          position: "absolute",
-          top: 10,
-          right: 4,
-          width: 100,
-          height: 30,
-          alignItems: "center",
-          justifyContent: "flex-end"
-        }
-      })
-    }}
-  >
-    {addImageText ? (
-      <TouchableOpacity
-        style={{ marginRight: 20, flexDirection: "row", alignItems: "center" }}
-        onPress={() =>
-          Navigation.handleDeepLink({ link: "product-nav-add-product-pic-btn" })
-        }
-      >
-        <Icon name="camera" size={17} color={colors.pinkishOrange} />
-        <Text
-          weight="Bold"
-          style={{ marginLeft: 5, fontSize: 9, color: colors.pinkishOrange }}
-        >
-          {addImageText}
-        </Text>
-      </TouchableOpacity>
-    ) : null}
-
-    <TouchableOpacity
-      style={{
-        ...Platform.select({
-          ios: {},
-          android: {
-            marginRight: 10
-          }
-        })
-      }}
-      onPress={() =>
-        Navigation.handleDeepLink({ link: "product-nav-options-btn" })
-      }
-    >
-      <Icon name="dots-three-vertical" size={17} color={colors.pinkishOrange} />
-    </TouchableOpacity>
-  </View>
-);
-
-// Navigation.registerComponent("NavOptionsButton", () => NavOptionsButton);
-
 class ProductDetailsScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     const { addImageText, title, onEditImagePress, onOptionsPress } = params;
 
     return {
-      title: title ? title : "Product Details",
+      title: title ? title : "",
       headerTransparent: false, //params.headerTransparent,
       headerRight: (
         <View

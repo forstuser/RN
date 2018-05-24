@@ -22,6 +22,7 @@ class PriceEditModal extends React.Component {
     isModalVisible: false,
     productId: ""
   };
+
   componentDidMount() {
     this.setState({
       productId: this.props.product.id
