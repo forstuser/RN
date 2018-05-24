@@ -68,11 +68,12 @@ class SelectBrandStep extends React.Component {
         mainCategoryId: mainCategoryId,
         categoryId: category.id,
         productId: product.id,
-        brandId: brand.id
+        brandId: brand.id,
+        productName: brand.name + " " + category.name
       });
 
       if (typeof onBrandStepDone == "function") {
-        onBrandStepDone(res.product);
+        onBrandStepDone(res.product, brand);
       }
     } catch (e) {
       showSnackbar({ text: e.message });

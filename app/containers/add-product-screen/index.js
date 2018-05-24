@@ -51,6 +51,7 @@ class AddProductScreen extends React.Component {
     expenseType: null,
     mainCategoryId: null,
     category: null,
+    brand: null,
     product: null,
     insuranceProviders: [],
     subCategories: [],
@@ -100,6 +101,7 @@ class AddProductScreen extends React.Component {
       ],
       activeStepIndex: 0,
       category: null,
+      brand: null,
       product: null,
       insuranceProviders: [],
       subCategories: [],
@@ -115,6 +117,7 @@ class AddProductScreen extends React.Component {
       newState = {
         ...newState,
         category: null,
+        brand: null,
         product: null,
         insuranceProviders: [],
         subCategories: [],
@@ -430,6 +433,7 @@ class AddProductScreen extends React.Component {
         expenseType: type,
         mainCategoryId: null,
         category: null,
+        brand: null,
         product: null,
         insuranceProviders: [],
         subCategories: []
@@ -614,9 +618,9 @@ class AddProductScreen extends React.Component {
     });
   };
 
-  onBrandStepDone = product => {
+  onBrandStepDone = (product, brand) => {
     const { mainCategoryId, category } = this.state;
-    let newState = {};
+    let newState = { brand };
     if (product) newState.product = product;
     this.setState({ newState }, () => {
       switch (mainCategoryId) {
@@ -626,6 +630,7 @@ class AddProductScreen extends React.Component {
           this.pushStep(
             <SelectModelStep
               product={product}
+              brand={brand}
               mainCategoryId={mainCategoryId}
               category={category}
               onModelStepDone={this.onModelStepDone}

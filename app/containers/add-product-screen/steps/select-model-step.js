@@ -68,15 +68,23 @@ class SelectModelStep extends React.Component {
   };
 
   onSelectModel = async model => {
-    const { mainCategoryId, category, product, onModelStepDone } = this.props;
+    const {
+      mainCategoryId,
+      category,
+      product,
+      onModelStepDone,
+      brand
+    } = this.props;
     this.setState({
       isLoading: true
     });
+
     try {
       const res = await updateProduct({
         productId: product.id,
         model: model.title,
-        isNewModel: false
+        isNewModel: false,
+        productName: brand ? brand.name + " " + model.title : undefined
       });
 
       if (typeof onModelStepDone == "function") {
@@ -92,15 +100,23 @@ class SelectModelStep extends React.Component {
   };
 
   onAddModel = async modelName => {
-    const { mainCategoryId, category, product, onModelStepDone } = this.props;
+    const {
+      mainCategoryId,
+      category,
+      product,
+      onModelStepDone,
+      brand
+    } = this.props;
     this.setState({
       isLoading: true
     });
+
     try {
       const res = await updateProduct({
         productId: product.id,
         model: modelName,
-        isNewModel: true
+        isNewModel: true,
+        productName: brand ? brand.name + " " + modelName : undefined
       });
       if (typeof onModelStepDone == "function") {
         onModelStepDone(res.product);
