@@ -22,6 +22,7 @@ class PriceEditModal extends React.Component {
     isModalVisible: false,
     productId: ""
   };
+
   componentDidMount() {
     this.setState({
       productId: this.props.product.id
@@ -203,7 +204,7 @@ class PriceEditModal extends React.Component {
                   <PriceEditInput
                     name="Total Amount"
                     date=""
-                    price={"₹" + totalAmount}
+                    price={totalAmount}
                     editable={false}
                   />
                 </View>
