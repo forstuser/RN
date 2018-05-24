@@ -55,11 +55,11 @@ class AmcDetails extends React.Component {
           valueText={amc.premiumAmount || "-"}
         />
         <KeyValueItem
-          keyText={I18n.t("product_details_screen_amc_seller")}
+          keyText={"AMC Provider Name"}
           valueText={amc.sellers ? amc.sellers.sellerName : "-"}
         />
         <KeyValueItem
-          keyText={I18n.t("product_details_screen_amc_seller_contact")}
+          keyText={"AMC Provider Contact"}
           ValueComponent={() => (
             <MultipleContactNumbers
               contact={amc.sellers ? amc.sellers.contact : "-"}

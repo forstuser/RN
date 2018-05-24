@@ -22,6 +22,7 @@ class PriceEditModal extends React.Component {
     isModalVisible: false,
     productId: ""
   };
+
   componentDidMount() {
     this.setState({
       productId: this.props.product.id
@@ -94,7 +95,7 @@ class PriceEditModal extends React.Component {
     let amountBreakdownObject = {};
     if (product.categoryId != 664) {
       amountBreakdownOptions.push({
-        name: "Product Cost",
+        name: product.productName || product.categoryName + " Cost",
         type: "product",
         id: product.id,
         date: "",
@@ -184,7 +185,7 @@ class PriceEditModal extends React.Component {
                     color: colors.mainBlue
                   }}
                 >
-                  Product Cost Breakup
+                  Life Cycle Cost Breakup
                 </Text>
                 {amountBreakdownOptions.map((item, index) => (
                   <View key={index}>

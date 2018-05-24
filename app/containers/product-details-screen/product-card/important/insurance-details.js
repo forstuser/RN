@@ -56,22 +56,6 @@ class InsuranceDetails extends React.Component {
           }}
         />
         <KeyValueItem
-          keyText={I18n.t("product_details_screen_insurance_expiry")}
-          valueText={
-            moment(insurance.expiryDate).isValid() &&
-            moment(insurance.expiryDate).format("DD MMM YYYY")
-          }
-        />
-        {(insurance.copies || []).length > 0 && (
-          <ViewBillRow
-            collapsable={false}
-            expiryDate={insurance.expiryDate}
-            purchaseDate={insurance.purchaseDate}
-            docType="Insurance"
-            copies={insurance.copies || []}
-          />
-        )}
-        <KeyValueItem
           keyText={I18n.t("product_details_screen_insurance_provider")}
           ValueComponent={() => (
             <Text
@@ -87,6 +71,22 @@ class InsuranceDetails extends React.Component {
             </Text>
           )}
         />
+        <KeyValueItem
+          keyText={I18n.t("product_details_screen_insurance_expiry")}
+          valueText={
+            moment(insurance.expiryDate).isValid() &&
+            moment(insurance.expiryDate).format("DD MMM YYYY")
+          }
+        />
+        {(insurance.copies || []).length > 0 && (
+          <ViewBillRow
+            collapsable={false}
+            expiryDate={insurance.expiryDate}
+            purchaseDate={insurance.purchaseDate}
+            docType="Insurance"
+            copies={insurance.copies || []}
+          />
+        )}
         <KeyValueItem
           keyText={I18n.t("product_details_screen_insurance_policy_no")}
           valueText={insurance.policyNo || "-"}
@@ -130,8 +130,8 @@ class InsuranceDetails extends React.Component {
               onPress={() => this.props.openAddEditInsuranceScreen(null)}
             />
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
         </ScrollView>
       </View>
     );

@@ -376,6 +376,7 @@ class BasicDetailsForm extends React.Component {
             <CustomTextInput
               placeholder={I18n.t("expense_forms_product_basics_name")}
               value={productName}
+              maxLength={20}
               onChangeText={productName => this.setState({ productName })}
               hint={I18n.t("expense_forms_expense_basic_expense_recommend")}
             />

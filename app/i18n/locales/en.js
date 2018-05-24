@@ -382,7 +382,7 @@ export default {
   product_details_screen_edit_text: "EDIT",
   //new
   product_details_screen_tab_customer_care: "CUSTOMER CARE",
-  product_details_screen_tab_all_info: "ALL INFO",
+  product_details_screen_tab_all_info: "PRODUCT LIFE CYCLE",
   product_details_screen_tab_important: "IMPORTANT INFO",
   product_details_screen_connect_brand_connect: "Connect with Brand",
   product_details_screen_connect_insurance_provider:
@@ -886,8 +886,8 @@ export default {
   expense_forms_amc_form_amc_text: "AMC (If Applicable)",
   expense_forms_amc_form_amc_effective_date: "AMC Effective Date",
   expense_forms_amc_form_amc_recommended: "(Recommended)",
-  expense_forms_amc_form_amc_seller_name: "AMC Seller Name",
-  expense_forms_amc_form_amc_seller_contact: "Seller Contact",
+  expense_forms_amc_form_amc_seller_name: "AMC Provider Name",
+  expense_forms_amc_form_amc_seller_contact: "AMC Provider Contact",
   expense_forms_amc_form_amc_amount: "AMC Amount",
   expense_forms_amc_form_amc_upload: "Upload AMC Doc",
   expense_forms_expense_basic_detail: "Basic Details",
@@ -1011,7 +1011,7 @@ export default {
   love_using_binbill: "Love using BinBill app?",
   recommend_us: `If you are happy with your Home Manager, please rate us on ${
     Platform.OS == "ios" ? "App" : "Play"
-  } store.`,
+    } store.`,
   app_pin: "App Pin",
   change: "Change",
   set_now: "Set Now",

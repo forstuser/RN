@@ -4,7 +4,7 @@ import { Text, Button } from "../../elements";
 import Modal from "react-native-modal";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
-import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
+import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS, MAIN_CATEGORIES } from "../../constants";
 import I18n from "../../i18n";
 import Analytics from "../../analytics";
 
@@ -28,7 +28,10 @@ class FinishModal extends React.Component {
     });
   };
 
+
   onDoItLaterClick = () => {
+    let categoryObject = MAIN_CATEGORIES.find(key => key.id == this.props.mainCategoryId);
+    categoryObject = { id: categoryObject.id, cName: categoryObject.name };
     Analytics.logEvent(Analytics.EVENTS.CLICK_I_WILL_DO_IT_LATER, {
       category_id: this.props.mainCategoryId
     });
@@ -36,9 +39,14 @@ class FinishModal extends React.Component {
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
         this.props.navigation.goBack();
-        this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
-          productId: this.props.productId
-        });
+        if (this.props.mainCategoryId == MAIN_CATEGORY_IDS.TRAVEL || this.props.mainCategoryId == MAIN_CATEGORY_IDS.SERVICES || this.props.mainCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD || this.props.mainCategoryId == MAIN_CATEGORY_IDS.FASHION) {
+          this.props.navigation.navigate(SCREENS.TRANSACTIONS_SCREEN, { category: categoryObject, color: colors.mainBlue }
+          );
+        } else {
+          this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+            productId: this.props.productId
+          });
+        }
       } else {
         this.props.navigation.goBack();
       }
@@ -95,10 +103,10 @@ class FinishModal extends React.Component {
                   source={
                     mainCategoryId
                       ? {
-                          uri:
-                            API_BASE_URL +
-                            `/categories/${mainCategoryId}/images/1`
-                        }
+                        uri:
+                          API_BASE_URL +
+                          `/categories/${mainCategoryId}/images/1`
+                      }
                       : repairIcon
                   }
                   resizeMode="contain"

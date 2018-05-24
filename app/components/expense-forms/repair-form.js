@@ -146,33 +146,14 @@ class RepairForm extends React.Component {
       >
         <View collapsable={false} style={styles.innerContainer}>
           <View collapsable={false} style={styles.body}>
-            <CustomTextInput
-              placeholder={I18n.t("expense_forms_repair_for")}
-              underlineColorAndroid="transparent"
-              value={repairFor}
-              onChangeText={repairFor => this.setState({ repairFor })}
-            />
-
             <CustomDatePicker
               date={repairDate}
               placeholder={I18n.t("expense_forms_repair_date")}
+              placeholder2={"(Recommended)"}
+              placeholder2Color={colors.mainBlue}
               onDateChange={repairDate => {
                 this.setState({ repairDate });
               }}
-            />
-
-            <CustomTextInput
-              placeholder={I18n.t("expense_forms_repair_seller_name")}
-              underlineColorAndroid="transparent"
-              value={sellerName}
-              onChangeText={sellerName => this.setState({ sellerName })}
-            />
-
-            <ContactFields
-              ref={ref => (this.sellerContactRef = ref)}
-              value={sellerContact}
-              placeholder={I18n.t("expense_forms_repair_seller_contact")}
-              keyboardType="numeric"
             />
 
             <CustomTextInput
@@ -182,7 +163,6 @@ class RepairForm extends React.Component {
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"
             />
-
             <UploadDoc
               productId={productId}
               itemId={id}
@@ -203,9 +183,34 @@ class RepairForm extends React.Component {
 
             <CustomDatePicker
               placeholder={I18n.t("expense_forms_repair_warranty_upto")}
+              placeholder2={"(Recommended)"}
+              placeholder2Color={colors.mainBlue}
               date={warrantyUpto}
+              hint={"(For sending warranty expiry reminder)"}
               onDateChange={warrantyUpto => this.setState({ warrantyUpto })}
               maxDate={"2100-01-01"}
+            />
+
+            <CustomTextInput
+              placeholder={I18n.t("expense_forms_repair_for")}
+              placeholder2={"(Recommended)"}
+              placeholder2Color={colors.mainBlue}
+              underlineColorAndroid="transparent"
+              value={repairFor}
+              onChangeText={repairFor => this.setState({ repairFor })}
+            />
+
+            <CustomTextInput
+              placeholder={I18n.t("expense_forms_repair_seller_name")}
+              underlineColorAndroid="transparent"
+              value={sellerName}
+              onChangeText={sellerName => this.setState({ sellerName })}
+            />
+            <ContactFields
+              ref={ref => (this.sellerContactRef = ref)}
+              value={sellerContact}
+              placeholder={I18n.t("expense_forms_repair_seller_contact")}
+              keyboardType="numeric"
             />
           </View>
         </View>

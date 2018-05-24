@@ -53,7 +53,7 @@ class ProductDetailsScreen extends Component {
     } = params;
 
     return {
-      title: title ? title : "Product Details",
+      title: title ? title : "",
       headerTransparent: false, //params.headerTransparent,
       headerRight: (
         <View
