@@ -112,7 +112,7 @@ class SellerTab extends Component {
     }
 
     return (
-      <View collapsable={false} >
+      <View collapsable={false}>
         <TouchableOpacity
           onPress={onEditPress}
           style={{ flex: 1, backgroundColor: "#EBEBEB" }}
@@ -159,43 +159,63 @@ class SellerTab extends Component {
         <KeyValueItem
           keyText="Contact No."
           ValueComponent={() => (
-            <MultipleContactNumbers contact={seller.contact} />
-          )}
-        />
-        {seller.address.length > 0 ||
-          seller.city.length > 0 ||
-          seller.state.length > 0 ? (
-            <KeyValueItem
-              KeyComponent={() => (
-                <View collapsable={false} style={{ flex: 1 }}>
-                  <Text style={{ color: colors.secondaryText }}>
-                    {I18n.t("product_details_screen_seller_address")}
-                  </Text>
-                  <Text weight="Medium" style={{ color: colors.mainText }}>
-                    {_.trim(
-                      seller.address + ", " + seller.city + ", " + seller.state,
-                      ", "
+            <TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: "row",
+                  flex: 1
+                }}
+              >
+                <View style={{ width: "70%" }}>
+                  <MultipleContactNumbers contact={seller.contact} />
+                </View>
+                <View style={{ width: "30%" }}>
+                  <Text style={{ paddingHorizontal: 5, paddingTop: 3 }}>
+                    {seller.contact ? (
+                      <Icon name="md-call" size={15} color={colors.tomato} />
+                    ) : (
+                      ""
                     )}
                   </Text>
                 </View>
-              )}
-              ValueComponent={() => (
-                <TouchableOpacity onPress={this.openMap} style={{ width: 70 }}>
-                  <View collapsable={false} style={{ alignItems: "center" }}>
-                    <Image style={{ width: 24, height: 24 }} source={mapIcon} />
-                    <Text
-                      weight="Bold"
-                      style={{ fontSize: 10, color: colors.pinkishOrange }}
-                    >
-                      {I18n.t("product_details_screen_seller_find_store")}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-            />
-          ) : (
-            <View collapsable={false} />
+              </View>
+            </TouchableOpacity>
           )}
+        />
+        {seller.address.length > 0 ||
+        seller.city.length > 0 ||
+        seller.state.length > 0 ? (
+          <KeyValueItem
+            KeyComponent={() => (
+              <View collapsable={false} style={{ flex: 1 }}>
+                <Text style={{ color: colors.secondaryText }}>
+                  {I18n.t("product_details_screen_seller_address")}
+                </Text>
+                <Text weight="Medium" style={{ color: colors.mainText }}>
+                  {_.trim(
+                    seller.address + ", " + seller.city + ", " + seller.state,
+                    ", "
+                  )}
+                </Text>
+              </View>
+            )}
+            ValueComponent={() => (
+              <TouchableOpacity onPress={this.openMap} style={{ width: 70 }}>
+                <View collapsable={false} style={{ alignItems: "center" }}>
+                  <Image style={{ width: 24, height: 24 }} source={mapIcon} />
+                  <Text
+                    weight="Bold"
+                    style={{ fontSize: 10, color: colors.pinkishOrange }}
+                  >
+                    {I18n.t("product_details_screen_seller_find_store")}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        ) : (
+          <View collapsable={false} />
+        )}
         {product.sellers && false ? (
           <View collapsable={false} style={styles.review}>
             <LoadingOverlay visible={this.state.isAddingReview} />
@@ -235,8 +255,8 @@ class SellerTab extends Component {
             </View>
           </View>
         ) : (
-            <View collapsable={false} />
-          )}
+          <View collapsable={false} />
+        )}
         {product.sellers && false ? (
           <View collapsable={false} style={styles.editReview}>
             <SectionHeading
@@ -270,8 +290,8 @@ class SellerTab extends Component {
             </View>
           </View>
         ) : (
-            <View collapsable={false} />
-          )}
+          <View collapsable={false} />
+        )}
       </View>
     );
   }

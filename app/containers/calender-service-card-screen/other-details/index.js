@@ -185,7 +185,10 @@ class Report extends React.Component {
               keyText={I18n.t("calendar_service_screen_product_name")}
               valueText={item.product_name}
             /> */}
-            <KeyValueItem keyText={"Service Name"} valueText={item.product_name} />
+            <KeyValueItem
+              keyText={"Service Name"}
+              valueText={item.product_name}
+            />
             <KeyValueItem
               keyText={"Contact Number"}
               ValueComponent={() => (
@@ -198,8 +201,8 @@ class Report extends React.Component {
                     {item.provider_number ? (
                       <Icon name="md-call" size={15} color={colors.tomato} />
                     ) : (
-                        ""
-                      )}
+                      ""
+                    )}
                   </Text>
                 </TouchableOpacity>
               )}
@@ -277,8 +280,8 @@ class Report extends React.Component {
                       valueText={calculationDetail.quantity}
                     />
                   ) : (
-                      <View collapsable={false} />
-                    )}
+                    <View collapsable={false} />
+                  )}
                   <KeyValueItem
                     keyText={unitPriceText}
                     valueText={calculationDetail.unit_price}
@@ -301,8 +304,8 @@ class Report extends React.Component {
                       ))}
                     </View>
                   ) : (
-                      <View collapsable={false} />
-                    )}
+                    <View collapsable={false} />
+                  )}
                 </View>
               </View>
             );
@@ -357,8 +360,8 @@ class Report extends React.Component {
             </Modal>
           </View>
         ) : (
-            <View collapsable={false} />
-          )}
+          <View collapsable={false} />
+        )}
         <CalculationDetailModal
           ref={ref => (this.calculationDetailModal = ref)}
           item={item}
