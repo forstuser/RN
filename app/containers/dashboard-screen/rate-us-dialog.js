@@ -12,11 +12,10 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Modal from "react-native-modal";
 import { ScreenContainer, Text, Button } from "../../elements";
 import I18n from "../../i18n";
-import { colors } from "../../theme";
-
+import { colors, defaultStyles } from "../../theme";
 import { actions as uiActions } from "../../modules/ui";
 
-const image = require("../../images/rate_us_star.png");
+const image = require("../../images/like.png");
 
 class RateUsScreen extends Component {
   state = {
@@ -76,23 +75,46 @@ class RateUsScreen extends Component {
               animationIn="bounceIn"
             >
               <Animated.View style={[styles.popup]}>
-                <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
-                  <Icon name="md-close" size={30} color={colors.mainText} />
-                </TouchableOpacity>
-                <Image source={image} style={styles.image} />
-                <Text weight="Bold" style={styles.title}>
-                  {I18n.t("love_using_binbill")}
-                </Text>
-                <Text weight="Bold" style={styles.desc}>
-                  {I18n.t("recommend_us", {
-                    storeName: Platform.OS == "ios" ? "App" : "Play"
-                  })}
-                </Text>
-                <Button
-                  onPress={this.openAppStore}
-                  style={styles.btn}
-                  text="RATE US"
-                />
+                <View style={styles.container}>
+                  <View style={styles.topContainer}>
+                  </View>
+                  <View style={styles.bottomContainer}>
+                    <Text weight="Bold" style={styles.title}>
+                      {"Loved Your Home Manager?"}
+                    </Text>
+                    <Text weight="Bold" style={styles.desc}>
+                      Rate us at {
+                        Platform.OS == "ios" ? "App" : "Play"
+                      } Store and help us spread the good work!
+                    </Text>
+                    <View style={{
+                      flex: 1,
+                      marginHorizontal: 50,
+                      flexDirection: 'row',
+                      justifyContent: 'space-between'
+                    }}>
+                      <Button
+                        borderRadius={2}
+                        onPress={this.hide}
+                        style={styles.btn}
+                        color="grey"
+                        textStyle={{ fontSize: 12 }}
+                        text="MAYBE LATER"
+                      />
+                      <Button
+                        borderRadius={2}
+                        onPress={this.openAppStore}
+                        style={styles.btn}
+                        text="RATE NOW"
+                        color="secondary"
+                        textStyle={{ fontSize: 12 }}
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.buttonContainer}>
+                    <Image source={image} style={styles.image} />
+                  </View>
+                </View>
               </Animated.View>
             </Modal>
           </View>
@@ -104,18 +126,38 @@ class RateUsScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)"
+    flex: 1,
+    flexDirection: 'column'
+  },
+  topContainer: {
+    flex: 1,
+    width: 310,
+    // height: 380,
+    backgroundColor: colors.pinkishOrange,
+  },
+  bottomContainer: {
+    flex: 3,
+    backgroundColor: 'white'
+
+  },
+  buttonContainer: {
+    position: 'absolute',
+    width: 90,
+    height: 90,
+    justifyContent: 'center',
+    alignItems: 'center',
+    bottom: 180,
+    left: 110,
+    borderRadius: 45,
+    ...defaultStyles.card
   },
   popup: {
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
-    width: 310,
-    height: 380,
+    width: 280,
+    height: 300,
     backgroundColor: "#fff",
-    padding: 50
   },
   closeIcon: {
     position: "absolute",
@@ -123,23 +165,29 @@ const styles = StyleSheet.create({
     top: 5
   },
   image: {
-    width: 110,
-    height: 110
+    width: 80,
+    height: 80,
+    resizeMode: 'contain'
   },
   title: {
     textAlign: "center",
     fontSize: 16,
-    marginTop: 30
+    marginTop: 50,
+    color: colors.mainBlue
   },
   desc: {
     textAlign: "center",
+    alignSelf: 'center',
+    width: 220,
     fontSize: 14,
     marginTop: 10,
     color: colors.secondaryText
   },
   btn: {
-    width: 170,
-    marginTop: 20
+    width: 100,
+    height: 40,
+    borderRadius: 10,
+    marginTop: 20,
   }
 });
 
