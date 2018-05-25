@@ -38,8 +38,9 @@ class UpcomingServicesList extends React.Component {
     const upcomingServices = this.props.upcomingServices;
     const listHeight = this.state.listHeight;
     return (
-      <View collapsable={false}  style={styles.container}>
-        <View collapsable={false} 
+      <View collapsable={false} style={styles.container}>
+        <View
+          collapsable={false}
           style={[
             styles.list,
             defaultStyles.card,
@@ -58,7 +59,11 @@ class UpcomingServicesList extends React.Component {
           })}
         </View>
         {upcomingServices.length > 2 && (
-          <View collapsable={false} MoreBtn height={listHeight} onPress={this.toggleListHeight} />
+          <ViewMoreBtn
+            collapsable={false}
+            height={listHeight}
+            onPress={this.toggleListHeight}
+          />
         )}
       </View>
     );

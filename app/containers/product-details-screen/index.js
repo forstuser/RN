@@ -44,7 +44,13 @@ import MedicalDocsCard from "./medical-docs-card";
 class ProductDetailsScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
-    const { addImageText, title, onEditImagePress, onOptionsPress } = params;
+    const {
+      addImageText,
+      title,
+      onEditImagePress,
+      onOptionsPress,
+      getAddProductImageRef = () => {}
+    } = params;
 
     return {
       title: title ? title : "",
@@ -59,8 +65,9 @@ class ProductDetailsScreen extends Component {
         >
           {addImageText ? (
             <TouchableOpacity
+              ref={ref => getAddProductImageRef(ref)}
               style={{
-                marginRight: 20,
+                marginRight: 10,
                 flexDirection: "row",
                 alignItems: "center"
               }}
@@ -82,12 +89,7 @@ class ProductDetailsScreen extends Component {
 
           <TouchableOpacity
             style={{
-              ...Platform.select({
-                ios: {},
-                android: {
-                  marginRight: 10
-                }
-              })
+              marginRight: 10
             }}
             onPress={onOptionsPress}
           >
@@ -109,7 +111,8 @@ class ProductDetailsScreen extends Component {
       isScreenVisible: true,
       isLoading: true,
       product: {},
-      openServiceSchedule: false
+      openServiceSchedule: false,
+      addProductImageRef: null
     };
   }
 
@@ -262,6 +265,11 @@ class ProductDetailsScreen extends Component {
           },
           onOptionsPress: () => {
             this.editOptions.show();
+          },
+          getAddProductImageRef: ref => {
+            this.setState({
+              addProductImageRef: ref
+            });
           }
         });
 

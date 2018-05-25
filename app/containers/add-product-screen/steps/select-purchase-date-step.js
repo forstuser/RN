@@ -79,9 +79,8 @@ class SelectPurchaseDateStep extends React.Component {
 
   render() {
     const { isLoading, activeDate } = this.state;
-
     const { mainCategoryId, category, product } = this.props;
-    let title = "Select Purchase Date"
+    let title = "Select Purchase Date";
     switch (category.id) {
       case CATEGORY_IDS.TRAVEL.TRAVEL:
         title = "Select Travel Expense Date";
@@ -123,29 +122,29 @@ class SelectPurchaseDateStep extends React.Component {
         break;
 
       case CATEGORY_IDS.SERVICES.PROFESSIONAL:
-        title = "Select Beauty & Salon Expense Amount";
+        title = "Select Beauty & Salon Expense Date";
         break;
       case CATEGORY_IDS.SERVICES.LESSIONS_HOBBIES:
-        title = "Select Lessons & Hobbies Expense Amount";
+        title = "Select Lessons & Hobbies Expense Date";
         break;
       case CATEGORY_IDS.SERVICES.OTHER_SERVICES:
-        title = "Select Other Services Expense Amount";
+        title = "Select Other Services Expense Date";
         break;
 
       case CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE:
-        title = "Select Household Expense Amount";
+        title = "Select Household Expense Date";
         break;
       case CATEGORY_IDS.HOUSEHOLD.EDUCATION:
-        title = "Select Education Expense Amount";
+        title = "Select Education Expense Date";
         break;
       case CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS:
-        title = "Select Utility Bill Expense Amount";
+        title = "Select Utility Bill Expense Date";
         break;
       case CATEGORY_IDS.HOUSEHOLD.HOME_DECOR:
-        title = "Select Home Decor & Furnishing Expense Amount";
+        title = "Select Home Decor & Furnishing Expense Date";
         break;
       case CATEGORY_IDS.HOUSEHOLD.OTHER_HOUSEHOLD_EXPENSE:
-        title = "Select Other Household Expense Amount";
+        title = "Select Other Household Expense Date";
         break;
     }
     let subtitle;

@@ -90,18 +90,6 @@ class MedicalDocsCard extends Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View
-            collapsable={false}
-            style={{ top: 10, position: "absolute", right: 10 }}
-          >
-            <ViewBillButton
-              collapsable={false}
-              product={product}
-              navigation={navigation}
-              docType="Medical Doc"
-              btnText={I18n.t("product_details_screen_docs")}
-            />
-          </View>
           <Image
             style={styles.image}
             source={{ uri: API_BASE_URL + "/" + product.cImageURL }}
@@ -166,6 +154,18 @@ class MedicalDocsCard extends Component {
               )}
             />
           </View>
+          <View
+            collapsable={false}
+            style={{ top: 10, position: "absolute", right: 10 }}
+          >
+            <ViewBillButton
+              collapsable={false}
+              product={product}
+              navigation={navigation}
+              docType="Medical Doc"
+              btnText={I18n.t("product_details_screen_docs")}
+            />
+          </View>
         </ScrollView>
       </View>
     );
@@ -175,12 +175,7 @@ class MedicalDocsCard extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f7f7f7",
-    ...Platform.select({
-      android: {
-        marginTop: 25
-      }
-    })
+    backgroundColor: "#f7f7f7"
   },
   contentContainer: {
     alignItems: "center"

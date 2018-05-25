@@ -6,6 +6,7 @@ import {
   createBottomTabNavigator
 } from "react-navigation";
 
+import { colors } from "../theme";
 import TabIcon from "./tab-icon";
 
 import DashboardScreen from "../containers/dashboard-screen";
@@ -117,7 +118,11 @@ const BottomTabStack = createBottomTabNavigator(
     }
   },
   {
-    backBehavior: "none"
+    backBehavior: "none",
+    tabBarOptions: {
+      activeTintColor: colors.mainBlue,
+      inactiveTintColor: colors.lighterText
+    }
   }
 );
 

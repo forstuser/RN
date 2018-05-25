@@ -125,17 +125,6 @@ class PerosnalDocCard extends Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View
-            collapsable={false}
-            style={{ top: 10, position: "absolute", right: 20 }}
-          >
-            <ViewBillButton
-              product={product}
-              navigation={navigation}
-              docType="Personal Docs"
-              btnText="Doc"
-            />
-          </View>
           <Image
             style={styles.image}
             source={imageSource}
@@ -259,6 +248,17 @@ class PerosnalDocCard extends Component {
               <View collapsable={false} />
             )}
           </View>
+          <View
+            collapsable={false}
+            style={{ top: 10, position: "absolute", right: 20 }}
+          >
+            <ViewBillButton
+              product={product}
+              navigation={navigation}
+              docType="Personal Docs"
+              btnText="Doc"
+            />
+          </View>
         </ScrollView>
       </View>
     );
@@ -267,12 +267,7 @@ class PerosnalDocCard extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    ...Platform.select({
-      android: {
-        marginTop: 25
-      }
-    })
+    flex: 1
   },
   contentContainer: {
     alignItems: "center"
