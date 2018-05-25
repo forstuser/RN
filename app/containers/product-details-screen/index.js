@@ -204,14 +204,6 @@ class ProductDetailsScreen extends Component {
 
       if (this.state.isScreenVisible) {
         const { product } = res;
-        if (
-          product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
-          product.categoryId == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC
-        ) {
-          //normal header bar
-        } else if (this.state.isLoading) {
-          this.props.navigation.setParams({ headerTransparent: true });
-        }
 
         let addImageText = "";
         if (

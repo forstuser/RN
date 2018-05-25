@@ -38,38 +38,28 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import FinishModal from "./finish-modal";
 
-// const NavOptionsButton = ({ addImageText }) => (
-//   <TouchableOpacity
-//     style={{
-//       ...Platform.select({
-//         ios: {},
-//         android: {
-//           position: "absolute",
-//           top: 5,
-//           right: 4,
-//           width: 30,
-//           height: 30,
-//           alignItems: "center",
-//           justifyContent: "flex-end"
-//         }
-//       })
-//     }}
-//     onPress={() =>
-//       Navigation.handleDeepLink({ link: "calendar-nav-options-btn" })
-//     }
-//   >
-//     <Icon name="dots-three-vertical" size={17} color={colors.pinkishOrange} />
-//   </TouchableOpacity>
-// );
-
-// Navigation.registerComponent(
-//   "CalendarNavOptionsButton",
-//   () => NavOptionsButton
-// );
-
 class CalendarServiceCard extends Component {
-  static navigationOptions = {
-    title: I18n.t("calendar_service_screen_title")
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    const { onOptionsPress } = params;
+
+    return {
+      title: I18n.t("calendar_service_screen_title"),
+      headerRight: (
+        <TouchableOpacity
+          style={{
+            marginRight: 10
+          }}
+          onPress={onOptionsPress}
+        >
+          <Icon
+            name="dots-three-vertical"
+            size={17}
+            color={colors.pinkishOrange}
+          />
+        </TouchableOpacity>
+      )
+    };
   };
 
   constructor(props) {
@@ -97,16 +87,12 @@ class CalendarServiceCard extends Component {
       }
     );
 
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
-  }
-
-  onNavigatorEvent = event => {
-    if (event.type == "DeepLink") {
-      if (event.link == "calendar-nav-options-btn") {
+    this.props.navigation.setParams({
+      onOptionsPress: () => {
         this.editOptions.show();
       }
-    }
-  };
+    });
+  }
 
   handleEditOptionPress = index => {
     const { item } = this.state;
