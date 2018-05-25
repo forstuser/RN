@@ -12,7 +12,8 @@ import I18n from "../../../i18n";
 import {
   MAIN_CATEGORY_IDS,
   CATEGORY_IDS,
-  EXPENSE_TYPES
+  EXPENSE_TYPES,
+  SUB_CATEGORY_IDS
 } from "../../../constants";
 import { Text } from "../../../elements";
 import { colors } from "../../../theme";
@@ -343,12 +344,12 @@ class SelectCategoryStep extends React.Component {
           ];
           visibleOptions = [
             {
-              id: 704,
+              id: SUB_CATEGORY_IDS.MEDICAL_BILL,
               name: "Medical Bills",
               icon: require("../../../images/categories/medical_bill.png")
             },
             {
-              id: 705,
+              id: SUB_CATEGORY_IDS.HOSPITAL_BILL,
               name: "Hospital Bills",
               icon: require("../../../images/categories/hospital.png")
             }
@@ -456,6 +457,10 @@ class SelectCategoryStep extends React.Component {
     let subCategoryId = null;
     if (this.props.expenseType == EXPENSE_TYPES.HEALTHCARE) {
       subCategoryId = category.id;
+      category = {
+        id: CATEGORY_IDS.HEALTHCARE.EXPENSE,
+        name: "Expenses"
+      };
     }
 
     if (typeof this.props.onCategorySelect != "function") {
@@ -517,7 +522,8 @@ class SelectCategoryStep extends React.Component {
                     onPress={() => this.changeOption(option)}
                   >
                     <View collapsable={false} style={styles.option}>
-                      <View collapsable={false}
+                      <View
+                        collapsable={false}
                         style={[
                           styles.optionIconContainer,
                           isSelectedOption
@@ -553,7 +559,8 @@ class SelectCategoryStep extends React.Component {
               })}
               {selectedOption && showOtherOption ? (
                 <View collapsable={false} style={styles.option}>
-                  <View collapsable={false}
+                  <View
+                    collapsable={false}
                     style={[
                       styles.optionIconContainer,
                       styles.selectedOptionIconContainer
@@ -573,14 +580,17 @@ class SelectCategoryStep extends React.Component {
                   </Text>
                 </View>
               ) : (
-                  <View collapsable={false} />
-                )}
+                <View collapsable={false} />
+              )}
               {otherOptions.length > 0 && (
                 <TouchableWithoutFeedback
                   onPress={() => this.otherOptionsModal.openModal()}
                 >
                   <View collapsable={false} style={styles.option}>
-                    <View collapsable={false} style={styles.optionIconContainer}>
+                    <View
+                      collapsable={false}
+                      style={styles.optionIconContainer}
+                    >
                       <Image
                         style={[styles.optionIcon]}
                         resizeMode="contain"
