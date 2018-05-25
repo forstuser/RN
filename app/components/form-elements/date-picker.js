@@ -159,7 +159,8 @@ const styles = StyleSheet.create({
     fontSize: 10
   },
   placeholder2: {
-    fontSize: 10
+    fontSize: 10,
+    marginLeft: 2
   },
   textInput: {
     backgroundColor: "transparent",

@@ -36,27 +36,29 @@ class PucDetails extends React.Component {
             this.props.openAddEditPucScreen(puc);
           }}
         />
-        <ViewBillRow
+        {puc.copies ? <ViewBillRow
           collapsable={false}
           expiryDate={puc.expiryDate}
           purchaseDate={puc.purchaseDate}
           docType="PUC"
           copies={puc.copies || []}
-        />
-        <KeyValueItem
+        /> : <View />}
+
+        {puc.effectiveDate ? <KeyValueItem
           keyText={I18n.t("product_details_screen_puc_effective_date")}
           valueText={
             puc.effectiveDate
               ? moment(puc.effectiveDate).format("MMM DD, YYYY")
               : "-"
           }
-        />
-        <KeyValueItem
+        /> : <View />}
+
+        {puc.expiryDate ? <KeyValueItem
           keyText={I18n.t("product_details_screen_puc_expiry_date")}
           valueText={
             puc.expiryDate ? moment(puc.expiryDate).format("MMM DD, YYYY") : "-"
           }
-        />
+        /> : <View />}
         <KeyValueItem
           keyText={"PUC Amount"}
           valueText={puc.value}

@@ -38,49 +38,53 @@ class RepairDetails extends React.Component {
             this.props.openAddEditRepairScreen(repair);
           }}
         />
-        <ViewBillRow
+        {repair.copies ? <ViewBillRow
           collapsable={false}
           expiryDate={repair.expiryDate}
           purchaseDate={repair.purchaseDate}
           docType="Repair Bill"
           copies={repair.copies || []}
-        />
-        <KeyValueItem
+        /> : <View />}
+        {repair.purchaseDate ? <KeyValueItem
           keyText={I18n.t("product_details_screen_repairs_repair_date")}
           valueText={
             repair.purchaseDate
               ? moment(repair.purchaseDate).format("DD MMM YYYY")
               : "-"
           }
-        />
-        <KeyValueItem
+        /> : <View />}
+
+        {repair.premiumAmount ? <KeyValueItem
           keyText={I18n.t("product_details_screen_repairs_amount")}
           valueText={repair.premiumAmount || "-"}
-        />
-        <KeyValueItem
+        /> : <View />}
+
+        {repair.warranty_upto ? <KeyValueItem
           keyText={I18n.t("product_details_screen_repairs_warranty_upto")}
           valueText={
             repair.warranty_upto
               ? moment(repair.warranty_upto).format("DD MMM, YYYY")
               : "-"
           }
-        />
-        <KeyValueItem
+        /> : <View />}
+
+        {repair.repair_for ? <KeyValueItem
           keyText={I18n.t("product_details_screen_repairs_for")}
           valueText={repair.repair_for}
-        />
-        <KeyValueItem
+        /> : <View />}
+
+        {repair.sellers ? <KeyValueItem
           keyText={"Repair Seller Name"}
           valueText={repair.sellers ? repair.sellers.sellerName : "-"}
-        />
-        <KeyValueItem
+        /> : <View />}
+        {repair.sellers ? <KeyValueItem
           keyText={"Repair Seller Contact"}
           ValueComponent={() => (
             <MultipleContactNumbers
               contact={repair.sellers ? repair.sellers.contact : "-"}
             />
           )}
-        />
+        /> : <View />}
       </View>
     );
 

@@ -182,55 +182,56 @@ class AllInfo extends React.Component {
                     : "-"
                 }
               />
-              {listHeight == 'auto' ? (<View>
-                {product.metaData.map((metaItem, index) => (
-                  <KeyValueItem
-                    key={index}
-                    keyText={metaItem.name}
-                    valueText={metaItem.value}
-                  />
-                ))}
-                <KeyValueItem
-                  keyText={sellerName}
-                  valueText={seller.sellerName || "-"}
-                />
-                <KeyValueItem
-                  keyText={I18n.t("product_details_screen_seller_location")}
-                  valueText={
-                    _.trim(seller.city + ", " + seller.state, ", ") || "-"
-                  }
-                />
-                <KeyValueItem
-                  keyText="Contact No."
-                  ValueComponent={() => (
-                    <MultipleContactNumbers contact={seller.contact} />
-                  )}
-                />
-                {(seller.address.length > 0 ||
-                  seller.city.length > 0 ||
-                  seller.state.length > 0) && (
+              {listHeight == 'auto' ? (
+                <View>
+                  {product.metaData.map((metaItem, index) => (
                     <KeyValueItem
-                      KeyComponent={() => (
-                        <View collapsable={false} style={{ flex: 1 }}>
-                          <Text style={{ color: colors.secondaryText }}>
-                            {I18n.t("product_details_screen_seller_address")}
-                          </Text>
-                          <Text weight="Medium" style={{ color: colors.mainText }}>
-                            {_.trim(
-                              seller.address +
-                              ", " +
-                              seller.city +
-                              ", " +
-                              seller.state,
-                              ", "
-                            )}
-                          </Text>
-                        </View>
-                      )}
+                      key={index}
+                      keyText={metaItem.name}
+                      valueText={metaItem.value}
                     />
-                  )}
+                  ))}
+                  {seller.sellerName ? <KeyValueItem
+                    keyText={sellerName}
+                    valueText={seller.sellerName || "-"}
+                  /> : <View />}
+                  {seller.city ? <KeyValueItem
+                    keyText={I18n.t("product_details_screen_seller_location")}
+                    valueText={
+                      _.trim(seller.city + ", " + seller.state, ", ") || "-"
+                    }
+                  /> : <View />}
+                  {seller.contact ? <KeyValueItem
+                    keyText="Contact No."
+                    ValueComponent={() => (
+                      <MultipleContactNumbers contact={seller.contact} />
+                    )}
+                  /> : <View />}
+                  {(seller.address.length > 0 ||
+                    seller.city.length > 0 ||
+                    seller.state.length > 0) && (
+                      <KeyValueItem
+                        KeyComponent={() => (
+                          <View collapsable={false} style={{ flex: 1 }}>
+                            <Text style={{ color: colors.secondaryText }}>
+                              {I18n.t("product_details_screen_seller_address")}
+                            </Text>
+                            <Text weight="Medium" style={{ color: colors.mainText }}>
+                              {_.trim(
+                                seller.address +
+                                ", " +
+                                seller.city +
+                                ", " +
+                                seller.state,
+                                ", "
+                              )}
+                            </Text>
+                          </View>
+                        )}
+                      />
+                    )}
 
-              </View>) : <View></View>}
+                </View>) : <View></View>}
             </View>
             <View style={{ marginBottom: 20 }}>
               <ViewMoreBtn
