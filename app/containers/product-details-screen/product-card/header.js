@@ -156,22 +156,24 @@ class Header extends Component {
                   <Image style={styles.dropdownIcon} source={dropdownIcon} />
                 </TouchableOpacity>
                 <View style={styles.texts}>
-                  {product.warrantyDetails.length > 0 && (
+                  {product.warrantyDetails.length > 0 ?
                     <Text weight="Medium" style={styles.brandAndModel}>
                       Warranty till{" "}
                       {moment(product.warrantyDetails[0].expiryDate).format(
                         "DD MMM YYYY"
                       )}
-                    </Text>
-                  )}
-                  {product.insuranceDetails.length > 0 && (
+                    </Text> : <Text weight="Medium" style={styles.brandAndModel}>
+                      Warranty NA
+                    </Text>}
+                  {product.insuranceDetails.length > 0 ?
                     <Text weight="Medium" style={styles.brandAndModel}>
                       Insurance till{" "}
                       {moment(product.insuranceDetails[0].expiryDate).format(
                         "DD MMM YYYY"
                       )}
-                    </Text>
-                  )}
+                    </Text> : <Text weight="Medium" style={styles.brandAndModel}>
+                      Insurance NA
+                    </Text>}
                 </View>
               </View>
               {/* 2 buttons (view bill,share) start */}

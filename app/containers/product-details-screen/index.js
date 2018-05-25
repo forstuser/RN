@@ -49,7 +49,7 @@ class ProductDetailsScreen extends Component {
       title,
       onEditImagePress,
       onOptionsPress,
-      getAddProductImageRef = () => {}
+      getAddProductImageRef = () => { }
     } = params;
 
     return {
@@ -155,7 +155,7 @@ class ProductDetailsScreen extends Component {
           {
             isScreenVisible: false
           },
-          () => {}
+          () => { }
         );
       }
     );
@@ -186,7 +186,7 @@ class ProductDetailsScreen extends Component {
             },
             {
               text: I18n.t("product_details_screen_no_dnt_delete"),
-              onPress: () => {},
+              onPress: () => { },
               style: "cancel"
             }
           ]
