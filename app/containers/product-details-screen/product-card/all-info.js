@@ -223,21 +223,19 @@ class AllInfo extends React.Component {
                           <View style={{ width: "70%" }}>
                             <MultipleContactNumbers contact={seller.contact} />
                           </View>
-                          <View style={{ width: "30%" }}>
-                            <Text
-                              style={{ paddingHorizontal: 5, paddingTop: 3 }}
-                            >
-                              {seller.contact ? (
+                          {seller.contact && (
+                            <View style={{ width: "30%" }}>
+                              <Text
+                                style={{ paddingHorizontal: 5, paddingTop: 3 }}
+                              >
                                 <Icon
                                   name="md-call"
                                   size={15}
                                   color={colors.tomato}
                                 />
-                              ) : (
-                                ""
-                              )}
-                            </Text>
-                          </View>
+                              </Text>
+                            </View>
+                          )}
                         </View>
                       </TouchableOpacity>
                     )}
