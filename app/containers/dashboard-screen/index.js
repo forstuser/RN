@@ -70,10 +70,10 @@ class DashboardScreen extends React.Component {
       calendarItemUpdatedAt: null,
       showUploadOptions: false
     };
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
+    // this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -90,15 +90,6 @@ class DashboardScreen extends React.Component {
     );
 
     this.fetchDashboardData();
-    const r = await getProfileDetail();
-    const user = r.userProfile;
-    this.props.setLoggedInUser({
-      id: user.id,
-      name: user.name,
-      phone: user.mobile_no,
-      imageUrl: user.imageUrl,
-      isPinSet: user.hasPin
-    });
   }
 
   componentWillUnmount() {

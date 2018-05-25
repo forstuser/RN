@@ -65,10 +65,9 @@ class UploadBillOptions extends React.Component {
       case 1:
         if ((await requestStoragePermission()) == false) return;
         file = await ImagePicker.openPicker({
-          compressImageMaxWidth: 1500,
-          compressImageMaxHeight: 1500,
-          compressImageQuality: 0.75,
-          cropping: false
+          width: 1500,
+          height: 1500,
+          compressImageQuality: 0.75
         });
 
         this.openUploadScreen({
