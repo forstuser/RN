@@ -16,7 +16,8 @@ const MultipleContactNumbers = ({ contact = "" }) => {
   //split by ',' or '/' or '\'
   let contactNumbers = contact.split(/,|\/|\\/);
   return (
-    <View collapsable={false} 
+    <View
+      collapsable={false}
       style={{
         flexDirection: "row",
         flex: 1,
@@ -34,7 +35,6 @@ const MultipleContactNumbers = ({ contact = "" }) => {
               call({ number: String(number) }).catch(e =>
                 showSnackbar({
                   text: e.message
-
                 })
               )
             }

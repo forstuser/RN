@@ -69,6 +69,7 @@ class SelectSubCategoryStep extends React.Component {
     const { subCategories, isLoading } = this.state;
 
     const { mainCategoryId, category, product } = this.props;
+    let title = "Select Expense Type";
     switch (category.id) {
       case CATEGORY_IDS.TRAVEL.TRAVEL:
         title = "Select Travel Expense Type";

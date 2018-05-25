@@ -114,6 +114,8 @@ class SelectBrandStep extends React.Component {
     let { brands, isLoading } = this.state;
 
     const { mainCategoryId, category, product } = this.props;
+    let title = "Select Brand";
+
     switch (category.id) {
       case CATEGORY_IDS.FASHION.FOOTWEAR:
         title = "Select Footware Brand";
