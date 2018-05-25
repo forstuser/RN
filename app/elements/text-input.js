@@ -16,8 +16,8 @@ const AppTextInput = props => {
       {leftIcon ? (
         <View style={styles.leftIconContainer}>{leftIcon}</View>
       ) : (
-        <View />
-      )}
+          <View />
+        )}
       <TextInput
         {...props}
         underlineColorAndroid="transparent"
@@ -39,13 +39,16 @@ const styles = StyleSheet.create({
   },
   leftIconContainer: {
     paddingRight: 5,
+    paddingBottom: 5,
     width: 30,
+    // backgroundColor: 'green',
     justifyContent: "center",
     alignItems: "center"
   },
   input: {
     flex: 1,
-    height: 30
+    height: 35,
+    // backgroundColor: 'green'
   }
 });
 

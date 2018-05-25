@@ -54,6 +54,7 @@ export default class RegistrationDetails extends React.Component {
 
           <TextInput
             value={phone}
+            keyboardType="numeric"
             placeholder="Mobile Number"
             leftIconName="ios-phone-portrait"
             onChangeText={phone => this.setState({ phone })}
