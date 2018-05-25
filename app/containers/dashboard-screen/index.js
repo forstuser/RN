@@ -70,10 +70,10 @@ class DashboardScreen extends React.Component {
       calendarItemUpdatedAt: null,
       showUploadOptions: false
     };
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
+    // this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -90,15 +90,6 @@ class DashboardScreen extends React.Component {
     );
 
     this.fetchDashboardData();
-    const r = await getProfileDetail();
-    const user = r.userProfile;
-    this.props.setLoggedInUser({
-      id: user.id,
-      name: user.name,
-      phone: user.mobile_no,
-      imageUrl: user.imageUrl,
-      isPinSet: user.hasPin
-    });
   }
 
   componentWillUnmount() {
@@ -154,6 +145,7 @@ class DashboardScreen extends React.Component {
         () => {
           const { rateUsDialogTimestamp } = this.props;
           setTimeout(() => {
+
             if (
               this.state.showDashboard &&
               !this.props.hasDashboardTourShown &&
@@ -248,8 +240,8 @@ class DashboardScreen extends React.Component {
                     </View>
                   </View>
                 ) : (
-                  <View collapsable={false} />
-                )}
+                    <View collapsable={false} />
+                  )}
                 {this.state.recentProducts.length > 0 ? (
                   // recent activity
                   <View collapsable={false}>
@@ -263,8 +255,8 @@ class DashboardScreen extends React.Component {
                     />
                   </View>
                 ) : (
-                  <View collapsable={false} />
-                )}
+                    <View collapsable={false} />
+                  )}
                 {this.state.recentCalenderItems.length > 0 ? (
                   // Calender
                   <View collapsable={false}>
@@ -278,8 +270,8 @@ class DashboardScreen extends React.Component {
                     />
                   </View>
                 ) : (
-                  <View collapsable={false} />
-                )}
+                    <View collapsable={false} />
+                  )}
                 {/* Expense Insights */}
                 <Title
                   gradientColors={["#242841", "#707c93"]}
@@ -364,13 +356,13 @@ class DashboardScreen extends React.Component {
             onUploadButtonClick={() => this.showAddProductOptionsScreen()}
           />
         ) : (
-          <TouchableOpacity
-            style={styles.fab}
-            onPress={() => this.showAddProductOptionsScreen()}
-          >
-            <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
-          </TouchableOpacity>
-        )}
+            <TouchableOpacity
+              style={styles.fab}
+              onPress={() => this.showAddProductOptionsScreen()}
+            >
+              <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+            </TouchableOpacity>
+          )}
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
         <LoadingOverlay visible={isFetchingData} />
         <RateUsDialog

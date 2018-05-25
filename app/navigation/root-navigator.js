@@ -27,7 +27,7 @@ import { actions as loggedInUserActions } from "../modules/logged-in-user";
 
 import { openEnterPinPopup } from "./index";
 
-import { addFcmToken, verifyEmail } from "../api";
+import { addFcmToken, verifyEmail, getProfileDetail } from "../api";
 
 import LoadingOverlay from "../components/loading-overlay";
 
@@ -277,6 +277,15 @@ class RootNavigation extends React.Component {
       NavigationService.navigate(SCREENS.INTRO_SCREEN);
     } else {
       NavigationService.navigate(SCREENS.APP_STACK);
+      const r = await getProfileDetail();
+      const user = r.userProfile;
+      this.props.setLoggedInUser({
+        id: user.id,
+        name: user.name,
+        phone: user.mobile_no,
+        imageUrl: user.imageUrl,
+        isPinSet: user.hasPin
+      });
     }
     SplashScreen.hide();
 
@@ -354,4 +363,13 @@ const mapStateToProps = store => ({
   authToken: store.loggedInUser.authToken,
   codepushDeploymentStaging: store.loggedInUser.codepushDeploymentStaging
 });
-export default connect(mapStateToProps)(RootNavigation);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setLoggedInUser: user => {
+      dispatch(loggedInUserActions.setLoggedInUser(user));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RootNavigation);

@@ -200,20 +200,28 @@ class AllInfo extends React.Component {
                       valueText={metaItem.value}
                     />
                   ))}
-                  <KeyValueItem
-                    keyText={sellerName}
-                    valueText={seller.sellerName || "-"}
-                  />
-                  <KeyValueItem
-                    keyText={I18n.t("product_details_screen_seller_location")}
-                    valueText={
-                      _.trim(seller.city + ", " + seller.state, ", ") || "-"
-                    }
-                  />
-                  <KeyValueItem
-                    keyText="Contact No."
-                    ValueComponent={() => (
-                      <TouchableOpacity>
+                  {seller.sellerName ? (
+                    <KeyValueItem
+                      keyText={sellerName}
+                      valueText={seller.sellerName || "-"}
+                    />
+                  ) : (
+                    <View />
+                  )}
+                  {seller.city ? (
+                    <KeyValueItem
+                      keyText={I18n.t("product_details_screen_seller_location")}
+                      valueText={
+                        _.trim(seller.city + ", " + seller.state, ", ") || "-"
+                      }
+                    />
+                  ) : (
+                    <View />
+                  )}
+                  {seller.contact ? (
+                    <KeyValueItem
+                      keyText="Contact No."
+                      ValueComponent={() => (
                         <View
                           style={{
                             flexDirection: "row",
@@ -237,9 +245,11 @@ class AllInfo extends React.Component {
                             </View>
                           )}
                         </View>
-                      </TouchableOpacity>
-                    )}
-                  />
+                      )}
+                    />
+                  ) : (
+                    <View />
+                  )}
                   {(seller.address.length > 0 ||
                     seller.city.length > 0 ||
                     seller.state.length > 0) && (

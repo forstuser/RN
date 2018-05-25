@@ -47,21 +47,17 @@ const MAIN_CATEGORY_IDS = {
   PERSONAL: 10
 };
 const MAIN_CATEGORIES = [
-  { id: 1, name: 'Furniture' },
-  { id: 2, name: 'Electronics' },
-  { id: 3, name: 'Automobile' },
-  { id: 4, name: 'Travel' },
-  { id: 5, name: 'Healthcare' },
-  { id: 6, name: 'Services' },
-  { id: 7, name: 'Fashion' },
-  { id: 8, name: 'Household' },
-  { id: 9, name: 'Others' },
-  { id: 10, name: 'Personal' }
+  { id: 1, name: "Furniture" },
+  { id: 2, name: "Electronics" },
+  { id: 3, name: "Automobile" },
+  { id: 4, name: "Travel" },
+  { id: 5, name: "Healthcare" },
+  { id: 6, name: "Services" },
+  { id: 7, name: "Fashion" },
+  { id: 8, name: "Household" },
+  { id: 9, name: "Others" },
+  { id: 10, name: "Personal" }
 ];
-
-
-
-
 
 const CATEGORY_IDS = {
   AUTOMOBILE: {
@@ -90,8 +86,7 @@ const CATEGORY_IDS = {
   HEALTHCARE: {
     INSURANCE: 664,
     EXPENSE: 23,
-    MEDICAL_DOC: 86,
-    HOSPITAL_DOC: 705
+    MEDICAL_DOC: 86
   },
   HOUSEHOLD: {
     HOME_DECOR: 697,
@@ -126,7 +121,9 @@ const CATEGORY_IDS = {
   }
 };
 const SUB_CATEGORY_IDS = {
-  HOUSERENT: 17
+  HOUSERENT: 17,
+  MEDICAL_BILL: 704,
+  HOSPITAL_BILL: 705
 };
 const LANGUAGES = [
   {
@@ -216,6 +213,7 @@ const EASY_LIFE_TYPES = {
 };
 
 const SCREENS = {
+  REGISTRATION_DETAILS_SCREEN: "REGISTRATION_DETAILS_SCREEN",
   WHAT_TO_LIST_SCREEN: "WHAT_TO_LIST_SCREEN",
   WHAT_TO_SCREEN: "WHAT_TO_SCREEN",
   WHAT_TO_WEAR_LIST_SCREEN: "WHAT_TO_WEAR_LIST_SCREEN",

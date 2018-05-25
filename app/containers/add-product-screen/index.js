@@ -51,6 +51,7 @@ class AddProductScreen extends React.Component {
     expenseType: null,
     mainCategoryId: null,
     category: null,
+    subCategoryId: null,
     brand: null,
     product: null,
     insuranceProviders: [],
@@ -101,6 +102,7 @@ class AddProductScreen extends React.Component {
       ],
       activeStepIndex: 0,
       category: null,
+      subCategoryId: null,
       brand: null,
       product: null,
       insuranceProviders: [],
@@ -117,6 +119,7 @@ class AddProductScreen extends React.Component {
       newState = {
         ...newState,
         category: null,
+        subCategoryId: null,
         brand: null,
         product: null,
         insuranceProviders: [],
@@ -228,12 +231,13 @@ class AddProductScreen extends React.Component {
   };
 
   pushAmountStep = (skippable = false) => {
-    const { mainCategoryId, category, product } = this.state;
+    const { mainCategoryId, category, product, subCategoryId } = this.state;
     this.pushStep(
       <AddAmountStep
         product={product}
         mainCategoryId={mainCategoryId}
         category={category}
+        subCategoryId={subCategoryId}
         onStepDone={this.onAmountStepDone}
         onSkipPress={this.onAmountStepDone}
         onBackPress={this.previousStep}
@@ -433,6 +437,7 @@ class AddProductScreen extends React.Component {
         expenseType: type,
         mainCategoryId: null,
         category: null,
+        subCategoryId: null,
         brand: null,
         product: null,
         insuranceProviders: [],

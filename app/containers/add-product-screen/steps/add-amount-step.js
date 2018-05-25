@@ -11,7 +11,11 @@ import {
 } from "react-native";
 import I18n from "../../../i18n";
 import { API_BASE_URL, updateProduct } from "../../../api";
-import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
+import {
+  MAIN_CATEGORY_IDS,
+  CATEGORY_IDS,
+  SUB_CATEGORY_IDS
+} from "../../../constants";
 import { Text, Button } from "../../../elements";
 import { colors } from "../../../theme";
 import { showSnackbar } from "../../../utils/snackbar";
@@ -75,8 +79,8 @@ class AddAmountStep extends React.Component {
   render() {
     const { isLoading, value } = this.state;
 
-    const { mainCategoryId, category, product } = this.props;
-
+    const { mainCategoryId, category, product, subCategoryId } = this.props;
+    title = "Add Amount";
     switch (category.id) {
       case CATEGORY_IDS.TRAVEL.TRAVEL:
         title = "Add Travel Expense Amount";
@@ -88,11 +92,12 @@ class AddAmountStep extends React.Component {
         title = "Add Dining Expense Amount";
         break;
 
-      case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
-        title = "Add Medical Bill Expense Amount";
-        break;
-      case CATEGORY_IDS.HEALTHCARE.HOSPITAL_DOC:
-        title = "Add Hospital Bill Expense Amount";
+      case CATEGORY_IDS.HEALTHCARE.EXPENSE:
+        if (subCategoryId == SUB_CATEGORY_IDS.MEDICAL_BILL) {
+          title = "Add Medical Bill Expense Amount";
+        } else {
+          title = "Add Hospital Bill Expense Amount";
+        }
         break;
 
       case CATEGORY_IDS.FASHION.FOOTWEAR:

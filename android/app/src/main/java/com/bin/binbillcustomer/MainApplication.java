@@ -104,6 +104,8 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+    StrictMode.setVmPolicy(builder.build());
     AppEventsLogger.activateApp(this);
     if (!BuildConfig.DEBUG) {
       Fabric.with(this, new Crashlytics());
