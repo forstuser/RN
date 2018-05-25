@@ -145,6 +145,7 @@ class DashboardScreen extends React.Component {
         () => {
           const { rateUsDialogTimestamp } = this.props;
           setTimeout(() => {
+
             if (
               this.state.showDashboard &&
               !this.props.hasDashboardTourShown &&
@@ -239,8 +240,8 @@ class DashboardScreen extends React.Component {
                     </View>
                   </View>
                 ) : (
-                  <View collapsable={false} />
-                )}
+                    <View collapsable={false} />
+                  )}
                 {this.state.recentProducts.length > 0 ? (
                   // recent activity
                   <View collapsable={false}>
@@ -254,8 +255,8 @@ class DashboardScreen extends React.Component {
                     />
                   </View>
                 ) : (
-                  <View collapsable={false} />
-                )}
+                    <View collapsable={false} />
+                  )}
                 {this.state.recentCalenderItems.length > 0 ? (
                   // Calender
                   <View collapsable={false}>
@@ -269,8 +270,8 @@ class DashboardScreen extends React.Component {
                     />
                   </View>
                 ) : (
-                  <View collapsable={false} />
-                )}
+                    <View collapsable={false} />
+                  )}
                 {/* Expense Insights */}
                 <Title
                   gradientColors={["#242841", "#707c93"]}
@@ -355,13 +356,13 @@ class DashboardScreen extends React.Component {
             onUploadButtonClick={() => this.showAddProductOptionsScreen()}
           />
         ) : (
-          <TouchableOpacity
-            style={styles.fab}
-            onPress={() => this.showAddProductOptionsScreen()}
-          >
-            <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
-          </TouchableOpacity>
-        )}
+            <TouchableOpacity
+              style={styles.fab}
+              onPress={() => this.showAddProductOptionsScreen()}
+            >
+              <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+            </TouchableOpacity>
+          )}
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
         <LoadingOverlay visible={isFetchingData} />
         <RateUsDialog

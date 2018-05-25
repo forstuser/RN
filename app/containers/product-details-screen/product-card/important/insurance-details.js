@@ -87,18 +87,19 @@ class InsuranceDetails extends React.Component {
             copies={insurance.copies || []}
           />
         )}
-        <KeyValueItem
+        {insurance.policyNo ? <KeyValueItem
           keyText={I18n.t("product_details_screen_insurance_policy_no")}
           valueText={insurance.policyNo || "-"}
-        />
-        <KeyValueItem
+        /> : <View />}
+
+        {insurance.premiumAmount ? <KeyValueItem
           keyText={I18n.t("product_details_screen_insurance_premium_amount")}
           valueText={insurance.premiumAmount || "-"}
-        />
-        <KeyValueItem
+        /> : <View />}
+        {insurance.amountInsured ? <KeyValueItem
           keyText={I18n.t("product_details_screen_insurance_amount_insured")}
           valueText={insurance.amountInsured || "-"}
-        />
+        /> : <View />}
         {insurance.sellers != null && (
           <KeyValueItem
             keyText={I18n.t("product_details_screen_insurance_seller")}
