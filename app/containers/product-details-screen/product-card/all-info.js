@@ -222,19 +222,25 @@ class AllInfo extends React.Component {
                     <KeyValueItem
                       keyText="Contact No."
                       ValueComponent={() => (
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            flex: 1
-                          }}
-                        >
-                          <View style={{ width: "70%" }}>
-                            <MultipleContactNumbers contact={seller.contact} />
-                          </View>
-                          {seller.contact && (
+                        <TouchableOpacity>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              flex: 1
+                            }}
+                          >
+                            <View style={{ width: "70%" }}>
+                              <MultipleContactNumbers
+                                contact={seller.contact}
+                              />
+                            </View>
+
                             <View style={{ width: "30%" }}>
                               <Text
-                                style={{ paddingHorizontal: 5, paddingTop: 3 }}
+                                style={{
+                                  paddingHorizontal: 5,
+                                  paddingTop: 3
+                                }}
                               >
                                 <Icon
                                   name="md-call"
@@ -243,8 +249,8 @@ class AllInfo extends React.Component {
                                 />
                               </Text>
                             </View>
-                          )}
-                        </View>
+                          </View>
+                        </TouchableOpacity>
                       )}
                     />
                   ) : (

@@ -156,30 +156,33 @@ class SellerTab extends Component {
           keyText={I18n.t("product_details_screen_seller_location")}
           valueText={_.trim(seller.city + ", " + seller.state, ", ")}
         />
-        <KeyValueItem
-          keyText="Contact No."
-          ValueComponent={() => (
-            <TouchableOpacity>
-              <View
-                style={{
-                  flexDirection: "row",
-                  flex: 1
-                }}
-              >
-                <View style={{ width: "70%" }}>
-                  <MultipleContactNumbers contact={seller.contact} />
-                </View>
-                {seller.contact && (
+        {seller.contact ? (
+          <KeyValueItem
+            keyText="Contact No."
+            ValueComponent={() => (
+              <TouchableOpacity>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    flex: 1
+                  }}
+                >
+                  <View style={{ width: "70%" }}>
+                    <MultipleContactNumbers contact={seller.contact} />
+                  </View>
+
                   <View style={{ width: "30%" }}>
                     <Text style={{ paddingHorizontal: 5, paddingTop: 3 }}>
                       <Icon name="md-call" size={15} color={colors.tomato} />
                     </Text>
                   </View>
-                )}
-              </View>
-            </TouchableOpacity>
-          )}
-        />
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        ) : (
+          <View />
+        )}
         {seller.address.length > 0 ||
         seller.city.length > 0 ||
         seller.state.length > 0 ? (
