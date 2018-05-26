@@ -30,14 +30,15 @@ class FinishModal extends React.Component {
 
 
   onDoItLaterClick = () => {
+
     if (this.props.mainCategoryId) {
-      let categoryObject = MAIN_CATEGORIES.find(key => key.id == this.props.mainCategoryId);
+      var categoryObject = {};
+      categoryObject = MAIN_CATEGORIES.find((key) => { return key.id === this.props.mainCategoryId });
       categoryObject = { id: categoryObject.id, cName: categoryObject.name };
       Analytics.logEvent(Analytics.EVENTS.CLICK_I_WILL_DO_IT_LATER, {
         category_id: this.props.mainCategoryId
       });
     }
-    console.log("this.props.productId: ", this.props.productId);
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
         this.props.navigation.goBack();

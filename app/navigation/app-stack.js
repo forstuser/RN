@@ -122,7 +122,9 @@ const BottomTabStack = createBottomTabNavigator(
     backBehavior: "none",
     tabBarOptions: {
       activeTintColor: colors.mainBlue,
-      inactiveTintColor: colors.lighterText
+      inactiveTintColor: colors.lighterText,
+      activeBackgroundColor: '#fff',
+      inactiveBackgroundColor: '#fff'
     }
   }
 );
