@@ -36,36 +36,56 @@ class AmcDetails extends React.Component {
             this.props.openAddEditAmcScreen(amc);
           }}
         />
-        {amc.copies ? <ViewBillRow
-          collapsable={false}
-          expiryDate={amc.expiryDate}
-          purchaseDate={amc.purchaseDate}
-          docType="AMC"
-          copies={amc.copies || []}
-        /> : <View />}
-        {amc.expiryDate ? <KeyValueItem
-          keyText={I18n.t("product_details_screen_amc_expiry")}
-          valueText={
-            moment(amc.expiryDate).isValid() &&
-            moment(amc.expiryDate).format("DD MMM YYYY")
-          }
-        /> : <View />}
-        {amc.premiumAmount ? <KeyValueItem
-          keyText={I18n.t("product_details_screen_amc_premium_amount")}
-          valueText={amc.premiumAmount || "-"}
-        /> : <View />}
-        {amc.sellers ? <KeyValueItem
-          keyText={"AMC Provider Name"}
-          valueText={amc.sellers ? amc.sellers.sellerName : "-"}
-        /> : <View />}
-        {amc.sellers ? <KeyValueItem
-          keyText={"AMC Provider Contact"}
-          ValueComponent={() => (
-            <MultipleContactNumbers
-              contact={amc.sellers ? amc.sellers.contact : "-"}
-            />
-          )}
-        /> : <View />}
+        {amc.copies ? (
+          <ViewBillRow
+            collapsable={false}
+            expiryDate={amc.expiryDate}
+            purchaseDate={amc.purchaseDate}
+            docType="AMC"
+            copies={amc.copies || []}
+          />
+        ) : (
+          <View />
+        )}
+        {amc.expiryDate ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_amc_expiry")}
+            valueText={
+              moment(amc.expiryDate).isValid() &&
+              moment(amc.expiryDate).format("DD MMM YYYY")
+            }
+          />
+        ) : (
+          <View />
+        )}
+        {amc.premiumAmount ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_amc_premium_amount")}
+            valueText={amc.premiumAmount || "-"}
+          />
+        ) : (
+          <View />
+        )}
+        {amc.sellers ? (
+          <KeyValueItem
+            keyText={"AMC Provider Name"}
+            valueText={amc.sellers ? amc.sellers.sellerName : "-"}
+          />
+        ) : (
+          <View />
+        )}
+        {amc.sellers ? (
+          <KeyValueItem
+            keyText={"AMC Provider Contact"}
+            ValueComponent={() => (
+              <MultipleContactNumbers
+                contact={amc.sellers ? amc.sellers.contact : "-"}
+              />
+            )}
+          />
+        ) : (
+          <View />
+        )}
       </View>
     );
 
@@ -91,7 +111,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   },
   card: {
-    width: 300,
+    width: 290,
     backgroundColor: "#fff",
     marginRight: 20,
     marginLeft: 5,

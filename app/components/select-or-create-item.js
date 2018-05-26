@@ -16,7 +16,7 @@ import { defaultStyles, colors } from "../theme";
 
 import { Text, Button } from "../elements";
 
-class SelectModal extends Component {
+class SelectOrCreateItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -152,11 +152,11 @@ class SelectModal extends Component {
     }
 
     return (
-      <View collapsable={false}  style={[styles.container, style]}>
+      <View collapsable={false} style={[styles.container, style]}>
         {!isAddNewVisible ? (
-          <View collapsable={false}  style={{ flex: 1 }}>
+          <View collapsable={false} style={{ flex: 1 }}>
             {!hideSearch && items.length > 15 ? (
-              <View collapsable={false}  style={styles.searchContainer}>
+              <View collapsable={false} style={styles.searchContainer}>
                 <TextInput
                   placeholder={I18n.t("component_items_search")}
                   underlineColorAndroid="transparent"
@@ -166,7 +166,7 @@ class SelectModal extends Component {
                 />
               </View>
             ) : (
-              <View collapsable={false}  />
+              <View collapsable={false} />
             )}
             <FlatList
               style={style.itemsList}
@@ -189,7 +189,7 @@ class SelectModal extends Component {
             />
           </View>
         ) : (
-          <View collapsable={false}  style={styles.addNewContainer}>
+          <View collapsable={false} style={styles.addNewContainer}>
             <Text
               weight="Bold"
               style={{ alignSelf: "flex-start", marginBottom: 10 }}
@@ -298,4 +298,4 @@ const styles = StyleSheet.create({
     height: 40
   }
 });
-export default SelectModal;
+export default SelectOrCreateItem;

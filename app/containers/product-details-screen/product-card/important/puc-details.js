@@ -36,33 +36,44 @@ class PucDetails extends React.Component {
             this.props.openAddEditPucScreen(puc);
           }}
         />
-        {puc.copies ? <ViewBillRow
-          collapsable={false}
-          expiryDate={puc.expiryDate}
-          purchaseDate={puc.purchaseDate}
-          docType="PUC"
-          copies={puc.copies || []}
-        /> : <View />}
+        {puc.copies ? (
+          <ViewBillRow
+            collapsable={false}
+            expiryDate={puc.expiryDate}
+            purchaseDate={puc.purchaseDate}
+            docType="PUC"
+            copies={puc.copies || []}
+          />
+        ) : (
+          <View />
+        )}
 
-        {puc.effectiveDate ? <KeyValueItem
-          keyText={I18n.t("product_details_screen_puc_effective_date")}
-          valueText={
-            puc.effectiveDate
-              ? moment(puc.effectiveDate).format("MMM DD, YYYY")
-              : "-"
-          }
-        /> : <View />}
+        {puc.effectiveDate ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_puc_effective_date")}
+            valueText={
+              puc.effectiveDate
+                ? moment(puc.effectiveDate).format("MMM DD, YYYY")
+                : "-"
+            }
+          />
+        ) : (
+          <View />
+        )}
 
-        {puc.expiryDate ? <KeyValueItem
-          keyText={I18n.t("product_details_screen_puc_expiry_date")}
-          valueText={
-            puc.expiryDate ? moment(puc.expiryDate).format("MMM DD, YYYY") : "-"
-          }
-        /> : <View />}
-        <KeyValueItem
-          keyText={"PUC Amount"}
-          valueText={puc.value}
-        />
+        {puc.expiryDate ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_puc_expiry_date")}
+            valueText={
+              puc.expiryDate
+                ? moment(puc.expiryDate).format("MMM DD, YYYY")
+                : "-"
+            }
+          />
+        ) : (
+          <View />
+        )}
+        <KeyValueItem keyText={"PUC Amount"} valueText={puc.value} />
 
         {/* <KeyValueItem
           keyText={I18n.t("product_details_screen_puc_seller_contact")}
@@ -97,7 +108,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   },
   card: {
-    width: 300,
+    width: 290,
     backgroundColor: "#fff",
     marginRight: 20,
     marginLeft: 5,

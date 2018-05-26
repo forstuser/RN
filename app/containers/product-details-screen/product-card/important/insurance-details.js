@@ -87,19 +87,31 @@ class InsuranceDetails extends React.Component {
             copies={insurance.copies || []}
           />
         )}
-        {insurance.policyNo ? <KeyValueItem
-          keyText={I18n.t("product_details_screen_insurance_policy_no")}
-          valueText={insurance.policyNo || "-"}
-        /> : <View />}
+        {insurance.policyNo ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_insurance_policy_no")}
+            valueText={insurance.policyNo || "-"}
+          />
+        ) : (
+          <View />
+        )}
 
-        {insurance.premiumAmount ? <KeyValueItem
-          keyText={I18n.t("product_details_screen_insurance_premium_amount")}
-          valueText={insurance.premiumAmount || "-"}
-        /> : <View />}
-        {insurance.amountInsured ? <KeyValueItem
-          keyText={I18n.t("product_details_screen_insurance_amount_insured")}
-          valueText={insurance.amountInsured || "-"}
-        /> : <View />}
+        {insurance.premiumAmount ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_insurance_premium_amount")}
+            valueText={insurance.premiumAmount || "-"}
+          />
+        ) : (
+          <View />
+        )}
+        {insurance.amountInsured ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_insurance_amount_insured")}
+            valueText={insurance.amountInsured || "-"}
+          />
+        ) : (
+          <View />
+        )}
         {insurance.sellers != null && (
           <KeyValueItem
             keyText={I18n.t("product_details_screen_insurance_seller")}
@@ -131,8 +143,8 @@ class InsuranceDetails extends React.Component {
               onPress={() => this.props.openAddEditInsuranceScreen(null)}
             />
           ) : (
-              <View collapsable={false} />
-            )}
+            <View collapsable={false} />
+          )}
         </ScrollView>
       </View>
     );
@@ -147,7 +159,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   },
   card: {
-    width: 300,
+    width: 290,
     backgroundColor: "#fff",
     marginRight: 20,
     marginLeft: 5,

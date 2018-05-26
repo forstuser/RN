@@ -148,6 +148,7 @@ class SelectModelStep extends React.Component {
           visibleKey="title"
           onSelectItem={this.onSelectModel}
           onAddItem={this.onAddModel}
+          textInputPlaceholder="Enter Model Name"
         />
       </Step>
     );
