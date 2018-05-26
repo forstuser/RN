@@ -17,6 +17,7 @@ import {
 import { connect } from "react-redux";
 import {
   API_BASE_URL,
+  fetchDoYouKnowItem,
   fetchDoYouKnowItems,
   fetchDoYouKnowTags,
   likeDoYouKnowItem,
@@ -113,8 +114,12 @@ class DoYouKNowScreen extends Component {
               newState.currentIndex = 0;
             }
             this.setState(newState, () => {
-              const newId = this.state.items[this.state.currentIndex].id;
-              if (newId > this.props.latestDoYouKnowReadId) {
+              const newItem = this.state.items[this.state.currentIndex];
+              const newId = newItem.id;
+              if (
+                newId > this.props.latestDoYouKnowReadId &&
+                !newItem.openedFromDeepLink //don't save if opened from deeplink
+              ) {
                 this.props.setLatestDoYouKnowReadId(newId);
               }
 
@@ -165,7 +170,19 @@ class DoYouKNowScreen extends Component {
               offsetId: this.props.latestDoYouKnowReadId
             },
             () => {
-              this.loadItems();
+              // deep linking handling
+              if (
+                global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]
+              ) {
+                this.loadSingleItem(
+                  global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]
+                );
+                global[
+                  GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY
+                ] = null;
+              } else {
+                this.loadItems();
+              }
             }
           );
         } else {
@@ -180,7 +197,23 @@ class DoYouKNowScreen extends Component {
     this.didFocusSubscription.remove();
   }
 
-  loadItems = async clearPreviousItems => {
+  loadSingleItem = async id => {
+    try {
+      const res = await fetchDoYouKnowItem(id);
+      let item = { ...res.item, openedFromDeepLink: true };
+      this.setState({ items: [res.item] });
+      this.loadItems();
+    } catch (error) {
+      this.setState({
+        error
+      });
+    }
+    this.setState({
+      isFetchingItems: false
+    });
+  };
+
+  loadItems = async (clearPreviousItems = false) => {
     const tagIds = this.state.selectedTagIds;
     let offsetId = this.state.offsetId;
 
@@ -235,19 +268,6 @@ class DoYouKNowScreen extends Component {
         items: [...items, ...resItems],
         currentIndex
       };
-
-      // deep linking handling
-      // if (global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]) {
-      //   for (let i = 0; i < res.items.length; i++) {
-      //     if (
-      //       res.items[i].id ==
-      //       global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]
-      //     ) {
-      //       newState.currentIndex = i;
-      //       break;
-      //     }
-      //   }
-      // }
 
       this.setState(newState);
     } catch (error) {
