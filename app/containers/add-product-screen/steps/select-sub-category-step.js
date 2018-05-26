@@ -67,7 +67,6 @@ class SelectSubCategoryStep extends React.Component {
 
   render() {
     const { subCategories, isLoading } = this.state;
-
     const { mainCategoryId, category, product } = this.props;
     let title = "Select Expense Type";
     switch (category.id) {

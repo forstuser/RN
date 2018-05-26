@@ -79,8 +79,8 @@ class SelectPurchaseDateStep extends React.Component {
 
   render() {
     const { isLoading, activeDate } = this.state;
-    const { mainCategoryId, category, product } = this.props;
-    let title = "Select Purchase Date";
+    const { mainCategoryId, category, product, subCategoryId } = this.props;
+    let title = "Select Expense Date";
     switch (category.id) {
       case CATEGORY_IDS.TRAVEL.TRAVEL:
         title = "Select Travel Expense Date";
@@ -92,11 +92,12 @@ class SelectPurchaseDateStep extends React.Component {
         title = "Select Dining Expense Date";
         break;
 
-      case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
-        title = "Select Medical Bill Expense Date";
-        break;
-      case CATEGORY_IDS.HEALTHCARE.HOSPITAL_DOC:
-        title = "Select Hospital Bill Expense Date";
+      case CATEGORY_IDS.HEALTHCARE.EXPENSE:
+        if (subCategoryId == SUB_CATEGORY_IDS.MEDICAL_BILL) {
+          title = "Add Medical Bill Expense Date";
+        } else {
+          title = "Add Hospital Bill Expense Date";
+        }
         break;
 
       case CATEGORY_IDS.FASHION.FOOTWEAR:

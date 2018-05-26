@@ -201,12 +201,13 @@ class AddProductScreen extends React.Component {
   };
 
   pushPurchaseDateStep = () => {
-    const { mainCategoryId, category, product } = this.state;
+    const { mainCategoryId, category, product, subCategoryId } = this.state;
     this.pushStep(
       <SelectPurchaseDateStep
         product={product}
         mainCategoryId={mainCategoryId}
         category={category}
+        subCategoryId={subCategoryId}
         onPurchaseDateStepDone={this.onPurchaseDateStepDone}
         skippable={true}
         onBackPress={this.previousStep}
@@ -265,13 +266,20 @@ class AddProductScreen extends React.Component {
   };
 
   pushSubCategoryStep = (skippable = false) => {
-    const { mainCategoryId, category, product, subCategories } = this.state;
+    const {
+      mainCategoryId,
+      category,
+      product,
+      subCategories,
+      subCategoryId
+    } = this.state;
     this.pushStep(
       <SelectSubCategoryStep
         product={product}
         mainCategoryId={mainCategoryId}
         category={category}
         subCategories={subCategories}
+        subCategoryId={subCategoryId}
         onSubCategoryStepDone={this.onSubCategoryStepDone}
         onSkipPress={this.onSubCategoryStepDone}
         onBackPress={this.previousStep}
