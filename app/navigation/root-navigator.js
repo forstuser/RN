@@ -33,6 +33,7 @@ import LoadingOverlay from "../components/loading-overlay";
 
 import { showSnackbar } from "../utils/snackbar";
 import IntroScreen from "../containers/intro-screen";
+import RegistrationDetailsScreen from "../containers/registration-details-screen";
 
 import NavigationService from "./index";
 import AuthStack from "./auth-stack";
@@ -43,6 +44,7 @@ const RootNavigator = createSwitchNavigator(
     AppLoading: LoadingOverlay,
     [SCREENS.INTRO_SCREEN]: IntroScreen,
     [SCREENS.AUTH_STACK]: AuthStack,
+    [SCREENS.REGISTRATION_DETAILS_SCREEN]: RegistrationDetailsScreen,
     [SCREENS.APP_STACK]: AppStack
   },
   { initialRouteName: "AppLoading" }
@@ -276,6 +278,7 @@ class RootNavigation extends React.Component {
     if (!this.props.isUserLoggedIn) {
       NavigationService.navigate(SCREENS.INTRO_SCREEN);
     } else {
+      this.props.incrementAppOpen();
       NavigationService.navigate(SCREENS.APP_STACK);
       const r = await getProfileDetail();
       const user = r.userProfile;
@@ -368,6 +371,9 @@ const mapDispatchToProps = dispatch => {
   return {
     setLoggedInUser: user => {
       dispatch(loggedInUserActions.setLoggedInUser(user));
+    },
+    incrementAppOpen: () => {
+      dispatch(uiActions.incrementAppOpen());
     }
   };
 };

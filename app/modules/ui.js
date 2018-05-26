@@ -61,6 +61,11 @@ export default function uiReducer(state = defaultState.ui, action) {
         ...state,
         rateUsDialogTimestamp: action.payload.timestamp
       };
+    case types.UI_INCREMENT_APP_OPEN:
+      return {
+        ...state,
+        appOpenCount: state.appOpenCount + 1
+      };
     default:
       return state;
   }
@@ -70,6 +75,11 @@ export default function uiReducer(state = defaultState.ui, action) {
  * Actions
  */
 export const actions = {
+  incrementAppOpen: fcmToken => {
+    return {
+      type: types.UI_INCREMENT_APP_OPEN
+    };
+  },
   setFcmToken: fcmToken => {
     return {
       type: types.UI_SET_FCM_TOKEN,

@@ -13,6 +13,7 @@ export default {
   },
 
   ui: {
+    appOpenCount: 0,
     language: LANGUAGES[0],
     fcmToken: null,
     screenToOpenAfterLogin: null,

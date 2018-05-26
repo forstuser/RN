@@ -73,7 +73,6 @@ class DashboardScreen extends React.Component {
   }
 
   async componentDidMount() {
-    // this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -145,7 +144,6 @@ class DashboardScreen extends React.Component {
         () => {
           const { rateUsDialogTimestamp } = this.props;
           setTimeout(() => {
-
             if (
               this.state.showDashboard &&
               !this.props.hasDashboardTourShown &&
@@ -156,7 +154,10 @@ class DashboardScreen extends React.Component {
               this.dashboardTour.startTour();
               this.props.setUiHasDashboardTourShown(true);
             } else if (
-              this.state.showDashboard &&
+              (this.state.showDashboard ||
+                dashboardData.hasEazyDayItems ||
+                dashboardData.knowItemsLiked) &&
+              this.props.appOpenCount > 6 &&
               (!rateUsDialogTimestamp ||
                 moment().diff(
                   moment(rateUsDialogTimestamp).startOf("day"),
@@ -240,8 +241,8 @@ class DashboardScreen extends React.Component {
                     </View>
                   </View>
                 ) : (
-                    <View collapsable={false} />
-                  )}
+                  <View collapsable={false} />
+                )}
                 {this.state.recentProducts.length > 0 ? (
                   // recent activity
                   <View collapsable={false}>
@@ -255,8 +256,8 @@ class DashboardScreen extends React.Component {
                     />
                   </View>
                 ) : (
-                    <View collapsable={false} />
-                  )}
+                  <View collapsable={false} />
+                )}
                 {this.state.recentCalenderItems.length > 0 ? (
                   // Calender
                   <View collapsable={false}>
@@ -270,8 +271,8 @@ class DashboardScreen extends React.Component {
                     />
                   </View>
                 ) : (
-                    <View collapsable={false} />
-                  )}
+                  <View collapsable={false} />
+                )}
                 {/* Expense Insights */}
                 <Title
                   gradientColors={["#242841", "#707c93"]}
@@ -356,13 +357,13 @@ class DashboardScreen extends React.Component {
             onUploadButtonClick={() => this.showAddProductOptionsScreen()}
           />
         ) : (
-            <TouchableOpacity
-              style={styles.fab}
-              onPress={() => this.showAddProductOptionsScreen()}
-            >
-              <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            style={styles.fab}
+            onPress={() => this.showAddProductOptionsScreen()}
+          >
+            <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+          </TouchableOpacity>
+        )}
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
         <LoadingOverlay visible={isFetchingData} />
         <RateUsDialog
@@ -423,7 +424,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     hasDashboardTourShown: state.ui.hasDashboardTourShown,
-    rateUsDialogTimestamp: state.ui.rateUsDialogTimestamp
+    rateUsDialogTimestamp: state.ui.rateUsDialogTimestamp,
+    appOpenCount: state.ui.appOpenCount
   };
 };
 

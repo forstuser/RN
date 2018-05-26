@@ -13,6 +13,7 @@ import I18n from "../i18n";
 
 import { showSnackbar } from "../utils/snackbar";
 import Analytics from "../analytics";
+import { SCREENS } from "../constants";
 
 class VerifyScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -98,7 +99,11 @@ class VerifyScreen extends Component {
         imageUrl: user.imageUrl,
         isPinSet: user.hasPin
       });
-      openAfterLoginScreen();
+      if (r.isExistingUser) {
+        this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
+      } else {
+        openAfterLoginScreen();
+      }
     } catch (e) {
       showSnackbar({
         text: e.message
