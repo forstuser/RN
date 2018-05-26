@@ -99,7 +99,7 @@ class InsuranceDetails extends React.Component {
         {insurance.premiumAmount ? (
           <KeyValueItem
             keyText={I18n.t("product_details_screen_insurance_premium_amount")}
-            valueText={insurance.premiumAmount || "-"}
+            valueText={"₹ " + insurance.premiumAmount || "-"}
           />
         ) : (
           <View />
@@ -107,7 +107,7 @@ class InsuranceDetails extends React.Component {
         {insurance.amountInsured ? (
           <KeyValueItem
             keyText={I18n.t("product_details_screen_insurance_amount_insured")}
-            valueText={insurance.amountInsured || "-"}
+            valueText={"₹ " + insurance.amountInsured || "-"}
           />
         ) : (
           <View />

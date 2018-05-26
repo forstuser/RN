@@ -83,7 +83,7 @@ const BottomTabStack = createBottomTabNavigator(
     [SCREENS.EASY_LIFE_SCREEN]: {
       screen: EasyLifeScreen,
       navigationOptions: {
-        tabBarLabel: "Eazy Life",
+        tabBarLabel: "EazyDay",
         tabBarIcon: ({ focused }) => (
           <TabIcon
             focused={focused}

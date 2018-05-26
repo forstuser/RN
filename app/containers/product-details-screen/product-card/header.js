@@ -21,7 +21,7 @@ import { Text, Button, ScreenContainer } from "../../../elements";
 import { openBillsPopUp } from "../../../navigation";
 
 import { colors, defaultStyles } from "../../../theme";
-import { getProductMetasString } from "../../../utils";
+import { getProductMetasString, isOfProductType } from "../../../utils";
 
 import UploadBillOptions from "../../../components/upload-bill-options";
 
@@ -69,6 +69,17 @@ class Header extends Component {
       shareBtnRef,
       reviewBtnRef
     } = this.props;
+    let tabNameArray = [
+      "CUSTOMER CARE",
+      "PRODUCT LIFE CYCLE"
+    ];
+    if (product.masterCategoryId == MAIN_CATEGORY_IDS.TRAVEL || product.masterCategoryId == MAIN_CATEGORY_IDS.HEALTHCARE || product.masterCategoryId == MAIN_CATEGORY_IDS.SERVICES || product.masterCategoryId == MAIN_CATEGORY_IDS.FASHION || product.masterCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD) {
+      tabNameArray[1] = ["EXPENSE DETAILS"]
+    }
+    if (product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS) {
+      tabNameArray[1] = ["DETAILS"]
+
+    }
 
     const { review } = this.state;
 
@@ -155,24 +166,28 @@ class Header extends Component {
                   </View>
                   <Image style={styles.dropdownIcon} source={dropdownIcon} />
                 </TouchableOpacity>
-                <View style={styles.texts}>
-                  {product.warrantyDetails.length > 0 && (
-                    <Text weight="Medium" style={styles.brandAndModel}>
-                      Warranty till{" "}
-                      {moment(product.warrantyDetails[0].expiryDate).format(
-                        "DD MMM YYYY"
-                      )}
-                    </Text>
-                  )}
-                  {product.insuranceDetails.length > 0 && (
-                    <Text weight="Medium" style={styles.brandAndModel}>
-                      Insurance till{" "}
-                      {moment(product.insuranceDetails[0].expiryDate).format(
-                        "DD MMM YYYY"
-                      )}
-                    </Text>
-                  )}
-                </View>
+                {isOfProductType(product.masterCategoryId) && product.masterCategoryId != MAIN_CATEGORY_IDS.FASHION ?
+                  <View style={styles.texts}>
+                    {product.warrantyDetails.length > 0 ?
+                      <Text weight="Medium" style={styles.brandAndModel}>
+                        Warranty till{" "}
+                        {moment(product.warrantyDetails[0].expiryDate).format(
+                          "DD MMM YYYY"
+                        )}
+                      </Text> : <Text weight="Medium" style={styles.brandAndModel}>
+                        Warranty NA
+                    </Text>}
+                    {product.insuranceDetails.length > 0 ?
+                      <Text weight="Medium" style={styles.brandAndModel}>
+                        Insurance till{" "}
+                        {moment(product.insuranceDetails[0].expiryDate).format(
+                          "DD MMM YYYY"
+                        )}
+                      </Text> : <Text weight="Medium" style={styles.brandAndModel}>
+                        Insurance NA
+                    </Text>}
+                  </View> : <View />
+                }
               </View>
               {/* 2 buttons (view bill,share) start */}
               <View style={styles.btns}>
@@ -248,10 +263,7 @@ class Header extends Component {
             </View>
             {/* 3 buttons (view bill,share and rating) end */}
             <View style={styles.tabs}>
-              {[
-                I18n.t("product_details_screen_tab_customer_care"),
-                I18n.t("product_details_screen_tab_all_info")
-              ].map((tab, index) => {
+              {tabNameArray.map((tab, index) => {
                 if (
                   (!showCustomerCareTab && index == 0)
                 ) {

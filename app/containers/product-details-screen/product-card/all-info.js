@@ -206,8 +206,8 @@ class AllInfo extends React.Component {
                       valueText={seller.sellerName || "-"}
                     />
                   ) : (
-                    <View />
-                  )}
+                      <View />
+                    )}
                   {seller.city ? (
                     <KeyValueItem
                       keyText={I18n.t("product_details_screen_seller_location")}
@@ -216,8 +216,8 @@ class AllInfo extends React.Component {
                       }
                     />
                   ) : (
-                    <View />
-                  )}
+                      <View />
+                    )}
                   {seller.contact ? (
                     <KeyValueItem
                       keyText="Contact No."
@@ -254,38 +254,38 @@ class AllInfo extends React.Component {
                       )}
                     />
                   ) : (
-                    <View />
-                  )}
+                      <View />
+                    )}
                   {(seller.address.length > 0 ||
                     seller.city.length > 0 ||
                     seller.state.length > 0) && (
-                    <KeyValueItem
-                      KeyComponent={() => (
-                        <View collapsable={false} style={{ flex: 1 }}>
-                          <Text style={{ color: colors.secondaryText }}>
-                            {I18n.t("product_details_screen_seller_address")}
-                          </Text>
-                          <Text
-                            weight="Medium"
-                            style={{ color: colors.mainText }}
-                          >
-                            {_.trim(
-                              seller.address +
+                      <KeyValueItem
+                        KeyComponent={() => (
+                          <View collapsable={false} style={{ flex: 1 }}>
+                            <Text style={{ color: colors.secondaryText }}>
+                              {I18n.t("product_details_screen_seller_address")}
+                            </Text>
+                            <Text
+                              weight="Medium"
+                              style={{ color: colors.mainText }}
+                            >
+                              {_.trim(
+                                seller.address +
                                 ", " +
                                 seller.city +
                                 ", " +
                                 seller.state,
-                              ", "
-                            )}
-                          </Text>
-                        </View>
-                      )}
-                    />
-                  )}
+                                ", "
+                              )}
+                            </Text>
+                          </View>
+                        )}
+                      />
+                    )}
                 </View>
               ) : (
-                <View />
-              )}
+                  <View />
+                )}
             </View>
             <View style={{ marginBottom: 20 }}>
               <ViewMoreBtn
@@ -294,20 +294,26 @@ class AllInfo extends React.Component {
                 onPress={this.toggleListHeight}
               />
             </View>
-            <Important
-              product={product}
-              navigation={navigation}
-              cardWidthWhenMany={cardWidthWhenMany}
-              cardWidthWhenOne={cardWidthWhenOne}
-            />
+            {(product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE ||
+              [
+                MAIN_CATEGORY_IDS.AUTOMOBILE,
+                MAIN_CATEGORY_IDS.ELECTRONICS
+              ].indexOf(product.masterCategoryId) > -1) ?
+              <Important
+                product={product}
+                navigation={navigation}
+                cardWidthWhenMany={cardWidthWhenMany}
+                cardWidthWhenOne={cardWidthWhenOne}
+              /> : <View />
+            }
           </View>
         ) : (
-          <InsuranceDetails
-            product={product}
-            navigation={navigation}
-            openAddEditInsuranceScreen={this.onEditPress}
-          />
-        )}
+            <InsuranceDetails
+              product={product}
+              navigation={navigation}
+              openAddEditInsuranceScreen={this.onEditPress}
+            />
+          )}
       </View>
     );
   }

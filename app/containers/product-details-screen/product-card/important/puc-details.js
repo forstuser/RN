@@ -73,7 +73,11 @@ class PucDetails extends React.Component {
         ) : (
           <View />
         )}
-        <KeyValueItem keyText={"PUC Amount"} valueText={puc.value} />
+        {puc.value ? (
+          <KeyValueItem keyText={"PUC Amount"} valueText={"₹ " + puc.value} />
+        ) : (
+          <View />
+        )}
 
         {/* <KeyValueItem
           keyText={I18n.t("product_details_screen_puc_seller_contact")}

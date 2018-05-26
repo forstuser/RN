@@ -128,7 +128,18 @@ class EditProductBasicDetails extends React.Component {
         text: I18n.t("add_edit_product_basic_select_date")
       });
     }
-
+    // if ((!data.sellerContact && !data.sellerName && data.sellerAddress) || (!data.sellerName && data.sellerAddress)) {
+    //   return showSnackbar({
+    //     text: "Please enter seller name/contact no."
+    //   });
+    // }
+    if (data.sellerAddress) {
+      if (!data.sellerContact && !data.sellerName) {
+        return showSnackbar({
+          text: "Please enter seller name/contact no."
+        });
+      }
+    }
     if (
       [
         MAIN_CATEGORY_IDS.AUTOMOBILE,

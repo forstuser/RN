@@ -15,7 +15,8 @@ import I18n from "../../../../i18n";
 import {
   MAIN_CATEGORY_IDS,
   SCREENS,
-  WARRANTY_TYPES
+  WARRANTY_TYPES,
+  CATEGORY_IDS
 } from "../../../../constants";
 
 import AddItemBtn from "./add-item-btn";
@@ -101,7 +102,7 @@ class Important extends React.Component {
 
     return (
       <View collapsable={false} style={styles.container}>
-        {(product.categoryId != 664 ||
+        {(product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ||
           [MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
             product.masterCategoryId
           ) > -1) &&
@@ -121,7 +122,7 @@ class Important extends React.Component {
         {([MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
           product.masterCategoryId
         ) > -1 ||
-          product.categoryId == 664) &&
+          product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) &&
           insuranceDetails.length > 0 && (
             <View collapsable={false}>
               <Text weight="Bold" style={styles.sectionTitle}>
@@ -184,7 +185,7 @@ class Important extends React.Component {
           )}
 
         <View collapsable={false} style={styles.addBtns}>
-          {(product.categoryId != 664 ||
+          {(product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ||
             [
               MAIN_CATEGORY_IDS.AUTOMOBILE,
               MAIN_CATEGORY_IDS.ELECTRONICS
@@ -201,7 +202,7 @@ class Important extends React.Component {
                 }}
               />
             )}
-          {(product.categoryId != 664 ||
+          {(product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ||
             [
               MAIN_CATEGORY_IDS.AUTOMOBILE,
               MAIN_CATEGORY_IDS.ELECTRONICS
@@ -225,7 +226,7 @@ class Important extends React.Component {
             MAIN_CATEGORY_IDS.AUTOMOBILE,
             MAIN_CATEGORY_IDS.ELECTRONICS
           ].indexOf(product.masterCategoryId) > -1 ||
-            product.categoryId == 664) &&
+            product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) &&
             insuranceDetails.length == 0 && (
               <AddItemBtn
                 biggerSize={true}

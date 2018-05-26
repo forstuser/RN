@@ -95,7 +95,6 @@ class BasicDetailsForm extends React.Component {
       );
       this.setState({ selectedSubCategory });
     }
-
     this.setState({
       id,
       productName,
