@@ -52,14 +52,14 @@ class WarrantyDetails extends React.Component {
           }}
         />
         {warranty.warranty_type == WARRANTY_TYPES.EXTENDED &&
-        warranty.provider ? (
-          <KeyValueItem
-            keyText={I18n.t("product_details_screen_warranty_provider")}
-            valueText={warranty.provider ? warranty.provider.name : "-"}
-          />
-        ) : (
-          <View />
-        )}
+          warranty.provider ? (
+            <KeyValueItem
+              keyText={I18n.t("product_details_screen_warranty_provider")}
+              valueText={warranty.provider ? warranty.provider.name : "-"}
+            />
+          ) : (
+            <View />
+          )}
 
         <KeyValueItem
           keyText={I18n.t("product_details_screen_warranty_expiry_date")}
@@ -72,11 +72,11 @@ class WarrantyDetails extends React.Component {
         {warranty.warranty_type == WARRANTY_TYPES.EXTENDED && warranty.value ? (
           <KeyValueItem
             keyText={I18n.t("product_details_screen_warranty_amount")}
-            valueText={warranty.value ? warranty.value : "-"}
+            valueText={warranty.value ? "₹ " + warranty.value : "-"}
           />
         ) : (
-          <View />
-        )}
+            <View />
+          )}
 
         {warranty.copies ? (
           <ViewBillRow
@@ -87,8 +87,8 @@ class WarrantyDetails extends React.Component {
             copies={warranty.copies || []}
           />
         ) : (
-          <View />
-        )}
+            <View />
+          )}
       </View>
     );
 

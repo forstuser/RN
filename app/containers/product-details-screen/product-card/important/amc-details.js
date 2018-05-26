@@ -52,7 +52,7 @@ class AmcDetails extends React.Component {
         /> : <View />}
         {amc.premiumAmount ? <KeyValueItem
           keyText={I18n.t("product_details_screen_amc_premium_amount")}
-          valueText={amc.premiumAmount || "-"}
+          valueText={"₹ " + amc.premiumAmount || "-"}
         /> : <View />}
         {amc.sellers ? <KeyValueItem
           keyText={"AMC Provider Name"}

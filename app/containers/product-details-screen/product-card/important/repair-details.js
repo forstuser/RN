@@ -56,7 +56,7 @@ class RepairDetails extends React.Component {
 
         {repair.premiumAmount ? <KeyValueItem
           keyText={I18n.t("product_details_screen_repairs_amount")}
-          valueText={repair.premiumAmount || "-"}
+          valueText={"₹ " + repair.premiumAmount || "-"}
         /> : <View />}
 
         {repair.warranty_upto ? <KeyValueItem

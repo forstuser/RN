@@ -59,10 +59,10 @@ class PucDetails extends React.Component {
             puc.expiryDate ? moment(puc.expiryDate).format("MMM DD, YYYY") : "-"
           }
         /> : <View />}
-        <KeyValueItem
+        {puc.value ? <KeyValueItem
           keyText={"PUC Amount"}
-          valueText={puc.value}
-        />
+          valueText={"₹ " + puc.value}
+        /> : <View />}
 
         {/* <KeyValueItem
           keyText={I18n.t("product_details_screen_puc_seller_contact")}
