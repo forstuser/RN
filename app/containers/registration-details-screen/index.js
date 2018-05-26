@@ -43,7 +43,9 @@ export default class RegistrationDetails extends React.Component {
   state = {
     name: "",
     email: "",
+    isEmailEditable: true,
     phone: "",
+    isPhoneEditable: true,
     location: "",
     latitude: null,
     longitude: null,
@@ -55,10 +57,13 @@ export default class RegistrationDetails extends React.Component {
     try {
       const r = await getProfileDetail();
       const user = r.userProfile;
+
       this.setState({
         name: user.name,
         email: user.email,
+        isEmailEditable: user.email ? false : true,
         phone: user.mobile_no,
+        isPhoneEditable: user.mobile_no ? false : true,
         gender: user.gender,
         location: user.location
       });
@@ -139,7 +144,16 @@ export default class RegistrationDetails extends React.Component {
   };
 
   render() {
-    const { name, email, phone, location, gender, isLoading } = this.state;
+    const {
+      name,
+      email,
+      isEmailEditable,
+      phone,
+      isPhoneEditable,
+      location,
+      gender,
+      isLoading
+    } = this.state;
     return (
       <ScreenContainer style={styles.container}>
         <Image style={styles.bg} source={bgImage} resizeMode="cover" />
@@ -175,6 +189,8 @@ export default class RegistrationDetails extends React.Component {
 
             <TextInput
               value={email}
+              editable={isEmailEditable}
+              keyboardType="email-address"
               placeholder="Email Id"
               leftIconName="ios-mail-outline"
               onChangeText={email => this.setState({ email })}
@@ -182,6 +198,7 @@ export default class RegistrationDetails extends React.Component {
 
             <TextInput
               value={phone}
+              editable={isPhoneEditable}
               keyboardType="numeric"
               placeholder="Mobile Number"
               leftIconName="ios-phone-portrait"

@@ -187,9 +187,6 @@ handleDeeplink = url => {
     case "ehome":
       screenToOpen = SCREENS.EHOME_SCREEN;
       break;
-    case "upload":
-      screenToOpen = SCREENS.UPLOAD_DOCUMENT_SCREEN;
-      break;
     case "asc":
       screenToOpen = SCREENS.ASC_SCREEN;
       break;
