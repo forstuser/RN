@@ -36,6 +36,7 @@ import SellerTab from "./seller-tab";
 import ContactAfterSaleButton from "./after-sale-button";
 import LoadingOverlay from "../../components/loading-overlay";
 import UploadProductImage from "../../components/upload-product-image";
+import HeaderBackBtn from "../../components/header-nav-back-btn";
 import ProductCard from "./product-card";
 import PersonalDocCard from "./personal-doc-card";
 import InsuranceCard from "./insurance-card";
@@ -49,12 +50,12 @@ class ProductDetailsScreen extends Component {
       title,
       onEditImagePress,
       onOptionsPress,
-      getAddProductImageRef = () => { }
+      getAddProductImageRef = () => {}
     } = params;
 
     return {
       title: title ? title : "",
-      headerTransparent: false, //params.headerTransparent,
+      // headerLeft: <HeaderBackBtn onPress={params.onBackPress} />,
       headerRight: (
         <View
           collapsable={false}
@@ -108,7 +109,6 @@ class ProductDetailsScreen extends Component {
     super(props);
     this.state = {
       productId: null,
-      isScreenVisible: true,
       isLoading: true,
       product: {},
       openServiceSchedule: false,
@@ -131,39 +131,25 @@ class ProductDetailsScreen extends Component {
       }
     );
 
-    this.didFocusSubscription = this.props.navigation.addListener(
-      "didFocus",
-      () => {
-        if (!this.state.productId) {
-          return this.props.navigation.goBack();
-        }
-        this.setState(
-          {
-            isScreenVisible: true
-          },
-          () => {
-            this.fetchProductDetails();
+    setTimeout(() => {
+      this.didFocusSubscription = this.props.navigation.addListener(
+        "didFocus",
+        () => {
+          console.log('"didFocus" "didFocus"');
+          if (!this.state.productId) {
+            return this.props.navigation.goBack();
           }
-        );
-      }
-    );
-
-    this.willBlurSubscription = this.props.navigation.addListener(
-      "willBlur",
-      () => {
-        this.setState(
-          {
-            isScreenVisible: false
-          },
-          () => { }
-        );
-      }
-    );
+          this.fetchProductDetails();
+        }
+      );
+    }, 200);
   }
 
   componentWillUnmount() {
-    this.didFocusSubscription.remove();
-    this.willBlurSubscription.remove();
+    if (this.didFocusSubscription) {
+      console.log('"didFocus remove" "didFocus remove"');
+      this.didFocusSubscription.remove();
+    }
   }
 
   handleEditOptionPress = index => {
@@ -186,7 +172,7 @@ class ProductDetailsScreen extends Component {
             },
             {
               text: I18n.t("product_details_screen_no_dnt_delete"),
-              onPress: () => { },
+              onPress: () => {},
               style: "cancel"
             }
           ]
@@ -202,79 +188,77 @@ class ProductDetailsScreen extends Component {
       });
       const res = await getProductDetails(this.state.productId);
 
-      if (this.state.isScreenVisible) {
-        const { product } = res;
+      const { product } = res;
 
-        let addImageText = "";
-        if (
-          [
-            MAIN_CATEGORY_IDS.AUTOMOBILE,
-            MAIN_CATEGORY_IDS.ELECTRONICS,
-            MAIN_CATEGORY_IDS.FURNITURE,
-            MAIN_CATEGORY_IDS.FASHION,
-            MAIN_CATEGORY_IDS.TRAVEL
-          ].indexOf(res.product.masterCategoryId) > -1
-        ) {
-          addImageText = "Add";
-          if (res.product.file_type) {
-            addImageText = "Edit";
-          }
+      let addImageText = "";
+      if (
+        [
+          MAIN_CATEGORY_IDS.AUTOMOBILE,
+          MAIN_CATEGORY_IDS.ELECTRONICS,
+          MAIN_CATEGORY_IDS.FURNITURE,
+          MAIN_CATEGORY_IDS.FASHION,
+          MAIN_CATEGORY_IDS.TRAVEL
+        ].indexOf(res.product.masterCategoryId) > -1
+      ) {
+        addImageText = "Add";
+        if (res.product.file_type) {
+          addImageText = "Edit";
         }
-
-        let title = I18n.t("product_details_screen_title");
-        if (
-          [
-            MAIN_CATEGORY_IDS.FASHION,
-            MAIN_CATEGORY_IDS.TRAVEL,
-            MAIN_CATEGORY_IDS.SERVICES,
-            MAIN_CATEGORY_IDS.HEALTHCARE,
-            MAIN_CATEGORY_IDS.HOUSEHOLD
-          ].indexOf(product.masterCategoryId) > -1
-        ) {
-          title = "Expense Card";
-        }
-        switch (product.categoryId) {
-          case CATEGORY_IDS.HEALTHCARE.INSURANCE:
-            title = "Insurance Details";
-            break;
-          case CATEGORY_IDS.PERSONAL.VISITING_CARD:
-            title = "Visiting Card Details";
-            break;
-          case CATEGORY_IDS.PERSONAL.RENT_AGREEMENT:
-            title = "Agreement Details";
-            break;
-          case CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC:
-          case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
-            title = "Document Details";
-            break;
-        }
-
-        this.props.navigation.setParams({
-          title: title,
-          addImageText,
-          onEditImagePress: () => {
-            this.uploadProductImage.showOptions();
-          },
-          onOptionsPress: () => {
-            this.editOptions.show();
-          },
-          getAddProductImageRef: ref => {
-            this.setState({
-              addProductImageRef: ref
-            });
-          }
-        });
-
-        this.setState(
-          {
-            product: res.product
-          },
-          () =>
-            this.setState({
-              isLoading: false
-            })
-        );
       }
+
+      let title = I18n.t("product_details_screen_title");
+      if (
+        [
+          MAIN_CATEGORY_IDS.FASHION,
+          MAIN_CATEGORY_IDS.TRAVEL,
+          MAIN_CATEGORY_IDS.SERVICES,
+          MAIN_CATEGORY_IDS.HEALTHCARE,
+          MAIN_CATEGORY_IDS.HOUSEHOLD
+        ].indexOf(product.masterCategoryId) > -1
+      ) {
+        title = "Expense Card";
+      }
+      switch (product.categoryId) {
+        case CATEGORY_IDS.HEALTHCARE.INSURANCE:
+          title = "Insurance Details";
+          break;
+        case CATEGORY_IDS.PERSONAL.VISITING_CARD:
+          title = "Visiting Card Details";
+          break;
+        case CATEGORY_IDS.PERSONAL.RENT_AGREEMENT:
+          title = "Agreement Details";
+          break;
+        case CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC:
+        case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
+          title = "Document Details";
+          break;
+      }
+
+      this.props.navigation.setParams({
+        title: title,
+        addImageText,
+        onEditImagePress: () => {
+          this.uploadProductImage.showOptions();
+        },
+        onOptionsPress: () => {
+          this.editOptions.show();
+        },
+        getAddProductImageRef: ref => {
+          this.setState({
+            addProductImageRef: ref
+          });
+        }
+      });
+
+      this.setState(
+        {
+          product: res.product
+        },
+        () =>
+          this.setState({
+            isLoading: false
+          })
+      );
     } catch (e) {
       showSnackbar({
         text: e.message
@@ -283,12 +267,7 @@ class ProductDetailsScreen extends Component {
   };
 
   render() {
-    const {
-      isScreenVisible,
-      product,
-      isLoading,
-      openServiceSchedule
-    } = this.state;
+    const { product, isLoading, openServiceSchedule } = this.state;
     let content = null;
     if (isLoading) {
       content = <LoadingOverlay visible={isLoading} />;
@@ -310,7 +289,6 @@ class ProductDetailsScreen extends Component {
     } else {
       content = (
         <ProductCard
-          isScreenVisible={isScreenVisible}
           product={product}
           fetchProductDetails={this.fetchProductDetails}
           navigation={this.props.navigation}

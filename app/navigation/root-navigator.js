@@ -147,6 +147,10 @@ handleNotification = notif => {
     case "26":
       screenToOpen = SCREENS.EASY_LIFE_SCREEN;
       break;
+    case "27":
+      global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY] = notif.id;
+      screenToOpen = SCREENS.DO_YOU_KNOW_SCREEN;
+      break;
     default:
   }
 
@@ -265,6 +269,8 @@ AppState.addEventListener("change", nextAppState => {
 
 class RootNavigation extends React.Component {
   async componentDidMount() {
+    SplashScreen.hide();
+
     codePush.sync({
       deploymentKey: this.props.codepushDeploymentStaging
         ? CODEPUSH_KEYS.STAGING
@@ -287,7 +293,6 @@ class RootNavigation extends React.Component {
         isPinSet: user.hasPin
       });
     }
-    SplashScreen.hide();
 
     FCM.requestPermissions()
       .then(() => console.log("granted"))

@@ -62,21 +62,8 @@ class AddProductScreen extends React.Component {
 
   stepsContainerPositionX = new Animated.Value(-SCREEN_WIDTH);
 
-  constructor(props) {
-    super(props);
-    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
-  }
-
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "backPress":
-        this.previousStep();
-      default:
-        break;
-    }
-  };
-
   componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.previousStep);
     const { expenseType } = this.props;
     if (expenseType) {
       this.setState({ popOnDoItLater: true });
@@ -90,6 +77,10 @@ class AddProductScreen extends React.Component {
         false
       );
     }
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.previousStep);
   }
 
   startOver = () => {
@@ -130,14 +121,12 @@ class AddProductScreen extends React.Component {
     this.setState(() => newState);
   };
 
-  close = () => {
-    this.props.navigation.goBack();
-  };
-
   previousStep = () => {
     const { activeStepIndex, category } = this.state;
 
-    if (activeStepIndex == 0) this.close();
+    if (activeStepIndex == 0) {
+      return false;
+    }
 
     const newState = { activeStepIndex: activeStepIndex - 1 };
     if (
@@ -160,6 +149,7 @@ class AddProductScreen extends React.Component {
     this.setState(() => ({ steps }));
 
     console.log("current state: ", this.state);
+    return true;
   };
 
   nextStep = () => {

@@ -18,7 +18,7 @@ import { Text } from "../../../../elements";
 import I18n from "../../../../i18n";
 import LoadingOverlay from "../../../../components/loading-overlay";
 import { showSnackbar } from "../../../../utils/snackbar";
-
+import { MAIN_CATEGORY_IDS } from "../../../../constants";
 import ConnectItem from "./connect-item";
 import AscItem from "./asc-item";
 import ServiceSchedules from "./service-schedules";
@@ -293,7 +293,10 @@ class CustomerCare extends React.Component {
             );
           }}
         />
-        {brand && brand.id > 0 && brand.status_type == 1 ? (
+        {product.masterCategoryId != MAIN_CATEGORY_IDS.FURNITURE &&
+        brand &&
+        brand.id > 0 &&
+        brand.status_type == 1 ? (
           <View
             collapsable={false}
             style={styles.ascContainer}

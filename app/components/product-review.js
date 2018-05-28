@@ -91,10 +91,10 @@ class UploadProductImage extends React.Component {
   render() {
     const { starCount, reviewInput, isSaving, isStarIsZero } = this.state;
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <LoadingOverlay visible={isSaving} />
-        <View collapsable={false}  style={styles.reviewHeader}>
-          <View collapsable={false}  style={styles.starsWrapper}>
+        <View collapsable={false} style={styles.reviewHeader}>
+          <View collapsable={false} style={styles.starsWrapper}>
             <StarRating
               starColor="#FFA909"
               disabled={false}
@@ -111,10 +111,11 @@ class UploadProductImage extends React.Component {
               : ""}
           </Text>
         </View>
-        <View collapsable={false}  style={styles.reviewInputWrapper}>
+        <View collapsable={false} style={styles.reviewInputWrapper}>
           <TextInput
             underlineColorAndroid="transparent"
             ref={ref => (this.reviewInput = ref)}
+            numberOfLines={4}
             maxLength={500}
             placeholder={I18n.t("product_details_screen_write_feedback")}
             value={reviewInput}

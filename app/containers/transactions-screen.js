@@ -69,54 +69,64 @@ class TransactionsScreen extends Component {
   }
 
   async componentDidMount() {
-    try {
-      const res = await getCategoryInsightData(
-        this.props.navigation.state.params.category.id
-      );
-      const weeklyData = {
-        timeSpanText:
-          "For " +
-          moment(res.insight.startDate).format("DD MMM") +
-          " - " +
-          moment(res.insight.endDate).format("DD MMM"),
-        filterText: I18n.t("transactions_screen_filter_last_7_days"),
-        products: res.productList,
-        insightData: res.insight.insightData
-      };
-      const monthlyData = {
-        timeSpanText:
-          "For " + moment(res.insight.monthStartDate).format("MMM YYYY"),
-        filterText: I18n.t("transactions_screen_filter_current_month"),
-        products: res.productListWeekly,
-        insightData: res.insight.insightWeekly
-      };
-      const yearlyData = {
-        timeSpanText: "For " + moment(res.insight.yearStartDate).format("YYYY"),
-        filterText: I18n.t("transactions_screen_filter_current_year"),
-        products: res.productListMonthly,
-        insightData: res.insight.insightMonthly
-      };
-      const overallData = {
-        timeSpanText: "Lifetime",
-        filterText: I18n.t("transactions_screen_filter_overall"),
-        products: res.overallProductList,
-        insightData: res.insight.overallInsight
-      };
-      this.setState(
-        {
-          isFetchingData: false,
-          weeklyData,
-          monthlyData,
-          yearlyData,
-          overallData
-        },
-        () => {
-          this.handleFilterOptionPress(
-            this.props.navigation.state.params.index
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      async () => {
+        try {
+          const res = await getCategoryInsightData(
+            this.props.navigation.state.params.category.id
           );
-        }
-      );
-    } catch (e) { }
+          const weeklyData = {
+            timeSpanText:
+              "For " +
+              moment(res.insight.startDate).format("DD MMM") +
+              " - " +
+              moment(res.insight.endDate).format("DD MMM"),
+            filterText: I18n.t("transactions_screen_filter_last_7_days"),
+            products: res.productList,
+            insightData: res.insight.insightData
+          };
+          const monthlyData = {
+            timeSpanText:
+              "For " + moment(res.insight.monthStartDate).format("MMM YYYY"),
+            filterText: I18n.t("transactions_screen_filter_current_month"),
+            products: res.productListWeekly,
+            insightData: res.insight.insightWeekly
+          };
+          const yearlyData = {
+            timeSpanText:
+              "For " + moment(res.insight.yearStartDate).format("YYYY"),
+            filterText: I18n.t("transactions_screen_filter_current_year"),
+            products: res.productListMonthly,
+            insightData: res.insight.insightMonthly
+          };
+          const overallData = {
+            timeSpanText: "Lifetime",
+            filterText: I18n.t("transactions_screen_filter_overall"),
+            products: res.overallProductList,
+            insightData: res.insight.overallInsight
+          };
+          this.setState(
+            {
+              isFetchingData: false,
+              weeklyData,
+              monthlyData,
+              yearlyData,
+              overallData
+            },
+            () => {
+              this.handleFilterOptionPress(
+                this.props.navigation.state.params.index
+              );
+            }
+          );
+        } catch (e) {}
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   handleFilterOptionPress = index => {
@@ -135,7 +145,7 @@ class TransactionsScreen extends Component {
         activeData = this.state.overallData;
         break;
       default:
-        activeData = this.state.weeklyData;
+        return;
     }
 
     let areAllValuesZero = true;
@@ -224,66 +234,71 @@ class TransactionsScreen extends Component {
               text={I18n.t("transactions_screen_no_transactions")}
             />
           ) : (
+            <View collapsable={false}>
+              <SectionHeading
+                text={I18n.t("transactions_screen_transactions")}
+              />
               <View collapsable={false}>
-                <SectionHeading
-                  text={I18n.t("transactions_screen_transactions")}
-                />
-                <View collapsable={false}>
-                  {this.state.activeData.products.map((product, index) => (
-                    <TouchableOpacity
-                      onPress={() => {
-                        this.props.navigation.navigate(
-                          SCREENS.PRODUCT_DETAILS_SCREEN,
-                          {
-                            productId: product.productId || product.id
-                          }
-                        );
-                      }}
-                      style={styles.product}
-                      key={index}
-                    >
-                      {product.dataIndex == 1 && (
-                        <Image
-                          style={styles.image}
-                          source={{ uri: API_BASE_URL + product.cImageURL }}
-                        />
-                      )}
-                      {product.dataIndex > 1 && (
-                        <Image style={styles.image} source={billIcon} />
-                      )}
-                      <View collapsable={false} style={styles.texts}>
-                        <View collapsable={false} style={styles.nameWrapper}>
-                          <Text weight="Bold" style={styles.name}>
-                            {product.productName || product.categoryName}
-                          </Text>
-                          {product.masterCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD && product.sub_category_name != null &&
-                            <Text weight="Bold" style={styles.sub_category_name}>
+                {this.state.activeData.products.map((product, index) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.navigation.navigate(
+                        SCREENS.PRODUCT_DETAILS_SCREEN,
+                        {
+                          productId: product.productId || product.id
+                        }
+                      );
+                    }}
+                    style={styles.product}
+                    key={index}
+                  >
+                    {product.dataIndex == 1 && (
+                      <Image
+                        style={styles.image}
+                        source={{ uri: API_BASE_URL + product.cImageURL }}
+                      />
+                    )}
+                    {product.dataIndex > 1 && (
+                      <Image style={styles.image} source={billIcon} />
+                    )}
+                    <View collapsable={false} style={styles.texts}>
+                      <View collapsable={false} style={styles.nameWrapper}>
+                        <Text weight="Bold" style={styles.name}>
+                          {product.productName || product.categoryName}
+                        </Text>
+                        {product.masterCategoryId ==
+                          MAIN_CATEGORY_IDS.HOUSEHOLD &&
+                          product.sub_category_name != null && (
+                            <Text
+                              weight="Bold"
+                              style={styles.sub_category_name}
+                            >
                               {product.sub_category_name}
                             </Text>
-                          }
-                          <Text weight="Bold" style={styles.productType}>
-                            {this.productType(product.dataIndex)}
-                          </Text>
-                        </View>
-                        {product.sellers != null ? (
-                          <Text style={styles.sellerName}>
-                            {product.sellers.sellerName}
-                          </Text>
-                        ) : (
-                            <View collapsable={false} />
                           )}
-                        <Text weight="Medium" style={styles.purchaseDate}>
-                          {moment(product.purchaseDate).format("MMM DD, YYYY")}
+                        <Text weight="Bold" style={styles.productType}>
+                          {this.productType(product.dataIndex)}
                         </Text>
                       </View>
-                      <Text weight="Bold" style={styles.amount}>
-                        ₹ {product.value}
+                      {product.sellers != null ? (
+                        <Text style={styles.sellerName}>
+                          {product.sellers.sellerName}
+                        </Text>
+                      ) : (
+                        <View collapsable={false} />
+                      )}
+                      <Text weight="Medium" style={styles.purchaseDate}>
+                        {moment(product.purchaseDate).format("MMM DD, YYYY")}
                       </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
+                    </View>
+                    <Text weight="Bold" style={styles.amount}>
+                      ₹ {product.value}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
               </View>
-            )}
+            </View>
+          )}
         </ScrollView>
       </ScreenContainer>
     );
