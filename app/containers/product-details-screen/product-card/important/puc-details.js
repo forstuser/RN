@@ -30,7 +30,7 @@ class PucDetails extends React.Component {
     const PucItem = ({ puc }) => (
       <View collapsable={false} style={styles.card}>
         <EditOptionRow
-          // text={I18n.t("product_details_screen_puc_details")}
+          text={I18n.t("product_details_screen_puc_details")}
           onEditPress={() => {
             Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: "puc" });
             this.props.openAddEditPucScreen(puc);

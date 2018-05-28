@@ -30,7 +30,7 @@ class AmcDetails extends React.Component {
     const AmcItem = ({ amc }) => (
       <View collapsable={false} style={styles.card}>
         <EditOptionRow
-          // text={I18n.t("product_details_screen_amc_details")}
+          text={I18n.t("product_details_screen_amc_details")}
           onEditPress={() => {
             Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: "amc" });
             this.props.openAddEditAmcScreen(amc);
