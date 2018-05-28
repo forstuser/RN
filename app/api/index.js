@@ -249,6 +249,18 @@ export const consumerGetOtp = async PhoneNo => {
   });
 };
 
+export const updatePhoneNumber = async ({ phone, otp }) => {
+  let data = {
+    mobile_no: phone,
+    token: otp
+  };
+  return await apiRequest({
+    method: "put",
+    url: "/consumer/validate",
+    data
+  });
+};
+
 export const consumerValidate = async ({
   phoneNo,
   token,

@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { colors } from "../theme";
 
 const AppTextInput = props => {
-  const { leftIconName, onPress, inputStyle } = props;
+  const { leftIconName, onPress, inputStyle, rightComponent = null } = props;
 
   let leftIcon = null;
   if (leftIconName) {
@@ -24,6 +24,7 @@ const AppTextInput = props => {
         placeholderTextColor={"#939393"}
         style={[styles.input, inputStyle]}
       />
+      {rightComponent}
       {typeof onPress == "function" ? (
         <TouchableOpacity style={styles.overlayTouchable} onPress={onPress} />
       ) : (
