@@ -51,7 +51,7 @@ class ServiceSchedules extends Component {
     <KeyValueItem
       keyText={`${schedule.service_number}\n(${
         SERVICE_TYPE_NAMES[schedule.service_type]
-      })`}
+        })`}
       ValueComponent={() => (
         <Text
           weight="Medium"
@@ -63,7 +63,7 @@ class ServiceSchedules extends Component {
           {moment(schedule.due_date).format("MMM DD, YYYY") +
             " or\n" +
             schedule.distance +
-            "Kms"}
+            " kms"}
         </Text>
       )}
     />
@@ -91,8 +91,8 @@ class ServiceSchedules extends Component {
               </Text>
             </TouchableOpacity>
           ) : (
-            <View collapsable={false}  />
-          )}
+              <View collapsable={false} />
+            )}
         </Collapsible>
         {isModalVisible ? (
           <View collapsable={false} >
@@ -101,8 +101,8 @@ class ServiceSchedules extends Component {
               useNativeDriver={true}
               onBackdropPress={this.toggleModal}
             >
-              <View collapsable={false}  style={styles.modal}>
-                <View collapsable={false}  style={styles.modalHeader}>
+              <View collapsable={false} style={styles.modal}>
+                <View collapsable={false} style={styles.modalHeader}>
                   <Text weight="Bold" style={styles.modalHeaderTitle}>
                     Service Schedule
                   </Text>
@@ -125,8 +125,8 @@ class ServiceSchedules extends Component {
             </Modal>
           </View>
         ) : (
-          <View collapsable={false}  />
-        )}
+            <View collapsable={false} />
+          )}
       </View>
     );
   }
