@@ -231,9 +231,9 @@ class LoginScreen extends Component {
             linkDefault={true}
             linkStyle={{ color: colors.pinkishOrange, fontSize: 14 }}
             linkText={url => {
-              if (url === "https://www.binbill.com/term") {
+              if (url === "https://binbill.com/term") {
                 return "Terms & Conditions";
-              } else if (url === "https://www.binbill.com/privacy") {
+              } else if (url === "https://binbill.com/privacy") {
                 return "Privacy Policy";
               } else {
                 return url;
@@ -247,7 +247,7 @@ class LoginScreen extends Component {
                 textAlign: "center"
               }}
             >
-              {`By signing up you agree to our \nhttps://www.binbill.com/term and https://www.binbill.com/privacy`}
+              {`By signing up you agree to our \nhttps://binbill.com/term and https://binbill.com/privacy`}
             </Text>
           </Hyperlink>
         </View>

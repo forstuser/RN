@@ -96,6 +96,7 @@ class ViewBillButton extends React.Component {
               ref={o => (this.uploadBillOptions = o)}
               navigation={navigation}
               uploadCallback={() => {}}
+              actionSheetTitle={"Upload " + btnText}
             />
             <Image style={styles.viewBillIcon} source={viewBillIcon} />
           </TouchableOpacity>

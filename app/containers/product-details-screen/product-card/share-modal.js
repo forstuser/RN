@@ -57,7 +57,8 @@ class ShareModal extends React.Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SHARE_PRODUCT_CARD);
     let newState = {
       isModalVisible: true,
-      showRatingsStep: false
+      showRatingsStep: false,
+      isProductImageStepDone: false
     };
     const { product, review } = this.props;
     const { productReviews } = product;

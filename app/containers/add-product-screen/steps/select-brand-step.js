@@ -99,7 +99,7 @@ class SelectBrandStep extends React.Component {
       });
 
       if (typeof onBrandStepDone == "function") {
-        onBrandStepDone(res.product);
+        onBrandStepDone(res.product, { id: null, name: brandName });
       }
     } catch (e) {
       showSnackbar({ text: e.message });

@@ -441,13 +441,17 @@ export const getAscSearchResults = async ({
 export const updateProfile = async ({
   name,
   email,
+  phone,
   location,
   latitude,
-  longitude
+  longitude,
+  gender
 }) => {
   let data = {};
   if (name) data.name = name;
   if (email) data.email = email;
+  if (phone) data.mobile_no = phone;
+  if (gender) data.gender = gender;
   if (location) data.location = location;
   if (latitude) data.latitude = latitude;
   if (longitude) data.longitude = longitude;

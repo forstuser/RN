@@ -92,7 +92,11 @@ class PucDetails extends React.Component {
 
     return (
       <View collapsable={false} style={styles.container}>
-        <ScrollView horizontal={true} style={styles.slider}>
+        <ScrollView
+          horizontal={true}
+          style={styles.slider}
+          showsHorizontalScrollIndicator={true}
+        >
           {pucDetails.map((puc, index) => <PucItem key={index} puc={puc} />)}
           <AddItemBtn
             text={I18n.t("product_details_screen_add_puc")}

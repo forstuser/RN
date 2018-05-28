@@ -80,7 +80,7 @@ class SelectPurchaseDateStep extends React.Component {
   render() {
     const { isLoading, activeDate } = this.state;
     const { mainCategoryId, category, product, subCategoryId } = this.props;
-    let title = "Select Expense Date";
+    let title = "Select Purchase Date";
     switch (category.id) {
       case CATEGORY_IDS.TRAVEL.TRAVEL:
         title = "Select Travel Expense Date";
@@ -170,6 +170,18 @@ class SelectPurchaseDateStep extends React.Component {
           maxDate={moment().format("YYYY-MM-DD")}
           onSelectDate={this.onSelectDate}
         />
+        <Text
+          style={{
+            padding: 10,
+            color: colors.secondaryText,
+            fontSize: 12,
+            textAlign: "center"
+          }}
+        >
+          Incase you skip this, we will consider the current date by default.
+          Dont worry you can always edit this info later when you have the
+          details.
+        </Text>
       </Step>
     );
   }

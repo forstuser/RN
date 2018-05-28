@@ -133,7 +133,11 @@ class InsuranceDetails extends React.Component {
 
     return (
       <View collapsable={false} style={styles.container}>
-        <ScrollView horizontal={true} style={styles.slider}>
+        <ScrollView
+          horizontal={true}
+          style={styles.slider}
+          showsHorizontalScrollIndicator={true}
+        >
           {insuranceDetails.map((insurance, index) => (
             <InsuranceItem key={index} insurance={insurance} />
           ))}

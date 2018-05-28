@@ -69,16 +69,18 @@ class Header extends Component {
       shareBtnRef,
       reviewBtnRef
     } = this.props;
-    let tabNameArray = [
-      "CUSTOMER CARE",
-      "PRODUCT LIFE CYCLE"
-    ];
-    if (product.masterCategoryId == MAIN_CATEGORY_IDS.TRAVEL || product.masterCategoryId == MAIN_CATEGORY_IDS.HEALTHCARE || product.masterCategoryId == MAIN_CATEGORY_IDS.SERVICES || product.masterCategoryId == MAIN_CATEGORY_IDS.FASHION || product.masterCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD) {
-      tabNameArray[1] = ["EXPENSE DETAILS"]
+    let tabNameArray = ["CUSTOMER CARE", "PRODUCT LIFE CYCLE"];
+    if (
+      product.masterCategoryId == MAIN_CATEGORY_IDS.TRAVEL ||
+      product.masterCategoryId == MAIN_CATEGORY_IDS.HEALTHCARE ||
+      product.masterCategoryId == MAIN_CATEGORY_IDS.SERVICES ||
+      product.masterCategoryId == MAIN_CATEGORY_IDS.FASHION ||
+      product.masterCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD
+    ) {
+      tabNameArray[1] = ["EXPENSE DETAILS"];
     }
     if (product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS) {
-      tabNameArray[1] = ["DETAILS"]
-
+      tabNameArray[1] = ["DETAILS"];
     }
 
     const { review } = this.state;
@@ -166,28 +168,37 @@ class Header extends Component {
                   </View>
                   <Image style={styles.dropdownIcon} source={dropdownIcon} />
                 </TouchableOpacity>
-                {isOfProductType(product.masterCategoryId) && product.masterCategoryId != MAIN_CATEGORY_IDS.FASHION ?
+                {isOfProductType(product.masterCategoryId) &&
+                product.masterCategoryId != MAIN_CATEGORY_IDS.FASHION ? (
                   <View style={styles.texts}>
-                    {product.warrantyDetails.length > 0 ?
+                    {product.warrantyDetails.length > 0 ? (
                       <Text weight="Medium" style={styles.brandAndModel}>
                         Warranty till{" "}
                         {moment(product.warrantyDetails[0].expiryDate).format(
                           "DD MMM YYYY"
                         )}
-                      </Text> : <Text weight="Medium" style={styles.brandAndModel}>
-                        Warranty NA
-                    </Text>}
-                    {product.insuranceDetails.length > 0 ?
+                      </Text>
+                    ) : (
+                      <Text weight="Medium" style={styles.brandAndModel}>
+                        Warranty Not Available
+                      </Text>
+                    )}
+                    {product.insuranceDetails.length > 0 ? (
                       <Text weight="Medium" style={styles.brandAndModel}>
                         Insurance till{" "}
                         {moment(product.insuranceDetails[0].expiryDate).format(
                           "DD MMM YYYY"
                         )}
-                      </Text> : <Text weight="Medium" style={styles.brandAndModel}>
-                        Insurance NA
-                    </Text>}
-                  </View> : <View />
-                }
+                      </Text>
+                    ) : (
+                      <Text weight="Medium" style={styles.brandAndModel}>
+                        Insurance Not Available
+                      </Text>
+                    )}
+                  </View>
+                ) : (
+                  <View />
+                )}
               </View>
               {/* 2 buttons (view bill,share) start */}
               <View style={styles.btns}>
@@ -213,29 +224,29 @@ class Header extends Component {
                   MAIN_CATEGORY_IDS.FURNITURE,
                   MAIN_CATEGORY_IDS.FASHION
                 ].indexOf(product.masterCategoryId) > -1 && (
-                    <View
-                      style={{
-                        alignItems: "center"
-                      }}
+                  <View
+                    style={{
+                      alignItems: "center"
+                    }}
+                  >
+                    <TouchableOpacity
+                      ref={ref => shareBtnRef(ref)}
+                      onPress={() => this.shareModal.show()}
+                      style={styles.btnShare}
                     >
-                      <TouchableOpacity
-                        ref={ref => shareBtnRef(ref)}
-                        onPress={() => this.shareModal.show()}
-                        style={styles.btnShare}
-                      >
-                        <Icon
-                          name={
-                            Platform.OS == "ios" ? "share-apple" : "share-google"
-                          }
-                          size={25}
-                          color={colors.mainBlue}
-                        />
-                      </TouchableOpacity>
-                      <Text weight="Medium" style={styles.btnText}>
-                        {I18n.t("share_card").toUpperCase()}
-                      </Text>
-                    </View>
-                  )}
+                      <Icon
+                        name={
+                          Platform.OS == "ios" ? "share-apple" : "share-google"
+                        }
+                        size={25}
+                        color={colors.mainBlue}
+                      />
+                    </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {I18n.t("share_card").toUpperCase()}
+                    </Text>
+                  </View>
+                )}
                 {/* {[
                 MAIN_CATEGORY_IDS.AUTOMOBILE,
                 MAIN_CATEGORY_IDS.ELECTRONICS,
@@ -264,9 +275,7 @@ class Header extends Component {
             {/* 3 buttons (view bill,share and rating) end */}
             <View style={styles.tabs}>
               {tabNameArray.map((tab, index) => {
-                if (
-                  (!showCustomerCareTab && index == 0)
-                ) {
+                if (!showCustomerCareTab && index == 0) {
                   return null;
                 }
                 return (
@@ -426,14 +435,15 @@ const styles = StyleSheet.create({
     // marginRight: 85
   },
   brandAndModel: {
+    marginTop: 5,
     fontSize: 14,
-    color: colors.secondaryText,
+    color: colors.secondaryText
   },
   totalContainer: {
     marginTop: 0,
     // flex: 1,
     textAlign: "right",
-    flexDirection: "row",
+    flexDirection: "row"
     // justifyContent: "flex-end",
     // alignItems: "center"
     // alignSelf: 'flex-end'

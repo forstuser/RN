@@ -118,7 +118,11 @@ class RepairDetails extends React.Component {
 
     return (
       <View collapsable={false} style={styles.container}>
-        <ScrollView horizontal={true} style={styles.slider}>
+        <ScrollView
+          horizontal={true}
+          style={styles.slider}
+          showsHorizontalScrollIndicator={true}
+        >
           {repairBills.map((repair, index) => (
             <RepairItem key={index} repair={repair} />
           ))}

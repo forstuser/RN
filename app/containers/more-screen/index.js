@@ -70,6 +70,14 @@ class MoreScreen extends Component {
     try {
       const res = await getProfileDetail();
       console.log("Profile result: ", res);
+      const user = res.userProfile;
+      this.props.setLoggedInUser({
+        id: user.id,
+        name: user.name,
+        phone: user.mobile_no,
+        imageUrl: user.imageUrl,
+        isPinSet: user.hasPin
+      });
       this.setState(
         {
           profile: res.userProfile,
@@ -89,6 +97,7 @@ class MoreScreen extends Component {
         }
       );
     } catch (error) {
+      console.log(error);
       this.setState({
         error
       });
@@ -256,6 +265,9 @@ const mapDispatchToProps = dispatch => {
     },
     setLanguage: language => {
       dispatch(uiActions.setLanguage(language));
+    },
+    setLoggedInUser: user => {
+      dispatch(loggedInUserActions.setLoggedInUser(user));
     }
   };
 };
