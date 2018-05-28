@@ -33,6 +33,7 @@ import LoadingOverlay from "../components/loading-overlay";
 
 import { showSnackbar } from "../utils/snackbar";
 import IntroScreen from "../containers/intro-screen";
+import RegistrationDetailsScreen from "../containers/registration-details-screen";
 
 import NavigationService from "./index";
 import AuthStack from "./auth-stack";
@@ -43,6 +44,7 @@ const RootNavigator = createSwitchNavigator(
     AppLoading: LoadingOverlay,
     [SCREENS.INTRO_SCREEN]: IntroScreen,
     [SCREENS.AUTH_STACK]: AuthStack,
+    [SCREENS.REGISTRATION_DETAILS_SCREEN]: RegistrationDetailsScreen,
     [SCREENS.APP_STACK]: AppStack
   },
   { initialRouteName: "AppLoading" }
@@ -145,6 +147,10 @@ handleNotification = notif => {
     case "26":
       screenToOpen = SCREENS.EASY_LIFE_SCREEN;
       break;
+    case "27":
+      global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY] = notif.id;
+      screenToOpen = SCREENS.DO_YOU_KNOW_SCREEN;
+      break;
     default:
   }
 
@@ -184,9 +190,6 @@ handleDeeplink = url => {
   switch (pathItem1.toLowerCase()) {
     case "ehome":
       screenToOpen = SCREENS.EHOME_SCREEN;
-      break;
-    case "upload":
-      screenToOpen = SCREENS.UPLOAD_DOCUMENT_SCREEN;
       break;
     case "asc":
       screenToOpen = SCREENS.ASC_SCREEN;
@@ -266,6 +269,8 @@ AppState.addEventListener("change", nextAppState => {
 
 class RootNavigation extends React.Component {
   async componentDidMount() {
+    SplashScreen.hide();
+
     codePush.sync({
       deploymentKey: this.props.codepushDeploymentStaging
         ? CODEPUSH_KEYS.STAGING
@@ -276,6 +281,7 @@ class RootNavigation extends React.Component {
     if (!this.props.isUserLoggedIn) {
       NavigationService.navigate(SCREENS.INTRO_SCREEN);
     } else {
+      this.props.incrementAppOpen();
       NavigationService.navigate(SCREENS.APP_STACK);
       const r = await getProfileDetail();
       const user = r.userProfile;
@@ -287,7 +293,6 @@ class RootNavigation extends React.Component {
         isPinSet: user.hasPin
       });
     }
-    SplashScreen.hide();
 
     FCM.requestPermissions()
       .then(() => console.log("granted"))
@@ -368,6 +373,9 @@ const mapDispatchToProps = dispatch => {
   return {
     setLoggedInUser: user => {
       dispatch(loggedInUserActions.setLoggedInUser(user));
+    },
+    incrementAppOpen: () => {
+      dispatch(uiActions.incrementAppOpen());
     }
   };
 };

@@ -287,9 +287,7 @@ class Important extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 16
-  },
+  container: {},
   sectionTitle: {},
   addBtns: {
     width: 300,

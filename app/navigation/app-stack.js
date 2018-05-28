@@ -50,7 +50,6 @@ import EnterPinPopupScreen from "../containers/enter-pin-popup-screen";
 import PinSetupScreen from "../containers/pin-setup-screen";
 import WhatToScreen from "../containers/what-to-screen";
 import WhatToListScreen from "../containers/what-to-list-screen";
-import RegistrationDetailsScreen from "../containers/registration-details-screen";
 
 import { SCREENS } from "../constants";
 import rateUsScreen from "../containers/rate-us-screen";
@@ -123,8 +122,8 @@ const BottomTabStack = createBottomTabNavigator(
     tabBarOptions: {
       activeTintColor: colors.mainBlue,
       inactiveTintColor: colors.lighterText,
-      activeBackgroundColor: '#fff',
-      inactiveBackgroundColor: '#fff'
+      activeBackgroundColor: "#fff",
+      inactiveBackgroundColor: "#fff"
     }
   }
 );
@@ -169,8 +168,7 @@ export default createStackNavigator(
     [SCREENS.ENTER_PIN_POPUP_SCREEN]: EnterPinPopupScreen,
     [SCREENS.PIN_SETUP_SCREEN]: PinSetupScreen,
     [SCREENS.WHAT_TO_SCREEN]: WhatToScreen,
-    [SCREENS.WHAT_TO_LIST_SCREEN]: WhatToListScreen,
-    [SCREENS.REGISTRATION_DETAILS_SCREEN]: RegistrationDetailsScreen
+    [SCREENS.WHAT_TO_LIST_SCREEN]: WhatToListScreen
   },
   {}
 );

@@ -176,7 +176,7 @@ class InsightScreen extends Component {
         activeData = this.state.overallData;
         break;
       default:
-        activeData = this.state.weeklyData;
+        return;
     }
 
     let chartData = activeData.categories.map(category => {

@@ -16,8 +16,7 @@ import ChangesSavedModal from "../components/changes-saved-modal";
 
 class EditProductBasicDetails extends React.Component {
   static navigationOptions = {
-    tabBarHidden: true,
-    disabledBackGesture: true
+    title: "Edit Details"
   };
 
   constructor(props) {
@@ -56,8 +55,6 @@ class EditProductBasicDetails extends React.Component {
 
   async componentDidMount() {
     const { product } = this.props.navigation.state.params;
-    let title = "Edit " + (product.productName || "Product");
-    // this.props.navigation.setTitle({ title });
     this.fetchCategoryData(product);
   }
 
@@ -290,44 +287,44 @@ class EditProductBasicDetails extends React.Component {
                 }}
               />
             ) : (
-                <ProductBasicDetailsForm
-                  showFullForm={true}
-                  ref={ref => (this.basicDetailsForm = ref)}
-                  mainCategoryId={product.masterCategoryId}
-                  categoryId={product.categoryId}
-                  subCategories={subCategories}
-                  subCategoryId={sub_category_id}
-                  category={{
-                    id: product.categoryId,
-                    name: product.categoryName
-                  }}
-                  id={product.id}
-                  jobId={product.jobId}
-                  brands={brands}
-                  categoryForms={categoryForms}
-                  navigation={navigation}
-                  {...{
-                    id,
-                    productName,
-                    purchaseDate,
-                    brandId,
-                    value,
-                    copies,
-                    modelName,
-                    sellerName,
-                    sellerContact,
-                    sellerAddress,
-                    vinNo,
-                    vinNoId,
-                    registrationNo,
-                    registrationNoId,
-                    imeiNo,
-                    imeiNoId,
-                    serialNo,
-                    serialNoId
-                  }}
-                />
-              )}
+              <ProductBasicDetailsForm
+                showFullForm={true}
+                ref={ref => (this.basicDetailsForm = ref)}
+                mainCategoryId={product.masterCategoryId}
+                categoryId={product.categoryId}
+                subCategories={subCategories}
+                subCategoryId={sub_category_id}
+                category={{
+                  id: product.categoryId,
+                  name: product.categoryName
+                }}
+                id={product.id}
+                jobId={product.jobId}
+                brands={brands}
+                categoryForms={categoryForms}
+                navigation={navigation}
+                {...{
+                  id,
+                  productName,
+                  purchaseDate,
+                  brandId,
+                  value,
+                  copies,
+                  modelName,
+                  sellerName,
+                  sellerContact,
+                  sellerAddress,
+                  vinNo,
+                  vinNoId,
+                  registrationNo,
+                  registrationNoId,
+                  imeiNo,
+                  imeiNoId,
+                  serialNo,
+                  serialNoId
+                }}
+              />
+            )}
           </View>
         </KeyboardAwareScrollView>
         <Button

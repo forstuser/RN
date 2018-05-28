@@ -1091,6 +1091,13 @@ export const fetchDoYouKnowItems = async ({ tagIds, offsetId }) => {
   });
 };
 
+export const fetchDoYouKnowItem = async id => {
+  return await apiRequest({
+    method: "get",
+    url: `/know/items/${id}`
+  });
+};
+
 export const fetchDoYouKnowTags = async () => {
   return await apiRequest({
     method: "get",

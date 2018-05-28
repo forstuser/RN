@@ -73,7 +73,7 @@ class LoginScreen extends Component {
     }
   };
 
-  setAuthTokenAndOpenApp = async authToken => {
+  setAuthTokenAndOpenApp = async (authToken, isExistingUser) => {
     try {
       this.props.setLoggedInUserAuthToken(authToken);
       const r2 = await getProfileDetail();
@@ -85,7 +85,12 @@ class LoginScreen extends Component {
         imageUrl: user.imageUrl,
         isPinSet: user.hasPin
       });
-      openAfterLoginScreen();
+
+      if (!isExistingUser) {
+        this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
+      } else {
+        openAfterLoginScreen();
+      }
     } catch (e) {
       this.setState({
         isGettingOtp: false
@@ -125,7 +130,7 @@ class LoginScreen extends Component {
           bbLoginType: 3
         });
         Analytics.logEvent(Analytics.EVENTS.REGISTRATION_FB);
-        this.setAuthTokenAndOpenApp(r.authorization);
+        this.setAuthTokenAndOpenApp(r.authorization, r.isExistingUser);
       }
     } catch (e) {
       this.setState({

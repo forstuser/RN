@@ -166,6 +166,7 @@ class SelectBrandStep extends React.Component {
           onSelectItem={this.onSelectBrand}
           onAddItem={this.onAddBrand}
           imageKey="image"
+          textInputPlaceholder="Enter Brand Name"
         />
       </Step>
     );

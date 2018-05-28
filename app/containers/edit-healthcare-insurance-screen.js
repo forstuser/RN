@@ -32,8 +32,7 @@ import ChangesSavedModal from "../components/changes-saved-modal";
 
 class MedicalDoc extends React.Component {
   static navigationOptions = {
-    tabBarHidden: true,
-    disabledBackGesture: true
+    title: I18n.t("add_edit_healthcare_edit_insurance")
   };
 
   static navigationButtons = {
@@ -86,9 +85,6 @@ class MedicalDoc extends React.Component {
 
   componentDidMount() {
     this.fetchCategoryData();
-    let title = I18n.t("add_edit_healthcare_edit_insurance");
-
-    // this.props.navigation.setTitle({ title });
   }
 
   fetchCategoryData = async () => {

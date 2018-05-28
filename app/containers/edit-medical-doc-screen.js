@@ -39,8 +39,7 @@ const AttachmentIcon = () => (
 
 class MedicalDoc extends React.Component {
   static navigationOptions = {
-    tabBarHidden: true,
-    disabledBackGesture: true
+    title: "Edit Doc"
   };
 
   static navigationButtons = {
@@ -93,8 +92,6 @@ class MedicalDoc extends React.Component {
 
   componentDidMount() {
     this.fetchCategoryData();
-    let title = "Edit Doc";
-    // this.props.navigation.setTitle({ title });
   }
 
   fetchCategoryData = async () => {
