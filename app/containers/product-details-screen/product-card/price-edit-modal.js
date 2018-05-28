@@ -184,7 +184,7 @@ class PriceEditModal extends React.Component {
                     color: colors.mainBlue
                   }}
                 >
-                  Life Cycle Cost Breakup
+                  Product Life Cycle Cost
                 </Text>
 
                 {amountBreakdownOptions.map((item, index) => (
@@ -202,7 +202,7 @@ class PriceEditModal extends React.Component {
                 ))}
                 <View>
                   <PriceEditInput
-                    name="Total Amount"
+                    name="Total Cost"
                     date=""
                     price={totalAmount > 0 ? totalAmount : "0"}
                     editable={false}

@@ -149,7 +149,7 @@ class RepairForm extends React.Component {
             <CustomDatePicker
               date={repairDate}
               placeholder={I18n.t("expense_forms_repair_date")}
-              placeholder2={"(Recommended)"}
+              placeholder2={"Recommended"}
               placeholder2Color={colors.mainBlue}
               onDateChange={repairDate => {
                 this.setState({ repairDate });
@@ -171,6 +171,8 @@ class RepairForm extends React.Component {
               docType="Repair Doc"
               type={4}
               placeholder={I18n.t("expense_forms_repair_upload_repair")}
+              placeholder2={"Recommended"}
+              placeholder2Color={colors.mainBlue}
               navigation={this.props.navigation}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
@@ -183,18 +185,18 @@ class RepairForm extends React.Component {
 
             <CustomDatePicker
               placeholder={I18n.t("expense_forms_repair_warranty_upto")}
-              placeholder2={"(Recommended)"}
+              // placeholder2={"(Recommended)"}
               placeholder2Color={colors.mainBlue}
               date={warrantyUpto}
-              hint={"(For sending warranty expiry reminder)"}
+              hint={"Helps in warranty expiry reminder"}
               onDateChange={warrantyUpto => this.setState({ warrantyUpto })}
               maxDate={"2100-01-01"}
             />
 
             <CustomTextInput
               placeholder={I18n.t("expense_forms_repair_for")}
-              placeholder2={"(Recommended)"}
-              hint={"(to help you recall repair issue later)"}
+              // placeholder2={"(Recommended)"}
+              hint={"to help you recall repair issue later"}
               placeholder2Color={colors.mainBlue}
               underlineColorAndroid="transparent"
               value={repairFor}

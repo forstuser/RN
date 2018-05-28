@@ -379,6 +379,8 @@ const styles = StyleSheet.create({
     // flexDirection: 'row',
   },
   texts: {
+    // marginTop: 5
+    // ...defaultStyles.card
     // flex: 1
     // flexDirection: 'row',
     // justifyContent: "flex-end",
@@ -425,8 +427,7 @@ const styles = StyleSheet.create({
   },
   brandAndModel: {
     fontSize: 14,
-    color: colors.secondaryText
-    // marginTop: 0
+    color: colors.secondaryText,
   },
   totalContainer: {
     marginTop: 0,

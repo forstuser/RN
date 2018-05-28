@@ -78,7 +78,7 @@ class WarrantyDetails extends React.Component {
             <View />
           )}
 
-        {warranty.copies ? (
+        {warranty.copies ?
           <ViewBillRow
             collapsable={false}
             expiryDate={warranty.expiryDate}
@@ -86,9 +86,9 @@ class WarrantyDetails extends React.Component {
             docType="Warranty"
             copies={warranty.copies || []}
           />
-        ) : (
-            <View />
-          )}
+          :
+          <View />
+        }
       </View>
     );
 

@@ -131,8 +131,8 @@ class AmcForm extends React.Component {
             <CustomDatePicker
               date={effectiveDate}
               placeholder={I18n.t("expense_forms_amc_form_amc_effective_date")}
-              placeholder2={"(Recommended)"}
-              hint={" (For sending AMC expiry reminder)"}
+              // placeholder2={"(Recommended)"}
+              hint={"Helps in AMC expiry reminder"}
               placeholder2Color={colors.mainBlue}
               onDateChange={effectiveDate => {
                 this.setState({ effectiveDate });
@@ -146,7 +146,7 @@ class AmcForm extends React.Component {
               docType="AMC"
               type={2}
               placeholder={I18n.t("expense_forms_amc_form_amc_upload")}
-              placeholder2={"(Recommended)"}
+              placeholder2={"Recommended"}
               placeholder2Color={colors.mainBlue}
               navigation={navigation}
               onUpload={uploadResult => {

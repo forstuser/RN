@@ -23,7 +23,7 @@ class ServiceSchedules extends React.Component {
       <KeyValueItem
         keyText={`${schedule.service_number}\n(${
           SERVICE_TYPE_NAMES[schedule.service_type]
-        })`}
+          })`}
         ValueComponent={() => (
           <Text
             weight="Medium"
@@ -35,15 +35,15 @@ class ServiceSchedules extends React.Component {
             {moment(schedule.due_date).format("MMM DD, YYYY") +
               " or\n" +
               schedule.distance +
-              "Kms"}
+              " kms"}
           </Text>
         )}
       />
     );
 
     return (
-      <View collapsable={false}  style={styles.container}>
-        <View collapsable={false}  style={styles.card}>
+      <View collapsable={false} style={styles.container}>
+        <View collapsable={false} style={styles.card}>
           {serviceSchedules.map(schedule => (
             <ScheduleItem schedule={schedule} />
           ))}
