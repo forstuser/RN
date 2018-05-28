@@ -27,8 +27,14 @@ const directionIcon = require("../../images/ic_directions.png");
 const callIcon = require("../../images/ic_call.png");
 
 class AscSearchScreen extends Component {
-  static navigationOptions = {
-    tabBarHidden: true
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    const { brand, category } = params;
+    return {
+      title: I18n.t("asc_search_screen_title", {
+        brandAndCategory: brand.brandName + " " + category.category_name
+      })
+    };
   };
   constructor(props) {
     super(props);
@@ -40,24 +46,21 @@ class AscSearchScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.navigation.setTitle({
-      title: I18n.t("asc_search_screen_title", {
-        brandAndCategory:
-          this.props.brand.brandName + " " + this.props.category.category_name
-      })
-    });
-
     this.fetchResults();
   }
 
   fetchResults = async () => {
     this.setState({ isFetchingResults: true });
+    const brand = this.props.navigation.getParam("brand", {});
+    const category = this.props.navigation.getParam("category", {});
+    const latitude = this.props.navigation.getParam("latitude", null);
+    const longitude = this.props.navigation.getParam("longitude", null);
     try {
       const res = await getAscSearchResults({
-        categoryId: this.props.category.category_id,
-        brandId: this.props.brand.id,
-        latitude: this.props.latitude,
-        longitude: this.props.longitude
+        categoryId: category.category_id,
+        brandId: brand.id,
+        latitude: latitude,
+        longitude: longitude
       });
       this.setState({
         serviceCenters: res.serviceCenters,
@@ -140,15 +143,15 @@ class AscSearchScreen extends Component {
             onRefresh={this.fetchResults}
             refreshing={isFetchingResults}
             renderItem={({ item }) => (
-              <View collapsable={false}  style={styles.item}>
-                <View collapsable={false}  style={styles.imageWrapper}>
+              <View collapsable={false} style={styles.item}>
+                <View collapsable={false} style={styles.imageWrapper}>
                   <Image
                     style={styles.itemImage}
                     source={{ uri: API_BASE_URL + item.cImageURL }}
                     resizeMode="contain"
                   />
                 </View>
-                <View collapsable={false}  style={styles.itemDetails}>
+                <View collapsable={false} style={styles.itemDetails}>
                   <Text weight="Bold" style={styles.itemName}>
                     {item.centerName}
                   </Text>
@@ -159,7 +162,7 @@ class AscSearchScreen extends Component {
                     {item.address}
                   </Text>
                 </View>
-                <View collapsable={false}  style={styles.directionAndCall}>
+                <View collapsable={false} style={styles.directionAndCall}>
                   <TouchableOpacity
                     onPress={() => this.openMap(item.centerAddress)}
                     style={styles.directionAndCallItem}

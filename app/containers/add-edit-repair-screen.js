@@ -67,7 +67,7 @@ class AddEditRepair extends React.Component {
         purchaseDate: null,
         value: "",
         repairFor: "",
-        warrantyUpto: "",
+        warrantyUpto: null,
         sellerName: "",
         sellerContact: ""
       }

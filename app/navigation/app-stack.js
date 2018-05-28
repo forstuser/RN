@@ -121,7 +121,7 @@ const BottomTabStack = createBottomTabNavigator(
     backBehavior: "none",
     tabBarOptions: {
       activeTintColor: colors.mainBlue,
-      inactiveTintColor: colors.lighterText,
+      inactiveTintColor: "grey",
       activeBackgroundColor: "#fff",
       inactiveBackgroundColor: "#fff"
     }

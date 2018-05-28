@@ -46,14 +46,13 @@ class FinishModal extends React.Component {
     }
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
-        // this.props.navigation.goBack();
         if (
           this.props.mainCategoryId == MAIN_CATEGORY_IDS.TRAVEL ||
           this.props.mainCategoryId == MAIN_CATEGORY_IDS.SERVICES ||
           this.props.mainCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD ||
           this.props.mainCategoryId == MAIN_CATEGORY_IDS.FASHION
         ) {
-          this.props.navigation.navigate(SCREENS.TRANSACTIONS_SCREEN, {
+          this.props.navigation.replace(SCREENS.TRANSACTIONS_SCREEN, {
             category: categoryObject,
             color: colors.mainBlue,
             index: 3
@@ -176,7 +175,7 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   doItLaterText: {
-    color: colors.pinkishOrange,
+    color: colors.secondaryText,
     fontSize: 16,
     marginTop: 20
   }

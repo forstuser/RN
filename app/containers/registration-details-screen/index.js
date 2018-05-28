@@ -80,9 +80,9 @@ export default class RegistrationDetails extends React.Component {
       const place = await RNGooglePlaces.openPlacePickerModal();
       console.log("place: ", place);
       this.setState({
-        location: `${place.name} ${
-          place.address ? "(" + place.address + ")" : ""
-        }`,
+        location:
+          (place.types.includes("other") ? "" : place.name + ", ") +
+          place.address,
         latitude: place.latitude,
         longitude: place.longitude
       });
@@ -210,6 +210,8 @@ export default class RegistrationDetails extends React.Component {
               value={location}
               placeholder="Enter Your Location"
               leftIconName="ios-pin-outline"
+              multiline={true}
+              inputStyle={location ? { height: 70 } : {}}
             />
 
             <Button
@@ -240,14 +242,17 @@ export default class RegistrationDetails extends React.Component {
                 </Text>
               </TouchableOpacity>
             </View>
+            <Text weight="Bold" style={{ margin: 20, textAlign: "center" }}>
+              To help us to give you the best exeperience
+            </Text>
             <View style={styles.genders}>
               <Gender
-                gender="male"
+                gender="Male"
                 onPress={() => this.setState({ gender: MALE })}
                 isSelected={gender == MALE}
               />
               <Gender
-                gender="female"
+                gender="Female"
                 onPress={() => this.setState({ gender: FEMALE })}
                 isSelected={gender == FEMALE}
               />
