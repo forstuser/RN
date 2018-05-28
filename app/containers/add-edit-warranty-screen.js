@@ -200,7 +200,7 @@ class AddEditWarranty extends React.Component {
         },
         {
           text: I18n.t("add_edit_no_dnt_delete"),
-          onPress: () => {},
+          onPress: () => { },
           style: "cancel"
         }
       ]
@@ -254,7 +254,7 @@ class AddEditWarranty extends React.Component {
 
     if (!data.renewalType) {
       return showSnackbar({
-        text: "Please upload doc or select warranty upto"
+        text: "Please upload doc or select warranty up to"
       });
     }
 

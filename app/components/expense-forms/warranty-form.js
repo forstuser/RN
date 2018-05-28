@@ -294,7 +294,7 @@ class WarrantyForm extends React.Component {
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_extended_warranty_upto")}
-              hint={"( For sending  warranty expiry reminder )"}
+              hint={"Helps in warranty expiry reminder"}
               placeholderRenderer={({ placeholder }) => (
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
@@ -317,6 +317,8 @@ class WarrantyForm extends React.Component {
               docType="Warranty"
               type={warrantyType == WARRANTY_TYPES.NORMAL ? 5 : 6}
               placeholder={I18n.t("expense_forms_warranty_upload_warr_doc")}
+              placeholder2={"Recommended"}
+              placeholder2Color={colors.mainBlue}
               navigation={navigation}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);

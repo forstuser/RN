@@ -30,7 +30,7 @@ class RepairDetails extends React.Component {
     const RepairItem = ({ repair }) => (
       <View collapsable={false} style={styles.card}>
         <EditOptionRow
-          text={I18n.t("product_details_screen_repair_details")}
+          // text={I18n.t("product_details_screen_repair_details")}
           onEditPress={() => {
             Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, {
               entity: "repair"

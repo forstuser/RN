@@ -169,7 +169,7 @@ class PucForm extends React.Component {
             <CustomDatePicker
               date={effectiveDate}
               placeholder={I18n.t("expense_forms_puc_effective_date")}
-              placeholder2={"(Recommended)"}
+              placeholder2={"Recommended"}
               placeholder2Color={colors.mainBlue}
               onDateChange={effectiveDate => {
                 this.setState({ effectiveDate });
@@ -180,7 +180,7 @@ class PucForm extends React.Component {
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_puc_upto")}
-              hint={"(For sending PUC expiry reminder)"}
+              hint={"Helps in PUC expiry reminder"}
               style={{ paddingTop: 0 }}
               placeholderRenderer={({ placeholder }) => (
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
@@ -202,7 +202,7 @@ class PucForm extends React.Component {
               docType="PUC"
               type={7}
               placeholder={I18n.t("expense_forms_puc_upload_doc")}
-              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+              placeholder2={"Recommended"}
               placeholder2Color={colors.mainBlue}
               placeholderAfterUpload="Doc Uploaded Successfully"
               navigation={this.props.navigation}
