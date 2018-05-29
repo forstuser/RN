@@ -52,14 +52,14 @@ class WarrantyDetails extends React.Component {
           }}
         />
         {warranty.warranty_type == WARRANTY_TYPES.EXTENDED &&
-          warranty.provider ? (
-            <KeyValueItem
-              keyText={I18n.t("product_details_screen_warranty_provider")}
-              valueText={warranty.provider ? warranty.provider.name : "-"}
-            />
-          ) : (
-            <View />
-          )}
+        warranty.provider ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_warranty_provider")}
+            valueText={warranty.provider ? warranty.provider.name : "-"}
+          />
+        ) : (
+          <View />
+        )}
 
         <KeyValueItem
           keyText={I18n.t("product_details_screen_warranty_expiry_date")}
@@ -75,10 +75,10 @@ class WarrantyDetails extends React.Component {
             valueText={warranty.value ? "₹ " + warranty.value : "-"}
           />
         ) : (
-            <View />
-          )}
+          <View />
+        )}
 
-        {warranty.copies ?
+        {warranty.copies ? (
           <ViewBillRow
             collapsable={false}
             expiryDate={warranty.expiryDate}
@@ -86,16 +86,20 @@ class WarrantyDetails extends React.Component {
             docType="Warranty"
             copies={warranty.copies || []}
           />
-          :
+        ) : (
           <View />
-        }
+        )}
       </View>
     );
 
     return (
       <View collapsable={false} style={styles.container}>
         {product.categoryId != 664 && (
-          <ScrollView horizontal={true} style={styles.slider}>
+          <ScrollView
+            horizontal={true}
+            style={styles.slider}
+            showsHorizontalScrollIndicator={true}
+          >
             {warrantyDetails
               .filter(
                 warranty => warranty.warranty_type == WARRANTY_TYPES.NORMAL
@@ -121,7 +125,11 @@ class WarrantyDetails extends React.Component {
           warrantyDetails.filter(
             warranty => warranty.warranty_type == WARRANTY_TYPES.EXTENDED
           ).length > 0 && (
-            <ScrollView horizontal={true} style={styles.slider}>
+            <ScrollView
+              horizontal={true}
+              style={styles.slider}
+              showsHorizontalScrollIndicator={true}
+            >
               {warrantyDetails
                 .filter(
                   warranty => warranty.warranty_type == WARRANTY_TYPES.EXTENDED

@@ -64,7 +64,7 @@ class AddProductScreen extends React.Component {
 
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.previousStep);
-    const { expenseType } = this.props;
+    const expenseType = this.props.navigation.getParam("expenseType", null);
     if (expenseType) {
       this.setState({ popOnDoItLater: true });
       this.chooseExpenseType(expenseType, false);
@@ -171,7 +171,7 @@ class AddProductScreen extends React.Component {
   }
 
   pushCategoryStep = (pushToNext = true) => {
-    const { category = null } = this.props;
+    const category = this.props.navigation.getParam("category", null);
 
     if (category) {
       this.onCategorySelect({ category, pushToNext });

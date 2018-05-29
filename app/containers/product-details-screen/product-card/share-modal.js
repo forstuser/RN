@@ -56,7 +56,9 @@ class ShareModal extends React.Component {
   show = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SHARE_PRODUCT_CARD);
     let newState = {
-      isModalVisible: true
+      isModalVisible: true,
+      showRatingsStep: false,
+      isProductImageStepDone: false
     };
     const { product, review } = this.props;
     const { productReviews } = product;
@@ -89,9 +91,15 @@ class ShareModal extends React.Component {
   };
 
   hide = () => {
-    this.setState({
-      isModalVisible: false
-    });
+    if (this.state.showRatingsStep) {
+      this.setState({
+        showRatingsStep: false
+      });
+    } else {
+      this.setState({
+        isModalVisible: false
+      });
+    }
   };
 
   onSharePress = () => {
@@ -376,7 +384,8 @@ class ShareModal extends React.Component {
                         {product.productName}
                       </Text>
                       <Text weight="Medium" style={styles.productModel}>
-                        {product.model}
+                        {(product.brand ? product.brand.name + " " : "") +
+                          product.model}
                       </Text>
                       <View
                         style={{

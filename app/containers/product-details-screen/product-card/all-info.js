@@ -206,8 +206,8 @@ class AllInfo extends React.Component {
                       valueText={seller.sellerName || "-"}
                     />
                   ) : (
-                      <View />
-                    )}
+                    <View />
+                  )}
                   {seller.city ? (
                     <KeyValueItem
                       keyText={I18n.t("product_details_screen_seller_location")}
@@ -216,76 +216,69 @@ class AllInfo extends React.Component {
                       }
                     />
                   ) : (
-                      <View />
-                    )}
+                    <View />
+                  )}
                   {seller.contact ? (
                     <KeyValueItem
                       keyText="Contact No."
                       ValueComponent={() => (
-                        <TouchableOpacity>
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              flex: 1
-                            }}
-                          >
-                            <View style={{ width: "70%" }}>
-                              <MultipleContactNumbers
-                                contact={seller.contact}
-                              />
-                            </View>
-
-                            <View style={{ width: "30%" }}>
-                              <Text
-                                style={{
-                                  paddingHorizontal: 5,
-                                  paddingTop: 3
-                                }}
-                              >
-                                <Icon
-                                  name="md-call"
-                                  size={15}
-                                  color={colors.tomato}
-                                />
-                              </Text>
-                            </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            flex: 1,
+                            justifyContent: "flex-end",
+                            alignItems: "center"
+                          }}
+                        >
+                          <Icon
+                            name="md-call"
+                            size={15}
+                            color={colors.tomato}
+                          />
+                          <View>
+                            <MultipleContactNumbers contact={seller.contact} />
                           </View>
-                        </TouchableOpacity>
+                        </View>
                       )}
                     />
                   ) : (
-                      <View />
-                    )}
+                    <View />
+                  )}
                   {(seller.address.length > 0 ||
                     seller.city.length > 0 ||
                     seller.state.length > 0) && (
-                      <KeyValueItem
-                        KeyComponent={() => (
-                          <View collapsable={false} style={{ flex: 1 }}>
-                            <Text style={{ color: colors.secondaryText }}>
-                              {I18n.t("product_details_screen_seller_address")}
-                            </Text>
-                            <Text
-                              weight="Medium"
-                              style={{ color: colors.mainText }}
-                            >
-                              {_.trim(
-                                seller.address +
+                    <KeyValueItem
+                      keyText={I18n.t("product_details_screen_seller_address")}
+                      ValueComponent={() => (
+                        <View
+                          collapsable={false}
+                          style={{
+                            marginLeft: 10,
+                            flex: 1,
+                            alignItems: "flex-end"
+                          }}
+                        >
+                          <Text
+                            weight="Medium"
+                            style={{ color: colors.mainText }}
+                          >
+                            {_.trim(
+                              seller.address +
                                 ", " +
                                 seller.city +
                                 ", " +
                                 seller.state,
-                                ", "
-                              )}
-                            </Text>
-                          </View>
-                        )}
-                      />
-                    )}
+                              ", "
+                            )}
+                          </Text>
+                        </View>
+                      )}
+                    />
+                  )}
                 </View>
               ) : (
-                  <View />
-                )}
+                <View />
+              )}
             </View>
             <View style={{ marginBottom: 20 }}>
               <ViewMoreBtn
@@ -294,26 +287,28 @@ class AllInfo extends React.Component {
                 onPress={this.toggleListHeight}
               />
             </View>
-            {(product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE ||
-              [
-                MAIN_CATEGORY_IDS.AUTOMOBILE,
-                MAIN_CATEGORY_IDS.ELECTRONICS
-              ].indexOf(product.masterCategoryId) > -1) ?
+            {product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE ||
+            [
+              MAIN_CATEGORY_IDS.AUTOMOBILE,
+              MAIN_CATEGORY_IDS.ELECTRONICS
+            ].indexOf(product.masterCategoryId) > -1 ? (
               <Important
                 product={product}
                 navigation={navigation}
                 cardWidthWhenMany={cardWidthWhenMany}
                 cardWidthWhenOne={cardWidthWhenOne}
-              /> : <View />
-            }
+              />
+            ) : (
+              <View />
+            )}
           </View>
         ) : (
-            <InsuranceDetails
-              product={product}
-              navigation={navigation}
-              openAddEditInsuranceScreen={this.onEditPress}
-            />
-          )}
+          <InsuranceDetails
+            product={product}
+            navigation={navigation}
+            openAddEditInsuranceScreen={this.onEditPress}
+          />
+        )}
       </View>
     );
   }

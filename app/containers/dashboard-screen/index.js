@@ -73,6 +73,7 @@ class DashboardScreen extends React.Component {
   }
 
   async componentDidMount() {
+    // this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {

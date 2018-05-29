@@ -225,6 +225,7 @@ class Body extends Component {
           info={this.state.location}
           apiFieldName="location"
           editable={true}
+          bigBox={true}
           onUpdate={this.updateState}
         />
         {isEmailModalVisible ? (

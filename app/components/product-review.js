@@ -165,7 +165,8 @@ const styles = StyleSheet.create({
     padding: 5
   },
   reviewInput: {
-    height: 150
+    height: 150,
+    textAlignVertical: "top"
   },
   reviewSubmitBtn: {
     marginTop: 20,

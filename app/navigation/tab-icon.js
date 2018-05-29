@@ -12,7 +12,7 @@ export default class TabIcon extends React.Component {
           width: 25,
           height: 25,
           marginBottom: -3,
-          tintColor: this.props.focused ? colors.mainBlue : colors.lighterText
+          tintColor: this.props.focused ? colors.mainBlue : "grey"
         }}
       />
     );

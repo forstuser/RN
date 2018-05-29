@@ -12,7 +12,12 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Snackbar from "react-native-snackbar";
 import LoadingOverlay from "../../components/loading-overlay";
 import { openAfterLoginScreen } from "../../navigation";
-import { updateProfile, getProfileDetail } from "../../api";
+import {
+  consumerGetOtp,
+  updatePhoneNumber,
+  updateProfile,
+  getProfileDetail
+} from "../../api";
 
 import {
   Text,
@@ -50,7 +55,9 @@ export default class RegistrationDetails extends React.Component {
     latitude: null,
     longitude: null,
     gender: null,
-    isLoading: false
+    isLoading: false,
+    otp: "",
+    showOtpInput: false
   };
 
   async componentDidMount() {
@@ -80,9 +87,9 @@ export default class RegistrationDetails extends React.Component {
       const place = await RNGooglePlaces.openPlacePickerModal();
       console.log("place: ", place);
       this.setState({
-        location: `${place.name} ${
-          place.address ? "(" + place.address + ")" : ""
-        }`,
+        location:
+          (place.types.includes("other") ? "" : place.name + ", ") +
+          place.address,
         latitude: place.latitude,
         longitude: place.longitude
       });
@@ -95,12 +102,61 @@ export default class RegistrationDetails extends React.Component {
     }
   };
 
-  openGenderScreen = () => {
+  openGenderView = () => {
     Animated.timing(this.stepsPositionX, {
       toValue: -SCREEN_WIDTH,
       duration: 300,
       useNativeDriver: true
     }).start();
+  };
+
+  onNextPress = async () => {
+    const { phone, isPhoneEditable, otp, showOtpInput } = this.state;
+    console.log("this.state: ", this.state);
+    if (
+      phone.length == 10 &&
+      !isPhoneEditable &&
+      otp.length < 4 &&
+      showOtpInput
+    ) {
+      return Snackbar.show({
+        title: "Please enter 4 digit OTP",
+        duration: Snackbar.LENGTH_SHORT
+      });
+    } else if (phone.length > 0 && phone.length < 10) {
+      return Snackbar.show({
+        title: "Please enter 10 digit mobile number",
+        duration: Snackbar.LENGTH_SHORT
+      });
+    } else if (phone.length == 10 && !showOtpInput) {
+      return Snackbar.show({
+        title: "Please click on verify",
+        duration: Snackbar.LENGTH_SHORT
+      });
+    } else if (phone.length == 10 && !isPhoneEditable && otp.length == 4) {
+      try {
+        this.setState({
+          isLoading: true
+        });
+        await updatePhoneNumber({ phone, otp });
+        this.setState({
+          isLoading: false,
+          showOtpInput: false,
+          otp: ""
+        });
+        this.openGenderView();
+      } catch (e) {
+        this.setState({
+          isLoading: false
+        });
+        return Snackbar.show({
+          title: e.message,
+          duration: Snackbar.LENGTH_SHORT
+        });
+      }
+    } else {
+      this.openGenderView();
+    }
   };
 
   openDetailsScreen = () => {
@@ -111,11 +167,36 @@ export default class RegistrationDetails extends React.Component {
     }).start();
   };
 
+  askForOtp = async () => {
+    try {
+      this.setState({
+        isLoading: true
+      });
+      await consumerGetOtp(this.state.phone);
+      this.setState({
+        isLoading: false,
+        showOtpInput: true,
+        otp: ""
+      });
+      Snackbar.show({
+        title: "Please enter the OTP you just received on " + this.state.phone,
+        duration: Snackbar.LENGTH_LONG
+      });
+    } catch (e) {
+      this.setState({
+        isGettingOtp: false
+      });
+      Snackbar.show({
+        title: e.message,
+        duration: Snackbar.LENGTH_SHORT
+      });
+    }
+  };
+
   saveDetails = async () => {
     const {
       name,
       email,
-      phone,
       location,
       gender,
       latitude,
@@ -127,7 +208,6 @@ export default class RegistrationDetails extends React.Component {
       const res = await updateProfile({
         name,
         email,
-        phone,
         location,
         latitude,
         longitude,
@@ -152,7 +232,9 @@ export default class RegistrationDetails extends React.Component {
       isPhoneEditable,
       location,
       gender,
-      isLoading
+      isLoading,
+      otp,
+      showOtpInput
     } = this.state;
     return (
       <ScreenContainer style={styles.container}>
@@ -198,22 +280,50 @@ export default class RegistrationDetails extends React.Component {
 
             <TextInput
               value={phone}
-              editable={isPhoneEditable}
+              editable={!isPhoneEditable}
               keyboardType="numeric"
               placeholder="Mobile Number"
               leftIconName="ios-phone-portrait"
               onChangeText={phone => this.setState({ phone })}
+              rightComponent={
+                phone.length == 10 ? (
+                  <TouchableOpacity onPress={this.askForOtp}>
+                    <Text
+                      weight="Bold"
+                      style={{ color: colors.mainBlue, fontSize: 12 }}
+                    >
+                      VERIFY
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <View />
+                )
+              }
             />
 
-            <TextInput
+            {showOtpInput ? (
+              <TextInput
+                value={otp}
+                keyboardType="numeric"
+                placeholder="Enter OTP"
+                leftIconName="md-lock"
+                onChangeText={otp => this.setState({ otp })}
+              />
+            ) : (
+              <View />
+            )}
+
+            {/* <TextInput
               onPress={this.openLocationPicker}
               value={location}
               placeholder="Enter Your Location"
               leftIconName="ios-pin-outline"
-            />
+              multiline={true}
+              inputStyle={location ? { height: 70 } : {}}
+            /> */}
 
             <Button
-              onPress={this.openGenderScreen}
+              onPress={this.onNextPress}
               text="NEXT"
               color="secondary"
               style={{ width: "100%", height: 40, marginTop: 30 }}
@@ -240,14 +350,17 @@ export default class RegistrationDetails extends React.Component {
                 </Text>
               </TouchableOpacity>
             </View>
+            <Text weight="Bold" style={{ margin: 20, textAlign: "center" }}>
+              To help us to give you the best exeperience
+            </Text>
             <View style={styles.genders}>
               <Gender
-                gender="male"
+                gender="Male"
                 onPress={() => this.setState({ gender: MALE })}
                 isSelected={gender == MALE}
               />
               <Gender
-                gender="female"
+                gender="Female"
                 onPress={() => this.setState({ gender: FEMALE })}
                 isSelected={gender == FEMALE}
               />

@@ -66,13 +66,17 @@ class CustomTextInput extends React.Component {
       rightSideTextWidth = 0,
       maxLength,
       secureTextEntry,
-      getRef = () => { }
+      getRef = () => {}
     } = this.props;
     const { value, isInputFocused } = this.state;
     return (
-
-      <View collapsable={false} ref={ref => getRef(ref)} style={[styles.container, style]}>
-        <View collapsable={false}
+      <View
+        collapsable={false}
+        ref={ref => getRef(ref)}
+        style={[styles.container, style]}
+      >
+        <View
+          collapsable={false}
           style={[
             styles.placeholderContainer,
             { right: rightSideTextWidth },
@@ -97,7 +101,9 @@ class CustomTextInput extends React.Component {
             {placeholder2}
           </Text>
         </View>
-        {!value && !isInputFocused && hint ? <Text style={styles.hint}>{hint}</Text> : null}
+        {!value && !isInputFocused && hint ? (
+          <Text style={styles.hint}>{hint}</Text>
+        ) : null}
         <TextInput
           ref={ref => (this.input = ref)}
           underlineColorAndroid="transparent"
@@ -115,7 +121,6 @@ class CustomTextInput extends React.Component {
             {rightSideText}
           </Text>
         ) : null}
-
       </View>
     );
   }
@@ -162,7 +167,8 @@ const styles = StyleSheet.create({
   textInput: {
     backgroundColor: "transparent",
     justifyContent: "center",
-    height: 40
+    height: 40,
+    textAlignVertical: "top"
   },
   rightSideText: {
     position: "absolute",
@@ -172,7 +178,7 @@ const styles = StyleSheet.create({
   },
   hint: {
     color: colors.mainBlue,
-    position: 'relative',
+    position: "relative",
     top: 16,
     fontSize: 10
   }

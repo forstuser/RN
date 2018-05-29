@@ -120,9 +120,7 @@ class AddEditPuc extends React.Component {
     if (
       newData.effectiveDate == initialValues.effectiveDate &&
       newData.value == initialValues.value &&
-      newData.expiryPeriod == initialValues.renewalType &&
-      newData.sellerName == initialValues.sellerName &&
-      newData.sellerContact == initialValues.sellerContact
+      newData.expiryPeriod == initialValues.renewalType
     ) {
       this.props.navigation.goBack();
     } else {

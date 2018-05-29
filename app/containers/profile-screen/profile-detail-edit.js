@@ -92,15 +92,16 @@ class ProfileDetailEdit extends Component {
   };
 
   render() {
-    const { label, editable, verify } = this.props;
+    const { label, editable, verify, bigBox = false } = this.props;
     const { info } = this.state;
     return (
-      <View collapsable={false} >
-        <View collapsable={false}  style={styles.information}>
-          <View collapsable={false}  style={{ width: 240 }}>
+      <View collapsable={false}>
+        <View collapsable={false} style={styles.information}>
+          <View collapsable={false} style={{ width: 240 }}>
             <Text style={styles.fieldName}>{label}</Text>
             <TextInput
-              style={styles.fieldValue}
+              multiline={bigBox}
+              style={[styles.fieldValue, bigBox ? { height: 80 } : {}]}
               weight="Medium"
               value={info}
               editable={this.props.editable}
@@ -110,7 +111,8 @@ class ProfileDetailEdit extends Component {
             />
           </View>
           {this.props.info != this.state.info ? (
-            <View collapsable={false} 
+            <View
+              collapsable={false}
               style={{
                 width: 40,
                 height: 40,
@@ -127,7 +129,7 @@ class ProfileDetailEdit extends Component {
               </TouchableOpacity>
             </View>
           ) : (
-            <View collapsable={false}  />
+            <View collapsable={false} />
           )}
         </View>
       </View>

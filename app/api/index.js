@@ -249,6 +249,18 @@ export const consumerGetOtp = async PhoneNo => {
   });
 };
 
+export const updatePhoneNumber = async ({ phone, otp }) => {
+  let data = {
+    mobile_no: phone,
+    token: otp
+  };
+  return await apiRequest({
+    method: "put",
+    url: "/consumer/validate",
+    data
+  });
+};
+
 export const consumerValidate = async ({
   phoneNo,
   token,
@@ -441,13 +453,17 @@ export const getAscSearchResults = async ({
 export const updateProfile = async ({
   name,
   email,
+  phone,
   location,
   latitude,
-  longitude
+  longitude,
+  gender
 }) => {
   let data = {};
   if (name) data.name = name;
   if (email) data.email = email;
+  if (phone) data.mobile_no = phone;
+  if (gender) data.gender = gender;
   if (location) data.location = location;
   if (latitude) data.latitude = latitude;
   if (longitude) data.longitude = longitude;

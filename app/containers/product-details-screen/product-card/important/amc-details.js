@@ -91,7 +91,11 @@ class AmcDetails extends React.Component {
 
     return (
       <View collapsable={false} style={styles.container}>
-        <ScrollView horizontal={true} style={styles.slider}>
+        <ScrollView
+          horizontal={true}
+          style={styles.slider}
+          showsHorizontalScrollIndicator={true}
+        >
           {amcDetails.map((amc, index) => <AmcItem key={index} amc={amc} />)}
           <AddItemBtn
             text={I18n.t("product_details_screen_add_amc")}
