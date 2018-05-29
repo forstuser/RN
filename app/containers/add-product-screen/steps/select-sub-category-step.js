@@ -45,13 +45,21 @@ class SelectSubCategoryStep extends React.Component {
     this.setState({
       isLoading: true
     });
+    const data = {
+      mainCategoryId: mainCategoryId,
+      categoryId: category.id,
+      productId: product.id,
+      subCategoryId: subCategory.id
+    };
+
+    if (
+      category.id == CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS ||
+      category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE
+    ) {
+      data.productName = subCategory.name;
+    }
     try {
-      const res = await updateProduct({
-        mainCategoryId: mainCategoryId,
-        categoryId: category.id,
-        productId: product.id,
-        subCategoryId: subCategory.id
-      });
+      const res = await updateProduct(data);
 
       if (typeof onSubCategoryStepDone == "function") {
         onSubCategoryStepDone(res.product);

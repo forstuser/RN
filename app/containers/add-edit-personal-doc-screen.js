@@ -33,22 +33,15 @@ const visitingCardIcon = require("../images/main-categories/ic_visiting_card.png
 const personalDocIcon = require("../images/main-categories/ic_personal_doc.png");
 
 class PersonalDoc extends React.Component {
-  static navigationOptions = {
-    tabBarHidden: true,
-    disabledBackGesture: true
-  };
-
-  static navigationButtons = {
-    ...Platform.select({
-      ios: {
-        leftButtons: [
-          {
-            id: "backPress",
-            icon: require("../images/ic_back_ios.png")
-          }
-        ]
-      }
-    })
+  static navigationOptions = ({ navigation }) => {
+    const productId = navigation.getParam("productId", null);
+    let title = "Add Document";
+    if (productId) {
+      title = "Edit Document";
+    }
+    return {
+      title
+    };
   };
 
   constructor(props) {
@@ -147,13 +140,6 @@ class PersonalDoc extends React.Component {
       },
       () => this.initProduct()
     );
-
-    let title = "Add Document";
-    if (productId) {
-      title = "Edit Document";
-    }
-
-    // this.props.navigation.setTitle({ title });
   }
 
   beforeUpload = () => {

@@ -55,6 +55,26 @@ class InsuranceDetails extends React.Component {
             this.props.openAddEditInsuranceScreen(insurance);
           }}
         />
+        {product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_insurance_type")}
+            ValueComponent={() => (
+              <Text
+                numberOfLines={1}
+                weight="Medium"
+                style={{
+                  textAlign: "right",
+                  flex: 1,
+                  paddingLeft: 10
+                }}
+              >
+                {product.sub_category_name}
+              </Text>
+            )}
+          />
+        ) : (
+          <View />
+        )}
         <KeyValueItem
           keyText={I18n.t("product_details_screen_insurance_provider")}
           ValueComponent={() => (

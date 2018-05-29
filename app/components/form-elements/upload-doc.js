@@ -65,6 +65,7 @@ class UploadDoc extends React.Component {
     if (!copies) {
       copies = [];
     }
+    console.log("this.props:: ", this.props);
     return (
       <View collapsable={false} style={styles.container}>
         {copies.length > 0 ? (
@@ -93,35 +94,35 @@ class UploadDoc extends React.Component {
             </Text>
           </View>
         ) : (
-            <TouchableOpacity
-              onPress={this.onUploadDocPress}
-              style={styles.noCopiesContainer}
-            >
-              {!isDocUploaded ? (
-                <View collapsable={false} style={styles.placeholderContainer}>
-                  <Text weight="Medium" style={styles.placeholder}>
-                    {placeholder}
-                  </Text>
-                  <Text
-                    weight="Medium"
-                    style={[styles.placeholder2, { color: placeholder2Color }]}
-                  >
-                    {placeholder2}
-                  </Text>
-                </View>
-              ) : (
-                  <View collapsable={false} style={styles.placeholderContainer}>
-                    <Text weight="Medium" style={{ color: colors.mainText }}>
-                      {placeholderAfterUpload}
-                    </Text>
-                  </View>
-                )}
-
-              <View collapsable={false} style={styles.attachmentIconContainer}>
-                <AttachmentIcon />
+          <TouchableOpacity
+            onPress={this.onUploadDocPress}
+            style={styles.noCopiesContainer}
+          >
+            {!isDocUploaded ? (
+              <View collapsable={false} style={styles.placeholderContainer}>
+                <Text weight="Medium" style={styles.placeholder}>
+                  {placeholder}
+                </Text>
+                <Text
+                  weight="Medium"
+                  style={[styles.placeholder2, { color: placeholder2Color }]}
+                >
+                  {placeholder2}
+                </Text>
               </View>
-            </TouchableOpacity>
-          )}
+            ) : (
+              <View collapsable={false} style={styles.placeholderContainer}>
+                <Text weight="Medium" style={{ color: colors.mainText }}>
+                  {placeholderAfterUpload}
+                </Text>
+              </View>
+            )}
+
+            <View collapsable={false} style={styles.attachmentIconContainer}>
+              <AttachmentIcon />
+            </View>
+          </TouchableOpacity>
+        )}
         <UploadBillOptions
           ref={ref => (this.uploadBillOptions = ref)}
           navigation={navigation}

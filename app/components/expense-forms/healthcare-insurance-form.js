@@ -198,11 +198,11 @@ class HealthcareInsuranceForm extends React.Component {
       copies
     } = this.state;
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <Text weight="Medium" style={styles.headerText}>
           {I18n.t("expense_forms_healthcare")}
         </Text>
-        <View collapsable={false}  style={styles.body}>
+        <View collapsable={false} style={styles.body}>
           {showFullForm ? (
             <CustomTextInput
               placeholder={I18n.t("expense_forms_healthcare_plan_name")}
@@ -210,7 +210,7 @@ class HealthcareInsuranceForm extends React.Component {
               onChangeText={planName => this.setState({ planName })}
             />
           ) : (
-            <View collapsable={false}  />
+            <View collapsable={false} />
           )}
 
           <SelectModal
@@ -220,7 +220,7 @@ class HealthcareInsuranceForm extends React.Component {
               "main_category_screen_filters_title_categories"
             )}
             placeholderRenderer={({ placeholder }) => (
-              <View collapsable={false}  style={{ flexDirection: "row" }}>
+              <View collapsable={false} style={{ flexDirection: "row" }}>
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
                 </Text>
@@ -244,16 +244,19 @@ class HealthcareInsuranceForm extends React.Component {
               onChangeText={insuranceFor => this.setState({ insuranceFor })}
             />
           ) : (
-            <View collapsable={false}  />
+            <View collapsable={false} />
           )}
           {!showOnlyGeneralInfo ? (
-            <View collapsable={false} >
+            <View collapsable={false}>
               <SelectModal
                 // style={styles.input}
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder={I18n.t("expense_forms_extended_warranty_provider")}
+                textInputPlaceholder={I18n.t(
+                  "expense_forms_insurance_provider_name"
+                )}
                 placeholderRenderer={({ placeholder }) => (
-                  <View collapsable={false}  style={{ flexDirection: "row" }}>
+                  <View collapsable={false} style={{ flexDirection: "row" }}>
                     <Text
                       weight="Medium"
                       style={{ color: colors.secondaryText }}
@@ -288,7 +291,7 @@ class HealthcareInsuranceForm extends React.Component {
                   onChangeText={policyNo => this.setState({ policyNo })}
                 />
               ) : (
-                <View collapsable={false}  />
+                <View collapsable={false} />
               )}
 
               <CustomDatePicker
@@ -300,7 +303,7 @@ class HealthcareInsuranceForm extends React.Component {
               />
 
               {showFullForm ? (
-                <View collapsable={false} >
+                <View collapsable={false}>
                   <CustomTextInput
                     placeholder={I18n.t(
                       "expense_forms_healthcare_premium_amount"
@@ -319,11 +322,11 @@ class HealthcareInsuranceForm extends React.Component {
                   />
                 </View>
               ) : (
-                <View collapsable={false}  />
+                <View collapsable={false} />
               )}
             </View>
           ) : (
-            <View collapsable={false}  />
+            <View collapsable={false} />
           )}
         </View>
         <UploadDoc

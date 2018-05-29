@@ -313,6 +313,7 @@ export default {
   product_details_screen_warranty_seller_contact: "Seller Contact",
   product_details_screen_warranty_no_info: "Details Not Available!",
   product_details_screen_insurance_title: "Insurance",
+  product_details_screen_insurance_type: "Type",
   product_details_screen_insurance_provider: "Provider",
   product_details_screen_insurance_expiry: "Expiry Date",
   product_details_screen_insurance_policy_no: "Policy No.",
