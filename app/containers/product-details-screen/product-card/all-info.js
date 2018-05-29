@@ -128,7 +128,6 @@ class AllInfo extends React.Component {
         address: product.sellers.address || ""
       };
     }
-
     return (
       <View collapsable={false} style={styles.container}>
         {product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ? (
@@ -206,8 +205,8 @@ class AllInfo extends React.Component {
                       valueText={seller.sellerName || "-"}
                     />
                   ) : (
-                    <View />
-                  )}
+                      <View />
+                    )}
                   {seller.city ? (
                     <KeyValueItem
                       keyText={I18n.t("product_details_screen_seller_location")}
@@ -216,8 +215,8 @@ class AllInfo extends React.Component {
                       }
                     />
                   ) : (
-                    <View />
-                  )}
+                      <View />
+                    )}
                   {seller.contact ? (
                     <KeyValueItem
                       keyText="Contact No."
@@ -242,73 +241,73 @@ class AllInfo extends React.Component {
                       )}
                     />
                   ) : (
-                    <View />
-                  )}
+                      <View />
+                    )}
                   {(seller.address.length > 0 ||
                     seller.city.length > 0 ||
                     seller.state.length > 0) && (
-                    <KeyValueItem
-                      keyText={I18n.t("product_details_screen_seller_address")}
-                      ValueComponent={() => (
-                        <View
-                          collapsable={false}
-                          style={{
-                            marginLeft: 10,
-                            flex: 1,
-                            alignItems: "flex-end"
-                          }}
-                        >
-                          <Text
-                            weight="Medium"
-                            style={{ color: colors.mainText }}
+                      <KeyValueItem
+                        keyText={I18n.t("product_details_screen_seller_address")}
+                        ValueComponent={() => (
+                          <View
+                            collapsable={false}
+                            style={{
+                              marginLeft: 10,
+                              flex: 1,
+                              alignItems: "flex-end"
+                            }}
                           >
-                            {_.trim(
-                              seller.address +
+                            <Text
+                              weight="Medium"
+                              style={{ color: colors.mainText }}
+                            >
+                              {_.trim(
+                                seller.address +
                                 ", " +
                                 seller.city +
                                 ", " +
                                 seller.state,
-                              ", "
-                            )}
-                          </Text>
-                        </View>
-                      )}
-                    />
-                  )}
+                                ", "
+                              )}
+                            </Text>
+                          </View>
+                        )}
+                      />
+                    )}
                 </View>
               ) : (
-                <View />
-              )}
+                  <View />
+                )}
             </View>
-            <View style={{ marginBottom: 20 }}>
+            {(product.metaData.length > 0 || product.sellers != null) ? <View style={{ marginBottom: 20 }}>
               <ViewMoreBtn
                 collapsable={false}
                 height={listHeight}
                 onPress={this.toggleListHeight}
               />
-            </View>
+            </View> : <View />}
             {product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE ||
-            [
-              MAIN_CATEGORY_IDS.AUTOMOBILE,
-              MAIN_CATEGORY_IDS.ELECTRONICS
-            ].indexOf(product.masterCategoryId) > -1 ? (
-              <Important
-                product={product}
-                navigation={navigation}
-                cardWidthWhenMany={cardWidthWhenMany}
-                cardWidthWhenOne={cardWidthWhenOne}
-              />
-            ) : (
-              <View />
-            )}
+              [
+                MAIN_CATEGORY_IDS.AUTOMOBILE,
+                MAIN_CATEGORY_IDS.ELECTRONICS
+              ].indexOf(product.masterCategoryId) > -1 ? (
+                <Important
+                  product={product}
+                  navigation={navigation}
+                  cardWidthWhenMany={cardWidthWhenMany}
+                  cardWidthWhenOne={cardWidthWhenOne}
+                />
+              ) : (
+                <View />
+              )}
           </View>
         ) : (
-          <InsuranceDetails
-            product={product}
-            navigation={navigation}
-            openAddEditInsuranceScreen={this.onEditPress}
-          />
-        )}
+            <InsuranceDetails
+              product={product}
+              navigation={navigation}
+              openAddEditInsuranceScreen={this.onEditPress}
+            />
+          )}
       </View>
     );
   }
