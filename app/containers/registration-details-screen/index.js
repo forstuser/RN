@@ -118,6 +118,7 @@ export default class RegistrationDetails extends React.Component {
 
   onNextPress = async () => {
     const {
+      email,
       phone,
       verifiedPhoneNumber,
       isPhoneEditable,
@@ -125,6 +126,17 @@ export default class RegistrationDetails extends React.Component {
       showOtpInput
     } = this.state;
     console.log("this.state: ", this.state);
+
+    if (
+      !email.match(
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      )
+    ) {
+      return Snackbar.show({
+        title: "Please enter valid email address",
+        duration: Snackbar.LENGTH_SHORT
+      });
+    }
     if (isPhoneEditable && phone.length > 0 && phone != verifiedPhoneNumber) {
       if (phone.length != 10) {
         return Snackbar.show({

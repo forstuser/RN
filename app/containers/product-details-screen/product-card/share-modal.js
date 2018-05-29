@@ -396,7 +396,7 @@ class ShareModal extends React.Component {
                       </Text>
                       <Text weight="Medium" style={styles.productModel}>
                         {(product.brand ? product.brand.name + " " : "") +
-                          product.model}
+                          (product.model ? product.model + " " : "")}
                       </Text>
                       <View
                         style={{

@@ -21,7 +21,7 @@ const ViewMore = ({ height, onPress, color }) => (
       }}
     >
       <Icon
-        style={height == "less" ? { paddingTop: 0 } : {}}
+        style={height == "less" ? {} : { marginTop: -3 }}
         name={height == "less" ? "ios-arrow-down" : "ios-arrow-up"}
         size={28}
         color="#fff"
