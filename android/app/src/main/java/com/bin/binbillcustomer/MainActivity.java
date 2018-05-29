@@ -50,28 +50,63 @@ public class MainActivity extends ReactActivity {
     super.onCreate(savedInstanceState);
     SplashScreen.show(this);
     mCurrentActivity = this;
-
-  }
-
-  @Override
-  protected void onResume() {
-    super.onResume();
     Log.d("INTENT", "intent");
     if (getIntent() != null) {
 
-      Intent intent = getIntent();
-      String action = intent.getAction();
-      if (action != null && action.equalsIgnoreCase("android.intent.action.SEND")) {
-        checkStoragePermission();
-      } else {
-        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.shared_pref_file_key),
-                Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.remove(getString(R.string.shared_pref_direct_upload_file_path_key));
-        editor.commit();
-      }
+
+      getFileUriAndSave(getIntent());
+
     }
   }
+
+  @Override
+  public void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    getFileUriAndSave(intent);
+  }
+
+  private void getFileUriAndSave(Intent intent){
+    String action = intent.getAction();
+    if (action != null && action.equalsIgnoreCase("android.intent.action.SEND")) {
+      checkStoragePermission();
+    } else {
+      SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.shared_pref_file_key),
+              Context.MODE_PRIVATE);
+      SharedPreferences.Editor editor = sharedPref.edit();
+      editor.remove(getString(R.string.shared_pref_direct_upload_file_path_key));
+      editor.commit();
+    }
+  }
+
+//  @Override
+//  protected void onCreate(Bundle savedInstanceState) {
+//
+//    super.onCreate(savedInstanceState);
+//    SplashScreen.show(this);
+//    mCurrentActivity = this;
+//
+//  }
+
+//  @Override
+//  protected void onResume() {
+//    super.onResume();
+//    Log.d("INTENT", "intent");
+//    if (getIntent() != null) {
+//
+//      Intent intent = getIntent();
+//      String action = intent.getAction();
+//
+//      if (action != null && action.equalsIgnoreCase("android.intent.action.SEND")) {
+//        checkStoragePermission();
+//      } else {
+//        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.shared_pref_file_key),
+//                Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPref.edit();
+//        editor.remove(getString(R.string.shared_pref_direct_upload_file_path_key));
+//        editor.commit();
+//      }
+//    }
+//  }
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -187,6 +222,10 @@ public class MainActivity extends ReactActivity {
   }
 
   private void getShareUriAndStoreToSharedPreferences() {
+    if(!getIntent().hasExtra(Intent.EXTRA_STREAM) || getIntent().getExtras().get(Intent.EXTRA_STREAM)==null){
+      return;
+    }
+
     String uriString = ((Uri) getIntent().getExtras().get(Intent.EXTRA_STREAM)).toString();
     String uri = null;
     String displayName = null;
