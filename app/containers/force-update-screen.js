@@ -22,6 +22,7 @@ class ForceUpdateScreen extends Component {
       });
   };
   render() {
+    const allowSkip = this.props.navigation.getParam("allowSkip", false);
     return (
       <ScreenContainer style={styles.container}>
         <View collapsable={false} style={styles.imageContainer}>
@@ -48,7 +49,7 @@ class ForceUpdateScreen extends Component {
               style={styles.btn}
               text={I18n.t("add_edit_force_update_now")}
             />
-            {this.props.navigation.state.params.allowSkip ? (
+            {allowSkip ? (
               <TouchableOpacity
                 style={styles.notNow}
                 onPress={() => this.props.navigation.goBack()}

@@ -50,6 +50,7 @@ export default class RegistrationDetails extends React.Component {
     email: "",
     isEmailEditable: true,
     phone: "",
+    verifiedPhoneNumber: "",
     isPhoneEditable: true,
     location: "",
     latitude: null,
@@ -111,48 +112,52 @@ export default class RegistrationDetails extends React.Component {
   };
 
   onNextPress = async () => {
-    const { phone, isPhoneEditable, otp, showOtpInput } = this.state;
-    console.log("this.state: ", this.state);
-    if (
-      phone.length == 10 &&
-      !isPhoneEditable &&
-      otp.length < 4 &&
+    const {
+      phone,
+      verifiedPhoneNumber,
+      isPhoneEditable,
+      otp,
       showOtpInput
-    ) {
-      return Snackbar.show({
-        title: "Please enter 4 digit OTP",
-        duration: Snackbar.LENGTH_SHORT
-      });
-    } else if (phone.length > 0 && phone.length < 10) {
-      return Snackbar.show({
-        title: "Please enter 10 digit mobile number",
-        duration: Snackbar.LENGTH_SHORT
-      });
-    } else if (phone.length == 10 && !showOtpInput) {
-      return Snackbar.show({
-        title: "Please click on verify",
-        duration: Snackbar.LENGTH_SHORT
-      });
-    } else if (phone.length == 10 && !isPhoneEditable && otp.length == 4) {
-      try {
-        this.setState({
-          isLoading: true
-        });
-        await updatePhoneNumber({ phone, otp });
-        this.setState({
-          isLoading: false,
-          showOtpInput: false,
-          otp: ""
-        });
-        this.openGenderView();
-      } catch (e) {
-        this.setState({
-          isLoading: false
-        });
+    } = this.state;
+    console.log("this.state: ", this.state);
+    if (isPhoneEditable && phone.length > 0 && phone != verifiedPhoneNumber) {
+      if (phone.length != 10) {
         return Snackbar.show({
-          title: e.message,
+          title: "Please enter 10 digit mobile number",
           duration: Snackbar.LENGTH_SHORT
         });
+      } else if (!showOtpInput) {
+        return Snackbar.show({
+          title: "Please click on verify",
+          duration: Snackbar.LENGTH_SHORT
+        });
+      } else if (otp.length != 4) {
+        return Snackbar.show({
+          title: "Please enter 4 digit OTP",
+          duration: Snackbar.LENGTH_SHORT
+        });
+      } else {
+        try {
+          this.setState({
+            isLoading: true
+          });
+          await updatePhoneNumber({ phone, otp });
+          this.setState({
+            isLoading: false,
+            showOtpInput: false,
+            otp: "",
+            verifiedPhoneNumber: phone
+          });
+          this.openGenderView();
+        } catch (e) {
+          this.setState({
+            isLoading: false
+          });
+          return Snackbar.show({
+            title: e.message,
+            duration: Snackbar.LENGTH_SHORT
+          });
+        }
       }
     } else {
       this.openGenderView();
@@ -223,12 +228,20 @@ export default class RegistrationDetails extends React.Component {
     }
   };
 
+  onPhoneInputChange = phone => {
+    this.setState({ phone });
+    if (phone.length != 10) {
+      this.setState({ showOtpInput: false });
+    }
+  };
+
   render() {
     const {
       name,
       email,
       isEmailEditable,
       phone,
+      verifiedPhoneNumber,
       isPhoneEditable,
       location,
       gender,
@@ -239,81 +252,84 @@ export default class RegistrationDetails extends React.Component {
     return (
       <ScreenContainer style={styles.container}>
         <Image style={styles.bg} source={bgImage} resizeMode="cover" />
-        <Animated.View
-          style={[
-            styles.steps,
-            {
-              transform: [
-                {
-                  translateX: this.stepsPositionX
-                }
-              ]
-            }
-          ]}
-        >
-          <KeyboardAwareScrollView contentContainerStyle={styles.step}>
-            <Image
-              style={styles.logo}
-              source={binbillImage}
-              resizeMode="contain"
-            />
-            <Text weight="Bold" style={styles.welcome}>
-              Welcome
-            </Text>
-            <Text style={styles.title}>Help us Manage your Home better!</Text>
-
-            <TextInput
-              value={name}
-              placeholder="Full Name"
-              leftIconName="ios-person-outline"
-              onChangeText={name => this.setState({ name })}
-            />
-
-            <TextInput
-              value={email}
-              editable={isEmailEditable}
-              keyboardType="email-address"
-              placeholder="Email Id"
-              leftIconName="ios-mail-outline"
-              onChangeText={email => this.setState({ email })}
-            />
-
-            <TextInput
-              value={phone}
-              editable={!isPhoneEditable}
-              keyboardType="numeric"
-              placeholder="Mobile Number"
-              leftIconName="ios-phone-portrait"
-              onChangeText={phone => this.setState({ phone })}
-              rightComponent={
-                phone.length == 10 ? (
-                  <TouchableOpacity onPress={this.askForOtp}>
-                    <Text
-                      weight="Bold"
-                      style={{ color: colors.mainBlue, fontSize: 12 }}
-                    >
-                      VERIFY
-                    </Text>
-                  </TouchableOpacity>
-                ) : (
-                  <View />
-                )
+        <KeyboardAwareScrollView>
+          <Animated.View
+            style={[
+              styles.steps,
+              {
+                transform: [
+                  {
+                    translateX: this.stepsPositionX
+                  }
+                ]
               }
-            />
-
-            {showOtpInput ? (
-              <TextInput
-                value={otp}
-                keyboardType="numeric"
-                placeholder="Enter OTP"
-                leftIconName="md-lock"
-                onChangeText={otp => this.setState({ otp })}
+            ]}
+          >
+            <View style={styles.step}>
+              <Image
+                style={styles.logo}
+                source={binbillImage}
+                resizeMode="contain"
               />
-            ) : (
-              <View />
-            )}
+              <Text weight="Bold" style={styles.welcome}>
+                Welcome
+              </Text>
+              <Text style={styles.title}>Help us Manage your Home better!</Text>
 
-            {/* <TextInput
+              <TextInput
+                value={name}
+                placeholder="Full Name"
+                leftIconName="ios-person-outline"
+                onChangeText={name => this.setState({ name })}
+              />
+
+              <TextInput
+                value={email}
+                editable={isEmailEditable}
+                keyboardType="email-address"
+                placeholder="Email Id"
+                leftIconName="ios-mail-outline"
+                onChangeText={email => this.setState({ email })}
+              />
+
+              <TextInput
+                value={phone}
+                editable={isPhoneEditable}
+                keyboardType="numeric"
+                placeholder="Mobile Number"
+                leftIconName="ios-phone-portrait"
+                onChangeText={this.onPhoneInputChange}
+                rightComponent={
+                  isPhoneEditable &&
+                  phone.length == 10 &&
+                  phone != verifiedPhoneNumber ? (
+                    <TouchableOpacity onPress={this.askForOtp}>
+                      <Text
+                        weight="Bold"
+                        style={{ color: colors.mainBlue, fontSize: 12 }}
+                      >
+                        VERIFY
+                      </Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <View />
+                  )
+                }
+              />
+
+              {showOtpInput ? (
+                <TextInput
+                  value={otp}
+                  keyboardType="numeric"
+                  placeholder="Enter OTP"
+                  leftIconName="md-lock"
+                  onChangeText={otp => this.setState({ otp })}
+                />
+              ) : (
+                <View />
+              )}
+
+              {/* <TextInput
               onPress={this.openLocationPicker}
               value={location}
               placeholder="Enter Your Location"
@@ -322,62 +338,63 @@ export default class RegistrationDetails extends React.Component {
               inputStyle={location ? { height: 70 } : {}}
             /> */}
 
-            <Button
-              onPress={this.onNextPress}
-              text="NEXT"
-              color="secondary"
-              style={{ width: "100%", height: 40, marginTop: 30 }}
-            />
-          </KeyboardAwareScrollView>
-          <View style={styles.page}>
-            <View style={styles.gendersHeader}>
-              <TouchableOpacity
-                onPress={this.openDetailsScreen}
-                style={{ padding: 10 }}
-              >
-                <Icon name="md-arrow-back" size={20} color="black" />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={this.saveDetails}
-                style={{ padding: 10 }}
-              >
-                <Text
-                  weight="Bold"
-                  style={{ fontSize: 12, color: colors.pinkishOrange }}
+              <Button
+                onPress={this.onNextPress}
+                text="NEXT"
+                color="secondary"
+                style={{ width: "100%", height: 40, marginTop: 30 }}
+              />
+            </View>
+            <View style={styles.page}>
+              <View style={styles.gendersHeader}>
+                <TouchableOpacity
+                  onPress={this.openDetailsScreen}
+                  style={{ padding: 10 }}
                 >
-                  SKIP
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <Text weight="Bold" style={{ margin: 20, textAlign: "center" }}>
-              To help us to give you the best exeperience
-            </Text>
-            <View style={styles.genders}>
-              <Gender
-                gender="Male"
-                onPress={() => this.setState({ gender: MALE })}
-                isSelected={gender == MALE}
+                  <Icon name="md-arrow-back" size={20} color="black" />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={this.saveDetails}
+                  style={{ padding: 10 }}
+                >
+                  <Text
+                    weight="Bold"
+                    style={{ fontSize: 12, color: colors.pinkishOrange }}
+                  >
+                    SKIP
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <Text weight="Bold" style={{ margin: 20, textAlign: "center" }}>
+                To help us to give you the best exeperience
+              </Text>
+              <View style={styles.genders}>
+                <Gender
+                  gender="Male"
+                  onPress={() => this.setState({ gender: MALE })}
+                  isSelected={gender == MALE}
+                />
+                <Gender
+                  gender="Female"
+                  onPress={() => this.setState({ gender: FEMALE })}
+                  isSelected={gender == FEMALE}
+                />
+              </View>
+              <Button
+                onPress={this.saveDetails}
+                text="DONE"
+                color="secondary"
+                style={{
+                  width: 250,
+                  height: 40,
+                  marginTop: 20,
+                  alignSelf: "center"
+                }}
               />
-              <Gender
-                gender="Female"
-                onPress={() => this.setState({ gender: FEMALE })}
-                isSelected={gender == FEMALE}
-              />
             </View>
-            <Button
-              onPress={this.saveDetails}
-              text="DONE"
-              color="secondary"
-              style={{
-                width: 250,
-                height: 40,
-                marginTop: 20,
-                alignSelf: "center"
-              }}
-            />
-          </View>
-        </Animated.View>
+          </Animated.View>
+        </KeyboardAwareScrollView>
         <LoadingOverlay visible={isLoading} />
       </ScreenContainer>
     );

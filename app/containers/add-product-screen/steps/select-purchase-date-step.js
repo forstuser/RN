@@ -170,18 +170,25 @@ class SelectPurchaseDateStep extends React.Component {
           maxDate={moment().format("YYYY-MM-DD")}
           onSelectDate={this.onSelectDate}
         />
-        <Text
+        <View
           style={{
+            flex: 1,
             padding: 10,
-            color: colors.secondaryText,
-            fontSize: 12,
-            textAlign: "center"
+            alignItems: "center",
+            justifyContent: "center"
           }}
         >
-          Incase you skip this, we will consider the current date by default.
-          Dont worry you can always edit this info later when you have the
-          details.
-        </Text>
+          <Text
+            style={{
+              color: colors.secondaryText,
+              fontSize: 12,
+              textAlign: "center"
+            }}
+          >
+            If you skip this, we will consider the current date as your purchase
+            date by default. Don't worry, you can always edit this later.
+          </Text>
+        </View>
       </Step>
     );
   }

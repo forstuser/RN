@@ -445,7 +445,7 @@ export default {
   upload_document_screen_no_document_msg: "No Document to upload",
   upload_document_screen_select_document_btn: "Select Document",
   upload_document_screen_upload_btn: "UPLOAD DOC",
-  upload_document_screen_upload_options_title: "Upload Bill/Doc",
+  upload_document_screen_upload_options_title: "Upload Doc",
   upload_document_screen_upload_options_camera: "Take picture using camera",
   upload_document_screen_upload_options_gallery: "Upload image from gallery",
   upload_document_screen_upload_options_document: "Upload document",
