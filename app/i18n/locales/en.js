@@ -178,21 +178,21 @@ export default {
   //products list
   products_list_no_result_title: "No Documents Found",
   products_list_no_result_desc_furniture:
-    "Looks Like You have no products added in Furniture Section",
+    "Looks like you have no products added in Furniture Section",
   products_list_no_result_desc_hardware:
-    "Looks Like You have no products added in Hardware Section",
+    "Looks like you have no products added in Hardware Section",
   products_list_no_result_desc_other_furniture:
-    "Looks Like You have no products added in Other Furniture Section",
+    "Looks like you have no products added in Other Furniture Section",
   products_list_no_result_desc_electronics:
-    "Looks Like You have no products added in Electronics & Electricals Section",
+    "Looks like you have no products added in Electronics & Electricals Section",
   products_list_no_result_desc_automobile:
-    "Looks Like you have nothing added in Automobile Section",
+    "Looks like you have nothing added in Automobile Section",
   products_list_no_result_desc_travel:
-    "Looks Like You have no Expenses in Travel Section",
+    "Looks like you have no Expenses added in Travel Section",
   products_list_no_result_desc_hotel_stay:
-    "Looks Like You have no Expenses in Hotel Stay Section",
+    "Looks like you have no Expenses added in Hotel Stay Section",
   products_list_no_result_desc_dining:
-    "Looks Like You have no Expenses in Dining Section",
+    "Looks like you have no Expenses added in Dining Section",
   products_list_no_result_desc_expense:
     "Looks like you have nothing added in Medical expense section",
   products_list_no_result_desc_medical_docs:
@@ -200,13 +200,13 @@ export default {
   products_list_no_result_desc_insurance:
     "Add your Life insurance, Health insurance and other Medical insurance documents here",
   products_list_no_result_desc_other_services:
-    "Looks Like You have no Expenses in Other Services Section",
+    "Looks like you have no Expenses added in Other Services Section",
   products_list_no_result_desc_professional:
     "Add your expenses for Professional services like CA, Lawyer, Photographer and any other",
   products_list_no_result_desc_lessons:
-    "Looks like you have no expenses in Lessons & Hobbies section",
+    "Looks like you have no expenses added in Lessons & Hobbies section",
   products_list_no_result_desc_fashion:
-    "Looks Like You have no expenses added in Fashion Section",
+    "Looks like you have no expenses added in Fashion Section",
   products_list_no_result_desc_household_expense:
     "Add your Household expenses like grocery, vegetables, maid, stationery, newspaper etc",
   products_list_no_result_desc_utility_bills:
@@ -741,16 +741,16 @@ export default {
   plus_btn_tip:
     "Click here to add your Bills, Expenses and important Documents.",
   ehome_tip:
-    "Click here to find your saved Bills, Expenses, Documents in your eHome.",
+    "Access your saved Bills, Expenses and Documents in your eHome here.",
   attendance_tip:
-    "Plan your Day for tasks to be done, clothes to wear and dishes to be cooked. Also track attendance & payouts for all household services.",
+    "Plan your Day for tasks to be done, clothes to be worn and dishes to be cooked. Track attendance & payouts for all your household services too!",
   do_you_know_tip:
-    "Discover amazing facts & tips related to brands and lifestyle that would fill you with awe! ",
+    "Discover amazing facts & tips related to brands and lifestyle, to fill you with awe! ",
   asc_tip:
     "Click here to find and connect with Authorised Service Centres of any Brand with just one simple click.",
   app_tour_tips_4: "Keep a track of your expenses here.",
   mailbox_tip:
-    "This is your eHome inbox wherein all reminders and notifications will be delivered. Track them here.",
+    "All reminders and notifications will be delivered here in your eHome inbox.",
   coming_up_tip:
     "This is the eHome section where you will find all the alerts related to renewal and expiry dates.",
   add_bill_btn_tip: "To add multiple bills at the same time, use the + icon.",
@@ -869,14 +869,14 @@ export default {
   add_edit_product_basic_select_amount: "Please enter amount",
   add_edit_product_basic_select_date: "Please select a date",
   add_edit_force_update_upgrade:
-    "Update the all new BinBill App available with snazzy new features",
+    "Update to a New, More Awesome and Friendlier BinBill!",
   add_edit_force_update_versions:
     "The new version brings a whole host of fantastic features and improvements.",
   add_edit_force_update_text1: "Home Attendance Manager",
   add_edit_force_update_text2: "Share Personalised Review",
   add_edit_force_update_text3: "Do You Know series",
   add_edit_force_update_now: "UPDATE NOW",
-  add_edit_force_not_now: "Not Now",
+  add_edit_force_not_now: "Maybe Later",
   add_edit_force_ok: "OK",
 
   //app-tour
@@ -953,7 +953,7 @@ export default {
   expense_forms_puc_amount: "PUC Amount (₹)",
   expense_forms_puc_upload_doc: "Upload PUC Doc ",
   expense_forms_repair_history: "Repair/Service History (If Applicable)",
-  expense_forms_repair_for: "Repair Details",
+  expense_forms_repair_for: "Repair Issue",
   expense_forms_repair_date: "Repair Date",
   expense_forms_repair_seller_name: "Repair Seller Name",
   expense_forms_repair_seller_contact: "Repair Seller Contact",

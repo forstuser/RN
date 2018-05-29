@@ -11,6 +11,7 @@ import RNGooglePlaces from "react-native-google-places";
 import Icon from "react-native-vector-icons/Ionicons";
 import Snackbar from "react-native-snackbar";
 import LoadingOverlay from "../../components/loading-overlay";
+import ErrorOverlay from "../../components/error-overlay";
 import { openAfterLoginScreen } from "../../navigation";
 import {
   consumerGetOtp,
@@ -46,6 +47,7 @@ export default class RegistrationDetails extends React.Component {
   stepsPositionX = new Animated.Value(0);
 
   state = {
+    error: null,
     name: "",
     email: "",
     isEmailEditable: true,
@@ -61,27 +63,30 @@ export default class RegistrationDetails extends React.Component {
     showOtpInput: false
   };
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.fetchUserDetails();
+  }
+
+  fetchUserDetails = async () => {
     try {
+      this.setState({ isLoading: true, error: null });
       const r = await getProfileDetail();
       const user = r.userProfile;
 
       this.setState({
-        name: user.name,
-        email: user.email,
+        isLoading: false,
+        name: user.name || "",
+        email: user.email || "",
         isEmailEditable: user.email ? false : true,
-        phone: user.mobile_no,
+        phone: user.mobile_no || "",
         isPhoneEditable: user.mobile_no ? false : true,
         gender: user.gender,
         location: user.location
       });
-    } catch (e) {
-      Snackbar.show({
-        title: e.message,
-        duration: Snackbar.LENGTH_SHORT
-      });
+    } catch (error) {
+      this.setState({ error });
     }
-  }
+  };
 
   openLocationPicker = async () => {
     try {
@@ -247,8 +252,13 @@ export default class RegistrationDetails extends React.Component {
       gender,
       isLoading,
       otp,
-      showOtpInput
+      showOtpInput,
+      error
     } = this.state;
+    if (error)
+      return (
+        <ErrorOverlay error={error} onRetryPress={this.fetchUserDetails} />
+      );
     return (
       <ScreenContainer style={styles.container}>
         <Image style={styles.bg} source={bgImage} resizeMode="cover" />

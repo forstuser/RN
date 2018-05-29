@@ -51,10 +51,10 @@ export default function uiReducer(state = defaultState.ui, action) {
         ...state,
         hasProductCardTourShown: action.payload.hasProductCardTourShown
       };
-    case types.UI_SET_HAS_UPDATE_APP_SCREEN_SHOWN:
+    case types.UI_UPDATE_AVAILABLE_SCREEN_TIMESTAMP:
       return {
         ...state,
-        hasUpdateAppScreenShown: action.payload.hasUpdateAppScreenShown
+        appUpdateAvailableScreenTimestamp: action.payload.timestamp
       };
     case types.UI_SET_RATE_US_DIALOG_TIMESTAMP:
       return {
@@ -134,10 +134,10 @@ export const actions = {
       payload: { hasProductCardTourShown }
     };
   },
-  setUiHasUpdateAppScreenShown: hasUpdateAppScreenShown => {
+  setAppUpdateAvailableScreenTimestamp: timestamp => {
     return {
-      type: types.UI_SET_HAS_UPDATE_APP_SCREEN_SHOWN,
-      payload: { hasUpdateAppScreenShown }
+      type: types.UI_UPDATE_AVAILABLE_SCREEN_TIMESTAMP,
+      payload: { timestamp }
     };
   },
   setRateUsDialogTimestamp: timestamp => {

@@ -153,7 +153,7 @@ class Header extends Component {
         <View style={styles.lowerHalf}>
           <View style={styles.lowerHalfInner}>
             <View style={{ flexDirection: "row", flex: 1 }}>
-              <View style={{ flexDirection: "column", flex: 1.7 }}>
+              <View style={{ flexDirection: "column", flex: 1 }}>
                 <Text weight="Bold" style={styles.name}>
                   {productName}
                 </Text>
@@ -397,9 +397,9 @@ const styles = StyleSheet.create({
     // selfrrAlign: 'flex-end'
   },
   btns: {
-    flex: 1,
+    width: 80,
     flexDirection: "column",
-    justifyContent: "space-around"
+    justifyContent: "flex-end"
   },
   btnShare: {
     marginTop: 10,

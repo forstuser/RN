@@ -196,7 +196,7 @@ class RepairForm extends React.Component {
             <CustomTextInput
               placeholder={I18n.t("expense_forms_repair_for")}
               // placeholder2={"(Recommended)"}
-              hint={"to help you recall repair issue later"}
+              hint="Helps recall repair issue later"
               placeholder2Color={colors.mainBlue}
               underlineColorAndroid="transparent"
               value={repairFor}

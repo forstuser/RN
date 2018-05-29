@@ -71,14 +71,26 @@ const apiRequest = async ({
       timeout: 3600 * 1000 //3600 seconds
     });
     console.log("r.data: ", r.data);
+    // NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN, {
+    //   allowSkip: true
+    // });
+
+    const appUpdateAvailableScreenTimestamp = store.getState().ui
+      .appUpdateAvailableScreenTimestamp;
 
     if (r.data.forceUpdate === true) {
       NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN);
     } else if (
       r.data.forceUpdate === false &&
-      !store.getState().ui.hasUpdateAppScreenShown
+      (!appUpdateAvailableScreenTimestamp ||
+        moment().diff(
+          moment(appUpdateAvailableScreenTimestamp).startOf("day"),
+          "days"
+        ) > 7)
     ) {
-      store.dispatch(uiActions.setUiHasUpdateAppScreenShown(true));
+      store.dispatch(
+        uiActions.setAppUpdateAvailableScreenTimestamp(new Date().toISOString())
+      );
       NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN, {
         allowSkip: true
       });
@@ -172,6 +184,13 @@ export const uploadDocuments = async ({
       );
       onUploadProgress(percentCompleted);
     }
+  });
+};
+
+export const getNewAppVersionDetails = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/version/detail`
   });
 };
 

@@ -94,17 +94,19 @@ const EVENTS = {
 
 const logEventInDebug = false;
 const logEvent = (eventName, data = {}) => {
-  console.log("event", eventName, data)
+  console.log("event", eventName, data);
   if (!__DEV__ || logEventInDebug) {
     const user = store.getState().loggedInUser;
-    FirebaseAnalytics.logEvent(eventName, {
+    const eventData = {
       FCM_Id: user.fcmToken,
       User_Id: user.id,
       User_Name: user.name,
       User_Mobile: user.phone,
       ...data
-    });
+    };
+
     FbSdkAppEventsLogger.logEvent(eventName);
+    FirebaseAnalytics.logEvent(eventName, eventData);
   }
 };
 export default { EVENTS, logEvent };
