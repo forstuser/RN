@@ -66,6 +66,7 @@ class RecentItems extends React.Component {
             collapsable={false}
             height={listHeight}
             onPress={this.toggleListHeight}
+            color="#007bce"
           />
         ) : (
           <View collapsable={false} />

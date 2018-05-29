@@ -15,8 +15,7 @@ if (!__DEV__) {
 }
 export { API_BASE_URL };
 
-const APP_VERSION_FOR_API = 20005;
-let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
+const APP_VERSION_FOR_API = 20006;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
@@ -72,17 +71,26 @@ const apiRequest = async ({
       timeout: 3600 * 1000 //3600 seconds
     });
     console.log("r.data: ", r.data);
+    // NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN, {
+    //   allowSkip: true
+    // });
+
+    const appUpdateAvailableScreenTimestamp = store.getState().ui
+      .appUpdateAvailableScreenTimestamp;
 
     if (r.data.forceUpdate === true) {
-      if (!HAS_OPENED_FORCE_UPDATE_SCREEN) {
-        HAS_OPENED_FORCE_UPDATE_SCREEN = true;
-        NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN);
-      }
+      NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN);
     } else if (
       r.data.forceUpdate === false &&
-      !store.getState().ui.hasUpdateAppScreenShown
+      (!appUpdateAvailableScreenTimestamp ||
+        moment().diff(
+          moment(appUpdateAvailableScreenTimestamp).startOf("day"),
+          "days"
+        ) > 7)
     ) {
-      store.dispatch(uiActions.setUiHasUpdateAppScreenShown(true));
+      store.dispatch(
+        uiActions.setAppUpdateAvailableScreenTimestamp(new Date().toISOString())
+      );
       NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN, {
         allowSkip: true
       });
@@ -176,6 +184,13 @@ export const uploadDocuments = async ({
       );
       onUploadProgress(percentCompleted);
     }
+  });
+};
+
+export const getNewAppVersionDetails = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/version/detail`
   });
 };
 

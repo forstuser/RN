@@ -73,6 +73,26 @@ class SelectPurchaseDateStep extends React.Component {
           maxDate={moment().format("YYYY-MM-DD")}
           onSelectDate={this.onSelectDate}
         />
+        <View
+          style={{
+            flex: 1,
+            padding: 10,
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <Text
+            style={{
+              color: colors.secondaryText,
+              fontSize: 12,
+              textAlign: "center"
+            }}
+          >
+            If you skip this, we will consider your purchase date as the
+            insurance date by default. Don't worry, you can always edit this
+            later.
+          </Text>
+        </View>
       </Step>
     );
   }

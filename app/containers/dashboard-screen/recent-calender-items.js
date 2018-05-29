@@ -70,6 +70,7 @@ class RecentCalenderItems extends React.Component {
             collapsable={false}
             height={listHeight}
             onPress={this.toggleListHeight}
+            color="#429321"
           />
         ) : (
           <View collapsable={false} />

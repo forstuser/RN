@@ -23,7 +23,7 @@ export default {
     hasUploadDocTourShown: false,
     hasUploadBillTourShown: false,
     hasProductCardTourShown: false,
-    hasUpdateAppScreenShown: false,
+    appUpdateAvailableScreenTimestamp: null,
     rateUsDialogTimestamp: null
   }
 };

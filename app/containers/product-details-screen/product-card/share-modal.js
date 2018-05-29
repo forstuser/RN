@@ -4,7 +4,8 @@ import {
   View,
   TouchableOpacity,
   Platform,
-  Alert
+  Alert,
+  Image as RNImage
 } from "react-native";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -46,7 +47,8 @@ class ShareModal extends React.Component {
     showEditRatingBtn: true,
     feedbackText: "",
     isSavingName: false,
-    localfileUri: null
+    localfileUri: null,
+    userImageSource: userImagePlaceholder
   };
 
   componentDidMount() {
@@ -60,7 +62,7 @@ class ShareModal extends React.Component {
       showRatingsStep: false,
       isProductImageStepDone: false
     };
-    const { product, review } = this.props;
+    const { product, review, loggedInUser } = this.props;
     const { productReviews } = product;
     if (review) {
       newState.ratings = review.ratings;
@@ -71,6 +73,16 @@ class ShareModal extends React.Component {
       newState.isProductImageStepDone = true;
       localfileUri: null;
     }
+
+    if (loggedInUser.imageUrl) {
+      newState.userImageSource = {
+        uri: API_BASE_URL + loggedInUser.imageUrl,
+        headers: {
+          Authorization: loggedInUser.authToken
+        }
+      };
+    }
+
     this.setState(newState);
   };
 
@@ -178,7 +190,8 @@ class ShareModal extends React.Component {
       showEditRatingBtn,
       ratings,
       feedbackText,
-      isSavingName
+      isSavingName,
+      userImageSource
     } = this.state;
     const { product, loggedInUser, onNewReview } = this.props;
     const { brand } = product;
@@ -195,12 +208,7 @@ class ShareModal extends React.Component {
       productImageResizeMode = "contain";
     }
 
-    let userImageSource = userImagePlaceholder;
-    if (loggedInUser.imageUrl) {
-      userImageSource = {
-        uri: API_BASE_URL + loggedInUser.imageUrl
-      };
-    }
+    console.log("userImageSource: ", userImageSource);
 
     let step = 1;
     let stepImage = uploadDocIllustration;
@@ -361,11 +369,14 @@ class ShareModal extends React.Component {
                       ) : null}
                       <View collapsable={false} style={styles.userImageView}>
                         {/* <View collapsable={false}  style={styles.userImageLine} /> */}
-                        <Image
-                          style={styles.userImage}
-                          source={userImageSource}
-                          resize="cover"
-                        />
+                        {/* React-Native-Fast-Image does not work for some reason */}
+                        <View style={styles.userImageContainer}>
+                          <RNImage
+                            style={styles.userImage}
+                            source={userImageSource}
+                            resize="cover"
+                          />
+                        </View>
                       </View>
                       <View
                         collapsable={false}
@@ -574,12 +585,18 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: "#ececec"
   },
-  userImage: {
+  userImageContainer: {
     width: 36,
     height: 36,
     borderRadius: 18,
     overflow: "hidden",
     backgroundColor: "#eee"
+  },
+  userImage: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    overflow: "hidden"
   },
   userName: {
     // marginVertical: 7
