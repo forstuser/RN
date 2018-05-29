@@ -100,7 +100,7 @@ class DoYouKNowScreen extends Component {
             toValue: -SCREEN_HEIGHT,
             duration: 300
           }).start(() => {
-            Analytics.logEvent(Analytics.EVENTS.SWIPE_DYK_CARD);
+            Analytics.logEvent(Analytics.EVENTS.SWIPE_DYK_CARD, { id: items[this.state.currentIndex].id });
             this.currentCardTranslateY.setValue(0);
             const newState = {};
             if (this.state.nextIndex >= items.length) {
@@ -312,7 +312,7 @@ class DoYouKNowScreen extends Component {
 
     try {
       if (!item.isLikedByUser) {
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_LIKE_DUK);
+        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_LIKE_DUK, { id: itemId });
         await likeDoYouKnowItem({ itemId });
         item.isLikedByUser = true;
         item.totalLikes = item.totalLikes + 1;
@@ -437,8 +437,8 @@ class DoYouKNowScreen extends Component {
               <Item />
             </Animated.View>
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
           <LoadingOverlay
             style={{
               zIndex: 0,

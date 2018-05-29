@@ -33,7 +33,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default class Item extends React.Component {
   onSharePress = async () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SHARE_DYK);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SHARE_DYK, { id: this.props.item.id });
     const { item } = this.props;
     if (Platform.OS == "ios") {
       try {
