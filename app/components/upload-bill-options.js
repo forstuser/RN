@@ -45,7 +45,9 @@ class UploadBillOptions extends React.Component {
     let file = null;
     switch (index) {
       case 0:
-        if ((await requestCameraPermission()) == false) return;
+        const cameraPermission = await requestCameraPermission();
+        console.log("cameraPermission-1");
+        if (!cameraPermission) return;
         const file = await ImagePicker.openCamera({
           compressImageMaxWidth: 1500,
           compressImageMaxHeight: 1500,
@@ -63,7 +65,8 @@ class UploadBillOptions extends React.Component {
 
         break;
       case 1:
-        if ((await requestStoragePermission()) == false) return;
+        const storagePermission = await requestStoragePermission();
+        if (!storagePermission) return;
         file = await ImagePicker.openPicker({
           width: 1500,
           height: 1500,

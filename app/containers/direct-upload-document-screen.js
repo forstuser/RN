@@ -382,14 +382,10 @@ class DirectUploadDocumentScreen extends React.Component {
         isFinishModalVisible: false
       },
       () => {
-        setTimeout(() => {
-          this.props.navigation.goBack({
-            animationType: "fade"
-          });
-          this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
-            productId: this.state.productId
-          });
-        }, 200);
+        this.props.navigation.goBack();
+        this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+          productId: this.state.productId
+        });
       }
     );
   };

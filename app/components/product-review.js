@@ -106,9 +106,7 @@ class UploadProductImage extends React.Component {
             />
           </View>
           <Text style={styles.ratingMsg}>
-            {isStarIsZero
-              ? "Please provide rating or feedback before Submit!"
-              : ""}
+            {isStarIsZero ? "Please provide rating before Submit!" : ""}
           </Text>
         </View>
         <View collapsable={false} style={styles.reviewInputWrapper}>

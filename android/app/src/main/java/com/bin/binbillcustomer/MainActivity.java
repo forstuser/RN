@@ -37,6 +37,8 @@ public class MainActivity extends ReactActivity {
 
   private ImageView splash1, splash2, splash3;
 
+  private Intent intentForShareVia;
+
   private static Activity mCurrentActivity = null;
 
   @Override
@@ -52,10 +54,7 @@ public class MainActivity extends ReactActivity {
     mCurrentActivity = this;
     Log.d("INTENT", "intent");
     if (getIntent() != null) {
-
-
       getFileUriAndSave(getIntent());
-
     }
   }
 
@@ -68,6 +67,7 @@ public class MainActivity extends ReactActivity {
   private void getFileUriAndSave(Intent intent){
     String action = intent.getAction();
     if (action != null && action.equalsIgnoreCase("android.intent.action.SEND")) {
+      intentForShareVia=intent;
       checkStoragePermission();
     } else {
       SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.shared_pref_file_key),
@@ -78,123 +78,10 @@ public class MainActivity extends ReactActivity {
     }
   }
 
-//  @Override
-//  protected void onCreate(Bundle savedInstanceState) {
-//
-//    super.onCreate(savedInstanceState);
-//    SplashScreen.show(this);
-//    mCurrentActivity = this;
-//
-//  }
-
-//  @Override
-//  protected void onResume() {
-//    super.onResume();
-//    Log.d("INTENT", "intent");
-//    if (getIntent() != null) {
-//
-//      Intent intent = getIntent();
-//      String action = intent.getAction();
-//
-//      if (action != null && action.equalsIgnoreCase("android.intent.action.SEND")) {
-//        checkStoragePermission();
-//      } else {
-//        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.shared_pref_file_key),
-//                Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPref.edit();
-//        editor.remove(getString(R.string.shared_pref_direct_upload_file_path_key));
-//        editor.commit();
-//      }
-//    }
-//  }
-
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
-  }
-
-//  @Override
-  public View createSplashLayout() {
-    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    View view = inflater.inflate(R.layout.splash, null);
-
-    splash1 = (ImageView) view.findViewById(R.id.splash_1);
-    splash2 = (ImageView) view.findViewById(R.id.splash_2);
-    splash3 = (ImageView) view.findViewById(R.id.splash_3);
-
-    splash1.setVisibility(View.VISIBLE);
-    AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
-    alphaAnimation.setDuration(1000);
-    splash1.startAnimation(alphaAnimation);
-    alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-      @Override
-      public void onAnimationStart(Animation animation) {
-
-      }
-
-      @Override
-      public void onAnimationEnd(Animation animation) {
-        startSecondAnimation();
-      }
-
-      @Override
-      public void onAnimationRepeat(Animation animation) {
-
-      }
-    });
-
-    return view;
-  }
-
-  private void startSecondAnimation() {
-    splash2.setVisibility(View.VISIBLE);
-    //splash1.setVisibility(View.GONE);
-    AlphaAnimation alphaAnimation1 = new AlphaAnimation(1.0f, 0.0f);
-    alphaAnimation1.setDuration(1000);
-    splash1.startAnimation(alphaAnimation1);
-    AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
-    alphaAnimation.setDuration(1000);
-    splash2.startAnimation(alphaAnimation);
-    alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-      @Override
-      public void onAnimationStart(Animation animation) {
-
-      }
-
-      @Override
-      public void onAnimationEnd(Animation animation) {
-        splash3.setVisibility(View.VISIBLE);
-        splash3.setAlpha(0.0f);
-        splash3.animate().translationY(0).alpha(1.0f).setDuration(1000).setListener(new Animator.AnimatorListener() {
-          @Override
-          public void onAnimationStart(Animator animator) {
-
-          }
-
-          @Override
-          public void onAnimationEnd(Animator animator) {
-
-          }
-
-          @Override
-          public void onAnimationCancel(Animator animator) {
-
-          }
-
-          @Override
-          public void onAnimationRepeat(Animator animator) {
-
-          }
-        });
-      }
-
-      @Override
-      public void onAnimationRepeat(Animation animation) {
-
-      }
-    });
-
   }
 
   private void checkStoragePermission() {
@@ -211,7 +98,7 @@ public class MainActivity extends ReactActivity {
 
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     switch (requestCode) {
     case REQUEST_STORAGE:
       if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -222,11 +109,11 @@ public class MainActivity extends ReactActivity {
   }
 
   private void getShareUriAndStoreToSharedPreferences() {
-    if(!getIntent().hasExtra(Intent.EXTRA_STREAM) || getIntent().getExtras().get(Intent.EXTRA_STREAM)==null){
+    if(intentForShareVia==null || !intentForShareVia.hasExtra(Intent.EXTRA_STREAM) || intentForShareVia.getExtras().get(Intent.EXTRA_STREAM)==null){
       return;
     }
 
-    String uriString = ((Uri) getIntent().getExtras().get(Intent.EXTRA_STREAM)).toString();
+    String uriString = ((Uri) intentForShareVia.getExtras().get(Intent.EXTRA_STREAM)).toString();
     String uri = null;
     String displayName = null;
     if (uriString.startsWith("content://")) {

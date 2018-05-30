@@ -238,6 +238,7 @@ export default class RegistrationDetails extends React.Component {
       openAfterLoginScreen();
     } catch (e) {
       console.log("e: ", e);
+      this.setState({ isLoading: false });
       Snackbar.show({
         title: e.message,
         duration: Snackbar.LENGTH_SHORT
