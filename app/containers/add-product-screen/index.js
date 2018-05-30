@@ -125,7 +125,8 @@ class AddProductScreen extends React.Component {
     const { activeStepIndex, category } = this.state;
 
     if (activeStepIndex == 0) {
-      return false;
+      this.props.navigation.goBack();
+      return true;
     }
 
     const newState = { activeStepIndex: activeStepIndex - 1 };

@@ -101,12 +101,13 @@ class DirectUploadDocumentScreen extends React.Component {
           }
         ]
       });
-
+      global[GLOBAL_VARIABLES.FILES_FOR_DIRECT_UPLOAD] = null;
+    } catch (e) {
+      console.log("ee: ", e);
+    } finally {
       this.setState({
         isLoading: false
       });
-    } catch (e) {
-      console.log("ee: ", e);
     }
   };
 
@@ -368,10 +369,7 @@ class DirectUploadDocumentScreen extends React.Component {
         isFinishModalVisible: false
       },
       () => {
-        setTimeout(() => {
-          this.props.showAddProductOptionsScreenOnAppear();
-          this.props.navigation.goBack();
-        }, 500);
+        this.props.navigation.replace(SCREENS.ADD_PRODUCT_SCREEN);
       }
     );
   };
@@ -382,8 +380,7 @@ class DirectUploadDocumentScreen extends React.Component {
         isFinishModalVisible: false
       },
       () => {
-        this.props.navigation.goBack();
-        this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+        this.props.navigation.replace(SCREENS.PRODUCT_DETAILS_SCREEN, {
           productId: this.state.productId
         });
       }
@@ -391,6 +388,7 @@ class DirectUploadDocumentScreen extends React.Component {
   };
 
   onCrossPress = () => {
+    global[GLOBAL_VARIABLES.FILES_FOR_DIRECT_UPLOAD] = null;
     this.props.navigation.goBack();
   };
 
