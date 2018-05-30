@@ -390,7 +390,7 @@ export default class RegistrationDetails extends React.Component {
                 </TouchableOpacity>
               </View>
               <Text weight="Bold" style={{ margin: 20, textAlign: "center" }}>
-                To help us to give you the best exeperience
+                To help us to give you the best experience
               </Text>
               <View style={styles.genders}>
                 <Gender
