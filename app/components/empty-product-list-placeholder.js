@@ -43,6 +43,10 @@ class AddEmptyProductScreen extends Component {
           item.desc = I18n.t("products_list_no_result_desc_hardware");
           item.image = require("../images/categories/hardware.png");
           item.buttonText = I18n.t("add_hardware");
+        } else if (category.id == CATEGORY_IDS.FURNITURE.KITCHEN_UTENSILS) {
+          item.desc = I18n.t("products_list_no_result_desc_kitchen_utensils");
+          item.image = require("../images/categories/kitchen_utensils.png");
+          item.buttonText = I18n.t("add_kitchen_utensils");
         } else {
           item.desc = I18n.t("products_list_no_result_desc_other_furniture");
           item.image = require("../images/main-categories/ic_furniture.png");
@@ -93,14 +97,13 @@ class AddEmptyProductScreen extends Component {
           item.image = require("../images/main-categories/ic_healthcare.png");
         } else if (category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
           item.type = EXPENSE_TYPES.MEDICAL_DOCS;
-
           item.desc = I18n.t("products_list_no_result_desc_medical_docs");
           item.buttonText = I18n.t("add_medical_doc");
           item.image = require("../images/categories/medical_docs.png");
         } else {
           item.type = EXPENSE_TYPES.MEDICAL_DOCS;
           item.desc = I18n.t("products_list_no_result_desc_insurance");
-          item.buttonText = I18n.t("add_healthcare");
+          item.buttonText = I18n.t("add_insurance");
           item.image = require("../images/categories/insurance.png");
         }
         break;
@@ -111,10 +114,10 @@ class AddEmptyProductScreen extends Component {
           item.desc = I18n.t("products_list_no_result_desc_other_services");
           item.buttonText = I18n.t("add_other_services");
           item.image = require("../images/main-categories/ic_services.png");
-        } else if (category.id == CATEGORY_IDS.SERVICES.PROFESSIONAL) {
-          item.desc = I18n.t("products_list_no_result_desc_professional");
-          item.buttonText = I18n.t("add_professional");
-          item.image = require("../images/categories/professional.png");
+        } else if (category.id == CATEGORY_IDS.SERVICES.BEAUTY_AND_SALON) {
+          item.desc = I18n.t("products_list_no_result_desc_beauty_and_salon");
+          item.buttonText = I18n.t("add_beauty_and_salon");
+          item.image = require("../images/categories/beauty_and_salon.png");
         } else {
           item.desc = I18n.t("products_list_no_result_desc_lessons");
           item.buttonText = I18n.t("add_lessons_hobbies");

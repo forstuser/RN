@@ -122,7 +122,7 @@ class AddAmountStep extends React.Component {
         title = "Add Make-Up Expense Amount";
         break;
 
-      case CATEGORY_IDS.SERVICES.PROFESSIONAL:
+      case CATEGORY_IDS.SERVICES.BEAUTY_AND_SALON:
         title = "Add Beauty & Salon Expense Amount";
         break;
       case CATEGORY_IDS.SERVICES.LESSIONS_HOBBIES:

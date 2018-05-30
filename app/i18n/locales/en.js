@@ -181,6 +181,8 @@ export default {
     "Looks like you have no products added in Furniture Section",
   products_list_no_result_desc_hardware:
     "Looks like you have no products added in Hardware Section",
+  products_list_no_result_desc_kitchen_utensils:
+    "Looks like you have no products added in Kitchen Utensils Section",
   products_list_no_result_desc_other_furniture:
     "Looks like you have no products added in Other Furniture Section",
   products_list_no_result_desc_electronics:
@@ -199,10 +201,12 @@ export default {
     "Add your Prescriptions, Test reports and other Medical reports here",
   products_list_no_result_desc_insurance:
     "Add your Life insurance, Health insurance and other Medical insurance documents here",
+  products_list_no_result_desc_beauty_salon:
+    "Looks like you have no Expenses added in Beauty & Salon Section",
   products_list_no_result_desc_other_services:
     "Looks like you have no Expenses added in Other Services Section",
-  products_list_no_result_desc_professional:
-    "Add your expenses for Professional services like CA, Lawyer, Photographer and any other",
+  products_list_no_result_desc_beauty_and_salon:
+    "Looks like you have no Expenses added in Beauty & Salon Section",
   products_list_no_result_desc_lessons:
     "Looks like you have no expenses added in Lessons & Hobbies section",
   products_list_no_result_desc_fashion:
@@ -233,6 +237,7 @@ export default {
   add_rent_agreement: "ADD RENT AGREEMENT",
   add_visiting_card: "ADD VISITING CARD",
   add_furniture: "ADD FURNITURE",
+  add_kitchen_utensils: "ADD KITCHEN UTENSILS",
   add_hardware: "ADD HARDWARE",
   add_furniture_hardware: "ADD FURNITURE & HARDWARE",
   add_travel: "ADD TRAVEL",
@@ -240,7 +245,7 @@ export default {
   add_hotel_stay: "ADD HOTEL STAY",
   add_expense: "ADD EXPENSE",
   add_other_services: "ADD SERVICES",
-  add_professional: "ADD PROFESSIONAL",
+  add_beauty_and_salon: "ADD BEAUTY & SALON",
   add_lessons_hobbies: "ADD LESSIONS & HOBBIES",
   add_household_expense: "ADD HOUSEHOLD EXPENSE",
   add_utility_bills: "ADD UTILITY BILLS",
@@ -249,6 +254,7 @@ export default {
   add_other_household: "ADD OTHER HOUSEHOLD",
   add_medical_doc: "ADD MEDICAL DOC",
   add_healthcare: "ADD HEALTHCARE",
+  add_insurance: "ADD INSURANCE",
   add_others: "ADD OTHERS",
 
   //more screen

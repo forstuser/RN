@@ -186,7 +186,7 @@ class SelectCategoryStep extends React.Component {
         ];
         visibleOptions = [
           {
-            id: CATEGORY_IDS.SERVICES.PROFESSIONAL,
+            id: CATEGORY_IDS.SERVICES.BEAUTY_AND_SALON,
             name: "Beauty & Salon",
             icon: require("../../../images/categories/beauty_and_salon.png")
           },
