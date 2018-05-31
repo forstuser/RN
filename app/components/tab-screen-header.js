@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 12,
     elevation: 2,
-    backgroundColor: "#fff",
+    backgroundColor: colors.pinkishOrange,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.25,
@@ -125,16 +125,18 @@ const styles = StyleSheet.create({
   icon: {
     width: 24,
     height: 24,
-    marginRight: 5
+    marginRight: 5,
+    tintColor: "#fff"
   },
   screenName: {
     fontSize: 18,
-    color: colors.secondaryText
+    color: "#fff"
   },
   messagesContainer: {},
   messagesIcon: {
     width: 24,
-    height: 24
+    height: 24,
+    tintColor: "#fff"
   },
   messagesCountContainer: {
     position: "absolute",
