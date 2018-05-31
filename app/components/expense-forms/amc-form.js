@@ -60,6 +60,12 @@ class AmcForm extends React.Component {
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { amc } = this.props;
+    if (amc) {
+      this.setState({
+        copies: amc.copies || []
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -174,10 +180,6 @@ class AmcForm extends React.Component {
               placeholder={I18n.t("expense_forms_amc_form_amc_seller_contact")}
               keyboardType="numeric"
             />
-
-
-
-
           </View>
         </View>
       </Collapsible>

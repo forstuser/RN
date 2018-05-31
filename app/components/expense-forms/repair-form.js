@@ -65,6 +65,12 @@ class RepairForm extends React.Component {
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { repair } = this.props;
+    if (repair) {
+      this.setState({
+        copies: repair.copies || []
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -83,8 +89,7 @@ class RepairForm extends React.Component {
           repairFor: repair.repair_for,
           warrantyUpto: repair.warranty_upto,
           sellerName: repair.sellers ? repair.sellers.sellerName : "",
-          sellerContact: repair.sellers ? repair.sellers.contact : "",
-          copies: repair.copies
+          sellerContact: repair.sellers ? repair.sellers.contact : ""
         },
         () => {
           console.log("repair form new state: ", this.state);

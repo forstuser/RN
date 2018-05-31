@@ -49,6 +49,10 @@ class BasicDetailsForm extends React.Component {
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { copies } = this.props;
+    this.setState({
+      copies: copies || []
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -111,8 +115,7 @@ class BasicDetailsForm extends React.Component {
       vinNoId,
       registrationNoId,
       imeiNoId,
-      serialNoId,
-      copies
+      serialNoId
     });
   };
 

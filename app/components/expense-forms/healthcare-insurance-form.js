@@ -43,6 +43,10 @@ class HealthcareInsuranceForm extends React.Component {
 
   componentDidMount() {
     this.fetchTypes();
+    const { copies } = this.props;
+    this.setState({
+      copies: copies || []
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,8 +66,7 @@ class HealthcareInsuranceForm extends React.Component {
       providerId,
       effectiveDate,
       policyNo,
-      amountInsured,
-      copies
+      amountInsured
     } = props;
 
     let selectedType = null;
@@ -90,7 +93,6 @@ class HealthcareInsuranceForm extends React.Component {
       effectiveDate,
       policyNo,
       amountInsured,
-      copies,
       selectedType,
       selectedProvider
     });
