@@ -128,6 +128,122 @@ class AllInfo extends React.Component {
         address: product.sellers.address || ""
       };
     }
+    // make one array for all details
+    let detailsTable = [];
+    if (product.sub_category_name) {
+      detailsTable.push(
+        <KeyValueItem
+          keyText={I18n.t("product_details_screen_sub_category")}
+          valueText={product.sub_category_name}
+        />
+      );
+    }
+    if (product.brand) {
+      detailsTable.push(
+        <KeyValueItem
+          keyText={I18n.t("product_details_screen_brand")}
+          valueText={product.brand.name}
+        />
+      );
+    }
+    if (product.model) {
+      detailsTable.push(
+        <KeyValueItem
+          keyText={I18n.t("product_details_screen_model")}
+          valueText={product.model}
+        />
+      );
+    }
+    if (product.purchaseDate) {
+      detailsTable.push(
+        <KeyValueItem
+          keyText={dateText}
+          valueText={
+            product.purchaseDate
+              ? moment(product.purchaseDate).format("MMM DD, YYYY")
+              : "-"
+          }
+        />
+      );
+    }
+    if (product.metaData) {
+      product.metaData.forEach((metaItem, index) => {
+        detailsTable.push(
+          <KeyValueItem
+            key={index}
+            keyText={metaItem.name}
+            valueText={metaItem.value}
+          />
+        );
+      });
+    }
+    if (seller.sellerName) {
+      detailsTable.push(
+        <KeyValueItem
+          keyText={sellerName}
+          valueText={seller.sellerName || "-"}
+        />
+      );
+    }
+
+    if (seller.city || seller.state) {
+      detailsTable.push(
+        <KeyValueItem
+          keyText={I18n.t("product_details_screen_seller_location")}
+          valueText={_.trim(seller.city + ", " + seller.state, ", ") || "-"}
+        />
+      );
+    }
+    if (seller.contact) {
+      detailsTable.push(
+        <KeyValueItem
+          keyText="Contact No."
+          ValueComponent={() => (
+            <View
+              style={{
+                flexDirection: "row",
+                flex: 1,
+                justifyContent: "flex-end",
+                alignItems: "center"
+              }}
+            >
+              <Icon name="md-call" size={15} color={colors.tomato} />
+              <View>
+                <MultipleContactNumbers contact={seller.contact} />
+              </View>
+            </View>
+          )}
+        />
+      );
+    }
+    if (
+      seller.address.length > 0 ||
+      seller.city.length > 0 ||
+      seller.state.length > 0
+    ) {
+      detailsTable.push(
+        <KeyValueItem
+          keyText={I18n.t("product_details_screen_seller_address")}
+          ValueComponent={() => (
+            <View
+              collapsable={false}
+              style={{
+                marginLeft: 10,
+                flex: 1,
+                alignItems: "flex-end"
+              }}
+            >
+              <Text weight="Medium" style={{ color: colors.mainText }}>
+                {_.trim(
+                  seller.address + ", " + seller.city + ", " + seller.state,
+                  ", "
+                )}
+              </Text>
+            </View>
+          )}
+        />
+      );
+    }
     return (
       <View collapsable={false} style={styles.container}>
         {product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ? (
@@ -164,150 +280,44 @@ class AllInfo extends React.Component {
                   )}
                 />
               </TouchableOpacity>
-              {product.sub_category_name && (
-                <KeyValueItem
-                  keyText={I18n.t("product_details_screen_sub_category")}
-                  valueText={product.sub_category_name}
-                />
-              )}
-              {product.brand && (
-                <KeyValueItem
-                  keyText={I18n.t("product_details_screen_brand")}
-                  valueText={product.brand.name}
-                />
-              )}
-              {product.model ? (
-                <KeyValueItem
-                  keyText={I18n.t("product_details_screen_model")}
-                  valueText={product.model}
-                />
-              ) : null}
-              <KeyValueItem
-                keyText={dateText}
-                valueText={
-                  product.purchaseDate
-                    ? moment(product.purchaseDate).format("MMM DD, YYYY")
-                    : "-"
-                }
-              />
-              {listHeight == "auto" ? (
-                <View>
-                  {product.metaData.map((metaItem, index) => (
-                    <KeyValueItem
-                      key={index}
-                      keyText={metaItem.name}
-                      valueText={metaItem.value}
-                    />
-                  ))}
-                  {seller.sellerName ? (
-                    <KeyValueItem
-                      keyText={sellerName}
-                      valueText={seller.sellerName || "-"}
-                    />
-                  ) : (
-                      <View />
-                    )}
-                  {seller.city ? (
-                    <KeyValueItem
-                      keyText={I18n.t("product_details_screen_seller_location")}
-                      valueText={
-                        _.trim(seller.city + ", " + seller.state, ", ") || "-"
-                      }
-                    />
-                  ) : (
-                      <View />
-                    )}
-                  {seller.contact ? (
-                    <KeyValueItem
-                      keyText="Contact No."
-                      ValueComponent={() => (
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            flex: 1,
-                            justifyContent: "flex-end",
-                            alignItems: "center"
-                          }}
-                        >
-                          <Icon
-                            name="md-call"
-                            size={15}
-                            color={colors.tomato}
-                          />
-                          <View>
-                            <MultipleContactNumbers contact={seller.contact} />
-                          </View>
-                        </View>
-                      )}
-                    />
-                  ) : (
-                      <View />
-                    )}
-                  {(seller.address.length > 0 ||
-                    seller.city.length > 0 ||
-                    seller.state.length > 0) && (
-                      <KeyValueItem
-                        keyText={I18n.t("product_details_screen_seller_address")}
-                        ValueComponent={() => (
-                          <View
-                            collapsable={false}
-                            style={{
-                              marginLeft: 10,
-                              flex: 1,
-                              alignItems: "flex-end"
-                            }}
-                          >
-                            <Text
-                              weight="Medium"
-                              style={{ color: colors.mainText }}
-                            >
-                              {_.trim(
-                                seller.address +
-                                ", " +
-                                seller.city +
-                                ", " +
-                                seller.state,
-                                ", "
-                              )}
-                            </Text>
-                          </View>
-                        )}
-                      />
-                    )}
-                </View>
-              ) : (
-                  <View />
-                )}
+              {listHeight == "less" && detailsTable[0]}
+              {listHeight == "less" && detailsTable[1]}
+              {listHeight == "less" && detailsTable[2]}
+              {listHeight == "auto" && detailsTable}
             </View>
-            {(product.metaData.length > 0 || product.sellers != null) ? <View style={{ marginBottom: 20 }}>
-              <ViewMoreBtn
-                collapsable={false}
-                height={listHeight}
-                onPress={this.toggleListHeight}
-              />
-            </View> : <View />}
-            {product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE ||
-              [
-                MAIN_CATEGORY_IDS.AUTOMOBILE,
-                MAIN_CATEGORY_IDS.ELECTRONICS
-              ].indexOf(product.masterCategoryId) > -1 ? (
-                <Important
-                  product={product}
-                  navigation={navigation}
-                  cardWidthWhenMany={cardWidthWhenMany}
-                  cardWidthWhenOne={cardWidthWhenOne}
+            {detailsTable.length > 3 ? (
+              <View style={{ marginBottom: 20 }}>
+                <ViewMoreBtn
+                  collapsable={false}
+                  height={listHeight}
+                  onPress={this.toggleListHeight}
                 />
-              ) : (
-                <View />
-              )}
+              </View>
+            ) : (
+              <View />
+            )}
+            {product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE ||
+            [
+              MAIN_CATEGORY_IDS.AUTOMOBILE,
+              MAIN_CATEGORY_IDS.ELECTRONICS
+            ].indexOf(product.masterCategoryId) > -1 ? (
+              <Important
+                product={product}
+                navigation={navigation}
+                cardWidthWhenMany={cardWidthWhenMany}
+                cardWidthWhenOne={cardWidthWhenOne}
+              />
+            ) : (
+              <View />
+            )}
           </View>
         ) : (
-            <InsuranceDetails
-              product={product}
-              navigation={navigation}
-              openAddEditInsuranceScreen={this.onEditPress}
-            />
-          )}
+          <InsuranceDetails
+            product={product}
+            navigation={navigation}
+            openAddEditInsuranceScreen={this.onEditPress}
+          />
+        )}
       </View>
     );
   }
