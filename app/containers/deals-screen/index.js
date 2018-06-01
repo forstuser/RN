@@ -8,6 +8,9 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
+import ScrollableTabView, {
+  DefaultTabBar
+} from "react-native-scrollable-tab-view";
 import I18n from "../../i18n";
 import { API_BASE_URL } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -17,6 +20,7 @@ import TabSearchHeader from "../../components/tab-screen-header";
 import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
+import ItemSelector from "../../components/item-selector";
 const offersIcon = require("../../images/buy.png");
 
 class DealsScreen extends Component {
@@ -40,14 +44,18 @@ class DealsScreen extends Component {
             showSearchInput={false}
           />
         </View>
-        <View style={styles.tabContainer}>
-          <View style={styles.tab}>
-            <Text>Tab</Text>
+        <ScrollableTabView
+          tabBarBackgroundColor={colors.pinkishOrange}
+          tabBarActiveTextColor="#fff"
+          tabBarInactiveTextColor="#fff"
+          initialPage={0}
+          renderTabBar={() => <DefaultTabBar />}
+        >
+          <View tabLabel="Offers">
+            <ItemSelector />
           </View>
-          <View style={styles.tab}>
-            <Text>Tab</Text>
-          </View>
-        </View>
+          <Text tabLabel="Accessories">favorite</Text>
+        </ScrollableTabView>
       </ScreenContainer>
     );
   }
