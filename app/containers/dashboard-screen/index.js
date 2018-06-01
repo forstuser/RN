@@ -213,158 +213,173 @@ class DashboardScreen extends React.Component {
 
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
-        {showDashboard && (
-          <View collapsable={false}>
-            <TabSearchHeader
-              ref="tabSearchHeader"
-              title={I18n.t("dashboard_screen_title")}
-              icon={dashBoardIcon}
-              notificationCount={notificationCount}
-              recentSearches={recentSearches}
-              navigation={this.props.navigation}
-            />
-            <ScrollView>
-              <View
-                collapsable={false}
-                style={{ flex: 1, marginBottom: 150, padding: 10 }}
-              >
-                {this.state.upcomingServices.length > 0 ? (
-                  // what's coming up
-                  <View collapsable={false}>
-                    <Title
-                      setRef={ref => (this.comingUpRef = ref)}
-                      text={I18n.t("dashboard_screen_whats_coming_up")}
-                    />
-                    <View collapsable={false}>
-                      <UpcomingServicesList
-                        upcomingServices={this.state.upcomingServices}
-                        navigation={this.props.navigation}
-                      />
-                    </View>
-                  </View>
-                ) : (
-                  <View collapsable={false} />
-                )}
-                {this.state.recentProducts.length > 0 ? (
-                  // recent activity
-                  <View collapsable={false}>
-                    <Title
-                      gradientColors={["#007bce", "#00c6ff"]}
-                      text={I18n.t("dashboard_screen_recent_activity")}
-                    />
-                    <RecentProducts
-                      products={this.state.recentProducts}
-                      navigation={this.props.navigation}
-                    />
-                  </View>
-                ) : (
-                  <View collapsable={false} />
-                )}
-                {this.state.recentCalenderItems.length > 0 ? (
-                  // Calender
-                  <View collapsable={false}>
-                    <Title
-                      gradientColors={["#429321", "#b4ec51"]}
-                      text={I18n.t("my_calendar")}
-                    />
-                    <RecentCalenderItems
-                      items={this.state.recentCalenderItems}
-                      navigation={this.props.navigation}
-                    />
-                  </View>
-                ) : (
-                  <View collapsable={false} />
-                )}
-                {/* Expense Insights */}
-                <Title
-                  gradientColors={["#242841", "#707c93"]}
-                  text={I18n.t("dashboard_screen_ehome_insights")}
+        {!isFetchingData ? (
+          <View>
+            {showDashboard && (
+              <View collapsable={false}>
+                <TabSearchHeader
+                  ref="tabSearchHeader"
+                  title={I18n.t("dashboard_screen_title")}
+                  icon={dashBoardIcon}
+                  notificationCount={notificationCount}
+                  recentSearches={recentSearches}
+                  navigation={this.props.navigation}
                 />
-                <TouchableOpacity
-                  ref={ref => (this.insightsRef = ref)}
-                  onPress={() => this.openInsightScreen()}
-                  style={[
-                    defaultStyles.card,
-                    styles.expenseInsight,
-                    { marginBottom: 20 }
-                  ]}
-                >
-                  <Image
-                    style={styles.expenseInsightImage}
-                    source={chartIcon}
-                    resizeMode="contain"
-                  />
-                  <View collapsable={false} style={styles.expenseInsightTitles}>
-                    <Text weight="Bold" style={styles.expenseInsightTitle}>
-                      {I18n.t("dashboard_screen_total_spends")}
-                    </Text>
-                    <Text style={styles.expenseInsightSubTitle}>
-                      {I18n.t("dashboard_screen_this_month")}
-                    </Text>
-                  </View>
+                <ScrollView>
                   <View
                     collapsable={false}
-                    style={styles.expenseInsightDetails}
+                    style={{ flex: 1, marginBottom: 150, padding: 10 }}
                   >
-                    <Text weight="Bold" style={styles.expenseInsightAmount}>
-                      ₹ {this.state.insightChartProps.totalSpend}
-                    </Text>
-                    <Text
-                      weight="Medium"
-                      style={styles.expenseInsightDetailsText}
+                    {this.state.upcomingServices.length > 0 ? (
+                      // what's coming up
+                      <View collapsable={false}>
+                        <Title
+                          setRef={ref => (this.comingUpRef = ref)}
+                          text={I18n.t("dashboard_screen_whats_coming_up")}
+                        />
+                        <View collapsable={false}>
+                          <UpcomingServicesList
+                            upcomingServices={this.state.upcomingServices}
+                            navigation={this.props.navigation}
+                          />
+                        </View>
+                      </View>
+                    ) : (
+                      <View collapsable={false} />
+                    )}
+                    {this.state.recentProducts.length > 0 ? (
+                      // recent activity
+                      <View collapsable={false}>
+                        <Title
+                          gradientColors={["#007bce", "#00c6ff"]}
+                          text={I18n.t("dashboard_screen_recent_activity")}
+                        />
+                        <RecentProducts
+                          products={this.state.recentProducts}
+                          navigation={this.props.navigation}
+                        />
+                      </View>
+                    ) : (
+                      <View collapsable={false} />
+                    )}
+                    {this.state.recentCalenderItems.length > 0 ? (
+                      // Calender
+                      <View collapsable={false}>
+                        <Title
+                          gradientColors={["#429321", "#b4ec51"]}
+                          text={I18n.t("my_calendar")}
+                        />
+                        <RecentCalenderItems
+                          items={this.state.recentCalenderItems}
+                          navigation={this.props.navigation}
+                        />
+                      </View>
+                    ) : (
+                      <View collapsable={false} />
+                    )}
+                    {/* Expense Insights */}
+                    <Title
+                      gradientColors={["#242841", "#707c93"]}
+                      text={I18n.t("dashboard_screen_ehome_insights")}
+                    />
+                    <TouchableOpacity
+                      ref={ref => (this.insightsRef = ref)}
+                      onPress={() => this.openInsightScreen()}
+                      style={[
+                        defaultStyles.card,
+                        styles.expenseInsight,
+                        { marginBottom: 20 }
+                      ]}
                     >
-                      {I18n.t("dashboard_screen_see_details")}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                {/* Authorised Service Centres */}
+                      <Image
+                        style={styles.expenseInsightImage}
+                        source={chartIcon}
+                        resizeMode="contain"
+                      />
+                      <View
+                        collapsable={false}
+                        style={styles.expenseInsightTitles}
+                      >
+                        <Text weight="Bold" style={styles.expenseInsightTitle}>
+                          {I18n.t("dashboard_screen_total_spends")}
+                        </Text>
+                        <Text style={styles.expenseInsightSubTitle}>
+                          {I18n.t("dashboard_screen_this_month")}
+                        </Text>
+                      </View>
+                      <View
+                        collapsable={false}
+                        style={styles.expenseInsightDetails}
+                      >
+                        <Text weight="Bold" style={styles.expenseInsightAmount}>
+                          ₹ {this.state.insightChartProps.totalSpend}
+                        </Text>
+                        <Text
+                          weight="Medium"
+                          style={styles.expenseInsightDetailsText}
+                        >
+                          {I18n.t("dashboard_screen_see_details")}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                    {/* Authorised Service Centres */}
 
-                <TouchableOpacity
-                  onPress={this.openAscScreen}
-                  style={[
-                    defaultStyles.card,
-                    styles.expenseInsight,
-                    { marginBottom: 60 }
-                  ]}
-                >
-                  <Image
-                    style={[
-                      styles.expenseInsightImage,
-                      { tintColor: "#d20505" }
-                    ]}
-                    source={ascIcon}
-                    resizeMode="contain"
-                  />
-                  <View collapsable={false} style={styles.expenseInsightTitles}>
-                    <Text weight="Bold" style={[styles.expenseInsightTitle]}>
-                      {I18n.t("asc_screen_title")}
-                    </Text>
-                    <Text style={[styles.expenseInsightSubTitle]}>
-                      Find ASC for your products with one click
-                    </Text>
+                    <TouchableOpacity
+                      onPress={this.openAscScreen}
+                      style={[
+                        defaultStyles.card,
+                        styles.expenseInsight,
+                        { marginBottom: 60 }
+                      ]}
+                    >
+                      <Image
+                        style={[
+                          styles.expenseInsightImage,
+                          { tintColor: "#d20505" }
+                        ]}
+                        source={ascIcon}
+                        resizeMode="contain"
+                      />
+                      <View
+                        collapsable={false}
+                        style={styles.expenseInsightTitles}
+                      >
+                        <Text
+                          weight="Bold"
+                          style={[styles.expenseInsightTitle]}
+                        >
+                          {I18n.t("asc_screen_title")}
+                        </Text>
+                        <Text style={[styles.expenseInsightSubTitle]}>
+                          Find ASC for your products with one click
+                        </Text>
+                      </View>
+                      <View
+                        collapsable={false}
+                        style={styles.expenseInsightDetails}
+                      >
+                        <Icon name="ios-arrow-forward" size={30} />
+                      </View>
+                    </TouchableOpacity>
                   </View>
-                  <View
-                    collapsable={false}
-                    style={styles.expenseInsightDetails}
-                  >
-                    <Icon name="ios-arrow-forward" size={30} />
-                  </View>
-                </TouchableOpacity>
+                </ScrollView>
               </View>
-            </ScrollView>
+            )}
+            {!showDashboard ? (
+              <BlankDashboard
+                onUploadButtonClick={() => this.showAddProductOptionsScreen()}
+              />
+            ) : (
+              <TouchableOpacity
+                style={styles.fab}
+                onPress={() => this.showAddProductOptionsScreen()}
+              >
+                <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+              </TouchableOpacity>
+            )}
           </View>
-        )}
-        {!showDashboard ? (
-          <BlankDashboard
-            onUploadButtonClick={() => this.showAddProductOptionsScreen()}
-          />
         ) : (
-          <TouchableOpacity
-            style={styles.fab}
-            onPress={() => this.showAddProductOptionsScreen()}
-          >
-            <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
-          </TouchableOpacity>
+          <View />
         )}
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
         <LoadingOverlay visible={isFetchingData} />

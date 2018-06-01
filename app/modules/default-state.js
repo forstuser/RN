@@ -13,6 +13,7 @@ export default {
   },
 
   ui: {
+    dykIdToOpenDirectly: null,
     appOpenCount: 0,
     language: LANGUAGES[0],
     fcmToken: null,

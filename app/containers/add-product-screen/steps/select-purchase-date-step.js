@@ -101,7 +101,7 @@ class SelectPurchaseDateStep extends React.Component {
         break;
 
       case CATEGORY_IDS.FASHION.FOOTWEAR:
-        title = "Select Footware Expense Date";
+        title = "Select Footwear Expense Date";
         break;
       case CATEGORY_IDS.FASHION.SHADES:
         title = "Select Shades Expense Date";

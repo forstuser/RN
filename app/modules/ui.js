@@ -66,6 +66,11 @@ export default function uiReducer(state = defaultState.ui, action) {
         ...state,
         appOpenCount: state.appOpenCount + 1
       };
+    case types.UI_DYK_TO_OPEN_DIRECTLY:
+      return {
+        ...state,
+        dykIdToOpenDirectly: action.payload.id
+      };
     default:
       return state;
   }
@@ -75,7 +80,13 @@ export default function uiReducer(state = defaultState.ui, action) {
  * Actions
  */
 export const actions = {
-  incrementAppOpen: fcmToken => {
+  setDykIdToOpenDirectly: id => {
+    return {
+      type: types.UI_DYK_TO_OPEN_DIRECTLY,
+      payload: { id }
+    };
+  },
+  incrementAppOpen: () => {
     return {
       type: types.UI_INCREMENT_APP_OPEN
     };

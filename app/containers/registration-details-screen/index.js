@@ -128,6 +128,7 @@ export default class RegistrationDetails extends React.Component {
     console.log("this.state: ", this.state);
 
     if (
+      email &&
       !email.match(
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       )
@@ -177,7 +178,7 @@ export default class RegistrationDetails extends React.Component {
         }
       }
     } else {
-      this.openGenderView();
+      this.saveDetails(true);
     }
   };
 
@@ -215,7 +216,7 @@ export default class RegistrationDetails extends React.Component {
     }
   };
 
-  saveDetails = async () => {
+  saveDetails = async (scrollToGenderStep = false) => {
     const {
       name,
       email,
@@ -235,14 +236,21 @@ export default class RegistrationDetails extends React.Component {
         longitude,
         gender
       });
-      openAfterLoginScreen();
+
+      if (scrollToGenderStep) {
+        this.openGenderView();
+      } else {
+        openAfterLoginScreen();
+      }
     } catch (e) {
       console.log("e: ", e);
-      this.setState({ isLoading: false });
+
       Snackbar.show({
         title: e.message,
         duration: Snackbar.LENGTH_SHORT
       });
+    } finally {
+      this.setState({ isLoading: false });
     }
   };
 

@@ -118,7 +118,7 @@ class SelectBrandStep extends React.Component {
 
     switch (category.id) {
       case CATEGORY_IDS.FASHION.FOOTWEAR:
-        title = "Select Footware Brand";
+        title = "Select Footwear Brand";
         break;
       case CATEGORY_IDS.FASHION.SHADES:
         title = "Select Shades Brand";
