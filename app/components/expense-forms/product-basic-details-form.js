@@ -49,6 +49,10 @@ class BasicDetailsForm extends React.Component {
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { copies } = this.props;
+    this.setState({
+      copies: copies || []
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -111,8 +115,7 @@ class BasicDetailsForm extends React.Component {
       vinNoId,
       registrationNoId,
       imeiNoId,
-      serialNoId,
-      copies
+      serialNoId
     });
   };
 
@@ -145,33 +148,29 @@ class BasicDetailsForm extends React.Component {
     const categoryForms = this.props.categoryForms;
 
     if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
-      if (registrationNo) {
-        const registrationNoCategoryForm = categoryForms.find(
-          categoryForm => categoryForm.title == "Registration Number"
-        );
-        registrationNoCategoryForm &&
-          metadata.push({
-            id: registrationNoId,
-            categoryFormId: registrationNoCategoryForm.id,
-            value: registrationNo,
-            isNewValue: false
-          });
-      }
+      const registrationNoCategoryForm = categoryForms.find(
+        categoryForm => categoryForm.title == "Registration Number"
+      );
+      registrationNoCategoryForm &&
+        metadata.push({
+          id: registrationNoId,
+          categoryFormId: registrationNoCategoryForm.id,
+          value: registrationNo,
+          isNewValue: false
+        });
 
-      if (vinNo) {
-        const vinNoCategoryForm = categoryForms.find(
-          categoryForm => categoryForm.title.toLowerCase() == "vin"
-        );
-        vinNoCategoryForm &&
-          metadata.push({
-            id: vinNoId,
-            categoryFormId: vinNoCategoryForm.id,
-            value: vinNo,
-            isNewValue: false
-          });
-      }
+      const vinNoCategoryForm = categoryForms.find(
+        categoryForm => categoryForm.title.toLowerCase() == "vin"
+      );
+      vinNoCategoryForm &&
+        metadata.push({
+          id: vinNoId,
+          categoryFormId: vinNoCategoryForm.id,
+          value: vinNo,
+          isNewValue: false
+        });
     } else if (mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
-      if (this.props.categoryId == 327 && imeiNo) {
+      if (this.props.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
         const imeiNoCategoryForm = categoryForms.find(
           categoryForm => categoryForm.title == "IMEI Number"
         );
@@ -183,7 +182,7 @@ class BasicDetailsForm extends React.Component {
             value: imeiNo,
             isNewValue: false
           });
-      } else if (serialNo) {
+      } else {
         const serialNoCategoryForm = categoryForms.find(
           categoryForm => categoryForm.title == "Serial Number"
         );

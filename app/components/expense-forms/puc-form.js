@@ -70,6 +70,12 @@ class PucForm extends React.Component {
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { puc } = this.props;
+    if (puc) {
+      this.setState({
+        copies: puc.copies || []
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -92,8 +98,7 @@ class PucForm extends React.Component {
           value: String(puc.value),
           // sellerName: puc.sellers ? puc.sellers.sellerName : "",
           // sellerContact: puc.sellers ? puc.sellers.contact : "",
-          selectedRenewalType: selectedRenewalType,
-          copies: puc.copies
+          selectedRenewalType: selectedRenewalType
         },
         () => {
           console.log("puc form new state: ", this.state);
@@ -235,8 +240,6 @@ class PucForm extends React.Component {
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"
             />
-
-
           </View>
         </View>
       </Collapsible>

@@ -101,7 +101,7 @@ class AddAmountStep extends React.Component {
         break;
 
       case CATEGORY_IDS.FASHION.FOOTWEAR:
-        title = "Add Footware Expense Amount";
+        title = "Add Footwear Expense Amount";
         break;
       case CATEGORY_IDS.FASHION.SHADES:
         title = "Add Shades Expense Amount";

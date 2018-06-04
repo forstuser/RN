@@ -6,20 +6,20 @@ import {
   Alert,
   TouchableOpacity,
   ScrollView,
-  Platform
+  Platform,
+  Linking
 } from "react-native";
-
+import URI from "urijs";
 import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
-
-import Analytics from "../../analytics";
-
+import { connect } from "react-redux";
 import Modal from "react-native-modal";
-
 import ActionSheet from "react-native-actionsheet";
 
+import Analytics from "../../analytics";
+import { actions as uiActions } from "../../modules/ui";
 import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
 import { API_BASE_URL, getProductDetails, deleteProduct } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -119,35 +119,35 @@ class ProductDetailsScreen extends Component {
   async componentDidMount() {
     const { navigation } = this.props;
 
-    this.setState(
-      {
-        productId: navigation.getParam("productId", null)
-      },
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
       () => {
-        if (!this.state.productId) {
-          return this.props.navigation.goBack();
-        }
-        this.fetchProductDetails();
+        this.setState(
+          {
+            productId: navigation.getParam("productId", null)
+          },
+          () => {
+            if (!this.state.productId) {
+              return this.props.navigation.goBack();
+            }
+            this.fetchProductDetails();
+          }
+        );
       }
     );
+  }
 
-    setTimeout(() => {
-      this.didFocusSubscription = this.props.navigation.addListener(
-        "didFocus",
-        () => {
-          console.log('"didFocus" "didFocus"');
-          if (!this.state.productId) {
-            return this.props.navigation.goBack();
-          }
-          this.fetchProductDetails();
-        }
-      );
-    }, 200);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.productIdToOpenDirectly) {
+      this.props.navigation.replace(SCREENS.PRODUCT_DETAILS_SCREEN, {
+        productId: nextProps.productIdToOpenDirectly
+      });
+      this.props.setProductIdToOpenDirectly(null);
+    }
   }
 
   componentWillUnmount() {
     if (this.didFocusSubscription) {
-      console.log('"didFocus remove" "didFocus remove"');
       this.didFocusSubscription.remove();
     }
   }
@@ -354,4 +354,18 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProductDetailsScreen;
+const mapStateToProps = store => ({
+  productIdToOpenDirectly: store.ui.productIdToOpenDirectly
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setProductIdToOpenDirectly: id => {
+      dispatch(uiActions.setProductIdToOpenDirectly(id));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ProductDetailsScreen
+);

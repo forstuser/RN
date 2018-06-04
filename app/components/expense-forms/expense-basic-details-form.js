@@ -32,14 +32,16 @@ class BasicDetailsForm extends React.Component {
       nextDueDateId: null,
       sellerName: "",
       sellerAddress: "",
-      sellerContact: "",
+      sellerContact: ""
     };
   }
 
-  componentDidMount() { }
-
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { copies } = this.props;
+    this.setState({
+      copies: copies || []
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,8 +60,7 @@ class BasicDetailsForm extends React.Component {
       value = null,
       sellerName = "",
       sellerContact = "",
-      sellerAddress = "",
-      copies = []
+      sellerAddress = ""
     } = props;
 
     let selectedSubCategory = null;
@@ -83,8 +84,7 @@ class BasicDetailsForm extends React.Component {
       value,
       sellerName,
       sellerAddress,
-      sellerContact,
-      copies
+      sellerContact
     });
   };
 
@@ -191,8 +191,8 @@ class BasicDetailsForm extends React.Component {
               hideAddNew={true}
             />
           ) : (
-              <View collapsable={false} />
-            )}
+            <View collapsable={false} />
+          )}
 
           {showFullForm ? (
             <CustomTextInput
@@ -202,8 +202,8 @@ class BasicDetailsForm extends React.Component {
               hint={I18n.t("expense_forms_expense_basic_expense_recommend")}
             />
           ) : (
-              <View collapsable={false} />
-            )}
+            <View collapsable={false} />
+          )}
 
           <CustomDatePicker
             date={date}
@@ -236,8 +236,8 @@ class BasicDetailsForm extends React.Component {
               }}
             />
           ) : (
-              <View collapsable={false} />
-            )}
+            <View collapsable={false} />
+          )}
 
           {showFullForm ? (
             <View collapsable={false}>
@@ -262,8 +262,8 @@ class BasicDetailsForm extends React.Component {
               />
             </View>
           ) : (
-              <View collapsable={false} />
-            )}
+            <View collapsable={false} />
+          )}
         </View>
         <UploadDoc
           title={I18n.t("expense_forms_expense_basic_detail")}

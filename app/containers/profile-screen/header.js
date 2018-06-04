@@ -141,14 +141,12 @@ class ProfileScreen extends Component {
         <View collapsable={false} style={styles.backgroundImg}>
           {profilePic}
         </View>
-        {Platform.OS == "ios" && (
-          <BlurView
-            style={styles.overlay}
-            viewRef={this.state.blurViewRef}
-            blurType="light"
-            blurAmount={5}
-          />
-        )}
+        <View
+          style={styles.overlay}
+          // viewRef={this.state.blurViewRef}
+          blurType="light"
+          blurAmount={5}
+        />
 
         <View collapsable={false} style={styles.profilePicWrapper}>
           <View collapsable={false} style={styles.profilePicCircleWrapper}>

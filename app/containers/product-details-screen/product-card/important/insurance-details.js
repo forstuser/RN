@@ -55,6 +55,15 @@ class InsuranceDetails extends React.Component {
             this.props.openAddEditInsuranceScreen(insurance);
           }}
         />
+        {(insurance.copies || []).length > 0 && (
+          <ViewBillRow
+            collapsable={false}
+            expiryDate={insurance.expiryDate}
+            purchaseDate={insurance.purchaseDate}
+            docType="Insurance"
+            copies={insurance.copies || []}
+          />
+        )}
         {product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE ? (
           <KeyValueItem
             keyText={I18n.t("product_details_screen_insurance_type")}
@@ -98,15 +107,7 @@ class InsuranceDetails extends React.Component {
             moment(insurance.expiryDate).format("DD MMM YYYY")
           }
         />
-        {(insurance.copies || []).length > 0 && (
-          <ViewBillRow
-            collapsable={false}
-            expiryDate={insurance.expiryDate}
-            purchaseDate={insurance.purchaseDate}
-            docType="Insurance"
-            copies={insurance.copies || []}
-          />
-        )}
+
         {insurance.policyNo ? (
           <KeyValueItem
             keyText={I18n.t("product_details_screen_insurance_policy_no")}

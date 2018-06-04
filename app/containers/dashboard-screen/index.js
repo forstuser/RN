@@ -324,7 +324,7 @@ class DashboardScreen extends React.Component {
                   style={[
                     defaultStyles.card,
                     styles.expenseInsight,
-                    { marginBottom: 60 }
+                    { marginBottom: 120 }
                   ]}
                 >
                   <Image
@@ -366,6 +366,7 @@ class DashboardScreen extends React.Component {
             <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
           </TouchableOpacity>
         )}
+
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
         <LoadingOverlay visible={isFetchingData} />
         <RateUsDialog

@@ -4,7 +4,8 @@ import {
   View,
   Animated,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import RNGooglePlaces from "react-native-google-places";
@@ -128,6 +129,7 @@ export default class RegistrationDetails extends React.Component {
     console.log("this.state: ", this.state);
 
     if (
+      email &&
       !email.match(
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       )
@@ -177,7 +179,7 @@ export default class RegistrationDetails extends React.Component {
         }
       }
     } else {
-      this.openGenderView();
+      this.saveDetails(true);
     }
   };
 
@@ -215,7 +217,7 @@ export default class RegistrationDetails extends React.Component {
     }
   };
 
-  saveDetails = async () => {
+  saveDetails = async (scrollToGenderStep = false) => {
     const {
       name,
       email,
@@ -235,15 +237,28 @@ export default class RegistrationDetails extends React.Component {
         longitude,
         gender
       });
-      openAfterLoginScreen();
+
+      if (scrollToGenderStep) {
+        console.log("scrollToGenderStep: ", scrollToGenderStep);
+        this.openGenderView();
+      } else {
+        console.log("openAfterLoginScreen: ", openAfterLoginScreen);
+        openAfterLoginScreen();
+      }
     } catch (e) {
       console.log("e: ", e);
-      this.setState({ isLoading: false });
+
       Snackbar.show({
         title: e.message,
         duration: Snackbar.LENGTH_SHORT
       });
+    } finally {
+      this.setState({ isLoading: false });
     }
+  };
+
+  onSkipPress = () => {
+    openAfterLoginScreen();
   };
 
   onPhoneInputChange = phone => {
@@ -378,7 +393,7 @@ export default class RegistrationDetails extends React.Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={this.saveDetails}
+                  onPress={this.onSkipPress}
                   style={{ padding: 10 }}
                 >
                   <Text
@@ -405,7 +420,7 @@ export default class RegistrationDetails extends React.Component {
                 />
               </View>
               <Button
-                onPress={this.saveDetails}
+                onPress={() => this.saveDetails(false)}
                 text="DONE"
                 color="secondary"
                 style={{
@@ -464,7 +479,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderBottomWidth: 1,
     borderBottomColor: "#c2c2c2",
-    alignItems: "center"
+    alignItems: "center",
+    ...Platform.select({
+      ios: { paddingTop: 20 }
+    })
   },
   genders: {
     flexDirection: "row",
