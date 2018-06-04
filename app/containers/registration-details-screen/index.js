@@ -4,7 +4,8 @@ import {
   View,
   Animated,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import RNGooglePlaces from "react-native-google-places";
@@ -238,8 +239,10 @@ export default class RegistrationDetails extends React.Component {
       });
 
       if (scrollToGenderStep) {
+        console.log("scrollToGenderStep: ", scrollToGenderStep);
         this.openGenderView();
       } else {
+        console.log("openAfterLoginScreen: ", openAfterLoginScreen);
         openAfterLoginScreen();
       }
     } catch (e) {
@@ -252,6 +255,10 @@ export default class RegistrationDetails extends React.Component {
     } finally {
       this.setState({ isLoading: false });
     }
+  };
+
+  onSkipPress = () => {
+    openAfterLoginScreen();
   };
 
   onPhoneInputChange = phone => {
@@ -386,7 +393,7 @@ export default class RegistrationDetails extends React.Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={this.saveDetails}
+                  onPress={this.onSkipPress}
                   style={{ padding: 10 }}
                 >
                   <Text
@@ -413,7 +420,7 @@ export default class RegistrationDetails extends React.Component {
                 />
               </View>
               <Button
-                onPress={this.saveDetails}
+                onPress={() => this.saveDetails(false)}
                 text="DONE"
                 color="secondary"
                 style={{
@@ -472,7 +479,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderBottomWidth: 1,
     borderBottomColor: "#c2c2c2",
-    alignItems: "center"
+    alignItems: "center",
+    ...Platform.select({
+      ios: { paddingTop: 20 }
+    })
   },
   genders: {
     flexDirection: "row",

@@ -71,20 +71,16 @@ const showLocalNotification = notif => {
 };
 
 FCM.on(FCMEvent.Notification, notif => {
-  console.log("notification: ", notif);
-  console.log("AppState.currentState: ", AppState.currentState);
-  if (Platform.OS == "android") {
-    if (notif.local_notification) {
-      handleNotification(notif);
-    } else {
-      showLocalNotification(notif);
-    }
-  } else if (Platform.OS == "ios") {
-    if (notif.opened_from_tray) {
-      handleNotification(notif);
-    } else if (!notif.hasShownOnce) {
-      showLocalNotification(notif);
-    }
+  console.log("notification in product card: ", notif);
+});
+
+Linking.addEventListener("url", event => {
+  // this handles the use case where the app is running in the background and is activated by the listener...
+  let url = event.url;
+  console.log("url: ", url);
+  if (url && url.toLowerCase().indexOf("binbill") > -1) {
+    // console.log("url event: ", event.url);
+    handleDeeplink(event.url);
   }
 });
 
@@ -121,6 +117,7 @@ handleNotification = notif => {
     case "18":
     case "25":
       screenToOpen = SCREENS.PRODUCT_DETAILS_SCREEN;
+      store.dispatch(uiActions.setProductIdToOpenDirectly(notif.id));
       params = { productId: notif.id };
       break;
     case "9":
@@ -128,6 +125,7 @@ handleNotification = notif => {
     case "16":
     case "17":
       screenToOpen = SCREENS.PRODUCT_DETAILS_SCREEN;
+      store.dispatch(uiActions.setProductIdToOpenDirectly(notif.id));
       params = { productId: notif.id, openServiceSchedule: true };
       break;
     case "19":
@@ -198,6 +196,9 @@ handleDeeplink = url => {
     case "ehome":
       screenToOpen = SCREENS.EHOME_SCREEN;
       break;
+    case "insight":
+      screenToOpen = SCREENS.INSIGHTS_SCREEN;
+      break;
     case "asc":
       screenToOpen = SCREENS.ASC_SCREEN;
       break;
@@ -209,6 +210,7 @@ handleDeeplink = url => {
       break;
     case "products":
       const productId = path.split("/").pop();
+      store.dispatch(uiActions.setProductIdToOpenDirectly(productId));
       params.productId = productId;
       screenToOpen = SCREENS.PRODUCT_DETAILS_SCREEN;
       break;
@@ -347,15 +349,6 @@ class RootNavigation extends React.Component {
     if (url) {
       handleDeeplink(url);
     }
-    Linking.addEventListener("url", event => {
-      // this handles the use case where the app is running in the background and is activated by the listener...
-      let url = event.url;
-      console.log("url: ", url);
-      if (url && url.toLowerCase().indexOf("binbill") > -1) {
-        // console.log("url event: ", event.url);
-        handleDeeplink(event.url);
-      }
-    });
 
     if (this.props.isPinSet) {
       NavigationService.navigate(SCREENS.ENTER_PIN_POPUP_SCREEN);
@@ -377,8 +370,7 @@ const mapStateToProps = store => ({
   isUserLoggedIn: store.loggedInUser.authToken ? true : false,
   isPinSet: store.loggedInUser.isPinSet,
   authToken: store.loggedInUser.authToken,
-  codepushDeploymentStaging: store.loggedInUser.codepushDeploymentStaging,
-  dykIdToOpenDirectly: store.ui.dykIdToOpenDirectly
+  codepushDeploymentStaging: store.loggedInUser.codepushDeploymentStaging
 });
 
 const mapDispatchToProps = dispatch => {
@@ -391,6 +383,9 @@ const mapDispatchToProps = dispatch => {
     },
     setDykIdToOpenDirectly: id => {
       dispatch(uiActions.setDykIdToOpenDirectly(id));
+    },
+    setProductIdToOpenDirectly: id => {
+      dispatch(uiActions.setProductIdToOpenDirectly(id));
     }
   };
 };

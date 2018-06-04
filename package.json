@@ -11,7 +11,9 @@
     "android-build-debug": "cd ./android && ./gradlew assembleDebug",
     "android-build-release": "cd ./android && ./gradlew assembleRelease",
     "android-codepush-release-format":
-      "appcenter codepush release-react -a appcenterbin/BinBill-Android --mandatory true --description "
+      "appcenter codepush release-react -a appcenterbin/BinBill-Android --mandatory true --description ",
+    "ios-codepush-release-format":
+      "appcenter codepush release-react -a appcenterbin/BinBill --mandatory true --description "
   },
   "dependencies": {
     "add": "^2.0.6",

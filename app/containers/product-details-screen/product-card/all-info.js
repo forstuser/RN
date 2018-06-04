@@ -172,7 +172,11 @@ class AllInfo extends React.Component {
           <KeyValueItem
             key={index}
             keyText={metaItem.name}
-            valueText={metaItem.value}
+            valueText={
+              moment(metaItem.value).isValid()
+                ? moment(metaItem.value).format("MMM DD, YYYY")
+                : metaItem.value
+            }
           />
         );
       });

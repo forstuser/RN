@@ -244,7 +244,7 @@ export default {
   add_dining: "ADD DINING",
   add_hotel_stay: "ADD HOTEL STAY",
   add_expense: "ADD EXPENSE",
-  add_other_services: "ADD SERVICES",
+  add_other_services: "ADD OTHER SERVICES",
   add_beauty_and_salon: "ADD BEAUTY & SALON",
   add_lessons_hobbies: "ADD LESSIONS & HOBBIES",
   add_household_expense: "ADD HOUSEHOLD EXPENSE",
