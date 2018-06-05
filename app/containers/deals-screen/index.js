@@ -44,6 +44,7 @@ class DealsScreen extends Component {
             showSearchInput={false}
           />
         </View>
+        <ItemSelector />
         <ScrollableTabView
           tabBarBackgroundColor={colors.pinkishOrange}
           tabBarActiveTextColor="#fff"
@@ -51,9 +52,7 @@ class DealsScreen extends Component {
           initialPage={0}
           renderTabBar={() => <DefaultTabBar />}
         >
-          <View tabLabel="Offers">
-            <ItemSelector />
-          </View>
+          <View tabLabel="Offers" />
           <Text tabLabel="Accessories">favorite</Text>
         </ScrollableTabView>
       </ScreenContainer>
