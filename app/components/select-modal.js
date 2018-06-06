@@ -113,7 +113,7 @@ class SelectModal extends Component {
       onTextInputChange(text);
     }
     this.setState({
-      textInput: text,
+      textInput: text
     });
   };
 
@@ -146,14 +146,14 @@ class SelectModal extends Component {
       dropdownArrowStyle = {},
       placeholderRenderer = this._placeholderRenderer,
       hideAddNew = false,
-      hideSearch = false,
+      disableSearch = false,
       hint
     } = this.props;
     let {
       isTextInputVisible,
       isModalVisible,
       searchInput,
-      textInput,
+      textInput
     } = this.state;
 
     const searchText = searchInput.trim();
@@ -185,23 +185,25 @@ class SelectModal extends Component {
             />
           </TouchableOpacity>
         ) : (
-            <View collapsable={false} style={styles.wrapper}>
-              <TextInput
-                underlineColorAndroid="transparent"
-                ref={ref => (this.textInput = ref)}
-                placeholder={textInputPlaceholder}
-                style={styles.textInput}
-                value={textInput}
-                onChangeText={text => this._onTextInputChange(text)}
-              />
-              <Text onPress={this._tryOpenModal} style={styles.textInputSelect}>
-                Select
+          <View collapsable={false} style={styles.wrapper}>
+            <TextInput
+              underlineColorAndroid="transparent"
+              ref={ref => (this.textInput = ref)}
+              placeholder={textInputPlaceholder}
+              style={styles.textInput}
+              value={textInput}
+              onChangeText={text => this._onTextInputChange(text)}
+            />
+            <Text onPress={this._tryOpenModal} style={styles.textInputSelect}>
+              Select
             </Text>
-            </View>
-          )}
-        {!selectedOption && !textInput && hint ? <Text style={styles.hint}>{hint}</Text> : null}
+          </View>
+        )}
+        {!selectedOption && !textInput && hint ? (
+          <Text style={styles.hint}>{hint}</Text>
+        ) : null}
         {isModalVisible ? (
-          <View collapsable={false} >
+          <View collapsable={false}>
             <Modal visible={true} animationType="slide">
               <View collapsable={false} style={{ backgroundColor: "#fff" }}>
                 <View collapsable={false} style={styles.modalHeader}>
@@ -216,7 +218,7 @@ class SelectModal extends Component {
                     />
                   </TouchableOpacity>
                 </View>
-                {!hideSearch && options.length > 15 ? (
+                {!disableSearch && options.length > 15 ? (
                   <View collapsable={false} style={styles.searchContainer}>
                     <TextInput
                       placeholder={I18n.t("component_items_search")}
@@ -229,8 +231,8 @@ class SelectModal extends Component {
                     />
                   </View>
                 ) : (
-                    <View collapsable={false} />
-                  )}
+                  <View collapsable={false} />
+                )}
               </View>
               {optionsAfterSearch.length > 0 ? (
                 <FlatList
@@ -253,26 +255,26 @@ class SelectModal extends Component {
                   }}
                 />
               ) : (
-                  <View collapsable={false} style={styles.noResultContainer}>
-                    <Text style={styles.noResultText}>No result found</Text>
+                <View collapsable={false} style={styles.noResultContainer}>
+                  <Text style={styles.noResultText}>No result found</Text>
 
-                    {!hideAddNew ? (
-                      <TouchableOpacity
-                        style={styles.addNewBtn}
-                        onPress={this._onAddNewClick}
-                      >
-                        <Text style={styles.addNewBtnText}>Add New</Text>
-                      </TouchableOpacity>
-                    ) : (
-                        <View collapsable={false} />
-                      )}
-                  </View>
-                )}
+                  {!hideAddNew ? (
+                    <TouchableOpacity
+                      style={styles.addNewBtn}
+                      onPress={this._onAddNewClick}
+                    >
+                      <Text style={styles.addNewBtnText}>Add New</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <View collapsable={false} />
+                  )}
+                </View>
+              )}
             </Modal>
           </View>
         ) : (
-            <View collapsable={false} />
-          )}
+          <View collapsable={false} />
+        )}
       </View>
     );
   }
@@ -400,7 +402,7 @@ const styles = StyleSheet.create({
   },
   hint: {
     color: colors.mainBlue,
-    position: 'relative',
+    position: "relative",
     bottom: 8,
     fontSize: 10
   }

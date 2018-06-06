@@ -132,7 +132,7 @@ class QuantityStep extends React.Component {
                 });
               }}
               hideAddNew={true}
-              hideSearch={true}
+              disableSearch={true}
             />
           </View>
           <Button

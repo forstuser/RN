@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import FastImage from "react-native-fast-image";
+import Icon from "react-native-vector-icons/Ionicons";
 
 import I18n from "../i18n";
 import { defaultStyles, colors } from "../theme";
@@ -22,7 +23,8 @@ class SelectOrCreateItem extends Component {
     this.state = {
       isAddNewVisible: false,
       searchInput: "",
-      textInput: ""
+      textInput: "",
+      isSearchInputVisible: false
     };
   }
 
@@ -120,6 +122,7 @@ class SelectOrCreateItem extends Component {
 
   render() {
     let {
+      title = "",
       items = [],
       selectedItem = null,
       textInputValue = "",
@@ -130,12 +133,17 @@ class SelectOrCreateItem extends Component {
       onNewValueItemAdd,
       style = {},
       hideAddNew = false,
-      hideSearch = false
+      disableSearch = false,
+      searchPlaceholder = "Search",
+      showBackBtn = false,
+      onBackBtnPress = () => {},
+      skippable = false
     } = this.props;
     let {
       isAddNewVisible,
       isModalVisible,
       searchInput,
+      isSearchInputVisible,
       textInput
     } = this.state;
 
@@ -155,23 +163,105 @@ class SelectOrCreateItem extends Component {
       <View collapsable={false} style={[styles.container, style]}>
         {!isAddNewVisible ? (
           <View collapsable={false} style={{ flex: 1 }}>
-            {!hideSearch && items.length > 15 ? (
-              <View collapsable={false} style={styles.searchContainer}>
-                <TextInput
-                  placeholder={I18n.t("component_items_search")}
-                  underlineColorAndroid="transparent"
-                  style={styles.searchInput}
-                  value={searchInput}
-                  onChangeText={text => this.setState({ searchInput: text })}
-                />
+            {title || (!disableSearch && items.length > 15) ? (
+              <View style={styles.header}>
+                {title && !isSearchInputVisible ? (
+                  <View style={[styles.headerInner, styles.titleHeader]}>
+                    {showBackBtn ? (
+                      <TouchableOpacity
+                        style={{
+                          width: 30
+                        }}
+                        onPress={onBackBtnPress}
+                      >
+                        <Icon name="ios-arrow-back" size={25} />
+                      </TouchableOpacity>
+                    ) : (
+                      <View />
+                    )}
+                    <Text weight="Bold" style={{ flex: 1 }}>
+                      {title}
+                    </Text>
+                    <TouchableOpacity
+                      style={{ padding: 7 }}
+                      onPress={() =>
+                        this.setState({ isSearchInputVisible: true }, () =>
+                          this.searchInputRef.focus()
+                        )
+                      }
+                    >
+                      <Icon
+                        name="ios-search"
+                        size={24}
+                        color={colors.mainText}
+                      />
+                    </TouchableOpacity>
+                    {skippable ? (
+                      <TouchableOpacity
+                        style={{
+                          marginLeft: 5
+                        }}
+                        onPress={this.onSelectItem}
+                      >
+                        <Text
+                          weight="Bold"
+                          style={{ color: colors.pinkishOrange }}
+                        >
+                          SKIP
+                        </Text>
+                      </TouchableOpacity>
+                    ) : (
+                      <View />
+                    )}
+                  </View>
+                ) : (
+                  <View />
+                )}
+                {!title || isSearchInputVisible ? (
+                  <View style={[styles.headerInner, styles.searchHeader]}>
+                    <Icon name="ios-search" size={24} color={colors.mainText} />
+                    <TextInput
+                      ref={ref => (this.searchInputRef = ref)}
+                      placeholder={searchPlaceholder}
+                      underlineColorAndroid="transparent"
+                      style={styles.searchInput}
+                      value={searchInput}
+                      onChangeText={text =>
+                        this.setState({ searchInput: text })
+                      }
+                    />
+                    <TouchableOpacity
+                      style={{ padding: 8 }}
+                      onPress={() =>
+                        this.setState({
+                          isSearchInputVisible: false,
+                          searchInput: ""
+                        })
+                      }
+                    >
+                      {title ? (
+                        <Icon
+                          name="md-close"
+                          size={20}
+                          color={colors.secondaryText}
+                        />
+                      ) : (
+                        <View />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <View />
+                )}
               </View>
             ) : (
-              <View collapsable={false} />
+              <View />
             )}
+
             <FlatList
               style={style.itemsList}
               data={itemsAfterSearch}
-              keyExtractor={(item, index) => index}
+              keyExtractor={(item, index) => String(item.id)}
               renderItem={this.renderItem}
               ListFooterComponent={() => {
                 if (hideAddNew) {
@@ -229,6 +319,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  header: {
+    height: 40,
+    backgroundColor: "#fff",
+    flexDirection: "row",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#E9E9E9"
+  },
+  headerInner: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    flex: 1
+  },
+  titleHeader: {
+    paddingHorizontal: 16,
+    backgroundColor: "#E9E9E9"
+  },
+  searchHeader: {
+    height: "100%",
+    paddingHorizontal: 16,
+    backgroundColor: "#FFF"
+  },
   addNewContainer: {
     width: "100%",
     padding: 16,
@@ -262,14 +375,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth
   },
   searchInput: {
+    flex: 1,
     backgroundColor: "#fff",
-    borderRadius: 15,
+    height: "100%",
     ...Platform.select({
-      ios: {
-        height: 30
-      },
       android: {
-        height: 30,
         padding: 0
       }
     }),

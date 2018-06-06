@@ -21,6 +21,7 @@ import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 import ItemSelector from "../../components/item-selector";
+import AccessoriesTab from "./accessories-tab";
 const offersIcon = require("../../images/buy.png");
 
 class DealsScreen extends Component {
@@ -49,12 +50,13 @@ class DealsScreen extends Component {
           tabBarActiveTextColor="#fff"
           tabBarInactiveTextColor="#fff"
           initialPage={0}
+          tabBarUnderlineStyle={{ height: 2, backgroundColor: "#fff" }}
           renderTabBar={() => <DefaultTabBar />}
         >
           <View tabLabel="Offers">
-            <ItemSelector />
+            <ItemSelector items={[]} />
           </View>
-          <Text tabLabel="Accessories">favorite</Text>
+          <AccessoriesTab tabLabel="Accessories" />
         </ScrollableTabView>
       </ScreenContainer>
     );

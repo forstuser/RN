@@ -444,7 +444,7 @@ class AddEditCalendarServiceScreen extends Component {
                         this.onUnitTypeSelect(value);
                       }}
                       hideAddNew={true}
-                      hideSearch={true}
+                      disableSearch={true}
                     />
                     <CustomTextInput
                       keyboardType="numeric"
