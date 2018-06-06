@@ -51,6 +51,17 @@ class WarrantyDetails extends React.Component {
             );
           }}
         />
+        {warranty.copies ? (
+          <ViewBillRow
+            collapsable={false}
+            expiryDate={warranty.expiryDate}
+            purchaseDate={warranty.purchaseDate}
+            docType="Warranty"
+            copies={warranty.copies || []}
+          />
+        ) : (
+          <View />
+        )}
         {warranty.warranty_type == WARRANTY_TYPES.EXTENDED &&
         warranty.provider ? (
           <KeyValueItem
@@ -73,18 +84,6 @@ class WarrantyDetails extends React.Component {
           <KeyValueItem
             keyText={I18n.t("product_details_screen_warranty_amount")}
             valueText={warranty.value ? "₹ " + warranty.value : "-"}
-          />
-        ) : (
-          <View />
-        )}
-
-        {warranty.copies ? (
-          <ViewBillRow
-            collapsable={false}
-            expiryDate={warranty.expiryDate}
-            purchaseDate={warranty.purchaseDate}
-            docType="Warranty"
-            copies={warranty.copies || []}
           />
         ) : (
           <View />

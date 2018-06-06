@@ -84,6 +84,12 @@ class WarrantyForm extends React.Component {
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { warranty } = this.props;
+    if (warranty) {
+      this.setState({
+        copies: warranty.copies || []
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -91,6 +97,7 @@ class WarrantyForm extends React.Component {
   }
 
   updateStateFromProps = props => {
+    console.log("updateStateFromProps");
     if (props.warranty) {
       const { warranty, renewalTypes, warrantyProviders } = props;
 
@@ -110,8 +117,7 @@ class WarrantyForm extends React.Component {
         value: String(warranty.value),
         effectiveDate: moment(warranty.effectiveDate).format("YYYY-MM-DD"),
         selectedRenewalType: selectedRenewalType,
-        selectedProvider: selectedProvider,
-        copies: warranty.copies ? warranty.copies : []
+        selectedProvider: selectedProvider
       });
     } else if (props.renewalTypeId) {
       const { renewalTypeId, renewalTypes } = props;
@@ -203,6 +209,7 @@ class WarrantyForm extends React.Component {
       providerName,
       value
     } = this.state;
+    console.log("this.state: ", this.state);
 
     let title = I18n.t("expense_forms_warranty_Warranty");
     if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
@@ -236,7 +243,7 @@ class WarrantyForm extends React.Component {
         <View collapsable={false} style={styles.innerContainer}>
           <View collapsable={false} style={styles.body}>
             {warrantyType == WARRANTY_TYPES.EXTENDED ? (
-              <View collapsable={false} >
+              <View collapsable={false}>
                 <SelectModal
                   // style={styles.input}
                   dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
@@ -288,8 +295,8 @@ class WarrantyForm extends React.Component {
                 />
               </View>
             ) : (
-                <View collapsable={false} />
-              )}
+              <View collapsable={false} />
+            )}
             <SelectModal
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}

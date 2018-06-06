@@ -6,7 +6,8 @@ import {
   Alert,
   NativeModules,
   TouchableOpacity,
-  Platform
+  Platform,
+  InteractionManager
 } from "react-native";
 
 import RNFetchBlob from "react-native-fetch-blob";
@@ -38,9 +39,11 @@ class BillsPopUpScreen extends Component {
     };
   }
   componentDidMount() {
-    const copies = this.props.navigation.getParam("copies", []);
-    this.setState({
-      copies
+    InteractionManager.runAfterInteractions(() => {
+      const copies = this.props.navigation.getParam("copies", []);
+      this.setState({
+        copies
+      });
     });
   }
 

@@ -13,6 +13,8 @@ export default {
   },
 
   ui: {
+    dykIdToOpenDirectly: null,
+    productIdToOpenDirectly: null,
     appOpenCount: 0,
     language: LANGUAGES[0],
     fcmToken: null,

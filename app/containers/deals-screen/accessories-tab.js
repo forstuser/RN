@@ -3,7 +3,13 @@ import { View, ScrollView } from "react-native";
 import { Text } from "../../elements";
 import SelectOrCreateItem from "../../components/select-or-create-item";
 import ItemSelector from "../../components/item-selector";
-import { API_BASE_URL, getAccessoriesCategory } from "../../api";
+import {
+  API_BASE_URL,
+  getAccessoriesCategory,
+  getAccessories
+} from "../../api";
+import AccessoryCategory from "./accessory-category";
+
 export default class AccessoriesTab extends React.Component {
   state = {
     products: [],
@@ -30,10 +36,12 @@ export default class AccessoriesTab extends React.Component {
     showSelectModel: false,
     models: [],
     isLoading: false,
-    itemsArrayForSelector: []
+    itemsArrayForSelector: [],
+    accessoryCategories: []
   };
   componentDidMount() {
     this.fetchAccessoriesData();
+    this.getAccessories();
   }
 
   fetchAccessoriesData = async () => {
@@ -87,6 +95,20 @@ export default class AccessoriesTab extends React.Component {
       showSelectModel: true
     });
   };
+
+  getAccessories = async () => {
+    try {
+      const res = await getAccessories();
+      this.setState({
+        accessoryCategories: res.result[0].accessories
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
   render() {
     const {
       products,
@@ -96,38 +118,49 @@ export default class AccessoriesTab extends React.Component {
       showSelectModel,
       models,
       isLoading,
-      itemsArrayForSelector
+      itemsArrayForSelector,
+      accessoryCategories
     } = this.state;
+
     return (
       <View style={{ flex: 1 }}>
         <View>
           <ItemSelector items={itemsArrayForSelector} />
         </View>
-        {showSelectBrand ? (
-          <SelectOrCreateItem
-            items={brands}
-            onSelectItem={this.onSelectBrand}
-            title="Select a Brand"
-            searchPlaceholder="Search for a Brand"
-          />
-        ) : (
-          <View />
-        )}
-        {showSelectModel ? (
-          <SelectOrCreateItem
-            items={brands}
-            onSelectItem={this.onSelectModel}
-            title="Select a Model"
-            searchPlaceholder="Search for a Model"
-            showBackBtn={true}
-            skippable={true}
-            onBackBtnPress={() =>
-              this.setState({ showSelectBrand: true, showSelectModel: false })
-            }
-          />
-        ) : (
-          <View />
-        )}
+        <ScrollView style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
+          {showSelectBrand ? (
+            <SelectOrCreateItem
+              items={brands}
+              onSelectItem={this.onSelectBrand}
+              title="Select a Brand"
+              searchPlaceholder="Search for a Brand"
+            />
+          ) : (
+            <View />
+          )}
+          {showSelectModel ? (
+            <SelectOrCreateItem
+              items={brands}
+              onSelectItem={this.onSelectModel}
+              title="Select a Model"
+              searchPlaceholder="Search for a Model"
+              showBackBtn={true}
+              skippable={true}
+              onBackBtnPress={() =>
+                this.setState({ showSelectBrand: true, showSelectModel: false })
+              }
+            />
+          ) : (
+            <View />
+          )}
+
+          {accessoryCategories.map(accessoryCategory => (
+            <AccessoryCategory
+              key={accessoryCategory.id}
+              accessoryCategory={accessoryCategory}
+            />
+          ))}
+        </ScrollView>
       </View>
     );
   }

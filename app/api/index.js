@@ -623,7 +623,7 @@ export const updateProduct = async ({
     sub_category_id: subCategoryId,
     brand_id: brandId,
     brand_name: brandName,
-    value: value,
+    value: value || 0,
     document_date: purchaseDate,
     seller_name: sellerName,
     seller_contact: sellerContact,
@@ -1566,5 +1566,12 @@ export const getAccessoriesCategory = async () => {
   return await apiRequest({
     method: "get",
     url: `/accessories/categories`
+  });
+};
+
+export const getAccessories = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/accessories`
   });
 };

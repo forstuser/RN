@@ -96,7 +96,7 @@ class SelectSubCategoryStep extends React.Component {
         break;
 
       case CATEGORY_IDS.FASHION.FOOTWEAR:
-        title = "Select Footware Expense Type";
+        title = "Select Footwear Expense Type";
         break;
       case CATEGORY_IDS.FASHION.SHADES:
         title = "Select Shades Expense Type";

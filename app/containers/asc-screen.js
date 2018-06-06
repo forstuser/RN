@@ -385,7 +385,7 @@ class AscScreen extends Component {
               onPress={this.openLocationModal}
               style={[
                 styles.select,
-                { flexDirection: "row", marginBottom: 35 }
+                { flexDirection: "row", marginBottom: 35, borderRadius: 10 }
               ]}
             >
               <Text

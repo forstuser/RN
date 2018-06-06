@@ -33,6 +33,7 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { SCREENS, GLOBAL_VARIABLES } from "../../constants";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
+import { actions as uiActions } from "../../modules/ui";
 
 import TagsModal from "./tags-modal";
 import Item from "./item";
@@ -100,7 +101,9 @@ class DoYouKNowScreen extends Component {
             toValue: -SCREEN_HEIGHT,
             duration: 300
           }).start(() => {
-            Analytics.logEvent(Analytics.EVENTS.SWIPE_DYK_CARD, { id: items[this.state.currentIndex].id });
+            Analytics.logEvent(Analytics.EVENTS.SWIPE_DYK_CARD, {
+              id: items[this.state.currentIndex].id
+            });
             this.currentCardTranslateY.setValue(0);
             const newState = {};
             if (this.state.nextIndex >= items.length) {
@@ -146,62 +149,52 @@ class DoYouKNowScreen extends Component {
 
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW);
-    console.log(
-      "this.props.latestDoYouKnowReadId: ",
-      this.props.latestDoYouKnowReadId
-    );
-    this.setState(
-      {
-        offsetId: this.props.latestDoYouKnowReadId
-      },
-      () => {
-        // this.loadItems();
-      }
-    );
 
     // this.loadTags();
 
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
-        if (!this.state.offsetId) {
-          this.setState(
-            {
-              offsetId: this.props.latestDoYouKnowReadId
-            },
-            () => {
-              // deep linking handling
-              if (
-                global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]
-              ) {
-                this.loadSingleItem(
-                  global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]
-                );
-                global[
-                  GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY
-                ] = null;
-              } else {
-                this.loadItems();
-              }
+        this.setState(
+          {
+            offsetId: this.state.offsetId || this.props.latestDoYouKnowReadId
+          },
+          () => {
+            if (this.props.dykIdToOpenDirectly) {
+              this.openItemFromDeepLink(this.props.dykIdToOpenDirectly);
+            } else {
+              this.loadItems();
             }
-          );
-        } else {
-          this.loadItems();
-        }
-        console.log("didFocused");
+          }
+        );
       }
     );
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (this.props.navigation.isFocused() && newProps.dykIdToOpenDirectly) {
+      console.log("newProps: ", newProps);
+      this.openItemFromDeepLink(newProps.dykIdToOpenDirectly);
+    }
   }
 
   componentWillUnmount() {
     this.didFocusSubscription.remove();
   }
 
+  openItemFromDeepLink = dykIdToOpenDirectly => {
+    // deep linking handling
+    this.setState({ items: [] }, () => {
+      this.loadSingleItem(dykIdToOpenDirectly);
+    });
+    this.props.setDykIdToOpenDirectly(null);
+  };
+
   loadSingleItem = async id => {
     try {
       const res = await fetchDoYouKnowItem(id);
       let item = { ...res.item, openedFromDeepLink: true };
-      this.setState({ items: [res.item] });
+      this.setState({ items: [item], currentIndex: 0, nextIndex: 1 });
       this.loadItems();
     } catch (error) {
       this.setState({
@@ -437,8 +430,8 @@ class DoYouKNowScreen extends Component {
               <Item />
             </Animated.View>
           ) : (
-              <View collapsable={false} />
-            )}
+            <View collapsable={false} />
+          )}
           <LoadingOverlay
             style={{
               zIndex: 0,
@@ -499,7 +492,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    latestDoYouKnowReadId: state.loggedInUser.latestDoYouKnowReadId
+    latestDoYouKnowReadId: state.loggedInUser.latestDoYouKnowReadId,
+    dykIdToOpenDirectly: state.ui.dykIdToOpenDirectly
   };
 };
 
@@ -507,6 +501,9 @@ const mapDispatchToProps = dispatch => {
   return {
     setLatestDoYouKnowReadId: newValue => {
       dispatch(loggedInUserActions.setLatestDoYouKnowReadId(newValue));
+    },
+    setDykIdToOpenDirectly: id => {
+      dispatch(uiActions.setDykIdToOpenDirectly(id));
     }
   };
 };

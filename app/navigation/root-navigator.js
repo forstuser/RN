@@ -38,6 +38,7 @@ import RegistrationDetailsScreen from "../containers/registration-details-screen
 import NavigationService from "./index";
 import AuthStack from "./auth-stack";
 import AppStack from "./app-stack";
+import { colors } from "../theme";
 
 const RootNavigator = createSwitchNavigator(
   {
@@ -60,6 +61,7 @@ const showLocalNotification = notif => {
       sound: "default", // as FCM payload
       priority: "high", // as FCM payload
       icon: "ic_notify", // as FCM payload, you can relace this with custom icon you put in mipmap
+      color: colors.pinkishOrange,
       lights: true, // Android only, LED blinking (default false),
       picture: notif.image_url || undefined,
       hasShownOnce: true, //necessary for iOS, as it will fire the notification event right now
@@ -69,20 +71,16 @@ const showLocalNotification = notif => {
 };
 
 FCM.on(FCMEvent.Notification, notif => {
-  console.log("notification: ", notif);
-  console.log("AppState.currentState: ", AppState.currentState);
-  if (Platform.OS == "android") {
-    if (notif.local_notification) {
-      handleNotification(notif);
-    } else {
-      showLocalNotification(notif);
-    }
-  } else if (Platform.OS == "ios") {
-    if (notif.opened_from_tray) {
-      handleNotification(notif);
-    } else if (!notif.hasShownOnce) {
-      showLocalNotification(notif);
-    }
+  console.log("notification in product card: ", notif);
+});
+
+Linking.addEventListener("url", event => {
+  // this handles the use case where the app is running in the background and is activated by the listener...
+  let url = event.url;
+  console.log("url: ", url);
+  if (url && url.toLowerCase().indexOf("binbill") > -1) {
+    // console.log("url event: ", event.url);
+    handleDeeplink(event.url);
   }
 });
 
@@ -119,6 +117,7 @@ handleNotification = notif => {
     case "18":
     case "25":
       screenToOpen = SCREENS.PRODUCT_DETAILS_SCREEN;
+      store.dispatch(uiActions.setProductIdToOpenDirectly(notif.id));
       params = { productId: notif.id };
       break;
     case "9":
@@ -126,6 +125,7 @@ handleNotification = notif => {
     case "16":
     case "17":
       screenToOpen = SCREENS.PRODUCT_DETAILS_SCREEN;
+      store.dispatch(uiActions.setProductIdToOpenDirectly(notif.id));
       params = { productId: notif.id, openServiceSchedule: true };
       break;
     case "19":
@@ -148,7 +148,8 @@ handleNotification = notif => {
       screenToOpen = SCREENS.EASY_LIFE_SCREEN;
       break;
     case "27":
-      global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY] = notif.id;
+      store.dispatch(uiActions.setDykIdToOpenDirectly(notif.id));
+      params.id = notif.id;
       screenToOpen = SCREENS.DO_YOU_KNOW_SCREEN;
       break;
     default:
@@ -187,9 +188,16 @@ handleDeeplink = url => {
 
   const pathItem1 = path.split("/")[1];
 
+  const params = {};
   switch (pathItem1.toLowerCase()) {
+    case "add-product":
+      screenToOpen = SCREENS.ADD_PRODUCT_SCREEN;
+      break;
     case "ehome":
       screenToOpen = SCREENS.EHOME_SCREEN;
+      break;
+    case "insight":
+      screenToOpen = SCREENS.INSIGHTS_SCREEN;
       break;
     case "asc":
       screenToOpen = SCREENS.ASC_SCREEN;
@@ -200,10 +208,15 @@ handleDeeplink = url => {
     case "eazy-day":
       screenToOpen = SCREENS.EASY_LIFE_SCREEN;
       break;
+    case "products":
+      const productId = path.split("/").pop();
+      store.dispatch(uiActions.setProductIdToOpenDirectly(productId));
+      params.productId = productId;
+      screenToOpen = SCREENS.PRODUCT_DETAILS_SCREEN;
+      break;
     case "do-you-know":
-      global[
-        GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY
-      ] = path.split("/").pop();
+      const dykId = path.split("/").pop();
+      store.dispatch(uiActions.setDykIdToOpenDirectly(dykId));
       screenToOpen = SCREENS.DO_YOU_KNOW_SCREEN;
       break;
     case "direct-upload-document":
@@ -219,7 +232,7 @@ handleDeeplink = url => {
   }
 
   if (authToken && screenToOpen) {
-    NavigationService.navigate(screenToOpen);
+    NavigationService.navigate(screenToOpen, params);
     store.dispatch(uiActions.setScreenToOpenAferLogin(null));
   } else if (!authToken && screenToOpen) {
     store.dispatch(uiActions.setScreenToOpenAferLogin(screenToOpen));
@@ -336,15 +349,6 @@ class RootNavigation extends React.Component {
     if (url) {
       handleDeeplink(url);
     }
-    Linking.addEventListener("url", event => {
-      // this handles the use case where the app is running in the background and is activated by the listener...
-      let url = event.url;
-      console.log("url: ", url);
-      if (url && url.toLowerCase().indexOf("binbill") > -1) {
-        // console.log("url event: ", event.url);
-        handleDeeplink(event.url);
-      }
-    });
 
     if (this.props.isPinSet) {
       NavigationService.navigate(SCREENS.ENTER_PIN_POPUP_SCREEN);
@@ -376,6 +380,12 @@ const mapDispatchToProps = dispatch => {
     },
     incrementAppOpen: () => {
       dispatch(uiActions.incrementAppOpen());
+    },
+    setDykIdToOpenDirectly: id => {
+      dispatch(uiActions.setDykIdToOpenDirectly(id));
+    },
+    setProductIdToOpenDirectly: id => {
+      dispatch(uiActions.setProductIdToOpenDirectly(id));
     }
   };
 };

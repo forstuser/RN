@@ -8,7 +8,6 @@ import { API_BASE_URL } from "../api";
 import { openBillsPopUp } from "../navigation";
 import { SCREENS, SERVICE_TYPE_NAMES } from "../constants";
 
-
 const expiringInText = date => {
   const diff = date.diff(
     moment()
@@ -66,7 +65,7 @@ const UpcomingServiceItem = ({ item, navigation }) => {
       icon = require("../images/ic_comingup_expiring.png");
       title = `${item.schedule.service_number} (${
         SERVICE_TYPE_NAMES[item.schedule.service_type]
-        })`;
+      })`;
       subTitle = item.productName;
       sidebarTitle = expiringInText(moment(item.schedule.due_date));
       sidebarSubTitle = "";
@@ -107,9 +106,11 @@ const UpcomingServiceItem = ({ item, navigation }) => {
         <Text style={styles.subTitle}>{subTitle}</Text>
       </View>
       <View collapsable={false} style={styles.rightContainer}>
-        <Text weight="Medium" style={styles.expiringText}>
-          {sidebarTitle}
-        </Text>
+        <View style={styles.expiringTextView}>
+          <Text weight="Medium" style={styles.expiringText}>
+            {sidebarTitle}
+          </Text>
+        </View>
         <Text style={styles.subTitle}>{sidebarSubTitle}</Text>
       </View>
     </TouchableOpacity>
@@ -139,13 +140,15 @@ const styles = StyleSheet.create({
     color: colors.mainText,
     marginBottom: 2
   },
-  expiringText: {
-    color: "#fff",
+  expiringTextView: {
     backgroundColor: "rgba(255,0,0,0.7)",
-    fontSize: 10,
     paddingVertical: 2,
     paddingHorizontal: 5,
     marginLeft: 10
+  },
+  expiringText: {
+    color: "#fff",
+    fontSize: 10
   },
   subTitle: {
     fontSize: 12,

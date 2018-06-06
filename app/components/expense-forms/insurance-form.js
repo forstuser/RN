@@ -74,6 +74,12 @@ class InsuranceForm extends React.Component {
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { insurance } = this.props;
+    if (insurance) {
+      this.setState({
+        copies: insurance.copies || []
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -97,8 +103,7 @@ class InsuranceForm extends React.Component {
         policyNo: insurance.policyNo,
         value: insurance.value,
         amountInsured: insurance.amountInsured,
-        selectedProvider: selectedProvider,
-        copies: insurance.copies
+        selectedProvider: selectedProvider
       });
     }
   };
@@ -206,8 +211,8 @@ class InsuranceForm extends React.Component {
                       *
                     </Text>
                   ) : (
-                      <View collapsable={false} />
-                    )}
+                    <View collapsable={false} />
+                  )}
                 </View>
               )}
               selectedOption={selectedProvider}
@@ -270,8 +275,6 @@ class InsuranceForm extends React.Component {
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"
             />
-
-
 
             <CustomTextInput
               placeholder={I18n.t("expense_forms_insurance_total_coverage")}
