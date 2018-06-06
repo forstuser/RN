@@ -13,7 +13,7 @@ import ScrollableTabView, {
 } from "react-native-scrollable-tab-view";
 import I18n from "../../i18n";
 import { API_BASE_URL, getAccessoriesCategory } from "../../api";
-import { Text, Button, ScreenContainer } from "../../elements";
+import { Text, Button, ScreenContainer, image } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import TabSearchHeader from "../../components/tab-screen-header";
@@ -32,66 +32,58 @@ class DealsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false
+      selectedTabIndex: 0
     };
   }
-  componentDidMount() {
-    this.fetchAccessoriesData();
-  }
-
-  fetchAccessoriesData = async () => {
-    this.setState({
-      isLoading: true,
-      error: null
-    });
-    try {
-      const res = await getAccessoriesCategory();
-      console.log("res", res);
-      // this.setState(
-      //   {
-      //     serviceTypes: res.items,
-      //     visibleServiceTypeIds: res.default_ids
-      //   },
-      //   () => {
-      //     this.setVisibleOptions();
-      //   }
-      // );
-    } catch (error) {
-      this.setState({
-        error
-      });
-    }
-    this.setState({
-      isLoading: false
-    });
-  };
 
   render() {
+    const { selectedTabIndex } = this.state;
+
     return (
       <ScreenContainer style={styles.container}>
-        <View collapsable={false} style={styles.header}>
-          <TabSearchHeader
+        <View style={styles.header}>
+          <View style={styles.headerUpperHalf}>
+            <View style={styles.offersIconWrapper}>
+              <Image source={offersIcon} style={styles.offersIcon} />
+            </View>
+            <Text weight="Medium" style={styles.title}>
+              Offers & Accessories
+            </Text>
+          </View>
+          <View style={styles.headerLowerHalf}>
+            <TouchableOpacity
+              onPress={() => this.setState({ selectedTabIndex: 0 })}
+              style={[
+                styles.tab,
+                selectedTabIndex == 0 ? styles.activeTab : {}
+              ]}
+            >
+              <Text weight="Bold" style={styles.tabText}>
+                Offers
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.setState({ selectedTabIndex: 1 })}
+              style={[
+                styles.tab,
+                selectedTabIndex == 1 ? styles.activeTab : {}
+              ]}
+            >
+              <Text weight="Bold" style={styles.tabText}>
+                Accessories
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {/* <TabSearchHeader
             title={"Offers & Accessories"}
             icon={offersIcon}
             navigation={this.props.navigation}
             showMailbox={false}
             showSearchInput={false}
-          />
+          /> */}
         </View>
-        <ItemSelector />
-        <ScrollableTabView
-          tabBarBackgroundColor={colors.pinkishOrange}
-          tabBarActiveTextColor="#fff"
-          tabBarInactiveTextColor="#fff"
-          initialPage={0}
-          tabBarUnderlineStyle={{ height: 2, backgroundColor: "#fff" }}
-          renderTabBar={() => <DefaultTabBar />}
-        >
-          <View tabLabel="Offers">
-            <ItemSelector items={[]} />
-          </View>
-          <AccessoriesTab tabLabel="Accessories" />
-        </ScrollableTabView>
+
+        <AccessoriesTab tabLabel="Accessories" />
       </ScreenContainer>
     );
   }
@@ -105,21 +97,52 @@ const styles = StyleSheet.create({
   header: {
     paddingBottom: 0,
     width: "100%",
+    height: 110,
+    backgroundColor: colors.pinkishOrange,
     ...Platform.select({
-      ios: {
-        zIndex: 1
-      },
-      android: {}
+      ios: { paddingTop: 29 }
     })
   },
-  tabContainer: {
+  headerUpperHalf: {
+    paddingHorizontal: 16,
     flexDirection: "row",
     flex: 1
+  },
+  offersIconWrapper: {
+    width: 24,
+    height: 24,
+    backgroundColor: "#fff",
+    padding: 2,
+    borderRadius: 2,
+    marginRight: 5
+  },
+  offersIcon: {
+    width: "100%",
+    height: "100%",
+    tintColor: colors.pinkishOrange
+  },
+  title: {
+    fontSize: 18,
+    color: "#fff"
+  },
+  headerLowerHalf: {
+    height: 40,
+    flexDirection: "row"
   },
   tab: {
     flex: 1,
     height: 40,
-    backgroundColor: colors.pinkishOrange
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottomWidth: 2,
+    borderBottomColor: "transparent"
+  },
+  activeTab: {
+    borderBottomColor: "#fff"
+  },
+  tabText: {
+    fontSize: 18,
+    color: "#fff"
   }
 });
 

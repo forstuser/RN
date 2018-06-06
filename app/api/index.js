@@ -1568,3 +1568,10 @@ export const getAccessoriesCategory = async () => {
     url: `/accessories/categories`
   });
 };
+
+export const getAccessories = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/accessories`
+  });
+};

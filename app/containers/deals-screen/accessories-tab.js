@@ -1,7 +1,10 @@
 import React from "react";
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { Text } from "../../elements";
 import SelectOrCreateItem from "../../components/select-or-create-item";
+import { getAccessories } from "../../api";
+
+import AccessoryCategory from "./accessory-category";
 
 export default class AccessoriesTab extends React.Component {
   state = {
@@ -28,8 +31,13 @@ export default class AccessoriesTab extends React.Component {
     ],
     showSelectModel: false,
     models: [],
-    isLoading: false
+    isLoading: false,
+    accessoryCategories: []
   };
+
+  componentDidMount() {
+    this.getAccessories();
+  }
 
   onSelectBrand = brand => {
     this.setState({
@@ -38,6 +46,20 @@ export default class AccessoriesTab extends React.Component {
       showSelectModel: true
     });
   };
+
+  getAccessories = async () => {
+    try {
+      const res = await getAccessories();
+      this.setState({
+        accessoryCategories: res.result[0].accessories
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
   render() {
     const {
       products,
@@ -46,10 +68,12 @@ export default class AccessoriesTab extends React.Component {
       brands,
       showSelectModel,
       models,
-      isLoading
+      isLoading,
+      accessoryCategories
     } = this.state;
+
     return (
-      <View style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
         {showSelectBrand ? (
           <SelectOrCreateItem
             items={brands}
@@ -75,7 +99,14 @@ export default class AccessoriesTab extends React.Component {
         ) : (
           <View />
         )}
-      </View>
+
+        {accessoryCategories.map(accessoryCategory => (
+          <AccessoryCategory
+            key={accessoryCategory.id}
+            accessoryCategory={accessoryCategory}
+          />
+        ))}
+      </ScrollView>
     );
   }
 }
