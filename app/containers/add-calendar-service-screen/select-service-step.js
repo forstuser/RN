@@ -123,7 +123,6 @@ class SelectServiceTypeStep extends React.Component {
       showOtherOption,
       isLoading
     } = this.state;
-
     return (
       <Step title="Select Service Type" showLoader={isLoading} {...this.props}>
         <View collapsable={false} style={styles.container}>

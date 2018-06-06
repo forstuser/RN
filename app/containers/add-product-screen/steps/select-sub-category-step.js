@@ -153,7 +153,7 @@ class SelectSubCategoryStep extends React.Component {
           imageKey="image"
           onSelectItem={this.onSelectSubCategory}
           hideAddNew={true}
-          hideSearch={category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC}
+          disableSearch={category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC}
         />
       </Step>
     );

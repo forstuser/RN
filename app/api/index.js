@@ -9,9 +9,9 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-let API_BASE_URL = "https://consumer.binbill.com";
+let API_BASE_URL = "https://consumer-eb.binbill.com";
 if (!__DEV__) {
-  API_BASE_URL = "https://consumer.binbill.com";
+  API_BASE_URL = "https://consumer-eb.binbill.com";
 }
 export { API_BASE_URL };
 
@@ -1559,5 +1559,12 @@ export const uploadWearableImage = async (clothId, file, onUploadProgress) => {
       );
       onUploadProgress(percentCompleted);
     }
+  });
+};
+
+export const getAccessoriesCategory = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/accessories/categories`
   });
 };
