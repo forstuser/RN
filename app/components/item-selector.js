@@ -57,10 +57,11 @@ class ItemSelector extends React.Component {
           alwaysBounceHorizontal={false}
           style={{}}
         >
-          {testItems.map(option => {
+          {items.map((option, index) => {
             return (
               <TouchableWithoutFeedback
                 onPress={() => this.onOptionSelect(option)}
+                key={index}
               >
                 <View collapsable={false} style={styles.option}>
                   <View
@@ -81,7 +82,7 @@ class ItemSelector extends React.Component {
                       ]}
                       resizeMode="contain"
                       source={{
-                        uri: API_BASE_URL + option.calendarServiceImageUrl
+                        uri: API_BASE_URL + option.imageUrl
                       }}
                     />
                   </View>

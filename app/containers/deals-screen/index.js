@@ -20,7 +20,6 @@ import TabSearchHeader from "../../components/tab-screen-header";
 import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
-import ItemSelector from "../../components/item-selector";
 import AccessoriesTab from "./accessories-tab";
 const offersIcon = require("../../images/buy.png");
 
@@ -35,36 +34,6 @@ class DealsScreen extends Component {
       isLoading: false
     };
   }
-  componentDidMount() {
-    this.fetchAccessoriesData();
-  }
-
-  fetchAccessoriesData = async () => {
-    this.setState({
-      isLoading: true,
-      error: null
-    });
-    try {
-      const res = await getAccessoriesCategory();
-      console.log("res", res);
-      // this.setState(
-      //   {
-      //     serviceTypes: res.items,
-      //     visibleServiceTypeIds: res.default_ids
-      //   },
-      //   () => {
-      //     this.setVisibleOptions();
-      //   }
-      // );
-    } catch (error) {
-      this.setState({
-        error
-      });
-    }
-    this.setState({
-      isLoading: false
-    });
-  };
 
   render() {
     return (
@@ -78,20 +47,8 @@ class DealsScreen extends Component {
             showSearchInput={false}
           />
         </View>
-        <ItemSelector />
-        <ScrollableTabView
-          tabBarBackgroundColor={colors.pinkishOrange}
-          tabBarActiveTextColor="#fff"
-          tabBarInactiveTextColor="#fff"
-          initialPage={0}
-          tabBarUnderlineStyle={{ height: 2, backgroundColor: "#fff" }}
-          renderTabBar={() => <DefaultTabBar />}
-        >
-          <View tabLabel="Offers">
-            <ItemSelector items={[]} />
-          </View>
-          <AccessoriesTab tabLabel="Accessories" />
-        </ScrollableTabView>
+
+        <AccessoriesTab tabLabel="Accessories" />
       </ScreenContainer>
     );
   }

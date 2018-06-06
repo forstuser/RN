@@ -1,8 +1,9 @@
 import React from "react";
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { Text } from "../../elements";
 import SelectOrCreateItem from "../../components/select-or-create-item";
-
+import ItemSelector from "../../components/item-selector";
+import { API_BASE_URL, getAccessoriesCategory } from "../../api";
 export default class AccessoriesTab extends React.Component {
   state = {
     products: [],
@@ -28,7 +29,55 @@ export default class AccessoriesTab extends React.Component {
     ],
     showSelectModel: false,
     models: [],
-    isLoading: false
+    isLoading: false,
+    itemsArrayForSelector: []
+  };
+  componentDidMount() {
+    this.fetchAccessoriesData();
+  }
+
+  fetchAccessoriesData = async () => {
+    this.setState({
+      isLoading: true,
+      error: null
+    });
+    try {
+      let itemsArray = [];
+      const res = await getAccessoriesCategory();
+      for (let i = 0; i < res.result.length; i++) {
+        for (let j = 0; j < res.result[i].products.length; j++) {
+          const product = res.result[i].products[j];
+          itemsArray.push({
+            type: "product",
+            name: product.product_name,
+            imageUrl: res.result[i].image_url,
+            ...product
+          });
+        }
+      }
+      for (let k = 0; k < res.result.length; k++) {
+        const category = res.result[k];
+        if (category.products.length == 0) {
+          itemsArray.push({
+            type: "category",
+            name: category.category_name,
+            imageUrl: category.image_url,
+            ...category
+          });
+        }
+      }
+      console.log(itemsArray);
+      this.setState({
+        itemsArrayForSelector: itemsArray
+      });
+    } catch (error) {
+      this.setState({
+        error
+      });
+    }
+    this.setState({
+      isLoading: false
+    });
   };
 
   onSelectBrand = brand => {
@@ -46,10 +95,14 @@ export default class AccessoriesTab extends React.Component {
       brands,
       showSelectModel,
       models,
-      isLoading
+      isLoading,
+      itemsArrayForSelector
     } = this.state;
     return (
       <View style={{ flex: 1 }}>
+        <View>
+          <ItemSelector items={itemsArrayForSelector} />
+        </View>
         {showSelectBrand ? (
           <SelectOrCreateItem
             items={brands}
