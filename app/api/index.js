@@ -1561,3 +1561,10 @@ export const uploadWearableImage = async (clothId, file, onUploadProgress) => {
     }
   });
 };
+
+export const getAccessoriesCategory = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/accessories/categories`
+  });
+};
