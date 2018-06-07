@@ -180,7 +180,7 @@ export const uploadDocuments = async ({
     },
     onUploadProgress: progressEvent => {
       let percentCompleted = Math.floor(
-        progressEvent.loaded * 100 / progressEvent.total
+        (progressEvent.loaded * 100) / progressEvent.total
       );
       onUploadProgress(percentCompleted);
     }
@@ -218,7 +218,7 @@ export const uploadProfilePic = async (file, onUploadProgress) => {
     },
     onUploadProgress: progressEvent => {
       let percentCompleted = Math.floor(
-        progressEvent.loaded * 100 / progressEvent.total
+        (progressEvent.loaded * 100) / progressEvent.total
       );
       onUploadProgress(percentCompleted);
     }
@@ -242,7 +242,7 @@ export const uploadProductImage = async (productId, file, onUploadProgress) => {
     },
     onUploadProgress: progressEvent => {
       let percentCompleted = Math.floor(
-        progressEvent.loaded * 100 / progressEvent.total
+        (progressEvent.loaded * 100) / progressEvent.total
       );
       onUploadProgress(percentCompleted);
     }
@@ -1555,7 +1555,7 @@ export const uploadWearableImage = async (clothId, file, onUploadProgress) => {
     },
     onUploadProgress: progressEvent => {
       let percentCompleted = Math.floor(
-        progressEvent.loaded * 100 / progressEvent.total
+        (progressEvent.loaded * 100) / progressEvent.total
       );
       onUploadProgress(percentCompleted);
     }
@@ -1569,9 +1569,12 @@ export const getAccessoriesCategory = async () => {
   });
 };
 
-export const getAccessories = async () => {
+export const getAccessories = async ({ categoryId }) => {
   return await apiRequest({
     method: "get",
-    url: `/accessories`
+    url: `/accessories`,
+    queryParams: {
+      categoryid: categoryId
+    }
   });
 };

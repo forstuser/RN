@@ -6,7 +6,7 @@ import { colors } from "../../theme";
 
 export default class AccessoryCategory extends React.Component {
   render() {
-    const { accessoryCategory } = this.props;
+    const { accessoryCategory, productId } = this.props;
     const { accessory_items } = accessoryCategory;
     return (
       <View style={{ fontSize: 16, padding: 10, paddingRight: 0 }}>
@@ -25,7 +25,9 @@ export default class AccessoryCategory extends React.Component {
         </Text>
         <FlatList
           data={accessory_items}
-          renderItem={({ item }) => <AccessoryItem item={item} />}
+          renderItem={({ item }) => (
+            <AccessoryItem item={item} productId={productId} />
+          )}
           horizontal={true}
           keyExtractor={item => item.id}
         />

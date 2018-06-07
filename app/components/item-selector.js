@@ -16,38 +16,23 @@ class ItemSelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedOption: null,
-      serviceTypes: [],
-      testItems: [
-        { id: 1, name: "test1", calendarServiceImageUrl: "3.jpg" },
-        { id: 1, name: "test2", calendarServiceImageUrl: "3.jpg" },
-        { id: 1, name: "test3", calendarServiceImageUrl: "3.jpg" },
-        { id: 1, name: "test4", calendarServiceImageUrl: "3.jpg" },
-        { id: 1, name: "test5", calendarServiceImageUrl: "3.jpg" },
-        { id: 1, name: "test6", calendarServiceImageUrl: "3.jpg" }
-      ]
+      selectedOption: null
     };
   }
-  onOptionSelect = option => {
-    console.log(option);
+  onItemSelect = item => {
+    this.props.onItemSelect(item);
   };
   render() {
-    const { items, moreItems, isSelectedOption } = this.props;
-    const { testItems, serviceTypes, selectedOption } = this.state;
+    const { items, moreItems, selectedItem } = this.props;
     return (
       <View collapsable={false} style={styles.container}>
         <SelectModal
           ref={ref => (this.otherOptionsModal = ref)}
           style={styles.select}
-          options={serviceTypes}
-          options={serviceTypes.map(option => ({
-            ...option,
-            image: API_BASE_URL + option.calendarServiceImageUrl
-          }))}
-          imageKey="image"
-          selectedOption={selectedOption}
+          options={moreItems}
+          selectedOption={selectedItem}
           onOptionSelect={value => {
-            this.onOptionSelect(value);
+            this.onItemSelect(value);
           }}
           hideAddNew={true}
         />
@@ -58,9 +43,14 @@ class ItemSelector extends React.Component {
           style={{}}
         >
           {items.map((option, index) => {
+            const isSelectedItem =
+              selectedItem &&
+              selectedItem.type == option.type &&
+              selectedItem.id == option.id;
+
             return (
               <TouchableWithoutFeedback
-                onPress={() => this.onOptionSelect(option)}
+                onPress={() => this.onItemSelect(option)}
                 key={index}
               >
                 <View collapsable={false} style={styles.option}>
@@ -68,17 +58,13 @@ class ItemSelector extends React.Component {
                     collapsable={false}
                     style={[
                       styles.optionIconContainer,
-                      isSelectedOption
-                        ? styles.selectedOptionIconContainer
-                        : styles.selectedOptionIconContainer
+                      isSelectedItem ? styles.selectedOptionIconContainer : {}
                     ]}
                   >
                     <Image
                       style={[
                         styles.optionIcon,
-                        isSelectedOption
-                          ? styles.selectedOptionIcon
-                          : styles.selectedOptionIcon
+                        isSelectedItem ? styles.selectedOptionIcon : {}
                       ]}
                       resizeMode="contain"
                       source={{
@@ -90,10 +76,9 @@ class ItemSelector extends React.Component {
                     weight="Medium"
                     style={[
                       styles.optionName,
-                      isSelectedOption
-                        ? styles.selectedOptionName
-                        : styles.selectedOptionName
+                      isSelectedItem ? styles.selectedOptionName : {}
                     ]}
+                    numberOfLines={1}
                   >
                     {option.name}
                   </Text>
@@ -107,7 +92,7 @@ class ItemSelector extends React.Component {
             <View collapsable={false} style={styles.option}>
               <View collapsable={false} style={styles.optionIconContainer}>
                 <Image
-                  style={[styles.optionIcon, { width: 50, height: 30 }]}
+                  style={[styles.optionIcon]}
                   resizeMode="contain"
                   source={require("../images/categories/others.png")}
                 />
@@ -125,7 +110,11 @@ class ItemSelector extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%"
+    width: "100%",
+    height: 100,
+    alignItems: "center",
+    borderBottomColor: colors.lighterText,
+    borderBottomWidth: 1
   },
   option: {
     justifyContent: "center",
@@ -135,26 +124,23 @@ const styles = StyleSheet.create({
     width: 100
   },
   optionIconContainer: {
-    width: 75,
-    height: 75,
+    width: 57,
+    height: 57,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FAFAFA",
-    borderRadius: 40
-    // marginBottom: 12
+    borderRadius: 40,
+    borderWidth: 1,
+    borderColor: colors.lighterText
   },
   selectedOptionIconContainer: {
-    backgroundColor: "#FFF",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2
+    borderColor: colors.mainBlue
   },
   optionIcon: {
     width: 50,
-    height: 30,
-    opacity: 0.3
+    height: 38,
+    opacity: 1,
+    borderRadius: 25,
+    overflow: "hidden"
   },
   selectedOptionIcon: {
     opacity: 1
@@ -162,8 +148,9 @@ const styles = StyleSheet.create({
   optionName: {
     color: "#000",
     fontSize: 10,
-    opacity: 0.4,
-    textAlign: "center"
+    opacity: 1,
+    textAlign: "center",
+    marginVertical: 7
   },
   selectedOptionName: {
     opacity: 1
