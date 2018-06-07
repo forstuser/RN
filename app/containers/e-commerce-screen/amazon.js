@@ -64,7 +64,10 @@ class Amazon extends Component {
     let scrapData = `
         (function(){
             alert("scrap data");
-            var data = document.getElementsByClassName("a-section a-padding-medium")[0].innerText;
+            let OrderDate = document.getElementsByClassName("a-column a-span8 a-span-last")[0].innerText;
+            let OrderNumber = document.getElementsByClassName("a-column a-span8 a-span-last")[1].innerText;
+            let OrderTotal =  document.getElementsByClassName("a-column a-span8 a-span-last")[2].innerText;
+            let data = [OrderDate,OrderNumber,OrderTotal]
             if(data){
                 window.postMessage(data);
             }
