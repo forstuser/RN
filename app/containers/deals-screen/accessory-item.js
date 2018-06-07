@@ -1,13 +1,16 @@
 import React from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
 import StarRating from "react-native-star-rating";
-
 import { Text, Image } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
-
 import amazonLogo from "../../images/amazon_logo.png";
+import NavigationService from "../../navigation";
+import { SCREENS } from "../../constants";
 
 export default class AccessoryItem extends React.Component {
+  onAccessoriesPress = item => {
+    NavigationService.navigate(SCREENS.ECOMMERCE_SCREEN, { item });
+  };
   render() {
     const { item } = this.props;
 
@@ -84,7 +87,8 @@ export default class AccessoryItem extends React.Component {
             style={{ width: 18, height: 18, margin: 5 }}
             resizeMode="contain"
           />
-          <View
+          <TouchableOpacity
+            onPress={() => this.onAccessoriesPress(item)}
             style={{
               flex: 1,
               borderLeftWidth: 1,
@@ -100,7 +104,7 @@ export default class AccessoryItem extends React.Component {
             >
               ₹ {item.details.price}
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     );
