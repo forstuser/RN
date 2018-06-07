@@ -53,7 +53,7 @@ class Amazon extends Component {
   render() {
     const { orderId } = this.state;
     let dirtyScript = ` (function(){
-            // alert("Working");
+             alert("Working");
              var _url = window.location.href;
              var regexp =  /.*\orderId=(.*?)\&/;
             if(regexp){
