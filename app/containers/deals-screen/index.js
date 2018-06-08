@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
     height: 110,
     backgroundColor: colors.pinkishOrange,
     ...Platform.select({
-      ios: { paddingTop: 29 }
+      ios: { paddingTop: 30 },
+      android: { paddingTop: 10 }
     })
   },
   headerUpperHalf: {

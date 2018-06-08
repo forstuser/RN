@@ -23,19 +23,31 @@ class ItemSelector extends React.Component {
     this.props.onItemSelect(item);
   };
   render() {
-    const { items, moreItems, selectedItem } = this.props;
+    const { items, moreItems = [], selectedItem } = this.props;
+    let isSelectedItemInVisible = false;
+    if (
+      selectedItem &&
+      items.findIndex(item => item.id == selectedItem.id) > -1
+    ) {
+      isSelectedItemInVisible = true;
+    }
     return (
       <View collapsable={false} style={styles.container}>
         <SelectModal
           ref={ref => (this.otherOptionsModal = ref)}
           style={styles.select}
-          options={moreItems}
+          options={moreItems.map(item => ({
+            ...item,
+            image: API_BASE_URL + item.imageUrl
+          }))}
+          imageKey="image"
           selectedOption={selectedItem}
           onOptionSelect={value => {
             this.onItemSelect(value);
           }}
           hideAddNew={true}
         />
+
         <ScrollView
           ref={ref => (this.scrollView = ref)}
           horizontal={true}
@@ -86,22 +98,55 @@ class ItemSelector extends React.Component {
               </TouchableWithoutFeedback>
             );
           })}
-          <TouchableWithoutFeedback
-            onPress={() => this.otherOptionsModal.openModal()}
-          >
+
+          {selectedItem && !isSelectedItemInVisible ? (
             <View collapsable={false} style={styles.option}>
-              <View collapsable={false} style={styles.optionIconContainer}>
+              <View
+                collapsable={false}
+                style={[
+                  styles.optionIconContainer,
+                  styles.selectedOptionIconContainer
+                ]}
+              >
                 <Image
-                  style={[styles.optionIcon]}
+                  style={[styles.optionIcon, styles.selectedOptionIcon]}
                   resizeMode="contain"
-                  source={require("../images/categories/others.png")}
+                  source={{
+                    uri: API_BASE_URL + selectedItem.imageUrl
+                  }}
                 />
               </View>
-              <Text weight="Medium" style={styles.optionName}>
-                {"other"}
+              <Text
+                weight="Medium"
+                style={[styles.optionName, styles.selectedOptionName]}
+                numberOfLines={1}
+              >
+                {selectedItem.name}
               </Text>
             </View>
-          </TouchableWithoutFeedback>
+          ) : (
+            <View />
+          )}
+          {moreItems.length > 0 ? (
+            <TouchableWithoutFeedback
+              onPress={() => this.otherOptionsModal.openModal()}
+            >
+              <View collapsable={false} style={styles.option}>
+                <View collapsable={false} style={styles.optionIconContainer}>
+                  <Image
+                    style={[styles.optionIcon]}
+                    resizeMode="contain"
+                    source={require("../images/categories/others.png")}
+                  />
+                </View>
+                <Text weight="Medium" style={styles.optionName}>
+                  {"other"}
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
+          ) : (
+            <View />
+          )}
         </ScrollView>
       </View>
     );
@@ -119,8 +164,6 @@ const styles = StyleSheet.create({
   option: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
-    marginBottom: 20,
     width: 100
   },
   optionIconContainer: {
