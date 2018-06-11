@@ -30,9 +30,7 @@ export default class AccessoriesTab extends React.Component {
     items: [],
     accessoryCategories: [],
     product: null,
-    selectedBrand: null,
-    brandName: "",
-    modelName: ""
+    selectedBrand: null
   };
   componentDidMount() {
     this.fetchAccessoriesData();
@@ -123,20 +121,21 @@ export default class AccessoriesTab extends React.Component {
     this.setState({ items: newItems, selectedItem: newItems[index] });
   };
 
-  onSelectBrand = async brand => {
+  onSelectBrand = async (brand, brandName) => {
     const { product, selectedItem } = this.state;
     this.setState({ isLoading: true });
     try {
       const res = await updateProduct({
         productId: product.id,
-        brandId: brand.id,
-        productName: brand.name + " " + selectedItem.name
+        brandId: brand ? brand.id : undefined,
+        brandName: brandName,
+        productName: (brand ? brand.name : brandName) + " " + selectedItem.name
       });
 
       this.setState(
         {
           product: res.product,
-          selectedBrand: brand,
+          selectedBrand: brand || { name: brandName },
           showSelectBrand: false
         },
         () => {
@@ -155,6 +154,9 @@ export default class AccessoriesTab extends React.Component {
   };
 
   fetchModels = async () => {
+    if (!this.state.selectedBrand.id) {
+      return this.setState({ showSelectModel: true });
+    }
     this.setState({ isLoading: true });
     try {
       const models = await getReferenceDataModels(
@@ -181,14 +183,15 @@ export default class AccessoriesTab extends React.Component {
     this.getAccessories();
   };
 
-  onSelectModel = async model => {
+  onSelectModel = async (model, modelName) => {
     this.setState({ isLoading: true });
     const { product, selectedBrand } = this.state;
     try {
       const res = await updateProduct({
         productId: product.id,
-        model: model.title,
-        productName: selectedBrand.name + " " + model.title
+        model: model ? model.title : modelName,
+        productName:
+          selectedBrand.name + " " + (model ? model.title : modelName)
       });
 
       this.setState(
@@ -320,7 +323,8 @@ export default class AccessoriesTab extends React.Component {
               style={{
                 fontSize: 20,
                 textAlign: "center",
-                color: colors.lighterText
+                color: colors.lighterText,
+                padding: 20
               }}
             >
               Please select a category to view accessories
@@ -332,10 +336,16 @@ export default class AccessoriesTab extends React.Component {
 
         {showSelectBrand ? (
           <SelectOrCreateItem
-            items={brands}
+            items={brands.map(brand => ({
+              ...brand,
+              image: `${API_BASE_URL}/brands/${brand.id}/images/thumbnails`
+            }))}
             onSelectItem={this.onSelectBrand}
             title="Select a Brand"
             searchPlaceholder="Search for a Brand"
+            onAddItem={value => this.onSelectBrand(null, value)}
+            imageKey="image"
+            textInputPlaceholder="Enter Brand Name"
           />
         ) : (
           <View />
@@ -349,9 +359,12 @@ export default class AccessoriesTab extends React.Component {
             searchPlaceholder="Search for a Model"
             showBackBtn={true}
             skippable={true}
+            onSkipPress={this.onSkipModel}
             onBackBtnPress={() =>
               this.setState({ showSelectBrand: true, showSelectModel: false })
             }
+            onAddItem={value => this.onSelectModel(null, value)}
+            textInputPlaceholder="Enter Model Name"
           />
         ) : (
           <View />

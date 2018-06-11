@@ -6,7 +6,9 @@ import {
   FlatList,
   Alert,
   TouchableOpacity,
-  Image
+  Image,
+  Animated,
+  Dimensions
 } from "react-native";
 import ScrollableTabView, {
   DefaultTabBar
@@ -20,24 +22,41 @@ import TabSearchHeader from "../../components/tab-screen-header";
 import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
+import OffersTab from "./offers-tab";
 import AccessoriesTab from "./accessories-tab";
 const offersIcon = require("../../images/buy.png");
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class DealsScreen extends Component {
   static navigationOptions = {
     navBarHidden: true
   };
 
+  tabIndex = new Animated.Value(0);
+
   constructor(props) {
     super(props);
-    this.state = {
-      selectedTabIndex: 0
-    };
+    this.state = {};
   }
 
-  render() {
-    const { selectedTabIndex } = this.state;
+  openPage1 = () => {
+    Animated.timing(this.tabIndex, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true
+    }).start();
+  };
 
+  openPage2 = () => {
+    Animated.timing(this.tabIndex, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true
+    }).start();
+  };
+
+  render() {
     return (
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
@@ -49,29 +68,33 @@ class DealsScreen extends Component {
               Offers & Accessories
             </Text>
           </View>
+
           <View style={styles.headerLowerHalf}>
-            <TouchableOpacity
-              onPress={() => this.setState({ selectedTabIndex: 0 })}
-              style={[
-                styles.tab,
-                selectedTabIndex == 0 ? styles.activeTab : {}
-              ]}
-            >
+            <TouchableOpacity onPress={this.openPage1} style={styles.tab}>
               <Text weight="Bold" style={styles.tabText}>
                 Offers
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.setState({ selectedTabIndex: 1 })}
-              style={[
-                styles.tab,
-                selectedTabIndex == 1 ? styles.activeTab : {}
-              ]}
-            >
+            <TouchableOpacity onPress={this.openPage2} style={styles.tab}>
               <Text weight="Bold" style={styles.tabText}>
                 Accessories
               </Text>
             </TouchableOpacity>
+            <Animated.View
+              style={[
+                styles.tabUnderline,
+                {
+                  transform: [
+                    {
+                      translateX: this.tabIndex.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [0, SCREEN_WIDTH / 2]
+                      })
+                    }
+                  ]
+                }
+              ]}
+            />
           </View>
           {/* <TabSearchHeader
             title={"Offers & Accessories"}
@@ -82,7 +105,28 @@ class DealsScreen extends Component {
           /> */}
         </View>
 
-        <AccessoriesTab tabLabel="Accessories" />
+        <Animated.View
+          style={[
+            styles.pages,
+            {
+              transform: [
+                {
+                  translateX: this.tabIndex.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, -SCREEN_WIDTH]
+                  })
+                }
+              ]
+            }
+          ]}
+        >
+          <View style={styles.page}>
+            <OffersTab />
+          </View>
+          <View style={styles.page}>
+            <AccessoriesTab />
+          </View>
+        </Animated.View>
       </ScreenContainer>
     );
   }
@@ -137,12 +181,26 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: "transparent"
   },
-  activeTab: {
-    borderBottomColor: "#fff"
+  tabUnderline: {
+    backgroundColor: "#878787",
+    height: 3,
+    width: "50%",
+    position: "absolute",
+    left: 0,
+    bottom: 0
   },
   tabText: {
     fontSize: 18,
     color: "#fff"
+  },
+  pages: {
+    flex: 1,
+    width: SCREEN_WIDTH * 2,
+    flexDirection: "row"
+  },
+  page: {
+    width: SCREEN_WIDTH,
+    flexDirection: "row"
   }
 });
 
