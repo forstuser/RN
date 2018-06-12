@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, FlatList } from "react-native";
 import Snackbar from "react-native-snackbar";
 import { Text } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -10,8 +10,11 @@ import {
   fetchCategoryOffers
 } from "../../api";
 import { colors } from "../../theme";
+import OfferCategory from "./offer-category";
+import OfferDetailedItem from "./offer-detailed-item";
+import OffersModal from "./offers-modal";
 
-export default class AccessoriesTab extends React.Component {
+export default class OffersTab extends React.Component {
   state = {
     categories: [],
     selectedCategory: null,
@@ -49,7 +52,7 @@ export default class AccessoriesTab extends React.Component {
     try {
       const res = await fetchCategoryOffers(this.state.selectedCategory.id);
       this.setState({
-        offerCategories: res.result
+        offerCategories: res.result || []
       });
     } catch (e) {
       this.setState({ isLoading: false });
@@ -92,7 +95,7 @@ export default class AccessoriesTab extends React.Component {
         <ItemSelector
           items={categories.slice(0, 4)}
           moreItems={categories.slice(4)}
-          selectedCategory={selectedCategory}
+          selectedItem={selectedCategory}
           onItemSelect={this.onCategorySelect}
           startOthersAfterCount={4}
         />
@@ -116,12 +119,36 @@ export default class AccessoriesTab extends React.Component {
         ) : (
           <View />
         )}
-        {offerCategories.map(offerCategory => (
-          <View>
-            <Text>{offerCategory.category_name}</Text>
+        {offerCategories.length > 0 ? (
+          offerCategories.map(offerCategory => (
+            <View>
+              <OfferCategory
+                onViewAllPress={() => {
+                  this.offersModal.show(offerCategory);
+                }}
+                offerCategory={offerCategory}
+              />
+            </View>
+          ))
+        ) : (
+          <View />
+        )}
+        {offerCategories.length == 100 ? (
+          <View style={{ backgroundColor: "#f7f7f7", padding: 10 }}>
+            <FlatList
+              data={offerCategories[0].offers}
+              renderItem={({ item }) => <OfferDetailedItem item={item} />}
+              keyExtractor={item => item.id}
+            />
           </View>
-        ))}
+        ) : (
+          <View />
+        )}
         <LoadingOverlay visible={isLoading} />
+        <OffersModal
+          ref={node => (this.offersModal = node)}
+          offerCategories={offerCategories}
+        />
       </View>
     );
   }

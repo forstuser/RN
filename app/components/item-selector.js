@@ -22,6 +22,7 @@ class ItemSelector extends React.Component {
   onItemSelect = item => {
     this.props.onItemSelect(item);
   };
+
   render() {
     const { items, moreItems = [], selectedItem } = this.props;
     let isSelectedItemInVisible = false;
@@ -31,6 +32,7 @@ class ItemSelector extends React.Component {
     ) {
       isSelectedItemInVisible = true;
     }
+
     return (
       <View collapsable={false} style={styles.container}>
         <SelectModal

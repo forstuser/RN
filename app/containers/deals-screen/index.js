@@ -13,6 +13,7 @@ import {
 import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
+import Icon from "react-native-vector-icons/Ionicons";
 import I18n from "../../i18n";
 import { API_BASE_URL, getAccessoriesCategory } from "../../api";
 import { Text, Button, ScreenContainer, image } from "../../elements";
@@ -24,6 +25,8 @@ import { SCREENS } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 import OffersTab from "./offers-tab";
 import AccessoriesTab from "./accessories-tab";
+import AccessaryCategoriesFilterModal from "./accessary-categories-filter-modal";
+
 const offersIcon = require("../../images/buy.png");
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -37,7 +40,11 @@ class DealsScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      activeTabIndex: 0,
+      accessoryCategories: [],
+      selectedAccessoryCategoryIds: []
+    };
   }
 
   openPage1 = () => {
@@ -45,7 +52,9 @@ class DealsScreen extends Component {
       toValue: 0,
       duration: 300,
       useNativeDriver: true
-    }).start();
+    }).start(() => {
+      this.setState({ activeTabIndex: 0 });
+    });
   };
 
   openPage2 = () => {
@@ -53,10 +62,23 @@ class DealsScreen extends Component {
       toValue: 1,
       duration: 300,
       useNativeDriver: true
-    }).start();
+    }).start(() => {
+      this.setState({ activeTabIndex: 1 });
+    });
+  };
+
+  setSelectedAccessoryCategoryIds = ids => {
+    this.setState({
+      selectedAccessoryCategoryIds: ids
+    });
   };
 
   render() {
+    const {
+      activeTabIndex,
+      selectedAccessoryCategoryIds,
+      accessoryCategories
+    } = this.state;
     return (
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
@@ -67,6 +89,19 @@ class DealsScreen extends Component {
             <Text weight="Medium" style={styles.title}>
               Offers & Accessories
             </Text>
+            {activeTabIndex == 1 && accessoryCategories.length > 0 ? (
+              <TouchableOpacity
+                onPress={() =>
+                  this.accessaryCategoriesFilterModal.show(
+                    selectedAccessoryCategoryIds
+                  )
+                }
+              >
+                <Icon name="md-options" color="#fff" size={30} />
+              </TouchableOpacity>
+            ) : (
+              <View />
+            )}
           </View>
 
           <View style={styles.headerLowerHalf}>
@@ -124,9 +159,22 @@ class DealsScreen extends Component {
             <OffersTab />
           </View>
           <View style={styles.page}>
-            <AccessoriesTab />
+            <AccessoriesTab
+              setAccessoryCategories={accessoryCategories =>
+                this.setState({
+                  accessoryCategories,
+                  selectedAccessoryCategoryIds: []
+                })
+              }
+              selectedAccessoryCategoryIds={selectedAccessoryCategoryIds}
+            />
           </View>
         </Animated.View>
+        <AccessaryCategoriesFilterModal
+          ref={ref => (this.accessaryCategoriesFilterModal = ref)}
+          accessoryCategories={accessoryCategories}
+          setSelectedAccessoryCategoryIds={this.setSelectedAccessoryCategoryIds}
+        />
       </ScreenContainer>
     );
   }
@@ -166,6 +214,7 @@ const styles = StyleSheet.create({
     tintColor: colors.pinkishOrange
   },
   title: {
+    flex: 1,
     fontSize: 18,
     color: "#fff"
   },

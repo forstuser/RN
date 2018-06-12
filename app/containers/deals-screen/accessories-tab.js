@@ -1,10 +1,11 @@
 import React from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, FlatList } from "react-native";
 import Snackbar from "react-native-snackbar";
 import { Text } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import SelectOrCreateItem from "../../components/select-or-create-item";
 import ItemSelector from "../../components/item-selector";
+
 import {
   API_BASE_URL,
   getAccessoriesCategory,
@@ -269,6 +270,7 @@ export default class AccessoriesTab extends React.Component {
   };
 
   getAccessories = async () => {
+    const { setAccessoryCategories } = this.props;
     this.setState({ isLoading: true });
     try {
       const res = await getAccessories({
@@ -277,6 +279,7 @@ export default class AccessoriesTab extends React.Component {
       this.setState({
         accessoryCategories: res.result[0].accessories
       });
+      setAccessoryCategories(res.result[0].accessories);
     } catch (e) {
       Snackbar.show({
         title: e.message,
@@ -288,6 +291,7 @@ export default class AccessoriesTab extends React.Component {
   };
 
   render() {
+    const { selectedAccessoryCategoryIds } = this.props;
     const {
       products,
       categories,
@@ -371,15 +375,23 @@ export default class AccessoriesTab extends React.Component {
         )}
 
         {accessoryCategories.length > 0 ? (
-          <ScrollView style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
-            {accessoryCategories.map(accessoryCategory => (
+          <FlatList
+            style={{ flex: 1, backgroundColor: "#f7f7f7" }}
+            data={
+              selectedAccessoryCategoryIds.length > 0
+                ? accessoryCategories.filter(category =>
+                    selectedAccessoryCategoryIds.includes(category.id)
+                  )
+                : accessoryCategories
+            }
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
               <AccessoryCategory
                 productId={product ? product.id : null}
-                key={accessoryCategory.id}
-                accessoryCategory={accessoryCategory}
+                accessoryCategory={item}
               />
-            ))}
-          </ScrollView>
+            )}
+          />
         ) : (
           <View />
         )}
