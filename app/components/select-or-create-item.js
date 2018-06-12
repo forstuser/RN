@@ -137,7 +137,8 @@ class SelectOrCreateItem extends Component {
       searchPlaceholder = "Search",
       showBackBtn = false,
       onBackBtnPress = () => {},
-      skippable = false
+      skippable = false,
+      onSkipPress = () => {}
     } = this.props;
     let {
       isAddNewVisible,
@@ -201,7 +202,7 @@ class SelectOrCreateItem extends Component {
                         style={{
                           marginLeft: 5
                         }}
-                        onPress={this.onSelectItem}
+                        onPress={onSkipPress}
                       >
                         <Text
                           weight="Bold"

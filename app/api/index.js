@@ -1578,3 +1578,17 @@ export const getAccessories = async ({ categoryId }) => {
     }
   });
 };
+
+export const fetchOfferCategories = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/offer/categories`
+  });
+};
+
+export const fetchCategoryOffers = async categoryId => {
+  return await apiRequest({
+    method: "get",
+    url: `/offer/categories/${categoryId}`
+  });
+};
