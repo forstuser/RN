@@ -71,7 +71,21 @@ const showLocalNotification = notif => {
 };
 
 FCM.on(FCMEvent.Notification, notif => {
-  console.log("notification in product card: ", notif);
+  console.log("notification: ", notif);
+  console.log("AppState.currentState: ", AppState.currentState);
+  if (Platform.OS == "android") {
+    if (notif.local_notification) {
+      handleNotification(notif);
+    } else {
+      showLocalNotification(notif);
+    }
+  } else if (Platform.OS == "ios") {
+    if (notif.opened_from_tray) {
+      handleNotification(notif);
+    } else if (!notif.hasShownOnce) {
+      showLocalNotification(notif);
+    }
+  }
 });
 
 Linking.addEventListener("url", event => {
@@ -390,4 +404,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RootNavigation);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RootNavigation);
