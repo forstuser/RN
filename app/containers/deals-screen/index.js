@@ -68,9 +68,14 @@ class DealsScreen extends Component {
   };
 
   setSelectedAccessoryCategoryIds = ids => {
-    this.setState({
-      selectedAccessoryCategoryIds: ids
-    });
+    this.setState(
+      {
+        selectedAccessoryCategoryIds: ids
+      },
+      () => {
+        this.accessoriesTab.getAccessoriesFirstPage();
+      }
+    );
   };
 
   render() {
@@ -86,7 +91,7 @@ class DealsScreen extends Component {
             <View style={styles.offersIconWrapper}>
               <Image source={offersIcon} style={styles.offersIcon} />
             </View>
-            <Text weight="Medium" style={styles.title}>
+            <Text weight="Bold" style={styles.title}>
               Offers & Accessories
             </Text>
             {activeTabIndex == 1 && accessoryCategories.length > 0 ? (
@@ -160,6 +165,7 @@ class DealsScreen extends Component {
           </View>
           <View style={styles.page}>
             <AccessoriesTab
+              ref={ref => (this.accessoriesTab = ref)}
               setAccessoryCategories={accessoryCategories =>
                 this.setState({
                   accessoryCategories,
@@ -191,8 +197,8 @@ const styles = StyleSheet.create({
     height: 110,
     backgroundColor: colors.pinkishOrange,
     ...Platform.select({
-      ios: { paddingTop: 30 },
-      android: { paddingTop: 10 }
+      ios: { height: 110, paddingTop: 30 },
+      android: { height: 90, paddingTop: 10 }
     })
   },
   headerUpperHalf: {
@@ -215,7 +221,7 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 20,
     color: "#fff"
   },
   headerLowerHalf: {

@@ -112,7 +112,7 @@ export default class OfferDetailedView extends React.Component {
         </Text>
         {[
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+          "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         ].map((term, index) => (
           <View key={term} style={{ flexDirection: "row", marginTop: 5 }}>
             <Text weight="Medium" style={{ fontSize: 10 }}>

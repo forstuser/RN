@@ -1569,12 +1569,14 @@ export const getAccessoriesCategory = async () => {
   });
 };
 
-export const getAccessories = async ({ categoryId }) => {
+export const getAccessories = async ({ categoryId, offset, accessoryIds }) => {
   return await apiRequest({
     method: "get",
     url: `/accessories`,
     queryParams: {
-      categoryid: categoryId
+      categoryid: categoryId,
+      accessory_ids: accessoryIds.join(","),
+      offset
     }
   });
 };

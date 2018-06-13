@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView, FlatList } from "react-native";
+import { View, ScrollView, FlatList, ActivityIndicator } from "react-native";
 import Snackbar from "react-native-snackbar";
 import { Text } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -27,6 +27,7 @@ export default class AccessoriesTab extends React.Component {
     showSelectModel: false,
     models: [],
     isLoading: false,
+    isLoadingAccessories: false,
     selectedItem: null,
     items: [],
     accessoryCategories: [],
@@ -47,7 +48,6 @@ export default class AccessoriesTab extends React.Component {
       let itemsArray = [];
       const res = await getAccessoriesCategory();
       res.default_ids.forEach(defaultId => {
-        console.log();
         for (let i = 0; i < res.result.length; i++) {
           const category = res.result[i];
           if (category.category_id == defaultId) {
@@ -57,6 +57,7 @@ export default class AccessoriesTab extends React.Component {
                 id: category.category_id,
                 name: category.category_name,
                 imageUrl: category.image_url,
+                accessoryCategories: category.accessories,
                 ...category
               });
             } else {
@@ -66,6 +67,7 @@ export default class AccessoriesTab extends React.Component {
                   type: "product",
                   name: product.product_name,
                   imageUrl: res.result[i].image_url,
+                  accessoryCategories: category.accessories,
                   ...product
                 });
               }
@@ -181,7 +183,7 @@ export default class AccessoriesTab extends React.Component {
     this.setState({
       showSelectModel: false
     });
-    this.getAccessories();
+    this.getAccessoriesFirstPage();
   };
 
   onSelectModel = async (model, modelName) => {
@@ -201,7 +203,7 @@ export default class AccessoriesTab extends React.Component {
           showSelectModel: false
         },
         () => {
-          this.getAccessories();
+          this.getAccessoriesFirstPage();
           this.replaceCategoryItemByProduct();
         }
       );
@@ -234,6 +236,8 @@ export default class AccessoriesTab extends React.Component {
   onItemSelect = item => {
     console.log("item: ", item);
     const { selectedItem } = this.state;
+    const { setAccessoryCategories } = this.props;
+    setAccessoryCategories(item.accessoryCategories);
     if (
       selectedItem &&
       selectedItem.id == item.id &&
@@ -261,7 +265,7 @@ export default class AccessoriesTab extends React.Component {
               product: item
             },
             () => {
-              this.getAccessories();
+              this.getAccessoriesFirstPage();
             }
           );
         }
@@ -269,24 +273,37 @@ export default class AccessoriesTab extends React.Component {
     );
   };
 
+  getAccessoriesFirstPage = () => {
+    this.setState({ accessoryCategories: [] }, () => {
+      this.getAccessories();
+    });
+  };
+
   getAccessories = async () => {
-    const { setAccessoryCategories } = this.props;
-    this.setState({ isLoading: true });
+    const { selectedAccessoryCategoryIds } = this.props;
+    const { accessoryCategories } = this.state;
+    this.setState({ isLoadingAccessories: true });
     try {
       const res = await getAccessories({
-        categoryId: this.state.product.category_id
+        categoryId: this.state.product.category_id,
+        offset: accessoryCategories.length,
+        accessoryIds: selectedAccessoryCategoryIds
       });
-      this.setState({
-        accessoryCategories: res.result[0].accessories
-      });
-      setAccessoryCategories(res.result[0].accessories);
+      if (res.result.length > 0) {
+        this.setState({
+          accessoryCategories: [
+            ...accessoryCategories,
+            ...res.result[0].accessories
+          ]
+        });
+      }
     } catch (e) {
       Snackbar.show({
         title: e.message,
         duration: Snackbar.LENGTH_SHORT
       });
     } finally {
-      this.setState({ isLoading: false });
+      this.setState({ isLoadingAccessories: false });
     }
   };
 
@@ -300,6 +317,7 @@ export default class AccessoriesTab extends React.Component {
       showSelectModel,
       models,
       isLoading,
+      isLoadingAccessories,
       selectedItem,
       items,
       accessoryCategories,
@@ -377,13 +395,7 @@ export default class AccessoriesTab extends React.Component {
         {accessoryCategories.length > 0 ? (
           <FlatList
             style={{ flex: 1, backgroundColor: "#f7f7f7" }}
-            data={
-              selectedAccessoryCategoryIds.length > 0
-                ? accessoryCategories.filter(category =>
-                    selectedAccessoryCategoryIds.includes(category.id)
-                  )
-                : accessoryCategories
-            }
+            data={accessoryCategories}
             keyExtractor={item => item.id}
             renderItem={({ item }) => (
               <AccessoryCategory
@@ -391,11 +403,24 @@ export default class AccessoriesTab extends React.Component {
                 accessoryCategory={item}
               />
             )}
+            onEndReached={this.getAccessories}
+            onRefresh={this.getAccessoriesFirstPage}
+            refreshing={isLoadingAccessories && accessoryCategories.length == 0}
+            ListFooterComponent={
+              <View style={{ padding: 5 }}>
+                <ActivityIndicator animating={isLoadingAccessories} />
+              </View>
+            }
           />
         ) : (
           <View />
         )}
-        <LoadingOverlay visible={isLoading} />
+        <LoadingOverlay
+          visible={
+            isLoading ||
+            (isLoadingAccessories && accessoryCategories.length == 0)
+          }
+        />
       </View>
     );
   }
