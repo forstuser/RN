@@ -91,9 +91,16 @@ class DealsScreen extends Component {
             <View style={styles.offersIconWrapper}>
               <Image source={offersIcon} style={styles.offersIcon} />
             </View>
-            <Text weight="Bold" style={styles.title}>
-              Offers & Accessories
-            </Text>
+            <View>
+              <Text weight="Bold" style={styles.title}>
+                Offers & Accessories
+              </Text>
+              <Text weight="Bold" style={styles.subTitle} numberOfLines={1}>
+                {activeTabIndex == 0
+                  ? `Avail the Best of Offers across various product categories`
+                  : `Check out Accessories for products across different price bands`}
+              </Text>
+            </View>
             {activeTabIndex == 1 && accessoryCategories.length > 0 ? (
               <TouchableOpacity
                 onPress={() =>
@@ -204,7 +211,8 @@ const styles = StyleSheet.create({
   headerUpperHalf: {
     paddingHorizontal: 16,
     flexDirection: "row",
-    flex: 1
+    flex: 1,
+    alignItems: "center"
   },
   offersIconWrapper: {
     width: 24,
@@ -212,7 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 2,
     borderRadius: 2,
-    marginRight: 5
+    marginRight: 10
   },
   offersIcon: {
     width: "100%",
@@ -222,6 +230,10 @@ const styles = StyleSheet.create({
   title: {
     flex: 1,
     fontSize: 20,
+    color: "#fff"
+  },
+  subTitle: {
+    fontSize: 9,
     color: "#fff"
   },
   headerLowerHalf: {

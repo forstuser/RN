@@ -1588,9 +1588,12 @@ export const fetchOfferCategories = async () => {
   });
 };
 
-export const fetchCategoryOffers = async categoryId => {
+export const fetchCategoryOffers = async (categoryId, offset) => {
   return await apiRequest({
     method: "get",
-    url: `/offer/categories/${categoryId}`
+    url: `/offer/categories/${categoryId}`,
+    queryParams: {
+      offset
+    }
   });
 };

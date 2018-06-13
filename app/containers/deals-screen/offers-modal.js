@@ -38,11 +38,15 @@ export default class OffersModal extends React.Component {
   };
 
   loadOffers = async () => {
+    const { offers } = this.state;
     this.setState({ isLoading: true });
     try {
-      const res = await fetchCategoryOffers(this.state.selectedCategory.id);
+      const res = await fetchCategoryOffers(
+        this.state.selectedCategory.id,
+        offers.length
+      );
       this.setState({
-        offers: [...this.state.offers, ...res.result.offers]
+        offers: [...offers, ...res.result.offers]
       });
     } catch (e) {
       this.setState({ isLoading: false });
@@ -53,6 +57,18 @@ export default class OffersModal extends React.Component {
     } finally {
       this.setState({ isLoading: false });
     }
+  };
+
+  onItemSelect = category => {
+    this.setState(
+      {
+        selectedCategory: category,
+        offers: []
+      },
+      () => {
+        this.loadOffers();
+      }
+    );
   };
 
   render() {
@@ -86,7 +102,7 @@ export default class OffersModal extends React.Component {
                 ...category
               }))}
               selectedItem={selectedCategory}
-              onItemSelect={this.selectedCategory}
+              onItemSelect={this.onItemSelect}
             />
             {selectedCategory ? (
               <View style={{ backgroundColor: "#f7f7f7", flex: 1 }}>
