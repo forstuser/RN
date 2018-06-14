@@ -10,6 +10,7 @@ import {
   Animated,
   Dimensions
 } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
@@ -50,7 +51,7 @@ class DealsScreen extends Component {
   openPage1 = () => {
     Animated.timing(this.tabIndex, {
       toValue: 0,
-      duration: 300,
+      duration: 200,
       useNativeDriver: true
     }).start(() => {
       this.setState({ activeTabIndex: 0 });
@@ -60,7 +61,7 @@ class DealsScreen extends Component {
   openPage2 = () => {
     Animated.timing(this.tabIndex, {
       toValue: 1,
-      duration: 300,
+      duration: 200,
       useNativeDriver: true
     }).start(() => {
       this.setState({ activeTabIndex: 1 });
@@ -87,11 +88,23 @@ class DealsScreen extends Component {
     return (
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
+          <LinearGradient
+            start={{ x: 0.0, y: 0 }}
+            end={{ x: 0.0, y: 1 }}
+            colors={[colors.mainBlue, colors.aquaBlue]}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0
+            }}
+          />
           <View style={styles.headerUpperHalf}>
             <View style={styles.offersIconWrapper}>
               <Image source={offersIcon} style={styles.offersIcon} />
             </View>
-            <View>
+            <View style={{ flex: 1, paddingRight: 20 }}>
               <Text weight="Bold" style={styles.title}>
                 Offers & Accessories
               </Text>
@@ -202,7 +215,6 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     width: "100%",
     height: 110,
-    backgroundColor: colors.pinkishOrange,
     ...Platform.select({
       ios: { height: 110, paddingTop: 30 },
       android: { height: 90, paddingTop: 10 }
@@ -225,10 +237,9 @@ const styles = StyleSheet.create({
   offersIcon: {
     width: "100%",
     height: "100%",
-    tintColor: colors.pinkishOrange
+    tintColor: colors.mainBlue
   },
   title: {
-    flex: 1,
     fontSize: 20,
     color: "#fff"
   },
@@ -249,7 +260,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "transparent"
   },
   tabUnderline: {
-    backgroundColor: "#878787",
+    backgroundColor: colors.mainBlue,
     height: 3,
     width: "50%",
     position: "absolute",

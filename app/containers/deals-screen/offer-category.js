@@ -23,7 +23,7 @@ export default class OfferCategory extends React.Component {
                 marginLeft: 5
               }}
             >
-              ({offers.length} offers available)
+              ({offerCategory.offer_counts} offers available)
             </Text>
           </View>
           <Button

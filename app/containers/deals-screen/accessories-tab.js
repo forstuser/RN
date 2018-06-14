@@ -45,14 +45,15 @@ export default class AccessoriesTab extends React.Component {
       error: null
     });
     try {
-      let itemsArray = [];
+      let categoriesArray = [];
+      let productsArray = [];
       const res = await getAccessoriesCategory();
       res.default_ids.forEach(defaultId => {
         for (let i = 0; i < res.result.length; i++) {
           const category = res.result[i];
           if (category.category_id == defaultId) {
             if (category.products.length == 0) {
-              itemsArray.push({
+              categoriesArray.push({
                 type: "category",
                 id: category.category_id,
                 name: category.category_name,
@@ -63,7 +64,7 @@ export default class AccessoriesTab extends React.Component {
             } else {
               for (let j = 0; j < category.products.length; j++) {
                 const product = category.products[j];
-                itemsArray.push({
+                productsArray.push({
                   type: "product",
                   name: product.product_name,
                   imageUrl: res.result[i].image_url,
@@ -76,9 +77,8 @@ export default class AccessoriesTab extends React.Component {
         }
       });
 
-      console.log(itemsArray);
       this.setState({
-        items: itemsArray
+        items: [...productsArray, ...categoriesArray]
       });
     } catch (error) {
       this.setState({
@@ -181,7 +181,8 @@ export default class AccessoriesTab extends React.Component {
 
   onSkipModel = async () => {
     this.setState({
-      showSelectModel: false
+      showSelectModel: false,
+      isLoading: false
     });
     this.getAccessoriesFirstPage();
   };
@@ -208,11 +209,12 @@ export default class AccessoriesTab extends React.Component {
         }
       );
     } catch (e) {
-      this.setState({ isLoading: false });
       Snackbar.show({
         title: e.message,
         duration: Snackbar.LENGTH_SHORT
       });
+    } finally {
+      this.setState({ isLoading: false });
     }
   };
 
@@ -281,13 +283,15 @@ export default class AccessoriesTab extends React.Component {
 
   getAccessories = async () => {
     const { selectedAccessoryCategoryIds } = this.props;
-    const { accessoryCategories } = this.state;
+    const { accessoryCategories, product } = this.state;
     this.setState({ isLoadingAccessories: true });
     try {
       const res = await getAccessories({
-        categoryId: this.state.product.category_id,
+        categoryId: product.category_id,
         offset: accessoryCategories.length,
-        accessoryIds: selectedAccessoryCategoryIds
+        accessoryIds: selectedAccessoryCategoryIds,
+        brandId: product.brand_id,
+        model: product.model
       });
       if (res.result.length > 0) {
         this.setState({
@@ -395,7 +399,9 @@ export default class AccessoriesTab extends React.Component {
         {accessoryCategories.length > 0 ? (
           <FlatList
             style={{ flex: 1, backgroundColor: "#f7f7f7" }}
-            data={accessoryCategories}
+            data={accessoryCategories.filter(
+              accessoryCategory => accessoryCategory.accessory_items.length > 0
+            )}
             keyExtractor={item => item.id}
             renderItem={({ item }) => (
               <AccessoryCategory
@@ -404,10 +410,16 @@ export default class AccessoriesTab extends React.Component {
               />
             )}
             onEndReached={this.getAccessories}
+            onEndReachedThreshold={0.5}
             onRefresh={this.getAccessoriesFirstPage}
             refreshing={isLoadingAccessories && accessoryCategories.length == 0}
             ListFooterComponent={
-              <View style={{ padding: 5 }}>
+              <View
+                style={{
+                  height: 60,
+                  justifyContent: "center"
+                }}
+              >
                 <ActivityIndicator animating={isLoadingAccessories} />
               </View>
             }

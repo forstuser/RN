@@ -30,7 +30,7 @@ export default class AccessoryItem extends React.Component {
         }}
       >
         <Image
-          source={{ uri: item.details.image }}
+          source={{ uri: item.image }}
           style={{ width: 80, height: 65 }}
           resizeMode="contain"
         />
@@ -58,7 +58,7 @@ export default class AccessoryItem extends React.Component {
             starColor={colors.pinkishOrange}
             disabled={true}
             maxStars={5}
-            rating={item.details.rating}
+            rating={item.rating}
             halfStarEnabled={true}
             starSize={11}
             starStyle={{ marginHorizontal: 0 }}
@@ -67,7 +67,7 @@ export default class AccessoryItem extends React.Component {
             weight="Medium"
             style={{ fontSize: 11, color: "#b6b6b6", marginLeft: 2 }}
           >
-            ({item.details.rating})
+            ({item.rating})
           </Text>
         </View>
 
@@ -84,9 +84,7 @@ export default class AccessoryItem extends React.Component {
           }}
         >
           <Image
-            source={
-              item.details.seller == "flipkart" ? flipkartLogo : amazonLogo
-            }
+            source={item.seller == "flipkart" ? flipkartLogo : amazonLogo}
             style={{ width: 18, height: 18, margin: 5 }}
             resizeMode="contain"
           />
@@ -105,7 +103,7 @@ export default class AccessoryItem extends React.Component {
               weight="Bold"
               style={{ fontSize: 12, color: colors.mainBlue }}
             >
-              ₹ {item.details.price}
+              ₹ {item.price}
             </Text>
           </TouchableOpacity>
         </View>
