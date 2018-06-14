@@ -5,7 +5,8 @@ import {
   StyleSheet,
   FlatList,
   Platform,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import Snackbar from "react-native-snackbar";
 import Modal from "react-native-modal";
@@ -16,25 +17,63 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ItemSelector from "../../components/item-selector";
 
 import { colors } from "../../theme";
-import { API_BASE_URL } from "../../api";
+import { API_BASE_URL, fetchCategoryOffers } from "../../api";
 
 import OfferDetailedItem from "./offer-detailed-item";
 
 export default class OffersModal extends React.Component {
   state = {
     isModalVisible: false,
-    selectedCategory: null
+    selectedCategory: null,
+    offers: [],
+    isLoading: false
   };
 
   show = category => {
-    this.setState({ isModalVisible: true, selectedCategory: category });
+    this.setState({
+      isModalVisible: true,
+      selectedCategory: category,
+      offers: category.offers
+    });
   };
 
-  
+  loadOffers = async () => {
+    const { offers } = this.state;
+    this.setState({ isLoading: true });
+    try {
+      const res = await fetchCategoryOffers(
+        this.state.selectedCategory.id,
+        offers.length
+      );
+      this.setState({
+        offers: [...offers, ...res.result.offers]
+      });
+    } catch (e) {
+      this.setState({ isLoading: false });
+      Snackbar.show({
+        title: e.message,
+        duration: Snackbar.LENGTH_SHORT
+      });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  onItemSelect = category => {
+    this.setState(
+      {
+        selectedCategory: category,
+        offers: []
+      },
+      () => {
+        this.loadOffers();
+      }
+    );
+  };
 
   render() {
     const { offerCategories } = this.props;
-    const { isModalVisible, selectedCategory } = this.state;
+    const { isModalVisible, selectedCategory, offers, isLoading } = this.state;
 
     return (
       <Modal
@@ -63,18 +102,24 @@ export default class OffersModal extends React.Component {
                 ...category
               }))}
               selectedItem={selectedCategory}
-              onItemSelect={this.selectedCategory}
+              onItemSelect={this.onItemSelect}
             />
             {selectedCategory ? (
               <View style={{ backgroundColor: "#f7f7f7", flex: 1 }}>
                 <FlatList
-                  data={selectedCategory.offers}
+                  data={offers}
                   renderItem={({ item }) => (
                     <View style={{ paddingHorizontal: 10, paddingTop: 10 }}>
                       <OfferDetailedItem item={item} />
                     </View>
                   )}
-                  keyExtractor={item => item.id}
+                  keyExtractor={(item, index) => item.id + "-" + index}
+                  onEndReached={this.loadOffers}
+                  ListFooterComponent={
+                    <View style={{ padding: 5 }}>
+                      <ActivityIndicator animating={isLoading} />
+                    </View>
+                  }
                 />
               </View>
             ) : (

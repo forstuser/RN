@@ -6,6 +6,7 @@ import { defaultStyles, colors } from "../../theme";
 import amazonLogo from "../../images/amazon_logo.png";
 import NavigationService from "../../navigation";
 import { SCREENS } from "../../constants";
+import flipkartLogo from "../../images/flipkart_logo.png";
 
 export default class AccessoryItem extends React.Component {
   onAccessoriesPress = item => {
@@ -83,7 +84,9 @@ export default class AccessoryItem extends React.Component {
           }}
         >
           <Image
-            source={amazonLogo}
+            source={
+              item.details.seller == "flipkart" ? flipkartLogo : amazonLogo
+            }
             style={{ width: 18, height: 18, margin: 5 }}
             resizeMode="contain"
           />

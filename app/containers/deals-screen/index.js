@@ -68,9 +68,14 @@ class DealsScreen extends Component {
   };
 
   setSelectedAccessoryCategoryIds = ids => {
-    this.setState({
-      selectedAccessoryCategoryIds: ids
-    });
+    this.setState(
+      {
+        selectedAccessoryCategoryIds: ids
+      },
+      () => {
+        this.accessoriesTab.getAccessoriesFirstPage();
+      }
+    );
   };
 
   render() {
@@ -86,9 +91,16 @@ class DealsScreen extends Component {
             <View style={styles.offersIconWrapper}>
               <Image source={offersIcon} style={styles.offersIcon} />
             </View>
-            <Text weight="Medium" style={styles.title}>
-              Offers & Accessories
-            </Text>
+            <View>
+              <Text weight="Bold" style={styles.title}>
+                Offers & Accessories
+              </Text>
+              <Text weight="Bold" style={styles.subTitle} numberOfLines={1}>
+                {activeTabIndex == 0
+                  ? `Avail the Best of Offers across various product categories`
+                  : `Check out Accessories for products across different price bands`}
+              </Text>
+            </View>
             {activeTabIndex == 1 && accessoryCategories.length > 0 ? (
               <TouchableOpacity
                 onPress={() =>
@@ -160,6 +172,7 @@ class DealsScreen extends Component {
           </View>
           <View style={styles.page}>
             <AccessoriesTab
+              ref={ref => (this.accessoriesTab = ref)}
               setAccessoryCategories={accessoryCategories =>
                 this.setState({
                   accessoryCategories,
@@ -191,14 +204,15 @@ const styles = StyleSheet.create({
     height: 110,
     backgroundColor: colors.pinkishOrange,
     ...Platform.select({
-      ios: { paddingTop: 30 },
-      android: { paddingTop: 10 }
+      ios: { height: 110, paddingTop: 30 },
+      android: { height: 90, paddingTop: 10 }
     })
   },
   headerUpperHalf: {
     paddingHorizontal: 16,
     flexDirection: "row",
-    flex: 1
+    flex: 1,
+    alignItems: "center"
   },
   offersIconWrapper: {
     width: 24,
@@ -206,7 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 2,
     borderRadius: 2,
-    marginRight: 5
+    marginRight: 10
   },
   offersIcon: {
     width: "100%",
@@ -215,7 +229,11 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 20,
+    color: "#fff"
+  },
+  subTitle: {
+    fontSize: 9,
     color: "#fff"
   },
   headerLowerHalf: {

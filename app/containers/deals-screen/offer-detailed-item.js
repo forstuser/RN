@@ -110,19 +110,15 @@ export default class OfferDetailedView extends React.Component {
         <Text weight="Bold" style={{ fontSize: 11, marginTop: 10 }}>
           Terms & conditions:
         </Text>
-        {[
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        ].map((term, index) => (
-          <View key={term} style={{ flexDirection: "row", marginTop: 5 }}>
-            <Text weight="Medium" style={{ fontSize: 10 }}>
-              {index + 1}.{" "}
-            </Text>
-            <Text weight="Medium" style={{ fontSize: 10, flex: 1 }}>
-              {term}
-            </Text>
-          </View>
-        ))}
+        {item.description ? (
+          <Text weight="Medium" style={{ fontSize: 10 }}>
+            {item.description}
+          </Text>
+        ) : (
+          <Text weight="Medium" style={{ fontSize: 10 }}>
+            Available on website
+          </Text>
+        )}
         <Button
           onPress={() => Linking.openURL(item.goto_link)}
           color="secondary"

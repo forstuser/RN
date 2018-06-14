@@ -119,22 +119,29 @@ export default class OffersTab extends React.Component {
         ) : (
           <View />
         )}
-        {offerCategories.length > 0 ? (
-          offerCategories.map(offerCategory => (
-            <View>
-              <OfferCategory
-                onViewAllPress={() => {
-                  this.offersModal.show(offerCategory);
-                }}
-                offerCategory={offerCategory}
-              />
-            </View>
-          ))
+        {offerCategories.length > 1 ? (
+          <FlatList
+            style={{ flex: 1, backgroundColor: "#f7f7f7" }}
+            data={offerCategories}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <View>
+                <OfferCategory
+                  onViewAllPress={() => {
+                    this.offersModal.show(item);
+                  }}
+                  offerCategory={item}
+                />
+              </View>
+            )}
+            onRefresh={this.fetchCategoryOffers}
+            refreshing={isLoading}
+          />
         ) : (
           <View />
         )}
-        {offerCategories.length == 100 ? (
-          <View style={{ backgroundColor: "#f7f7f7", padding: 10 }}>
+        {offerCategories.length == 1 ? (
+          <View style={{ flex: 1, backgroundColor: "#f7f7f7", padding: 10 }}>
             <FlatList
               data={offerCategories[0].offers}
               renderItem={({ item }) => <OfferDetailedItem item={item} />}

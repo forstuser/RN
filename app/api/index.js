@@ -1569,12 +1569,14 @@ export const getAccessoriesCategory = async () => {
   });
 };
 
-export const getAccessories = async ({ categoryId }) => {
+export const getAccessories = async ({ categoryId, offset, accessoryIds }) => {
   return await apiRequest({
     method: "get",
     url: `/accessories`,
     queryParams: {
-      categoryid: categoryId
+      categoryid: categoryId,
+      accessory_ids: accessoryIds.join(","),
+      offset
     }
   });
 };
@@ -1586,9 +1588,12 @@ export const fetchOfferCategories = async () => {
   });
 };
 
-export const fetchCategoryOffers = async categoryId => {
+export const fetchCategoryOffers = async (categoryId, offset) => {
   return await apiRequest({
     method: "get",
-    url: `/offer/categories/${categoryId}`
+    url: `/offer/categories/${categoryId}`,
+    queryParams: {
+      offset
+    }
   });
 };
