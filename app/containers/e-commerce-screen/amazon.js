@@ -16,16 +16,26 @@ import { API_BASE_URL } from "../../api";
 import { ScreenContainer, Text, Button, Image } from "../../elements";
 import { colors } from "../../theme";
 import { showSnackbar } from "../../utils/snackbar";
+import Modal from "react-native-modal";
 
 class Amazon extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderId: null
+      orderId: null,
+      isModalVisible: true
     };
   }
 
-  componentDidMount() { }
+  componentDidMount() {
+    console.log(this.props.item)
+  }
+  showModal = () => {
+    this.setState({ isModalVisible: true });
+  };
+  hideModal = () => {
+    this.setState({ isModalVisible: false });
+  };
 
   onWebViewMessage = event => {
     console.log("event.nativeEvent.data: ", event.nativeEvent.data);
@@ -35,11 +45,12 @@ class Amazon extends Component {
   };
 
   onGetDataMessage = event => {
-    console.log("event.nativeEvent.data2: ", event.nativeEvent.data);
+    console.log("event.nativeEvent.data2: ", JSON.parse(event.nativeEvent.data));
+    this.showModal();
   };
 
   render() {
-    const { orderId } = this.state;
+    const { orderId, isModalVisible } = this.state;
     let dirtyScript = ` (function(){
       var _url = window.location.href;
       var regexp =  /.*\orderId=(.*?)\&/;
@@ -54,24 +65,32 @@ class Amazon extends Component {
     })()`;
     let scrapData = `
     (function(){
-      alert("scrap data");
       var order = document.getElementsByClassName("a-column a-span8 a-span-last");
-      alert(order);
+      var asinData = document.getElementsByClassName("a-link-normal a-padding-none a-color-base");
+      var paymentData = document.getElementsByClassName("a-size-base a-color-base no-margin");
+      var deliveryData = document.getElementsByClassName("a-section a-padding-medium");
+      var amountData = document.getElementsByClassName("a-column a-span5 a-span-last");
+      var deliveryDateData = document.getElementsByClassName("a-size-base a-color-success a-text-bold");
       if(order){
         var orderDate = order[0].innerText;
         var orderId = order[1].innerText;
         var orderTotal = order[2].innerText;
-        alert(orderDate);
-        alert(orderId);
-        alert(orderTotal);
-        var data = {orderDate:orderDate,orderId:orderId,orderTotal:orderTotal};
+        var asin = asinData[0].href;
+        var paymentMode = paymentData[0].innerText;
+        var deliveryDate = deliveryDateData[0].innerText;
+        var deliveryAddress = deliveryData[3].innerText;
+        var totalAmount = amountData[5].innerText;
+        var data = {orderDate:orderDate,deliveryDate:deliveryDate,orderId:orderId,orderTotal:orderTotal,asin:asin,paymentMode:paymentMode,deliveryAddress:deliveryAddress,totalAmount:totalAmount};
         if(data){
-            JSON.stringify(data);
+            data = JSON.stringify(data);
+            setTimeout(function() {
             window.postMessage(data,'*');
+          }, 500);
         }
       }
 
     })()`;
+
     return (
       <ScreenContainer style={styles.container}>
         {orderId ? (
@@ -91,6 +110,15 @@ class Amazon extends Component {
               onMessage={this.onWebViewMessage}
             />
           )}
+        <Modal
+          style={{ margin: 0 }}
+          isVisible={isModalVisible}
+          useNativeDriver={true}
+          onBackButtonPress={this.hideModal}
+          onBackdropPress={this.hideModal}
+        >
+          <View style={{ backgroundColor: '#fff', padding: 20 }}><Text>Hello</Text></View>
+        </Modal>
       </ScreenContainer>
     );
   }
