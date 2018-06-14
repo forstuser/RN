@@ -25,7 +25,7 @@ class Amazon extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   onWebViewMessage = event => {
     console.log("event.nativeEvent.data: ", event.nativeEvent.data);
@@ -49,16 +49,28 @@ class Amazon extends Component {
         alert(orderId);
         setTimeout(function() {
           window.postMessage(orderId,'*');
-        }, 200);
+        }, 500);
       }
     })()`;
     let scrapData = `
     (function(){
       alert("scrap data");
-      var data = document.getElementsByClassName("a-section a-padding-medium")[0].innerText;
-      if(data){
-          window.postMessage(data,'*');
+      var order = document.getElementsByClassName("a-column a-span8 a-span-last");
+      alert(order);
+      if(order){
+        var orderDate = order[0].innerText;
+        var orderId = order[1].innerText;
+        var orderTotal = order[2].innerText;
+        alert(orderDate);
+        alert(orderId);
+        alert(orderTotal);
+        var data = {orderDate:orderDate,orderId:orderId,orderTotal:orderTotal};
+        if(data){
+            JSON.stringify(data);
+            window.postMessage(data,'*');
+        }
       }
+
     })()`;
     return (
       <ScreenContainer style={styles.container}>
@@ -72,13 +84,13 @@ class Amazon extends Component {
             onMessage={this.onGetDataMessage}
           />
         ) : (
-          <WebView
-            injectedJavaScript={dirtyScript}
-            scrollEnabled={false}
-            source={{ uri: this.props.item.url }}
-            onMessage={this.onWebViewMessage}
-          />
-        )}
+            <WebView
+              injectedJavaScript={dirtyScript}
+              scrollEnabled={false}
+              source={{ uri: this.props.item.url }}
+              onMessage={this.onWebViewMessage}
+            />
+          )}
       </ScreenContainer>
     );
   }
