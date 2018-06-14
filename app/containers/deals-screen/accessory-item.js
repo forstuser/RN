@@ -81,7 +81,7 @@ export default class AccessoryItem extends React.Component {
           }}
         >
           <Image
-            source={item.seller == "flipkart" ? flipkartLogo : amazonLogo}
+            source={item.url.includes("flipkart") ? flipkartLogo : amazonLogo}
             style={{ width: 18, height: 18, margin: 5 }}
             resizeMode="contain"
           />
