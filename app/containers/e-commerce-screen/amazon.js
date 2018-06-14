@@ -17,13 +17,15 @@ import { ScreenContainer, Text, Button, Image } from "../../elements";
 import { colors } from "../../theme";
 import { showSnackbar } from "../../utils/snackbar";
 import Modal from "react-native-modal";
+import KeyValueItem from "../../components/key-value-item";
 
 class Amazon extends Component {
   constructor(props) {
     super(props);
     this.state = {
       orderId: null,
-      isModalVisible: true
+      isModalVisible: true,
+
     };
   }
 
@@ -57,7 +59,6 @@ class Amazon extends Component {
       var orderArray = _url.match(regexp);
       if(orderArray){
         var orderId = orderArray[1];
-        alert(orderId);
         setTimeout(function() {
           window.postMessage(orderId,'*');
         }, 500);
@@ -80,7 +81,7 @@ class Amazon extends Component {
         var deliveryDate = deliveryDateData[0].innerText;
         var deliveryAddress = deliveryData[3].innerText;
         var totalAmount = amountData[5].innerText;
-        var data = {orderDate:orderDate,deliveryDate:deliveryDate,orderId:orderId,orderTotal:orderTotal,asin:asin,paymentMode:paymentMode,deliveryAddress:deliveryAddress,totalAmount:totalAmount};
+        var data = [{key:'Order Date',value:orderDate},{key:'Delivery Date',value:deliveryDate},{key:'Order ID,value:orderId},{key:'Order Total',value:orderTotal},{key:'asin',value:asin},{key:'Payment Mode':value:paymentMode},{key:'Delivery Address':deliveryAddress},{key:'Total Amount':value:totalAmount}];
         if(data){
             data = JSON.stringify(data);
             setTimeout(function() {
@@ -117,7 +118,12 @@ class Amazon extends Component {
           onBackButtonPress={this.hideModal}
           onBackdropPress={this.hideModal}
         >
-          <View style={{ backgroundColor: '#fff', padding: 20 }}><Text>Hello</Text></View>
+          <View style={{ backgroundColor: '#fff', padding: 20 }}>
+            <KeyValueItem
+              keyText={"Order ID"}
+              valueText={item.product_name}
+            />
+          </View>
         </Modal>
       </ScreenContainer>
     );
@@ -131,8 +137,6 @@ const styles = StyleSheet.create({
   WebViewStyle: {
     justifyContent: "center",
     alignItems: "center"
-    // flex: 1
-    // marginTop: Platform.OS === "ios" ? 20 : 0
   }
 });
 
