@@ -115,8 +115,14 @@ export default class OffersModal extends React.Component {
                   )}
                   keyExtractor={(item, index) => item.id + "-" + index}
                   onEndReached={this.loadOffers}
+                  onEndReachedThreshold={0.5}
                   ListFooterComponent={
-                    <View style={{ padding: 5 }}>
+                    <View
+                      style={{
+                        height: 60,
+                        justifyContent: "center"
+                      }}
+                    >
                       <ActivityIndicator animating={isLoading} />
                     </View>
                   }

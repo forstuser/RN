@@ -9,7 +9,7 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-let API_BASE_URL = "https://consumer-eb.binbill.com";
+let API_BASE_URL = "https://consumer-stage.binbill.com";
 if (!__DEV__) {
   API_BASE_URL = "https://consumer-eb.binbill.com";
 }
@@ -1569,13 +1569,21 @@ export const getAccessoriesCategory = async () => {
   });
 };
 
-export const getAccessories = async ({ categoryId, offset, accessoryIds }) => {
+export const getAccessories = async ({
+  categoryId,
+  offset,
+  accessoryIds,
+  brandId,
+  model
+}) => {
   return await apiRequest({
     method: "get",
     url: `/accessories`,
     queryParams: {
       categoryid: categoryId,
       accessory_ids: accessoryIds.join(","),
+      brand_id: brandId,
+      model,
       offset
     }
   });

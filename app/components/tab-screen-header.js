@@ -7,6 +7,7 @@ import {
   TextInput,
   Platform
 } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 import { Text, Button } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
@@ -38,6 +39,18 @@ class TabSearchHeader extends Component {
     } = this.props;
     return (
       <View collapsable={false} style={styles.container}>
+        <LinearGradient
+          start={{ x: 0.0, y: 0 }}
+          end={{ x: 0.0, y: 1 }}
+          colors={[colors.mainBlue, colors.aquaBlue]}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
+          }}
+        />
         <View collapsable={false} style={styles.upperContainer}>
           <View collapsable={false} style={styles.nameAndIcon}>
             <Image style={styles.icon} source={icon} resizeMode="contain" />
@@ -98,7 +111,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 12,
     elevation: 2,
-    backgroundColor: colors.pinkishOrange,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.25,
