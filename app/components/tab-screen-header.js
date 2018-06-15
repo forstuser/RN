@@ -5,7 +5,8 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  Platform
+  Platform,
+  StatusBar
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Text, Button } from "../elements";
@@ -39,6 +40,7 @@ class TabSearchHeader extends Component {
     } = this.props;
     return (
       <View collapsable={false} style={styles.container}>
+        <StatusBar backgroundColor={colors.mainBlue} barStyle="light-content" />
         <LinearGradient
           start={{ x: 0.0, y: 0 }}
           end={{ x: 0.0, y: 1 }}
