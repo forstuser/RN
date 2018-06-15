@@ -23,9 +23,11 @@ class EcommerceScreen extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(this.props)
+  }
   render() {
-    return <Amazon item={this.props.navigation.getParam("item", null)} />;
+    return <Amazon navigation={this.props.navigation} item={this.props.navigation.getParam("item", null)} />;
   }
 }
 
