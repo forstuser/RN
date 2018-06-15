@@ -53,6 +53,7 @@ import WhatToListScreen from "../containers/what-to-list-screen";
 import DealsScreen from "../containers/deals-screen";
 import { SCREENS } from "../constants";
 import rateUsScreen from "../containers/rate-us-screen";
+import EcommerceScreen from "../containers/e-commerce-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -178,7 +179,8 @@ export default createStackNavigator(
     [SCREENS.PIN_SETUP_SCREEN]: PinSetupScreen,
     [SCREENS.WHAT_TO_SCREEN]: WhatToScreen,
     [SCREENS.WHAT_TO_LIST_SCREEN]: WhatToListScreen,
-    [SCREENS.DEALS_SCREEN]: DealsScreen
+    [SCREENS.DEALS_SCREEN]: DealsScreen,
+    [SCREENS.ECOMMERCE_SCREEN]: EcommerceScreen
   },
   {}
 );
