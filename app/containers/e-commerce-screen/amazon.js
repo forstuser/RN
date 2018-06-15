@@ -2,15 +2,8 @@ import React, { Component } from "react";
 import {
   View,
   WebView,
-  FlatList,
-  Alert,
-  TouchableOpacity,
-  StyleSheet,
-  TextInput,
-  Linking,
-  Platform
+  StyleSheet
 } from "react-native";
-import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 
 import { API_BASE_URL } from "../../api";
 import { ScreenContainer, Text, Button, Image } from "../../elements";
@@ -24,15 +17,8 @@ class Amazon extends Component {
     super(props);
     this.state = {
       orderId: null,
-      isModalVisible: true,
-      scrapObjectArray: [
-        { key: "Order Date", value: "15-Jun-2018↵" },
-        { key: "Delivery Date", value: "Wednesday 20 June 2018 - Friday 22 June 2018" },
-        { key: "Order ID", value: "406-1577850-3820344↵" },
-        { key: "Order Total", value: "   335.00 (1 item)↵" },
-        { key: "Payment Mode", value: "Pay On Delivery (POD)" },
-        { key: "Delivery Address", value: "ANu↵abc 123↵New Delhi↵NEW DELHI↵DELHI↵110001↵" }
-      ]
+      isModalVisible: false,
+      scrapObjectArray: []
     }
   }
 
@@ -57,13 +43,14 @@ class Amazon extends Component {
     const dirtyObjectArray = JSON.parse(event.nativeEvent.data);
     console.log(dirtyObjectArray)
     var cleanObjectArray = [
-      { key: 'Order ID', value: dirtyObjectArray[2].orderId },
-      { key: 'Order Date', value: dirtyObjectArray[0].orderDate },
-      { key: 'Total Amount', value: dirtyObjectArray[3].orderTotal },
-      { key: 'Payment Mode', value: dirtyObjectArray[5].paymentMode },
-      { key: 'Delivery Date', value: dirtyObjectArray[1].deliveryDate },
-      { key: 'asin', value: dirtyObjectArray[4].asin },
-      { key: 'Delivery Address', value: dirtyObjectArray[6].deliveryAddress }];
+      { key: 'Order ID', value: dirtyObjectArray[0].orderId },
+      { key: 'Order Date', value: dirtyObjectArray[1].orderDate },
+      { key: 'Total Amount', value: dirtyObjectArray[2].orderTotal },
+      { key: 'Payment Mode', value: dirtyObjectArray[3].paymentMode },
+      { key: 'Delivery Date', value: dirtyObjectArray[4].deliveryDate },
+      { key: 'Delivery Address', value: dirtyObjectArray[5].deliveryAddress }
+      // { key: 'asin', value: dirtyObjectArray[6].asin },
+    ];
     console.log(cleanObjectArray);
     this.setState({
       scrapObjectArray: cleanObjectArray
@@ -104,7 +91,7 @@ class Amazon extends Component {
         var paymentMode = paymentData[0].innerText;
         var deliveryDate = deliveryDateData[0].innerText;
         var deliveryAddress = deliveryData[3].innerText;
-        var data = [{orderDate:orderDate},{deliveryDate:deliveryDate},{orderId:orderId},{orderTotal:orderTotal},{asin:asin},{paymentMode:paymentMode},{deliveryAddress:deliveryAddress}];
+        var data = [{orderId:orderId},{orderDate:orderDate},{orderTotal:orderTotal},{paymentMode:paymentMode},{deliveryDate:deliveryDate},{deliveryAddress:deliveryAddress},{asin:asin}];
         if(data){
             data = JSON.stringify(data);
             setTimeout(function() {
@@ -147,7 +134,7 @@ class Amazon extends Component {
                 style={{ width: 50, height: 50, flex: 1 }}
                 source={{ uri: item.image }}
               />
-              <Text numberOfLines={1} style={{ flex: 2, fontWeight: 'bold' }}>{item.name}</Text>
+              <Text numberOfLines={2} style={{ flex: 2, fontWeight: 'bold' }}>{item.name}</Text>
             </View>
             <View style={{ marginTop: 10 }}>
               {scrapObjectArray.map((item) => {
