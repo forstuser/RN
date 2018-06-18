@@ -57,10 +57,11 @@ class EcommerceScreen extends Component {
           <Text style={{ color: colors.tomato, fontWeight: 'bold', fontSize: 18 }} >Order Successful!</Text>
           <View style={styles.imageContainer}>
             <Image
-              style={{ width: 50, height: 50, flex: 1 }}
+              style={{ width: 50, height: 50, marginRight: 20 }}
               source={{ uri: item.image }}
+              resizeMode='contain'
             />
-            <Text numberOfLines={2} style={{ flex: 2, fontWeight: 'bold' }}>{item.name}</Text>
+            <Text numberOfLines={2} style={{ flex: 1, fontWeight: 'bold' }}>{item.name}</Text>
           </View>
           <View style={{ marginTop: 10 }}>
             {scrapObjectArray.map((item) => {
