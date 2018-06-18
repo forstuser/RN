@@ -47,29 +47,39 @@ export default class AccessoryItem extends React.Component {
           {item.title}
         </Text>
 
-        <View
-          style={{
-            flexDirection: "row",
-            marginVertical: 5,
-            alignItems: "center"
-          }}
-        >
-          <StarRating
-            starColor={colors.pinkishOrange}
-            disabled={true}
-            maxStars={5}
-            rating={item.rating}
-            halfStarEnabled={true}
-            starSize={11}
-            starStyle={{ marginHorizontal: 0 }}
-          />
-          <Text
-            weight="Medium"
-            style={{ fontSize: 11, color: "#b6b6b6", marginLeft: 2 }}
+        {item.rating && item.rating != "0" ? (
+          <View
+            style={{
+              flexDirection: "row",
+              marginVertical: 5,
+              alignItems: "center",
+              height: 16
+            }}
           >
-            ({item.rating})
-          </Text>
-        </View>
+            <StarRating
+              starColor={colors.pinkishOrange}
+              disabled={true}
+              maxStars={5}
+              rating={item.rating}
+              halfStarEnabled={true}
+              starSize={11}
+              starStyle={{ marginHorizontal: 0 }}
+            />
+            <Text
+              weight="Medium"
+              style={{ fontSize: 11, color: "#b6b6b6", marginLeft: 2 }}
+            >
+              ({item.rating})
+            </Text>
+          </View>
+        ) : (
+          <View
+            style={{
+              marginVertical: 5,
+              height: 16
+            }}
+          />
+        )}
 
         <View
           style={{
@@ -84,7 +94,7 @@ export default class AccessoryItem extends React.Component {
           }}
         >
           <Image
-            source={item.seller == "flipkart" ? flipkartLogo : amazonLogo}
+            source={item.url.includes("flipkart") ? flipkartLogo : amazonLogo}
             style={{ width: 18, height: 18, margin: 5 }}
             resizeMode="contain"
           />

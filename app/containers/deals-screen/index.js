@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Image,
   Animated,
-  Dimensions
+  Dimensions,
+  StatusBar
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import ScrollableTabView, {
@@ -87,6 +88,7 @@ class DealsScreen extends Component {
     } = this.state;
     return (
       <ScreenContainer style={styles.container}>
+        <StatusBar backgroundColor={colors.mainBlue} barStyle="light-content" />
         <View style={styles.header}>
           <LinearGradient
             start={{ x: 0.0, y: 0 }}
