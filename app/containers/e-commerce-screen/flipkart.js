@@ -25,7 +25,6 @@ class Flipkart extends Component {
         this.state = {
             orderId: null,
             isModalVisible: false,
-            scrapObjectArray: []
         }
     }
 
@@ -59,11 +58,7 @@ class Flipkart extends Component {
             // { key: 'asin', value: dirtyObjectArray[4].asin },
         ];
         console.log(cleanObjectArray);
-        this.setState({
-            scrapObjectArray: cleanObjectArray
-        })
-
-        this.showModal();
+        this.props.successOrder(cleanObjectArray);
     };
     exploreMoreDetails = () => {
         this.props.navigation.goBack();
