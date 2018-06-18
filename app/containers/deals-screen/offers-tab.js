@@ -13,11 +13,20 @@ import { colors } from "../../theme";
 import OfferCategory from "./offer-category";
 import OfferDetailedItem from "./offer-detailed-item";
 import OffersModal from "./offers-modal";
+import OffersFilterModal from "./offers-filter-modal";
 
 export default class OffersTab extends React.Component {
   state = {
     categories: [],
     selectedCategory: null,
+    offerTypes: {
+      discount: [],
+      cashback: []
+    },
+    offerMerchants: [],
+    selectedDiscountType: "",
+    selectedCashbackType: "",
+    selectedMerchants: [],
     isLoading: false,
     offerCategories: []
   };
@@ -48,9 +57,20 @@ export default class OffersTab extends React.Component {
   };
 
   fetchOffers = async () => {
+    const {
+      selectedCategory,
+      selectedCashbackType,
+      selectedDiscountType,
+      selectedMerchants
+    } = this.state;
     this.setState({ isLoading: true });
     try {
-      const res = await fetchCategoryOffers(this.state.selectedCategory.id);
+      const res = await fetchCategoryOffers({
+        categoryId: selectedCategory.id,
+        discount: selectedDiscountType,
+        cashback: selectedCashbackType,
+        merchants: selectedMerchants
+      });
       this.setState({
         offerCategories: res.result || []
       });
@@ -67,14 +87,69 @@ export default class OffersTab extends React.Component {
 
   onCategorySelect = category => {
     console.log("category: ", category);
+
     const { selectedCategory } = this.state;
     if (selectedCategory && selectedCategory.id == category.id) {
       return;
     }
+    const { setSelectedOfferCategory } = this.props;
+    setSelectedOfferCategory(category);
+
+    let discountTypes = [];
+    for (discountCategory in category.filter.discount) {
+      const categoryDiscountTypes = category.filter.discount[discountCategory];
+      categoryDiscountTypes.forEach(categoryDiscountType => {
+        if (discountTypes.indexOf(categoryDiscountType) == -1) {
+          discountTypes.push(categoryDiscountType);
+        }
+      });
+    }
+
+    let cashbackTypes = [];
+    for (cashbackCategory in category.filter.cashback) {
+      const categoryCashbackTypes = category.filter.cashback[cashbackCategory];
+      categoryCashbackTypes.forEach(categoryCashbackType => {
+        if (cashbackTypes.indexOf(categoryCashbackType) == -1) {
+          cashbackTypes.push(categoryCashbackType);
+        }
+      });
+    }
+
+    let offerMerchants = [];
+    for (merchantCategory in category.filter.merchant) {
+      const categoryMerchants = category.filter.merchant[merchantCategory];
+      categoryMerchants.forEach(categoryMerchant => {
+        if (offerMerchants.indexOf(categoryMerchant) == -1) {
+          offerMerchants.push(categoryMerchant);
+        }
+      });
+    }
 
     this.setState(
       {
-        selectedCategory: category
+        selectedCategory: category,
+        offerTypes: {
+          discount: discountTypes,
+          cashback: cashbackTypes
+        },
+        offerMerchants
+      },
+      () => {
+        this.fetchOffers();
+      }
+    );
+  };
+
+  setFilters = ({
+    selectedDiscountType,
+    selectedCashbackType,
+    selectedMerchants
+  }) => {
+    this.setState(
+      {
+        selectedDiscountType,
+        selectedCashbackType,
+        selectedMerchants
       },
       () => {
         this.fetchOffers();
@@ -86,6 +161,8 @@ export default class OffersTab extends React.Component {
     const {
       categories,
       selectedCategory,
+      offerTypes,
+      offerMerchants,
       isLoading,
       offerCategories
     } = this.state;
@@ -93,6 +170,7 @@ export default class OffersTab extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <ItemSelector
+          selectModalTitle="Select a Category"
           items={categories.slice(0, 4)}
           moreItems={categories.slice(4)}
           selectedItem={selectedCategory}
@@ -119,7 +197,7 @@ export default class OffersTab extends React.Component {
         ) : (
           <View />
         )}
-        {offerCategories.length > 1 ? (
+        {offerCategories.length > 0 ? (
           <FlatList
             style={{ flex: 1, backgroundColor: "#f7f7f7" }}
             data={offerCategories}
@@ -140,7 +218,7 @@ export default class OffersTab extends React.Component {
         ) : (
           <View />
         )}
-        {offerCategories.length == 1 ? (
+        {offerCategories.length == -1 ? (
           <View style={{ flex: 1, backgroundColor: "#f7f7f7", padding: 10 }}>
             <FlatList
               data={offerCategories[0].offers}
@@ -154,8 +232,22 @@ export default class OffersTab extends React.Component {
         <LoadingOverlay visible={isLoading} />
         <OffersModal
           ref={node => (this.offersModal = node)}
+          title={selectedCategory ? selectedCategory.name + " Offers" : ""}
           offerCategories={offerCategories}
         />
+        {selectedCategory ? (
+          <OffersFilterModal
+            ref={ref => {
+              this.offersFilterModal = ref;
+              this.props.setOffersFilterModalRef(ref);
+            }}
+            offerTypes={offerTypes}
+            offerMerchants={offerMerchants}
+            setFilters={this.setFilters}
+          />
+        ) : (
+          <View />
+        )}
       </View>
     );
   }

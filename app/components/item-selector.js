@@ -24,7 +24,12 @@ class ItemSelector extends React.Component {
   };
 
   render() {
-    const { items, moreItems = [], selectedItem } = this.props;
+    const {
+      items,
+      moreItems = [],
+      selectedItem,
+      selectModalTitle = "Select a Value"
+    } = this.props;
     let isSelectedItemInVisible = false;
     if (
       selectedItem &&
@@ -38,6 +43,7 @@ class ItemSelector extends React.Component {
         <SelectModal
           ref={ref => (this.otherOptionsModal = ref)}
           style={styles.select}
+          placeholder={selectModalTitle}
           options={moreItems.map(item => ({
             ...item,
             image: API_BASE_URL + item.imageUrl

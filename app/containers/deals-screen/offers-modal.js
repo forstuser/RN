@@ -15,6 +15,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { Text } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ItemSelector from "../../components/item-selector";
+import BlueGradientBG from "../../components/blue-gradient-bg";
 
 import { colors } from "../../theme";
 import { API_BASE_URL, fetchCategoryOffers } from "../../api";
@@ -26,27 +27,62 @@ export default class OffersModal extends React.Component {
     isModalVisible: false,
     selectedCategory: null,
     offers: [],
+    discountOffers: [],
+    cashbackOffers: [],
+    otherOffers: [],
     isLoading: false
   };
 
   show = category => {
+    const {
+      discount: discountOffers,
+      cashback: cashbackOffers,
+      others: otherOffers
+    } = category.offers;
+    const offers = [...discountOffers, ...cashbackOffers, ...otherOffers];
+
     this.setState({
       isModalVisible: true,
       selectedCategory: category,
-      offers: category.offers
+      offers,
+      discountOffers,
+      cashbackOffers,
+      otherOffers
     });
   };
 
   loadOffers = async () => {
-    const { offers } = this.state;
+    const { offers, discountOffers, cashbackOffers, otherOffers } = this.state;
     this.setState({ isLoading: true });
+    const lastDiscountOffer = discountOffers.slice(-1)[0];
+    const lastCashbackOffer = cashbackOffers.slice(-1)[0];
+    const lastOtherOffer = otherOffers.slice(-1)[0];
     try {
-      const res = await fetchCategoryOffers(
-        this.state.selectedCategory.id,
-        offers.length
-      );
+      const res = await fetchCategoryOffers({
+        categoryId: this.state.selectedCategory.id,
+        lastDiscountOfferId: lastDiscountOffer
+          ? lastDiscountOffer.id
+          : undefined,
+        lastCashbackOfferId: lastCashbackOffer
+          ? lastCashbackOffer.id
+          : undefined,
+        lastOtherOfferId: lastOtherOffer ? lastOtherOffer.id : undefined
+      });
+      const {
+        discount: resDiscountOffers,
+        cashback: resCashbackOffers,
+        others: resOtherOffers
+      } = res.result.offers;
+      const resOffers = [
+        ...resDiscountOffers,
+        ...resCashbackOffers,
+        ...resOtherOffers
+      ];
       this.setState({
-        offers: [...offers, ...res.result.offers]
+        offers: [...offers, ...resOffers],
+        discountOffers: [...discountOffers, ...resDiscountOffers],
+        cashbackOffers: [...cashbackOffers, ...resCashbackOffers],
+        otherOffers: [...otherOffers, ...resOtherOffers]
       });
     } catch (e) {
       this.setState({ isLoading: false });
@@ -63,7 +99,10 @@ export default class OffersModal extends React.Component {
     this.setState(
       {
         selectedCategory: category,
-        offers: []
+        offers: [],
+        discountOffers: [],
+        cashbackOffers: [],
+        otherOffers: []
       },
       () => {
         this.loadOffers();
@@ -72,7 +111,7 @@ export default class OffersModal extends React.Component {
   };
 
   render() {
-    const { offerCategories } = this.props;
+    const { title, offerCategories } = this.props;
     const { isModalVisible, selectedCategory, offers, isLoading } = this.state;
 
     return (
@@ -84,6 +123,7 @@ export default class OffersModal extends React.Component {
       >
         <View style={{ backgroundColor: "#fff", flex: 1 }}>
           <View style={styles.header}>
+            <BlueGradientBG />
             <TouchableOpacity
               style={{ paddingVertical: 10, paddingHorizontal: 15 }}
               onPress={() => this.setState({ isModalVisible: false })}
@@ -91,7 +131,7 @@ export default class OffersModal extends React.Component {
               <Icon name="md-arrow-round-back" color="#fff" size={30} />
             </TouchableOpacity>
             <Text weight="Bold" style={{ color: "#fff", fontSize: 20 }}>
-              Offers
+              {title}
             </Text>
           </View>
           <View style={styles.body}>
@@ -143,7 +183,6 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     width: "100%",
     height: 70,
-    backgroundColor: colors.pinkishOrange,
     flexDirection: "row",
     alignItems: "center",
     ...Platform.select({

@@ -1596,12 +1596,26 @@ export const fetchOfferCategories = async () => {
   });
 };
 
-export const fetchCategoryOffers = async (categoryId, offset) => {
+export const fetchCategoryOffers = async ({
+  categoryId,
+  lastDiscountOfferId,
+  lastCashbackOfferId,
+  lastOtherOfferId,
+  cashback,
+  discount,
+  merchants = []
+}) => {
+  const queryParams = {
+    discount_offer_id: lastDiscountOfferId || undefined,
+    cashback_offer_id: lastCashbackOfferId || undefined,
+    other_offer_id: lastOtherOfferId || undefined,
+    cashback: cashback || undefined,
+    discount: discount || undefined,
+    merchant: merchants.length > 0 ? merchants.join() : undefined
+  };
   return await apiRequest({
     method: "get",
     url: `/offer/categories/${categoryId}`,
-    queryParams: {
-      offset
-    }
+    queryParams: JSON.parse(JSON.stringify(queryParams))
   });
 };

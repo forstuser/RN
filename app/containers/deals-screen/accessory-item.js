@@ -44,7 +44,7 @@ export default class AccessoryItem extends React.Component {
           }}
           numberOfLines={2}
         >
-          {item.title}
+          {item.name}
         </Text>
 
         {item.rating && item.rating != "0" ? (

@@ -333,6 +333,7 @@ export default class AccessoriesTab extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <ItemSelector
+          selectModalTitle="Select a Category"
           items={items.slice(0, 4)}
           moreItems={items.slice(4)}
           selectedItem={selectedItem}

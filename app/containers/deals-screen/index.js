@@ -8,10 +8,8 @@ import {
   TouchableOpacity,
   Image,
   Animated,
-  Dimensions,
-  StatusBar
+  Dimensions
 } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
@@ -27,8 +25,9 @@ import { SCREENS } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 import OffersTab from "./offers-tab";
 import AccessoriesTab from "./accessories-tab";
-import AccessaryCategoriesFilterModal from "./accessary-categories-filter-modal";
+import AccessoryCategoriesFilterModal from "./accessory-categories-filter-modal";
 
+import BlueGradientBG from "../../components/blue-gradient-bg";
 const offersIcon = require("../../images/buy.png");
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -45,7 +44,8 @@ class DealsScreen extends Component {
     this.state = {
       activeTabIndex: 0,
       accessoryCategories: [],
-      selectedAccessoryCategoryIds: []
+      selectedAccessoryCategoryIds: [],
+      selectedOfferCategory: null
     };
   }
 
@@ -84,24 +84,13 @@ class DealsScreen extends Component {
     const {
       activeTabIndex,
       selectedAccessoryCategoryIds,
-      accessoryCategories
+      accessoryCategories,
+      selectedOfferCategory
     } = this.state;
     return (
       <ScreenContainer style={styles.container}>
-        <StatusBar backgroundColor={colors.mainBlue} barStyle="light-content" />
         <View style={styles.header}>
-          <LinearGradient
-            start={{ x: 0.0, y: 0 }}
-            end={{ x: 0.0, y: 1 }}
-            colors={[colors.mainBlue, colors.aquaBlue]}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0
-            }}
-          />
+          <BlueGradientBG />
           <View style={styles.headerUpperHalf}>
             <View style={styles.offersIconWrapper}>
               <Image source={offersIcon} style={styles.offersIcon} />
@@ -116,12 +105,15 @@ class DealsScreen extends Component {
                   : `Check out Accessories for products across different price bands`}
               </Text>
             </View>
-            {activeTabIndex == 1 && accessoryCategories.length > 0 ? (
+            {(activeTabIndex == 0 && selectedOfferCategory) ||
+            (activeTabIndex == 1 && accessoryCategories.length > 0) ? (
               <TouchableOpacity
                 onPress={() =>
-                  this.accessaryCategoriesFilterModal.show(
-                    selectedAccessoryCategoryIds
-                  )
+                  activeTabIndex == 0
+                    ? this.offersFilterModalRef.show()
+                    : this.accessoryCategoriesFilterModal.show(
+                        selectedAccessoryCategoryIds
+                      )
                 }
               >
                 <Icon name="md-options" color="#fff" size={30} />
@@ -183,7 +175,14 @@ class DealsScreen extends Component {
           ]}
         >
           <View style={styles.page}>
-            <OffersTab />
+            <OffersTab
+              setOffersFilterModalRef={ref => {
+                this.offersFilterModalRef = ref;
+              }}
+              setSelectedOfferCategory={selectedOfferCategory => {
+                this.setState({ selectedOfferCategory });
+              }}
+            />
           </View>
           <View style={styles.page}>
             <AccessoriesTab
@@ -198,8 +197,8 @@ class DealsScreen extends Component {
             />
           </View>
         </Animated.View>
-        <AccessaryCategoriesFilterModal
-          ref={ref => (this.accessaryCategoriesFilterModal = ref)}
+        <AccessoryCategoriesFilterModal
+          ref={ref => (this.accessoryCategoriesFilterModal = ref)}
           accessoryCategories={accessoryCategories}
           setSelectedAccessoryCategoryIds={this.setSelectedAccessoryCategoryIds}
         />

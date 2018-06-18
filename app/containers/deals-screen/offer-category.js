@@ -7,7 +7,13 @@ import { colors } from "../../theme";
 export default class OfferCategory extends React.Component {
   render() {
     const { offerCategory, onViewAllPress } = this.props;
-    const { offers } = offerCategory;
+    const {
+      discount: discountOffers,
+      cashback: cashbackOffers,
+      others: otherOffers
+    } = offerCategory.offers;
+    const offers = [...discountOffers, ...cashbackOffers, ...otherOffers];
+
     return (
       <View style={{ fontSize: 16, padding: 10, paddingRight: 0 }}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>

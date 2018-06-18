@@ -11,12 +11,13 @@ import Snackbar from "react-native-snackbar";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 
+import BlueGradientBG from "../../components/blue-gradient-bg";
 import Checkbox from "../../components/checkbox";
 import { Text, Button } from "../../elements";
 
 import { colors } from "../../theme";
 
-export default class AccessaryCategoriesFilterModal extends React.Component {
+export default class AccessoryCategoriesFilterModal extends React.Component {
   state = {
     isModalVisible: false,
     selectedCategory: null,
@@ -74,6 +75,7 @@ export default class AccessaryCategoriesFilterModal extends React.Component {
       >
         <View style={{ backgroundColor: "#fff", flex: 1 }}>
           <View style={styles.header}>
+            <BlueGradientBG />
             <TouchableOpacity
               style={{ paddingVertical: 10, paddingHorizontal: 15 }}
               onPress={this.hide}
@@ -114,7 +116,6 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     width: "100%",
     height: 70,
-    backgroundColor: colors.pinkishOrange,
     flexDirection: "row",
     alignItems: "center",
     ...Platform.select({
