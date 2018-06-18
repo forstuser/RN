@@ -14,7 +14,7 @@ class Flipkart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            orderId: null
+            orderId: ''
         }
     }
 
@@ -32,17 +32,21 @@ class Flipkart extends Component {
 
     onGetDataMessage = event => {
         console.log("data aaya", event.nativeEvent.data);
-        const dirtyObjectArray = JSON.parse(event.nativeEvent.data);
-        console.log('dirtyObjectArray: ', dirtyObjectArray);
-        var cleanObjectArray = [
-            { key: 'Order ID', value: dirtyObjectArray[0].orderId },
-            { key: 'Order Date', value: dirtyObjectArray[1].orderDate },
-            { key: 'Total Amount', value: dirtyObjectArray[2].orderTotal },
-            { key: 'Payment Mode', value: dirtyObjectArray[3].paymentMode },
-            { key: 'Delivery Date', value: dirtyObjectArray[4].deliveryDate },
-            { key: 'Delivery Address', value: dirtyObjectArray[5].deliveryAddress }
-        ];
-        this.props.successOrder(cleanObjectArray);
+        if (event.nativeEvent.data != this.state.orderId) {
+            const dirtyObjectArray = JSON.parse(event.nativeEvent.data);
+            console.log('dirtyObjectArray: ', dirtyObjectArray);
+            var cleanObjectArray = [
+                { key: 'Order ID', value: dirtyObjectArray[0].orderId },
+                { key: 'Order Date', value: dirtyObjectArray[1].orderDate },
+                { key: 'Total Amount', value: dirtyObjectArray[2].orderTotal },
+                { key: 'Payment Mode', value: dirtyObjectArray[3].paymentMode },
+                { key: 'Delivery Date', value: dirtyObjectArray[4].deliveryDate },
+                { key: 'Delivery Address', value: dirtyObjectArray[5].deliveryAddress }
+            ];
+            console.log(this.cleanObjectArray);
+            this.props.successOrder(cleanObjectArray);
+        }
+
     };
 
 
