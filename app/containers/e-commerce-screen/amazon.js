@@ -72,11 +72,10 @@ class Amazon extends Component {
         var orderDate = order[0].innerText;
         var orderId = order[1].innerText;
         var orderTotal = order[2].innerText;
-        var asin = asinData[0].href;
         var paymentMode = paymentData[0].innerText;
         var deliveryDate = deliveryDateData[0].innerText;
         var deliveryAddress = deliveryData[3].innerText;
-        var data = [{orderId:orderId},{orderDate:orderDate},{orderTotal:orderTotal},{paymentMode:paymentMode},{deliveryDate:deliveryDate},{deliveryAddress:deliveryAddress},{asin:asin}];
+        var data = [{orderId:orderId},{orderDate:orderDate},{orderTotal:orderTotal},{paymentMode:paymentMode},{deliveryDate:deliveryDate},{deliveryAddress:deliveryAddress}];
         if(data){
             data = JSON.stringify(data);
             setTimeout(function() {

@@ -2,41 +2,26 @@ import React, { Component } from "react";
 import {
     View,
     WebView,
-    FlatList,
-    Alert,
-    TouchableOpacity,
-    StyleSheet,
-    TextInput,
-    Linking,
-    Platform
+    StyleSheet
 } from "react-native";
-import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 
 import { API_BASE_URL } from "../../api";
 import { ScreenContainer, Text, Button, Image } from "../../elements";
 import { colors } from "../../theme";
-import { showSnackbar } from "../../utils/snackbar";
-import Modal from "react-native-modal";
-import KeyValueItem from "../../components/key-value-item";
+
 
 class Flipkart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            orderId: null,
-            isModalVisible: false,
+            orderId: ''
         }
     }
 
     componentDidMount() {
-        console.log(this.props)
+        console.log("props", this.props)
     }
-    showModal = () => {
-        this.setState({ isModalVisible: true });
-    };
-    hideModal = () => {
-        this.setState({ isModalVisible: false });
-    };
+
 
     onWebViewMessage = event => {
         console.log("event.nativeEvent.data: ", event.nativeEvent.data);
@@ -46,63 +31,83 @@ class Flipkart extends Component {
     };
 
     onGetDataMessage = event => {
-        const dirtyObjectArray = JSON.parse(event.nativeEvent.data);
-        console.log(dirtyObjectArray)
-        var cleanObjectArray = [
-            { key: 'Order ID', value: dirtyObjectArray[0].orderId },
-            { key: 'Order Date', value: dirtyObjectArray[1].orderDate },
-            { key: 'Total Amount', value: dirtyObjectArray[2].orderTotal },
-            { key: 'Payment Mode', value: dirtyObjectArray[3].paymentMode },
-            { key: 'Delivery Date', value: dirtyObjectArray[4].deliveryDate },
-            { key: 'Delivery Address', value: dirtyObjectArray[5].deliveryAddress }
-            // { key: 'asin', value: dirtyObjectArray[4].asin },
-        ];
-        console.log(cleanObjectArray);
-        this.props.successOrder(cleanObjectArray);
-    };
-    exploreMoreDetails = () => {
-        this.props.navigation.goBack();
+        console.log("data aaya", event.nativeEvent.data);
+        if (event.nativeEvent.data != this.state.orderId) {
+            const dirtyObjectArray = JSON.parse(event.nativeEvent.data);
+            console.log('dirtyObjectArray: ', dirtyObjectArray);
+            var cleanObjectArray = [
+                { key: 'Order ID', value: dirtyObjectArray[0].orderId },
+                { key: 'Order Date', value: dirtyObjectArray[1].orderDate },
+                { key: 'Total Amount', value: dirtyObjectArray[2].orderTotal },
+                { key: 'Payment Mode', value: dirtyObjectArray[3].paymentMode },
+                { key: 'Delivery Date', value: dirtyObjectArray[4].deliveryDate },
+                { key: 'Delivery Address', value: dirtyObjectArray[5].deliveryAddress }
+            ];
+            console.log(this.cleanObjectArray);
+            this.props.successOrder(cleanObjectArray);
+        }
+
     };
 
+
     render() {
-        const { orderId, isModalVisible, scrapObjectArray } = this.state;
+        const { orderId } = this.state;
         const { item } = this.props;
+        let dirtyScript = ` (function(){
+            var _url = window.location.href;
+            var regexp =  /.*\id=(.*?)\&src=/;
+            var orderArray = _url.match(regexp);
+            if(orderArray){
+              var orderId = orderArray[1] + '00';
+              setTimeout(function() {
+                window.postMessage(orderId,'*');
+              }, 500);
+            }
+          })()`;
+        let scrapData = `
+          (function(){
+            var order = document.getElementsByClassName("_186Y-h");
+            var order_id = document.getElementsByClassName("_3g677S _2ZxdUc");
+            var price = document.getElementsByClassName("_2Iqb-E");
+            var paymentData = document.getElementsByClassName("_1IyHiW _2ZxdUc");
+            var deliveryData = document.getElementsByClassName("_1DcR8Z");
+            if(order){
+              var orderDate = order[0].innerText;
+              var orderId = order_id[0].innerText;
+              var orderTotal = price[0].innerText;
+              var paymentMode = paymentData[0].innerText;
+              var deliveryDate = order[3].innerText;
+              var deliveryAddress = deliveryData[0].innerText;
+              var data = [{orderId:orderId},{orderDate:orderDate},{orderTotal:orderTotal},{paymentMode:paymentMode},{deliveryDate:deliveryDate},{deliveryAddress:deliveryAddress}];
+              if(data){
+                  data = JSON.stringify(data);
+                  console.log("data",data);
+                  setTimeout(function() {
+                  window.postMessage(data,'*');
+                }, 500);
+              }
+            }
+          })()`;
+
         return (
             <ScreenContainer style={styles.container}>
-                <Text>Working on this</Text>
-                <Modal
-                    style={{ margin: 0 }}
-                    isVisible={isModalVisible}
-                    useNativeDriver={true}
-                    onBackButtonPress={this.hideModal}
-                    onBackdropPress={this.hideModal}
-                >
-                    <View style={{ backgroundColor: '#fff', padding: 20 }}>
-                        <Text style={{ color: colors.tomato, fontWeight: 'bold', fontSize: 18 }} >Order Successful!</Text>
-                        <View style={styles.imageContainer}>
-                            <Image
-                                style={{ width: 50, height: 50, flex: 1 }}
-                                source={{ uri: item.image }}
-                            />
-                            <Text numberOfLines={2} style={{ flex: 2, fontWeight: 'bold' }}>{item.name}</Text>
-                        </View>
-                        <View style={{ marginTop: 10 }}>
-                            {scrapObjectArray.map((item) => {
-                                return (<KeyValueItem
-                                    keyText={item.key}
-                                    valueText={item.value}
-                                />)
-                            })}
-                        </View>
-                        <Button
-                            onPress={this.exploreMoreDetails}
-                            text={"Explore More Details"}
-                            color="secondary"
-                            borderRadius={30}
-                            style={styles.exploreButton}
+                {orderId ? (
+                    <WebView
+                        injectedJavaScript={scrapData}
+                        scrollEnabled={false}
+                        source={{
+                            uri: `https://www.flipkart.com/rv/orderDetails?order_id=${orderId}`
+                        }}
+                        onMessage={this.onGetDataMessage}
+                    />
+                ) : (
+                        <WebView
+                            injectedJavaScript={dirtyScript}
+                            scrollEnabled={false}
+                            source={{ uri: item.url }}
+                            onMessage={this.onWebViewMessage}
                         />
-                    </View>
-                </Modal>
+                    )}
             </ScreenContainer>
         );
     }
@@ -115,14 +120,7 @@ const styles = StyleSheet.create({
     WebViewStyle: {
         justifyContent: "center",
         alignItems: "center"
-    },
-    imageContainer: {
-        flexDirection: 'row',
-        marginTop: 25
-    },
-    exploreButton: {
-        width: "100%"
-    },
+    }
 });
 
 export default Flipkart;
