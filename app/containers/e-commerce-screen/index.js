@@ -20,9 +20,9 @@ class EcommerceScreen extends Component {
   componentDidMount() {
     console.log(this.props)
   }
+
   getOrderDetails = (data) => {
     console.log(data);
-
     this.setState({
       scrapObjectArray: data,
       isModalVisible: true
