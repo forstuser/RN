@@ -8,26 +8,61 @@ import { Text, Button, Image } from "../../elements";
 import Modal from "react-native-modal";
 import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
+import { API_BASE_URL, createTransaction } from "../../api";
 class EcommerceScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       orderId: null,
+      item: null,
       isModalVisible: false,
       scrapObjectArray: []
     }
   }
   componentDidMount() {
-    console.log(this.props)
+    console.log("item with get Params", this.props.navigation.getParam("item"))
+    this.setState({
+      item: this.props.navigation.getParam("item")
+    })
   }
 
-  getOrderDetails = (data) => {
-    console.log(data);
+  getAmazonOrderDetails = (data) => {
+    console.log("amazon", data);
     this.setState({
       scrapObjectArray: data,
       isModalVisible: true
     })
   }
+  getFlipkartOrderDetails = (data) => {
+    console.log(data);
+    const item = this.state.item;
+    this.setState({
+      scrapObjectArray: data,
+      isModalVisible: true
+    })
+  }
+
+  transaction = async (transaction_id, price, quantity, online_seller_id, product_id, accessory_product_id, payment_mode, details_url) => {
+    try {
+      await createTransaction({
+        transaction_id,
+        price,
+        quantity,
+        online_seller_id,
+        // delivery_address,
+        // delivery_date,
+        product_id,
+        accessory_product_id,
+        payment_mode,
+        details_url
+      });
+    } catch (e) {
+      showSnackbar({
+        text: e.message
+      });
+    }
+  };
+
   exploreMoreDetails = () => {
     this.props.navigation.goBack();
   };
@@ -42,9 +77,9 @@ class EcommerceScreen extends Component {
     const item = this.props.navigation.getParam("item", null);
     return (<View style={{ flex: 1 }}>
       {item.seller == 'amazonIn' ?
-        <Amazon item={item} successOrder={this.getOrderDetails} />
+        <Amazon item={item} successOrder={this.getAmazonOrderDetails} />
         :
-        <Flipkart item={item} successOrder={this.getOrderDetails} />
+        <Flipkart item={item} successOrder={this.getFlipkartOrderDetails} />
       }
       <Modal
         style={{ margin: 0 }}
