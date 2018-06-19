@@ -33,6 +33,7 @@ class Flipkart extends Component {
     onGetDataMessage = event => {
         console.log("data aaya", event.nativeEvent.data);
         if (event.nativeEvent.data != this.state.orderId) {
+            console.log("data aaya 2", event.nativeEvent.data);
             const dirtyObjectArray = JSON.parse(event.nativeEvent.data);
             console.log('dirtyObjectArray: ', dirtyObjectArray);
             var cleanObjectArray = [
@@ -40,8 +41,7 @@ class Flipkart extends Component {
                 { key: 'Order Date', value: dirtyObjectArray[1].orderDate },
                 { key: 'Total Amount', value: dirtyObjectArray[2].orderTotal },
                 { key: 'Payment Mode', value: dirtyObjectArray[3].paymentMode },
-                { key: 'Delivery Date', value: dirtyObjectArray[4].deliveryDate },
-                { key: 'Delivery Address', value: dirtyObjectArray[5].deliveryAddress }
+                { key: 'Delivery Address', value: dirtyObjectArray[4].deliveryAddress }
             ];
             console.log(this.cleanObjectArray);
             this.props.successOrder(cleanObjectArray);
@@ -76,9 +76,8 @@ class Flipkart extends Component {
               var orderId = order_id[0].innerText;
               var orderTotal = price[0].innerText;
               var paymentMode = paymentData[0].innerText;
-              var deliveryDate = order[3].innerText;
               var deliveryAddress = deliveryData[0].innerText;
-              var data = [{orderId:orderId},{orderDate:orderDate},{orderTotal:orderTotal},{paymentMode:paymentMode},{deliveryDate:deliveryDate},{deliveryAddress:deliveryAddress}];
+              var data = [{orderId:orderId},{orderDate:orderDate},{orderTotal:orderTotal},{paymentMode:paymentMode},{deliveryAddress:deliveryAddress}];
               if(data){
                   data = JSON.stringify(data);
                   console.log("data",data);
