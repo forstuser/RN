@@ -5,7 +5,8 @@ import {
   StyleSheet,
   FlatList,
   Platform,
-  TouchableOpacity
+  TouchableOpacity,
+  Switch
 } from "react-native";
 import Snackbar from "react-native-snackbar";
 import Modal from "react-native-modal";
@@ -24,7 +25,7 @@ export default class OffersFilterModal extends React.Component {
     activeFilter: "type",
     selectedDiscountType: null,
     selectedCashbackType: null,
-    includeOtherOfferTypes: true,
+    onlyOtherOfferTypes: false,
     selectedMerchants: []
   };
 
@@ -37,15 +38,29 @@ export default class OffersFilterModal extends React.Component {
   };
 
   onDiscountTypePress = discount => {
-    this.setState({
-      selectedDiscountType: discount
-    });
+    if (this.state.selectedDiscountType == discount) {
+      this.setState({
+        selectedDiscountType: null
+      });
+    } else {
+      this.setState({
+        selectedDiscountType: discount,
+        onlyOtherOfferTypes: false
+      });
+    }
   };
 
   onCashbackTypePress = cashback => {
-    this.setState({
-      selectedCashbackType: cashback
-    });
+    if (this.state.selectedCashbackType == cashback) {
+      this.setState({
+        selectedCashbackType: null
+      });
+    } else {
+      this.setState({
+        selectedCashbackType: cashback,
+        onlyOtherOfferTypes: false
+      });
+    }
   };
 
   toggleSelectedMerchant = item => {
@@ -78,14 +93,59 @@ export default class OffersFilterModal extends React.Component {
     const {
       selectedDiscountType,
       selectedCashbackType,
+      onlyOtherOfferTypes,
       selectedMerchants
     } = this.state;
     setFilters({
       selectedDiscountType,
       selectedCashbackType,
+      onlyOtherOfferTypes,
       selectedMerchants
     });
     this.hide();
+  };
+
+  removeFilterDiscountType = () => {
+    this.setState({ selectedDiscountType: null }, () =>
+      this.provideSelectedFiltersToParent()
+    );
+  };
+
+  removeFilterCashbackType = () => {
+    this.setState({ selectedCashbackType: null }, () =>
+      this.provideSelectedFiltersToParent()
+    );
+  };
+
+  removeFilterMerchant = merchant => {
+    const selectedMerchants = [...this.state.selectedMerchants];
+    const idx = selectedMerchants.indexOf(merchant);
+
+    if (idx > -1) {
+      selectedMerchants.splice(idx, 1);
+    }
+    this.setState({ selectedMerchants }, () =>
+      this.provideSelectedFiltersToParent()
+    );
+  };
+
+  removeOtherOffers = () => {
+    this.setState(
+      {
+        onlyOtherOfferTypes: false
+      },
+      () => {
+        this.provideSelectedFiltersToParent();
+      }
+    );
+  };
+
+  toggleOtherOffers = () => {
+    this.setState({
+      onlyOtherOfferTypes: !this.state.onlyOtherOfferTypes,
+      selectedCashbackType: null,
+      selectedDiscountType: null
+    });
   };
 
   render() {
@@ -98,6 +158,7 @@ export default class OffersFilterModal extends React.Component {
       activeFilter,
       selectedDiscountType,
       selectedCashbackType,
+      onlyOtherOfferTypes,
       selectedMerchants
     } = this.state;
 
@@ -153,9 +214,13 @@ export default class OffersFilterModal extends React.Component {
             <View style={styles.filterValues}>
               {activeFilter == "type" ? (
                 <ScrollView style={styles.offerTypes}>
-                  <Text weight="Medium" style={styles.offerTypeTitle}>
-                    Discount
-                  </Text>
+                  {offerTypes.discount.length > 0 ? (
+                    <Text weight="Medium" style={styles.offerTypeTitle}>
+                      Discount
+                    </Text>
+                  ) : (
+                    <View />
+                  )}
                   {offerTypes.discount.map(discount => (
                     <View key={discount}>
                       <TouchableOpacity
@@ -173,9 +238,13 @@ export default class OffersFilterModal extends React.Component {
                     </View>
                   ))}
 
-                  <Text weight="Medium" style={styles.offerTypeTitle}>
-                    Cashback
-                  </Text>
+                  {offerTypes.cashback.length > 0 ? (
+                    <Text weight="Medium" style={styles.offerTypeTitle}>
+                      Cashback
+                    </Text>
+                  ) : (
+                    <View />
+                  )}
                   {offerTypes.cashback.map(cashback => (
                     <View key={cashback}>
                       <TouchableOpacity
@@ -192,6 +261,19 @@ export default class OffersFilterModal extends React.Component {
                       <View style={{ height: 1, backgroundColor: "#eee" }} />
                     </View>
                   ))}
+                  <View style={styles.filterItem}>
+                    <Text weight="Bold" style={styles.filterItemText}>
+                      Other Offers
+                    </Text>
+                    <Switch
+                      style={{
+                        transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }],
+                        marginRight: -7
+                      }}
+                      value={onlyOtherOfferTypes}
+                      onValueChange={this.toggleOtherOffers}
+                    />
+                  </View>
                 </ScrollView>
               ) : (
                 <FlatList
@@ -258,7 +340,8 @@ const styles = StyleSheet.create({
   },
   filterItem: {
     flexDirection: "row",
-    padding: 10
+    padding: 10,
+    alignItems: "center"
   },
   filterItemText: {
     flex: 1

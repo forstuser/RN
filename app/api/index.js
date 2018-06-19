@@ -1603,7 +1603,9 @@ export const fetchCategoryOffers = async ({
   lastOtherOfferId,
   cashback,
   discount,
-  merchants = []
+  otherOfferTypes,
+  merchants = [],
+  sort
 }) => {
   const queryParams = {
     discount_offer_id: lastDiscountOfferId || undefined,
@@ -1611,7 +1613,10 @@ export const fetchCategoryOffers = async ({
     other_offer_id: lastOtherOfferId || undefined,
     cashback: cashback || undefined,
     discount: discount || undefined,
-    merchant: merchants.length > 0 ? merchants.join() : undefined
+    other: otherOfferTypes,
+    merchant: merchants.length > 0 ? merchants.join() : undefined,
+    cashback_sort: cashback ? sort : undefined,
+    discount_sort: discount ? sort : undefined
   };
   return await apiRequest({
     method: "get",

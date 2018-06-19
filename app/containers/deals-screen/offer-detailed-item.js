@@ -120,7 +120,7 @@ export default class OfferDetailedView extends React.Component {
           </Text>
         )}
         <Button
-          onPress={() => Linking.openURL(item.goto_link)}
+          onPress={() => Linking.openURL(item.promo_link)}
           color="secondary"
           text="Start Shopping"
           style={{ width: 150, height: 35, alignSelf: "center", marginTop: 20 }}

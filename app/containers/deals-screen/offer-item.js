@@ -35,7 +35,7 @@ export default class AccessoryItem extends React.Component {
         duration: Snackbar.LENGTH_SHORT
       });
     } else {
-      Linking.openURL(item.goto_link);
+      Linking.openURL(item.promo_link);
     }
   };
   render() {

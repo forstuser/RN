@@ -12,15 +12,20 @@ import Snackbar from "react-native-snackbar";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { Text } from "../../elements";
+import Radiobox from "../../components/radiobox";
+import { Text, Image } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ItemSelector from "../../components/item-selector";
 import BlueGradientBG from "../../components/blue-gradient-bg";
+import Tag from "../../components/tag";
+import OffersFilterModal from "./offers-filter-modal";
 
 import { colors } from "../../theme";
 import { API_BASE_URL, fetchCategoryOffers } from "../../api";
 
 import OfferDetailedItem from "./offer-detailed-item";
+
+import sortIcon from "../../images/sort_icon.png";
 
 export default class OffersModal extends React.Component {
   state = {
@@ -30,10 +35,29 @@ export default class OffersModal extends React.Component {
     discountOffers: [],
     cashbackOffers: [],
     otherOffers: [],
-    isLoading: false
+    offerTypes: {
+      discount: [],
+      cashback: []
+    },
+    offerMerchants: [],
+    selectedDiscountType: "",
+    selectedCashbackType: "",
+    onlyOtherOfferTypes: false,
+    selectedMerchants: [],
+    isLoading: false,
+    isSortModalVisible: false,
+    sort: "desc" // or asc
   };
 
-  show = category => {
+  show = ({
+    category,
+    offerTypes,
+    offerMerchants,
+    selectedCashbackType,
+    selectedDiscountType,
+    onlyOtherOfferTypes,
+    selectedMerchants
+  }) => {
     const {
       discount: discountOffers,
       cashback: cashbackOffers,
@@ -47,12 +71,28 @@ export default class OffersModal extends React.Component {
       offers,
       discountOffers,
       cashbackOffers,
-      otherOffers
+      otherOffers,
+      offerTypes,
+      offerMerchants,
+      selectedDiscountType,
+      selectedCashbackType,
+      onlyOtherOfferTypes,
+      selectedMerchants
     });
   };
 
   loadOffers = async () => {
-    const { offers, discountOffers, cashbackOffers, otherOffers } = this.state;
+    const {
+      offers,
+      discountOffers,
+      cashbackOffers,
+      otherOffers,
+      selectedDiscountType,
+      selectedCashbackType,
+      onlyOtherOfferTypes,
+      selectedMerchants,
+      sort
+    } = this.state;
     this.setState({ isLoading: true });
     const lastDiscountOffer = discountOffers.slice(-1)[0];
     const lastCashbackOffer = cashbackOffers.slice(-1)[0];
@@ -66,7 +106,16 @@ export default class OffersModal extends React.Component {
         lastCashbackOfferId: lastCashbackOffer
           ? lastCashbackOffer.id
           : undefined,
-        lastOtherOfferId: lastOtherOffer ? lastOtherOffer.id : undefined
+        lastOtherOfferId: lastOtherOffer ? lastOtherOffer.id : undefined,
+        discount: selectedDiscountType,
+        cashback: selectedCashbackType,
+        otherOfferTypes: onlyOtherOfferTypes,
+        merchants: selectedMerchants,
+        sort:
+          (selectedCashbackType && !selectedDiscountType) ||
+          (selectedDiscountType && !selectedCashbackType)
+            ? sort
+            : undefined
       });
       const {
         discount: resDiscountOffers,
@@ -95,10 +144,9 @@ export default class OffersModal extends React.Component {
     }
   };
 
-  onItemSelect = category => {
+  loadOffersFirstPage = () => {
     this.setState(
       {
-        selectedCategory: category,
         offers: [],
         discountOffers: [],
         cashbackOffers: [],
@@ -110,9 +158,97 @@ export default class OffersModal extends React.Component {
     );
   };
 
+  onItemSelect = category => {
+    this.setState(
+      {
+        selectedCategory: category
+      },
+      () => {
+        this.loadOffersFirstPage();
+      }
+    );
+  };
+
+  setFilters = ({
+    selectedDiscountType,
+    selectedCashbackType,
+    onlyOtherOfferTypes,
+    selectedMerchants
+  }) => {
+    this.setState(
+      {
+        selectedDiscountType,
+        selectedCashbackType,
+        onlyOtherOfferTypes,
+        selectedMerchants
+      },
+      () => {
+        this.loadOffersFirstPage();
+      }
+    );
+  };
+
+  removeOtherOffers = () => {
+    if (this.offersFilterModal) {
+      this.offersFilterModal.removeOtherOffers();
+    }
+  };
+
+  removeFilterDiscountType = () => {
+    if (this.offersFilterModal) {
+      this.offersFilterModal.removeFilterDiscountType();
+    }
+  };
+
+  removeFilterCashbackType = () => {
+    if (this.offersFilterModal) {
+      this.offersFilterModal.removeFilterCashbackType();
+    }
+  };
+
+  removeFilterMerchant = merchant => {
+    if (this.offersFilterModal) {
+      this.offersFilterModal.removeFilterMerchant(merchant);
+    }
+  };
+
+  hideSortModal = () => {
+    this.setState({
+      isSortModalVisible: false
+    });
+  };
+
+  setSort = sort => {
+    this.setState(
+      {
+        sort,
+        isSortModalVisible: false
+      },
+      () => {
+        this.loadOffersFirstPage();
+      }
+    );
+  };
+
   render() {
     const { title, offerCategories } = this.props;
-    const { isModalVisible, selectedCategory, offers, isLoading } = this.state;
+    const {
+      isModalVisible,
+      selectedCategory,
+      offers,
+      isLoading,
+      offerTypes,
+      offerMerchants,
+      selectedDiscountType,
+      selectedCashbackType,
+      onlyOtherOfferTypes,
+      selectedMerchants,
+      isSortModalVisible,
+      sort
+    } = this.state;
+
+    let sortBy =
+      selectedCashbackType && !selectedDiscountType ? "Cashback" : "Discount";
 
     return (
       <Modal
@@ -130,9 +266,30 @@ export default class OffersModal extends React.Component {
             >
               <Icon name="md-arrow-round-back" color="#fff" size={30} />
             </TouchableOpacity>
-            <Text weight="Bold" style={{ color: "#fff", fontSize: 20 }}>
+            <Text
+              weight="Bold"
+              style={{ color: "#fff", fontSize: 20, flex: 1, paddingRight: 10 }}
+              numberOfLines={1}
+            >
               {title}
             </Text>
+            {(selectedCashbackType && !selectedDiscountType) ||
+            (selectedDiscountType && !selectedCashbackType) ? (
+              <TouchableOpacity
+                style={{ marginRight: 12 }}
+                onPress={() => this.setState({ isSortModalVisible: true })}
+              >
+                <Image source={sortIcon} style={{ width: 26, height: 20 }} />
+              </TouchableOpacity>
+            ) : (
+              <View />
+            )}
+            <TouchableOpacity
+              style={{ marginRight: 10 }}
+              onPress={() => this.offersFilterModal.show()}
+            >
+              <Icon name="md-options" color="#f7f7f7" size={30} />
+            </TouchableOpacity>
           </View>
           <View style={styles.body}>
             <ItemSelector
@@ -146,6 +303,50 @@ export default class OffersModal extends React.Component {
             />
             {selectedCategory ? (
               <View style={{ backgroundColor: "#f7f7f7", flex: 1 }}>
+                {selectedDiscountType ||
+                selectedCashbackType ||
+                onlyOtherOfferTypes ||
+                selectedMerchants.length > 0 ? (
+                  <View style={{ height: 36, paddingVertical: 5 }}>
+                    <ScrollView horizontal>
+                      {onlyOtherOfferTypes ? (
+                        <Tag
+                          text="Other Offers"
+                          onPressClose={this.removeOtherOffers}
+                        />
+                      ) : (
+                        <View />
+                      )}
+                      {selectedDiscountType ? (
+                        <Tag
+                          text={selectedDiscountType + "% Discount"}
+                          onPressClose={this.removeFilterDiscountType}
+                        />
+                      ) : (
+                        <View />
+                      )}
+                      {selectedCashbackType ? (
+                        <Tag
+                          text={"Rs. " + selectedCashbackType + " Cashback"}
+                          onPressClose={this.removeFilterCashbackType}
+                        />
+                      ) : (
+                        <View />
+                      )}
+                      {selectedMerchants.map(merchant => (
+                        <Tag
+                          key={merchant}
+                          text={merchant}
+                          onPressClose={() =>
+                            this.removeFilterMerchant(merchant)
+                          }
+                        />
+                      ))}
+                    </ScrollView>
+                  </View>
+                ) : (
+                  <View />
+                )}
                 <FlatList
                   data={offers}
                   renderItem={({ item }) => (
@@ -172,6 +373,48 @@ export default class OffersModal extends React.Component {
               <View />
             )}
           </View>
+          <OffersFilterModal
+            ref={ref => {
+              this.offersFilterModal = ref;
+            }}
+            offerTypes={offerTypes}
+            offerMerchants={offerMerchants}
+            setFilters={this.setFilters}
+          />
+          <Modal
+            style={{ margin: 0 }}
+            isVisible={isSortModalVisible}
+            useNativeDriver={true}
+            onBackButtonPress={this.hideSortModal}
+            onBackdropPress={this.hideSortModal}
+          >
+            <View style={styles.sortModal}>
+              <TouchableOpacity
+                onPress={() => this.setSort("desc")}
+                style={styles.sortOption}
+              >
+                <Radiobox isChecked={sort == "desc"} />
+                <Text weight="Medium" style={styles.sortOptionText}>
+                  High to low ({sortBy})
+                </Text>
+              </TouchableOpacity>
+              <View
+                style={{
+                  borderBottomWidth: 1,
+                  borderBottomColor: "#efefef"
+                }}
+              />
+              <TouchableOpacity
+                onPress={() => this.setSort("asc")}
+                style={styles.sortOption}
+              >
+                <Radiobox isChecked={sort == "asc"} />
+                <Text weight="Medium" style={styles.sortOptionText}>
+                  Low to High ({sortBy})
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </Modal>
         </View>
       </Modal>
     );
@@ -192,5 +435,18 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1
+  },
+  sortModal: {
+    backgroundColor: "#fff",
+    margin: 20,
+    borderRadius: 5
+  },
+  sortOption: {
+    flexDirection: "row",
+    padding: 15,
+    alignItems: "center"
+  },
+  sortOptionText: {
+    marginLeft: 10
   }
 });

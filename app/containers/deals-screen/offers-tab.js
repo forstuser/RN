@@ -4,6 +4,7 @@ import Snackbar from "react-native-snackbar";
 import { Text } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ItemSelector from "../../components/item-selector";
+import Tag from "../../components/tag";
 import {
   API_BASE_URL,
   fetchOfferCategories,
@@ -26,6 +27,7 @@ export default class OffersTab extends React.Component {
     offerMerchants: [],
     selectedDiscountType: "",
     selectedCashbackType: "",
+    onlyOtherOfferTypes: false,
     selectedMerchants: [],
     isLoading: false,
     offerCategories: []
@@ -61,6 +63,7 @@ export default class OffersTab extends React.Component {
       selectedCategory,
       selectedCashbackType,
       selectedDiscountType,
+      onlyOtherOfferTypes,
       selectedMerchants
     } = this.state;
     this.setState({ isLoading: true });
@@ -69,6 +72,7 @@ export default class OffersTab extends React.Component {
         categoryId: selectedCategory.id,
         discount: selectedDiscountType,
         cashback: selectedCashbackType,
+        otherOfferTypes: onlyOtherOfferTypes,
         merchants: selectedMerchants
       });
       this.setState({
@@ -132,7 +136,10 @@ export default class OffersTab extends React.Component {
           discount: discountTypes,
           cashback: cashbackTypes
         },
-        offerMerchants
+        offerMerchants,
+        selectedCashbackType: null,
+        selectedDiscountType: null,
+        selectedMerchants: []
       },
       () => {
         this.fetchOffers();
@@ -143,18 +150,39 @@ export default class OffersTab extends React.Component {
   setFilters = ({
     selectedDiscountType,
     selectedCashbackType,
+    onlyOtherOfferTypes,
     selectedMerchants
   }) => {
     this.setState(
       {
         selectedDiscountType,
         selectedCashbackType,
+        onlyOtherOfferTypes,
         selectedMerchants
       },
       () => {
         this.fetchOffers();
       }
     );
+  };
+
+  showOfferModal = category => {
+    const {
+      offerTypes,
+      offerMerchants,
+      selectedDiscountType,
+      selectedCashbackType,
+      selectedMerchants
+    } = this.state;
+
+    this.offersModal.show({
+      category,
+      offerTypes,
+      offerMerchants,
+      selectedCashbackType,
+      selectedDiscountType,
+      selectedMerchants
+    });
   };
 
   render() {
@@ -164,11 +192,15 @@ export default class OffersTab extends React.Component {
       offerTypes,
       offerMerchants,
       isLoading,
-      offerCategories
+      offerCategories,
+      selectedDiscountType,
+      selectedCashbackType,
+      onlyOtherOfferTypes,
+      selectedMerchants
     } = this.state;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
         <ItemSelector
           selectModalTitle="Select a Category"
           items={categories.slice(0, 4)}
@@ -197,28 +229,74 @@ export default class OffersTab extends React.Component {
         ) : (
           <View />
         )}
-        {offerCategories.length > 0 ? (
-          <FlatList
-            style={{ flex: 1, backgroundColor: "#f7f7f7" }}
-            data={offerCategories}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => (
-              <View>
-                <OfferCategory
-                  onViewAllPress={() => {
-                    this.offersModal.show(item);
-                  }}
-                  offerCategory={item}
+        {selectedDiscountType ||
+        selectedCashbackType ||
+        onlyOtherOfferTypes ||
+        selectedMerchants.length > 0 ? (
+          <View style={{ height: 36, paddingVertical: 5 }}>
+            <ScrollView horizontal>
+              {onlyOtherOfferTypes ? (
+                <Tag
+                  text="Other Offers"
+                  onPressClose={this.offersFilterModal.removeOtherOffers}
                 />
-              </View>
-            )}
-            onRefresh={this.fetchCategoryOffers}
-            refreshing={isLoading}
-          />
+              ) : (
+                <View />
+              )}
+              {selectedDiscountType ? (
+                <Tag
+                  text={selectedDiscountType + "% Discount"}
+                  onPressClose={this.offersFilterModal.removeFilterDiscountType}
+                />
+              ) : (
+                <View />
+              )}
+              {selectedCashbackType ? (
+                <Tag
+                  text={"Rs. " + selectedCashbackType + " Cashback"}
+                  onPressClose={this.offersFilterModal.removeFilterCashbackType}
+                />
+              ) : (
+                <View />
+              )}
+              {selectedMerchants.map(merchant => (
+                <Tag
+                  key={merchant}
+                  text={merchant}
+                  onPressClose={() =>
+                    this.offersFilterModal.removeFilterMerchant(merchant)
+                  }
+                />
+              ))}
+            </ScrollView>
+          </View>
         ) : (
           <View />
         )}
-        {offerCategories.length == -1 ? (
+        <View style={{ flex: 1 }}>
+          {offerCategories.length > 0 ? (
+            <FlatList
+              style={{ flex: 1 }}
+              data={offerCategories}
+              keyExtractor={item => item.id}
+              renderItem={({ item }) => (
+                <View>
+                  <OfferCategory
+                    onViewAllPress={() => {
+                      this.showOfferModal(item);
+                    }}
+                    offerCategory={item}
+                  />
+                </View>
+              )}
+              onRefresh={this.fetchCategoryOffers}
+              refreshing={isLoading}
+            />
+          ) : (
+            <View />
+          )}
+        </View>
+        {/* {offerCategories.length == -1 ? (
           <View style={{ flex: 1, backgroundColor: "#f7f7f7", padding: 10 }}>
             <FlatList
               data={offerCategories[0].offers}
@@ -228,26 +306,23 @@ export default class OffersTab extends React.Component {
           </View>
         ) : (
           <View />
-        )}
+        )} */}
         <LoadingOverlay visible={isLoading} />
         <OffersModal
           ref={node => (this.offersModal = node)}
           title={selectedCategory ? selectedCategory.name + " Offers" : ""}
           offerCategories={offerCategories}
         />
-        {selectedCategory ? (
-          <OffersFilterModal
-            ref={ref => {
-              this.offersFilterModal = ref;
-              this.props.setOffersFilterModalRef(ref);
-            }}
-            offerTypes={offerTypes}
-            offerMerchants={offerMerchants}
-            setFilters={this.setFilters}
-          />
-        ) : (
-          <View />
-        )}
+
+        <OffersFilterModal
+          ref={ref => {
+            this.offersFilterModal = ref;
+            this.props.setOffersFilterModalRef(ref);
+          }}
+          offerTypes={offerTypes}
+          offerMerchants={offerMerchants}
+          setFilters={this.setFilters}
+        />
       </View>
     );
   }

@@ -44,7 +44,7 @@ export default class OfferCategory extends React.Component {
         <FlatList
           data={offers.slice(0, 6)}
           horizontal={true}
-          renderItem={({ item }) => <OfferItem item={item} />}
+          renderItem={({ item }) => <OfferItem item={item} selectedFilters />}
           keyExtractor={item => item.id}
         />
       </View>
