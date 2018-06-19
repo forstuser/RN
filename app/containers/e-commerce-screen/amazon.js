@@ -19,7 +19,7 @@ class Amazon extends Component {
   }
 
   componentDidMount() {
-    console.log("props", this.props)
+    // console.log("props", this.props)
   }
 
 
