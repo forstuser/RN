@@ -2,6 +2,7 @@ import React from "react";
 import { View, ScrollView, FlatList, ActivityIndicator } from "react-native";
 import Snackbar from "react-native-snackbar";
 import { Text } from "../../elements";
+import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
 import SelectOrCreateItem from "../../components/select-or-create-item";
 import ItemSelector from "../../components/item-selector";
@@ -32,7 +33,8 @@ export default class AccessoriesTab extends React.Component {
     items: [],
     accessoryCategories: [],
     product: null,
-    selectedBrand: null
+    selectedBrand: null,
+    error: null
   };
   componentDidMount() {
     this.fetchAccessoriesData();
@@ -327,8 +329,15 @@ export default class AccessoriesTab extends React.Component {
       accessoryCategories,
       product,
       brandName,
-      modelName
+      modelName,
+      error
     } = this.state;
+
+    if (error) {
+      return (
+        <ErrorOverlay error={error} onRetryPress={this.fetchAccessoriesData} />
+      );
+    }
 
     return (
       <View style={{ flex: 1 }}>

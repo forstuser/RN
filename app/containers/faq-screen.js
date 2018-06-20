@@ -65,7 +65,6 @@ class FaqScreen extends Component {
 }
 const styles = StyleSheet.create({
   contain: {
-    fontSize: 14,
     padding: 0
   },
   text: {

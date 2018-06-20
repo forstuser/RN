@@ -1659,3 +1659,10 @@ export const createTransaction = async ({
     data: JSON.parse(JSON.stringify(data))
   });
 };
+
+export const fetchOrderHistory = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/order/history`
+  });
+};

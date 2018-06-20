@@ -2,6 +2,7 @@ import React from "react";
 import { View, ScrollView, FlatList } from "react-native";
 import Snackbar from "react-native-snackbar";
 import { Text } from "../../elements";
+import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
 import ItemSelector from "../../components/item-selector";
 import Tag from "../../components/tag";
@@ -30,14 +31,15 @@ export default class OffersTab extends React.Component {
     onlyOtherOfferTypes: false,
     selectedMerchants: [],
     isLoading: false,
-    offerCategories: []
+    offerCategories: [],
+    error: null
   };
   componentDidMount() {
     this.fetchCategories();
   }
 
   fetchCategories = async () => {
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, error: null });
     try {
       const res = await fetchOfferCategories();
       this.setState({
@@ -47,12 +49,8 @@ export default class OffersTab extends React.Component {
           imageUrl: category.image_url
         }))
       });
-    } catch (e) {
-      this.setState({ isLoading: false });
-      Snackbar.show({
-        title: e.message,
-        duration: Snackbar.LENGTH_SHORT
-      });
+    } catch (error) {
+      this.setState({ error });
     } finally {
       this.setState({ isLoading: false });
     }
@@ -196,8 +194,13 @@ export default class OffersTab extends React.Component {
       selectedDiscountType,
       selectedCashbackType,
       onlyOtherOfferTypes,
-      selectedMerchants
+      selectedMerchants,
+      error
     } = this.state;
+
+    if (error) {
+      return <ErrorOverlay error={error} onRetryPress={this.fetchCategories} />;
+    }
 
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
