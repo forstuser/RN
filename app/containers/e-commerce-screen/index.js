@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import {
-  StyleSheet, View
+  StyleSheet,
+  View,
+  ScrollView,
+  FlatList,
+  TouchableOpacity
 } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import Snackbar from "react-native-snackbar";
+import moment from "moment";
+
 import Amazon from "./amazon";
 import Flipkart from "./flipkart";
 import { Text, Button, Image } from "../../elements";
@@ -9,56 +17,105 @@ import Modal from "react-native-modal";
 import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
 import { API_BASE_URL, createTransaction } from "../../api";
+import { SCREENS } from "../../constants";
+
+const NEW_LINE_REGEX = /(?:\r\n|\r|\n)/g;
 class EcommerceScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       orderId: null,
       item: null,
+      productId: null,
       isModalVisible: false,
       scrapObjectArray: []
-    }
+    };
   }
   componentDidMount() {
-    console.log("item with get Params", this.props.navigation.getParam("item"))
+    console.log(
+      'this.props.navigation.getParam("productId", null): ',
+      this.props.navigation.getParam("productId", null)
+    );
     this.setState({
-      item: this.props.navigation.getParam("item")
-    })
+      item: this.props.navigation.getParam("item", null),
+      productId: this.props.navigation.getParam("productId", null)
+    });
   }
 
-  getAmazonOrderDetails = (data) => {
-    console.log("amazon", data);
-    this.setState({
-      scrapObjectArray: data,
-      isModalVisible: true
-    })
-  }
-  getFlipkartOrderDetails = (data) => {
-    console.log(data);
-    const item = this.state.item;
-    this.setState({
-      scrapObjectArray: data,
-      isModalVisible: true
-    })
-  }
+  getAmazonOrderDetails = async data => {
+    const { item, productId } = this.state;
 
-  transaction = async (transaction_id, price, quantity, online_seller_id, product_id, accessory_product_id, payment_mode, details_url) => {
+    const scrapObjectArray = [
+      { key: "Order ID", value: data.orderId.replace(NEW_LINE_REGEX, "") },
+      {
+        key: "Order Date",
+        value: data.orderDate.replace(NEW_LINE_REGEX, "")
+      },
+      {
+        key: "Total Amount",
+        value: data.orderTotal.replace(NEW_LINE_REGEX, "")
+      },
+      {
+        key: "Payment Mode",
+        value: data.paymentMode.replace(NEW_LINE_REGEX, "")
+      },
+      {
+        key: "Delivery Date",
+        value: data.deliveryDate.replace(NEW_LINE_REGEX, "")
+      },
+      { key: "Delivery Address", value: data.deliveryAddress }
+    ];
+
+    console.log("scrapObjectArray: ", scrapObjectArray);
+    this.setState({
+      scrapObjectArray: scrapObjectArray,
+      isModalVisible: true
+    });
+
+    const orderId = data.orderId.replace(NEW_LINE_REGEX, "");
+
     try {
       await createTransaction({
-        transaction_id,
-        price,
-        quantity,
-        online_seller_id,
-        // delivery_address,
-        // delivery_date,
-        product_id,
-        accessory_product_id,
-        payment_mode,
-        details_url
+        productId: productId,
+        accessoryProductId: item.id,
+        transactionId: orderId,
+        price: +data.orderTotal.match(/\d+/)[0], //get number from string and convert to Number
+        deliveryDate: moment(data.deliveryDate).format("YYYY-MM-DD"),
+        deliveryAddress: data.deliveryAddress,
+        detailsUrl: `https://www.amazon.in/gp/your-account/order-details/ref=oh_aui_or_o01_?ie=UTF8&orderID=${orderId}`,
+        onlineSellerId: 1
       });
     } catch (e) {
-      showSnackbar({
-        text: e.message
+      Snackbar.show({
+        title: e.message,
+        duration: Snackbar.LENGTH_SHORT
+      });
+    }
+  };
+
+  getFlipkartOrderDetails = async data => {
+    console.log("flipkart:", data);
+    const { item, productId } = this.state;
+    const scrapObjectArray = [{ key: "Order ID", value: data.orderId }];
+    this.setState({
+      scrapObjectArray: scrapObjectArray,
+      isModalVisible: true
+    });
+    try {
+      await createTransaction({
+        productId: productId,
+        accessoryProductId: item.id,
+        transactionId: data.orderId,
+        price: +item.price,
+        detailsUrl: `https://www.flipkart.com/rv/orderDetails?order_id=${
+          data.orderId
+        }`,
+        onlineSellerId: 2
+      });
+    } catch (e) {
+      Snackbar.show({
+        title: e.message,
+        duration: Snackbar.LENGTH_SHORT
       });
     }
   };
@@ -66,67 +123,94 @@ class EcommerceScreen extends Component {
   exploreMoreDetails = () => {
     this.props.navigation.goBack();
   };
+
+  onModalCrossPress = () => {
+    this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+  };
+
   showModal = () => {
     this.setState({ isModalVisible: true });
   };
-  hideModal = () => {
-    this.setState({ isModalVisible: false });
-  };
+
   render() {
     const { isModalVisible, scrapObjectArray } = this.state;
     const item = this.props.navigation.getParam("item", null);
-    return (<View style={{ flex: 1 }}>
-      {item.seller == 'amazonIn' ?
-        <Amazon item={item} successOrder={this.getAmazonOrderDetails} />
-        :
-        <Flipkart item={item} successOrder={this.getFlipkartOrderDetails} />
-      }
-      <Modal
-        style={{ margin: 0 }}
-        isVisible={isModalVisible}
-        useNativeDriver={true}
-        onBackButtonPress={this.hideModal}
-        onBackdropPress={this.hideModal}
-      >
-        <View style={{ backgroundColor: '#fff', padding: 20 }}>
-          <Text style={{ color: colors.tomato, fontWeight: 'bold', fontSize: 18 }} >Order Successful!</Text>
-          <View style={styles.imageContainer}>
-            <Image
-              style={{ width: 50, height: 50, marginRight: 20 }}
-              source={{ uri: item.image }}
-              resizeMode='contain'
+    return (
+      <View style={{ flex: 1 }}>
+        {item.seller == "amazonIn" ? (
+          <Amazon item={item} successOrder={this.getAmazonOrderDetails} />
+        ) : (
+          <Flipkart item={item} successOrder={this.getFlipkartOrderDetails} />
+        )}
+        <Modal
+          style={{ margin: 0 }}
+          isVisible={isModalVisible}
+          useNativeDriver={true}
+        >
+          <View style={{ backgroundColor: "#fff", padding: 20, margin: 10 }}>
+            <Text
+              style={{
+                color: colors.tomato,
+                fontWeight: "bold",
+                fontSize: 18
+              }}
+            >
+              Order Successful!
+            </Text>
+
+            <View style={styles.imageContainer}>
+              <Image
+                style={{ width: 50, height: 50, marginRight: 20 }}
+                source={{ uri: item.image }}
+                resizeMode="contain"
+              />
+              <Text numberOfLines={2} style={{ flex: 1, fontWeight: "bold" }}>
+                {item.name}
+              </Text>
+            </View>
+            <View style={{ marginVertical: 10 }}>
+              <FlatList
+                data={scrapObjectArray}
+                renderItem={({ item }) => (
+                  <KeyValueItem keyText={item.key} valueText={item.value} />
+                )}
+                keyExtractor={item => item.key}
+              />
+            </View>
+            <Button
+              onPress={this.exploreMoreDetails}
+              text={"Explore More Details"}
+              color="secondary"
+              borderRadius={30}
+              style={styles.exploreButton}
             />
-            <Text numberOfLines={2} style={{ flex: 1, fontWeight: 'bold' }}>{item.name}</Text>
+            <TouchableOpacity
+              onPress={this.onModalCrossPress}
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 5,
+                paddingVertical: 5,
+                paddingHorizontal: 10
+              }}
+            >
+              <Icon name="ios-close" size={35} color="#000" />
+            </TouchableOpacity>
           </View>
-          <View style={{ marginTop: 10 }}>
-            {scrapObjectArray.map((item) => {
-              return (<KeyValueItem
-                keyText={item.key}
-                valueText={item.value}
-              />)
-            })}
-          </View>
-          <Button
-            onPress={this.exploreMoreDetails}
-            text={"Explore More Details"}
-            color="secondary"
-            borderRadius={30}
-            style={styles.exploreButton}
-          />
-        </View>
-      </Modal>
-    </View>)
+        </Modal>
+      </View>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   imageContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 25
   },
   exploreButton: {
     width: "100%"
-  },
+  }
 });
 
 export default EcommerceScreen;

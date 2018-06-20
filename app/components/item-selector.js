@@ -98,7 +98,7 @@ class ItemSelector extends React.Component {
                       styles.optionName,
                       isSelectedItem ? styles.selectedOptionName : {}
                     ]}
-                    numberOfLines={1}
+                    numberOfLines={2}
                   >
                     {option.name}
                   </Text>
@@ -164,7 +164,7 @@ class ItemSelector extends React.Component {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 100,
+    height: 120,
     alignItems: "center",
     borderBottomColor: colors.lighterText,
     borderBottomWidth: 1
@@ -201,7 +201,8 @@ const styles = StyleSheet.create({
     fontSize: 10,
     opacity: 1,
     textAlign: "center",
-    marginVertical: 7
+    marginVertical: 7,
+    height: 30
   },
   selectedOptionName: {
     opacity: 1

@@ -1,27 +1,21 @@
 import React, { Component } from "react";
-import {
-  View,
-  WebView,
-  StyleSheet
-} from "react-native";
+import { View, WebView, StyleSheet } from "react-native";
 
 import { API_BASE_URL } from "../../api";
 import { ScreenContainer, Text, Button, Image } from "../../elements";
 import { colors } from "../../theme";
-
 
 class Amazon extends Component {
   constructor(props) {
     super(props);
     this.state = {
       orderId: null
-    }
+    };
   }
 
   componentDidMount() {
     // console.log("props", this.props)
   }
-
 
   onWebViewMessage = event => {
     console.log("event.nativeEvent.data: ", event.nativeEvent.data);
@@ -31,21 +25,9 @@ class Amazon extends Component {
   };
 
   onGetDataMessage = event => {
-    const dirtyObjectArray = JSON.parse(event.nativeEvent.data);
-    console.log(dirtyObjectArray)
-    var cleanObjectArray = [
-      { key: 'Order ID', value: dirtyObjectArray[0].orderId },
-      { key: 'Order Date', value: dirtyObjectArray[1].orderDate },
-      { key: 'Total Amount', value: dirtyObjectArray[2].orderTotal },
-      { key: 'Payment Mode', value: dirtyObjectArray[3].paymentMode },
-      { key: 'Delivery Date', value: dirtyObjectArray[4].deliveryDate },
-      { key: 'Delivery Address', value: dirtyObjectArray[5].deliveryAddress }
-      // { key: 'asin', value: dirtyObjectArray[6].asin },
-    ];
-    console.log(cleanObjectArray);
-    this.props.successOrder(cleanObjectArray);
+    const orderData = JSON.parse(event.nativeEvent.data);
+    this.props.successOrder(orderData);
   };
-
 
   render() {
     const { orderId } = this.state;
@@ -75,7 +57,7 @@ class Amazon extends Component {
         var paymentMode = paymentData[0].innerText;
         var deliveryDate = deliveryDateData[0].innerText;
         var deliveryAddress = deliveryData[3].innerText;
-        var data = [{orderId:orderId},{orderDate:orderDate},{orderTotal:orderTotal},{paymentMode:paymentMode},{deliveryDate:deliveryDate},{deliveryAddress:deliveryAddress}];
+        var data = {orderId:orderId,orderDate:orderDate,orderTotal:orderTotal,paymentMode:paymentMode,deliveryDate:deliveryDate,deliveryAddress:deliveryAddress};
         if(data){
             data = JSON.stringify(data);
             setTimeout(function() {
@@ -97,13 +79,13 @@ class Amazon extends Component {
             onMessage={this.onGetDataMessage}
           />
         ) : (
-            <WebView
-              injectedJavaScript={dirtyScript}
-              scrollEnabled={false}
-              source={{ uri: item.url }}
-              onMessage={this.onWebViewMessage}
-            />
-          )}
+          <WebView
+            injectedJavaScript={dirtyScript}
+            scrollEnabled={false}
+            source={{ uri: item.url.replace("http://", "https://") }}
+            onMessage={this.onWebViewMessage}
+          />
+        )}
       </ScreenContainer>
     );
   }

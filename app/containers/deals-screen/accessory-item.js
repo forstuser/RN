@@ -10,14 +10,17 @@ import flipkartLogo from "../../images/flipkart_logo.png";
 
 export default class AccessoryItem extends React.Component {
   onAccessoriesPress = item => {
-    NavigationService.navigate(SCREENS.ECOMMERCE_SCREEN, { item });
+    NavigationService.navigate(SCREENS.ECOMMERCE_SCREEN, {
+      item,
+      productId: this.props.productId
+    });
   };
 
   componentDidMount() {
-    console.log("access", this.props)
+    console.log("access", this.props);
     this.setState({
       productId: this.props.productId
-    })
+    });
   }
   render() {
     const { item } = this.props;
@@ -80,13 +83,13 @@ export default class AccessoryItem extends React.Component {
             </Text>
           </View>
         ) : (
-            <View
-              style={{
-                marginVertical: 5,
-                height: 16
-              }}
-            />
-          )}
+          <View
+            style={{
+              marginVertical: 5,
+              height: 16
+            }}
+          />
+        )}
 
         <View
           style={{

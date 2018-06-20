@@ -54,6 +54,7 @@ import DealsScreen from "../containers/deals-screen";
 import { SCREENS } from "../constants";
 import rateUsScreen from "../containers/rate-us-screen";
 import EcommerceScreen from "../containers/e-commerce-screen";
+import OrderHistoryScreen from "../containers/order-history-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -180,7 +181,8 @@ export default createStackNavigator(
     [SCREENS.WHAT_TO_SCREEN]: WhatToScreen,
     [SCREENS.WHAT_TO_LIST_SCREEN]: WhatToListScreen,
     [SCREENS.DEALS_SCREEN]: DealsScreen,
-    [SCREENS.ECOMMERCE_SCREEN]: EcommerceScreen
+    [SCREENS.ECOMMERCE_SCREEN]: EcommerceScreen,
+    [SCREENS.ORDER_HISTORY_SCREEN]: OrderHistoryScreen
   },
   {}
 );

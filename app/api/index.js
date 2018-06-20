@@ -142,7 +142,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => { }
+  onUploadProgress = () => {}
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -1626,32 +1626,32 @@ export const fetchCategoryOffers = async ({
 };
 
 export const createTransaction = async ({
-  transaction_id,
-  status_type,
+  transactionId,
+  statusType,
   price,
   quantity,
-  online_seller_id,
-  seller_detail,
-  delivery_address,
-  delivery_date,
-  product_id,
-  accessory_product_id,
-  payment_mode,
-  details_url
+  onlineSellerId,
+  sellerDetail,
+  deliveryAddress,
+  deliveryDate,
+  productId,
+  accessoryProductId,
+  paymentMode,
+  detailsUrl
 }) => {
   const data = {
-    transaction_id: transaction_id,
-    status_type: status_type,
+    transaction_id: transactionId,
+    status_type: statusType,
     price: price,
     quantity: quantity,
-    online_seller_id: online_seller_id,
-    seller_detail: seller_detail,
-    delivery_address: delivery_address,
-    delivery_date: delivery_date,
-    product_id: product_id,
-    accessory_product_id: accessory_product_id,
-    payment_mode: payment_mode,
-    details_url: details_url
+    online_seller_id: onlineSellerId,
+    seller_detail: sellerDetail,
+    delivery_address: deliveryAddress,
+    delivery_date: deliveryDate,
+    product_id: productId,
+    accessory_product_id: accessoryProductId,
+    payment_mode: paymentMode,
+    details_url: detailsUrl
   };
   return await apiRequest({
     method: "post",
@@ -1659,4 +1659,3 @@ export const createTransaction = async ({
     data: JSON.parse(JSON.stringify(data))
   });
 };
-
