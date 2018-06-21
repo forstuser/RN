@@ -347,11 +347,39 @@ export default class OffersModal extends React.Component {
                 ) : (
                   <View />
                 )}
+                {!isLoading && offers.length == 0 ? (
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}
+                  >
+                    <Text
+                      weight="Medium"
+                      style={{
+                        fontSize: 20,
+                        textAlign: "center",
+                        color: colors.lighterText,
+                        padding: 20
+                      }}
+                    >
+                      No offers found for applied filters
+                    </Text>
+                  </View>
+                ) : (
+                  <View />
+                )}
                 <FlatList
                   data={offers}
                   renderItem={({ item }) => (
                     <View style={{ paddingHorizontal: 10, paddingTop: 10 }}>
-                      <OfferDetailedItem item={item} />
+                      <OfferDetailedItem
+                        item={item}
+                        categoryImageUrl={
+                          API_BASE_URL + selectedCategory.image_url
+                        }
+                      />
                     </View>
                   )}
                   keyExtractor={(item, index) => item.id + "-" + index}

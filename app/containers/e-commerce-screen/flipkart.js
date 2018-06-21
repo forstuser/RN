@@ -41,7 +41,6 @@ class Flipkart extends Component {
       <ScreenContainer style={styles.container}>
         <WebView
           injectedJavaScript={dirtyScript}
-          scrollEnabled={false}
           source={{ uri: item.url }}
           onMessage={this.onWebViewMessage}
           javaScriptEnabled={true}

@@ -79,7 +79,10 @@ class EcommerceScreen extends Component {
         productId: productId,
         accessoryProductId: item.id,
         transactionId: orderId,
-        price: +data.orderTotal.match(/\d+/)[0], //get number from string and convert to Number
+        price: +data.orderTotal
+          .split("(")[0]
+          .match(/\d/g)
+          .join(""), //get string before first '(' and get number from it
         deliveryDate: moment(data.deliveryDate).format("YYYY-MM-DD"),
         deliveryAddress: data.deliveryAddress,
         detailsUrl: `https://www.amazon.in/gp/your-account/order-details/ref=oh_aui_or_o01_?ie=UTF8&orderID=${orderId}`,

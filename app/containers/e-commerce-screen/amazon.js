@@ -72,7 +72,6 @@ class Amazon extends Component {
         {orderId ? (
           <WebView
             injectedJavaScript={scrapData}
-            scrollEnabled={false}
             source={{
               uri: `https://www.amazon.in/gp/aw/ya/ref=typ_rev_edit?ie=UTF8&ac=os&oid=${orderId}`
             }}
@@ -81,7 +80,6 @@ class Amazon extends Component {
         ) : (
           <WebView
             injectedJavaScript={dirtyScript}
-            scrollEnabled={false}
             source={{ uri: item.url.replace("http://", "https://") }}
             onMessage={this.onWebViewMessage}
           />

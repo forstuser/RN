@@ -14,7 +14,7 @@ import { Text, Image } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 import OfferDetailedItem from "./offer-detailed-item";
 
-export default class AccessoryItem extends React.Component {
+export default class OfferItem extends React.Component {
   state = {
     isModalVisible: false
   };
@@ -39,7 +39,7 @@ export default class AccessoryItem extends React.Component {
     }
   };
   render() {
-    const { item } = this.props;
+    const { item, categoryImageUrl } = this.props;
     const { isModalVisible } = this.state;
 
     return (
@@ -58,7 +58,7 @@ export default class AccessoryItem extends React.Component {
         }}
       >
         <Image
-          source={{ uri: item.logo }}
+          source={{ uri: item.logo || categoryImageUrl }}
           style={{ width: 80, height: 65 }}
           resizeMode="contain"
         />
@@ -103,15 +103,15 @@ export default class AccessoryItem extends React.Component {
             marginTop: 10
           }}
         >
-          <Image
+          {/* <Image
             source={{ uri: item.logo }}
             style={{ width: 20, height: 20, margin: 5 }}
             resizeMode="contain"
-          />
+          /> */}
           <View
             style={{
               flex: 1,
-              borderLeftWidth: 1,
+              // borderLeftWidth: 1,
               borderColor: colors.mainBlue,
               height: "100%",
               alignItems: "center",

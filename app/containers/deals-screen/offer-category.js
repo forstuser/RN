@@ -3,10 +3,16 @@ import { StyleSheet, View, FlatList } from "react-native";
 import { Text, Button } from "../../elements";
 import OfferItem from "./offer-item";
 import { colors } from "../../theme";
+import { API_BASE_URL } from "../../api";
 
 export default class OfferCategory extends React.Component {
   render() {
     const { offerCategory, onViewAllPress } = this.props;
+
+    if (offerCategory.offer_counts == 0) {
+      return null;
+    }
+
     const {
       discount: discountOffers,
       cashback: cashbackOffers,
@@ -44,7 +50,13 @@ export default class OfferCategory extends React.Component {
         <FlatList
           data={offers.slice(0, 6)}
           horizontal={true}
-          renderItem={({ item }) => <OfferItem item={item} selectedFilters />}
+          renderItem={({ item }) => (
+            <OfferItem
+              item={item}
+              selectedFilters
+              categoryImageUrl={API_BASE_URL + offerCategory.image_url}
+            />
+          )}
           keyExtractor={item => item.id}
         />
       </View>

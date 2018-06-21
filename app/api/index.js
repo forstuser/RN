@@ -1613,7 +1613,7 @@ export const fetchCategoryOffers = async ({
     other_offer_id: lastOtherOfferId || undefined,
     cashback: cashback || undefined,
     discount: discount || undefined,
-    other: otherOfferTypes,
+    other: otherOfferTypes || undefined,
     merchant: merchants.length > 0 ? merchants.join() : undefined,
     cashback_sort: cashback ? sort : undefined,
     discount_sort: discount ? sort : undefined
