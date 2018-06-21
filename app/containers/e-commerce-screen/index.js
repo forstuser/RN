@@ -9,6 +9,7 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 import Snackbar from "react-native-snackbar";
 import moment from "moment";
+import _ from "lodash";
 
 import Amazon from "./amazon";
 import Flipkart from "./flipkart";
@@ -79,10 +80,13 @@ class EcommerceScreen extends Component {
         productId: productId,
         accessoryProductId: item.id,
         transactionId: orderId,
-        price: +data.orderTotal
-          .split("(")[0]
-          .match(/\d/g)
-          .join(""), //get string before first '(' and get number from it
+        price: +_.trim(
+          data.orderTotal
+            .split("(")[0]
+            .match(/\d|\./g)
+            .join(""),
+          "."
+        ), //get string before first '(' and get number from it, trim '.' and convert to number
         deliveryDate: moment(data.deliveryDate).format("YYYY-MM-DD"),
         deliveryAddress: data.deliveryAddress,
         detailsUrl: `https://www.amazon.in/gp/your-account/order-details/ref=oh_aui_or_o01_?ie=UTF8&orderID=${orderId}`,

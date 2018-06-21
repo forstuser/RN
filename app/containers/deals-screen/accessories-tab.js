@@ -1,5 +1,11 @@
 import React from "react";
-import { View, ScrollView, FlatList, ActivityIndicator } from "react-native";
+import {
+  View,
+  ScrollView,
+  FlatList,
+  ActivityIndicator,
+  Animated
+} from "react-native";
 import Snackbar from "react-native-snackbar";
 import { Text } from "../../elements";
 import ErrorOverlay from "../../components/error-overlay";
@@ -19,7 +25,11 @@ import {
 import AccessoryCategory from "./accessory-category";
 import { colors } from "../../theme";
 
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+const ITEM_SELECTOR_HEIGHT = 120;
+
 export default class AccessoriesTab extends React.Component {
+  topPaddingElement = new Animated.Value(1);
   state = {
     products: [],
     categories: [],
@@ -341,14 +351,27 @@ export default class AccessoriesTab extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <ItemSelector
-          selectModalTitle="Select a Category"
-          items={items.slice(0, 4)}
-          moreItems={items.slice(4)}
-          selectedItem={selectedItem}
-          onItemSelect={this.onItemSelect}
-          startOthersAfterCount={4}
-        />
+        <Animated.View
+          style={[
+            {
+              height: ITEM_SELECTOR_HEIGHT,
+              marginTop: this.topPaddingElement.interpolate({
+                inputRange: [0, ITEM_SELECTOR_HEIGHT],
+                outputRange: [0, -ITEM_SELECTOR_HEIGHT],
+                extrapolate: "clamp"
+              })
+            }
+          ]}
+        >
+          <ItemSelector
+            selectModalTitle="Select a Category"
+            items={items.slice(0, 4)}
+            moreItems={items.slice(4)}
+            selectedItem={selectedItem}
+            onItemSelect={this.onItemSelect}
+            startOthersAfterCount={4}
+          />
+        </Animated.View>
 
         {!showSelectBrand && !showSelectModel && !product ? (
           <View
@@ -407,7 +430,17 @@ export default class AccessoriesTab extends React.Component {
         )}
 
         {accessoryCategories.length > 0 ? (
-          <FlatList
+          <AnimatedFlatList
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: { y: this.topPaddingElement }
+                  }
+                }
+              ],
+              {}
+            )}
             style={{ flex: 1, backgroundColor: "#f7f7f7" }}
             data={accessoryCategories.filter(
               accessoryCategory => accessoryCategory.accessory_items.length > 0

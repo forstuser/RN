@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView, FlatList } from "react-native";
+import { View, ScrollView, FlatList, Animated } from "react-native";
 import Snackbar from "react-native-snackbar";
 import { Text } from "../../elements";
 import ErrorOverlay from "../../components/error-overlay";
@@ -17,7 +17,13 @@ import OfferDetailedItem from "./offer-detailed-item";
 import OffersModal from "./offers-modal";
 import OffersFilterModal from "./offers-filter-modal";
 
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+
+const ITEM_SELECTOR_HEIGHT = 120;
+
 export default class OffersTab extends React.Component {
+  topPaddingElement = new Animated.Value(1);
+
   state = {
     categories: [],
     selectedCategory: null,
@@ -204,15 +210,27 @@ export default class OffersTab extends React.Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
-        <ItemSelector
-          selectModalTitle="Select a Category"
-          items={categories.slice(0, 4)}
-          moreItems={categories.slice(4)}
-          selectedItem={selectedCategory}
-          onItemSelect={this.onCategorySelect}
-          startOthersAfterCount={4}
-        />
-
+        <Animated.View
+          style={[
+            {
+              height: ITEM_SELECTOR_HEIGHT,
+              marginTop: this.topPaddingElement.interpolate({
+                inputRange: [0, ITEM_SELECTOR_HEIGHT],
+                outputRange: [0, -ITEM_SELECTOR_HEIGHT],
+                extrapolate: "clamp"
+              })
+            }
+          ]}
+        >
+          <ItemSelector
+            selectModalTitle="Select a Category"
+            items={categories.slice(0, 4)}
+            moreItems={categories.slice(4)}
+            selectedItem={selectedCategory}
+            onItemSelect={this.onCategorySelect}
+            startOthersAfterCount={4}
+          />
+        </Animated.View>
         {!selectedCategory ? (
           <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
@@ -278,7 +296,17 @@ export default class OffersTab extends React.Component {
         )}
         <View style={{ flex: 1 }}>
           {offerCategories.length > 0 ? (
-            <FlatList
+            <AnimatedFlatList
+              onScroll={Animated.event(
+                [
+                  {
+                    nativeEvent: {
+                      contentOffset: { y: this.topPaddingElement }
+                    }
+                  }
+                ],
+                {}
+              )}
               style={{ flex: 1 }}
               data={offerCategories}
               keyExtractor={item => item.id}
@@ -310,6 +338,7 @@ export default class OffersTab extends React.Component {
         ) : (
           <View />
         )} */}
+
         <LoadingOverlay visible={isLoading} />
         <OffersModal
           ref={node => (this.offersModal = node)}
