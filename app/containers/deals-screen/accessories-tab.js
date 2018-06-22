@@ -1,5 +1,11 @@
 import React from "react";
-import { View, ScrollView, FlatList, ActivityIndicator } from "react-native";
+import {
+  View,
+  ScrollView,
+  FlatList,
+  ActivityIndicator,
+  Animated
+} from "react-native";
 import Snackbar from "react-native-snackbar";
 import { Text } from "../../elements";
 import ErrorOverlay from "../../components/error-overlay";
@@ -19,7 +25,11 @@ import {
 import AccessoryCategory from "./accessory-category";
 import { colors } from "../../theme";
 
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+const ITEM_SELECTOR_HEIGHT = 120;
+
 export default class AccessoriesTab extends React.Component {
+  topPaddingElement = new Animated.Value(1);
   state = {
     products: [],
     categories: [],
@@ -341,18 +351,14 @@ export default class AccessoriesTab extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <ItemSelector
-          selectModalTitle="Select a Category"
-          items={items.slice(0, 4)}
-          moreItems={items.slice(4)}
-          selectedItem={selectedItem}
-          onItemSelect={this.onItemSelect}
-          startOthersAfterCount={4}
-        />
-
         {!showSelectBrand && !showSelectModel && !product ? (
           <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingTop: ITEM_SELECTOR_HEIGHT
+            }}
           >
             <Text
               weight="Medium"
@@ -372,6 +378,7 @@ export default class AccessoriesTab extends React.Component {
 
         {showSelectBrand ? (
           <SelectOrCreateItem
+            style={{ marginTop: ITEM_SELECTOR_HEIGHT }}
             items={brands.map(brand => ({
               ...brand,
               image: `${API_BASE_URL}/brands/${brand.id}/images/thumbnails`
@@ -388,6 +395,7 @@ export default class AccessoriesTab extends React.Component {
         )}
         {showSelectModel ? (
           <SelectOrCreateItem
+            style={{ marginTop: ITEM_SELECTOR_HEIGHT }}
             items={models}
             visibleKey="title"
             onSelectItem={this.onSelectModel}
@@ -407,8 +415,24 @@ export default class AccessoriesTab extends React.Component {
         )}
 
         {accessoryCategories.length > 0 ? (
-          <FlatList
-            style={{ flex: 1, backgroundColor: "#f7f7f7" }}
+          <AnimatedFlatList
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: { y: this.topPaddingElement }
+                  }
+                }
+              ],
+              { useNativeDriver: true }
+            )}
+            contentContainerStyle={{
+              paddingTop: ITEM_SELECTOR_HEIGHT
+            }}
+            style={{
+              flex: 1,
+              backgroundColor: "#f7f7f7"
+            }}
             data={accessoryCategories.filter(
               accessoryCategory => accessoryCategory.accessory_items.length > 0
             )}
@@ -437,6 +461,38 @@ export default class AccessoriesTab extends React.Component {
         ) : (
           <View />
         )}
+        <Animated.View
+          style={[
+            {
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: ITEM_SELECTOR_HEIGHT,
+              backgroundColor: "#fff"
+            },
+            {
+              transform: [
+                {
+                  translateY: this.topPaddingElement.interpolate({
+                    inputRange: [0, ITEM_SELECTOR_HEIGHT],
+                    outputRange: [0, -ITEM_SELECTOR_HEIGHT],
+                    extrapolate: "clamp"
+                  })
+                }
+              ]
+            }
+          ]}
+        >
+          <ItemSelector
+            selectModalTitle="Select a Category"
+            items={items.slice(0, 4)}
+            moreItems={items.slice(4)}
+            selectedItem={selectedItem}
+            onItemSelect={this.onItemSelect}
+            startOthersAfterCount={4}
+          />
+        </Animated.View>
         <LoadingOverlay
           visible={
             isLoading ||
