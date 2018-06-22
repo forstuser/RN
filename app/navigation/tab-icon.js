@@ -5,14 +5,15 @@ import { colors } from "../theme";
 
 export default class TabIcon extends React.Component {
   render() {
+    console.log("icons props: ", this.props);
     return (
       <Image
+        resizeMode="contain"
         source={this.props.source}
         style={{
-          width: 25,
-          height: 25,
-          marginBottom: -3,
-          tintColor: this.props.focused ? colors.mainBlue : "grey"
+          width: "100%",
+          height: "100%",
+          tintColor: "#fff"
         }}
       />
     );

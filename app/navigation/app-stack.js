@@ -8,6 +8,7 @@ import {
 
 import { colors } from "../theme";
 import TabIcon from "./tab-icon";
+import CustomTabBar from "./tab-bar";
 
 import DashboardScreen from "../containers/dashboard-screen";
 import EhomeScreen from "../containers/ehome-screen";
@@ -63,11 +64,8 @@ const BottomTabStack = createBottomTabNavigator(
       screen: DashboardScreen,
       navigationOptions: {
         tabBarLabel: "Dashboard",
-        tabBarIcon: ({ focused }) => (
-          <TabIcon
-            focused={focused}
-            source={require("../images/ic_dashboard.png")}
-          />
+        tabBarIcon: props => (
+          <TabIcon {...props} source={require("../images/ic_dashboard.png")} />
         )
       }
     },
@@ -75,11 +73,8 @@ const BottomTabStack = createBottomTabNavigator(
       screen: EhomeScreen,
       navigationOptions: {
         tabBarLabel: "eHome",
-        tabBarIcon: ({ focused }) => (
-          <TabIcon
-            focused={focused}
-            source={require("../images/ic_nav_ehome_off.png")}
-          />
+        tabBarIcon: props => (
+          <TabIcon {...props} source={require("../images/ehome.png")} />
         )
       }
     },
@@ -87,8 +82,8 @@ const BottomTabStack = createBottomTabNavigator(
       screen: DealsScreen,
       navigationOptions: {
         tabBarLabel: "Deals",
-        tabBarIcon: ({ focused }) => (
-          <TabIcon focused={focused} source={require("../images/buy.png")} />
+        tabBarIcon: props => (
+          <TabIcon {...props} source={require("../images/deals.png")} />
         )
       }
     },
@@ -96,11 +91,8 @@ const BottomTabStack = createBottomTabNavigator(
       screen: EasyLifeScreen,
       navigationOptions: {
         tabBarLabel: "EazyDay",
-        tabBarIcon: ({ focused }) => (
-          <TabIcon
-            focused={focused}
-            source={require("../images/ic_calendar.png")}
-          />
+        tabBarIcon: props => (
+          <TabIcon {...props} source={require("../images/ic_calendar.png")} />
         )
       }
     },
@@ -120,9 +112,9 @@ const BottomTabStack = createBottomTabNavigator(
       screen: MoreScreen,
       navigationOptions: {
         tabBarLabel: "More",
-        tabBarIcon: ({ focused }) => (
+        tabBarIcon: props => (
           <TabIcon
-            focused={focused}
+            {...props}
             source={require("../images/ic_nav_more_off.png")}
           />
         )
@@ -130,6 +122,8 @@ const BottomTabStack = createBottomTabNavigator(
     }
   },
   {
+    tabBarComponent: CustomTabBar,
+    tabBarPosition: "bottom",
     backBehavior: "none",
     tabBarOptions: {
       activeTintColor: colors.mainBlue,
