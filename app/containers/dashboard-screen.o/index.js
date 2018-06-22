@@ -20,8 +20,7 @@ import { openAddProductsScreen } from "../../navigation";
 import { consumerGetDashboard, getProfileDetail } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import BlankDashboard from "./blank-dashboard";
-import CircularTabs from "../../components/circular-tabs";
-import TabSearchHeader from "../../components/tab-screen-header2";
+import TabSearchHeader from "../../components/tab-screen-header";
 import InsightChart from "../../components/insight-chart";
 import UpcomingServicesList from "../../components/upcoming-services-list";
 import UploadBillOptions from "../../components/upload-bill-options";
@@ -46,8 +45,6 @@ const ascIcon = require("../../images/ic_nav_asc_on.png");
 const chartIcon = require("../../images/ic_bars_chart.png");
 const dashBoardIcon = require("../../images/ic_nav_dashboard_off.png");
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
-
-const whatsComingIcon = require("../../images/bullhorn.png");
 
 class DashboardScreen extends React.Component {
   static HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = false;
@@ -155,8 +152,8 @@ class DashboardScreen extends React.Component {
               this.comingUpRef &&
               this.dashboardTour
             ) {
-              // this.dashboardTour.startTour();
-              // this.props.setUiHasDashboardTourShown(true);
+              this.dashboardTour.startTour();
+              this.props.setUiHasDashboardTourShown(true);
             } else if (
               (this.state.showDashboard ||
                 dashboardData.hasEazyDayItems ||
@@ -215,55 +212,160 @@ class DashboardScreen extends React.Component {
     } = this.state;
 
     return (
-      <ScreenContainer style={{ padding: 0, backgroundColor: "#fff" }}>
-        <TabSearchHeader
-          ref="tabSearchHeader"
-          title={I18n.t("dashboard_screen_title")}
-          icon={dashBoardIcon}
-          notificationCount={notificationCount}
-          recentSearches={recentSearches}
-          navigation={this.props.navigation}
-        />
-        <View style={styles.container}>
-          <CircularTabs
-            tabs={[
-              {
-                title: "What’s Coming",
-                imageSource: whatsComingIcon,
-                content: (
-                  <View>
-                    <Text>Upcoming events will come here</Text>
+      <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
+        {showDashboard && (
+          <View collapsable={false}>
+            <TabSearchHeader
+              ref="tabSearchHeader"
+              title={I18n.t("dashboard_screen_title")}
+              icon={dashBoardIcon}
+              notificationCount={notificationCount}
+              recentSearches={recentSearches}
+              navigation={this.props.navigation}
+            />
+            <ScrollView>
+              <View
+                collapsable={false}
+                style={{ flex: 1, marginBottom: 150, padding: 10 }}
+              >
+                {this.state.upcomingServices.length > 0 ? (
+                  // what's coming up
+                  <View collapsable={false}>
+                    <Title
+                      setRef={ref => (this.comingUpRef = ref)}
+                      text={I18n.t("dashboard_screen_whats_coming_up")}
+                    />
+                    <View collapsable={false}>
+                      <UpcomingServicesList
+                        upcomingServices={this.state.upcomingServices}
+                        navigation={this.props.navigation}
+                      />
+                    </View>
                   </View>
-                )
-              },
-              {
-                title: "Expense Insights",
-                imageSource: require("../../images/bullhorn.png"),
-                content: (
-                  <View>
-                    <Text>Expense Insights</Text>
+                ) : (
+                  <View collapsable={false} />
+                )}
+                {this.state.recentProducts.length > 0 ? (
+                  // recent activity
+                  <View collapsable={false}>
+                    <Title
+                      gradientColors={["#007bce", "#00c6ff"]}
+                      text={I18n.t("dashboard_screen_recent_activity")}
+                    />
+                    <RecentProducts
+                      products={this.state.recentProducts}
+                      navigation={this.props.navigation}
+                    />
                   </View>
-                )
-              },
-              {
-                title: "Authorised Service Centres",
-                imageSource: require("../../images/bullhorn.png"),
-                content: (
-                  <View>
-                    <Text>Authorised Service Centres</Text>
+                ) : (
+                  <View collapsable={false} />
+                )}
+                {this.state.recentCalenderItems.length > 0 ? (
+                  // Calender
+                  <View collapsable={false}>
+                    <Title
+                      gradientColors={["#429321", "#b4ec51"]}
+                      text={I18n.t("my_calendar")}
+                    />
+                    <RecentCalenderItems
+                      items={this.state.recentCalenderItems}
+                      navigation={this.props.navigation}
+                    />
                   </View>
-                )
-              }
-            ]}
-          />
-        </View>
+                ) : (
+                  <View collapsable={false} />
+                )}
+                {/* Expense Insights */}
+                <Title
+                  gradientColors={["#242841", "#707c93"]}
+                  text={I18n.t("dashboard_screen_ehome_insights")}
+                />
+                <TouchableOpacity
+                  ref={ref => (this.insightsRef = ref)}
+                  onPress={() => this.openInsightScreen()}
+                  style={[
+                    defaultStyles.card,
+                    styles.expenseInsight,
+                    { marginBottom: 20 }
+                  ]}
+                >
+                  <Image
+                    style={styles.expenseInsightImage}
+                    source={chartIcon}
+                    resizeMode="contain"
+                  />
+                  <View collapsable={false} style={styles.expenseInsightTitles}>
+                    <Text weight="Bold" style={styles.expenseInsightTitle}>
+                      {I18n.t("dashboard_screen_total_spends")}
+                    </Text>
+                    <Text style={styles.expenseInsightSubTitle}>
+                      {I18n.t("dashboard_screen_this_month")}
+                    </Text>
+                  </View>
+                  <View
+                    collapsable={false}
+                    style={styles.expenseInsightDetails}
+                  >
+                    <Text weight="Bold" style={styles.expenseInsightAmount}>
+                      ₹ {this.state.insightChartProps.totalSpend}
+                    </Text>
+                    <Text
+                      weight="Medium"
+                      style={styles.expenseInsightDetailsText}
+                    >
+                      {I18n.t("dashboard_screen_see_details")}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                {/* Authorised Service Centres */}
 
-        <TouchableOpacity
-          style={styles.fab}
-          onPress={() => this.showAddProductOptionsScreen()}
-        >
-          <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
-        </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={this.openAscScreen}
+                  style={[
+                    defaultStyles.card,
+                    styles.expenseInsight,
+                    { marginBottom: 120 }
+                  ]}
+                >
+                  <Image
+                    style={[
+                      styles.expenseInsightImage,
+                      { tintColor: "#d20505" }
+                    ]}
+                    source={ascIcon}
+                    resizeMode="contain"
+                  />
+                  <View collapsable={false} style={styles.expenseInsightTitles}>
+                    <Text weight="Bold" style={[styles.expenseInsightTitle]}>
+                      {I18n.t("asc_screen_title")}
+                    </Text>
+                    <Text style={[styles.expenseInsightSubTitle]}>
+                      Find ASC for your products with one click
+                    </Text>
+                  </View>
+                  <View
+                    collapsable={false}
+                    style={styles.expenseInsightDetails}
+                  >
+                    <Icon name="ios-arrow-forward" size={30} />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </View>
+        )}
+        {!showDashboard ? (
+          <BlankDashboard
+            onUploadButtonClick={() => this.showAddProductOptionsScreen()}
+          />
+        ) : (
+          <TouchableOpacity
+            style={styles.fab}
+            onPress={() => this.showAddProductOptionsScreen()}
+          >
+            <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+          </TouchableOpacity>
+        )}
 
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
         <LoadingOverlay visible={isFetchingData} />
@@ -284,16 +386,6 @@ class DashboardScreen extends React.Component {
   }
 }
 const styles = StyleSheet.create({
-  container: {
-    ...defaultStyles.card,
-    position: "absolute",
-    top: 115,
-    left: 10,
-    right: 10,
-    bottom: 10,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10
-  },
   expenseInsight: {
     backgroundColor: "#fff",
     padding: 16,
@@ -316,16 +408,15 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: "absolute",
-    bottom: 10,
-    right: 10,
-    width: 64,
-    height: 64,
+    bottom: 20,
+    right: 20,
+    width: 56,
+    height: 56,
     zIndex: 2,
     backgroundColor: colors.tomato,
-    borderRadius: 32,
+    borderRadius: 30,
     alignItems: "center",
-    justifyContent: "center",
-    elevation: 3
+    justifyContent: "center"
   },
   uploadFabIcon: {
     width: 25,

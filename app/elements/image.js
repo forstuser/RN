@@ -55,7 +55,7 @@ class Image extends Component {
             <PhotoView
               onLoadEnd={() => this.setState({ isLoading: false })}
               onError={() => this.setState({ error: true })}
-              style={styles.image}
+              style={[styles.image, { tintColor: props.tintColor }]}
               source={source}
               {...props}
             />
@@ -63,7 +63,7 @@ class Image extends Component {
             <FastImage
               onLoadEnd={() => this.setState({ isLoading: false })}
               onError={() => this.setState({ error: true })}
-              style={styles.image}
+              style={[styles.image, { tintColor: props.tintColor }]}
               source={source}
               {...props}
             />
