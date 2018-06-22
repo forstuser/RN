@@ -20,6 +20,7 @@ import OffersFilterModal from "./offers-filter-modal";
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const ITEM_SELECTOR_HEIGHT = 120;
+const ITEM_SELECTOR_HEIGHT_WITH_FILTERS = ITEM_SELECTOR_HEIGHT + 36;
 
 export default class OffersTab extends React.Component {
   topPaddingElement = new Animated.Value(1);
@@ -208,32 +209,22 @@ export default class OffersTab extends React.Component {
       return <ErrorOverlay error={error} onRetryPress={this.fetchCategories} />;
     }
 
+    const isFilterApplied =
+      selectedDiscountType ||
+      selectedCashbackType ||
+      onlyOtherOfferTypes ||
+      selectedMerchants.length > 0;
+
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
-        <Animated.View
-          style={[
-            {
-              height: ITEM_SELECTOR_HEIGHT,
-              marginTop: this.topPaddingElement.interpolate({
-                inputRange: [0, ITEM_SELECTOR_HEIGHT],
-                outputRange: [0, -ITEM_SELECTOR_HEIGHT],
-                extrapolate: "clamp"
-              })
-            }
-          ]}
-        >
-          <ItemSelector
-            selectModalTitle="Select a Category"
-            items={categories.slice(0, 4)}
-            moreItems={categories.slice(4)}
-            selectedItem={selectedCategory}
-            onItemSelect={this.onCategorySelect}
-            startOthersAfterCount={4}
-          />
-        </Animated.View>
         {!selectedCategory ? (
           <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: ITEM_SELECTOR_HEIGHT
+            }}
           >
             <Text
               weight="Medium"
@@ -250,83 +241,128 @@ export default class OffersTab extends React.Component {
         ) : (
           <View />
         )}
-        {selectedDiscountType ||
-        selectedCashbackType ||
-        onlyOtherOfferTypes ||
-        selectedMerchants.length > 0 ? (
-          <View style={{ height: 36, paddingVertical: 5 }}>
-            <ScrollView horizontal>
-              {onlyOtherOfferTypes ? (
-                <Tag
-                  text="Other Offers"
-                  onPressClose={this.offersFilterModal.removeOtherOffers}
-                />
-              ) : (
-                <View />
-              )}
-              {selectedDiscountType ? (
-                <Tag
-                  text={selectedDiscountType + "% Discount"}
-                  onPressClose={this.offersFilterModal.removeFilterDiscountType}
-                />
-              ) : (
-                <View />
-              )}
-              {selectedCashbackType ? (
-                <Tag
-                  text={"Rs. " + selectedCashbackType + " Cashback"}
-                  onPressClose={this.offersFilterModal.removeFilterCashbackType}
-                />
-              ) : (
-                <View />
-              )}
-              {selectedMerchants.map(merchant => (
-                <Tag
-                  key={merchant}
-                  text={merchant}
-                  onPressClose={() =>
-                    this.offersFilterModal.removeFilterMerchant(merchant)
+
+        {offerCategories.length > 0 ? (
+          <AnimatedFlatList
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: { y: this.topPaddingElement }
                   }
+                }
+              ],
+              { useNativeDriver: true }
+            )}
+            contentContainerStyle={{
+              paddingTop: isFilterApplied
+                ? ITEM_SELECTOR_HEIGHT_WITH_FILTERS
+                : ITEM_SELECTOR_HEIGHT
+            }}
+            style={{ flex: 1 }}
+            data={offerCategories}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <View>
+                <OfferCategory
+                  onViewAllPress={() => {
+                    this.showOfferModal(item);
+                  }}
+                  offerCategory={item}
                 />
-              ))}
-            </ScrollView>
-          </View>
+              </View>
+            )}
+            onRefresh={this.fetchCategoryOffers}
+            refreshing={isLoading}
+          />
         ) : (
           <View />
         )}
-        <View style={{ flex: 1 }}>
-          {offerCategories.length > 0 ? (
-            <AnimatedFlatList
-              onScroll={Animated.event(
-                [
-                  {
-                    nativeEvent: {
-                      contentOffset: { y: this.topPaddingElement }
-                    }
-                  }
-                ],
-                {}
-              )}
-              style={{ flex: 1 }}
-              data={offerCategories}
-              keyExtractor={item => item.id}
-              renderItem={({ item }) => (
-                <View>
-                  <OfferCategory
-                    onViewAllPress={() => {
-                      this.showOfferModal(item);
-                    }}
-                    offerCategory={item}
+        <Animated.View
+          style={[
+            {
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: isFilterApplied
+                ? ITEM_SELECTOR_HEIGHT_WITH_FILTERS
+                : ITEM_SELECTOR_HEIGHT
+            },
+            {
+              transform: [
+                {
+                  translateY: this.topPaddingElement.interpolate({
+                    inputRange: [0, ITEM_SELECTOR_HEIGHT],
+                    outputRange: [0, -ITEM_SELECTOR_HEIGHT],
+                    extrapolate: "clamp"
+                  })
+                }
+              ]
+            }
+          ]}
+        >
+          <ItemSelector
+            style={{ backgroundColor: "#fff" }}
+            selectModalTitle="Select a Category"
+            items={categories.slice(0, 4)}
+            moreItems={categories.slice(4)}
+            selectedItem={selectedCategory}
+            onItemSelect={this.onCategorySelect}
+            startOthersAfterCount={4}
+          />
+          {isFilterApplied ? (
+            <View
+              style={{
+                height: 36,
+                paddingVertical: 5,
+                backgroundColor: "#f7f7f7"
+              }}
+            >
+              <ScrollView horizontal>
+                {onlyOtherOfferTypes ? (
+                  <Tag
+                    text="Other Offers"
+                    onPressClose={this.offersFilterModal.removeOtherOffers}
                   />
-                </View>
-              )}
-              onRefresh={this.fetchCategoryOffers}
-              refreshing={isLoading}
-            />
+                ) : (
+                  <View />
+                )}
+                {selectedDiscountType ? (
+                  <Tag
+                    text={selectedDiscountType + "% Discount"}
+                    onPressClose={
+                      this.offersFilterModal.removeFilterDiscountType
+                    }
+                  />
+                ) : (
+                  <View />
+                )}
+                {selectedCashbackType ? (
+                  <Tag
+                    text={"Rs. " + selectedCashbackType + " Cashback"}
+                    onPressClose={
+                      this.offersFilterModal.removeFilterCashbackType
+                    }
+                  />
+                ) : (
+                  <View />
+                )}
+                {selectedMerchants.map(merchant => (
+                  <Tag
+                    key={merchant}
+                    text={merchant}
+                    onPressClose={() =>
+                      this.offersFilterModal.removeFilterMerchant(merchant)
+                    }
+                  />
+                ))}
+              </ScrollView>
+            </View>
           ) : (
             <View />
           )}
-        </View>
+        </Animated.View>
         {/* {offerCategories.length == -1 ? (
           <View style={{ flex: 1, backgroundColor: "#f7f7f7", padding: 10 }}>
             <FlatList

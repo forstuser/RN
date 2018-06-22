@@ -28,7 +28,8 @@ class ItemSelector extends React.Component {
       items,
       moreItems = [],
       selectedItem,
-      selectModalTitle = "Select a Value"
+      selectModalTitle = "Select a Value",
+      style = {}
     } = this.props;
     let isSelectedItemInVisible = false;
     if (
@@ -39,7 +40,7 @@ class ItemSelector extends React.Component {
     }
 
     return (
-      <View collapsable={false} style={styles.container}>
+      <View collapsable={false} style={[styles.container, style]}>
         <SelectModal
           ref={ref => (this.otherOptionsModal = ref)}
           style={styles.select}
