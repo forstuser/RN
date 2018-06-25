@@ -21,7 +21,7 @@ export default class OfferCategory extends React.Component {
     const offers = [...discountOffers, ...cashbackOffers, ...otherOffers];
 
     return (
-      <View style={{ fontSize: 16, padding: 10, paddingRight: 0 }}>
+      <View style={{ padding: 10, paddingRight: 0 }}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <View style={{ flex: 1 }}>
             <Text weight="Bold" style={{ fontSize: 16, marginLeft: 5 }}>

@@ -272,8 +272,6 @@ export default class OffersTab extends React.Component {
                 />
               </View>
             )}
-            onRefresh={this.fetchCategoryOffers}
-            refreshing={isLoading}
           />
         ) : (
           <View />

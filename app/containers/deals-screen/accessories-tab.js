@@ -294,6 +294,8 @@ export default class AccessoriesTab extends React.Component {
   };
 
   getAccessories = async () => {
+    if (this.state.isLoadingAccessories) return;
+
     const { selectedAccessoryCategoryIds } = this.props;
     const { accessoryCategories, product } = this.state;
     this.setState({ isLoadingAccessories: true });
@@ -436,7 +438,7 @@ export default class AccessoriesTab extends React.Component {
             data={accessoryCategories.filter(
               accessoryCategory => accessoryCategory.accessory_items.length > 0
             )}
-            keyExtractor={item => item.id}
+            keyExtractor={item => String(item.id)}
             renderItem={({ item }) => (
               <AccessoryCategory
                 productId={product ? product.id : null}
@@ -445,8 +447,6 @@ export default class AccessoriesTab extends React.Component {
             )}
             onEndReached={this.getAccessories}
             onEndReachedThreshold={0.5}
-            onRefresh={this.getAccessoriesFirstPage}
-            refreshing={isLoadingAccessories && accessoryCategories.length == 0}
             ListFooterComponent={
               <View
                 style={{
@@ -454,7 +454,7 @@ export default class AccessoriesTab extends React.Component {
                   justifyContent: "center"
                 }}
               >
-                <ActivityIndicator animating={isLoadingAccessories} />
+                <ActivityIndicator color={colors.mainBlue} animating={true} />
               </View>
             }
           />

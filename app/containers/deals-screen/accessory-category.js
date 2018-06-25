@@ -9,7 +9,7 @@ export default class AccessoryCategory extends React.Component {
     const { accessoryCategory, productId } = this.props;
     const { accessory_items } = accessoryCategory;
     return (
-      <View style={{ fontSize: 16, padding: 10, paddingRight: 0 }}>
+      <View style={{ padding: 10, paddingRight: 0 }}>
         <Text weight="Bold" style={{ fontSize: 16, marginLeft: 5 }}>
           {accessoryCategory.title}
         </Text>
@@ -29,7 +29,7 @@ export default class AccessoryCategory extends React.Component {
             <AccessoryItem item={item} productId={productId} />
           )}
           horizontal={true}
-          keyExtractor={item => item.id}
+          keyExtractor={item => String(item.id)}
         />
       </View>
     );

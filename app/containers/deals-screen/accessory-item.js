@@ -17,7 +17,6 @@ export default class AccessoryItem extends React.Component {
   };
 
   componentDidMount() {
-    console.log("access", this.props);
     this.setState({
       productId: this.props.productId
     });
@@ -70,7 +69,7 @@ export default class AccessoryItem extends React.Component {
               starColor={colors.pinkishOrange}
               disabled={true}
               maxStars={5}
-              rating={item.rating}
+              rating={Number(item.rating)}
               halfStarEnabled={true}
               starSize={11}
               starStyle={{ marginHorizontal: 0 }}
