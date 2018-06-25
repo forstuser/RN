@@ -99,11 +99,11 @@ class DealsScreen extends Component {
               <Text weight="Bold" style={styles.title}>
                 Offers & Accessories
               </Text>
-              <Text weight="Bold" style={styles.subTitle} numberOfLines={1}>
+              {/* <Text weight="Bold" style={styles.subTitle} numberOfLines={1}>
                 {activeTabIndex == 0
                   ? `Avail the Best of Offers across various product categories`
                   : `Check out Accessories for products across different price bands`}
-              </Text>
+              </Text> */}
             </View>
             {(activeTabIndex == 0 && selectedOfferCategory) ||
             (activeTabIndex == 1 && accessoryCategories.length > 0) ? (

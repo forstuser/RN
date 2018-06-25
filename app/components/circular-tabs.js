@@ -24,7 +24,8 @@ export default class CircularTabs extends React.Component {
     this.setState({ activeTabIndex: index });
     Animated.timing(this.state.curvePosition, {
       toValue: index,
-      duration: 200
+      duration: 200,
+      useNativeDriver: true
     }).start();
   };
 

@@ -231,11 +231,11 @@ export default class OffersTab extends React.Component {
               style={{
                 fontSize: 20,
                 textAlign: "center",
-                color: colors.lighterText,
+                color: colors.secondaryText,
                 padding: 20
               }}
             >
-              Please select a category to view offers
+              Please select a category to view Best of Offers at great prices
             </Text>
           </View>
         ) : (

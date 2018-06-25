@@ -111,7 +111,7 @@ const UpcomingServiceItem = ({ item, navigation }) => {
           />
           <View style={styles.daysRemainingWapper}>
             <Text weight="Bold" style={styles.daysRemaining}>
-              2{daysRemaining}
+              {daysRemaining}
             </Text>
           </View>
         </View>
