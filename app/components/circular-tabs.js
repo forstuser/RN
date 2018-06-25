@@ -1,13 +1,33 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
+import {
+  Animated,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ScrollView
+} from "react-native";
 
 import { Text, Image } from "../elements";
 import { colors } from "../theme";
 
+import curve from "../images/tab_curve.png";
+
+const TAB_WIDTH = 120;
+
 export default class CircularTabs extends React.Component {
   state = {
-    activeTabIndex: 0
+    activeTabIndex: 0,
+    curvePosition: new Animated.Value(0)
   };
+
+  goToTab = index => {
+    this.setState({ activeTabIndex: index });
+    Animated.timing(this.state.curvePosition, {
+      toValue: index,
+      duration: 200
+    }).start();
+  };
+
   render() {
     const { tabs } = this.props;
     const { activeTabIndex } = this.state;
@@ -15,12 +35,32 @@ export default class CircularTabs extends React.Component {
       <View style={styles.container}>
         <View style={styles.tabsContainer}>
           <View style={styles.tabsColorStrip} />
+
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <Animated.Image
+              resizeMode="stretch"
+              source={curve}
+              style={{
+                position: "absolute",
+                width: TAB_WIDTH,
+                height: 35,
+                top: 32,
+                left: 0,
+                transform: [
+                  {
+                    translateX: this.state.curvePosition.interpolate({
+                      inputRange: [0, 4],
+                      outputRange: [0, 4 * TAB_WIDTH]
+                    })
+                  }
+                ]
+              }}
+            />
             {tabs.map((tab, index) => (
               <TouchableOpacity
                 key={tab.text}
                 style={styles.tab}
-                onPress={() => this.setState({ activeTabIndex: index })}
+                onPress={() => this.goToTab(index)}
               >
                 <Text
                   weight={activeTabIndex == index ? "Bold" : "Regular"}
@@ -61,11 +101,11 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: 60,
+    height: 67,
     backgroundColor: colors.mainBlue
   },
   tab: {
-    width: 120,
+    width: TAB_WIDTH,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -89,5 +129,8 @@ const styles = StyleSheet.create({
   tabImage: {
     width: "100%",
     height: "100%"
+  },
+  tabContent: {
+    flex: 1
   }
 });

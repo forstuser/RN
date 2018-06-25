@@ -6,7 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
-  Image
+  Image,
+  FlatList
 } from "react-native";
 
 import { connect } from "react-redux";
@@ -23,7 +24,8 @@ import BlankDashboard from "./blank-dashboard";
 import CircularTabs from "../../components/circular-tabs";
 import TabSearchHeader from "../../components/tab-screen-header2";
 import InsightChart from "../../components/insight-chart";
-import UpcomingServicesList from "../../components/upcoming-services-list";
+import UpcomingServiceItem from "./upcoming-service-item";
+import UpcomingServiceItems from "./upcoming-services-list";
 import UploadBillOptions from "../../components/upload-bill-options";
 import { colors, defaultStyles } from "../../theme";
 import I18n from "../../i18n";
@@ -41,6 +43,7 @@ import ProductListItem from "../../components/product-list-item";
 import { actions as uiActions } from "../../modules/ui";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 import RecentCalenderItems from "./recent-calender-items";
+import AscContent from "./asc-content";
 
 const ascIcon = require("../../images/ic_nav_asc_on.png");
 const chartIcon = require("../../images/ic_bars_chart.png");
@@ -211,12 +214,14 @@ class DashboardScreen extends React.Component {
       recentSearches,
       totalCalendarItem,
       calendarItemUpdatedAt,
+      upcomingServices,
       isFetchingData
     } = this.state;
 
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#fff" }}>
         <TabSearchHeader
+          showSearchInput={false}
           ref="tabSearchHeader"
           title={I18n.t("dashboard_screen_title")}
           icon={dashBoardIcon}
@@ -230,15 +235,59 @@ class DashboardScreen extends React.Component {
               {
                 title: "What’s Coming",
                 imageSource: whatsComingIcon,
-                content: (
-                  <View>
-                    <Text>Upcoming events will come here</Text>
-                  </View>
-                )
+                content:
+                  upcomingServices.length > 1 ? (
+                    <View
+                      style={{
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}
+                    >
+                      <View
+                        style={{
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
+                      >
+                        <View
+                          style={{
+                            width: 100,
+                            height: 100,
+                            borderRadius: 50,
+                            backgroundColor: "#EAF6FC"
+                          }}
+                        />
+                        <Icon
+                          name="ios-notifications-outline"
+                          color="#D3D3D3"
+                          size={100}
+                          style={{ marginTop: -65 }}
+                        />
+                      </View>
+                      <Text
+                        weight="Bold"
+                        style={{ fontSize: 16, color: "#c2c2c2" }}
+                      >
+                        Nothing due in upcoming period
+                      </Text>
+                    </View>
+                  ) : (
+                    <FlatList
+                      data={upcomingServices}
+                      renderItem={item => (
+                        <UpcomingServiceItem
+                          item={item.item}
+                          navigation={this.props.navigation}
+                        />
+                      )}
+                      keyExtractor={(item, index) => index}
+                    />
+                  )
               },
               {
                 title: "Expense Insights",
-                imageSource: require("../../images/bullhorn.png"),
+                imageSource: require("../../images/bar_chart_icon.png"),
                 content: (
                   <View>
                     <Text>Expense Insights</Text>
@@ -248,11 +297,7 @@ class DashboardScreen extends React.Component {
               {
                 title: "Authorised Service Centres",
                 imageSource: require("../../images/bullhorn.png"),
-                content: (
-                  <View>
-                    <Text>Authorised Service Centres</Text>
-                  </View>
-                )
+                content: <AscContent navigation={this.props.navigation} />
               }
             ]}
           />
@@ -287,7 +332,7 @@ const styles = StyleSheet.create({
   container: {
     ...defaultStyles.card,
     position: "absolute",
-    top: 115,
+    top: 55,
     left: 10,
     right: 10,
     bottom: 10,

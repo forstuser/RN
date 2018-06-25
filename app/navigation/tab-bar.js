@@ -1,8 +1,10 @@
 import React from "react";
-import { View, TouchableWithoutFeedback } from "react-native";
+import { View, TouchableWithoutFeedback, Image } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Text } from "../elements";
 import { colors } from "../theme";
+
+import curve from "../images/tab_curve.png";
 
 export default class CustomTabBar extends React.Component {
   // We will use this function in array's map
@@ -36,14 +38,16 @@ export default class CustomTabBar extends React.Component {
           }}
         >
           {focused ? (
-            <View
+            <Image
+              resizeMode="stretch"
+              source={curve}
               style={{
                 position: "absolute",
-                width: 70,
-                height: 70,
-                borderRadius: 35,
-                backgroundColor: "#fff",
-                top: -35
+                width: "100%",
+                height: 35,
+                top: 0,
+                left: 0,
+                transform: [{ rotate: "180deg" }]
               }}
             />
           ) : (
