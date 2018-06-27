@@ -5,10 +5,12 @@ import ActionSheet from "react-native-actionsheet";
 import moment from "moment";
 
 import { Text, Image } from "../../elements";
+import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 
 import { API_BASE_URL, getInsightData } from "../../api";
 import { colors } from "../../theme";
+import { SCREENS } from "../../constants";
 
 export default class InsightContent extends React.Component {
   constructor(props) {
@@ -18,7 +20,7 @@ export default class InsightContent extends React.Component {
       error: null,
       totalSpend: "",
       categories: [],
-      timePeriod: "Lifetime", // one of  'Monthly', 'Yearly', 'Lifetime',
+      timePeriod: "Monthly", // one of  'Monthly', 'Yearly', 'Lifetime',
       time: moment()
     };
   }
@@ -95,6 +97,15 @@ export default class InsightContent extends React.Component {
     this.setState({ timePeriod, time: moment() }, () => this.fetchCategories());
   };
 
+  onCategoryPress = category => {
+    const { timePeriod, time } = this.state;
+    this.props.navigation.navigate(SCREENS.TRANSACTIONS_SCREEN, {
+      category,
+      timePeriod,
+      time
+    });
+  };
+
   render() {
     const {
       totalSpend,
@@ -167,8 +178,8 @@ export default class InsightContent extends React.Component {
         <FlatList
           style={styles.list}
           data={categories}
-          onRefresh={this.fetchCategories}
-          refreshing={isLoading}
+          // onRefresh={this.fetchCategories}
+          // refreshing={isLoading}
           ListHeaderComponent={
             <View style={styles.totalSpendContainer}>
               <Text weight="Bold" style={{ fontSize: 25 }}>
@@ -180,7 +191,10 @@ export default class InsightContent extends React.Component {
             </View>
           }
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.item}>
+            <TouchableOpacity
+              onPress={() => this.onCategoryPress(item)}
+              style={styles.item}
+            >
               <Image
                 style={styles.itemImage}
                 source={{ uri: API_BASE_URL + item.cImageURl }}
@@ -204,6 +218,7 @@ export default class InsightContent extends React.Component {
           ListFooterComponent={<View style={{ height: 80 }} />}
           keyExtractor={item => String(item.id)}
         />
+        <LoadingOverlay visible={isLoading} />
       </View>
     );
   }

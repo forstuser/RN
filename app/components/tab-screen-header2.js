@@ -40,7 +40,7 @@ class TabSearchHeader extends Component {
     } = this.props;
     return (
       <View collapsable={false} style={styles.container}>
-        <StatusBar backgroundColor={colors.mainBlue} barStyle="light-content" />
+        <StatusBar backgroundColor={colors.mainBlue} />
         <LinearGradient
           start={{ x: 0.0, y: 0 }}
           end={{ x: 0.0, y: 1 }}

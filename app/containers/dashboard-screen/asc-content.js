@@ -26,7 +26,7 @@ import SelectModal from "../../components/select-modal";
 import LoadingOverlay from "../../components/loading-overlay";
 
 import Analytics from "../../analytics";
-import { colors } from "../../theme";
+import { colors, defaultStyles } from "../../theme";
 import { getProductMetasString } from "../../utils";
 import ErrorOverlay from "../../components/error-overlay";
 import { SCREENS } from "../../constants";
@@ -508,22 +508,16 @@ const styles = StyleSheet.create({
   },
   selectsPart: {
     flex: 1,
-    justifyContent: "center",
-    maxWidth: 350,
-    alignSelf: "center"
+    maxWidth: 350
   },
   select: {
-    height: "auto",
-    backgroundColor: "white",
-    borderColor: "transparent",
-    overflow: "hidden",
-    shadowColor: "black",
+    height: 45,
     padding: 8,
-    paddingBottom: 15,
-    paddingTop: 10,
+    // paddingTop: 0,
     marginBottom: 12,
-    alignSelf: "center",
-    elevation: 2
+    borderRadius: 10,
+    alignItems: "center",
+    ...defaultStyles.card
   },
   searchBtn: {
     width: 200,

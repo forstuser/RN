@@ -17,6 +17,6 @@ export default () => (
       bottom: 0
     }}
   >
-    <StatusBar backgroundColor={colors.mainBlue} barStyle="light-content" />
+    <StatusBar backgroundColor={colors.mainBlue} />
   </LinearGradient>
 );

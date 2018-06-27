@@ -9,7 +9,7 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-let API_BASE_URL = "https://consumer-stage.binbill.com";
+let API_BASE_URL = "https://consumer-test.binbill.com";
 if (!__DEV__) {
   API_BASE_URL = "https://consumer-eb.binbill.com";
 }
@@ -501,10 +501,20 @@ export const getInsightData = async ({ forMonth, forYear, forLifetime }) => {
   });
 };
 
-export const getCategoryInsightData = async id => {
+export const getCategoryInsightData = async ({
+  categoryId,
+  forMonth,
+  forYear,
+  forLifetime
+}) => {
   return await apiRequest({
     method: "get",
-    url: `categories/${id}/insights`
+    url: `categories/${categoryId}/insights`,
+    queryParams: {
+      for_month: forMonth,
+      for_year: forYear,
+      for_lifetime: forLifetime
+    }
   });
 };
 

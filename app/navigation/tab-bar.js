@@ -64,7 +64,7 @@ export default class CustomTabBar extends React.Component {
             style={{
               width: focused ? 24 : 28,
               height: focused ? 24 : 28,
-              padding: focused ? 3 : 0,
+              padding: focused ? 5 : 0,
               marginBottom: focused ? 12 : 0,
               marginTop: focused ? 0 : 8,
               borderRadius: 2

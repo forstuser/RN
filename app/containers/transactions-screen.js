@@ -9,13 +9,14 @@ import {
   ScrollView
 } from "react-native";
 import moment from "moment";
+import Icon from "react-native-vector-icons/Ionicons";
 import ActionSheet from "react-native-actionsheet";
 import { API_BASE_URL, getCategoryInsightData } from "../api";
 import { Text, Button, ScreenContainer, Image } from "../elements";
-import InsightChart from "../components/insight-chart";
 import SectionHeading from "../components/section-heading";
 import { colors } from "../theme";
 import LoadingOverlay from "../components/loading-overlay";
+import ErrorOverlay from "../components/error-overlay";
 import { openBillsPopUp } from "../navigation";
 import I18n from "../i18n";
 
@@ -25,102 +26,35 @@ const billIcon = require("../images/ic_comingup_bill.png");
 
 class TransactionsScreen extends Component {
   static navigationOptions = ({ navigation }) => {
+    const category = navigation.getParam("category", {});
     return {
-      title: navigation.state.params.category.cName
+      title: category.cName
     };
   };
 
   constructor(props) {
     super(props);
     this.state = {
+      error: null,
       isFetchingData: true,
-      weeklyData: {
-        timeSpanText: "",
-        filterText: "Current Month",
-        products: [],
-        insightData: {}
-      },
-      monthlyData: {
-        timeSpanText: "",
-        filterText: "Current Month",
-        products: [],
-        insightData: {}
-      },
-      yearlyData: {
-        timeSpanText: "",
-        filterText: "Current Year",
-        products: [],
-        insightData: {}
-      },
-      overallData: {
-        timeSpanText: "",
-        filterText: "Overall",
-        products: [],
-        insightData: {}
-      },
-      activeData: {
-        timeSpanText: "",
-        filterText: "",
-        products: [],
-        insightData: {}
-      },
-      chartData: []
+      products: [],
+      timePeriod: null, // one of  'Monthly', 'Yearly', 'Lifetime',
+      time: null
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
-      async () => {
-        try {
-          const res = await getCategoryInsightData(
-            this.props.navigation.state.params.category.id
-          );
-          const weeklyData = {
-            timeSpanText:
-              "For " +
-              moment(res.insight.startDate).format("DD MMM") +
-              " - " +
-              moment(res.insight.endDate).format("DD MMM"),
-            filterText: I18n.t("transactions_screen_filter_last_7_days"),
-            products: res.productList,
-            insightData: res.insight.insightData
-          };
-          const monthlyData = {
-            timeSpanText:
-              "For " + moment(res.insight.monthStartDate).format("MMM YYYY"),
-            filterText: I18n.t("transactions_screen_filter_current_month"),
-            products: res.productListWeekly,
-            insightData: res.insight.insightWeekly
-          };
-          const yearlyData = {
-            timeSpanText:
-              "For " + moment(res.insight.yearStartDate).format("YYYY"),
-            filterText: I18n.t("transactions_screen_filter_current_year"),
-            products: res.productListMonthly,
-            insightData: res.insight.insightMonthly
-          };
-          const overallData = {
-            timeSpanText: "Lifetime",
-            filterText: I18n.t("transactions_screen_filter_overall"),
-            products: res.overallProductList,
-            insightData: res.insight.overallInsight
-          };
-          this.setState(
-            {
-              isFetchingData: false,
-              weeklyData,
-              monthlyData,
-              yearlyData,
-              overallData
-            },
-            () => {
-              this.handleFilterOptionPress(
-                this.props.navigation.state.params.index
-              );
-            }
-          );
-        } catch (e) {}
+      () => {
+        const timePeriod =
+          this.state.timePeriod ||
+          this.props.navigation.getParam("timePeriod", "Monthly");
+        const time =
+          this.state.time || this.props.navigation.getParam("time", moment());
+        this.setState({ timePeriod, time }, () => {
+          this.fetchProductList();
+        });
       }
     );
   }
@@ -129,55 +63,81 @@ class TransactionsScreen extends Component {
     this.didFocusSubscription.remove();
   }
 
-  handleFilterOptionPress = index => {
-    let activeData;
+  fetchProductList = async () => {
+    const category = this.props.navigation.getParam("category", {});
+
+    try {
+      this.setState({ isLoading: true, error: null });
+      const { timePeriod, time } = this.state;
+      const filters = { categoryId: category.id };
+      switch (timePeriod) {
+        case "Yearly":
+          filters.forYear = time.format("YYYY");
+        case "Monthly":
+          filters.forMonth = time.format("M");
+          break;
+        case "Lifetime":
+          filters.forLifetime = true;
+      }
+      const res = await getCategoryInsightData(filters);
+
+      this.setState({
+        products: res.productList
+      });
+    } catch (error) {
+      this.setState({ error });
+    } finally {
+      this.setState({ isFetchingData: false });
+    }
+  };
+
+  previousTimePeriod = () => {
+    const { timePeriod, time } = this.state;
+    let unit = "months";
+    if (timePeriod == "Yearly") unit = "years";
+    this.setState(
+      {
+        time: time.subtract(1, unit)
+      },
+      () => {
+        this.fetchProductList();
+      }
+    );
+  };
+
+  nextTimePeriod = () => {
+    const { timePeriod, time } = this.state;
+    let unit = "months";
+    if (timePeriod == "Yearly") unit = "years";
+    this.setState(
+      {
+        time: time.add(1, unit)
+      },
+      () => {
+        this.fetchProductList();
+      }
+    );
+  };
+
+  handleTimePeriodPress = index => {
+    if (index == 3) return;
+    let timePeriod = "Monthly";
     switch (index) {
-      case 0:
-        activeData = this.state.weeklyData;
-        break;
       case 1:
-        activeData = this.state.monthlyData;
+        timePeriod = "Yearly";
         break;
       case 2:
-        activeData = this.state.yearlyData;
+        timePeriod = "Lifetime";
         break;
-      case 3:
-        activeData = this.state.overallData;
-        break;
-      default:
-        return;
     }
+    this.setState({ timePeriod, time: moment() }, () =>
+      this.fetchProductList()
+    );
+  };
 
-    let areAllValuesZero = true;
-    let chartData = activeData.insightData.map(data => {
-      if (areAllValuesZero && data.value > 0) {
-        areAllValuesZero = false;
-      }
-
-      let x = "";
-      if (index == 0) {
-        x = moment(data.purchaseDate).format("DD MMM");
-      } else if (index == 1) {
-        x = "Week " + data.week;
-      } else if (index == 2) {
-        x = data.month;
-      } else if (index == 3) {
-        x = String(data.year);
-      }
-      return {
-        x: x,
-        y: data.value
-      };
-    });
-
-    if (areAllValuesZero) {
-      chartData = [];
-    }
-
-    this.setState({
-      isFetchingData: false,
-      activeData,
-      chartData
+  onProductPress = product => {
+    this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+      productId: product.productId || product.id
     });
   };
 
@@ -198,108 +158,128 @@ class TransactionsScreen extends Component {
     }
   };
   render() {
-    const { timeSpanText, filterText } = this.state.activeData;
-    const { isFetchingData, chartData } = this.state;
+    const { isFetchingData, products, timePeriod, time, error } = this.state;
+    if (error) {
+      return <ErrorOverlay error={error} onRetryPress={this.fetchCategories} />;
+    }
     return (
       <ScreenContainer style={styles.container}>
-        <LoadingOverlay visible={isFetchingData} />
-        <ScrollView>
-          <View collapsable={false} style={{ padding: 16 }}>
-            <InsightChart
-              onFiltersPress={() => this.filterOptions.show()}
-              bgColors={[
-                this.props.navigation.state.params.color,
-                this.props.navigation.state.params.color
-              ]}
-              timeSpanText={timeSpanText}
-              filterText={filterText}
-              chartData={chartData}
+        <View style={styles.header}>
+          <TouchableOpacity
+            onPress={() => this.timePeriodOptions.show()}
+            style={styles.timePeriod}
+          >
+            <Text>{timePeriod}</Text>
+            <Icon
+              name="md-arrow-dropdown"
+              color="#656565"
+              size={20}
+              style={{ marginLeft: 20, marginTop: 5 }}
             />
-            <ActionSheet
-              onPress={this.handleFilterOptionPress}
-              ref={o => (this.filterOptions = o)}
-              title={I18n.t("transactions_screen_filter_options_title")}
-              cancelButtonIndex={4}
-              options={[
-                I18n.t("transactions_screen_filter_last_7_days"),
-                I18n.t("transactions_screen_filter_current_month"),
-                I18n.t("transactions_screen_filter_current_year"),
-                I18n.t("transactions_screen_filter_overall"),
-                I18n.t("transactions_screen_filter_close")
-              ]}
-            />
-          </View>
-          {this.state.activeData.products.length == 0 ? (
-            <SectionHeading
-              text={I18n.t("transactions_screen_no_transactions")}
-            />
-          ) : (
-            <View collapsable={false}>
-              <SectionHeading
-                text={I18n.t("transactions_screen_transactions")}
-              />
-              <View collapsable={false}>
-                {this.state.activeData.products.map((product, index) => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.props.navigation.navigate(
-                        SCREENS.PRODUCT_DETAILS_SCREEN,
-                        {
-                          productId: product.productId || product.id
-                        }
-                      );
-                    }}
-                    style={styles.product}
-                    key={index}
-                  >
-                    {product.dataIndex == 1 && (
-                      <Image
-                        style={styles.image}
-                        source={{ uri: API_BASE_URL + product.cImageURL }}
-                      />
-                    )}
-                    {product.dataIndex > 1 && (
-                      <Image style={styles.image} source={billIcon} />
-                    )}
-                    <View collapsable={false} style={styles.texts}>
-                      <View collapsable={false} style={styles.nameWrapper}>
-                        <Text weight="Bold" style={styles.name}>
-                          {product.productName || product.categoryName}
-                        </Text>
-                        {product.masterCategoryId ==
-                          MAIN_CATEGORY_IDS.HOUSEHOLD &&
-                          product.sub_category_name != null && (
-                            <Text
-                              weight="Bold"
-                              style={styles.sub_category_name}
-                            >
-                              {product.sub_category_name}
-                            </Text>
-                          )}
-                        <Text weight="Bold" style={styles.productType}>
-                          {this.productType(product.dataIndex)}
-                        </Text>
-                      </View>
-                      {product.sellers != null ? (
-                        <Text style={styles.sellerName}>
-                          {product.sellers.sellerName}
-                        </Text>
-                      ) : (
-                        <View collapsable={false} />
-                      )}
-                      <Text weight="Medium" style={styles.purchaseDate}>
-                        {moment(product.purchaseDate).format("MMM DD, YYYY")}
-                      </Text>
-                    </View>
-                    <Text weight="Bold" style={styles.amount}>
-                      ₹ {product.value}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
+          </TouchableOpacity>
+          <ActionSheet
+            onPress={this.handleTimePeriodPress}
+            ref={o => (this.timePeriodOptions = o)}
+            cancelButtonIndex={3}
+            options={["Monthly", "Yearly", "Lifetime"]}
+          />
+          {timePeriod != "Lifetime" && time != null ? (
+            <View style={styles.monthAndYear}>
+              <TouchableOpacity
+                onPress={this.previousTimePeriod}
+                style={styles.monthAndYearArrow}
+              >
+                <Icon name="ios-arrow-back" color={colors.mainBlue} size={30} />
+              </TouchableOpacity>
+
+              <Text
+                weight="Bold"
+                style={{
+                  fontSize: 20,
+                  flex: 1,
+                  textAlign: "center",
+                  color: colors.mainBlue
+                }}
+              >
+                {timePeriod == "Monthly" ? time.format("MMM") + ", " : ""}
+                {time.format("YYYY")}
+              </Text>
+
+              <TouchableOpacity
+                onPress={this.nextTimePeriod}
+                style={styles.monthAndYearArrow}
+              >
+                <Icon
+                  name="ios-arrow-forward"
+                  color={colors.mainBlue}
+                  size={30}
+                />
+              </TouchableOpacity>
             </View>
+          ) : (
+            <View />
           )}
-        </ScrollView>
+        </View>
+        {!isFetchingData && products.length == 0 ? (
+          <View style={styles.noResultContainer}>
+            <Text style={styles.noResultText}>
+              No Transactions available for the time period
+            </Text>
+          </View>
+        ) : (
+          <View />
+        )}
+        <FlatList
+          style={styles.list}
+          data={products}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => this.onProductPress(item)}
+              style={styles.product}
+            >
+              {item.dataIndex == 1 && (
+                <Image
+                  style={styles.image}
+                  source={{ uri: API_BASE_URL + item.cImageURL }}
+                />
+              )}
+              {item.dataIndex > 1 && (
+                <Image style={styles.image} source={billIcon} />
+              )}
+              <View collapsable={false} style={styles.texts}>
+                <View collapsable={false} style={styles.nameWrapper}>
+                  <Text weight="Bold" style={styles.name}>
+                    {item.productName || item.categoryName}
+                  </Text>
+                  {item.masterCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD &&
+                    item.sub_category_name != null && (
+                      <Text weight="Bold" style={styles.sub_category_name}>
+                        {item.sub_category_name}
+                      </Text>
+                    )}
+                  <Text weight="Bold" style={styles.productType}>
+                    {this.productType(item.dataIndex)}
+                  </Text>
+                </View>
+                {item.sellers != null ? (
+                  <Text style={styles.sellerName}>
+                    {item.sellers.sellerName}
+                  </Text>
+                ) : (
+                  <View collapsable={false} />
+                )}
+                <Text weight="Medium" style={styles.purchaseDate}>
+                  {moment(item.purchaseDate).format("MMM DD, YYYY")}
+                </Text>
+              </View>
+              <Text weight="Bold" style={styles.amount}>
+                ₹ {item.value}
+              </Text>
+            </TouchableOpacity>
+          )}
+        />
+
+        <LoadingOverlay visible={isFetchingData} />
       </ScreenContainer>
     );
   }
@@ -308,6 +288,42 @@ class TransactionsScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     padding: 0
+  },
+  header: {
+    borderColor: "#efefef",
+    borderBottomWidth: 1
+  },
+  timePeriod: {
+    borderColor: "#e1e1e1",
+    borderWidth: 1,
+    flexDirection: "row",
+    height: 30,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    marginVertical: 15
+  },
+  monthAndYear: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  monthAndYearArrow: {
+    padding: 5,
+    width: 40,
+    alignItems: "center"
+  },
+  noResultContainer: {
+    flex: 1,
+    padding: 20
+  },
+  noResultText: {
+    color: colors.secondaryText,
+    textAlign: "center"
+  },
+  list: {
+    flex: 1
   },
   product: {
     paddingTop: 16,

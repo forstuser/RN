@@ -96,7 +96,7 @@ class DealsScreen extends Component {
               <Image source={offersIcon} style={styles.offersIcon} />
             </View>
             <View style={{ flex: 1, paddingRight: 20 }}>
-              <Text weight="Bold" style={styles.title}>
+              <Text weight="Medium" style={styles.title}>
                 Offers & Accessories
               </Text>
               {/* <Text weight="Bold" style={styles.subTitle} numberOfLines={1}>
@@ -216,9 +216,10 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     width: "100%",
     height: 110,
+    zIndex: 2,
     ...Platform.select({
-      ios: { height: 110, paddingTop: 30 },
-      android: { height: 90, paddingTop: 10 }
+      ios: { height: 110, paddingTop: 20 },
+      android: { height: 90, paddingTop: 0 }
     })
   },
   headerUpperHalf: {
@@ -233,7 +234,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 2,
     borderRadius: 2,
-    marginRight: 10
+    marginRight: 5
   },
   offersIcon: {
     width: "100%",
@@ -241,7 +242,7 @@ const styles = StyleSheet.create({
     tintColor: colors.mainBlue
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     color: "#fff"
   },
   subTitle: {

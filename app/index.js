@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppRegistry, View, Text } from "react-native";
+import { AppRegistry, View, Text, StatusBar } from "react-native";
 import { Provider, connect } from "react-redux";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/es/integration/react";
@@ -16,6 +16,7 @@ class App extends React.Component {
           loading={<LoadingOverlay visible={true} />}
           persistor={persistor}
         >
+          <StatusBar backgroundColor="#fff" barStyle="dark-content" />
           <RootNavigator />
         </PersistGate>
       </Provider>

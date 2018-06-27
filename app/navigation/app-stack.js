@@ -65,7 +65,10 @@ const BottomTabStack = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: "Dashboard",
         tabBarIcon: props => (
-          <TabIcon {...props} source={require("../images/ic_dashboard.png")} />
+          <TabIcon
+            {...props}
+            source={require("../images/dashboard_tab_icon.png")}
+          />
         )
       }
     },

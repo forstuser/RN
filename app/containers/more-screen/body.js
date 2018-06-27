@@ -145,7 +145,7 @@ class Body extends Component {
       <ScrollView>
         <MoreItem
           onPress={this.onOrderHistoryPress}
-          imageSource={require("../../images/ic_app_pin.png")}
+          imageSource={require("../../images/orders_icon.png")}
           text={"My Orders"}
         />
         <MoreItem

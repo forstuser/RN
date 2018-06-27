@@ -29,7 +29,7 @@ const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 const ITEM_SELECTOR_HEIGHT = 120;
 
 export default class AccessoriesTab extends React.Component {
-  topPaddingElement = new Animated.Value(1);
+  topPaddingElement = new Animated.Value(0);
   state = {
     products: [],
     categories: [],
@@ -295,9 +295,11 @@ export default class AccessoriesTab extends React.Component {
 
   getAccessories = async () => {
     if (this.state.isLoadingAccessories) return;
-
+    this.topPaddingElement.setValue(0);
     const { selectedAccessoryCategoryIds } = this.props;
     const { accessoryCategories, product } = this.state;
+
+    console.log("isLoadingAccessories: true");
     this.setState({ isLoadingAccessories: true });
     try {
       const res = await getAccessories({
@@ -321,6 +323,7 @@ export default class AccessoriesTab extends React.Component {
         duration: Snackbar.LENGTH_SHORT
       });
     } finally {
+      console.log("isLoadingAccessories: false");
       this.setState({ isLoadingAccessories: false });
     }
   };
@@ -454,7 +457,10 @@ export default class AccessoriesTab extends React.Component {
                   justifyContent: "center"
                 }}
               >
-                <ActivityIndicator color={colors.mainBlue} animating={true} />
+                <ActivityIndicator
+                  color={colors.mainBlue}
+                  animating={isLoadingAccessories}
+                />
               </View>
             }
           />

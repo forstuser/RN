@@ -4,7 +4,8 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from "react-native";
 
 import { Text, Image } from "../elements";
@@ -13,6 +14,7 @@ import { colors } from "../theme";
 import curve from "../images/tab_curve.png";
 
 const TAB_WIDTH = 120;
+const CONTENT_WIDTH = Dimensions.get("window").width - 20;
 
 export default class CircularTabs extends React.Component {
   state = {
@@ -76,7 +78,9 @@ export default class CircularTabs extends React.Component {
                     style={styles.tabImage}
                     source={tab.imageSource}
                     tintColor={
-                      activeTabIndex == index ? colors.mainBlue : undefined
+                      activeTabIndex == index
+                        ? colors.mainBlue
+                        : colors.secondaryText
                     }
                   />
                 </View>
@@ -84,7 +88,28 @@ export default class CircularTabs extends React.Component {
             ))}
           </ScrollView>
         </View>
-        <View style={styles.tabContent}>{tabs[activeTabIndex].content}</View>
+        <Animated.View
+          style={[
+            styles.tabContentContainer,
+            { width: tabs.length * CONTENT_WIDTH },
+            {
+              transform: [
+                {
+                  translateX: this.state.curvePosition.interpolate({
+                    inputRange: [0, 4],
+                    outputRange: [0, -4 * CONTENT_WIDTH]
+                  })
+                }
+              ]
+            }
+          ]}
+        >
+          {tabs.map((tab, index) => (
+            <View key={index} style={styles.tabContent}>
+              {tab.content}
+            </View>
+          ))}
+        </Animated.View>
       </View>
     );
   }
@@ -92,7 +117,8 @@ export default class CircularTabs extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    overflow: "hidden"
   },
   tabsContainer: {
     height: 92
@@ -125,13 +151,19 @@ const styles = StyleSheet.create({
     borderColor: "#fff",
     borderWidth: 2,
     padding: 5,
-    elevation: 2
+    elevation: 2,
+    justifyContent: "center",
+    alignItems: "center"
   },
   tabImage: {
-    width: "100%",
-    height: "100%"
+    width: 30,
+    height: 30
+  },
+  tabContentContainer: {
+    flex: 1,
+    flexDirection: "row"
   },
   tabContent: {
-    flex: 1
+    width: CONTENT_WIDTH
   }
 });

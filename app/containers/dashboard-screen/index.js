@@ -258,7 +258,7 @@ class DashboardScreen extends React.Component {
               },
               {
                 title: "Authorised Service Centres",
-                imageSource: require("../../images/bullhorn.png"),
+                imageSource: require("../../images/asc_icon.png"),
                 content: <AscContent navigation={this.props.navigation} />
               }
             ]}
@@ -294,13 +294,17 @@ const styles = StyleSheet.create({
   container: {
     ...defaultStyles.card,
     position: "absolute",
-    top: 55,
+
     left: 10,
     right: 10,
     bottom: 10,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    zIndex: 2
+    zIndex: 2,
+    ...Platform.select({
+      android: { top: 55 },
+      ios: { top: 75 }
+    })
   },
   expenseInsight: {
     backgroundColor: "#fff",
