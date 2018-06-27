@@ -9,7 +9,7 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-let API_BASE_URL = "https://consumer-stage.binbill.com";
+let API_BASE_URL = "https://consumer-test.binbill.com";
 if (!__DEV__) {
   API_BASE_URL = "https://consumer-eb.binbill.com";
 }
@@ -142,7 +142,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => {}
+  onUploadProgress = () => { }
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
