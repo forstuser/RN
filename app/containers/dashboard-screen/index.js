@@ -44,6 +44,7 @@ import { actions as uiActions } from "../../modules/ui";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 import RecentCalenderItems from "./recent-calender-items";
 import AscContent from "./asc-content";
+import ExpenseInsightsContent from "./expense-insights-content";
 
 const ascIcon = require("../../images/ic_nav_asc_on.png");
 const chartIcon = require("../../images/ic_bars_chart.png");
@@ -67,14 +68,8 @@ class DashboardScreen extends React.Component {
       isFetchingData: true,
       showDashboard: true,
       upcomingServices: [],
-      recentProducts: [],
-      recentCalenderItems: [],
-      insightChartProps: {},
       notificationCount: 0,
-      recentSearches: [],
-      totalCalendarItem: 0,
-      calendarItemUpdatedAt: null,
-      showUploadOptions: false
+      recentSearches: []
     };
   }
 
@@ -109,31 +104,6 @@ class DashboardScreen extends React.Component {
     });
     try {
       const dashboardData = await consumerGetDashboard();
-      // console.log("Dashboard Data :", dashboardData);
-      // if (
-      //   dashboardData.hasProducts === false &&
-      //   !DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE &&
-      //   !global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE]
-      // ) {
-      //   DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = true;
-      //   return this.showAddProductOptionsScreen();
-      // }
-      const insight = dashboardData.insight;
-      const insightChartProps = {
-        timeSpanText:
-          moment(insight.startDate).format("MMM DD") +
-          " - " +
-          moment(insight.endDate).format("MMM DD"),
-        hideFilterDropdownIcon: true,
-        filterText: I18n.t("dashboard_screen_chart_last_7_days"),
-        totalSpend: insight.totalSpend,
-        chartData: insight.insightData.map(item => {
-          return {
-            x: moment(item.purchaseDate).format("MMM DD"),
-            y: item.value
-          };
-        })
-      };
 
       this.setState(
         {
@@ -141,11 +111,6 @@ class DashboardScreen extends React.Component {
           recentSearches: dashboardData.recentSearches,
           showDashboard: dashboardData.showDashboard,
           upcomingServices: dashboardData.upcomingServices,
-          recentProducts: dashboardData.recent_products,
-          recentCalenderItems: dashboardData.recent_calendar_item,
-          insightChartProps: insightChartProps,
-          totalCalendarItem: dashboardData.total_calendar_item,
-          calendarItemUpdatedAt: dashboardData.calendar_item_updated_at,
           isFetchingData: false
         },
         () => {
@@ -177,6 +142,7 @@ class DashboardScreen extends React.Component {
         }
       );
     } catch (error) {
+      console.log("error: ", error);
       this.setState({
         error,
         isFetchingData: false
@@ -212,8 +178,6 @@ class DashboardScreen extends React.Component {
       showDashboard,
       notificationCount,
       recentSearches,
-      totalCalendarItem,
-      calendarItemUpdatedAt,
       upcomingServices,
       isFetchingData
     } = this.state;
@@ -236,7 +200,7 @@ class DashboardScreen extends React.Component {
                 title: "What’s Coming",
                 imageSource: whatsComingIcon,
                 content:
-                  upcomingServices.length > 1 ? (
+                  upcomingServices.length == 0 ? (
                     <View
                       style={{
                         flex: 1,
@@ -289,9 +253,7 @@ class DashboardScreen extends React.Component {
                 title: "Expense Insights",
                 imageSource: require("../../images/bar_chart_icon.png"),
                 content: (
-                  <View>
-                    <Text>Expense Insights</Text>
-                  </View>
+                  <ExpenseInsightsContent navigation={this.props.navigation} />
                 )
               },
               {
@@ -337,7 +299,8 @@ const styles = StyleSheet.create({
     right: 10,
     bottom: 10,
     borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10
+    borderBottomRightRadius: 10,
+    zIndex: 2
   },
   expenseInsight: {
     backgroundColor: "#fff",

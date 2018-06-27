@@ -15,7 +15,7 @@ if (!__DEV__) {
 }
 export { API_BASE_URL };
 
-const APP_VERSION_FOR_API = 20006;
+const APP_VERSION_FOR_API = 20007;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
@@ -50,7 +50,7 @@ const apiRequest = async ({
     console.log(
       "New Request: ",
       method,
-      url,
+      API_BASE_URL + url,
       "headers: ",
       headers,
       "data: ",
@@ -489,10 +489,15 @@ export const updateProfile = async ({
   });
 };
 
-export const getInsightData = async () => {
+export const getInsightData = async ({ forMonth, forYear, forLifetime }) => {
   return await apiRequest({
     method: "get",
-    url: "/insight"
+    url: "/insight",
+    queryParams: {
+      for_month: forMonth,
+      for_year: forYear,
+      for_lifetime: forLifetime
+    }
   });
 };
 

@@ -66,7 +66,7 @@ export default class CircularTabs extends React.Component {
                 <Text
                   weight={activeTabIndex == index ? "Bold" : "Regular"}
                   style={styles.tabTitle}
-                  numberOfLines={2}
+                  numberOfLines={1}
                 >
                   {tab.title}
                 </Text>
