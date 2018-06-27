@@ -142,7 +142,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => {}
+  onUploadProgress = () => { }
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {

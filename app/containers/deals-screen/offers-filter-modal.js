@@ -16,7 +16,6 @@ import Radiobox from "../../components/radiobox";
 import BlueGradientBG from "../../components/blue-gradient-bg";
 import Checkbox from "../../components/checkbox";
 import { Text, Button } from "../../elements";
-
 import { colors } from "../../theme";
 
 export default class OffersFilterModal extends React.Component {
@@ -149,10 +148,14 @@ export default class OffersFilterModal extends React.Component {
   };
 
   render() {
-    const {
+    let {
       offerTypes = { discount: [], cashback: [] },
       offerMerchants = []
     } = this.props;
+    console.log("off", offerTypes)
+    offerTypes.discount.sort((a, b) => a - b);
+    offerTypes.cashback.sort((a, b) => a - b);
+    offerMerchants.sort();
     const {
       isModalVisible,
       activeFilter,
@@ -219,8 +222,8 @@ export default class OffersFilterModal extends React.Component {
                       Discount
                     </Text>
                   ) : (
-                    <View />
-                  )}
+                      <View />
+                    )}
                   {offerTypes.discount.map(discount => (
                     <View key={discount}>
                       <TouchableOpacity
@@ -243,8 +246,8 @@ export default class OffersFilterModal extends React.Component {
                       Cashback
                     </Text>
                   ) : (
-                    <View />
-                  )}
+                      <View />
+                    )}
                   {offerTypes.cashback.map(cashback => (
                     <View key={cashback}>
                       <TouchableOpacity
@@ -276,15 +279,15 @@ export default class OffersFilterModal extends React.Component {
                   </View>
                 </ScrollView>
               ) : (
-                <FlatList
-                  data={offerMerchants}
-                  renderItem={this.renderMerchantItem}
-                  ItemSeparatorComponent={highlighted => (
-                    <View style={{ height: 1, backgroundColor: "#eee" }} />
-                  )}
-                  keyExtractor={item => item}
-                />
-              )}
+                  <FlatList
+                    data={offerMerchants}
+                    renderItem={this.renderMerchantItem}
+                    ItemSeparatorComponent={highlighted => (
+                      <View style={{ height: 1, backgroundColor: "#eee" }} />
+                    )}
+                    keyExtractor={item => item}
+                  />
+                )}
             </View>
           </View>
           <Button
