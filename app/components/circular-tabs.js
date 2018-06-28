@@ -23,12 +23,14 @@ export default class CircularTabs extends React.Component {
   };
 
   goToTab = index => {
+    const { onTabIndexChange = () => {} } = this.props;
     this.setState({ activeTabIndex: index });
     Animated.timing(this.state.curvePosition, {
       toValue: index,
       duration: 200,
       useNativeDriver: true
     }).start();
+    onTabIndexChange(index);
   };
 
   render() {

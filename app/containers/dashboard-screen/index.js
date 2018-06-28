@@ -69,7 +69,8 @@ class DashboardScreen extends React.Component {
       showDashboard: true,
       upcomingServices: [],
       notificationCount: 0,
-      recentSearches: []
+      recentSearches: [],
+      activeTabIndex: 0
     };
   }
 
@@ -172,6 +173,10 @@ class DashboardScreen extends React.Component {
     this.props.navigation.navigate(SCREENS.ASC_SCREEN);
   };
 
+  onTabIndexChange = activeTabIndex => {
+    this.setState({ activeTabIndex });
+  };
+
   render() {
     const {
       error,
@@ -179,7 +184,8 @@ class DashboardScreen extends React.Component {
       notificationCount,
       recentSearches,
       upcomingServices,
-      isFetchingData
+      isFetchingData,
+      activeTabIndex
     } = this.state;
 
     return (
@@ -195,6 +201,7 @@ class DashboardScreen extends React.Component {
         />
         <View style={styles.container}>
           <CircularTabs
+            onTabIndexChange={this.onTabIndexChange}
             tabs={[
               {
                 title: "What’s Coming",
@@ -270,12 +277,16 @@ class DashboardScreen extends React.Component {
           />
         </View>
 
-        <TouchableOpacity
-          style={styles.fab}
-          onPress={() => this.showAddProductOptionsScreen()}
-        >
-          <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
-        </TouchableOpacity>
+        {activeTabIndex != 2 ? (
+          <TouchableOpacity
+            style={styles.fab}
+            onPress={() => this.showAddProductOptionsScreen()}
+          >
+            <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+          </TouchableOpacity>
+        ) : (
+          <View />
+        )}
 
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
         <LoadingOverlay visible={isFetchingData} />
