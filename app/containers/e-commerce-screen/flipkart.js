@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { View, WebView, StyleSheet } from "react-native";
 
-import { API_BASE_URL } from "../../api";
 import { ScreenContainer, Text, Button, Image } from "../../elements";
-import { colors } from "../../theme";
+const flag = 1;
 
 class Flipkart extends Component {
   constructor(props) {
@@ -12,15 +11,14 @@ class Flipkart extends Component {
       orderId: ""
     };
   }
-
-  componentDidMount() {
-    // console.log("props", this.props)
-  }
-
   onWebViewMessage = event => {
     console.log("event.nativeEvent.data: ", event.nativeEvent.data);
     var data = { orderId: event.nativeEvent.data };
-    this.props.successOrder(data);
+    if (flag == 1) {
+      this.props.successOrder(data);
+      flag += 1;
+    }
+
   };
 
   render() {

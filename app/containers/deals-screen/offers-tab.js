@@ -214,6 +214,14 @@ export default class OffersTab extends React.Component {
       selectedCashbackType ||
       onlyOtherOfferTypes ||
       selectedMerchants.length > 0;
+    let isOfferCountGreaterThanZero = false;
+    for (let i = 0; i < offerCategories.length; i++) {
+      if (offerCategories[i].offer_counts > 0
+      ) {
+        isOfferCountGreaterThanZero = true;
+        break;
+      }
+    }
 
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
@@ -239,10 +247,9 @@ export default class OffersTab extends React.Component {
             </Text>
           </View>
         ) : (
-          <View />
-        )}
-
-        {offerCategories.length > 0 ? (
+            <View />
+          )}
+        {offerCategories.length > 0 && isOfferCountGreaterThanZero ? (
           <AnimatedFlatList
             onScroll={Animated.event(
               [
@@ -274,8 +281,31 @@ export default class OffersTab extends React.Component {
             )}
           />
         ) : (
-          <View />
-        )}
+            <View />
+          )}
+        {offerCategories.length > 0 && !isOfferCountGreaterThanZero ? (
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Text
+              weight="Medium"
+              style={{
+                fontSize: 20,
+                textAlign: "center",
+                color: colors.lighterText,
+                padding: 20
+              }}
+            >
+              No offers found for applied filters
+                    </Text>
+          </View>
+        ) : (
+            <View />
+          )}
         <Animated.View
           style={[
             {
@@ -324,8 +354,8 @@ export default class OffersTab extends React.Component {
                     onPressClose={this.offersFilterModal.removeOtherOffers}
                   />
                 ) : (
-                  <View />
-                )}
+                    <View />
+                  )}
                 {selectedDiscountType ? (
                   <Tag
                     text={selectedDiscountType + "% Discount"}
@@ -334,8 +364,8 @@ export default class OffersTab extends React.Component {
                     }
                   />
                 ) : (
-                  <View />
-                )}
+                    <View />
+                  )}
                 {selectedCashbackType ? (
                   <Tag
                     text={"Rs. " + selectedCashbackType + " Cashback"}
@@ -344,8 +374,8 @@ export default class OffersTab extends React.Component {
                     }
                   />
                 ) : (
-                  <View />
-                )}
+                    <View />
+                  )}
                 {selectedMerchants.map(merchant => (
                   <Tag
                     key={merchant}
@@ -358,8 +388,8 @@ export default class OffersTab extends React.Component {
               </ScrollView>
             </View>
           ) : (
-            <View />
-          )}
+              <View />
+            )}
         </Animated.View>
         {/* {offerCategories.length == -1 ? (
           <View style={{ flex: 1, backgroundColor: "#f7f7f7", padding: 10 }}>
