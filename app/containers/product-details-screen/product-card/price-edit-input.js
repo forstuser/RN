@@ -123,7 +123,7 @@ class PriceEditInput extends React.Component {
             <View style={styles.icon}>
               {!correctIcon && (
                 <TouchableOpacity
-                  style={{ marginTop: 5 }}
+                  style={{ marginTop: 0 }}
                   onPress={event => {
                     this.input.focus(), this.toggleIcon();
                   }}
@@ -147,8 +147,8 @@ class PriceEditInput extends React.Component {
               )}
             </View>
           ) : (
-            <View style={styles.icon} />
-          )}
+              <View style={styles.icon} />
+            )}
         </View>
       </View>
     );

@@ -370,16 +370,16 @@ export default class AccessoriesTab extends React.Component {
               style={{
                 fontSize: 20,
                 textAlign: "center",
-                color: colors.lighterText,
+                color: colors.mainText,
                 padding: 20
               }}
             >
-              Please select a category to view accessories
+              Please select a category to view the Best of Offers at great prices
             </Text>
           </View>
         ) : (
-          <View />
-        )}
+            <View />
+          )}
 
         {showSelectBrand ? (
           <SelectOrCreateItem
@@ -396,8 +396,8 @@ export default class AccessoriesTab extends React.Component {
             textInputPlaceholder="Enter Brand Name"
           />
         ) : (
-          <View />
-        )}
+            <View />
+          )}
         {showSelectModel ? (
           <SelectOrCreateItem
             style={{ marginTop: ITEM_SELECTOR_HEIGHT }}
@@ -416,8 +416,8 @@ export default class AccessoriesTab extends React.Component {
             textInputPlaceholder="Enter Model Name"
           />
         ) : (
-          <View />
-        )}
+            <View />
+          )}
 
         {accessoryCategories.length > 0 ? (
           <AnimatedFlatList
@@ -465,8 +465,8 @@ export default class AccessoriesTab extends React.Component {
             }
           />
         ) : (
-          <View />
-        )}
+            <View />
+          )}
         <Animated.View
           style={[
             {

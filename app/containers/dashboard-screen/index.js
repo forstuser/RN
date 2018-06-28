@@ -207,7 +207,7 @@ class DashboardScreen extends React.Component {
                 tabRef: ref => {
                   this.comingUpRef = ref;
                 },
-                title: "What’s Coming",
+                title: "What’s Due",
                 imageSource: whatsComingIcon,
                 content:
                   upcomingServices.length == 0 ? (
@@ -278,7 +278,7 @@ class DashboardScreen extends React.Component {
                 tabRef: ref => {
                   this.ascRef = ref;
                 },
-                title: "Authorised Service Centres",
+                title: "Service Centres",
                 imageSource: require("../../images/asc_icon.png"),
                 content: <AscContent navigation={this.props.navigation} />
               }

@@ -463,8 +463,8 @@ export default {
 
   //ASC screen
   asc_screen_title: "Authorised Service Centres",
-  asc_screen_section_1_title: "Search ASC for your products in eHome",
-  asc_screen_section_2_title: "Or search ASC for any brand",
+  asc_screen_section_1_title: "Search Authorised Service Centre (ASC)",
+  asc_screen_section_2_title: "Or search ASC for a Brand",
   asc_screen_section_no_products_msg: "No Products Added",
   asc_screen_section_add_product_btn: "ADD PRODUCT",
   asc_screen_placeholder_select_brand: "Select a Brand",
@@ -483,7 +483,7 @@ export default {
 
   //Dashboard Screen
   dashboard_screen_title: "Dashboard",
-  dashboard_screen_whats_coming_up: "What's Coming",
+  dashboard_screen_whats_coming_up: "What's Due",
   dashboard_screen_recent_activity: "Recent Activity",
   dashboard_screen_recent_attendance: "Recent Attendance",
   dashboard_screen_ehome_insights: "Expense Insight",
@@ -1016,7 +1016,7 @@ export default {
   love_using_binbill: "Love using BinBill app?",
   recommend_us: `If you are happy with your Home Manager, please rate us on ${
     Platform.OS == "ios" ? "App" : "Play"
-  } store.`,
+    } store.`,
   app_pin: "App Pin",
   change: "Change",
   set_now: "Set Now",
