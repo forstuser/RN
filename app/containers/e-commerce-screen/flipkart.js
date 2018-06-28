@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, WebView, StyleSheet } from "react-native";
 
 import { ScreenContainer, Text, Button, Image } from "../../elements";
-const flag = 1;
+let flag = 1;
 
 class Flipkart extends Component {
   constructor(props) {
