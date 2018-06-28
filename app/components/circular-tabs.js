@@ -66,6 +66,9 @@ export default class CircularTabs extends React.Component {
                 key={tab.text}
                 style={styles.tab}
                 onPress={() => this.goToTab(index)}
+                ref={node => {
+                  tab.tabRef(node);
+                }}
               >
                 <Text
                   weight={activeTabIndex == index ? "Bold" : "Regular"}

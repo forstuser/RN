@@ -378,7 +378,7 @@ class DashboardScreen extends React.Component {
           enabled={true}
           steps={[
             { ref: this.comingUpRef, text: I18n.t("coming_up_tip") },
-            { ref: this.insightsRef, text: I18n.t("app_tour_tips_4") }
+            { ref: this.insightsRef, text: I18n.t("insights_tip") }
           ]}
         />
       </ScreenContainer>

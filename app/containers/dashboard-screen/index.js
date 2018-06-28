@@ -124,8 +124,8 @@ class DashboardScreen extends React.Component {
               this.comingUpRef &&
               this.dashboardTour
             ) {
-              // this.dashboardTour.startTour();
-              // this.props.setUiHasDashboardTourShown(true);
+              this.dashboardTour.startTour();
+              this.props.setUiHasDashboardTourShown(true);
             } else if (
               (this.state.showDashboard ||
                 dashboardData.hasEazyDayItems ||
@@ -204,6 +204,9 @@ class DashboardScreen extends React.Component {
             onTabIndexChange={this.onTabIndexChange}
             tabs={[
               {
+                tabRef: ref => {
+                  this.comingUpRef = ref;
+                },
                 title: "What’s Coming",
                 imageSource: whatsComingIcon,
                 content:
@@ -262,6 +265,9 @@ class DashboardScreen extends React.Component {
                   )
               },
               {
+                tabRef: ref => {
+                  this.insightsRef = ref;
+                },
                 title: "Expense Insights",
                 imageSource: require("../../images/bar_chart_icon.png"),
                 content: (
@@ -269,6 +275,9 @@ class DashboardScreen extends React.Component {
                 )
               },
               {
+                tabRef: ref => {
+                  this.ascRef = ref;
+                },
                 title: "Authorised Service Centres",
                 imageSource: require("../../images/asc_icon.png"),
                 content: <AscContent navigation={this.props.navigation} />
@@ -299,7 +308,8 @@ class DashboardScreen extends React.Component {
           enabled={true}
           steps={[
             { ref: this.comingUpRef, text: I18n.t("coming_up_tip") },
-            { ref: this.insightsRef, text: I18n.t("app_tour_tips_4") }
+            { ref: this.insightsRef, text: I18n.t("insights_tip") },
+            { ref: this.ascRef, text: I18n.t("asc_tip") }
           ]}
         />
       </ScreenContainer>

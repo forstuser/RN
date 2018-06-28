@@ -254,7 +254,6 @@ class ProductCard extends Component {
               text: I18n.t("product_card_upload_bill_tip")
             },
             { ref: this.shareBtnRef, text: I18n.t("product_card_share_tip") },
-            { ref: this.reviewBtnRef, text: I18n.t("product_card_review_tip") },
             {
               ref: this.addProductImageRef,
               text: I18n.t("product_card_add_image_tip")
@@ -306,4 +305,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductCard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductCard);

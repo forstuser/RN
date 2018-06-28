@@ -755,7 +755,7 @@ export default {
     "Discover amazing facts & tips related to brands and lifestyle, to fill you with awe! ",
   asc_tip:
     "Click here to find and connect with Authorised Service Centres of any Brand with just one simple click.",
-  app_tour_tips_4: "Keep a track of your expenses here.",
+  insights_tip: "Keep a track of your expenses here.",
   mailbox_tip:
     "All reminders and notifications will be delivered here in your eHome inbox.",
   coming_up_tip:
