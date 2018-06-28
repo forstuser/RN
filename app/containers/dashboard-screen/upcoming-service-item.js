@@ -95,13 +95,13 @@ const UpcomingServiceItem = ({ item, navigation }) => {
           <LinearGradient
             start={{ x: 0.0, y: 0 }}
             end={{ x: 0.0, y: 1 }}
-            colors={[colors.mainBlue, colors.aquaBlue]}
+            colors={[colors.tomato, colors.pinkishOrange]}
             style={{ flex: 1, borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
           />
           <LinearGradient
             start={{ x: 0.0, y: 0 }}
             end={{ x: 0.0, y: 1 }}
-            colors={[colors.aquaBlue, colors.mainBlue]}
+            colors={[colors.pinkishOrange, colors.tomato]}
             style={{
               flex: 1,
               marginTop: 2,

@@ -25,15 +25,9 @@ const slides = [
   },
   {
     key: "slide3",
-    title: I18n.t("app_intro_5_title"),
-    desc: I18n.t("app_intro_5_desc"),
-    image: require("../../images/onboarding/onboarding3.png")
-  },
-  {
-    key: "slide4",
     title: I18n.t("app_intro_3_title"),
     desc: I18n.t("app_intro_3_desc"),
-    image: require("../../images/onboarding/onboarding5.png")
+    image: require("../../images/onboarding/onboarding3.png")
   },
   {
     key: "slide5",
