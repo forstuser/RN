@@ -41,6 +41,7 @@ class AddAmountStep extends React.Component {
     const {
       mainCategoryId,
       category,
+      subCategoryId,
       product,
       onStepDone,
       skippable
@@ -56,6 +57,7 @@ class AddAmountStep extends React.Component {
       const res = await updateProduct({
         mainCategoryId: mainCategoryId,
         categoryId: category.id,
+        subCategoryId: subCategoryId || undefined,
         productId: product.id,
         value: this.state.value.substr(1, this.state.value.length)
         // this.state.value.charAt(0) == "₹"

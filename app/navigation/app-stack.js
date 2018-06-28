@@ -90,12 +90,15 @@ const BottomTabStack = createBottomTabNavigator(
         )
       }
     },
-    [SCREENS.EASY_LIFE_SCREEN]: {
-      screen: EasyLifeScreen,
+    [SCREENS.DO_YOU_KNOW_SCREEN]: {
+      screen: DoYouKnowScreen,
       navigationOptions: {
-        tabBarLabel: "EazyDay",
+        tabBarLabel: "DYK",
         tabBarIcon: props => (
-          <TabIcon {...props} source={require("../images/ic_calendar.png")} />
+          <TabIcon
+            {...props}
+            source={require("../images/ic_do_you_know.png")}
+          />
         )
       }
     },

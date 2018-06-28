@@ -222,11 +222,16 @@ class DashboardScreen extends React.Component {
                             backgroundColor: "#EAF6FC"
                           }}
                         />
-                        <Icon
+                        {/* <Icon
                           name="ios-notifications-outline"
                           color="#D3D3D3"
                           size={100}
                           style={{ marginTop: -65 }}
+                        /> */}
+                        <Image
+                          style={{ width: 80, height: 90, marginTop: -65 }}
+                          source={require("../../images/bell.png")}
+                          resizeMode="contain"
                         />
                       </View>
                       <Text

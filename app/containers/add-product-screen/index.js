@@ -385,7 +385,7 @@ class AddProductScreen extends React.Component {
               this.setState({
                 numberOfStepsToShowInFooter: 4
               });
-              this.pushAmountStep();
+              this.pushSubCategoryStep(true);
               break;
             case MAIN_CATEGORY_IDS.HEALTHCARE:
               if (category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
@@ -589,17 +589,18 @@ class AddProductScreen extends React.Component {
           mainCategoryId == MAIN_CATEGORY_IDS.SERVICES) &&
         subCategories.length > 0
       ) {
-        this.pushSubCategoryStep(true);
+        this.pushPurchaseDateStep(true);
       } else {
         this.pushPurchaseDateStep();
       }
     });
   };
 
-  onSubCategoryStepDone = product => {
+  onSubCategoryStepDone = (product, subCategoryId) => {
     const { mainCategoryId, category, expenseType } = this.state;
     let newState = {};
     if (product) newState.product = product;
+    if (subCategoryId) newState.subCategoryId = subCategoryId;
 
     this.setState(newState, () => {
       switch (mainCategoryId) {
@@ -615,6 +616,8 @@ class AddProductScreen extends React.Component {
           }
           break;
         case MAIN_CATEGORY_IDS.HOUSEHOLD:
+          this.pushAmountStep();
+          break;
         case MAIN_CATEGORY_IDS.SERVICES:
           this.pushPurchaseDateStep();
           break;

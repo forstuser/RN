@@ -42,6 +42,14 @@ class SelectSubCategoryStep extends React.Component {
       product,
       onSubCategoryStepDone
     } = this.props;
+
+    if (
+      mainCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD &&
+      typeof onSubCategoryStepDone == "function"
+    ) {
+      return onSubCategoryStepDone(null, subCategory.id);
+    }
+
     this.setState({
       isLoading: true
     });
