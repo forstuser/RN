@@ -210,7 +210,7 @@ export default class OffersFilterModal extends React.Component {
                 ]}
               >
                 <Text weight="Medium" style={styles.filterTypeText}>
-                  Merchant
+                  Brand
                 </Text>
               </TouchableOpacity>
             </View>

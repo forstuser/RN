@@ -204,7 +204,7 @@ class DashboardScreen extends React.Component {
             onTabIndexChange={this.onTabIndexChange}
             tabs={[
               {
-                title: "What’s Coming",
+                title: "What’s Due",
                 imageSource: whatsComingIcon,
                 content:
                   upcomingServices.length == 0 ? (
@@ -249,17 +249,17 @@ class DashboardScreen extends React.Component {
                       </Text>
                     </View>
                   ) : (
-                    <FlatList
-                      data={upcomingServices}
-                      renderItem={item => (
-                        <UpcomingServiceItem
-                          item={item.item}
-                          navigation={this.props.navigation}
-                        />
-                      )}
-                      keyExtractor={(item, index) => index}
-                    />
-                  )
+                      <FlatList
+                        data={upcomingServices}
+                        renderItem={item => (
+                          <UpcomingServiceItem
+                            item={item.item}
+                            navigation={this.props.navigation}
+                          />
+                        )}
+                        keyExtractor={(item, index) => index}
+                      />
+                    )
               },
               {
                 title: "Expense Insights",
@@ -269,7 +269,7 @@ class DashboardScreen extends React.Component {
                 )
               },
               {
-                title: "Authorised Service Centres",
+                title: "Service Centres",
                 imageSource: require("../../images/asc_icon.png"),
                 content: <AscContent navigation={this.props.navigation} />
               }
@@ -285,8 +285,8 @@ class DashboardScreen extends React.Component {
             <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
           </TouchableOpacity>
         ) : (
-          <View />
-        )}
+            <View />
+          )}
 
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
         <LoadingOverlay visible={isFetchingData} />

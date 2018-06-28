@@ -239,11 +239,11 @@ export default class OffersTab extends React.Component {
               style={{
                 fontSize: 20,
                 textAlign: "center",
-                color: colors.secondaryText,
+                color: colors.mainText,
                 padding: 20
               }}
             >
-              Please select a category to view Best of Offers at great prices
+              Please select a category to view Accessories for your products across different price bands
             </Text>
           </View>
         ) : (

@@ -134,8 +134,8 @@ class ItemSelector extends React.Component {
               </Text>
             </View>
           ) : (
-            <View />
-          )}
+              <View />
+            )}
           {moreItems.length > 0 ? (
             <TouchableWithoutFeedback
               onPress={() => this.otherOptionsModal.openModal()}
@@ -149,13 +149,13 @@ class ItemSelector extends React.Component {
                   />
                 </View>
                 <Text weight="Medium" style={styles.optionName}>
-                  {"other"}
+                  {"Other"}
                 </Text>
               </View>
             </TouchableWithoutFeedback>
           ) : (
-            <View />
-          )}
+              <View />
+            )}
         </ScrollView>
       </View>
     );
