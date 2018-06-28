@@ -10,16 +10,20 @@ import { connect } from "react-redux";
 import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
 
-const MoreItem = ({ imageSource, text, onPress, btnText }) => (
+const MoreItem = ({ imageSource, text, onPress, btnText, imageStyle = {} }) => (
   <TouchableOpacity onPress={onPress} style={styles.data}>
-    <Image style={styles.logo} source={imageSource} resizeMode="contain" />
-    <View collapsable={false}  style={styles.textContainer}>
+    <Image
+      style={[styles.logo, imageStyle]}
+      source={imageSource}
+      resizeMode="contain"
+    />
+    <View collapsable={false} style={styles.textContainer}>
       <Text style={styles.text} weight="Medium">
         {text}
       </Text>
     </View>
     {btnText ? (
-      <View collapsable={false}  style={styles.btn}>
+      <View collapsable={false} style={styles.btn}>
         <Text style={styles.btnText} weight="Bold">
           {btnText}
         </Text>

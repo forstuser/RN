@@ -332,7 +332,7 @@ class AscScreen extends Component {
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder={I18n.t("asc_screen_placeholder_select_brand")}
                 placeholderRenderer={({ placeholder }) => (
-                  <Text weight="Bold" style={{ color: colors.secondaryText }}>
+                  <Text weight="Bold" style={{ color: colors.lighterText }}>
                     {placeholder}
                   </Text>
                 )}
@@ -359,7 +359,7 @@ class AscScreen extends Component {
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder={I18n.t("asc_screen_placeholder_select_category")}
                 placeholderRenderer={({ placeholder }) => (
-                  <Text weight="Bold" style={{ color: colors.secondaryText }}>
+                  <Text weight="Bold" style={{ color: colors.lighterText }}>
                     {placeholder}
                   </Text>
                 )}
@@ -391,7 +391,7 @@ class AscScreen extends Component {
               >
                 <Text
                   weight="Bold"
-                  style={{ color: colors.secondaryText, flex: 1 }}
+                  style={{ color: colors.lighterText, flex: 1 }}
                 >
                   {!this.state.address &&
                     I18n.t("asc_screen_placeholder_select_location")}

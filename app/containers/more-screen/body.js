@@ -147,6 +147,7 @@ class Body extends Component {
           onPress={this.onOrderHistoryPress}
           imageSource={require("../../images/orders_icon.png")}
           text={"My Orders"}
+          imageStyle={{ width: 20, height: 20 }}
         />
         <MoreItem
           onPress={this.onAppPinPress}
@@ -205,6 +206,7 @@ class Body extends Component {
         <MoreItem
           onPress={this.onVersionItemPress}
           imageSource={require("../../images/ic_info_blue.png")}
+          imageStyle={{ width: 20, height: 20 }}
           text={I18n.t("more_screen_item_app_version") + ": v" + appVersion}
           btnText={
             isAppUpdateAvailable

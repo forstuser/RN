@@ -16,7 +16,6 @@ class App extends React.Component {
           loading={<LoadingOverlay visible={true} />}
           persistor={persistor}
         >
-          <StatusBar backgroundColor="#fff" barStyle="dark-content" />
           <RootNavigator />
         </PersistGate>
       </Provider>

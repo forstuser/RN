@@ -5,12 +5,14 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  Modal,
   Text,
   FlatList,
   Button,
   Platform
 } from "react-native";
+
+import Modal from "react-native-modal";
+
 import FastImage from "react-native-fast-image";
 
 import I18n from "../i18n";
@@ -204,7 +206,14 @@ class SelectModal extends Component {
         ) : null}
         {isModalVisible ? (
           <View collapsable={false}>
-            <Modal visible={true} animationType="slide">
+            <Modal
+              style={{ margin: 0, backgroundColor: "#fff" }}
+              isVisible={true}
+              onBackButtonPress={() => {
+                this.setState({ isModalVisible: false });
+              }}
+              useNativeDriver={true}
+            >
               <View collapsable={false} style={{ backgroundColor: "#fff" }}>
                 <View collapsable={false} style={styles.modalHeader}>
                   <Text style={styles.modalHeaderText}>{placeholder}</Text>
