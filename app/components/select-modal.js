@@ -207,17 +207,14 @@ class SelectModal extends Component {
         {isModalVisible ? (
           <View collapsable={false}>
             <Modal
-              style={{ margin: 0, backgroundColor: "#fff" }}
+              style={{ flex: 1, margin: 0, backgroundColor: "#fff" }}
               isVisible={true}
               onBackButtonPress={() => {
                 this.setState({ isModalVisible: false });
               }}
               useNativeDriver={true}
             >
-              <View
-                collapsable={false}
-                style={{ flex: 1, backgroundColor: "#fff" }}
-              >
+              <View collapsable={false} style={{ backgroundColor: "#fff" }}>
                 <View collapsable={false} style={styles.modalHeader}>
                   <Text style={styles.modalHeaderText}>{placeholder}</Text>
                   <TouchableOpacity
