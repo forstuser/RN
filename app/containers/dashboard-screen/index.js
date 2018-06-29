@@ -288,6 +288,7 @@ class DashboardScreen extends React.Component {
 
         {activeTabIndex != 2 ? (
           <TouchableOpacity
+            ref={node => (this.addProductBtnRef = node)}
             style={styles.fab}
             onPress={() => this.showAddProductOptionsScreen()}
           >
@@ -307,6 +308,7 @@ class DashboardScreen extends React.Component {
           ref={ref => (this.dashboardTour = ref)}
           enabled={true}
           steps={[
+            { ref: this.addProductBtnRef, text: I18n.t("plus_btn_tip") },
             { ref: this.comingUpRef, text: I18n.t("coming_up_tip") },
             { ref: this.insightsRef, text: I18n.t("insights_tip") },
             { ref: this.ascRef, text: I18n.t("asc_tip") }

@@ -20,7 +20,7 @@ export default class InsightContent extends React.Component {
       error: null,
       totalSpend: "",
       categories: [],
-      timePeriod: "Monthly", // one of  'Monthly', 'Yearly', 'Lifetime',
+      timePeriod: "Lifetime", // one of  'Monthly', 'Yearly', 'Lifetime',
       time: moment()
     };
   }
@@ -120,109 +120,120 @@ export default class InsightContent extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <FlatList
-          style={styles.list}
-          data={categories}
-          // onRefresh={this.fetchCategories}
-          // refreshing={isLoading}
-          ListHeaderComponent={
-            <View>
-              <TouchableOpacity
-                onPress={() => this.timePeriodOptions.show()}
-                style={styles.timePeriod}
-              >
-                <Text>{timePeriod}</Text>
-                <Icon
-                  name="md-arrow-dropdown"
-                  color="#656565"
-                  size={20}
-                  style={{ marginLeft: 20, marginTop: 5 }}
-                />
-              </TouchableOpacity>
-              <ActionSheet
-                onPress={this.handleTimePeriodPress}
-                ref={o => (this.timePeriodOptions = o)}
-                cancelButtonIndex={3}
-                options={["Monthly", "Yearly", "Lifetime"]}
-              />
-              {timePeriod != "Lifetime" ? (
-                <View style={styles.monthAndYear}>
-                  <TouchableOpacity
-                    onPress={this.previousTimePeriod}
-                    style={styles.monthAndYearArrow}
-                  >
-                    <Icon
-                      name="ios-arrow-back"
-                      color={colors.mainBlue}
-                      size={30}
-                    />
-                  </TouchableOpacity>
-
-                  <Text
-                    weight="Bold"
-                    style={{
-                      fontSize: 20,
-                      flex: 1,
-                      textAlign: "center",
-                      color: colors.mainBlue
-                    }}
-                  >
-                    {timePeriod == "Monthly" ? time.format("MMM") + ", " : ""}
-                    {time.format("YYYY")}
-                  </Text>
-
-                  <TouchableOpacity
-                    onPress={this.nextTimePeriod}
-                    style={styles.monthAndYearArrow}
-                  >
-                    <Icon
-                      name="ios-arrow-forward"
-                      color={colors.mainBlue}
-                      size={30}
-                    />
-                  </TouchableOpacity>
-                </View>
-              ) : (
-                <View />
-              )}
-              <View style={styles.totalSpendContainer}>
-                <Text weight="Bold" style={{ fontSize: 25 }}>
-                  ₹{totalSpend}
-                </Text>
-                <Text weight="Bold" style={{ color: colors.secondaryText }}>
-                  Total Spend
-                </Text>
-              </View>
-            </View>
-          }
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => this.onCategoryPress(item)}
-              style={styles.item}
+        {timePeriod == "Lifetime" && totalSpend > 0 ? (
+          <View style={{ flex: 1, justifyContent: "center" }}>
+            <Text
+              weight="Bold"
+              style={{ fontSize: 16, color: "#c2c2c2", textAlign: "center" }}
             >
-              <Image
-                style={styles.itemImage}
-                source={{ uri: API_BASE_URL + item.cImageURl }}
-                resizemode="contain"
-              />
-              <View style={styles.itemTexts}>
-                <Text weight="Bold" style={styles.itemName}>
-                  {item.cName}
-                </Text>
-                <Text weight="Medium" style={styles.viewDetails}>
-                  View Details
-                </Text>
+              Add your expenses here to track your monthly expenses.
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            style={styles.list}
+            data={categories}
+            // onRefresh={this.fetchCategories}
+            // refreshing={isLoading}
+            ListHeaderComponent={
+              <View>
+                <TouchableOpacity
+                  onPress={() => this.timePeriodOptions.show()}
+                  style={styles.timePeriod}
+                >
+                  <Text>{timePeriod}</Text>
+                  <Icon
+                    name="md-arrow-dropdown"
+                    color="#656565"
+                    size={20}
+                    style={{ marginLeft: 20, marginTop: 5 }}
+                  />
+                </TouchableOpacity>
+                <ActionSheet
+                  onPress={this.handleTimePeriodPress}
+                  ref={o => (this.timePeriodOptions = o)}
+                  cancelButtonIndex={3}
+                  options={["Monthly", "Yearly", "Lifetime"]}
+                />
+                {timePeriod != "Lifetime" ? (
+                  <View style={styles.monthAndYear}>
+                    <TouchableOpacity
+                      onPress={this.previousTimePeriod}
+                      style={styles.monthAndYearArrow}
+                    >
+                      <Icon
+                        name="ios-arrow-back"
+                        color={colors.mainBlue}
+                        size={30}
+                      />
+                    </TouchableOpacity>
+
+                    <Text
+                      weight="Bold"
+                      style={{
+                        fontSize: 20,
+                        flex: 1,
+                        textAlign: "center",
+                        color: colors.mainBlue
+                      }}
+                    >
+                      {timePeriod == "Monthly" ? time.format("MMM") + ", " : ""}
+                      {time.format("YYYY")}
+                    </Text>
+
+                    <TouchableOpacity
+                      onPress={this.nextTimePeriod}
+                      style={styles.monthAndYearArrow}
+                    >
+                      <Icon
+                        name="ios-arrow-forward"
+                        color={colors.mainBlue}
+                        size={30}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <View />
+                )}
+                <View style={styles.totalSpendContainer}>
+                  <Text weight="Bold" style={{ fontSize: 25 }}>
+                    ₹{totalSpend}
+                  </Text>
+                  <Text weight="Bold" style={{ color: colors.secondaryText }}>
+                    Total Spend
+                  </Text>
+                </View>
               </View>
-              <View style={styles.itemAmountContainer}>
-                <Text weight="Bold" style={styles.itemAmount}>
-                  ₹{item.totalAmount}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          ListFooterComponent={<View style={{ height: 80 }} />}
-          keyExtractor={item => String(item.id)}
-        />
+            }
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => this.onCategoryPress(item)}
+                style={styles.item}
+              >
+                <Image
+                  style={styles.itemImage}
+                  source={{ uri: API_BASE_URL + item.cImageURl }}
+                  resizemode="contain"
+                />
+                <View style={styles.itemTexts}>
+                  <Text weight="Bold" style={styles.itemName}>
+                    {item.cName}
+                  </Text>
+                  <Text weight="Medium" style={styles.viewDetails}>
+                    View Details
+                  </Text>
+                </View>
+                <View style={styles.itemAmountContainer}>
+                  <Text weight="Bold" style={styles.itemAmount}>
+                    ₹{item.totalAmount}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+            ListFooterComponent={<View style={{ height: 80 }} />}
+            keyExtractor={item => String(item.id)}
+          />
+        )}
         <LoadingOverlay visible={isLoading} />
       </View>
     );
