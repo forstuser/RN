@@ -28,7 +28,7 @@ import AccessoriesTab from "./accessories-tab";
 import AccessoryCategoriesFilterModal from "./accessory-categories-filter-modal";
 
 import BlueGradientBG from "../../components/blue-gradient-bg";
-const offersIcon = require("../../images/buy.png");
+const offersIcon = require("../../images/deals.png");
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -93,7 +93,11 @@ class DealsScreen extends Component {
           <BlueGradientBG />
           <View style={styles.headerUpperHalf}>
             <View style={styles.offersIconWrapper}>
-              <Image source={offersIcon} style={styles.offersIcon} />
+              <Image
+                source={offersIcon}
+                style={styles.offersIcon}
+                resizeMode="contain"
+              />
             </View>
             <View style={{ flex: 1, paddingRight: 20 }}>
               <Text weight="Medium" style={styles.title}>

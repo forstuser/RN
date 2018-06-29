@@ -47,22 +47,15 @@ export default class AccessoriesTab extends React.Component {
     accessoryCategories: [],
     product: null,
     selectedBrand: null,
-    error: null
+    error: null,
+    endHasReached: false
   };
   componentDidMount() {
     this.fetchAccessoriesData();
-    // this.getAccessories();
     this.listScrollPosition.addListener(this.onListScroll);
   }
 
   onListScroll = ({ value }) => {
-    console.log(
-      "lastListScrollPosition: ",
-      this.lastListScrollPosition,
-      "value: ",
-      value
-    );
-
     if (value > 0) {
       if (value > this.lastListScrollPosition) {
         Animated.timing(this.topPaddingElement, {
@@ -325,7 +318,7 @@ export default class AccessoriesTab extends React.Component {
   };
 
   getAccessoriesFirstPage = () => {
-    this.setState({ accessoryCategories: [] }, () => {
+    this.setState({ accessoryCategories: [], endHasReached: false }, () => {
       this.getAccessories();
     });
   };
@@ -347,11 +340,16 @@ export default class AccessoriesTab extends React.Component {
         model: product.model
       });
       if (res.result.length > 0) {
+        let endHasReached = false;
+        if (res.result[0].accessories.length == 0) {
+          endHasReached = true;
+        }
         this.setState({
           accessoryCategories: [
             ...accessoryCategories,
             ...res.result[0].accessories
-          ]
+          ],
+          endHasReached
         });
       }
     } catch (e) {
@@ -382,7 +380,8 @@ export default class AccessoriesTab extends React.Component {
       product,
       brandName,
       modelName,
-      error
+      error,
+      endHasReached
     } = this.state;
 
     if (error) {
@@ -495,10 +494,15 @@ export default class AccessoriesTab extends React.Component {
                   justifyContent: "center"
                 }}
               >
-                <ActivityIndicator
-                  color={colors.mainBlue}
-                  animating={isLoadingAccessories}
-                />
+                {endHasReached ? (
+                  <Text
+                    style={{ textAlign: "center", color: colors.secondaryText }}
+                  >
+                    No More Accessories
+                  </Text>
+                ) : (
+                  <ActivityIndicator color={colors.mainBlue} animating={true} />
+                )}
               </View>
             }
           />

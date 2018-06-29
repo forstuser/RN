@@ -47,7 +47,8 @@ export default class OffersModal extends React.Component {
     selectedMerchants: [],
     isLoading: false,
     isSortModalVisible: false,
-    sort: "desc" // or asc
+    sort: "desc", // or asc,
+    endHasReached: false
   };
 
   show = ({
@@ -78,7 +79,8 @@ export default class OffersModal extends React.Component {
       selectedDiscountType,
       selectedCashbackType,
       onlyOtherOfferTypes,
-      selectedMerchants
+      selectedMerchants,
+      endHasReached: false
     });
   };
 
@@ -114,7 +116,7 @@ export default class OffersModal extends React.Component {
         merchants: selectedMerchants,
         sort:
           (selectedCashbackType && !selectedDiscountType) ||
-            (selectedDiscountType && !selectedCashbackType)
+          (selectedDiscountType && !selectedCashbackType)
             ? sort
             : undefined
       });
@@ -123,16 +125,23 @@ export default class OffersModal extends React.Component {
         cashback: resCashbackOffers,
         others: resOtherOffers
       } = res.result.offers;
+
       const resOffers = [
         ...resDiscountOffers,
         ...resCashbackOffers,
         ...resOtherOffers
       ];
+
+      let endHasReached = false;
+      if (resOffers.length == 0) {
+        endHasReached = true;
+      }
       this.setState({
         offers: [...offers, ...resOffers],
         discountOffers: [...discountOffers, ...resDiscountOffers],
         cashbackOffers: [...cashbackOffers, ...resCashbackOffers],
-        otherOffers: [...otherOffers, ...resOtherOffers]
+        otherOffers: [...otherOffers, ...resOtherOffers],
+        endHasReached
       });
     } catch (e) {
       this.setState({ isLoading: false });
@@ -151,7 +160,8 @@ export default class OffersModal extends React.Component {
         offers: [],
         discountOffers: [],
         cashbackOffers: [],
-        otherOffers: []
+        otherOffers: [],
+        endHasReached: false
       },
       () => {
         this.loadOffers();
@@ -245,7 +255,8 @@ export default class OffersModal extends React.Component {
       onlyOtherOfferTypes,
       selectedMerchants,
       isSortModalVisible,
-      sort
+      sort,
+      endHasReached
     } = this.state;
     let sortBy =
       selectedCashbackType && !selectedDiscountType ? "Cashback" : "Discount";
@@ -274,16 +285,16 @@ export default class OffersModal extends React.Component {
               {title}
             </Text>
             {(selectedCashbackType && !selectedDiscountType) ||
-              (selectedDiscountType && !selectedCashbackType) ? (
-                <TouchableOpacity
-                  style={{ marginRight: 12 }}
-                  onPress={() => this.setState({ isSortModalVisible: true })}
-                >
-                  <Image source={sortIcon} style={{ width: 26, height: 20 }} />
-                </TouchableOpacity>
-              ) : (
-                <View />
-              )}
+            (selectedDiscountType && !selectedCashbackType) ? (
+              <TouchableOpacity
+                style={{ marginRight: 12 }}
+                onPress={() => this.setState({ isSortModalVisible: true })}
+              >
+                <Image source={sortIcon} style={{ width: 26, height: 20 }} />
+              </TouchableOpacity>
+            ) : (
+              <View />
+            )}
             <TouchableOpacity
               style={{ marginRight: 10 }}
               onPress={() => this.offersFilterModal.show()}
@@ -293,60 +304,62 @@ export default class OffersModal extends React.Component {
           </View>
           <View style={styles.body}>
             <ItemSelector
-              items={offerCategories.map(category => ({
-                name: category.category_name,
-                imageUrl: category.image_url,
-                ...category
-              }))}
+              items={offerCategories
+                .filter(category => category.offer_counts > 0)
+                .map(category => ({
+                  name: category.category_name,
+                  imageUrl: category.image_url,
+                  ...category
+                }))}
               selectedItem={selectedCategory}
               onItemSelect={this.onItemSelect}
             />
             {selectedCategory ? (
               <View style={{ backgroundColor: "#f7f7f7", flex: 1 }}>
                 {selectedDiscountType ||
-                  selectedCashbackType ||
-                  onlyOtherOfferTypes ||
-                  selectedMerchants.length > 0 ? (
-                    <View style={{ height: 36, paddingVertical: 5 }}>
-                      <ScrollView horizontal>
-                        {onlyOtherOfferTypes ? (
-                          <Tag
-                            text="Other Offers"
-                            onPressClose={this.removeOtherOffers}
-                          />
-                        ) : (
-                            <View />
-                          )}
-                        {selectedDiscountType ? (
-                          <Tag
-                            text={selectedDiscountType + "% Discount"}
-                            onPressClose={this.removeFilterDiscountType}
-                          />
-                        ) : (
-                            <View />
-                          )}
-                        {selectedCashbackType ? (
-                          <Tag
-                            text={"Rs. " + selectedCashbackType + " Cashback"}
-                            onPressClose={this.removeFilterCashbackType}
-                          />
-                        ) : (
-                            <View />
-                          )}
-                        {selectedMerchants.map(merchant => (
-                          <Tag
-                            key={merchant}
-                            text={merchant}
-                            onPressClose={() =>
-                              this.removeFilterMerchant(merchant)
-                            }
-                          />
-                        ))}
-                      </ScrollView>
-                    </View>
-                  ) : (
-                    <View />
-                  )}
+                selectedCashbackType ||
+                onlyOtherOfferTypes ||
+                selectedMerchants.length > 0 ? (
+                  <View style={{ height: 36, paddingVertical: 5 }}>
+                    <ScrollView horizontal>
+                      {onlyOtherOfferTypes ? (
+                        <Tag
+                          text="Other Offers"
+                          onPressClose={this.removeOtherOffers}
+                        />
+                      ) : (
+                        <View />
+                      )}
+                      {selectedDiscountType ? (
+                        <Tag
+                          text={selectedDiscountType + "% Discount"}
+                          onPressClose={this.removeFilterDiscountType}
+                        />
+                      ) : (
+                        <View />
+                      )}
+                      {selectedCashbackType ? (
+                        <Tag
+                          text={"Rs. " + selectedCashbackType + " Cashback"}
+                          onPressClose={this.removeFilterCashbackType}
+                        />
+                      ) : (
+                        <View />
+                      )}
+                      {selectedMerchants.map(merchant => (
+                        <Tag
+                          key={merchant}
+                          text={merchant}
+                          onPressClose={() =>
+                            this.removeFilterMerchant(merchant)
+                          }
+                        />
+                      ))}
+                    </ScrollView>
+                  </View>
+                ) : (
+                  <View />
+                )}
                 {!isLoading && offers.length == 0 ? (
                   <View
                     style={{
@@ -368,8 +381,8 @@ export default class OffersModal extends React.Component {
                     </Text>
                   </View>
                 ) : (
-                    <View />
-                  )}
+                  <View />
+                )}
                 <FlatList
                   data={offers}
                   renderItem={({ item }) => (
@@ -392,14 +405,28 @@ export default class OffersModal extends React.Component {
                         justifyContent: "center"
                       }}
                     >
-                      <ActivityIndicator animating={isLoading} />
+                      {endHasReached ? (
+                        <Text
+                          style={{
+                            textAlign: "center",
+                            color: colors.secondaryText
+                          }}
+                        >
+                          No More Offers
+                        </Text>
+                      ) : (
+                        <ActivityIndicator
+                          color={colors.mainBlue}
+                          animating={true}
+                        />
+                      )}
                     </View>
                   }
                 />
               </View>
             ) : (
-                <View />
-              )}
+              <View />
+            )}
           </View>
           <OffersFilterModal
             ref={ref => {
