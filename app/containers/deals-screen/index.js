@@ -110,21 +110,21 @@ class DealsScreen extends Component {
               </Text> */}
             </View>
             {(activeTabIndex == 0 && selectedOfferCategory) ||
-            (activeTabIndex == 1 && accessoryCategories.length > 0) ? (
-              <TouchableOpacity
-                onPress={() =>
-                  activeTabIndex == 0
-                    ? this.offersFilterModalRef.show()
-                    : this.accessoryCategoriesFilterModal.show(
+              (activeTabIndex == 1 && accessoryCategories.length > 0) ? (
+                <TouchableOpacity
+                  onPress={() =>
+                    activeTabIndex == 0
+                      ? this.offersFilterModalRef.show()
+                      : this.accessoryCategoriesFilterModal.show(
                         selectedAccessoryCategoryIds
                       )
-                }
-              >
-                <Icon name="md-options" color="#fff" size={30} />
-              </TouchableOpacity>
-            ) : (
-              <View />
-            )}
+                  }
+                >
+                  <Icon name="md-options" color="#fff" size={30} />
+                </TouchableOpacity>
+              ) : (
+                <View />
+              )}
           </View>
 
           <View style={styles.headerLowerHalf}>

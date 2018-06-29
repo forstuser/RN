@@ -62,6 +62,21 @@ export default class AccessoryCategoriesFilterModal extends React.Component {
     );
   };
 
+  resetAllFilters = () => {
+    this.setState({
+      selectedAccessoryCategoryIds: []
+    }, () =>
+        this.applyFilter()
+    );
+  }
+
+  applyFilter = () => {
+    this.props.setSelectedAccessoryCategoryIds(this.state.selectedAccessoryCategoryIds);
+    this.hide();
+  }
+
+
+
   render() {
     const { accessoryCategories, setSelectedAccessoryCategoryIds } = this.props;
     const { isModalVisible, selectedAccessoryCategoryIds } = this.state;
@@ -75,16 +90,23 @@ export default class AccessoryCategoriesFilterModal extends React.Component {
       >
         <View style={{ backgroundColor: "#fff", flex: 1 }}>
           <View style={styles.header}>
-            <BlueGradientBG />
-            <TouchableOpacity
-              style={{ paddingVertical: 10, paddingHorizontal: 15 }}
-              onPress={this.hide}
-            >
-              <Icon name="md-arrow-round-back" color="#fff" size={30} />
-            </TouchableOpacity>
-            <Text weight="Bold" style={{ color: "#fff", fontSize: 20 }}>
-              Category Filter
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              {/* <BlueGradientBG /> */}
+              <TouchableOpacity
+                style={{ paddingVertical: 10, paddingHorizontal: 15 }}
+                onPress={this.hide}
+              >
+                <Icon name="md-arrow-back" color="#000" size={30} />
+              </TouchableOpacity>
+              <Text weight="Medium" style={{ color: colors.mainText, fontSize: 20, paddingVertical: 8 }}>
+                Category Filter
             </Text>
+            </View>
+            <TouchableOpacity onPress={this.resetAllFilters}>
+              <Text weight="Medium" style={{ color: colors.mainText, fontSize: 20, paddingVertical: 8, paddingRight: 10 }}>
+                Reset
+            </Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.body}>
             <FlatList
@@ -97,8 +119,7 @@ export default class AccessoryCategoriesFilterModal extends React.Component {
             />
             <Button
               onPress={() => {
-                setSelectedAccessoryCategoryIds(selectedAccessoryCategoryIds);
-                this.hide();
+                this.applyFilter();
               }}
               text="Apply Filter"
               borderRadius={0}

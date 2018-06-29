@@ -133,11 +133,12 @@ export default class OffersTab extends React.Component {
 
   onCategorySelect = category => {
     console.log("category: ", category);
-
     const { selectedCategory } = this.state;
     if (selectedCategory && selectedCategory.id == category.id) {
       return;
     }
+    // call the reset function
+    this.offersFilterModal.resetAllFilters();
     const { setSelectedOfferCategory } = this.props;
     setSelectedOfferCategory(category);
 
@@ -279,8 +280,8 @@ export default class OffersTab extends React.Component {
                 padding: 20
               }}
             >
-              Please select a category to view Accessories for your products
-              across different price bands
+              Please select a category to view the Best of Offers at great
+              prices
             </Text>
           </View>
         ) : (

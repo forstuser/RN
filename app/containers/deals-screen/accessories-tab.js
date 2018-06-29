@@ -410,8 +410,9 @@ export default class AccessoriesTab extends React.Component {
                 padding: 20
               }}
             >
-              Please select a category to view the Best of Offers at great
-              prices
+              {" "}
+              Please select a category to view Accessories for your products
+              across different price bands
             </Text>
           </View>
         ) : (
