@@ -226,10 +226,10 @@ class UploadDocumentScreen extends Component {
   };
 
   removeFile = index => {
-    let newFiles = [...this.state.files];
-    newFiles.splice(index, 1);
+    let files = [...this.state.files];
+    files.splice(index, 1);
     this.setState({
-      files: newFiles
+      files
     });
   };
 
@@ -469,6 +469,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  UploadDocumentScreen
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UploadDocumentScreen);

@@ -147,24 +147,24 @@ class CustomerCare extends React.Component {
     if (insuranceDetails.length > 0) {
       const provider = insuranceDetails[0].provider;
 
-      if (provider) {
+      if (provider && provider.status_type != 11) {
         insuranceData.providerId = provider.id;
         insuranceData.providerName = provider.name;
       }
 
-      if (provider && provider.contact) {
+      if (insuranceData.providerId && provider.contact) {
         insuranceData.phoneNumbers = provider.contact
           .split(/\\/)
           .filter(number => number.length > 0);
       }
 
-      if (provider && provider.email) {
+      if (insuranceData.providerId && provider.email) {
         insuranceData.emails = provider.email
           .split(/\\/)
           .filter(email => email.length > 0);
       }
 
-      if (provider && provider.url) {
+      if (insuranceData.providerId && provider.url) {
         insuranceData.urls = provider.url
           .split(/\\/)
           .filter(url => url.length > 0)
@@ -189,24 +189,24 @@ class CustomerCare extends React.Component {
     if (warrantyDetails.length > 0) {
       const provider = warrantyDetails[0].provider;
 
-      if (provider) {
-        warrantyData.id = provider.id;
+      if (provider && provider.status_type != 11) {
+        warrantyData.providerId = provider.id;
         warrantyData.providerName = provider.name;
       }
 
-      if (provider && provider.contact) {
+      if (warrantyData.providerId && provider.contact) {
         warrantyData.phoneNumbers = provider.contact
           .split(/\\/)
           .filter(number => number.length > 0);
       }
 
-      if (provider && provider.email) {
+      if (warrantyData.providerId && provider.email) {
         warrantyData.emails = provider.email
           .split(/\\/)
           .filter(email => email.length > 0);
       }
 
-      if (provider && provider.url) {
+      if (warrantyData.providerId && provider.url) {
         warrantyData.urls = provider.url
           .split(/\\/)
           .filter(url => url.length > 0)
@@ -232,7 +232,7 @@ class CustomerCare extends React.Component {
       });
     }
 
-    if (insuranceData.providerName) {
+    if (insuranceData.providerId) {
       connectItems.push({
         type: "insurance",
         title: I18n.t("product_details_screen_connect_insurance_provider"),
@@ -246,7 +246,7 @@ class CustomerCare extends React.Component {
       });
     }
 
-    if (warrantyData.providerName) {
+    if (warrantyData.providerId) {
       connectItems.push({
         type: "warranty",
         title: I18n.t("product_details_screen_connect_warranty_provider"),
