@@ -214,7 +214,10 @@ class SelectModal extends Component {
               }}
               useNativeDriver={true}
             >
-              <View collapsable={false} style={{ backgroundColor: "#fff" }}>
+              <View
+                collapsable={false}
+                style={{ flex: 1, backgroundColor: "#fff" }}
+              >
                 <View collapsable={false} style={styles.modalHeader}>
                   <Text style={styles.modalHeaderText}>{placeholder}</Text>
                   <TouchableOpacity

@@ -120,74 +120,79 @@ export default class InsightContent extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() => this.timePeriodOptions.show()}
-          style={styles.timePeriod}
-        >
-          <Text>{timePeriod}</Text>
-          <Icon
-            name="md-arrow-dropdown"
-            color="#656565"
-            size={20}
-            style={{ marginLeft: 20, marginTop: 5 }}
-          />
-        </TouchableOpacity>
-        <ActionSheet
-          onPress={this.handleTimePeriodPress}
-          ref={o => (this.timePeriodOptions = o)}
-          cancelButtonIndex={3}
-          options={["Monthly", "Yearly", "Lifetime"]}
-        />
-        {timePeriod != "Lifetime" ? (
-          <View style={styles.monthAndYear}>
-            <TouchableOpacity
-              onPress={this.previousTimePeriod}
-              style={styles.monthAndYearArrow}
-            >
-              <Icon name="ios-arrow-back" color={colors.mainBlue} size={30} />
-            </TouchableOpacity>
-
-            <Text
-              weight="Bold"
-              style={{
-                fontSize: 20,
-                flex: 1,
-                textAlign: "center",
-                color: colors.mainBlue
-              }}
-            >
-              {timePeriod == "Monthly" ? time.format("MMM") + ", " : ""}
-              {time.format("YYYY")}
-            </Text>
-
-            <TouchableOpacity
-              onPress={this.nextTimePeriod}
-              style={styles.monthAndYearArrow}
-            >
-              <Icon
-                name="ios-arrow-forward"
-                color={colors.mainBlue}
-                size={30}
-              />
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <View />
-        )}
-
         <FlatList
           style={styles.list}
           data={categories}
           // onRefresh={this.fetchCategories}
           // refreshing={isLoading}
           ListHeaderComponent={
-            <View style={styles.totalSpendContainer}>
-              <Text weight="Bold" style={{ fontSize: 25 }}>
-                ₹{totalSpend}
-              </Text>
-              <Text weight="Bold" style={{ color: colors.secondaryText }}>
-                Total Spend
-              </Text>
+            <View>
+              <TouchableOpacity
+                onPress={() => this.timePeriodOptions.show()}
+                style={styles.timePeriod}
+              >
+                <Text>{timePeriod}</Text>
+                <Icon
+                  name="md-arrow-dropdown"
+                  color="#656565"
+                  size={20}
+                  style={{ marginLeft: 20, marginTop: 5 }}
+                />
+              </TouchableOpacity>
+              <ActionSheet
+                onPress={this.handleTimePeriodPress}
+                ref={o => (this.timePeriodOptions = o)}
+                cancelButtonIndex={3}
+                options={["Monthly", "Yearly", "Lifetime"]}
+              />
+              {timePeriod != "Lifetime" ? (
+                <View style={styles.monthAndYear}>
+                  <TouchableOpacity
+                    onPress={this.previousTimePeriod}
+                    style={styles.monthAndYearArrow}
+                  >
+                    <Icon
+                      name="ios-arrow-back"
+                      color={colors.mainBlue}
+                      size={30}
+                    />
+                  </TouchableOpacity>
+
+                  <Text
+                    weight="Bold"
+                    style={{
+                      fontSize: 20,
+                      flex: 1,
+                      textAlign: "center",
+                      color: colors.mainBlue
+                    }}
+                  >
+                    {timePeriod == "Monthly" ? time.format("MMM") + ", " : ""}
+                    {time.format("YYYY")}
+                  </Text>
+
+                  <TouchableOpacity
+                    onPress={this.nextTimePeriod}
+                    style={styles.monthAndYearArrow}
+                  >
+                    <Icon
+                      name="ios-arrow-forward"
+                      color={colors.mainBlue}
+                      size={30}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View />
+              )}
+              <View style={styles.totalSpendContainer}>
+                <Text weight="Bold" style={{ fontSize: 25 }}>
+                  ₹{totalSpend}
+                </Text>
+                <Text weight="Bold" style={{ color: colors.secondaryText }}>
+                  Total Spend
+                </Text>
+              </View>
             </View>
           }
           renderItem={({ item }) => (
@@ -252,13 +257,11 @@ const styles = StyleSheet.create({
   totalSpendContainer: {
     alignItems: "center",
     paddingVertical: 10,
-    borderColor: "#efefef"
-    // borderTopWidth: 1
-  },
-  list: {
-    flex: 1,
     borderColor: "#efefef",
     borderTopWidth: 1
+  },
+  list: {
+    flex: 1
   },
   item: {
     height: 70,
