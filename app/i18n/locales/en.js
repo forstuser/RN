@@ -744,27 +744,27 @@ export default {
 
   //app-tour texts
   plus_btn_tip:
-    "Click here to add your Bills, Expenses and important Documents.",
+    "Click here to Add your Bills, Expenses and Important Documents.",
   ehome_tip:
-    "Access your saved Bills, Expenses and Documents in your eHome here.",
+    "Click here to check your private and secure eHome for your saved Bills, Expenses & Documents.",
   attendance_tip:
     "Plan your Day for tasks to be done, clothes to be worn and dishes to be cooked. Track attendance & payouts for all your household services too!",
   do_you_know_tip:
     "Discover amazing facts & tips related to brands and lifestyle, to fill you with awe! ",
   asc_tip:
-    "Click here to find and connect with Authorised Service Centres of any Brand with just one simple click.",
-  insights_tip: "Keep a track of your expenses here.",
+    "Click here to find Authorised Service Centres of any Brand and connect with just one simple click.",
+  insights_tip: "Keep a track of your monthly and periodic expenses.",
   mailbox_tip:
-    "All reminders and notifications will be delivered here in your eHome inbox.",
+    "This is your eHome’s inbox where all Reminders and Notifications will be delivered for you to track.",
   coming_up_tip:
-    "This is the eHome section where you will find all the alerts related to renewal and expiry dates.",
+    "This is your Alert section. You can track all your Renewal and Expiry dates here.",
   add_bill_btn_tip: "To add multiple bills at the same time, use the + icon.",
   zoom_image_tip:
     "Just pinch out to zoom in your bills, to have a better view.",
   upload_bill_tip:
-    "Upload Bill: You can upload your Bills and Documents here (optional).",
+    "Upload Bill: You can upload Bills and Documents here. If you don’t have the Bill, you can always add it later on.",
   product_card_tip:
-    "This is the Product Card for your {{categoryName}}. You can access this anytime, anywhere.",
+    "This is the Product Card for your {{categoryName}}. It’s a digital identity of your Product for you to access anytime, anywhere.",
   product_card_upload_bill_tip:
     "Don't want to add the details manually, just upload the bill and your Home Manager will fill in the rest.",
   product_card_share_tip:
