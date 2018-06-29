@@ -120,7 +120,7 @@ export default class InsightContent extends React.Component {
     }
     return (
       <View style={styles.container}>
-        {timePeriod == "Lifetime" && totalSpend > 0 ? (
+        {timePeriod == "Lifetime" && totalSpend == 0 ? (
           <View style={{ flex: 1, justifyContent: "center" }}>
             <Text
               weight="Bold"

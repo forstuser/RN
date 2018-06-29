@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
   addProductImageBtnDummy: {
     position: "absolute",
     opacity: 1,
-    top: -37,
+    top: -42,
     right: 30,
     width: 50,
     height: 30

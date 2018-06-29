@@ -303,7 +303,8 @@ class AllInfo extends React.Component {
             {product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE ||
             [
               MAIN_CATEGORY_IDS.AUTOMOBILE,
-              MAIN_CATEGORY_IDS.ELECTRONICS
+              MAIN_CATEGORY_IDS.ELECTRONICS,
+              MAIN_CATEGORY_IDS.FURNITURE
             ].indexOf(product.masterCategoryId) > -1 ? (
               <Important
                 product={product}
