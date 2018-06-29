@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     marginBottom: 10,
     borderRadius: 10,
+    justifyContent: "center",
     ...defaultStyles.card
   },
   copiesContainer: {
@@ -163,8 +164,7 @@ const styles = StyleSheet.create({
   },
   placeholderContainer: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center"
+    justifyContent: "center"
   },
   placeholder: {
     color: colors.secondaryText
