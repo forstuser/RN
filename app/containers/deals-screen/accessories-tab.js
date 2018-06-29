@@ -29,7 +29,10 @@ const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 const ITEM_SELECTOR_HEIGHT = 120;
 
 export default class AccessoriesTab extends React.Component {
+  lastListScrollPosition = 0;
+  listScrollPosition = new Animated.Value(0);
   topPaddingElement = new Animated.Value(0);
+
   state = {
     products: [],
     categories: [],
@@ -49,7 +52,41 @@ export default class AccessoriesTab extends React.Component {
   componentDidMount() {
     this.fetchAccessoriesData();
     // this.getAccessories();
+    this.listScrollPosition.addListener(this.onListScroll);
   }
+
+  onListScroll = ({ value }) => {
+    console.log(
+      "lastListScrollPosition: ",
+      this.lastListScrollPosition,
+      "value: ",
+      value
+    );
+
+    if (value > 0) {
+      if (value > this.lastListScrollPosition) {
+        Animated.timing(this.topPaddingElement, {
+          toValue: -ITEM_SELECTOR_HEIGHT,
+          duration: 200,
+          useNativeDriver: true
+        }).start();
+      } else if (value < this.lastListScrollPosition) {
+        Animated.timing(this.topPaddingElement, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true
+        }).start();
+      }
+      this.lastListScrollPosition = value;
+    } else if (value == 0) {
+      Animated.timing(this.topPaddingElement, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true
+      }).start();
+      this.lastListScrollPosition = value;
+    }
+  };
 
   fetchAccessoriesData = async () => {
     this.setState({
@@ -295,7 +332,7 @@ export default class AccessoriesTab extends React.Component {
 
   getAccessories = async () => {
     if (this.state.isLoadingAccessories) return;
-    this.topPaddingElement.setValue(0);
+    this.listScrollPosition.setValue(0);
     const { selectedAccessoryCategoryIds } = this.props;
     const { accessoryCategories, product } = this.state;
 
@@ -374,12 +411,13 @@ export default class AccessoriesTab extends React.Component {
                 padding: 20
               }}
             >
-              Please select a category to view the Best of Offers at great prices
+              Please select a category to view the Best of Offers at great
+              prices
             </Text>
           </View>
         ) : (
-            <View />
-          )}
+          <View />
+        )}
 
         {showSelectBrand ? (
           <SelectOrCreateItem
@@ -396,8 +434,8 @@ export default class AccessoriesTab extends React.Component {
             textInputPlaceholder="Enter Brand Name"
           />
         ) : (
-            <View />
-          )}
+          <View />
+        )}
         {showSelectModel ? (
           <SelectOrCreateItem
             style={{ marginTop: ITEM_SELECTOR_HEIGHT }}
@@ -416,8 +454,8 @@ export default class AccessoriesTab extends React.Component {
             textInputPlaceholder="Enter Model Name"
           />
         ) : (
-            <View />
-          )}
+          <View />
+        )}
 
         {accessoryCategories.length > 0 ? (
           <AnimatedFlatList
@@ -425,7 +463,7 @@ export default class AccessoriesTab extends React.Component {
               [
                 {
                   nativeEvent: {
-                    contentOffset: { y: this.topPaddingElement }
+                    contentOffset: { y: this.listScrollPosition }
                   }
                 }
               ],
@@ -465,8 +503,8 @@ export default class AccessoriesTab extends React.Component {
             }
           />
         ) : (
-            <View />
-          )}
+          <View />
+        )}
         <Animated.View
           style={[
             {
@@ -480,11 +518,7 @@ export default class AccessoriesTab extends React.Component {
             {
               transform: [
                 {
-                  translateY: this.topPaddingElement.interpolate({
-                    inputRange: [0, ITEM_SELECTOR_HEIGHT],
-                    outputRange: [0, -ITEM_SELECTOR_HEIGHT],
-                    extrapolate: "clamp"
-                  })
+                  translateY: this.topPaddingElement
                 }
               ]
             }

@@ -23,7 +23,9 @@ const ITEM_SELECTOR_HEIGHT = 120;
 const ITEM_SELECTOR_HEIGHT_WITH_FILTERS = ITEM_SELECTOR_HEIGHT + 36;
 
 export default class OffersTab extends React.Component {
-  topPaddingElement = new Animated.Value(1);
+  lastListScrollPosition = 0;
+  listScrollPosition = new Animated.Value(0);
+  topPaddingElement = new Animated.Value(0);
 
   state = {
     categories: [],
@@ -41,9 +43,44 @@ export default class OffersTab extends React.Component {
     offerCategories: [],
     error: null
   };
+
   componentDidMount() {
     this.fetchCategories();
+    this.listScrollPosition.addListener(this.onListScroll);
   }
+
+  onListScroll = ({ value }) => {
+    console.log(
+      "lastListScrollPosition: ",
+      this.lastListScrollPosition,
+      "value: ",
+      value
+    );
+
+    if (value > 0) {
+      if (value > this.lastListScrollPosition) {
+        Animated.timing(this.topPaddingElement, {
+          toValue: -ITEM_SELECTOR_HEIGHT,
+          duration: 200,
+          useNativeDriver: true
+        }).start();
+      } else if (value < this.lastListScrollPosition) {
+        Animated.timing(this.topPaddingElement, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true
+        }).start();
+      }
+      this.lastListScrollPosition = value;
+    } else if (value == 0) {
+      Animated.timing(this.topPaddingElement, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true
+      }).start();
+      this.lastListScrollPosition = value;
+    }
+  };
 
   fetchCategories = async () => {
     this.setState({ isLoading: true, error: null });
@@ -216,8 +253,7 @@ export default class OffersTab extends React.Component {
       selectedMerchants.length > 0;
     let isOfferCountGreaterThanZero = false;
     for (let i = 0; i < offerCategories.length; i++) {
-      if (offerCategories[i].offer_counts > 0
-      ) {
+      if (offerCategories[i].offer_counts > 0) {
         isOfferCountGreaterThanZero = true;
         break;
       }
@@ -243,19 +279,20 @@ export default class OffersTab extends React.Component {
                 padding: 20
               }}
             >
-              Please select a category to view Accessories for your products across different price bands
+              Please select a category to view Accessories for your products
+              across different price bands
             </Text>
           </View>
         ) : (
-            <View />
-          )}
+          <View />
+        )}
         {offerCategories.length > 0 && isOfferCountGreaterThanZero ? (
           <AnimatedFlatList
             onScroll={Animated.event(
               [
                 {
                   nativeEvent: {
-                    contentOffset: { y: this.topPaddingElement }
+                    contentOffset: { y: this.listScrollPosition }
                   }
                 }
               ],
@@ -281,8 +318,8 @@ export default class OffersTab extends React.Component {
             )}
           />
         ) : (
-            <View />
-          )}
+          <View />
+        )}
         {offerCategories.length > 0 && !isOfferCountGreaterThanZero ? (
           <View
             style={{
@@ -301,11 +338,11 @@ export default class OffersTab extends React.Component {
               }}
             >
               No offers found for applied filters
-                    </Text>
+            </Text>
           </View>
         ) : (
-            <View />
-          )}
+          <View />
+        )}
         <Animated.View
           style={[
             {
@@ -320,11 +357,7 @@ export default class OffersTab extends React.Component {
             {
               transform: [
                 {
-                  translateY: this.topPaddingElement.interpolate({
-                    inputRange: [0, ITEM_SELECTOR_HEIGHT],
-                    outputRange: [0, -ITEM_SELECTOR_HEIGHT],
-                    extrapolate: "clamp"
-                  })
+                  translateY: this.topPaddingElement
                 }
               ]
             }
@@ -354,8 +387,8 @@ export default class OffersTab extends React.Component {
                     onPressClose={this.offersFilterModal.removeOtherOffers}
                   />
                 ) : (
-                    <View />
-                  )}
+                  <View />
+                )}
                 {selectedDiscountType ? (
                   <Tag
                     text={selectedDiscountType + "% Discount"}
@@ -364,8 +397,8 @@ export default class OffersTab extends React.Component {
                     }
                   />
                 ) : (
-                    <View />
-                  )}
+                  <View />
+                )}
                 {selectedCashbackType ? (
                   <Tag
                     text={"Rs. " + selectedCashbackType + " Cashback"}
@@ -374,8 +407,8 @@ export default class OffersTab extends React.Component {
                     }
                   />
                 ) : (
-                    <View />
-                  )}
+                  <View />
+                )}
                 {selectedMerchants.map(merchant => (
                   <Tag
                     key={merchant}
@@ -388,8 +421,8 @@ export default class OffersTab extends React.Component {
               </ScrollView>
             </View>
           ) : (
-              <View />
-            )}
+            <View />
+          )}
         </Animated.View>
         {/* {offerCategories.length == -1 ? (
           <View style={{ flex: 1, backgroundColor: "#f7f7f7", padding: 10 }}>
