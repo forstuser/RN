@@ -115,7 +115,16 @@ export default class OffersFilterModal extends React.Component {
       this.provideSelectedFiltersToParent()
     );
   };
-
+  resetAllFilters = () => {
+    this.setState({
+      selectedDiscountType: null,
+      selectedCashbackType: null,
+      onlyOtherOfferTypes: false,
+      selectedMerchants: []
+    }, () =>
+        this.provideSelectedFiltersToParent()
+    );
+  }
   removeFilterMerchant = merchant => {
     const selectedMerchants = [...this.state.selectedMerchants];
     const idx = selectedMerchants.indexOf(merchant);
