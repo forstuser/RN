@@ -217,7 +217,7 @@ class Body extends Component {
 
         <MoreItem
           onPress={this.onLogoutItemPress}
-          imageSource={require("../../images/ic_more_logout.png/")}
+          imageSource={require("../../images/ic_more_logout.png")}
           text={I18n.t("more_screen_item_logout")}
           imageStyle={{ width: 20, height: 20 }}
         />

@@ -50,6 +50,7 @@ export default class AccessoriesTab extends React.Component {
     error: null,
     endHasReached: false
   };
+
   componentDidMount() {
     this.fetchAccessoriesData();
     this.listScrollPosition.addListener(this.onListScroll);
@@ -108,7 +109,7 @@ export default class AccessoriesTab extends React.Component {
                 const product = category.products[j];
                 productsArray.push({
                   type: "product",
-                  name: product.product_name,
+                  name: product.product_name || product.model,
                   imageUrl: res.result[i].image_url,
                   accessoryCategories: category.accessories,
                   ...product
