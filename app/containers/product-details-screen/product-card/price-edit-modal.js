@@ -180,7 +180,7 @@ class PriceEditModal extends React.Component {
                     fontSize: 18,
                     marginLeft: 10,
                     textAlign: "left",
-                    marginBottom: 5,
+                    marginBottom: 15,
                     color: colors.mainBlue
                   }}
                 >
@@ -222,7 +222,7 @@ class PriceEditModal extends React.Component {
 
 const styles = StyleSheet.create({
   modal: {
-    paddingTop: 20,
+    paddingTop: 10,
     backgroundColor: "#fff",
     borderRadius: 5
   },
