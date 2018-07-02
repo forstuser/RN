@@ -113,7 +113,7 @@ class UploadDoc extends React.Component {
                     </Text>
                   </View>
                   {hint ?
-                    <Text style={styles.hint}>{hint}</Text> : null}
+                    <Text weight="Medium" style={styles.hint}>{hint}</Text> : null}
                 </View>
               ) : (
                   <View collapsable={false} style={styles.placeholderContainer}>

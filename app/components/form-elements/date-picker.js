@@ -84,7 +84,7 @@ class CustomDatePicker extends React.Component {
               {placeholder2}
             </Text>
           </View>
-          {!date && hint ? <Text style={styles.hint}>{hint}</Text> : null}
+          {!date && hint ? <Text weight="Medium" style={styles.hint}>{hint}</Text> : null}
           <View collapsable={false} style={styles.textInput}>
             <Text weight="Medium" style={{ color: colors.mainText }}>
               {date && moment(date).format("DD MMM, YYYY")}

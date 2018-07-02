@@ -66,7 +66,7 @@ class CustomTextInput extends React.Component {
       rightSideTextWidth = 0,
       maxLength,
       secureTextEntry,
-      getRef = () => {}
+      getRef = () => { }
     } = this.props;
     const { value, isInputFocused } = this.state;
     return (
@@ -102,7 +102,7 @@ class CustomTextInput extends React.Component {
           </Text>
         </View>
         {!value && !isInputFocused && hint ? (
-          <Text style={styles.hint}>{hint}</Text>
+          <Text weight="Medium" style={styles.hint}>{hint}</Text>
         ) : null}
         <TextInput
           ref={ref => (this.input = ref)}
