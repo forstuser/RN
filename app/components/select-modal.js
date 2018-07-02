@@ -396,6 +396,7 @@ const styles = StyleSheet.create({
     color: "#009ee5"
   },
   noResultContainer: {
+    flex: 1,
     padding: 16,
     alignItems: "center"
   },
