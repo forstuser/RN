@@ -5,7 +5,6 @@ import { colors } from "../theme";
 
 export default class TabIcon extends React.Component {
   render() {
-    console.log("icons props: ", this.props);
     return (
       <Image
         resizeMode="contain"

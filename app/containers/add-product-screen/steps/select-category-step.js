@@ -510,7 +510,8 @@ class SelectCategoryStep extends React.Component {
             />
             <ScrollView
               ref={ref => (this.scrollView = ref)}
-              horizontal={true}           showsHorizontalScrollIndicator={false}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
               alwaysBounceHorizontal={false}
               style={{ paddingBottom: 5 }}
             >
@@ -669,7 +670,7 @@ const styles = StyleSheet.create({
   },
   optionIcon: {
     width: 50,
-    height: 30,
+    height: 50,
     opacity: 0.3
   },
   selectedOptionIcon: {
