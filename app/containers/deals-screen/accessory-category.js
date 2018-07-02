@@ -8,6 +8,9 @@ export default class AccessoryCategory extends React.Component {
   render() {
     const { accessoryCategory, productId } = this.props;
     const { accessory_items } = accessoryCategory;
+
+    if (accessory_items.length == 0) return null;
+
     return (
       <View style={{ padding: 10, paddingRight: 0 }}>
         <Text weight="Bold" style={{ fontSize: 16, marginLeft: 5 }}>
@@ -28,7 +31,8 @@ export default class AccessoryCategory extends React.Component {
           renderItem={({ item }) => (
             <AccessoryItem item={item} productId={productId} />
           )}
-          horizontal={true}           showsHorizontalScrollIndicator={false}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
           keyExtractor={item => String(item.id)}
         />
       </View>
