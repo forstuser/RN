@@ -24,6 +24,7 @@ import {
 } from "../../api";
 import AccessoryCategory from "./accessory-category";
 import { colors } from "../../theme";
+import Analytics from "../../analytics";
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 const ITEM_SELECTOR_HEIGHT = 120;
@@ -280,6 +281,7 @@ export default class AccessoriesTab extends React.Component {
 
   onItemSelect = item => {
     console.log("item: ", item);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_ACCESSORIES, { product_name: item.name });
     const { selectedItem } = this.state;
     const { setAccessoryCategories } = this.props;
     setAccessoryCategories(item.accessoryCategories);
@@ -416,8 +418,8 @@ export default class AccessoriesTab extends React.Component {
             </Text>
           </View>
         ) : (
-          <View />
-        )}
+            <View />
+          )}
 
         {showSelectBrand ? (
           <SelectOrCreateItem
@@ -434,8 +436,8 @@ export default class AccessoriesTab extends React.Component {
             textInputPlaceholder="Enter Brand Name"
           />
         ) : (
-          <View />
-        )}
+            <View />
+          )}
         {showSelectModel ? (
           <SelectOrCreateItem
             style={{ marginTop: ITEM_SELECTOR_HEIGHT }}
@@ -454,8 +456,8 @@ export default class AccessoriesTab extends React.Component {
             textInputPlaceholder="Enter Model Name"
           />
         ) : (
-          <View />
-        )}
+            <View />
+          )}
 
         {accessoryCategories.length > 0 ? (
           <AnimatedFlatList
@@ -502,14 +504,14 @@ export default class AccessoriesTab extends React.Component {
                     No More Accessories
                   </Text>
                 ) : (
-                  <ActivityIndicator color={colors.mainBlue} animating={true} />
-                )}
+                    <ActivityIndicator color={colors.mainBlue} animating={true} />
+                  )}
               </View>
             }
           />
         ) : (
-          <View />
-        )}
+            <View />
+          )}
         <Animated.View
           style={[
             {

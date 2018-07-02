@@ -79,6 +79,14 @@ const EVENTS = {
   CLICK_ON_ADD_NEW_WEAR_ITEM: "eazyday_add_new_cloth",
   CLICK_ON_ADD_NEW_WHAT_TO_DO: "eazyday_add_new_todo",
   USE_SEARCH: "search_use",
+
+  //offers
+  CLICK_DEALS: "click_deals",
+  CLICK_OFFERS: "click_offers",
+  CLICK_ACCESSORIES: "click_accessories",
+  CLICK_OFFERS_CATEGORY: "click_offers_category",
+  CLICK_PRODUCT_ACCESSORIES: "click_accessories_product",
+
   //expense card
   VIEW_BILL_EXPENSE_CARD: "expensecard_viewbill",
   EDIT_DETAILS_EXPENSE_CARD: "expensecard_editdetails",
