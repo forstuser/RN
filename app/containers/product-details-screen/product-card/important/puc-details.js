@@ -93,7 +93,7 @@ class PucDetails extends React.Component {
     return (
       <View collapsable={false} style={styles.container}>
         <ScrollView
-          horizontal={true}
+          horizontal={true}           showsHorizontalScrollIndicator={false}
           style={styles.slider}
           showsHorizontalScrollIndicator={true}
         >

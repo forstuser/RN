@@ -28,7 +28,7 @@ export default class AccessoryCategory extends React.Component {
           renderItem={({ item }) => (
             <AccessoryItem item={item} productId={productId} />
           )}
-          horizontal={true}
+          horizontal={true}           showsHorizontalScrollIndicator={false}
           keyExtractor={item => String(item.id)}
         />
       </View>

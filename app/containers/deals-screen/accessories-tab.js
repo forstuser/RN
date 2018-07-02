@@ -402,17 +402,16 @@ export default class AccessoriesTab extends React.Component {
             }}
           >
             <Text
-              weight="Medium"
+              weight="Bold"
               style={{
-                fontSize: 20,
+                fontSize: 16,
+                color: "#c2c2c2",
                 textAlign: "center",
-                color: colors.mainText,
-                padding: 20
+                margin: 15
               }}
             >
-              {" "}
-              Please select a category to view Accessories for your products
-              across different price bands
+              Please select a category to view the Best of Accessories for your
+              products
             </Text>
           </View>
         ) : (

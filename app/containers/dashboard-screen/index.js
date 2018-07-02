@@ -304,11 +304,32 @@ class DashboardScreen extends React.Component {
           ref={ref => (this.rateUsDialog = ref)}
           setRateUsDialogTimestamp={this.props.setRateUsDialogTimestamp}
         />
+        <View collapsable={false} style={styles.dummiesForTooltips}>
+          <View collapsable={false} style={styles.dummyForTooltip} />
+          <View
+            collapsable={false}
+            ref={ref => (this.ehomeTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
+          <View
+            collapsable={false}
+            ref={ref => (this.dealsTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
+          <View
+            collapsable={false}
+            ref={ref => (this.doYouKnowTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
+          <View collapsable={false} style={styles.dummyForTooltip} />
+        </View>
         <Tour
           ref={ref => (this.dashboardTour = ref)}
           enabled={true}
           steps={[
             { ref: this.addProductBtnRef, text: I18n.t("plus_btn_tip") },
+            { ref: this.ehomeTabItemRef, text: I18n.t("ehome_tip") },
+            { ref: this.doYouKnowTabItemRef, text: I18n.t("do_you_know_tip") },
             { ref: this.comingUpRef, text: I18n.t("coming_up_tip") },
             { ref: this.insightsRef, text: I18n.t("insights_tip") },
             { ref: this.ascRef, text: I18n.t("asc_tip") }
@@ -370,6 +391,19 @@ const styles = StyleSheet.create({
   uploadFabIcon: {
     width: 25,
     height: 25
+  },
+  dummiesForTooltips: {
+    position: "absolute",
+    width: "100%",
+    bottom: -68,
+    height: 68,
+    flexDirection: "row",
+    backgroundColor: "transparent"
+  },
+  dummyForTooltip: {
+    flex: 1,
+    height: "100%",
+    opacity: 1
   }
 });
 

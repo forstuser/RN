@@ -121,12 +121,45 @@ export default class InsightContent extends React.Component {
     return (
       <View style={styles.container}>
         {timePeriod == "Lifetime" && totalSpend == 0 ? (
-          <View style={{ flex: 1, justifyContent: "center" }}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <View
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 50,
+                  backgroundColor: "#EAF6FC"
+                }}
+              />
+
+              <Image
+                style={{ width: 80, height: 90, marginTop: -65 }}
+                source={require("../../images/bar_chart_2.png")}
+                resizeMode="contain"
+              />
+            </View>
             <Text
               weight="Bold"
-              style={{ fontSize: 16, color: "#c2c2c2", textAlign: "center" }}
+              style={{
+                fontSize: 16,
+                color: "#c2c2c2",
+                textAlign: "center",
+                margin: 15
+              }}
             >
-              Add your expenses here to track your monthly expenses.
+              Looks like you have not added any expenses as yet. Add your
+              expenses to track & analyse your spends.
             </Text>
           </View>
         ) : (

@@ -188,7 +188,7 @@ class Repair extends React.Component {
                 <ScrollView
                   style={styles.products}
                   contentContainerStyle={styles.productsContentContainer}
-                  horizontal={true}
+                  horizontal={true}           showsHorizontalScrollIndicator={false}
                 >
                   {products.map((product, index) => {
                     return (

@@ -143,7 +143,7 @@ class SelectServiceTypeStep extends React.Component {
           />
           <ScrollView
             ref={ref => (this.scrollView = ref)}
-            horizontal={true}
+            horizontal={true}           showsHorizontalScrollIndicator={false}
             alwaysBounceHorizontal={false}
           >
             {visibleOptions.map(option => {

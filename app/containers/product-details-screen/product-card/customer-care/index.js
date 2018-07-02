@@ -272,7 +272,7 @@ class CustomerCare extends React.Component {
       <View collapsable={false} style={styles.container}>
         <FlatList
           style={styles.slider}
-          horizontal={true}
+          horizontal={true}           showsHorizontalScrollIndicator={false}
           data={connectItems}
           keyExtractor={(item, index) => index}
           renderItem={({ item }) => {
@@ -327,7 +327,7 @@ class CustomerCare extends React.Component {
               <View collapsable={false} style={styles.ascListContainer}>
                 <FlatList
                   style={styles.ascList}
-                  horizontal={true}
+                  horizontal={true}           showsHorizontalScrollIndicator={false}
                   data={ascItems}
                   keyExtractor={(item, index) => index}
                   renderItem={({ item }) => {

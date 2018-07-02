@@ -100,7 +100,8 @@ class SelectCategoryHeader extends React.Component {
         </Text>
         <ScrollView
           ref={ref => (this.scrollView = ref)}
-          horizontal={true}
+          horizontal={true}           showsHorizontalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
           alwaysBounceHorizontal={false}
         >
           {visibleOptions.map(option => {

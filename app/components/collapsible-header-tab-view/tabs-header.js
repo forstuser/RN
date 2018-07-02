@@ -30,6 +30,7 @@ class TabsHeader extends React.Component {
         ref={getRef}
         showsHorizontalScrollIndicator={false}
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
         style={[styles.container, style]}
         contentContainerStyle={styles.contentContainer}
       >
@@ -51,7 +52,8 @@ class TabsHeader extends React.Component {
             >
               {route.text}
             </Text>
-            <View collapsable={false} 
+            <View
+              collapsable={false}
               style={index == activeTabIndex ? styles.activeIndicator : {}}
             />
           </TouchableOpacity>

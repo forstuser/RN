@@ -7,7 +7,7 @@ import { isImageFileType } from "../utils";
 import store from "../store";
 import Text from "./text";
 
-import brokenImageIcon from "../images/broken_image.png";
+import brokenImageIcon from "../images/binbill_logo.png";
 import { colors } from "../theme";
 const fileIcon = require("../images/ic_file.png");
 
@@ -132,7 +132,8 @@ const styles = StyleSheet.create({
     width: "90%",
     height: "90%",
     maxWidth: 100,
-    maxHeight: 100
+    maxHeight: 100,
+    tintColor: "#CFCFCF"
   }
 });
 

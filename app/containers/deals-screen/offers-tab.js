@@ -86,12 +86,23 @@ export default class OffersTab extends React.Component {
     this.setState({ isLoading: true, error: null });
     try {
       const res = await fetchOfferCategories();
+      let defaultOrderIdsSort = res.default_ids;
+      let categories = [];
+      res.categories.forEach(category => {
+        for (let i = 0; i < defaultOrderIdsSort.length; i++) {
+          if (category.id == defaultOrderIdsSort[i]) {
+            categories.push({
+              ...category,
+              name: category.category_name,
+              imageUrl: category.image_url
+            });
+            defaultOrderIdsSort.splice(i, 1);
+            break;
+          }
+        }
+      });
       this.setState({
-        categories: res.categories.map(category => ({
-          ...category,
-          name: category.category_name,
-          imageUrl: category.image_url
-        }))
+        categories
       });
     } catch (error) {
       this.setState({ error });
@@ -272,12 +283,12 @@ export default class OffersTab extends React.Component {
             }}
           >
             <Text
-              weight="Medium"
+              weight="Bold"
               style={{
-                fontSize: 20,
+                fontSize: 16,
+                color: "#c2c2c2",
                 textAlign: "center",
-                color: colors.mainText,
-                padding: 20
+                margin: 15
               }}
             >
               Please select a category to view the Best of Offers at great

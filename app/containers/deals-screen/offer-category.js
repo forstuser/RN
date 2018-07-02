@@ -49,7 +49,7 @@ export default class OfferCategory extends React.Component {
         </View>
         <FlatList
           data={offers.slice(0, 6)}
-          horizontal={true}
+          horizontal={true}           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
             <OfferItem
               item={item}

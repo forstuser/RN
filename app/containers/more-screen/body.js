@@ -219,7 +219,9 @@ class Body extends Component {
           onPress={this.onLogoutItemPress}
           imageSource={require("../../images/ic_more_logout.png/")}
           text={I18n.t("more_screen_item_logout")}
+          imageStyle={{ width: 20, height: 20 }}
         />
+
         <LanguageOptions
           ref={o => (this.languageOptions = o)}
           onLanguageChange={this.props.setLanguage}

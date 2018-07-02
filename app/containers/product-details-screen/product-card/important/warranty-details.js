@@ -95,7 +95,7 @@ class WarrantyDetails extends React.Component {
       <View collapsable={false} style={styles.container}>
         {product.categoryId != 664 && (
           <ScrollView
-            horizontal={true}
+            horizontal={true}           showsHorizontalScrollIndicator={false}
             style={styles.slider}
             showsHorizontalScrollIndicator={true}
           >
@@ -125,7 +125,7 @@ class WarrantyDetails extends React.Component {
             warranty => warranty.warranty_type == WARRANTY_TYPES.EXTENDED
           ).length > 0 && (
             <ScrollView
-              horizontal={true}
+              horizontal={true}           showsHorizontalScrollIndicator={false}
               style={styles.slider}
               showsHorizontalScrollIndicator={true}
             >

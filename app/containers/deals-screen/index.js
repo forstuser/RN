@@ -16,7 +16,7 @@ import ScrollableTabView, {
 import Icon from "react-native-vector-icons/Ionicons";
 import I18n from "../../i18n";
 import { API_BASE_URL, getAccessoriesCategory } from "../../api";
-import { Text, Button, ScreenContainer, image } from "../../elements";
+import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import TabSearchHeader from "../../components/tab-screen-header";
@@ -109,22 +109,33 @@ class DealsScreen extends Component {
                   : `Check out Accessories for products across different price bands`}
               </Text> */}
             </View>
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.navigate(SCREENS.ORDER_HISTORY_SCREEN);
+              }}
+            >
+              <Image
+                style={{ width: 25, height: 25, tintColor: "#fff" }}
+                source={require("../../images/orders_icon.png")}
+              />
+            </TouchableOpacity>
             {(activeTabIndex == 0 && selectedOfferCategory) ||
-              (activeTabIndex == 1 && accessoryCategories.length > 0) ? (
-                <TouchableOpacity
-                  onPress={() =>
-                    activeTabIndex == 0
-                      ? this.offersFilterModalRef.show()
-                      : this.accessoryCategoriesFilterModal.show(
+            (activeTabIndex == 1 && accessoryCategories.length > 0) ? (
+              <TouchableOpacity
+                style={{ marginLeft: 15 }}
+                onPress={() =>
+                  activeTabIndex == 0
+                    ? this.offersFilterModalRef.show()
+                    : this.accessoryCategoriesFilterModal.show(
                         selectedAccessoryCategoryIds
                       )
-                  }
-                >
-                  <Icon name="md-options" color="#fff" size={30} />
-                </TouchableOpacity>
-              ) : (
-                <View />
-              )}
+                }
+              >
+                <Icon name="md-options" color="#fff" size={30} />
+              </TouchableOpacity>
+            ) : (
+              <View />
+            )}
           </View>
 
           <View style={styles.headerLowerHalf}>

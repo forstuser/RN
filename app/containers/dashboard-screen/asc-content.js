@@ -269,7 +269,7 @@ class AscScreen extends Component {
                 {I18n.t("asc_screen_section_1_title")}
               </Text>
               {products.length > 0 ? (
-                <ScrollView style={styles.productsContainer} horizontal={true}>
+                <ScrollView style={styles.productsContainer} horizontal={true}           showsHorizontalScrollIndicator={false}>
                   {products.map((product, index) => {
                     const meta = getProductMetasString(product.productMetaData);
                     return (
@@ -384,12 +384,16 @@ class AscScreen extends Component {
 
               <TouchableOpacity
                 onPress={this.openLocationModal}
-                style={[
-                  styles.select,
-                  { flexDirection: "row", marginBottom: 35, borderRadius: 10 }
-                ]}
+                style={[styles.select, { marginBottom: 35 }]}
               >
-                <Text style={{ color: colors.lighterText, flex: 1 }}>
+                <Text
+                  style={{
+                    color: this.state.address
+                      ? colors.mainText
+                      : colors.lighterText,
+                    flex: 1
+                  }}
+                >
                   {!this.state.address &&
                     I18n.t("asc_screen_placeholder_select_location")}
                   {this.state.address.length > 0 && this.state.address}
@@ -508,7 +512,7 @@ const styles = StyleSheet.create({
     maxWidth: 350
   },
   select: {
-    height: 45,
+    minHeight: 45,
     padding: 8,
     // paddingTop: 0,
     marginBottom: 12,

@@ -209,7 +209,7 @@ class Report extends React.Component {
             />
           </View>
         </View>
-        <ScrollView horizontal={true} style={styles.slider}>
+        <ScrollView horizontal={true}           showsHorizontalScrollIndicator={false} style={styles.slider}>
           {calculationDetails.map((calculationDetail, index) => {
             const startDate = moment(calculationDetail.effective_date).format(
               "DD MMM YYYY"
