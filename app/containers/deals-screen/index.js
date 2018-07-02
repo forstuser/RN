@@ -10,12 +10,15 @@ import {
   Animated,
   Dimensions
 } from "react-native";
+import { connect } from "react-redux";
 import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Ionicons";
 import I18n from "../../i18n";
+import Tour from "../../components/app-tour";
 import { API_BASE_URL, getAccessoriesCategory } from "../../api";
+import { actions as uiActions } from "../../modules/ui";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
@@ -80,6 +83,13 @@ class DealsScreen extends Component {
     );
   };
 
+  showDealsTour = () => {
+    if (!this.props.hasDealsFilterTooltipShown) {
+      this.dealsTour.startTour();
+      this.props.setUiHasDealsFilterTooltipShown(true);
+    }
+  };
+
   render() {
     const {
       activeTabIndex,
@@ -109,20 +119,26 @@ class DealsScreen extends Component {
                   : `Check out Accessories for products across different price bands`}
               </Text> */}
             </View>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate(SCREENS.ORDER_HISTORY_SCREEN);
-              }}
-            >
-              <Image
-                style={{ width: 25, height: 25, tintColor: "#fff" }}
-                source={require("../../images/orders_icon.png")}
-              />
-            </TouchableOpacity>
+            {activeTabIndex == 1 ? (
+              <TouchableOpacity
+                onPress={() => {
+                  this.props.navigation.navigate(SCREENS.ORDER_HISTORY_SCREEN);
+                }}
+              >
+                <Image
+                  style={{ width: 25, height: 25, tintColor: "#fff" }}
+                  source={require("../../images/orders_icon.png")}
+                />
+              </TouchableOpacity>
+            ) : (
+              <View />
+            )}
             {(activeTabIndex == 0 && selectedOfferCategory) ||
             (activeTabIndex == 1 && accessoryCategories.length > 0) ? (
               <TouchableOpacity
-                style={{ marginLeft: 15 }}
+                ref={node => (this.filterIconRef = node)}
+                onLayout={this.showDealsTour}
+                style={{ marginLeft: 15, paddingHorizontal: 2 }}
                 onPress={() =>
                   activeTabIndex == 0
                     ? this.offersFilterModalRef.show()
@@ -217,6 +233,13 @@ class DealsScreen extends Component {
           accessoryCategories={accessoryCategories}
           setSelectedAccessoryCategoryIds={this.setSelectedAccessoryCategoryIds}
         />
+        <Tour
+          ref={ref => (this.dealsTour = ref)}
+          enabled={true}
+          steps={[
+            { ref: this.filterIconRef, text: I18n.t("deals_filter_tip") }
+          ]}
+        />
       </ScreenContainer>
     );
   }
@@ -299,4 +322,20 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DealsScreen;
+const mapStateToProps = state => {
+  return {
+    hasDealsFilterTooltipShown: state.ui.hasDealsFilterTooltipShown
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUiHasDealsFilterTooltipShown: newValue => {
+      dispatch(uiActions.setUiHasDealsFilterTooltipShown(newValue));
+    }
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DealsScreen);

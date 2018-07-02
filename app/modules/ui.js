@@ -76,7 +76,11 @@ export default function uiReducer(state = defaultState.ui, action) {
         ...state,
         dykIdToOpenDirectly: action.payload.id
       };
-
+    case types.UI_SET_HAS_DEALS_FILTER_TOOLTIP_SHOWN:
+      return {
+        ...state,
+        hasDealsFilterTooltipShown: action.payload.hasDealsFilterTooltipShown
+      };
     default:
       return state;
   }
@@ -168,6 +172,12 @@ export const actions = {
     return {
       type: types.UI_SET_RATE_US_DIALOG_TIMESTAMP,
       payload: { timestamp }
+    };
+  },
+  setUiHasDealsFilterTooltipShown: hasDealsFilterTooltipShown => {
+    return {
+      type: types.UI_SET_HAS_DEALS_FILTER_TOOLTIP_SHOWN,
+      payload: { hasDealsFilterTooltipShown }
     };
   }
 };

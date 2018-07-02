@@ -22,6 +22,7 @@ export default {
     hasBlankDashboardTourShown: false,
     hasDashboardTourShown: false,
     hasEhomeTourShown: false,
+    hasDealsFilterTooltipShown: false,
     hasUploadDocTourShown: false,
     hasUploadBillTourShown: false,
     hasProductCardTourShown: false,

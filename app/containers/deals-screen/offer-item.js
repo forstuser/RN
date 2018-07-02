@@ -120,6 +120,7 @@ export default class OfferItem extends React.Component {
           >
             <Text
               weight="Bold"
+              numberOfLines={1}
               style={{ fontSize: 12, color: colors.mainBlue }}
             >
               {item.promo_code || "Buy Now"}

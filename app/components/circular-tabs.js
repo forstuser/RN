@@ -13,8 +13,8 @@ import { colors } from "../theme";
 
 import curve from "../images/tab_curve.png";
 
-const TAB_WIDTH = 120;
 const CONTENT_WIDTH = Dimensions.get("window").width - 20;
+const TAB_WIDTH = CONTENT_WIDTH / 3;
 
 export default class CircularTabs extends React.Component {
   state = {
@@ -41,7 +41,7 @@ export default class CircularTabs extends React.Component {
         <View style={styles.tabsContainer}>
           <View style={styles.tabsColorStrip} />
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <View style={{ flexDirection: "row" }}>
             <Animated.Image
               resizeMode="stretch"
               source={curve}
@@ -91,7 +91,7 @@ export default class CircularTabs extends React.Component {
                 </View>
               </TouchableOpacity>
             ))}
-          </ScrollView>
+          </View>
         </View>
         <Animated.View
           style={[
