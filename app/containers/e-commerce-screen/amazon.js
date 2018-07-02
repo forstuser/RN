@@ -4,7 +4,7 @@ import { View, WebView, StyleSheet } from "react-native";
 import { API_BASE_URL } from "../../api";
 import { ScreenContainer, Text, Button, Image } from "../../elements";
 import { colors } from "../../theme";
-
+let flag = 1;
 class Amazon extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +26,10 @@ class Amazon extends Component {
 
   onGetDataMessage = event => {
     const orderData = JSON.parse(event.nativeEvent.data);
-    this.props.successOrder(orderData);
+    if (flag == 1) {
+      this.props.successOrder(orderData);
+      flag += 1;
+    }
   };
 
   render() {
@@ -78,12 +81,12 @@ class Amazon extends Component {
             onMessage={this.onGetDataMessage}
           />
         ) : (
-          <WebView
-            injectedJavaScript={dirtyScript}
-            source={{ uri: item.url.replace("http://", "https://") }}
-            onMessage={this.onWebViewMessage}
-          />
-        )}
+            <WebView
+              injectedJavaScript={dirtyScript}
+              source={{ uri: item.url.replace("http://", "https://") }}
+              onMessage={this.onWebViewMessage}
+            />
+          )}
       </ScreenContainer>
     );
   }

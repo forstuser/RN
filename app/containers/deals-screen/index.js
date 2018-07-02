@@ -51,8 +51,11 @@ class DealsScreen extends Component {
       selectedOfferCategory: null
     };
   }
-
+  componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_DEALS);
+  }
   openPage1 = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_OFFERS);
     Animated.timing(this.tabIndex, {
       toValue: 0,
       duration: 200,
@@ -63,6 +66,7 @@ class DealsScreen extends Component {
   };
 
   openPage2 = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ACCESSORIES);
     Animated.timing(this.tabIndex, {
       toValue: 1,
       duration: 200,
@@ -132,27 +136,27 @@ class DealsScreen extends Component {
                 />
               </TouchableOpacity>
             ) : (
-              <View />
-            )}
+                <View />
+              )}
             {(activeTabIndex == 0 && selectedOfferCategory) ||
-            (activeTabIndex == 1 && accessoryCategories.length > 0) ? (
-              <TouchableOpacity
-                ref={node => (this.filterIconRef = node)}
-                onLayout={this.showDealsTour}
-                style={{ marginLeft: 15, paddingHorizontal: 2 }}
-                onPress={() =>
-                  activeTabIndex == 0
-                    ? this.offersFilterModalRef.show()
-                    : this.accessoryCategoriesFilterModal.show(
+              (activeTabIndex == 1 && accessoryCategories.length > 0) ? (
+                <TouchableOpacity
+                  ref={node => (this.filterIconRef = node)}
+                  onLayout={this.showDealsTour}
+                  style={{ marginLeft: 15, paddingHorizontal: 2 }}
+                  onPress={() =>
+                    activeTabIndex == 0
+                      ? this.offersFilterModalRef.show()
+                      : this.accessoryCategoriesFilterModal.show(
                         selectedAccessoryCategoryIds
                       )
-                }
-              >
-                <Icon name="md-options" color="#fff" size={30} />
-              </TouchableOpacity>
-            ) : (
-              <View />
-            )}
+                  }
+                >
+                  <Icon name="md-options" color="#fff" size={30} />
+                </TouchableOpacity>
+              ) : (
+                <View />
+              )}
           </View>
 
           <View style={styles.headerLowerHalf}>
