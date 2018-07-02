@@ -154,7 +154,7 @@ class RepairForm extends React.Component {
             <CustomDatePicker
               date={repairDate}
               placeholder={I18n.t("expense_forms_repair_date")}
-              placeholder2={"Recommended"}
+              hint={"Recommended"}
               placeholder2Color={colors.mainBlue}
               onDateChange={repairDate => {
                 this.setState({ repairDate });

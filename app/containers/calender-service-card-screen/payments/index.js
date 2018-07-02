@@ -189,8 +189,8 @@ class Report extends React.Component {
             </Modal>
           </View>
         ) : (
-          <View collapsable={false} />
-        )}
+            <View collapsable={false} />
+          )}
       </View>
     );
   }

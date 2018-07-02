@@ -892,7 +892,7 @@ export default {
   //expenseForms
   expense_forms_amc_form_amc_text: "AMC (If Applicable)",
   expense_forms_amc_form_amc_effective_date: "AMC Effective Date",
-  expense_forms_amc_form_amc_recommended: "(Recommended)",
+  expense_forms_amc_form_amc_recommended: "Recommended",
   expense_forms_amc_form_amc_seller_name: "AMC Provider Name",
   expense_forms_amc_form_amc_seller_contact: "AMC Provider Contact",
   expense_forms_amc_form_amc_amount: "AMC Amount (₹)",
@@ -1018,7 +1018,7 @@ export default {
   love_using_binbill: "Love using BinBill app?",
   recommend_us: `If you are happy with your Home Manager, please rate us on ${
     Platform.OS == "ios" ? "App" : "Play"
-  } store.`,
+    } store.`,
   app_pin: "App Pin",
   change: "Change",
   set_now: "Set Now",

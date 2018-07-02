@@ -66,12 +66,12 @@ class AmountTextInput extends React.Component {
       rightSideTextWidth = 0,
       maxLength,
       secureTextEntry,
-      getRef = () => {}
+      getRef = () => { }
     } = this.props;
     const { value, isInputFocused } = this.state;
     return (
-      <View collapsable={false}  ref={ref => getRef(ref)} style={[styles.container, style]}>
-        <View collapsable={false} 
+      <View collapsable={false} ref={ref => getRef(ref)} style={[styles.container, style]}>
+        <View collapsable={false}
           style={[
             styles.placeholderContainer,
             { right: rightSideTextWidth },
@@ -114,7 +114,7 @@ class AmountTextInput extends React.Component {
             {rightSideText}
           </Text>
         ) : null}
-        {hint ? <Text style={styles.hint}>{hint}</Text> : null}
+        {hint ? <Text weight="Regular" style={styles.hint}>{hint}</Text> : null}
       </View>
     );
   }

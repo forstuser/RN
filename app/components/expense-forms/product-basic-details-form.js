@@ -533,7 +533,7 @@ class BasicDetailsForm extends React.Component {
               {categoryId == 327 && (
                 <CustomTextInput
                   placeholder={I18n.t("expense_forms_product_basics_imei")}
-                  placeholder2={I18n.t(
+                  hint={I18n.t(
                     "expense_forms_amc_form_amc_recommended"
                   )}
                   placeholder2Color={colors.mainBlue}
@@ -546,7 +546,7 @@ class BasicDetailsForm extends React.Component {
                 categoryId != 327 && (
                   <CustomTextInput
                     placeholder={I18n.t("expense_forms_product_basics_serial")}
-                    placeholder2={I18n.t(
+                    hint={I18n.t(
                       "expense_forms_amc_form_amc_recommended"
                     )}
                     placeholder2Color={colors.mainBlue}
