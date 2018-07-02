@@ -124,7 +124,7 @@ class UploadBillStep extends React.Component {
 
     return (
       <Step title={title} showLoader={isLoading} {...this.props}>
-        <View collapsable={false}  style={{ padding: 20 }}>
+        <View collapsable={false} style={{ padding: 20 }}>
           <UploadDoc
             ref={ref => (this.uploadDoc = ref)}
             placeholder={"Select File"}
