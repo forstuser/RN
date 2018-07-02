@@ -4,7 +4,8 @@ import {
   View,
   Clipboard,
   TouchableOpacity,
-  Linking
+  Linking,
+  Platform
 } from "react-native";
 import StarRating from "react-native-star-rating";
 import moment from "moment";
@@ -73,7 +74,8 @@ export default class OfferDetailedView extends React.Component {
                 style={{
                   fontSize: 12,
                   color: colors.pinkishOrange,
-                  padding: 5
+                  paddingHorizontal: 5,
+                  paddingTop: 3
                 }}
               >
                 Code - {item.promo_code}
@@ -96,7 +98,8 @@ export default class OfferDetailedView extends React.Component {
                   fontSize: 12,
                   color: "#fff",
                   paddingVertical: 6,
-                  marginHorizontal: 10
+                  marginHorizontal: 10,
+                  ...Platform.select({ android: { marginTop: -2 } })
                 }}
               >
                 Copy

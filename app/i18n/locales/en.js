@@ -892,7 +892,7 @@ export default {
   //expenseForms
   expense_forms_amc_form_amc_text: "AMC (If Applicable)",
   expense_forms_amc_form_amc_effective_date: "AMC Effective Date",
-  expense_forms_amc_form_amc_recommended: "(Recommended)",
+  expense_forms_amc_form_amc_recommended: "Recommended",
   expense_forms_amc_form_amc_seller_name: "AMC Provider Name",
   expense_forms_amc_form_amc_seller_contact: "AMC Provider Contact",
   expense_forms_amc_form_amc_amount: "AMC Amount (₹)",

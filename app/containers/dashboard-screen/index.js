@@ -25,7 +25,7 @@ import CircularTabs from "../../components/circular-tabs";
 import TabSearchHeader from "../../components/tab-screen-header2";
 import InsightChart from "../../components/insight-chart";
 import UpcomingServiceItem from "./upcoming-service-item";
-import UpcomingServiceItems from "./upcoming-services-list";
+import UpcomingServiceContent from "./upcoming-services-content";
 import UploadBillOptions from "../../components/upload-bill-options";
 import { colors, defaultStyles } from "../../theme";
 import I18n from "../../i18n";
@@ -209,60 +209,12 @@ class DashboardScreen extends React.Component {
                 },
                 title: "What’s Due",
                 imageSource: whatsComingIcon,
-                content:
-                  upcomingServices.length == 0 ? (
-                    <View
-                      style={{
-                        flex: 1,
-                        alignItems: "center",
-                        justifyContent: "center"
-                      }}
-                    >
-                      <View
-                        style={{
-                          alignItems: "center",
-                          justifyContent: "center"
-                        }}
-                      >
-                        <View
-                          style={{
-                            width: 100,
-                            height: 100,
-                            borderRadius: 50,
-                            backgroundColor: "#EAF6FC"
-                          }}
-                        />
-                        {/* <Icon
-                          name="ios-notifications-outline"
-                          color="#D3D3D3"
-                          size={100}
-                          style={{ marginTop: -65 }}
-                        /> */}
-                        <Image
-                          style={{ width: 80, height: 90, marginTop: -65 }}
-                          source={require("../../images/bell.png")}
-                          resizeMode="contain"
-                        />
-                      </View>
-                      <Text
-                        weight="Bold"
-                        style={{ fontSize: 16, color: "#c2c2c2" }}
-                      >
-                        Nothing due in upcoming period
-                      </Text>
-                    </View>
-                  ) : (
-                    <FlatList
-                      data={upcomingServices}
-                      renderItem={item => (
-                        <UpcomingServiceItem
-                          item={item.item}
-                          navigation={this.props.navigation}
-                        />
-                      )}
-                      keyExtractor={(item, index) => index}
-                    />
-                  )
+                content: (
+                  <UpcomingServiceContent
+                    upcomingServices={upcomingServices}
+                    navigation={this.props.navigation}
+                  />
+                )
               },
               {
                 tabRef: ref => {

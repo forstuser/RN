@@ -109,10 +109,10 @@ const apiRequest = async ({
     return r.data;
   } catch (e) {
     console.log("e: ", e);
-    let error = new Error(e.message);
+    let errorMessage = "Something went wrong, please try again!";
+    let error = new Error(errorMessage);
     error.statusCode = e.statusCode || 0;
 
-    let errorMessage = e.message;
     if (e.response) {
       console.log("e.response.data: ", e.response.data);
       error.statusCode = e.response.status;
@@ -142,7 +142,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => { }
+  onUploadProgress = () => {}
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {

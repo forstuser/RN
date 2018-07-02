@@ -15,63 +15,40 @@ import { API_BASE_URL } from "../../api";
 import { openBillsPopUp } from "../../navigation";
 import { SCREENS, SERVICE_TYPE_NAMES } from "../../constants";
 
-const getRemainingDays = date => {
-  const diff = date.diff(
-    moment()
-      .utcOffset("+0000")
-      .startOf("day"),
-    "days"
-  );
-  return diff;
-  // if (diff < 0) {
-  //   return "Expired!";
-  // } else if (diff == 0) {
-  //   return "Expiring Today!";
-  // } else if (diff == 1) {
-  //   return "Expiring Tomorrow!";
-  // } else {
-  //   return diff + " days left";
-  // }
-};
 const UpcomingServiceItem = ({ item, navigation }) => {
   console.log("item: ", item);
-  let icon = require("../../images/ic_comingup_bill.png");
+  let icon = require("../../images/ic_comingup_expiring.png");
   let title = "";
-  let subTitle = "";
-  let daysRemaining = "";
-  let sidebarSubTitle = "";
+  let subTitle = item.productName;
+  let daysRemaining = item.daysRemaining;
 
   switch (item.productType) {
     case 2:
-    case 3:
-    case 4:
-    case 5:
-      icon = require("../../images/ic_comingup_expiring.png");
       title = I18n.t("component_items_warranty_expiry");
-      subTitle = item.productName;
-      daysRemaining = getRemainingDays(moment(item.expiryDate));
+      break;
+    case 3:
+      title = I18n.t("component_items_insurance_expiry");
+      break;
+    case 4:
+      title = I18n.t("component_items_amc_expiry");
+      break;
+    case 5:
+      title = I18n.t("component_items_puc_expiry");
       break;
     case 6:
-      icon = require("../../images/ic_comingup_expiring.png");
       title = `${item.schedule.service_number} (${
         SERVICE_TYPE_NAMES[item.schedule.service_type]
       })`;
-      subTitle = item.productName;
-      daysRemaining = getRemainingDays(moment(item.schedule.due_date));
       break;
     case 7:
-      icon = require("../../images/ic_comingup_expiring.png");
       title = I18n.t("component_items_repair_warranty_expiry");
-      subTitle = item.productName;
-      daysRemaining = getRemainingDays(moment(item.dueDate));
       break;
 
     //case 1:
     default:
-      icon = require("../../images/ic_comingup_expiring.png");
+      icon = require("../../images/ic_comingup_bill.png");
       title = item.productName;
       subTitle = "₹ " + item.value;
-      daysRemaining = getRemainingDays(moment(item.dueDate));
       break;
   }
   return (
