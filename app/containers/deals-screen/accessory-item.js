@@ -31,7 +31,7 @@ export default class AccessoryItem extends React.Component {
           width: 150,
           margin: 5,
           borderRadius: 5,
-          marginRight: 15,
+          marginRight: 10,
           padding: 10,
           justifyContent: "center",
           alignItems: "center",

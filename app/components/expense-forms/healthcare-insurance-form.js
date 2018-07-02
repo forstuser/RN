@@ -212,8 +212,8 @@ class HealthcareInsuranceForm extends React.Component {
               onChangeText={planName => this.setState({ planName })}
             />
           ) : (
-              <View collapsable={false} />
-            )}
+            <View collapsable={false} />
+          )}
 
           <SelectModal
             // style={styles.input}
@@ -246,8 +246,8 @@ class HealthcareInsuranceForm extends React.Component {
               onChangeText={insuranceFor => this.setState({ insuranceFor })}
             />
           ) : (
-              <View collapsable={false} />
-            )}
+            <View collapsable={false} />
+          )}
           {!showOnlyGeneralInfo ? (
             <View collapsable={false}>
               <SelectModal
@@ -285,16 +285,14 @@ class HealthcareInsuranceForm extends React.Component {
               {showFullForm ? (
                 <CustomTextInput
                   placeholder={I18n.t("expense_forms_healthcare_policy")}
-                  placeholder2={I18n.t(
-                    "expense_forms_amc_form_amc_recommended"
-                  )}
+                  hint={I18n.t("expense_forms_amc_form_amc_recommended")}
                   placeholder2Color={colors.mainBlue}
                   value={policyNo}
                   onChangeText={policyNo => this.setState({ policyNo })}
                 />
               ) : (
-                  <View collapsable={false} />
-                )}
+                <View collapsable={false} />
+              )}
 
               <CustomDatePicker
                 date={effectiveDate}
@@ -324,12 +322,12 @@ class HealthcareInsuranceForm extends React.Component {
                   />
                 </View>
               ) : (
-                  <View collapsable={false} />
-                )}
+                <View collapsable={false} />
+              )}
             </View>
           ) : (
-              <View collapsable={false} />
-            )}
+            <View collapsable={false} />
+          )}
         </View>
         <UploadDoc
           placeholder={I18n.t("expense_forms_healthcare_upload_doc")}

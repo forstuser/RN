@@ -162,7 +162,7 @@ public class MainActivity extends ReactActivity {
     ;
     SharedPreferences.Editor editor = sharedPref.edit();
     if (uri != null && !uri.isEmpty()) {
-      Log.d("INTENT", "final uriString: " + uriString);
+      Log.d("INTENT", "final uri: " + uri);
       editor.putString(getString(R.string.shared_pref_direct_upload_file_path_key), uri.toString());
     } else {
       Log.d("INTENT", "remove uriString");

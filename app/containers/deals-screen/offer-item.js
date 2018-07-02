@@ -5,7 +5,8 @@ import {
   FlatList,
   TouchableOpacity,
   Clipboard,
-  Linking
+  Linking,
+  Platform
 } from "react-native";
 import Modal from "react-native-modal";
 import moment from "moment";
@@ -50,7 +51,7 @@ export default class OfferItem extends React.Component {
           width: 150,
           margin: 5,
           borderRadius: 5,
-          marginRight: 15,
+          marginRight: 10,
           padding: 10,
           justifyContent: "center",
           alignItems: "center",
@@ -121,7 +122,11 @@ export default class OfferItem extends React.Component {
             <Text
               weight="Bold"
               numberOfLines={1}
-              style={{ fontSize: 12, color: colors.mainBlue }}
+              style={{
+                fontSize: 12,
+                color: colors.mainBlue,
+                ...Platform.select({ android: { marginTop: -2 } })
+              }}
             >
               {item.promo_code || "Buy Now"}
             </Text>

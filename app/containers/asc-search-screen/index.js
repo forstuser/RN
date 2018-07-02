@@ -222,10 +222,12 @@ const styles = StyleSheet.create({
 
   imageWrapper: {
     width: "100%",
-    height: 120
+    height: 120,
+    padding: 20
   },
   itemImage: {
-    height: 120
+    width: "100%",
+    height: "100%"
   },
   itemDetails: {
     padding: 16

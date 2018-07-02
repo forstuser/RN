@@ -116,15 +116,16 @@ export default class OffersFilterModal extends React.Component {
     );
   };
   resetAllFilters = () => {
-    this.setState({
-      selectedDiscountType: null,
-      selectedCashbackType: null,
-      onlyOtherOfferTypes: false,
-      selectedMerchants: []
-    }, () =>
-        this.provideSelectedFiltersToParent()
+    this.setState(
+      {
+        selectedDiscountType: null,
+        selectedCashbackType: null,
+        onlyOtherOfferTypes: false,
+        selectedMerchants: []
+      },
+      () => this.provideSelectedFiltersToParent()
     );
-  }
+  };
   removeFilterMerchant = merchant => {
     const selectedMerchants = [...this.state.selectedMerchants];
     const idx = selectedMerchants.indexOf(merchant);
@@ -161,7 +162,7 @@ export default class OffersFilterModal extends React.Component {
       offerTypes = { discount: [], cashback: [] },
       offerMerchants = []
     } = this.props;
-    console.log("off", offerTypes)
+
     offerTypes.discount.sort((a, b) => a - b);
     offerTypes.cashback.sort((a, b) => a - b);
     offerMerchants.sort();
@@ -184,21 +185,36 @@ export default class OffersFilterModal extends React.Component {
         <View style={{ backgroundColor: "#fff", flex: 1 }}>
           <View style={styles.header}>
             {/* <BlueGradientBG /> */}
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, flexDirection: "row" }}>
               <TouchableOpacity
                 style={{ paddingVertical: 10, paddingHorizontal: 15 }}
                 onPress={this.hide}
               >
                 <Icon name="md-arrow-back" color="#000" size={30} />
               </TouchableOpacity>
-              <Text weight="Medium" style={{ color: colors.mainText, fontSize: 20, paddingVertical: 8 }}>
+              <Text
+                weight="Medium"
+                style={{
+                  color: colors.mainText,
+                  fontSize: 20,
+                  paddingVertical: 8
+                }}
+              >
                 Offers Filter
-            </Text>
+              </Text>
             </View>
             <TouchableOpacity onPress={this.resetAllFilters}>
-              <Text weight="Medium" style={{ color: colors.mainText, fontSize: 20, paddingVertical: 8, paddingRight: 10 }}>
+              <Text
+                weight="Medium"
+                style={{
+                  color: colors.mainText,
+                  fontSize: 20,
+                  paddingVertical: 8,
+                  paddingRight: 10
+                }}
+              >
                 Reset
-            </Text>
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.body}>
@@ -238,8 +254,8 @@ export default class OffersFilterModal extends React.Component {
                       Discount
                     </Text>
                   ) : (
-                      <View />
-                    )}
+                    <View />
+                  )}
                   {offerTypes.discount.map(discount => (
                     <View key={discount}>
                       <TouchableOpacity
@@ -262,8 +278,8 @@ export default class OffersFilterModal extends React.Component {
                       Cashback
                     </Text>
                   ) : (
-                      <View />
-                    )}
+                    <View />
+                  )}
                   {offerTypes.cashback.map(cashback => (
                     <View key={cashback}>
                       <TouchableOpacity
@@ -295,15 +311,15 @@ export default class OffersFilterModal extends React.Component {
                   </View>
                 </ScrollView>
               ) : (
-                  <FlatList
-                    data={offerMerchants}
-                    renderItem={this.renderMerchantItem}
-                    ItemSeparatorComponent={highlighted => (
-                      <View style={{ height: 1, backgroundColor: "#eee" }} />
-                    )}
-                    keyExtractor={item => item}
-                  />
-                )}
+                <FlatList
+                  data={offerMerchants}
+                  renderItem={this.renderMerchantItem}
+                  ItemSeparatorComponent={highlighted => (
+                    <View style={{ height: 1, backgroundColor: "#eee" }} />
+                  )}
+                  keyExtractor={item => item}
+                />
+              )}
             </View>
           </View>
           <Button

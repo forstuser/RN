@@ -31,7 +31,8 @@ export default class OfferCategory extends React.Component {
               style={{
                 fontSize: 11,
                 color: colors.mainBlue,
-                marginVertical: 5,
+                marginTop: 2,
+                marginBottom: 5,
                 marginLeft: 5
               }}
             >
@@ -41,7 +42,7 @@ export default class OfferCategory extends React.Component {
           <Button
             onPress={onViewAllPress}
             style={{ height: 28, marginRight: 15 }}
-            textStyle={{ fontSize: 11, paddingHorizontal: 20 }}
+            textStyle={{ fontSize: 11, paddingHorizontal: 10 }}
             text="View All"
             color="secondary"
             type="outline"
@@ -49,7 +50,8 @@ export default class OfferCategory extends React.Component {
         </View>
         <FlatList
           data={offers.slice(0, 6)}
-          horizontal={true}           showsHorizontalScrollIndicator={false}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
             <OfferItem
               item={item}

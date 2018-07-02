@@ -315,7 +315,7 @@ class Repair extends React.Component {
 
                     <UploadDoc
                       placeholder="Upload Bill "
-                      hint="(Recommended) "
+                      hint="Recommended"
                       placeholder2Color={colors.mainBlue}
                       itemId={id}
                       jobId={selectedProduct ? selectedProduct.jobId : null}
