@@ -189,7 +189,7 @@ class Repair extends React.Component {
                 <ScrollView
                   style={styles.products}
                   contentContainerStyle={styles.productsContentContainer}
-                  horizontal={true}           showsHorizontalScrollIndicator={false}
+                  horizontal={true}
                 >
                   {products.map(product => {
                     return (
@@ -315,7 +315,7 @@ class Repair extends React.Component {
 
                     <UploadDoc
                       placeholder="Upload Bill "
-                      placeholder2="(Recommended) "
+                      hint="(Recommended) "
                       placeholder2Color={colors.mainBlue}
                       itemId={id}
                       jobId={selectedProduct ? selectedProduct.jobId : null}

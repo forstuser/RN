@@ -176,7 +176,7 @@ class RepairForm extends React.Component {
               docType="Repair Doc"
               type={4}
               placeholder={I18n.t("expense_forms_repair_upload_repair")}
-              placeholder2={"Recommended"}
+              hint={"Recommended"}
               placeholder2Color={colors.mainBlue}
               navigation={this.props.navigation}
               onUpload={uploadResult => {

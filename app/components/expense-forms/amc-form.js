@@ -152,7 +152,7 @@ class AmcForm extends React.Component {
               docType="AMC"
               type={2}
               placeholder={I18n.t("expense_forms_amc_form_amc_upload")}
-              placeholder2={"Recommended"}
+              hint={"Recommended"}
               placeholder2Color={colors.mainBlue}
               navigation={navigation}
               onUpload={uploadResult => {

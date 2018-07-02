@@ -295,8 +295,8 @@ class WarrantyForm extends React.Component {
                 />
               </View>
             ) : (
-              <View collapsable={false} />
-            )}
+                <View collapsable={false} />
+              )}
             <SelectModal
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
@@ -324,7 +324,7 @@ class WarrantyForm extends React.Component {
               docType="Warranty"
               type={warrantyType == WARRANTY_TYPES.NORMAL ? 5 : 6}
               placeholder={I18n.t("expense_forms_warranty_upload_warr_doc")}
-              placeholder2={"Recommended"}
+              hint={"Recommended"}
               placeholder2Color={colors.mainBlue}
               navigation={navigation}
               onUpload={uploadResult => {

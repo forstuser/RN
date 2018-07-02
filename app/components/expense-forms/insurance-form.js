@@ -211,8 +211,8 @@ class InsuranceForm extends React.Component {
                       *
                     </Text>
                   ) : (
-                    <View collapsable={false} />
-                  )}
+                      <View collapsable={false} />
+                    )}
                 </View>
               )}
               selectedOption={selectedProvider}
@@ -246,7 +246,7 @@ class InsuranceForm extends React.Component {
               docType="Insurance"
               type={3}
               placeholder={I18n.t("expense_forms_insurance_upload_policy")}
-              placeholder2={"Recommended"}
+              hint={"Recommended"}
               placeholder2Color={colors.mainBlue}
               navigation={navigation}
               onUpload={uploadResult => {

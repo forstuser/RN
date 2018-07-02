@@ -207,7 +207,7 @@ class PucForm extends React.Component {
               docType="PUC"
               type={7}
               placeholder={I18n.t("expense_forms_puc_upload_doc")}
-              placeholder2={"Recommended"}
+              hint={"Recommended"}
               placeholder2Color={colors.mainBlue}
               placeholderAfterUpload="Doc Uploaded Successfully"
               navigation={this.props.navigation}

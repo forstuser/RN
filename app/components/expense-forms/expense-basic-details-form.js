@@ -191,8 +191,8 @@ class BasicDetailsForm extends React.Component {
               hideAddNew={true}
             />
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
 
           {showFullForm ? (
             <CustomTextInput
@@ -202,8 +202,8 @@ class BasicDetailsForm extends React.Component {
               hint={I18n.t("expense_forms_expense_basic_expense_recommend")}
             />
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
 
           <CustomDatePicker
             date={date}
@@ -236,8 +236,8 @@ class BasicDetailsForm extends React.Component {
               }}
             />
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
 
           {showFullForm ? (
             <View collapsable={false}>
@@ -262,13 +262,13 @@ class BasicDetailsForm extends React.Component {
               />
             </View>
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
         </View>
         <UploadDoc
           title={I18n.t("expense_forms_expense_basic_detail")}
           placeholder={I18n.t("expense_forms_expense_basic_upload_bill")}
-          placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+          hint={I18n.t("expense_forms_amc_form_amc_recommended")}
           placeholder2Color={colors.mainBlue}
           productId={productId}
           itemId={productId}
