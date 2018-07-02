@@ -269,7 +269,11 @@ class AscScreen extends Component {
                 {I18n.t("asc_screen_section_1_title")}
               </Text>
               {products.length > 0 ? (
-                <ScrollView style={styles.productsContainer} horizontal={true}           showsHorizontalScrollIndicator={false}>
+                <ScrollView
+                  style={styles.productsContainer}
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                >
                   {products.map((product, index) => {
                     const meta = getProductMetasString(product.productMetaData);
                     return (
@@ -390,13 +394,12 @@ class AscScreen extends Component {
                   style={{
                     color: this.state.address
                       ? colors.mainText
-                      : colors.lighterText,
-                    flex: 1
+                      : colors.lighterText
                   }}
                 >
-                  {!this.state.address &&
-                    I18n.t("asc_screen_placeholder_select_location")}
-                  {this.state.address.length > 0 && this.state.address}
+                  {!this.state.address
+                    ? I18n.t("asc_screen_placeholder_select_location")
+                    : this.state.address}
                 </Text>
               </TouchableOpacity>
               <Button
@@ -517,7 +520,7 @@ const styles = StyleSheet.create({
     // paddingTop: 0,
     marginBottom: 12,
     borderRadius: 10,
-    alignItems: "center",
+    justifyContent: "center",
     ...defaultStyles.card
   },
   searchBtn: {

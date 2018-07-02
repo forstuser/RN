@@ -22,6 +22,10 @@ import { SCREENS } from "../../constants";
 
 const NEW_LINE_REGEX = /(?:\r\n|\r|\n)/g;
 class EcommerceScreen extends Component {
+  static navigationOptions = {
+    title: "Start Shopping"
+  };
+
   constructor(props) {
     super(props);
     this.state = {
