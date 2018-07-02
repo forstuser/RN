@@ -174,7 +174,7 @@ class PucForm extends React.Component {
             <CustomDatePicker
               date={effectiveDate}
               placeholder={I18n.t("expense_forms_puc_effective_date")}
-              placeholder2={"Recommended"}
+              hint={"Recommended"}
               placeholder2Color={colors.mainBlue}
               onDateChange={effectiveDate => {
                 this.setState({ effectiveDate });

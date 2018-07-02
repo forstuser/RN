@@ -102,7 +102,7 @@ class CustomTextInput extends React.Component {
           </Text>
         </View>
         {!value && !isInputFocused && hint ? (
-          <Text weight="Medium" style={styles.hint}>{hint}</Text>
+          <Text weight="Regular" style={styles.hint}>{hint}</Text>
         ) : null}
         <TextInput
           ref={ref => (this.input = ref)}

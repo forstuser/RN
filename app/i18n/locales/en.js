@@ -1018,7 +1018,7 @@ export default {
   love_using_binbill: "Love using BinBill app?",
   recommend_us: `If you are happy with your Home Manager, please rate us on ${
     Platform.OS == "ios" ? "App" : "Play"
-  } store.`,
+    } store.`,
   app_pin: "App Pin",
   change: "Change",
   set_now: "Set Now",
