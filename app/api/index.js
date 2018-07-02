@@ -9,9 +9,9 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-let API_BASE_URL = "https://consumer-test.binbill.com";
+let API_BASE_URL = "https://consumer.binbill.com";
 if (!__DEV__) {
-  API_BASE_URL = "https://consumer-eb.binbill.com";
+  API_BASE_URL = "https://consumer.binbill.com";
 }
 export { API_BASE_URL };
 
