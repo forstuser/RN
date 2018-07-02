@@ -103,9 +103,11 @@ class Important extends React.Component {
     return (
       <View collapsable={false} style={styles.container}>
         {(product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ||
-          [MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
-            product.masterCategoryId
-          ) > -1) &&
+          [
+            MAIN_CATEGORY_IDS.AUTOMOBILE,
+            MAIN_CATEGORY_IDS.ELECTRONICS,
+            MAIN_CATEGORY_IDS.FURNITURE
+          ].indexOf(product.masterCategoryId) > -1) &&
           warrantyDetails.length > 0 && (
             <View collapsable={false}>
               <Text weight="Bold" style={styles.sectionTitle}>
@@ -119,9 +121,11 @@ class Important extends React.Component {
             </View>
           )}
 
-        {([MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
-          product.masterCategoryId
-        ) > -1 ||
+        {([
+          MAIN_CATEGORY_IDS.AUTOMOBILE,
+          MAIN_CATEGORY_IDS.ELECTRONICS,
+          MAIN_CATEGORY_IDS.FURNITURE
+        ].indexOf(product.masterCategoryId) > -1 ||
           product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) &&
           insuranceDetails.length > 0 && (
             <View collapsable={false}>
@@ -136,9 +140,11 @@ class Important extends React.Component {
             </View>
           )}
 
-        {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
-          product.masterCategoryId
-        ) > -1 &&
+        {[
+          MAIN_CATEGORY_IDS.AUTOMOBILE,
+          MAIN_CATEGORY_IDS.ELECTRONICS,
+          MAIN_CATEGORY_IDS.FURNITURE
+        ].indexOf(product.masterCategoryId) > -1 &&
           amcDetails.length > 0 && (
             <View collapsable={false}>
               <Text weight="Bold" style={styles.sectionTitle}>
@@ -188,7 +194,8 @@ class Important extends React.Component {
           {(product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ||
             [
               MAIN_CATEGORY_IDS.AUTOMOBILE,
-              MAIN_CATEGORY_IDS.ELECTRONICS
+              MAIN_CATEGORY_IDS.ELECTRONICS,
+              MAIN_CATEGORY_IDS.FURNITURE
             ].indexOf(product.masterCategoryId) > -1) &&
             warrantyDetails.filter(
               warranty => warranty.warranty_type == WARRANTY_TYPES.NORMAL
@@ -205,7 +212,8 @@ class Important extends React.Component {
           {(product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ||
             [
               MAIN_CATEGORY_IDS.AUTOMOBILE,
-              MAIN_CATEGORY_IDS.ELECTRONICS
+              MAIN_CATEGORY_IDS.ELECTRONICS,
+              MAIN_CATEGORY_IDS.FURNITURE
             ].indexOf(product.masterCategoryId) > -1) &&
             warrantyDetails.filter(
               warranty => warranty.warranty_type == WARRANTY_TYPES.EXTENDED
@@ -224,7 +232,8 @@ class Important extends React.Component {
 
           {([
             MAIN_CATEGORY_IDS.AUTOMOBILE,
-            MAIN_CATEGORY_IDS.ELECTRONICS
+            MAIN_CATEGORY_IDS.ELECTRONICS,
+            MAIN_CATEGORY_IDS.FURNITURE
           ].indexOf(product.masterCategoryId) > -1 ||
             product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) &&
             insuranceDetails.length == 0 && (
@@ -240,7 +249,8 @@ class Important extends React.Component {
 
           {[
             MAIN_CATEGORY_IDS.AUTOMOBILE,
-            MAIN_CATEGORY_IDS.ELECTRONICS
+            MAIN_CATEGORY_IDS.ELECTRONICS,
+            MAIN_CATEGORY_IDS.FURNITURE
           ].indexOf(product.masterCategoryId) > -1 &&
             amcDetails.length == 0 && (
               <AddItemBtn
