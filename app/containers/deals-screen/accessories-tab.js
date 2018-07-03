@@ -405,7 +405,7 @@ export default class AccessoriesTab extends React.Component {
     }
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
         {!showSelectBrand && !showSelectModel && !product ? (
           <View
             style={{
