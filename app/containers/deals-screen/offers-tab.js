@@ -89,19 +89,21 @@ export default class OffersTab extends React.Component {
       const res = await fetchOfferCategories();
       let defaultOrderIdsSort = res.default_ids;
       let categories = [];
-      res.categories.forEach(category => {
-        for (let i = 0; i < defaultOrderIdsSort.length; i++) {
+
+      let resCategories = res.categories;
+      for (let i = 0; i < defaultOrderIdsSort.length; i++) {
+        for (let j = 0; j < resCategories.length; j++) {
+          const category = resCategories[j];
           if (category.id == defaultOrderIdsSort[i]) {
             categories.push({
               ...category,
               name: category.category_name,
               imageUrl: category.image_url
             });
-            defaultOrderIdsSort.splice(i, 1);
-            break;
           }
         }
-      });
+      }
+
       this.setState({
         categories
       });
