@@ -18,6 +18,7 @@ import {
 import I18n from "../../i18n";
 import { API_BASE_URL, uploadProfilePic } from "../../api";
 import { Text, Button, ScreenContainer, Image } from "../../elements";
+import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
 import { showSnackbar } from "../../utils/snackbar";
 import { BlurView } from "react-native-blur";
@@ -28,6 +29,7 @@ class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       profilePic: null,
       blurViewRef: null
     };
@@ -118,6 +120,7 @@ class ProfileScreen extends Component {
       autoDismissTimerSec: 1000
     });
     try {
+      this.setState({ isLoading: true });
       await uploadProfilePic(file, () => {});
       this.setState({
         profilePic: <Image style={styles.image} source={{ uri: file.uri }} />
@@ -131,11 +134,14 @@ class ProfileScreen extends Component {
       showSnackbar({
         text: e.message
       });
+    } finally {
+      this.setState({ isLoading: false });
     }
   };
 
   render() {
-    const profilePic = this.state.profilePic;
+    const { isLoading, profilePic } = this.state;
+
     return (
       <View collapsable={false} style={styles.header}>
         <View collapsable={false} style={styles.backgroundImg}>
@@ -170,6 +176,7 @@ class ProfileScreen extends Component {
             "Cancel"
           ]}
         />
+        <LoadingOverlay visible={isLoading} />
       </View>
     );
   }

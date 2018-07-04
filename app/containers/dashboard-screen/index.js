@@ -127,9 +127,7 @@ class DashboardScreen extends React.Component {
               this.dashboardTour.startTour();
               this.props.setUiHasDashboardTourShown(true);
             } else if (
-              (this.state.showDashboard ||
-                dashboardData.hasEazyDayItems ||
-                dashboardData.knowItemsLiked) &&
+              (this.state.showDashboard || dashboardData.knowItemsLiked) &&
               this.props.appOpenCount > 6 &&
               (!rateUsDialogTimestamp ||
                 moment().diff(

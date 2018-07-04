@@ -159,7 +159,7 @@ handleNotification = notif => {
       screenToOpen = SCREENS.MAILBOX_SCREEN;
       break;
     case "26":
-      screenToOpen = SCREENS.EASY_LIFE_SCREEN;
+      screenToOpen = SCREENS.DEALS_SCREEN;
       break;
     case "27":
       store.dispatch(uiActions.setDykIdToOpenDirectly(notif.id));
@@ -219,8 +219,8 @@ handleDeeplink = url => {
     case "faq":
       screenToOpen = SCREENS.FAQS_SCREEN;
       break;
-    case "eazy-day":
-      screenToOpen = SCREENS.EASY_LIFE_SCREEN;
+    case "deals":
+      screenToOpen = SCREENS.DEALS_SCREEN;
       break;
     case "products":
       const productId = path.split("/").pop();

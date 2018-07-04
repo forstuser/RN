@@ -282,7 +282,9 @@ export default class AccessoriesTab extends React.Component {
 
   onItemSelect = item => {
     console.log("item: ", item);
-    Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_ACCESSORIES, { product_name: item.name });
+    Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_ACCESSORIES, {
+      product_name: item.name
+    });
     const { selectedItem } = this.state;
     const { setAccessoryCategories } = this.props;
     setAccessoryCategories(item.accessoryCategories);
@@ -348,10 +350,18 @@ export default class AccessoriesTab extends React.Component {
         if (res.result[0].accessories.length == 0) {
           endHasReached = true;
         }
+
+        const accessoryCategoryIds = accessoryCategories.map(
+          category => category.id
+        );
+
         this.setState({
           accessoryCategories: [
             ...accessoryCategories,
-            ...res.result[0].accessories
+            ...res.result[0].accessories.filter(
+              accessoryCategory =>
+                !accessoryCategoryIds.includes(accessoryCategory.id)
+            )
           ],
           endHasReached
         });
@@ -395,7 +405,7 @@ export default class AccessoriesTab extends React.Component {
     }
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
         {!showSelectBrand && !showSelectModel && !product ? (
           <View
             style={{
@@ -419,8 +429,8 @@ export default class AccessoriesTab extends React.Component {
             </Text>
           </View>
         ) : (
-            <View />
-          )}
+          <View />
+        )}
 
         {showSelectBrand ? (
           <SelectOrCreateItem
@@ -437,8 +447,8 @@ export default class AccessoriesTab extends React.Component {
             textInputPlaceholder="Enter Brand Name"
           />
         ) : (
-            <View />
-          )}
+          <View />
+        )}
         {showSelectModel ? (
           <SelectOrCreateItem
             style={{ marginTop: ITEM_SELECTOR_HEIGHT }}
@@ -457,8 +467,8 @@ export default class AccessoriesTab extends React.Component {
             textInputPlaceholder="Enter Model Name"
           />
         ) : (
-            <View />
-          )}
+          <View />
+        )}
 
         {accessoryCategories.length > 0 ? (
           <AnimatedFlatList
@@ -505,14 +515,14 @@ export default class AccessoriesTab extends React.Component {
                     No More Accessories
                   </Text>
                 ) : (
-                    <ActivityIndicator color={colors.mainBlue} animating={true} />
-                  )}
+                  <ActivityIndicator color={colors.mainBlue} animating={true} />
+                )}
               </View>
             }
           />
         ) : (
-            <View />
-          )}
+          <View />
+        )}
         <Animated.View
           style={[
             {

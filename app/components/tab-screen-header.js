@@ -146,7 +146,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#fff"
   },
-  messagesContainer: {},
+  messagesContainer: {
+    paddingRight: 5
+  },
   messagesIcon: {
     width: 24,
     height: 24,
@@ -160,8 +162,8 @@ const styles = StyleSheet.create({
     paddingRight: 3,
     borderColor: "#eee",
     borderWidth: 1,
-    top: -2,
-    right: -5,
+    top: 0,
+    right: 0,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
@@ -172,7 +174,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "transparent",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    ...Platform.select({
+      android: {
+        marginTop: -2
+      }
+    })
   },
   searchContainer: {
     height: 42,

@@ -406,14 +406,18 @@ export default class OffersModal extends React.Component {
                       }}
                     >
                       {endHasReached ? (
-                        <Text
-                          style={{
-                            textAlign: "center",
-                            color: colors.secondaryText
-                          }}
-                        >
-                          No More Offers
-                        </Text>
+                        offers.length > 0 ? (
+                          <Text
+                            style={{
+                              textAlign: "center",
+                              color: colors.secondaryText
+                            }}
+                          >
+                            No More Offers
+                          </Text>
+                        ) : (
+                          <View />
+                        )
                       ) : (
                         <ActivityIndicator
                           color={colors.mainBlue}

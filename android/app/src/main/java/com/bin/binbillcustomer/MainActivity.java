@@ -1,6 +1,5 @@
 package com.bin.binbillcustomer;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -17,10 +16,6 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 import org.devio.rn.splashscreen.SplashScreen;
 
@@ -54,19 +49,20 @@ public class MainActivity extends ReactActivity {
     mCurrentActivity = this;
     Log.d("INTENT", "intent");
     if (getIntent() != null) {
-      getFileUriAndSave(getIntent());
+      handleIntent(getIntent());
     }
   }
 
   @Override
   public void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
-    getFileUriAndSave(intent);
+    handleIntent(intent);
   }
 
-  private void getFileUriAndSave(Intent intent){
+  private void handleIntent(Intent intent){
     String action = intent.getAction();
-    if (action != null && action.equalsIgnoreCase("android.intent.action.SEND")) {
+    String type = intent.getType();
+    if (Intent.ACTION_SEND.equals(action) && type != null && type.startsWith("image/")) {
       intentForShareVia=intent;
       checkStoragePermission();
     } else {
@@ -92,7 +88,7 @@ public class MainActivity extends ReactActivity {
           REQUEST_STORAGE);
     } else {
       Log.d("INTENT", "checkStoragePermission else");
-      getShareUriAndStoreToSharedPreferences();
+      getSharedFileAndStoreUriToSharedPreferences();
     }
   }
 
@@ -102,58 +98,18 @@ public class MainActivity extends ReactActivity {
     switch (requestCode) {
     case REQUEST_STORAGE:
       if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-        getShareUriAndStoreToSharedPreferences();
+        getSharedFileAndStoreUriToSharedPreferences();
       }
     }
   }
 
-  private void getShareUriAndStoreToSharedPreferences() {
+  private void getSharedFileAndStoreUriToSharedPreferences() {
     if(intentForShareVia==null || !intentForShareVia.hasExtra(Intent.EXTRA_STREAM) || intentForShareVia.getExtras().get(Intent.EXTRA_STREAM)==null){
       return;
     }
 
-    String uriString = ((Uri) intentForShareVia.getExtras().get(Intent.EXTRA_STREAM)).toString();
-    String uri = null;
-    String displayName = null;
-    if (uriString.startsWith("content://")) {
-      uri = uriString;
-      Cursor cursor = null;
-      try {
-        cursor = getContentResolver().query(Uri.parse(uriString), null, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-          displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-        }
-      } catch (SecurityException e) {
-        e.printStackTrace();
-      } finally {
-        if (cursor != null)
-          cursor.close();
-      }
+    String uri = getImageUrlWithAuthority(this, (Uri) getIntent().getExtras().get(Intent.EXTRA_STREAM));
 
-      if (displayName == null) {
-        String[] projection = { MediaStore.MediaColumns.DATA };
-        try {
-          ContentResolver cr = getContentResolver();
-          Cursor metaCursor = cr.query(Uri.parse(uriString), projection, null, null, null);
-          if (metaCursor != null) {
-            try {
-              if (metaCursor.moveToFirst()) {
-                displayName = metaCursor.getString(0);
-              }
-            } finally {
-              metaCursor.close();
-            }
-          }
-        } catch (SecurityException e) {
-          e.printStackTrace();
-        }
-      }
-    } else if (uriString.startsWith("file://")) {
-      uri = uriString;
-    } else {
-      uri = getImageUrlWithAuthority(this, (Uri) getIntent().getExtras().get(Intent.EXTRA_STREAM));
-    }
     /**
      * Save the bitmap URI in sharedPref
      */

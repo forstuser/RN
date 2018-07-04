@@ -317,7 +317,12 @@ class AddProductScreen extends React.Component {
 
   initProduct = async pushToNextStep => {
     this.setState({ isLoading: true, product: null });
-    const { mainCategoryId, category, subCategoryId } = this.state;
+    const {
+      mainCategoryId,
+      category,
+      subCategoryId,
+      subCategories
+    } = this.state;
     try {
       const res = await initProduct(mainCategoryId, category.id);
       this.setState(
@@ -382,10 +387,17 @@ class AddProductScreen extends React.Component {
               this.pushAmountStep();
               break;
             case MAIN_CATEGORY_IDS.HOUSEHOLD:
-              this.setState({
-                numberOfStepsToShowInFooter: 4
-              });
-              this.pushSubCategoryStep(true);
+              if (subCategories.length > 0) {
+                this.setState({
+                  numberOfStepsToShowInFooter: 4
+                });
+                this.pushSubCategoryStep(true);
+              } else {
+                this.setState({
+                  numberOfStepsToShowInFooter: 3
+                });
+                this.onSubCategoryStepDone();
+              }
               break;
             case MAIN_CATEGORY_IDS.HEALTHCARE:
               if (category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
