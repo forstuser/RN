@@ -15,8 +15,7 @@ const requestPermission = async ({ permission, title, desc }) => {
       "PermissionsAndroid.RESULTS.GRANTED :",
       PermissionsAndroid.RESULTS.GRANTED
     );
-    if (granted) {
-      //=== PermissionsAndroid.RESULTS.GRANTED
+    if (granted === true || granted === PermissionsAndroid.RESULTS.GRANTED) {
       return true;
     } else if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
       setTimeout(() => {
