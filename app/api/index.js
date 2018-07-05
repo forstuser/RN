@@ -97,11 +97,8 @@ const apiRequest = async ({
     }
 
     if (r.data.status == false) {
-      Analytics.logEvent(
-        Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
-        { message: r.data.message }
-      );
       let error = new Error(r.data.message);
+      error.originalMessage = r.data.message;
       error.statusCode = 400;
       throw error;
     }
@@ -109,20 +106,25 @@ const apiRequest = async ({
     return r.data;
   } catch (e) {
     console.log("e: ", e);
-    let errorMessage = "Something went wrong, please try again!";
-    let error = new Error(errorMessage);
+    let error = new Error(
+      e.originalMessage || "Something went wrong, please try again!"
+    );
     error.statusCode = e.statusCode || 0;
+
+    if (error.statusCode == 0) {
+      error.message = "Please check internet connection";
+    }
 
     if (e.response) {
       console.log("e.response.data: ", e.response.data);
       error.statusCode = e.response.status;
-      errorMessage = e.response.data.message;
+      error.message = e.response.data.message;
     }
 
     if (error.statusCode != 401 && error.statusCode != 402) {
       Analytics.logEvent(
         Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
-        { message: errorMessage }
+        { message: error.message, statusCode: error.statusCode }
       );
     }
 
@@ -130,6 +132,7 @@ const apiRequest = async ({
       store.dispatch(loggedInUserActions.loggedInUserClearAllData());
       NavigationService.navigate(SCREENS.AUTH_STACK);
     } else if (error.statusCode == 402) {
+      error.message = "";
       NavigationService.navigate(SCREENS.ENTER_PIN_POPUP_SCREEN);
     }
     throw error;

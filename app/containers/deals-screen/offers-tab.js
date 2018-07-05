@@ -1,6 +1,7 @@
 import React from "react";
 import { View, ScrollView, FlatList, Animated } from "react-native";
-import Snackbar from "react-native-snackbar";
+
+import Snackbar from "../../utils/snackbar";
 import { Text } from "../../elements";
 import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";

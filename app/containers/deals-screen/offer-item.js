@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import moment from "moment";
-import Snackbar from "react-native-snackbar";
+import Snackbar from "../../utils/snackbar";
 import { Text, Image } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 import OfferDetailedItem from "./offer-detailed-item";

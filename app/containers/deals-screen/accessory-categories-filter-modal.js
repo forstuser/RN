@@ -7,7 +7,7 @@ import {
   Platform,
   TouchableOpacity
 } from "react-native";
-import Snackbar from "react-native-snackbar";
+
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -63,19 +63,20 @@ export default class AccessoryCategoriesFilterModal extends React.Component {
   };
 
   resetAllFilters = () => {
-    this.setState({
-      selectedAccessoryCategoryIds: []
-    }, () =>
-        this.applyFilter()
+    this.setState(
+      {
+        selectedAccessoryCategoryIds: []
+      },
+      () => this.applyFilter()
     );
-  }
+  };
 
   applyFilter = () => {
-    this.props.setSelectedAccessoryCategoryIds(this.state.selectedAccessoryCategoryIds);
+    this.props.setSelectedAccessoryCategoryIds(
+      this.state.selectedAccessoryCategoryIds
+    );
     this.hide();
-  }
-
-
+  };
 
   render() {
     const { accessoryCategories, setSelectedAccessoryCategoryIds } = this.props;
@@ -90,7 +91,7 @@ export default class AccessoryCategoriesFilterModal extends React.Component {
       >
         <View style={{ backgroundColor: "#fff", flex: 1 }}>
           <View style={styles.header}>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, flexDirection: "row" }}>
               {/* <BlueGradientBG /> */}
               <TouchableOpacity
                 style={{ paddingVertical: 10, paddingHorizontal: 15 }}
@@ -98,14 +99,29 @@ export default class AccessoryCategoriesFilterModal extends React.Component {
               >
                 <Icon name="md-arrow-back" color="#000" size={30} />
               </TouchableOpacity>
-              <Text weight="Medium" style={{ color: colors.mainText, fontSize: 20, paddingVertical: 8 }}>
+              <Text
+                weight="Medium"
+                style={{
+                  color: colors.mainText,
+                  fontSize: 20,
+                  paddingVertical: 8
+                }}
+              >
                 Category Filter
-            </Text>
+              </Text>
             </View>
             <TouchableOpacity onPress={this.resetAllFilters}>
-              <Text weight="Medium" style={{ color: colors.mainText, fontSize: 20, paddingVertical: 8, paddingRight: 10 }}>
+              <Text
+                weight="Medium"
+                style={{
+                  color: colors.mainText,
+                  fontSize: 20,
+                  paddingVertical: 8,
+                  paddingRight: 10
+                }}
+              >
                 Reset
-            </Text>
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.body}>

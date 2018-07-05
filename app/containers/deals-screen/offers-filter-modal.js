@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Switch
 } from "react-native";
-import Snackbar from "react-native-snackbar";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 
