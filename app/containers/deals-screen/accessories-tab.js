@@ -111,7 +111,8 @@ export default class AccessoriesTab extends React.Component {
                 productsArray.push({
                   type: "product",
                   name:
-                    product.product_name || product.brand_name + product.model,
+                    product.product_name ||
+                    (product.brand_name || "") + (product.model || ""),
                   imageUrl: res.result[i].image_url,
                   accessoryCategories: category.accessories,
                   ...product
