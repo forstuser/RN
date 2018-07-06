@@ -1,25 +1,27 @@
-import Snackbar from "react-native-snackbar";
+import RNSnackbar from "react-native-snackbar";
 import { colors } from "../theme";
 
-const LENGTH_SHORT = Snackbar.LENGTH_SHORT;
-const LENGTH_LONG = Snackbar.LENGTH_LONG;
-const LENGTH_INDEFINITE = Snackbar.LENGTH_INDEFINITE;
-
-const show = ({ title, duration }) => {
-  if (title) {
-    Snackbar.show({
-      title,
-      duration,
-      action: {
-        title: "OK",
-        color: colors.pinkishOrange
-      }
-    });
+const snackbar = {
+  LENGTH_SHORT: RNSnackbar.LENGTH_SHORT,
+  LENGTH_LONG: RNSnackbar.LENGTH_LONG,
+  LENGTH_INDEFINITE: RNSnackbar.LENGTH_INDEFINITE,
+  show: ({ title, duration }) => {
+    if (title) {
+      RNSnackbar.show({
+        title,
+        duration,
+        action: {
+          title: "OK",
+          color: colors.pinkishOrange
+        }
+      });
+    }
   }
 };
 
 const showSnackbar = ({ text }) => {
-  show({ title: text, duration: Snackbar.LENGTH_SHORT });
+  snackbar.show({ title: text, duration: RNSnackbar.LENGTH_SHORT });
 };
 
-export { showSnackbar, show, LENGTH_SHORT, LENGTH_LONG, LENGTH_INDEFINITE };
+export default snackbar;
+export { showSnackbar };
