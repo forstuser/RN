@@ -26,6 +26,7 @@ import InsuranceDetails from "./insurance-details";
 import AmcDetails from "./amc-details";
 import RepairDetails from "./repair-details";
 import PucDetails from "./puc-details";
+import RcDetails from "./rc-details";
 
 class Important extends React.Component {
   openAddEditWarrantyScreen = (warranty, warrantyType) => {
@@ -97,7 +98,8 @@ class Important extends React.Component {
       insuranceDetails,
       amcDetails,
       repairBills,
-      pucDetails
+      pucDetails,
+      rc_details
     } = product;
 
     return (
@@ -186,6 +188,20 @@ class Important extends React.Component {
                 product={product}
                 navigation={navigation}
                 openAddEditPucScreen={this.openAddEditPucScreen}
+              />
+            </View>
+          )}
+
+        {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
+          rc_details.length > 0 && (
+            <View collapsable={false}>
+              <Text weight="Bold" style={styles.sectionTitle}>
+                {I18n.t("product_details_screen_puc_title")}
+              </Text>
+              <RcDetails
+                product={product}
+                navigation={navigation}
+                openAddEditRcScreen={this.openAddEditRcScreen}
               />
             </View>
           )}
@@ -287,6 +303,18 @@ class Important extends React.Component {
                 onPress={() => {
                   Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_PUC);
                   this.openAddEditPucScreen(null);
+                }}
+              />
+            )}
+
+          {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
+            rc_details.length == 0 && (
+              <AddItemBtn
+                biggerSize={true}
+                text={I18n.t("product_details_screen_add_puc")}
+                onPress={() => {
+                  Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_RC);
+                  this.openAddEditRcScreen(null);
                 }}
               />
             )}
