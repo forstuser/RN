@@ -457,6 +457,7 @@ class AddProductScreen extends React.Component {
       () => {
         switch (type) {
           case EXPENSE_TYPES.AUTOMOBILE:
+          case EXPENSE_TYPES.AUTO_INSURANCE:
             this.setState(
               {
                 mainCategoryId: MAIN_CATEGORY_IDS.AUTOMOBILE
@@ -836,8 +837,8 @@ class AddProductScreen extends React.Component {
                         style={styles.activeStepIndicatorDotInnerRing}
                       />
                     ) : (
-                      <View collapsable={false} />
-                    )}
+                        <View collapsable={false} />
+                      )}
                   </View>
                 ];
               })}
@@ -845,8 +846,8 @@ class AddProductScreen extends React.Component {
             {/* <Text weight='Bold' style={{ fontSize: 12, marginTop: 10, color: colors.secondaryText }}>Purchase date helps in warranty, service and other details</Text> */}
           </View>
         ) : (
-          <View collapsable={false} />
-        )}
+            <View collapsable={false} />
+          )}
         <FinishModal
           ref={ref => (this.finishModal = ref)}
           title="Product added to your eHome."

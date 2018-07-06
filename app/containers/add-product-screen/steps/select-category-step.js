@@ -369,9 +369,18 @@ class SelectCategoryStep extends React.Component {
             id: CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC,
             name: "Other Personal Docs",
             icon: require("../../../images/main-categories/ic_personal_doc.png")
+          },
+          {
+            id: CATEGORY_IDS.PERSONAL.VISITING_CARD,
+            name: "Visiting Cards",
+            icon: require("../../../images/main-categories/ic_visiting_card.png")
           }
         ];
         break;
+    }
+
+    if (this.props.expenseType == EXPENSE_TYPES.AUTO_INSURANCE) {
+
     }
 
     this.setState(
@@ -581,8 +590,8 @@ class SelectCategoryStep extends React.Component {
                   </Text>
                 </View>
               ) : (
-                <View collapsable={false} />
-              )}
+                  <View collapsable={false} />
+                )}
               {otherOptions.length > 0 && (
                 <TouchableWithoutFeedback
                   onPress={() => this.otherOptionsModal.openModal()}
