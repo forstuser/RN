@@ -11,7 +11,7 @@ import Analytics from "../analytics";
 
 let API_BASE_URL = "https://consumer-test.binbill.com";
 if (!__DEV__) {
-  API_BASE_URL = "https://consumer.binbill.com";
+  API_BASE_URL = "https://consumer-eb.binbill.com";
 }
 export { API_BASE_URL };
 
@@ -575,6 +575,16 @@ export const getReferenceDataModels = async (categoryId, brandId) => {
   });
 
   return res.dropDowns;
+};
+
+export const getAccessoriesReferenceDataForCategory = async categoryId => {
+  return await apiRequest({
+    method: "get",
+    url: `/referencedata/accessories`,
+    queryParams: {
+      category_id: categoryId
+    }
+  });
 };
 
 export const addProduct = async ({
@@ -1178,6 +1188,81 @@ export const deleteRc = async ({ productId, rcId }) => {
   return await apiRequest({
     method: "delete",
     url: `/products/${productId}/rc/${rcId}`
+  });
+};
+
+export const updateAccessory = async ({
+  id,
+  productId,
+  jobId,
+  accessoryPartId,
+  accessoryPartName,
+  purchaseDate,
+  value,
+  warrantyId,
+  warrantyRenewalType,
+  warrantyEffectiveDate,
+  mainCategoryId,
+  categoryId
+}) => {
+  let data = {
+    job_id: jobId || undefined,
+    accessory_part_id: accessoryPartId || undefined,
+    accessory_part_name: accessoryPartName || undefined,
+    document_date: purchaseDate || undefined,
+    value: value || undefined,
+    warranty: warrantyRenewalType
+      ? {
+          id: warrantyId || undefined,
+          renewal_type: warrantyRenewalType || undefined,
+          effective_date: warrantyEffectiveDate || undefined
+        }
+      : {},
+    main_category_id: mainCategoryId || undefined,
+    category_id: categoryId || undefined
+  };
+
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/accessories/${id}`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const addAccessory = async ({
+  productId,
+  jobId,
+  accessoryPartId,
+  accessoryPartName,
+  purchaseDate,
+  value,
+  warrantyId,
+  warrantyRenewalType,
+  warrantyEffectiveDate,
+  mainCategoryId,
+  categoryId
+}) => {
+  let data = {
+    job_id: jobId || undefined,
+    accessory_part_id: accessoryPartId || undefined,
+    accessory_part_name: accessoryPartName || undefined,
+    document_date: purchaseDate || undefined,
+    value: value || undefined,
+    warranty: warrantyRenewalType
+      ? {
+          id: warrantyId || undefined,
+          renewal_type: warrantyRenewalType || undefined,
+          effective_date: warrantyEffectiveDate || undefined
+        }
+      : {},
+    main_category_id: mainCategoryId || undefined,
+    category_id: categoryId || undefined
+  };
+
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/accessories`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
   });
 };
 

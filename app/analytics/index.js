@@ -30,6 +30,7 @@ const EVENTS = {
   CLICK_ON_IMPORTANT: "productcard_important",
   CLICK_ON_ADD_WARRANTY: "productcard_add_warranty",
   CLICK_ON_ADD_INSURANCE: "productcard_add_insurance",
+  CLICK_ON_ADD_ACCESSORY: "productcard_add_accessory",
   CLICK_ON_ADD_AMC: "productcard_add_amc",
   CLICK_ON_ADD_PUC: "productcard_add_puc",
   CLICK_ON_ADD_RC: "productcard_add_rc",

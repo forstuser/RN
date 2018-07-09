@@ -792,8 +792,12 @@ export default {
   add_edit_amc_delete_amc: "Are you sure?",
   add_edit_amc_delete_amc_desc:
     "All the information and document copies related to this AMC will be deleted.",
+  add_edit_accessory_delete_accessory_desc:
+    "All the information and document copies related to this part/accessory will be deleted.",
   add_edit_amc_could_not_delete: "Couldn't delete",
   add_edit_no_dnt_delete: "No, don't Delete",
+  add_edit_accessory_unsaved_info:
+    "All the unsaved information and document copies related to this part/accessory would be deleted",
   add_edit_amc_effective_date: "Please select AMC effective date",
   add_edit_amc_save: "SAVE",
   add_edit_insurance_add_insurance: "Add Insurance",

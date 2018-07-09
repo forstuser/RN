@@ -8,27 +8,28 @@ import I18n from "../i18n";
 import { showSnackbar } from "../utils/snackbar";
 
 import {
+  getAccessoriesReferenceDataForCategory,
   getReferenceDataForCategory,
-  addInsurance,
-  updateInsurance,
-  deleteInsurance
+  addAccessory,
+  updateAccessory,
+  deleteProduct
 } from "../api";
 
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
-import InsuranceForm from "../components/expense-forms/insurance-form";
+import AccessoryForm from "../components/expense-forms/accessory-form";
 import ChangesSavedModal from "../components/changes-saved-modal";
 import HeaderBackBtn from "../components/header-nav-back-btn";
 import { colors } from "../theme";
 
-class AddEditInsurance extends React.Component {
+class AddEditAccessory extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
 
     return {
       title: params.isEditing
-        ? I18n.t("add_edit_insurance_edit_insurance")
-        : I18n.t("add_edit_insurance_add_insurance"),
+        ? "Edit Parts & Accessories"
+        : "Add Parts & Accessories",
       headerRight: params.isEditing ? (
         <Text
           onPress={params.onDeletePress}
@@ -48,14 +49,17 @@ class AddEditInsurance extends React.Component {
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
     jobId: PropTypes.number.isRequired,
-    insurance: PropTypes.shape({
+    accessory: PropTypes.shape({
       id: PropTypes.number,
-      effectiveDate: PropTypes.string,
-      provider: PropTypes.object,
-      providerName: PropTypes.string,
-      policyNo: PropTypes.string,
+      purchaseDate: PropTypes.string,
+      accessory_part_id: PropTypes.number,
       value: PropTypes.number,
-      amountInsured: PropTypes.number,
+      warrantyDetails: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          renewal_type: PropTypes.number
+        })
+      ),
       copies: PropTypes.array
     })
   };
@@ -63,15 +67,16 @@ class AddEditInsurance extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      insuranceProviders: [],
+      accessoryCategories: [],
+      renewalTypes: [],
       isLoading: false,
+      isLoadingRenewalTypes: false,
       initialValues: {
-        effectiveDate: null,
-        value: "",
-        policyNo: "",
-        amountInsured: 0,
-        providerId: null,
-        providerName: ""
+        purchaseDate: null,
+        value: 0,
+        accessoryPartId: null,
+        warrantyId: null,
+        warrantyRenewalType: null
       }
     };
   }
@@ -82,16 +87,17 @@ class AddEditInsurance extends React.Component {
       mainCategoryId,
       productId,
       jobId,
-      insurance
+      accessory
     } = this.props.navigation.state.params;
 
+    this.loadRenewalTypes();
     this.fetchCategoryData();
 
     this.props.navigation.setParams({
       onBackPress: this.onBackPress
     });
 
-    if (insurance) {
+    if (accessory) {
       this.props.navigation.setParams({
         isEditing: true,
         onDeletePress: this.onDeletePress
@@ -99,14 +105,19 @@ class AddEditInsurance extends React.Component {
 
       this.setState({
         initialValues: {
-          effectiveDate: insurance.effectiveDate
-            ? moment(insurance.effectiveDate).format("YYYY-MM-DD")
+          purchaseDate: accessory.purchaseDate
+            ? moment(accessory.purchaseDate).format("YYYY-MM-DD")
             : null,
-          value: insurance.value,
-          policyNo: insurance.policyNo,
-          amountInsured: insurance.amountInsured || 0,
-          providerId: insurance.provider ? insurance.provider.id : null,
-          providerName: ""
+          value: accessory.value,
+          accessoryPartId: accessory.accessory_part_id,
+          warrantyId:
+            accessory.warrantyDetails && accessory.warrantyDetails[0]
+              ? accessory.warrantyDetails[0].id
+              : null,
+          warrantyRenewalType:
+            accessory.warrantyDetails && accessory.warrantyDetails[0]
+              ? accessory.warrantyDetails[0].renewal_type
+              : null
         }
       });
     }
@@ -117,22 +128,25 @@ class AddEditInsurance extends React.Component {
   }
 
   onBackPress = () => {
-    let initialValues = this.state.initialValues;
-    let newData = this.insuranceForm.getFilledData();
+    if (!this.accessoryForm) {
+      this.props.navigation.goBack();
+    }
 
+    let initialValues = this.state.initialValues;
+    let newData = this.accessoryForm.getFilledData();
+    console.log("initialValues: ", initialValues, "newData: ", newData);
     if (
-      newData.effectiveDate == initialValues.effectiveDate &&
-      newData.providerId == initialValues.providerId &&
-      newData.providerName == initialValues.providerName &&
-      newData.policyNo == initialValues.policyNo &&
+      newData.purchaseDate == initialValues.purchaseDate &&
+      newData.accessoryPartId == initialValues.accessoryPartId &&
       newData.value == initialValues.value &&
-      newData.amountInsured == initialValues.amountInsured
+      newData.warrantyId == initialValues.warrantyId &&
+      newData.warrantyRenewalType == initialValues.warrantyRenewalType
     ) {
       this.props.navigation.goBack();
     } else {
       Alert.alert(
         I18n.t("add_edit_amc_are_you_sure"),
-        I18n.t("add_edit_insurance_unsaved_info"),
+        I18n.t("add_edit_accessory_unsaved_info"),
         [
           {
             text: I18n.t("add_edit_amc_go_back"),
@@ -150,20 +164,17 @@ class AddEditInsurance extends React.Component {
   };
 
   onDeletePress = () => {
-    const { productId, insurance } = this.props.navigation.state.params;
+    const { productId, accessory } = this.props.navigation.state.params;
     Alert.alert(
-      I18n.t("add_edit_insurance_delete_insurance"),
-      I18n.t("add_edit_insurance_delete_insurance_desc"),
+      I18n.t("are_you_sure"),
+      I18n.t("add_edit_accessory_delete_accessory_desc"),
       [
         {
-          text: I18n.t("add_edit_insurance_yes_delete"),
+          text: I18n.t("yes_delete"),
           onPress: async () => {
             try {
               this.setState({ isLoading: true });
-              await deleteInsurance({
-                productId,
-                insuranceId: insurance.id
-              });
+              await deleteProduct(accessory.id);
               this.props.navigation.goBack();
             } catch (e) {
               showSnackbar({
@@ -182,14 +193,30 @@ class AddEditInsurance extends React.Component {
     );
   };
 
+  loadRenewalTypes = async () => {
+    const { categoryId } = this.props.navigation.state.params;
+    this.setState({
+      isLoadingRenewalTypes: true
+    });
+    try {
+      const res = await getReferenceDataForCategory(categoryId);
+      this.setState({
+        renewalTypes: res.renewalTypes
+      });
+    } catch (error) {
+    } finally {
+      this.setState({ isLoadingRenewalTypes: false });
+    }
+  };
+
   fetchCategoryData = async () => {
     try {
       this.setState({ isLoading: true });
-      const res = await getReferenceDataForCategory(
+      const res = await getAccessoriesReferenceDataForCategory(
         this.props.navigation.state.params.categoryId
       );
       this.setState({
-        insuranceProviders: res.categories[0].insuranceProviders,
+        accessoryCategories: res.accessory_parts,
         isLoading: false
       });
     } catch (e) {
@@ -206,31 +233,34 @@ class AddEditInsurance extends React.Component {
       categoryId,
       productId,
       jobId,
-      insurance
+      accessory
     } = navigation.state.params;
     let data = {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
-      ...this.insuranceForm.getFilledData()
+      ...this.accessoryForm.getFilledData()
     };
 
-    if (!data.providerId && !data.providerName) {
+    if (
+      (!data.accessoryPartId && !data.accessoryPartName) ||
+      !data.purchaseDate
+    ) {
       return showSnackbar({
-        text: I18n.t("add_edit_insurance_provider_name")
+        text: "Please select Part category and purchase date"
       });
     }
 
     console.log("data: ", data);
-    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: "insurance" });
+    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: "accessory" });
 
     try {
       this.setState({ isLoading: true });
       if (!data.id) {
-        await addInsurance(data);
+        await addAccessory(data);
       } else {
-        await updateInsurance(data);
+        await updateAccessory(data);
       }
       this.setState({ isLoading: false });
       this.changesSavedModal.show();
@@ -249,29 +279,38 @@ class AddEditInsurance extends React.Component {
       categoryId,
       productId,
       jobId,
-      insurance
+      accessory
     } = navigation.state.params;
 
-    const { insuranceProviders, isLoading } = this.state;
+    const {
+      accessoryCategories,
+      renewalTypes,
+      isLoading,
+      isLoadingRenewalTypes
+    } = this.state;
+
+    if (isLoading || isLoadingRenewalTypes) {
+      return <LoadingOverlay visible={isLoading || isLoadingRenewalTypes} />;
+    }
+
     return (
       <ScreenContainer style={styles.container}>
-        <LoadingOverlay visible={isLoading} />
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
           navigation={this.props.navigation}
         />
         <KeyboardAwareScrollView>
-          <InsuranceForm
-            ref={ref => (this.insuranceForm = ref)}
+          <AccessoryForm
+            ref={ref => (this.accessoryForm = ref)}
             {...{
               mainCategoryId,
               categoryId,
               productId,
               jobId,
-              insurance,
-              insuranceProviders,
-              navigation,
-              isCollapsible: false
+              accessory,
+              accessoryCategories,
+              renewalTypes,
+              navigation
             }}
           />
         </KeyboardAwareScrollView>
@@ -293,4 +332,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AddEditInsurance;
+export default AddEditAccessory;
