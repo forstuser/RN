@@ -1127,6 +1127,60 @@ export const deletePuc = async ({ productId, pucId }) => {
   });
 };
 
+export const updateRc = async ({
+  id,
+  productId,
+  jobId,
+  effectiveDate,
+  renewalType,
+  rcNumber,
+  stateId
+}) => {
+  let data = {
+    job_id: jobId,
+    effective_date: effectiveDate || undefined,
+    renewal_type: renewalType || undefined,
+    document_number: rcNumber || undefined,
+    state_id: stateId || undefined
+  };
+
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/rc/${id}`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const addRc = async ({
+  productId,
+  jobId,
+  effectiveDate,
+  renewalType,
+  rcNumber,
+  stateId
+}) => {
+  let data = {
+    job_id: jobId,
+    effective_date: effectiveDate || undefined,
+    renewal_type: renewalType || undefined,
+    document_number: rcNumber || undefined,
+    state_id: stateId || undefined
+  };
+
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/rc`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const deleteRc = async ({ productId, rcId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/products/${productId}/rc/${rcId}`
+  });
+};
+
 export const fetchDoYouKnowItems = async ({ tagIds, offsetId }) => {
   let queryParams = {};
   if (offsetId) {

@@ -85,6 +85,17 @@ class Important extends React.Component {
     });
   };
 
+  openAddEditRcScreen = rc => {
+    const { product } = this.props;
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_RC_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      rc: rc
+    });
+  };
+
   render() {
     const {
       product,
@@ -104,21 +115,16 @@ class Important extends React.Component {
 
     return (
       <View collapsable={false} style={styles.container}>
-        {(product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ||
-          [
-            MAIN_CATEGORY_IDS.AUTOMOBILE,
-            MAIN_CATEGORY_IDS.ELECTRONICS,
-            MAIN_CATEGORY_IDS.FURNITURE
-          ].indexOf(product.masterCategoryId) > -1) &&
-          warrantyDetails.length > 0 && (
+        {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
+          rc_details.length > 0 && (
             <View collapsable={false}>
               <Text weight="Bold" style={styles.sectionTitle}>
-                {I18n.t("product_details_screen_warranty_title")}
+                RC
               </Text>
-              <WarrantyDetails
+              <RcDetails
                 product={product}
                 navigation={navigation}
-                openAddEditWarrantyScreen={this.openAddEditWarrantyScreen}
+                openAddEditRcScreen={this.openAddEditRcScreen}
               />
             </View>
           )}
@@ -138,6 +144,25 @@ class Important extends React.Component {
                 product={product}
                 navigation={navigation}
                 openAddEditInsuranceScreen={this.openAddEditInsuranceScreen}
+              />
+            </View>
+          )}
+
+        {(product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ||
+          [
+            MAIN_CATEGORY_IDS.AUTOMOBILE,
+            MAIN_CATEGORY_IDS.ELECTRONICS,
+            MAIN_CATEGORY_IDS.FURNITURE
+          ].indexOf(product.masterCategoryId) > -1) &&
+          warrantyDetails.length > 0 && (
+            <View collapsable={false}>
+              <Text weight="Bold" style={styles.sectionTitle}>
+                {I18n.t("product_details_screen_warranty_title")}
+              </Text>
+              <WarrantyDetails
+                product={product}
+                navigation={navigation}
+                openAddEditWarrantyScreen={this.openAddEditWarrantyScreen}
               />
             </View>
           )}
@@ -193,17 +218,15 @@ class Important extends React.Component {
           )}
 
         {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
-          rc_details.length > 0 && (
-            <View collapsable={false}>
-              <Text weight="Bold" style={styles.sectionTitle}>
-                {I18n.t("product_details_screen_puc_title")}
-              </Text>
-              <RcDetails
-                product={product}
-                navigation={navigation}
-                openAddEditRcScreen={this.openAddEditRcScreen}
-              />
-            </View>
+          rc_details.length == 0 && (
+            <AddItemBtn
+              biggerSize={true}
+              text="Add RC"
+              onPress={() => {
+                Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_RC);
+                this.openAddEditRcScreen(null);
+              }}
+            />
           )}
 
         <View collapsable={false} style={styles.addBtns}>
@@ -303,18 +326,6 @@ class Important extends React.Component {
                 onPress={() => {
                   Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_PUC);
                   this.openAddEditPucScreen(null);
-                }}
-              />
-            )}
-
-          {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
-            rc_details.length == 0 && (
-              <AddItemBtn
-                biggerSize={true}
-                text={I18n.t("product_details_screen_add_puc")}
-                onPress={() => {
-                  Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_RC);
-                  this.openAddEditRcScreen(null);
                 }}
               />
             )}

@@ -22,7 +22,7 @@ import AddItemBtn from "./add-item-btn";
 import ViewBillRow from "./view-bill-row";
 import EditOptionRow from "./edit-option-row";
 
-class PucDetails extends React.Component {
+class RcDetails extends React.Component {
   render() {
     const { product, navigation } = this.props;
     const { rc_details } = product;
@@ -74,7 +74,7 @@ class PucDetails extends React.Component {
           <View />
         )}
 
-        {rc.expiry_date ? (
+        {rc.state ? (
           <KeyValueItem keyText="State" valueText={rc.state.state_name} />
         ) : (
           <View />
@@ -92,7 +92,7 @@ class PucDetails extends React.Component {
         >
           {rc_details.map((rc, index) => <RcItem key={index} rc={rc} />)}
           <AddItemBtn
-            text={I18n.t("product_details_screen_add_rc")}
+            text="Add RC"
             onPress={() => this.props.openAddEditRcScreen(null)}
           />
         </ScrollView>
@@ -122,4 +122,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PucDetails;
+export default RcDetails;

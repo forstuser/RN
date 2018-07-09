@@ -823,10 +823,15 @@ export default {
   add_edit_puc_edit_puc: "Edit PUC",
   add_edit_puc_unsaved_info:
     "All the unsaved information and document copies related to this PUC would be deleted",
+  add_edit_rc_unsaved_info:
+    "All the unsaved information and document copies related to this RC would be deleted",
   add_edit_puc_delete_puc: "Are you sure?",
   add_edit_puc_delete_puc_desc:
     "All the information and document copies related to this PUC will be deleted.",
+  add_edit_rc_delete_rc_desc:
+    "All the information and document copies related to this RC will be deleted.",
   add_edit_puc_select_puc: "Please select 'PUC Effective Date' or 'PUC up to'",
+  add_edit_rc_required_fields: "Please enter all fields",
   add_edit_repair_add_repair: "Add Repair",
   add_edit_repair_edit_repair: "Edit Repair",
   add_edit_repair_unsaved_info:
@@ -1018,7 +1023,7 @@ export default {
   love_using_binbill: "Love using BinBill app?",
   recommend_us: `If you are happy with your Home Manager, please rate us on ${
     Platform.OS == "ios" ? "App" : "Play"
-    } store.`,
+  } store.`,
   app_pin: "App Pin",
   change: "Change",
   set_now: "Set Now",

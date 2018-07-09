@@ -37,6 +37,7 @@ import AddEditInsuranceScreen from "../containers/add-edit-insurance-screen";
 import AddEditAmcScreen from "../containers/add-edit-amc-screen";
 import AddEditRepairScreen from "../containers/add-edit-repair-screen";
 import AddEditPucScreen from "../containers/add-edit-puc-screen";
+import AddEditRcScreen from "../containers/add-edit-rc-screen";
 import EditProductBasicDetailsScreen from "../containers/edit-product-basic-details-screen";
 import AddEditPersonalDocScreen from "../containers/add-edit-personal-doc-screen";
 import EditMedicalDocScreen from "../containers/edit-medical-doc-screen";
@@ -167,6 +168,7 @@ export default createStackNavigator(
     [SCREENS.ADD_EDIT_AMC_SCREEN]: AddEditAmcScreen,
     [SCREENS.ADD_EDIT_REPAIR_SCREEN]: AddEditRepairScreen,
     [SCREENS.ADD_EDIT_PUC_SCREEN]: AddEditPucScreen,
+    [SCREENS.ADD_EDIT_RC_SCREEN]: AddEditRcScreen,
     [SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN]: EditProductBasicDetailsScreen,
     [SCREENS.ADD_EDIT_PERSONAL_DOC_SCREEN]: AddEditPersonalDocScreen,
     [SCREENS.EDIT_MEDICAL_DOCS_SCREEN]: EditMedicalDocScreen,
