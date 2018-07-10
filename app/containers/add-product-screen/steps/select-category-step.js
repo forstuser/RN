@@ -6,7 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Alert
+  Alert,
+  Platform
 } from "react-native";
 import I18n from "../../../i18n";
 import {
@@ -26,8 +27,9 @@ import {
 } from "../../../api";
 
 import SelectModal from "../../../components/select-modal";
-
+import Modal from "react-native-modal";
 import Step from "../../../components/step";
+import Icon from "react-native-vector-icons/Ionicons";
 
 class SelectCategoryStep extends React.Component {
   constructor(props) {
@@ -39,7 +41,10 @@ class SelectCategoryStep extends React.Component {
       otherOptions: [],
       genericIcon: null,
       showOtherOption: false,
-      reasons: []
+      isModalVisible: false,
+      userProducts: [],
+      reasons: [],
+      selectedCategory: null
     };
   }
   componentDidMount() {
@@ -462,7 +467,39 @@ class SelectCategoryStep extends React.Component {
     );
   };
 
+  show = () => {
+    this.setState({
+      isModalVisible: true
+    });
+  };
+
+  hide = () => {
+    this.setState({
+      isModalVisible: false
+    });
+  };
   changeOption = category => {
+    console.log("props check", category)
+    let { otherOptions } = this.state;
+    console.log("other options", otherOptions)
+    otherOptions.map((item, index) => {
+      if (item.id == category.id) {
+        if (otherOptions[index].products.length > 0) {
+          // open modal
+          this.setState({
+            isModalVisible: true,
+            selectedCategory: category,
+            userProducts: otherOptions[index].products
+          })
+        }
+        else {
+          this.freshProduct(category);
+        }
+      }
+    })
+
+  };
+  freshProduct = category => {
     let subCategoryId = null;
     if (this.props.expenseType == EXPENSE_TYPES.HEALTHCARE) {
       subCategoryId = category.id;
@@ -480,7 +517,10 @@ class SelectCategoryStep extends React.Component {
       subCategoryId
     });
     this.selectOption(category);
-  };
+  }
+  existingProduct = item => {
+    console.log(item)
+  }
 
   render() {
     const {
@@ -491,8 +531,12 @@ class SelectCategoryStep extends React.Component {
       showOtherOption,
       genericIcon,
       isLoading,
-      reasons
+      reasons,
+      isModalVisible,
+      userProducts,
+      selectedCategory
     } = this.state;
+    console.log("OOOOOOOOOO", userProducts)
     return (
       <Step
         title={title}
@@ -631,12 +675,75 @@ class SelectCategoryStep extends React.Component {
             <View collapsable={false} />
           </View>
         </View>
+        {isModalVisible && (
+          <View>
+            <Modal
+              isVisible={true}
+              useNativeDriver={true}
+              onBackButtonPress={this.hide}
+              onBackdropPress={this.hide}
+              avoidKeyboard={Platform.OS == "ios"}
+            >
+              <View style={styles.modal}>
+                <View style={{ backgroundColor: colors.pinkishOrange, padding: 5 }}>
+                  <Text weight="Bold" style={{ color: '#fff', fontSize: 17 }}>Choose Vehicle to Add Insurance</Text>
+                </View>
+                {userProducts.map((item, index) => (
+                  <TouchableWithoutFeedback
+                    onPress={() => this.existingProduct(item)}
+                  >
+                    <View key={index} style={{ flexDirection: 'row' }}>
+                      <View style={styles.optionIconContainer}>
+                        <Image
+                          style={
+                            styles.optionIcon
+                          }
+                          resizeMode="contain"
+                          source={selectedCategory.icon}
+                        />
+                      </View>
+                      <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5 }}>{item.product_name}</Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                ))}
+                <TouchableWithoutFeedback
+                  onPress={() => this.freshProduct(selectedCategory)}
+                >
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={styles.optionIconContainer}>
+                      <Image
+                        style={
+                          styles.optionIcon
+                        }
+                        resizeMode="contain"
+                        source={selectedCategory.icon}
+                      />
+                    </View>
+                    <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5 }}>Add Another Four Wheeler</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+                <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
+                  <Icon name="md-close" size={30} color={'#fff'} />
+                </TouchableOpacity>
+              </View>
+            </Modal></View>
+        )}
       </Step>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  modal: {
+    backgroundColor: "#fff",
+    borderRadius: 10
+  },
+  closeIcon: {
+    position: "absolute",
+    right: 5,
+    top: 5,
+    paddingHorizontal: 10
+  },
   body: {
     backgroundColor: "red",
     flex: 1
