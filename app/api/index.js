@@ -1823,3 +1823,48 @@ export const fetchOrderHistory = async () => {
     url: `/order/history`
   });
 };
+
+export const createFuelExpense = async ({
+  productId,
+  effectiveDate,
+  odometerReading,
+  documentNumber,
+  value,
+  fuelQuantity
+}) => {
+  const data = {
+    effective_date: effectiveDate,
+    odometer_reading: odometerReading,
+    document_number: documentNumber,
+    value,
+    fuel_quantity: fuelQuantity
+  };
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/fuel`,
+    data: JSON.parse(JSON.stringify(data))
+  });
+};
+
+export const updateFuelExpense = async ({
+  id,
+  productId,
+  effectiveDate,
+  odometerReading,
+  documentNumber,
+  value,
+  fuelQuantity
+}) => {
+  const data = {
+    effective_date: effectiveDate,
+    odometer_reading: odometerReading,
+    document_number: documentNumber,
+    value,
+    fuel_quantity: fuelQuantity
+  };
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/fuel/${id}`,
+    data: JSON.parse(JSON.stringify(data))
+  });
+};

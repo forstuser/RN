@@ -31,6 +31,7 @@ import InsightScreen from "../containers/insight-screen";
 import TransactionsScreen from "../containers/transactions-screen";
 import AddProductScreen from "../containers/add-product-screen";
 import ForceUpdateScreen from "../containers/force-update-screen";
+import AddFuelExpenseScreen from "../containers/add-fuel-expense-screen";
 import AddEditExpenseScreen from "../containers/add-edit-expense-screen";
 import AddEditWarrantyScreen from "../containers/add-edit-warranty-screen";
 import AddEditInsuranceScreen from "../containers/add-edit-insurance-screen";
@@ -163,6 +164,7 @@ export default createStackNavigator(
     [SCREENS.TRANSACTIONS_SCREEN]: TransactionsScreen,
     [SCREENS.ADD_PRODUCT_SCREEN]: AddProductScreen,
     [SCREENS.FORCE_UPDATE_SCREEN]: ForceUpdateScreen,
+    [SCREENS.ADD_FUEL_EXPENSE_SCREEN]: AddFuelExpenseScreen,
     [SCREENS.ADD_EDIT_EXPENSE_SCREEN]: AddEditExpenseScreen,
     [SCREENS.ADD_EDIT_WARRANTY_SCREEN]: AddEditWarrantyScreen,
     [SCREENS.ADD_EDIT_INSURANCE_SCREEN]: AddEditInsuranceScreen,

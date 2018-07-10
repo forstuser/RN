@@ -31,6 +31,8 @@ const viewBillIcon = require("../../../images/ic_ehome_view_bill.png");
 import ReviewModal from "./review-modal";
 import ShareModal from "./share-modal";
 import ImageModal from "./image-modal";
+import FuelExpense from "./fuel-expense";
+
 import PriceEditModal from "./price-edit-modal";
 import ViewBillButton from "../view-bill-button";
 import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
@@ -152,7 +154,7 @@ class Header extends Component {
 
         <View style={styles.lowerHalf}>
           <View style={styles.lowerHalfInner}>
-            <View style={{ flexDirection: "row", flex: 1 }}>
+            <View style={{ flexDirection: "row", flex: 1, padding: 5 }}>
               <View style={{ flexDirection: "column", flex: 1 }}>
                 <Text weight="Bold" style={styles.name}>
                   {productName}
@@ -273,6 +275,7 @@ class Header extends Component {
               </View>
             </View>
             {/* 3 buttons (view bill,share and rating) end */}
+            <FuelExpense product={product} navigation={navigation} />
             <View style={styles.tabs}>
               {tabNameArray.map((tab, index) => {
                 if (!showCustomerCareTab && index == 0) {
@@ -378,7 +381,7 @@ const styles = StyleSheet.create({
   },
   lowerHalfInner: {
     backgroundColor: "#fff",
-    padding: 5,
+    padding: 0,
     justifyContent: "space-between",
     paddingBottom: 0,
     paddingTop: 0,
@@ -502,4 +505,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);
