@@ -31,12 +31,15 @@ import InsightScreen from "../containers/insight-screen";
 import TransactionsScreen from "../containers/transactions-screen";
 import AddProductScreen from "../containers/add-product-screen";
 import ForceUpdateScreen from "../containers/force-update-screen";
+import AddFuelExpenseScreen from "../containers/add-fuel-expense-screen";
 import AddEditExpenseScreen from "../containers/add-edit-expense-screen";
 import AddEditWarrantyScreen from "../containers/add-edit-warranty-screen";
 import AddEditInsuranceScreen from "../containers/add-edit-insurance-screen";
 import AddEditAmcScreen from "../containers/add-edit-amc-screen";
 import AddEditRepairScreen from "../containers/add-edit-repair-screen";
 import AddEditPucScreen from "../containers/add-edit-puc-screen";
+import AddEditRcScreen from "../containers/add-edit-rc-screen";
+import AddEditAccessoryScreen from "../containers/add-edit-accessory-screen";
 import EditProductBasicDetailsScreen from "../containers/edit-product-basic-details-screen";
 import AddEditPersonalDocScreen from "../containers/add-edit-personal-doc-screen";
 import EditMedicalDocScreen from "../containers/edit-medical-doc-screen";
@@ -161,12 +164,15 @@ export default createStackNavigator(
     [SCREENS.TRANSACTIONS_SCREEN]: TransactionsScreen,
     [SCREENS.ADD_PRODUCT_SCREEN]: AddProductScreen,
     [SCREENS.FORCE_UPDATE_SCREEN]: ForceUpdateScreen,
+    [SCREENS.ADD_FUEL_EXPENSE_SCREEN]: AddFuelExpenseScreen,
     [SCREENS.ADD_EDIT_EXPENSE_SCREEN]: AddEditExpenseScreen,
     [SCREENS.ADD_EDIT_WARRANTY_SCREEN]: AddEditWarrantyScreen,
     [SCREENS.ADD_EDIT_INSURANCE_SCREEN]: AddEditInsuranceScreen,
     [SCREENS.ADD_EDIT_AMC_SCREEN]: AddEditAmcScreen,
     [SCREENS.ADD_EDIT_REPAIR_SCREEN]: AddEditRepairScreen,
     [SCREENS.ADD_EDIT_PUC_SCREEN]: AddEditPucScreen,
+    [SCREENS.ADD_EDIT_RC_SCREEN]: AddEditRcScreen,
+    [SCREENS.ADD_EDIT_ACCESSORY_SCREEN]: AddEditAccessoryScreen,
     [SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN]: EditProductBasicDetailsScreen,
     [SCREENS.ADD_EDIT_PERSONAL_DOC_SCREEN]: AddEditPersonalDocScreen,
     [SCREENS.EDIT_MEDICAL_DOCS_SCREEN]: EditMedicalDocScreen,

@@ -50,6 +50,7 @@ class ContactFields extends React.Component {
       contacts
     });
   };
+
   render() {
     const { placeholder, keyboardType = "numeric", style = {} } = this.props;
     return (

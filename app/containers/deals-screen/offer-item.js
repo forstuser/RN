@@ -39,6 +39,7 @@ export default class OfferItem extends React.Component {
       Linking.openURL(item.promo_link);
     }
   };
+  
   render() {
     const { item, categoryImageUrl } = this.props;
     const { isModalVisible } = this.state;

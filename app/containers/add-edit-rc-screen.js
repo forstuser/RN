@@ -1,34 +1,34 @@
 import React from "react";
 import { StyleSheet, View, Alert, Platform, BackHandler } from "react-native";
 import PropTypes from "prop-types";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import moment from "moment";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import Analytics from "../analytics";
-import I18n from "../i18n";
-import { showSnackbar } from "../utils/snackbar";
 
 import {
   getReferenceDataForCategory,
-  addInsurance,
-  updateInsurance,
-  deleteInsurance
+  addRc,
+  updateRc,
+  deleteRc,
+  fetchStates
 } from "../api";
+import I18n from "../i18n";
+import { showSnackbar } from "../utils/snackbar";
 
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
-import InsuranceForm from "../components/expense-forms/insurance-form";
+import RcForm from "../components/expense-forms/rc-form";
 import ChangesSavedModal from "../components/changes-saved-modal";
 import HeaderBackBtn from "../components/header-nav-back-btn";
 import { colors } from "../theme";
 
-class AddEditInsurance extends React.Component {
+class AddEditRC extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
 
     return {
-      title: params.isEditing
-        ? I18n.t("add_edit_insurance_edit_insurance")
-        : I18n.t("add_edit_insurance_add_insurance"),
+      title: params.isEditing ? "Edit RC details" : "Add RC",
       headerRight: params.isEditing ? (
         <Text
           onPress={params.onDeletePress}
@@ -45,17 +45,17 @@ class AddEditInsurance extends React.Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     mainCategoryId: PropTypes.number.isRequired,
-    categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
     jobId: PropTypes.number.isRequired,
-    insurance: PropTypes.shape({
+    rc: PropTypes.shape({
       id: PropTypes.number,
-      effectiveDate: PropTypes.string,
-      provider: PropTypes.object,
-      providerName: PropTypes.string,
-      policyNo: PropTypes.string,
-      value: PropTypes.number,
-      amountInsured: PropTypes.number,
+      effective_date: PropTypes.string,
+      renewal_type: PropTypes.number,
+      document_number: PropTypes.string,
+      state: PropTypes.shape({
+        id: PropTypes.number,
+        state_name: PropTypes.string
+      }),
       copies: PropTypes.array
     })
   };
@@ -63,35 +63,36 @@ class AddEditInsurance extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      insuranceProviders: [],
+      isLoadingRenewalTypes: false,
       isLoading: false,
+      renewalTypes: [],
+      states: [],
       initialValues: {
         effectiveDate: null,
-        value: "",
-        policyNo: "",
-        amountInsured: 0,
-        providerId: null,
-        providerName: ""
+        renewalType: 18, // 15 years
+        rcNumber: "",
+        stateId: null
       }
     };
   }
 
   async componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
-    const {
-      mainCategoryId,
-      productId,
-      jobId,
-      insurance
-    } = this.props.navigation.state.params;
-
-    this.fetchCategoryData();
-
     this.props.navigation.setParams({
       onBackPress: this.onBackPress
     });
 
-    if (insurance) {
+    const {
+      mainCategoryId,
+      productId,
+      jobId,
+      rc
+    } = this.props.navigation.state.params;
+
+    this.loadRenewalTypes();
+    this.loadStates();
+
+    if (rc) {
       this.props.navigation.setParams({
         isEditing: true,
         onDeletePress: this.onDeletePress
@@ -99,14 +100,12 @@ class AddEditInsurance extends React.Component {
 
       this.setState({
         initialValues: {
-          effectiveDate: insurance.effectiveDate
-            ? moment(insurance.effectiveDate).format("YYYY-MM-DD")
+          effectiveDate: rc.effective_date
+            ? moment(rc.effective_date).format("YYYY-MM-DD")
             : null,
-          value: insurance.value,
-          policyNo: insurance.policyNo,
-          amountInsured: insurance.amountInsured || 0,
-          providerId: insurance.provider ? insurance.provider.id : null,
-          providerName: ""
+          rcNumber: rc.document_number || "",
+          renewalType: rc.renewal_type || null,
+          stateId: rc.state ? rc.state.id : null
         }
       });
     }
@@ -118,21 +117,21 @@ class AddEditInsurance extends React.Component {
 
   onBackPress = () => {
     let initialValues = this.state.initialValues;
-    let newData = this.insuranceForm.getFilledData();
+    let newData = this.rcForm.getFilledData();
+
+    console.log("initialValues: ", initialValues, "newData: ", newData);
 
     if (
       newData.effectiveDate == initialValues.effectiveDate &&
-      newData.providerId == initialValues.providerId &&
-      newData.providerName == initialValues.providerName &&
-      newData.policyNo == initialValues.policyNo &&
-      newData.value == initialValues.value &&
-      newData.amountInsured == initialValues.amountInsured
+      newData.rcNumber == initialValues.rcNumber &&
+      newData.renewalType == initialValues.renewalType &&
+      newData.stateId == initialValues.stateId
     ) {
       this.props.navigation.goBack();
     } else {
       Alert.alert(
         I18n.t("add_edit_amc_are_you_sure"),
-        I18n.t("add_edit_insurance_unsaved_info"),
+        I18n.t("add_edit_rc_unsaved_info"),
         [
           {
             text: I18n.t("add_edit_amc_go_back"),
@@ -146,24 +145,22 @@ class AddEditInsurance extends React.Component {
         ]
       );
     }
+
     return true;
   };
 
   onDeletePress = () => {
-    const { productId, insurance } = this.props.navigation.state.params;
+    const { productId, rc } = this.props.navigation.state.params;
     Alert.alert(
-      I18n.t("add_edit_insurance_delete_insurance"),
-      I18n.t("add_edit_insurance_delete_insurance_desc"),
+      I18n.t("add_edit_puc_delete_puc"),
+      I18n.t("add_edit_rc_delete_rc_desc"),
       [
         {
           text: I18n.t("add_edit_insurance_yes_delete"),
           onPress: async () => {
             try {
               this.setState({ isLoading: true });
-              await deleteInsurance({
-                productId,
-                insuranceId: insurance.id
-              });
+              await deleteRc({ productId, rcId: rc.id });
               this.props.navigation.goBack();
             } catch (e) {
               showSnackbar({
@@ -182,20 +179,34 @@ class AddEditInsurance extends React.Component {
     );
   };
 
-  fetchCategoryData = async () => {
+  loadStates = async () => {
+    this.setState({
+      isLoading: true
+    });
     try {
-      this.setState({ isLoading: true });
-      const res = await getReferenceDataForCategory(
-        this.props.navigation.state.params.categoryId
-      );
+      const res = await fetchStates();
       this.setState({
-        insuranceProviders: res.categories[0].insuranceProviders,
-        isLoading: false
+        states: res.states
       });
-    } catch (e) {
-      showSnackbar({
-        text: e.message
+    } catch (error) {
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  loadRenewalTypes = async () => {
+    const { categoryId } = this.props.navigation.state.params;
+    this.setState({
+      isLoadingRenewalTypes: true
+    });
+    try {
+      const res = await getReferenceDataForCategory(categoryId);
+      this.setState({
+        renewalTypes: res.renewalTypes
       });
+    } catch (error) {
+    } finally {
+      this.setState({ isLoadingRenewalTypes: false });
     }
   };
 
@@ -206,31 +217,34 @@ class AddEditInsurance extends React.Component {
       categoryId,
       productId,
       jobId,
-      insurance
+      rc
     } = navigation.state.params;
+
     let data = {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
-      ...this.insuranceForm.getFilledData()
+      ...this.rcForm.getFilledData()
     };
 
-    if (!data.providerId && !data.providerName) {
+    if (
+      !data.effectiveDate &&
+      !data.rcNumber &&
+      !data.renewalType &&
+      !data.stateId
+    ) {
       return showSnackbar({
-        text: I18n.t("add_edit_insurance_provider_name")
+        text: I18n.t("add_edit_rc_required_fields")
       });
     }
-
-    console.log("data: ", data);
-    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: "insurance" });
-
+    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: "rc" });
     try {
       this.setState({ isLoading: true });
       if (!data.id) {
-        await addInsurance(data);
+        await addRc(data);
       } else {
-        await updateInsurance(data);
+        await updateRc(data);
       }
       this.setState({ isLoading: false });
       this.changesSavedModal.show();
@@ -244,32 +258,43 @@ class AddEditInsurance extends React.Component {
 
   render() {
     const { navigation } = this.props;
+
     const {
       mainCategoryId,
       categoryId,
       productId,
       jobId,
-      insurance
+      rc
     } = navigation.state.params;
 
-    const { insuranceProviders, isLoading } = this.state;
+    const {
+      isLoadingRenewalTypes,
+      isLoading,
+      renewalTypes,
+      states
+    } = this.state;
+
+    if (isLoadingRenewalTypes || isLoading) {
+      return <LoadingOverlay visible={true} />;
+    }
+
     return (
       <ScreenContainer style={styles.container}>
-        <LoadingOverlay visible={isLoading} />
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
           navigation={this.props.navigation}
         />
         <KeyboardAwareScrollView>
-          <InsuranceForm
-            ref={ref => (this.insuranceForm = ref)}
+          <RcForm
+            ref={ref => (this.rcForm = ref)}
+            renewalTypes={renewalTypes}
+            states={states}
             {...{
               mainCategoryId,
               categoryId,
               productId,
               jobId,
-              insurance,
-              insuranceProviders,
+              rc,
               navigation,
               isCollapsible: false
             }}
@@ -293,4 +318,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AddEditInsurance;
+export default AddEditRC;

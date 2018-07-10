@@ -9,9 +9,9 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-let API_BASE_URL = "https://consumer.binbill.com";
+let API_BASE_URL = "https://consumer-test.binbill.com";
 if (!__DEV__) {
-  API_BASE_URL = "https://consumer.binbill.com";
+  API_BASE_URL = "https://consumer-eb.binbill.com";
 }
 export { API_BASE_URL };
 
@@ -577,6 +577,16 @@ export const getReferenceDataModels = async (categoryId, brandId) => {
   return res.dropDowns;
 };
 
+export const getAccessoriesReferenceDataForCategory = async categoryId => {
+  return await apiRequest({
+    method: "get",
+    url: `/referencedata/accessories`,
+    queryParams: {
+      category_id: categoryId
+    }
+  });
+};
+
 export const addProduct = async ({
   productName = "",
   mainCategoryId = undefined,
@@ -1124,6 +1134,135 @@ export const deletePuc = async ({ productId, pucId }) => {
   return await apiRequest({
     method: "delete",
     url: `/products/${productId}/pucs/${pucId}`
+  });
+};
+
+export const updateRc = async ({
+  id,
+  productId,
+  jobId,
+  effectiveDate,
+  renewalType,
+  rcNumber,
+  stateId
+}) => {
+  let data = {
+    job_id: jobId,
+    effective_date: effectiveDate || undefined,
+    renewal_type: renewalType || undefined,
+    document_number: rcNumber || undefined,
+    state_id: stateId || undefined
+  };
+
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/rc/${id}`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const addRc = async ({
+  productId,
+  jobId,
+  effectiveDate,
+  renewalType,
+  rcNumber,
+  stateId
+}) => {
+  let data = {
+    job_id: jobId,
+    effective_date: effectiveDate || undefined,
+    renewal_type: renewalType || undefined,
+    document_number: rcNumber || undefined,
+    state_id: stateId || undefined
+  };
+
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/rc`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const deleteRc = async ({ productId, rcId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/products/${productId}/rc/${rcId}`
+  });
+};
+
+export const updateAccessory = async ({
+  id,
+  productId,
+  jobId,
+  accessoryPartId,
+  accessoryPartName,
+  purchaseDate,
+  value,
+  warrantyId,
+  warrantyRenewalType,
+  warrantyEffectiveDate,
+  mainCategoryId,
+  categoryId
+}) => {
+  let data = {
+    job_id: jobId || undefined,
+    accessory_part_id: accessoryPartId || undefined,
+    accessory_part_name: accessoryPartName || undefined,
+    document_date: purchaseDate || undefined,
+    value: value || undefined,
+    warranty: warrantyRenewalType
+      ? {
+          id: warrantyId || undefined,
+          renewal_type: warrantyRenewalType || undefined,
+          effective_date: warrantyEffectiveDate || undefined
+        }
+      : {},
+    main_category_id: mainCategoryId || undefined,
+    category_id: categoryId || undefined
+  };
+
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/accessories/${id}`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const addAccessory = async ({
+  productId,
+  jobId,
+  accessoryPartId,
+  accessoryPartName,
+  purchaseDate,
+  value,
+  warrantyId,
+  warrantyRenewalType,
+  warrantyEffectiveDate,
+  mainCategoryId,
+  categoryId
+}) => {
+  let data = {
+    job_id: jobId || undefined,
+    accessory_part_id: accessoryPartId || undefined,
+    accessory_part_name: accessoryPartName || undefined,
+    document_date: purchaseDate || undefined,
+    value: value || undefined,
+    warranty: warrantyRenewalType
+      ? {
+          id: warrantyId || undefined,
+          renewal_type: warrantyRenewalType || undefined,
+          effective_date: warrantyEffectiveDate || undefined
+        }
+      : {},
+    main_category_id: mainCategoryId || undefined,
+    category_id: categoryId || undefined
+  };
+
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/accessories`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
   });
 };
 
@@ -1682,5 +1821,50 @@ export const fetchOrderHistory = async () => {
   return await apiRequest({
     method: "get",
     url: `/order/history`
+  });
+};
+
+export const createFuelExpense = async ({
+  productId,
+  effectiveDate,
+  odometerReading,
+  documentNumber,
+  value,
+  fuelQuantity
+}) => {
+  const data = {
+    effective_date: effectiveDate,
+    odometer_reading: odometerReading,
+    document_number: documentNumber,
+    value,
+    fuel_quantity: fuelQuantity
+  };
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/fuel`,
+    data: JSON.parse(JSON.stringify(data))
+  });
+};
+
+export const updateFuelExpense = async ({
+  id,
+  productId,
+  effectiveDate,
+  odometerReading,
+  documentNumber,
+  value,
+  fuelQuantity
+}) => {
+  const data = {
+    effective_date: effectiveDate,
+    odometer_reading: odometerReading,
+    document_number: documentNumber,
+    value,
+    fuel_quantity: fuelQuantity
+  };
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/fuel/${id}`,
+    data: JSON.parse(JSON.stringify(data))
   });
 };

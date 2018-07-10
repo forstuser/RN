@@ -334,6 +334,7 @@ class PersonalDoc extends React.Component {
                   underlineColorAndroid="transparent"
                   ref={ref => (this.phoneRef = ref)}
                   value={phone}
+                  maxLength={16}
                   placeholder={I18n.t("add_edit_personal_doc_phone_number")}
                 />
                 <ContactFields
