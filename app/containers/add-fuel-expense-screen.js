@@ -7,12 +7,17 @@ import Analytics from "../analytics";
 import I18n from "../i18n";
 import { showSnackbar } from "../utils/snackbar";
 
-import { createFuelExpense, updateFuelExpense } from "../api";
+import {
+  createFuelExpense,
+  updateFuelExpense,
+  deleteFuelExpense
+} from "../api";
 
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
 import AccessoryForm from "../components/expense-forms/accessory-form";
 import ChangesSavedModal from "../components/changes-saved-modal";
+import SelectModal from "../components/select-modal";
 import HeaderBackBtn from "../components/header-nav-back-btn";
 import { colors } from "../theme";
 
@@ -21,10 +26,16 @@ import CustomDatePicker from "../components/form-elements/date-picker";
 import CustomTextInput from "../components/form-elements/text-input";
 import UploadDoc from "../components/form-elements/upload-doc";
 
+const FUEL_TYPES_ARRAY = [
+  { id: FUEL_TYPES.PETROL, name: "Petrol" },
+  { id: FUEL_TYPES.DIESEL, name: "Diesel" },
+  { id: FUEL_TYPES.CNG, name: "CNG" },
+  { id: FUEL_TYPES.LPG, name: "LPG" }
+];
 class AddFuelExpenseScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
-
+    console.log("params: ", params);
     return {
       title: "Refueling & Mileage Calculation",
       headerRight: params.isEditing ? (
@@ -65,10 +76,13 @@ class AddFuelExpenseScreen extends React.Component {
 
   async componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
-    const { product } = this.props.navigation.state.params;
+    const { product, fuelExpense } = this.props.navigation.state.params;
+    let isEditing = false;
+
     this.props.navigation.setParams({
       onBackPress: this.onBackPress,
-      onDeletePress: this.onDeletePress
+      onDeletePress: this.onDeletePress,
+      isEditing: !!fuelExpense
     });
   }
 
@@ -85,21 +99,26 @@ class AddFuelExpenseScreen extends React.Component {
   };
 
   onDeletePress = () => {
-    const { product } = this.props.navigation.state.params;
+    const { navigation } = this.props;
+    const { product } = navigation.state.params;
+
     Alert.alert(
-      I18n.t("add_edit_puc_delete_puc"),
-      I18n.t("add_edit_rc_delete_rc_desc"),
+      I18n.t("are_you_sure"),
+      I18n.t("add_edit_fuel_delete_fuel_desc"),
       [
         {
           text: I18n.t("add_edit_insurance_yes_delete"),
           onPress: async () => {
             try {
               this.setState({ isLoading: true });
-              await deleteRc({ productId, rcId: rc.id });
+              await deleteFuelExpense({
+                productId: product.id,
+                id: this.state.id
+              });
               this.props.navigation.goBack();
             } catch (e) {
               showSnackbar({
-                text: I18n.t("add_edit_amc_could_not_delete")
+                text: "Some error occurred"
               });
               this.setState({ isLoading: false });
             }
@@ -174,6 +193,7 @@ class AddFuelExpenseScreen extends React.Component {
       value,
       fuelQuantity,
       copies,
+      fuelType,
       isLoading
     } = this.state;
 
@@ -195,10 +215,30 @@ class AddFuelExpenseScreen extends React.Component {
           />
 
           <CustomTextInput
-            placeholder="Odometer Reading"
+            placeholder="Odometer Reading (Kms)"
             value={odometerReading}
             onChangeText={odometerReading => this.setState({ odometerReading })}
             keyboardType="numeric"
+          />
+
+          <SelectModal
+            dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+            placeholder="Select Fuel Type"
+            placeholderRenderer={({ placeholder }) => (
+              <View>
+                <Text weight="Medium" style={{ color: colors.secondaryText }}>
+                  {placeholder}
+                </Text>
+              </View>
+            )}
+            selectedOption={FUEL_TYPES_ARRAY.find(
+              fuelTypeItem => fuelTypeItem.id == fuelType
+            )}
+            options={FUEL_TYPES_ARRAY}
+            onOptionSelect={selectedFuelType => {
+              this.setState({ fuelType: selectedFuelType.id });
+            }}
+            hideAddNew={true}
           />
 
           <CustomTextInput
@@ -206,6 +246,11 @@ class AddFuelExpenseScreen extends React.Component {
             value={fuelQuantity}
             onChangeText={fuelQuantity => this.setState({ fuelQuantity })}
             keyboardType="numeric"
+            rightSideText={
+              fuelType == FUEL_TYPES.PETROL || fuelType == FUEL_TYPES.DIESEL
+                ? "litres"
+                : "Kg"
+            }
           />
 
           <CustomTextInput

@@ -1868,3 +1868,13 @@ export const updateFuelExpense = async ({
     data: JSON.parse(JSON.stringify(data))
   });
 };
+
+export const deleteFuelExpense = async ({
+  id,
+  productId
+}) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/products/${productId}/fuel/${id}`
+  });
+};

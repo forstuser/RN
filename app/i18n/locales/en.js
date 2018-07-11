@@ -834,6 +834,8 @@ export default {
     "All the information and document copies related to this PUC will be deleted.",
   add_edit_rc_delete_rc_desc:
     "All the information and document copies related to this RC will be deleted.",
+  add_edit_fuel_delete_fuel_desc:
+    "All the information and document copies related to this fuel expense will be deleted.",
   add_edit_puc_select_puc: "Please select 'PUC Effective Date' or 'PUC up to'",
   add_edit_rc_required_fields: "Please enter all fields",
   add_edit_repair_add_repair: "Add Repair",
