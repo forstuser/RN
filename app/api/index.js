@@ -1869,12 +1869,19 @@ export const updateFuelExpense = async ({
   });
 };
 
-export const deleteFuelExpense = async ({
-  id,
-  productId
-}) => {
+export const deleteFuelExpense = async ({ id, productId }) => {
   return await apiRequest({
     method: "delete",
     url: `/products/${productId}/fuel/${id}`
+  });
+};
+
+export const getEhomeProducts = async ({ type = 1, categoryIds = [] }) => {
+  return await apiRequest({
+    method: "get",
+    url: `/consumer/ehome/products/${type}`,
+    queryParams: {
+      category_id: categoryIds.join(",")
+    }
   });
 };

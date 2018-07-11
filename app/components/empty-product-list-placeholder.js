@@ -7,7 +7,8 @@ import {
   SCREENS,
   MAIN_CATEGORY_IDS,
   CATEGORY_IDS,
-  EXPENSE_TYPES
+  EXPENSE_TYPES,
+  PRODUCT_TYPES
 } from "../constants";
 import Analytics from "../analytics";
 
