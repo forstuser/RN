@@ -8,7 +8,7 @@ import {
   Dimensions
 } from "react-native";
 import _ from "lodash";
-import { initProduct, updateProduct } from "../../api";
+import { initProduct, updateProduct, getReferenceDataForCategory } from "../../api";
 
 import { Text, ScreenContainer } from "../../elements";
 
@@ -582,11 +582,30 @@ class AddProductScreen extends React.Component {
     });
   };
 
-  onCategorySelect = ({ category, subCategoryId, pushToNext }) => {
-    this.setState({ category, subCategoryId }, () => {
-      this.initProduct(pushToNext);
+  onCategorySelect = ({ category, subCategoryId, product, pushToNext }) => {
+    this.setState({ category, subCategoryId, product }, async () => {
+      if (product) {
+        console.log("category is ", category)
+        try {
+          const res = await getReferenceDataForCategory(
+            category.id
+          );
+          this.setState({
+            insuranceProviders: res.categories[0].insuranceProviders,
+          }, () => {
+            this.pushInsuranceProviderStep();
+          });
+        } catch (e) {
+          showSnackbar({
+            text: e.message
+          });
+        }
+      } else {
+        this.initProduct(pushToNext);
+      }
     });
   };
+
 
   onAmountStepDone = product => {
     const { mainCategoryId, category, subCategories } = this.state;

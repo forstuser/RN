@@ -384,10 +384,6 @@ class SelectCategoryStep extends React.Component {
         break;
     }
 
-    if (this.props.expenseType == EXPENSE_TYPES.AUTO_INSURANCE) {
-
-    }
-
     this.setState(
       {
         title,
@@ -482,9 +478,10 @@ class SelectCategoryStep extends React.Component {
     console.log("props check", category)
     let { otherOptions } = this.state;
     console.log("other options", otherOptions)
+    console.log("Main cat id", this.props.mainCategoryId);
     otherOptions.map((item, index) => {
       if (item.id == category.id) {
-        if (otherOptions[index].products.length > 0) {
+        if (otherOptions[index].products.length > 0 && this.props.expenseType == EXPENSE_TYPES.AUTO_INSURANCE) {
           // open modal
           this.setState({
             isModalVisible: true,
@@ -519,7 +516,10 @@ class SelectCategoryStep extends React.Component {
     this.selectOption(category);
   }
   existingProduct = item => {
-    console.log(item)
+    this.props.onCategorySelect({
+      category: this.state.selectedCategory,
+      product: item
+    });
   }
 
   render() {
@@ -536,7 +536,6 @@ class SelectCategoryStep extends React.Component {
       userProducts,
       selectedCategory
     } = this.state;
-    console.log("OOOOOOOOOO", userProducts)
     return (
       <Step
         title={title}
