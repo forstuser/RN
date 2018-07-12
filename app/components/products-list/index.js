@@ -11,6 +11,7 @@ import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
 import { colors } from "../../theme";
 import ProductListItem from "../product-list-item";
+import ErrorOverlay from "../../components/error-overlay";
 import EmptyProductListPlaceholder from "./empty-product-list-placeholder";
 
 // destructuring not working for some reasons
@@ -24,8 +25,13 @@ const ProductsList = props => {
     onEndReachedThreshold = 50,
     onRefresh,
     mainCategoryId,
-    category
+    category,
+    error = {}
   } = props;
+
+  if (error) {
+    return <ErrorOverlay error={error} onRetryPress={onRefresh} />;
+  }
 
   const renderProductItem = ({ item }) => (
     <View

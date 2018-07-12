@@ -15,7 +15,7 @@ if (!__DEV__) {
 }
 export { API_BASE_URL };
 
-const APP_VERSION_FOR_API = 20007;
+const APP_VERSION_FOR_API = 20008;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
@@ -1876,11 +1876,16 @@ export const deleteFuelExpense = async ({ id, productId }) => {
   });
 };
 
-export const getEhomeProducts = async ({ type = 1, categoryIds = [] }) => {
+export const getEhomeProducts = async ({
+  type = 1,
+  categoryIds = [],
+  offset = 0
+}) => {
   return await apiRequest({
     method: "get",
     url: `/consumer/ehome/products/${type}`,
     queryParams: {
+      offset,
       category_id: categoryIds.join(",")
     }
   });

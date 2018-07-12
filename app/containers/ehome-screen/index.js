@@ -27,8 +27,9 @@ import TabSearchHeader from "../../components/tab-screen-header";
 import Analytics from "../../analytics";
 import { SCREENS, PRODUCT_TYPES } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
-
+import FilterModal from "./filter-modal";
 import BlueGradientBG from "../../components/blue-gradient-bg";
+import SmallDot from "../../components/small-dot";
 
 const ehomeIcon = require("../../images/ehome.png");
 
@@ -45,15 +46,35 @@ class EhomeScreen extends Component {
     super(props);
     this.state = {
       activeTabIndex: 0,
-      products: [],
-      isLoadingProducts: false,
-      productsError: null,
-      expenses: [],
-      isLoadingExpenses: false,
-      expensesError: null,
-      documents: [],
-      isLoadingDocuments: false,
-      documentsError: null
+      tabs: [
+        {
+          type: PRODUCT_TYPES.PRODUCT,
+          name: "Products",
+          products: [],
+          isLoading: false,
+          error: null,
+          mainCategories: [],
+          selectedCategoryIds: []
+        },
+        {
+          type: PRODUCT_TYPES.EXPENSE,
+          name: "Expenses",
+          products: [],
+          isLoading: false,
+          error: null,
+          mainCategories: [],
+          selectedCategoryIds: []
+        },
+        {
+          type: PRODUCT_TYPES.DOCUMENT,
+          name: "Documents",
+          products: [],
+          isLoading: false,
+          error: null,
+          mainCategories: [],
+          selectedCategoryIds: []
+        }
+      ]
     };
   }
 
@@ -64,126 +85,57 @@ class EhomeScreen extends Component {
     this.getProductsFirstPage(2);
   }
 
+  updateTab = (index, newState) => {
+    const { tabs } = this.state;
+    tabs[index] = { ...tabs[index], ...newState };
+    this.setState(() => ({ tabs }));
+  };
+
   onTabChange = ({ i }) => {
     this.setState({ activeTabIndex: i });
   };
 
   getProductsFirstPage = tabIndex => {
-    const newState = {
-      products: this.state.products,
-      expenses: this.state.expenses,
-      documents: this.state.documents
-    };
-    switch (tabIndex) {
-      case 0:
-        newState.products = [];
-        break;
-      case 1:
-        newState.expenses = [];
-        break;
-      case 2:
-        newState.documents = [];
-        break;
-    }
-
-    this.setState(newState, () => {
-      this.getProducts(tabIndex);
-    });
+    this.getProducts(tabIndex, true);
   };
-  getProducts = async tabIndex => {
-    const { products, expenses, documents } = this.state;
+
+  getProducts = async (tabIndex, isFirstPage = false) => {
+    this.updateTab(tabIndex, {
+      error: null,
+      isLoading: true
+    });
+
     try {
-      switch (tabIndex) {
-        case 0:
-          this.setState({
-            productsError: null,
-            isLoadingProducts: true
-          });
-          break;
-        case 1:
-          this.setState({
-            expensesError: null,
-            isLoadingExpenses: true
-          });
-          break;
-        case 2:
-          this.setState({
-            documentsError: null,
-            isLoadingDocuments: true
-          });
-          break;
+      const { tabs } = this.state;
+      const tab = tabs[tabIndex];
+      const products = isFirstPage ? [] : tab.products;
+      const res = await getEhomeProducts({
+        type: tab.type,
+        categoryIds: tab.selectedCategoryIds,
+        offset: products.length
+      });
+
+      const newState = { products: [...products, ...res.productList] };
+      if (tab.selectedCategoryIds.length == 0) {
+        newState.mainCategories = res.filterData;
       }
-      const res = await getEhomeProducts({ type: tabIndex + 1 });
-      switch (tabIndex) {
-        case 0:
-          this.setState({
-            products: [...products, ...res.productList]
-          });
-          break;
-        case 1:
-          this.setState({
-            expenses: [...expenses, ...res.productList]
-          });
-          break;
-        case 2:
-          this.setState({
-            documents: [...documents, ...res.productList]
-          });
-          break;
-      }
-    } catch (e) {
-      console.log("e: ", e);
-      switch (tabIndex) {
-        case 0:
-          this.setState({
-            productsError: e
-          });
-          break;
-        case 1:
-          this.setState({
-            expensesError: e
-          });
-          break;
-        case 2:
-          this.setState({
-            documentsError: e
-          });
-          break;
-      }
+      this.updateTab(tabIndex, newState);
+    } catch (error) {
+      console.log("error: ", error);
+      this.updateTab(tabIndex, { error });
     } finally {
-      switch (tabIndex) {
-        case 0:
-          this.setState({
-            isLoadingProducts: false
-          });
-          break;
-        case 1:
-          this.setState({
-            isLoadingExpenses: false
-          });
-          break;
-        case 2:
-          this.setState({
-            isLoadingDocuments: false
-          });
-          break;
-      }
+      this.updateTab(tabIndex, { isLoading: false });
     }
+  };
+
+  applyFilter = selectedCategoryIds => {
+    const { activeTabIndex } = this.state;
+    this.updateTab(activeTabIndex, { selectedCategoryIds });
+    this.getProductsFirstPage(activeTabIndex);
   };
 
   render() {
-    const {
-      activeTabIndex,
-      products,
-      expenses,
-      documents,
-      isLoadingProducts,
-      isLoadingExpenses,
-      isLoadingDocuments,
-      productsError,
-      expensesError,
-      documentsError
-    } = this.state;
+    const { activeTabIndex, tabs } = this.state;
 
     return (
       <ScreenContainer style={styles.container}>
@@ -205,14 +157,24 @@ class EhomeScreen extends Component {
             </View>
 
             <TouchableOpacity
+              style={{}}
               onPress={() => {
                 this.props.navigation.navigate(SCREENS.SEARCH_SCREEN);
               }}
             >
-              <Image
-                resizeMode="contain"
-                style={{ width: 25, height: 25, tintColor: "#fff" }}
-                source={require("../../images/ic_top_search.png")}
+              <Icon name="md-search" color="#fff" size={28} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                this.filterModal.show({
+                  selectedCategoryIds: tabs[activeTabIndex].selectedCategoryIds
+                })
+              }
+              style={{ marginLeft: 15, paddingHorizontal: 2 }}
+            >
+              <Icon name="md-options" color="#fff" size={30} />
+              <SmallDot
+                visible={tabs[activeTabIndex].selectedCategoryIds.length > 0}
               />
             </TouchableOpacity>
           </View>
@@ -235,35 +197,28 @@ class EhomeScreen extends Component {
               color: "#fff"
             }}
           >
-            <ProductsList
-              type={PRODUCT_TYPES.PRODUCT}
-              tabLabel="Products"
-              onRefresh={() => this.getProductsFirstPage(0)}
-              isLoading={isLoadingProducts}
-              products={products}
-              navigation={this.props.navigation}
-              error={productsError}
-            />
-            <ProductsList
-              type={PRODUCT_TYPES.EXPENSE}
-              tabLabel="Expenses"
-              onRefresh={() => this.getProductsFirstPage(1)}
-              isLoading={isLoadingExpenses}
-              products={expenses}
-              navigation={this.props.navigation}
-              error={expensesError}
-            />
-            <ProductsList
-              type={PRODUCT_TYPES.DOCUMENT}
-              tabLabel="Documents"
-              onRefresh={() => this.getProductsFirstPage(2)}
-              isLoading={isLoadingDocuments}
-              products={documents}
-              navigation={this.props.navigation}
-              error={documentsError}
-            />
+            {tabs.map((tab, index) => (
+              <ProductsList
+                key={tab.type}
+                type={tab.type}
+                tabLabel={tab.name}
+                onRefresh={() => this.getProductsFirstPage(index)}
+                isLoading={tab.isLoading}
+                products={tab.products}
+                navigation={this.props.navigation}
+                error={tab.error}
+                onEndReached={() => this.getProducts(index)}
+              />
+            ))}
           </ScrollableTabView>
         </View>
+        <FilterModal
+          ref={node => {
+            this.filterModal = node;
+          }}
+          mainCategories={tabs[activeTabIndex].mainCategories}
+          applyFilter={this.applyFilter}
+        />
       </ScreenContainer>
     );
   }
