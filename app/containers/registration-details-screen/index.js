@@ -10,7 +10,8 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import RNGooglePlaces from "react-native-google-places";
 import Icon from "react-native-vector-icons/Ionicons";
-import Snackbar from "react-native-snackbar";
+
+import Snackbar from "../../utils/snackbar";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { openAfterLoginScreen } from "../../navigation";

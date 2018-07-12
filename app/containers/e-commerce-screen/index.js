@@ -7,14 +7,16 @@ import {
   TouchableOpacity
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import Snackbar from "react-native-snackbar";
+import Modal from "react-native-modal";
+
 import moment from "moment";
 import _ from "lodash";
 
 import Amazon from "./amazon";
 import Flipkart from "./flipkart";
 import { Text, Button, Image } from "../../elements";
-import Modal from "react-native-modal";
+
+import Snackbar from "../../utils/snackbar";
 import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
 import { API_BASE_URL, createTransaction } from "../../api";

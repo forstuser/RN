@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import moment from "moment";
-import Snackbar from "react-native-snackbar";
+import Snackbar from "../../utils/snackbar";
 import { Text, Image } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 import OfferDetailedItem from "./offer-detailed-item";
@@ -39,6 +39,7 @@ export default class OfferItem extends React.Component {
       Linking.openURL(item.promo_link);
     }
   };
+  
   render() {
     const { item, categoryImageUrl } = this.props;
     const { isModalVisible } = this.state;

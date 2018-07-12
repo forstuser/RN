@@ -9,8 +9,13 @@ const requestPermission = async ({ permission, title, desc }) => {
   if (Platform.OS != "android") return true;
   try {
     const granted = await PermissionsAndroid.request(permission);
-    console.log("granted:", granted);
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+    console.log(
+      "granted :",
+      granted,
+      "PermissionsAndroid.RESULTS.GRANTED :",
+      PermissionsAndroid.RESULTS.GRANTED
+    );
+    if (granted === true || granted === PermissionsAndroid.RESULTS.GRANTED) {
       return true;
     } else if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
       setTimeout(() => {

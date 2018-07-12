@@ -501,12 +501,9 @@ class BasicDetailsForm extends React.Component {
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
-                  <Text style={{ color: colors.mainBlue, fontSize: 12 }}>
-                    {" "}
-                    (Required for warranty calculation)
-                  </Text>
                 </View>
               )}
+              hint="Required for warranty calculation"
               options={models}
               beforeModalOpen={() => {
                 if (selectedBrand || brandName) {

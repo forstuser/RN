@@ -8,10 +8,11 @@ import {
   TouchableOpacity,
   ActivityIndicator
 } from "react-native";
-import Snackbar from "react-native-snackbar";
+
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 
+import Snackbar from "../../utils/snackbar";
 import Radiobox from "../../components/radiobox";
 import { Text, Image } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";

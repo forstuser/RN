@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Animated
 } from "react-native";
-import Snackbar from "react-native-snackbar";
+import Snackbar from "../../utils/snackbar";
 import { Text } from "../../elements";
 import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -111,7 +111,8 @@ export default class AccessoriesTab extends React.Component {
                 productsArray.push({
                   type: "product",
                   name:
-                    product.product_name || product.brand_name + product.model,
+                    product.product_name ||
+                    (product.brand_name || "") + (product.model || ""),
                   imageUrl: res.result[i].image_url,
                   accessoryCategories: category.accessories,
                   ...product

@@ -119,8 +119,8 @@ android {
         applicationId "com.bin.binbillcustomer"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 8020007
-        versionName "2.0.7"
+        versionCode 8020008
+        versionName "2.0.8"
         multiDexEnabled true
         ndk {
 //            abiFilters "armeabi-v7a"

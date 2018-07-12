@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import StarRating from "react-native-star-rating";
 import moment from "moment";
-import Snackbar from "react-native-snackbar";
+import Snackbar from "../../utils/snackbar";
 import { Text, Image, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
