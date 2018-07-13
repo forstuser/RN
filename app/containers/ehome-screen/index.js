@@ -45,6 +45,7 @@ class EhomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      recentSearches: [],
       activeTabIndex: 0,
       tabs: [
         {
@@ -148,6 +149,7 @@ class EhomeScreen extends Component {
         newState.mainCategories = res.filterData;
       }
       this.updateTab(tabIndex, newState);
+      this.setState({ recentSearches: res.recentSearches });
     } catch (error) {
       console.log("error: ", error);
       this.updateTab(tabIndex, { error });
@@ -163,7 +165,7 @@ class EhomeScreen extends Component {
   };
 
   render() {
-    const { activeTabIndex, tabs } = this.state;
+    const { recentSearches, activeTabIndex, tabs } = this.state;
 
     return (
       <TabsScreenContainer
@@ -174,7 +176,9 @@ class EhomeScreen extends Component {
           <View style={{ flexDirection: "row" }}>
             <TouchableOpacity
               onPress={() => {
-                this.props.navigation.navigate(SCREENS.SEARCH_SCREEN);
+                this.props.navigation.navigate(SCREENS.SEARCH_SCREEN, {
+                  recentSearches
+                });
               }}
             >
               <Icon name="md-search" color="#fff" size={28} />
