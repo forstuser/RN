@@ -59,7 +59,8 @@ class ItemSelector extends React.Component {
 
         <ScrollView
           ref={ref => (this.scrollView = ref)}
-          horizontal={true}           showsHorizontalScrollIndicator={false}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
           alwaysBounceHorizontal={false}
           style={{}}
         >
