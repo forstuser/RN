@@ -38,7 +38,9 @@ class ChooseExpenseTypeScreen extends React.Component {
   };
 
   onPressItem = type => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_PRODUCT_SCREEN, { category_name: type });
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_PRODUCT_SCREEN, {
+      category_name: type
+    });
     switch (type) {
       case EXPENSE_TYPES.AUTOMOBILE:
         break;
@@ -103,7 +105,7 @@ class ChooseExpenseTypeScreen extends React.Component {
       },
       {
         type: EXPENSE_TYPES.MEDICAL_DOCS,
-        title: "Insurance & Medical Docs",
+        title: "Medical Insurance & Docs",
         icon: require("../../../images/main-categories/ic_medical_prescription.png")
       },
       {

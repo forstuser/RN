@@ -16,11 +16,6 @@ export default class AccessoryItem extends React.Component {
     });
   };
 
-  componentDidMount() {
-    this.setState({
-      productId: this.props.productId
-    });
-  }
   render() {
     const { item } = this.props;
 
