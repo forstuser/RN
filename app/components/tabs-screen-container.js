@@ -18,7 +18,8 @@ export default class TabsScreenContainer extends React.Component {
       headerRight,
       onTabChange,
       tabs,
-      children
+      children,
+      scrollableTabViewRef
     } = this.props;
     return (
       <ScreenContainer style={styles.container}>
@@ -44,6 +45,9 @@ export default class TabsScreenContainer extends React.Component {
 
         <View style={{ marginTop: -50, flex: 1 }}>
           <ScrollableTabView
+            ref={ref => {
+              scrollableTabViewRef(ref);
+            }}
             locked={true}
             onChangeTab={onTabChange}
             renderTabBar={() => <DefaultTabBar />}

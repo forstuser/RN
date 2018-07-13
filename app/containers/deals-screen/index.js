@@ -49,7 +49,37 @@ class DealsScreen extends Component {
   }
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.CLICK_DEALS);
+    this.handleDeeplink(this.props);
   }
+
+  componentWillReceiveProps(newProps) {
+    this.handleDeeplink(newProps);
+  }
+
+  handleDeeplink = props => {
+    const { navigation } = props;
+    console.log("navigation: ", navigation);
+    if (navigation.state.params) {
+      console.log("navigation.state.params: ", navigation.state.params);
+      const {
+        defaultTab,
+        categoryId,
+        productId,
+        accessoryId
+      } = navigation.state.params;
+
+      if (defaultTab == "accessories") {
+        setTimeout(() => {
+          this.scrollableTabView.goToPage(1);
+          this.accessoriesTab.setDefaultValues({
+            categoryId,
+            productId,
+            accessoryId
+          });
+        });
+      }
+    }
+  };
 
   onTabChange = ({ i }) => {
     i == 0
@@ -86,6 +116,9 @@ class DealsScreen extends Component {
 
     return (
       <TabsScreenContainer
+        scrollableTabViewRef={ref => {
+          this.scrollableTabView = ref;
+        }}
         iconSource={offersIcon}
         title="Offers & Accessories"
         onTabChange={this.onTabChange}
@@ -138,6 +171,9 @@ class DealsScreen extends Component {
             }}
           />,
           <AccessoriesTab
+            accessoriesTabRef={ref => {
+              this.accessoriesTab = ref;
+            }}
             tabLabel="Accessories"
             ref={ref => (this.accessoriesTab = ref)}
             setAccessoryCategories={accessoryCategories =>
@@ -151,7 +187,9 @@ class DealsScreen extends Component {
         ]}
       >
         <AccessoryCategoriesFilterModal
-          ref={ref => (this.accessoryCategoriesFilterModal = ref)}
+          ref={ref => {
+            this.accessoryCategoriesFilterModal = ref;
+          }}
           accessoryCategories={accessoryCategories}
           setSelectedAccessoryCategoryIds={this.setSelectedAccessoryCategoryIds}
         />

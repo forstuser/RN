@@ -36,6 +36,9 @@ export default class AccessoriesTab extends React.Component {
   topPaddingElement = new Animated.Value(0);
 
   state = {
+    defaultCategoryId: null,
+    defaultProductId: null,
+    defaultAccessoryId: null,
     products: [],
     categories: [],
     showSelectBrand: false,
@@ -58,6 +61,14 @@ export default class AccessoriesTab extends React.Component {
     this.fetchAccessoriesData();
     this.listScrollPosition.addListener(this.onListScroll);
   }
+
+  setDefaultValues = ({ categoryId, productId, accessoryId }) => {
+    this.setState(() => ({
+      defaultCategoryId: categoryId,
+      defaultProductId: productId,
+      defaultAccessoryId: accessoryId
+    }));
+  };
 
   onListScroll = ({ value }) => {
     if (value > 0) {
@@ -138,10 +149,23 @@ export default class AccessoriesTab extends React.Component {
         }
       });
 
-      this.setState({
-        items: [...items, ...productsArray, ...categoriesArray]
-      });
+      items = [...items, ...productsArray, ...categoriesArray];
+      this.setState({ items });
+
+      const {
+        defaultCategoryId,
+        defaultProductId,
+        defaultAccessoryId
+      } = this.state;
+      if (defaultProductId) {
+        this.onItemSelect(
+          items.find(
+            item => item.type == "product" && item.id == defaultProductId
+          )
+        );
+      }
     } catch (error) {
+      console.log("error: ", error);
       this.setState({
         error
       });
@@ -414,7 +438,7 @@ export default class AccessoriesTab extends React.Component {
   };
 
   render() {
-    const { selectedAccessoryCategoryIds } = this.props;
+    const { selectedAccessoryCategoryIds, accessoriesTabRef } = this.props;
     const {
       products,
       categories,
@@ -442,7 +466,12 @@ export default class AccessoriesTab extends React.Component {
     }
 
     return (
-      <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
+      <View
+        ref={ref => {
+          accessoriesTabRef(ref);
+        }}
+        style={{ flex: 1, backgroundColor: "#f7f7f7" }}
+      >
         {!showSelectBrand && !showSelectModel && !selectedCategoryId ? (
           <View
             style={{

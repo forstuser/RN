@@ -200,10 +200,10 @@ handleDeeplink = url => {
       });
   }
 
-  const pathItem1 = path.split("/")[1];
+  const pathParts = path.split("/");
 
   const params = {};
-  switch (pathItem1.toLowerCase()) {
+  switch (pathParts[1].toLowerCase()) {
     case "add-product":
       screenToOpen = SCREENS.ADD_PRODUCT_SCREEN;
       break;
@@ -221,6 +221,17 @@ handleDeeplink = url => {
       break;
     case "deals":
       screenToOpen = SCREENS.DEALS_SCREEN;
+
+      params.defaultTab = pathParts[2];
+      params.categoryId = pathParts[3];
+      if (uri.hasQuery("product_id")) {
+        params.productId = uri.query(true).product_id;
+      }
+
+      if (uri.hasQuery("accessory_id")) {
+        params.accessoryId = uri.query(true).accessory_id;
+      }
+
       break;
     case "products":
       const productId = path.split("/").pop();
