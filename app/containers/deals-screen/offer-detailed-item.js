@@ -5,7 +5,8 @@ import {
   Clipboard,
   TouchableOpacity,
   Linking,
-  Platform
+  Platform,
+  ScrollView
 } from "react-native";
 import StarRating from "react-native-star-rating";
 import moment from "moment";
@@ -23,17 +24,19 @@ export default class OfferDetailedView extends React.Component {
     });
   };
   render() {
-    const { item } = this.props;
+    const { item, style } = this.props;
 
     return (
       <View
-        style={{
-          margin: 5,
-          borderRadius: 5,
-          padding: 20,
-          justifyContent: "center",
-          ...defaultStyles.card
-        }}
+        style={[
+          {
+            margin: 5,
+            borderRadius: 5,
+            padding: 20,
+            justifyContent: "center",
+            ...defaultStyles.card
+          }
+        ]}
       >
         <Image
           source={{ uri: item.logo }}
@@ -113,10 +116,13 @@ export default class OfferDetailedView extends React.Component {
         <Text weight="Bold" style={{ fontSize: 11, marginTop: 10 }}>
           Terms & conditions:
         </Text>
+
         {item.description ? (
-          <Text weight="Medium" style={{ fontSize: 10 }}>
-            {item.description}
-          </Text>
+          <ScrollView style={{ flex: 1 }}>
+            <Text weight="Medium" style={{ fontSize: 10 }}>
+              {item.description}
+            </Text>
+          </ScrollView>
         ) : (
           <Text weight="Medium" style={{ fontSize: 10 }}>
             Available on website

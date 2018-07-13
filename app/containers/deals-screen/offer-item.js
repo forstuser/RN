@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   Clipboard,
   Linking,
-  Platform
+  Platform,
+  ScrollView
 } from "react-native";
 import Modal from "react-native-modal";
 import moment from "moment";
@@ -39,7 +40,7 @@ export default class OfferItem extends React.Component {
       Linking.openURL(item.promo_link);
     }
   };
-  
+
   render() {
     const { item, categoryImageUrl } = this.props;
     const { isModalVisible } = this.state;
@@ -134,13 +135,13 @@ export default class OfferItem extends React.Component {
           </View>
         </TouchableOpacity>
         <Modal
-          style={{ margin: 0 }}
+          style={{ marginVertical: 10 }}
           isVisible={isModalVisible}
           useNativeDriver={true}
           onBackButtonPress={this.hideModal}
           onBackdropPress={this.hideModal}
         >
-          <OfferDetailedItem item={item} />
+          <OfferDetailedItem item={item} style={{ height: 400 }} />
         </Modal>
       </TouchableOpacity>
     );
