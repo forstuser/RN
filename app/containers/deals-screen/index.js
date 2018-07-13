@@ -11,9 +11,6 @@ import {
   Dimensions
 } from "react-native";
 import { connect } from "react-redux";
-import ScrollableTabView, {
-  DefaultTabBar
-} from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Ionicons";
 import I18n from "../../i18n";
 import Tour from "../../components/app-tour";
@@ -22,15 +19,14 @@ import { actions as uiActions } from "../../modules/ui";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
-import TabSearchHeader from "../../components/tab-screen-header";
 import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
+import TabsScreenContainer from "../../components/tabs-screen-container";
 import OffersTab from "./offers-tab";
 import AccessoriesTab from "./accessories-tab";
 import AccessoryCategoriesFilterModal from "./accessory-categories-filter-modal";
 
-import BlueGradientBG from "../../components/blue-gradient-bg";
 const offersIcon = require("../../images/deals.png");
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -54,26 +50,12 @@ class DealsScreen extends Component {
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.CLICK_DEALS);
   }
-  openPage1 = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_OFFERS);
-    Animated.timing(this.tabIndex, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: true
-    }).start(() => {
-      this.setState({ activeTabIndex: 0 });
-    });
-  };
 
-  openPage2 = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ACCESSORIES);
-    Animated.timing(this.tabIndex, {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: true
-    }).start(() => {
-      this.setState({ activeTabIndex: 1 });
-    });
+  onTabChange = ({ i }) => {
+    i == 0
+      ? Analytics.logEvent(Analytics.EVENTS.CLICK_OFFERS)
+      : Analytics.logEvent(Analytics.EVENTS.CLICK_ACCESSORIES);
+    this.setState({ activeTabIndex: i });
   };
 
   setSelectedAccessoryCategoryIds = ids => {
@@ -101,28 +83,14 @@ class DealsScreen extends Component {
       accessoryCategories,
       selectedOfferCategory
     } = this.state;
+
     return (
-      <ScreenContainer style={styles.container}>
-        <View style={styles.header}>
-          <BlueGradientBG />
-          <View style={styles.headerUpperHalf}>
-            <View style={styles.offersIconWrapper}>
-              <Image
-                source={offersIcon}
-                style={styles.offersIcon}
-                resizeMode="contain"
-              />
-            </View>
-            <View style={{ flex: 1, paddingRight: 20 }}>
-              <Text weight="Medium" style={styles.title}>
-                Offers & Accessories
-              </Text>
-              {/* <Text weight="Bold" style={styles.subTitle} numberOfLines={1}>
-                {activeTabIndex == 0
-                  ? `Avail the Best of Offers across various product categories`
-                  : `Check out Accessories for products across different price bands`}
-              </Text> */}
-            </View>
+      <TabsScreenContainer
+        iconSource={offersIcon}
+        title="Offers & Accessories"
+        onTabChange={this.onTabChange}
+        headerRight={
+          <View style={{ flexDirection: "row" }}>
             {activeTabIndex == 1 ? (
               <TouchableOpacity
                 onPress={() => {
@@ -136,103 +104,52 @@ class DealsScreen extends Component {
                 />
               </TouchableOpacity>
             ) : (
-                <View />
-              )}
+              <View />
+            )}
             {(activeTabIndex == 0 && selectedOfferCategory) ||
-              (activeTabIndex == 1 && accessoryCategories.length > 0) ? (
-                <TouchableOpacity
-                  ref={node => (this.filterIconRef = node)}
-                  onLayout={this.showDealsTour}
-                  style={{ marginLeft: 15, paddingHorizontal: 2 }}
-                  onPress={() =>
-                    activeTabIndex == 0
-                      ? this.offersFilterModalRef.show()
-                      : this.accessoryCategoriesFilterModal.show(
+            (activeTabIndex == 1 && accessoryCategories.length > 0) ? (
+              <TouchableOpacity
+                ref={node => (this.filterIconRef = node)}
+                onLayout={this.showDealsTour}
+                style={{ marginLeft: 15, paddingHorizontal: 2 }}
+                onPress={() =>
+                  activeTabIndex == 0
+                    ? this.offersFilterModalRef.show()
+                    : this.accessoryCategoriesFilterModal.show(
                         selectedAccessoryCategoryIds
                       )
-                  }
-                >
-                  <Icon name="md-options" color="#fff" size={30} />
-                </TouchableOpacity>
-              ) : (
-                <View />
-              )}
-          </View>
-
-          <View style={styles.headerLowerHalf}>
-            <TouchableOpacity onPress={this.openPage1} style={styles.tab}>
-              <Text weight="Bold" style={styles.tabText}>
-                Offers
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.openPage2} style={styles.tab}>
-              <Text weight="Bold" style={styles.tabText}>
-                Accessories
-              </Text>
-            </TouchableOpacity>
-            <Animated.View
-              style={[
-                styles.tabUnderline,
-                {
-                  transform: [
-                    {
-                      translateX: this.tabIndex.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [0, SCREEN_WIDTH / 2]
-                      })
-                    }
-                  ]
                 }
-              ]}
-            />
+              >
+                <Icon name="md-options" color="#fff" size={30} />
+              </TouchableOpacity>
+            ) : (
+              <View />
+            )}
           </View>
-          {/* <TabSearchHeader
-            title={"Offers & Accessories"}
-            icon={offersIcon}
-            navigation={this.props.navigation}
-            showMailbox={false}
-            showSearchInput={false}
-          /> */}
-        </View>
-
-        <Animated.View
-          style={[
-            styles.pages,
-            {
-              transform: [
-                {
-                  translateX: this.tabIndex.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0, -SCREEN_WIDTH]
-                  })
-                }
-              ]
+        }
+        tabs={[
+          <OffersTab
+            tabLabel="Offers"
+            setOffersFilterModalRef={ref => {
+              this.offersFilterModalRef = ref;
+            }}
+            setSelectedOfferCategory={selectedOfferCategory => {
+              this.setState({ selectedOfferCategory });
+            }}
+          />,
+          <AccessoriesTab
+            tabLabel="Accessories"
+            ref={ref => (this.accessoriesTab = ref)}
+            setAccessoryCategories={accessoryCategories =>
+              this.setState({
+                accessoryCategories,
+                selectedAccessoryCategoryIds: []
+              })
             }
-          ]}
-        >
-          <View style={styles.page}>
-            <OffersTab
-              setOffersFilterModalRef={ref => {
-                this.offersFilterModalRef = ref;
-              }}
-              setSelectedOfferCategory={selectedOfferCategory => {
-                this.setState({ selectedOfferCategory });
-              }}
-            />
-          </View>
-          <View style={styles.page}>
-            <AccessoriesTab
-              ref={ref => (this.accessoriesTab = ref)}
-              setAccessoryCategories={accessoryCategories =>
-                this.setState({
-                  accessoryCategories,
-                  selectedAccessoryCategoryIds: []
-                })
-              }
-              selectedAccessoryCategoryIds={selectedAccessoryCategoryIds}
-            />
-          </View>
-        </Animated.View>
+            selectedAccessoryCategoryIds={selectedAccessoryCategoryIds}
+          />
+        ]}
+      >
         <AccessoryCategoriesFilterModal
           ref={ref => (this.accessoryCategoriesFilterModal = ref)}
           accessoryCategories={accessoryCategories}
@@ -245,7 +162,7 @@ class DealsScreen extends Component {
             { ref: this.filterIconRef, text: I18n.t("deals_filter_tip") }
           ]}
         />
-      </ScreenContainer>
+      </TabsScreenContainer>
     );
   }
 }

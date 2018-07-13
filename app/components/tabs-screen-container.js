@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     })
   },
   headerUpperHalf: {
-    height: 50,
+    height: 46,
     paddingHorizontal: 16,
     flexDirection: "row",
     alignItems: "center"
