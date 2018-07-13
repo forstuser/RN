@@ -51,8 +51,10 @@ class EhomeScreen extends Component {
           type: PRODUCT_TYPES.PRODUCT,
           name: "Products",
           products: [],
+          isLoadingFirstPage: false,
           isLoading: false,
           error: null,
+          endHasReached: false,
           mainCategories: [],
           selectedCategoryIds: []
         },
@@ -60,8 +62,10 @@ class EhomeScreen extends Component {
           type: PRODUCT_TYPES.EXPENSE,
           name: "Expenses",
           products: [],
+          isLoadingFirstPage: false,
           isLoading: false,
           error: null,
+          endHasReached: false,
           mainCategories: [],
           selectedCategoryIds: []
         },
@@ -69,8 +73,10 @@ class EhomeScreen extends Component {
           type: PRODUCT_TYPES.DOCUMENT,
           name: "Documents",
           products: [],
+          isLoadingFirstPage: false,
           isLoading: false,
           error: null,
+          endHasReached: false,
           mainCategories: [],
           selectedCategoryIds: []
         }
@@ -96,6 +102,10 @@ class EhomeScreen extends Component {
   };
 
   getProductsFirstPage = tabIndex => {
+    this.updateTab(tabIndex, {
+      endHasReached: false,
+      isLoadingFirstPage: true
+    });
     this.getProducts(tabIndex, true);
   };
 
@@ -116,6 +126,9 @@ class EhomeScreen extends Component {
       });
 
       const newState = { products: [...products, ...res.productList] };
+      if (res.productList.length == 0) {
+        newState.endHasReached = true;
+      }
       if (tab.selectedCategoryIds.length == 0) {
         newState.mainCategories = res.filterData;
       }
@@ -124,7 +137,7 @@ class EhomeScreen extends Component {
       console.log("error: ", error);
       this.updateTab(tabIndex, { error });
     } finally {
-      this.updateTab(tabIndex, { isLoading: false });
+      this.updateTab(tabIndex, { isLoadingFirstPage: false, isLoading: false });
     }
   };
 
@@ -184,6 +197,7 @@ class EhomeScreen extends Component {
 
         <View style={{ marginTop: -50, flex: 1 }}>
           <ScrollableTabView
+            locked={true}
             onChangeTab={this.onTabChange}
             renderTabBar={() => <DefaultTabBar />}
             tabBarUnderlineStyle={{
@@ -203,11 +217,13 @@ class EhomeScreen extends Component {
                 type={tab.type}
                 tabLabel={tab.name}
                 onRefresh={() => this.getProductsFirstPage(index)}
+                isLoadingFirstPage={tab.isLoadingFirstPage}
                 isLoading={tab.isLoading}
                 products={tab.products}
                 navigation={this.props.navigation}
                 error={tab.error}
                 onEndReached={() => this.getProducts(index)}
+                endHasReached={tab.endHasReached}
               />
             ))}
           </ScrollableTabView>
