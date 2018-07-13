@@ -28,8 +28,8 @@ class AddEditAccessory extends React.Component {
 
     return {
       title: params.isEditing
-        ? "Edit Parts & Accessories"
-        : "Add Parts & Accessories",
+        ? "Edit Part or Accessory"
+        : "Add Part or Accessory",
       headerRight: params.isEditing ? (
         <Text
           onPress={params.onDeletePress}
@@ -248,7 +248,7 @@ class AddEditAccessory extends React.Component {
       !data.purchaseDate
     ) {
       return showSnackbar({
-        text: "Please select Part category and purchase date"
+        text: "Please select category and purchase date"
       });
     }
 

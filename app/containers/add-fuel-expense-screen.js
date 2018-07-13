@@ -37,7 +37,7 @@ class AddFuelExpenseScreen extends React.Component {
     const params = navigation.state.params || {};
     console.log("params: ", params);
     return {
-      title: "Refueling & Mileage Calculation",
+      title: "Fuel Consumption Chart",
       headerRight: params.isEditing ? (
         <Text
           onPress={params.onDeletePress}
@@ -56,21 +56,32 @@ class AddFuelExpenseScreen extends React.Component {
 
     const { navigation } = this.props;
     const { fuelExpense } = navigation.state.params;
-    console.log("fuelExpense: ", fuelExpense);
+
     this.state = {
       isLoading: false,
       id: fuelExpense ? fuelExpense.id : null,
-      effectiveDate: fuelExpense
-        ? moment(fuelExpense.document_date).format("YYYY-MM-DD")
-        : moment().format("YYYY-MM-DD"),
-      odometerReading: fuelExpense
-        ? String(fuelExpense.odometer_reading)
-        : null,
-      documentNumber: fuelExpense ? String(fuelExpense.document_number) : null,
-      value: fuelExpense ? String(fuelExpense.value) : 0,
-      fuelQuantity: fuelExpense ? String(fuelExpense.fuel_quantity) : null,
-      fuelType: fuelExpense ? fuelExpense.fuel_type : FUEL_TYPES.PETROL,
-      copies: fuelExpense ? fuelExpense.copies : []
+      effectiveDate:
+        fuelExpense && fuelExpense.document_date
+          ? moment(fuelExpense.document_date).format("YYYY-MM-DD")
+          : moment().format("YYYY-MM-DD"),
+      odometerReading:
+        fuelExpense && fuelExpense.odometer_reading
+          ? String(fuelExpense.odometer_reading)
+          : null,
+      documentNumber:
+        fuelExpense && fuelExpense.document_number
+          ? String(fuelExpense.document_number)
+          : null,
+      value: fuelExpense && fuelExpense.value ? String(fuelExpense.value) : 0,
+      fuelQuantity:
+        fuelExpense && fuelExpense.fuel_quantity
+          ? String(fuelExpense.fuel_quantity)
+          : null,
+      fuelType:
+        fuelExpense && fuelExpense.fuel_type
+          ? fuelExpense.fuel_type
+          : FUEL_TYPES.PETROL,
+      copies: fuelExpense && fuelExpense.copies ? fuelExpense.copies : []
     };
   }
 

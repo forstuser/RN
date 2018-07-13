@@ -122,7 +122,9 @@ export default class FuelExpense extends React.Component {
         >
           <View style={styles.modal}>
             <View style={styles.modalHead}>
-              <Text>Fuel Expense Details</Text>
+              <Text weight="Bold" style={{ fontSize: 18 }}>
+                Fuel Expense Details
+              </Text>
               <TouchableOpacity
                 style={styles.closeIcon}
                 onPress={this.hideModal}

@@ -957,7 +957,7 @@ export default {
   expense_forms_product_basics_select_brand_first: "Please select brand first",
   expense_forms_product_basics_imei: "IMEI No",
   expense_forms_product_basics_serial: "Serial No",
-  expense_forms_product_basics_vin_no: "VIN No.",
+  expense_forms_product_basics_chasis_no: "Chasis Number",
   expense_forms_product_basics_registration_no: "Registration No",
   expense_forms_product_basics_purchase_date: "Purchase Date",
   expense_forms_product_basics_purchase_amount: "Purchase Amount (₹)",

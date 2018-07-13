@@ -8,7 +8,7 @@ import I18n from "../i18n";
 import { showSnackbar } from "../utils/snackbar";
 
 import LoadingOverlay from "../components/loading-overlay";
-import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS, METADATA_KEYS } from "../constants";
 import { ScreenContainer, Text, Button } from "../elements";
 import ProductBasicDetailsForm from "../components/expense-forms/product-basic-details-form";
 import ExpenseBasicDetailsForm from "../components/expense-forms/expense-basic-details-form";
@@ -198,18 +198,20 @@ class EditProductBasicDetails extends React.Component {
       sellerContact = product.onlineSellers.contact;
     }
 
-    let vinNo = (vinNoId = registrationNo = registrationNoId = imeiNo = imeiNoId = serialNo = serialNoId = nextDueDate = nextDueDateId = null);
+    let chasisNumber = (chasisNumberId = registrationNo = registrationNoId = imeiNo = imeiNoId = serialNo = serialNoId = nextDueDate = nextDueDateId = null);
 
     const productMetaDatas = product.metaData || [];
 
-    const imeiMeta = productMetaDatas.find(meta => meta.name == "IMEI Number");
+    const imeiMeta = productMetaDatas.find(
+      meta => meta.name == METADATA_KEYS.IMEI_NUMBER
+    );
     if (imeiMeta) {
       imeiNo = imeiMeta.value;
       imeiNoId = imeiMeta.id;
     }
 
     const serialNoMeta = productMetaDatas.find(
-      meta => meta.name == "Serial Number"
+      meta => meta.name == METADATA_KEYS.SERIAL_NUMBER
     );
     if (serialNoMeta) {
       serialNo = serialNoMeta.value;
@@ -217,22 +219,24 @@ class EditProductBasicDetails extends React.Component {
     }
 
     const registrationNoMeta = productMetaDatas.find(
-      meta => meta.name == "Registration Number"
+      meta => meta.name == METADATA_KEYS.REGISTRATION_NUMBER
     );
     if (registrationNoMeta) {
       registrationNo = registrationNoMeta.value;
       registrationNoId = registrationNoMeta.id;
     }
 
-    const vinNoMeta = productMetaDatas.find(
-      meta => meta.name.toLowerCase() == "vin"
+    const chasisNumberMeta = productMetaDatas.find(
+      meta => meta.name.toLowerCase() == METADATA_KEYS.CHASIS_NUMBER
     );
-    if (vinNoMeta) {
-      vinNo = vinNoMeta.value;
-      vinNoId = vinNoMeta.id;
+    if (chasisNumberMeta) {
+      chasisNumber = chasisNumberMeta.value;
+      chasisNumberId = chasisNumberMeta.id;
     }
 
-    const dueDateMeta = productMetaDatas.find(meta => meta.name == "Due date");
+    const dueDateMeta = productMetaDatas.find(
+      meta => meta.name == METADATA_KEYS.DUE_DATE
+    );
     if (dueDateMeta) {
       nextDueDate = dueDateMeta.value;
       nextDueDateId = dueDateMeta.id;
@@ -314,8 +318,8 @@ class EditProductBasicDetails extends React.Component {
                   sellerName,
                   sellerContact,
                   sellerAddress,
-                  vinNo,
-                  vinNoId,
+                  chasisNumber,
+                  chasisNumberId,
                   registrationNo,
                   registrationNoId,
                   imeiNo,
