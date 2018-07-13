@@ -1830,14 +1830,16 @@ export const createFuelExpense = async ({
   odometerReading,
   documentNumber,
   value,
-  fuelQuantity
+  fuelQuantity,
+  fuelType
 }) => {
   const data = {
     effective_date: effectiveDate,
     odometer_reading: odometerReading,
     document_number: documentNumber,
     value,
-    fuel_quantity: fuelQuantity
+    fuel_quantity: fuelQuantity,
+    fuel_type: fuelType
   };
   return await apiRequest({
     method: "post",
@@ -1853,14 +1855,16 @@ export const updateFuelExpense = async ({
   odometerReading,
   documentNumber,
   value,
-  fuelQuantity
+  fuelQuantity,
+  fuelType
 }) => {
   const data = {
     effective_date: effectiveDate,
     odometer_reading: odometerReading,
     document_number: documentNumber,
     value,
-    fuel_quantity: fuelQuantity
+    fuel_quantity: fuelQuantity,
+    fuel_type: fuelType
   };
   return await apiRequest({
     method: "put",
