@@ -67,7 +67,7 @@ export default class FuelExpense extends React.Component {
                 <Image style={styles.dropdownIcon} source={dropdownIcon} />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={this.openAddFuelExpenseScreen}
+                onPress={() => this.openAddFuelExpenseScreen()}
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
@@ -87,7 +87,7 @@ export default class FuelExpense extends React.Component {
             </View>
           ) : (
             <TouchableOpacity
-              onPress={this.openAddFuelExpenseScreen}
+              onPress={() => this.openAddFuelExpenseScreen()}
               style={{ flexDirection: "row", alignItems: "center" }}
             >
               <View style={styles.plusIcon}>

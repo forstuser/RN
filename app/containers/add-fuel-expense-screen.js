@@ -56,7 +56,7 @@ class AddFuelExpenseScreen extends React.Component {
 
     const { navigation } = this.props;
     const { fuelExpense } = navigation.state.params;
-
+    console.log("fuelExpense: ", fuelExpense);
     this.state = {
       isLoading: false,
       id: fuelExpense ? fuelExpense.id : null,

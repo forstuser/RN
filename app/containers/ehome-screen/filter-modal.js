@@ -19,16 +19,20 @@ export default class filters extends React.Component {
   state = {
     isModalVisible: false,
     selectedMainCategoryId: null,
-    selectedCategoryIds: []
+    selectedCategories: []
   };
 
-  show = ({ selectedCategoryIds }) => {
-    const { mainCategories } = this.props;
-    console.log("mainCategories: ", mainCategories);
+  show = ({ selectedCategories }) => {
+    let { mainCategories } = this.props;
+    mainCategories = mainCategories.filter(
+      mainCategory => mainCategory.subCategories.length > 0
+    );
+
     this.setState({
       isModalVisible: true,
-      selectedCategoryIds,
-      selectedMainCategoryId: mainCategories[0].id
+      selectedCategories,
+      selectedMainCategoryId:
+        mainCategories.length > 0 ? mainCategories[0].id : null
     });
   };
 
@@ -36,21 +40,42 @@ export default class filters extends React.Component {
     this.setState({ isModalVisible: false });
   };
 
-  toggleCategoryId = id => {
-    let { selectedCategoryIds } = this.state;
-    const idx = selectedCategoryIds.indexOf(id);
+  resetAllFilters = () => {
+    this.setState(() => ({ selectedCategories: [] }));
+    this.applyFilter();
+  };
+
+  toggleCategory = category => {
+    let { selectedCategories } = this.state;
+    const idx = selectedCategories.findIndex(
+      categoryItem => categoryItem.id == category.id
+    );
     if (idx > -1) {
-      selectedCategoryIds.splice(idx, 1);
+      selectedCategories.splice(idx, 1);
     } else {
-      selectedCategoryIds.push(id);
+      selectedCategories.push(category);
     }
-    this.setState({ selectedCategoryIds });
+    this.setState({ selectedCategories });
+  };
+
+  toggleCategoryAndApplyFilter = category => {
+    let { selectedCategories } = this.state;
+    const idx = selectedCategories.findIndex(
+      categoryItem => categoryItem.id == category.id
+    );
+    if (idx > -1) {
+      selectedCategories.splice(idx, 1);
+    } else {
+      selectedCategories.push(category);
+    }
+    this.setState(() => ({ selectedCategories }));
+    this.applyFilter();
   };
 
   renderMainCategoryItem = ({ item, index }) => {
-    const { selectedMainCategoryId, selectedCategoryIds } = this.state;
+    const { selectedMainCategoryId, selectedCategories } = this.state;
     let subCategoriesSelected = item.subCategories.some(category =>
-      selectedCategoryIds.includes(category.id)
+      selectedCategories.includes(category.id)
     );
 
     return (
@@ -76,7 +101,7 @@ export default class filters extends React.Component {
   };
 
   renderCategoryItem = ({ item, index }) => {
-    const { selectedCategoryIds } = this.state;
+    const { selectedCategories } = this.state;
 
     return (
       <TouchableOpacity
@@ -87,7 +112,7 @@ export default class filters extends React.Component {
           alignItems: "center"
         }}
         onPress={() => {
-          this.setState(() => this.toggleCategoryId(item.id));
+          this.setState(() => this.toggleCategory(item));
         }}
       >
         <Text
@@ -99,16 +124,20 @@ export default class filters extends React.Component {
         >
           {item.name}
         </Text>
-        <Checkbox isChecked={selectedCategoryIds.includes(item.id)} />
+        <Checkbox
+          isChecked={selectedCategories
+            .map(selectedCategory => selectedCategory.id)
+            .includes(item.id)}
+        />
       </TouchableOpacity>
     );
   };
 
   applyFilter = () => {
     const { applyFilter } = this.props;
-    const { selectedCategoryIds } = this.state;
+    const { selectedCategories } = this.state;
     this.hide();
-    applyFilter(selectedCategoryIds);
+    applyFilter(selectedCategories);
   };
 
   render() {
@@ -116,7 +145,7 @@ export default class filters extends React.Component {
     const {
       isModalVisible,
       selectedMainCategoryId,
-      selectedCategoryIds
+      selectedCategories
     } = this.state;
 
     let subCategories = [];
@@ -223,9 +252,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     ...Platform.select({
-      ios: { paddingTop: 20 },
-      android: { paddingTop: 10 }
-    })
+      ios: { height: 70, paddingTop: 20 },
+      android: { height: 50, paddingTop: 0 }
+    }),
+    borderColor: "#efefef",
+    borderBottomWidth: 1
   },
   body: {
     flex: 1

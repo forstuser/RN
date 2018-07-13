@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Image,
   Animated,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from "react-native";
 import { connect } from "react-redux";
 
@@ -28,6 +29,7 @@ import { colors, defaultStyles } from "../../theme";
 import FilterModal from "./filter-modal";
 import SmallDot from "../../components/small-dot";
 import TabsScreenContainer from "../../components/tabs-screen-container";
+import Tag from "../../components/tag";
 
 const ehomeIcon = require("../../images/ehome.png");
 
@@ -54,7 +56,7 @@ class EhomeScreen extends Component {
           error: null,
           endHasReached: false,
           mainCategories: [],
-          selectedCategoryIds: []
+          selectedCategories: []
         },
         {
           type: PRODUCT_TYPES.EXPENSE,
@@ -65,7 +67,7 @@ class EhomeScreen extends Component {
           error: null,
           endHasReached: false,
           mainCategories: [],
-          selectedCategoryIds: []
+          selectedCategories: []
         },
         {
           type: PRODUCT_TYPES.DOCUMENT,
@@ -76,7 +78,7 @@ class EhomeScreen extends Component {
           error: null,
           endHasReached: false,
           mainCategories: [],
-          selectedCategoryIds: []
+          selectedCategories: []
         }
       ]
     };
@@ -84,9 +86,19 @@ class EhomeScreen extends Component {
 
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
-    this.getProductsFirstPage(0);
-    this.getProductsFirstPage(1);
-    this.getProductsFirstPage(2);
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.getProductsFirstPage(0);
+        this.getProductsFirstPage(1);
+        this.getProductsFirstPage(2);
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   updateTab = (index, newState) => {
@@ -108,18 +120,23 @@ class EhomeScreen extends Component {
   };
 
   getProducts = async (tabIndex, isFirstPage = false) => {
+    const { tabs } = this.state;
+
+    if (tabs[tabIndex].isLoading) return;
+
     this.updateTab(tabIndex, {
       error: null,
       isLoading: true
     });
 
     try {
-      const { tabs } = this.state;
       const tab = tabs[tabIndex];
       const products = isFirstPage ? [] : tab.products;
       const res = await getEhomeProducts({
         type: tab.type,
-        categoryIds: tab.selectedCategoryIds,
+        categoryIds: tab.selectedCategories.map(
+          selectedCategory => selectedCategory.id
+        ),
         offset: products.length
       });
 
@@ -127,7 +144,7 @@ class EhomeScreen extends Component {
       if (res.productList.length == 0) {
         newState.endHasReached = true;
       }
-      if (tab.selectedCategoryIds.length == 0) {
+      if (tab.selectedCategories.length == 0) {
         newState.mainCategories = res.filterData;
       }
       this.updateTab(tabIndex, newState);
@@ -139,9 +156,9 @@ class EhomeScreen extends Component {
     }
   };
 
-  applyFilter = selectedCategoryIds => {
+  applyFilter = selectedCategories => {
     const { activeTabIndex } = this.state;
-    this.updateTab(activeTabIndex, { selectedCategoryIds });
+    this.updateTab(activeTabIndex, { selectedCategories });
     this.getProductsFirstPage(activeTabIndex);
   };
 
@@ -156,42 +173,67 @@ class EhomeScreen extends Component {
         headerRight={
           <View style={{ flexDirection: "row" }}>
             <TouchableOpacity
-              style={{}}
               onPress={() => {
                 this.props.navigation.navigate(SCREENS.SEARCH_SCREEN);
               }}
             >
               <Icon name="md-search" color="#fff" size={28} />
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() =>
-                this.filterModal.show({
-                  selectedCategoryIds: tabs[activeTabIndex].selectedCategoryIds
-                })
-              }
-              style={{ marginLeft: 15, paddingHorizontal: 2 }}
-            >
-              <Icon name="md-options" color="#fff" size={30} />
-              <SmallDot
-                visible={tabs[activeTabIndex].selectedCategoryIds.length > 0}
-              />
-            </TouchableOpacity>
+
+            {tabs[activeTabIndex].products.length > 0 ? (
+              <TouchableOpacity
+                onPress={() =>
+                  this.filterModal.show({
+                    selectedCategories: tabs[activeTabIndex].selectedCategories
+                  })
+                }
+                style={{ marginLeft: 15, paddingHorizontal: 2 }}
+              >
+                <Icon name="md-options" color="#fff" size={30} />
+                <SmallDot
+                  visible={tabs[activeTabIndex].selectedCategories.length > 0}
+                />
+              </TouchableOpacity>
+            ) : null}
           </View>
         }
         tabs={tabs.map((tab, index) => (
-          <ProductsList
-            key={tab.type}
-            type={tab.type}
-            tabLabel={tab.name}
-            onRefresh={() => this.getProductsFirstPage(index)}
-            isLoadingFirstPage={tab.isLoadingFirstPage}
-            isLoading={tab.isLoading}
-            products={tab.products}
-            navigation={this.props.navigation}
-            error={tab.error}
-            onEndReached={() => this.getProducts(index)}
-            endHasReached={tab.endHasReached}
-          />
+          <View key={tab.type} tabLabel={tab.name} style={{ flex: 1 }}>
+            {tab.selectedCategories.length > 0 ? (
+              <View
+                style={{
+                  height: 36,
+                  paddingVertical: 5,
+                  backgroundColor: "#fff"
+                }}
+              >
+                <ScrollView horizontal>
+                  {tab.selectedCategories.map(category => (
+                    <Tag
+                      key={category.name}
+                      text={category.name}
+                      onPressClose={() =>
+                        this.filterModal.toggleCategoryAndApplyFilter(category)
+                      }
+                    />
+                  ))}
+                </ScrollView>
+              </View>
+            ) : (
+              <View />
+            )}
+            <ProductsList
+              type={tab.type}
+              onRefresh={() => this.getProductsFirstPage(index)}
+              isLoadingFirstPage={tab.isLoadingFirstPage}
+              isLoading={tab.isLoading}
+              products={tab.products}
+              navigation={this.props.navigation}
+              error={tab.error}
+              onEndReached={() => this.getProducts(index)}
+              endHasReached={tab.endHasReached}
+            />
+          </View>
         ))}
       >
         <FilterModal
