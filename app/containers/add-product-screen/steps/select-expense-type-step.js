@@ -114,9 +114,9 @@ class ChooseExpenseTypeScreen extends React.Component {
         icon: require("../../../images/main-categories/ic_personal_doc.png")
       },
       {
-        type: EXPENSE_TYPES.VISITING_CARD,
-        title: "Visiting Cards",
-        icon: require("../../../images/main-categories/ic_visiting_card.png")
+        type: EXPENSE_TYPES.AUTO_INSURANCE,
+        title: "Auto Insurance",
+        icon: require("../../../images/main-categories/auto_insurance.png")
       }
     ];
 

@@ -8,7 +8,7 @@ import {
   Dimensions
 } from "react-native";
 import _ from "lodash";
-import { initProduct, updateProduct } from "../../api";
+import { initProduct, updateProduct, getReferenceDataForCategory } from "../../api";
 
 import { Text, ScreenContainer } from "../../elements";
 
@@ -457,6 +457,7 @@ class AddProductScreen extends React.Component {
       () => {
         switch (type) {
           case EXPENSE_TYPES.AUTOMOBILE:
+          case EXPENSE_TYPES.AUTO_INSURANCE:
             this.setState(
               {
                 mainCategoryId: MAIN_CATEGORY_IDS.AUTOMOBILE
@@ -581,11 +582,30 @@ class AddProductScreen extends React.Component {
     });
   };
 
-  onCategorySelect = ({ category, subCategoryId, pushToNext }) => {
-    this.setState({ category, subCategoryId }, () => {
-      this.initProduct(pushToNext);
+  onCategorySelect = ({ category, subCategoryId, product, pushToNext }) => {
+    this.setState({ category, subCategoryId, product }, async () => {
+      if (product) {
+        console.log("category is ", category)
+        try {
+          const res = await getReferenceDataForCategory(
+            category.id
+          );
+          this.setState({
+            insuranceProviders: res.categories[0].insuranceProviders,
+          }, () => {
+            this.pushInsuranceProviderStep();
+          });
+        } catch (e) {
+          showSnackbar({
+            text: e.message
+          });
+        }
+      } else {
+        this.initProduct(pushToNext);
+      }
     });
   };
+
 
   onAmountStepDone = product => {
     const { mainCategoryId, category, subCategories } = this.state;
@@ -836,8 +856,8 @@ class AddProductScreen extends React.Component {
                         style={styles.activeStepIndicatorDotInnerRing}
                       />
                     ) : (
-                      <View collapsable={false} />
-                    )}
+                        <View collapsable={false} />
+                      )}
                   </View>
                 ];
               })}
@@ -845,8 +865,8 @@ class AddProductScreen extends React.Component {
             {/* <Text weight='Bold' style={{ fontSize: 12, marginTop: 10, color: colors.secondaryText }}>Purchase date helps in warranty, service and other details</Text> */}
           </View>
         ) : (
-          <View collapsable={false} />
-        )}
+            <View collapsable={false} />
+          )}
         <FinishModal
           ref={ref => (this.finishModal = ref)}
           title="Product added to your eHome."

@@ -145,7 +145,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => {}
+  onUploadProgress = () => { }
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -543,6 +543,7 @@ export const getReferenceDataCategories = async mainCategoryId => {
 };
 
 export const getReferenceDataForCategory = async categoryId => {
+  console.log("s", categoryId)
   return await apiRequest({
     method: "get",
     url: `/referencedata`,
