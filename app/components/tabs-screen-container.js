@@ -19,7 +19,7 @@ export default class TabsScreenContainer extends React.Component {
       onTabChange,
       tabs,
       children,
-      scrollableTabViewRef
+      scrollableTabViewRef = () => {}
     } = this.props;
     return (
       <ScreenContainer style={styles.container}>
