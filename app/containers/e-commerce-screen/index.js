@@ -4,7 +4,9 @@ import {
   View,
   ScrollView,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  BackHandler,
+  Alert
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Modal from "react-native-modal";
@@ -15,6 +17,7 @@ import _ from "lodash";
 import Amazon from "./amazon";
 import Flipkart from "./flipkart";
 import { Text, Button, Image } from "../../elements";
+import HeaderBackBtn from "../../components/header-nav-back-btn";
 
 import Snackbar from "../../utils/snackbar";
 import { colors } from "../../theme";
@@ -24,8 +27,12 @@ import { SCREENS } from "../../constants";
 
 const NEW_LINE_REGEX = /(?:\r\n|\r|\n)/g;
 class EcommerceScreen extends Component {
-  static navigationOptions = {
-    title: "Start Shopping"
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
+    return {
+      title: "Start Shopping",
+      headerLeft: <HeaderBackBtn onPress={params.onBackPress} />
+    };
   };
 
   constructor(props) {
@@ -39,6 +46,11 @@ class EcommerceScreen extends Component {
     };
   }
   componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    this.props.navigation.setParams({
+      onBackPress: this.onBackPress
+    });
+
     console.log(
       'this.props.navigation.getParam("productId", null): ',
       this.props.navigation.getParam("productId", null)
@@ -48,6 +60,25 @@ class EcommerceScreen extends Component {
       productId: this.props.navigation.getParam("productId", null)
     });
   }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+  }
+
+  onBackPress = () => {
+    Alert.alert("Are you sure?", "Your progress will be gone.", [
+      {
+        text: "Yes, Go Back",
+        onPress: () => this.props.navigation.goBack()
+      },
+      {
+        text: "No, Stay",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      }
+    ]);
+    return true;
+  };
 
   getAmazonOrderDetails = async data => {
     const { item, productId } = this.state;
