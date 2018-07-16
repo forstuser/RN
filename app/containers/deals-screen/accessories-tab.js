@@ -621,8 +621,9 @@ export default class AccessoriesTab extends React.Component {
         >
           <ItemSelector
             selectModalTitle="Select a Category"
-            items={items.slice(0, 4)}
-            moreItems={items.slice(4)}
+            items={items}
+            // items={items.slice(0, 4)}
+            // moreItems={items.slice(4)}
             selectedItem={selectedItem}
             onItemSelect={this.onItemSelect}
             startOthersAfterCount={4}
