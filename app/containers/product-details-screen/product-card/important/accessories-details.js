@@ -80,7 +80,7 @@ class AccessoriesDetails extends React.Component {
             <AccessoryItem key={index} accessory={accessory} />
           ))}
           <AddItemBtn
-            text="Add Part and Accessory"
+            text="Add Part or Accessory"
             onPress={() => this.props.openAddEditAccessoryScreen(null)}
           />
         </ScrollView>
