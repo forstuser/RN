@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView, FlatList, Animated, StyleSheet, Dimensions, Image } from "react-native";
+import { View, ScrollView, FlatList, Animated } from "react-native";
 
 import Snackbar from "../../utils/snackbar";
 import { Text } from "../../elements";
@@ -23,22 +23,6 @@ const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const ITEM_SELECTOR_HEIGHT = 120;
 const ITEM_SELECTOR_HEIGHT_WITH_FILTERS = ITEM_SELECTOR_HEIGHT + 36;
-const slideImages = [
-  require("../../images/main-categories/ic_automobile.png"),
-  require("../../images/main-categories/ic_electronics.png"),
-  require("../../images/main-categories/ic_fashion.png"),
-  require("../../images/main-categories/ic_furniture.png"),
-  require("../../images/main-categories/ic_healthcare.png"),
-  require("../../images/main-categories/ic_home_expenses.png")
-];
-
-const Slide = ({ image }) => {
-  return (
-    <View style={styles.slide}>
-      <Image source={{ uri: image }} style={styles.slideImage} resizeMode="stretch" />
-    </View>
-  );
-};
 
 export default class OffersTab extends React.Component {
   lastListScrollPosition = 0;
@@ -59,55 +43,21 @@ export default class OffersTab extends React.Component {
     selectedMerchants: [],
     isLoading: false,
     offerCategories: [],
-    trending: [],
-    error: null,
-    scrollPosition: 0,
-    sliderIndex: 0
+    error: null
   };
 
   componentDidMount() {
     this.fetchCategories();
     this.listScrollPosition.addListener(this.onListScroll);
   }
-  componentWillUnmount() {
-    clearInterval(this.autoSlider);
-  }
-  autoSlide = () => {
-    const screenWidth = parseInt(Dimensions.get("window").width);
-    let scrollPosition = parseInt(this.state.scrollPosition);
-    let maxScrollPosition = Math.abs(screenWidth * (this.state.trending.length - 1));
-    console.log(screenWidth, scrollPosition, maxScrollPosition);
-    if (scrollPosition + 5 >= maxScrollPosition) { // added 5 just because Js float error
-      return this.slider.scrollTo({
-        x: 0,
-        y: 0,
-        animated: true
-      });
-    }
-    if (scrollPosition == 0 || scrollPosition % screenWidth == 0) {
-      const newScrollPosition = scrollPosition + screenWidth;
-      this.slider.scrollTo({
-        x: newScrollPosition,
-        y: 0,
-        animated: true
-      });
-    }
-  };
-
-  onSlidesScroll = event => {
-    const x = event.nativeEvent.contentOffset.x;
-    this.setState(() => ({
-      scrollPosition: x
-    }));
-  };
 
   onListScroll = ({ value }) => {
-    // console.log(
-    //   "lastListScrollPosition: ",
-    //   this.lastListScrollPosition,
-    //   "value: ",
-    //   value
-    // );
+    console.log(
+      "lastListScrollPosition: ",
+      this.lastListScrollPosition,
+      "value: ",
+      value
+    );
 
     if (value > 0) {
       if (value > this.lastListScrollPosition) {
@@ -140,6 +90,7 @@ export default class OffersTab extends React.Component {
       const res = await fetchOfferCategories();
       let defaultOrderIdsSort = res.default_ids;
       let categories = [];
+
       let resCategories = res.categories;
       for (let i = 0; i < defaultOrderIdsSort.length; i++) {
         for (let j = 0; j < resCategories.length; j++) {
@@ -182,8 +133,7 @@ export default class OffersTab extends React.Component {
         merchants: selectedMerchants
       });
       this.setState({
-        offerCategories: res.result || [],
-        trending: res.trending || []
+        offerCategories: res.result || []
       });
     } catch (e) {
       this.setState({ isLoading: false });
@@ -197,11 +147,6 @@ export default class OffersTab extends React.Component {
   };
 
   onCategorySelect = category => {
-    console.log("trending after category click", this.state.trending)
-    if (this.state.trending.length > 0) {
-      clearInterval(this.autoSlider);
-      this.autoSlider = setInterval(this.autoSlide, 3000);
-    }
     console.log("category: ", category);
     const { selectedCategory } = this.state;
     if (selectedCategory && selectedCategory.id == category.id) {
@@ -316,8 +261,7 @@ export default class OffersTab extends React.Component {
       selectedCashbackType,
       onlyOtherOfferTypes,
       selectedMerchants,
-      error,
-      trending
+      error
     } = this.state;
 
     if (error) {
@@ -384,19 +328,6 @@ export default class OffersTab extends React.Component {
             style={{ flex: 1 }}
             data={offerCategories}
             keyExtractor={item => item.id}
-            ListHeaderComponent={selectedCategory && trending.length > 0 ? <View style={{ height: 124, }}>
-              <ScrollView
-                ref={ref => (this.slider = ref)}
-                style={styles.slider}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                pagingEnabled={true}
-                onScroll={this.onSlidesScroll}
-              >
-                {trending.map((image) => <Slide image={image.goto_link} />)}
-              </ScrollView>
-            </View> : <View />
-            }
             renderItem={({ item }) => (
               <View>
                 <OfferCategory
@@ -463,7 +394,6 @@ export default class OffersTab extends React.Component {
             onItemSelect={this.onCategorySelect}
             startOthersAfterCount={4}
           />
-
           {isFilterApplied ? (
             <View
               style={{
@@ -515,7 +445,6 @@ export default class OffersTab extends React.Component {
           ) : (
               <View />
             )}
-
         </Animated.View>
         {/* {offerCategories.length == -1 ? (
           <View style={{ flex: 1, backgroundColor: "#f7f7f7", padding: 10 }}>
@@ -528,6 +457,7 @@ export default class OffersTab extends React.Component {
         ) : (
           <View />
         )} */}
+
         <LoadingOverlay visible={isLoading} />
         <OffersModal
           ref={node => (this.offersModal = node)}
@@ -548,21 +478,3 @@ export default class OffersTab extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  slide: {
-    width: Dimensions.get("window").width,
-    height: "100%",
-    padding: 10
-  },
-  slider: {
-    // flex: 1
-    // height: 100,
-    // marginTop: 200,
-  },
-  slideImage: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 3
-  },
-});

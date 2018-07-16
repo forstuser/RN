@@ -33,6 +33,7 @@ class Image extends Component {
     let headers = {
       Authorization: ""
     };
+    // console.log("image error", this.state.error)
     const token = store.getState().loggedInUser.authToken;
     if (token) {
       headers.Authorization = token;
@@ -60,21 +61,21 @@ class Image extends Component {
               {...props}
             />
           ) : (
-            <FastImage
-              onLoadEnd={() => this.setState({ isLoading: false })}
-              onError={() => this.setState({ error: true })}
-              style={[styles.image, { tintColor: props.tintColor }]}
-              source={source}
-              {...props}
-            />
-          )}
+              <FastImage
+                onLoadEnd={() => this.setState({ isLoading: false })}
+                onError={(error) => this.setState({ error })}
+                style={[styles.image, { tintColor: props.tintColor }]}
+                source={source}
+                {...props}
+              />
+            )}
           {this.state.isLoading ? (
             <View collapsable={false} style={styles.loader}>
               <ActivityIndicator size="small" color={colors.mainBlue} />
             </View>
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
           {this.state.error ? (
             <View collapsable={false} style={styles.errorImageContainer}>
               <FastImage
@@ -84,8 +85,8 @@ class Image extends Component {
               />
             </View>
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
         </View>
       );
     } else {

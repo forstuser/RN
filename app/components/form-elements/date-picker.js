@@ -177,7 +177,8 @@ const styles = StyleSheet.create({
     color: colors.mainBlue,
     position: 'relative',
     top: 16,
-    fontSize: 10
+    fontSize: 10,
+    marginLeft: -2
   }
 });
 

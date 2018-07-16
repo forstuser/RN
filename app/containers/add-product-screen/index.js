@@ -772,6 +772,7 @@ class AddProductScreen extends React.Component {
 
   render() {
     const {
+      expenseType,
       mainCategoryId,
       category,
       product,
@@ -871,6 +872,7 @@ class AddProductScreen extends React.Component {
           ref={ref => (this.finishModal = ref)}
           title="Product added to your eHome."
           mainCategoryId={mainCategoryId}
+          expenseType={expenseType}
           category={category}
           productId={product ? product.id : null}
           popOnDoItLater={popOnDoItLater}
