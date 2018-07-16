@@ -1214,10 +1214,10 @@ export const updateAccessory = async ({
     value: value || undefined,
     warranty: warrantyRenewalType
       ? {
-          id: warrantyId || undefined,
-          renewal_type: warrantyRenewalType || undefined,
-          effective_date: warrantyEffectiveDate || undefined
-        }
+        id: warrantyId || undefined,
+        renewal_type: warrantyRenewalType || undefined,
+        effective_date: warrantyEffectiveDate || undefined
+      }
       : {},
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
@@ -1251,10 +1251,10 @@ export const addAccessory = async ({
     value: value || undefined,
     warranty: warrantyRenewalType
       ? {
-          id: warrantyId || undefined,
-          renewal_type: warrantyRenewalType || undefined,
-          effective_date: warrantyEffectiveDate || undefined
-        }
+        id: warrantyId || undefined,
+        renewal_type: warrantyRenewalType || undefined,
+        effective_date: warrantyEffectiveDate || undefined
+      }
       : {},
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined

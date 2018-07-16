@@ -1,8 +1,8 @@
 import React from "react";
-import { View, ScrollView, FlatList, Animated, StyleSheet, Dimensions, Image } from "react-native";
+import { View, ScrollView, FlatList, Animated, StyleSheet, Dimensions } from "react-native";
 
 import Snackbar from "../../utils/snackbar";
-import { Text } from "../../elements";
+import { Text, Image } from "../../elements";
 import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
 import ItemSelector from "../../components/item-selector";
@@ -18,28 +18,18 @@ import OfferDetailedItem from "./offer-detailed-item";
 import OffersModal from "./offers-modal";
 import OffersFilterModal from "./offers-filter-modal";
 import Analytics from "../../analytics";
-
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
-
 const ITEM_SELECTOR_HEIGHT = 120;
 const ITEM_SELECTOR_HEIGHT_WITH_FILTERS = ITEM_SELECTOR_HEIGHT + 36;
-const slideImages = [
-  require("../../images/main-categories/ic_automobile.png"),
-  require("../../images/main-categories/ic_electronics.png"),
-  require("../../images/main-categories/ic_fashion.png"),
-  require("../../images/main-categories/ic_furniture.png"),
-  require("../../images/main-categories/ic_healthcare.png"),
-  require("../../images/main-categories/ic_home_expenses.png")
-];
 
-const Slide = ({ image }) => {
+const Slide = ({ id }) => {
+  let imageurl = API_BASE_URL + '/offer/' + id + "/banners";
   return (
     <View style={styles.slide}>
-      <Image source={{ uri: image }} style={styles.slideImage} resizeMode="stretch" />
+      <Image source={{ uri: imageurl }} style={styles.slideImage} resizeMode="contain" />
     </View>
   );
 };
-
 export default class OffersTab extends React.Component {
   lastListScrollPosition = 0;
   listScrollPosition = new Animated.Value(0);
@@ -68,6 +58,7 @@ export default class OffersTab extends React.Component {
   componentDidMount() {
     this.fetchCategories();
     this.listScrollPosition.addListener(this.onListScroll);
+    this.autoSlider = setInterval(this.autoSlide, 3000);
   }
   componentWillUnmount() {
     clearInterval(this.autoSlider);
@@ -77,20 +68,22 @@ export default class OffersTab extends React.Component {
     let scrollPosition = parseInt(this.state.scrollPosition);
     let maxScrollPosition = Math.abs(screenWidth * (this.state.trending.length - 1));
     console.log(screenWidth, scrollPosition, maxScrollPosition);
-    if (scrollPosition + 5 >= maxScrollPosition) { // added 5 just because Js float error
-      return this.slider.scrollTo({
-        x: 0,
-        y: 0,
-        animated: true
-      });
-    }
-    if (scrollPosition == 0 || scrollPosition % screenWidth == 0) {
-      const newScrollPosition = scrollPosition + screenWidth;
-      this.slider.scrollTo({
-        x: newScrollPosition,
-        y: 0,
-        animated: true
-      });
+    if (this.state.length > 0) {
+      if (scrollPosition + 5 >= maxScrollPosition) { // added 5 just because Js float error
+        return this.slider.scrollTo({
+          x: 0,
+          y: 0,
+          animated: true
+        });
+      }
+      if (scrollPosition == 0 || scrollPosition % screenWidth == 0) {
+        const newScrollPosition = scrollPosition + screenWidth;
+        this.slider.scrollTo({
+          x: newScrollPosition,
+          y: 0,
+          animated: true
+        });
+      }
     }
   };
 
@@ -197,12 +190,6 @@ export default class OffersTab extends React.Component {
   };
 
   onCategorySelect = category => {
-    console.log("trending after category click", this.state.trending)
-    if (this.state.trending.length > 0) {
-      clearInterval(this.autoSlider);
-      this.autoSlider = setInterval(this.autoSlide, 3000);
-    }
-    console.log("category: ", category);
     const { selectedCategory } = this.state;
     if (selectedCategory && selectedCategory.id == category.id) {
       return;
@@ -384,18 +371,19 @@ export default class OffersTab extends React.Component {
             style={{ flex: 1 }}
             data={offerCategories}
             keyExtractor={item => item.id}
-            ListHeaderComponent={selectedCategory && trending.length > 0 ? <View style={{ height: 124, }}>
-              <ScrollView
-                ref={ref => (this.slider = ref)}
-                style={styles.slider}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                pagingEnabled={true}
-                onScroll={this.onSlidesScroll}
-              >
-                {trending.map((image) => <Slide image={image.goto_link} />)}
-              </ScrollView>
-            </View> : <View />
+            ListHeaderComponent={selectedCategory && trending.length > 0 ?
+              <View style={{ height: 124, }}>
+                <ScrollView
+                  ref={ref => (this.slider = ref)}
+                  style={styles.slider}
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  pagingEnabled={true}
+                  onScroll={this.onSlidesScroll}
+                >
+                  {trending.map((image) => <Slide id={image.offer_id} />)}
+                </ScrollView>
+              </View> : <View />
             }
             renderItem={({ item }) => (
               <View>

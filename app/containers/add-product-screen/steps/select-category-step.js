@@ -44,7 +44,8 @@ class SelectCategoryStep extends React.Component {
       isModalVisible: false,
       userProducts: [],
       reasons: [],
-      selectedCategory: null
+      selectedCategory: null,
+      addAnotherTxt: '',
     };
   }
   componentDidMount() {
@@ -476,6 +477,9 @@ class SelectCategoryStep extends React.Component {
   };
   changeOption = category => {
     console.log("props check", category)
+    this.setState({
+      addAnotherTxt: category.name
+    })
     let { otherOptions } = this.state;
     console.log("other options", otherOptions)
     console.log("Main cat id", this.props.mainCategoryId);
@@ -534,7 +538,8 @@ class SelectCategoryStep extends React.Component {
       reasons,
       isModalVisible,
       userProducts,
-      selectedCategory
+      selectedCategory,
+      addAnotherTxt
     } = this.state;
     return (
       <Step
@@ -684,14 +689,14 @@ class SelectCategoryStep extends React.Component {
               avoidKeyboard={Platform.OS == "ios"}
             >
               <View style={styles.modal}>
-                <View style={{ backgroundColor: colors.pinkishOrange, padding: 5 }}>
+                <View style={{ backgroundColor: colors.pinkishOrange, padding: 10, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
                   <Text weight="Bold" style={{ color: '#fff', fontSize: 17 }}>Choose Vehicle to Add Insurance</Text>
                 </View>
                 {userProducts.map((item, index) => (
                   <TouchableWithoutFeedback
                     onPress={() => this.existingProduct(item)}
                   >
-                    <View key={index} style={{ flexDirection: 'row' }}>
+                    <View key={index} style={styles.optionPosition}>
                       <View style={styles.optionIconContainer}>
                         <Image
                           style={
@@ -708,7 +713,7 @@ class SelectCategoryStep extends React.Component {
                 <TouchableWithoutFeedback
                   onPress={() => this.freshProduct(selectedCategory)}
                 >
-                  <View style={{ flexDirection: 'row' }}>
+                  <View style={styles.optionPosition}>
                     <View style={styles.optionIconContainer}>
                       <Image
                         style={
@@ -718,7 +723,7 @@ class SelectCategoryStep extends React.Component {
                         source={selectedCategory.icon}
                       />
                     </View>
-                    <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5 }}>Add Another Four Wheeler</Text>
+                    <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5 }}>Add Another {addAnotherTxt}</Text>
                   </View>
                 </TouchableWithoutFeedback>
                 <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
@@ -739,8 +744,8 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     position: "absolute",
-    right: 5,
-    top: 5,
+    right: 10,
+    top: 10,
     paddingHorizontal: 10
   },
   body: {
@@ -773,7 +778,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FAFAFA",
     borderRadius: 40,
-    marginBottom: 12
+    // marginBottom: 12
+  },
+  optionPosition: {
+    flexDirection: 'row',
+    marginTop: 5,
+    marginLeft: 5
   },
   selectedOptionIconContainer: {
     backgroundColor: "#FFF",
@@ -786,7 +796,7 @@ const styles = StyleSheet.create({
   optionIcon: {
     width: 50,
     height: 50,
-    opacity: 0.3
+    // opacity: 0.3
   },
   selectedOptionIcon: {
     opacity: 1
