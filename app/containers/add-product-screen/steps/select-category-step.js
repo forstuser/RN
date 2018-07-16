@@ -483,21 +483,26 @@ class SelectCategoryStep extends React.Component {
     let { otherOptions } = this.state;
     console.log("other options", otherOptions)
     console.log("Main cat id", this.props.mainCategoryId);
-    otherOptions.map((item, index) => {
-      if (item.id == category.id) {
-        if (otherOptions[index].products.length > 0 && this.props.expenseType == EXPENSE_TYPES.AUTO_INSURANCE) {
-          // open modal
-          this.setState({
-            isModalVisible: true,
-            selectedCategory: category,
-            userProducts: otherOptions[index].products
-          })
+    if (otherOptions.length > 0) {
+      otherOptions.map((item, index) => {
+        if (item.id == category.id) {
+          if (otherOptions[index].products.length > 0 && this.props.expenseType == EXPENSE_TYPES.AUTO_INSURANCE) {
+            // open modal
+            this.setState({
+              isModalVisible: true,
+              selectedCategory: category,
+              userProducts: otherOptions[index].products
+            })
+          }
+          else {
+            this.freshProduct(category);
+          }
         }
-        else {
-          this.freshProduct(category);
-        }
-      }
-    })
+      })
+    } else {
+      this.freshProduct(category);
+    }
+
 
   };
   freshProduct = category => {
@@ -690,7 +695,7 @@ class SelectCategoryStep extends React.Component {
             >
               <View style={styles.modal}>
                 <View style={{ backgroundColor: colors.pinkishOrange, padding: 10, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
-                  <Text weight="Bold" style={{ color: '#fff', fontSize: 17 }}>Choose Vehicle to Add Insurance</Text>
+                  <Text weight="Bold" style={{ color: '#fff', fontSize: 17 }}>Select Vehicle to Add Insurance</Text>
                 </View>
                 {userProducts.map((item, index) => (
                   <TouchableWithoutFeedback
@@ -790,7 +795,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    // shadowOpacity: 0.3,
     shadowRadius: 2
   },
   optionIcon: {
@@ -799,7 +804,7 @@ const styles = StyleSheet.create({
     // opacity: 0.3
   },
   selectedOptionIcon: {
-    opacity: 1
+    // opacity: 1
   },
   optionName: {
     color: "#000",

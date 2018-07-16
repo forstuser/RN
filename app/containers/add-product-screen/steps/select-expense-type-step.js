@@ -104,6 +104,11 @@ class ChooseExpenseTypeScreen extends React.Component {
         icon: require("../../../images/main-categories/ic_furniture.png")
       },
       {
+        type: EXPENSE_TYPES.AUTO_INSURANCE,
+        title: "Auto Insurance",
+        icon: require("../../../images/main-categories/auto_insurance.png")
+      },
+      {
         type: EXPENSE_TYPES.MEDICAL_DOCS,
         title: "Medical Insurance & Docs",
         icon: require("../../../images/main-categories/ic_medical_prescription.png")
@@ -112,11 +117,6 @@ class ChooseExpenseTypeScreen extends React.Component {
         type: EXPENSE_TYPES.PERSONAL,
         title: "Personal Docs",
         icon: require("../../../images/main-categories/ic_personal_doc.png")
-      },
-      {
-        type: EXPENSE_TYPES.AUTO_INSURANCE,
-        title: "Auto Insurance",
-        icon: require("../../../images/main-categories/auto_insurance.png")
       }
     ];
 

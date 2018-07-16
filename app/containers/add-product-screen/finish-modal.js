@@ -8,7 +8,8 @@ import {
   SCREENS,
   MAIN_CATEGORY_IDS,
   CATEGORY_IDS,
-  MAIN_CATEGORIES
+  MAIN_CATEGORIES,
+  EXPENSE_TYPES
 } from "../../constants";
 import I18n from "../../i18n";
 import Analytics from "../../analytics";
@@ -72,11 +73,11 @@ class FinishModal extends React.Component {
     const {
       mainCategoryId,
       category,
+      expenseType,
       showRepairIcon = false,
       navigation
     } = this.props;
     const { visible } = this.state;
-
     let title = I18n.t("add_edit_expense_screen_title_add_eHome");
     let btnText = I18n.t("add_edit_expense_screen_title_add_products");
     switch (mainCategoryId) {
@@ -95,6 +96,10 @@ class FinishModal extends React.Component {
       default:
         title = "Expense added in your eHome";
         btnText = "ADD MORE EXPENSE";
+    }
+
+    if (expenseType == EXPENSE_TYPES.AUTO_INSURANCE) {
+      title = "Insurance added to your product in eHome";
     }
 
     if (!mainCategoryId) {
@@ -118,10 +123,10 @@ class FinishModal extends React.Component {
                   source={
                     mainCategoryId
                       ? {
-                          uri:
-                            API_BASE_URL +
-                            `/categories/${mainCategoryId}/images/1`
-                        }
+                        uri:
+                          API_BASE_URL +
+                          `/categories/${mainCategoryId}/images/1`
+                      }
                       : repairIcon
                   }
                   resizeMode="contain"
