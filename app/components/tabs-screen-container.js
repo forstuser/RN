@@ -78,10 +78,9 @@ const styles = StyleSheet.create({
   header: {
     paddingBottom: 0,
     width: "100%",
-    height: 120,
     ...Platform.select({
-      ios: { height: 120, paddingTop: 20 },
-      android: { height: 100, paddingTop: 0 }
+      ios: { height: 1110, paddingTop: 20 },
+      android: { height: 90, paddingTop: 0 }
     })
   },
   headerUpperHalf: {
