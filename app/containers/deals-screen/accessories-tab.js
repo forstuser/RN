@@ -38,7 +38,7 @@ export default class AccessoriesTab extends React.Component {
   state = {
     defaultCategoryId: null,
     defaultProductId: null,
-    defaultAccessoryId: null,
+    defaultAccessoryCategoryId: null,
     products: [],
     categories: [],
     showSelectBrand: false,
@@ -66,7 +66,7 @@ export default class AccessoriesTab extends React.Component {
     this.setState(() => ({
       defaultCategoryId: categoryId,
       defaultProductId: productId,
-      defaultAccessoryId: accessoryId
+      defaultAccessoryCategoryId: accessoryId
     }));
   };
 
@@ -155,7 +155,7 @@ export default class AccessoriesTab extends React.Component {
       const {
         defaultCategoryId,
         defaultProductId,
-        defaultAccessoryId
+        defaultAccessoryCategoryId
       } = this.state;
       if (defaultProductId) {
         this.onItemSelect(
@@ -392,11 +392,22 @@ export default class AccessoriesTab extends React.Component {
   getAccessories = async () => {
     if (this.state.isLoadingAccessories) return;
     this.listScrollPosition.setValue(0);
-    const { selectedAccessoryCategoryIds } = this.props;
-    const { accessoryCategories, selectedCategoryId, product } = this.state;
+    let { selectedAccessoryCategoryIds } = this.props;
+    const {
+      accessoryCategories,
+      selectedCategoryId,
+      product,
+      defaultAccessoryCategoryId
+    } = this.state;
+    if (
+      selectedAccessoryCategoryIds.length == 0 &&
+      defaultAccessoryCategoryId
+    ) {
+      selectedAccessoryCategoryIds = [defaultAccessoryCategoryId];
+    }
 
-    console.log("isLoadingAccessories: true");
     this.setState({ isLoadingAccessories: true });
+
     try {
       const res = await getAccessories({
         categoryId: selectedCategoryId,
