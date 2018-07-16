@@ -486,7 +486,7 @@ class SelectCategoryStep extends React.Component {
     if (otherOptions.length > 0) {
       otherOptions.map((item, index) => {
         if (item.id == category.id) {
-          if (otherOptions[index].products.length > 0 && this.props.expenseType == EXPENSE_TYPES.AUTO_INSURANCE) {
+          if (this.props.expenseType == EXPENSE_TYPES.AUTO_INSURANCE) {
             // open modal
             this.setState({
               isModalVisible: true,
@@ -728,7 +728,8 @@ class SelectCategoryStep extends React.Component {
                         source={selectedCategory.icon}
                       />
                     </View>
-                    <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5 }}>Add Another {addAnotherTxt}</Text>
+
+                    <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5, color: colors.mainBlue }}>Add {userProducts.length > 0 ? 'Another' : ''} {addAnotherTxt}</Text>
                   </View>
                 </TouchableWithoutFeedback>
                 <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
