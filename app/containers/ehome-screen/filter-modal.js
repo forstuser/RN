@@ -41,8 +41,9 @@ export default class filters extends React.Component {
   };
 
   resetAllFilters = () => {
-    this.setState(() => ({ selectedCategories: [] }));
-    this.applyFilter();
+    this.setState({ selectedCategories: [] }, () => {
+      this.applyFilter();
+    });
   };
 
   toggleCategory = category => {
