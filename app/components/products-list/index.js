@@ -29,7 +29,9 @@ const ProductsList = props => {
     mainCategoryId,
     category,
     error = null,
-    endHasReached = false
+    endHasReached = false,
+    onListScroll = () => {},
+    showEndReachedMsg = true
   } = props;
 
   if (error) {
@@ -59,6 +61,7 @@ const ProductsList = props => {
       }}
     >
       <FlatList
+        onScroll={onListScroll}
         data={products}
         keyExtractor={item => item.id}
         renderItem={renderProductItem}
@@ -88,7 +91,7 @@ const ProductsList = props => {
                 <Text
                   style={{ textAlign: "center", color: colors.secondaryText }}
                 >
-                  No More Results
+                  {showEndReachedMsg ? "No More Results" : ""}
                 </Text>
               ) : (
                 <ActivityIndicator color={colors.mainBlue} animating={true} />
