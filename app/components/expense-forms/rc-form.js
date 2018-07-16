@@ -83,7 +83,10 @@ class RcForm extends React.Component {
         renewalType => renewalType.id == rc.renewal_type
       );
 
-      const selectedState = states.find(state => state.id == rc.state.id);
+      let selectedState = null;
+      if (rc.state) {
+        selectedState = states.find(state => state.id == rc.state.id);
+      }
 
       this.setState(
         {

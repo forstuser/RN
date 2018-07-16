@@ -312,7 +312,7 @@ const WAGES_CYCLE = {
 
 const METADATA_KEYS = {
   VIN: "vin",
-  CHASIS_NUMBER: "Chasis Number",
+  CHASIS_NUMBER: "Chassis Number",
   IMEI_NUMBER: "IMEI Number",
   SERIAL_NUMBER: "Serial Number",
   REGISTRATION_NUMBER: "Registration Number",

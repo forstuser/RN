@@ -142,7 +142,7 @@ class EhomeScreen extends Component {
       });
 
       const newState = { products: [...products, ...res.productList] };
-      if (res.productList.length == 0) {
+      if (res.productList.length < 10) {
         newState.endHasReached = true;
       }
       if (tab.selectedCategories.length == 0) {
