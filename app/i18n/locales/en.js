@@ -1022,14 +1022,14 @@ export default {
   language_options_confirm_msg_title: "Change language to {{languageName}}?",
   language_options_confirm_msg_desc: "App may restart to reflect the changes.",
   language_options_cancel: "Cancel",
-  changing_text_please_wait: "changing.. please wait..",
+  changing_text_please_wait: "Updating details, please wait!",
   resend_button: "Resend",
 
   //27-03-2018
   love_using_binbill: "Love using BinBill app?",
   recommend_us: `If you are happy with your Home Manager, please rate us on ${
     Platform.OS == "ios" ? "App" : "Play"
-  } store.`,
+    } store.`,
   app_pin: "App Pin",
   change: "Change",
   set_now: "Set Now",

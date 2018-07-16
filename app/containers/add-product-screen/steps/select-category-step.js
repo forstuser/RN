@@ -486,7 +486,7 @@ class SelectCategoryStep extends React.Component {
     if (otherOptions.length > 0) {
       otherOptions.map((item, index) => {
         if (item.id == category.id) {
-          if (otherOptions[index].products.length > 0 && this.props.expenseType == EXPENSE_TYPES.AUTO_INSURANCE) {
+          if (this.props.expenseType == EXPENSE_TYPES.AUTO_INSURANCE) {
             // open modal
             this.setState({
               isModalVisible: true,
