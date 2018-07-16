@@ -28,7 +28,7 @@ import Analytics from "../../analytics";
 import { CATEGORY_IDS } from "../../constants";
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
-const ITEM_SELECTOR_HEIGHT = 120;
+const ITEM_SELECTOR_HEIGHT = 95;
 
 export default class AccessoriesTab extends React.Component {
   lastListScrollPosition = 0;
