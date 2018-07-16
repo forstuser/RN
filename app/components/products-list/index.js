@@ -28,7 +28,7 @@ const ProductsList = props => {
     onRefresh,
     mainCategoryId,
     category,
-    error = {},
+    error = null,
     endHasReached = false
   } = props;
 
