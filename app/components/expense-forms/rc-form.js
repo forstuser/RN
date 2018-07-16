@@ -234,7 +234,7 @@ class RcForm extends React.Component {
               jobId={jobId}
               docType="RC"
               type={9}
-              placeholder={I18n.t("expense_forms_puc_upload_doc")}
+              placeholder="Upload RC Doc"
               hint={"Recommended"}
               placeholder2Color={colors.mainBlue}
               placeholderAfterUpload="Doc Uploaded Successfully"

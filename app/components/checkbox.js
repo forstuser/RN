@@ -4,7 +4,6 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { colors } from "../theme";
 
 export default ({ isChecked, onPress, style = {} }) => {
-  console.log("isChecked: ", isChecked);
   return (
     <View
       style={[

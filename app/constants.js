@@ -119,6 +119,9 @@ const CATEGORY_IDS = {
     RENT_AGREEMENT: 28,
     VISITING_CARD: 27,
     OTHER_PERSONAL_DOC: 111
+  },
+  OTHERS: {
+    HOME_INNOVATIONS: 126
   }
 };
 const SUB_CATEGORY_IDS = {
@@ -309,6 +312,7 @@ const WAGES_CYCLE = {
 
 const METADATA_KEYS = {
   VIN: "vin",
+  CHASIS_NUMBER: "Chasis Number",
   IMEI_NUMBER: "IMEI Number",
   SERIAL_NUMBER: "Serial Number",
   REGISTRATION_NUMBER: "Registration Number",

@@ -219,8 +219,8 @@ class AccessoryForm extends React.Component {
           <View collapsable={false} style={styles.body}>
             <SelectModal
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder="Select Part Category"
-              textInputPlaceholder="Enter Part Category Name"
+              placeholder="Select Category"
+              textInputPlaceholder="Enter Category Name"
               placeholderRenderer={({ placeholder }) => (
                 <View collapsable={false} style={{ flexDirection: "row" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>

@@ -25,6 +25,7 @@ import {
 import AccessoryCategory from "./accessory-category";
 import { colors } from "../../theme";
 import Analytics from "../../analytics";
+import { CATEGORY_IDS } from "../../constants";
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 const ITEM_SELECTOR_HEIGHT = 120;
@@ -35,6 +36,9 @@ export default class AccessoriesTab extends React.Component {
   topPaddingElement = new Animated.Value(0);
 
   state = {
+    defaultCategoryId: null,
+    defaultProductId: null,
+    defaultAccessoryId: null,
     products: [],
     categories: [],
     showSelectBrand: false,
@@ -44,6 +48,7 @@ export default class AccessoriesTab extends React.Component {
     isLoading: false,
     isLoadingAccessories: false,
     selectedItem: null,
+    selectedCategoryId: null,
     items: [],
     accessoryCategories: [],
     product: null,
@@ -56,6 +61,14 @@ export default class AccessoriesTab extends React.Component {
     this.fetchAccessoriesData();
     this.listScrollPosition.addListener(this.onListScroll);
   }
+
+  setDefaultValues = ({ categoryId, productId, accessoryId }) => {
+    this.setState(() => ({
+      defaultCategoryId: categoryId,
+      defaultProductId: productId,
+      defaultAccessoryId: accessoryId
+    }));
+  };
 
   onListScroll = ({ value }) => {
     if (value > 0) {
@@ -89,13 +102,26 @@ export default class AccessoriesTab extends React.Component {
       error: null
     });
     try {
+      let items = [];
       let categoriesArray = [];
       let productsArray = [];
       const res = await getAccessoriesCategory();
       res.default_ids.forEach(defaultId => {
         for (let i = 0; i < res.result.length; i++) {
           const category = res.result[i];
-          if (category.category_id == defaultId) {
+          if (
+            defaultId == CATEGORY_IDS.OTHERS.HOME_INNOVATIONS &&
+            category.category_id == CATEGORY_IDS.OTHERS.HOME_INNOVATIONS
+          ) {
+            items.push({
+              type: "category",
+              id: category.category_id,
+              name: category.category_name,
+              imageUrl: category.image_url,
+              accessoryCategories: category.accessories,
+              ...category
+            });
+          } else if (category.category_id == defaultId) {
             if (category.products.length == 0) {
               categoriesArray.push({
                 type: "category",
@@ -123,10 +149,23 @@ export default class AccessoriesTab extends React.Component {
         }
       });
 
-      this.setState({
-        items: [...productsArray, ...categoriesArray]
-      });
+      items = [...items, ...productsArray, ...categoriesArray];
+      this.setState({ items });
+
+      const {
+        defaultCategoryId,
+        defaultProductId,
+        defaultAccessoryId
+      } = this.state;
+      if (defaultProductId) {
+        this.onItemSelect(
+          items.find(
+            item => item.type == "product" && item.id == defaultProductId
+          )
+        );
+      }
     } catch (error) {
+      console.log("error: ", error);
       this.setState({
         error
       });
@@ -308,12 +347,32 @@ export default class AccessoriesTab extends React.Component {
         showSelectModel: false
       },
       () => {
-        if (item.type == "category") {
-          this.initProduct();
+        if (
+          item.type == "category" &&
+          item.id == CATEGORY_IDS.OTHERS.HOME_INNOVATIONS
+        ) {
+          this.setState(
+            {
+              selectedCategoryId: item.id
+            },
+            () => {
+              this.getAccessoriesFirstPage();
+            }
+          );
+        } else if (item.type == "category") {
+          this.setState(
+            {
+              selectedCategoryId: item.id
+            },
+            () => {
+              this.initProduct();
+            }
+          );
         } else {
           this.setState(
             {
-              product: item
+              product: item,
+              selectedCategoryId: item.category_id
             },
             () => {
               this.getAccessoriesFirstPage();
@@ -334,17 +393,17 @@ export default class AccessoriesTab extends React.Component {
     if (this.state.isLoadingAccessories) return;
     this.listScrollPosition.setValue(0);
     const { selectedAccessoryCategoryIds } = this.props;
-    const { accessoryCategories, product } = this.state;
+    const { accessoryCategories, selectedCategoryId, product } = this.state;
 
     console.log("isLoadingAccessories: true");
     this.setState({ isLoadingAccessories: true });
     try {
       const res = await getAccessories({
-        categoryId: product.category_id,
+        categoryId: selectedCategoryId,
         offset: accessoryCategories.length,
         accessoryIds: selectedAccessoryCategoryIds,
-        brandId: product.brand_id,
-        model: product.model
+        brandId: product ? product.brand_id : undefined,
+        model: product ? product.model : undefined
       });
       if (res.result.length > 0) {
         let endHasReached = false;
@@ -379,7 +438,7 @@ export default class AccessoriesTab extends React.Component {
   };
 
   render() {
-    const { selectedAccessoryCategoryIds } = this.props;
+    const { selectedAccessoryCategoryIds, accessoriesTabRef } = this.props;
     const {
       products,
       categories,
@@ -392,6 +451,7 @@ export default class AccessoriesTab extends React.Component {
       selectedItem,
       items,
       accessoryCategories,
+      selectedCategoryId,
       product,
       brandName,
       modelName,
@@ -406,8 +466,13 @@ export default class AccessoriesTab extends React.Component {
     }
 
     return (
-      <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
-        {!showSelectBrand && !showSelectModel && !product ? (
+      <View
+        ref={ref => {
+          accessoriesTabRef(ref);
+        }}
+        style={{ flex: 1, backgroundColor: "#f7f7f7" }}
+      >
+        {!showSelectBrand && !showSelectModel && !selectedCategoryId ? (
           <View
             style={{
               flex: 1,

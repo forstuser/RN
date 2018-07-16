@@ -4,13 +4,15 @@ import {
   View,
   Image,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  ActivityIndicator
 } from "react-native";
 import moment from "moment";
 import { Text, Button } from "../../elements";
 import I18n from "../../i18n";
 import { colors } from "../../theme";
 import ProductListItem from "../product-list-item";
+import ErrorOverlay from "../../components/error-overlay";
 import EmptyProductListPlaceholder from "./empty-product-list-placeholder";
 
 // destructuring not working for some reasons
@@ -19,13 +21,20 @@ const ProductsList = props => {
     type,
     navigation,
     products = [],
+    isLoadingFirstPage = false,
     isLoading = false,
     onEndReached,
     onEndReachedThreshold = 50,
     onRefresh,
     mainCategoryId,
-    category
+    category,
+    error = {},
+    endHasReached = false
   } = props;
+
+  if (error) {
+    return <ErrorOverlay error={error} onRetryPress={onRefresh} />;
+  }
 
   const renderProductItem = ({ item }) => (
     <View
@@ -38,38 +47,58 @@ const ProductsList = props => {
       <ProductListItem navigation={navigation} product={item} />
     </View>
   );
-  if (!isLoading && products.length == 0) {
-    return (
-      <EmptyProductListPlaceholder
-        type={type}
-        mainCategoryId={mainCategoryId}
-        category={category}
-        navigation={navigation}
+
+  return (
+    <View
+      collapsable={false}
+      style={{
+        flex: 1,
+        backgroundColor: "#fff",
+        paddingTop: 0,
+        marginTop: 10
+      }}
+    >
+      <FlatList
+        data={products}
+        keyExtractor={item => item.id}
+        renderItem={renderProductItem}
+        onEndReached={onEndReached}
+        onEndReachedThreshold={onEndReachedThreshold}
+        onRefresh={onRefresh}
+        refreshing={isLoadingFirstPage}
+        ListEmptyComponent={
+          !isLoading && products.length == 0 ? (
+            <EmptyProductListPlaceholder
+              type={type}
+              mainCategoryId={mainCategoryId}
+              category={category}
+              navigation={navigation}
+            />
+          ) : null
+        }
+        ListFooterComponent={
+          products.length > 0 ? (
+            <View
+              style={{
+                height: 60,
+                justifyContent: "center"
+              }}
+            >
+              {endHasReached ? (
+                <Text
+                  style={{ textAlign: "center", color: colors.secondaryText }}
+                >
+                  No More Results
+                </Text>
+              ) : (
+                <ActivityIndicator color={colors.mainBlue} animating={true} />
+              )}
+            </View>
+          ) : null
+        }
       />
-    );
-  } else {
-    return (
-      <View
-        collapsable={false}
-        style={{
-          flex: 1,
-          backgroundColor: "#fff",
-          paddingTop: 0,
-          marginTop: 10
-        }}
-      >
-        <FlatList
-          data={products}
-          keyExtractor={item => item.id}
-          renderItem={renderProductItem}
-          onEndReached={onEndReached}
-          onEndReachedThreshold={onEndReachedThreshold}
-          onRefresh={onRefresh}
-          refreshing={isLoading}
-        />
-      </View>
-    );
-  }
+    </View>
+  );
 };
 
 export default ProductsList;

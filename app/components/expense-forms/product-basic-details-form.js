@@ -4,7 +4,11 @@ import Icon from "react-native-vector-icons/Ionicons";
 import moment from "moment";
 
 import { API_BASE_URL } from "../../api";
-import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
+import {
+  MAIN_CATEGORY_IDS,
+  CATEGORY_IDS,
+  METADATA_KEYS
+} from "../../constants";
 import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 import I18n from "../../i18n";
 import { Text } from "../../elements";
@@ -36,11 +40,11 @@ class BasicDetailsForm extends React.Component {
       sellerName: "",
       sellerAddress: "",
       sellerContact: "",
-      vinNo: "",
+      chasisNumber: "",
       registrationNo: "",
       imeiNo: "",
       serialNo: "",
-      vinNoId: null,
+      chasisNumberId: null,
       registrationNoId: null,
       imeiNoId: null,
       serialNoId: null
@@ -73,11 +77,11 @@ class BasicDetailsForm extends React.Component {
       sellerName,
       sellerAddress,
       sellerContact,
-      vinNo,
+      chasisNumber,
       registrationNo,
       imeiNo,
       serialNo,
-      vinNoId,
+      chasisNumberId,
       registrationNoId,
       imeiNoId,
       serialNoId,
@@ -108,11 +112,11 @@ class BasicDetailsForm extends React.Component {
       sellerName,
       sellerAddress,
       sellerContact,
-      vinNo,
+      chasisNumber,
       registrationNo,
       imeiNo,
       serialNo,
-      vinNoId,
+      chasisNumberId,
       registrationNoId,
       imeiNoId,
       serialNoId
@@ -132,11 +136,11 @@ class BasicDetailsForm extends React.Component {
       value,
       sellerName,
       sellerAddress,
-      vinNo,
+      chasisNumber,
       registrationNo,
       imeiNo,
       serialNo,
-      vinNoId,
+      chasisNumberId,
       registrationNoId,
       imeiNoId,
       serialNoId
@@ -149,7 +153,7 @@ class BasicDetailsForm extends React.Component {
 
     if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
       const registrationNoCategoryForm = categoryForms.find(
-        categoryForm => categoryForm.title == "Registration Number"
+        categoryForm => categoryForm.title == METADATA_KEYS.REGISTRATION_NUMBER
       );
       registrationNoCategoryForm &&
         metadata.push({
@@ -159,20 +163,21 @@ class BasicDetailsForm extends React.Component {
           isNewValue: false
         });
 
-      const vinNoCategoryForm = categoryForms.find(
-        categoryForm => categoryForm.title.toLowerCase() == "vin"
+      const chasisNumberCategoryForm = categoryForms.find(
+        categoryForm =>
+          categoryForm.title.toLowerCase() == METADATA_KEYS.CHASIS_NUMBER
       );
-      vinNoCategoryForm &&
+      chasisNumberCategoryForm &&
         metadata.push({
-          id: vinNoId,
-          categoryFormId: vinNoCategoryForm.id,
-          value: vinNo,
+          id: chasisNumberId,
+          categoryFormId: chasisNumberCategoryForm.id,
+          value: chasisNumber,
           isNewValue: false
         });
     } else if (mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
       if (this.props.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
         const imeiNoCategoryForm = categoryForms.find(
-          categoryForm => categoryForm.title == "IMEI Number"
+          categoryForm => categoryForm.title == METADATA_KEYS.IMEI_NUMBER
         );
 
         imeiNoCategoryForm &&
@@ -184,7 +189,7 @@ class BasicDetailsForm extends React.Component {
           });
       } else {
         const serialNoCategoryForm = categoryForms.find(
-          categoryForm => categoryForm.title == "Serial Number"
+          categoryForm => categoryForm.title == METADATA_KEYS.SERIAL_NUMBER
         );
         serialNoCategoryForm &&
           metadata.push({
@@ -355,7 +360,7 @@ class BasicDetailsForm extends React.Component {
       sellerName,
       sellerAddress,
       sellerContact,
-      vinNo,
+      chasisNumber,
       registrationNo,
       imeiNo,
       serialNo,
@@ -551,9 +556,13 @@ class BasicDetailsForm extends React.Component {
               {mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ? (
                 <View collapsable={false}>
                   <CustomTextInput
-                    placeholder={I18n.t("expense_forms_product_basics_vin_no")}
-                    value={vinNo}
-                    onChangeText={vinNo => this.setState({ vinNo })}
+                    placeholder={I18n.t(
+                      "expense_forms_product_basics_chasis_no"
+                    )}
+                    value={chasisNumber}
+                    onChangeText={chasisNumber =>
+                      this.setState({ chasisNumber })
+                    }
                   />
                   <CustomTextInput
                     placeholder={I18n.t(

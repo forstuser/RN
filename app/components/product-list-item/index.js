@@ -111,6 +111,7 @@ const ProductListItem = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
+    margin: 5,
     marginBottom: 10,
     borderRadius: 3,
     ...defaultStyles.card

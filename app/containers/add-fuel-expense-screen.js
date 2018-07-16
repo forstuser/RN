@@ -37,7 +37,7 @@ class AddFuelExpenseScreen extends React.Component {
     const params = navigation.state.params || {};
     console.log("params: ", params);
     return {
-      title: "Refueling & Mileage Calculation",
+      title: "Fuel Consumption Chart",
       headerRight: params.isEditing ? (
         <Text
           onPress={params.onDeletePress}
@@ -55,22 +55,35 @@ class AddFuelExpenseScreen extends React.Component {
     super(props);
 
     const { navigation } = this.props;
-    const { fuelExpense } = navigation.state.params;
+    const { product, fuelExpense } = navigation.state.params;
+
+    let fuelType = FUEL_TYPES.PETROL;
+    if (product.fuel_details.length > 0) {
+      fuelType = product.fuel_details[0].fuel_type;
+    }
 
     this.state = {
       isLoading: false,
       id: fuelExpense ? fuelExpense.id : null,
-      effectiveDate: fuelExpense
-        ? moment(fuelExpense.document_date).format("YYYY-MM-DD")
-        : moment().format("YYYY-MM-DD"),
-      odometerReading: fuelExpense
-        ? String(fuelExpense.odometer_reading)
-        : null,
-      documentNumber: fuelExpense ? String(fuelExpense.document_number) : null,
-      value: fuelExpense ? String(fuelExpense.value) : 0,
-      fuelQuantity: fuelExpense ? String(fuelExpense.fuel_quantity) : null,
-      fuelType: fuelExpense ? fuelExpense.fuel_type : FUEL_TYPES.PETROL,
-      copies: fuelExpense ? fuelExpense.copies : []
+      effectiveDate:
+        fuelExpense && fuelExpense.document_date
+          ? moment(fuelExpense.document_date).format("YYYY-MM-DD")
+          : moment().format("YYYY-MM-DD"),
+      odometerReading:
+        fuelExpense && fuelExpense.odometer_reading
+          ? String(fuelExpense.odometer_reading)
+          : null,
+      documentNumber:
+        fuelExpense && fuelExpense.document_number
+          ? String(fuelExpense.document_number)
+          : null,
+      value: fuelExpense && fuelExpense.value ? String(fuelExpense.value) : 0,
+      fuelQuantity:
+        fuelExpense && fuelExpense.fuel_quantity
+          ? String(fuelExpense.fuel_quantity)
+          : null,
+      fuelType: fuelType,
+      copies: fuelExpense && fuelExpense.copies ? fuelExpense.copies : []
     };
   }
 
@@ -181,6 +194,18 @@ class AddFuelExpenseScreen extends React.Component {
     }
   };
 
+  checkIfFuelDetailsAlreadyExists = () => {
+    const { navigation } = this.props;
+    const { product } = navigation.state.params;
+    if (product.fuel_details.length > 0) {
+      showSnackbar({
+        text: "Can't be changed"
+      });
+      return false;
+    }
+    return true;
+  };
+
   render() {
     const { navigation } = this.props;
     const { product } = navigation.state.params;
@@ -196,6 +221,8 @@ class AddFuelExpenseScreen extends React.Component {
       fuelType,
       isLoading
     } = this.state;
+
+    console.log("fuelType: ", fuelType);
 
     return (
       <ScreenContainer style={styles.container}>
@@ -222,6 +249,7 @@ class AddFuelExpenseScreen extends React.Component {
           />
 
           <SelectModal
+            beforeModalOpen={this.checkIfFuelDetailsAlreadyExists}
             dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
             placeholder="Select Fuel Type"
             placeholderRenderer={({ placeholder }) => (
