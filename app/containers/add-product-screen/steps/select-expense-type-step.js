@@ -110,7 +110,7 @@ class ChooseExpenseTypeScreen extends React.Component {
       },
       {
         type: EXPENSE_TYPES.MEDICAL_DOCS,
-        title: "Medical Insurance & Docs",
+        title: "Medical Docs & Insurance",
         icon: require("../../../images/main-categories/ic_medical_prescription.png")
       },
       {

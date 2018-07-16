@@ -107,13 +107,15 @@ export default class FuelExpense extends React.Component {
             style={styles.meter}
             source={require("../../../images/fuelmeter.png")}
           />
-          {product.mileage ? (
-            <Text weight="Medium" style={{ color: colors.secondaryText }}>
-              {parseFloat(product.mileage).toFixed(2)} Kms/L
-            </Text>
-          ) : (
-            <View />
-          )}
+
+          <Text weight="Medium" style={{ color: colors.secondaryText }}>
+            {product.mileage
+              ? parseFloat(product.mileage).toFixed(2) + " km/l"
+              : "N.A."}
+          </Text>
+          <Text weight="Medium" style={{ color: colors.secondaryText }}>
+            Mileage
+          </Text>
         </View>
         <Modal
           isVisible={isModalVisible}

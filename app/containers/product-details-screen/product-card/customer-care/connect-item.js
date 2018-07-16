@@ -124,7 +124,7 @@ class Card extends React.Component {
     switch (type) {
       case "brand":
         if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
-          productDetailsText = `VIN No./Chasis Number: ${
+          productDetailsText = `VIN No./Chassis Number: ${
             productDetails.vin
           }\nRegisteration Number: ${
             productDetails.registrationNumber
@@ -153,7 +153,7 @@ class Card extends React.Component {
         break;
       case "warranty":
         if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
-          productDetailsText = `VIN No./Chasis Number: ${
+          productDetailsText = `VIN No./Chassis Number: ${
             productDetails.vin
           }\nRegisteration Number: ${
             productDetails.registrationNumber
@@ -176,7 +176,7 @@ class Card extends React.Component {
         break;
       case "insurance":
         if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
-          productDetailsText = `VIN No./Chasis Number: ${
+          productDetailsText = `VIN No./Chassis Number: ${
             productDetails.vin
           }\nRegisteration Number: ${
             productDetails.registrationNumber

@@ -97,7 +97,7 @@ class SearchBox extends Component {
       showRecentSearches,
       searchHasRunOnce
     } = this.state;
-    const { recentSearches = [] } = this.props;
+    const recentSearches = this.props.navigation.getParam("recentSearches", []);
     return (
       <ScreenContainer style={{ padding: 0 }}>
         <View collapsable={false} style={styles.searchContainer}>

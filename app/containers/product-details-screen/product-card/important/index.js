@@ -248,19 +248,18 @@ class Important extends React.Component {
             </View>
           )}
 
-        {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
-          rc_details.length == 0 && (
-            <AddItemBtn
-              biggerSize={true}
-              text="Add RC"
-              onPress={() => {
-                Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_RC);
-                this.openAddEditRcScreen(null);
-              }}
-            />
-          )}
-
         <View collapsable={false} style={styles.addBtns}>
+          {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
+            rc_details.length == 0 && (
+              <AddItemBtn
+                biggerSize={true}
+                text="Add RC"
+                onPress={() => {
+                  Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_RC);
+                  this.openAddEditRcScreen(null);
+                }}
+              />
+            )}
           {(product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ||
             [
               MAIN_CATEGORY_IDS.AUTOMOBILE,
@@ -325,7 +324,7 @@ class Important extends React.Component {
             accessories.length == 0 && (
               <AddItemBtn
                 biggerSize={true}
-                text="Add Part and Accessory"
+                text="Add Part or Accessory"
                 onPress={() => {
                   Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_ACCESSORY);
                   this.openAddEditAccessoryScreen(null);
