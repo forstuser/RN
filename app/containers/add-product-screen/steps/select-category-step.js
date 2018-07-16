@@ -728,7 +728,8 @@ class SelectCategoryStep extends React.Component {
                         source={selectedCategory.icon}
                       />
                     </View>
-                    <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5 }}>Add Another {addAnotherTxt}</Text>
+
+                    <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5, color: colors.mainBlue }}>Add {userProducts.length > 0 ? 'Another' : ''} {addAnotherTxt}</Text>
                   </View>
                 </TouchableWithoutFeedback>
                 <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
