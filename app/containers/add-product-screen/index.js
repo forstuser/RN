@@ -387,7 +387,7 @@ class AddProductScreen extends React.Component {
               this.pushAmountStep();
               break;
             case MAIN_CATEGORY_IDS.HOUSEHOLD:
-              if (subCategories.length > 0) {
+              if (this.state.subCategories.length > 0) {
                 this.setState({
                   numberOfStepsToShowInFooter: 4
                 });

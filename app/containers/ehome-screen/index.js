@@ -57,7 +57,8 @@ class EhomeScreen extends Component {
           error: null,
           endHasReached: false,
           mainCategories: [],
-          selectedCategories: []
+          selectedCategories: [],
+          showEndReachedMsg: false
         },
         {
           type: PRODUCT_TYPES.EXPENSE,
@@ -68,7 +69,8 @@ class EhomeScreen extends Component {
           error: null,
           endHasReached: false,
           mainCategories: [],
-          selectedCategories: []
+          selectedCategories: [],
+          showEndReachedMsg: false
         },
         {
           type: PRODUCT_TYPES.DOCUMENT,
@@ -79,7 +81,8 @@ class EhomeScreen extends Component {
           error: null,
           endHasReached: false,
           mainCategories: [],
-          selectedCategories: []
+          selectedCategories: [],
+          showEndReachedMsg: false
         }
       ]
     };
@@ -115,6 +118,7 @@ class EhomeScreen extends Component {
   getProductsFirstPage = tabIndex => {
     this.updateTab(tabIndex, {
       endHasReached: false,
+      showEndReachedMsg: false,
       isLoadingFirstPage: true
     });
     this.getProducts(tabIndex, true);
@@ -162,6 +166,10 @@ class EhomeScreen extends Component {
     const { activeTabIndex } = this.state;
     this.updateTab(activeTabIndex, { selectedCategories });
     this.getProductsFirstPage(activeTabIndex);
+  };
+
+  onListScroll = tabIndex => {
+    this.updateTab(tabIndex, { showEndReachedMsg: true });
   };
 
   render() {
@@ -236,6 +244,8 @@ class EhomeScreen extends Component {
               error={tab.error}
               onEndReached={() => this.getProducts(index)}
               endHasReached={tab.endHasReached}
+              showEndReachedMsg={tab.showEndReachedMsg}
+              onListScroll={() => this.onListScroll(index)}
             />
           </View>
         ))}

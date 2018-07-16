@@ -279,8 +279,8 @@ export default class OffersModal extends React.Component {
               <Icon name="md-arrow-round-back" color="#fff" size={30} />
             </TouchableOpacity>
             <Text
-              weight="Bold"
-              style={{ color: "#fff", fontSize: 20, flex: 1, paddingRight: 10 }}
+              weight="Medium"
+              style={{ color: "#fff", fontSize: 18, flex: 1, paddingRight: 10 }}
               numberOfLines={1}
             >
               {title}
