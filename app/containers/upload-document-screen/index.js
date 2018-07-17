@@ -19,6 +19,8 @@ import {
 
 import { connect } from "react-redux";
 
+import RNFetchblob from "react-native-fetch-blob";
+
 import {
   requestCameraPermission,
   requestStoragePermission
@@ -165,11 +167,19 @@ class UploadDocumentScreen extends Component {
       },
       (error, file) => {
         if (file) {
-          this.pushFileToState({
-            filename: file.fileName,
-            uri: file.uri,
-            mimeType: file.type || file.fileName.split(".").pop()
-          });
+          RNFetchblob.config({
+            fileCache: true
+          })
+            .fetch("GET", file.uri)
+            .then(res => {
+              console.log(res);
+              res.flush();
+            });
+          // this.pushFileToState({
+          //   filename: file.fileName,
+          //   uri: file.uri,
+          //   mimeType: file.type || file.fileName.split(".").pop()
+          // });
         }
       }
     );

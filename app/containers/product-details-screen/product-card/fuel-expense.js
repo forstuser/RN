@@ -138,9 +138,17 @@ export default class FuelExpense extends React.Component {
               data={product.fuel_details}
               renderItem={({ item }) => (
                 <View style={styles.item}>
-                  <Text style={styles.itemDate}>
-                    {moment(item.document_date).format("DD MMM, YYYY")}
-                  </Text>
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.itemDate}>
+                      {moment(item.document_date).format("DD MMM, YYYY")}
+                    </Text>
+                    <Text style={styles.itemMileage}>
+                      (Mileage:{" "}
+                      {item.mileage
+                        ? parseFloat(item.mileage).toFixed(2) + " km/l"
+                        : "N.A."})
+                    </Text>
+                  </View>
                   <Text style={styles.itemAmount}>₹{item.value}</Text>
                   <TouchableOpacity
                     onPress={() => this.openAddFuelExpenseScreen(item)}
@@ -218,6 +226,9 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingHorizontal: 15,
     alignItems: "center"
+  },
+  itemMileage: {
+    fontSize: 10
   },
   itemDate: {
     flex: 1

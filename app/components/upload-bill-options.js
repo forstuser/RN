@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native";
 import ActionSheet from "react-native-actionsheet";
 import ImagePicker from "react-native-image-crop-picker";
+import RNFetchBlob from "react-native-fetch-blob";
 
 import {
   requestCameraPermission,
@@ -65,8 +66,7 @@ class UploadBillOptions extends React.Component {
 
         break;
       case 1:
-        const storagePermission = await requestStoragePermission();
-        if (!storagePermission) return;
+        if ((await requestStoragePermission()) == false) return;
         file = await ImagePicker.openPicker({
           width: 1500,
           height: 1500,
@@ -81,17 +81,23 @@ class UploadBillOptions extends React.Component {
 
         break;
       case 2:
+        if ((await requestStoragePermission()) == false) return;
         DocumentPicker.show(
           {
             filetype: [DocumentPickerUtil.pdf(), DocumentPickerUtil.plainText()]
           },
           (error, file) => {
             if (file) {
-              this.openUploadScreen({
-                filename: file.fileName,
-                uri: file.uri,
-                mimeType: file.type || file.fileName.split(".").pop()
+              console.log("file.uri: ", file.uri);
+              fetch(file.uri).then(function(response) {
+                console.log("response:", response);
               });
+
+              // this.openUploadScreen({
+              //   filename: file.fileName,
+              //   uri: file.uri,
+              //   mimeType: file.type || file.fileName.split(".").pop()
+              // });
             }
           }
         );

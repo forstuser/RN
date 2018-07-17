@@ -21,7 +21,7 @@ import Analytics from "../../analytics";
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-const ITEM_SELECTOR_HEIGHT = 120;
+const ITEM_SELECTOR_HEIGHT = 95;
 const ITEM_SELECTOR_HEIGHT_WITH_FILTERS = ITEM_SELECTOR_HEIGHT + 36;
 
 export default class OffersTab extends React.Component {
