@@ -93,11 +93,11 @@ export default class FuelExpense extends React.Component {
                 style={{ flexDirection: "row", alignItems: "center" }}
               >
                 <View style={styles.plusIcon}>
-                  <Icon name="md-add" size={15} color="#fff" />
+                  <Icon name="md-add" size={22} color="#fff" />
                 </View>
                 <Text
                   weight="Bold"
-                  style={{ color: colors.mainBlue, fontSize: 20, marginLeft: 5 }}
+                  style={{ color: colors.mainBlue, fontSize: 14, marginLeft: 5 }}
                 >
                   Add Fuel Expense
               </Text>
@@ -110,13 +110,13 @@ export default class FuelExpense extends React.Component {
             source={require("../../../images/fuelmeter.png")}
           />
 
-          <Text weight="Medium" style={{ color: colors.secondaryText }}>
+          <Text weight="Medium" style={{ color: colors.secondaryText, fontSize: 12 }}>
             {product.mileage
               ? parseFloat(product.mileage).toFixed(2) + " km/l"
               : "N.A."}
           </Text>
-          <Text weight="Medium" style={{ color: colors.secondaryText }}>
-            Mileage
+          <Text weight="Medium" style={{ color: colors.secondaryText, fontSize: 12 }}>
+            MILEAGE
           </Text>
         </View>
         <Modal

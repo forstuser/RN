@@ -639,7 +639,7 @@ export default {
   add_edit_expense_screen_title_add_repair_details: "to add repair details",
   add_edit_expense_screen_title_add_select_eHome: "Select Product in eHome",
   add_edit_expense_screen_title_add_select_product_above:
-    "Please select a product above OR",
+    "Please select a product above",
   add_edit_expense_screen_title_add_repair_details: "Repair Details",
   add_edit_expense_screen_title_add_repair_date: "Repair Date",
   add_edit_expense_screen_title_add_repair_amount: "Repair Amount",

@@ -181,161 +181,162 @@ class Repair extends React.Component {
               </Text>
             </View>
           ) : (
-            <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
-              <View collapsable={false} style={styles.header}>
-                <Text weight="Medium" style={styles.selectProductText}>
-                  {I18n.t("add_edit_expense_screen_title_add_select_eHome")}
-                </Text>
-                <ScrollView
-                  style={styles.products}
-                  contentContainerStyle={styles.productsContentContainer}
-                  horizontal={true}
-                >
-                  {products.map(product => {
-                    return (
-                      <TouchableOpacity
-                        key={product.key}
-                        onPress={() => this.onProductPress(product)}
-                        style={[
-                          styles.product,
-                          selectedProduct && selectedProduct.id == product.id
-                            ? { borderColor: colors.mainBlue }
-                            : {}
-                        ]}
-                      >
-                        <Image
-                          style={styles.productImage}
-                          source={{ uri: API_BASE_URL + product.cImageURL }}
-                        />
-                        <View collapsable={false} style={styles.productTexts}>
-                          <Text
-                            numberOfLines={1}
-                            weight="Bold"
-                            style={styles.name}
-                          >
-                            {product.productName}
-                          </Text>
-                          <View
-                            collapsable={false}
-                            style={styles.productMetaContainer}
-                          >
-                            <Text numberOfLines={2} style={styles.productMeta}>
-                              {product.categoryName}
-                            </Text>
-                          </View>
-                        </View>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </ScrollView>
-              </View>
-              {products.length > 0 &&
-                selectedProduct == null && (
-                  <View
-                    collapsable={false}
-                    style={styles.selectProductMsgContainer}
+              <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
+                <View collapsable={false} style={styles.header}>
+                  <Text weight="Medium" style={styles.selectProductText}>
+                    {I18n.t("add_edit_expense_screen_title_add_select_eHome")}
+                  </Text>
+                  <ScrollView
+                    style={styles.products}
+                    contentContainerStyle={styles.productsContentContainer}
+                    horizontal={true}
                   >
-                    <Text weight="Medium" style={styles.selectProductMsg}>
-                      {I18n.t(
-                        "add_edit_expense_screen_title_add_select_product_above"
-                      )}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={this.openAddProductScreen}
-                      style={styles.addProductBtn}
+                    {products.map(product => {
+                      return (
+                        <TouchableOpacity
+                          key={product.key}
+                          onPress={() => this.onProductPress(product)}
+                          style={[
+                            styles.product,
+                            selectedProduct && selectedProduct.id == product.id
+                              ? { borderColor: colors.mainBlue }
+                              : {}
+                          ]}
+                        >
+                          <Image
+                            style={styles.productImage}
+                            source={{ uri: API_BASE_URL + product.cImageURL }}
+                          />
+                          <View collapsable={false} style={styles.productTexts}>
+                            <Text
+                              numberOfLines={1}
+                              weight="Bold"
+                              style={styles.name}
+                            >
+                              {product.productName}
+                            </Text>
+                            <View
+                              collapsable={false}
+                              style={styles.productMetaContainer}
+                            >
+                              <Text numberOfLines={2} style={styles.productMeta}>
+                                {product.categoryName}
+                              </Text>
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </ScrollView>
+                </View>
+                {products.length > 0 &&
+                  selectedProduct == null && (
+                    <View
+                      collapsable={false}
+                      style={styles.selectProductMsgContainer}
                     >
-                      <Text weight="Bold" style={styles.addProductBtnText}>
+                      <Text weight="Medium" style={styles.selectProductMsg}>
                         {I18n.t(
-                          "add_edit_expense_screen_title_add_add_products"
+                          "add_edit_expense_screen_title_add_select_product_above"
                         )}
                       </Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
-              {selectedProduct ? (
-                <View collapsable={false} style={styles.formContainer}>
-                  <View collapsable={false} style={styles.form}>
-                    <Text weight="Medium" style={styles.headerText}>
-                      {I18n.t(
-                        "add_edit_expense_screen_title_add_repair_details"
-                      )}
-                    </Text>
-                    <CustomDatePicker
-                      date={repairDate}
-                      placeholder={I18n.t(
-                        "add_edit_expense_screen_title_add_repair_date"
-                      )}
-                      placeholder2="*"
-                      placeholder2Color={colors.mainBlue}
-                      onDateChange={repairDate => {
-                        this.setState({ repairDate });
-                      }}
-                    />
-
-                    <CustomTextInput
-                      placeholder={I18n.t(
-                        "add_edit_expense_screen_title_add_repair_amount"
-                      )}
-                      value={repairAmount}
-                      onChangeText={repairAmount =>
-                        this.setState({ repairAmount })
-                      }
-                      keyboardType="numeric"
-                    />
-                    {false && (
-                      <View collapsable={false}>
-                        <CustomTextInput
-                          placeholder={I18n.t(
-                            "add_edit_expense_screen_title_add_sellers_name"
+                      <Text weight="Medium" style={styles.selectProductMsgOR}>OR</Text>
+                      <TouchableOpacity
+                        onPress={this.openAddProductScreen}
+                        style={styles.addProductBtn}
+                      >
+                        <Text weight="Bold" style={styles.addProductBtnText}>
+                          {I18n.t(
+                            "add_edit_expense_screen_title_add_add_products"
                           )}
-                          value={sellerName}
-                          onChangeText={sellerName =>
-                            this.setState({ sellerName })
-                          }
-                        />
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                {selectedProduct ? (
+                  <View collapsable={false} style={styles.formContainer}>
+                    <View collapsable={false} style={styles.form}>
+                      <Text weight="Medium" style={styles.headerText}>
+                        {I18n.t(
+                          "add_edit_expense_screen_title_add_repair_details"
+                        )}
+                      </Text>
+                      <CustomDatePicker
+                        date={repairDate}
+                        placeholder={I18n.t(
+                          "add_edit_expense_screen_title_add_repair_date"
+                        )}
+                        placeholder2="*"
+                        placeholder2Color={colors.mainBlue}
+                        onDateChange={repairDate => {
+                          this.setState({ repairDate });
+                        }}
+                      />
 
-                        <ContactFields
-                          ref={ref => (this.phoneRef = ref)}
-                          value={sellerContact}
-                          placeholder="Seller Contact"
-                        />
-                      </View>
-                    )}
+                      <CustomTextInput
+                        placeholder={I18n.t(
+                          "add_edit_expense_screen_title_add_repair_amount"
+                        )}
+                        value={repairAmount}
+                        onChangeText={repairAmount =>
+                          this.setState({ repairAmount })
+                        }
+                        keyboardType="numeric"
+                      />
+                      {false && (
+                        <View collapsable={false}>
+                          <CustomTextInput
+                            placeholder={I18n.t(
+                              "add_edit_expense_screen_title_add_sellers_name"
+                            )}
+                            value={sellerName}
+                            onChangeText={sellerName =>
+                              this.setState({ sellerName })
+                            }
+                          />
 
-                    <CustomDatePicker
-                      placeholder={I18n.t(
-                        "add_edit_expense_screen_title_add_warranty_upto"
+                          <ContactFields
+                            ref={ref => (this.phoneRef = ref)}
+                            value={sellerContact}
+                            placeholder="Seller Contact"
+                          />
+                        </View>
                       )}
-                      date={warrantyUpto}
-                      onDateChange={warrantyUpto =>
-                        this.setState({ warrantyUpto })
-                      }
-                      maxDate="2100-01-01"
-                    />
 
-                    <UploadDoc
-                      placeholder="Upload Bill "
-                      hint="Recommended"
-                      placeholder2Color={colors.mainBlue}
-                      itemId={id}
-                      jobId={selectedProduct ? selectedProduct.jobId : null}
-                      type={4}
-                      copies={copies}
-                      onUpload={uploadResult => {
-                        this.setState({
-                          id: uploadResult.repair.id,
-                          copies: uploadResult.repair.copies
-                        });
-                      }}
-                      navigation={this.props.navigation}
-                    />
+                      <CustomDatePicker
+                        placeholder={I18n.t(
+                          "add_edit_expense_screen_title_add_warranty_upto"
+                        )}
+                        date={warrantyUpto}
+                        onDateChange={warrantyUpto =>
+                          this.setState({ warrantyUpto })
+                        }
+                        maxDate="2100-01-01"
+                      />
+
+                      <UploadDoc
+                        placeholder="Upload Bill "
+                        hint="Recommended"
+                        placeholder2Color={colors.mainBlue}
+                        itemId={id}
+                        jobId={selectedProduct ? selectedProduct.jobId : null}
+                        type={4}
+                        copies={copies}
+                        onUpload={uploadResult => {
+                          this.setState({
+                            id: uploadResult.repair.id,
+                            copies: uploadResult.repair.copies
+                          });
+                        }}
+                        navigation={this.props.navigation}
+                      />
+                    </View>
                   </View>
-                </View>
-              ) : (
-                <View collapsable={false} />
-              )}
-            </KeyboardAwareScrollView>
-          )}
+                ) : (
+                    <View collapsable={false} />
+                  )}
+              </KeyboardAwareScrollView>
+            )}
           {selectedProduct && (
             <Button
               style={styles.saveBtn}
@@ -440,10 +441,17 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   selectProductMsg: {
-    fontSize: 20,
+    fontSize: 18,
     width: 300,
     textAlign: "center",
     color: colors.secondaryText
+  },
+  selectProductMsgOR: {
+    fontSize: 18,
+    width: 300,
+    textAlign: "center",
+    color: colors.secondaryText,
+    marginTop: 15
   },
   form: {
     marginTop: 10,
