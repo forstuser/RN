@@ -88,9 +88,9 @@ class UpcomingServicesList extends React.Component {
       return (
         <FlatList
           data={upcomingServices}
-          renderItem={item => (
+          renderItem={({ item }) => (
             <UpcomingServiceItem
-              item={item.item}
+              item={item}
               navigation={this.props.navigation}
             />
           )}
