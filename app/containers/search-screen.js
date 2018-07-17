@@ -135,14 +135,15 @@ class SearchBox extends Component {
             ))}
           </View>
         ) : (
-          <View collapsable={false} />
-        )}
+            <View collapsable={false} />
+          )}
 
         {searchHasRunOnce &&
           products.length > 0 && (
             <ProductsList
               onRefresh={this.fetchResults}
               isLoading={isFetchingResults}
+              endHasReached={!isFetchingResults}
               products={products}
               navigation={this.props.navigation}
             />
@@ -158,14 +159,15 @@ class SearchBox extends Component {
                 justifyContent: "center"
               }}
             >
-              <Image source={noDocs} style={{ width: 160, height: 160 }} />
+              <Image source={noDocs} style={{ width: 120, height: 120 }} />
               <Text
                 style={{
                   fontSize: 18,
-                  fontFamily: `Quicksand-Bold`,
-                  color: "#3b3b3b",
+                  color: colors.secondaryText,
                   marginTop: 10
                 }}
+                weight="Medium"
+
               >
                 No Documents Found
               </Text>

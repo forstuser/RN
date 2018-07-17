@@ -124,7 +124,7 @@ export default {
   asc_search_screen_title: "Search Results for {{brandAndCategory}}",
   asc_search_screen_no_results_title: "No nearby Service centers",
   asc_search_screen_no_results_desc:
-    "Currently there are no Servie centers near you",
+    "Currently there are no Service centers near you",
   asc_search_screen_phone_not_available: "No Phone no available for the center",
   asc_search_screen_directions: "Directions",
   asc_search_screen_call: "Call",
@@ -639,7 +639,7 @@ export default {
   add_edit_expense_screen_title_add_repair_details: "to add repair details",
   add_edit_expense_screen_title_add_select_eHome: "Select Product in eHome",
   add_edit_expense_screen_title_add_select_product_above:
-    "Please select a product above OR",
+    "Please select a product above",
   add_edit_expense_screen_title_add_repair_details: "Repair Details",
   add_edit_expense_screen_title_add_repair_date: "Repair Date",
   add_edit_expense_screen_title_add_repair_amount: "Repair Amount",

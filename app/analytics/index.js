@@ -44,6 +44,9 @@ const EVENTS = {
   CLICK_ON_WEB_URL: "productcard_click_web_url",
   CLICK_NEAREST_ASC_INSIDE_PRODUCT: "productcard_asc",
   DELETE_PRODUCT: "productcard_delete",
+  ADD_FUEL_EXPENSE: "productcard_addFuelExpense",
+  ADD_FUEL_FORM_COMPLETED: "productcard_addFuelComplete",
+
   //others
   OPEN_ASC_SCREEN: "click_asc",
   SEARCH_ASC: "search_asc",

@@ -181,7 +181,8 @@ const styles = StyleSheet.create({
   attachmentIconContainer: {
     position: "absolute",
     right: 0,
-    bottom: 20
+    top: 12
+    // bottom: 20
   },
   textInput: {
     position: "absolute",
