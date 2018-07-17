@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,0,0,0.7)",
     fontSize: 10,
     paddingVertical: 2,
-    paddingHorizontal: 3,
+    paddingHorizontal: 2,
     marginLeft: 2
   },
   serviceSchedule: {

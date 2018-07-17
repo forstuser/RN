@@ -166,19 +166,20 @@ export default class filters extends React.Component {
       >
         <View style={{ backgroundColor: "#fff", flex: 1 }}>
           <View style={styles.header}>
-            <View style={{ flex: 1, flexDirection: "row" }}>
+            <View style={{ flex: 1, flexDirection: "row", alignItems: 'center' }}>
               {/* <BlueGradientBG /> */}
               <TouchableOpacity
                 style={{ paddingVertical: 10, paddingHorizontal: 15 }}
                 onPress={this.hide}
               >
-                <Icon name="md-arrow-back" color="#000" size={30} />
+                <Icon name="md-arrow-back" color="#000" size={24} />
               </TouchableOpacity>
               <Text
-                weight="Medium"
+                weight="Bold"
                 style={{
                   color: colors.mainText,
                   fontSize: 20,
+                  marginLeft: 15,
                   paddingVertical: 8
                 }}
               >
@@ -187,10 +188,10 @@ export default class filters extends React.Component {
             </View>
             <TouchableOpacity onPress={this.resetAllFilters}>
               <Text
-                weight="Medium"
+                weight="Bold"
                 style={{
-                  color: colors.mainText,
-                  fontSize: 20,
+                  color: colors.pinkishOrange,
+                  fontSize: 18,
                   paddingVertical: 8,
                   paddingRight: 10
                 }}
