@@ -108,7 +108,7 @@ public class MainActivity extends ReactActivity {
       return;
     }
 
-    String uri = getImageUrlWithAuthority(this, (Uri) getIntent().getExtras().get(Intent.EXTRA_STREAM));
+    String uri = getImageUrlWithAuthority(this, (Uri) intentForShareVia.getExtras().get(Intent.EXTRA_STREAM));
 
     /**
      * Save the bitmap URI in sharedPref
