@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     ...Platform.select({
       ios: { height: 70, paddingTop: 20 },
-      android: { height: 50, paddingTop: 10 }
+      android: { height: 50, paddingTop: 0 }
     }),
     borderColor: "#efefef",
     borderBottomWidth: 1
