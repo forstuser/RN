@@ -177,8 +177,8 @@ const styles = StyleSheet.create({
     width: 100
   },
   optionIconContainer: {
-    width: 40,
-    height: 40,
+    width: 37,
+    height: 37,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 40,

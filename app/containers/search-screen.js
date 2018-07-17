@@ -143,6 +143,7 @@ class SearchBox extends Component {
             <ProductsList
               onRefresh={this.fetchResults}
               isLoading={isFetchingResults}
+              endHasReached={!isFetchingResults}
               products={products}
               navigation={this.props.navigation}
             />
