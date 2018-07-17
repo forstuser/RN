@@ -26,7 +26,7 @@ export default class InsightContent extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchCategories();
+    // this.fetchCategories();
   }
 
   fetchCategories = async () => {

@@ -32,6 +32,7 @@ import TabsScreenContainer from "../../components/tabs-screen-container";
 import Tag from "../../components/tag";
 
 const ehomeIcon = require("../../images/ehome.png");
+const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -172,6 +173,12 @@ class EhomeScreen extends Component {
     this.updateTab(tabIndex, { showEndReachedMsg: true });
   };
 
+  showAddProductOptionsScreen = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
+    //use push here so that we can use 'replace' later
+    this.props.navigation.push(SCREENS.ADD_PRODUCT_SCREEN);
+  };
+
   render() {
     const { recentSearches, activeTabIndex, tabs } = this.state;
 
@@ -250,6 +257,12 @@ class EhomeScreen extends Component {
           </View>
         ))}
       >
+        <TouchableOpacity
+          style={styles.fab}
+          onPress={() => this.showAddProductOptionsScreen()}
+        >
+          <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+        </TouchableOpacity>
         <FilterModal
           ref={node => {
             this.filterModal = node;
@@ -262,7 +275,24 @@ class EhomeScreen extends Component {
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  fab: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    width: 56,
+    height: 56,
+    zIndex: 2,
+    backgroundColor: colors.tomato,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  uploadFabIcon: {
+    width: 25,
+    height: 25
+  }
+});
 
 const mapStateToProps = state => {
   return {

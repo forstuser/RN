@@ -97,6 +97,17 @@ export default class OffersModal extends React.Component {
       selectedMerchants,
       sort
     } = this.state;
+
+    if (
+      selectedDiscountType ||
+      selectedCashbackType ||
+      onlyOtherOfferTypes ||
+      selectedMerchants.length > 0
+    ) {
+      this.setState({ endHasReached: true });
+      return;
+    }
+
     this.setState({ isLoading: true });
     const lastDiscountOffer = discountOffers.slice(-1)[0];
     const lastCashbackOffer = cashbackOffers.slice(-1)[0];

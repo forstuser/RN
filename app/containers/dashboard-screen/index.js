@@ -81,6 +81,8 @@ class DashboardScreen extends React.Component {
       () => {
         this.screenHasDisappeared = false;
         this.fetchDashboardData();
+        this.expenseInsightContent.fetchCategories();
+        this.ascContent.fetchProducts();
       }
     );
 
@@ -221,7 +223,12 @@ class DashboardScreen extends React.Component {
                 title: "Expense Insights",
                 imageSource: require("../../images/bar_chart_icon.png"),
                 content: (
-                  <ExpenseInsightsContent navigation={this.props.navigation} />
+                  <ExpenseInsightsContent
+                    ref={node => {
+                      this.expenseInsightContent = node;
+                    }}
+                    navigation={this.props.navigation}
+                  />
                 )
               },
               {
@@ -230,7 +237,14 @@ class DashboardScreen extends React.Component {
                 },
                 title: "Service Centres",
                 imageSource: require("../../images/asc_icon.png"),
-                content: <AscContent navigation={this.props.navigation} />
+                content: (
+                  <AscContent
+                    ref={node => {
+                      this.ascContent = node;
+                    }}
+                    navigation={this.props.navigation}
+                  />
+                )
               }
             ]}
           />

@@ -139,7 +139,7 @@ class AddFuelExpenseScreen extends React.Component {
         },
         {
           text: I18n.t("add_edit_no_dnt_delete"),
-          onPress: () => { },
+          onPress: () => {},
           style: "cancel"
         }
       ]
@@ -159,9 +159,9 @@ class AddFuelExpenseScreen extends React.Component {
       value
     } = this.state;
 
-    if (!effectiveDate || !odometerReading || !fuelQuantity) {
+    if (!effectiveDate || !odometerReading || !fuelQuantity || !value) {
       return showSnackbar({
-        text: "Please enter date, odometer rating and fuel quantity."
+        text: "Please enter date, odometer rating, fuel quantity and amount."
       });
     }
 

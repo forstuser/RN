@@ -162,7 +162,14 @@ export default class FuelExpense extends React.Component {
                         : "N.A."})
                     </Text>
                   </View>
-                  <Text style={styles.itemAmount}>₹{item.value}</Text>
+                  <View>
+                    <Text style={styles.itemAmount}>₹{item.value}</Text>
+                    <Text style={styles.itemMileage}>
+                      ({item.rs_km
+                        ? parseFloat(item.rs_km).toFixed(2) + " Rs/km"
+                        : "N.A."})
+                    </Text>
+                  </View>
                   <TouchableOpacity
                     onPress={() => this.openAddFuelExpenseScreen(item)}
                     style={styles.itemEditIcon}

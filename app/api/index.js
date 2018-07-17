@@ -9,9 +9,9 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-let API_BASE_URL = "https://consumer-test.binbill.com";
+let API_BASE_URL = "https://consumer.binbill.com";
 if (!__DEV__) {
-  API_BASE_URL = "https://consumer-eb.binbill.com";
+  API_BASE_URL = "https://consumer.binbill.com";
 }
 export { API_BASE_URL };
 
@@ -145,7 +145,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => { }
+  onUploadProgress = () => {}
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -543,7 +543,7 @@ export const getReferenceDataCategories = async mainCategoryId => {
 };
 
 export const getReferenceDataForCategory = async categoryId => {
-  console.log("s", categoryId)
+  console.log("s", categoryId);
   return await apiRequest({
     method: "get",
     url: `/referencedata`,
@@ -1214,10 +1214,10 @@ export const updateAccessory = async ({
     value: value || undefined,
     warranty: warrantyRenewalType
       ? {
-        id: warrantyId || undefined,
-        renewal_type: warrantyRenewalType || undefined,
-        effective_date: warrantyEffectiveDate || undefined
-      }
+          id: warrantyId || undefined,
+          renewal_type: warrantyRenewalType || undefined,
+          effective_date: warrantyEffectiveDate || undefined
+        }
       : {},
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
@@ -1251,10 +1251,10 @@ export const addAccessory = async ({
     value: value || undefined,
     warranty: warrantyRenewalType
       ? {
-        id: warrantyId || undefined,
-        renewal_type: warrantyRenewalType || undefined,
-        effective_date: warrantyEffectiveDate || undefined
-      }
+          id: warrantyId || undefined,
+          renewal_type: warrantyRenewalType || undefined,
+          effective_date: warrantyEffectiveDate || undefined
+        }
       : {},
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined

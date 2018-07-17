@@ -68,7 +68,7 @@ class AscScreen extends Component {
 
     this.fetchBrands();
 
-    this.fetchProducts();
+    // this.fetchProducts();
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
