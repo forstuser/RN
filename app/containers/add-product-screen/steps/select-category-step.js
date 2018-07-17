@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Alert,
-  Platform
+  Platform,
+  FlatList
 } from "react-native";
 import I18n from "../../../i18n";
 import {
@@ -697,7 +698,46 @@ class SelectCategoryStep extends React.Component {
                 <View style={{ backgroundColor: colors.pinkishOrange, padding: 10, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
                   <Text weight="Bold" style={{ color: '#fff', fontSize: 17 }}>Select Vehicle to Add Insurance</Text>
                 </View>
-                {userProducts.map((item, index) => (
+                <FlatList
+                  data={userProducts}
+                  renderItem={({ item, index }) => (
+                    <TouchableWithoutFeedback
+                      onPress={() => this.existingProduct(item)}
+                    >
+                      <View key={index} style={styles.optionPosition}>
+                        <View style={styles.optionIconContainer}>
+                          <Image
+                            style={
+                              styles.optionIcon
+                            }
+                            resizeMode="contain"
+                            source={selectedCategory.icon}
+                          />
+                        </View>
+                        <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5 }}>{item.product_name}</Text>
+                      </View>
+                    </TouchableWithoutFeedback>
+                  )}
+                  ListFooterComponent={<TouchableWithoutFeedback
+                    onPress={() => this.freshProduct(selectedCategory)}
+                  >
+                    <View style={styles.optionPosition}>
+                      <View style={styles.optionIconContainer}>
+                        <Image
+                          style={
+                            styles.optionIcon
+                          }
+                          resizeMode="contain"
+                          source={selectedCategory.icon}
+                        />
+                      </View>
+
+                      <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5, color: colors.mainBlue }}>Add {userProducts.length > 0 ? 'Another' : ''} {addAnotherTxt}</Text>
+                    </View>
+                  </TouchableWithoutFeedback>}
+                  keyExtractor={(item, index) => index}
+                />
+                {/* {userProducts.map((item, index) => (
                   <TouchableWithoutFeedback
                     onPress={() => this.existingProduct(item)}
                   >
@@ -714,24 +754,7 @@ class SelectCategoryStep extends React.Component {
                       <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5 }}>{item.product_name}</Text>
                     </View>
                   </TouchableWithoutFeedback>
-                ))}
-                <TouchableWithoutFeedback
-                  onPress={() => this.freshProduct(selectedCategory)}
-                >
-                  <View style={styles.optionPosition}>
-                    <View style={styles.optionIconContainer}>
-                      <Image
-                        style={
-                          styles.optionIcon
-                        }
-                        resizeMode="contain"
-                        source={selectedCategory.icon}
-                      />
-                    </View>
-
-                    <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5, color: colors.mainBlue }}>Add {userProducts.length > 0 ? 'Another' : ''} {addAnotherTxt}</Text>
-                  </View>
-                </TouchableWithoutFeedback>
+                ))} */}
                 <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
                   <Icon name="md-close" size={30} color={'#fff'} />
                 </TouchableOpacity>
@@ -744,9 +767,11 @@ class SelectCategoryStep extends React.Component {
 }
 
 const styles = StyleSheet.create({
+
   modal: {
     backgroundColor: "#fff",
-    borderRadius: 10
+    borderRadius: 10,
+    height: 300
   },
   closeIcon: {
     position: "absolute",
