@@ -95,7 +95,8 @@ class SelectBrandStep extends React.Component {
         categoryId: category.id,
         productId: product.id,
         brandId: null,
-        brandName
+        brandName,
+        productName: brandName
       });
 
       if (typeof onBrandStepDone == "function") {

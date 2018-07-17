@@ -65,8 +65,7 @@ class UploadBillOptions extends React.Component {
 
         break;
       case 1:
-        const storagePermission = await requestStoragePermission();
-        if (!storagePermission) return;
+        if ((await requestStoragePermission()) == false) return;
         file = await ImagePicker.openPicker({
           width: 1500,
           height: 1500,
@@ -81,6 +80,7 @@ class UploadBillOptions extends React.Component {
 
         break;
       case 2:
+        if ((await requestStoragePermission()) == false) return;
         DocumentPicker.show(
           {
             filetype: [DocumentPickerUtil.pdf(), DocumentPickerUtil.plainText()]

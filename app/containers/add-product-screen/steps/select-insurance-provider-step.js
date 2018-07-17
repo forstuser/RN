@@ -41,7 +41,7 @@ class SelectInsuranceProviderStep extends React.Component {
     const { product, onInsuranceProviderStepDone } = this.props;
     this.setState({
       isLoading: true
-    })
+    });
     try {
       const res = await addInsurance({
         productId: product.id,
@@ -56,17 +56,24 @@ class SelectInsuranceProviderStep extends React.Component {
     } finally {
       this.setState({
         isLoading: false
-      })
+      });
     }
   };
 
   onAddProvider = async providerName => {
-    const { product, onInsuranceProviderStepDone } = this.props;
+    const {
+      mainCategoryId,
+      category,
+      product,
+      onInsuranceProviderStepDone
+    } = this.props;
     this.setState({
       isLoading: true
-    })
+    });
     try {
       const res = await addInsurance({
+        mainCategoryId,
+        categoryId: category.id,
         productId: product.id,
         providerName
       });
@@ -79,7 +86,7 @@ class SelectInsuranceProviderStep extends React.Component {
     } finally {
       this.setState({
         isLoading: false
-      })
+      });
     }
   };
 
@@ -96,7 +103,7 @@ class SelectInsuranceProviderStep extends React.Component {
     return (
       <Step
         title={title}
-        subtitle='Required for customer care support and renewal reminder'
+        subtitle="Required for customer care support and renewal reminder"
         skippable={false}
         showLoader={isLoading}
         {...this.props}
