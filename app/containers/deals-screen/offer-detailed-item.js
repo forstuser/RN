@@ -118,7 +118,7 @@ export default class OfferDetailedView extends React.Component {
         </Text>
 
         {item.description ? (
-          <ScrollView style={{ flex: 1 }}>
+          <ScrollView>
             <Text weight="Medium" style={{ fontSize: 10 }}>
               {item.description}
             </Text>
