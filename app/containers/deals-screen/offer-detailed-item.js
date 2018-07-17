@@ -24,7 +24,7 @@ export default class OfferDetailedView extends React.Component {
     });
   };
   render() {
-    const { item, style } = this.props;
+    const { item, style = {} } = this.props;
 
     return (
       <View
@@ -35,7 +35,8 @@ export default class OfferDetailedView extends React.Component {
             padding: 20,
             justifyContent: "center",
             ...defaultStyles.card
-          }
+          },
+          style
         ]}
       >
         <Image
