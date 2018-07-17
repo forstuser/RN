@@ -12,6 +12,7 @@ import moment from "moment";
 import { Text } from "../../../elements";
 import { MAIN_CATEGORY_IDS, SCREENS } from "../../../constants";
 import { colors } from "../../../theme";
+import Analytics from "../../../analytics";
 
 const dropdownIcon = require("../../../images/ic_dropdown_arrow.png");
 
@@ -21,6 +22,7 @@ export default class FuelExpense extends React.Component {
   };
 
   openAddFuelExpenseScreen = fuelExpense => {
+    Analytics.logEvent(Analytics.EVENTS.ADD_FUEL_EXPENSE);
     this.hideModal();
     const { product, navigation } = this.props;
     this.props.navigation.navigate(SCREENS.ADD_FUEL_EXPENSE_SCREEN, {
@@ -86,21 +88,21 @@ export default class FuelExpense extends React.Component {
               </TouchableOpacity>
             </View>
           ) : (
-            <TouchableOpacity
-              onPress={() => this.openAddFuelExpenseScreen()}
-              style={{ flexDirection: "row", alignItems: "center" }}
-            >
-              <View style={styles.plusIcon}>
-                <Icon name="md-add" size={15} color="#fff" />
-              </View>
-              <Text
-                weight="Bold"
-                style={{ color: colors.mainBlue, fontSize: 20, marginLeft: 5 }}
+              <TouchableOpacity
+                onPress={() => this.openAddFuelExpenseScreen()}
+                style={{ flexDirection: "row", alignItems: "center" }}
               >
-                Add Fuel Expense
+                <View style={styles.plusIcon}>
+                  <Icon name="md-add" size={15} color="#fff" />
+                </View>
+                <Text
+                  weight="Bold"
+                  style={{ color: colors.mainBlue, fontSize: 20, marginLeft: 5 }}
+                >
+                  Add Fuel Expense
               </Text>
-            </TouchableOpacity>
-          )}
+              </TouchableOpacity>
+            )}
         </View>
         <View style={styles.meterContainer}>
           <Image

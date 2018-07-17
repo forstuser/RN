@@ -139,7 +139,7 @@ class AddFuelExpenseScreen extends React.Component {
         },
         {
           text: I18n.t("add_edit_no_dnt_delete"),
-          onPress: () => {},
+          onPress: () => { },
           style: "cancel"
         }
       ]
