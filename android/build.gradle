@@ -39,7 +39,7 @@ subprojects {
             compileSdkVersion 27
             buildToolsVersion "27.0.2"
             defaultConfig {
-                targetSdkVersion 23
+                targetSdkVersion 27
             }
         }
     }

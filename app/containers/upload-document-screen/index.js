@@ -157,7 +157,8 @@ class UploadDocumentScreen extends Component {
       .catch(e => {});
   };
 
-  pickDocument = () => {
+  pickDocument = async () => {
+    if ((await requestStoragePermission()) == false) return;
     DocumentPicker.show(
       {
         filetype: [DocumentPickerUtil.pdf(), DocumentPickerUtil.plainText()]

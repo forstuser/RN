@@ -23,7 +23,9 @@ class AddEmptyProductScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.desc}>{msg}</Text>
+        <Text weight="Bold" style={styles.desc}>
+          {msg}
+        </Text>
       </View>
     );
   }
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     padding: 20,
-    color: colors.lighterText
+    color: "#c2c2c2"
   },
   below: {
     fontSize: 16,
