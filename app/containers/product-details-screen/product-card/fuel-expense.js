@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Modal from "react-native-modal";
 import moment from "moment";
 import { Text } from "../../../elements";
-import { MAIN_CATEGORY_IDS, SCREENS } from "../../../constants";
+import { MAIN_CATEGORY_IDS, SCREENS, CATEGORY_IDS } from "../../../constants";
 import { colors } from "../../../theme";
 import Analytics from "../../../analytics";
 
@@ -44,7 +44,12 @@ export default class FuelExpense extends React.Component {
     const { product } = this.props;
     const { isModalVisible } = this.state;
 
-    if (product.masterCategoryId != MAIN_CATEGORY_IDS.AUTOMOBILE) return null;
+    if (
+      product.masterCategoryId != MAIN_CATEGORY_IDS.AUTOMOBILE ||
+      product.categoryId == CATEGORY_IDS.AUTOMOBILE.TYRE ||
+      product.categoryId == CATEGORY_IDS.AUTOMOBILE.ACCESSORY
+    )
+      return null;
 
     const totalAmount = product.fuel_details.reduce(
       (total, detail) => total + detail.value,
@@ -88,21 +93,21 @@ export default class FuelExpense extends React.Component {
               </TouchableOpacity>
             </View>
           ) : (
-              <TouchableOpacity
-                onPress={() => this.openAddFuelExpenseScreen()}
-                style={{ flexDirection: "row", alignItems: "center" }}
+            <TouchableOpacity
+              onPress={() => this.openAddFuelExpenseScreen()}
+              style={{ flexDirection: "row", alignItems: "center" }}
+            >
+              <View style={styles.plusIcon}>
+                <Icon name="md-add" size={22} color="#fff" />
+              </View>
+              <Text
+                weight="Bold"
+                style={{ color: colors.mainBlue, fontSize: 14, marginLeft: 5 }}
               >
-                <View style={styles.plusIcon}>
-                  <Icon name="md-add" size={22} color="#fff" />
-                </View>
-                <Text
-                  weight="Bold"
-                  style={{ color: colors.mainBlue, fontSize: 14, marginLeft: 5 }}
-                >
-                  Add Fuel Expense
+                Add Fuel Expense
               </Text>
-              </TouchableOpacity>
-            )}
+            </TouchableOpacity>
+          )}
         </View>
         <View style={styles.meterContainer}>
           <Image
@@ -110,12 +115,18 @@ export default class FuelExpense extends React.Component {
             source={require("../../../images/fuelmeter.png")}
           />
 
-          <Text weight="Medium" style={{ color: colors.secondaryText, fontSize: 12 }}>
+          <Text
+            weight="Medium"
+            style={{ color: colors.secondaryText, fontSize: 12 }}
+          >
             {product.mileage
               ? parseFloat(product.mileage).toFixed(2) + " km/l"
               : "N.A."}
           </Text>
-          <Text weight="Medium" style={{ color: colors.secondaryText, fontSize: 12 }}>
+          <Text
+            weight="Medium"
+            style={{ color: colors.secondaryText, fontSize: 12 }}
+          >
             MILEAGE
           </Text>
         </View>

@@ -250,6 +250,8 @@ class Important extends React.Component {
 
         <View collapsable={false} style={styles.addBtns}>
           {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
+            product.categoryId != CATEGORY_IDS.AUTOMOBILE.TYRE &&
+            product.categoryId != CATEGORY_IDS.AUTOMOBILE.ACCESSORY &&
             rc_details.length == 0 && (
               <AddItemBtn
                 biggerSize={true}
@@ -260,6 +262,7 @@ class Important extends React.Component {
                 }}
               />
             )}
+
           {(product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ||
             [
               MAIN_CATEGORY_IDS.AUTOMOBILE,
