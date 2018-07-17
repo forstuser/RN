@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native";
 import ActionSheet from "react-native-actionsheet";
 import ImagePicker from "react-native-image-crop-picker";
-import RNFetchBlob from "react-native-fetch-blob";
 
 import {
   requestCameraPermission,
@@ -88,16 +87,11 @@ class UploadBillOptions extends React.Component {
           },
           (error, file) => {
             if (file) {
-              console.log("file.uri: ", file.uri);
-              fetch(file.uri).then(function(response) {
-                console.log("response:", response);
+              this.openUploadScreen({
+                filename: file.fileName,
+                uri: file.uri,
+                mimeType: file.type || file.fileName.split(".").pop()
               });
-
-              // this.openUploadScreen({
-              //   filename: file.fileName,
-              //   uri: file.uri,
-              //   mimeType: file.type || file.fileName.split(".").pop()
-              // });
             }
           }
         );
