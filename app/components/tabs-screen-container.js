@@ -19,7 +19,7 @@ export default class TabsScreenContainer extends React.Component {
       onTabChange,
       tabs,
       children,
-      scrollableTabViewRef = () => {}
+      scrollableTabViewRef = () => { }
     } = this.props;
     return (
       <ScreenContainer style={styles.container}>
@@ -43,14 +43,14 @@ export default class TabsScreenContainer extends React.Component {
           </View>
         </View>
 
-        <View style={{ marginTop: -50, flex: 1 }}>
+        <View style={{ marginTop: -22, flex: 1 }}>
           <ScrollableTabView
             ref={ref => {
               scrollableTabViewRef(ref);
             }}
             locked={true}
             onChangeTab={onTabChange}
-            renderTabBar={() => <DefaultTabBar />}
+            renderTabBar={() => <DefaultTabBar style={{ height: 22 }} />}
             tabBarUnderlineStyle={{
               backgroundColor: colors.mainBlue,
               height: 2
@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     width: "100%",
     ...Platform.select({
-      ios: { height: 1110, paddingTop: 20 },
-      android: { height: 90, paddingTop: 0 }
+      ios: { height: 90, paddingTop: 20 },
+      android: { height: 70, paddingTop: 0 }
     })
   },
   headerUpperHalf: {
