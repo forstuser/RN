@@ -99,10 +99,11 @@ export default class OffersModal extends React.Component {
     } = this.state;
 
     if (
-      selectedDiscountType ||
-      selectedCashbackType ||
-      onlyOtherOfferTypes ||
-      selectedMerchants.length > 0
+      offers.length > 0 &&
+      (selectedDiscountType ||
+        selectedCashbackType ||
+        onlyOtherOfferTypes ||
+        selectedMerchants.length > 0)
     ) {
       this.setState({ endHasReached: true });
       return;
