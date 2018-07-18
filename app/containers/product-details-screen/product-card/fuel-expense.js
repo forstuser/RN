@@ -162,7 +162,7 @@ export default class FuelExpense extends React.Component {
                         : "N.A."})
                     </Text>
                   </View>
-                  <View>
+                  <View style={{ alignItems: "flex-end" }}>
                     <Text style={styles.itemAmount}>₹{item.value}</Text>
                     <Text style={styles.itemMileage}>
                       ({item.rs_km

@@ -73,7 +73,9 @@ class TransactionsScreen extends Component {
       switch (timePeriod) {
         case "Yearly":
           filters.forYear = time.format("YYYY");
+          break;
         case "Monthly":
+          filters.forYear = time.format("YYYY");
           filters.forMonth = time.format("M");
           break;
         case "Lifetime":
