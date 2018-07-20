@@ -124,7 +124,7 @@ class EcommerceScreen extends Component {
             .join(""),
           "."
         ), //get string before first '(' and get number from it, trim '.' and convert to number
-        deliveryDate: moment(data.deliveryDate).format("YYYY-MM-DD"),
+        deliveryDate: data.deliveryDate,
         deliveryAddress: data.deliveryAddress,
         detailsUrl: `https://www.amazon.in/gp/your-account/order-details/ref=oh_aui_or_o01_?ie=UTF8&orderID=${orderId}`,
         onlineSellerId: 1
@@ -153,7 +153,7 @@ class EcommerceScreen extends Component {
         price: +item.price,
         detailsUrl: `https://www.flipkart.com/rv/orderDetails?order_id=${
           data.orderId
-        }`,
+          }`,
         onlineSellerId: 2
       });
     } catch (e) {
@@ -184,8 +184,8 @@ class EcommerceScreen extends Component {
         {item.seller == "amazonIn" ? (
           <Amazon item={item} successOrder={this.getAmazonOrderDetails} />
         ) : (
-          <Flipkart item={item} successOrder={this.getFlipkartOrderDetails} />
-        )}
+            <Flipkart item={item} successOrder={this.getFlipkartOrderDetails} />
+          )}
         <Modal
           style={{ margin: 0 }}
           isVisible={isModalVisible}
