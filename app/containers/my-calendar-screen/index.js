@@ -36,17 +36,17 @@ class MyCalendarScreen extends Component {
 
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
-    this.fetchItems();
-    this.didFocusSubscription = this.props.navigation.addListener(
-      "didFocus",
-      () => {
-        this.fetchItems();
-      }
-    );
+    // this.fetchItems();
+    // this.didFocusSubscription = this.props.navigation.addListener(
+    //   "didFocus",
+    //   () => {
+    //     this.fetchItems();
+    //   }
+    // );
   }
 
   componentWillUnmount() {
-    this.didFocusSubscription.remove();
+    // this.didFocusSubscription.remove();
   }
 
   fetchItems = async () => {
@@ -91,7 +91,7 @@ class MyCalendarScreen extends Component {
       return <ErrorOverlay error={error} onRetryPress={this.fetchItems} />;
     }
     return (
-      <ScreenContainer style={{ padding: 0, backgroundColor: "#f7f7f7" }}>
+      <ScreenContainer style={{ padding: 0, backgroundColor: "#fff" }}>
         {(items.length > 0 || isFetchingItems) && (
           <View collapsable={false} style={{ flex: 1 }}>
             <View collapsable={false} style={{ flex: 1 }}>

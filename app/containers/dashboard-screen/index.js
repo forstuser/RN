@@ -45,11 +45,13 @@ import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 import RecentCalenderItems from "./recent-calender-items";
 import AscContent from "./asc-content";
 import ExpenseInsightsContent from "./expense-insights-content";
+import CalendarContent from '../my-calendar-screen';
 
 const ascIcon = require("../../images/ic_nav_asc_on.png");
 const chartIcon = require("../../images/ic_bars_chart.png");
 const dashBoardIcon = require("../../images/ic_nav_dashboard_off.png");
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
+
 
 const whatsComingIcon = require("../../images/bullhorn.png");
 
@@ -83,6 +85,7 @@ class DashboardScreen extends React.Component {
         this.fetchDashboardData();
         this.expenseInsightContent.fetchCategories();
         this.ascContent.fetchProducts();
+        this.calendarContent.fetchItems();
       }
     );
 
@@ -233,6 +236,21 @@ class DashboardScreen extends React.Component {
               },
               {
                 tabRef: ref => {
+                  this.calendarRef = ref;
+                },
+                title: "My Calendar",
+                imageSource: require("../../images/ic_calendar.png"),
+                content: (
+                  <CalendarContent
+                  ref={node => {
+                    this.calendarContent = node;
+                  }}
+                    navigation={this.props.navigation}
+                  />
+                )
+              },
+              {
+                tabRef: ref => {
                   this.ascRef = ref;
                 },
                 title: "Service Centres",
@@ -245,12 +263,13 @@ class DashboardScreen extends React.Component {
                     navigation={this.props.navigation}
                   />
                 )
-              }
+              },
+              
             ]}
           />
         </View>
 
-        {activeTabIndex != 2 ? (
+        {activeTabIndex < 2 ? (
           <TouchableOpacity
             ref={node => (this.addProductBtnRef = node)}
             style={styles.fab}
