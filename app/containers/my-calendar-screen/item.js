@@ -60,11 +60,11 @@ class Item extends React.Component {
             <View collapsable={false} style={{ flexDirection: "row" }}>
               <Text style={styles.offlineSellerName}>{provider_name}</Text>
               <Text style={styles.onlineSellerName}>
-                {I18n.t("my_calendar_screen_till_date", {
-                  date: moment(latest_payment_detail.end_date).format(
+                {latest_payment_detail ? I18n.t("my_calendar_screen_till_date", {
+                  date:  moment(latest_payment_detail.end_date).format(
                     "DD MMM YYYY"
-                  )
-                })}
+                  ) 
+                }): ''}
               </Text>
             </View>
           </View>
