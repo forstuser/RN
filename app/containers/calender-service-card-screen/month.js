@@ -19,12 +19,7 @@ class Month extends React.Component {
       activePaymentDetailIndex < paymentDetails.length - 1;
 
     return (
-      <LinearGradient
-        style={styles.container}
-        start={{ x: 0.0, y: 0.1 }}
-        end={{ x: 0.9, y: 0.9 }}
-        colors={[colors.aquaBlue, colors.mainBlue]}
-      >
+      <View style={styles.container}>
         <TouchableOpacity
           onPress={() =>
             onPaymentDetailIndexChange(activePaymentDetailIndex + 1)
@@ -64,7 +59,7 @@ class Month extends React.Component {
             color={isNextMonthAvailable ? "#fff" : colors.lighterText}
           />
         </TouchableOpacity>
-      </LinearGradient>
+      </View>
     );
   }
 }
@@ -75,7 +70,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 0,
-    paddingVertical: 13
+    paddingVertical: 5,
+    backgroundColor: colors.mainBlue
   },
   arrows: {
     flexDirection: "row"
