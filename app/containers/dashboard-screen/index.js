@@ -45,13 +45,12 @@ import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 import RecentCalenderItems from "./recent-calender-items";
 import AscContent from "./asc-content";
 import ExpenseInsightsContent from "./expense-insights-content";
-import CalendarContent from '../my-calendar-screen';
+import CalendarContent from "../my-calendar-screen";
 
 const ascIcon = require("../../images/ic_nav_asc_on.png");
 const chartIcon = require("../../images/ic_bars_chart.png");
 const dashBoardIcon = require("../../images/ic_nav_dashboard_off.png");
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
-
 
 const whatsComingIcon = require("../../images/bullhorn.png");
 
@@ -115,7 +114,6 @@ class DashboardScreen extends React.Component {
         {
           notificationCount: dashboardData.notificationCount,
           recentSearches: dashboardData.recentSearches,
-          showDashboard: dashboardData.showDashboard,
           upcomingServices: dashboardData.upcomingServices,
           isFetchingData: false
         },
@@ -123,7 +121,6 @@ class DashboardScreen extends React.Component {
           const { rateUsDialogTimestamp } = this.props;
           setTimeout(() => {
             if (
-              this.state.showDashboard &&
               !this.props.hasDashboardTourShown &&
               !this.screenHasDisappeared &&
               this.comingUpRef &&
@@ -132,7 +129,6 @@ class DashboardScreen extends React.Component {
               this.dashboardTour.startTour();
               this.props.setUiHasDashboardTourShown(true);
             } else if (
-              (this.state.showDashboard || dashboardData.knowItemsLiked) &&
               this.props.appOpenCount > 6 &&
               (!rateUsDialogTimestamp ||
                 moment().diff(
@@ -239,12 +235,12 @@ class DashboardScreen extends React.Component {
                   this.calendarRef = ref;
                 },
                 title: "My Calendar",
-                imageSource: require("../../images/ic_calendar.png"),
+                imageSource: require("../../images/calendar_icon.png"),
                 content: (
                   <CalendarContent
-                  ref={node => {
-                    this.calendarContent = node;
-                  }}
+                    ref={node => {
+                      this.calendarContent = node;
+                    }}
                     navigation={this.props.navigation}
                   />
                 )
@@ -263,8 +259,7 @@ class DashboardScreen extends React.Component {
                     navigation={this.props.navigation}
                   />
                 )
-              },
-              
+              }
             ]}
           />
         </View>
@@ -315,7 +310,8 @@ class DashboardScreen extends React.Component {
             { ref: this.doYouKnowTabItemRef, text: I18n.t("do_you_know_tip") },
             { ref: this.comingUpRef, text: I18n.t("coming_up_tip") },
             { ref: this.insightsRef, text: I18n.t("insights_tip") },
-            { ref: this.ascRef, text: I18n.t("asc_tip") }
+            { ref: this.calendarRef, text: I18n.t("attendance_tip") }
+            // { ref: this.ascRef, text: I18n.t("asc_tip") }
           ]}
         />
       </ScreenContainer>

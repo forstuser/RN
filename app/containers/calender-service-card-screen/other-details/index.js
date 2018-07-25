@@ -404,7 +404,8 @@ const styles = StyleSheet.create({
     maxWidth: 320,
     alignSelf: "center",
     alignItems: "center",
-    padding: 16
+    padding: 16,
+    paddingTop: 40
   },
   modalCloseIcon: {
     position: "absolute",
