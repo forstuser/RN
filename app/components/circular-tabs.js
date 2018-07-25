@@ -30,6 +30,9 @@ export default class CircularTabs extends React.Component {
       duration: 200,
       useNativeDriver: true
     }).start();
+    if (index == 1 || index == 2) {
+      this.scrollView.scrollTo({ x: TAB_WIDTH, animated: true });
+    }
     onTabIndexChange(index);
   };
 
@@ -41,7 +44,13 @@ export default class CircularTabs extends React.Component {
         <View style={styles.tabsContainer}>
           <View style={styles.tabsColorStrip} />
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            ref={node => {
+              this.scrollView = node;
+            }}
+          >
             <Animated.Image
               resizeMode="stretch"
               source={curve}
