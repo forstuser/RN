@@ -4,7 +4,6 @@ export const colors = {
   mainText: "#3b3b3b",
   secondaryText: "#9c9c9c",
   lighterText: "#cdcdcd",
-  lighterText: "#cdcdcd",
   pinkishOrange: "#ff732e",
   cerulean: "#007bce",
   tomato: "#f0622d",

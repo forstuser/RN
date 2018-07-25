@@ -143,69 +143,69 @@ class Month extends React.Component {
         </Text>
         <View style={{ flex: 1, alignItems: "center" }}>
           {isPresent &&
-            item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT ? (
-              <View
-                collapsable={false}
-                style={{ flexDirection: "row", width: 80 }}
+          item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT ? (
+            <View
+              collapsable={false}
+              style={{
+                flexDirection: "row",
+                width: 80,
+                borderColor: "#d6d6d6",
+                borderWidth: 1,
+                borderRadius: 10,
+                paddingHorizontal: 5
+              }}
+            >
+              <TouchableOpacity
+                onPress={this.decreaseQuantity}
+                style={{
+                  marginTop: 3,
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center"
+                }}
               >
-                <TouchableOpacity
-                  onPress={this.decreaseQuantity}
-                  style={{
-                    marginTop: 3,
-                    flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "center"
-                  }}
-                >
-                  <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={this.showEditQuantityModal}
-                  style={{
-                    flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    minWidth: 20
-                  }}
-                >
-                  <Text>{quantity}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={this.increaseQuantity}
-                  style={{
-                    marginTop: 3,
-                    flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "center"
-                  }}
-                >
-                  <Icon name="md-add" size={16} color={colors.pinkishOrange} />
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <View collapsable={false} />
-            )}
+                <Icon name="md-remove" size={16} color={colors.pinkishOrange} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.showEditQuantityModal}
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  minWidth: 20
+                }}
+              >
+                <Text>{quantity}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.increaseQuantity}
+                style={{
+                  marginTop: 3,
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center"
+                }}
+              >
+                <Icon name="md-add" size={16} color={colors.pinkishOrange} />
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View collapsable={false} />
+          )}
         </View>
         <TouchableOpacity
           onPress={toggleAttendance}
-          style={styles.presentAbsentContainer}
+          style={[
+            styles.presentAbsentContainer,
+            isPresent && !isDateAfterToday ? styles.present : {}
+          ]}
         >
-          <Text
-            weight="Medium"
-            style={[styles.presentAbsent, !isPresent ? styles.absent : {}]}
-          >
-            {I18n.t("calendar_service_screen_absent")}
-          </Text>
-          <Text
-            weight="Medium"
-            style={[
-              styles.presentAbsent,
-              isPresent && !isDateAfterToday ? styles.present : {},
-              isPresent && isDateAfterToday ? styles.presentAfterToday : {}
-            ]}
-          >
-            {I18n.t("calendar_service_screen_present")}
-          </Text>
+          <Icon
+            name={isPresent ? "md-checkmark" : "md-close"}
+            size={22}
+            color="#fff"
+            style={{ marginTop: 2 }}
+          />
         </TouchableOpacity>
         {isEditQuantityModalOpen ? (
           <View collapsable={false}>
@@ -255,8 +255,8 @@ class Month extends React.Component {
             </Modal>
           </View>
         ) : (
-            <View collapsable={false} />
-          )}
+          <View collapsable={false} />
+        )}
       </View>
     );
   }
@@ -280,11 +280,13 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   presentAbsentContainer: {
+    width: 25,
+    height: 25,
     flexDirection: "row",
     backgroundColor: "#efefef",
-    borderColor: "#999",
-    borderWidth: 1,
-    borderRadius: 2
+    borderRadius: 13,
+    alignItems: "center",
+    justifyContent: "center"
   },
   presentAbsent: {
     fontSize: 9,

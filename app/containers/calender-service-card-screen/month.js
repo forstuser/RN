@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -25,43 +25,45 @@ class Month extends React.Component {
         end={{ x: 0.9, y: 0.9 }}
         colors={[colors.aquaBlue, colors.mainBlue]}
       >
-        <Text weight="Bold" style={{ fontSize: 18, color: "#fff", flex: 1 }}>
+        <TouchableOpacity
+          onPress={() =>
+            onPaymentDetailIndexChange(activePaymentDetailIndex + 1)
+          }
+          disabled={!isPreviousMonthAvailable}
+          style={styles.arrow}
+        >
+          <Icon
+            name="ios-arrow-back"
+            size={30}
+            color={isPreviousMonthAvailable ? "#fff" : colors.lighterText}
+          />
+        </TouchableOpacity>
+
+        <Text
+          weight="Bold"
+          style={{
+            fontSize: 18,
+            color: "#fff",
+            flex: 1,
+            textAlign: "center"
+          }}
+        >
           {moment(activeMonth.start_date.substr(0, 10)).format("MMMM YYYY")}
         </Text>
-        <View collapsable={false}  style={styles.arrows}>
-          <TouchableWithoutFeedback
-            onPress={() =>
-              onPaymentDetailIndexChange(activePaymentDetailIndex + 1)
-            }
-          >
-            <View collapsable={false} 
-              style={[
-                styles.arrow,
-                !isPreviousMonthAvailable && styles.disabledArrow
-              ]}
-            >
-              <Icon name="ios-arrow-back" size={23} color={colors.mainBlue} />
-            </View>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback
-            onPress={() =>
-              onPaymentDetailIndexChange(activePaymentDetailIndex - 1)
-            }
-          >
-            <View collapsable={false} 
-              style={[
-                styles.arrow,
-                !isNextMonthAvailable && styles.disabledArrow
-              ]}
-            >
-              <Icon
-                name="ios-arrow-forward"
-                size={23}
-                color={colors.mainBlue}
-              />
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+
+        <TouchableOpacity
+          onPress={() =>
+            onPaymentDetailIndexChange(activePaymentDetailIndex - 1)
+          }
+          disabled={!isNextMonthAvailable}
+          style={styles.arrow}
+        >
+          <Icon
+            name="ios-arrow-forward"
+            size={30}
+            color={isNextMonthAvailable ? "#fff" : colors.lighterText}
+          />
+        </TouchableOpacity>
       </LinearGradient>
     );
   }
@@ -72,7 +74,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 18,
+    paddingHorizontal: 0,
     paddingVertical: 13
   },
   arrows: {
@@ -82,7 +84,6 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
-    backgroundColor: "#fff",
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
