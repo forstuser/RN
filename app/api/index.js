@@ -9,7 +9,7 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-let API_BASE_URL = "https://consumer.binbill.com";
+let API_BASE_URL = "https://consumer-test.binbill.com";
 if (!__DEV__) {
   API_BASE_URL = "https://consumer.binbill.com";
 }
@@ -1892,6 +1892,34 @@ export const getEhomeProducts = async ({
     queryParams: {
       offset,
       category_id: categoryIds.join(",")
+    }
+  });
+};
+
+export const getSkuReferenceData = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/sku/reference/data`
+  });
+};
+
+export const getSkuItems = async ({
+  categoryId,
+  brandIds = [],
+  subCategoryIds = [],
+  measurementValues = [],
+  measurementTypes = [],
+  barCode
+}) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sku/${categoryId}/list`,
+    queryParams: {
+      sub_category_ids: subCategoryIds.join(","),
+      brand_ids: brandIds.join(","),
+      measurement_value: measurementValues.join(","),
+      measurement_types: measurementTypes.join(","),
+      bar_code: barCode
     }
   });
 };

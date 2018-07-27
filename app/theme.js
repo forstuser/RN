@@ -1,5 +1,6 @@
 export const colors = {
   mainBlue: "#009ee5",
+  lightBlue: "#f2f8fb",
   aquaBlue: "rgba(5, 216, 227, 0.99)",
   mainText: "#3b3b3b",
   secondaryText: "#9c9c9c",

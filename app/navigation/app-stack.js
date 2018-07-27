@@ -3,7 +3,8 @@ import { Platform } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {
   createStackNavigator,
-  createBottomTabNavigator
+  createBottomTabNavigator,
+  createDrawerNavigator
 } from "react-navigation";
 
 import { colors } from "../theme";
@@ -60,6 +61,7 @@ import rateUsScreen from "../containers/rate-us-screen";
 import EcommerceScreen from "../containers/e-commerce-screen";
 import OrderHistoryScreen from "../containers/order-history-screen";
 import WebviewScreen from "../containers/webview-screen";
+import ShoppingListScreen from "../containers/shopping-list-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -93,10 +95,10 @@ const BottomTabStack = createBottomTabNavigator(
         )
       }
     },
-    [SCREENS.DO_YOU_KNOW_SCREEN]: {
-      screen: DoYouKnowScreen,
+    [SCREENS.SHOPPING_LIST_SCREEN]: {
+      screen: ShoppingListScreen,
       navigationOptions: {
-        tabBarLabel: "DYK",
+        tabBarLabel: "Shop & Earn",
         tabBarIcon: props => (
           <TabIcon
             {...props}
@@ -143,10 +145,23 @@ const BottomTabStack = createBottomTabNavigator(
   }
 );
 
-export default createStackNavigator(
+const DrawerNavigator = createDrawerNavigator(
   {
     BottomTabStack: {
-      screen: BottomTabStack,
+      screen: BottomTabStack
+    }
+  },
+  {
+    initialRouteName: "BottomTabStack",
+    contentComponent: MoreScreen,
+    drawerWidth: 300
+  }
+);
+
+export default createStackNavigator(
+  {
+    DrawerNavigator: {
+      screen: DrawerNavigator,
       navigationOptions: { header: null }
     },
     [SCREENS.ASC_SCREEN]: AscScreen,
@@ -192,5 +207,7 @@ export default createStackNavigator(
     [SCREENS.ORDER_HISTORY_SCREEN]: OrderHistoryScreen,
     [SCREENS.WEBVIEW_SCREEN]: WebviewScreen
   },
-  {}
+  {
+    initialRouteName: "DrawerNavigator"
+  }
 );
