@@ -5,15 +5,12 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "android-bundle":
-      "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "android-bundle": "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
     "android-clean": "cd ./android && ./gradlew clean",
     "android-build-debug": "cd ./android && ./gradlew assembleDebug",
     "android-build-release": "cd ./android && ./gradlew assembleRelease",
-    "android-codepush-release-format":
-      "appcenter codepush release-react -a appcenterbin/BinBill-Android --mandatory true --description ",
-    "ios-codepush-release-format":
-      "appcenter codepush release-react -a appcenterbin/BinBill --mandatory true --description "
+    "android-codepush-release-format": "appcenter codepush release-react -a appcenterbin/BinBill-Android --mandatory true --description ",
+    "ios-codepush-release-format": "appcenter codepush release-react -a appcenterbin/BinBill --mandatory true --description "
   },
   "dependencies": {
     "add": "^2.0.6",
@@ -27,6 +24,7 @@
     "react-native-app-intro-slider": "^0.2.2",
     "react-native-app-link": "^0.4.0",
     "react-native-blur": "^3.2.2",
+    "react-native-camera": "git+https://git@github.com/react-native-community/react-native-camera",
     "react-native-check-box": "^2.1.0",
     "react-native-code-push": "^5.3.2",
     "react-native-datepicker": "^1.6.0",
@@ -50,8 +48,7 @@
     "react-native-modal": "^4.1.1",
     "react-native-phone-call": "^1.0.4",
     "react-native-photo-view": "^1.5.2",
-    "react-native-scrollable-tab-view":
-      "https://github.com/compojoom/react-native-scrollable-tab-view#fixes_android",
+    "react-native-scrollable-tab-view": "https://github.com/compojoom/react-native-scrollable-tab-view#fixes_android",
     "react-native-share": "^1.0.23",
     "react-native-snackbar": "^0.4.6",
     "react-native-splash-screen": "^3.0.6",
@@ -81,6 +78,8 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": ["./assets/fonts/"]
+    "assets": [
+      "./assets/fonts/"
+    ]
   }
 }

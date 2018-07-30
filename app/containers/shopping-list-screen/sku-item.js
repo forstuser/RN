@@ -1,10 +1,41 @@
 import React from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 
 import { Text, Image, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
-export default ({ item, measurementTypes }) => {
+export default ({
+  item,
+  measurementTypes,
+  wishList = [],
+  toggleItemInList = () => null,
+  changeItemQuantity = (item, quantity) => null
+}) => {
+  const itemInWishList = wishList.find(listItem => listItem.id == item.id);
+
+  console.log("itemInWishList: ", itemInWishList);
+
+  const skuId =
+    itemInWishList && itemInWishList.sku_measurement
+      ? itemInWishList.sku_measurement.id
+      : null;
+
+  const onSkuMeasurementPress = skuMeasurement => {
+    const selectedItem = { ...item };
+    delete selectedItem.sku_measurements;
+    selectedItem.sku_measurement = skuMeasurement;
+    selectedItem.quantity = 1;
+    toggleItemInList(selectedItem);
+  };
+
+  const increaseQuantity = () => {
+    changeItemQuantity(itemInWishList, itemInWishList.quantity + 1);
+  };
+
+  const decreaseQuantity = () => {
+    changeItemQuantity(itemInWishList, itemInWishList.quantity - 1);
+  };
+
   return (
     <View
       style={{
@@ -23,27 +54,69 @@ export default ({ item, measurementTypes }) => {
       </View>
       <ScrollView horizontal={true} style={{ marginVertical: 10 }}>
         {item.sku_measurements.map(skuMeasurement => (
-          <View
-            style={{
-              height: 20,
-              backgroundColor: colors.pinkishOrange,
-              borderRadius: 10,
-              minWidth: 50,
-              alignItems: "center",
-              justifyContent: "center",
-              marginRight: 5
-            }}
+          <TouchableOpacity
+            onPress={() => onSkuMeasurementPress(skuMeasurement)}
+            style={[
+              {
+                height: 20,
+                backgroundColor: "#fff",
+                borderColor: colors.pinkishOrange,
+                borderWidth: 1,
+                borderRadius: 10,
+                minWidth: 50,
+                alignItems: "center",
+                justifyContent: "center",
+                marginRight: 5
+              },
+              skuMeasurement.id == skuId
+                ? { backgroundColor: colors.pinkishOrange }
+                : {}
+            ]}
           >
-            <Text weight="Medium" style={{ color: "#fff", fontSize: 10 }}>
+            <Text
+              weight="Medium"
+              style={[
+                { color: colors.secondaryText, fontSize: 10 },
+                skuMeasurement.id == skuId ? { color: "#fff" } : {}
+              ]}
+            >
               {skuMeasurement.measurement_value +
                 measurementTypes[skuMeasurement.measurement_type].acronym}
             </Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
       <Text style={{ fontSize: 10 }}>Price: ₹{item.mrp}</Text>
-      <View style={{ flexDirection: "row", marginTop: 10 }}>
-        <View style={{ flex: 1 }} />
+      <View
+        style={{
+          flexDirection: "row",
+          marginTop: 10,
+          justifyContent: "space-between",
+          alignItems: "center",
+          height: 20
+        }}
+      >
+        {itemInWishList ? (
+          <View style={{ flexDirection: "row" }}>
+            <TouchableOpacity
+              onPress={decreaseQuantity}
+              style={styles.signContainer}
+            >
+              <Text style={{ marginTop: -4 }}>-</Text>
+            </TouchableOpacity>
+            <Text style={{ width: 30, textAlign: "center" }}>
+              {itemInWishList.quantity}
+            </Text>
+            <TouchableOpacity
+              onPress={increaseQuantity}
+              style={styles.signContainer}
+            >
+              <Text style={{ marginTop: -4 }}>+</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View />
+        )}
         <Text weight="Medium" style={{ fontSize: 10, color: colors.mainBlue }}>
           ₹ 20 Cashback
         </Text>
@@ -51,3 +124,16 @@ export default ({ item, measurementTypes }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  signContainer: {
+    borderColor: colors.pinkishOrange,
+    borderWidth: 1,
+    width: 15,
+    height: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden"
+  }
+});

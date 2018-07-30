@@ -119,8 +119,8 @@ android {
         applicationId "com.bin.binbillcustomer"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 8020008
-        versionName "2.0.8"
+        versionCode 8020009
+        versionName "2.0.9"
         multiDexEnabled true
         ndk {
 //            abiFilters "armeabi-v7a"
@@ -198,6 +198,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-camera')
     compile project(':react-native-snackbar')
     compile project(':react-native-splash-screen')
     compile project(':react-native-fast-image')

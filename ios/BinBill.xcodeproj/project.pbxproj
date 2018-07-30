@@ -57,6 +57,7 @@
 		43CD0A06202C37A500096693 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CD0A02202C37A400096693 /* FBSDKCoreKit.framework */; };
 		43CD0A07202C37A500096693 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CD0A03202C37A400096693 /* Bolts.framework */; };
 		43CD0A08202C37A500096693 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CD0A04202C37A500096693 /* FBSDKLoginKit.framework */; };
+		43D4B2F8210B5B0300D92D31 /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43D4B2E6210B5AD200D92D31 /* libRNCamera.a */; };
 		43D732C120246EAB00B57504 /* libRNFIRAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43D732B720246E8F00B57504 /* libRNFIRAnalytics.a */; };
 		43D736682029EA3500B57504 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D736672029EA3500B57504 /* ShareViewController.swift */; };
 		43D7366B2029EA3500B57504 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43D736692029EA3500B57504 /* MainInterface.storyboard */; };
@@ -454,6 +455,13 @@
 			remoteGlobalIDString = 64D1BD361EEFE88700F3F219;
 			remoteInfo = "RNBlur-tvOS";
 		};
+		43D4B2E5210B5AD200D92D31 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43D4B2B2210B5AD100D92D31 /* RNCamera.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
+			remoteInfo = RNCamera;
+		};
 		43D638381FDAB30F007910B2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6582F0B805A34592B3F7E3A4 /* RNGestureHandler.xcodeproj */;
@@ -639,6 +647,7 @@
 		43CD0A02202C37A400096693 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		43CD0A03202C37A400096693 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		43CD0A04202C37A500096693 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		43D4B2B2210B5AD100D92D31 /* RNCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RNCamera.xcodeproj"; sourceTree = "<group>"; };
 		43D7328420246E8E00B57504 /* RNFIRAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFIRAnalytics.xcodeproj; path = "../node_modules/react-native-firebase-analytics/ios/RNFIRAnalytics.xcodeproj"; sourceTree = "<group>"; };
 		43D736652029EA3500B57504 /* BinBillShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BinBillShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		43D736672029EA3500B57504 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -706,6 +715,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43D4B2F8210B5B0300D92D31 /* libRNCamera.a in Frameworks */,
 				437EB53020B4133800DBF9AE /* libSplashScreen.a in Frameworks */,
 				437EB52920B4126D00DBF9AE /* libRNSnackbar.a in Frameworks */,
 				4385717220A1ED2A003517E3 /* libFastImage.a in Frameworks */,
@@ -1022,6 +1032,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		43D4B2B3210B5AD100D92D31 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				43D4B2E6210B5AD200D92D31 /* libRNCamera.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		43D638091FDAB30F007910B2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1155,6 +1173,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				43D4B2B2210B5AD100D92D31 /* RNCamera.xcodeproj */,
 				437EB52A20B4133200DBF9AE /* SplashScreen.xcodeproj */,
 				437EB52320B4125100DBF9AE /* RNSnackbar.xcodeproj */,
 				4385712D20A1ED17003517E3 /* FastImage.xcodeproj */,
@@ -1532,6 +1551,10 @@
 				{
 					ProductGroup = 43C9F5E91FD9120700E61C98 /* Products */;
 					ProjectRef = 43C9F5E81FD9120700E61C98 /* RNBlur.xcodeproj */;
+				},
+				{
+					ProductGroup = 43D4B2B3210B5AD100D92D31 /* Products */;
+					ProjectRef = 43D4B2B2210B5AD100D92D31 /* RNCamera.xcodeproj */;
 				},
 				{
 					ProductGroup = 4317B3321FE00B2A00778944 /* Products */;
@@ -1943,6 +1966,13 @@
 			fileType = archive.ar;
 			path = libRNBlur.a;
 			remoteRef = 43C9F6161FD9120700E61C98 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		43D4B2E6210B5AD200D92D31 /* libRNCamera.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCamera.a;
+			remoteRef = 43D4B2E5210B5AD200D92D31 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		43D638391FDAB30F007910B2 /* libRNGestureHandler.a */ = {

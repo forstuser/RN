@@ -15,7 +15,7 @@ if (!__DEV__) {
 }
 export { API_BASE_URL };
 
-const APP_VERSION_FOR_API = 20008;
+const APP_VERSION_FOR_API = 20009;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
@@ -1921,5 +1921,12 @@ export const getSkuItems = async ({
       measurement_types: measurementTypes.join(","),
       bar_code: barCode
     }
+  });
+};
+
+export const getBarcodeSkuItem = async ({ barcode }) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sku/${barcode}/item`
   });
 };

@@ -18,7 +18,10 @@ export default ({
   mainCategory,
   updateMainCategoryInParent,
   loadSkuItems,
-  skuData
+  skuData,
+  wishList,
+  toggleItemInList,
+  changeItemQuantity
 }) => {
   if (!mainCategory.activeCategoryId) {
     updateMainCategoryInParent({
@@ -75,8 +78,15 @@ export default ({
           refreshing={isLoading}
           onRefresh={() => loadSkuItems({ categoryId: activeCategoryId })}
           renderItem={({ item }) => (
-            <SkuItem measurementTypes={measurementTypes} item={item} />
+            <SkuItem
+              measurementTypes={measurementTypes}
+              item={item}
+              wishList={wishList}
+              toggleItemInList={toggleItemInList}
+              changeItemQuantity={changeItemQuantity}
+            />
           )}
+          extraData={wishList}
           keyExtractor={(item, index) => item.id}
         />
       </View>

@@ -14,6 +14,7 @@ import { getSkuReferenceData, getSkuItems } from "../../api";
 import BlankShoppingList from "./blank-shopping-list";
 import SearchBar from "./search-bar";
 import TabContent from "./tab-content";
+import BarcodeScanner from "./barcode-scanner";
 
 import { colors } from "../../theme";
 
@@ -22,7 +23,9 @@ class ShoppingListScreen extends React.Component {
     measurementTypes: {},
     mainCategories: [],
     activeMainCategoryId: null,
-    skuData: {}
+    skuData: {},
+    isBarcodeScannerVisible: false,
+    wishList: []
   };
 
   componentDidMount() {
@@ -80,9 +83,59 @@ class ShoppingListScreen extends React.Component {
     this.setState({ activeMainCategoryId: this.state.mainCategories[i].id });
   };
 
+  addItemToList = item => {
+    const wishList = [...this.state.wishList];
+    if (wishList.findIndex(listItem => listItem.id == item.id) === -1) {
+      wishList.push(item);
+      this.setState({ wishList });
+    }
+  };
+
+  toggleItemInList = item => {
+    const wishList = [...this.state.wishList];
+    console.log("wishList: ", wishList);
+    console.log("item: ", item);
+
+    const idxOfItem = wishList.findIndex(listItem => listItem.id == item.id);
+
+    const idxOfSku = wishList.findIndex(
+      listItem =>
+        listItem.id == item.id &&
+        listItem.sku_measurement &&
+        listItem.sku_measurement.id == item.sku_measurement.id
+    );
+    if (idxOfItem > -1 && idxOfSku == -1) {
+      wishList.splice(idxOfItem, 1);
+      wishList.push(item);
+    } else if (idxOfItem == -1) {
+      wishList.push(item);
+    } else if (idxOfSku > -1) {
+      wishList.splice(idxOfSku, 1);
+    }
+
+    this.setState({ wishList });
+  };
+
+  changeItemQuantityInWishList = (item, quantity) => {
+    const wishList = [...this.state.wishList];
+    const idxOfItem = wishList.findIndex(listItem => listItem.id == item.id);
+    if (quantity <= 0) {
+      wishList.splice(idxOfItem, 1);
+    } else {
+      wishList[idxOfItem].quantity = quantity;
+    }
+    this.setState({ wishList });
+  };
+
   render() {
     const { navigation } = this.props;
-    const { measurementTypes, mainCategories, skuData } = this.state;
+    const {
+      measurementTypes,
+      mainCategories,
+      skuData,
+      isBarcodeScannerVisible,
+      wishList
+    } = this.state;
 
     return (
       <DrawerScreenContainer
@@ -96,7 +149,10 @@ class ShoppingListScreen extends React.Component {
               justifyContent: "center"
             }}
           >
-            <TouchableOpacity style={{ paddingHorizontal: 5 }}>
+            <TouchableOpacity
+              style={{ paddingHorizontal: 5 }}
+              onPress={() => this.setState({ isBarcodeScannerVisible: true })}
+            >
               <Icon
                 style={{ marginTop: 1 }}
                 name="ios-barcode-outline"
@@ -113,6 +169,30 @@ class ShoppingListScreen extends React.Component {
                 style={{ width: 20, height: 20 }}
                 source={require("../../images/blank_shopping_list.png")}
               />
+              {wishList.length > 0 ? (
+                <View
+                  style={{
+                    position: "absolute",
+                    backgroundColor: "#fff",
+                    top: 0,
+                    right: 0,
+                    width: 15,
+                    height: 15,
+                    borderRadius: 8,
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}
+                >
+                  <Text
+                    weight="Medium"
+                    style={{ fontSize: 9, color: colors.mainBlue }}
+                  >
+                    {wishList.length}
+                  </Text>
+                </View>
+              ) : (
+                <View />
+              )}
             </TouchableOpacity>
           </View>
         }
@@ -151,9 +231,19 @@ class ShoppingListScreen extends React.Component {
                 }
                 loadSkuItems={this.loadSkuItems}
                 skuData={skuData}
+                wishList={wishList}
+                toggleItemInList={this.toggleItemInList}
+                changeItemQuantity={this.changeItemQuantityInWishList}
               />
             ))}
           </ScrollableTabView>
+          <BarcodeScanner
+            visible={isBarcodeScannerVisible}
+            onSelectItem={this.addItemToList}
+            onClosePress={() =>
+              this.setState({ isBarcodeScannerVisible: false })
+            }
+          />
         </View>
       </DrawerScreenContainer>
     );
