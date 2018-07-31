@@ -1909,17 +1909,20 @@ export const getSkuItems = async ({
   subCategoryIds = [],
   measurementValues = [],
   measurementTypes = [],
-  barCode
+  barCode,
+  searchTerm
 }) => {
   return await apiRequest({
     method: "get",
-    url: `/sku/${categoryId}/list`,
+    url: `/sku/list`,
     queryParams: {
+      categoryId: categoryId,
       sub_category_ids: subCategoryIds.join(","),
       brand_ids: brandIds.join(","),
       measurement_value: measurementValues.join(","),
       measurement_types: measurementTypes.join(","),
-      bar_code: barCode
+      bar_code: barCode,
+      title: searchTerm
     }
   });
 };
@@ -1928,5 +1931,12 @@ export const getBarcodeSkuItem = async ({ barcode }) => {
   return await apiRequest({
     method: "get",
     url: `/sku/${barcode}/item`
+  });
+};
+
+export const getSkuWishList = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/sku/wishlist`
   });
 };

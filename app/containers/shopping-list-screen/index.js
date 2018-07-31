@@ -9,7 +9,7 @@ import ScrollableTabView, {
 import { Text, Image } from "../../elements";
 import DrawerScreenContainer from "../../components/drawer-screen-container";
 
-import { getSkuReferenceData, getSkuItems } from "../../api";
+import { getSkuReferenceData, getSkuItems, getSkuWishList } from "../../api";
 
 import BlankShoppingList from "./blank-shopping-list";
 import SearchBar from "./search-bar";
@@ -20,15 +20,22 @@ import { colors } from "../../theme";
 
 class ShoppingListScreen extends React.Component {
   state = {
+    isLoading: false,
     measurementTypes: {},
     mainCategories: [],
     activeMainCategoryId: null,
     skuData: {},
     isBarcodeScannerVisible: false,
-    wishList: []
+    wishList: [],
+    showWishlistClearOption: false,
+    searchTerm: "",
+    searchItems: [],
+    brands: [],
+    selectedBrands: []
   };
 
   componentDidMount() {
+    this.loadSkuWishList();
     this.loadReferenceData();
   }
 
@@ -36,6 +43,16 @@ class ShoppingListScreen extends React.Component {
     const mainCategories = [...this.state.mainCategories];
     mainCategories[index] = { ...mainCategories[index], ...data };
     this.setState(() => ({ mainCategories }));
+  };
+
+  loadSkuWishList = async () => {
+    try {
+      const res = await getSkuWishList();
+      if (res.status) {
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   loadReferenceData = async () => {
@@ -71,7 +88,7 @@ class ShoppingListScreen extends React.Component {
       const res = await getSkuItems({ categoryId });
       this.updateStateSkuData(categoryId, {
         isLoading: false,
-        items: res.result
+        items: res.result.sku_items
       });
     } catch (error) {
       console.log(error);
@@ -127,6 +144,37 @@ class ShoppingListScreen extends React.Component {
     this.setState({ wishList });
   };
 
+  startSearch = async () => {
+    this.setState({ isSearching: true });
+    try {
+      const res = await getSkuItems({
+        searchTerm: this.state.searchTerm,
+        brandIds: this.state.selectedBrands.map(brand => brand.id)
+      });
+      this.setState({
+        isSearching: false,
+        searchItems: res.result.sku_items,
+        brands: res.result.brands
+      });
+    } catch (error) {
+      console.log(error);
+      this.setState({ isSearching: false });
+    }
+  };
+
+  toggleBrand = brand => {
+    const selectedBrands = [...this.state.selectedBrands];
+    const idx = selectedBrands.findIndex(brandItem => brandItem.id == brand.id);
+    if (idx == -1) {
+      selectedBrands.push(brand);
+    } else {
+      selectedBrands.splice(idx, 1);
+    }
+    this.setState({ selectedBrands }, () => {
+      this.startSearch();
+    });
+  };
+
   render() {
     const { navigation } = this.props;
     const {
@@ -134,7 +182,11 @@ class ShoppingListScreen extends React.Component {
       mainCategories,
       skuData,
       isBarcodeScannerVisible,
-      wishList
+      wishList,
+      searchItems,
+      isSearching,
+      brands,
+      selectedBrands
     } = this.state;
 
     return (
@@ -199,44 +251,60 @@ class ShoppingListScreen extends React.Component {
       >
         {/* <BlankShoppingList navigation={navigation} /> */}
         <View style={{ flex: 1 }}>
-          <SearchBar />
-          <ScrollableTabView
-            locked={true}
-            onChangeTab={this.onTabChange}
-            renderTabBar={() => (
-              <ScrollableTabBar
-                style={{ height: 30 }}
-                tabStyle={{ height: 30 }}
-              />
-            )}
-            tabBarUnderlineStyle={{
-              height: 0
-            }}
-            tabBarBackgroundColor={colors.lightBlue}
-            tabBarActiveTextColor={colors.mainBlue}
-            tabBarTextStyle={{
-              fontSize: 10,
-              fontFamily: `Quicksand-Regular`,
-              padding: 0
-            }}
-          >
-            {mainCategories.map((mainCategory, index) => (
-              <TabContent
-                key={mainCategory.id}
-                tabLabel={mainCategory.title}
-                measurementTypes={measurementTypes}
-                mainCategory={mainCategory}
-                updateMainCategoryInParent={data =>
-                  this.updateStateMainCategory(index, data)
-                }
-                loadSkuItems={this.loadSkuItems}
-                skuData={skuData}
-                wishList={wishList}
-                toggleItemInList={this.toggleItemInList}
-                changeItemQuantity={this.changeItemQuantityInWishList}
-              />
-            ))}
-          </ScrollableTabView>
+          <SearchBar
+            startSearch={this.startSearch}
+            onSearchTextChange={searchTerm => this.setState({ searchTerm })}
+            brands={brands}
+            selectedBrands={selectedBrands}
+            toggleBrand={this.toggleBrand}
+            searchItems={searchItems}
+            isSearching={isSearching}
+            measurementTypes={measurementTypes}
+            wishList={wishList}
+            toggleItemInList={this.toggleItemInList}
+            changeItemQuantity={this.changeItemQuantityInWishList}
+          />
+          {searchItems.length == 0 && !isSearching ? (
+            <ScrollableTabView
+              locked={true}
+              onChangeTab={this.onTabChange}
+              renderTabBar={() => (
+                <ScrollableTabBar
+                  style={{ height: 30 }}
+                  tabStyle={{ height: 30 }}
+                />
+              )}
+              tabBarUnderlineStyle={{
+                height: 0
+              }}
+              tabBarBackgroundColor={colors.lightBlue}
+              tabBarActiveTextColor={colors.mainBlue}
+              tabBarTextStyle={{
+                fontSize: 10,
+                fontFamily: `Quicksand-Regular`,
+                padding: 0
+              }}
+            >
+              {mainCategories.map((mainCategory, index) => (
+                <TabContent
+                  key={mainCategory.id}
+                  tabLabel={mainCategory.title}
+                  measurementTypes={measurementTypes}
+                  mainCategory={mainCategory}
+                  updateMainCategoryInParent={data =>
+                    this.updateStateMainCategory(index, data)
+                  }
+                  loadSkuItems={this.loadSkuItems}
+                  skuData={skuData}
+                  wishList={wishList}
+                  toggleItemInList={this.toggleItemInList}
+                  changeItemQuantity={this.changeItemQuantityInWishList}
+                />
+              ))}
+            </ScrollableTabView>
+          ) : (
+            <View />
+          )}
           <BarcodeScanner
             visible={isBarcodeScannerVisible}
             onSelectItem={this.addItemToList}
