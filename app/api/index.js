@@ -1940,3 +1940,11 @@ export const getSkuWishList = async () => {
     url: `/sku/wishlist`
   });
 };
+
+export const addSkuItemToWishList = async item => {
+  return await apiRequest({
+    method: "post",
+    url: `/sku/wishlist`,
+    data: { ...item }
+  });
+};

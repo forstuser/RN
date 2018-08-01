@@ -12,6 +12,7 @@ import { Text, Image, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
 import Checkbox from "../../components/checkbox";
+import LoadingOverlay from "../../components/loading-overlay";
 
 import SkuItem from "./sku-item";
 
@@ -22,6 +23,7 @@ export default class SearchBar extends React.Component {
   render() {
     const {
       onSearchTextChange = () => null,
+      searchTerm = "",
       startSearch = () => null,
       brands = [],
       selectedBrands = [],
@@ -29,9 +31,11 @@ export default class SearchBar extends React.Component {
       isSearching = false,
       searchItems = [],
       wishList,
-      toggleItemInList,
-      changeItemQuantity,
-      toggleBrand = () => null
+      addSkuItemToList,
+      changeSkuItemQuantityInWishList,
+      toggleBrand = () => null,
+      updateSearchItem,
+      openAddManualItemModal
     } = this.props;
 
     const { isBrandsPopupVisible } = this.state;
@@ -40,11 +44,21 @@ export default class SearchBar extends React.Component {
       selectedBrand => selectedBrand.id
     );
 
+    selectActiveSkuMeasurementId = (item, skuMeasurementId) => {
+      const itemIdx = searchItems.findIndex(listItem => listItem.id == item.id);
+      if (itemIdx > -1) {
+        updateSearchItem(itemIdx, {
+          ...searchItems[itemIdx],
+          activeSkuMeasurementId: skuMeasurementId
+        });
+      }
+    };
+
     return (
       <View
         style={{
           backgroundColor: "#fff",
-          flex: searchItems.length > 0 || isSearching ? 1 : undefined
+          flex: searchTerm ? 1 : undefined
         }}
       >
         <View
@@ -52,7 +66,8 @@ export default class SearchBar extends React.Component {
             margin: 10,
             flexDirection: "row",
             borderRadius: 5,
-            ...defaultStyles.card
+            ...defaultStyles.card,
+            alignItems: "center"
           }}
         >
           <TextInput
@@ -61,11 +76,30 @@ export default class SearchBar extends React.Component {
               height: 36,
               padding: 10
             }}
+            value={searchTerm}
             placeholder="Search"
             onChangeText={text => onSearchTextChange(text)}
             returnKeyType="search"
             onSubmitEditing={startSearch}
           />
+          {searchTerm ? (
+            <TouchableOpacity
+              onPress={() => onSearchTextChange("")}
+              style={{
+                height: 20,
+                width: 20,
+                borderRadius: 10,
+                backgroundColor: colors.secondaryText,
+                alignItems: "center",
+                justifyContent: "center",
+                marginRight: 5
+              }}
+            >
+              <Icon name="md-close" size={15} color="#fff" />
+            </TouchableOpacity>
+          ) : (
+            <View />
+          )}
           <TouchableOpacity
             onPress={() =>
               this.setState({ isBrandsPopupVisible: !isBrandsPopupVisible })
@@ -98,26 +132,43 @@ export default class SearchBar extends React.Component {
             />
           </TouchableOpacity>
         </View>
-        {searchItems.length > 0 || isSearching ? (
+        {searchTerm ? (
           <View
             style={{
               flex: 1
             }}
           >
-            <FlatList
-              data={searchItems}
-              renderItem={({ item }) => (
-                <SkuItem
-                  measurementTypes={measurementTypes}
-                  item={item}
-                  wishList={wishList}
-                  toggleItemInList={toggleItemInList}
-                  changeItemQuantity={changeItemQuantity}
+            {searchTerm && searchItems.length > 0 ? (
+              <FlatList
+                data={searchItems}
+                renderItem={({ item }) => (
+                  <SkuItem
+                    measurementTypes={measurementTypes}
+                    item={item}
+                    wishList={wishList}
+                    addSkuItemToList={addSkuItemToList}
+                    changeSkuItemQuantityInWishList={
+                      changeSkuItemQuantityInWishList
+                    }
+                    selectActiveSkuMeasurementId={selectActiveSkuMeasurementId}
+                  />
+                )}
+                extraData={wishList}
+                keyExtractor={(item, index) => item.id}
+              />
+            ) : (
+              <View style={{ padding: 20, alignItems: "center" }}>
+                <Text>
+                  Sorry we couldn't find any matches for "{searchTerm}"
+                </Text>
+                <Button
+                  onPress={openAddManualItemModal}
+                  style={{ height: 40, width: 180, marginTop: 15 }}
+                  text="Add Manually"
+                  color="secondary"
                 />
-              )}
-              extraData={wishList}
-              keyExtractor={(item, index) => item.id}
-            />
+              </View>
+            )}
           </View>
         ) : (
           <View />
@@ -159,6 +210,7 @@ export default class SearchBar extends React.Component {
         ) : (
           <View />
         )}
+        <LoadingOverlay visible={isSearching} />
       </View>
     );
   }

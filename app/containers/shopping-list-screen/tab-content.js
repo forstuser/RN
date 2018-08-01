@@ -17,11 +17,12 @@ export default ({
   measurementTypes,
   mainCategory,
   updateMainCategoryInParent,
+  updateCategorySkuData,
   loadSkuItems,
   skuData,
   wishList,
-  toggleItemInList,
-  changeItemQuantity
+  addSkuItemToList,
+  changeSkuItemQuantityInWishList
 }) => {
   if (!mainCategory.activeCategoryId) {
     updateMainCategoryInParent({
@@ -35,6 +36,14 @@ export default ({
   const { categories, activeCategoryId } = mainCategory;
   const categorySkuData = skuData[activeCategoryId] || {};
   const { isLoading = true, error = null, items = [] } = categorySkuData;
+
+  selectActiveSkuMeasurementId = (item, skuMeasurementId) => {
+    const itemIdx = items.findIndex(listItem => listItem.id == item.id);
+    if (itemIdx > -1) {
+      items[itemIdx].activeSkuMeasurementId = skuMeasurementId;
+    }
+    updateCategorySkuData(activeCategoryId, { items });
+  };
 
   return (
     <View
@@ -82,11 +91,12 @@ export default ({
               measurementTypes={measurementTypes}
               item={item}
               wishList={wishList}
-              toggleItemInList={toggleItemInList}
-              changeItemQuantity={changeItemQuantity}
+              addSkuItemToList={addSkuItemToList}
+              changeSkuItemQuantityInWishList={changeSkuItemQuantityInWishList}
+              selectActiveSkuMeasurementId={selectActiveSkuMeasurementId}
             />
           )}
-          extraData={wishList}
+          extraData={{ wishList, skuData }}
           keyExtractor={(item, index) => item.id}
         />
       </View>
