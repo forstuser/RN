@@ -17,6 +17,7 @@ import {
   clearWishList
 } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
+import ErrorOverlay from "../../components/error-overlay";
 
 import BlankShoppingList from "./blank-shopping-list";
 import SearchBar from "./search-bar";
@@ -32,6 +33,9 @@ import { SCREENS } from "../../constants";
 class ShoppingListScreen extends React.Component {
   state = {
     isLoading: false,
+    isLoadingWishList: false,
+    referenceDataError: null,
+    wishListError: null,
     measurementTypes: {},
     mainCategories: [],
     activeMainCategoryId: null,
@@ -39,7 +43,6 @@ class ShoppingListScreen extends React.Component {
     isBarcodeScannerVisible: false,
     pastItems: [],
     wishList: [],
-    showWishlistClearOption: false,
     isSearching: false,
     isSearchDone: false,
     searchError: null,
@@ -50,9 +53,13 @@ class ShoppingListScreen extends React.Component {
   };
 
   componentDidMount() {
+    this.loadInitialData();
+  }
+
+  loadInitialData = () => {
     this.loadSkuWishList();
     this.loadReferenceData();
-  }
+  };
 
   updateStateMainCategory = (index, data) => {
     const mainCategories = [...this.state.mainCategories];
@@ -67,6 +74,7 @@ class ShoppingListScreen extends React.Component {
   };
 
   loadSkuWishList = async () => {
+    this.setState({ isLoadingWishList: true, wishListError: null });
     try {
       const res = await getSkuWishList();
       this.setState({ wishList: res.result.wishlist_items });
@@ -78,13 +86,16 @@ class ShoppingListScreen extends React.Component {
       if (pastItems.length > 0) {
         this.setState({ pastItems });
       }
-    } catch (e) {
-      console.log(e);
+    } catch (wishListError) {
+      console.log("wishListError: ", wishListError);
+      this.setState({ wishListError });
+    } finally {
+      this.setState({ isLoadingWishList: false });
     }
   };
 
   loadReferenceData = async () => {
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, referenceDataError: null });
     try {
       const res = await getSkuReferenceData();
       let measurementTypes = {};
@@ -95,8 +106,9 @@ class ShoppingListScreen extends React.Component {
         mainCategories: res.result.main_categories,
         measurementTypes
       });
-    } catch (e) {
-      console.log(e);
+    } catch (referenceDataError) {
+      console.log("referenceDataError: ", referenceDataError);
+      this.setState({ referenceDataError });
     } finally {
       this.setState({ isLoading: false });
     }
@@ -256,10 +268,17 @@ class ShoppingListScreen extends React.Component {
     this.setState({ wishList });
   };
 
+  updatePastItems = pastItems => {
+    this.setState({ pastItems });
+  };
+
   render() {
     const { navigation } = this.props;
     const {
       isLoading,
+      isLoadingWishList,
+      referenceDataError,
+      wishListError,
       measurementTypes,
       mainCategories,
       skuData,
@@ -274,6 +293,19 @@ class ShoppingListScreen extends React.Component {
       brands,
       selectedBrands
     } = this.state;
+
+    if (isLoading || isLoadingWishList) {
+      return <LoadingOverlay visible={true} />;
+    }
+
+    if (referenceDataError || wishListError) {
+      return (
+        <ErrorOverlay
+          error={referenceDataError || wishListError}
+          onRetryPress={this.loadInitialData}
+        />
+      );
+    }
 
     return (
       <DrawerScreenContainer
@@ -385,12 +417,13 @@ class ShoppingListScreen extends React.Component {
                 padding: 0
               }}
             >
-              {pastItems.length > 0 ? (
+              {mainCategories.length > 0 && pastItems.length > 0 ? (
                 <PastItems
                   key={"pastItems"}
                   tabLabel={"Past Items"}
                   measurementTypes={measurementTypes}
                   pastItems={pastItems}
+                  updatePastItems={this.updatePastItems}
                   wishList={wishList}
                   addSkuItemToList={this.addSkuItemToList}
                   changeSkuItemQuantityInWishList={
@@ -421,13 +454,20 @@ class ShoppingListScreen extends React.Component {
           ) : (
             <View />
           )}
-          <LoadingOverlay visible={isLoading} />
+
           <BarcodeScanner
             visible={isBarcodeScannerVisible}
             onSelectItem={this.addSkuItemToList}
             onClosePress={() =>
               this.setState({ isBarcodeScannerVisible: false })
             }
+            measurementTypes={measurementTypes}
+            wishList={wishList}
+            addSkuItemToList={this.addSkuItemToList}
+            changeSkuItemQuantityInWishList={
+              this.changeSkuItemQuantityInWishList
+            }
+            updateSearchItem={this.updateSearchItem}
           />
           <AddManualItemModal
             ref={node => {

@@ -12,7 +12,8 @@ export default class SkuItem extends React.Component {
       wishList = [],
       addSkuItemToList = () => null,
       changeSkuItemQuantityInWishList = (skuMeasurementId, quantity) => null,
-      selectActiveSkuMeasurementId = (item, skuMeasurementId) => null
+      selectActiveSkuMeasurementId = (item, skuMeasurementId) => null,
+      style = {}
     } = this.props;
 
     const itemsInWishList = wishList.filter(listItem => listItem.id == item.id);
@@ -52,14 +53,17 @@ export default class SkuItem extends React.Component {
 
     return (
       <View
-        style={{
-          flex: 1,
-          padding: 10,
-          borderRadius: 5,
-          margin: 10,
-          marginBottom: 0,
-          ...defaultStyles.card
-        }}
+        style={[
+          {
+            flex: 1,
+            padding: 10,
+            borderRadius: 5,
+            margin: 10,
+            marginBottom: 0,
+            ...defaultStyles.card
+          },
+          style
+        ]}
       >
         <View>
           <Text weight="Medium" style={{ fontSize: 10 }}>

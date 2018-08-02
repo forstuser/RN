@@ -18,14 +18,15 @@ export default ({
   pastItems = [],
   wishList = [],
   addSkuItemToList,
-  changeSkuItemQuantityInWishList
+  changeSkuItemQuantityInWishList,
+  updatePastItems
 }) => {
   selectActiveSkuMeasurementId = (item, skuMeasurementId) => {
     const itemIdx = pastItems.findIndex(listItem => listItem.id == item.id);
     if (itemIdx > -1) {
-      items[itemIdx].activeSkuMeasurementId = skuMeasurementId;
+      pastItems[itemIdx].activeSkuMeasurementId = skuMeasurementId;
     }
-    // updateCategorySkuData(activeCategoryId, { items });
+    updatePastItems(pastItems);
   };
 
   return (

@@ -12,6 +12,8 @@ import LoadingOverlay from "../../components/loading-overlay";
 import { Text, Image, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
+import SkuItem from "./sku-item";
+
 export default class BarcodeScanner extends React.Component {
   state = {
     isLoading: false,
@@ -48,8 +50,22 @@ export default class BarcodeScanner extends React.Component {
     });
   };
 
+  selectActiveSkuMeasurementId = (_, skuMeasurementId) => {
+    const item = { ...this.state.item };
+    item.activeSkuMeasurementId = skuMeasurementId;
+    this.setState({ item });
+  };
+
   render() {
-    const { visible = false, onSelectItem = () => null } = this.props;
+    const {
+      visible = false,
+      onSelectItem = () => null,
+      measurementTypes,
+      pastItems = [],
+      wishList = [],
+      addSkuItemToList,
+      changeSkuItemQuantityInWishList
+    } = this.props;
     const { isLoading, itemNotFound, item } = this.state;
 
     return (
@@ -57,7 +73,7 @@ export default class BarcodeScanner extends React.Component {
         isVisible={visible}
         title="Scan Bar code"
         style={{
-          height: 200,
+          height: 230,
           ...defaultStyles.card
         }}
         onClosePress={this.closeModal}
@@ -70,21 +86,24 @@ export default class BarcodeScanner extends React.Component {
           {item ? (
             <View
               style={{
-                padding: 20,
-                height: "100%",
-                justifyContent: "center"
+                flex: 1
               }}
             >
-              <Text weight="Medium" style={{ color: colors.secondaryText }}>
-                Your scanned product is:
-              </Text>
-              <Text weight="Bold">{item.title}</Text>
+              <SkuItem
+                measurementTypes={measurementTypes}
+                item={item}
+                wishList={wishList}
+                addSkuItemToList={addSkuItemToList}
+                changeSkuItemQuantityInWishList={
+                  changeSkuItemQuantityInWishList
+                }
+                selectActiveSkuMeasurementId={this.selectActiveSkuMeasurementId}
+              />
               <View
                 style={{
-                  width: "100%",
                   flexDirection: "row",
                   justifyContent: "space-between",
-                  marginTop: 20
+                  margin: 10
                 }}
               >
                 <Button
