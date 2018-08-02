@@ -1948,3 +1948,10 @@ export const addSkuItemToWishList = async item => {
     data: { ...item }
   });
 };
+
+export const clearWishList = async item => {
+  return await apiRequest({
+    method: "delete",
+    url: `/sku/wishlist`
+  });
+};

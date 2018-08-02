@@ -67,42 +67,43 @@ export default class SkuItem extends React.Component {
           </Text>
         </View>
         <ScrollView horizontal={true} style={{ marginVertical: 10 }}>
-          {item.sku_measurements.map(skuMeasurement => (
-            <TouchableOpacity
-              onPress={() =>
-                selectActiveSkuMeasurementId(item, skuMeasurement.id)
-              }
-              style={[
-                {
-                  height: 20,
-                  backgroundColor: "#fff",
-                  borderColor: colors.pinkishOrange,
-                  borderWidth: 1,
-                  borderRadius: 10,
-                  minWidth: 50,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginRight: 5
-                },
-                skuMeasurement.id == item.activeSkuMeasurementId
-                  ? { backgroundColor: colors.pinkishOrange }
-                  : {}
-              ]}
-            >
-              <Text
-                weight="Medium"
+          {item.sku_measurements &&
+            item.sku_measurements.map(skuMeasurement => (
+              <TouchableOpacity
+                onPress={() =>
+                  selectActiveSkuMeasurementId(item, skuMeasurement.id)
+                }
                 style={[
-                  { color: colors.secondaryText, fontSize: 10 },
+                  {
+                    height: 20,
+                    backgroundColor: "#fff",
+                    borderColor: colors.pinkishOrange,
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    minWidth: 50,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginRight: 5
+                  },
                   skuMeasurement.id == item.activeSkuMeasurementId
-                    ? { color: "#fff" }
+                    ? { backgroundColor: colors.pinkishOrange }
                     : {}
                 ]}
               >
-                {skuMeasurement.measurement_value +
-                  measurementTypes[skuMeasurement.measurement_type].acronym}
-              </Text>
-            </TouchableOpacity>
-          ))}
+                <Text
+                  weight="Medium"
+                  style={[
+                    { color: colors.secondaryText, fontSize: 10 },
+                    skuMeasurement.id == item.activeSkuMeasurementId
+                      ? { color: "#fff" }
+                      : {}
+                  ]}
+                >
+                  {skuMeasurement.measurement_value +
+                    measurementTypes[skuMeasurement.measurement_type].acronym}
+                </Text>
+              </TouchableOpacity>
+            ))}
         </ScrollView>
         <Text style={{ fontSize: 10 }}>Price: ₹{item.mrp}</Text>
         <View

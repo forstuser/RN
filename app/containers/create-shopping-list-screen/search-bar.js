@@ -20,15 +20,36 @@ export default class SearchBar extends React.Component {
   state = {
     isBrandsPopupVisible: false
   };
+
+  toggleBrandsPopup = () => {
+    const { searchItems = [] } = this.props;
+    const { isBrandsPopupVisible } = this.state;
+    if (searchItems.length > 0 && !isBrandsPopupVisible) {
+      this.setState({ isBrandsPopupVisible: true });
+    } else {
+      this.setState({ isBrandsPopupVisible: false });
+    }
+  };
+
+  startSearch = () => {
+    const { searchTerm = "", startSearch = () => null } = this.props;
+
+    if (searchTerm.length > 2) {
+      startSearch();
+    }
+  };
+
   render() {
     const {
       onSearchTextChange = () => null,
+      clearSearchTerm = () => null,
       searchTerm = "",
-      startSearch = () => null,
       brands = [],
       selectedBrands = [],
       measurementTypes,
       isSearching = false,
+      isSearchDone = false,
+      searchError = null,
       searchItems = [],
       wishList,
       addSkuItemToList,
@@ -80,11 +101,11 @@ export default class SearchBar extends React.Component {
             placeholder="Search"
             onChangeText={text => onSearchTextChange(text)}
             returnKeyType="search"
-            onSubmitEditing={startSearch}
+            onSubmitEditing={this.startSearch}
           />
           {searchTerm ? (
             <TouchableOpacity
-              onPress={() => onSearchTextChange("")}
+              onPress={clearSearchTerm}
               style={{
                 height: 20,
                 width: 20,
@@ -101,9 +122,7 @@ export default class SearchBar extends React.Component {
             <View />
           )}
           <TouchableOpacity
-            onPress={() =>
-              this.setState({ isBrandsPopupVisible: !isBrandsPopupVisible })
-            }
+            onPress={this.toggleBrandsPopup}
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -138,7 +157,7 @@ export default class SearchBar extends React.Component {
               flex: 1
             }}
           >
-            {searchTerm && searchItems.length > 0 ? (
+            {searchItems.length > 0 ? (
               <FlatList
                 data={searchItems}
                 renderItem={({ item }) => (
@@ -157,6 +176,9 @@ export default class SearchBar extends React.Component {
                 keyExtractor={(item, index) => item.id}
               />
             ) : (
+              <View />
+            )}
+            {searchItems.length == 0 && isSearchDone ? (
               <View style={{ padding: 20, alignItems: "center" }}>
                 <Text>
                   Sorry we couldn't find any matches for "{searchTerm}"
@@ -168,6 +190,20 @@ export default class SearchBar extends React.Component {
                   color="secondary"
                 />
               </View>
+            ) : (
+              <View />
+            )}
+            {searchItems.length == 0 && !isSearchDone ? (
+              <View style={{ paddingLeft: 10 }}>
+                <Text style={{ color: colors.secondaryText }}>
+                  {searchTerm.length < 3
+                    ? "Enter atleast 3 characters and then "
+                    : ""}
+                  Press 'Search' to start searching
+                </Text>
+              </View>
+            ) : (
+              <View />
             )}
           </View>
         ) : (

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Platform } from "react-native";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -9,7 +9,7 @@ import { colors } from "../theme";
 export default props => {
   const { title, onClosePress = () => null, children, style={}, ...modalProps,  } = props;
   return (
-    <Modal {...modalProps} useNativeDriver={true}>
+    <Modal {...modalProps} useNativeDriver={true} avoidKeyboard={Platform.OS=='ios'}>
       <View style={style}>
         <View
           style={{

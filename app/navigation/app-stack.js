@@ -61,7 +61,8 @@ import rateUsScreen from "../containers/rate-us-screen";
 import EcommerceScreen from "../containers/e-commerce-screen";
 import OrderHistoryScreen from "../containers/order-history-screen";
 import WebviewScreen from "../containers/webview-screen";
-import ShoppingListScreen from "../containers/shopping-list-screen";
+import CreateShoppingListScreen from "../containers/create-shopping-list-screen";
+import MyShoppingListScreen from "../containers/my-shopping-list-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -95,8 +96,8 @@ const BottomTabStack = createBottomTabNavigator(
         )
       }
     },
-    [SCREENS.SHOPPING_LIST_SCREEN]: {
-      screen: ShoppingListScreen,
+    [SCREENS.CREATE_SHOPPING_LIST_SCREEN]: {
+      screen: CreateShoppingListScreen,
       navigationOptions: {
         tabBarLabel: "Shop & Earn",
         tabBarIcon: props => (
@@ -205,7 +206,8 @@ export default createStackNavigator(
     [SCREENS.DEALS_SCREEN]: DealsScreen,
     [SCREENS.ECOMMERCE_SCREEN]: EcommerceScreen,
     [SCREENS.ORDER_HISTORY_SCREEN]: OrderHistoryScreen,
-    [SCREENS.WEBVIEW_SCREEN]: WebviewScreen
+    [SCREENS.WEBVIEW_SCREEN]: WebviewScreen,
+    [SCREENS.MY_SHOPPING_LIST_SCREEN]: MyShoppingListScreen
   },
   {
     initialRouteName: "DrawerNavigator"

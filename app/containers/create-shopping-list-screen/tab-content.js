@@ -15,12 +15,12 @@ import SkuItem from "./sku-item";
 
 export default ({
   measurementTypes,
-  mainCategory,
-  updateMainCategoryInParent,
-  updateCategorySkuData,
-  loadSkuItems,
-  skuData,
-  wishList,
+  mainCategory = null,
+  updateMainCategoryInParent = () => null,
+  updateCategorySkuData = () => null,
+  loadSkuItems = () => null,
+  skuData = {},
+  wishList = [],
   addSkuItemToList,
   changeSkuItemQuantityInWishList
 }) => {

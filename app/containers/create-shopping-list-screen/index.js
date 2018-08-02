@@ -13,7 +13,8 @@ import {
   getSkuReferenceData,
   getSkuItems,
   getSkuWishList,
-  addSkuItemToWishList
+  addSkuItemToWishList,
+  clearWishList
 } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 
@@ -23,8 +24,10 @@ import TabContent from "./tab-content";
 import BarcodeScanner from "./barcode-scanner";
 import AddManualItemModal from "./add-manual-item-modal";
 import ClearOrContinuePreviousListModal from "./clear-or-continue-previous-list-modal";
+import PastItems from "./past-items";
 
 import { colors } from "../../theme";
+import { SCREENS } from "../../constants";
 
 class ShoppingListScreen extends React.Component {
   state = {
@@ -34,8 +37,12 @@ class ShoppingListScreen extends React.Component {
     activeMainCategoryId: null,
     skuData: {},
     isBarcodeScannerVisible: false,
+    pastItems: [],
     wishList: [],
     showWishlistClearOption: false,
+    isSearching: false,
+    isSearchDone: false,
+    searchError: null,
     searchTerm: "",
     searchItems: [],
     brands: [],
@@ -65,6 +72,11 @@ class ShoppingListScreen extends React.Component {
       this.setState({ wishList: res.result.wishlist_items });
       if (res.result.wishlist_items.length > 0) {
         this.clearOrContinuePreviousListModal.show();
+      }
+
+      const pastItems = res.result.past_selections;
+      if (pastItems.length > 0) {
+        this.setState({ pastItems });
       }
     } catch (e) {
       console.log(e);
@@ -167,8 +179,26 @@ class ShoppingListScreen extends React.Component {
     this.setState({ wishList });
   };
 
+  updateSearchTerm = searchTerm => {
+    this.setState({
+      searchTerm,
+      isSearchDone: false,
+      selectedBrands: [],
+      brands: [],
+      searchItems: []
+    });
+  };
+
+  clearSearchTerm = () => {
+    this.updateSearchTerm("");
+  };
+
   startSearch = async () => {
-    this.setState({ isSearching: true });
+    this.setState({
+      isSearching: true,
+      isSearchDone: false,
+      searchError: null
+    });
     try {
       const res = await getSkuItems({
         searchTerm: this.state.searchTerm,
@@ -176,12 +206,13 @@ class ShoppingListScreen extends React.Component {
       });
       this.setState({
         isSearching: false,
+        isSearchDone: true,
         searchItems: res.result.sku_items,
         brands: res.result.brands
       });
     } catch (error) {
       console.log(error);
-      this.setState({ isSearching: false });
+      this.setState({ isSearching: false, searchError: error });
     }
   };
 
@@ -198,8 +229,31 @@ class ShoppingListScreen extends React.Component {
     });
   };
 
-  clearWishList = () => {
-    this.setState({ wishList: [] });
+  clearWishList = async () => {
+    try {
+      await clearWishList();
+      this.setState({ wishList: [] });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    }
+  };
+
+  changeIndexQuantity = async (index, quantity) => {
+    const wishList = [...this.state.wishList];
+    const item = wishList[index];
+    if (quantity <= 0) {
+      wishList.splice(index, 1);
+      item.quantity = 0;
+    } else {
+      wishList[index].quantity = quantity;
+      item.quantity = quantity;
+    }
+    try {
+      await addSkuItemToWishList(item);
+    } catch (e) {
+      console.log(e);
+    }
+    this.setState({ wishList });
   };
 
   render() {
@@ -210,12 +264,15 @@ class ShoppingListScreen extends React.Component {
       mainCategories,
       skuData,
       isBarcodeScannerVisible,
+      pastItems,
       wishList,
+      searchTerm,
       searchItems,
       isSearching,
+      isSearchDone,
+      searchError,
       brands,
-      selectedBrands,
-      searchTerm
+      selectedBrands
     } = this.state;
 
     return (
@@ -244,6 +301,12 @@ class ShoppingListScreen extends React.Component {
 
             <TouchableOpacity
               style={{ paddingHorizontal: 5, marginHorizontal: 5 }}
+              onPress={() => {
+                navigation.navigate(SCREENS.MY_SHOPPING_LIST_SCREEN, {
+                  wishList,
+                  changeIndexQuantity: this.changeIndexQuantity
+                });
+              }}
             >
               <Image
                 tintColor="#fff"
@@ -283,10 +346,13 @@ class ShoppingListScreen extends React.Component {
           <SearchBar
             searchTerm={searchTerm}
             startSearch={this.startSearch}
-            onSearchTextChange={searchTerm => this.setState({ searchTerm })}
+            onSearchTextChange={this.updateSearchTerm}
+            clearSearchTerm={this.clearSearchTerm}
             brands={brands}
             selectedBrands={selectedBrands}
             toggleBrand={this.toggleBrand}
+            isSearchDone={isSearchDone}
+            searchError={searchError}
             searchItems={searchItems}
             isSearching={isSearching}
             measurementTypes={measurementTypes}
@@ -319,6 +385,19 @@ class ShoppingListScreen extends React.Component {
                 padding: 0
               }}
             >
+              {pastItems.length > 0 ? (
+                <PastItems
+                  key={"pastItems"}
+                  tabLabel={"Past Items"}
+                  measurementTypes={measurementTypes}
+                  pastItems={pastItems}
+                  wishList={wishList}
+                  addSkuItemToList={this.addSkuItemToList}
+                  changeSkuItemQuantityInWishList={
+                    this.changeSkuItemQuantityInWishList
+                  }
+                />
+              ) : null}
               {mainCategories.map((mainCategory, index) => (
                 <TabContent
                   key={mainCategory.id}
@@ -354,6 +433,7 @@ class ShoppingListScreen extends React.Component {
             ref={node => {
               this.addManualItemModal = node;
             }}
+            addSkuItemToList={this.addSkuItemToList}
           />
           <ClearOrContinuePreviousListModal
             ref={node => {

@@ -15,7 +15,7 @@ export default class AddManualItemModal extends React.Component {
   state = {
     isVisible: false,
     isLoading: false,
-    items: null
+    itemTitle: ""
   };
 
   show = () => {
@@ -28,8 +28,15 @@ export default class AddManualItemModal extends React.Component {
     });
   };
 
+  save = () => {
+    const { addSkuItemToList } = this.props;
+    const { itemTitle } = this.state;
+    addSkuItemToList({ title: itemTitle, quantity: 1 });
+    this.closeModal();
+  };
+
   render() {
-    const { isVisible, isLoading, items } = this.state;
+    const { isVisible, isLoading, itemTitle } = this.state;
 
     return (
       <Modal
@@ -43,10 +50,33 @@ export default class AddManualItemModal extends React.Component {
       >
         <View
           style={{
-            flex: 1
+            flex: 1,
+            padding: 20,
+            justifyContent: "center"
           }}
         >
-          <TextInput />
+          <TextInput
+            value={itemTitle}
+            onChangeText={itemTitle => this.setState({ itemTitle })}
+            style={{
+              borderColor: "#dadada",
+              borderWidth: 1,
+              height: 30,
+              borderRadius: 5,
+              paddingHorizontal: 5
+            }}
+          />
+          <Button
+            text="Save"
+            onPress={this.save}
+            style={{
+              width: 150,
+              alignSelf: "center",
+              marginTop: 20,
+              height: 40
+            }}
+            color="secondary"
+          />
           <LoadingOverlay visible={isLoading} />
         </View>
       </Modal>
