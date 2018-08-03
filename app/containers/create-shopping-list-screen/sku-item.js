@@ -51,6 +51,16 @@ export default class SkuItem extends React.Component {
       addSkuItemToList(selectedItem);
     };
 
+    let cashback = 0;
+    if (item.sku_measurements && item.activeSkuMeasurementId) {
+      const skuMeasurement = item.sku_measurements.find(
+        skuMeasurement => skuMeasurement.id == item.activeSkuMeasurementId
+      );
+      if (skuMeasurement && skuMeasurement.cashback_percent) {
+        cashback = (item.mrp * skuMeasurement.cashback_percent) / 100;
+      }
+    }
+
     return (
       <View
         style={[
@@ -65,10 +75,27 @@ export default class SkuItem extends React.Component {
           style
         ]}
       >
-        <View>
-          <Text weight="Medium" style={{ fontSize: 10 }}>
+        <View style={{ flexDirection: "row" }}>
+          <Text weight="Medium" style={{ fontSize: 10, flex: 1 }}>
             {item.title}
           </Text>
+          {itemsInWishList.length > 0 ? (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: 3,
+                  backgroundColor: "#3fed02"
+                }}
+              />
+              <Text style={{ fontSize: 10, color: "#3fed02", marginLeft: 3 }}>
+                In list
+              </Text>
+            </View>
+          ) : (
+            <View />
+          )}
         </View>
         <ScrollView horizontal={true} style={{ marginVertical: 10 }}>
           {item.sku_measurements &&
@@ -166,12 +193,16 @@ export default class SkuItem extends React.Component {
           ) : (
             <View />
           )}
-          <Text
-            weight="Medium"
-            style={{ fontSize: 10, color: colors.mainBlue }}
-          >
-            ₹ 20 Cashback
-          </Text>
+          {cashback ? (
+            <Text
+              weight="Medium"
+              style={{ fontSize: 10, color: colors.mainBlue }}
+            >
+              Cashback Upto ₹ {cashback}
+            </Text>
+          ) : (
+            <View />
+          )}
         </View>
       </View>
     );

@@ -7,6 +7,7 @@ import {
   Image
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import Share from "react-native-share";
 
 import { Text, Button } from "../../elements";
 import { colors } from "../../theme";
@@ -57,6 +58,14 @@ export default class MyShoppingList extends React.Component {
     this.setState({ wishList });
   };
 
+  shareWithWhatsapp = () => {
+    const shareOptions = {
+      title: "Share via\nwhatsapp",
+      social: Share.Social.WHATSAPP
+    };
+    Share.shareSingle(shareOptions);
+  };
+
   render() {
     const { navigation } = this.props;
 
@@ -101,80 +110,99 @@ export default class MyShoppingList extends React.Component {
               <View style={{ height: 1, backgroundColor: "#eee" }} />
             )}
             keyExtractor={item => item.title}
-            renderItem={({ item, index }) => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  padding: 10,
-                  height: 60
-                }}
-              >
-                <View style={{ marginRight: 5 }}>
-                  <TouchableOpacity
-                    style={{
-                      width: 16,
-                      height: 16,
-                      borderRadius: 8,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: colors.success
-                    }}
-                  >
-                    <Icon name="md-checkmark" size={12} color="#fff" />
-                  </TouchableOpacity>
-                </View>
-                <View style={{ flex: 1, paddingTop: 2 }}>
-                  <Text weight="Medium" style={{ fontSize: 10 }}>
-                    {item.title}
-                  </Text>
-                  <Text
-                    weight="Medium"
-                    style={{
-                      fontSize: 10,
-                      color: colors.mainBlue,
-                      marginTop: 9
-                    }}
-                  >
-                    You get back Rs. 20
-                  </Text>
-                </View>
-                <View style={{ alignItems: "flex-end" }}>
-                  <View style={{ flexDirection: "row" }}>
+            renderItem={({ item, index }) => {
+              let cashback = 0;
+              if (
+                item.sku_measurement &&
+                item.sku_measurement.cashback_percent
+              ) {
+                cashback =
+                  (item.mrp * item.sku_measurement.cashback_percent) / 100;
+              }
+
+              return (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    padding: 10,
+                    height: 60
+                  }}
+                >
+                  <View style={{ marginRight: 5 }}>
                     <TouchableOpacity
-                      onPress={() => {
-                        this.changeIndexQuantity(index, item.quantity - 1);
+                      style={{
+                        width: 16,
+                        height: 16,
+                        borderRadius: 8,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: colors.success
                       }}
-                      style={styles.signContainer}
                     >
-                      <Text style={{ marginTop: -4 }}>-</Text>
-                    </TouchableOpacity>
-                    <Text style={{ width: 30, textAlign: "center" }}>
-                      {item.quantity}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => {
-                        this.changeIndexQuantity(index, item.quantity + 1);
-                      }}
-                      style={styles.signContainer}
-                    >
-                      <Text style={{ marginTop: -4 }}>+</Text>
+                      <Icon name="md-checkmark" size={12} color="#fff" />
                     </TouchableOpacity>
                   </View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.changeIndexQuantity(index, 0);
-                    }}
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginTop: 5
-                    }}
-                  >
-                    <Icon name="ios-trash-outline" size={25} color="#999999" />
-                  </TouchableOpacity>
+                  <View style={{ flex: 1, paddingTop: 2 }}>
+                    <Text weight="Medium" style={{ fontSize: 10 }}>
+                      {item.title}
+                    </Text>
+                    {cashback ? (
+                      <Text
+                        weight="Medium"
+                        style={{
+                          fontSize: 10,
+                          color: colors.mainBlue,
+                          marginTop: 10
+                        }}
+                      >
+                        Cashback Upto ₹ {cashback}
+                      </Text>
+                    ) : (
+                      <View />
+                    )}
+                  </View>
+                  <View style={{ alignItems: "flex-end" }}>
+                    <View style={{ flexDirection: "row" }}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.changeIndexQuantity(index, item.quantity - 1);
+                        }}
+                        style={styles.signContainer}
+                      >
+                        <Text style={{ marginTop: -4 }}>-</Text>
+                      </TouchableOpacity>
+                      <Text style={{ width: 30, textAlign: "center" }}>
+                        {item.quantity}
+                      </Text>
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.changeIndexQuantity(index, item.quantity + 1);
+                        }}
+                        style={styles.signContainer}
+                      >
+                        <Text style={{ marginTop: -4 }}>+</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.changeIndexQuantity(index, 0);
+                      }}
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginTop: 5
+                      }}
+                    >
+                      <Icon
+                        name="ios-trash-outline"
+                        size={25}
+                        color="#999999"
+                      />
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-            )}
+              );
+            }}
           />
         )}
         <Modal
@@ -196,7 +224,10 @@ export default class MyShoppingList extends React.Component {
               }}
             >
               <View style={styles.chatOptionContainer}>
-                <TouchableOpacity style={styles.chatOption}>
+                <TouchableOpacity
+                  style={styles.chatOption}
+                  onPress={this.shareWithWhatsapp}
+                >
                   <Image
                     source={require("../../images/whatsapp.png")}
                     style={styles.chatImage}

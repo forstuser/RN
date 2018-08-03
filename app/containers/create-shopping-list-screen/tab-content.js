@@ -22,7 +22,8 @@ export default ({
   skuData = {},
   wishList = [],
   addSkuItemToList,
-  changeSkuItemQuantityInWishList
+  changeSkuItemQuantityInWishList,
+  openAddManualItemModal
 }) => {
   if (!mainCategory.activeCategoryId) {
     updateMainCategoryInParent({
@@ -86,6 +87,17 @@ export default ({
           data={items}
           refreshing={isLoading}
           onRefresh={() => loadSkuItems({ categoryId: activeCategoryId })}
+          ListEmptyComponent={() => (
+            <View style={{ padding: 20, alignItems: "center" }}>
+              <Text>No items found</Text>
+              <Button
+                onPress={openAddManualItemModal}
+                style={{ height: 40, width: 180, marginTop: 15 }}
+                text="Add Manually"
+                color="secondary"
+              />
+            </View>
+          )}
           renderItem={({ item }) => (
             <SkuItem
               measurementTypes={measurementTypes}

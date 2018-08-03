@@ -11,7 +11,7 @@ import Analytics from "../analytics";
 
 let API_BASE_URL = "https://consumer-test.binbill.com";
 if (!__DEV__) {
-  API_BASE_URL = "https://consumer.binbill.com";
+  API_BASE_URL = "https://consumer-test.binbill.com";
 }
 export { API_BASE_URL };
 
@@ -1916,7 +1916,7 @@ export const getSkuItems = async ({
     method: "get",
     url: `/sku/list`,
     queryParams: {
-      categoryId: categoryId,
+      category_id: categoryId,
       sub_category_ids: subCategoryIds.join(","),
       brand_ids: brandIds.join(","),
       measurement_value: measurementValues.join(","),

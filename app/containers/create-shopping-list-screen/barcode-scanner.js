@@ -31,7 +31,10 @@ export default class BarcodeScanner extends React.Component {
       if (!res.result) {
         this.setState({ itemNotFound: true });
       } else {
-        this.setState({ item: res.result });
+        const item = res.result;
+        this.setState({ item }, () => {
+          this.selectActiveSkuMeasurementId(null, item.sku_measurement.id);
+        });
       }
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -90,6 +93,7 @@ export default class BarcodeScanner extends React.Component {
               }}
             >
               <SkuItem
+                style={{ elevation: 0, shadowColor: "transparent" }}
                 measurementTypes={measurementTypes}
                 item={item}
                 wishList={wishList}
@@ -108,16 +112,16 @@ export default class BarcodeScanner extends React.Component {
               >
                 <Button
                   text="Rescan"
-                  style={{ width: 100, height: 40 }}
+                  style={{ width: 120, height: 40 }}
                   textStyle={{ fontSize: 12 }}
-                  type="outline"
+                  color="secondary"
                   onPress={() => this.setState({ item: null })}
                 />
                 <Button
                   text="Continue"
-                  style={{ width: 100, height: 40 }}
+                  style={{ width: 120, height: 40 }}
                   textStyle={{ fontSize: 12 }}
-                  type="outline"
+                  color="secondary"
                   onPress={() => {
                     onSelectItem(item);
                     this.closeModal();

@@ -294,10 +294,6 @@ class ShoppingListScreen extends React.Component {
       selectedBrands
     } = this.state;
 
-    if (isLoading || isLoadingWishList) {
-      return <LoadingOverlay visible={true} />;
-    }
-
     if (referenceDataError || wishListError) {
       return (
         <ErrorOverlay
@@ -448,13 +444,14 @@ class ShoppingListScreen extends React.Component {
                   changeSkuItemQuantityInWishList={
                     this.changeSkuItemQuantityInWishList
                   }
+                  openAddManualItemModal={() => this.addManualItemModal.show()}
                 />
               ))}
             </ScrollableTabView>
           ) : (
             <View />
           )}
-
+          <LoadingOverlay visible={isLoading || isLoadingWishList} />
           <BarcodeScanner
             visible={isBarcodeScannerVisible}
             onSelectItem={this.addSkuItemToList}
