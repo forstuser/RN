@@ -63,6 +63,7 @@ import OrderHistoryScreen from "../containers/order-history-screen";
 import WebviewScreen from "../containers/webview-screen";
 import CreateShoppingListScreen from "../containers/create-shopping-list-screen";
 import MyShoppingListScreen from "../containers/my-shopping-list-screen";
+import ClaimCashbackScreen from "../containers/claim-cashback-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -207,7 +208,8 @@ export default createStackNavigator(
     [SCREENS.ECOMMERCE_SCREEN]: EcommerceScreen,
     [SCREENS.ORDER_HISTORY_SCREEN]: OrderHistoryScreen,
     [SCREENS.WEBVIEW_SCREEN]: WebviewScreen,
-    [SCREENS.MY_SHOPPING_LIST_SCREEN]: MyShoppingListScreen
+    [SCREENS.MY_SHOPPING_LIST_SCREEN]: MyShoppingListScreen,
+    [SCREENS.CLAIM_CASHBACK_SCREEN]: ClaimCashbackScreen
   },
   {
     initialRouteName: "DrawerNavigator"

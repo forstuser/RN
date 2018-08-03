@@ -157,9 +157,10 @@ class DashboardScreen extends React.Component {
   };
 
   showAddProductOptionsScreen = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
     //use push here so that we can use 'replace' later
-    this.props.navigation.push(SCREENS.ADD_PRODUCT_SCREEN);
+    // this.props.navigation.push(SCREENS.ADD_PRODUCT_SCREEN);
+    this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SCREEN);
   };
 
   openInsightScreen = props => {
