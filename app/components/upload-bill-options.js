@@ -28,6 +28,7 @@ class UploadBillOptions extends React.Component {
   };
 
   show = (jobId, type, itemId, productId) => {
+    const { canUseCameraOnly = false } = this.props;
     this.setState(
       {
         jobId,
@@ -36,7 +37,11 @@ class UploadBillOptions extends React.Component {
         productId
       },
       () => {
-        this.uploadOptions.show();
+        if (canUseCameraOnly) {
+          this.handleOptionPress(0);
+        } else {
+          this.uploadOptions.show();
+        }
       }
     );
   };
@@ -106,26 +111,31 @@ class UploadBillOptions extends React.Component {
       itemId: this.state.itemId,
       productId: this.state.productId,
       file: file,
-      uploadCallback: this.props.uploadCallback
+      uploadCallback: this.props.uploadCallback,
+      canUseCameraOnly: this.props.canUseCameraOnly || false
     });
   };
 
   render() {
     const {
-      actionSheetTitle = I18n.t("upload_document_screen_upload_options_title")
+      actionSheetTitle = I18n.t("upload_document_screen_upload_options_title"),
+      canUseCameraOnly = false
     } = this.props;
+
+    const options = [I18n.t("upload_document_screen_upload_options_camera")];
+    if (!canUseCameraOnly) {
+      options.push(I18n.t("upload_document_screen_upload_options_gallery"));
+      options.push(I18n.t("upload_document_screen_upload_options_document"));
+    }
+    options.push(I18n.t("upload_document_screen_upload_options_cancel"));
+
     return (
       <ActionSheet
         onPress={this.handleOptionPress}
         ref={o => (this.uploadOptions = o)}
         title={actionSheetTitle}
-        cancelButtonIndex={3}
-        options={[
-          I18n.t("upload_document_screen_upload_options_camera"),
-          I18n.t("upload_document_screen_upload_options_gallery"),
-          I18n.t("upload_document_screen_upload_options_document"),
-          I18n.t("upload_document_screen_upload_options_cancel")
-        ]}
+        cancelButtonIndex={!canUseCameraOnly ? 3 : 1}
+        options={options}
       />
     );
   }

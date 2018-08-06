@@ -814,6 +814,17 @@ export const initProduct = async (mainCategoryId, categoryId) => {
   });
 };
 
+export const initExpense = async (mainCategoryId, categoryId) => {
+  return await apiRequest({
+    method: "post",
+    url: "/expenses/init",
+    data: {
+      main_category_id: mainCategoryId,
+      category_id: categoryId
+    }
+  });
+};
+
 export const deleteProduct = async id => {
   return await apiRequest({
     method: "delete",

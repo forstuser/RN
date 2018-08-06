@@ -78,6 +78,10 @@ class UploadDocumentScreen extends Component {
   }
 
   componentDidMount() {
+    const canUseCameraOnly = this.props.navigation.getParam(
+      "canUseCameraOnly",
+      false
+    );
     const file = this.props.navigation.getParam("file", null);
     if (file) {
       this.pushFileToState(file);
@@ -85,7 +89,11 @@ class UploadDocumentScreen extends Component {
 
     this.props.navigation.setParams({
       onOptionsPress: () => {
-        this.uploadOptions.show();
+        if (canUseCameraOnly) {
+          this.handleOptionPress(0);
+        } else {
+          this.uploadOptions.show();
+        }
       },
       getImageRef: ref => {
         this.plusIconRef = ref;
