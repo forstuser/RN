@@ -64,6 +64,7 @@ import WebviewScreen from "../containers/webview-screen";
 import CreateShoppingListScreen from "../containers/create-shopping-list-screen";
 import MyShoppingListScreen from "../containers/my-shopping-list-screen";
 import ClaimCashbackScreen from "../containers/claim-cashback-screen";
+import ClaimCashbackSelectItemsScreen from "../containers/claim-cashback-screen/select-items-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -209,7 +210,8 @@ export default createStackNavigator(
     [SCREENS.ORDER_HISTORY_SCREEN]: OrderHistoryScreen,
     [SCREENS.WEBVIEW_SCREEN]: WebviewScreen,
     [SCREENS.MY_SHOPPING_LIST_SCREEN]: MyShoppingListScreen,
-    [SCREENS.CLAIM_CASHBACK_SCREEN]: ClaimCashbackScreen
+    [SCREENS.CLAIM_CASHBACK_SCREEN]: ClaimCashbackScreen,
+    [SCREENS.CLAIM_CASHBACK_SELECT_ITEMS_SCREEN]: ClaimCashbackSelectItemsScreen
   },
   {
     initialRouteName: "DrawerNavigator"

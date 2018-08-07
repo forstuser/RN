@@ -1,6 +1,7 @@
 import React from "react";
-import { View, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity, Image, AsyncStorage } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import moment from "moment";
 
 import {
   Text,
@@ -21,8 +22,10 @@ import ChecklistModal from "./checklist-modal";
 import {
   MAIN_CATEGORIES,
   MAIN_CATEGORY_IDS,
-  CATEGORY_IDS
+  CATEGORY_IDS,
+  SCREENS
 } from "../../constants";
+import { showSnackbar } from "../../utils/snackbar";
 
 export default class ClaimCashback extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -36,10 +39,13 @@ export default class ClaimCashback extends React.Component {
     isLoading: false,
     error: null,
     isCameraOpen: true,
+    neverShowChecklistOverlay: false,
     isChecklistOverlayVisible: false,
     isChecklistModalVisible: false,
     copies: [],
     product: null,
+    purchaseDate: null,
+    amount: "",
     wishlist: [],
     pastItems: []
   };
@@ -60,9 +66,21 @@ export default class ClaimCashback extends React.Component {
         product: res.product,
         copies: res.product.copies || [],
         wishlist: res.wishlist_items,
-        pastItems: res.past_selections,
-        isChecklistOverlayVisible: true
+        pastItems: res.past_selections
       });
+
+      try {
+        const neverShowChecklistOverlay = Boolean(
+          await AsyncStorage.getItem("neverShowChecklistOverlay")
+        );
+        if (!neverShowChecklistOverlay) {
+          this.setState({ isChecklistOverlayVisible: true });
+        } else {
+          this.uploadDoc.onUploadDocPress();
+        }
+      } catch (e) {
+        this.setState({ isChecklistOverlayVisible: true });
+      }
     } catch (error) {
       this.setState({ error });
     } finally {
@@ -79,18 +97,48 @@ export default class ClaimCashback extends React.Component {
     this.setState({ isChecklistModalVisible: false });
   };
 
-  hideChecklistOverlay = () => {
+  toggleNeverShowChecklistOverlay = async () => {
+    this.setState({
+      neverShowChecklistOverlay: !this.state.neverShowChecklistOverlay
+    });
+    try {
+      await AsyncStorage.setItem(
+        "neverShowChecklistOverlay",
+        String(!this.state.neverShowChecklistOverlay)
+      );
+    } catch (e) {}
+  };
+
+  hideChecklistOverlay = async () => {
     this.setState({ isChecklistOverlayVisible: false });
     this.uploadDoc.onUploadDocPress();
+  };
+
+  onNextPress = () => {
+    const { copies, purchaseDate, amount, wishlist, pastItems } = this.state;
+    if (copies.length == 0) {
+      return showSnackbar({ text: "Please upload bill first" });
+    } else if (!purchaseDate || moment().diff(purchaseDate, "days") != 0) {
+      return showSnackbar({ text: "Please select only today's date" });
+    } else if (!amount) {
+      return showSnackbar({ text: "Please enter the bill amount" });
+    }
+    this.props.navigation.navigate(SCREENS.CLAIM_CASHBACK_SELECT_ITEMS_SCREEN, {
+      wishlist,
+      pastItems
+    });
   };
 
   render() {
     const { navigation } = this.props;
 
     const {
+      neverShowChecklistOverlay,
       isChecklistOverlayVisible,
       isChecklistModalVisible,
       copies,
+      purchaseDate,
+      amount,
       isLoading,
       error,
       product
@@ -129,10 +177,19 @@ export default class ClaimCashback extends React.Component {
                 this.setState({ copies: uploadResult.product.copies });
               }}
             />
-            <DatePicker placeholder="Date of Purchase" placeholder2="*" />
+
+            <DatePicker
+              date={purchaseDate}
+              onDateChange={purchaseDate => this.setState({ purchaseDate })}
+              placeholder="Date of Purchase"
+              placeholder2="*"
+            />
+
             <TextInput
               placeholder="Total Amount of Bill"
               keyboardType="numeric"
+              value={String(amount)}
+              onChangeText={amount => this.setState({ amount })}
             />
 
             <TouchableOpacity
@@ -162,6 +219,7 @@ export default class ClaimCashback extends React.Component {
             </TouchableOpacity>
 
             <Button
+              onPress={this.onNextPress}
               text="Next"
               color="secondary"
               style={{
@@ -208,12 +266,15 @@ export default class ClaimCashback extends React.Component {
                 </View>
               ))}
             </View>
-            <View style={{ flexDirection: "row", padding: 10 }}>
-              <CheckBox />
+            <TouchableOpacity
+              onPress={this.toggleNeverShowChecklistOverlay}
+              style={{ flexDirection: "row", padding: 10 }}
+            >
+              <CheckBox isChecked={neverShowChecklistOverlay} />
               <Text style={{ color: "#fff", marginLeft: 10 }}>
                 Don’t show this message again
               </Text>
-            </View>
+            </TouchableOpacity>
             <Button
               onPress={this.hideChecklistOverlay}
               style={{ width: "100%" }}

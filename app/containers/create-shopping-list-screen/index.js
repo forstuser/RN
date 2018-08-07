@@ -118,15 +118,17 @@ class ShoppingListScreen extends React.Component {
     const mainCategory = mainCategories.find(
       mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
     );
-    this.setState(
-      {
-        activeMainCategoryId,
-        activeCategoryId: mainCategory.categories[0].id
-      },
-      () => {
+    const newState = { activeMainCategoryId };
+    if (activeMainCategoryId > 0) {
+      newState.activeCategoryId = mainCategory.categories[0].id;
+    } else {
+      newState.items = this.state.pastItems;
+    }
+    this.setState(newState, () => {
+      if (activeMainCategoryId > 0) {
         this.loadItems();
       }
-    );
+    });
   };
 
   updateStateCategoryId = activeCategoryId => {
