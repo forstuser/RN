@@ -97,7 +97,11 @@ export default class SkuItem extends React.Component {
             <View />
           )}
         </View>
-        <ScrollView horizontal={true} style={{ marginVertical: 10 }}>
+        <ScrollView
+          horizontal={true}
+          style={{ marginVertical: 10 }}
+          showsHorizontalScrollIndicator={false}
+        >
           {item.sku_measurements &&
             item.sku_measurements.map(skuMeasurement => (
               <TouchableOpacity

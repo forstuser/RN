@@ -22,25 +22,31 @@ export default class SearchBar extends React.Component {
   };
 
   toggleBrandsPopup = () => {
-    const { searchItems = [] } = this.props;
+    const { items = [] } = this.props;
     const { isBrandsPopupVisible } = this.state;
-    if (searchItems.length > 0 && !isBrandsPopupVisible) {
-      this.setState({ isBrandsPopupVisible: true });
-    } else {
-      this.setState({ isBrandsPopupVisible: false });
-    }
+    this.setState({ isBrandsPopupVisible: !isBrandsPopupVisible });
+    // if (!isBrandsPopupVisible) {
+    //   this.setState({ isBrandsPopupVisible: true });
+    // } else {
+    //   this.setState({ isBrandsPopupVisible: false });
+    // }
   };
 
   startSearch = () => {
-    const { searchTerm = "", startSearch = () => null } = this.props;
+    const { searchTerm = "", loadItems = () => null } = this.props;
 
     if (searchTerm.length > 2) {
-      startSearch();
+      loadItems();
     }
   };
 
   render() {
     const {
+      mainCategories = [],
+      activeMainCategoryId = null,
+      activeCategoryId = null,
+      updateMainCategoryIdInParent = () => null,
+      updateCategoryIdInParent = () => null,
       onSearchTextChange = () => null,
       clearSearchTerm = () => null,
       searchTerm = "",
@@ -50,14 +56,22 @@ export default class SearchBar extends React.Component {
       isSearching = false,
       isSearchDone = false,
       searchError = null,
-      searchItems = [],
+      items = [],
       wishList,
       addSkuItemToList,
       changeSkuItemQuantityInWishList,
       toggleBrand = () => null,
-      updateSearchItem,
+      updateItem,
       openAddManualItemModal
     } = this.props;
+
+    const activeMainCategory = activeMainCategoryId
+      ? mainCategories.find(
+          mainCategory => mainCategory.id == activeMainCategoryId
+        )
+      : null;
+
+    console.log("brands: ", brands);
 
     const { isBrandsPopupVisible } = this.state;
 
@@ -66,10 +80,10 @@ export default class SearchBar extends React.Component {
     );
 
     selectActiveSkuMeasurementId = (item, skuMeasurementId) => {
-      const itemIdx = searchItems.findIndex(listItem => listItem.id == item.id);
+      const itemIdx = items.findIndex(listItem => listItem.id == item.id);
       if (itemIdx > -1) {
-        updateSearchItem(itemIdx, {
-          ...searchItems[itemIdx],
+        updateItem(itemIdx, {
+          ...items[itemIdx],
           activeSkuMeasurementId: skuMeasurementId
         });
       }
@@ -79,7 +93,7 @@ export default class SearchBar extends React.Component {
       <View
         style={{
           backgroundColor: "#fff",
-          flex: searchTerm ? 1 : undefined
+          flex: 1
         }}
       >
         <View
@@ -102,6 +116,7 @@ export default class SearchBar extends React.Component {
             onChangeText={text => onSearchTextChange(text)}
             returnKeyType="search"
             onSubmitEditing={this.startSearch}
+            underlineColorAndroid="transparent"
           />
           {searchTerm ? (
             <TouchableOpacity
@@ -151,64 +166,145 @@ export default class SearchBar extends React.Component {
             />
           </TouchableOpacity>
         </View>
-        {searchTerm ? (
+        {mainCategories.length > 0 && !searchTerm ? (
           <View
             style={{
-              flex: 1
+              height: 30,
+              backgroundColor: colors.lightBlue,
+              borderBottomColor: "#ddd",
+              borderBottomWidth: 1
             }}
           >
-            {searchItems.length > 0 ? (
-              <FlatList
-                data={searchItems}
-                renderItem={({ item }) => (
-                  <SkuItem
-                    measurementTypes={measurementTypes}
-                    item={item}
-                    wishList={wishList}
-                    addSkuItemToList={addSkuItemToList}
-                    changeSkuItemQuantityInWishList={
-                      changeSkuItemQuantityInWishList
-                    }
-                    selectActiveSkuMeasurementId={selectActiveSkuMeasurementId}
-                  />
-                )}
-                extraData={wishList}
-                keyExtractor={(item, index) => item.id}
-              />
-            ) : (
-              <View />
-            )}
-            {searchItems.length == 0 && isSearchDone ? (
-              <View style={{ padding: 20, alignItems: "center" }}>
-                <Text>
-                  Sorry we couldn't find any matches for "{searchTerm}"
-                </Text>
-                <Button
-                  onPress={openAddManualItemModal}
-                  style={{ height: 40, width: 180, marginTop: 15 }}
-                  text="Add Manually"
-                  color="secondary"
-                />
-              </View>
-            ) : (
-              <View />
-            )}
-            {searchItems.length == 0 && !isSearchDone ? (
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ color: colors.secondaryText }}>
-                  {searchTerm.length < 3
-                    ? "Enter atleast 3 characters and then "
-                    : ""}
-                  Press 'Search' to start searching
-                </Text>
-              </View>
-            ) : (
-              <View />
-            )}
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={mainCategories}
+              extraData={activeMainCategoryId}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    updateMainCategoryIdInParent(item.id);
+                  }}
+                  style={{
+                    height: 30,
+                    paddingHorizontal: 10,
+                    justifyContent: "center"
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      color:
+                        item.id == activeMainCategoryId
+                          ? colors.mainBlue
+                          : colors.mainText
+                    }}
+                  >
+                    {item.title}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            />
           </View>
-        ) : (
-          <View />
-        )}
+        ) : null}
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row"
+          }}
+        >
+          {activeMainCategory &&
+          activeMainCategory.categories &&
+          !searchTerm ? (
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: colors.lightBlue,
+                height: "100%"
+              }}
+            >
+              <FlatList
+                data={activeMainCategory.categories}
+                extraData={activeCategoryId}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      updateCategoryIdInParent(item.id);
+                    }}
+                    style={{
+                      height: 30,
+                      justifyContent: "center",
+                      paddingHorizontal: 5,
+                      backgroundColor:
+                        item.id == activeCategoryId ? "#fff" : "transparent"
+                    }}
+                  >
+                    <Text
+                      weight="Medium"
+                      style={{ fontSize: 10 }}
+                      numberOfLines={1}
+                    >
+                      {item.title}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          ) : (
+            <View />
+          )}
+
+          <View style={{ flex: 2, height: "100%" }}>
+            <FlatList
+              data={items}
+              renderItem={({ item }) => (
+                <SkuItem
+                  measurementTypes={measurementTypes}
+                  item={item}
+                  wishList={wishList}
+                  addSkuItemToList={addSkuItemToList}
+                  changeSkuItemQuantityInWishList={
+                    changeSkuItemQuantityInWishList
+                  }
+                  selectActiveSkuMeasurementId={selectActiveSkuMeasurementId}
+                />
+              )}
+              ListEmptyComponent={() => {
+                if (items.length == 0 && isSearchDone) {
+                  return (
+                    <View style={{ padding: 20, alignItems: "center" }}>
+                      <Text style={{ textAlign: "center" }}>
+                        Sorry we couldn't find any items{searchTerm
+                          ? ` for "${searchTerm}"`
+                          : ""}
+                      </Text>
+                      <Button
+                        onPress={openAddManualItemModal}
+                        style={{ height: 40, width: 180, marginTop: 15 }}
+                        text="Add Manually"
+                        color="secondary"
+                      />
+                    </View>
+                  );
+                } else if (items.length == 0 && !isSearchDone) {
+                  return (
+                    <View style={{ paddingLeft: 10 }}>
+                      <Text style={{ color: colors.secondaryText }}>
+                        {searchTerm.length < 3
+                          ? "Enter atleast 3 characters and then "
+                          : ""}
+                        Press 'Search' to start searching
+                      </Text>
+                    </View>
+                  );
+                }
+                return null;
+              }}
+              extraData={wishList}
+              keyExtractor={(item, index) => item.id}
+            />
+          </View>
+        </View>
         {isBrandsPopupVisible ? (
           <View
             style={{
@@ -217,11 +313,13 @@ export default class SearchBar extends React.Component {
               right: 10,
               ...defaultStyles.card,
               borderRadius: 5,
+              minHeight: 150,
               maxHeight: 350
             }}
           >
             <FlatList
               data={brands}
+              extraData={brands}
               renderItem={({ item }) => (
                 <TouchableOpacity
                   onPress={() => toggleBrand(item)}

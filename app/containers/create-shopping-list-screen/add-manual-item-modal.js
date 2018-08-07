@@ -58,6 +58,7 @@ export default class AddManualItemModal extends React.Component {
           <TextInput
             value={itemTitle}
             onChangeText={itemTitle => this.setState({ itemTitle })}
+            underlineColorAndroid="transparent"
             style={{
               borderColor: "#dadada",
               borderWidth: 1,
