@@ -11,7 +11,7 @@ export default class SkuItem extends React.Component {
       measurementTypes,
       wishList = [],
       addSkuItemToList = () => null,
-      changeSkuItemQuantityInWishList = (skuMeasurementId, quantity) => null,
+      changeSkuItemQuantityInList = (skuMeasurementId, quantity) => null,
       selectActiveSkuMeasurementId = (item, skuMeasurementId) => null,
       style = {}
     } = this.props;
@@ -155,7 +155,7 @@ export default class SkuItem extends React.Component {
               <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity
                   onPress={() => {
-                    changeSkuItemQuantityInWishList(
+                    changeSkuItemQuantityInList(
                       item.activeSkuMeasurementId,
                       quantity - 1
                     );
@@ -169,7 +169,7 @@ export default class SkuItem extends React.Component {
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
-                    changeSkuItemQuantityInWishList(
+                    changeSkuItemQuantityInList(
                       item.activeSkuMeasurementId,
                       quantity + 1
                     );

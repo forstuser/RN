@@ -18,7 +18,7 @@ export default ({
   pastItems = [],
   wishList = [],
   addSkuItemToList,
-  changeSkuItemQuantityInWishList,
+  changeSkuItemQuantityInList,
   updatePastItems
 }) => {
   selectActiveSkuMeasurementId = (item, skuMeasurementId) => {
@@ -44,7 +44,7 @@ export default ({
               item={item}
               wishList={wishList}
               addSkuItemToList={addSkuItemToList}
-              changeSkuItemQuantityInWishList={changeSkuItemQuantityInWishList}
+              changeSkuItemQuantityInList={changeSkuItemQuantityInList}
               selectActiveSkuMeasurementId={selectActiveSkuMeasurementId}
             />
           )}

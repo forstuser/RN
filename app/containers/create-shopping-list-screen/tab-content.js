@@ -22,7 +22,7 @@ export default ({
   skuData = {},
   wishList = [],
   addSkuItemToList,
-  changeSkuItemQuantityInWishList,
+  changeSkuItemQuantityInList,
   openAddManualItemModal
 }) => {
   if (!mainCategory.activeCategoryId) {
@@ -104,7 +104,7 @@ export default ({
               item={item}
               wishList={wishList}
               addSkuItemToList={addSkuItemToList}
-              changeSkuItemQuantityInWishList={changeSkuItemQuantityInWishList}
+              changeSkuItemQuantityInList={changeSkuItemQuantityInList}
               selectActiveSkuMeasurementId={selectActiveSkuMeasurementId}
             />
           )}

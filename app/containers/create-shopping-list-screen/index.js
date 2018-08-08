@@ -162,7 +162,7 @@ class ShoppingListScreen extends React.Component {
     }
   };
 
-  changeSkuItemQuantityInWishList = async (skuMeasurementId, quantity) => {
+  changeSkuItemQuantityInList = async (skuMeasurementId, quantity) => {
     const wishList = [...this.state.wishList];
     const idxOfItem = wishList.findIndex(
       listItem =>
@@ -399,8 +399,8 @@ class ShoppingListScreen extends React.Component {
             measurementTypes={measurementTypes}
             wishList={wishList}
             addSkuItemToList={this.addSkuItemToList}
-            changeSkuItemQuantityInWishList={
-              this.changeSkuItemQuantityInWishList
+            changeSkuItemQuantityInList={
+              this.changeSkuItemQuantityInList
             }
             updateItem={this.updateItem}
             openAddManualItemModal={() => this.addManualItemModal.show()}
@@ -435,8 +435,8 @@ class ShoppingListScreen extends React.Component {
                 updatePastItems={this.updatePastItems}
                 wishList={wishList}
                 addSkuItemToList={this.addSkuItemToList}
-                changeSkuItemQuantityInWishList={
-                  this.changeSkuItemQuantityInWishList
+                changeSkuItemQuantityInList={
+                  this.changeSkuItemQuantityInList
                 }
               />
             ) : null}
@@ -454,8 +454,8 @@ class ShoppingListScreen extends React.Component {
                 skuData={skuData}
                 wishList={wishList}
                 addSkuItemToList={this.addSkuItemToList}
-                changeSkuItemQuantityInWishList={
-                  this.changeSkuItemQuantityInWishList
+                changeSkuItemQuantityInList={
+                  this.changeSkuItemQuantityInList
                 }
                 openAddManualItemModal={() => this.addManualItemModal.show()}
               />
@@ -472,8 +472,8 @@ class ShoppingListScreen extends React.Component {
             measurementTypes={measurementTypes}
             wishList={wishList}
             addSkuItemToList={this.addSkuItemToList}
-            changeSkuItemQuantityInWishList={
-              this.changeSkuItemQuantityInWishList
+            changeSkuItemQuantityInList={
+              this.changeSkuItemQuantityInList
             }
             updateItem={this.updateItem}
           />

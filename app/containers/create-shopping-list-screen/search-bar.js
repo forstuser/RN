@@ -59,7 +59,7 @@ export default class SearchBar extends React.Component {
       items = [],
       wishList,
       addSkuItemToList,
-      changeSkuItemQuantityInWishList,
+      changeSkuItemQuantityInList,
       toggleBrand = () => null,
       updateItem,
       openAddManualItemModal
@@ -263,8 +263,8 @@ export default class SearchBar extends React.Component {
                   item={item}
                   wishList={wishList}
                   addSkuItemToList={addSkuItemToList}
-                  changeSkuItemQuantityInWishList={
-                    changeSkuItemQuantityInWishList
+                  changeSkuItemQuantityInList={
+                    changeSkuItemQuantityInList
                   }
                   selectActiveSkuMeasurementId={selectActiveSkuMeasurementId}
                 />

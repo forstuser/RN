@@ -67,7 +67,7 @@ export default class BarcodeScanner extends React.Component {
       pastItems = [],
       wishList = [],
       addSkuItemToList,
-      changeSkuItemQuantityInWishList
+      changeSkuItemQuantityInList
     } = this.props;
     const { isLoading, itemNotFound, item } = this.state;
 
@@ -98,8 +98,8 @@ export default class BarcodeScanner extends React.Component {
                 item={item}
                 wishList={wishList}
                 addSkuItemToList={addSkuItemToList}
-                changeSkuItemQuantityInWishList={
-                  changeSkuItemQuantityInWishList
+                changeSkuItemQuantityInList={
+                  changeSkuItemQuantityInList
                 }
                 selectActiveSkuMeasurementId={this.selectActiveSkuMeasurementId}
               />
