@@ -1,0 +1,182 @@
+import React from "react";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Image,
+  FlatList
+} from "react-native";
+
+import { Text, Button } from "../../elements";
+import { defaultStyles, colors } from "../../theme";
+import ChecklistModal from "./checklist-modal";
+
+export default class ClaimCashback extends React.Component {
+  static navigationOptions = {
+    title: "Claim Cashback"
+  };
+
+  state = { isChecklistModalVisible: false };
+
+  hideChecklistModal = () => {
+    this.setState({ isChecklistModalVisible: false });
+  };
+
+  render() {
+    const { navigation } = this.props;
+    const copies = navigation.getParam("copies", []);
+    const purchaseDate = navigation.getParam("purchaseDate", null);
+    const amount = navigation.getParam("amount", null);
+    const items = navigation.getParam("selectedItems", []);
+
+    const seller = navigation.getParam("selectedSeller", null);
+
+    const { isChecklistModalVisible } = this.state;
+    return (
+      <View style={{ backgroundColor: "#fff", flex: 1 }}>
+        <View style={{ flex: 1 }}>
+          <View
+            style={{
+              ...defaultStyles.card,
+              flex: 1,
+              margin: 10,
+              borderRadius: 5,
+              padding: 10
+            }}
+          >
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <View style={{ flexDirection: "row" }}>
+                <Text style={styles.key}>Date:</Text>
+                <Text style={styles.value}>{purchaseDate}</Text>
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={styles.key}>Total Amount:</Text>
+                <Text style={styles.value}>Rs. {amount}</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: 10
+              }}
+            >
+              <View style={{ flexDirection: "row" }}>
+                <Text style={styles.key}>Seller:</Text>
+                <Text style={styles.value}>{seller ? seller.name : ""}</Text>
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={styles.key}>Expected BBCash:</Text>
+                <Text style={styles.value}>232</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                marginTop: 20,
+                borderBottomColor: "#efefef",
+                borderBottomWidth: 1,
+                paddingBottom: 7
+              }}
+            >
+              <Text
+                weight="Medium"
+                style={{ fontSize: 9, color: colors.secondaryText, flex: 1 }}
+              >
+                Item
+              </Text>
+              <Text
+                weight="Medium"
+                style={{ fontSize: 9, color: colors.secondaryText }}
+              >
+                Cashback
+              </Text>
+            </View>
+            <FlatList
+              data={items}
+              renderItem={({ item }) => {
+                let cashback = 0;
+                if (
+                  item.sku_measurement &&
+                  item.sku_measurement.cashback_percent
+                ) {
+                  cashback =
+                    (item.mrp * item.sku_measurement.cashback_percent) / 100;
+                }
+
+                return (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      height: 40,
+                      alignItems: "center",
+                      borderBottomColor: "#efefef",
+                      borderBottomWidth: 1
+                    }}
+                  >
+                    <Text weight="Medium" style={{ fontSize: 9, flex: 1 }}>
+                      {item.title}
+                    </Text>
+                    <Text style={{ fontSize: 9, color: colors.mainBlue }}>
+                      {cashback ? "₹" + cashback : "0"}
+                    </Text>
+                  </View>
+                );
+              }}
+            />
+          </View>
+        </View>
+        <View style={{ marginBottom: 10 }}>
+          <TouchableOpacity
+            onPress={() => this.setState({ isChecklistModalVisible: true })}
+            style={{ alignSelf: "center", alignItems: "center" }}
+          >
+            <View
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 25,
+                backgroundColor: "#f1f1f1",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <Image
+                style={{ width: 20, height: 26 }}
+                source={require("../../images/checklist_icon.png")}
+              />
+            </View>
+            <Text
+              style={{ marginTop: 7, color: colors.mainBlue, fontSize: 10 }}
+            >
+              View Checklist
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <Button
+          text="Submit"
+          onPress={this.submit}
+          borderRadius={0}
+          color="secondary"
+        />
+        <ChecklistModal
+          isChecklistModalVisible={isChecklistModalVisible}
+          hideChecklistModal={this.hideChecklistModal}
+        />
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  key: {
+    fontSize: 11,
+    marginRight: 3
+  },
+  value: {
+    fontSize: 11,
+    fontWeight: "500"
+  }
+});

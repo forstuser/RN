@@ -1966,3 +1966,10 @@ export const clearWishList = async item => {
     url: `/sku/wishlist`
   });
 };
+
+export const getMySellers = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/mysellers`
+  });
+};

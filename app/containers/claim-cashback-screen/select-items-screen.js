@@ -15,6 +15,7 @@ import BarcodeScanner from "../create-shopping-list-screen/barcode-scanner";
 import { Text, Button } from "../../elements";
 import SearchBar from "../create-shopping-list-screen/search-bar";
 import { defaultStyles, colors } from "../../theme";
+import { SCREENS } from "../../constants";
 
 export default class SelectCashbackItems extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -216,6 +217,24 @@ export default class SelectCashbackItems extends React.Component {
     this.setState({ selectedItems });
   };
 
+  proceedToSellersScreen = () => {
+    const { navigation } = this.props;
+    const copies = navigation.getParam("copies", []);
+    const purchaseDate = navigation.getParam("purchaseDate", null);
+    const amount = navigation.getParam("amount", null);
+
+    const { selectedItems } = this.state;
+    this.props.navigation.navigate(
+      SCREENS.CLAIM_CASHBACK_SELECT_SELLER_SCREEN,
+      {
+        copies,
+        purchaseDate,
+        amount,
+        selectedItems
+      }
+    );
+  };
+
   render() {
     const { navigation } = this.props;
     const wishlist = navigation.getParam("wishlist", []);
@@ -314,7 +333,7 @@ export default class SelectCashbackItems extends React.Component {
               {selectedItems.length} Items Selected
             </Text>
             <Button
-              onPress={this.hideWishlistAndPastItemsView}
+              onPress={this.proceedToSellersScreen}
               text="Next"
               color="secondary"
               style={{ height: 32, width: 85 }}
