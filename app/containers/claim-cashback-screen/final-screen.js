@@ -7,6 +7,10 @@ import {
   FlatList
 } from "react-native";
 
+import moment from "moment";
+
+import { updateExpense, linkSkusWithExpense } from "../../api";
+
 import { Text, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 import ChecklistModal from "./checklist-modal";
@@ -16,10 +20,54 @@ export default class ClaimCashback extends React.Component {
     title: "Claim Cashback"
   };
 
-  state = { isChecklistModalVisible: false };
+  state = {
+    isChecklistModalVisible: false,
+    isLoading: false
+  };
 
   hideChecklistModal = () => {
     this.setState({ isChecklistModalVisible: false });
+  };
+
+  submit = async () => {
+    try {
+      const { navigation } = this.props;
+      const product = navigation.getParam("product", null);
+      const cashbackJob = navigation.getParam("cashbackJob", null);
+      const copies = navigation.getParam("copies", []);
+      const purchaseDate = navigation.getParam("purchaseDate", null);
+      const amount = navigation.getParam("amount", null);
+      const items = navigation.getParam("selectedItems", []);
+
+      const seller = navigation.getParam("selectedSeller", null);
+
+      console.log("items: ", items);
+      await updateExpense({
+        productId: product.id,
+        value: amount,
+        documentDate: purchaseDate,
+        digitallyVerified: false,
+        homeDelivered: false
+      });
+
+      await linkSkusWithExpense({
+        productId: product.id,
+        jobId: product.job_id,
+        skuItems: items.map(item => {
+          return {
+            selling_price: item.mrp,
+            quantity: item.quantity,
+            sku_id: item.id,
+            sku_measurement_id: item.sku_measurement.id,
+            cashback_job_id: cashbackJob.id,
+            seller_id: seller ? seller.id : null,
+            added_date: item.added_date || moment().toISOString()
+          };
+        })
+      });
+    } catch (error) {
+      console.log("error: ", error);
+    }
   };
 
   render() {

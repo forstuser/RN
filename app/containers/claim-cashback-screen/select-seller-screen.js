@@ -55,6 +55,8 @@ export default class SelectSellerScreen extends React.Component {
 
   proceedToNextStep = () => {
     const { navigation } = this.props;
+    const product = navigation.getParam("product", null);
+    const cashbackJob = navigation.getParam("cashbackJob", null);
     const copies = navigation.getParam("copies", []);
     const purchaseDate = navigation.getParam("purchaseDate", null);
     const amount = navigation.getParam("amount", null);
@@ -62,6 +64,8 @@ export default class SelectSellerScreen extends React.Component {
     const { selectedSeller } = this.state;
 
     this.props.navigation.navigate(SCREENS.CLAIM_CASHBACK_FINAL_SCREEN, {
+      product,
+      cashbackJob,
       copies,
       purchaseDate,
       amount,

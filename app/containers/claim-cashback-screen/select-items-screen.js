@@ -193,7 +193,11 @@ export default class SelectCashbackItems extends React.Component {
       ) === -1
     ) {
       selectedItems.push(item);
-
+      try {
+        await addSkuItemToWishList(item);
+      } catch (e) {
+        console.log(e);
+      }
       this.setState({ selectedItems });
     }
   };
@@ -213,12 +217,18 @@ export default class SelectCashbackItems extends React.Component {
       selectedItems[idxOfItem].quantity = quantity;
       item.quantity = quantity;
     }
-
+    try {
+      await addSkuItemToWishList(item);
+    } catch (e) {
+      console.log(e);
+    }
     this.setState({ selectedItems });
   };
 
   proceedToSellersScreen = () => {
     const { navigation } = this.props;
+    const product = navigation.getParam("product", null);
+    const cashbackJob = navigation.getParam("cashbackJob", null);
     const copies = navigation.getParam("copies", []);
     const purchaseDate = navigation.getParam("purchaseDate", null);
     const amount = navigation.getParam("amount", null);
@@ -227,6 +237,8 @@ export default class SelectCashbackItems extends React.Component {
     this.props.navigation.navigate(
       SCREENS.CLAIM_CASHBACK_SELECT_SELLER_SCREEN,
       {
+        product,
+        cashbackJob,
         copies,
         purchaseDate,
         amount,

@@ -44,6 +44,7 @@ export default class ClaimCashback extends React.Component {
     isChecklistModalVisible: false,
     copies: [],
     product: null,
+    cashbackJob: null,
     purchaseDate: null,
     amount: "",
     wishlist: [],
@@ -64,9 +65,14 @@ export default class ClaimCashback extends React.Component {
       );
       this.setState({
         product: res.product,
+        cashbackJob: res.cashback_jobs,
         copies: res.product.copies || [],
         wishlist: res.wishlist_items,
-        pastItems: res.past_selections
+        pastItems: res.past_selections.map(pastItem => ({
+          ...pastItem,
+          sku_measurement: pastItem.sku_measurements[0],
+          quantity: 1
+        }))
       });
 
       try {
@@ -115,15 +121,25 @@ export default class ClaimCashback extends React.Component {
   };
 
   onNextPress = () => {
-    const { copies, purchaseDate, amount, wishlist, pastItems } = this.state;
+    const {
+      product,
+      cashbackJob,
+      copies,
+      purchaseDate,
+      amount,
+      wishlist,
+      pastItems
+    } = this.state;
     if (copies.length == 0) {
       return showSnackbar({ text: "Please upload bill first" });
-    } else if (!purchaseDate || moment().diff(purchaseDate, "days") != 0) {
-      return showSnackbar({ text: "Please select only today's date" });
+    } else if (!purchaseDate) {
+      return showSnackbar({ text: "Please select purchase date" });
     } else if (!amount) {
       return showSnackbar({ text: "Please enter the bill amount" });
     }
     this.props.navigation.navigate(SCREENS.CLAIM_CASHBACK_SELECT_ITEMS_SCREEN, {
+      product,
+      cashbackJob,
       copies,
       purchaseDate,
       amount,

@@ -825,6 +825,38 @@ export const initExpense = async (mainCategoryId, categoryId) => {
   });
 };
 
+export const updateExpense = async ({
+  productId,
+  value,
+  sellerId,
+  documentDate,
+  digitallyVerified,
+  homeDelivered
+}) => {
+  return await apiRequest({
+    method: "put",
+    url: `/expenses/${productId}`,
+    data: {
+      value,
+      seller_id: sellerId,
+      document_date: documentDate,
+      digitally_verified: digitallyVerified,
+      home_delivered: homeDelivered
+    }
+  });
+};
+
+export const linkSkusWithExpense = async ({ productId, jobId, skuItems }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/expenses/${productId}/sku`,
+    data: {
+      job_id: jobId,
+      sku_items: skuItems
+    }
+  });
+};
+
 export const deleteProduct = async id => {
   return await apiRequest({
     method: "delete",
