@@ -1,12 +1,13 @@
 import React from "react";
 import { View, SectionList, TouchableOpacity, Animated } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import moment from "moment";
 
 import {
   getSkuReferenceData,
   getSkuItems,
   getSkuWishList,
-  addSkuItemToWishList,
+  addSkuItemToPastList,
   clearWishList
 } from "../../api";
 
@@ -48,16 +49,21 @@ export default class SelectCashbackItems extends React.Component {
     isSearchDone: false,
     searchError: null,
     items: [],
+    pastItems: [],
     selectedItems: [],
     isSearching: false,
     measurementTypes: []
   };
 
   componentDidMount() {
-    this.props.navigation.setParams({
+    const { navigation } = this.props;
+    navigation.setParams({
       onBarcodeBtnPress: this.onBarcodeBtnPress
     });
     this.loadReferenceData();
+
+    const pastItems = navigation.getParam("pastItems", []);
+    this.setState({ pastItems });
   }
 
   onBarcodeBtnPress = () => {
@@ -173,10 +179,12 @@ export default class SelectCashbackItems extends React.Component {
   toggleItemSelection = item => {
     const selectedItems = [...this.state.selectedItems];
     const idx = selectedItems.findIndex(
-      selectedItem => selectedItem.id == item.id
+      listItem =>
+        listItem.id == item.id &&
+        listItem.sku_measurement.id == item.sku_measurement.id
     );
     if (idx == -1) {
-      selectedItems.push(item);
+      this.addSkuItemToList(item);
     } else {
       selectedItems.splice(idx, 1);
     }
@@ -185,6 +193,10 @@ export default class SelectCashbackItems extends React.Component {
 
   addSkuItemToList = async item => {
     const selectedItems = [...this.state.selectedItems];
+    const pastItems = [...this.state.pastItems];
+    if (!item.added_date) {
+      item.added_date = moment().toISOString();
+    }
     if (
       selectedItems.findIndex(
         listItem =>
@@ -193,12 +205,23 @@ export default class SelectCashbackItems extends React.Component {
       ) === -1
     ) {
       selectedItems.push(item);
+
       try {
-        await addSkuItemToWishList(item);
+        await addSkuItemToPastList(item);
       } catch (e) {
         console.log(e);
       }
       this.setState({ selectedItems });
+    }
+    if (
+      pastItems.findIndex(
+        listItem =>
+          listItem.id == item.id &&
+          listItem.sku_measurement.id == item.sku_measurement.id
+      ) === -1
+    ) {
+      pastItems.push(item);
+      this.setState({ pastItems });
     }
   };
 
@@ -218,7 +241,7 @@ export default class SelectCashbackItems extends React.Component {
       item.quantity = quantity;
     }
     try {
-      await addSkuItemToWishList(item);
+      await addSkuItemToPastList(item);
     } catch (e) {
       console.log(e);
     }
@@ -247,7 +270,6 @@ export default class SelectCashbackItems extends React.Component {
   render() {
     const { navigation } = this.props;
     const wishlist = navigation.getParam("wishlist", []);
-    const pastItems = navigation.getParam("pastItems", []);
 
     const {
       isBarcodeScannerVisible,
@@ -257,6 +279,7 @@ export default class SelectCashbackItems extends React.Component {
       isSearchDone,
       searchError,
       items,
+      pastItems = [],
       selectedItems = [],
       isSearching,
       measurementTypes

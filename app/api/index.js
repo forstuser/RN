@@ -1992,6 +1992,14 @@ export const addSkuItemToWishList = async item => {
   });
 };
 
+export const addSkuItemToPastList = async item => {
+  return await apiRequest({
+    method: "post",
+    url: `/sku/past`,
+    data: { ...item }
+  });
+};
+
 export const clearWishList = async item => {
   return await apiRequest({
     method: "delete",
