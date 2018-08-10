@@ -234,17 +234,14 @@ export default class SelectCashbackItems extends React.Component {
     const amount = navigation.getParam("amount", null);
 
     const { selectedItems } = this.state;
-    this.props.navigation.navigate(
-      SCREENS.CLAIM_CASHBACK_SELECT_SELLER_SCREEN,
-      {
-        product,
-        cashbackJob,
-        copies,
-        purchaseDate,
-        amount,
-        selectedItems
-      }
-    );
+    this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SELECT_SELLER_SCREEN, {
+      product,
+      cashbackJob,
+      copies,
+      purchaseDate,
+      amount,
+      selectedItems
+    });
   };
 
   render() {

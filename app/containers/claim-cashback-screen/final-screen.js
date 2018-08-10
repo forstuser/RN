@@ -14,6 +14,7 @@ import { updateExpense, linkSkusWithExpense } from "../../api";
 import { Text, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 import ChecklistModal from "./checklist-modal";
+import SuccessModal from "./success-modal";
 
 export default class ClaimCashback extends React.Component {
   static navigationOptions = {
@@ -65,6 +66,7 @@ export default class ClaimCashback extends React.Component {
           };
         })
       });
+      this.successModal.show();
     } catch (error) {
       console.log("error: ", error);
     }
@@ -212,6 +214,12 @@ export default class ClaimCashback extends React.Component {
         <ChecklistModal
           isChecklistModalVisible={isChecklistModalVisible}
           hideChecklistModal={this.hideChecklistModal}
+        />
+        <SuccessModal
+          ref={node => {
+            this.successModal = node;
+          }}
+          navigation={this.props.navigation}
         />
       </View>
     );

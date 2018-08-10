@@ -137,7 +137,7 @@ export default class ClaimCashback extends React.Component {
     } else if (!amount) {
       return showSnackbar({ text: "Please enter the bill amount" });
     }
-    this.props.navigation.navigate(SCREENS.CLAIM_CASHBACK_SELECT_ITEMS_SCREEN, {
+    this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SELECT_ITEMS_SCREEN, {
       product,
       cashbackJob,
       copies,

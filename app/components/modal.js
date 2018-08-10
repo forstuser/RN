@@ -7,9 +7,13 @@ import { Text } from "../elements";
 import { colors } from "../theme";
 
 export default props => {
-  const { title, onClosePress = () => null, children, style={}, ...modalProps,  } = props;
+  const { title, onClosePress, children, style = {}, ...modalProps } = props;
   return (
-    <Modal {...modalProps} useNativeDriver={true} avoidKeyboard={Platform.OS=='ios'}>
+    <Modal
+      {...modalProps}
+      useNativeDriver={true}
+      avoidKeyboard={Platform.OS == "ios"}
+    >
       <View style={style}>
         <View
           style={{
@@ -28,14 +32,18 @@ export default props => {
           >
             {title}
           </Text>
-          <TouchableOpacity onPress={onClosePress}>
-            <Icon name="md-close" color="#fff" size={20} />
-          </TouchableOpacity>
+          {typeof onClosePress == "function" ? (
+            <TouchableOpacity onPress={onClosePress}>
+              <Icon name="md-close" color="#fff" size={20} />
+            </TouchableOpacity>
+          ) : null}
         </View>
-        <View style={{
-              flex: 1,
-            }}>
-            {children}
+        <View
+          style={{
+            flex: 1
+          }}
+        >
+          {children}
         </View>
       </View>
     </Modal>

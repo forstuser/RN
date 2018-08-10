@@ -63,7 +63,7 @@ export default class SelectSellerScreen extends React.Component {
     const selectedItems = navigation.getParam("selectedItems", []);
     const { selectedSeller } = this.state;
 
-    this.props.navigation.navigate(SCREENS.CLAIM_CASHBACK_FINAL_SCREEN, {
+    this.props.navigation.push(SCREENS.CLAIM_CASHBACK_FINAL_SCREEN, {
       product,
       cashbackJob,
       copies,
