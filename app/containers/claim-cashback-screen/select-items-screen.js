@@ -255,6 +255,10 @@ export default class SelectCashbackItems extends React.Component {
     const copies = navigation.getParam("copies", []);
     const purchaseDate = navigation.getParam("purchaseDate", null);
     const amount = navigation.getParam("amount", null);
+    const isDigitallyVerified = navigation.getParam(
+      "isDigitallyVerified",
+      false
+    );
 
     const { selectedItems } = this.state;
     this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SELECT_SELLER_SCREEN, {
@@ -263,7 +267,8 @@ export default class SelectCashbackItems extends React.Component {
       copies,
       purchaseDate,
       amount,
-      selectedItems
+      selectedItems,
+      isDigitallyVerified
     });
   };
 

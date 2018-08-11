@@ -60,6 +60,10 @@ export default class SelectSellerScreen extends React.Component {
     const copies = navigation.getParam("copies", []);
     const purchaseDate = navigation.getParam("purchaseDate", null);
     const amount = navigation.getParam("amount", null);
+    const isDigitallyVerified = navigation.getParam(
+      "isDigitallyVerified",
+      false
+    );
     const selectedItems = navigation.getParam("selectedItems", []);
     const { selectedSeller } = this.state;
 
@@ -69,6 +73,7 @@ export default class SelectSellerScreen extends React.Component {
       copies,
       purchaseDate,
       amount,
+      isDigitallyVerified,
       selectedItems,
       selectedSeller
     });

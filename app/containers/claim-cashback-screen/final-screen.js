@@ -38,6 +38,10 @@ export default class ClaimCashback extends React.Component {
       const copies = navigation.getParam("copies", []);
       const purchaseDate = navigation.getParam("purchaseDate", null);
       const amount = navigation.getParam("amount", null);
+      const isDigitallyVerified = navigation.getParam(
+        "isDigitallyVerified",
+        false
+      );
       const items = navigation.getParam("selectedItems", []);
 
       const seller = navigation.getParam("selectedSeller", null);
@@ -47,7 +51,7 @@ export default class ClaimCashback extends React.Component {
         productId: product.id,
         value: amount,
         documentDate: purchaseDate,
-        digitallyVerified: false,
+        digitallyVerified: isDigitallyVerified,
         homeDelivered: false
       });
 

@@ -1,7 +1,14 @@
 import React from "react";
-import { View, TouchableOpacity, Image, AsyncStorage } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  AsyncStorage,
+  Platform
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import moment from "moment";
+import SmsAndroid from "react-native-get-sms-android";
 
 import {
   Text,
@@ -26,6 +33,7 @@ import {
   SCREENS
 } from "../../constants";
 import { showSnackbar } from "../../utils/snackbar";
+import { requestSmsReadPermission } from "../../android-permissions";
 
 export default class ClaimCashback extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -120,7 +128,41 @@ export default class ClaimCashback extends React.Component {
     this.uploadDoc.onUploadDocPress();
   };
 
-  onNextPress = () => {
+  onNextPress = async () => {
+    const { amount } = this.state;
+    let isDigitallyVerified = false;
+    if (Platform.OS == "android" && (await requestSmsReadPermission())) {
+      var filter = {
+        box: "inbox" // 'inbox' (default), 'sent', 'draft', 'outbox', 'failed', 'queued', and '' for all
+      };
+
+      SmsAndroid.list(
+        JSON.stringify(filter),
+        fail => {
+          console.log("SMS read failed with this error: " + fail);
+          this.proceedToNextStep();
+        },
+        (count, smsList) => {
+          console.log("SMS Count: ", count);
+          console.log("SMS List: ", smsList);
+          var arr = JSON.parse(smsList);
+
+          // this regex matches Rs. 200, Rs.200, Rs 200, Rs200, ₹ 200, ₹200
+          var regExForAmount = new RegExp("(Rs.*|₹) *" + amount);
+
+          isDigitallyVerified = arr.some(
+            sms => sms.body.search(regExForAmount) > -1
+          );
+
+          this.proceedToNextStep(isDigitallyVerified);
+        }
+      );
+    } else {
+      this.proceedToNextStep();
+    }
+  };
+
+  proceedToNextStep = isDigitallyVerified => {
     const {
       product,
       cashbackJob,
@@ -130,13 +172,7 @@ export default class ClaimCashback extends React.Component {
       wishlist,
       pastItems
     } = this.state;
-    if (copies.length == 0) {
-      return showSnackbar({ text: "Please upload bill first" });
-    } else if (!purchaseDate) {
-      return showSnackbar({ text: "Please select purchase date" });
-    } else if (!amount) {
-      return showSnackbar({ text: "Please enter the bill amount" });
-    }
+
     this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SELECT_ITEMS_SCREEN, {
       product,
       cashbackJob,
@@ -144,7 +180,8 @@ export default class ClaimCashback extends React.Component {
       purchaseDate,
       amount,
       wishlist,
-      pastItems
+      pastItems,
+      isDigitallyVerified
     });
   };
 

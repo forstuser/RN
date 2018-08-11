@@ -29,6 +29,7 @@ import com.dylanvann.fastimage.FastImageViewPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.azendoo.reactnativesnackbar.SnackbarPackage;
 import org.reactnative.camera.RNCameraPackage;
+import com.react.SmsPackage;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -61,6 +62,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
               new MainReactPackage(),
+              new SmsPackage(),
               new RNCameraPackage(),
               new SnackbarPackage(),
               new SplashScreenReactPackage(),
