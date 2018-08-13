@@ -53,7 +53,7 @@ export default class ClaimCashback extends React.Component {
     copies: [],
     product: null,
     cashbackJob: null,
-    purchaseDate: null,
+    purchaseDate: moment().format("YYYY-MM-DD"),
     amount: "",
     wishlist: [],
     pastItems: []
@@ -131,7 +131,11 @@ export default class ClaimCashback extends React.Component {
   onNextPress = async () => {
     const { amount } = this.state;
     let isDigitallyVerified = false;
-    if (Platform.OS == "android" && (await requestSmsReadPermission())) {
+    if (
+      amount &&
+      Platform.OS == "android" &&
+      (await requestSmsReadPermission())
+    ) {
       var filter = {
         box: "inbox" // 'inbox' (default), 'sent', 'draft', 'outbox', 'failed', 'queued', and '' for all
       };
@@ -172,6 +176,14 @@ export default class ClaimCashback extends React.Component {
       wishlist,
       pastItems
     } = this.state;
+
+    if (copies.length == 0) {
+      return showSnackbar({ text: "Please upload bill first" });
+    } else if (!purchaseDate || moment().diff(purchaseDate, "days") != 0) {
+      return showSnackbar({ text: "Please select only today's date" });
+    } else if (!amount) {
+      return showSnackbar({ text: "Please enter the bill amount" });
+    }
 
     this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SELECT_ITEMS_SCREEN, {
       product,
@@ -242,6 +254,7 @@ export default class ClaimCashback extends React.Component {
               placeholder="Date of Purchase"
               placeholder2="*"
               placeholder2Color={colors.mainBlue}
+              minDate={moment().format("YYYY-MM-DD")}
             />
 
             <TextInput

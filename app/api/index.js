@@ -831,18 +831,22 @@ export const updateExpense = async ({
   sellerId,
   documentDate,
   digitallyVerified,
-  homeDelivered
+  homeDelivered,
+  isComplete
 }) => {
+  const data = {
+    value,
+    seller_id: sellerId,
+    document_date: documentDate,
+    digitally_verified: digitallyVerified,
+    home_delivered: homeDelivered,
+    is_complete: isComplete
+  };
+
   return await apiRequest({
     method: "put",
     url: `/expenses/${productId}`,
-    data: {
-      value,
-      seller_id: sellerId,
-      document_date: documentDate,
-      digitally_verified: digitallyVerified,
-      home_delivered: homeDelivered
-    }
+    data: JSON.parse(JSON.stringify(data))
   });
 };
 

@@ -13,8 +13,12 @@ import { updateExpense, linkSkusWithExpense } from "../../api";
 
 import { Text, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
+
+import { openBillsPopUp } from "../../navigation";
+
 import ChecklistModal from "./checklist-modal";
 import SuccessModal from "./success-modal";
+import { showSnackbar } from "../../utils/snackbar";
 
 export default class ClaimCashback extends React.Component {
   static navigationOptions = {
@@ -42,17 +46,21 @@ export default class ClaimCashback extends React.Component {
         "isDigitallyVerified",
         false
       );
+      const isHomeDelivered = navigation.getParam("isHomeDelivered", false);
       const items = navigation.getParam("selectedItems", []);
 
       const seller = navigation.getParam("selectedSeller", null);
 
-      console.log("items: ", items);
+      showSnackbar({ text: "Please wait..." });
+
       await updateExpense({
         productId: product.id,
-        value: amount,
+        value: Number(amount),
         documentDate: purchaseDate,
         digitallyVerified: isDigitallyVerified,
-        homeDelivered: false
+        homeDelivered: isHomeDelivered,
+        isComplete: true,
+        sellerId: seller ? seller.id : undefined
       });
 
       await linkSkusWithExpense({
@@ -72,6 +80,7 @@ export default class ClaimCashback extends React.Component {
       });
       this.successModal.show();
     } catch (error) {
+      showSnackbar({ text: error.message });
       console.log("error: ", error);
     }
   };
@@ -126,10 +135,27 @@ export default class ClaimCashback extends React.Component {
                 <Text style={styles.value}>232</Text>
               </View>
             </View>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  openBillsPopUp({
+                    copies: copies
+                  });
+                }}
+                style={{ marginTop: 15 }}
+              >
+                <Text
+                  weight="Medium"
+                  style={{ fontSize: 11, color: colors.mainBlue }}
+                >
+                  View Bill
+                </Text>
+              </TouchableOpacity>
+            </View>
             <View
               style={{
                 flexDirection: "row",
-                marginTop: 20,
+                marginTop: 15,
                 borderBottomColor: "#efefef",
                 borderBottomWidth: 1,
                 paddingBottom: 7

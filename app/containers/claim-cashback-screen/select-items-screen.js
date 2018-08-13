@@ -18,6 +18,9 @@ import SearchBar from "../create-shopping-list-screen/search-bar";
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS } from "../../constants";
 
+import QuantityPlusMinus from "../../components/quantity-plus-minus";
+import { showSnackbar } from "../../utils/snackbar";
+
 export default class SelectCashbackItems extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { onBarcodeBtnPress } = navigation.state.params;
@@ -104,8 +107,7 @@ export default class SelectCashbackItems extends React.Component {
     });
     try {
       const res = await getSkuItems({
-        categoryId: this.state.activeCategoryId,
-        // searchTerm: this.state.searchTerm,
+        searchTerm: this.state.searchTerm || undefined,
         brandIds: this.state.selectedBrands.map(brand => brand.id)
       });
       this.setState({
@@ -187,13 +189,17 @@ export default class SelectCashbackItems extends React.Component {
       this.addSkuItemToList(item);
     } else {
       selectedItems.splice(idx, 1);
+      this.setState({ selectedItems });
     }
-    this.setState({ selectedItems });
   };
 
   addSkuItemToList = async item => {
     const selectedItems = [...this.state.selectedItems];
-    const pastItems = [...this.state.pastItems];
+    let pastItems = [...this.state.pastItems];
+
+    console.log("item: ", item);
+    console.log("selectedItems: ", selectedItems);
+
     if (!item.added_date) {
       item.added_date = moment().toISOString();
     }
@@ -205,12 +211,6 @@ export default class SelectCashbackItems extends React.Component {
       ) === -1
     ) {
       selectedItems.push(item);
-
-      try {
-        await addSkuItemToPastList(item);
-      } catch (e) {
-        console.log(e);
-      }
       this.setState({ selectedItems });
     }
     if (
@@ -220,8 +220,13 @@ export default class SelectCashbackItems extends React.Component {
           listItem.sku_measurement.id == item.sku_measurement.id
       ) === -1
     ) {
-      pastItems.push(item);
+      pastItems = [item, ...pastItems];
       this.setState({ pastItems });
+    }
+    try {
+      await addSkuItemToPastList(item);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -240,12 +245,13 @@ export default class SelectCashbackItems extends React.Component {
       selectedItems[idxOfItem].quantity = quantity;
       item.quantity = quantity;
     }
+
+    this.setState({ selectedItems });
     try {
       await addSkuItemToPastList(item);
     } catch (e) {
       console.log(e);
     }
-    this.setState({ selectedItems });
   };
 
   proceedToSellersScreen = () => {
@@ -261,6 +267,10 @@ export default class SelectCashbackItems extends React.Component {
     );
 
     const { selectedItems } = this.state;
+
+    if (selectedItems.length == 0) {
+      return showSnackbar({ text: "Please select some items first" });
+    }
     this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SELECT_SELLER_SCREEN, {
       product,
       cashbackJob,
@@ -317,6 +327,7 @@ export default class SelectCashbackItems extends React.Component {
             addSkuItemToList={this.addSkuItemToList}
             changeSkuItemQuantityInList={this.changeSkuItemQuantityInList}
             updateItem={this.updateItem}
+            hideAddManually={true}
           />
         </View>
 
@@ -436,7 +447,11 @@ export default class SelectCashbackItems extends React.Component {
                     (item.mrp * item.sku_measurement.cashback_percent) / 100;
                 }
 
-                const isItemSelected = selectedIds.includes(item.id);
+                const selectedItem = selectedItems.find(
+                  listItem =>
+                    listItem.id == item.id &&
+                    listItem.sku_measurement.id == item.sku_measurement.id
+                );
 
                 return (
                   <TouchableOpacity
@@ -455,7 +470,7 @@ export default class SelectCashbackItems extends React.Component {
                           borderRadius: 8,
                           alignItems: "center",
                           justifyContent: "center",
-                          backgroundColor: isItemSelected
+                          backgroundColor: selectedItem
                             ? colors.success
                             : colors.lighterText
                         }}
@@ -464,9 +479,32 @@ export default class SelectCashbackItems extends React.Component {
                       </View>
                     </View>
                     <View style={{ flex: 1, paddingTop: 0 }}>
-                      <Text weight="Medium" style={{ fontSize: 10 }}>
-                        {item.title}
-                      </Text>
+                      <View style={{ flexDirection: "row" }}>
+                        <Text
+                          weight="Medium"
+                          numberOfLines={1}
+                          style={{ fontSize: 10, flex: 1 }}
+                        >
+                          {item.title}
+                        </Text>
+                        {selectedItem ? (
+                          <QuantityPlusMinus
+                            quantity={selectedItem.quantity}
+                            onMinusPress={() => {
+                              this.changeSkuItemQuantityInList(
+                                selectedItem.sku_measurement.id,
+                                selectedItem.quantity - 1
+                              );
+                            }}
+                            onPlusPress={() => {
+                              this.changeSkuItemQuantityInList(
+                                selectedItem.sku_measurement.id,
+                                selectedItem.quantity + 1
+                              );
+                            }}
+                          />
+                        ) : null}
+                      </View>
                       {cashback ? (
                         <Text
                           weight="Medium"
@@ -481,9 +519,6 @@ export default class SelectCashbackItems extends React.Component {
                       ) : (
                         <View />
                       )}
-                    </View>
-                    <View style={{ alignItems: "flex-end", width: 50 }}>
-                      <Text>{item.quantity}</Text>
                     </View>
                   </TouchableOpacity>
                 );

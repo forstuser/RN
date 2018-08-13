@@ -1,6 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity, FlatList } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import Modal from "react-native-modal";
 
 import { getMySellers } from "../../api";
 import { Text, Button } from "../../elements";
@@ -14,10 +15,10 @@ export default class SelectSellerScreen extends React.Component {
       title: "Select Sellers",
       headerRight: (
         <TouchableOpacity
-          style={{ paddingHorizontal: 10, color: colors.pinkishOrange }}
+          style={{ paddingHorizontal: 10 }}
           onPress={onSkipPress}
         >
-          <Text>SKIP</Text>
+          <Text style={{ color: colors.pinkishOrange }}>SKIP</Text>
         </TouchableOpacity>
       )
     };
@@ -27,7 +28,8 @@ export default class SelectSellerScreen extends React.Component {
     sellers: [],
     isLoading: false,
     error: null,
-    selectedSeller: null
+    selectedSeller: null,
+    isHomeDeliveryModalVisible: false
   };
 
   componentDidMount() {
@@ -51,7 +53,16 @@ export default class SelectSellerScreen extends React.Component {
     this.setState({ selectedSeller: seller });
   };
 
-  proceedToNextStep = () => {
+  showHomeDeliveryModalVisible = () => {
+    this.setState({ isHomeDeliveryModalVisible: true });
+  };
+
+  hideHomeDeliveryModalVisible = () => {
+    this.setState({ isHomeDeliveryModalVisible: false });
+  };
+
+  proceedToNextStep = (isHomeDelivered = false) => {
+    this.setState(() => ({ isHomeDeliveryModalVisible: false }));
     const { navigation } = this.props;
     const product = navigation.getParam("product", null);
     const cashbackJob = navigation.getParam("cashbackJob", null);
@@ -72,13 +83,20 @@ export default class SelectSellerScreen extends React.Component {
       purchaseDate,
       amount,
       isDigitallyVerified,
+      isHomeDelivered,
       selectedItems,
       selectedSeller
     });
   };
 
   render() {
-    const { sellers, isLoading, error, selectedSeller } = this.state;
+    const {
+      sellers,
+      isLoading,
+      error,
+      selectedSeller,
+      isHomeDeliveryModalVisible
+    } = this.state;
     return (
       <View
         style={{
@@ -152,11 +170,57 @@ export default class SelectSellerScreen extends React.Component {
           }}
         />
         <Button
-          onPress={this.proceedToNextStep}
+          onPress={this.showHomeDeliveryModalVisible}
           text="Send for Seller Approval & Proceed"
           color="secondary"
           borderRadius={0}
         />
+        <Modal
+          isVisible={isHomeDeliveryModalVisible}
+          useNativeDriver={true}
+          onBackButtonPress={this.hideHomeDeliveryModalVisible}
+          onBackdropPress={this.hideHomeDeliveryModalVisible}
+        >
+          <View
+            style={{
+              backgroundColor: "#fff",
+              width: 280,
+              height: 150,
+              alignSelf: "center",
+              borderRadius: 10,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Text weight="Medium" style={{ fontSize: 15, marginBottom: 20 }}>
+              Did you avail Home Delivery?
+            </Text>
+            <View
+              style={{
+                width: "100%",
+                maxWidth: 220,
+                flexDirection: "row",
+                justifyContent: "space-between"
+              }}
+            >
+              <Button
+                text="No"
+                style={{ width: 100, height: 40 }}
+                textStyle={{ fontSize: 12 }}
+                color="secondary"
+                type="outline"
+                onPress={() => this.proceedToNextStep(false)}
+              />
+              <Button
+                text="Yes"
+                style={{ width: 100, height: 40 }}
+                color="secondary"
+                textStyle={{ fontSize: 12 }}
+                onPress={() => this.proceedToNextStep(true)}
+              />
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }

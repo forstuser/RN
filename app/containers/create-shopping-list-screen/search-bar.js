@@ -62,7 +62,8 @@ export default class SearchBar extends React.Component {
       changeSkuItemQuantityInList,
       toggleBrand = () => null,
       updateItem,
-      openAddManualItemModal
+      openAddManualItemModal,
+      hideAddManually = false
     } = this.props;
 
     const activeMainCategory = activeMainCategoryId
@@ -275,7 +276,7 @@ export default class SearchBar extends React.Component {
                         Sorry we couldn't find any items
                         {searchTerm ? ` for "${searchTerm}"` : ""}
                       </Text>
-                      {searchTerm ? (
+                      {searchTerm && !hideAddManually ? (
                         <Button
                           onPress={openAddManualItemModal}
                           style={{ height: 40, width: 180, marginTop: 15 }}
