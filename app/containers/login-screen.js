@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginBottom: 16,
     textAlign: "center",
-    fontSize: 25,
+    fontSize: 22,
     width: 275,
     paddingBottom: 10
   },
@@ -354,4 +354,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginScreen);

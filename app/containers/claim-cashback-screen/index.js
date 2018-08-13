@@ -228,6 +228,8 @@ export default class ClaimCashback extends React.Component {
               type={1}
               canUseCameraOnly={true}
               placeholder="Upload Bill"
+              placeholder2="*"
+              placeholder2Color={colors.mainBlue}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
                 this.setState({ copies: uploadResult.product.copies });
@@ -239,10 +241,13 @@ export default class ClaimCashback extends React.Component {
               onDateChange={purchaseDate => this.setState({ purchaseDate })}
               placeholder="Date of Purchase"
               placeholder2="*"
+              placeholder2Color={colors.mainBlue}
             />
 
             <TextInput
               placeholder="Total Amount of Bill"
+              placeholder2="*"
+              placeholder2Color={colors.mainBlue}
               keyboardType="numeric"
               value={String(amount)}
               onChangeText={amount => this.setState({ amount })}

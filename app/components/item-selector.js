@@ -135,8 +135,8 @@ class ItemSelector extends React.Component {
               </Text>
             </View>
           ) : (
-              <View />
-            )}
+            <View />
+          )}
           {moreItems.length > 0 ? (
             <TouchableWithoutFeedback
               onPress={() => this.otherOptionsModal.openModal()}
@@ -155,8 +155,8 @@ class ItemSelector extends React.Component {
               </View>
             </TouchableWithoutFeedback>
           ) : (
-              <View />
-            )}
+            <View />
+          )}
         </ScrollView>
       </View>
     );
@@ -183,10 +183,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 40,
     borderWidth: 1,
-    borderColor: colors.lighterText
+    borderColor: colors.lighterText,
+    overflow: "hidden"
   },
   selectedOptionIconContainer: {
-    backgroundColor: "#E2F9FF",
+    // backgroundColor: "#E2F9FF",
     borderWidth: 2,
     borderColor: colors.mainBlue
   },

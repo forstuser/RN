@@ -102,15 +102,21 @@ class MyCalendarScreen extends Component {
                 renderItem={this.renderItem}
                 onRefresh={this.fetchItems}
                 refreshing={isFetchingItems}
-                ListFooterComponent={<Button
-                  onPress={this.openAddEditCalendarServiceScreen}
-                  text={I18n.t("my_calendar_screen_add_btn")}
-                  color="secondary"
-                  style={[styles.emptyStateAddItemBtn,{marginBottom: 20}]}
-                />}
+                ListFooterComponent={
+                  items.length > 0 ? (
+                    <Button
+                      onPress={this.openAddEditCalendarServiceScreen}
+                      text={I18n.t("my_calendar_screen_add_btn")}
+                      color="secondary"
+                      style={[
+                        styles.emptyStateAddItemBtn,
+                        { marginBottom: 20 }
+                      ]}
+                    />
+                  ) : null
+                }
               />
             </View>
-            
           </View>
         )}
         {items.length == 0 &&
@@ -160,7 +166,7 @@ const styles = StyleSheet.create({
   emptyStateAddItemBtn: {
     width: 280,
     marginTop: 30,
-    alignSelf: 'center'
+    alignSelf: "center"
   }
 });
 

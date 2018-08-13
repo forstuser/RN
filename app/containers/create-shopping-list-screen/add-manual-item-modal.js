@@ -62,7 +62,7 @@ export default class AddManualItemModal extends React.Component {
             style={{
               borderColor: "#dadada",
               borderWidth: 1,
-              height: 30,
+              height: 40,
               borderRadius: 5,
               paddingHorizontal: 5
             }}

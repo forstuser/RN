@@ -254,7 +254,7 @@ export default class SearchBar extends React.Component {
             <View />
           )}
 
-          <View style={{ flex: 2, height: "100%" }}>
+          <View style={{ flex: 2, height: "100%", paddingVertical: 5 }}>
             <FlatList
               data={items}
               renderItem={({ item }) => (
@@ -263,9 +263,7 @@ export default class SearchBar extends React.Component {
                   item={item}
                   wishList={wishList}
                   addSkuItemToList={addSkuItemToList}
-                  changeSkuItemQuantityInList={
-                    changeSkuItemQuantityInList
-                  }
+                  changeSkuItemQuantityInList={changeSkuItemQuantityInList}
                   selectActiveSkuMeasurementId={selectActiveSkuMeasurementId}
                 />
               )}
@@ -274,16 +272,17 @@ export default class SearchBar extends React.Component {
                   return (
                     <View style={{ padding: 20, alignItems: "center" }}>
                       <Text style={{ textAlign: "center" }}>
-                        Sorry we couldn't find any items{searchTerm
-                          ? ` for "${searchTerm}"`
-                          : ""}
+                        Sorry we couldn't find any items
+                        {searchTerm ? ` for "${searchTerm}"` : ""}
                       </Text>
-                      <Button
-                        onPress={openAddManualItemModal}
-                        style={{ height: 40, width: 180, marginTop: 15 }}
-                        text="Add Manually"
-                        color="secondary"
-                      />
+                      {searchTerm ? (
+                        <Button
+                          onPress={openAddManualItemModal}
+                          style={{ height: 40, width: 180, marginTop: 15 }}
+                          text="Add Manually"
+                          color="secondary"
+                        />
+                      ) : null}
                     </View>
                   );
                 } else if (items.length == 0 && !isSearchDone) {

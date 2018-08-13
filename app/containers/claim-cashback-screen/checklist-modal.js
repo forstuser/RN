@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image } from "react-native";
+import { View, Image, ScrollView } from "react-native";
 
 import { Text } from "../../elements";
 import Modal from "../../components/modal";
@@ -35,9 +35,9 @@ export default ({
       isVisible={isChecklistModalVisible}
       title="Cashback Claim Checklist"
       onClosePress={hideChecklistModal}
-      style={{ backgroundColor: "#fff", height: 320 }}
+      style={{ backgroundColor: "#fff", height: 350 }}
     >
-      <View style={{ padding: 15 }}>
+      <ScrollView contentContainerStyle={{ padding: 15 }}>
         <Text weight="Bold" style={{ fontSize: 11 }}>
           Bill Image Checklist
         </Text>
@@ -60,7 +60,7 @@ export default ({
                   width: 54,
                   height: 54,
                   borderRadius: 27,
-                  backgroundColor: "#fafafa",
+                  backgroundColor: "#f7f7f7",
                   padding: 15
                 }}
               >
@@ -70,7 +70,10 @@ export default ({
                   source={item.image}
                 />
               </View>
-              <Text weight="Medium" style={{ fontSize: 10, marginTop: 8 }}>
+              <Text
+                weight="Medium"
+                style={{ fontSize: 10, marginTop: 8, textAlign: "center" }}
+              >
                 {item.text}
               </Text>
             </View>
@@ -100,7 +103,7 @@ export default ({
             <Text style={{ fontSize: 10 }}>{term}</Text>
           </View>
         ))}
-      </View>
+      </ScrollView>
     </Modal>
   );
 };

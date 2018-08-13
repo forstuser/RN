@@ -4,6 +4,8 @@ import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import { Text, Image, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
+import QuantityPlusMinus from "../../components/quantity-plus-minus";
+
 export default class SkuItem extends React.Component {
   render() {
     const {
@@ -68,8 +70,8 @@ export default class SkuItem extends React.Component {
             flex: 1,
             padding: 10,
             borderRadius: 5,
-            margin: 10,
-            marginBottom: 0,
+            marginHorizontal: 10,
+            marginVertical: 5,
             ...defaultStyles.card
           },
           style
@@ -86,10 +88,17 @@ export default class SkuItem extends React.Component {
                   width: 6,
                   height: 6,
                   borderRadius: 3,
-                  backgroundColor: "#3fed02"
+                  backgroundColor: colors.success,
+                  marginTop: 2
                 }}
               />
-              <Text style={{ fontSize: 10, color: "#3fed02", marginLeft: 3 }}>
+              <Text
+                style={{
+                  fontSize: 10,
+                  color: colors.success,
+                  marginLeft: 3
+                }}
+              >
                 In list
               </Text>
             </View>
@@ -152,33 +161,21 @@ export default class SkuItem extends React.Component {
         >
           {item.activeSkuMeasurementId ? (
             activeSkuMeasurementFromWishList && quantity ? (
-              <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    changeSkuItemQuantityInList(
-                      item.activeSkuMeasurementId,
-                      quantity - 1
-                    );
-                  }}
-                  style={styles.signContainer}
-                >
-                  <Text style={{ marginTop: -4 }}>-</Text>
-                </TouchableOpacity>
-                <Text style={{ width: 30, textAlign: "center" }}>
-                  {quantity}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    changeSkuItemQuantityInList(
-                      item.activeSkuMeasurementId,
-                      quantity + 1
-                    );
-                  }}
-                  style={styles.signContainer}
-                >
-                  <Text style={{ marginTop: -4 }}>+</Text>
-                </TouchableOpacity>
-              </View>
+              <QuantityPlusMinus
+                quantity={quantity}
+                onMinusPress={() => {
+                  changeSkuItemQuantityInList(
+                    item.activeSkuMeasurementId,
+                    quantity - 1
+                  );
+                }}
+                onPlusPress={() => {
+                  changeSkuItemQuantityInList(
+                    item.activeSkuMeasurementId,
+                    quantity + 1
+                  );
+                }}
+              />
             ) : (
               <TouchableOpacity
                 onPress={addActiveSkuToList}
@@ -191,7 +188,7 @@ export default class SkuItem extends React.Component {
                   justifyContent: "center"
                 }}
               >
-                <Text style={{ color: "#fff" }}>Add</Text>
+                <Text style={{ color: "#fff", marginTop: -3 }}>Add</Text>
               </TouchableOpacity>
             )
           ) : (

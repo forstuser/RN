@@ -457,17 +457,13 @@ export default class SelectCashbackItems extends React.Component {
                           justifyContent: "center",
                           backgroundColor: isItemSelected
                             ? colors.success
-                            : "transparent"
+                            : colors.lighterText
                         }}
                       >
-                        {isItemSelected ? (
-                          <Icon name="md-checkmark" size={12} color="#fff" />
-                        ) : (
-                          <View />
-                        )}
+                        <Icon name="md-checkmark" size={12} color="#fff" />
                       </View>
                     </View>
-                    <View style={{ flex: 1, paddingTop: 2 }}>
+                    <View style={{ flex: 1, paddingTop: 0 }}>
                       <Text weight="Medium" style={{ fontSize: 10 }}>
                         {item.title}
                       </Text>

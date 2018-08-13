@@ -14,7 +14,7 @@ export default class SelectSellerScreen extends React.Component {
       title: "Select Sellers",
       headerRight: (
         <TouchableOpacity
-          style={{ paddingHorizontal: 10 }}
+          style={{ paddingHorizontal: 10, color: colors.pinkishOrange }}
           onPress={onSkipPress}
         >
           <Text>SKIP</Text>
@@ -31,11 +31,9 @@ export default class SelectSellerScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.props.navigation.setParams({ onSkipPress: this.onSkipPress });
+    this.props.navigation.setParams({ onSkipPress: this.proceedToNextStep });
     this.getMySellers();
   }
-
-  onSkipPress = () => {};
 
   getMySellers = async () => {
     this.setState({ isLoading: true });

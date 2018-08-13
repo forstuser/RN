@@ -105,10 +105,7 @@ const BottomTabStack = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: "Shop & Earn",
         tabBarIcon: props => (
-          <TabIcon
-            {...props}
-            source={require("../images/ic_do_you_know.png")}
-          />
+          <TabIcon {...props} source={require("../images/shop_and_earn.png")} />
         )
       }
     },

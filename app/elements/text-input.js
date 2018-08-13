@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   textInput: {
     backgroundColor: "transparent",
     justifyContent: "flex-end",
-    paddingTop: 8,
+    paddingBottom: 3,
     height: 45,
     width: "100%"
   },

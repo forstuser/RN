@@ -118,7 +118,7 @@ class ShoppingListScreen extends React.Component {
     const mainCategory = mainCategories.find(
       mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
     );
-    const newState = { activeMainCategoryId };
+    const newState = { activeMainCategoryId, selectedBrands: [] };
     if (activeMainCategoryId > 0) {
       newState.activeCategoryId = mainCategory.categories[0].id;
     } else {
@@ -153,12 +153,12 @@ class ShoppingListScreen extends React.Component {
       ) === -1
     ) {
       wishList.push(item);
+      this.setState({ wishList });
       try {
         await addSkuItemToWishList(item);
       } catch (e) {
         console.log(e);
       }
-      this.setState({ wishList });
     }
   };
 
@@ -177,12 +177,12 @@ class ShoppingListScreen extends React.Component {
       wishList[idxOfItem].quantity = quantity;
       item.quantity = quantity;
     }
+    this.setState({ wishList });
     try {
       await addSkuItemToWishList(item);
     } catch (e) {
       console.log(e);
     }
-    this.setState({ wishList });
   };
 
   updateSearchTerm = searchTerm => {
@@ -195,7 +195,7 @@ class ShoppingListScreen extends React.Component {
         items: []
       },
       () => {
-        this.loadItems();
+        if (!searchTerm) this.loadItems();
       }
     );
   };
@@ -213,7 +213,7 @@ class ShoppingListScreen extends React.Component {
     try {
       const res = await getSkuItems({
         categoryId: this.state.activeCategoryId,
-        // searchTerm: this.state.searchTerm,
+        searchTerm: this.state.searchTerm,
         brandIds: this.state.selectedBrands.map(brand => brand.id)
       });
       this.setState({
@@ -335,6 +335,7 @@ class ShoppingListScreen extends React.Component {
               style={{ paddingHorizontal: 5, marginHorizontal: 5 }}
               onPress={() => {
                 navigation.navigate(SCREENS.MY_SHOPPING_LIST_SCREEN, {
+                  measurementTypes: measurementTypes,
                   wishList,
                   changeIndexQuantity: this.changeIndexQuantity
                 });
@@ -399,9 +400,7 @@ class ShoppingListScreen extends React.Component {
             measurementTypes={measurementTypes}
             wishList={wishList}
             addSkuItemToList={this.addSkuItemToList}
-            changeSkuItemQuantityInList={
-              this.changeSkuItemQuantityInList
-            }
+            changeSkuItemQuantityInList={this.changeSkuItemQuantityInList}
             updateItem={this.updateItem}
             openAddManualItemModal={() => this.addManualItemModal.show()}
           />
@@ -472,9 +471,7 @@ class ShoppingListScreen extends React.Component {
             measurementTypes={measurementTypes}
             wishList={wishList}
             addSkuItemToList={this.addSkuItemToList}
-            changeSkuItemQuantityInList={
-              this.changeSkuItemQuantityInList
-            }
+            changeSkuItemQuantityInList={this.changeSkuItemQuantityInList}
             updateItem={this.updateItem}
           />
           <AddManualItemModal

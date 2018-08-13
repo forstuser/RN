@@ -13,19 +13,21 @@ import { Text, Button } from "../../elements";
 import { colors } from "../../theme";
 
 import Modal from "../../components/modal";
+import QuantityPlusMinus from "../../components/quantity-plus-minus";
 
 export default class MyShoppingList extends React.Component {
   static navigationOptions = ({ navigation }) => {
+    const showShareBtn = navigation.getParam("showShareBtn", false);
     return {
       title: "My Shopping List",
-      headerRight: (
+      headerRight: showShareBtn ? (
         <TouchableOpacity
           onPress={navigation.state.params.onSharePress}
           style={{ marginRight: 10 }}
         >
           <Icon name="md-share" size={25} color={colors.mainBlue} />
         </TouchableOpacity>
-      )
+      ) : null
     };
   };
 
@@ -35,10 +37,13 @@ export default class MyShoppingList extends React.Component {
   };
 
   componentDidMount() {
-    this.props.navigation.setParams({ onSharePress: this.onSharePress });
-
     const wishList = this.props.navigation.getParam("wishList", []);
     this.setState({ wishList });
+
+    this.props.navigation.setParams({
+      onSharePress: this.onSharePress,
+      showShareBtn: wishList.length > 0
+    });
   }
 
   onSharePress = () => {
@@ -56,6 +61,9 @@ export default class MyShoppingList extends React.Component {
       wishList[index].quantity = quantity;
     }
     this.setState({ wishList });
+    this.props.navigation.setParams({
+      showShareBtn: wishList.length > 0
+    });
   };
 
   shareWithWhatsapp = () => {
@@ -68,8 +76,11 @@ export default class MyShoppingList extends React.Component {
 
   render() {
     const { navigation } = this.props;
+    const measurementTypes = navigation.getParam("measurementTypes", []);
 
     const { isShareModalVisible, wishList } = this.state;
+
+    console.log("measurementTypes: ", measurementTypes);
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -90,12 +101,12 @@ export default class MyShoppingList extends React.Component {
               weight="Medium"
               style={{ textAlign: "center", fontSize: 15, marginVertical: 30 }}
             >
-              {`You do not have a Shopping List.\n GO back and start adding items to create your Shopping List.`}
+              {`You do not have a Shopping List.\n Start adding items to create your Shopping List.`}
             </Text>
             <Button
               onPress={() => navigation.goBack()}
               style={{ width: 250 }}
-              text="Go Back"
+              text="Create Shopping List"
               color="secondary"
             />
           </View>
@@ -142,10 +153,26 @@ export default class MyShoppingList extends React.Component {
                       <Icon name="md-checkmark" size={12} color="#fff" />
                     </TouchableOpacity>
                   </View>
-                  <View style={{ flex: 1, paddingTop: 2 }}>
-                    <Text weight="Medium" style={{ fontSize: 10 }}>
-                      {item.title}
-                    </Text>
+                  <View style={{ flex: 1, paddingTop: 1 }}>
+                    <View style={{ flexDirection: "row" }}>
+                      <Text weight="Medium" style={{ fontSize: 10 }}>
+                        {item.title}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          color: colors.secondaryText,
+                          marginLeft: 2
+                        }}
+                      >
+                        {item.sku_measurement
+                          ? `(${item.sku_measurement.measurement_value +
+                              measurementTypes[
+                                item.sku_measurement.measurement_type
+                              ].acronym})`
+                          : ``}
+                      </Text>
+                    </View>
                     {cashback ? (
                       <Text
                         weight="Medium"
@@ -162,27 +189,16 @@ export default class MyShoppingList extends React.Component {
                     )}
                   </View>
                   <View style={{ alignItems: "flex-end" }}>
-                    <View style={{ flexDirection: "row" }}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.changeIndexQuantity(index, item.quantity - 1);
-                        }}
-                        style={styles.signContainer}
-                      >
-                        <Text style={{ marginTop: -4 }}>-</Text>
-                      </TouchableOpacity>
-                      <Text style={{ width: 30, textAlign: "center" }}>
-                        {item.quantity}
-                      </Text>
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.changeIndexQuantity(index, item.quantity + 1);
-                        }}
-                        style={styles.signContainer}
-                      >
-                        <Text style={{ marginTop: -4 }}>+</Text>
-                      </TouchableOpacity>
-                    </View>
+                    <QuantityPlusMinus
+                      quantity={item.quantity}
+                      onMinusPress={() => {
+                        this.changeIndexQuantity(index, item.quantity - 1);
+                      }}
+                      onPlusPress={() => {
+                        this.changeIndexQuantity(index, item.quantity + 1);
+                      }}
+                    />
+
                     <TouchableOpacity
                       onPress={() => {
                         this.changeIndexQuantity(index, 0);
@@ -254,16 +270,6 @@ export default class MyShoppingList extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  signContainer: {
-    borderColor: colors.pinkishOrange,
-    borderWidth: 1,
-    width: 15,
-    height: 15,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden"
-  },
   chatOptionContainer: {
     alignItems: "center"
   },
