@@ -6,10 +6,14 @@ import {
   Image,
   FlatList
 } from "react-native";
-
+import Icon from "react-native-vector-icons/Ionicons";
 import moment from "moment";
 
-import { updateExpense, linkSkusWithExpense } from "../../api";
+import {
+  updateExpense,
+  linkSkusWithExpense,
+  getSkuReferenceData
+} from "../../api";
 
 import { Text, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
@@ -28,21 +32,27 @@ export default class ClaimCashback extends React.Component {
   state = {
     isChecklistModalVisible: false,
     isLoading: false,
-    totalCashback: 0
+    measurementTypes: null
   };
 
   componentDidMount() {
-    const { navigation } = this.props;
-    const items = navigation.getParam("selectedItems", []);
-    const totalCashback = items.reduce((total, item) => {
-      let cashback = 0;
-      if (item.sku_measurement && item.sku_measurement.cashback_percent) {
-        cashback = (item.mrp * item.sku_measurement.cashback_percent) / 100;
-      }
-      return total + cashback;
-    }, 0);
-    this.setState({ totalCashback });
+    this.loadReferenceData();
   }
+
+  loadReferenceData = async () => {
+    const { pastItems } = this.state;
+    this.setState({ isLoading: true, referenceDataError: null });
+    try {
+      const res = await getSkuReferenceData();
+      let measurementTypes = {};
+      res.result.measurement_types.forEach(measurementType => {
+        measurementTypes[measurementType.id] = measurementType;
+      });
+      this.setState({ measurementTypes });
+    } catch (referenceDataError) {
+      console.log("referenceDataError: ", referenceDataError);
+    }
+  };
 
   hideChecklistModal = () => {
     this.setState({ isChecklistModalVisible: false });
@@ -108,7 +118,18 @@ export default class ClaimCashback extends React.Component {
 
     const seller = navigation.getParam("selectedSeller", null);
 
-    const { isChecklistModalVisible, totalCashback } = this.state;
+    const totalCashback = items.reduce((total, item) => {
+      let cashback = 0;
+      if (item.sku_measurement && item.sku_measurement.cashback_percent) {
+        cashback =
+          ((item.mrp * item.sku_measurement.cashback_percent) / 100) *
+          item.quantity;
+      }
+      return total + cashback;
+    }, 0);
+
+    const { isChecklistModalVisible, measurementTypes } = this.state;
+
     return (
       <View style={{ backgroundColor: "#fff", flex: 1 }}>
         <View style={{ flex: 1 }}>
@@ -126,7 +147,9 @@ export default class ClaimCashback extends React.Component {
             >
               <View style={{ flexDirection: "row" }}>
                 <Text style={styles.key}>Date:</Text>
-                <Text style={styles.value}>{purchaseDate}</Text>
+                <Text style={styles.value}>
+                  {moment(purchaseDate).format("DD MMM, YYYY")}
+                </Text>
               </View>
               <View style={{ flexDirection: "row" }}>
                 <Text style={styles.key}>Total Amount:</Text>
@@ -156,11 +179,16 @@ export default class ClaimCashback extends React.Component {
                     copies: copies
                   });
                 }}
-                style={{ marginTop: 15 }}
+                style={{ marginTop: 15, flexDirection: "row" }}
               >
+                <Icon name="md-document" color={colors.mainBlue} size={15} />
                 <Text
                   weight="Medium"
-                  style={{ fontSize: 11, color: colors.mainBlue }}
+                  style={{
+                    marginLeft: 2,
+                    fontSize: 11,
+                    color: colors.mainBlue
+                  }}
                 >
                   View Bill
                 </Text>
@@ -190,6 +218,7 @@ export default class ClaimCashback extends React.Component {
             </View>
             <FlatList
               data={items}
+              extraData={measurementTypes}
               renderItem={({ item }) => {
                 let cashback = 0;
                 if (
@@ -197,7 +226,8 @@ export default class ClaimCashback extends React.Component {
                   item.sku_measurement.cashback_percent
                 ) {
                   cashback =
-                    (item.mrp * item.sku_measurement.cashback_percent) / 100;
+                    ((item.mrp * item.sku_measurement.cashback_percent) / 100) *
+                    item.quantity;
                 }
 
                 return (
@@ -210,9 +240,34 @@ export default class ClaimCashback extends React.Component {
                       borderBottomWidth: 1
                     }}
                   >
-                    <Text weight="Medium" style={{ fontSize: 9, flex: 1 }}>
-                      {item.title}
-                    </Text>
+                    <View style={{ flexDirection: "row", flex: 1 }}>
+                      <Text weight="Medium" style={{ fontSize: 9 }}>
+                        {item.title}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 9,
+                          color: colors.secondaryText,
+                          marginLeft: 2
+                        }}
+                      >
+                        {item.sku_measurement && measurementTypes
+                          ? `(${item.sku_measurement.measurement_value +
+                              measurementTypes[
+                                item.sku_measurement.measurement_type
+                              ].acronym})`
+                          : ``}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 9,
+                          color: colors.secondaryText,
+                          marginLeft: 2
+                        }}
+                      >
+                        x {item.quantity}
+                      </Text>
+                    </View>
                     <Text style={{ fontSize: 9, color: colors.mainBlue }}>
                       {cashback ? "₹" + cashback : "0"}
                     </Text>
