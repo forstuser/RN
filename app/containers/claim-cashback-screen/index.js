@@ -180,7 +180,9 @@ export default class ClaimCashback extends React.Component {
     if (copies.length == 0) {
       return showSnackbar({ text: "Please upload bill first" });
     } else if (!purchaseDate || moment().diff(purchaseDate, "days") != 0) {
-      return showSnackbar({ text: "Please select only today's date" });
+      return showSnackbar({
+        text: "Cashbacks are allowed only for purchases made today"
+      });
     } else if (!amount) {
       return showSnackbar({ text: "Please enter the bill amount" });
     }
@@ -254,7 +256,6 @@ export default class ClaimCashback extends React.Component {
               placeholder="Date of Purchase"
               placeholder2="*"
               placeholder2Color={colors.mainBlue}
-              minDate={moment().format("YYYY-MM-DD")}
             />
 
             <TextInput
