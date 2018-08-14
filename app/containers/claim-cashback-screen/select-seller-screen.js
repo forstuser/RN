@@ -10,17 +10,17 @@ import { SCREENS } from "../../constants";
 
 export default class SelectSellerScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    const { onSkipPress } = navigation.state.params;
+    const { onSkipPress, selectedSeller } = navigation.state.params;
     return {
       title: "Select Sellers",
-      headerRight: (
+      headerRight: !selectedSeller ? (
         <TouchableOpacity
           style={{ paddingHorizontal: 10 }}
           onPress={onSkipPress}
         >
           <Text style={{ color: colors.pinkishOrange }}>SKIP</Text>
         </TouchableOpacity>
-      )
+      ) : null
     };
   };
 
@@ -33,7 +33,9 @@ export default class SelectSellerScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.props.navigation.setParams({ onSkipPress: this.proceedToNextStep });
+    this.props.navigation.setParams({
+      onSkipPress: () => this.proceedToNextStep()
+    });
     this.getMySellers();
   }
 
@@ -50,7 +52,16 @@ export default class SelectSellerScreen extends React.Component {
   };
 
   selectSeller = seller => {
-    this.setState({ selectedSeller: seller });
+    if (
+      this.state.selectedSeller &&
+      this.state.selectedSeller.id == seller.id
+    ) {
+      this.setState({ selectedSeller: null });
+      this.props.navigation.setParams({ selectedSeller: null });
+    } else {
+      this.setState({ selectedSeller: seller });
+      this.props.navigation.setParams({ selectedSeller: seller });
+    }
   };
 
   showHomeDeliveryModalVisible = () => {
@@ -61,7 +72,7 @@ export default class SelectSellerScreen extends React.Component {
     this.setState({ isHomeDeliveryModalVisible: false });
   };
 
-  proceedToNextStep = (isHomeDelivered = false) => {
+  proceedToNextStep = isHomeDelivered => {
     this.setState(() => ({ isHomeDeliveryModalVisible: false }));
     const { navigation } = this.props;
     const product = navigation.getParam("product", null);
@@ -122,7 +133,7 @@ export default class SelectSellerScreen extends React.Component {
                 Seller section to avail additional Seller benefits in future.
               </Text>
               <Button
-                onPress={this.proceedToNextStep}
+                onPress={() => this.proceedToNextStep()}
                 text="Next"
                 color="secondary"
                 style={{ height: 40, width: 140, marginTop: 30 }}
@@ -169,12 +180,14 @@ export default class SelectSellerScreen extends React.Component {
             );
           }}
         />
-        <Button
-          onPress={this.showHomeDeliveryModalVisible}
-          text="Send for Seller Approval & Proceed"
-          color="secondary"
-          borderRadius={0}
-        />
+        {selectedSeller ? (
+          <Button
+            onPress={this.showHomeDeliveryModalVisible}
+            text="Send for Seller Approval & Proceed"
+            color="secondary"
+            borderRadius={0}
+          />
+        ) : null}
         <Modal
           isVisible={isHomeDeliveryModalVisible}
           useNativeDriver={true}

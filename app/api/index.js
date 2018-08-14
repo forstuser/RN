@@ -835,7 +835,7 @@ export const updateExpense = async ({
   isComplete
 }) => {
   const data = {
-    value,
+    value: value,
     seller_id: sellerId,
     document_date: documentDate,
     digitally_verified: digitallyVerified,

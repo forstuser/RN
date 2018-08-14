@@ -27,8 +27,22 @@ export default class ClaimCashback extends React.Component {
 
   state = {
     isChecklistModalVisible: false,
-    isLoading: false
+    isLoading: false,
+    totalCashback: 0
   };
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    const items = navigation.getParam("selectedItems", []);
+    const totalCashback = items.reduce((total, item) => {
+      let cashback = 0;
+      if (item.sku_measurement && item.sku_measurement.cashback_percent) {
+        cashback = (item.mrp * item.sku_measurement.cashback_percent) / 100;
+      }
+      return total + cashback;
+    }, 0);
+    this.setState({ totalCashback });
+  }
 
   hideChecklistModal = () => {
     this.setState({ isChecklistModalVisible: false });
@@ -46,7 +60,7 @@ export default class ClaimCashback extends React.Component {
         "isDigitallyVerified",
         false
       );
-      const isHomeDelivered = navigation.getParam("isHomeDelivered", false);
+      const isHomeDelivered = navigation.getParam("isHomeDelivered", undefined);
       const items = navigation.getParam("selectedItems", []);
 
       const seller = navigation.getParam("selectedSeller", null);
@@ -94,7 +108,7 @@ export default class ClaimCashback extends React.Component {
 
     const seller = navigation.getParam("selectedSeller", null);
 
-    const { isChecklistModalVisible } = this.state;
+    const { isChecklistModalVisible, totalCashback } = this.state;
     return (
       <View style={{ backgroundColor: "#fff", flex: 1 }}>
         <View style={{ flex: 1 }}>
@@ -132,7 +146,7 @@ export default class ClaimCashback extends React.Component {
               </View>
               <View style={{ flexDirection: "row" }}>
                 <Text style={styles.key}>Expected BBCash:</Text>
-                <Text style={styles.value}>232</Text>
+                <Text style={styles.value}>Rs. {totalCashback}</Text>
               </View>
             </View>
             <View>

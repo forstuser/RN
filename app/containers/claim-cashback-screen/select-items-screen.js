@@ -188,8 +188,7 @@ export default class SelectCashbackItems extends React.Component {
     if (idx == -1) {
       this.addSkuItemToList(item);
     } else {
-      selectedItems.splice(idx, 1);
-      this.setState({ selectedItems });
+      this.changeSkuItemQuantityInList(item.sku_measurement.id, 0);
     }
   };
 
@@ -210,6 +209,7 @@ export default class SelectCashbackItems extends React.Component {
           listItem.sku_measurement.id == item.sku_measurement.id
       ) === -1
     ) {
+      item.quantity = 1;
       selectedItems.push(item);
       this.setState({ selectedItems });
     }
@@ -454,73 +454,82 @@ export default class SelectCashbackItems extends React.Component {
                 );
 
                 return (
-                  <TouchableOpacity
-                    onPress={() => this.toggleItemSelection(item)}
+                  <View
                     style={{
                       flexDirection: "row",
                       padding: 10,
                       height: 60
                     }}
                   >
-                    <View style={{ marginRight: 5 }}>
-                      <View
-                        style={{
-                          width: 16,
-                          height: 16,
-                          borderRadius: 8,
-                          alignItems: "center",
-                          justifyContent: "center",
-                          backgroundColor: selectedItem
-                            ? colors.success
-                            : colors.lighterText
-                        }}
-                      >
-                        <Icon name="md-checkmark" size={12} color="#fff" />
-                      </View>
-                    </View>
-                    <View style={{ flex: 1, paddingTop: 0 }}>
-                      <View style={{ flexDirection: "row" }}>
-                        <Text
-                          weight="Medium"
-                          numberOfLines={1}
-                          style={{ fontSize: 10, flex: 1 }}
-                        >
-                          {item.title}
-                        </Text>
-                        {selectedItem ? (
-                          <QuantityPlusMinus
-                            quantity={selectedItem.quantity}
-                            onMinusPress={() => {
-                              this.changeSkuItemQuantityInList(
-                                selectedItem.sku_measurement.id,
-                                selectedItem.quantity - 1
-                              );
-                            }}
-                            onPlusPress={() => {
-                              this.changeSkuItemQuantityInList(
-                                selectedItem.sku_measurement.id,
-                                selectedItem.quantity + 1
-                              );
-                            }}
-                          />
-                        ) : null}
-                      </View>
-                      {cashback ? (
-                        <Text
-                          weight="Medium"
+                    <TouchableOpacity
+                      onPress={() => this.toggleItemSelection(item)}
+                      style={{
+                        flexDirection: "row",
+                        flex: 1
+                      }}
+                    >
+                      <View style={{ marginRight: 5 }}>
+                        <View
                           style={{
-                            fontSize: 10,
-                            color: colors.mainBlue,
-                            marginTop: 10
+                            width: 16,
+                            height: 16,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: selectedItem
+                              ? colors.success
+                              : colors.lighterText
                           }}
                         >
-                          You get back ₹ {cashback}
-                        </Text>
-                      ) : (
-                        <View />
-                      )}
+                          <Icon name="md-checkmark" size={12} color="#fff" />
+                        </View>
+                      </View>
+                      <View style={{ flex: 1, paddingTop: 0 }}>
+                        <View style={{ flexDirection: "row" }}>
+                          <Text
+                            weight="Medium"
+                            numberOfLines={1}
+                            style={{ fontSize: 10, flex: 1 }}
+                          >
+                            {item.title}
+                          </Text>
+                        </View>
+                        {cashback ? (
+                          <Text
+                            weight="Medium"
+                            style={{
+                              fontSize: 10,
+                              color: colors.mainBlue,
+                              marginTop: 10
+                            }}
+                          >
+                            You get back ₹ {cashback}
+                          </Text>
+                        ) : (
+                          <View />
+                        )}
+                      </View>
+                    </TouchableOpacity>
+                    <View style={{ marginLeft: 5 }}>
+                      {selectedItem ? (
+                        <QuantityPlusMinus
+                          quantity={selectedItem.quantity}
+                          onMinusPress={() => {
+                            this.changeSkuItemQuantityInList(
+                              selectedItem.sku_measurement.id,
+                              selectedItem.quantity - 1
+                            );
+                          }}
+                          onPlusPress={() => {
+                            this.changeSkuItemQuantityInList(
+                              selectedItem.sku_measurement.id,
+                              selectedItem.quantity + 1
+                            );
+                          }}
+                        />
+                      ) : null}
                     </View>
-                  </TouchableOpacity>
+                  </View>
                 );
               }}
               ItemSeparatorComponent={() => (
