@@ -90,19 +90,20 @@ class ShoppingListScreen extends React.Component {
       });
 
       let mainCategories =
-        pastItems.length > 0 ? [{ id: 0, title: "Past Items" }] : [];
+        pastItems.length > 0 ? [{ id: 0, title: "PAST ITEMS" }] : [];
 
       mainCategories = [...mainCategories, ...res.result.main_categories];
 
       this.setState(() => ({
         mainCategories,
         measurementTypes,
-        activeMainCategoryId: mainCategories[0].id,
+        activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0],
         activeCategoryId:
           pastItems.length > 0 ? null : mainCategories[0].categories[0].id,
         items: pastItems
       }));
-      if (pastItems.length == 0) {
+
+      if (pastItems.length > 0) {
         this.loadItems();
       }
     } catch (referenceDataError) {
@@ -132,7 +133,7 @@ class ShoppingListScreen extends React.Component {
   };
 
   updateStateCategoryId = activeCategoryId => {
-    this.setState({ activeCategoryId }, () => {
+    this.setState({ activeCategoryId, selectedBrands: [] }, () => {
       this.loadItems();
     });
   };
@@ -190,8 +191,6 @@ class ShoppingListScreen extends React.Component {
       {
         searchTerm,
         isSearchDone: false,
-        selectedBrands: [],
-        brands: [],
         items: []
       },
       () => {
@@ -230,14 +229,7 @@ class ShoppingListScreen extends React.Component {
     }
   };
 
-  toggleBrand = brand => {
-    const selectedBrands = [...this.state.selectedBrands];
-    const idx = selectedBrands.findIndex(brandItem => brandItem.id == brand.id);
-    if (idx == -1) {
-      selectedBrands.push(brand);
-    } else {
-      selectedBrands.splice(idx, 1);
-    }
+  setSelectedBrands = selectedBrands => {
     this.setState({ selectedBrands }, () => {
       this.loadItems();
     });
@@ -394,7 +386,7 @@ class ShoppingListScreen extends React.Component {
             clearSearchTerm={this.clearSearchTerm}
             brands={brands}
             selectedBrands={selectedBrands}
-            toggleBrand={this.toggleBrand}
+            setSelectedBrands={this.setSelectedBrands}
             isSearchDone={isSearchDone}
             searchError={searchError}
             items={items}

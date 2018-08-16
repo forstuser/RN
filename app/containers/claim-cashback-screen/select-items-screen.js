@@ -52,9 +52,11 @@ export default class SelectCashbackItems extends React.Component {
     isSearchDone: false,
     searchError: null,
     items: [],
-    pastItems: [],
     selectedItems: [],
     isSearching: false,
+    mainCategories: [],
+    activeMainCategoryId: null,
+    activeCategoryId: null,
     measurementTypes: []
   };
 
@@ -74,7 +76,10 @@ export default class SelectCashbackItems extends React.Component {
   };
 
   loadReferenceData = async () => {
-    const { pastItems } = this.state;
+    const { navigation } = this.props;
+    const wishlist = navigation.getParam("wishlist", []);
+    const pastItems = navigation.getParam("pastItems", []);
+
     this.setState({ isLoading: true, referenceDataError: null });
     try {
       const res = await getSkuReferenceData();
@@ -83,14 +88,44 @@ export default class SelectCashbackItems extends React.Component {
         measurementTypes[measurementType.id] = measurementType;
       });
 
-      this.setState(
-        {
-          measurementTypes
-        },
-        () => {
+      const newState = {
+        measurementTypes
+      };
+
+      let mainCategories = [];
+      if (wishlist.length > 0) {
+        mainCategories.push({ id: -1, title: "SHOPPING LIST" });
+        newState.activeMainCategoryId = -1;
+      }
+
+      if (pastItems.length > 0) {
+        mainCategories.push({ id: 0, title: "PAST ITEMS" });
+        if (wishlist.length == 0) {
+          newState.activeMainCategoryId = 0;
+        }
+      }
+
+      newState.mainCategories = [
+        ...mainCategories,
+        ...res.result.main_categories
+      ];
+
+      if (newState.activeMainCategoryId === undefined) {
+        newState.activeMainCategoryId = newState.mainCategories[0].id;
+        newState.activeCategoryId = newState.mainCategories[0].categories[0].id;
+      }
+
+      if (wishlist.length > 0) {
+        newState.items = wishlist;
+      } else if (pastItems.length > 0) {
+        newState.items = pastItems;
+      }
+
+      this.setState(newState, () => {
+        if (wishlist.length == 0 && pastItems.length == 0) {
           this.loadItems();
         }
-      );
+      });
     } catch (referenceDataError) {
       console.log("referenceDataError: ", referenceDataError);
       this.setState({ referenceDataError });
@@ -105,10 +140,12 @@ export default class SelectCashbackItems extends React.Component {
       isSearchDone: false,
       searchError: null
     });
+    const { activeCategoryId, searchTerm, selectedBrands } = this.state;
     try {
       const res = await getSkuItems({
-        searchTerm: this.state.searchTerm || undefined,
-        brandIds: this.state.selectedBrands.map(brand => brand.id)
+        categoryId: !searchTerm ? activeCategoryId : undefined,
+        searchTerm: searchTerm || undefined,
+        brandIds: selectedBrands.map(brand => brand.id)
       });
       this.setState({
         isSearching: false,
@@ -120,6 +157,37 @@ export default class SelectCashbackItems extends React.Component {
       console.log(error);
       this.setState({ isSearching: false, searchError: error });
     }
+  };
+
+  updateStateMainCategoryId = activeMainCategoryId => {
+    const { navigation } = this.props;
+    const wishlist = navigation.getParam("wishlist", []);
+    const pastItems = navigation.getParam("pastItems", []);
+
+    const { mainCategories } = this.state;
+    const mainCategory = mainCategories.find(
+      mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
+    );
+    const newState = { activeMainCategoryId, selectedBrands: [] };
+    if (activeMainCategoryId > 0) {
+      newState.activeCategoryId = mainCategory.categories[0].id;
+    } else if (activeMainCategoryId == -1) {
+      newState.items = wishlist;
+    } else if (activeMainCategoryId == 0) {
+      newState.items = pastItems;
+    }
+
+    this.setState(newState, () => {
+      if (activeMainCategoryId > 0) {
+        this.loadItems();
+      }
+    });
+  };
+
+  updateStateCategoryId = activeCategoryId => {
+    this.setState({ activeCategoryId, selectedBrands: [] }, () => {
+      this.loadItems();
+    });
   };
 
   updateItem = (index, data) => {
@@ -149,14 +217,7 @@ export default class SelectCashbackItems extends React.Component {
     this.updateSearchTerm("");
   };
 
-  toggleBrand = brand => {
-    const selectedBrands = [...this.state.selectedBrands];
-    const idx = selectedBrands.findIndex(brandItem => brandItem.id == brand.id);
-    if (idx == -1) {
-      selectedBrands.push(brand);
-    } else {
-      selectedBrands.splice(idx, 1);
-    }
+  setSelectedBrands = selectedBrands => {
     this.setState({ selectedBrands }, () => {
       this.loadItems();
     });
@@ -194,7 +255,6 @@ export default class SelectCashbackItems extends React.Component {
 
   addSkuItemToList = async item => {
     const selectedItems = [...this.state.selectedItems];
-    let pastItems = [...this.state.pastItems];
 
     console.log("item: ", item);
     console.log("selectedItems: ", selectedItems);
@@ -212,16 +272,6 @@ export default class SelectCashbackItems extends React.Component {
       item.quantity = 1;
       selectedItems.push(item);
       this.setState({ selectedItems });
-    }
-    if (
-      pastItems.findIndex(
-        listItem =>
-          listItem.id == item.id &&
-          listItem.sku_measurement.id == item.sku_measurement.id
-      ) === -1
-    ) {
-      pastItems = [item, ...pastItems];
-      this.setState({ pastItems });
     }
     try {
       await addSkuItemToPastList(item);
@@ -294,30 +344,36 @@ export default class SelectCashbackItems extends React.Component {
       isSearchDone,
       searchError,
       items,
-      pastItems = [],
       selectedItems = [],
       isSearching,
-      measurementTypes
+      activeMainCategoryId,
+      activeCategoryId,
+      measurementTypes,
+      mainCategories
     } = this.state;
 
     const selectedIds = selectedItems.map(selectedItem => selectedItem.id);
-    let sections = [];
-    if (wishlist.length > 0) {
-      sections.push({ title: "From Shopping List", data: wishlist });
-    }
-    sections.push({ title: "From Past Selections", data: pastItems });
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={{ flex: 1 }}>
           <SearchBar
+            activeMainCategoryId={activeMainCategoryId}
+            activeCategoryId={activeCategoryId}
+            updateMainCategoryIdInParent={activeMainCategoryId =>
+              this.updateStateMainCategoryId(activeMainCategoryId)
+            }
+            updateCategoryIdInParent={activeCategoryId =>
+              this.updateStateCategoryId(activeCategoryId)
+            }
+            mainCategories={mainCategories}
             searchTerm={searchTerm}
             loadItems={this.loadItems}
             onSearchTextChange={this.updateSearchTerm}
             clearSearchTerm={this.clearSearchTerm}
             brands={brands}
             selectedBrands={selectedBrands}
-            toggleBrand={this.toggleBrand}
+            setSelectedBrands={this.setSelectedBrands}
             isSearchDone={isSearchDone}
             searchError={searchError}
             items={items}
@@ -331,242 +387,28 @@ export default class SelectCashbackItems extends React.Component {
           />
         </View>
 
-        <Animated.View
-          style={[
-            {
-              position: "absolute",
-              height: 70,
-              bottom: 0,
-              left: 0,
-              right: 0
-            },
-            {
-              transform: [
-                {
-                  translateY: this.wishlistAndPastItemsViewPosition.interpolate(
-                    {
-                      inputRange: [0, 1],
-                      outputRange: [60, 0]
-                    }
-                  )
-                }
-              ]
-            }
-          ]}
+        <View
+          style={{
+            height: 50,
+            flexDirection: "row",
+            alignItems: "center",
+            padding: 10,
+            marginTop: 0,
+            borderTopColor: "#eee",
+            borderTopWidth: 1
+          }}
         >
-          <TouchableOpacity
-            onPress={this.showWishlistAndPastItemsView}
-            style={{
-              width: 38,
-              height: 38,
-              alignSelf: "center",
-              ...defaultStyles.card,
-              borderRadius: 19,
-              alignItems: "center"
-            }}
-          >
-            <Icon name="ios-arrow-up" size={28} color={colors.pinkishOrange} />
-          </TouchableOpacity>
-          <View
-            style={{
-              flex: 1,
-              marginTop: -16,
-              flexDirection: "row",
-              alignItems: "center",
-              padding: 10,
-              ...defaultStyles.card
-            }}
-          >
-            <Text weight="Bold" style={{ fontSize: 10, flex: 1 }}>
-              {selectedItems.length} Items Selected
-            </Text>
-            <Button
-              onPress={this.proceedToSellersScreen}
-              text="Next"
-              color="secondary"
-              style={{ height: 32, width: 85 }}
-            />
-          </View>
-        </Animated.View>
-
-        <Animated.View
-          style={[
-            {
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0
-            },
-            {
-              transform: [
-                {
-                  translateY: this.wishlistAndPastItemsViewPosition.interpolate(
-                    {
-                      inputRange: [0, 1],
-                      outputRange: [0, 1000]
-                    }
-                  )
-                }
-              ]
-            }
-          ]}
-        >
-          <TouchableOpacity
-            onPress={this.hideWishlistAndPastItemsView}
-            style={{
-              width: 38,
-              height: 38,
-              alignSelf: "center",
-              ...defaultStyles.card,
-              borderRadius: 19,
-              alignItems: "center"
-            }}
-          >
-            <Icon
-              name="ios-arrow-down"
-              size={28}
-              color={colors.pinkishOrange}
-            />
-          </TouchableOpacity>
-          <View style={{ flex: 1, ...defaultStyles.card, marginTop: -16 }}>
-            <Text
-              weight="Bold"
-              style={{ textAlign: "center", fontSize: 10, marginVertical: 8 }}
-            >
-              {selectedItems.length} Items Selected
-            </Text>
-            <SectionList
-              renderItem={({ item, index }) => {
-                let cashback = 0;
-                if (
-                  item.sku_measurement &&
-                  item.sku_measurement.cashback_percent
-                ) {
-                  cashback =
-                    (item.mrp * item.sku_measurement.cashback_percent) / 100;
-                }
-
-                const selectedItem = selectedItems.find(
-                  listItem =>
-                    listItem.id == item.id &&
-                    listItem.sku_measurement.id == item.sku_measurement.id
-                );
-
-                return (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      padding: 10,
-                      height: 60
-                    }}
-                  >
-                    <TouchableOpacity
-                      onPress={() => this.toggleItemSelection(item)}
-                      style={{
-                        flexDirection: "row",
-                        flex: 1
-                      }}
-                    >
-                      <View style={{ marginRight: 5 }}>
-                        <View
-                          style={{
-                            width: 16,
-                            height: 16,
-                            borderRadius: 8,
-                            alignItems: "center",
-                            justifyContent: "center",
-                            backgroundColor: selectedItem
-                              ? colors.success
-                              : colors.lighterText
-                          }}
-                        >
-                          <Icon name="md-checkmark" size={12} color="#fff" />
-                        </View>
-                      </View>
-                      <View style={{ flex: 1, paddingTop: 0 }}>
-                        <View style={{ flexDirection: "row" }}>
-                          <Text
-                            weight="Medium"
-                            numberOfLines={1}
-                            style={{ fontSize: 10, flex: 1 }}
-                          >
-                            {item.title}
-                          </Text>
-                        </View>
-                        {cashback ? (
-                          <Text
-                            weight="Medium"
-                            style={{
-                              fontSize: 10,
-                              color: colors.mainBlue,
-                              marginTop: 10
-                            }}
-                          >
-                            You get back ₹ {cashback}
-                          </Text>
-                        ) : (
-                          <View />
-                        )}
-                      </View>
-                    </TouchableOpacity>
-                    <View style={{ marginLeft: 5 }}>
-                      {selectedItem ? (
-                        <QuantityPlusMinus
-                          quantity={selectedItem.quantity}
-                          onMinusPress={() => {
-                            this.changeSkuItemQuantityInList(
-                              selectedItem.sku_measurement.id,
-                              selectedItem.quantity - 1
-                            );
-                          }}
-                          onPlusPress={() => {
-                            this.changeSkuItemQuantityInList(
-                              selectedItem.sku_measurement.id,
-                              selectedItem.quantity + 1
-                            );
-                          }}
-                        />
-                      ) : null}
-                    </View>
-                  </View>
-                );
-              }}
-              ItemSeparatorComponent={() => (
-                <View
-                  style={{
-                    backgroundColor: "#efefef",
-                    height: 1,
-                    marginHorizontal: 10
-                  }}
-                />
-              )}
-              renderSectionHeader={({ section: { title } }) => (
-                <View
-                  style={{
-                    backgroundColor: "#e0e0e0",
-                    height: 24,
-                    paddingHorizontal: 12,
-                    justifyContent: "center"
-                  }}
-                >
-                  <Text weight="Medium" style={{ fontSize: 9 }}>
-                    {title}
-                  </Text>
-                </View>
-              )}
-              sections={sections}
-              extraData={selectedIds}
-              keyExtractor={(item, index) => item.title + index}
-            />
-          </View>
+          <Text weight="Bold" style={{ fontSize: 10, flex: 1 }}>
+            {selectedItems.length} Items Selected
+          </Text>
           <Button
-            onPress={this.hideWishlistAndPastItemsView}
+            onPress={this.proceedToSellersScreen}
             text="Next"
             color="secondary"
-            borderRadius={0}
+            style={{ height: 32, width: 85 }}
           />
-        </Animated.View>
+        </View>
+
         <BarcodeScanner
           visible={isBarcodeScannerVisible}
           onSelectItem={this.addSkuItemToList}

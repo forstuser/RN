@@ -9,22 +9,27 @@ import ScrollableTabView, {
 import { Text, Image } from "../../elements";
 import DrawerScreenContainer from "../../components/drawer-screen-container";
 
-import {
-  getSkuReferenceData,
-  getSkuItems,
-  getSkuWishList,
-  addSkuItemToWishList,
-  clearWishList
-} from "../../api";
+import { getMySellers } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 
 export default class MySellersScreen extends React.Component {
+  state = {
+    mySellers: [],
+    isLoading: false,
+    error: null
+  };
+
+  componentDidMount() {}
+
+  loadMySellers = async () => {
+    try {
+    } catch (e) {}
+  };
+
   render() {
-    return (
-      <View>
-        <Text>My Seller</Text>
-      </View>
-    );
+    const { navigation } = this.props;
+
+    return <DrawerScreenContainer title="My Sellers" navigation={navigation} />;
   }
 }

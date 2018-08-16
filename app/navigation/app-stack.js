@@ -67,6 +67,7 @@ import ClaimCashbackScreen from "../containers/claim-cashback-screen";
 import ClaimCashbackSelectItemsScreen from "../containers/claim-cashback-screen/select-items-screen";
 import ClaimCashbackSelectSellerScreen from "../containers/claim-cashback-screen/select-seller-screen";
 import ClaimCashbackFinalScreen from "../containers/claim-cashback-screen/final-screen";
+import MySellersScreen from "../containers/my-sellers-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -121,15 +122,12 @@ const BottomTabStack = createBottomTabNavigator(
     //     )
     //   }
     // },
-    [SCREENS.MORE_SCREEN]: {
-      screen: MoreScreen,
+    [SCREENS.MY_SELLERS_SCREEN]: {
+      screen: MySellersScreen,
       navigationOptions: {
-        tabBarLabel: "More",
+        tabBarLabel: "My Seller",
         tabBarIcon: props => (
-          <TabIcon
-            {...props}
-            source={require("../images/ic_nav_more_off.png")}
-          />
+          <TabIcon {...props} source={require("../images/seller_icon.png")} />
         )
       }
     }

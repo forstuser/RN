@@ -1,5 +1,7 @@
 import React from "react";
 import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import Modal from "react-native-modal";
 
 import { Text, Image, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
@@ -7,6 +9,18 @@ import { defaultStyles, colors } from "../../theme";
 import QuantityPlusMinus from "../../components/quantity-plus-minus";
 
 export default class SkuItem extends React.Component {
+  state = {
+    isCashbackDetailsModalVisible: false
+  };
+
+  showCashbackDetailsModal = () => {
+    this.setState({ isCashbackDetailsModalVisible: true });
+  };
+
+  hideCashbackDetailsModal = () => {
+    this.setState({ isCashbackDetailsModalVisible: false });
+  };
+
   render() {
     const {
       item,
@@ -17,6 +31,8 @@ export default class SkuItem extends React.Component {
       selectActiveSkuMeasurementId = (item, skuMeasurementId) => null,
       style = {}
     } = this.props;
+
+    const { isCashbackDetailsModalVisible } = this.state;
 
     const itemsInWishList = wishList.filter(listItem => listItem.id == item.id);
     const skuMeasurementsInWishList = itemsInWishList
@@ -153,10 +169,9 @@ export default class SkuItem extends React.Component {
         <View
           style={{
             flexDirection: "row",
-            marginTop: 10,
             justifyContent: "space-between",
             alignItems: "center",
-            height: 20
+            marginTop: cashback || item.activeSkuMeasurementId ? 10 : 0
           }}
         >
           {item.activeSkuMeasurementId ? (
@@ -195,16 +210,41 @@ export default class SkuItem extends React.Component {
             <View />
           )}
           {cashback ? (
-            <Text
-              weight="Medium"
-              style={{ fontSize: 10, color: colors.mainBlue }}
+            <TouchableOpacity
+              onPress={this.showCashbackDetailsModal}
+              style={{ flexDirection: "row", alignItems: "center" }}
             >
-              Cashback Upto ₹ {cashback}
-            </Text>
+              <Text
+                weight="Medium"
+                style={{ fontSize: 10, color: colors.mainBlue, marginRight: 3 }}
+              >
+                Cashback Upto ₹ {cashback}
+              </Text>
+              <Icon name="md-information-circle" sixe={10} />
+            </TouchableOpacity>
           ) : (
             <View />
           )}
         </View>
+        <Modal
+          isVisible={isCashbackDetailsModalVisible}
+          useNativeDriver
+          onBackButtonPress={this.hideCashbackDetailsModal}
+          onBackdropPress={this.hideCashbackDetailsModal}
+        >
+          <View
+            style={{
+              backgroundColor: "#fff",
+              height: 100,
+              borderRadius: 5,
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 10
+            }}
+          >
+            <Text>Details will come here</Text>
+          </View>
+        </Modal>
       </View>
     );
   }
