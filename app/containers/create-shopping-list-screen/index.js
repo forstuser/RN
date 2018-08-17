@@ -147,11 +147,14 @@ class ShoppingListScreen extends React.Component {
   addSkuItemToList = async item => {
     const wishList = [...this.state.wishList];
     if (
-      wishList.findIndex(
-        listItem =>
-          listItem.id == item.id &&
-          listItem.sku_measurement.id == item.sku_measurement.id
-      ) === -1
+      wishList.findIndex(listItem => {
+        if (listItem.id && item.id && listItem.id == item.id) {
+          if (listItem.sku_measurement) {
+            return listItem.sku_measurement.id == item.sku_measurement.id;
+          }
+        }
+        return false;
+      }) === -1
     ) {
       wishList.push(item);
       this.setState({ wishList });
@@ -161,6 +164,17 @@ class ShoppingListScreen extends React.Component {
         console.log(e);
       }
     }
+  };
+
+  addManualItemsToList = items => {
+    this.setState({ wishList: [...this.state.wishList, ...items] });
+    items.map(async item => {
+      try {
+        await addSkuItemToWishList(item);
+      } catch (e) {
+        console.log(e);
+      }
+    });
   };
 
   changeSkuItemQuantityInList = async (skuMeasurementId, quantity) => {
@@ -396,7 +410,9 @@ class ShoppingListScreen extends React.Component {
             addSkuItemToList={this.addSkuItemToList}
             changeSkuItemQuantityInList={this.changeSkuItemQuantityInList}
             updateItem={this.updateItem}
-            openAddManualItemModal={() => this.addManualItemModal.show()}
+            openAddManualItemModal={() =>
+              this.addManualItemModal.show(searchTerm)
+            }
           />
 
           {/* <ScrollableTabView
@@ -472,7 +488,7 @@ class ShoppingListScreen extends React.Component {
             ref={node => {
               this.addManualItemModal = node;
             }}
-            addSkuItemToList={this.addSkuItemToList}
+            addManualItemsToList={this.addManualItemsToList}
           />
           <ClearOrContinuePreviousListModal
             ref={node => {

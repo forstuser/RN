@@ -15,11 +15,11 @@ export default class AddManualItemModal extends React.Component {
   state = {
     isVisible: false,
     isLoading: false,
-    itemTitle: ""
+    items: []
   };
 
-  show = () => {
-    this.setState({ isVisible: true });
+  show = text => {
+    this.setState({ isVisible: true, items: [text] });
   };
 
   closeModal = () => {
@@ -29,21 +29,33 @@ export default class AddManualItemModal extends React.Component {
   };
 
   save = () => {
-    const { addSkuItemToList } = this.props;
-    const { itemTitle } = this.state;
-    addSkuItemToList({ title: itemTitle, quantity: 1 });
+    const { addManualItemsToList = () => null } = this.props;
+    addManualItemsToList(
+      this.state.items.map(item => ({ title: item, quantity: 1 }))
+    );
     this.closeModal();
   };
 
+  addInput = () => {
+    this.setState({ items: [...this.state.items, ""] });
+  };
+
+  changeItem = (index, text) => {
+    const items = [...this.state.items];
+    items[index] = text;
+    this.setState({ items });
+  };
+
   render() {
-    const { isVisible, isLoading, itemTitle } = this.state;
+    const { isVisible, isLoading, items } = this.state;
 
     return (
       <Modal
         isVisible={isVisible}
-        title="Add Product Manually"
+        title="Add Products Manually"
         style={{
-          height: 200,
+          height: items.length * 95,
+          minHeight: 300,
           ...defaultStyles.card
         }}
         onClosePress={this.closeModal}
@@ -55,18 +67,43 @@ export default class AddManualItemModal extends React.Component {
             justifyContent: "center"
           }}
         >
-          <TextInput
-            value={itemTitle}
-            onChangeText={itemTitle => this.setState({ itemTitle })}
-            underlineColorAndroid="transparent"
-            style={{
-              borderColor: "#dadada",
-              borderWidth: 1,
-              height: 40,
-              borderRadius: 5,
-              paddingHorizontal: 5
-            }}
-          />
+          {items.map((item, index) => (
+            <View
+              key={index}
+              style={{
+                borderColor: "#dadada",
+                borderWidth: 1,
+                height: 40,
+                borderRadius: 5,
+                paddingHorizontal: 5,
+                marginBottom: 10
+              }}
+            >
+              <TextInput
+                value={item}
+                onChangeText={text => this.changeItem(index, text)}
+                underlineColorAndroid="transparent"
+                style={{}}
+              />
+            </View>
+          ))}
+
+          {items.every(item => item.length > 0) && items.length < 4 ? (
+            <TouchableOpacity
+              onPress={this.addInput}
+              style={{ flexDirection: "row" }}
+            >
+              <Icon
+                name="md-add-circle"
+                size={16}
+                color={colors.pinkishOrange}
+              />
+              <Text weight="Medium" style={{ fontSize: 10, marginLeft: 4 }}>
+                Add Another
+              </Text>
+            </TouchableOpacity>
+          ) : null}
+
           <Button
             text="Save"
             onPress={this.save}

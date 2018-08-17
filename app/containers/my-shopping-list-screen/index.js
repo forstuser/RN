@@ -15,6 +15,8 @@ import { colors } from "../../theme";
 import Modal from "../../components/modal";
 import QuantityPlusMinus from "../../components/quantity-plus-minus";
 
+import SelectedItemsList from "./selected-items-list";
+
 export default class MyShoppingList extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const showShareBtn = navigation.getParam("showShareBtn", false);
@@ -111,124 +113,10 @@ export default class MyShoppingList extends React.Component {
             />
           </View>
         ) : (
-          <FlatList
-            contentContainerStyle={{
-              borderBottomWidth: 1,
-              borderBottomColor: "#eee"
-            }}
-            data={wishList}
-            ItemSeparatorComponent={() => (
-              <View style={{ height: 1, backgroundColor: "#eee" }} />
-            )}
-            keyExtractor={item => item.title}
-            renderItem={({ item, index }) => {
-              let cashback = 0;
-              if (
-                item.sku_measurement &&
-                item.sku_measurement.cashback_percent
-              ) {
-                cashback =
-                  (item.mrp * item.sku_measurement.cashback_percent) / 100;
-              }
-
-              return (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    padding: 10
-                  }}
-                >
-                  <View style={{ marginRight: 5 }}>
-                    <TouchableOpacity
-                      style={{
-                        width: 16,
-                        height: 16,
-                        borderRadius: 8,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: colors.success
-                      }}
-                    >
-                      <Icon name="md-checkmark" size={12} color="#fff" />
-                    </TouchableOpacity>
-                  </View>
-                  <View
-                    style={{
-                      flex: 1
-                    }}
-                  >
-                    <View style={{ flexDirection: "row" }}>
-                      <Text
-                        weight="Medium"
-                        style={{ fontSize: 10, flex: 1, marginRight: 20 }}
-                        numberOfLines={2}
-                      >
-                        {item.title}
-                        <Text
-                          style={{
-                            color: colors.secondaryText
-                          }}
-                        >
-                          {item.sku_measurement
-                            ? ` (${item.sku_measurement.measurement_value +
-                                measurementTypes[
-                                  item.sku_measurement.measurement_type
-                                ].acronym})`
-                            : ``}
-                        </Text>
-                      </Text>
-                      <QuantityPlusMinus
-                        quantity={item.quantity}
-                        onMinusPress={() => {
-                          this.changeIndexQuantity(index, item.quantity - 1);
-                        }}
-                        onPlusPress={() => {
-                          this.changeIndexQuantity(index, item.quantity + 1);
-                        }}
-                      />
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        marginTop: 5
-                      }}
-                    >
-                      <View style={{ flex: 1 }}>
-                        {cashback ? (
-                          <Text
-                            weight="Medium"
-                            style={{
-                              fontSize: 10,
-                              color: colors.mainBlue
-                            }}
-                          >
-                            Cashback Upto ₹ {cashback}
-                          </Text>
-                        ) : (
-                          <View />
-                        )}
-                      </View>
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.changeIndexQuantity(index, 0);
-                        }}
-                        style={{
-                          alignItems: "center",
-                          justifyContent: "center"
-                        }}
-                      >
-                        <Icon
-                          name="ios-trash-outline"
-                          size={25}
-                          color="#999999"
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              );
-            }}
+          <SelectedItemsList
+            measurementTypes={measurementTypes}
+            selectedItems={wishList}
+            changeIndexQuantity={this.changeIndexQuantity}
           />
         )}
         <Modal

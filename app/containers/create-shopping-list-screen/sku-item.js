@@ -69,13 +69,15 @@ export default class SkuItem extends React.Component {
       addSkuItemToList(selectedItem);
     };
 
+    let mrp = "";
     let cashback = 0;
     if (item.sku_measurements && item.activeSkuMeasurementId) {
       const skuMeasurement = item.sku_measurements.find(
         skuMeasurement => skuMeasurement.id == item.activeSkuMeasurementId
       );
+      mrp = skuMeasurement.mrp;
       if (skuMeasurement && skuMeasurement.cashback_percent) {
-        cashback = (item.mrp * skuMeasurement.cashback_percent) / 100;
+        cashback = (skuMeasurement.mrp * skuMeasurement.cashback_percent) / 100;
       }
     }
 
@@ -165,7 +167,7 @@ export default class SkuItem extends React.Component {
               </TouchableOpacity>
             ))}
         </ScrollView>
-        <Text style={{ fontSize: 10 }}>Price: ₹{item.mrp}</Text>
+        {mrp ? <Text style={{ fontSize: 10 }}>Price: ₹{mrp}</Text> : null}
         <View
           style={{
             flexDirection: "row",

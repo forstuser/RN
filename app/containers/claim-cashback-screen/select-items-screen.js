@@ -2,6 +2,7 @@ import React from "react";
 import { View, SectionList, TouchableOpacity, Animated } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import moment from "moment";
+import Modal from "react-native-modal";
 
 import {
   getSkuReferenceData,
@@ -12,13 +13,16 @@ import {
 } from "../../api";
 
 import BarcodeScanner from "../create-shopping-list-screen/barcode-scanner";
+import LoadingOverlay from "../../components/loading-overlay";
 
 import { Text, Button } from "../../elements";
 import SearchBar from "../create-shopping-list-screen/search-bar";
+import SelectedItemsList from "../my-shopping-list-screen/selected-items-list";
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS } from "../../constants";
 
 import QuantityPlusMinus from "../../components/quantity-plus-minus";
+
 import { showSnackbar } from "../../utils/snackbar";
 
 export default class SelectCashbackItems extends React.Component {
@@ -42,10 +46,9 @@ export default class SelectCashbackItems extends React.Component {
     };
   };
 
-  wishlistAndPastItemsViewPosition = new Animated.Value(0);
-
   state = {
     isBarcodeScannerVisible: false,
+    isSelectedItemsModalVisible: false,
     searchTerm: "",
     brands: [],
     selectedBrands: [],
@@ -57,7 +60,8 @@ export default class SelectCashbackItems extends React.Component {
     mainCategories: [],
     activeMainCategoryId: null,
     activeCategoryId: null,
-    measurementTypes: []
+    measurementTypes: {},
+    isLoading: false
   };
 
   componentDidMount() {
@@ -67,8 +71,8 @@ export default class SelectCashbackItems extends React.Component {
     });
     this.loadReferenceData();
 
-    const pastItems = navigation.getParam("pastItems", []);
-    this.setState({ pastItems });
+    const wishlist = navigation.getParam("wishlist", []);
+    this.setState({ selectedItems: wishlist });
   }
 
   onBarcodeBtnPress = () => {
@@ -304,6 +308,24 @@ export default class SelectCashbackItems extends React.Component {
     }
   };
 
+  changeIndexQuantity = async (index, quantity) => {
+    const selectedItems = [...this.state.selectedItems];
+    const item = selectedItems[index];
+    if (quantity <= 0) {
+      selectedItems.splice(index, 1);
+      item.quantity = 0;
+    } else {
+      selectedItems[index].quantity = quantity;
+      item.quantity = quantity;
+    }
+    try {
+      await addSkuItemToPastList(item);
+    } catch (e) {
+      console.log(e);
+    }
+    this.setState({ selectedItems });
+  };
+
   proceedToSellersScreen = () => {
     const { navigation } = this.props;
     const product = navigation.getParam("product", null);
@@ -332,12 +354,21 @@ export default class SelectCashbackItems extends React.Component {
     });
   };
 
+  showSelectedItemsModalVisible = () => {
+    this.setState({ isSelectedItemsModalVisible: true });
+  };
+
+  hideSelectedItemsModalVisible = () => {
+    this.setState({ isSelectedItemsModalVisible: false });
+  };
+
   render() {
     const { navigation } = this.props;
     const wishlist = navigation.getParam("wishlist", []);
 
     const {
       isBarcodeScannerVisible,
+      isSelectedItemsModalVisible,
       searchTerm,
       brands,
       selectedBrands,
@@ -349,7 +380,8 @@ export default class SelectCashbackItems extends React.Component {
       activeMainCategoryId,
       activeCategoryId,
       measurementTypes,
-      mainCategories
+      mainCategories,
+      isLoading
     } = this.state;
 
     const selectedIds = selectedItems.map(selectedItem => selectedItem.id);
@@ -392,15 +424,21 @@ export default class SelectCashbackItems extends React.Component {
             height: 50,
             flexDirection: "row",
             alignItems: "center",
+            justifyContent: "space-between",
             padding: 10,
             marginTop: 0,
             borderTopColor: "#eee",
             borderTopWidth: 1
           }}
         >
-          <Text weight="Bold" style={{ fontSize: 10, flex: 1 }}>
-            {selectedItems.length} Items Selected
-          </Text>
+          <TouchableOpacity
+            style={{ padding: 5 }}
+            onPress={this.showSelectedItemsModalVisible}
+          >
+            <Text weight="Bold" style={{ fontSize: 10, flex: 1 }}>
+              {selectedItems.length} Items Selected
+            </Text>
+          </TouchableOpacity>
           <Button
             onPress={this.proceedToSellersScreen}
             text="Next"
@@ -408,6 +446,28 @@ export default class SelectCashbackItems extends React.Component {
             style={{ height: 32, width: 85 }}
           />
         </View>
+        <LoadingOverlay visible={isLoading} />
+        <Modal
+          isVisible={isSelectedItemsModalVisible}
+          useNativeDriver
+          onBackButtonPress={this.hideSelectedItemsModalVisible}
+          onBackdropPress={this.hideSelectedItemsModalVisible}
+        >
+          <View
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: 5,
+              overflow: "hidden",
+              marginVertical: 50
+            }}
+          >
+            <SelectedItemsList
+              selectedItems={selectedItems}
+              measurementTypes={measurementTypes}
+              changeIndexQuantity={this.changeIndexQuantity}
+            />
+          </View>
+        </Modal>
 
         <BarcodeScanner
           visible={isBarcodeScannerVisible}

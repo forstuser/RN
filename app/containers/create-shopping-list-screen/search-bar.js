@@ -97,8 +97,6 @@ export default class SearchBar extends React.Component {
         )
       : null;
 
-    console.log("brands: ", brands);
-
     const checkedBrandIds = checkedBrands.map(checkedBrand => checkedBrand.id);
 
     selectActiveSkuMeasurementId = (item, skuMeasurementId) => {
@@ -143,6 +141,9 @@ export default class SearchBar extends React.Component {
               }}
               value={searchTerm}
               placeholder="Search"
+              onFocus={() => {
+                this.setState({ isBrandsPopupVisible: false });
+              }}
               onChangeText={text => onSearchTextChange(text)}
               returnKeyType="search"
               onSubmitEditing={this.startSearch}

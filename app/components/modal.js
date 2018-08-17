@@ -14,13 +14,14 @@ export default props => {
       useNativeDriver={true}
       avoidKeyboard={Platform.OS == "ios"}
     >
-      <View style={style}>
+      <View style={[{ borderRadius: 5, overflow: "hidden" }, style]}>
         <View
           style={{
             backgroundColor: colors.pinkishOrange,
             flexDirection: "row",
             padding: 10,
-            alignItems: "center"
+            alignItems: "center",
+            zIndex: 2
           }}
         >
           <Text
