@@ -6,4 +6,5 @@
     <string name="previous_app_shared_pref_file_key">FILE</string>
     <string name="previous_app_auth_token_key">AUTH_TOKEN</string>
     <string name="facebook_app_id">958926500922124</string>
+    <string name="default_media_location_folder">chat-media</string>
 </resources>

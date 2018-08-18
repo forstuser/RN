@@ -4,20 +4,26 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  Image
+  Image,
+  NativeModules
 } from "react-native";
+import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 import Share from "react-native-share";
 
+import { getMySellers } from "../../api";
+
 import { Text, Button } from "../../elements";
-import { colors } from "../../theme";
+import { colors, defaultStyles } from "../../theme";
 
 import Modal from "../../components/modal";
+import LoadingOverlay from "../../components/loading-overlay";
 import QuantityPlusMinus from "../../components/quantity-plus-minus";
 
 import SelectedItemsList from "./selected-items-list";
+import { showSnackbar } from "../../utils/snackbar";
 
-export default class MyShoppingList extends React.Component {
+class MyShoppingList extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const showShareBtn = navigation.getParam("showShareBtn", false);
     return {
@@ -35,7 +41,10 @@ export default class MyShoppingList extends React.Component {
 
   state = {
     isShareModalVisible: false,
-    wishList: []
+    wishList: [],
+    isLoadingMySellers: false,
+    isMySellersModalVisible: false,
+    sellers: []
   };
 
   componentDidMount() {
@@ -50,6 +59,53 @@ export default class MyShoppingList extends React.Component {
 
   onSharePress = () => {
     this.setState({ isShareModalVisible: true });
+  };
+
+  getMySellers = async () => {
+    this.setState({
+      isLoadingMySellers: true,
+      isShareModalVisible: false,
+      isMySellersModalVisible: true
+    });
+    try {
+      const res = await getMySellers();
+      this.setState({ sellers: res.result });
+    } catch (error) {
+      this.setState({ error });
+    } finally {
+      this.setState({ isLoadingMySellers: false });
+    }
+  };
+
+  startChatWithSeller = seller => {
+    this.setState({ isMySellersModalVisible: false });
+
+    const { user } = this.props;
+    var alUser = {
+      userId: String(user.id),
+      password: String(user.id),
+      displayName: String(user.name),
+      email: "",
+      authenticationTypeId: 1,
+      applicationId: "binbill40002f8f92e5e65dbc8dadc", //replace "applozic-sample-app" with Application Key from Applozic Dashboard
+      deviceApnsType: 0 //Set 0 for Development and 1 for Distribution (Release)
+    };
+
+    console.log("alUser: ", alUser);
+
+    var ApplozicChat = NativeModules.ApplozicChat;
+    console.log("ApplozicChat: ", ApplozicChat);
+    ApplozicChat.login(alUser, (error, response) => {
+      if (error) {
+        showSnackbar({ text: "Some error occurred!" });
+        //authentication failed callback
+        console.log("error: ", error);
+      } else {
+        //authentication success callback
+        console.log("response:", response);
+        ApplozicChat.openChatWithUser("seller_" + seller.id);
+      }
+    });
   };
 
   changeIndexQuantity = (index, quantity) => {
@@ -80,7 +136,13 @@ export default class MyShoppingList extends React.Component {
     const { navigation } = this.props;
     const measurementTypes = navigation.getParam("measurementTypes", []);
 
-    const { isShareModalVisible, wishList } = this.state;
+    const {
+      isShareModalVisible,
+      wishList,
+      isLoadingMySellers,
+      sellers,
+      isMySellersModalVisible
+    } = this.state;
 
     console.log("measurementTypes: ", measurementTypes);
 
@@ -151,7 +213,10 @@ export default class MyShoppingList extends React.Component {
               </View>
 
               <View style={styles.chatOptionContainer}>
-                <TouchableOpacity style={styles.chatOption}>
+                <TouchableOpacity
+                  onPress={this.getMySellers}
+                  style={styles.chatOption}
+                >
                   <Image
                     source={require("../../images/chat.png")}
                     style={styles.chatImage}
@@ -160,6 +225,41 @@ export default class MyShoppingList extends React.Component {
                 <Text weight="Medium">Chat</Text>
               </View>
             </View>
+          </View>
+        </Modal>
+
+        <Modal
+          isVisible={isMySellersModalVisible}
+          title="Select Seller"
+          onClosePress={() => this.setState({ isMySellersModalVisible: false })}
+          style={{
+            height: 300,
+            backgroundColor: "#fff"
+          }}
+        >
+          <View>
+            <FlatList
+              data={sellers}
+              renderItem={({ item }) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => this.startChatWithSeller(item)}
+                    style={{
+                      height: 90,
+                      ...defaultStyles.card,
+                      margin: 10,
+                      borderRadius: 10,
+                      padding: 15,
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text weight="Bold">{item.name}</Text>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+            <LoadingOverlay visible={isLoadingMySellers} />
           </View>
         </Modal>
       </View>
@@ -186,3 +286,11 @@ const styles = StyleSheet.create({
     height: 55
   }
 });
+
+const mapStateToProps = state => {
+  return {
+    user: state.loggedInUser
+  };
+};
+
+export default connect(mapStateToProps)(MyShoppingList);

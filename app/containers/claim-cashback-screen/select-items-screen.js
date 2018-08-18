@@ -142,7 +142,8 @@ export default class SelectCashbackItems extends React.Component {
     this.setState({
       isSearching: true,
       isSearchDone: false,
-      searchError: null
+      searchError: null,
+      items: []
     });
     const { activeCategoryId, searchTerm, selectedBrands } = this.state;
     try {

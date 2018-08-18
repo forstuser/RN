@@ -89,6 +89,8 @@ export default class SearchBar extends React.Component {
       hideAddManually = false
     } = this.props;
 
+    console.log("items in search bar: ", items);
+
     const { isBrandsPopupVisible, checkedBrands } = this.state;
 
     const activeMainCategory = activeMainCategoryId
@@ -170,6 +172,7 @@ export default class SearchBar extends React.Component {
           </View>
           <TouchableOpacity
             onPress={this.toggleBrandsPopup}
+            disabled={brands.length == 0}
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -179,7 +182,11 @@ export default class SearchBar extends React.Component {
               marginRight: 5
             }}
           >
-            <Icon name="md-options" size={25} />
+            <Icon
+              name="md-options"
+              size={25}
+              color={brands.length > 0 ? colors.mainText : colors.lighterText}
+            />
             {selectedBrands.length ? (
               <View
                 style={{
@@ -334,8 +341,8 @@ export default class SearchBar extends React.Component {
                 }
                 return null;
               }}
-              extraData={wishList}
-              keyExtractor={(item, index) => item.id}
+              extraData={{ wishList, items }}
+              keyExtractor={(item, index) => item.id + "-" + index}
             />
           </View>
         </View>
