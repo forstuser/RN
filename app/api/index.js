@@ -2017,3 +2017,18 @@ export const getMySellers = async () => {
     url: `/mysellers`
   });
 };
+
+export const getSellers = async ({
+  searchTerm,
+  limit,
+  latitude,
+  longitude
+}) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers`,
+    queryParams: {
+      search_value: searchTerm
+    }
+  });
+};

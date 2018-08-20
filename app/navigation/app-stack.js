@@ -68,6 +68,7 @@ import ClaimCashbackSelectItemsScreen from "../containers/claim-cashback-screen/
 import ClaimCashbackSelectSellerScreen from "../containers/claim-cashback-screen/select-seller-screen";
 import ClaimCashbackFinalScreen from "../containers/claim-cashback-screen/final-screen";
 import MySellersScreen from "../containers/my-sellers-screen";
+import AddSellerScreen from "../containers/add-seller-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -210,7 +211,8 @@ export default createStackNavigator(
     [SCREENS.CLAIM_CASHBACK_SCREEN]: ClaimCashbackScreen,
     [SCREENS.CLAIM_CASHBACK_SELECT_ITEMS_SCREEN]: ClaimCashbackSelectItemsScreen,
     [SCREENS.CLAIM_CASHBACK_SELECT_SELLER_SCREEN]: ClaimCashbackSelectSellerScreen,
-    [SCREENS.CLAIM_CASHBACK_FINAL_SCREEN]: ClaimCashbackFinalScreen
+    [SCREENS.CLAIM_CASHBACK_FINAL_SCREEN]: ClaimCashbackFinalScreen,
+    [SCREENS.ADD_SELLER_SCREEN]: AddSellerScreen
   },
   {
     initialRouteName: "DrawerNavigator"
