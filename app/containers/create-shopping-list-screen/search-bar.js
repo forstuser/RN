@@ -29,6 +29,7 @@ export default class SearchBar extends React.Component {
       isBrandsPopupVisible: !isBrandsPopupVisible,
       checkedBrands: selectedBrands
     });
+    this.searchInput.blur();
   };
 
   toggleBrandSelection = brand => {
@@ -136,6 +137,9 @@ export default class SearchBar extends React.Component {
             }}
           >
             <TextInput
+              ref={node => {
+                this.searchInput = node;
+              }}
               style={{
                 flex: 1,
                 height: 36,

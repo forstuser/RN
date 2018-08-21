@@ -63,7 +63,8 @@ const ProductsList = props => {
       <FlatList
         onScroll={onListScroll}
         data={products}
-        keyExtractor={item => item.id}
+        extraData={products}
+        keyExtractor={(item, index) => item.id + "" + index}
         renderItem={renderProductItem}
         onEndReached={onEndReached}
         onEndReachedThreshold={onEndReachedThreshold}

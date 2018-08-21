@@ -124,6 +124,8 @@ class ShoppingListScreen extends React.Component {
       newState.activeCategoryId = mainCategory.categories[0].id;
     } else {
       newState.items = this.state.pastItems;
+      newState.selectedBrands = [];
+      newState.brands = [];
     }
     this.setState(newState, () => {
       if (activeMainCategoryId > 0) {

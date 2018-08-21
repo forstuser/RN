@@ -66,9 +66,9 @@ class RateUsScreen extends Component {
 
   render() {
     return (
-      <View collapsable={false} >
+      <View collapsable={false}>
         {this.state.isModalVisible && (
-          <View collapsable={false} >
+          <View collapsable={false}>
             <Modal
               isVisible={true}
               useNativeDriver={true}
@@ -76,29 +76,29 @@ class RateUsScreen extends Component {
             >
               <Animated.View style={[styles.popup]}>
                 <View style={styles.container}>
-                  <View style={styles.topContainer}>
-                  </View>
+                  <View style={styles.topContainer} />
                   <View style={styles.bottomContainer}>
                     <Text weight="Bold" style={styles.title}>
                       {"Loved Your Home Manager?"}
                     </Text>
                     <Text weight="Bold" style={styles.desc}>
-                      Rate us at {
-                        Platform.OS == "ios" ? "App" : "Play"
-                      } Store and help us spread the good work!
+                      Rate us at {Platform.OS == "ios" ? "App" : "Play"} Store
+                      and help us spread the good work!
                     </Text>
-                    <View style={{
-                      flex: 1,
-                      marginHorizontal: 50,
-                      flexDirection: 'row',
-                      justifyContent: 'space-between'
-                    }}>
+                    <View
+                      style={{
+                        flex: 1,
+                        marginHorizontal: 50,
+                        flexDirection: "row",
+                        justifyContent: "space-between"
+                      }}
+                    >
                       <Button
                         borderRadius={2}
                         onPress={this.hide}
                         style={styles.btn}
                         color="grey"
-                        textStyle={{ fontSize: 12 }}
+                        textStyle={{ fontSize: 11 }}
                         text="MAYBE LATER"
                       />
                       <Button
@@ -107,7 +107,7 @@ class RateUsScreen extends Component {
                         style={styles.btn}
                         text="RATE NOW"
                         color="secondary"
-                        textStyle={{ fontSize: 12 }}
+                        textStyle={{ fontSize: 11 }}
                       />
                     </View>
                   </View>
@@ -127,25 +127,24 @@ class RateUsScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: "column"
   },
   topContainer: {
     flex: 1,
     width: 310,
     // height: 380,
-    backgroundColor: colors.pinkishOrange,
+    backgroundColor: colors.pinkishOrange
   },
   bottomContainer: {
     flex: 3,
-    backgroundColor: 'white'
-
+    backgroundColor: "white"
   },
   buttonContainer: {
-    position: 'absolute',
+    position: "absolute",
     width: 90,
     height: 90,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     bottom: 180,
     left: 110,
     borderRadius: 45,
@@ -157,7 +156,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 280,
     height: 300,
-    backgroundColor: "#fff",
+    backgroundColor: "#fff"
   },
   closeIcon: {
     position: "absolute",
@@ -167,7 +166,7 @@ const styles = StyleSheet.create({
   image: {
     width: 80,
     height: 80,
-    resizeMode: 'contain'
+    resizeMode: "contain"
   },
   title: {
     textAlign: "center",
@@ -177,7 +176,7 @@ const styles = StyleSheet.create({
   },
   desc: {
     textAlign: "center",
-    alignSelf: 'center',
+    alignSelf: "center",
     width: 220,
     fontSize: 14,
     marginTop: 10,
@@ -187,7 +186,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 40,
     borderRadius: 10,
-    marginTop: 20,
+    marginTop: 20
   }
 });
 

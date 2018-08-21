@@ -122,7 +122,8 @@ export default class ClaimCashback extends React.Component {
       let cashback = 0;
       if (item.sku_measurement && item.sku_measurement.cashback_percent) {
         cashback =
-          ((item.mrp * item.sku_measurement.cashback_percent) / 100) *
+          ((item.sku_measurement.mrp * item.sku_measurement.cashback_percent) /
+            100) *
           item.quantity;
       }
       return total + cashback;
@@ -163,13 +164,19 @@ export default class ClaimCashback extends React.Component {
                 marginTop: 10
               }}
             >
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: "row", flex: 1, marginRight: 20 }}>
                 <Text style={styles.key}>Seller:</Text>
-                <Text style={styles.value}>{seller ? seller.name : ""}</Text>
+                <Text style={[styles.value, { flexWrap: "wrap" }]}>
+                  {seller ? seller.name : ""}
+                </Text>
               </View>
-              <View style={{ flexDirection: "row" }}>
+              <View
+                style={{
+                  flexDirection: "row"
+                }}
+              >
                 <Text style={styles.key}>Expected BBCash:</Text>
-                <Text style={styles.value}>Rs. {totalCashback}</Text>
+                <Text style={styles.value}>Rs. {totalCashback.toFixed(2)}</Text>
               </View>
             </View>
             <View>
@@ -219,15 +226,19 @@ export default class ClaimCashback extends React.Component {
             <FlatList
               data={items}
               extraData={measurementTypes}
+              showsVerticalScrollIndicator={false}
               renderItem={({ item }) => {
                 let cashback = 0;
                 if (
                   item.sku_measurement &&
                   item.sku_measurement.cashback_percent
                 ) {
-                  cashback =
-                    ((item.mrp * item.sku_measurement.cashback_percent) / 100) *
-                    item.quantity;
+                  cashback = (
+                    ((item.sku_measurement.mrp *
+                      item.sku_measurement.cashback_percent) /
+                      100) *
+                    item.quantity
+                  ).toFixed(2);
                 }
 
                 return (
@@ -240,32 +251,34 @@ export default class ClaimCashback extends React.Component {
                       borderBottomWidth: 1
                     }}
                   >
-                    <View style={{ flexDirection: "row", flex: 1 }}>
+                    <View
+                      style={{ flexDirection: "row", flex: 1, marginRight: 20 }}
+                    >
                       <Text weight="Medium" style={{ fontSize: 9 }}>
-                        {item.title}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 9,
-                          color: colors.secondaryText,
-                          marginLeft: 2
-                        }}
-                      >
-                        {item.sku_measurement && measurementTypes
-                          ? `(${item.sku_measurement.measurement_value +
-                              measurementTypes[
-                                item.sku_measurement.measurement_type
-                              ].acronym})`
-                          : ``}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 9,
-                          color: colors.secondaryText,
-                          marginLeft: 2
-                        }}
-                      >
-                        x {item.quantity}
+                        {item.title + " " + item.title}
+                        <Text
+                          style={{
+                            fontSize: 9,
+                            color: colors.secondaryText,
+                            marginLeft: 2
+                          }}
+                        >
+                          {item.sku_measurement && measurementTypes
+                            ? ` (${item.sku_measurement.measurement_value +
+                                measurementTypes[
+                                  item.sku_measurement.measurement_type
+                                ].acronym})`
+                            : ``}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 9,
+                            color: colors.secondaryText,
+                            marginLeft: 2
+                          }}
+                        >
+                          {` x ${item.quantity}`}
+                        </Text>
                       </Text>
                     </View>
                     <Text style={{ fontSize: 9, color: colors.mainBlue }}>

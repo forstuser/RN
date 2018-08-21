@@ -18,15 +18,19 @@ export default class SelectedItemsList extends React.Component {
           borderBottomWidth: 1,
           borderBottomColor: "#eee"
         }}
-        data={selectedItems}
+        data={selectedItems.reverse()}
         ItemSeparatorComponent={() => (
           <View style={{ height: 1, backgroundColor: "#eee" }} />
         )}
-        keyExtractor={item => item.title}
+        keyExtractor={(item, index) => item.id + "" + index}
         renderItem={({ item, index }) => {
           let cashback = 0;
           if (item.sku_measurement && item.sku_measurement.cashback_percent) {
-            cashback = (item.mrp * item.sku_measurement.cashback_percent) / 100;
+            cashback =
+              ((item.sku_measurement.mrp *
+                item.sku_measurement.cashback_percent) /
+                100) *
+              item.quantity;
           }
 
           return (

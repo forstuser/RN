@@ -96,7 +96,10 @@ export default class SkuItem extends React.Component {
         ]}
       >
         <View style={{ flexDirection: "row" }}>
-          <Text weight="Medium" style={{ fontSize: 10, flex: 1 }}>
+          <Text
+            weight="Medium"
+            style={{ fontSize: 10, flex: 1, marginRight: 10 }}
+          >
             {item.title}
           </Text>
           {itemsInWishList.length > 0 ? (

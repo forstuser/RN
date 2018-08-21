@@ -178,8 +178,12 @@ export default class SelectCashbackItems extends React.Component {
       newState.activeCategoryId = mainCategory.categories[0].id;
     } else if (activeMainCategoryId == -1) {
       newState.items = wishlist;
+      newState.selectedBrands = [];
+      newState.brands = [];
     } else if (activeMainCategoryId == 0) {
       newState.items = pastItems;
+      newState.selectedBrands = [];
+      newState.brands = [];
     }
 
     this.setState(newState, () => {
@@ -319,12 +323,18 @@ export default class SelectCashbackItems extends React.Component {
       selectedItems[index].quantity = quantity;
       item.quantity = quantity;
     }
+
+    this.setState({ selectedItems }, () => {
+      if (this.state.selectedItems.length == 0) {
+        this.hideSelectedItemsModalVisible();
+      }
+    });
+
     try {
       await addSkuItemToPastList(item);
     } catch (e) {
       console.log(e);
     }
-    this.setState({ selectedItems });
   };
 
   proceedToSellersScreen = () => {
@@ -356,6 +366,7 @@ export default class SelectCashbackItems extends React.Component {
   };
 
   showSelectedItemsModalVisible = () => {
+    if (this.state.selectedItems.length == 0) return;
     this.setState({ isSelectedItemsModalVisible: true });
   };
 
