@@ -22,6 +22,8 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { defaultStyles } from "../../theme";
 
+import InviteSellerModal from "./invite-seller-modal";
+
 export default class MySellersScreen extends React.Component {
   static navigationOptions = {
     title: "Add Seller"
@@ -167,6 +169,7 @@ export default class MySellersScreen extends React.Component {
                 </Text>
                 {isSearchDone ? (
                   <Button
+                    onPress={() => this.inviteSellerModal.show(searchTerm)}
                     text="Invite Seller"
                     color="secondary"
                     style={{ width: 150, marginTop: 25, height: 40 }}
@@ -176,6 +179,11 @@ export default class MySellersScreen extends React.Component {
             )}
           />
         </View>
+        <InviteSellerModal
+          ref={node => {
+            this.inviteSellerModal = node;
+          }}
+        />
       </View>
     );
   }

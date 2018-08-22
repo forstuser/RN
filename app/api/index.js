@@ -2032,3 +2032,13 @@ export const getSellers = async ({
     }
   });
 };
+
+export const inviteSeller = async ({ phoneNumber }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/sellers/invite`,
+    data: {
+      contact_no: phoneNumber
+    }
+  });
+};
