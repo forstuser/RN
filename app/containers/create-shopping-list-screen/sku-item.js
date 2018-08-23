@@ -133,42 +133,62 @@ export default class SkuItem extends React.Component {
           showsHorizontalScrollIndicator={false}
         >
           {item.sku_measurements &&
-            item.sku_measurements.map(skuMeasurement => (
-              <TouchableOpacity
-                onPress={() =>
-                  selectActiveSkuMeasurementId(item, skuMeasurement.id)
-                }
-                style={[
-                  {
-                    height: 20,
-                    backgroundColor: "#fff",
-                    borderColor: colors.pinkishOrange,
-                    borderWidth: 1,
-                    borderRadius: 10,
-                    minWidth: 50,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginRight: 5
-                  },
-                  skuMeasurement.id == item.activeSkuMeasurementId
-                    ? { backgroundColor: colors.pinkishOrange }
-                    : {}
-                ]}
-              >
-                <Text
-                  weight="Medium"
+            item.sku_measurements.map(skuMeasurement => {
+              const isSkuInWishList = wishList.some(
+                listItem =>
+                  listItem.sku_measurement &&
+                  listItem.sku_measurement.id == skuMeasurement.id
+              );
+              return (
+                <TouchableOpacity
+                  onPress={() =>
+                    selectActiveSkuMeasurementId(item, skuMeasurement.id)
+                  }
                   style={[
-                    { color: colors.secondaryText, fontSize: 10 },
+                    {
+                      height: 20,
+                      backgroundColor: "#fff",
+                      borderColor: colors.pinkishOrange,
+                      borderWidth: 1,
+                      borderRadius: 10,
+                      minWidth: 50,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginRight: 5,
+                      flexDirection: "row"
+                    },
                     skuMeasurement.id == item.activeSkuMeasurementId
-                      ? { color: "#fff" }
+                      ? { backgroundColor: colors.pinkishOrange }
                       : {}
                   ]}
                 >
-                  {skuMeasurement.measurement_value +
-                    measurementTypes[skuMeasurement.measurement_type].acronym}
-                </Text>
-              </TouchableOpacity>
-            ))}
+                  {isSkuInWishList ? (
+                    <View
+                      style={{
+                        width: 6,
+                        height: 6,
+                        borderRadius: 3,
+                        backgroundColor: colors.success,
+                        marginTop: 0,
+                        marginRight: 2
+                      }}
+                    />
+                  ) : null}
+                  <Text
+                    weight="Medium"
+                    style={[
+                      { color: colors.secondaryText, fontSize: 10 },
+                      skuMeasurement.id == item.activeSkuMeasurementId
+                        ? { color: "#fff" }
+                        : {}
+                    ]}
+                  >
+                    {skuMeasurement.measurement_value +
+                      measurementTypes[skuMeasurement.measurement_type].acronym}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
         </ScrollView>
         {mrp ? <Text style={{ fontSize: 10 }}>Price: ₹{mrp}</Text> : null}
         <View

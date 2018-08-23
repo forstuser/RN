@@ -31,6 +31,7 @@ export default class MySellersScreen extends React.Component {
   };
 
   componentDidMount() {
+    // navigator.Geolocation.getCurrentPosition();
     this.getMySellers();
   }
 
@@ -123,6 +124,7 @@ export default class MySellersScreen extends React.Component {
                     avail additional benefits from Seller.
                   </Text>
                   <Button
+                    onPress={this.openAddSellerScreen}
                     text="Add Seller Now"
                     color="secondary"
                     style={{ width: 260, marginTop: 40 }}
@@ -263,17 +265,67 @@ export default class MySellersScreen extends React.Component {
                         ) : null}
                       </View>
 
-                      <View style={{ flexDirection: "row", marginTop: 5 }}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center"
+                        }}
+                      >
                         <Text style={{ fontSize: 11 }}>Credit Due : </Text>
-                        <Text style={{ fontSize: 11, color: colors.mainBlue }}>
-                          Rs. {item.credit_total}
-                        </Text>
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.props.navigation.navigate(
+                              SCREENS.MY_SELLERS_CREDIT_TRANSACTIONS_SCREEN,
+                              { seller: item }
+                            )
+                          }
+                          style={{
+                            flexDirection: "row",
+                            paddingVertical: 5,
+                            alignItems: "center"
+                          }}
+                        >
+                          <Text
+                            style={{ fontSize: 11, color: colors.mainBlue }}
+                          >
+                            Rs. {item.credit_total}
+                          </Text>
+                          <Icon
+                            name="md-information-circle"
+                            sixe={10}
+                            style={{ marginTop: 2, marginLeft: 5 }}
+                          />
+                        </TouchableOpacity>
                       </View>
-                      <View style={{ flexDirection: "row", marginTop: 5 }}>
+                      <View
+                        style={{ flexDirection: "row", alignItems: "center" }}
+                      >
                         <Text style={{ fontSize: 11 }}>Points Earned : </Text>
-                        <Text style={{ fontSize: 11, color: colors.mainBlue }}>
-                          {item.loyalty_total}
-                        </Text>
+
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.props.navigation.navigate(
+                              SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN,
+                              { seller: item }
+                            )
+                          }
+                          style={{
+                            flexDirection: "row",
+                            paddingVertical: 5,
+                            alignItems: "center"
+                          }}
+                        >
+                          <Text
+                            style={{ fontSize: 11, color: colors.mainBlue }}
+                          >
+                            {item.loyalty_total}
+                          </Text>
+                          <Icon
+                            name="md-information-circle"
+                            sixe={10}
+                            style={{ marginTop: 2, marginLeft: 5 }}
+                          />
+                        </TouchableOpacity>
                       </View>
                       <Button
                         text="Redeem Points"
@@ -320,7 +372,15 @@ export default class MySellersScreen extends React.Component {
                         Chat
                       </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.bottomButton}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate(
+                          SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN,
+                          { seller: item }
+                        )
+                      }
+                      style={styles.bottomButton}
+                    >
                       <Icon
                         name="ios-construct-outline"
                         style={styles.bottomButtonIcon}

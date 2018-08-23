@@ -67,9 +67,12 @@ import ClaimCashbackScreen from "../containers/claim-cashback-screen";
 import ClaimCashbackSelectItemsScreen from "../containers/claim-cashback-screen/select-items-screen";
 import ClaimCashbackSelectSellerScreen from "../containers/claim-cashback-screen/select-seller-screen";
 import ClaimCashbackFinalScreen from "../containers/claim-cashback-screen/final-screen";
-import MySellersScreen from "../containers/my-sellers-screen";
 import AddSellerScreen from "../containers/add-seller-screen";
 import SellerDetailsScreen from "../containers/seller-details-screen";
+import MySellersScreen from "../containers/my-sellers-screen";
+import MySellersCreditTransactionsScreen from "../containers/my-sellers-screen/credit-transactions";
+import MySellersPointsTransactionsScreen from "../containers/my-sellers-screen/points-transactions";
+import MySellersAssistedServicesScreen from "../containers/my-sellers-screen/assisted-services";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -214,7 +217,10 @@ export default createStackNavigator(
     [SCREENS.CLAIM_CASHBACK_SELECT_SELLER_SCREEN]: ClaimCashbackSelectSellerScreen,
     [SCREENS.CLAIM_CASHBACK_FINAL_SCREEN]: ClaimCashbackFinalScreen,
     [SCREENS.ADD_SELLER_SCREEN]: AddSellerScreen,
-    [SCREENS.SELLER_DETAILS_SCREEN]: SellerDetailsScreen
+    [SCREENS.SELLER_DETAILS_SCREEN]: SellerDetailsScreen,
+    [SCREENS.MY_SELLERS_CREDIT_TRANSACTIONS_SCREEN]: MySellersCreditTransactionsScreen,
+    [SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN]: MySellersPointsTransactionsScreen,
+    [SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN]: MySellersAssistedServicesScreen
   },
   {
     initialRouteName: "DrawerNavigator"

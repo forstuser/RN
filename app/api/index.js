@@ -2042,3 +2042,10 @@ export const inviteSeller = async ({ phoneNumber }) => {
     }
   });
 };
+
+export const getSellerDetails = async (sellerId) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers/${sellerId}`
+  });
+};

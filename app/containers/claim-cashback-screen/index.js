@@ -179,11 +179,13 @@ export default class ClaimCashback extends React.Component {
 
     if (copies.length == 0) {
       return showSnackbar({ text: "Please upload bill first" });
-    } else if (!purchaseDate || moment().diff(purchaseDate, "days") != 0) {
-      return showSnackbar({
-        text: "Cashbacks are allowed only for purchases made today"
-      });
-    } else if (!amount) {
+    }
+    // else if (!purchaseDate || moment().diff(purchaseDate, "days") != 0) {
+    //   return showSnackbar({
+    //     text: "Cashbacks are allowed only for purchases made today"
+    //   });
+    // }
+    else if (!amount) {
       return showSnackbar({ text: "Please enter the bill amount" });
     }
 

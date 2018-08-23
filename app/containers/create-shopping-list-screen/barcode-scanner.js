@@ -98,9 +98,7 @@ export default class BarcodeScanner extends React.Component {
                 item={item}
                 wishList={wishList}
                 addSkuItemToList={addSkuItemToList}
-                changeSkuItemQuantityInList={
-                  changeSkuItemQuantityInList
-                }
+                changeSkuItemQuantityInList={changeSkuItemQuantityInList}
                 selectActiveSkuMeasurementId={this.selectActiveSkuMeasurementId}
               />
               <View
@@ -114,7 +112,7 @@ export default class BarcodeScanner extends React.Component {
                   text="Rescan"
                   style={{ width: 120, height: 40 }}
                   textStyle={{ fontSize: 12 }}
-                  color="secondary"
+                  color="grey"
                   onPress={() => this.setState({ item: null })}
                 />
                 <Button
@@ -172,14 +170,14 @@ export default class BarcodeScanner extends React.Component {
                   text="Cancel"
                   style={{ width: 100, height: 40 }}
                   textStyle={{ fontSize: 12 }}
-                  type="outline"
+                  color="grey"
                   onPress={this.closeModal}
                 />
                 <Button
                   text="Retry"
                   style={{ width: 100, height: 40 }}
                   textStyle={{ fontSize: 12 }}
-                  type="outline"
+                  color="secondary"
                   onPress={() => this.setState({ itemNotFound: false })}
                 />
               </View>
