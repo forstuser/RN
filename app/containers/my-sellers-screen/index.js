@@ -8,10 +8,12 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
+import call from "react-native-phone-call";
+import { connect } from "react-redux";
 
-import ScrollableTabView, {
-  ScrollableTabBar
-} from "react-native-scrollable-tab-view";
+import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
+
+import { loginToApplozic, openChatWithSeller } from "../../applozic";
 
 import { API_BASE_URL, getMySellers } from "../../api";
 
@@ -22,12 +24,14 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS } from "../../constants";
+import { showSnackbar } from "../../utils/snackbar";
 
-export default class MySellersScreen extends React.Component {
+class MySellersScreen extends React.Component {
   state = {
     mySellers: [],
     isLoadingMySellers: false,
-    error: null
+    error: null,
+    phoneNumbers: []
   };
 
   componentDidMount() {
@@ -53,9 +57,40 @@ export default class MySellersScreen extends React.Component {
     this.props.navigation.navigate(SCREENS.ADD_SELLER_SCREEN);
   };
 
+  openCallOptions = seller => {
+    if (seller.contact_no) {
+      this.setState({ phoneNumbers: [seller.contact_no] }, () => {
+        this.phoneOptions.show();
+      });
+    } else {
+      showSnackbar({ text: "Phone number not available" });
+    }
+  };
+
+  handlePhonePress = index => {
+    if (index < this.state.phoneNumbers.length) {
+      call({ number: this.state.phoneNumbers[index] }).catch(e =>
+        showSnackbar({
+          text: e.message
+        })
+      );
+    }
+  };
+
+  startChatWithSeller = async seller => {
+    this.setState({ isMySellersModalVisible: false });
+    const { user } = this.props;
+    try {
+      await loginToApplozic({ id: user.id, name: user.name });
+      openChatWithSeller({ id: seller.id });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    }
+  };
+
   render() {
     const { navigation } = this.props;
-    const { mySellers, isLoadingMySellers } = this.state;
+    const { mySellers, isLoadingMySellers, phoneNumbers } = this.state;
 
     console.log("mySellers: ", mySellers);
 
@@ -199,7 +234,7 @@ export default class MySellersScreen extends React.Component {
                           starColor={colors.yellow}
                           disabled={true}
                           maxStars={5}
-                          rating={Number(3.5)}
+                          rating={Number(item.ratings)}
                           halfStarEnabled={true}
                           starSize={11}
                           starStyle={{ marginHorizontal: 0 }}
@@ -215,7 +250,7 @@ export default class MySellersScreen extends React.Component {
                           ({item.ratings})
                         </Text>
                       </View>
-                      {!item.is_service ? (
+                      {item.is_service ? (
                         <Text
                           style={{
                             color: "#208e07",
@@ -233,7 +268,9 @@ export default class MySellersScreen extends React.Component {
                           <Text weight="Bold" style={{ fontSize: 13 }}>
                             {item.name}
                           </Text>
-                          <Text style={{ fontSize: 11 }}>John Smith</Text>
+                          <Text style={{ fontSize: 11 }}>
+                            {item.owner_name}
+                          </Text>
                         </View>
                         {item.offer_count ? (
                           <View
@@ -333,10 +370,28 @@ export default class MySellersScreen extends React.Component {
                         style={{ height: 30, width: 115, marginTop: 10 }}
                         textStyle={{ fontSize: 11 }}
                       />
-                      <ScrollView>
+                      <ScrollView horizontal style={{ marginTop: 11 }}>
                         {item.categories.map(category => (
-                          <View>
-                            <Text>{String(category)}</Text>
+                          <View
+                            style={{
+                              height: 18,
+                              borderColor: colors.pinkishOrange,
+                              borderWidth: 1,
+                              alignItems: "center",
+                              justifyContent: "center",
+                              borderRadius: 9,
+                              paddingHorizontal: 7
+                            }}
+                          >
+                            <Text
+                              style={{
+                                color: colors.pinkishOrange,
+                                fontSize: 8,
+                                marginTop: -3
+                              }}
+                            >
+                              category
+                            </Text>
                           </View>
                         ))}
                       </ScrollView>
@@ -350,7 +405,10 @@ export default class MySellersScreen extends React.Component {
                       paddingTop: 1
                     }}
                   >
-                    <TouchableOpacity style={styles.bottomButton}>
+                    <TouchableOpacity
+                      onPress={() => this.openCallOptions(item)}
+                      style={styles.bottomButton}
+                    >
                       <Icon
                         name="ios-call-outline"
                         style={styles.bottomButtonIcon}
@@ -361,6 +419,7 @@ export default class MySellersScreen extends React.Component {
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
+                      onPress={() => this.startChatWithSeller(item)}
                       style={[styles.bottomButton, { marginHorizontal: 1 }]}
                     >
                       <Icon
@@ -395,6 +454,17 @@ export default class MySellersScreen extends React.Component {
               );
             }}
           />
+          <ActionSheet
+            onPress={this.handlePhonePress}
+            ref={o => (this.phoneOptions = o)}
+            title={
+              phoneNumbers.length > 0
+                ? "Select a phone number"
+                : "Phone Number Not Available"
+            }
+            cancelButtonIndex={phoneNumbers.length}
+            options={[...phoneNumbers, "Cancel"]}
+          />
         </View>
       </DrawerScreenContainer>
     );
@@ -417,3 +487,11 @@ const styles = StyleSheet.create({
     fontSize: 9
   }
 });
+
+const mapStateToProps = state => {
+  return {
+    user: state.loggedInUser
+  };
+};
+
+export default connect(mapStateToProps)(MySellersScreen);

@@ -42,14 +42,7 @@ export default class MySellersAssistedServicesScreen extends React.Component {
     try {
       const res = await getSellerDetails(seller.id);
       this.setState({
-        services: [
-          {
-            id: 32392835924,
-            image: "",
-            name: "Pickup/Drop/Delivery Person",
-            details: "Per Transaction or Per Km Rate : Rs. 100"
-          }
-        ]
+        services: res.result.assisted_services
       });
     } catch (error) {
       this.setState({ error });
@@ -88,6 +81,7 @@ export default class MySellersAssistedServicesScreen extends React.Component {
               </View>
             ) : null
           }
+          keyExtractor={(item, index) => item + "" + index}
           renderItem={({ item }) => (
             <View
               style={{
@@ -106,7 +100,7 @@ export default class MySellersAssistedServicesScreen extends React.Component {
                   borderRadius: 35,
                   backgroundColor: "#eee"
                 }}
-                source={{ uri: API_BASE_URL + item.image }}
+                source={{ uri: API_BASE_URL + item.document_details.file_name }}
               />
 
               <View style={{ flex: 1, paddingHorizontal: 5 }}>

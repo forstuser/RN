@@ -11,6 +11,8 @@ import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 import Share from "react-native-share";
 
+import { loginToApplozic, openChatWithSeller } from "../../applozic";
+
 import { getMySellers } from "../../api";
 
 import { Text, Button } from "../../elements";
@@ -77,35 +79,15 @@ class MyShoppingList extends React.Component {
     }
   };
 
-  startChatWithSeller = seller => {
+  startChatWithSeller = async seller => {
     this.setState({ isMySellersModalVisible: false });
-
     const { user } = this.props;
-    var alUser = {
-      userId: String(user.id),
-      password: String(user.id),
-      displayName: String(user.name),
-      email: "",
-      authenticationTypeId: 1,
-      applicationId: "binbill40002f8f92e5e65dbc8dadc", //replace "applozic-sample-app" with Application Key from Applozic Dashboard
-      deviceApnsType: 0 //Set 0 for Development and 1 for Distribution (Release)
-    };
-
-    console.log("alUser: ", alUser);
-
-    var ApplozicChat = NativeModules.ApplozicChat;
-    console.log("ApplozicChat: ", ApplozicChat);
-    ApplozicChat.login(alUser, (error, response) => {
-      if (error) {
-        showSnackbar({ text: "Some error occurred!" });
-        //authentication failed callback
-        console.log("error: ", error);
-      } else {
-        //authentication success callback
-        console.log("response:", response);
-        ApplozicChat.openChatWithUser("seller_" + seller.id);
-      }
-    });
+    try {
+      await loginToApplozic({ id: user.id, name: user.name });
+      openChatWithSeller({ id: seller.id });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    }
   };
 
   changeIndexQuantity = (index, quantity) => {

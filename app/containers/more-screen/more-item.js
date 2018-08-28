@@ -13,7 +13,7 @@ import { colors } from "../../theme";
 const MoreItem = ({ imageSource, text, onPress, btnText, imageStyle = {} }) => (
   <TouchableOpacity onPress={onPress} style={styles.data}>
     <Image
-      style={[styles.logo, imageStyle]}
+      style={[styles.image, imageStyle]}
       source={imageSource}
       resizeMode="contain"
     />
@@ -34,19 +34,19 @@ const MoreItem = ({ imageSource, text, onPress, btnText, imageStyle = {} }) => (
 
 const styles = StyleSheet.create({
   data: {
-    height: 60,
-    padding: 30,
+    height: 40,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
     flexDirection: "row",
-    borderColor: "#ececec",
-    borderBottomWidth: 1,
     alignItems: "center",
     backgroundColor: "#fff"
   },
-  logo: {
-    width: 24,
-    height: 24,
+  image: {
+    width: 20,
+    height: 20,
     marginRight: 12,
-    tintColor: colors.mainBlue
+    tintColor: colors.mainBlue,
+    tintColor: "#b5b5b5"
   },
   textContainer: {
     height: 24,
@@ -54,19 +54,20 @@ const styles = StyleSheet.create({
     flex: 1
   },
   text: {
-    color: "#4a4a4a"
+    color: "#4a4a4a",
+    fontSize: 9
   },
   btn: {
     borderWidth: 1,
     borderColor: colors.pinkishOrange,
     borderRadius: 15,
     paddingHorizontal: 10,
-    height: 30,
+    height: 20,
     alignItems: "center",
     justifyContent: "center"
   },
   btnText: {
-    fontSize: 12,
+    fontSize: 9,
     color: colors.pinkishOrange
   }
 });

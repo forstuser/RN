@@ -25,6 +25,10 @@ import LanguageOptions from "../../components/language-options";
 import I18n from "../../i18n";
 import { showSnackbar } from "../../utils/snackbar";
 
+const Separator = () => (
+  <View style={{ height: 1, backgroundColor: "#d4d4d4" }} />
+);
+
 class Body extends Component {
   constructor(props) {
     super(props);
@@ -146,7 +150,13 @@ class Body extends Component {
         <MoreItem
           onPress={this.onOrderHistoryPress}
           imageSource={require("../../images/orders_icon.png")}
-          text={"My Orders"}
+          text={"My Transactions"}
+          imageStyle={{ width: 20, height: 20 }}
+        />
+        <MoreItem
+          onPress={this.onOrderHistoryPress}
+          imageSource={require("../../images/orders_icon.png")}
+          text={"Cashback BIlls"}
           imageStyle={{ width: 20, height: 20 }}
         />
         <MoreItem
@@ -171,11 +181,23 @@ class Body extends Component {
           imageSource={require("../../images/ic_nav_asc_on.png")}
           text={I18n.t("more_screen_item_app_search_authorized")}
         />
+        <Separator />
         <MoreItem
           onPress={this.onEhomeItemPress}
           imageSource={require("../../images/ic_more_refer.png")}
           text={I18n.t("more_screen_item_tips")}
         />
+        <MoreItem
+          onPress={this.onFaqItemPress}
+          imageSource={require("../../images/ic_more_faq.png")}
+          text={I18n.t("more_screen_item_faq")}
+        />
+        <MoreItem
+          onPress={this.onFaqItemPress}
+          imageSource={require("../../images/ic_more_faq.png")}
+          text={"Cashback Query"}
+        />
+        <Separator />
         <MoreItem
           onPress={() =>
             call({ number: "+917600919189" }).catch(e =>
@@ -197,12 +219,7 @@ class Body extends Component {
           imageSource={require("../../images/ic_share_blue.png")}
           text={I18n.t("more_screen_item_share")}
         />
-
-        <MoreItem
-          onPress={this.onFaqItemPress}
-          imageSource={require("../../images/ic_more_faq.png")}
-          text={I18n.t("more_screen_item_faq")}
-        />
+        <Separator />
         <MoreItem
           onPress={this.onVersionItemPress}
           imageSource={require("../../images/ic_info_blue.png")}

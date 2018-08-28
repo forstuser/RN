@@ -53,6 +53,13 @@ public class MainActivity extends ReactActivity {
     }
   }
 
+  // my new code here
+  // @Override
+  // protected void onPause() {
+  //   SplashScreen.hide(this);
+  //   super.onPause();
+  // }
+
   @Override
   public void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
