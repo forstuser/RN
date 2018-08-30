@@ -24,11 +24,11 @@ import EditOptionRow from "./edit-option-row";
 
 class WarrantyDetails extends React.Component {
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     const { warrantyDetails } = product;
 
     const WarrantyItem = ({ warranty, warrantyType }) => (
-      <View style={styles.card}>
+      <View collapsable={false} style={styles.card}>
         <EditOptionRow
           text={
             warranty.warranty_type == WARRANTY_TYPES.NORMAL
@@ -37,9 +37,13 @@ class WarrantyDetails extends React.Component {
           }
           onEditPress={() => {
             if (warranty.warranty_type == WARRANTY_TYPES.NORMAL) {
-              Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'warranty' });
+              Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, {
+                entity: "warranty"
+              });
             } else {
-              Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'extended warranty' });
+              Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, {
+                entity: "extended warranty"
+              });
             }
             this.props.openAddEditWarrantyScreen(
               warranty,
@@ -47,6 +51,27 @@ class WarrantyDetails extends React.Component {
             );
           }}
         />
+        {warranty.copies ? (
+          <ViewBillRow
+            collapsable={false}
+            expiryDate={warranty.expiryDate}
+            purchaseDate={warranty.purchaseDate}
+            docType="Warranty"
+            copies={warranty.copies || []}
+          />
+        ) : (
+          <View />
+        )}
+        {warranty.warranty_type == WARRANTY_TYPES.EXTENDED &&
+        warranty.provider ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_warranty_provider")}
+            valueText={warranty.provider ? warranty.provider.name : "-"}
+          />
+        ) : (
+          <View />
+        )}
+
         <KeyValueItem
           keyText={I18n.t("product_details_screen_warranty_expiry_date")}
           valueText={
@@ -55,31 +80,32 @@ class WarrantyDetails extends React.Component {
           }
         />
 
-        {warranty.warranty_type == WARRANTY_TYPES.EXTENDED && (
+        {warranty.warranty_type == WARRANTY_TYPES.EXTENDED && warranty.value ? (
           <KeyValueItem
-            keyText={I18n.t("product_details_screen_warranty_provider")}
-            valueText={warranty.provider ? warranty.provider.name : "-"}
+            keyText={I18n.t("product_details_screen_warranty_amount")}
+            valueText={warranty.value ? "₹ " + warranty.value : "-"}
           />
+        ) : (
+          <View />
         )}
-
-        <ViewBillRow
-          expiryDate={warranty.expiryDate}
-          purchaseDate={warranty.purchaseDate}
-          docType="Warranty"
-          copies={warranty.copies || []}
-        />
       </View>
     );
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         {product.categoryId != 664 && (
-          <ScrollView horizontal={true} style={styles.slider}>
+          <ScrollView
+            horizontal={true}           showsHorizontalScrollIndicator={false}
+            style={styles.slider}
+            showsHorizontalScrollIndicator={true}
+          >
             {warrantyDetails
               .filter(
                 warranty => warranty.warranty_type == WARRANTY_TYPES.NORMAL
               )
-              .map(warranty => <WarrantyItem warranty={warranty} />)}
+              .map((warranty, index) => (
+                <WarrantyItem key={index} warranty={warranty} />
+              ))}
             <AddItemBtn
               text={I18n.t("product_details_screen_add_warranty")}
               onPress={() =>
@@ -98,7 +124,11 @@ class WarrantyDetails extends React.Component {
           warrantyDetails.filter(
             warranty => warranty.warranty_type == WARRANTY_TYPES.EXTENDED
           ).length > 0 && (
-            <ScrollView horizontal={true} style={styles.slider}>
+            <ScrollView
+              horizontal={true}           showsHorizontalScrollIndicator={false}
+              style={styles.slider}
+              showsHorizontalScrollIndicator={true}
+            >
               {warrantyDetails
                 .filter(
                   warranty => warranty.warranty_type == WARRANTY_TYPES.EXTENDED
@@ -128,7 +158,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   },
   card: {
-    width: 300,
+    width: 290,
     backgroundColor: "#fff",
     marginRight: 20,
     marginLeft: 5,

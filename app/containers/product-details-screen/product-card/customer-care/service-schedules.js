@@ -16,14 +16,14 @@ import KeyValueItem from "../../../../components/key-value-item";
 
 class ServiceSchedules extends React.Component {
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     const { schedule, serviceSchedules } = product;
 
     const ScheduleItem = ({ schedule }) => (
       <KeyValueItem
         keyText={`${schedule.service_number}\n(${
           SERVICE_TYPE_NAMES[schedule.service_type]
-        })`}
+          })`}
         ValueComponent={() => (
           <Text
             weight="Medium"
@@ -35,15 +35,15 @@ class ServiceSchedules extends React.Component {
             {moment(schedule.due_date).format("MMM DD, YYYY") +
               " or\n" +
               schedule.distance +
-              "Kms"}
+              " kms"}
           </Text>
         )}
       />
     );
 
     return (
-      <View style={styles.container}>
-        <View style={styles.card}>
+      <View collapsable={false} style={styles.container}>
+        <View collapsable={false} style={styles.card}>
           {serviceSchedules.map(schedule => (
             <ScheduleItem schedule={schedule} />
           ))}

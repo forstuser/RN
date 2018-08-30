@@ -4,7 +4,11 @@ import { StyleSheet, View, Image, Alert, TouchableOpacity } from "react-native";
 import moment from "moment";
 
 import { MAIN_CATEGORY_IDS } from "../../constants";
-import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
+import {
+  API_BASE_URL,
+  getReferenceDataBrands,
+  getReferenceDataModels
+} from "../../api";
 
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
@@ -27,14 +31,17 @@ class BasicDetailsForm extends React.Component {
       nextDueDate: null,
       nextDueDateId: null,
       sellerName: "",
+      sellerAddress: "",
       sellerContact: ""
     };
   }
 
-  componentDidMount() {}
-
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { copies } = this.props;
+    this.setState({
+      copies: copies || []
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -53,7 +60,7 @@ class BasicDetailsForm extends React.Component {
       value = null,
       sellerName = "",
       sellerContact = "",
-      copies = []
+      sellerAddress = ""
     } = props;
 
     let selectedSubCategory = null;
@@ -76,8 +83,8 @@ class BasicDetailsForm extends React.Component {
       selectedSubCategory,
       value,
       sellerName,
-      sellerContact,
-      copies
+      sellerAddress,
+      sellerContact
     });
   };
 
@@ -90,6 +97,7 @@ class BasicDetailsForm extends React.Component {
       nextDueDate,
       nextDueDateId,
       sellerName,
+      sellerAddress,
       value
     } = this.state;
 
@@ -108,6 +116,7 @@ class BasicDetailsForm extends React.Component {
       productName: expenseName || category.name,
       purchaseDate: date,
       sellerName: sellerName,
+      sellerAddress: sellerAddress,
       sellerContact: this.sellerContactRef
         ? this.sellerContactRef.getFilledData()
         : undefined,
@@ -148,44 +157,53 @@ class BasicDetailsForm extends React.Component {
       selectedSubCategory,
       value,
       sellerName,
+      sellerAddress,
       sellerContact,
       copies
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <Text weight="Medium" style={styles.headerText}>
           {I18n.t("expense_forms_expense_basic_detail")}
         </Text>
-        <View style={styles.body}>
-          {subCategories.length > 0 && (
+        <View collapsable={false} style={styles.body}>
+          {subCategories.length > 0 ? (
             <SelectModal
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_expense_basic_expense")}
               placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
+                <View collapsable={false} style={{ flexDirection: "row" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
                 </View>
               )}
               selectedOption={selectedSubCategory}
-              options={subCategories}
+              options={subCategories.map(subCategory => ({
+                ...subCategory,
+                image: API_BASE_URL + subCategory.categoryImageUrl
+              }))}
+              imageKey="image"
               onOptionSelect={value => {
                 this.onSubCategorySelect(value);
               }}
               hideAddNew={true}
             />
-          )}
+          ) : (
+              <View collapsable={false} />
+            )}
 
-          {showFullForm && (
+          {showFullForm ? (
             <CustomTextInput
               placeholder={I18n.t("expense_forms_expense_basic_expense_name")}
               value={expenseName}
               onChangeText={expenseName => this.setState({ expenseName })}
               hint={I18n.t("expense_forms_expense_basic_expense_recommend")}
             />
-          )}
+          ) : (
+              <View collapsable={false} />
+            )}
 
           <CustomDatePicker
             date={date}
@@ -206,7 +224,7 @@ class BasicDetailsForm extends React.Component {
           />
 
           {/* if category is of 'utility' type */}
-          {categoryId == 634 && (
+          {categoryId == 634 ? (
             <CustomDatePicker
               date={nextDueDate}
               placeholder={I18n.t(
@@ -217,16 +235,23 @@ class BasicDetailsForm extends React.Component {
                 this.setState({ nextDueDate });
               }}
             />
-          )}
+          ) : (
+              <View collapsable={false} />
+            )}
 
-          {showFullForm && (
-            <View>
+          {showFullForm ? (
+            <View collapsable={false}>
               <CustomTextInput
                 placeholder={I18n.t(
                   "expense_forms_expense_basic_expense_seller_name"
                 )}
                 value={sellerName}
                 onChangeText={sellerName => this.setState({ sellerName })}
+              />
+              <CustomTextInput
+                placeholder={"Seller Address"}
+                value={sellerAddress}
+                onChangeText={sellerAddress => this.setState({ sellerAddress })}
               />
               <ContactFields
                 ref={ref => (this.sellerContactRef = ref)}
@@ -236,12 +261,14 @@ class BasicDetailsForm extends React.Component {
                 )}
               />
             </View>
-          )}
+          ) : (
+              <View collapsable={false} />
+            )}
         </View>
         <UploadDoc
           title={I18n.t("expense_forms_expense_basic_detail")}
           placeholder={I18n.t("expense_forms_expense_basic_upload_bill")}
-          placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+          hint={I18n.t("expense_forms_amc_form_amc_recommended")}
           placeholder2Color={colors.mainBlue}
           productId={productId}
           itemId={productId}
@@ -252,7 +279,7 @@ class BasicDetailsForm extends React.Component {
             console.log("upload result: ", uploadResult);
             this.setState({ copies: uploadResult.product.copies });
           }}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
       </View>
     );

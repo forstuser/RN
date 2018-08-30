@@ -35,16 +35,12 @@ class PucDetails extends Component {
   openAddEditPucScreen = puc => {
     const { product } = this.props;
 
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_PUC_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        puc: puc
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_PUC_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      puc: puc
     });
   };
 
@@ -53,12 +49,12 @@ class PucDetails extends Component {
     const { pucDetails } = product;
 
     return (
-      <View>
+      <View collapsable={false}>
         <Collapsible headerText={I18n.t("product_details_screen_puc_title")}>
-          {pucDetails.length > 0 && (
-            <View>
+          {pucDetails.length > 0 ? (
+            <View collapsable={false}>
               {pucDetails.map(puc => (
-                <View>
+                <View collapsable={false}>
                   <EditOptionRow
                     date={puc.expiryDate}
                     onEditPress={() => {
@@ -66,6 +62,7 @@ class PucDetails extends Component {
                     }}
                   />
                   <ViewBillRow
+                    collapsable={false}
                     expiryDate={puc.expiryDate}
                     purchaseDate={puc.purchaseDate}
                     docType="PUC"
@@ -107,8 +104,7 @@ class PucDetails extends Component {
                 </View>
               ))}
             </View>
-          )}
-          {pucDetails.length == 0 && (
+          ) : (
             <Text
               weight="Bold"
               style={{ textAlign: "center", padding: 16, color: "red" }}

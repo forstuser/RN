@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import moment from "moment";
-import { Text, Button } from "../../elements";
+import { Text, Button, Image } from "../../elements";
 import I18n from "../../i18n";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
@@ -15,7 +15,7 @@ const isDateInPastOrInNextTenDays = date => {
       .startOf("day"),
     "days"
   );
-  return diff <= 10;
+  return diff <= 10 && diff > -11;
 };
 
 const expiringInText = date => {
@@ -78,12 +78,13 @@ const ProductListItem = ({ product, onPress }) => {
       <Image
         style={styles.image}
         source={{
-          uri: API_BASE_URL + product.cImageURL + "?t=" + moment().format("X")
+          uri: API_BASE_URL + product.cImageURL
         }}
+        resizeMode="contain"
       />
-      <View style={styles.texts}>
-        <View style={styles.nameAndSeller}>
-          <View style={{ flexDirection: "row" }}>
+      <View collapsable={false} style={styles.texts}>
+        <View collapsable={false} style={styles.nameAndSeller}>
+          <View collapsable={false} style={{ flexDirection: "row" }}>
             <Text weight="Bold" style={styles.name}>
               {productName.toUpperCase()}
             </Text>
@@ -92,14 +93,16 @@ const ProductListItem = ({ product, onPress }) => {
             </Text>
           </View>
 
-          {(offlineSellerName.length > 0 || onlineSellerName.length > 0) && (
-            <View style={{ flexDirection: "row" }}>
+          {offlineSellerName.length > 0 || onlineSellerName.length > 0 ? (
+            <View collapsable={false} style={{ flexDirection: "row" }}>
               <Text style={styles.offlineSellerName}>{offlineSellerName}</Text>
               <Text style={styles.onlineSellerName}>{onlineSellerName}</Text>
             </View>
+          ) : (
+            <View collapsable={false} />
           )}
         </View>
-        <View style={styles.otherDetailContainer}>
+        <View collapsable={false} style={styles.otherDetailContainer}>
           <Text style={styles.detailName}>{dateText} </Text>
           <Text weight="Medium" style={styles.detailValue}>
             {product.purchaseDate
@@ -107,103 +110,120 @@ const ProductListItem = ({ product, onPress }) => {
               : "-"}
           </Text>
         </View>
-        {product.warrantyDetails &&
-          product.warrantyDetails.length > 0 && (
-            <View style={styles.otherDetailContainer}>
-              <Text style={styles.detailName}>Warranty till: </Text>
-              <Text weight="Medium" style={styles.detailValue}>
-                {moment(product.warrantyDetails[0].expiryDate).format(
-                  "MMM DD, YYYY"
-                )}
-              </Text>
-              {isDateInPastOrInNextTenDays(
-                moment(product.warrantyDetails[0].expiryDate)
-              ) && (
-                <Text style={styles.expiringText}>
-                  {expiringInText(
-                    moment(product.warrantyDetails[0].expiryDate)
-                  )}
-                </Text>
+        {product.warrantyDetails && product.warrantyDetails.length > 0 ? (
+          <View collapsable={false} style={styles.otherDetailContainer}>
+            <Text style={styles.detailName}>Warranty till: </Text>
+            <Text weight="Medium" style={styles.detailValue}>
+              {moment(product.warrantyDetails[0].expiryDate).format(
+                "MMM DD, YYYY"
               )}
-            </View>
-          )}
-        {product.insuranceDetails &&
-          product.insuranceDetails.length > 0 && (
-            <View style={styles.otherDetailContainer}>
-              <Text style={styles.detailName}>Insurance till: </Text>
-              <Text weight="Medium" style={styles.detailValue}>
-                {moment(product.insuranceDetails[0].expiryDate).format(
-                  "MMM DD, YYYY"
-                )}
+            </Text>
+            {isDateInPastOrInNextTenDays(
+              moment(product.warrantyDetails[0].expiryDate)
+            ) ? (
+              <Text style={styles.expiringText}>
+                {expiringInText(moment(product.warrantyDetails[0].expiryDate))}
               </Text>
-              {isDateInPastOrInNextTenDays(
-                moment(product.insuranceDetails[0].expiryDate)
-              ) && (
-                <Text style={styles.expiringText}>
-                  {expiringInText(
-                    moment(product.insuranceDetails[0].expiryDate)
-                  )}
-                </Text>
+            ) : (
+              <View collapsable={false} />
+            )}
+          </View>
+        ) : (
+          <View collapsable={false} />
+        )}
+        {product.insuranceDetails && product.insuranceDetails.length > 0 ? (
+          <View collapsable={false} style={styles.otherDetailContainer}>
+            <Text style={styles.detailName}>Insurance till: </Text>
+            <Text weight="Medium" style={styles.detailValue}>
+              {moment(product.insuranceDetails[0].expiryDate).format(
+                "MMM DD, YYYY"
               )}
-            </View>
-          )}
-        {product.amcDetails &&
-          product.amcDetails.length > 0 && (
-            <View style={styles.otherDetailContainer}>
-              <Text style={styles.detailName}>AMC till: </Text>
-              <Text weight="Medium" style={styles.detailValue}>
-                {moment(product.amcDetails[0].expiryDate).format(
-                  "MMM DD, YYYY"
-                )}
+            </Text>
+            {isDateInPastOrInNextTenDays(
+              moment(product.insuranceDetails[0].expiryDate)
+            ) ? (
+              <Text style={styles.expiringText}>
+                {expiringInText(moment(product.insuranceDetails[0].expiryDate))}
               </Text>
-              {isDateInPastOrInNextTenDays(
-                moment(product.amcDetails[0].expiryDate)
-              ) && (
-                <Text style={styles.expiringText}>
-                  {expiringInText(moment(product.amcDetails[0].expiryDate))}
-                </Text>
-              )}
-            </View>
-          )}
-        {product.pucDetails &&
-          product.pucDetails.length > 0 && (
-            <View style={styles.otherDetailContainer}>
-              <Text style={styles.detailName}>Polution Certificate: </Text>
-              <Text weight="Medium" style={styles.detailValue}>
-                {moment(product.pucDetails[0].expiryDate).format(
-                  "MMM DD, YYYY"
-                )}
+            ) : (
+              <View collapsable={false} />
+            )}
+          </View>
+        ) : (
+          <View collapsable={false} />
+        )}
+        {product.amcDetails && product.amcDetails.length > 0 ? (
+          <View collapsable={false} style={styles.otherDetailContainer}>
+            <Text style={styles.detailName}>AMC till: </Text>
+            <Text weight="Medium" style={styles.detailValue}>
+              {moment(product.amcDetails[0].expiryDate).format("MMM DD, YYYY")}
+            </Text>
+            {isDateInPastOrInNextTenDays(
+              moment(product.amcDetails[0].expiryDate)
+            ) ? (
+              <Text style={styles.expiringText}>
+                {expiringInText(moment(product.amcDetails[0].expiryDate))}
               </Text>
-              {isDateInPastOrInNextTenDays(
-                moment(product.pucDetails[0].expiryDate)
-              ) && (
-                <Text style={styles.expiringText}>
-                  {expiringInText(moment(product.pucDetails[0].expiryDate))}
-                </Text>
-              )}
-            </View>
-          )}
-        {product.schedule && (
-          <View style={styles.serviceSchedule}>
+            ) : (
+              <View collapsable={false} />
+            )}
+          </View>
+        ) : (
+          <View collapsable={false} />
+        )}
+        {product.pucDetails && product.pucDetails.length > 0 ? (
+          <View collapsable={false} style={styles.otherDetailContainer}>
+            <Text style={styles.detailName}>Polution Certificate: </Text>
+
+            <Text weight="Medium" style={styles.detailValue}>
+              {moment(product.pucDetails[0].expiryDate).format("MMM DD, YYYY")}
+            </Text>
+            {isDateInPastOrInNextTenDays(
+              moment(product.pucDetails[0].expiryDate)
+            ) ? (
+              <Text style={styles.expiringText}>
+                {expiringInText(moment(product.pucDetails[0].expiryDate))}
+              </Text>
+            ) : (
+              <View collapsable={false} />
+            )}
+          </View>
+        ) : (
+          <View collapsable={false} />
+        )}
+        {product.schedule ? (
+          <View collapsable={false} style={styles.serviceSchedule}>
             <Text style={styles.detailName}>Next Service Schedule</Text>
-            <View style={{ flexDirection: "row" }}>
+            <View collapsable={false} style={{ flexDirection: "row" }}>
               <Text weight="Medium" style={styles.detailValue}>
                 {`${moment(product.schedule.due_date).format(
                   "MMM DD, YYYY"
-                )} or ${product.schedule.distance}Kms (${
+                )} or ${product.schedule.distance} kms (${
                   SERVICE_TYPE_NAMES[product.schedule.service_type]
                 })`}
               </Text>
               {isDateInPastOrInNextTenDays(
                 moment(product.schedule.due_date)
-              ) && (
+              ) ? (
                 <Text style={styles.expiringText}>
                   {expiringInText(moment(product.schedule.due_date))}
                 </Text>
+              ) : (
+                <View collapsable={false} />
               )}
             </View>
           </View>
+        ) : (
+          <View collapsable={false} />
         )}
+        <View style={styles.mainCategoryTab}>
+          <Text
+            weight="Medium"
+            style={{ fontSize: 10, color: "#fff", marginTop: -3 }}
+          >
+            {product.masterCategoryName}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -219,15 +239,14 @@ const styles = StyleSheet.create({
   image: {
     width: 50,
     height: 50,
-    marginRight: 16,
-    resizeMode: "contain"
+    marginRight: 16
   },
   texts: {
     flex: 1
   },
   nameAndSeller: {
     paddingBottom: 10,
-    borderColor: colors.mainBlue,
+    borderColor: "#ececec",
     borderBottomWidth: StyleSheet.hairlineWidth,
     marginBottom: 4
   },
@@ -270,16 +289,26 @@ const styles = StyleSheet.create({
   expiringText: {
     color: "#fff",
     backgroundColor: "rgba(255,0,0,0.7)",
-    fontSize: 10,
+    fontSize: 8,
     paddingVertical: 2,
-    paddingHorizontal: 5,
-    marginLeft: 10
+    paddingHorizontal: 2,
+    marginLeft: 2
   },
   serviceSchedule: {
     marginTop: 5,
     paddingTop: 10,
-    borderColor: "#00b2ff",
+    borderColor: "#ececec",
     borderTopWidth: StyleSheet.hairlineWidth
+  },
+  mainCategoryTab: {
+    alignSelf: "flex-start",
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: colors.tomato,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+    paddingHorizontal: 10
   }
 });
 export default ProductListItem;

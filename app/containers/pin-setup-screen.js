@@ -1,38 +1,41 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Alert, BackHandler } from "react-native";
 import { connect } from "react-redux";
-
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
-
+import { showSnackbar } from "../utils/snackbar";
 import {
   getProfileDetail,
   setPin,
   askOtpOnEmail,
-  validateEmailOtp
+  validateEmailOtp,
+  verifyPin
 } from "../api";
 import { Text, Button, ScreenContainer } from "../elements";
-
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
-
 import PinInput from "../components/pin-input";
 import CustomTextInput from "../components/form-elements/text-input";
 import LoadingOverlay from "../components/loading-overlay";
 import ErrorOverlay from "../components/error-overlay";
+import HeaderBackButton from "react-navigation/src/views/Header/HeaderBackButton";
 
 class PinSetupScreen extends React.Component {
-  static navigatorStyle = {
-    tabBarHidden: true
-  };
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
 
+    return {
+      title: params.resetPin ? I18n.t("reset_app_pin") : I18n.t("set_app_pin"),
+      headerLeft: <HeaderBackButton onPress={params.onBackPress} />
+    };
+  };
   constructor(props) {
     super(props);
     this.state = {
       retryFunction: "",
       error: null,
-      showEmailInput: props.resetPin || false,
+      showEmailInput: this.props.navigation.getParam("resetPin", false),
       showOtpInput: false,
       showRetryPin: false,
+      showVerifyPin: false,
       email: "",
       otp: "",
       pin1: "",
@@ -41,17 +44,37 @@ class PinSetupScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.navigator.setTitle({
-      title: this.props.resetPin
-        ? I18n.t("reset_app_pin")
-        : I18n.t("set_app_pin")
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    this.props.navigation.setParams({
+      onBackPress: this.onBackPress
     });
-
-    if (!this.props.resetPin) {
+    const resetPin = this.props.navigation.getParam("resetPin", false);
+    const updatePin = this.props.navigation.getParam("updatePin", false);
+    if (updatePin == false) {
+      this.setState({
+        showVerifyPin: true
+      })
+    }
+    if (!resetPin) {
       this.checkIfEmailAvailable();
     }
   }
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+  }
 
+  onBackPress = () => {
+    if (this.state.showVerifyPin && this.state.showRetryPin) {
+      this.setState({
+        showVerifyPin: true,
+        showRetryPin: false
+      })
+    }
+    else {
+      this.props.navigation.goBack();
+    }
+    return true;
+  }
   checkIfEmailAvailable = async () => {
     this.setState({
       isLoading: true
@@ -134,9 +157,14 @@ class PinSetupScreen extends React.Component {
     const { pin1 } = this.state;
 
     if (pin !== pin1) {
+      this.setState({
+        showVerifyPin: true,
+        showRetryPin: false
+      })
       return showSnackbar({
         text: "Retry PIN does not match with PIN."
       });
+
     }
 
     try {
@@ -153,7 +181,7 @@ class PinSetupScreen extends React.Component {
         });
       }, 200);
 
-      this.props.navigator.pop();
+      this.props.navigation.goBack();
     } catch (e) {
       this.setState({
         isLoading: false
@@ -164,15 +192,34 @@ class PinSetupScreen extends React.Component {
     }
   };
 
+  showVerifyPin = async pin => {
+    try {
+      this.setState({
+        isLoading: true
+      });
+      await verifyPin({ pin });
+      this.setState({ showVerifyPin: true, isLoading: false });
+    } catch (e) {
+      this.setState({ isLoading: false, showVerifyPin: false });
+      this.verifyPinRef.clearPin()
+      return showSnackbar({
+        text: e.message
+      });
+    }
+
+  };
+
   showRetryPin = pin => {
     this.setState({ pin1: pin, showRetryPin: true });
   };
+
 
   render() {
     const {
       showEmailInput,
       showOtpInput,
       showRetryPin,
+      showVerifyPin,
       isLoading,
       error,
       retryFunction
@@ -185,7 +232,7 @@ class PinSetupScreen extends React.Component {
       <ScreenContainer style={styles.container}>
         {showEmailInput &&
           !showOtpInput && (
-            <View style={{ padding: 16 }}>
+            <View collapsable={false} style={{ padding: 16 }}>
               <CustomTextInput
                 keyboardType="email-address"
                 placeholder="Enter Email Id"
@@ -196,7 +243,7 @@ class PinSetupScreen extends React.Component {
           )}
         {!showEmailInput &&
           showOtpInput && (
-            <View style={{ padding: 16 }}>
+            <View collapsable={false} style={{ padding: 16 }}>
               <CustomTextInput
                 keyboardType="numeric"
                 placeholder="Enter OTP"
@@ -208,16 +255,29 @@ class PinSetupScreen extends React.Component {
           )}
         {!showEmailInput &&
           !showOtpInput && (
-            <View style={{ flex: 1 }}>
-              {!showRetryPin && (
+            <View collapsable={false} style={{ flex: 1 }}>
+              {!showVerifyPin ? (
+                <PinInput
+                  title="Verify App PIN"
+                  ref={ref => this.verifyPinRef = ref}
+                  onSubmitPress={this.showVerifyPin}
+                />
+              ) : (
+                  <View collapsable={false} />
+                )}
+              {showVerifyPin && !showRetryPin ? (
                 <PinInput
                   title="Create App PIN"
                   onSubmitPress={this.showRetryPin}
                 />
-              )}
-              {showRetryPin && (
+              ) : (
+                  <View collapsable={false} />
+                )}
+              {showRetryPin ? (
                 <PinInput title="Confirm App PIN" onSubmitPress={this.setPin} />
-              )}
+              ) : (
+                  <View collapsable={false} />
+                )}
             </View>
           )}
         <LoadingOverlay visible={isLoading} />
@@ -232,6 +292,12 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  return {
+    isPinSet: state.loggedInUser.isPinSet
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     setLoggedInUserIsPinSet: newValue => {
@@ -240,4 +306,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(PinSetupScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(PinSetupScreen);

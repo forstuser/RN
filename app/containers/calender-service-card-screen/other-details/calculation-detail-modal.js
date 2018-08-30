@@ -23,7 +23,7 @@ import {
 import { addCalendarItemCalculationDetail } from "../../../api";
 
 import I18n from "../../../i18n";
-import { showSnackbar } from "../../snackbar";
+import { showSnackbar } from "../../../utils/snackbar";
 
 import { updateCalendarItem } from "../../../api";
 import { Text, Button } from "../../../elements";
@@ -175,7 +175,6 @@ class CalculationDetailModal extends React.Component {
       quantityToSend = 0;
     }
 
-    Analytics.logEvent(Analytics.EVENTS.CLICK_CHANGE_CALENDAR);
 
     try {
       await addCalendarItemCalculationDetail({
@@ -251,116 +250,130 @@ class CalculationDetailModal extends React.Component {
     } else if (serviceType.wages_type == CALENDAR_WAGES_TYPE.FEES) {
       priceText = I18n.t("add_edit_calendar_service_screen_form_fees");
     }
+
+    if (!isModalVisible) return null;
     return (
-      <Modal
-        isVisible={isModalVisible}
-        avoidKeyboard={Platform.OS == "ios"}
-        animationIn="slideInUp"
-        useNativeDriver={true}
-        hideModalContentWhileAnimating={true}
-        onBackdropPress={this.hide}
-        onBackButtonPress={this.hide}
-      >
-        <View style={[styles.card, styles.modalCard]}>
-          <LoadingOverlay visible={isSavingDetails} />
-          <TouchableOpacity style={styles.modalCloseIcon} onPress={this.hide}>
-            <Icon name="md-close" size={30} color={colors.mainText} />
-          </TouchableOpacity>
-          {serviceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT && (
-            <CustomTextInput
-              placeholder={priceText}
-              value={String(unitPrice)}
-              onChangeText={unitPrice => this.setState({ unitPrice })}
-            />
-          )}
-          {serviceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
-            <View style={{ width: "100%" }}>
-              <View style={{ flexDirection: "row" }}>
-                <SelectModal
-                  visibleKey="symbol"
-                  style={styles.selectUnitType}
-                  dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-                  placeholder="Choose Unit Type"
-                  placeholderRenderer={({ placeholder }) => (
-                    <Text
-                      weight="Medium"
-                      style={{ color: colors.secondaryText }}
-                    >
-                      {placeholder}
-                    </Text>
+      <View collapsable={false} >
+        {isModalVisible && (
+          <View collapsable={false} >
+            <Modal
+              isVisible={true}
+              avoidKeyboard={Platform.OS == "ios"}
+              animationIn="slideInUp"
+              useNativeDriver={true}
+              hideModalContentWhileAnimating={true}
+              onBackdropPress={this.hide}
+              onBackButtonPress={this.hide}
+            >
+              <View collapsable={false} style={[styles.card, styles.modalCard]}>
+                <LoadingOverlay visible={isSavingDetails} />
+                <TouchableOpacity
+                  style={styles.modalCloseIcon}
+                  onPress={this.hide}
+                >
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
+                {serviceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT ? (
+                  <CustomTextInput
+                    placeholder={priceText}
+                    value={String(unitPrice)}
+                    onChangeText={unitPrice => this.setState({ unitPrice })}
+                  />
+                ) : (
+                    <View collapsable={false} style={{ width: "100%" }}>
+                      <View collapsable={false} style={{ flexDirection: "row" }}>
+                        <SelectModal
+                          visibleKey="symbol"
+                          style={styles.selectUnitType}
+                          dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
+                          placeholder="Choose Unit Type"
+                          placeholderRenderer={({ placeholder }) => (
+                            <Text
+                              weight="Medium"
+                              style={{ color: colors.secondaryText }}
+                            >
+                              {placeholder}
+                            </Text>
+                          )}
+                          selectedOption={selectedUnitType}
+                          options={unitTypes}
+                          onOptionSelect={value => {
+                            this.onUnitTypeSelect(value);
+                          }}
+                          hideAddNew={true}
+                          disableSearch={true}
+                        />
+                        <CustomTextInput
+                          keyboardType="numeric"
+                          style={{ flex: 1 }}
+                          placeholder={I18n.t("calendar_service_screen_quantity")}
+                          value={quantity !== null ? String(quantity) : ""}
+                          onChangeText={quantity => this.setState({ quantity })}
+                          rightSideText={
+                            selectedUnitType ? selectedUnitType.name : ""
+                          }
+                          rightSideTextWidth={70}
+                        />
+                      </View>
+                      <CustomTextInput
+                        keyboardType="numeric"
+                        placeholder={I18n.t("calendar_service_screen_unit_price")}
+                        value={String(unitPrice)}
+                        onChangeText={unitPrice => this.setState({ unitPrice })}
+                        rightSideText={
+                          "Per " +
+                          (actualSelectedUnitType
+                            ? actualSelectedUnitType.name
+                            : "")
+                        }
+                        rightSideTextWidth={100}
+                      />
+                    </View>
                   )}
-                  selectedOption={selectedUnitType}
-                  options={unitTypes}
-                  onOptionSelect={value => {
-                    this.onUnitTypeSelect(value);
+                <CustomDatePicker
+                  date={startingDate}
+                  placeholder={I18n.t(
+                    "add_edit_calendar_service_screen_form_starting_date"
+                  )}
+                  onDateChange={startingDate => {
+                    this.setState({ startingDate, endDate: null });
                   }}
-                  hideAddNew={true}
-                  hideSearch={true}
+                  maxDate={item.end_date || "2100-01-01"}
                 />
-                <CustomTextInput
-                  keyboardType="numeric"
-                  style={{ flex: 1 }}
-                  placeholder={I18n.t("calendar_service_screen_quantity")}
-                  value={quantity !== null ? String(quantity) : ""}
-                  onChangeText={quantity => this.setState({ quantity })}
-                  rightSideText={selectedUnitType ? selectedUnitType.name : ""}
-                  rightSideTextWidth={70}
+                {startingDate != item.end_date && (
+                  <CustomDatePicker
+                    maxDate={item.end_date || "2100-01-01"}
+                    minDate={moment(startingDate)
+                      .add(1, "days")
+                      .format("YYYY-MM-DD")}
+                    date={endDate}
+                    placeholder={I18n.t(
+                      "add_edit_calendar_service_screen_form_end_date"
+                    )}
+                    onDateChange={endDate => {
+                      this.setState({ endDate });
+                    }}
+                  />
+                )}
+                <Text weight="Medium" style={styles.label}>
+                  Days
+                </Text>
+                <SelectWeekDays
+                  selectedDays={selectedDays}
+                  onDayPress={this.toggleDay}
+                  itemSize={28}
+                />
+                <Button
+                  onPress={this.onSavePress}
+                  style={[styles.modalBtn]}
+                  text={I18n.t("calendar_service_screen_save")}
+                  color="secondary"
                 />
               </View>
-              <CustomTextInput
-                keyboardType="numeric"
-                placeholder={I18n.t("calendar_service_screen_unit_price")}
-                value={String(unitPrice)}
-                onChangeText={unitPrice => this.setState({ unitPrice })}
-                rightSideText={
-                  "Per " +
-                  (actualSelectedUnitType ? actualSelectedUnitType.name : "")
-                }
-                rightSideTextWidth={100}
-              />
-            </View>
-          )}
-          <CustomDatePicker
-            date={startingDate}
-            placeholder={I18n.t(
-              "add_edit_calendar_service_screen_form_starting_date"
-            )}
-            onDateChange={startingDate => {
-              this.setState({ startingDate, endDate: null });
-            }}
-            maxDate={item.end_date || "2100-01-01"}
-          />
-          {startingDate != item.end_date && (
-            <CustomDatePicker
-              maxDate={item.end_date || "2100-01-01"}
-              minDate={moment(startingDate)
-                .add(1, "days")
-                .format("YYYY-MM-DD")}
-              date={endDate}
-              placeholder={I18n.t(
-                "add_edit_calendar_service_screen_form_end_date"
-              )}
-              onDateChange={endDate => {
-                this.setState({ endDate });
-              }}
-            />
-          )}
-          <Text weight="Medium" style={styles.label}>
-            Days
-          </Text>
-          <SelectWeekDays
-            selectedDays={selectedDays}
-            onDayPress={this.toggleDay}
-            itemSize={28}
-          />
-          <Button
-            onPress={this.onSavePress}
-            style={[styles.modalBtn]}
-            text={I18n.t("calendar_service_screen_save")}
-            color="secondary"
-          />
-        </View>
-      </Modal>
+            </Modal>
+          </View>
+        )}
+      </View>
     );
   }
 }

@@ -24,54 +24,79 @@ import EditOptionRow from "./edit-option-row";
 
 class AmcDetails extends React.Component {
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     const { amcDetails } = product;
 
     const AmcItem = ({ amc }) => (
-      <View style={styles.card}>
+      <View collapsable={false} style={styles.card}>
         <EditOptionRow
           text={I18n.t("product_details_screen_amc_details")}
           onEditPress={() => {
-            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'amc' });
+            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: "amc" });
             this.props.openAddEditAmcScreen(amc);
           }}
         />
-        <ViewBillRow
-          expiryDate={amc.expiryDate}
-          purchaseDate={amc.purchaseDate}
-          docType="AMC"
-          copies={amc.copies || []}
-        />
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_amc_expiry")}
-          valueText={
-            moment(amc.expiryDate).isValid() &&
-            moment(amc.expiryDate).format("DD MMM YYYY")
-          }
-        />
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_amc_premium_amount")}
-          valueText={amc.premiumAmount || "-"}
-        />
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_amc_seller")}
-          valueText={amc.sellers ? amc.sellers.sellerName : "-"}
-        />
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_amc_seller_contact")}
-          ValueComponent={() => (
-            <MultipleContactNumbers
-              contact={amc.sellers ? amc.sellers.contact : "-"}
-            />
-          )}
-        />
+        {amc.copies ? (
+          <ViewBillRow
+            collapsable={false}
+            expiryDate={amc.expiryDate}
+            purchaseDate={amc.purchaseDate}
+            docType="AMC"
+            copies={amc.copies || []}
+          />
+        ) : (
+          <View />
+        )}
+        {amc.expiryDate ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_amc_expiry")}
+            valueText={
+              moment(amc.expiryDate).isValid() &&
+              moment(amc.expiryDate).format("DD MMM YYYY")
+            }
+          />
+        ) : (
+          <View />
+        )}
+        {amc.premiumAmount ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_amc_premium_amount")}
+            valueText={"₹ " + amc.premiumAmount || "-"}
+          />
+        ) : (
+          <View />
+        )}
+        {amc.sellers ? (
+          <KeyValueItem
+            keyText={"AMC Provider Name"}
+            valueText={amc.sellers ? amc.sellers.sellerName : "-"}
+          />
+        ) : (
+          <View />
+        )}
+        {amc.sellers ? (
+          <KeyValueItem
+            keyText={"AMC Provider Contact"}
+            ValueComponent={() => (
+              <MultipleContactNumbers
+                contact={amc.sellers ? amc.sellers.contact : "-"}
+              />
+            )}
+          />
+        ) : (
+          <View />
+        )}
       </View>
     );
 
     return (
-      <View style={styles.container}>
-        <ScrollView horizontal={true} style={styles.slider}>
-          {amcDetails.map(amc => <AmcItem amc={amc} />)}
+      <View collapsable={false} style={styles.container}>
+        <ScrollView
+          horizontal={true}           showsHorizontalScrollIndicator={false}
+          style={styles.slider}
+          showsHorizontalScrollIndicator={true}
+        >
+          {amcDetails.map((amc, index) => <AmcItem key={index} amc={amc} />)}
           <AddItemBtn
             text={I18n.t("product_details_screen_add_amc")}
             onPress={() => this.props.openAddEditAmcScreen(null)}
@@ -90,7 +115,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   },
   card: {
-    width: 300,
+    width: 290,
     backgroundColor: "#fff",
     marginRight: 20,
     marginLeft: 5,

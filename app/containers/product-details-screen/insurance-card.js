@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  Image,
   Alert,
   TouchableOpacity,
   ScrollView,
@@ -14,13 +13,12 @@ import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { Navigation } from "react-native-navigation";
 
 import Modal from "react-native-modal";
 
 import { SCREENS } from "../../constants";
 import { API_BASE_URL, getProductDetails } from "../../api";
-import { Text, Button, ScreenContainer } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
 
 import I18n from "../../i18n";
 
@@ -66,30 +64,26 @@ class InsuranceCard extends Component {
       }
     }
 
-    this.props.navigator.push({
-      screen: SCREENS.EDIT_INSURANCE_SCREEN,
-      passProps: {
-        typeId: product.sub_category_id,
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        planName: product.productName,
-        insuranceFor: product.model,
-        insuranceId: insurance.id,
-        value: insurance.value,
-        providerId: insurance.providerId,
-        effectiveDate: insurance.effectiveDate,
-        policyNo: insurance.policyNo,
-        amountInsured: insurance.amountInsured,
-        copies: product.copies || []
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.EDIT_INSURANCE_SCREEN, {
+      typeId: product.sub_category_id,
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      planName: product.productName,
+      insuranceFor: product.model,
+      insuranceId: insurance.id,
+      value: insurance.value,
+      providerId: insurance.providerId,
+      effectiveDate: insurance.effectiveDate,
+      policyNo: insurance.policyNo,
+      amountInsured: insurance.amountInsured,
+      copies: product.copies || []
     });
   };
 
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     let insurance = {
       value: 0,
       effectiveDate: "",
@@ -112,14 +106,15 @@ class InsuranceCard extends Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
           <ViewBillButton
+            collapsable={false}
             product={product}
-            navigator={navigator}
+            navigation={navigation}
             docType="Insurance"
           />
           <Image
@@ -186,10 +181,10 @@ class InsuranceCard extends Component {
             valueText={insurance.amountInsured}
           />
         </ScrollView>
-        <View style={styles.contactAfterSalesBtn}>
+        <View collapsable={false} style={styles.contactAfterSalesBtn}>
           <ContactAfterSaleButton
             product={product}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
           />
         </View>
       </View>

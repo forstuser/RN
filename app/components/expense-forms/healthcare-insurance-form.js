@@ -43,7 +43,10 @@ class HealthcareInsuranceForm extends React.Component {
 
   componentDidMount() {
     this.fetchTypes();
-    this.updateStateFromProps(this.props);
+    const { copies } = this.props;
+    this.setState({
+      copies: copies || []
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,8 +66,7 @@ class HealthcareInsuranceForm extends React.Component {
       providerId,
       effectiveDate,
       policyNo,
-      amountInsured,
-      copies
+      amountInsured
     } = props;
 
     let selectedType = null;
@@ -91,7 +93,6 @@ class HealthcareInsuranceForm extends React.Component {
       effectiveDate,
       policyNo,
       amountInsured,
-      copies,
       selectedType,
       selectedProvider
     });
@@ -100,9 +101,14 @@ class HealthcareInsuranceForm extends React.Component {
   fetchTypes = async () => {
     try {
       const res = await getReferenceDataForCategory(this.props.categoryId);
-      this.setState({
-        types: res.categories[0].subCategories
-      });
+      this.setState(
+        {
+          types: res.categories[0].subCategories
+        },
+        () => {
+          this.updateStateFromProps(this.props);
+        }
+      );
     } catch (e) {
       console.log(e);
     }
@@ -194,15 +200,19 @@ class HealthcareInsuranceForm extends React.Component {
       copies
     } = this.state;
     return (
-      <View style={styles.container}>
-        <Text weight="Medium" style={styles.headerText}>{I18n.t("expense_forms_healthcare")}</Text>
-        <View style={styles.body}>
-          {showFullForm && (
+      <View collapsable={false} style={styles.container}>
+        <Text weight="Medium" style={styles.headerText}>
+          {I18n.t("expense_forms_healthcare")}
+        </Text>
+        <View collapsable={false} style={styles.body}>
+          {showFullForm ? (
             <CustomTextInput
               placeholder={I18n.t("expense_forms_healthcare_plan_name")}
               value={planName}
               onChangeText={planName => this.setState({ planName })}
             />
+          ) : (
+            <View collapsable={false} />
           )}
 
           <SelectModal
@@ -212,7 +222,7 @@ class HealthcareInsuranceForm extends React.Component {
               "main_category_screen_filters_title_categories"
             )}
             placeholderRenderer={({ placeholder }) => (
-              <View style={{ flexDirection: "row" }}>
+              <View collapsable={false} style={{ flexDirection: "row" }}>
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
                 </Text>
@@ -229,21 +239,26 @@ class HealthcareInsuranceForm extends React.Component {
             hideAddNew={true}
           />
 
-          {showFullForm && (
+          {showFullForm ? (
             <CustomTextInput
               placeholder={I18n.t("expense_forms_healthcare_for")}
               value={insuranceFor}
               onChangeText={insuranceFor => this.setState({ insuranceFor })}
             />
+          ) : (
+            <View collapsable={false} />
           )}
-          {!showOnlyGeneralInfo && (
-            <View>
+          {!showOnlyGeneralInfo ? (
+            <View collapsable={false}>
               <SelectModal
                 // style={styles.input}
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder={I18n.t("expense_forms_extended_warranty_provider")}
+                textInputPlaceholder={I18n.t(
+                  "expense_forms_insurance_provider_name"
+                )}
                 placeholderRenderer={({ placeholder }) => (
-                  <View style={{ flexDirection: "row" }}>
+                  <View collapsable={false} style={{ flexDirection: "row" }}>
                     <Text
                       weight="Medium"
                       style={{ color: colors.secondaryText }}
@@ -267,16 +282,16 @@ class HealthcareInsuranceForm extends React.Component {
                 }
               />
 
-              {showFullForm && (
+              {showFullForm ? (
                 <CustomTextInput
                   placeholder={I18n.t("expense_forms_healthcare_policy")}
-                  placeholder2={I18n.t(
-                    "expense_forms_amc_form_amc_recommended"
-                  )}
+                  hint={I18n.t("expense_forms_amc_form_amc_recommended")}
                   placeholder2Color={colors.mainBlue}
                   value={policyNo}
                   onChangeText={policyNo => this.setState({ policyNo })}
                 />
+              ) : (
+                <View collapsable={false} />
               )}
 
               <CustomDatePicker
@@ -287,8 +302,8 @@ class HealthcareInsuranceForm extends React.Component {
                 }}
               />
 
-              {showFullForm && (
-                <View>
+              {showFullForm ? (
+                <View collapsable={false}>
                   <CustomTextInput
                     placeholder={I18n.t(
                       "expense_forms_healthcare_premium_amount"
@@ -297,7 +312,6 @@ class HealthcareInsuranceForm extends React.Component {
                     onChangeText={value => this.setState({ value })}
                     keyboardType="numeric"
                   />
-
                   <CustomTextInput
                     placeholder={I18n.t("expense_forms_healthcare_coverage")}
                     value={amountInsured > 0 ? String(amountInsured) : ""}
@@ -307,26 +321,29 @@ class HealthcareInsuranceForm extends React.Component {
                     keyboardType="numeric"
                   />
                 </View>
+              ) : (
+                <View collapsable={false} />
               )}
             </View>
+          ) : (
+            <View collapsable={false} />
           )}
         </View>
         <UploadDoc
           placeholder={I18n.t("expense_forms_healthcare_upload_doc")}
-          placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+          hint={I18n.t("expense_forms_amc_form_amc_recommended")}
           placeholder2Color={colors.mainBlue}
           productId={productId}
-          itemId={insuranceId}
+          itemId={productId}
           jobId={jobId ? jobId : null}
-          type={3}
+          type={1}
           copies={copies}
           onUpload={uploadResult => {
             this.setState({
-              insuranceId: uploadResult.insurance.id,
               copies: uploadResult.product.copies
             });
           }}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           hideUploadOption={showOnlyGeneralInfo}
         />
       </View>

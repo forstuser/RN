@@ -5,14 +5,17 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  Modal,
-  Text,
   FlatList,
   Button,
   Platform
 } from "react-native";
+import { Text } from "../elements";
+import Modal from "react-native-modal";
+
+import FastImage from "react-native-fast-image";
+
 import I18n from "../i18n";
-import { defaultStyles } from "../theme";
+import { defaultStyles, colors } from "../theme";
 const dropdownIcon = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhDAkMGjg4AXstAAAAcklEQVRIx+3Tuw3AIAxF0avMxQAMwNKeiYIUUSSE+NimQ7zU9wQK4O6IBYTi/ITARl4oyLN/hUh2/z8TAZKTyKT/FB6iyj1Ek1uJTm4hBrmWmOQaYpGvCEU+I5T5iDDkPcKYt4QjrwlnDhAR5Htxd0fvBYOKNVDm/h2pAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTEyLTA5VDEyOjI2OjU2KzAxOjAw6KWTZgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0xMi0wOVQxMjoyNjo1NiswMTowMJn4K9oAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC`;
 const crossIcon = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhDAsIDg3tHAgMAAAAkElEQVQ4y6WUuQ2AMBAER5BQAQWQUxsSTUBCSohETkZON26DI0Li8cOKy6zdkX2fc1oWSjaMeGR0zAAOw5jIEvYJw3DQY0nktBv99RBCXo444lXDSFDxC9G732Iyu7shXYwH8sF+Rz7Zn4g31Z8hPklMWiyr2DhxNMThE8dbXiB5RcVPIAdqRhr2KGCsFFQMB2e3sbEqrADlAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTEyLTExVDA4OjE0OjEzKzAxOjAw8CXXWwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0xMi0xMVQwODoxNDoxMyswMTowMIF4b+cAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC`;
 
@@ -67,7 +70,7 @@ class SelectModal extends Component {
         style={styles.option}
       >
         {imageKey && (
-          <Image
+          <FastImage
             resizeMode="contain"
             style={styles.optionImage}
             source={{ uri: item[imageKey] }}
@@ -144,7 +147,7 @@ class SelectModal extends Component {
       dropdownArrowStyle = {},
       placeholderRenderer = this._placeholderRenderer,
       hideAddNew = false,
-      hideSearch = false,
+      disableSearch = false,
       hint
     } = this.props;
     let {
@@ -158,6 +161,7 @@ class SelectModal extends Component {
     let optionsAfterSearch = [];
     if (searchText) {
       optionsAfterSearch = options.filter(option => {
+        if (!option[visibleKey]) return false;
         return option[visibleKey]
           .toLowerCase()
           .includes(searchText.toLowerCase());
@@ -165,12 +169,13 @@ class SelectModal extends Component {
     } else {
       optionsAfterSearch = options;
     }
+    // if (!isModalVisible) return null;
 
     return (
-      <View style={[styles.container, style]}>
-        {!isTextInputVisible && (
+      <View collapsable={false} style={[styles.container, style]}>
+        {!isTextInputVisible ? (
           <TouchableOpacity onPress={this._tryOpenModal} style={styles.wrapper}>
-            <View style={{ flex: 1 }}>
+            <View collapsable={false} style={{ flex: 1 }}>
               {selectedOption == null && placeholderRenderer({ placeholder })}
               {selectedOption != null && (
                 <Text>{selectedOption[visibleKey]}</Text>
@@ -181,9 +186,8 @@ class SelectModal extends Component {
               source={{ uri: dropdownIcon }}
             />
           </TouchableOpacity>
-        )}
-        {isTextInputVisible && (
-          <View style={styles.wrapper}>
+        ) : (
+          <View collapsable={false} style={styles.wrapper}>
             <TextInput
               underlineColorAndroid="transparent"
               ref={ref => (this.textInput = ref)}
@@ -197,69 +201,91 @@ class SelectModal extends Component {
             </Text>
           </View>
         )}
-        {hint ? <Text style={styles.hint}>{hint}</Text> : null}
-        <Modal visible={isModalVisible} animationType="slide">
-          <View style={{ backgroundColor: "#fff" }}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalHeaderText}>{placeholder}</Text>
-              <TouchableOpacity
-                onPress={() => this.setState({ isModalVisible: false })}
-                style={styles.modalCloseBtn}
-              >
-                <Image
-                  style={styles.modalCloseIcon}
-                  source={{ uri: crossIcon }}
-                />
-              </TouchableOpacity>
-            </View>
-            {!hideSearch && (
-              <View style={styles.searchContainer}>
-                <TextInput
-                  placeholder={I18n.t("component_items_search")}
-                  underlineColorAndroid="transparent"
-                  style={styles.searchInput}
-                  value={searchInput}
-                  onChangeText={text => this.setState({ searchInput: text })}
-                />
-              </View>
-            )}
-          </View>
-          {optionsAfterSearch.length > 0 && (
-            <FlatList
-              style={style.optionsList}
-              data={optionsAfterSearch}
-              keyExtractor={(item, index) => index}
-              renderItem={this._renderOption}
-              ListFooterComponent={() => {
-                if (hideAddNew) {
-                  return null;
-                }
-                return (
-                  <TouchableOpacity
-                    style={styles.option}
-                    onPress={this._onAddNewClick}
-                  >
-                    <Text style={styles.addNewBtnText}>Add New</Text>
-                  </TouchableOpacity>
-                );
+        {!selectedOption && !textInput && hint ? (
+          <Text weight="Regular" style={styles.hint}>
+            {hint}
+          </Text>
+        ) : null}
+        {isModalVisible ? (
+          <View collapsable={false}>
+            <Modal
+              style={{ flex: 1, margin: 0, backgroundColor: "#fff" }}
+              isVisible={true}
+              onBackButtonPress={() => {
+                this.setState({ isModalVisible: false });
               }}
-            />
-          )}
-          {optionsAfterSearch.length == 0 && (
-            <View style={styles.noResultContainer}>
-              <Text style={styles.noResultText}>No result found</Text>
+              useNativeDriver={true}
+            >
+              <View collapsable={false} style={{ backgroundColor: "#fff" }}>
+                <View collapsable={false} style={styles.modalHeader}>
+                  <Text style={styles.modalHeaderText}>{placeholder}</Text>
+                  <TouchableOpacity
+                    onPress={() => this.setState({ isModalVisible: false })}
+                    style={styles.modalCloseBtn}
+                  >
+                    <Image
+                      style={styles.modalCloseIcon}
+                      source={{ uri: crossIcon }}
+                    />
+                  </TouchableOpacity>
+                </View>
+                {!disableSearch && options.length > 15 ? (
+                  <View collapsable={false} style={styles.searchContainer}>
+                    <TextInput
+                      placeholder={I18n.t("component_items_search")}
+                      underlineColorAndroid="transparent"
+                      style={styles.searchInput}
+                      value={searchInput}
+                      onChangeText={text =>
+                        this.setState({ searchInput: text })
+                      }
+                    />
+                  </View>
+                ) : (
+                  <View collapsable={false} />
+                )}
+              </View>
+              {optionsAfterSearch.length > 0 ? (
+                <FlatList
+                  style={style.optionsList}
+                  data={optionsAfterSearch}
+                  keyExtractor={(item, index) => index}
+                  renderItem={this._renderOption}
+                  ListFooterComponent={() => {
+                    if (hideAddNew) {
+                      return null;
+                    }
+                    return (
+                      <TouchableOpacity
+                        style={styles.option}
+                        onPress={this._onAddNewClick}
+                      >
+                        <Text style={styles.addNewBtnText}>Add New</Text>
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+              ) : (
+                <View collapsable={false} style={styles.noResultContainer}>
+                  <Text style={styles.noResultText}>No result found</Text>
 
-              {!hideAddNew && (
-                <TouchableOpacity
-                  style={styles.addNewBtn}
-                  onPress={this._onAddNewClick}
-                >
-                  <Text style={styles.addNewBtnText}>Add New</Text>
-                </TouchableOpacity>
+                  {!hideAddNew ? (
+                    <TouchableOpacity
+                      style={styles.addNewBtn}
+                      onPress={this._onAddNewClick}
+                    >
+                      <Text style={styles.addNewBtnText}>Add New</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <View collapsable={false} />
+                  )}
+                </View>
               )}
-            </View>
-          )}
-        </Modal>
+            </Modal>
+          </View>
+        ) : (
+          <View collapsable={false} />
+        )}
       </View>
     );
   }
@@ -268,7 +294,9 @@ const styles = StyleSheet.create({
   container: {
     height: 45,
     padding: 8,
+    // paddingTop: 0,
     marginBottom: 12,
+    borderRadius: 10,
     ...defaultStyles.card
   },
   wrapper: {
@@ -370,6 +398,7 @@ const styles = StyleSheet.create({
     color: "#009ee5"
   },
   noResultContainer: {
+    flex: 1,
     padding: 16,
     alignItems: "center"
   },
@@ -382,6 +411,12 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: "center",
     justifyContent: "center"
+  },
+  hint: {
+    color: colors.mainBlue,
+    position: "relative",
+    bottom: 8,
+    fontSize: 10
   }
 });
 export default SelectModal;

@@ -17,6 +17,7 @@ import { openBillsPopUp } from "../../navigation";
 import { colors } from "../../theme";
 
 import UploadBillOptions from "../../components/upload-bill-options";
+import { CATEGORY_IDS } from "../../constants";
 
 const viewBillIcon = require("../../images/ic_ehome_view_bill.png");
 
@@ -25,17 +26,21 @@ class ViewBillButton extends React.Component {
     super(props);
   }
   render() {
-    const {
+    let {
       product,
-      navigator,
+      navigation,
       docType = "Product",
       btnText = "Bill",
       viewRef = () => {},
       style
     } = this.props;
+    if (product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
+      btnText = "Doc";
+    }
     if (product.copies && product.copies.length > 0) {
       return (
         <View
+          collapsable={false}
           style={{
             alignItems: "center"
           }}
@@ -43,7 +48,10 @@ class ViewBillButton extends React.Component {
           <TouchableOpacity
             ref={ref => viewRef(ref)}
             onPress={() => {
-              Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
+              Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL, {
+                main_category: product.masterCategoryName,
+                category_name: product.categoryName
+              });
               openBillsPopUp({
                 date: product.purchaseDate,
                 id: product.id,
@@ -63,6 +71,7 @@ class ViewBillButton extends React.Component {
     } else {
       return (
         <View
+          collapsable={false}
           style={{
             alignItems: "center"
           }}
@@ -70,7 +79,10 @@ class ViewBillButton extends React.Component {
           <TouchableOpacity
             ref={ref => viewRef(ref)}
             onPress={() => {
-              Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL);
+              Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL, {
+                main_category: product.masterCategoryName,
+                category_name: product.categoryName
+              });
               this.uploadBillOptions.show(
                 product.jobId,
                 1,
@@ -82,8 +94,9 @@ class ViewBillButton extends React.Component {
           >
             <UploadBillOptions
               ref={o => (this.uploadBillOptions = o)}
-              navigator={navigator}
+              navigation={navigation}
               uploadCallback={() => {}}
+              actionSheetTitle={"Upload " + btnText}
             />
             <Image style={styles.viewBillIcon} source={viewBillIcon} />
           </TouchableOpacity>

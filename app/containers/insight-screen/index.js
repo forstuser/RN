@@ -40,8 +40,8 @@ import ExpensesChart from "./expenses-chart";
 import { SCREENS } from "../../constants";
 
 class InsightScreen extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true
+  static navigationOptions = {
+    title: I18n.t("insights_screen_title")
   };
   constructor(props) {
     super(props);
@@ -92,10 +92,6 @@ class InsightScreen extends Component {
   }
 
   async componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("insights_screen_title")
-    });
-
     try {
       const res = await getInsightData();
       const weeklyData = {
@@ -136,7 +132,10 @@ class InsightScreen extends Component {
         categories: res.categoryData.overallData
       };
 
-      const screenOpts = this.props.screenOpts || {};
+      const initialFilterIndex = this.props.navigation.getParam(
+        "initialFilterIndex",
+        0
+      );
       this.setState(
         {
           weeklyData,
@@ -145,22 +144,19 @@ class InsightScreen extends Component {
           overallData
         },
         () => {
-          this.handleFilterOptionPress(screenOpts.initialFilterIndex || 0);
+          this.handleFilterOptionPress(initialFilterIndex || 0);
         }
       );
     } catch (e) {}
   }
 
   openTaxPaidScreen = () => {
-    this.props.navigator.push({
-      screen: SCREENS.TOTAL_TAX_SCREEN,
-      passProps: {
-        weeklyData: this.state.weeklyData,
-        monthlyData: this.state.monthlyData,
-        yearlyData: this.state.yearlyData,
-        overallData: this.state.overallData,
-        index: this.state.activeData.index
-      }
+    this.props.navigation.navigate(SCREENS.TOTAL_TAX_SCREEN, {
+      weeklyData: this.state.weeklyData,
+      monthlyData: this.state.monthlyData,
+      yearlyData: this.state.yearlyData,
+      overallData: this.state.overallData,
+      index: this.state.activeData.index
     });
   };
 
@@ -180,7 +176,7 @@ class InsightScreen extends Component {
         activeData = this.state.overallData;
         break;
       default:
-        activeData = this.state.weeklyData;
+        return;
     }
 
     let chartData = activeData.categories.map(category => {
@@ -197,13 +193,10 @@ class InsightScreen extends Component {
   };
 
   openTransactionsScreen = ({ category, color }) => {
-    this.props.navigator.push({
-      screen: SCREENS.TRANSACTIONS_SCREEN,
-      passProps: {
-        index: this.state.activeData.index,
-        category,
-        color
-      }
+    this.props.navigation.navigate(SCREENS.TRANSACTIONS_SCREEN, {
+      index: this.state.activeData.index,
+      category,
+      color
     });
   };
 
@@ -219,7 +212,7 @@ class InsightScreen extends Component {
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={this.state.isFetchingData} />
         <ScrollView>
-          <View style={styles.filterHeader}>
+          <View collapsable={false} style={styles.filterHeader}>
             <Text weight="Bold" style={styles.timeSpan}>
               {timeSpanText}
             </Text>
@@ -247,13 +240,13 @@ class InsightScreen extends Component {
             />
           </View>
 
-          {/*<View style={styles.totalTax}>
-            <View
+          {/*<View collapsable={false}  style={styles.totalTax}>
+            <View collapsable={false} 
               style={{
                 flexDirection: "row"
               }}
             >
-              <View>
+              <View collapsable={false} >
                 <Image
                   style={{ width: 90, height: 82 }}
                   // source={require("../../images/ic_insight_tax_gradient.png")}
@@ -275,7 +268,7 @@ class InsightScreen extends Component {
                 }}
                 // source={require("../../images/ic_insight_tax.png")}
               />
-              <View style={{ paddingTop: 20 }}>
+              <View collapsable={false}  style={{ paddingTop: 20 }}>
                 <Text
                   style={{ fontSize: 14, color: "#4a4a4a" }}
                   weight="Medium"
@@ -287,7 +280,7 @@ class InsightScreen extends Component {
                 </Text>
               </View>
             </View>
-            <View
+            <View collapsable={false} 
               style={{
                 flexDirection: "row",
                 justifyContent: "flex-end",
@@ -313,13 +306,25 @@ class InsightScreen extends Component {
           />
 
           {totalSpend > 0 && (
-            <ExpensesChart
-              colors={legendColors}
-              chartData={this.state.chartData}
-            />
+            <View
+              collapsable={false}
+              style={{
+                width: 240,
+                height: 240,
+                justifyContent: "center",
+                alignItems: "center",
+                alignSelf: "center"
+              }}
+            >
+              <ExpensesChart
+                colors={legendColors}
+                chartData={this.state.chartData}
+              />
+            </View>
           )}
           {totalSpend == 0 && (
             <View
+              collapsable={false}
               style={{
                 flex: 1,
                 justifyContent: "center",
@@ -336,7 +341,7 @@ class InsightScreen extends Component {
               {/* <Text style={{ textAlign: "center" }}>No Expenses</Text> */}
             </View>
           )}
-          <View style={styles.spends}>
+          <View collapsable={false} style={styles.spends}>
             <Text style={{ fontSize: 24, color: "#9c9c9c" }} weight="Regular">
               {I18n.t("insights_screen_total_spends")}
             </Text>
@@ -345,7 +350,7 @@ class InsightScreen extends Component {
             </Text>
           </View>
 
-          <View>
+          <View collapsable={false}>
             {categories.map((category, index) => (
               <TouchableOpacity
                 onPress={() =>
@@ -358,12 +363,13 @@ class InsightScreen extends Component {
                 style={styles.item}
               >
                 <View
+                  collapsable={false}
                   style={[
                     styles.itemColorDot,
                     { backgroundColor: legendColors[index] }
                   ]}
                 />
-                <View style={styles.texts}>
+                <View collapsable={false} style={styles.texts}>
                   <Text style={styles.categoryName} weight="Medium">
                     {category.cName}
                   </Text>

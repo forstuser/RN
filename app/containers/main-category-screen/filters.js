@@ -286,7 +286,7 @@ class Filters extends Component {
     );
 
     return (
-      <View>
+      <View collapsable={false} >
         <TouchableOpacity onPress={this.showModal} style={styles.alwaysVisible}>
           <Image style={styles.filterIcon} source={filterIcon} />
           <Text weight="Medium" style={styles.filterText}>
@@ -346,65 +346,76 @@ class Filters extends Component {
             }
           })}
         </ScrollView>
-        <Modal isVisible={this.state.isModalVisible}>
-          <View style={styles.modal}>
-            <View style={styles.modalHeader}>
-              <Text
-                weight="Medium"
-                style={{ color: "red" }}
-                onPress={this.onCancelPress}
-              >
-                {I18n.t("main_category_screen_filters_cancel")}
-              </Text>
-              <Text weight="Medium" style={[styles.filterText, { flex: 1 }]}>
-                {I18n.t("main_category_screen_filters_title")}
-              </Text>
-              <Text
-                weight="Medium"
-                style={{ color: colors.mainBlue }}
-                onPress={this.onApplyPress}
-              >
-                {I18n.t("main_category_screen_filters_apply")}
-              </Text>
-            </View>
-            <View>
-              <Collapsible
-                headerText={I18n.t(
-                  "main_category_screen_filters_title_categories"
-                )}
-              >
-                <FlatList
-                  style={{ height: 150 }}
-                  data={categories}
-                  keyExtractor={(item, index) => index}
-                  renderItem={this.renderCategoryItem}
-                />
-              </Collapsible>
-              <Collapsible
-                headerText={I18n.t("main_category_screen_filters_title_brands")}
-              >
-                <FlatList
-                  style={{ maxHeight: 150 }}
-                  data={brands}
-                  keyExtractor={(item, index) => index}
-                  renderItem={this.renderBrandItem}
-                />
-              </Collapsible>
-              <Collapsible
-                headerText={I18n.t(
-                  "main_category_screen_filters_title_sellers"
-                )}
-              >
-                <FlatList
-                  style={{ maxHeight: 150 }}
-                  data={sellers}
-                  keyExtractor={(item, index) => index}
-                  renderItem={this.renderSellerItem}
-                />
-              </Collapsible>
-            </View>
+        {this.state.isModalVisible ? (
+          <View collapsable={false} >
+            <Modal isVisible={true}>
+              <View collapsable={false}  style={styles.modal}>
+                <View collapsable={false}  style={styles.modalHeader}>
+                  <Text
+                    weight="Medium"
+                    style={{ color: "red" }}
+                    onPress={this.onCancelPress}
+                  >
+                    {I18n.t("main_category_screen_filters_cancel")}
+                  </Text>
+                  <Text
+                    weight="Medium"
+                    style={[styles.filterText, { flex: 1 }]}
+                  >
+                    {I18n.t("main_category_screen_filters_title")}
+                  </Text>
+                  <Text
+                    weight="Medium"
+                    style={{ color: colors.mainBlue }}
+                    onPress={this.onApplyPress}
+                  >
+                    {I18n.t("main_category_screen_filters_apply")}
+                  </Text>
+                </View>
+                <View collapsable={false} >
+                  <Collapsible
+                    headerText={I18n.t(
+                      "main_category_screen_filters_title_categories"
+                    )}
+                  >
+                    <FlatList
+                      style={{ height: 150 }}
+                      data={categories}
+                      keyExtractor={(item, index) => index}
+                      renderItem={this.renderCategoryItem}
+                    />
+                  </Collapsible>
+                  <Collapsible
+                    headerText={I18n.t(
+                      "main_category_screen_filters_title_brands"
+                    )}
+                  >
+                    <FlatList
+                      style={{ maxHeight: 150 }}
+                      data={brands}
+                      keyExtractor={(item, index) => index}
+                      renderItem={this.renderBrandItem}
+                    />
+                  </Collapsible>
+                  <Collapsible
+                    headerText={I18n.t(
+                      "main_category_screen_filters_title_sellers"
+                    )}
+                  >
+                    <FlatList
+                      style={{ maxHeight: 150 }}
+                      data={sellers}
+                      keyExtractor={(item, index) => index}
+                      renderItem={this.renderSellerItem}
+                    />
+                  </Collapsible>
+                </View>
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        ) : (
+          <View collapsable={false}  />
+        )}
       </View>
     );
   }

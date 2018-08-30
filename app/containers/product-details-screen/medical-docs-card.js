@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  Image,
   Alert,
   TouchableOpacity,
   ScrollView,
-  Text as NativeText
+  Platform
 } from "react-native";
 import _ from "lodash";
 import moment from "moment";
@@ -14,13 +13,12 @@ import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { Navigation } from "react-native-navigation";
 
 import Modal from "react-native-modal";
 
 import { SCREENS } from "../../constants";
 import { API_BASE_URL, getProductDetails } from "../../api";
-import { Text, Button, ScreenContainer } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
 
 import I18n from "../../i18n";
 
@@ -55,24 +53,20 @@ class MedicalDocsCard extends Component {
       };
     }
 
-    this.props.navigator.push({
-      screen: SCREENS.EDIT_MEDICAL_DOCS_SCREEN,
-      passProps: {
-        typeId: product.sub_category_id,
-        productId: product.id,
-        jobId: product.jobId,
-        reportTitle: product.productName,
-        date: product.purchaseDate,
-        doctorName: seller.name,
-        doctorContact: seller.contact,
-        copies: product.copies || []
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.EDIT_MEDICAL_DOCS_SCREEN, {
+      typeId: product.sub_category_id,
+      productId: product.id,
+      jobId: product.jobId,
+      reportTitle: product.productName,
+      date: product.purchaseDate,
+      doctorName: seller.name,
+      doctorContact: seller.contact,
+      copies: product.copies || []
     });
   };
 
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     let seller = {
       name: "",
       contact: ""
@@ -91,19 +85,11 @@ class MedicalDocsCard extends Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View style={{ top: 10, position: "absolute", right: 10 }}>
-            <ViewBillButton
-              product={product}
-              navigator={navigator}
-              docType="Medical Doc"
-              btnText={I18n.t("product_details_screen_docs")}
-            />
-          </View>
           <Image
             style={styles.image}
             source={{ uri: API_BASE_URL + "/" + product.cImageURL }}
@@ -114,7 +100,10 @@ class MedicalDocsCard extends Component {
           <Text weight="Bold" style={styles.subCategoryName}>
             {product.sub_category_name}
           </Text>
-          <View style={[defaultStyles.card, { margin: 16 }]}>
+          <View
+            collapsable={false}
+            style={[defaultStyles.card, { margin: 16 }]}
+          >
             <TouchableOpacity
               onPress={this.onEditPress}
               style={{
@@ -165,6 +154,18 @@ class MedicalDocsCard extends Component {
               )}
             />
           </View>
+          <View
+            collapsable={false}
+            style={{ top: 10, position: "absolute", right: 10 }}
+          >
+            <ViewBillButton
+              collapsable={false}
+              product={product}
+              navigation={navigation}
+              docType="Medical Doc"
+              btnText={I18n.t("product_details_screen_docs")}
+            />
+          </View>
         </ScrollView>
       </View>
     );
@@ -174,7 +175,6 @@ class MedicalDocsCard extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30,
     backgroundColor: "#f7f7f7"
   },
   contentContainer: {

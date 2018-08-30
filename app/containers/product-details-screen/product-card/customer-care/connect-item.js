@@ -3,7 +3,6 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  Image,
   TouchableOpacity,
   Alert,
   Linking
@@ -21,22 +20,22 @@ import {
 
 import Analytics from "../../../../analytics";
 import I18n from "../../../../i18n";
-import { showSnackbar } from "../../../snackbar";
+import { showSnackbar } from "../../../../utils/snackbar";
 
-import { Text, AsyncImage } from "../../../../elements";
+import { Text, Image } from "../../../../elements";
 import { colors } from "../../../../theme";
 
 import { getMetaValueByKey } from "../../../../utils";
 
 class Card extends React.Component {
   handleEmailPress = email => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_EMAIL);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_EMAIL, { type: this.props.type });
     const { product, loggedInUser, type } = this.props;
     const userName = loggedInUser.name || "";
 
     let subject = `Issue with ${product.brand ? product.brand.name : ""} ${
       product.categoryName
-      }`;
+    }`;
 
     let brandNameToAddress = product.brand ? product.brand.name : "";
 
@@ -72,8 +71,8 @@ class Card extends React.Component {
       productDetails.insuranceEffectiveDate = product.insuranceDetails[0]
         .effectiveDate
         ? moment(product.insuranceDetails[0].effectiveDate).format(
-          "MMM DD, YYYY"
-        )
+            "MMM DD, YYYY"
+          )
         : "NA";
       if (
         product.insuranceDetails[0].provider &&
@@ -101,105 +100,105 @@ class Card extends React.Component {
     if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
       subject = `${subject}${
         productDetails.vin ? ", Vin No. " + productDetails.vin : ""
-        }`;
+      }`;
     } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
       subject = `${subject}${
         productDetails.imeiNumber
           ? ", IMEI No. " + productDetails.imeiNumber
           : ""
-        }`;
+      }`;
     } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
       subject = `${subject}${
         productDetails.serialNumber
           ? ", Serial No. " + productDetails.serialNumber
           : ""
-        }`;
+      }`;
     }
 
     if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
       subject = `Issue with ${product.brand ? product.brand.name : ""} ${
         product.model ? product.model : ""
-        } ${product.categoryName}`;
+      } ${product.categoryName}`;
     }
 
     switch (type) {
       case "brand":
         if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
-          productDetailsText = `VIN No./Chasis Number: ${
+          productDetailsText = `VIN No./Chassis Number: ${
             productDetails.vin
-            }\nRegisteration Number: ${
+          }\nRegisteration Number: ${
             productDetails.registrationNumber
-            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-            }\nInsurance Poilcy Number: ${
+          }\nInsurance Poilcy Number: ${
             productDetails.insurancePolicyNo
-            }\nInsurance Provider: ${productDetails.insuranceProviderName}`;
+          }\nInsurance Provider: ${productDetails.insuranceProviderName}`;
         } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
           productDetailsText = `IMEI Number: ${
             productDetails.imeiNumber
-            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-            }`;
+          }`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
           productDetailsText = `Serial Number: ${
             productDetails.serialNumber
-            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-            }`;
+          }`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.FURNITURE) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-            }\nPurchase Date: ${productDetails.purchaseDate}`;
+          }\nPurchase Date: ${productDetails.purchaseDate}`;
         }
         break;
       case "warranty":
         if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
-          productDetailsText = `VIN No./Chasis Number: ${
+          productDetailsText = `VIN No./Chassis Number: ${
             productDetails.vin
-            }\nRegisteration Number: ${
+          }\nRegisteration Number: ${
             productDetails.registrationNumber
-            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-            }`;
+          }`;
         } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-            }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
+          }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
             productDetails.modelNumber
-            }\nPurchase Date: ${productDetails.purchaseDate}`;
+          }\nPurchase Date: ${productDetails.purchaseDate}`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-            }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
+          }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
             productDetails.modelNumber
-            }\nPurchase Date: ${productDetails.purchaseDate}`;
+          }\nPurchase Date: ${productDetails.purchaseDate}`;
         }
         break;
       case "insurance":
         if (product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
-          productDetailsText = `VIN No./Chasis Number: ${
+          productDetailsText = `VIN No./Chassis Number: ${
             productDetails.vin
-            }\nRegisteration Number: ${
+          }\nRegisteration Number: ${
             productDetails.registrationNumber
-            }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
+          }\nModel No: ${productDetails.modelNumber}\nPurchase Date: ${
             productDetails.purchaseDate
-            }\nPoilcy Number: ${productDetails.insurancePolicyNo}`;
+          }\nPoilcy Number: ${productDetails.insurancePolicyNo}`;
         } else if (product.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-            }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
+          }\nIMEI Number: ${productDetails.imeiNumber}\nModel No: ${
             productDetails.modelNumber
-            }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
+          }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
             productDetails.insurancePolicyNo
-            }`;
+          }`;
         } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
           productDetailsText = `Brand Category: ${
             productDetails.brandCategory
-            }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
+          }\nSerial Number: ${productDetails.serialNumber}\nModel No: ${
             productDetails.modelNumber
-            }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
+          }\nPurchase Date: ${productDetails.purchaseDate}\nPoilcy Number: ${
             productDetails.insurancePolicyNo
-            }`;
+          }`;
         }
         break;
       default:
@@ -210,10 +209,10 @@ class Card extends React.Component {
         productDetails.insurancePolicyNo != "NA"
           ? "No. " + productDetails.insurancePolicyNo
           : ""
-        }`;
+      }`;
       productDetailsText = `Plan Name: ${product.productName}\nPoilcy Number: ${
         productDetails.insurancePolicyNo
-        }\nEffective Date: ${productDetails.insuranceEffectiveDate}`;
+      }\nEffective Date: ${productDetails.insuranceEffectiveDate}`;
     }
 
     const url = `mailto:${email}?subject=${subject}&body=Dear ${brandNameToAddress} Team,\n\nThe issue I am facing is : 
@@ -222,43 +221,48 @@ class Card extends React.Component {
     Linking.canOpenURL(url)
       .then(supported => {
         if (!supported) {
-          snackbar({
+          showSnackbar({
             text: "Can't open this email"
-          })
+          });
         } else {
           return Linking.openURL(url);
         }
       })
-      .catch(e => snackbar({
-        text: e.message
-      })
-      )
+      .catch(e =>
+        showSnackbar({
+          text: e.message
+        })
+      );
   };
 
   handlePhonePress = phoneNumber => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_CALL);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_CALL, { type: this.props.type });
     call({
       number: phoneNumber.replace(/\(.+\)/, "").trim()
-    }).catch(e => snackbar({
-      text: e.message
-    })
-    )
+    }).catch(e =>
+      showSnackbar({
+        text: e.message
+      })
+    );
   };
 
   handleUrlPress = url => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SERVICE_REQUEST);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_WEB_URL, {
+      type: this.props.type
+    });
     Linking.canOpenURL(url).then(supported => {
       if (supported) {
         Linking.openURL(url);
       } else {
-        snackbar({
+        showSnackbar({
           text: "Don't know how to open URI: " + url
-        })
+        });
       }
     });
   };
 
   render() {
+    console.log("props is ", this.props);
     const {
       cardStyle,
       title,
@@ -271,16 +275,16 @@ class Card extends React.Component {
     } = this.props;
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <Text weight="Bold" style={styles.title}>
           {title}
         </Text>
-        <View style={[styles.card, cardStyle]}>
-          <View style={styles.imageContainer}>
+        <View collapsable={false} style={[styles.card, cardStyle]}>
+          <View collapsable={false} style={styles.imageContainer}>
             {imageUrl ? (
-              <AsyncImage
+              <Image
                 style={styles.image}
-                uri={imageUrl}
+                source={{ uri: imageUrl }}
                 resizeMode="contain"
               />
             ) : null}
@@ -292,16 +296,16 @@ class Card extends React.Component {
               />
             ) : null}
           </View>
-          <View style={styles.cardBody}>
+          <View collapsable={false} style={styles.cardBody}>
             <Text weight="Bold" style={styles.name}>
               {name}
             </Text>
-            {phoneNumbers.length > 0 && (
-              <View>
+            {phoneNumbers.length > 0 ? (
+              <View collapsable={false}>
                 <Text weight="Medium" style={styles.sectionTitle}>
                   {I18n.t("product_details_screen_connect_numbers")}
                 </Text>
-                <View>
+                <View collapsable={false}>
                   {phoneNumbers.map(phoneNumber => (
                     <TouchableOpacity
                       key={phoneNumber}
@@ -320,39 +324,15 @@ class Card extends React.Component {
                   ))}
                 </View>
               </View>
+            ) : (
+              <View collapsable={false} />
             )}
-
-            {urls.length > 0 && (
-              <View>
-                <Text weight="Medium" style={styles.sectionTitle}>
-                  {I18n.t("product_details_screen_connect_links")}
-                </Text>
-                <View>
-                  {urls.map(url => (
-                    <TouchableOpacity
-                      key={url}
-                      onPress={() => this.handleUrlPress(url)}
-                      style={styles.item}
-                    >
-                      <Icon
-                        name="ios-globe-outline"
-                        size={15}
-                        color={colors.pinkishOrange}
-                      />
-                      <Text style={styles.itemText} weight="Medium">
-                        {url}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
-            )}
-            {emails.length > 0 && (
-              <View>
+            {emails.length > 0 ? (
+              <View collapsable={false}>
                 <Text weight="Medium" style={styles.sectionTitle}>
                   {I18n.t("product_details_screen_connect_emails")}
                 </Text>
-                <View>
+                <View collapsable={false}>
                   {emails.map(email => (
                     <TouchableOpacity
                       key={email}
@@ -371,6 +351,35 @@ class Card extends React.Component {
                   ))}
                 </View>
               </View>
+            ) : (
+              <View collapsable={false} />
+            )}
+            {urls.length > 0 ? (
+              <View collapsable={false}>
+                <Text weight="Medium" style={styles.sectionTitle}>
+                  {I18n.t("product_details_screen_brand_portal")}
+                </Text>
+                <View collapsable={false}>
+                  {urls.map(item => (
+                    <TouchableOpacity
+                      key={item.details}
+                      onPress={() => this.handleUrlPress(item.details)}
+                      style={styles.item}
+                    >
+                      <Icon
+                        name="ios-globe-outline"
+                        size={15}
+                        color={colors.pinkishOrange}
+                      />
+                      <Text style={styles.itemText} weight="Medium">
+                        {item.displayName}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+            ) : (
+              <View collapsable={false} />
             )}
           </View>
         </View>
@@ -424,7 +433,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   itemText: {
-    fontSize: 12,
+    fontSize: 13,
     color: colors.secondaryText,
     marginLeft: 8
   }

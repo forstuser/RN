@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import moment from "moment";
-import { Text, Button, AsyncImage } from "../../elements";
+import { Text, Button, Image } from "../../elements";
 import I18n from "../../i18n";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
@@ -24,18 +24,18 @@ const ProductListItem = ({ product, onPress }) => {
 
   return (
     <TouchableOpacity onPress={() => onPress()} style={styles.container}>
-      <View style={styles.details}>
+      <View collapsable={false}  style={styles.details}>
         {product.copies &&
           product.copies.length > 0 &&
           isImageFileType(
             product.copies[0].file_type || product.copies[0].fileType
           ) && (
-            <AsyncImage
+            <Image
               fileType={
                 product.copies[0].file_type || product.copies[0].fileType
               }
               style={styles.image}
-              uri={API_BASE_URL + product.copies[0].copyUrl}
+              source={{ uri: API_BASE_URL + product.copies[0].copyUrl }}
             />
           )}
         {product.copies &&
@@ -48,7 +48,7 @@ const ProductListItem = ({ product, onPress }) => {
             <Image style={styles.image} source={imageSource} />
           )}
         {!product.copies && <Image style={styles.image} source={imageSource} />}
-        <View style={styles.texts}>
+        <View collapsable={false}  style={styles.texts}>
           <Text weight="Bold" style={styles.name}>
             {productName.toUpperCase()}
           </Text>

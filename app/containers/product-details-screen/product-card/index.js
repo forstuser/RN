@@ -14,7 +14,6 @@ import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { Navigation } from "react-native-navigation";
 
 import Modal from "react-native-modal";
 
@@ -48,7 +47,7 @@ class ProductCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTabIndex: 1,
+      activeTabIndex: 0,
       showCustomerCareTab: false,
       showImportantTab: true
     };
@@ -78,8 +77,12 @@ class ProductCard extends Component {
       product.masterCategoryId != MAIN_CATEGORY_IDS.FASHION
     ) {
       newState = {
-        activeTabIndex: 0,
+        // activeTabIndex: 0,
         showCustomerCareTab: true
+      };
+    } else {
+      newState = {
+        activeTabIndex: 1
       };
     }
 
@@ -88,7 +91,8 @@ class ProductCard extends Component {
         MAIN_CATEGORY_IDS.FASHION,
         MAIN_CATEGORY_IDS.HEALTHCARE,
         MAIN_CATEGORY_IDS.TRAVEL,
-        MAIN_CATEGORY_IDS.HOUSEHOLD
+        MAIN_CATEGORY_IDS.HOUSEHOLD,
+        MAIN_CATEGORY_IDS.SERVICES
       ].indexOf(product.masterCategoryId) > -1
     ) {
       newState.showImportantTab = false;
@@ -110,8 +114,10 @@ class ProductCard extends Component {
       ].indexOf(product.masterCategoryId) > -1
     ) {
       setTimeout(() => {
-        this.tour.startTour();
-        props.setUiHasProductCardTourShown(true);
+        if (this.tour) {
+          this.tour.startTour();
+          props.setUiHasProductCardTourShown(true);
+        }
       }, 1000);
     }
   };
@@ -120,26 +126,23 @@ class ProductCard extends Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_EDIT);
     const { product } = this.props;
     if (product.categoryId == 664) {
-      this.props.navigator.push({
-        screen: SCREENS.EDIT_INSURANCE_SCREEN,
-        passProps: {
-          typeId: product.sub_category_id,
-          mainCategoryId: product.masterCategoryId,
-          categoryId: product.categoryId,
-          productId: product.id,
-          jobId: product.jobId,
-          planName: product.productName,
-          insuranceFor: product.model,
-          copies: []
-        }
+      this.props.navigation.navigate(SCREENS.EDIT_INSURANCE_SCREEN, {
+        typeId: product.sub_category_id,
+        mainCategoryId: product.masterCategoryId,
+        categoryId: product.categoryId,
+        productId: product.id,
+        jobId: product.jobId,
+        planName: product.productName,
+        insuranceFor: product.model,
+        copies: []
       });
     } else {
-      this.props.navigator.push({
-        screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
-        passProps: {
+      this.props.navigation.navigate(
+        SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
+        {
           product: product
         }
-      });
+      );
     }
   };
 
@@ -160,27 +163,9 @@ class ProductCard extends Component {
     }
 
     if (event.nativeEvent.contentOffset.y > 0) {
-      this.props.navigator.setStyle({
-        navBarTransparent: false,
-        navBarBackgroundColor: "#fff",
-        ...Platform.select({
-          ios: {},
-          android: {
-            topBarElevationShadowEnabled: true
-          }
-        })
-      });
+      //non transparent header
     } else {
-      this.props.navigator.setStyle({
-        navBarTransparent: true,
-        navBarBackgroundColor: "transparent",
-        ...Platform.select({
-          ios: {},
-          android: {
-            topBarElevationShadowEnabled: false
-          }
-        })
-      });
+      //transparent header
     }
   };
 
@@ -196,7 +181,7 @@ class ProductCard extends Component {
     const cardWidthWhenOne = Dimensions.get("window").width - 32;
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ScrollView
           ref={ref => (this.scrollView = ref)}
           onScroll={this.handleScroll}
@@ -211,13 +196,14 @@ class ProductCard extends Component {
             showImportantTab={showImportantTab}
             onTabChange={this.onTabChange}
             product={product}
-            navigator={this.props.navigator}
+            fetchProductDetails={this.props.fetchProductDetails}
+            navigation={this.props.navigation}
           />
-          <View style={styles.pages}>
+          <View collapsable={false} style={styles.pages}>
             {activeTabIndex == 0 && (
               <CustomerCare
                 product={product}
-                navigator={this.props.navigator}
+                navigation={this.props.navigation}
                 scrollScreenToAsc={y =>
                   this.scrollView.scrollTo({ y: y + 100, animated: true })
                 }
@@ -226,12 +212,17 @@ class ProductCard extends Component {
               />
             )}
             {activeTabIndex == 1 && (
-              <AllInfo product={product} navigator={this.props.navigator} />
+              <AllInfo
+                product={product}
+                navigation={this.props.navigation}
+                cardWidthWhenMany={cardWidthWhenMany}
+                cardWidthWhenOne={cardWidthWhenOne}
+              />
             )}
             {activeTabIndex == 2 && (
               <Important
                 product={product}
-                navigator={this.props.navigator}
+                navigation={this.props.navigation}
                 cardWidthWhenMany={cardWidthWhenMany}
                 cardWidthWhenOne={cardWidthWhenOne}
               />
@@ -239,10 +230,12 @@ class ProductCard extends Component {
           </View>
         </ScrollView>
         <View
+          collapsable={false}
           style={styles.centerRefDummy}
           ref={ref => (this.centerRef = ref)}
         />
         <View
+          collapsable={false}
           style={styles.addProductImageBtnDummy}
           ref={ref => (this.addProductImageRef = ref)}
         />
@@ -261,7 +254,6 @@ class ProductCard extends Component {
               text: I18n.t("product_card_upload_bill_tip")
             },
             { ref: this.shareBtnRef, text: I18n.t("product_card_share_tip") },
-            { ref: this.reviewBtnRef, text: I18n.t("product_card_review_tip") },
             {
               ref: this.addProductImageRef,
               text: I18n.t("product_card_add_image_tip")
@@ -292,20 +284,10 @@ const styles = StyleSheet.create({
   addProductImageBtnDummy: {
     position: "absolute",
     opacity: 1,
-    ...Platform.select({
-      ios: {
-        top: 27,
-        right: 47,
-        width: 50,
-        height: 30
-      },
-      android: {
-        top: 15,
-        right: 45,
-        width: 50,
-        height: 30
-      }
-    })
+    top: -42,
+    right: 30,
+    width: 50,
+    height: 30
   }
 });
 
@@ -323,4 +305,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductCard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductCard);

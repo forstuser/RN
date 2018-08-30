@@ -121,8 +121,8 @@ class ExtendedWarrantyForm extends React.Component {
         headerTextStyle={styles.headerTextStyle}
         icon="plus"
       >
-        <View style={styles.innerContainer}>
-          <View style={styles.body}>
+        <View collapsable={false}  style={styles.innerContainer}>
+          <View collapsable={false}  style={styles.body}>
             <SelectModal
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
@@ -160,7 +160,7 @@ class ExtendedWarrantyForm extends React.Component {
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_extended_warranty_upto")}
               placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View collapsable={false}  style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
@@ -185,7 +185,7 @@ class ExtendedWarrantyForm extends React.Component {
               jobId={product.job_id}
               type={8}
               placeholder={I18n.t("expense_forms_extended_warranty_doc")}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
                 this.setState({

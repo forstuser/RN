@@ -86,7 +86,7 @@ class TabsView extends React.Component {
         onScroll={this.onScroll}
         showsHorizontalScrollIndicator={false}
         pagingEnabled={true}
-        horizontal={true}
+        horizontal={true}           showsHorizontalScrollIndicator={false}
         style={[styles.container, style]}
         contentContainerStyle={styles.contentContainer}
       >

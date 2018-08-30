@@ -23,7 +23,11 @@ import Analytics from "../../analytics";
 import LanguageOptions from "../../components/language-options";
 
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
+
+const Separator = () => (
+  <View style={{ height: 1, backgroundColor: "#d4d4d4" }} />
+);
 
 class Body extends Component {
   constructor(props) {
@@ -40,7 +44,7 @@ class Body extends Component {
           text: I18n.t("more_screen_logout"),
           onPress: () => {
             Analytics.logEvent(Analytics.EVENTS.CLICK_LOGOUT_YES);
-            this.props.logoutUser()
+            this.props.logoutUser();
           }
         },
         {
@@ -54,30 +58,24 @@ class Body extends Component {
 
   onAscItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ASC_FROM_MORE);
-    this.props.navigator.push({
-      screen: SCREENS.ASC_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.ASC_SCREEN);
   };
 
   onEhomeItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_TIPS_TO_BUILD_YOUR_EHOME);
-    this.props.navigator.push({
-      screen: SCREENS.TIPS_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.TIPS_SCREEN);
   };
 
   onFaqItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_FAQ);
-    this.props.navigator.push({
-      screen: SCREENS.FAQS_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.FAQS_SCREEN);
   };
 
   onEmailItemPress = () => {
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-      profile ? profile.mobile_no : ""
+        profile ? profile.mobile_no : ""
       })`
     );
   };
@@ -121,9 +119,7 @@ class Body extends Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PIN);
     const { isPinSet } = this.props;
     if (!isPinSet) {
-      this.props.navigator.push({
-        screen: SCREENS.PIN_SETUP_SCREEN
-      });
+      this.props.navigation.navigate(SCREENS.PIN_SETUP_SCREEN);
     } else {
       this.pinOptions.show();
     }
@@ -132,13 +128,17 @@ class Body extends Component {
   onPinOptionPress = i => {
     if (i < 2) {
       if (i == 0) {
-        this.props.navigator.push({
-          screen: SCREENS.PIN_SETUP_SCREEN
+        this.props.navigation.navigate(SCREENS.PIN_SETUP_SCREEN, {
+          updatePin: true
         });
       } else {
         this.props.removePin();
       }
     }
+  };
+
+  onOrderHistoryPress = () => {
+    this.props.navigation.navigate(SCREENS.ORDER_HISTORY_SCREEN);
   };
 
   render() {
@@ -147,6 +147,18 @@ class Body extends Component {
 
     return (
       <ScrollView>
+        <MoreItem
+          onPress={this.onOrderHistoryPress}
+          imageSource={require("../../images/orders_icon.png")}
+          text={"My Transactions"}
+          imageStyle={{ width: 20, height: 20 }}
+        />
+        <MoreItem
+          onPress={this.onOrderHistoryPress}
+          imageSource={require("../../images/orders_icon.png")}
+          text={"Cashback BIlls"}
+          imageStyle={{ width: 20, height: 20 }}
+        />
         <MoreItem
           onPress={this.onAppPinPress}
           imageSource={require("../../images/ic_app_pin.png")}
@@ -169,11 +181,23 @@ class Body extends Component {
           imageSource={require("../../images/ic_nav_asc_on.png")}
           text={I18n.t("more_screen_item_app_search_authorized")}
         />
+        <Separator />
         <MoreItem
           onPress={this.onEhomeItemPress}
           imageSource={require("../../images/ic_more_refer.png")}
           text={I18n.t("more_screen_item_tips")}
         />
+        <MoreItem
+          onPress={this.onFaqItemPress}
+          imageSource={require("../../images/ic_more_faq.png")}
+          text={I18n.t("more_screen_item_faq")}
+        />
+        <MoreItem
+          onPress={this.onFaqItemPress}
+          imageSource={require("../../images/ic_more_faq.png")}
+          text={"Cashback Query"}
+        />
+        <Separator />
         <MoreItem
           onPress={() =>
             call({ number: "+917600919189" }).catch(e =>
@@ -195,15 +219,11 @@ class Body extends Component {
           imageSource={require("../../images/ic_share_blue.png")}
           text={I18n.t("more_screen_item_share")}
         />
-
-        <MoreItem
-          onPress={this.onFaqItemPress}
-          imageSource={require("../../images/ic_more_faq.png")}
-          text={I18n.t("more_screen_item_faq")}
-        />
+        <Separator />
         <MoreItem
           onPress={this.onVersionItemPress}
           imageSource={require("../../images/ic_info_blue.png")}
+          imageStyle={{ width: 20, height: 20 }}
           text={I18n.t("more_screen_item_app_version") + ": v" + appVersion}
           btnText={
             isAppUpdateAvailable
@@ -214,9 +234,11 @@ class Body extends Component {
 
         <MoreItem
           onPress={this.onLogoutItemPress}
-          imageSource={require("../../images/ic_more_logout.png/")}
+          imageSource={require("../../images/ic_more_logout.png")}
           text={I18n.t("more_screen_item_logout")}
+          imageStyle={{ width: 20, height: 20 }}
         />
+
         <LanguageOptions
           ref={o => (this.languageOptions = o)}
           onLanguageChange={this.props.setLanguage}

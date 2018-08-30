@@ -17,8 +17,8 @@ import { API_BASE_URL, getAscSearchResults } from "../../../../api";
 import { Text } from "../../../../elements";
 import I18n from "../../../../i18n";
 import LoadingOverlay from "../../../../components/loading-overlay";
-import { showSnackbar } from "../../../snackbar";
-
+import { showSnackbar } from "../../../../utils/snackbar";
+import { MAIN_CATEGORY_IDS } from "../../../../constants";
 import ConnectItem from "./connect-item";
 import AscItem from "./asc-item";
 import ServiceSchedules from "./service-schedules";
@@ -69,7 +69,7 @@ class CustomerCare extends React.Component {
       });
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -95,7 +95,7 @@ class CustomerCare extends React.Component {
       console.log("e: ", e);
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -124,7 +124,7 @@ class CustomerCare extends React.Component {
       brand.details.forEach(item => {
         switch (item.typeId) {
           case 1:
-            brandData.urls.push(item.details);
+            brandData.urls.push(item);
             break;
           case 2:
             brandData.emails.push(item.details);
@@ -147,27 +147,33 @@ class CustomerCare extends React.Component {
     if (insuranceDetails.length > 0) {
       const provider = insuranceDetails[0].provider;
 
-      if (provider) {
+      if (provider && provider.status_type != 11) {
         insuranceData.providerId = provider.id;
         insuranceData.providerName = provider.name;
       }
 
-      if (provider && provider.contact) {
+      if (insuranceData.providerId && provider.contact) {
         insuranceData.phoneNumbers = provider.contact
           .split(/\\/)
           .filter(number => number.length > 0);
       }
 
-      if (provider && provider.email) {
+      if (insuranceData.providerId && provider.email) {
         insuranceData.emails = provider.email
           .split(/\\/)
           .filter(email => email.length > 0);
       }
 
-      if (provider && provider.url) {
+      if (insuranceData.providerId && provider.url) {
         insuranceData.urls = provider.url
           .split(/\\/)
-          .filter(url => url.length > 0);
+          .filter(url => url.length > 0)
+          .map(val => {
+            return {
+              displayName: val,
+              details: val
+            };
+          });
       }
     }
 
@@ -183,27 +189,33 @@ class CustomerCare extends React.Component {
     if (warrantyDetails.length > 0) {
       const provider = warrantyDetails[0].provider;
 
-      if (provider) {
-        warrantyData.id = provider.id;
+      if (provider && provider.status_type != 11) {
+        warrantyData.providerId = provider.id;
         warrantyData.providerName = provider.name;
       }
 
-      if (provider && provider.contact) {
+      if (warrantyData.providerId && provider.contact) {
         warrantyData.phoneNumbers = provider.contact
           .split(/\\/)
           .filter(number => number.length > 0);
       }
 
-      if (provider && provider.email) {
+      if (warrantyData.providerId && provider.email) {
         warrantyData.emails = provider.email
           .split(/\\/)
           .filter(email => email.length > 0);
       }
 
-      if (provider && provider.url) {
+      if (warrantyData.providerId && provider.url) {
         warrantyData.urls = provider.url
           .split(/\\/)
-          .filter(url => url.length > 0);
+          .filter(url => url.length > 0)
+          .map(val => {
+            return {
+              displayName: val,
+              details: val
+            };
+          });
       }
     }
 
@@ -220,13 +232,13 @@ class CustomerCare extends React.Component {
       });
     }
 
-    if (insuranceData.providerName) {
+    if (insuranceData.providerId) {
       connectItems.push({
         type: "insurance",
         title: I18n.t("product_details_screen_connect_insurance_provider"),
         imageUrl: `${API_BASE_URL}/providers/${
           insuranceData.providerId
-          }/images`,
+        }/images`,
         name: insuranceData.providerName,
         phoneNumbers: insuranceData.phoneNumbers,
         emails: insuranceData.emails,
@@ -234,7 +246,7 @@ class CustomerCare extends React.Component {
       });
     }
 
-    if (warrantyData.providerName) {
+    if (warrantyData.providerId) {
       connectItems.push({
         type: "warranty",
         title: I18n.t("product_details_screen_connect_warranty_provider"),
@@ -257,10 +269,10 @@ class CustomerCare extends React.Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <FlatList
           style={styles.slider}
-          horizontal={true}
+          horizontal={true}           showsHorizontalScrollIndicator={false}
           data={connectItems}
           keyExtractor={(item, index) => index}
           renderItem={({ item }) => {
@@ -281,8 +293,12 @@ class CustomerCare extends React.Component {
             );
           }}
         />
-        {brand && brand.id > 0 && brand.status_type == 1 ? (
+        {product.masterCategoryId != MAIN_CATEGORY_IDS.FURNITURE &&
+        brand &&
+        brand.id > 0 &&
+        brand.status_type == 1 ? (
           <View
+            collapsable={false}
             style={styles.ascContainer}
             onLayout={this.onAscContainerLayout}
           >
@@ -296,8 +312,8 @@ class CustomerCare extends React.Component {
               <Text weight="Medium" style={styles.locationPickerText}>
                 {place
                   ? `${place.name} ${
-                  place.address ? "(" + place.address + ")" : ""
-                  }`
+                      place.address ? "(" + place.address + ")" : ""
+                    }`
                   : I18n.t("product_details_screen_asc_select_location")}
               </Text>
               <Icon
@@ -308,10 +324,10 @@ class CustomerCare extends React.Component {
               />
             </TouchableOpacity>
             {place && (
-              <View style={styles.ascListContainer}>
+              <View collapsable={false} style={styles.ascListContainer}>
                 <FlatList
                   style={styles.ascList}
-                  horizontal={true}
+                  horizontal={true}           showsHorizontalScrollIndicator={false}
                   data={ascItems}
                   keyExtractor={(item, index) => index}
                   renderItem={({ item }) => {
@@ -325,15 +341,16 @@ class CustomerCare extends React.Component {
                   }}
                   refreshing={isFetchingAscItems}
                 />
-                {ascItems.length == 0 &&
-                  !isFetchingAscItems && (
-                    <View>
-                      <Image style={styles.noAscImage} source={nearbyIcon} />
-                      <Text style={styles.noAscMsg}>
-                        {I18n.t("product_details_screen_asc_no_results")}
-                      </Text>
-                    </View>
-                  )}
+                {ascItems.length == 0 && !isFetchingAscItems ? (
+                  <View collapsable={false}>
+                    <Image style={styles.noAscImage} source={nearbyIcon} />
+                    <Text style={styles.noAscMsg}>
+                      {I18n.t("product_details_screen_asc_no_results")}
+                    </Text>
+                  </View>
+                ) : (
+                  <View collapsable={false} />
+                )}
                 <LoadingOverlay visible={isFetchingAscItems} />
               </View>
             )}
@@ -341,11 +358,14 @@ class CustomerCare extends React.Component {
         ) : null}
         {serviceSchedules &&
           serviceSchedules.length > 0 && (
-            <View>
+            <View collapsable={false}>
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_service_schedule_title")}
               </Text>
-              <ServiceSchedules product={product} navigator={navigator} />
+              <ServiceSchedules
+                product={product}
+                navigation={this.props.navigation}
+              />
             </View>
           )}
       </View>

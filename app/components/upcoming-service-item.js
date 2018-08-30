@@ -8,7 +8,24 @@ import { API_BASE_URL } from "../api";
 import { openBillsPopUp } from "../navigation";
 import { SCREENS, SERVICE_TYPE_NAMES } from "../constants";
 
-const UpcomingServiceItem = ({ item, navigator }) => {
+const expiringInText = date => {
+  const diff = date.diff(
+    moment()
+      .utcOffset("+0000")
+      .startOf("day"),
+    "days"
+  );
+  if (diff < 0) {
+    return "Expired!";
+  } else if (diff == 0) {
+    return "Expiring Today!";
+  } else if (diff == 1) {
+    return "Expiring Tomorrow!";
+  } else {
+    return diff + " days left";
+  }
+};
+const UpcomingServiceItem = ({ item, navigation }) => {
   let icon = require("../images/ic_comingup_bill.png");
   let title = "";
   let subTitle = "";
@@ -20,28 +37,28 @@ const UpcomingServiceItem = ({ item, navigator }) => {
       icon = require("../images/ic_comingup_expiring.png");
       title = I18n.t("component_items_warranty_expiry");
       subTitle = item.productName;
-      sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
+      sidebarTitle = expiringInText(moment(item.expiryDate));
       sidebarSubTitle = "";
       break;
     case 3:
       icon = require("../images/ic_comingup_expiring.png");
       title = I18n.t("component_items_insurance_expiry");
       subTitle = item.productName;
-      sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
+      sidebarTitle = expiringInText(moment(item.expiryDate));
       sidebarSubTitle = "";
       break;
     case 4:
       icon = require("../images/ic_comingup_expiring.png");
       title = I18n.t("component_items_amc_expiry");
       subTitle = item.productName;
-      sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
+      sidebarTitle = expiringInText(moment(item.expiryDate));
       sidebarSubTitle = "";
       break;
     case 5:
       icon = require("../images/ic_comingup_expiring.png");
       title = I18n.t("component_items_puc_expiry");
       subTitle = item.productName;
-      sidebarTitle = "on " + moment(item.expiryDate).format("DD MMM");
+      sidebarTitle = expiringInText(moment(item.expiryDate));
       sidebarSubTitle = "";
       break;
     case 6:
@@ -50,7 +67,14 @@ const UpcomingServiceItem = ({ item, navigator }) => {
         SERVICE_TYPE_NAMES[item.schedule.service_type]
       })`;
       subTitle = item.productName;
-      sidebarTitle = "on " + moment(item.schedule.due_date).format("DD MMM");
+      sidebarTitle = expiringInText(moment(item.schedule.due_date));
+      sidebarSubTitle = "";
+      break;
+    case 7:
+      icon = require("../images/ic_comingup_expiring.png");
+      title = I18n.t("component_items_repair_warranty_expiry");
+      subTitle = item.productName;
+      sidebarTitle = expiringInText(moment(item.dueDate));
       sidebarSubTitle = "";
       break;
 
@@ -68,26 +92,25 @@ const UpcomingServiceItem = ({ item, navigator }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigator.push({
-          screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-          passProps: {
-            productId: item.productId || item.id
-          }
+        navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+          productId: item.productId || item.id
         });
       }}
       style={styles.container}
     >
       <Image style={styles.icon} source={icon} />
-      <View style={styles.centerContainer}>
+      <View collapsable={false} style={styles.centerContainer}>
         <Text weight="Medium" style={styles.title}>
           {title}
         </Text>
         <Text style={styles.subTitle}>{subTitle}</Text>
       </View>
-      <View style={styles.rightContainer}>
-        <Text weight="Medium" style={styles.title}>
-          {sidebarTitle}
-        </Text>
+      <View collapsable={false} style={styles.rightContainer}>
+        <View style={styles.expiringTextView}>
+          <Text weight="Medium" style={styles.expiringText}>
+            {sidebarTitle}
+          </Text>
+        </View>
         <Text style={styles.subTitle}>{sidebarSubTitle}</Text>
       </View>
     </TouchableOpacity>
@@ -116,6 +139,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.mainText,
     marginBottom: 2
+  },
+  expiringTextView: {
+    backgroundColor: "rgba(255,0,0,0.7)",
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+    marginLeft: 10
+  },
+  expiringText: {
+    color: "#fff",
+    fontSize: 10
   },
   subTitle: {
     fontSize: 12,

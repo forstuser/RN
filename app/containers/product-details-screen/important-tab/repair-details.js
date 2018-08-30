@@ -35,16 +35,12 @@ class RepairDetails extends Component {
   openAddEditRepairScreen = repair => {
     const { product } = this.props;
 
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_REPAIR_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        repair: repair
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_REPAIR_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      repair: repair
     });
   };
 
@@ -53,14 +49,14 @@ class RepairDetails extends Component {
     const { repairBills } = product;
 
     return (
-      <View>
+      <View collapsable={false}>
         <Collapsible
           headerText={I18n.t("product_details_screen_repairs_title")}
         >
-          {repairBills.length > 0 && (
-            <View>
+          {repairBills.length > 0 ? (
+            <View collapsable={false}>
               {repairBills.map(repairBill => (
-                <View>
+                <View collapsable={false}>
                   <EditOptionRow
                     date={repairBill.expiryDate}
                     onEditPress={() => {
@@ -68,6 +64,7 @@ class RepairDetails extends Component {
                     }}
                   />
                   <ViewBillRow
+                    collapsable={false}
                     expiryDate={repairBill.expiryDate}
                     purchaseDate={repairBill.purchaseDate}
                     docType="Repair Bill"
@@ -118,8 +115,7 @@ class RepairDetails extends Component {
                 </View>
               ))}
             </View>
-          )}
-          {repairBills.length == 0 && (
+          ) : (
             <Text
               weight="Bold"
               style={{ textAlign: "center", padding: 16, color: "red" }}

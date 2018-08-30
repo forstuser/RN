@@ -3,33 +3,20 @@ import { StyleSheet, View, Alert, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { getReferenceDataForCategory, updateProduct } from "../api";
+import Analytics from "../analytics";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import LoadingOverlay from "../components/loading-overlay";
-import { MAIN_CATEGORY_IDS } from "../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS, METADATA_KEYS } from "../constants";
 import { ScreenContainer, Text, Button } from "../elements";
 import ProductBasicDetailsForm from "../components/expense-forms/product-basic-details-form";
 import ExpenseBasicDetailsForm from "../components/expense-forms/expense-basic-details-form";
 import ChangesSavedModal from "../components/changes-saved-modal";
 
 class EditProductBasicDetails extends React.Component {
-  static navigatorStyle = {
-    tabBarHidden: true,
-    disabledBackGesture: true
-  };
-
-  static navigatorButtons = {
-    ...Platform.select({
-      ios: {
-        leftButtons: [
-          {
-            id: "backPress",
-            icon: require("../images/ic_back_ios.png")
-          }
-        ]
-      }
-    })
+  static navigationOptions = {
+    title: "Edit Details"
   };
 
   constructor(props) {
@@ -40,7 +27,7 @@ class EditProductBasicDetails extends React.Component {
       subCategories: [],
       isLoading: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -52,7 +39,7 @@ class EditProductBasicDetails extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigator.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -67,18 +54,14 @@ class EditProductBasicDetails extends React.Component {
   };
 
   async componentDidMount() {
-    const { product } = this.props;
-    let title = "Edit " + (product.productName || "Product");
-    this.props.navigator.setTitle({ title });
-    this.fetchCategoryData();
+    const { product } = this.props.navigation.state.params;
+    this.fetchCategoryData(product);
   }
 
-  fetchCategoryData = async () => {
+  fetchCategoryData = async product => {
     try {
       this.setState({ isLoading: true });
-      const res = await getReferenceDataForCategory(
-        this.props.product.categoryId
-      );
+      const res = await getReferenceDataForCategory(product.categoryId);
       this.setState({
         brands: res.categories[0].brands,
         categoryForms: res.categories[0].categoryForms,
@@ -93,7 +76,9 @@ class EditProductBasicDetails extends React.Component {
   };
 
   onSavePress = async () => {
-    const { navigator, product } = this.props;
+    const { navigation } = this.props;
+    const { product } = navigation.state.params;
+
     let data = {
       mainCategoryId: product.masterCategoryId,
       categoryId: product.categoryId,
@@ -115,10 +100,21 @@ class EditProductBasicDetails extends React.Component {
           text: I18n.t("add_edit_product_basic_select_brand")
         });
       }
-    } else if (MAIN_CATEGORY_IDS.FURNITURE.FURNITURE == data.categoryId) {
-      if (!data.subCategoryId) {
+    } else if (MAIN_CATEGORY_IDS.FURNITURE == data.mainCategoryId) {
+      if (
+        CATEGORY_IDS.FURNITURE.FURNITURE == data.categoryId &&
+        !data.subCategoryId
+      ) {
         return showSnackbar({
           text: I18n.t("add_edit_product_basic_select_type")
+        });
+      } else if (
+        CATEGORY_IDS.FURNITURE.FURNITURE != data.categoryId &&
+        data.brandId === undefined &&
+        !data.brandName
+      ) {
+        return showSnackbar({
+          text: I18n.t("add_edit_product_basic_select_brand")
         });
       }
     } else if (!data.value) {
@@ -132,7 +128,18 @@ class EditProductBasicDetails extends React.Component {
         text: I18n.t("add_edit_product_basic_select_date")
       });
     }
-
+    // if ((!data.sellerContact && !data.sellerName && data.sellerAddress) || (!data.sellerName && data.sellerAddress)) {
+    //   return showSnackbar({
+    //     text: "Please enter seller name/contact no."
+    //   });
+    // }
+    if (data.sellerAddress) {
+      if (!data.sellerContact && !data.sellerName) {
+        return showSnackbar({
+          text: "Please enter seller name/contact no."
+        });
+      }
+    }
     if (
       [
         MAIN_CATEGORY_IDS.AUTOMOBILE,
@@ -148,6 +155,7 @@ class EditProductBasicDetails extends React.Component {
       }
     }
 
+    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: "repair" });
     try {
       this.setState({ isLoading: true });
       await updateProduct(data);
@@ -162,7 +170,8 @@ class EditProductBasicDetails extends React.Component {
   };
 
   render() {
-    const { product, navigator } = this.props;
+    const { navigation } = this.props;
+    const { product } = navigation.state.params;
 
     const { brands, categoryForms, subCategories, isLoading } = this.state;
 
@@ -178,27 +187,31 @@ class EditProductBasicDetails extends React.Component {
     const modelName = product.model;
 
     let sellerName,
-      sellerContact = "";
+      sellerContact = "",
+      sellerAddress = "";
     if (product.sellers) {
       sellerName = product.sellers.sellerName;
       sellerContact = product.sellers.contact;
+      sellerAddress = product.sellers.address;
     } else if (product.onlineSellers) {
       sellerName = product.onlineSellers.sellerName;
       sellerContact = product.onlineSellers.contact;
     }
 
-    let vinNo = (vinNoId = registrationNo = registrationNoId = imeiNo = imeiNoId = serialNo = serialNoId = nextDueDate = nextDueDateId = null);
+    let chasisNumber = (chasisNumberId = registrationNo = registrationNoId = imeiNo = imeiNoId = serialNo = serialNoId = nextDueDate = nextDueDateId = null);
 
     const productMetaDatas = product.metaData || [];
 
-    const imeiMeta = productMetaDatas.find(meta => meta.name == "IMEI Number");
+    const imeiMeta = productMetaDatas.find(
+      meta => meta.name == METADATA_KEYS.IMEI_NUMBER
+    );
     if (imeiMeta) {
       imeiNo = imeiMeta.value;
       imeiNoId = imeiMeta.id;
     }
 
     const serialNoMeta = productMetaDatas.find(
-      meta => meta.name == "Serial Number"
+      meta => meta.name == METADATA_KEYS.SERIAL_NUMBER
     );
     if (serialNoMeta) {
       serialNo = serialNoMeta.value;
@@ -206,22 +219,24 @@ class EditProductBasicDetails extends React.Component {
     }
 
     const registrationNoMeta = productMetaDatas.find(
-      meta => meta.name == "Registration Number"
+      meta => meta.name == METADATA_KEYS.REGISTRATION_NUMBER
     );
     if (registrationNoMeta) {
       registrationNo = registrationNoMeta.value;
       registrationNoId = registrationNoMeta.id;
     }
 
-    const vinNoMeta = productMetaDatas.find(
-      meta => meta.name.toLowerCase() == "vin"
+    const chasisNumberMeta = productMetaDatas.find(
+      meta => meta.name.toLowerCase() == METADATA_KEYS.CHASIS_NUMBER
     );
-    if (vinNoMeta) {
-      vinNo = vinNoMeta.value;
-      vinNoId = vinNoMeta.id;
+    if (chasisNumberMeta) {
+      chasisNumber = chasisNumberMeta.value;
+      chasisNumberId = chasisNumberMeta.id;
     }
 
-    const dueDateMeta = productMetaDatas.find(meta => meta.name == "Due date");
+    const dueDateMeta = productMetaDatas.find(
+      meta => meta.name == METADATA_KEYS.DUE_DATE
+    );
     if (dueDateMeta) {
       nextDueDate = dueDateMeta.value;
       nextDueDateId = dueDateMeta.id;
@@ -244,11 +259,11 @@ class EditProductBasicDetails extends React.Component {
         <LoadingOverlay visible={isLoading} />
         <ChangesSavedModal
           ref={ref => (this.changesSavedModal = ref)}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
         <KeyboardAwareScrollView>
-          <View style={{ flex: 1 }}>
-            {showExpenseForm && (
+          <View collapsable={false} style={{ flex: 1 }}>
+            {showExpenseForm ? (
               <ExpenseBasicDetailsForm
                 showFullForm={true}
                 ref={ref => (this.basicDetailsForm = ref)}
@@ -260,7 +275,7 @@ class EditProductBasicDetails extends React.Component {
                 }}
                 jobId={product.jobId}
                 subCategories={subCategories}
-                navigator={navigator}
+                navigation={navigation}
                 {...{
                   productId: id,
                   expenseName: productName,
@@ -270,12 +285,12 @@ class EditProductBasicDetails extends React.Component {
                   copies,
                   sellerName,
                   sellerContact,
+                  sellerAddress,
                   nextDueDate,
                   nextDueDateId
                 }}
               />
-            )}
-            {!showExpenseForm && (
+            ) : (
               <ProductBasicDetailsForm
                 showFullForm={true}
                 ref={ref => (this.basicDetailsForm = ref)}
@@ -291,7 +306,7 @@ class EditProductBasicDetails extends React.Component {
                 jobId={product.jobId}
                 brands={brands}
                 categoryForms={categoryForms}
-                navigator={navigator}
+                navigation={navigation}
                 {...{
                   id,
                   productName,
@@ -302,8 +317,9 @@ class EditProductBasicDetails extends React.Component {
                   modelName,
                   sellerName,
                   sellerContact,
-                  vinNo,
-                  vinNoId,
+                  sellerAddress,
+                  chasisNumber,
+                  chasisNumberId,
                   registrationNo,
                   registrationNoId,
                   imeiNo,

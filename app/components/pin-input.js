@@ -51,14 +51,14 @@ class PinInput extends React.Component {
     } = this.props;
 
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
+      <View collapsable={false}  style={styles.container}>
+        <View collapsable={false}  style={styles.header}>
           <Text weight="Light" style={styles.title}>
             {title}
           </Text>
-          <View style={styles.dots}>
+          <View collapsable={false}  style={styles.dots}>
             {[1, 2, 3, 4].map(number => (
-              <View
+              <View collapsable={false} 
                 key={number}
                 style={[
                   styles.dot,
@@ -67,7 +67,7 @@ class PinInput extends React.Component {
               />
             ))}
           </View>
-          {showForgotOption && (
+          {showForgotOption ? (
             <Text
               onPress={onForgotOptionPress}
               weight="Light"
@@ -75,10 +75,12 @@ class PinInput extends React.Component {
             >
               Forgot PIN?
             </Text>
+          ) : (
+            <View collapsable={false}  />
           )}
         </View>
-        <View style={styles.keyboard}>
-          <View style={styles.keyboardRow}>
+        <View collapsable={false}  style={styles.keyboard}>
+          <View collapsable={false}  style={styles.keyboardRow}>
             {[1, 2, 3].map(number => (
               <TouchableOpacity
                 key={number}
@@ -91,7 +93,7 @@ class PinInput extends React.Component {
               </TouchableOpacity>
             ))}
           </View>
-          <View style={styles.keyboardRow}>
+          <View collapsable={false}  style={styles.keyboardRow}>
             {[4, 5, 6].map(number => (
               <TouchableOpacity
                 key={number}
@@ -104,7 +106,7 @@ class PinInput extends React.Component {
               </TouchableOpacity>
             ))}
           </View>
-          <View style={styles.keyboardRow}>
+          <View collapsable={false}  style={styles.keyboardRow}>
             {[7, 8, 9].map(number => (
               <TouchableOpacity
                 key={number}
@@ -117,7 +119,7 @@ class PinInput extends React.Component {
               </TouchableOpacity>
             ))}
           </View>
-          <View style={styles.keyboardRow}>
+          <View collapsable={false}  style={styles.keyboardRow}>
             <TouchableOpacity
               onPress={() => this.onBackPress()}
               style={styles.keyboardKey}
@@ -133,7 +135,7 @@ class PinInput extends React.Component {
               </Text>
             </TouchableOpacity>
             <TouchableWithoutFeedback onPress={this.onSubmitPress}>
-              <View style={styles.keyboardKey}>
+              <View collapsable={false}  style={styles.keyboardKey}>
                 <Text
                   weight="Medium"
                   style={[

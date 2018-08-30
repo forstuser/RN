@@ -34,32 +34,42 @@ class ChangesSavedModal extends React.Component {
 
   onOkayClick = () => {
     this.setState({ visible: false }, () => {
-      this.props.navigator.pop();
+      this.props.navigation.goBack();
     });
   };
 
   render() {
-    const { title = "Changes Saved Successfully", navigator } = this.props;
+    const { title = "Changes Saved Successfully", navigation } = this.props;
     const { visible } = this.state;
+    if (!visible) return null;
+
     return (
-      <Modal useNativeDriver={true} isVisible={visible}>
-        <View style={styles.finishModal}>
-          <Image
-            style={styles.finishImage}
-            source={tick}
-            resizeMode="contain"
-          />
-          <Text weight="Bold" style={styles.finishMsg}>
-            {title}
-          </Text>
-          <Button
-            onPress={this.onOkayClick}
-            style={styles.finishBtn}
-            text={I18n.t("component_items_okey")}
-            color="secondary"
-          />
-        </View>
-      </Modal>
+      <View collapsable={false}>
+        {visible ? (
+          <View collapsable={false}>
+            <Modal useNativeDriver={true} isVisible={true}>
+              <View collapsable={false} style={styles.finishModal}>
+                <Image
+                  style={styles.finishImage}
+                  source={tick}
+                  resizeMode="contain"
+                />
+                <Text weight="Bold" style={styles.finishMsg}>
+                  {title}
+                </Text>
+                <Button
+                  onPress={this.onOkayClick}
+                  style={styles.finishBtn}
+                  text={I18n.t("component_items_okey")}
+                  color="secondary"
+                />
+              </View>
+            </Modal>
+          </View>
+        ) : (
+          <View collapsable={false} />
+        )}
+      </View>
     );
   }
 }

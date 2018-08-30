@@ -118,9 +118,9 @@ android {
     defaultConfig {
         applicationId "com.bin.binbillcustomer"
         minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 8020002
-        versionName "2.0.2"
+        targetSdkVersion 27
+        versionCode 8020009
+        versionName "2.0.9"
         multiDexEnabled true
         ndk {
 //            abiFilters "armeabi-v7a"
@@ -129,7 +129,7 @@ android {
 //        renderscriptTargetApi 25
 //        renderscriptSupportModeEnabled true
     }
-    
+
     signingConfigs {
         release {
           if(project.hasProperty("BinBill.properties")
@@ -149,22 +149,22 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
-    splits {
-        abi {
-            reset()
-            enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a"
-        }
-    }
-//    splits {
-//        abi {
-//            reset()
-//            enable enableSeparateBuildPerCPUArchitecture
-//            universalApk false  // If true, also generate a universal APK
-//            include "armeabi-v7a", "x86"
-//        }
-//    }
+    // splits {
+    //     abi {
+    //         reset()
+    //         enable enableSeparateBuildPerCPUArchitecture
+    //         universalApk false  // If true, also generate a universal APK
+    //         include "armeabi-v7a"
+    //     }
+    // }
+   splits {
+       abi {
+           reset()
+           enable enableSeparateBuildPerCPUArchitecture
+           universalApk false  // If true, also generate a universal APK
+           include "armeabi-v7a", "x86"
+       }
+   }
     buildTypes {
         release {
             signingConfig signingConfigs.release
@@ -198,6 +198,12 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-applozic-chat')
+    compile project(':react-native-get-sms-android')
+    compile project(':react-native-camera')
+    compile project(':react-native-snackbar')
+    compile project(':react-native-splash-screen')
+    compile project(':react-native-fast-image')
     compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
       transitive = true;
     }
@@ -212,7 +218,6 @@ dependencies {
     compile project(':react-native-svg')
     compile project(':react-native-share')
     compile project(':react-native-photo-view')
-    compile project(':react-native-navigation')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-i18n')

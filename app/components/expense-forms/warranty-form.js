@@ -28,10 +28,11 @@ import { colors } from "../../theme";
 
 import UploadDoc from "../form-elements/upload-doc";
 import CustomDatePicker from "../form-elements/date-picker";
+import CustomTextInput from "../form-elements/text-input";
 
 class WarrantyForm extends React.Component {
   static propTypes = {
-    navigator: PropTypes.object,
+    navigation: PropTypes.object,
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
@@ -76,12 +77,19 @@ class WarrantyForm extends React.Component {
       selectedRenewalType: null,
       copies: [],
       selectedProvider: null,
-      providerName: null
+      providerName: null,
+      value: ""
     };
   }
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { warranty } = this.props;
+    if (warranty) {
+      this.setState({
+        copies: warranty.copies || []
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -89,6 +97,7 @@ class WarrantyForm extends React.Component {
   }
 
   updateStateFromProps = props => {
+    console.log("updateStateFromProps");
     if (props.warranty) {
       const { warranty, renewalTypes, warrantyProviders } = props;
 
@@ -105,10 +114,10 @@ class WarrantyForm extends React.Component {
 
       this.setState({
         id: warranty.id,
+        value: String(warranty.value),
         effectiveDate: moment(warranty.effectiveDate).format("YYYY-MM-DD"),
         selectedRenewalType: selectedRenewalType,
-        selectedProvider: selectedProvider,
-        copies: warranty.copies
+        selectedProvider: selectedProvider
       });
     } else if (props.renewalTypeId) {
       const { renewalTypeId, renewalTypes } = props;
@@ -129,7 +138,9 @@ class WarrantyForm extends React.Component {
       effectiveDate,
       selectedRenewalType,
       selectedProvider,
-      providerName
+      providerName,
+      value,
+      copies
     } = this.state;
 
     let data = {
@@ -137,7 +148,9 @@ class WarrantyForm extends React.Component {
       effectiveDate: effectiveDate,
       renewalType: selectedRenewalType ? selectedRenewalType.id : null,
       providerId: selectedProvider ? selectedProvider.id : null,
-      providerName
+      providerName,
+      value,
+      copies
     };
 
     return data;
@@ -185,7 +198,7 @@ class WarrantyForm extends React.Component {
       renewalTypes,
       warrantyProviders,
       isCollapsible,
-      navigator
+      navigation
     } = this.props;
     const {
       id,
@@ -193,8 +206,10 @@ class WarrantyForm extends React.Component {
       selectedRenewalType,
       copies,
       selectedProvider,
-      providerName
+      providerName,
+      value
     } = this.state;
+    console.log("this.state: ", this.state);
 
     let title = I18n.t("expense_forms_warranty_Warranty");
     if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
@@ -225,10 +240,10 @@ class WarrantyForm extends React.Component {
         icon="plus"
         isCollapsible={isCollapsible}
       >
-        <View style={styles.innerContainer}>
-          <View style={styles.body}>
-            {warrantyType == WARRANTY_TYPES.EXTENDED && (
-              <View>
+        <View collapsable={false} style={styles.innerContainer}>
+          <View collapsable={false} style={styles.body}>
+            {warrantyType == WARRANTY_TYPES.EXTENDED ? (
+              <View collapsable={false}>
                 <SelectModal
                   // style={styles.input}
                   dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
@@ -270,17 +285,29 @@ class WarrantyForm extends React.Component {
                     this.setState({ effectiveDate });
                   }}
                 />
+
+                <CustomTextInput
+                  placeholder={I18n.t("expense_forms_warranty_amount")}
+                  underlineColorAndroid="transparent"
+                  value={value}
+                  onChangeText={value => this.setState({ value })}
+                  keyboardType="numeric"
+                />
               </View>
-            )}
+            ) : (
+                <View collapsable={false} />
+              )}
             <SelectModal
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_extended_warranty_upto")}
+              hint={"Helps in warranty expiry reminder"}
               placeholderRenderer={({ placeholder }) => (
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
                 </Text>
               )}
+              style={{ paddingTop: 0 }}
               selectedOption={selectedRenewalType}
               options={renewalTypes}
               visibleKey="title"
@@ -297,7 +324,9 @@ class WarrantyForm extends React.Component {
               docType="Warranty"
               type={warrantyType == WARRANTY_TYPES.NORMAL ? 5 : 6}
               placeholder={I18n.t("expense_forms_warranty_upload_warr_doc")}
-              navigator={navigator}
+              hint={"Recommended"}
+              placeholder2Color={colors.mainBlue}
+              navigation={navigation}
               onUpload={uploadResult => {
                 console.log("upload result: ", uploadResult);
                 this.setState({

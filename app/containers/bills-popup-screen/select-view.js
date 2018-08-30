@@ -5,7 +5,6 @@ import {
   FlatList,
   Alert,
   NativeModules,
-  Image,
   TouchableWithoutFeedback
 } from "react-native";
 import GridView from "react-native-super-grid";
@@ -15,7 +14,7 @@ import moment from "moment";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import { connect } from "react-redux";
 
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
 import { API_BASE_URL } from "../../api";
 import { colors } from "../../theme";
 
@@ -24,7 +23,7 @@ const fileIcon = require("../../images/ic_file.png");
 import { isImageFileType } from "../../utils";
 
 class SelectView extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true,
     tabBarHidden: true,
     statusBarTextColorScheme: "light"
@@ -39,7 +38,7 @@ class SelectView extends Component {
   componentDidMount() {}
 
   closeThisScreen = () => {
-    this.props.navigator.dismissModal();
+    this.props.navigation.goBack();
   };
 
   toggleCopySelect = copy => {
@@ -61,7 +60,7 @@ class SelectView extends Component {
     const { selectedCopies } = this.state;
     const { copies, passSelectedCopies } = this.props;
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <GridView
           itemDimension={150}
           items={copies}
@@ -76,24 +75,25 @@ class SelectView extends Component {
                 style={styles.item}
               >
                 <View
+                  collapsable={false}
                   style={[
                     styles.itemInner,
                     { borderColor: itemIndex > -1 ? colors.mainBlue : "#999" }
                   ]}
                 >
                   {isImageFileType(item.file_type || item.fileType) && (
-                    <AsyncImage
+                    <Image
                       style={styles.itemImage}
-                      uri={API_BASE_URL + item.copyUrl}
+                      source={{ uri: API_BASE_URL + item.copyUrl }}
                     />
                   )}
                   {!isImageFileType(item.file_type || item.fileType) && (
-                    <View style={styles.file}>
+                    <View collapsable={false} style={styles.file}>
                       <Image style={styles.fileIcon} source={fileIcon} />
                     </View>
                   )}
 
-                  <View style={styles.checkboxWrapper}>
+                  <View collapsable={false} style={styles.checkboxWrapper}>
                     <Icon
                       style={styles.checkbox}
                       name="ios-checkmark-circle"

@@ -10,7 +10,7 @@ export default {
   app_intro_4_desc: `You Can Capture and Track All Expenses Across Categories Such As Household and Utility, Travel, Dining, Healthcare and More.`,
   app_intro_next: "NEXT",
   app_intro_skip: "SKIP",
-  app_intro_register: "REGISTER",
+  app_intro_start: "Let's Get Started",
   dashboard_screen_title: "डैशबोर्ड",
   ehome_screen_title: "ईहोम",
   asc_screen_title: "अधिकृत सेवा केंद्र",

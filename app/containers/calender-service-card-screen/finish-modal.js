@@ -9,7 +9,7 @@ import I18n from "../../i18n";
 import Icon from "react-native-vector-icons/Ionicons";
 import CustomDatePicker from "../../components/form-elements/date-picker";
 import LoadingOverlay from "../../components/loading-overlay";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import moment from "moment";
 
 class FinishModal extends React.Component {
@@ -73,42 +73,58 @@ class FinishModal extends React.Component {
   render() {
     const { isModalVisible, isSavingDetails, finishDate } = this.state;
     const { item } = this.props;
+    if (!isModalVisible) return null;
     return (
-      <Modal useNativeDriver={true} isVisible={isModalVisible}>
-        <View style={[styles.card, styles.modalCard]}>
-          <LoadingOverlay visible={isSavingDetails} />
+      <View collapsable={false} >
+        {isModalVisible ? (
+          <View collapsable={false} >
+            <Modal useNativeDriver={true} isVisible={true}>
+              <View collapsable={false}  style={[styles.card, styles.modalCard]}>
+                <LoadingOverlay visible={isSavingDetails} />
 
-          <TouchableOpacity style={styles.modalCloseIcon} onPress={this.hide}>
-            <Icon name="md-close" size={30} color={colors.mainText} />
-          </TouchableOpacity>
-          <CustomDatePicker
-            date={finishDate}
-            minDate={
-              item.calculation_detail[item.calculation_detail.length - 1]
-                .effective_date
-            }
-            maxDate={"2100-01-01"}
-            placeholder={I18n.t(
-              "add_edit_calendar_service_screen_form_finish_date"
-            )}
-            onDateChange={finishDate => {
-              this.setState({ finishDate });
-            }}
-          />
-          <Text
-            weight="Medium"
-            style={{ fontSize: 12, color: colors.danger, marginBottom: 10 }}
-          >
-            {I18n.t("calendar_service_finish_date_warning")}
-          </Text>
-          <Button
-            onPress={this.finishDateSave}
-            style={[styles.modalBtn]}
-            text={I18n.t("calendar_service_screen_save")}
-            color="secondary"
-          />
-        </View>
-      </Modal>
+                <TouchableOpacity
+                  style={styles.modalCloseIcon}
+                  onPress={this.hide}
+                >
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
+                <CustomDatePicker
+                  date={finishDate}
+                  minDate={
+                    item.calculation_detail[item.calculation_detail.length - 1]
+                      .effective_date
+                  }
+                  maxDate={"2100-01-01"}
+                  placeholder={I18n.t(
+                    "add_edit_calendar_service_screen_form_finish_date"
+                  )}
+                  onDateChange={finishDate => {
+                    this.setState({ finishDate });
+                  }}
+                />
+                <Text
+                  weight="Medium"
+                  style={{
+                    fontSize: 12,
+                    color: colors.danger,
+                    marginBottom: 10
+                  }}
+                >
+                  {I18n.t("calendar_service_finish_date_warning")}
+                </Text>
+                <Button
+                  onPress={this.finishDateSave}
+                  style={[styles.modalBtn]}
+                  text={I18n.t("calendar_service_screen_save")}
+                  color="secondary"
+                />
+              </View>
+            </Modal>
+          </View>
+        ) : (
+          <View collapsable={false}  />
+        )}
+      </View>
     );
   }
 }

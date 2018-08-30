@@ -17,7 +17,7 @@ import {
 import { uploadProductImage } from "../api";
 
 import I18n from "../i18n";
-import { showSnackbar } from "../containers/snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import { Text, Button } from "../elements";
 import { colors } from "../theme";
@@ -102,7 +102,7 @@ class UploadProductImage extends React.Component {
         () => {
           setTimeout(() => {
             if (typeof onImageUpload == "function") {
-              onImageUpload();
+              onImageUpload(file.uri);
             }
           }, 200);
         }
@@ -129,10 +129,16 @@ class UploadProductImage extends React.Component {
   render() {
     const { isUploadingImage } = this.state;
     return (
-      <View>
-        <Modal visible={isUploadingImage} transparent={true}>
-          <LoadingOverlay visible={true} text={I18n.t("uploading")} />
-        </Modal>
+      <View collapsable={false} >
+        {isUploadingImage ? (
+          <View collapsable={false} >
+            <Modal visible={true} transparent={true}>
+              <LoadingOverlay visible={true} text={I18n.t("uploading")} />
+            </Modal>
+          </View>
+        ) : (
+          <View collapsable={false}  />
+        )}
         <ActionSheet
           onPress={this.handleOptionPress}
           ref={o => (this.uploadOptions = o)}

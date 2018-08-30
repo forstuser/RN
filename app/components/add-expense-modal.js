@@ -39,9 +39,8 @@ class AddExpenseModal extends React.Component {
 
   onPressItem = type => {
     this.hide();
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
-      passProps: { expenseType: type }
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_EXPENSE_SCREEN, {
+      expenseType: type
     });
   };
 
@@ -126,58 +125,73 @@ class AddExpenseModal extends React.Component {
       }
     ];
 
+    if (!isModalVisible) return null;
+
     return (
-      <Modal visible={isModalVisible} animationType="slide">
-        <View style={styles.container}>
-          <View style={styles.option}>
-            <Text
-              weight="Bold"
-              style={[styles.optionTitle, { color: colors.mainBlue }]}
-            >
-              {/* {I18n.t(add_edit_product_option_product)} */}
-            </Text>
-            <GridView
-              scrollEnabled={false}
-              itemDimension={98}
-              items={productOptions}
-              renderItem={this.renderItem}
-              contentContainerStyle={styles.grid}
-            />
+      <View collapsable={false}>
+        {isModalVisible ? (
+          <View collapsable={false}>
+            <Modal visible={true} animationType="slide">
+              <View collapsable={false} style={styles.container}>
+                <View collapsable={false} style={styles.option}>
+                  <Text
+                    weight="Bold"
+                    style={[styles.optionTitle, { color: colors.mainBlue }]}
+                  >
+                    {/* {I18n.t(add_edit_product_option_product)} */}
+                  </Text>
+                  <GridView
+                    scrollEnabled={false}
+                    itemDimension={98}
+                    items={productOptions}
+                    renderItem={this.renderItem}
+                    contentContainerStyle={styles.grid}
+                  />
+                </View>
+                <View collapsable={false} style={styles.orOuterContainer}>
+                  <View collapsable={false} style={styles.orContainer}>
+                    <Text style={styles.or} weight="Bold">
+                      OR
+                    </Text>
+                  </View>
+                </View>
+                <View collapsable={false} style={styles.option}>
+                  <Text
+                    weight="Bold"
+                    style={[
+                      styles.optionTitle,
+                      { color: colors.pinkishOrange }
+                    ]}
+                  >
+                    Add Expense
+                  </Text>
+                  <GridView
+                    scrollEnabled={false}
+                    itemDimension={98}
+                    items={expenseOptions}
+                    renderItem={this.renderItem}
+                    contentContainerStyle={styles.grid}
+                  />
+                </View>
+                {showCancelBtn ? (
+                  <Button
+                    onPress={this.hide}
+                    style={styles.closeBtn}
+                    text={I18n.t("add_expenses_options_cancel_btn")}
+                    type="outline"
+                    color="secondary"
+                    outlineBtnStyle={{ borderColor: "transparent" }}
+                  />
+                ) : (
+                  <View collapsable={false} />
+                )}
+              </View>
+            </Modal>
           </View>
-          <View style={styles.orOuterContainer}>
-            <View style={styles.orContainer}>
-              <Text style={styles.or} weight="Bold">
-                OR
-              </Text>
-            </View>
-          </View>
-          <View style={styles.option}>
-            <Text
-              weight="Bold"
-              style={[styles.optionTitle, { color: colors.pinkishOrange }]}
-            >
-              Add Expense
-            </Text>
-            <GridView
-              scrollEnabled={false}
-              itemDimension={98}
-              items={expenseOptions}
-              renderItem={this.renderItem}
-              contentContainerStyle={styles.grid}
-            />
-          </View>
-          {showCancelBtn && (
-            <Button
-              onPress={this.hide}
-              style={styles.closeBtn}
-              text={I18n.t("add_expenses_options_cancel_btn")}
-              type="outline"
-              color="secondary"
-              outlineBtnStyle={{ borderColor: "transparent" }}
-            />
-          )}
-        </View>
-      </Modal>
+        ) : (
+          <View collapsable={false} />
+        )}
+      </View>
     );
   }
 }

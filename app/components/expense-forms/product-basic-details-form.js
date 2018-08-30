@@ -4,13 +4,17 @@ import Icon from "react-native-vector-icons/Ionicons";
 import moment from "moment";
 
 import { API_BASE_URL } from "../../api";
-import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
+import {
+  MAIN_CATEGORY_IDS,
+  CATEGORY_IDS,
+  METADATA_KEYS
+} from "../../constants";
 import { getReferenceDataBrands, getReferenceDataModels } from "../../api";
 import I18n from "../../i18n";
 import { Text } from "../../elements";
 import SelectModal from "../../components/select-modal";
 import { colors } from "../../theme";
-import { showSnackbar } from "../../containers/snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import ContactFields from "../form-elements/contact-fields";
 import CustomTextInput from "../form-elements/text-input";
@@ -34,12 +38,13 @@ class BasicDetailsForm extends React.Component {
       purchaseDate: null,
       value: "",
       sellerName: "",
+      sellerAddress: "",
       sellerContact: "",
-      vinNo: "",
+      chasisNumber: "",
       registrationNo: "",
       imeiNo: "",
       serialNo: "",
-      vinNoId: null,
+      chasisNumberId: null,
       registrationNoId: null,
       imeiNoId: null,
       serialNoId: null
@@ -48,6 +53,10 @@ class BasicDetailsForm extends React.Component {
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { copies } = this.props;
+    this.setState({
+      copies: copies || []
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,12 +75,13 @@ class BasicDetailsForm extends React.Component {
       purchaseDate,
       value,
       sellerName,
+      sellerAddress,
       sellerContact,
-      vinNo,
+      chasisNumber,
       registrationNo,
       imeiNo,
       serialNo,
-      vinNoId,
+      chasisNumberId,
       registrationNoId,
       imeiNoId,
       serialNoId,
@@ -93,7 +103,6 @@ class BasicDetailsForm extends React.Component {
       );
       this.setState({ selectedSubCategory });
     }
-
     this.setState({
       id,
       productName,
@@ -101,16 +110,16 @@ class BasicDetailsForm extends React.Component {
       purchaseDate,
       value,
       sellerName,
+      sellerAddress,
       sellerContact,
-      vinNo,
+      chasisNumber,
       registrationNo,
       imeiNo,
       serialNo,
-      vinNoId,
+      chasisNumberId,
       registrationNoId,
       imeiNoId,
-      serialNoId,
-      copies
+      serialNoId
     });
   };
 
@@ -126,11 +135,12 @@ class BasicDetailsForm extends React.Component {
       purchaseDate,
       value,
       sellerName,
-      vinNo,
+      sellerAddress,
+      chasisNumber,
       registrationNo,
       imeiNo,
       serialNo,
-      vinNoId,
+      chasisNumberId,
       registrationNoId,
       imeiNoId,
       serialNoId
@@ -142,35 +152,32 @@ class BasicDetailsForm extends React.Component {
     const categoryForms = this.props.categoryForms;
 
     if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
-      if (registrationNo) {
-        const registrationNoCategoryForm = categoryForms.find(
-          categoryForm => categoryForm.title == "Registration Number"
-        );
-        registrationNoCategoryForm &&
-          metadata.push({
-            id: registrationNoId,
-            categoryFormId: registrationNoCategoryForm.id,
-            value: registrationNo,
-            isNewValue: false
-          });
-      }
+      const registrationNoCategoryForm = categoryForms.find(
+        categoryForm => categoryForm.title == METADATA_KEYS.REGISTRATION_NUMBER
+      );
+      registrationNoCategoryForm &&
+        metadata.push({
+          id: registrationNoId,
+          categoryFormId: registrationNoCategoryForm.id,
+          value: registrationNo,
+          isNewValue: false
+        });
 
-      if (vinNo) {
-        const vinNoCategoryForm = categoryForms.find(
-          categoryForm => categoryForm.title.toLowerCase() == "vin"
-        );
-        vinNoCategoryForm &&
-          metadata.push({
-            id: vinNoId,
-            categoryFormId: vinNoCategoryForm.id,
-            value: vinNo,
-            isNewValue: false
-          });
-      }
+      const chasisNumberCategoryForm = categoryForms.find(
+        categoryForm =>
+          categoryForm.title.toLowerCase() == METADATA_KEYS.CHASIS_NUMBER
+      );
+      chasisNumberCategoryForm &&
+        metadata.push({
+          id: chasisNumberId,
+          categoryFormId: chasisNumberCategoryForm.id,
+          value: chasisNumber,
+          isNewValue: false
+        });
     } else if (mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS) {
-      if (this.props.categoryId == 327 && imeiNo) {
+      if (this.props.categoryId == CATEGORY_IDS.ELECTRONICS.MOBILE) {
         const imeiNoCategoryForm = categoryForms.find(
-          categoryForm => categoryForm.title == "IMEI Number"
+          categoryForm => categoryForm.title == METADATA_KEYS.IMEI_NUMBER
         );
 
         imeiNoCategoryForm &&
@@ -180,9 +187,9 @@ class BasicDetailsForm extends React.Component {
             value: imeiNo,
             isNewValue: false
           });
-      } else if (serialNo) {
+      } else {
         const serialNoCategoryForm = categoryForms.find(
-          categoryForm => categoryForm.title == "Serial Number"
+          categoryForm => categoryForm.title == METADATA_KEYS.SERIAL_NUMBER
         );
         serialNoCategoryForm &&
           metadata.push({
@@ -216,6 +223,7 @@ class BasicDetailsForm extends React.Component {
       productName: productName || productNameFromBrandAndModel.trim(),
       purchaseDate: purchaseDate,
       sellerName: sellerName,
+      sellerAddress: sellerAddress,
       sellerContact: this.sellerContactRef
         ? this.sellerContactRef.getFilledData()
         : undefined,
@@ -332,7 +340,7 @@ class BasicDetailsForm extends React.Component {
       mainCategoryId,
       categoryId,
       jobId = null,
-      navigator,
+      navigation,
       subCategories,
       brands,
       category,
@@ -350,8 +358,9 @@ class BasicDetailsForm extends React.Component {
       purchaseDate,
       value,
       sellerName,
+      sellerAddress,
       sellerContact,
-      vinNo,
+      chasisNumber,
       registrationNo,
       imeiNo,
       serialNo,
@@ -361,15 +370,16 @@ class BasicDetailsForm extends React.Component {
     console.log("categoryId:", categoryId);
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <Text weight="Medium" style={styles.headerText}>
           {I18n.t("expense_forms_expense_basic_detail")}
         </Text>
-        <View style={styles.body}>
+        <View collapsable={false} style={styles.body}>
           {(showFullForm || mainCategoryId == MAIN_CATEGORY_IDS.FASHION) && (
             <CustomTextInput
               placeholder={I18n.t("expense_forms_product_basics_name")}
               value={productName}
+              maxLength={20}
               onChangeText={productName => this.setState({ productName })}
               hint={I18n.t("expense_forms_expense_basic_expense_recommend")}
             />
@@ -379,7 +389,7 @@ class BasicDetailsForm extends React.Component {
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("add_edit_direct_type")}
               placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
+                <View collapsable={false} style={{ flexDirection: "row" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
@@ -408,6 +418,7 @@ class BasicDetailsForm extends React.Component {
               onPress={this.toggleNonBranded}
             >
               <View
+                collapsable={false}
                 style={{
                   width: 20,
                   height: 20,
@@ -449,7 +460,7 @@ class BasicDetailsForm extends React.Component {
                 "expense_forms_product_basics_brand_name"
               )}
               placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
+                <View collapsable={false} style={{ flexDirection: "row" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
@@ -486,6 +497,7 @@ class BasicDetailsForm extends React.Component {
               )}
               placeholderRenderer={({ placeholder }) => (
                 <View
+                  collapsable={false}
                   style={{
                     flexDirection: "row",
                     alignItems: "center"
@@ -494,12 +506,9 @@ class BasicDetailsForm extends React.Component {
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
-                  <Text style={{ color: colors.mainBlue, fontSize: 12 }}>
-                    {" "}
-                    (Required for calculating warranty)
-                  </Text>
                 </View>
               )}
+              hint="Required for warranty calculation"
               options={models}
               beforeModalOpen={() => {
                 if (selectedBrand || brandName) {
@@ -521,14 +530,12 @@ class BasicDetailsForm extends React.Component {
             />
           )}
 
-          {showFullForm && (
-            <View>
+          {showFullForm ? (
+            <View collapsable={false}>
               {categoryId == 327 && (
                 <CustomTextInput
                   placeholder={I18n.t("expense_forms_product_basics_imei")}
-                  placeholder2={I18n.t(
-                    "expense_forms_amc_form_amc_recommended"
-                  )}
+                  hint={I18n.t("expense_forms_amc_form_amc_recommended")}
                   placeholder2Color={colors.mainBlue}
                   value={imeiNo}
                   onChangeText={imeiNo => this.setState({ imeiNo })}
@@ -539,29 +546,29 @@ class BasicDetailsForm extends React.Component {
                 categoryId != 327 && (
                   <CustomTextInput
                     placeholder={I18n.t("expense_forms_product_basics_serial")}
-                    placeholder2={I18n.t(
-                      "expense_forms_amc_form_amc_recommended"
-                    )}
+                    hint={I18n.t("expense_forms_amc_form_amc_recommended")}
                     placeholder2Color={colors.mainBlue}
                     value={serialNo}
                     onChangeText={serialNo => this.setState({ serialNo })}
                   />
                 )}
 
-              {mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE && (
-                <View>
+              {mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ? (
+                <View collapsable={false}>
                   <CustomTextInput
-                    placeholder={I18n.t("expense_forms_product_basics_vin_no")}
-                    value={vinNo}
-                    onChangeText={vinNo => this.setState({ vinNo })}
+                    placeholder={I18n.t(
+                      "expense_forms_product_basics_chasis_no"
+                    )}
+                    value={chasisNumber}
+                    onChangeText={chasisNumber =>
+                      this.setState({ chasisNumber })
+                    }
                   />
                   <CustomTextInput
                     placeholder={I18n.t(
                       "expense_forms_product_basics_registration_no"
                     )}
-                    placeholder2={I18n.t(
-                      "expense_forms_amc_form_amc_recommended"
-                    )}
+                    hint={I18n.t("expense_forms_amc_form_amc_recommended")}
                     placeholder2Color={colors.mainBlue}
                     value={registrationNo}
                     onChangeText={registrationNo =>
@@ -569,8 +576,12 @@ class BasicDetailsForm extends React.Component {
                     }
                   />
                 </View>
+              ) : (
+                <View collapsable={false} />
               )}
             </View>
+          ) : (
+            <View collapsable={false} />
           )}
           <CustomDatePicker
             date={purchaseDate}
@@ -579,7 +590,7 @@ class BasicDetailsForm extends React.Component {
               this.setState({ purchaseDate });
             }}
           />
-          {(showFullForm || mainCategoryId == MAIN_CATEGORY_IDS.FASHION) && (
+          {showFullForm || mainCategoryId == MAIN_CATEGORY_IDS.FASHION ? (
             <CustomTextInput
               placeholder={I18n.t(
                 "expense_forms_product_basics_purchase_amount"
@@ -588,15 +599,21 @@ class BasicDetailsForm extends React.Component {
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"
             />
+          ) : (
+            <View collapsable={false} />
           )}
-          {showFullForm && (
-            <View>
+          {showFullForm ? (
+            <View collapsable={false}>
               <CustomTextInput
                 placeholder={I18n.t("expense_forms_product_basics_seller_name")}
                 value={sellerName}
                 onChangeText={sellerName => this.setState({ sellerName })}
               />
-
+              <CustomTextInput
+                placeholder={"Seller Address"}
+                value={sellerAddress}
+                onChangeText={sellerAddress => this.setState({ sellerAddress })}
+              />
               <ContactFields
                 ref={ref => (this.sellerContactRef = ref)}
                 value={sellerContact}
@@ -606,12 +623,14 @@ class BasicDetailsForm extends React.Component {
                 keyboardType="numeric"
               />
             </View>
+          ) : (
+            <View collapsable={false} />
           )}
         </View>
         <UploadDoc
           // title={I18n.t("expense_forms_expense_basic_detail")}
           placeholder={I18n.t("expense_forms_expense_basic_upload_bill")}
-          placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+          hint={I18n.t("expense_forms_amc_form_amc_recommended")}
           placeholder2Color={colors.mainBlue}
           productId={id}
           itemId={id}
@@ -619,12 +638,13 @@ class BasicDetailsForm extends React.Component {
           type={1}
           copies={copies}
           onUpload={uploadResult => {
+            console.log("uploadResult:", uploadResult);
             this.setState({
               id: uploadResult.product.id,
               copies: uploadResult.product.copies
             });
           }}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
       </View>
     );

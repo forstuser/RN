@@ -10,7 +10,7 @@ import {
 import StarRating from "react-native-star-rating";
 
 import { addProductReview } from "../api";
-import { showSnackbar } from "../containers/snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import I18n from "../i18n";
 
@@ -91,10 +91,10 @@ class UploadProductImage extends React.Component {
   render() {
     const { starCount, reviewInput, isSaving, isStarIsZero } = this.state;
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <LoadingOverlay visible={isSaving} />
-        <View style={styles.reviewHeader}>
-          <View style={styles.starsWrapper}>
+        <View collapsable={false} style={styles.reviewHeader}>
+          <View collapsable={false} style={styles.starsWrapper}>
             <StarRating
               starColor="#FFA909"
               disabled={false}
@@ -106,15 +106,14 @@ class UploadProductImage extends React.Component {
             />
           </View>
           <Text style={styles.ratingMsg}>
-            {isStarIsZero
-              ? "Please provide rating or feedback before Submit!"
-              : ""}
+            {isStarIsZero ? "Please provide rating before Submit!" : ""}
           </Text>
         </View>
-        <View style={styles.reviewInputWrapper}>
+        <View collapsable={false} style={styles.reviewInputWrapper}>
           <TextInput
             underlineColorAndroid="transparent"
             ref={ref => (this.reviewInput = ref)}
+            numberOfLines={4}
             maxLength={500}
             placeholder={I18n.t("product_details_screen_write_feedback")}
             value={reviewInput}
@@ -164,7 +163,8 @@ const styles = StyleSheet.create({
     padding: 5
   },
   reviewInput: {
-    height: 150
+    height: 150,
+    textAlignVertical: "top"
   },
   reviewSubmitBtn: {
     marginTop: 20,

@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions
+} from "react-native";
 import moment from "moment";
 import _ from "lodash";
 import getDirections from "react-native-google-maps-directions";
@@ -12,8 +18,11 @@ import { Text, Button } from "../../../../elements";
 import { colors } from "../../../../theme";
 import I18n from "../../../../i18n";
 
+const SCREEN_WIDTH = Dimensions.get("window").width;
+
 import {
   MAIN_CATEGORY_IDS,
+  CATEGORY_IDS,
   SCREENS,
   WARRANTY_TYPES
 } from "../../../../constants";
@@ -24,31 +33,57 @@ import EditOptionRow from "./edit-option-row";
 
 class InsuranceDetails extends React.Component {
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     const { insuranceDetails } = product;
 
     const InsuranceItem = ({ insurance }) => (
-      <View style={styles.card}>
+      <View
+        collapsable={false}
+        style={[
+          styles.card,
+          product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE
+            ? styles.fullCard
+            : {}
+        ]}
+      >
         <EditOptionRow
           text={I18n.t("product_details_screen_insurance_details")}
           onEditPress={() => {
-            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'insurance' });
+            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, {
+              entity: "insurance"
+            });
             this.props.openAddEditInsuranceScreen(insurance);
           }}
         />
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_insurance_expiry")}
-          valueText={
-            moment(insurance.expiryDate).isValid() &&
-            moment(insurance.expiryDate).format("DD MMM YYYY")
-          }
-        />
-        <ViewBillRow
-          expiryDate={insurance.expiryDate}
-          purchaseDate={insurance.purchaseDate}
-          docType="Insurance"
-          copies={insurance.copies || []}
-        />
+        {(insurance.copies || []).length > 0 && (
+          <ViewBillRow
+            collapsable={false}
+            expiryDate={insurance.expiryDate}
+            purchaseDate={insurance.purchaseDate}
+            docType="Insurance"
+            copies={insurance.copies || []}
+          />
+        )}
+        {product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_insurance_type")}
+            ValueComponent={() => (
+              <Text
+                numberOfLines={1}
+                weight="Medium"
+                style={{
+                  textAlign: "right",
+                  flex: 1,
+                  paddingLeft: 10
+                }}
+              >
+                {product.sub_category_name}
+              </Text>
+            )}
+          />
+        ) : (
+          <View />
+        )}
         <KeyValueItem
           keyText={I18n.t("product_details_screen_insurance_provider")}
           ValueComponent={() => (
@@ -66,17 +101,38 @@ class InsuranceDetails extends React.Component {
           )}
         />
         <KeyValueItem
-          keyText={I18n.t("product_details_screen_insurance_policy_no")}
-          valueText={insurance.policyNo || "-"}
+          keyText={I18n.t("product_details_screen_insurance_expiry")}
+          valueText={
+            moment(insurance.expiryDate).isValid() &&
+            moment(insurance.expiryDate).format("DD MMM YYYY")
+          }
         />
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_insurance_premium_amount")}
-          valueText={insurance.premiumAmount || "-"}
-        />
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_insurance_amount_insured")}
-          valueText={insurance.amountInsured || "-"}
-        />
+
+        {insurance.policyNo ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_insurance_policy_no")}
+            valueText={insurance.policyNo || "-"}
+          />
+        ) : (
+          <View />
+        )}
+
+        {insurance.premiumAmount ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_insurance_premium_amount")}
+            valueText={"₹ " + insurance.premiumAmount || "-"}
+          />
+        ) : (
+          <View />
+        )}
+        {insurance.amountInsured ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_insurance_amount_insured")}
+            valueText={"₹ " + insurance.amountInsured || "-"}
+          />
+        ) : (
+          <View />
+        )}
         {insurance.sellers != null && (
           <KeyValueItem
             keyText={I18n.t("product_details_screen_insurance_seller")}
@@ -97,18 +153,23 @@ class InsuranceDetails extends React.Component {
     );
 
     return (
-      <View style={styles.container}>
-        <ScrollView horizontal={true} style={styles.slider}>
-          {insuranceDetails.map(insurance => (
-            <InsuranceItem
-              insurance={insurance}
-              insuranceType={WARRANTY_TYPES.NORMAL}
-            />
+      <View collapsable={false} style={styles.container}>
+        <ScrollView
+          horizontal={true}           showsHorizontalScrollIndicator={false}
+          style={styles.slider}
+          showsHorizontalScrollIndicator={true}
+        >
+          {insuranceDetails.map((insurance, index) => (
+            <InsuranceItem key={index} insurance={insurance} />
           ))}
-          <AddItemBtn
-            text={I18n.t("product_details_screen_add_insurance")}
-            onPress={() => this.props.openAddEditInsuranceScreen(null)}
-          />
+          {product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ? (
+            <AddItemBtn
+              text={I18n.t("product_details_screen_add_insurance")}
+              onPress={() => this.props.openAddEditInsuranceScreen(null)}
+            />
+          ) : (
+            <View collapsable={false} />
+          )}
         </ScrollView>
       </View>
     );
@@ -123,7 +184,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   },
   card: {
-    width: 300,
+    width: 290,
     backgroundColor: "#fff",
     marginRight: 20,
     marginLeft: 5,
@@ -133,6 +194,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 1
+  },
+  fullCard: {
+    width: SCREEN_WIDTH - 40,
+    marginRight: 0
   }
 });
 

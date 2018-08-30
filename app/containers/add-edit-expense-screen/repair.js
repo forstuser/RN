@@ -17,7 +17,7 @@ import {
 } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
 import { MAIN_CATEGORY_IDS } from "../../constants";
@@ -113,7 +113,7 @@ class Repair extends React.Component {
         id,
         repairDate,
         sellerName,
-        sellerContact: this.phoneRef.getFilledData(),
+        // sellerContact: this.phoneRef.getFilledData(),
         repairAmount,
         warrantyUpto
       };
@@ -141,7 +141,7 @@ class Repair extends React.Component {
   };
 
   openAddProductScreen = () => {
-    this.props.navigator.pop();
+    this.props.navigation.goBack();
   };
 
   render() {
@@ -160,30 +160,28 @@ class Repair extends React.Component {
       copies
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <LoadingOverlay visible={isLoading} />
-        {products.length == 0 &&
-          !isLoading && (
-            <View style={styles.noProductsScreen}>
-              <Text style={styles.noProductsText}>
-                {I18n.t("add_edit_expense_screen_title_add_no_products")}
+        {products.length == 0 && !isLoading ? (
+          <View collapsable={false} style={styles.noProductsScreen}>
+            <Text style={styles.noProductsText}>
+              {I18n.t("add_edit_expense_screen_title_add_no_products")}
+            </Text>
+            <TouchableOpacity
+              onPress={this.openAddProductScreen}
+              style={styles.addProductBtn}
+            >
+              <Text weight="Bold" style={styles.addProductBtnText}>
+                {I18n.t("add_edit_expense_screen_title_add_add_products")}
               </Text>
-              <TouchableOpacity
-                onPress={this.openAddProductScreen}
-                style={styles.addProductBtn}
-              >
-                <Text weight="Bold" style={styles.addProductBtnText}>
-                  {I18n.t("add_edit_expense_screen_title_add_add_products")}
-                </Text>
-              </TouchableOpacity>
-              <Text style={styles.noProductsText}>
-                {I18n.t("add_edit_expense_screen_title_add_repair_details")}
-              </Text>
-            </View>
-          )}
-        {products.length > 0 && (
+            </TouchableOpacity>
+            <Text style={styles.noProductsText}>
+              {I18n.t("add_edit_expense_screen_title_add_repair_details")}
+            </Text>
+          </View>
+        ) : (
           <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
-            <View style={styles.header}>
+            <View collapsable={false} style={styles.header}>
               <Text weight="Medium" style={styles.selectProductText}>
                 {I18n.t("add_edit_expense_screen_title_add_select_eHome")}
               </Text>
@@ -191,8 +189,9 @@ class Repair extends React.Component {
                 style={styles.products}
                 contentContainerStyle={styles.productsContentContainer}
                 horizontal={true}
+                showsHorizontalScrollIndicator={false}
               >
-                {products.map(product => {
+                {products.map((product, index) => {
                   return (
                     <TouchableOpacity
                       key={product.key}
@@ -208,7 +207,11 @@ class Repair extends React.Component {
                         style={styles.productImage}
                         source={{ uri: API_BASE_URL + product.cImageURL }}
                       />
-                      <View style={styles.productTexts}>
+                      <View
+                        collapsable={false}
+                        style={styles.productTexts}
+                        key={index}
+                      >
                         <Text
                           numberOfLines={1}
                           weight="Bold"
@@ -216,7 +219,10 @@ class Repair extends React.Component {
                         >
                           {product.productName}
                         </Text>
-                        <View style={styles.productMetaContainer}>
+                        <View
+                          collapsable={false}
+                          style={styles.productMetaContainer}
+                        >
                           <Text numberOfLines={2} style={styles.productMeta}>
                             {product.categoryName}
                           </Text>
@@ -229,7 +235,10 @@ class Repair extends React.Component {
             </View>
             {products.length > 0 &&
               selectedProduct == null && (
-                <View style={styles.selectProductMsgContainer}>
+                <View
+                  collapsable={false}
+                  style={styles.selectProductMsgContainer}
+                >
                   <Text weight="Medium" style={styles.selectProductMsg}>
                     {I18n.t(
                       "add_edit_expense_screen_title_add_select_product_above"
@@ -246,8 +255,8 @@ class Repair extends React.Component {
                 </View>
               )}
             {selectedProduct && (
-              <View style={styles.formContainer}>
-                <View style={styles.form}>
+              <View collapsable={false} style={styles.formContainer}>
+                <View collapsable={false} style={styles.form}>
                   <Text weight="Medium" style={styles.headerText}>
                     {I18n.t("add_edit_expense_screen_title_add_repair_details")}
                   </Text>
@@ -298,7 +307,7 @@ class Repair extends React.Component {
                   />
                   <UploadDoc
                     placeholder="Upload Bill "
-                    placeholder2="(Recommended) "
+                    hint="Recommended"
                     placeholder2Color={colors.mainBlue}
                     itemId={id}
                     jobId={selectedProduct ? selectedProduct.jobId : null}
@@ -310,7 +319,7 @@ class Repair extends React.Component {
                         copies: uploadResult.repair.copies
                       });
                     }}
-                    navigator={this.props.navigator}
+                    navigation={this.props.navigation}
                   />
                 </View>
               </View>
@@ -332,7 +341,7 @@ class Repair extends React.Component {
           mainCategoryId={null}
           showRepairIcon={true}
           productId={selectedProduct ? selectedProduct.id : null}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           isPreviousScreenOfAddOptions={this.props.isPreviousScreenOfAddOptions}
         />
       </View>

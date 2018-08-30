@@ -24,63 +24,108 @@ import EditOptionRow from "./edit-option-row";
 
 class RepairDetails extends React.Component {
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
     const { repairBills } = product;
 
     const RepairItem = ({ repair }) => (
-      <View style={styles.card}>
+      <View collapsable={false} style={styles.card}>
         <EditOptionRow
           text={I18n.t("product_details_screen_repair_details")}
           onEditPress={() => {
-            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, { entity: 'repair' });
+            Analytics.logEvent(Analytics.EVENTS.CLICK_EDIT, {
+              entity: "repair"
+            });
             this.props.openAddEditRepairScreen(repair);
           }}
         />
-        <ViewBillRow
-          expiryDate={repair.expiryDate}
-          purchaseDate={repair.purchaseDate}
-          docType="Repair Bill"
-          copies={repair.copies || []}
-        />
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_repairs_repair_date")}
-          valueText={
-            repair.purchaseDate
-              ? moment(repair.purchaseDate).format("DD MMM YYYY")
-              : "-"
-          }
-        />
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_repairs_amount")}
-          valueText={repair.premiumAmount || "-"}
-        />
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_repairs_for")}
-          valueText={repair.repair_for}
-        />
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_repairs_warranty_upto")}
-          valueText={repair.warranty_upto || "-"}
-        />
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_repairs_seller")}
-          valueText={repair.sellers ? repair.sellers.sellerName : "-"}
-        />
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_repairs_seller_contact")}
-          ValueComponent={() => (
-            <MultipleContactNumbers
-              contact={repair.sellers ? repair.sellers.contact : "-"}
-            />
-          )}
-        />
+        {repair.copies ? (
+          <ViewBillRow
+            collapsable={false}
+            expiryDate={repair.expiryDate}
+            purchaseDate={repair.purchaseDate}
+            docType="Repair Bill"
+            copies={repair.copies || []}
+          />
+        ) : (
+          <View />
+        )}
+        {repair.purchaseDate ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_repairs_repair_date")}
+            valueText={
+              repair.purchaseDate
+                ? moment(repair.purchaseDate).format("DD MMM YYYY")
+                : "-"
+            }
+          />
+        ) : (
+          <View />
+        )}
+
+        {repair.premiumAmount ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_repairs_amount")}
+            valueText={"₹ " + repair.premiumAmount || "-"}
+          />
+        ) : (
+          <View />
+        )}
+
+        {repair.warranty_upto ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_repairs_warranty_upto")}
+            valueText={
+              repair.warranty_upto
+                ? moment(repair.warranty_upto).format("DD MMM, YYYY")
+                : "-"
+            }
+          />
+        ) : (
+          <View />
+        )}
+
+        {repair.repair_for ? (
+          <KeyValueItem
+            keyText={I18n.t("product_details_screen_repairs_for")}
+            valueText={repair.repair_for}
+          />
+        ) : (
+          <View />
+        )}
+
+        {repair.sellers ? (
+          <KeyValueItem
+            keyText={"Repair Seller Name"}
+            valueText={repair.sellers ? repair.sellers.sellerName : "-"}
+          />
+        ) : (
+          <View />
+        )}
+        {repair.sellers ? (
+          <KeyValueItem
+            keyText={"Repair Seller Contact"}
+            ValueComponent={() => (
+              <MultipleContactNumbers
+                contact={repair.sellers ? repair.sellers.contact : "-"}
+              />
+            )}
+          />
+        ) : (
+          <View />
+        )}
       </View>
     );
 
     return (
-      <View style={styles.container}>
-        <ScrollView horizontal={true} style={styles.slider}>
-          {repairBills.map(repair => <RepairItem repair={repair} />)}
+      <View collapsable={false} style={styles.container}>
+        <ScrollView
+          horizontal={true}           showsHorizontalScrollIndicator={false}
+          style={styles.slider}
+          showsHorizontalScrollIndicator={true}
+        >
+          {repairBills.map((repair, index) => (
+            <RepairItem key={index} repair={repair} />
+          ))}
           <AddItemBtn
             text={I18n.t("product_details_screen_add_repair")}
             onPress={() => this.props.openAddEditRepairScreen(null)}
@@ -99,7 +144,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   },
   card: {
-    width: 300,
+    width: 290,
     backgroundColor: "#fff",
     marginRight: 20,
     marginLeft: 5,

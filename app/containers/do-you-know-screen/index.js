@@ -17,6 +17,7 @@ import {
 import { connect } from "react-redux";
 import {
   API_BASE_URL,
+  fetchDoYouKnowItem,
   fetchDoYouKnowItems,
   fetchDoYouKnowTags,
   likeDoYouKnowItem,
@@ -24,7 +25,7 @@ import {
 } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import { colors } from "../../theme";
 import TabSearchHeader from "../../components/tab-screen-header";
@@ -32,6 +33,7 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { SCREENS, GLOBAL_VARIABLES } from "../../constants";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
+import { actions as uiActions } from "../../modules/ui";
 
 import TagsModal from "./tags-modal";
 import Item from "./item";
@@ -43,9 +45,8 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class DoYouKNowScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    tabBarHidden: false
+  static navigationOptions = {
+    header: null
   };
 
   constructor(props) {
@@ -64,16 +65,7 @@ class DoYouKNowScreen extends Component {
       error: null,
       isModalVisible: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
-
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW);
-        this.loadItems();
-    }
-  };
 
   componentWillMount() {
     this.panResponder = PanResponder.create({
@@ -109,7 +101,9 @@ class DoYouKNowScreen extends Component {
             toValue: -SCREEN_HEIGHT,
             duration: 300
           }).start(() => {
-            Analytics.logEvent(Analytics.EVENTS.SWIPE_DYK_CARD);
+            Analytics.logEvent(Analytics.EVENTS.SWIPE_DYK_CARD, {
+              id: items[this.state.currentIndex].id
+            });
             this.currentCardTranslateY.setValue(0);
             const newState = {};
             if (this.state.nextIndex >= items.length) {
@@ -123,15 +117,15 @@ class DoYouKNowScreen extends Component {
               newState.currentIndex = 0;
             }
             this.setState(newState, () => {
-              const newId = this.state.items[this.state.currentIndex].id;
-              if (newId > this.props.latestDoYouKnowReadId) {
+              const newItem = this.state.items[this.state.currentIndex];
+              const newId = newItem.id;
+              if (
+                newId > this.props.latestDoYouKnowReadId &&
+                !newItem.openedFromDeepLink //don't save if opened from deeplink
+              ) {
                 this.props.setLatestDoYouKnowReadId(newId);
               }
 
-              console.log(
-                "items.length - currentIndex: ",
-                items.length - currentIndex
-              );
               if (items.length - currentIndex == 4 || items.length < 5) {
                 this.loadItems();
               }
@@ -154,14 +148,65 @@ class DoYouKNowScreen extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      offsetId: this.props.latestDoYouKnowReadId
-    });
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_DO_YOU_KNOW);
 
-    this.loadTags();
+    // this.loadTags();
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.setState(
+          {
+            offsetId: this.state.offsetId || this.props.latestDoYouKnowReadId
+          },
+          () => {
+            if (this.props.dykIdToOpenDirectly) {
+              this.openItemFromDeepLink(this.props.dykIdToOpenDirectly);
+            } else {
+              this.loadItems();
+            }
+          }
+        );
+      }
+    );
   }
 
-  loadItems = async clearPreviousItems => {
+  componentWillReceiveProps(newProps) {
+    if (this.props.navigation.isFocused() && newProps.dykIdToOpenDirectly) {
+      console.log("newProps: ", newProps);
+      this.openItemFromDeepLink(newProps.dykIdToOpenDirectly);
+    }
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+  }
+
+  openItemFromDeepLink = dykIdToOpenDirectly => {
+    // deep linking handling
+    this.setState({ items: [] }, () => {
+      this.loadSingleItem(dykIdToOpenDirectly);
+    });
+    this.props.setDykIdToOpenDirectly(null);
+  };
+
+  loadSingleItem = async id => {
+    try {
+      const res = await fetchDoYouKnowItem(id);
+      let item = { ...res.item, openedFromDeepLink: true };
+      this.setState({ items: [item], currentIndex: 0, nextIndex: 1 });
+      this.loadItems();
+    } catch (error) {
+      this.setState({
+        error
+      });
+    }
+    this.setState({
+      isFetchingItems: false
+    });
+  };
+
+  loadItems = async (clearPreviousItems = false) => {
     const tagIds = this.state.selectedTagIds;
     let offsetId = this.state.offsetId;
 
@@ -180,11 +225,10 @@ class DoYouKNowScreen extends Component {
       });
 
       let resItems = res.items;
-
-      console.log("res: ", JSON.stringify(res));
+      console.log("resItems.length: ", resItems.length);
 
       if (resItems.length > 0) {
-        const newLastItem = resItems.pop();
+        const newLastItem = resItems[resItems.length - 1];
         this.setState({
           offsetId: newLastItem.id
         });
@@ -217,19 +261,6 @@ class DoYouKNowScreen extends Component {
         items: [...items, ...resItems],
         currentIndex
       };
-
-      // deep linking handling
-      // if (global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]) {
-      //   for (let i = 0; i < res.items.length; i++) {
-      //     if (
-      //       res.items[i].id ==
-      //       global[GLOBAL_VARIABLES.DO_YOU_KNOW_ITEM_ID_TO_OPEN_DIRECTLY]
-      //     ) {
-      //       newState.currentIndex = i;
-      //       break;
-      //     }
-      //   }
-      // }
 
       this.setState(newState);
     } catch (error) {
@@ -274,7 +305,7 @@ class DoYouKNowScreen extends Component {
 
     try {
       if (!item.isLikedByUser) {
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_LIKE_DUK);
+        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_LIKE_DUK, { id: itemId });
         await likeDoYouKnowItem({ itemId });
         item.isLikedByUser = true;
         item.totalLikes = item.totalLikes + 1;
@@ -372,11 +403,11 @@ class DoYouKNowScreen extends Component {
 
     return (
       <ScreenContainer style={styles.container}>
-        <View style={styles.header}>
+        <View collapsable={false} style={styles.header}>
           <TabSearchHeader
             title={I18n.t("do_you_know_screen_title")}
             icon={doYouKnowIcon}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             showMailbox={false}
             showSearchInput={false}
             showRightSideSearchIcon={false}
@@ -385,8 +416,8 @@ class DoYouKNowScreen extends Component {
             }}
           />
         </View>
-        <View style={styles.body}>
-          {items.length > 0 && (
+        <View collapsable={false} style={styles.body}>
+          {items.length > 0 ? (
             <Animated.View
               style={[
                 styles.item,
@@ -398,6 +429,8 @@ class DoYouKNowScreen extends Component {
             >
               <Item />
             </Animated.View>
+          ) : (
+            <View collapsable={false} />
           )}
           <LoadingOverlay
             style={{
@@ -432,6 +465,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
+    paddingBottom: 2,
     ...Platform.select({
       ios: {
         zIndex: 1
@@ -458,7 +492,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    latestDoYouKnowReadId: state.loggedInUser.latestDoYouKnowReadId
+    latestDoYouKnowReadId: state.loggedInUser.latestDoYouKnowReadId,
+    dykIdToOpenDirectly: state.ui.dykIdToOpenDirectly
   };
 };
 
@@ -466,6 +501,9 @@ const mapDispatchToProps = dispatch => {
   return {
     setLatestDoYouKnowReadId: newValue => {
       dispatch(loggedInUserActions.setLatestDoYouKnowReadId(newValue));
+    },
+    setDykIdToOpenDirectly: id => {
+      dispatch(uiActions.setDykIdToOpenDirectly(id));
     }
   };
 };

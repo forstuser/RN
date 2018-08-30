@@ -41,7 +41,7 @@ const InsightChart = ({
       colors={bgColors}
       style={styles.container}
     >
-      <View style={styles.header}>
+      <View collapsable={false} style={styles.header}>
         <Text weight="Bold" style={[styles.timeSpan, { color: textColor }]}>
           {timeSpanText}
         </Text>
@@ -49,18 +49,20 @@ const InsightChart = ({
           <Text weight="Bold" style={[styles.filterText, { color: textColor }]}>
             {filterText}
           </Text>
-          {!hideFilterDropdownIcon && (
+          {!hideFilterDropdownIcon ? (
             <Image
               style={[styles.filterDropdown, { tintColor: textColor }]}
               source={dropdownIcon}
             />
+          ) : (
+            <View collapsable={false} />
           )}
         </TouchableOpacity>
       </View>
 
-      <View style={styles.totalSpendContainer}>
-        {totalSpend !== null && (
-          <View style={styles.totalSpendInner}>
+      <View collapsable={false} style={styles.totalSpendContainer}>
+        {totalSpend !== null ? (
+          <View collapsable={false} style={styles.totalSpendInner}>
             <Text style={[styles.totalSpendText, { color: textColor }]}>
               {I18n.t("insights_screen_total_spends")}
             </Text>
@@ -71,10 +73,12 @@ const InsightChart = ({
               ₹ {totalSpend}
             </Text>
           </View>
+        ) : (
+          <View collapsable={false} />
         )}
       </View>
-      {chartData.length > 0 && (
-        <View>
+      {chartData.length > 0 ? (
+        <View collapsable={false}>
           <VictoryChart
             domainPadding={{ x: 20, y: 5 }}
             padding={{ left: 40, top: 20, right: 60, bottom: 40 }}
@@ -136,9 +140,8 @@ const InsightChart = ({
             {I18n.t("component_items_all_amount")}
           </Text>
         </View>
-      )}
-      {chartData.length == 0 && (
-        <View style={styles.noDataContainer}>
+      ) : (
+        <View collapsable={false} style={styles.noDataContainer}>
           <Text weight="Bold" style={[styles.noDataText, { color: textColor }]}>
             {I18n.t("component_items_no_data_chart")}
           </Text>

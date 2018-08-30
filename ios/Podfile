@@ -33,6 +33,16 @@ target 'BinBill' do
 
   pod 'RNViewShot', :path => '../node_modules/react-native-view-shot'
 
+  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
+
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
+  pod 'RNSnackbar', :path => '../node_modules/react-native-snackbar'
+
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
   target 'BinBillTests' do
     inherit! :search_paths
     # Pods for testing

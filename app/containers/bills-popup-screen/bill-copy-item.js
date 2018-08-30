@@ -5,20 +5,24 @@ import {
   View,
   FlatList,
   Alert,
-  Image,
   TouchableOpacity,
-  CameraRoll
+  CameraRoll,
+  Dimensions,
+  WebView
 } from "react-native";
 import moment from "moment";
-import PhotoView from "react-native-photo-view";
+
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import RNFetchBlob from "react-native-fetch-blob";
 import Share from "react-native-share";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
-import { API_BASE_URL, fetchFile } from "../../api";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
+import { API_BASE_URL } from "../../api";
 import { isImageFileType, getMimeTypeByExtension } from "../../utils";
-import { showSnackbar, hideSnackbar } from "../snackbar";
+import { showSnackbar, hideSnackbar } from "../../utils/snackbar";
 import I18n from "../../i18n";
+import ImageZoom from "react-native-image-pan-zoom";
+
+import { requestStoragePermission } from "../../android-permissions";
 
 const fileIcon = require("../../images/ic_file.png");
 const billDownloadIcon = require("../../images/ic_bill_download.png");
@@ -38,42 +42,46 @@ const BillCopyItem = ({
   onDeleteBtnClick
 }) => {
   const mimeType = getMimeTypeByExtension(copy.file_type);
-  const onDownloadPress = () => {
-    if (Platform.OS === "ios") {
-      if (isImageFileType(copy.file_type || copy.fileType)) {
-        showSnackbar({
-          text: I18n.t("bill_copy_popup_screen_downloading_image"),
-          autoDismissTimerSec: 1000
-        });
+  const onDownloadPress = async openAfterDownload => {
+    if ((await requestStoragePermission()) == false) return;
 
-        RNFetchBlob.config({
-          fileCache: true,
-          appendExt: copy.file_type || copy.fileType
+    showSnackbar({
+      text: I18n.t("bill_copy_popup_screen_downloading_file"),
+      autoDismissTimerSec: 1000
+    });
+
+    if (Platform.OS === "ios") {
+      RNFetchBlob.config({
+        fileCache: true,
+        appendExt: copy.file_type
+      })
+        .fetch("GET", API_BASE_URL + copy.copyUrl, {
+          Authorization: authToken
         })
-          .fetch("GET", API_BASE_URL + copy.copyUrl, {
-            Authorization: authToken
-          })
-          .then(res => {
+        .then(res => {
+          if (isImageFileType(copy.file_type) && !openAfterDownload) {
             CameraRoll.saveToCameraRoll("file://" + res.path()).then(
               showSnackbar({
                 text: I18n.t("bill_copy_popup_screen_downloaded_image_ios"),
                 autoDismissTimerSec: 10
               })
             );
-          })
-          .catch((errorMessage, statusCode) => {
-            showSnackbar({
-              text: I18n.t("bill_copy_popup_screen_download_error"),
-              autoDismissTimerSec: 10
-            });
+          } else {
+            RNFetchBlob.ios.openDocument(res.path());
+          }
+        })
+        .catch((errorMessage, statusCode) => {
+          showSnackbar({
+            text: I18n.t("bill_copy_popup_screen_download_error"),
+            autoDismissTimerSec: 10
           });
-      }
+        });
     } else {
       RNFetchBlob.config({
-        path: RNFetchBlob.fs.dirs.DCIMDir + "/file." + copy.file_type,
+        path: RNFetchBlob.fs.dirs.DownloadDir + "/file." + copy.file_type,
         addAndroidDownloads: {
           notification: true,
-          title: "Bill file downloded!!",
+          title: "Bill FIle Downloaded",
           mime: mimeType,
           description: "BinBill bill file",
           mediaScannable: true
@@ -83,7 +91,14 @@ const BillCopyItem = ({
           Authorization: authToken
         })
         .then(res => {
-          android.actionViewIntent(res.path(), mimeType);
+          console.log("file path: ", res.path());
+          if (openAfterDownload) {
+            android.actionViewIntent(res.path(), mimeType);
+          } else {
+            showSnackbar({
+              text: "File Downloaded!!"
+            });
+          }
         })
         .catch((errorMessage, statusCode) => {
           showSnackbar({
@@ -95,29 +110,40 @@ const BillCopyItem = ({
   };
 
   return (
-    <View style={styles.bill}>
-      <View style={styles.billCountTextWrapper}>
+    <View collapsable={false} style={styles.bill}>
+      <View collapsable={false} style={styles.billCountTextWrapper}>
         <Text style={styles.billCountText}>
           {index + 1} of {total}
         </Text>
       </View>
-      {isImageFileType(copy.file_type || copy.fileType) && (
+      {isImageFileType(copy.file_type) && (
+        // <AsyncImage
+        //   style={styles.billImage}
+        //   fileType={copy.file_type}
+        //   uri={API_BASE_URL + "/" + copy.copyUrl}
+        // />
         <Image
+          usePhotoView={true}
           style={styles.billImage}
-          source={{ uri: API_BASE_URL + copy.copyUrl }}
+          source={{ uri: API_BASE_URL + "/" + copy.copyUrl }}
+          resizeMode="contain"
         />
       )}
-      {!isImageFileType(copy.file_type || copy.fileType) && (
-        <View style={styles.file}>
+      {!isImageFileType(copy.file_type) && (
+        <View collapsable={false} style={styles.file}>
           <Image style={styles.fileIcon} source={fileIcon} />
           <Text weight="Medium" style={styles.fileName}>
-            {!isNaN(billId) &&
-              "Bill_" + copy.copyId + "." + (copy.file_type || copy.fileType)}
+            {!isNaN(billId) && "Bill_" + copy.copyId + "." + copy.file_type}
             {isNaN(billId) && billId}
           </Text>
+          <Button
+            text="Open file"
+            onPress={onDownloadPress}
+            style={{ width: 150 }}
+          />
         </View>
       )}
-      <View style={styles.optionsWrapper}>
+      <View collapsable={false} style={styles.optionsWrapper}>
         {(isImageFileType(copy.file_type) || Platform.OS == "android") && (
           <TouchableOpacity style={styles.option} onPress={onDownloadPress}>
             <Image style={styles.optionIcon} source={billDownloadIcon} />

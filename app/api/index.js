@@ -1,17 +1,21 @@
 import { Platform } from "react-native";
-import { Navigation } from "react-native-navigation";
 import axios from "axios";
+import moment from "moment";
 import store from "../store";
 import DeviceInfo from "react-native-device-info";
-import navigation, { openLoginScreen, openEnterPinPopup } from "../navigation";
+import { SCREENS } from "../constants";
+import NavigationService from "../navigation";
 import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-export const API_BASE_URL = "https://consumer.binbill.com";
+let API_BASE_URL = "https://consumer-test.binbill.com";
+if (!__DEV__) {
+  API_BASE_URL = "https://consumer-test.binbill.com";
+}
+export { API_BASE_URL };
 
-const APP_VERSION_FOR_API = 20002;
-let HAS_OPENED_FORCE_UPDATE_SCREEN = false;
+const APP_VERSION_FOR_API = 20009;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
@@ -27,7 +31,7 @@ const apiRequest = async ({
 }) => {
   try {
     const token = store.getState().loggedInUser.authToken;
-    if (token) {
+    if (typeof token == "string") {
       headers.Authorization = token;
       console.log("auth token: ", token);
     }
@@ -46,7 +50,7 @@ const apiRequest = async ({
     console.log(
       "New Request: ",
       method,
-      url,
+      API_BASE_URL + url,
       "headers: ",
       headers,
       "data: ",
@@ -67,26 +71,34 @@ const apiRequest = async ({
       timeout: 3600 * 1000 //3600 seconds
     });
     console.log("r.data: ", r.data);
+    // NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN, {
+    //   allowSkip: true
+    // });
+
+    const appUpdateAvailableScreenTimestamp = store.getState().ui
+      .appUpdateAvailableScreenTimestamp;
 
     if (r.data.forceUpdate === true) {
-      if (!HAS_OPENED_FORCE_UPDATE_SCREEN) {
-        HAS_OPENED_FORCE_UPDATE_SCREEN = true;
-        navigation.openForceUpdateScreen();
-      }
+      NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN);
     } else if (
       r.data.forceUpdate === false &&
-      !store.getState().ui.hasUpdateAppScreenShown
+      (!appUpdateAvailableScreenTimestamp ||
+        moment().diff(
+          moment(appUpdateAvailableScreenTimestamp).startOf("day"),
+          "days"
+        ) > 7)
     ) {
-      store.dispatch(uiActions.setUiHasUpdateAppScreenShown(true));
-      navigation.openForceUpdateModal();
+      store.dispatch(
+        uiActions.setAppUpdateAvailableScreenTimestamp(new Date().toISOString())
+      );
+      NavigationService.navigate(SCREENS.FORCE_UPDATE_SCREEN, {
+        allowSkip: true
+      });
     }
 
     if (r.data.status == false) {
-      Analytics.logEvent(
-        Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
-        { message: r.data.message }
-      );
       let error = new Error(r.data.message);
+      error.originalMessage = r.data.message;
       error.statusCode = 400;
       throw error;
     }
@@ -94,25 +106,34 @@ const apiRequest = async ({
     return r.data;
   } catch (e) {
     console.log("e: ", e);
-    let error = new Error(e.message);
+    let error = new Error(
+      e.originalMessage || "Something went wrong, please try again!"
+    );
     error.statusCode = e.statusCode || 0;
 
-    let errorMessage = e.message;
+    if (error.statusCode == 0) {
+      error.message = "Please check internet connection";
+    }
+
     if (e.response) {
       console.log("e.response.data: ", e.response.data);
       error.statusCode = e.response.status;
-      errorMessage = e.response.data.message;
+      error.message = e.response.data.message;
     }
-    Analytics.logEvent(
-      Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
-      { message: errorMessage }
-    );
+
+    if (error.statusCode != 401 && error.statusCode != 402) {
+      Analytics.logEvent(
+        Analytics.EVENTS.API_ERROR + `${url.replace(/\//g, "_")}`,
+        { message: error.message, statusCode: error.statusCode }
+      );
+    }
 
     if (error.statusCode == 401) {
       store.dispatch(loggedInUserActions.loggedInUserClearAllData());
-      openLoginScreen();
+      NavigationService.navigate(SCREENS.AUTH_STACK);
     } else if (error.statusCode == 402) {
-      openEnterPinPopup();
+      error.message = "";
+      NavigationService.navigate(SCREENS.ENTER_PIN_POPUP_SCREEN);
     }
     throw error;
   }
@@ -162,10 +183,17 @@ export const uploadDocuments = async ({
     },
     onUploadProgress: progressEvent => {
       let percentCompleted = Math.floor(
-        progressEvent.loaded * 100 / progressEvent.total
+        (progressEvent.loaded * 100) / progressEvent.total
       );
       onUploadProgress(percentCompleted);
     }
+  });
+};
+
+export const getNewAppVersionDetails = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/version/detail`
   });
 };
 
@@ -193,7 +221,7 @@ export const uploadProfilePic = async (file, onUploadProgress) => {
     },
     onUploadProgress: progressEvent => {
       let percentCompleted = Math.floor(
-        progressEvent.loaded * 100 / progressEvent.total
+        (progressEvent.loaded * 100) / progressEvent.total
       );
       onUploadProgress(percentCompleted);
     }
@@ -217,22 +245,11 @@ export const uploadProductImage = async (productId, file, onUploadProgress) => {
     },
     onUploadProgress: progressEvent => {
       let percentCompleted = Math.floor(
-        progressEvent.loaded * 100 / progressEvent.total
+        (progressEvent.loaded * 100) / progressEvent.total
       );
       onUploadProgress(percentCompleted);
     }
   });
-};
-
-export const fetchFile = async (url, onDownloadProgress) => {
-  const responseData = await apiRequest({
-    method: "get",
-    url: url,
-    responseType: "arraybuffer",
-    onDownloadProgress
-  });
-
-  return new Buffer(responseData, "binary").toString("base64");
 };
 
 export const verifyEmail = async verificationId => {
@@ -247,6 +264,18 @@ export const consumerGetOtp = async PhoneNo => {
     method: "post",
     url: "/consumer/getotp",
     data: { PhoneNo }
+  });
+};
+
+export const updatePhoneNumber = async ({ phone, otp }) => {
+  let data = {
+    mobile_no: phone,
+    token: otp
+  };
+  return await apiRequest({
+    method: "put",
+    url: "/consumer/validate",
+    data
   });
 };
 
@@ -298,7 +327,7 @@ export const logout = async fcmToken => {
     method: "post",
     url: "/consumer/logout",
     data: {
-      fcmId: store.getState().loggedInUser.fcmToken,
+      fcmId: store.getState().ui.fcmToken,
       platform: platform
     }
   });
@@ -315,6 +344,13 @@ export const getTips = async () => {
   return await apiRequest({
     method: "get",
     url: "/tips"
+  });
+};
+
+export const getFaqs = async () => {
+  return await apiRequest({
+    method: "get",
+    url: "/faqs"
   });
 };
 
@@ -435,13 +471,17 @@ export const getAscSearchResults = async ({
 export const updateProfile = async ({
   name,
   email,
+  phone,
   location,
   latitude,
-  longitude
+  longitude,
+  gender
 }) => {
   let data = {};
   if (name) data.name = name;
   if (email) data.email = email;
+  if (phone) data.mobile_no = phone;
+  if (gender) data.gender = gender;
   if (location) data.location = location;
   if (latitude) data.latitude = latitude;
   if (longitude) data.longitude = longitude;
@@ -452,17 +492,32 @@ export const updateProfile = async ({
   });
 };
 
-export const getInsightData = async () => {
+export const getInsightData = async ({ forMonth, forYear, forLifetime }) => {
   return await apiRequest({
     method: "get",
-    url: "/insight"
+    url: "/insight",
+    queryParams: {
+      for_month: forMonth,
+      for_year: forYear,
+      for_lifetime: forLifetime
+    }
   });
 };
 
-export const getCategoryInsightData = async id => {
+export const getCategoryInsightData = async ({
+  categoryId,
+  forMonth,
+  forYear,
+  forLifetime
+}) => {
   return await apiRequest({
     method: "get",
-    url: `categories/${id}/insights`
+    url: `categories/${categoryId}/insights`,
+    queryParams: {
+      for_month: forMonth,
+      for_year: forYear,
+      for_lifetime: forLifetime
+    }
   });
 };
 
@@ -488,6 +543,7 @@ export const getReferenceDataCategories = async mainCategoryId => {
 };
 
 export const getReferenceDataForCategory = async categoryId => {
+  console.log("s", categoryId);
   return await apiRequest({
     method: "get",
     url: `/referencedata`,
@@ -520,6 +576,16 @@ export const getReferenceDataModels = async (categoryId, brandId) => {
   });
 
   return res.dropDowns;
+};
+
+export const getAccessoriesReferenceDataForCategory = async categoryId => {
+  return await apiRequest({
+    method: "get",
+    url: `/referencedata/accessories`,
+    queryParams: {
+      category_id: categoryId
+    }
+  });
 };
 
 export const addProduct = async ({
@@ -586,7 +652,7 @@ export const updateProduct = async ({
     sub_category_id: subCategoryId,
     brand_id: brandId,
     brand_name: brandName,
-    value: value,
+    value: value || 0,
     document_date: purchaseDate,
     seller_name: sellerName,
     seller_contact: sellerContact,
@@ -748,6 +814,53 @@ export const initProduct = async (mainCategoryId, categoryId) => {
   });
 };
 
+export const initExpense = async (mainCategoryId, categoryId) => {
+  return await apiRequest({
+    method: "post",
+    url: "/expenses/init",
+    data: {
+      main_category_id: mainCategoryId,
+      category_id: categoryId
+    }
+  });
+};
+
+export const updateExpense = async ({
+  productId,
+  value,
+  sellerId,
+  documentDate,
+  digitallyVerified,
+  homeDelivered,
+  isComplete
+}) => {
+  const data = {
+    value: value,
+    seller_id: sellerId,
+    document_date: documentDate,
+    digitally_verified: digitallyVerified,
+    home_delivered: homeDelivered,
+    is_complete: isComplete
+  };
+
+  return await apiRequest({
+    method: "put",
+    url: `/expenses/${productId}`,
+    data: JSON.parse(JSON.stringify(data))
+  });
+};
+
+export const linkSkusWithExpense = async ({ productId, jobId, skuItems }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/expenses/${productId}/sku`,
+    data: {
+      job_id: jobId,
+      sku_items: skuItems
+    }
+  });
+};
+
 export const deleteProduct = async id => {
   return await apiRequest({
     method: "delete",
@@ -829,6 +942,7 @@ export const updateWarranty = async ({
   renewalType,
   effectiveDate,
   warrantyType,
+  value,
   mainCategoryId,
   categoryId
 }) => {
@@ -839,6 +953,7 @@ export const updateWarranty = async ({
     renewal_type: renewalType || undefined,
     effective_date: effectiveDate || undefined,
     warranty_type: warrantyType || undefined,
+    value: value || undefined,
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
   };
@@ -858,6 +973,7 @@ export const addWarranty = async ({
   renewalType,
   effectiveDate,
   warrantyType,
+  value,
   mainCategoryId,
   categoryId
 }) => {
@@ -868,6 +984,7 @@ export const addWarranty = async ({
     renewal_type: renewalType || undefined,
     effective_date: effectiveDate || undefined,
     warranty_type: warrantyType || undefined,
+    value: value || undefined,
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
   };
@@ -1068,6 +1185,135 @@ export const deletePuc = async ({ productId, pucId }) => {
   });
 };
 
+export const updateRc = async ({
+  id,
+  productId,
+  jobId,
+  effectiveDate,
+  renewalType,
+  rcNumber,
+  stateId
+}) => {
+  let data = {
+    job_id: jobId,
+    effective_date: effectiveDate || undefined,
+    renewal_type: renewalType || undefined,
+    document_number: rcNumber || undefined,
+    state_id: stateId || undefined
+  };
+
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/rc/${id}`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const addRc = async ({
+  productId,
+  jobId,
+  effectiveDate,
+  renewalType,
+  rcNumber,
+  stateId
+}) => {
+  let data = {
+    job_id: jobId,
+    effective_date: effectiveDate || undefined,
+    renewal_type: renewalType || undefined,
+    document_number: rcNumber || undefined,
+    state_id: stateId || undefined
+  };
+
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/rc`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const deleteRc = async ({ productId, rcId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/products/${productId}/rc/${rcId}`
+  });
+};
+
+export const updateAccessory = async ({
+  id,
+  productId,
+  jobId,
+  accessoryPartId,
+  accessoryPartName,
+  purchaseDate,
+  value,
+  warrantyId,
+  warrantyRenewalType,
+  warrantyEffectiveDate,
+  mainCategoryId,
+  categoryId
+}) => {
+  let data = {
+    job_id: jobId || undefined,
+    accessory_part_id: accessoryPartId || undefined,
+    accessory_part_name: accessoryPartName || undefined,
+    document_date: purchaseDate || undefined,
+    value: value || undefined,
+    warranty: warrantyRenewalType
+      ? {
+          id: warrantyId || undefined,
+          renewal_type: warrantyRenewalType || undefined,
+          effective_date: warrantyEffectiveDate || undefined
+        }
+      : {},
+    main_category_id: mainCategoryId || undefined,
+    category_id: categoryId || undefined
+  };
+
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/accessories/${id}`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
+export const addAccessory = async ({
+  productId,
+  jobId,
+  accessoryPartId,
+  accessoryPartName,
+  purchaseDate,
+  value,
+  warrantyId,
+  warrantyRenewalType,
+  warrantyEffectiveDate,
+  mainCategoryId,
+  categoryId
+}) => {
+  let data = {
+    job_id: jobId || undefined,
+    accessory_part_id: accessoryPartId || undefined,
+    accessory_part_name: accessoryPartName || undefined,
+    document_date: purchaseDate || undefined,
+    value: value || undefined,
+    warranty: warrantyRenewalType
+      ? {
+          id: warrantyId || undefined,
+          renewal_type: warrantyRenewalType || undefined,
+          effective_date: warrantyEffectiveDate || undefined
+        }
+      : {},
+    main_category_id: mainCategoryId || undefined,
+    category_id: categoryId || undefined
+  };
+
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/accessories`,
+    data: JSON.parse(JSON.stringify(data)) //to remove undefined keys
+  });
+};
+
 export const fetchDoYouKnowItems = async ({ tagIds, offsetId }) => {
   let queryParams = {};
   if (offsetId) {
@@ -1078,6 +1324,13 @@ export const fetchDoYouKnowItems = async ({ tagIds, offsetId }) => {
     url: "/know/items",
     data: { tag_id: tagIds },
     queryParams
+  });
+};
+
+export const fetchDoYouKnowItem = async id => {
+  return await apiRequest({
+    method: "get",
+    url: `/know/items/${id}`
   });
 };
 
@@ -1300,5 +1553,499 @@ export const validateEmailOtp = async ({ otp }) => {
     data: {
       token: otp
     }
+  });
+};
+
+export const fetchStates = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/states`
+  });
+};
+
+export const fetchStateMeals = async ({ stateId, isVeg }) => {
+  return await apiRequest({
+    method: "get",
+    url: `/states/${stateId}/meals`,
+    queryParams: {
+      is_veg: isVeg || undefined
+    }
+  });
+};
+
+export const removeMealById = async ({ mealId }) => {
+  console.log(mealId);
+  return await apiRequest({
+    method: "delete",
+    url: `/user/meals/${mealId}/remove`
+  });
+};
+
+export const removeTodoById = async ({ todoId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/user/todos/${todoId}/remove`
+  });
+};
+
+export const removeClothById = async ({ clothId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/wearables/${clothId}`
+  });
+};
+
+export const saveMealList = async ({ selectedItemIds, selectedState }) => {
+  return await apiRequest({
+    method: "post",
+    url: "/user/meals",
+    data: {
+      selected_ids: selectedItemIds,
+      state_id: selectedState
+    }
+  });
+};
+
+export const saveTodoList = async ({ selectedItemIds }) => {
+  return await apiRequest({
+    method: "post",
+    url: "/user/todos",
+    data: {
+      selected_ids: selectedItemIds
+    }
+  });
+};
+
+export const getMealListByDate = async date => {
+  return await apiRequest({
+    method: "get",
+    url: `/user/meals?current_date=${date}`
+  });
+};
+
+export const addMealForADate = async ({ mealId, date }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/user/meals/${mealId}`,
+    data: {
+      current_date: date
+    }
+  });
+};
+
+export const addTodoForADate = async ({ todoId, date }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/user/todos/${todoId}`,
+    data: {
+      current_date: date
+    }
+  });
+};
+
+export const addClothForADate = async ({ clothId, date }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/user/wearables/${clothId}`,
+    data: {
+      current_date: date
+    }
+  });
+};
+
+export const removeMealForADate = async ({ mealId, date }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/user/meals/${mealId}`,
+    data: {
+      current_date: date
+    }
+  });
+};
+
+export const removeTodoForADate = async ({ todoId, date }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/user/todos/${todoId}`,
+    data: {
+      current_date: date
+    }
+  });
+};
+
+export const removeClothForADate = async ({ clothId, date }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/user/wearables/${clothId}`,
+    data: {
+      current_date: date
+    }
+  });
+};
+
+export const addUserCreatedMeals = async ({ meals, stateId, date }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/user/meals/add`,
+    data: {
+      names: meals,
+      state_id: stateId,
+      current_date: date
+    }
+  });
+};
+
+export const fetchAllTodos = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/todos`
+  });
+};
+
+export const fetchAllCloths = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/todos`
+  });
+};
+
+export const getTodoListByDate = async date => {
+  return await apiRequest({
+    method: "get",
+    url: `/user/todos?current_date=${date}`
+  });
+};
+
+export const getClothesListByDate = async (
+  date = moment().format("YYYY-MM-DD")
+) => {
+  return await apiRequest({
+    method: "get",
+    url: `/wearables?current_date=${date}`
+  });
+};
+
+export const addUserCreatedTodos = async ({ names, date }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/user/todos/add`,
+    data: { names: names, current_date: date }
+  });
+};
+export const addWearables = async ({ name, date }) => {
+  return await apiRequest({
+    method: "post",
+    url: "/wearables",
+    data: {
+      name: name,
+      current_date: date
+    }
+  });
+};
+export const uploadWearableImage = async (clothId, file, onUploadProgress) => {
+  console.log("file", file);
+  const data = new FormData();
+  data.append(`filesName`, {
+    uri: file.uri,
+    type: file.mimeType,
+    name: file.filename || "cloth-image.jpeg"
+  });
+
+  return await apiRequest({
+    method: "post",
+    url: `/wearable/${clothId}/images`,
+    data: data,
+    headers: {
+      "Content-Type": "multipart/form-data"
+    },
+    onUploadProgress: progressEvent => {
+      let percentCompleted = Math.floor(
+        (progressEvent.loaded * 100) / progressEvent.total
+      );
+      onUploadProgress(percentCompleted);
+    }
+  });
+};
+
+export const getAccessoriesCategory = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/accessories/categories`
+  });
+};
+
+export const getAccessories = async ({
+  categoryId,
+  offset,
+  accessoryIds,
+  brandId,
+  model
+}) => {
+  return await apiRequest({
+    method: "get",
+    url: `/accessories`,
+    queryParams: {
+      categoryid: categoryId,
+      accessory_ids: accessoryIds.join(","),
+      brand_id: brandId,
+      model,
+      offset
+    }
+  });
+};
+
+export const fetchOfferCategories = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/offer/categories`
+  });
+};
+
+export const fetchCategoryOffers = async ({
+  categoryId,
+  lastDiscountOfferId,
+  lastCashbackOfferId,
+  lastOtherOfferId,
+  cashback,
+  discount,
+  otherOfferTypes,
+  merchants = [],
+  sort
+}) => {
+  const queryParams = {
+    discount_offer_id: lastDiscountOfferId || undefined,
+    cashback_offer_id: lastCashbackOfferId || undefined,
+    other_offer_id: lastOtherOfferId || undefined,
+    cashback: cashback || undefined,
+    discount: discount || undefined,
+    other: otherOfferTypes || undefined,
+    merchant: merchants.length > 0 ? merchants.join() : undefined,
+    cashback_sort: cashback ? sort : undefined,
+    discount_sort: discount ? sort : undefined
+  };
+  return await apiRequest({
+    method: "get",
+    url: `/offer/categories/${categoryId}`,
+    queryParams: JSON.parse(JSON.stringify(queryParams))
+  });
+};
+
+export const createTransaction = async ({
+  transactionId,
+  statusType,
+  price,
+  quantity,
+  onlineSellerId,
+  sellerDetail,
+  deliveryAddress,
+  deliveryDate,
+  productId,
+  accessoryProductId,
+  paymentMode,
+  detailsUrl
+}) => {
+  const data = {
+    transaction_id: transactionId,
+    status_type: statusType,
+    price: price,
+    quantity: quantity,
+    online_seller_id: onlineSellerId,
+    seller_detail: sellerDetail,
+    delivery_address: deliveryAddress,
+    delivery_date: deliveryDate,
+    product_id: productId,
+    accessory_product_id: accessoryProductId,
+    payment_mode: paymentMode,
+    details_url: detailsUrl
+  };
+  return await apiRequest({
+    method: "post",
+    url: `/order`,
+    data: JSON.parse(JSON.stringify(data))
+  });
+};
+
+export const fetchOrderHistory = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/order/history`
+  });
+};
+
+export const createFuelExpense = async ({
+  productId,
+  effectiveDate,
+  odometerReading,
+  documentNumber,
+  value,
+  fuelQuantity,
+  fuelType
+}) => {
+  const data = {
+    effective_date: effectiveDate,
+    odometer_reading: odometerReading,
+    document_number: documentNumber,
+    value,
+    fuel_quantity: fuelQuantity,
+    fuel_type: fuelType
+  };
+  return await apiRequest({
+    method: "post",
+    url: `/products/${productId}/fuel`,
+    data: JSON.parse(JSON.stringify(data))
+  });
+};
+
+export const updateFuelExpense = async ({
+  id,
+  productId,
+  effectiveDate,
+  odometerReading,
+  documentNumber,
+  value,
+  fuelQuantity,
+  fuelType
+}) => {
+  const data = {
+    effective_date: effectiveDate,
+    odometer_reading: odometerReading,
+    document_number: documentNumber,
+    value,
+    fuel_quantity: fuelQuantity,
+    fuel_type: fuelType
+  };
+  return await apiRequest({
+    method: "put",
+    url: `/products/${productId}/fuel/${id}`,
+    data: JSON.parse(JSON.stringify(data))
+  });
+};
+
+export const deleteFuelExpense = async ({ id, productId }) => {
+  return await apiRequest({
+    method: "delete",
+    url: `/products/${productId}/fuel/${id}`
+  });
+};
+
+export const getEhomeProducts = async ({
+  type = 1,
+  categoryIds = [],
+  offset = 0
+}) => {
+  return await apiRequest({
+    method: "get",
+    url: `/consumer/ehome/products/${type}`,
+    queryParams: {
+      offset,
+      category_id: categoryIds.join(",")
+    }
+  });
+};
+
+export const getSkuReferenceData = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/sku/reference/data`
+  });
+};
+
+export const getSkuItems = async ({
+  categoryId,
+  brandIds = [],
+  subCategoryIds = [],
+  measurementValues = [],
+  measurementTypes = [],
+  barCode,
+  searchTerm
+}) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sku/list`,
+    queryParams: {
+      category_id: categoryId,
+      sub_category_ids: subCategoryIds.join(","),
+      brand_ids: brandIds.join(","),
+      measurement_value: measurementValues.join(","),
+      measurement_types: measurementTypes.join(","),
+      bar_code: barCode,
+      title: searchTerm
+    }
+  });
+};
+
+export const getBarcodeSkuItem = async ({ barcode }) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sku/${barcode}/item`
+  });
+};
+
+export const getSkuWishList = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/sku/wishlist`
+  });
+};
+
+export const addSkuItemToWishList = async item => {
+  return await apiRequest({
+    method: "post",
+    url: `/sku/wishlist`,
+    data: { ...item }
+  });
+};
+
+export const addSkuItemToPastList = async item => {
+  return await apiRequest({
+    method: "post",
+    url: `/sku/past`,
+    data: { ...item }
+  });
+};
+
+export const clearWishList = async item => {
+  return await apiRequest({
+    method: "delete",
+    url: `/sku/wishlist`
+  });
+};
+
+export const getMySellers = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/mysellers`
+  });
+};
+
+export const getSellers = async ({
+  searchTerm,
+  limit,
+  latitude,
+  longitude
+}) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers`,
+    queryParams: {
+      search_value: searchTerm
+    }
+  });
+};
+
+export const inviteSeller = async ({ phoneNumber }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/sellers/invite`,
+    data: {
+      contact_no: phoneNumber
+    }
+  });
+};
+
+export const getSellerDetails = async (sellerId) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers/${sellerId}`
   });
 };

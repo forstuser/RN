@@ -18,7 +18,7 @@ const ViewBillRow = ({ text, onEditPress }) => {
   return (
     <TouchableOpacity
       onPress={onEditPress}
-      style={{ flex: 1, backgroundColor: "#EBEBEB" }}
+      style={{ backgroundColor: "#EBEBEB" }}
     >
       <KeyValueItem
         keyText={text}

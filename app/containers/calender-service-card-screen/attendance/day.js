@@ -131,14 +131,30 @@ class Month extends React.Component {
     } = this.props;
     // console.log("calculationDetails in props", calculationDetails)
     const { quantity, isEditQuantityModalOpen } = this.state;
+    const isDateAfterToday = moment(date).isAfter(moment().startOf("day"));
+
+    // console.log("date: ", date, "isDateAfterToday: ", isDateAfterToday);
+    // if (!isEditQuantityModalOpen) return null;
+
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <Text weight="Medium" style={styles.date}>
           {moment(date).format("D MMM YYYY")}
         </Text>
-        {isPresent &&
-          item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
-            <View style={{ flexDirection: "row", width: 80 }}>
+        <View style={{ flex: 1, alignItems: "center" }}>
+          {isPresent &&
+          item.service_type.wages_type == CALENDAR_WAGES_TYPE.PRODUCT ? (
+            <View
+              collapsable={false}
+              style={{
+                flexDirection: "row",
+                width: 80,
+                borderColor: "#d6d6d6",
+                borderWidth: 1,
+                borderRadius: 10,
+                paddingHorizontal: 5
+              }}
+            >
               <TouchableOpacity
                 onPress={this.decreaseQuantity}
                 style={{
@@ -173,68 +189,74 @@ class Month extends React.Component {
                 <Icon name="md-add" size={16} color={colors.pinkishOrange} />
               </TouchableOpacity>
             </View>
+          ) : (
+            <View collapsable={false} />
           )}
+        </View>
         <TouchableOpacity
           onPress={toggleAttendance}
-          style={styles.presentAbsentContainer}
+          style={[
+            styles.presentAbsentContainer,
+            isPresent && !isDateAfterToday ? styles.present : {}
+          ]}
         >
-          <Text
-            weight="Medium"
-            style={[styles.presentAbsent, !isPresent ? styles.absent : {}]}
-          >
-            {I18n.t("calendar_service_screen_absent")}
-          </Text>
-          <Text
-            weight="Medium"
-            style={[styles.presentAbsent, isPresent ? styles.present : {}]}
-          >
-            {I18n.t("calendar_service_screen_present")}
-          </Text>
+          <Icon
+            name={isPresent ? "md-checkmark" : "md-close"}
+            size={22}
+            color="#fff"
+            style={{ marginTop: 2 }}
+          />
         </TouchableOpacity>
-        <Modal
-          isVisible={isEditQuantityModalOpen}
-          avoidKeyboard={Platform.OS == "ios"}
-          animationIn="slideInUp"
-          useNativeDriver={true}
-          onBackdropPress={this.hideEditQuantityModal}
-          onBackButtonPress={this.hideEditQuantityModal}
-        >
-          <View style={[styles.card, styles.modalCard]}>
-            {/* <LoadingOverlay visible={isAddingPayment} /> */}
-            <TouchableOpacity
-              style={styles.modalCloseIcon}
-              onPress={this.hideEditQuantityModal}
+        {isEditQuantityModalOpen ? (
+          <View collapsable={false}>
+            <Modal
+              isVisible={true}
+              avoidKeyboard={Platform.OS == "ios"}
+              animationIn="slideInUp"
+              useNativeDriver={true}
+              onBackdropPress={this.hideEditQuantityModal}
+              onBackButtonPress={this.hideEditQuantityModal}
             >
-              <Icon name="md-close" size={30} color={colors.mainText} />
-            </TouchableOpacity>
-            <Text
-              weight="Bold"
-              style={{
-                marginTop: 30,
-                marginBottom: 10,
-                alignSelf: "flex-start"
-              }}
-            >
-              {moment(date).format("D MMM YYYY")}
-            </Text>
-            <CustomTextInput
-              keyboardType="numeric"
-              style={{ marginTop: 50 }}
-              placeholder={"Change Quantity"}
-              value={String(quantity)}
-              onChangeText={quantity => this.setState({ quantity })}
-              rightSideText={
-                calculationDetail.unit ? calculationDetail.unit.title : ""
-              }
-            />
-            <Button
-              onPress={this.changeQuantity}
-              style={[styles.changeQuantityBtn, styles.modalBtn]}
-              text={"Save"}
-              color="secondary"
-            />
+              <View collapsable={false} style={[styles.card, styles.modalCard]}>
+                {/* <LoadingOverlay visible={isAddingPayment} /> */}
+                <TouchableOpacity
+                  style={styles.modalCloseIcon}
+                  onPress={this.hideEditQuantityModal}
+                >
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
+                <Text
+                  weight="Bold"
+                  style={{
+                    marginTop: 30,
+                    marginBottom: 10,
+                    alignSelf: "flex-start"
+                  }}
+                >
+                  {moment(date).format("D MMM YYYY")}
+                </Text>
+                <CustomTextInput
+                  keyboardType="numeric"
+                  style={{ marginTop: 50 }}
+                  placeholder={"Change Quantity"}
+                  value={String(quantity)}
+                  onChangeText={quantity => this.setState({ quantity })}
+                  rightSideText={
+                    calculationDetail.unit ? calculationDetail.unit.title : ""
+                  }
+                />
+                <Button
+                  onPress={this.changeQuantity}
+                  style={[styles.changeQuantityBtn, styles.modalBtn]}
+                  text={"Save"}
+                  color="secondary"
+                />
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        ) : (
+          <View collapsable={false} />
+        )}
       </View>
     );
   }
@@ -258,11 +280,13 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   presentAbsentContainer: {
+    width: 25,
+    height: 25,
     flexDirection: "row",
     backgroundColor: "#efefef",
-    borderColor: "#999",
-    borderWidth: 1,
-    borderRadius: 2
+    borderRadius: 13,
+    alignItems: "center",
+    justifyContent: "center"
   },
   presentAbsent: {
     fontSize: 9,
@@ -271,6 +295,9 @@ const styles = StyleSheet.create({
   present: {
     backgroundColor: colors.success,
     color: "#fff"
+  },
+  presentAfterToday: {
+    backgroundColor: "#999"
   },
   absent: {
     backgroundColor: colors.danger,

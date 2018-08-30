@@ -15,7 +15,8 @@ import I18n from "../../../../i18n";
 import {
   MAIN_CATEGORY_IDS,
   SCREENS,
-  WARRANTY_TYPES
+  WARRANTY_TYPES,
+  CATEGORY_IDS
 } from "../../../../constants";
 
 import AddItemBtn from "./add-item-btn";
@@ -25,88 +26,92 @@ import InsuranceDetails from "./insurance-details";
 import AmcDetails from "./amc-details";
 import RepairDetails from "./repair-details";
 import PucDetails from "./puc-details";
+import RcDetails from "./rc-details";
+import AccessoriesDetails from "./accessories-details";
 
 class Important extends React.Component {
   openAddEditWarrantyScreen = (warranty, warrantyType) => {
     const { product } = this.props;
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_WARRANTY_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        warranty: warranty,
-        warrantyType: warrantyType
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_WARRANTY_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      warranty: warranty,
+      warrantyType: warrantyType
     });
   };
 
   openAddEditInsuranceScreen = insurance => {
     const { product } = this.props;
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_INSURANCE_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        insurance: insurance
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_INSURANCE_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      insurance: insurance
     });
   };
 
   openAddEditAmcScreen = amc => {
     const { product } = this.props;
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_AMC_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        amc: amc
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_AMC_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      amc: amc
     });
   };
 
   openAddEditRepairScreen = repair => {
     const { product } = this.props;
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_REPAIR_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        repair: repair
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_REPAIR_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      repair: repair
     });
   };
 
   openAddEditPucScreen = puc => {
     const { product } = this.props;
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_PUC_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        puc: puc
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_PUC_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      puc: puc
+    });
+  };
+
+  openAddEditRcScreen = rc => {
+    const { product } = this.props;
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_RC_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      rc: rc
+    });
+  };
+
+  openAddEditAccessoryScreen = accessory => {
+    const { product } = this.props;
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_ACCESSORY_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      accessory: accessory
     });
   };
 
   render() {
     const {
       product,
-      navigator,
+      navigation,
       cardWidthWhenMany,
       cardWidthWhenOne
     } = this.props;
@@ -114,58 +119,98 @@ class Important extends React.Component {
     const {
       warrantyDetails,
       insuranceDetails,
+      accessories,
       amcDetails,
       repairBills,
-      pucDetails
+      pucDetails,
+      rc_details
     } = product;
 
     return (
-      <View style={styles.container}>
-        {(product.categoryId != 664 ||
-          [MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
-            product.masterCategoryId
-          ) > -1) &&
-          warrantyDetails.length > 0 && (
-            <View>
+      <View collapsable={false} style={styles.container}>
+        {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
+          rc_details.length > 0 && (
+            <View collapsable={false}>
               <Text weight="Bold" style={styles.sectionTitle}>
-                {I18n.t("product_details_screen_warranty_title")}
+                RC
               </Text>
-              <WarrantyDetails
+              <RcDetails
                 product={product}
-                navigator={navigator}
-                openAddEditWarrantyScreen={this.openAddEditWarrantyScreen}
+                navigation={navigation}
+                openAddEditRcScreen={this.openAddEditRcScreen}
               />
             </View>
           )}
 
-        {([MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
-          product.masterCategoryId
-        ) > -1 ||
-          product.categoryId == 664) &&
+        {([
+          MAIN_CATEGORY_IDS.AUTOMOBILE,
+          MAIN_CATEGORY_IDS.ELECTRONICS,
+          MAIN_CATEGORY_IDS.FURNITURE
+        ].indexOf(product.masterCategoryId) > -1 ||
+          product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) &&
           insuranceDetails.length > 0 && (
-            <View>
+            <View collapsable={false}>
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_insurance_title")}
               </Text>
               <InsuranceDetails
                 product={product}
-                navigator={navigator}
+                navigation={navigation}
                 openAddEditInsuranceScreen={this.openAddEditInsuranceScreen}
               />
             </View>
           )}
 
-        {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
-          product.masterCategoryId
-        ) > -1 &&
+        {(product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ||
+          [
+            MAIN_CATEGORY_IDS.AUTOMOBILE,
+            MAIN_CATEGORY_IDS.ELECTRONICS,
+            MAIN_CATEGORY_IDS.FURNITURE
+          ].indexOf(product.masterCategoryId) > -1) &&
+          warrantyDetails.length > 0 && (
+            <View collapsable={false}>
+              <Text weight="Bold" style={styles.sectionTitle}>
+                {I18n.t("product_details_screen_warranty_title")}
+              </Text>
+              <WarrantyDetails
+                product={product}
+                navigation={navigation}
+                openAddEditWarrantyScreen={this.openAddEditWarrantyScreen}
+              />
+            </View>
+          )}
+
+        {[
+          MAIN_CATEGORY_IDS.AUTOMOBILE,
+          MAIN_CATEGORY_IDS.ELECTRONICS,
+          MAIN_CATEGORY_IDS.FURNITURE
+        ].indexOf(product.masterCategoryId) > -1 &&
+          accessories.length > 0 && (
+            <View collapsable={false}>
+              <Text weight="Bold" style={styles.sectionTitle}>
+                Parts & Accessories
+              </Text>
+              <AccessoriesDetails
+                product={product}
+                navigation={navigation}
+                openAddEditAccessoryScreen={this.openAddEditAccessoryScreen}
+              />
+            </View>
+          )}
+
+        {[
+          MAIN_CATEGORY_IDS.AUTOMOBILE,
+          MAIN_CATEGORY_IDS.ELECTRONICS,
+          MAIN_CATEGORY_IDS.FURNITURE
+        ].indexOf(product.masterCategoryId) > -1 &&
           amcDetails.length > 0 && (
-            <View>
+            <View collapsable={false}>
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_amc_title")}
               </Text>
               <AmcDetails
                 product={product}
-                navigator={navigator}
+                navigation={navigation}
                 openAddEditAmcScreen={this.openAddEditAmcScreen}
               />
             </View>
@@ -177,13 +222,13 @@ class Important extends React.Component {
           MAIN_CATEGORY_IDS.FURNITURE
         ].indexOf(product.masterCategoryId) > -1 &&
           repairBills.length > 0 && (
-            <View>
+            <View collapsable={false}>
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_repairs_title")}
               </Text>
               <RepairDetails
                 product={product}
-                navigator={navigator}
+                navigation={navigation}
                 openAddEditRepairScreen={this.openAddEditRepairScreen}
               />
             </View>
@@ -191,23 +236,38 @@ class Important extends React.Component {
 
         {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
           pucDetails.length > 0 && (
-            <View>
+            <View collapsable={false}>
               <Text weight="Bold" style={styles.sectionTitle}>
                 {I18n.t("product_details_screen_puc_title")}
               </Text>
               <PucDetails
                 product={product}
-                navigator={navigator}
+                navigation={navigation}
                 openAddEditPucScreen={this.openAddEditPucScreen}
               />
             </View>
           )}
 
-        <View style={styles.addBtns}>
-          {(product.categoryId != 664 ||
+        <View collapsable={false} style={styles.addBtns}>
+          {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
+            product.categoryId != CATEGORY_IDS.AUTOMOBILE.TYRE &&
+            product.categoryId != CATEGORY_IDS.AUTOMOBILE.ACCESSORY &&
+            rc_details.length == 0 && (
+              <AddItemBtn
+                biggerSize={true}
+                text="Add RC"
+                onPress={() => {
+                  Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_RC);
+                  this.openAddEditRcScreen(null);
+                }}
+              />
+            )}
+
+          {(product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ||
             [
               MAIN_CATEGORY_IDS.AUTOMOBILE,
-              MAIN_CATEGORY_IDS.ELECTRONICS
+              MAIN_CATEGORY_IDS.ELECTRONICS,
+              MAIN_CATEGORY_IDS.FURNITURE
             ].indexOf(product.masterCategoryId) > -1) &&
             warrantyDetails.filter(
               warranty => warranty.warranty_type == WARRANTY_TYPES.NORMAL
@@ -217,14 +277,15 @@ class Important extends React.Component {
                 text={I18n.t("product_details_screen_add_warranty")}
                 onPress={() => {
                   Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_WARRANTY);
-                  this.openAddEditWarrantyScreen(null, WARRANTY_TYPES.NORMAL)
+                  this.openAddEditWarrantyScreen(null, WARRANTY_TYPES.NORMAL);
                 }}
               />
             )}
-          {(product.categoryId != 664 ||
+          {(product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE ||
             [
               MAIN_CATEGORY_IDS.AUTOMOBILE,
-              MAIN_CATEGORY_IDS.ELECTRONICS
+              MAIN_CATEGORY_IDS.ELECTRONICS,
+              MAIN_CATEGORY_IDS.FURNITURE
             ].indexOf(product.masterCategoryId) > -1) &&
             warrantyDetails.filter(
               warranty => warranty.warranty_type == WARRANTY_TYPES.EXTENDED
@@ -233,32 +294,51 @@ class Important extends React.Component {
                 biggerSize={true}
                 text={I18n.t("product_details_screen_add_extended_warranty")}
                 onPress={() => {
-                  Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_EXTENDED_WARRANTY);
-                  this.openAddEditWarrantyScreen(null, WARRANTY_TYPES.EXTENDED)
+                  Analytics.logEvent(
+                    Analytics.EVENTS.CLICK_ON_ADD_EXTENDED_WARRANTY
+                  );
+                  this.openAddEditWarrantyScreen(null, WARRANTY_TYPES.EXTENDED);
                 }}
               />
             )}
 
           {([
             MAIN_CATEGORY_IDS.AUTOMOBILE,
-            MAIN_CATEGORY_IDS.ELECTRONICS
+            MAIN_CATEGORY_IDS.ELECTRONICS,
+            MAIN_CATEGORY_IDS.FURNITURE
           ].indexOf(product.masterCategoryId) > -1 ||
-            product.categoryId == 664) &&
+            product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) &&
             insuranceDetails.length == 0 && (
               <AddItemBtn
                 biggerSize={true}
                 text={I18n.t("product_details_screen_add_insurance")}
                 onPress={() => {
                   Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_INSURANCE);
-                  this.openAddEditInsuranceScreen(null)
-                }
-                }
+                  this.openAddEditInsuranceScreen(null);
+                }}
               />
             )}
 
           {[
             MAIN_CATEGORY_IDS.AUTOMOBILE,
-            MAIN_CATEGORY_IDS.ELECTRONICS
+            MAIN_CATEGORY_IDS.ELECTRONICS,
+            MAIN_CATEGORY_IDS.FURNITURE
+          ].indexOf(product.masterCategoryId) > -1 &&
+            accessories.length == 0 && (
+              <AddItemBtn
+                biggerSize={true}
+                text="Add Part or Accessory"
+                onPress={() => {
+                  Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_ACCESSORY);
+                  this.openAddEditAccessoryScreen(null);
+                }}
+              />
+            )}
+
+          {[
+            MAIN_CATEGORY_IDS.AUTOMOBILE,
+            MAIN_CATEGORY_IDS.ELECTRONICS,
+            MAIN_CATEGORY_IDS.FURNITURE
           ].indexOf(product.masterCategoryId) > -1 &&
             amcDetails.length == 0 && (
               <AddItemBtn
@@ -266,7 +346,7 @@ class Important extends React.Component {
                 text={I18n.t("product_details_screen_add_amc")}
                 onPress={() => {
                   Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_AMC);
-                  this.openAddEditAmcScreen(null)
+                  this.openAddEditAmcScreen(null);
                 }}
               />
             )}
@@ -282,9 +362,8 @@ class Important extends React.Component {
                 text={I18n.t("product_details_screen_add_repair")}
                 onPress={() => {
                   Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_REPAIR);
-                  this.openAddEditRepairScreen(null)
-                }
-                }
+                  this.openAddEditRepairScreen(null);
+                }}
               />
             )}
 
@@ -295,9 +374,8 @@ class Important extends React.Component {
                 text={I18n.t("product_details_screen_add_puc")}
                 onPress={() => {
                   Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_PUC);
-                  this.openAddEditPucScreen(null)
-                }
-                }
+                  this.openAddEditPucScreen(null);
+                }}
               />
             )}
         </View>
@@ -308,7 +386,7 @@ class Important extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16
+    marginTop: 20
   },
   sectionTitle: {},
   addBtns: {

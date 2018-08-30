@@ -35,16 +35,12 @@ class AmcDetails extends Component {
   openAddEditAmcScreen = amc => {
     const { product } = this.props;
 
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_AMC_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        amc: amc
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_AMC_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      amc: amc
     });
   };
 
@@ -53,12 +49,12 @@ class AmcDetails extends Component {
     const { amcDetails } = product;
 
     return (
-      <View>
+      <View collapsable={false}>
         <Collapsible headerText={I18n.t("product_details_screen_amc_title")}>
-          {amcDetails.length > 0 && (
-            <View>
+          {amcDetails.length > 0 ? (
+            <View collapsable={false}>
               {amcDetails.map(amc => (
-                <View>
+                <View collapsable={false}>
                   <EditOptionRow
                     date={amc.expiryDate}
                     onEditPress={() => {
@@ -66,6 +62,7 @@ class AmcDetails extends Component {
                     }}
                   />
                   <ViewBillRow
+                    collapsable={false}
                     expiryDate={amc.expiryDate}
                     purchaseDate={amc.purchaseDate}
                     docType="AMC"
@@ -101,8 +98,7 @@ class AmcDetails extends Component {
                 </View>
               ))}
             </View>
-          )}
-          {amcDetails.length == 0 && (
+          ) : (
             <Text
               weight="Bold"
               style={{ textAlign: "center", padding: 16, color: "red" }}

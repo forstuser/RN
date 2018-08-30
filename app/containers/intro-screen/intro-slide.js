@@ -6,23 +6,23 @@ import { Text } from "../../elements";
 import { colors } from "../../theme";
 
 const IntroSlide = ({ image, title, desc }) => (
-  <View style={styles.container}>
+  <View collapsable={false} style={styles.container}>
     <LinearGradient
       start={{ x: 0.0, y: 0.4 }}
       end={{ x: 0.0, y: 1 }}
-      colors={["#008bd8", "#00acee"]}
+      colors={["#fff", "#fff"]}
       style={styles.gradientBackground}
     >
-      {/* <Image
+      <Image
         style={styles.bg}
         source={require("../../images/onboarding/background.png")}
-      /> */}
-      <View style={styles.texts}>
+      />
+      <View collapsable={false} style={styles.texts}>
         <Text style={styles.title}>{title}</Text>
         {/* <Text style={styles.desc}>{desc}</Text> */}
       </View>
-      <View style={styles.content}>
-        <View style={styles.imageWrapper}>
+      <View collapsable={false} style={styles.content}>
+        <View collapsable={false} style={styles.imageWrapper}>
           <Image style={styles.image} source={image} resizeMode="contain" />
         </View>
       </View>
@@ -54,11 +54,12 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     alignItems: "center",
     justifyContent: "center",
-    flex: 3
-    // top: 50
+    flex: 3,
+    bottom: 20
   },
   texts: {
     height: 100,
+    top: 20,
     alignItems: "center",
     justifyContent: "center",
     flex: 1
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     textAlign: "center",
-    color: "#fff",
+    color: colors.mainText,
     paddingHorizontal: 20,
     marginTop: 25,
     lineHeight: 30,
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
   },
   image: {
     position: "absolute",
-    width: "100%",
+    width: "105%",
     height: "100%",
     bottom: 75
   }

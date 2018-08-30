@@ -6,7 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
-  Image
+  Image,
+  FlatList
 } from "react-native";
 
 import { connect } from "react-redux";
@@ -20,9 +21,11 @@ import { openAddProductsScreen } from "../../navigation";
 import { consumerGetDashboard, getProfileDetail } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import BlankDashboard from "./blank-dashboard";
-import TabSearchHeader from "../../components/tab-screen-header";
+import CircularTabs from "../../components/circular-tabs";
+import TabSearchHeader from "../../components/tab-screen-header2";
 import InsightChart from "../../components/insight-chart";
-import UpcomingServicesList from "../../components/upcoming-services-list";
+import UpcomingServiceItem from "./upcoming-service-item";
+import UpcomingServiceContent from "./upcoming-services-content";
 import UploadBillOptions from "../../components/upload-bill-options";
 import { colors, defaultStyles } from "../../theme";
 import I18n from "../../i18n";
@@ -40,17 +43,23 @@ import ProductListItem from "../../components/product-list-item";
 import { actions as uiActions } from "../../modules/ui";
 import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 import RecentCalenderItems from "./recent-calender-items";
+import AscContent from "./asc-content";
+import ExpenseInsightsContent from "./expense-insights-content";
+import CalendarContent from "../my-calendar-screen";
 
 const ascIcon = require("../../images/ic_nav_asc_on.png");
 const chartIcon = require("../../images/ic_bars_chart.png");
 const dashBoardIcon = require("../../images/ic_nav_dashboard_off.png");
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
+const whatsComingIcon = require("../../images/bullhorn.png");
+
 class DashboardScreen extends React.Component {
   static HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = false;
-  static navigatorStyle = {
-    navBarHidden: true,
-    tabBarHidden: false
+  static navigationOptions = {};
+
+  static navigationOptions = {
+    header: null
   };
 
   constructor(props) {
@@ -60,146 +69,80 @@ class DashboardScreen extends React.Component {
       isFetchingData: true,
       showDashboard: true,
       upcomingServices: [],
-      recentProducts: [],
-      recentCalenderItems: [],
-      insightChartProps: {},
       notificationCount: 0,
       recentSearches: [],
-      totalCalendarItem: 0,
-      calendarItemUpdatedAt: null,
-      showUploadOptions: false,
-      showAddProductOptionsScreenOnAppear: false
+      activeTabIndex: 0
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
-    if (this.props.screenOpts) {
-      const screenOpts = this.props.screenOpts;
-      switch (screenOpts.startScreen) {
-        case SCREENS.MAILBOX_SCREEN:
-          this.refs.tabSearchHeader.openMailboxScreen();
-          break;
-        case SCREENS.INSIGHTS_SCREEN:
-          this.openInsightScreen({ screenOpts: screenOpts });
-          break;
-        case SCREENS.ADD_PRODUCT_SCREEN:
-          this.props.navigator.push({
-            screen: SCREENS.ADD_PRODUCT_SCREEN
-          });
-          break;
-        case SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN:
-          this.props.navigator.push({
-            screen: SCREENS.DIRECT_UPLOAD_DOCUMENT_SCREEN,
-            passProps: {
-              showAddProductOptionsScreenOnAppear: this
-                .showAddProductOptionsScreenOnAppear
-            }
-          });
-          break;
-        case SCREENS.TIPS_SCREEN:
-          this.props.navigator.push({
-            screen: SCREENS.TIPS_SCREEN
-          });
-          break;
+    // this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.screenHasDisappeared = false;
+        this.fetchDashboardData();
+        this.expenseInsightContent.fetchCategories();
+        this.ascContent.fetchProducts();
+        this.calendarContent.fetchItems();
       }
-    }
+    );
 
-    const r = await getProfileDetail();
-    const user = r.userProfile;
-    this.props.setLoggedInUser({
-      id: user.id,
-      name: user.name,
-      phone: user.mobile_no,
-      imageName: user.image_name,
-      isPinSet: user.hasPin
-    });
+    this.willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        this.screenHasDisappeared = true;
+      }
+    );
+
+    this.fetchDashboardData();
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        this.screenHasDisappeared = false;
-        if (this.state.showAddProductOptionsScreenOnAppear) {
-          this.showAddProductOptionsScreen();
-        }
-        this.fetchDashboardData();
-        break;
-      case "didDisappear":
-        this.screenHasDisappeared = true;
-        break;
-    }
-  };
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+    this.willBlurSubscription.remove();
+  }
 
   fetchDashboardData = async () => {
     this.setState({
-      error: null,
-      isFetchingData: true
+      error: null
     });
     try {
       const dashboardData = await consumerGetDashboard();
-      console.log("Dashboard Data :", dashboardData);
-      if (
-        dashboardData.hasProducts === false &&
-        !DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE &&
-        !global[GLOBAL_VARIABLES.IS_ENTER_PIN_SCREEN_VISIBLE]
-      ) {
-        DashboardScreen.HAS_OPENED_ADD_PRODUCTS_SCREEN_ONCE = true;
-        return this.showAddProductOptionsScreen();
-      }
-      const insight = dashboardData.insight;
-      const insightChartProps = {
-        timeSpanText:
-          moment(insight.startDate).format("MMM DD") +
-          " - " +
-          moment(insight.endDate).format("MMM DD"),
-        hideFilterDropdownIcon: true,
-        filterText: I18n.t("dashboard_screen_chart_last_7_days"),
-        totalSpend: insight.totalSpend,
-        chartData: insight.insightData.map(item => {
-          return {
-            x: moment(item.purchaseDate).format("MMM DD"),
-            y: item.value
-          };
-        })
-      };
 
       this.setState(
         {
           notificationCount: dashboardData.notificationCount,
           recentSearches: dashboardData.recentSearches,
-          showDashboard: dashboardData.showDashboard,
           upcomingServices: dashboardData.upcomingServices,
-          recentProducts: dashboardData.recent_products,
-          recentCalenderItems: dashboardData.recent_calendar_item,
-          insightChartProps: insightChartProps,
-          totalCalendarItem: dashboardData.total_calendar_item,
-          calendarItemUpdatedAt: dashboardData.calendar_item_updated_at,
           isFetchingData: false
         },
         () => {
           const { rateUsDialogTimestamp } = this.props;
-
-          if (this.state.showDashboard && !this.props.hasDashboardTourShown) {
-            setTimeout(() => {
-              if (!this.screenHasDisappeared && this.comingUpRef) {
-                this.dashboardTour.startTour();
-                this.props.setUiHasDashboardTourShown(true);
-              }
-            }, 1000);
-          } else if (
-            this.state.showDashboard &&
-            (!rateUsDialogTimestamp ||
-              moment().diff(
-                moment(rateUsDialogTimestamp).startOf("day"),
-                "days"
-              ) > 7)
-          ) {
-            this.rateUsDialog.show();
-          }
+          setTimeout(() => {
+            if (
+              !this.props.hasDashboardTourShown &&
+              !this.screenHasDisappeared &&
+              this.comingUpRef &&
+              this.dashboardTour
+            ) {
+              this.dashboardTour.startTour();
+              this.props.setUiHasDashboardTourShown(true);
+            } else if (
+              this.props.appOpenCount > 6 &&
+              (!rateUsDialogTimestamp ||
+                moment().diff(
+                  moment(rateUsDialogTimestamp).startOf("day"),
+                  "days"
+                ) > 7)
+            ) {
+              this.rateUsDialog.show();
+            }
+          }, 1000);
         }
       );
     } catch (error) {
+      console.log("error: ", error);
       this.setState({
         error,
         isFetchingData: false
@@ -213,35 +156,25 @@ class DashboardScreen extends React.Component {
     });
   };
 
-  showAddProductOptionsScreenOnAppear = () => {
-    this.setState({
-      showAddProductOptionsScreenOnAppear: true
-    });
-  };
-
   showAddProductOptionsScreen = () => {
-    this.setState({
-      showAddProductOptionsScreenOnAppear: false
-    });
-    Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
-    this.props.navigator.showModal({
-      screen: SCREENS.ADD_PRODUCT_OPTIONS_SCREEN
-    });
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
+    //use push here so that we can use 'replace' later
+    // this.props.navigation.push(SCREENS.ADD_PRODUCT_SCREEN);
+    this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SCREEN);
   };
 
   openInsightScreen = props => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_EXPENSE_CHART);
-    this.props.navigator.push({
-      screen: SCREENS.INSIGHTS_SCREEN,
-      passProps: props || {}
-    });
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EXPENSE_INSIGHT);
+    this.props.navigation.navigate(SCREENS.INSIGHTS_SCREEN);
   };
 
   openAscScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ASC);
-    this.props.navigator.push({
-      screen: SCREENS.ASC_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.ASC_SCREEN);
+  };
+
+  onTabIndexChange = activeTabIndex => {
+    this.setState({ activeTabIndex });
   };
 
   render() {
@@ -250,164 +183,136 @@ class DashboardScreen extends React.Component {
       showDashboard,
       notificationCount,
       recentSearches,
-      totalCalendarItem,
-      calendarItemUpdatedAt,
-      isFetchingData
+      upcomingServices,
+      isFetchingData,
+      activeTabIndex
     } = this.state;
 
     return (
-      <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
-        {showDashboard && (
-          <View>
-            <TabSearchHeader
-              ref="tabSearchHeader"
-              title={I18n.t("dashboard_screen_title")}
-              icon={dashBoardIcon}
-              notificationCount={notificationCount}
-              recentSearches={recentSearches}
-              navigator={this.props.navigator}
-            />
-            <ScrollView>
-              <View style={{ flex: 1, marginBottom: 150, padding: 10 }}>
-                {this.state.upcomingServices.length > 0 && (
-                  // what's coming up
-                  <View>
-                    <Title
-                      setRef={ref => (this.comingUpRef = ref)}
-                      text={I18n.t("dashboard_screen_whats_coming_up")}
-                    />
-                    <View>
-                      <UpcomingServicesList
-                        upcomingServices={this.state.upcomingServices}
-                        navigator={this.props.navigator}
-                      />
-                    </View>
-                  </View>
-                )}
-                {this.state.recentProducts.length > 0 && (
-                  // recent activity
-                  <View>
-                    <Title
-                      gradientColors={["#007bce", "#00c6ff"]}
-                      text={I18n.t("dashboard_screen_recent_activity")}
-                    />
-                    <RecentProducts
-                      products={this.state.recentProducts}
-                      navigator={this.props.navigator}
-                    />
-                  </View>
-                )}
-                {this.state.recentCalenderItems.length > 0 && (
-                  // Calender
-                  <View>
-                    <Title
-                      gradientColors={["#429321", "#b4ec51"]}
-                      text={I18n.t("my_calendar")}
-                    />
-                    <RecentCalenderItems
-                      items={this.state.recentCalenderItems}
-                      navigator={this.props.navigator}
-                    />
-                  </View>
-                )}
-                {/* Expense Insights */}
-                <Title
-                  gradientColors={["#242841", "#707c93"]}
-                  text={I18n.t("dashboard_screen_ehome_insights")}
-                />
-                <TouchableOpacity
-                  ref={ref => (this.insightsRef = ref)}
-                  onPress={() => this.openInsightScreen()}
-                  style={[
-                    defaultStyles.card,
-                    styles.expenseInsight,
-                    { marginBottom: 20 }
-                  ]}
-                >
-                  <Image
-                    style={styles.expenseInsightImage}
-                    source={chartIcon}
-                    resizeMode="contain"
+      <ScreenContainer style={{ padding: 0, backgroundColor: "#fff" }}>
+        <TabSearchHeader
+          showSearchInput={false}
+          ref="tabSearchHeader"
+          title={I18n.t("dashboard_screen_title")}
+          icon={dashBoardIcon}
+          notificationCount={notificationCount}
+          recentSearches={recentSearches}
+          navigation={this.props.navigation}
+        />
+        <View style={styles.container}>
+          <CircularTabs
+            onTabIndexChange={this.onTabIndexChange}
+            tabs={[
+              {
+                tabRef: ref => {
+                  this.comingUpRef = ref;
+                },
+                title: "What’s Due",
+                imageSource: whatsComingIcon,
+                content: (
+                  <UpcomingServiceContent
+                    upcomingServices={upcomingServices}
+                    navigation={this.props.navigation}
                   />
-                  <View style={styles.expenseInsightTitles}>
-                    <Text weight="Bold" style={styles.expenseInsightTitle}>
-                      {I18n.t("dashboard_screen_total_spends")}
-                    </Text>
-                    <Text style={styles.expenseInsightSubTitle}>
-                      {I18n.t("dashboard_screen_this_month")}
-                    </Text>
-                  </View>
-                  <View style={styles.expenseInsightDetails}>
-                    <Text weight="Bold" style={styles.expenseInsightAmount}>
-                      ₹ {this.state.insightChartProps.totalSpend}
-                    </Text>
-                    <Text
-                      weight="Medium"
-                      style={styles.expenseInsightDetailsText}
-                    >
-                      {I18n.t("dashboard_screen_see_details")}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                {/* Authorised Service Centres */}
-
-                <TouchableOpacity
-                  onPress={this.openAscScreen}
-                  style={[
-                    defaultStyles.card,
-                    styles.expenseInsight,
-                    { marginBottom: 60 }
-                  ]}
-                >
-                  <Image
-                    style={[
-                      styles.expenseInsightImage,
-                      { tintColor: "#d20505" }
-                    ]}
-                    source={ascIcon}
-                    resizeMode="contain"
+                )
+              },
+              {
+                tabRef: ref => {
+                  this.insightsRef = ref;
+                },
+                title: "Expense Insights",
+                imageSource: require("../../images/bar_chart_icon.png"),
+                content: (
+                  <ExpenseInsightsContent
+                    ref={node => {
+                      this.expenseInsightContent = node;
+                    }}
+                    navigation={this.props.navigation}
                   />
-                  <View style={styles.expenseInsightTitles}>
-                    <Text weight="Bold" style={[styles.expenseInsightTitle]}>
-                      {I18n.t("asc_screen_title")}
-                    </Text>
-                    <Text style={[styles.expenseInsightSubTitle]}>
-                      Find ASC for your products with one click
-                    </Text>
-                  </View>
-                  <View style={styles.expenseInsightDetails}>
-                    <Icon name="ios-arrow-forward" size={30} />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </ScrollView>
-          </View>
-        )}
-        {!showDashboard && (
-          <BlankDashboard
-            onUploadButtonClick={() => this.showAddProductOptionsScreen()}
+                )
+              },
+              {
+                tabRef: ref => {
+                  this.calendarRef = ref;
+                },
+                title: "My Calendar",
+                imageSource: require("../../images/calendar_icon.png"),
+                content: (
+                  <CalendarContent
+                    ref={node => {
+                      this.calendarContent = node;
+                    }}
+                    navigation={this.props.navigation}
+                  />
+                )
+              },
+              {
+                tabRef: ref => {
+                  this.ascRef = ref;
+                },
+                title: "Service Centres",
+                imageSource: require("../../images/asc_icon.png"),
+                content: (
+                  <AscContent
+                    ref={node => {
+                      this.ascContent = node;
+                    }}
+                    navigation={this.props.navigation}
+                  />
+                )
+              }
+            ]}
           />
-        )}
-        {showDashboard && (
+        </View>
+
+        {activeTabIndex < 2 ? (
           <TouchableOpacity
+            ref={node => (this.addProductBtnRef = node)}
             style={styles.fab}
             onPress={() => this.showAddProductOptionsScreen()}
           >
             <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
           </TouchableOpacity>
+        ) : (
+          <View />
         )}
+
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
         <LoadingOverlay visible={isFetchingData} />
         <RateUsDialog
           ref={ref => (this.rateUsDialog = ref)}
           setRateUsDialogTimestamp={this.props.setRateUsDialogTimestamp}
         />
+        <View collapsable={false} style={styles.dummiesForTooltips}>
+          <View collapsable={false} style={styles.dummyForTooltip} />
+          <View
+            collapsable={false}
+            ref={ref => (this.ehomeTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
+          <View
+            collapsable={false}
+            ref={ref => (this.dealsTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
+          <View
+            collapsable={false}
+            ref={ref => (this.doYouKnowTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
+          <View collapsable={false} style={styles.dummyForTooltip} />
+        </View>
         <Tour
           ref={ref => (this.dashboardTour = ref)}
           enabled={true}
           steps={[
+            { ref: this.addProductBtnRef, text: I18n.t("plus_btn_tip") },
+            { ref: this.ehomeTabItemRef, text: I18n.t("ehome_tip") },
+            { ref: this.doYouKnowTabItemRef, text: I18n.t("do_you_know_tip") },
             { ref: this.comingUpRef, text: I18n.t("coming_up_tip") },
-            { ref: this.insightsRef, text: I18n.t("app_tour_tips_4") }
+            { ref: this.insightsRef, text: I18n.t("insights_tip") },
+            { ref: this.calendarRef, text: I18n.t("attendance_tip") }
+            // { ref: this.ascRef, text: I18n.t("asc_tip") }
           ]}
         />
       </ScreenContainer>
@@ -415,6 +320,21 @@ class DashboardScreen extends React.Component {
   }
 }
 const styles = StyleSheet.create({
+  container: {
+    ...defaultStyles.card,
+    position: "absolute",
+
+    left: 10,
+    right: 10,
+    bottom: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    zIndex: 2,
+    ...Platform.select({
+      android: { top: 55 },
+      ios: { top: 75 }
+    })
+  },
   expenseInsight: {
     backgroundColor: "#fff",
     padding: 16,
@@ -437,26 +357,41 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: "absolute",
-    bottom: 20,
-    right: 20,
-    width: 56,
-    height: 56,
+    bottom: 10,
+    right: 10,
+    width: 64,
+    height: 64,
     zIndex: 2,
     backgroundColor: colors.tomato,
-    borderRadius: 30,
+    borderRadius: 32,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    elevation: 3
   },
   uploadFabIcon: {
     width: 25,
     height: 25
+  },
+  dummiesForTooltips: {
+    position: "absolute",
+    width: "100%",
+    bottom: -68,
+    height: 68,
+    flexDirection: "row",
+    backgroundColor: "transparent"
+  },
+  dummyForTooltip: {
+    flex: 1,
+    height: "100%",
+    opacity: 1
   }
 });
 
 const mapStateToProps = state => {
   return {
     hasDashboardTourShown: state.ui.hasDashboardTourShown,
-    rateUsDialogTimestamp: state.ui.rateUsDialogTimestamp
+    rateUsDialogTimestamp: state.ui.rateUsDialogTimestamp,
+    appOpenCount: state.ui.appOpenCount
   };
 };
 
@@ -474,4 +409,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DashboardScreen);

@@ -11,41 +11,44 @@ import { ScreenContainer, Text, Button } from "../elements";
 import { colors } from "../theme";
 import I18n from "../i18n";
 
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 import Analytics from "../analytics";
+import { SCREENS } from "../constants";
 
 class VerifyScreen extends Component {
-  static navigatorButtons = {
-    rightButtons: [
-      {
-        title: "RESEND OTP",
-        id: "resendOtp",
-        buttonColor: colors.pinkishOrange, // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
-        buttonFontWeight: "600" // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
-      }
-    ]
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
+
+    return {
+      title: I18n.t("verify_screen_title"),
+      headerRight: (
+        <Text
+          onPress={params.resendOtp}
+          weight="Bold"
+          style={{ color: colors.pinkishOrange, marginRight: 10 }}
+        >
+          RESEND OTP
+        </Text>
+      )
+    };
   };
+
   constructor(props) {
     super(props);
     this.state = {
+      phoneNumber: "",
       otp: "",
       isVerifyingOtp: false
     };
   }
-  componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("verify_screen_title")
-    });
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-  }
 
-  onNavigatorEvent = event => {
-    if (event.type == "NavBarButtonPress") {
-      if (event.id == "resendOtp") {
-        this.onResendOtp();
-      }
-    }
-  };
+  componentWillMount() {
+    this.props.navigation.setParams({ resendOtp: this.onResendOtp });
+    const { navigation } = this.props;
+    this.setState({
+      phoneNumber: navigation.getParam("phoneNumber", "")
+    });
+  }
 
   onResendOtp = async () => {
     this.otpInput.blur();
@@ -54,7 +57,7 @@ class VerifyScreen extends Component {
         isVerifyingOtp: true,
         otp: ""
       });
-      await consumerGetOtp(this.props.phoneNumber);
+      await consumerGetOtp(this.state.phoneNumber);
 
       showSnackbar({
         text: "OTP sent again successfully!!"
@@ -62,7 +65,7 @@ class VerifyScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
     this.setState({
       isVerifyingOtp: false
@@ -73,7 +76,7 @@ class VerifyScreen extends Component {
     if (this.state.otp.length != 4) {
       return showSnackbar({
         text: I18n.t("verify_screen_invalid_otp_error")
-      })
+      });
     }
 
     try {
@@ -81,7 +84,7 @@ class VerifyScreen extends Component {
         isVerifyingOtp: true
       });
       const r = await consumerValidate({
-        trueObject: { PhoneNo: this.props.phoneNumber },
+        trueObject: { PhoneNo: this.state.phoneNumber },
         token: this.state.otp,
         fcmToken: this.props.fcmToken
       });
@@ -93,14 +96,18 @@ class VerifyScreen extends Component {
         id: user.id,
         name: user.name,
         phone: user.mobile_no,
-        imageName: user.image_name,
+        imageUrl: user.imageUrl,
         isPinSet: user.hasPin
       });
-      openAfterLoginScreen();
+      if (!r.isExistingUser) {
+        this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
+      } else {
+        openAfterLoginScreen();
+      }
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({
         isVerifyingOtp: false
       });
@@ -118,7 +125,7 @@ class VerifyScreen extends Component {
           style={{ textAlign: "center", fontSize: 14, width: 300 }}
         >
           {I18n.t("verify_screen_enter_otp_msg", {
-            phoneNumber: this.props.phoneNumber
+            phoneNumber: this.state.phoneNumber
           })}
         </Text>
         <TextInput
@@ -154,7 +161,7 @@ class VerifyScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    fcmToken: state.loggedInUser.fcmToken
+    fcmToken: state.ui.fcmToken
   };
 };
 

@@ -16,17 +16,19 @@ import { actions as uiActions } from "../../modules/ui";
 import { Text, Button, ScreenContainer } from "../../elements";
 import Body from "./body";
 import Header from "./header";
+import Profile from "./profile";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import { SCREENS } from "../../constants";
-import { getProfileDetail, deletePin, logout } from "../../api";
-import { openLoginScreen, openAppScreen } from "../../navigation";
+import NavigationService from "../../navigation";
+import { getProfileDetail, deletePin, logout, updateProfile } from "../../api";
 import ErrorOverlay from "../../components/error-overlay";
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 class MoreScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     navBarHidden: true
   };
 
@@ -34,58 +36,59 @@ class MoreScreen extends Component {
     super(props);
     this.state = {
       error: null,
-      isFetchingData: false,
+      isFetchingData: true,
       profile: null,
       isAppUpdateAvailable: false,
       binbillDetails: {},
       startWithProfileScreen: false,
-      isRemovePinModalVisible: false
+      isRemovePinModalVisible: false,
+      isProfileVisible: false,
+      name: null
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   componentDidMount() {
-    if (this.props.screenOpts) {
-      const screenOpts = this.props.screenOpts;
-      switch (screenOpts.startScreen) {
-        case SCREENS.FAQS_SCREEN:
-          this.props.navigator.push({
-            screen: SCREENS.FAQS_SCREEN
-          });
-          break;
-        case SCREENS.PROFILE_SCREEN:
-          this.setState({
-            startWithProfileScreen: true
-          });
-          break;
+    Analytics.logEvent(Analytics.EVENTS.CLICK_MORE);
+    this.fetchProfile();
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.fetchProfile();
       }
-    }
+    );
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        Analytics.logEvent(Analytics.EVENTS.CLICK_MORE);
-        this.fetchProfile();
-        break;
-    }
-  };
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+  }
 
   fetchProfile = async () => {
     this.setState({
-      error: null,
-      isFetchingData: false,
-      profile: null
+      error: null
     });
     try {
       const res = await getProfileDetail();
       console.log("Profile result: ", res);
+      const user = res.userProfile;
+      this.props.setLoggedInUser({
+        id: user.id,
+        name: user.name,
+        phone: user.mobile_no,
+        imageUrl: user.imageUrl,
+        isPinSet: user.hasPin
+      });
       this.setState(
         {
           profile: res.userProfile,
+          name: res.userProfile.name,
           isAppUpdateAvailable: res.forceUpdate === false,
           isFetchingData: false
         },
+        () => {
+          console.log(this.state.name, "api name");
+        },
+
         () => {
           if (this.state.startWithProfileScreen) {
             this.setState({ startWithProfileScreen: false });
@@ -94,6 +97,7 @@ class MoreScreen extends Component {
         }
       );
     } catch (error) {
+      console.log(error);
       this.setState({
         error
       });
@@ -127,10 +131,26 @@ class MoreScreen extends Component {
   };
 
   openProfileScreen = () => {
-    this.props.navigator.push({
-      screen: SCREENS.PROFILE_SCREEN,
-      passProps: { profile: this.state.profile }
+    this.props.navigation.navigate(SCREENS.PROFILE_SCREEN, {
+      profile: this.state.profile
     });
+  };
+
+  visible = item => {
+    this.setState({
+      isProfileVisible: item
+    });
+  };
+
+  updateState = (key, value) => {
+    this.setState(
+      {
+        [key]: value
+      },
+      () => {
+        console.log(this.state.name, "stateName");
+      }
+    );
   };
 
   render() {
@@ -140,57 +160,81 @@ class MoreScreen extends Component {
       isAppUpdateAvailable,
       error,
       isFetchingData,
-      isRemovePinModalVisible
+      isRemovePinModalVisible,
+      isProfileVisible,
+      name
     } = this.state;
+    // Alert.alert(this.setState.profile);
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchProfile} />;
     }
+    // if (!isRemovePinModalVisible) return null;
+
     return (
       <ScreenContainer style={{ padding: 0, backgroundColor: "#FAFAFA" }}>
         <LoadingOverlay visible={isFetchingData} />
-        <Header
-          authToken={authToken}
-          onPress={this.openProfileScreen}
-          profile={profile}
-          navigator={this.props.navigator}
-        />
-        <Body
-          profile={profile}
-          isPinSet={isPinSet}
-          removePin={() => this.setState({ isRemovePinModalVisible: true })}
-          isAppUpdateAvailable={isAppUpdateAvailable}
-          logoutUser={this.props.logoutUser}
-          language={this.props.language}
-          setLanguage={language => {
-            this.props.setLanguage(language);
-            I18n.locale = language.code;
-            openAppScreen();
-          }}
-          navigator={this.props.navigator}
-        />
-        <Modal
-          isVisible={isRemovePinModalVisible}
-          style={{ margin: 0 }}
-          onBackButtonPress={() =>
-            this.setState({
-              isRemovePinModalVisible: false
-            })
-          }
-        >
-          <View style={{ flex: 1 }}>
-            <PinInput title="Enter App PIN" onSubmitPress={this.removePin} />
-            <TouchableOpacity
-              style={{
-                position: "absolute",
-                right: 10,
-                top: 25
+        <KeyboardAwareScrollView>
+          <Header
+            authToken={authToken}
+            onPress={this.openProfileScreen}
+            profile={profile}
+            name={name}
+            navigation={this.props.navigation}
+            isProfileVisible={this.state.isProfileVisible}
+            visible={this.visible}
+            onUpdate={this.updateState}
+          />
+          {!isProfileVisible && (
+            <Body
+              profile={profile}
+              isPinSet={isPinSet}
+              removePin={() => this.setState({ isRemovePinModalVisible: true })}
+              isAppUpdateAvailable={isAppUpdateAvailable}
+              logoutUser={this.props.logoutUser}
+              language={this.props.language}
+              setLanguage={language => {
+                this.props.setLanguage(language);
+                I18n.locale = language.code;
               }}
-              onPress={() => this.setState({ isRemovePinModalVisible: false })}
+              navigation={this.props.navigation}
+            />
+          )}
+          {profile && isProfileVisible && <Profile profile={profile} />}
+        </KeyboardAwareScrollView>
+        {isRemovePinModalVisible ? (
+          <View collapsable={false}>
+            <Modal
+              isVisible={true}
+              style={{ margin: 0 }}
+              onBackButtonPress={() =>
+                this.setState({
+                  isRemovePinModalVisible: false
+                })
+              }
             >
-              <Icon name="md-close" size={30} color="#fff" />
-            </TouchableOpacity>
+              <View collapsable={false} style={{ flex: 1 }}>
+                <PinInput
+                  title="Enter App PIN"
+                  onSubmitPress={this.removePin}
+                />
+                <TouchableOpacity
+                  style={{
+                    position: "absolute",
+                    right: 10,
+                    top: 25
+                  }}
+                  onPress={() =>
+                    this.setState({ isRemovePinModalVisible: false })
+                  }
+                >
+                  <Icon name="md-close" size={30} color="#fff" />
+                </TouchableOpacity>
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        ) : (
+          <View collapsable={false} />
+        )}
       </ScreenContainer>
     );
   }
@@ -207,19 +251,23 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     logoutUser: async () => {
-      dispatch(loggedInUserActions.loggedInUserClearAllData());
       try {
         logout();
+        dispatch(loggedInUserActions.loggedInUserClearAllData());
       } catch (e) {
         console.log(e);
       }
-      openLoginScreen();
+
+      NavigationService.navigate(SCREENS.AUTH_STACK);
     },
     removePin: () => {
       dispatch(loggedInUserActions.setLoggedInUserIsPinSet(false));
     },
     setLanguage: language => {
       dispatch(uiActions.setLanguage(language));
+    },
+    setLoggedInUser: user => {
+      dispatch(loggedInUserActions.setLoggedInUser(user));
     }
   };
 };

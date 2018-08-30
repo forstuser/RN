@@ -9,7 +9,6 @@ import {
   Alert,
   Platform
 } from "react-native";
-import { Navigation } from "react-native-navigation";
 import ActionSheet from "react-native-actionsheet";
 import ImagePicker from "react-native-image-crop-picker";
 import ScrollableTabView from "react-native-scrollable-tab-view";
@@ -25,10 +24,10 @@ import {
   requestStoragePermission
 } from "../../android-permissions";
 
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
 
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import { uploadDocuments } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 
@@ -48,42 +47,23 @@ import { actions as uiActions } from "../../modules/ui";
 
 import Tour from "../../components/app-tour";
 
-const AddPicButton = () => (
-  <TouchableOpacity
-    style={{
-      ...Platform.select({
-        ios: {},
-        android: {
-          position: "absolute",
-          top: 10,
-          right: 4,
-          width: 40,
-          height: 30,
-          alignItems: "center",
-          justifyContent: "center"
-        }
-      })
-    }}
-    onPress={() => Navigation.handleDeepLink({ link: "new-pic-upload" })}
-  >
-    <Image style={{ width: 24, height: 24 }} source={newPicIcon} />
-  </TouchableOpacity>
-);
-
-Navigation.registerComponent("AddPicButton", () => AddPicButton);
-
 class UploadDocumentScreen extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true
-  };
-  static navigatorButtons = {
-    rightButtons: [
-      {
-        id: "new-pic-upload-btn",
-        component: "AddPicButton",
-        passProps: {}
-      }
-    ]
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    const { onOptionsPress, getImageRef = () => {} } = params;
+
+    return {
+      title: I18n.t("upload_document_screen_title"),
+      headerRight: (
+        <TouchableOpacity onPress={onOptionsPress} style={{ marginRight: 15 }}>
+          <Image
+            ref={ref => getImageRef(ref)}
+            style={{ width: 24, height: 24 }}
+            source={newPicIcon}
+          />
+        </TouchableOpacity>
+      )
+    };
   };
 
   constructor(props) {
@@ -95,38 +75,31 @@ class UploadDocumentScreen extends Component {
       isSuccessModalVisible: false,
       uploadResult: null
     };
-
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("upload_document_screen_title")
-    });
-
-    setTimeout(() => {
-      switch (this.props.openPickerOnStart) {
-        case "camera":
-          this.takeCameraImage();
-          break;
-        case "images":
-          this.pickGalleryImage();
-          break;
-        case "documents":
-          this.pickDocument();
-          break;
-      }
-    }, 1000);
-  }
-
-  onNavigatorEvent = event => {
-    if (event.type == "DeepLink") {
-      //when you press the button, it will be called here
-      if (event.link == "new-pic-upload") {
-        this.uploadOptions.show();
-      }
+    const canUseCameraOnly = this.props.navigation.getParam(
+      "canUseCameraOnly",
+      false
+    );
+    const file = this.props.navigation.getParam("file", null);
+    if (file) {
+      this.pushFileToState(file);
     }
-  };
+
+    this.props.navigation.setParams({
+      onOptionsPress: () => {
+        if (canUseCameraOnly) {
+          this.handleOptionPress(0);
+        } else {
+          this.uploadOptions.show();
+        }
+      },
+      getImageRef: ref => {
+        this.plusIconRef = ref;
+      }
+    });
+  }
 
   handleOptionPress = index => {
     switch (index) {
@@ -148,7 +121,7 @@ class UploadDocumentScreen extends Component {
         files: [...this.state.files, file]
       },
       () => {
-        if (!this.props.hasUploadDocTourShown) {
+        if (!this.props.hasUploadDocTourShown && this.uploadDocTour) {
           setTimeout(() => this.uploadDocTour.startTour(), 1000);
           this.props.setUiHasUploadDocTourShown(true);
         }
@@ -192,7 +165,8 @@ class UploadDocumentScreen extends Component {
       .catch(e => {});
   };
 
-  pickDocument = () => {
+  pickDocument = async () => {
+    if ((await requestStoragePermission()) == false) return;
     DocumentPicker.show(
       {
         filetype: [DocumentPickerUtil.pdf(), DocumentPickerUtil.plainText()]
@@ -214,12 +188,13 @@ class UploadDocumentScreen extends Component {
       isUploadingOverlayVisible: true,
       uploadPercentCompleted: 0
     });
+
     try {
       const res = await uploadDocuments({
-        productId: this.props.productId,
-        jobId: this.props.jobId,
-        type: this.props.type,
-        itemId: this.props.itemId,
+        productId: this.props.navigation.getParam("productId", undefined),
+        jobId: this.props.navigation.getParam("jobId", undefined),
+        type: this.props.navigation.getParam("type", undefined),
+        itemId: this.props.navigation.getParam("itemId", undefined),
         files: this.state.files,
         onUploadProgress: percentCompleted => {
           this.setState({
@@ -242,6 +217,9 @@ class UploadDocumentScreen extends Component {
         }
       );
     } catch (e) {
+      this.setState({
+        isUploadingOverlayVisible: false
+      });
       return showSnackbar({
         text: e.message
       });
@@ -249,46 +227,68 @@ class UploadDocumentScreen extends Component {
   };
 
   onSuccessOkClick = () => {
-    if (typeof this.props.uploadCallback == "function") {
-      this.props.uploadCallback(this.state.uploadResult);
-      this.props.navigator.pop();
-    } else {
-      openAppScreen({ startScreen: SCREENS.DOCS_UNDER_PROCESSING_SCREEN });
+    const { uploadCallback } = this.props.navigation.state.params;
+    if (typeof uploadCallback == "function") {
+      uploadCallback(this.state.uploadResult);
     }
+    this.props.navigation.goBack();
   };
 
   removeFile = index => {
-    let newFiles = [...this.state.files];
-    newFiles.splice(index, 1);
+    let files = [...this.state.files];
+    files.splice(index, 1);
     this.setState({
-      files: newFiles
+      files
     });
   };
 
+  showUploadOptions = () => {
+    const canUseCameraOnly = this.props.navigation.getParam(
+      "canUseCameraOnly",
+      false
+    );
+    if (canUseCameraOnly) {
+      this.handleOptionPress(0);
+    } else {
+      this.uploadOptions.show();
+    }
+  };
+
   render() {
+    const canUseCameraOnly = this.props.navigation.getParam(
+      "canUseCameraOnly",
+      false
+    );
     const {
       files,
       isSuccessModalVisible,
       uploadPercentCompleted,
       isUploadingOverlayVisible
     } = this.state;
+    // if (!isUploadingOverlayVisible) return null;
+    // if (!isSuccessModalVisible) return null;
+
     return (
       <ScreenContainer style={styles.container}>
         {files.length == 0 && (
-          <View style={styles.noFilesView}>
+          <View collapsable={false} style={styles.noFilesView}>
             <Image style={styles.noFilesIcon} source={fileIcon} />
             <Text weight="Bold" style={{ color: colors.secondaryText }}>
               {I18n.t("upload_document_screen_no_document_msg")}
             </Text>
             <Button
               style={styles.selectDocBtn}
-              onPress={() => this.uploadOptions.show()}
-              text={I18n.t("upload_document_screen_select_document_btn")}
+              onPress={() => this.showUploadOptions()}
+              text={
+                canUseCameraOnly
+                  ? "Take Picture"
+                  : I18n.t("upload_document_screen_select_document_btn")
+              }
             />
           </View>
         )}
         {files.length > 0 && (
-          <View style={styles.filesContainer}>
+          <View collapsable={false} style={styles.filesContainer}>
             <ScrollableTabView
               tabBarUnderlineStyle={{
                 backgroundColor: colors.mainBlue,
@@ -331,48 +331,57 @@ class UploadDocumentScreen extends Component {
             I18n.t("upload_document_screen_upload_options_cancel")
           ]}
         />
-
-        <Modal transparent visible={isUploadingOverlayVisible}>
-          <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color={colors.mainBlue} />
-            <Text weight="Bold">{`${uploadPercentCompleted}% uploaded...`}</Text>
+        {isUploadingOverlayVisible ? (
+          <View collapsable={false}>
+            <Modal transparent visible={true}>
+              <View collapsable={false} style={styles.loadingOverlay}>
+                <ActivityIndicator size="large" color={colors.mainBlue} />
+                <Text weight="Bold">{`${uploadPercentCompleted}% uploaded...`}</Text>
+              </View>
+            </Modal>
           </View>
-        </Modal>
-        <Modal visible={isSuccessModalVisible}>
-          <View style={styles.successModal}>
-            <Image
-              style={styles.successImage}
-              source={ehomeImage}
-              resizeMode="contain"
-            />
-            <Text weight="Bold" style={styles.successTitle}>
-              {I18n.t("upload_document_screen_success_title")}
-            </Text>
-            <Text style={styles.successMsg}>
-              {I18n.t("upload_document_screen_success_msg")}
-            </Text>
-            <Button
-              onPress={this.onSuccessOkClick}
-              style={styles.successOkWrapper}
-              text={I18n.t("upload_document_screen_success_ok")}
-              color="secondary"
-            />
+        ) : (
+          <View collapsable={false} />
+        )}
+        {isSuccessModalVisible ? (
+          <View collapsable={false}>
+            <Modal visible={true}>
+              <View collapsable={false} style={styles.successModal}>
+                <Image
+                  style={styles.successImage}
+                  source={ehomeImage}
+                  resizeMode="contain"
+                />
+                <Text weight="Bold" style={styles.successTitle}>
+                  {I18n.t("upload_document_screen_success_title")}
+                </Text>
+                <Text style={styles.successMsg}>
+                  {I18n.t("upload_document_screen_success_msg")}
+                </Text>
+                <Button
+                  onPress={this.onSuccessOkClick}
+                  style={styles.successOkWrapper}
+                  text={I18n.t("upload_document_screen_success_ok")}
+                  color="secondary"
+                />
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        ) : (
+          <View collapsable={false} />
+        )}
         <View
+          collapsable={false}
           style={styles.dummyViewForFile}
           ref={ref => (this.dummyViewForFile = ref)}
         />
-        <View
-          style={styles.dummyViewForPlusIcon}
-          ref={ref => (this.dummyPlusIconRef = ref)}
-        />
+
         <Tour
           ref={ref => (this.uploadDocTour = ref)}
           enabled={true}
           steps={[
             { ref: this.dummyViewForFile, text: I18n.t("zoom_image_tip") },
-            { ref: this.dummyPlusIconRef, text: I18n.t("add_bill_btn_tip") }
+            { ref: this.plusIconRef, text: I18n.t("add_bill_btn_tip") }
           ]}
         />
       </ScreenContainer>
@@ -472,23 +481,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     color: colors.pinkishOrange
-  },
-
-  dummyViewForPlusIcon: {
-    position: "absolute",
-    width: 32,
-    height: 32,
-    opacity: 1,
-    ...Platform.select({
-      ios: {
-        top: -37,
-        right: 12
-      },
-      android: {
-        top: -42,
-        right: 8
-      }
-    })
   }
 });
 
@@ -506,6 +498,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  UploadDocumentScreen
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UploadDocumentScreen);

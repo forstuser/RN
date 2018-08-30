@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import moment from "moment";
-import { Text, Button } from "../elements";
+import { Text, Button, Image } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
 
@@ -13,7 +13,7 @@ const EhomeCategoryItem = ({
   onPress
 }) => (
   <TouchableOpacity onPress={onPress} style={styles.container}>
-    <View style={styles.imageAndName}>
+    <View collapsable={false}  style={styles.imageAndName}>
       <Image
         style={styles.image}
         source={{
@@ -24,13 +24,13 @@ const EhomeCategoryItem = ({
         {name}
       </Text>
     </View>
-    <View style={styles.countAndTime}>
+    <View collapsable={false}  style={styles.countAndTime}>
       <Text weight="Medium" style={styles.itemsCount}>
         {I18n.t("ehome_screen_items_category_item_count", {
           count: itemsCount
         })}
       </Text>
-      {lastUpdatedTime && (
+      {lastUpdatedTime ? (
         <Text style={styles.lastUpdateTime}>
           {I18n.t("ehome_screen_items_category_item_last_updated", {
             date: moment(lastUpdatedTime)
@@ -38,6 +38,8 @@ const EhomeCategoryItem = ({
               .toUpperCase()
           })}
         </Text>
+      ) : (
+        <View collapsable={false}  />
       )}
     </View>
   </TouchableOpacity>

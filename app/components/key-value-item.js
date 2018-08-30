@@ -11,21 +11,25 @@ const KeyValueItem = ({
   ValueComponent
 }) => {
   return (
-    <View style={styles.container}>
-      {keyText.length > 0 && (
-        <View style={styles.key}>
+    <View collapsable={false}  style={styles.container}>
+      {keyText.length > 0 ? (
+        <View collapsable={false}  style={styles.key}>
           <Text style={styles.keyText}>{keyText}</Text>
         </View>
+      ) : (
+        <View collapsable={false}  />
       )}
-      {KeyComponent && <KeyComponent />}
-      {String(valueText).length > 0 && (
-        <View style={styles.value}>
+      {KeyComponent ? <KeyComponent /> : <View collapsable={false}  />}
+      {String(valueText).length > 0 ? (
+        <View collapsable={false}  style={styles.value}>
           <Text weight="Medium" style={styles.valueText}>
             {valueText}
           </Text>
         </View>
+      ) : (
+        <View collapsable={false}  />
       )}
-      {ValueComponent && <ValueComponent />}
+      {ValueComponent ? <ValueComponent /> : <View collapsable={false}  />}
     </View>
   );
 };

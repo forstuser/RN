@@ -3,7 +3,7 @@ import { StyleSheet, View, Alert } from "react-native";
 import moment from "moment";
 
 import I18n from "../../../i18n";
-import { showSnackbar } from "../../snackbar";
+import { showSnackbar } from "../../../utils/snackbar";
 
 import {
   updateCalendarServicePaymentDayToAbsent,
@@ -70,7 +70,6 @@ class Attendance extends React.Component {
     } = this.props;
     const paymentDetails = item.payment_detail;
     const paymentDetail = paymentDetails[activePaymentDetailIndex];
-
     let calculationDetails = item.calculation_detail;
     let activeCalculationDetail = calculationDetails[0];
     for (let i = 0; i < calculationDetails.length; i++) {
@@ -114,7 +113,7 @@ class Attendance extends React.Component {
     const daysAbsent = paymentDetail.absent_day_detail.length;
 
     const serviceType = item.service_type;
-    let unitPriceText = I18n.t("calendar_service_screen_unit_price");
+    let unitPriceText = I18n.t("calendar_service_screen_unit_price_avg");
     if (serviceType.wages_type == CALENDAR_WAGES_TYPE.WAGES) {
       unitPriceText = I18n.t("add_edit_calendar_service_screen_form_wages");
     } else if (serviceType.wages_type == CALENDAR_WAGES_TYPE.FEES) {
@@ -199,20 +198,20 @@ class Attendance extends React.Component {
         break;
       }
     }
-    availableDaysofMonth.sort(function(a, b) {
+    availableDaysofMonth.sort(function (a, b) {
       return moment(a.date).format("D") - moment(b.date).format("D");
     });
 
     // console.log("availableDaysofMonth", availableDaysofMonth);
     return (
-      <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
+      <View collapsable={false}  style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
         <Month
           paymentDetails={paymentDetails}
           activePaymentDetailIndex={activePaymentDetailIndex}
           onPaymentDetailIndexChange={onPaymentDetailIndexChange}
         />
-        <View style={styles.card}>
-          <View style={{ flex: 1, backgroundColor: "#EBEBEB" }}>
+        <View collapsable={false}  style={styles.card}>
+          <View collapsable={false}  style={{ flex: 1, backgroundColor: "#EBEBEB" }}>
             <KeyValueItem
               KeyComponent={() => (
                 <Text
@@ -228,8 +227,8 @@ class Attendance extends React.Component {
               )}
             />
           </View>
-          <View style={styles.cardBody}>
-            <View style={styles.cardPart}>
+          <View collapsable={false}  style={styles.cardBody}>
+            <View collapsable={false}  style={styles.cardPart}>
               <VerticalKeyValue
                 keyText={I18n.t("my_calendar_screen_from")}
                 valueText={moment(startDate).format("DD MMM YYYY")}
@@ -238,9 +237,9 @@ class Attendance extends React.Component {
                 keyText={I18n.t("my_calendar_screen_to")}
                 valueText={moment(todayDate).format("DD MMM YYYY")}
               />
-              <View style={{ flex: 1 }} />
+              <View collapsable={false}  style={{ flex: 1 }} />
             </View>
-            <View style={styles.cardPart}>
+            <View collapsable={false}  style={styles.cardPart}>
               <VerticalKeyValue
                 keyText={I18n.t("my_calendar_screen_total_days")}
                 valueText={daysPresent + daysAbsent}
@@ -256,7 +255,7 @@ class Attendance extends React.Component {
                 valueStyle={{ color: colors.danger }}
               />
             </View>
-            <View style={styles.cardPart}>
+            <View collapsable={false}  style={styles.cardPart}>
               {serviceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
                 <VerticalKeyValue
                   keyText={I18n.t("my_calendar_screen_no_of_units")}
@@ -276,29 +275,13 @@ class Attendance extends React.Component {
               {serviceType.wages_type == CALENDAR_WAGES_TYPE.PRODUCT && (
                 <VerticalKeyValue
                   keyText={unitPriceText}
-                  valueText={
-                    "₹ " +
-                    (paymentDetail.total_units || paymentDetail.total_days)
-                      ? (
-                          paymentDetail.total_amount /
-                          (paymentDetail.total_units ||
-                            paymentDetail.total_days ||
-                            1)
-                        ).toFixed(2)
-                      : 0
-                  }
+                  valueText={"₹ " + activeCalculationDetail.unit_price}
                 />
               )}
               {serviceType.wages_type != CALENDAR_WAGES_TYPE.PRODUCT && (
                 <VerticalKeyValue
                   keyText={unitPriceText}
-                  valueText={
-                    "₹ " + paymentDetail.total_days
-                      ? (
-                          paymentDetail.total_amount / paymentDetail.total_days
-                        ).toFixed(2)
-                      : 0
-                  }
+                  valueText={"₹ " + activeCalculationDetail.unit_price}
                 />
               )}
               {/* <VerticalKeyValue
@@ -307,12 +290,12 @@ class Attendance extends React.Component {
               /> */}
               <VerticalKeyValue
                 keyText={I18n.t("calendar_service_screen_total_amount")}
-                valueText={"₹ " + paymentDetail.total_amount}
+                valueText={"₹" + paymentDetail.total_amount}
               />
             </View>
           </View>
         </View>
-        <View>
+        <View collapsable={false} >
           {availableDaysofMonth.map(day => {
             // console.log("day", day)
             // const date = monthAndYear + "-" + ("0" + day).substr(-2);

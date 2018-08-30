@@ -40,7 +40,7 @@ class ImportantTab extends Component {
   }
 
   render() {
-    const { product, navigator, openServiceSchedule } = this.props;
+    const { product, navigation, openServiceSchedule } = this.props;
     const {
       warrantyDetails,
       insuranceDetails,
@@ -54,19 +54,9 @@ class ImportantTab extends Component {
           <WarrantyDetails
             warrantyType={WARRANTY_TYPES.NORMAL}
             product={product}
-            navigator={navigator}
+            navigation={navigation}
           />
         )}
-
-        {/*[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
-          product.masterCategoryId
-        ) > -1 && (
-          <WarrantyDetails
-            warrantyType={WARRANTY_TYPES.DUAL}
-            product={product}
-            navigator={navigator}
-          />
-        )*/}
 
         {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
           product.masterCategoryId
@@ -74,7 +64,7 @@ class ImportantTab extends Component {
           <WarrantyDetails
             warrantyType={WARRANTY_TYPES.EXTENDED}
             product={product}
-            navigator={navigator}
+            navigation={navigation}
           />
         )}
 
@@ -82,29 +72,29 @@ class ImportantTab extends Component {
           product.masterCategoryId
         ) > -1 ||
           product.categoryId == 664) && (
-          <InsuranceDetails product={product} navigator={navigator} />
+          <InsuranceDetails product={product} navigation={navigation} />
         )}
 
         {[MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
           product.masterCategoryId
-        ) > -1 && <AmcDetails product={product} navigator={navigator} />}
+        ) > -1 && <AmcDetails product={product} navigation={navigation} />}
 
         {[
           MAIN_CATEGORY_IDS.AUTOMOBILE,
           MAIN_CATEGORY_IDS.ELECTRONICS,
           MAIN_CATEGORY_IDS.FURNITURE
         ].indexOf(product.masterCategoryId) > -1 && (
-          <RepairDetails product={product} navigator={navigator} />
+          <RepairDetails product={product} navigation={navigation} />
         )}
         {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE && (
-          <PucDetails product={product} navigator={navigator} />
+          <PucDetails product={product} navigation={navigation} />
         )}
         {product.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE &&
           product.serviceSchedules &&
           product.serviceSchedules.length > 0 && (
             <ServiceSchedules
               product={product}
-              navigator={navigator}
+              navigation={navigation}
               openServiceSchedule={openServiceSchedule}
             />
           )}
@@ -120,6 +110,7 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100
+    // flex:1
   },
   subTitle: {
     color: "#fff",

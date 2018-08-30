@@ -3,48 +3,142 @@ import {
   Platform,
   StyleSheet,
   View,
-  Image,
   Alert,
   TouchableOpacity,
   findNodeHandle
 } from "react-native";
-
+import ActionSheet from "react-native-actionsheet";
+import Icon from "react-native-vector-icons/Ionicons";
+import Profile from "./profile";
+import I18n from "../../i18n";
+import {
+  requestCameraPermission,
+  requestStoragePermission
+} from "../../android-permissions";
+import ImagePicker from "react-native-image-crop-picker";
 import { BlurView } from "react-native-blur";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
-import { API_BASE_URL } from "../../api";
-
+import { Text, Button, ScreenContainer, Image } from "../../elements";
+import { API_BASE_URL, uploadProfilePic } from "../../api";
+import { colors } from "../../theme";
+import { showSnackbar } from "../../utils/snackbar";
 import LoadingOverlay from "../../components/loading-overlay";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
-// const platform = Platform.OS == "ios" ? 2 : 1;
 
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = { blurViewRef: null };
+    this.state = {
+      blurViewRef: null,
+      isProfileVisible: this.props.isProfileVisible
+    };
   }
 
   imageLoaded = () => {
     // this.setState({ blurViewRef: findNodeHandle(this.backgroundImage) });
   };
 
+  close = () => {
+    this.props.visible(false);
+  };
+
+  handleOptionPress = index => {
+    switch (index) {
+      case 0:
+        this.takeCameraImage();
+        break;
+      case 1:
+        this.pickGalleryImage();
+        break;
+    }
+  };
+
+  takeCameraImage = async () => {
+    if ((await requestCameraPermission()) == false) return;
+    ImagePicker.openCamera({
+      width: 900,
+      height: 900,
+      cropping: true
+    })
+      .then(file => {
+        this.uploadImage({
+          filename: "profile-pic.jpeg",
+          uri: file.path,
+          mimeType: file.mime
+        });
+      })
+      .catch(e => {});
+  };
+
+  pickGalleryImage = async () => {
+    if ((await requestStoragePermission()) == false) return;
+    ImagePicker.openPicker({
+      width: 900,
+      height: 900,
+      cropping: true
+    })
+      .then(file => {
+        this.uploadImage({
+          filename: file.filename,
+          uri: file.path,
+          mimeType: file.mime
+        });
+      })
+      .catch(e => {});
+  };
+
+  uploadImage = async file => {
+    showSnackbar({
+      text: I18n.t("profile_screen_please_wait"),
+      autoDismissTimerSec: 1000,
+      isOnTabsScreen: true
+    });
+    try {
+      await uploadProfilePic(file, () => {});
+      this.setState({
+        profilePic: <Image style={styles.image} source={{ uri: file.uri }} />
+      });
+
+      showSnackbar({
+        text: I18n.t("profile_screen_details_updated"),
+        autoDismissTimerSec: 3,
+        isOnTabsScreen: true
+      });
+    } catch (e) {
+      showSnackbar({
+        text: e.message,
+        isOnTabsScreen: true
+      });
+    }
+  };
+
   render() {
-    const { profile, authToken } = this.props;
+    const { profile, authToken, isProfileVisible, name, mobile } = this.props;
+
+    if (!profile) {
+      return (
+        <View style={styles.header}>
+          <LoadingOverlay visible={true} />
+        </View>
+      );
+    }
+
     let profilePic = (
       <Image
         ref={img => {
           this.backgroundImage = img;
         }}
-        style={{ width: "100%", height: "100%" }}
+        style={styles.profileImg}
         source={noPicPlaceholderIcon}
       />
     );
+
     if (profile && profile.image_name) {
       profilePic = (
         <Image
           ref={img => {
             this.backgroundImage = img;
           }}
-          style={{ width: "100%", height: "100%" }}
+          style={styles.profileImg}
           source={{
             uri: API_BASE_URL + profile.imageUrl,
             headers: { Authorization: authToken }
@@ -53,39 +147,31 @@ class Header extends Component {
         />
       );
     }
-    return (
-      <View style={styles.container}>
-        {profile && (
-          <TouchableOpacity style={styles.header} onPress={this.props.onPress}>
-            <View style={styles.backgroundImg}>{profilePic}</View>
 
-            {Platform.OS == "ios" && (
-              <BlurView
-                style={styles.overlay}
-                viewRef={this.state.blurViewRef}
-                blurType="light"
-                blurAmount={5}
-              />
-            )}
-            {Platform.OS == "android" && <View style={styles.overlay} />}
-            <View style={styles.headerInner}>
-              <View style={styles.profilePicWrapper}>
-                <View style={styles.profilePicCircleWrapper}>{profilePic}</View>
-              </View>
+    return (
+      <View>
+        {profile ? (
+          <TouchableOpacity
+            style={[styles.header]}
+            onPress={this.props.onPress}
+          >
+            <View style={styles.profilePicCircleWrapper}>{profilePic}</View>
+            <View style={styles.texts}>
               <View style={styles.centerText}>
-                <Text style={styles.name} weight="Bold">
-                  {profile.name}
+                <Text style={styles.name} weight="Medium">
+                  {name}
                 </Text>
-                <Text style={styles.mobile} weight="Medium">
-                  {profile.mobile_no}
-                </Text>
+                <Text style={styles.mobile}>{profile.mobile_no}</Text>
               </View>
+
               <Image
                 style={{ width: 12, height: 12 }}
                 source={require("../../images/ic_processing_arrow.png")}
               />
             </View>
           </TouchableOpacity>
+        ) : (
+          <View />
         )}
       </View>
     );
@@ -93,48 +179,66 @@ class Header extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    height: 120,
-    overflow: "hidden"
-  },
   header: {
     width: "100%",
-    height: 120
+    height: 120,
+    backgroundColor: colors.mainBlue,
+    borderTopWidth: 1,
+    borderTopColor: "rgba(255, 255, 255, 0.3)",
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  profileImg: {
+    width: "100%",
+    height: "100%"
   },
   overlay: {
-    backgroundColor: "rgba(0,0,0,0.55)",
+    backgroundColor: colors.mainBlue,
     position: "absolute",
-    left: 0,
-    right: 0,
     top: 0,
-    bottom: 0
+    bottom: 0,
+    right: 0,
+    left: 0
   },
-  headerInner: {
+  texts: {
     flexDirection: "row",
+    flex: 1,
     alignItems: "center",
-    height: 120,
-    padding: 16,
-    ...Platform.select({
-      ios: {
-        paddingTop: 36
-      },
-      android: {
-        paddingTop: 16
-      }
-    })
+    paddingRight: 20
   },
-  profilePicWrapper: {
-    width: 80,
-    height: 80,
-    backgroundColor: "#d8d8d8",
+  mainText: {
+    width: 30,
+    fontSize: 30
+  },
+  modalCloseIcon: {
+    position: "absolute",
+    right: 15,
+    top: 10,
+    width: 30
+  },
+  profilePicCircleWrapper: {
+    width: 75,
+    height: 75,
     borderRadius: 40,
+    overflow: "hidden",
+    backgroundColor: "#eee",
+    marginLeft: 15
+  },
+  profilePicEditBtn: {
+    position: "absolute",
+    right: 10,
+    bottom: 10,
+    width: 30,
+    height: 30,
+    backgroundColor: colors.pinkishOrange,
+    borderRadius: 15,
     justifyContent: "center",
     alignItems: "center"
   },
-  profilePicCircleWrapper: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+  profileCircleWrapper: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
     overflow: "hidden"
   },
   centerText: {
@@ -145,17 +249,12 @@ const styles = StyleSheet.create({
   rightArrow: {
     alignItems: "center"
   },
-  backgroundImg: {
-    position: "absolute",
-    width: "100%",
-    height: "100%"
-  },
   name: {
-    fontSize: 18,
+    fontSize: 10,
     color: "#ffffff"
   },
   mobile: {
-    fontSize: 14,
+    fontSize: 10,
     color: "#ffffff"
   }
 });

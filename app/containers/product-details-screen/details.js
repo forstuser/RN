@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  Image,
   Alert,
   TouchableOpacity,
   ScrollView
@@ -11,7 +10,7 @@ import moment from "moment";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import I18n from "../../i18n";
 import { API_BASE_URL } from "../../api";
-import { Text, Button, ScreenContainer } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
 import KeyValueItem from "../../components/key-value-item";
 
 import { openBillsPopUp } from "../../navigation";
@@ -33,7 +32,7 @@ class Details extends Component {
   }
 
   render() {
-    const { product, navigator } = this.props;
+    const { product, navigation } = this.props;
 
     let productName = product.productName;
     if (!productName) {
@@ -46,7 +45,7 @@ class Details extends Component {
 
     if (product.categoryId != 664) {
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false} style={{ width: "100%" }}>
           <KeyValueItem
             keyText={I18n.t("product_details_screen_cost_breakdown_product")}
             valueText={`₹ ${product.value}`}
@@ -60,7 +59,7 @@ class Details extends Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false} style={{ width: "100%" }}>
           <KeyValueItem
             keyText={
               I18n.t("product_details_screen_cost_breakdown_warranty") + date
@@ -76,7 +75,7 @@ class Details extends Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false} style={{ width: "100%" }}>
           <KeyValueItem
             keyText={
               I18n.t("product_details_screen_cost_breakdown_insurance") + date
@@ -92,7 +91,7 @@ class Details extends Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false} style={{ width: "100%" }}>
           <KeyValueItem
             keyText={I18n.t("product_details_screen_cost_breakdown_amc") + date}
             valueText={`₹ ${item.premiumAmount}`}
@@ -106,7 +105,7 @@ class Details extends Component {
         ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
         : ``;
       amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
+        <View collapsable={false} style={{ width: "100%" }}>
           <KeyValueItem
             keyText={
               I18n.t("product_details_screen_cost_breakdown_repairs") + date
@@ -142,7 +141,7 @@ class Details extends Component {
       repairAmount;
 
     amountBreakdownOptions.push(
-      <View style={{ width: "100%" }}>
+      <View collapsable={false} style={{ width: "100%" }}>
         <KeyValueItem
           keyText={I18n.t("product_details_screen_cost_breakdown_total")}
           valueText={`₹ ${totalAmount}`}
@@ -160,9 +159,13 @@ class Details extends Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         {product.categoryId != 664 && (
-          <ViewBillButton product={product} navigator={navigator} />
+          <ViewBillButton
+            collapsable={false}
+            product={product}
+            navigation={navigation}
+          />
         )}
         <Image style={styles.image} source={imageSource} resizeMode="contain" />
         <Text weight="Bold" style={styles.name}>

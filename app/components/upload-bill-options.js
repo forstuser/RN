@@ -1,7 +1,17 @@
 import React from "react";
 import { StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native";
-
 import ActionSheet from "react-native-actionsheet";
+import ImagePicker from "react-native-image-crop-picker";
+
+import {
+  requestCameraPermission,
+  requestStoragePermission
+} from "../android-permissions";
+
+import {
+  DocumentPicker,
+  DocumentPickerUtil
+} from "react-native-document-picker";
 
 import I18n from "../i18n";
 
@@ -18,6 +28,7 @@ class UploadBillOptions extends React.Component {
   };
 
   show = (jobId, type, itemId, productId) => {
+    const { canUseCameraOnly = false } = this.props;
     this.setState(
       {
         jobId,
@@ -26,53 +37,105 @@ class UploadBillOptions extends React.Component {
         productId
       },
       () => {
-        this.uploadOptions.show();
+        if (canUseCameraOnly) {
+          this.handleOptionPress(0);
+        } else {
+          this.uploadOptions.show();
+        }
       }
     );
   };
 
-  handleOptionPress = index => {
-    let openPickerOnStart = null;
+  handleOptionPress = async index => {
+    let file = null;
     switch (index) {
       case 0:
-        openPickerOnStart = "camera";
+        const cameraPermission = await requestCameraPermission();
+        console.log("cameraPermission-1");
+        if (!cameraPermission) return;
+        const file = await ImagePicker.openCamera({
+          compressImageMaxWidth: 1500,
+          compressImageMaxHeight: 1500,
+          compressImageQuality: 0.75,
+          cropping: false
+        });
+        //in some devices, next screen doesn't open after taking photo
+        setTimeout(() => {
+          this.openUploadScreen({
+            filename: "camera-image-1.jpg",
+            uri: file.path,
+            mimeType: file.mime
+          });
+        }, 100);
+
         break;
       case 1:
-        openPickerOnStart = "images";
+        if ((await requestStoragePermission()) == false) return;
+        file = await ImagePicker.openPicker({
+          width: 1500,
+          height: 1500,
+          compressImageQuality: 0.75
+        });
+
+        this.openUploadScreen({
+          filename: file.filename,
+          uri: file.path,
+          mimeType: file.mime
+        });
+
         break;
       case 2:
-        openPickerOnStart = "documents";
+        if ((await requestStoragePermission()) == false) return;
+        DocumentPicker.show(
+          {
+            filetype: [DocumentPickerUtil.pdf(), DocumentPickerUtil.plainText()]
+          },
+          (error, file) => {
+            if (file) {
+              this.openUploadScreen({
+                filename: file.fileName,
+                uri: file.uri,
+                mimeType: file.type || file.fileName.split(".").pop()
+              });
+            }
+          }
+        );
         break;
-    }
-
-    if (openPickerOnStart) {
-      this.props.navigator.push({
-        screen: SCREENS.UPLOAD_DOCUMENT_SCREEN,
-        passProps: {
-          jobId: this.state.jobId,
-          type: this.state.type,
-          itemId: this.state.itemId,
-          productId: this.state.productId,
-          openPickerOnStart,
-          uploadCallback: this.props.uploadCallback
-        }
-      });
     }
   };
 
+  openUploadScreen = file => {
+    this.props.navigation.navigate(SCREENS.UPLOAD_DOCUMENT_SCREEN, {
+      jobId: this.state.jobId,
+      type: this.state.type,
+      itemId: this.state.itemId,
+      productId: this.state.productId,
+      file: file,
+      uploadCallback: this.props.uploadCallback,
+      canUseCameraOnly: this.props.canUseCameraOnly || false
+    });
+  };
+
   render() {
+    const {
+      actionSheetTitle = I18n.t("upload_document_screen_upload_options_title"),
+      canUseCameraOnly = false
+    } = this.props;
+
+    const options = [I18n.t("upload_document_screen_upload_options_camera")];
+    if (!canUseCameraOnly) {
+      options.push(I18n.t("upload_document_screen_upload_options_gallery"));
+      options.push(I18n.t("upload_document_screen_upload_options_document"));
+    }
+    options.push(I18n.t("upload_document_screen_upload_options_cancel"));
+
     return (
       <ActionSheet
         onPress={this.handleOptionPress}
         ref={o => (this.uploadOptions = o)}
-        title={I18n.t("upload_document_screen_upload_options_title")}
-        cancelButtonIndex={3}
-        options={[
-          I18n.t("upload_document_screen_upload_options_camera"),
-          I18n.t("upload_document_screen_upload_options_gallery"),
-          I18n.t("upload_document_screen_upload_options_document"),
-          I18n.t("upload_document_screen_upload_options_cancel")
-        ]}
+        title={actionSheetTitle}
+        cancelButtonIndex={!canUseCameraOnly ? 3 : 1}
+        options={options}
       />
     );
   }

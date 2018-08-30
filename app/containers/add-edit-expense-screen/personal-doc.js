@@ -8,7 +8,7 @@ import Analytics from "../../analytics";
 import { API_BASE_URL, initProduct, updateProduct } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
@@ -167,10 +167,10 @@ class PersonalDoc extends React.Component {
       });
       await updateProduct(data);
 
-      Analytics.logEvent(Analytics.EVENTS.ADD_PRODUCT_COMPLETED, {
-        maincategory: MAIN_CATEGORY_IDS.PERSONAL,
-        category: selectedDocType.name
-      });
+      // Analytics.logEvent(Analytics.EVENTS.ADD_PRODUCT_COMPLETED, {
+      //   maincategory: MAIN_CATEGORY_IDS.PERSONAL,
+      //   category: selectedDocType.name
+      // });
 
       this.setState({
         isLoading: false,
@@ -203,9 +203,9 @@ class PersonalDoc extends React.Component {
       copies
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
-          <View style={styles.imageHeader}>
+          <View collapsable={false} style={styles.imageHeader}>
             <Image
               style={styles.headerImage}
               source={
@@ -213,7 +213,7 @@ class PersonalDoc extends React.Component {
               }
             />
           </View>
-          <View style={styles.form}>
+          <View collapsable={false} style={styles.form}>
             <Text weight="Medium" style={styles.headerText}>
               {formType == "visiting_card"
                 ? "Add Card Details"
@@ -225,7 +225,7 @@ class PersonalDoc extends React.Component {
                 dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
                 placeholder="Type of Doc"
                 placeholderRenderer={({ placeholder }) => (
-                  <View style={{ flexDirection: "row" }}>
+                  <View collapsable={false} style={{ flexDirection: "row" }}>
                     <Text
                       weight="Medium"
                       style={{ color: colors.secondaryText }}
@@ -250,34 +250,33 @@ class PersonalDoc extends React.Component {
               value={name}
               onChangeText={name => this.setState({ name })}
             />
-            {formType == "visiting_card" &&
-              showFullForm && (
-                <View style={{ width: "100%", marginBottom: 10 }}>
-                  <CustomTextInput
-                    placeholder="Business Name"
-                    value={businessName}
-                    onChangeText={businessName =>
-                      this.setState({ businessName })
-                    }
-                  />
-                  <ContactFields
-                    ref={ref => (this.phoneRef = ref)}
-                    value={phone}
-                    placeholder="Phone Number"
-                  />
-                  <ContactFields
-                    ref={ref => (this.emailRef = ref)}
-                    value={email}
-                    placeholder="Email"
-                    keyboardType="email-address"
-                  />
-                  <CustomTextInput
-                    style={{ marginBottom: 10 }}
-                    placeholder="Address"
-                    value={address}
-                    onChangeText={address => this.setState({ address })}
-                  />
-                </View>
+            {formType == "visiting_card" && showFullForm ? (
+              <View collapsable={false} style={{ width: "100%", marginBottom: 10 }}>
+                <CustomTextInput
+                  placeholder="Business Name"
+                  value={businessName}
+                  onChangeText={businessName => this.setState({ businessName })}
+                />
+                <ContactFields
+                  ref={ref => (this.phoneRef = ref)}
+                  value={phone}
+                  placeholder="Phone Number"
+                />
+                <ContactFields
+                  ref={ref => (this.emailRef = ref)}
+                  value={email}
+                  placeholder="Email"
+                  keyboardType="email-address"
+                />
+                <CustomTextInput
+                  style={{ marginBottom: 10 }}
+                  placeholder="Address"
+                  value={address}
+                  onChangeText={address => this.setState({ address })}
+                />
+              </View>
+            ) : (
+                <View collapsable={false} />
               )}
             <UploadDoc
               placeholder={
@@ -297,7 +296,7 @@ class PersonalDoc extends React.Component {
                   copies: uploadResult.product.copies
                 });
               }}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
           </View>
         </KeyboardAwareScrollView>
@@ -314,7 +313,7 @@ class PersonalDoc extends React.Component {
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
           productId={product ? product.id : null}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           isPreviousScreenOfAddOptions={this.props.isPreviousScreenOfAddOptions}
         />
       </View>

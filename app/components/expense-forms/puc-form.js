@@ -28,7 +28,7 @@ import UploadDoc from "../form-elements/upload-doc";
 
 class PucForm extends React.Component {
   static propTypes = {
-    navigator: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
@@ -52,8 +52,8 @@ class PucForm extends React.Component {
     this.state = {
       id: null,
       effectiveDate: null,
-      sellerName: "",
-      sellerContact: "",
+      // sellerName: "",
+      // sellerContact: "",
       value: "",
       selectedRenewalType: null,
       renewalTypes: [
@@ -70,6 +70,12 @@ class PucForm extends React.Component {
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { puc } = this.props;
+    if (puc) {
+      this.setState({
+        copies: puc.copies || []
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -90,10 +96,9 @@ class PucForm extends React.Component {
           id: puc.id,
           effectiveDate: moment(puc.effectiveDate).format("YYYY-MM-DD"),
           value: String(puc.value),
-          sellerName: puc.sellers ? puc.sellers.sellerName : "",
-          sellerContact: puc.sellers ? puc.sellers.contact : "",
-          selectedRenewalType: selectedRenewalType,
-          copies: puc.copies
+          // sellerName: puc.sellers ? puc.sellers.sellerName : "",
+          // sellerContact: puc.sellers ? puc.sellers.contact : "",
+          selectedRenewalType: selectedRenewalType
         },
         () => {
           console.log("puc form new state: ", this.state);
@@ -106,15 +111,15 @@ class PucForm extends React.Component {
     const {
       id,
       effectiveDate,
-      sellerName,
+      // sellerName,
       value,
       selectedRenewalType
     } = this.state;
 
     let data = {
       id: id,
-      sellerName: sellerName,
-      sellerContact: this.sellerContactRef.getFilledData(),
+      // sellerName: sellerName,
+      // sellerContact: this.sellerContactRef.getFilledData(),
       value: value,
       effectiveDate: effectiveDate,
       expiryPeriod: selectedRenewalType ? selectedRenewalType.id : null
@@ -137,7 +142,7 @@ class PucForm extends React.Component {
 
   render() {
     const {
-      navigator,
+      navigation,
       mainCategoryId,
       categoryId,
       productId,
@@ -164,12 +169,12 @@ class PucForm extends React.Component {
         headerTextStyle={styles.headerTextStyle}
         icon="plus"
       >
-        <View style={styles.innerContainer}>
-          <View style={styles.body}>
+        <View collapsable={false} style={styles.innerContainer}>
+          <View collapsable={false} style={styles.body}>
             <CustomDatePicker
               date={effectiveDate}
               placeholder={I18n.t("expense_forms_puc_effective_date")}
-              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+              hint={"Recommended"}
               placeholder2Color={colors.mainBlue}
               onDateChange={effectiveDate => {
                 this.setState({ effectiveDate });
@@ -180,6 +185,8 @@ class PucForm extends React.Component {
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
               placeholder={I18n.t("expense_forms_puc_upto")}
+              hint={"Helps in PUC expiry reminder"}
+              style={{ paddingTop: 0 }}
               placeholderRenderer={({ placeholder }) => (
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {placeholder}
@@ -192,8 +199,27 @@ class PucForm extends React.Component {
               }}
               hideAddNew={true}
             />
-
-            <CustomTextInput
+            <UploadDoc
+              productId={productId}
+              itemId={id}
+              copies={copies}
+              jobId={jobId}
+              docType="PUC"
+              type={7}
+              placeholder={I18n.t("expense_forms_puc_upload_doc")}
+              hint={"Recommended"}
+              placeholder2Color={colors.mainBlue}
+              placeholderAfterUpload="Doc Uploaded Successfully"
+              navigation={this.props.navigation}
+              onUpload={uploadResult => {
+                console.log("upload result: ", uploadResult);
+                this.setState({
+                  id: uploadResult.puc.id,
+                  copies: uploadResult.puc.copies
+                });
+              }}
+            />
+            {/* <CustomTextInput
               placeholder={I18n.t("expense_forms_puc_seller_name")}
               underlineColorAndroid="transparent"
               value={sellerName}
@@ -205,7 +231,7 @@ class PucForm extends React.Component {
               value={sellerContact}
               placeholder={I18n.t("expense_forms_puc_seller_contact")}
               keyboardType="numeric"
-            />
+            /> */}
 
             <CustomTextInput
               placeholder={I18n.t("expense_forms_puc_amount")}
@@ -213,27 +239,6 @@ class PucForm extends React.Component {
               value={value}
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"
-            />
-
-            <UploadDoc
-              productId={productId}
-              itemId={id}
-              copies={copies}
-              jobId={jobId}
-              docType="PUC"
-              type={7}
-              placeholder={I18n.t("expense_forms_puc_upload_doc")}
-              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
-              placeholder2Color={colors.mainBlue}
-              placeholderAfterUpload="Doc Uploaded Successfully"
-              navigator={this.props.navigator}
-              onUpload={uploadResult => {
-                console.log("upload result: ", uploadResult);
-                this.setState({
-                  id: uploadResult.puc.id,
-                  copies: uploadResult.puc.copies
-                });
-              }}
             />
           </View>
         </View>

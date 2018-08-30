@@ -43,7 +43,7 @@ class HeaderWithUploadOption extends React.Component {
   };
 
   showTooltip = () => {
-    if (!this.props.hasUploadBillTourShown) {
+    if (!this.props.hasUploadBillTourShown && this.tour) {
       this.tour.startTour();
       this.props.setUiHasUploadBillTourShown(true);
     }
@@ -52,7 +52,7 @@ class HeaderWithUploadOption extends React.Component {
   render() {
     let {
       title,
-      navigator,
+      navigation,
       itemId,
       copies = [],
       productId,
@@ -71,17 +71,17 @@ class HeaderWithUploadOption extends React.Component {
     }
     const { isDocUploaded } = this.state;
     return (
-      <View style={styles.header}>
+      <View collapsable={false}  style={styles.header}>
         <Text weight="Medium" style={styles.headerText}>
           {title}
         </Text>
-        {!hideUploadOption && (
-          <View
+        {!hideUploadOption ? (
+          <View collapsable={false} 
             onLayout={this.showTooltip}
             ref={ref => (this.uploadBillBtn = ref)}
           >
-            {copies.length > 0 && (
-              <View style={styles.copiesContainer}>
+            {copies.length > 0 ? (
+              <View collapsable={false}  style={styles.copiesContainer}>
                 <Text
                   weight="Medium"
                   style={styles.copiesCount}
@@ -105,14 +105,13 @@ class HeaderWithUploadOption extends React.Component {
                   {I18n.t("expense_forms_header_upload_add")}
                 </Text>
               </View>
-            )}
-            {copies.length == 0 && (
+            ) : (
               <TouchableOpacity
                 onPress={this.onUploadDocPress}
                 style={styles.uploadBillBtn}
               >
-                {!isDocUploaded && (
-                  <View style={styles.uploadBillBtnTexts}>
+                {!isDocUploaded ? (
+                  <View collapsable={false}  style={styles.uploadBillBtnTexts}>
                     <Text
                       weight="Medium"
                       style={[
@@ -132,8 +131,7 @@ class HeaderWithUploadOption extends React.Component {
                       {textBeforeUpload2}
                     </Text>
                   </View>
-                )}
-                {isDocUploaded && (
+                ) : (
                   <Text
                     weight="Medium"
                     style={[
@@ -149,12 +147,14 @@ class HeaderWithUploadOption extends React.Component {
             )}
             <UploadBillOptions
               ref={ref => (this.uploadBillOptions = ref)}
-              navigator={navigator}
+              navigation={navigation}
               uploadCallback={uploadResult => {
                 this.onUpload(uploadResult);
               }}
             />
           </View>
+        ) : (
+          <View collapsable={false}  />
         )}
         <Tour
           ref={ref => (this.tour = ref)}

@@ -12,7 +12,7 @@ import moment from "moment";
 import PhotoView from "react-native-photo-view";
 
 import ScrollableTabView from "react-native-scrollable-tab-view";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer } from "../../elements";
 import { API_BASE_URL } from "../../api";
 import { isImageFileType } from "../../utils";
 
@@ -20,28 +20,27 @@ const fileIcon = require("../../images/ic_file.png");
 const uploadDeleteIcon = require("../../images/ic_upload_delete.png");
 
 const FileItem = ({ file, index, total, removeFile }) => (
-  <View style={styles.bill}>
-    <View style={styles.billCountTextWrapper}>
+  <View collapsable={false}  style={styles.bill}>
+    <View collapsable={false}  style={styles.billCountTextWrapper}>
       <Text style={styles.billCountText}>
         {index + 1} of {total}
       </Text>
     </View>
-    {isImageFileType(file.mimeType) && (
+    {isImageFileType(file.mimeType) ? (
       <PhotoView
         style={styles.billImage}
         source={{ uri: Platform.OS == "ios" ? `file://${file.uri}` : file.uri }}
         resizeMode="contain"
       />
-    )}
-    {!isImageFileType(file.mimeType) && (
-      <View style={styles.file}>
+    ) : (
+      <View collapsable={false}  style={styles.file}>
         <Image style={styles.fileIcon} source={fileIcon} />
         <Text weight="Medium" style={styles.fileName}>
           {file.filename}
         </Text>
       </View>
     )}
-    <View style={styles.optionsWrapper}>
+    <View collapsable={false}  style={styles.optionsWrapper}>
       <TouchableOpacity onPress={removeFile} style={styles.option}>
         <Image style={styles.optionIcon} source={uploadDeleteIcon} />
       </TouchableOpacity>

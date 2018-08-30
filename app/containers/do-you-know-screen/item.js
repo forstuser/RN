@@ -2,7 +2,6 @@ import React from "react";
 import {
   StyleSheet,
   View,
-  Image,
   TouchableOpacity,
   Dimensions,
   ActivityIndicator,
@@ -20,7 +19,7 @@ import Icon2 from "react-native-vector-icons/EvilIcons";
 import Analytics from "../../analytics";
 import { requestStoragePermission } from "../../android-permissions";
 import { API_BASE_URL } from "../../api";
-import { Text, Button, ScreenContainer } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
 import I18n from "../../i18n";
 import { colors } from "../../theme";
 
@@ -34,7 +33,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default class Item extends React.Component {
   onSharePress = async () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SHARE_DYK)
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_SHARE_DYK, { id: this.props.item.id });
     const { item } = this.props;
     if (Platform.OS == "ios") {
       try {
@@ -68,7 +67,6 @@ export default class Item extends React.Component {
     }
   };
   render() {
-    console.log("Screen height", SCREEN_HEIGHT)
     const { item, onLikePress } = this.props;
     if (item) {
       const {
@@ -82,8 +80,9 @@ export default class Item extends React.Component {
         isTogglingLike
       } = item;
       return (
-        <View style={styles.container}>
+        <View collapsable={false} style={styles.container}>
           <View
+            collapsable={false}
             ref={ref => (this.viewToShare = ref)}
             style={styles.shareView}
             collapsable={false}
@@ -92,15 +91,15 @@ export default class Item extends React.Component {
               style={styles.image}
               source={{ uri: API_BASE_URL + imageUrl }}
             />
-            <View style={styles.content}>
-              <View style={styles.shareAndLike} />
+            <View collapsable={false} style={styles.content}>
+              <View collapsable={false} style={styles.shareAndLike} />
               <Text weight="Medium" style={styles.title}>
                 {title}
               </Text>
               <Text style={styles.description}>{description}</Text>
             </View>
-            <View style={styles.badges}>
-              <View style={styles.binbillLogoWrapper}>
+            <View collapsable={false} style={styles.badges}>
+              <View collapsable={false} style={styles.binbillLogoWrapper}>
                 <Image
                   resizeMode="contain"
                   style={styles.binbillLogo}
@@ -119,19 +118,19 @@ export default class Item extends React.Component {
               />
             </View>
           </View>
-          <View style={styles.innerContainer}>
+          <View collapsable={false} style={styles.innerContainer}>
             <Image
               style={styles.image}
               source={{ uri: API_BASE_URL + imageUrl }}
             />
-            <View style={styles.likes}>
+            <View collapsable={false} style={styles.likes}>
               <Icon name="heart" size={12} color="red" />
               <Text weight="Medium" style={styles.likesCount}>
                 {totalLikes}
               </Text>
             </View>
-            <View style={styles.content}>
-              <View style={styles.shareAndLike}>
+            <View collapsable={false} style={styles.content}>
+              <View collapsable={false} style={styles.shareAndLike}>
                 <TouchableOpacity
                   onPress={this.onSharePress}
                   style={styles.shareButton}
@@ -143,7 +142,7 @@ export default class Item extends React.Component {
                   />
                 </TouchableOpacity>
 
-                <View style={styles.likeButtonContainer}>
+                <View collapsable={false} style={styles.likeButtonContainer}>
                   {isTogglingLike && <ActivityIndicator size="small" />}
                   {!isTogglingLike && (
                     <TouchableOpacity
@@ -163,10 +162,18 @@ export default class Item extends React.Component {
                 {title}
               </Text>
               <Text style={styles.description}>{description}</Text>
-              <View style={styles.tags}>
-                <Text weight="Bold"
-                  style={{ height: 15, marginRight: 5, color: colors.mainBlue, fontSize: 10 }}
-                >Tags: {tags.map(tag => tag.title).join(', ')}</Text>
+              <View collapsable={false} style={styles.tags}>
+                <Text
+                  weight="Bold"
+                  style={{
+                    height: 15,
+                    marginRight: 5,
+                    color: colors.mainBlue,
+                    fontSize: 10
+                  }}
+                >
+                  Tags: {tags.map(tag => tag.title).join(", ")}
+                </Text>
               </View>
             </View>
           </View>
@@ -174,8 +181,8 @@ export default class Item extends React.Component {
       );
     } else {
       return (
-        <View style={styles.container}>
-          <View style={styles.endMsg}>
+        <View collapsable={false} style={styles.container}>
+          <View collapsable={false} style={styles.endMsg}>
             <Image style={styles.roadBlockIcon} source={roadblockIcon} />
             <Text weight="Medium" style={styles.endMsgText}>
               {I18n.t("do_you_know_screen_end_msg")}
@@ -308,12 +315,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: SCREEN_HEIGHT > 620 ? 17 : 14,
-    color: colors.mainText
+    color: colors.mainText,
+    marginTop: 10
   },
   description: {
     fontSize: SCREEN_HEIGHT > 620 ? 14 : 12,
-    // marginTop: 1,
-    flex: 1
+    marginTop: 10,
+    flex: 1,
+    textAlign: "justify"
   },
   tags: {
     // paddingTop: 10,

@@ -4,16 +4,15 @@ import {
   Platform,
   StyleSheet,
   View,
-  Image,
   TouchableOpacity,
   Alert
 } from "react-native";
 import call from "react-native-phone-call";
 import getDirections from "react-native-google-maps-directions";
-import { showSnackbar } from "../../containers/snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import moment from "moment";
-import { Text, Button } from "../../elements";
+import { Text, Button, Image } from "../../elements";
 import I18n from "../../i18n";
 
 import { colors } from "../../theme";
@@ -55,7 +54,7 @@ const callSeller = product => {
   }
   showSnackbar({
     text: I18n.t("expense_forms_product_list_phone_not_available")
-  })
+  });
 };
 
 class ProductListItem extends React.Component {
@@ -99,20 +98,22 @@ class ProductListItem extends React.Component {
   render() {
     const { product, hideDirectionsAndCallBtns = false } = this.props;
     return (
-      <View style={styles.container}>
-        <View style={styles.details}>
+      <View collapsable={false}  style={styles.container}>
+        <View collapsable={false}  style={styles.details}>
           <Image
             style={styles.image}
             source={{ uri: API_BASE_URL + "/" + product.cImageURL }}
           />
-          <View style={styles.texts}>
+          <View collapsable={false}  style={styles.texts}>
             <Text weight="Bold" style={styles.name}>
               {product.productName}
             </Text>
-            {product.sellers != null && (
+            {product.sellers != null ? (
               <Text style={styles.sellerName}>
                 {product.sellers.sellerName}
               </Text>
+            ) : (
+              <View collapsable={false}  />
             )}
             <Text weight="Medium" style={styles.purchaseDate}>
               {moment(product.purchaseDate).format("MMM DD, YYYY")}
@@ -122,32 +123,33 @@ class ProductListItem extends React.Component {
             ₹ {product.value}
           </Text>
         </View>
-        {product.categoryId != 22 &&
-          !hideDirectionsAndCallBtns && (
-            <View style={styles.directionAndCall}>
-              <TouchableOpacity
-                onPress={() => openMap(product)}
-                style={styles.directionAndCallItem}
-              >
-                <Text weight="Bold" style={styles.directionAndCallText}>
-                  Directions
-                </Text>
-                <Image
-                  style={styles.directionAndCallIcon}
-                  source={directionIcon}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.phoneOptions.show()}
-                style={styles.directionAndCallItem}
-              >
-                <Text weight="Bold" style={styles.directionAndCallText}>
-                  Call
-                </Text>
-                <Image style={styles.directionAndCallIcon} source={callIcon} />
-              </TouchableOpacity>
-            </View>
-          )}
+        {product.categoryId != 22 && !hideDirectionsAndCallBtns ? (
+          <View collapsable={false}  style={styles.directionAndCall}>
+            <TouchableOpacity
+              onPress={() => openMap(product)}
+              style={styles.directionAndCallItem}
+            >
+              <Text weight="Bold" style={styles.directionAndCallText}>
+                Directions
+              </Text>
+              <Image
+                style={styles.directionAndCallIcon}
+                source={directionIcon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.phoneOptions.show()}
+              style={styles.directionAndCallItem}
+            >
+              <Text weight="Bold" style={styles.directionAndCallText}>
+                Call
+              </Text>
+              <Image style={styles.directionAndCallIcon} source={callIcon} />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View collapsable={false}  />
+        )}
         <ActionSheet
           onPress={this.handlePhonePress}
           ref={o => (this.phoneOptions = o)}

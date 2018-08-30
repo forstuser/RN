@@ -1,21 +1,17 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import moment from "moment";
-import { Text, Button } from "../../elements";
+import { Text, Button, Image } from "../../elements";
 import I18n from "../../i18n";
 import { colors, defaultStyles } from "../../theme";
 import { API_BASE_URL } from "../../api";
 import { SCREENS, MAIN_CATEGORY_IDS } from "../../constants";
-import Analytics from "../../analytics"
+import Analytics from "../../analytics";
 class Item extends React.Component {
   onPress = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ATTENDANCE_ITEMS);
     const { item } = this.props;
-    this.props.navigator.push({
-      screen: SCREENS.CALENDAR_SERVICE_CARD_SCREEN,
-      passProps: {
-        itemId: item.id
-      }
+    this.props.navigation.navigate(SCREENS.CALENDAR_SERVICE_CARD_SCREEN, {
+      itemId: item.id
     });
   };
 
@@ -46,33 +42,33 @@ class Item extends React.Component {
           source={{ uri: imageUrl }}
           resizeMode="contain"
         />
-        <View style={styles.texts}>
-          <View style={styles.nameAndSeller}>
-            <View style={{ flexDirection: "row" }}>
+        <View collapsable={false} style={styles.texts}>
+          <View collapsable={false} style={styles.nameAndSeller}>
+            <View collapsable={false} style={{ flexDirection: "row" }}>
               <Text weight="Bold" style={styles.name}>
                 {product_name}
               </Text>
-              {outstanding_amount > 0 ? <Text style={styles.positiveValue}>
-                ₹ {outstanding_amount}
-              </Text> : <Text style={styles.negativeValue}>
-                  ₹ {outstanding_amount}
-                </Text>}
+              {outstanding_amount > 0 ? (
+                <Text style={styles.positiveValue}>₹ {outstanding_amount}</Text>
+              ) : (
+                <Text style={styles.negativeValue}>₹ {outstanding_amount}</Text>
+              )}
               {/* <Text weight="Bold" style={styles.value}>
                 ₹ {outstanding_amount}
               </Text> */}
             </View>
-            <View style={{ flexDirection: "row" }}>
+            <View collapsable={false} style={{ flexDirection: "row" }}>
               <Text style={styles.offlineSellerName}>{provider_name}</Text>
               <Text style={styles.onlineSellerName}>
-                {I18n.t("my_calendar_screen_till_date", {
-                  date: moment(latest_payment_detail.end_date).format(
+                {latest_payment_detail ? I18n.t("my_calendar_screen_till_date", {
+                  date:  moment(latest_payment_detail.end_date).format(
                     "DD MMM YYYY"
-                  )
-                })}
+                  ) 
+                }): ''}
               </Text>
             </View>
           </View>
-          <View style={styles.otherDetailContainer}>
+          <View collapsable={false} style={styles.otherDetailContainer}>
             <Text style={styles.detailName}>
               {I18n.t("my_calendar_screen_days_present")}:{" "}
             </Text>
@@ -80,7 +76,7 @@ class Item extends React.Component {
               {I18n.t("my_calendar_screen_days", { count: present_days })}
             </Text>
           </View>
-          <View style={styles.otherDetailContainer}>
+          <View collapsable={false} style={styles.otherDetailContainer}>
             <Text style={styles.detailName}>
               {I18n.t("my_calendar_screen_days_absent")}:{" "}
             </Text>
@@ -102,8 +98,8 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     backgroundColor: "#fff",
     borderRadius: 3,
-    margin: 5
-    // ...defaultStyles.card
+    margin: 5,
+    ...defaultStyles.card
   },
   image: {
     width: 40,

@@ -55,13 +55,14 @@ class CustomDatePicker extends React.Component {
       placeholder2,
       placeholder2Color = colors.secondaryText,
       maxDate = moment().format("YYYY-MM-DD"),
-      minDate
+      minDate,
+      hint
     } = this.props;
     const { date } = this.state;
     return (
       <TouchableWithoutFeedback onPress={() => this.datePicker.onPressDate()}>
-        <View style={[styles.container, style]}>
-          <View
+        <View collapsable={false} style={[styles.container, style]}>
+          <View collapsable={false}
             style={[
               styles.placeholderContainer,
               date ? styles.filledInputPlaceholderContainer : {}
@@ -83,14 +84,14 @@ class CustomDatePicker extends React.Component {
               {placeholder2}
             </Text>
           </View>
-
-          <View style={styles.textInput}>
+          {!date && hint ? <Text weight="Regular" style={styles.hint}>{hint}</Text> : null}
+          <View collapsable={false} style={styles.textInput}>
             <Text weight="Medium" style={{ color: colors.mainText }}>
               {date && moment(date).format("DD MMM, YYYY")}
             </Text>
           </View>
 
-          <View style={styles.calendarIconContainer}>
+          <View collapsable={false} style={styles.calendarIconContainer}>
             <CalendarIcon />
           </View>
           <DatePicker
@@ -134,6 +135,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingRight: 10,
     marginBottom: 10,
+    borderRadius: 10,
     ...defaultStyles.card
   },
   placeholderContainer: {
@@ -157,7 +159,8 @@ const styles = StyleSheet.create({
     fontSize: 10
   },
   placeholder2: {
-    fontSize: 10
+    fontSize: 10,
+    marginLeft: 2
   },
   textInput: {
     backgroundColor: "transparent",
@@ -171,8 +174,11 @@ const styles = StyleSheet.create({
     bottom: 12
   },
   hint: {
-    fontSize: 12,
-    color: colors.mainBlue
+    color: colors.mainBlue,
+    position: 'relative',
+    top: 16,
+    fontSize: 10,
+    marginLeft: -2
   }
 });
 

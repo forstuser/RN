@@ -7,7 +7,8 @@ import {
   SCREENS,
   MAIN_CATEGORY_IDS,
   CATEGORY_IDS,
-  EXPENSE_TYPES
+  EXPENSE_TYPES,
+  PRODUCT_TYPES
 } from "../constants";
 import Analytics from "../analytics";
 
@@ -17,37 +18,36 @@ class AddEmptyProductScreen extends Component {
     this.state = {};
   }
 
-  EmptyProductListPlaceholder = ({
-    mainCategoryId,
-    categoryId,
-    navigator
-  }) => { };
-
   onPressItem = item => {
-    Analytics.logEvent(Analytics.EVENTS.ADD_PRODUCT_INSIDE_EHOME_MAIN_CATEGORIES);
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_EXPENSE_SCREEN,
-      passProps: { expenseType: item.type, categoryId: item.categoryId },
-      overrideBackPress: true
+    Analytics.logEvent(
+      Analytics.EVENTS.ADD_PRODUCT_INSIDE_EHOME_MAIN_CATEGORIES
+    );
+    this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN, {
+      expenseType: item.type,
+      category: item.category
     });
   };
 
   render() {
-    const { mainCategoryId, categoryId, navigator } = this.props;
-    let item = { categoryId: categoryId };
+    const { mainCategoryId, category, navigation } = this.props;
+    let item = { category };
     let item2 = null;
     // alert(mainCategoryId);
     switch (mainCategoryId) {
       case MAIN_CATEGORY_IDS.FURNITURE:
         item.type = EXPENSE_TYPES.FURNITURE;
-        if (categoryId == CATEGORY_IDS.FURNITURE.FURNITURE) {
+        if (category.id == CATEGORY_IDS.FURNITURE.FURNITURE) {
           item.desc = I18n.t("products_list_no_result_desc_furniture");
           item.image = require("../images/main-categories/ic_furniture.png");
           item.buttonText = I18n.t("add_furniture");
-        } else if (categoryId == CATEGORY_IDS.FURNITURE.HARDWARE) {
+        } else if (category.id == CATEGORY_IDS.FURNITURE.HARDWARE) {
           item.desc = I18n.t("products_list_no_result_desc_hardware");
           item.image = require("../images/categories/hardware.png");
           item.buttonText = I18n.t("add_hardware");
+        } else if (category.id == CATEGORY_IDS.FURNITURE.KITCHEN_UTENSILS) {
+          item.desc = I18n.t("products_list_no_result_desc_kitchen_utensils");
+          item.image = require("../images/categories/kitchen_utensils.png");
+          item.buttonText = I18n.t("add_kitchen_utensils");
         } else {
           item.desc = I18n.t("products_list_no_result_desc_other_furniture");
           item.image = require("../images/main-categories/ic_furniture.png");
@@ -75,11 +75,11 @@ class AddEmptyProductScreen extends Component {
 
       case MAIN_CATEGORY_IDS.TRAVEL:
         item.type = EXPENSE_TYPES.TRAVEL;
-        if (categoryId == CATEGORY_IDS.TRAVEL.TRAVEL) {
+        if (category.id == CATEGORY_IDS.TRAVEL.TRAVEL) {
           item.desc = I18n.t("products_list_no_result_desc_travel");
           item.buttonText = I18n.t("add_travel");
           item.image = require("../images/main-categories/ic_travel_dining.png");
-        } else if (categoryId == CATEGORY_IDS.TRAVEL.HOTEL_STAY) {
+        } else if (category.id == CATEGORY_IDS.TRAVEL.HOTEL_STAY) {
           item.desc = I18n.t("products_list_no_result_desc_hotel_stay");
           item.buttonText = I18n.t("add_hotel_stay");
           item.image = require("../images/categories/hotel.png");
@@ -92,34 +92,33 @@ class AddEmptyProductScreen extends Component {
 
       case MAIN_CATEGORY_IDS.HEALTHCARE:
         item.type = EXPENSE_TYPES.HEALTHCARE;
-        if (categoryId == CATEGORY_IDS.HEALTHCARE.EXPENSE) {
+        if (category.id == CATEGORY_IDS.HEALTHCARE.EXPENSE) {
           item.desc = I18n.t("products_list_no_result_desc_expense");
           item.buttonText = I18n.t("add_expense");
           item.image = require("../images/main-categories/ic_healthcare.png");
-        } else if (categoryId == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
+        } else if (category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
           item.type = EXPENSE_TYPES.MEDICAL_DOCS;
-
           item.desc = I18n.t("products_list_no_result_desc_medical_docs");
           item.buttonText = I18n.t("add_medical_doc");
           item.image = require("../images/categories/medical_docs.png");
         } else {
           item.type = EXPENSE_TYPES.MEDICAL_DOCS;
           item.desc = I18n.t("products_list_no_result_desc_insurance");
-          item.buttonText = I18n.t("add_healthcare");
+          item.buttonText = I18n.t("add_insurance");
           item.image = require("../images/categories/insurance.png");
         }
         break;
 
       case MAIN_CATEGORY_IDS.SERVICES:
         item.type = EXPENSE_TYPES.SERVICES;
-        if (categoryId == CATEGORY_IDS.SERVICES.OTHER_SERVICES) {
+        if (category.id == CATEGORY_IDS.SERVICES.OTHER_SERVICES) {
           item.desc = I18n.t("products_list_no_result_desc_other_services");
           item.buttonText = I18n.t("add_other_services");
           item.image = require("../images/main-categories/ic_services.png");
-        } else if (categoryId == CATEGORY_IDS.SERVICES.PROFESSIONAL) {
-          item.desc = I18n.t("products_list_no_result_desc_professional");
-          item.buttonText = I18n.t("add_professional");
-          item.image = require("../images/categories/professional.png");
+        } else if (category.id == CATEGORY_IDS.SERVICES.BEAUTY_AND_SALON) {
+          item.desc = I18n.t("products_list_no_result_desc_beauty_and_salon");
+          item.buttonText = I18n.t("add_beauty_and_salon");
+          item.image = require("../images/categories/beauty_and_salon.png");
         } else {
           item.desc = I18n.t("products_list_no_result_desc_lessons");
           item.buttonText = I18n.t("add_lessons_hobbies");
@@ -138,19 +137,19 @@ class AddEmptyProductScreen extends Component {
 
       case MAIN_CATEGORY_IDS.HOUSEHOLD:
         item.type = EXPENSE_TYPES.HOME;
-        if (categoryId == CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE) {
+        if (category.id == CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE) {
           item.desc = I18n.t("products_list_no_result_desc_household_expense");
           item.buttonText = I18n.t("add_household_expense");
           item.image = require("../images/categories/household.png");
-        } else if (categoryId == CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS) {
+        } else if (category.id == CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS) {
           item.desc = I18n.t("products_list_no_result_desc_utility_bills");
           item.buttonText = I18n.t("add_utility_bills");
           item.image = require("../images/categories/utility_bill.png");
-        } else if (categoryId == CATEGORY_IDS.HOUSEHOLD.EDUCATION) {
+        } else if (category.id == CATEGORY_IDS.HOUSEHOLD.EDUCATION) {
           item.desc = I18n.t("products_list_no_result_desc_education");
           item.buttonText = I18n.t("add_education");
           item.image = require("../images/categories/education.png");
-        } else if (categoryId == CATEGORY_IDS.HOUSEHOLD.HOME_DECOR) {
+        } else if (category.id == CATEGORY_IDS.HOUSEHOLD.HOME_DECOR) {
           item.desc = I18n.t("products_list_no_result_desc_home_decor");
           item.buttonText = I18n.t("add_home_decor");
           item.image = require("../images/categories/home_decor.png");
@@ -165,18 +164,19 @@ class AddEmptyProductScreen extends Component {
         item = {
           type: EXPENSE_TYPES.OTHERS,
           desc: I18n.t("products_list_no_result_desc_others"),
-          image: require("../images/main-categories/ic_personal_doc.png")
+          image: require("../images/main-categories/ic_personal_doc.png"),
+          buttonText: "Add Others"
         };
         break;
 
       case MAIN_CATEGORY_IDS.PERSONAL:
         item.type = EXPENSE_TYPES.PERSONAL;
-        if (categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
+        if (category.id == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
           item.type = EXPENSE_TYPES.VISITING_CARD;
           item.desc = I18n.t("products_list_no_result_desc_visiting_card");
           item.buttonText = I18n.t("add_visiting_card");
           item.image = require("../images/main-categories/ic_visiting_card.png");
-        } else if (categoryId == CATEGORY_IDS.PERSONAL.RENT_AGREEMENT) {
+        } else if (category.id == CATEGORY_IDS.PERSONAL.RENT_AGREEMENT) {
           item.desc = I18n.t("products_list_no_result_desc_rent_agreement");
           item.buttonText = I18n.t("add_rent_agreement");
           item.image = require("../images/main-categories/ic_personal_doc.png");
@@ -191,30 +191,24 @@ class AddEmptyProductScreen extends Component {
         desc = "";
     }
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <Image style={styles.image} source={item.image} />
         <Text style={styles.desc}>{item.desc}</Text>
-        {this.props.mainCategoryId != 9 && (
+        {this.props.mainCategoryId != 9 ? (
           <Text style={styles.below}>{I18n.t("product_list_click_below")}</Text>
+        ) : (
+          <View collapsable={false} />
         )}
-        {this.props.mainCategoryId != 9 && (
-          <View>
-            <Button
-              onPress={() => this.onPressItem(item)}
-              text={item.buttonText}
-              color="secondary"
-              style={styles.button}
-            />
-            {item2 ? (
-              <Button
-                onPress={() => this.onPressItem(item2)}
-                text={item2.buttonText}
-                color="secondary"
-                style={[styles.button, { marginTop: 20 }]}
-              />
-            ) : null}
-          </View>
-        )}
+        {/* {this.props.mainCategoryId == 9 && ( */}
+        <View collapsable={false}>
+          <Button
+            onPress={() => this.onPressItem(item)}
+            text={item.buttonText}
+            color="secondary"
+            style={styles.button}
+          />
+        </View>
+        {/* )} */}
       </View>
     );
   }

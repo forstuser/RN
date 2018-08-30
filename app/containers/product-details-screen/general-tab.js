@@ -13,7 +13,7 @@ import StarRating from "react-native-star-rating";
 
 import { Text, Button, ScreenContainer } from "../../elements";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import { colors } from "../../theme";
 import KeyValueItem from "../../components/key-value-item";
@@ -64,12 +64,12 @@ class GeneralTab extends Component {
       });
       showSnackbar({
         text: "Review Added"
-      })
+      });
       this.props.fetchProductDetails();
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     } finally {
       this.setState({
         isAddingReview: false
@@ -102,7 +102,7 @@ class GeneralTab extends Component {
       dateText = "Purchase Date";
     }
     return (
-      <View>
+      <View collapsable={false} >
         <TouchableOpacity
           onPress={onEditPress}
           style={{ flex: 1, backgroundColor: "#EBEBEB" }}
@@ -148,11 +148,13 @@ class GeneralTab extends Component {
             valueText={product.sub_category_name}
           />
         )}
-        {product.brand && (
+        {product.brand ? (
           <KeyValueItem
             keyText={I18n.t("product_details_screen_brand")}
             valueText={product.brand.name}
           />
+        ) : (
+          <View collapsable={false}  />
         )}
         {product.model ? (
           <KeyValueItem
@@ -176,15 +178,15 @@ class GeneralTab extends Component {
           />
         ))}
 
-        {false && (
-          <View style={styles.review}>
+        {false ? (
+          <View collapsable={false}  style={styles.review}>
             <LoadingOverlay visible={this.state.isAddingReview} />
             <SectionHeading
               text={I18n.t("product_details_screen_review_product")}
             />
-            <View style={styles.reviewInner}>
-              <View style={styles.reviewHeader}>
-                <View style={styles.starsWrapper}>
+            <View collapsable={false}  style={styles.reviewInner}>
+              <View collapsable={false}  style={styles.reviewHeader}>
+                <View collapsable={false}  style={styles.starsWrapper}>
                   <StarRating
                     starColor="#FFA909"
                     disabled={false}
@@ -203,7 +205,7 @@ class GeneralTab extends Component {
                 style={styles.reviewInput}
                 multiline={true}
               />
-              <View style={styles.reviewFooter}>
+              <View collapsable={false}  style={styles.reviewFooter}>
                 <Button
                   onPress={this.onSubmitReview}
                   style={styles.reviewSubmitBtn}
@@ -214,15 +216,17 @@ class GeneralTab extends Component {
               </View>
             </View>
           </View>
+        ) : (
+          <View collapsable={false}  />
         )}
-        {false && (
-          <View style={styles.editReview}>
+        {false ? (
+          <View collapsable={false}  style={styles.editReview}>
             <SectionHeading
               text={I18n.t("product_details_screen_your_review")}
             />
-            <View style={styles.reviewInner}>
-              <View style={styles.reviewHeader}>
-                <View style={styles.starsWrapper}>
+            <View collapsable={false}  style={styles.reviewInner}>
+              <View collapsable={false}  style={styles.reviewHeader}>
+                <View collapsable={false}  style={styles.starsWrapper}>
                   <StarRating
                     disabled={true}
                     starColor="#FFA909"
@@ -236,7 +240,7 @@ class GeneralTab extends Component {
               <Text weight="Bold" style={styles.reviewText}>
                 {this.state.reviewInput}
               </Text>
-              <View style={styles.reviewFooter}>
+              <View collapsable={false}  style={styles.reviewFooter}>
                 <Button
                   onPress={this.onEditReviewClick}
                   style={styles.reviewSubmitBtn}
@@ -247,6 +251,8 @@ class GeneralTab extends Component {
               </View>
             </View>
           </View>
+        ) : (
+          <View collapsable={false}  />
         )}
       </View>
     );

@@ -35,16 +35,12 @@ class InsuranceDetails extends Component {
   openAddEditInsuranceScreen = insurance => {
     const { product } = this.props;
 
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_INSURANCE_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        insurance: insurance
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_INSURANCE_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      insurance: insurance
     });
   };
 
@@ -53,14 +49,14 @@ class InsuranceDetails extends Component {
     const { insuranceDetails } = product;
 
     return (
-      <View>
+      <View collapsable={false}>
         <Collapsible
           headerText={I18n.t("product_details_screen_insurance_title")}
         >
-          {insuranceDetails.length > 0 && (
-            <View>
+          {insuranceDetails.length > 0 ? (
+            <View collapsable={false}>
               {insuranceDetails.map(insurance => (
-                <View>
+                <View collapsable={false}>
                   <EditOptionRow
                     date={insurance.expiryDate}
                     onEditPress={() => {
@@ -68,6 +64,7 @@ class InsuranceDetails extends Component {
                     }}
                   />
                   <ViewBillRow
+                    collapsable={false}
                     expiryDate={insurance.expiryDate}
                     purchaseDate={insurance.purchaseDate}
                     docType="Insurance"
@@ -106,7 +103,7 @@ class InsuranceDetails extends Component {
                     )}
                     valueText={insurance.amountInsured || "-"}
                   />
-                  {insurance.sellers != null && (
+                  {insurance.sellers != null ? (
                     <KeyValueItem
                       keyText={I18n.t(
                         "product_details_screen_insurance_seller"
@@ -115,8 +112,10 @@ class InsuranceDetails extends Component {
                         insurance.sellers ? insurance.sellers.sellerName : "-"
                       }
                     />
-                  )}
-                  {insurance.sellers != null && (
+                  ) : (
+                      <View collapsable={false} />
+                    )}
+                  {insurance.sellers != null ? (
                     <KeyValueItem
                       keyText={I18n.t(
                         "product_details_screen_insurance_seller_contact"
@@ -129,19 +128,20 @@ class InsuranceDetails extends Component {
                         />
                       )}
                     />
-                  )}
+                  ) : (
+                      <View collapsable={false} />
+                    )}
                 </View>
               ))}
             </View>
-          )}
-          {insuranceDetails.length == 0 && (
-            <Text
-              weight="Bold"
-              style={{ textAlign: "center", padding: 16, color: "red" }}
-            >
-              {I18n.t("product_details_screen_insurance_no_info")}
-            </Text>
-          )}
+          ) : (
+              <Text
+                weight="Bold"
+                style={{ textAlign: "center", padding: 16, color: "red" }}
+              >
+                {I18n.t("product_details_screen_insurance_no_info")}
+              </Text>
+            )}
           <Button
             text={I18n.t("product_details_screen_add_insurance")}
             onPress={() => this.openAddEditInsuranceScreen(null)}

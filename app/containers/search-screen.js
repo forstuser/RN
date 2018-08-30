@@ -12,18 +12,18 @@ import {
 import moment from "moment";
 import { API_BASE_URL, getSearchResults } from "../api";
 import ProductsList from "../components/products-list";
-import { ScreenContainer, Text, Button, AsyncImage } from "../elements";
+import { ScreenContainer, Text, Button } from "../elements";
 import { colors } from "../theme";
 import { openBillsPopUp } from "../navigation";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 const backIcon = require("../images/ic_arrow_back_black.png");
 const noDocs = require("../images/ic_no_docs.png");
+import Analytics from "../analytics";
 
 class SearchBox extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    tabBarHidden: true
+  static navigationOptions = {
+    header: null
   };
 
   constructor(props) {
@@ -35,16 +35,22 @@ class SearchBox extends Component {
       showRecentSearches: true,
       searchHasRunOnce: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
+
+  componentDidMount() {
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
         if (this.state.textInput.trim()) {
           this.fetchResults();
         }
-    }
-  };
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+  }
 
   fetchResults = async () => {
     if (!this.state.textInput.trim()) {
@@ -54,6 +60,7 @@ class SearchBox extends Component {
     }
     this.textInput.blur();
     this.setState({ isFetchingResults: true, products: [] });
+    Analytics.logEvent(Analytics.EVENTS.USE_SEARCH);
     try {
       const res = await getSearchResults(this.state.textInput);
       this.setState({
@@ -80,7 +87,7 @@ class SearchBox extends Component {
   };
 
   goBack = () => {
-    this.props.navigator.pop();
+    this.props.navigation.goBack();
   };
 
   render() {
@@ -90,10 +97,10 @@ class SearchBox extends Component {
       showRecentSearches,
       searchHasRunOnce
     } = this.state;
-    const { recentSearches = [] } = this.props;
+    const recentSearches = this.props.navigation.getParam("recentSearches", []);
     return (
       <ScreenContainer style={{ padding: 0 }}>
-        <View style={styles.searchContainer}>
+        <View collapsable={false} style={styles.searchContainer}>
           <TouchableOpacity onPress={this.goBack} style={{ zIndex: 2 }}>
             <Image style={styles.searchIcon} source={backIcon} />
           </TouchableOpacity>
@@ -110,9 +117,9 @@ class SearchBox extends Component {
             placeholder={I18n.t("search_screen_placeholder")}
           />
         </View>
-        {showRecentSearches && (
-          <View style={styles.recentSearches}>
-            <View style={styles.recentSearchTitleWrapper}>
+        {showRecentSearches ? (
+          <View collapsable={false} style={styles.recentSearches}>
+            <View collapsable={false} style={styles.recentSearchTitleWrapper}>
               <Text weight="Bold" style={styles.recentSearchTitle}>
                 {I18n.t("search_screen_recent_searches")}
               </Text>
@@ -127,35 +134,40 @@ class SearchBox extends Component {
               </TouchableOpacity>
             ))}
           </View>
-        )}
+        ) : (
+            <View collapsable={false} />
+          )}
 
         {searchHasRunOnce &&
           products.length > 0 && (
             <ProductsList
               onRefresh={this.fetchResults}
               isLoading={isFetchingResults}
+              endHasReached={!isFetchingResults}
               products={products}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
           )}
 
         {searchHasRunOnce &&
           products.length == 0 && (
             <View
+              collapsable={false}
               style={{
                 flex: 1,
                 alignItems: "center",
                 justifyContent: "center"
               }}
             >
-              <Image source={noDocs} style={{ width: 160, height: 160 }} />
+              <Image source={noDocs} style={{ width: 120, height: 120 }} />
               <Text
                 style={{
                   fontSize: 18,
-                  fontFamily: `Quicksand-Bold`,
-                  color: "#3b3b3b",
+                  color: colors.secondaryText,
                   marginTop: 10
                 }}
+                weight="Medium"
+
               >
                 No Documents Found
               </Text>

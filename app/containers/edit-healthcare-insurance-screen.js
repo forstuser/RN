@@ -17,12 +17,12 @@ import {
 import { ScreenContainer, Text, Button } from "../elements";
 import LoadingOverlay from "../components/loading-overlay";
 import { colors } from "../theme";
-import { MAIN_CATEGORY_IDS } from "../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../constants";
 import UploadBillOptions from "../components/upload-bill-options";
 import SelectModal from "../components/select-modal";
 import HealthcareInsuranceForm from "../components/expense-forms/healthcare-insurance-form";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import CustomTextInput from "../components/form-elements/text-input";
 import ContactFields from "../components/form-elements/contact-fields";
@@ -31,12 +31,11 @@ import FinishModal from "./add-edit-expense-screen/finish-modal";
 import ChangesSavedModal from "../components/changes-saved-modal";
 
 class MedicalDoc extends React.Component {
-  static navigatorStyle = {
-    tabBarHidden: true,
-    disabledBackGesture: true
+  static navigationOptions = {
+    title: I18n.t("add_edit_healthcare_edit_insurance")
   };
 
-  static navigatorButtons = {
+  static navigationButtons = {
     ...Platform.select({
       ios: {
         leftButtons: [
@@ -53,12 +52,12 @@ class MedicalDoc extends React.Component {
     super(props);
     this.state = {
       mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE,
-      categoryId: 664,
+      categoryId: CATEGORY_IDS.HEALTHCARE.INSURANCE,
       isLoading: false,
       isFinishModalVisible: false,
       insuranceProviders: []
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
@@ -70,7 +69,7 @@ class MedicalDoc extends React.Component {
           [
             {
               text: I18n.t("add_edit_amc_go_back"),
-              onPress: () => this.props.navigator.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_amc_stay"),
@@ -86,9 +85,6 @@ class MedicalDoc extends React.Component {
 
   componentDidMount() {
     this.fetchCategoryData();
-    let title = I18n.t("add_edit_healthcare_edit_insurance");
-
-    this.props.navigator.setTitle({ title });
   }
 
   fetchCategoryData = async () => {
@@ -102,12 +98,13 @@ class MedicalDoc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
   saveDoc = async () => {
-    const { mainCategoryId, categoryId, navigator } = this.props;
+    const { navigation } = this.props;
+    const { mainCategoryId, categoryId } = navigation.state.params;
     let data = {
       mainCategoryId,
       categoryId,
@@ -124,12 +121,14 @@ class MedicalDoc extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({ isLoading: false });
     }
   };
 
   render() {
+    const { navigation } = this.props;
+
     const {
       typeId,
       productId,
@@ -142,9 +141,9 @@ class MedicalDoc extends React.Component {
       effectiveDate,
       policyNo,
       amountInsured,
-      copies,
-      navigator
-    } = this.props;
+      copies
+    } = navigation.state.params;
+
     const {
       mainCategoryId,
       categoryId,
@@ -153,17 +152,18 @@ class MedicalDoc extends React.Component {
       isFinishModalVisible
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}>
           <LoadingOverlay visible={isLoading} />
           <ChangesSavedModal
             ref={ref => (this.changesSavedModal = ref)}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
           />
           <HealthcareInsuranceForm
             showFullForm={true}
             ref={ref => (this.insuranceForm = ref)}
-            showOnlyGeneralInfo={true}
+            showOnlyGeneralInfo={false}
+            showFullForm={true}
             {...{
               typeId,
               categoryId,
@@ -178,7 +178,7 @@ class MedicalDoc extends React.Component {
               policyNo,
               amountInsured,
               copies,
-              navigator,
+              navigation,
               insuranceProviders
             }}
           />
@@ -194,7 +194,7 @@ class MedicalDoc extends React.Component {
           title={I18n.t("add_edit_healthcare_doc_added")}
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
       </View>
     );

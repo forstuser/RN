@@ -51,7 +51,7 @@ class ServiceSchedules extends Component {
     <KeyValueItem
       keyText={`${schedule.service_number}\n(${
         SERVICE_TYPE_NAMES[schedule.service_type]
-      })`}
+        })`}
       ValueComponent={() => (
         <Text
           weight="Medium"
@@ -63,7 +63,7 @@ class ServiceSchedules extends Component {
           {moment(schedule.due_date).format("MMM DD, YYYY") +
             " or\n" +
             schedule.distance +
-            "Kms"}
+            " kms"}
         </Text>
       )}
     />
@@ -73,51 +73,60 @@ class ServiceSchedules extends Component {
     const { product } = this.props;
     const { schedule, serviceSchedules } = product;
     const { isModalVisible } = this.state;
+    // if (!isModalVisible) return null;
+
     return (
-      <View>
+      <View collapsable={false} >
         <Collapsible
           headerText={I18n.t("product_details_screen_service_schedule_title")}
         >
           {schedule && this.scheduleItem(schedule)}
-          {serviceSchedules &&
-            serviceSchedules.length > 0 && (
-              <TouchableOpacity
-                onPress={this.toggleModal}
-                style={{ alignItems: "center", padding: 10 }}
-              >
-                <Text weight="Medium" style={{ color: colors.pinkishOrange }}>
-                  View Complete Schedule
-                </Text>
-              </TouchableOpacity>
+          {serviceSchedules && serviceSchedules.length > 0 ? (
+            <TouchableOpacity
+              onPress={this.toggleModal}
+              style={{ alignItems: "center", padding: 10 }}
+            >
+              <Text weight="Medium" style={{ color: colors.pinkishOrange }}>
+                View Complete Schedule
+              </Text>
+            </TouchableOpacity>
+          ) : (
+              <View collapsable={false} />
             )}
         </Collapsible>
-        <Modal
-          isVisible={isModalVisible}
-          useNativeDriver={true}
-          onBackdropPress={this.toggleModal}
-        >
-          <View style={styles.modal}>
-            <View style={styles.modalHeader}>
-              <Text weight="Bold" style={styles.modalHeaderTitle}>
-                Service Schedule
-              </Text>
-              <Text weight="Bold" style={styles.modalHeaderProductName}>
-                {product.model}
-              </Text>
-            </View>
-            <ScrollView style={styles.modalScheduleContainer}>
-              {serviceSchedules.map(serviceSchedule =>
-                this.scheduleItem(serviceSchedule)
-              )}
-            </ScrollView>
-            <Button
-              onPress={this.toggleModal}
-              text={I18n.t("product_details_screen_ok")}
-              color="secondary"
-              style={styles.modalOkBtn}
-            />
+        {isModalVisible ? (
+          <View collapsable={false} >
+            <Modal
+              isVisible={true}
+              useNativeDriver={true}
+              onBackdropPress={this.toggleModal}
+            >
+              <View collapsable={false} style={styles.modal}>
+                <View collapsable={false} style={styles.modalHeader}>
+                  <Text weight="Bold" style={styles.modalHeaderTitle}>
+                    Service Schedule
+                  </Text>
+                  <Text weight="Bold" style={styles.modalHeaderProductName}>
+                    {product.model}
+                  </Text>
+                </View>
+                <ScrollView style={styles.modalScheduleContainer}>
+                  {serviceSchedules.map(serviceSchedule =>
+                    this.scheduleItem(serviceSchedule)
+                  )}
+                </ScrollView>
+                <Button
+                  onPress={this.toggleModal}
+                  text={I18n.t("product_details_screen_ok")}
+                  color="secondary"
+                  style={styles.modalOkBtn}
+                />
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        ) : (
+            <View collapsable={false} />
+          )}
       </View>
     );
   }

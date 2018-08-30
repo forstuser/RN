@@ -13,8 +13,11 @@ const rootReducer = persistCombineReducers(config, reducers);
 
 let middlewares = [thunk];
 
-export default (store = createStore(
+const store = createStore(
   rootReducer,
   undefined,
   compose(applyMiddleware(...middlewares))
-));
+);
+
+export const persistor = persistStore(store);
+export default store;

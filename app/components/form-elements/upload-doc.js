@@ -45,12 +45,13 @@ class UploadDoc extends React.Component {
 
   render() {
     let {
-      navigator,
+      navigation,
       itemId,
       copies = [],
       productId,
       jobId,
       type,
+      hint,
       style = {},
       docType,
       placeholder,
@@ -58,16 +59,18 @@ class UploadDoc extends React.Component {
       placeholderAfterUpload = I18n.t(
         "expense_forms_header_upload_doc_successfully"
       ),
-      placeholder2Color = colors.secondaryText
+      placeholder2Color = colors.secondaryText,
+      actionSheetTitle
     } = this.props;
     const { isDocUploaded } = this.state;
     if (!copies) {
       copies = [];
     }
+    console.log("this.props:: ", this.props);
     return (
-      <View style={styles.container}>
-        {copies.length > 0 && (
-          <View style={styles.copiesContainer}>
+      <View collapsable={false} style={styles.container}>
+        {copies.length > 0 ? (
+          <View collapsable={false} style={styles.copiesContainer}>
             <Text
               weight="Medium"
               style={styles.copiesCount}
@@ -91,42 +94,45 @@ class UploadDoc extends React.Component {
               {I18n.t("expense_forms_header_upload_add")}
             </Text>
           </View>
-        )}
-        {copies.length == 0 && (
-          <TouchableOpacity
-            onPress={this.onUploadDocPress}
-            style={styles.noCopiesContainer}
-          >
-            {!isDocUploaded && (
-              <View style={styles.placeholderContainer}>
-                <Text weight="Medium" style={styles.placeholder}>
-                  {placeholder}
-                </Text>
-                <Text
-                  weight="Medium"
-                  style={[styles.placeholder2, { color: placeholder2Color }]}
-                >
-                  {placeholder2}
-                </Text>
-              </View>
-            )}
-            {isDocUploaded && (
-              <View style={styles.placeholderContainer}>
-                <Text weight="Medium" style={{ color: colors.mainText }}>
-                  {placeholderAfterUpload}
-                </Text>
-              </View>
-            )}
+        ) : (
+            <TouchableOpacity
+              onPress={this.onUploadDocPress}
+              style={styles.noCopiesContainer}
+            >
+              {!isDocUploaded ? (
+                <View collapsable={false} style={{ flexDirection: 'column' }}>
+                  <View style={styles.placeholderContainer}>
+                    <Text weight="Medium" style={styles.placeholder}>
+                      {placeholder}
+                    </Text>
+                    <Text
+                      weight="Medium"
+                      style={[styles.placeholder2, { color: placeholder2Color }]}
+                    >
+                      {placeholder2}
+                    </Text>
+                  </View>
+                  {hint ?
+                    <Text weight="Regular" style={styles.hint}>{hint}</Text> : null}
+                </View>
+              ) : (
+                  <View collapsable={false} style={styles.placeholderContainer}>
+                    <Text weight="Medium" style={{ color: colors.mainText }}>
+                      {placeholderAfterUpload}
+                    </Text>
+                  </View>
+                )}
 
-            <View style={styles.attachmentIconContainer}>
-              <AttachmentIcon />
-            </View>
-          </TouchableOpacity>
-        )}
+              <View collapsable={false} style={styles.attachmentIconContainer}>
+                <AttachmentIcon />
+              </View>
+            </TouchableOpacity>
+          )}
         <UploadBillOptions
           ref={ref => (this.uploadBillOptions = ref)}
-          navigator={navigator}
+          navigation={navigation}
           uploadCallback={this.onUpload}
+          actionSheetTitle={actionSheetTitle}
         />
       </View>
     );
@@ -140,6 +146,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 10,
     marginBottom: 10,
+    borderRadius: 10,
     ...defaultStyles.card
   },
   copiesContainer: {
@@ -160,7 +167,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10
   },
   placeholderContainer: {
-    flex: 1,
+    // flex: 1,
     flexDirection: "row",
     alignItems: "center"
   },
@@ -168,12 +175,14 @@ const styles = StyleSheet.create({
     color: colors.secondaryText
   },
   placeholder2: {
-    fontSize: 10
+    fontSize: 10,
+    marginLeft: 2
   },
   attachmentIconContainer: {
     position: "absolute",
     right: 0,
-    bottom: 12
+    top: 12
+    // bottom: 20
   },
   textInput: {
     position: "absolute",
@@ -182,7 +191,14 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     backgroundColor: "transparent"
+  },
+  hint: {
+    color: colors.mainBlue,
+    fontSize: 10,
+    marginLeft: 2,
+    bottom: 4
   }
+
 });
 
 export default UploadDoc;

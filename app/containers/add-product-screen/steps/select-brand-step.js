@@ -1,0 +1,183 @@
+import React from "react";
+import {
+  StyleSheet,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Alert
+} from "react-native";
+import I18n from "../../../i18n";
+import {
+  API_BASE_URL,
+  updateProduct,
+  getReferenceDataBrands
+} from "../../../api";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
+import { Text } from "../../../elements";
+import { colors } from "../../../theme";
+import { showSnackbar } from "../../../utils/snackbar";
+
+import { getReferenceDataCategories } from "../../../api";
+
+import LoadingOverlay from "../../../components/loading-overlay";
+import SelectOrCreateItem from "../../../components/select-or-create-item";
+
+import Step from "../../../components/step";
+
+class SelectBrandStep extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      brands: [],
+      isLoading: false
+    };
+  }
+
+  componentDidMount() {
+    this.fetchBrands();
+  }
+
+  fetchBrands = async () => {
+    const { mainCategoryId, category, product } = this.props;
+    this.setState({
+      isLoading: true
+    });
+    try {
+      const res = await getReferenceDataBrands(category.id);
+      this.setState({
+        brands: res
+      });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({
+        isLoading: false
+      });
+    }
+  };
+
+  onSelectBrand = async brand => {
+    const { mainCategoryId, category, product, onBrandStepDone } = this.props;
+    this.setState({
+      isLoading: true
+    });
+    try {
+      const res = await updateProduct({
+        mainCategoryId: mainCategoryId,
+        categoryId: category.id,
+        productId: product.id,
+        brandId: brand.id,
+        productName: brand.name + " " + category.name
+      });
+
+      if (typeof onBrandStepDone == "function") {
+        onBrandStepDone(res.product, brand);
+      }
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({
+        isLoading: false
+      });
+    }
+  };
+
+  onAddBrand = async brandName => {
+    const { mainCategoryId, category, product, onBrandStepDone } = this.props;
+    this.setState({
+      isLoading: true
+    });
+    try {
+      const res = await updateProduct({
+        mainCategoryId: mainCategoryId,
+        categoryId: category.id,
+        productId: product.id,
+        brandId: null,
+        brandName,
+        productName: brandName
+      });
+
+      if (typeof onBrandStepDone == "function") {
+        onBrandStepDone(res.product, { id: null, name: brandName });
+      }
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({
+        isLoading: false
+      });
+    }
+  };
+
+  render() {
+    let { brands, isLoading } = this.state;
+
+    const { mainCategoryId, category, product } = this.props;
+    let title = "Select Brand";
+
+    switch (category.id) {
+      case CATEGORY_IDS.FASHION.FOOTWEAR:
+        title = "Select Footwear Brand";
+        break;
+      case CATEGORY_IDS.FASHION.SHADES:
+        title = "Select Shades Brand";
+        break;
+      case CATEGORY_IDS.FASHION.WATCHES:
+        title = "Select Watch Brand";
+        break;
+      case CATEGORY_IDS.FASHION.CLOTHS:
+        title = "Select Cloth Brand";
+        break;
+      case CATEGORY_IDS.FASHION.BAGS:
+        title = "Select Bag Brand";
+        break;
+      case CATEGORY_IDS.FASHION.JEWELLERY:
+        title = "Select Jewellery & Accessories Brand";
+        break;
+      case CATEGORY_IDS.FASHION.MAKEUP:
+        title = "Select Make-Up Brand";
+        break;
+    }
+    brands = brands.map(brand => ({
+      ...brand,
+      image: `${API_BASE_URL}/brands/${brand.id}/images/thumbnails`
+    }));
+
+    if (
+      category.id == CATEGORY_IDS.FURNITURE.FURNITURE ||
+      mainCategoryId == MAIN_CATEGORY_IDS.FASHION
+    ) {
+      brands = [{ id: 0, name: "Non-branded" }, ...brands];
+    }
+
+    return (
+      <Step
+        title={title}
+        subtitle={
+          mainCategoryId != 7 ? "Required for customer care support" : ""
+        }
+        skippable={false}
+        showLoader={isLoading}
+        {...this.props}
+      >
+        <SelectOrCreateItem
+          items={brands}
+          onSelectItem={this.onSelectBrand}
+          onAddItem={this.onAddBrand}
+          imageKey="image"
+          textInputPlaceholder="Enter Brand Name"
+        />
+      </Step>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});
+
+export default SelectBrandStep;

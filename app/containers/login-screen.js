@@ -21,7 +21,7 @@ import { consumerGetOtp, consumerValidate, getProfileDetail } from "../api";
 import LoadingOverlay from "../components/loading-overlay";
 import { ScreenContainer, Text, Button } from "../elements";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import { actions as uiActions } from "../modules/ui";
@@ -30,24 +30,20 @@ import { openAfterLoginScreen } from "../navigation";
 import LanguageOptions from "../components/language-options";
 
 const binbillLogo = require("../images/binbill_logo.png");
-const truecallerLogo = require("../images/truecaller_logo.png");
+// const truecallerLogo = require("../images/truecaller_logo.png");
 const facebookLogo = require("../images/facebook_logo.png");
 
 class LoginScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: true
+  static navigationOptions = {
+    title: I18n.t("login_screen_title")
   };
+
   constructor(props) {
     super(props);
     this.state = {
       phoneNumber: "",
       isGettingOtp: false
     };
-  }
-  componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("login_screen_title")
-    });
   }
 
   onSubmitPhoneNumber = async () => {
@@ -64,11 +60,8 @@ class LoginScreen extends Component {
       this.setState({
         isGettingOtp: false
       });
-      this.props.navigator.push({
-        screen: SCREENS.VERIFY_SCREEN,
-        passProps: {
-          phoneNumber: this.state.phoneNumber
-        }
+      this.props.navigation.navigate(SCREENS.VERIFY_SCREEN, {
+        phoneNumber: this.state.phoneNumber
       });
     } catch (e) {
       this.setState({
@@ -80,13 +73,7 @@ class LoginScreen extends Component {
     }
   };
 
-  openTermsScreen = () => {
-    this.props.navigator.push({
-      screen: SCREENS.TERMS_SCREEN
-    });
-  };
-
-  setAuthTokenAndOpenApp = async authToken => {
+  setAuthTokenAndOpenApp = async (authToken, isExistingUser) => {
     try {
       this.props.setLoggedInUserAuthToken(authToken);
       const r2 = await getProfileDetail();
@@ -95,10 +82,15 @@ class LoginScreen extends Component {
         id: user.id,
         name: user.name,
         phone: user.mobile_no,
-        imageName: user.image_name,
+        imageUrl: user.imageUrl,
         isPinSet: user.hasPin
       });
-      openAfterLoginScreen();
+
+      if (!isExistingUser) {
+        this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
+      } else {
+        openAfterLoginScreen();
+      }
     } catch (e) {
       this.setState({
         isGettingOtp: false
@@ -137,8 +129,8 @@ class LoginScreen extends Component {
           fcmToken: this.props.fcmToken,
           bbLoginType: 3
         });
-        Analytics.logEvent(Analytics.EVENTS.registration_fb);
-        this.setAuthTokenAndOpenApp(r.authorization);
+        Analytics.logEvent(Analytics.EVENTS.REGISTRATION_FB);
+        this.setAuthTokenAndOpenApp(r.authorization, r.isExistingUser);
       }
     } catch (e) {
       this.setState({
@@ -154,13 +146,13 @@ class LoginScreen extends Component {
       <ScreenContainer style={styles.container}>
         <LoadingOverlay visible={this.state.isGettingOtp} />
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <View style={styles.content}>
+          <View collapsable={false} style={styles.content}>
             <Image
               style={styles.logo}
               source={binbillLogo}
               resizeMode="contain"
             />
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 this.languageOptions.show();
               }}
@@ -170,7 +162,7 @@ class LoginScreen extends Component {
                 alignItems: "flex-end"
               }}
             >
-              {/* <Text
+              <Text
                 weight="Medium"
                 style={{
                   fontSize: 12,
@@ -184,8 +176,8 @@ class LoginScreen extends Component {
                 name="ios-arrow-down"
                 size={15}
                 color={colors.secondaryText}
-              /> */}
-            </TouchableOpacity>
+              />
+            </TouchableOpacity> */}
             <TextInput
               underlineColorAndroid="transparent"
               placeholder={I18n.t("login_screen_input_placeholder")}
@@ -202,12 +194,12 @@ class LoginScreen extends Component {
               text={I18n.t("login_screen_btn_text")}
               style={{ width: 275 }}
             />
-            <View style={styles.or}>
-              <View style={styles.orLine} />
+            <View collapsable={false} style={styles.or}>
+              <View collapsable={false} style={styles.orLine} />
               <Text weight="Medium" style={styles.orText}>
                 {I18n.t("login_screen_or_text")}
               </Text>
-              <View style={styles.orLine} />
+              <View collapsable={false} style={styles.orLine} />
             </View>
             {/*<TouchableOpacity
               onPress={this.loginWithTrueCaller}
@@ -234,14 +226,14 @@ class LoginScreen extends Component {
             </Text>
           </View>
         </TouchableWithoutFeedback>
-        <View>
+        <View collapsable={false}>
           <Hyperlink
             linkDefault={true}
             linkStyle={{ color: colors.pinkishOrange, fontSize: 14 }}
             linkText={url => {
-              if (url === "https://www.binbill.com/term") {
+              if (url === "https://binbill.com/term") {
                 return "Terms & Conditions";
-              } else if (url === "https://www.binbill.com/privacy") {
+              } else if (url === "https://binbill.com/privacy") {
                 return "Privacy Policy";
               } else {
                 return url;
@@ -255,18 +247,18 @@ class LoginScreen extends Component {
                 textAlign: "center"
               }}
             >
-              {`By signing up you agree to our \nhttps://www.binbill.com/term and https://www.binbill.com/privacy`}
+              {`By signing up you agree to our \nhttps://binbill.com/term and https://binbill.com/privacy`}
             </Text>
           </Hyperlink>
         </View>
-        <LanguageOptions
+        {/* <LanguageOptions
           ref={o => (this.languageOptions = o)}
           onLanguageChange={language => {
             this.props.setLanguage(language);
             I18n.locale = language.code;
             this.forceUpdate();
           }}
-        />
+        /> */}
       </ScreenContainer>
     );
   }
@@ -294,7 +286,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginBottom: 16,
     textAlign: "center",
-    fontSize: 25,
+    fontSize: 22,
     width: 275,
     paddingBottom: 10
   },
@@ -343,7 +335,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    fcmToken: state.loggedInUser.fcmToken,
+    fcmToken: state.ui.fcmToken,
     language: state.ui.language
   };
 };
@@ -362,4 +354,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginScreen);

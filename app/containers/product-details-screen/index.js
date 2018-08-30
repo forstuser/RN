@@ -6,27 +6,26 @@ import {
   Alert,
   TouchableOpacity,
   ScrollView,
-  Platform
+  Platform,
+  Linking
 } from "react-native";
-
+import URI from "urijs";
 import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { Navigation } from "react-native-navigation";
-
-import Analytics from "../../analytics";
-
+import { connect } from "react-redux";
 import Modal from "react-native-modal";
-
 import ActionSheet from "react-native-actionsheet";
 
-import { SCREENS, MAIN_CATEGORY_IDS } from "../../constants";
+import Analytics from "../../analytics";
+import { actions as uiActions } from "../../modules/ui";
+import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
 import { API_BASE_URL, getProductDetails, deleteProduct } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import { colors } from "../../theme";
 
@@ -37,145 +36,127 @@ import SellerTab from "./seller-tab";
 import ContactAfterSaleButton from "./after-sale-button";
 import LoadingOverlay from "../../components/loading-overlay";
 import UploadProductImage from "../../components/upload-product-image";
+import HeaderBackBtn from "../../components/header-nav-back-btn";
 import ProductCard from "./product-card";
 import PersonalDocCard from "./personal-doc-card";
 import InsuranceCard from "./insurance-card";
 import MedicalDocsCard from "./medical-docs-card";
 
-const NavOptionsButton = ({ addImageText }) => (
-  <View
-    style={{
-      flexDirection: "row",
-      backgroundColor: "transparent",
-      ...Platform.select({
-        ios: {},
-        android: {
-          position: "absolute",
-          top: 10,
-          right: 4,
-          width: 100,
-          height: 30,
-          alignItems: "center",
-          justifyContent: "flex-end"
-        }
-      })
-    }}
-  >
-    {addImageText ? (
-      <TouchableOpacity
-        style={{ marginRight: 20, flexDirection: "row", alignItems: "center" }}
-        onPress={() =>
-          Navigation.handleDeepLink({ link: "product-nav-add-product-pic-btn" })
-        }
-      >
-        <Icon name="camera" size={17} color={colors.pinkishOrange} />
-        <Text
-          weight="Bold"
-          style={{ marginLeft: 5, fontSize: 9, color: colors.pinkishOrange }}
-        >
-          {addImageText}
-        </Text>
-      </TouchableOpacity>
-    ) : null}
-
-    <TouchableOpacity
-      style={{
-        ...Platform.select({
-          ios: {},
-          android: {
-            marginRight: 10
-          }
-        })
-      }}
-      onPress={() =>
-        Navigation.handleDeepLink({ link: "product-nav-options-btn" })
-      }
-    >
-      <Icon name="dots-three-vertical" size={17} color={colors.pinkishOrange} />
-    </TouchableOpacity>
-  </View>
-);
-
-Navigation.registerComponent("NavOptionsButton", () => NavOptionsButton);
-
 class ProductDetailsScreen extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true,
-    drawUnderNavBar: true,
-    navBarBackgroundColor: "#fff"
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    const {
+      addImageText,
+      title,
+      onEditImagePress,
+      onOptionsPress,
+      getAddProductImageRef = () => {}
+    } = params;
+
+    return {
+      title: title ? title : "",
+      // headerLeft: <HeaderBackBtn onPress={params.onBackPress} />,
+      headerRight: (
+        <View
+          collapsable={false}
+          style={{
+            flexDirection: "row",
+            backgroundColor: "transparent"
+          }}
+        >
+          {addImageText ? (
+            <TouchableOpacity
+              ref={ref => getAddProductImageRef(ref)}
+              style={{
+                marginRight: 10,
+                flexDirection: "row",
+                alignItems: "center"
+              }}
+              onPress={onEditImagePress}
+            >
+              <Icon name="camera" size={17} color={colors.pinkishOrange} />
+              <Text
+                weight="Bold"
+                style={{
+                  marginLeft: 5,
+                  fontSize: 9,
+                  color: colors.pinkishOrange
+                }}
+              >
+                {addImageText}
+              </Text>
+            </TouchableOpacity>
+          ) : null}
+
+          <TouchableOpacity
+            style={{
+              marginRight: 10
+            }}
+            onPress={onOptionsPress}
+          >
+            <Icon
+              name="dots-three-vertical"
+              size={17}
+              color={colors.pinkishOrange}
+            />
+          </TouchableOpacity>
+        </View>
+      )
+    };
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      isScreenVisible: true,
+      productId: null,
       isLoading: true,
       product: {},
-      openServiceSchedule: false
+      openServiceSchedule: false,
+      addProductImageRef: null
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   async componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("product_details_screen_title")
-    });
+    const { navigation } = this.props;
 
-    if (this.props.screenOpts) {
-      const screenOpts = this.props.screenOpts;
-      if (screenOpts.openServiceSchedule) {
-        this.setState({ openServiceSchedule: true });
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.setState(
+          {
+            productId: navigation.getParam("productId", null)
+          },
+          () => {
+            if (!this.state.productId) {
+              return this.props.navigation.goBack();
+            }
+            this.fetchProductDetails();
+          }
+        );
       }
+    );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.productIdToOpenDirectly) {
+      this.props.navigation.replace(SCREENS.PRODUCT_DETAILS_SCREEN, {
+        productId: nextProps.productIdToOpenDirectly
+      });
+      this.props.setProductIdToOpenDirectly(null);
     }
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        if (!this.props.productId) {
-          return this.props.navigator.pop();
-        }
-        this.setState({
-          isScreenVisible: true
-        });
-        this.fetchProductDetails();
-        break;
-      case "willDisappear":
-        this.setState(
-          {
-            isScreenVisible: false
-          },
-          () => {
-            this.props.navigator.setStyle({
-              navBarTransparent: false,
-              navBarBackgroundColor: "#fff",
-              ...Platform.select({
-                ios: {},
-                android: {
-                  topBarElevationShadowEnabled: true
-                }
-              })
-            });
-          }
-        );
+  componentWillUnmount() {
+    if (this.didFocusSubscription) {
+      this.didFocusSubscription.remove();
     }
-
-    if (event.type == "DeepLink") {
-      //when you press the button, it will be called here
-      if (event.link == "product-nav-options-btn") {
-        this.editOptions.show();
-      } else if (event.link == "product-nav-add-product-pic-btn") {
-        this.uploadProductImage.showOptions();
-      }
-    }
-  };
+  }
 
   handleEditOptionPress = index => {
     const { product } = this.state;
     let openPickerOnStart = null;
     switch (index) {
       case 0:
-        Analytics.logEvent(Analytics.EVENTS.PRODUCT_DELETE_INITIATED);
         Alert.alert(
           `Are you sure?`,
           "All the information and document copies related to this product will be deleted.",
@@ -183,17 +164,15 @@ class ProductDetailsScreen extends Component {
             {
               text: I18n.t("product_details_screen_yes_delete"),
               onPress: async () => {
-                Analytics.logEvent(Analytics.EVENTS.PRODUCT_DELETE_COMPLETE);
+                Analytics.logEvent(Analytics.EVENTS.DELETE_PRODUCT);
                 this.setState({ isLoading: true });
                 await deleteProduct(product.id);
-                this.props.navigator.pop();
+                this.props.navigation.goBack();
               }
             },
             {
               text: I18n.t("product_details_screen_no_dnt_delete"),
-              onPress: () => {
-                Analytics.logEvent(Analytics.EVENTS.PRODUCT_DELETE_CANCELED);
-              },
+              onPress: () => {},
               style: "cancel"
             }
           ]
@@ -207,28 +186,9 @@ class ProductDetailsScreen extends Component {
       this.setState({
         // isLoading: true
       });
-      const res = await getProductDetails(this.props.productId);
+      const res = await getProductDetails(this.state.productId);
+
       const { product } = res;
-      if (
-        product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL ||
-        product.categoryId == 86
-      ) {
-        this.props.navigator.setStyle({
-          drawUnderNavBar: false,
-          navBarTranslucent: false,
-          navBarTransparent: false,
-          navBarBackgroundColor: "#fff",
-          topBarElevationShadowEnabled: true
-        });
-      } else if (this.state.isLoading) {
-        this.props.navigator.setStyle({
-          drawUnderNavBar: true,
-          navBarTranslucent: Platform.OS === "ios",
-          navBarTransparent: true,
-          navBarBackgroundColor: "#fff",
-          topBarElevationShadowEnabled: false
-        });
-      }
 
       let addImageText = "";
       if (
@@ -245,14 +205,49 @@ class ProductDetailsScreen extends Component {
           addImageText = "Edit";
         }
       }
-      this.props.navigator.setButtons({
-        rightButtons: [
-          {
-            component: "NavOptionsButton",
-            passProps: { addImageText }
-          }
-        ],
-        animated: true
+
+      let title = I18n.t("product_details_screen_title");
+      if (
+        [
+          MAIN_CATEGORY_IDS.FASHION,
+          MAIN_CATEGORY_IDS.TRAVEL,
+          MAIN_CATEGORY_IDS.SERVICES,
+          MAIN_CATEGORY_IDS.HEALTHCARE,
+          MAIN_CATEGORY_IDS.HOUSEHOLD
+        ].indexOf(product.masterCategoryId) > -1
+      ) {
+        title = "Expense Card";
+      }
+      switch (product.categoryId) {
+        case CATEGORY_IDS.HEALTHCARE.INSURANCE:
+          title = "Insurance Details";
+          break;
+        case CATEGORY_IDS.PERSONAL.VISITING_CARD:
+          title = "Visiting Card Details";
+          break;
+        case CATEGORY_IDS.PERSONAL.RENT_AGREEMENT:
+          title = "Agreement Details";
+          break;
+        case CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC:
+        case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
+          title = "Document Details";
+          break;
+      }
+
+      this.props.navigation.setParams({
+        title: title,
+        addImageText,
+        onEditImagePress: () => {
+          this.uploadProductImage.showOptions();
+        },
+        onOptionsPress: () => {
+          this.editOptions.show();
+        },
+        getAddProductImageRef: ref => {
+          this.setState({
+            addProductImageRef: ref
+          });
+        }
       });
 
       this.setState(
@@ -267,41 +262,36 @@ class ProductDetailsScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
   render() {
-    const {
-      isScreenVisible,
-      product,
-      isLoading,
-      openServiceSchedule
-    } = this.state;
+    const { product, isLoading, openServiceSchedule } = this.state;
     let content = null;
     if (isLoading) {
       content = <LoadingOverlay visible={isLoading} />;
     } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL) {
       content = (
-        <PersonalDocCard product={product} navigator={this.props.navigator} />
+        <PersonalDocCard product={product} navigation={this.props.navigation} />
       );
     } else if (product.categoryId == 86) {
       // else if (product.categoryId == 664) {
       //   //insurance
       //   content = (
-      //     <InsuranceCard product={product} navigator={this.props.navigator} />
+      //     <InsuranceCard product={product} navigation={this.props.navigation} />
       //   );
       // }
       //medical docs
       content = (
-        <MedicalDocsCard product={product} navigator={this.props.navigator} />
+        <MedicalDocsCard product={product} navigation={this.props.navigation} />
       );
     } else {
       content = (
         <ProductCard
-          isScreenVisible={isScreenVisible}
           product={product}
-          navigator={this.props.navigator}
+          fetchProductDetails={this.fetchProductDetails}
+          navigation={this.props.navigation}
           openServiceSchedule={openServiceSchedule}
         />
       );
@@ -311,11 +301,11 @@ class ProductDetailsScreen extends Component {
         {content}
         <UploadProductImage
           ref={ref => (this.uploadProductImage = ref)}
-          productId={this.props.productId}
+          productId={this.state.productId}
           onImageUpload={() => {
             showSnackbar({
               text: I18n.t("product_image_updated")
-            })
+            });
             this.fetchProductDetails();
           }}
         />
@@ -364,4 +354,18 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProductDetailsScreen;
+const mapStateToProps = store => ({
+  productIdToOpenDirectly: store.ui.productIdToOpenDirectly
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setProductIdToOpenDirectly: id => {
+      dispatch(uiActions.setProductIdToOpenDirectly(id));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ProductDetailsScreen
+);

@@ -1,62 +1,71 @@
 import React, { Component } from "react";
 import { StyleSheet, Image, TouchableOpacity, View } from "react-native";
 import AppLink from "react-native-app-link";
+import { getNewAppVersionDetails } from "../api";
 import { ScreenContainer, Text, Button } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
 
-const image = require("../images/upgrade.png");
+import image from "../images/binbill_logo.png";
 
 class ForceUpdateScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: true
+  static navigationOptions = {
+    header: null
   };
 
-  openAppStore = () => {
-    AppLink.openInStore("id1328873045", "com.bin.binbillcustomer")
-      .then(() => {
-        // do stuff
-      })
-      .catch(err => {
-        // handle error
-      });
+  state = {
+    changes: []
   };
+
+  async componentDidMount() {
+    try {
+      const res = await getNewAppVersionDetails();
+      this.setState({ changes: res.details.updates });
+    } catch (e) {
+      console.log("error: ", e);
+    }
+  }
+
+  openAppStore = async () => {
+    await AppLink.openInStore("id1328873045", "com.bin.binbillcustomer");
+  };
+
   render() {
+    const { changes } = this.state;
+    const allowSkip = this.props.navigation.getParam("allowSkip", false);
     return (
       <ScreenContainer style={styles.container}>
-        <View style={styles.imageContainer}>
+        <View collapsable={false} style={styles.imageContainer}>
           <Image source={image} style={styles.image} />
         </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>
+        <View collapsable={false} style={styles.textContainer}>
+          <Text weight="Bold" style={styles.title}>
             {I18n.t("add_edit_force_update_upgrade")}
           </Text>
-          <View style={styles.subTextContainer}>
-            <Text weight="Bold" style={styles.desc}>
-              {I18n.t("add_edit_force_update_text1")}
-            </Text>
-            <Text weight="Bold" style={styles.desc}>
-              {I18n.t("add_edit_force_update_text2")}
-            </Text>
-            <Text weight="Bold" style={styles.desc}>
-              {I18n.t("add_edit_force_update_text3")}
-            </Text>
+          <View collapsable={false} style={styles.subTextContainer}>
+            {changes.map(change => (
+              <Text key={change} style={styles.desc}>
+                {change}
+              </Text>
+            ))}
           </View>
-          <View style={styles.buttonView}>
+          <View collapsable={false} style={styles.buttonView}>
             <Button
               onPress={this.openAppStore}
               style={styles.btn}
               text={I18n.t("add_edit_force_update_now")}
             />
-            {this.props.allowSkip && (
+            {allowSkip ? (
               <TouchableOpacity
                 style={styles.notNow}
-                onPress={() => this.props.navigator.dismissAllModals()}
+                onPress={() => this.props.navigation.goBack()}
               >
                 <Text weight="Bold" style={styles.notNowText}>
                   {I18n.t("add_edit_force_not_now")}
                 </Text>
               </TouchableOpacity>
+            ) : (
+              <View collapsable={false} />
             )}
           </View>
         </View>
@@ -72,55 +81,51 @@ const styles = StyleSheet.create({
     flex: 1
   },
   imageContainer: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: 'center',
-    // marginTop: 200
+    alignSelf: "center",
+    height: 100
   },
   textContainer: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: 'center',
+    alignSelf: "center"
   },
   subTextContainer: {
     // flex: 1,
     // alignItems: "center",
     justifyContent: "flex-start",
     // alignSelf: 'center',
-    marginTop: 40
+    marginTop: 20,
+    marginBottom: 60
   },
   buttonView: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: 'center',
-    marginBottom: 20
+    alignSelf: "center"
   },
   image: {
-    resizeMode: 'contain',
-    width: 300,
-    height: 300
+    resizeMode: "contain",
+    width: 80,
+    height: 80
   },
   title: {
     textAlign: "center",
     fontSize: 16,
-    // marginTop: 20
+    marginTop: 20
   },
   desc: {
-    textAlign: "auto",
-    fontSize: 20,
-    // marginTop: 5,
-    // lineHeight: 25,
-    color: colors.pinkishOrange
+    textAlign: "center",
+    fontSize: 14,
+    color: colors.secondaryText,
+    marginBottom: 5
   },
   btn: {
     width: 300,
     marginTop: 25
   },
   notNow: {
-    marginTop: 10,
+    marginTop: 0,
     padding: 20
   }
 });

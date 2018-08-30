@@ -30,7 +30,7 @@ import UploadDoc from "../form-elements/upload-doc";
 
 class InsuranceForm extends React.Component {
   static propTypes = {
-    navigator: PropTypes.object,
+    navigation: PropTypes.object,
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
@@ -67,13 +67,19 @@ class InsuranceForm extends React.Component {
       selectedProvider: null,
       providerName: "",
       policyNo: "",
-      value: null,
-      amountInsured: null
+      value: "",
+      amountInsured: ""
     };
   }
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { insurance } = this.props;
+    if (insurance) {
+      this.setState({
+        copies: insurance.copies || []
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -97,8 +103,7 @@ class InsuranceForm extends React.Component {
         policyNo: insurance.policyNo,
         value: insurance.value,
         amountInsured: insurance.amountInsured,
-        selectedProvider: selectedProvider,
-        copies: insurance.copies
+        selectedProvider: selectedProvider
       });
     }
   };
@@ -149,7 +154,7 @@ class InsuranceForm extends React.Component {
 
   render() {
     const {
-      navigator,
+      navigation,
       mainCategoryId,
       categoryId,
       insuranceProviders,
@@ -187,18 +192,8 @@ class InsuranceForm extends React.Component {
         headerTextStyle={styles.headerTextStyle}
         icon="plus"
       >
-        <View style={styles.innerContainer}>
-          <View style={styles.body}>
-            <CustomDatePicker
-              date={effectiveDate}
-              placeholder={I18n.t("expense_forms_healthcare_effective_date")}
-              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
-              placeholder2Color={colors.mainBlue}
-              onDateChange={effectiveDate => {
-                this.setState({ effectiveDate });
-              }}
-            />
-
+        <View collapsable={false} style={styles.innerContainer}>
+          <View collapsable={false} style={styles.body}>
             <SelectModal
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
@@ -207,15 +202,17 @@ class InsuranceForm extends React.Component {
                 "expense_forms_insurance_provider_name"
               )}
               placeholderRenderer={({ placeholder }) => (
-                <View style={{ flexDirection: "row" }}>
+                <View collapsable={false} style={{ flexDirection: "row" }}>
                   <Text weight="Medium" style={{ color: colors.secondaryText }}>
                     {placeholder}
                   </Text>
-                  {categoryId != 664 && (
+                  {categoryId != 664 ? (
                     <Text weight="Medium" style={{ color: colors.mainBlue }}>
                       *
                     </Text>
-                  )}
+                  ) : (
+                      <View collapsable={false} />
+                    )}
                 </View>
               )}
               selectedOption={selectedProvider}
@@ -230,10 +227,41 @@ class InsuranceForm extends React.Component {
               }}
               onTextInputChange={text => this.onProviderNameChange(text)}
             />
+            <CustomDatePicker
+              date={effectiveDate}
+              placeholder={I18n.t("expense_forms_healthcare_effective_date")}
+              // placeholder2={"(Recommended)"}
+              hint={"Helps in insurance renewal reminder"}
+              placeholder2Color={colors.mainBlue}
+              onDateChange={effectiveDate => {
+                this.setState({ effectiveDate });
+              }}
+            />
+
+            <UploadDoc
+              productId={productId}
+              itemId={id}
+              copies={copies}
+              jobId={jobId}
+              docType="Insurance"
+              type={3}
+              placeholder={I18n.t("expense_forms_insurance_upload_policy")}
+              hint={"Recommended"}
+              placeholder2Color={colors.mainBlue}
+              navigation={navigation}
+              onUpload={uploadResult => {
+                console.log("upload result: ", uploadResult);
+                this.setState({
+                  id: uploadResult.insurance.id,
+                  copies: uploadResult.insurance.copies
+                });
+              }}
+            />
 
             <CustomTextInput
               placeholder={I18n.t("expense_forms_insurance_polocy_no")}
-              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+              // placeholder2={"(Recommended)"}
+              hint={"Helps in communication"}
               underlineColorAndroid="transparent"
               placeholder2Color={colors.mainBlue}
               value={policyNo}
@@ -246,24 +274,6 @@ class InsuranceForm extends React.Component {
               value={value ? String(value) : ""}
               onChangeText={value => this.setState({ value })}
               keyboardType="numeric"
-            />
-
-            <UploadDoc
-              productId={productId}
-              itemId={id}
-              copies={copies}
-              jobId={jobId}
-              docType="Insurance"
-              type={3}
-              placeholder={I18n.t("expense_forms_insurance_upload_policy")}
-              navigator={navigator}
-              onUpload={uploadResult => {
-                console.log("upload result: ", uploadResult);
-                this.setState({
-                  id: uploadResult.insurance.id,
-                  copies: uploadResult.insurance.copies
-                });
-              }}
             />
 
             <CustomTextInput

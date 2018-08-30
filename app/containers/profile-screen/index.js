@@ -13,9 +13,9 @@ import {
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
 import { API_BASE_URL, updateProfile } from "../../api";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import I18n from "../../i18n";
 import ProfileDetailEdit from "./profile-detail-edit";
 import Body from "./body";
@@ -29,33 +29,32 @@ const crossIcon = require("../../images/ic_close.png");
 import Header from "./header";
 
 class ProfileScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    tabBarHidden: true
+  static navigationOptions = {
+    header: null
   };
 
   constructor(props) {
     super(props);
     // alert(JSON.stringify(props));
     this.state = {
-      isNameModalVisible: false,
-      isEmailModalVisible: false,
-      isLocationModalVisible: false,
-      name: this.props.profile.name,
-      phone: this.props.profile.mobile_no,
-      email: this.props.profile.email,
-      isEmailVerified: this.props.profile.email_verified,
-      location: this.props.profile.location,
-      nameTemp: null,
-      emailTemp: null,
-      locationTemp: null,
-      latitude: null,
-      longitude: null
+      //   isNameModalVisible: false,
+      //   isEmailModalVisible: false,
+      //   isLocationModalVisible: false,
+      //   name: this.props.profile.name,
+      //   phone: this.props.profile.mobile_no,
+      email: this.props.navigation.state.params.profile.email
+      //   isEmailVerified: this.props.profile.email_verified,
+      //   location: this.props.profile.location,
+      //   nameTemp: null,
+      //   emailTemp: null,
+      //   locationTemp: null,
+      //   latitude: null,
+      //   longitude: null
     };
   }
 
   componentDidMount() {
-    // navigator.geolocation.getCurrentPosition(
+    // navigation.geolocation.getCurrentPosition(
     //   position => {
     //     this.setState({
     //       latitude: position.coords.latitude,
@@ -195,7 +194,7 @@ class ProfileScreen extends Component {
   };
 
   backToMoreScreen = () => {
-    this.props.navigator.pop();
+    this.props.navigation.goBack();
   };
 
   showNameEditModal = () => {
@@ -243,19 +242,19 @@ class ProfileScreen extends Component {
   };
 
   render() {
-    const { profile, authToken } = this.props;
+    const { profile, authToken } = this.props.navigation.state.params;
     const {
-      isNameModalVisible,
-      isEmailModalVisible,
-      isLocationModalVisible,
-      name,
-      phone,
-      email,
-      isEmailVerified,
-      location,
-      nameTemp,
-      emailTemp,
-      locationTemp
+      //   isNameModalVisible,
+      //   isEmailModalVisible,
+      //   isLocationModalVisible,
+      //   name,
+      //   phone,
+      email
+      //   isEmailVerified,
+      //   location,
+      //   nameTemp,
+      //   emailTemp,
+      //   locationTemp
     } = this.state;
 
     let showEmailVerifyText = false;

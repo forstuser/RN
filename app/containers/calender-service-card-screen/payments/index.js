@@ -12,7 +12,7 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import I18n from "../../../i18n";
-import { showSnackbar } from "../../snackbar";
+import { showSnackbar } from "../../../utils/snackbar";
 
 import { addCalendarItemPayment } from "../../../api";
 
@@ -21,7 +21,7 @@ import KeyValueItem from "../../../components/key-value-item";
 import CustomTextInput from "../../../components/form-elements/text-input";
 import CustomDatePicker from "../../../components/form-elements/date-picker";
 import LoadingOverlay from "../../../components/loading-overlay";
-import Analytics from "../../../analytics"
+import Analytics from "../../../analytics";
 import { defaultStyles, colors } from "../../../theme";
 
 const getMoneyImage = require("../../../images/get_money.png");
@@ -59,19 +59,21 @@ class Report extends React.Component {
     if (!amountPaid) {
       return showSnackbar({
         text: "Please enter amount paid"
-      })
+      });
     }
 
     if (!paidOn) {
       return showSnackbar({
         text: "Please select the date amount paid on"
-      })
+      });
     }
 
     this.setState({
       isAddingPayment: true
     });
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PAYMENT, { type: item.service_type.name });
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PAYMENT, {
+      type: item.service_type.name
+    });
     try {
       await addCalendarItemPayment({ itemId: item.id, amountPaid, paidOn });
       this.setState({
@@ -84,7 +86,7 @@ class Report extends React.Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
       this.setState({
         isAddingPayment: false
       });
@@ -100,9 +102,12 @@ class Report extends React.Component {
     } = this.state;
     const { item } = this.props;
     const payments = item.payments;
-
+    // if (!isMarkPaidModalOpen) return null;
     return (
-      <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
+      <View
+        collapsable={false}
+        style={{ paddingHorizontal: 16, paddingBottom: 16 }}
+      >
         <Button
           onPress={this.showMarkPaidModal}
           text="Add Payment"
@@ -110,12 +115,12 @@ class Report extends React.Component {
           color="secondary"
         />
 
-        <View style={styles.paymentHistory}>
-          <View style={styles.paymentHistoryItem}>
-            <View style={styles.paymentHistoryItemColumn}>
+        <View collapsable={false} style={styles.paymentHistory}>
+          <View collapsable={false} style={styles.paymentHistoryItem}>
+            <View collapsable={false} style={styles.paymentHistoryItemColumn}>
               <Text weight="Bold">Total Amount Paid</Text>
             </View>
-            <View style={styles.paymentHistoryItemColumn}>
+            <View collapsable={false} style={styles.paymentHistoryItemColumn}>
               <Text weight="Bold">{`₹ ${payments.reduce(
                 (total, payment) => total + payment.amount_paid,
                 0
@@ -123,13 +128,17 @@ class Report extends React.Component {
             </View>
           </View>
           {payments.map(payment => (
-            <View key={payment.id} style={styles.paymentHistoryItem}>
-              <View style={styles.paymentHistoryItemColumn}>
+            <View
+              collapsable={false}
+              key={payment.id}
+              style={styles.paymentHistoryItem}
+            >
+              <View collapsable={false} style={styles.paymentHistoryItemColumn}>
                 <Text weight="Medium" style={{ color: colors.secondaryText }}>
                   {moment(payment.paid_on).format("DD MMM YYYY")}
                 </Text>
               </View>
-              <View style={styles.paymentHistoryItemColumn}>
+              <View collapsable={false} style={styles.paymentHistoryItemColumn}>
                 <Text
                   weight="Medium"
                   style={{ color: colors.secondaryText }}
@@ -138,44 +147,50 @@ class Report extends React.Component {
             </View>
           ))}
         </View>
-
-        <Modal
-          isVisible={isMarkPaidModalOpen}
-          avoidKeyboard={Platform.OS == "ios"}
-          animationIn="slideInUp"
-          useNativeDriver={true}
-          onBackdropPress={this.hideMarkPaidModal}
-          onBackButtonPress={this.hideMarkPaidModal}
-        >
-          <View style={[styles.card, styles.modalCard]}>
-            <LoadingOverlay visible={isAddingPayment} />
-            <TouchableOpacity
-              style={styles.modalCloseIcon}
-              onPress={this.hideMarkPaidModal}
+        {isMarkPaidModalOpen ? (
+          <View collapsable={false}>
+            <Modal
+              isVisible={true}
+              avoidKeyboard={Platform.OS == "ios"}
+              animationIn="slideInUp"
+              useNativeDriver={true}
+              onBackdropPress={this.hideMarkPaidModal}
+              onBackButtonPress={this.hideMarkPaidModal}
             >
-              <Icon name="md-close" size={30} color={colors.mainText} />
-            </TouchableOpacity>
-            <Image style={styles.modalImage} source={getMoneyImage} />
-            <CustomTextInput
-              placeholder={I18n.t("calendar_service_screen_amount_paid")}
-              value={amountPaid}
-              onChangeText={amountPaid => this.setState({ amountPaid })}
-            />
-            <CustomDatePicker
-              date={paidOn}
-              placeholder={I18n.t("calendar_service_screen_paid_on")}
-              onDateChange={paidOn => {
-                this.setState({ paidOn });
-              }}
-            />
-            <Button
-              onPress={this.addPayment}
-              style={[styles.markPaidBtn, styles.modalBtn]}
-              text={I18n.t("calendar_service_screen_add_payment_record")}
-              color="secondary"
-            />
+              <View collapsable={false} style={[styles.card, styles.modalCard]}>
+                <LoadingOverlay visible={isAddingPayment} />
+                <TouchableOpacity
+                  style={styles.modalCloseIcon}
+                  onPress={this.hideMarkPaidModal}
+                >
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
+                <Image style={styles.modalImage} source={getMoneyImage} />
+                <CustomTextInput
+                  placeholder={I18n.t("calendar_service_screen_amount_paid")}
+                  value={amountPaid}
+                  onChangeText={amountPaid => this.setState({ amountPaid })}
+                  keyboardType="numeric"
+                />
+                <CustomDatePicker
+                  date={paidOn}
+                  placeholder={I18n.t("calendar_service_screen_paid_on")}
+                  onDateChange={paidOn => {
+                    this.setState({ paidOn });
+                  }}
+                />
+                <Button
+                  onPress={this.addPayment}
+                  style={[styles.markPaidBtn, styles.modalBtn]}
+                  text={I18n.t("calendar_service_screen_add_payment_record")}
+                  color="secondary"
+                />
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        ) : (
+            <View collapsable={false} />
+          )}
       </View>
     );
   }

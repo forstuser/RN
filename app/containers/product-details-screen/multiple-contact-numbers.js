@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, View } from "react-native";
 import call from "react-native-phone-call";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import { Text } from "../../elements";
 import { colors } from "../../theme";
@@ -17,7 +17,7 @@ const MultipleContactNumbers = ({ contact = "" }) => {
   //split by ',' or '/' or '\'
   let contactNumbers = contact.split(/,|\/|\\/);
   return (
-    <View
+    <View collapsable={false} 
       style={{
         flexDirection: "row",
         flex: 1,

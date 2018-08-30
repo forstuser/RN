@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  Image,
   Alert,
   TouchableOpacity,
   ScrollView,
@@ -14,13 +13,12 @@ import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { Navigation } from "react-native-navigation";
 
 import Modal from "react-native-modal";
 
-import { SCREENS } from "../../constants";
+import { SCREENS, CATEGORY_IDS } from "../../constants";
 import { API_BASE_URL, getProductDetails } from "../../api";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
 
 import I18n from "../../i18n";
 
@@ -67,25 +65,21 @@ class PerosnalDocCard extends Component {
       };
     }
 
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_PERSONAL_DOC_SCREEN,
-      passProps: {
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        name: product.productName,
-        businessName: seller.name,
-        phone: seller.contact,
-        email: seller.email,
-        address: seller.address,
-        copies: product.copies || []
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_PERSONAL_DOC_SCREEN, {
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      name: product.productName,
+      businessName: seller.name,
+      phone: seller.contact,
+      email: seller.email,
+      address: seller.address,
+      copies: product.copies || []
     });
   };
 
   render() {
-    const { product } = this.props;
+    const { product, navigation } = this.props;
 
     let productName = product.productName;
     if (!productName) {
@@ -93,7 +87,7 @@ class PerosnalDocCard extends Component {
     }
 
     let seller = {
-      sellerName: "",
+      sellerName: "-",
       city: "",
       contact: "",
       email: "",
@@ -103,7 +97,7 @@ class PerosnalDocCard extends Component {
 
     if (product.sellers) {
       seller = {
-        sellerName: product.sellers.sellerName || "",
+        sellerName: product.sellers.sellerName || "-",
         city: product.sellers.city || "",
         state: product.sellers.state || "",
         contact: product.sellers.contact || "",
@@ -113,6 +107,7 @@ class PerosnalDocCard extends Component {
     }
 
     let imageSource = personalDocIcon;
+    let fileType = "jpg";
 
     //visiting card
     if (product.categoryId == 27) {
@@ -121,31 +116,28 @@ class PerosnalDocCard extends Component {
 
     if (product.copies && product.copies.length > 0) {
       imageSource = { uri: API_BASE_URL + product.copies[0].copyUrl };
+      fileType = product.copies[0].file_type;
     }
 
     return (
-      <View style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View style={{ top: 10, position: "absolute", right: 20 }}>
-            <ViewBillButton
-              product={product}
-              navigator={navigator}
-              docType="Personal Docs"
-              btnText="Doc"
-            />
-          </View>
-          <AsyncImage
+          <Image
             style={styles.image}
             source={imageSource}
             resizeMode="contain"
+            fileType={fileType}
           />
           <Text weight="Bold" style={styles.name}>
             {productName}
           </Text>
-          <View style={[defaultStyles.card, { margin: 16 }]}>
+          <View
+            collapsable={false}
+            style={[defaultStyles.card, { margin: 16 }]}
+          >
             <TouchableOpacity
               onPress={this.onEditPress}
               style={{
@@ -181,8 +173,8 @@ class PerosnalDocCard extends Component {
               />
             </TouchableOpacity>
             <KeyValueItem keyText="Name" valueText={product.productName} />
-            {product.categoryId == 27 && (
-              <View style={{ width: "100%" }}>
+            {product.categoryId == CATEGORY_IDS.PERSONAL.VISITING_CARD ? (
+              <View collapsable={false} style={{ width: "100%" }}>
                 <KeyValueItem
                   keyText="Business Name"
                   valueText={seller.sellerName}
@@ -203,53 +195,69 @@ class PerosnalDocCard extends Component {
                 {(seller.address.length > 0 ||
                   seller.city.length > 0 ||
                   seller.state.length > 0) && (
-                  <KeyValueItem
-                    KeyComponent={() => (
-                      <View style={{ flex: 1 }}>
-                        <Text style={{ color: colors.secondaryText }}>
-                          Full Address
+                    <KeyValueItem
+                      KeyComponent={() => (
+                        <View collapsable={false} style={{ flex: 1 }}>
+                          <Text style={{ color: colors.secondaryText }}>
+                            Full Address
                         </Text>
-                        <Text
-                          weight="Medium"
-                          style={{ color: colors.mainText }}
-                        >
-                          {_.trim(
-                            seller.address +
+                          <Text
+                            weight="Medium"
+                            style={{ color: colors.mainText }}
+                          >
+                            {_.trim(
+                              seller.address +
                               ", " +
                               seller.city +
                               ", " +
                               seller.state,
-                            ", "
-                          )}
-                        </Text>
-                      </View>
-                    )}
-                    ValueComponent={() => (
-                      <TouchableOpacity
-                        onPress={this.openMap}
-                        style={{ width: 70 }}
-                      >
-                        <View style={{ alignItems: "center" }}>
-                          <Image
-                            style={{ width: 24, height: 24 }}
-                            source={mapIcon}
-                          />
-                          <Text
-                            weight="Bold"
-                            style={{
-                              fontSize: 10,
-                              color: colors.pinkishOrange
-                            }}
-                          >
-                            {I18n.t("product_details_screen_seller_find_store")}
+                              ", "
+                            )}
                           </Text>
                         </View>
-                      </TouchableOpacity>
-                    )}
-                  />
-                )}
+                      )}
+                    // ValueComponent={() => (
+                    //   <TouchableOpacity
+                    //     onPress={this.openMap}
+                    //     style={{ width: 70 }}
+                    //   >
+                    //     <View
+                    //       collapsable={false}
+                    //       style={{ alignItems: "center" }}
+                    //     >
+                    //       <Image
+                    //         style={{ width: 24, height: 24 }}
+                    //         source={mapIcon}
+                    //       />
+                    //       <Text
+                    //         weight="Bold"
+                    //         style={{
+                    //           fontSize: 10,
+                    //           color: colors.pinkishOrange
+                    //         }}
+                    //       >
+                    //         {I18n.t("product_details_screen_seller_find_store")}
+                    //       </Text>
+                    //     </View>
+                    //   </TouchableOpacity>
+                    // )}
+                    />
+                  )}
               </View>
-            )}
+            ) : (
+                <View collapsable={false} />
+              )}
+          </View>
+          <View
+            collapsable={false}
+            style={{ top: 10, position: "absolute", right: 20 }}
+          >
+            <ViewBillButton
+              product={product}
+              navigation={navigation}
+              docType="Personal Docs"
+              btnText="Doc"
+            />
           </View>
         </ScrollView>
       </View>
@@ -259,12 +267,7 @@ class PerosnalDocCard extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    ...Platform.select({
-      android: {
-        marginTop: 25
-      }
-    })
+    flex: 1
   },
   contentContainer: {
     alignItems: "center"
@@ -273,7 +276,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 100,
     alignSelf: "center",
-    marginTop: 50,
+    marginTop: 20,
     marginBottom: 20
   },
   name: {

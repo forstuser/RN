@@ -33,7 +33,7 @@ const legendColors = [
 ];
 
 class TotalTaxScreen extends Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true
   };
   constructor(props) {
@@ -51,7 +51,7 @@ class TotalTaxScreen extends Component {
   }
 
   async componentDidMount() {
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title: I18n.t("total_tax_screen_title")
     });
 
@@ -102,7 +102,7 @@ class TotalTaxScreen extends Component {
     return (
       <ScreenContainer style={styles.container}>
         <ScrollView style={styles.container}>
-          <View style={styles.chartWrapper}>
+          <View collapsable={false}  style={styles.chartWrapper}>
             <InsightChart
               textColor="#000"
               onFiltersPress={() => this.filterOptions.show()}
@@ -126,7 +126,7 @@ class TotalTaxScreen extends Component {
             />
           </View>
 
-          <View style={styles.spends}>
+          <View collapsable={false}  style={styles.spends}>
             <Text style={{ fontSize: 24, color: "#9c9c9c" }} weight="Regular">
               {I18n.t("total_tax_screen_total")}
             </Text>
@@ -135,16 +135,16 @@ class TotalTaxScreen extends Component {
             </Text>
           </View>
 
-          <View>
+          <View collapsable={false} >
             {categories.map((category, index) => (
-              <View key={category.cName} style={styles.item}>
-                <View
+              <View collapsable={false}  key={category.cName} style={styles.item}>
+                <View collapsable={false} 
                   style={[
                     styles.itemColorDot,
                     { backgroundColor: legendColors[index] }
                   ]}
                 />
-                <View style={styles.texts}>
+                <View collapsable={false}  style={styles.texts}>
                   <Text style={styles.categoryName} weight="Medium">
                     {category.cName}
                   </Text>

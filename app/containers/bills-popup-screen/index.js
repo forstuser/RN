@@ -6,7 +6,8 @@ import {
   Alert,
   NativeModules,
   TouchableOpacity,
-  Platform
+  Platform,
+  InteractionManager
 } from "react-native";
 
 import RNFetchBlob from "react-native-fetch-blob";
@@ -14,11 +15,11 @@ import moment from "moment";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import { connect } from "react-redux";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
-
+import { showSnackbar } from "../../utils/snackbar";
+import { requestStoragePermission } from "../../android-permissions";
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer } from "../../elements";
 import { API_BASE_URL, deleteBill } from "../../api";
 import { colors } from "../../theme";
 import BillCopyItem from "./bill-copy-item";
@@ -26,10 +27,8 @@ import SelectView from "./select-view";
 import LoadingOverlay from "../../components/loading-overlay";
 
 class BillsPopUpScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    tabBarHidden: true,
-    statusBarTextColorScheme: "light"
+  static navigationOptions = {
+    header: null
   };
   constructor(props) {
     super(props);
@@ -40,24 +39,30 @@ class BillsPopUpScreen extends Component {
     };
   }
   componentDidMount() {
-    this.setState({
-      copies: this.props.copies
+    InteractionManager.runAfterInteractions(() => {
+      const copies = this.props.navigation.getParam("copies", []);
+      this.setState({
+        copies
+      });
     });
   }
 
-  shareCopies = selectedCopies => {
+  shareCopies = async selectedCopies => {
+    if ((await requestStoragePermission()) == false) return;
     if (selectedCopies.length == 0) {
       return showSnackbar({
         text: "Select some files to share!"
-      })
+      });
     }
-
 
     this.setState({
       isDownloadingFiles: true
     });
     Promise.all(
       selectedCopies.map((selectedCopy, index) => {
+        console.log("url: ", API_BASE_URL + selectedCopy.copyUrl);
+        console.log(this.props.authToken);
+
         return RNFetchBlob.config({
           ...Platform.select({
             ios: {
@@ -65,7 +70,13 @@ class BillsPopUpScreen extends Component {
               appendExt: selectedCopy.file_type
             },
             android: {
-              path: RNFetchBlob.fs.dirs.DCIMDir + `/${selectedCopy.copyName}`
+              fileCache: true,
+              path:
+                RNFetchBlob.fs.dirs.DCIMDir +
+                `/${selectedCopy.copyName ||
+                  moment().format("x") +
+                    "." +
+                    selectedCopy.file_type.toLowerCase()}`
             }
           })
         })
@@ -90,13 +101,13 @@ class BillsPopUpScreen extends Component {
         });
         showSnackbar({
           text: "Some error occurred!"
-        })
+        });
       });
   };
 
   onShareBtnClick = () => {
-    if (this.props.copies.length == 1) {
-      this.shareCopies([this.props.copies[0]]);
+    if (this.state.copies.length == 1) {
+      this.shareCopies([this.state.copies[0]]);
     } else {
       this.setState({
         isSelectViewVisible: true
@@ -105,7 +116,7 @@ class BillsPopUpScreen extends Component {
   };
 
   closeThisScreen = () => {
-    this.props.navigator.dismissModal();
+    this.props.navigation.goBack();
   };
 
   onItemCopyDelete = async (itemIndex, copyIndex) => {
@@ -121,7 +132,7 @@ class BillsPopUpScreen extends Component {
       if (copies.length == 0) {
         //if all copies are deleted, remove the item
         items.splice(itemIndex, 1);
-        this.props.navigator.dismissAllModals();
+        this.props.navigation.dismissAllModals();
       } else {
         items[itemIndex] = item;
       }
@@ -132,7 +143,7 @@ class BillsPopUpScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -150,7 +161,7 @@ class BillsPopUpScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     }
   };
 
@@ -159,18 +170,22 @@ class BillsPopUpScreen extends Component {
     const { date, id, type = null, onCopyDelete } = this.props;
     return (
       <ScreenContainer style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.dateAndId}>
-            {date && (
+        <View collapsable={false} style={styles.header}>
+          <View collapsable={false} style={styles.dateAndId}>
+            {date ? (
               <Text weight="Medium" style={styles.date}>
                 {moment(date).isValid() && moment(date).format("DD MMM, YYYY")}
               </Text>
+            ) : (
+              <View collapsable={false} />
             )}
             <Text style={styles.id}>{!isNaN(id) && "ID: " + id}</Text>
-            {type && (
-              <View style={styles.type}>
+            {type ? (
+              <View collapsable={false} style={styles.type}>
                 <Text style={styles.typeText}>{type}</Text>
               </View>
+            ) : (
+              <View collapsable={false} />
             )}
           </View>
           <TouchableOpacity
@@ -182,43 +197,44 @@ class BillsPopUpScreen extends Component {
           </TouchableOpacity>
         </View>
         {(!copies || copies.length == 0) && (
-          <View style={styles.noCopiesMsgWrapper}>
+          <View collapsable={false} style={styles.noCopiesMsgWrapper}>
             <Text weight="Bold" style={styles.noCopiesMsg} />
           </View>
         )}
-        {!isSelectViewVisible &&
-          copies &&
-          copies.length > 0 && (
-            <ScrollableTabView
-              tabBarUnderlineStyle={{
-                backgroundColor: colors.mainBlue,
-                height: 1,
-                marginBottom: -1
-              }}
-              tabBarPosition="bottom"
-              renderTabBar={null}
-            >
-              {copies.map((copy, index) => (
-                <BillCopyItem
-                  key={copy.copyId}
-                  billId={id}
-                  copy={copy}
-                  index={index}
-                  total={copies.length}
-                  onShareBtnClick={this.onShareBtnClick}
-                  authToken={this.props.authToken}
-                  onDeleteBtnClick={
-                    onCopyDelete ? () => this.deleteCopy(index) : undefined
-                  }
-                />
-              ))}
-            </ScrollableTabView>
-          )}
+        {!isSelectViewVisible && copies && copies.length > 0 ? (
+          <ScrollableTabView
+            tabBarUnderlineStyle={{
+              backgroundColor: colors.mainBlue,
+              height: 1,
+              marginBottom: -1
+            }}
+            tabBarPosition="bottom"
+            renderTabBar={null}
+          >
+            {copies.map((copy, index) => (
+              <BillCopyItem
+                key={copy.copyId}
+                billId={id}
+                copy={copy}
+                index={index}
+                total={copies.length}
+                onShareBtnClick={this.onShareBtnClick}
+                authToken={this.props.authToken}
+                onDeleteBtnClick={
+                  onCopyDelete ? () => this.deleteCopy(index) : undefined
+                }
+              />
+            ))}
+          </ScrollableTabView>
+        ) : (
+          <View collapsable={false} />
+        )}
 
-        {copies &&
-          isSelectViewVisible && (
-            <SelectView copies={copies} passSelectedCopies={this.shareCopies} />
-          )}
+        {copies && isSelectViewVisible ? (
+          <SelectView copies={copies} passSelectedCopies={this.shareCopies} />
+        ) : (
+          <View collapsable={false} />
+        )}
         <LoadingOverlay
           visible={isDownloadingFiles}
           text="Downloading.. please wait..."
@@ -229,10 +245,10 @@ class BillsPopUpScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: "rgba(0,0,0,1)" },
+  container: { backgroundColor: "rgba(0,0,0,1)", padding: 0 },
   header: {
     flexDirection: "row",
-    marginBottom: 20
+    marginBottom: 10
   },
   dateAndId: {
     flex: 1
@@ -241,6 +257,9 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     marginBottom: 5
+  },
+  crossIcon: {
+    margin: 10
   },
   id: {
     color: "#fff"

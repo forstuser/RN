@@ -122,7 +122,7 @@ class CategoryWithPager extends Component {
           {this.state.subCategories.map((subCategory, index) => {
             if (subCategory.error) {
               return (
-                <View
+                <View collapsable={false} 
                   tabLabel={subCategory.name.toUpperCase()}
                   style={{ flex: 1 }}
                   key={subCategory.id}
@@ -135,18 +135,18 @@ class CategoryWithPager extends Component {
               );
             }
             return (
-              <View
+              <View collapsable={false} 
                 tabLabel={subCategory.name.toUpperCase()}
                 style={{ flex: 1 }}
                 key={subCategory.id}
               >
                 <ProductsList
                   mainCategoryId={this.props.category.id}
-                  categoryId={subCategory.id}
+                  category={subCategory}
                   onRefresh={() => this.loadProductsFirstPage(index)}
                   isLoading={subCategory.isFetchingProducts}
                   products={subCategory.products}
-                  navigator={this.props.navigator}
+                  navigation={this.props.navigation}
                 />
               </View>
             );

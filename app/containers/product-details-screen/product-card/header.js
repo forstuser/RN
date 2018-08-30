@@ -9,20 +9,19 @@ import {
   Platform
 } from "react-native";
 import Icon from "react-native-vector-icons/EvilIcons";
-import moment from "moment";
+import Vicon from "react-native-vector-icons/Ionicons";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 import { connect } from "react-redux";
-
+import moment from "moment";
 import { actions as loggedInUserActions } from "../../../modules/logged-in-user";
 import I18n from "../../../i18n";
 import { API_BASE_URL } from "../../../api";
 import { Text, Button, ScreenContainer } from "../../../elements";
-import KeyValueItem from "../../../components/key-value-item";
 
 import { openBillsPopUp } from "../../../navigation";
 
 import { colors, defaultStyles } from "../../../theme";
-import { getProductMetasString } from "../../../utils";
+import { getProductMetasString, isOfProductType } from "../../../utils";
 
 import UploadBillOptions from "../../../components/upload-bill-options";
 
@@ -31,9 +30,12 @@ const viewBillIcon = require("../../../images/ic_ehome_view_bill.png");
 
 import ReviewModal from "./review-modal";
 import ShareModal from "./share-modal";
-import ImageModal from "./image-model";
+import ImageModal from "./image-modal";
+import FuelExpense from "./fuel-expense";
+
+import PriceEditModal from "./price-edit-modal";
 import ViewBillButton from "../view-bill-button";
-import { MAIN_CATEGORY_IDS } from "../../../constants";
+import { MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../../constants";
 
 class Header extends Component {
   constructor(props) {
@@ -60,7 +62,7 @@ class Header extends Component {
       product,
       loggedInUser,
       setLoggedInUserName,
-      navigator,
+      navigation,
       activeTabIndex = 0,
       onTabChange,
       showCustomerCareTab = false,
@@ -69,6 +71,19 @@ class Header extends Component {
       shareBtnRef,
       reviewBtnRef
     } = this.props;
+    let tabNameArray = ["CUSTOMER CARE", "PRODUCT LIFE CYCLE"];
+    if (
+      product.masterCategoryId == MAIN_CATEGORY_IDS.TRAVEL ||
+      product.masterCategoryId == MAIN_CATEGORY_IDS.HEALTHCARE ||
+      product.masterCategoryId == MAIN_CATEGORY_IDS.SERVICES ||
+      product.masterCategoryId == MAIN_CATEGORY_IDS.FASHION ||
+      product.masterCategoryId == MAIN_CATEGORY_IDS.HOUSEHOLD
+    ) {
+      tabNameArray[1] = ["EXPENSE DETAILS"];
+    }
+    if (product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS) {
+      tabNameArray[1] = ["DETAILS"];
+    }
 
     const { review } = this.state;
 
@@ -76,81 +91,6 @@ class Header extends Component {
     if (!productName) {
       productName = product.categoryName;
     }
-
-    let amountBreakdownOptions = [];
-
-    if (product.categoryId != 664) {
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={I18n.t("product_details_screen_cost_breakdown_product")}
-            valueText={`₹ ${product.value}`}
-          />
-        </View>
-      );
-    }
-
-    product.warrantyDetails.forEach(item => {
-      let date = moment(item.purchaseDate).isValid()
-        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
-        : ``;
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={
-              I18n.t("product_details_screen_cost_breakdown_warranty") + date
-            }
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
-      );
-    });
-
-    product.insuranceDetails.forEach(item => {
-      let date = moment(item.purchaseDate).isValid()
-        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
-        : ``;
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={
-              I18n.t("product_details_screen_cost_breakdown_insurance") + date
-            }
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
-      );
-    });
-
-    product.amcDetails.forEach(item => {
-      let date = moment(item.purchaseDate).isValid()
-        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
-        : ``;
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={I18n.t("product_details_screen_cost_breakdown_amc") + date}
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
-      );
-    });
-
-    product.repairBills.forEach(item => {
-      let date = moment(item.purchaseDate).isValid()
-        ? ` (${moment(item.purchaseDate).format("DD MMM YYYY")})`
-        : ``;
-      amountBreakdownOptions.push(
-        <View style={{ width: "100%" }}>
-          <KeyValueItem
-            keyText={
-              I18n.t("product_details_screen_cost_breakdown_repairs") + date
-            }
-            valueText={`₹ ${item.premiumAmount}`}
-          />
-        </View>
-      );
-    });
 
     const warrantyAmount = product.warrantyDetails.reduce(
       (total, item) => total + item.premiumAmount,
@@ -176,15 +116,6 @@ class Header extends Component {
       amcAmount +
       repairAmount;
 
-    amountBreakdownOptions.push(
-      <View style={{ width: "100%" }}>
-        <KeyValueItem
-          keyText={I18n.t("product_details_screen_cost_breakdown_total")}
-          valueText={`₹ ${totalAmount}`}
-        />
-      </View>
-    );
-
     let imageSource = { uri: API_BASE_URL + product.cImageURL };
     if (
       product.masterCategoryId == MAIN_CATEGORY_IDS.OTHERS &&
@@ -197,7 +128,7 @@ class Header extends Component {
     let headerBg = require("../../../images/product_card_header_bg.png");
     if (product.file_type) {
       headerBg = {
-        uri: API_BASE_URL + product.cImageURL + "?t=" + moment().format("X")
+        uri: API_BASE_URL + product.cImageURL
       };
     }
     return (
@@ -223,119 +154,131 @@ class Header extends Component {
 
         <View style={styles.lowerHalf}>
           <View style={styles.lowerHalfInner}>
-            <View style={{ flexDirection: "row" }}>
-              <View style={styles.texts}>
+            <View style={{ flexDirection: "row", flex: 1, padding: 5 }}>
+              <View style={{ flexDirection: "column", flex: 1 }}>
                 <Text weight="Bold" style={styles.name}>
                   {productName}
                 </Text>
-                <Text weight="Bold" style={styles.brandAndModel}>
-                  {product.brand ? product.brand.name : ""}
-                  {product.brand && product.model ? "/" : ""}
-                  {product.model ? product.model : null}
-                </Text>
                 <TouchableOpacity
-                  onPress={() => this.priceBreakdown.show()}
+                  onPress={() => this.priceEditModal.show()}
                   style={styles.totalContainer}
                 >
-                  <Text weight="Bold" style={styles.totalAmount}>
-                    ₹ {totalAmount}
-                  </Text>
+                  <View>
+                    <Text weight="Bold" style={styles.totalAmount}>
+                      ₹ {totalAmount}
+                    </Text>
+                  </View>
                   <Image style={styles.dropdownIcon} source={dropdownIcon} />
                 </TouchableOpacity>
-                <ActionSheet
-                  ref={o => (this.priceBreakdown = o)}
-                  cancelButtonIndex={amountBreakdownOptions.length}
-                  options={[
-                    ...amountBreakdownOptions,
-                    I18n.t("product_details_screen_cost_breakdown_close")
-                  ]}
-                />
+                {isOfProductType(product.masterCategoryId) &&
+                product.masterCategoryId != MAIN_CATEGORY_IDS.FASHION ? (
+                  <View style={styles.texts}>
+                    {product.warrantyDetails.length > 0 ? (
+                      <Text weight="Medium" style={styles.brandAndModel}>
+                        Warranty till{" "}
+                        {moment(product.warrantyDetails[0].expiryDate).format(
+                          "DD MMM YYYY"
+                        )}
+                      </Text>
+                    ) : (
+                      <Text weight="Medium" style={styles.brandAndModel}>
+                        Warranty Not Available
+                      </Text>
+                    )}
+                    {product.insuranceDetails.length > 0 ? (
+                      <Text weight="Medium" style={styles.brandAndModel}>
+                        Insurance till{" "}
+                        {moment(product.insuranceDetails[0].expiryDate).format(
+                          "DD MMM YYYY"
+                        )}
+                      </Text>
+                    ) : (
+                      <Text weight="Medium" style={styles.brandAndModel}>
+                        Insurance Not Available
+                      </Text>
+                    )}
+                  </View>
+                ) : (
+                  <View />
+                )}
               </View>
-            </View>
-            {/* 3 buttons (view bill,share and rating) start */}
-            <View style={styles.btns}>
-              <View
-                style={{
-                  alignItems: "center"
-                }}
-              >
-                {product.categoryId != 664 && (
+              {/* 2 buttons (view bill,share) start */}
+              <View style={styles.btns}>
+                <View
+                  style={{
+                    alignItems: "center"
+                  }}
+                >
                   <ViewBillButton
                     viewRef={ref => viewBillRef(ref)}
                     product={product}
-                    navigator={navigator}
+                    navigation={navigation}
                     style={{
                       position: "relative",
                       top: 10,
                       right: undefined
                     }}
                   />
+                </View>
+                {[
+                  MAIN_CATEGORY_IDS.AUTOMOBILE,
+                  MAIN_CATEGORY_IDS.ELECTRONICS,
+                  MAIN_CATEGORY_IDS.FURNITURE,
+                  MAIN_CATEGORY_IDS.FASHION
+                ].indexOf(product.masterCategoryId) > -1 && (
+                  <View
+                    style={{
+                      alignItems: "center"
+                    }}
+                  >
+                    <TouchableOpacity
+                      ref={ref => shareBtnRef(ref)}
+                      onPress={() => this.shareModal.show()}
+                      style={styles.btnShare}
+                    >
+                      <Icon
+                        name={
+                          Platform.OS == "ios" ? "share-apple" : "share-google"
+                        }
+                        size={25}
+                        color={colors.mainBlue}
+                      />
+                    </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {I18n.t("share_card").toUpperCase()}
+                    </Text>
+                  </View>
                 )}
+                {/* {[
+                MAIN_CATEGORY_IDS.AUTOMOBILE,
+                MAIN_CATEGORY_IDS.ELECTRONICS,
+                MAIN_CATEGORY_IDS.FURNITURE,
+                MAIN_CATEGORY_IDS.FASHION
+              ].indexOf(product.masterCategoryId) > -1 && (
+                  <View
+                    style={{
+                      alignItems: "center"
+                    }}
+                  >
+                    <TouchableOpacity
+                      ref={ref => reviewBtnRef(ref)}
+                      onPress={() => this.reviewModal.show()}
+                      style={styles.btn}
+                    >
+                      <Icon name="star" size={25} color={colors.yellow} />
+                    </TouchableOpacity>
+                    <Text weight="Medium" style={styles.btnText}>
+                      {review ? review.ratings : ("review").toUpperCase()}
+                    </Text>
+                  </View>
+                )} */}
               </View>
-              {[
-                MAIN_CATEGORY_IDS.AUTOMOBILE,
-                MAIN_CATEGORY_IDS.ELECTRONICS,
-                MAIN_CATEGORY_IDS.FURNITURE,
-                MAIN_CATEGORY_IDS.FASHION
-              ].indexOf(product.masterCategoryId) > -1 && (
-                <View
-                  style={{
-                    alignItems: "center"
-                  }}
-                >
-                  <TouchableOpacity
-                    ref={ref => shareBtnRef(ref)}
-                    onPress={() => this.shareModal.show()}
-                    style={styles.btnShare}
-                  >
-                    <Icon
-                      name={
-                        Platform.OS == "ios" ? "share-apple" : "share-google"
-                      }
-                      size={25}
-                      color={colors.mainBlue}
-                    />
-                  </TouchableOpacity>
-                  <Text weight="Medium" style={styles.btnText}>
-                    {I18n.t("share_card").toUpperCase()}
-                  </Text>
-                </View>
-              )}
-              {[
-                MAIN_CATEGORY_IDS.AUTOMOBILE,
-                MAIN_CATEGORY_IDS.ELECTRONICS,
-                MAIN_CATEGORY_IDS.FURNITURE,
-                MAIN_CATEGORY_IDS.FASHION
-              ].indexOf(product.masterCategoryId) > -1 && (
-                <View
-                  style={{
-                    alignItems: "center"
-                  }}
-                >
-                  <TouchableOpacity
-                    ref={ref => reviewBtnRef(ref)}
-                    onPress={() => this.reviewModal.show()}
-                    style={styles.btn}
-                  >
-                    <Icon name="star" size={25} color={colors.yellow} />
-                  </TouchableOpacity>
-                  <Text weight="Medium" style={styles.btnText}>
-                    {review ? review.ratings : I18n.t("review").toUpperCase()}
-                  </Text>
-                </View>
-              )}
             </View>
             {/* 3 buttons (view bill,share and rating) end */}
+            <FuelExpense product={product} navigation={navigation} />
             <View style={styles.tabs}>
-              {[
-                I18n.t("product_details_screen_tab_customer_care"),
-                I18n.t("product_details_screen_tab_all_info"),
-                I18n.t("product_details_screen_tab_important")
-              ].map((tab, index) => {
-                if (
-                  (!showCustomerCareTab && index == 0) ||
-                  (!showImportantTab && index == 2)
-                ) {
+              {tabNameArray.map((tab, index) => {
+                if (!showCustomerCareTab && index == 0) {
                   return null;
                 }
                 return (
@@ -379,6 +322,7 @@ class Header extends Component {
             <ShareModal
               ref={ref => (this.shareModal = ref)}
               product={product}
+              fetchProductDetails={this.props.fetchProductDetails}
               loggedInUser={loggedInUser}
               setLoggedInUserName={setLoggedInUserName}
               review={review}
@@ -394,6 +338,12 @@ class Header extends Component {
             <ImageModal
               ref={ref => (this.imageModal = ref)}
               product={product}
+            />
+            <PriceEditModal
+              ref={ref => (this.priceEditModal = ref)}
+              product={product}
+              fetchProductDetails={this.props.fetchProductDetails}
+              totalAmount={totalAmount}
             />
           </View>
         </View>
@@ -431,20 +381,28 @@ const styles = StyleSheet.create({
   },
   lowerHalfInner: {
     backgroundColor: "#fff",
-    padding: 10,
+    padding: 0,
+    justifyContent: "space-between",
     paddingBottom: 0,
+    paddingTop: 0,
     borderRadius: 3,
     width: "100%",
     ...defaultStyles.card
+    // flexDirection: 'row',
   },
   texts: {
-    flex: 1
+    // marginTop: 5
+    // ...defaultStyles.card
+    // flex: 1
+    // flexDirection: 'row',
+    // justifyContent: "flex-end",
+    // alignItems: 'flex-end',
+    // selfrrAlign: 'flex-end'
   },
   btns: {
-    // width: 300,
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around"
+    width: 80,
+    flexDirection: "column",
+    justifyContent: "flex-end"
   },
   btnShare: {
     marginTop: 10,
@@ -476,21 +434,26 @@ const styles = StyleSheet.create({
     color: "#9b9b9b"
   },
   name: {
-    fontSize: 18,
-    marginRight: 85
+    fontSize: 18
+    // marginRight: 85
   },
   brandAndModel: {
-    fontSize: 12,
-    color: colors.secondaryText,
-    marginTop: 8
+    marginTop: 5,
+    fontSize: 14,
+    color: colors.secondaryText
   },
   totalContainer: {
-    marginTop: 8,
-    flexDirection: "row",
-    alignItems: "center"
+    marginTop: 0,
+    // flex: 1,
+    textAlign: "right",
+    flexDirection: "row"
+    // justifyContent: "flex-end",
+    // alignItems: "center"
+    // alignSelf: 'flex-end'
   },
   totalAmount: {
-    fontSize: 18
+    fontSize: 18,
+    color: colors.mainText
   },
   dropdownIcon: {
     width: 24,
@@ -511,8 +474,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   tabText: {
-    color: colors.lighterText,
-    fontSize: 11
+    color: colors.mainText,
+    fontSize: 14
   },
   activeTabText: {
     fontWeight: "500",
@@ -542,4 +505,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

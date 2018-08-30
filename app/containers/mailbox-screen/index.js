@@ -4,25 +4,26 @@ import {
   FlatList,
   Alert,
   TouchableOpacity,
-  StyleSheet,
-  Image
+  StyleSheet
 } from "react-native";
 import moment from "moment";
 import { API_BASE_URL, getMailboxData, updateMailboxRead } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
-import { ScreenContainer, Text, Button, AsyncImage } from "../../elements";
+import { ScreenContainer, Text, Button, Image } from "../../elements";
 import { colors } from "../../theme";
 import { openBillsPopUp } from "../../navigation";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
-
+import { showSnackbar } from "../../utils/snackbar";
+import Analytics from "../../analytics";
 import { MAIN_CATEGORY_IDS, SCREENS } from "../../constants";
 
 import EmptyMailboxPlaceholder from "./empty-mailbox-placeholder";
 
+import filterIcon from "../../images/ic_filter_none_black.png";
+
 class MailBox extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true
+  static navigationOptions = {
+    title: I18n.t("mailbox_screen_title")
   };
   constructor(props) {
     super(props);
@@ -33,9 +34,6 @@ class MailBox extends Component {
     };
   }
   componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("mailbox_screen_title")
-    });
     this.fetchNotifications();
   }
 
@@ -71,7 +69,21 @@ class MailBox extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
+    }
+  };
+
+  onItemPress = item => {
+    if (item.productType != 2 && item.productId) {
+      this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+        productId: item.productId
+      });
+    } else {
+      openBillsPopUp({
+        id: item.productName,
+        date: item.purchaseDate,
+        copies: item.copies
+      });
     }
   };
 
@@ -94,106 +106,57 @@ class MailBox extends Component {
       default:
         date = item.expiryDate;
     }
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          switch (item.productType) {
-            case 1:
-              this.props.navigator.push({
-                screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-                passProps: {
-                  productId: item.productId || item.id
-                }
-              });
-              // if (
-              //   item.masterCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
-              //   item.masterCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS
-              // ) {
-              //   this.props.navigator.push({
-              //     screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-              //     passProps: {
-              //       productId: item.productId || item.id
-              //     }
-              //   });
-              // } else {
-              //   openBillsPopUp({
-              //     id: item.productName,
-              //     date: item.purchaseDate,
-              //     copies: item.copies,
-              //     type: "Product"
-              //   });
-              // }
-              break;
-            case 3:
-              this.props.navigator.push({
-                screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-                passProps: {
-                  productId: item.productId || item.id
-                }
-              });
-              break;
-            case 4:
-              openBillsPopUp({
-                id: item.productName,
-                date: item.purchaseDate,
-                copies: item.copies
-              });
-              break;
-            default:
-              openBillsPopUp({
-                id: item.id,
-                date: item.createdAt,
-                copies: item.copies
-              });
-          }
-        }}
-        style={styles.item}
-      >
-        <View style={styles.imageAndDetails}>
-          <View style={styles.imageWrapper}>
-            {(!item.copies || (item.copies && item.copies.length == 0)) && (
-              <AsyncImage
-                style={styles.image}
-                fileStyle={{ width: 50, height: 50 }}
-                fileType="pdf"
-              />
-            )}
 
-            {item.copies &&
-              item.copies.length > 0 && (
-                <AsyncImage
+    return (
+      <View>
+        <TouchableOpacity
+          onPress={() => this.onItemPress(item)}
+          style={styles.item}
+        >
+          <View collapsable={false} style={styles.imageAndDetails}>
+            <View collapsable={false} style={styles.imageWrapper}>
+              {!item.copies || item.copies.length == 0 ? (
+                <Image
+                  style={styles.image}
+                  fileStyle={{ width: 50, height: 50 }}
+                  fileType="pdf"
+                />
+              ) : (
+                <Image
                   style={styles.image}
                   fileStyle={{ width: 50, height: 50 }}
                   fileType={item.copies[0].file_type || item.copies[0].fileType}
-                  uri={API_BASE_URL + "/" + item.copies[0].copyUrl}
+                  source={{ uri: API_BASE_URL + item.copies[0].copyUrl }}
                 />
               )}
-          </View>
-          <View style={styles.titleAndDetails}>
-            <Text weight="Medium" style={{ color: titleColor }}>
-              {item.title}
-            </Text>
-            <View style={styles.dateAndCounts}>
-              <Text style={styles.date}>
-                {moment(date).format("DD MMM, YYYY")}
-              </Text>
-              <View style={styles.count}>
-                <Image
-                  style={styles.countIcon}
-                  source={require("../../images/ic_filter_none_black.png")}
-                />
-                <Text weight="Medium" style={styles.countText}>
-                  {item.copies ? item.copies.length : 0}
-                </Text>
-              </View>
             </View>
-            {amount && <Text weight="Medium">{amount}</Text>}
+            <View collapsable={false} style={styles.titleAndDetails}>
+              <Text weight="Medium" style={{ color: titleColor }}>
+                {item.title}
+              </Text>
+              <View collapsable={false} style={styles.dateAndCounts}>
+                <Text style={styles.date}>
+                  {moment(date).format("DD MMM, YYYY")}
+                </Text>
+                <View collapsable={false} style={styles.count}>
+                  <Image style={styles.countIcon} source={filterIcon} />
+                  <Text weight="Medium" style={styles.countText}>
+                    {item.copies ? item.copies.length : 0}
+                  </Text>
+                </View>
+              </View>
+              {amount ? (
+                <Text weight="Medium">{amount}</Text>
+              ) : (
+                <View collapsable={false} />
+              )}
+            </View>
           </View>
-        </View>
-        <Text weight="Medium" style={styles.desc}>
-          {item.description}
-        </Text>
-      </TouchableOpacity>
+          <Text weight="Medium" style={styles.desc}>
+            {item.description}
+          </Text>
+        </TouchableOpacity>
+      </View>
     );
   };
 
@@ -207,9 +170,9 @@ class MailBox extends Component {
           <FlatList
             style={{ flex: 1, backgroundColor: "#fff" }}
             data={notifications}
-            keyExtractor={(item, index) => index}
+            keyExtractor={(item, index) => String(item.id)}
             renderItem={this.renderNotificationItem}
-            onRefresh={this.fetchNotifications}
+            onRefresh={this.fetchNotificationsFirstPage}
             refreshing={isFetchingNotifications}
           />
         </ScreenContainer>

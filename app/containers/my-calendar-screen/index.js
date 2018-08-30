@@ -9,25 +9,21 @@ import {
   Image
 } from "react-native";
 import I18n from "../../i18n";
-
 import { API_BASE_URL, fetchCalendarItems } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
-import TabSearchHeader from "../../components/tab-screen-header";
-import Analytics from "../../analytics"
+
+import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
-
 import { colors } from "../../theme";
-
 import Item from "./item";
-
 const calendarIcon = require("../../images/ic_calendar.png");
 const calendarIconColor = require("../../images/ic_calendar_color.png");
 
 class MyCalendarScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: true
+  static navigationOptions = {
+    title: I18n.t("my_calendar_screen_title")
   };
   constructor(props) {
     super(props);
@@ -36,19 +32,22 @@ class MyCalendarScreen extends Component {
       isFetchingItems: true,
       items: []
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ATTENDANCE);
-        this.fetchItems();
-        break;
-    }
-  };
+  componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
+    // this.fetchItems();
+    // this.didFocusSubscription = this.props.navigation.addListener(
+    //   "didFocus",
+    //   () => {
+    //     this.fetchItems();
+    //   }
+    // );
+  }
 
-  componentDidMount() { }
+  componentWillUnmount() {
+    // this.didFocusSubscription.remove();
+  }
 
   fetchItems = async () => {
     this.setState({
@@ -71,10 +70,8 @@ class MyCalendarScreen extends Component {
   };
 
   openAddEditCalendarServiceScreen = () => {
-    Analytics.logEvent(Analytics.EVENTS.ADD_ATTENDANCE_ITEM);
-    this.props.navigator.push({
-      screen: SCREENS.ADD_CALENDAR_SERVICE_SCREEN
-    });
+    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_SERVICE);
+    this.props.navigation.navigate(SCREENS.ADD_CALENDAR_SERVICE_SCREEN);
   };
 
   renderItem = ({ item, index }) => {
@@ -82,7 +79,7 @@ class MyCalendarScreen extends Component {
       <Item
         key={item.id}
         item={item}
-        navigator={this.props.navigator}
+        navigation={this.props.navigation}
         onPress={() => this.onItemPress(item)}
       />
     );
@@ -94,19 +91,10 @@ class MyCalendarScreen extends Component {
       return <ErrorOverlay error={error} onRetryPress={this.fetchItems} />;
     }
     return (
-      <ScreenContainer style={{ padding: 0, backgroundColor: "#f7f7f7" }}>
-        <View style={styles.header}>
-          <TabSearchHeader
-            title={I18n.t("my_calendar_screen_title")}
-            icon={calendarIcon}
-            navigator={this.props.navigator}
-            showMailbox={false}
-            showSearchInput={false}
-          />
-        </View>
+      <ScreenContainer style={{ padding: 0, backgroundColor: "#fff" }}>
         {(items.length > 0 || isFetchingItems) && (
-          <View style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
+          <View collapsable={false} style={{ flex: 1 }}>
+            <View collapsable={false} style={{ flex: 1 }}>
               <FlatList
                 contentContainerStyle={{ padding: 5 }}
                 data={items}
@@ -114,20 +102,26 @@ class MyCalendarScreen extends Component {
                 renderItem={this.renderItem}
                 onRefresh={this.fetchItems}
                 refreshing={isFetchingItems}
+                ListFooterComponent={
+                  items.length > 0 ? (
+                    <Button
+                      onPress={this.openAddEditCalendarServiceScreen}
+                      text={I18n.t("my_calendar_screen_add_btn")}
+                      color="secondary"
+                      style={[
+                        styles.emptyStateAddItemBtn,
+                        { marginBottom: 20 }
+                      ]}
+                    />
+                  ) : null
+                }
               />
             </View>
-            <Button
-              onPress={this.openAddEditCalendarServiceScreen}
-              text={I18n.t("my_calendar_screen_add_btn")}
-              color="secondary"
-              borderRadius={0}
-              style={styles.addItemBtn}
-            />
           </View>
         )}
         {items.length == 0 &&
           !isFetchingItems && (
-            <View style={styles.emptyStateView}>
+            <View collapsable={false} style={styles.emptyStateView}>
               <Image
                 source={calendarIconColor}
                 style={styles.emptyStateImage}
@@ -150,15 +144,6 @@ class MyCalendarScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    width: "100%",
-    ...Platform.select({
-      ios: {
-        zIndex: 1
-      },
-      android: {}
-    })
-  },
   addItemBtn: {
     width: "100%"
   },
@@ -180,7 +165,8 @@ const styles = StyleSheet.create({
   },
   emptyStateAddItemBtn: {
     width: 280,
-    marginTop: 30
+    marginTop: 30,
+    alignSelf: "center"
   }
 });
 

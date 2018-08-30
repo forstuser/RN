@@ -15,7 +15,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 import { MAIN_CATEGORY_IDS, EXPENSE_TYPES } from "../../constants";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import ProductOrExpense from "./product-or-expense";
 import PersonalDoc from "./personal-doc";
@@ -24,11 +24,11 @@ import Repair from "./repair";
 const ehomeImage = require("../../images/ehome_circle_with_category_icons.png");
 
 class AddEditExpenseScreen extends React.Component {
-  static navigatorStyle = {
+  static navigationOptions = {
     tabBarHidden: true,
     disabledBackGesture: true
   };
-  static navigatorButtons = {
+  static navigationButtons = {
     ...Platform.select({
       ios: {
         leftButtons: [
@@ -51,14 +51,14 @@ class AddEditExpenseScreen extends React.Component {
       confirmBackNavigation: false,
       reasons: []
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    // this.props.navigation.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   onNavigatorEvent = event => {
     switch (event.id) {
       case "backPress":
         if (!this.state.confirmBackNavigation) {
-          this.props.navigator.pop();
+          this.props.navigation.goBack();
           return;
         }
         Alert.alert(
@@ -67,7 +67,7 @@ class AddEditExpenseScreen extends React.Component {
           [
             {
               text: I18n.t("add_edit_expense_screen_title_add_go_back"),
-              onPress: () => this.props.navigator.pop()
+              onPress: () => this.props.navigation.goBack()
             },
             {
               text: I18n.t("add_edit_expense_screen_title_add_stay"),
@@ -99,7 +99,7 @@ class AddEditExpenseScreen extends React.Component {
             "Retrieve a product bill/invoice",
             "Track lifetime expenses",
             "Share personalised reviews",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -115,7 +115,7 @@ class AddEditExpenseScreen extends React.Component {
             "Retrieve a product bill/invoice",
             "Track lifetime expenses",
             "Share personalised reviews",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -131,7 +131,7 @@ class AddEditExpenseScreen extends React.Component {
             "Retrieve a product bill/invoice",
             "Track lifetime expenses",
             "Share personalised reviews",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -145,7 +145,7 @@ class AddEditExpenseScreen extends React.Component {
             "Connect with insurance providers",
             "Receive insurance reminders",
             "Share personalised reviews",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -174,9 +174,9 @@ class AddEditExpenseScreen extends React.Component {
           mainCategoryId: MAIN_CATEGORY_IDS.TRAVEL,
           reasons: [
             "Personalise your expenses",
-            "Retrieve a bill anytime",
+            "Retrieve a bill anytime, anywhere",
             "Get expense insights",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -188,7 +188,7 @@ class AddEditExpenseScreen extends React.Component {
           reasons: [
             "Retrieve a bill/record/prescription",
             "Get expense insights",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -199,10 +199,10 @@ class AddEditExpenseScreen extends React.Component {
           mainCategoryId: MAIN_CATEGORY_IDS.FASHION,
           reasons: [
             "Personalise your expenses",
-            "Retrieve a bill anytime",
+            "Retrieve a bill anytime, anywhere",
             "Get expense insights",
             "Share personalised review",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -212,9 +212,9 @@ class AddEditExpenseScreen extends React.Component {
           formType: "expense",
           mainCategoryId: MAIN_CATEGORY_IDS.SERVICES,
           reasons: [
-            "Retrieve a bill anytime",
+            "Retrieve a bill anytime, anywhere",
             "Get expense insights",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -224,9 +224,9 @@ class AddEditExpenseScreen extends React.Component {
           formType: "expense",
           mainCategoryId: MAIN_CATEGORY_IDS.HOUSEHOLD,
           reasons: [
-            "Retrieve a bill anytime",
+            "Retrieve a bill anytime, anywhere",
             "Get expense insights",
-            "And much more.."
+            "And much more"
           ]
         });
         break;
@@ -238,7 +238,7 @@ class AddEditExpenseScreen extends React.Component {
         });
         break;
     }
-    this.props.navigator.setTitle({
+    this.props.navigation.setTitle({
       title
     });
   }
@@ -259,7 +259,7 @@ class AddEditExpenseScreen extends React.Component {
           <ProductOrExpense
             mainCategoryId={mainCategoryId}
             categoryId={categoryId}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             confirmBackNavigation={this.confirmBackNavigation}
             reasons={reasons}
             isPreviousScreenOfAddOptions={isPreviousScreenOfAddOptions}
@@ -270,7 +270,7 @@ class AddEditExpenseScreen extends React.Component {
         return (
           <PersonalDoc
             formType={formType}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             reasons={reasons}
             isPreviousScreenOfAddOptions={isPreviousScreenOfAddOptions}
           />
@@ -282,7 +282,7 @@ class AddEditExpenseScreen extends React.Component {
             mainCategoryId={mainCategoryId}
             categoryId={categoryId}
             healthcareFormType={formType}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             confirmBackNavigation={this.confirmBackNavigation}
             reasons={reasons}
             isPreviousScreenOfAddOptions={isPreviousScreenOfAddOptions}
@@ -291,7 +291,7 @@ class AddEditExpenseScreen extends React.Component {
       case "repair":
         return (
           <Repair
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             confirmBackNavigation={this.confirmBackNavigation}
             reasons={reasons}
             isPreviousScreenOfAddOptions={isPreviousScreenOfAddOptions}

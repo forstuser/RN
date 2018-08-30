@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 export default {
   //units
   litre: "Litre",
@@ -28,17 +29,17 @@ export default {
   i_will_do_it_later: "I'll do it later",
 
   //app intro screen
-  app_intro_1_title: `Smart & 100% secure way of saving your Bills, Expenses and Important Documents in a Digital Format`,
+  app_intro_1_title: `Smart & 100% secure way of saving your Bills, Important Documents and Expenses in a Digital Format`,
   app_intro_1_desc: `Create Your Product Card in less Than 10 Seconds and Start Receiving Alerts for Warranty, Service, Insurance and even PUC.`,
-  app_intro_2_title: `Recieve Reminders for Expiry and Renewal as well as connect with Brand Service Centres`,
+  app_intro_2_title: `Keep Track of Brand Warranty, Repair Warranty, Insurance & AMC Renewal through Timely Reminders`,
   app_intro_2_desc: `Create product card and reach out to Brands, Insurance Providers or Nearest Service Center with just One Touch.`,
-  app_intro_3_title: `Your Own Attendance Manager for the Milkman, Maid, Newspaper Wala and Others`,
+  app_intro_3_title: `Select Accessories for your Home Appliances, Car, Bike, Mobile & Gadgets and Amazing Offers across products.`,
   app_intro_3_desc: `Know the Life Cycle Cost of All Your Products. Based on this You Can Decide Whether to Continue Maintaining the Product or Replacing it.`,
-  app_intro_4_title: `Be The Product Review Expert. Help Your Friends, Family and Followers make a wise purchase`,
+  app_intro_4_title: `Be The Product Review Expert. Help Your Friends, Family and Followers make a wise purchase decision`,
   app_intro_4_desc: `You Can Capture and Track All Expenses Across Categories Such As Household and Utility, Travel, Dining, Healthcare and More.`,
   app_intro_next: "NEXT",
   app_intro_skip: "SKIP",
-  app_intro_register: "REGISTER",
+  app_intro_start: "Let's Get Started ",
 
   //login screen
   login_screen_title: "Get Started",
@@ -123,13 +124,13 @@ export default {
   asc_search_screen_title: "Search Results for {{brandAndCategory}}",
   asc_search_screen_no_results_title: "No nearby Service centers",
   asc_search_screen_no_results_desc:
-    "Currently there are no Servie centers near you",
+    "Currently there are no Service centers near you",
   asc_search_screen_phone_not_available: "No Phone no available for the center",
   asc_search_screen_directions: "Directions",
   asc_search_screen_call: "Call",
 
   //bill copy popup screen
-  bill_copy_popup_screen_downloading_image: "Downloading image.. please wait..",
+  bill_copy_popup_screen_downloading_file: "Downloading.. please wait..",
   bill_copy_popup_screen_downloaded_image_ios:
     "Image downloaded, check 'Photos' app!",
   bill_copy_popup_screen_downloaded_image_android:
@@ -175,39 +176,43 @@ export default {
   //products list
   products_list_no_result_title: "No Documents Found",
   products_list_no_result_desc_furniture:
-    "Looks Like You have no products added in Furniture Section",
+    "Looks like you have no products added in Furniture Section",
   products_list_no_result_desc_hardware:
-    "Looks Like You have no products added in Hardware Section",
+    "Looks like you have no products added in Hardware Section",
+  products_list_no_result_desc_kitchen_utensils:
+    "Looks like you have no products added in Kitchen Utensils Section",
   products_list_no_result_desc_other_furniture:
-    "Looks Like You have no products added in Other Furniture Section",
+    "Looks like you have no products added in Other Furniture Section",
   products_list_no_result_desc_electronics:
-    "Looks Like You have no products added in Electronics & Electricals Section",
+    "Looks like you have no products added in Electronics & Electricals Section",
   products_list_no_result_desc_automobile:
-    "Looks Like you have nothing added in Automobile Section",
+    "Looks like you have nothing added in Automobile Section",
   products_list_no_result_desc_travel:
-    "Looks Like You have no Expenses in Travel Section",
+    "Looks like you have no Expenses added in Travel Section",
   products_list_no_result_desc_hotel_stay:
-    "Looks Like You have no Expenses in Hotel Stay Section",
+    "Looks like you have no Expenses added in Hotel Stay Section",
   products_list_no_result_desc_dining:
-    "Looks Like You have no Expenses in Dining Section",
+    "Looks like you have no Expenses added in Dining Section",
   products_list_no_result_desc_expense:
     "Looks like you have nothing added in Medical expense section",
   products_list_no_result_desc_medical_docs:
     "Add your Prescriptions, Test reports and other Medical reports here",
   products_list_no_result_desc_insurance:
     "Add your Life insurance, Health insurance and other Medical insurance documents here",
+  products_list_no_result_desc_beauty_salon:
+    "Looks like you have no Expenses added in Beauty & Salon Section",
   products_list_no_result_desc_other_services:
-    "Looks Like You have no Expenses in Other Services Section",
-  products_list_no_result_desc_professional:
-    "Add your expenses for Professional services like CA, Lawyer, Photographer and any other",
+    "Looks like you have no Expenses added in Other Services Section",
+  products_list_no_result_desc_beauty_and_salon:
+    "Looks like you have no Expenses added in Beauty & Salon Section",
   products_list_no_result_desc_lessons:
-    "Looks like you have no expenses in Lessons & Hobbies section",
+    "Looks like you have no expenses added in Lessons & Hobbies section",
   products_list_no_result_desc_fashion:
-    "Looks Like You have no expenses added in Fashion Section",
+    "Looks like you have no expenses added in Fashion Section",
   products_list_no_result_desc_household_expense:
     "Add your Household expenses like grocery, vegetables, maid, stationery, newspaper etc",
   products_list_no_result_desc_utility_bills:
-    "Add your Utility expenses like rent, phone, electricity, water, gas and maintenance",
+    "Add your Utility expenses like phone, electricity, water, gas and maintenance",
   products_list_no_result_desc_education:
     "Looks like you have no expense added in Education section",
   products_list_no_result_desc_home_decor:
@@ -215,7 +220,7 @@ export default {
   products_list_no_result_desc_other_household:
     "Looks like you have no expense added in Other Household section",
   products_list_no_result_desc_others:
-    "Any other document will appear under this section after you upload them",
+    "Any other document will appear under this section after you upload it",
   products_list_no_result_desc_personal:
     "Add your personal documents like Educational certificates here",
   products_list_no_result_desc_visiting_card: "Add your Visitng cards here",
@@ -230,14 +235,15 @@ export default {
   add_rent_agreement: "ADD RENT AGREEMENT",
   add_visiting_card: "ADD VISITING CARD",
   add_furniture: "ADD FURNITURE",
+  add_kitchen_utensils: "ADD KITCHEN UTENSILS",
   add_hardware: "ADD HARDWARE",
   add_furniture_hardware: "ADD FURNITURE & HARDWARE",
   add_travel: "ADD TRAVEL",
   add_dining: "ADD DINING",
   add_hotel_stay: "ADD HOTEL STAY",
   add_expense: "ADD EXPENSE",
-  add_other_services: "ADD SERVICES",
-  add_professional: "ADD PROFESSIONAL",
+  add_other_services: "ADD OTHER SERVICES",
+  add_beauty_and_salon: "ADD BEAUTY & SALON",
   add_lessons_hobbies: "ADD LESSIONS & HOBBIES",
   add_household_expense: "ADD HOUSEHOLD EXPENSE",
   add_utility_bills: "ADD UTILITY BILLS",
@@ -246,6 +252,7 @@ export default {
   add_other_household: "ADD OTHER HOUSEHOLD",
   add_medical_doc: "ADD MEDICAL DOC",
   add_healthcare: "ADD HEALTHCARE",
+  add_insurance: "ADD INSURANCE",
   add_others: "ADD OTHERS",
 
   //more screen
@@ -264,7 +271,7 @@ export default {
   more_screen_no_update_available: "No update available",
 
   //product details screen
-  product_details_screen_title: "Product Details",
+  product_details_screen_title: "Product Card",
   product_details_screen_view_bill_btn: "VIEW BILL",
   product_details_screen_upload_bill_btn: "UPLOAD BILL",
   product_details_screen_no_bill_msg: "*Product bill not added",
@@ -297,7 +304,7 @@ export default {
   product_details_screen_seller_contact: "Contact No.",
   product_details_screen_seller_address: "Address",
   product_details_screen_seller_find_store: "FIND STORE",
-  product_details_screen_warranty_title: "Warranty Details",
+  product_details_screen_warranty_title: "Warranty",
   product_details_screen_dual_warranty_title:
     "{{dualWarrantyItem}} Warranty Details",
   product_details_screen_extended_warranty_title:
@@ -305,10 +312,12 @@ export default {
   product_details_screen_warranty_expiry: "Expiry Date",
   product_details_screen_warranty_type: "Warranty Type",
   product_details_screen_warranty_provider: "Provider",
+  product_details_screen_warranty_amount: "Amount",
   product_details_screen_warranty_seller: "Seller",
   product_details_screen_warranty_seller_contact: "Seller Contact",
   product_details_screen_warranty_no_info: "Details Not Available!",
-  product_details_screen_insurance_title: "Insurance Details",
+  product_details_screen_insurance_title: "Insurance",
+  product_details_screen_insurance_type: "Type",
   product_details_screen_insurance_provider: "Provider",
   product_details_screen_insurance_expiry: "Expiry Date",
   product_details_screen_insurance_policy_no: "Policy No.",
@@ -317,7 +326,7 @@ export default {
   product_details_screen_insurance_seller: "Seller",
   product_details_screen_insurance_seller_contact: "Seller Contact",
   product_details_screen_insurance_no_info: "Details Not Available!",
-  product_details_screen_amc_title: "AMC Details",
+  product_details_screen_amc_title: "AMC",
   product_details_screen_amc_expiry: "Expiry Date",
   product_details_screen_amc_policy_no: "Policy No.",
   product_details_screen_amc_premium_amount: "Premium Amount",
@@ -328,12 +337,12 @@ export default {
   product_details_screen_repairs_title: "Repair/Service",
   product_details_screen_repairs_repair_date: "Repair Date",
   product_details_screen_repairs_amount: "Repair Amount",
-  product_details_screen_repairs_for: "Repair For",
-  product_details_screen_repairs_warranty_upto: "Warranty Upto",
+  product_details_screen_repairs_for: "Repair Details",
+  product_details_screen_repairs_warranty_upto: "Warranty up to",
   product_details_screen_repairs_seller: "Seller",
   product_details_screen_repairs_seller_contact: "Seller Contact",
   product_details_screen_repairs_no_info: "Details Not Available!",
-  product_details_screen_puc_title: "PUCs",
+  product_details_screen_puc_title: "PUC",
   product_details_screen_service_schedule_title: "Service Schedule",
   product_details_screen_puc_effective_date: "Effective Date",
   product_details_screen_puc_expiry_date: "Expiry Date",
@@ -378,7 +387,7 @@ export default {
   product_details_screen_edit_text: "EDIT",
   //new
   product_details_screen_tab_customer_care: "CUSTOMER CARE",
-  product_details_screen_tab_all_info: "ALL INFO",
+  product_details_screen_tab_all_info: "PRODUCT LIFE CYCLE",
   product_details_screen_tab_important: "IMPORTANT INFO",
   product_details_screen_connect_brand_connect: "Connect with Brand",
   product_details_screen_connect_insurance_provider:
@@ -386,6 +395,7 @@ export default {
   product_details_screen_connect_warranty_provider: "WARRANTY PROVIDER",
   product_details_screen_connect_numbers: "Customer Care Numbers",
   product_details_screen_connect_links: "Request Service",
+  product_details_screen_brand_portal: "Brand Portal",
   product_details_screen_connect_emails: "Email ID",
   product_details_screen_asc_title: "NEAREST AUTHORISED SERVICE CENTRE",
   product_details_screen_asc_select_location: "Select your location",
@@ -398,16 +408,16 @@ export default {
   product_details_screen_service_manufacturer_warranty: "Manufacturer Warranty",
   product_details_screen_service_third_party_warranty:
     "Third Party Extended Warranty",
-  product_details_screen_warranty_expiry_date: "Warranty Expiry Date",
+  product_details_screen_warranty_expiry_date: "Expiry Date",
   product_details_screen_add_warranty: "Add Warranty",
   product_details_screen_add_extended_warranty: "Add Extended Warranty",
-  product_details_screen_insurance_details: "Insurance Details",
+  product_details_screen_insurance_details: "Details",
   product_details_screen_add_insurance: "Add Insurance",
-  product_details_screen_amc_details: "AMC Details",
+  product_details_screen_amc_details: "Details",
   product_details_screen_add_amc: "Add AMC",
-  product_details_screen_repair_details: "Repair/Service Details",
+  product_details_screen_repair_details: "Details",
   product_details_screen_add_repair: "Add Repair",
-  product_details_screen_puc_details: "PUC Details",
+  product_details_screen_puc_details: "Details",
   product_details_screen_add_puc: "Add PUC",
 
   //profile screen
@@ -453,8 +463,8 @@ export default {
 
   //ASC screen
   asc_screen_title: "Authorised Service Centres",
-  asc_screen_section_1_title: "Search ASC for your products in eHome",
-  asc_screen_section_2_title: "Or search ASC for any brand",
+  asc_screen_section_1_title: "Search Authorised Service Centre (ASC)",
+  asc_screen_section_2_title: "Or search ASC for a Brand",
   asc_screen_section_no_products_msg: "No Products Added",
   asc_screen_section_add_product_btn: "ADD PRODUCT",
   asc_screen_placeholder_select_brand: "Select a Brand",
@@ -473,7 +483,7 @@ export default {
 
   //Dashboard Screen
   dashboard_screen_title: "Dashboard",
-  dashboard_screen_whats_coming_up: "What's Coming",
+  dashboard_screen_whats_coming_up: "What's Due",
   dashboard_screen_recent_activity: "Recent Activity",
   dashboard_screen_recent_attendance: "Recent Attendance",
   dashboard_screen_ehome_insights: "Expense Insight",
@@ -493,10 +503,10 @@ export default {
 
   //my calendar screen
   my_calendar: "Recent Attendance",
-  my_calendar_screen_title: "Attendance",
-  my_calendar_screen_add_btn: "Add Attendance Item",
+  my_calendar_screen_title: "Attendance Manager",
+  my_calendar_screen_add_btn: "Add Service",
   my_calendar_screen_empty_screen_msg:
-    "Mark attendance and payouts for all your household services like milkman, maid, newspaper wala here.\n\n\nClick below to:",
+    "Track and manage attendance & payouts for all your household services like your maid, milkman and newspaper wala.",
   my_calendar_screen_total_days: "Total Days",
   my_calendar_screen_till_date: "Till {{date}}",
   my_calendar_screen_days_present: "Days Present",
@@ -520,9 +530,9 @@ export default {
   add_edit_calendar_service_screen_form_provider_name: "Provider Name",
   add_edit_calendar_service_screen_form_wages_type: "Wages Type",
   add_edit_calendar_service_screen_form_fees_type: "Fees Type",
-  add_edit_calendar_service_screen_form_wages: "Wages",
-  add_edit_calendar_service_screen_form_fees: "Fees",
-  add_edit_calendar_service_screen_form_rental: "Rental",
+  add_edit_calendar_service_screen_form_wages: "Current Wage",
+  add_edit_calendar_service_screen_form_fees: "Current Fee",
+  add_edit_calendar_service_screen_form_rental: "Current Rental",
   add_edit_calendar_service_screen_form_rental_type: "Rental Type",
   add_edit_calendar_service_screen_form_starting_date: "Starting from Date",
   add_edit_calendar_service_screen_form_end_date: "End Date",
@@ -536,8 +546,8 @@ export default {
   calendar_service_screen_price: "Price",
   calendar_service_screen_total_calculated_amount: "Total Amount",
   calendar_service_screen_total_paid_amount: "Total Paid",
-  calendar_service_screen_unit_price: "Unit Price (avg)",
-  calendar_service_screen_unit_price_not_avg: "Unit Price ",
+  calendar_service_screen_unit_price_avg: "Current Unit Price",
+  calendar_service_screen_unit_price: "Unit Price ",
   calendar_service_screen_quantity: "Quantity",
   calendar_service_screen_attendance: "Attendance",
   calendar_service_screen_payments: "Payments",
@@ -553,6 +563,7 @@ export default {
   calendar_service_screen_product_name: "Product Name",
   calendar_service_screen_provider_name: "Provider Name",
   calendar_service_screen_provider_number: "Provider Number",
+  calendar_service_screen_service_number: "Service Number",
   //FAQs screen
   faq_screen_title: "FAQs",
 
@@ -628,30 +639,31 @@ export default {
   add_edit_expense_screen_title_add_repair_details: "to add repair details",
   add_edit_expense_screen_title_add_select_eHome: "Select Product in eHome",
   add_edit_expense_screen_title_add_select_product_above:
-    "Please select a product above OR",
+    "Please select a product above",
   add_edit_expense_screen_title_add_repair_details: "Repair Details",
   add_edit_expense_screen_title_add_repair_date: "Repair Date",
   add_edit_expense_screen_title_add_repair_amount: "Repair Amount",
   add_edit_expense_screen_title_add_sellers_name: "Seller Name",
-  add_edit_expense_screen_title_add_warranty_upto: "Warranty Upto",
+  add_edit_expense_screen_title_add_warranty_upto: "Warranty Up to",
   add_edit_expense_screen_title_add_add_repair: "ADD REPAIR",
   add_edit_expense_screen_title_add_repair_added:
     "Repair added with the product.",
   add_edit_expense_screen_title_select_automobile: "Select Automobile Type",
   add_edit_expense_screen_title_select_electronics:
-    "Select Electronics & Electricals Type",
+    "Select Electronic & Electrical Type",
   add_edit_expense_screen_title_select_furniture:
     "Select Furniture & Hardware Type",
   add_edit_expense_screen_title_select_service_expense:
-    "Select Services Expense Category",
+    "Select Service Expense Type",
   add_edit_expense_screen_title_select_fashion_expense:
-    "Select Fashion Expense Category",
-  add_edit_expense_screen_title_select_home_expense:
-    "Select Home Expense Category",
+    "Select Fashion Expense Type",
+  add_edit_expense_screen_title_select_home_expense: "Select Home Expense Type",
   add_edit_expense_screen_title_select_medical_document:
-    "Select Medical Documents Type",
+    "Select Medical Document Type",
   add_edit_expense_screen_title_select_health_expense:
-    "Select Healthcare Expense Category",
+    "Select Healthcare Expense Type",
+  add_edit_expense_screen_title_select_personal_doc:
+    "Select Personal Document Type",
 
   //faqs
   faq_question_1: "What is BinBill?",
@@ -699,6 +711,21 @@ export default {
   faq_question_15: "Can I add Product Card information later?",
   faq_answer_15:
     "Yes, you can. However, it it is recommended to add details of products while creating your product card. Remember, it is only a one-time effort and convenience for lifetime.",
+  faq_question_16: "How is ‘EazyDay’ section useful for me?",
+  faq_answer_16:
+    "This section helps you plan your day with ease and gives you an overview of all activities for the day. This works on the principle of non repeat and works on items which we do periodically and not frequently. Our unique algorithm not only helps you maintain a list of your favourite food/clothes/tasks but also tells you when a particular dish was cooked, a shirt was worn or a task was done. This helps you decide better what to cook/wear/do in the present day. It even helps you manage daily attendance of your house help, milkman and newspaper wala!",
+  faq_question_17: "What is ‘Who’s Absent Today’ section?",
+  faq_answer_17:
+    "This feature helps you manage all your household services like your house help, milkman and newspaper wala by keeping their attendance and payout record for the month. Now no more jotting down dates everywhere and manual calculations for all these services.",
+  faq_question_18: "How does ‘What’s Cooking Today’ section work for me?",
+  faq_answer_18:
+    "It’s always difficult to decide what to cook today and because of that we tend to miss out on many delicacies for a long period of time. This section helps you decide what needs to be cooked for the day, tomorrow or later. This works on the principle of Non Repeat and works on items which we do periodically and not frequently. Our unique algorithm not only helps you maintain your favourite food list but also tells you when a particular dish was cooked. This helps you decide better what to cook today. We have a representative list of local and popular dishes that you can select for your state as well as create your own list of dishes to be cooked.",
+  faq_question_19: "How does ‘What to Wear Today’ section work for me?",
+  faq_answer_19:
+    "It’s always a difficult task deciding what to wear each day especially when you have an extensive wardrobe so much so that you very often don’t even remember you own a particular dress or trouser stacked somewhere! This section helps you create a digital wardrobe of all the clothing or accessory items you own alongwith their pictures for an easy recall and decision on what to wear each day. You could also key in an item without a picture if you wish.",
+  faq_question_20: "How does ‘What to Do Today’ section work for me?",
+  faq_answer_20:
+    "This is a very useful section helping you plan all tasks to be completed in the entire day. We have listed down various periodic household tasks not done very frequently and hence are difficult to recall. You can also add any other task not appearing in the list to create your daily ‘to do’ list.This section helps you decide what needs to be done for the day, tomorrow or later.This works on the principle of non repeat and works on items which we do periodically and not frequently.Our unique algorithm not only helps you maintain your necessary task list but also tells you when a particular task was done.This helps you decide better what to do today or later.",
 
   //tab screen header
   tab_screen_header_search_placeholder: "Search...",
@@ -717,38 +744,40 @@ export default {
 
   //app-tour texts
   plus_btn_tip:
-    "Click here to add your Bills, Expenses and important Documents.",
+    "Click here to Add your Bills, Expenses and Important Documents.",
   ehome_tip:
-    "Click here to find your saved Bills, Expenses, Documents in your eHome.",
+    "Click here to check your private and secure eHome for your saved Bills, Expenses & Documents.",
   attendance_tip:
-    "Mark attendance and payouts for all your household services like milkman, maid, newspaper wala here.",
+    // "Plan your Day for tasks to be done, clothes to be worn and dishes to be cooked. Track attendance & payouts for all your household services too!",
+    "Track attendance & payouts for all your household services!",
   do_you_know_tip:
-    "Discover amazing facts & tips related to brands and lifestyle that would fill you with awe! ",
+    "Discover amazing facts & tips related to brands and lifestyle, to fill you with awe! ",
   asc_tip:
-    "Click here to find and connect with Authorised Service Centres of any Brand with just one simple click.",
-  app_tour_tips_4: "Keep a track of your expenses here.",
+    "Click here to find Authorised Service Centres of any Brand and connect with just one simple click.",
+  insights_tip: "Keep a track of your monthly and periodic expenses.",
   mailbox_tip:
-    "This is your eHome inbox wherein all reminders and notifications will be delivered. Track them here.",
+    "This is your eHome’s inbox where all Reminders and Notifications will be delivered for you to track.",
   coming_up_tip:
-    "This is the eHome section where you will find all the alerts related to renewal and expiry dates.",
+    "This is your Alert section. You can track all your Renewal and Expiry dates here.",
   add_bill_btn_tip: "To add multiple bills at the same time, use the + icon.",
   zoom_image_tip:
     "Just pinch out to zoom in your bills, to have a better view.",
   upload_bill_tip:
-    "Upload Bill: You can upload your Bills and Documents here (optional).",
+    "Upload Bill: You can upload Bills and Documents here. If you don’t have the Bill, you can always add it later on.",
   product_card_tip:
-    "This is the Product Card for your {{categoryName}}. It’s like a digital identity of your Product which you can access anytime anywhere.",
+    "This is the Product Card for your {{categoryName}}. It’s a digital identity of your Product for you to access anytime, anywhere.",
   product_card_upload_bill_tip:
-    "Don’t want to add the details manually just upload the bill and leave rest upon us. Our experts will fill in the details for you.",
+    "Don't want to add the details manually, just upload the bill and your Home Manager will fill in the rest.",
   product_card_share_tip:
-    "Share your product experience with your Friends, Family and Followers to help them make a wise purchase.",
+    "Share your product experience with your Friends, Family and Followers to help them make a wise purchase decision.",
   product_card_review_tip: "Review your product experience.",
   product_card_add_image_tip:
-    "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more sharable with your friends and family.",
+    "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more shareable with your friends and family.",
+  deals_filter_tip: "Filter your requirement further.",
+
   //blank dashboard
   blank_dashboard_headline: "Welcome to BinBill",
-  blank_dashboard_text:
-    "Start adding your Products, Bills, Expenses and Documents",
+  blank_dashboard_text: "Your Own Home Manager",
   blank_dashboard_btn_text: "UPLOAD DOC",
   blank_dashboard_know_more_text: "Know More",
   blank_dashboard_one_step: "One Stop For",
@@ -764,8 +793,12 @@ export default {
   add_edit_amc_delete_amc: "Are you sure?",
   add_edit_amc_delete_amc_desc:
     "All the information and document copies related to this AMC will be deleted.",
+  add_edit_accessory_delete_accessory_desc:
+    "All the information and document copies related to this part/accessory will be deleted.",
   add_edit_amc_could_not_delete: "Couldn't delete",
   add_edit_no_dnt_delete: "No, don't Delete",
+  add_edit_accessory_unsaved_info:
+    "All the unsaved information and document copies related to this part/accessory would be deleted",
   add_edit_amc_effective_date: "Please select AMC effective date",
   add_edit_amc_save: "SAVE",
   add_edit_insurance_add_insurance: "Add Insurance",
@@ -795,10 +828,17 @@ export default {
   add_edit_puc_edit_puc: "Edit PUC",
   add_edit_puc_unsaved_info:
     "All the unsaved information and document copies related to this PUC would be deleted",
+  add_edit_rc_unsaved_info:
+    "All the unsaved information and document copies related to this RC would be deleted",
   add_edit_puc_delete_puc: "Are you sure?",
   add_edit_puc_delete_puc_desc:
     "All the information and document copies related to this PUC will be deleted.",
-  add_edit_puc_select_puc: "Please select 'PUC Effective Date' or 'PUC Upto'",
+  add_edit_rc_delete_rc_desc:
+    "All the information and document copies related to this RC will be deleted.",
+  add_edit_fuel_delete_fuel_desc:
+    "All the information and document copies related to this fuel expense will be deleted.",
+  add_edit_puc_select_puc: "Please select 'PUC Effective Date' or 'PUC up to'",
+  add_edit_rc_required_fields: "Please enter all fields",
   add_edit_repair_add_repair: "Add Repair",
   add_edit_repair_edit_repair: "Edit Repair",
   add_edit_repair_unsaved_info:
@@ -813,7 +853,7 @@ export default {
   add_edit_warranty_delete_warranty_desc:
     "All the information and document copies related to this warranty will be deleted.",
   add_edit_warranty_effective_date: "Please enter the Effective Date",
-  add_edit_warranty_uptoo: "Please select warranty upto",
+  add_edit_warranty_uptoo: "Please select Warranty up to",
   add_edit_product_option_product: "Add Products & Documents",
   add_edit_product_option_or: "OR",
   add_edit_product_option_expense: "Add Expenses & Moments",
@@ -821,6 +861,7 @@ export default {
     "Document Uploaded, Provide further details to complete the process",
   add_edit_direct_category: "Select Category",
   add_edit_direct_subcategory: "Select Sub-Category",
+  add_edit_direct_insurance_provider: "Select Insurance Provider",
   add_edit_direct_type: "Select Type",
   add_edit_direct_brand: "Select Brand",
   add_edit_direct_model: "Select Model",
@@ -828,7 +869,7 @@ export default {
   add_edit_direct_select_category_first: "Select Sub-Category First",
   add_edit_direct_select_brand_first: "Select Brand First",
   add_edit_direct_select_model_first: "Select Model First",
-  add_edit_direct_add_docs: "Add Document",
+  add_edit_direct_add_docs: "Update Details",
   add_edit_direct_doc_successfully: "Document Uploaded Successfully",
   add_edit_direct_add_eHome: "ADD PRODUCTS TO eHOME",
   add_edit_direct_later: "I'll Do it Later",
@@ -847,14 +888,14 @@ export default {
   add_edit_product_basic_select_amount: "Please enter amount",
   add_edit_product_basic_select_date: "Please select a date",
   add_edit_force_update_upgrade:
-    "Update the all new BinBill App available with snazzy new features",
+    "Update to a New, More Awesome and Friendlier BinBill!",
   add_edit_force_update_versions:
     "The new version brings a whole host of fantastic features and improvements.",
   add_edit_force_update_text1: "Home Attendance Manager",
   add_edit_force_update_text2: "Share Personalised Review",
   add_edit_force_update_text3: "Do You Know series",
   add_edit_force_update_now: "UPDATE NOW",
-  add_edit_force_not_now: "Not Now",
+  add_edit_force_not_now: "Maybe Later",
   add_edit_force_ok: "OK",
 
   //app-tour
@@ -863,10 +904,10 @@ export default {
   //expenseForms
   expense_forms_amc_form_amc_text: "AMC (If Applicable)",
   expense_forms_amc_form_amc_effective_date: "AMC Effective Date",
-  expense_forms_amc_form_amc_recommended: "(Recommended)",
-  expense_forms_amc_form_amc_seller_name: "AMC Seller Name",
-  expense_forms_amc_form_amc_seller_contact: "Seller Contact",
-  expense_forms_amc_form_amc_amount: "AMC Amount",
+  expense_forms_amc_form_amc_recommended: "Recommended",
+  expense_forms_amc_form_amc_seller_name: "AMC Provider Name",
+  expense_forms_amc_form_amc_seller_contact: "AMC Provider Contact",
+  expense_forms_amc_form_amc_amount: "AMC Amount (₹)",
   expense_forms_amc_form_amc_upload: "Upload AMC Doc",
   expense_forms_expense_basic_detail: "Basic Details",
   expense_forms_expense_basic_upload_bill: "Upload Bill",
@@ -875,7 +916,7 @@ export default {
   expense_forms_expense_basic_expense_recommend:
     "Recommended for fast and easy retrieval",
   expense_forms_expense_basic_expense_date: "Date",
-  expense_forms_expense_basic_expense_amount: "Amount",
+  expense_forms_expense_basic_expense_amount: "Amount (₹)",
   expense_forms_expense_basic_expense_next_date: "Next Due Date",
   expense_forms_expense_basic_expense_seller_name: "Seller Name",
   expense_forms_expense_basic_expense_seller_contact: "Seller Contact",
@@ -884,7 +925,7 @@ export default {
   expense_forms_extended_warranty_provider: "Provider",
   expense_forms_extended_warranty_provider_name: "Enter Provider Name",
   expense_forms_extended_warranty_start_date: "Warranty Start Date",
-  expense_forms_extended_warranty_upto: "Warranty Upto (in years)",
+  expense_forms_extended_warranty_upto: "Warranty up to (years)",
   expense_forms_warranty_upload_warr_doc: "Upload Warranty Doc",
   expense_forms_extended_warranty_title: "title",
   expense_forms_extended_warranty_doc: "Upload Extended Warranty Doc",
@@ -898,14 +939,14 @@ export default {
   expense_forms_healthcare_premium_amount: "Premium Amount",
   expense_forms_healthcare_coverage: "Coverage",
   expense_forms_insurance: "Insurance (If Applicable)",
-  expense_forms_insurance_name: "Insurance*",
+  expense_forms_insurance_name: "Insurance",
   expense_forms_insurance_details: "Insurance Details",
   expense_forms_insurance_provider: "Insurance Provider",
   expense_forms_insurance_provider_name: "Enter Provider Name",
   expense_forms_insurance_polocy_no: "Insurance Policy No ",
-  expense_forms_insurance_premium_amount: "Insurance Premium Amount",
+  expense_forms_insurance_premium_amount: "Insurance Premium Amount (₹)",
   expense_forms_insurance_upload_policy: "Upload Policy Doc",
-  expense_forms_insurance_total_coverage: "Total Coverage",
+  expense_forms_insurance_total_coverage: "Total Coverage (₹)",
   expense_forms_medical_doc_title: "Report Title",
   expense_forms_medical_doc_doctor_name: "Doctor/Hospital Name",
   expense_forms_medical_doc_doctor_contact: "Doctor/Hospital Contact",
@@ -917,28 +958,29 @@ export default {
   expense_forms_product_basics_select_brand_first: "Please select brand first",
   expense_forms_product_basics_imei: "IMEI No",
   expense_forms_product_basics_serial: "Serial No",
-  expense_forms_product_basics_vin_no: "VIN No.",
+  expense_forms_product_basics_chasis_no: "Chassis Number",
   expense_forms_product_basics_registration_no: "Registration No",
   expense_forms_product_basics_purchase_date: "Purchase Date",
-  expense_forms_product_basics_purchase_amount: "Purchase Amount",
+  expense_forms_product_basics_purchase_amount: "Purchase Amount (₹)",
   expense_forms_product_basics_seller_name: "Seller Name",
   expense_forms_product_basics_seller_contact: "Seller Contact",
-  expense_forms_puc: "PUC (optional)",
+  expense_forms_puc: "PUC (Optional)",
   expense_forms_puc_effective_date: "PUC Effective Date",
-  expense_forms_puc_upto: "PUC Upto",
+  expense_forms_puc_upto: "PUC up to",
   expense_forms_puc_seller_name: "PUC Seller Name",
   expense_forms_puc_seller_contact: "PUC Seller Contact",
-  expense_forms_puc_amount: "PUC Amount",
+  expense_forms_puc_amount: "PUC Amount (₹)",
   expense_forms_puc_upload_doc: "Upload PUC Doc ",
   expense_forms_repair_history: "Repair/Service History (If Applicable)",
-  expense_forms_repair_for: "Repair For",
+  expense_forms_repair_for: "Repair Issue",
   expense_forms_repair_date: "Repair Date",
   expense_forms_repair_seller_name: "Repair Seller Name",
   expense_forms_repair_seller_contact: "Repair Seller Contact",
-  expense_forms_repair_amount: "Repair Amount",
+  expense_forms_repair_amount: "Repair Amount (₹)",
   expense_forms_repair_upload_repair: "Upload Repair/Service Bill",
-  expense_forms_repair_warranty_upto: "Warranty Upto",
+  expense_forms_repair_warranty_upto: "Warranty up to",
   expense_forms_warranty_Warranty: "Warranty (If Applicable)",
+  expense_forms_warranty_amount: "Amount (₹)",
   expense_forms_warranty_manufacturers: "Manufacturer Warranty (Optional)",
   expense_forms_warranty_applicable: "Warranty (If Applicable)",
   expense_forms_warranty_dual_warranty: "Dual Warranty (If Applicable)",
@@ -971,6 +1013,7 @@ export default {
   component_items_insurance_expiry: "Insurance expiring",
   component_items_amc_expiry: "AMC expiring",
   component_items_puc_expiry: "PUC expiring",
+  component_items_repair_warranty_expiry: "Repair Warranty expiring",
   component_items_view_more: "View More",
   component_items_view_less: "View Less",
 
@@ -980,12 +1023,14 @@ export default {
   language_options_confirm_msg_title: "Change language to {{languageName}}?",
   language_options_confirm_msg_desc: "App may restart to reflect the changes.",
   language_options_cancel: "Cancel",
-  changing_text_please_wait: "changing.. please wait..",
+  changing_text_please_wait: "Updating details, please wait!",
   resend_button: "Resend",
 
   //27-03-2018
   love_using_binbill: "Love using BinBill app?",
-  recommend_us: "Recommend us to others by rating us on {{storeName}} Store",
+  recommend_us: `If you are happy with your Home Manager, please rate us on ${
+    Platform.OS == "ios" ? "App" : "Play"
+    } store.`,
   app_pin: "App Pin",
   change: "Change",
   set_now: "Set Now",
@@ -998,13 +1043,13 @@ export default {
   //29-03-2018
   are_you_sure: "Are you sure?",
   delete_calendar_item_confirm_msg:
-    "All the information related to this item will be deleted.",
+    "All the information related to this service will be deleted.",
   yes_delete: "Yes, Delete",
   no_dont_delete: "No, don't Delete",
 
   //29-03-2018
   add_edit_expense_screen_title_select_travel:
-    "Select Travel & Dining Expense Category",
+    "Select Travel & Dining Expense Type",
 
   //29-03-2018
   review_quotes: "Someday-N-Someway you will find this Review useful",
@@ -1013,7 +1058,7 @@ export default {
   daily: "Daily",
   monthly: "Monthly",
   save: "Save",
-  add_edit_calendar_service_screen_form_finish_date: "Finish Date",
+  add_edit_calendar_service_screen_form_finish_date: "End Date",
   calendar_service_finish_date_warning:
-    "Details after this date will not be available."
+    "Service Details post this date will not be recorded"
 };

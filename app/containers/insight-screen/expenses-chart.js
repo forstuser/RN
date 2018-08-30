@@ -30,7 +30,7 @@ const InsightChart = ({
   ],
   chartData = []
 }) => (
-  <View style={styles.container}>
+  <View collapsable={false} style={styles.container}>
     <VictoryPie
       colorScale={colors}
       height={300}
@@ -41,13 +41,25 @@ const InsightChart = ({
       }}
       labels={() => ``}
     />
+    {/* scrolling doesn't work on chart directly */}
+    <View collapsable={false} style={styles.cover} />
   </View>
 );
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    height: 300,
+    width: 300,
+    alignSelf: "center"
+  },
+  cover: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%"
   }
 });
 export default InsightChart;

@@ -5,11 +5,12 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "android-bundle":
-      "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "android-bundle": "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
     "android-clean": "cd ./android && ./gradlew clean",
     "android-build-debug": "cd ./android && ./gradlew assembleDebug",
-    "android-build-release": "cd ./android && ./gradlew assembleRelease"
+    "android-build-release": "cd ./android && ./gradlew assembleRelease",
+    "android-codepush-release-format": "appcenter codepush release-react -a appcenterbin/BinBill-Android --mandatory true --description ",
+    "ios-codepush-release-format": "appcenter codepush release-react -a appcenterbin/BinBill --mandatory true --description "
   },
   "dependencies": {
     "add": "^2.0.6",
@@ -22,38 +23,44 @@
     "react-native-actionsheet": "^2.3.0",
     "react-native-app-intro-slider": "^0.2.2",
     "react-native-app-link": "^0.4.0",
+    "react-native-applozic-chat": "https://github.com/AppLozic/Applozic-React-Native-Chat-Messaging-SDK.git",
     "react-native-blur": "^3.2.2",
+    "react-native-camera": "git+https://git@github.com/react-native-community/react-native-camera",
     "react-native-check-box": "^2.1.0",
     "react-native-code-push": "^5.3.2",
     "react-native-datepicker": "^1.6.0",
     "react-native-device-info": "0.12.1",
     "react-native-document-picker": "^2.1.0",
+    "react-native-fast-image": "^4.0.12",
     "react-native-fbsdk": "^0.7.0",
     "react-native-fcm": "^11.0.1",
     "react-native-fetch-blob": "^0.10.8",
     "react-native-firebase-analytics": "^4.0.2",
     "react-native-gesture-handler": "^1.0.0-alpha.41",
+    "react-native-get-sms-android": "^1.3.4",
     "react-native-google-maps-directions": "^1.1.2",
     "react-native-google-places": "2.4.2",
     "react-native-hyperlink": "^0.0.12",
     "react-native-i18n": "^2.0.9",
-    "react-native-image-crop-picker": "^0.18.1",
+    "react-native-image-crop-picker": "^0.20.1",
+    "react-native-image-pan-zoom": "^2.1.3",
     "react-native-keyboard-aware-scroll-view": "^0.4.1",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-loading-spinner-overlay": "^0.5.2",
     "react-native-modal": "^4.1.1",
-    "react-native-navigation": "^1.1.382",
     "react-native-phone-call": "^1.0.4",
     "react-native-photo-view": "^1.5.2",
-    "react-native-scrollable-tab-view":
-      "https://github.com/compojoom/react-native-scrollable-tab-view#fixes_android",
+    "react-native-scrollable-tab-view": "https://github.com/compojoom/react-native-scrollable-tab-view#fixes_android",
     "react-native-share": "^1.0.23",
+    "react-native-snackbar": "^0.4.6",
+    "react-native-splash-screen": "^3.0.6",
     "react-native-star-rating": "^1.0.8",
     "react-native-super-grid": "^2.0.1",
     "react-native-svg": "6.0.0",
     "react-native-tab-view": "^0.0.74",
     "react-native-vector-icons": "^4.4.2",
     "react-native-view-shot": "^2.3.0",
+    "react-navigation": "^2.0.1",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-persist": "^5.3.5",
@@ -64,6 +71,7 @@
   },
   "devDependencies": {
     "babel-jest": "21.2.0",
+    "babel-plugin-transform-remove-console": "^6.9.2",
     "babel-preset-react-native": "4.0.0",
     "jest": "21.2.1",
     "react-test-renderer": "16.0.0"
@@ -72,6 +80,8 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": ["./assets/fonts/"]
+    "assets": [
+      "./assets/fonts/"
+    ]
   }
 }

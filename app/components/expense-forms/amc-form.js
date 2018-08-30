@@ -27,7 +27,7 @@ import UploadDoc from "../form-elements/upload-doc";
 
 class AmcForm extends React.Component {
   static propTypes = {
-    navigator: PropTypes.object,
+    navigation: PropTypes.object,
     mainCategoryId: PropTypes.number.isRequired,
     categoryId: PropTypes.number.isRequired,
     productId: PropTypes.number.isRequired,
@@ -53,13 +53,19 @@ class AmcForm extends React.Component {
       effectiveDate: null,
       sellerName: "",
       sellerContact: "",
-      value: null,
+      value: "",
       copies: []
     };
   }
 
   componentDidMount() {
     this.updateStateFromProps(this.props);
+    const { amc } = this.props;
+    if (amc) {
+      this.setState({
+        copies: amc.copies || []
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -102,7 +108,7 @@ class AmcForm extends React.Component {
 
   render() {
     const {
-      navigator,
+      navigation,
       mainCategoryId,
       categoryId,
       productId,
@@ -126,18 +132,42 @@ class AmcForm extends React.Component {
         headerTextStyle={styles.headerTextStyle}
         icon="plus"
       >
-        <View style={styles.innerContainer}>
-          <View style={styles.body}>
+        <View collapsable={false} style={styles.innerContainer}>
+          <View collapsable={false} style={styles.body}>
             <CustomDatePicker
               date={effectiveDate}
               placeholder={I18n.t("expense_forms_amc_form_amc_effective_date")}
-              placeholder2={I18n.t("expense_forms_amc_form_amc_recommended")}
+              // placeholder2={"(Recommended)"}
+              hint={"Helps in AMC expiry reminder"}
               placeholder2Color={colors.mainBlue}
               onDateChange={effectiveDate => {
                 this.setState({ effectiveDate });
               }}
             />
-
+            <UploadDoc
+              productId={productId}
+              itemId={id}
+              copies={copies}
+              jobId={jobId}
+              docType="AMC"
+              type={2}
+              placeholder={I18n.t("expense_forms_amc_form_amc_upload")}
+              hint={"Recommended"}
+              placeholder2Color={colors.mainBlue}
+              navigation={navigation}
+              onUpload={uploadResult => {
+                this.setState({
+                  id: uploadResult.amc.id,
+                  copies: uploadResult.amc.copies
+                });
+              }}
+            />
+            <CustomTextInput
+              placeholder={I18n.t("expense_forms_amc_form_amc_amount")}
+              value={value}
+              onChangeText={value => this.setState({ value })}
+              keyboardType="numeric"
+            />
             <CustomTextInput
               placeholder={I18n.t("expense_forms_amc_form_amc_seller_name")}
               value={sellerName}
@@ -149,32 +179,6 @@ class AmcForm extends React.Component {
               value={sellerContact}
               placeholder={I18n.t("expense_forms_amc_form_amc_seller_contact")}
               keyboardType="numeric"
-            />
-
-            <CustomTextInput
-              placeholder={I18n.t("expense_forms_amc_form_amc_amount")}
-              value={value}
-              onChangeText={value => this.setState({ value })}
-              keyboardType="numeric"
-            />
-
-            <UploadDoc
-              productId={productId}
-              itemId={id}
-              copies={copies}
-              jobId={jobId}
-              docType="AMC"
-              type={2}
-              placeholder={I18n.t("expense_forms_amc_form_amc_upload")}
-              placeholder2=" (Recommended)"
-              placeholder2Color={colors.mainBlue}
-              navigator={navigator}
-              onUpload={uploadResult => {
-                this.setState({
-                  id: uploadResult.amc.id,
-                  copies: uploadResult.amc.copies
-                });
-              }}
             />
           </View>
         </View>

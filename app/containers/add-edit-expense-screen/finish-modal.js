@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, View, Image } from "react-native";
-import { Text, Button } from "../../elements";
+import { StyleSheet, View } from "react-native";
+import { Text, Button, Image } from "../../elements";
 import Modal from "react-native-modal";
 import { colors } from "../../theme";
 import { API_BASE_URL } from "../../api";
@@ -30,12 +30,12 @@ class FinishModal extends React.Component {
   };
 
   onMoreProductsClick = () => {
-    Analytics.logEvent(Analytics.EVENTS.ADD_ANOTHER_PRODUCT);
+    Analytics.logEvent(Analytics.EVENTS.ADD_MORE_PRODUCT);
     this.setState({ visible: false }, () => {
-      this.props.navigator.pop();
+      this.props.navigation.goBack();
       setTimeout(() => {
         if (!this.props.isPreviousScreenOfAddOptions) {
-          this.props.navigator.showModal({
+          this.props.navigation.showModal({
             screen: SCREENS.ADD_PRODUCT_OPTIONS_SCREEN
           });
         }
@@ -44,19 +44,18 @@ class FinishModal extends React.Component {
   };
 
   onDoItLaterClick = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_I_WILL_DO_IT_LATER);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_I_WILL_DO_IT_LATER, {
+      category_id: this.props.mainCategoryId
+    });
     this.setState({ visible: false }, () => {
       if (this.props.productId) {
-        this.props.navigator.pop({ animationType: "fade" });
+        this.props.navigation.goBack({ animationType: "fade" });
 
-        this.props.navigator.push({
-          screen: SCREENS.PRODUCT_DETAILS_SCREEN,
-          passProps: {
-            productId: this.props.productId
-          }
+        this.props.navigation.navigate(SCREENS.PRODUCT_DETAILS_SCREEN, {
+          productId: this.props.productId
         });
       } else {
-        this.props.navigator.dismissAllModals();
+        this.props.navigation.dismissAllModals();
       }
     });
   };
@@ -66,41 +65,59 @@ class FinishModal extends React.Component {
       mainCategoryId,
       showRepairIcon = false,
       title = I18n.t("add_edit_expense_screen_title_add_eHome"),
-      navigator
+      navigation
     } = this.props;
+    // console.log("props",  this.props)
+    // console.log("state",  this.state)
     const { visible } = this.state;
+    if (!visible) return null;
+
     return (
-      <Modal useNativeDriver={true} isVisible={visible} animationOutTiming={10}>
-        <View style={styles.finishModal}>
-          <Image
-            style={styles.finishImage}
-            source={
-              mainCategoryId
-                ? {
-                  uri: API_BASE_URL + `/categories/${mainCategoryId}/images/1`
-                }
-                : repairIcon
-            }
-            resizeMode="contain"
-          />
-          <Text weight="Bold" style={styles.finishMsg}>
-            {title}
-          </Text>
-          <Button
-            onPress={this.onMoreProductsClick}
-            style={styles.finishBtn}
-            text={I18n.t("add_edit_expense_screen_title_add_products")}
-            color="secondary"
-          />
-          <Text
-            onPress={this.onDoItLaterClick}
-            weight="Bold"
-            style={styles.doItLaterText}
-          >
-            {I18n.t("add_edit_expense_screen_title_add_later")}
-          </Text>
-        </View>
-      </Modal>
+      <View collapsable={false}>
+        {visible ? (
+          <View collapsable={false}>
+            <Modal
+              useNativeDriver={true}
+              isVisible={true}
+              animationOutTiming={10}
+            >
+              <View collapsable={false} style={styles.finishModal}>
+                <Image
+                  style={styles.finishImage}
+                  source={
+                    mainCategoryId
+                      ? {
+                          uri:
+                            API_BASE_URL +
+                            `/categories/${mainCategoryId}/images/1`
+                        }
+                      : repairIcon
+                  }
+                  resizeMode="contain"
+                />
+                <Text weight="Bold" style={styles.finishMsg}>
+                  {title}
+                </Text>
+                <Button
+                  onPress={this.onMoreProductsClick}
+                  style={styles.finishBtn}
+                  text={I18n.t("add_edit_expense_screen_title_add_products")}
+                  color="secondary"
+                />
+                <Text
+                  onPress={this.onDoItLaterClick}
+                  weight="Bold"
+                  style={styles.doItLaterText}
+                >
+                  {I18n.t("add_edit_expense_screen_title_add_later")}
+                </Text>
+              </View>
+            </Modal>
+          </View>
+        ) : (
+          <View collapsable={false} />
+        )}
+      </View>
     );
   }
 }

@@ -13,7 +13,6 @@ import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
 import Icon from "react-native-vector-icons/Entypo";
-import { Navigation } from "react-native-navigation";
 import Modal from "react-native-modal";
 import ActionSheet from "react-native-actionsheet";
 import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
@@ -27,7 +26,7 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import Analytics from "../../analytics";
 
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 
 import { colors } from "../../theme";
 
@@ -39,57 +38,35 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import FinishModal from "./finish-modal";
 
-const NavOptionsButton = ({ addImageText }) => (
-  <TouchableOpacity
-    style={{
-      ...Platform.select({
-        ios: {},
-        android: {
-          position: "absolute",
-          top: 5,
-          right: 4,
-          width: 30,
-          height: 30,
-          alignItems: "center",
-          justifyContent: "flex-end"
-        }
-      })
-    }}
-    onPress={() =>
-      Navigation.handleDeepLink({ link: "calendar-nav-options-btn" })
-    }
-  >
-    <Icon name="dots-three-vertical" size={17} color={colors.pinkishOrange} />
-  </TouchableOpacity>
-);
-
-Navigation.registerComponent(
-  "CalendarNavOptionsButton",
-  () => NavOptionsButton
-);
-
 class CalendarServiceCard extends Component {
-  static navigatorStyle = {
-    tabBarHidden: true,
-    drawUnderNavBar: true,
-    navBarTranslucent: Platform.OS === "ios",
-    navBarTransparent: true,
-    navBarBackgroundColor: "#fff",
-    topBarElevationShadowEnabled: false
-  };
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    const { onOptionsPress } = params;
 
-  static navigatorButtons = {
-    rightButtons: [
-      {
-        component: "CalendarNavOptionsButton"
-      }
-    ]
+    return {
+      title: I18n.t("calendar_service_screen_title"),
+      headerRight: (
+        <TouchableOpacity
+          style={{
+            marginRight: 10
+          }}
+          onPress={onOptionsPress}
+        >
+          <Icon
+            name="dots-three-vertical"
+            size={17}
+            color={colors.pinkishOrange}
+          />
+        </TouchableOpacity>
+      )
+    };
   };
 
   constructor(props) {
     super(props);
     this.state = {
       isScreenVisible: true,
+      itemId: null,
       item: null,
       isLoading: true,
       activeTabIndex: 0,
@@ -101,20 +78,21 @@ class CalendarServiceCard extends Component {
   }
 
   componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("calendar_service_screen_title")
-    });
-    this.fetchItemDetails();
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-  }
+    this.setState(
+      {
+        itemId: this.props.navigation.state.params.itemId
+      },
+      () => {
+        this.fetchItemDetails();
+      }
+    );
 
-  onNavigatorEvent = event => {
-    if (event.type == "DeepLink") {
-      if (event.link == "calendar-nav-options-btn") {
+    this.props.navigation.setParams({
+      onOptionsPress: () => {
         this.editOptions.show();
       }
-    }
-  };
+    });
+  }
 
   handleEditOptionPress = index => {
     const { item } = this.state;
@@ -129,7 +107,7 @@ class CalendarServiceCard extends Component {
               onPress: async () => {
                 this.setState({ isLoading: true });
                 await deleteCalendarItem(item.id);
-                this.props.navigator.pop();
+                this.props.navigation.goBack();
               }
             },
             {
@@ -141,7 +119,7 @@ class CalendarServiceCard extends Component {
         break;
 
       case 1:
-        this.finishModal.show();
+        if (this.finishModal) this.finishModal.show();
     }
   };
 
@@ -153,7 +131,7 @@ class CalendarServiceCard extends Component {
 
     const newState = {};
     try {
-      const res = await fetchCalendarItemById(this.props.itemId);
+      const res = await fetchCalendarItemById(this.state.itemId);
       newState.item = res.item;
     } catch (e) {
       newState.error = e;
@@ -166,26 +144,23 @@ class CalendarServiceCard extends Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_EDIT);
     const { product } = this.props;
     if (product.categoryId == 664) {
-      this.props.navigator.push({
-        screen: SCREENS.EDIT_INSURANCE_SCREEN,
-        passProps: {
-          typeId: product.sub_category_id,
-          mainCategoryId: product.masterCategoryId,
-          categoryId: product.categoryId,
-          productId: product.id,
-          jobId: product.jobId,
-          planName: product.productName,
-          insuranceFor: product.model,
-          copies: []
-        }
+      this.props.navigation.navigate(SCREENS.EDIT_INSURANCE_SCREEN, {
+        typeId: product.sub_category_id,
+        mainCategoryId: product.masterCategoryId,
+        categoryId: product.categoryId,
+        productId: product.id,
+        jobId: product.jobId,
+        planName: product.productName,
+        insuranceFor: product.model,
+        copies: []
       });
     } else {
-      this.props.navigator.push({
-        screen: SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
-        passProps: {
+      this.props.navigation.navigate(
+        SCREENS.EDIT_PRODUCT_BASIC_DETAILS_SCREEN,
+        {
           product: product
         }
-      });
+      );
     }
   };
 
@@ -210,27 +185,27 @@ class CalendarServiceCard extends Component {
     }
 
     if (event.nativeEvent.contentOffset.y > 0) {
-      this.props.navigator.setStyle({
-        navBarTransparent: false,
-        navBarBackgroundColor: "#fff",
-        ...Platform.select({
-          ios: {},
-          android: {
-            topBarElevationShadowEnabled: true
-          }
-        })
-      });
+      // this.props.navigation.setStyle({
+      //   navBarTransparent: false,
+      //   navBarBackgroundColor: "#fff",
+      //   ...Platform.select({
+      //     ios: {},
+      //     android: {
+      //       topBarElevationShadowEnabled: true
+      //     }
+      //   })
+      // });
     } else {
-      this.props.navigator.setStyle({
-        navBarTransparent: true,
-        navBarBackgroundColor: "transparent",
-        ...Platform.select({
-          ios: {},
-          android: {
-            topBarElevationShadowEnabled: false
-          }
-        })
-      });
+      // this.props.navigation.setStyle({
+      //   navBarTransparent: true,
+      //   navBarBackgroundColor: "transparent",
+      //   ...Platform.select({
+      //     ios: {},
+      //     android: {
+      //       topBarElevationShadowEnabled: false
+      //     }
+      //   })
+      // });
     }
   };
 
@@ -246,12 +221,14 @@ class CalendarServiceCard extends Component {
     } = this.state;
 
     if (error) {
-      return <ErrorOverlay error={error} onRetryPress={this.fetchItemDetails} />;
+      return (
+        <ErrorOverlay error={error} onRetryPress={this.fetchItemDetails} />
+      );
     }
 
     return (
-      <View style={styles.container}>
-        {item && (
+      <View collapsable={false} style={styles.container}>
+        {item ? (
           <ScrollView
             ref={ref => (this.scrollView = ref)}
             onScroll={this.handleScroll}
@@ -263,13 +240,13 @@ class CalendarServiceCard extends Component {
               activePaymentDetailIndex={activePaymentDetailIndex}
               onPaymentDetailIndexChange={this.onPaymentDetailIndexChange}
               item={item}
-              navigator={this.props.navigator}
+              navigation={this.props.navigation}
             />
-            <View style={styles.pages}>
+            <View collapsable={false} style={styles.pages}>
               {activeTabIndex == 0 && (
                 <Attendance
                   item={item}
-                  navigator={this.props.navigator}
+                  navigation={this.props.navigation}
                   activePaymentDetailIndex={activePaymentDetailIndex}
                   onPaymentDetailIndexChange={this.onPaymentDetailIndexChange}
                   reloadScreen={this.fetchItemDetails}
@@ -278,7 +255,7 @@ class CalendarServiceCard extends Component {
               {activeTabIndex == 1 && (
                 <Payments
                   item={item}
-                  navigator={this.props.navigator}
+                  navigation={this.props.navigation}
                   activePaymentDetailIndex={activePaymentDetailIndex}
                   onPaymentDetailIndexChange={this.onPaymentDetailIndexChange}
                   reloadScreen={this.fetchItemDetails}
@@ -287,7 +264,7 @@ class CalendarServiceCard extends Component {
               {activeTabIndex == 2 && (
                 <OtherDetails
                   item={item}
-                  navigator={this.props.navigator}
+                  navigation={this.props.navigation}
                   activePaymentDetailIndex={activePaymentDetailIndex}
                   onPaymentDetailIndexChange={this.onPaymentDetailIndexChange}
                   reloadScreen={this.fetchItemDetails}
@@ -295,20 +272,24 @@ class CalendarServiceCard extends Component {
               )}
             </View>
           </ScrollView>
+        ) : (
+          <View collapsable={false} />
         )}
         <LoadingOverlay visible={isLoading} />
         <ActionSheet
           onPress={this.handleEditOptionPress}
           ref={o => (this.editOptions = o)}
           cancelButtonIndex={2}
-          options={["Delete", "Finish", "Cancel"]}
+          options={["Delete", "End", "Cancel"]}
         />
-        {item && (
+        {item ? (
           <FinishModal
             item={item}
             reloadScreen={this.fetchItemDetails}
             ref={ref => (this.finishModal = ref)}
           />
+        ) : (
+          <View collapsable={false} />
         )}
       </View>
     );

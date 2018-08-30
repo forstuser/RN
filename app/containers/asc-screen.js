@@ -4,7 +4,6 @@ import {
   StyleSheet,
   View,
   FlatList,
-  Image,
   Alert,
   TouchableOpacity,
   TextInput,
@@ -19,9 +18,9 @@ import {
   getProductsForAsc,
   ascAccessed
 } from "../api";
-import { Text, Button, ScreenContainer } from "../elements";
+import { Text, Button, ScreenContainer, Image } from "../elements";
 import I18n from "../i18n";
-import { showSnackbar } from "./snackbar";
+import { showSnackbar } from "../utils/snackbar";
 
 import SelectModal from "../components/select-modal";
 import LoadingOverlay from "../components/loading-overlay";
@@ -36,9 +35,8 @@ const crossIcon = require("../images/ic_close.png");
 const dropdownIcon = require("../images/ic_dropdown_arrow.png");
 
 class AscScreen extends Component {
-  static navigatorStyle = {
-    navBarHidden: false,
-    tabBarHidden: true
+  static navigationOptions = {
+    title: I18n.t("asc_screen_title")
   };
   constructor(props) {
     super(props);
@@ -58,14 +56,22 @@ class AscScreen extends Component {
       address: "",
       clearSelectedValuesOnScreenAppear: true
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  onNavigatorEvent = event => {
-    switch (event.id) {
-      case "didAppear":
-        Analytics.logEvent(Analytics.EVENTS.OPEN_ASC_SCREEN);
-        this.fetchProducts();
+  async componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.OPEN_ASC_SCREEN);
+
+    const hitAccessApi = this.props.navigation.getParam("hitAccessApi", false);
+    if (hitAccessApi) {
+      await ascAccessed();
+    }
+
+    this.fetchBrands();
+
+    this.fetchProducts();
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
         if (this.state.clearSelectedValuesOnScreenAppear) {
           this.setState({
             selectedBrand: null,
@@ -75,22 +81,12 @@ class AscScreen extends Component {
         this.setState({
           clearSelectedValuesOnScreenAppear: true
         });
-        break;
-    }
-  };
-
-  async componentDidMount() {
-    this.props.navigator.setTitle({
-      title: I18n.t("asc_screen_title")
-    });
-    if (this.props.screenOpts) {
-      const screenOpts = this.props.screenOpts;
-      if (screenOpts.hitAccessApi) {
-        await ascAccessed();
       }
-    }
+    );
+  }
 
-    this.fetchBrands();
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   fetchBrands = async () => {
@@ -105,7 +101,7 @@ class AscScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     } finally {
       this.setState({
         isFetchingBrands: false
@@ -127,7 +123,7 @@ class AscScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     } finally {
       this.setState({
         isFetchingProducts: false
@@ -174,7 +170,7 @@ class AscScreen extends Component {
     } catch (e) {
       showSnackbar({
         text: e.message
-      })
+      });
     } finally {
       this.setState({
         isFetchingCategories: false
@@ -194,24 +190,25 @@ class AscScreen extends Component {
     if (!this.state.selectedBrand || !this.state.selectedCategory) {
       return showSnackbar({
         text: I18n.t("asc_screen_select_fields_first")
-      })
+      });
     }
 
     if (!this.state.latitude) {
       return showSnackbar({
         text: I18n.t("asc_screen_select_location")
-      })
+      });
     }
 
-    Analytics.logEvent(Analytics.EVENTS.SEARCH_ASC);
-    this.props.navigator.push({
-      screen: SCREENS.ASC_SEARCH_SCREEN,
-      passProps: {
-        brand: this.state.selectedBrand,
-        category: this.state.selectedCategory,
-        latitude: this.state.latitude,
-        longitude: this.state.longitude
-      }
+    Analytics.logEvent(Analytics.EVENTS.SEARCH_ASC, {
+      brand_name: this.state.selectedBrand.brandName,
+      category_name: this.state.selectedCategory.category_name
+    });
+
+    this.props.navigation.navigate(SCREENS.ASC_SEARCH_SCREEN, {
+      brand: this.state.selectedBrand,
+      category: this.state.selectedCategory,
+      latitude: this.state.latitude,
+      longitude: this.state.longitude
     });
   };
 
@@ -245,9 +242,7 @@ class AscScreen extends Component {
   };
 
   openAddProductScreen = () => {
-    this.props.navigator.showModal({
-      screen: SCREENS.ADD_PRODUCT_OPTIONS_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN);
   };
 
   render() {
@@ -267,14 +262,14 @@ class AscScreen extends Component {
     } = this.state;
     return (
       <ScreenContainer style={styles.container}>
-        <View style={styles.body}>
-          <View style={styles.productsPart}>
+        <View collapsable={false} style={styles.body}>
+          <View collapsable={false} style={styles.productsPart}>
             <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("asc_screen_section_1_title")}
             </Text>
-            {products.length > 0 && (
-              <ScrollView style={styles.productsContainer} horizontal={true}>
-                {products.map(product => {
+            {products.length > 0 ? (
+              <ScrollView style={styles.productsContainer} horizontal={true}           showsHorizontalScrollIndicator={false}>
+                {products.map((product, index) => {
                   const meta = getProductMetasString(product.productMetaData);
                   return (
                     <TouchableOpacity
@@ -286,15 +281,22 @@ class AscScreen extends Component {
                         style={styles.productImage}
                         source={{ uri: API_BASE_URL + product.cImageURL }}
                       />
-                      <View style={styles.productTexts}>
+                      <View
+                        collapsable={false}
+                        key={index}
+                        style={styles.productTexts}
+                      >
                         <Text
                           numberOfLines={1}
                           weight="Bold"
                           style={styles.name}
                         >
-                          {product.productName}
+                          {product.productName || product.categoryName}
                         </Text>
-                        <View style={styles.productMetaContainer}>
+                        <View
+                          collapsable={false}
+                          style={styles.productMetaContainer}
+                        >
                           <Text numberOfLines={2} style={styles.productMeta}>
                             {meta}
                           </Text>
@@ -304,9 +306,8 @@ class AscScreen extends Component {
                   );
                 })}
               </ScrollView>
-            )}
-            {products.length == 0 && (
-              <View style={styles.noProductsContainer}>
+            ) : (
+              <View collapsable={false} style={styles.noProductsContainer}>
                 <Text style={styles.noProductsMsg}>
                   {I18n.t("asc_screen_section_no_products_msg")}
                 </Text>
@@ -321,7 +322,7 @@ class AscScreen extends Component {
               </View>
             )}
           </View>
-          <View style={styles.selectsPart}>
+          <View collapsable={false} style={styles.selectsPart}>
             <Text weight="Bold" style={styles.sectionTitle}>
               {I18n.t("asc_screen_section_2_title")}
             </Text>
@@ -339,9 +340,10 @@ class AscScreen extends Component {
                 return true;
               }}
               selectedOption={selectedBrand}
-              options={brands.map(brand => ({
+              options={brands.map((brand, index) => ({
                 ...brand,
-                image: `${API_BASE_URL}/brands/${brand.id}/images`
+                image: `${API_BASE_URL}/brands/${brand.id}/images`,
+                key: { index }
               }))}
               imageKey="image"
               visibleKey="brandName"
@@ -364,7 +366,7 @@ class AscScreen extends Component {
                 if (!this.state.selectedBrand) {
                   showSnackbar({
                     text: I18n.t("asc_screen_select_brand_first")
-                  })
+                  });
                   return false;
                 }
                 this.setState({ clearSelectedValuesOnScreenAppear: false });
@@ -383,7 +385,7 @@ class AscScreen extends Component {
               onPress={this.openLocationModal}
               style={[
                 styles.select,
-                { flexDirection: "row", marginBottom: 35 }
+                { flexDirection: "row", marginBottom: 35, borderRadius: 10 }
               ]}
             >
               <Text
@@ -511,10 +513,10 @@ const styles = StyleSheet.create({
   },
   select: {
     height: "auto",
-    backgroundColor: 'white',
-    borderColor: 'transparent',
-    overflow: 'hidden',
-    shadowColor: 'black',
+    backgroundColor: "white",
+    borderColor: "transparent",
+    overflow: "hidden",
+    shadowColor: "black",
     padding: 8,
     paddingBottom: 15,
     paddingTop: 10,

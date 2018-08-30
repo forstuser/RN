@@ -6,6 +6,11 @@ import defaultState from "./default-state";
  */
 export default function uiReducer(state = defaultState.ui, action) {
   switch (action.type) {
+    case types.UI_SET_FCM_TOKEN:
+      return {
+        ...state,
+        fcmToken: action.payload.fcmToken
+      };
     case types.UI_SET_LANGUAGE:
       return {
         ...state,
@@ -46,15 +51,35 @@ export default function uiReducer(state = defaultState.ui, action) {
         ...state,
         hasProductCardTourShown: action.payload.hasProductCardTourShown
       };
-    case types.UI_SET_HAS_UPDATE_APP_SCREEN_SHOWN:
+    case types.UI_UPDATE_AVAILABLE_SCREEN_TIMESTAMP:
       return {
         ...state,
-        hasUpdateAppScreenShown: action.payload.hasUpdateAppScreenShown
+        appUpdateAvailableScreenTimestamp: action.payload.timestamp
       };
     case types.UI_SET_RATE_US_DIALOG_TIMESTAMP:
       return {
         ...state,
         rateUsDialogTimestamp: action.payload.timestamp
+      };
+    case types.UI_INCREMENT_APP_OPEN:
+      return {
+        ...state,
+        appOpenCount: state.appOpenCount + 1
+      };
+    case types.UI_PRODUCT_TO_OPEN_DIRECTLY:
+      return {
+        ...state,
+        productIdToOpenDirectly: action.payload.id
+      };
+    case types.UI_DYK_TO_OPEN_DIRECTLY:
+      return {
+        ...state,
+        dykIdToOpenDirectly: action.payload.id
+      };
+    case types.UI_SET_HAS_DEALS_FILTER_TOOLTIP_SHOWN:
+      return {
+        ...state,
+        hasDealsFilterTooltipShown: action.payload.hasDealsFilterTooltipShown
       };
     default:
       return state;
@@ -65,6 +90,30 @@ export default function uiReducer(state = defaultState.ui, action) {
  * Actions
  */
 export const actions = {
+  setProductIdToOpenDirectly: id => {
+    console.log("setProductIdToOpenDirectly1: ", id);
+    return {
+      type: types.UI_PRODUCT_TO_OPEN_DIRECTLY,
+      payload: { id }
+    };
+  },
+  setDykIdToOpenDirectly: id => {
+    return {
+      type: types.UI_DYK_TO_OPEN_DIRECTLY,
+      payload: { id }
+    };
+  },
+  incrementAppOpen: () => {
+    return {
+      type: types.UI_INCREMENT_APP_OPEN
+    };
+  },
+  setFcmToken: fcmToken => {
+    return {
+      type: types.UI_SET_FCM_TOKEN,
+      payload: { fcmToken: fcmToken }
+    };
+  },
   setLanguage: language => {
     return {
       type: types.UI_SET_LANGUAGE,
@@ -113,16 +162,22 @@ export const actions = {
       payload: { hasProductCardTourShown }
     };
   },
-  setUiHasUpdateAppScreenShown: hasUpdateAppScreenShown => {
+  setAppUpdateAvailableScreenTimestamp: timestamp => {
     return {
-      type: types.UI_SET_HAS_UPDATE_APP_SCREEN_SHOWN,
-      payload: { hasUpdateAppScreenShown }
+      type: types.UI_UPDATE_AVAILABLE_SCREEN_TIMESTAMP,
+      payload: { timestamp }
     };
   },
   setRateUsDialogTimestamp: timestamp => {
     return {
       type: types.UI_SET_RATE_US_DIALOG_TIMESTAMP,
       payload: { timestamp }
+    };
+  },
+  setUiHasDealsFilterTooltipShown: hasDealsFilterTooltipShown => {
+    return {
+      type: types.UI_SET_HAS_DEALS_FILTER_TOOLTIP_SHOWN,
+      payload: { hasDealsFilterTooltipShown }
     };
   }
 };

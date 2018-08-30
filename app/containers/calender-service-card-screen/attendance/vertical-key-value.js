@@ -5,7 +5,7 @@ import { Text } from "../../../elements";
 import { colors } from "../../../theme";
 
 export default ({ keyText, valueText, valueStyle }) => (
-  <View style={styles.container}>
+  <View collapsable={false}  style={styles.container}>
     <Text weight="Medium" style={styles.key}>
       {keyText}
     </Text>

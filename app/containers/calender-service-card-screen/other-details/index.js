@@ -14,7 +14,7 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import I18n from "../../../i18n";
-import { showSnackbar } from "../../snackbar";
+import { showSnackbar } from "../../../utils/snackbar";
 
 import { updateCalendarItem } from "../../../api";
 
@@ -143,10 +143,11 @@ class Report extends React.Component {
 
     const calculationDetails = item.calculation_detail;
     const weekDays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+    // if (!isEditDetailModalOpen) return null;
 
     return (
-      <View style={{ paddingHorizontal: 8 }}>
-        <View style={styles.card}>
+      <View collapsable={false} style={{ paddingHorizontal: 8 }}>
+        <View collapsable={false} style={styles.card}>
           <TouchableOpacity
             onPress={this.showEditDetailModal}
             style={{ flex: 1, backgroundColor: "#EBEBEB" }}
@@ -179,17 +180,17 @@ class Report extends React.Component {
               )}
             />
           </TouchableOpacity>
-          <View style={styles.cardBody}>
-            <KeyValueItem
+          <View collapsable={false} style={styles.cardBody}>
+            {/* <KeyValueItem
               keyText={I18n.t("calendar_service_screen_product_name")}
+              valueText={item.product_name}
+            /> */}
+            <KeyValueItem
+              keyText={"Service Name"}
               valueText={item.product_name}
             />
             <KeyValueItem
-              keyText={I18n.t("calendar_service_screen_provider_name")}
-              valueText={item.provider_name}
-            />
-            <KeyValueItem
-              keyText={I18n.t("calendar_service_screen_provider_number")}
+              keyText={"Contact Number"}
               ValueComponent={() => (
                 <TouchableOpacity
                   style={styles.callText}
@@ -208,7 +209,7 @@ class Report extends React.Component {
             />
           </View>
         </View>
-        <ScrollView horizontal={true} style={styles.slider}>
+        <ScrollView horizontal={true}           showsHorizontalScrollIndicator={false} style={styles.slider}>
           {calculationDetails.map((calculationDetail, index) => {
             const startDate = moment(calculationDetail.effective_date).format(
               "DD MMM YYYY"
@@ -224,6 +225,7 @@ class Report extends React.Component {
 
             return (
               <View
+                collapsable={false}
                 key={calculationDetail.id}
                 style={[
                   styles.card,
@@ -233,6 +235,7 @@ class Report extends React.Component {
                 ]}
               >
                 <View
+                  collapsable={false}
                   onPress={() => this.editCalculationDetail(calculationDetail)}
                   style={{ backgroundColor: "#EBEBEB" }}
                 >
@@ -270,80 +273,95 @@ class Report extends React.Component {
                     }}
                   />
                 </View>
-                <View style={styles.cardBody}>
+                <View collapsable={false} style={styles.cardBody}>
                   {calculationDetail.quantity ? (
                     <KeyValueItem
                       keyText={I18n.t("calendar_service_screen_quantity")}
                       valueText={calculationDetail.quantity}
                     />
                   ) : (
-                    <View />
+                    <View collapsable={false} />
                   )}
                   <KeyValueItem
                     keyText={unitPriceText}
                     valueText={calculationDetail.unit_price}
                   />
-                  {Array.isArray(calculationDetail.selected_days) && (
-                    <View style={{ flexDirection: "row", padding: 10 }}>
+                  {Array.isArray(calculationDetail.selected_days) ? (
+                    <View
+                      collapsable={false}
+                      style={{ flexDirection: "row", padding: 10 }}
+                    >
                       {calculationDetail.selected_days.map(day => (
-                        <View key={day} style={styles.weekDay}>
+                        <View
+                          collapsable={false}
+                          key={day}
+                          style={styles.weekDay}
+                        >
                           <Text weight="Medium" style={styles.weekDayText}>
                             {weekDays[day - 1]}
                           </Text>
                         </View>
                       ))}
                     </View>
+                  ) : (
+                    <View collapsable={false} />
                   )}
                 </View>
               </View>
             );
           })}
         </ScrollView>
-        <Modal
-          isVisible={isEditDetailModalOpen}
-          avoidKeyboard={Platform.OS == "ios"}
-          animationIn="slideInUp"
-          useNativeDriver={true}
-          onBackdropPress={this.hideEditDetailModal}
-          onBackButtonPress={this.hideEditDetailModal}
-        >
-          <View style={[styles.card, styles.modalCard]}>
-            <LoadingOverlay visible={isSavingDetails} />
-            <TouchableOpacity
-              style={styles.modalCloseIcon}
-              onPress={this.hideEditDetailModal}
+        {isEditDetailModalOpen ? (
+          <View collapsable={false}>
+            <Modal
+              isVisible={true}
+              avoidKeyboard={Platform.OS == "ios"}
+              animationIn="slideInUp"
+              useNativeDriver={true}
+              onBackdropPress={this.hideEditDetailModal}
+              onBackButtonPress={this.hideEditDetailModal}
             >
-              <Icon name="md-close" size={30} color={colors.mainText} />
-            </TouchableOpacity>
-            <CustomTextInput
+              <View collapsable={false} style={[styles.card, styles.modalCard]}>
+                <LoadingOverlay visible={isSavingDetails} />
+                <TouchableOpacity
+                  style={styles.modalCloseIcon}
+                  onPress={this.hideEditDetailModal}
+                >
+                  <Icon name="md-close" size={30} color={colors.mainText} />
+                </TouchableOpacity>
+                {/* <CustomTextInput
               placeholder={I18n.t("calendar_service_screen_product_name")}
               value={productNameToEdit}
               onChangeText={productNameToEdit =>
                 this.setState({ productNameToEdit })
               }
-            />
-            <CustomTextInput
-              placeholder={I18n.t("calendar_service_screen_provider_name")}
-              value={providerNameToEdit}
-              onChangeText={providerNameToEdit =>
-                this.setState({ providerNameToEdit })
-              }
-            />
-            <CustomTextInput
-              placeholder={I18n.t("calendar_service_screen_provider_number")}
-              value={providerNumberToEdit}
-              onChangeText={providerNumberToEdit =>
-                this.setState({ providerNumberToEdit })
-              }
-            />
-            <Button
-              onPress={this.saveDetails}
-              style={[styles.markPaidBtn, styles.modalBtn]}
-              text={I18n.t("calendar_service_screen_save")}
-              color="secondary"
-            />
+            /> */}
+                <CustomTextInput
+                  placeholder="Service Name"
+                  value={providerNameToEdit}
+                  onChangeText={providerNameToEdit =>
+                    this.setState({ providerNameToEdit })
+                  }
+                />
+                <CustomTextInput
+                  placeholder={"Contact Number"}
+                  value={providerNumberToEdit}
+                  onChangeText={providerNumberToEdit =>
+                    this.setState({ providerNumberToEdit })
+                  }
+                />
+                <Button
+                  onPress={this.saveDetails}
+                  style={[styles.markPaidBtn, styles.modalBtn]}
+                  text={I18n.t("calendar_service_screen_save")}
+                  color="secondary"
+                />
+              </View>
+            </Modal>
           </View>
-        </Modal>
+        ) : (
+          <View collapsable={false} />
+        )}
         <CalculationDetailModal
           ref={ref => (this.calculationDetailModal = ref)}
           item={item}
@@ -386,7 +404,8 @@ const styles = StyleSheet.create({
     maxWidth: 320,
     alignSelf: "center",
     alignItems: "center",
-    padding: 16
+    padding: 16,
+    paddingTop: 40
   },
   modalCloseIcon: {
     position: "absolute",

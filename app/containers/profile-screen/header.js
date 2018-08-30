@@ -5,24 +5,22 @@ import {
   View,
   FlatList,
   Alert,
-  Image,
   TextInput,
   TouchableOpacity
 } from "react-native";
 import Modal from "react-native-modal";
 import ActionSheet from "react-native-actionsheet";
 import ImagePicker from "react-native-image-crop-picker";
-
 import {
   requestCameraPermission,
   requestStoragePermission
 } from "../../android-permissions";
-
 import I18n from "../../i18n";
 import { API_BASE_URL, uploadProfilePic } from "../../api";
-import { Text, Button, ScreenContainer, AsyncImage } from "../../elements";
+import { Text, Button, ScreenContainer, Image } from "../../elements";
+import LoadingOverlay from "../../components/loading-overlay";
 import { colors } from "../../theme";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import { BlurView } from "react-native-blur";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 const editIcon = require("../../images/ic_edit_white.png");
@@ -31,6 +29,7 @@ class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       profilePic: null,
       blurViewRef: null
     };
@@ -121,6 +120,7 @@ class ProfileScreen extends Component {
       autoDismissTimerSec: 1000
     });
     try {
+      this.setState({ isLoading: true });
       await uploadProfilePic(file, () => {});
       this.setState({
         profilePic: <Image style={styles.image} source={{ uri: file.uri }} />
@@ -134,25 +134,30 @@ class ProfileScreen extends Component {
       showSnackbar({
         text: e.message
       });
+    } finally {
+      this.setState({ isLoading: false });
     }
   };
 
   render() {
-    const profilePic = this.state.profilePic;
-    return (
-      <View style={styles.header}>
-        <View style={styles.backgroundImg}>{profilePic}</View>
-        {Platform.OS == "ios" && (
-          <BlurView
-            style={styles.overlay}
-            viewRef={this.state.blurViewRef}
-            blurType="light"
-            blurAmount={5}
-          />
-        )}
+    const { isLoading, profilePic } = this.state;
 
-        <View style={styles.profilePicWrapper}>
-          <View style={styles.profilePicCircleWrapper}>{profilePic}</View>
+    return (
+      <View collapsable={false} style={styles.header}>
+        <View collapsable={false} style={styles.backgroundImg}>
+          {profilePic}
+        </View>
+        <View
+          style={styles.overlay}
+          // viewRef={this.state.blurViewRef}
+          blurType="light"
+          blurAmount={5}
+        />
+
+        <View collapsable={false} style={styles.profilePicWrapper}>
+          <View collapsable={false} style={styles.profilePicCircleWrapper}>
+            {profilePic}
+          </View>
           <TouchableOpacity
             onPress={() => this.uploadOptions.show()}
             style={styles.editImg}
@@ -171,26 +176,28 @@ class ProfileScreen extends Component {
             "Cancel"
           ]}
         />
+        <LoadingOverlay visible={isLoading} />
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
   header: {
-    height: 150,
-    alignItems: "center"
+    height: 200,
+    alignItems: "center",
+    overflow: "hidden"
   },
   backgroundImg: {
     position: "absolute",
     width: "100%",
-    height: "100%"
+    height: 150
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.55)",
     position: "absolute",
     width: "100%",
     top: 0,
-    bottom: 0
+    height: 150
   },
   profilePicWrapper: {
     marginTop: 80,

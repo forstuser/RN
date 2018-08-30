@@ -5,8 +5,10 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  Platform
+  Platform,
+  StatusBar
 } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 import { Text, Button } from "../elements";
 import I18n from "../i18n";
 import { colors } from "../theme";
@@ -18,19 +20,13 @@ const searchIcon = require("../images/ic_top_search.png");
 
 class TabSearchHeader extends Component {
   openSearchScreen = () => {
-    Analytics.logEvent(Analytics.EVENTS.USER_SEARCH_IN_EHOME);
-    this.props.navigator.push({
-      screen: SCREENS.SEARCH_SCREEN,
-      passProps: {
-        recentSearches: this.props.recentSearches
-      }
+    this.props.navigation.navigate(SCREENS.SEARCH_SCREEN, {
+      recentSearches: this.props.recentSearches
     });
   };
   openMailboxScreen = () => {
     Analytics.logEvent(Analytics.EVENTS.OPEN_MAILS);
-    this.props.navigator.push({
-      screen: SCREENS.MAILBOX_SCREEN
-    });
+    this.props.navigation.navigate(SCREENS.MAILBOX_SCREEN);
   };
   render() {
     const {
@@ -43,40 +39,59 @@ class TabSearchHeader extends Component {
       onRightSideSearchIconPress
     } = this.props;
     return (
-      <View style={styles.container}>
-        <View style={styles.upperContainer}>
-          <View style={styles.nameAndIcon}>
+      <View collapsable={false} style={styles.container}>
+        <StatusBar backgroundColor={colors.mainBlue} />
+        <LinearGradient
+          start={{ x: 0.0, y: 0 }}
+          end={{ x: 0.0, y: 1 }}
+          colors={[colors.mainBlue, colors.aquaBlue]}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
+          }}
+        />
+        <View collapsable={false} style={styles.upperContainer}>
+          <View collapsable={false} style={styles.nameAndIcon}>
             <Image style={styles.icon} source={icon} resizeMode="contain" />
             <Text weight="Medium" style={styles.screenName}>
               {title}
             </Text>
           </View>
-          {showMailbox && (
+          {showMailbox ? (
             <TouchableOpacity
               onPress={this.openMailboxScreen}
               style={styles.messagesContainer}
               ref={this.props.mailboxIconRef}
             >
               <Image style={styles.messagesIcon} source={messagesIcon} />
-              {notificationCount > 0 && (
-                <View style={styles.messagesCountContainer}>
+              {notificationCount > 0 ? (
+                <View collapsable={false} style={styles.messagesCountContainer}>
                   <Text weight="Bold" style={styles.messagesCount}>
                     {notificationCount}
                   </Text>
                 </View>
+              ) : (
+                <View collapsable={false} />
               )}
             </TouchableOpacity>
+          ) : (
+            <View collapsable={false} />
           )}
-          {showRightSideSearchIcon && (
+          {showRightSideSearchIcon ? (
             <TouchableOpacity
               onPress={onRightSideSearchIconPress}
               style={styles.messagesContainer}
             >
               <Image style={styles.messagesIcon} source={searchIcon} />
             </TouchableOpacity>
+          ) : (
+            <View collapsable={false} />
           )}
         </View>
-        {showSearchInput && (
+        {showSearchInput ? (
           <TouchableOpacity
             onPress={this.openSearchScreen}
             style={styles.searchContainer}
@@ -86,6 +101,8 @@ class TabSearchHeader extends Component {
               {I18n.t("tab_screen_header_search_placeholder")}
             </Text>
           </TouchableOpacity>
+        ) : (
+          <View collapsable={false} />
         )}
       </View>
     );
@@ -96,7 +113,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 12,
     elevation: 2,
-    backgroundColor: "#fff",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.25,
@@ -123,16 +139,20 @@ const styles = StyleSheet.create({
   icon: {
     width: 24,
     height: 24,
-    marginRight: 5
+    marginRight: 5,
+    tintColor: "#fff"
   },
   screenName: {
     fontSize: 18,
-    color: colors.secondaryText
+    color: "#fff"
   },
-  messagesContainer: {},
+  messagesContainer: {
+    paddingRight: 5
+  },
   messagesIcon: {
     width: 24,
-    height: 24
+    height: 24,
+    tintColor: "#fff"
   },
   messagesCountContainer: {
     position: "absolute",
@@ -142,8 +162,8 @@ const styles = StyleSheet.create({
     paddingRight: 3,
     borderColor: "#eee",
     borderWidth: 1,
-    top: -2,
-    right: -5,
+    top: 0,
+    right: 0,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
@@ -154,7 +174,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "transparent",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    ...Platform.select({
+      android: {
+        marginTop: -2
+      }
+    })
   },
   searchContainer: {
     height: 42,

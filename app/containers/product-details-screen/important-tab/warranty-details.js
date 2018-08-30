@@ -35,17 +35,13 @@ class WarrantyDetails extends Component {
   openAddEditWarrantyScreen = warranty => {
     const { product, warrantyType } = this.props;
 
-    this.props.navigator.push({
-      screen: SCREENS.ADD_EDIT_WARRANTY_SCREEN,
-      passProps: {
-        mainCategoryId: product.masterCategoryId,
-        categoryId: product.categoryId,
-        productId: product.id,
-        jobId: product.jobId,
-        warranty: warranty,
-        warrantyType: warrantyType
-      },
-      overrideBackPress: true
+    this.props.navigation.navigate(SCREENS.ADD_EDIT_WARRANTY_SCREEN, {
+      mainCategoryId: product.masterCategoryId,
+      categoryId: product.categoryId,
+      productId: product.id,
+      jobId: product.jobId,
+      warranty: warranty,
+      warrantyType: warrantyType
     });
   };
 
@@ -55,16 +51,16 @@ class WarrantyDetails extends Component {
 
     let headerText = I18n.t("product_details_screen_warranty_title");
     return (
-      <View>
+      <View collapsable={false}>
         <Collapsible headerText={headerText}>
           {warrantyDetails.length > 0 && (
-            <View>
+            <View collapsable={false}>
               {warrantyDetails.map(warranty => {
                 if (warranty.warranty_type != warrantyType) {
                   return null;
                 }
                 return (
-                  <View>
+                  <View collapsable={false}>
                     <EditOptionRow
                       date={warranty.expiryDate}
                       onEditPress={() => {
@@ -79,7 +75,7 @@ class WarrantyDetails extends Component {
                       }
                     />
 
-                    {warrantyType == WARRANTY_TYPES.EXTENDED && (
+                    {warrantyType == WARRANTY_TYPES.EXTENDED ? (
                       <KeyValueItem
                         keyText={I18n.t(
                           "product_details_screen_warranty_provider"
@@ -88,9 +84,12 @@ class WarrantyDetails extends Component {
                           warranty.provider ? warranty.provider.name : "-"
                         }
                       />
+                    ) : (
+                      <View collapsable={false} />
                     )}
 
                     <ViewBillRow
+                      collapsable={false}
                       expiryDate={warranty.expiryDate}
                       purchaseDate={warranty.purchaseDate}
                       docType="Warranty"

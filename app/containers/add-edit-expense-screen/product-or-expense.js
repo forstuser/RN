@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { API_BASE_URL, initProduct, updateProduct } from "../../api";
 import { ScreenContainer, Text, Button } from "../../elements";
 import I18n from "../../i18n";
-import { showSnackbar } from "../snackbar";
+import { showSnackbar } from "../../utils/snackbar";
 import Analytics from "../../analytics";
 import FinishModal from "./finish-modal";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -64,6 +64,7 @@ class ProductOrExpense extends React.Component {
   }
 
   componentDidMount() {
+    console.log("sdddddddddddddddddds", this.props)
     const { product, mainCategoryId } = this.props;
     if (mainCategoryId) {
       this.setState({ mainCategoryId });
@@ -144,7 +145,7 @@ class ProductOrExpense extends React.Component {
 
     const healthcareFormType = this.props.healthcareFormType;
     if (healthcareFormType == "medical_docs") {
-      if (category.id == 664) {
+      if (category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
         //category 'insurance'
         this.setState({
           visibleModules: {
@@ -312,10 +313,10 @@ class ProductOrExpense extends React.Component {
 
       this.setState({ isSavingProduct: true });
       await updateProduct(data);
-      Analytics.logEvent(Analytics.EVENTS.ADD_PRODUCT_COMPLETED, {
-        maincategory: this.state.mainCategoryId,
-        category: this.state.category.name
-      });
+      // Analytics.logEvent(Analytics.EVENTS.ADD_PRODUCT_COMPLETED, {
+      //   maincategory: this.state.mainCategoryId,
+      //   category: this.state.category.name
+      // });
       this.setState({
         isSavingProduct: false,
         isFinishModalVisible: true
@@ -333,7 +334,6 @@ class ProductOrExpense extends React.Component {
 
   render() {
     const { categoryId, reasons } = this.props;
-
     const {
       mainCategoryId,
       category,
@@ -374,213 +374,234 @@ class ProductOrExpense extends React.Component {
             }}
             healthcareFormType={this.props.healthcareFormType}
           />
-          <View style={styles.separator} />
-          {product == null && (
-            <View style={styles.selectCategoryMsgContainer}>
+          <View collapsable={false} style={styles.separator} />
+          {product == null ? (
+            <View collapsable={false} style={styles.selectCategoryMsgContainer}>
               <Text weight="Medium" style={styles.selectCategoryMsg}>
                 {startMsg}
               </Text>
-              {reasons.map(reason => {
+              {reasons.map((reason, index) => {
                 return (
-                  <Text weight="Medium" style={styles.reason}>
+                  <Text weight="Medium" key={index} style={styles.reason}>
                     • {reason}
                   </Text>
                 );
               })}
             </View>
-          )}
-          {product != null && (
-            <View style={styles.formsContainer}>
-              {visibleModules.productBasicDetails && (
-                <View>
-                  <ProductBasicDetailsForm
-                    ref={ref => (this.productBasicDetailsForm = ref)}
-                    mainCategoryId={mainCategoryId}
-                    categoryId={category.id}
-                    category={category}
-                    id={product.id}
-                    jobId={product.job_id}
-                    subCategories={subCategories}
-                    brands={brands}
-                    categoryForms={categoryForms}
-                    navigator={this.props.navigator}
-                    setWarrantyTypesOnModelSelect={data => {
-                      this.setState({
-                        defaultWarrantyRenewalTypeId:
-                          data.warrantyRenewalTypeId,
-                        defaultDualWarrantyRenewalTypeId:
-                          data.dualWarrantyRenewalTypeId
-                      });
-                    }}
-                  />
-                  <View style={styles.separator} />
-                </View>
-              )}
+          ) : (
+              <View collapsable={false} style={styles.formsContainer}>
+                {visibleModules.productBasicDetails ? (
+                  <View collapsable={false} >
+                    <ProductBasicDetailsForm
+                      ref={ref => (this.productBasicDetailsForm = ref)}
+                      mainCategoryId={mainCategoryId}
+                      categoryId={category.id}
+                      category={category}
+                      id={product.id}
+                      jobId={product.job_id}
+                      subCategories={subCategories}
+                      brands={brands}
+                      categoryForms={categoryForms}
+                      navigation={this.props.navigation}
+                      setWarrantyTypesOnModelSelect={data => {
+                        this.setState({
+                          defaultWarrantyRenewalTypeId:
+                            data.warrantyRenewalTypeId,
+                          defaultDualWarrantyRenewalTypeId:
+                            data.dualWarrantyRenewalTypeId
+                        });
+                      }}
+                    />
+                    <View collapsable={false} style={styles.separator} />
+                  </View>
+                ) : (
+                    <View collapsable={false} />
+                  )}
 
-              {visibleModules.expenseBasicDetails && (
-                <View>
-                  <ExpenseBasicDetailsForm
-                    ref={ref => (this.expenseBasicDetailsForm = ref)}
-                    mainCategoryId={mainCategoryId}
-                    categoryId={category.id}
-                    category={category}
-                    productId={product.id}
-                    jobId={product.job_id}
-                    subCategories={subCategories}
-                    navigator={this.props.navigator}
-                  />
-                  <View style={styles.separator} />
-                </View>
-              )}
+                {visibleModules.expenseBasicDetails ? (
+                  <View collapsable={false} >
+                    <ExpenseBasicDetailsForm
+                      ref={ref => (this.expenseBasicDetailsForm = ref)}
+                      mainCategoryId={mainCategoryId}
+                      categoryId={category.id}
+                      category={category}
+                      productId={product.id}
+                      jobId={product.job_id}
+                      subCategories={subCategories}
+                      navigation={this.props.navigation}
+                    />
+                    <View collapsable={false} style={styles.separator} />
+                  </View>
+                ) : (
+                    <View collapsable={false} />
+                  )}
 
-              {visibleModules.healthcareInsuranceForm && (
-                <View>
-                  <HealthcareInsuranceForm
-                    ref={ref => (this.healthcareInsuranceForm = ref)}
-                    mainCategoryId={mainCategoryId}
-                    categoryId={category.id}
-                    category={category}
-                    productId={product.id}
-                    jobId={product.job_id}
-                    insuranceProviders={insuranceProviders}
-                    navigator={this.props.navigator}
-                  />
-                  <View style={styles.separator} />
-                </View>
-              )}
+                {visibleModules.healthcareInsuranceForm ? (
+                  <View collapsable={false} >
+                    <HealthcareInsuranceForm
+                      ref={ref => (this.healthcareInsuranceForm = ref)}
+                      mainCategoryId={mainCategoryId}
+                      categoryId={category.id}
+                      category={category}
+                      productId={product.id}
+                      jobId={product.job_id}
+                      insuranceProviders={insuranceProviders}
+                      navigation={this.props.navigation}
+                    />
+                    <View collapsable={false} style={styles.separator} />
+                  </View>
+                ) : (
+                    <View collapsable={false} />
+                  )}
 
-              {visibleModules.healthcareMedicalDocuments && (
-                <View>
-                  <MedicalDocForm
-                    ref={ref => (this.healthcareMedicalDocForm = ref)}
-                    mainCategoryId={mainCategoryId}
-                    categoryId={category.id}
-                    category={category}
-                    productId={product.id}
-                    jobId={product.job_id}
-                    categoryReferenceData={categoryReferenceData}
-                    navigator={this.props.navigator}
-                    subCategories={subCategories}
-                  />
-                  <View style={styles.separator} />
-                </View>
-              )}
+                {visibleModules.healthcareMedicalDocuments ? (
+                  <View collapsable={false} >
+                    <MedicalDocForm
+                      ref={ref => (this.healthcareMedicalDocForm = ref)}
+                      mainCategoryId={mainCategoryId}
+                      categoryId={category.id}
+                      category={category}
+                      productId={product.id}
+                      jobId={product.job_id}
+                      categoryReferenceData={categoryReferenceData}
+                      navigation={this.props.navigation}
+                      subCategories={subCategories}
+                    />
+                    <View collapsable={false} style={styles.separator} />
+                  </View>
+                ) : (
+                    <View collapsable={false} />
+                  )}
 
-              {visibleModules.insurance && (
-                <View>
-                  <InsuranceForm
-                    ref={ref => (this.insuranceForm = ref)}
-                    mainCategoryId={mainCategoryId}
-                    categoryId={category.id}
-                    productId={product.id}
-                    jobId={product.job_id}
-                    insuranceProviders={insuranceProviders}
-                    navigator={this.props.navigator}
-                    isCollapsible={
-                      mainCategoryId != MAIN_CATEGORY_IDS.AUTOMOBILE ||
-                      category.id == CATEGORY_IDS.AUTOMOBILE.CYCLE
-                    }
-                  />
-                  <View style={styles.separator} />
-                </View>
-              )}
+                {visibleModules.insurance ? (
+                  <View collapsable={false} >
+                    <InsuranceForm
+                      ref={ref => (this.insuranceForm = ref)}
+                      mainCategoryId={mainCategoryId}
+                      categoryId={category.id}
+                      productId={product.id}
+                      jobId={product.job_id}
+                      insuranceProviders={insuranceProviders}
+                      navigation={this.props.navigation}
+                      isCollapsible={
+                        mainCategoryId != MAIN_CATEGORY_IDS.AUTOMOBILE ||
+                        category.id == CATEGORY_IDS.AUTOMOBILE.CYCLE
+                      }
+                    />
+                    <View collapsable={false} style={styles.separator} />
+                  </View>
+                ) : (
+                    <View collapsable={false} />
+                  )}
 
-              {visibleModules.warranty && (
-                <View>
-                  <WarrantyForm
-                    ref={ref => (this.warrantyForm = ref)}
-                    mainCategoryId={mainCategoryId}
-                    categoryId={category.id}
-                    productId={product.id}
-                    jobId={product.job_id}
-                    renewalTypes={renewalTypes}
-                    renewalTypeId={defaultWarrantyRenewalTypeId}
-                    navigator={this.props.navigator}
-                  />
-                  <View style={styles.separator} />
-                </View>
-              )}
+                {visibleModules.warranty ? (
+                  <View collapsable={false} >
+                    <WarrantyForm
+                      ref={ref => (this.warrantyForm = ref)}
+                      mainCategoryId={mainCategoryId}
+                      categoryId={category.id}
+                      productId={product.id}
+                      jobId={product.job_id}
+                      renewalTypes={renewalTypes}
+                      renewalTypeId={defaultWarrantyRenewalTypeId}
+                      navigation={this.props.navigation}
+                    />
+                    <View collapsable={false} style={styles.separator} />
+                  </View>
+                ) : (
+                    <View collapsable={false} />
+                  )}
 
-              {visibleModules.dualWarranty && (
-                <View>
-                  <WarrantyForm
-                    ref={ref => (this.dualWarrantyForm = ref)}
-                    mainCategoryId={mainCategoryId}
-                    categoryId={category.id}
-                    productId={product.id}
-                    jobId={product.job_id}
-                    renewalTypes={renewalTypes}
-                    renewalTypeId={defaultDualWarrantyRenewalTypeId}
-                    warrantyType={WARRANTY_TYPES.DUAL}
-                    dualWarrantyItem={dualWarrantyItem}
-                    navigator={this.props.navigator}
-                  />
-                  <View style={styles.separator} />
-                </View>
-              )}
+                {visibleModules.dualWarranty ? (
+                  <View collapsable={false} >
+                    <WarrantyForm
+                      ref={ref => (this.dualWarrantyForm = ref)}
+                      mainCategoryId={mainCategoryId}
+                      categoryId={category.id}
+                      productId={product.id}
+                      jobId={product.job_id}
+                      renewalTypes={renewalTypes}
+                      renewalTypeId={defaultDualWarrantyRenewalTypeId}
+                      warrantyType={WARRANTY_TYPES.DUAL}
+                      dualWarrantyItem={dualWarrantyItem}
+                      navigation={this.props.navigation}
+                    />
+                    <View collapsable={false} style={styles.separator} />
+                  </View>
+                ) : (
+                    <View collapsable={false} />
+                  )}
 
-              {visibleModules.extendedWarranty && (
-                <View>
-                  <WarrantyForm
-                    ref={ref => (this.extendedWarrantyForm = ref)}
-                    mainCategoryId={mainCategoryId}
-                    categoryId={category.id}
-                    productId={product.id}
-                    jobId={product.job_id}
-                    renewalTypes={renewalTypes}
-                    warrantyProviders={warrantyProviders}
-                    warrantyType={WARRANTY_TYPES.EXTENDED}
-                    navigator={this.props.navigator}
-                  />
-                  <View style={styles.separator} />
-                </View>
-              )}
+                {visibleModules.extendedWarranty ? (
+                  <View collapsable={false} >
+                    <WarrantyForm
+                      ref={ref => (this.extendedWarrantyForm = ref)}
+                      mainCategoryId={mainCategoryId}
+                      categoryId={category.id}
+                      productId={product.id}
+                      jobId={product.job_id}
+                      renewalTypes={renewalTypes}
+                      warrantyProviders={warrantyProviders}
+                      warrantyType={WARRANTY_TYPES.EXTENDED}
+                      navigation={this.props.navigation}
+                    />
+                    <View collapsable={false} style={styles.separator} />
+                  </View>
+                ) : (
+                    <View collapsable={false} />
+                  )}
 
-              {visibleModules.amc && (
-                <View>
-                  <AmcForm
-                    ref={ref => (this.amcForm = ref)}
-                    mainCategoryId={mainCategoryId}
-                    categoryId={category.id}
-                    productId={product.id}
-                    jobId={product.job_id}
-                    categoryReferenceData={categoryReferenceData}
-                    renewalTypes={renewalTypes}
-                    navigator={this.props.navigator}
-                  />
-                  <View style={styles.separator} />
-                </View>
-              )}
+                {visibleModules.amc ? (
+                  <View collapsable={false} >
+                    <AmcForm
+                      ref={ref => (this.amcForm = ref)}
+                      mainCategoryId={mainCategoryId}
+                      categoryId={category.id}
+                      productId={product.id}
+                      jobId={product.job_id}
+                      categoryReferenceData={categoryReferenceData}
+                      renewalTypes={renewalTypes}
+                      navigation={this.props.navigation}
+                    />
+                    <View collapsable={false} style={styles.separator} />
+                  </View>
+                ) : (
+                    <View collapsable={false} />
+                  )}
 
-              {visibleModules.repair && (
-                <View>
-                  <RepairForm
-                    ref={ref => (this.repairForm = ref)}
-                    mainCategoryId={mainCategoryId}
-                    categoryId={category.id}
-                    productId={product.id}
-                    jobId={product.job_id}
-                    navigator={this.props.navigator}
-                  />
-                  <View style={styles.separator} />
-                </View>
-              )}
+                {visibleModules.repair ? (
+                  <View collapsable={false} >
+                    <RepairForm
+                      ref={ref => (this.repairForm = ref)}
+                      mainCategoryId={mainCategoryId}
+                      categoryId={category.id}
+                      productId={product.id}
+                      jobId={product.job_id}
+                      navigation={this.props.navigation}
+                    />
+                    <View collapsable={false} style={styles.separator} />
+                  </View>
+                ) : (
+                    <View collapsable={false} />
+                  )}
 
-              {visibleModules.puc && (
-                <View>
-                  <PucForm
-                    ref={ref => (this.pucForm = ref)}
-                    mainCategoryId={mainCategoryId}
-                    categoryId={category.id}
-                    productId={product.id}
-                    jobId={product.job_id}
-                    navigator={this.props.navigator}
-                  />
-                  <View style={styles.separator} />
-                </View>
-              )}
-            </View>
-          )}
+                {visibleModules.puc ? (
+                  <View collapsable={false} >
+                    <PucForm
+                      ref={ref => (this.pucForm = ref)}
+                      mainCategoryId={mainCategoryId}
+                      categoryId={category.id}
+                      productId={product.id}
+                      jobId={product.job_id}
+                      navigation={this.props.navigation}
+                    />
+                    <View collapsable={false} style={styles.separator} />
+                  </View>
+                ) : (
+                    <View collapsable={false} />
+                  )}
+              </View>
+            )}
         </KeyboardAwareScrollView>
         {product != null && (
           <Button
@@ -596,7 +617,7 @@ class ProductOrExpense extends React.Component {
           visible={isFinishModalVisible}
           mainCategoryId={mainCategoryId}
           productId={product ? product.id : null}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
           isPreviousScreenOfAddOptions={this.props.isPreviousScreenOfAddOptions}
         />
       </ScreenContainer>
