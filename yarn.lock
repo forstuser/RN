@@ -4310,9 +4310,9 @@ react-native-app-link@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/react-native-app-link/-/react-native-app-link-0.4.0.tgz#725ed2f0419c85bcdb83217ed0a00386016a76cb"
 
-"react-native-applozic-chat@https://github.com/AppLozic/Applozic-React-Native-Chat-Messaging-SDK.git":
+"react-native-applozic-chat@https://github.com/AppLozic/Applozic-React-Native-Chat-Messaging-SDK.git#CustomUI":
   version "1.0.0"
-  resolved "https://github.com/AppLozic/Applozic-React-Native-Chat-Messaging-SDK.git#adcede4b47abf931ac873e4634eb2480d176eb85"
+  resolved "https://github.com/AppLozic/Applozic-React-Native-Chat-Messaging-SDK.git#8c1690ad0e5ea93820ca93576d8d5d4967e93e72"
 
 react-native-blur@^3.2.2:
   version "3.2.2"
@@ -4380,11 +4380,9 @@ react-native-drawer-layout@1.3.2:
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
 
-react-native-fast-image@^4.0.12:
-  version "4.0.12"
-  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-4.0.12.tgz#1dee91598e51c5b8b324e683a0035666c199bd31"
-  dependencies:
-    prop-types "^15.5.10"
+react-native-fast-image@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-5.0.3.tgz#cb53b70a904d908c2c531dcc3d4a77834c9e1c63"
 
 react-native-fbsdk@^0.7.0:
   version "0.7.0"

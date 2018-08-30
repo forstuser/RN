@@ -44,16 +44,7 @@ export default class MySellersPointsTransactionsScreen extends React.Component {
     try {
       const res = await getSellerDetails(seller.id);
       this.setState({
-        transactions: [
-          {
-            id: 32392835924,
-            date: "2018-08-15",
-            credit_added: 347,
-            details:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt dolore."
-          }
-        ]
-        // transactions:res.result.seller_credits
+        transactions: res.result.seller_loyalty_points
       });
     } catch (error) {
       this.setState({ error });

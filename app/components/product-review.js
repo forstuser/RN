@@ -20,7 +20,7 @@ import { SCREENS } from "../constants";
 
 import LoadingOverlay from "../components/loading-overlay";
 import Analytics from "../analytics";
-class UploadProductImage extends React.Component {
+class ProductReview extends React.Component {
   state = {
     starCount: 0,
     reviewInput: "",
@@ -176,4 +176,4 @@ const styles = StyleSheet.create({
     color: colors.tomato
   }
 });
-export default UploadProductImage;
+export default ProductReview;

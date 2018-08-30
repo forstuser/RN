@@ -28,18 +28,18 @@ export default class TransactionItem extends React.Component {
             weight="Bold"
             style={{ fontSize: 33, color: "#ababab", marginTop: -10 }}
           >
-            {moment(item.date).format("DD")}
+            {moment(item.created_at).format("DD")}
           </Text>
           <Text
             weight="Bold"
             style={{ fontSize: 15, color: "#ababab", marginTop: -5 }}
           >
-            {moment(item.date).format("MMM")}
+            {moment(item.created_at).format("MMM")}
           </Text>
         </View>
         <View style={{ flex: 1, paddingHorizontal: 5 }}>
           <Text style={{ fontSize: 9 }}>
-            Credit Added :<Text weight="Bold">{` ` + item.credit_added}</Text>
+            Credit Added :<Text weight="Bold">{` ` + item.amount}</Text>
           </Text>
           <Text style={{ fontSize: 9, marginVertical: 5 }}>
             Transaction Id :
@@ -47,7 +47,7 @@ export default class TransactionItem extends React.Component {
               {` ` + item.id}
             </Text>
           </Text>
-          <Text style={{ fontSize: 9 }}>{item.details}</Text>
+          <Text style={{ fontSize: 9 }}>{item.description}</Text>
         </View>
       </View>
     );

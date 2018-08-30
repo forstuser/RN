@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Alert, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Alert,
+  ActivityIndicator,
+  Image
+} from "react-native";
 import FastImage from "react-native-fast-image";
 import PhotoView from "react-native-photo-view";
 import { isImageFileType } from "../utils";
@@ -11,7 +17,7 @@ import brokenImageIcon from "../images/binbill_logo.png";
 import { colors } from "../theme";
 const fileIcon = require("../images/ic_file.png");
 
-class Image extends Component {
+class AppImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -61,32 +67,32 @@ class Image extends Component {
               {...props}
             />
           ) : (
-              <FastImage
-                onLoadEnd={() => this.setState({ isLoading: false })}
-                onError={(error) => this.setState({ error })}
-                style={[styles.image, { tintColor: props.tintColor }]}
-                source={source}
-                {...props}
-              />
-            )}
+            <FastImage
+              onLoadEnd={() => this.setState({ isLoading: false })}
+              onError={error => this.setState({ error })}
+              style={[styles.image, { tintColor: props.tintColor }]}
+              source={source}
+              {...props}
+            />
+          )}
           {this.state.isLoading ? (
             <View collapsable={false} style={styles.loader}>
               <ActivityIndicator size="small" color={colors.mainBlue} />
             </View>
           ) : (
-              <View collapsable={false} />
-            )}
+            <View collapsable={false} />
+          )}
           {this.state.error ? (
             <View collapsable={false} style={styles.errorImageContainer}>
-              <FastImage
+              <Image
                 style={styles.errorImage}
                 source={brokenImageIcon}
                 resizeMode={FastImage.resizeMode.contain}
               />
             </View>
           ) : (
-              <View collapsable={false} />
-            )}
+            <View collapsable={false} />
+          )}
         </View>
       );
     } else {
@@ -138,4 +144,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Image;
+export default AppImage;

@@ -204,7 +204,7 @@ dependencies {
     compile project(':react-native-snackbar')
     compile project(':react-native-splash-screen')
     compile project(':react-native-fast-image')
-    compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.7@aar') {
       transitive = true;
     }
     compile project(':react-native-view-shot')

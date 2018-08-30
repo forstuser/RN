@@ -53,12 +53,12 @@ public class MainActivity extends ReactActivity {
     }
   }
 
-  // my new code here
-  // @Override
-  // protected void onPause() {
-  //   SplashScreen.hide(this);
-  //   super.onPause();
-  // }
+  // to address 'Activity com.bin.binbillcustomer.MainActivity has leaked window' issue
+   @Override
+   protected void onPause() {
+     SplashScreen.hide(this);
+     super.onPause();
+   }
 
   @Override
   public void onNewIntent(Intent intent) {
