@@ -13,7 +13,7 @@ import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view";
 
-import { getSellers, getMySellers } from "../../api";
+import { getSellers, getMySellers, linkSeller } from "../../api";
 
 import { Text, Image, Button } from "../../elements";
 import DrawerScreenContainer from "../../components/drawer-screen-container";
@@ -23,6 +23,7 @@ import ErrorOverlay from "../../components/error-overlay";
 import { defaultStyles } from "../../theme";
 
 import InviteSellerModal from "./invite-seller-modal";
+import { showSnackbar } from "../../utils/snackbar";
 
 export default class MySellersScreen extends React.Component {
   static navigationOptions = {
@@ -69,6 +70,19 @@ export default class MySellersScreen extends React.Component {
       this.setState({ error });
     } finally {
       this.setState({ isLoadingMySellers: false });
+    }
+  };
+
+  linkSeller = async seller => {
+    try {
+      this.setState({ isLoadingSellers: true });
+      await linkSeller(seller.id);
+      this.setState({ mySellers: [...this.state.mySellers, seller] });
+      showSnackbar({ text: "Seller added to my sellers" });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({ isLoadingSellers: false });
     }
   };
 
@@ -145,6 +159,7 @@ export default class MySellersScreen extends React.Component {
                   <Text style={{ fontSize: 11 }}>{item.address}</Text>
                   {!mySellersIds.includes(item.id) ? (
                     <Button
+                      onPress={() => this.linkSeller(item)}
                       text="Add Seller"
                       color="secondary"
                       style={{ width: 150, marginTop: 25, height: 40 }}

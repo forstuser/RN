@@ -52,6 +52,8 @@ class AppImage extends Component {
       };
     }
 
+    console.log("Image Source: ", source);
+
     let props = { ...this.props };
     delete props.style;
 
@@ -69,7 +71,9 @@ class AppImage extends Component {
           ) : (
             <FastImage
               onLoadEnd={() => this.setState({ isLoading: false })}
-              onError={error => this.setState({ error })}
+              onError={error => {
+                this.setState({ error });
+              }}
               style={[styles.image, { tintColor: props.tintColor }]}
               source={source}
               {...props}

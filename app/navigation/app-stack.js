@@ -73,6 +73,7 @@ import MySellersScreen from "../containers/my-sellers-screen";
 import MySellersCreditTransactionsScreen from "../containers/my-sellers-screen/credit-transactions";
 import MySellersPointsTransactionsScreen from "../containers/my-sellers-screen/points-transactions";
 import MySellersAssistedServicesScreen from "../containers/my-sellers-screen/assisted-services";
+import MySellersRedeemPointsScreen from "../containers/my-sellers-screen/redeem-points-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -220,7 +221,8 @@ export default createStackNavigator(
     [SCREENS.SELLER_DETAILS_SCREEN]: SellerDetailsScreen,
     [SCREENS.MY_SELLERS_CREDIT_TRANSACTIONS_SCREEN]: MySellersCreditTransactionsScreen,
     [SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN]: MySellersPointsTransactionsScreen,
-    [SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN]: MySellersAssistedServicesScreen
+    [SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN]: MySellersAssistedServicesScreen,
+    [SCREENS.MY_SELLERS_REDEEM_POINTS_SCREEN]: MySellersRedeemPointsScreen
   },
   {
     initialRouteName: "DrawerNavigator"

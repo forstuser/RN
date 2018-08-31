@@ -10,6 +10,8 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
 
+import { addSellerReview } from "../../api";
+
 import I18n from "../../i18n";
 import { Text, Button } from "../../elements";
 
@@ -17,13 +19,13 @@ import LoadingOverlay from "../../components/loading-overlay";
 
 import { colors } from "../../theme";
 import Analytics from "../../analytics";
+import { showSnackbar } from "../../utils/snackbar";
 
 class ReviewModal extends React.Component {
   state = {
     isModalVisible: false,
     isSaving: false,
-    starCount: 4,
-    isStarIsZero: false,
+    starCount: 0,
     reviewInput: ""
   };
 
@@ -40,14 +42,43 @@ class ReviewModal extends React.Component {
     });
   };
 
+  onStarRatingPress(rating) {
+    this.setState({
+      starCount: rating || 0
+    });
+  }
+
+  onSubmitReview = async () => {
+    const { starCount, reviewInput, isSaving } = this.state;
+    const { seller } = this.props;
+    if (!starCount) {
+      return showSnackbar({ text: "Please give some rating" });
+    }
+    try {
+      this.setState({
+        isSaving: true
+      });
+
+      await addSellerReview({
+        sellerId: seller.id,
+        ratings: starCount,
+        feedback: reviewInput
+      });
+
+      this.hide();
+    } catch (e) {
+      showSnackbar({
+        text: e.message
+      });
+    } finally {
+      this.setState({
+        isSaving: false
+      });
+    }
+  };
+
   render() {
-    const {
-      isModalVisible,
-      isSaving,
-      starCount,
-      isStarIsZero,
-      reviewInput
-    } = this.state;
+    const { isModalVisible, isSaving, starCount, reviewInput } = this.state;
     const { seller } = this.props;
     if (!isModalVisible) return null;
 
@@ -82,9 +113,6 @@ class ReviewModal extends React.Component {
                   selectedStar={rating => this.onStarRatingPress(rating)}
                 />
               </View>
-              <Text style={styles.ratingMsg}>
-                {isStarIsZero ? "Please provide rating before Submit!" : ""}
-              </Text>
             </View>
             <View style={styles.reviewInputWrapper}>
               <TextInput
