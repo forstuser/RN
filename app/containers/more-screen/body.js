@@ -141,6 +141,10 @@ class Body extends Component {
     this.props.navigation.navigate(SCREENS.ORDER_HISTORY_SCREEN);
   };
 
+  onCashbackBillsPress = () => {
+    this.props.navigation.navigate(SCREENS.TRANSACTIONS_HISTORY_SCREEN);
+  };
+
   render() {
     const appVersion = DeviceInfo.getVersion();
     const { isAppUpdateAvailable, isPinSet, language } = this.props;
@@ -154,8 +158,8 @@ class Body extends Component {
           imageStyle={{ width: 20, height: 20 }}
         />
         <MoreItem
-          onPress={this.onOrderHistoryPress}
-          imageSource={require("../../images/orders_icon.png")}
+          onPress={this.onCashbackBillsPress}
+          imageSource={require("../../images/cashback_bills.png")}
           text={"Cashback BIlls"}
           imageStyle={{ width: 20, height: 20 }}
         />
@@ -194,7 +198,7 @@ class Body extends Component {
         />
         <MoreItem
           onPress={this.onFaqItemPress}
-          imageSource={require("../../images/ic_more_faq.png")}
+          imageSource={require("../../images/cashback_query.png")}
           text={"Cashback Query"}
         />
         <Separator />

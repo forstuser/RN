@@ -164,10 +164,15 @@ class Header extends Component {
                 <Text style={styles.mobile}>{profile.mobile_no}</Text>
               </View>
 
-              <Image
-                style={{ width: 12, height: 12 }}
-                source={require("../../images/ic_processing_arrow.png")}
-              />
+              <TouchableOpacity style={{ alignItems: "center" }}>
+                <Image
+                  style={{ width: 25, height: 25 }}
+                  source={require("../../images/wallet.png")}
+                />
+                <Text weight="Medium" style={{ fontSize: 10, color: "#fff" }}>
+                  {profile.wallet_value} Pts.
+                </Text>
+              </TouchableOpacity>
             </View>
           </TouchableOpacity>
         ) : (

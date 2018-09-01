@@ -52,8 +52,6 @@ class AppImage extends Component {
       };
     }
 
-    console.log("Image Source: ", source);
-
     let props = { ...this.props };
     delete props.style;
 

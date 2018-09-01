@@ -11,6 +11,8 @@ import { colors } from "../theme";
 import TabIcon from "./tab-icon";
 import CustomTabBar from "./tab-bar";
 
+import { SCREENS } from "../constants";
+
 import DashboardScreen from "../containers/dashboard-screen";
 import EhomeScreen from "../containers/ehome-screen";
 import EasyLifeScreen from "../containers/easy-life-screen";
@@ -56,7 +58,6 @@ import PinSetupScreen from "../containers/pin-setup-screen";
 import WhatToScreen from "../containers/what-to-screen";
 import WhatToListScreen from "../containers/what-to-list-screen";
 import DealsScreen from "../containers/deals-screen";
-import { SCREENS } from "../constants";
 import rateUsScreen from "../containers/rate-us-screen";
 import EcommerceScreen from "../containers/e-commerce-screen";
 import OrderHistoryScreen from "../containers/order-history-screen";
@@ -74,6 +75,7 @@ import MySellersCreditTransactionsScreen from "../containers/my-sellers-screen/c
 import MySellersPointsTransactionsScreen from "../containers/my-sellers-screen/points-transactions";
 import MySellersAssistedServicesScreen from "../containers/my-sellers-screen/assisted-services";
 import MySellersRedeemPointsScreen from "../containers/my-sellers-screen/redeem-points-screen";
+import TransactionsHistoryScreen from "../containers/transactions-history-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -222,7 +224,8 @@ export default createStackNavigator(
     [SCREENS.MY_SELLERS_CREDIT_TRANSACTIONS_SCREEN]: MySellersCreditTransactionsScreen,
     [SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN]: MySellersPointsTransactionsScreen,
     [SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN]: MySellersAssistedServicesScreen,
-    [SCREENS.MY_SELLERS_REDEEM_POINTS_SCREEN]: MySellersRedeemPointsScreen
+    [SCREENS.MY_SELLERS_REDEEM_POINTS_SCREEN]: MySellersRedeemPointsScreen,
+    [SCREENS.TRANSACTIONS_HISTORY_SCREEN]: TransactionsHistoryScreen
   },
   {
     initialRouteName: "DrawerNavigator"

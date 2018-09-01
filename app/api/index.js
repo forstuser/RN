@@ -2057,9 +2057,9 @@ export const linkSeller = async sellerId => {
   });
 };
 
-export const getImage = async url => {
+export const getCashbackTransactions = async () => {
   return await apiRequest({
     method: "get",
-    url: url
+    url: `/cashback/details`
   });
 };

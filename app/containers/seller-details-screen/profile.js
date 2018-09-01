@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
 import call from "react-native-phone-call";
 
-import { API_BASE_URL, getImage } from "../../api";
+import { API_BASE_URL } from "../../api";
 
 import { Text, Button, Image } from "../../elements";
 import Checkbox from "../../components/checkbox";
