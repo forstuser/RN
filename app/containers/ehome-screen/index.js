@@ -52,7 +52,7 @@ class EhomeScreen extends Component {
       tabs: [
         {
           type: PRODUCT_TYPES.PRODUCT,
-          name: "My Products",
+          name: "Products",
           products: [],
           isLoadingFirstPage: false,
           isLoading: false,
@@ -64,7 +64,7 @@ class EhomeScreen extends Component {
         },
         {
           type: PRODUCT_TYPES.EXPENSE,
-          name: "My Expenses",
+          name: "Expenses",
           products: [],
           isLoadingFirstPage: false,
           isLoading: false,
@@ -76,7 +76,7 @@ class EhomeScreen extends Component {
         },
         {
           type: PRODUCT_TYPES.DOCUMENT,
-          name: "My Docs",
+          name: "Documents",
           products: [],
           isLoadingFirstPage: false,
           isLoading: false,

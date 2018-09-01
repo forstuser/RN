@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: "#fff",
-    textAlign: 'center'
+    marginLeft: 130
   },
 
   headerLowerHalf: {
