@@ -36,7 +36,7 @@ class MyCalendarScreen extends Component {
 
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
-    // this.fetchItems();
+    //this.fetchItems();
     // this.didFocusSubscription = this.props.navigation.addListener(
     //   "didFocus",
     //   () => {

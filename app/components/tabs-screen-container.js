@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Image, Platform } from "react-native";
+import { StyleSheet, View, Image, Platform, TouchableOpacity } from "react-native";
 
 import ScrollableTabView, {
   DefaultTabBar
@@ -9,6 +9,7 @@ import BlueGradientBG from "./blue-gradient-bg";
 
 import { Text, ScreenContainer } from "../elements";
 import { colors } from "../theme";
+import Icon from "react-native-vector-icons/Ionicons";
 
 export default class TabsScreenContainer extends React.Component {
   render() {
@@ -26,12 +27,21 @@ export default class TabsScreenContainer extends React.Component {
         <View style={styles.header}>
           <BlueGradientBG />
           <View style={styles.headerUpperHalf}>
-            <View style={styles.iconWrapper}>
-              <Image
+            <View>
+              {/* <Image
                 source={iconSource}
                 style={styles.headerIcon}
                 resizeMode="contain"
-              />
+              /> */}
+              <TouchableOpacity
+                onPress={() => this.props.navigation.openDrawer()}
+              >
+                <Icon
+                  name="md-menu"
+                  size={30}
+                  color="#fff"
+                />
+              </TouchableOpacity>
             </View>
 
             <View style={{ flex: 1, paddingRight: 20 }}>
@@ -106,7 +116,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    color: "#fff"
+    color: "#fff",
+    textAlign: 'center'
   },
 
   headerLowerHalf: {

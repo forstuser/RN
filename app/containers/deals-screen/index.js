@@ -116,6 +116,7 @@ class DealsScreen extends Component {
 
     return (
       <TabsScreenContainer
+        navigation={this.props.navigation}
         scrollableTabViewRef={ref => {
           this.scrollableTabView = ref;
         }}

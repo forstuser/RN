@@ -30,6 +30,7 @@ import FilterModal from "./filter-modal";
 import SmallDot from "../../components/small-dot";
 import TabsScreenContainer from "../../components/tabs-screen-container";
 import Tag from "../../components/tag";
+import CalendarContent from "../my-calendar-screen";
 
 const ehomeIcon = require("../../images/ehome.png");
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
@@ -84,7 +85,7 @@ class EhomeScreen extends Component {
           mainCategories: [],
           selectedCategories: [],
           showEndReachedMsg: false
-        }
+        },
       ]
     };
   }
@@ -114,6 +115,8 @@ class EhomeScreen extends Component {
 
   onTabChange = ({ i }) => {
     this.setState({ activeTabIndex: i });
+    if(i === 3) 
+      this.calendarContent.fetchItems();
   };
 
   getProductsFirstPage = tabIndex => {
@@ -185,6 +188,7 @@ class EhomeScreen extends Component {
     return (
       <TabsScreenContainer
         iconSource={ehomeIcon}
+        navigation={this.props.navigation}
         title="eHome"
         onTabChange={this.onTabChange}
         headerRight={
@@ -199,7 +203,7 @@ class EhomeScreen extends Component {
               <Icon name="md-search" color="#fff" size={28} />
             </TouchableOpacity>
 
-            {tabs[activeTabIndex].products.length > 0 ? (
+            {tabs[activeTabIndex] && tabs[activeTabIndex].products.length > 0 ? (
               <TouchableOpacity
                 onPress={() =>
                   this.filterModal.show({
@@ -216,7 +220,7 @@ class EhomeScreen extends Component {
             ) : null}
           </View>
         }
-        tabs={tabs.map((tab, index) => (
+        tabs={[...tabs.map((tab, index) => (
           <View key={tab.type} tabLabel={tab.name} style={{ flex: 1 }}>
             {tab.selectedCategories.length > 0 ? (
               <View
@@ -255,7 +259,14 @@ class EhomeScreen extends Component {
               onListScroll={() => this.onListScroll(index)}
             />
           </View>
-        ))}
+        )),<View style={{ flex: 1 }} tabLabel='My Calendar'>
+          <CalendarContent
+            ref={node => {
+              this.calendarContent = node;
+            }}
+            navigation={this.props.navigation} 
+          />
+        </View>]}
       >
         <TouchableOpacity
           style={styles.fab}
@@ -267,7 +278,7 @@ class EhomeScreen extends Component {
           ref={node => {
             this.filterModal = node;
           }}
-          mainCategories={tabs[activeTabIndex].mainCategories}
+          mainCategories={tabs[activeTabIndex]?tabs[activeTabIndex].mainCategories:[]}
           applyFilter={this.applyFilter}
         />
       </TabsScreenContainer>
