@@ -259,7 +259,7 @@ class EhomeScreen extends Component {
               onListScroll={() => this.onListScroll(index)}
             />
           </View>
-        )),<View style={{ flex: 1 }} tabLabel='My Calendar'>
+        )),<View style={{ flex: 1 }} tabLabel='Calendar'>
           <CalendarContent
             ref={node => {
               this.calendarContent = node;
