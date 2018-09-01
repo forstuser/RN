@@ -45,7 +45,7 @@ import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 import RecentCalenderItems from "./recent-calender-items";
 import AscContent from "./asc-content";
 import ExpenseInsightsContent from "./expense-insights-content";
-import CalendarContent from "../my-calendar-screen";
+//import CalendarContent from "../my-calendar-screen";
 
 const ascIcon = require("../../images/ic_nav_asc_on.png");
 const chartIcon = require("../../images/ic_bars_chart.png");
@@ -83,8 +83,8 @@ class DashboardScreen extends React.Component {
         this.screenHasDisappeared = false;
         this.fetchDashboardData();
         this.expenseInsightContent.fetchCategories();
-        this.ascContent.fetchProducts();
-        this.calendarContent.fetchItems();
+        //this.ascContent.fetchProducts();
+        //this.calendarContent.fetchItems();
       }
     );
 
@@ -194,7 +194,7 @@ class DashboardScreen extends React.Component {
           showSearchInput={false}
           ref="tabSearchHeader"
           title={I18n.t("dashboard_screen_title")}
-          icon={dashBoardIcon}
+          // icon={dashBoardIcon}
           notificationCount={notificationCount}
           recentSearches={recentSearches}
           navigation={this.props.navigation}
@@ -230,37 +230,37 @@ class DashboardScreen extends React.Component {
                     navigation={this.props.navigation}
                   />
                 )
-              },
-              {
-                tabRef: ref => {
-                  this.calendarRef = ref;
-                },
-                title: "My Calendar",
-                imageSource: require("../../images/calendar_icon.png"),
-                content: (
-                  <CalendarContent
-                    ref={node => {
-                      this.calendarContent = node;
-                    }}
-                    navigation={this.props.navigation}
-                  />
-                )
-              },
-              {
-                tabRef: ref => {
-                  this.ascRef = ref;
-                },
-                title: "Service Centres",
-                imageSource: require("../../images/asc_icon.png"),
-                content: (
-                  <AscContent
-                    ref={node => {
-                      this.ascContent = node;
-                    }}
-                    navigation={this.props.navigation}
-                  />
-                )
               }
+              // {
+              //   tabRef: ref => {
+              //     this.calendarRef = ref;
+              //   },
+              //   title: "My Calendar",
+              //   imageSource: require("../../images/calendar_icon.png"),
+              //   content: (
+              //     <CalendarContent
+              //       ref={node => {
+              //         this.calendarContent = node;
+              //       }}
+              //       navigation={this.props.navigation}
+              //     />
+              //   )
+              // },
+              // {
+              //   tabRef: ref => {
+              //     this.ascRef = ref;
+              //   },
+              //   title: "Service Centres",
+              //   imageSource: require("../../images/asc_icon.png"),
+              //   content: (
+              //     <AscContent
+              //       ref={node => {
+              //         this.ascContent = node;
+              //       }}
+              //       navigation={this.props.navigation}
+              //     />
+              //   )
+              // }
             ]}
           />
         </View>
@@ -311,7 +311,7 @@ class DashboardScreen extends React.Component {
             { ref: this.doYouKnowTabItemRef, text: I18n.t("do_you_know_tip") },
             { ref: this.comingUpRef, text: I18n.t("coming_up_tip") },
             { ref: this.insightsRef, text: I18n.t("insights_tip") },
-            { ref: this.calendarRef, text: I18n.t("attendance_tip") }
+            //{ ref: this.calendarRef, text: I18n.t("attendance_tip") }
             // { ref: this.ascRef, text: I18n.t("asc_tip") }
           ]}
         />

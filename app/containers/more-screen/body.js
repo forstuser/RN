@@ -56,6 +56,10 @@ class Body extends Component {
     );
   };
 
+  onBBCashWalletPress = () => {
+    this.props.navigation.navigate(SCREENS.BB_CASH_WALLET_SCREEN);
+  };
+
   onAscItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ASC_FROM_MORE);
     this.props.navigation.navigate(SCREENS.ASC_SCREEN);
@@ -197,7 +201,7 @@ class Body extends Component {
           text={I18n.t("more_screen_item_faq")}
         />
         <MoreItem
-          onPress={this.onFaqItemPress}
+          onPress={this.onBBCashWalletPress}
           imageSource={require("../../images/cashback_query.png")}
           text={"Cashback Query"}
         />
