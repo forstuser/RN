@@ -146,7 +146,7 @@ class Body extends Component {
   };
 
   onCashbackBillsPress = () => {
-    this.props.navigation.navigate(SCREENS.TRANSACTIONS_HISTORY_SCREEN);
+    this.props.navigation.navigate(SCREENS.CASHBACK_BILLS_SCREEN);
   };
 
   render() {

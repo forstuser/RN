@@ -335,7 +335,7 @@ class MySellersScreen extends React.Component {
                           </Text>
                           <Icon
                             name="md-information-circle"
-                            sixe={10}
+                            size={10}
                             style={{ marginTop: 2, marginLeft: 5 }}
                           />
                         </TouchableOpacity>

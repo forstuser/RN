@@ -1,20 +1,26 @@
 import React from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, TouchableOpacity } from "react-native";
 import moment from "moment";
+import Icon from "react-native-vector-icons/Ionicons";
 
+import { openBillsPopUp } from "../../navigation";
 import { Text } from "../../elements";
 import { getCashbackTransactions } from "../../api";
 import { defaultStyles, colors } from "../../theme";
 
-export default class TransactionsHistoryScreen extends React.Component {
+import StatusModal from "./status-modal";
+import CashbackDispersedModal from "./cashback-dispersed-modal";
+
+export default class CashbackBillsScreen extends React.Component {
   static navigationOptions = {
-    title: "Transaction History"
+    title: "Cashback Bills"
   };
 
   state = {
     isLoading: true,
     error: null,
-    transactions: []
+    transactions: [],
+    measurementTypes: null
   };
 
   componentDidMount() {
@@ -66,18 +72,29 @@ export default class TransactionsHistoryScreen extends React.Component {
             ) : null
           }
           renderItem={({ item }) => {
-            let statusColor: "red";
+            let statusColor = colors.success;
+            let statusText = "Approved";
+
             if (item.is_pending) {
-              statusColor: "yellow";
+              statusColor = colors.pinkishOrange;
+              statusText = "Pending Approval";
+            } else if (item.is_underprogress) {
+              statusColor = colors.pinkishOrange;
+              statusText = "Under Progress";
             } else if (item.is_rejected) {
-              statusColor: "red";
+              statusColor = "red";
+              statusText = "Rejected";
             }
 
+            console.log(statusColor);
+
             return (
-              <View
+              <TouchableOpacity
+                onPress={() => this.cashbackDispersedModal.show(item)}
                 style={{
                   ...defaultStyles.card,
                   margin: 10,
+                  marginBottom: 2,
                   borderRadius: 10,
                   overflow: "hidden",
                   flexDirection: "row",
@@ -112,6 +129,37 @@ export default class TransactionsHistoryScreen extends React.Component {
                     BB Cashback Earned :
                     <Text weight="Bold">{` ` + item.total_cashback}</Text>
                   </Text>
+                  {item.copies &&
+                    item.copies.length > 0 && (
+                      <TouchableOpacity
+                        onPress={() => {
+                          openBillsPopUp({
+                            copies: item.copies || []
+                          });
+                        }}
+                        style={{
+                          marginTop: 10,
+                          marginBottom: 5,
+                          flexDirection: "row"
+                        }}
+                      >
+                        <Icon
+                          name="md-document"
+                          color={colors.mainBlue}
+                          size={15}
+                        />
+                        <Text
+                          weight="Medium"
+                          style={{
+                            marginLeft: 4,
+                            fontSize: 11,
+                            color: colors.mainBlue
+                          }}
+                        >
+                          View Bill
+                        </Text>
+                      </TouchableOpacity>
+                    )}
                 </View>
                 <View style={{ flex: 1, paddingHorizontal: 5 }}>
                   <Text style={{ fontSize: 9, marginTop: 5 }}>
@@ -124,12 +172,42 @@ export default class TransactionsHistoryScreen extends React.Component {
                     Points Earned :
                     <Text weight="Bold">{` ` + item.total_loyalty}</Text>
                   </Text>
-                  <Text style={{ fontSize: 9, color: statusColor }}>
-                    Pending Approval
-                  </Text>
+
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.statusModal.show(item);
+                    }}
+                    style={{
+                      marginBottom: 5,
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text
+                      weight="Medium"
+                      style={{
+                        marginRight: 4,
+                        fontSize: 9,
+                        color: statusColor
+                      }}
+                    >
+                      {statusText}
+                    </Text>
+                    <Icon name="md-information-circle" size={13} />
+                  </TouchableOpacity>
                 </View>
-              </View>
+              </TouchableOpacity>
             );
+          }}
+        />
+        <StatusModal
+          ref={node => {
+            this.statusModal = node;
+          }}
+        />
+        <CashbackDispersedModal
+          ref={node => {
+            this.cashbackDispersedModal = node;
           }}
         />
       </View>
