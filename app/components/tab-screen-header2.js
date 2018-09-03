@@ -59,6 +59,7 @@ class TabSearchHeader extends Component {
             {/* <Image style={styles.icon} source={icon} resizeMode="contain" /> */}
             <TouchableOpacity
             onPress={() => this.props.navigation.openDrawer()}
+            style={styles.menuIcon}
             >
               <Icon
                 name="md-menu"
@@ -153,13 +154,21 @@ const styles = StyleSheet.create({
   //   marginRight: 5,
   //   tintColor: "#fff"
   // },
+  menuIcon: {
+    position: 'absolute',
+    left: 0
+  },
   screenName: {
+    flex: 1,
     fontSize: 18,
     color: "#fff",
-    marginLeft: 120
+    textAlign: 'center'
   },
   messagesContainer: {
-    paddingRight: 5
+    paddingRight: 5,
+    position: 'absolute',
+    right: 0,
+    top: 0
   },
   messagesIcon: {
     width: 24,

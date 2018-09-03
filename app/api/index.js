@@ -2063,3 +2063,9 @@ export const getCashbackTransactions = async () => {
     url: `/cashback/details`
   });
 };
+export const retrieveWalletDetails = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/wallet/details`
+  });
+};
