@@ -74,6 +74,7 @@ import MySellersCreditTransactionsScreen from "../containers/my-sellers-screen/c
 import MySellersPointsTransactionsScreen from "../containers/my-sellers-screen/points-transactions";
 import MySellersAssistedServicesScreen from "../containers/my-sellers-screen/assisted-services";
 import BBCashWalletScreen from '../containers/BBCashWalletScreen';
+import SelectSellerScreen from '../containers/BBCashWalletScreen/select-seller-screen';
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -222,7 +223,8 @@ export default createStackNavigator(
     [SCREENS.MY_SELLERS_CREDIT_TRANSACTIONS_SCREEN]: MySellersCreditTransactionsScreen,
     [SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN]: MySellersPointsTransactionsScreen,
     [SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN]: MySellersAssistedServicesScreen,
-    [SCREENS.BB_CASH_WALLET_SCREEN]: BBCashWalletScreen
+    [SCREENS.BB_CASH_WALLET_SCREEN]: BBCashWalletScreen,
+    [SCREENS.SELECT_SELLER_SCREEN_WALLET]: SelectSellerScreen
   },
   {
     initialRouteName: "DrawerNavigator"

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { View, Image } from 'react-native';
 
 import { Text } from '../../elements';
+import { defaultStyles } from "../../theme";
 
 class SingleTransaction extends Component {
-    
     render() {
         return (
             <View style={styles.container}>
@@ -12,12 +12,12 @@ class SingleTransaction extends Component {
                     <Image style={styles.imageIcon} source={require('./icon.png')} />
                 </View>
                 <View style={[styles.box, styles.box2]}>
-                    <Text weight="Bold" style={styles.info}>Redeemed at Paytm</Text>
-                    <Text style={styles.date}>August 31, 2018</Text>
-                    <Text style={styles.id}>Transaction ID: 1234567890</Text>
+                    <Text weight="Bold" style={styles.info}>{this.props.description}</Text>
+                    <Text style={styles.date}>{this.props.date}</Text>
+                    <Text style={styles.id}>Transaction ID: {this.props.id}</Text>
                 </View>
                 <View style={[styles.box, styles.box3]}>
-                    <Text weight="Bold" style={styles.price}>100</Text>
+                    <Text weight="Bold" style={styles.price}>{this.props.price}</Text>
                 </View>
             </View>
         );
@@ -26,12 +26,11 @@ class SingleTransaction extends Component {
 
 const styles = {
     container: {
+        ...defaultStyles.card,
         flex: 1,
         flexDirection: 'row',
-        borderWidth: 2,
-        borderColor: '#eee',
         borderRadius: 10,
-        marginTop: 5      
+        margin: 10      
     },
     box: {
         height: 100

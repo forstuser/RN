@@ -2049,3 +2049,10 @@ export const getSellerDetails = async (sellerId) => {
     url: `/sellers/${sellerId}`
   });
 };
+
+export const retrieveWalletDetails = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/wallet/details`
+  });
+};
