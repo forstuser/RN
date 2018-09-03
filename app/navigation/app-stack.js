@@ -77,7 +77,6 @@ import MySellersAssistedServicesScreen from "../containers/my-sellers-screen/ass
 import MySellersRedeemPointsScreen from "../containers/my-sellers-screen/redeem-points-screen";
 import CashbackBillsScreen from "../containers/cashback-bills-screen";
 import BBCashWalletScreen from "../containers/BBCashWalletScreen";
-import BBCashWalletScreen from "../containers/BBCashWalletScreen";
 import SelectSellerScreen from "../containers/BBCashWalletScreen/select-seller-screen";
 
 const BottomTabStack = createBottomTabNavigator(
@@ -229,7 +228,6 @@ export default createStackNavigator(
     [SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN]: MySellersAssistedServicesScreen,
     [SCREENS.MY_SELLERS_REDEEM_POINTS_SCREEN]: MySellersRedeemPointsScreen,
     [SCREENS.CASHBACK_BILLS_SCREEN]: CashbackBillsScreen,
-    [SCREENS.BB_CASH_WALLET_SCREEN]: BBCashWalletScreen,
     [SCREENS.BB_CASH_WALLET_SCREEN]: BBCashWalletScreen,
     [SCREENS.SELECT_SELLER_SCREEN_WALLET]: SelectSellerScreen
   },
