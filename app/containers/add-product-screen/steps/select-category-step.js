@@ -46,7 +46,7 @@ class SelectCategoryStep extends React.Component {
       userProducts: [],
       reasons: [],
       selectedCategory: null,
-      addAnotherTxt: '',
+      addAnotherTxt: ""
     };
   }
   componentDidMount() {
@@ -477,12 +477,12 @@ class SelectCategoryStep extends React.Component {
     });
   };
   changeOption = category => {
-    console.log("props check", category)
+    console.log("props check", category);
     this.setState({
       addAnotherTxt: category.name
-    })
+    });
     let { otherOptions } = this.state;
-    console.log("other options", otherOptions)
+    console.log("other options", otherOptions);
     console.log("Main cat id", this.props.mainCategoryId);
     if (otherOptions.length > 0) {
       otherOptions.map((item, index) => {
@@ -493,18 +493,15 @@ class SelectCategoryStep extends React.Component {
               isModalVisible: true,
               selectedCategory: category,
               userProducts: otherOptions[index].products
-            })
-          }
-          else {
+            });
+          } else {
             this.freshProduct(category);
           }
         }
-      })
+      });
     } else {
       this.freshProduct(category);
     }
-
-
   };
   freshProduct = category => {
     let subCategoryId = null;
@@ -524,13 +521,13 @@ class SelectCategoryStep extends React.Component {
       subCategoryId
     });
     this.selectOption(category);
-  }
+  };
   existingProduct = item => {
     this.props.onCategorySelect({
       category: this.state.selectedCategory,
       product: item
     });
-  }
+  };
 
   render() {
     const {
@@ -557,6 +554,7 @@ class SelectCategoryStep extends React.Component {
         <View collapsable={false} style={styles.container}>
           <View collapsable={false} style={styles.header}>
             <SelectModal
+              placeholder={title}
               ref={ref => (this.otherOptionsModal = ref)}
               style={styles.select}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
@@ -644,8 +642,8 @@ class SelectCategoryStep extends React.Component {
                   </Text>
                 </View>
               ) : (
-                  <View collapsable={false} />
-                )}
+                <View collapsable={false} />
+              )}
               {otherOptions.length > 0 && (
                 <TouchableWithoutFeedback
                   onPress={() => this.otherOptionsModal.openModal()}
@@ -662,7 +660,7 @@ class SelectCategoryStep extends React.Component {
                       />
                     </View>
                     <Text weight="Medium" style={styles.optionName}>
-                      Others
+                      Other
                     </Text>
                   </View>
                 </TouchableWithoutFeedback>
@@ -695,8 +693,17 @@ class SelectCategoryStep extends React.Component {
               avoidKeyboard={Platform.OS == "ios"}
             >
               <View style={styles.modal}>
-                <View style={{ backgroundColor: colors.pinkishOrange, padding: 10, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
-                  <Text weight="Bold" style={{ color: '#fff', fontSize: 17 }}>Select Vehicle to Add Insurance</Text>
+                <View
+                  style={{
+                    backgroundColor: colors.pinkishOrange,
+                    padding: 10,
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10
+                  }}
+                >
+                  <Text weight="Bold" style={{ color: "#fff", fontSize: 17 }}>
+                    Select Vehicle to Add Insurance
+                  </Text>
                 </View>
                 <FlatList
                   data={userProducts}
@@ -707,34 +714,47 @@ class SelectCategoryStep extends React.Component {
                       <View key={index} style={styles.optionPosition}>
                         <View style={styles.optionIconContainer}>
                           <Image
-                            style={
-                              styles.optionIcon
-                            }
+                            style={styles.optionIcon}
                             resizeMode="contain"
                             source={selectedCategory.icon}
                           />
                         </View>
-                        <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5 }}>{item.product_name}</Text>
+                        <Text
+                          weight="Medium"
+                          style={{ alignSelf: "center", marginLeft: 5 }}
+                        >
+                          {item.product_name}
+                        </Text>
                       </View>
                     </TouchableWithoutFeedback>
                   )}
-                  ListFooterComponent={<TouchableWithoutFeedback
-                    onPress={() => this.freshProduct(selectedCategory)}
-                  >
-                    <View style={styles.optionPosition}>
-                      <View style={styles.optionIconContainer}>
-                        <Image
-                          style={
-                            styles.optionIcon
-                          }
-                          resizeMode="contain"
-                          source={selectedCategory.icon}
-                        />
-                      </View>
+                  ListFooterComponent={
+                    <TouchableWithoutFeedback
+                      onPress={() => this.freshProduct(selectedCategory)}
+                    >
+                      <View style={styles.optionPosition}>
+                        <View style={styles.optionIconContainer}>
+                          <Image
+                            style={styles.optionIcon}
+                            resizeMode="contain"
+                            source={selectedCategory.icon}
+                          />
+                        </View>
 
-                      <Text weight="Medium" style={{ alignSelf: "center", marginLeft: 5, color: colors.mainBlue }}>Add {userProducts.length > 0 ? 'Another' : ''} {addAnotherTxt}</Text>
-                    </View>
-                  </TouchableWithoutFeedback>}
+                        <Text
+                          weight="Medium"
+                          style={{
+                            alignSelf: "center",
+                            marginLeft: 5,
+                            color: colors.mainBlue
+                          }}
+                        >
+                          Add {userProducts.length > 0 ? "Another" : ""}{" "}
+                          {addAnotherTxt}
+                        </Text>
+                      </View>
+                    </TouchableWithoutFeedback>
+                  }
                   keyExtractor={(item, index) => index}
                 />
                 {/* {userProducts.map((item, index) => (
@@ -756,10 +776,11 @@ class SelectCategoryStep extends React.Component {
                   </TouchableWithoutFeedback>
                 ))} */}
                 <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
-                  <Icon name="md-close" size={30} color={'#fff'} />
+                  <Icon name="md-close" size={30} color={"#fff"} />
                 </TouchableOpacity>
               </View>
-            </Modal></View>
+            </Modal>
+          </View>
         )}
       </Step>
     );
@@ -767,7 +788,6 @@ class SelectCategoryStep extends React.Component {
 }
 
 const styles = StyleSheet.create({
-
   modal: {
     backgroundColor: "#fff",
     borderRadius: 10,
@@ -808,11 +828,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FAFAFA",
-    borderRadius: 40,
+    borderRadius: 40
     // marginBottom: 12
   },
   optionPosition: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 5,
     marginLeft: 5
   },
@@ -826,7 +846,7 @@ const styles = StyleSheet.create({
   },
   optionIcon: {
     width: 50,
-    height: 50,
+    height: 50
     // opacity: 0.3
   },
   selectedOptionIcon: {

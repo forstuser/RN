@@ -40,6 +40,14 @@ const requestPermission = async ({ permission, title, desc }) => {
   }
 };
 
+export const requestSmsReadPermission = async () => {
+  return await requestPermission({
+    permission: PermissionsAndroid.PERMISSIONS.READ_SMS,
+    title: "You need to provide permission to read SMS.",
+    desc: "Please open app settings and turn on the SMS permission."
+  });
+};
+
 export const requestStoragePermission = async () => {
   return await requestPermission({
     permission: PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,

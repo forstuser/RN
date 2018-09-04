@@ -9,13 +9,13 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-let API_BASE_URL = "https://consumer.binbill.com";
+let API_BASE_URL = "https://consumer-test.binbill.com";
 if (!__DEV__) {
-  API_BASE_URL = "https://consumer.binbill.com";
+  API_BASE_URL = "https://consumer-test.binbill.com";
 }
 export { API_BASE_URL };
 
-const APP_VERSION_FOR_API = 20008;
+const APP_VERSION_FOR_API = 20009;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
@@ -782,13 +782,13 @@ export const addProductReview = async ({
 };
 
 export const addSellerReview = async ({
-  url,
+  sellerId,
   ratings = 0,
   feedback = null
 }) => {
   return await apiRequest({
     method: "put",
-    url: url,
+    url: `sellers/${sellerId}/reviews`,
     data: {
       ratings,
       feedback
@@ -810,6 +810,53 @@ export const initProduct = async (mainCategoryId, categoryId) => {
     data: {
       main_category_id: mainCategoryId,
       category_id: categoryId
+    }
+  });
+};
+
+export const initExpense = async (mainCategoryId, categoryId) => {
+  return await apiRequest({
+    method: "post",
+    url: "/expenses/init",
+    data: {
+      main_category_id: mainCategoryId,
+      category_id: categoryId
+    }
+  });
+};
+
+export const updateExpense = async ({
+  productId,
+  value,
+  sellerId,
+  documentDate,
+  digitallyVerified,
+  homeDelivered,
+  isComplete
+}) => {
+  const data = {
+    value: value,
+    seller_id: sellerId,
+    document_date: documentDate,
+    digitally_verified: digitallyVerified,
+    home_delivered: homeDelivered,
+    is_complete: isComplete
+  };
+
+  return await apiRequest({
+    method: "put",
+    url: `/expenses/${productId}`,
+    data: JSON.parse(JSON.stringify(data))
+  });
+};
+
+export const linkSkusWithExpense = async ({ productId, jobId, skuItems }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/expenses/${productId}/sku`,
+    data: {
+      job_id: jobId,
+      sku_items: skuItems
     }
   });
 };
@@ -1893,5 +1940,132 @@ export const getEhomeProducts = async ({
       offset,
       category_id: categoryIds.join(",")
     }
+  });
+};
+
+export const getSkuReferenceData = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/sku/reference/data`
+  });
+};
+
+export const getSkuItems = async ({
+  categoryId,
+  brandIds = [],
+  subCategoryIds = [],
+  measurementValues = [],
+  measurementTypes = [],
+  barCode,
+  searchTerm
+}) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sku/list`,
+    queryParams: {
+      category_id: categoryId,
+      sub_category_ids: subCategoryIds.join(","),
+      brand_ids: brandIds.join(","),
+      measurement_value: measurementValues.join(","),
+      measurement_types: measurementTypes.join(","),
+      bar_code: barCode,
+      title: searchTerm
+    }
+  });
+};
+
+export const getBarcodeSkuItem = async ({ barcode }) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sku/${barcode}/item`
+  });
+};
+
+export const getSkuWishList = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/sku/wishlist`
+  });
+};
+
+export const addSkuItemToWishList = async item => {
+  return await apiRequest({
+    method: "post",
+    url: `/sku/wishlist`,
+    data: { ...item }
+  });
+};
+
+export const addSkuItemToPastList = async item => {
+  return await apiRequest({
+    method: "post",
+    url: `/sku/past`,
+    data: { ...item }
+  });
+};
+
+export const clearWishList = async item => {
+  return await apiRequest({
+    method: "delete",
+    url: `/sku/wishlist`
+  });
+};
+
+export const getMySellers = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/mysellers`
+  });
+};
+
+export const getSellers = async ({
+  searchTerm,
+  limit,
+  latitude,
+  longitude
+}) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers`,
+    queryParams: {
+      search_value: searchTerm
+    }
+  });
+};
+
+export const inviteSeller = async ({ phoneNumber }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/sellers/invite`,
+    data: {
+      contact_no: phoneNumber
+    }
+  });
+};
+
+export const getSellerDetails = async sellerId => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers/${sellerId}`
+  });
+};
+
+export const linkSeller = async sellerId => {
+  return await apiRequest({
+    method: "put",
+    url: `/sellers/${sellerId}/link`
+  });
+};
+
+export const getCashbackTransactions = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/cashback/details`
+  });
+};
+export const retrieveWalletDetails = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/wallet/details`
   });
 };

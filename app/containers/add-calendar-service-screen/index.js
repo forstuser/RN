@@ -256,9 +256,10 @@ class AddCalendarServiceScreen extends React.Component {
         unitPrice: unitPrice,
         selectedDays: selectedDays
       });
-      console.log("calculation details saved");
+      
     } catch (e) {
       showSnackbar({ text: e.message });
+      throw e;
     } finally {
       this.setState({
         isLoading: false
@@ -286,8 +287,12 @@ class AddCalendarServiceScreen extends React.Component {
         unitType
       },
       async () => {
-        await this.editCalculationDetails();
-        this.pushUnitPriceStep();
+        try{
+          await this.editCalculationDetails();
+          this.pushUnitPriceStep();
+        }catch(e){
+
+        }
       }
     );
   };

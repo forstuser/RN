@@ -113,14 +113,14 @@ def enableProguardInReleaseBuilds = true
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.bin.binbillcustomer"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 8020008
-        versionName "2.0.8"
+        versionCode 8020009
+        versionName "2.0.9"
         multiDexEnabled true
         ndk {
 //            abiFilters "armeabi-v7a"
@@ -198,10 +198,13 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-applozic-chat')
+    compile project(':react-native-get-sms-android')
+    compile project(':react-native-camera')
     compile project(':react-native-snackbar')
     compile project(':react-native-splash-screen')
     compile project(':react-native-fast-image')
-    compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.7@aar') {
       transitive = true;
     }
     compile project(':react-native-view-shot')
@@ -224,7 +227,7 @@ dependencies {
     compile project(':react-native-device-info')
     compile project(':react-native-blur')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:27.0.2'
+    compile 'com.android.support:appcompat-v7:27.1.1'
     compile 'com.facebook.react:react-native:+'
     // From node_modules
 }

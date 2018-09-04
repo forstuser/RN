@@ -27,7 +27,7 @@ import {
   Image,
   Button,
   ScreenContainer,
-  TextInput
+  TextInput1 as TextInput
 } from "../../elements";
 
 import binbillImage from "../../images/binbill_logo.png";
@@ -340,19 +340,19 @@ export default class RegistrationDetails extends React.Component {
                 onChangeText={this.onPhoneInputChange}
                 rightComponent={
                   isPhoneEditable &&
-                    phone.length == 10 &&
-                    phone != verifiedPhoneNumber ? (
-                      <TouchableOpacity onPress={this.askForOtp}>
-                        <Text
-                          weight="Bold"
-                          style={{ color: colors.mainBlue, fontSize: 12 }}
-                        >
-                          VERIFY
+                  phone.length == 10 &&
+                  phone != verifiedPhoneNumber ? (
+                    <TouchableOpacity onPress={this.askForOtp}>
+                      <Text
+                        weight="Bold"
+                        style={{ color: colors.mainBlue, fontSize: 12 }}
+                      >
+                        VERIFY
                       </Text>
-                      </TouchableOpacity>
-                    ) : (
-                      <View />
-                    )
+                    </TouchableOpacity>
+                  ) : (
+                    <View />
+                  )
                 }
               />
 
@@ -365,8 +365,8 @@ export default class RegistrationDetails extends React.Component {
                   onChangeText={otp => this.setState({ otp })}
                 />
               ) : (
-                  <View />
-                )}
+                <View />
+              )}
 
               {/* <TextInput
               onPress={this.openLocationPicker}

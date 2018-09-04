@@ -127,6 +127,7 @@ class SelectServiceTypeStep extends React.Component {
       <Step title="Select Service Type" showLoader={isLoading} {...this.props}>
         <View collapsable={false} style={styles.container}>
           <SelectModal
+            placeholder="Select Service Type"
             ref={ref => (this.otherOptionsModal = ref)}
             style={styles.select}
             options={serviceTypes}
@@ -143,7 +144,8 @@ class SelectServiceTypeStep extends React.Component {
           />
           <ScrollView
             ref={ref => (this.scrollView = ref)}
-            horizontal={true}           showsHorizontalScrollIndicator={false}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
             alwaysBounceHorizontal={false}
           >
             {visibleOptions.map(option => {

@@ -78,6 +78,10 @@ class UploadDocumentScreen extends Component {
   }
 
   componentDidMount() {
+    const canUseCameraOnly = this.props.navigation.getParam(
+      "canUseCameraOnly",
+      false
+    );
     const file = this.props.navigation.getParam("file", null);
     if (file) {
       this.pushFileToState(file);
@@ -85,7 +89,11 @@ class UploadDocumentScreen extends Component {
 
     this.props.navigation.setParams({
       onOptionsPress: () => {
-        this.uploadOptions.show();
+        if (canUseCameraOnly) {
+          this.handleOptionPress(0);
+        } else {
+          this.uploadOptions.show();
+        }
       },
       getImageRef: ref => {
         this.plusIconRef = ref;
@@ -234,7 +242,23 @@ class UploadDocumentScreen extends Component {
     });
   };
 
+  showUploadOptions = () => {
+    const canUseCameraOnly = this.props.navigation.getParam(
+      "canUseCameraOnly",
+      false
+    );
+    if (canUseCameraOnly) {
+      this.handleOptionPress(0);
+    } else {
+      this.uploadOptions.show();
+    }
+  };
+
   render() {
+    const canUseCameraOnly = this.props.navigation.getParam(
+      "canUseCameraOnly",
+      false
+    );
     const {
       files,
       isSuccessModalVisible,
@@ -254,8 +278,12 @@ class UploadDocumentScreen extends Component {
             </Text>
             <Button
               style={styles.selectDocBtn}
-              onPress={() => this.uploadOptions.show()}
-              text={I18n.t("upload_document_screen_select_document_btn")}
+              onPress={() => this.showUploadOptions()}
+              text={
+                canUseCameraOnly
+                  ? "Take Picture"
+                  : I18n.t("upload_document_screen_select_document_btn")
+              }
             />
           </View>
         )}

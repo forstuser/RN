@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.8</string>
+	<string>2.0.9</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20008</string>
+	<string>20009</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -85,7 +85,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>So that you can download images to your devices.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

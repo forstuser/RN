@@ -14,6 +14,7 @@ import I18n from "../i18n";
 import { colors } from "../theme";
 import { SCREENS } from "../constants";
 import Analytics from "../analytics";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const messagesIcon = require("../images/ic_top_messages.png");
 const searchIcon = require("../images/ic_top_search.png");
@@ -55,7 +56,17 @@ class TabSearchHeader extends Component {
         />
         <View collapsable={false} style={styles.upperContainer}>
           <View collapsable={false} style={styles.nameAndIcon}>
-            <Image style={styles.icon} source={icon} resizeMode="contain" />
+            {/* <Image style={styles.icon} source={icon} resizeMode="contain" /> */}
+            <TouchableOpacity
+            onPress={() => this.props.navigation.openDrawer()}
+            style={styles.menuIcon}
+            >
+              <Icon
+                name="md-menu"
+                size={30}
+                color="#fff"
+              />
+            </TouchableOpacity>
             <Text weight="Medium" style={styles.screenName}>
               {title}
             </Text>
@@ -137,18 +148,27 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center"
   },
-  icon: {
-    width: 24,
-    height: 24,
-    marginRight: 5,
-    tintColor: "#fff"
+  // icon: {
+  //   width: 24,
+  //   height: 24,
+  //   marginRight: 5,
+  //   tintColor: "#fff"
+  // },
+  menuIcon: {
+    position: 'absolute',
+    left: 0
   },
   screenName: {
+    flex: 1,
     fontSize: 18,
-    color: "#fff"
+    color: "#fff",
+    textAlign: 'center'
   },
   messagesContainer: {
-    paddingRight: 5
+    paddingRight: 5,
+    position: 'absolute',
+    right: 0,
+    top: 0
   },
   messagesIcon: {
     width: 24,

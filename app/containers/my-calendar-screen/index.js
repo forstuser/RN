@@ -36,17 +36,17 @@ class MyCalendarScreen extends Component {
 
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
-    this.fetchItems();
-    this.didFocusSubscription = this.props.navigation.addListener(
-      "didFocus",
-      () => {
-        this.fetchItems();
-      }
-    );
+    //this.fetchItems();
+    // this.didFocusSubscription = this.props.navigation.addListener(
+    //   "didFocus",
+    //   () => {
+    //     this.fetchItems();
+    //   }
+    // );
   }
 
   componentWillUnmount() {
-    this.didFocusSubscription.remove();
+    // this.didFocusSubscription.remove();
   }
 
   fetchItems = async () => {
@@ -91,7 +91,7 @@ class MyCalendarScreen extends Component {
       return <ErrorOverlay error={error} onRetryPress={this.fetchItems} />;
     }
     return (
-      <ScreenContainer style={{ padding: 0, backgroundColor: "#f7f7f7" }}>
+      <ScreenContainer style={{ padding: 0, backgroundColor: "#fff" }}>
         {(items.length > 0 || isFetchingItems) && (
           <View collapsable={false} style={{ flex: 1 }}>
             <View collapsable={false} style={{ flex: 1 }}>
@@ -102,15 +102,21 @@ class MyCalendarScreen extends Component {
                 renderItem={this.renderItem}
                 onRefresh={this.fetchItems}
                 refreshing={isFetchingItems}
+                ListFooterComponent={
+                  items.length > 0 ? (
+                    <Button
+                      onPress={this.openAddEditCalendarServiceScreen}
+                      text={I18n.t("my_calendar_screen_add_btn")}
+                      color="secondary"
+                      style={[
+                        styles.emptyStateAddItemBtn,
+                        { marginBottom: 20 }
+                      ]}
+                    />
+                  ) : null
+                }
               />
             </View>
-            <Button
-              onPress={this.openAddEditCalendarServiceScreen}
-              text={I18n.t("my_calendar_screen_add_btn")}
-              color="secondary"
-              borderRadius={0}
-              style={styles.addItemBtn}
-            />
           </View>
         )}
         {items.length == 0 &&
@@ -159,7 +165,8 @@ const styles = StyleSheet.create({
   },
   emptyStateAddItemBtn: {
     width: 280,
-    marginTop: 30
+    marginTop: 30,
+    alignSelf: "center"
   }
 });
 

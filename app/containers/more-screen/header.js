@@ -116,7 +116,7 @@ class Header extends Component {
 
     if (!profile) {
       return (
-        <View collapsable={false} style={styles.header}>
+        <View style={styles.header}>
           <LoadingOverlay visible={true} />
         </View>
       );
@@ -149,83 +149,34 @@ class Header extends Component {
     }
 
     return (
-      <View collapsable={false}>
+      <View>
         {profile ? (
           <TouchableOpacity
-            disabled={isProfileVisible}
-            style={[
-              styles.header,
-              isProfileVisible ? styles.headerWithProfile : {}
-            ]}
+            style={[styles.header]}
             onPress={this.props.onPress}
           >
-            <View
-              collapsable={false}
-              style={[
-                styles.headerInner,
-                isProfileVisible ? styles.headerInnerProfile : {}
-              ]}
-            >
-              <View collapsable={false} style={styles.backgroundImg}>
-                {profilePic}
+            <View style={styles.profilePicCircleWrapper}>{profilePic}</View>
+            <View style={styles.texts}>
+              <View style={styles.centerText}>
+                <Text style={styles.name} weight="Medium">
+                  {name}
+                </Text>
+                <Text style={styles.mobile}>{profile.mobile_no}</Text>
               </View>
-              {Platform.OS == "ios" && (
-                <BlurView
-                  style={styles.overlay}
-                  viewRef={this.state.blurViewRef}
-                  blurType="light"
-                  blurAmount={5}
+
+              <TouchableOpacity style={{ alignItems: "center" }}>
+                <Image
+                  style={{ width: 25, height: 25 }}
+                  source={require("../../images/wallet.png")}
                 />
-              )}
-              {Platform.OS == "android" && (
-                <View collapsable={false} style={styles.overlay} />
-              )}
-
-              {!isProfileVisible && (
-                <View collapsable={false} style={styles.texts}>
-                  <View collapsable={false} style={styles.centerText}>
-                    <Text style={styles.name} weight="Bold">
-                      {name}
-                    </Text>
-                    <Text style={styles.mobile} weight="Medium">
-                      {profile.mobile_no}
-                    </Text>
-                  </View>
-
-                  <Image
-                    style={{ width: 12, height: 12 }}
-                    source={require("../../images/ic_processing_arrow.png")}
-                  />
-                </View>
-              )}
-            </View>
-            <View
-              collapsable={false}
-              style={[
-                styles.profilePicWrapper,
-                isProfileVisible ? styles.profilePicCenter : {}
-              ]}
-            >
-              <View collapsable={false} style={styles.profilePicCircleWrapper}>
-                {profilePic}
-              </View>
-              {isProfileVisible && (
-                <TouchableOpacity style={styles.profilePicEditBtn}>
-                  <Icon name="md-create" size={16} color="#fff" />
-                </TouchableOpacity>
-              )}
-            </View>
-            {isProfileVisible && (
-              <TouchableOpacity
-                style={styles.profileCrossBtn}
-                onPress={this.close}
-              >
-                <Icon name="md-close" size={24} color="#fff" />
+                <Text weight="Medium" style={{ fontSize: 10, color: "#fff" }}>
+                  {profile.wallet_value} Pts.
+                </Text>
               </TouchableOpacity>
-            )}
+            </View>
           </TouchableOpacity>
         ) : (
-          <View collapsable={false} />
+          <View />
         )}
       </View>
     );
@@ -235,38 +186,19 @@ class Header extends Component {
 const styles = StyleSheet.create({
   header: {
     width: "100%",
-    height: 180
-  },
-  headerWithProfile: {
-    alignItems: "center"
-  },
-  headerInner: {
-    height: 140,
-    width: "100%",
+    height: 120,
+    backgroundColor: colors.mainBlue,
+    borderTopWidth: 1,
+    borderTopColor: "rgba(255, 255, 255, 0.3)",
     flexDirection: "row",
-    alignItems: "center",
-    ...Platform.select({
-      ios: {
-        paddingTop: 20
-      }
-    })
-  },
-  headerInnerProfile: {
-    justifyContent: "center"
-  },
-  backgroundImg: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0
+    alignItems: "center"
   },
   profileImg: {
     width: "100%",
     height: "100%"
   },
   overlay: {
-    backgroundColor: "rgba(0,0,0,0.55)",
+    backgroundColor: colors.mainBlue,
     position: "absolute",
     top: 0,
     bottom: 0,
@@ -277,8 +209,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     alignItems: "center",
-    paddingRight: 20,
-    marginLeft: 100
+    paddingRight: 20
   },
   mainText: {
     width: 30,
@@ -290,22 +221,13 @@ const styles = StyleSheet.create({
     top: 10,
     width: 30
   },
-  profilePicWrapper: {
-    width: 100,
-    height: 100,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: -110
-  },
-  profilePicCenter: {
-    marginTop: -60
-  },
   profilePicCircleWrapper: {
-    width: 80,
-    height: 80,
+    width: 75,
+    height: 75,
     borderRadius: 40,
     overflow: "hidden",
-    backgroundColor: "#eee"
+    backgroundColor: "#eee",
+    marginLeft: 15
   },
   profilePicEditBtn: {
     position: "absolute",
@@ -333,21 +255,12 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   name: {
-    fontSize: 18,
+    fontSize: 10,
     color: "#ffffff"
   },
   mobile: {
-    fontSize: 14,
+    fontSize: 10,
     color: "#ffffff"
-  },
-  profileCrossBtn: {
-    position: "absolute",
-    width: 35,
-    height: 35,
-    justifyContent: "center",
-    alignItems: "center",
-    top: 20,
-    right: 5
   }
 });
 

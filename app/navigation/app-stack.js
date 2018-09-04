@@ -3,12 +3,15 @@ import { Platform } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {
   createStackNavigator,
-  createBottomTabNavigator
+  createBottomTabNavigator,
+  createDrawerNavigator
 } from "react-navigation";
 
 import { colors } from "../theme";
 import TabIcon from "./tab-icon";
 import CustomTabBar from "./tab-bar";
+
+import { SCREENS } from "../constants";
 
 import DashboardScreen from "../containers/dashboard-screen";
 import EhomeScreen from "../containers/ehome-screen";
@@ -55,11 +58,26 @@ import PinSetupScreen from "../containers/pin-setup-screen";
 import WhatToScreen from "../containers/what-to-screen";
 import WhatToListScreen from "../containers/what-to-list-screen";
 import DealsScreen from "../containers/deals-screen";
-import { SCREENS } from "../constants";
 import rateUsScreen from "../containers/rate-us-screen";
 import EcommerceScreen from "../containers/e-commerce-screen";
 import OrderHistoryScreen from "../containers/order-history-screen";
 import WebviewScreen from "../containers/webview-screen";
+import CreateShoppingListScreen from "../containers/create-shopping-list-screen";
+import MyShoppingListScreen from "../containers/my-shopping-list-screen";
+import ClaimCashbackScreen from "../containers/claim-cashback-screen";
+import ClaimCashbackSelectItemsScreen from "../containers/claim-cashback-screen/select-items-screen";
+import ClaimCashbackSelectSellerScreen from "../containers/claim-cashback-screen/select-seller-screen";
+import ClaimCashbackFinalScreen from "../containers/claim-cashback-screen/final-screen";
+import AddSellerScreen from "../containers/add-seller-screen";
+import SellerDetailsScreen from "../containers/seller-details-screen";
+import MySellersScreen from "../containers/my-sellers-screen";
+import MySellersCreditTransactionsScreen from "../containers/my-sellers-screen/credit-transactions";
+import MySellersPointsTransactionsScreen from "../containers/my-sellers-screen/points-transactions";
+import MySellersAssistedServicesScreen from "../containers/my-sellers-screen/assisted-services";
+import MySellersRedeemPointsScreen from "../containers/my-sellers-screen/redeem-points-screen";
+import CashbackBillsScreen from "../containers/cashback-bills-screen";
+import BBCashWalletScreen from "../containers/BBCashWalletScreen";
+import SelectSellerScreen from "../containers/BBCashWalletScreen/select-seller-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -93,15 +111,12 @@ const BottomTabStack = createBottomTabNavigator(
         )
       }
     },
-    [SCREENS.DO_YOU_KNOW_SCREEN]: {
-      screen: DoYouKnowScreen,
+    [SCREENS.CREATE_SHOPPING_LIST_SCREEN]: {
+      screen: CreateShoppingListScreen,
       navigationOptions: {
-        tabBarLabel: "DYK",
+        tabBarLabel: "Shop & Earn",
         tabBarIcon: props => (
-          <TabIcon
-            {...props}
-            source={require("../images/ic_do_you_know.png")}
-          />
+          <TabIcon {...props} source={require("../images/shop_and_earn.png")} />
         )
       }
     },
@@ -117,15 +132,12 @@ const BottomTabStack = createBottomTabNavigator(
     //     )
     //   }
     // },
-    [SCREENS.MORE_SCREEN]: {
-      screen: MoreScreen,
+    [SCREENS.MY_SELLERS_SCREEN]: {
+      screen: MySellersScreen,
       navigationOptions: {
-        tabBarLabel: "More",
+        tabBarLabel: "My Seller",
         tabBarIcon: props => (
-          <TabIcon
-            {...props}
-            source={require("../images/ic_nav_more_off.png")}
-          />
+          <TabIcon {...props} source={require("../images/seller_icon.png")} />
         )
       }
     }
@@ -143,10 +155,23 @@ const BottomTabStack = createBottomTabNavigator(
   }
 );
 
-export default createStackNavigator(
+const DrawerNavigator = createDrawerNavigator(
   {
     BottomTabStack: {
-      screen: BottomTabStack,
+      screen: BottomTabStack
+    }
+  },
+  {
+    initialRouteName: "BottomTabStack",
+    contentComponent: MoreScreen,
+    drawerWidth: 300
+  }
+);
+
+export default createStackNavigator(
+  {
+    DrawerNavigator: {
+      screen: DrawerNavigator,
       navigationOptions: { header: null }
     },
     [SCREENS.ASC_SCREEN]: AscScreen,
@@ -190,7 +215,23 @@ export default createStackNavigator(
     [SCREENS.DEALS_SCREEN]: DealsScreen,
     [SCREENS.ECOMMERCE_SCREEN]: EcommerceScreen,
     [SCREENS.ORDER_HISTORY_SCREEN]: OrderHistoryScreen,
-    [SCREENS.WEBVIEW_SCREEN]: WebviewScreen
+    [SCREENS.WEBVIEW_SCREEN]: WebviewScreen,
+    [SCREENS.MY_SHOPPING_LIST_SCREEN]: MyShoppingListScreen,
+    [SCREENS.CLAIM_CASHBACK_SCREEN]: ClaimCashbackScreen,
+    [SCREENS.CLAIM_CASHBACK_SELECT_ITEMS_SCREEN]: ClaimCashbackSelectItemsScreen,
+    [SCREENS.CLAIM_CASHBACK_SELECT_SELLER_SCREEN]: ClaimCashbackSelectSellerScreen,
+    [SCREENS.CLAIM_CASHBACK_FINAL_SCREEN]: ClaimCashbackFinalScreen,
+    [SCREENS.ADD_SELLER_SCREEN]: AddSellerScreen,
+    [SCREENS.SELLER_DETAILS_SCREEN]: SellerDetailsScreen,
+    [SCREENS.MY_SELLERS_CREDIT_TRANSACTIONS_SCREEN]: MySellersCreditTransactionsScreen,
+    [SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN]: MySellersPointsTransactionsScreen,
+    [SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN]: MySellersAssistedServicesScreen,
+    [SCREENS.MY_SELLERS_REDEEM_POINTS_SCREEN]: MySellersRedeemPointsScreen,
+    [SCREENS.CASHBACK_BILLS_SCREEN]: CashbackBillsScreen,
+    [SCREENS.BB_CASH_WALLET_SCREEN]: BBCashWalletScreen,
+    [SCREENS.SELECT_SELLER_SCREEN_WALLET]: SelectSellerScreen
   },
-  {}
+  {
+    initialRouteName: "DrawerNavigator"
+  }
 );
