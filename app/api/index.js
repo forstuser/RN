@@ -782,13 +782,13 @@ export const addProductReview = async ({
 };
 
 export const addSellerReview = async ({
-  url,
+  sellerId,
   ratings = 0,
   feedback = null
 }) => {
   return await apiRequest({
     method: "put",
-    url: url,
+    url: `sellers/${sellerId}/reviews`,
     data: {
       ratings,
       feedback
@@ -2043,13 +2043,26 @@ export const inviteSeller = async ({ phoneNumber }) => {
   });
 };
 
-export const getSellerDetails = async (sellerId) => {
+export const getSellerDetails = async sellerId => {
   return await apiRequest({
     method: "get",
     url: `/sellers/${sellerId}`
   });
 };
 
+export const linkSeller = async sellerId => {
+  return await apiRequest({
+    method: "put",
+    url: `/sellers/${sellerId}/link`
+  });
+};
+
+export const getCashbackTransactions = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/cashback/details`
+  });
+};
 export const retrieveWalletDetails = async () => {
   return await apiRequest({
     method: "get",

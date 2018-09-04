@@ -100,7 +100,7 @@ export default class MySellersAssistedServicesScreen extends React.Component {
                   borderRadius: 35,
                   backgroundColor: "#eee"
                 }}
-                source={{ uri: API_BASE_URL + item.document_details.file_name }}
+                source={{ uri: API_BASE_URL + "" }}
               />
 
               <View style={{ flex: 1, paddingHorizontal: 5 }}>

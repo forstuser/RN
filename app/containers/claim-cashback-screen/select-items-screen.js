@@ -440,14 +440,18 @@ export default class SelectCashbackItems extends React.Component {
             padding: 10,
             marginTop: 0,
             borderTopColor: "#eee",
-            borderTopWidth: 1
+            borderTopWidth: 1,
+            elevation: 3
           }}
         >
           <TouchableOpacity
             style={{ padding: 5 }}
             onPress={this.showSelectedItemsModalVisible}
           >
-            <Text weight="Bold" style={{ fontSize: 10, flex: 1 }}>
+            <Text
+              weight="Bold"
+              style={{ fontSize: 12, flex: 1, color: colors.mainBlue }}
+            >
               {selectedItems.length} Items Selected
             </Text>
           </TouchableOpacity>

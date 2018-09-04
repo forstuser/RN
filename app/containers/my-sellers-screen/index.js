@@ -57,6 +57,12 @@ class MySellersScreen extends React.Component {
     this.props.navigation.navigate(SCREENS.ADD_SELLER_SCREEN);
   };
 
+  openRedeemPointsScreen = seller => {
+    this.props.navigation.navigate(SCREENS.MY_SELLERS_REDEEM_POINTS_SCREEN, {
+      seller
+    });
+  };
+
   openCallOptions = seller => {
     if (seller.contact_no) {
       this.setState({ phoneNumbers: [seller.contact_no] }, () => {
@@ -250,7 +256,7 @@ class MySellersScreen extends React.Component {
                           ({item.ratings})
                         </Text>
                       </View>
-                      {item.is_service ? (
+                      {item.seller_details.basic_details.home_delivery ? (
                         <Text
                           style={{
                             color: "#208e07",
@@ -329,7 +335,7 @@ class MySellersScreen extends React.Component {
                           </Text>
                           <Icon
                             name="md-information-circle"
-                            sixe={10}
+                            size={10}
                             style={{ marginTop: 2, marginLeft: 5 }}
                           />
                         </TouchableOpacity>
@@ -365,6 +371,9 @@ class MySellersScreen extends React.Component {
                         </TouchableOpacity>
                       </View>
                       <Button
+                        onPress={() => {
+                          this.openRedeemPointsScreen(item);
+                        }}
                         text="Redeem Points"
                         color="secondary"
                         style={{ height: 30, width: 115, marginTop: 10 }}
@@ -390,7 +399,7 @@ class MySellersScreen extends React.Component {
                                 marginTop: -3
                               }}
                             >
-                              category
+                              {category.category_name}
                             </Text>
                           </View>
                         ))}

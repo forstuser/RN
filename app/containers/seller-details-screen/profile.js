@@ -2,13 +2,17 @@ import React from "react";
 import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
+import call from "react-native-phone-call";
 
-import { API_BASE_URL, getMySellers } from "../../api";
+import { API_BASE_URL } from "../../api";
 
 import { Text, Button, Image } from "../../elements";
 import Checkbox from "../../components/checkbox";
 
 import { colors, defaultStyles } from "../../theme";
+import { showSnackbar } from "../../utils/snackbar";
+
+import ReviewModal from "./review-modal";
 
 const KeyValue = ({ keyText, valueText, ValueComponent }) => (
   <View style={{ flexDirection: "row", marginVertical: 3 }}>
@@ -98,8 +102,41 @@ const Review = ({ imageUrl, name, ratings, reviewText }) => (
 );
 
 export default class SellerProfileTab extends React.Component {
-  render() {
+  call = () => {
     const { seller } = this.props;
+    if (seller.contact_no) {
+      call({ number: seller.contact_no }).catch(e =>
+        showSnackbar({
+          text: e.message
+        })
+      );
+    } else {
+      showSnackbar({ text: "Phone number not available" });
+    }
+  };
+
+  render() {
+    const { seller, paymentModes } = this.props;
+    const sellerDetails = seller.seller_details;
+    const basicDetails = sellerDetails.basic_details;
+
+    const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+
+    const availablePaymentModesIds = basicDetails.payment_modes.split(",");
+
+    let homeDeliveryInfo = basicDetails.home_delivery ? "Yes" : "No";
+    homeDeliveryInfo =
+      homeDeliveryInfo +
+      "\n" +
+      (basicDetails.home_delivery_remarks
+        ? "(" + basicDetails.home_delivery_remarks + ")"
+        : "");
+
+    const coverImageUri =
+      API_BASE_URL + `/consumer/sellers/${seller.id}/upload/1/images/0`;
+
+    console.log("cover image: ", coverImageUri);
+
     return (
       <ScrollView contentContainerStyle={{ alignItems: "center" }}>
         <View
@@ -115,7 +152,9 @@ export default class SellerProfileTab extends React.Component {
               width: "100%",
               height: "100%"
             }}
-            source={{ uri: API_BASE_URL + seller.image }}
+            source={{
+              uri: coverImageUri
+            }}
           />
         </View>
 
@@ -183,7 +222,7 @@ export default class SellerProfileTab extends React.Component {
         </Text>
         <View
           style={{
-            width: 155,
+            width: 200,
             borderColor: "#d9d9d9",
             borderTopWidth: 1,
             borderBottomWidth: 1,
@@ -198,7 +237,7 @@ export default class SellerProfileTab extends React.Component {
         </View>
         <View
           style={{
-            width: 155,
+            width: 200,
             borderColor: "#d9d9d9",
             borderBottomWidth: 1,
             height: 28,
@@ -206,12 +245,16 @@ export default class SellerProfileTab extends React.Component {
           }}
         >
           <Text style={{ fontSize: 9, textAlign: "center", marginTop: -2 }}>
-            S M W T F S{`          `}
-            10:00am - 9:00pm
+            {basicDetails.shop_open_day
+              .split(",")
+              .map(day => weekDays[day])
+              .join(" ") +
+              `        ` +
+              basicDetails.shop_open_timings}
           </Text>
         </View>
         <View style={{ flexDirection: "row", width: 180, paddingTop: 10 }}>
-          <TouchableOpacity style={[styles.button]}>
+          <TouchableOpacity onPress={this.call} style={[styles.button]}>
             <Icon
               name="ios-call-outline"
               style={styles.buttonIcon}
@@ -242,7 +285,7 @@ export default class SellerProfileTab extends React.Component {
               paddingHorizontal: 20
             }}
           >
-            <KeyValue keyText="No. of Transactions" valueText="23" />
+            <KeyValue keyText="No. of Transactions" valueText="" />
             <KeyValue keyText="Credit" valueText={seller.credit_total} />
             <KeyValue keyText="Points" valueText={seller.loyalty_total} />
           </View>
@@ -262,28 +305,31 @@ export default class SellerProfileTab extends React.Component {
               keyText="Store Contact No"
               valueText={seller.contact_no}
             />
-            <KeyValue
-              keyText="Home Delivery"
-              valueText={`Yes\n(Within 7 km, between 10:00am to 9:00pm)`}
-            />
+            <KeyValue keyText="Home Delivery" valueText={homeDeliveryInfo} />
             <KeyValue
               keyText="Payment Mode"
               ValueComponent={() => (
-                <View>
-                  <View style={{ flexDirection: "row" }}>
-                    <PaymentMode isAvailable={false} name="COD" />
-                    <PaymentMode isAvailable={true} name="POS" />
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <PaymentMode isAvailable={false} name="Paytm" />
-                    <PaymentMode isAvailable={false} name="Credit" />
-                  </View>
+                <View
+                  style={{ flexDirection: "row", flexWrap: "wrap", flex: 1 }}
+                >
+                  {paymentModes.map(paymentMode => (
+                    <PaymentMode
+                      key={paymentMode.title}
+                      isAvailable={availablePaymentModesIds.includes(
+                        paymentMode.id
+                      )}
+                      name={paymentMode.title}
+                    />
+                  ))}
                 </View>
               )}
             />
           </View>
         </View>
         <Button
+          onPress={() => {
+            this.reviewModal.show();
+          }}
           text="Write A Review"
           color="secondary"
           style={{
@@ -293,6 +339,12 @@ export default class SellerProfileTab extends React.Component {
             marginRight: 10
           }}
           textStyle={{ fontSize: 11.5 }}
+        />
+        <ReviewModal
+          ref={node => {
+            this.reviewModal = node;
+          }}
+          seller={seller}
         />
         <View style={{ width: "100%" }}>
           <View
@@ -307,11 +359,19 @@ export default class SellerProfileTab extends React.Component {
             <Text weight="Medium" style={{ fontSize: 11 }}>
               Reviews
             </Text>
-            <Review
-              name="Pramjeet"
-              ratings={4.1}
-              reviewText={`Quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehen derit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?`}
-            />
+            {seller.reviews.map(review => (
+              <Review
+                key={review.id}
+                imageUrl={
+                  review.user.image_name
+                    ? API_BASE_URL + `/customer/${review.user.id}/images`
+                    : null
+                }
+                name={review.user.name}
+                ratings={review.review_ratings}
+                reviewText={review.review_feedback}
+              />
+            ))}
           </View>
         </View>
       </ScrollView>
