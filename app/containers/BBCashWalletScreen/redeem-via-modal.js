@@ -31,8 +31,13 @@ class RedeemViaModal extends Component {
 
     onSellerPressed = () => {
         this.hide();
-        this.props.navigation.navigate(SCREENS.SELECT_SELLER_SCREEN_WALLET)
-    }
+        this.props.navigation.navigate(SCREENS.SELECT_SELLER_SCREEN_WALLET);
+    };
+
+    onPaytmPressed = () => {
+        this.hide();
+        this.props.navigation.navigate(SCREENS.REDEEM_VIA_PAYTM_SCREEN);
+    };
 
     render() {
         return (
@@ -47,7 +52,7 @@ class RedeemViaModal extends Component {
             >
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <View style={[styles.box, styles.box1]}>
-                        <TouchableOpacity onPress={() => alert('Pressed')}>
+                        <TouchableOpacity onPress={this.onPaytmPressed}>
                             <Image
                                 style={styles.paytmIcon} 
                                 source={require('./paytm.png')}

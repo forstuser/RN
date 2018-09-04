@@ -78,6 +78,7 @@ import MySellersRedeemPointsScreen from "../containers/my-sellers-screen/redeem-
 import CashbackBillsScreen from "../containers/cashback-bills-screen";
 import BBCashWalletScreen from "../containers/BBCashWalletScreen";
 import SelectSellerScreen from "../containers/BBCashWalletScreen/select-seller-screen";
+import RedeemViaPaytmScreen from "../containers/BBCashWalletScreen/redeem-via-paytm-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -229,7 +230,8 @@ export default createStackNavigator(
     [SCREENS.MY_SELLERS_REDEEM_POINTS_SCREEN]: MySellersRedeemPointsScreen,
     [SCREENS.CASHBACK_BILLS_SCREEN]: CashbackBillsScreen,
     [SCREENS.BB_CASH_WALLET_SCREEN]: BBCashWalletScreen,
-    [SCREENS.SELECT_SELLER_SCREEN_WALLET]: SelectSellerScreen
+    [SCREENS.SELECT_SELLER_SCREEN_WALLET]: SelectSellerScreen,
+    [SCREENS.REDEEM_VIA_PAYTM_SCREEN]: RedeemViaPaytmScreen
   },
   {
     initialRouteName: "DrawerNavigator"
