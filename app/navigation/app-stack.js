@@ -78,6 +78,9 @@ import MySellersRedeemPointsScreen from "../containers/my-sellers-screen/redeem-
 import CashbackBillsScreen from "../containers/cashback-bills-screen";
 import BBCashWalletScreen from "../containers/BBCashWalletScreen";
 import SelectSellerScreen from "../containers/BBCashWalletScreen/select-seller-screen";
+import CashbackQueryScreen from "../containers/cashback-query-screen";
+import CashbackQueryReasonsScreen from "../containers/cashback-query-screen/cashback-query-reasons-screen";
+import CashbackQueryAdditionalInfoScreen from "../containers/cashback-query-screen/cashback-query-additional-info";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -229,7 +232,10 @@ export default createStackNavigator(
     [SCREENS.MY_SELLERS_REDEEM_POINTS_SCREEN]: MySellersRedeemPointsScreen,
     [SCREENS.CASHBACK_BILLS_SCREEN]: CashbackBillsScreen,
     [SCREENS.BB_CASH_WALLET_SCREEN]: BBCashWalletScreen,
-    [SCREENS.SELECT_SELLER_SCREEN_WALLET]: SelectSellerScreen
+    [SCREENS.SELECT_SELLER_SCREEN_WALLET]: SelectSellerScreen,
+    [SCREENS.CASHBACK_QUERY_SCREEN]: CashbackQueryScreen,
+    [SCREENS.CASHBACK_QUERY_REASONS_SCREEN]: CashbackQueryReasonsScreen,
+    [SCREENS.CASHBACK_QUERY_ADDITIONAL_INFO_SCREEN]: CashbackQueryAdditionalInfoScreen
   },
   {
     initialRouteName: "DrawerNavigator"
