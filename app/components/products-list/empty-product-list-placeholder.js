@@ -14,7 +14,11 @@ class AddEmptyProductScreen extends Component {
 
   render() {
     const { type } = this.props;
-    let msg = "You have no products";
+    const productOptions = {
+
+    }
+    let msg = "You have not added any products as now.Please add products.";
+
     if (type == PRODUCT_TYPES.EXPENSE) {
       msg = "You have no expenses";
     } else if (type == PRODUCT_TYPES.DOCUMENT) {
@@ -23,6 +27,11 @@ class AddEmptyProductScreen extends Component {
 
     return (
       <View style={styles.container}>
+                <Image
+          // style={styles.itemIcon}
+          // source={}
+          resizeMode="contain"
+        />
         <Text weight="Bold" style={styles.desc}>
           {msg}
         </Text>

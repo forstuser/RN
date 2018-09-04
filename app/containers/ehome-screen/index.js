@@ -52,7 +52,7 @@ class EhomeScreen extends Component {
       tabs: [
         {
           type: PRODUCT_TYPES.PRODUCT,
-          name: "Products",
+          name: "My Products",
           products: [],
           isLoadingFirstPage: false,
           isLoading: false,
@@ -64,7 +64,7 @@ class EhomeScreen extends Component {
         },
         {
           type: PRODUCT_TYPES.EXPENSE,
-          name: "Expenses",
+          name: "My Expenses",
           products: [],
           isLoadingFirstPage: false,
           isLoading: false,
@@ -76,7 +76,7 @@ class EhomeScreen extends Component {
         },
         {
           type: PRODUCT_TYPES.DOCUMENT,
-          name: "Documents",
+          name: "My Docs",
           products: [],
           isLoadingFirstPage: false,
           isLoading: false,
@@ -220,7 +220,14 @@ class EhomeScreen extends Component {
             ) : null}
           </View>
         }
-        tabs={[...tabs.map((tab, index) => (
+        tabs={[<View style={{ flex: 1 }} tabLabel='My Calendar'>
+        <CalendarContent
+          ref={node => {
+            this.calendarContent = node;
+          }}
+          navigation={this.props.navigation} 
+        />
+      </View>,...tabs.map((tab, index) => (
           <View key={tab.type} tabLabel={tab.name} style={{ flex: 1 }}>
             {tab.selectedCategories.length > 0 ? (
               <View
@@ -259,14 +266,7 @@ class EhomeScreen extends Component {
               onListScroll={() => this.onListScroll(index)}
             />
           </View>
-        )),<View style={{ flex: 1 }} tabLabel='Calendar'>
-          <CalendarContent
-            ref={node => {
-              this.calendarContent = node;
-            }}
-            navigation={this.props.navigation} 
-          />
-        </View>]}
+        ))]}
       >
         <TouchableOpacity
           style={styles.fab}
