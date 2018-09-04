@@ -25,6 +25,8 @@ import store from "../store";
 import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 
+import socketIo from "../socket-io";
+
 import { openEnterPinPopup } from "./index";
 
 import { addFcmToken, verifyEmail, getProfileDetail } from "../api";
@@ -319,6 +321,7 @@ class RootNavigation extends React.Component {
     if (!this.props.isUserLoggedIn) {
       NavigationService.navigate(SCREENS.INTRO_SCREEN);
     } else {
+      socketIo.connect();
       this.props.incrementAppOpen();
       NavigationService.navigate(SCREENS.APP_STACK);
       const r = await getProfileDetail();
