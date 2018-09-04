@@ -36,7 +36,17 @@ class MySellersScreen extends React.Component {
 
   componentDidMount() {
     // navigator.Geolocation.getCurrentPosition();
-    this.getMySellers();
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.getMySellers();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   getMySellers = async () => {

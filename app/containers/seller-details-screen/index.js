@@ -76,7 +76,11 @@ export default class SellerDetailsScreen extends React.Component {
             }}
           >
             <View tabLabel="Profile" style={{ flex: 1 }}>
-              <Profile seller={seller} paymentModes={paymentModes} />
+              <Profile
+                seller={seller}
+                paymentModes={paymentModes}
+                reloadSellerDetails={this.getSellerDetails}
+              />
             </View>
             <View tabLabel="Transactions">
               <CreditTransactions

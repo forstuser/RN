@@ -29,10 +29,12 @@ class ReviewModal extends React.Component {
     reviewInput: ""
   };
 
-  show = () => {
+  show = ({ starCount, reviewText }) => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_REVIEW);
     this.setState({
-      isModalVisible: true
+      isModalVisible: true,
+      starCount,
+      reviewInput: reviewText
     });
   };
 
@@ -50,7 +52,7 @@ class ReviewModal extends React.Component {
 
   onSubmitReview = async () => {
     const { starCount, reviewInput, isSaving } = this.state;
-    const { seller } = this.props;
+    const { seller, reloadSellerDetails } = this.props;
     if (!starCount) {
       return showSnackbar({ text: "Please give some rating" });
     }
@@ -66,6 +68,7 @@ class ReviewModal extends React.Component {
       });
 
       this.hide();
+      reloadSellerDetails();
     } catch (e) {
       showSnackbar({
         text: e.message
