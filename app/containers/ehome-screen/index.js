@@ -176,11 +176,11 @@ class EhomeScreen extends Component {
     this.updateTab(tabIndex, { showEndReachedMsg: true });
   };
 
-  showAddProductOptionsScreen = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
-    //use push here so that we can use 'replace' later
-    this.props.navigation.push(SCREENS.ADD_PRODUCT_SCREEN);
-  };
+  // showAddProductOptionsScreen = () => {
+  //   Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
+  //   //use push here so that we can use 'replace' later
+  //   this.props.navigation.push(SCREENS.ADD_PRODUCT_SCREEN);
+  // };
 
   render() {
     const { recentSearches, activeTabIndex, tabs } = this.state;
@@ -268,12 +268,12 @@ class EhomeScreen extends Component {
           </View>
         ))]}
       >
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.fab}
           onPress={() => this.showAddProductOptionsScreen()}
         >
           <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <FilterModal
           ref={node => {
             this.filterModal = node;

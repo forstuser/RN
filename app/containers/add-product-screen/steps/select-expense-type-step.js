@@ -19,7 +19,8 @@ import {
   SCREENS,
   EXPENSE_TYPES,
   MAIN_CATEGORY_IDS,
-  CATEGORY_IDS
+  CATEGORY_IDS,
+  PRODUCT_TYPES
 } from "../../../constants";
 
 import Step from "../../../components/step";
@@ -86,8 +87,11 @@ class ChooseExpenseTypeScreen extends React.Component {
   };
 
   render() {
+    let navTitle = 'Add Products';
+    let eHomeItems =[];
+    const screenType = this.props.screenType;
     const { isModalVisible, showCancelBtn } = this.state;
-    const productOptions = [
+    const products = [
       {
         type: EXPENSE_TYPES.AUTOMOBILE,
         title: "Automobiles",
@@ -104,55 +108,61 @@ class ChooseExpenseTypeScreen extends React.Component {
         icon: require("../../../images/main-categories/ic_furniture.png")
       },
       {
-        type: EXPENSE_TYPES.AUTO_INSURANCE,
-        title: "Auto Insurance",
-        icon: require("../../../images/main-categories/auto_insurance.png")
-      },
-      {
-        type: EXPENSE_TYPES.MEDICAL_DOCS,
-        title: "Medical Docs & Insurance",
-        icon: require("../../../images/main-categories/ic_medical_prescription.png")
-      },
-      {
-        type: EXPENSE_TYPES.PERSONAL,
-        title: "Personal Docs",
-        icon: require("../../../images/main-categories/ic_personal_doc.png")
-      }
-    ];
-
-    const expenseOptions = [
-      {
-        type: EXPENSE_TYPES.TRAVEL,
-        title: "Travel & Dining",
-        icon: require("../../../images/main-categories/ic_travel_dining.png")
-      },
-      {
-        type: EXPENSE_TYPES.HEALTHCARE,
-        title: "Healthcare",
-        icon: require("../../../images/main-categories/ic_healthcare.png")
-      },
-      {
-        type: EXPENSE_TYPES.FASHION,
-        title: "Fashion",
-        icon: require("../../../images/main-categories/ic_fashion.png")
-      },
-      {
-        type: EXPENSE_TYPES.SERVICES,
-        title: "Services",
-        icon: require("../../../images/main-categories/ic_services.png")
-      },
-      {
-        type: EXPENSE_TYPES.HOME,
-        title: "Home Expenses",
-        icon: require("../../../images/main-categories/ic_home_expenses.png")
-      },
-      {
         type: EXPENSE_TYPES.REPAIR,
         title: "Repair",
         icon: require("../../../images/main-categories/ic_repair.png")
+      },
+      {
+        type: EXPENSE_TYPES.AUTO_INSURANCE,
+        title: "Auto Insurance",
+        icon: require("../../../images/main-categories/auto_insurance.png")
       }
-    ];
 
+    ];
+    const expenses = [{
+      type: EXPENSE_TYPES.TRAVEL,
+      title: "Travel & Dining",
+      icon: require("../../../images/main-categories/ic_travel_dining.png")
+    }, {
+      type: EXPENSE_TYPES.HEALTHCARE,
+      title: "Healthcare",
+      icon: require("../../../images/main-categories/ic_healthcare.png")
+    }, {
+      type: EXPENSE_TYPES.SERVICES,
+      title: "Services",
+      icon: require("../../../images/main-categories/ic_services.png")
+    }, {
+      type: EXPENSE_TYPES.HOME,
+      title: "Home Expenses",
+      icon: require("../../../images/main-categories/ic_home_expenses.png")
+    },
+    {
+      type: EXPENSE_TYPES.FASHION,
+      title: "Fashion",
+      icon: require("../../../images/main-categories/ic_fashion.png")
+    }
+    ];
+    const docs = [{
+      type: EXPENSE_TYPES.MEDICAL_DOCS,
+      title: "Medical Docs & Insurance",
+      icon: require("../../../images/main-categories/ic_medical_prescription.png")
+    },
+    {
+      type: EXPENSE_TYPES.PERSONAL,
+      title: "Personal Docs",
+      icon: require("../../../images/main-categories/ic_personal_doc.png")
+    }];
+
+    if(screenType==PRODUCT_TYPES.PRODUCT){
+       eHomeItems = products;
+       navTitle = 'Add Products'
+    }else if(screenType==PRODUCT_TYPES.EXPENSE){
+      eHomeItems = expenses;
+      navTitle = 'Add Expenses'
+    }else{
+      eHomeItems = docs;
+      navTitle = 'Add Docs'
+    }
     const Item = ({ item }) => (
       <TouchableOpacity
         onPress={() => this.onPressItem(item.type)}
@@ -164,46 +174,32 @@ class ChooseExpenseTypeScreen extends React.Component {
           source={item.icon}
           resizeMode="contain"
         />
-        <Text style={styles.itemTitle}>{item.title}</Text>
+        <Text weight="Bold" style={styles.itemTitle}>{item.title}</Text>
       </TouchableOpacity>
     );
 
     return (
       <Step
         skippable={false}
-        hideHeader={true}
-        title="Add a Product/Expense"
+        title={navTitle}
         {...this.props}
       >
         <View collapsable={false} style={styles.container}>
           <View collapsable={false} style={[styles.option, styles.option1]}>
             <View collapsable={false} style={[styles.optionInner]}>
-              <Text
-                weight="Bold"
-                style={[styles.optionTitle, { color: colors.mainBlue }]}
-              >
-                {I18n.t("add_edit_product_option_product")}
-              </Text>
               <View collapsable={false} style={styles.grid}>
                 <View collapsable={false} style={styles.itemsRow}>
-                  {productOptions
-                    .slice(0, 3)
-                    .map((item, index) => <Item key={index} item={item} />)}
-                </View>
-                <View collapsable={false} style={styles.itemsRow}>
-                  {productOptions
-                    .slice(3, 6)
-                    .map((item, index) => <Item key={index} item={item} />)}
+                  {eHomeItems.map((item, index) => <Item key={index} item={item} />)}
                 </View>
               </View>
             </View>
           </View>
-          <View collapsable={false} style={styles.orContainer}>
+          {/* <View collapsable={false} style={styles.orContainer}>
             <Text style={styles.or} weight="Bold">
               {I18n.t("add_edit_product_option_or")}
             </Text>
-          </View>
-          <View collapsable={false} style={[styles.option, styles.option2]}>
+          </View> */}
+          {/* <View collapsable={false} style={[styles.option, styles.option2]}>
             <View collapsable={false} style={[styles.optionInner]}>
               <Text
                 weight="Bold"
@@ -234,7 +230,7 @@ class ChooseExpenseTypeScreen extends React.Component {
                 outlineBtnStyle={{ borderColor: "transparent" }}
               />
             )}
-          </View>
+          </View> */}
         </View>
       </Step>
     );
@@ -245,14 +241,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 0,
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    backgroundColor: "#fff"
   },
   option: {
     flex: 1,
     padding: 16,
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff"
+    backgroundColor: "#fafafa"
   },
   option1: {},
   option2: {},
@@ -261,36 +258,33 @@ const styles = StyleSheet.create({
     width: "100%",
     maxWidth: 350
   },
-  optionTitle: {
-    fontSize: 18,
-    margin: 5,
-    marginTop: 0
-  },
   grid: {},
   itemsRow: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between"
   },
   item: {
-    flex: 1,
-    height: 95,
+    flexDirection: 'row',
+    height: 76,
     margin: 5,
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
+    padding: 5,
     ...defaultStyles.card,
     borderRadius: 5
   },
   itemIcon: {
-    height: 52,
+    height: 52, 
     width: "100%",
     maxWidth: 52,
-    marginBottom: 5,
-    marginTop: 5
+    margin:10
   },
   itemTitle: {
-    fontSize: 10,
-    textAlign: "center"
+    flex: 1,
+    fontSize: 15,
+    marginLeft: 10,
+    textAlign: 'left',
+    color:colors.primaryText
   },
   orContainer: {
     backgroundColor: "#f7f7f7",
