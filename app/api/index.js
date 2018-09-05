@@ -2063,9 +2063,29 @@ export const getCashbackTransactions = async () => {
     url: `/cashback/details`
   });
 };
+
 export const retrieveWalletDetails = async () => {
   return await apiRequest({
     method: "get",
     url: `/wallet/details`
+  });
+};
+
+export const placeOrder = async ({ sellerId, orderType, serviceTypeId }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/consumer/orders/place`,
+    data: {
+      seller_id: sellerId,
+      order_type: orderType,
+      service_type_id: serviceTypeId
+    }
+  });
+};
+
+export const getOrderDetails = async ({ orderId }) => {
+  return await apiRequest({
+    method: "get",
+    url: `/consumer/orders/${orderId}`
   });
 };

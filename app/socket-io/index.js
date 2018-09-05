@@ -9,19 +9,20 @@ export default {
 
   connect() {
     console.log("trying to connect socket!!");
-    this.socket = io(
-      API_BASE_URL + "?token=" + store.getState().loggedInUser.authToken
-      // {
-      //   query: "token=" + store.getState().loggedInUser.authToken,
-      //   reconnection: true,
-      //   reconnectionDelay: 1000,
-      //   reconnectionDelayMax: 5000,
-      //   reconnectionAttempts: Infinity,
-      //   transports: ["websocket"]
-      // }
-    );
+    this.socket = io(API_BASE_URL, {
+      query: "token=" + store.getState().loggedInUser.authToken,
+      reconnection: true,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      reconnectionAttempts: Infinity,
+      transports: ["websocket"]
+    });
 
     // this.socket.connect();
+
+    this.socket.on("request-approval", attemptNumber => {
+      console.log("request-approval event");
+    });
 
     this.socket.on("connect", function() {
       console.log("socket connected!!");
@@ -34,6 +35,18 @@ export default {
     this.socket.on("disconnect", function() {
       console.log("socket disconnect event");
       // store.dispatch('changeServerConnectionStatus', false)
+    });
+
+    this.socket.on("reconnect", attemptNumber => {
+      console.log("reconnected");
+    });
+
+    this.socket.on("reconnect_error", function(err) {
+      console.log("socket could not be reconnected!!", err);
+    });
+
+    this.socket.on("reconnect", attemptNumber => {
+      console.log("reconnected");
     });
   },
 
