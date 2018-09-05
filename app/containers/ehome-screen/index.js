@@ -52,7 +52,7 @@ class EhomeScreen extends Component {
       tabs: [
         {
           type: PRODUCT_TYPES.PRODUCT,
-          name: "My Products",
+          name: "Products",
           products: [],
           isLoadingFirstPage: false,
           isLoading: false,
@@ -64,7 +64,7 @@ class EhomeScreen extends Component {
         },
         {
           type: PRODUCT_TYPES.EXPENSE,
-          name: "My Expenses",
+          name: "Expenses",
           products: [],
           isLoadingFirstPage: false,
           isLoading: false,
@@ -76,7 +76,7 @@ class EhomeScreen extends Component {
         },
         {
           type: PRODUCT_TYPES.DOCUMENT,
-          name: "My Docs",
+          name: "Docs",
           products: [],
           isLoadingFirstPage: false,
           isLoading: false,
@@ -175,13 +175,6 @@ class EhomeScreen extends Component {
   onListScroll = tabIndex => {
     this.updateTab(tabIndex, { showEndReachedMsg: true });
   };
-
-  // showAddProductOptionsScreen = () => {
-  //   Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
-  //   //use push here so that we can use 'replace' later
-  //   this.props.navigation.push(SCREENS.ADD_PRODUCT_SCREEN);
-  // };
-
   render() {
     const { recentSearches, activeTabIndex, tabs } = this.state;
 
@@ -220,7 +213,7 @@ class EhomeScreen extends Component {
             ) : null}
           </View>
         }
-        tabs={[<View style={{ flex: 1 }} tabLabel='My Calendar'>
+        tabs={[<View style={{ flex: 1 }} tabLabel='Calendar'>
         <CalendarContent
           ref={node => {
             this.calendarContent = node;
@@ -268,12 +261,6 @@ class EhomeScreen extends Component {
           </View>
         ))]}
       >
-        {/* <TouchableOpacity
-          style={styles.fab}
-          onPress={() => this.showAddProductOptionsScreen()}
-        >
-          <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
-        </TouchableOpacity> */}
         <FilterModal
           ref={node => {
             this.filterModal = node;
@@ -285,25 +272,6 @@ class EhomeScreen extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  fab: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    width: 56,
-    height: 56,
-    zIndex: 2,
-    backgroundColor: colors.tomato,
-    borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  uploadFabIcon: {
-    width: 25,
-    height: 25
-  }
-});
 
 const mapStateToProps = state => {
   return {

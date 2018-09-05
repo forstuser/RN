@@ -67,6 +67,12 @@ class ChooseExpenseTypeScreen extends React.Component {
         break;
       case EXPENSE_TYPES.REPAIR:
         break;
+      case EXPENSE_TYPES.RENT_AGREEMENT:
+        break;
+      case EXPENSE_TYPES.OTHER_PERSONAL_DOC:
+        break;
+      case EXPENSE_TYPES.VISITING_CARD:
+        break;
       default:
     }
     this.props.onExpenseTypePress(type);
@@ -88,7 +94,7 @@ class ChooseExpenseTypeScreen extends React.Component {
 
   render() {
     let navTitle = 'Add Products';
-    let eHomeItems =[];
+    let eHomeItems = [];
     const screenType = this.props.screenType;
     const { isModalVisible, showCancelBtn } = this.state;
     const products = [
@@ -143,23 +149,37 @@ class ChooseExpenseTypeScreen extends React.Component {
     }
     ];
     const docs = [{
-      type: EXPENSE_TYPES.MEDICAL_DOCS,
-      title: "Medical Docs & Insurance",
+      type: EXPENSE_TYPES.HEALTHCARE.MEDICAL_DOCS,
+      title: "Medical Docs",
       icon: require("../../../images/main-categories/ic_medical_prescription.png")
     },
     {
-      type: EXPENSE_TYPES.PERSONAL,
-      title: "Personal Docs",
+      id: CATEGORY_IDS.HEALTHCARE.INSURANCE,
+      title: "Medical Insurance",
+      icon: require("../../../images/categories/insurance.png")
+    },
+    {
+      id: CATEGORY_IDS.PERSONAL.RENT_AGREEMENT,
+      title: "Rent Agreement",
+      icon: require("../../../images/categories/rent_agreement.png")
+    },
+    {
+      id: CATEGORY_IDS.PERSONAL.VISITING_CARD,
+      title: "Visiting Cards",
+      icon: require("../../../images/main-categories/ic_visiting_card.png")
+    }, {
+      id: CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC,
+      title: "Personal & Other Docs",
       icon: require("../../../images/main-categories/ic_personal_doc.png")
     }];
 
-    if(screenType==PRODUCT_TYPES.PRODUCT){
-       eHomeItems = products;
-       navTitle = 'Add Products'
-    }else if(screenType==PRODUCT_TYPES.EXPENSE){
+    if (screenType == PRODUCT_TYPES.PRODUCT) {
+      eHomeItems = products;
+      navTitle = 'Add Products'
+    } else if (screenType == PRODUCT_TYPES.EXPENSE) {
       eHomeItems = expenses;
       navTitle = 'Add Expenses'
-    }else{
+    } else {
       eHomeItems = docs;
       navTitle = 'Add Docs'
     }
@@ -194,11 +214,6 @@ class ChooseExpenseTypeScreen extends React.Component {
               </View>
             </View>
           </View>
-          {/* <View collapsable={false} style={styles.orContainer}>
-            <Text style={styles.or} weight="Bold">
-              {I18n.t("add_edit_product_option_or")}
-            </Text>
-          </View> */}
           {/* <View collapsable={false} style={[styles.option, styles.option2]}>
             <View collapsable={false} style={[styles.optionInner]}>
               <Text
@@ -274,27 +289,17 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   itemIcon: {
-    height: 52, 
+    height: 52,
     width: "100%",
     maxWidth: 52,
-    margin:10
+    margin: 10
   },
   itemTitle: {
     flex: 1,
     fontSize: 15,
     marginLeft: 10,
     textAlign: 'left',
-    color:colors.primaryText
-  },
-  orContainer: {
-    backgroundColor: "#f7f7f7",
-    height: 30,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  or: {
-    fontSize: 14,
-    color: colors.secondaryText
+    color: colors.primaryText
   },
   closeBtn: {
     // margin: 10,
