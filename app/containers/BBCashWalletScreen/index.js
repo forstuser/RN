@@ -54,28 +54,29 @@ class BBCashWalletScreen extends Component {
         };
     }  
     
-    // componentDidMount() {
-    //     this.fetchWalletData();
-    // }
+    componentDidMount() {
+        this.fetchWalletData();
+    }
 
-    // fetchWalletData = async () => {
-    //     this.setState({
-    //         error: null
-    //     });
-    //     try {
-    //         const walletData = await retrieveWalletDetails();
-    //         console.log(walletData);
-    //         this.setState({
-    //             isFetchingData: false
-    //         });
-    //     } catch (error) {
-    //         console.log("error: ", error);
-    //         this.setState({
-    //           error,
-    //           isFetchingData: false
-    //         });
-    //       }
-    // };
+    fetchWalletData = async () => {
+        this.setState({
+            error: null
+        });
+        try {
+            const walletData = await retrieveWalletDetails();
+            console.log(walletData.total_cashback);
+            console.log(walletData.result);
+            this.setState({
+                isFetchingData: false
+            });
+        } catch (error) {
+            console.log("error: ", error);
+            this.setState({
+              error,
+              isFetchingData: false
+            });
+          }
+    };
 
     renderTransactions = ({item:transaction, index}) => {
         return <SingleTransaction 

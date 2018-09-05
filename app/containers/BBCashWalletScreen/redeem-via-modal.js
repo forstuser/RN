@@ -31,8 +31,13 @@ class RedeemViaModal extends Component {
 
     onSellerPressed = () => {
         this.hide();
-        this.props.navigation.navigate(SCREENS.SELECT_SELLER_SCREEN_WALLET)
-    }
+        this.props.navigation.navigate(SCREENS.SELECT_SELLER_SCREEN_WALLET);
+    };
+
+    onPaytmPressed = () => {
+        this.hide();
+        this.props.navigation.navigate(SCREENS.REDEEM_VIA_PAYTM_SCREEN);
+    };
 
     render() {
         return (
@@ -47,19 +52,27 @@ class RedeemViaModal extends Component {
             >
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <View style={[styles.box, styles.box1]}>
-                        <TouchableOpacity onPress={() => alert('Pressed')}>
-                            <Image style={styles.paytmIcon} source={require('./paytm.png')} />
-                            <Text>Paytm*</Text>
+                        <TouchableOpacity onPress={this.onPaytmPressed}>
+                            <Image
+                                style={styles.paytmIcon} 
+                                source={require('./paytm.png')}
+                                resizeMode='contain' 
+                            />
+                            <Text style={styles.iconHeading1}>Paytm*</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={[styles.box, styles.box2]}>
                         <TouchableOpacity onPress={this.onSellerPressed}>
-                                <Image style={styles.sellerIcon} source={require('./seller.png')} />
-                                <Text>Seller</Text>
+                                <Image 
+                                    style={styles.sellerIcon} 
+                                    source={require('./seller.png')} 
+                                    resizeMode='contain'
+                                />
+                                <Text style={styles.iconHeading2}>Seller</Text>
                         </TouchableOpacity>
                     </View>     
                 </View>
-                <Text textStyle={{ fontSize: 6 }}>*if you claim cashback through Paytm, 2% will be deducted</Text>
+                <Text style={styles.heading}>*if you claim cashback through Paytm, 2% will be deducted</Text>
             </Modal>
         );
     }
@@ -80,12 +93,27 @@ const styles = {
         alignItems: 'center'
     },
     paytmIcon: {
-        height: 40,
-        width: 125,
+        height: 75,
+        width: 75,
     },
     sellerIcon: {
-        height:100,
-        width: 100
+        height:75,
+        width: 75
+    },
+    iconHeading1: {
+        fontSize: 16,
+        marginTop: 15,
+        marginLeft: 15
+    },
+    iconHeading2: {
+        fontSize: 16,
+        marginTop: 15,
+        marginLeft: 20
+    },
+    heading: {
+        fontSize: 10,
+        marginLeft: 10,
+        marginBottom: 10
     }
 };
 

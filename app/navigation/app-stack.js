@@ -82,6 +82,7 @@ import CashbackQueryScreen from "../containers/cashback-query-screen";
 import CashbackQueryReasonsScreen from "../containers/cashback-query-screen/cashback-query-reasons-screen";
 import CashbackQueryAdditionalInfoScreen from "../containers/cashback-query-screen/cashback-query-additional-info";
 import ShoppingListOrderScreen from "../containers/shopping-list-order-screen";
+import RedeemViaPaytmScreen from "../containers/BBCashWalletScreen/redeem-via-paytm-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -237,7 +238,8 @@ export default createStackNavigator(
     [SCREENS.CASHBACK_QUERY_SCREEN]: CashbackQueryScreen,
     [SCREENS.CASHBACK_QUERY_REASONS_SCREEN]: CashbackQueryReasonsScreen,
     [SCREENS.CASHBACK_QUERY_ADDITIONAL_INFO_SCREEN]: CashbackQueryAdditionalInfoScreen,
-    [SCREENS.SHOPPING_LIST_ORDER_SCREEN]: ShoppingListOrderScreen
+    [SCREENS.SHOPPING_LIST_ORDER_SCREEN]: ShoppingListOrderScreen,
+    [SCREENS.REDEEM_VIA_PAYTM_SCREEN]: RedeemViaPaytmScreen
   },
   {
     initialRouteName: "DrawerNavigator"
