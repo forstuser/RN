@@ -317,7 +317,6 @@ class RootNavigation extends React.Component {
         : CODEPUSH_KEYS.PRODUCTION
     });
 
-    console.log("this.props: ", this.props);
     if (!this.props.isUserLoggedIn) {
       NavigationService.navigate(SCREENS.INTRO_SCREEN);
     } else {

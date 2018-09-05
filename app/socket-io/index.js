@@ -21,17 +21,18 @@ export default {
       // }
     );
 
-    this.socket.connect();
+    // this.socket.connect();
 
     this.socket.on("connect", function() {
       console.log("socket connected!!");
     });
 
-    this.socket.on("error", function(err) {
-      console.log("socket could not connected!!");
+    this.socket.on("connect_error", function(err) {
+      console.log("socket could not be connected!!", err);
     });
 
     this.socket.on("disconnect", function() {
+      console.log("socket disconnect event");
       // store.dispatch('changeServerConnectionStatus', false)
     });
   },
