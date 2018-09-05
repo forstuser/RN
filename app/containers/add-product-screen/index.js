@@ -65,12 +65,15 @@ class AddProductScreen extends React.Component {
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.previousStep);
     const expenseType = this.props.navigation.getParam("expenseType", null);
+    const screenType = this.props.navigation.getParam("screenType",null);
+    console.log("screenType",screenType)
     if (expenseType) {
       this.setState({ popOnDoItLater: true });
       this.chooseExpenseType(expenseType, false);
     } else {
       this.pushStep(
         <SelectExpenseTypeStep
+          screenType={screenType}
           onBackPress={this.previousStep}
           onExpenseTypePress={this.chooseExpenseType}
         />,
