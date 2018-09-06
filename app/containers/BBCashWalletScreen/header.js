@@ -35,7 +35,7 @@ class Header extends Component {
                 </TouchableOpacity>
                 <Text weight="Bold" style={[styles.heading,styles.heading1]}>BBCash Wallet</Text>
                 <Text style={[styles.heading,styles.heading2]}>Available BBCash</Text>
-                <Text weight="Light" style={[styles.heading,styles.heading3]}>1000</Text>
+                <Text weight="Light" style={[styles.heading,styles.heading3]}>{this.props.totalCashback}</Text>
                 <Button
                     style={styles.button} 
                     text='Redeem BBCash' 
