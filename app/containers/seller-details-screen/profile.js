@@ -151,6 +151,8 @@ class SellerProfileTab extends React.Component {
     const coverImageUri =
       API_BASE_URL + `/consumer/sellers/${seller.id}/upload/1/images/0`;
 
+    console.log("coverImageUri: ", coverImageUri);
+
     const thisUserReview = seller.reviews.find(
       review => this.props.userId == review.user.id
     );

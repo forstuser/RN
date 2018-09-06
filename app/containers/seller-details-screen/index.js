@@ -40,7 +40,8 @@ export default class SellerDetailsScreen extends React.Component {
     const { navigation } = this.props;
     const seller = navigation.getParam("seller", {});
     this.setState({
-      isLoading: true
+      isLoading: true,
+      error: null
     });
     try {
       const res = await getSellerDetails(seller.id);
@@ -57,6 +58,12 @@ export default class SellerDetailsScreen extends React.Component {
 
   render() {
     const { seller, isLoading, error, paymentModes } = this.state;
+
+    if (error) {
+      return (
+        <ErrorOverlay error={error} onRetryPress={this.getSellerDetails} />
+      );
+    }
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>

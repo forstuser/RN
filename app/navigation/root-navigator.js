@@ -168,6 +168,10 @@ handleNotification = notif => {
       params.id = notif.id;
       screenToOpen = SCREENS.DO_YOU_KNOW_SCREEN;
       break;
+    case "31":
+      screenToOpen = SCREENS.SHOPPING_LIST_ORDER_SCREEN;
+      params = { orderId: notif.id };
+      break;
     default:
   }
 
