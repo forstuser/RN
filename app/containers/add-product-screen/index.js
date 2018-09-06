@@ -65,8 +65,8 @@ class AddProductScreen extends React.Component {
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.previousStep);
     const expenseType = this.props.navigation.getParam("expenseType", null);
-    const screenType = this.props.navigation.getParam("screenType",null);
-    console.log("screenType",screenType)
+    const screenType = this.props.navigation.getParam("screenType", null);
+    console.log("screenType", screenType)
     if (expenseType) {
       this.setState({ popOnDoItLater: true });
       this.chooseExpenseType(expenseType, false);
@@ -446,6 +446,7 @@ class AddProductScreen extends React.Component {
   };
 
   chooseExpenseType = (type, pushToNextStep = true) => {
+    console.log("type", type)
     this.setState(
       {
         expenseType: type,
@@ -490,7 +491,6 @@ class AddProductScreen extends React.Component {
               }
             );
             break;
-          case EXPENSE_TYPES.MEDICAL_DOCS:
           case EXPENSE_TYPES.HEALTHCARE:
             this.setState(
               {
@@ -498,6 +498,50 @@ class AddProductScreen extends React.Component {
               },
               () => {
                 this.pushCategoryStep(pushToNextStep);
+              }
+            );
+            break;
+          case EXPENSE_TYPES.MEDICAL_DOCS:
+            this.setState(
+              {
+                mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE,
+                category: {
+                  id: CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC,
+                  name: "Medical Docs"
+                }
+              },
+
+              () => {
+                this.initProduct(pushToNextStep);
+              }
+            );
+            break;
+          case EXPENSE_TYPES.MEDICAl_INSURANCE:
+            this.setState(
+              {
+                mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE,
+                category: {
+                  id: CATEGORY_IDS.HEALTHCARE.INSURANCE,
+                  name: "Medical Insurance"
+                }
+              },
+
+              () => {
+                this.initProduct(pushToNextStep);
+              }
+            );
+            break;
+          case EXPENSE_TYPES.RENT_AGREEMENT:
+            this.setState(
+              {
+                mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL,
+                category: {
+                  id: CATEGORY_IDS.PERSONAL.RENT_AGREEMENT,
+                  name: "Rent Agreement"
+                }
+              },
+              () => {
+                this.initProduct(pushToNextStep);
               }
             );
             break;
@@ -541,13 +585,17 @@ class AddProductScreen extends React.Component {
               }
             );
             break;
-          case EXPENSE_TYPES.PERSONAL:
+          case EXPENSE_TYPES.OTHER_PERSONAL_DOC:
             this.setState(
               {
-                mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL
+                mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL,
+                category: {
+                  id: CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC,
+                  name: "Other Personal Docs"
+                }
               },
               () => {
-                this.pushCategoryStep(pushToNextStep);
+                this.initProduct(pushToNextStep);
               }
             );
             break;

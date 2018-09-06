@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, FlatList } from 'react-native';
-
+import moment from "moment";
 import { Text } from '../../elements';
 import Header from './header';
 import SingleTransaction from './singleTransaction';
@@ -18,38 +18,8 @@ class BBCashWalletScreen extends Component {
         this.state = {
             error: null,
             isFetchingData: true,
-            transactions: [
-                {
-                    'description': 'Redeemed at Paytm',
-                    'date': 'August 31, 2018',
-                    'id': 12345678901,
-                    'price': 100
-                },
-                {
-                    'description': 'Redeemed at Paytm',
-                    'date': 'August 31, 2018',
-                    'id': 12345678902,
-                    'price': 100
-                },
-                {
-                    'description': 'Redeemed at Paytm',
-                    'date': 'August 31, 2018',
-                    'id': 12345678903,
-                    'price': 100
-                },
-                {
-                    'description': 'Redeemed at Paytm',
-                    'date': 'August 31, 2018',
-                    'id': 12345678904,
-                    'price': 100
-                },
-                {
-                    'description': 'Redeemed at Paytm',
-                    'date': 'August 31, 2018',
-                    'id': 12345678905,
-                    'price': 100
-                }               
-            ],
+            totalCashback:0,
+            transactions: [],
             walletAmount: 0 
         };
     }  
@@ -64,10 +34,19 @@ class BBCashWalletScreen extends Component {
         });
         try {
             const walletData = await retrieveWalletDetails();
-            console.log(walletData.total_cashback);
-            console.log(walletData.result);
+            console.log("walletData total cashback",walletData.total_cashback);
+            console.log("wallet totol result",walletData.result);
+            let walletArray = [];
+            walletData.result.forEach((money)=>{
+                walletArray.push({'description':money.description,'date':moment(money.created_at)
+                .format("DD MMM, YYYY")
+                .toUpperCase(),'id':money.id,'price':money.amount})
+            })
+            console.log(walletArray);
             this.setState({
-                isFetchingData: false
+                isFetchingData: false,
+                totalCashback:walletData.total_cashback.toFixed(2),
+                transactions:walletArray
             });
         } catch (error) {
             console.log("error: ", error);
@@ -88,12 +67,13 @@ class BBCashWalletScreen extends Component {
     };
     
     render() {
+        const {transactions,totalCashback} = this.state;
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
-                <Header navigation={this.props.navigation} />
+                <Header navigation={this.props.navigation} totalCashback={totalCashback} />
                 <Text style={styles.heading} weight="Bold">BBCash Transactions</Text>
                 <FlatList
-                    data={this.state.transactions}
+                    data={transactions}
                     renderItem={this.renderTransactions}
                     keyExtractor={item => item.id}
                 />

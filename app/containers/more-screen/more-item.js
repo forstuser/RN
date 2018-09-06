@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#4a4a4a",
-    fontSize: 9
+    fontSize: 12
   },
   btn: {
     borderWidth: 1,

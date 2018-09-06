@@ -42,39 +42,6 @@ class ChooseExpenseTypeScreen extends React.Component {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_PRODUCT_SCREEN, {
       category_name: type
     });
-    switch (type) {
-      case EXPENSE_TYPES.AUTOMOBILE:
-        break;
-      case EXPENSE_TYPES.ELECTRONICS:
-        break;
-      case EXPENSE_TYPES.FURNITURE:
-        break;
-      case EXPENSE_TYPES.MEDICAL_DOCS:
-        break;
-      case EXPENSE_TYPES.PERSONAL:
-        break;
-      case EXPENSE_TYPES.VISITING_CARD:
-        break;
-      case EXPENSE_TYPES.TRAVEL:
-        break;
-      case EXPENSE_TYPES.HEALTHCARE:
-        break;
-      case EXPENSE_TYPES.FASHION:
-        break;
-      case EXPENSE_TYPES.SERVICES:
-        break;
-      case EXPENSE_TYPES.HOME:
-        break;
-      case EXPENSE_TYPES.REPAIR:
-        break;
-      case EXPENSE_TYPES.RENT_AGREEMENT:
-        break;
-      case EXPENSE_TYPES.OTHER_PERSONAL_DOC:
-        break;
-      case EXPENSE_TYPES.VISITING_CARD:
-        break;
-      default:
-    }
     this.props.onExpenseTypePress(type);
   };
 
@@ -149,26 +116,26 @@ class ChooseExpenseTypeScreen extends React.Component {
     }
     ];
     const docs = [{
-      type: EXPENSE_TYPES.HEALTHCARE.MEDICAL_DOCS,
+      type: EXPENSE_TYPES.MEDICAL_DOCS,
       title: "Medical Docs",
       icon: require("../../../images/main-categories/ic_medical_prescription.png")
     },
     {
-      id: CATEGORY_IDS.HEALTHCARE.INSURANCE,
+      type: EXPENSE_TYPES.MEDICAl_INSURANCE,
       title: "Medical Insurance",
       icon: require("../../../images/categories/insurance.png")
     },
     {
-      id: CATEGORY_IDS.PERSONAL.RENT_AGREEMENT,
+      type: EXPENSE_TYPES.RENT_AGREEMENT,
       title: "Rent Agreement",
       icon: require("../../../images/categories/rent_agreement.png")
     },
     {
-      id: CATEGORY_IDS.PERSONAL.VISITING_CARD,
+      type: EXPENSE_TYPES.VISITING_CARD,
       title: "Visiting Cards",
       icon: require("../../../images/main-categories/ic_visiting_card.png")
     }, {
-      id: CATEGORY_IDS.PERSONAL.OTHER_PERSONAL_DOC,
+      type: EXPENSE_TYPES.OTHER_PERSONAL_DOC,
       title: "Personal & Other Docs",
       icon: require("../../../images/main-categories/ic_personal_doc.png")
     }];

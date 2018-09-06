@@ -23,6 +23,7 @@ import { colors } from "../../theme";
 import { showSnackbar } from "../../utils/snackbar";
 import LoadingOverlay from "../../components/loading-overlay";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
+import { SCREENS } from "../../constants";
 
 class Header extends Component {
   constructor(props) {
@@ -66,7 +67,7 @@ class Header extends Component {
           mimeType: file.mime
         });
       })
-      .catch(e => {});
+      .catch(e => { });
   };
 
   pickGalleryImage = async () => {
@@ -83,7 +84,7 @@ class Header extends Component {
           mimeType: file.mime
         });
       })
-      .catch(e => {});
+      .catch(e => { });
   };
 
   uploadImage = async file => {
@@ -93,7 +94,7 @@ class Header extends Component {
       isOnTabsScreen: true
     });
     try {
-      await uploadProfilePic(file, () => {});
+      await uploadProfilePic(file, () => { });
       this.setState({
         profilePic: <Image style={styles.image} source={{ uri: file.uri }} />
       });
@@ -110,7 +111,9 @@ class Header extends Component {
       });
     }
   };
-
+  onWalletPress = () => {
+    this.props.navigation.navigate(SCREENS.BB_CASH_WALLET_SCREEN);
+  }
   render() {
     const { profile, authToken, isProfileVisible, name, mobile } = this.props;
 
@@ -164,7 +167,7 @@ class Header extends Component {
                 <Text style={styles.mobile}>{profile.mobile_no}</Text>
               </View>
 
-              <TouchableOpacity style={{ alignItems: "center" }}>
+              <TouchableOpacity style={{ alignItems: "center", left: 5 }} onPress={() => this.onWalletPress()}>
                 <Image
                   style={{ width: 25, height: 25 }}
                   source={require("../../images/wallet.png")}
@@ -176,8 +179,8 @@ class Header extends Component {
             </View>
           </TouchableOpacity>
         ) : (
-          <View />
-        )}
+            <View />
+          )}
       </View>
     );
   }
@@ -188,8 +191,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 120,
     backgroundColor: colors.mainBlue,
-    borderTopWidth: 1,
-    borderTopColor: "rgba(255, 255, 255, 0.3)",
+    // borderTopWidth: 1,
+    // borderTopColor: "rgba(255, 255, 255, 0.3)",
     flexDirection: "row",
     alignItems: "center"
   },
@@ -222,8 +225,8 @@ const styles = StyleSheet.create({
     width: 30
   },
   profilePicCircleWrapper: {
-    width: 75,
-    height: 75,
+    width: 80,
+    height: 80,
     borderRadius: 40,
     overflow: "hidden",
     backgroundColor: "#eee",
@@ -255,11 +258,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   name: {
-    fontSize: 10,
+    fontSize: 18,
     color: "#ffffff"
   },
   mobile: {
-    fontSize: 10,
+    fontSize: 14,
     color: "#ffffff"
   }
 });

@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.lighterText,
     flexDirection: "row",
     alignItems: "center",
-    height: 76
+    height: 50,
   },
   backBtn: {
     width: 50,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   title: {
-    fontSize: 16
+    fontSize: 16,
   },
   subtitle: {
     fontSize: 12
