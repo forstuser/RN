@@ -26,7 +26,6 @@ import CustomTextInput from "../../components/form-elements/text-input";
 const editIcon = require("../../images/ic_edit_white.png");
 import { colors } from "../../theme";
 import LoadingOverlay from "../../components/loading-overlay";
-
 import { showSnackbar } from "../../utils/snackbar";
 
 const verified = require("../../images/ic_profile_verified.png");
@@ -64,6 +63,9 @@ class Body extends Component {
       isEmailModalVisible: false
     });
   };
+  manageAddress = () => {
+    this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN)
+  }
 
   askForEmailOtp = async () => {
     const { email, emailInput, isEmailVerified } = this.state;
@@ -176,8 +178,8 @@ class Body extends Component {
             </Text>
           </View>
         ) : (
-          <View collapsable={false} />
-        )}
+            <View collapsable={false} />
+          )}
         <TouchableWithoutFeedback
           onPress={() => {
             if (!isEmailVerified) {
@@ -220,8 +222,9 @@ class Body extends Component {
             </Text>
           </View>
         </TouchableWithoutFeedback>
+        <TouchableOpacity onPress={() => this.manageAddress()} style={{ left: 15 }}><Text style={{ color: colors.pinkishOrange, fontSize: 12 }}>Manage Addresses</Text></TouchableOpacity>
         <ProfileDetailEdit
-          label={I18n.t("profile_screen_label_address")}
+          label="Address"
           info={this.state.location}
           apiFieldName="location"
           editable={true}
@@ -289,8 +292,8 @@ class Body extends Component {
             </Modal>
           </View>
         ) : (
-          <View collapsable={false} />
-        )}
+            <View collapsable={false} />
+          )}
       </View>
     );
   }
