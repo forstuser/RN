@@ -102,7 +102,7 @@ class MyShoppingList extends React.Component {
       // });
       this.props.navigation.replace(SCREENS.SHOPPING_LIST_ORDER_SCREEN, {
         // orderId: res.result.id
-        orderId: 1
+        orderId: 38
       });
     } catch (e) {
       showSnackbar({ text: e.message });

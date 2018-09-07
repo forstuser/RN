@@ -68,17 +68,22 @@ export default class Statuses extends React.Component {
             <View>
               <StatusItem title="Order Modified" isDone={true} />
               <StatusItem
-                title="Order Placed"
-                isDone={statusType == ORDER_STATUS_TYPES.APPROVED}
+                title="Modification Approved"
+                isDone={[
+                  ORDER_STATUS_TYPES.APPROVED,
+                  ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                  ORDER_STATUS_TYPES.COMPLETE
+                ].includes(statusType)}
               />
             </View>
           )}
           {[
+            ORDER_STATUS_TYPES.APPROVED,
             ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
             ORDER_STATUS_TYPES.COMPLETE
           ].includes(statusType) && (
             <StatusItem
-              title="Accepted"
+              title="Out For Delivery"
               isDone={[
                 ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
                 ORDER_STATUS_TYPES.COMPLETE

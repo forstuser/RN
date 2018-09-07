@@ -2089,3 +2089,35 @@ export const getOrderDetails = async ({ orderId }) => {
     url: `/consumer/orders/${orderId}`
   });
 };
+
+export const approveOrder = async ({ orderId, sellerId, skuList = [] }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/orders/${orderId}/approve`,
+    data: { seller_id: sellerId, order_details: skuList }
+  });
+};
+
+export const rejectOrder = async ({ orderId, sellerId }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/orders/${orderId}/reject`,
+    data: { seller_id: sellerId }
+  });
+};
+
+export const cancelOrder = async ({ orderId, sellerId }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/orders/${orderId}/cancel`,
+    data: { seller_id: sellerId }
+  });
+};
+
+export const completeOrder = async ({ orderId, sellerId }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/orders/${orderId}/paid`,
+    data: { seller_id: sellerId }
+  });
+};
