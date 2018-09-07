@@ -14,7 +14,7 @@ import { colors } from "../theme";
 import curve from "../images/tab_curve.png";
 
 const CONTENT_WIDTH = Dimensions.get("window").width - 20;
-const TAB_WIDTH = CONTENT_WIDTH/2;
+const TAB_WIDTH = CONTENT_WIDTH/3;
 
 export default class CircularTabs extends React.Component {
   state = {
