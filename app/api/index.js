@@ -145,7 +145,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => {}
+  onUploadProgress = () => { }
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -1261,10 +1261,10 @@ export const updateAccessory = async ({
     value: value || undefined,
     warranty: warrantyRenewalType
       ? {
-          id: warrantyId || undefined,
-          renewal_type: warrantyRenewalType || undefined,
-          effective_date: warrantyEffectiveDate || undefined
-        }
+        id: warrantyId || undefined,
+        renewal_type: warrantyRenewalType || undefined,
+        effective_date: warrantyEffectiveDate || undefined
+      }
       : {},
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
@@ -1298,10 +1298,10 @@ export const addAccessory = async ({
     value: value || undefined,
     warranty: warrantyRenewalType
       ? {
-          id: warrantyId || undefined,
-          renewal_type: warrantyRenewalType || undefined,
-          effective_date: warrantyEffectiveDate || undefined
-        }
+        id: warrantyId || undefined,
+        renewal_type: warrantyRenewalType || undefined,
+        effective_date: warrantyEffectiveDate || undefined
+      }
       : {},
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
@@ -2089,3 +2089,26 @@ export const getOrderDetails = async ({ orderId }) => {
     url: `/consumer/orders/${orderId}`
   });
 };
+
+export const getUserAddresses = async () => {
+  return await apiRequest({
+    method: "get",
+    url: "/consumer/addresses"
+  });
+};
+
+
+export const updateUserAddresses = async (item) => {
+  return await apiRequest({
+    method: "post",
+    url: "/consumer/addresses",
+    data: item
+  });
+};
+
+export const deleteUserAddresses = async id => {
+  return await apiRequest({
+    method: "delete",
+    url: `/consumer/addresses/${id}`
+  })
+}

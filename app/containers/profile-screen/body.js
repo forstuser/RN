@@ -222,7 +222,7 @@ class Body extends Component {
             </Text>
           </View>
         </TouchableWithoutFeedback>
-        <TouchableOpacity onPress={() => this.manageAddress()} style={{ left: 15 }}><Text style={{ color: colors.pinkishOrange, fontSize: 12 }}>Manage Addresses</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => this.manageAddress()} style={{ alignSelf: 'flex-end', right: 10 }}><Text style={{ color: colors.pinkishOrange, fontSize: 12 }}>Manage Addresses</Text></TouchableOpacity>
         <ProfileDetailEdit
           label="Address"
           info={this.state.location}
