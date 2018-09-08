@@ -275,7 +275,7 @@ class ProfileScreen extends Component {
           </TouchableOpacity>
           <Header profile={profile} />
 
-          <Body profile={profile} />
+          <Body profile={profile} navigation={this.props.navigation}/>
         </KeyboardAwareScrollView>
         <TouchableOpacity
           style={styles.codepushToggleBtn}

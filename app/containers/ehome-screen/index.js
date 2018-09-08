@@ -114,8 +114,8 @@ class EhomeScreen extends Component {
   };
 
   onTabChange = ({ i }) => {
-    this.setState({ activeTabIndex: i });
-    if(i === 3) 
+    this.setState({ activeTabIndex: i - 1 });
+    if (i === 3)
       this.calendarContent.fetchItems();
   };
 
@@ -214,13 +214,13 @@ class EhomeScreen extends Component {
           </View>
         }
         tabs={[<View style={{ flex: 1 }} tabLabel='Calendar'>
-        <CalendarContent
-          ref={node => {
-            this.calendarContent = node;
-          }}
-          navigation={this.props.navigation} 
-        />
-      </View>,...tabs.map((tab, index) => (
+          <CalendarContent
+            ref={node => {
+              this.calendarContent = node;
+            }}
+            navigation={this.props.navigation}
+          />
+        </View>, ...tabs.map((tab, index) => (
           <View key={tab.type} tabLabel={tab.name} style={{ flex: 1 }}>
             {tab.selectedCategories.length > 0 ? (
               <View
@@ -243,8 +243,8 @@ class EhomeScreen extends Component {
                 </ScrollView>
               </View>
             ) : (
-              <View />
-            )}
+                <View />
+              )}
             <ProductsList
               type={tab.type}
               onRefresh={() => this.getProductsFirstPage(index)}
@@ -265,7 +265,7 @@ class EhomeScreen extends Component {
           ref={node => {
             this.filterModal = node;
           }}
-          mainCategories={tabs[activeTabIndex]?tabs[activeTabIndex].mainCategories:[]}
+          mainCategories={tabs[activeTabIndex] ? tabs[activeTabIndex].mainCategories : []}
           applyFilter={this.applyFilter}
         />
       </TabsScreenContainer>

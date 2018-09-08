@@ -2137,3 +2137,24 @@ export const completeOrder = async ({ orderId, sellerId }) => {
     data: { seller_id: sellerId }
   });
 };
+export const getUserAddresses = async () => {
+  return await apiRequest({
+    method: "get",
+    url: "/consumer/addresses"
+  });
+};
+
+export const updateUserAddresses = async item => {
+  return await apiRequest({
+    method: "post",
+    url: "/consumer/addresses",
+    data: item
+  });
+};
+
+export const deleteUserAddresses = async id => {
+  return await apiRequest({
+    method: "delete",
+    url: `/consumer/addresses/${id}`
+  });
+};

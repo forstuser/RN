@@ -20,6 +20,7 @@ import { BlurView } from "react-native-blur";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 const editIcon = require("../../images/ic_edit_white.png");
 
+
 class ProfileDetailEdit extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +29,7 @@ class ProfileDetailEdit extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   onSubmit = async () => {
     // this.props.updateState(info);
@@ -84,7 +85,7 @@ class ProfileDetailEdit extends Component {
         },
         {
           text: I18n.t("profile_screen_details_dismiss"),
-          onPress: () => {},
+          onPress: () => { },
           style: "cancel"
         }
       ]
@@ -97,8 +98,10 @@ class ProfileDetailEdit extends Component {
     return (
       <View collapsable={false}>
         <View collapsable={false} style={styles.information}>
-          <View collapsable={false} style={{ width: 240 }}>
-            <Text style={styles.fieldName}>{label}</Text>
+          <View collapsable={false} style={{ flex: 1 }}>
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={styles.fieldName}>{label}</Text>
+            </View>
             <TextInput
               multiline={bigBox}
               style={[styles.fieldValue, bigBox ? { height: 80 } : {}]}
@@ -129,8 +132,8 @@ class ProfileDetailEdit extends Component {
               </TouchableOpacity>
             </View>
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
         </View>
       </View>
     );
