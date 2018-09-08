@@ -96,13 +96,12 @@ class MyShoppingList extends React.Component {
       isLoadingMySellers: true
     });
     try {
-      // const res = await placeOrder({
-      //   sellerId: seller.id,
-      //   orderType: ORDER_TYPES.FMCG
-      // });
+      const res = await placeOrder({
+        sellerId: seller.id,
+        orderType: ORDER_TYPES.FMCG
+      });
       this.props.navigation.replace(SCREENS.SHOPPING_LIST_ORDER_SCREEN, {
-        // orderId: res.result.id
-        orderId: 38
+        orderId: res.result.id
       });
     } catch (e) {
       showSnackbar({ text: e.message });

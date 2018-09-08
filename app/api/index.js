@@ -796,6 +796,22 @@ export const addSellerReview = async ({
   });
 };
 
+export const addAssistedServiceReview = async ({
+  id,
+  sellerId,
+  ratings = 0,
+  feedback = null
+}) => {
+  return await apiRequest({
+    method: "put",
+    url: `/sellers/${sellerId}/assisted/${id}/reviews`,
+    data: {
+      ratings,
+      feedback
+    }
+  });
+};
+
 export const getProductsForAsc = async () => {
   return await apiRequest({
     method: "get",

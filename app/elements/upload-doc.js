@@ -62,7 +62,8 @@ class UploadDoc extends React.Component {
         "expense_forms_header_upload_doc_successfully"
       ),
       placeholder2Color = colors.secondaryText,
-      actionSheetTitle
+      actionSheetTitle,
+      onPicTaken
     } = this.props;
     const { isDocUploaded } = this.state;
     if (!copies) {
@@ -131,6 +132,7 @@ class UploadDoc extends React.Component {
             uploadCallback={this.onUpload}
             actionSheetTitle={actionSheetTitle}
             canUseCameraOnly={canUseCameraOnly}
+            onPicTaken={onPicTaken}
           />
           {copies.length == 0 ? (
             <TouchableOpacity

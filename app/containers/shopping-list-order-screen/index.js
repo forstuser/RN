@@ -1,7 +1,8 @@
 import React from "react";
-import { View, FlatList, Alert } from "react-native";
+import { View, FlatList, Alert, Animated } from "react-native";
 
 import { Text, Image, Button } from "../../elements";
+
 import {
   getOrderDetails,
   approveOrder,
@@ -14,13 +15,15 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { showSnackbar } from "../../utils/snackbar";
 
-import { ORDER_STATUS_TYPES } from "../../constants";
+import { ORDER_STATUS_TYPES, SCREENS } from "../../constants";
 
 import Status from "./status";
 import SellerDetails from "./seller-details";
 import ListItem from "./list-item";
 
 import socketIo from "../../socket-io";
+
+import UploadBillModal from "./upload-bill-modal";
 
 export default class ShoppingListOrderScreen extends React.Component {
   static navigationOptions = {
@@ -41,10 +44,13 @@ export default class ShoppingListOrderScreen extends React.Component {
     // });
     if (socketIo.socket) {
       socketIo.socket.on("order-status-change", data => {
-        const jsonData = JSON.parse(data.trim());
+        const jsonData = JSON.parse(data);
         this.setState({ order: jsonData.order });
       });
     }
+
+    // this.uploadBillModal.show({ productId: 50897, jobId: 52334 });
+    // this.props.navigation.navigate(SCREENS.SHOPPING_LIST_ORDER_REVIEWS_SCREEN);
   }
 
   componentWillUnmount() {
@@ -114,7 +120,14 @@ export default class ShoppingListOrderScreen extends React.Component {
     const { order } = this.state;
     try {
       this.setState({ isLoading: true });
-      await completeOrder({ orderId: order.id, sellerId: order.seller_id });
+      const res = await completeOrder({
+        orderId: order.id,
+        sellerId: order.seller_id
+      });
+      this.uploadBillModal.show({
+        productId: res.result.product.id,
+        jobId: res.result.product.job_id
+      });
       showSnackbar({ text: "Order completed!" });
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -247,7 +260,7 @@ export default class ShoppingListOrderScreen extends React.Component {
                   />
                 )}
 
-              {order.status_type == ORDER_STATUS_TYPES.APPROVED && (
+              {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY && (
                 <Button
                   onPress={this.completeOrder}
                   text="Mark Paid"
@@ -257,7 +270,11 @@ export default class ShoppingListOrderScreen extends React.Component {
               )}
 
               {order.is_modified &&
-                order.status_type != ORDER_STATUS_TYPES.APPROVED && (
+                ![
+                  ORDER_STATUS_TYPES.APPROVED,
+                  ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                  ORDER_STATUS_TYPES.COMPLETE
+                ].includes(order.status_type) && (
                   <View style={{ flexDirection: "row" }}>
                     <Button
                       onPress={this.rejectOrder}
@@ -278,7 +295,15 @@ export default class ShoppingListOrderScreen extends React.Component {
             </View>
           </View>
         )}
-
+        <UploadBillModal
+          navigation={this.props.navigation}
+          onUploadDone={() => {
+            alert("Bill Uploaded");
+          }}
+          ref={node => {
+            this.uploadBillModal = node;
+          }}
+        />
         <LoadingOverlay visible={isLoading} />
       </View>
     );
