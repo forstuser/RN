@@ -298,7 +298,11 @@ export default class ShoppingListOrderScreen extends React.Component {
         <UploadBillModal
           navigation={this.props.navigation}
           onUploadDone={() => {
-            alert("Bill Uploaded");
+            setTimeout(() => {
+              this.props.navigation.navigate(
+                SCREENS.SHOPPING_LIST_ORDER_REVIEWS_SCREEN
+              );
+            }, 200);
           }}
           ref={node => {
             this.uploadBillModal = node;

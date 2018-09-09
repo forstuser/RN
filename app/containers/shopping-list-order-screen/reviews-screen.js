@@ -32,26 +32,60 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
       sellerReviewText
     } = this.state;
 
-    try {
-      await addAssistedServiceReview({ id: serviceId, sellerId });
-    } catch (e) {
-      showSnackbar({ text: e.message });
-    }
+    this.props.navigation.goBack();
+
+    // try {
+    //   await addAssistedServiceReview({ id: serviceId, sellerId });
+    // } catch (e) {
+    //   showSnackbar({ text: e.message });
+    // }
+  };
+
+  onMayBeLaterPress = () => {
+    this.props.navigation.goBack();
   };
 
   render() {
+    const {
+      serviceRating,
+      serviceReviewText,
+      sellerRating,
+      sellerReviewText
+    } = this.state;
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <ScrollView>
-          <Review title="Rate your Service Experience" />
-          <Review title="Rate Seller Responsiveness" />
+          <Review
+            starCount={serviceRating}
+            onStarRatingPress={rating => {
+              this.setState({
+                serviceRating: rating || 0
+              });
+            }}
+            reviewInput={serviceReviewText}
+            title="Rate your Service Experience"
+          />
+          <Review
+            starCount={sellerRating}
+            onStarRatingPress={rating => {
+              this.setState({
+                sellerRating: rating || 0
+              });
+            }}
+            title="Rate Seller Responsiveness"
+          />
           <View style={{ margin: 15 }}>
             <Button
+              onPress={this.onMayBeLaterPress}
               text="Write your review"
               color="secondary"
               style={{ marginBottom: 15 }}
             />
-            <Button text="Maybe Later" color="grey" />
+            <Button
+              onPress={this.onMayBeLaterPress}
+              text="Maybe Later"
+              color="grey"
+            />
           </View>
         </ScrollView>
       </View>
