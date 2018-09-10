@@ -79,10 +79,6 @@ import CashbackBillsScreen from "../containers/cashback-bills-screen";
 import BBCashWalletScreen from "../containers/BBCashWalletScreen";
 import SelectSellerScreen from "../containers/BBCashWalletScreen/select-seller-screen";
 import RedeemViaPaytmScreen from "../containers/BBCashWalletScreen/redeem-via-paytm-screen";
-import UserOnBoardingScreen from '../containers/user-on-boarding-screen';
-import BasicDetailsScreenOnBoarding from '../containers/user-on-boarding-screen/basic-details-screen';
-import SelectCitiesScreenOnBoarding from '../containers/user-on-boarding-screen/select-cities-screen';
-import VerifyMobileScreenOnBoarding from "../containers/user-on-boarding-screen/otp-screen";
 import ActiveOrdersScreen from '../containers/active-orders-screen';
 
 const BottomTabStack = createBottomTabNavigator(
@@ -237,10 +233,6 @@ export default createStackNavigator(
     [SCREENS.BB_CASH_WALLET_SCREEN]: BBCashWalletScreen,
     [SCREENS.SELECT_SELLER_SCREEN_WALLET]: SelectSellerScreen,
     [SCREENS.REDEEM_VIA_PAYTM_SCREEN]: RedeemViaPaytmScreen,
-    [SCREENS.USER_ON_BOARDING_SCREEN]: UserOnBoardingScreen,
-    [SCREENS.BASIC_DETAILS_SCREEN_ONBOARDING]: BasicDetailsScreenOnBoarding,
-    [SCREENS.SELECT_CITIES_SCREEN_ONBOARDING]: SelectCitiesScreenOnBoarding,
-    [SCREENS.VERIFY_MOBILE_NUMBER_SCREEN_ONBOARDING]: VerifyMobileScreenOnBoarding,
     [SCREENS.ACTIVE_ORDERS_SCREEN]: ActiveOrdersScreen
   },
   {

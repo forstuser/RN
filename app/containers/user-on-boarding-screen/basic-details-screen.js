@@ -4,10 +4,83 @@ import { ScrollView, View, Image, TouchableOpacity } from 'react-native';
 import { Text, TextInput, Button } from '../../elements';
 import Icon from "react-native-vector-icons/Ionicons";
 import { SCREENS } from '../../constants';
+import { getProfileDetail, updateProfile } from '../../api';
+import LoadingOverlay from '../../components/loading-overlay';
+import Snackbar from '../../utils/snackbar';
 
 class BasicDetailsScreen extends Component {
     static navigationOptions = {
-        title: 'Basic Details'
+        header: null
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+          name: '',
+          mobile: '',
+          email: '',
+          isLoading: false,
+          error: null
+        };
+      }
+
+    componentDidMount() {
+        this.fetchUserDetails();
+    }
+
+    fetchUserDetails = async () => {
+        try {
+            this.setState({
+                isLoading: true,
+                error: null
+            });
+            const r = await getProfileDetail();
+            const user = r.userProfile;
+            this.setState({
+                isLoading: false,
+                name: user.name || '',
+                mobile: user.mobile_no || '',
+                email: user.email || ''
+            });
+        } catch (error) {
+            this.setState({ error });
+          }
+    };
+
+    onNextPress = async () => {
+        const { name, phone, email } = this.state;
+        if (
+            email &&
+            !email.match(
+              /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            )
+          ) {
+            return Snackbar.show({
+              title: "Please enter valid email address",
+              duration: Snackbar.LENGTH_SHORT
+            });
+          }
+
+        this.setState({
+            isLoading: true
+        });
+
+        try {
+            const res = await updateProfile({
+                name,
+                email,
+              });
+        } catch (e) {
+            console.log("e: ", e);
+      
+            Snackbar.show({
+              title: e.message,
+              duration: Snackbar.LENGTH_SHORT
+            });
+          } finally {
+            this.setState({ isLoading: false });
+          }
+        this.props.navigation.navigate(SCREENS.SELECT_GENDER_SCREEN_ONBOARDING);
     };
 
     render() {
@@ -37,26 +110,34 @@ class BasicDetailsScreen extends Component {
                             underlineColorAndroid='transparent'
                             placeholder='Name'
                             style={styles.input}
+                            onChangeText={name => this.setState({ name })}
+                            value={this.state.name}
                         />
                         <TextInput
                             underlineColorAndroid='transparent'
                             placeholder='Mobile'
                             style={styles.input}
+                            onChangeText={mobile => this.setState({ mobile })}
+                            value={this.state.mobile}
+                            maxLength={10}
                         />
                         <TextInput
                             underlineColorAndroid='transparent'
                             placeholder='Email'
                             style={styles.input}
+                            onChangeText={email => this.setState({ email })}
+                            value={this.state.email}
                         />
                     </View>
                     <View style={[styles.box, styles.box3]}>
                         <Button
                                 text='Next' 
-                                onPress={() => this.props.navigation.navigate(SCREENS.SELECT_CITIES_SCREEN_ONBOARDING)}
+                                onPress={this.onNextPress}
                                 color='secondary'
                                 textStyle={{ fontSize: 20 }}
                         />
                     </View>
+                    <LoadingOverlay visible={this.state.isLoading} />
             </ScrollView>
         );
     }

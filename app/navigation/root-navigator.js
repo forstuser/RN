@@ -38,6 +38,7 @@ import RegistrationDetailsScreen from "../containers/registration-details-screen
 import NavigationService from "./index";
 import AuthStack from "./auth-stack";
 import AppStack from "./app-stack";
+import UserOnBoardingStack from './user-on-boarding-stack';
 import { colors } from "../theme";
 
 const RootNavigator = createSwitchNavigator(
@@ -46,7 +47,8 @@ const RootNavigator = createSwitchNavigator(
     [SCREENS.INTRO_SCREEN]: IntroScreen,
     [SCREENS.AUTH_STACK]: AuthStack,
     [SCREENS.REGISTRATION_DETAILS_SCREEN]: RegistrationDetailsScreen,
-    [SCREENS.APP_STACK]: AppStack
+    [SCREENS.APP_STACK]: AppStack,
+    [SCREENS.USER_ON_BOARDING_STACK]: UserOnBoardingStack
   },
   { initialRouteName: "AppLoading" }
 );
@@ -330,6 +332,11 @@ class RootNavigation extends React.Component {
         imageUrl: user.imageUrl,
         isPinSet: user.hasPin
       });
+
+      if(user.name === null || user.email === null || user.gender === null) {
+        NavigationService.navigate(SCREENS.USER_ON_BOARDING_STACK);
+      }
+        
     }
 
     FCM.requestPermissions()

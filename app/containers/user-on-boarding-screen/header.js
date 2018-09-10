@@ -22,7 +22,7 @@ class Header extends Component {
                 }}
                 />
                 
-                <Text weight="Bold" style={styles.heading}>Sign In</Text>
+                <Text weight="Bold" style={styles.heading}>Basic Details</Text>
                 
             </View>
         );

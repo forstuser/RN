@@ -3,10 +3,25 @@ import { ScrollView, View, Image } from 'react-native';
 
 import { Text, TextInput, Button } from '../../elements';
 import { SCREENS } from '../../constants';
+import Hyperlink from "react-native-hyperlink";
+import { colors } from '../../theme';
+import I18n from '../../i18n';
+import { showSnackbar } from '../../utils/snackbar';
 
 class SignInScreen extends Component {
     static navigationOptions = {
         header: null
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            mobile: ''
+        };
+    }
+
+    onSubmitPress = () => {
+            this.props.navigation.navigate(SCREENS.BASIC_DETAILS_SCREEN_ONBOARDING)
     };
 
     render() {
@@ -24,11 +39,15 @@ class SignInScreen extends Component {
                             underlineColorAndroid='transparent'
                             placeholder='Enter Mobile Number'
                             style={styles.inputMobile}
+                            maxLength={10}
+                            keyboardType="phone-pad"
+                            OnChangeText={mobile => this.setState({ mobile })}
+                            value={this.state.mobile}
                         />
                         <View style={{ marginTop: 20 }}>
                             <Button
                                 text='Submit' 
-                                onPress={() => this.props.navigation.navigate(SCREENS.BASIC_DETAILS_SCREEN_ONBOARDING)}
+                                onPress={this.onSubmitPress}
                                 color='secondary'
                                 textStyle={{ fontSize: 20 }}
                             />
@@ -44,7 +63,29 @@ class SignInScreen extends Component {
                             />
                     </View>
                     <View style={[styles.box, styles.box4]}>
-                        <Text style={{ textAlign: 'center' }}>By signing up you agree to our Terms and Conditions and Privacy Policy</Text>
+                        <Hyperlink
+                            linkDefault={true}
+                            linkStyle={{ color: colors.pinkishOrange, fontSize: 14 }}
+                            linkText={url => {
+                            if (url === "https://binbill.com/term") {
+                                return "Terms & Conditions";
+                            } else if (url === "https://binbill.com/privacy") {
+                                return "Privacy Policy";
+                            } else {
+                                return url;
+                            }
+                            }}
+                        >
+                            <Text
+                            style={{
+                                fontSize: 14,
+                                color: colors.secondaryText,
+                                textAlign: "center"
+                            }}
+                            >
+                            {`By signing up you agree to our \nhttps://binbill.com/term and https://binbill.com/privacy`}
+                            </Text>
+                        </Hyperlink>
                     </View>
             </ScrollView>
         );
@@ -84,7 +125,8 @@ const styles = {
     },
     inputMobile: {
         paddingLeft: 10,
-        paddingRight: 10
+        paddingRight: 10,
+        fontSize: 24
     }
 };
 

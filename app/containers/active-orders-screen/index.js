@@ -4,26 +4,12 @@ import { View, Image, ScrollView } from 'react-native';
 import { Text, Button } from '../../elements';
 import SingleDeliveryOrder from './single-delivery-order';
 import SingleServiceRequest from './single-service-request';
+import { retrieveActiveOrders, retrieveActiveServices } from "../../api";
+import LoadingOverlay from "../../components/loading-overlay";
 
 class ActiveOrdersScreen extends Component {
     state = {
-        activeDeliveryOrders: [
-            {
-                'sellerName': 'Dikshu',
-                'orderId': 'OR1234567891',
-                'items': 10
-            },
-            {
-                'sellerName': 'Dikshu',
-                'orderId': 'OR1234567892',
-                'items': 1
-            },
-            {
-                'sellerName': 'Dikshu',
-                'orderId': 'OR1234567893',
-                'items': 5
-            }
-        ],
+        activeDeliveryOrders: [],
         activeAssistedServicesRequest: [
             {
                 'type': 'Car Cleaner'
@@ -37,6 +23,61 @@ class ActiveOrdersScreen extends Component {
         ]
     }
 
+    componentDidMount() {
+        this.fetchActiveOrders();
+        this.fetchActiveServices();
+    }
+
+    fetchActiveOrders = async () => {
+        this.setState({
+            error: null
+        });
+        
+        try {
+            const activeOrders = await retrieveActiveOrders();
+            console.log('activeOrders.result:', activeOrders.result);
+            //console.log('result[0].user.name : ', activeOrders.result[0].user.name);
+            //console.log('result[0].id : ', activeOrders.result[0].id);
+            //console.log('result[0].order_details.length : ', activeOrders.result[0].order_details.length);
+            this.setState({
+                isFetchingData: false,
+                activeDeliveryOrders: activeOrders.result
+            });
+            
+        } catch (error) {
+            console.log("order error: ", error);
+            this.setState({
+              error,
+              isFetchingData: false
+            });
+          }
+    };
+
+    fetchActiveServices = async () => {
+        this.setState({
+            error: null
+        });
+        
+        try {
+            const activeServices = await retrieveActiveServices();
+            console.log('activeServices.result:', activeServices.result);
+            //console.log('result[0].user.name : ', activeOrders.result[0].user.name);
+            //console.log('result[0].id : ', activeOrders.result[0].id);
+            //console.log('result[0].order_details.length : ', activeOrders.result[0].order_details.length);
+            this.setState({
+                isFetchingData: false,
+                //activeDeliveryOrders: activeOrders.result
+            });
+            
+        } catch (error) {
+            console.log("order error: ", error);
+            this.setState({
+              error,
+              isFetchingData: false
+            });
+          }
+    };
+
     render() {
         const { activeDeliveryOrders, activeAssistedServicesRequest } = this.state;
         let activeOrders = null;
@@ -45,7 +86,7 @@ class ActiveOrdersScreen extends Component {
         if(activeDeliveryOrders.length > 0) {
             deliveryOrders = <View>
                 <Text weight='Medium' style={{ fontSize: 18 }}>Delivery Orders</Text>
-                {activeDeliveryOrders.map((order, index) => <SingleDeliveryOrder key={order.orderId} order={order} />)}
+                {activeDeliveryOrders.map((order, index) => <SingleDeliveryOrder key={index} order={order} />)}
             </View>;
         }
         if(activeAssistedServicesRequest.length > 0) {
@@ -103,6 +144,7 @@ class ActiveOrdersScreen extends Component {
         return (
             <View style={{ flex: 1 }}>
                 {activeOrders}
+                <LoadingOverlay visible={this.state.isFetchingData} />
             </View>
         );
     }

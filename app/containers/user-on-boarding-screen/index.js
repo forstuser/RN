@@ -3,6 +3,7 @@ import { View, Text, Image } from 'react-native';
 
 import Header from './header';
 import SignInScreen from './sign-in-screen';
+import BasicDetailsScreen from './basic-details-screen';
 
 class UserOnBoardingScreen extends Component {
     static navigationOptions = {
@@ -13,7 +14,7 @@ class UserOnBoardingScreen extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <Header navigation={this.props.navigation} />
-                <SignInScreen navigation={this.props.navigation} />
+                <BasicDetailsScreen navigation={this.props.navigation} />
             </View>
         );
     }

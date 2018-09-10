@@ -7,9 +7,9 @@ import { defaultStyles } from "../../theme";
 class SingleDeliveryOrder extends Component {
     render() {
         const { order } = this.props;
-        let name = <Text weight='Medium'>{order.sellerName}</Text>;
-        let id = <Text weight='Medium'>{order.orderId}</Text>;
-        let quantity = <Text weight='Medium'>{order.items}</Text>;
+        let name = <Text weight='Medium'>{order.user.name}</Text>;
+        let id = <Text weight='Medium'>{order.id}</Text>;
+        let quantity = <Text weight='Medium'>{order.order_details.length}</Text>;
         
         return (
             <View style={styles.container}>
