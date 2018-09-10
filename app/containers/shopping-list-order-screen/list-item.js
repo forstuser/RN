@@ -59,13 +59,15 @@ export default ({ item, index, declineItem }) => {
                 : ``}
             </Text>
           </Text>
-          <Text
-            style={{
-              color: colors.secondaryText
-            }}
-          >
-            Rs. {item.sku_measurement.mrp * item.quantity}
-          </Text>
+          {item.selling_price && (
+            <Text
+              style={{
+                color: colors.secondaryText
+              }}
+            >
+              Rs. {item.selling_price}
+            </Text>
+          )}
         </View>
         <View
           style={{

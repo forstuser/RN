@@ -44,9 +44,19 @@ export default class Statuses extends React.Component {
           {statusType == ORDER_STATUS_TYPES.COMPLETE && (
             <Text style={{ color: colors.success }}>Completed</Text>
           )}
+          {statusType == ORDER_STATUS_TYPES.REJECTED && (
+            <Text style={{ color: colors.danger }}>Rejected</Text>
+          )}
+          {statusType == ORDER_STATUS_TYPES.CANCELED && (
+            <Text style={{ color: colors.danger }}>Canceled</Text>
+          )}
         </Text>
 
-        {statusType != ORDER_STATUS_TYPES.COMPLETE && (
+        {![
+          ORDER_STATUS_TYPES.COMPLETE,
+          ORDER_STATUS_TYPES.REJECTED,
+          ORDER_STATUS_TYPES.CANCELED
+        ].includes(statusType) && (
           <View>
             <View
               style={{

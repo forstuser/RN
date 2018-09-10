@@ -2162,3 +2162,10 @@ export const deleteUserAddresses = async id => {
     url: `/consumer/addresses/${id}`
   });
 };
+
+export const getCompletedOrders = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/consumer/orders`
+  });
+};

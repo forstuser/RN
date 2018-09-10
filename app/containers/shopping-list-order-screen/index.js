@@ -49,7 +49,9 @@ export default class ShoppingListOrderScreen extends React.Component {
     if (socketIo.socket) {
       socketIo.socket.on("order-status-change", data => {
         const jsonData = JSON.parse(data);
-        this.setState({ order: jsonData.order });
+        if (this.state.order && jsonData.order.id == this.state.order.id) {
+          this.setState({ order: jsonData.order });
+        }
       });
     }
 
@@ -165,10 +167,13 @@ export default class ShoppingListOrderScreen extends React.Component {
         orderId: order.id,
         sellerId: order.seller_id
       });
-      this.uploadBillModal.show({
-        productId: res.result.product.id,
-        jobId: res.result.product.job_id
-      });
+
+      if (res.result.product) {
+        this.uploadBillModal.show({
+          productId: res.result.product.id,
+          jobId: res.result.product.job_id
+        });
+      }
       showSnackbar({ text: "Order completed!" });
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -263,7 +268,9 @@ export default class ShoppingListOrderScreen extends React.Component {
                     statusType={order.status_type}
                     isOrderModified={order.is_modified}
                   />
-                  <DeliveryUserDetails deliveryUser={order.delivery_user} />
+                  {order.delivery_user && (
+                    <DeliveryUserDetails deliveryUser={order.delivery_user} />
+                  )}
                   <SellerDetails order={order} />
                   <View
                     style={{
@@ -326,19 +333,6 @@ export default class ShoppingListOrderScreen extends React.Component {
                     <Text weight="Medium">Rs. {totalAmount}</Text>
                   </View>
 
-                  <Button
-                    onPress={this.openReviewsScreen}
-                    text="Rate Service Delivery"
-                    color="secondary"
-                    type="outline"
-                    style={{
-                      margin: 20,
-                      width: 210,
-                      alignSelf: "center",
-                      height: 40
-                    }}
-                  />
-
                   {!sellerRatings || !serviceRatings ? (
                     <Button
                       onPress={this.openReviewsScreen}
@@ -391,50 +385,55 @@ export default class ShoppingListOrderScreen extends React.Component {
                 </View>
               )}
             />
-            <View>
-              {order.status_type == ORDER_STATUS_TYPES.NEW &&
-                !order.is_modified && (
+            {![
+              ORDER_STATUS_TYPES.CANCELED,
+              ORDER_STATUS_TYPES.REJECTED
+            ].includes(order.status_type) && (
+              <View>
+                {order.status_type == ORDER_STATUS_TYPES.NEW &&
+                  !order.is_modified && (
+                    <Button
+                      onPress={this.cancelOrder}
+                      text="Cancel Order"
+                      color="secondary"
+                      borderRadius={0}
+                    />
+                  )}
+
+                {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY && (
                   <Button
-                    onPress={this.cancelOrder}
-                    text="Cancel Order"
+                    onPress={this.completeOrder}
+                    text="Mark Paid"
                     color="secondary"
                     borderRadius={0}
                   />
                 )}
 
-              {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY && (
-                <Button
-                  onPress={this.completeOrder}
-                  text="Mark Paid"
-                  color="secondary"
-                  borderRadius={0}
-                />
-              )}
-
-              {order.is_modified &&
-                ![
-                  ORDER_STATUS_TYPES.APPROVED,
-                  ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                  ORDER_STATUS_TYPES.COMPLETE
-                ].includes(order.status_type) && (
-                  <View style={{ flexDirection: "row" }}>
-                    <Button
-                      onPress={this.rejectOrder}
-                      text="Reject"
-                      color="grey"
-                      borderRadius={0}
-                      style={{ flex: 1 }}
-                    />
-                    <Button
-                      onPress={this.approveOrder}
-                      text="Approve"
-                      color="secondary"
-                      borderRadius={0}
-                      style={{ flex: 1 }}
-                    />
-                  </View>
-                )}
-            </View>
+                {order.is_modified &&
+                  ![
+                    ORDER_STATUS_TYPES.APPROVED,
+                    ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                    ORDER_STATUS_TYPES.COMPLETE
+                  ].includes(order.status_type) && (
+                    <View style={{ flexDirection: "row" }}>
+                      <Button
+                        onPress={this.rejectOrder}
+                        text="Reject"
+                        color="grey"
+                        borderRadius={0}
+                        style={{ flex: 1 }}
+                      />
+                      <Button
+                        onPress={this.approveOrder}
+                        text="Approve"
+                        color="secondary"
+                        borderRadius={0}
+                        style={{ flex: 1 }}
+                      />
+                    </View>
+                  )}
+              </View>
+            )}
           </View>
         )}
         <UploadBillModal

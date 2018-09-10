@@ -141,8 +141,8 @@ class Body extends Component {
     }
   };
 
-  onOrderHistoryPress = () => {
-    this.props.navigation.navigate(SCREENS.ORDER_HISTORY_SCREEN);
+  onMyOrdersPress = () => {
+    this.props.navigation.navigate(SCREENS.MY_ORDERS_SCREEN);
   };
 
   onCashbackBillsPress = () => {
@@ -156,7 +156,7 @@ class Body extends Component {
     return (
       <ScrollView>
         <MoreItem
-          onPress={this.onOrderHistoryPress}
+          onPress={this.onMyOrdersPress}
           imageSource={require("../../images/orders_icon.png")}
           text={"My Transactions"}
           imageStyle={{ width: 20, height: 20 }}

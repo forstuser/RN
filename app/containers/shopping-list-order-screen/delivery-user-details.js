@@ -96,7 +96,8 @@ export default class DeliveryUserDetails extends React.Component {
                     color: colors.pinkishOrange
                   }}
                 >
-                  Reviews {deliveryUser.reviews.length}
+                  Reviews{" "}
+                  {deliveryUser.reviews ? deliveryUser.reviews.length : 0}
                 </Text>
               </View>
             </View>
