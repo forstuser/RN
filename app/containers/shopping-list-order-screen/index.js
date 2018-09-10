@@ -49,6 +49,7 @@ export default class ShoppingListOrderScreen extends React.Component {
     if (socketIo.socket) {
       socketIo.socket.on("order-status-change", data => {
         const jsonData = JSON.parse(data);
+        console.log("jsonData: ", jsonData);
         if (this.state.order && jsonData.order.id == this.state.order.id) {
           this.setState({ order: jsonData.order });
         }
@@ -218,7 +219,7 @@ export default class ShoppingListOrderScreen extends React.Component {
 
     if (order) {
       totalAmount = order.order_details.reduce((total, item) => {
-        return total + item.sku_measurement.mrp * item.quantity;
+        return total + item.selling_price;
       }, 0);
     }
 
