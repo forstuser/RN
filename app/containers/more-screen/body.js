@@ -79,7 +79,7 @@ class Body extends Component {
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-        profile ? profile.mobile_no : ""
+      profile ? profile.mobile_no : ""
       })`
     );
   };
@@ -158,13 +158,13 @@ class Body extends Component {
         <MoreItem
           onPress={this.onOrderHistoryPress}
           imageSource={require("../../images/orders_icon.png")}
-          text={"My Transactions"}
+          text={"My Orders"}
           imageStyle={{ width: 20, height: 20 }}
         />
         <MoreItem
           onPress={this.onCashbackBillsPress}
           imageSource={require("../../images/cashback_bills.png")}
-          text={"Cashback BIlls"}
+          text={"Cashback Claims"}
           imageStyle={{ width: 20, height: 20 }}
         />
         <MoreItem

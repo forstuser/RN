@@ -48,7 +48,8 @@ class Body extends Component {
       textInputEnable: false,
       isPhoneModalVisible: false,
       isEmailModalVisible: false,
-      isLoading: false
+      isLoading: false,
+      defaultAddress: this.props.profile.addresses[0]
     };
   }
 
@@ -141,7 +142,8 @@ class Body extends Component {
       emailInput,
       emailOtpInput,
       showOtpInput,
-      isLoading
+      isLoading,
+      defaultAddress
     } = this.state;
 
     return (
@@ -222,15 +224,26 @@ class Body extends Component {
             </Text>
           </View>
         </TouchableWithoutFeedback>
-        <TouchableOpacity onPress={() => this.manageAddress()} style={{ alignSelf: 'flex-end', right: 10 }}><Text style={{ color: colors.pinkishOrange, fontSize: 12 }}>Manage Addresses</Text></TouchableOpacity>
-        <ProfileDetailEdit
-          label="Address"
-          info={this.state.location}
-          apiFieldName="location"
-          editable={true}
-          bigBox={true}
-          onUpdate={this.updateState}
-        />
+        <View collapsable={false} style={[styles.field, styles.verifiedField]}>
+          <View style={styles.manageHeader}>
+            <View>
+              <Text weight="Medium" style={styles.label}>Address</Text>
+            </View>
+            <View>
+              <TouchableOpacity onPress={() => this.manageAddress()} style={{ alignSelf: 'flex-end', right: 10 }}><Text style={{ color: colors.pinkishOrange, fontSize: 12 }}>Manage Addresses</Text></TouchableOpacity>
+            </View>
+          </View>
+          <View
+            collapsable={false}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              paddingTop: 10
+            }}
+          >
+            <Text>{defaultAddress.address_line_1} {defaultAddress.address_line_2} {defaultAddress.locality_name} {defaultAddress.city_name} {defaultAddress.state_name} {defaultAddress.pin}</Text>
+          </View>
+        </View>
         {isEmailModalVisible ? (
           <View collapsable={false}>
             <Modal
@@ -308,6 +321,10 @@ const styles = StyleSheet.create({
   verifiedField: {
     backgroundColor: "#f7f7f7",
     opacity: 0.7
+  },
+  manageHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   value: {
     color: colors.mainText,
