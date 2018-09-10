@@ -9,8 +9,9 @@ class AddressView extends Component {
     constructor(props) {
         super(props);
     }
-    setDefault = () => {
+    setDefault = (index) => {
         console.log("setDefault");
+        this.props.setDefault(index);
     }
     editAddress = (index) => {
         this.props.updateAddress(index);
@@ -19,16 +20,18 @@ class AddressView extends Component {
         this.props.deleteAddressModel(index);
     }
     render() {
-        const { index, address1, address2 } = this.props
+        const { index, address1, address2, addressType } = this.props
         return (
             <View style={styles.constainer}>
                 <View style={styles.header}>
                     <View><Text style={styles.address}>Address {index + 1}</Text></View>
                     <View style={{ flexDirection: 'row', }}>
-                        <TouchableOpacity onPress={() => { this.setDefault }} style={{ right: 5 }}>
+                        {addressType == 1 ? <View style={{ right: 5 }}>
                             <Text style={styles.default}>Default</Text>
-                        </TouchableOpacity>
-
+                        </View> : <TouchableOpacity onPress={() => { this.setDefault(index) }} style={{ right: 5 }}>
+                                <Text style={styles.setDefault}>Set Default</Text>
+                            </TouchableOpacity>
+                        }
                         <TouchableOpacity onPress={() => { this.editAddress(index) }}>
                             <Text><Icon name="ios-create-outline" size={20} color={colors.secondaryText} /></Text>
                         </TouchableOpacity>

@@ -79,6 +79,20 @@ class AddressScreen extends Component {
         })
         this.show();
     }
+    setDefault = async (index) => {
+        console.log(this.state.addresses[index]);
+        try {
+            let item = { 'address_type': 1, id: this.state.addresses[index].id }
+            if (item.id == null) {
+                delete item.id;
+            }
+            const updateAddressResponse = await updateUserAddresses(item);
+            console.log('updateAddressResponse', updateAddressResponse);
+            this.fetchUserAddress();
+        } catch (error) {
+            console.log("error: ", error);
+        }
+    }
     deleteAddressModel = (index) => {
         console.log(this.state.addresses[index])
         this.setState({
@@ -91,6 +105,7 @@ class AddressScreen extends Component {
             const deleteReponse = await deleteUserAddresses(this.state.addreesID);
             console.log('userAddresses', deleteReponse);
             this.hideDeleteModal();
+            this.fetchUserAddress();
         } catch (error) {
             console.log("error: ", error);
         }
@@ -115,7 +130,7 @@ class AddressScreen extends Component {
                 <ScrollView style={{ flex: 1 }}>
                     <View style={{ flex: 1 }}>
                         {addresses.map((item, index) => {
-                            return <AddressView index={index} address1={item.address_line_1} address2={item.address_line_2} updateAddress={this.updateAddress} deleteAddressModel={this.deleteAddressModel} />
+                            return <AddressView index={index} addressType={item.address_type} address1={item.address_line_1} address2={item.address_line_2} updateAddress={this.updateAddress} setDefault={this.setDefault} deleteAddressModel={this.deleteAddressModel} />
                         })}
                         {addresses.length > 0 ? <View style={{ top: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                             <Text>---- </Text>

@@ -19,14 +19,14 @@ class Step extends React.Component {
       showLoader = false
     } = this.props;
     return (
-      <View collapsable={false}  style={styles.container}>
+      <View collapsable={false} style={styles.container}>
         {!hideHeader ? (
-          <View collapsable={false}  style={styles.header}>
+          <View collapsable={false} style={styles.header}>
             <TouchableOpacity style={styles.backBtn} onPress={onBackPress}>
               <Icon name="md-arrow-back" size={24} color="#000" />
             </TouchableOpacity>
-            <View collapsable={false}  style={styles.titlesContainer}>
-              <Text weight="Bold" numberOfLines={1} style={styles.title}>
+            <View collapsable={false} style={styles.titlesContainer}>
+              <Text numberOfLines={1} style={styles.title}>
                 {title}
               </Text>
               {subtitle ? (
@@ -34,8 +34,8 @@ class Step extends React.Component {
                   {subtitle}
                 </Text>
               ) : (
-                <View collapsable={false}  />
-              )}
+                  <View collapsable={false} />
+                )}
             </View>
             {skippable ? (
               <TouchableOpacity
@@ -47,13 +47,13 @@ class Step extends React.Component {
                 </Text>
               </TouchableOpacity>
             ) : (
-              <View collapsable={false}  />
-            )}
+                <View collapsable={false} />
+              )}
           </View>
         ) : (
-          <View collapsable={false}  />
-        )}
-        <View collapsable={false}  style={styles.body}>{children}</View>
+            <View collapsable={false} />
+          )}
+        <View collapsable={false} style={styles.body}>{children}</View>
         <LoadingOverlay visible={showLoader} />
       </View>
     );
@@ -87,7 +87,9 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
+    left: 30,
+    fontWeight: '900'
   },
   subtitle: {
     fontSize: 12
