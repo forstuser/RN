@@ -13,6 +13,7 @@ export {
   Button,
   Image,
   TextInput,
+  TextInput1,
   DatePicker,
   UploadDoc
 };

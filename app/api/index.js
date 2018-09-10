@@ -796,6 +796,22 @@ export const addSellerReview = async ({
   });
 };
 
+export const addAssistedServiceReview = async ({
+  id,
+  sellerId,
+  ratings = 0,
+  feedback = null
+}) => {
+  return await apiRequest({
+    method: "put",
+    url: `/sellers/${sellerId}/assisted/${id}/reviews`,
+    data: {
+      ratings,
+      feedback
+    }
+  });
+};
+
 export const getProductsForAsc = async () => {
   return await apiRequest({
     method: "get",
@@ -2082,5 +2098,76 @@ export const retrieveActiveServices = async () => {
   return await apiRequest({
     method: "get",
     url: `/consumer/assisted/active`
+  });
+};
+export const placeOrder = async ({ sellerId, orderType, serviceTypeId }) => {
+  return await apiRequest({
+    method: "post",
+    url: `/consumer/orders/place`,
+    data: {
+      seller_id: sellerId,
+      order_type: orderType,
+      service_type_id: serviceTypeId
+    }
+  });
+};
+
+export const getOrderDetails = async ({ orderId }) => {
+  return await apiRequest({
+    method: "get",
+    url: `/consumer/orders/${orderId}`
+  });
+};
+
+export const approveOrder = async ({ orderId, sellerId, skuList = [] }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/orders/${orderId}/approve`,
+    data: { seller_id: sellerId, order_details: skuList }
+  });
+};
+
+export const rejectOrder = async ({ orderId, sellerId }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/orders/${orderId}/reject`,
+    data: { seller_id: sellerId }
+  });
+};
+
+export const cancelOrder = async ({ orderId, sellerId }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/orders/${orderId}/cancel`,
+    data: { seller_id: sellerId }
+  });
+};
+
+export const completeOrder = async ({ orderId, sellerId }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/orders/${orderId}/paid`,
+    data: { seller_id: sellerId }
+  });
+};
+export const getUserAddresses = async () => {
+  return await apiRequest({
+    method: "get",
+    url: "/consumer/addresses"
+  });
+};
+
+export const updateUserAddresses = async item => {
+  return await apiRequest({
+    method: "post",
+    url: "/consumer/addresses",
+    data: item
+  });
+};
+
+export const deleteUserAddresses = async id => {
+  return await apiRequest({
+    method: "delete",
+    url: `/consumer/addresses/${id}`
   });
 };

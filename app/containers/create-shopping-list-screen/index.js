@@ -344,7 +344,7 @@ class ShoppingListScreen extends React.Component {
             <TouchableOpacity
               style={{ paddingHorizontal: 5, marginHorizontal: 5 }}
               onPress={() => {
-                navigation.navigate(SCREENS.MY_SHOPPING_LIST_SCREEN, {
+                navigation.push(SCREENS.MY_SHOPPING_LIST_SCREEN, {
                   measurementTypes: measurementTypes,
                   wishList,
                   changeIndexQuantity: this.changeIndexQuantity

@@ -9,11 +9,10 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
-import Share from "react-native-share";
 
 import { loginToApplozic, openChatWithSeller } from "../../applozic";
 
-import { getMySellers } from "../../api";
+import { getMySellers, placeOrder } from "../../api";
 
 import { Text, Button } from "../../elements";
 import { colors, defaultStyles } from "../../theme";
@@ -24,6 +23,7 @@ import QuantityPlusMinus from "../../components/quantity-plus-minus";
 
 import SelectedItemsList from "./selected-items-list";
 import { showSnackbar } from "../../utils/snackbar";
+import { SCREENS, ORDER_TYPES } from "../../constants";
 
 class MyShoppingList extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -60,7 +60,8 @@ class MyShoppingList extends React.Component {
   }
 
   onSharePress = () => {
-    this.setState({ isShareModalVisible: true });
+    // this.setState({ isMySellersModalVisible: true });
+    this.getMySellers();
   };
 
   getMySellers = async () => {
@@ -79,14 +80,33 @@ class MyShoppingList extends React.Component {
     }
   };
 
-  startChatWithSeller = async seller => {
-    this.setState({ isMySellersModalVisible: false });
-    const { user } = this.props;
+  // startChatWithSeller = async seller => {
+  //   this.setState({ isMySellersModalVisible: false });
+  //   const { user } = this.props;
+  //   try {
+  //     await loginToApplozic({ id: user.id, name: user.name });
+  //     openChatWithSeller({ id: seller.id });
+  //   } catch (e) {
+  //     showSnackbar({ text: e.message });
+  //   }
+  // };
+
+  selectSellerForOrder = async seller => {
+    this.setState({
+      isLoadingMySellers: true
+    });
     try {
-      await loginToApplozic({ id: user.id, name: user.name });
-      openChatWithSeller({ id: seller.id });
+      const res = await placeOrder({
+        sellerId: seller.id,
+        orderType: ORDER_TYPES.FMCG
+      });
+      this.props.navigation.replace(SCREENS.SHOPPING_LIST_ORDER_SCREEN, {
+        orderId: res.result.id
+      });
     } catch (e) {
       showSnackbar({ text: e.message });
+    } finally {
+      this.setState({ isLoadingMySellers: false });
     }
   };
 
@@ -104,14 +124,6 @@ class MyShoppingList extends React.Component {
     this.props.navigation.setParams({
       showShareBtn: wishList.length > 0
     });
-  };
-
-  shareWithWhatsapp = () => {
-    const shareOptions = {
-      title: "Share via\nwhatsapp",
-      social: Share.Social.WHATSAPP
-    };
-    Share.shareSingle(shareOptions);
   };
 
   render() {
@@ -215,19 +227,21 @@ class MyShoppingList extends React.Component {
           title="Select Seller"
           onClosePress={() => this.setState({ isMySellersModalVisible: false })}
           style={{
-            height: 300,
+            height: 500,
             backgroundColor: "#fff"
           }}
         >
           <View>
             <FlatList
               data={sellers}
+              refreshing={isLoadingMySellers}
+              onRefresh={this.getMySellers}
               renderItem={({ item }) => {
                 return (
                   <TouchableOpacity
-                    onPress={() => this.startChatWithSeller(item)}
+                    onPress={() => this.selectSellerForOrder(item)}
                     style={{
-                      height: 90,
+                      height: 80,
                       ...defaultStyles.card,
                       margin: 10,
                       borderRadius: 10,
@@ -241,7 +255,6 @@ class MyShoppingList extends React.Component {
                 );
               }}
             />
-            <LoadingOverlay visible={isLoadingMySellers} />
           </View>
         </Modal>
       </View>

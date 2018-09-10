@@ -76,7 +76,7 @@ class EhomeScreen extends Component {
         },
         {
           type: PRODUCT_TYPES.DOCUMENT,
-          name: "Documents",
+          name: "Docs",
           products: [],
           isLoadingFirstPage: false,
           isLoading: false,
@@ -114,8 +114,8 @@ class EhomeScreen extends Component {
   };
 
   onTabChange = ({ i }) => {
-    this.setState({ activeTabIndex: i });
-    if(i === 3) 
+    this.setState({ activeTabIndex: i - 1 });
+    if (i === 3)
       this.calendarContent.fetchItems();
   };
 
@@ -175,13 +175,6 @@ class EhomeScreen extends Component {
   onListScroll = tabIndex => {
     this.updateTab(tabIndex, { showEndReachedMsg: true });
   };
-
-  showAddProductOptionsScreen = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
-    //use push here so that we can use 'replace' later
-    this.props.navigation.push(SCREENS.ADD_PRODUCT_SCREEN);
-  };
-
   render() {
     const { recentSearches, activeTabIndex, tabs } = this.state;
 
@@ -220,7 +213,14 @@ class EhomeScreen extends Component {
             ) : null}
           </View>
         }
-        tabs={[...tabs.map((tab, index) => (
+        tabs={[<View style={{ flex: 1 }} tabLabel='Calendar'>
+          <CalendarContent
+            ref={node => {
+              this.calendarContent = node;
+            }}
+            navigation={this.props.navigation}
+          />
+        </View>, ...tabs.map((tab, index) => (
           <View key={tab.type} tabLabel={tab.name} style={{ flex: 1 }}>
             {tab.selectedCategories.length > 0 ? (
               <View
@@ -243,8 +243,8 @@ class EhomeScreen extends Component {
                 </ScrollView>
               </View>
             ) : (
-              <View />
-            )}
+                <View />
+              )}
             <ProductsList
               type={tab.type}
               onRefresh={() => this.getProductsFirstPage(index)}
@@ -259,51 +259,19 @@ class EhomeScreen extends Component {
               onListScroll={() => this.onListScroll(index)}
             />
           </View>
-        )),<View style={{ flex: 1 }} tabLabel='Calendar'>
-          <CalendarContent
-            ref={node => {
-              this.calendarContent = node;
-            }}
-            navigation={this.props.navigation} 
-          />
-        </View>]}
+        ))]}
       >
-        <TouchableOpacity
-          style={styles.fab}
-          onPress={() => this.showAddProductOptionsScreen()}
-        >
-          <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
-        </TouchableOpacity>
         <FilterModal
           ref={node => {
             this.filterModal = node;
           }}
-          mainCategories={tabs[activeTabIndex]?tabs[activeTabIndex].mainCategories:[]}
+          mainCategories={tabs[activeTabIndex] ? tabs[activeTabIndex].mainCategories : []}
           applyFilter={this.applyFilter}
         />
       </TabsScreenContainer>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  fab: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    width: 56,
-    height: 56,
-    zIndex: 2,
-    backgroundColor: colors.tomato,
-    borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  uploadFabIcon: {
-    width: 25,
-    height: 25
-  }
-});
 
 const mapStateToProps = state => {
   return {

@@ -56,8 +56,8 @@ class Body extends Component {
     );
   };
 
-  onBBCashWalletPress = () => {
-    this.props.navigation.navigate(SCREENS.BB_CASH_WALLET_SCREEN);
+  onCashbackQueryPress = () => {
+    this.props.navigation.navigate(SCREENS.CASHBACK_QUERY_SCREEN);
   };
 
   onAscItemPress = () => {
@@ -202,7 +202,7 @@ class Body extends Component {
           text={I18n.t("more_screen_item_faq")}
         />
         <MoreItem
-          onPress={this.onBBCashWalletPress}
+          onPress={this.onCashbackQueryPress}
           imageSource={require("../../images/cashback_query.png")}
           text={"Cashback Query"}
         />

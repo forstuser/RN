@@ -36,7 +36,17 @@ class MySellersScreen extends React.Component {
 
   componentDidMount() {
     // navigator.Geolocation.getCurrentPosition();
-    this.getMySellers();
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.getMySellers();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   getMySellers = async () => {
@@ -203,7 +213,11 @@ class MySellersScreen extends React.Component {
                             borderRadius: 35,
                             backgroundColor: "#eee"
                           }}
-                          source={{ uri: API_BASE_URL + item.image }}
+                          source={{
+                            uri:
+                              API_BASE_URL +
+                              `/consumer/sellers/${item.id}/upload/1/images/0`
+                          }}
                         />
                         <View
                           style={{
@@ -314,7 +328,7 @@ class MySellersScreen extends React.Component {
                           alignItems: "center"
                         }}
                       >
-                        <Text style={{ fontSize: 11 }}>Credit Due : </Text>
+                        <Text style={{ fontSize: 13 }}>Credit Due : </Text>
                         <TouchableOpacity
                           onPress={() =>
                             this.props.navigation.navigate(
@@ -329,13 +343,13 @@ class MySellersScreen extends React.Component {
                           }}
                         >
                           <Text
-                            style={{ fontSize: 11, color: colors.mainBlue }}
+                            style={{ fontSize: 13, color: colors.mainBlue }}
                           >
                             Rs. {item.credit_total}
                           </Text>
                           <Icon
                             name="md-information-circle"
-                            size={10}
+                            size={15}
                             style={{ marginTop: 2, marginLeft: 5 }}
                           />
                         </TouchableOpacity>
@@ -343,7 +357,7 @@ class MySellersScreen extends React.Component {
                       <View
                         style={{ flexDirection: "row", alignItems: "center" }}
                       >
-                        <Text style={{ fontSize: 11 }}>Points Earned : </Text>
+                        <Text style={{ fontSize: 13 }}>Points Earned : </Text>
 
                         <TouchableOpacity
                           onPress={() =>
@@ -359,13 +373,13 @@ class MySellersScreen extends React.Component {
                           }}
                         >
                           <Text
-                            style={{ fontSize: 11, color: colors.mainBlue }}
+                            style={{ fontSize: 13, color: colors.mainBlue }}
                           >
                             {item.loyalty_total}
                           </Text>
                           <Icon
                             name="md-information-circle"
-                            sixe={10}
+                            size={15}
                             style={{ marginTop: 2, marginLeft: 5 }}
                           />
                         </TouchableOpacity>

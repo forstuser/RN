@@ -3,6 +3,8 @@ import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
 import call from "react-native-phone-call";
+import getDirections from "react-native-google-maps-directions";
+import { connect } from "react-redux";
 
 import { API_BASE_URL } from "../../api";
 
@@ -101,7 +103,7 @@ const Review = ({ imageUrl, name, ratings, reviewText }) => (
   </View>
 );
 
-export default class SellerProfileTab extends React.Component {
+class SellerProfileTab extends React.Component {
   call = () => {
     const { seller } = this.props;
     if (seller.contact_no) {
@@ -115,8 +117,22 @@ export default class SellerProfileTab extends React.Component {
     }
   };
 
+  openNavigation = () => {
+    const { seller } = this.props;
+    const data = {
+      params: [
+        {
+          key: "daddr",
+          value: seller.address
+        }
+      ]
+    };
+
+    getDirections(data);
+  };
+
   render() {
-    const { seller, paymentModes } = this.props;
+    const { seller, paymentModes, reloadSellerDetails } = this.props;
     const sellerDetails = seller.seller_details;
     const basicDetails = sellerDetails.basic_details;
 
@@ -135,7 +151,11 @@ export default class SellerProfileTab extends React.Component {
     const coverImageUri =
       API_BASE_URL + `/consumer/sellers/${seller.id}/upload/1/images/0`;
 
-    console.log("cover image: ", coverImageUri);
+    console.log("coverImageUri: ", coverImageUri);
+
+    const thisUserReview = seller.reviews.find(
+      review => this.props.userId == review.user.id
+    );
 
     return (
       <ScrollView contentContainerStyle={{ alignItems: "center" }}>
@@ -264,7 +284,10 @@ export default class SellerProfileTab extends React.Component {
               Call
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, { marginHorizontal: 1 }]}>
+          <TouchableOpacity
+            onPress={this.openNavigation}
+            style={[styles.button, { marginHorizontal: 1 }]}
+          >
             <Icon
               name="ios-navigate-outline"
               style={styles.buttonIcon}
@@ -300,7 +323,7 @@ export default class SellerProfileTab extends React.Component {
               paddingHorizontal: 20
             }}
           >
-            <KeyValue keyText="Connected Since" valueText="May 2018" />
+            {/* <KeyValue keyText="Connected Since" valueText="May 2018" /> */}
             <KeyValue
               keyText="Store Contact No"
               valueText={seller.contact_no}
@@ -328,9 +351,12 @@ export default class SellerProfileTab extends React.Component {
         </View>
         <Button
           onPress={() => {
-            this.reviewModal.show();
+            this.reviewModal.show({
+              starCount: thisUserReview ? thisUserReview.review_ratings : 0,
+              reviewText: thisUserReview ? thisUserReview.review_feedback : ""
+            });
           }}
-          text="Write A Review"
+          text={thisUserReview ? "Update Review" : "Write a Review"}
           color="secondary"
           style={{
             width: 120,
@@ -345,6 +371,7 @@ export default class SellerProfileTab extends React.Component {
             this.reviewModal = node;
           }}
           seller={seller}
+          reloadSellerDetails={reloadSellerDetails}
         />
         <View style={{ width: "100%" }}>
           <View
@@ -396,3 +423,11 @@ const styles = StyleSheet.create({
     color: colors.pinkishOrange
   }
 });
+
+const mapStateToProps = state => {
+  return {
+    userId: state.loggedInUser.id
+  };
+};
+
+export default connect(mapStateToProps)(SellerProfileTab);

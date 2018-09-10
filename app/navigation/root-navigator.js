@@ -25,6 +25,8 @@ import store from "../store";
 import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 
+import socketIo from "../socket-io";
+
 import { openEnterPinPopup } from "./index";
 
 import { addFcmToken, verifyEmail, getProfileDetail } from "../api";
@@ -167,6 +169,10 @@ handleNotification = notif => {
       store.dispatch(uiActions.setDykIdToOpenDirectly(notif.id));
       params.id = notif.id;
       screenToOpen = SCREENS.DO_YOU_KNOW_SCREEN;
+      break;
+    case "31":
+      screenToOpen = SCREENS.SHOPPING_LIST_ORDER_SCREEN;
+      params = { orderId: notif.id };
       break;
     default:
   }
@@ -317,10 +323,10 @@ class RootNavigation extends React.Component {
         : CODEPUSH_KEYS.PRODUCTION
     });
 
-    console.log("this.props: ", this.props);
     if (!this.props.isUserLoggedIn) {
       NavigationService.navigate(SCREENS.INTRO_SCREEN);
     } else {
+      socketIo.connect();
       this.props.incrementAppOpen();
       NavigationService.navigate(SCREENS.APP_STACK);
       const r = await getProfileDetail();

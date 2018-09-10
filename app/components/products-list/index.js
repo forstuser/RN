@@ -14,6 +14,9 @@ import { colors } from "../../theme";
 import ProductListItem from "../product-list-item";
 import ErrorOverlay from "../../components/error-overlay";
 import EmptyProductListPlaceholder from "./empty-product-list-placeholder";
+const uploadFabIcon = require("../../images/ic_upload_fabs.png");
+import Analytics from "../../analytics";
+import { PRODUCT_TYPES,SCREENS } from "../../constants";
 
 // destructuring not working for some reasons
 const ProductsList = props => {
@@ -30,10 +33,9 @@ const ProductsList = props => {
     category,
     error = null,
     endHasReached = false,
-    onListScroll = () => {},
+    onListScroll = () => { },
     showEndReachedMsg = true
   } = props;
-
   if (error) {
     return <ErrorOverlay error={error} onRetryPress={onRefresh} />;
   }
@@ -49,6 +51,10 @@ const ProductsList = props => {
       <ProductListItem navigation={navigation} product={item} />
     </View>
   );
+  showAddProductOptionsScreen = () => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
+    navigation.push(SCREENS.ADD_PRODUCT_SCREEN,{'screenType':type});
+  };
 
   return (
     <View
@@ -57,7 +63,7 @@ const ProductsList = props => {
         flex: 1,
         backgroundColor: "#fff",
         paddingTop: 0,
-        marginTop: 10
+        marginTop: 10,
       }}
     >
       <FlatList
@@ -70,6 +76,10 @@ const ProductsList = props => {
         onEndReachedThreshold={onEndReachedThreshold}
         onRefresh={onRefresh}
         refreshing={isLoadingFirstPage}
+        contentContainerStyle={[
+          { flexGrow: 1 },
+          products.length ? null : { justifyContent: "center" }
+        ]}
         ListEmptyComponent={
           !isLoading && products.length == 0 ? (
             <EmptyProductListPlaceholder
@@ -95,14 +105,37 @@ const ProductsList = props => {
                   {showEndReachedMsg ? "No More Results" : ""}
                 </Text>
               ) : (
-                <ActivityIndicator color={colors.mainBlue} animating={true} />
-              )}
+                  <ActivityIndicator color={colors.mainBlue} animating={true} />
+                )}
             </View>
           ) : null
         }
       />
+      { products.length > 0 ? <TouchableOpacity
+        style={styles.fab}
+        onPress={()=>this.showAddProductOptionsScreen()}
+      >
+        <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+      </TouchableOpacity>:null}
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  fab: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    width: 56,
+    height: 56,
+    zIndex: 2,
+    backgroundColor: colors.tomato,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  uploadFabIcon: {
+    width: 25,
+    height: 25
+  }
+});
 export default ProductsList;

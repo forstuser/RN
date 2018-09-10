@@ -86,6 +86,10 @@ class DashboardScreen extends React.Component {
         this.expenseInsightContent.fetchCategories();
         //this.ascContent.fetchProducts();
         //this.calendarContent.fetchItems();
+        // this.props.navigation.replace(SCREENS.SHOPPING_LIST_ORDER_SCREEN, {
+        //   // orderId: res.result.id
+        //   orderId: 47
+        // });
       }
     );
 
@@ -311,8 +315,7 @@ class DashboardScreen extends React.Component {
             { ref: this.ehomeTabItemRef, text: I18n.t("ehome_tip") },
             { ref: this.doYouKnowTabItemRef, text: I18n.t("do_you_know_tip") },
             { ref: this.comingUpRef, text: I18n.t("coming_up_tip") },
-            { ref: this.insightsRef, text: I18n.t("insights_tip") },
-            { ref: this.activeOrderRef}
+            { ref: this.insightsRef, text: I18n.t("insights_tip") }
             //{ ref: this.calendarRef, text: I18n.t("attendance_tip") }
             // { ref: this.ascRef, text: I18n.t("asc_tip") }
           ]}
