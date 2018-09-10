@@ -38,59 +38,65 @@ export default class Statuses extends React.Component {
     const { statusType, isOrderModified = true } = this.props;
 
     return (
-      <View style={{ padding: 16 }}>
+      <View style={{ marginBottom: 10 }}>
         <Text weight="Bold" style={{ fontSize: 13.5 }}>
-          Status
+          Status :{" "}
+          {statusType == ORDER_STATUS_TYPES.COMPLETE && (
+            <Text style={{ color: colors.success }}>Completed</Text>
+          )}
         </Text>
-        <View>
-          <View
-            style={{
-              position: "absolute",
-              left: 10,
-              top: 15,
-              bottom: 15,
-              width: 1,
-              backgroundColor: "#cccccc"
-            }}
-          />
-          <StatusItem title="Order Placed" isDone={true} />
-          <StatusItem
-            title="Accepted"
-            isDone={
-              [
-                ORDER_STATUS_TYPES.APPROVED,
-                ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                ORDER_STATUS_TYPES.COMPLETE
-              ].includes(statusType) || isOrderModified
-            }
-          />
-          {isOrderModified && (
-            <View>
-              <StatusItem title="Order Modified" isDone={true} />
-              <StatusItem
-                title="Modification Approved"
-                isDone={[
+
+        {statusType != ORDER_STATUS_TYPES.COMPLETE && (
+          <View>
+            <View
+              style={{
+                position: "absolute",
+                left: 10,
+                top: 15,
+                bottom: 15,
+                width: 1,
+                backgroundColor: "#cccccc"
+              }}
+            />
+            <StatusItem title="Order Placed" isDone={true} />
+            <StatusItem
+              title="Accepted"
+              isDone={
+                [
                   ORDER_STATUS_TYPES.APPROVED,
+                  ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                  ORDER_STATUS_TYPES.COMPLETE
+                ].includes(statusType) || isOrderModified
+              }
+            />
+            {isOrderModified && (
+              <View>
+                <StatusItem title="Order Modified" isDone={true} />
+                <StatusItem
+                  title="Modification Approved"
+                  isDone={[
+                    ORDER_STATUS_TYPES.APPROVED,
+                    ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                    ORDER_STATUS_TYPES.COMPLETE
+                  ].includes(statusType)}
+                />
+              </View>
+            )}
+            {[
+              ORDER_STATUS_TYPES.APPROVED,
+              ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+              ORDER_STATUS_TYPES.COMPLETE
+            ].includes(statusType) && (
+              <StatusItem
+                title="Out For Delivery"
+                isDone={[
                   ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
                   ORDER_STATUS_TYPES.COMPLETE
                 ].includes(statusType)}
               />
-            </View>
-          )}
-          {[
-            ORDER_STATUS_TYPES.APPROVED,
-            ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-            ORDER_STATUS_TYPES.COMPLETE
-          ].includes(statusType) && (
-            <StatusItem
-              title="Out For Delivery"
-              isDone={[
-                ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                ORDER_STATUS_TYPES.COMPLETE
-              ].includes(statusType)}
-            />
-          )}
-        </View>
+            )}
+          </View>
+        )}
       </View>
     );
   }

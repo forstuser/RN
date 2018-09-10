@@ -85,10 +85,7 @@ class DashboardScreen extends React.Component {
         this.expenseInsightContent.fetchCategories();
         //this.ascContent.fetchProducts();
         //this.calendarContent.fetchItems();
-        // this.props.navigation.replace(SCREENS.SHOPPING_LIST_ORDER_SCREEN, {
-        //   // orderId: res.result.id
-        //   orderId: 47
-        // });
+        //
       }
     );
 

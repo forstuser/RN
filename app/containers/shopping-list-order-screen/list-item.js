@@ -18,7 +18,8 @@ export default ({ item, index, declineItem }) => {
     <View
       style={{
         flexDirection: "row",
-        padding: 10
+        padding: 10,
+        marginHorizontal: 10
       }}
     >
       <View style={{ marginRight: 5 }}>
