@@ -504,7 +504,7 @@ class AddProductScreen extends React.Component {
           case EXPENSE_TYPES.MEDICAL_DOCS:
             this.setState(
               {
-                mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE,
+                mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL,
                 category: {
                   id: CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC,
                   name: "Medical Docs"
@@ -519,7 +519,7 @@ class AddProductScreen extends React.Component {
           case EXPENSE_TYPES.MEDICAl_INSURANCE:
             this.setState(
               {
-                mainCategoryId: MAIN_CATEGORY_IDS.HEALTHCARE,
+                mainCategoryId: MAIN_CATEGORY_IDS.PERSONAL,
                 category: {
                   id: CATEGORY_IDS.HEALTHCARE.INSURANCE,
                   name: "Medical Insurance"

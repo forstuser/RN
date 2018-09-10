@@ -99,6 +99,7 @@ class EhomeScreen extends Component {
         this.getProductsFirstPage(0);
         this.getProductsFirstPage(1);
         this.getProductsFirstPage(2);
+        this.calendarContent.fetchItems();
       }
     );
   }
@@ -114,9 +115,8 @@ class EhomeScreen extends Component {
   };
 
   onTabChange = ({ i }) => {
-    this.setState({ activeTabIndex: i - 1 });
-    if (i === 3)
-      this.calendarContent.fetchItems();
+    if (i > 0)
+      this.setState({ activeTabIndex: i - 1 });
   };
 
   getProductsFirstPage = tabIndex => {
