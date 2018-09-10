@@ -70,7 +70,6 @@ const styles = {
    },
    heading1: {
         fontSize: 18,
-        marginTop: 10,
         marginTop: 20
    },
    heading2: {

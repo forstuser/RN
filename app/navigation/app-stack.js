@@ -84,6 +84,7 @@ import CashbackQueryAdditionalInfoScreen from "../containers/cashback-query-scre
 import ShoppingListOrderScreen from "../containers/shopping-list-order-screen";
 import ShoppingListOrderReviewsScreen from "../containers/shopping-list-order-screen/reviews-screen";
 import RedeemViaPaytmScreen from "../containers/BBCashWalletScreen/redeem-via-paytm-screen";
+import ActiveOrdersScreen from "../containers/active-orders-screen";
 import AddressScreen from "../containers/address-screen";
 import MyOrdersScreen from "../containers/my-orders-screen";
 
@@ -238,6 +239,8 @@ export default createStackNavigator(
     [SCREENS.CASHBACK_BILLS_SCREEN]: CashbackBillsScreen,
     [SCREENS.BB_CASH_WALLET_SCREEN]: BBCashWalletScreen,
     [SCREENS.SELECT_SELLER_SCREEN_WALLET]: SelectSellerScreen,
+    [SCREENS.REDEEM_VIA_PAYTM_SCREEN]: RedeemViaPaytmScreen,
+    [SCREENS.ACTIVE_ORDERS_SCREEN]: ActiveOrdersScreen,
     [SCREENS.CASHBACK_QUERY_SCREEN]: CashbackQueryScreen,
     [SCREENS.CASHBACK_QUERY_REASONS_SCREEN]: CashbackQueryReasonsScreen,
     [SCREENS.CASHBACK_QUERY_ADDITIONAL_INFO_SCREEN]: CashbackQueryAdditionalInfoScreen,

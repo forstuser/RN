@@ -2091,6 +2091,19 @@ export const retrieveWalletDetails = async () => {
   });
 };
 
+export const retrieveActiveOrders = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/consumer/orders/active`
+  });
+};
+
+export const retrieveActiveServices = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/consumer/assisted/active`
+  });
+};
 export const placeOrder = async ({ sellerId, orderType, serviceTypeId }) => {
   return await apiRequest({
     method: "post",

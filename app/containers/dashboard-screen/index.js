@@ -45,7 +45,8 @@ import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 import RecentCalenderItems from "./recent-calender-items";
 import AscContent from "./asc-content";
 import ExpenseInsightsContent from "./expense-insights-content";
-//import CalendarContent from "../my-calendar-screen";
+import CalendarContent from "../my-calendar-screen";
+import ActiveOrdersScreen from '../active-orders-screen';
 
 const ascIcon = require("../../images/ic_nav_asc_on.png");
 const chartIcon = require("../../images/ic_bars_chart.png");
@@ -206,6 +207,21 @@ class DashboardScreen extends React.Component {
             tabs={[
               {
                 tabRef: ref => {
+                  this.activeOrderRef = ref;
+                },
+                title: "Active Orders",
+                imageSource: require("../../images/active_orders.png"),
+                content: (
+                  <ActiveOrdersScreen
+                    ref={node => {
+                      this.activeOrdersContent = node;
+                    }}
+                    navigation={this.props.navigation}
+                  />
+                )
+              },
+              {
+                tabRef: ref => {
                   this.comingUpRef = ref;
                 },
                 title: "What’s Due",
@@ -232,21 +248,6 @@ class DashboardScreen extends React.Component {
                   />
                 )
               }
-              // {
-              //   tabRef: ref => {
-              //     this.calendarRef = ref;
-              //   },
-              //   title: "My Calendar",
-              //   imageSource: require("../../images/calendar_icon.png"),
-              //   content: (
-              //     <CalendarContent
-              //       ref={node => {
-              //         this.calendarContent = node;
-              //       }}
-              //       navigation={this.props.navigation}
-              //     />
-              //   )
-              // },
               // {
               //   tabRef: ref => {
               //     this.ascRef = ref;

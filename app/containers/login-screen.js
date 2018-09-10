@@ -87,7 +87,7 @@ class LoginScreen extends Component {
       });
 
       if (!isExistingUser) {
-        this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
+        this.props.navigation.navigate(SCREENS.USER_ON_BOARDING_STACK);
       } else {
         openAfterLoginScreen();
       }
