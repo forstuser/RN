@@ -1,3 +1,4 @@
+window.navigator.userAgent = "react-native"; // for some versions of socketio this is needed also in React Native
 import io from "socket.io-client";
 import store from "../store";
 import { API_BASE_URL } from "../api";

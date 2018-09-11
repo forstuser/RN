@@ -9,14 +9,15 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
 
-import { API_BASE_URL, getSellerDetails } from "../../api";
+import { API_BASE_URL, getSellerAssistedServices, placeOrder } from "../../api";
 
-import { Text, Image, Button } from "../../elements";
+import { Text, Button, Image } from "../../elements";
 
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { defaultStyles, colors } from "../../theme";
-import { SCREENS } from "../../constants";
+import { SCREENS, ORDER_TYPES } from "../../constants";
+import { showSnackbar } from "../../utils/snackbar";
 
 export default class MySellersAssistedServicesScreen extends React.Component {
   static navigationOptions = {
@@ -30,24 +31,42 @@ export default class MySellersAssistedServicesScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.getSellerDetails();
+    this.getSellerAssistedServices();
   }
 
-  getSellerDetails = async () => {
+  getSellerAssistedServices = async () => {
     const { navigation } = this.props;
     const seller = navigation.getParam("seller", {});
     this.setState({
       isLoading: true
     });
     try {
-      const res = await getSellerDetails(seller.id);
+      const res = await getSellerAssistedServices({ sellerId: seller.id });
       this.setState({
-        services: res.result.assisted_services
+        services: res.result
       });
     } catch (error) {
       this.setState({ error });
     } finally {
       this.setState({ isLoading: false });
+    }
+  };
+
+  placeOrder = async service => {
+    const { navigation } = this.props;
+    const seller = navigation.getParam("seller", {});
+    try {
+      const res = await placeOrder({
+        sellerId: seller.id,
+        orderType: ORDER_TYPES.ASSISTED_SERVICE,
+        serviceTypeId: service.service_type_id,
+        serviceName: service.service_name
+      });
+      this.props.navigation.navigate(SCREENS.ASSISTED_SERVICES_ORDER_SCREEN, {
+        orderId: res.result.id
+      });
+    } catch (e) {
+      showSnackbar({ text: e.message });
     }
   };
 
@@ -75,7 +94,7 @@ export default class MySellersAssistedServicesScreen extends React.Component {
                   padding: 20
                 }}
               >
-                <Text style={{ marginTop: 40, textAlign: "center" }}>
+                <Text style={{ textAlign: "center" }}>
                   No services for now.
                 </Text>
               </View>
@@ -95,20 +114,22 @@ export default class MySellersAssistedServicesScreen extends React.Component {
             >
               <Image
                 style={{
-                  width: 68,
-                  height: 68,
-                  borderRadius: 35,
-                  backgroundColor: "#eee"
+                  width: 60,
+                  height: 60
                 }}
-                source={{ uri: API_BASE_URL + "" }}
+                source={{
+                  uri: API_BASE_URL + `/assisted/${item.service_type_id}/images`
+                }}
+                resizeMode="contain"
               />
 
-              <View style={{ flex: 1, paddingHorizontal: 5 }}>
+              <View style={{ flex: 1, paddingHorizontal: 5, marginLeft: 10 }}>
                 <Text weight="Medium" style={{ fontSize: 11 }}>
-                  {item.name}
+                  {item.service_name}
                 </Text>
                 <Text style={{ fontSize: 9 }}>{item.details}</Text>
                 <Button
+                  onPress={() => this.placeOrder(item)}
                   text="Request Service"
                   color="secondary"
                   style={{ height: 30, width: 115, marginTop: 10 }}

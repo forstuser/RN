@@ -403,7 +403,8 @@ class MySellersScreen extends React.Component {
                               alignItems: "center",
                               justifyContent: "center",
                               borderRadius: 9,
-                              paddingHorizontal: 7
+                              paddingHorizontal: 7,
+                              marginRight: 4
                             }}
                           >
                             <Text
