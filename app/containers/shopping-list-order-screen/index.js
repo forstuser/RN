@@ -334,53 +334,57 @@ export default class ShoppingListOrderScreen extends React.Component {
                     <Text weight="Medium">Rs. {totalAmount}</Text>
                   </View>
 
-                  {!sellerRatings || !serviceRatings ? (
-                    <Button
-                      onPress={this.openReviewsScreen}
-                      text="Rate Service Delivery"
-                      color="secondary"
-                      type="outline"
-                      style={{
-                        margin: 20,
-                        width: 210,
-                        alignSelf: "center",
-                        height: 40
-                      }}
-                    />
-                  ) : (
-                    <View style={{ paddingHorizontal: 10 }}>
-                      {serviceRatings && (
-                        <View>
+                  {order.status_type == ORDER_STATUS_TYPES.COMPLETE && (
+                    <View>
+                      {!sellerRatings || !serviceRatings ? (
+                        <Button
+                          onPress={this.openReviewsScreen}
+                          text="Rate Service Delivery"
+                          color="secondary"
+                          type="outline"
+                          style={{
+                            margin: 20,
+                            width: 210,
+                            alignSelf: "center",
+                            height: 40
+                          }}
+                        />
+                      ) : (
+                        <View style={{ paddingHorizontal: 10 }}>
+                          {serviceRatings && (
+                            <View>
+                              <Text weight="Bold" style={{ marginTop: 20 }}>
+                                Delivery Experience
+                              </Text>
+                              <ReviewCard
+                                imageUrl={
+                                  API_BASE_URL +
+                                  `/assisted/${order.delivery_user.id}/profile`
+                                }
+                                ratings={serviceRatings}
+                                userName={order.delivery_user.name}
+                                feedbackText={serviceReviewText}
+                                onEditPress={this.openReviewsScreen}
+                              />
+                            </View>
+                          )}
                           <Text weight="Bold" style={{ marginTop: 20 }}>
-                            Delivery Experience
+                            Seller Responsiveness
                           </Text>
                           <ReviewCard
                             imageUrl={
                               API_BASE_URL +
-                              `/assisted/${order.delivery_user.id}/profile`
+                              `/consumer/sellers/${
+                                order.seller_id
+                              }/upload/1/images/0`
                             }
-                            ratings={serviceRatings}
-                            userName={order.delivery_user.name}
-                            feedbackText={serviceReviewText}
+                            ratings={sellerRatings}
+                            userName={order.seller.seller_name}
+                            feedbackText={sellerReviewText}
                             onEditPress={this.openReviewsScreen}
                           />
                         </View>
                       )}
-                      <Text weight="Bold" style={{ marginTop: 20 }}>
-                        Seller Responsiveness
-                      </Text>
-                      <ReviewCard
-                        imageUrl={
-                          API_BASE_URL +
-                          `/consumer/sellers/${
-                            order.seller_id
-                          }/upload/1/images/0`
-                        }
-                        ratings={sellerRatings}
-                        userName={order.seller.seller_name}
-                        feedbackText={sellerReviewText}
-                        onEditPress={this.openReviewsScreen}
-                      />
                     </View>
                   )}
                 </View>

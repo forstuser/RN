@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList, Alert, Animated } from "react-native";
+import { View, FlatList, Alert, Animated, ScrollView } from "react-native";
 
 import { API_BASE_URL } from "../../api";
 
@@ -21,7 +21,6 @@ import { ORDER_STATUS_TYPES, SCREENS } from "../../constants";
 
 import Status from "./status";
 import SellerDetails from "./seller-details";
-import ListItem from "./list-item";
 import DeliveryUserDetails from "./delivery-user-details";
 
 import socketIo from "../../socket-io";
@@ -236,175 +235,178 @@ export default class AssistedServiceOrderScreen extends React.Component {
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         {order && (
           <View style={{ flex: 1 }}>
-            <View
-              style={{
-                borderBottomColor: "#dadada",
-                borderBottomWidth: 1,
-                margin: 15,
-                marginBottom: 0,
-                paddingBottom: 5
-              }}
-            >
-              <Status
-                statusType={order.status_type}
-                isOrderModified={order.is_modified}
-              />
-              {order.delivery_user && (
-                <DeliveryUserDetails deliveryUser={order.delivery_user} />
-              )}
-              <SellerDetails order={order} />
-              <View
+            <View style={{ flex: 1 }}>
+              <ScrollView
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between"
+                  borderColor: "#dadada",
+                  borderWidth: 1,
+                  margin: 15,
+                  marginBottom: 0,
+                  paddingBottom: 5
                 }}
               >
-                <Text
-                  weight="Medium"
-                  style={{ fontSize: 10.5, color: "#777777" }}
-                >
-                  Service Requested
-                </Text>
-              </View>
-              <View
-                style={{
-                  margin: 10,
-                  overflow: "hidden",
-                  flexDirection: "row",
-                  padding: 10
-                }}
-              >
-                <Image
-                  style={{
-                    width: 48,
-                    height: 48
-                  }}
-                  source={{
-                    uri:
-                      API_BASE_URL +
-                      `/assisted/${order.order_details.service_type_id}/images`
-                  }}
-                  resizeMode="contain"
+                <Status
+                  statusType={order.status_type}
+                  isOrderModified={order.is_modified}
                 />
-
-                <View style={{ flex: 1, paddingHorizontal: 5, marginLeft: 10 }}>
-                  <Text weight="Medium" style={{ fontSize: 11 }}>
-                    {order.order_details.service_name}
+                {order.delivery_user && (
+                  <DeliveryUserDetails deliveryUser={order.delivery_user} />
+                )}
+                <SellerDetails order={order} />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between"
+                  }}
+                >
+                  <Text
+                    weight="Medium"
+                    style={{ fontSize: 10.5, color: "#777777" }}
+                  >
+                    Service Requested
                   </Text>
                 </View>
-              </View>
-            </View>
-
-            <View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  height: 42,
-                  borderTopWidth: 1,
-                  borderBottomWidth: 1,
-                  borderColor: "#eee",
-                  marginHorizontal: 10,
-                  alignItems: "center"
-                }}
-              />
-
-              {!sellerRatings || !serviceRatings ? (
-                <Button
-                  onPress={this.openReviewsScreen}
-                  text="Rate Service Delivery"
-                  color="secondary"
-                  type="outline"
+                <View
                   style={{
-                    margin: 20,
-                    width: 210,
-                    alignSelf: "center",
-                    height: 40
+                    margin: 10,
+                    overflow: "hidden",
+                    flexDirection: "row",
+                    padding: 10
                   }}
-                />
-              ) : (
-                <View style={{ paddingHorizontal: 10 }}>
-                  {serviceRatings && (
+                >
+                  <Image
+                    style={{
+                      width: 48,
+                      height: 48
+                    }}
+                    source={{
+                      uri:
+                        API_BASE_URL +
+                        `/assisted/${
+                          order.order_details.service_type_id
+                        }/images`
+                    }}
+                    resizeMode="contain"
+                  />
+
+                  <View
+                    style={{ flex: 1, paddingHorizontal: 5, marginLeft: 10 }}
+                  >
+                    <Text weight="Medium" style={{ fontSize: 11 }}>
+                      {order.order_details.service_name}
+                    </Text>
+                  </View>
+                </View>
+
+                <View>
+                  {order.status_type == ORDER_STATUS_TYPES.COMPLETE && (
                     <View>
-                      <Text weight="Bold" style={{ marginTop: 20 }}>
-                        Delivery Experience
-                      </Text>
-                      <ReviewCard
-                        imageUrl={
-                          API_BASE_URL +
-                          `/assisted/${order.delivery_user.id}/profile`
-                        }
-                        ratings={serviceRatings}
-                        userName={order.delivery_user.name}
-                        feedbackText={serviceReviewText}
-                        onEditPress={this.openReviewsScreen}
-                      />
+                      {!sellerRatings || !serviceRatings ? (
+                        <Button
+                          onPress={this.openReviewsScreen}
+                          text="Rate Service Delivery"
+                          color="secondary"
+                          type="outline"
+                          style={{
+                            margin: 20,
+                            width: 210,
+                            alignSelf: "center",
+                            height: 40
+                          }}
+                        />
+                      ) : (
+                        <View style={{ paddingHorizontal: 10 }}>
+                          {serviceRatings && (
+                            <View>
+                              <Text weight="Bold" style={{ marginTop: 20 }}>
+                                Delivery Experience
+                              </Text>
+                              <ReviewCard
+                                imageUrl={
+                                  API_BASE_URL +
+                                  `/assisted/${order.delivery_user.id}/profile`
+                                }
+                                ratings={serviceRatings}
+                                userName={order.delivery_user.name}
+                                feedbackText={serviceReviewText}
+                                onEditPress={this.openReviewsScreen}
+                              />
+                            </View>
+                          )}
+                          <Text weight="Bold" style={{ marginTop: 20 }}>
+                            Seller Responsiveness
+                          </Text>
+                          <ReviewCard
+                            imageUrl={
+                              API_BASE_URL +
+                              `/consumer/sellers/${
+                                order.seller_id
+                              }/upload/1/images/0`
+                            }
+                            ratings={sellerRatings}
+                            userName={order.seller.seller_name}
+                            feedbackText={sellerReviewText}
+                            onEditPress={this.openReviewsScreen}
+                          />
+                        </View>
+                      )}
                     </View>
                   )}
-                  <Text weight="Bold" style={{ marginTop: 20 }}>
-                    Seller Responsiveness
-                  </Text>
-                  <ReviewCard
-                    imageUrl={
-                      API_BASE_URL +
-                      `/consumer/sellers/${order.seller_id}/upload/1/images/0`
-                    }
-                    ratings={sellerRatings}
-                    userName={order.seller.seller_name}
-                    feedbackText={sellerReviewText}
-                    onEditPress={this.openReviewsScreen}
-                  />
                 </View>
-              )}
+              </ScrollView>
             </View>
-            {![
-              ORDER_STATUS_TYPES.CANCELED,
-              ORDER_STATUS_TYPES.REJECTED
-            ].includes(order.status_type) && (
-              <View>
-                {order.status_type == ORDER_STATUS_TYPES.NEW &&
-                  !order.is_modified && (
+
+            <View style={{ height: 50 }}>
+              {![
+                ORDER_STATUS_TYPES.CANCELED,
+                ORDER_STATUS_TYPES.REJECTED
+              ].includes(order.status_type) && (
+                <View>
+                  {order.status_type == ORDER_STATUS_TYPES.NEW &&
+                    !order.is_modified && (
+                      <Button
+                        onPress={this.cancelOrder}
+                        text="Cancel Request"
+                        color="secondary"
+                        borderRadius={0}
+                      />
+                    )}
+
+                  {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY && (
                     <Button
-                      onPress={this.cancelOrder}
-                      text="Cancel Request"
+                      onPress={this.completeOrder}
+                      text="Mark Paid"
                       color="secondary"
                       borderRadius={0}
                     />
                   )}
 
-                {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY && (
-                  <Button
-                    onPress={this.completeOrder}
-                    text="Mark Paid"
-                    color="secondary"
-                    borderRadius={0}
-                  />
-                )}
-
-                {order.is_modified &&
-                  ![
-                    ORDER_STATUS_TYPES.APPROVED,
-                    ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                    ORDER_STATUS_TYPES.COMPLETE
-                  ].includes(order.status_type) && (
-                    <View style={{ flexDirection: "row" }}>
-                      <Button
-                        onPress={this.rejectOrder}
-                        text="Reject"
-                        color="grey"
-                        borderRadius={0}
-                        style={{ flex: 1 }}
-                      />
-                      <Button
-                        onPress={this.approveOrder}
-                        text="Approve"
-                        color="secondary"
-                        borderRadius={0}
-                        style={{ flex: 1 }}
-                      />
-                    </View>
-                  )}
-              </View>
-            )}
+                  {order.is_modified &&
+                    ![
+                      ORDER_STATUS_TYPES.APPROVED,
+                      ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                      ORDER_STATUS_TYPES.COMPLETE
+                    ].includes(order.status_type) && (
+                      <View style={{ flexDirection: "row" }}>
+                        <Button
+                          onPress={this.rejectOrder}
+                          text="Reject"
+                          color="grey"
+                          borderRadius={0}
+                          style={{ flex: 1 }}
+                        />
+                        <Button
+                          onPress={this.approveOrder}
+                          text="Approve"
+                          color="secondary"
+                          borderRadius={0}
+                          style={{ flex: 1 }}
+                        />
+                      </View>
+                    )}
+                </View>
+              )}
+            </View>
           </View>
         )}
         <UploadBillModal
