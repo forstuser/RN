@@ -97,7 +97,7 @@ class SelectCategoryStep extends React.Component {
           this.fetchCategories();
         }
         break;
-      case MAIN_CATEGORY_IDS.ELECTRONICS:
+      case MAIN_CATEGORY_IDS.E_E:
         title = I18n.t("add_edit_expense_screen_title_select_electronics");
         genericIcon = require("../../../images/categories/generic_electronic.png");
         reasons = [
@@ -113,37 +113,44 @@ class SelectCategoryStep extends React.Component {
           {
             id: CATEGORY_IDS.ELECTRONICS.MOBILE,
             name: "Mobile",
-            icon: require("../../../images/categories/mobile.png")
+            icon: require("../../../images/categories/mobile.png"),
+            refId: CATEGORY_IDS.E_E.ELECTRONICS
           },
           {
             id: CATEGORY_IDS.ELECTRONICS.TV,
             name: "T.V.",
-            icon: require("../../../images/categories/television.png")
+            icon: require("../../../images/categories/television.png"),
+            refId: CATEGORY_IDS.E_E.ELECTRONICS
           },
           {
             id: CATEGORY_IDS.ELECTRONICS.LAPTOP,
             name: "Laptop",
-            icon: require("../../../images/categories/laptop.png")
+            icon: require("../../../images/categories/laptop.png"),
+            refId: CATEGORY_IDS.E_E.ELECTRONICS
           },
           {
             id: CATEGORY_IDS.ELECTRONICS.AC,
             name: "A.C.",
-            icon: require("../../../images/categories/air_conditioner.png")
+            icon: require("../../../images/categories/air_conditioner.png"),
+            refId: CATEGORY_IDS.E_E.ELECTRICALS
           },
           {
             id: CATEGORY_IDS.ELECTRONICS.WATER_PURIFIER,
             name: "Water Purifier",
-            icon: require("../../../images/categories/water_purifier.png")
+            icon: require("../../../images/categories/water_purifier.png"),
+            refId: CATEGORY_IDS.E_E.ELECTRICALS
           },
           {
             id: CATEGORY_IDS.ELECTRONICS.REFRIGERATOR,
             name: "Refrigerator",
-            icon: require("../../../images/categories/fridge.png")
+            icon: require("../../../images/categories/fridge.png"),
+            refId: CATEGORY_IDS.E_E.ELECTRICALS
           },
           {
             id: CATEGORY_IDS.ELECTRONICS.WASHING_MACHINE,
             name: "Washing Machine",
-            icon: require("../../../images/categories/washing_machine.png")
+            icon: require("../../../images/categories/washing_machine.png"),
+            refId: CATEGORY_IDS.E_E.ELECTRICALS
           }
         ];
         if (typeof this.props.onCategorySelect == "function") {
@@ -435,6 +442,8 @@ class SelectCategoryStep extends React.Component {
   selectOption = category => {
     if (this.props.expenseType == EXPENSE_TYPES.HEALTHCARE) {
       category = { id: CATEGORY_IDS.HEALTHCARE.EXPENSE, name: "Expenses" };
+    } else if (this.props.expenseType == EXPENSE_TYPES.ELECTRONICS) {
+      category = { id: category.refId, name: "E&E" }
     }
     this.setState(
       {
@@ -446,7 +455,7 @@ class SelectCategoryStep extends React.Component {
         if (idx > -1) {
           if (
             this.props.mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE ||
-            this.props.mainCategoryId == MAIN_CATEGORY_IDS.ELECTRONICS
+            this.props.mainCategoryId == MAIN_CATEGORY_IDS.E_E
           ) {
             this.scrollView.scrollTo({ x: idx * 70, animated: false });
           }
@@ -511,6 +520,9 @@ class SelectCategoryStep extends React.Component {
         id: CATEGORY_IDS.HEALTHCARE.EXPENSE,
         name: "Expenses"
       };
+    } else if (this.props.expenseType == EXPENSE_TYPES.ELECTRONICS) {
+      subCategoryId = category.id;
+      category = { id: category.refId, name: "E&E" }
     }
 
     if (typeof this.props.onCategorySelect != "function") {
@@ -642,8 +654,8 @@ class SelectCategoryStep extends React.Component {
                   </Text>
                 </View>
               ) : (
-                <View collapsable={false} />
-              )}
+                  <View collapsable={false} />
+                )}
               {otherOptions.length > 0 && (
                 <TouchableWithoutFeedback
                   onPress={() => this.otherOptionsModal.openModal()}

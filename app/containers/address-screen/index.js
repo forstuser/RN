@@ -9,6 +9,8 @@ import Modal from "../../components/modal";
 import RNModal from 'react-native-modal';
 import { SCREENS } from '../../constants'
 import { showSnackbar } from "../../utils/snackbar";
+import LoadingOverlay from "./../../components/loading-overlay";
+
 
 import { getUserAddresses, updateUserAddresses, deleteUserAddresses, placeOrder } from "../../api"
 
@@ -20,12 +22,12 @@ class AddressScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         const params = navigation.state.params || {};
         return {
-            title: "Manage Addresses",
+            title: params.sellerId ? "Select Address" : "Manage Addresses",
             headerRight: params.sellerId ? (
                 <Text
                     onPress={params.makeOrder}
                     weight="Bold"
-                    style={{ color: colors.mainText, marginRight: 10 }}
+                    style={{ color: colors.pinkishOrange, marginRight: 10 }}
                 >
                     Next
                 </Text>
@@ -46,13 +48,12 @@ class AddressScreen extends Component {
             btnTXT: 'Add',
             headerTitle: 'Add New Address',
             pin: "",
-            selectedIndex: null
+            selectedIndex: 0,
+            showLoader: false
         }
     }
     componentDidMount() {
         this.fetchUserAddress();
-        console.log("params from order", this.props.navigation.getParam('sellerId'))
-        console.log("params from order", this.props.navigation.getParam('orderType'))
         this.props.navigation.setParams({
             makeOrder: this.makeOrder
         });
@@ -74,7 +75,7 @@ class AddressScreen extends Component {
             const userAddresses = await getUserAddresses();
             console.log('userAddresses', userAddresses.result);
             this.setState({
-                addresses: userAddresses.result
+                addresses: userAddresses.result,
             })
 
         } catch (error) {
@@ -83,6 +84,8 @@ class AddressScreen extends Component {
     };
 
     saveAddress = async () => {
+        this.hide();
+        this.setState({ showLoader: true })
         try {
             let item = { 'address_line_1': this.state.address1, 'address_line_2': this.state.address2, 'pin': this.state.pin, 'latitude': this.state.latitude, 'longitude': this.state.longitude, id: this.state.addreesID }
             if (item.id == null) {
@@ -90,8 +93,8 @@ class AddressScreen extends Component {
             }
             const updateAddressResponse = await updateUserAddresses(item);
             console.log('updateAddressResponse', updateAddressResponse);
-            this.hide();
             this.fetchUserAddress();
+            this.setState({ showLoader: false })
         } catch (error) {
             console.log("error: ", error);
         }
@@ -104,12 +107,13 @@ class AddressScreen extends Component {
             addreesID: this.state.addresses[index].id,
             pin: this.state.addresses[index].pin,
             btnTXT: "Update",
-            headerTitle: 'Update Address'
+            headerTitle: 'Update Address',
         })
         this.show();
     }
     setDefault = async (index) => {
         console.log(this.state.addresses[index]);
+        this.setState({ showLoader: true })
         try {
             let item = { 'address_type': 1, id: this.state.addresses[index].id }
             if (item.id == null) {
@@ -118,6 +122,7 @@ class AddressScreen extends Component {
             const updateAddressResponse = await updateUserAddresses(item);
             console.log('updateAddressResponse', updateAddressResponse);
             this.fetchUserAddress();
+            this.setState({ showLoader: false })
         } catch (error) {
             console.log("error: ", error);
         }
@@ -130,11 +135,13 @@ class AddressScreen extends Component {
         this.showDeleteModal();
     }
     deleteAddress = async () => {
+        this.hideDeleteModal();
+        this.setState({ showLoader: true })
         try {
             const deleteReponse = await deleteUserAddresses(this.state.addreesID);
             console.log('userAddresses', deleteReponse);
-            this.hideDeleteModal();
             this.fetchUserAddress();
+            this.setState({ showLoader: false })
         } catch (error) {
             console.log("error: ", error);
         }
@@ -145,6 +152,7 @@ class AddressScreen extends Component {
     }
 
     openLocationModal = () => {
+        this.setState({ showLoader: true })
         RNGooglePlaces.openPlacePickerModal()
             .then(place => {
                 this.setState({
@@ -155,19 +163,22 @@ class AddressScreen extends Component {
                     addreesID: null,
                     btnTXT: 'Add',
                     headerTitle: 'Add New Address',
+                    showLoader: false
                 });
             })
             .catch(error => console.log(error.message)); // error is a Javascript Error object
     }
 
     makeOrder = async () => {
-        if (this.state.selectedIndex) {
+        this.setState({ showLoader: true })
+        if (this.state.selectedIndex !== null) {
             try {
                 const res = await placeOrder({
                     sellerId: this.props.navigation.getParam('sellerId'),
                     orderType: this.props.navigation.getParam('orderType'),
                     addressId: this.state.addresses[this.state.selectedIndex].id
                 });
+                this.setState({ showLoader: false })
                 this.props.navigation.replace(SCREENS.SHOPPING_LIST_ORDER_SCREEN, {
                     orderId: res.result.id
                 });
@@ -181,7 +192,7 @@ class AddressScreen extends Component {
     };
 
     render() {
-        const { addresses, isVisible, deleteModalShow, address1, address2, btnTXT, pin, headerTitle, selectedIndex } = this.state;
+        const { showLoader, addresses, isVisible, deleteModalShow, address1, address2, btnTXT, pin, headerTitle, selectedIndex } = this.state;
         return (
             <View style={styles.constainer}>
                 <ScrollView style={{ flex: 1 }}>
@@ -196,7 +207,7 @@ class AddressScreen extends Component {
                         </View> : null}
                     </View>
                     <TouchableOpacity onPress={() => { this.openLocationModal() }} style={styles.search}>
-                        <Text style={styles.searchText}>Search New Location</Text>
+                        <Text style={styles.searchText}>Add New Address</Text>
                         <Text><Icon name="ios-pin-outline" size={20} color={colors.pinkishOrange} /></Text>
                     </TouchableOpacity>
                 </ScrollView>
@@ -210,21 +221,21 @@ class AddressScreen extends Component {
                 >
                     <View style={{ width: 320 }}>
                         <TextInput
-                            placeholder="Add Line 1"
+                            placeholder="House/Flat No"
                             value={address1}
-                            style={{ marginLeft: 10, borderRadius: 5 }}
+                            style={{ borderRadius: 5, paddingHorizontal: 10 }}
                             onChangeText={address1 => this.setState({ address1 })}
                         />
                         <TextInput
-                            placeholder="Add Line 2"
+                            placeholder="Address"
                             value={address2}
-                            style={{ marginLeft: 10, borderRadius: 5 }}
+                            style={{ borderRadius: 5, paddingHorizontal: 10 }}
                             onChangeText={address2 => this.setState({ address2 })}
                         />
                         <TextInput
                             placeholder="Pin"
                             value={pin}
-                            style={{ marginLeft: 10, borderRadius: 5 }}
+                            style={{ borderRadius: 5, paddingHorizontal: 10 }}
                             onChangeText={pin => this.setState({ pin })}
                         />
                     </View>
@@ -232,14 +243,12 @@ class AddressScreen extends Component {
                         <Button
                             text="Cancel"
                             onPress={this.hide}
-                            borderRadius={0}
                             color="grey"
                             style={styles.btn}
                         />
                         <Button
                             text={btnTXT}
                             onPress={this.saveAddress}
-                            borderRadius={0}
                             color="secondary"
                             style={styles.btn}
                         />
@@ -259,20 +268,19 @@ class AddressScreen extends Component {
                             <Button
                                 text="No"
                                 onPress={this.hideDeleteModal}
-                                borderRadius={0}
                                 color="grey"
                                 style={styles.btn}
                             />
                             <Button
                                 text="Yes"
                                 onPress={this.deleteAddress}
-                                borderRadius={0}
                                 color="secondary"
                                 style={styles.btn}
                             />
                         </View>
                     </View>
                 </RNModal>
+                <LoadingOverlay visible={showLoader} />
             </View>
         );
     }

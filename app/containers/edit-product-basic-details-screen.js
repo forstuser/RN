@@ -61,7 +61,11 @@ class EditProductBasicDetails extends React.Component {
   fetchCategoryData = async product => {
     try {
       this.setState({ isLoading: true });
-      const res = await getReferenceDataForCategory(product.categoryId);
+      let catID = product.categoryId;
+      if (product.masterCategoryId == MAIN_CATEGORY_IDS.E_E) {
+        catID = product.sub_category_id
+      }
+      const res = await getReferenceDataForCategory(catID);
       this.setState({
         brands: res.categories[0].brands,
         categoryForms: res.categories[0].categoryForms,
@@ -291,44 +295,44 @@ class EditProductBasicDetails extends React.Component {
                 }}
               />
             ) : (
-              <ProductBasicDetailsForm
-                showFullForm={true}
-                ref={ref => (this.basicDetailsForm = ref)}
-                mainCategoryId={product.masterCategoryId}
-                categoryId={product.categoryId}
-                subCategories={subCategories}
-                subCategoryId={sub_category_id}
-                category={{
-                  id: product.categoryId,
-                  name: product.categoryName
-                }}
-                id={product.id}
-                jobId={product.jobId}
-                brands={brands}
-                categoryForms={categoryForms}
-                navigation={navigation}
-                {...{
-                  id,
-                  productName,
-                  purchaseDate,
-                  brandId,
-                  value,
-                  copies,
-                  modelName,
-                  sellerName,
-                  sellerContact,
-                  sellerAddress,
-                  chasisNumber,
-                  chasisNumberId,
-                  registrationNo,
-                  registrationNoId,
-                  imeiNo,
-                  imeiNoId,
-                  serialNo,
-                  serialNoId
-                }}
-              />
-            )}
+                <ProductBasicDetailsForm
+                  showFullForm={true}
+                  ref={ref => (this.basicDetailsForm = ref)}
+                  mainCategoryId={product.masterCategoryId}
+                  categoryId={product.categoryId}
+                  subCategories={subCategories}
+                  subCategoryId={sub_category_id}
+                  category={{
+                    id: product.categoryId,
+                    name: product.categoryName
+                  }}
+                  id={product.id}
+                  jobId={product.jobId}
+                  brands={brands}
+                  categoryForms={categoryForms}
+                  navigation={navigation}
+                  {...{
+                    id,
+                    productName,
+                    purchaseDate,
+                    brandId,
+                    value,
+                    copies,
+                    modelName,
+                    sellerName,
+                    sellerContact,
+                    sellerAddress,
+                    chasisNumber,
+                    chasisNumberId,
+                    registrationNo,
+                    registrationNoId,
+                    imeiNo,
+                    imeiNoId,
+                    serialNo,
+                    serialNoId
+                  }}
+                />
+              )}
           </View>
         </KeyboardAwareScrollView>
         <Button
