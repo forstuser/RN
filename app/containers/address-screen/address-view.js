@@ -14,16 +14,25 @@ class AddressView extends Component {
         return (
             <View style={styles.constainer}>
                 <View style={styles.header}>
-                    <View style={{ alignContent: 'space-between', flexDirection: 'row', flex: 1 }}>
-                        {sellerId ? <TouchableOpacity onPress={() => { this.props.selectAddress(index); }} style={styles.outerCircle}>
-                            {selectedIndex == index ? <View style={styles.innerCircle}>
-                            </View> : null}
-                        </TouchableOpacity> : null}
+                    {sellerId ?
+                        <View style={{ alignContent: 'space-between', flexDirection: 'row', flex: 1, paddingLeft: 5, alignItems: 'center', marginVertical: 10 }}>
+                            <View>
+                                <TouchableOpacity onPress={() => { this.props.selectAddress(index); }} style={styles.outerCircle}>
+                                    {selectedIndex == index ? <View style={styles.innerCircle}>
+                                    </View> : null}
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ paddingRight: 20, paddingBottom: 0, paddingLeft: 15 }}>
+                                <Text style={{ fontSize: 14 }}>
+                                    {address.address_line_1} {address.address_line_2} {address.locality_name} {address.city_name} {address.state_name} {address.pin}
+                                </Text>
+                            </View>
+                        </View> :
                         <View>
                             <Text style={styles.address}> Address {index + 1}</Text>
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: 'row', }}>
+                        </View>}
+
+                    {!sellerId ? <View style={{ flexDirection: 'row', }}>
                         {address.address_type == 1 ? <View style={{ right: 5 }}>
                             <Text style={styles.default}>Default</Text>
                         </View> : <TouchableOpacity onPress={() => { this.props.setDefault(index); }} style={{ right: 5 }}>
@@ -31,18 +40,20 @@ class AddressView extends Component {
                             </TouchableOpacity>
                         }
                         <TouchableOpacity onPress={() => { this.props.updateAddress(index); }} style={{ marginLeft: 12 }}>
-                            <Text><Icon name="ios-create-outline" size={20} color={colors.secondaryText} /></Text>
+                            <Text><Icon name="ios-create-outline" size={20} color={colors.pinkishOrange} /></Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => { this.props.deleteAddressModel(index); }} style={{ marginLeft: 12 }}>
-                            <Text><Icon name="ios-trash-outline" size={20} color={colors.secondaryText} /></Text>
+                            <Text><Icon name="ios-trash-outline" size={20} color={colors.pinkishOrange} /></Text>
                         </TouchableOpacity>
-                    </View>
+                    </View> : null}
                 </View>
-                <View style={{ paddingTop: 10, paddingBottom: 10 }}>
-                    <Text style={{ fontSize: 12 }}>
-                        {address.address_line_1} {address.address_line_2} {address.locality_name} {address.city_name} {address.state_name} {address.pin}
-                    </Text>
-                </View>
+                {!sellerId ?
+                    <View style={{ marginBottom: 25, marginLeft: 10, width: 250 }}>
+                        <Text style={{ fontSize: 14 }}>
+                            {address.address_line_1} {address.address_line_2} {address.locality_name} {address.city_name} {address.state_name} {address.pin}
+                        </Text>
+                    </View> : null}
+
             </View>
         );
     }
@@ -58,7 +69,8 @@ const styles = {
     },
     address: {
         fontSize: 12,
-        color: '#939393'
+        fontWeight: 'bold',
+        color: colors.mainText
     },
     default: {
         color: colors.secondaryText,
@@ -72,13 +84,13 @@ const styles = {
     },
     outerCircle: {
         alignItems: 'center',
-        paddingTop: 2,
+        justifyContent: 'center',
         width: 20,
         height: 20,
-        borderRadius: 10,
+        borderRadius: 20,
         backgroundColor: '#fff',
         borderColor: 'black',
-        borderWidth: 1
+        borderWidth: 1,
     },
     innerCircle: {
         width: 15,

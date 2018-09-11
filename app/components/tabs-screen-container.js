@@ -20,7 +20,7 @@ export default class TabsScreenContainer extends React.Component {
       onTabChange,
       tabs,
       children,
-      scrollableTabViewRef = () => {}
+      scrollableTabViewRef = () => { }
     } = this.props;
     return (
       <ScreenContainer style={styles.container}>
@@ -118,7 +118,9 @@ const styles = StyleSheet.create({
   menuIcon: {
     position: 'absolute',
     left: 0,
-    top: 0
+    top: 0,
+    zIndex: 1,
+    paddingHorizontal: 5,
   },
   title: {
     flex: 1,
@@ -134,7 +136,7 @@ const styles = StyleSheet.create({
 
   headerRight: {
     position: 'absolute',
-    right: 10, 
+    right: 10,
     top: 0
   }
 });

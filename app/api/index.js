@@ -145,7 +145,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => {}
+  onUploadProgress = () => { }
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -823,13 +823,14 @@ export const getProductsForAsc = async () => {
   });
 };
 
-export const initProduct = async (mainCategoryId, categoryId) => {
+export const initProduct = async (mainCategoryId, categoryId, subCategoryId) => {
   return await apiRequest({
     method: "post",
     url: "/products/init",
     data: {
       main_category_id: mainCategoryId,
-      category_id: categoryId
+      category_id: categoryId,
+      sub_category_id: subCategoryId
     }
   });
 };
@@ -1281,10 +1282,10 @@ export const updateAccessory = async ({
     value: value || undefined,
     warranty: warrantyRenewalType
       ? {
-          id: warrantyId || undefined,
-          renewal_type: warrantyRenewalType || undefined,
-          effective_date: warrantyEffectiveDate || undefined
-        }
+        id: warrantyId || undefined,
+        renewal_type: warrantyRenewalType || undefined,
+        effective_date: warrantyEffectiveDate || undefined
+      }
       : {},
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
@@ -1318,10 +1319,10 @@ export const addAccessory = async ({
     value: value || undefined,
     warranty: warrantyRenewalType
       ? {
-          id: warrantyId || undefined,
-          renewal_type: warrantyRenewalType || undefined,
-          effective_date: warrantyEffectiveDate || undefined
-        }
+        id: warrantyId || undefined,
+        renewal_type: warrantyRenewalType || undefined,
+        effective_date: warrantyEffectiveDate || undefined
+      }
       : {},
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined

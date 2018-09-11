@@ -211,11 +211,12 @@ class AddProductScreen extends React.Component {
   };
 
   pushBrandStep = (skippable = false) => {
-    const { mainCategoryId, category, product } = this.state;
+    const { mainCategoryId, category, product, subCategoryId } = this.state;
     this.pushStep(
       <SelectBrandStep
         product={product}
         mainCategoryId={mainCategoryId}
+        subCategoryId={subCategoryId}
         category={category}
         onBrandStepDone={this.onBrandStepDone}
         onSkipPress={this.onBrandStepDone}
@@ -327,7 +328,7 @@ class AddProductScreen extends React.Component {
       subCategories
     } = this.state;
     try {
-      const res = await initProduct(mainCategoryId, category.id);
+      const res = await initProduct(mainCategoryId, category.id, subCategoryId);
       this.setState(
         {
           product: res.product,
@@ -709,7 +710,7 @@ class AddProductScreen extends React.Component {
   };
 
   onBrandStepDone = (product, brand) => {
-    const { mainCategoryId, category } = this.state;
+    const { mainCategoryId, category, subCategoryId } = this.state;
     let newState = { brand };
     if (product) newState.product = product;
     this.setState({ newState }, () => {
@@ -722,6 +723,7 @@ class AddProductScreen extends React.Component {
               product={product}
               brand={brand}
               mainCategoryId={mainCategoryId}
+              subCategoryId={subCategoryId}
               category={category}
               onModelStepDone={this.onModelStepDone}
               skippable={true}

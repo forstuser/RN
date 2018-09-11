@@ -58,8 +58,8 @@ class TabSearchHeader extends Component {
           <View collapsable={false} style={styles.nameAndIcon}>
             {/* <Image style={styles.icon} source={icon} resizeMode="contain" /> */}
             <TouchableOpacity
-            onPress={() => this.props.navigation.openDrawer()}
-            style={styles.menuIcon}
+              onPress={() => this.props.navigation.openDrawer()}
+              style={styles.menuIcon}
             >
               <Icon
                 name="md-menu"
@@ -85,12 +85,12 @@ class TabSearchHeader extends Component {
                   </Text>
                 </View>
               ) : (
-                <View collapsable={false} />
-              )}
+                  <View collapsable={false} />
+                )}
             </TouchableOpacity>
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
           {showRightSideSearchIcon ? (
             <TouchableOpacity
               onPress={onRightSideSearchIconPress}
@@ -99,8 +99,8 @@ class TabSearchHeader extends Component {
               <Image style={styles.messagesIcon} source={searchIcon} />
             </TouchableOpacity>
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
         </View>
         {showSearchInput ? (
           <TouchableOpacity
@@ -113,8 +113,8 @@ class TabSearchHeader extends Component {
             </Text>
           </TouchableOpacity>
         ) : (
-          <View collapsable={false} />
-        )}
+            <View collapsable={false} />
+          )}
       </View>
     );
   }
@@ -156,7 +156,9 @@ const styles = StyleSheet.create({
   // },
   menuIcon: {
     position: 'absolute',
-    left: 0
+    left: 0,
+    zIndex: 1,
+    paddingHorizontal: 5,
   },
   screenName: {
     flex: 1,
