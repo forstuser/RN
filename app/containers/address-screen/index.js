@@ -161,7 +161,7 @@ class AddressScreen extends Component {
     }
 
     makeOrder = async () => {
-        if (this.state.selectedIndex) {
+        if (this.state.selectedIndex !== null) {
             try {
                 const res = await placeOrder({
                     sellerId: this.props.navigation.getParam('sellerId'),
