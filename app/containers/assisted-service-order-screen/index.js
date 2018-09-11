@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList, Alert, Animated } from "react-native";
+import { View, FlatList, Alert, Animated, ScrollView } from "react-native";
 
 import { API_BASE_URL } from "../../api";
 
@@ -21,7 +21,6 @@ import { ORDER_STATUS_TYPES, SCREENS } from "../../constants";
 
 import Status from "./status";
 import SellerDetails from "./seller-details";
-import ListItem from "./list-item";
 import DeliveryUserDetails from "./delivery-user-details";
 
 import socketIo from "../../socket-io";
@@ -29,7 +28,7 @@ import socketIo from "../../socket-io";
 import UploadBillModal from "./upload-bill-modal";
 import ReviewCard from "./review-card";
 
-export default class ShoppingListOrderScreen extends React.Component {
+export default class AssistedServiceOrderScreen extends React.Component {
   static navigationOptions = {
     title: "Order Details"
   };
@@ -149,8 +148,7 @@ export default class ShoppingListOrderScreen extends React.Component {
       this.setState({ isLoading: true });
       await approveOrder({
         orderId: order.id,
-        sellerId: order.seller_id,
-        skuList: order.order_details
+        sellerId: order.seller_id
       });
       showSnackbar({ text: "Order Approved!" });
     } catch (e) {
@@ -200,27 +198,11 @@ export default class ShoppingListOrderScreen extends React.Component {
     );
   };
 
-  removeItem = index => {
-    const { order } = this.state;
-    const order_details = [...order.order_details];
-    order_details.splice(index, 1);
-    order.order_details = order_details;
-    this.setState({ order });
-  };
-
   render() {
     const { isLoading, error, order } = this.state;
 
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.getOrderDetails} />;
-    }
-
-    let totalAmount = 0;
-
-    if (order) {
-      totalAmount = order.order_details.reduce((total, item) => {
-        return total + item.selling_price;
-      }, 0);
     }
 
     let sellerRatings = 0;
@@ -253,87 +235,70 @@ export default class ShoppingListOrderScreen extends React.Component {
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         {order && (
           <View style={{ flex: 1 }}>
-            <FlatList
-              style={{ flex: 1 }}
-              ListHeaderComponent={() => (
+            <View style={{ flex: 1 }}>
+              <ScrollView
+                style={{
+                  borderColor: "#dadada",
+                  borderWidth: 1,
+                  margin: 15,
+                  marginBottom: 0,
+                  paddingBottom: 5
+                }}
+              >
+                <Status
+                  statusType={order.status_type}
+                  isOrderModified={order.is_modified}
+                />
+                {order.delivery_user && (
+                  <DeliveryUserDetails deliveryUser={order.delivery_user} />
+                )}
+                <SellerDetails order={order} />
                 <View
                   style={{
-                    borderBottomColor: "#dadada",
-                    borderBottomWidth: 1,
-                    margin: 15,
-                    marginBottom: 0,
-                    paddingBottom: 5
+                    flexDirection: "row",
+                    justifyContent: "space-between"
                   }}
                 >
-                  <Status
-                    statusType={order.status_type}
-                    isOrderModified={order.is_modified}
-                  />
-                  {order.delivery_user && (
-                    <DeliveryUserDetails deliveryUser={order.delivery_user} />
-                  )}
-                  <SellerDetails order={order} />
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between"
-                    }}
+                  <Text
+                    weight="Medium"
+                    style={{ fontSize: 10.5, color: "#777777" }}
                   >
-                    <Text
-                      weight="Medium"
-                      style={{ fontSize: 10.5, color: "#777777" }}
-                    >
-                      Shopping List
-                    </Text>
-                    <Text
-                      weight="Medium"
-                      style={{ fontSize: 10.5, color: "#777777" }}
-                    >
-                      Price
+                    Service Requested
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    margin: 10,
+                    overflow: "hidden",
+                    flexDirection: "row",
+                    padding: 10
+                  }}
+                >
+                  <Image
+                    style={{
+                      width: 48,
+                      height: 48
+                    }}
+                    source={{
+                      uri:
+                        API_BASE_URL +
+                        `/assisted/${
+                          order.order_details.service_type_id
+                        }/images`
+                    }}
+                    resizeMode="contain"
+                  />
+
+                  <View
+                    style={{ flex: 1, paddingHorizontal: 5, marginLeft: 10 }}
+                  >
+                    <Text weight="Medium" style={{ fontSize: 11 }}>
+                      {order.order_details.service_name}
                     </Text>
                   </View>
                 </View>
-              )}
-              data={order.order_details}
-              extraData={order}
-              ItemSeparatorComponent={() => (
-                <View
-                  style={{
-                    height: 1,
-                    backgroundColor: "#eee",
-                    marginHorizontal: 15
-                  }}
-                />
-              )}
-              keyExtractor={(item, index) => item.id + "" + index}
-              renderItem={({ item, index }) => (
-                <ListItem
-                  item={item}
-                  index={index}
-                  declineItem={() => {
-                    this.declineItem(index);
-                  }}
-                />
-              )}
-              ListFooterComponent={() => (
-                <View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      height: 42,
-                      borderTopWidth: 1,
-                      borderBottomWidth: 1,
-                      borderColor: "#eee",
-                      marginHorizontal: 10,
-                      alignItems: "center"
-                    }}
-                  >
-                    <Text weight="Medium" style={{ flex: 1 }}>
-                      Total Amount
-                    </Text>
-                    <Text weight="Medium">Rs. {totalAmount}</Text>
-                  </View>
 
+                <View>
                   {order.status_type == ORDER_STATUS_TYPES.COMPLETE && (
                     <View>
                       {!sellerRatings || !serviceRatings ? (
@@ -388,57 +353,60 @@ export default class ShoppingListOrderScreen extends React.Component {
                     </View>
                   )}
                 </View>
-              )}
-            />
-            {![
-              ORDER_STATUS_TYPES.CANCELED,
-              ORDER_STATUS_TYPES.REJECTED
-            ].includes(order.status_type) && (
-              <View>
-                {order.status_type == ORDER_STATUS_TYPES.NEW &&
-                  !order.is_modified && (
+              </ScrollView>
+            </View>
+
+            <View style={{ height: 50 }}>
+              {![
+                ORDER_STATUS_TYPES.CANCELED,
+                ORDER_STATUS_TYPES.REJECTED
+              ].includes(order.status_type) && (
+                <View>
+                  {order.status_type == ORDER_STATUS_TYPES.NEW &&
+                    !order.is_modified && (
+                      <Button
+                        onPress={this.cancelOrder}
+                        text="Cancel Request"
+                        color="secondary"
+                        borderRadius={0}
+                      />
+                    )}
+
+                  {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY && (
                     <Button
-                      onPress={this.cancelOrder}
-                      text="Cancel Order"
+                      onPress={this.completeOrder}
+                      text="Mark Paid"
                       color="secondary"
                       borderRadius={0}
                     />
                   )}
 
-                {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY && (
-                  <Button
-                    onPress={this.completeOrder}
-                    text="Mark Paid"
-                    color="secondary"
-                    borderRadius={0}
-                  />
-                )}
-
-                {order.is_modified &&
-                  ![
-                    ORDER_STATUS_TYPES.APPROVED,
-                    ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                    ORDER_STATUS_TYPES.COMPLETE
-                  ].includes(order.status_type) && (
-                    <View style={{ flexDirection: "row" }}>
-                      <Button
-                        onPress={this.rejectOrder}
-                        text="Reject"
-                        color="grey"
-                        borderRadius={0}
-                        style={{ flex: 1 }}
-                      />
-                      <Button
-                        onPress={this.approveOrder}
-                        text="Approve"
-                        color="secondary"
-                        borderRadius={0}
-                        style={{ flex: 1 }}
-                      />
-                    </View>
-                  )}
-              </View>
-            )}
+                  {order.is_modified &&
+                    ![
+                      ORDER_STATUS_TYPES.APPROVED,
+                      ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                      ORDER_STATUS_TYPES.COMPLETE
+                    ].includes(order.status_type) && (
+                      <View style={{ flexDirection: "row" }}>
+                        <Button
+                          onPress={this.rejectOrder}
+                          text="Reject"
+                          color="grey"
+                          borderRadius={0}
+                          style={{ flex: 1 }}
+                        />
+                        <Button
+                          onPress={this.approveOrder}
+                          text="Approve"
+                          color="secondary"
+                          borderRadius={0}
+                          style={{ flex: 1 }}
+                        />
+                      </View>
+                    )}
+                </View>
+              )}
+            </View>
           </View>
         )}
         <UploadBillModal

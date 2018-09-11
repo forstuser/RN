@@ -89,6 +89,7 @@ import AddressScreen from "../containers/address-screen";
 //import ActiveOrdersScreen from "../containers/active-orders-screen";
 //import AddressScreen from "../containers/address-screen";
 import MyOrdersScreen from "../containers/my-orders-screen";
+import AssistedServicesOrderScreen from "../containers/assisted-service-order-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -251,7 +252,8 @@ export default createStackNavigator(
     [SCREENS.REDEEM_VIA_PAYTM_SCREEN]: RedeemViaPaytmScreen,
     [SCREENS.REDEEM_VIA_PAYTM_SCREEN]: RedeemViaPaytmScreen,
     [SCREENS.ADDRESS_SCREEN]: AddressScreen,
-    [SCREENS.MY_ORDERS_SCREEN]: MyOrdersScreen
+    [SCREENS.MY_ORDERS_SCREEN]: MyOrdersScreen,
+    [SCREENS.ASSISTED_SERVICES_ORDER_SCREEN]: AssistedServicesOrderScreen
   },
   {
     initialRouteName: "DrawerNavigator"
