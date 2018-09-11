@@ -84,11 +84,8 @@ import CashbackQueryAdditionalInfoScreen from "../containers/cashback-query-scre
 import ShoppingListOrderScreen from "../containers/shopping-list-order-screen";
 import ShoppingListOrderReviewsScreen from "../containers/shopping-list-order-screen/reviews-screen";
 import RedeemViaPaytmScreen from "../containers/BBCashWalletScreen/redeem-via-paytm-screen";
-<<<<<<< HEAD
 import ActiveOrdersScreen from '../containers/active-orders-screen';
-=======
 import AddressScreen from "../containers/address-screen";
->>>>>>> pram
 
 const BottomTabStack = createBottomTabNavigator(
   {
