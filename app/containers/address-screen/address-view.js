@@ -9,26 +9,16 @@ class AddressView extends Component {
     constructor(props) {
         super(props);
     }
-    setDefault = (index) => {
-        console.log("setDefault");
-        this.props.setDefault(index);
-    }
-    editAddress = (index) => {
-        this.props.updateAddress(index);
-    }
-    deleteAddress = (index) => {
-        this.props.deleteAddressModel(index);
-    }
     render() {
-        const { index, address, isSelectable } = this.props
+        const { index, address, sellerId, selectedIndex } = this.props
         return (
             <View style={styles.constainer}>
                 <View style={styles.header}>
                     <View style={{ alignContent: 'space-between', flexDirection: 'row', flex: 1 }}>
-                        <TouchableOpacity style={{ alignItems: 'center', paddingTop: 2, width: 20, height: 20, borderRadius: 10, backgroundColor: '#fff', borderColor: 'black', borderWidth: 1 }}>
-                            <View style={{ width: 15, height: 15, borderRadius: 10, backgroundColor: colors.pinkishOrange, borderColor: colors.pinkishOrange, borderWidth: 1 }}>
-                            </View>
-                        </TouchableOpacity>
+                        {sellerId ? <TouchableOpacity onPress={() => { this.props.selectAddress(index); }} style={styles.outerCircle}>
+                            {selectedIndex == index ? <View style={styles.innerCircle}>
+                            </View> : null}
+                        </TouchableOpacity> : null}
                         <View>
                             <Text style={styles.address}> Address {index + 1}</Text>
                         </View>
@@ -36,14 +26,14 @@ class AddressView extends Component {
                     <View style={{ flexDirection: 'row', }}>
                         {address.address_type == 1 ? <View style={{ right: 5 }}>
                             <Text style={styles.default}>Default</Text>
-                        </View> : <TouchableOpacity onPress={() => { this.setDefault(index) }} style={{ right: 5 }}>
+                        </View> : <TouchableOpacity onPress={() => { this.props.setDefault(index); }} style={{ right: 5 }}>
                                 <Text style={styles.setDefault}>Set Default</Text>
                             </TouchableOpacity>
                         }
-                        <TouchableOpacity onPress={() => { this.editAddress(index) }} style={{ marginLeft: 12 }}>
+                        <TouchableOpacity onPress={() => { this.props.updateAddress(index); }} style={{ marginLeft: 12 }}>
                             <Text><Icon name="ios-create-outline" size={20} color={colors.secondaryText} /></Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { this.deleteAddress(index) }} style={{ marginLeft: 12 }}>
+                        <TouchableOpacity onPress={() => { this.props.deleteAddressModel(index); }} style={{ marginLeft: 12 }}>
                             <Text><Icon name="ios-trash-outline" size={20} color={colors.secondaryText} /></Text>
                         </TouchableOpacity>
                     </View>
@@ -79,6 +69,24 @@ const styles = {
         color: colors.pinkishOrange,
         textDecorationLine: 'underline',
         fontSize: 12
+    },
+    outerCircle: {
+        alignItems: 'center',
+        paddingTop: 2,
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        backgroundColor: '#fff',
+        borderColor: 'black',
+        borderWidth: 1
+    },
+    innerCircle: {
+        width: 15,
+        height: 15,
+        borderRadius: 10,
+        backgroundColor: colors.pinkishOrange,
+        borderColor: colors.pinkishOrange,
+        borderWidth: 1
     }
 };
 

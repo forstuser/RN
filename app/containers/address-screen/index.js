@@ -7,7 +7,10 @@ import Icon from "react-native-vector-icons/Ionicons";
 import RNGooglePlaces from "react-native-google-places";
 import Modal from "../../components/modal";
 import RNModal from 'react-native-modal';
-import { getUserAddresses, updateUserAddresses, deleteUserAddresses } from "../../api"
+import { SCREENS } from '../../constants'
+import { showSnackbar } from "../../utils/snackbar";
+
+import { getUserAddresses, updateUserAddresses, deleteUserAddresses, placeOrder } from "../../api"
 
 class AddressScreen extends Component {
     static navigationOptions = {
@@ -18,14 +21,15 @@ class AddressScreen extends Component {
         const params = navigation.state.params || {};
         return {
             title: "Manage Addresses",
-            headerRight:
+            headerRight: params.sellerId ? (
                 <Text
-                    onPress={params.onNextPress}
+                    onPress={params.makeOrder}
                     weight="Bold"
                     style={{ color: colors.mainText, marginRight: 10 }}
                 >
                     Next
-            </Text>
+                </Text>
+            ) : null,
         };
     };
     constructor(props) {
@@ -41,14 +45,17 @@ class AddressScreen extends Component {
             addreesID: null,
             btnTXT: 'Add',
             headerTitle: 'Add New Address',
-            pin: ""
+            pin: "",
+            selectedIndex: null
         }
     }
     componentDidMount() {
         this.fetchUserAddress();
-    }
-    onNextPress = () => {
-        console.log("Next press")
+        console.log("params from order", this.props.navigation.getParam('sellerId'))
+        console.log("params from order", this.props.navigation.getParam('orderType'))
+        this.props.navigation.setParams({
+            makeOrder: this.makeOrder
+        });
     }
     show = item => {
         this.setState({ isVisible: true });
@@ -132,6 +139,10 @@ class AddressScreen extends Component {
             console.log("error: ", error);
         }
     }
+    selectAddress = (index) => {
+        console.log("selct address", index)
+        this.setState({ selectedIndex: index });
+    }
 
     openLocationModal = () => {
         RNGooglePlaces.openPlacePickerModal()
@@ -148,14 +159,35 @@ class AddressScreen extends Component {
             })
             .catch(error => console.log(error.message)); // error is a Javascript Error object
     }
+
+    makeOrder = async () => {
+        if (this.state.selectedIndex) {
+            try {
+                const res = await placeOrder({
+                    sellerId: this.props.navigation.getParam('sellerId'),
+                    orderType: this.props.navigation.getParam('orderType'),
+                    addressId: this.state.addresses[this.state.selectedIndex].id
+                });
+                this.props.navigation.replace(SCREENS.SHOPPING_LIST_ORDER_SCREEN, {
+                    orderId: res.result.id
+                });
+            } catch (e) {
+                console.log("error", e);
+                showSnackbar({ text: e.message });
+            }
+        } else {
+            showSnackbar({ text: "Please choose or create an address" })
+        }
+    };
+
     render() {
-        const { addresses, isVisible, deleteModalShow, address1, address2, btnTXT, pin, headerTitle } = this.state;
+        const { addresses, isVisible, deleteModalShow, address1, address2, btnTXT, pin, headerTitle, selectedIndex } = this.state;
         return (
             <View style={styles.constainer}>
                 <ScrollView style={{ flex: 1 }}>
                     <View style={{ flex: 1 }}>
                         {addresses.map((item, index) => {
-                            return <AddressView index={index} address={item} updateAddress={this.updateAddress} setDefault={this.setDefault} deleteAddressModel={this.deleteAddressModel} />
+                            return <AddressView selectedIndex={selectedIndex} index={index} address={item} selectAddress={this.selectAddress} updateAddress={this.updateAddress} setDefault={this.setDefault} deleteAddressModel={this.deleteAddressModel} sellerId={this.props.navigation.getParam('sellerId')} />
                         })}
                         {addresses.length > 0 ? <View style={{ top: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                             <Text>---- </Text>
@@ -259,7 +291,6 @@ const styles = {
         alignContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-        textAlign: 'center',
         justifyContent: 'center',
     },
     orText: {
