@@ -11,7 +11,22 @@ import { getUserAddresses, updateUserAddresses, deleteUserAddresses } from "../.
 
 class AddressScreen extends Component {
     static navigationOptions = {
-        title: 'Manage Addresses'
+        title: 'Manage Addresses',
+
+    };
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+        return {
+            title: "Manage Addresses",
+            headerRight:
+                <Text
+                    onPress={params.onNextPress}
+                    weight="Bold"
+                    style={{ color: colors.mainText, marginRight: 10 }}
+                >
+                    Next
+            </Text>
+        };
     };
     constructor(props) {
         super(props);
@@ -24,11 +39,16 @@ class AddressScreen extends Component {
             address1: "",
             address2: "",
             addreesID: null,
-            btnTXT: 'Add'
+            btnTXT: 'Add',
+            headerTitle: 'Add New Address',
+            pin: ""
         }
     }
     componentDidMount() {
         this.fetchUserAddress();
+    }
+    onNextPress = () => {
+        console.log("Next press")
     }
     show = item => {
         this.setState({ isVisible: true });
@@ -57,7 +77,7 @@ class AddressScreen extends Component {
 
     saveAddress = async () => {
         try {
-            let item = { 'address_line_1': this.state.address1, 'address_line_2': this.state.address2, 'latitude': this.state.latitude, 'longitude': this.state.longitude, id: this.state.addreesID }
+            let item = { 'address_line_1': this.state.address1, 'address_line_2': this.state.address2, 'pin': this.state.pin, 'latitude': this.state.latitude, 'longitude': this.state.longitude, id: this.state.addreesID }
             if (item.id == null) {
                 delete item.id;
             }
@@ -75,9 +95,25 @@ class AddressScreen extends Component {
             address1: this.state.addresses[index].address_line_1,
             address2: this.state.addresses[index].address_line_2,
             addreesID: this.state.addresses[index].id,
-            btnTXT: "Update"
+            pin: this.state.addresses[index].pin,
+            btnTXT: "Update",
+            headerTitle: 'Update Address'
         })
         this.show();
+    }
+    setDefault = async (index) => {
+        console.log(this.state.addresses[index]);
+        try {
+            let item = { 'address_type': 1, id: this.state.addresses[index].id }
+            if (item.id == null) {
+                delete item.id;
+            }
+            const updateAddressResponse = await updateUserAddresses(item);
+            console.log('updateAddressResponse', updateAddressResponse);
+            this.fetchUserAddress();
+        } catch (error) {
+            console.log("error: ", error);
+        }
     }
     deleteAddressModel = (index) => {
         console.log(this.state.addresses[index])
@@ -91,6 +127,7 @@ class AddressScreen extends Component {
             const deleteReponse = await deleteUserAddresses(this.state.addreesID);
             console.log('userAddresses', deleteReponse);
             this.hideDeleteModal();
+            this.fetchUserAddress();
         } catch (error) {
             console.log("error: ", error);
         }
@@ -103,19 +140,22 @@ class AddressScreen extends Component {
                     latitude: place.latitude,
                     longitude: place.longitude,
                     address2: place.address || place.name,
-                    isVisible: true
+                    isVisible: true,
+                    addreesID: null,
+                    btnTXT: 'Add',
+                    headerTitle: 'Add New Address',
                 });
             })
             .catch(error => console.log(error.message)); // error is a Javascript Error object
     }
     render() {
-        const { addresses, isVisible, deleteModalShow, address1, address2, btnTXT } = this.state;
+        const { addresses, isVisible, deleteModalShow, address1, address2, btnTXT, pin, headerTitle } = this.state;
         return (
             <View style={styles.constainer}>
                 <ScrollView style={{ flex: 1 }}>
                     <View style={{ flex: 1 }}>
                         {addresses.map((item, index) => {
-                            return <AddressView index={index} address1={item.address_line_1} address2={item.address_line_2} updateAddress={this.updateAddress} deleteAddressModel={this.deleteAddressModel} />
+                            return <AddressView index={index} address={item} updateAddress={this.updateAddress} setDefault={this.setDefault} deleteAddressModel={this.deleteAddressModel} />
                         })}
                         {addresses.length > 0 ? <View style={{ top: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                             <Text>---- </Text>
@@ -130,11 +170,11 @@ class AddressScreen extends Component {
                 </ScrollView>
                 <Modal
                     isVisible={isVisible}
-                    title="Update Address"
+                    title={headerTitle}
                     onClosePress={this.hide}
                     onBackButtonPress={this.hide}
                     onBackdropPress={this.hide}
-                    style={{ height: 240, backgroundColor: "#fff" }}
+                    style={{ height: 300, backgroundColor: "#fff" }}
                 >
                     <View style={{ width: 320 }}>
                         <TextInput
@@ -148,6 +188,12 @@ class AddressScreen extends Component {
                             value={address2}
                             style={{ marginLeft: 10, borderRadius: 5 }}
                             onChangeText={address2 => this.setState({ address2 })}
+                        />
+                        <TextInput
+                            placeholder="Pin"
+                            value={pin}
+                            style={{ marginLeft: 10, borderRadius: 5 }}
+                            onChangeText={pin => this.setState({ pin })}
                         />
                     </View>
                     <View style={{ flexDirection: 'row', width: 300, justifyContent: 'space-between', alignSelf: 'center' }}>
@@ -175,7 +221,7 @@ class AddressScreen extends Component {
                 >
                     <View style={{ height: 100, backgroundColor: "#fff" }}>
                         <View style={{ width: 300, alignSelf: 'center', top: 10 }}>
-                            <Text weight="Bold">Do you want to delete this address?</Text>
+                            <Text weight="Bold">Are you sure want to delete this address?</Text>
                         </View>
                         <View style={{ flexDirection: 'row', width: 300, justifyContent: 'space-between', alignSelf: 'center' }}>
                             <Button

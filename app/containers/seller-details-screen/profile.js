@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  Image
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
 import call from "react-native-phone-call";
@@ -8,7 +14,7 @@ import { connect } from "react-redux";
 
 import { API_BASE_URL } from "../../api";
 
-import { Text, Button, Image } from "../../elements";
+import { Text, Button } from "../../elements";
 import Checkbox from "../../components/checkbox";
 
 import { colors, defaultStyles } from "../../theme";

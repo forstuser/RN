@@ -1,6 +1,8 @@
 import React from "react";
 import { View, FlatList, Alert, Animated } from "react-native";
 
+import { API_BASE_URL } from "../../api";
+
 import { Text, Image, Button } from "../../elements";
 
 import {
@@ -20,10 +22,12 @@ import { ORDER_STATUS_TYPES, SCREENS } from "../../constants";
 import Status from "./status";
 import SellerDetails from "./seller-details";
 import ListItem from "./list-item";
+import DeliveryUserDetails from "./delivery-user-details";
 
 import socketIo from "../../socket-io";
 
 import UploadBillModal from "./upload-bill-modal";
+import ReviewCard from "./review-card";
 
 export default class ShoppingListOrderScreen extends React.Component {
   static navigationOptions = {
@@ -45,12 +49,14 @@ export default class ShoppingListOrderScreen extends React.Component {
     if (socketIo.socket) {
       socketIo.socket.on("order-status-change", data => {
         const jsonData = JSON.parse(data);
-        this.setState({ order: jsonData.order });
+        console.log("jsonData: ", jsonData);
+        if (this.state.order && jsonData.order.id == this.state.order.id) {
+          this.setState({ order: jsonData.order });
+        }
       });
     }
 
     // this.uploadBillModal.show({ productId: 50897, jobId: 52334 });
-    // this.props.navigation.navigate(SCREENS.SHOPPING_LIST_ORDER_REVIEWS_SCREEN);
   }
 
   componentWillUnmount() {
@@ -71,6 +77,44 @@ export default class ShoppingListOrderScreen extends React.Component {
     } finally {
       this.setState({ isLoading: false });
     }
+  };
+
+  openReviewsScreen = () => {
+    const { order } = this.state;
+
+    let sellerRatings = 0;
+    let sellerReviewText = "";
+    let serviceRatings = 0;
+    let serviceReviewText = "";
+
+    if (order && order.seller_review) {
+      sellerRatings = order.seller_review.review_ratings;
+      sellerReviewText = order.seller_review.review_feedback;
+    }
+
+    if (
+      order &&
+      order.delivery_user &&
+      order.delivery_user.reviews &&
+      order.delivery_user.reviews.length > 0
+    ) {
+      const serviceReview = order.delivery_user.reviews.find(
+        userReview => userReview.order_id == order.id
+      );
+
+      if (serviceReview) {
+        serviceRatings = serviceReview.ratings;
+        serviceReviewText = serviceReview.feedback;
+      }
+    }
+
+    this.props.navigation.navigate(SCREENS.SHOPPING_LIST_ORDER_REVIEWS_SCREEN, {
+      order: order,
+      sellerRatings,
+      sellerReviewText,
+      serviceRatings,
+      serviceReviewText
+    });
   };
 
   cancelOrder = async () => {
@@ -124,10 +168,13 @@ export default class ShoppingListOrderScreen extends React.Component {
         orderId: order.id,
         sellerId: order.seller_id
       });
-      this.uploadBillModal.show({
-        productId: res.result.product.id,
-        jobId: res.result.product.job_id
-      });
+
+      if (res.result.product) {
+        this.uploadBillModal.show({
+          productId: res.result.product.id,
+          jobId: res.result.product.job_id
+        });
+      }
       showSnackbar({ text: "Order completed!" });
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -172,8 +219,34 @@ export default class ShoppingListOrderScreen extends React.Component {
 
     if (order) {
       totalAmount = order.order_details.reduce((total, item) => {
-        return total + item.sku_measurement.mrp * item.quantity;
+        return total + item.selling_price;
       }, 0);
+    }
+
+    let sellerRatings = 0;
+    let sellerReviewText = "";
+    let serviceRatings = 0;
+    let serviceReviewText = "";
+
+    if (order && order.seller_review) {
+      sellerRatings = order.seller_review.review_ratings;
+      sellerReviewText = order.seller_review.review_feedback;
+    }
+
+    if (
+      order &&
+      order.delivery_user &&
+      order.delivery_user.reviews &&
+      order.delivery_user.reviews.length > 0
+    ) {
+      const serviceReview = order.delivery_user.reviews.find(
+        userReview => userReview.order_id == order.id
+      );
+
+      if (serviceReview) {
+        serviceRatings = serviceReview.ratings;
+        serviceReviewText = serviceReview.feedback;
+      }
     }
 
     return (
@@ -184,21 +257,26 @@ export default class ShoppingListOrderScreen extends React.Component {
               style={{ flex: 1 }}
               ListHeaderComponent={() => (
                 <View
-                  style={{ borderBottomColor: "#dadada", borderBottomWidth: 1 }}
+                  style={{
+                    borderBottomColor: "#dadada",
+                    borderBottomWidth: 1,
+                    margin: 15,
+                    marginBottom: 0,
+                    paddingBottom: 5
+                  }}
                 >
                   <Status
                     statusType={order.status_type}
                     isOrderModified={order.is_modified}
                   />
-                  <SellerDetails
-                    seller={order.seller}
-                    orderDate={order.created_at}
-                  />
+                  {order.delivery_user && (
+                    <DeliveryUserDetails deliveryUser={order.delivery_user} />
+                  )}
+                  <SellerDetails order={order} />
                   <View
                     style={{
                       flexDirection: "row",
-                      justifyContent: "space-between",
-                      marginBottom: 5
+                      justifyContent: "space-between"
                     }}
                   >
                     <Text
@@ -219,7 +297,13 @@ export default class ShoppingListOrderScreen extends React.Component {
               data={order.order_details}
               extraData={order}
               ItemSeparatorComponent={() => (
-                <View style={{ height: 1, backgroundColor: "#eee" }} />
+                <View
+                  style={{
+                    height: 1,
+                    backgroundColor: "#eee",
+                    marginHorizontal: 15
+                  }}
+                />
               )}
               keyExtractor={(item, index) => item.id + "" + index}
               renderItem={({ item, index }) => (
@@ -232,77 +316,131 @@ export default class ShoppingListOrderScreen extends React.Component {
                 />
               )}
               ListFooterComponent={() => (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    height: 42,
-                    borderTopWidth: 1,
-                    borderTopColor: "#eee",
-                    marginHorizontal: 10,
-                    alignItems: "center"
-                  }}
-                >
-                  <Text weight="Medium" style={{ flex: 1 }}>
-                    Total Amount
-                  </Text>
-                  <Text weight="Medium">Rs. {totalAmount}</Text>
+                <View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      height: 42,
+                      borderTopWidth: 1,
+                      borderBottomWidth: 1,
+                      borderColor: "#eee",
+                      marginHorizontal: 10,
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text weight="Medium" style={{ flex: 1 }}>
+                      Total Amount
+                    </Text>
+                    <Text weight="Medium">Rs. {totalAmount}</Text>
+                  </View>
+
+                  {!sellerRatings || !serviceRatings ? (
+                    <Button
+                      onPress={this.openReviewsScreen}
+                      text="Rate Service Delivery"
+                      color="secondary"
+                      type="outline"
+                      style={{
+                        margin: 20,
+                        width: 210,
+                        alignSelf: "center",
+                        height: 40
+                      }}
+                    />
+                  ) : (
+                    <View style={{ paddingHorizontal: 10 }}>
+                      {serviceRatings && (
+                        <View>
+                          <Text weight="Bold" style={{ marginTop: 20 }}>
+                            Delivery Experience
+                          </Text>
+                          <ReviewCard
+                            imageUrl={
+                              API_BASE_URL +
+                              `/assisted/${order.delivery_user.id}/profile`
+                            }
+                            ratings={serviceRatings}
+                            userName={order.delivery_user.name}
+                            feedbackText={serviceReviewText}
+                            onEditPress={this.openReviewsScreen}
+                          />
+                        </View>
+                      )}
+                      <Text weight="Bold" style={{ marginTop: 20 }}>
+                        Seller Responsiveness
+                      </Text>
+                      <ReviewCard
+                        imageUrl={
+                          API_BASE_URL +
+                          `/consumer/sellers/${
+                            order.seller_id
+                          }/upload/1/images/0`
+                        }
+                        ratings={sellerRatings}
+                        userName={order.seller.seller_name}
+                        feedbackText={sellerReviewText}
+                        onEditPress={this.openReviewsScreen}
+                      />
+                    </View>
+                  )}
                 </View>
               )}
             />
-            <View>
-              {order.status_type == ORDER_STATUS_TYPES.NEW &&
-                !order.is_modified && (
+            {![
+              ORDER_STATUS_TYPES.CANCELED,
+              ORDER_STATUS_TYPES.REJECTED
+            ].includes(order.status_type) && (
+              <View>
+                {order.status_type == ORDER_STATUS_TYPES.NEW &&
+                  !order.is_modified && (
+                    <Button
+                      onPress={this.cancelOrder}
+                      text="Cancel Order"
+                      color="secondary"
+                      borderRadius={0}
+                    />
+                  )}
+
+                {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY && (
                   <Button
-                    onPress={this.cancelOrder}
-                    text="Cancel Order"
+                    onPress={this.completeOrder}
+                    text="Mark Paid"
                     color="secondary"
                     borderRadius={0}
                   />
                 )}
 
-              {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY && (
-                <Button
-                  onPress={this.completeOrder}
-                  text="Mark Paid"
-                  color="secondary"
-                  borderRadius={0}
-                />
-              )}
-
-              {order.is_modified &&
-                ![
-                  ORDER_STATUS_TYPES.APPROVED,
-                  ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                  ORDER_STATUS_TYPES.COMPLETE
-                ].includes(order.status_type) && (
-                  <View style={{ flexDirection: "row" }}>
-                    <Button
-                      onPress={this.rejectOrder}
-                      text="Reject"
-                      color="grey"
-                      borderRadius={0}
-                      style={{ flex: 1 }}
-                    />
-                    <Button
-                      onPress={this.approveOrder}
-                      text="Approve"
-                      color="secondary"
-                      borderRadius={0}
-                      style={{ flex: 1 }}
-                    />
-                  </View>
-                )}
-            </View>
+                {order.is_modified &&
+                  ![
+                    ORDER_STATUS_TYPES.APPROVED,
+                    ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                    ORDER_STATUS_TYPES.COMPLETE
+                  ].includes(order.status_type) && (
+                    <View style={{ flexDirection: "row" }}>
+                      <Button
+                        onPress={this.rejectOrder}
+                        text="Reject"
+                        color="grey"
+                        borderRadius={0}
+                        style={{ flex: 1 }}
+                      />
+                      <Button
+                        onPress={this.approveOrder}
+                        text="Approve"
+                        color="secondary"
+                        borderRadius={0}
+                        style={{ flex: 1 }}
+                      />
+                    </View>
+                  )}
+              </View>
+            )}
           </View>
         )}
         <UploadBillModal
           navigation={this.props.navigation}
           onUploadDone={() => {
-            setTimeout(() => {
-              this.props.navigation.navigate(
-                SCREENS.SHOPPING_LIST_ORDER_REVIEWS_SCREEN
-              );
-            }, 200);
+            setTimeout(this.openReviewsScreen, 200);
           }}
           ref={node => {
             this.uploadBillModal = node;

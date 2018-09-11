@@ -773,7 +773,7 @@ export const addProductReview = async ({
 }) => {
   return await apiRequest({
     method: "put",
-    url: `products/${productId}/reviews`,
+    url: `/products/${productId}/reviews`,
     data: {
       ratings,
       feedback
@@ -784,14 +784,16 @@ export const addProductReview = async ({
 export const addSellerReview = async ({
   sellerId,
   ratings = 0,
-  feedback = null
+  feedback = null,
+  orderId = null
 }) => {
   return await apiRequest({
     method: "put",
-    url: `sellers/${sellerId}/reviews`,
+    url: `/sellers/${sellerId}/reviews`,
     data: {
       ratings,
-      feedback
+      feedback,
+      order_id: orderId
     }
   });
 };
@@ -800,14 +802,16 @@ export const addAssistedServiceReview = async ({
   id,
   sellerId,
   ratings = 0,
-  feedback = null
+  feedback = null,
+  orderId = null
 }) => {
   return await apiRequest({
     method: "put",
     url: `/sellers/${sellerId}/assisted/${id}/reviews`,
     data: {
       ratings,
-      feedback
+      feedback,
+      order_id: orderId
     }
   });
 };
@@ -2169,5 +2173,12 @@ export const deleteUserAddresses = async id => {
   return await apiRequest({
     method: "delete",
     url: `/consumer/addresses/${id}`
+  });
+};
+
+export const getCompletedOrders = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/consumer/orders`
   });
 };

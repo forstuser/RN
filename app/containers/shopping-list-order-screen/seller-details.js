@@ -1,11 +1,11 @@
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
 import call from "react-native-phone-call";
 
 import { API_BASE_URL } from "../../api";
-import { Text, Button, Image } from "../../elements";
+import { Text, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
 export default class SellerDetails extends React.Component {
@@ -19,30 +19,46 @@ export default class SellerDetails extends React.Component {
   };
 
   render() {
-    const { seller, orderDate } = this.props;
+    const { order } = this.props;
+
+    const { seller } = order;
+    const orderDate = order.created_at;
+
+    console.log(
+      "seller image: " +
+        API_BASE_URL +
+        `/consumer/sellers/${order.seller_id}/upload/1/images/0`
+    );
 
     return (
-      <View
-        style={{
-          margin: 10
-        }}
-      >
+      <View style={{}}>
+        <Text weight="Bold">Order Summary</Text>
         <View
           style={{
             flexDirection: "row",
             alignItems: "center"
           }}
         >
-          <View style={{ padding: 12 }}>
-            <View>
+          <View style={{ paddingRight: 12 }}>
+            <View
+              style={{
+                width: 68,
+                height: 68,
+                borderRadius: 35,
+                backgroundColor: "#eee"
+              }}
+            >
               <Image
                 style={{
                   width: 68,
                   height: 68,
-                  borderRadius: 35,
-                  backgroundColor: "#eee"
+                  borderRadius: 35
                 }}
-                source={{ uri: API_BASE_URL + seller.image }}
+                source={{
+                  uri:
+                    API_BASE_URL +
+                    `/consumer/sellers/${order.seller_id}/upload/1/images/0`
+                }}
               />
             </View>
           </View>

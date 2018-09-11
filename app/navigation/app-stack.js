@@ -86,6 +86,9 @@ import ShoppingListOrderReviewsScreen from "../containers/shopping-list-order-sc
 import RedeemViaPaytmScreen from "../containers/BBCashWalletScreen/redeem-via-paytm-screen";
 import ActiveOrdersScreen from '../containers/active-orders-screen';
 import AddressScreen from "../containers/address-screen";
+import ActiveOrdersScreen from "../containers/active-orders-screen";
+import AddressScreen from "../containers/address-screen";
+import MyOrdersScreen from "../containers/my-orders-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -247,7 +250,8 @@ export default createStackNavigator(
     [SCREENS.SHOPPING_LIST_ORDER_REVIEWS_SCREEN]: ShoppingListOrderReviewsScreen,
     [SCREENS.REDEEM_VIA_PAYTM_SCREEN]: RedeemViaPaytmScreen,
     [SCREENS.REDEEM_VIA_PAYTM_SCREEN]: RedeemViaPaytmScreen,
-    [SCREENS.ADDRESS_SCREEN]: AddressScreen
+    [SCREENS.ADDRESS_SCREEN]: AddressScreen,
+    [SCREENS.MY_ORDERS_SCREEN]: MyOrdersScreen
   },
   {
     initialRouteName: "DrawerNavigator"

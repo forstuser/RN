@@ -18,7 +18,8 @@ export default ({ item, index, declineItem }) => {
     <View
       style={{
         flexDirection: "row",
-        padding: 10
+        padding: 10,
+        marginHorizontal: 10
       }}
     >
       <View style={{ marginRight: 5 }}>
@@ -58,13 +59,15 @@ export default ({ item, index, declineItem }) => {
                 : ``}
             </Text>
           </Text>
-          <Text
-            style={{
-              color: colors.secondaryText
-            }}
-          >
-            Rs. {item.sku_measurement.mrp * item.quantity}
-          </Text>
+          {item.selling_price && (
+            <Text
+              style={{
+                color: colors.secondaryText
+              }}
+            >
+              Rs. {item.selling_price}
+            </Text>
+          )}
         </View>
         <View
           style={{
