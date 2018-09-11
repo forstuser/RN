@@ -91,23 +91,17 @@ class MyShoppingList extends React.Component {
   //   }
   // };
 
-  selectSellerForOrder = async seller => {
+  selectSellerForOrder = seller => {
     this.setState({
       isLoadingMySellers: true
     });
-    try {
-      const res = await placeOrder({
-        sellerId: seller.id,
-        orderType: ORDER_TYPES.FMCG
-      });
-      this.props.navigation.replace(SCREENS.SHOPPING_LIST_ORDER_SCREEN, {
-        orderId: res.result.id
-      });
-    } catch (e) {
-      showSnackbar({ text: e.message });
-    } finally {
-      this.setState({ isLoadingMySellers: false });
-    }
+    this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
+      sellerId: seller.id,
+      orderType: ORDER_TYPES.FMCG
+    });
+    this.setState({
+      isMySellersModalVisible: false
+    })
   };
 
   changeIndexQuantity = (index, quantity) => {
@@ -169,12 +163,12 @@ class MyShoppingList extends React.Component {
             />
           </View>
         ) : (
-          <SelectedItemsList
-            measurementTypes={measurementTypes}
-            selectedItems={wishList}
-            changeIndexQuantity={this.changeIndexQuantity}
-          />
-        )}
+            <SelectedItemsList
+              measurementTypes={measurementTypes}
+              selectedItems={wishList}
+              changeIndexQuantity={this.changeIndexQuantity}
+            />
+          )}
         <Modal
           isVisible={isShareModalVisible}
           title="Share Via"
