@@ -60,7 +60,7 @@ class ActiveOrdersScreen extends Component {
 
     try {
       const activeServices = await retrieveActiveServices();
-      console.log("activeServices.result:", activeServices.result);
+      //console.log("activeServices.result:", activeServices.result);
       //console.log('result[0].user.name : ', activeOrders.result[0].user.name);
       //console.log('result[0].id : ', activeOrders.result[0].id);
       //console.log('result[0].order_details.length : ', activeOrders.result[0].order_details.length);

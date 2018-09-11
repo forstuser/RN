@@ -86,8 +86,8 @@ import ShoppingListOrderReviewsScreen from "../containers/shopping-list-order-sc
 import RedeemViaPaytmScreen from "../containers/BBCashWalletScreen/redeem-via-paytm-screen";
 import ActiveOrdersScreen from '../containers/active-orders-screen';
 import AddressScreen from "../containers/address-screen";
-import ActiveOrdersScreen from "../containers/active-orders-screen";
-import AddressScreen from "../containers/address-screen";
+//import ActiveOrdersScreen from "../containers/active-orders-screen";
+//import AddressScreen from "../containers/address-screen";
 import MyOrdersScreen from "../containers/my-orders-screen";
 
 const BottomTabStack = createBottomTabNavigator(

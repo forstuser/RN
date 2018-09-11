@@ -7,6 +7,7 @@ import { SCREENS } from '../../constants';
 import { getProfileDetail, updateProfile } from '../../api';
 import LoadingOverlay from '../../components/loading-overlay';
 import Snackbar from '../../utils/snackbar';
+import HeaderPic from './headerPic';
 
 class BasicDetailsScreen extends Component {
     static navigationOptions = {
@@ -16,6 +17,7 @@ class BasicDetailsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+          user: '',
           name: '',
           mobile: '',
           email: '',
@@ -37,6 +39,7 @@ class BasicDetailsScreen extends Component {
             const r = await getProfileDetail();
             const user = r.userProfile;
             this.setState({
+                user: user,
                 isLoading: false,
                 name: user.name || '',
                 mobile: user.mobile_no || '',
@@ -83,27 +86,31 @@ class BasicDetailsScreen extends Component {
         this.props.navigation.navigate(SCREENS.SELECT_GENDER_SCREEN_ONBOARDING);
     };
 
+    uploadPic = () => {
+        alert('Camera');
+    };
+
     render() {
         return (
             <ScrollView style={styles.container}>
-                        {/* <TouchableOpacity
-                            style={styles.cameraIcon}
-                            onPress={() => alert('Camera Icon')}
-                            >
-                            <Icon
-                                name="md-camera"                        
-                                size={30}
-                                color="#fff"
-                            />
-                        </TouchableOpacity> */}
                     <View style={[styles.box, styles.box1]}>
-                        <Image 
+                        {/* <Image 
                             style={styles.userPic} 
                             source={require('./user.png')}
                             resizeMode='contain' 
                         />
-                        
-
+                        <TouchableOpacity
+                            style={styles.cameraIcon}
+                            onPress={this.uploadPic}
+                            >
+                            <Icon
+                                name="md-camera"                        
+                                size={20}
+                                color="#ff732e"
+                            />
+                        </TouchableOpacity>
+ */}
+                        <HeaderPic profile={this.state.user} />
                     </View>
                     <View style={[styles.box, styles.box2]}>
                         <TextInput
@@ -161,9 +168,9 @@ const styles = {
     },
     box1: {
         flex: 3,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 50    
+        //justifyContent: 'center',
+        //alignItems: 'center',
+        marginTop: 20    
     },
     box2: {
         flex: 6
@@ -174,6 +181,16 @@ const styles = {
     input: {
         paddingLeft: 10,
         paddingRight: 10
+    },
+    cameraIcon: {
+        position: 'absolute',
+        top: 110,
+        left: 225,
+        padding: 5,
+        borderWidth: 1,
+        borderRadius: 50,
+        borderColor: '#fff',
+        backgroundColor: '#fff'
     }
 };
 
