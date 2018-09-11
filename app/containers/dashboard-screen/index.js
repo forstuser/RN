@@ -46,7 +46,7 @@ import RecentCalenderItems from "./recent-calender-items";
 import AscContent from "./asc-content";
 import ExpenseInsightsContent from "./expense-insights-content";
 import CalendarContent from "../my-calendar-screen";
-import ActiveOrdersScreen from '../active-orders-screen';
+import ActiveOrdersScreen from "../active-orders-screen";
 
 const ascIcon = require("../../images/ic_nav_asc_on.png");
 const chartIcon = require("../../images/ic_bars_chart.png");
@@ -87,6 +87,9 @@ class DashboardScreen extends React.Component {
         //this.ascContent.fetchProducts();
         //this.calendarContent.fetchItems();
         //
+        // this.props.navigation.navigate(SCREENS.ASSISTED_SERVICES_ORDER_SCREEN, {
+        //   orderId: 29
+        // });
       }
     );
 

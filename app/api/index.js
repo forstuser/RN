@@ -2104,14 +2104,21 @@ export const retrieveActiveServices = async () => {
     url: `/consumer/assisted/active`
   });
 };
-export const placeOrder = async ({ sellerId, orderType, serviceTypeId }) => {
+
+export const placeOrder = async ({
+  sellerId,
+  orderType,
+  serviceTypeId,
+  serviceName
+}) => {
   return await apiRequest({
     method: "post",
     url: `/consumer/orders/place`,
     data: {
       seller_id: sellerId,
       order_type: orderType,
-      service_type_id: serviceTypeId
+      service_type_id: serviceTypeId,
+      service_name: serviceName
     }
   });
 };
@@ -2180,5 +2187,12 @@ export const getCompletedOrders = async () => {
   return await apiRequest({
     method: "get",
     url: `/consumer/orders`
+  });
+};
+
+export const getSellerAssistedServices = async ({ sellerId }) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers/${sellerId}/services`
   });
 };
