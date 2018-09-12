@@ -62,7 +62,7 @@ export default class MySellersAssistedServicesScreen extends React.Component {
         serviceTypeId: service.service_type_id,
         serviceName: service.service_name
       });
-      this.props.navigation.navigate(SCREENS.ASSISTED_SERVICES_ORDER_SCREEN, {
+      this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
         orderId: res.result.id
       });
     } catch (e) {

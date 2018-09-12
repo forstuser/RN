@@ -65,8 +65,8 @@ class Body extends Component {
     });
   };
   manageAddress = () => {
-    this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN)
-  }
+    this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN);
+  };
 
   askForEmailOtp = async () => {
     const { email, emailInput, isEmailVerified } = this.state;
@@ -180,8 +180,8 @@ class Body extends Component {
             </Text>
           </View>
         ) : (
-            <View collapsable={false} />
-          )}
+          <View collapsable={false} />
+        )}
         <TouchableWithoutFeedback
           onPress={() => {
             if (!isEmailVerified) {
@@ -224,13 +224,28 @@ class Body extends Component {
             </Text>
           </View>
         </TouchableWithoutFeedback>
-        <View collapsable={false} style={[styles.field, styles.verifiedField]}>
+        <TouchableOpacity
+          onPress={() => this.manageAddress()}
+          style={[styles.field, styles.verifiedField]}
+        >
           <View style={styles.manageHeader}>
             <View>
-              <Text weight="Medium" style={styles.label}>Address</Text>
+              <Text weight="Medium" style={styles.label}>
+                Address
+              </Text>
             </View>
             <View>
-              <TouchableOpacity onPress={() => this.manageAddress()} style={{ alignSelf: 'flex-end', right: 10 }}><Text style={{ color: colors.pinkishOrange, fontSize: 12 }}>Manage Addresses</Text></TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this.manageAddress()}
+                style={{
+                  alignSelf: "flex-end",
+                  right: 10
+                }}
+              >
+                <Text style={{ color: colors.pinkishOrange, fontSize: 12 }}>
+                  Manage Addresses
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
           <View
@@ -241,9 +256,13 @@ class Body extends Component {
               paddingTop: 10
             }}
           >
-            <Text>{defaultAddress.address_line_1} {defaultAddress.address_line_2} {defaultAddress.locality_name} {defaultAddress.city_name} {defaultAddress.state_name} {defaultAddress.pin}</Text>
+            <Text>
+              {defaultAddress.address_line_1} {defaultAddress.address_line_2}{" "}
+              {defaultAddress.locality_name} {defaultAddress.city_name}{" "}
+              {defaultAddress.state_name} {defaultAddress.pin}
+            </Text>
           </View>
-        </View>
+        </TouchableOpacity>
         {isEmailModalVisible ? (
           <View collapsable={false}>
             <Modal
@@ -305,8 +324,8 @@ class Body extends Component {
             </Modal>
           </View>
         ) : (
-            <View collapsable={false} />
-          )}
+          <View collapsable={false} />
+        )}
       </View>
     );
   }
@@ -323,8 +342,8 @@ const styles = StyleSheet.create({
     opacity: 0.7
   },
   manageHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   value: {
     color: colors.mainText,

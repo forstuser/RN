@@ -2214,3 +2214,32 @@ export const redeemSellerPoints = async ({ sellerId, pointsToRedeem }) => {
     data: {amount: pointsToRedeem}
   });
 };
+export const approveAssistedServiceOrder = async ({ orderId, sellerId }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/orders/${orderId}/approve`,
+    data: { seller_id: sellerId }
+  });
+};
+
+export const startAssistedServiceOrder = async ({
+  orderId,
+  orderDetails,
+  sellerId
+}) => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/assisted/${orderId}/start`
+  });
+};
+
+export const endAssistedServiceOrder = async ({
+  orderId,
+  orderDetails,
+  sellerId
+}) => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/assisted/${orderId}/end`
+  });
+};

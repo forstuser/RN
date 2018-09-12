@@ -112,6 +112,14 @@ export default class SearchBar extends React.Component {
       }
     };
 
+    const filteredItems = items.filter(item => {
+      if (searchTerm.length > 3) {
+        return item.title.toLowerCase().includes(searchTerm.toLowerCase());
+      } else {
+        return true;
+      }
+    });
+
     return (
       <View
         style={{
@@ -155,6 +163,27 @@ export default class SearchBar extends React.Component {
               onSubmitEditing={this.startSearch}
               underlineColorAndroid="transparent"
             />
+            {filteredItems.length == 0 &&
+            searchTerm.length > 2 &&
+            !isSearching &&
+            !hideAddManually ? (
+              <TouchableOpacity
+                onPress={openAddManualItemModal}
+                style={{
+                  height: 20,
+                  width: 20,
+                  borderRadius: 10,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginRight: 10
+                }}
+              >
+                <Icon name="md-add" size={25} color={colors.pinkishOrange} />
+              </TouchableOpacity>
+            ) : (
+              <View />
+            )}
+
             {searchTerm ? (
               <TouchableOpacity
                 onPress={clearSearchTerm}
@@ -302,7 +331,7 @@ export default class SearchBar extends React.Component {
 
           <View style={{ flex: 2, height: "100%" }}>
             <FlatList
-              data={items}
+              data={filteredItems}
               renderItem={({ item }) => (
                 <SkuItem
                   measurementTypes={measurementTypes}
@@ -319,16 +348,18 @@ export default class SearchBar extends React.Component {
                     <View style={{ padding: 20, alignItems: "center" }}>
                       <Text style={{ textAlign: "center" }}>
                         Sorry we couldn't find any items
-                        {searchTerm ? ` for "${searchTerm}"` : ""}
+                        {searchTerm
+                          ? ` for "${searchTerm}", please use '+' to add manually.`
+                          : ""}
                       </Text>
-                      {searchTerm && !hideAddManually ? (
+                      {/* {searchTerm && !hideAddManually ? (
                         <Button
                           onPress={openAddManualItemModal}
                           style={{ height: 40, width: 180, marginTop: 15 }}
                           text="Add Manually"
                           color="secondary"
                         />
-                      ) : null}
+                      ) : null} */}
                     </View>
                   );
                 } else if (items.length == 0 && !isSearchDone) {
@@ -336,9 +367,8 @@ export default class SearchBar extends React.Component {
                     <View style={{ paddingLeft: 10 }}>
                       <Text style={{ color: colors.secondaryText }}>
                         {searchTerm.length < 3
-                          ? "Enter atleast 3 characters and then "
+                          ? "Enter atleast 3 characters"
                           : ""}
-                        Press 'Search' to start searching
                       </Text>
                     </View>
                   );

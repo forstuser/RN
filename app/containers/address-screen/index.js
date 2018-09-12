@@ -178,8 +178,12 @@ class AddressScreen extends Component {
                     orderType: this.props.navigation.getParam('orderType'),
                     addressId: this.state.addresses[this.state.selectedIndex].id
                 });
+<<<<<<< HEAD
                 this.setState({ showLoader: false })
                 this.props.navigation.replace(SCREENS.SHOPPING_LIST_ORDER_SCREEN, {
+=======
+                this.props.navigation.replace(SCREENS.ORDER_SCREEN, {
+>>>>>>> pram
                     orderId: res.result.id
                 });
             } catch (e) {
