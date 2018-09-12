@@ -87,7 +87,7 @@ class DashboardScreen extends React.Component {
         //this.ascContent.fetchProducts();
         //this.calendarContent.fetchItems();
         //
-        // this.props.navigation.navigate(SCREENS.ASSISTED_SERVICES_ORDER_SCREEN, {
+        // this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
         //   orderId: 29
         // });
       }

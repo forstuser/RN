@@ -81,7 +81,8 @@ import SelectSellerScreen from "../containers/BBCashWalletScreen/select-seller-s
 import CashbackQueryScreen from "../containers/cashback-query-screen";
 import CashbackQueryReasonsScreen from "../containers/cashback-query-screen/cashback-query-reasons-screen";
 import CashbackQueryAdditionalInfoScreen from "../containers/cashback-query-screen/cashback-query-additional-info";
-import ShoppingListOrderScreen from "../containers/shopping-list-order-screen";
+// import ShoppingListOrderScreen from "../containers/shopping-list-order-screen";
+import OrderScreen from "../containers/order-screen";
 import ShoppingListOrderReviewsScreen from "../containers/shopping-list-order-screen/reviews-screen";
 import RedeemViaPaytmScreen from "../containers/BBCashWalletScreen/redeem-via-paytm-screen";
 import ActiveOrdersScreen from "../containers/active-orders-screen";
@@ -245,13 +246,12 @@ export default createStackNavigator(
     [SCREENS.CASHBACK_QUERY_SCREEN]: CashbackQueryScreen,
     [SCREENS.CASHBACK_QUERY_REASONS_SCREEN]: CashbackQueryReasonsScreen,
     [SCREENS.CASHBACK_QUERY_ADDITIONAL_INFO_SCREEN]: CashbackQueryAdditionalInfoScreen,
-    [SCREENS.SHOPPING_LIST_ORDER_SCREEN]: ShoppingListOrderScreen,
+    [SCREENS.ORDER_SCREEN]: OrderScreen,
     [SCREENS.SHOPPING_LIST_ORDER_REVIEWS_SCREEN]: ShoppingListOrderReviewsScreen,
     [SCREENS.REDEEM_VIA_PAYTM_SCREEN]: RedeemViaPaytmScreen,
     [SCREENS.REDEEM_VIA_PAYTM_SCREEN]: RedeemViaPaytmScreen,
     [SCREENS.ADDRESS_SCREEN]: AddressScreen,
-    [SCREENS.MY_ORDERS_SCREEN]: MyOrdersScreen,
-    [SCREENS.ASSISTED_SERVICES_ORDER_SCREEN]: AssistedServicesOrderScreen
+    [SCREENS.MY_ORDERS_SCREEN]: MyOrdersScreen
   },
   {
     initialRouteName: "DrawerNavigator"

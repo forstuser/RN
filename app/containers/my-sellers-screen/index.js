@@ -23,7 +23,7 @@ import DrawerScreenContainer from "../../components/drawer-screen-container";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { defaultStyles, colors } from "../../theme";
-import { SCREENS } from "../../constants";
+import { SCREENS, SELLER_TYPE_IDS } from "../../constants";
 import { showSnackbar } from "../../utils/snackbar";
 
 class MySellersScreen extends React.Component {
@@ -205,13 +205,19 @@ class MySellersScreen extends React.Component {
                     }}
                   >
                     <View style={{ padding: 12 }}>
-                      <View style={{}}>
+                      <View
+                        style={{
+                          width: 68,
+                          height: 68,
+                          borderRadius: 34,
+                          backgroundColor: "#eee"
+                        }}
+                      >
                         <Image
                           style={{
                             width: 68,
                             height: 68,
-                            borderRadius: 35,
-                            backgroundColor: "#eee"
+                            borderRadius: 34
                           }}
                           source={{
                             uri:
@@ -222,26 +228,18 @@ class MySellersScreen extends React.Component {
                         <View
                           style={{
                             position: "absolute",
-                            right: 10,
-                            bottom: 0,
+                            right: 2,
+                            bottom: 2,
                             width: 16,
                             height: 16,
                             borderRadius: 8,
-                            backgroundColor: item.is_onboarded
-                              ? colors.success
-                              : colors.danger,
+                            backgroundColor: item.rush_hours
+                              ? "red"
+                              : colors.success,
                             alignItems: "center",
                             justifyContent: "center"
                           }}
-                        >
-                          <Icon
-                            name={
-                              item.is_onboarded ? "md-checkmark" : "md-remove"
-                            }
-                            color="#fff"
-                            size={12}
-                          />
-                        </View>
+                        />
                       </View>
                       <View
                         style={{
@@ -270,7 +268,9 @@ class MySellersScreen extends React.Component {
                           ({item.ratings})
                         </Text>
                       </View>
-                      {item.seller_details.basic_details.home_delivery ? (
+                      {item.seller_details &&
+                      item.seller_details.basic_details &&
+                      item.seller_details.basic_details.home_delivery ? (
                         <Text
                           style={{
                             color: "#208e07",
@@ -281,6 +281,38 @@ class MySellersScreen extends React.Component {
                           Home Delivery Available
                         </Text>
                       ) : null}
+
+                      {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            backgroundColor: "green",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: 70,
+                            height: 20,
+                            borderRadius: 3,
+                            marginTop: 10
+                          }}
+                        >
+                          <Icon
+                            name="md-checkmark-circle-outline"
+                            color="#fff"
+                            size={13}
+                          />
+                          <Text
+                            weight="Bold"
+                            style={{
+                              color: "#fff",
+                              fontSize: 10,
+                              marginLeft: 5,
+                              marginTop: -2
+                            }}
+                          >
+                            Verified
+                          </Text>
+                        </View>
+                      )}
                     </View>
                     <View style={{ padding: 12, paddingLeft: 0, flex: 1 }}>
                       <View style={{ flexDirection: "row" }}>
@@ -455,24 +487,26 @@ class MySellersScreen extends React.Component {
                         Chat
                       </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.props.navigation.navigate(
-                          SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN,
-                          { seller: item }
-                        )
-                      }
-                      style={styles.bottomButton}
-                    >
-                      <Icon
-                        name="ios-construct-outline"
-                        style={styles.bottomButtonIcon}
-                        color={colors.pinkishOrange}
-                      />
-                      <Text weight="Medium" style={styles.bottomButtonText}>
-                        Assisted Services
-                      </Text>
-                    </TouchableOpacity>
+                    {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.props.navigation.navigate(
+                            SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN,
+                            { seller: item }
+                          )
+                        }
+                        style={styles.bottomButton}
+                      >
+                        <Icon
+                          name="ios-construct-outline"
+                          style={styles.bottomButtonIcon}
+                          color={colors.pinkishOrange}
+                        />
+                        <Text weight="Medium" style={styles.bottomButtonText}>
+                          Assisted Services
+                        </Text>
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </TouchableOpacity>
               );
