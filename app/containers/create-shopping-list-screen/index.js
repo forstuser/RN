@@ -47,6 +47,7 @@ class ShoppingListScreen extends React.Component {
     isSearchDone: false,
     searchError: null,
     searchTerm: "",
+    lastSearchTerm3Characters: "",
     items: [],
     brands: [],
     selectedBrands: []
@@ -203,16 +204,28 @@ class ShoppingListScreen extends React.Component {
   };
 
   updateSearchTerm = searchTerm => {
-    this.setState(
-      {
-        searchTerm,
-        isSearchDone: false,
-        items: []
-      },
-      () => {
-        if (!searchTerm) this.loadItems();
+    const newState = {
+      searchTerm
+    };
+
+    if (searchTerm.length < 3) {
+      newState.items = [];
+      newState.isSearchDone = false;
+      newState.lastSearchTerm3Characters = "";
+    }
+
+    this.setState(newState, () => {
+      if (
+        !searchTerm ||
+        (searchTerm.length == 3 &&
+          searchTerm != this.state.lastSearchTerm3Characters)
+      ) {
+        this.loadItems();
       }
-    );
+      if (searchTerm.length == 3) {
+        this.setState({ lastSearchTerm3Characters: searchTerm });
+      }
+    });
   };
 
   clearSearchTerm = () => {
