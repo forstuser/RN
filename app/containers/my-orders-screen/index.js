@@ -40,6 +40,8 @@ export default class OrdersList extends React.Component {
       item={item}
       navigation={this.props.navigation}
     />
+  };
+  
   openOrderScreen = order => {
     this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
       orderId: order.id
