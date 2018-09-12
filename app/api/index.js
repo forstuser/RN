@@ -2199,3 +2199,18 @@ export const getSellerAssistedServices = async ({ sellerId }) => {
     url: `/sellers/${sellerId}/services`
   });
 };
+
+export const getSellersBBCashWallet = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers/cashbacks`
+  });
+};
+
+export const redeemSellerPoints = async ({ sellerId, pointsToRedeem }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/sellers/${sellerId}/loyalty/redeem`,
+    data: {amount: pointsToRedeem}
+  });
+};

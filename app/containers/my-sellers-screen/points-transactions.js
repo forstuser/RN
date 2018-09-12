@@ -18,7 +18,7 @@ import ErrorOverlay from "../../components/error-overlay";
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS } from "../../constants";
 
-import CreditTransactionsList from "../seller-details-screen/credit-transactions";
+import CreditTransactionsList from "../seller-details-screen/point-transactions";
 
 export default class MySellersPointsTransactionsScreen extends React.Component {
   static navigationOptions = {

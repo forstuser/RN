@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 
-import { Text } from '../../elements';
+import { Text, Button } from '../../elements';
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS, ORDER_STATUS_TYPES } from '../../constants';
 import { API_BASE_URL } from '../../api';
 import moment from 'moment';
-import { Button } from '../../elements';
 
 class SingleOrder extends Component {
-    openOrderScreen = order => {
-        this.props.navigation.navigate(SCREENS.SHOPPING_LIST_ORDER_SCREEN, {
-          orderId: order.id
-        });
-      };
-
+  
     render() {
         const { item } = this.props;
         let statusType = null;
         if(item.status_type === ORDER_STATUS_TYPES.COMPLETE)
             statusType = <Text style={{ fontSize: 12, color: colors.success }}>COMPLETED</Text>;
-        else if(item.seller.status_type === ORDER_STATUS_TYPES.NEW)
+        else if(item.status_type === ORDER_STATUS_TYPES.NEW)
             statusType = <Text style={{ fontSize: 12, color: colors.mainText }}>NEW</Text>;
         else if(item.status_type === ORDER_STATUS_TYPES.APPROVED)
             statusType = <Text style={{ fontSize: 12 }}>APPROVED</Text>;
@@ -39,7 +33,7 @@ class SingleOrder extends Component {
         
         let cashback = <Text weight='Bold'>{item.available_cashback}</Text>;
         let cashbackStatus = <Text style={styles.data}>Cashback earned: {cashback}</Text>;
-        if(item.available_cashback === null) {
+        if(item.cashback_status === null || item.cashback_status === 13) {
             cashbackStatus = <Button
                 style={{ height: 30, width: 200, marginTop: 10 }}
                 text='View Cashback Status' 
@@ -48,11 +42,15 @@ class SingleOrder extends Component {
                 textStyle={{ fontSize: 14 }}
             />;
         }
+        else if(item.cashback_status === 15 && item.cashback_status === 17 && item.cashback_status === 18) {
+            cashback = <Text weight='Bold'>0</Text>;
+        }
 
+        
         return (
             <TouchableOpacity 
                 style={styles.container}
-                onPress={() => this.openOrderScreen(this.props.item)}
+                onPress={this.props.onPress}
             >
                 <View style={[styles.box, styles.box1]}>
                     <Image

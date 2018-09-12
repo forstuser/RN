@@ -7,21 +7,14 @@ import SingleServiceRequest from "./single-service-request";
 import { retrieveActiveOrders, retrieveActiveServices } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 import { SCREENS } from "../../constants";
+import SingleOrder from './single-order';
 
 class ActiveOrdersScreen extends Component {
   state = {
     activeDeliveryOrders: [],
-    activeAssistedServicesRequest: [
-      {
-        type: "Car Cleaner"
-      },
-      {
-        type: "Car Cleaner"
-      },
-      {
-        type: "Car Cleaner"
-      }
-    ]
+    activeAssistedServicesRequest: [],
+    error: null,
+    isFetchingData: false
   };
 
   componentDidMount() {
@@ -36,7 +29,7 @@ class ActiveOrdersScreen extends Component {
 
     try {
       const activeOrders = await retrieveActiveOrders();
-      console.log("activeOrders.result:", activeOrders.result);
+      console.log("activeOrders.result: ", activeOrders.result);
       //console.log('result[0].user.name : ', activeOrders.result[0].user.name);
       //console.log('result[0].id : ', activeOrders.result[0].id);
       //console.log('result[0].order_details.length : ', activeOrders.result[0].order_details.length);
@@ -61,12 +54,12 @@ class ActiveOrdersScreen extends Component {
     try {
       const activeServices = await retrieveActiveServices();
       //console.log("activeServices.result:", activeServices.result);
-      //console.log('result[0].user.name : ', activeOrders.result[0].user.name);
-      //console.log('result[0].id : ', activeOrders.result[0].id);
+      //console.log('result[0].user.name : ', activeServices.result[0].order_details[0].service_name);
+      //console.log('result[0].id : ', activeServices.result[0].status_type);
       //console.log('result[0].order_details.length : ', activeOrders.result[0].order_details.length);
       this.setState({
-        isFetchingData: false
-        //activeDeliveryOrders: activeOrders.result
+        isFetchingData: false,
+        //activeAssistedServicesRequest: activeServices.result
       });
     } catch (error) {
       console.log("order error: ", error);
@@ -91,13 +84,13 @@ class ActiveOrdersScreen extends Component {
     if (activeDeliveryOrders.length > 0) {
       deliveryOrders = (
         <View>
-          <Text weight="Medium" style={{ fontSize: 18 }}>
+          {/* <Text weight="Medium" style={{ fontSize: 18 }}>
             Delivery Orders
-          </Text>
+          </Text> */}
           {activeDeliveryOrders.map((order, index) => (
-            <SingleDeliveryOrder
+            <SingleOrder
               key={index}
-              order={order}
+              item={order}
               onPress={() => {
                 this.openOrderScreen(order);
               }}

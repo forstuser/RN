@@ -8,7 +8,7 @@ import { API_BASE_URL } from "../../api";
 import { Text, Button, Image } from "../../elements";
 
 import { colors, defaultStyles } from "../../theme";
-import TransactionItem from "./tranasaction-item-credits";
+import TransactionItem from "./transaction-item-points";
 
 export default class CreditTransactionsTab extends React.Component {
   render() {
