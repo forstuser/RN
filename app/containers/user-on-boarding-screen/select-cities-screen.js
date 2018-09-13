@@ -6,6 +6,7 @@ import { SCREENS } from '../../constants';
 import LoadingOverlay from '../../components/loading-overlay';
 import { updateProfile } from '../../api';
 import Snackbar from '../../utils/snackbar';
+import { defaultStyles } from '../../theme';
 
 class SelectCitiesScreen extends Component {
     static navigationOptions = {
@@ -48,7 +49,8 @@ class SelectCitiesScreen extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={styles.container}>    
+                <View style={[styles.mb, styles.mb1]}>
                     <View style={[styles.mainBox, styles.mainBox1]}>
                         <View style={[styles.box, styles.box1]}>
                             <TouchableOpacity
@@ -125,6 +127,12 @@ class SelectCitiesScreen extends Component {
                             <Text weight='Bold' style={{ marginTop: 10, fontSize: 16, textAlign: 'center' }}>Faridabad</Text>
                         </View>
                     </View>
+                </View>    
+                <View style={[styles.mb, styles.mb2]}>
+                    <TouchableOpacity style={styles.containerOther} onPress={() => this.onCityPressed('Other')}>
+                        <Text weight='Bold' style={{ fontSize: 16 }}>Other</Text>
+                    </TouchableOpacity>
+                </View>    
                     <LoadingOverlay visible={this.state.isLoading} />
             </View>
         );
@@ -136,7 +144,7 @@ const styles = {
         height: 120,
         width: 120,
         borderWidth: 1,
-        borderRadius: 50
+        borderRadius: 60
     },
     userPic: {
         height: 120,
@@ -146,11 +154,11 @@ const styles = {
     },
     container: {
         flex: 1,
-        flexDirection: 'row', 
+        flexDirection: 'column', 
         backgroundColor: '#fff'
     },
     mainBox: {
-        flex: 1
+        flex: 1,
     },
     mainBox1: {
         flex: 1
@@ -165,7 +173,26 @@ const styles = {
     box1: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+    },
+    mb: {
+        flex: 1,
+    },
+    mb1: {
+        flex: 9,
+        flexDirection: 'row'
+    },
+    mb2: {
+        flex: 1
+    },
+    containerOther: {
+        ...defaultStyles.card,
+        flex: 1,
+        flexDirection: 'row',
+        borderRadius: 10,
+        margin: 10,
+        justifyContent: 'center',
+        alignItems: 'center'      
     }
 };
 

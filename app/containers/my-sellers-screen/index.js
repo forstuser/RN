@@ -110,6 +110,9 @@ class MySellersScreen extends React.Component {
 
     console.log("mySellers: ", mySellers);
 
+    
+
+
     return (
       <DrawerScreenContainer
         title="My Sellers"
@@ -184,6 +187,17 @@ class MySellersScreen extends React.Component {
               ) : null
             }
             renderItem={({ item }) => {
+              let btnRedeemPoints = null; 
+              if(item.loyalty_total > item.minimum_points && item.loyalty_total > 0)
+                btnRedeemPoints = <Button
+                  onPress={() => {
+                    this.openRedeemPointsScreen(item);
+                  }}
+                  text="Redeem Points"
+                  color="secondary"
+                  style={{ height: 30, width: 115, marginTop: 10 }}
+                  textStyle={{ fontSize: 11 }}
+                />;
               return (
                 <TouchableOpacity
                   onPress={() =>
@@ -416,15 +430,7 @@ class MySellersScreen extends React.Component {
                           />
                         </TouchableOpacity>
                       </View>
-                      <Button
-                        onPress={() => {
-                          this.openRedeemPointsScreen(item);
-                        }}
-                        text="Redeem Points"
-                        color="secondary"
-                        style={{ height: 30, width: 115, marginTop: 10 }}
-                        textStyle={{ fontSize: 11 }}
-                      />
+                      {btnRedeemPoints}
                       <ScrollView horizontal style={{ marginTop: 11 }}>
                         {item.categories.map(category => (
                           <View

@@ -4,6 +4,8 @@ import { View, FlatList } from 'react-native';
 import { Text } from '../../elements';
 import SelectSellerHeader from './select-seller-header';
 import SingleSeller from './single-seller';
+import { getSellersBBCashWallet } from '../../api';
+
 
 class SelectSellerScreen extends Component {
     static navigationOptions = {
@@ -15,34 +17,35 @@ class SelectSellerScreen extends Component {
             selectedSeller: null,
             error: null,
             isFetchingData: true,
-            sellerInfo: [
-                {
-                    'description': 'Zop Now',
-                    'price': 1000
-                },
-                {
-                    'description': 'Dilli Grocery',
-                    'price': 500
-                },
-                {
-                    'description': 'Zop Now',
-                    'price': 1000
-                },
-                {
-                    'description': 'Dilli Grocery',
-                    'price': 500
-                },
-                {
-                    'description': 'Zop Now',
-                    'price': 1000
-                },
-                {
-                    'description': 'Dilli Grocery',
-                    'price': 500
-                }              
-            ],
+            sellerInfo: []
         };
     }
+
+    componentDidMount() {
+        this.fetchSellers();
+    }
+
+    fetchSellers = async () => {
+        this.setState({
+            error: null
+        });
+        try {
+            const sellerData = await getSellersBBCashWallet();
+            console.log('Seller Data: ', sellerData.result);
+            //console.log('Seller Data: ', sellerData.result[0].name);
+            //console.log('Seller Data: ', sellerData.result[0].cashback_total);
+            this.setState({
+                sellerInfo: sellerData.result,
+                isFetchingData: false,
+            });
+        } catch (error) {
+            console.log("error: ", error);
+            this.setState({
+              error,
+              isFetchingData: false
+            });
+          }
+    };
 
     onSellerPressedHandler = (seller) => {
         this.setState({
@@ -66,6 +69,7 @@ class SelectSellerScreen extends Component {
                     data={this.state.sellerInfo}
                     renderItem={this.renderSellers}
                     extraData={this.state.selectedSeller}
+                    keyExtractor={item => item.id}
                 />
             </View>
         );

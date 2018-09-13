@@ -2,6 +2,8 @@ import React from "react";
 import { View, TouchableOpacity, TextInput } from "react-native";
 
 import { Text, Button, Image } from "../../elements";
+import { redeemSellerPoints } from '../../api';
+import { showSnackbar } from '../../utils/snackbar';
 
 export default class RedeemSellerPoints extends React.Component {
   static navigationOptions = {
@@ -13,12 +15,32 @@ export default class RedeemSellerPoints extends React.Component {
     const { navigation } = this.props;
     const seller = navigation.getParam("seller", {});
     this.state = {
-      pointsToRedeem: seller.loyalty_total
+      isLoading: false,
+      pointsToRedeem: seller.loyalty_total,
+      sellerId: seller.id
     };
   }
 
   changePointsToRedeem = pointsToRedeem => {
     this.state({ pointsToRedeem });
+  };
+
+  redeemPoints = async () => {
+    //alert('Redeem');
+    const { sellerId, pointsToRedeem } = this.state;
+    try{
+      this.setState({ isLoading: true });
+      const res = await redeemSellerPoints({
+        sellerId: sellerId,
+        pointsToRedeem: pointsToRedeem      
+      });
+      console.log('Result: ',res);
+      showSnackbar({ text: "Points Redeemed!" });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
   render() {
@@ -67,6 +89,7 @@ export default class RedeemSellerPoints extends React.Component {
           Please confirm number of points points to be redeemed.
         </Text>
         <Button
+          onPress={this.redeemPoints}
           text="Confirm"
           color="secondary"
           style={{ height: 37, width: 140, marginTop: 25 }}

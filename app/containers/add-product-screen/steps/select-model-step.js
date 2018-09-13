@@ -49,12 +49,16 @@ class SelectModelStep extends React.Component {
   }
 
   fetchModels = async () => {
-    const { mainCategoryId, category, product, onModelStepDone } = this.props;
+    const { mainCategoryId, category, subCategoryId, product, onModelStepDone } = this.props;
     this.setState({
       isLoading: true
     });
     try {
-      const res = await getReferenceDataModels(category.id, product.brand_id);
+      let catID = category.id;
+      if (mainCategoryId == MAIN_CATEGORY_IDS.E_E) {
+        catID = subCategoryId;
+      }
+      const res = await getReferenceDataModels(catID, product.brand_id);
       this.setState({
         models: res
       });

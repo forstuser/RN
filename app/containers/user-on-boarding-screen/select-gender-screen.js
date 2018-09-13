@@ -60,19 +60,32 @@ class SelectGenderScreen extends React.Component {
     };
 
     render() {
+        let styleIcon1 = null, styleIcon2 = null;
+        if(this.state.gender === 1) {
+            styleIcon1 = { borderColor: '#000' };
+            styleIcon2 = null;
+        }
+        else if (this.state.gender === 2) {
+            styleIcon2 = { borderColor: '#000' };
+            styleIcon1 = null;
+        } 
+        else {
+            styleIcon1 = null;
+            styleIcon2 = null;
+        }
         return (
-            <View>
+            <View style={{ padding: 20 }}>
                 <TouchableOpacity onPress={() => this.selectGender('Male')}>
                     <Image
-                        style={styles.icon1} 
+                        style={[styles.icon1, styleIcon1]} 
                         source={manImage}
                         resizeMode='contain' 
                     />
                     <Text weight='Bold' style={styles.iconHeading}>Male</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.selectGender('1')}>
+                <TouchableOpacity onPress={() => this.selectGender('Female')}>
                     <Image 
-                        style={styles.icon2} 
+                        style={[styles.icon2, styleIcon2]} 
                         source={womanImage} 
                         resizeMode='contain'
                     />
@@ -111,13 +124,21 @@ const styles = {
         width: 72, 
         height: 92, 
         marginTop: 30,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        borderWidth: 1,
+        borderRadius: 50,
+        padding: 10,
+        borderColor: 'transparent'       
     },
     icon2: {
         width: 72, 
         height: 92, 
         marginTop: 20,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        borderWidth: 1,
+        borderRadius: 50,
+        padding: 10,
+        borderColor: 'transparent'
     },
     iconHeading: {
         marginTop: 10,

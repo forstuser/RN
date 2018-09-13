@@ -8,7 +8,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 class SingleSeller extends Component { 
     render() {
         const { seller } = this.props;
-        let price = <Text weight='Bold'>{seller.price}</Text>;
+        let price = <Text weight='Bold'>{seller.cashback_total}</Text>;
         let onSelectView = null; 
         if(this.props.selectedSeller === seller) {
             onSelectView = <View style={styles.selectedView}>
@@ -32,7 +32,7 @@ class SingleSeller extends Component {
                         <Image style={styles.imageIcon1} source={require('./icon.png')} />
                     </View>
                     <View style={[styles.box, styles.box2]}>
-                        <Text weight="Bold" style={styles.info}>{seller.description}</Text>
+                        <Text weight="Bold" style={styles.info}>{seller.name}</Text>
                     </View>
                     <View style={[styles.box, styles.box3]}>
                         <Text style={styles.price}>BBCash: {price}</Text>

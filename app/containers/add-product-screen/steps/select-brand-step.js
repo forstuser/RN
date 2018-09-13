@@ -40,12 +40,16 @@ class SelectBrandStep extends React.Component {
   }
 
   fetchBrands = async () => {
-    const { mainCategoryId, category, product } = this.props;
+    const { mainCategoryId, category, product, subCategoryId } = this.props;
     this.setState({
       isLoading: true
     });
     try {
-      const res = await getReferenceDataBrands(category.id);
+      let catID = category.id;
+      if (mainCategoryId == MAIN_CATEGORY_IDS.E_E) {
+        catID = subCategoryId;
+      }
+      const res = await getReferenceDataBrands(catID);
       this.setState({
         brands: res
       });
