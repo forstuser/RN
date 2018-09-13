@@ -428,6 +428,7 @@ class ShoppingListScreen extends React.Component {
             openAddManualItemModal={() =>
               this.addManualItemModal.show(searchTerm)
             }
+            addManualItemsToList={this.addManualItemsToList}
           />
 
           {/* <ScrollableTabView
