@@ -15,7 +15,7 @@ class SingleOrder extends Component {
         if(item.status_type === ORDER_STATUS_TYPES.COMPLETE)
             statusType = <Text style={{ fontSize: 12, color: colors.success }}>COMPLETED</Text>;
         else if(item.status_type === ORDER_STATUS_TYPES.NEW)
-            statusType = <Text style={{ fontSize: 12, color: colors.mainText }}>NEW</Text>;
+            statusType = <Text style={{ fontSize: 12, color: colors.success }}>NEW</Text>;
         else if(item.status_type === ORDER_STATUS_TYPES.APPROVED)
             statusType = <Text style={{ fontSize: 12 }}>APPROVED</Text>;
         else if(item.status_type === ORDER_STATUS_TYPES.CANCELED)
@@ -23,7 +23,7 @@ class SingleOrder extends Component {
         else if(item.status_type === ORDER_STATUS_TYPES.REJECTED)
             statusType = <Text style={{ fontSize: 12, color: colors.danger }}>REJECTED</Text>;
         else if(item.status_type === ORDER_STATUS_TYPES.OUT_FOR_DELIVERY)
-            statusType = <Text style={{ fontSize: 10 }}>OUT FOR DELIVERY</Text>;
+            statusType = <Text style={{ fontSize: 10, color: colors.pinkishOrange }}>OUT FOR DELIVERY</Text>;
         let status = <Text weight='Bold'>{statusType}</Text>;
         let name = <Text weight='Bold'>{item.seller.seller_name}</Text>;
         let quantity = <Text weight='Bold'>{item.order_details.length}</Text>;
@@ -33,19 +33,22 @@ class SingleOrder extends Component {
         
         let cashback = <Text weight='Bold'>{item.available_cashback}</Text>;
         let cashbackStatus = <Text style={styles.data}>Cashback earned: {cashback}</Text>;
-        if(item.cashback_status === null || item.cashback_status === 13) {
+        if(item.cashback_status === 13) {
             cashbackStatus = <Button
                 style={{ height: 30, width: 200, marginTop: 10 }}
                 text='View Cashback Status' 
-                onPress={() => {}}
+                onPress={() => this.props.navigation.navigate(SCREENS.CASHBACK_BILLS_SCREEN, {
+                    orderID: item.job_id
+                })}
                 color='secondary'
                 textStyle={{ fontSize: 14 }}
             />;
         }
-        else if(item.cashback_status === 15 && item.cashback_status === 17 && item.cashback_status === 18) {
+        
+        if(item.cashback_status === null || item.cashback_status === 15 || item.cashback_status === 17 || item.cashback_status === 18) {
             cashback = <Text weight='Bold'>0</Text>;
+            cashbackStatus = <Text style={styles.data}>Cashback earned: {cashback}</Text>;
         }
-
         
         return (
             <TouchableOpacity 

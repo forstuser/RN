@@ -68,7 +68,8 @@ export default class SelectedItemsList extends React.Component {
                     {item.title}
                     <Text
                       style={{
-                        color: colors.secondaryText
+                        color: colors.secondaryText,
+                        marginRight: 20
                       }}
                     >
                       {item.sku_measurement
@@ -120,7 +121,7 @@ export default class SelectedItemsList extends React.Component {
                       justifyContent: "center"
                     }}
                   >
-                    <Icon name="ios-trash-outline" size={25} color="#999999" />
+                    <Icon name="ios-trash-outline" size={30} color="#999999" />
                   </TouchableOpacity>
                 </View>
               </View>

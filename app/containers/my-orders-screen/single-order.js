@@ -39,15 +39,23 @@ class SingleOrder extends Component {
         
         let cashback = <Text weight='Bold'>{item.available_cashback}</Text>;
         let cashbackStatus = <Text style={styles.data}>Cashback earned: {cashback}</Text>;
-        if(item.available_cashback === null) {
+        if(item.cashback_status === 13) {
             cashbackStatus = <Button
                 style={{ height: 30, width: 200, marginTop: 10 }}
                 text='View Cashback Status' 
-                onPress={() => {}}
+                onPress={() => this.props.navigation.navigate(SCREENS.CASHBACK_BILLS_SCREEN, {
+                    orderID: item.job_id
+                })}
                 color='secondary'
                 textStyle={{ fontSize: 14 }}
             />;
         }
+        
+        if(item.cashback_status === null || item.cashback_status === 15 || item.cashback_status === 17 || item.cashback_status === 18) {
+            cashback = <Text weight='Bold'>0</Text>;
+            cashbackStatus = <Text style={styles.data}>Cashback earned: {cashback}</Text>;
+        }
+ 
 
         return (
             <TouchableOpacity 

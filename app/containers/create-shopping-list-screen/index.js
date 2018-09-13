@@ -385,7 +385,7 @@ class ShoppingListScreen extends React.Component {
                 >
                   <Text
                     weight="Medium"
-                    style={{ fontSize: 9, color: colors.mainBlue }}
+                    style={{ fontSize: 9, color: colors.pinkishOrange }}
                   >
                     {wishList.length}
                   </Text>

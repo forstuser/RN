@@ -176,10 +176,9 @@ export default class MySellersScreen extends React.Component {
                   padding: 20
                 }}
               >
-                <Text style={{ fontSize: 11, textAlign: "center" }}>
+                <Text style={{ fontSize: 14, textAlign: "center" }}>
                   {isSearchDone
-                    ? `Your Seller is not in our network currently. Please invite
-                  seller to avail additional benefits.`
+                    ? `Your Seller is not in our network currently. Please invite seller to avail additional benefits like Credit, Loyalty, Home Delivery, Assisted Services, Share Shopping List, Chat etc.`
                     : `Search your seller by phone number`}
                 </Text>
                 {isSearchDone ? (

@@ -124,16 +124,16 @@ export default class CashbackQueryScreen extends React.Component {
                   </Text>
                 </View>
                 <View style={{ flex: 1, paddingHorizontal: 5 }}>
-                  <Text style={{ fontSize: 9, marginTop: 5 }}>
+                  <Text style={{ fontSize: 14, marginTop: 5 }}>
                     Transaction Id :
                     <Text weight="Medium" style={{}}>
                       {` ` + item.id}
                     </Text>
                   </Text>
-                  <Text style={{ fontSize: 9, marginVertical: 5 }}>
+                  <Text style={{ fontSize: 14, marginVertical: 5 }}>
                     Price :<Text weight="Bold">{` ` + item.amount_paid}</Text>
                   </Text>
-                  <Text style={{ fontSize: 9 }}>
+                  <Text style={{ fontSize: 14 }}>
                     BB Cashback Earned :
                     <Text weight="Bold">{` ` + item.total_cashback}</Text>
                   </Text>
@@ -170,13 +170,13 @@ export default class CashbackQueryScreen extends React.Component {
                     )}
                 </View>
                 <View style={{ flex: 1, paddingHorizontal: 5 }}>
-                  <Text style={{ fontSize: 9, marginTop: 5 }}>
+                  <Text style={{ fontSize: 14, marginTop: 5 }}>
                     No. of items :
                     <Text weight="Medium" style={{}}>
                       {` ` + item.item_counts}
                     </Text>
                   </Text>
-                  <Text style={{ fontSize: 9, marginVertical: 5 }}>
+                  <Text style={{ fontSize: 14, marginVertical: 5 }}>
                     Points Earned :
                     <Text weight="Bold">{` ` + item.total_loyalty}</Text>
                   </Text>
