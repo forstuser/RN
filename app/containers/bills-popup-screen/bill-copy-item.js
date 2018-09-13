@@ -41,6 +41,7 @@ const BillCopyItem = ({
   authToken,
   onDeleteBtnClick
 }) => {
+  console.log("copy laste nd", copy);
   const mimeType = getMimeTypeByExtension(copy.file_type);
   const onDownloadPress = async openAfterDownload => {
     if ((await requestStoragePermission()) == false) return;
@@ -123,9 +124,9 @@ const BillCopyItem = ({
         //   uri={API_BASE_URL + "/" + copy.copyUrl}
         // />
         <Image
-          usePhotoView={true}
+          // usePhotoView={true}
           style={styles.billImage}
-          source={{ uri: API_BASE_URL + "/" + copy.copyUrl }}
+          source={{ uri: API_BASE_URL + copy.copyUrl }}
           resizeMode="contain"
         />
       )}

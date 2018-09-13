@@ -81,73 +81,73 @@ class SelectPurchaseDateStep extends React.Component {
     const { isLoading, activeDate } = this.state;
     const { mainCategoryId, category, product, subCategoryId } = this.props;
     let title = "Select Purchase Date";
-    switch (category.id) {
-      case CATEGORY_IDS.TRAVEL.TRAVEL:
-        title = "Select Travel Expense Date";
-        break;
-      case CATEGORY_IDS.TRAVEL.HOTEL_STAY:
-        title = "Select Hotel Stay Expense Date";
-        break;
-      case CATEGORY_IDS.TRAVEL.DINING:
-        title = "Select Dining Expense Date";
-        break;
+    // switch (category.id) {
+    //   case CATEGORY_IDS.TRAVEL.TRAVEL:
+    //     title = "Select Travel Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.TRAVEL.HOTEL_STAY:
+    //     title = "Select Hotel Stay Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.TRAVEL.DINING:
+    //     title = "Select Dining Expense Date";
+    //     break;
 
-      case CATEGORY_IDS.HEALTHCARE.EXPENSE:
-        if (subCategoryId == SUB_CATEGORY_IDS.MEDICAL_BILL) {
-          title = "Add Medical Bill Expense Date";
-        } else {
-          title = "Add Hospital Bill Expense Date";
-        }
-        break;
+    //   case CATEGORY_IDS.HEALTHCARE.EXPENSE:
+    //     if (subCategoryId == SUB_CATEGORY_IDS.MEDICAL_BILL) {
+    //       title = "Add Medical Bill Expense Date";
+    //     } else {
+    //       title = "Add Hospital Bill Expense Date";
+    //     }
+    //     break;
 
-      case CATEGORY_IDS.FASHION.FOOTWEAR:
-        title = "Select Footwear Expense Date";
-        break;
-      case CATEGORY_IDS.FASHION.SHADES:
-        title = "Select Shades Expense Date";
-        break;
-      case CATEGORY_IDS.FASHION.WATCHES:
-        title = "Select Watch Expense Date";
-        break;
-      case CATEGORY_IDS.FASHION.CLOTHS:
-        title = "Select Cloth Expense Date";
-        break;
-      case CATEGORY_IDS.FASHION.BAGS:
-        title = "Select Bag Expense Date";
-        break;
-      case CATEGORY_IDS.FASHION.JEWELLERY:
-        title = "Select Jewellery & Accessories Expense Date";
-        break;
-      case CATEGORY_IDS.FASHION.MAKEUP:
-        title = "Select Make-Up Expense Date";
-        break;
+    //   case CATEGORY_IDS.FASHION.FOOTWEAR:
+    //     title = "Select Footwear Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.SHADES:
+    //     title = "Select Shades Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.WATCHES:
+    //     title = "Select Watch Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.CLOTHS:
+    //     title = "Select Cloth Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.BAGS:
+    //     title = "Select Bag Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.JEWELLERY:
+    //     title = "Select Jewellery & Accessories Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.MAKEUP:
+    //     title = "Select Make-Up Expense Date";
+    //     break;
 
-      case CATEGORY_IDS.SERVICES.BEAUTY_AND_SALON:
-        title = "Select Beauty & Salon Expense Date";
-        break;
-      case CATEGORY_IDS.SERVICES.LESSIONS_HOBBIES:
-        title = "Select Lessons & Hobbies Expense Date";
-        break;
-      case CATEGORY_IDS.SERVICES.OTHER_SERVICES:
-        title = "Select Other Services Expense Date";
-        break;
+    //   case CATEGORY_IDS.SERVICES.BEAUTY_AND_SALON:
+    //     title = "Select Beauty & Salon Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.SERVICES.LESSIONS_HOBBIES:
+    //     title = "Select Lessons & Hobbies Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.SERVICES.OTHER_SERVICES:
+    //     title = "Select Other Services Expense Date";
+    //     break;
 
-      case CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE:
-        title = "Select Household Expense Date";
-        break;
-      case CATEGORY_IDS.HOUSEHOLD.EDUCATION:
-        title = "Select Education Expense Date";
-        break;
-      case CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS:
-        title = "Select Utility Bill Expense Date";
-        break;
-      case CATEGORY_IDS.HOUSEHOLD.HOME_DECOR:
-        title = "Select Home Decor & Furnishing Expense Date";
-        break;
-      case CATEGORY_IDS.HOUSEHOLD.OTHER_HOUSEHOLD_EXPENSE:
-        title = "Select Other Household Expense Date";
-        break;
-    }
+    //   case CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE:
+    //     title = "Select Household Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.HOUSEHOLD.EDUCATION:
+    //     title = "Select Education Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS:
+    //     title = "Select Utility Bill Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.HOUSEHOLD.HOME_DECOR:
+    //     title = "Select Home Decor & Furnishing Expense Date";
+    //     break;
+    //   case CATEGORY_IDS.HOUSEHOLD.OTHER_HOUSEHOLD_EXPENSE:
+    //     title = "Select Other Household Expense Date";
+    //     break;
+    // }
     let subtitle;
     switch (mainCategoryId) {
       case MAIN_CATEGORY_IDS.AUTOMOBILE:
