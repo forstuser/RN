@@ -18,6 +18,7 @@ import {
 } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
+import { showSnackbar } from "../../utils/snackbar";
 
 import BlankShoppingList from "./blank-shopping-list";
 import SearchBar from "./search-bar";
@@ -43,6 +44,7 @@ class ShoppingListScreen extends React.Component {
     isBarcodeScannerVisible: false,
     pastItems: [],
     wishList: [],
+    skuItemIdsCurrentlyModifying: [],
     isSearching: false,
     isSearchDone: false,
     searchError: null,
@@ -121,7 +123,7 @@ class ShoppingListScreen extends React.Component {
       mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
     );
     const newState = { activeMainCategoryId, selectedBrands: [] };
-    if (activeMainCategoryId > 0) {
+    if (activeMainCategoryId > 0 && mainCategory.categories.length > 0) {
       newState.activeCategoryId = mainCategory.categories[0].id;
     } else {
       newState.items = this.state.pastItems;
@@ -187,19 +189,53 @@ class ShoppingListScreen extends React.Component {
         listItem.sku_measurement &&
         listItem.sku_measurement.id == skuMeasurementId
     );
-    const item = wishList[idxOfItem];
+
+    this.changeIndexQuantity(idxOfItem, quantity);
+  };
+
+  changeIndexQuantity = async (index, quantity, callBack = () => null) => {
+    const wishList = [...this.state.wishList];
+
+    const skuItemIdsCurrentlyModifying = [
+      ...this.state.skuItemIdsCurrentlyModifying
+    ];
+
+    const item = { ...wishList[index] };
+
+    if (
+      item.sku_measurement &&
+      !skuItemIdsCurrentlyModifying.includes(item.sku_measurement.id)
+    ) {
+      skuItemIdsCurrentlyModifying.push(item.sku_measurement.id);
+    }
     if (quantity <= 0) {
-      wishList.splice(idxOfItem, 1);
       item.quantity = 0;
     } else {
-      wishList[idxOfItem].quantity = quantity;
       item.quantity = quantity;
     }
-    this.setState({ wishList });
+    this.setState({ skuItemIdsCurrentlyModifying });
+    callBack({ wishList, skuItemIdsCurrentlyModifying });
     try {
       await addSkuItemToWishList(item);
+      if (quantity <= 0) {
+        wishList.splice(index, 1);
+      } else {
+        wishList[index].quantity = quantity;
+      }
+      this.setState({ wishList });
+      callBack({ wishList, skuItemIdsCurrentlyModifying });
     } catch (e) {
-      console.log(e);
+      console.log("wishlist error: ", e);
+      showSnackbar({ text: e.message });
+    } finally {
+      if (item.sku_measurement) {
+        const idx = skuItemIdsCurrentlyModifying.findIndex(
+          id => id == item.sku_measurement.id
+        );
+        skuItemIdsCurrentlyModifying.splice(idx, 1);
+        this.setState({ skuItemIdsCurrentlyModifying });
+        callBack({ wishList, skuItemIdsCurrentlyModifying });
+      }
     }
   };
 
@@ -273,24 +309,6 @@ class ShoppingListScreen extends React.Component {
     }
   };
 
-  changeIndexQuantity = async (index, quantity) => {
-    const wishList = [...this.state.wishList];
-    const item = wishList[index];
-    if (quantity <= 0) {
-      wishList.splice(index, 1);
-      item.quantity = 0;
-    } else {
-      wishList[index].quantity = quantity;
-      item.quantity = quantity;
-    }
-    try {
-      await addSkuItemToWishList(item);
-    } catch (e) {
-      console.log(e);
-    }
-    this.setState({ wishList });
-  };
-
   updatePastItems = pastItems => {
     this.setState({ pastItems });
   };
@@ -310,6 +328,7 @@ class ShoppingListScreen extends React.Component {
       isBarcodeScannerVisible,
       pastItems,
       wishList,
+      skuItemIdsCurrentlyModifying,
       searchTerm,
       items,
       isSearching,
@@ -318,8 +337,6 @@ class ShoppingListScreen extends React.Component {
       brands,
       selectedBrands
     } = this.state;
-
-    console.log("brands: ", brands);
 
     if (referenceDataError || wishListError) {
       return (
@@ -422,6 +439,7 @@ class ShoppingListScreen extends React.Component {
             isSearching={isSearching}
             measurementTypes={measurementTypes}
             wishList={wishList}
+            skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
             addSkuItemToList={this.addSkuItemToList}
             changeSkuItemQuantityInList={this.changeSkuItemQuantityInList}
             updateItem={this.updateItem}

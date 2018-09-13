@@ -44,6 +44,7 @@ class MyShoppingList extends React.Component {
   state = {
     isShareModalVisible: false,
     wishList: [],
+    skuItemIdsCurrentlyModifying: [],
     isLoadingMySellers: false,
     isMySellersModalVisible: false,
     sellers: []
@@ -101,23 +102,22 @@ class MyShoppingList extends React.Component {
     });
     this.setState({
       isMySellersModalVisible: false
-    })
+    });
   };
 
   changeIndexQuantity = (index, quantity) => {
     const { navigation } = this.props;
-    navigation.state.params.changeIndexQuantity(index, quantity);
-
-    const wishList = [...this.state.wishList];
-    if (quantity <= 0) {
-      wishList.splice(index, 1);
-    } else {
-      wishList[index].quantity = quantity;
-    }
-    this.setState({ wishList });
-    this.props.navigation.setParams({
-      showShareBtn: wishList.length > 0
-    });
+    navigation.state.params.changeIndexQuantity(
+      index,
+      quantity,
+      ({ wishList, skuItemIdsCurrentlyModifying }) => {
+        this.setState({ wishList, skuItemIdsCurrentlyModifying }, () => {
+          this.props.navigation.setParams({
+            showShareBtn: this.state.wishList.length > 0
+          });
+        });
+      }
+    );
   };
 
   render() {
@@ -127,6 +127,7 @@ class MyShoppingList extends React.Component {
     const {
       isShareModalVisible,
       wishList,
+      skuItemIdsCurrentlyModifying,
       isLoadingMySellers,
       sellers,
       isMySellersModalVisible
@@ -163,12 +164,13 @@ class MyShoppingList extends React.Component {
             />
           </View>
         ) : (
-            <SelectedItemsList
-              measurementTypes={measurementTypes}
-              selectedItems={wishList}
-              changeIndexQuantity={this.changeIndexQuantity}
-            />
-          )}
+          <SelectedItemsList
+            measurementTypes={measurementTypes}
+            selectedItems={wishList}
+            skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
+            changeIndexQuantity={this.changeIndexQuantity}
+          />
+        )}
         <Modal
           isVisible={isShareModalVisible}
           title="Share Via"

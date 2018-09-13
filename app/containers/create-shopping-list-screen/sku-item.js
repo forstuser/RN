@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  ActivityIndicator
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Modal from "react-native-modal";
 
@@ -7,6 +13,7 @@ import { Text, Image, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
 import QuantityPlusMinus from "../../components/quantity-plus-minus";
+import LoadingOverlay from "../../components/loading-overlay";
 
 export default class SkuItem extends React.Component {
   state = {
@@ -26,6 +33,7 @@ export default class SkuItem extends React.Component {
       item,
       measurementTypes,
       wishList = [],
+      skuItemIdsCurrentlyModifying = [],
       addSkuItemToList = () => null,
       changeSkuItemQuantityInList = (skuMeasurementId, quantity) => null,
       selectActiveSkuMeasurementId = (item, skuMeasurementId) => null,
@@ -80,6 +88,8 @@ export default class SkuItem extends React.Component {
       }
     }
 
+    let isLoading = false;
+
     if (item.sku_measurements && item.activeSkuMeasurementId) {
       const skuMeasurement = item.sku_measurements.find(
         skuMeasurement => skuMeasurement.id == item.activeSkuMeasurementId
@@ -87,6 +97,13 @@ export default class SkuItem extends React.Component {
       mrp = skuMeasurement.mrp;
       if (skuMeasurement && skuMeasurement.cashback_percent) {
         cashback = (skuMeasurement.mrp * skuMeasurement.cashback_percent) / 100;
+      }
+
+      if (skuItemIdsCurrentlyModifying.includes(item.activeSkuMeasurementId)) {
+        isLoading = true;
+        console.log("isLoading: ", isLoading);
+      } else {
+        isLoading = false;
       }
     }
 
@@ -209,37 +226,55 @@ export default class SkuItem extends React.Component {
           }}
         >
           {item.activeSkuMeasurementId ? (
-            activeSkuMeasurementFromWishList && quantity ? (
-              <QuantityPlusMinus
-                quantity={quantity}
-                onMinusPress={() => {
-                  changeSkuItemQuantityInList(
-                    item.activeSkuMeasurementId,
-                    quantity - 1
-                  );
-                }}
-                onPlusPress={() => {
-                  changeSkuItemQuantityInList(
-                    item.activeSkuMeasurementId,
-                    quantity + 1
-                  );
-                }}
-              />
-            ) : (
-              <TouchableOpacity
-                onPress={addActiveSkuToList}
-                style={{
-                  height: 20,
-                  backgroundColor: colors.pinkishOrange,
-                  borderRadius: 10,
-                  minWidth: 50,
-                  alignItems: "center",
-                  justifyContent: "center"
-                }}
-              >
-                <Text style={{ color: "#fff", marginTop: -3 }}>Add</Text>
-              </TouchableOpacity>
-            )
+            <View>
+              {activeSkuMeasurementFromWishList && quantity ? (
+                <QuantityPlusMinus
+                  quantity={quantity}
+                  onMinusPress={() => {
+                    changeSkuItemQuantityInList(
+                      item.activeSkuMeasurementId,
+                      quantity - 1
+                    );
+                  }}
+                  onPlusPress={() => {
+                    changeSkuItemQuantityInList(
+                      item.activeSkuMeasurementId,
+                      quantity + 1
+                    );
+                  }}
+                />
+              ) : (
+                <TouchableOpacity
+                  onPress={addActiveSkuToList}
+                  style={{
+                    height: 20,
+                    backgroundColor: colors.pinkishOrange,
+                    borderRadius: 10,
+                    minWidth: 50,
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Text style={{ color: "#fff", marginTop: -3 }}>Add</Text>
+                </TouchableOpacity>
+              )}
+              {isLoading && (
+                <View
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    left: 0,
+                    backgroundColor: "rgba(255,255,255,0.5)",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <ActivityIndicator size="small" />
+                </View>
+              )}
+            </View>
           ) : (
             <View />
           )}

@@ -93,6 +93,7 @@ export default class SearchBar extends React.Component {
       searchError = null,
       items = [],
       wishList,
+      skuItemIdsCurrentlyModifying = [],
       addSkuItemToList,
       changeSkuItemQuantityInList,
       toggleBrand = () => null,
@@ -101,8 +102,6 @@ export default class SearchBar extends React.Component {
       addManualItemsToList = () => null,
       hideAddManually = false
     } = this.props;
-
-    console.log("items in search bar: ", items);
 
     const { isBrandsPopupVisible, checkedBrands } = this.state;
 
@@ -349,6 +348,7 @@ export default class SearchBar extends React.Component {
                   measurementTypes={measurementTypes}
                   item={item}
                   wishList={wishList}
+                  skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
                   addSkuItemToList={addSkuItemToList}
                   changeSkuItemQuantityInList={changeSkuItemQuantityInList}
                   selectActiveSkuMeasurementId={selectActiveSkuMeasurementId}
