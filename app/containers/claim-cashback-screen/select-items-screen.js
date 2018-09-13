@@ -50,6 +50,7 @@ export default class SelectCashbackItems extends React.Component {
     isBarcodeScannerVisible: false,
     isSelectedItemsModalVisible: false,
     searchTerm: "",
+    lastSearchTerm3Characters: "",
     brands: [],
     selectedBrands: [],
     isSearchDone: false,
@@ -206,20 +207,30 @@ export default class SelectCashbackItems extends React.Component {
   };
 
   updateSearchTerm = searchTerm => {
-    this.setState(
-      {
-        searchTerm,
-        isSearchDone: false,
-        selectedBrands: [],
-        brands: [],
-        items: []
-      },
-      () => {
-        if (!searchTerm) {
-          this.loadItems();
-        }
+    const newState = {
+      searchTerm
+    };
+
+    if (searchTerm.length < 3) {
+      newState.items = [];
+      newState.isSearchDone = false;
+      newState.lastSearchTerm3Characters = "";
+      newState.selectedBrands = [];
+      newState.brands = [];
+    }
+
+    this.setState(newState, () => {
+      if (
+        !searchTerm ||
+        (searchTerm.length == 3 &&
+          searchTerm != this.state.lastSearchTerm3Characters)
+      ) {
+        this.loadItems();
       }
-    );
+      if (searchTerm.length == 3) {
+        this.setState({ lastSearchTerm3Characters: searchTerm });
+      }
+    });
   };
 
   clearSearchTerm = () => {

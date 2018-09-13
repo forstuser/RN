@@ -1,27 +1,30 @@
 import React from "react";
 import { View, FlatList, Alert, Animated } from "react-native";
 
-import { API_BASE_URL } from "../../api";
-
 import { Text, Image, Button } from "../../elements";
 
 import {
+  API_BASE_URL,
   getOrderDetails,
   approveOrder,
   cancelOrder,
   rejectOrder,
-  completeOrder
+  completeOrder,
+  approveAssistedServiceOrder,
+  startAssistedServiceOrder,
+  endAssistedServiceOrder
 } from "../../api";
 
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { showSnackbar } from "../../utils/snackbar";
 
-import { ORDER_STATUS_TYPES, SCREENS } from "../../constants";
+import { ORDER_STATUS_TYPES, SCREENS, ORDER_TYPES } from "../../constants";
 
 import Status from "./status";
 import SellerDetails from "./seller-details";
-import ListItem from "./list-item";
+import ShoppingListItem from "./shopping-list-item";
+import AssistedServiceListItem from "./assisted-service-list-item";
 import DeliveryUserDetails from "./delivery-user-details";
 
 import socketIo from "../../socket-io";
@@ -29,7 +32,7 @@ import socketIo from "../../socket-io";
 import UploadBillModal from "./upload-bill-modal";
 import ReviewCard from "./review-card";
 
-export default class ShoppingListOrderScreen extends React.Component {
+export default class OrderScreen extends React.Component {
   static navigationOptions = {
     title: "Order Details"
   };
@@ -147,11 +150,18 @@ export default class ShoppingListOrderScreen extends React.Component {
     const { order } = this.state;
     try {
       this.setState({ isLoading: true });
-      await approveOrder({
-        orderId: order.id,
-        sellerId: order.seller_id,
-        skuList: order.order_details
-      });
+      if (order.order_type == ORDER_TYPES.FMCG) {
+        await approveOrder({
+          orderId: order.id,
+          sellerId: order.seller_id,
+          skuList: order.order_details
+        });
+      } else {
+        await approveAssistedServiceOrder({
+          orderId: order.id,
+          sellerId: order.seller_id
+        });
+      }
       showSnackbar({ text: "Order Approved!" });
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -200,6 +210,63 @@ export default class ShoppingListOrderScreen extends React.Component {
     );
   };
 
+  startAssistedServiceOrder = async () => {
+    const { order } = this.state;
+    try {
+      this.setState({ isLoading: true });
+      const res = await startAssistedServiceOrder({
+        orderId: order.id,
+        orderDetails: order.order_details,
+        sellerId: order.seller_id
+      });
+      showSnackbar({ text: "Service Started!" });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  endAssistedServiceOrder = async () => {
+    const { order } = this.state;
+    try {
+      this.setState({ isLoading: true });
+      const res = await startAssistedServiceOrder({
+        orderId: order.id,
+        orderDetails: order.order_details,
+        sellerId: order.seller_id
+      });
+      showSnackbar({ text: "Service Completed!" });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  completeOrder = async () => {
+    const { order } = this.state;
+    try {
+      this.setState({ isLoading: true });
+      const res = await completeOrder({
+        orderId: order.id,
+        sellerId: order.seller_id
+      });
+
+      if (res.result.product) {
+        this.uploadBillModal.show({
+          productId: res.result.product.id,
+          jobId: res.result.product.job_id
+        });
+      }
+      showSnackbar({ text: "Order completed!" });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
   removeItem = index => {
     const { order } = this.state;
     const order_details = [...order.order_details];
@@ -219,7 +286,7 @@ export default class ShoppingListOrderScreen extends React.Component {
 
     if (order) {
       totalAmount = order.order_details.reduce((total, item) => {
-        return total + item.selling_price;
+        return item.selling_price ? total + item.selling_price : total;
       }, 0);
     }
 
@@ -249,6 +316,12 @@ export default class ShoppingListOrderScreen extends React.Component {
       }
     }
 
+    let deliveryUser = order.delivery_user || null;
+
+    if (order.order_type == ORDER_TYPES.ASSISTED_SERVICE) {
+      deliveryUser = order.order_details[0].service_user || null;
+    }
+
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         {order && (
@@ -268,9 +341,13 @@ export default class ShoppingListOrderScreen extends React.Component {
                   <Status
                     statusType={order.status_type}
                     isOrderModified={order.is_modified}
+                    orderType={order.order_type}
                   />
-                  {order.delivery_user && (
-                    <DeliveryUserDetails deliveryUser={order.delivery_user} />
+                  {deliveryUser && (
+                    <DeliveryUserDetails
+                      deliveryUser={deliveryUser}
+                      orderType={order.order_type}
+                    />
                   )}
                   <SellerDetails order={order} />
                   <View
@@ -283,13 +360,15 @@ export default class ShoppingListOrderScreen extends React.Component {
                       weight="Medium"
                       style={{ fontSize: 10.5, color: "#777777" }}
                     >
-                      Shopping List
+                      {order.order_type == ORDER_TYPES.FMCG
+                        ? "Shopping List"
+                        : "Service Requested"}
                     </Text>
                     <Text
                       weight="Medium"
                       style={{ fontSize: 10.5, color: "#777777" }}
                     >
-                      Price
+                      {order.order_type == ORDER_TYPES.FMCG ? "Price" : ""}
                     </Text>
                   </View>
                 </View>
@@ -306,33 +385,41 @@ export default class ShoppingListOrderScreen extends React.Component {
                 />
               )}
               keyExtractor={(item, index) => item.id + "" + index}
-              renderItem={({ item, index }) => (
-                <ListItem
-                  item={item}
-                  index={index}
-                  declineItem={() => {
-                    this.declineItem(index);
-                  }}
-                />
-              )}
+              renderItem={({ item, index }) => {
+                if (order.order_type == ORDER_TYPES.FMCG) {
+                  return (
+                    <ShoppingListItem
+                      item={item}
+                      index={index}
+                      declineItem={() => {
+                        this.declineItem(index);
+                      }}
+                    />
+                  );
+                } else {
+                  return <AssistedServiceListItem item={item} index={index} />;
+                }
+              }}
               ListFooterComponent={() => (
                 <View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      height: 42,
-                      borderTopWidth: 1,
-                      borderBottomWidth: 1,
-                      borderColor: "#eee",
-                      marginHorizontal: 10,
-                      alignItems: "center"
-                    }}
-                  >
-                    <Text weight="Medium" style={{ flex: 1 }}>
-                      Total Amount
-                    </Text>
-                    <Text weight="Medium">Rs. {totalAmount}</Text>
-                  </View>
+                  {order.order_type == ORDER_TYPES.FMCG && (
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        height: 42,
+                        borderTopWidth: 1,
+                        borderBottomWidth: 1,
+                        borderColor: "#eee",
+                        marginHorizontal: 10,
+                        alignItems: "center"
+                      }}
+                    >
+                      <Text weight="Medium" style={{ flex: 1 }}>
+                        Total Amount
+                      </Text>
+                      <Text weight="Medium">Rs. {totalAmount}</Text>
+                    </View>
+                  )}
 
                   {order.status_type == ORDER_STATUS_TYPES.COMPLETE && (
                     <View>

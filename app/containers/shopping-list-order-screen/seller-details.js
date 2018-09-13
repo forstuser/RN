@@ -10,8 +10,8 @@ import { defaultStyles, colors } from "../../theme";
 
 export default class SellerDetails extends React.Component {
   call = () => {
-    const { seller } = this.props;
-    call({ number: seller.contact_no }).catch(e =>
+    const { order } = this.props;
+    call({ number: order.seller.contact_no }).catch(e =>
       showSnackbar({
         text: e.message
       })

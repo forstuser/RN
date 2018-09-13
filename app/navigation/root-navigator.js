@@ -172,7 +172,7 @@ handleNotification = notif => {
       break;
     case "31":
       if (notif.order.order_type == 1) {
-        screenToOpen = SCREENS.SHOPPING_LIST_ORDER_SCREEN;
+        screenToOpen = SCREENS.ORDER_SCREEN;
       }
       params = { orderId: notif.order.id };
       break;

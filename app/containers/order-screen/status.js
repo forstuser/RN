@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import { Text, Image, Button } from "../../elements";
 import { colors } from "../../theme";
-import { ORDER_STATUS_TYPES } from "../../constants";
+import { ORDER_STATUS_TYPES, ORDER_TYPES } from "../../constants";
 
 const StatusItem = ({ isDone = false, title }) => (
   <View style={{ flexDirection: "row", paddingVertical: 12 }}>
@@ -35,7 +35,13 @@ const StatusItem = ({ isDone = false, title }) => (
 
 export default class Statuses extends React.Component {
   render() {
-    const { statusType, isOrderModified = true } = this.props;
+    const {
+      statusType,
+      isOrderModified = true,
+      orderType = ORDER_TYPES.FMCG,
+      startTime,
+      endTime
+    } = this.props;
 
     return (
       <View style={{ marginBottom: 10 }}>
@@ -68,7 +74,12 @@ export default class Statuses extends React.Component {
                 backgroundColor: "#cccccc"
               }}
             />
-            <StatusItem title="Request Sent" isDone={true} />
+            <StatusItem
+              title={
+                orderType == ORDER_TYPES.FMCG ? "Order Placed" : "Request Sent"
+              }
+              isDone={true}
+            />
             <StatusItem
               title="Accepted"
               isDone={
@@ -81,9 +92,20 @@ export default class Statuses extends React.Component {
             />
             {isOrderModified && (
               <View>
-                <StatusItem title="Provider Assigned" isDone={true} />
                 <StatusItem
-                  title="Provider Approved"
+                  title={
+                    orderType == ORDER_TYPES.FMCG
+                      ? "Order Modified"
+                      : "Provider Assigned"
+                  }
+                  isDone={true}
+                />
+                <StatusItem
+                  title={
+                    orderType == ORDER_TYPES.FMCG
+                      ? "Modification Approved"
+                      : "Provider Approved"
+                  }
                   isDone={[
                     ORDER_STATUS_TYPES.APPROVED,
                     ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
@@ -98,13 +120,41 @@ export default class Statuses extends React.Component {
               ORDER_STATUS_TYPES.COMPLETE
             ].includes(statusType) && (
               <StatusItem
-                title="Provider Out For Service Delivery"
+                title={
+                  orderType == ORDER_TYPES.FMCG
+                    ? "Out For Delivery"
+                    : "Provider Out For Service Delivery"
+                }
                 isDone={[
                   ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
                   ORDER_STATUS_TYPES.COMPLETE
                 ].includes(statusType)}
               />
             )}
+
+            {[
+              ORDER_STATUS_TYPES.APPROVED,
+              ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+              ORDER_STATUS_TYPES.COMPLETE
+            ].includes(statusType) &&
+              orderType == ORDER_TYPES.ASSISTED_SERVICE && (
+                <StatusItem
+                  title="Service Started"
+                  isDone={[
+                    ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                    ORDER_STATUS_TYPES.COMPLETE
+                  ].includes(statusType)}
+                />
+              )}
+
+            {[
+              ORDER_STATUS_TYPES.APPROVED,
+              ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+              ORDER_STATUS_TYPES.COMPLETE
+            ].includes(statusType) &&
+              orderType == ORDER_TYPES.ASSISTED_SERVICE && (
+                <StatusItem title="Service Completed" isDone={false} />
+              )}
           </View>
         )}
       </View>

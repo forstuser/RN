@@ -17,13 +17,13 @@ const MoreItem = ({ imageSource, text, onPress, btnText, imageStyle = {} }) => (
       source={imageSource}
       resizeMode="contain"
     />
-    <View collapsable={false} style={styles.textContainer}>
-      <Text style={styles.text} weight="Medium">
+    <View style={styles.textContainer}>
+      <Text style={styles.text} weight="Bold">
         {text}
       </Text>
     </View>
     {btnText ? (
-      <View collapsable={false} style={styles.btn}>
+      <View style={styles.btn}>
         <Text style={styles.btnText} weight="Bold">
           {btnText}
         </Text>
@@ -35,7 +35,7 @@ const MoreItem = ({ imageSource, text, onPress, btnText, imageStyle = {} }) => (
 const styles = StyleSheet.create({
   data: {
     height: 40,
-    paddingVertical: 15,
+    paddingVertical: 20,
     paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     height: 20,
     marginRight: 12,
     tintColor: colors.mainBlue,
-    tintColor: "#b5b5b5"
+    tintColor: "#999"
   },
   textContainer: {
     height: 24,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#4a4a4a",
-    fontSize: 12
+    fontSize: 14
   },
   btn: {
     borderWidth: 1,
