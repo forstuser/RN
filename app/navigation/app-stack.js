@@ -85,8 +85,10 @@ import CashbackQueryAdditionalInfoScreen from "../containers/cashback-query-scre
 import OrderScreen from "../containers/order-screen";
 import ShoppingListOrderReviewsScreen from "../containers/shopping-list-order-screen/reviews-screen";
 import RedeemViaPaytmScreen from "../containers/BBCashWalletScreen/redeem-via-paytm-screen";
-import ActiveOrdersScreen from "../containers/active-orders-screen";
+import ActiveOrdersScreen from '../containers/active-orders-screen';
 import AddressScreen from "../containers/address-screen";
+//import ActiveOrdersScreen from "../containers/active-orders-screen";
+//import AddressScreen from "../containers/address-screen";
 import MyOrdersScreen from "../containers/my-orders-screen";
 import AssistedServicesOrderScreen from "../containers/assisted-service-order-screen";
 

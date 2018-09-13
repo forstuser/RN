@@ -64,6 +64,17 @@ export default class SearchBar extends React.Component {
     }
   };
 
+  addManualItem = () => {
+    const {
+      addManualItemsToList = () => null,
+      searchTerm = "",
+      onSearchTextChange = () => null
+    } = this.props;
+    addManualItemsToList([{ title: searchTerm, quantity: 1 }]);
+    onSearchTextChange("");
+    showSnackbar({ text: "Item added to the list" });
+  };
+
   render() {
     const {
       mainCategories = [],
@@ -87,6 +98,7 @@ export default class SearchBar extends React.Component {
       toggleBrand = () => null,
       updateItem,
       openAddManualItemModal,
+      addManualItemsToList = () => null,
       hideAddManually = false
     } = this.props;
 
@@ -168,7 +180,7 @@ export default class SearchBar extends React.Component {
             !isSearching &&
             !hideAddManually ? (
               <TouchableOpacity
-                onPress={openAddManualItemModal}
+                onPress={this.addManualItem}
                 style={{
                   height: 20,
                   width: 20,

@@ -2200,6 +2200,20 @@ export const getSellerAssistedServices = async ({ sellerId }) => {
   });
 };
 
+export const getSellersBBCashWallet = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers/cashbacks`
+  });
+};
+
+export const redeemSellerPoints = async ({ sellerId, pointsToRedeem }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/sellers/${sellerId}/loyalty/redeem`,
+    data: {amount: pointsToRedeem}
+  });
+};
 export const approveAssistedServiceOrder = async ({ orderId, sellerId }) => {
   return await apiRequest({
     method: "put",

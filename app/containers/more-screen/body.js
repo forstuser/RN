@@ -71,9 +71,9 @@ class Body extends Component {
   };
 
   onFaqItemPress = () => {
-    //Analytics.logEvent(Analytics.EVENTS.CLICK_FAQ);
-    //this.props.navigation.navigate(SCREENS.FAQS_SCREEN);
-    this.props.navigation.navigate(SCREENS.USER_ON_BOARDING_SCREEN);
+    Analytics.logEvent(Analytics.EVENTS.CLICK_FAQ);
+    this.props.navigation.navigate(SCREENS.FAQS_SCREEN);
+    //this.props.navigation.navigate(SCREENS.USER_ON_BOARDING_SCREEN);
   };
 
   onEmailItemPress = () => {
