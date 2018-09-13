@@ -100,7 +100,7 @@ class ShoppingListScreen extends React.Component {
       this.setState(() => ({
         mainCategories,
         measurementTypes,
-        activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0],
+        activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
         activeCategoryId:
           pastItems.length > 0 ? null : mainCategories[0].categories[0].id,
         items: pastItems

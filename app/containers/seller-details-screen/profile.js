@@ -139,12 +139,14 @@ class SellerProfileTab extends React.Component {
 
   render() {
     const { seller, paymentModes, reloadSellerDetails } = this.props;
-    const sellerDetails = seller.seller_details;
-    const basicDetails = sellerDetails.basic_details;
+    const sellerDetails = seller.seller_details || {};
+    const basicDetails = sellerDetails.basic_details || {};
 
     const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-    const availablePaymentModesIds = basicDetails.payment_modes.split(",");
+    const availablePaymentModesIds = basicDetails.payment_modes
+      ? basicDetails.payment_modes.split(",")
+      : [];
 
     let homeDeliveryInfo = basicDetails.home_delivery ? "Yes" : "No";
     homeDeliveryInfo =
@@ -261,24 +263,26 @@ class SellerProfileTab extends React.Component {
             {seller.owner_name}
           </Text>
         </View>
-        <View
-          style={{
-            width: 200,
-            borderColor: "#d9d9d9",
-            borderBottomWidth: 1,
-            height: 28,
-            justifyContent: "center"
-          }}
-        >
-          <Text style={{ fontSize: 9, textAlign: "center", marginTop: -2 }}>
-            {basicDetails.shop_open_day
-              .split(",")
-              .map(day => weekDays[day])
-              .join(" ") +
-              `        ` +
-              basicDetails.shop_open_timings}
-          </Text>
-        </View>
+        {basicDetails.shop_open_day && (
+          <View
+            style={{
+              width: 200,
+              borderColor: "#d9d9d9",
+              borderBottomWidth: 1,
+              height: 28,
+              justifyContent: "center"
+            }}
+          >
+            <Text style={{ fontSize: 9, textAlign: "center", marginTop: -2 }}>
+              {basicDetails.shop_open_day
+                .split(",")
+                .map(day => weekDays[day])
+                .join(" ") +
+                `        ` +
+                basicDetails.shop_open_timings}
+            </Text>
+          </View>
+        )}
         <View style={{ flexDirection: "row", width: 180, paddingTop: 10 }}>
           <TouchableOpacity onPress={this.call} style={[styles.button]}>
             <Icon
