@@ -287,7 +287,7 @@ class ShareModal extends React.Component {
                     <Text
                       weight="Bold"
                       style={{
-                        marginTop: 20,
+                        marginTop: 10,
                         color: colors.mainBlue,
                         fontSize: 16
                       }}
@@ -310,7 +310,7 @@ class ShareModal extends React.Component {
                       <Text
                         weight="Bold"
                         style={{
-                          marginTop: 20,
+                          marginTop: 10,
                           color: colors.pinkishOrange,
                           textAlign: "center",
                           fontSize: 16
@@ -427,8 +427,8 @@ class ShareModal extends React.Component {
                             <Icon name="md-create" size={15} color="black" />
                           </TouchableOpacity>
                         ) : (
-                          <View />
-                        )}
+                            <View />
+                          )}
                       </View>
                       <Text numberOfLines={4} style={styles.feedbackText}>
                         {feedbackText ? `"${feedbackText}"` : ""}

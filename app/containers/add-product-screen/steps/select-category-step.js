@@ -443,7 +443,7 @@ class SelectCategoryStep extends React.Component {
     if (this.props.expenseType == EXPENSE_TYPES.HEALTHCARE) {
       category = { id: CATEGORY_IDS.HEALTHCARE.EXPENSE, name: "Expenses" };
     } else if (this.props.expenseType == EXPENSE_TYPES.ELECTRONICS) {
-      category = { id: category.refId, name: "E&E" }
+      category = { id: category.refId, name: "" }
     }
     this.setState(
       {
@@ -522,7 +522,7 @@ class SelectCategoryStep extends React.Component {
       };
     } else if (this.props.expenseType == EXPENSE_TYPES.ELECTRONICS) {
       subCategoryId = category.id;
-      category = { id: category.refId, name: "E&E" }
+      category = { id: category.refId, name: "" }
     }
 
     if (typeof this.props.onCategorySelect != "function") {

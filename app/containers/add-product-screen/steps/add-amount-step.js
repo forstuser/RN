@@ -82,74 +82,74 @@ class AddAmountStep extends React.Component {
     const { isLoading, value } = this.state;
 
     const { mainCategoryId, category, product, subCategoryId } = this.props;
-    title = "Add Amount";
-    switch (category.id) {
-      case CATEGORY_IDS.TRAVEL.TRAVEL:
-        title = "Add Travel Expense Amount";
-        break;
-      case CATEGORY_IDS.TRAVEL.HOTEL_STAY:
-        title = "Add Hotel Stay Expense Amount";
-        break;
-      case CATEGORY_IDS.TRAVEL.DINING:
-        title = "Add Dining Expense Amount";
-        break;
+    title = "Add Expense Amount";
+    // switch (category.id) {
+    //   case CATEGORY_IDS.TRAVEL.TRAVEL:
+    //     title = "Add Travel Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.TRAVEL.HOTEL_STAY:
+    //     title = "Add Hotel Stay Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.TRAVEL.DINING:
+    //     title = "Add Dining Expense Amount";
+    //     break;
 
-      case CATEGORY_IDS.HEALTHCARE.EXPENSE:
-        if (subCategoryId == SUB_CATEGORY_IDS.MEDICAL_BILL) {
-          title = "Add Medical Bill Expense Amount";
-        } else {
-          title = "Add Hospital Bill Expense Amount";
-        }
-        break;
+    //   case CATEGORY_IDS.HEALTHCARE.EXPENSE:
+    //     if (subCategoryId == SUB_CATEGORY_IDS.MEDICAL_BILL) {
+    //       title = "Add Medical Bill Expense Amount";
+    //     } else {
+    //       title = "Add Hospital Bill Expense Amount";
+    //     }
+    //     break;
 
-      case CATEGORY_IDS.FASHION.FOOTWEAR:
-        title = "Add Footwear Expense Amount";
-        break;
-      case CATEGORY_IDS.FASHION.SHADES:
-        title = "Add Shades Expense Amount";
-        break;
-      case CATEGORY_IDS.FASHION.WATCHES:
-        title = "Add Watch Expense Amount";
-        break;
-      case CATEGORY_IDS.FASHION.CLOTHS:
-        title = "Add Cloth Expense Amount";
-        break;
-      case CATEGORY_IDS.FASHION.BAGS:
-        title = "Add Bag Expense Amount";
-        break;
-      case CATEGORY_IDS.FASHION.JEWELLERY:
-        title = "Add Jewellery & Accessories Expense Amount";
-        break;
-      case CATEGORY_IDS.FASHION.MAKEUP:
-        title = "Add Make-Up Expense Amount";
-        break;
+    //   case CATEGORY_IDS.FASHION.FOOTWEAR:
+    //     title = "Add Footwear Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.SHADES:
+    //     title = "Add Shades Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.WATCHES:
+    //     title = "Add Watch Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.CLOTHS:
+    //     title = "Add Cloth Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.BAGS:
+    //     title = "Add Bag Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.JEWELLERY:
+    //     title = "Add Jewellery & Accessories Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.MAKEUP:
+    //     title = "Add Make-Up Expense Amount";
+    //     break;
 
-      case CATEGORY_IDS.SERVICES.BEAUTY_AND_SALON:
-        title = "Add Beauty & Salon Expense Amount";
-        break;
-      case CATEGORY_IDS.SERVICES.LESSIONS_HOBBIES:
-        title = "Add Lessons & Hobbies Expense Amount";
-        break;
-      case CATEGORY_IDS.SERVICES.OTHER_SERVICES:
-        title = "Add Other Services Expense Amount";
-        break;
+    //   case CATEGORY_IDS.SERVICES.BEAUTY_AND_SALON:
+    //     title = "Add Beauty & Salon Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.SERVICES.LESSIONS_HOBBIES:
+    //     title = "Add Lessons & Hobbies Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.SERVICES.OTHER_SERVICES:
+    //     title = "Add Other Services Expense Amount";
+    //     break;
 
-      case CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE:
-        title = "Add Household Expense Amount";
-        break;
-      case CATEGORY_IDS.HOUSEHOLD.EDUCATION:
-        title = "Add Education Expense Amount";
-        break;
-      case CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS:
-        title = "Add Utility Bill Expense Amount";
-        break;
-      case CATEGORY_IDS.HOUSEHOLD.HOME_DECOR:
-        title = "Add Home Decor & Furnishing Expense Amount";
-        break;
-      case CATEGORY_IDS.HOUSEHOLD.OTHER_HOUSEHOLD_EXPENSE:
-        title = "Add Other Household Expense Amount";
-        break;
-    }
+    //   case CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE:
+    //     title = "Add Household Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.HOUSEHOLD.EDUCATION:
+    //     title = "Add Education Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS:
+    //     title = "Add Utility Bill Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.HOUSEHOLD.HOME_DECOR:
+    //     title = "Add Home Decor & Furnishing Expense Amount";
+    //     break;
+    //   case CATEGORY_IDS.HOUSEHOLD.OTHER_HOUSEHOLD_EXPENSE:
+    //     title = "Add Other Household Expense Amount";
+    //     break;
+    // }
     return (
       <Step title={title} showLoader={isLoading} {...this.props}>
         <View collapsable={false} style={{ padding: 20 }}>

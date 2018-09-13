@@ -31,7 +31,7 @@ class ViewBillButton extends React.Component {
       navigation,
       docType = "Product",
       btnText = "Bill",
-      viewRef = () => {},
+      viewRef = () => { },
       style
     } = this.props;
     if (product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
@@ -48,6 +48,7 @@ class ViewBillButton extends React.Component {
           <TouchableOpacity
             ref={ref => viewRef(ref)}
             onPress={() => {
+              console.log("view bill button clicked")
               Analytics.logEvent(Analytics.EVENTS.CLICK_VIEW_BILL, {
                 main_category: product.masterCategoryName,
                 category_name: product.categoryName
@@ -95,7 +96,7 @@ class ViewBillButton extends React.Component {
             <UploadBillOptions
               ref={o => (this.uploadBillOptions = o)}
               navigation={navigation}
-              uploadCallback={() => {}}
+              uploadCallback={() => { }}
               actionSheetTitle={"Upload " + btnText}
             />
             <Image style={styles.viewBillIcon} source={viewBillIcon} />
