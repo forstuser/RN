@@ -33,7 +33,7 @@ class MyShoppingList extends React.Component {
       headerRight: showShareBtn ? (
         <TouchableOpacity
           onPress={navigation.state.params.onSharePress}
-          style={{ marginRight: 10 }}
+          style={{ marginRight: 20 }}
         >
           <Icon name="md-share" size={25} color={colors.mainBlue} />
         </TouchableOpacity>

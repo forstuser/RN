@@ -44,6 +44,10 @@ export default class CashbackBillsScreen extends React.Component {
 
   render() {
     const { transactions, isLoading, error } = this.state;
+    
+    const itemId = this.props.navigation.getParam('OrderID', 'NO_ID');
+    console.log('itemId: ', itemId);
+    
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <FlatList
@@ -87,7 +91,42 @@ export default class CashbackBillsScreen extends React.Component {
             }
 
             console.log(statusColor);
+            
+            if(item.id === itemId) {
+              this.cashbackDispersedModal.show(item);
+            }
 
+            let points =  null; 
+            let cashback = null;
+            
+            if(item.total_loyalty > 0) {
+              points = <Text style={{ fontSize: 14, marginVertical: 5 }}>
+                Points Earned :
+                <Text weight="Bold">{` ` + item.total_loyalty}</Text>
+              </Text>;
+            }
+
+            if(item.redeemed_loyalty > 0) {
+              points = <Text style={{ fontSize: 14, marginVertical: 5 }}>
+                Points Redeemed :
+                <Text weight="Bold">{` ` + item.redeemed_loyalty}</Text>
+              </Text>;
+            }
+
+            if(item.total_cashback > 0) {
+              cashback = <Text style={{ fontSize: 14 }}>
+                Cashback Earned :
+                <Text weight="Bold">{` ` + item.total_cashback}</Text>
+              </Text>;
+            }
+
+            if(item.pending_cashback > 0) {
+              cashback = <Text style={{ fontSize: 14 }}>
+                Expected Cashback :
+                <Text weight="Bold">{` ` + item.total_cashback}</Text>
+              </Text>;
+            }
+            
             return (
               <TouchableOpacity
                 onPress={() => this.cashbackDispersedModal.show(item)}
@@ -125,10 +164,7 @@ export default class CashbackBillsScreen extends React.Component {
                   <Text style={{ fontSize: 14, marginVertical: 5 }}>
                     Price :<Text weight="Bold">{` ` + item.amount_paid}</Text>
                   </Text>
-                  <Text style={{ fontSize: 14 }}>
-                    BB Cashback Earned :
-                    <Text weight="Bold">{` ` + item.total_cashback}</Text>
-                  </Text>
+                  {cashback}
                   {item.copies &&
                     item.copies.length > 0 && (
                       <TouchableOpacity
@@ -168,11 +204,7 @@ export default class CashbackBillsScreen extends React.Component {
                       {` ` + item.item_counts}
                     </Text>
                   </Text>
-                  <Text style={{ fontSize: 14, marginVertical: 5 }}>
-                    Points Earned :
-                    <Text weight="Bold">{` ` + item.total_loyalty}</Text>
-                  </Text>
-
+                  {points}  
                   <TouchableOpacity
                     onPress={() => {
                       this.statusModal.show(item);

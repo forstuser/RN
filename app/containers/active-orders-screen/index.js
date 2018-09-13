@@ -91,6 +91,7 @@ class ActiveOrdersScreen extends Component {
             <SingleOrder
               key={index}
               item={order}
+              navigation={this.props.navigation}
               onPress={() => {
                 this.openOrderScreen(order);
               }}
@@ -102,9 +103,9 @@ class ActiveOrdersScreen extends Component {
     if (activeAssistedServicesRequest.length > 0) {
       assistedServicesRequest = (
         <View style={{ marginTop: 10 }}>
-          <Text weight="Medium" style={{ fontSize: 18 }}>
+          {/* <Text weight="Medium" style={{ fontSize: 18 }}>
             Assisted Services Request
-          </Text>
+          </Text> */}
           {activeAssistedServicesRequest.map((serviceRequest, index) => (
             <SingleServiceRequest key={index} serviceRequest={serviceRequest} />
           ))}
