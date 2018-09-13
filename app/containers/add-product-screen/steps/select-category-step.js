@@ -50,7 +50,7 @@ class SelectCategoryStep extends React.Component {
     };
   }
   componentDidMount() {
-    console.log("this.props: ", this.props);
+    console.log("this.props:-  ", this.props);
 
     let title = "Select Type";
     let genericIcon = null;

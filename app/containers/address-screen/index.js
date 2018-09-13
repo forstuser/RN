@@ -6,7 +6,6 @@ import { colors, defaultStyles } from "../../theme";
 import Icon from "react-native-vector-icons/Ionicons";
 import RNGooglePlaces from "react-native-google-places";
 import Modal from "../../components/modal";
-import RNModal from 'react-native-modal';
 import { SCREENS } from '../../constants'
 import { showSnackbar } from "../../utils/snackbar";
 import LoadingOverlay from "./../../components/loading-overlay";
@@ -253,17 +252,19 @@ class AddressScreen extends Component {
                         />
                     </View>
                 </Modal>
-                <RNModal
+                <Modal
                     isVisible={deleteModalShow}
-                    onClosePress={this.hide}
-                    onBackButtonPress={this.hide}
-                    onBackdropPress={this.hide}
+                    title={"Delete Address"}
+                    onClosePress={this.hideDeleteModal}
+                    onBackButtonPress={this.hideDeleteModal}
+                    onBackdropPress={this.hideDeleteModal}
+                    style={{ height: 200, backgroundColor: "#fff" }}
                 >
-                    <View style={{ height: 100, backgroundColor: "#fff" }}>
-                        <View style={{ width: 300, alignSelf: 'center', top: 10 }}>
-                            <Text weight="Bold">Are you sure want to delete this address?</Text>
+                    <View style={{ height: 150, backgroundColor: "#fff" }}>
+                        <View style={{ width: 260, alignSelf: 'center', top: 25 }}>
+                            <Text weight="Bold" style={{ textAlign: 'center', fontSize: 16 }}>Are you sure want to delete this address?</Text>
                         </View>
-                        <View style={{ flexDirection: 'row', width: 300, justifyContent: 'space-between', alignSelf: 'center' }}>
+                        <View style={{ top: 40, flexDirection: 'row', width: 260, justifyContent: 'space-between', alignSelf: 'center' }}>
                             <Button
                                 text="No"
                                 onPress={this.hideDeleteModal}
@@ -278,7 +279,7 @@ class AddressScreen extends Component {
                             />
                         </View>
                     </View>
-                </RNModal>
+                </Modal>
                 <LoadingOverlay visible={showLoader} />
             </View>
         );
@@ -320,7 +321,7 @@ const styles = {
     },
     btn: {
         height: 40,
-        width: 140,
+        width: 120,
         alignSelf: "center",
         marginTop: 20
     }
