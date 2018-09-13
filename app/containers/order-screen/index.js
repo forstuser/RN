@@ -316,9 +316,9 @@ export default class OrderScreen extends React.Component {
       }
     }
 
-    let deliveryUser = order.delivery_user || null;
+    let deliveryUser = order ? order.delivery_user : null;
 
-    if (order.order_type == ORDER_TYPES.ASSISTED_SERVICE) {
+    if (order && order.order_type == ORDER_TYPES.ASSISTED_SERVICE) {
       deliveryUser = order.order_details[0].service_user || null;
     }
 
