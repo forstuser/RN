@@ -214,7 +214,7 @@ export default class ClaimCashback extends React.Component {
                 weight="Medium"
                 style={{ fontSize: 9, color: colors.secondaryText, flex: 1 }}
               >
-                Item
+                Item List
               </Text>
               <Text
                 weight="Medium"
@@ -265,9 +265,9 @@ export default class ClaimCashback extends React.Component {
                         >
                           {item.sku_measurement && measurementTypes
                             ? ` (${item.sku_measurement.measurement_value +
-                                measurementTypes[
-                                  item.sku_measurement.measurement_type
-                                ].acronym})`
+                            measurementTypes[
+                              item.sku_measurement.measurement_type
+                            ].acronym})`
                             : ``}
                         </Text>
                         <Text

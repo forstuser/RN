@@ -41,7 +41,7 @@ export default class OrdersList extends React.Component {
       navigation={this.props.navigation}
     />
   };
-  
+
   openOrderScreen = order => {
     this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
       orderId: order.id
@@ -71,18 +71,14 @@ export default class OrdersList extends React.Component {
               justifyContent: "center"
             }}
           >
-            <View
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 50
-              }}
-            />
-
-            <Image
-              style={{ width: 80, height: 90, marginTop: 90 }}
-              source={require("../../images/bell.png")}
-              resizeMode="contain"
+            <Text style={{ fontSize: 18, textAlign: "center" }}>
+              You do not have any orders yet.
+            </Text>
+            <Button
+              onPress={() => this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN)}
+              text="Shop Now"
+              color="secondary"
+              style={{ width: 150, marginTop: 25, height: 40 }}
             />
           </View>
           <Text
@@ -101,14 +97,14 @@ export default class OrdersList extends React.Component {
         </View>
         )}
       />
-        // renderItem={({ item, index }) => (
-        //   <TouchableOpacity
-        //     style={{ ...defaultStyles.card, height: 80, margin: 10 }}
-        //     onPress={() => this.openOrderScreen(item)}
-        //   >
-        //     <Text>Order Id: {item.id}</Text>
-        //   </TouchableOpacity>
-        // )}
+      // renderItem={({ item, index }) => (
+      //   <TouchableOpacity
+      //     style={{ ...defaultStyles.card, height: 80, margin: 10 }}
+      //     onPress={() => this.openOrderScreen(item)}
+      //   >
+      //     <Text>Order Id: {item.id}</Text>
+      //   </TouchableOpacity>
+      // )}
     );
   }
 }

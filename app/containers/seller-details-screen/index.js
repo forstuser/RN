@@ -96,7 +96,7 @@ export default class SellerDetailsScreen extends React.Component {
               />
             </View>
             <View tabLabel="Offers">
-              <Offers offers={seller.seller_offers || []} />
+              <Offers offers={seller.seller_offers || []} isLoading={isLoading} />
             </View>
           </ScrollableTabView>
         )}

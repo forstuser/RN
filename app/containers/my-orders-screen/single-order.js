@@ -10,39 +10,40 @@ import { Button } from '../../elements';
 
 class SingleOrder extends Component {
     openOrderScreen = order => {
-        this.props.navigation.navigate(SCREENS.SHOPPING_LIST_ORDER_SCREEN, {
-          orderId: order.id
+        console.log(order);
+        this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
+            orderId: order.id
         });
-      };
+    };
 
     render() {
         const { item } = this.props;
         let statusType = null;
-        if(item.status_type === ORDER_STATUS_TYPES.COMPLETE)
+        if (item.status_type === ORDER_STATUS_TYPES.COMPLETE)
             statusType = <Text style={{ fontSize: 12, color: colors.success }}>COMPLETED</Text>;
-        else if(item.seller.status_type === ORDER_STATUS_TYPES.NEW)
+        else if (item.seller.status_type === ORDER_STATUS_TYPES.NEW)
             statusType = <Text style={{ fontSize: 12, color: colors.mainText }}>NEW</Text>;
-        else if(item.status_type === ORDER_STATUS_TYPES.APPROVED)
+        else if (item.status_type === ORDER_STATUS_TYPES.APPROVED)
             statusType = <Text style={{ fontSize: 12 }}>APPROVED</Text>;
-        else if(item.status_type === ORDER_STATUS_TYPES.CANCELED)
+        else if (item.status_type === ORDER_STATUS_TYPES.CANCELED)
             statusType = <Text style={{ fontSize: 12, color: colors.danger }}>CANCELLED</Text>;
-        else if(item.status_type === ORDER_STATUS_TYPES.REJECTED)
+        else if (item.status_type === ORDER_STATUS_TYPES.REJECTED)
             statusType = <Text style={{ fontSize: 12, color: colors.danger }}>REJECTED</Text>;
-        else if(item.status_type === ORDER_STATUS_TYPES.OUT_FOR_DELIVERY)
+        else if (item.status_type === ORDER_STATUS_TYPES.OUT_FOR_DELIVERY)
             statusType = <Text style={{ fontSize: 10 }}>OUT FOR DELIVERY</Text>;
         let status = <Text weight='Bold'>{statusType}</Text>;
         let name = <Text weight='Bold'>{item.seller.seller_name}</Text>;
         let quantity = <Text weight='Bold'>{item.order_details.length}</Text>;
         let dateTime = <Text weight='Bold'>{moment(item.created_at).format("DD MMM, YYYY")} {" "}
-        {moment(item.created_at).format("hh:mm a")}</Text>;
+            {moment(item.created_at).format("hh:mm a")}</Text>;
         let amount = <Text weight='Bold'>{item.total_amount}</Text>;
-        
+
         let cashback = <Text weight='Bold'>{item.available_cashback}</Text>;
         let cashbackStatus = <Text style={styles.data}>Cashback earned: {cashback}</Text>;
-        if(item.cashback_status === 13) {
+        if (item.cashback_status === 13) {
             cashbackStatus = <Button
                 style={{ height: 30, width: 200, marginTop: 10 }}
-                text='View Cashback Status' 
+                text='View Cashback Status'
                 onPress={() => this.props.navigation.navigate(SCREENS.CASHBACK_BILLS_SCREEN, {
                     orderID: item.job_id
                 })}
@@ -50,31 +51,31 @@ class SingleOrder extends Component {
                 textStyle={{ fontSize: 14 }}
             />;
         }
-        
-        if(item.cashback_status === null || item.cashback_status === 15 || item.cashback_status === 17 || item.cashback_status === 18) {
+
+        if (item.cashback_status === null || item.cashback_status === 15 || item.cashback_status === 17 || item.cashback_status === 18) {
             cashback = <Text weight='Bold'>0</Text>;
             cashbackStatus = <Text style={styles.data}>Cashback earned: {cashback}</Text>;
         }
- 
+
 
         return (
-            <TouchableOpacity 
+            <TouchableOpacity
                 style={styles.container}
-                onPress={() => this.openOrderScreen(this.props.item)}
+                onPress={() => this.openOrderScreen(item)}
             >
                 <View style={[styles.box, styles.box1]}>
                     <Image
-                    style={{
-                    width: 68,
-                    height: 68,
-                    borderRadius: 35,
-                    }}
-                    source={{
-                    uri:
-                        API_BASE_URL +
-                        `/consumer/sellers/${item.seller_id}/upload/1/images/0`
-                    }}
-                />
+                        style={{
+                            width: 68,
+                            height: 68,
+                            borderRadius: 35,
+                        }}
+                        source={{
+                            uri:
+                                API_BASE_URL +
+                                `/consumer/sellers/${item.seller_id}/upload/1/images/0`
+                        }}
+                    />
                 </View>
                 <View style={[styles.box, styles.box2]}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -100,18 +101,18 @@ const styles = {
         flex: 1,
         flexDirection: 'row',
         borderRadius: 10,
-        margin: 10      
+        margin: 10
     },
     box: {
         height: 160
     },
     box1: {
-        padding: 10    
+        padding: 10
     },
     box2: {
         flex: 1
     },
-    
+
     info: {
         marginTop: 10,
         flex: 1
@@ -129,7 +130,7 @@ const styles = {
         height: 60,
         width: 60,
         marginLeft: 10,
-        marginTop: 40    
+        marginTop: 40
     }
 };
 
