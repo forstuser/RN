@@ -66,8 +66,18 @@ class AppImage extends Component {
               source={source}
               {...props}
             />
-          ) : (
+          ) : source.uri ? (
             <FastImage
+              onLoadEnd={() => this.setState({ isLoading: false })}
+              onError={error => {
+                this.setState({ error });
+              }}
+              style={[styles.image, { tintColor: props.tintColor }]}
+              source={source}
+              {...props}
+            />
+          ) : (
+            <Image
               onLoadEnd={() => this.setState({ isLoading: false })}
               onError={error => {
                 this.setState({ error });

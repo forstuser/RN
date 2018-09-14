@@ -85,72 +85,76 @@ class SelectSubCategoryStep extends React.Component {
     const { subCategories, isLoading } = this.state;
     const { mainCategoryId, category, product } = this.props;
     let title = "Select Expense Type";
-    switch (category.id) {
-      case CATEGORY_IDS.TRAVEL.TRAVEL:
-        title = "Select Travel Expense Type";
-        break;
-      case CATEGORY_IDS.TRAVEL.HOTEL_STAY:
-        title = "Select Hotel Stay Expense Type";
-        break;
-      case CATEGORY_IDS.TRAVEL.DINING:
-        title = "Select Dining Expense Type";
-        break;
+    // switch(category.id){
+    //   case CATEGORY_IDS.FURNITURE.HARDWARE:
+    //   title = "Select "
+    // }
+    // switch (category.id) {
+    //   case CATEGORY_IDS.TRAVEL.TRAVEL:
+    //     title = "Select Travel Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.TRAVEL.HOTEL_STAY:
+    //     title = "Select Hotel Stay Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.TRAVEL.DINING:
+    //     title = "Select Dining Expense Type";
+    //     break;
 
-      case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
-        title = "Select Medical Bill Expense Type";
-        break;
-      case CATEGORY_IDS.HEALTHCARE.HOSPITAL_DOC:
-        title = "Select Hospital Bill Expense Type";
-        break;
+    //   case CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC:
+    //     title = "Select Medical Bill Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.HEALTHCARE.HOSPITAL_DOC:
+    //     title = "Select Hospital Bill Expense Type";
+    //     break;
 
-      case CATEGORY_IDS.FASHION.FOOTWEAR:
-        title = "Select Footwear Expense Type";
-        break;
-      case CATEGORY_IDS.FASHION.SHADES:
-        title = "Select Shades Expense Type";
-        break;
-      case CATEGORY_IDS.FASHION.WATCHES:
-        title = "Select Watch Expense Type";
-        break;
-      case CATEGORY_IDS.FASHION.CLOTHS:
-        title = "Select Cloth Expense Type";
-        break;
-      case CATEGORY_IDS.FASHION.BAGS:
-        title = "Select Bag Expense Type";
-        break;
-      case CATEGORY_IDS.FASHION.JEWELLERY:
-        title = "Select Jewellery & Accessories Expense Type";
-        break;
-      case CATEGORY_IDS.FASHION.MAKEUP:
-        title = "Select Make-Up Expense Type";
-        break;
+    //   case CATEGORY_IDS.FASHION.FOOTWEAR:
+    //     title = "Select Footwear Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.SHADES:
+    //     title = "Select Shades Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.WATCHES:
+    //     title = "Select Watch Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.CLOTHS:
+    //     title = "Select Cloth Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.BAGS:
+    //     title = "Select Bag Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.JEWELLERY:
+    //     title = "Select Jewellery & Accessories Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.FASHION.MAKEUP:
+    //     title = "Select Make-Up Expense Type";
+    //     break;
 
-      case CATEGORY_IDS.SERVICES.BEAUTY_AND_SALON:
-        title = "Select Beauty & Salon Expense Type";
-        break;
-      case CATEGORY_IDS.SERVICES.LESSIONS_HOBBIES:
-        title = "Select Lessons & Hobbies Expense Type";
-        break;
-      case CATEGORY_IDS.SERVICES.OTHER_SERVICES:
-        title = "Select Other Services Expense Type";
-        break;
+    //   case CATEGORY_IDS.SERVICES.BEAUTY_AND_SALON:
+    //     title = "Select Beauty & Salon Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.SERVICES.LESSIONS_HOBBIES:
+    //     title = "Select Lessons & Hobbies Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.SERVICES.OTHER_SERVICES:
+    //     title = "Select Other Services Expense Type";
+    //     break;
 
-      case CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE:
-        title = "Select Household Expense Type";
-        break;
-      case CATEGORY_IDS.HOUSEHOLD.EDUCATION:
-        title = "Select Education Expense Type";
-        break;
-      case CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS:
-        title = "Select Utility Bill Expense Type";
-        break;
-      case CATEGORY_IDS.HOUSEHOLD.HOME_DECOR:
-        title = "Select Home Decor & Furnishing Expense Type";
-        break;
-      case CATEGORY_IDS.HOUSEHOLD.OTHER_HOUSEHOLD_EXPENSE:
-        title = "Select Other Household Expense Type";
-        break;
-    }
+    //   case CATEGORY_IDS.HOUSEHOLD.HOUSEHOLD_EXPENSE:
+    //     title = "Select Household Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.HOUSEHOLD.EDUCATION:
+    //     title = "Select Education Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.HOUSEHOLD.UTILITY_BILLS:
+    //     title = "Select Utility Bill Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.HOUSEHOLD.HOME_DECOR:
+    //     title = "Select Home Decor & Furnishing Expense Type";
+    //     break;
+    //   case CATEGORY_IDS.HOUSEHOLD.OTHER_HOUSEHOLD_EXPENSE:
+    //     title = "Select Other Household Expense Type";
+    //     break;
+    // }
     return (
       <Step title={title} showLoader={isLoading} {...this.props}>
         <SelectOrCreateItem

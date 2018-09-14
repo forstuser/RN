@@ -57,6 +57,7 @@ export default class SelectCashbackItems extends React.Component {
     searchError: null,
     items: [],
     selectedItems: [],
+    skuItemIdsCurrentlyModifying: [],
     isSearching: false,
     mainCategories: [],
     activeMainCategoryId: null,
@@ -307,44 +308,60 @@ export default class SelectCashbackItems extends React.Component {
         listItem.sku_measurement &&
         listItem.sku_measurement.id == skuMeasurementId
     );
-    const item = selectedItems[idxOfItem];
-    if (quantity <= 0) {
-      selectedItems.splice(idxOfItem, 1);
-      item.quantity = 0;
-    } else {
-      selectedItems[idxOfItem].quantity = quantity;
-      item.quantity = quantity;
-    }
 
-    this.setState({ selectedItems });
-    try {
-      await addSkuItemToPastList(item);
-    } catch (e) {
-      console.log(e);
-    }
+    this.changeIndexQuantity(idxOfItem, quantity);
   };
 
-  changeIndexQuantity = async (index, quantity) => {
+  changeIndexQuantity = async (index, quantity, callBack = () => null) => {
     const selectedItems = [...this.state.selectedItems];
-    const item = selectedItems[index];
+
+    const skuItemIdsCurrentlyModifying = [
+      ...this.state.skuItemIdsCurrentlyModifying
+    ];
+
+    const item = { ...selectedItems[index] };
+
+    delete item.sku_measurements;
+
+    if (
+      item.sku_measurement &&
+      !skuItemIdsCurrentlyModifying.includes(item.sku_measurement.id)
+    ) {
+      skuItemIdsCurrentlyModifying.push(item.sku_measurement.id);
+    }
     if (quantity <= 0) {
-      selectedItems.splice(index, 1);
       item.quantity = 0;
     } else {
-      selectedItems[index].quantity = quantity;
       item.quantity = quantity;
     }
-
-    this.setState({ selectedItems }, () => {
-      if (this.state.selectedItems.length == 0) {
-        this.hideSelectedItemsModalVisible();
-      }
-    });
-
+    this.setState({ skuItemIdsCurrentlyModifying });
+    callBack({ selectedItems, skuItemIdsCurrentlyModifying });
     try {
       await addSkuItemToPastList(item);
+      if (quantity <= 0) {
+        selectedItems.splice(index, 1);
+      } else {
+        selectedItems[index].quantity = quantity;
+      }
+      this.setState({ selectedItems }, () => {
+        if (this.state.selectedItems.length == 0) {
+          this.hideSelectedItemsModalVisible();
+        }
+      });
+
+      callBack({ selectedItems, skuItemIdsCurrentlyModifying });
     } catch (e) {
-      console.log(e);
+      console.log("wishlist error: ", e);
+      showSnackbar({ text: e.message });
+    } finally {
+      if (item.sku_measurement) {
+        const idx = skuItemIdsCurrentlyModifying.findIndex(
+          id => id == item.sku_measurement.id
+        );
+        skuItemIdsCurrentlyModifying.splice(idx, 1);
+        this.setState({ skuItemIdsCurrentlyModifying });
+        callBack({ selectedItems, skuItemIdsCurrentlyModifying });
+      }
     }
   };
 
@@ -399,6 +416,7 @@ export default class SelectCashbackItems extends React.Component {
       searchError,
       items,
       selectedItems = [],
+      skuItemIdsCurrentlyModifying = [],
       isSearching,
       activeMainCategoryId,
       activeCategoryId,
@@ -435,6 +453,7 @@ export default class SelectCashbackItems extends React.Component {
             isSearching={isSearching}
             measurementTypes={measurementTypes}
             wishList={selectedItems}
+            skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
             addSkuItemToList={this.addSkuItemToList}
             changeSkuItemQuantityInList={this.changeSkuItemQuantityInList}
             updateItem={this.updateItem}
@@ -490,6 +509,7 @@ export default class SelectCashbackItems extends React.Component {
           >
             <SelectedItemsList
               selectedItems={selectedItems}
+              skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
               measurementTypes={measurementTypes}
               changeIndexQuantity={this.changeIndexQuantity}
             />

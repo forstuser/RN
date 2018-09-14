@@ -50,6 +50,7 @@ class SelectBrandStep extends React.Component {
         catID = subCategoryId;
       }
       const res = await getReferenceDataBrands(catID);
+      console.log("brands", res)
       this.setState({
         brands: res
       });
@@ -117,10 +118,9 @@ class SelectBrandStep extends React.Component {
 
   render() {
     let { brands, isLoading } = this.state;
-
+    console.log("props ", this.props)
     const { mainCategoryId, category, product } = this.props;
     let title = "Select Brand";
-
     switch (category.id) {
       case CATEGORY_IDS.FASHION.FOOTWEAR:
         title = "Select Footwear Brand";
@@ -148,7 +148,6 @@ class SelectBrandStep extends React.Component {
       ...brand,
       image: `${API_BASE_URL}/brands/${brand.id}/images/thumbnails`
     }));
-
     if (
       category.id == CATEGORY_IDS.FURNITURE.FURNITURE ||
       mainCategoryId == MAIN_CATEGORY_IDS.FASHION
@@ -160,7 +159,7 @@ class SelectBrandStep extends React.Component {
       <Step
         title={title}
         subtitle={
-          mainCategoryId != 7 ? "Required for customer care support" : ""
+          mainCategoryId !== MAIN_CATEGORY_IDS.FASHION ? "Required for customer care support" : ""
         }
         skippable={false}
         showLoader={isLoading}

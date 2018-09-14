@@ -145,7 +145,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => { }
+  onUploadProgress = () => {}
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -823,7 +823,11 @@ export const getProductsForAsc = async () => {
   });
 };
 
-export const initProduct = async (mainCategoryId, categoryId, subCategoryId) => {
+export const initProduct = async (
+  mainCategoryId,
+  categoryId,
+  subCategoryId
+) => {
   return await apiRequest({
     method: "post",
     url: "/products/init",
@@ -1282,10 +1286,10 @@ export const updateAccessory = async ({
     value: value || undefined,
     warranty: warrantyRenewalType
       ? {
-        id: warrantyId || undefined,
-        renewal_type: warrantyRenewalType || undefined,
-        effective_date: warrantyEffectiveDate || undefined
-      }
+          id: warrantyId || undefined,
+          renewal_type: warrantyRenewalType || undefined,
+          effective_date: warrantyEffectiveDate || undefined
+        }
       : {},
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
@@ -1319,10 +1323,10 @@ export const addAccessory = async ({
     value: value || undefined,
     warranty: warrantyRenewalType
       ? {
-        id: warrantyId || undefined,
-        renewal_type: warrantyRenewalType || undefined,
-        effective_date: warrantyEffectiveDate || undefined
-      }
+          id: warrantyId || undefined,
+          renewal_type: warrantyRenewalType || undefined,
+          effective_date: warrantyEffectiveDate || undefined
+        }
       : {},
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
@@ -2211,9 +2215,18 @@ export const redeemSellerPoints = async ({ sellerId, pointsToRedeem }) => {
   return await apiRequest({
     method: "put",
     url: `/sellers/${sellerId}/loyalty/redeem`,
-    data: {amount: pointsToRedeem}
+    data: { amount: pointsToRedeem }
   });
 };
+
+export const redeemToPaytm = async ({ amountToRedeem }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/cashback/redeem`,
+    data: { amount: amountToRedeem }
+  });
+};
+
 export const approveAssistedServiceOrder = async ({ orderId, sellerId }) => {
   return await apiRequest({
     method: "put",
@@ -2229,7 +2242,11 @@ export const startAssistedServiceOrder = async ({
 }) => {
   return await apiRequest({
     method: "put",
-    url: `/consumer/assisted/${orderId}/start`
+    url: `/consumer/assisted/${orderId}/start`,
+    data: {
+      seller_id: sellerId,
+      order_details: orderDetails
+    }
   });
 };
 
@@ -2240,6 +2257,10 @@ export const endAssistedServiceOrder = async ({
 }) => {
   return await apiRequest({
     method: "put",
-    url: `/consumer/assisted/${orderId}/end`
+    url: `/consumer/assisted/${orderId}/end`,
+    data: {
+      seller_id: sellerId,
+      order_details: orderDetails
+    }
   });
 };

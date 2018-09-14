@@ -1,5 +1,10 @@
 import React from "react";
-import { View, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator
+} from "react-native";
 
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -10,7 +15,12 @@ import QuantityPlusMinus from "../../components/quantity-plus-minus";
 
 export default class SelectedItemsList extends React.Component {
   render() {
-    const { measurementTypes, selectedItems, changeIndexQuantity } = this.props;
+    const {
+      measurementTypes,
+      selectedItems,
+      changeIndexQuantity,
+      skuItemIdsCurrentlyModifying
+    } = this.props;
 
     return (
       <FlatList
@@ -18,19 +28,32 @@ export default class SelectedItemsList extends React.Component {
           borderBottomWidth: 1,
           borderBottomColor: "#eee"
         }}
-        data={selectedItems.reverse()}
+        data={selectedItems}
+        extraData={skuItemIdsCurrentlyModifying}
         ItemSeparatorComponent={() => (
           <View style={{ height: 1, backgroundColor: "#eee" }} />
         )}
         keyExtractor={(item, index) => item.id + "" + index}
         renderItem={({ item, index }) => {
           let cashback = 0;
+
           if (item.sku_measurement && item.sku_measurement.cashback_percent) {
             cashback =
               ((item.sku_measurement.mrp *
                 item.sku_measurement.cashback_percent) /
                 100) *
               item.quantity;
+          }
+
+          let isLoading = false;
+          if (
+            item.sku_measurement &&
+            skuItemIdsCurrentlyModifying.includes(item.sku_measurement.id)
+          ) {
+            isLoading = true;
+            console.log("isLoading: ", isLoading);
+          } else {
+            isLoading = false;
           }
 
           return (
@@ -125,6 +148,22 @@ export default class SelectedItemsList extends React.Component {
                   </TouchableOpacity>
                 </View>
               </View>
+              {isLoading && (
+                <View
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    width: 80,
+                    backgroundColor: "rgba(255,255,255,0.5)",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <ActivityIndicator size="small" />
+                </View>
+              )}
             </View>
           );
         }}

@@ -28,7 +28,7 @@ export default props => {
             style={{
               flex: 1,
               color: "#fff",
-              fontSize: 11
+              fontSize: 12
             }}
           >
             {title}

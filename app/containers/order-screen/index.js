@@ -1,5 +1,6 @@
 import React from "react";
 import { View, FlatList, Alert, Animated } from "react-native";
+import moment from "moment";
 
 import { Text, Image, Button } from "../../elements";
 
@@ -26,11 +27,13 @@ import SellerDetails from "./seller-details";
 import ShoppingListItem from "./shopping-list-item";
 import AssistedServiceListItem from "./assisted-service-list-item";
 import DeliveryUserDetails from "./delivery-user-details";
+import ServicePriceBreakdownModal from "./service-price-breakdown";
 
 import socketIo from "../../socket-io";
 
 import UploadBillModal from "./upload-bill-modal";
 import ReviewCard from "./review-card";
+import Modal from "../../components/modal";
 
 export default class OrderScreen extends React.Component {
   static navigationOptions = {
@@ -40,7 +43,8 @@ export default class OrderScreen extends React.Component {
   state = {
     isLoading: true,
     error: null,
-    order: null
+    order: null,
+    isVisible: false
   };
 
   componentDidMount() {
@@ -57,17 +61,32 @@ export default class OrderScreen extends React.Component {
           this.setState({ order: jsonData.order });
         }
       });
+
+      socketIo.socket.on("assisted-status-change", data => {
+        const jsonData = JSON.parse(data);
+        console.log("jsonData: ", jsonData);
+        if (this.state.order && jsonData.order.id == this.state.order.id) {
+          this.setState({ order: jsonData.order });
+        }
+      });
     }
 
+    this.servicePriceBreakdownModal.show();
     // this.uploadBillModal.show({ productId: 50897, jobId: 52334 });
   }
 
   componentWillUnmount() {
     if (socketIo.socket) {
       socketIo.socket.off("order-status-change");
+      socketIo.socket.off("assisted-status-change");
     }
   }
-
+  show = item => {
+    this.setState({ isVisible: true });
+  };
+  hide = () => {
+    this.setState({ isVisible: false });
+  };
   getOrderDetails = async () => {
     const { navigation } = this.props;
     const orderId = navigation.getParam("orderId", null);
@@ -120,7 +139,12 @@ export default class OrderScreen extends React.Component {
     });
   };
 
-  cancelOrder = async () => {
+  cancelOrder = () => {
+    this.show();
+  };
+  deleteAddress = async () => {
+    this.hide();
+    this.setState({ isLoading: true });
     const { order } = this.state;
     try {
       this.setState({ isLoading: true });
@@ -212,6 +236,7 @@ export default class OrderScreen extends React.Component {
 
   startAssistedServiceOrder = async () => {
     const { order } = this.state;
+    order.order_details[0].start_date = moment().toISOString();
     try {
       this.setState({ isLoading: true });
       const res = await startAssistedServiceOrder({
@@ -229,9 +254,10 @@ export default class OrderScreen extends React.Component {
 
   endAssistedServiceOrder = async () => {
     const { order } = this.state;
+    order.order_details[0].end_date = moment().toISOString();
     try {
       this.setState({ isLoading: true });
-      const res = await startAssistedServiceOrder({
+      const res = await endAssistedServiceOrder({
         orderId: order.id,
         orderDetails: order.order_details,
         sellerId: order.seller_id
@@ -276,7 +302,7 @@ export default class OrderScreen extends React.Component {
   };
 
   render() {
-    const { isLoading, error, order } = this.state;
+    const { isLoading, error, order, isVisible } = this.state;
 
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.getOrderDetails} />;
@@ -316,10 +342,13 @@ export default class OrderScreen extends React.Component {
       }
     }
 
-    let deliveryUser = order.delivery_user || null;
-
-    if (order.order_type == ORDER_TYPES.ASSISTED_SERVICE) {
-      deliveryUser = order.order_details[0].service_user || null;
+    let deliveryUser = order ? order.delivery_user : null;
+    let startTime = null;
+    let endTime = null;
+    if (order && order.order_type == ORDER_TYPES.ASSISTED_SERVICE) {
+      deliveryUser = order.service_user || null;
+      startTime = order.order_details[0].start_date;
+      endTime = order.order_details[0].end_date;
     }
 
     return (
@@ -342,6 +371,8 @@ export default class OrderScreen extends React.Component {
                     statusType={order.status_type}
                     isOrderModified={order.is_modified}
                     orderType={order.order_type}
+                    startTime={startTime}
+                    endTime={endTime}
                   />
                   {deliveryUser && (
                     <DeliveryUserDetails
@@ -492,14 +523,40 @@ export default class OrderScreen extends React.Component {
                     />
                   )}
 
-                {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY && (
-                  <Button
-                    onPress={this.completeOrder}
-                    text="Mark Paid"
-                    color="secondary"
-                    borderRadius={0}
-                  />
-                )}
+                {(order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+                  order.order_type == ORDER_TYPES.FMCG) ||
+                  (endTime &&
+                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
+                      <Button
+                        onPress={this.completeOrder}
+                        text="Mark Paid"
+                        color="secondary"
+                        borderRadius={0}
+                      />
+                    ))}
+
+                {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+                  order.order_type == ORDER_TYPES.ASSISTED_SERVICE &&
+                  !startTime && (
+                    <Button
+                      onPress={this.startAssistedServiceOrder}
+                      text="Start Job"
+                      color="secondary"
+                      borderRadius={0}
+                    />
+                  )}
+
+                {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+                  order.order_type == ORDER_TYPES.ASSISTED_SERVICE &&
+                  startTime &&
+                  !endTime && (
+                    <Button
+                      onPress={this.endAssistedServiceOrder}
+                      text="End Job"
+                      color="secondary"
+                      borderRadius={0}
+                    />
+                  )}
 
                 {order.is_modified &&
                   ![
@@ -535,6 +592,59 @@ export default class OrderScreen extends React.Component {
           }}
           ref={node => {
             this.uploadBillModal = node;
+          }}
+        />
+        <Modal
+          isVisible={isVisible}
+          title={"Cancel Order"}
+          onClosePress={this.hideDeleteModal}
+          onBackButtonPress={this.hideDeleteModal}
+          onBackdropPress={this.hideDeleteModal}
+          style={{ height: 200, backgroundColor: "#fff" }}
+        >
+          <View style={{ height: 150, backgroundColor: "#fff" }}>
+            <View style={{ width: 260, alignSelf: "center", top: 25 }}>
+              <Text weight="Bold" style={{ textAlign: "center", fontSize: 16 }}>
+                Are you sure want to cancel this order?
+              </Text>
+            </View>
+            <View
+              style={{
+                top: 40,
+                flexDirection: "row",
+                width: 260,
+                justifyContent: "space-between",
+                alignSelf: "center"
+              }}
+            >
+              <Button
+                text="No"
+                onPress={this.hide}
+                color="grey"
+                style={{
+                  height: 40,
+                  width: 120,
+                  alignSelf: "center",
+                  marginTop: 20
+                }}
+              />
+              <Button
+                text="Yes"
+                onPress={this.deleteAddress}
+                color="secondary"
+                style={{
+                  height: 40,
+                  width: 120,
+                  alignSelf: "center",
+                  marginTop: 20
+                }}
+              />
+            </View>
+          </View>
+        </Modal>
+        <ServicePriceBreakdownModal
+          ref={node => {
+            this.servicePriceBreakdownModal = node;
           }}
         />
         <LoadingOverlay visible={isLoading} />

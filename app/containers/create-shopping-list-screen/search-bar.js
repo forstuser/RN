@@ -15,6 +15,7 @@ import Checkbox from "../../components/checkbox";
 import LoadingOverlay from "../../components/loading-overlay";
 
 import SkuItem from "./sku-item";
+import { showSnackbar } from "../../utils/snackbar";
 
 export default class SearchBar extends React.Component {
   state = {
@@ -64,6 +65,17 @@ export default class SearchBar extends React.Component {
     }
   };
 
+  addManualItem = () => {
+    const {
+      addManualItemsToList = () => null,
+      searchTerm = "",
+      onSearchTextChange = () => null
+    } = this.props;
+    addManualItemsToList([{ title: searchTerm, quantity: 1 }]);
+    onSearchTextChange("");
+    showSnackbar({ text: "Item added to the list" });
+  };
+
   render() {
     const {
       mainCategories = [],
@@ -82,15 +94,15 @@ export default class SearchBar extends React.Component {
       searchError = null,
       items = [],
       wishList,
+      skuItemIdsCurrentlyModifying = [],
       addSkuItemToList,
       changeSkuItemQuantityInList,
       toggleBrand = () => null,
       updateItem,
       openAddManualItemModal,
+      addManualItemsToList = () => null,
       hideAddManually = false
     } = this.props;
-
-    console.log("items in search bar: ", items);
 
     const { isBrandsPopupVisible, checkedBrands } = this.state;
 
@@ -168,7 +180,7 @@ export default class SearchBar extends React.Component {
             !isSearching &&
             !hideAddManually ? (
               <TouchableOpacity
-                onPress={openAddManualItemModal}
+                onPress={this.addManualItem}
                 style={{
                   height: 20,
                   width: 20,
@@ -337,6 +349,7 @@ export default class SearchBar extends React.Component {
                   measurementTypes={measurementTypes}
                   item={item}
                   wishList={wishList}
+                  skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
                   addSkuItemToList={addSkuItemToList}
                   changeSkuItemQuantityInList={changeSkuItemQuantityInList}
                   selectActiveSkuMeasurementId={selectActiveSkuMeasurementId}

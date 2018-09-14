@@ -74,9 +74,9 @@ class BillsPopUpScreen extends Component {
               path:
                 RNFetchBlob.fs.dirs.DCIMDir +
                 `/${selectedCopy.copyName ||
-                  moment().format("x") +
-                    "." +
-                    selectedCopy.file_type.toLowerCase()}`
+                moment().format("x") +
+                "." +
+                selectedCopy.file_type.toLowerCase()}`
             }
           })
         })
@@ -177,16 +177,16 @@ class BillsPopUpScreen extends Component {
                 {moment(date).isValid() && moment(date).format("DD MMM, YYYY")}
               </Text>
             ) : (
-              <View collapsable={false} />
-            )}
+                <View collapsable={false} />
+              )}
             <Text style={styles.id}>{!isNaN(id) && "ID: " + id}</Text>
             {type ? (
               <View collapsable={false} style={styles.type}>
                 <Text style={styles.typeText}>{type}</Text>
               </View>
             ) : (
-              <View collapsable={false} />
-            )}
+                <View collapsable={false} />
+              )}
           </View>
           <TouchableOpacity
             onPress={this.closeThisScreen}
@@ -227,14 +227,14 @@ class BillsPopUpScreen extends Component {
             ))}
           </ScrollableTabView>
         ) : (
-          <View collapsable={false} />
-        )}
+            <View collapsable={false} />
+          )}
 
         {copies && isSelectViewVisible ? (
           <SelectView copies={copies} passSelectedCopies={this.shareCopies} />
         ) : (
-          <View collapsable={false} />
-        )}
+            <View collapsable={false} />
+          )}
         <LoadingOverlay
           visible={isDownloadingFiles}
           text="Downloading.. please wait..."

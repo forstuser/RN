@@ -75,11 +75,15 @@ export default class ClaimCashback extends React.Component {
         product: res.product,
         cashbackJob: res.cashback_jobs,
         copies: res.product.copies || [],
-        wishlist: res.wishlist_items.map(item => ({
-          ...item,
-          sku_measurements: [item.sku_measurement],
-          quantity: 1
-        })),
+        wishlist: res.wishlist_items.map(item => {
+          const newItem = {
+            ...item,
+            sku_measurements: [item.sku_measurement],
+            quantity: 1
+          };
+
+          return newItem;
+        }),
         pastItems: res.past_selections
       });
 
