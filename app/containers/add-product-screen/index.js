@@ -425,11 +425,16 @@ class AddProductScreen extends React.Component {
               if (category.id == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
                 this.pushUploadBillStep(false, pushToNextStep);
                 this.setState({
-                  numberOfStepsToShowInFooter: 2
+                  numberOfStepsToShowInFooter: 3
                 });
+              } else if (category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
+                this.setState({
+                  numberOfStepsToShowInFooter: 3
+                });
+                this.pushSubCategoryStep();
               } else {
                 this.setState({
-                  numberOfStepsToShowInFooter: 2
+                  numberOfStepsToShowInFooter: 3
                 });
                 this.pushUploadBillStep();
               }
@@ -696,6 +701,11 @@ class AddProductScreen extends React.Component {
           if (category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
             this.pushNameStep(true);
           } else if (category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
+            this.pushInsuranceProviderStep();
+          }
+          break;
+        case MAIN_CATEGORY_IDS.PERSONAL:
+          if (category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
             this.pushInsuranceProviderStep();
           }
           break;
