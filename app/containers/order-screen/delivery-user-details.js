@@ -9,6 +9,8 @@ import { API_BASE_URL } from "../../api";
 import { Text, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
+import { ORDER_TYPES } from "../../constants";
+
 export default class DeliveryUserDetails extends React.Component {
   // call = () => {
   //   const { deliveryUser } = this.props;
@@ -20,11 +22,13 @@ export default class DeliveryUserDetails extends React.Component {
   // };
 
   render() {
-    let { deliveryUser = {} } = this.props;
+    let { deliveryUser = {}, orderType } = this.props;
 
     return (
       <View style={{}}>
-        <Text weight="Bold">Delivered By</Text>
+        <Text weight="Bold">
+          {orderType == ORDER_TYPES.FMCG ? "Delivered By" : "Service Provider"}
+        </Text>
         <View
           style={{
             flexDirection: "row",

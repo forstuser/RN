@@ -15,6 +15,7 @@ import Checkbox from "../../components/checkbox";
 import LoadingOverlay from "../../components/loading-overlay";
 
 import SkuItem from "./sku-item";
+import { showSnackbar } from "../../utils/snackbar";
 
 export default class SearchBar extends React.Component {
   state = {

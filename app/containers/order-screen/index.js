@@ -1,5 +1,6 @@
 import React from "react";
 import { View, FlatList, Alert, Animated } from "react-native";
+import moment from "moment";
 
 import { Text, Image, Button } from "../../elements";
 
@@ -26,6 +27,7 @@ import SellerDetails from "./seller-details";
 import ShoppingListItem from "./shopping-list-item";
 import AssistedServiceListItem from "./assisted-service-list-item";
 import DeliveryUserDetails from "./delivery-user-details";
+import ServicePriceBreakdownModal from "./service-price-breakdown";
 
 import socketIo from "../../socket-io";
 
@@ -59,14 +61,24 @@ export default class OrderScreen extends React.Component {
           this.setState({ order: jsonData.order });
         }
       });
+
+      socketIo.socket.on("assisted-status-change", data => {
+        const jsonData = JSON.parse(data);
+        console.log("jsonData: ", jsonData);
+        if (this.state.order && jsonData.order.id == this.state.order.id) {
+          this.setState({ order: jsonData.order });
+        }
+      });
     }
 
+    this.servicePriceBreakdownModal.show();
     // this.uploadBillModal.show({ productId: 50897, jobId: 52334 });
   }
 
   componentWillUnmount() {
     if (socketIo.socket) {
       socketIo.socket.off("order-status-change");
+      socketIo.socket.off("assisted-status-change");
     }
   }
   show = item => {
@@ -132,7 +144,7 @@ export default class OrderScreen extends React.Component {
   };
   deleteAddress = async () => {
     this.hide();
-    this.setState({ isLoading: true })
+    this.setState({ isLoading: true });
     const { order } = this.state;
     try {
       this.setState({ isLoading: true });
@@ -143,7 +155,7 @@ export default class OrderScreen extends React.Component {
     } finally {
       this.setState({ isLoading: false });
     }
-  }
+  };
 
   rejectOrder = async () => {
     const { order } = this.state;
@@ -212,7 +224,7 @@ export default class OrderScreen extends React.Component {
       [
         {
           text: "Cancel",
-          onPress: () => { }
+          onPress: () => {}
         },
         {
           text: "Confirm",
@@ -224,6 +236,7 @@ export default class OrderScreen extends React.Component {
 
   startAssistedServiceOrder = async () => {
     const { order } = this.state;
+    order.order_details[0].start_date = moment().toISOString();
     try {
       this.setState({ isLoading: true });
       const res = await startAssistedServiceOrder({
@@ -241,9 +254,10 @@ export default class OrderScreen extends React.Component {
 
   endAssistedServiceOrder = async () => {
     const { order } = this.state;
+    order.order_details[0].end_date = moment().toISOString();
     try {
       this.setState({ isLoading: true });
-      const res = await startAssistedServiceOrder({
+      const res = await endAssistedServiceOrder({
         orderId: order.id,
         orderDetails: order.order_details,
         sellerId: order.seller_id
@@ -329,9 +343,12 @@ export default class OrderScreen extends React.Component {
     }
 
     let deliveryUser = order ? order.delivery_user : null;
-
+    let startTime = null;
+    let endTime = null;
     if (order && order.order_type == ORDER_TYPES.ASSISTED_SERVICE) {
-      deliveryUser = order.order_details[0].service_user || null;
+      deliveryUser = order.service_user || null;
+      startTime = order.order_details[0].start_date;
+      endTime = order.order_details[0].end_date;
     }
 
     return (
@@ -354,6 +371,8 @@ export default class OrderScreen extends React.Component {
                     statusType={order.status_type}
                     isOrderModified={order.is_modified}
                     orderType={order.order_type}
+                    startTime={startTime}
+                    endTime={endTime}
                   />
                   {deliveryUser && (
                     <DeliveryUserDetails
@@ -449,41 +468,41 @@ export default class OrderScreen extends React.Component {
                           }}
                         />
                       ) : (
-                          <View style={{ paddingHorizontal: 10 }}>
-                            {serviceRatings && (
-                              <View>
-                                <Text weight="Bold" style={{ marginTop: 20 }}>
-                                  Delivery Experience
+                        <View style={{ paddingHorizontal: 10 }}>
+                          {serviceRatings && (
+                            <View>
+                              <Text weight="Bold" style={{ marginTop: 20 }}>
+                                Delivery Experience
                               </Text>
-                                <ReviewCard
-                                  imageUrl={
-                                    API_BASE_URL +
-                                    `/assisted/${order.delivery_user.id}/profile`
-                                  }
-                                  ratings={serviceRatings}
-                                  userName={order.delivery_user.name}
-                                  feedbackText={serviceReviewText}
-                                  onEditPress={this.openReviewsScreen}
-                                />
-                              </View>
-                            )}
-                            <Text weight="Bold" style={{ marginTop: 20 }}>
-                              Seller Responsiveness
+                              <ReviewCard
+                                imageUrl={
+                                  API_BASE_URL +
+                                  `/assisted/${order.delivery_user.id}/profile`
+                                }
+                                ratings={serviceRatings}
+                                userName={order.delivery_user.name}
+                                feedbackText={serviceReviewText}
+                                onEditPress={this.openReviewsScreen}
+                              />
+                            </View>
+                          )}
+                          <Text weight="Bold" style={{ marginTop: 20 }}>
+                            Seller Responsiveness
                           </Text>
-                            <ReviewCard
-                              imageUrl={
-                                API_BASE_URL +
-                                `/consumer/sellers/${
+                          <ReviewCard
+                            imageUrl={
+                              API_BASE_URL +
+                              `/consumer/sellers/${
                                 order.seller_id
-                                }/upload/1/images/0`
-                              }
-                              ratings={sellerRatings}
-                              userName={order.seller.seller_name}
-                              feedbackText={sellerReviewText}
-                              onEditPress={this.openReviewsScreen}
-                            />
-                          </View>
-                        )}
+                              }/upload/1/images/0`
+                            }
+                            ratings={sellerRatings}
+                            userName={order.seller.seller_name}
+                            feedbackText={sellerReviewText}
+                            onEditPress={this.openReviewsScreen}
+                          />
+                        </View>
+                      )}
                     </View>
                   )}
                 </View>
@@ -493,51 +512,77 @@ export default class OrderScreen extends React.Component {
               ORDER_STATUS_TYPES.CANCELED,
               ORDER_STATUS_TYPES.REJECTED
             ].includes(order.status_type) && (
-                <View>
-                  {order.status_type == ORDER_STATUS_TYPES.NEW &&
-                    !order.is_modified && (
-                      <Button
-                        onPress={this.cancelOrder}
-                        text="Cancel Order"
-                        color="secondary"
-                        borderRadius={0}
-                      />
-                    )}
-
-                  {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY && (
+              <View>
+                {order.status_type == ORDER_STATUS_TYPES.NEW &&
+                  !order.is_modified && (
                     <Button
-                      onPress={this.completeOrder}
-                      text="Mark Paid"
+                      onPress={this.cancelOrder}
+                      text="Cancel Order"
                       color="secondary"
                       borderRadius={0}
                     />
                   )}
 
-                  {order.is_modified &&
-                    ![
-                      ORDER_STATUS_TYPES.APPROVED,
-                      ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                      ORDER_STATUS_TYPES.COMPLETE
-                    ].includes(order.status_type) && (
-                      <View style={{ flexDirection: "row" }}>
-                        <Button
-                          onPress={this.rejectOrder}
-                          text="Reject"
-                          color="grey"
-                          borderRadius={0}
-                          style={{ flex: 1 }}
-                        />
-                        <Button
-                          onPress={this.approveOrder}
-                          text="Approve"
-                          color="secondary"
-                          borderRadius={0}
-                          style={{ flex: 1 }}
-                        />
-                      </View>
-                    )}
-                </View>
-              )}
+                {(order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+                  order.order_type == ORDER_TYPES.FMCG) ||
+                  (endTime &&
+                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
+                      <Button
+                        onPress={this.completeOrder}
+                        text="Mark Paid"
+                        color="secondary"
+                        borderRadius={0}
+                      />
+                    ))}
+
+                {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+                  order.order_type == ORDER_TYPES.ASSISTED_SERVICE &&
+                  !startTime && (
+                    <Button
+                      onPress={this.startAssistedServiceOrder}
+                      text="Start Job"
+                      color="secondary"
+                      borderRadius={0}
+                    />
+                  )}
+
+                {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+                  order.order_type == ORDER_TYPES.ASSISTED_SERVICE &&
+                  startTime &&
+                  !endTime && (
+                    <Button
+                      onPress={this.endAssistedServiceOrder}
+                      text="End Job"
+                      color="secondary"
+                      borderRadius={0}
+                    />
+                  )}
+
+                {order.is_modified &&
+                  ![
+                    ORDER_STATUS_TYPES.APPROVED,
+                    ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                    ORDER_STATUS_TYPES.COMPLETE
+                  ].includes(order.status_type) && (
+                    <View style={{ flexDirection: "row" }}>
+                      <Button
+                        onPress={this.rejectOrder}
+                        text="Reject"
+                        color="grey"
+                        borderRadius={0}
+                        style={{ flex: 1 }}
+                      />
+                      <Button
+                        onPress={this.approveOrder}
+                        text="Approve"
+                        color="secondary"
+                        borderRadius={0}
+                        style={{ flex: 1 }}
+                      />
+                    </View>
+                  )}
+              </View>
+            )}
           </View>
         )}
         <UploadBillModal
@@ -558,10 +603,20 @@ export default class OrderScreen extends React.Component {
           style={{ height: 200, backgroundColor: "#fff" }}
         >
           <View style={{ height: 150, backgroundColor: "#fff" }}>
-            <View style={{ width: 260, alignSelf: 'center', top: 25 }}>
-              <Text weight="Bold" style={{ textAlign: 'center', fontSize: 16 }}>Are you sure want to cancel this order?</Text>
+            <View style={{ width: 260, alignSelf: "center", top: 25 }}>
+              <Text weight="Bold" style={{ textAlign: "center", fontSize: 16 }}>
+                Are you sure want to cancel this order?
+              </Text>
             </View>
-            <View style={{ top: 40, flexDirection: 'row', width: 260, justifyContent: 'space-between', alignSelf: 'center' }}>
+            <View
+              style={{
+                top: 40,
+                flexDirection: "row",
+                width: 260,
+                justifyContent: "space-between",
+                alignSelf: "center"
+              }}
+            >
               <Button
                 text="No"
                 onPress={this.hide}
@@ -587,6 +642,11 @@ export default class OrderScreen extends React.Component {
             </View>
           </View>
         </Modal>
+        <ServicePriceBreakdownModal
+          ref={node => {
+            this.servicePriceBreakdownModal = node;
+          }}
+        />
         <LoadingOverlay visible={isLoading} />
       </View>
     );

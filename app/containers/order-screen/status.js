@@ -138,13 +138,7 @@ export default class Statuses extends React.Component {
               ORDER_STATUS_TYPES.COMPLETE
             ].includes(statusType) &&
               orderType == ORDER_TYPES.ASSISTED_SERVICE && (
-                <StatusItem
-                  title="Service Started"
-                  isDone={[
-                    ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                    ORDER_STATUS_TYPES.COMPLETE
-                  ].includes(statusType)}
-                />
+                <StatusItem title="Service Started" isDone={!!startTime} />
               )}
 
             {[
@@ -153,7 +147,7 @@ export default class Statuses extends React.Component {
               ORDER_STATUS_TYPES.COMPLETE
             ].includes(statusType) &&
               orderType == ORDER_TYPES.ASSISTED_SERVICE && (
-                <StatusItem title="Service Completed" isDone={false} />
+                <StatusItem title="Service Completed" isDone={endTime} />
               )}
           </View>
         )}
