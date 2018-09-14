@@ -2,6 +2,11 @@ import React from "react";
 import { View, TouchableOpacity, TextInput } from "react-native";
 
 import { Text, Button, Image } from "../../elements";
+import { redeemToPaytm } from "../../api";
+
+import LoadingOverlay from "../../components/loading-overlay";
+
+import { showSnackbar } from "../../utils/snackbar";
 
 export default class RedeemViaPaytmScreen extends React.Component {
   static navigationOptions = {
@@ -11,20 +16,51 @@ export default class RedeemViaPaytmScreen extends React.Component {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
-    const seller = navigation.getParam("seller", {});
-    // this.state = {
-    //   pointsToRedeem: seller.loyalty_total
-    // };
+    const totalCashback = navigation.getParam("totalCashback", 0);
+    this.state = {
+      amountToRedeem: totalCashback,
+      isLoading: false
+    };
   }
 
-//   changePointsToRedeem = pointsToRedeem => {
-//     this.state({ pointsToRedeem });
-//   };
+  changeAmountToRedeem = amountToRedeem => {
+    this.state({ amountToRedeem });
+  };
+
+  redeemAmount = async () => {
+    const { amountToRedeem } = this.state;
+
+    const { navigation } = this.props;
+    const totalCashback = navigation.getParam("totalCashback", 0);
+
+    if (!amountToRedeem || amountToRedeem < 0) {
+      return showSnackbar({ text: "Please enter a positive value" });
+    } else if (amountToRedeem > totalCashback) {
+      return showSnackbar({
+        text: "Please enter a value less than " + totalCashback
+      });
+    }
+
+    this.setState({ isLoading: true });
+    try {
+      const res = await redeemToPaytm({ amountToRedeem });
+      showSnackbar({
+        text: "Cashback successfull"
+      });
+      navigation.goBack();
+    } catch (e) {
+      return showSnackbar({
+        text: e.message
+      });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
 
   render() {
     const { navigation } = this.props;
     const seller = navigation.getParam("seller", {});
-    //const { pointsToRedeem } = this.state;
+    const { amountToRedeem, isLoading } = this.state;
 
     //console.log("pointsToRedeem: ", pointsToRedeem);
 
@@ -51,9 +87,8 @@ export default class RedeemViaPaytmScreen extends React.Component {
           >
             <TextInput
               underlineColorAndroid="transparent"
-              //value={String(pointsToRedeem)}
-              value='1000'
-              //onChangeText={this.changePointsToRedeem}
+              value={String(amountToRedeem)}
+              onChangeText={this.changeAmountToRedeem}
               style={{
                 color: "#000",
                 fontSize: 18,
@@ -65,15 +100,17 @@ export default class RedeemViaPaytmScreen extends React.Component {
           </View>
         </View>
         <Text style={{ textAlign: "center", fontSize: 11, marginTop: 20 }}>
-          Please confirm your Paytm Number - 7589145713 or go back to Redeem Via Seller
+          Please confirm your Paytm Number - 7589145713 or go back to Redeem Via
+          Seller
         </Text>
         <Button
           text="Confirm Number"
           color="secondary"
           style={{ height: 37, width: 160, marginTop: 25 }}
           textStyle={{ fontSize: 13.5 }}
-          onPress={() => alert('Button Pressed')}
+          onPress={this.redeemAmount}
         />
+        <LoadingOverlay visible={isLoading} />
       </View>
     );
   }

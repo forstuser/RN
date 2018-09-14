@@ -2218,6 +2218,15 @@ export const redeemSellerPoints = async ({ sellerId, pointsToRedeem }) => {
     data: { amount: pointsToRedeem }
   });
 };
+
+export const redeemToPaytm = async ({ amountToRedeem }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/cashback/redeem`,
+    data: { amount: amountToRedeem }
+  });
+};
+
 export const approveAssistedServiceOrder = async ({ orderId, sellerId }) => {
   return await apiRequest({
     method: "put",
