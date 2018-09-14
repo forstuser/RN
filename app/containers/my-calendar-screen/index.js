@@ -20,6 +20,7 @@ import { colors } from "../../theme";
 import Item from "./item";
 const calendarIcon = require("../../images/ic_calendar.png");
 const calendarIconColor = require("../../images/ic_calendar_color.png");
+const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
 class MyCalendarScreen extends Component {
   static navigationOptions = {
@@ -104,15 +105,13 @@ class MyCalendarScreen extends Component {
                 refreshing={isFetchingItems}
                 ListFooterComponent={
                   items.length > 0 ? (
-                    <Button
+                    <TouchableOpacity
+                      style={styles.fab}
                       onPress={this.openAddEditCalendarServiceScreen}
-                      text={I18n.t("my_calendar_screen_add_btn")}
-                      color="secondary"
-                      style={[
-                        styles.emptyStateAddItemBtn,
-                        { marginBottom: 20 }
-                      ]}
-                    />
+                    >
+                      <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+                    </TouchableOpacity>
+                    //<Text>Dikshu</Text>
                   ) : null
                 }
               />
@@ -130,12 +129,12 @@ class MyCalendarScreen extends Component {
               <Text style={styles.emptyStateMsg}>
                 {I18n.t("my_calendar_screen_empty_screen_msg")}
               </Text>
-              <Button
+              <TouchableOpacity
+                style={styles.fab}
                 onPress={this.openAddEditCalendarServiceScreen}
-                text={I18n.t("my_calendar_screen_add_btn")}
-                color="secondary"
-                style={styles.emptyStateAddItemBtn}
-              />
+              >
+                <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+              </TouchableOpacity>
             </View>
           )}
       </ScreenContainer>
@@ -144,6 +143,22 @@ class MyCalendarScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  fab: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    width: 56,
+    height: 56,
+    zIndex: 2,
+    backgroundColor: colors.tomato,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  uploadFabIcon: {
+    width: 25,
+    height: 25
+  },
   addItemBtn: {
     width: "100%"
   },
@@ -171,3 +186,17 @@ const styles = StyleSheet.create({
 });
 
 export default MyCalendarScreen;
+
+
+
+
+
+// <Button
+                    //   onPress={this.openAddEditCalendarServiceScreen}
+                    //   text={I18n.t("my_calendar_screen_add_btn")}
+                    //   color="secondary"
+                    //   style={[
+                    //     styles.emptyStateAddItemBtn,
+                    //     { marginBottom: 20 }
+                    //   ]}
+                    // />  

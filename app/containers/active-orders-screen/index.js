@@ -154,7 +154,7 @@ class ActiveOrdersScreen extends Component {
           <Button
             style={{ height: 40, width: 150, marginTop: 30 }}
             text="SHOP NOW"
-            onPress={() => alert("Shop Now")}
+            onPress={() => this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN)}
             color="secondary"
             textStyle={{ fontSize: 16 }}
           />
