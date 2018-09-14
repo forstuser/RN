@@ -181,38 +181,6 @@ class ChooseExpenseTypeScreen extends React.Component {
               </View>
             </View>
           </View>
-          {/* <View collapsable={false} style={[styles.option, styles.option2]}>
-            <View collapsable={false} style={[styles.optionInner]}>
-              <Text
-                weight="Bold"
-                style={[styles.optionTitle, { color: colors.pinkishOrange }]}
-              >
-                {I18n.t("add_edit_product_option_expense")}
-              </Text>
-              <View collapsable={false} style={styles.grid}>
-                <View collapsable={false} style={styles.itemsRow}>
-                  {expenseOptions
-                    .slice(0, 3)
-                    .map((item, index) => <Item key={index} item={item} />)}
-                </View>
-                <View collapsable={false} style={styles.itemsRow}>
-                  {expenseOptions
-                    .slice(3, 6)
-                    .map((item, index) => <Item key={index} item={item} />)}
-                </View>
-              </View>
-            </View>
-            {Platform.OS == "ios" && (
-              <Button
-                onPress={this.props.onBackPress}
-                style={styles.closeBtn}
-                text={I18n.t("add_expenses_options_cancel_btn")}
-                type="outline"
-                color="secondary"
-                outlineBtnStyle={{ borderColor: "transparent" }}
-              />
-            )}
-          </View> */}
         </View>
       </Step>
     );

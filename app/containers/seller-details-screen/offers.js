@@ -11,7 +11,7 @@ import { colors, defaultStyles } from "../../theme";
 
 export default class Offers extends React.Component {
   render() {
-    const { offers } = this.props;
+    const { offers, isLoading } = this.props;
 
     return (
       <FlatList
