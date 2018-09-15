@@ -326,49 +326,25 @@ class SelectCategoryStep extends React.Component {
         ];
         break;
       case MAIN_CATEGORY_IDS.HEALTHCARE:
-        if (this.props.expenseType == EXPENSE_TYPES.MEDICAL_DOCS) {
-          title = I18n.t(
-            "add_edit_expense_screen_title_select_medical_document"
-          );
-          reasons = [
-            "Retrieve an insurance policy/record",
-            "Connect with insurance providers",
-            "Receive insurance reminders",
-            "Share personalised reviews",
-            "And much more"
-          ];
-          visibleOptions = [
-            {
-              id: CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC,
-              name: "Medical Docs",
-              icon: require("../../../images/categories/medical_docs.png")
-            },
-            {
-              id: CATEGORY_IDS.HEALTHCARE.INSURANCE,
-              name: "Insurance",
-              icon: require("../../../images/categories/insurance.png")
-            }
-          ];
-        } else {
-          title = I18n.t("add_edit_expense_screen_title_select_health_expense");
-          reasons = [
-            "Retrieve a bill/record/prescription",
-            "Get expense insights",
-            "And much more"
-          ];
-          visibleOptions = [
-            {
-              id: SUB_CATEGORY_IDS.MEDICAL_BILL,
-              name: "Medical Bills",
-              icon: require("../../../images/categories/medical_bill.png")
-            },
-            {
-              id: SUB_CATEGORY_IDS.HOSPITAL_BILL,
-              name: "Hospital Bills",
-              icon: require("../../../images/categories/hospital.png")
-            }
-          ];
-        }
+
+        title = I18n.t("add_edit_expense_screen_title_select_health_expense");
+        reasons = [
+          "Retrieve a bill/record/prescription",
+          "Get expense insights",
+          "And much more"
+        ];
+        visibleOptions = [
+          {
+            id: SUB_CATEGORY_IDS.MEDICAL_BILL,
+            name: "Medical Bills",
+            icon: require("../../../images/categories/medical_bill.png")
+          },
+          {
+            id: SUB_CATEGORY_IDS.HOSPITAL_BILL,
+            name: "Hospital Bills",
+            icon: require("../../../images/categories/hospital.png")
+          }
+        ];
         break;
       case MAIN_CATEGORY_IDS.PERSONAL:
         title = I18n.t("add_edit_expense_screen_title_select_personal_doc");

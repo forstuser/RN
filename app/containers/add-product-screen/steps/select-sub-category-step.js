@@ -68,7 +68,7 @@ class SelectSubCategoryStep extends React.Component {
     }
     try {
       const res = await updateProduct(data);
-
+      console.log("response final", res)
       if (typeof onSubCategoryStepDone == "function") {
         onSubCategoryStepDone(res.product);
       }

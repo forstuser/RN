@@ -138,7 +138,6 @@ class AddProductScreen extends React.Component {
       (category && category.id == CATEGORY_IDS.PERSONAL.VISITING_CARD ? 1 : 2)
     ) {
       newState.numberOfStepsToShowInFooter = 0;
-      newState.category = null;
       newState.product = null;
     }
     this.setState(newState);
@@ -268,6 +267,7 @@ class AddProductScreen extends React.Component {
       subCategories,
       subCategoryId
     } = this.state;
+
     this.pushStep(
       <SelectSubCategoryStep
         product={product}
@@ -425,11 +425,16 @@ class AddProductScreen extends React.Component {
               if (category.id == CATEGORY_IDS.PERSONAL.VISITING_CARD) {
                 this.pushUploadBillStep(false, pushToNextStep);
                 this.setState({
-                  numberOfStepsToShowInFooter: 2
+                  numberOfStepsToShowInFooter: 3
                 });
+              } else if (category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
+                this.setState({
+                  numberOfStepsToShowInFooter: 3
+                });
+                this.pushSubCategoryStep();
               } else {
                 this.setState({
-                  numberOfStepsToShowInFooter: 2
+                  numberOfStepsToShowInFooter: 3
                 });
                 this.pushUploadBillStep();
               }
@@ -681,7 +686,9 @@ class AddProductScreen extends React.Component {
   };
 
   onSubCategoryStepDone = (product, subCategoryId) => {
+    console.log("product is", product)
     const { mainCategoryId, category, expenseType } = this.state;
+    console.log("category id is", this.state)
     let newState = {};
     if (product) newState.product = product;
     if (subCategoryId) newState.subCategoryId = subCategoryId;
@@ -696,6 +703,12 @@ class AddProductScreen extends React.Component {
           if (category.id == CATEGORY_IDS.HEALTHCARE.MEDICAL_DOC) {
             this.pushNameStep(true);
           } else if (category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
+            this.pushInsuranceProviderStep();
+          }
+          break;
+        case MAIN_CATEGORY_IDS.PERSONAL:
+          if (category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
+            console.log("personal attack ")
             this.pushInsuranceProviderStep();
           }
           break;

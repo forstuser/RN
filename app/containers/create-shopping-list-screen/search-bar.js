@@ -108,8 +108,8 @@ export default class SearchBar extends React.Component {
 
     const activeMainCategory = activeMainCategoryId
       ? mainCategories.find(
-          mainCategory => mainCategory.id == activeMainCategoryId
-        )
+        mainCategory => mainCategory.id == activeMainCategoryId
+      )
       : null;
 
     const checkedBrandIds = checkedBrands.map(checkedBrand => checkedBrand.id);
@@ -176,25 +176,25 @@ export default class SearchBar extends React.Component {
               underlineColorAndroid="transparent"
             />
             {filteredItems.length == 0 &&
-            searchTerm.length > 2 &&
-            !isSearching &&
-            !hideAddManually ? (
-              <TouchableOpacity
-                onPress={this.addManualItem}
-                style={{
-                  height: 20,
-                  width: 20,
-                  borderRadius: 10,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginRight: 10
-                }}
-              >
-                <Icon name="md-add" size={25} color={colors.pinkishOrange} />
-              </TouchableOpacity>
-            ) : (
-              <View />
-            )}
+              searchTerm.length > 2 &&
+              !isSearching &&
+              !hideAddManually ? (
+                <TouchableOpacity
+                  onPress={this.addManualItem}
+                  style={{
+                    height: 20,
+                    width: 20,
+                    borderRadius: 10,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginRight: 10
+                  }}
+                >
+                  <Icon name="md-add" size={25} color={colors.pinkishOrange} />
+                </TouchableOpacity>
+              ) : (
+                <View />
+              )}
 
             {searchTerm ? (
               <TouchableOpacity
@@ -212,8 +212,8 @@ export default class SearchBar extends React.Component {
                 <Icon name="md-close" size={15} color="#fff" />
               </TouchableOpacity>
             ) : (
-              <View />
-            )}
+                <View />
+              )}
           </View>
           <TouchableOpacity
             onPress={this.toggleBrandsPopup}
@@ -224,7 +224,7 @@ export default class SearchBar extends React.Component {
               borderTopRightRadius: 5,
               borderBottomRightRadius: 5,
               padding: 10,
-              marginRight: 5
+              marginRight: 5,
             }}
           >
             <Icon
@@ -301,45 +301,45 @@ export default class SearchBar extends React.Component {
           }}
         >
           {activeMainCategory &&
-          activeMainCategory.categories &&
-          !searchTerm ? (
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: colors.lightBlue,
-                height: "100%"
-              }}
-            >
-              <FlatList
-                data={activeMainCategory.categories}
-                extraData={activeCategoryId}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      updateCategoryIdInParent(item.id);
-                    }}
-                    style={{
-                      justifyContent: "center",
-                      paddingHorizontal: 5,
-                      paddingVertical: 7,
-                      backgroundColor:
-                        item.id == activeCategoryId ? "#fff" : "transparent"
-                    }}
-                  >
-                    <Text
-                      weight="Medium"
-                      style={{ fontSize: 10 }}
-                      numberOfLines={2}
+            activeMainCategory.categories &&
+            !searchTerm ? (
+              <View
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.lightBlue,
+                  height: "100%"
+                }}
+              >
+                <FlatList
+                  data={activeMainCategory.categories}
+                  extraData={activeCategoryId}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity
+                      onPress={() => {
+                        updateCategoryIdInParent(item.id);
+                      }}
+                      style={{
+                        justifyContent: "center",
+                        paddingHorizontal: 5,
+                        paddingVertical: 7,
+                        backgroundColor:
+                          item.id == activeCategoryId ? "#fff" : "transparent"
+                      }}
                     >
-                      {item.title}
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              />
-            </View>
-          ) : (
-            <View />
-          )}
+                      <Text
+                        weight="Medium"
+                        style={{ fontSize: 10 }}
+                        numberOfLines={2}
+                      >
+                        {item.title}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+            ) : (
+              <View />
+            )}
 
           <View style={{ flex: 2, height: "100%" }}>
             <FlatList
@@ -397,7 +397,7 @@ export default class SearchBar extends React.Component {
           <View
             style={{
               position: "absolute",
-              top: 40,
+              top: 50,
               left: 0,
               right: 0,
               bottom: 0
@@ -491,8 +491,8 @@ export default class SearchBar extends React.Component {
             />
           </View>
         ) : (
-          <View />
-        )}
+            <View />
+          )}
         <LoadingOverlay visible={isSearching} />
       </View>
     );

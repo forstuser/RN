@@ -20,7 +20,7 @@ import DrawerScreenContainer from "../../components/drawer-screen-container";
 
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
-import { defaultStyles } from "../../theme";
+import { defaultStyles, colors } from "../../theme";
 
 import InviteSellerModal from "./invite-seller-modal";
 import { showSnackbar } from "../../utils/snackbar";
@@ -164,7 +164,7 @@ export default class MySellersScreen extends React.Component {
                       color="secondary"
                       style={{ width: 150, marginTop: 25, height: 40 }}
                     />
-                  ) : null}
+                  ) : <Text style={{ color: colors.success, fontSize: 10 }}>This Seller already added</Text>}
                 </TouchableOpacity>
               );
             }}

@@ -41,7 +41,7 @@ export default class OrdersList extends React.Component {
       navigation={this.props.navigation}
     />
   };
-  
+
   openOrderScreen = order => {
     this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
       orderId: order.id
@@ -69,22 +69,22 @@ export default class OrdersList extends React.Component {
               You do not have any orders yet.
             </Text>
             <Button
-                onPress={() => this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN)}
-                text="Shop Now"
-                color="secondary"
-                style={{ width: 150, marginTop: 25, height: 40 }}
+              onPress={() => this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN)}
+              text="Shop Now"
+              color="secondary"
+              style={{ width: 150, marginTop: 25, height: 40 }}
             />
           </View>
         )}
       />
-        // renderItem={({ item, index }) => (
-        //   <TouchableOpacity
-        //     style={{ ...defaultStyles.card, height: 80, margin: 10 }}
-        //     onPress={() => this.openOrderScreen(item)}
-        //   >
-        //     <Text>Order Id: {item.id}</Text>
-        //   </TouchableOpacity>
-        // )}
+      // renderItem={({ item, index }) => (
+      //   <TouchableOpacity
+      //     style={{ ...defaultStyles.card, height: 80, margin: 10 }}
+      //     onPress={() => this.openOrderScreen(item)}
+      //   >
+      //     <Text>Order Id: {item.id}</Text>
+      //   </TouchableOpacity>
+      // )}
     );
   }
 }

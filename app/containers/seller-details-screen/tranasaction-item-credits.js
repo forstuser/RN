@@ -13,9 +13,9 @@ export default class TransactionItem extends React.Component {
   render() {
     const { item } = this.props;
     let credit = <Text style={{ fontSize: 14 }}>
-        Credit Added :<Text weight="Bold">{` ` + item.amount}</Text>
-      </Text>;
-    if(item.transaction_type === 2) {
+      Credit Added :<Text weight="Bold">{` ` + item.amount}</Text>
+    </Text>;
+    if (item.transaction_type === 2) {
       credit = <Text style={{ fontSize: 14 }}>
         Credit Settled :<Text weight="Bold">{` ` + item.amount}</Text>
       </Text>;
