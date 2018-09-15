@@ -39,6 +39,14 @@ class SelectGenderScreen extends React.Component {
     onNextPress = async () => {
         //alert('Next Pressed');
         const { gender } = this.state;
+        
+        if(gender === 0) {
+            return Snackbar.show({
+                title: "Please Select Gender",
+                duration: Snackbar.LENGTH_SHORT
+              });
+        }
+
         this.setState({
             isLoading: true
         });

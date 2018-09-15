@@ -17,7 +17,7 @@ class Item extends React.Component {
 
   render() {
     const { item, style } = this.props;
-    // console.log("Item", item);
+    console.log("Item", item);
     const {
       product_name,
       provider_name,

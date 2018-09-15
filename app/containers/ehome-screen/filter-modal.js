@@ -103,7 +103,6 @@ export default class filters extends React.Component {
 
   renderCategoryItem = ({ item, index }) => {
     const { selectedCategories } = this.state;
-
     return (
       <TouchableOpacity
         style={{

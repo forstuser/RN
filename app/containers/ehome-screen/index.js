@@ -76,7 +76,7 @@ class EhomeScreen extends Component {
         },
         {
           type: PRODUCT_TYPES.DOCUMENT,
-          name: "Docs",
+          name: "Documents",
           products: [],
           isLoadingFirstPage: false,
           isLoading: false,
