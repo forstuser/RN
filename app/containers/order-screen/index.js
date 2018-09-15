@@ -1,6 +1,13 @@
 import React from "react";
-import { View, FlatList, Alert, Animated } from "react-native";
+import {
+  View,
+  FlatList,
+  Alert,
+  Animated,
+  TouchableOpacity
+} from "react-native";
 import moment from "moment";
+import Icon from "react-native-vector-icons/Ionicons";
 
 import { Text, Image, Button } from "../../elements";
 
@@ -17,10 +24,16 @@ import {
 } from "../../api";
 
 import LoadingOverlay from "../../components/loading-overlay";
+import KeyValueItem from "../../components/key-value-item";
 import ErrorOverlay from "../../components/error-overlay";
 import { showSnackbar } from "../../utils/snackbar";
 
-import { ORDER_STATUS_TYPES, SCREENS, ORDER_TYPES } from "../../constants";
+import {
+  ORDER_STATUS_TYPES,
+  SCREENS,
+  ORDER_TYPES,
+  SERVICE_PRICE_TYPES
+} from "../../constants";
 
 import Status from "./status";
 import SellerDetails from "./seller-details";
@@ -71,7 +84,6 @@ export default class OrderScreen extends React.Component {
       });
     }
 
-    this.servicePriceBreakdownModal.show();
     // this.uploadBillModal.show({ productId: 50897, jobId: 52334 });
   }
 
@@ -345,10 +357,30 @@ export default class OrderScreen extends React.Component {
     let deliveryUser = order ? order.delivery_user : null;
     let startTime = null;
     let endTime = null;
+    let timeElapsed = "";
+    let serviceTotalAmount = 0;
+    let basePrice = 0;
+    let hourlyPrice = 0;
+
     if (order && order.order_type == ORDER_TYPES.ASSISTED_SERVICE) {
       deliveryUser = order.service_user || null;
       startTime = order.order_details[0].start_date;
       endTime = order.order_details[0].end_date;
+
+      if (startTime && endTime) {
+        timeElapsed = moment(endTime).diff(startTime, "minutes") + " mins";
+      }
+      serviceTotalAmount = order.order_details[0].total_amount;
+
+      if (deliveryUser) {
+        basePrice = deliveryUser.service_type.price.find(
+          p => p.price_type == SERVICE_PRICE_TYPES.BASE_PRICE
+        ).value;
+
+        hourlyPrice = deliveryUser.service_type.price.find(
+          p => p.price_type == SERVICE_PRICE_TYPES.HOURLY_PRICE
+        ).value;
+      }
     }
 
     return (
@@ -452,6 +484,61 @@ export default class OrderScreen extends React.Component {
                     </View>
                   )}
 
+                  {order.order_type == ORDER_TYPES.ASSISTED_SERVICE &&
+                    serviceTotalAmount && (
+                      <View
+                        style={{
+                          borderTopWidth: 1,
+                          borderColor: "#eee"
+                        }}
+                      >
+                        <KeyValueItem
+                          keyText="Started Time"
+                          valueText={moment(startTime).format("h:mm a")}
+                        />
+                        <KeyValueItem
+                          keyText="End Time"
+                          valueText={moment(endTime).format("h:mm a")}
+                        />
+                        <KeyValueItem
+                          keyText="Time Elapsed"
+                          valueText={timeElapsed}
+                        />
+                        <KeyValueItem
+                          keyText="Total Amount"
+                          ValueComponent={() => (
+                            <TouchableOpacity
+                              onPress={() =>
+                                this.servicePriceBreakdownModal.show({
+                                  basePrice,
+                                  hourlyPrice,
+                                  startTime,
+                                  endTime,
+                                  timeElapsed,
+                                  totalAmount: serviceTotalAmount
+                                })
+                              }
+                              style={{
+                                flex: 1,
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "flex-end"
+                              }}
+                            >
+                              <Text weight="Bold">
+                                Rs. {serviceTotalAmount}
+                              </Text>
+                              <Icon
+                                name="md-information-circle"
+                                size={15}
+                                style={{ marginTop: 2, marginLeft: 5 }}
+                              />
+                            </TouchableOpacity>
+                          )}
+                        />
+                      </View>
+                    )}
+
                   {order.status_type == ORDER_STATUS_TYPES.COMPLETE && (
                     <View>
                       {!sellerRatings || !serviceRatings ? (
@@ -525,7 +612,7 @@ export default class OrderScreen extends React.Component {
 
                 {(order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
                   order.order_type == ORDER_TYPES.FMCG) ||
-                  (endTime &&
+                  (order.status_type == ORDER_STATUS_TYPES.END_TIME &&
                     order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
                       <Button
                         onPress={this.completeOrder}
@@ -536,8 +623,7 @@ export default class OrderScreen extends React.Component {
                     ))}
 
                 {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
-                  order.order_type == ORDER_TYPES.ASSISTED_SERVICE &&
-                  !startTime && (
+                  order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
                     <Button
                       onPress={this.startAssistedServiceOrder}
                       text="Start Job"
@@ -546,10 +632,8 @@ export default class OrderScreen extends React.Component {
                     />
                   )}
 
-                {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
-                  order.order_type == ORDER_TYPES.ASSISTED_SERVICE &&
-                  startTime &&
-                  !endTime && (
+                {order.status_type == ORDER_STATUS_TYPES.START_TIME &&
+                  order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
                     <Button
                       onPress={this.endAssistedServiceOrder}
                       text="End Job"
@@ -562,7 +646,9 @@ export default class OrderScreen extends React.Component {
                   ![
                     ORDER_STATUS_TYPES.APPROVED,
                     ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                    ORDER_STATUS_TYPES.COMPLETE
+                    ORDER_STATUS_TYPES.COMPLETE,
+                    ORDER_STATUS_TYPES.START_TIME,
+                    ORDER_STATUS_TYPES.END_TIME
                   ].includes(order.status_type) && (
                     <View style={{ flexDirection: "row" }}>
                       <Button

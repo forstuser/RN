@@ -1,5 +1,6 @@
 import React from "react";
 import { View } from "react-native";
+import moment from "moment";
 
 import { Text } from "../../elements";
 
@@ -7,11 +8,32 @@ import Modal from "../../components/modal";
 
 export default class ServicePriceBreakdownModal extends React.Component {
   state = {
-    isVisible: false
+    isVisible: false,
+    basePrice: 0,
+    hourlyPrice: 0,
+    startTime: "",
+    endTime: "",
+    timeElapsed: "",
+    totalAmount: ""
   };
 
-  show = () => {
-    this.setState({ isVisible: true });
+  show = ({
+    basePrice,
+    hourlyPrice,
+    startTime,
+    endTime,
+    timeElapsed,
+    totalAmount
+  }) => {
+    this.setState({
+      isVisible: true,
+      basePrice,
+      hourlyPrice,
+      startTime,
+      endTime,
+      timeElapsed,
+      totalAmount
+    });
   };
 
   hide = () => {
@@ -19,7 +41,18 @@ export default class ServicePriceBreakdownModal extends React.Component {
   };
 
   render() {
-    const { isVisible } = this.state;
+    const {
+      isVisible,
+      basePrice,
+      hourlyPrice,
+      startTime,
+      endTime,
+      timeElapsed,
+      totalAmount
+    } = this.state;
+
+    const timeElapsedInHours = moment(endTime).diff(startTime, "hours");
+
     return (
       <Modal
         isVisible={isVisible}
@@ -33,7 +66,8 @@ export default class ServicePriceBreakdownModal extends React.Component {
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
           <Text>
-            {`a. Fixed Charge (1 Hr : Rs. ${230})\n\nb. Variable Charge (${30} Min : ${100}INR) = ${100}x${1}=${100}\n\nc. Total (a+ b) = ${330}`}
+            {`a. Fixed Charge (1 Hr : Rs. ${basePrice})\n\nb. Variable Charge (${timeElapsed} : ${hourlyPrice} INR) = ${hourlyPrice}x${timeElapsedInHours}=${hourlyPrice *
+              timeElapsedInHours}\n\nc. Total (a + b) = ${totalAmount}`}
           </Text>
         </View>
       </Modal>

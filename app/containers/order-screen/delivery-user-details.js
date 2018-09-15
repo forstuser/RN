@@ -9,7 +9,7 @@ import { API_BASE_URL } from "../../api";
 import { Text, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
-import { ORDER_TYPES } from "../../constants";
+import { ORDER_TYPES, SERVICE_PRICE_TYPES } from "../../constants";
 
 export default class DeliveryUserDetails extends React.Component {
   // call = () => {
@@ -59,9 +59,22 @@ export default class DeliveryUserDetails extends React.Component {
           <View style={{ padding: 12, paddingLeft: 0, flex: 1 }}>
             <View style={{ flexDirection: "row" }}>
               <View style={{ flex: 1, justifyContent: "center" }}>
-                <Text weight="Bold" style={{ fontSize: 13 }}>
-                  {deliveryUser.name}
-                </Text>
+                <View style={{ flexDirection: "row" }}>
+                  <Text weight="Bold" style={{ fontSize: 13.5, flex: 1 }}>
+                    {deliveryUser.name}
+                  </Text>
+                  {orderType == ORDER_TYPES.ASSISTED_SERVICE && (
+                    <Text weight="Bold" style={{ fontSize: 13.5 }}>
+                      Rs.{" "}
+                      {
+                        deliveryUser.service_type.price.find(
+                          p => p.price_type == SERVICE_PRICE_TYPES.HOURLY_PRICE
+                        ).value
+                      }
+                      /hour
+                    </Text>
+                  )}
+                </View>
                 <Text style={{ fontSize: 11 }}>
                   Mobile: {deliveryUser.mobile_no}
                 </Text>

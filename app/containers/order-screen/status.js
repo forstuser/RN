@@ -86,7 +86,9 @@ export default class Statuses extends React.Component {
                 [
                   ORDER_STATUS_TYPES.APPROVED,
                   ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                  ORDER_STATUS_TYPES.COMPLETE
+                  ORDER_STATUS_TYPES.COMPLETE,
+                  ORDER_STATUS_TYPES.START_TIME,
+                  ORDER_STATUS_TYPES.END_TIME
                 ].includes(statusType) || isOrderModified
               }
             />
@@ -109,7 +111,9 @@ export default class Statuses extends React.Component {
                   isDone={[
                     ORDER_STATUS_TYPES.APPROVED,
                     ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                    ORDER_STATUS_TYPES.COMPLETE
+                    ORDER_STATUS_TYPES.COMPLETE,
+                    ORDER_STATUS_TYPES.START_TIME,
+                    ORDER_STATUS_TYPES.END_TIME
                   ].includes(statusType)}
                 />
               </View>
@@ -117,7 +121,9 @@ export default class Statuses extends React.Component {
             {[
               ORDER_STATUS_TYPES.APPROVED,
               ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-              ORDER_STATUS_TYPES.COMPLETE
+              ORDER_STATUS_TYPES.COMPLETE,
+              ORDER_STATUS_TYPES.START_TIME,
+              ORDER_STATUS_TYPES.END_TIME
             ].includes(statusType) && (
               <StatusItem
                 title={
@@ -127,7 +133,9 @@ export default class Statuses extends React.Component {
                 }
                 isDone={[
                   ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                  ORDER_STATUS_TYPES.COMPLETE
+                  ORDER_STATUS_TYPES.COMPLETE,
+                  ORDER_STATUS_TYPES.START_TIME,
+                  ORDER_STATUS_TYPES.END_TIME
                 ].includes(statusType)}
               />
             )}
@@ -135,7 +143,9 @@ export default class Statuses extends React.Component {
             {[
               ORDER_STATUS_TYPES.APPROVED,
               ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-              ORDER_STATUS_TYPES.COMPLETE
+              ORDER_STATUS_TYPES.COMPLETE,
+              ORDER_STATUS_TYPES.START_TIME,
+              ORDER_STATUS_TYPES.END_TIME
             ].includes(statusType) &&
               orderType == ORDER_TYPES.ASSISTED_SERVICE && (
                 <StatusItem title="Service Started" isDone={!!startTime} />
@@ -144,7 +154,9 @@ export default class Statuses extends React.Component {
             {[
               ORDER_STATUS_TYPES.APPROVED,
               ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-              ORDER_STATUS_TYPES.COMPLETE
+              ORDER_STATUS_TYPES.COMPLETE,
+              ORDER_STATUS_TYPES.START_TIME,
+              ORDER_STATUS_TYPES.END_TIME
             ].includes(statusType) &&
               orderType == ORDER_TYPES.ASSISTED_SERVICE && (
                 <StatusItem title="Service Completed" isDone={endTime} />

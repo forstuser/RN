@@ -7,29 +7,31 @@ import { colors } from "../theme";
 const KeyValueItem = ({
   keyText = "",
   valueText = "",
+  keyTextStyle = {},
+  valueTextStyle = {},
   KeyComponent,
   ValueComponent
 }) => {
   return (
-    <View collapsable={false}  style={styles.container}>
+    <View collapsable={false} style={styles.container}>
       {keyText.length > 0 ? (
-        <View collapsable={false}  style={styles.key}>
-          <Text style={styles.keyText}>{keyText}</Text>
+        <View collapsable={false} style={styles.key}>
+          <Text style={[styles.keyText, keyTextStyle]}>{keyText}</Text>
         </View>
       ) : (
-        <View collapsable={false}  />
+        <View collapsable={false} />
       )}
-      {KeyComponent ? <KeyComponent /> : <View collapsable={false}  />}
+      {KeyComponent ? <KeyComponent /> : <View collapsable={false} />}
       {String(valueText).length > 0 ? (
-        <View collapsable={false}  style={styles.value}>
-          <Text weight="Medium" style={styles.valueText}>
+        <View collapsable={false} style={styles.value}>
+          <Text weight="Medium" style={[styles.valueText, valueTextStyle]}>
             {valueText}
           </Text>
         </View>
       ) : (
-        <View collapsable={false}  />
+        <View collapsable={false} />
       )}
-      {ValueComponent ? <ValueComponent /> : <View collapsable={false}  />}
+      {ValueComponent ? <ValueComponent /> : <View collapsable={false} />}
     </View>
   );
 };
