@@ -21,6 +21,8 @@ class BasicDetailsScreen extends Component {
           name: '',
           mobile: '',
           email: '',
+          imageUrl: '',
+          image_name: '',
           isLoading: false,
           error: null
         };
@@ -43,7 +45,9 @@ class BasicDetailsScreen extends Component {
                 isLoading: false,
                 name: user.name || '',
                 mobile: user.mobile_no || '',
-                email: user.email || ''
+                email: user.email || '',
+                imageUrl: user.imageUrl || '',
+                image_name: user.image_name || ''
             });
         } catch (error) {
             this.setState({ error });
@@ -51,7 +55,8 @@ class BasicDetailsScreen extends Component {
     };
 
     onNextPress = async () => {
-        const { name, phone, email } = this.state;
+        const { name, phone, email, user, image_name, imageUrl } = this.state;
+
         if (
             email &&
             !email.match(
@@ -64,6 +69,13 @@ class BasicDetailsScreen extends Component {
             });
           }
 
+        if(image_name === '') {
+            return Snackbar.show({
+                title: "Please Upload Picture",
+                duration: Snackbar.LENGTH_SHORT
+              });
+        }
+
         this.setState({
             isLoading: true
         });
@@ -72,6 +84,8 @@ class BasicDetailsScreen extends Component {
             const res = await updateProfile({
                 name,
                 email,
+                image_name,
+                imageUrl
               });
         } catch (e) {
             console.log("e: ", e);
@@ -86,9 +100,7 @@ class BasicDetailsScreen extends Component {
         this.props.navigation.navigate(SCREENS.SELECT_GENDER_SCREEN_ONBOARDING);
     };
 
-    uploadPic = () => {
-        alert('Camera');
-    };
+    
 
     render() {
         return (

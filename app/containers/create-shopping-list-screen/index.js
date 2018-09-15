@@ -27,6 +27,7 @@ import BarcodeScanner from "./barcode-scanner";
 import AddManualItemModal from "./add-manual-item-modal";
 import ClearOrContinuePreviousListModal from "./clear-or-continue-previous-list-modal";
 import PastItems from "./past-items";
+import FilterModal from './filter-modal';
 
 import { colors } from "../../theme";
 import { SCREENS } from "../../constants";
@@ -531,6 +532,11 @@ class ShoppingListScreen extends React.Component {
             clearWishList={this.clearWishList}
           />
         </View>
+        <FilterModal
+          ref={node => {
+            this.filterModal = node;
+          }}
+        />
       </DrawerScreenContainer>
     );
   }

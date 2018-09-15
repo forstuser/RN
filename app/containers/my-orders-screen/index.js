@@ -25,7 +25,7 @@ export default class OrdersList extends React.Component {
   loadOrders = async () => {
     try {
       const res = await getCompletedOrders();
-      this.setState({ orders: res.result });
+      //this.setState({ orders: res.result });
       console.log('Get Completed Orders: ', res.result);
       //console.log('Get Completed Orders: ', res.result[0].order_details.length);
     } catch (error) {
@@ -62,7 +62,8 @@ export default class OrdersList extends React.Component {
           style={{
             flex: 1,
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
+            marginTop: 50
           }}
         >
           <View
@@ -71,14 +72,19 @@ export default class OrdersList extends React.Component {
               justifyContent: "center"
             }}
           >
-            <Text style={{ fontSize: 18, textAlign: "center" }}>
-              You do not have any orders yet.
-            </Text>
-            <Button
-              onPress={() => this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN)}
-              text="Shop Now"
-              color="secondary"
-              style={{ width: 150, marginTop: 25, height: 40 }}
+            <View
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 50,
+                backgroundColor: "#EAF6FC"
+              }}
+            />
+
+            <Image
+              style={{ width: 80, height: 90, marginTop: -90 }}
+              source={require("../../images/bell.png")}
+              resizeMode="contain"
             />
           </View>
           <Text
@@ -95,6 +101,7 @@ export default class OrdersList extends React.Component {
             textStyle={{ fontSize: 16 }}
           />
         </View>
+          
         )}
       />
       // renderItem={({ item, index }) => (
