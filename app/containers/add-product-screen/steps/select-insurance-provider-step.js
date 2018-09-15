@@ -94,7 +94,7 @@ class SelectInsuranceProviderStep extends React.Component {
     const { providers, isLoading } = this.state;
 
     const { mainCategoryId, category, product } = this.props;
-
+    console.log("props in selecct insurance provider", this.props)
     title = `Select insurance provider`;
     if (mainCategoryId == MAIN_CATEGORY_IDS.AUTOMOBILE) {
       title = `Select insurance provider`;
