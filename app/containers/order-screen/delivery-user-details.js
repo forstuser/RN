@@ -24,6 +24,12 @@ export default class DeliveryUserDetails extends React.Component {
   render() {
     let { deliveryUser = {}, orderType } = this.props;
 
+    const hourlyPriceItem = deliveryUser.service_type.price.find(
+      p => p.price_type == SERVICE_PRICE_TYPES.HOURLY_PRICE
+    );
+
+    let hourlyPrice = hourlyPriceItem ? hourlyPriceItem.value : 0;
+
     return (
       <View style={{}}>
         <Text weight="Bold">
@@ -65,12 +71,7 @@ export default class DeliveryUserDetails extends React.Component {
                   </Text>
                   {orderType == ORDER_TYPES.ASSISTED_SERVICE && (
                     <Text weight="Bold" style={{ fontSize: 13.5 }}>
-                      Rs.{" "}
-                      {
-                        deliveryUser.service_type.price.find(
-                          p => p.price_type == SERVICE_PRICE_TYPES.HOURLY_PRICE
-                        ).value
-                      }
+                      Rs. {hourlyPrice}
                       /hour
                     </Text>
                   )}

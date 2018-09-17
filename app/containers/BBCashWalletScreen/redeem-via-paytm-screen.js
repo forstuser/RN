@@ -1,6 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity, TextInput } from "react-native";
 
+import { connect } from "react-redux";
 import { Text, Button, Image } from "../../elements";
 import { redeemToPaytm } from "../../api";
 
@@ -8,7 +9,7 @@ import LoadingOverlay from "../../components/loading-overlay";
 
 import { showSnackbar } from "../../utils/snackbar";
 
-export default class RedeemViaPaytmScreen extends React.Component {
+class RedeemViaPaytmScreen extends React.Component {
   static navigationOptions = {
     title: "Redeem Via Paytm"
   };
@@ -115,3 +116,5 @@ export default class RedeemViaPaytmScreen extends React.Component {
     );
   }
 }
+
+export default RedeemViaPaytmScreen;

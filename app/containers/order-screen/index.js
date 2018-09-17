@@ -373,13 +373,14 @@ export default class OrderScreen extends React.Component {
       serviceTotalAmount = order.order_details[0].total_amount;
 
       if (deliveryUser) {
-        basePrice = deliveryUser.service_type.price.find(
+        const basePriceItem = deliveryUser.service_type.price.find(
           p => p.price_type == SERVICE_PRICE_TYPES.BASE_PRICE
-        ).value;
-
-        hourlyPrice = deliveryUser.service_type.price.find(
+        );
+        basePrice = basePriceItem ? basePriceItem.value : 0;
+        const hourlyPriceItem = deliveryUser.service_type.price.find(
           p => p.price_type == SERVICE_PRICE_TYPES.HOURLY_PRICE
-        ).value;
+        );
+        hourlyPrice = hourlyPriceItem ? hourlyPriceItem.value : 0;
       }
     }
 
