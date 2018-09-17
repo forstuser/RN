@@ -154,6 +154,7 @@ export default class OrderScreen extends React.Component {
   cancelOrder = () => {
     this.show();
   };
+
   deleteAddress = async () => {
     this.hide();
     this.setState({ isLoading: true });
@@ -215,7 +216,7 @@ export default class OrderScreen extends React.Component {
         sellerId: order.seller_id
       });
 
-      if (res.result.product) {
+      if (res.result.product && order.seller) {
         this.uploadBillModal.show({
           productId: res.result.product.id,
           jobId: res.result.product.job_id
@@ -611,17 +612,17 @@ export default class OrderScreen extends React.Component {
                     />
                   )}
 
-                {(order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+                {((order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
                   order.order_type == ORDER_TYPES.FMCG) ||
                   (order.status_type == ORDER_STATUS_TYPES.END_TIME &&
-                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
-                      <Button
-                        onPress={this.completeOrder}
-                        text="Mark Paid"
-                        color="secondary"
-                        borderRadius={0}
-                      />
-                    ))}
+                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE)) && (
+                  <Button
+                    onPress={this.completeOrder}
+                    text="Mark Paid"
+                    color="secondary"
+                    borderRadius={0}
+                  />
+                )}
 
                 {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
                   order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
