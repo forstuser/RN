@@ -25,7 +25,7 @@ export default class OrdersList extends React.Component {
   loadOrders = async () => {
     try {
       const res = await getCompletedOrders();
-      //this.setState({ orders: res.result });
+      this.setState({ orders: res.result });
       console.log('Get Completed Orders: ', res.result);
       //console.log('Get Completed Orders: ', res.result[0].order_details.length);
     } catch (error) {

@@ -53,6 +53,7 @@ export default class SearchBar extends React.Component {
     const { setSelectedBrands = () => null } = this.props;
     this.setState({ isBrandsPopupVisible: false });
     setSelectedBrands(checkedBrands);
+    this.filterModal.hide();
   };
 
   resetBrandsFilter = () => {
@@ -494,7 +495,7 @@ export default class SearchBar extends React.Component {
           //     }}
           //   />
           // </View>
-          this.filterModal.show() 
+          this.filterModal.show()
         ) : (
             <View />
           )}
@@ -502,6 +503,12 @@ export default class SearchBar extends React.Component {
           ref={node => {
             this.filterModal = node;
           }}
+          brands={brands}
+          wishList={wishList}
+          checkedBrandIds={checkedBrandIds}
+          toggleBrandSelection={this.toggleBrandSelection}
+          applyBrandsFilter={this.applyBrandsFilter}
+          resetBrandsFilter={this.resetBrandsFilter}
         />
 
         <LoadingOverlay visible={isSearching} />

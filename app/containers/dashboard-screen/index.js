@@ -84,6 +84,7 @@ class DashboardScreen extends React.Component {
         this.screenHasDisappeared = false;
         this.fetchDashboardData();
         this.expenseInsightContent.fetchCategories();
+        this.activeOrdersContent.fetchActiveOrders();
         //this.ascContent.fetchProducts();
         //this.calendarContent.fetchItems();
         //

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image, ScrollView } from "react-native";
+import { View, Image, ScrollView, FlatList } from "react-native";
 
 import { Text, Button } from "../../elements";
 import SingleDeliveryOrder from "./single-delivery-order";
@@ -76,6 +76,17 @@ class ActiveOrdersScreen extends Component {
     });
   };
 
+  renderActiveOrders = ({ item, index }) => {
+    return <SingleOrder
+      key={index}
+      item={item}
+      navigation={this.props.navigation}
+      onPress={() => {
+        this.openOrderScreen(item);
+      }}
+    />; 
+  };
+
   render() {
     const { activeDeliveryOrders, activeAssistedServicesRequest } = this.state;
     let activeOrders = null;
@@ -87,7 +98,7 @@ class ActiveOrdersScreen extends Component {
           {/* <Text weight="Medium" style={{ fontSize: 18 }}>
             Delivery Orders
           </Text> */}
-          {activeDeliveryOrders.map((order, index) => (
+          {/* {activeDeliveryOrders.map((order, index) => (
             <SingleOrder
               key={index}
               item={order}
@@ -96,7 +107,12 @@ class ActiveOrdersScreen extends Component {
                 this.openOrderScreen(order);
               }}
             />
-          ))}
+          ))} */}
+          <FlatList
+            data={this.state.activeDeliveryOrders}
+            renderItem={this.renderActiveOrders}
+            keyExtractor={(item, index) => item.id}
+          />
         </View>
       );
     }
@@ -162,10 +178,10 @@ class ActiveOrdersScreen extends Component {
       );
     } else {
       activeOrders = (
-        <ScrollView style={{ flex: 1, padding: 10 }}>
+        <View style={{ flex: 1, padding: 10 }}>
           {deliveryOrders}
           {assistedServicesRequest}
-        </ScrollView>
+        </View>
       );
     }
     return (

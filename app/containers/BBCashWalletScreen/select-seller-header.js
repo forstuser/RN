@@ -46,7 +46,8 @@ const styles = {
         padding: 10,
         position: 'absolute',
         top: 0,
-        left: 10
+        left: 10,
+        zIndex: 2
     },
     heading: {
         color: '#fff', 
