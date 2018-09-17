@@ -28,18 +28,14 @@ class FilterModalScreen extends Component {
                 'title': 'Filter by Sellers'
             }
         ],
-        brands: [
+        sellers: [
             {
                 'id': 1,
-                'title': 'Dabur'
+                'title': 'ZopNow'
             },
             {
                 'id': 2,
-                'title': 'Nestle'
-            },
-            {
-                'id': 3,
-                'title': 'Colgate'
+                'title': 'Dilli Grocery'
             }
         ],
         selectedMainCategory: 'Filter by Brands'
@@ -77,44 +73,34 @@ class FilterModalScreen extends Component {
 
       renderCategoryItem = ({ item, index }) => {
         return (
-          <TouchableOpacity
+            <TouchableOpacity
+            onPress={() => this.props.toggleBrandSelection(item)}
             style={{
-              flexDirection: "row",
-              height: 45,
-              padding: 5,
-              alignItems: "center"
+            flexDirection: "row",
+            padding: 8,
+            alignItems: "center"
             }}
-            // onPress={() => {
-            //   this.setState(() => this.toggleCategory(item));
-            // }}
-            onPress={() => {}}
-          >
-            <Text
-              weight="Medium"
-              style={{
-                flex: 1,
-                fontSize: 12
-              }}
-            >
-              {item.title}
+        >
+            <Text style={{ flex: 1, fontSize: 10 }}>
+                {item.title}
             </Text>
-            <Checkbox
-              isChecked={false}
-            />
-            {/* <Checkbox
-              isChecked={selectedCategories
-                .map(selectedCategory => selectedCategory.id)
-                .includes(item.id)}
-            /> */}
-          </TouchableOpacity>
+            <Checkbox isChecked={this.props.checkedBrandIds.includes(item.id)} />
+        </TouchableOpacity>
         );
       };
 
     render() {
+        let source = null;
         //console.log(this.state.selectedMainCategory);
+        if(this.state.selectedMainCategory === 'Filter by Sellers') {
+            source = this.state.sellers;
+        }
+        else if(this.state.selectedMainCategory === 'Filter by Brands') {
+            source = this.props.brands;
+        }
         return (
             <Modal
-                style={{ flex: 1, backgroundColor: '#fff', padding: 5 }}
+                style={{ flex: 1, backgroundColor: '#fff', padding: 5, margin: 0 }}
                 isVisible={this.state.isVisible}
                 onBackButtonPress={this.hide}
             >
@@ -140,7 +126,7 @@ class FilterModalScreen extends Component {
                         Category Filter
                     </Text>
                     </View>
-                    <TouchableOpacity onPress={this.resetAllFilters}>
+                    <TouchableOpacity onPress={this.props.resetBrandsFilter}>
                     <Text
                         weight="Bold"
                         style={{
@@ -173,44 +159,23 @@ class FilterModalScreen extends Component {
                             />
                         </View>
                         <View style={{ flex: 2, paddingLeft: 10 }}>
-                            <FlatList
-                                data={this.state.brands}
-                                renderItem={this.renderCategoryItem}
-                                keyExtractor={item => item.id}
-                                ItemSeparatorComponent={() => (
-                                    <View style={{ height: 1, backgroundColor: "#eee" }} />
-                                )}
-                                />
+                        <FlatList
+                            data={source}
+                            extraData={source}
+                            renderItem={this.renderCategoryItem}
+                            extraData={this.props.wishList}
+                            keyExtractor={(item, index) => item.id}
+                            ItemSeparatorComponent={() => (
+                            <View style={{ backgroundColor: "#efefef", height: 1 }} />
+                            )}
+                        />
                         </View>
-                    {/* <View style={{ flex: 1 }}>
-                        <FlatList
-                        contentContainerStyle={{
-                            backgroundColor: "#F4F4F4",
-                            height: "100%"
-                        }}
-                        data={mainCategories.filter(
-                            mainCategory => mainCategory.subCategories.length > 0
-                        )}
-                        renderItem={this.renderMainCategoryItem}
-                        keyExtractor={item => item.id}
-                        />
-                    </View>
-                    <View style={{ flex: 2, paddingLeft: 10 }}>
-                        <FlatList
-                        data={subCategories}
-                        renderItem={this.renderCategoryItem}
-                        keyExtractor={item => item.id}
-                        ItemSeparatorComponent={() => (
-                            <View style={{ height: 1, backgroundColor: "#eee" }} />
-                        )}
-                        />
-                    </View> */}
                     </View>
                     <Button
-                    onPress={() => {}}
-                    text="Apply Filter"
-                    borderRadius={0}
-                    color="secondary"
+                        onPress={this.props.applyBrandsFilter}
+                        text="Apply Filter"
+                        borderRadius={0}
+                        color="secondary"
                     />
                 </View>
                 </View>

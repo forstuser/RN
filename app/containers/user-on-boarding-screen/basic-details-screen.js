@@ -69,12 +69,12 @@ class BasicDetailsScreen extends Component {
             });
           }
 
-        if(image_name === '') {
-            return Snackbar.show({
-                title: "Please Upload Picture",
-                duration: Snackbar.LENGTH_SHORT
-              });
-        }
+        // if(imageUrl === '') {
+        //     return Snackbar.show({
+        //         title: "Please Upload Picture",
+        //         duration: Snackbar.LENGTH_SHORT
+        //       });
+        // }
 
         this.setState({
             isLoading: true
