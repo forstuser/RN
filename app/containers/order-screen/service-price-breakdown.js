@@ -13,7 +13,7 @@ export default class ServicePriceBreakdownModal extends React.Component {
     hourlyPrice: 0,
     startTime: "",
     endTime: "",
-    timeElapsed: "",
+    timeElapsedInMinutes: "",
     totalAmount: ""
   };
 
@@ -22,7 +22,7 @@ export default class ServicePriceBreakdownModal extends React.Component {
     hourlyPrice,
     startTime,
     endTime,
-    timeElapsed,
+    timeElapsedInMinutes,
     totalAmount
   }) => {
     this.setState({
@@ -31,7 +31,7 @@ export default class ServicePriceBreakdownModal extends React.Component {
       hourlyPrice,
       startTime,
       endTime,
-      timeElapsed,
+      timeElapsedInMinutes,
       totalAmount
     });
   };
@@ -47,11 +47,15 @@ export default class ServicePriceBreakdownModal extends React.Component {
       hourlyPrice,
       startTime,
       endTime,
-      timeElapsed,
+      timeElapsedInMinutes,
       totalAmount
     } = this.state;
 
-    const timeElapsedInHours = moment(endTime).diff(startTime, "hours");
+    let timeElapsedInHalfHours = 0;
+
+    if (timeElapsedInMinutes > 60) {
+      timeElapsedInHalfHours = Math.ceil((timeElapsedInMinutes - 60) / 30);
+    }
 
     return (
       <Modal
@@ -66,8 +70,8 @@ export default class ServicePriceBreakdownModal extends React.Component {
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
           <Text>
-            {`a. Fixed Charge (1 Hr : Rs. ${basePrice})\n\nb. Variable Charge (${timeElapsed} : ${hourlyPrice} INR) = ${hourlyPrice}x${timeElapsedInHours}=${hourlyPrice *
-              timeElapsedInHours}\n\nc. Total (a + b) = ${totalAmount}`}
+            {`a. Fixed Charge (1 Hr : Rs. ${basePrice})\n\nb. Variable Charge (${timeElapsedInHalfHours} : ${hourlyPrice} INR) = ${hourlyPrice}x${timeElapsedInHalfHours}=${hourlyPrice *
+              timeElapsedInHalfHours}\n\nc. Total (a + b) = ${totalAmount}`}
           </Text>
         </View>
       </Modal>

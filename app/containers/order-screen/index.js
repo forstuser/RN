@@ -357,7 +357,7 @@ export default class OrderScreen extends React.Component {
     let deliveryUser = order ? order.delivery_user : null;
     let startTime = null;
     let endTime = null;
-    let timeElapsed = "";
+    let timeElapsedInMinutes = 0;
     let serviceTotalAmount = 0;
     let basePrice = 0;
     let hourlyPrice = 0;
@@ -368,7 +368,7 @@ export default class OrderScreen extends React.Component {
       endTime = order.order_details[0].end_date;
 
       if (startTime && endTime) {
-        timeElapsed = moment(endTime).diff(startTime, "minutes") + " mins";
+        timeElapsedInMinutes = moment(endTime).diff(startTime, "minutes");
       }
       serviceTotalAmount = order.order_details[0].total_amount;
 
@@ -502,7 +502,7 @@ export default class OrderScreen extends React.Component {
                         />
                         <KeyValueItem
                           keyText="Time Elapsed"
-                          valueText={timeElapsed}
+                          valueText={timeElapsedInMinutes + " mins"}
                         />
                         <KeyValueItem
                           keyText="Total Amount"
@@ -514,7 +514,7 @@ export default class OrderScreen extends React.Component {
                                   hourlyPrice,
                                   startTime,
                                   endTime,
-                                  timeElapsed,
+                                  timeElapsedInMinutes,
                                   totalAmount: serviceTotalAmount
                                 })
                               }
