@@ -18,7 +18,7 @@ class SelectSellerScreen extends Component {
       selectedSeller: null,
       error: null,
       isFetchingData: true,
-      sellerInfo: [],
+      sellers: [],
       isLoading: false
     };
   }
@@ -37,7 +37,7 @@ class SelectSellerScreen extends Component {
       //console.log('Seller Data: ', sellerData.result[0].name);
       //console.log('Seller Data: ', sellerData.result[0].cashback_total);
       this.setState({
-        sellerInfo: sellerData.result,
+        sellers: sellerData.result,
         isFetchingData: false
       });
     } catch (error) {
@@ -84,12 +84,33 @@ class SelectSellerScreen extends Component {
   };
 
   render() {
-    const { isLoading, selectedSeller } = this.state;
+    const { isLoading, selectedSeller, sellers } = this.state;
+
+    const filteredSellers = sellers.filter(seller => seller.cashback_total > 0);
+
     return (
       <View style={{ backgroundColor: "#fff", flex: 1 }}>
         <SelectSellerHeader navigation={this.props.navigation} />
         <FlatList
-          data={this.state.sellerInfo}
+          contentContainerStyle={[
+            { flexGrow: 1 },
+            filteredSellers.length ? null : { justifyContent: "center" }
+          ]}
+          ListEmptyComponent={() => (
+            <View
+              style={{
+                flex: 1,
+                padding: 20,
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <Text style={{ textAlign: "center" }}>
+                You don't have any cashback avialable with any of your sellers.
+              </Text>
+            </View>
+          )}
+          data={filteredSellers}
           renderItem={this.renderSellers}
           extraData={this.state.selectedSeller}
           keyExtractor={item => item.id}

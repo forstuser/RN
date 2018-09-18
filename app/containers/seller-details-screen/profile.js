@@ -248,7 +248,7 @@ class SellerProfileTab extends React.Component {
         <Text style={{ fontSize: 9, marginTop: 5, textAlign: "center" }}>
           {seller.address}
         </Text>
-        <View
+        {/* <View
           style={{
             width: 200,
             borderColor: "#d9d9d9",
@@ -262,7 +262,7 @@ class SellerProfileTab extends React.Component {
           <Text style={{ fontSize: 9, textAlign: "center", marginTop: -2 }}>
             {seller.owner_name}
           </Text>
-        </View>
+        </View> */}
         {basicDetails.shop_open_day && (
           <View
             style={{
