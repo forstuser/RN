@@ -57,7 +57,12 @@ export default class OrderScreen extends React.Component {
     isLoading: true,
     error: null,
     order: null,
-    isVisible: false
+    isVisible: false,
+    cancelOrderFlag: false,
+    rejectOrderFlag: false,
+    declineOrderFlag: false,
+    title: '',
+    headerText: ''
   };
 
   componentDidMount() {
@@ -151,11 +156,50 @@ export default class OrderScreen extends React.Component {
     });
   };
 
-  cancelOrder = () => {
+  cancelOrderPopup = () => {
     this.show();
+    this.setState({
+      cancelOrderFlag: true,
+      rejectOrderFlag: false,
+      declineOrderFlag: false,
+      title: 'Are you sure want to cancel this order?',
+      headerText: 'Cancel Order'
+    })
+  };
+  rejectOrderPopup = () => {
+    this.show();
+    this.setState({
+      cancelOrderFlag: false,
+      rejectOrderFlag: true,
+      declineOrderFlag: false,
+      title: 'Are you sure want to reject this order?',
+      headerText: 'Reject Order'
+    })
   };
 
-  deleteAddress = async () => {
+  declineItemPopup = (index) => {
+    this.indexToDecline = index;
+    this.show();
+    this.setState({
+      cancelOrderFlag: false,
+      rejectOrderFlag: false,
+      declineOrderFlag: true,
+      title: 'Declining would mark this item to be deleted from the List',
+      headerText: 'Decline Item'
+    })
+  }
+  popup = () => {
+    if (this.state.cancelOrderFlag) {
+      this.cancelOrder();
+    } else if (this.state.rejectOrderFlag) {
+      this.rejectOrder();
+    } else if (this.state.declineOrderFlag) {
+      this.removeItem(this.indexToDecline);
+    }
+  }
+
+  cancelOrder = async () => {
+    console.log("inside order cancel");
     this.hide();
     this.setState({ isLoading: true });
     const { order } = this.state;
@@ -170,7 +214,10 @@ export default class OrderScreen extends React.Component {
     }
   };
 
+
   rejectOrder = async () => {
+    console.log("inside order reject");
+    this.hide();
     const { order } = this.state;
     try {
       this.setState({ isLoading: true });
@@ -230,22 +277,22 @@ export default class OrderScreen extends React.Component {
     }
   };
 
-  declineItem = index => {
-    Alert.alert(
-      "Are you sure?",
-      "Declining would mark this item to be deleted from the List",
-      [
-        {
-          text: "Cancel",
-          onPress: () => {}
-        },
-        {
-          text: "Confirm",
-          onPress: () => this.removeItem(index)
-        }
-      ]
-    );
-  };
+  // declineItem = index => {
+  //   Alert.alert(
+  //     "Are you sure?",
+  //     "Declining would mark this item to be deleted from the List",
+  //     [
+  //       {
+  //         text: "Cancel",
+  //         onPress: () => { }
+  //       },
+  //       {
+  //         text: "Confirm",
+  //         onPress: () => this.removeItem(index)
+  //       }
+  //     ]
+  //   );
+  // };
 
   startAssistedServiceOrder = async () => {
     const { order } = this.state;
@@ -307,6 +354,7 @@ export default class OrderScreen extends React.Component {
   };
 
   removeItem = index => {
+    this.hide();
     const { order } = this.state;
     const order_details = [...order.order_details];
     order_details.splice(index, 1);
@@ -315,7 +363,7 @@ export default class OrderScreen extends React.Component {
   };
 
   render() {
-    const { isLoading, error, order, isVisible } = this.state;
+    const { isLoading, error, order, isVisible, title, headerText } = this.state;
 
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.getOrderDetails} />;
@@ -457,7 +505,7 @@ export default class OrderScreen extends React.Component {
                       item={item}
                       index={index}
                       declineItem={() => {
-                        this.declineItem(index);
+                        this.declineItemPopup(index);
                       }}
                     />
                   );
@@ -557,41 +605,41 @@ export default class OrderScreen extends React.Component {
                           }}
                         />
                       ) : (
-                        <View style={{ paddingHorizontal: 10 }}>
-                          {serviceRatings && (
-                            <View>
-                              <Text weight="Bold" style={{ marginTop: 20 }}>
-                                Delivery Experience
+                          <View style={{ paddingHorizontal: 10 }}>
+                            {serviceRatings && (
+                              <View>
+                                <Text weight="Bold" style={{ marginTop: 20 }}>
+                                  Delivery Experience
                               </Text>
-                              <ReviewCard
-                                imageUrl={
-                                  API_BASE_URL +
-                                  `/assisted/${order.delivery_user.id}/profile`
-                                }
-                                ratings={serviceRatings}
-                                userName={order.delivery_user.name}
-                                feedbackText={serviceReviewText}
-                                onEditPress={this.openReviewsScreen}
-                              />
-                            </View>
-                          )}
-                          <Text weight="Bold" style={{ marginTop: 20 }}>
-                            Seller Responsiveness
+                                <ReviewCard
+                                  imageUrl={
+                                    API_BASE_URL +
+                                    `/assisted/${order.delivery_user.id}/profile`
+                                  }
+                                  ratings={serviceRatings}
+                                  userName={order.delivery_user.name}
+                                  feedbackText={serviceReviewText}
+                                  onEditPress={this.openReviewsScreen}
+                                />
+                              </View>
+                            )}
+                            <Text weight="Bold" style={{ marginTop: 20 }}>
+                              Seller Responsiveness
                           </Text>
-                          <ReviewCard
-                            imageUrl={
-                              API_BASE_URL +
-                              `/consumer/sellers/${
+                            <ReviewCard
+                              imageUrl={
+                                API_BASE_URL +
+                                `/consumer/sellers/${
                                 order.seller_id
-                              }/upload/1/images/0`
-                            }
-                            ratings={sellerRatings}
-                            userName={order.seller.seller_name}
-                            feedbackText={sellerReviewText}
-                            onEditPress={this.openReviewsScreen}
-                          />
-                        </View>
-                      )}
+                                }/upload/1/images/0`
+                              }
+                              ratings={sellerRatings}
+                              userName={order.seller.seller_name}
+                              feedbackText={sellerReviewText}
+                              onEditPress={this.openReviewsScreen}
+                            />
+                          </View>
+                        )}
                     </View>
                   )}
                 </View>
@@ -601,76 +649,76 @@ export default class OrderScreen extends React.Component {
               ORDER_STATUS_TYPES.CANCELED,
               ORDER_STATUS_TYPES.REJECTED
             ].includes(order.status_type) && (
-              <View>
-                {order.status_type == ORDER_STATUS_TYPES.NEW &&
-                  !order.is_modified && (
-                    <Button
-                      onPress={this.cancelOrder}
-                      text="Cancel Order"
-                      color="secondary"
-                      borderRadius={0}
-                    />
-                  )}
-
-                {((order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
-                  order.order_type == ORDER_TYPES.FMCG) ||
-                  (order.status_type == ORDER_STATUS_TYPES.END_TIME &&
-                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE)) && (
-                  <Button
-                    onPress={this.completeOrder}
-                    text="Mark Paid"
-                    color="secondary"
-                    borderRadius={0}
-                  />
-                )}
-
-                {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
-                  order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
-                    <Button
-                      onPress={this.startAssistedServiceOrder}
-                      text="Start Job"
-                      color="secondary"
-                      borderRadius={0}
-                    />
-                  )}
-
-                {order.status_type == ORDER_STATUS_TYPES.START_TIME &&
-                  order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
-                    <Button
-                      onPress={this.endAssistedServiceOrder}
-                      text="End Job"
-                      color="secondary"
-                      borderRadius={0}
-                    />
-                  )}
-
-                {order.is_modified &&
-                  ![
-                    ORDER_STATUS_TYPES.APPROVED,
-                    ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                    ORDER_STATUS_TYPES.COMPLETE,
-                    ORDER_STATUS_TYPES.START_TIME,
-                    ORDER_STATUS_TYPES.END_TIME
-                  ].includes(order.status_type) && (
-                    <View style={{ flexDirection: "row" }}>
+                <View>
+                  {order.status_type == ORDER_STATUS_TYPES.NEW &&
+                    !order.is_modified && (
                       <Button
-                        onPress={this.rejectOrder}
-                        text="Reject"
-                        color="grey"
-                        borderRadius={0}
-                        style={{ flex: 1 }}
-                      />
-                      <Button
-                        onPress={this.approveOrder}
-                        text="Approve"
+                        onPress={this.cancelOrderPopup}
+                        text="Cancel Order"
                         color="secondary"
                         borderRadius={0}
-                        style={{ flex: 1 }}
                       />
-                    </View>
-                  )}
-              </View>
-            )}
+                    )}
+
+                  {((order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+                    order.order_type == ORDER_TYPES.FMCG) ||
+                    (order.status_type == ORDER_STATUS_TYPES.END_TIME &&
+                      order.order_type == ORDER_TYPES.ASSISTED_SERVICE)) && (
+                      <Button
+                        onPress={this.completeOrder}
+                        text="Mark Paid"
+                        color="secondary"
+                        borderRadius={0}
+                      />
+                    )}
+
+                  {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
+                      <Button
+                        onPress={this.startAssistedServiceOrder}
+                        text="Start Job"
+                        color="secondary"
+                        borderRadius={0}
+                      />
+                    )}
+
+                  {order.status_type == ORDER_STATUS_TYPES.START_TIME &&
+                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
+                      <Button
+                        onPress={this.endAssistedServiceOrder}
+                        text="End Job"
+                        color="secondary"
+                        borderRadius={0}
+                      />
+                    )}
+
+                  {order.is_modified &&
+                    ![
+                      ORDER_STATUS_TYPES.APPROVED,
+                      ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                      ORDER_STATUS_TYPES.COMPLETE,
+                      ORDER_STATUS_TYPES.START_TIME,
+                      ORDER_STATUS_TYPES.END_TIME
+                    ].includes(order.status_type) && (
+                      <View style={{ flexDirection: "row" }}>
+                        <Button
+                          onPress={this.rejectOrderPopup}
+                          text="Reject"
+                          color="grey"
+                          borderRadius={0}
+                          style={{ flex: 1 }}
+                        />
+                        <Button
+                          onPress={this.approveOrder}
+                          text="Approve"
+                          color="secondary"
+                          borderRadius={0}
+                          style={{ flex: 1 }}
+                        />
+                      </View>
+                    )}
+                </View>
+              )}
           </View>
         )}
         <UploadBillModal
@@ -684,7 +732,7 @@ export default class OrderScreen extends React.Component {
         />
         <Modal
           isVisible={isVisible}
-          title={"Cancel Order"}
+          title={headerText}
           onClosePress={this.hideDeleteModal}
           onBackButtonPress={this.hideDeleteModal}
           onBackdropPress={this.hideDeleteModal}
@@ -693,7 +741,7 @@ export default class OrderScreen extends React.Component {
           <View style={{ height: 150, backgroundColor: "#fff" }}>
             <View style={{ width: 260, alignSelf: "center", top: 25 }}>
               <Text weight="Bold" style={{ textAlign: "center", fontSize: 16 }}>
-                Are you sure want to cancel this order?
+                {title}
               </Text>
             </View>
             <View
@@ -718,7 +766,7 @@ export default class OrderScreen extends React.Component {
               />
               <Button
                 text="Yes"
-                onPress={this.deleteAddress}
+                onPress={this.popup}
                 color="secondary"
                 style={{
                   height: 40,
