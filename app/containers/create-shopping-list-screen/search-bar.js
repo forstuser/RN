@@ -5,10 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
-  Platform
+  Platform,
+  ScrollView
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Modal from "react-native-modal";
+import _ from "lodash";
 
 import { Text, Image, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
@@ -18,13 +20,13 @@ import LoadingOverlay from "../../components/loading-overlay";
 
 import SkuItem from "./sku-item";
 import { showSnackbar } from "../../utils/snackbar";
-import FilterModal from './filter-modal';
+import FilterModal from "./filter-modal";
 
 export default class SearchBar extends React.Component {
   state = {
     isBrandsPopupVisible: false,
     checkedBrands: [],
-    isModalVisible: false,
+    isModalVisible: false
   };
 
   toggleBrandsPopup = () => {
@@ -113,8 +115,8 @@ export default class SearchBar extends React.Component {
 
     const activeMainCategory = activeMainCategoryId
       ? mainCategories.find(
-        mainCategory => mainCategory.id == activeMainCategoryId
-      )
+          mainCategory => mainCategory.id == activeMainCategoryId
+        )
       : null;
 
     const checkedBrandIds = checkedBrands.map(checkedBrand => checkedBrand.id);
@@ -136,6 +138,15 @@ export default class SearchBar extends React.Component {
         return true;
       }
     });
+
+    let categoryChuncks = [];
+    if (
+      activeMainCategory &&
+      activeMainCategory.categories &&
+      activeMainCategory.categories.length > 0
+    ) {
+      categoryChuncks = _.chunk(activeMainCategory.categories, 4);
+    }
 
     return (
       <View
@@ -181,25 +192,25 @@ export default class SearchBar extends React.Component {
               underlineColorAndroid="transparent"
             />
             {filteredItems.length == 0 &&
-              searchTerm.length > 2 &&
-              !isSearching &&
-              !hideAddManually ? (
-                <TouchableOpacity
-                  onPress={this.addManualItem}
-                  style={{
-                    height: 20,
-                    width: 20,
-                    borderRadius: 10,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginRight: 10
-                  }}
-                >
-                  <Icon name="md-add" size={25} color={colors.pinkishOrange} />
-                </TouchableOpacity>
-              ) : (
-                <View />
-              )}
+            searchTerm.length > 2 &&
+            !isSearching &&
+            !hideAddManually ? (
+              <TouchableOpacity
+                onPress={this.addManualItem}
+                style={{
+                  height: 20,
+                  width: 20,
+                  borderRadius: 10,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginRight: 10
+                }}
+              >
+                <Icon name="md-add" size={25} color={colors.pinkishOrange} />
+              </TouchableOpacity>
+            ) : (
+              <View />
+            )}
 
             {searchTerm ? (
               <TouchableOpacity
@@ -217,8 +228,8 @@ export default class SearchBar extends React.Component {
                 <Icon name="md-close" size={15} color="#fff" />
               </TouchableOpacity>
             ) : (
-                <View />
-              )}
+              <View />
+            )}
           </View>
           <TouchableOpacity
             onPress={this.toggleBrandsPopup}
@@ -229,7 +240,7 @@ export default class SearchBar extends React.Component {
               borderTopRightRadius: 5,
               borderBottomRightRadius: 5,
               padding: 10,
-              marginRight: 5,
+              marginRight: 5
             }}
           >
             <Icon
@@ -257,96 +268,113 @@ export default class SearchBar extends React.Component {
             ) : null}
           </TouchableOpacity>
         </View>
-        {mainCategories.length > 0 && !searchTerm ? (
-          <View
-            style={{
-              height: 30,
-              backgroundColor: colors.lightBlue,
-              borderBottomColor: "#ddd",
-              borderBottomWidth: 1
-            }}
-          >
-            <FlatList
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              data={mainCategories}
-              extraData={activeMainCategoryId}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    updateMainCategoryIdInParent(item.id);
-                  }}
-                  style={{
-                    height: 32,
-                    paddingHorizontal: 10,
-                    justifyContent: "center"
-                  }}
-                >
-                  <Text
-                    weight="Medium"
-                    style={{
-                      fontSize: 11,
-                      color:
-                        item.id == activeMainCategoryId
-                          ? colors.mainBlue
-                          : colors.mainText
-                    }}
-                  >
-                    {item.title}
-                  </Text>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        ) : null}
+
         <View
           style={{
             flex: 1,
             flexDirection: "row"
           }}
         >
-          {activeMainCategory &&
-            activeMainCategory.categories &&
-            !searchTerm ? (
-              <View
-                style={{
-                  flex: 1,
-                  backgroundColor: colors.lightBlue,
-                  height: "100%"
-                }}
-              >
-                <FlatList
-                  data={activeMainCategory.categories}
-                  extraData={activeCategoryId}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      onPress={() => {
-                        updateCategoryIdInParent(item.id);
-                      }}
-                      style={{
-                        justifyContent: "center",
-                        paddingHorizontal: 5,
-                        paddingVertical: 7,
-                        backgroundColor:
-                          item.id == activeCategoryId ? "#fff" : "transparent"
-                      }}
+          {mainCategories.length > 0 && !searchTerm ? (
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: colors.lightBlue,
+                height: "100%"
+              }}
+            >
+              <FlatList
+                data={mainCategories}
+                extraData={activeMainCategoryId}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      updateMainCategoryIdInParent(item.id);
+                    }}
+                    style={{
+                      justifyContent: "center",
+                      paddingHorizontal: 5,
+                      paddingVertical: 7,
+                      backgroundColor:
+                        item.id == activeMainCategoryId
+                          ? "#d8edf7"
+                          : "transparent"
+                    }}
+                  >
+                    <Text
+                      weight="Medium"
+                      style={{ fontSize: 10 }}
+                      numberOfLines={2}
                     >
-                      <Text
-                        weight="Medium"
-                        style={{ fontSize: 10 }}
-                        numberOfLines={2}
-                      >
-                        {item.title}
-                      </Text>
-                    </TouchableOpacity>
-                  )}
-                />
-              </View>
-            ) : (
-              <View />
-            )}
+                      {item.title}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          ) : (
+            <View />
+          )}
 
           <View style={{ flex: 2, height: "100%" }}>
+            {categoryChuncks.length > 0 &&
+              !searchTerm && (
+                <ScrollView
+                  horizontal
+                  style={{}}
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={{
+                    backgroundColor: "#d8edf7",
+                    padding: 5,
+                    height: categoryChuncks.length * 50
+                  }}
+                >
+                  <View>
+                    {categoryChuncks.map(categoryChunck => (
+                      <View>
+                        <View style={{ flexDirection: "row" }}>
+                          {categoryChunck.map(category => (
+                            <TouchableOpacity
+                              key={category.id}
+                              onPress={() => {
+                                updateCategoryIdInParent(category.id);
+                              }}
+                              style={{
+                                justifyContent: "center",
+                                paddingHorizontal: 10,
+                                height: 24,
+                                margin: 5,
+                                borderRadius: 12,
+                                padding: 10,
+                                alignItems: "center",
+                                justifyContent: "center",
+                                backgroundColor:
+                                  category.id == activeCategoryId
+                                    ? colors.pinkishOrange
+                                    : "#fff"
+                              }}
+                            >
+                              <Text
+                                weight="Medium"
+                                style={{
+                                  fontSize: 12,
+                                  color:
+                                    category.id == activeCategoryId
+                                      ? "#fff"
+                                      : "#777777"
+                                }}
+                                numberOfLines={1}
+                              >
+                                {category.title}
+                              </Text>
+                            </TouchableOpacity>
+                          ))}
+                        </View>
+                      </View>
+                    ))}
+                  </View>
+                </ScrollView>
+              )}
             <FlatList
               data={filteredItems}
               renderItem={({ item }) => (
@@ -497,8 +525,8 @@ export default class SearchBar extends React.Component {
           // </View>
           this.filterModal.show()
         ) : (
-            <View />
-          )}
+          <View />
+        )}
         <FilterModal
           ref={node => {
             this.filterModal = node;
@@ -516,4 +544,3 @@ export default class SearchBar extends React.Component {
     );
   }
 }
-
