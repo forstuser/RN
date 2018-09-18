@@ -23,7 +23,7 @@ import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 import TabsScreenContainer from "../../components/tabs-screen-container";
-import OffersTab from "./offers-tab";
+import OffersTab from "./offers-tabs";
 import AccessoriesTab from "./accessories-tab";
 import AccessoryCategoriesFilterModal from "./accessory-categories-filter-modal";
 

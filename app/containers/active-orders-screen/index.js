@@ -112,6 +112,9 @@ class ActiveOrdersScreen extends Component {
             data={this.state.activeDeliveryOrders}
             renderItem={this.renderActiveOrders}
             keyExtractor={(item, index) => item.id}
+            onRefresh={this.fetchActiveOrders}
+            refreshing={this.state.isFetchingData}
+
           />
         </View>
       );

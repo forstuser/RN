@@ -34,7 +34,8 @@ class MyShoppingList extends React.Component {
       title: "My Shopping List",
       headerRight: showShareBtn ? (
         <TouchableOpacity
-          onPress={navigation.state.params.onSharePress}
+          //onPress={navigation.state.params.onSharePress}
+          onPress={navigation.state.params.onSharePressIcon}
           style={{ marginRight: 20 }}
         >
           <Icon name="md-share" size={25} color={colors.mainBlue} />
@@ -58,6 +59,7 @@ class MyShoppingList extends React.Component {
 
     this.props.navigation.setParams({
       onSharePress: this.onSharePress,
+      onSharePressIcon: this.onSharePressIcon,
       showShareBtn: wishList.length > 0
     });
   }
@@ -65,6 +67,10 @@ class MyShoppingList extends React.Component {
   onSharePress = () => {
     // this.setState({ isMySellersModalVisible: true });
     this.getMySellers();
+  };
+
+  onSharePressIcon = () => {
+    this.setState({ isShareModalVisible: true });
   };
 
   getMySellers = async () => {
@@ -210,7 +216,7 @@ class MyShoppingList extends React.Component {
                 <Text weight="Medium">WhatsApp</Text>
               </View>
 
-              <View style={styles.chatOptionContainer}>
+              {/* <View style={styles.chatOptionContainer}>
                 <TouchableOpacity
                   onPress={this.getMySellers}
                   style={styles.chatOption}
@@ -221,7 +227,7 @@ class MyShoppingList extends React.Component {
                   />
                 </TouchableOpacity>
                 <Text weight="Medium">Chat</Text>
-              </View>
+              </View> */}
             </View>
           </View>
         </Modal>
@@ -583,6 +589,13 @@ class MyShoppingList extends React.Component {
             />
           </View>
         </Modal>
+        <Button
+          onPress={this.props.navigation.state.params.onSharePress}
+          text="Place Order"
+          color="secondary"
+          style={{ height: 50, width: 250, alignSelf: 'center', marginBottom: 15 }}
+          textStyle={{ fontSize: 18 }}
+        />
       </View>
     );
   }
