@@ -39,6 +39,7 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
   onSubmit = async () => {
     const { navigation } = this.props;
     const order = navigation.getParam("order", {});
+    const deliveryUserId = order.delivery_user_id;
 
     const {
       serviceRating,
@@ -47,20 +48,26 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
       sellerReviewText
     } = this.state;
 
-    if (!serviceRating && !sellerRating) {
-      return showSnackbar({ text: "Please rate both" });
+    if (deliveryUserId && !serviceRating) {
+      return showSnackbar({ text: "Please rate service/delivery provider" });
+    }
+
+    if (!sellerRating) {
+      return showSnackbar({ text: "Please rate seller" });
     }
 
     this.setState({ isLoading: true });
 
     try {
-      await addAssistedServiceReview({
-        id: order.delivery_user_id,
-        sellerId: order.seller_id,
-        ratings: serviceRating,
-        feedback: serviceReviewText,
-        orderId: order.id
-      });
+      if (deliveryUserId) {
+        await addAssistedServiceReview({
+          id: order.delivery_user_id,
+          sellerId: order.seller_id,
+          ratings: serviceRating,
+          feedback: serviceReviewText,
+          orderId: order.id
+        });
+      }
 
       await addSellerReview({
         sellerId: order.seller_id,
@@ -82,6 +89,10 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+    const order = navigation.getParam("order", {});
+    const deliveryUserId = order.delivery_user_id;
+
     const {
       serviceRating,
       serviceReviewText,
@@ -92,19 +103,21 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <ScrollView>
-          <Review
-            starCount={serviceRating}
-            onStarRatingPress={rating => {
-              this.setState({
-                serviceRating: rating || 0
-              });
-            }}
-            reviewInput={serviceReviewText}
-            onReviewInputChange={serviceReviewText => {
-              this.setState({ serviceReviewText });
-            }}
-            title="Rate your Service Experience"
-          />
+          {deliveryUserId && (
+            <Review
+              starCount={serviceRating}
+              onStarRatingPress={rating => {
+                this.setState({
+                  serviceRating: rating || 0
+                });
+              }}
+              reviewInput={serviceReviewText}
+              onReviewInputChange={serviceReviewText => {
+                this.setState({ serviceReviewText });
+              }}
+              title="Rate your Service Experience"
+            />
+          )}
           <Review
             starCount={sellerRating}
             onStarRatingPress={rating => {

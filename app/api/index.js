@@ -2219,11 +2219,18 @@ export const redeemSellerPoints = async ({ sellerId, pointsToRedeem }) => {
   });
 };
 
-export const redeemToPaytm = async ({ amountToRedeem }) => {
+export const redeemToPaytm = async ({}) => {
   return await apiRequest({
     method: "put",
-    url: `/cashback/redeem`,
-    data: { amount: amountToRedeem }
+    url: `/cashback/redeem`
+  });
+};
+
+export const redeemCashbackToSeller = async ({ sellerId, cashbackIds }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/sellers/${sellerId}/redeem`,
+    data: { cashback_ids: cashbackIds }
   });
 };
 

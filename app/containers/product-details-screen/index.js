@@ -20,7 +20,7 @@ import ActionSheet from "react-native-actionsheet";
 
 import Analytics from "../../analytics";
 import { actions as uiActions } from "../../modules/ui";
-import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS } from "../../constants";
+import { SCREENS, MAIN_CATEGORY_IDS, CATEGORY_IDS, SUB_CATEGORY_IDS } from "../../constants";
 import { API_BASE_URL, getProductDetails, deleteProduct } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
 
@@ -50,7 +50,7 @@ class ProductDetailsScreen extends Component {
       title,
       onEditImagePress,
       onOptionsPress,
-      getAddProductImageRef = () => {}
+      getAddProductImageRef = () => { }
     } = params;
 
     return {
@@ -172,7 +172,7 @@ class ProductDetailsScreen extends Component {
             },
             {
               text: I18n.t("product_details_screen_no_dnt_delete"),
-              onPress: () => {},
+              onPress: () => { },
               style: "cancel"
             }
           ]
@@ -272,9 +272,20 @@ class ProductDetailsScreen extends Component {
     if (isLoading) {
       content = <LoadingOverlay visible={isLoading} />;
     } else if (product.masterCategoryId == MAIN_CATEGORY_IDS.PERSONAL) {
-      content = (
-        <PersonalDocCard product={product} navigation={this.props.navigation} />
-      );
+      if (product.category_id == MAIN_CATEGORY_IDS.HEALTHCARE.INSURANCE) {
+        content = (
+          <ProductCard
+            product={product}
+            fetchProductDetails={this.fetchProductDetails}
+            navigation={this.props.navigation}
+            openServiceSchedule={openServiceSchedule}
+          />
+        );
+      } else {
+        content = (
+          <PersonalDocCard product={product} navigation={this.props.navigation} />
+        );
+      }
     } else if (product.categoryId == 86) {
       // else if (product.categoryId == 664) {
       //   //insurance

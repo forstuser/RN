@@ -15,17 +15,18 @@ const StatusItem = ({ isDone = false, title }) => (
         borderRadius: 11,
         borderWidth: 1,
         borderColor: isDone ? colors.success : colors.secondaryText,
-        backgroundColor: "#fff",
+        backgroundColor: isDone ? colors.success : "#fff",
         alignItems: "center",
         justifyContent: "center"
       }}
     >
-      {isDone && <Icon name="md-checkmark" color={colors.success} />}
+      {isDone && <Icon name="md-checkmark" color="#fff" />}
     </View>
     <Text
       style={{
         marginLeft: 18,
-        color: isDone ? colors.mainText : colors.secondaryText
+        color: isDone ? colors.mainText : colors.secondaryText,
+        fontSize: 15
       }}
     >
       {title}
@@ -45,7 +46,7 @@ export default class Statuses extends React.Component {
 
     return (
       <View style={{ marginBottom: 10 }}>
-        <Text weight="Bold" style={{ fontSize: 13.5 }}>
+        <Text weight="Bold" style={{ fontSize: 15 }}>
           Status :{" "}
           {statusType == ORDER_STATUS_TYPES.COMPLETE && (
             <Text style={{ color: colors.success }}>Completed</Text>
@@ -86,7 +87,9 @@ export default class Statuses extends React.Component {
                 [
                   ORDER_STATUS_TYPES.APPROVED,
                   ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                  ORDER_STATUS_TYPES.COMPLETE
+                  ORDER_STATUS_TYPES.COMPLETE,
+                  ORDER_STATUS_TYPES.START_TIME,
+                  ORDER_STATUS_TYPES.END_TIME
                 ].includes(statusType) || isOrderModified
               }
             />
@@ -109,7 +112,9 @@ export default class Statuses extends React.Component {
                   isDone={[
                     ORDER_STATUS_TYPES.APPROVED,
                     ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                    ORDER_STATUS_TYPES.COMPLETE
+                    ORDER_STATUS_TYPES.COMPLETE,
+                    ORDER_STATUS_TYPES.START_TIME,
+                    ORDER_STATUS_TYPES.END_TIME
                   ].includes(statusType)}
                 />
               </View>
@@ -117,7 +122,9 @@ export default class Statuses extends React.Component {
             {[
               ORDER_STATUS_TYPES.APPROVED,
               ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-              ORDER_STATUS_TYPES.COMPLETE
+              ORDER_STATUS_TYPES.COMPLETE,
+              ORDER_STATUS_TYPES.START_TIME,
+              ORDER_STATUS_TYPES.END_TIME
             ].includes(statusType) && (
               <StatusItem
                 title={
@@ -127,7 +134,9 @@ export default class Statuses extends React.Component {
                 }
                 isDone={[
                   ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                  ORDER_STATUS_TYPES.COMPLETE
+                  ORDER_STATUS_TYPES.COMPLETE,
+                  ORDER_STATUS_TYPES.START_TIME,
+                  ORDER_STATUS_TYPES.END_TIME
                 ].includes(statusType)}
               />
             )}
@@ -135,7 +144,9 @@ export default class Statuses extends React.Component {
             {[
               ORDER_STATUS_TYPES.APPROVED,
               ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-              ORDER_STATUS_TYPES.COMPLETE
+              ORDER_STATUS_TYPES.COMPLETE,
+              ORDER_STATUS_TYPES.START_TIME,
+              ORDER_STATUS_TYPES.END_TIME
             ].includes(statusType) &&
               orderType == ORDER_TYPES.ASSISTED_SERVICE && (
                 <StatusItem title="Service Started" isDone={!!startTime} />
@@ -144,7 +155,9 @@ export default class Statuses extends React.Component {
             {[
               ORDER_STATUS_TYPES.APPROVED,
               ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-              ORDER_STATUS_TYPES.COMPLETE
+              ORDER_STATUS_TYPES.COMPLETE,
+              ORDER_STATUS_TYPES.START_TIME,
+              ORDER_STATUS_TYPES.END_TIME
             ].includes(statusType) &&
               orderType == ORDER_TYPES.ASSISTED_SERVICE && (
                 <StatusItem title="Service Completed" isDone={endTime} />

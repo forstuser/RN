@@ -1,6 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity, TextInput } from "react-native";
 
+import { connect } from "react-redux";
 import { Text, Button, Image } from "../../elements";
 import { redeemToPaytm } from "../../api";
 
@@ -8,7 +9,7 @@ import LoadingOverlay from "../../components/loading-overlay";
 
 import { showSnackbar } from "../../utils/snackbar";
 
-export default class RedeemViaPaytmScreen extends React.Component {
+class RedeemViaPaytmScreen extends React.Component {
   static navigationOptions = {
     title: "Redeem Via Paytm"
   };
@@ -77,31 +78,22 @@ export default class RedeemViaPaytmScreen extends React.Component {
           <Text style={{ fontSize: 27, marginTop: -8, marginRight: 8 }}>
             BBCash :
           </Text>
-          <View
+
+          <Text
             style={{
-              borderRadius: 5,
-              height: 46,
-              borderColor: "#d9d9d9",
-              borderWidth: 1
+              color: "#000",
+              fontSize: 18,
+              fontWeight: "bold",
+              minWidth: 80,
+              textAlign: "center"
             }}
           >
-            <TextInput
-              underlineColorAndroid="transparent"
-              value={String(amountToRedeem)}
-              onChangeText={this.changeAmountToRedeem}
-              style={{
-                color: "#000",
-                fontSize: 18,
-                fontWeight: "bold",
-                minWidth: 80,
-                textAlign: "center"
-              }}
-            />
-          </View>
+            {amountToRedeem}
+          </Text>
         </View>
         <Text style={{ textAlign: "center", fontSize: 11, marginTop: 20 }}>
-          Please confirm your Paytm Number - 7589145713 or go back to Redeem Via
-          Seller
+          Please confirm your Paytm Number - {this.props.userPhoneNumber} or go
+          back to Redeem Via Seller
         </Text>
         <Button
           text="Confirm Number"
@@ -115,3 +107,11 @@ export default class RedeemViaPaytmScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    userPhoneNumber: state.loggedInUser.phone
+  };
+};
+
+export default connect(mapStateToProps)(RedeemViaPaytmScreen);
