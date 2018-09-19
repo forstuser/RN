@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image } from 'react-native';
+import moment from "moment";
 
 import { Text } from '../../elements';
 import { defaultStyles } from "../../theme";
@@ -9,7 +10,19 @@ class SingleTransaction extends Component {
         return (
             <View style={styles.container}>
                 <View style={[styles.box, styles.box1]}>
-                    <Image style={styles.imageIcon} source={require('./icon.png')} />
+                    {/* <Image style={styles.imageIcon} source={require('./icon.png')} /> */}
+                    <Text
+                    weight="Bold"
+                    style={{ fontSize: 33, color: "#ababab", marginTop: -10 }}
+                  >
+                    {moment(this.props.date).format("DD")}
+                  </Text>
+                  <Text
+                    weight="Bold"
+                    style={{ fontSize: 15, color: "#ababab", marginTop: -5 }}
+                  >
+                    {moment(this.props.date).format("MMM")}
+                  </Text>
                 </View>
                 <View style={[styles.box, styles.box2]}>
                     <Text weight="Bold" style={styles.info}>{this.props.description}</Text>
@@ -36,7 +49,9 @@ const styles = {
         height: 100
     },
     box1: {
-        flex: 2.5,    
+        flex: 2.5,
+        alignItems: 'center',
+        marginTop: 15    
     },
     box2: {
         flex: 5.5,

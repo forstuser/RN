@@ -20,6 +20,7 @@ class ItemSelector extends React.Component {
     };
   }
   onItemSelect = item => {
+    console.log('item: ', item);
     this.props.onItemSelect(item);
   };
 
@@ -203,7 +204,7 @@ const styles = StyleSheet.create({
   },
   optionName: {
     color: "#000",
-    fontSize: 10,
+    fontSize: 14,
     opacity: 1,
     textAlign: "center",
     marginVertical: 7,

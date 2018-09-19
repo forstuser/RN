@@ -104,7 +104,7 @@ class MyCalendarScreen extends Component {
                 onRefresh={this.fetchItems}
                 refreshing={isFetchingItems}
                 ListFooterComponent={
-                  items.length > 0 ? (
+                  items ? (
                     <TouchableOpacity
                       style={styles.fab}
                       onPress={this.openAddEditCalendarServiceScreen}
@@ -137,6 +137,12 @@ class MyCalendarScreen extends Component {
               </TouchableOpacity>
             </View>
           )}
+          <TouchableOpacity
+            style={styles.fab}
+            onPress={this.openAddEditCalendarServiceScreen}
+          >
+            <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+          </TouchableOpacity>
       </ScreenContainer>
     );
   }

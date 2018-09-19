@@ -79,7 +79,7 @@ export default class OffersTab extends React.Component {
   };
 
   fetchCategories = async () => {
-    this.setState({ isLoading: true, error: null });
+    this.setState({ isLoading: true, error: null, selectedCategory: null, offers: [] });
     try {
       const result1 = await getSellerOffers();
       console.log('Seller Offers: ', result1.result);
@@ -87,14 +87,11 @@ export default class OffersTab extends React.Component {
       const categories = resCategories.map(seller => ({
         ...seller,
         name: seller.name,
-        imageUrl: API_BASE_URL + `/consumer/sellers/${seller.id}/upload/1/images/0`
+        imageUrl: `/consumer/sellers/${seller.id}/upload/1/images/0`
       }));
       
+      this.setState({ categories });
 
-      this.setState({
-        categories,
-        offers: result1.result[0].offers
-      });
     } catch (error) {
       this.setState({ error });
     } finally {
@@ -103,56 +100,9 @@ export default class OffersTab extends React.Component {
   };
   
 
-  // fetchOffers = async () => {
-  //   const {
-  //     selectedCategory,
-  //     selectedCashbackType,
-  //     selectedDiscountType,
-  //     onlyOtherOfferTypes,
-  //     selectedMerchants
-  //   } = this.state;
-  //   this.setState({ isLoading: true });
-  //   try {
-  //     const res = await fetchCategoryOffers({
-  //       categoryId: selectedCategory.id,
-  //       discount: selectedDiscountType,
-  //       cashback: selectedCashbackType,
-  //       otherOfferTypes: onlyOtherOfferTypes,
-  //       merchants: selectedMerchants
-  //     });
-  //     this.setState({
-  //       offerCategories: res.result || []
-  //     });
-  //   } catch (e) {
-  //     this.setState({ isLoading: false });
-  //     Snackbar.show({
-  //       title: e.message,
-  //       duration: Snackbar.LENGTH_SHORT
-  //     });
-  //   } finally {
-  //     this.setState({ isLoading: false });
-  //   }
-  // };
-
-  // onCategorySelect = category => {
-  //   console.log("category: ", category);
-  //   const { selectedCategory } = this.state;
-  //   if (selectedCategory && selectedCategory.id == category.id) {
-  //     return;
-  //   }
-  //   Analytics.logEvent(Analytics.EVENTS.CLICK_OFFERS_CATEGORY, {
-  //     category_name: category.category_name
-  //   });
-
-  //   const { setSelectedOfferCategory } = this.props;
-  //   setSelectedOfferCategory(category);
-
-  //   this.setState(
-  //     {
-  //       selectedCategory: category
-  //     }
-  //   );
-  // };
+  onCategorySelect = category => {
+    this.setState({ selectedCategory: category, offers: category.offers });
+  };
 
   render() {
     const {
@@ -162,11 +112,11 @@ export default class OffersTab extends React.Component {
       error,
       offers
     } = this.state;
-
+    console.log('Category: ', selectedCategory);
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchCategories} />;
     }
-
+    
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
         <Animated.View
@@ -214,14 +164,82 @@ export default class OffersTab extends React.Component {
                 margin: 15
               }}
             >
-              Please select a category to view the Best of Offers at great
+              Please select a seller above to view their Offers at great
               prices
             </Text>
           </View>
         ) : (
           <View />
         )}
-        <Animated.View
+        
+        <AnimatedFlatList
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: { y: this.listScrollPosition }
+                  }
+                }
+              ],
+              { useNativeDriver: true }
+            )}
+            contentContainerStyle={{
+              paddingTop: ITEM_SELECTOR_HEIGHT
+            }}
+            style={{ flex: 1 }}
+            data={offers}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <View style={{ ...defaultStyles.card, margin: 10, borderRadius: 5 }}>
+                <Image
+                  style={{ height: 120 }}
+                  source={{
+                    uri:
+                      API_BASE_URL +
+                      `/offer/${item.id}/images/${item.document_details.index || 0}`
+                  }}
+                />
+                <View style={{ padding: 10 }}>
+                  <Text weight="Medium" style={{ fontSize: 11 }}>
+                    {item.title}
+                  </Text>
+                  <Text style={{ fontSize: 9 }}>{item.description}</Text>
+                  <Text style={{ fontSize: 9, color: colors.mainBlue }}>
+                    Expire on: {moment(item.end_date).format("DD MMM, YYYY")}
+                  </Text>
+                </View>
+              </View>
+            )}
+          />
+          {this.state.categories.length !==0 ? (
+          <Animated.View
+            style={[
+              {
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                height: ITEM_SELECTOR_HEIGHT
+              },
+              {
+                transform: [
+                  {
+                    translateY: this.topPaddingElement
+                  }
+                ]
+              }
+            ]}
+          >
+            <ItemSelector
+              style={{ backgroundColor: "#fff" }}
+              selectModalTitle="Select a Category"
+              items={categories}
+              selectedItem={selectedCategory}
+              onItemSelect={this.onCategorySelect}
+              startOthersAfterCount={4}
+            />
+          </Animated.View>) : (
+          <Animated.View
           style={[
             {
               position: "absolute",
@@ -239,43 +257,9 @@ export default class OffersTab extends React.Component {
             }
           ]}
         >
-          <ItemSelector
-            style={{ backgroundColor: "#fff" }}
-            selectModalTitle="Select a Category"
-            items={categories}
-            selectedItem={selectedCategory}
-            onItemSelect={this.onCategorySelect}
-            startOthersAfterCount={4}
-          />
-        </Animated.View> 
-        <FlatList
-          contentContainerStyle={[
-            { flexGrow: 1 },
-            offers.length ? null : { justifyContent: "center" }
-          ]}
-          data={offers}
-          renderItem={({ item }) => (
-            <View style={{ ...defaultStyles.card, margin: 10, borderRadius: 5 }}>
-              <Image
-                style={{ height: 120 }}
-                source={{
-                  uri:
-                    API_BASE_URL +
-                    `/offer/${item.id}/images/${item.document_details.index || 0}`
-                }}
-              />
-              <View style={{ padding: 10 }}>
-                <Text weight="Medium" style={{ fontSize: 11 }}>
-                  {item.title}
-                </Text>
-                <Text style={{ fontSize: 9 }}>{item.description}</Text>
-                <Text style={{ fontSize: 9, color: colors.mainBlue }}>
-                  Expire on: {moment(item.end_date).format("DD MMM, YYYY")}
-                </Text>
-              </View>
-            </View>
-          )}
-        />
+          <Text style={{ padding: 10, fontSize: 16, textAlign: 'center', marginTop: 30, color: colors.mainText }}>No offers available as of now from your seller currently</Text>
+        </Animated.View>  
+          )}        
         <LoadingOverlay visible={isLoading} />
       </View>
     );

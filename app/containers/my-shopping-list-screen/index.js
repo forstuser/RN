@@ -11,6 +11,10 @@ import {
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 
+import RNFetchBlob from "react-native-fetch-blob";
+import ViewShot, { captureRef } from "react-native-view-shot";
+import Share from "react-native-share";
+
 import { loginToApplozic, openChatWithSeller } from "../../applozic";
 
 import { API_BASE_URL, getMySellers, placeOrder } from "../../api";
@@ -26,6 +30,7 @@ import QuantityPlusMinus from "../../components/quantity-plus-minus";
 import SelectedItemsList from "./selected-items-list";
 import { showSnackbar } from "../../utils/snackbar";
 import { SCREENS, ORDER_TYPES, SELLER_TYPE_IDS } from "../../constants";
+import { requestStoragePermission } from "../../android-permissions";
 
 class MyShoppingList extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -50,12 +55,15 @@ class MyShoppingList extends React.Component {
     skuItemIdsCurrentlyModifying: [],
     isLoadingMySellers: false,
     isMySellersModalVisible: false,
-    sellers: []
+    sellers: [],
+    showPlusMinusDelete: false
   };
 
   componentDidMount() {
     const wishList = this.props.navigation.getParam("wishList", []);
     this.setState({ wishList });
+
+    this.getMySellers();
 
     this.props.navigation.setParams({
       onSharePress: this.onSharePress,
@@ -65,22 +73,47 @@ class MyShoppingList extends React.Component {
   }
 
   onSharePress = () => {
-    // this.setState({ isMySellersModalVisible: true });
-    this.getMySellers();
+    this.setState({ isMySellersModalVisible: true });
+    //this.getMySellers();
   };
 
-  onSharePressIcon = () => {
-    this.setState({ isShareModalVisible: true });
+  onSharePressIcon = async () => {
+    //this.setState({ isShareModalVisible: true });
+    //console.log('Wishlist', this.state.wishList);
+    this.setState({ showPlusMinusDelete: true });
+    if(await requestStoragePermission()) {
+      const filePath = RNFetchBlob.fs.dirs.DCIMDir + `/fact.jpg`;
+
+      captureRef(this.viewToShare, {
+        format: "jpg",
+        quality: 0.8
+      })
+        .then(uri => {
+          console.log("Image saved to", uri);
+          return RNFetchBlob.fs.cp(uri, filePath);
+        })
+        .then(() => {
+          console.log("Image saved to", filePath + "/fact.jpg");
+          this.setState({ showPlusMinusDelete: false });
+          return Share.open({
+            url: `file://${filePath}`,
+            message: `Powered by BinBill`
+          });
+          
+        })
+        .catch(error => console.error("Oops, snapshot failed", error));
+    }
+    
   };
 
   getMySellers = async () => {
     this.setState({
       isLoadingMySellers: true,
       isShareModalVisible: false,
-      isMySellersModalVisible: true
+      //isMySellersModalVisible: true
     });
     try {
-      const res = await getMySellers();
+      const res = await getMySellers({isFmcg:true});
       this.setState({ sellers: res.result });
     } catch (error) {
       this.setState({ error });
@@ -99,6 +132,10 @@ class MyShoppingList extends React.Component {
   //     showSnackbar({ text: e.message });
   //   }
   // };
+
+  shareWithWhatsapp = () => {
+    //alert('Whatsapp');
+  };
 
   selectSellerForOrder = seller => {
     this.setState({
@@ -178,12 +215,18 @@ class MyShoppingList extends React.Component {
             />
           </View>
         ) : (
+          <View
+            ref={ref => (this.viewToShare = ref)}
+            style={{ flex: 1, backgroundColor: '#fff'}}
+          >
           <SelectedItemsList
+            show={this.state.showPlusMinusDelete}
             measurementTypes={measurementTypes}
             selectedItems={wishList}
             skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
             changeIndexQuantity={this.changeIndexQuantity}
           />
+          </View>
         )}
         <Modal
           isVisible={isShareModalVisible}
@@ -412,7 +455,7 @@ class MyShoppingList extends React.Component {
                               {item.owner_name}
                             </Text>
                           </View>
-                          {item.offer_count ? (
+                          {/* {item.offer_count ? (
                             <View
                               style={{
                                 width: 42,
@@ -439,7 +482,7 @@ class MyShoppingList extends React.Component {
                                 {`${item.offer_count}\nOffers`}
                               </Text>
                             </View>
-                          ) : null}
+                          ) : null} */}
                         </View>
 
                         <View
@@ -449,13 +492,14 @@ class MyShoppingList extends React.Component {
                           }}
                         >
                           <Text style={{ fontSize: 13 }}>Credit Due : </Text>
-                          <TouchableOpacity
-                            onPress={() =>
-                              this.props.navigation.navigate(
-                                SCREENS.MY_SELLERS_CREDIT_TRANSACTIONS_SCREEN,
-                                { seller: item }
-                              )
-                            }
+                          <View
+                            // onPress={() =>
+                            //   this.props.navigation.navigate(
+                            //     SCREENS.MY_SELLERS_CREDIT_TRANSACTIONS_SCREEN,
+                            //     { seller: item }
+                            //   )
+                            // }
+                            //onPress={() => {}}
                             style={{
                               flexDirection: "row",
                               paddingVertical: 5,
@@ -463,29 +507,30 @@ class MyShoppingList extends React.Component {
                             }}
                           >
                             <Text
-                              style={{ fontSize: 13, color: colors.mainBlue }}
+                              style={{ fontSize: 13, color: colors.mainText }}
                             >
                               Rs. {item.credit_total}
                             </Text>
-                            <Icon
+                            {/* <Icon
                               name="md-information-circle"
                               size={15}
                               style={{ marginTop: 2, marginLeft: 5 }}
-                            />
-                          </TouchableOpacity>
+                            /> */}
+                          </View>
                         </View>
                         <View
                           style={{ flexDirection: "row", alignItems: "center" }}
                         >
                           <Text style={{ fontSize: 13 }}>Points Earned : </Text>
 
-                          <TouchableOpacity
-                            onPress={() =>
-                              this.props.navigation.navigate(
-                                SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN,
-                                { seller: item }
-                              )
-                            }
+                          <View
+                            // onPress={() =>
+                            //   this.props.navigation.navigate(
+                            //     SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN,
+                            //     { seller: item }
+                            //   )
+                            // }
+                            //onPress={() => {}}
                             style={{
                               flexDirection: "row",
                               paddingVertical: 5,
@@ -493,16 +538,16 @@ class MyShoppingList extends React.Component {
                             }}
                           >
                             <Text
-                              style={{ fontSize: 13, color: colors.mainBlue }}
+                              style={{ fontSize: 13, color: colors.mainText }}
                             >
                               {item.loyalty_total}
                             </Text>
-                            <Icon
+                            {/* <Icon
                               name="md-information-circle"
                               size={15}
                               style={{ marginTop: 2, marginLeft: 5 }}
-                            />
-                          </TouchableOpacity>
+                            /> */}
+                          </View>
                         </View>
                         {btnRedeemPoints}
                         <ScrollView horizontal style={{ marginTop: 11 }}>
@@ -533,7 +578,7 @@ class MyShoppingList extends React.Component {
                         </ScrollView>
                       </View>
                     </View>
-                    <View
+                    {/* <View
                       style={{
                         flexDirection: "row",
                         height: 30,
@@ -587,20 +632,20 @@ class MyShoppingList extends React.Component {
                           </Text>
                         </TouchableOpacity>
                       )}
-                    </View>
+                    </View> */}
                   </TouchableOpacity>
                 );
               }}
             />
           </View>
         </Modal>
-        <Button
+        {this.state.sellers.length > 0 && this.state.wishlist !== [] ? (<Button
           onPress={this.props.navigation.state.params.onSharePress}
           text="Place Order"
           color="secondary"
           style={{ height: 50, width: 250, alignSelf: 'center', marginBottom: 15 }}
           textStyle={{ fontSize: 18 }}
-        />
+        />) : null}
       </View>
     );
   }

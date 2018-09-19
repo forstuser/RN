@@ -4,11 +4,11 @@ import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 import { Text } from "../elements";
 import { colors } from "../theme";
 
-export default ({ quantity, onMinusPress, onPlusPress }) => (
+export default ({ quantity, onMinusPress, onPlusPress, show }) => (
   <View style={{ flexDirection: "row" }}>
-    <TouchableOpacity onPress={onMinusPress} style={styles.signContainer}>
+    {!show ? (<TouchableOpacity onPress={onMinusPress} style={styles.signContainer}>
       <Text style={{ marginTop: Platform.OS == "ios" ? -4 : -5 }}>-</Text>
-    </TouchableOpacity>
+    </TouchableOpacity>) : null}
     <Text
       style={{
         width: 30,
@@ -18,9 +18,9 @@ export default ({ quantity, onMinusPress, onPlusPress }) => (
     >
       {quantity}
     </Text>
-    <TouchableOpacity onPress={onPlusPress} style={styles.signContainer}>
+    {!show ? (<TouchableOpacity onPress={onPlusPress} style={styles.signContainer}>
       <Text style={{ marginTop: -6 }}>+</Text>
-    </TouchableOpacity>
+    </TouchableOpacity>) : null}
   </View>
 );
 

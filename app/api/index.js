@@ -1976,7 +1976,8 @@ export const getSkuReferenceData = async () => {
 };
 
 export const getSkuItems = async ({
-  categoryId,
+  mainCategoryId,
+  categoryIds = [],
   brandIds = [],
   subCategoryIds = [],
   measurementValues = [],
@@ -1988,7 +1989,8 @@ export const getSkuItems = async ({
     method: "get",
     url: `/sku/list`,
     queryParams: {
-      category_id: categoryId,
+      main_category_id: mainCategoryId,
+      category_id: categoryIds.join(","),
       sub_category_ids: subCategoryIds.join(","),
       brand_ids: brandIds.join(","),
       measurement_value: measurementValues.join(","),
@@ -2036,10 +2038,15 @@ export const clearWishList = async item => {
   });
 };
 
-export const getMySellers = async () => {
+export const getMySellers = async (filters={}) => {
+  const { isFmcg, hasPos } = filters;
   return await apiRequest({
     method: "get",
-    url: `/mysellers`
+    url: `/mysellers`,
+    queryParams: {
+      is_fmcg: isFmcg,
+      has_pos: hasPos
+    }
   });
 };
 

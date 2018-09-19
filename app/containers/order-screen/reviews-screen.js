@@ -93,6 +93,8 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
     const order = navigation.getParam("order", {});
     const deliveryUserId = order.delivery_user_id;
 
+    console.log("deliveryUserId: ", deliveryUserId);
+
     const {
       serviceRating,
       serviceReviewText,

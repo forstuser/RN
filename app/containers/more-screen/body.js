@@ -14,6 +14,7 @@ import DeviceInfo from "react-native-device-info";
 import AppLink from "react-native-app-link";
 import ActionSheet from "react-native-actionsheet";
 import call from "react-native-phone-call";
+import { DrawerActions } from "react-navigation";
 
 import { SCREENS } from "../../constants";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -35,7 +36,12 @@ class Body extends Component {
     this.state = {};
   }
 
+  closeDrawer = () => {
+    this.props.navigation.dispatch(DrawerActions.closeDrawer());
+  };
+
   onLogoutItemPress = () => {
+    this.closeDrawer();
     Alert.alert(
       "Are you sure you want to logout?",
       "No worries! You can always login again with just a simple click.",
@@ -57,35 +63,41 @@ class Body extends Component {
   };
 
   onCashbackQueryPress = () => {
+    this.closeDrawer();
     this.props.navigation.navigate(SCREENS.CASHBACK_QUERY_SCREEN);
   };
 
   onAscItemPress = () => {
+    this.closeDrawer();
     Analytics.logEvent(Analytics.EVENTS.CLICK_ASC_FROM_MORE);
     this.props.navigation.navigate(SCREENS.ASC_SCREEN);
   };
 
   onEhomeItemPress = () => {
+    this.closeDrawer();
     Analytics.logEvent(Analytics.EVENTS.CLICK_TIPS_TO_BUILD_YOUR_EHOME);
     this.props.navigation.navigate(SCREENS.TIPS_SCREEN);
   };
 
   onFaqItemPress = () => {
+    this.closeDrawer();
     Analytics.logEvent(Analytics.EVENTS.CLICK_FAQ);
     this.props.navigation.navigate(SCREENS.FAQS_SCREEN);
     //this.props.navigation.navigate(SCREENS.USER_ON_BOARDING_SCREEN);
   };
 
   onEmailItemPress = () => {
+    this.closeDrawer();
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-      profile ? profile.mobile_no : ""
+        profile ? profile.mobile_no : ""
       })`
     );
   };
 
   onShareItemPress = async () => {
+    this.closeDrawer();
     Analytics.logEvent(Analytics.EVENTS.CLICK_SHARE_APP);
     try {
       Share.share({
@@ -98,6 +110,7 @@ class Body extends Component {
   };
 
   onVersionItemPress = async () => {
+    this.closeDrawer();
     const { isAppUpdateAvailable } = this.props;
     if (!isAppUpdateAvailable) {
       showSnackbar({
@@ -117,10 +130,12 @@ class Body extends Component {
   };
 
   onLanguageChangePress = () => {
+    this.closeDrawer();
     this.languageOptions.show();
   };
 
   onAppPinPress = () => {
+    this.closeDrawer();
     Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PIN);
     const { isPinSet } = this.props;
     if (!isPinSet) {
@@ -143,10 +158,12 @@ class Body extends Component {
   };
 
   onMyOrdersPress = () => {
+    this.closeDrawer();
     this.props.navigation.navigate(SCREENS.MY_ORDERS_SCREEN);
   };
 
   onCashbackBillsPress = () => {
+    this.closeDrawer();
     this.props.navigation.navigate(SCREENS.CASHBACK_BILLS_SCREEN);
   };
 

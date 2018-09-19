@@ -104,6 +104,7 @@ export default class SelectedItemsList extends React.Component {
                     </Text>
                   </Text>
                   <QuantityPlusMinus
+                    show={this.props.show}
                     quantity={item.quantity}
                     onMinusPress={() => {
                       changeIndexQuantity(index, item.quantity - 1);
@@ -135,7 +136,7 @@ export default class SelectedItemsList extends React.Component {
                       <View />
                     )}
                   </View>
-                  <TouchableOpacity
+                  { !this.props.show ? (<TouchableOpacity
                     onPress={() => {
                       changeIndexQuantity(index, 0);
                     }}
@@ -145,7 +146,7 @@ export default class SelectedItemsList extends React.Component {
                     }}
                   >
                     <Icon name="ios-trash-outline" size={30} color="#999999" />
-                  </TouchableOpacity>
+                  </TouchableOpacity>) : null}
                 </View>
               </View>
               {isLoading && (
