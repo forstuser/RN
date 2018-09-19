@@ -13,14 +13,13 @@ class VerifyMobileScreen extends Component {
             <View style={styles.container}>
                 <Text weight='Medium' style={{ textAlign: 'center', fontSize: 18, padding: 20, marginTop: 10 }}>Please enter the OTP sent on the number you have provided</Text>
                 <Button
-                        style={{ marginTop: 20 }}
-                        text='Submit' 
-                        onPress={() => alert('OTP')}
-                        color='secondary'
-                        textStyle={{ fontSize: 20 }}
+                    style={{ marginTop: 20 }}
+                    text='Submit'
+                    onPress={() => alert('OTP')}
+                    color='secondary'
+                    textStyle={{ fontSize: 20 }}
                 />
-                <Text weight='Medium' style={{ textAlign: 'center', textDecorationLine: 'underline', color: '#009ee5', fontSize: 16, marginTop: 30 }} onPress={ ()=> alert('Resend OTP')} >RESEND OTP</Text>
-       
+                <Text weight='Medium' style={{ textAlign: 'center', textDecorationLine: 'underline', color: '#009ee5', fontSize: 16, marginTop: 30 }} onPress={() => alert('Resend OTP')} >RESEND OTP</Text>
             </View>
         );
     }

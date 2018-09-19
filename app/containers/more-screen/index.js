@@ -233,8 +233,8 @@ class MoreScreen extends Component {
             </Modal>
           </View>
         ) : (
-          <View collapsable={false} />
-        )}
+            <View collapsable={false} />
+          )}
       </ScreenContainer>
     );
   }
