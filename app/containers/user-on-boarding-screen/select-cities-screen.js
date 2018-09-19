@@ -16,11 +16,11 @@ class SelectCitiesScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          location: '',  
-          isLoading: false,
-          error: null
+            location: '',
+            isLoading: false,
+            error: null
         };
-      }
+    }
 
     onCityPressed = (city) => {
         this.setState({
@@ -29,122 +29,122 @@ class SelectCitiesScreen extends Component {
     };
 
     onSubmitPressed = async () => {
-        if(this.state.location === '') {
+        if (this.state.location === '') {
             return Snackbar.show({
                 title: "Please Select Location",
                 duration: Snackbar.LENGTH_SHORT
-              });
+            });
         }
         try {
             const res = await updateProfile({
                 location: this.state.location
-              });
+            });
         } catch (e) {
             console.log("e: ", e);
-      
+
             Snackbar.show({
-              title: e.message,
-              duration: Snackbar.LENGTH_SHORT
+                title: e.message,
+                duration: Snackbar.LENGTH_SHORT
             });
-          } finally {
+        } finally {
             this.setState({ isLoading: false });
-          }
+        }
 
         this.props.navigation.navigate(SCREENS.APP_STACK);
     };
 
     render() {
         const { location } = this.state;
-        let styleIcon1 = null, styleIcon2 = null, styleIcon3 = null, styleIcon4 = null,styleIcon5 = null, styleIcon6 = null, styleIcon7 = null;
-        if(location === 'Delhi') {
+        let styleIcon1 = null, styleIcon2 = null, styleIcon3 = null, styleIcon4 = null, styleIcon5 = null, styleIcon6 = null, styleIcon7 = null;
+        if (location === 'Delhi') {
             styleIcon1 = { borderColor: '#000' };
-            styleIcon2 = null; 
-            styleIcon3 = null; 
+            styleIcon2 = null;
+            styleIcon3 = null;
             styleIcon4 = null;
             styleIcon5 = null;
             styleIcon6 = null;
             styleIcon7 = null;
         }
-        if(location === 'Noida') {
+        if (location === 'Noida') {
             styleIcon2 = { borderColor: '#000' };
-            styleIcon1 = null; 
-            styleIcon3 = null; 
+            styleIcon1 = null;
+            styleIcon3 = null;
             styleIcon4 = null;
             styleIcon5 = null;
             styleIcon6 = null;
             styleIcon7 = null;
         }
-        if(location === 'Ghaziabad') {
+        if (location === 'Ghaziabad') {
             styleIcon3 = { borderColor: '#000' };
-            styleIcon2 = null; 
-            styleIcon1 = null; 
+            styleIcon2 = null;
+            styleIcon1 = null;
             styleIcon4 = null;
             styleIcon5 = null;
             styleIcon6 = null;
             styleIcon7 = null;
         }
-        if(location === 'Other') {
+        if (location === 'Other') {
             styleIcon4 = { borderColor: '#000' };
-            styleIcon2 = null; 
-            styleIcon3 = null; 
+            styleIcon2 = null;
+            styleIcon3 = null;
             styleIcon1 = null;
             styleIcon5 = null;
             styleIcon6 = null;
             styleIcon7 = null;
         }
-        if(location === 'Gurgaon') {
+        if (location === 'Gurgaon') {
             styleIcon5 = { borderColor: '#000' };
-            styleIcon2 = null; 
-            styleIcon3 = null; 
+            styleIcon2 = null;
+            styleIcon3 = null;
             styleIcon1 = null;
             styleIcon4 = null;
             styleIcon6 = null;
             styleIcon7 = null;
         }
-        if(location === 'Greater Noida') {
+        if (location === 'Greater Noida') {
             styleIcon6 = { borderColor: '#000' };
-            styleIcon2 = null; 
-            styleIcon3 = null; 
+            styleIcon2 = null;
+            styleIcon3 = null;
             styleIcon1 = null;
             styleIcon5 = null;
             styleIcon4 = null;
             styleIcon7 = null;
         }
-        if(location === 'Faridabad') {
+        if (location === 'Faridabad') {
             styleIcon7 = { borderColor: '#000' };
-            styleIcon2 = null; 
-            styleIcon3 = null; 
+            styleIcon2 = null;
+            styleIcon3 = null;
             styleIcon1 = null;
             styleIcon5 = null;
             styleIcon6 = null;
             styleIcon4 = null;
         }
         return (
-            <View style={styles.container}>    
+            <View style={styles.container}>
                 <View style={[styles.mb, styles.mb1]}>
                     <View style={[styles.mainBox, styles.mainBox1]}>
                         <View style={[styles.box, styles.box1]}>
                             <TouchableOpacity
-                                    onPress={() => this.onCityPressed('Delhi')}
+                                onPress={() => this.onCityPressed('Delhi')}
                             >
-                                    <Image
-                                        style={[styles.imageIcon, styleIcon1]}
-                                        source={require('./delhi.png')}
-                                        resizeMode='contain'
-                                    />
+                                <Image
+                                    style={[styles.imageIcon, styleIcon1]}
+                                    source={require('./delhi.png')}
+                                    resizeMode='contain'
+                                />
                             </TouchableOpacity>
                             <Text weight='Bold' style={{ marginTop: 10, fontSize: 16, textAlign: 'center' }}>Delhi</Text>
                         </View>
                         <View style={[styles.box, styles.box1]}>
                             <TouchableOpacity
-                                    onPress={() => this.onCityPressed('Noida')}
-                                >
-                                    <Image
-                                        style={[styles.imageIcon, styleIcon2]}
-                                        source={require('./noida.png')}
-                                        resizeMode='contain'
-                                    />
-                                </TouchableOpacity>
+                                onPress={() => this.onCityPressed('Noida')}
+                            >
+                                <Image
+                                    style={[styles.imageIcon, styleIcon2]}
+                                    source={require('./noida.png')}
+                                    resizeMode='contain'
+                                />
+                            </TouchableOpacity>
                             <Text weight='Bold' style={{ marginTop: 10, fontSize: 16, textAlign: 'center' }}>Noida</Text>
                         </View>
                         <View style={[styles.box, styles.box1]}>
@@ -161,13 +161,13 @@ class SelectCitiesScreen extends Component {
                         </View>
                         <View style={[styles.box, styles.box1]}>
                             <TouchableOpacity
-                                    onPress={() => this.onCityPressed('Other')}
+                                onPress={() => this.onCityPressed('Other')}
                             >
-                                    <Image
-                                        style={[styles.imageIcon, styleIcon4]}
-                                        source={require('./other.png')}
-                                        resizeMode='contain'
-                                    />
+                                <Image
+                                    style={[styles.imageIcon, styleIcon4]}
+                                    source={require('./other.png')}
+                                    resizeMode='contain'
+                                />
                             </TouchableOpacity>
                             <Text weight='Bold' style={{ marginTop: 10, fontSize: 16, textAlign: 'center' }}>Other</Text>
                         </View>
@@ -175,26 +175,26 @@ class SelectCitiesScreen extends Component {
                     <View style={[styles.mainBox, styles.mainBox2]}>
                         <View style={[styles.box, styles.box1]}>
                             <TouchableOpacity
-                                    onPress={() => this.onCityPressed('Gurgaon')}
+                                onPress={() => this.onCityPressed('Gurgaon')}
                             >
-                                    <Image
-                                        style={[styles.imageIcon, styleIcon5]}
-                                        source={require('./gurgaon.png')}
-                                        resizeMode='contain'
-                                    />
+                                <Image
+                                    style={[styles.imageIcon, styleIcon5]}
+                                    source={require('./gurgaon.png')}
+                                    resizeMode='contain'
+                                />
                             </TouchableOpacity>
                             <Text weight='Bold' style={{ marginTop: 10, fontSize: 16, textAlign: 'center' }}>Gurgaon</Text>
                         </View>
                         <View style={[styles.box, styles.box1]}>
                             <TouchableOpacity
-                                    onPress={() => this.onCityPressed('Greater Noida')}
-                                >
-                                    <Image
-                                        style={[styles.imageIcon, styleIcon6]}
-                                        source={require('./greater-noida.png')}
-                                        resizeMode='contain'
-                                    />
-                                </TouchableOpacity>
+                                onPress={() => this.onCityPressed('Greater Noida')}
+                            >
+                                <Image
+                                    style={[styles.imageIcon, styleIcon6]}
+                                    source={require('./greater-noida.png')}
+                                    resizeMode='contain'
+                                />
+                            </TouchableOpacity>
                             <Text weight='Bold' style={{ marginTop: 10, fontSize: 16, textAlign: 'center' }}>Greater Noida</Text>
                         </View>
                         <View style={[styles.box, styles.box1]}>
@@ -222,19 +222,19 @@ class SelectCitiesScreen extends Component {
                             <Text weight='Bold' style={{ marginTop: 10, fontSize: 16, textAlign: 'center' }}>Other</Text> */}
                         </View>
                     </View>
-                </View>    
+                </View>
                 <View style={[styles.mb, styles.mb2]}>
                     {/* <TouchableOpacity style={styles.containerOther} onPress={() => this.onCityPressed('Other')}>
                         <Text weight='Bold' style={{ fontSize: 16 }}>Other</Text>
                     </TouchableOpacity> */}
                     <Button
-                                text='Submit' 
-                                onPress={this.onSubmitPressed}
-                                color='secondary'
-                                textStyle={{ fontSize: 20 }}
+                        text='Submit'
+                        onPress={this.onSubmitPressed}
+                        color='secondary'
+                        textStyle={{ fontSize: 20 }}
                     />
-                </View>    
-                    <LoadingOverlay visible={this.state.isLoading} />
+                </View>
+                <LoadingOverlay visible={this.state.isLoading} />
             </View>
         );
     }
@@ -255,7 +255,7 @@ const styles = {
     },
     container: {
         flex: 1,
-        flexDirection: 'column', 
+        flexDirection: 'column',
         backgroundColor: '#fff'
     },
     mainBox: {
@@ -264,7 +264,7 @@ const styles = {
     mainBox1: {
         flex: 1
     },
-    mainBox2: { 
+    mainBox2: {
         flex: 1
     },
     box: {
@@ -295,7 +295,7 @@ const styles = {
         borderRadius: 10,
         margin: 10,
         justifyContent: 'center',
-        alignItems: 'center'      
+        alignItems: 'center'
     }
 };
 

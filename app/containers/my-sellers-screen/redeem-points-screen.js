@@ -22,19 +22,19 @@ export default class RedeemSellerPoints extends React.Component {
   }
 
   changePointsToRedeem = pointsToRedeem => {
-    this.state({ pointsToRedeem });
+    this.setState({ pointsToRedeem });
   };
 
   redeemPoints = async () => {
     //alert('Redeem');
     const { sellerId, pointsToRedeem } = this.state;
-    try{
+    try {
       this.setState({ isLoading: true });
       const res = await redeemSellerPoints({
         sellerId: sellerId,
-        pointsToRedeem: pointsToRedeem      
+        pointsToRedeem: pointsToRedeem
       });
-      console.log('Result: ',res);
+      console.log('Result: ', res);
       showSnackbar({ text: "Points Redeemed!" });
     } catch (e) {
       showSnackbar({ text: e.message });
