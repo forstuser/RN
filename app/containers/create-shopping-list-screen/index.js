@@ -285,9 +285,15 @@ class ShoppingListScreen extends React.Component {
       searchError: null
     });
 
-    const { selectedCategoryIds, searchTerm, selectedBrands } = this.state;
+    const {
+      activeMainCategoryId,
+      selectedCategoryIds,
+      searchTerm,
+      selectedBrands
+    } = this.state;
     try {
       const res = await getSkuItems({
+        mainCategoryId: activeMainCategoryId,
         categoryIds: !searchTerm ? selectedCategoryIds : undefined,
         searchTerm: searchTerm || undefined,
         brandIds: selectedBrands.map(brand => brand.id)

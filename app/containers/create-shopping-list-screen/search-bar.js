@@ -269,6 +269,57 @@ export default class SearchBar extends React.Component {
           </TouchableOpacity>
         </View>
 
+        {activeMainCategory &&
+          activeMainCategory.categories &&
+          activeMainCategory.categories.length > 0 &&
+          !searchTerm && (
+            <View style={{ height: 34, paddingHorizontal: 5 }}>
+              <ScrollView
+                horizontal
+                style={{}}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{}}
+              >
+                {activeMainCategory.categories.map(category => (
+                  <TouchableOpacity
+                    key={category.id}
+                    onPress={() => {
+                      updateCategoryIdInParent(category.id);
+                    }}
+                    style={{
+                      justifyContent: "center",
+                      paddingHorizontal: 10,
+                      height: 24,
+                      margin: 5,
+                      borderRadius: 12,
+                      padding: 10,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: selectedCategoryIds.includes(category.id)
+                        ? colors.pinkishOrange
+                        : "#fff",
+                      borderColor: colors.pinkishOrange,
+                      borderWidth: 1
+                    }}
+                  >
+                    <Text
+                      weight="Medium"
+                      style={{
+                        fontSize: 12,
+                        color: selectedCategoryIds.includes(category.id)
+                          ? "#fff"
+                          : "#777777"
+                      }}
+                      numberOfLines={1}
+                    >
+                      {category.title}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+          )}
+
         <View
           style={{
             flex: 1,
@@ -317,66 +368,6 @@ export default class SearchBar extends React.Component {
           )}
 
           <View style={{ flex: 2, height: "100%" }}>
-            {categoryChuncks.length > 0 &&
-              !searchTerm && (
-                <ScrollView
-                  horizontal
-                  style={{}}
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={{
-                    backgroundColor: "#d8edf7",
-                    padding: 5,
-                    height: categoryChuncks.length * 50
-                  }}
-                >
-                  <View>
-                    {categoryChuncks.map(categoryChunck => (
-                      <View>
-                        <View style={{ flexDirection: "row" }}>
-                          {categoryChunck.map(category => (
-                            <TouchableOpacity
-                              key={category.id}
-                              onPress={() => {
-                                updateCategoryIdInParent(category.id);
-                              }}
-                              style={{
-                                justifyContent: "center",
-                                paddingHorizontal: 10,
-                                height: 24,
-                                margin: 5,
-                                borderRadius: 12,
-                                padding: 10,
-                                alignItems: "center",
-                                justifyContent: "center",
-                                backgroundColor: selectedCategoryIds.includes(
-                                  category.id
-                                )
-                                  ? colors.pinkishOrange
-                                  : "#fff"
-                              }}
-                            >
-                              <Text
-                                weight="Medium"
-                                style={{
-                                  fontSize: 12,
-                                  color: selectedCategoryIds.includes(
-                                    category.id
-                                  )
-                                    ? "#fff"
-                                    : "#777777"
-                                }}
-                                numberOfLines={1}
-                              >
-                                {category.title}
-                              </Text>
-                            </TouchableOpacity>
-                          ))}
-                        </View>
-                      </View>
-                    ))}
-                  </View>
-                </ScrollView>
-              )}
             <FlatList
               data={filteredItems}
               renderItem={({ item }) => (

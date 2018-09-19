@@ -1976,6 +1976,7 @@ export const getSkuReferenceData = async () => {
 };
 
 export const getSkuItems = async ({
+  mainCategoryId,
   categoryIds = [],
   brandIds = [],
   subCategoryIds = [],
@@ -1988,6 +1989,7 @@ export const getSkuItems = async ({
     method: "get",
     url: `/sku/list`,
     queryParams: {
+      main_category_id: mainCategoryId,
       category_id: categoryIds.join(","),
       sub_category_ids: subCategoryIds.join(","),
       brand_ids: brandIds.join(","),
