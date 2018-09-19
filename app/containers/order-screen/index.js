@@ -151,7 +151,7 @@ export default class OrderScreen extends React.Component {
       }
     }
 
-    this.props.navigation.navigate(SCREENS.SHOPPING_LIST_ORDER_REVIEWS_SCREEN, {
+    this.props.navigation.navigate(SCREENS.ORDER_REVIEWS_SCREEN, {
       order: order,
       sellerRatings,
       sellerReviewText,
@@ -319,7 +319,7 @@ export default class OrderScreen extends React.Component {
         sellerId: order.seller_id
       });
 
-      this.setState({ order: res.order }, () => {
+      this.setState({ order: res.result.order }, () => {
         this.openUploadBillPopup();
       });
 
