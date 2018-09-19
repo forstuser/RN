@@ -49,10 +49,19 @@ export default class SellerDetailsScreen extends React.Component {
     });
     try {
       const res = await getSellerDetails(seller.id);
-      this.setState({
-        seller: res.result,
-        paymentModes: res.payment_modes
-      });
+      this.setState(
+        {
+          seller: res.result,
+          paymentModes: res.payment_modes
+        },
+        () => {
+          if (openOffersTabOnStart) {
+            setTimeout(() => {
+              this.scrollableTabView.goToPage(2);
+            }, 200);
+          }
+        }
+      );
     } catch (error) {
       this.setState({ error });
     } finally {
@@ -61,12 +70,6 @@ export default class SellerDetailsScreen extends React.Component {
   };
 
   render() {
-    const { navigation } = this.props;
-    const openOffersTabOnStart = navigation.getParam(
-      "openOffersTabOnStart",
-      false
-    );
-
     const { seller, isLoading, error, paymentModes } = this.state;
 
     if (error) {
@@ -84,7 +87,9 @@ export default class SellerDetailsScreen extends React.Component {
               backgroundColor: colors.mainBlue,
               height: 2
             }}
-            initialPage={openOffersTabOnStart ? 2 : 0}
+            ref={node => {
+              this.scrollableTabView = node;
+            }}
             tabBarBackgroundColor="transparent"
             tabBarTextStyle={{
               fontSize: 14,
