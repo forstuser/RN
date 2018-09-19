@@ -39,6 +39,10 @@ export default class SellerDetailsScreen extends React.Component {
   getSellerDetails = async () => {
     const { navigation } = this.props;
     const seller = navigation.getParam("seller", {});
+    const openOffersTabOnStart = navigation.getParam(
+      "openOffersTabOnStart",
+      false
+    );
     this.setState({
       isLoading: true,
       error: null
@@ -57,6 +61,12 @@ export default class SellerDetailsScreen extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+    const openOffersTabOnStart = navigation.getParam(
+      "openOffersTabOnStart",
+      false
+    );
+
     const { seller, isLoading, error, paymentModes } = this.state;
 
     if (error) {
@@ -74,6 +84,7 @@ export default class SellerDetailsScreen extends React.Component {
               backgroundColor: colors.mainBlue,
               height: 2
             }}
+            initialPage={openOffersTabOnStart ? 2 : 0}
             tabBarBackgroundColor="transparent"
             tabBarTextStyle={{
               fontSize: 14,
@@ -96,7 +107,10 @@ export default class SellerDetailsScreen extends React.Component {
               />
             </View>
             <View tabLabel="Offers">
-              <Offers offers={seller.seller_offers || []} isLoading={isLoading} />
+              <Offers
+                offers={seller.seller_offers || []}
+                isLoading={isLoading}
+              />
             </View>
           </ScrollableTabView>
         )}

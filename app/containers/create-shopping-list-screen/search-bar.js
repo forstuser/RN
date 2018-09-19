@@ -87,7 +87,7 @@ export default class SearchBar extends React.Component {
     const {
       mainCategories = [],
       activeMainCategoryId = null,
-      activeCategoryId = null,
+      selectedCategoryIds = [],
       updateMainCategoryIdInParent = () => null,
       updateCategoryIdInParent = () => null,
       onSearchTextChange = () => null,
@@ -348,20 +348,22 @@ export default class SearchBar extends React.Component {
                                 padding: 10,
                                 alignItems: "center",
                                 justifyContent: "center",
-                                backgroundColor:
-                                  category.id == activeCategoryId
-                                    ? colors.pinkishOrange
-                                    : "#fff"
+                                backgroundColor: selectedCategoryIds.includes(
+                                  category.id
+                                )
+                                  ? colors.pinkishOrange
+                                  : "#fff"
                               }}
                             >
                               <Text
                                 weight="Medium"
                                 style={{
                                   fontSize: 12,
-                                  color:
-                                    category.id == activeCategoryId
-                                      ? "#fff"
-                                      : "#777777"
+                                  color: selectedCategoryIds.includes(
+                                    category.id
+                                  )
+                                    ? "#fff"
+                                    : "#777777"
                                 }}
                                 numberOfLines={1}
                               >

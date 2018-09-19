@@ -110,9 +110,6 @@ class MySellersScreen extends React.Component {
 
     console.log("mySellers: ", mySellers);
 
-    
-
-
     return (
       <DrawerScreenContainer
         title="My Sellers"
@@ -187,17 +184,22 @@ class MySellersScreen extends React.Component {
               ) : null
             }
             renderItem={({ item }) => {
-              let btnRedeemPoints = null; 
-              if(item.loyalty_total > item.minimum_points && item.loyalty_total > 0)
-                btnRedeemPoints = <Button
-                  onPress={() => {
-                    this.openRedeemPointsScreen(item);
-                  }}
-                  text="Redeem Points"
-                  color="secondary"
-                  style={{ height: 30, width: 115, marginTop: 10 }}
-                  textStyle={{ fontSize: 11 }}
-                />;
+              let btnRedeemPoints = null;
+              if (
+                item.loyalty_total > item.minimum_points &&
+                item.loyalty_total > 0
+              )
+                btnRedeemPoints = (
+                  <Button
+                    onPress={() => {
+                      this.openRedeemPointsScreen(item);
+                    }}
+                    text="Redeem Points"
+                    color="secondary"
+                    style={{ height: 30, width: 115, marginTop: 10 }}
+                    textStyle={{ fontSize: 11 }}
+                  />
+                );
               return (
                 <TouchableOpacity
                   onPress={() =>
@@ -339,7 +341,13 @@ class MySellersScreen extends React.Component {
                           </Text>
                         </View>
                         {item.offer_count ? (
-                          <View
+                          <TouchableOpacity
+                            onPress={() =>
+                              this.props.navigation.navigate(
+                                SCREENS.SELLER_DETAILS_SCREEN,
+                                { seller: item, openOffersTabOnStart: true }
+                              )
+                            }
                             style={{
                               width: 42,
                               height: 42
@@ -364,7 +372,7 @@ class MySellersScreen extends React.Component {
                             >
                               {`${item.offer_count}\nOffers`}
                             </Text>
-                          </View>
+                          </TouchableOpacity>
                         ) : null}
                       </View>
 
@@ -431,32 +439,41 @@ class MySellersScreen extends React.Component {
                         </TouchableOpacity>
                       </View>
                       {btnRedeemPoints}
-                      <ScrollView horizontal style={{ marginTop: 11 }}>
-                        {item.categories.map(category => (
-                          <View
-                            style={{
-                              height: 18,
-                              borderColor: colors.pinkishOrange,
-                              borderWidth: 1,
-                              alignItems: "center",
-                              justifyContent: "center",
-                              borderRadius: 9,
-                              paddingHorizontal: 7,
-                              marginRight: 4
-                            }}
-                          >
-                            <Text
+                      <View onStartShouldSetResponder={() => true}>
+                        <ScrollView
+                          horizontal
+                          showsHorizontalScrollIndicator={false}
+                          style={{
+                            marginTop: 11,
+                            paddingVertical: 5
+                          }}
+                        >
+                          {item.categories.map(category => (
+                            <View
                               style={{
-                                color: colors.pinkishOrange,
-                                fontSize: 8,
-                                marginTop: -3
+                                height: 18,
+                                borderColor: colors.pinkishOrange,
+                                borderWidth: 1,
+                                alignItems: "center",
+                                justifyContent: "center",
+                                borderRadius: 9,
+                                paddingHorizontal: 7,
+                                marginRight: 4
                               }}
                             >
-                              {category.category_name}
-                            </Text>
-                          </View>
-                        ))}
-                      </ScrollView>
+                              <Text
+                                style={{
+                                  color: colors.pinkishOrange,
+                                  fontSize: 8,
+                                  marginTop: -3
+                                }}
+                              >
+                                {category.category_name}
+                              </Text>
+                            </View>
+                          ))}
+                        </ScrollView>
+                      </View>
                     </View>
                   </View>
                   <View
