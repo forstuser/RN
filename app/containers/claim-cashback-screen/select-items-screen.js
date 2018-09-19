@@ -62,6 +62,7 @@ export default class SelectCashbackItems extends React.Component {
     mainCategories: [],
     activeMainCategoryId: null,
     activeCategoryId: null,
+    selectedCategoryIds: [],
     measurementTypes: {},
     isLoading: false
   };
@@ -118,7 +119,7 @@ export default class SelectCashbackItems extends React.Component {
 
       if (newState.activeMainCategoryId === undefined) {
         newState.activeMainCategoryId = newState.mainCategories[0].id;
-        newState.activeCategoryId = newState.mainCategories[0].categories[0].id;
+        newState.selectedCategoryIds = [];
       }
 
       if (wishlist.length > 0) {
@@ -147,10 +148,16 @@ export default class SelectCashbackItems extends React.Component {
       searchError: null,
       items: []
     });
-    const { activeCategoryId, searchTerm, selectedBrands } = this.state;
+    const {
+      activeMainCategoryId,
+      selectedCategoryIds,
+      searchTerm,
+      selectedBrands
+    } = this.state;
     try {
       const res = await getSkuItems({
-        categoryId: !searchTerm ? activeCategoryId : undefined,
+        mainCategoryId: activeMainCategoryId,
+        categoryIds: !searchTerm ? selectedCategoryIds : undefined,
         searchTerm: searchTerm || undefined,
         brandIds: selectedBrands.map(brand => brand.id)
       });
@@ -175,7 +182,11 @@ export default class SelectCashbackItems extends React.Component {
     const mainCategory = mainCategories.find(
       mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
     );
-    const newState = { activeMainCategoryId, selectedBrands: [] };
+    const newState = {
+      activeMainCategoryId,
+      selectedBrands: [],
+      selectedCategoryIds: []
+    };
     if (activeMainCategoryId > 0) {
       newState.activeCategoryId = mainCategory.categories[0].id;
     } else if (activeMainCategoryId == -1) {
@@ -195,8 +206,17 @@ export default class SelectCashbackItems extends React.Component {
     });
   };
 
-  updateStateCategoryId = activeCategoryId => {
-    this.setState({ activeCategoryId, selectedBrands: [] }, () => {
+  updateStateCategoryId = categoryId => {
+    const selectedCategoryIds = [...this.state.selectedCategoryIds];
+    const idx = selectedCategoryIds.findIndex(
+      category => category.id == categoryId
+    );
+    if (idx > -1) {
+      selectedCategoryIds.splice(idx, 1);
+    } else {
+      selectedCategoryIds.push(categoryId);
+    }
+    this.setState({ selectedCategoryIds, selectedBrands: [] }, () => {
       this.loadItems();
     });
   };
