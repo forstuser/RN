@@ -125,7 +125,7 @@ export default class SellerDetails extends React.Component {
                   >
                     <Icon
                       name="md-document"
-                      color={colors.mainBlue}
+                      color={colors.pinkishOrange}
                       size={15}
                     />
                     <Text
@@ -133,7 +133,7 @@ export default class SellerDetails extends React.Component {
                       style={{
                         marginLeft: 4,
                         fontSize: 14,
-                        color: colors.mainBlue
+                        color: colors.pinkishOrange
                       }}
                     >
                       {order.copies && order.copies.length > 0
