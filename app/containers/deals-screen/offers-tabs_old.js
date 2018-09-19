@@ -10,7 +10,8 @@ import Tag from "../../components/tag";
 import {
   API_BASE_URL,
   fetchOfferCategories,
-  fetchCategoryOffers
+  fetchCategoryOffers,
+  getSellerOffers
 } from "../../api";
 import { colors } from "../../theme";
 import OfferCategory from "./offer-category";
@@ -89,13 +90,11 @@ export default class OffersTab extends React.Component {
     try {
       const res = await fetchOfferCategories();
       let resCategories = res.categories;
-
       const categories = resCategories.map(category => ({
         ...category,
         name: category.category_name,
         imageUrl: category.image_url
       }));
-
       this.setState({
         categories
       });
@@ -194,6 +193,7 @@ export default class OffersTab extends React.Component {
       },
       () => {
         // call the reset function
+  
         this.offersFilterModal.resetAllFilters();
       }
     );

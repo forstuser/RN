@@ -3,6 +3,7 @@ import { View, Image } from "react-native";
 import Modal from "react-native-modal";
 
 import { Text, Button } from "../../elements";
+import { SCREENS } from "../../constants";
 const tick = require("../../images/tick.png");
 
 export default class SuccessModal extends React.Component {
@@ -17,7 +18,7 @@ export default class SuccessModal extends React.Component {
   onOkayPress = () => {
     const { navigation } = this.props;
     this.setState({ isVisible: false }, () => {
-      navigation.popToTop();
+      navigation.navigate(SCREENS.CASHBACK_BILLS_SCREEN);
     });
   };
 
