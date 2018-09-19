@@ -27,7 +27,7 @@ import BarcodeScanner from "./barcode-scanner";
 import AddManualItemModal from "./add-manual-item-modal";
 import ClearOrContinuePreviousListModal from "./clear-or-continue-previous-list-modal";
 import PastItems from "./past-items";
-import FilterModal from './filter-modal';
+import FilterModal from "./filter-modal";
 
 import { colors } from "../../theme";
 import { SCREENS } from "../../constants";
@@ -42,6 +42,7 @@ class ShoppingListScreen extends React.Component {
     mainCategories: [],
     activeMainCategoryId: null,
     activeCategoryId: null,
+    selectedCategoryIds: [],
     isBarcodeScannerVisible: false,
     pastItems: [],
     wishList: [],
@@ -102,8 +103,7 @@ class ShoppingListScreen extends React.Component {
         mainCategories,
         measurementTypes,
         activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
-        activeCategoryId:
-          pastItems.length > 0 ? null : mainCategories[0].categories[0].id,
+        selectedCategoryIds: [],
         items: pastItems
       }));
 
@@ -125,7 +125,7 @@ class ShoppingListScreen extends React.Component {
     );
     const newState = { activeMainCategoryId, selectedBrands: [] };
     if (activeMainCategoryId > 0 && mainCategory.categories.length > 0) {
-      newState.activeCategoryId = mainCategory.categories[0].id;
+      newState.selectedCategoryIds = [];
     } else {
       newState.items = this.state.pastItems;
       newState.selectedBrands = [];
@@ -138,8 +138,17 @@ class ShoppingListScreen extends React.Component {
     });
   };
 
-  updateStateCategoryId = activeCategoryId => {
-    this.setState({ activeCategoryId, selectedBrands: [] }, () => {
+  updateStateCategoryId = categoryId => {
+    const selectedCategoryIds = [...this.state.selectedCategoryIds];
+    const idx = selectedCategoryIds.findIndex(
+      category => category.id == categoryId
+    );
+    if (idx > -1) {
+      selectedCategoryIds.splice(idx, 1);
+    } else {
+      selectedCategoryIds.push(categoryId);
+    }
+    this.setState({ selectedCategoryIds, selectedBrands: [] }, () => {
       this.loadItems();
     });
   };
@@ -276,10 +285,16 @@ class ShoppingListScreen extends React.Component {
       searchError: null
     });
 
-    const { activeCategoryId, searchTerm, selectedBrands } = this.state;
+    const {
+      activeMainCategoryId,
+      selectedCategoryIds,
+      searchTerm,
+      selectedBrands
+    } = this.state;
     try {
       const res = await getSkuItems({
-        categoryId: !searchTerm ? activeCategoryId : undefined,
+        mainCategoryId: activeMainCategoryId,
+        categoryIds: !searchTerm ? selectedCategoryIds : undefined,
         searchTerm: searchTerm || undefined,
         brandIds: selectedBrands.map(brand => brand.id)
       });
@@ -318,7 +333,7 @@ class ShoppingListScreen extends React.Component {
     const { navigation } = this.props;
     const {
       activeMainCategoryId,
-      activeCategoryId,
+      selectedCategoryIds,
       isLoading,
       isLoadingWishList,
       referenceDataError,
@@ -420,12 +435,12 @@ class ShoppingListScreen extends React.Component {
           <SearchBar
             mainCategories={mainCategories}
             activeMainCategoryId={activeMainCategoryId}
-            activeCategoryId={activeCategoryId}
+            selectedCategoryIds={selectedCategoryIds}
             updateMainCategoryIdInParent={activeMainCategoryId =>
               this.updateStateMainCategoryId(activeMainCategoryId)
             }
-            updateCategoryIdInParent={activeCategoryId =>
-              this.updateStateCategoryId(activeCategoryId)
+            updateCategoryIdInParent={categoryId =>
+              this.updateStateCategoryId(categoryId)
             }
             searchTerm={searchTerm}
             loadItems={this.loadItems}

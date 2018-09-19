@@ -2,8 +2,8 @@ import React from "react";
 import { View, TouchableOpacity, TextInput } from "react-native";
 
 import { Text, Button, Image } from "../../elements";
-import { redeemSellerPoints } from '../../api';
-import { showSnackbar } from '../../utils/snackbar';
+import { redeemSellerPoints } from "../../api";
+import { showSnackbar } from "../../utils/snackbar";
 
 export default class RedeemSellerPoints extends React.Component {
   static navigationOptions = {
@@ -34,7 +34,7 @@ export default class RedeemSellerPoints extends React.Component {
         sellerId: sellerId,
         pointsToRedeem: pointsToRedeem
       });
-      console.log('Result: ', res);
+      console.log("Result: ", res);
       showSnackbar({ text: "Points Redeemed!" });
     } catch (e) {
       showSnackbar({ text: e.message });

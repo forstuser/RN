@@ -8,6 +8,8 @@ import { API_BASE_URL } from "../../api";
 import { Text, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
+import { openBillsPopUp } from "../../navigation";
+
 export default class SellerDetails extends React.Component {
   call = () => {
     const { order } = this.props;
@@ -16,6 +18,17 @@ export default class SellerDetails extends React.Component {
         text: e.message
       })
     );
+  };
+
+  onViewBillPress = () => {
+    const { order, openUploadBillPopup } = this.props;
+    if (order.copies && order.copies.length > 0) {
+      openBillsPopUp({
+        copies: order.copies || []
+      });
+    } else {
+      openUploadBillPopup();
+    }
   };
 
   render() {
@@ -96,6 +109,39 @@ export default class SellerDetails extends React.Component {
                     Call
                   </Text>
                 </TouchableOpacity>
+
+                {((order.copies && order.copies.length > 0) ||
+                  (order.expense_id &&
+                    order.upload_id &&
+                    moment().diff(order.updated_at, "hours") < 24)) && (
+                  <TouchableOpacity
+                    onPress={this.onViewBillPress}
+                    style={{
+                      marginTop: 10,
+                      marginBottom: 5,
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Icon
+                      name="md-document"
+                      color={colors.mainBlue}
+                      size={15}
+                    />
+                    <Text
+                      weight="Medium"
+                      style={{
+                        marginLeft: 4,
+                        fontSize: 14,
+                        color: colors.mainBlue
+                      }}
+                    >
+                      {order.copies && order.copies.length > 0
+                        ? `View Invoice`
+                        : `Upload Invoice to Claim Cashback`}
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </View>
