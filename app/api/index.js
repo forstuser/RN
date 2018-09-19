@@ -2036,10 +2036,15 @@ export const clearWishList = async item => {
   });
 };
 
-export const getMySellers = async () => {
+export const getMySellers = async (filters={}) => {
+  const { isFmcg, hasPos } = filters;
   return await apiRequest({
     method: "get",
-    url: `/mysellers`
+    url: `/mysellers`,
+    queryParams: {
+      is_fmcg: isFmcg,
+      has_pos: hasPos
+    }
   });
 };
 

@@ -74,6 +74,7 @@ class BBCashWalletScreen extends Component {
   renderTransactions = ({ item: transaction, index }) => {
     return (
       <SingleTransaction
+        date={transaction.date}
         description={transaction.description}
         date={transaction.date}
         id={transaction.id}
