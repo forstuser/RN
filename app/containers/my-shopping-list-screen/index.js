@@ -11,6 +11,10 @@ import {
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 
+import RNFetchBlob from "react-native-fetch-blob";
+import ViewShot, { captureRef } from "react-native-view-shot";
+import Share from "react-native-share";
+
 import { loginToApplozic, openChatWithSeller } from "../../applozic";
 
 import { API_BASE_URL, getMySellers, placeOrder } from "../../api";
@@ -26,6 +30,7 @@ import QuantityPlusMinus from "../../components/quantity-plus-minus";
 import SelectedItemsList from "./selected-items-list";
 import { showSnackbar } from "../../utils/snackbar";
 import { SCREENS, ORDER_TYPES, SELLER_TYPE_IDS } from "../../constants";
+import { requestStoragePermission } from "../../android-permissions";
 
 class MyShoppingList extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -50,7 +55,8 @@ class MyShoppingList extends React.Component {
     skuItemIdsCurrentlyModifying: [],
     isLoadingMySellers: false,
     isMySellersModalVisible: false,
-    sellers: []
+    sellers: [],
+    showPlusMinusDelete: false
   };
 
   componentDidMount() {
@@ -69,8 +75,33 @@ class MyShoppingList extends React.Component {
     this.getMySellers();
   };
 
-  onSharePressIcon = () => {
-    this.setState({ isShareModalVisible: true });
+  onSharePressIcon = async () => {
+    //this.setState({ isShareModalVisible: true });
+    //console.log('Wishlist', this.state.wishList);
+    this.setState({ showPlusMinusDelete: true });
+    if(await requestStoragePermission()) {
+      const filePath = RNFetchBlob.fs.dirs.DCIMDir + `/fact.jpg`;
+
+      captureRef(this.viewToShare, {
+        format: "jpg",
+        quality: 0.8
+      })
+        .then(uri => {
+          console.log("Image saved to", uri);
+          return RNFetchBlob.fs.cp(uri, filePath);
+        })
+        .then(() => {
+          console.log("Image saved to", filePath + "/fact.jpg");
+          this.setState({ showPlusMinusDelete: false });
+          return Share.open({
+            url: `file://${filePath}`,
+            message: `Powered by BinBill`
+          });
+          
+        })
+        .catch(error => console.error("Oops, snapshot failed", error));
+    }
+    
   };
 
   getMySellers = async () => {
@@ -182,12 +213,18 @@ class MyShoppingList extends React.Component {
             />
           </View>
         ) : (
+          <View
+            ref={ref => (this.viewToShare = ref)}
+            style={{ flex: 1, backgroundColor: '#fff'}}
+          >
           <SelectedItemsList
+            show={this.state.showPlusMinusDelete}
             measurementTypes={measurementTypes}
             selectedItems={wishList}
             skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
             changeIndexQuantity={this.changeIndexQuantity}
           />
+          </View>
         )}
         <Modal
           isVisible={isShareModalVisible}
