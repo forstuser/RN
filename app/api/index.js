@@ -2271,3 +2271,10 @@ export const endAssistedServiceOrder = async ({
     }
   });
 };
+
+export const getSellerOffers = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers/offers`
+  });
+};
