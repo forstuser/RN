@@ -241,17 +241,22 @@ class MyShoppingList extends React.Component {
               refreshing={isLoadingMySellers}
               onRefresh={this.getMySellers}
               renderItem={({ item }) => {
-                let btnRedeemPoints = null; 
-              if(item.loyalty_total > item.minimum_points && item.loyalty_total > 0)
-                btnRedeemPoints = <Button
-                  onPress={() => {
-                    this.openRedeemPointsScreen(item);
-                  }}
-                  text="Redeem Points"
-                  color="secondary"
-                  style={{ height: 30, width: 115, marginTop: 10 }}
-                  textStyle={{ fontSize: 11 }}
-                />;
+                let btnRedeemPoints = null;
+                if (
+                  item.loyalty_total > item.minimum_points &&
+                  item.loyalty_total > 0
+                )
+                  btnRedeemPoints = (
+                    <Button
+                      onPress={() => {
+                        this.openRedeemPointsScreen(item);
+                      }}
+                      text="Redeem Points"
+                      color="secondary"
+                      style={{ height: 30, width: 115, marginTop: 10 }}
+                      textStyle={{ fontSize: 11 }}
+                    />
+                  );
                 return (
                   // <TouchableOpacity
                   //   onPress={() => this.selectSellerForOrder(item)}
@@ -268,316 +273,316 @@ class MyShoppingList extends React.Component {
                   //   <Text weight="Bold">{item.name}</Text>
                   // </TouchableOpacity>
                   <TouchableOpacity
-                  onPress={() => this.selectSellerForOrder(item)}
-                  style={{
-                    ...defaultStyles.card,
-                    margin: 10,
-                    borderRadius: 10,
-                    overflow: "hidden"
-                  }}
-                >
-                  <View
+                    onPress={() => this.selectSellerForOrder(item)}
                     style={{
-                      flexDirection: "row"
+                      ...defaultStyles.card,
+                      margin: 10,
+                      borderRadius: 10,
+                      overflow: "hidden"
                     }}
                   >
-                    <View style={{ padding: 12 }}>
-                      <View
-                        style={{
-                          width: 68,
-                          height: 68,
-                          borderRadius: 34,
-                          backgroundColor: "#eee"
-                        }}
-                      >
-                        <Image
+                    <View
+                      style={{
+                        flexDirection: "row"
+                      }}
+                    >
+                      <View style={{ padding: 12 }}>
+                        <View
                           style={{
                             width: 68,
                             height: 68,
-                            borderRadius: 34
-                          }}
-                          source={{
-                            uri:
-                              API_BASE_URL +
-                              `/consumer/sellers/${item.id}/upload/1/images/0`
-                          }}
-                        />
-                        <View
-                          style={{
-                            position: "absolute",
-                            right: 2,
-                            bottom: 2,
-                            width: 16,
-                            height: 16,
-                            borderRadius: 8,
-                            backgroundColor: item.rush_hours
-                              ? "red"
-                              : colors.success,
-                            alignItems: "center",
-                            justifyContent: "center"
-                          }}
-                        />
-                      </View>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "baseline",
-                          marginTop: 8
-                        }}
-                      >
-                        <StarRating
-                          starColor={colors.yellow}
-                          disabled={true}
-                          maxStars={5}
-                          rating={Number(item.ratings)}
-                          halfStarEnabled={true}
-                          starSize={11}
-                          starStyle={{ marginHorizontal: 0 }}
-                        />
-                        <Text
-                          weight="Medium"
-                          style={{
-                            fontSize: 10,
-                            marginLeft: 2,
-                            color: colors.secondaryText
+                            borderRadius: 34,
+                            backgroundColor: "#eee"
                           }}
                         >
-                          ({item.ratings})
-                        </Text>
-                      </View>
-                      {item.seller_details &&
-                      item.seller_details.basic_details &&
-                      item.seller_details.basic_details.home_delivery ? (
-                        <Text
-                          style={{
-                            color: "#208e07",
-                            fontSize: 6,
-                            marginTop: 6
-                          }}
-                        >
-                          Home Delivery Available
-                        </Text>
-                      ) : null}
-
-                      {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
+                          <Image
+                            style={{
+                              width: 68,
+                              height: 68,
+                              borderRadius: 34
+                            }}
+                            source={{
+                              uri:
+                                API_BASE_URL +
+                                `/consumer/sellers/${item.id}/upload/1/images/0`
+                            }}
+                          />
+                          <View
+                            style={{
+                              position: "absolute",
+                              right: 2,
+                              bottom: 2,
+                              width: 16,
+                              height: 16,
+                              borderRadius: 8,
+                              backgroundColor: item.rush_hours
+                                ? "red"
+                                : colors.success,
+                              alignItems: "center",
+                              justifyContent: "center"
+                            }}
+                          />
+                        </View>
                         <View
                           style={{
                             flexDirection: "row",
-                            backgroundColor: "green",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            width: 70,
-                            height: 20,
-                            borderRadius: 3,
-                            marginTop: 10
+                            alignItems: "baseline",
+                            marginTop: 8
                           }}
                         >
-                          <Icon
-                            name="md-checkmark-circle-outline"
-                            color="#fff"
-                            size={13}
+                          <StarRating
+                            starColor={colors.yellow}
+                            disabled={true}
+                            maxStars={5}
+                            rating={Number(item.ratings)}
+                            halfStarEnabled={true}
+                            starSize={11}
+                            starStyle={{ marginHorizontal: 0 }}
                           />
                           <Text
-                            weight="Bold"
+                            weight="Medium"
                             style={{
-                              color: "#fff",
                               fontSize: 10,
-                              marginLeft: 5,
-                              marginTop: -2
+                              marginLeft: 2,
+                              color: colors.secondaryText
                             }}
                           >
-                            Verified
+                            ({item.ratings})
                           </Text>
                         </View>
-                      )}
-                    </View>
-                    <View style={{ padding: 12, paddingLeft: 0, flex: 1 }}>
-                      <View style={{ flexDirection: "row" }}>
-                        <View style={{ flex: 1, justifyContent: "center" }}>
-                          <Text weight="Bold" style={{ fontSize: 13 }}>
-                            {item.name}
+                        {item.seller_details &&
+                        item.seller_details.basic_details &&
+                        item.seller_details.basic_details.home_delivery ? (
+                          <Text
+                            style={{
+                              color: "#208e07",
+                              fontSize: 6,
+                              marginTop: 6
+                            }}
+                          >
+                            Home Delivery Available
                           </Text>
-                          <Text style={{ fontSize: 11 }}>
-                            {item.owner_name}
-                          </Text>
-                        </View>
-                        {item.offer_count ? (
+                        ) : null}
+
+                        {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
                           <View
                             style={{
-                              width: 42,
-                              height: 42
+                              flexDirection: "row",
+                              backgroundColor: "green",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              width: 70,
+                              height: 20,
+                              borderRadius: 3,
+                              marginTop: 10
                             }}
                           >
-                            <Image
-                              style={{
-                                width: 42,
-                                height: 42,
-                                position: "absolute"
-                              }}
-                              source={require("../../images/offers_bg.png")}
+                            <Icon
+                              name="md-checkmark-circle-outline"
+                              color="#fff"
+                              size={13}
                             />
                             <Text
                               weight="Bold"
                               style={{
-                                marginTop: 5,
-                                fontSize: 10,
                                 color: "#fff",
-                                textAlign: "center"
+                                fontSize: 10,
+                                marginLeft: 5,
+                                marginTop: -2
                               }}
                             >
-                              {`${item.offer_count}\nOffers`}
+                              Verified
                             </Text>
                           </View>
-                        ) : null}
+                        )}
                       </View>
+                      <View style={{ padding: 12, paddingLeft: 0, flex: 1 }}>
+                        <View style={{ flexDirection: "row" }}>
+                          <View style={{ flex: 1, justifyContent: "center" }}>
+                            <Text weight="Bold" style={{ fontSize: 13 }}>
+                              {item.name}
+                            </Text>
+                            <Text style={{ fontSize: 11 }}>
+                              {item.owner_name}
+                            </Text>
+                          </View>
+                          {item.offer_count ? (
+                            <View
+                              style={{
+                                width: 42,
+                                height: 42
+                              }}
+                            >
+                              <Image
+                                style={{
+                                  width: 42,
+                                  height: 42,
+                                  position: "absolute"
+                                }}
+                                source={require("../../images/offers_bg.png")}
+                              />
+                              <Text
+                                weight="Bold"
+                                style={{
+                                  marginTop: 5,
+                                  fontSize: 10,
+                                  color: "#fff",
+                                  textAlign: "center"
+                                }}
+                              >
+                                {`${item.offer_count}\nOffers`}
+                              </Text>
+                            </View>
+                          ) : null}
+                        </View>
 
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center"
-                        }}
-                      >
-                        <Text style={{ fontSize: 13 }}>Credit Due : </Text>
-                        <TouchableOpacity
-                          onPress={() =>
-                            this.props.navigation.navigate(
-                              SCREENS.MY_SELLERS_CREDIT_TRANSACTIONS_SCREEN,
-                              { seller: item }
-                            )
-                          }
+                        <View
                           style={{
                             flexDirection: "row",
-                            paddingVertical: 5,
                             alignItems: "center"
                           }}
                         >
-                          <Text
-                            style={{ fontSize: 13, color: colors.mainBlue }}
-                          >
-                            Rs. {item.credit_total}
-                          </Text>
-                          <Icon
-                            name="md-information-circle"
-                            size={15}
-                            style={{ marginTop: 2, marginLeft: 5 }}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                      <View
-                        style={{ flexDirection: "row", alignItems: "center" }}
-                      >
-                        <Text style={{ fontSize: 13 }}>Points Earned : </Text>
-
-                        <TouchableOpacity
-                          onPress={() =>
-                            this.props.navigation.navigate(
-                              SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN,
-                              { seller: item }
-                            )
-                          }
-                          style={{
-                            flexDirection: "row",
-                            paddingVertical: 5,
-                            alignItems: "center"
-                          }}
-                        >
-                          <Text
-                            style={{ fontSize: 13, color: colors.mainBlue }}
-                          >
-                            {item.loyalty_total}
-                          </Text>
-                          <Icon
-                            name="md-information-circle"
-                            size={15}
-                            style={{ marginTop: 2, marginLeft: 5 }}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                      {btnRedeemPoints}
-                      <ScrollView horizontal style={{ marginTop: 11 }}>
-                        {item.categories.map(category => (
-                          <View
+                          <Text style={{ fontSize: 13 }}>Credit Due : </Text>
+                          <TouchableOpacity
+                            onPress={() =>
+                              this.props.navigation.navigate(
+                                SCREENS.MY_SELLERS_CREDIT_TRANSACTIONS_SCREEN,
+                                { seller: item }
+                              )
+                            }
                             style={{
-                              height: 18,
-                              borderColor: colors.pinkishOrange,
-                              borderWidth: 1,
-                              alignItems: "center",
-                              justifyContent: "center",
-                              borderRadius: 9,
-                              paddingHorizontal: 7,
-                              marginRight: 4
+                              flexDirection: "row",
+                              paddingVertical: 5,
+                              alignItems: "center"
                             }}
                           >
                             <Text
+                              style={{ fontSize: 13, color: colors.mainBlue }}
+                            >
+                              Rs. {item.credit_total}
+                            </Text>
+                            <Icon
+                              name="md-information-circle"
+                              size={15}
+                              style={{ marginTop: 2, marginLeft: 5 }}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                        <View
+                          style={{ flexDirection: "row", alignItems: "center" }}
+                        >
+                          <Text style={{ fontSize: 13 }}>Points Earned : </Text>
+
+                          <TouchableOpacity
+                            onPress={() =>
+                              this.props.navigation.navigate(
+                                SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN,
+                                { seller: item }
+                              )
+                            }
+                            style={{
+                              flexDirection: "row",
+                              paddingVertical: 5,
+                              alignItems: "center"
+                            }}
+                          >
+                            <Text
+                              style={{ fontSize: 13, color: colors.mainBlue }}
+                            >
+                              {item.loyalty_total}
+                            </Text>
+                            <Icon
+                              name="md-information-circle"
+                              size={15}
+                              style={{ marginTop: 2, marginLeft: 5 }}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                        {btnRedeemPoints}
+                        <ScrollView horizontal style={{ marginTop: 11 }}>
+                          {item.categories.map(category => (
+                            <View
                               style={{
-                                color: colors.pinkishOrange,
-                                fontSize: 8,
-                                marginTop: -3
+                                height: 18,
+                                borderColor: colors.pinkishOrange,
+                                borderWidth: 1,
+                                alignItems: "center",
+                                justifyContent: "center",
+                                borderRadius: 9,
+                                paddingHorizontal: 7,
+                                marginRight: 4
                               }}
                             >
-                              {category.category_name}
-                            </Text>
-                          </View>
-                        ))}
-                      </ScrollView>
+                              <Text
+                                style={{
+                                  color: colors.pinkishOrange,
+                                  fontSize: 8,
+                                  marginTop: -3
+                                }}
+                              >
+                                {category.category_name}
+                              </Text>
+                            </View>
+                          ))}
+                        </ScrollView>
+                      </View>
                     </View>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      height: 30,
-                      backgroundColor: "#d9d9d9",
-                      paddingTop: 1
-                    }}
-                  >
-                    <TouchableOpacity
-                      onPress={() => this.openCallOptions(item)}
-                      style={styles.bottomButton}
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        height: 30,
+                        backgroundColor: "#d9d9d9",
+                        paddingTop: 1
+                      }}
                     >
-                      <Icon
-                        name="ios-call-outline"
-                        style={styles.bottomButtonIcon}
-                        color={colors.pinkishOrange}
-                      />
-                      <Text weight="Medium" style={styles.bottomButtonText}>
-                        Call
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => this.startChatWithSeller(item)}
-                      style={[styles.bottomButton, { marginHorizontal: 1 }]}
-                    >
-                      <Icon
-                        name="ios-chatbubbles-outline"
-                        style={styles.bottomButtonIcon}
-                        color={colors.pinkishOrange}
-                      />
-                      <Text weight="Medium" style={styles.bottomButtonText}>
-                        Chat
-                      </Text>
-                    </TouchableOpacity>
-                    {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
                       <TouchableOpacity
-                        onPress={() =>
-                          this.props.navigation.navigate(
-                            SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN,
-                            { seller: item }
-                          )
-                        }
+                        onPress={() => this.openCallOptions(item)}
                         style={styles.bottomButton}
                       >
                         <Icon
-                          name="ios-construct-outline"
+                          name="ios-call-outline"
                           style={styles.bottomButtonIcon}
                           color={colors.pinkishOrange}
                         />
                         <Text weight="Medium" style={styles.bottomButtonText}>
-                          Assisted Services
+                          Call
                         </Text>
                       </TouchableOpacity>
-                    )}
-                  </View>
-                </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => this.startChatWithSeller(item)}
+                        style={[styles.bottomButton, { marginHorizontal: 1 }]}
+                      >
+                        <Icon
+                          name="ios-chatbubbles-outline"
+                          style={styles.bottomButtonIcon}
+                          color={colors.pinkishOrange}
+                        />
+                        <Text weight="Medium" style={styles.bottomButtonText}>
+                          Chat
+                        </Text>
+                      </TouchableOpacity>
+                      {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.props.navigation.navigate(
+                              SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN,
+                              { seller: item }
+                            )
+                          }
+                          style={styles.bottomButton}
+                        >
+                          <Icon
+                            name="ios-construct-outline"
+                            style={styles.bottomButtonIcon}
+                            color={colors.pinkishOrange}
+                          />
+                          <Text weight="Medium" style={styles.bottomButtonText}>
+                            Assisted Services
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  </TouchableOpacity>
                 );
               }}
             />

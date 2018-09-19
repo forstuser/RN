@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
 
+import { API_BASE_URL } from "../../api";
+
 import { Text } from "../../elements";
 import { defaultStyles } from "../../theme";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -26,7 +28,14 @@ class SingleSeller extends Component {
           onPress={() => this.props.onSellerPressed(seller)}
         >
           <View style={[styles.box, styles.box1]}>
-            <Image style={styles.imageIcon1} source={require("./icon.png")} />
+            <Image
+              style={styles.imageIcon1}
+              source={{
+                uri:
+                  API_BASE_URL +
+                  `/consumer/sellers/${seller.id}/upload/1/images/0`
+              }}
+            />
           </View>
           <View style={[styles.box, styles.box2]}>
             <Text weight="Bold" style={styles.info}>
@@ -76,6 +85,7 @@ const styles = {
   imageIcon1: {
     height: 80,
     width: 80,
+    borderRadius: 40,
     marginLeft: 10,
     marginTop: 10
   },

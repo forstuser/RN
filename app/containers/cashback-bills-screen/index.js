@@ -44,10 +44,10 @@ export default class CashbackBillsScreen extends React.Component {
 
   render() {
     const { transactions, isLoading, error } = this.state;
-    
-    const itemId = this.props.navigation.getParam('OrderID', 'NO_ID');
-    console.log('itemId: ', itemId);
-    
+
+    const itemId = this.props.navigation.getParam("OrderID", "NO_ID");
+    console.log("itemId: ", itemId);
+
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <FlatList
@@ -91,60 +91,78 @@ export default class CashbackBillsScreen extends React.Component {
             }
 
             console.log(statusColor);
-            
-            if(item.id == itemId) {
+
+            if (item.id == itemId) {
               this.cashbackDispersedModal.show(item);
             }
 
-            let pointsEarned =  null;
+            let pointsEarned = null;
             let pointsRedeemed = null;
-            let creditsAdded =  null;
-            let creditsSettled = null; 
+            let creditsAdded = null;
+            let creditsSettled = null;
             let cashbackEarned = null;
-            let expectedCashback = null
-            
-            if(item.total_loyalty > 0) {
-              pointsEarned = <Text style={{ fontSize: 14, marginVertical: 5, marginTop: 0 }}>
-                Points Earned :
-                <Text weight="Bold">{` ` + item.total_loyalty}</Text>
-              </Text>;
+            let expectedCashback = null;
+
+            if (item.total_loyalty > 0) {
+              pointsEarned = (
+                <Text style={{ fontSize: 14, marginVertical: 5, marginTop: 0 }}>
+                  Points Earned :
+                  <Text weight="Bold">{` ` + item.total_loyalty}</Text>
+                </Text>
+              );
             }
 
-            if(item.redeemed_loyalty > 0) {
-              pointsRedeemed = <Text style={{ fontSize: 14, marginVertical: 5, marginTop: -5 }}>
-                Points Redeemed :
-                <Text weight="Bold">{` ` + item.redeemed_loyalty}</Text>
-              </Text>;
+            if (item.redeemed_loyalty > 0) {
+              pointsRedeemed = (
+                <Text
+                  style={{ fontSize: 14, marginVertical: 5, marginTop: -5 }}
+                >
+                  Points Redeemed :
+                  <Text weight="Bold">{` ` + item.redeemed_loyalty}</Text>
+                </Text>
+              );
             }
 
-            if(item.total_credits > 0) {
-              creditsAdded = <Text style={{ fontSize: 14, marginVertical: 5, marginTop: -5 }}>
-                Credits Earned :
-                <Text weight="Bold">{` ` + item.total_credits}</Text>
-              </Text>;
+            if (item.total_credits > 0) {
+              creditsAdded = (
+                <Text
+                  style={{ fontSize: 14, marginVertical: 5, marginTop: -5 }}
+                >
+                  Credits Earned :
+                  <Text weight="Bold">{` ` + item.total_credits}</Text>
+                </Text>
+              );
             }
 
-            if(item.redeemed_credits > 0) {
-              creditsSettled = <Text style={{ fontSize: 14, marginVertical: 5, marginTop: -5 }}>
-                Credits Settled :
-                <Text weight="Bold">{` ` + item.redeemed_credits}</Text>
-              </Text>;
+            if (item.redeemed_credits > 0) {
+              creditsSettled = (
+                <Text
+                  style={{ fontSize: 14, marginVertical: 5, marginTop: -5 }}
+                >
+                  Credits Settled :
+                  <Text weight="Bold">{` ` + item.redeemed_credits}</Text>
+                </Text>
+              );
             }
 
-            if(item.total_cashback > 0) {
-              cashbackEarned = <Text style={{ fontSize: 14, marginTop: -5 }}>
-                Cashback Earned :
-                <Text weight="Bold">{` ` + item.total_cashback}</Text>
-              </Text>;
+            if (item.total_cashback > 0) {
+              cashbackEarned = (
+                <Text style={{ fontSize: 14, marginTop: -5 }}>
+                  Cashback Earned :
+                  <Text weight="Bold">{` ` + item.total_cashback}</Text>
+                </Text>
+              );
             }
 
-            if(item.pending_cashback > 0) {
-              expectedCashback = <Text style={{ fontSize: 14, marginTop: -5 }}>
-                Expected Cashback :
-                <Text weight="Bold">{` ` + item.pending_cashback}</Text>
-              </Text>;
+            if (item.pending_cashback > 0) {
+              expectedCashback = (
+                <Text style={{ fontSize: 14, marginTop: -5 }}>
+                  Expected Cashback :
+                  <Text weight="Bold">{` ` + item.pending_cashback}</Text>
+                </Text>
+              );
             }
-            
+
             return (
               <TouchableOpacity
                 onPress={() => this.cashbackDispersedModal.show(item)}
@@ -179,7 +197,9 @@ export default class CashbackBillsScreen extends React.Component {
                       {` ` + item.id}
                     </Text>
                   </Text>
-                  <Text style={{ fontSize: 14, marginVertical: 5, marginTop: -1 }}>
+                  <Text
+                    style={{ fontSize: 14, marginVertical: 5, marginTop: -1 }}
+                  >
                     Price :<Text weight="Bold">{` ` + item.amount_paid}</Text>
                   </Text>
                   {cashbackEarned}
@@ -195,7 +215,8 @@ export default class CashbackBillsScreen extends React.Component {
                         style={{
                           marginTop: 10,
                           marginBottom: 5,
-                          flexDirection: "row"
+                          flexDirection: "row",
+                          alignItems: "center"
                         }}
                       >
                         <Icon
@@ -226,7 +247,7 @@ export default class CashbackBillsScreen extends React.Component {
                   {pointsEarned}
                   {pointsRedeemed}
                   {creditsAdded}
-                  {creditsSettled}  
+                  {creditsSettled}
                   <TouchableOpacity
                     onPress={() => {
                       this.statusModal.show(item);
@@ -247,7 +268,11 @@ export default class CashbackBillsScreen extends React.Component {
                     >
                       {statusText}
                     </Text>
-                    <Icon name="md-information-circle" size={13} />
+                    <Icon
+                      name="md-information-circle"
+                      size={15}
+                      style={{ marginTop: 4 }}
+                    />
                   </TouchableOpacity>
                 </View>
               </TouchableOpacity>
