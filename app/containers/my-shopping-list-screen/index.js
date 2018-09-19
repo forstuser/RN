@@ -100,6 +100,10 @@ class MyShoppingList extends React.Component {
   //   }
   // };
 
+  shareWithWhatsapp = () => {
+    //alert('Whatsapp');
+  };
+
   selectSellerForOrder = seller => {
     this.setState({
       isLoadingMySellers: true

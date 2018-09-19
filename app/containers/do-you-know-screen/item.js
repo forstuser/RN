@@ -66,6 +66,7 @@ export default class Item extends React.Component {
       }
     }
   };
+  
   render() {
     const { item, onLikePress } = this.props;
     if (item) {
