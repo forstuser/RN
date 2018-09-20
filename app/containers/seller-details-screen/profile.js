@@ -11,6 +11,7 @@ import StarRating from "react-native-star-rating";
 import call from "react-native-phone-call";
 import getDirections from "react-native-google-maps-directions";
 import { connect } from "react-redux";
+import moment from 'moment';
 
 import { API_BASE_URL } from "../../api";
 
@@ -161,33 +162,108 @@ class SellerProfileTab extends React.Component {
       API_BASE_URL + `/consumer/sellers/${seller.id}/upload/1/images/0`;
 
     console.log("coverImageUri: ", coverImageUri);
-
+    
     const thisUserReview = seller.reviews.find(
       review => this.props.userId == review.user.id
     );
 
     return (
       <ScrollView contentContainerStyle={{ alignItems: "center" }}>
-        <View
-          style={{
-            width: "100%",
-            height: 130,
-            borderBottomColor: "#eee",
-            borderBottomWidth: 1
-          }}
-        >
-          <Image
+        <Image
             style={{
-              width: "100%",
-              height: "100%"
+              zIndex: 2,
+              width: 110,
+              height: 120,
+              position: 'absolute',
+              top: 30,
+              left: 20
             }}
             source={{
               uri: coverImageUri
             }}
           />
-        </View>
-
         <View
+          style={{
+            width: "100%",
+            height: 130,
+            backgroundColor: '#1a2036',
+            borderBottomColor: "#eee",
+            borderBottomWidth: 1
+          }}
+        >
+          {/* <Image
+            style={{
+              width: 120,
+              height: 120,
+              position: 'absolute',
+              top: 30,
+              left: 20
+            }}
+            source={{
+              uri: coverImageUri
+            }}
+          /> */}
+            <View style={{ position: 'absolute', top: 35, left: 150 }}>
+              <View style={{ flexDirection: 'row' }}>
+                <Text weight="Medium" style={{ fontSize: 13.5, color: '#fff' }}>
+                  {seller.name}
+                </Text>
+                <View
+                  style={{
+                    marginTop: 5,
+                    marginLeft: 5,
+                    width: 16,
+                    height: 16,
+                    borderRadius: 8,
+                    backgroundColor: seller.is_onboarded
+                      ? colors.success
+                      : colors.danger,
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Icon
+                    name={seller.is_onboarded ? "md-checkmark" : "md-remove"}
+                    color="#fff"
+                    size={12}
+                  />
+                </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "baseline",
+                  marginTop: 5
+                }}
+              >
+                <StarRating
+                  starColor={colors.yellow}
+                  disabled={true}
+                  maxStars={5}
+                  rating={Number(3.5)}
+                  halfStarEnabled={true}
+                  starSize={11}
+                  starStyle={{ marginHorizontal: 0 }}
+                />
+                <Text
+                  weight="Medium"
+                  style={{
+                    fontSize: 10,
+                    marginLeft: 2,
+                    color: colors.secondaryText
+                  }}
+                >
+                  ({seller.ratings})
+                </Text>
+              </View>
+              <Text style={{ fontSize: 9, marginTop: 5, color: '#fff' }}>
+                {seller.address}
+              </Text>
+            </View>
+          </View>
+          
+
+        {/* <View
           style={{
             flexDirection: "row",
             alignItems: "baseline",
@@ -213,8 +289,8 @@ class SellerProfileTab extends React.Component {
           >
             ({seller.ratings})
           </Text>
-        </View>
-        <View
+        </View> */}
+        {/* <View
           style={{
             flexDirection: "row",
             alignItems: "center",
@@ -245,10 +321,10 @@ class SellerProfileTab extends React.Component {
               size={12}
             />
           </View>
-        </View>
-        <Text style={{ fontSize: 9, marginTop: 5, textAlign: "center" }}>
+        </View> */}
+        {/* <Text style={{ fontSize: 9, marginTop: 5, textAlign: "center" }}>
           {seller.address}
-        </Text>
+        </Text> */}
         {/* <View
           style={{
             width: 200,
@@ -264,7 +340,7 @@ class SellerProfileTab extends React.Component {
             {seller.owner_name}
           </Text>
         </View> */}
-        {basicDetails.shop_open_day && (
+        {/* {basicDetails.shop_open_day && (
           <View
             style={{
               width: 200,
@@ -283,8 +359,8 @@ class SellerProfileTab extends React.Component {
                 basicDetails.start_time + ' - ' + basicDetails.close_time}
             </Text>
           </View>
-        )}
-        <View style={{ flexDirection: "row", width: 180, paddingTop: 10 }}>
+        )} */}
+        <View style={{ flexDirection: "row", width: 180, height: 60, paddingTop: 10 }}>
           <TouchableOpacity onPress={this.call} style={[styles.button]}>
             <Icon
               name="ios-call-outline"
@@ -354,7 +430,7 @@ class SellerProfileTab extends React.Component {
               paddingHorizontal: 20
             }}
           >
-            {/* <KeyValue keyText="Connected Since" valueText="May 2018" /> */}
+            <KeyValue keyText="Connected Since" valueText={moment(seller.state.created_at).format("MMM YYYY")} />
             <KeyValue
               keyText="Store Contact No"
               valueText={seller.contact_no}
@@ -393,7 +469,8 @@ class SellerProfileTab extends React.Component {
             width: 120,
             height: 28,
             alignSelf: "flex-end",
-            marginRight: 10
+            marginRight: 10,
+            marginTop: 5
           }}
           textStyle={{ fontSize: 11.5 }}
         />
@@ -446,11 +523,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   buttonIcon: {
-    fontSize: 18,
+    fontSize: 22,
     marginRight: 5
   },
   buttonText: {
-    fontSize: 9,
+    fontSize: 12,
     color: colors.pinkishOrange
   }
 });
