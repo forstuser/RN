@@ -81,7 +81,7 @@ class MyShoppingList extends React.Component {
     //this.setState({ isShareModalVisible: true });
     //console.log('Wishlist', this.state.wishList);
     this.setState({ showPlusMinusDelete: true });
-    if(await requestStoragePermission()) {
+    if (await requestStoragePermission()) {
       const filePath = RNFetchBlob.fs.dirs.DCIMDir + `/fact.jpg`;
 
       captureRef(this.viewToShare, {
@@ -99,21 +99,19 @@ class MyShoppingList extends React.Component {
             url: `file://${filePath}`,
             message: `Powered by BinBill`
           });
-          
         })
         .catch(error => console.error("Oops, snapshot failed", error));
     }
-    
   };
 
   getMySellers = async () => {
     this.setState({
       isLoadingMySellers: true,
-      isShareModalVisible: false,
+      isShareModalVisible: false
       //isMySellersModalVisible: true
     });
     try {
-      const res = await getMySellers({isFmcg:true});
+      const res = await getMySellers({ isFmcg: true });
       this.setState({ sellers: res.result });
     } catch (error) {
       this.setState({ error });
@@ -217,15 +215,15 @@ class MyShoppingList extends React.Component {
         ) : (
           <View
             ref={ref => (this.viewToShare = ref)}
-            style={{ flex: 1, backgroundColor: '#fff'}}
+            style={{ flex: 1, backgroundColor: "#fff" }}
           >
-          <SelectedItemsList
-            show={this.state.showPlusMinusDelete}
-            measurementTypes={measurementTypes}
-            selectedItems={wishList}
-            skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
-            changeIndexQuantity={this.changeIndexQuantity}
-          />
+            <SelectedItemsList
+              show={this.state.showPlusMinusDelete}
+              measurementTypes={measurementTypes}
+              selectedItems={wishList}
+              skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
+              changeIndexQuantity={this.changeIndexQuantity}
+            />
           </View>
         )}
         <Modal
@@ -639,13 +637,20 @@ class MyShoppingList extends React.Component {
             />
           </View>
         </Modal>
-        {this.state.sellers.length > 0 && this.state.wishlist !== [] ? (<Button
-          onPress={this.props.navigation.state.params.onSharePress}
-          text="Place Order"
-          color="secondary"
-          style={{ height: 50, width: 250, alignSelf: 'center', marginBottom: 15 }}
-          textStyle={{ fontSize: 18 }}
-        />) : null}
+        {this.state.sellers.length > 0 && wishList.length > 0 ? (
+          <Button
+            onPress={this.props.navigation.state.params.onSharePress}
+            text="Place Order"
+            color="secondary"
+            style={{
+              height: 50,
+              width: 250,
+              alignSelf: "center",
+              marginBottom: 15
+            }}
+            textStyle={{ fontSize: 18 }}
+          />
+        ) : null}
       </View>
     );
   }

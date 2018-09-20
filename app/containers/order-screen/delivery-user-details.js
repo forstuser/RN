@@ -24,11 +24,14 @@ export default class DeliveryUserDetails extends React.Component {
   render() {
     let { deliveryUser = {}, orderType } = this.props;
 
-    const hourlyPriceItem = deliveryUser.service_type.price.find(
-      p => p.price_type == SERVICE_PRICE_TYPES.HOURLY_PRICE
-    );
+    let hourlyPrice = 0;
+    if (orderType == ORDER_TYPES.ASSISTED_SERVICE) {
+      const hourlyPriceItem = deliveryUser.service_type.price.find(
+        p => p.price_type == SERVICE_PRICE_TYPES.HOURLY_PRICE
+      );
 
-    let hourlyPrice = hourlyPriceItem ? hourlyPriceItem.value : 0;
+      hourlyPrice = hourlyPriceItem ? hourlyPriceItem.value : 0;
+    }
 
     return (
       <View style={{}}>
