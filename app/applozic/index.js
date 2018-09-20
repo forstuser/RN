@@ -28,7 +28,7 @@ export const loginToApplozic = ({ id, name }) => {
   });
 };
 
-export const openChatWithSeller = ({ id, name }) => {
+export const openChatWithSeller = ({ id }) => {
   return ApplozicChat.openChatWithUser("seller_" + id);
 };
 
