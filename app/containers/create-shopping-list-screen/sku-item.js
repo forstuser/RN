@@ -124,25 +124,32 @@ export default class SkuItem extends React.Component {
         <View style={{ flexDirection: "row" }}>
           <Text
             weight="Medium"
-            style={{ fontSize: 10, flex: 1, marginRight: 10 }}
+            style={{ fontSize: 12, flex: 1, marginRight: 10 }}
           >
             {item.title}
           </Text>
           {itemsInWishList.length > 0 ? (
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                height: 15
+              }}
+            >
               <View
                 style={{
                   width: 6,
                   height: 6,
                   borderRadius: 3,
-                  backgroundColor: colors.success,
+                  backgroundColor: "#33c600",
                   marginTop: 2
                 }}
               />
               <Text
+                weight="Medium"
                 style={{
                   fontSize: 10,
-                  color: colors.success,
+                  color: "#33c600",
                   marginLeft: 3
                 }}
               >
@@ -177,7 +184,7 @@ export default class SkuItem extends React.Component {
                       borderColor: colors.pinkishOrange,
                       borderWidth: 1,
                       borderRadius: 10,
-                      minWidth: 50,
+                      paddingHorizontal: 7,
                       alignItems: "center",
                       justifyContent: "center",
                       marginRight: 5,

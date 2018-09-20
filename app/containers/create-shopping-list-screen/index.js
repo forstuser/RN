@@ -141,8 +141,9 @@ class ShoppingListScreen extends React.Component {
   updateStateCategoryId = categoryId => {
     const selectedCategoryIds = [...this.state.selectedCategoryIds];
     const idx = selectedCategoryIds.findIndex(
-      category => category.id == categoryId
+      categoryItemId => categoryItemId == categoryId
     );
+
     if (idx > -1) {
       selectedCategoryIds.splice(idx, 1);
     } else {

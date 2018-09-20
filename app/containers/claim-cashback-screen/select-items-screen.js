@@ -491,7 +491,8 @@ export default class SelectCashbackItems extends React.Component {
             marginTop: 0,
             borderTopColor: "#eee",
             borderTopWidth: 1,
-            elevation: 3
+            elevation: 3,
+            backgroundColor: "#fff"
           }}
         >
           <TouchableOpacity
