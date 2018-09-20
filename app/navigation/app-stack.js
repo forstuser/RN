@@ -90,7 +90,6 @@ import AddressScreen from "../containers/address-screen";
 //import ActiveOrdersScreen from "../containers/active-orders-screen";
 //import AddressScreen from "../containers/address-screen";
 import MyOrdersScreen from "../containers/my-orders-screen";
-import AssistedServicesOrderScreen from "../containers/assisted-service-order-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {

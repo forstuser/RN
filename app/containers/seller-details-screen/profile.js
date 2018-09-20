@@ -37,10 +37,10 @@ const KeyValue = ({ keyText, valueText, ValueComponent }) => (
     {ValueComponent ? (
       <ValueComponent />
     ) : (
-      <Text weight="Medium" style={{ fontSize: 9, marginLeft: 20 }}>
-        {valueText}
-      </Text>
-    )}
+        <Text weight="Medium" style={{ fontSize: 9, marginLeft: 20 }}>
+          {valueText}
+        </Text>
+      )}
   </View>
 );
 
@@ -68,10 +68,10 @@ const Review = ({ imageUrl, name, ratings, reviewText }) => (
           source={{ uri: imageUrl }}
         />
       ) : (
-        <View>
-          <Icon name="md-contact" size={43} color={colors.secondaryText} />
-        </View>
-      )}
+          <View>
+            <Icon name="md-contact" size={43} color={colors.secondaryText} />
+          </View>
+        )}
     </View>
     <View style={{ flex: 1 }}>
       <Text weight="Medium" style={{ fontSize: 9, marginTop: 5 }}>
@@ -139,6 +139,7 @@ class SellerProfileTab extends React.Component {
 
   render() {
     const { seller, paymentModes, reloadSellerDetails } = this.props;
+    console.log("seller is :", seller)
     const sellerDetails = seller.seller_details || {};
     const basicDetails = sellerDetails.basic_details || {};
 
@@ -279,7 +280,7 @@ class SellerProfileTab extends React.Component {
                 .map(day => weekDays[day])
                 .join(" ") +
                 `        ` +
-                basicDetails.shop_open_timings}
+                basicDetails.start_time + ' - ' + basicDetails.close_time}
             </Text>
           </View>
         )}
@@ -318,7 +319,7 @@ class SellerProfileTab extends React.Component {
               paddingHorizontal: 20
             }}
           >
-            <KeyValue keyText="No. of Transactions" valueText="" />
+            <KeyValue keyText="No. of Transactions" valueText={seller.transaction_counts} />
             <KeyValue keyText="Credit" valueText={seller.credit_total} />
             <KeyValue keyText="Points" valueText={seller.loyalty_total} />
           </View>

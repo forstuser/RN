@@ -367,8 +367,9 @@ export default class OrderScreen extends React.Component {
     let totalAmount = 0;
 
     if (order) {
+      console.log("order is ", order)
       totalAmount = order.order_details.reduce((total, item) => {
-        return item.selling_price ? total + item.selling_price : total;
+        return item.selling_price ? total + Number(item.selling_price) : total;
       }, 0);
     }
 
@@ -464,7 +465,8 @@ export default class OrderScreen extends React.Component {
                   <View
                     style={{
                       flexDirection: "row",
-                      justifyContent: "space-between"
+                      justifyContent: "space-between",
+                      marginHorizontal: 7
                     }}
                   >
                     <Text
@@ -521,7 +523,7 @@ export default class OrderScreen extends React.Component {
                         borderTopWidth: 1,
                         borderBottomWidth: 1,
                         borderColor: "#eee",
-                        marginHorizontal: 10,
+                        marginHorizontal: 20,
                         alignItems: "center"
                       }}
                     >
