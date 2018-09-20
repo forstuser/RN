@@ -86,6 +86,12 @@ export default class MySellersScreen extends React.Component {
     }
   };
 
+  searchFilter = searchTerm => {
+    //console.log('Search Term: ', searchTerm);
+    this.setState({ searchTerm, isSearchDone: false });
+    //this.getSellers();
+  };
+
   render() {
     const { navigation } = this.props;
     const {
@@ -120,9 +126,8 @@ export default class MySellersScreen extends React.Component {
             }}
             value={searchTerm}
             placeholder="Search Seller by mobile number"
-            onChangeText={searchTerm =>
-              this.setState({ searchTerm, isSearchDone: false })
-            }
+            //onChangeText={searchTerm => this.setState({ searchTerm, isSearchDone: false })}
+            onChangeText={searchTerm => this.searchFilter(searchTerm)}
             returnKeyType="search"
             onSubmitEditing={this.getSellers}
             underlineColorAndroid="transparent"
