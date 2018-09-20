@@ -143,7 +143,7 @@ class SellerProfileTab extends React.Component {
     const sellerDetails = seller.seller_details || {};
     const basicDetails = sellerDetails.basic_details || {};
 
-    const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+    const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     const availablePaymentModesIds = basicDetails.payment_modes
       ? basicDetails.payment_modes.split(",")
@@ -309,6 +309,25 @@ class SellerProfileTab extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>
+        
+        <View style={{ width: "100%" }}>
+          <View
+            style={{
+              ...defaultStyles.card,
+              margin: 10,
+              borderRadius: 10,
+              paddingVertical: 5,
+              paddingHorizontal: 20
+            }}
+          >
+            <KeyValue keyText="Opening Days" valueText={basicDetails.shop_open_day
+                .split(",")
+                .map(day => weekDays[day])
+                .join(" ")} />
+            <KeyValue keyText="Shop Timing" valueText={basicDetails.start_time + ' - ' + basicDetails.close_time} />
+          </View>
+        </View>
+
         <View style={{ width: "100%" }}>
           <View
             style={{
@@ -324,6 +343,7 @@ class SellerProfileTab extends React.Component {
             <KeyValue keyText="Points" valueText={seller.loyalty_total} />
           </View>
         </View>
+
         <View style={{ width: "100%" }}>
           <View
             style={{

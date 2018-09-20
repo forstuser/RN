@@ -176,19 +176,20 @@ const styles = {
     },
     box: {
         flex: 1,
-        padding: 20
+        //padding: 20
     },
     box1: {
         flex: 3,
         //justifyContent: 'center',
-        //alignItems: 'center',
-        marginTop: 20    
+        //alignItems: 'center',    
     },
     box2: {
-        flex: 6
+        flex: 6,
+        padding: 20
     },
     box3: {
         flex: 1,
+        padding: 20
     },
     input: {
         paddingLeft: 10,

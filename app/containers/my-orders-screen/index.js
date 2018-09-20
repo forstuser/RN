@@ -51,59 +51,67 @@ export default class OrdersList extends React.Component {
   render() {
     const { isLoading, error, orders } = this.state;
     return (
-      <FlatList
-        data={orders}
-        refreshing={isLoading}
-        onRefresh={this.loadOrders}
-        keyExtractor={item => item.id}
-        renderItem={this.renderOrders}
-        ListEmptyComponent={() => (
-          <View
-          style={{
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: 50
-          }}
-        >
-          <View
+      <View style={{ flex: 1 }}>
+        <FlatList
+        contentContainerStyle={[
+          { flexGrow: 1, backgroundColor: '#fff' },
+          orders.length ? null : { justifyContent: "center" }
+        ]}
+          data={orders}
+          refreshing={isLoading}
+          onRefresh={this.loadOrders}
+          keyExtractor={item => item.id}
+          renderItem={this.renderOrders}
+          ListEmptyComponent={() => (
+            <View
             style={{
+              flex: 1,
               alignItems: "center",
-              justifyContent: "center"
+              justifyContent: "center", 
+              backgroundColor: '#fff'
             }}
           >
             <View
               style={{
-                width: 100,
-                height: 100,
-                borderRadius: 50,
-                backgroundColor: "#EAF6FC"
+                alignItems: "center",
+                justifyContent: "center"
               }}
-            />
+            >
+              <View
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 50,
+                  backgroundColor: "#EAF6FC"
+                }}
+              />
 
-            <Image
-              style={{ width: 80, height: 90, marginTop: -90 }}
-              source={require("../../images/bell.png")}
-              resizeMode="contain"
+              <Image
+                style={{ width: 80, height: 90, marginTop: -90 }}
+                source={require("../../images/bell.png")}
+                resizeMode="contain"
+              />
+            </View>
+            <Text
+              weight="Bold"
+              style={{ fontSize: 18, color: "#c2c2c2", marginTop: 10 }}
+            >
+              You don't have any orders right now
+            </Text>
+            <Button
+              style={{ height: 40, width: 150, marginTop: 30 }}
+              text="SHOP NOW"
+              onPress={() => this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN)}
+              color="secondary"
+              textStyle={{ fontSize: 16 }}
             />
           </View>
-          <Text
-            weight="Bold"
-            style={{ fontSize: 18, color: "#c2c2c2", marginTop: 10 }}
-          >
-            You don't have any orders right now
-          </Text>
-          <Button
-            style={{ height: 40, width: 150, marginTop: 30 }}
-            text="SHOP NOW"
-            onPress={() => this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN)}
-            color="secondary"
-            textStyle={{ fontSize: 16 }}
-          />
-        </View>
           
-        )}
-      />
+            
+          )}
+        />
+      </View>
+      
       // renderItem={({ item, index }) => (
       //   <TouchableOpacity
       //     style={{ ...defaultStyles.card, height: 80, margin: 10 }}
