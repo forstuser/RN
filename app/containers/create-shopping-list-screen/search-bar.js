@@ -273,7 +273,7 @@ export default class SearchBar extends React.Component {
           activeMainCategory.categories &&
           activeMainCategory.categories.length > 0 &&
           !searchTerm && (
-            <View style={{ height: 34, paddingHorizontal: 5 }}>
+            <View style={{ height: 34, paddingHorizontal: 5, marginBottom: 7 }}>
               <ScrollView
                 horizontal
                 style={{}}
@@ -305,6 +305,7 @@ export default class SearchBar extends React.Component {
                     <Text
                       weight="Medium"
                       style={{
+                        marginTop: -2,
                         fontSize: 12,
                         color: selectedCategoryIds.includes(category.id)
                           ? "#fff"
@@ -323,7 +324,9 @@ export default class SearchBar extends React.Component {
         <View
           style={{
             flex: 1,
-            flexDirection: "row"
+            flexDirection: "row",
+            borderTopColor: colors.lightBlue,
+            borderTopWidth: 2
           }}
         >
           {mainCategories.length > 0 && !searchTerm ? (
@@ -354,10 +357,10 @@ export default class SearchBar extends React.Component {
                   >
                     <Text
                       weight="Medium"
-                      style={{ fontSize: 10 }}
+                      style={{ fontSize: 12 }}
                       numberOfLines={2}
                     >
-                      {item.title}
+                      {item.title.toUpperCase()}
                     </Text>
                   </TouchableOpacity>
                 )}
@@ -369,6 +372,7 @@ export default class SearchBar extends React.Component {
 
           <View style={{ flex: 2, height: "100%" }}>
             <FlatList
+              style={{ marginTop: 4 }}
               data={filteredItems}
               renderItem={({ item }) => (
                 <SkuItem
