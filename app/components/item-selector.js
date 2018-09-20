@@ -167,7 +167,7 @@ class ItemSelector extends React.Component {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 95,
+    height: 125,
     alignItems: "center",
     borderBottomColor: colors.lighterText,
     borderBottomWidth: 1
