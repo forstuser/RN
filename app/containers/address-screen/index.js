@@ -175,6 +175,8 @@ class AddressScreen extends Component {
                 const res = await placeOrder({
                     sellerId: this.props.navigation.getParam('sellerId'),
                     orderType: this.props.navigation.getParam('orderType'),
+                    serviceName: this.props.navigation.getParam('serviceName'),
+                    serviceTypeId: this.props.navigation.getParam('serviceTypeId'),
                     addressId: this.state.addresses[this.state.selectedIndex].id
                 });
                 this.props.navigation.replace(SCREENS.ORDER_SCREEN, {
