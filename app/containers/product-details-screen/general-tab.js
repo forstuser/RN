@@ -154,8 +154,8 @@ class GeneralTab extends Component {
             valueText={product.brand.name}
           />
         ) : (
-          <View collapsable={false}  />
-        )}
+            <View collapsable={false} />
+          )}
         {product.model ? (
           <KeyValueItem
             keyText={I18n.t("product_details_screen_model")}
@@ -179,14 +179,14 @@ class GeneralTab extends Component {
         ))}
 
         {false ? (
-          <View collapsable={false}  style={styles.review}>
+          <View collapsable={false} style={styles.review}>
             <LoadingOverlay visible={this.state.isAddingReview} />
             <SectionHeading
               text={I18n.t("product_details_screen_review_product")}
             />
-            <View collapsable={false}  style={styles.reviewInner}>
-              <View collapsable={false}  style={styles.reviewHeader}>
-                <View collapsable={false}  style={styles.starsWrapper}>
+            <View collapsable={false} style={styles.reviewInner}>
+              <View collapsable={false} style={styles.reviewHeader}>
+                <View collapsable={false} style={styles.starsWrapper}>
                   <StarRating
                     starColor="#FFA909"
                     disabled={false}
@@ -205,7 +205,7 @@ class GeneralTab extends Component {
                 style={styles.reviewInput}
                 multiline={true}
               />
-              <View collapsable={false}  style={styles.reviewFooter}>
+              <View collapsable={false} style={styles.reviewFooter}>
                 <Button
                   onPress={this.onSubmitReview}
                   style={styles.reviewSubmitBtn}
@@ -217,16 +217,16 @@ class GeneralTab extends Component {
             </View>
           </View>
         ) : (
-          <View collapsable={false}  />
-        )}
+            <View collapsable={false} />
+          )}
         {false ? (
-          <View collapsable={false}  style={styles.editReview}>
+          <View collapsable={false} style={styles.editReview}>
             <SectionHeading
               text={I18n.t("product_details_screen_your_review")}
             />
-            <View collapsable={false}  style={styles.reviewInner}>
-              <View collapsable={false}  style={styles.reviewHeader}>
-                <View collapsable={false}  style={styles.starsWrapper}>
+            <View collapsable={false} style={styles.reviewInner}>
+              <View collapsable={false} style={styles.reviewHeader}>
+                <View collapsable={false} style={styles.starsWrapper}>
                   <StarRating
                     disabled={true}
                     starColor="#FFA909"
@@ -240,7 +240,7 @@ class GeneralTab extends Component {
               <Text weight="Bold" style={styles.reviewText}>
                 {this.state.reviewInput}
               </Text>
-              <View collapsable={false}  style={styles.reviewFooter}>
+              <View collapsable={false} style={styles.reviewFooter}>
                 <Button
                   onPress={this.onEditReviewClick}
                   style={styles.reviewSubmitBtn}
@@ -252,8 +252,8 @@ class GeneralTab extends Component {
             </View>
           </View>
         ) : (
-          <View collapsable={false}  />
-        )}
+            <View collapsable={false} />
+          )}
       </View>
     );
   }

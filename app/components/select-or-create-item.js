@@ -269,12 +269,15 @@ class SelectOrCreateItem extends Component {
                   return null;
                 }
                 return (
-                  <TouchableOpacity
-                    style={styles.item}
-                    onPress={this.showAddNew}
-                  >
-                    <Text style={styles.addNewBtnText}>Add New</Text>
-                  </TouchableOpacity>
+                  <View>
+                    <Text style={styles.noResultText}>No result found</Text>
+                    <TouchableOpacity
+                      style={styles.item}
+                      onPress={this.showAddNew}
+                    >
+                      <Text style={styles.addNewBtnText}>Add New</Text>
+                    </TouchableOpacity>
+                  </View>
                 );
               }}
             />
@@ -319,6 +322,15 @@ class SelectOrCreateItem extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  noResultText: {
+    fontSize: 18,
+    color: "#bcbcbc",
+    alignSelf: 'center',
+  },
+  addNewBtnText: {
+    fontWeight: "bold",
+    color: "#009ee5"
   },
   header: {
     height: 40,
