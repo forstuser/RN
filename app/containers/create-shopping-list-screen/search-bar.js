@@ -108,7 +108,8 @@ export default class SearchBar extends React.Component {
       updateItem,
       openAddManualItemModal,
       addManualItemsToList = () => null,
-      hideAddManually = false
+      hideAddManually = false,
+      sellers
     } = this.props;
 
     const { isBrandsPopupVisible, checkedBrands } = this.state;
@@ -525,6 +526,7 @@ export default class SearchBar extends React.Component {
             this.filterModal = node;
           }}
           brands={brands}
+          sellers={sellers}
           wishList={wishList}
           checkedBrandIds={checkedBrandIds}
           toggleBrandSelection={this.toggleBrandSelection}

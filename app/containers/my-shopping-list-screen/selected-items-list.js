@@ -130,7 +130,7 @@ export default class SelectedItemsList extends React.Component {
                           color: colors.mainBlue
                         }}
                       >
-                        Cashback Upto ₹ {cashback}
+                        Cashback Up to ₹ {cashback}
                       </Text>
                     ) : (
                       <View />

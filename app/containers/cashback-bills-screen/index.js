@@ -13,7 +13,7 @@ import CashbackDispersedModal from "./cashback-dispersed-modal";
 
 export default class CashbackBillsScreen extends React.Component {
   static navigationOptions = {
-    title: "Cashback Bills"
+    title: "Cashback Claims"
   };
 
   state = {
@@ -84,7 +84,7 @@ export default class CashbackBillsScreen extends React.Component {
               statusText = "Pending Approval";
             } else if (item.is_underprogress) {
               statusColor = colors.pinkishOrange;
-              statusText = "Under Progress";
+              statusText = "In Progress";
             } else if (item.is_rejected) {
               statusColor = "red";
               statusText = "Rejected";

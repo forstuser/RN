@@ -318,7 +318,7 @@ class DashboardScreen extends React.Component {
             { ref: this.comingUpRef, text: I18n.t("coming_up_tip") },
             { ref: this.insightsRef, text: I18n.t("insights_tip") }
             //{ ref: this.calendarRef, text: I18n.t("attendance_tip") }
-            // { ref: this.ascRef, text: I18n.t("asc_tip") }
+            //{ ref: this.ascRef, text: I18n.t("asc_tip") }
           ]}
         />
       </ScreenContainer>

@@ -37,7 +37,7 @@ export default class ClaimCashback extends React.Component {
       "Bill should be clear & readable",
       "One Bill in one Click",
       "Use + Sign to capture a longer Bill",
-      "Capture Bill inside Red Box"
+      "Ensure the Bill is inside the frame"
     ];
     return (
       <View style={{ flex: 1 }}>

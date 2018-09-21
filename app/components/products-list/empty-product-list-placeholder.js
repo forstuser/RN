@@ -21,17 +21,17 @@ class AddEmptyProductScreen extends Component {
 
   render() {
     const { type } = this.props;
-    let msg = "You have not added any products as now.Please add products.";
+    let msg = "Add your Products to your eHome for easy access of Product information and to receive timely alerts";
     let btnText = 'Add Product';
     let imageIcon = emptyProducts;
     let screenType = PRODUCT_TYPES.PRODUCT;
     if (type == PRODUCT_TYPES.EXPENSE) {
-      msg = "You have not added any expenses as now.Please add Expense.";
+      msg = "Add your Expenses here for easy tracking";
       btnText = 'Add Expense';
       imageIcon = emptyExpenses;
       screenType = PRODUCT_TYPES.EXPENSE;
     } else if (type == PRODUCT_TYPES.DOCUMENT) {
-      msg = "You have not added any documents as now.Please add documents.";
+      msg = "Save your Documents in your eHome for easy access";
       btnText = 'Add Documents';
       imageIcon = emptyDocs;
       screenType = PRODUCT_TYPES.DOCUMENT;

@@ -23,7 +23,7 @@ export default ({
     }
   ];
   const terms = [
-    "Cashback Offers valid only on FMCG items",
+    "Additional Cashback valid only on FMCG items",
     "Bill to be uploaded on same date as Purchase Date",
     "Purchase Date, Total Amt. & Bill No. details are mandatory",
     "Items in the bill must have clear identification for Brand & Product",

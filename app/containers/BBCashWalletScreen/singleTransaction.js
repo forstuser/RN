@@ -61,15 +61,17 @@ const styles = {
         flex: 2,
     },
     info: {
-        marginTop: 10
+        marginTop: 10,
+        fontSize: 14
     },
     date: {
         marginTop: 10,
-        color: '#aaa'
+        color: '#aaa',
+        fontSize: 13
     },
     id: {
         marginTop: 5,
-        fontSize: 10
+        fontSize: 14
     },
     price: {
         textAlign: 'right',
