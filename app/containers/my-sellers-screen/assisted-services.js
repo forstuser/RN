@@ -52,6 +52,19 @@ export default class MySellersAssistedServicesScreen extends React.Component {
     }
   };
 
+  selectAddressForOrder = (service) => {
+    console.log("select adderss", service)
+    const { navigation } = this.props;
+    const seller = navigation.getParam("seller", {});
+    this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
+      sellerId: seller.id,
+      orderType: ORDER_TYPES.ASSISTED_SERVICE,
+      serviceTypeId: service.service_type_id,
+      serviceName: service.service_name
+    });
+  };
+
+
   placeOrder = async service => {
     const { navigation } = this.props;
     const seller = navigation.getParam("seller", {});
@@ -129,7 +142,7 @@ export default class MySellersAssistedServicesScreen extends React.Component {
                 </Text>
                 <Text style={{ fontSize: 9 }}>{item.details}</Text>
                 <Button
-                  onPress={() => this.placeOrder(item)}
+                  onPress={() => this.selectAddressForOrder(item)}
                   text="Request Service"
                   color="secondary"
                   style={{ height: 30, width: 115, marginTop: 10 }}

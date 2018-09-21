@@ -155,18 +155,19 @@ export default class OffersTab extends React.Component {
               marginTop: ITEM_SELECTOR_HEIGHT
             }}
           >
-            <Text
-              weight="Bold"
-              style={{
-                fontSize: 16,
-                color: "#c2c2c2",
-                textAlign: "center",
-                margin: 15
-              }}
-            >
-              Please select a seller above to view their Offers at great
-              prices
-            </Text>
+            {categories.length > 0 ? (
+              <Text
+                weight="Bold"
+                style={{
+                  fontSize: 16,
+                  color: "#c2c2c2",
+                  textAlign: "center",
+                  margin: 15
+                }}
+              >
+                Please select a seller above to view their Offers at great
+                prices
+              </Text> ) : null}
           </View>
         ) : (
           <View />
@@ -257,7 +258,16 @@ export default class OffersTab extends React.Component {
             }
           ]}
         >
-          <Text style={{ padding: 10, fontSize: 16, textAlign: 'center', marginTop: 30, color: colors.mainText }}>No offers available as of now from your seller currently</Text>
+          <Text 
+            weight='Bold'
+            style={{ 
+              padding: 10, 
+              fontSize: 16, 
+              textAlign: 'center', 
+              marginTop: 20, 
+              color: '#c2c2c2' }}>
+              No offers available as of now from your seller currently
+            </Text>
         </Animated.View>  
           )}        
         <LoadingOverlay visible={isLoading} />

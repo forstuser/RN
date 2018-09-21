@@ -140,7 +140,8 @@ class ActiveOrdersScreen extends Component {
           style={{
             flex: 1,
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
+            backgroundColor: '#fff'
           }}
         >
           <View
