@@ -13,6 +13,8 @@ import { defaultStyles, colors } from "../../theme";
 
 import { openBillsPopUp } from "../../navigation";
 
+import { LOCATIONS } from "../../constants";
+
 class SellerDetails extends React.Component {
   call = () => {
     const { order } = this.props;
@@ -47,7 +49,7 @@ class SellerDetails extends React.Component {
   };
 
   render() {
-    const { order } = this.props;
+    const { order, userLocation } = this.props;
 
     const { seller } = order;
     const orderDate = order.created_at;
@@ -159,8 +161,8 @@ class SellerDetails extends React.Component {
                 {((order.copies && order.copies.length > 0) ||
                   (order.expense_id &&
                     order.upload_id &&
-                    moment().diff(order.updated_at, "hours") < 24) ||
-                  true) && (
+                    moment().diff(order.updated_at, "hours") < 24 &&
+                    userLocation != LOCATIONS.OTHER)) && (
                   <TouchableOpacity
                     onPress={this.onViewBillPress}
                     style={{

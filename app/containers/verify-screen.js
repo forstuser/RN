@@ -96,6 +96,7 @@ class VerifyScreen extends Component {
         id: user.id,
         name: user.name,
         phone: user.mobile_no,
+        location: user.location,
         imageUrl: user.imageUrl,
         isPinSet: user.hasPin
       });

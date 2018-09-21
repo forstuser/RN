@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
+import { connect } from "react-redux";
 
 import { Text, Image, Button } from "../../elements";
 
@@ -32,7 +33,8 @@ import {
   ORDER_STATUS_TYPES,
   SCREENS,
   ORDER_TYPES,
-  SERVICE_PRICE_TYPES
+  SERVICE_PRICE_TYPES,
+  LOCATIONS
 } from "../../constants";
 
 import Status from "./status";
@@ -48,7 +50,7 @@ import UploadBillModal from "./upload-bill-modal";
 import ReviewCard from "./review-card";
 import Modal from "../../components/modal";
 
-export default class OrderScreen extends React.Component {
+class OrderScreen extends React.Component {
   static navigationOptions = {
     title: "Order Details"
   };
@@ -102,12 +104,15 @@ export default class OrderScreen extends React.Component {
       socketIo.socket.off("assisted-status-change");
     }
   }
+
   show = item => {
     this.setState({ isVisible: true });
   };
+
   hide = () => {
     this.setState({ isVisible: false });
   };
+
   getOrderDetails = async () => {
     const { navigation } = this.props;
     const orderId = navigation.getParam("orderId", null);
@@ -170,6 +175,7 @@ export default class OrderScreen extends React.Component {
       headerText: "Cancel Order"
     });
   };
+
   rejectOrderPopup = () => {
     this.show();
     this.setState({
@@ -332,8 +338,14 @@ export default class OrderScreen extends React.Component {
   };
 
   openUploadBillPopup = () => {
+    const { userLocation } = this.props;
     const { order } = this.state;
-    if (order.expense_id && order.upload_id) {
+
+    if (
+      order.expense_id &&
+      order.upload_id &&
+      userLocation != LOCATIONS.OTHER
+    ) {
       this.uploadBillModal.show({
         productId: order.expense_id,
         jobId: order.upload_id
@@ -351,6 +363,8 @@ export default class OrderScreen extends React.Component {
   };
 
   render() {
+    const { userLocation } = this.props;
+
     const {
       isLoading,
       error,
@@ -367,7 +381,7 @@ export default class OrderScreen extends React.Component {
     let totalAmount = 0;
 
     if (order) {
-      console.log("order is ", order)
+      console.log("order is ", order);
       totalAmount = order.order_details.reduce((total, item) => {
         return item.selling_price ? total + Number(item.selling_price) : total;
       }, 0);
@@ -461,6 +475,7 @@ export default class OrderScreen extends React.Component {
                   <SellerDetails
                     order={order}
                     openUploadBillPopup={this.openUploadBillPopup}
+                    userLocation={userLocation}
                   />
                   <View
                     style={{
@@ -788,3 +803,11 @@ export default class OrderScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    userLocation: state.loggedInUser.location || LOCATIONS.OTHER
+  };
+};
+
+export default connect(mapStateToProps)(OrderScreen);
