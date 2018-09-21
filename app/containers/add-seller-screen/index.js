@@ -126,7 +126,7 @@ export default class MySellersScreen extends React.Component {
             }}
             value={searchTerm}
             placeholder="Search Seller by mobile number"
-            //onChangeText={searchTerm => this.setState({ searchTerm, isSearchDone: false })}
+            keyboardType="numeric"
             onChangeText={searchTerm => this.searchFilter(searchTerm)}
             returnKeyType="search"
             onSubmitEditing={this.getSellers}
@@ -169,7 +169,11 @@ export default class MySellersScreen extends React.Component {
                       color="secondary"
                       style={{ width: 150, marginTop: 25, height: 40 }}
                     />
-                  ) : <Text style={{ color: colors.success, fontSize: 10 }}>This Seller already added</Text>}
+                  ) : (
+                    <Text style={{ color: colors.success, fontSize: 10 }}>
+                      This Seller already added
+                    </Text>
+                  )}
                 </TouchableOpacity>
               );
             }}

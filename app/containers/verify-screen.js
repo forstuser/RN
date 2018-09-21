@@ -99,7 +99,12 @@ class VerifyScreen extends Component {
         imageUrl: user.imageUrl,
         isPinSet: user.hasPin
       });
-      if (!r.isExistingUser || user.name === null || user.email === null || user.gender === null) {
+      if (
+        !r.isExistingUser ||
+        user.name === null ||
+        user.email === null ||
+        user.gender === null
+      ) {
         this.props.navigation.navigate(SCREENS.USER_ON_BOARDING_STACK);
       } else {
         openAfterLoginScreen();
@@ -149,7 +154,8 @@ class VerifyScreen extends Component {
         />
         <Button
           style={{ width: 300 }}
-          color="secondary"
+          color={this.state.otp.length == 4 ? "secondary" : "grey"}
+          type="outline"
           onPress={this.onSubmitOtp}
           text={I18n.t("verify_screen_btn_text")}
         />
@@ -176,4 +182,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(VerifyScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VerifyScreen);

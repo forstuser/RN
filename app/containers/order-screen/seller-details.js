@@ -159,14 +159,21 @@ class SellerDetails extends React.Component {
                 {((order.copies && order.copies.length > 0) ||
                   (order.expense_id &&
                     order.upload_id &&
-                    moment().diff(order.updated_at, "hours") < 24)) && (
+                    moment().diff(order.updated_at, "hours") < 24) ||
+                  true) && (
                   <TouchableOpacity
                     onPress={this.onViewBillPress}
                     style={{
                       marginTop: 10,
                       marginBottom: 5,
                       flexDirection: "row",
-                      alignItems: "center"
+                      alignItems: "center",
+                      borderColor: colors.pinkishOrange,
+                      borderWidth: 1,
+                      alignSelf: "flex-start",
+                      paddingHorizontal: 10,
+                      paddingVertical: 5,
+                      borderRadius: 15
                     }}
                   >
                     <Icon
@@ -177,6 +184,7 @@ class SellerDetails extends React.Component {
                     <Text
                       weight="Medium"
                       style={{
+                        marginTop: -3,
                         marginLeft: 4,
                         fontSize: 14,
                         color: colors.pinkishOrange

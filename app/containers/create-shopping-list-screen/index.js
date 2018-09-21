@@ -66,9 +66,9 @@ class ShoppingListScreen extends React.Component {
     try {
       const res = await getSkuWishList();
       this.setState({ wishList: res.result.wishlist_items });
-      if (res.result.wishlist_items.length > 0) {
-        this.clearOrContinuePreviousListModal.show();
-      }
+      // if (res.result.wishlist_items.length > 0) {
+      //   this.clearOrContinuePreviousListModal.show();
+      // }
 
       const pastItems = res.result.past_selections;
       if (pastItems.length > 0) {
@@ -139,19 +139,23 @@ class ShoppingListScreen extends React.Component {
   };
 
   updateStateCategoryId = categoryId => {
-    const selectedCategoryIds = [...this.state.selectedCategoryIds];
-    const idx = selectedCategoryIds.findIndex(
-      categoryItemId => categoryItemId == categoryId
-    );
+    // const selectedCategoryIds = [...this.state.selectedCategoryIds];
+    // const idx = selectedCategoryIds.findIndex(
+    //   categoryItemId => categoryItemId == categoryId
+    // );
 
-    if (idx > -1) {
-      selectedCategoryIds.splice(idx, 1);
-    } else {
-      selectedCategoryIds.push(categoryId);
-    }
-    this.setState({ selectedCategoryIds, selectedBrands: [] }, () => {
-      this.loadItems();
-    });
+    // if (idx > -1) {
+    //   selectedCategoryIds.splice(idx, 1);
+    // } else {
+    //   selectedCategoryIds.push(categoryId);
+    // }
+
+    this.setState(
+      { selectedCategoryIds: [categoryId], selectedBrands: [] },
+      () => {
+        this.loadItems();
+      }
+    );
   };
 
   updateItem = (index, data) => {
