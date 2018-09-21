@@ -176,7 +176,7 @@ class Body extends Component {
         <MoreItem
           onPress={this.onMyOrdersPress}
           imageSource={require("../../images/orders_icon.png")}
-          text={"My Orders"}
+          text={"My Grocery Orders"}
           imageStyle={{ width: 20, height: 20 }}
         />
         <MoreItem

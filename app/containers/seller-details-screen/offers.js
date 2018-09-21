@@ -31,7 +31,7 @@ export default class Offers extends React.Component {
               }}
             >
               <Text style={{ marginTop: 40, textAlign: "center" }}>
-                No offers yet.
+                There are no Offers by this Seller at the moment
               </Text>
             </View>
           ) : null

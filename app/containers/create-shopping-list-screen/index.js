@@ -14,7 +14,8 @@ import {
   getSkuItems,
   getSkuWishList,
   addSkuItemToWishList,
-  clearWishList
+  clearWishList,
+  getMySellers
 } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
@@ -54,12 +55,29 @@ class ShoppingListScreen extends React.Component {
     lastSearchTerm3Characters: "",
     items: [],
     brands: [],
-    selectedBrands: []
+    selectedBrands: [],
+    sellers: []
   };
 
   componentDidMount() {
     this.loadSkuWishList();
+    this.getMySellers();
   }
+
+  getMySellers = async () => {
+    this.setState({
+      isLoadingMySellers: true
+    });
+    try {
+      const res = await getMySellers();
+      console.log('Seller List: ', res.result);
+      this.setState({ sellers: res.result });
+    } catch (error) {
+      this.setState({ error });
+    } finally {
+      this.setState({ isLoadingMySellers: false });
+    }
+  };
 
   loadSkuWishList = async () => {
     this.setState({ isLoadingWishList: true, wishListError: null });
@@ -351,7 +369,8 @@ class ShoppingListScreen extends React.Component {
       isSearchDone,
       searchError,
       brands,
-      selectedBrands
+      selectedBrands,
+      sellers
     } = this.state;
 
     if (referenceDataError || wishListError) {
@@ -447,6 +466,7 @@ class ShoppingListScreen extends React.Component {
             onSearchTextChange={this.updateSearchTerm}
             clearSearchTerm={this.clearSearchTerm}
             brands={brands}
+            sellers={sellers}
             selectedBrands={selectedBrands}
             setSelectedBrands={this.setSelectedBrands}
             isSearchDone={isSearchDone}
