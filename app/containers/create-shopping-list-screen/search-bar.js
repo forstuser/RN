@@ -131,13 +131,51 @@ export default class SearchBar extends React.Component {
       }
     };
 
-    const filteredItems = items.filter(item => {
-      if (searchTerm.length > 3) {
-        return item.title.toLowerCase().includes(searchTerm.toLowerCase());
-      } else {
-        return true;
-      }
-    });
+    const filteredItems = items
+      .filter(item => {
+        if (searchTerm.length > 3) {
+          return item.title.toLowerCase().includes(searchTerm.toLowerCase());
+        } else {
+          return true;
+        }
+      })
+      .sort((a, b) => {
+        var nameA = a.title.toUpperCase(); // ignore upper and lowercase
+        var nameB = b.title.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+
+        // names must be equal
+        return 0;
+      })
+      .sort((a, b) => {
+        let cashbackOfA = 0;
+        let cashbackOfB = 0;
+
+        if (a.sku_measurements) {
+          const skuMeasurement =
+            a.sku_measurements[a.sku_measurements.length - 1];
+          if (skuMeasurement) {
+            cashbackOfA =
+              (skuMeasurement.mrp * skuMeasurement.cashback_percent) / 100;
+          }
+        }
+
+        if (b.sku_measurements) {
+          const skuMeasurement =
+            b.sku_measurements[b.sku_measurements.length - 1];
+          if (skuMeasurement) {
+            cashbackOfB =
+              (skuMeasurement.mrp * skuMeasurement.cashback_percent) / 100;
+          }
+        }
+
+        return cashbackOfB - cashbackOfA;
+      });
 
     let categoryChuncks = [];
     if (
@@ -360,7 +398,7 @@ export default class SearchBar extends React.Component {
                       style={{ fontSize: 12 }}
                       numberOfLines={2}
                     >
-                      {item.title.toUpperCase()}
+                      {item.title}
                     </Text>
                   </TouchableOpacity>
                 )}
