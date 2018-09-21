@@ -163,7 +163,7 @@ export default {
   mailbox_screen_title: "Mailbox",
   mailbox_screen_no_result_title: "No Action Here",
   mailbox_screen_no_result_desc:
-    "We will start sending important messages as soon as the action starts",
+    "You will receive important updates regarding your Products and Transactions here",
 
   //main category screen
   main_category_screen_filters_title: "Filters",

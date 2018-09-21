@@ -27,7 +27,7 @@ import { showSnackbar } from "../../utils/snackbar";
 
 export default class MySellersScreen extends React.Component {
   static navigationOptions = {
-    title: "Add Seller"
+    title: "Search Seller"
   };
 
   state = {
@@ -169,11 +169,7 @@ export default class MySellersScreen extends React.Component {
                       color="secondary"
                       style={{ width: 150, marginTop: 25, height: 40 }}
                     />
-                  ) : (
-                    <Text style={{ color: colors.success, fontSize: 10 }}>
-                      This Seller already added
-                    </Text>
-                  )}
+                  ) : <Text style={{ color: colors.success, fontSize: 10 }} />}
                 </TouchableOpacity>
               );
             }}
@@ -187,7 +183,7 @@ export default class MySellersScreen extends React.Component {
               >
                 <Text style={{ fontSize: 14, textAlign: "center" }}>
                   {isSearchDone
-                    ? `Your Seller is not in our network currently. Please invite seller to avail additional benefits like Credit, Loyalty, Home Delivery, Assisted Services, Share Shopping List, Chat etc.`
+                    ? `This seller is not in our network. Invite your Seller to avail additional Offers, faster Home Delivery, Credit Loyalty,Home Services, & Online Order convenience`
                     : `Search your seller by phone number`}
                 </Text>
                 {isSearchDone ? (

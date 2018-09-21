@@ -65,7 +65,7 @@ const DetailItem = ({
 
 class OrderHistoryScreen extends Component {
   static navigationOptions = {
-    title: "My Orders"
+    title: "Accessories Ordered"
   };
 
   constructor(props) {
@@ -114,7 +114,8 @@ class OrderHistoryScreen extends Component {
             }}
           >
             <Text weight="Bold" style={{ color: colors.lighterText }}>
-              No Orders yet
+              You have not ordered any Accessory as yet
+
             </Text>
           </View>
         ) : (

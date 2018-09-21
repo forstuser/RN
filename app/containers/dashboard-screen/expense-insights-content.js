@@ -160,8 +160,7 @@ export default class InsightContent extends React.Component {
                 margin: 15
               }}
             >
-              Looks like you have not added any expenses as yet. Add your
-              expenses to track & analyse your spends.
+              Get an overview of all your expenses to track & analyze your spends
             </Text>
           </View>
         ) : (

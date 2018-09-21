@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
 
 import { Text, Button, Image } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -16,7 +17,7 @@ import Profile from "./profile";
 import CreditTransactions from "./credit-transactions";
 import Offers from "./offers";
 
-export default class SellerDetailsScreen extends React.Component {
+class SellerDetailsScreen extends React.Component {
   static navigationOptions = {
     title: "Seller Details"
   };
@@ -100,6 +101,7 @@ export default class SellerDetailsScreen extends React.Component {
           >
             <View tabLabel="Profile" style={{ flex: 1 }}>
               <Profile
+                user={this.props.user}
                 seller={seller}
                 paymentModes={paymentModes}
                 reloadSellerDetails={this.getSellerDetails}
@@ -124,3 +126,11 @@ export default class SellerDetailsScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.loggedInUser
+  };
+};
+
+export default connect(mapStateToProps)(SellerDetailsScreen);

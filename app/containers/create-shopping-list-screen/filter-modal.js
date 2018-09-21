@@ -12,12 +12,14 @@ import Modal from "react-native-modal";
 import { Text, Button } from "../../elements";
 import Checkbox from "../../components/checkbox";
 import SmallDot from "../../components/small-dot";
+import { API_BASE_URL, getMySellers } from "../../api";
 
 import { colors } from "../../theme";
 
 class FilterModalScreen extends Component {
     state = {
         isVisible: false,
+        isLoadingMySellers: false,
         mainCategories: [
             {
                 'id': 1,
@@ -28,18 +30,14 @@ class FilterModalScreen extends Component {
                 'title': 'Filter by Sellers'
             }
         ],
-        sellers: [
-            {
-                'id': 1,
-                'title': 'ZopNow'
-            },
-            {
-                'id': 2,
-                'title': 'Dilli Grocery'
-            }
-        ],
         selectedMainCategory: 'Filter by Brands'
     };
+
+    // componentDidMount() {
+    //     this.getMySellers();
+    // } 
+
+    
 
     show = () => {
         this.setState({ isVisible: true });
@@ -82,7 +80,7 @@ class FilterModalScreen extends Component {
             }}
         >
             <Text style={{ flex: 1, fontSize: 10 }}>
-                {item.title}
+                {this.state.selectedMainCategory === 'Filter by Brands' ? (item.title) : (item.name)}
             </Text>
             <Checkbox isChecked={this.props.checkedBrandIds.includes(item.id)} />
         </TouchableOpacity>
@@ -90,10 +88,11 @@ class FilterModalScreen extends Component {
       };
 
     render() {
+        console.log('Props: ', this.props);
         let source = null;
         //console.log(this.state.selectedMainCategory);
         if(this.state.selectedMainCategory === 'Filter by Sellers') {
-            source = this.state.sellers;
+            source = this.props.sellers;
         }
         else if(this.state.selectedMainCategory === 'Filter by Brands') {
             source = this.props.brands;
