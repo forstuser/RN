@@ -75,6 +75,7 @@ class MoreScreen extends Component {
         id: user.id,
         name: user.name,
         phone: user.mobile_no,
+        location: user.location,
         imageUrl: user.imageUrl,
         isPinSet: user.hasPin
       });
@@ -233,8 +234,8 @@ class MoreScreen extends Component {
             </Modal>
           </View>
         ) : (
-            <View collapsable={false} />
-          )}
+          <View collapsable={false} />
+        )}
       </ScreenContainer>
     );
   }
@@ -272,4 +273,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MoreScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MoreScreen);

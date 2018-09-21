@@ -36,7 +36,7 @@ import Title from "./chamfered-background-title";
 import RecentProducts from "./recent-products";
 import RateUsDialog from "./rate-us-dialog";
 
-import { SCREENS, GLOBAL_VARIABLES } from "../../constants";
+import { SCREENS, GLOBAL_VARIABLES, LOCATIONS } from "../../constants";
 
 import ProductListItem from "../../components/product-list-item";
 
@@ -184,6 +184,8 @@ class DashboardScreen extends React.Component {
   };
 
   render() {
+    const { userLocation } = this.props;
+
     const {
       error,
       showDashboard,
@@ -271,7 +273,9 @@ class DashboardScreen extends React.Component {
           />
         </View>
 
-        {activeTabIndex < 2 ? (
+        {activeTabIndex < 2 &&
+        userLocation &&
+        userLocation != LOCATIONS.OTHER ? (
           <TouchableOpacity
             ref={node => (this.addProductBtnRef = node)}
             style={styles.fab}
@@ -395,6 +399,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
+    userLocation: state.loggedInUser.location,
     hasDashboardTourShown: state.ui.hasDashboardTourShown,
     rateUsDialogTimestamp: state.ui.rateUsDialogTimestamp,
     appOpenCount: state.ui.appOpenCount
@@ -408,9 +413,6 @@ const mapDispatchToProps = dispatch => {
     },
     setUiHasDashboardTourShown: newValue => {
       dispatch(uiActions.setUiHasDashboardTourShown(newValue));
-    },
-    setLoggedInUser: user => {
-      dispatch(loggedInUserActions.setLoggedInUser(user));
     }
   };
 };

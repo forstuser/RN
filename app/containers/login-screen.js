@@ -82,6 +82,7 @@ class LoginScreen extends Component {
         id: user.id,
         name: user.name,
         phone: user.mobile_no,
+        location: user.location,
         imageUrl: user.imageUrl,
         isPinSet: user.hasPin
       });
@@ -188,7 +189,7 @@ class LoginScreen extends Component {
               keyboardType="phone-pad"
             />
             <Button
-              color="secondary"
+              color={this.state.phoneNumber.length == 10 ? "secondary" : "grey"}
               type="outline"
               onPress={this.onSubmitPhoneNumber}
               text={I18n.t("login_screen_btn_text")}
