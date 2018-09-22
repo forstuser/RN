@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, Image, Platform, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Platform,
+  TouchableOpacity
+} from "react-native";
 
 import ScrollableTabView, {
   DefaultTabBar
@@ -20,36 +26,23 @@ export default class TabsScreenContainer extends React.Component {
       onTabChange,
       tabs,
       children,
-      scrollableTabViewRef = () => { }
+      scrollableTabViewRef = () => {}
     } = this.props;
     return (
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
           <BlueGradientBG />
           <View style={styles.headerUpperHalf}>
-            <View>
-              {/* <Image
-                source={iconSource}
-                style={styles.headerIcon}
-                resizeMode="contain"
-              /> */}
-              <TouchableOpacity
-                onPress={() => this.props.navigation.openDrawer()}
-                style={styles.menuIcon}
-              >
-                <Icon
-                  name="md-menu"
-                  size={30}
-                  color="#fff"
-                />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.openDrawer()}
+              style={styles.menuIcon}
+            >
+              <Icon name="md-menu" size={30} color="#fff" />
+            </TouchableOpacity>
 
-            <View style={{ flex: 1, paddingRight: 20 }}>
-              <Text weight="Medium" style={styles.title}>
-                {title}
-              </Text>
-            </View>
+            <Text weight="Medium" style={styles.title}>
+              {title}
+            </Text>
             <View style={styles.headerRight}>{headerRight}</View>
           </View>
         </View>
@@ -97,7 +90,7 @@ const styles = StyleSheet.create({
   },
   headerUpperHalf: {
     height: 35,
-    paddingHorizontal: 16,
+    paddingHorizontal: 16
     //flexDirection: "row",
     //alignItems: "flex-end"
   },
@@ -116,17 +109,19 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   menuIcon: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     top: 0,
     zIndex: 1,
     paddingHorizontal: 5,
+    marginLeft: 14
   },
   title: {
     flex: 1,
     fontSize: 18,
     color: "#fff",
-    textAlign: 'center'
+    textAlign: "center",
+    marginTop: 2
   },
 
   headerLowerHalf: {
@@ -135,8 +130,8 @@ const styles = StyleSheet.create({
   },
 
   headerRight: {
-    position: 'absolute',
-    right: 10,
+    position: "absolute",
+    right: 20,
     top: 0
   }
 });

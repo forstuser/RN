@@ -86,7 +86,7 @@ export default class ClaimCashback extends React.Component {
               return newItem;
             })
           : [],
-        pastItems: res.past_selections
+        pastItems: res.past_selections || []
       });
 
       try {

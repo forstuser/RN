@@ -341,8 +341,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     zIndex: 2,
     ...Platform.select({
-      android: { top: 55 },
-      ios: { top: 75 }
+      android: { top: 48 },
+      ios: { top: 68 }
     })
   },
   expenseInsight: {
