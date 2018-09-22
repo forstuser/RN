@@ -84,19 +84,20 @@ const styles = StyleSheet.create({
   },
   titlesContainer: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderBottomWidth: 1
   },
   title: {
     fontSize: 18,
     left: 10,
-    fontWeight: '900'
+    fontWeight: '900',
   },
   subtitle: {
     fontSize: 12,
-    left: 10
+    left: 10,
   },
   skipBtn: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     justifyContent: "center",
     alignItems: "center",
     height: "100%"

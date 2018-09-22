@@ -255,7 +255,7 @@ export default class ClaimCashback extends React.Component {
                       style={{ flexDirection: "row", flex: 1, marginRight: 20 }}
                     >
                       <Text weight="Medium" style={{ fontSize: 9 }}>
-                        {item.title + " " + item.title}
+                        {item.title}
                         <Text
                           style={{
                             fontSize: 9,
