@@ -430,8 +430,9 @@ export default class SearchBar extends React.Component {
                     <View style={{ padding: 20, alignItems: "center" }}>
                       <Text style={{ textAlign: "center" }}>
                         Sorry we couldn't find any items
-                        {searchTerm
-                          ? ` for "${searchTerm}", please use '+' to add manually.`
+                        {searchTerm ? ` for "${searchTerm}"` : ""}
+                        {!hideAddManually
+                          ? ", please use '+' to add manually."
                           : ""}
                       </Text>
                       {/* {searchTerm && !hideAddManually ? (

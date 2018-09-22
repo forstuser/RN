@@ -17,6 +17,7 @@ import Analytics from "../analytics";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const messagesIcon = require("../images/ic_top_messages.png");
+const dykIcon = require("../images/ic_do_you_know.png");
 const searchIcon = require("../images/ic_top_search.png");
 
 class TabSearchHeader extends Component {
@@ -29,6 +30,11 @@ class TabSearchHeader extends Component {
     Analytics.logEvent(Analytics.EVENTS.OPEN_MAILS);
     this.props.navigation.navigate(SCREENS.MAILBOX_SCREEN);
   };
+  openDykScreen = () => {
+    console.log("dyk");
+    // Analytics.logEvent(Analytics.EVENTS.OPEN_MAILS);
+    this.props.navigation.navigate(SCREENS.DO_YOU_KNOW_SCREEN);
+  };
   render() {
     const {
       title,
@@ -36,11 +42,12 @@ class TabSearchHeader extends Component {
       notificationCount = 0,
       showSearchInput = true,
       showMailbox = true,
+      dyk = true,
       showRightSideSearchIcon = false,
       onRightSideSearchIconPress
     } = this.props;
     return (
-      <View collapsable={false} style={styles.container}>
+      <View style={styles.container}>
         <StatusBar backgroundColor={colors.mainBlue} />
         <LinearGradient
           start={{ x: 0.0, y: 0 }}
@@ -54,18 +61,13 @@ class TabSearchHeader extends Component {
             bottom: 0
           }}
         />
-        <View collapsable={false} style={styles.upperContainer}>
-          <View collapsable={false} style={styles.nameAndIcon}>
-            {/* <Image style={styles.icon} source={icon} resizeMode="contain" /> */}
+        <View style={styles.upperContainer}>
+          <View style={styles.nameAndIcon}>
             <TouchableOpacity
               onPress={() => this.props.navigation.openDrawer()}
               style={styles.menuIcon}
             >
-              <Icon
-                name="md-menu"
-                size={30}
-                color="#fff"
-              />
+              <Icon name="md-menu" size={30} color="#fff" />
             </TouchableOpacity>
             <Text weight="Medium" style={styles.screenName}>
               {title}
@@ -79,18 +81,29 @@ class TabSearchHeader extends Component {
             >
               <Image style={styles.messagesIcon} source={messagesIcon} />
               {notificationCount > 0 ? (
-                <View collapsable={false} style={styles.messagesCountContainer}>
+                <View style={styles.messagesCountContainer}>
                   <Text weight="Bold" style={styles.messagesCount}>
                     {notificationCount}
                   </Text>
                 </View>
               ) : (
-                  <View collapsable={false} />
-                )}
+                <View />
+              )}
             </TouchableOpacity>
           ) : (
-              <View collapsable={false} />
-            )}
+            <View />
+          )}
+          {dyk ? (
+            <TouchableOpacity
+              onPress={this.openDykScreen}
+              style={styles.dykContainer}
+              ref={this.props.dykIconRef}
+            >
+              <Image style={styles.messagesIcon} source={dykIcon} />
+            </TouchableOpacity>
+          ) : (
+            <View />
+          )}
           {showRightSideSearchIcon ? (
             <TouchableOpacity
               onPress={onRightSideSearchIconPress}
@@ -99,8 +112,8 @@ class TabSearchHeader extends Component {
               <Image style={styles.messagesIcon} source={searchIcon} />
             </TouchableOpacity>
           ) : (
-              <View collapsable={false} />
-            )}
+            <View />
+          )}
         </View>
         {showSearchInput ? (
           <TouchableOpacity
@@ -113,8 +126,8 @@ class TabSearchHeader extends Component {
             </Text>
           </TouchableOpacity>
         ) : (
-            <View collapsable={false} />
-          )}
+          <View />
+        )}
       </View>
     );
   }
@@ -135,7 +148,7 @@ const styles = StyleSheet.create({
         paddingTop: 32
       },
       android: {
-        paddingTop: 10
+        paddingTop: 2
       }
     })
   },
@@ -155,21 +168,27 @@ const styles = StyleSheet.create({
   //   tintColor: "#fff"
   // },
   menuIcon: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     zIndex: 1,
-    paddingHorizontal: 5,
+    paddingHorizontal: 3
   },
   screenName: {
     flex: 1,
     fontSize: 18,
     color: "#fff",
-    textAlign: 'center'
+    textAlign: "center"
   },
   messagesContainer: {
-    paddingRight: 5,
-    position: 'absolute',
-    right: 0,
+    // paddingRight: 5,
+    position: "absolute",
+    right: 5,
+    top: 0
+  },
+  dykContainer: {
+    // paddingRight: 35,
+    position: "absolute",
+    right: 40,
     top: 0
   },
   messagesIcon: {

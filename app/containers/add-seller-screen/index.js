@@ -78,7 +78,7 @@ export default class MySellersScreen extends React.Component {
       this.setState({ isLoadingSellers: true });
       await linkSeller(seller.id);
       this.setState({ mySellers: [...this.state.mySellers, seller] });
-      showSnackbar({ text: "Seller added to my sellers" });
+      showSnackbar({ text: "You have added the seller successfully" });
     } catch (e) {
       showSnackbar({ text: e.message });
     } finally {
@@ -86,10 +86,13 @@ export default class MySellersScreen extends React.Component {
     }
   };
 
-  searchFilter = searchTerm => {
+  onSearchTermChange = searchTerm => {
     //console.log('Search Term: ', searchTerm);
-    this.setState({ searchTerm, isSearchDone: false });
-    //this.getSellers();
+    this.setState({ searchTerm, isSearchDone: false }, () => {
+      if (searchTerm.length == 10) {
+        this.getSellers();
+      }
+    });
   };
 
   render() {
@@ -127,10 +130,11 @@ export default class MySellersScreen extends React.Component {
             value={searchTerm}
             placeholder="Search Seller by mobile number"
             keyboardType="numeric"
-            onChangeText={searchTerm => this.searchFilter(searchTerm)}
+            onChangeText={this.onSearchTermChange}
             returnKeyType="search"
             onSubmitEditing={this.getSellers}
             underlineColorAndroid="transparent"
+            maxLength={10}
           />
           <Icon
             onPress={this.getSellers}
@@ -170,7 +174,9 @@ export default class MySellersScreen extends React.Component {
                       color="secondary"
                       style={{ width: 150, marginTop: 25, height: 40 }}
                     />
-                  ) : <Text style={{ color: colors.success, fontSize: 10 }} />}
+                  ) : (
+                    <Text style={{ color: colors.success, fontSize: 10 }} />
+                  )}
                 </TouchableOpacity>
               );
             }}

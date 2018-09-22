@@ -177,7 +177,8 @@ class MySellersScreen extends React.Component {
                     />
                   </View>
                   <Text style={{ marginTop: 40, textAlign: "center" }}>
-                    Add your Seller to the BinBill Network for additional offers, easy orders and faster home delivery
+                    Add your Seller to the BinBill Network for additional
+                    offers, easy orders and faster home delivery
                   </Text>
                   <Button
                     onPress={this.openAddSellerScreen}
@@ -241,7 +242,9 @@ class MySellersScreen extends React.Component {
                             borderRadius: 34
                           }}
                           source={{
-                            uri: API_BASE_URL + `/consumer/sellers/${item.id}/upload/1/images/0`
+                            uri:
+                              API_BASE_URL +
+                              `/consumer/sellers/${item.id}/upload/1/images/0`
                           }}
                         />
                         <View
@@ -471,7 +474,7 @@ class MySellersScreen extends React.Component {
                                   marginTop: -3
                                 }}
                               >
-                                {category.category_name}
+                                {category.category_4_name}
                               </Text>
                             </View>
                           ))}

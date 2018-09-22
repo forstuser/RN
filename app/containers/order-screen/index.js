@@ -606,7 +606,7 @@ class OrderScreen extends React.Component {
 
                   {order.status_type == ORDER_STATUS_TYPES.COMPLETE && (
                     <View>
-                      {!sellerRatings || !serviceRatings ? (
+                      {!sellerRatings && !serviceRatings ? (
                         <Button
                           onPress={this.openReviewsScreen}
                           text="Rate Service Delivery"
@@ -621,7 +621,7 @@ class OrderScreen extends React.Component {
                         />
                       ) : (
                         <View style={{ paddingHorizontal: 10 }}>
-                          {serviceRatings && (
+                          {serviceRatings ? (
                             <View>
                               <Text weight="Bold" style={{ marginTop: 20 }}>
                                 Delivery Experience
@@ -637,7 +637,7 @@ class OrderScreen extends React.Component {
                                 onEditPress={this.openReviewsScreen}
                               />
                             </View>
-                          )}
+                          ) : null}
                           <Text weight="Bold" style={{ marginTop: 20 }}>
                             Seller Responsiveness
                           </Text>

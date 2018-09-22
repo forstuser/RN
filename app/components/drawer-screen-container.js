@@ -24,9 +24,8 @@ export default class TabsScreenContainer extends React.Component {
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
           <BlueGradientBG />
-
           <View style={{ flex: 1, paddingHorizontal: 20 }}>
-            <Text weight="Bold" style={styles.title}>
+            <Text weight="Medium" style={styles.title}>
               {title}
             </Text>
           </View>
@@ -57,20 +56,19 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     width: "100%",
     flexDirection: "row",
-    alignItems: "center",
     ...Platform.select({
-      ios: { height: 55, paddingTop: 20 },
-      android: { height: 35, paddingTop: 0 }
+      ios: { height: 55, paddingTop: 22 },
+      android: { height: 35, paddingTop: 2 }
     })
   },
   iconWrapper: {
     position: "absolute",
     width: 40,
     height: 32,
-    bottom: 0,
+    top: 0,
+    left: 10,
     alignItems: "center",
-    justifyContent: "center",
-    padding: 10
+    justifyContent: "center"
   },
   headerIcon: {},
   title: {
@@ -80,7 +78,7 @@ const styles = StyleSheet.create({
   },
   headerRight: {
     position: "absolute",
-    right: 0,
+    right: 5,
     height: 32,
     bottom: 0,
     alignItems: "center",

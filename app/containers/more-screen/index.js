@@ -254,12 +254,11 @@ const mapDispatchToProps = dispatch => {
     logoutUser: async () => {
       try {
         logout();
+        NavigationService.navigate(SCREENS.AUTH_STACK);
         dispatch(loggedInUserActions.loggedInUserClearAllData());
       } catch (e) {
         console.log(e);
       }
-
-      NavigationService.navigate(SCREENS.AUTH_STACK);
     },
     removePin: () => {
       dispatch(loggedInUserActions.setLoggedInUserIsPinSet(false));
