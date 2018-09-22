@@ -284,18 +284,18 @@ class MySellersScreen extends React.Component {
                         </Text>
                       </View>
                       {item.seller_details &&
-                      item.seller_details.basic_details &&
-                      item.seller_details.basic_details.home_delivery ? (
-                        <Text
-                          style={{
-                            color: "#208e07",
-                            fontSize: 6,
-                            marginTop: 6
-                          }}
-                        >
-                          Home Delivery Available
+                        item.seller_details.basic_details &&
+                        item.seller_details.basic_details.home_delivery ? (
+                          <Text
+                            style={{
+                              color: "#208e07",
+                              fontSize: 6,
+                              marginTop: 6
+                            }}
+                          >
+                            Home Delivery Available
                         </Text>
-                      ) : null}
+                        ) : null}
 
                       {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
                         <View
@@ -467,7 +467,7 @@ class MySellersScreen extends React.Component {
                                   marginTop: -3
                                 }}
                               >
-                                {category.category_name}
+                                {category.category_4_name}
                               </Text>
                             </View>
                           ))}

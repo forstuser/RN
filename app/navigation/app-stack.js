@@ -192,6 +192,7 @@ export default createStackNavigator(
     [SCREENS.BILLS_POPUP_SCREEN]: BillsPopUpScreen,
     [SCREENS.FAQS_SCREEN]: FaqScreen,
     [SCREENS.MAILBOX_SCREEN]: MailboxScreen,
+    [SCREENS.DO_YOU_KNOW_SCREEN]: DoYouKnowScreen,
     [SCREENS.TIPS_SCREEN]: TipsScreen,
     [SCREENS.PROFILE_SCREEN]: ProfileScreen,
     [SCREENS.SEARCH_SCREEN]: SearchScreen,

@@ -17,6 +17,7 @@ import Analytics from "../analytics";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const messagesIcon = require("../images/ic_top_messages.png");
+const dykIcon = require("../images/ic_do_you_know.png");
 const searchIcon = require("../images/ic_top_search.png");
 
 class TabSearchHeader extends Component {
@@ -29,6 +30,11 @@ class TabSearchHeader extends Component {
     Analytics.logEvent(Analytics.EVENTS.OPEN_MAILS);
     this.props.navigation.navigate(SCREENS.MAILBOX_SCREEN);
   };
+  openDykScreen = () => {
+    console.log("dyk")
+    // Analytics.logEvent(Analytics.EVENTS.OPEN_MAILS);
+    this.props.navigation.navigate(SCREENS.DO_YOU_KNOW_SCREEN);
+  };
   render() {
     const {
       title,
@@ -36,6 +42,7 @@ class TabSearchHeader extends Component {
       notificationCount = 0,
       showSearchInput = true,
       showMailbox = true,
+      dyk = true,
       showRightSideSearchIcon = false,
       onRightSideSearchIconPress
     } = this.props;
@@ -87,6 +94,17 @@ class TabSearchHeader extends Component {
               ) : (
                   <View collapsable={false} />
                 )}
+            </TouchableOpacity>
+          ) : (
+              <View collapsable={false} />
+            )}
+          {dyk ? (
+            <TouchableOpacity
+              onPress={this.openDykScreen}
+              style={styles.dykContainer}
+              ref={this.props.dykIconRef}
+            >
+              <Image style={styles.messagesIcon} source={dykIcon} />
             </TouchableOpacity>
           ) : (
               <View collapsable={false} />
@@ -167,9 +185,15 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   messagesContainer: {
-    paddingRight: 5,
+    // paddingRight: 5,
     position: 'absolute',
-    right: 0,
+    right: 5,
+    top: 0
+  },
+  dykContainer: {
+    // paddingRight: 35,
+    position: 'absolute',
+    right: 40,
     top: 0
   },
   messagesIcon: {

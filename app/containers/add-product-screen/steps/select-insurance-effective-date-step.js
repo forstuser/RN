@@ -62,7 +62,7 @@ class SelectPurchaseDateStep extends React.Component {
     console.log("product.document_date: ", product.document_date);
     return (
       <Step
-        title={`Select Insurance Effective Date`}
+        title={`Select Effective Date`}
         subtitle="Required for renewal reminder"
         skippable={true}
         showLoader={isLoading}
