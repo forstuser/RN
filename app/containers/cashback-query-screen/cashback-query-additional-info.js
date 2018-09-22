@@ -51,7 +51,8 @@ export default class CashbackQueryAdditionalInfoScreen extends React.Component {
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={{ padding: 16, flex: 1 }}>
           <Text weight="Medium" style={{ padding: 11 }}>
-            Do you want to add additional info?
+          Do you want to add any remarks?
+
           </Text>
           <TextInput
             style={{
@@ -109,7 +110,7 @@ export default class CashbackQueryAdditionalInfoScreen extends React.Component {
               weight="Medium"
               style={{ fontSize: 13, textAlign: "center", marginVertical: 20 }}
             >
-              You will get back to you shortly.
+              We will get back to you shortly.
             </Text>
             <Button
               onPress={this.onOkayPress}
