@@ -18,6 +18,7 @@ export default class CashbackQueryScreen extends React.Component {
     isLoading: true,
     error: null,
     transactions: [],
+    reasons: [],
     selectedTransaction: null
   };
 
@@ -29,7 +30,8 @@ export default class CashbackQueryScreen extends React.Component {
     try {
       const res = await getCashbackTransactions();
       this.setState({
-        transactions: res.result
+        transactions: res.result,
+        reasons: res.reasons
       });
     } catch (error) {
       this.setState({ error });
@@ -46,7 +48,8 @@ export default class CashbackQueryScreen extends React.Component {
 
   openReasonsScreen = () => {
     this.props.navigation.push(SCREENS.CASHBACK_QUERY_REASONS_SCREEN, {
-      selectedTransaction: this.state.selectedTransaction
+      selectedTransaction: this.state.selectedTransaction,
+      reasons: this.state.reasons
     });
   };
 

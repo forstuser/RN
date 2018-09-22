@@ -248,22 +248,22 @@ export default class SelectSellerScreen extends React.Component {
                           color: colors.secondaryText
                         }}
                       >
-                        ({item.ratings})
+                        ({item.ratings.toFixed(2)})
                       </Text>
                     </View>
                     {item.seller_details &&
-                    item.seller_details.basic_details &&
-                    item.seller_details.basic_details.home_delivery ? (
-                      <Text
-                        style={{
-                          color: "#208e07",
-                          fontSize: 6,
-                          marginTop: 6
-                        }}
-                      >
-                        Home Delivery Available
+                      item.seller_details.basic_details &&
+                      item.seller_details.basic_details.home_delivery ? (
+                        <Text
+                          style={{
+                            color: "#208e07",
+                            fontSize: 6,
+                            marginTop: 6
+                          }}
+                        >
+                          Home Delivery Available
                       </Text>
-                    ) : null}
+                      ) : null}
 
                     {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
                       <View
