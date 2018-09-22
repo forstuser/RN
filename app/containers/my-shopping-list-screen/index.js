@@ -213,19 +213,19 @@ class MyShoppingList extends React.Component {
             />
           </View>
         ) : (
-          <View
-            ref={ref => (this.viewToShare = ref)}
-            style={{ flex: 1, backgroundColor: "#fff" }}
-          >
-            <SelectedItemsList
-              show={this.state.showPlusMinusDelete}
-              measurementTypes={measurementTypes}
-              selectedItems={wishList}
-              skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
-              changeIndexQuantity={this.changeIndexQuantity}
-            />
-          </View>
-        )}
+            <View
+              ref={ref => (this.viewToShare = ref)}
+              style={{ flex: 1, backgroundColor: "#fff" }}
+            >
+              <SelectedItemsList
+                show={this.state.showPlusMinusDelete}
+                measurementTypes={measurementTypes}
+                selectedItems={wishList}
+                skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
+                changeIndexQuantity={this.changeIndexQuantity}
+              />
+            </View>
+          )}
         <Modal
           isVisible={isShareModalVisible}
           title="Share Via"
@@ -394,22 +394,22 @@ class MyShoppingList extends React.Component {
                               color: colors.secondaryText
                             }}
                           >
-                            ({item.ratings})
+                            ({item.ratings.toFixed(2)})
                           </Text>
                         </View>
                         {item.seller_details &&
-                        item.seller_details.basic_details &&
-                        item.seller_details.basic_details.home_delivery ? (
-                          <Text
-                            style={{
-                              color: "#208e07",
-                              fontSize: 6,
-                              marginTop: 6
-                            }}
-                          >
-                            Home Delivery Available
+                          item.seller_details.basic_details &&
+                          item.seller_details.basic_details.home_delivery ? (
+                            <Text
+                              style={{
+                                color: "#208e07",
+                                fontSize: 6,
+                                marginTop: 6
+                              }}
+                            >
+                              Home Delivery Available
                           </Text>
-                        ) : null}
+                          ) : null}
 
                         {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
                           <View

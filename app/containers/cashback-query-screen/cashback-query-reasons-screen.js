@@ -14,17 +14,6 @@ export default class CashbackQueryReasonsScreen extends React.Component {
   };
 
   state = {
-    reasons: [
-      { text: "Bill was rejected" },
-      { text: "Pending from past 15 days" },
-      { text: "No cashback received" },
-      {
-        text:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing Pellentesque vestibulum pretium."
-      },
-      { text: "Lorem ipsum dolor sit amet consectetur" },
-      { text: "Other" }
-    ],
     selectedReason: null
   };
 
@@ -41,14 +30,15 @@ export default class CashbackQueryReasonsScreen extends React.Component {
   };
 
   render() {
-    const { reasons, selectedReason } = this.state;
+    const reasons = this.props.navigation.getParam("reasons", [])
+    const { selectedReason } = this.state;
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <FlatList
           style={{ flex: 1, marginBottom: 5 }}
           data={reasons}
-          keyExtractor={item => item.text}
+          keyExtractor={item => item.title}
           renderItem={({ item }) => {
             return (
               <TouchableOpacity
@@ -77,7 +67,7 @@ export default class CashbackQueryReasonsScreen extends React.Component {
                   }}
                 >
                   {selectedReason &&
-                    selectedReason.text == item.text && (
+                    selectedReason.title == item.title && (
                       <View
                         style={{
                           width: 20,
@@ -88,7 +78,7 @@ export default class CashbackQueryReasonsScreen extends React.Component {
                       />
                     )}
                 </View>
-                <Text>{item.text}</Text>
+                <Text>{item.title}</Text>
               </TouchableOpacity>
             );
           }}

@@ -10,7 +10,7 @@ export const loginToApplozic = ({ id, name }) => {
     displayName: String(name),
     email: "",
     authenticationTypeId: 1,
-    applicationId: "binbill40002f8f92e5e65dbc8dadc", //replace "applozic-sample-app" with Application Key from Applozic Dashboard
+    applicationId: "10bf4d406aff6f1cdbad607072d4bb0a2", //replace "applozic-sample-app" with Application Key from Applozic Dashboard
     deviceApnsType: __DEV__ ? 0 : 1 //Set 0 for Development and 1 for Distribution (Release)
   };
 
