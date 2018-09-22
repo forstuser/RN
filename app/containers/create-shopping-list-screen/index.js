@@ -139,7 +139,7 @@ class ShoppingListScreen extends React.Component {
   };
 
   updateStateCategoryId = categoryId => {
-    // const selectedCategoryIds = [...this.state.selectedCategoryIds];
+    let selectedCategoryIds = [...this.state.selectedCategoryIds];
     // const idx = selectedCategoryIds.findIndex(
     //   categoryItemId => categoryItemId == categoryId
     // );
@@ -150,12 +150,15 @@ class ShoppingListScreen extends React.Component {
     //   selectedCategoryIds.push(categoryId);
     // }
 
-    this.setState(
-      { selectedCategoryIds: [categoryId], selectedBrands: [] },
-      () => {
-        this.loadItems();
-      }
-    );
+    if (selectedCategoryIds.includes(categoryId)) {
+      selectedCategoryIds = [];
+    } else {
+      selectedCategoryIds = [categoryId];
+    }
+
+    this.setState({ selectedCategoryIds, selectedBrands: [] }, () => {
+      this.loadItems();
+    });
   };
 
   updateItem = (index, data) => {

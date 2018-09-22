@@ -83,7 +83,7 @@ class SingleOrder extends Component {
     ) {
       cashback = <Text weight="Bold">0</Text>;
       cashbackStatus = (
-        <Text style={styles.data}>Cashback earned: {cashback}</Text>
+        <Text style={styles.data}>Cashback Upto: {cashback}</Text>
       );
     }
 
@@ -111,7 +111,7 @@ class SingleOrder extends Component {
           <Text style={styles.data}>No. of items: {quantity}</Text>
           <Text style={styles.data}>Date: {dateTime}</Text>
           <Text style={styles.data}>Amount: {amount}</Text>
-          {/* {cashbackStatus} */}
+          {cashbackStatus}
         </View>
         {/* <View style={[styles.box, styles.box3]}>
                     <Text style={styles.status}>{status}</Text>

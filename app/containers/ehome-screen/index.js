@@ -85,7 +85,7 @@ class EhomeScreen extends Component {
           mainCategories: [],
           selectedCategories: [],
           showEndReachedMsg: false
-        },
+        }
       ]
     };
   }
@@ -115,8 +115,7 @@ class EhomeScreen extends Component {
   };
 
   onTabChange = ({ i }) => {
-    if (i > 0)
-      this.setState({ activeTabIndex: i - 1 });
+    if (i > 0) this.setState({ activeTabIndex: i - 1 });
   };
 
   getProductsFirstPage = tabIndex => {
@@ -196,7 +195,8 @@ class EhomeScreen extends Component {
               <Icon name="md-search" color="#fff" size={28} />
             </TouchableOpacity>
 
-            {tabs[activeTabIndex] && tabs[activeTabIndex].products.length > 0 ? (
+            {tabs[activeTabIndex] &&
+            tabs[activeTabIndex].products.length > 0 ? (
               <TouchableOpacity
                 onPress={() =>
                   this.filterModal.show({
@@ -213,59 +213,66 @@ class EhomeScreen extends Component {
             ) : null}
           </View>
         }
-        tabs={[<View style={{ flex: 1 }} tabLabel='Calendar'>
-          <CalendarContent
-            ref={node => {
-              this.calendarContent = node;
-            }}
-            navigation={this.props.navigation}
-          />
-        </View>, ...tabs.map((tab, index) => (
-          <View key={tab.type} tabLabel={tab.name} style={{ flex: 1 }}>
-            {tab.selectedCategories.length > 0 ? (
-              <View
-                style={{
-                  height: 36,
-                  paddingVertical: 5,
-                  backgroundColor: "#fff"
-                }}
-              >
-                <ScrollView horizontal>
-                  {tab.selectedCategories.map(category => (
-                    <Tag
-                      key={category.name}
-                      text={category.name}
-                      onPressClose={() =>
-                        this.filterModal.toggleCategoryAndApplyFilter(category)
-                      }
-                    />
-                  ))}
-                </ScrollView>
-              </View>
-            ) : (
+        tabs={[
+          <View style={{ flex: 1 }} tabLabel="Attendance">
+            <CalendarContent
+              ref={node => {
+                this.calendarContent = node;
+              }}
+              navigation={this.props.navigation}
+            />
+          </View>,
+          ...tabs.map((tab, index) => (
+            <View key={tab.type} tabLabel={tab.name} style={{ flex: 1 }}>
+              {tab.selectedCategories.length > 0 ? (
+                <View
+                  style={{
+                    height: 36,
+                    paddingVertical: 5,
+                    backgroundColor: "#fff"
+                  }}
+                >
+                  <ScrollView horizontal>
+                    {tab.selectedCategories.map(category => (
+                      <Tag
+                        key={category.name}
+                        text={category.name}
+                        onPressClose={() =>
+                          this.filterModal.toggleCategoryAndApplyFilter(
+                            category
+                          )
+                        }
+                      />
+                    ))}
+                  </ScrollView>
+                </View>
+              ) : (
                 <View />
               )}
-            <ProductsList
-              type={tab.type}
-              onRefresh={() => this.getProductsFirstPage(index)}
-              isLoadingFirstPage={tab.isLoadingFirstPage}
-              isLoading={tab.isLoading}
-              products={tab.products}
-              navigation={this.props.navigation}
-              error={tab.error}
-              onEndReached={() => this.getProducts(index)}
-              endHasReached={tab.endHasReached}
-              showEndReachedMsg={tab.showEndReachedMsg}
-              onListScroll={() => this.onListScroll(index)}
-            />
-          </View>
-        ))]}
+              <ProductsList
+                type={tab.type}
+                onRefresh={() => this.getProductsFirstPage(index)}
+                isLoadingFirstPage={tab.isLoadingFirstPage}
+                isLoading={tab.isLoading}
+                products={tab.products}
+                navigation={this.props.navigation}
+                error={tab.error}
+                onEndReached={() => this.getProducts(index)}
+                endHasReached={tab.endHasReached}
+                showEndReachedMsg={tab.showEndReachedMsg}
+                onListScroll={() => this.onListScroll(index)}
+              />
+            </View>
+          ))
+        ]}
       >
         <FilterModal
           ref={node => {
             this.filterModal = node;
           }}
-          mainCategories={tabs[activeTabIndex] ? tabs[activeTabIndex].mainCategories : []}
+          mainCategories={
+            tabs[activeTabIndex] ? tabs[activeTabIndex].mainCategories : []
+          }
           applyFilter={this.applyFilter}
         />
       </TabsScreenContainer>

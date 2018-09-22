@@ -18,6 +18,7 @@ export default class SuccessModal extends React.Component {
   onOkayPress = () => {
     const { navigation } = this.props;
     this.setState({ isVisible: false }, () => {
+      navigation.popToTop();
       navigation.navigate(SCREENS.CASHBACK_BILLS_SCREEN);
     });
   };
