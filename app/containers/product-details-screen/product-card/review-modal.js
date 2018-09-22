@@ -44,7 +44,7 @@ class ReviewModal extends React.Component {
               onBackdropPress={this.hide}
               avoidKeyboard={Platform.OS == "ios"}
             >
-              <View collapsable={false}  style={styles.modal}>
+              <View collapsable={false} style={styles.modal}>
                 <TouchableOpacity style={styles.closeIcon} onPress={this.hide}>
                   <Icon name="md-close" size={30} color={colors.mainText} />
                 </TouchableOpacity>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   closeIcon: {
     position: "absolute",
     right: 15,
-    top: 10
+    top: 15
   }
 });
 

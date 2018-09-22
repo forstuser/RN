@@ -92,7 +92,7 @@ class PriceEditInput extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={{ flex: 1.5 }}>
+        <View style={{ flex: 1.4 }}>
           <Text weight="Regular">
             {name}
             {date}
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   textInput: {
-    flex: 2,
+    flex: 3,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 10

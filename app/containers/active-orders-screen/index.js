@@ -19,12 +19,13 @@ class ActiveOrdersScreen extends Component {
 
   componentDidMount() {
     this.fetchActiveOrders();
-    this.fetchActiveServices();
+    //this.fetchActiveServices();
   }
 
   fetchActiveOrders = async () => {
     this.setState({
-      error: null
+      error: null,
+      isFetchingData: true
     });
 
     try {
@@ -46,29 +47,29 @@ class ActiveOrdersScreen extends Component {
     }
   };
 
-  fetchActiveServices = async () => {
-    this.setState({
-      error: null
-    });
+  // fetchActiveServices = async () => {
+  //   this.setState({
+  //     error: null
+  //   });
 
-    try {
-      const activeServices = await retrieveActiveServices();
-      //console.log("activeServices.result:", activeServices.result);
-      //console.log('result[0].user.name : ', activeServices.result[0].order_details[0].service_name);
-      //console.log('result[0].id : ', activeServices.result[0].status_type);
-      //console.log('result[0].order_details.length : ', activeOrders.result[0].order_details.length);
-      this.setState({
-        isFetchingData: false,
-        //activeAssistedServicesRequest: activeServices.result
-      });
-    } catch (error) {
-      console.log("order error: ", error);
-      this.setState({
-        error,
-        isFetchingData: false
-      });
-    }
-  };
+  //   try {
+  //     const activeServices = await retrieveActiveServices();
+  //     //console.log("activeServices.result:", activeServices.result);
+  //     //console.log('result[0].user.name : ', activeServices.result[0].order_details[0].service_name);
+  //     //console.log('result[0].id : ', activeServices.result[0].status_type);
+  //     //console.log('result[0].order_details.length : ', activeOrders.result[0].order_details.length);
+  //     this.setState({
+  //       isFetchingData: false,
+  //       //activeAssistedServicesRequest: activeServices.result
+  //     });
+  //   } catch (error) {
+  //     console.log("order error: ", error);
+  //     this.setState({
+  //       error,
+  //       isFetchingData: false
+  //     });
+  //   }
+  // };
 
   openOrderScreen = order => {
     this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
@@ -133,7 +134,8 @@ class ActiveOrdersScreen extends Component {
     }
     if (
       activeDeliveryOrders.length === 0 &&
-      activeAssistedServicesRequest.length === 0
+      activeAssistedServicesRequest.length === 0 &&
+      this.state.isFetchingData === false
     ) {
       activeOrders = (
         <View
@@ -169,7 +171,7 @@ class ActiveOrdersScreen extends Component {
             weight="Bold"
             style={{ fontSize: 18, color: "#c2c2c2", marginTop: 10 }}
           >
-            You don't have any orders right now
+            You have not placed any recent orders
           </Text>
           <Button
             style={{ height: 40, width: 150, marginTop: 30 }}

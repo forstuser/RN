@@ -187,20 +187,20 @@ class SelectModal extends Component {
             />
           </TouchableOpacity>
         ) : (
-          <View collapsable={false} style={styles.wrapper}>
-            <TextInput
-              underlineColorAndroid="transparent"
-              ref={ref => (this.textInput = ref)}
-              placeholder={textInputPlaceholder}
-              style={styles.textInput}
-              value={textInput}
-              onChangeText={text => this._onTextInputChange(text)}
-            />
-            <Text onPress={this._tryOpenModal} style={styles.textInputSelect}>
-              Select
+            <View collapsable={false} style={styles.wrapper}>
+              <TextInput
+                underlineColorAndroid="transparent"
+                ref={ref => (this.textInput = ref)}
+                placeholder={textInputPlaceholder}
+                style={styles.textInput}
+                value={textInput}
+                onChangeText={text => this._onTextInputChange(text)}
+              />
+              <Text onPress={this._tryOpenModal} style={styles.textInputSelect}>
+                Select
             </Text>
-          </View>
-        )}
+            </View>
+          )}
         {!selectedOption && !textInput && hint ? (
           <Text weight="Regular" style={styles.hint}>
             {hint}
@@ -242,8 +242,8 @@ class SelectModal extends Component {
                     />
                   </View>
                 ) : (
-                  <View collapsable={false} />
-                )}
+                    <View collapsable={false} />
+                  )}
               </View>
               {optionsAfterSearch.length > 0 ? (
                 <FlatList
@@ -266,26 +266,26 @@ class SelectModal extends Component {
                   }}
                 />
               ) : (
-                <View collapsable={false} style={styles.noResultContainer}>
-                  <Text style={styles.noResultText}>No result found</Text>
+                  <View collapsable={false} style={styles.noResultContainer}>
+                    <Text style={styles.noResultText}>No result found</Text>
 
-                  {!hideAddNew ? (
-                    <TouchableOpacity
-                      style={styles.addNewBtn}
-                      onPress={this._onAddNewClick}
-                    >
-                      <Text style={styles.addNewBtnText}>Add New</Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <View collapsable={false} />
-                  )}
-                </View>
-              )}
+                    {!hideAddNew ? (
+                      <TouchableOpacity
+                        style={styles.addNewBtn}
+                        onPress={this._onAddNewClick}
+                      >
+                        <Text style={styles.addNewBtnText}>Add New</Text>
+                      </TouchableOpacity>
+                    ) : (
+                        <View collapsable={false} />
+                      )}
+                  </View>
+                )}
             </Modal>
           </View>
         ) : (
-          <View collapsable={false} />
-        )}
+            <View collapsable={false} />
+          )}
       </View>
     );
   }

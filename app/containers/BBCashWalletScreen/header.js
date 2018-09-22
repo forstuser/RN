@@ -30,7 +30,7 @@ class Header extends Component {
           <Icon name="md-arrow-back" size={30} color="#fff" />
         </TouchableOpacity>
         <Text weight="Bold" style={[styles.heading, styles.heading1]}>
-          BBCash Wallet
+          BB Wallet
         </Text>
         <Text style={[styles.heading, styles.heading2]}>Available BBCash</Text>
         <Text weight="Light" style={[styles.heading, styles.heading3]}>

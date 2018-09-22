@@ -27,7 +27,7 @@ export default class StatusModal extends React.Component {
     return (
       <Modal
         isVisible={isVisible}
-        title={"Cashback Dispersed"}
+        title={"Cashback In Progress"}
         onClosePress={this.hide}
         onBackButtonPress={this.hide}
         onBackdropPress={this.hide}
@@ -132,7 +132,7 @@ export default class StatusModal extends React.Component {
             }}
           >
             <Text style={{ fontSize: 11, flex: 1 }} weight="Bold">
-              Amount Dispersed *
+              Claim Amount *
             </Text>
             <Text style={{ fontSize: 11 }} weight="Bold">
               ₹ {item.total_cashback}

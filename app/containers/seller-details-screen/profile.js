@@ -12,8 +12,10 @@ import call from "react-native-phone-call";
 import getDirections from "react-native-google-maps-directions";
 import { connect } from "react-redux";
 import moment from 'moment';
+import { loginToApplozic, openChatWithSeller } from "../../applozic";
 
 import { API_BASE_URL } from "../../api";
+//import defaultPic from '../../images/default_seller_img.png';
 
 import { Text, Button } from "../../elements";
 import Checkbox from "../../components/checkbox";
@@ -29,16 +31,16 @@ const KeyValue = ({ keyText, valueText, ValueComponent }) => (
       style={{
         flexDirection: "row",
         width: 100,
-        justifyContent: "space-between"
+        justifyContent: 'space-between'
       }}
     >
-      <Text style={{ fontSize: 9 }}>{keyText}</Text>
-      <Text style={{ fontSize: 9 }}>:</Text>
+      <Text style={{ fontSize: 14 }}>{keyText}</Text>
+      <Text style={{ fontSize: 14, marginLeft: 1 }}>:</Text>
     </View>
     {ValueComponent ? (
       <ValueComponent />
     ) : (
-        <Text weight="Medium" style={{ fontSize: 9, marginLeft: 20 }}>
+        <Text weight="Medium" style={{ fontSize: 12, marginLeft: 20 }}>
           {valueText}
         </Text>
       )}
@@ -56,7 +58,7 @@ const PaymentMode = ({ isAvailable, name }) => (
     }}
   >
     <Checkbox isChecked={isAvailable} style={{ height: 16, width: 16 }} />
-    <Text style={{ fontSize: 9, marginLeft: 5 }}>{name}</Text>
+    <Text style={{ fontSize: 12, marginLeft: 5 }}>{name}</Text>
   </View>
 );
 
@@ -75,7 +77,7 @@ const Review = ({ imageUrl, name, ratings, reviewText }) => (
         )}
     </View>
     <View style={{ flex: 1 }}>
-      <Text weight="Medium" style={{ fontSize: 9, marginTop: 5 }}>
+      <Text weight="Medium" style={{ fontSize: 11, marginTop: 5 }}>
         {name}
       </Text>
       <View
@@ -105,7 +107,7 @@ const Review = ({ imageUrl, name, ratings, reviewText }) => (
         </Text>
       </View>
 
-      <Text style={{ fontSize: 8, marginTop: 3 }}>{reviewText}</Text>
+      <Text style={{ fontSize: 12, marginTop: 3 }}>{reviewText}</Text>
     </View>
   </View>
 );
@@ -123,6 +125,18 @@ class SellerProfileTab extends React.Component {
       showSnackbar({ text: "Phone number not available" });
     }
   };
+
+  startChatWithSeller = async seller => {
+    this.setState({ isMySellersModalVisible: false });
+    const { user } = this.props;
+    try {
+      await loginToApplozic({ id: user.id, name: user.name });
+      openChatWithSeller({ id: seller.id });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    }
+  };
+
 
   openNavigation = () => {
     const { seller } = this.props;
@@ -158,7 +172,7 @@ class SellerProfileTab extends React.Component {
         ? "(" + basicDetails.home_delivery_remarks + ")"
         : "");
 
-    const coverImageUri =
+    let coverImageUri =
       API_BASE_URL + `/consumer/sellers/${seller.id}/upload/1/images/0`;
 
     console.log("coverImageUri: ", coverImageUri);
@@ -176,7 +190,9 @@ class SellerProfileTab extends React.Component {
               height: 120,
               position: 'absolute',
               top: 30,
-              left: 20
+              left: 20,
+              borderRadius: 20,
+              borderWidth: 1
             }}
             source={{
               uri: coverImageUri
@@ -205,7 +221,7 @@ class SellerProfileTab extends React.Component {
           /> */}
             <View style={{ position: 'absolute', top: 35, left: 150 }}>
               <View style={{ flexDirection: 'row' }}>
-                <Text weight="Medium" style={{ fontSize: 13.5, color: '#fff' }}>
+                <Text weight="Medium" style={{ fontSize: 15.5, color: '#fff' }}>
                   {seller.name}
                 </Text>
                 <View
@@ -242,7 +258,7 @@ class SellerProfileTab extends React.Component {
                   maxStars={5}
                   rating={Number(3.5)}
                   halfStarEnabled={true}
-                  starSize={11}
+                  starSize={13}
                   starStyle={{ marginHorizontal: 0 }}
                 />
                 <Text
@@ -256,7 +272,7 @@ class SellerProfileTab extends React.Component {
                   ({seller.ratings})
                 </Text>
               </View>
-              <Text style={{ fontSize: 9, marginTop: 5, color: '#fff' }}>
+              <Text style={{ fontSize: 13, marginTop: 5, color: '#fff' }}>
                 {seller.address}
               </Text>
             </View>
@@ -360,37 +376,51 @@ class SellerProfileTab extends React.Component {
             </Text>
           </View>
         )} */}
-        <View style={{ flexDirection: "row", width: 180, height: 60, paddingTop: 10 }}>
-          <TouchableOpacity onPress={this.call} style={[styles.button]}>
-            <Icon
-              name="ios-call-outline"
-              style={styles.buttonIcon}
-              color={colors.pinkishOrange}
-            />
-            <Text weight="Medium" style={styles.buttonText}>
-              Call
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={this.openNavigation}
-            style={[styles.button, { marginHorizontal: 1 }]}
-          >
-            <Icon
-              name="ios-navigate-outline"
-              style={styles.buttonIcon}
-              color={colors.pinkishOrange}
-            />
-            <Text weight="Medium" style={styles.buttonText}>
-              Directions
-            </Text>
-          </TouchableOpacity>
+        <View style={{ borderBottomWidth: 1, borderBottomColor: '#eee', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ flexDirection: "row", width: 270, height: 60, paddingTop: 10, marginTop: 10 }}>
+            <TouchableOpacity onPress={this.call} style={[styles.button]}>
+              <Icon
+                name="ios-call-outline"
+                style={styles.buttonIcon}
+                color={colors.pinkishOrange}
+              />
+              <Text weight="Medium" style={styles.buttonText}>
+                Call
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.startChatWithSeller(seller)} style={[styles.button, styles.chat]}>
+              <Icon
+                name="ios-chatbubbles-outline"
+                style={styles.buttonIcon}
+                color={colors.pinkishOrange}
+              />
+              <Text weight="Medium" style={styles.buttonText}>
+                Chat
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.openNavigation}
+              style={[styles.button, { marginHorizontal: 1 }]}
+            >
+              <Icon
+                name="ios-navigate-outline"
+                style={styles.buttonIcon}
+                color={colors.pinkishOrange}
+              />
+              <Text weight="Medium" style={styles.buttonText}>
+                Directions
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
+        
         
         <View style={{ width: "100%" }}>
           <View
             style={{
               ...defaultStyles.card,
               margin: 10,
+              marginTop: 20,
               borderRadius: 10,
               paddingVertical: 5,
               paddingHorizontal: 20
@@ -472,7 +502,7 @@ class SellerProfileTab extends React.Component {
             marginRight: 10,
             marginTop: 5
           }}
-          textStyle={{ fontSize: 11.5 }}
+          textStyle={{ fontSize: 12.5 }}
         />
         <ReviewModal
           ref={node => {
@@ -491,7 +521,7 @@ class SellerProfileTab extends React.Component {
               paddingHorizontal: 15
             }}
           >
-            <Text weight="Medium" style={{ fontSize: 11 }}>
+            <Text weight="Medium" style={{ fontSize: 14 }}>
               Reviews
             </Text>
             {seller.reviews.map(review => (
@@ -523,12 +553,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   buttonIcon: {
-    fontSize: 22,
+    fontSize: 24,
     marginRight: 5
   },
   buttonText: {
-    fontSize: 12,
+    fontSize: 14,
     color: colors.pinkishOrange
+  },
+  chat: {
+    marginLeft: -15
   }
 });
 

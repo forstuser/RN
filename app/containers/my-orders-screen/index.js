@@ -9,11 +9,11 @@ import SingleOrder from './single-order';
 
 export default class OrdersList extends React.Component {
   static navigationOptions = {
-    title: "My Orders"
+    title: "My Grocery Orders"
   };
 
   state = {
-    isLoading: true,
+    isLoading: false,
     error: null,
     orders: []
   };
@@ -23,9 +23,10 @@ export default class OrdersList extends React.Component {
   }
 
   loadOrders = async () => {
+    this.setState({ isLoading: true, error: null });
     try {
       const res = await getCompletedOrders();
-      this.setState({ orders: res.result });
+      this.setState({ orders: res.result, isLoading: false });
       console.log('Get Completed Orders: ', res.result);
       //console.log('Get Completed Orders: ', res.result[0].order_details.length);
     } catch (error) {
@@ -62,15 +63,15 @@ export default class OrdersList extends React.Component {
           onRefresh={this.loadOrders}
           keyExtractor={item => item.id}
           renderItem={this.renderOrders}
-          ListEmptyComponent={() => (
+          ListEmptyComponent={() => !isLoading ? (
             <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center", 
-              backgroundColor: '#fff'
-            }}
-          >
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center", 
+                backgroundColor: '#fff'
+              }}
+            >
             <View
               style={{
                 alignItems: "center",
@@ -96,7 +97,8 @@ export default class OrdersList extends React.Component {
               weight="Bold"
               style={{ fontSize: 18, color: "#c2c2c2", marginTop: 10 }}
             >
-              You don't have any orders right now
+              You have not ordered any grocery as yet
+
             </Text>
             <Button
               style={{ height: 40, width: 150, marginTop: 30 }}
@@ -106,9 +108,7 @@ export default class OrdersList extends React.Component {
               textStyle={{ fontSize: 16 }}
             />
           </View>
-          
-            
-          )}
+          ): null}
         />
       </View>
       
