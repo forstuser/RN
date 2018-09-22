@@ -517,7 +517,7 @@ class MySellersScreen extends React.Component {
                             { seller: item }
                           )
                         }
-                        style={styles.bottomButton}
+                        style={[styles.bottomButton, { flex: 1.5 }]}
                       >
                         <Icon
                           name="ios-construct-outline"
@@ -564,7 +564,7 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   bottomButtonText: {
-    fontSize: 9
+    fontSize: 11
   }
 });
 

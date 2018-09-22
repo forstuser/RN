@@ -16,7 +16,7 @@ import ActionSheet from "react-native-actionsheet";
 import call from "react-native-phone-call";
 import { DrawerActions } from "react-navigation";
 
-import { SCREENS } from "../../constants";
+import { SCREENS, LOCATIONS } from "../../constants";
 import { Text, Button, ScreenContainer } from "../../elements";
 import MoreItem from "./more-item";
 import Analytics from "../../analytics";
@@ -169,7 +169,8 @@ class Body extends Component {
 
   render() {
     const appVersion = DeviceInfo.getVersion();
-    const { isAppUpdateAvailable, isPinSet, language } = this.props;
+    const { profile, isAppUpdateAvailable, isPinSet, language } = this.props;
+    const location = profile ? profile.location : LOCATIONS.OTHER;
 
     return (
       <ScrollView>
@@ -179,12 +180,14 @@ class Body extends Component {
           text={"My Grocery Orders"}
           imageStyle={{ width: 20, height: 20 }}
         />
-        <MoreItem
-          onPress={this.onCashbackBillsPress}
-          imageSource={require("../../images/cashback_bills.png")}
-          text={"Cashback Claims"}
-          imageStyle={{ width: 20, height: 20 }}
-        />
+        {location != LOCATIONS.OTHER && (
+          <MoreItem
+            onPress={this.onCashbackBillsPress}
+            imageSource={require("../../images/cashback_bills.png")}
+            text={"Cashback Claims"}
+            imageStyle={{ width: 20, height: 20 }}
+          />
+        )}
         <MoreItem
           onPress={this.onAppPinPress}
           imageSource={require("../../images/ic_app_pin.png")}
@@ -218,11 +221,13 @@ class Body extends Component {
           imageSource={require("../../images/ic_more_faq.png")}
           text={I18n.t("more_screen_item_faq")}
         />
-        <MoreItem
-          onPress={this.onCashbackQueryPress}
-          imageSource={require("../../images/cashback_query.png")}
-          text={"Cashback Query"}
-        />
+        {location != LOCATIONS.OTHER && (
+          <MoreItem
+            onPress={this.onCashbackQueryPress}
+            imageSource={require("../../images/cashback_query.png")}
+            text={"Cashback Query"}
+          />
+        )}
         <Separator />
         <MoreItem
           onPress={() =>

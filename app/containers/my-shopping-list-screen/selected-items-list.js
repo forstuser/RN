@@ -64,18 +64,19 @@ export default class SelectedItemsList extends React.Component {
               }}
             >
               <View style={{ marginRight: 5 }}>
-                <TouchableOpacity
+                <View
                   style={{
                     width: 16,
                     height: 16,
                     borderRadius: 8,
                     alignItems: "center",
                     justifyContent: "center",
-                    backgroundColor: colors.success
+                    backgroundColor: colors.success,
+                    marginTop: 2
                   }}
                 >
                   <Icon name="md-checkmark" size={12} color="#fff" />
-                </TouchableOpacity>
+                </View>
               </View>
               <View
                 style={{
@@ -85,13 +86,13 @@ export default class SelectedItemsList extends React.Component {
                 <View style={{ flexDirection: "row" }}>
                   <Text
                     weight="Medium"
-                    style={{ fontSize: 10, flex: 1, marginRight: 20 }}
+                    style={{ fontSize: 12, flex: 1, marginRight: 20 }}
                     numberOfLines={2}
                   >
                     {item.title}
                     <Text
                       style={{
-                        color: colors.secondaryText,
+                        color: colors.mainText,
                         marginRight: 20
                       }}
                     >
@@ -136,17 +137,23 @@ export default class SelectedItemsList extends React.Component {
                       <View />
                     )}
                   </View>
-                  { !this.props.show ? (<TouchableOpacity
-                    onPress={() => {
-                      changeIndexQuantity(index, 0);
-                    }}
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }}
-                  >
-                    <Icon name="ios-trash-outline" size={30} color="#999999" />
-                  </TouchableOpacity>) : null}
+                  {!this.props.show ? (
+                    <TouchableOpacity
+                      onPress={() => {
+                        changeIndexQuantity(index, 0);
+                      }}
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}
+                    >
+                      <Icon
+                        name="ios-trash-outline"
+                        size={30}
+                        color="#999999"
+                      />
+                    </TouchableOpacity>
+                  ) : null}
                 </View>
               </View>
               {isLoading && (

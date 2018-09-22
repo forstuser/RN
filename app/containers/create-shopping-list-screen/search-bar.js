@@ -132,13 +132,51 @@ export default class SearchBar extends React.Component {
       }
     };
 
-    const filteredItems = items.filter(item => {
-      if (searchTerm.length > 3) {
-        return item.title.toLowerCase().includes(searchTerm.toLowerCase());
-      } else {
-        return true;
-      }
-    });
+    const filteredItems = items
+      .filter(item => {
+        if (searchTerm.length > 3) {
+          return item.title.toLowerCase().includes(searchTerm.toLowerCase());
+        } else {
+          return true;
+        }
+      })
+      .sort((a, b) => {
+        var nameA = a.title.toUpperCase(); // ignore upper and lowercase
+        var nameB = b.title.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+
+        // names must be equal
+        return 0;
+      })
+      .sort((a, b) => {
+        let cashbackOfA = 0;
+        let cashbackOfB = 0;
+
+        if (a.sku_measurements) {
+          const skuMeasurement =
+            a.sku_measurements[a.sku_measurements.length - 1];
+          if (skuMeasurement) {
+            cashbackOfA =
+              (skuMeasurement.mrp * skuMeasurement.cashback_percent) / 100;
+          }
+        }
+
+        if (b.sku_measurements) {
+          const skuMeasurement =
+            b.sku_measurements[b.sku_measurements.length - 1];
+          if (skuMeasurement) {
+            cashbackOfB =
+              (skuMeasurement.mrp * skuMeasurement.cashback_percent) / 100;
+          }
+        }
+
+        return cashbackOfB - cashbackOfA;
+      });
 
     let categoryChuncks = [];
     if (
@@ -274,7 +312,7 @@ export default class SearchBar extends React.Component {
           activeMainCategory.categories &&
           activeMainCategory.categories.length > 0 &&
           !searchTerm && (
-            <View style={{ height: 34, paddingHorizontal: 5 }}>
+            <View style={{ height: 34, paddingHorizontal: 5, marginBottom: 7 }}>
               <ScrollView
                 horizontal
                 style={{}}
@@ -306,6 +344,7 @@ export default class SearchBar extends React.Component {
                     <Text
                       weight="Medium"
                       style={{
+                        marginTop: -2,
                         fontSize: 12,
                         color: selectedCategoryIds.includes(category.id)
                           ? "#fff"
@@ -324,7 +363,9 @@ export default class SearchBar extends React.Component {
         <View
           style={{
             flex: 1,
-            flexDirection: "row"
+            flexDirection: "row",
+            borderTopColor: colors.lightBlue,
+            borderTopWidth: 2
           }}
         >
           {mainCategories.length > 0 && !searchTerm ? (
@@ -355,7 +396,7 @@ export default class SearchBar extends React.Component {
                   >
                     <Text
                       weight="Medium"
-                      style={{ fontSize: 10 }}
+                      style={{ fontSize: 12 }}
                       numberOfLines={2}
                     >
                       {item.title}
@@ -370,6 +411,7 @@ export default class SearchBar extends React.Component {
 
           <View style={{ flex: 2, height: "100%" }}>
             <FlatList
+              style={{ marginTop: 4 }}
               data={filteredItems}
               renderItem={({ item }) => (
                 <SkuItem

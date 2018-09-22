@@ -3,6 +3,9 @@ import { View, TouchableOpacity, Image } from "react-native";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
 import call from "react-native-phone-call";
+import { connect } from "react-redux";
+
+import { loginToApplozic, openChatWithSeller } from "../../applozic";
 
 import { API_BASE_URL } from "../../api";
 import { Text, Button } from "../../elements";
@@ -10,7 +13,9 @@ import { defaultStyles, colors } from "../../theme";
 
 import { openBillsPopUp } from "../../navigation";
 
-export default class SellerDetails extends React.Component {
+import { LOCATIONS } from "../../constants";
+
+class SellerDetails extends React.Component {
   call = () => {
     const { order } = this.props;
     call({ number: order.seller.contact_no }).catch(e =>
@@ -31,8 +36,20 @@ export default class SellerDetails extends React.Component {
     }
   };
 
-  render() {
+  startChatWithSeller = async seller => {
     const { order } = this.props;
+    this.setState({ isMySellersModalVisible: false });
+    const { user } = this.props;
+    try {
+      await loginToApplozic({ id: user.id, name: user.name });
+      openChatWithSeller({ id: order.seller_id });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    }
+  };
+
+  render() {
+    const { order, userLocation } = this.props;
 
     const { seller } = order;
     const orderDate = order.created_at;
@@ -86,41 +103,79 @@ export default class SellerDetails extends React.Component {
                   {moment(orderDate).format("DD MMM, YYYY")} |{" "}
                   {moment(orderDate).format("hh:mm a")}
                 </Text>
-                <TouchableOpacity
-                  onPress={() => this.call()}
-                  style={{
-                    marginTop: 8,
-                    flexDirection: "row",
-                    height: 26,
-                    width: 65,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 15,
-                    borderColor: "#c5c5c5",
-                    borderWidth: 1
-                  }}
-                >
-                  <Icon
-                    name="ios-call-outline"
-                    size={18}
-                    color={colors.pinkishOrange}
-                  />
-                  <Text weight="Medium" style={{ fontSize: 9, marginLeft: 7 }}>
-                    Call
-                  </Text>
-                </TouchableOpacity>
-
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity
+                    onPress={() => this.call()}
+                    style={{
+                      marginTop: 8,
+                      flexDirection: "row",
+                      height: 26,
+                      width: 65,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 15,
+                      borderColor: "#c5c5c5",
+                      borderWidth: 1
+                    }}
+                  >
+                    <Icon
+                      name="ios-call-outline"
+                      size={18}
+                      color={colors.pinkishOrange}
+                    />
+                    <Text
+                      weight="Medium"
+                      style={{ fontSize: 9, marginLeft: 7 }}
+                    >
+                      Call
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={this.startChatWithSeller}
+                    style={{
+                      marginTop: 8,
+                      flexDirection: "row",
+                      height: 26,
+                      width: 65,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 15,
+                      borderColor: "#c5c5c5",
+                      borderWidth: 1,
+                      marginLeft: 20
+                    }}
+                  >
+                    <Icon
+                      name="ios-chatbubbles-outline"
+                      size={18}
+                      color={colors.pinkishOrange}
+                    />
+                    <Text
+                      weight="Medium"
+                      style={{ fontSize: 9, marginLeft: 7 }}
+                    >
+                      Chat
+                    </Text>
+                  </TouchableOpacity>
+                </View>
                 {((order.copies && order.copies.length > 0) ||
                   (order.expense_id &&
                     order.upload_id &&
-                    moment().diff(order.updated_at, "hours") < 24)) && (
+                    moment().diff(order.updated_at, "hours") < 24 &&
+                    userLocation != LOCATIONS.OTHER)) && (
                   <TouchableOpacity
                     onPress={this.onViewBillPress}
                     style={{
                       marginTop: 10,
                       marginBottom: 5,
                       flexDirection: "row",
-                      alignItems: "center"
+                      alignItems: "center",
+                      borderColor: colors.pinkishOrange,
+                      borderWidth: 1,
+                      alignSelf: "flex-start",
+                      paddingHorizontal: 10,
+                      paddingVertical: 5,
+                      borderRadius: 15
                     }}
                   >
                     <Icon
@@ -131,6 +186,7 @@ export default class SellerDetails extends React.Component {
                     <Text
                       weight="Medium"
                       style={{
+                        marginTop: -3,
                         marginLeft: 4,
                         fontSize: 14,
                         color: colors.pinkishOrange
@@ -150,3 +206,11 @@ export default class SellerDetails extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.loggedInUser
+  };
+};
+
+export default connect(mapStateToProps)(SellerDetails);

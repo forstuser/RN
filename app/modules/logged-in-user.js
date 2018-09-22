@@ -20,6 +20,7 @@ export default function loggedInUserReducer(
         id: action.payload.id,
         name: action.payload.name,
         phone: action.payload.phone,
+        location: action.payload.location,
         imageUrl: action.payload.imageUrl,
         isPinSet: action.payload.isPinSet
       };
@@ -68,7 +69,7 @@ export const actions = {
     };
   },
   /**
-   * user object: {id, name, phone, imageUrl, isPinSet}
+   * user object: {id, name, phone, location, imageUrl, isPinSet}
    */
   setLoggedInUser: user => {
     return {

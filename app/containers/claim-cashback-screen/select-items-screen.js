@@ -207,18 +207,21 @@ export default class SelectCashbackItems extends React.Component {
   };
 
   updateStateCategoryId = categoryId => {
-    const selectedCategoryIds = [...this.state.selectedCategoryIds];
-    const idx = selectedCategoryIds.findIndex(
-      category => category.id == categoryId
+    // const selectedCategoryIds = [...this.state.selectedCategoryIds];
+    // const idx = selectedCategoryIds.findIndex(
+    //   category => category.id == categoryId
+    // );
+    // if (idx > -1) {
+    //   selectedCategoryIds.splice(idx, 1);
+    // } else {
+    //   selectedCategoryIds.push(categoryId);
+    // }
+    this.setState(
+      { selectedCategoryIds: [categoryId], selectedBrands: [] },
+      () => {
+        this.loadItems();
+      }
     );
-    if (idx > -1) {
-      selectedCategoryIds.splice(idx, 1);
-    } else {
-      selectedCategoryIds.push(categoryId);
-    }
-    this.setState({ selectedCategoryIds, selectedBrands: [] }, () => {
-      this.loadItems();
-    });
   };
 
   updateItem = (index, data) => {
@@ -491,7 +494,8 @@ export default class SelectCashbackItems extends React.Component {
             marginTop: 0,
             borderTopColor: "#eee",
             borderTopWidth: 1,
-            elevation: 3
+            elevation: 3,
+            backgroundColor: "#fff"
           }}
         >
           <TouchableOpacity

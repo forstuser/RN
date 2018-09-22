@@ -23,7 +23,7 @@ import { colors } from "../../theme";
 import { showSnackbar } from "../../utils/snackbar";
 import LoadingOverlay from "../../components/loading-overlay";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
-import { SCREENS } from "../../constants";
+import { SCREENS, LOCATIONS } from "../../constants";
 
 class Header extends Component {
   constructor(props) {
@@ -67,7 +67,7 @@ class Header extends Component {
           mimeType: file.mime
         });
       })
-      .catch(e => { });
+      .catch(e => {});
   };
 
   pickGalleryImage = async () => {
@@ -84,7 +84,7 @@ class Header extends Component {
           mimeType: file.mime
         });
       })
-      .catch(e => { });
+      .catch(e => {});
   };
 
   uploadImage = async file => {
@@ -94,7 +94,7 @@ class Header extends Component {
       isOnTabsScreen: true
     });
     try {
-      await uploadProfilePic(file, () => { });
+      await uploadProfilePic(file, () => {});
       this.setState({
         profilePic: <Image style={styles.image} source={{ uri: file.uri }} />
       });
@@ -113,9 +113,10 @@ class Header extends Component {
   };
   onWalletPress = () => {
     this.props.navigation.navigate(SCREENS.BB_CASH_WALLET_SCREEN);
-  }
+  };
   render() {
     const { profile, authToken, isProfileVisible, name, mobile } = this.props;
+    const location = profile ? profile.location : LOCATIONS.OTHER;
 
     if (!profile) {
       return (
@@ -167,20 +168,25 @@ class Header extends Component {
                 <Text style={styles.mobile}>{profile.mobile_no}</Text>
               </View>
 
-              <TouchableOpacity style={{ alignItems: "center", left: 5 }} onPress={() => this.onWalletPress()}>
-                <Image
-                  style={{ width: 25, height: 25 }}
-                  source={require("../../images/wallet.png")}
-                />
-                <Text weight="Medium" style={{ fontSize: 10, color: "#fff" }}>
-                  {profile.wallet_value} Pts.
-                </Text>
-              </TouchableOpacity>
+              {location != LOCATIONS.OTHER && (
+                <TouchableOpacity
+                  style={{ alignItems: "center", left: 5 }}
+                  onPress={() => this.onWalletPress()}
+                >
+                  <Image
+                    style={{ width: 25, height: 25 }}
+                    source={require("../../images/wallet.png")}
+                  />
+                  <Text weight="Medium" style={{ fontSize: 10, color: "#fff" }}>
+                    {profile.wallet_value} Pts.
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
           </TouchableOpacity>
         ) : (
-            <View />
-          )}
+          <View />
+        )}
       </View>
     );
   }

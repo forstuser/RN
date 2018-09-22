@@ -131,7 +131,7 @@ export default class CashbackQueryScreen extends React.Component {
                     </Text>
                   </Text>
                   <Text style={{ fontSize: 14, marginVertical: 5 }}>
-                    Price :<Text weight="Bold">{` ` + item.amount_paid}</Text>
+                    Price :<Text weight="Bold">{` ` + (item.amount_paid || 0)}</Text>
                   </Text>
                   <Text style={{ fontSize: 14 }}>
                     BB Cashback Earned :

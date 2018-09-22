@@ -439,9 +439,6 @@ const mapDispatchToProps = dispatch => {
     },
     setUiHasDashboardTourShown: newValue => {
       dispatch(uiActions.setUiHasDashboardTourShown(newValue));
-    },
-    setLoggedInUser: user => {
-      dispatch(loggedInUserActions.setLoggedInUser(user));
     }
   };
 };

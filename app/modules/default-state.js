@@ -6,6 +6,7 @@ export default {
     id: null,
     name: null,
     phone: null,
+    location: "Other",
     imageUrl: null,
     isPinSet: false,
     codepushDeploymentStaging: false,
