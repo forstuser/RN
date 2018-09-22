@@ -48,7 +48,7 @@ class EhomeScreen extends Component {
     super(props);
     this.state = {
       recentSearches: [],
-      activeTabIndex: 0,
+      activeTabIndex: null,
       tabs: [
         {
           type: PRODUCT_TYPES.PRODUCT,
@@ -177,8 +177,10 @@ class EhomeScreen extends Component {
   };
   render() {
     const { recentSearches, activeTabIndex, tabs } = this.state;
-
+    console.log('Tab Index: ', activeTabIndex);
+    let calendar = 'Attendance'; 
     return (
+      
       <TabsScreenContainer
         iconSource={ehomeIcon}
         navigation={this.props.navigation}
@@ -196,7 +198,7 @@ class EhomeScreen extends Component {
               <Icon name="md-search" color="#fff" size={28} />
             </TouchableOpacity>
 
-            {tabs[activeTabIndex] && tabs[activeTabIndex].products.length > 0 ? (
+            {tabs[activeTabIndex] && tabs[activeTabIndex].products.length > 0 && activeTabIndex !== null ? (
               <TouchableOpacity
                 onPress={() =>
                   this.filterModal.show({
@@ -213,7 +215,7 @@ class EhomeScreen extends Component {
             ) : null}
           </View>
         }
-        tabs={[<View style={{ flex: 1 }} tabLabel='Calendar'>
+        tabs={[<View style={{ flex: 1 }} tabLabel={calendar}>
           <CalendarContent
             ref={node => {
               this.calendarContent = node;

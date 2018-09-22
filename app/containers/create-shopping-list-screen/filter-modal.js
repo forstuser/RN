@@ -79,7 +79,7 @@ class FilterModalScreen extends Component {
             alignItems: "center"
             }}
         >
-            <Text style={{ flex: 1, fontSize: 10 }}>
+            <Text style={{ flex: 1, fontSize: 12 }}>
                 {this.state.selectedMainCategory === 'Filter by Brands' ? (item.title) : (item.name)}
             </Text>
             <Checkbox isChecked={this.props.checkedBrandIds.includes(item.id)} />

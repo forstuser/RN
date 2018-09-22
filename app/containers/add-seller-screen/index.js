@@ -133,10 +133,11 @@ export default class MySellersScreen extends React.Component {
             underlineColorAndroid="transparent"
           />
           <Icon
+            onPress={this.getSellers}
             name="ios-search"
             size={25}
             color="#ddd"
-            style={{ marginRight: 10 }}
+            style={{ marginRight: 10, padding: 10 }}
           />
         </View>
         <View style={{ flex: 1 }}>

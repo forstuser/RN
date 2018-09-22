@@ -52,7 +52,8 @@ class MySellersScreen extends React.Component {
 
   getMySellers = async () => {
     this.setState({
-      isLoadingMySellers: true
+      isLoadingMySellers: true,
+      error: null
     });
     try {
       const res = await getMySellers();
@@ -107,10 +108,13 @@ class MySellersScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const { mySellers, isLoadingMySellers, phoneNumbers } = this.state;
+    const { mySellers, isLoadingMySellers, phoneNumbers, error } = this.state;
 
     console.log("mySellers: ", mySellers);
-
+    
+    if(error) {
+      <ErrorOverlay error={error} onRetryPress={this.getMySellers} />
+    }
 
     return (
       <DrawerScreenContainer
@@ -129,9 +133,9 @@ class MySellersScreen extends React.Component {
               onPress={this.openAddSellerScreen}
             >
               <Icon
-                style={{ marginTop: 1 }}
+                style={{ marginTop: 1, marginRight: 8 }}
                 name="ios-add-circle-outline"
-                size={22}
+                size={24}
                 color="#fff"
               />
             </TouchableOpacity>
