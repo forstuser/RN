@@ -30,10 +30,16 @@ const slides = [
     image: require("../../images/onboarding/onboarding3.png")
   },
   {
+    key: "slide4",
+    title: I18n.t("app_intro_3_title"),
+    desc: I18n.t("app_intro_3_desc"),
+    image: require("../../images/onboarding/onboarding4.png")
+  },
+  {
     key: "slide5",
     title: I18n.t("app_intro_4_title"),
     desc: I18n.t("app_intro_4_desc"),
-    image: require("../../images/onboarding/onboarding4.png")
+    image: require("../../images/onboarding/onboarding5.png")
   }
 ];
 
@@ -48,9 +54,13 @@ class Intro extends Component {
         <Text weight="Bold" style={styles.nextBtnText}>
           {I18n.t("app_intro_next")}
         </Text>
-        {/* <Image
-          style={styles.nextBtnArrow}
-          source={require("../../images/ic_arrow_forward.png")}
+        {/* <Button
+          onPress={this.renderNextButton}
+          text={I18n.t("app_intro_next")}
+          weight="Bold"
+          color="secondary"
+          borderRadius={0}
+          style={styles.doneBtn}
         /> */}
       </View>
     );
@@ -73,6 +83,8 @@ class Intro extends Component {
           onPress={this.openLoginScreen}
           text={I18n.t("app_intro_start")}
           weight="Bold"
+          color="secondary"
+          borderRadius={0}
           style={styles.doneBtn}
         />
       </View>
@@ -82,15 +94,17 @@ class Intro extends Component {
   render() {
     return (
       <AppIntroSlider
-        renderSkipButton={this.renderSkipButton}
+        // renderSkipButton={this.renderSkipButton}
         renderDoneButton={this.renderDoneButton}
         renderNextButton={this.renderNextButton}
-        dotColor="#cef0ff"
-        activeDotColor="#00b2ff"
+        dotColor="#fdd4c0"
+        activeDotColor={colors.pinkishOrange}
         onDone={this.openLoginScreen}
         onSkip={this.openLoginScreen}
         slides={slides}
         renderItem={IntroSlide}
+      // bottomButton={true}
+      // buttonStyle={styles.doneBtn}
       />
     );
   }
@@ -113,10 +127,11 @@ const styles = StyleSheet.create({
   },
   doneBtnContainer: {
     width: Dimensions.get("window").width - 32,
-    alignItems: "center"
+    alignItems: "center",
   },
   doneBtn: {
-    width: 250
+    width: 320,
+    backgroundColor: colors.pinkishOrange
   }
 });
 export default Intro;

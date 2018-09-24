@@ -46,7 +46,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class DoYouKNowScreen extends Component {
   static navigationOptions = {
-    header: null
+    title: "Do You Know"
   };
 
   constructor(props) {
@@ -403,7 +403,7 @@ class DoYouKNowScreen extends Component {
 
     return (
       <ScreenContainer style={styles.container}>
-        <View collapsable={false} style={styles.header}>
+        {/* <View collapsable={false} style={styles.header}>
           <TabSearchHeader
             title={I18n.t("do_you_know_screen_title")}
             icon={doYouKnowIcon}
@@ -415,7 +415,7 @@ class DoYouKNowScreen extends Component {
               this.tagsModal.show();
             }}
           />
-        </View>
+        </View> */}
         <View collapsable={false} style={styles.body}>
           {items.length > 0 ? (
             <Animated.View
@@ -430,8 +430,8 @@ class DoYouKNowScreen extends Component {
               <Item />
             </Animated.View>
           ) : (
-            <View collapsable={false} />
-          )}
+              <View collapsable={false} />
+            )}
           <LoadingOverlay
             style={{
               zIndex: 0,
