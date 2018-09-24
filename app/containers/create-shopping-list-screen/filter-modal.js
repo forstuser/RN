@@ -45,6 +45,7 @@ class FilterModalScreen extends Component {
 
     hide = () => {
         this.setState({ isVisible: false });
+        this.props.hideFilter();
     };
 
     renderMainCategoryItem = ({ item, index }) => {
