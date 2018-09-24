@@ -64,13 +64,13 @@ export default ({ reviews }) => (
       <Review
         key={review.id}
         imageUrl={
-          review.user.image_name
+          review.user && review.user.image_name
             ? API_BASE_URL + `/customer/${review.user.id}/images`
             : null
         }
-        name={review.user.name}
-        ratings={review.review_ratings.toFixed(2)}
-        reviewText={review.review_feedback}
+        name={review.user ? review.user.name : "User"}
+        ratings={(review.review_ratings || review.ratings).toFixed(2)}
+        reviewText={review.review_feedback || review.feedback}
       />
     ))}
   </View>

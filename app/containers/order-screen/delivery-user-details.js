@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity, Image, ScrollView } from "react-native";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
 import call from "react-native-phone-call";
@@ -150,7 +150,7 @@ export default class DeliveryUserDetails extends React.Component {
                   </Text>
                 </View>
                 <TouchableOpacity
-                  style={{ padding: 5 }}
+                  style={{ padding: 5, paddingLeft: 0 }}
                   onPress={this.showReviewsModal}
                 >
                   <Text
@@ -173,9 +173,12 @@ export default class DeliveryUserDetails extends React.Component {
           isVisible={isReviewsModalVisible}
           onBackButtonPress={this.hideReviewsModal}
           onBackdropPress={this.hideReviewsModal}
+          useNativeDriver
         >
-          <View style={{ backgroundColor: "#fff" }}>
-            <Reviews reviews={deliveryUser.reviews || []} />
+          <View style={{ backgroundColor: "#fff", padding: 10 }}>
+            <ScrollView>
+              <Reviews reviews={deliveryUser.reviews || []} />
+            </ScrollView>
           </View>
         </Modal>
       </View>
