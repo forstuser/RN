@@ -111,9 +111,9 @@ class MySellersScreen extends React.Component {
     const { mySellers, isLoadingMySellers, phoneNumbers, error } = this.state;
 
     console.log("mySellers: ", mySellers);
-    
-    if(error) {
-      <ErrorOverlay error={error} onRetryPress={this.getMySellers} />
+
+    if (error) {
+      <ErrorOverlay error={error} onRetryPress={this.getMySellers} />;
     }
 
     return (
@@ -123,7 +123,7 @@ class MySellersScreen extends React.Component {
         headerRight={
           <View
             style={{
-              flexDirection: "row",
+              height: "100%",
               alignItems: "center",
               justifyContent: "center"
             }}
@@ -133,7 +133,7 @@ class MySellersScreen extends React.Component {
               onPress={this.openAddSellerScreen}
             >
               <Icon
-                style={{ marginTop: 1, marginRight: 8 }}
+                style={{}}
                 name="ios-add-circle-outline"
                 size={24}
                 color="#fff"

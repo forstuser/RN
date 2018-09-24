@@ -11,7 +11,7 @@ import StarRating from "react-native-star-rating";
 import call from "react-native-phone-call";
 import getDirections from "react-native-google-maps-directions";
 import { connect } from "react-redux";
-import moment from 'moment';
+import moment from "moment";
 import { loginToApplozic, openChatWithSeller } from "../../applozic";
 
 import { API_BASE_URL } from "../../api";
@@ -25,13 +25,15 @@ import { showSnackbar } from "../../utils/snackbar";
 
 import ReviewModal from "./review-modal";
 
+import Reviews from "../../components/reviews";
+
 const KeyValue = ({ keyText, valueText, ValueComponent }) => (
   <View style={{ flexDirection: "row", marginVertical: 3 }}>
     <View
       style={{
         flexDirection: "row",
         width: 100,
-        justifyContent: 'space-between'
+        justifyContent: "space-between"
       }}
     >
       <Text style={{ fontSize: 14 }}>{keyText}</Text>
@@ -40,10 +42,10 @@ const KeyValue = ({ keyText, valueText, ValueComponent }) => (
     {ValueComponent ? (
       <ValueComponent />
     ) : (
-        <Text weight="Medium" style={{ fontSize: 12, marginLeft: 20 }}>
-          {valueText}
-        </Text>
-      )}
+      <Text weight="Medium" style={{ fontSize: 12, marginLeft: 20 }}>
+        {valueText}
+      </Text>
+    )}
   </View>
 );
 
@@ -59,56 +61,6 @@ const PaymentMode = ({ isAvailable, name }) => (
   >
     <Checkbox isChecked={isAvailable} style={{ height: 16, width: 16 }} />
     <Text style={{ fontSize: 12, marginLeft: 5 }}>{name}</Text>
-  </View>
-);
-
-const Review = ({ imageUrl, name, ratings, reviewText }) => (
-  <View style={{ flexDirection: "row", marginVertical: 3 }}>
-    <View style={{ width: 35, marginRight: 10 }}>
-      {imageUrl ? (
-        <Image
-          style={{ width: 35, height: 35, borderRadius: 18 }}
-          source={{ uri: imageUrl }}
-        />
-      ) : (
-          <View>
-            <Icon name="md-contact" size={43} color={colors.secondaryText} />
-          </View>
-        )}
-    </View>
-    <View style={{ flex: 1 }}>
-      <Text weight="Medium" style={{ fontSize: 11, marginTop: 5 }}>
-        {name}
-      </Text>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "baseline"
-        }}
-      >
-        <StarRating
-          starColor={colors.yellow}
-          disabled={true}
-          maxStars={5}
-          rating={Number(ratings)}
-          halfStarEnabled={true}
-          starSize={11}
-          starStyle={{ marginHorizontal: 0 }}
-        />
-        <Text
-          weight="Medium"
-          style={{
-            fontSize: 10,
-            marginLeft: 2,
-            color: colors.secondaryText
-          }}
-        >
-          ({ratings})
-        </Text>
-      </View>
-
-      <Text style={{ fontSize: 12, marginTop: 3 }}>{reviewText}</Text>
-    </View>
   </View>
 );
 
@@ -137,7 +89,6 @@ class SellerProfileTab extends React.Component {
     }
   };
 
-
   openNavigation = () => {
     const { seller } = this.props;
     const data = {
@@ -154,7 +105,7 @@ class SellerProfileTab extends React.Component {
 
   render() {
     const { seller, paymentModes, reloadSellerDetails } = this.props;
-    console.log("seller is :", seller)
+    console.log("seller is :", seller);
     const sellerDetails = seller.seller_details || {};
     const basicDetails = sellerDetails.basic_details || {};
 
@@ -188,7 +139,7 @@ class SellerProfileTab extends React.Component {
             zIndex: 2,
             width: 110,
             height: 120,
-            position: 'absolute',
+            position: "absolute",
             top: 30,
             left: 20,
             borderRadius: 20,
@@ -202,7 +153,7 @@ class SellerProfileTab extends React.Component {
           style={{
             width: "100%",
             height: 130,
-            backgroundColor: '#1a2036',
+            backgroundColor: "#1a2036",
             borderBottomColor: "#eee",
             borderBottomWidth: 1
           }}
@@ -219,9 +170,9 @@ class SellerProfileTab extends React.Component {
               uri: coverImageUri
             }}
           /> */}
-          <View style={{ position: 'absolute', top: 35, left: 150 }}>
-            <View style={{ flexDirection: 'row' }}>
-              <Text weight="Medium" style={{ fontSize: 15.5, color: '#fff' }}>
+          <View style={{ position: "absolute", top: 35, left: 150 }}>
+            <View style={{ flexDirection: "row" }}>
+              <Text weight="Medium" style={{ fontSize: 15.5, color: "#fff" }}>
                 {seller.name}
               </Text>
               <View
@@ -270,14 +221,13 @@ class SellerProfileTab extends React.Component {
                 }}
               >
                 ({seller.ratings.toFixed(2)})
-                </Text>
+              </Text>
             </View>
-            <Text style={{ fontSize: 13, marginTop: 5, color: '#fff' }}>
+            <Text style={{ fontSize: 13, marginTop: 5, color: "#fff" }}>
               {seller.address}
             </Text>
           </View>
         </View>
-
 
         {/* <View
           style={{
@@ -376,8 +326,24 @@ class SellerProfileTab extends React.Component {
             </Text>
           </View>
         )} */}
-        <View style={{ borderBottomWidth: 1, borderBottomColor: '#eee', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-          <View style={{ flexDirection: "row", width: 270, height: 60, paddingTop: 10, marginTop: 10 }}>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderBottomColor: "#eee",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: 270,
+              height: 60,
+              paddingTop: 10,
+              marginTop: 10
+            }}
+          >
             <TouchableOpacity onPress={this.call} style={[styles.button]}>
               <Icon
                 name="ios-call-outline"
@@ -388,7 +354,10 @@ class SellerProfileTab extends React.Component {
                 Call
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.startChatWithSeller(seller)} style={[styles.button, styles.chat]}>
+            <TouchableOpacity
+              onPress={() => this.startChatWithSeller(seller)}
+              style={[styles.button, styles.chat]}
+            >
               <Icon
                 name="ios-chatbubbles-outline"
                 style={styles.buttonIcon}
@@ -414,7 +383,6 @@ class SellerProfileTab extends React.Component {
           </View>
         </View>
 
-
         <View style={{ width: "100%" }}>
           <View
             style={{
@@ -426,11 +394,19 @@ class SellerProfileTab extends React.Component {
               paddingHorizontal: 20
             }}
           >
-            <KeyValue keyText="Opening Days" valueText={basicDetails.shop_open_day
-              .split(",")
-              .map(day => weekDays[day])
-              .join(" ")} />
-            <KeyValue keyText="Shop Timing" valueText={basicDetails.start_time + ' - ' + basicDetails.close_time} />
+            <KeyValue
+              keyText="Opening Days"
+              valueText={basicDetails.shop_open_day
+                .split(",")
+                .map(day => weekDays[day])
+                .join(" ")}
+            />
+            <KeyValue
+              keyText="Shop Timing"
+              valueText={
+                basicDetails.start_time + " - " + basicDetails.close_time
+              }
+            />
           </View>
         </View>
 
@@ -444,7 +420,10 @@ class SellerProfileTab extends React.Component {
               paddingHorizontal: 20
             }}
           >
-            <KeyValue keyText="No. of Transactions" valueText={seller.transaction_counts} />
+            <KeyValue
+              keyText="No. of Transactions"
+              valueText={seller.transaction_counts}
+            />
             <KeyValue keyText="Credit" valueText={seller.credit_total} />
             <KeyValue keyText="Points" valueText={seller.loyalty_total} />
           </View>
@@ -460,7 +439,10 @@ class SellerProfileTab extends React.Component {
               paddingHorizontal: 20
             }}
           >
-            <KeyValue keyText="Connected Since" valueText={moment(seller.state.created_at).format("MMM YYYY")} />
+            <KeyValue
+              keyText="Connected Since"
+              valueText={moment(seller.state.created_at).format("MMM YYYY")}
+            />
             <KeyValue
               keyText="Store Contact No"
               valueText={seller.contact_no}
@@ -524,19 +506,7 @@ class SellerProfileTab extends React.Component {
             <Text weight="Medium" style={{ fontSize: 14 }}>
               Reviews
             </Text>
-            {seller.reviews.map(review => (
-              <Review
-                key={review.id}
-                imageUrl={
-                  review.user.image_name
-                    ? API_BASE_URL + `/customer/${review.user.id}/images`
-                    : null
-                }
-                name={review.user.name}
-                ratings={review.review_ratings.toFixed(2)}
-                reviewText={review.review_feedback}
-              />
-            ))}
+            <Reviews reviews={seller.reviews} />
           </View>
         </View>
       </ScrollView>

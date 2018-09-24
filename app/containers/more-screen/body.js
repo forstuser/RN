@@ -170,7 +170,8 @@ class Body extends Component {
   render() {
     const appVersion = DeviceInfo.getVersion();
     const { profile, isAppUpdateAvailable, isPinSet, language } = this.props;
-    const location = profile ? profile.location : LOCATIONS.OTHER;
+    const location =
+      profile && profile.location ? profile.location : LOCATIONS.OTHER;
 
     return (
       <ScrollView>

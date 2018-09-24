@@ -10,12 +10,14 @@ import {
 import ScrollableTabView, {
   DefaultTabBar
 } from "react-native-scrollable-tab-view";
+import Icon from "react-native-vector-icons/Ionicons";
 
 import BlueGradientBG from "./blue-gradient-bg";
 
 import { Text, ScreenContainer } from "../elements";
 import { colors } from "../theme";
-import Icon from "react-native-vector-icons/Ionicons";
+
+import ScreenHeaderWithDrawer from "./screen-header-with-drawer";
 
 export default class TabsScreenContainer extends React.Component {
   render() {
@@ -26,25 +28,18 @@ export default class TabsScreenContainer extends React.Component {
       onTabChange,
       tabs,
       children,
-      scrollableTabViewRef = () => {}
+      scrollableTabViewRef = () => {},
+      navigation
     } = this.props;
     return (
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
           <BlueGradientBG />
-          <View style={styles.headerUpperHalf}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.openDrawer()}
-              style={styles.menuIcon}
-            >
-              <Icon name="md-menu" size={30} color="#fff" />
-            </TouchableOpacity>
-
-            <Text weight="Medium" style={styles.title}>
-              {title}
-            </Text>
-            <View style={styles.headerRight}>{headerRight}</View>
-          </View>
+          <ScreenHeaderWithDrawer
+            navigation={navigation}
+            title={title}
+            headerRight={headerRight}
+          />
         </View>
 
         <View style={{ marginTop: -35, flex: 1 }}>
