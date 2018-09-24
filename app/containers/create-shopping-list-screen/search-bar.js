@@ -26,7 +26,11 @@ export default class SearchBar extends React.Component {
   state = {
     isBrandsPopupVisible: false,
     checkedBrands: [],
-    isModalVisible: false
+    isModalVisible: false,
+  };
+
+  hideFilter = () => {
+      this.setState({ isBrandsPopupVisible: false });
   };
 
   toggleBrandsPopup = () => {
@@ -575,6 +579,7 @@ export default class SearchBar extends React.Component {
           toggleBrandSelection={this.toggleBrandSelection}
           applyBrandsFilter={this.applyBrandsFilter}
           resetBrandsFilter={this.resetBrandsFilter}
+          hideFilter={this.hideFilter}
         />
 
         <LoadingOverlay visible={isSearching} />

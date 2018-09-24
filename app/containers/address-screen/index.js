@@ -21,7 +21,7 @@ class AddressScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         const params = navigation.state.params || {};
         return {
-            title: params.sellerId ? "Select Address" : "Manage Addresses",
+            title: params.sellerId ? "Select Delivery Address" : "Manage Addresses",
             headerRight: params.sellerId && params.showNext ? (
                 <Text
                     onPress={params.makeOrder}

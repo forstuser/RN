@@ -289,21 +289,21 @@ class MyShoppingList extends React.Component {
               onRefresh={this.getMySellers}
               renderItem={({ item }) => {
                 let btnRedeemPoints = null;
-                if (
-                  item.loyalty_total > item.minimum_points &&
-                  item.loyalty_total > 0
-                )
-                  btnRedeemPoints = (
-                    <Button
-                      onPress={() => {
-                        this.openRedeemPointsScreen(item);
-                      }}
-                      text="Redeem Points"
-                      color="secondary"
-                      style={{ height: 30, width: 115, marginTop: 10 }}
-                      textStyle={{ fontSize: 11 }}
-                    />
-                  );
+                // if (
+                //   item.loyalty_total > item.minimum_points &&
+                //   item.loyalty_total > 0
+                // )
+                //   btnRedeemPoints = (
+                //     <Button
+                //       onPress={() => {
+                //         this.openRedeemPointsScreen(item);
+                //       }}
+                //       text="Redeem Points"
+                //       color="secondary"
+                //       style={{ height: 30, width: 115, marginTop: 10 }}
+                //       textStyle={{ fontSize: 11 }}
+                //     />
+                //   );
                 return (
                   // <TouchableOpacity
                   //   onPress={() => this.selectSellerForOrder(item)}

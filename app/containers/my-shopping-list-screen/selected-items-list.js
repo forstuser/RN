@@ -105,6 +105,7 @@ export default class SelectedItemsList extends React.Component {
                     </Text>
                   </Text>
                   <QuantityPlusMinus
+                    style={{ marginRight: 5 }}
                     show={this.props.show}
                     quantity={item.quantity}
                     onMinusPress={() => {
@@ -144,7 +145,9 @@ export default class SelectedItemsList extends React.Component {
                       }}
                       style={{
                         alignItems: "center",
-                        justifyContent: "center"
+                        justifyContent: "center",
+                        marginTop: 1,
+                        marginRight: 5
                       }}
                     >
                       <Icon

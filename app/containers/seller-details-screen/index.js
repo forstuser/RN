@@ -16,6 +16,7 @@ import { colors } from "../../theme";
 import Profile from "./profile";
 import CreditTransactions from "./credit-transactions";
 import Offers from "./offers";
+import { SCREENS } from "../../constants";
 
 class SellerDetailsScreen extends React.Component {
   static navigationOptions = {

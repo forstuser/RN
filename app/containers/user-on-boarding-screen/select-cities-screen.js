@@ -69,6 +69,7 @@ class SelectCitiesScreen extends Component {
     }
 
     onCityPressed = (city) => {
+        
         this.setState({
             location: city
         });
@@ -104,27 +105,24 @@ class SelectCitiesScreen extends Component {
             <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
                 <ScrollView style={{ flex: 1 }}>
                     <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-                        {this.state.cities.map(city => (
-                            <View 
-                                style={{  
-                                    width: deviceWidth/2, 
-                                    height: deviceWidth/2, 
-                                    justifyContent: 'center', 
-                                    alignItems: 'center' 
-                                    }}
-                            >
-                                <TouchableOpacity
-                                    onPress={() => this.onCityPressed(city.name)}
+                        {this.state.cities.map(city => 
+                            (
+                                <View 
+                                    style = {styles.city}
                                 >
-                                    <Image
-                                        style={styles.imageIcon}
-                                        source={city.imageUrl}
-                                        resizeMode='contain'
-                                    />
-                                </TouchableOpacity>
-                                <Text weight='Bold' style={{ marginTop: 10, fontSize: 16, textAlign: 'center' }}>{city.name}</Text>
-                            </View>
-                        ))}
+                                    <TouchableOpacity
+                                        onPress={() => this.onCityPressed(city.name)}
+                                    >
+                                        <Image
+                                            style={this.state.location !== city.name ? [styles.imageIcon] : [styles.imageIcon, styles.selectedCity]}
+                                            source={city.imageUrl}
+                                            resizeMode='contain'
+                                        />
+                                    </TouchableOpacity>
+                                    <Text weight='Bold' style={{ marginTop: 10, fontSize: 16, textAlign: 'center' }}>{city.name}</Text>
+                                </View>
+                            ))
+                        }
                     </View>  
                 </ScrollView>
                 <Button
@@ -145,7 +143,17 @@ const styles = {
         height: 90,
         width: 90,
         borderRadius: 90,
-        borderWidth: 1    
+        borderWidth: 1,    
+    },
+    city: {
+        width: deviceWidth/2, 
+        height: deviceWidth/2, 
+        justifyContent: 'center', 
+        alignItems: 'center',
+    },
+    selectedCity: {
+        borderColor: '#000',
+        borderRadius: 90
     }
 };
 

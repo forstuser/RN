@@ -132,7 +132,7 @@
         <!--Applozic-->
 
         <meta-data android:name="com.applozic.application.key"
-            android:value="binbill40002f8f92e5e65dbc8dadc" /> <!-- Applozic Application Key -->
+            android:value="10bf4d406aff6f1cdbad607072d4bb0a2" /> <!-- Applozic Application Key dev key: binbill40002f8f92e5e65dbc8dadc-->
 
         <meta-data android:name="com.applozic.mobicomkit.notification.smallIcon"
             android:resource="@mipmap/ic_launcher" /> <!-- Launcher white Icon -->

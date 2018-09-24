@@ -12,14 +12,14 @@ import { defaultStyles, colors } from "../../theme";
 import { ORDER_TYPES, SERVICE_PRICE_TYPES } from "../../constants";
 
 export default class DeliveryUserDetails extends React.Component {
-  // call = () => {
-  //   const { deliveryUser } = this.props;
-  //   call({ number: seller.contact_no }).catch(e =>
-  //     showSnackbar({
-  //       text: e.message
-  //     })
-  //   );
-  // };
+  call = () => {
+    const { deliveryUser } = this.props;
+    call({ number: deliveryUser.mobile_no }).catch(e =>
+      showSnackbar({
+        text: e.message
+      })
+    );
+  };
 
   render() {
     let { deliveryUser = {}, orderType } = this.props;
@@ -81,9 +81,35 @@ export default class DeliveryUserDetails extends React.Component {
                     </Text>
                   )}
                 </View>
-                <Text style={{ fontSize: 11 }}>
+                {/* <Text style={{ fontSize: 11 }}>
                   Mobile: {deliveryUser.mobile_no}
-                </Text>
+                </Text> */}
+                <TouchableOpacity
+                    onPress={() => this.call()}
+                    style={{
+                      marginTop: 8,
+                      flexDirection: "row",
+                      height: 26,
+                      width: 65,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 15,
+                      borderColor: "#c5c5c5",
+                      borderWidth: 1
+                    }}
+                  >
+                    <Icon
+                      name="ios-call-outline"
+                      size={18}
+                      color={colors.pinkishOrange}
+                    />
+                    <Text
+                      weight="Medium"
+                      style={{ fontSize: 9, marginLeft: 7 }}
+                    >
+                      Call
+                    </Text>
+                  </TouchableOpacity>
                 <View
                   style={{
                     flexDirection: "row",
