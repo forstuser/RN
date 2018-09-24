@@ -167,6 +167,11 @@ class Body extends Component {
     this.props.navigation.navigate(SCREENS.CASHBACK_BILLS_SCREEN);
   };
 
+  onCashbackBillGuidelinesPress = () => {
+    this.closeDrawer();
+    this.props.navigation.navigate(SCREENS.CASHBACK_BILL_GUIDELINES_SCREEN);    
+  };
+
   render() {
     const appVersion = DeviceInfo.getVersion();
     const { profile, isAppUpdateAvailable, isPinSet, language } = this.props;
@@ -221,6 +226,11 @@ class Body extends Component {
           onPress={this.onFaqItemPress}
           imageSource={require("../../images/ic_more_faq.png")}
           text={I18n.t("more_screen_item_faq")}
+        />
+        <MoreItem
+          onPress={this.onCashbackBillGuidelinesPress}
+          imageSource={require("../../images/ic_more_faq.png")}
+          text='Cashback Bill Guidelines'
         />
         {location != LOCATIONS.OTHER && (
           <MoreItem
