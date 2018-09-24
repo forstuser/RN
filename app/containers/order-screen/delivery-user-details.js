@@ -36,7 +36,9 @@ export default class DeliveryUserDetails extends React.Component {
     return (
       <View style={{}}>
         <Text weight="Bold">
-          {orderType == ORDER_TYPES.FMCG ? "Delivered By" : "Service Provider"}
+          {orderType == ORDER_TYPES.FMCG
+            ? "Delivery Agent"
+            : "Service Provider"}
         </Text>
         <View
           style={{
