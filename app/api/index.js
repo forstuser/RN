@@ -145,7 +145,7 @@ export const uploadDocuments = async ({
   type = null,
   itemId,
   files,
-  onUploadProgress = () => {}
+  onUploadProgress = () => { }
 }) => {
   const data = new FormData();
   files.forEach((file, index) => {
@@ -1286,10 +1286,10 @@ export const updateAccessory = async ({
     value: value || undefined,
     warranty: warrantyRenewalType
       ? {
-          id: warrantyId || undefined,
-          renewal_type: warrantyRenewalType || undefined,
-          effective_date: warrantyEffectiveDate || undefined
-        }
+        id: warrantyId || undefined,
+        renewal_type: warrantyRenewalType || undefined,
+        effective_date: warrantyEffectiveDate || undefined
+      }
       : {},
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
@@ -1323,10 +1323,10 @@ export const addAccessory = async ({
     value: value || undefined,
     warranty: warrantyRenewalType
       ? {
-          id: warrantyId || undefined,
-          renewal_type: warrantyRenewalType || undefined,
-          effective_date: warrantyEffectiveDate || undefined
-        }
+        id: warrantyId || undefined,
+        renewal_type: warrantyRenewalType || undefined,
+        effective_date: warrantyEffectiveDate || undefined
+      }
       : {},
     main_category_id: mainCategoryId || undefined,
     category_id: categoryId || undefined
@@ -2038,7 +2038,7 @@ export const clearWishList = async item => {
   });
 };
 
-export const getMySellers = async (filters={}) => {
+export const getMySellers = async (filters = {}) => {
   const { isFmcg, hasPos } = filters;
   return await apiRequest({
     method: "get",
@@ -2081,6 +2081,13 @@ export const getSellerDetails = async sellerId => {
     url: `/sellers/${sellerId}`
   });
 };
+
+export const getSellerTransactionDetails = async sellerId => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers/${sellerId}/transactions`
+  })
+}
 
 export const linkSeller = async sellerId => {
   return await apiRequest({
@@ -2226,7 +2233,7 @@ export const redeemSellerPoints = async ({ sellerId, pointsToRedeem }) => {
   });
 };
 
-export const redeemToPaytm = async ({}) => {
+export const redeemToPaytm = async ({ }) => {
   return await apiRequest({
     method: "put",
     url: `/cashback/redeem`

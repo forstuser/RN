@@ -282,7 +282,7 @@ class MySellersScreen extends React.Component {
                             color: colors.secondaryText
                           }}
                         >
-                          ({item.ratings})
+                          ({item.ratings.toFixed(2)})
                         </Text>
                       </View>
                       {item.seller_details &&

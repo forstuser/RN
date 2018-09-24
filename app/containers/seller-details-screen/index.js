@@ -109,7 +109,7 @@ class SellerDetailsScreen extends React.Component {
             </View>
             <View tabLabel="Transactions">
               <CreditTransactions
-                transactions={seller.seller_credits || []}
+                sellerID={seller.id}
                 isLoading={isLoading}
               />
             </View>

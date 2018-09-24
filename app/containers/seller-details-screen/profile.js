@@ -176,7 +176,7 @@ class SellerProfileTab extends React.Component {
       API_BASE_URL + `/consumer/sellers/${seller.id}/upload/1/images/0`;
 
     console.log("coverImageUri: ", coverImageUri);
-    
+
     const thisUserReview = seller.reviews.find(
       review => this.props.userId == review.user.id
     );
@@ -184,20 +184,20 @@ class SellerProfileTab extends React.Component {
     return (
       <ScrollView contentContainerStyle={{ alignItems: "center" }}>
         <Image
-            style={{
-              zIndex: 2,
-              width: 110,
-              height: 120,
-              position: 'absolute',
-              top: 30,
-              left: 20,
-              borderRadius: 20,
-              borderWidth: 1
-            }}
-            source={{
-              uri: coverImageUri
-            }}
-          />
+          style={{
+            zIndex: 2,
+            width: 110,
+            height: 120,
+            position: 'absolute',
+            top: 30,
+            left: 20,
+            borderRadius: 20,
+            borderWidth: 1
+          }}
+          source={{
+            uri: coverImageUri
+          }}
+        />
         <View
           style={{
             width: "100%",
@@ -219,65 +219,65 @@ class SellerProfileTab extends React.Component {
               uri: coverImageUri
             }}
           /> */}
-            <View style={{ position: 'absolute', top: 35, left: 150 }}>
-              <View style={{ flexDirection: 'row' }}>
-                <Text weight="Medium" style={{ fontSize: 15.5, color: '#fff' }}>
-                  {seller.name}
-                </Text>
-                <View
-                  style={{
-                    marginTop: 5,
-                    marginLeft: 5,
-                    width: 16,
-                    height: 16,
-                    borderRadius: 8,
-                    backgroundColor: seller.is_onboarded
-                      ? colors.success
-                      : colors.danger,
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}
-                >
-                  <Icon
-                    name={seller.is_onboarded ? "md-checkmark" : "md-remove"}
-                    color="#fff"
-                    size={12}
-                  />
-                </View>
-              </View>
+          <View style={{ position: 'absolute', top: 35, left: 150 }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Text weight="Medium" style={{ fontSize: 15.5, color: '#fff' }}>
+                {seller.name}
+              </Text>
               <View
                 style={{
-                  flexDirection: "row",
-                  alignItems: "baseline",
-                  marginTop: 5
+                  marginTop: 5,
+                  marginLeft: 5,
+                  width: 16,
+                  height: 16,
+                  borderRadius: 8,
+                  backgroundColor: seller.is_onboarded
+                    ? colors.success
+                    : colors.danger,
+                  alignItems: "center",
+                  justifyContent: "center"
                 }}
               >
-                <StarRating
-                  starColor={colors.yellow}
-                  disabled={true}
-                  maxStars={5}
-                  rating={Number(3.5)}
-                  halfStarEnabled={true}
-                  starSize={13}
-                  starStyle={{ marginHorizontal: 0 }}
+                <Icon
+                  name={seller.is_onboarded ? "md-checkmark" : "md-remove"}
+                  color="#fff"
+                  size={12}
                 />
-                <Text
-                  weight="Medium"
-                  style={{
-                    fontSize: 10,
-                    marginLeft: 2,
-                    color: colors.secondaryText
-                  }}
-                >
-                  ({seller.ratings})
-                </Text>
               </View>
-              <Text style={{ fontSize: 13, marginTop: 5, color: '#fff' }}>
-                {seller.address}
-              </Text>
             </View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "baseline",
+                marginTop: 5
+              }}
+            >
+              <StarRating
+                starColor={colors.yellow}
+                disabled={true}
+                maxStars={5}
+                rating={Number(3.5)}
+                halfStarEnabled={true}
+                starSize={13}
+                starStyle={{ marginHorizontal: 0 }}
+              />
+              <Text
+                weight="Medium"
+                style={{
+                  fontSize: 10,
+                  marginLeft: 2,
+                  color: colors.secondaryText
+                }}
+              >
+                ({seller.ratings.toFixed(2)})
+                </Text>
+            </View>
+            <Text style={{ fontSize: 13, marginTop: 5, color: '#fff' }}>
+              {seller.address}
+            </Text>
           </View>
-          
+        </View>
+
 
         {/* <View
           style={{
@@ -413,8 +413,8 @@ class SellerProfileTab extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-        
-        
+
+
         <View style={{ width: "100%" }}>
           <View
             style={{
@@ -427,9 +427,9 @@ class SellerProfileTab extends React.Component {
             }}
           >
             <KeyValue keyText="Opening Days" valueText={basicDetails.shop_open_day
-                .split(",")
-                .map(day => weekDays[day])
-                .join(" ")} />
+              .split(",")
+              .map(day => weekDays[day])
+              .join(" ")} />
             <KeyValue keyText="Shop Timing" valueText={basicDetails.start_time + ' - ' + basicDetails.close_time} />
           </View>
         </View>
@@ -533,7 +533,7 @@ class SellerProfileTab extends React.Component {
                     : null
                 }
                 name={review.user.name}
-                ratings={review.review_ratings}
+                ratings={review.review_ratings.toFixed(2)}
                 reviewText={review.review_feedback}
               />
             ))}

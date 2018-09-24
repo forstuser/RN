@@ -22,7 +22,7 @@ class AddressScreen extends Component {
         const params = navigation.state.params || {};
         return {
             title: params.sellerId ? "Select Address" : "Manage Addresses",
-            headerRight: params.sellerId ? (
+            headerRight: params.sellerId && params.showNext ? (
                 <Text
                     onPress={params.makeOrder}
                     weight="Bold"
@@ -76,6 +76,9 @@ class AddressScreen extends Component {
             this.setState({
                 addresses: userAddresses.result,
             })
+            if (this.state.addresses.length > 0) {
+                this.props.navigation.setParams({ showNext: true })
+            }
 
         } catch (error) {
             console.log("error: ", error);
