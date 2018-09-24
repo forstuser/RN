@@ -14,6 +14,8 @@ import ScrollableTabView, {
 
 import BlueGradientBG from "./blue-gradient-bg";
 
+import ScreenHeaderWithDrawer from "./screen-header-with-drawer";
+
 import { Text, ScreenContainer } from "../elements";
 import { colors } from "../theme";
 
@@ -24,23 +26,11 @@ export default class TabsScreenContainer extends React.Component {
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
           <BlueGradientBG />
-          <View style={{ flex: 1, paddingHorizontal: 20 }}>
-            <Text weight="Medium" style={styles.title}>
-              {title}
-            </Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => navigation.openDrawer()}
-            style={styles.iconWrapper}
-          >
-            <Icon
-              name="md-menu"
-              size={30}
-              style={styles.headerIcon}
-              color="#fff"
-            />
-          </TouchableOpacity>
-          <View style={styles.headerRight}>{headerRight}</View>
+          <ScreenHeaderWithDrawer
+            navigation={navigation}
+            title={title}
+            headerRight={headerRight}
+          />
         </View>
         {children}
       </ScreenContainer>
@@ -55,10 +45,9 @@ const styles = StyleSheet.create({
   header: {
     paddingBottom: 0,
     width: "100%",
-    flexDirection: "row",
     ...Platform.select({
-      ios: { height: 55, paddingTop: 22 },
-      android: { height: 35, paddingTop: 2 }
+      ios: { height: 55, paddingTop: 20 },
+      android: { height: 35 }
     })
   },
   iconWrapper: {
