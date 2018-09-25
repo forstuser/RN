@@ -117,6 +117,8 @@ class EhomeScreen extends Component {
   onTabChange = ({ i }) => {
     if (i > 0)
       this.setState({ activeTabIndex: i - 1 });
+    else if(i === 0)
+      this.setState({ activeTabIndex: null })
   };
 
   getProductsFirstPage = tabIndex => {

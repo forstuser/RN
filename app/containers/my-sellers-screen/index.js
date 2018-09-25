@@ -135,7 +135,7 @@ class MySellersScreen extends React.Component {
               <Icon
                 style={{}}
                 name="ios-add-circle-outline"
-                size={24}
+                size={26}
                 color="#fff"
               />
             </TouchableOpacity>
