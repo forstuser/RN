@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
-
+import { ORDER_STATUS_TYPES, ORDER_TYPES } from "../../constants";
 import { Text, Button } from "../../elements";
 import { defaultStyles } from "../../theme";
 import moment from "moment";
@@ -9,22 +9,23 @@ class SingleDeliveryOrder extends Component {
   render() {
     const { order, onPress } = this.props;
     let btnText = null;
-    if(order.status_type === 4)
+    if (order.status_type === ORDER_STATUS_TYPES.NEW)
       btnText = 'New';
-    else if(order.status_type === 16)
+    else if (order.status_type === ORDER_STATUS_TYPES.APPROVED)
       btnText = 'Approved';
-    else if(order.status_type === 17)
+    else if (order.status_type === ORDER_STATUS_TYPES.CANCELED)
       btnText = 'Cancelled';
-    else if(order.status_type === 18)
+    else if (order.status_type === ORDER_STATUS_TYPES.REJECTED)
       btnText = 'Rejected';
-    else if(order.status_type === 19)
+    else if (order.status_type === ORDER_STATUS_TYPES.OUT_FOR_DELIVERY)
       btnText = 'Out for delivery';
-    else if(order.status_type === 5)
+    else if (order.status_type === ORDER_STATUS_TYPES.COMPLETE)
       btnText = 'Complete';
+    let orderType = order.order_type;
     let name = <Text weight="Medium">{order.seller.seller_name}</Text>;
     let id = <Text weight="Medium">{order.id}</Text>;
     let quantity = <Text weight="Medium">{order.order_details.length}</Text>;
-
+    let service = <Text weight='Bold'>{order.order_details[0].service_name}</Text>;
     return (
       <TouchableOpacity onPress={onPress} style={styles.container}>
         <View style={[styles.box, styles.box1]}>
@@ -52,11 +53,12 @@ class SingleDeliveryOrder extends Component {
         <View style={[styles.box, styles.box2]}>
           <Text style={styles.name}>User: {name}</Text>
           <Text style={styles.id}>Order Id: {id}</Text>
-          <Text style={styles.quantity}>No. of Items: {quantity}</Text>
+          {orderType == ORDER_TYPES.FMCG ? <Text style={styles.data}>No. of items: {quantity}</Text> : <Text style={styles.data}>Service requested: {service}</Text>
+          }
           <Button
             style={{ height: 30, width: 150, marginTop: 10 }}
             text={btnText}
-            onPress={() => {}}
+            onPress={() => { }}
             color="secondary"
             textStyle={{ fontSize: 14 }}
             type="outline"
