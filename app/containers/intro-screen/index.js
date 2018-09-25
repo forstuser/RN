@@ -84,7 +84,7 @@ class Intro extends Component {
           text={I18n.t("app_intro_start")}
           weight="Bold"
           color="secondary"
-          borderRadius={0}
+          // borderRadius={0}
           style={styles.doneBtn}
         />
       </View>
@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
   },
   doneBtn: {
     width: 320,
+    borderRadius: 50,
     backgroundColor: colors.pinkishOrange
   }
 });

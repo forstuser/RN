@@ -753,7 +753,7 @@ export default {
     // "Plan your Day for tasks to be done, clothes to be worn and dishes to be cooked. Track attendance & payouts for all your household services too!",
     "Track attendance & payouts for all your household services!",
   do_you_know_tip:
-    "Discover amazing facts & tips related to brands and lifestyle, to fill you with awe! ",
+    "Create your Shopping List Shop and Earn Cashback! ",
   asc_tip:
     "Click here to find Authorised Service Centres of any Brand and connect with just one simple click.",
   insights_tip: "Keep a track of your monthly and periodic expenses.",
