@@ -56,7 +56,8 @@ class ShoppingListScreen extends React.Component {
     items: [],
     brands: [],
     selectedBrands: [],
-    sellers: []
+    sellers: [],
+    selectedSellers: []
   };
 
   componentDidMount() {
@@ -315,14 +316,16 @@ class ShoppingListScreen extends React.Component {
       activeMainCategoryId,
       selectedCategoryIds,
       searchTerm,
-      selectedBrands
+      selectedBrands,
+      selectedSellers
     } = this.state;
     try {
       const res = await getSkuItems({
         mainCategoryId: activeMainCategoryId,
         categoryIds: !searchTerm ? selectedCategoryIds : undefined,
         searchTerm: searchTerm || undefined,
-        brandIds: selectedBrands.map(brand => brand.id)
+        brandIds: selectedBrands.map(brand => brand.id),
+        sellerIds: selectedSellers.map(seller => seller.id)
       });
       this.setState({
         isSearching: false,
@@ -342,6 +345,13 @@ class ShoppingListScreen extends React.Component {
     });
   };
 
+  setSelectedSellers = selectedSellers => {
+    this.setState({ selectedSellers }, () => {
+      this.loadItems();
+      this.clearWishList();
+    });
+  };
+
   clearWishList = async () => {
     try {
       await clearWishList();
@@ -356,6 +366,7 @@ class ShoppingListScreen extends React.Component {
   };
 
   render() {
+
     const { navigation } = this.props;
     const {
       activeMainCategoryId,
@@ -378,8 +389,11 @@ class ShoppingListScreen extends React.Component {
       searchError,
       brands,
       selectedBrands,
-      sellers
+      sellers,
+      selectedSellers
     } = this.state;
+
+    //console.log('selectedSellers Name: ', selectedSellers[0]);
 
     if (referenceDataError || wishListError) {
       return (
@@ -392,7 +406,7 @@ class ShoppingListScreen extends React.Component {
 
     return (
       <DrawerScreenContainer
-        title="Create Shopping List"
+        title={selectedSellers.length === 0 ? "Create Shopping List" : selectedSellers[0].name}
         navigation={navigation}
         headerRight={
           <View
@@ -420,7 +434,8 @@ class ShoppingListScreen extends React.Component {
                 navigation.push(SCREENS.MY_SHOPPING_LIST_SCREEN, {
                   measurementTypes: measurementTypes,
                   wishList,
-                  changeIndexQuantity: this.changeIndexQuantity
+                  changeIndexQuantity: this.changeIndexQuantity,
+                  selectedSellers
                 });
               }}
             >
@@ -476,7 +491,9 @@ class ShoppingListScreen extends React.Component {
             brands={brands}
             sellers={sellers}
             selectedBrands={selectedBrands}
+            selectedSellers={selectedSellers}
             setSelectedBrands={this.setSelectedBrands}
+            setSelectedSellers={this.setSelectedSellers}
             isSearchDone={isSearchDone}
             searchError={searchError}
             items={items}

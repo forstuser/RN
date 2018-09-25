@@ -26,6 +26,7 @@ export default class SearchBar extends React.Component {
   state = {
     isBrandsPopupVisible: false,
     checkedBrands: [],
+    checkedSellers: [],
     isModalVisible: false,
   };
 
@@ -43,6 +44,16 @@ export default class SearchBar extends React.Component {
     this.searchInput.blur();
   };
 
+  toggleSellersPopup = () => {
+    const { selectedSellers } = this.props;
+    const { isBrandsPopupVisible } = this.state;
+    this.setState({
+      isBrandsPopupVisible: !isBrandsPopupVisible,
+      checkedSellers: selectedSellers
+    });
+    this.searchInput.blur();
+  };
+
   toggleBrandSelection = brand => {
     const checkedBrands = [...this.state.checkedBrands];
     const idx = checkedBrands.findIndex(brandItem => brandItem.id == brand.id);
@@ -54,6 +65,17 @@ export default class SearchBar extends React.Component {
     this.setState({ checkedBrands });
   };
 
+  toggleSellerSelection = seller => {
+    const checkedSellers = [];
+    const idx = checkedSellers.findIndex(sellerItem => sellerItem.id == seller.id);
+    if (idx == -1) {
+      checkedSellers.push(seller);
+    } else {
+      checkedSellers.splice(idx, 1);
+    }
+    this.setState({ checkedSellers });
+  };
+
   applyBrandsFilter = () => {
     const checkedBrands = [...this.state.checkedBrands];
     const { setSelectedBrands = () => null } = this.props;
@@ -62,10 +84,19 @@ export default class SearchBar extends React.Component {
     this.filterModal.hide();
   };
 
+  applySellersFilter = () => {
+    const checkedSellers = [...this.state.checkedSellers];
+    const { setSelectedSellers = () => null } = this.props;
+    this.setState({ isBrandsPopupVisible: false });
+    setSelectedSellers(checkedSellers);
+    this.filterModal.hide();
+  };
+
   resetBrandsFilter = () => {
-    const { setSelectedBrands = () => null } = this.props;
+    const { setSelectedBrands = () => null, setSelectedSellers = () => null } = this.props;
     setSelectedBrands([]);
-    this.setState({ isBrandsPopupVisible: false, checkedBrands: [] });
+    setSelectedSellers([]);
+    this.setState({ isBrandsPopupVisible: false, checkedBrands: [], checkedSellers: [] });
   };
 
   startSearch = () => {
@@ -99,6 +130,7 @@ export default class SearchBar extends React.Component {
       searchTerm = "",
       brands = [],
       selectedBrands = [],
+      selectedSellers = [],
       measurementTypes,
       isSearching = false,
       isSearchDone = false,
@@ -116,7 +148,7 @@ export default class SearchBar extends React.Component {
       sellers
     } = this.props;
 
-    const { isBrandsPopupVisible, checkedBrands } = this.state;
+    const { isBrandsPopupVisible, checkedBrands, checkedSellers } = this.state;
 
     const activeMainCategory = activeMainCategoryId
       ? mainCategories.find(
@@ -125,6 +157,7 @@ export default class SearchBar extends React.Component {
       : null;
 
     const checkedBrandIds = checkedBrands.map(checkedBrand => checkedBrand.id);
+    const checkedSellerIds = checkedSellers.map(checkedSeller => checkedSeller.id);
 
     selectActiveSkuMeasurementId = (item, skuMeasurementId) => {
       const itemIdx = items.findIndex(listItem => listItem.id == item.id);
@@ -291,7 +324,7 @@ export default class SearchBar extends React.Component {
               size={25}
               color={brands.length > 0 ? colors.mainText : colors.lighterText}
             />
-            {selectedBrands.length ? (
+            {selectedBrands.length || selectedSellers.length ? (
               <View
                 style={{
                   position: "absolute",
@@ -305,7 +338,7 @@ export default class SearchBar extends React.Component {
                 }}
               >
                 <Text style={{ color: "#fff", fontSize: 10 }}>
-                  {selectedBrands.length}
+                  {selectedBrands.length + selectedSellers.length}
                 </Text>
               </View>
             ) : null}
@@ -576,8 +609,11 @@ export default class SearchBar extends React.Component {
           sellers={sellers}
           wishList={wishList}
           checkedBrandIds={checkedBrandIds}
+          checkedSellerIds={checkedSellerIds}
           toggleBrandSelection={this.toggleBrandSelection}
+          toggleSellerSelection={this.toggleSellerSelection}
           applyBrandsFilter={this.applyBrandsFilter}
+          applySellersFilter={this.applySellersFilter}
           resetBrandsFilter={this.resetBrandsFilter}
           hideFilter={this.hideFilter}
         />
