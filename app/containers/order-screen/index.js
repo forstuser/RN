@@ -550,59 +550,57 @@ class OrderScreen extends React.Component {
                   ) : null}
 
                   {order.order_type == ORDER_TYPES.ASSISTED_SERVICE &&
-                    serviceTotalAmount ? (
-                      <View
-                        style={{
-                          borderTopWidth: 1,
-                          borderColor: "#eee"
-                        }}
-                      >
-                        <KeyValueItem
-                          keyText="Started Time"
-                          valueText={moment(startTime).format("h:mm a")}
-                        />
-                        <KeyValueItem
-                          keyText="End Time"
-                          valueText={moment(endTime).format("h:mm a")}
-                        />
-                        <KeyValueItem
-                          keyText="Time Elapsed"
-                          valueText={timeElapsedInMinutes + " mins"}
-                        />
-                        <KeyValueItem
-                          keyText="Total Amount"
-                          ValueComponent={() => (
-                            <TouchableOpacity
-                              onPress={() =>
-                                this.servicePriceBreakdownModal.show({
-                                  basePrice: basePrice,
-                                  hourlyPrice,
-                                  startTime,
-                                  endTime,
-                                  timeElapsedInMinutes,
-                                  totalAmount: serviceTotalAmount
-                                })
-                              }
-                              style={{
-                                flex: 1,
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "flex-end"
-                              }}
-                            >
-                              <Text weight="Bold">
-                                Rs. {serviceTotalAmount}
-                              </Text>
-                              <Icon
-                                name="md-information-circle"
-                                size={15}
-                                style={{ marginTop: 2, marginLeft: 5 }}
-                              />
-                            </TouchableOpacity>
-                          )}
-                        />
-                      </View>
-                    ) : null}
+                  serviceTotalAmount ? (
+                    <View
+                      style={{
+                        borderTopWidth: 1,
+                        borderColor: "#eee"
+                      }}
+                    >
+                      <KeyValueItem
+                        keyText="Started Time"
+                        valueText={moment(startTime).format("h:mm a")}
+                      />
+                      <KeyValueItem
+                        keyText="End Time"
+                        valueText={moment(endTime).format("h:mm a")}
+                      />
+                      <KeyValueItem
+                        keyText="Time Elapsed"
+                        valueText={timeElapsedInMinutes + " mins"}
+                      />
+                      <KeyValueItem
+                        keyText="Total Amount"
+                        ValueComponent={() => (
+                          <TouchableOpacity
+                            onPress={() =>
+                              this.servicePriceBreakdownModal.show({
+                                basePrice: basePrice,
+                                hourlyPrice,
+                                startTime,
+                                endTime,
+                                timeElapsedInMinutes,
+                                totalAmount: serviceTotalAmount
+                              })
+                            }
+                            style={{
+                              flex: 1,
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "flex-end"
+                            }}
+                          >
+                            <Text weight="Bold">Rs. {serviceTotalAmount}</Text>
+                            <Icon
+                              name="md-information-circle"
+                              size={15}
+                              style={{ marginTop: 2, marginLeft: 5 }}
+                            />
+                          </TouchableOpacity>
+                        )}
+                      />
+                    </View>
+                  ) : null}
 
                   {order.status_type == ORDER_STATUS_TYPES.COMPLETE ? (
                     <View>
@@ -620,41 +618,41 @@ class OrderScreen extends React.Component {
                           }}
                         />
                       ) : (
-                          <View style={{ paddingHorizontal: 10 }}>
-                            {serviceRatings ? (
-                              <View>
-                                <Text weight="Bold" style={{ marginTop: 20 }}>
-                                  Delivery Experience
+                        <View style={{ paddingHorizontal: 10 }}>
+                          {serviceRatings ? (
+                            <View>
+                              <Text weight="Bold" style={{ marginTop: 20 }}>
+                                Delivery Experience
                               </Text>
-                                <ReviewCard
-                                  imageUrl={
-                                    API_BASE_URL +
-                                    `/assisted/${order.delivery_user.id}/profile`
-                                  }
-                                  ratings={serviceRatings}
-                                  userName={order.delivery_user.name}
-                                  feedbackText={serviceReviewText}
-                                  onEditPress={this.openReviewsScreen}
-                                />
-                              </View>
-                            ) : null}
-                            <Text weight="Bold" style={{ marginTop: 20 }}>
-                              Seller Responsiveness
+                              <ReviewCard
+                                imageUrl={
+                                  API_BASE_URL +
+                                  `/assisted/${order.delivery_user.id}/profile`
+                                }
+                                ratings={serviceRatings}
+                                userName={order.delivery_user.name}
+                                feedbackText={serviceReviewText}
+                                onEditPress={this.openReviewsScreen}
+                              />
+                            </View>
+                          ) : null}
+                          <Text weight="Bold" style={{ marginTop: 20 }}>
+                            Seller Responsiveness
                           </Text>
-                            <ReviewCard
-                              imageUrl={
-                                API_BASE_URL +
-                                `/consumer/sellers/${
+                          <ReviewCard
+                            imageUrl={
+                              API_BASE_URL +
+                              `/consumer/sellers/${
                                 order.seller_id
-                                }/upload/1/images/0`
-                              }
-                              ratings={sellerRatings}
-                              userName={order.seller.seller_name}
-                              feedbackText={sellerReviewText}
-                              onEditPress={this.openReviewsScreen}
-                            />
-                          </View>
-                        )}
+                              }/upload/1/images/0`
+                            }
+                            ratings={sellerRatings}
+                            userName={order.seller.seller_name}
+                            feedbackText={sellerReviewText}
+                            onEditPress={this.openReviewsScreen}
+                          />
+                        </View>
+                      )}
                     </View>
                   ) : null}
                 </View>
@@ -664,76 +662,76 @@ class OrderScreen extends React.Component {
               ORDER_STATUS_TYPES.CANCELED,
               ORDER_STATUS_TYPES.REJECTED
             ].includes(order.status_type) ? (
-                <View>
-                  {order.status_type == ORDER_STATUS_TYPES.NEW &&
-                    !order.is_modified ? (
-                      <Button
-                        onPress={this.cancelOrderPopup}
-                        text="Cancel Order"
-                        color="secondary"
-                        borderRadius={0}
-                      />
-                    ) : null}
+              <View>
+                {order.status_type == ORDER_STATUS_TYPES.NEW &&
+                !order.is_modified ? (
+                  <Button
+                    onPress={this.cancelOrderPopup}
+                    text="Cancel Order"
+                    color="secondary"
+                    borderRadius={0}
+                  />
+                ) : null}
 
-                  {((order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
-                    order.order_type == ORDER_TYPES.FMCG) ||
-                    (order.status_type == ORDER_STATUS_TYPES.END_TIME &&
-                      order.order_type == ORDER_TYPES.ASSISTED_SERVICE)) ? (
-                      <Button
-                        onPress={this.completeOrder}
-                        text="Mark Paid"
-                        color="secondary"
-                        borderRadius={0}
-                      />
-                    ) : null}
+                {(order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+                  order.order_type == ORDER_TYPES.FMCG) ||
+                (order.status_type == ORDER_STATUS_TYPES.END_TIME &&
+                  order.order_type == ORDER_TYPES.ASSISTED_SERVICE) ? (
+                  <Button
+                    onPress={this.completeOrder}
+                    text="Mark Paid"
+                    color="secondary"
+                    borderRadius={0}
+                  />
+                ) : null}
 
-                  {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
-                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE ? (
-                      <Button
-                        onPress={this.startAssistedServiceOrder}
-                        text="Start Job"
-                        color="secondary"
-                        borderRadius={0}
-                      />
-                    ) : null}
+                {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+                order.order_type == ORDER_TYPES.ASSISTED_SERVICE ? (
+                  <Button
+                    onPress={this.startAssistedServiceOrder}
+                    text="Start Job"
+                    color="secondary"
+                    borderRadius={0}
+                  />
+                ) : null}
 
-                  {order.status_type == ORDER_STATUS_TYPES.START_TIME &&
-                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE ? (
-                      <Button
-                        onPress={this.endAssistedServiceOrder}
-                        text="End Job"
-                        color="secondary"
-                        borderRadius={0}
-                      />
-                    ) : null}
+                {order.status_type == ORDER_STATUS_TYPES.START_TIME &&
+                order.order_type == ORDER_TYPES.ASSISTED_SERVICE ? (
+                  <Button
+                    onPress={this.endAssistedServiceOrder}
+                    text="End Job"
+                    color="secondary"
+                    borderRadius={0}
+                  />
+                ) : null}
 
-                  {order.is_modified &&
-                    ![
-                      ORDER_STATUS_TYPES.APPROVED,
-                      ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                      ORDER_STATUS_TYPES.COMPLETE,
-                      ORDER_STATUS_TYPES.START_TIME,
-                      ORDER_STATUS_TYPES.END_TIME
-                    ].includes(order.status_type) ? (
-                      <View style={{ flexDirection: "row" }}>
-                        <Button
-                          onPress={this.rejectOrderPopup}
-                          text="Reject"
-                          color="grey"
-                          borderRadius={0}
-                          style={{ flex: 1 }}
-                        />
-                        <Button
-                          onPress={this.approveOrder}
-                          text="Approve"
-                          color="secondary"
-                          borderRadius={0}
-                          style={{ flex: 1 }}
-                        />
-                      </View>
-                    ) : null}
-                </View>
-              ) : null}
+                {order.is_modified &&
+                ![
+                  ORDER_STATUS_TYPES.APPROVED,
+                  ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                  ORDER_STATUS_TYPES.COMPLETE,
+                  ORDER_STATUS_TYPES.START_TIME,
+                  ORDER_STATUS_TYPES.END_TIME
+                ].includes(order.status_type) ? (
+                  <View style={{ flexDirection: "row" }}>
+                    <Button
+                      onPress={this.rejectOrderPopup}
+                      text="Reject"
+                      color="grey"
+                      borderRadius={0}
+                      style={{ flex: 1 }}
+                    />
+                    <Button
+                      onPress={this.approveOrder}
+                      text="Approve"
+                      color="secondary"
+                      borderRadius={0}
+                      style={{ flex: 1 }}
+                    />
+                  </View>
+                ) : null}
+              </View>
+            ) : null}
           </View>
         ) : null}
         <UploadBillModal
