@@ -62,23 +62,7 @@ class ShoppingListScreen extends React.Component {
 
   componentDidMount() {
     this.loadSkuWishList();
-    this.getMySellers();
   }
-
-  getMySellers = async () => {
-    this.setState({
-      isLoadingMySellers: true
-    });
-    try {
-      const res = await getMySellers();
-      console.log('Seller List: ', res.result);
-      this.setState({ sellers: res.result });
-    } catch (error) {
-      this.setState({ error });
-    } finally {
-      this.setState({ isLoadingMySellers: false });
-    }
-  };
 
   loadSkuWishList = async () => {
     this.setState({ isLoadingWishList: true, wishListError: null });
@@ -143,6 +127,7 @@ class ShoppingListScreen extends React.Component {
       mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
     );
     const newState = { activeMainCategoryId, selectedBrands: [] };
+
     if (activeMainCategoryId > 0 && mainCategory.categories.length > 0) {
       newState.selectedCategoryIds = [];
     } else {
@@ -327,11 +312,13 @@ class ShoppingListScreen extends React.Component {
         brandIds: selectedBrands.map(brand => brand.id),
         sellerIds: selectedSellers.map(seller => seller.id)
       });
+      //console.log("Sellers list in shop and earn: ", res.seller_list);
       this.setState({
         isSearching: false,
         isSearchDone: true,
         items: res.result.sku_items,
-        brands: res.result.brands
+        brands: res.result.brands,
+        sellers: res.seller_list
       });
     } catch (error) {
       console.log(error);
@@ -366,7 +353,6 @@ class ShoppingListScreen extends React.Component {
   };
 
   render() {
-
     const { navigation } = this.props;
     const {
       activeMainCategoryId,
@@ -406,7 +392,11 @@ class ShoppingListScreen extends React.Component {
 
     return (
       <DrawerScreenContainer
-        title={selectedSellers.length === 0 ? "Create Shopping List" : selectedSellers[0].name}
+        title={
+          selectedSellers.length === 0
+            ? "Create Shopping List"
+            : selectedSellers[0].seller_name
+        }
         navigation={navigation}
         headerRight={
           <View

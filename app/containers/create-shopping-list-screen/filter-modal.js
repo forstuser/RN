@@ -74,7 +74,7 @@ class FilterModalScreen extends Component {
             }}
         >
             <Text style={{ flex: 1, fontSize: 12 }}>
-                {this.state.selectedMainCategory === 'Filter by Brands' ? (item.title) : (item.name)}
+                {this.state.selectedMainCategory === 'Filter by Brands' ? (item.title) : (item.seller_name)}
             </Text>
             <Checkbox isChecked={this.state.selectedMainCategory === 'Filter by Brands' ? this.props.checkedBrandIds.includes(item.id) : this.props.checkedSellerIds.includes(item.id)} />
         </TouchableOpacity>
