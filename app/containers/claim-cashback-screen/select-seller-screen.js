@@ -132,46 +132,34 @@ export default class SelectSellerScreen extends React.Component {
           data={sellers}
           refreshing={isLoading}
           onRefresh={this.getMySellers}
-          ListEmptyComponent={() => (
-            <View
-              style={{
-                maxWidth: 300,
-                alignSelf: "center",
-                alignItems: "center",
-                marginTop: 35
-              }}
-            >
-              <Text style={{ textAlign: "center" }}>
-                You have not added any Sellers. Please add your Seller in My
-                Seller section to avail additional Seller benefits in future.
-              </Text>
-              <Button
-                onPress={() => this.proceedToNextStep()}
-                text="Next"
-                color="secondary"
-                style={{ height: 40, width: 140, marginTop: 30 }}
-              />
-            </View>
-          )}
+          ListEmptyComponent={() => {
+            if (isLoading) return null;
+            return (
+              <View
+                style={{
+                  maxWidth: 300,
+                  alignSelf: "center",
+                  alignItems: "center",
+                  marginTop: 35
+                }}
+              >
+                <Text style={{ textAlign: "center" }}>
+                  You have not added any Sellers. Please add your Seller in My
+                  Seller section to avail additional Seller benefits in future.
+                </Text>
+                <Button
+                  onPress={() => this.proceedToNextStep()}
+                  text="Next"
+                  color="secondary"
+                  style={{ height: 40, width: 140, marginTop: 30 }}
+                />
+              </View>
+            );
+          }}
           renderItem={({ item }) => {
             const isSelected =
               selectedSeller && selectedSeller.id == item.id ? true : false;
-            let btnRedeemPoints = null;
-            if (
-              item.loyalty_total > item.minimum_points &&
-              item.loyalty_total > 0
-            )
-              btnRedeemPoints = (
-                <Button
-                  onPress={() => {
-                    this.openRedeemPointsScreen(item);
-                  }}
-                  text="Redeem Points"
-                  color="secondary"
-                  style={{ height: 30, width: 115, marginTop: 10 }}
-                  textStyle={{ fontSize: 11 }}
-                />
-              );
+
             return (
               <TouchableOpacity
                 onPress={() => this.selectSeller(item)}
@@ -252,18 +240,18 @@ export default class SelectSellerScreen extends React.Component {
                       </Text>
                     </View>
                     {item.seller_details &&
-                      item.seller_details.basic_details &&
-                      item.seller_details.basic_details.home_delivery ? (
-                        <Text
-                          style={{
-                            color: "#208e07",
-                            fontSize: 6,
-                            marginTop: 6
-                          }}
-                        >
-                          Home Delivery Available
+                    item.seller_details.basic_details &&
+                    item.seller_details.basic_details.home_delivery ? (
+                      <Text
+                        style={{
+                          color: "#208e07",
+                          fontSize: 6,
+                          marginTop: 6
+                        }}
+                      >
+                        Home Delivery Available
                       </Text>
-                      ) : null}
+                    ) : null}
 
                     {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
                       <View
@@ -343,7 +331,6 @@ export default class SelectSellerScreen extends React.Component {
                         </Text>
                       </View>
                     </View>
-                    {btnRedeemPoints}
                     <View onStartShouldSetResponder={() => true}>
                       <ScrollView
                         horizontal
