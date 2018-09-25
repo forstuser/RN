@@ -103,8 +103,8 @@ class Intro extends Component {
         onSkip={this.openLoginScreen}
         slides={slides}
         renderItem={IntroSlide}
-      // bottomButton={true}
-      // buttonStyle={styles.doneBtn}
+        // bottomButton={true}
+        // buttonStyle={styles.doneBtn}
       />
     );
   }
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   doneBtnContainer: {
     width: Dimensions.get("window").width - 32,
-    alignItems: "center",
+    alignItems: "center"
   },
   doneBtn: {
     width: 320,
