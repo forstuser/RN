@@ -13,7 +13,7 @@ import { defaultStyles, colors } from "../../theme";
 
 import { openBillsPopUp } from "../../navigation";
 
-import { LOCATIONS } from "../../constants";
+import { LOCATIONS, ORDER_TYPES } from "../../constants";
 
 class SellerDetails extends React.Component {
   call = () => {
@@ -56,8 +56,8 @@ class SellerDetails extends React.Component {
 
     console.log(
       "seller image: " +
-      API_BASE_URL +
-      `/consumer/sellers/${order.seller_id}/upload/1/images/0`
+        API_BASE_URL +
+        `/consumer/sellers/${order.seller_id}/upload/1/images/0`
     );
 
     return (
@@ -159,45 +159,46 @@ class SellerDetails extends React.Component {
                   </TouchableOpacity>
                 </View>
                 {((order.copies && order.copies.length > 0) ||
-                  (order.expense_id &&
+                  (order.order_type == ORDER_TYPES.FMCG &&
+                    order.expense_id &&
                     order.upload_id &&
                     moment().diff(order.updated_at, "hours") < 24 &&
                     userLocation != LOCATIONS.OTHER)) && (
-                    <TouchableOpacity
-                      onPress={this.onViewBillPress}
-                      style={{
-                        marginTop: 10,
-                        marginBottom: 5,
-                        flexDirection: "row",
-                        alignItems: "center",
-                        borderColor: colors.pinkishOrange,
-                        borderWidth: 1,
-                        alignSelf: "flex-start",
-                        paddingHorizontal: 10,
-                        paddingVertical: 5,
-                        borderRadius: 15
-                      }}
-                    >
-                      {/* <Icon
+                  <TouchableOpacity
+                    onPress={this.onViewBillPress}
+                    style={{
+                      marginTop: 10,
+                      marginBottom: 5,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      borderColor: colors.pinkishOrange,
+                      borderWidth: 1,
+                      alignSelf: "flex-start",
+                      paddingHorizontal: 10,
+                      paddingVertical: 5,
+                      borderRadius: 15
+                    }}
+                  >
+                    {/* <Icon
                       name="md-document"
                       color={colors.pinkishOrange}
                       size={15}
                     /> */}
-                      <Text
-                        weight="Medium"
-                        style={{
-                          marginTop: -3,
-                          marginLeft: 4,
-                          fontSize: 12,
-                          color: colors.pinkishOrange
-                        }}
-                      >
-                        {order.copies && order.copies.length > 0
-                          ? `View Invoice`
-                          : `Upload Invoice to Claim Cashback`}
-                      </Text>
-                    </TouchableOpacity>
-                  )}
+                    <Text
+                      weight="Medium"
+                      style={{
+                        marginTop: -3,
+                        marginLeft: 4,
+                        fontSize: 12,
+                        color: colors.pinkishOrange
+                      }}
+                    >
+                      {order.copies && order.copies.length > 0
+                        ? `View Invoice`
+                        : `Upload Invoice to Claim Cashback`}
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </View>

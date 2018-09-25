@@ -229,10 +229,12 @@ class MySellersScreen extends React.Component {
                     <View style={{ padding: 12 }}>
                       <View
                         style={{
-                          width: 68,
-                          height: 68,
+                          width: 70,
+                          height: 70,
                           borderRadius: 34,
-                          backgroundColor: "#eee"
+                          backgroundColor: "#eee",
+                          alignItems: "center",
+                          justifyContent: "center"
                         }}
                       >
                         <Image
@@ -503,7 +505,7 @@ class MySellersScreen extends React.Component {
                         Call
                       </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       onPress={() => this.startChatWithSeller(item)}
                       style={[styles.bottomButton, { marginHorizontal: 1 }]}
                     >
@@ -515,7 +517,7 @@ class MySellersScreen extends React.Component {
                       <Text weight="Medium" style={styles.bottomButtonText}>
                         Chat
                       </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED &&
                       item.is_assisted &&
                       item.assisted_services.length > 0 && (
@@ -526,7 +528,10 @@ class MySellersScreen extends React.Component {
                               { seller: item }
                             )
                           }
-                          style={[styles.bottomButton, { flex: 1.5 }]}
+                          style={[
+                            styles.bottomButton,
+                            { flex: 1.5, marginLeft: 1 }
+                          ]}
                         >
                           <Icon
                             name="ios-construct-outline"

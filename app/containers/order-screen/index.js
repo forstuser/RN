@@ -345,6 +345,7 @@ class OrderScreen extends React.Component {
 
       this.setState({ order: res.result.order }, () => {
         if (
+          order.order_type == ORDER_TYPES.FMCG &&
           order.expense_id &&
           order.upload_id &&
           userLocation != LOCATIONS.OTHER
@@ -368,6 +369,7 @@ class OrderScreen extends React.Component {
     const { order } = this.state;
 
     if (
+      order.order_type == ORDER_TYPES.FMCG &&
       order.expense_id &&
       order.upload_id &&
       userLocation != LOCATIONS.OTHER
@@ -453,7 +455,9 @@ class OrderScreen extends React.Component {
       endTime = order.order_details[0].end_date;
 
       if (startTime && endTime) {
-        timeElapsedInMinutes = moment(endTime).diff(startTime, "minutes");
+        timeElapsedInMinutes = Math.ceil(
+          moment(endTime).diff(startTime, "minutes", true)
+        );
       }
       serviceTotalAmount = order.order_details[0].total_amount;
 
@@ -646,41 +650,41 @@ class OrderScreen extends React.Component {
                           }}
                         />
                       ) : (
-                          <View style={{ paddingHorizontal: 10 }}>
-                            {serviceRatings ? (
-                              <View>
-                                <Text weight="Bold" style={{ marginTop: 20 }}>
-                                  Delivery Experience
+                        <View style={{ paddingHorizontal: 10 }}>
+                          {serviceRatings ? (
+                            <View>
+                              <Text weight="Bold" style={{ marginTop: 20 }}>
+                                Delivery Experience
                               </Text>
-                                <ReviewCard
-                                  imageUrl={
-                                    API_BASE_URL +
-                                    `/assisted/${order.delivery_user.id}/profile`
-                                  }
-                                  ratings={serviceRatings}
-                                  userName={order.delivery_user.name}
-                                  feedbackText={serviceReviewText}
-                                  onEditPress={this.openReviewsScreen}
-                                />
-                              </View>
-                            ) : null}
-                            <Text weight="Bold" style={{ marginTop: 20 }}>
-                              Seller Responsiveness
+                              <ReviewCard
+                                imageUrl={
+                                  API_BASE_URL +
+                                  `/assisted/${order.delivery_user.id}/profile`
+                                }
+                                ratings={serviceRatings}
+                                userName={order.delivery_user.name}
+                                feedbackText={serviceReviewText}
+                                onEditPress={this.openReviewsScreen}
+                              />
+                            </View>
+                          ) : null}
+                          <Text weight="Bold" style={{ marginTop: 20 }}>
+                            Seller Responsiveness
                           </Text>
-                            <ReviewCard
-                              imageUrl={
-                                API_BASE_URL +
-                                `/consumer/sellers/${
+                          <ReviewCard
+                            imageUrl={
+                              API_BASE_URL +
+                              `/consumer/sellers/${
                                 order.seller_id
-                                }/upload/1/images/0`
-                              }
-                              ratings={sellerRatings}
-                              userName={order.seller.seller_name}
-                              feedbackText={sellerReviewText}
-                              onEditPress={this.openReviewsScreen}
-                            />
-                          </View>
-                        )}
+                              }/upload/1/images/0`
+                            }
+                            ratings={sellerRatings}
+                            userName={order.seller.seller_name}
+                            feedbackText={sellerReviewText}
+                            onEditPress={this.openReviewsScreen}
+                          />
+                        </View>
+                      )}
                     </View>
                   )}
                 </View>
@@ -690,76 +694,76 @@ class OrderScreen extends React.Component {
               ORDER_STATUS_TYPES.CANCELED,
               ORDER_STATUS_TYPES.REJECTED
             ].includes(order.status_type) && (
-                <View>
-                  {order.status_type == ORDER_STATUS_TYPES.NEW &&
-                    !order.is_modified && (
+              <View>
+                {order.status_type == ORDER_STATUS_TYPES.NEW &&
+                  !order.is_modified && (
+                    <Button
+                      onPress={this.cancelOrderPopup}
+                      text="Cancel Order"
+                      color="secondary"
+                      borderRadius={0}
+                    />
+                  )}
+
+                {((order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+                  order.order_type == ORDER_TYPES.FMCG) ||
+                  (order.status_type == ORDER_STATUS_TYPES.END_TIME &&
+                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE)) && (
+                  <Button
+                    onPress={this.completeOrder}
+                    text="Mark Paid"
+                    color="secondary"
+                    borderRadius={0}
+                  />
+                )}
+
+                {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+                  order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
+                    <Button
+                      onPress={this.startAssistedServiceOrder}
+                      text="Start Job"
+                      color="secondary"
+                      borderRadius={0}
+                    />
+                  )}
+
+                {order.status_type == ORDER_STATUS_TYPES.START_TIME &&
+                  order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
+                    <Button
+                      onPress={this.endAssistedServiceOrder}
+                      text="End Job"
+                      color="secondary"
+                      borderRadius={0}
+                    />
+                  )}
+
+                {order.is_modified &&
+                  ![
+                    ORDER_STATUS_TYPES.APPROVED,
+                    ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                    ORDER_STATUS_TYPES.COMPLETE,
+                    ORDER_STATUS_TYPES.START_TIME,
+                    ORDER_STATUS_TYPES.END_TIME
+                  ].includes(order.status_type) && (
+                    <View style={{ flexDirection: "row" }}>
                       <Button
-                        onPress={this.cancelOrderPopup}
-                        text="Cancel Order"
+                        onPress={this.rejectOrderPopup}
+                        text="Reject"
+                        color="grey"
+                        borderRadius={0}
+                        style={{ flex: 1 }}
+                      />
+                      <Button
+                        onPress={this.approveOrder}
+                        text="Approve"
                         color="secondary"
                         borderRadius={0}
+                        style={{ flex: 1 }}
                       />
-                    )}
-
-                  {((order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
-                    order.order_type == ORDER_TYPES.FMCG) ||
-                    (order.status_type == ORDER_STATUS_TYPES.END_TIME &&
-                      order.order_type == ORDER_TYPES.ASSISTED_SERVICE)) && (
-                      <Button
-                        onPress={this.completeOrder}
-                        text="Mark Paid"
-                        color="secondary"
-                        borderRadius={0}
-                      />
-                    )}
-
-                  {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
-                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
-                      <Button
-                        onPress={this.startAssistedServiceOrder}
-                        text="Start Job"
-                        color="secondary"
-                        borderRadius={0}
-                      />
-                    )}
-
-                  {order.status_type == ORDER_STATUS_TYPES.START_TIME &&
-                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
-                      <Button
-                        onPress={this.endAssistedServiceOrder}
-                        text="End Job"
-                        color="secondary"
-                        borderRadius={0}
-                      />
-                    )}
-
-                  {order.is_modified &&
-                    ![
-                      ORDER_STATUS_TYPES.APPROVED,
-                      ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                      ORDER_STATUS_TYPES.COMPLETE,
-                      ORDER_STATUS_TYPES.START_TIME,
-                      ORDER_STATUS_TYPES.END_TIME
-                    ].includes(order.status_type) && (
-                      <View style={{ flexDirection: "row" }}>
-                        <Button
-                          onPress={this.rejectOrderPopup}
-                          text="Reject"
-                          color="grey"
-                          borderRadius={0}
-                          style={{ flex: 1 }}
-                        />
-                        <Button
-                          onPress={this.approveOrder}
-                          text="Approve"
-                          color="secondary"
-                          borderRadius={0}
-                          style={{ flex: 1 }}
-                        />
-                      </View>
-                    )}
-                </View>
-              )}
+                    </View>
+                  )}
+              </View>
+            )}
           </View>
         )}
         <UploadBillModal
