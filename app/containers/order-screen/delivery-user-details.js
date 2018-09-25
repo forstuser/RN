@@ -40,11 +40,15 @@ export default class DeliveryUserDetails extends React.Component {
     const { isReviewsModalVisible } = this.state;
 
     let hourlyPrice = 0;
+    let basePrice = 0;
     if (orderType == ORDER_TYPES.ASSISTED_SERVICE) {
       const hourlyPriceItem = deliveryUser.service_type.price.find(
         p => p.price_type == SERVICE_PRICE_TYPES.HOURLY_PRICE
       );
-
+      const basePriceItem = deliveryUser.service_type.price.find(
+        p => p.price_type == SERVICE_PRICE_TYPES.BASE_PRICE
+      );
+      basePrice = basePriceItem ? basePriceItem.value : 0;
       hourlyPrice = hourlyPriceItem ? hourlyPriceItem.value : 0;
     }
 
@@ -86,14 +90,18 @@ export default class DeliveryUserDetails extends React.Component {
             <View style={{ flexDirection: "row" }}>
               <View style={{ flex: 1, justifyContent: "center" }}>
                 <View style={{ flexDirection: "row" }}>
-                  <Text weight="Bold" style={{ fontSize: 13.5, flex: 1 }}>
+                  <Text weight="Bold" style={{ fontSize: 12, flex: 1 }}>
                     {deliveryUser.name}
                   </Text>
                   {orderType == ORDER_TYPES.ASSISTED_SERVICE && (
-                    <Text weight="Bold" style={{ fontSize: 13.5 }}>
-                      Rs. {hourlyPrice}
-                      /hour
+                    <View>
+                      <Text weight="Bold" style={{ fontSize: 10 }}>
+                        Base Price : ₹ {basePrice} (up to 1 hour)
+                      </Text>
+                      <Text weight="Normal" style={{ fontSize: 10 }}>
+                        *₹ {hourlyPrice} each additional 30 Min.
                     </Text>
+                    </View>
                   )}
                 </View>
                 {/* <Text style={{ fontSize: 11 }}>
