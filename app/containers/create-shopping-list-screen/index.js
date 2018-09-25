@@ -60,8 +60,17 @@ class ShoppingListScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.loadSkuWishList();
-    this.getMySellers();
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.loadSkuWishList();
+        this.getMySellers();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   getMySellers = async () => {
@@ -70,7 +79,7 @@ class ShoppingListScreen extends React.Component {
     });
     try {
       const res = await getMySellers();
-      console.log('Seller List: ', res.result);
+      console.log("Seller List: ", res.result);
       this.setState({ sellers: res.result });
     } catch (error) {
       this.setState({ error });

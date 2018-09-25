@@ -68,6 +68,7 @@ class OrderScreen extends React.Component {
   };
 
   componentDidMount() {
+    this.getOrderDetails();
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -91,6 +92,10 @@ class OrderScreen extends React.Component {
           this.setState({ order: jsonData.order });
         }
       });
+
+      socketIo.socket.on("reconnect", () => {
+        this.getOrderDetails();
+      });
     }
 
     // this.uploadBillModal.show({ productId: 50897, jobId: 52334 });
@@ -102,6 +107,7 @@ class OrderScreen extends React.Component {
     if (socketIo.socket) {
       socketIo.socket.off("order-status-change");
       socketIo.socket.off("assisted-status-change");
+      socketIo.socket.off("reconnect");
     }
   }
 
@@ -215,7 +221,11 @@ class OrderScreen extends React.Component {
     const { order } = this.state;
     try {
       this.setState({ isLoading: true });
-      await cancelOrder({ orderId: order.id, sellerId: order.seller_id });
+      const res = await cancelOrder({
+        orderId: order.id,
+        sellerId: order.seller_id
+      });
+      this.setState({ order: res.result });
       showSnackbar({ text: "Order Cancelled!" });
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -230,7 +240,11 @@ class OrderScreen extends React.Component {
     const { order } = this.state;
     try {
       this.setState({ isLoading: true });
-      await rejectOrder({ orderId: order.id, sellerId: order.seller_id });
+      const res = await rejectOrder({
+        orderId: order.id,
+        sellerId: order.seller_id
+      });
+      this.setState({ order: res.result });
       showSnackbar({ text: "Order Rejected!" });
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -244,16 +258,18 @@ class OrderScreen extends React.Component {
     try {
       this.setState({ isLoading: true });
       if (order.order_type == ORDER_TYPES.FMCG) {
-        await approveOrder({
+        const res = await approveOrder({
           orderId: order.id,
           sellerId: order.seller_id,
           skuList: order.order_details
         });
+        this.setState({ order: res.result });
       } else {
-        await approveAssistedServiceOrder({
+        const res = await approveAssistedServiceOrder({
           orderId: order.id,
           sellerId: order.seller_id
         });
+        this.setState({ order: res.result });
       }
       showSnackbar({ text: "Order Approved!" });
     } catch (e) {
@@ -290,6 +306,7 @@ class OrderScreen extends React.Component {
         orderDetails: order.order_details,
         sellerId: order.seller_id
       });
+      this.setState({ order: res.result });
       showSnackbar({ text: "Service Started!" });
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -308,6 +325,7 @@ class OrderScreen extends React.Component {
         orderDetails: order.order_details,
         sellerId: order.seller_id
       });
+      this.setState({ order: res.result });
       showSnackbar({ text: "Service Completed!" });
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -326,7 +344,16 @@ class OrderScreen extends React.Component {
       });
 
       this.setState({ order: res.result.order }, () => {
-        this.openUploadBillPopup();
+        if (
+          order.order_type == ORDER_TYPES.FMCG &&
+          order.expense_id &&
+          order.upload_id &&
+          userLocation != LOCATIONS.OTHER
+        ) {
+          this.openUploadBillPopup();
+        } else {
+          this.openReviewsScreen();
+        }
       });
 
       showSnackbar({ text: "Order completed!" });
@@ -342,6 +369,7 @@ class OrderScreen extends React.Component {
     const { order } = this.state;
 
     if (
+      order.order_type == ORDER_TYPES.FMCG &&
       order.expense_id &&
       order.upload_id &&
       userLocation != LOCATIONS.OTHER
@@ -427,7 +455,9 @@ class OrderScreen extends React.Component {
       endTime = order.order_details[0].end_date;
 
       if (startTime && endTime) {
-        timeElapsedInMinutes = moment(endTime).diff(startTime, "minutes");
+        timeElapsedInMinutes = Math.ceil(
+          moment(endTime).diff(startTime, "minutes", true)
+        );
       }
       serviceTotalAmount = order.order_details[0].total_amount;
 
@@ -445,7 +475,7 @@ class OrderScreen extends React.Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
-        {order ? (
+        {order && (
           <View style={{ flex: 1 }}>
             <FlatList
               style={{ flex: 1 }}
@@ -466,12 +496,12 @@ class OrderScreen extends React.Component {
                     startTime={startTime}
                     endTime={endTime}
                   />
-                  {deliveryUser ? (
+                  {deliveryUser && (
                     <DeliveryUserDetails
                       deliveryUser={deliveryUser}
                       orderType={order.order_type}
                     />
-                  ) : null}
+                  )}
                   <SellerDetails
                     order={order}
                     openUploadBillPopup={this.openUploadBillPopup}
@@ -530,7 +560,7 @@ class OrderScreen extends React.Component {
               }}
               ListFooterComponent={() => (
                 <View>
-                  {order.order_type == ORDER_TYPES.FMCG ? (
+                  {order.order_type == ORDER_TYPES.FMCG && (
                     <View
                       style={{
                         flexDirection: "row",
@@ -547,7 +577,7 @@ class OrderScreen extends React.Component {
                       </Text>
                       <Text weight="Medium">Rs. {totalAmount}</Text>
                     </View>
-                  ) : null}
+                  )}
 
                   {order.order_type == ORDER_TYPES.ASSISTED_SERVICE &&
                   serviceTotalAmount ? (
@@ -602,7 +632,7 @@ class OrderScreen extends React.Component {
                     </View>
                   ) : null}
 
-                  {order.status_type == ORDER_STATUS_TYPES.COMPLETE ? (
+                  {order.status_type == ORDER_STATUS_TYPES.COMPLETE && (
                     <View>
                       {!sellerRatings && !serviceRatings ? (
                         <Button
@@ -654,7 +684,7 @@ class OrderScreen extends React.Component {
                         </View>
                       )}
                     </View>
-                  ) : null}
+                  )}
                 </View>
               )}
             />
@@ -733,7 +763,7 @@ class OrderScreen extends React.Component {
               </View>
             ) : null}
           </View>
-        ) : null}
+        )}
         <UploadBillModal
           navigation={this.props.navigation}
           onUploadDone={() => {

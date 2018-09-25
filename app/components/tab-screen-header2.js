@@ -68,38 +68,31 @@ class TabSearchHeader extends Component {
           navigation={navigation}
           title={title}
           headerRight={
-            <View>
-              {showMailbox ? (
-                <TouchableOpacity
-                  onPress={this.openMailboxScreen}
-                  style={styles.messagesContainer}
-                  ref={this.props.mailboxIconRef}
-                >
-                  <Image style={styles.messagesIcon} source={messagesIcon} />
-                  {notificationCount > 0 ? (
-                    <View style={styles.messagesCountContainer}>
-                      <Text weight="Bold" style={styles.messagesCount}>
-                        {notificationCount}
-                      </Text>
-                    </View>
-                  ) : (
-                    <View />
-                  )}
-                </TouchableOpacity>
-              ) : (
-                <View />
-              )}
-              {dyk ? (
-                <TouchableOpacity
-                  onPress={this.openDykScreen}
-                  style={styles.dykContainer}
-                  ref={this.props.dykIconRef}
-                >
-                  <Image style={styles.messagesIcon} source={dykIcon} />
-                </TouchableOpacity>
-              ) : (
-                <View />
-              )}
+            <View style={styles.headerRight}>
+              <TouchableOpacity
+                onPress={this.openDykScreen}
+                style={styles.dykContainer}
+                ref={this.props.dykIconRef}
+              >
+                <Image style={styles.messagesIcon} source={dykIcon} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.openMailboxScreen}
+                style={styles.messagesContainer}
+                ref={this.props.mailboxIconRef}
+              >
+                <Image style={styles.messagesIcon} source={messagesIcon} />
+                {notificationCount > 0 ? (
+                  <View style={styles.messagesCountContainer}>
+                    <Text weight="Bold" style={styles.messagesCount}>
+                      {notificationCount}
+                    </Text>
+                  </View>
+                ) : (
+                  <View />
+                )}
+              </TouchableOpacity>
+
               {showRightSideSearchIcon ? (
                 <TouchableOpacity
                   onPress={onRightSideSearchIconPress}
@@ -141,19 +134,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 2
   },
-
+  headerRight: {
+    flexDirection: "row",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
   messagesContainer: {
-    // paddingRight: 5,
-    position: "absolute",
-    right: 0,
-    top: 0
+    marginLeft: 15
   },
-  dykContainer: {
-    // paddingRight: 35,
-    position: "absolute",
-    right: 40,
-    top: 0
-  },
+  dykContainer: {},
   messagesIcon: {
     width: 24,
     height: 24,

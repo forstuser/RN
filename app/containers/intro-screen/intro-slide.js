@@ -13,18 +13,22 @@ const IntroSlide = ({ image, title, desc }) => (
       colors={["#fff", "#fff"]}
       style={styles.gradientBackground}
     >
-      <Image
+      {/* <Image
         style={styles.bg}
         source={require("../../images/onboarding/background.png")}
-      />
+      /> */}
       <View collapsable={false} style={styles.content}>
         <View collapsable={false}>
           <Image style={styles.image} source={image} resizeMode="contain" />
         </View>
       </View>
       <View collapsable={false} style={styles.texts}>
-        <Text style={styles.title} weight="Bold" >{title}</Text>
-        <Text style={styles.desc} weight="Medium" >{desc}</Text>
+        <Text style={styles.title} weight="Bold">
+          {title}
+        </Text>
+        <Text style={styles.desc} weight="Medium">
+          {desc}
+        </Text>
       </View>
     </LinearGradient>
   </View>
@@ -51,31 +55,32 @@ const styles = StyleSheet.create({
   },
   texts: {
     height: 240,
-    alignItems: "center",
+    alignItems: "center"
   },
   title: {
     fontSize: 20,
     textAlign: "center",
     color: colors.mainText,
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   },
   desc: {
     fontSize: 16,
     marginTop: 16,
     textAlign: "center",
     color: colors.mainText,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    maxWidth: 370
   },
   content: {
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: 'center',
-    flex: 1,
+    alignSelf: "center",
+    flex: 1
   },
   image: {
     // position: "absolute",
     width: 292,
-    height: 269,
+    height: 269
     // bottom: 75
   }
 });
