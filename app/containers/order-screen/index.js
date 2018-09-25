@@ -445,7 +445,7 @@ class OrderScreen extends React.Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
-        {order && (
+        {order ? (
           <View style={{ flex: 1 }}>
             <FlatList
               style={{ flex: 1 }}
@@ -466,12 +466,12 @@ class OrderScreen extends React.Component {
                     startTime={startTime}
                     endTime={endTime}
                   />
-                  {deliveryUser && (
+                  {deliveryUser ? (
                     <DeliveryUserDetails
                       deliveryUser={deliveryUser}
                       orderType={order.order_type}
                     />
-                  )}
+                  ) : null}
                   <SellerDetails
                     order={order}
                     openUploadBillPopup={this.openUploadBillPopup}
@@ -530,7 +530,7 @@ class OrderScreen extends React.Component {
               }}
               ListFooterComponent={() => (
                 <View>
-                  {order.order_type == ORDER_TYPES.FMCG && (
+                  {order.order_type == ORDER_TYPES.FMCG ? (
                     <View
                       style={{
                         flexDirection: "row",
@@ -547,10 +547,10 @@ class OrderScreen extends React.Component {
                       </Text>
                       <Text weight="Medium">Rs. {totalAmount}</Text>
                     </View>
-                  )}
+                  ) : null}
 
                   {order.order_type == ORDER_TYPES.ASSISTED_SERVICE &&
-                    serviceTotalAmount && (
+                    serviceTotalAmount ? (
                       <View
                         style={{
                           borderTopWidth: 1,
@@ -602,9 +602,9 @@ class OrderScreen extends React.Component {
                           )}
                         />
                       </View>
-                    )}
+                    ) : null}
 
-                  {order.status_type == ORDER_STATUS_TYPES.COMPLETE && (
+                  {order.status_type == ORDER_STATUS_TYPES.COMPLETE ? (
                     <View>
                       {!sellerRatings && !serviceRatings ? (
                         <Button
@@ -656,56 +656,56 @@ class OrderScreen extends React.Component {
                           </View>
                         )}
                     </View>
-                  )}
+                  ) : null}
                 </View>
               )}
             />
             {![
               ORDER_STATUS_TYPES.CANCELED,
               ORDER_STATUS_TYPES.REJECTED
-            ].includes(order.status_type) && (
+            ].includes(order.status_type) ? (
                 <View>
                   {order.status_type == ORDER_STATUS_TYPES.NEW &&
-                    !order.is_modified && (
+                    !order.is_modified ? (
                       <Button
                         onPress={this.cancelOrderPopup}
                         text="Cancel Order"
                         color="secondary"
                         borderRadius={0}
                       />
-                    )}
+                    ) : null}
 
                   {((order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
                     order.order_type == ORDER_TYPES.FMCG) ||
                     (order.status_type == ORDER_STATUS_TYPES.END_TIME &&
-                      order.order_type == ORDER_TYPES.ASSISTED_SERVICE)) && (
+                      order.order_type == ORDER_TYPES.ASSISTED_SERVICE)) ? (
                       <Button
                         onPress={this.completeOrder}
                         text="Mark Paid"
                         color="secondary"
                         borderRadius={0}
                       />
-                    )}
+                    ) : null}
 
                   {order.status_type == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
-                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
+                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE ? (
                       <Button
                         onPress={this.startAssistedServiceOrder}
                         text="Start Job"
                         color="secondary"
                         borderRadius={0}
                       />
-                    )}
+                    ) : null}
 
                   {order.status_type == ORDER_STATUS_TYPES.START_TIME &&
-                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE && (
+                    order.order_type == ORDER_TYPES.ASSISTED_SERVICE ? (
                       <Button
                         onPress={this.endAssistedServiceOrder}
                         text="End Job"
                         color="secondary"
                         borderRadius={0}
                       />
-                    )}
+                    ) : null}
 
                   {order.is_modified &&
                     ![
@@ -714,7 +714,7 @@ class OrderScreen extends React.Component {
                       ORDER_STATUS_TYPES.COMPLETE,
                       ORDER_STATUS_TYPES.START_TIME,
                       ORDER_STATUS_TYPES.END_TIME
-                    ].includes(order.status_type) && (
+                    ].includes(order.status_type) ? (
                       <View style={{ flexDirection: "row" }}>
                         <Button
                           onPress={this.rejectOrderPopup}
@@ -731,11 +731,11 @@ class OrderScreen extends React.Component {
                           style={{ flex: 1 }}
                         />
                       </View>
-                    )}
+                    ) : null}
                 </View>
-              )}
+              ) : null}
           </View>
-        )}
+        ) : null}
         <UploadBillModal
           navigation={this.props.navigation}
           onUploadDone={() => {
