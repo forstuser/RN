@@ -38,16 +38,8 @@ export default {
       // store.dispatch('changeServerConnectionStatus', false)
     });
 
-    this.socket.on("reconnect", attemptNumber => {
-      console.log("reconnected");
-    });
-
     this.socket.on("reconnect_error", function(err) {
       console.log("socket could not be reconnected!!", err);
-    });
-
-    this.socket.on("reconnect", attemptNumber => {
-      console.log("reconnected");
     });
   },
 

@@ -516,26 +516,28 @@ class MySellersScreen extends React.Component {
                         Chat
                       </Text>
                     </TouchableOpacity>
-                    {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
-                      <TouchableOpacity
-                        onPress={() =>
-                          this.props.navigation.navigate(
-                            SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN,
-                            { seller: item }
-                          )
-                        }
-                        style={[styles.bottomButton, { flex: 1.5 }]}
-                      >
-                        <Icon
-                          name="ios-construct-outline"
-                          style={styles.bottomButtonIcon}
-                          color={colors.pinkishOrange}
-                        />
-                        <Text weight="Medium" style={styles.bottomButtonText}>
-                          Home Services
-                        </Text>
-                      </TouchableOpacity>
-                    )}
+                    {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED &&
+                      item.is_assisted &&
+                      item.assisted_services.length > 0 && (
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.props.navigation.navigate(
+                              SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN,
+                              { seller: item }
+                            )
+                          }
+                          style={[styles.bottomButton, { flex: 1.5 }]}
+                        >
+                          <Icon
+                            name="ios-construct-outline"
+                            style={styles.bottomButtonIcon}
+                            color={colors.pinkishOrange}
+                          />
+                          <Text weight="Medium" style={styles.bottomButtonText}>
+                            Home Services
+                          </Text>
+                        </TouchableOpacity>
+                      )}
                   </View>
                 </TouchableOpacity>
               );
