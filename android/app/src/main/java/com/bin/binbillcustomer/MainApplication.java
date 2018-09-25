@@ -3,6 +3,7 @@ package com.bin.binbillcustomer;
 import android.app.Application;
 import android.content.Intent;
 import android.os.StrictMode;
+import android.support.multidex.MultiDexApplication;
 
 import com.evollu.react.fa.FIRAnalyticsPackage;
 import com.facebook.react.ReactApplication;
@@ -45,7 +46,7 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -118,5 +119,11 @@ public class MainApplication extends Application implements ReactApplication {
     }
     SoLoader.init(this, /* native exopackage */ false);
   }
+
+  // @Override
+  // protected void attachBaseContext(Context base) {
+  //    super.attachBaseContext(base);
+  //    MultiDex.install(this);
+  // }
 }
 

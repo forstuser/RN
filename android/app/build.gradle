@@ -213,7 +213,7 @@ dependencies {
     compile project(':react-native-firebase-analytics')
     compile project(':react-native-google-places')
     compile project(':react-native-code-push')
-    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.3'
     compile project(':react-native-vector-icons')
     compile project(':react-native-svg')
     compile project(':react-native-share')

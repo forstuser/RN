@@ -73,7 +73,14 @@ class MyShoppingList extends React.Component {
   }
 
   onSharePress = () => {
-    this.setState({ isMySellersModalVisible: true });
+    const selectedSellers = this.props.navigation.getParam("selectedSellers", []);
+    //console.log('selectedSellers ', selectedSellers);
+    if(selectedSellers.length === 0) {
+      this.setState({ isMySellersModalVisible: true });
+    }
+    else {
+      this.proceedToAddressScreen(selectedSellers[0]);
+    }  
     //this.getMySellers();
   };
 
@@ -133,6 +140,13 @@ class MyShoppingList extends React.Component {
 
   shareWithWhatsapp = () => {
     //alert('Whatsapp');
+  };
+
+  proceedToAddressScreen = seller => {
+    this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
+      sellerId: seller.id,
+      orderType: ORDER_TYPES.FMCG
+    });
   };
 
   selectSellerForOrder = seller => {
