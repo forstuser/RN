@@ -52,7 +52,7 @@ class BBCashWalletScreen extends Component {
           date: moment(money.created_at)
             .format("DD MMM, YYYY")
             .toUpperCase(),
-          id: money.id,
+          id: money.job_id,
           price: money.amount
         });
       });
