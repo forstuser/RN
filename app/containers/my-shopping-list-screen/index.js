@@ -41,7 +41,7 @@ class MyShoppingList extends React.Component {
         <TouchableOpacity
           //onPress={navigation.state.params.onSharePress}
           onPress={navigation.state.params.onSharePressIcon}
-          style={{ marginRight: 20 }}
+          style={{ marginRight: 10, padding: 10 }}
         >
           <Icon name="md-share" size={25} color={colors.mainBlue} />
         </TouchableOpacity>
@@ -73,7 +73,16 @@ class MyShoppingList extends React.Component {
   }
 
   onSharePress = () => {
-    this.setState({ isMySellersModalVisible: true });
+    const selectedSellers = this.props.navigation.getParam(
+      "selectedSellers",
+      []
+    );
+    //console.log('selectedSellers ', selectedSellers);
+    if (selectedSellers.length === 0) {
+      this.setState({ isMySellersModalVisible: true });
+    } else {
+      this.proceedToAddressScreen(selectedSellers[0]);
+    }
     //this.getMySellers();
   };
 
@@ -133,6 +142,13 @@ class MyShoppingList extends React.Component {
 
   shareWithWhatsapp = () => {
     //alert('Whatsapp');
+  };
+
+  proceedToAddressScreen = seller => {
+    this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
+      sellerId: seller.id,
+      orderType: ORDER_TYPES.FMCG
+    });
   };
 
   selectSellerForOrder = seller => {

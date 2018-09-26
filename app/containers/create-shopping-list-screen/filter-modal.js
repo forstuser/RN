@@ -11,6 +11,7 @@ import Modal from "react-native-modal";
 
 import { Text, Button } from "../../elements";
 import Checkbox from "../../components/checkbox";
+import Radiobox from "../../components/radiobox";
 import SmallDot from "../../components/small-dot";
 import { API_BASE_URL, getMySellers } from "../../api";
 
@@ -33,12 +34,6 @@ class FilterModalScreen extends Component {
         selectedMainCategory: 'Filter by Brands'
     };
 
-    // componentDidMount() {
-    //     this.getMySellers();
-    // } 
-
-    
-
     show = () => {
         this.setState({ isVisible: true });
     };
@@ -54,18 +49,16 @@ class FilterModalScreen extends Component {
             onPress={() => {
               this.setState({ selectedMainCategory: item.title });
             }}
-            style={[
-              {
+            style={{
                 height: 45,
                 padding: 5,
-                justifyContent: "center"
-              }
-            ]}
+                justifyContent: "center",
+                backgroundColor: this.state.selectedMainCategory === item.title ? '#d8edf7' : null
+            }}
           >
             <Text weight="Medium" numberOfLines={1}>
               {item.title}
             </Text>
-            {/* <SmallDot style={{ top: 15 }} visible={subCategoriesSelected} />  */}
           </TouchableOpacity>
         );
       };
@@ -73,7 +66,7 @@ class FilterModalScreen extends Component {
       renderCategoryItem = ({ item, index }) => {
         return (
             <TouchableOpacity
-            onPress={() => this.props.toggleBrandSelection(item)}
+            onPress={() => {this.state.selectedMainCategory === 'Filter by Brands' ?this.props.toggleBrandSelection(item) : this.props.toggleSellerSelection(item)}}
             style={{
             flexDirection: "row",
             padding: 8,
@@ -81,17 +74,15 @@ class FilterModalScreen extends Component {
             }}
         >
             <Text style={{ flex: 1, fontSize: 12 }}>
-                {this.state.selectedMainCategory === 'Filter by Brands' ? (item.title) : (item.name)}
+                {this.state.selectedMainCategory === 'Filter by Brands' ? (item.title) : (item.seller_name)}
             </Text>
-            <Checkbox isChecked={this.props.checkedBrandIds.includes(item.id)} />
+            <Checkbox isChecked={this.state.selectedMainCategory === 'Filter by Brands' ? this.props.checkedBrandIds.includes(item.id) : this.props.checkedSellerIds.includes(item.id)} />
         </TouchableOpacity>
         );
       };
 
     render() {
-        console.log('Props: ', this.props);
         let source = null;
-        //console.log(this.state.selectedMainCategory);
         if(this.state.selectedMainCategory === 'Filter by Sellers') {
             source = this.props.sellers;
         }
@@ -172,7 +163,7 @@ class FilterModalScreen extends Component {
                         </View>
                     </View>
                     <Button
-                        onPress={this.props.applyBrandsFilter}
+                        onPress={this.state.selectedMainCategory === 'Filter by Brands' ? this.props.applyBrandsFilter : this.props.applySellersFilter}
                         text="Apply Filter"
                         borderRadius={0}
                         color="secondary"
@@ -228,6 +219,11 @@ const styles = StyleSheet.create({
     },
     filterItemText: {
       flex: 1
+    },
+    mainFilterCategory: {
+        height: 45,
+        padding: 5,
+        justifyContent: "center"
     }
   });
 

@@ -42,7 +42,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-
+        
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a2f9f425c376fed5837ac624523c3c48d6ed8171"
@@ -310,6 +310,8 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        
 
     </application>
 

@@ -56,7 +56,8 @@ class ShoppingListScreen extends React.Component {
     items: [],
     brands: [],
     selectedBrands: [],
-    sellers: []
+    sellers: [],
+    selectedSellers: []
   };
 
   componentDidMount() {
@@ -64,7 +65,6 @@ class ShoppingListScreen extends React.Component {
       "didFocus",
       () => {
         this.loadSkuWishList();
-        this.getMySellers();
       }
     );
   }
@@ -72,21 +72,6 @@ class ShoppingListScreen extends React.Component {
   componentWillUnmount() {
     this.didFocusSubscription.remove();
   }
-
-  getMySellers = async () => {
-    this.setState({
-      isLoadingMySellers: true
-    });
-    try {
-      const res = await getMySellers();
-      console.log("Seller List: ", res.result);
-      this.setState({ sellers: res.result });
-    } catch (error) {
-      this.setState({ error });
-    } finally {
-      this.setState({ isLoadingMySellers: false });
-    }
-  };
 
   loadSkuWishList = async () => {
     this.setState({ isLoadingWishList: true, wishListError: null });
@@ -151,6 +136,7 @@ class ShoppingListScreen extends React.Component {
       mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
     );
     const newState = { activeMainCategoryId, selectedBrands: [] };
+
     if (activeMainCategoryId > 0 && mainCategory.categories.length > 0) {
       newState.selectedCategoryIds = [];
     } else {
@@ -324,20 +310,24 @@ class ShoppingListScreen extends React.Component {
       activeMainCategoryId,
       selectedCategoryIds,
       searchTerm,
-      selectedBrands
+      selectedBrands,
+      selectedSellers
     } = this.state;
     try {
       const res = await getSkuItems({
         mainCategoryId: activeMainCategoryId,
         categoryIds: !searchTerm ? selectedCategoryIds : undefined,
         searchTerm: searchTerm || undefined,
-        brandIds: selectedBrands.map(brand => brand.id)
+        brandIds: selectedBrands.map(brand => brand.id),
+        sellerIds: selectedSellers.map(seller => seller.id)
       });
+      //console.log("Sellers list in shop and earn: ", res.seller_list);
       this.setState({
         isSearching: false,
         isSearchDone: true,
         items: res.result.sku_items,
-        brands: res.result.brands
+        brands: res.result.brands,
+        sellers: res.seller_list
       });
     } catch (error) {
       console.log(error);
@@ -348,6 +338,13 @@ class ShoppingListScreen extends React.Component {
   setSelectedBrands = selectedBrands => {
     this.setState({ selectedBrands }, () => {
       this.loadItems();
+    });
+  };
+
+  setSelectedSellers = selectedSellers => {
+    this.setState({ selectedSellers }, () => {
+      this.loadItems();
+      this.clearWishList();
     });
   };
 
@@ -387,8 +384,11 @@ class ShoppingListScreen extends React.Component {
       searchError,
       brands,
       selectedBrands,
-      sellers
+      sellers,
+      selectedSellers
     } = this.state;
+
+    //console.log('selectedSellers Name: ', selectedSellers[0]);
 
     if (referenceDataError || wishListError) {
       return (
@@ -401,7 +401,11 @@ class ShoppingListScreen extends React.Component {
 
     return (
       <DrawerScreenContainer
-        title="Create Shopping List"
+        title={
+          selectedSellers.length === 0
+            ? "Create Shopping List"
+            : selectedSellers[0].seller_name
+        }
         navigation={navigation}
         headerRight={
           <View
@@ -429,7 +433,8 @@ class ShoppingListScreen extends React.Component {
                 navigation.push(SCREENS.MY_SHOPPING_LIST_SCREEN, {
                   measurementTypes: measurementTypes,
                   wishList,
-                  changeIndexQuantity: this.changeIndexQuantity
+                  changeIndexQuantity: this.changeIndexQuantity,
+                  selectedSellers
                 });
               }}
             >
@@ -485,7 +490,9 @@ class ShoppingListScreen extends React.Component {
             brands={brands}
             sellers={sellers}
             selectedBrands={selectedBrands}
+            selectedSellers={selectedSellers}
             setSelectedBrands={this.setSelectedBrands}
+            setSelectedSellers={this.setSelectedSellers}
             isSearchDone={isSearchDone}
             searchError={searchError}
             items={items}

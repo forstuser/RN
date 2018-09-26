@@ -7,7 +7,7 @@ import SingleServiceRequest from "./single-service-request";
 import { retrieveActiveOrders, retrieveActiveServices } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 import { SCREENS } from "../../constants";
-import SingleOrder from './single-order';
+import SingleOrder from "./single-order";
 
 class ActiveOrdersScreen extends Component {
   state = {
@@ -78,14 +78,16 @@ class ActiveOrdersScreen extends Component {
   };
 
   renderActiveOrders = ({ item, index }) => {
-    return <SingleOrder
-      key={index}
-      item={item}
-      navigation={this.props.navigation}
-      onPress={() => {
-        this.openOrderScreen(item);
-      }}
-    />; 
+    return (
+      <SingleOrder
+        key={index}
+        item={item}
+        navigation={this.props.navigation}
+        onPress={() => {
+          this.openOrderScreen(item);
+        }}
+      />
+    );
   };
 
   render() {
@@ -115,7 +117,6 @@ class ActiveOrdersScreen extends Component {
             keyExtractor={(item, index) => item.id}
             onRefresh={this.fetchActiveOrders}
             refreshing={this.state.isFetchingData}
-
           />
         </View>
       );
@@ -143,7 +144,7 @@ class ActiveOrdersScreen extends Component {
             flex: 1,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: '#fff'
+            backgroundColor: "#fff"
           }}
         >
           <View
@@ -169,14 +170,24 @@ class ActiveOrdersScreen extends Component {
           </View>
           <Text
             weight="Bold"
-            style={{ fontSize: 18, color: "#c2c2c2", marginTop: 10 }}
+            style={{
+              fontSize: 18,
+              color: "#c2c2c2",
+              marginTop: 10,
+              textAlign: "center",
+              padding: 15
+            }}
           >
             You have not placed any recent orders
           </Text>
           <Button
             style={{ height: 40, width: 150, marginTop: 30 }}
             text="SHOP NOW"
-            onPress={() => this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN)}
+            onPress={() =>
+              this.props.navigation.navigate(
+                SCREENS.CREATE_SHOPPING_LIST_SCREEN
+              )
+            }
             color="secondary"
             textStyle={{ fontSize: 16 }}
           />
