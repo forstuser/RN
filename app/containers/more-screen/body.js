@@ -91,7 +91,7 @@ class Body extends Component {
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-        profile ? profile.mobile_no : ""
+      profile ? profile.mobile_no : ""
       })`
     );
   };
@@ -169,20 +169,21 @@ class Body extends Component {
 
   onCashbackBillGuidelinesPress = () => {
     this.closeDrawer();
-    this.props.navigation.navigate(SCREENS.CASHBACK_BILL_GUIDELINES_SCREEN);    
+    this.props.navigation.navigate(SCREENS.CASHBACK_BILL_GUIDELINES_SCREEN);
   };
 
   render() {
     const appVersion = DeviceInfo.getVersion();
     const { profile, isAppUpdateAvailable, isPinSet, language } = this.props;
-    const location = profile ? profile.location : LOCATIONS.OTHER;
+    const location =
+      profile && profile.location ? profile.location : LOCATIONS.OTHER;
 
     return (
       <ScrollView>
         <MoreItem
           onPress={this.onMyOrdersPress}
           imageSource={require("../../images/orders_icon.png")}
-          text={"My Grocery Orders"}
+          text={"My Orders"}
           imageStyle={{ width: 20, height: 20 }}
         />
         {location != LOCATIONS.OTHER && (
@@ -239,7 +240,7 @@ class Body extends Component {
           />
         )}
         <Separator />
-        <MoreItem
+        {/* <MoreItem
           onPress={() =>
             call({ number: "+917600919189" }).catch(e =>
               showSnackbar({
@@ -249,7 +250,7 @@ class Body extends Component {
           }
           imageSource={require("../../images/ic_more_call.png")}
           text={I18n.t("more_screen_item_call")}
-        />
+        /> */}
         <MoreItem
           onPress={this.onEmailItemPress}
           imageSource={require("../../images/ic_more_email.png")}

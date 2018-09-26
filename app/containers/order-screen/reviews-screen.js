@@ -105,7 +105,7 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <ScrollView>
-          {deliveryUserId && (
+          {deliveryUserId ? (
             <Review
               starCount={serviceRating}
               onStarRatingPress={rating => {
@@ -119,7 +119,7 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
               }}
               title="Rate your Service Experience"
             />
-          )}
+          ) : null}
           <Review
             starCount={sellerRating}
             onStarRatingPress={rating => {

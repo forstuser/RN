@@ -13,18 +13,22 @@ const IntroSlide = ({ image, title, desc }) => (
       colors={["#fff", "#fff"]}
       style={styles.gradientBackground}
     >
-      <Image
+      {/* <Image
         style={styles.bg}
         source={require("../../images/onboarding/background.png")}
-      />
-      <View collapsable={false} style={styles.texts}>
-        <Text style={styles.title}>{title}</Text>
-        {/* <Text style={styles.desc}>{desc}</Text> */}
-      </View>
+      /> */}
       <View collapsable={false} style={styles.content}>
-        <View collapsable={false} style={styles.imageWrapper}>
+        <View collapsable={false}>
           <Image style={styles.image} source={image} resizeMode="contain" />
         </View>
+      </View>
+      <View collapsable={false} style={styles.texts}>
+        <Text style={styles.title} weight="Bold">
+          {title}
+        </Text>
+        <Text style={styles.desc} weight="Medium">
+          {desc}
+        </Text>
       </View>
     </LinearGradient>
   </View>
@@ -49,49 +53,35 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%"
   },
-  content: {
-    height: Dimensions.get("window").height - 100,
-    width: Dimensions.get("window").width,
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 3,
-    bottom: 20
-  },
   texts: {
-    height: 100,
-    top: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1
+    height: 240,
+    alignItems: "center"
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
+    textAlign: "center",
+    color: colors.mainText,
+    paddingHorizontal: 20
+  },
+  desc: {
+    fontSize: 16,
+    marginTop: 16,
     textAlign: "center",
     color: colors.mainText,
     paddingHorizontal: 20,
-    marginTop: 25,
-    lineHeight: 30,
-    maxWidth: 400
+    maxWidth: 370
   },
-  desc: {
-    marginTop: 15,
-    textAlign: "center",
-    color: "#fff",
-    paddingHorizontal: 20
-  },
-  imageWrapper: {
-    width: "100%",
-    padding: 40,
+  content: {
     alignItems: "center",
-    flex: 1,
-    maxWidth: 370,
-    maxHeight: 377
+    justifyContent: "center",
+    alignSelf: "center",
+    flex: 1
   },
   image: {
-    position: "absolute",
-    width: "105%",
-    height: "100%",
-    bottom: 75
+    // position: "absolute",
+    width: 292,
+    height: 269
+    // bottom: 75
   }
 });
 

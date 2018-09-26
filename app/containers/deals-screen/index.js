@@ -134,7 +134,7 @@ class DealsScreen extends Component {
                 <Image
                   resizeMode="contain"
                   style={{ width: 25, height: 25, tintColor: "#fff" }}
-                  source={require("../../images/orders_icon.png")}
+                  source={require("../../images/accessory_orders_icon.png")}
                 />
               </TouchableOpacity>
             ) : (

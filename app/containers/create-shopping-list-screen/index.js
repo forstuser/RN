@@ -61,7 +61,16 @@ class ShoppingListScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.loadSkuWishList();
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.loadSkuWishList();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   loadSkuWishList = async () => {

@@ -1,17 +1,23 @@
 import React from "react";
-import { View, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity, Image, ScrollView } from "react-native";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
 import call from "react-native-phone-call";
 import StarRating from "react-native-star-rating";
+import Modal from "react-native-modal";
 
 import { API_BASE_URL } from "../../api";
 import { Text, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
 import { ORDER_TYPES, SERVICE_PRICE_TYPES } from "../../constants";
+import Reviews from "../../components/reviews";
 
 export default class DeliveryUserDetails extends React.Component {
+  state = {
+    isReviewsModalVisible: false
+  };
+
   call = () => {
     const { deliveryUser } = this.props;
     call({ number: deliveryUser.mobile_no }).catch(e =>
@@ -21,22 +27,37 @@ export default class DeliveryUserDetails extends React.Component {
     );
   };
 
+  showReviewsModal = () => {
+    this.setState({ isReviewsModalVisible: true });
+  };
+
+  hideReviewsModal = () => {
+    this.setState({ isReviewsModalVisible: false });
+  };
+
   render() {
     let { deliveryUser = {}, orderType } = this.props;
+    const { isReviewsModalVisible } = this.state;
 
     let hourlyPrice = 0;
+    let basePrice = 0;
     if (orderType == ORDER_TYPES.ASSISTED_SERVICE) {
       const hourlyPriceItem = deliveryUser.service_type.price.find(
         p => p.price_type == SERVICE_PRICE_TYPES.HOURLY_PRICE
       );
-
+      const basePriceItem = deliveryUser.service_type.price.find(
+        p => p.price_type == SERVICE_PRICE_TYPES.BASE_PRICE
+      );
+      basePrice = basePriceItem ? basePriceItem.value : 0;
       hourlyPrice = hourlyPriceItem ? hourlyPriceItem.value : 0;
     }
 
     return (
       <View style={{}}>
         <Text weight="Bold">
-          {orderType == ORDER_TYPES.FMCG ? "Delivered By" : "Service Provider"}
+          {orderType == ORDER_TYPES.FMCG
+            ? "Delivery Agent"
+            : "Service Provider"}
         </Text>
         <View
           style={{
@@ -69,45 +90,46 @@ export default class DeliveryUserDetails extends React.Component {
             <View style={{ flexDirection: "row" }}>
               <View style={{ flex: 1, justifyContent: "center" }}>
                 <View style={{ flexDirection: "row" }}>
-                  <Text weight="Bold" style={{ fontSize: 13.5, flex: 1 }}>
+                  <Text weight="Bold" style={{ fontSize: 12, flex: 1 }}>
                     {deliveryUser.name}
                   </Text>
                   {orderType == ORDER_TYPES.ASSISTED_SERVICE && (
-                    <Text weight="Bold" style={{ fontSize: 13.5 }}>
-                      Rs. {hourlyPrice}
-                      /hour
+                    <View>
+                      <Text weight="Bold" style={{ fontSize: 10 }}>
+                        Base Price : ₹ {basePrice} (up to 1 hour)
+                      </Text>
+                      <Text weight="Normal" style={{ fontSize: 10 }}>
+                        *₹ {hourlyPrice} each additional 30 Min.
                     </Text>
+                    </View>
                   )}
                 </View>
                 {/* <Text style={{ fontSize: 11 }}>
                   Mobile: {deliveryUser.mobile_no}
                 </Text> */}
                 <TouchableOpacity
-                    onPress={() => this.call()}
-                    style={{
-                      marginTop: 8,
-                      flexDirection: "row",
-                      height: 26,
-                      width: 65,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderRadius: 15,
-                      borderColor: "#c5c5c5",
-                      borderWidth: 1
-                    }}
-                  >
-                    <Icon
-                      name="ios-call-outline"
-                      size={18}
-                      color={colors.pinkishOrange}
-                    />
-                    <Text
-                      weight="Medium"
-                      style={{ fontSize: 9, marginLeft: 7 }}
-                    >
-                      Call
-                    </Text>
-                  </TouchableOpacity>
+                  onPress={() => this.call()}
+                  style={{
+                    marginTop: 8,
+                    flexDirection: "row",
+                    height: 26,
+                    width: 65,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 15,
+                    borderColor: "#c5c5c5",
+                    borderWidth: 1
+                  }}
+                >
+                  <Icon
+                    name="ios-call-outline"
+                    size={18}
+                    color={colors.pinkishOrange}
+                  />
+                  <Text weight="Medium" style={{ fontSize: 9, marginLeft: 7 }}>
+                    Call
+                  </Text>
+                </TouchableOpacity>
                 <View
                   style={{
                     flexDirection: "row",
@@ -135,21 +157,38 @@ export default class DeliveryUserDetails extends React.Component {
                     ({deliveryUser.ratings || 0})
                   </Text>
                 </View>
-                <Text
-                  weight="Medium"
-                  style={{
-                    fontSize: 10,
-                    marginLeft: 2,
-                    color: colors.pinkishOrange
-                  }}
+                <TouchableOpacity
+                  style={{ padding: 5, paddingLeft: 0 }}
+                  onPress={this.showReviewsModal}
                 >
-                  Reviews{" "}
-                  {deliveryUser.reviews ? deliveryUser.reviews.length : 0}
-                </Text>
+                  <Text
+                    weight="Medium"
+                    style={{
+                      fontSize: 10,
+                      marginLeft: 2,
+                      color: colors.pinkishOrange
+                    }}
+                  >
+                    Reviews{" "}
+                    {deliveryUser.reviews ? deliveryUser.reviews.length : 0}
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
         </View>
+        <Modal
+          isVisible={isReviewsModalVisible}
+          onBackButtonPress={this.hideReviewsModal}
+          onBackdropPress={this.hideReviewsModal}
+          useNativeDriver
+        >
+          <View style={{ backgroundColor: "#fff", padding: 10 }}>
+            <ScrollView>
+              <Reviews reviews={deliveryUser.reviews || []} />
+            </ScrollView>
+          </View>
+        </Modal>
       </View>
     );
   }

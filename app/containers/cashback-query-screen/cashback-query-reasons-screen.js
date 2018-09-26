@@ -1,14 +1,15 @@
 import React from "react";
-import { View, FlatList, TouchableOpacity } from "react-native";
+import { View, FlatList, TouchableOpacity, Linking } from "react-native";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
+import { connect } from "react-redux";
 
 import { Text, Button } from "../../elements";
 import { getCashbackTransactions } from "../../api";
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS } from "../../constants";
 
-export default class CashbackQueryReasonsScreen extends React.Component {
+class CashbackQueryReasonsScreen extends React.Component {
   static navigationOptions = {
     title: "Select Reason"
   };
@@ -22,15 +23,26 @@ export default class CashbackQueryReasonsScreen extends React.Component {
   };
 
   openAddtionalInfoScreen = () => {
-    const { navigation } = this.props;
-    navigation.push(SCREENS.CASHBACK_QUERY_ADDITIONAL_INFO_SCREEN, {
-      selectedTransaction: navigation.state.params.selectedTransaction,
-      reason: this.state.selectedReason
-    });
+    const { navigation, loggedInUser } = this.props;
+    const { selectedReason } = this.state;
+    const selectedTransaction = navigation.getParam("selectedTransaction", {});
+    // navigation.push(SCREENS.CASHBACK_QUERY_ADDITIONAL_INFO_SCREEN, {
+    //   selectedTransaction: navigation.state.params.selectedTransaction,
+    //   reason: this.state.selectedReason
+    // });
+    Linking.openURL(
+      `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&bcc=amar@binbill.com&bcc=sagar@binbill.com&subject=Cahback Query, Transaction Id: ${
+        selectedTransaction.id
+      }&body=Dear BinBill Team,\n\nI have some query related to my cashback, \nReason: ${
+        selectedReason.title
+      }\n\n<Please write details here> \n\n\nThanks,\n${loggedInUser.name}\n${
+        loggedInUser.phone
+      }`
+    );
   };
 
   render() {
-    const reasons = this.props.navigation.getParam("reasons", [])
+    const reasons = this.props.navigation.getParam("reasons", []);
     const { selectedReason } = this.state;
 
     return (
@@ -95,3 +107,11 @@ export default class CashbackQueryReasonsScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    loggedInUser: state.loggedInUser
+  };
+};
+
+export default connect(mapStateToProps)(CashbackQueryReasonsScreen);

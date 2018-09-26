@@ -50,7 +50,7 @@ export default class ServicePriceBreakdownModal extends React.Component {
       timeElapsedInMinutes,
       totalAmount
     } = this.state;
-
+    console.log("base price under show ", basePrice)
     let timeElapsedInHalfHours = 0;
 
     if (timeElapsedInMinutes > 60) {

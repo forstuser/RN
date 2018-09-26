@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from "react-native";
 
 import { Text, Button, Image } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
-import { SCREENS, ORDER_STATUS_TYPES } from "../../constants";
+import { SCREENS, ORDER_STATUS_TYPES, ORDER_TYPES } from "../../constants";
 import { API_BASE_URL } from "../../api";
 import moment from "moment";
 
@@ -11,6 +11,7 @@ class SingleOrder extends Component {
   render() {
     const { item } = this.props;
     let statusType = null;
+    let orderType = item.order_type;
     if (item.status_type === ORDER_STATUS_TYPES.COMPLETE)
       statusType = (
         <Text style={{ fontSize: 12, color: colors.success }}>COMPLETED</Text>
@@ -51,6 +52,9 @@ class SingleOrder extends Component {
     let status = <Text weight="Bold">{statusType}</Text>;
     let name = <Text weight="Bold">{item.seller.seller_name}</Text>;
     let quantity = <Text weight="Bold">{item.order_details.length}</Text>;
+    let service = (
+      <Text weight="Bold">{item.order_details[0].service_name}</Text>
+    );
     let dateTime = (
       <Text weight="Bold">
         {moment(item.created_at).format("DD MMM, YYYY")}{" "}
@@ -112,7 +116,11 @@ class SingleOrder extends Component {
             <Text style={styles.info}>Seller: {name}</Text>
             <Text style={styles.status}>{status}</Text>
           </View>
-          <Text style={styles.data}>No. of items: {quantity}</Text>
+          {orderType == ORDER_TYPES.FMCG ? (
+            <Text style={styles.data}>No. of items: {quantity}</Text>
+          ) : (
+            <Text style={styles.data}>Service requested: {service}</Text>
+          )}
           <Text style={styles.data}>Date: {dateTime}</Text>
           <Text style={styles.data}>Amount: {amount}</Text>
           {cashbackStatus}
@@ -133,14 +141,13 @@ const styles = {
     borderRadius: 10,
     margin: 10
   },
-  box: {
-    height: 160
-  },
+  box: {},
   box1: {
     padding: 10
   },
   box2: {
-    flex: 1
+    flex: 1,
+    paddingBottom: 10
   },
 
   info: {

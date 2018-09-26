@@ -22,3 +22,13 @@ There are multiple `index` files but they all just import the `app` folder. They
 2. api: All the api calls are exported from this file as functions. There's a base function for api calls which set common headers like authToken and do common error handling. Every other call uses this function.
 
 3. applozic: It provides simple functions for applozic, like `login` and `startChatWithSeller`. It is used this way so that we can
+
+
+
+
+
+#Few Important Notes
+1. If app is crashing without red screen.then it can cause due to 
+data && <View></View>
+#Solution
+replace it with ternary operator e.g. data?<View></View>:null

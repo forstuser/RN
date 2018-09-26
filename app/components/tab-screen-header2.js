@@ -16,6 +16,8 @@ import { SCREENS } from "../constants";
 import Analytics from "../analytics";
 import Icon from "react-native-vector-icons/Ionicons";
 
+import ScreenHeaderWithDrawer from "./screen-header-with-drawer";
+
 const messagesIcon = require("../images/ic_top_messages.png");
 const dykIcon = require("../images/ic_do_you_know.png");
 const searchIcon = require("../images/ic_top_search.png");
@@ -44,7 +46,8 @@ class TabSearchHeader extends Component {
       showMailbox = true,
       dyk = true,
       showRightSideSearchIcon = false,
-      onRightSideSearchIconPress
+      onRightSideSearchIconPress,
+      navigation
     } = this.props;
     return (
       <View style={styles.container}>
@@ -61,60 +64,49 @@ class TabSearchHeader extends Component {
             bottom: 0
           }}
         />
-        <View style={styles.upperContainer}>
-          <View style={styles.nameAndIcon}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.openDrawer()}
-              style={styles.menuIcon}
-            >
-              <Icon name="md-menu" size={30} color="#fff" />
-            </TouchableOpacity>
-            <Text weight="Medium" style={styles.screenName}>
-              {title}
-            </Text>
-          </View>
-          {showMailbox ? (
-            <TouchableOpacity
-              onPress={this.openMailboxScreen}
-              style={styles.messagesContainer}
-              ref={this.props.mailboxIconRef}
-            >
-              <Image style={styles.messagesIcon} source={messagesIcon} />
-              {notificationCount > 0 ? (
-                <View style={styles.messagesCountContainer}>
-                  <Text weight="Bold" style={styles.messagesCount}>
-                    {notificationCount}
-                  </Text>
-                </View>
+        <ScreenHeaderWithDrawer
+          navigation={navigation}
+          title={title}
+          headerRight={
+            <View style={styles.headerRight}>
+              <TouchableOpacity
+                onPress={this.openDykScreen}
+                style={styles.dykContainer}
+                ref={this.props.dykIconRef}
+              >
+                <Image style={styles.messagesIcon} source={dykIcon} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.openMailboxScreen}
+                style={styles.messagesContainer}
+                ref={this.props.mailboxIconRef}
+              >
+                <Image style={styles.messagesIcon} source={messagesIcon} />
+                {notificationCount > 0 ? (
+                  <View style={styles.messagesCountContainer}>
+                    <Text weight="Bold" style={styles.messagesCount}>
+                      {notificationCount}
+                    </Text>
+                  </View>
+                ) : (
+                  <View />
+                )}
+              </TouchableOpacity>
+
+              {showRightSideSearchIcon ? (
+                <TouchableOpacity
+                  onPress={onRightSideSearchIconPress}
+                  style={styles.messagesContainer}
+                >
+                  <Image style={styles.messagesIcon} source={searchIcon} />
+                </TouchableOpacity>
               ) : (
                 <View />
               )}
-            </TouchableOpacity>
-          ) : (
-            <View />
-          )}
-          {dyk ? (
-            <TouchableOpacity
-              onPress={this.openDykScreen}
-              style={styles.dykContainer}
-              ref={this.props.dykIconRef}
-            >
-              <Image style={styles.messagesIcon} source={dykIcon} />
-            </TouchableOpacity>
-          ) : (
-            <View />
-          )}
-          {showRightSideSearchIcon ? (
-            <TouchableOpacity
-              onPress={onRightSideSearchIconPress}
-              style={styles.messagesContainer}
-            >
-              <Image style={styles.messagesIcon} source={searchIcon} />
-            </TouchableOpacity>
-          ) : (
-            <View />
-          )}
-        </View>
+            </View>
+          }
+        />
+
         {showSearchInput ? (
           <TouchableOpacity
             onPress={this.openSearchScreen}
@@ -135,62 +127,23 @@ class TabSearchHeader extends Component {
 const styles = StyleSheet.create({
   container: {
     height: 300,
-    paddingHorizontal: 16,
     paddingBottom: 12,
     elevation: 2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.25,
-    shadowRadius: 2,
-    ...Platform.select({
-      ios: {
-        zIndex: 2,
-        paddingTop: 32
-      },
-      android: {
-        paddingTop: 2
-      }
-    })
+    shadowRadius: 2
   },
-  upperContainer: {
+  headerRight: {
     flexDirection: "row",
-    alignItems: "center"
-  },
-  nameAndIcon: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  // icon: {
-  //   width: 24,
-  //   height: 24,
-  //   marginRight: 5,
-  //   tintColor: "#fff"
-  // },
-  menuIcon: {
-    position: "absolute",
-    left: 0,
-    zIndex: 1,
-    paddingHorizontal: 3
-  },
-  screenName: {
-    flex: 1,
-    fontSize: 18,
-    color: "#fff",
-    textAlign: "center"
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   messagesContainer: {
-    // paddingRight: 5,
-    position: "absolute",
-    right: 5,
-    top: 0
+    marginLeft: 15
   },
-  dykContainer: {
-    // paddingRight: 35,
-    position: "absolute",
-    right: 40,
-    top: 0
-  },
+  dykContainer: {},
   messagesIcon: {
     width: 24,
     height: 24,

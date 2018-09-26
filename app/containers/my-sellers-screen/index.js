@@ -111,9 +111,9 @@ class MySellersScreen extends React.Component {
     const { mySellers, isLoadingMySellers, phoneNumbers, error } = this.state;
 
     console.log("mySellers: ", mySellers);
-    
-    if(error) {
-      <ErrorOverlay error={error} onRetryPress={this.getMySellers} />
+
+    if (error) {
+      <ErrorOverlay error={error} onRetryPress={this.getMySellers} />;
     }
 
     return (
@@ -123,7 +123,7 @@ class MySellersScreen extends React.Component {
         headerRight={
           <View
             style={{
-              flexDirection: "row",
+              height: "100%",
               alignItems: "center",
               justifyContent: "center"
             }}
@@ -133,7 +133,7 @@ class MySellersScreen extends React.Component {
               onPress={this.openAddSellerScreen}
             >
               <Icon
-                style={{ marginTop: 1, marginRight: 8 }}
+                style={{}}
                 name="ios-add-circle-outline"
                 size={26}
                 color="#fff"
@@ -229,10 +229,12 @@ class MySellersScreen extends React.Component {
                     <View style={{ padding: 12 }}>
                       <View
                         style={{
-                          width: 68,
-                          height: 68,
+                          width: 70,
+                          height: 70,
                           borderRadius: 34,
-                          backgroundColor: "#eee"
+                          backgroundColor: "#eee",
+                          alignItems: "center",
+                          justifyContent: "center"
                         }}
                       >
                         <Image
@@ -503,7 +505,7 @@ class MySellersScreen extends React.Component {
                         Call
                       </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       onPress={() => this.startChatWithSeller(item)}
                       style={[styles.bottomButton, { marginHorizontal: 1 }]}
                     >
@@ -515,27 +517,32 @@ class MySellersScreen extends React.Component {
                       <Text weight="Medium" style={styles.bottomButtonText}>
                         Chat
                       </Text>
-                    </TouchableOpacity>
-                    {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
-                      <TouchableOpacity
-                        onPress={() =>
-                          this.props.navigation.navigate(
-                            SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN,
-                            { seller: item }
-                          )
-                        }
-                        style={[styles.bottomButton, { flex: 1.5 }]}
-                      >
-                        <Icon
-                          name="ios-construct-outline"
-                          style={styles.bottomButtonIcon}
-                          color={colors.pinkishOrange}
-                        />
-                        <Text weight="Medium" style={styles.bottomButtonText}>
-                          Home Services
-                        </Text>
-                      </TouchableOpacity>
-                    )}
+                    </TouchableOpacity> */}
+                    {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED &&
+                      item.is_assisted &&
+                      item.assisted_services.length > 0 && (
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.props.navigation.navigate(
+                              SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN,
+                              { seller: item }
+                            )
+                          }
+                          style={[
+                            styles.bottomButton,
+                            { flex: 1.5, marginLeft: 1 }
+                          ]}
+                        >
+                          <Icon
+                            name="ios-construct-outline"
+                            style={styles.bottomButtonIcon}
+                            color={colors.pinkishOrange}
+                          />
+                          <Text weight="Medium" style={styles.bottomButtonText}>
+                            Home Services
+                          </Text>
+                        </TouchableOpacity>
+                      )}
                   </View>
                 </TouchableOpacity>
               );

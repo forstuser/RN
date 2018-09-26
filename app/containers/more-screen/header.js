@@ -116,7 +116,8 @@ class Header extends Component {
   };
   render() {
     const { profile, authToken, isProfileVisible, name, mobile } = this.props;
-    const location = profile ? profile.location : LOCATIONS.OTHER;
+    const location =
+      profile && profile.location ? profile.location : LOCATIONS.OTHER;
 
     if (!profile) {
       return (
