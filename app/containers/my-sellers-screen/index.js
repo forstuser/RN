@@ -19,7 +19,7 @@ import { API_BASE_URL, getMySellers } from "../../api";
 
 import { Text, Image, Button } from "../../elements";
 import DrawerScreenContainer from "../../components/drawer-screen-container";
-
+import Modal from "react-native-modal";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { defaultStyles, colors } from "../../theme";
@@ -32,9 +32,17 @@ class MySellersScreen extends React.Component {
     mySellers: [],
     isLoadingMySellers: false,
     error: null,
-    phoneNumbers: []
+    phoneNumbers: [],
+    infoModalVisible: false,
+    detailText: "test"
+  };
+  showInfoDetailsModal = text => {
+    this.setState({ infoModalVisible: true, detailText: text });
   };
 
+  hideInfoDetailsModal = () => {
+    this.setState({ infoModalVisible: false });
+  };
   componentDidMount() {
     // navigator.Geolocation.getCurrentPosition();
 
@@ -108,7 +116,14 @@ class MySellersScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const { mySellers, isLoadingMySellers, phoneNumbers, error } = this.state;
+    const {
+      mySellers,
+      isLoadingMySellers,
+      phoneNumbers,
+      error,
+      infoModalVisible,
+      detailText
+    } = this.state;
 
     console.log("mySellers: ", mySellers);
 
@@ -409,6 +424,14 @@ class MySellersScreen extends React.Component {
                           >
                             Rs. {item.credit_total}
                           </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => {
+                            this.showInfoDetailsModal(
+                              "View your Credit Status with the Seller here. "
+                            );
+                          }}
+                        >
                           <Icon
                             name="md-information-circle"
                             size={15}
@@ -439,6 +462,14 @@ class MySellersScreen extends React.Component {
                           >
                             {item.loyalty_total}
                           </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => {
+                            this.showInfoDetailsModal(
+                              "Earned Loyalty Points on your purchases from this Seller."
+                            );
+                          }}
+                        >
                           <Icon
                             name="md-information-circle"
                             size={15}
@@ -559,6 +590,25 @@ class MySellersScreen extends React.Component {
             cancelButtonIndex={phoneNumbers.length}
             options={[...phoneNumbers, "Cancel"]}
           />
+          <Modal
+            isVisible={infoModalVisible}
+            useNativeDriver
+            onBackButtonPress={this.hideInfoDetailsModal}
+            onBackdropPress={this.hideInfoDetailsModal}
+          >
+            <View
+              style={{
+                backgroundColor: "#fff",
+                height: 100,
+                borderRadius: 5,
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 10
+              }}
+            >
+              <Text>{detailText}</Text>
+            </View>
+          </Modal>
         </View>
       </DrawerScreenContainer>
     );

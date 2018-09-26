@@ -14,7 +14,6 @@ import StatusModal from "../cashback-bills-screen/status-modal";
 import CashbackDispersedModal from "../cashback-bills-screen/cashback-dispersed-modal";
 
 export default class CreditTransactionsTab extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -38,7 +37,7 @@ export default class CreditTransactionsTab extends React.Component {
       console.log("new api", res);
       this.setState({
         transactions: res.result
-      })
+      });
     } catch (error) {
       this.setState({ error });
     } finally {
@@ -69,12 +68,20 @@ export default class CreditTransactionsTab extends React.Component {
                 }}
               >
                 <Text style={{ marginTop: 40, textAlign: "center" }}>
-                  You have not connected with this Seller as yet
-              </Text>
+                  You have not connected with this Seller as yet.
+                </Text>
               </View>
             ) : null
           }
-          renderItem={({ item }) => <CashbackClaimItem item={item} statusModal={() => this.statusModal.show(item)} cashbackDispersedModal={() => this.cashbackDispersedModal.show(item)} />}
+          renderItem={({ item }) => (
+            <CashbackClaimItem
+              item={item}
+              statusModal={() => this.statusModal.show(item)}
+              cashbackDispersedModal={() =>
+                this.cashbackDispersedModal.show(item)
+              }
+            />
+          )}
         />
         <StatusModal
           ref={node => {

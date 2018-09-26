@@ -294,7 +294,7 @@ export default class SkuItem extends React.Component {
                 weight="Medium"
                 style={{ fontSize: 10, color: colors.mainBlue, marginRight: 3 }}
               >
-                Cashback Upto ₹ {cashback}
+                Cashback Up To ₹ {cashback}
               </Text>
               <Icon name="md-information-circle" sixe={10} />
             </TouchableOpacity>
@@ -318,7 +318,10 @@ export default class SkuItem extends React.Component {
               padding: 10
             }}
           >
-            <Text>Details will come here</Text>
+            <Text>
+              Cashback applicable on this item on Bill submission & verification
+              during Cashback Claim.
+            </Text>
           </View>
         </Modal>
       </View>
