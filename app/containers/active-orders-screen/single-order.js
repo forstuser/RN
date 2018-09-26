@@ -29,7 +29,11 @@ class SingleOrder extends Component {
         </Text>
       );
     else if (item.status_type === ORDER_STATUS_TYPES.APPROVED)
-      statusType = <Text style={{ fontSize: 12, color: colors.pinkishOrange }}>In Progress</Text>;
+      statusType = (
+        <Text style={{ fontSize: 12, color: colors.pinkishOrange }}>
+          In Progress
+        </Text>
+      );
     else if (item.status_type === ORDER_STATUS_TYPES.CANCELED)
       statusType = (
         <Text style={{ fontSize: 12, color: colors.danger }}>CANCELLED</Text>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { TextInput, Alert } from "react-native";
-
+import { TextInput, Alert, Platform } from "react-native";
+import SmsAndroid from "react-native-get-sms-android";
+import { requestSmsReadPermission } from "../android-permissions";
 import { connect } from "react-redux";
 
 import { consumerValidate, consumerGetOtp, getProfileDetail } from "../api";
@@ -14,6 +15,8 @@ import I18n from "../i18n";
 import { showSnackbar } from "../utils/snackbar";
 import Analytics from "../analytics";
 import { SCREENS } from "../constants";
+
+let setMsgInterval = null;
 
 class VerifyScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -49,6 +52,41 @@ class VerifyScreen extends Component {
       phoneNumber: navigation.getParam("phoneNumber", "")
     });
   }
+
+  componentDidMount() {
+    setMsgInterval = setInterval(this.getMsgFunction, 2000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(setMsgInterval);
+  }
+
+  getMsgFunction = async () => {
+    if (Platform.OS == "android" && (await requestSmsReadPermission())) {
+      let filter = {
+        box: "inbox",
+        indexFrom: 0,
+        maxCount: 3
+      };
+      SmsAndroid.list(
+        JSON.stringify(filter),
+        fail => {
+          console.log("SMS read failed with this error: " + fail);
+        },
+        (count, smsList) => {
+          console.log("SMS Count: ", count);
+          //console.log("SMS List: ", smsList);
+          let arr = JSON.parse(smsList);
+
+          arr.forEach(function(object) {
+            //console.log("Object: " + object);
+            //console.log("-->" + object.date);
+            console.log("Message: " + object.body);
+          });
+        }
+      );
+    }
+  };
 
   onResendOtp = async () => {
     this.otpInput.blur();

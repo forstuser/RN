@@ -41,7 +41,7 @@ class MyShoppingList extends React.Component {
         <TouchableOpacity
           //onPress={navigation.state.params.onSharePress}
           onPress={navigation.state.params.onSharePressIcon}
-          style={{ marginRight: 20 }}
+          style={{ marginRight: 10, padding: 10 }}
         >
           <Icon name="md-share" size={25} color={colors.mainBlue} />
         </TouchableOpacity>
@@ -73,14 +73,16 @@ class MyShoppingList extends React.Component {
   }
 
   onSharePress = () => {
-    const selectedSellers = this.props.navigation.getParam("selectedSellers", []);
+    const selectedSellers = this.props.navigation.getParam(
+      "selectedSellers",
+      []
+    );
     //console.log('selectedSellers ', selectedSellers);
-    if(selectedSellers.length === 0) {
+    if (selectedSellers.length === 0) {
       this.setState({ isMySellersModalVisible: true });
-    }
-    else {
+    } else {
       this.proceedToAddressScreen(selectedSellers[0]);
-    }  
+    }
     //this.getMySellers();
   };
 
@@ -227,19 +229,19 @@ class MyShoppingList extends React.Component {
             />
           </View>
         ) : (
-            <View
-              ref={ref => (this.viewToShare = ref)}
-              style={{ flex: 1, backgroundColor: "#fff" }}
-            >
-              <SelectedItemsList
-                show={this.state.showPlusMinusDelete}
-                measurementTypes={measurementTypes}
-                selectedItems={wishList}
-                skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
-                changeIndexQuantity={this.changeIndexQuantity}
-              />
-            </View>
-          )}
+          <View
+            ref={ref => (this.viewToShare = ref)}
+            style={{ flex: 1, backgroundColor: "#fff" }}
+          >
+            <SelectedItemsList
+              show={this.state.showPlusMinusDelete}
+              measurementTypes={measurementTypes}
+              selectedItems={wishList}
+              skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
+              changeIndexQuantity={this.changeIndexQuantity}
+            />
+          </View>
+        )}
         <Modal
           isVisible={isShareModalVisible}
           title="Share Via"
@@ -412,18 +414,18 @@ class MyShoppingList extends React.Component {
                           </Text>
                         </View>
                         {item.seller_details &&
-                          item.seller_details.basic_details &&
-                          item.seller_details.basic_details.home_delivery ? (
-                            <Text
-                              style={{
-                                color: "#208e07",
-                                fontSize: 6,
-                                marginTop: 6
-                              }}
-                            >
-                              Home Delivery Available
+                        item.seller_details.basic_details &&
+                        item.seller_details.basic_details.home_delivery ? (
+                          <Text
+                            style={{
+                              color: "#208e07",
+                              fontSize: 6,
+                              marginTop: 6
+                            }}
+                          >
+                            Home Delivery Available
                           </Text>
-                          ) : null}
+                        ) : null}
 
                         {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
                           <View
