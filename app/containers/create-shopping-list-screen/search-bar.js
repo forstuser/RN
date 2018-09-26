@@ -26,11 +26,11 @@ export default class SearchBar extends React.Component {
   state = {
     isBrandsPopupVisible: false,
     checkedBrands: [],
-    isModalVisible: false,
+    isModalVisible: false
   };
 
   hideFilter = () => {
-      this.setState({ isBrandsPopupVisible: false });
+    this.setState({ isBrandsPopupVisible: false });
   };
 
   toggleBrandsPopup = () => {
@@ -335,7 +335,7 @@ export default class SearchBar extends React.Component {
                       height: 24,
                       margin: 5,
                       borderRadius: 12,
-                      padding: 10,
+                      paddingHorizontal: 10,
                       alignItems: "center",
                       justifyContent: "center",
                       backgroundColor: selectedCategoryIds.includes(category.id)
@@ -348,11 +348,15 @@ export default class SearchBar extends React.Component {
                     <Text
                       weight="Medium"
                       style={{
-                        marginTop: -2,
                         fontSize: 12,
                         color: selectedCategoryIds.includes(category.id)
                           ? "#fff"
-                          : "#777777"
+                          : "#777777",
+                        ...Platform.select({
+                          android: {
+                            marginTop: -2
+                          }
+                        })
                       }}
                       numberOfLines={1}
                     >

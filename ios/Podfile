@@ -43,6 +43,8 @@ target 'BinBill' do
 
   pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
+  pod 'Applozic', '~>5.0.0'
+
   target 'BinBillTests' do
     inherit! :search_paths
     # Pods for testing

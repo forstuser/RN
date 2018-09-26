@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -61,6 +62,8 @@
 		43D736682029EA3500B57504 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D736672029EA3500B57504 /* ShareViewController.swift */; };
 		43D7366B2029EA3500B57504 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43D736692029EA3500B57504 /* MainInterface.storyboard */; };
 		43D7366F2029EA3500B57504 /* BinBillShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 43D736652029EA3500B57504 /* BinBillShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		43E00A2E215BBC8F00A40AEB /* ApplozicChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 43E00A2C215BBC8F00A40AEB /* ApplozicChat.m */; };
+		43E00A2F215BBC8F00A40AEB /* ALChatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 43E00A2D215BBC8F00A40AEB /* ALChatManager.m */; };
 		43E1975C1FECD2E100702A16 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E197531FECD2C700702A16 /* libRNFIRMessaging.a */; };
 		43ED979A1FD94B2A00D1747F /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43ED97991FD94B1900D1747F /* libRNFetchBlob.a */; };
 		43ED97EA1FD954E300D1747F /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43ED97C11FD954D200D1747F /* libRCTCameraRoll.a */; };
@@ -653,6 +656,10 @@
 		43D7366A2029EA3500B57504 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		43D7366C2029EA3500B57504 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43D736732029EA7700B57504 /* BinBillShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BinBillShareExtension.entitlements; sourceTree = "<group>"; };
+		43E009E9215BBC8F00A40AEB /* ApplozicChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplozicChat.h; path = BinBill/ApplozicChat.h; sourceTree = "<group>"; };
+		43E00A2B215BBC8F00A40AEB /* ALChatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALChatManager.h; path = BinBill/ALChatManager.h; sourceTree = "<group>"; };
+		43E00A2C215BBC8F00A40AEB /* ApplozicChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApplozicChat.m; path = BinBill/ApplozicChat.m; sourceTree = "<group>"; };
+		43E00A2D215BBC8F00A40AEB /* ALChatManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALChatManager.m; path = BinBill/ALChatManager.m; sourceTree = "<group>"; };
 		43E197201FECD2C600702A16 /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
 		43ED97941FD94B1900D1747F /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		43ED97B41FD954D200D1747F /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
@@ -875,6 +882,10 @@
 		13B07FAE1A68108700A75B9A /* BinBill */ = {
 			isa = PBXGroup;
 			children = (
+				43E00A2B215BBC8F00A40AEB /* ALChatManager.h */,
+				43E00A2D215BBC8F00A40AEB /* ALChatManager.m */,
+				43E009E9215BBC8F00A40AEB /* ApplozicChat.h */,
+				43E00A2C215BBC8F00A40AEB /* ApplozicChat.m */,
 				43C2B3A1208480AF00FDDA5D /* GoogleService-Info.plist */,
 				43F4EFFB1FD2CD4000CFB8B4 /* BinBill.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -2234,18 +2245,22 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BinBill/Pods-BinBill-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Applozic/Applozic.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/QBImagePickerController/QBImagePickerController.framework",
 				"${BUILT_PRODUCTS_DIR}/RSKImageCropper/RSKImageCropper.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Applozic.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QBImagePickerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RSKImageCropper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2321,9 +2336,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43E00A2F215BBC8F00A40AEB /* ALChatManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				43B85C5E1FF3C1AA00781472 /* RNMultipleFilesShareBridge.m in Sources */,
 				43B85C5C1FF3C12500781472 /* RNMultipleFilesShare.swift in Sources */,
+				43E00A2E215BBC8F00A40AEB /* ApplozicChat.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

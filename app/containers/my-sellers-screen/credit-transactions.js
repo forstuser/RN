@@ -32,7 +32,7 @@ export default class MySellersCreditTransactionsScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.getSellerDetails();
+    // this.getSellerDetails();
   }
 
   getSellerDetails = async () => {
@@ -55,15 +55,11 @@ export default class MySellersCreditTransactionsScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const { transactions, isLoading } = this.state;
+    const seller = navigation.getParam("seller", {});
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
-        <CreditTransactionsList
-          transactions={transactions}
-          isLoading={isLoading}
-          onRefresh={this.getSellerDetails}
-        />
+        <CreditTransactionsList sellerID={seller.id} />
       </View>
     );
   }

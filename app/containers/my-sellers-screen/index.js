@@ -217,8 +217,7 @@ class MySellersScreen extends React.Component {
                   style={{
                     ...defaultStyles.card,
                     margin: 10,
-                    borderRadius: 10,
-                    overflow: "hidden"
+                    borderRadius: 10
                   }}
                 >
                   <View
@@ -420,7 +419,6 @@ class MySellersScreen extends React.Component {
                         style={{ flexDirection: "row", alignItems: "center" }}
                       >
                         <Text style={{ fontSize: 13 }}>Points Earned : </Text>
-
                         <TouchableOpacity
                           onPress={() =>
                             this.props.navigation.navigate(
@@ -489,7 +487,10 @@ class MySellersScreen extends React.Component {
                       flexDirection: "row",
                       height: 30,
                       backgroundColor: "#d9d9d9",
-                      paddingTop: 1
+                      paddingTop: 1,
+                      borderBottomLeftRadius: 10,
+                      borderBottomRightRadius: 10,
+                      overflow: "hidden"
                     }}
                   >
                     <TouchableOpacity
