@@ -78,7 +78,13 @@ export default class SelectSellerScreen extends React.Component {
   };
 
   showHomeDeliveryModalVisible = () => {
-    this.setState({ isHomeDeliveryModalVisible: true });
+    const { selectedSeller } = this.state;
+
+    if (selectedSeller.seller_type_id != SELLER_TYPE_IDS.NON_VERIFIED) {
+      this.setState({ isHomeDeliveryModalVisible: true });
+    } else {
+      this.proceedToNextStep();
+    }
   };
 
   hideHomeDeliveryModalVisible = () => {

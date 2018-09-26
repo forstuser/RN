@@ -47,11 +47,11 @@ export default class Offers extends React.Component {
               }}
             />
             <View style={{ padding: 10 }}>
-              <Text weight="Medium" style={{ fontSize: 18 }}>
-                {item.title.toUpperCase()}
+              <Text weight="Medium" style={{ fontSize: 15 }}>
+                {item.title}
               </Text>
-              <Text style={{ fontSize: 16 }}>{item.description}</Text>
-              <Text style={{ fontSize: 14, color: colors.mainBlue }}>
+              <Text style={{ fontSize: 13 }}>{item.description}</Text>
+              <Text style={{ fontSize: 13, color: colors.mainBlue }}>
                 Expire on: {moment(item.end_date).format("DD MMM, YYYY")}
               </Text>
             </View>

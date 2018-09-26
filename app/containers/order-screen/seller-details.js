@@ -15,6 +15,8 @@ import { openBillsPopUp } from "../../navigation";
 
 import { LOCATIONS, ORDER_TYPES } from "../../constants";
 
+import { showSnackbar } from "../../utils/snackbar";
+
 class SellerDetails extends React.Component {
   call = () => {
     const { order } = this.props;

@@ -550,7 +550,7 @@ class OrderScreen extends React.Component {
                       item={item}
                       index={index}
                       declineItem={() => {
-                        this.declineItemPopup(index);
+                        this.removeItem(index);
                       }}
                     />
                   );

@@ -87,13 +87,12 @@ export default ({ item, cashbackDispersedModal, statusModal }) => {
     <TouchableOpacity
       onPress={cashbackDispersedModal}
       style={{
-        ...defaultStyles.card,
         margin: 10,
         marginBottom: 2,
         borderRadius: 10,
-        overflow: "hidden",
         flexDirection: "row",
-        padding: 10
+        padding: 10,
+        ...defaultStyles.card
       }}
     >
       <View style={{ alignItems: "center", paddingHorizontal: 10 }}>

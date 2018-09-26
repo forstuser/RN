@@ -79,26 +79,29 @@ export default class OffersTab extends React.Component {
   };
 
   fetchCategories = async () => {
-    this.setState({ isLoading: true, error: null, selectedCategory: null, offers: [] });
+    this.setState({
+      isLoading: true,
+      error: null,
+      selectedCategory: null,
+      offers: []
+    });
     try {
       const result1 = await getSellerOffers();
-      console.log('Seller Offers: ', result1.result);
+      console.log("Seller Offers: ", result1.result);
       let resCategories = result1.result;
       const categories = resCategories.map(seller => ({
         ...seller,
         name: seller.name,
         imageUrl: `/consumer/sellers/${seller.id}/upload/1/images/0`
       }));
-      
-      this.setState({ categories });
 
+      this.setState({ categories });
     } catch (error) {
       this.setState({ error });
     } finally {
       this.setState({ isLoading: false });
     }
   };
-  
 
   onCategorySelect = category => {
     this.setState({ selectedCategory: category, offers: category.offers });
@@ -112,11 +115,11 @@ export default class OffersTab extends React.Component {
       error,
       offers
     } = this.state;
-    console.log('Category: ', selectedCategory);
+    console.log("Category: ", selectedCategory);
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchCategories} />;
     }
-    
+
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
         <Animated.View
@@ -167,52 +170,56 @@ export default class OffersTab extends React.Component {
               >
                 Please select a seller above to view their Offers at great
                 prices
-              </Text> ) : null}
+              </Text>
+            ) : null}
           </View>
         ) : (
           <View />
         )}
-        
+
         <AnimatedFlatList
-            onScroll={Animated.event(
-              [
-                {
-                  nativeEvent: {
-                    contentOffset: { y: this.listScrollPosition }
-                  }
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: { y: this.listScrollPosition }
                 }
-              ],
-              { useNativeDriver: true }
-            )}
-            contentContainerStyle={{
-              paddingTop: ITEM_SELECTOR_HEIGHT
-            }}
-            style={{ flex: 1 }}
-            data={offers}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => (
-              <View style={{ ...defaultStyles.card, margin: 10, borderRadius: 5 }}>
-                <Image
-                  style={{ height: 120 }}
-                  source={{
-                    uri:
-                      API_BASE_URL +
-                      `/offer/${item.id}/images/${item.document_details.index || 0}`
-                  }}
-                />
-                <View style={{ padding: 10 }}>
-                  <Text weight="Medium" style={{ fontSize: 11 }}>
-                    {item.title}
-                  </Text>
-                  <Text style={{ fontSize: 9 }}>{item.description}</Text>
-                  <Text style={{ fontSize: 9, color: colors.mainBlue }}>
-                    Expire on: {moment(item.end_date).format("DD MMM, YYYY")}
-                  </Text>
-                </View>
+              }
+            ],
+            { useNativeDriver: true }
+          )}
+          contentContainerStyle={{
+            paddingTop: ITEM_SELECTOR_HEIGHT
+          }}
+          style={{ flex: 1 }}
+          data={offers}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <View
+              style={{ ...defaultStyles.card, margin: 10, borderRadius: 5 }}
+            >
+              <Image
+                style={{ height: 120 }}
+                source={{
+                  uri:
+                    API_BASE_URL +
+                    `/offer/${item.id}/images/${item.document_details.index ||
+                      0}`
+                }}
+              />
+              <View style={{ padding: 10 }}>
+                <Text weight="Medium" style={{ fontSize: 15 }}>
+                  {item.title}
+                </Text>
+                <Text style={{ fontSize: 13 }}>{item.description}</Text>
+                <Text style={{ fontSize: 13, color: colors.mainBlue }}>
+                  Expire on: {moment(item.end_date).format("DD MMM, YYYY")}
+                </Text>
               </View>
-            )}
-          />
-          {this.state.categories.length !==0 ? (
+            </View>
+          )}
+        />
+        {this.state.categories.length !== 0 ? (
           <Animated.View
             style={[
               {
@@ -239,42 +246,42 @@ export default class OffersTab extends React.Component {
               onItemSelect={this.onCategorySelect}
               startOthersAfterCount={4}
             />
-          </Animated.View>) : (
+          </Animated.View>
+        ) : (
           <Animated.View
-          style={[
-            {
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              height: ITEM_SELECTOR_HEIGHT
-            },
-            {
-              transform: [
-                {
-                  translateY: this.topPaddingElement
-                }
-              ]
-            }
-          ]}
-        >
-          <Text 
-            weight='Bold'
-            style={{ 
-              padding: 10, 
-              fontSize: 16, 
-              textAlign: 'center', 
-              marginTop: 20, 
-              color: '#c2c2c2' }}>
+            style={[
+              {
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                height: ITEM_SELECTOR_HEIGHT
+              },
+              {
+                transform: [
+                  {
+                    translateY: this.topPaddingElement
+                  }
+                ]
+              }
+            ]}
+          >
+            <Text
+              weight="Bold"
+              style={{
+                padding: 10,
+                fontSize: 16,
+                textAlign: "center",
+                marginTop: 20,
+                color: "#c2c2c2"
+              }}
+            >
               No offers available as of now from your seller currently
             </Text>
-        </Animated.View>  
-          )}        
+          </Animated.View>
+        )}
         <LoadingOverlay visible={isLoading} />
       </View>
     );
   }
 }
-
-
-
