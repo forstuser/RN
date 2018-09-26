@@ -66,7 +66,7 @@ class VerifyScreen extends Component {
       let filter = {
         box: "inbox",
         indexFrom: 0,
-        maxCount: 3
+        maxCount: 5
       };
       SmsAndroid.list(
         JSON.stringify(filter),

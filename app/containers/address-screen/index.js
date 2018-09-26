@@ -194,7 +194,8 @@ class AddressScreen extends Component {
       const orderId = res.result.id;
       this.props.navigation.popToTop();
       this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
-        orderId
+        orderId,
+        flag: true
       });
     } catch (e) {
       console.log("error", e);
@@ -288,6 +289,7 @@ class AddressScreen extends Component {
               onChangeText={address2 => this.setState({ address2 })}
             />
             <TextInput
+              keyboardType="numeric"
               placeholder="Pin"
               value={pin}
               style={{ borderRadius: 5, paddingHorizontal: 10 }}

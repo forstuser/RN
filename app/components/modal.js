@@ -28,14 +28,14 @@ export default props => {
             style={{
               flex: 1,
               color: "#fff",
-              fontSize: 12
+              fontSize: 14
             }}
           >
             {title}
           </Text>
           {typeof onClosePress == "function" ? (
             <TouchableOpacity onPress={onClosePress}>
-              <Icon name="md-close" color="#fff" size={20} />
+              <Icon name="md-close" color="#fff" size={22} />
             </TouchableOpacity>
           ) : null}
         </View>
