@@ -4,7 +4,8 @@ import {
   FlatList,
   Alert,
   Animated,
-  TouchableOpacity
+  TouchableOpacity,
+  BackHandler
 } from "react-native";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -49,10 +50,20 @@ import socketIo from "../../socket-io";
 import UploadBillModal from "./upload-bill-modal";
 import ReviewCard from "./review-card";
 import Modal from "../../components/modal";
+import HeaderBackBtn from "../../components/header-nav-back-btn";
 
 class OrderScreen extends React.Component {
-  static navigationOptions = {
-    title: "Order Details"
+  // static navigationOptions = {
+  //   title: "Order Details"
+  // };
+
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
+
+    return {
+      title: "Order Details",
+      headerLeft: <HeaderBackBtn onPress={params.onBackPress} />
+    };
   };
 
   state = {
@@ -69,12 +80,17 @@ class OrderScreen extends React.Component {
 
   componentDidMount() {
     this.getOrderDetails();
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
         this.getOrderDetails();
       }
     );
+
+    this.props.navigation.setParams({
+      onBackPress: this.onBackPress
+    });
 
     if (socketIo.socket) {
       socketIo.socket.on("order-status-change", data => {
@@ -103,6 +119,7 @@ class OrderScreen extends React.Component {
 
   componentWillUnmount() {
     this.didFocusSubscription.remove();
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
 
     if (socketIo.socket) {
       socketIo.socket.off("order-status-change");
@@ -110,6 +127,14 @@ class OrderScreen extends React.Component {
       socketIo.socket.off("reconnect");
     }
   }
+
+  onBackPress = () => {
+    //alert("Back Pressed");
+    const flag = this.props.navigation.getParam("flag", null);
+    if (flag === true) this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+    else this.props.navigation.goBack();
+    return true;
+  };
 
   show = item => {
     this.setState({ isVisible: true });
@@ -550,6 +575,7 @@ class OrderScreen extends React.Component {
                       item={item}
                       index={index}
                       declineItem={() => {
+                        //this.declineItemPopup(index);
                         this.removeItem(index);
                       }}
                     />

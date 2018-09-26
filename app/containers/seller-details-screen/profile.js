@@ -338,7 +338,7 @@ class SellerProfileTab extends React.Component {
           <View
             style={{
               flexDirection: "row",
-              width: 270,
+              width: 185,
               height: 60,
               paddingTop: 10,
               marginTop: 10
@@ -354,7 +354,7 @@ class SellerProfileTab extends React.Component {
                 Call
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => this.startChatWithSeller(seller)}
               style={[styles.button, styles.chat]}
             >
@@ -366,7 +366,7 @@ class SellerProfileTab extends React.Component {
               <Text weight="Medium" style={styles.buttonText}>
                 Chat
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={this.openNavigation}
               style={[styles.button, { marginHorizontal: 1 }]}

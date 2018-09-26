@@ -2235,7 +2235,7 @@ export const redeemSellerPoints = async ({ sellerId, pointsToRedeem }) => {
   });
 };
 
-export const redeemToPaytm = async () => {
+export const redeemToPaytm = async ({}) => {
   return await apiRequest({
     method: "put",
     url: `/cashback/redeem`

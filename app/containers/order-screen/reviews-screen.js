@@ -136,7 +136,7 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
           <View style={{ margin: 15 }}>
             <Button
               onPress={this.onSubmit}
-              text="Submit your review"
+              text="Submit Your Review"
               color="secondary"
               style={{ marginBottom: 15 }}
             />
