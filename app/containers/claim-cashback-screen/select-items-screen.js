@@ -29,7 +29,7 @@ export default class SelectCashbackItems extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { onBarcodeBtnPress } = navigation.state.params;
     return {
-      title: "Select Cashback Items in Bill",
+      title: "Select Items on Bill",
       headerRight: (
         <TouchableOpacity
           style={{ paddingHorizontal: 10 }}
