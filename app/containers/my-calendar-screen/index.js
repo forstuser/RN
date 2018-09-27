@@ -36,7 +36,7 @@ class MyCalendarScreen extends Component {
   }
 
   componentDidMount() {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
     //this.fetchItems();
     // this.didFocusSubscription = this.props.navigation.addListener(
     //   "didFocus",
@@ -71,7 +71,7 @@ class MyCalendarScreen extends Component {
   };
 
   openAddEditCalendarServiceScreen = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_SERVICE);
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_SERVICE);
     this.props.navigation.navigate(SCREENS.ADD_CALENDAR_SERVICE_SCREEN);
   };
 
@@ -109,10 +109,13 @@ class MyCalendarScreen extends Component {
                       style={styles.fab}
                       onPress={this.openAddEditCalendarServiceScreen}
                     >
-                      <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+                      <Image
+                        style={styles.uploadFabIcon}
+                        source={uploadFabIcon}
+                      />
                     </TouchableOpacity>
-                    //<Text>Dikshu</Text>
-                  ) : null
+                  ) : //<Text>Dikshu</Text>
+                  null
                 }
               />
             </View>
@@ -137,12 +140,12 @@ class MyCalendarScreen extends Component {
               </TouchableOpacity>
             </View>
           )}
-          <TouchableOpacity
-            style={styles.fab}
-            onPress={this.openAddEditCalendarServiceScreen}
-          >
-            <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
-          </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.fab}
+          onPress={this.openAddEditCalendarServiceScreen}
+        >
+          <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+        </TouchableOpacity>
       </ScreenContainer>
     );
   }
@@ -193,16 +196,12 @@ const styles = StyleSheet.create({
 
 export default MyCalendarScreen;
 
-
-
-
-
 // <Button
-                    //   onPress={this.openAddEditCalendarServiceScreen}
-                    //   text={I18n.t("my_calendar_screen_add_btn")}
-                    //   color="secondary"
-                    //   style={[
-                    //     styles.emptyStateAddItemBtn,
-                    //     { marginBottom: 20 }
-                    //   ]}
-                    // />  
+//   onPress={this.openAddEditCalendarServiceScreen}
+//   text={I18n.t("my_calendar_screen_add_btn")}
+//   color="secondary"
+//   style={[
+//     styles.emptyStateAddItemBtn,
+//     { marginBottom: 20 }
+//   ]}
+// />

@@ -142,9 +142,9 @@ export default class OffersTab extends React.Component {
     if (selectedCategory && selectedCategory.id == category.id) {
       return;
     }
-    Analytics.logEvent(Analytics.EVENTS.CLICK_OFFERS_CATEGORY, {
-      category_name: category.category_name
-    });
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_OFFERS_CATEGORY, {
+    //   category_name: category.category_name
+    // });
 
     const { setSelectedOfferCategory } = this.props;
     setSelectedOfferCategory(category);
@@ -193,7 +193,7 @@ export default class OffersTab extends React.Component {
       },
       () => {
         // call the reset function
-  
+
         this.offersFilterModal.resetAllFilters();
       }
     );

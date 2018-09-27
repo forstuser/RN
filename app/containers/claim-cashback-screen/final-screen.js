@@ -17,6 +17,7 @@ import {
 
 import { Text, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
+import Analytics from "../../analytics";
 
 import { openBillsPopUp } from "../../navigation";
 
@@ -59,6 +60,7 @@ export default class ClaimCashback extends React.Component {
   };
 
   submit = async () => {
+    Analytics.logEvent(Analytics.EVENTS.CASHBACK_CLAIM_SUBMIT);
     try {
       const { navigation } = this.props;
       const product = navigation.getParam("product", null);
@@ -265,9 +267,9 @@ export default class ClaimCashback extends React.Component {
                         >
                           {item.sku_measurement && measurementTypes
                             ? ` (${item.sku_measurement.measurement_value +
-                            measurementTypes[
-                              item.sku_measurement.measurement_type
-                            ].acronym})`
+                                measurementTypes[
+                                  item.sku_measurement.measurement_type
+                                ].acronym})`
                             : ``}
                         </Text>
                         <Text

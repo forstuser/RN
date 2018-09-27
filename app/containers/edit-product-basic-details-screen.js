@@ -63,7 +63,7 @@ class EditProductBasicDetails extends React.Component {
       this.setState({ isLoading: true });
       let catID = product.categoryId;
       if (product.masterCategoryId == MAIN_CATEGORY_IDS.E_E) {
-        catID = product.sub_category_id
+        catID = product.sub_category_id;
       }
       const res = await getReferenceDataForCategory(catID);
       this.setState({
@@ -159,7 +159,7 @@ class EditProductBasicDetails extends React.Component {
       }
     }
 
-    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: "repair" });
+    Analytics.logEvent(Analytics.EVENTS.CLICK_SAVE, { entity: "product" });
     try {
       this.setState({ isLoading: true });
       await updateProduct(data);
@@ -295,44 +295,44 @@ class EditProductBasicDetails extends React.Component {
                 }}
               />
             ) : (
-                <ProductBasicDetailsForm
-                  showFullForm={true}
-                  ref={ref => (this.basicDetailsForm = ref)}
-                  mainCategoryId={product.masterCategoryId}
-                  categoryId={product.categoryId}
-                  subCategories={subCategories}
-                  subCategoryId={sub_category_id}
-                  category={{
-                    id: product.categoryId,
-                    name: product.categoryName
-                  }}
-                  id={product.id}
-                  jobId={product.jobId}
-                  brands={brands}
-                  categoryForms={categoryForms}
-                  navigation={navigation}
-                  {...{
-                    id,
-                    productName,
-                    purchaseDate,
-                    brandId,
-                    value,
-                    copies,
-                    modelName,
-                    sellerName,
-                    sellerContact,
-                    sellerAddress,
-                    chasisNumber,
-                    chasisNumberId,
-                    registrationNo,
-                    registrationNoId,
-                    imeiNo,
-                    imeiNoId,
-                    serialNo,
-                    serialNoId
-                  }}
-                />
-              )}
+              <ProductBasicDetailsForm
+                showFullForm={true}
+                ref={ref => (this.basicDetailsForm = ref)}
+                mainCategoryId={product.masterCategoryId}
+                categoryId={product.categoryId}
+                subCategories={subCategories}
+                subCategoryId={sub_category_id}
+                category={{
+                  id: product.categoryId,
+                  name: product.categoryName
+                }}
+                id={product.id}
+                jobId={product.jobId}
+                brands={brands}
+                categoryForms={categoryForms}
+                navigation={navigation}
+                {...{
+                  id,
+                  productName,
+                  purchaseDate,
+                  brandId,
+                  value,
+                  copies,
+                  modelName,
+                  sellerName,
+                  sellerContact,
+                  sellerAddress,
+                  chasisNumber,
+                  chasisNumberId,
+                  registrationNo,
+                  registrationNoId,
+                  imeiNo,
+                  imeiNoId,
+                  serialNo,
+                  serialNoId
+                }}
+              />
+            )}
           </View>
         </KeyboardAwareScrollView>
         <Button

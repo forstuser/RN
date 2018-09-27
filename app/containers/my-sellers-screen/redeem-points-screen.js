@@ -5,6 +5,7 @@ import { Text, Button, Image } from "../../elements";
 import { redeemSellerPoints } from "../../api";
 import { showSnackbar } from "../../utils/snackbar";
 import { SCREENS } from "../../constants";
+import Analytics from "../../analytics";
 
 export default class RedeemSellerPoints extends React.Component {
   static navigationOptions = {
@@ -28,6 +29,7 @@ export default class RedeemSellerPoints extends React.Component {
 
   redeemPoints = async () => {
     //alert('Redeem');
+    Analytics.logEvent(Analytics.EVENTS.REDEEM_POINTS);
     const { sellerId, pointsToRedeem } = this.state;
     try {
       this.setState({ isLoading: true });

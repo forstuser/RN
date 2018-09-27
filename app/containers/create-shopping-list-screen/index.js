@@ -34,6 +34,7 @@ import FilterModal from "./filter-modal";
 import WishListLimitModal from "./wishlist-limit-modal";
 import { colors } from "../../theme";
 import { SCREENS } from "../../constants";
+import Analytics from "../../analytics";
 
 class ShoppingListScreen extends React.Component {
   state = {
@@ -65,6 +66,7 @@ class ShoppingListScreen extends React.Component {
   };
 
   componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.OPEN_SHOP_N_EARN);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -476,6 +478,7 @@ class ShoppingListScreen extends React.Component {
               style={{ paddingHorizontal: 5, marginHorizontal: 5 }}
               disabled={isLoading === true}
               onPress={() => {
+                Analytics.logEvent(Analytics.EVENTS.OPEN_CART_SHOPPING_LIST);
                 navigation.push(SCREENS.MY_SHOPPING_LIST_SCREEN, {
                   measurementTypes: measurementTypes,
                   wishList,
@@ -555,63 +558,6 @@ class ShoppingListScreen extends React.Component {
             }
             addManualItemsToList={this.addManualItemsToList}
           />
-
-          {/* <ScrollableTabView
-            locked={true}
-            onChangeTab={this.onTabChange}
-            renderTabBar={() => (
-              <ScrollableTabBar
-                style={{ height: 30 }}
-                tabStyle={{ height: 30 }}
-              />
-            )}
-            tabBarUnderlineStyle={{
-              height: 0
-            }}
-            tabBarBackgroundColor={colors.lightBlue}
-            tabBarActiveTextColor={colors.mainBlue}
-            tabBarTextStyle={{
-              fontSize: 10,
-              fontFamily: `Quicksand-Regular`,
-              padding: 0
-            }}
-          >
-            {mainCategories.length > 0 && pastItems.length > 0 ? (
-              <PastItems
-                key={"pastItems"}
-                tabLabel={"Past Items"}
-                measurementTypes={measurementTypes}
-                pastItems={pastItems}
-                updatePastItems={this.updatePastItems}
-                wishList={wishList}
-                addSkuItemToList={this.addSkuItemToList}
-                changeSkuItemQuantityInList={
-                  this.changeSkuItemQuantityInList
-                }
-              />
-            ) : null}
-            {mainCategories.map((mainCategory, index) => (
-              <TabContent
-                key={mainCategory.id}
-                tabLabel={mainCategory.title}
-                measurementTypes={measurementTypes}
-                mainCategory={mainCategory}
-                updateMainCategoryInParent={data =>
-                  this.updateStateMainCategory(index, data)
-                }
-                updateCategorySkuData={this.updateCategorySkuData}
-                loadSkuItems={this.loadSkuItems}
-                skuData={skuData}
-                wishList={wishList}
-                addSkuItemToList={this.addSkuItemToList}
-                changeSkuItemQuantityInList={
-                  this.changeSkuItemQuantityInList
-                }
-                openAddManualItemModal={() => this.addManualItemModal.show()}
-              />
-            ))}
-          </ScrollableTabView> */}
-
           <LoadingOverlay visible={isLoading || isLoadingWishList} />
           <BarcodeScanner
             visible={isBarcodeScannerVisible}

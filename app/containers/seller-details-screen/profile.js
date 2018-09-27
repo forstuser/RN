@@ -354,19 +354,6 @@ class SellerProfileTab extends React.Component {
                 Call
               </Text>
             </TouchableOpacity>
-            {/* <TouchableOpacity
-              onPress={() => this.startChatWithSeller(seller)}
-              style={[styles.button, styles.chat]}
-            >
-              <Icon
-                name="ios-chatbubbles-outline"
-                style={styles.buttonIcon}
-                color={colors.pinkishOrange}
-              />
-              <Text weight="Medium" style={styles.buttonText}>
-                Chat
-              </Text>
-            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={this.openNavigation}
               style={[styles.button, { marginHorizontal: 1 }]}

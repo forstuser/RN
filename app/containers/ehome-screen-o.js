@@ -142,9 +142,9 @@ class EhomeScreen extends Component {
     <CategoryItem
       {...item}
       onPress={() => {
-        Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME_CATEGORY, {
-          main_category: item.id
-        });
+        // Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME_CATEGORY, {
+        //   main_category: item.id
+        // });
         this.openMainCategoryScreen(item);
       }}
     />
@@ -229,4 +229,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EhomeScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EhomeScreen);

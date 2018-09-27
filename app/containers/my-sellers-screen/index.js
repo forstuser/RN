@@ -25,6 +25,8 @@ import ErrorOverlay from "../../components/error-overlay";
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS, SELLER_TYPE_IDS } from "../../constants";
 import { showSnackbar } from "../../utils/snackbar";
+import Analytics from "../../analytics";
+
 //import defaultPic from '../../images/default_seller_img.png';
 
 class MySellersScreen extends React.Component {
@@ -45,7 +47,7 @@ class MySellersScreen extends React.Component {
   };
   componentDidMount() {
     // navigator.Geolocation.getCurrentPosition();
-
+    Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_SELECT_ADDRESS);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -537,19 +539,6 @@ class MySellersScreen extends React.Component {
                         Call
                       </Text>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity
-                      onPress={() => this.startChatWithSeller(item)}
-                      style={[styles.bottomButton, { marginHorizontal: 1 }]}
-                    >
-                      <Icon
-                        name="ios-chatbubbles-outline"
-                        style={styles.bottomButtonIcon}
-                        color={colors.pinkishOrange}
-                      />
-                      <Text weight="Medium" style={styles.bottomButtonText}>
-                        Chat
-                      </Text>
-                    </TouchableOpacity> */}
                     {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED &&
                       item.is_assisted &&
                       item.assisted_services.length > 0 && (

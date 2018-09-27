@@ -81,6 +81,7 @@ class SelectCitiesScreen extends Component {
   };
 
   onSubmitPressed = async () => {
+    Analytics.logEvent(Analytics.EVENTS.REGISTRATION_CITYrr);
     if (this.state.location === "") {
       return Snackbar.show({
         title: "Please Select Location",

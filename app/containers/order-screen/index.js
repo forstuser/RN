@@ -10,6 +10,7 @@ import {
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
+import Analytics from "../../analytics";
 
 import { Text, Image, Button } from "../../elements";
 
@@ -240,7 +241,7 @@ class OrderScreen extends React.Component {
   };
 
   cancelOrder = async () => {
-    console.log("inside order cancel");
+    Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_CANCEL_ORDER);
     this.hide();
     this.setState({ isLoading: true });
     const { order } = this.state;
@@ -260,6 +261,7 @@ class OrderScreen extends React.Component {
   };
 
   rejectOrder = async () => {
+    Analytics.logEvent(Analytics.EVENTS.REJECT_ORDER);
     console.log("inside order reject");
     this.hide();
     const { order } = this.state;
@@ -279,6 +281,7 @@ class OrderScreen extends React.Component {
   };
 
   approveOrder = async () => {
+    Analytics.logEvent(Analytics.EVENTS.APPROVE_ORDER);
     const { order } = this.state;
     try {
       this.setState({ isLoading: true });
@@ -360,6 +363,7 @@ class OrderScreen extends React.Component {
   };
 
   completeOrder = async () => {
+    Analytics.logEvent(Analytics.EVENTS.MARK_PAID);
     const { order } = this.state;
     try {
       this.setState({ isLoading: true });

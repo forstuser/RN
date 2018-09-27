@@ -8,6 +8,7 @@ import { getProfileDetail, updateProfile } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 import Snackbar from "../../utils/snackbar";
 import HeaderPic from "./headerPic";
+import Analytics from "../../analytics";
 
 class BasicDetailsScreen extends Component {
   static navigationOptions = {
@@ -55,6 +56,7 @@ class BasicDetailsScreen extends Component {
   };
 
   onNextPress = async () => {
+<<<<<<< HEAD
     const { name, phone, email, user, image_name, imageUrl } = this.state;
     if (this.state.name === "") {
       return Snackbar.show({
@@ -68,6 +70,11 @@ class BasicDetailsScreen extends Component {
         duration: Snackbar.LENGTH_SHORT
       });
     }
+=======
+    Analytics.logEvent(Analytics.EVENTS.REGISTRATION_BASIC_DETAILS);
+    const { name, phone, email, user, image_name, imageUrl } = this.state;
+
+>>>>>>> pritam
     if (
       email &&
       !email.match(
@@ -136,14 +143,22 @@ class BasicDetailsScreen extends Component {
         <View style={[styles.box, styles.box2]}>
           <TextInput
             underlineColorAndroid="transparent"
+<<<<<<< HEAD
             placeholder="Name *"
+=======
+            placeholder="Name"
+>>>>>>> pritam
             style={styles.input}
             onChangeText={name => this.setState({ name })}
             value={this.state.name}
           />
           <TextInput
             underlineColorAndroid="transparent"
+<<<<<<< HEAD
             placeholder="Mobile *"
+=======
+            placeholder="Mobile"
+>>>>>>> pritam
             style={styles.input}
             onChangeText={mobile => this.setState({ mobile })}
             value={this.state.mobile}

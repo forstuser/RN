@@ -71,9 +71,9 @@ class Report extends React.Component {
     this.setState({
       isAddingPayment: true
     });
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PAYMENT, {
-      type: item.service_type.name
-    });
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_ADD_PAYMENT, {
+    //   type: item.service_type.name
+    // });
     try {
       await addCalendarItemPayment({ itemId: item.id, amountPaid, paidOn });
       this.setState({
@@ -189,8 +189,8 @@ class Report extends React.Component {
             </Modal>
           </View>
         ) : (
-            <View collapsable={false} />
-          )}
+          <View collapsable={false} />
+        )}
       </View>
     );
   }

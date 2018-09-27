@@ -12,7 +12,7 @@ import StarRating from "react-native-star-rating";
 import { API_BASE_URL, getSellerAssistedServices, placeOrder } from "../../api";
 
 import { Text, Button, Image } from "../../elements";
-
+import Analytics from "../../analytics";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { defaultStyles, colors } from "../../theme";
@@ -21,7 +21,7 @@ import { showSnackbar } from "../../utils/snackbar";
 
 export default class MySellersAssistedServicesScreen extends React.Component {
   static navigationOptions = {
-    title: "Assisted Services"
+    title: "Home Services"
   };
 
   state = {
@@ -31,6 +31,7 @@ export default class MySellersAssistedServicesScreen extends React.Component {
   };
 
   componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.OPEN_HOME_SERVICES);
     this.getSellerAssistedServices();
   }
 
@@ -52,8 +53,9 @@ export default class MySellersAssistedServicesScreen extends React.Component {
     }
   };
 
-  selectAddressForOrder = (service) => {
-    console.log("select adderss", service)
+  selectAddressForOrder = service => {
+    Analytics.logEvent(Analytics.EVENTS.REQUEST_SERVICE_INSIDE_HOME_SERVICES);
+    console.log("select adderss", service);
     const { navigation } = this.props;
     const seller = navigation.getParam("seller", {});
     this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
@@ -63,7 +65,6 @@ export default class MySellersAssistedServicesScreen extends React.Component {
       serviceName: service.service_name
     });
   };
-
 
   placeOrder = async service => {
     const { navigation } = this.props;

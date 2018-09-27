@@ -59,7 +59,7 @@ class AscScreen extends Component {
   }
 
   async componentDidMount() {
-    Analytics.logEvent(Analytics.EVENTS.OPEN_ASC_SCREEN);
+    // Analytics.logEvent(Analytics.EVENTS.OPEN_ASC_SCREEN);
 
     const hitAccessApi = this.props.navigation.getParam("hitAccessApi", false);
     if (hitAccessApi) {
@@ -199,10 +199,10 @@ class AscScreen extends Component {
       });
     }
 
-    Analytics.logEvent(Analytics.EVENTS.SEARCH_ASC, {
-      brand_name: this.state.selectedBrand.brandName,
-      category_name: this.state.selectedCategory.category_name
-    });
+    // Analytics.logEvent(Analytics.EVENTS.SEARCH_ASC, {
+    //   brand_name: this.state.selectedBrand.brandName,
+    //   category_name: this.state.selectedCategory.category_name
+    // });
 
     this.props.navigation.navigate(SCREENS.ASC_SEARCH_SCREEN, {
       brand: this.state.selectedBrand,
@@ -268,7 +268,11 @@ class AscScreen extends Component {
               {I18n.t("asc_screen_section_1_title")}
             </Text>
             {products.length > 0 ? (
-              <ScrollView style={styles.productsContainer} horizontal={true}           showsHorizontalScrollIndicator={false}>
+              <ScrollView
+                style={styles.productsContainer}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
                 {products.map((product, index) => {
                   const meta = getProductMetasString(product.productMetaData);
                   return (

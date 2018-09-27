@@ -115,7 +115,7 @@ export default class OffersTab extends React.Component {
       error,
       offers
     } = this.state;
-    console.log("Category: ", selectedCategory);
+    // console.log("Category: ", selectedCategory);
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchCategories} />;
     }

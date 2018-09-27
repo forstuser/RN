@@ -9,10 +9,11 @@ import { SCREENS, ORDER_STATUS_TYPES, ORDER_TYPES } from "../../constants";
 import { API_BASE_URL } from "../../api";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
-//import chatIcon from "../../images/chat.png";
+import Analytics from "../../analytics";
 
 class SingleOrder extends Component {
   startChatWithSeller = async seller => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_CHAT);
     //this.setState({ isMySellersModalVisible: false });
     const { user } = this.props;
     try {

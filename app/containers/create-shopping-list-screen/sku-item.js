@@ -11,6 +11,7 @@ import Modal from "react-native-modal";
 
 import { Text, Image, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
+import Analytics from "../../analytics";
 
 import QuantityPlusMinus from "../../components/quantity-plus-minus";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -67,6 +68,7 @@ export default class SkuItem extends React.Component {
       : null;
 
     const addActiveSkuToList = () => {
+      Analytics.logEvent(Analytics.EVENTS.ADD_SKU_SHOPPING_LIST);
       const selectedItem = { ...item };
       selectedItem.sku_measurement = selectedItem.sku_measurements.find(
         skuMeasurement => skuMeasurement.id == item.activeSkuMeasurementId

@@ -48,7 +48,7 @@ class DealsScreen extends Component {
     };
   }
   componentDidMount() {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_DEALS);
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_DEALS);
     this.handleDeeplink(this.props);
   }
 
@@ -82,9 +82,9 @@ class DealsScreen extends Component {
   };
 
   onTabChange = ({ i }) => {
-    i == 0
-      ? Analytics.logEvent(Analytics.EVENTS.CLICK_OFFERS)
-      : Analytics.logEvent(Analytics.EVENTS.CLICK_ACCESSORIES);
+    // i == 0
+    //   ? Analytics.logEvent(Analytics.EVENTS.CLICK_OFFERS)
+    //   : Analytics.logEvent(Analytics.EVENTS.CLICK_ACCESSORIES);
     this.setState({ activeTabIndex: i });
   };
 

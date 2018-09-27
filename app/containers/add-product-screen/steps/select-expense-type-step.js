@@ -39,9 +39,20 @@ class ChooseExpenseTypeScreen extends React.Component {
   };
 
   onPressItem = type => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_PRODUCT_SCREEN, {
-      category_name: type
-    });
+    console.log(this.props.screenType);
+    if (this.props.screenType === PRODUCT_TYPES.PRODUCT) {
+      Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_PRODUCT_SCREEN, {
+        category_name: type
+      });
+    } else if (this.props.screenType === PRODUCT_TYPES.EXPENSE) {
+      Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_EXPENSE_SCREEN, {
+        category_name: type
+      });
+    } else if (this.props.screenType === PRODUCT_TYPES.DOCUMENT) {
+      Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_DOCUMENT_SCREEN, {
+        category_name: type
+      });
+    }
     this.props.onExpenseTypePress(type);
   };
 
@@ -60,7 +71,7 @@ class ChooseExpenseTypeScreen extends React.Component {
   };
 
   render() {
-    let navTitle = 'Add Products';
+    let navTitle = "Add Products";
     let eHomeItems = [];
     const screenType = this.props.screenType;
     const { isModalVisible, showCancelBtn } = this.state;
@@ -90,65 +101,71 @@ class ChooseExpenseTypeScreen extends React.Component {
         title: "Auto Insurance",
         icon: require("../../../images/main-categories/auto_insurance.png")
       }
-
     ];
-    const expenses = [{
-      type: EXPENSE_TYPES.TRAVEL,
-      title: "Travel & Dining",
-      icon: require("../../../images/main-categories/ic_travel_dining.png")
-    }, {
-      type: EXPENSE_TYPES.HEALTHCARE,
-      title: "Healthcare",
-      icon: require("../../../images/main-categories/ic_healthcare.png")
-    }, {
-      type: EXPENSE_TYPES.SERVICES,
-      title: "Services",
-      icon: require("../../../images/main-categories/ic_services.png")
-    }, {
-      type: EXPENSE_TYPES.HOME,
-      title: "Home Expenses",
-      icon: require("../../../images/main-categories/ic_home_expenses.png")
-    },
-    {
-      type: EXPENSE_TYPES.FASHION,
-      title: "Fashion",
-      icon: require("../../../images/main-categories/ic_fashion.png")
-    }
+    const expenses = [
+      {
+        type: EXPENSE_TYPES.TRAVEL,
+        title: "Travel & Dining",
+        icon: require("../../../images/main-categories/ic_travel_dining.png")
+      },
+      {
+        type: EXPENSE_TYPES.HEALTHCARE,
+        title: "Healthcare",
+        icon: require("../../../images/main-categories/ic_healthcare.png")
+      },
+      {
+        type: EXPENSE_TYPES.SERVICES,
+        title: "Services",
+        icon: require("../../../images/main-categories/ic_services.png")
+      },
+      {
+        type: EXPENSE_TYPES.HOME,
+        title: "Home Expenses",
+        icon: require("../../../images/main-categories/ic_home_expenses.png")
+      },
+      {
+        type: EXPENSE_TYPES.FASHION,
+        title: "Fashion",
+        icon: require("../../../images/main-categories/ic_fashion.png")
+      }
     ];
-    const docs = [{
-      type: EXPENSE_TYPES.MEDICAL_DOCS,
-      title: "Medical Docs",
-      icon: require("../../../images/main-categories/ic_medical_prescription.png")
-    },
-    {
-      type: EXPENSE_TYPES.MEDICAl_INSURANCE,
-      title: "Medical Insurance",
-      icon: require("../../../images/categories/insurance.png")
-    },
-    {
-      type: EXPENSE_TYPES.RENT_AGREEMENT,
-      title: "Rent Agreement",
-      icon: require("../../../images/categories/rent_agreement.png")
-    },
-    {
-      type: EXPENSE_TYPES.VISITING_CARD,
-      title: "Visiting Cards",
-      icon: require("../../../images/main-categories/ic_visiting_card.png")
-    }, {
-      type: EXPENSE_TYPES.OTHER_PERSONAL_DOC,
-      title: "Personal & Other Docs",
-      icon: require("../../../images/main-categories/ic_personal_doc.png")
-    }];
+    const docs = [
+      {
+        type: EXPENSE_TYPES.MEDICAL_DOCS,
+        title: "Medical Docs",
+        icon: require("../../../images/main-categories/ic_medical_prescription.png")
+      },
+      {
+        type: EXPENSE_TYPES.MEDICAl_INSURANCE,
+        title: "Medical Insurance",
+        icon: require("../../../images/categories/insurance.png")
+      },
+      {
+        type: EXPENSE_TYPES.RENT_AGREEMENT,
+        title: "Rent Agreement",
+        icon: require("../../../images/categories/rent_agreement.png")
+      },
+      {
+        type: EXPENSE_TYPES.VISITING_CARD,
+        title: "Visiting Cards",
+        icon: require("../../../images/main-categories/ic_visiting_card.png")
+      },
+      {
+        type: EXPENSE_TYPES.OTHER_PERSONAL_DOC,
+        title: "Personal & Other Docs",
+        icon: require("../../../images/main-categories/ic_personal_doc.png")
+      }
+    ];
 
     if (screenType == PRODUCT_TYPES.PRODUCT) {
       eHomeItems = products;
-      navTitle = 'Add Products'
+      navTitle = "Add Products";
     } else if (screenType == PRODUCT_TYPES.EXPENSE) {
       eHomeItems = expenses;
-      navTitle = 'Add Expenses'
+      navTitle = "Add Expenses";
     } else {
       eHomeItems = docs;
-      navTitle = 'Add Docs'
+      navTitle = "Add Docs";
     }
     const Item = ({ item }) => (
       <TouchableOpacity
@@ -161,22 +178,22 @@ class ChooseExpenseTypeScreen extends React.Component {
           source={item.icon}
           resizeMode="contain"
         />
-        <Text weight="Bold" style={styles.itemTitle}>{item.title}</Text>
+        <Text weight="Bold" style={styles.itemTitle}>
+          {item.title}
+        </Text>
       </TouchableOpacity>
     );
 
     return (
-      <Step
-        skippable={false}
-        title={navTitle}
-        {...this.props}
-      >
+      <Step skippable={false} title={navTitle} {...this.props}>
         <View collapsable={false} style={styles.container}>
           <View collapsable={false} style={[styles.option, styles.option1]}>
             <View collapsable={false} style={[styles.optionInner]}>
               <View collapsable={false} style={styles.grid}>
                 <View collapsable={false} style={styles.itemsRow}>
-                  {eHomeItems.map((item, index) => <Item key={index} item={item} />)}
+                  {eHomeItems.map((item, index) => (
+                    <Item key={index} item={item} />
+                  ))}
                 </View>
               </View>
             </View>
@@ -214,7 +231,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   item: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 76,
     margin: 5,
     justifyContent: "center",
@@ -233,7 +250,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     marginLeft: 10,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.primaryText
   },
   closeBtn: {
