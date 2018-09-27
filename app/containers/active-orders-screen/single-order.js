@@ -9,6 +9,7 @@ import { SCREENS, ORDER_STATUS_TYPES, ORDER_TYPES } from "../../constants";
 import { API_BASE_URL } from "../../api";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
+//import chatIcon from "../../images/chat.png";
 
 class SingleOrder extends Component {
   startChatWithSeller = async seller => {
@@ -151,14 +152,19 @@ class SingleOrder extends Component {
           onPress={() => this.startChatWithSeller(item)}
           style={styles.bottomButton}
         >
-          <Icon
+          {/* <Icon
             name="ios-chatbubbles-outline"
             style={styles.bottomButtonIcon}
             color={colors.pinkishOrange}
           />
           <Text weight="Medium" style={styles.bottomButtonText}>
             Chat
-          </Text>
+          </Text> */}
+          <Image
+            source={require("../../images/chat.png")}
+            resizeMode="contain"
+            style={{ height: 30, width: 30 }}
+          />
         </TouchableOpacity>
       </TouchableOpacity>
     );
@@ -204,10 +210,10 @@ const styles = {
   bottomButton: {
     position: "absolute",
     bottom: 15,
-    right: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
+    right: 20
+    // flexDirection: "row",
+    // alignItems: "center",
+    // justifyContent: "center"
   },
   bottomButtonIcon: {
     fontSize: 18,

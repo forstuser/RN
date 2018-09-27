@@ -93,7 +93,12 @@ export default class OrdersList extends React.Component {
                 </View>
                 <Text
                   weight="Bold"
-                  style={{ fontSize: 18, color: "#c2c2c2", marginTop: 10 }}
+                  style={{
+                    fontSize: 18,
+                    color: "#c2c2c2",
+                    //marginTop: 10,
+                    padding: 10
+                  }}
                 >
                   You have not ordered any grocery as yet
                 </Text>
