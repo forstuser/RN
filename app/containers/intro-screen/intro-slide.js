@@ -67,9 +67,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 16,
     textAlign: "center",
+    // alignItems: "center",
     color: colors.mainText,
+    // justifyContent: "center",
+    // textAlignVertical: "center",
     paddingHorizontal: 20,
-    maxWidth: 370
+    maxWidth: 350
   },
   content: {
     alignItems: "center",

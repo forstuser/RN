@@ -188,7 +188,7 @@ class RcForm extends React.Component {
             <SelectModal
               // style={styles.input}
               dropdownArrowStyle={{ tintColor: colors.pinkishOrange }}
-              placeholder="Registration Valid Upto"
+              placeholder="Registration Valid Up To"
               hint={"Helps in expiry reminder"}
               visibleKey="title"
               style={{ paddingTop: 0 }}

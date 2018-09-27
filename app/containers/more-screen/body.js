@@ -91,7 +91,7 @@ class Body extends Component {
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-      profile ? profile.mobile_no : ""
+        profile ? profile.mobile_no : ""
       })`
     );
   };
@@ -230,13 +230,13 @@ class Body extends Component {
         <MoreItem
           onPress={this.onCashbackBillGuidelinesPress}
           imageSource={require("../../images/ic_more_faq.png")}
-          text='Cashback Bill Guidelines'
+          text="Cashback Bill Guidelines"
         />
         {location != LOCATIONS.OTHER && (
           <MoreItem
             onPress={this.onCashbackQueryPress}
             imageSource={require("../../images/cashback_query.png")}
-            text={"Cashback Query"}
+            text={"Cashback Query/Help"}
           />
         )}
         <Separator />

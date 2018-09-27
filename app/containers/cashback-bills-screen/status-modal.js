@@ -23,20 +23,17 @@ export default class StatusModal extends React.Component {
     const { isVisible, item } = this.state;
 
     let title = "Approved";
-    let description =
-      "Cashback Calculated on your Bill is Rs. 845. Your Cashback is on the way. ";
-
+    let description = item.status_message;
     if (item.is_pending) {
       title = "Pending Approval";
-      description =
-        "Your Bill has been submitted successfully and is under process.";
     } else if (item.is_underprogress) {
       title = "In Progress";
       description =
         "Looks like you have submitted a bill, our team is calculating cash back for the same";
     } else if (item.is_rejected) {
       title = "Rejected";
-      description = "Your Bill has been rejected for some reason.";
+    } else if (item.is_discarded) {
+      statusColor = "red";
     }
 
     return (

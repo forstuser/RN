@@ -746,14 +746,18 @@ export default {
 
   //app-tour texts
   plus_btn_tip:
-    "Click here to Add your Bills, Expenses and Important Documents.",
+    "Click here to Add your Products, Bills, Expenses and Important Documents.",
+  do_you_know_tip:
+    "Discover amazing facts & tips related to brands and lifestyle, to fill you with awe! ",
   ehome_tip:
-    "Click here to check your private and secure eHome for your saved Bills, Expenses & Documents.",
+    "Check your private and secure eHome for your saved Bills, Expenses & Documents.",
+  deals_tip:
+    "Check out your Seller Offers and Best of Accessories for your Appliances.",
   attendance_tip:
     // "Plan your Day for tasks to be done, clothes to be worn and dishes to be cooked. Track attendance & payouts for all your household services too!",
     "Track attendance & payouts for all your household services!",
-  do_you_know_tip:
-    "Create your Shopping List Shop and Earn Cashback! ",
+  shop_n_earn: "Create your Shopping List Shop and Earn Cashback! ",
+  my_seller_tip: "Connect with your Sellers on your Daily Shopping & Offers",
   asc_tip:
     "Click here to find Authorised Service Centres of any Brand and connect with just one simple click.",
   insights_tip: "Keep a track of your monthly and periodic expenses.",
@@ -776,7 +780,7 @@ export default {
   product_card_add_image_tip:
     "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more shareable with your friends and family.",
   deals_filter_tip: "Filter your requirement further.",
-
+  milage_tip: "Mileage Meter tracks your vehicle's mileage.",
   //blank dashboard
   blank_dashboard_headline: "Welcome to BinBill",
   blank_dashboard_text: "Your Own Home Manager",
@@ -1032,7 +1036,7 @@ export default {
   love_using_binbill: "Love using BinBill app?",
   recommend_us: `If you are happy with your Home Manager, please rate us on ${
     Platform.OS == "ios" ? "App" : "Play"
-    } store.`,
+  } store.`,
   app_pin: "App Pin",
   change: "Change",
   set_now: "Set Now",

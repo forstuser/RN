@@ -41,7 +41,7 @@ export default class FuelExpense extends React.Component {
   };
 
   render() {
-    const { product } = this.props;
+    const { product, milageRef = () => {} } = this.props;
     const { isModalVisible } = this.state;
 
     if (
@@ -111,6 +111,7 @@ export default class FuelExpense extends React.Component {
         </View>
         <View style={styles.meterContainer}>
           <Image
+            ref={ref => milageRef(ref)}
             style={styles.meter}
             source={require("../../../images/fuelmeter.png")}
           />
@@ -159,15 +160,18 @@ export default class FuelExpense extends React.Component {
                       (Mileage:{" "}
                       {item.mileage
                         ? parseFloat(item.mileage).toFixed(2) + " km/l"
-                        : "N.A."})
+                        : "N.A."}
+                      )
                     </Text>
                   </View>
                   <View style={{ alignItems: "flex-end" }}>
                     <Text style={styles.itemAmount}>₹{item.value}</Text>
                     <Text style={styles.itemMileage}>
-                      ({item.rs_km
+                      (
+                      {item.rs_km
                         ? parseFloat(item.rs_km).toFixed(2) + " Rs/km"
-                        : "N.A."})
+                        : "N.A."}
+                      )
                     </Text>
                   </View>
                   <TouchableOpacity

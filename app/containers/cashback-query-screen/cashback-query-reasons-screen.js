@@ -11,7 +11,7 @@ import { SCREENS } from "../../constants";
 
 class CashbackQueryReasonsScreen extends React.Component {
   static navigationOptions = {
-    title: "Select Reason"
+    title: "Select Query"
   };
 
   state = {
@@ -33,11 +33,11 @@ class CashbackQueryReasonsScreen extends React.Component {
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&bcc=amar@binbill.com&bcc=sagar@binbill.com&subject=Cahback Query, Transaction Id: ${
         selectedTransaction.id
-      }&body=Dear BinBill Team,\n\nI have some query related to my cashback, \nReason: ${
+      }&body=Dear BinBill Team,\n\nI have some query related to my cashback, \n${
         selectedReason.title
-      }\n\n<Please write details here> \n\n\nThanks,\n${loggedInUser.name}\n${
-        loggedInUser.phone
-      }`
+      }\n\n<Please write details here> \n\n\nAwaiting your response,\n${
+        loggedInUser.name
+      }\n${loggedInUser.phone}`
     );
   };
 

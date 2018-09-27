@@ -9,7 +9,6 @@ import { defaultStyles, colors } from "../../theme";
 export default ({ item, cashbackDispersedModal, statusModal }) => {
   let statusColor = colors.success;
   let statusText = "Approved";
-
   if (item.is_pending) {
     statusColor = colors.pinkishOrange;
     statusText = "Pending Approval";
@@ -19,6 +18,9 @@ export default ({ item, cashbackDispersedModal, statusModal }) => {
   } else if (item.is_rejected) {
     statusColor = "red";
     statusText = "Rejected";
+  } else if (item.is_discarded) {
+    statusColor = "red";
+    statusText = "Discarded";
   }
 
   console.log(statusColor);

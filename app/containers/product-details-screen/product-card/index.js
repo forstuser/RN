@@ -191,6 +191,7 @@ class ProductCard extends Component {
             viewBillRef={ref => (this.viewBillRef = ref)}
             shareBtnRef={ref => (this.shareBtnRef = ref)}
             reviewBtnRef={ref => (this.reviewBtnRef = ref)}
+            milageBtnRef={ref => (this.milageBtnRef = ref)}
             activeTabIndex={activeTabIndex}
             showCustomerCareTab={showCustomerCareTab}
             showImportantTab={showImportantTab}
@@ -257,6 +258,10 @@ class ProductCard extends Component {
             {
               ref: this.addProductImageRef,
               text: I18n.t("product_card_add_image_tip")
+            },
+            {
+              ref: this.milageBtnRef,
+              text: I18n.t("milage_tip")
             }
           ]}
         />
