@@ -34,6 +34,7 @@ import {
 } from "../../constants";
 import { showSnackbar } from "../../utils/snackbar";
 import { requestSmsReadPermission } from "../../android-permissions";
+import Analytics from "../../analytics";
 
 export default class ClaimCashback extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -60,6 +61,7 @@ export default class ClaimCashback extends React.Component {
   };
 
   componentDidMount() {
+    Analytics.logEvent(Analytics.EVENTS.PLUS_ICON_OPEN_CASHBACK_FLOW);
     this.initExpense();
     this.props.navigation.setParams({ isCameraOpen: true });
   }
@@ -168,6 +170,7 @@ export default class ClaimCashback extends React.Component {
         }
       );
     } else {
+      Analytics.logEvent(Analytics.EVENTS.CASHBACK_NEXT_BILL);
       this.proceedToNextStep();
     }
   };
@@ -253,6 +256,7 @@ export default class ClaimCashback extends React.Component {
               placeholder2="*"
               placeholder2Color={colors.mainBlue}
               onUpload={uploadResult => {
+                Analytics.logEvent(Analytics.EVENTS.CLICK_UPLOAD_DOC_CASHBACK);
                 console.log("upload result: ", uploadResult);
                 this.setState({ copies: uploadResult.product.copies });
               }}

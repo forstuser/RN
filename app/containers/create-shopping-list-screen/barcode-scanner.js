@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { RNCamera } from "react-native-camera";
+import Analytics from "../../analytics";
 
 import { showSnackbar } from "../../utils/snackbar";
 
@@ -22,6 +23,7 @@ export default class BarcodeScanner extends React.Component {
   };
 
   onBarcodeScan = async barcode => {
+    Analytics.logEvent(Analytics.EVENTS.SCAN_BARCODE);
     const { onClosePress = () => null } = this.props;
     const { isLoading, itemNotFound } = this.state;
     if (isLoading || itemNotFound) return;

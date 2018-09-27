@@ -33,9 +33,7 @@ class EasyLifeScreen extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EAZYDAY);
-  }
+  componentDidMount() {}
 
   attendanceItemPress = () => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_ON_WHO_IS_ABSENT_TODAY);

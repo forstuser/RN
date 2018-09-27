@@ -20,6 +20,7 @@ import SearchBar from "../create-shopping-list-screen/search-bar";
 import SelectedItemsList from "../my-shopping-list-screen/selected-items-list";
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS } from "../../constants";
+import Analytics from "../../analytics";
 
 import QuantityPlusMinus from "../../components/quantity-plus-minus";
 
@@ -389,6 +390,7 @@ export default class SelectCashbackItems extends React.Component {
   };
 
   proceedToSellersScreen = () => {
+    Analytics.logEvent(Analytics.EVENTS.CASHBACK_NEXT_ITEM);
     const { navigation } = this.props;
     const product = navigation.getParam("product", null);
     const cashbackJob = navigation.getParam("cashbackJob", null);

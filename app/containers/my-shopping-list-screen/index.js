@@ -26,6 +26,7 @@ import { colors, defaultStyles } from "../../theme";
 import Modal from "../../components/modal";
 import LoadingOverlay from "../../components/loading-overlay";
 import QuantityPlusMinus from "../../components/quantity-plus-minus";
+import Analytics from "../../analytics";
 
 import SelectedItemsList from "./selected-items-list";
 import { showSnackbar } from "../../utils/snackbar";
@@ -66,13 +67,13 @@ class MyShoppingList extends React.Component {
     this.getMySellers();
 
     this.props.navigation.setParams({
-      onSharePress: this.onSharePress,
       onSharePressIcon: this.onSharePressIcon,
       showShareBtn: wishList.length > 0
     });
   }
 
   onSharePress = () => {
+    Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_PLACE_ORDER);
     const selectedSellers = this.props.navigation.getParam(
       "selectedSellers",
       []
@@ -87,6 +88,8 @@ class MyShoppingList extends React.Component {
   };
 
   onSharePressIcon = async () => {
+    Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_SHARE_ORDER);
+
     //this.setState({ isShareModalVisible: true });
     //console.log('Wishlist', this.state.wishList);
     this.setState({ showPlusMinusDelete: true });
@@ -152,6 +155,8 @@ class MyShoppingList extends React.Component {
   };
 
   selectSellerForOrder = seller => {
+    Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_SELECT_SELLER);
+
     this.setState({
       isLoadingMySellers: true
     });
@@ -272,19 +277,6 @@ class MyShoppingList extends React.Component {
                 </TouchableOpacity>
                 <Text weight="Medium">WhatsApp</Text>
               </View>
-
-              {/* <View style={styles.chatOptionContainer}>
-                <TouchableOpacity
-                  onPress={this.getMySellers}
-                  style={styles.chatOption}
-                >
-                  <Image
-                    source={require("../../images/chat.png")}
-                    style={styles.chatImage}
-                  />
-                </TouchableOpacity>
-                <Text weight="Medium">Chat</Text>
-              </View> */}
             </View>
           </View>
         </Modal>
@@ -304,36 +296,7 @@ class MyShoppingList extends React.Component {
               onRefresh={this.getMySellers}
               renderItem={({ item }) => {
                 let btnRedeemPoints = null;
-                // if (
-                //   item.loyalty_total > item.minimum_points &&
-                //   item.loyalty_total > 0
-                // )
-                //   btnRedeemPoints = (
-                //     <Button
-                //       onPress={() => {
-                //         this.openRedeemPointsScreen(item);
-                //       }}
-                //       text="Redeem Points"
-                //       color="secondary"
-                //       style={{ height: 30, width: 115, marginTop: 10 }}
-                //       textStyle={{ fontSize: 11 }}
-                //     />
-                //   );
                 return (
-                  // <TouchableOpacity
-                  //   onPress={() => this.selectSellerForOrder(item)}
-                  //   style={{
-                  //     height: 80,
-                  //     ...defaultStyles.card,
-                  //     margin: 10,
-                  //     borderRadius: 10,
-                  //     padding: 15,
-                  //     flexDirection: "row",
-                  //     alignItems: "center"
-                  //   }}
-                  // >
-                  //   <Text weight="Bold">{item.name}</Text>
-                  // </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => this.selectSellerForOrder(item)}
                     style={{
@@ -591,61 +554,6 @@ class MyShoppingList extends React.Component {
                         </ScrollView>
                       </View>
                     </View>
-                    {/* <View
-                      style={{
-                        flexDirection: "row",
-                        height: 30,
-                        backgroundColor: "#d9d9d9",
-                        paddingTop: 1
-                      }}
-                    >
-                      <TouchableOpacity
-                        onPress={() => this.openCallOptions(item)}
-                        style={styles.bottomButton}
-                      >
-                        <Icon
-                          name="ios-call-outline"
-                          style={styles.bottomButtonIcon}
-                          color={colors.pinkishOrange}
-                        />
-                        <Text weight="Medium" style={styles.bottomButtonText}>
-                          Call
-                        </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => this.startChatWithSeller(item)}
-                        style={[styles.bottomButton, { marginHorizontal: 1 }]}
-                      >
-                        <Icon
-                          name="ios-chatbubbles-outline"
-                          style={styles.bottomButtonIcon}
-                          color={colors.pinkishOrange}
-                        />
-                        <Text weight="Medium" style={styles.bottomButtonText}>
-                          Chat
-                        </Text>
-                      </TouchableOpacity>
-                      {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
-                        <TouchableOpacity
-                          onPress={() =>
-                            this.props.navigation.navigate(
-                              SCREENS.MY_SELLERS_ASSISTED_SERVICES_SCREEN,
-                              { seller: item }
-                            )
-                          }
-                          style={styles.bottomButton}
-                        >
-                          <Icon
-                            name="ios-construct-outline"
-                            style={styles.bottomButtonIcon}
-                            color={colors.pinkishOrange}
-                          />
-                          <Text weight="Medium" style={styles.bottomButtonText}>
-                            Assisted Services
-                          </Text>
-                        </TouchableOpacity>
-                      )}
-                    </View> */}
                   </TouchableOpacity>
                 );
               }}
@@ -654,7 +562,7 @@ class MyShoppingList extends React.Component {
         </Modal>
         {this.state.sellers.length > 0 && wishList.length > 0 ? (
           <Button
-            onPress={this.props.navigation.state.params.onSharePress}
+            onPress={this.onSharePress}
             text="Place Order"
             color="secondary"
             style={{

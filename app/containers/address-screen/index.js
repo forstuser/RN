@@ -9,6 +9,7 @@ import Modal from "../../components/modal";
 import { SCREENS } from "../../constants";
 import { showSnackbar } from "../../utils/snackbar";
 import LoadingOverlay from "./../../components/loading-overlay";
+import Analytics from "../../analytics";
 
 import {
   getUserAddresses,
@@ -182,6 +183,7 @@ class AddressScreen extends Component {
   };
 
   makeOrder = async () => {
+    Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_SELECT_ADDRESS);
     this.setState({ showLoader: true });
     try {
       const res = await placeOrder({

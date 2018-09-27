@@ -16,7 +16,7 @@ import ErrorOverlay from "../../components/error-overlay";
 import EmptyProductListPlaceholder from "./empty-product-list-placeholder";
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 import Analytics from "../../analytics";
-import { PRODUCT_TYPES,SCREENS } from "../../constants";
+import { PRODUCT_TYPES, SCREENS } from "../../constants";
 
 // destructuring not working for some reasons
 const ProductsList = props => {
@@ -33,7 +33,7 @@ const ProductsList = props => {
     category,
     error = null,
     endHasReached = false,
-    onListScroll = () => { },
+    onListScroll = () => {},
     showEndReachedMsg = true
   } = props;
   if (error) {
@@ -52,8 +52,14 @@ const ProductsList = props => {
     </View>
   );
   showAddProductOptionsScreen = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
-    navigation.push(SCREENS.ADD_PRODUCT_SCREEN,{'screenType':type});
+    if (type === PRODUCT_TYPES.PRODUCT) {
+      Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON_PRODUCT);
+    } else if (type === PRODUCT_TYPES.EXPENSE) {
+      Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON_EXPENSE);
+    } else if (type === PRODUCT_TYPES.DOCUMENT) {
+      Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON_DOCUMENT);
+    }
+    navigation.push(SCREENS.ADD_PRODUCT_SCREEN, { screenType: type });
   };
 
   return (
@@ -63,7 +69,7 @@ const ProductsList = props => {
         flex: 1,
         backgroundColor: "#fff",
         paddingTop: 0,
-        marginTop: 10,
+        marginTop: 10
       }}
     >
       <FlatList
@@ -105,18 +111,20 @@ const ProductsList = props => {
                   {showEndReachedMsg ? "No More Results" : ""}
                 </Text>
               ) : (
-                  <ActivityIndicator color={colors.mainBlue} animating={true} />
-                )}
+                <ActivityIndicator color={colors.mainBlue} animating={true} />
+              )}
             </View>
           ) : null
         }
       />
-      { products.length > 0 ? <TouchableOpacity
-        style={styles.fab}
-        onPress={()=>this.showAddProductOptionsScreen()}
-      >
-        <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
-      </TouchableOpacity>:null}
+      {products.length > 0 ? (
+        <TouchableOpacity
+          style={styles.fab}
+          onPress={() => this.showAddProductOptionsScreen()}
+        >
+          <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };

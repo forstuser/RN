@@ -6,13 +6,50 @@ const FbSdkAppEventsLogger = FBSDK.AppEventsLogger;
 import store from "../store";
 
 const EVENTS = {
+  //final new events
   //registration
   REGISTRATION_FB: "registration_fb",
   REGISTRATION_OTP: "registration_otp",
-  REGISTRATION_COMPLETED: "registeration_completed",
+  REGISTRATION_BASIC_DETAILS: "registration_basic_details",
+  REGISTRATION_GENDER: "registration_gender",
+  REGISTRATION_CITY: "regsitration_city",
+  //shop and earn
+  OPEN_SHOP_N_EARN: "open_shop_earn",
+  ADD_SKU_SHOPPING_LIST: "item_add_shopping_list ",
+  SCAN_BARCODE: "barcode_shopping_list",
+  OPEN_CART_SHOPPING_LIST: "open_shopping_list",
+  MY_SHOPPING_LIST_PLACE_ORDER: "place_order_shopping_list",
+  MY_SHOPPING_LIST_SHARE_ORDER: "share_shopping_list",
+  MY_SHOPPING_LIST_SELECT_SELLER: "seller_select_shopping_list",
+  MY_SHOPPING_LIST_SELECT_ADDRESS: "select_address_shopping_list",
+  MY_SHOPPING_LIST_CANCEL_ORDER: "cancel_order_shopping_list",
+  APPROVE_ORDER: "approve_order",
+  REJECT_ORDER: "reject_order",
+  MARK_PAID: "mark_paid_approve_order",
+  UPLOAD_BILL_AFTER_MARK_PAID: "bill_upload_mark_paid",
+  //My Seller
+  OPEN_MYSELLER: "open_myseller",
+  OPEN_HOME_SERVICES: "open_home_services",
+  CLICK_CHAT: "openchat_mysellers",
+  REDEEM_POINTS: "redeem_myseller",
+  //Assisted Services
+  REQUEST_SERVICE_INSIDE_HOME_SERVICES: "requestservice_homeservices",
+  //claim cashback flow
+  PLUS_ICON_OPEN_CASHBACK_FLOW: "open_claim_cashback",
+  CLICK_UPLOAD_DOC_CASHBACK: "cb_upload_doc",
+  CASHBACK_NEXT_BILL: "cb_click_next_bill",
+  CASHBACK_NEXT_ITEM: "cb_click_next_item",
+  CASHBACK_SELLER_SELECT: "cb_seller_select",
+  CASHBACK_SELLER_SKIP: "cb_skip_seller_select",
+  CASHBACK_CLAIM_SUBMIT: "cb_claim_submit",
+  //-----------------------------------------------------------------------------------------------------
   //add product
-  CLICK_PLUS_ICON: "plus_add_product",
+  CLICK_PLUS_ICON_PRODUCT: "plus_add_product",
+  CLICK_PLUS_ICON_EXPENSE: "plus_add_expense",
+  CLICK_PLUS_ICON_DOCUMENT: "plus_add_document",
   CLICK_ON_ADD_PRODUCT_SCREEN: "plus_add_product_category",
+  CLICK_ON_ADD_EXPENSE_SCREEN: "plus_add_expense_category",
+  CLICK_ON_ADD_DOCUMENT_SCREEN: "plus_add_document_category",
   ADD_MORE_PRODUCT: "plus_add_product_addmore",
   CLICK_I_WILL_DO_IT_LATER: "plus_add_product_later",
   //ehome

@@ -9,6 +9,7 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 import Modal from "react-native-modal";
 import StarRating from "react-native-star-rating";
+import Analytics from "../../analytics";
 
 import { getMySellers } from "../../api";
 import { Text, Button } from "../../elements";
@@ -41,7 +42,10 @@ export default class SelectSellerScreen extends React.Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-      onSkipPress: () => this.proceedToNextStep()
+      onSkipPress: () => {
+        Analytics.logEvent(Analytics.EVENTS.CASHBACK_SELLER_SKIP);
+        this.proceedToNextStep();
+      }
     });
     this.getMySellers();
   }
@@ -78,6 +82,8 @@ export default class SelectSellerScreen extends React.Component {
   };
 
   showHomeDeliveryModalVisible = () => {
+    Analytics.logEvent(Analytics.EVENTS.CASHBACK_SELLER_SELECT);
+
     const { selectedSeller } = this.state;
 
     if (selectedSeller.seller_type_id != SELLER_TYPE_IDS.NON_VERIFIED) {

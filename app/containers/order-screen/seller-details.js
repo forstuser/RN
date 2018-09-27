@@ -14,6 +14,7 @@ import { defaultStyles, colors } from "../../theme";
 import { openBillsPopUp } from "../../navigation";
 
 import { LOCATIONS, ORDER_TYPES } from "../../constants";
+import Analytics from "../../analytics";
 
 import { showSnackbar } from "../../utils/snackbar";
 
@@ -34,11 +35,13 @@ class SellerDetails extends React.Component {
         copies: order.copies || []
       });
     } else {
+      Analytics.logEvent(Analytics.EVENTS.UPLOAD_BILL_AFTER_MARK_PAID);
       openUploadBillPopup();
     }
   };
 
   startChatWithSeller = async seller => {
+    Analytics.logEvent(Analytics.EVENTS.CLICK_CHAT);
     const { order } = this.props;
     this.setState({ isMySellersModalVisible: false });
     const { user } = this.props;

@@ -91,6 +91,7 @@ class EhomeScreen extends Component {
   }
 
   componentDidMount() {
+    console.log("inside ehome");
     Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
 
     this.didFocusSubscription = this.props.navigation.addListener(
@@ -178,7 +179,7 @@ class EhomeScreen extends Component {
 
   render() {
     const { recentSearches, activeTabIndex, tabs } = this.state;
-    console.log("Tab Index: ", activeTabIndex);
+    // console.log("Tab Index: ", activeTabIndex);
     let calendar = "Attendance";
     return (
       <TabsScreenContainer

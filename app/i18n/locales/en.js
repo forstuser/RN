@@ -30,9 +30,9 @@ export default {
 
   //app intro screen
   app_intro_1_title: `Shop & Earn`,
-  app_intro_1_desc: `Easy way to Grocery Shopping - just create your Shopping List, Shop, Earn Cashback, & Bonus Cashback on purchase from our list of branded items.`,
+  app_intro_1_desc: `Easy Solution to your On demand Grocery Needs - just create your Shopping List, Shop, Earn Cashback, & Bonus Cashback on purchase from our list of branded items.`,
   app_intro_2_title: `Kirana Connect`,
-  app_intro_2_desc: `Avail services of your local kirana shops in a professional way via online orders to get faster home delivery service and attractive discounts.`,
+  app_intro_2_desc: `Get Faster Home Delivery, Attractive Discounts & Snapshot of available items with your local kirana shops through online orders.`,
   app_intro_3_title: `Home Services`,
   app_intro_3_desc: `Get On-Demand Home Services like domestic help, cleaner, carpenter, plumber etc. from reliable neighbourhood shops through our App`,
   app_intro_4_title: `Timely Alerts`,
