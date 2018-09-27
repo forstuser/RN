@@ -494,7 +494,7 @@ export default class SearchBar extends React.Component {
                       style={{ fontSize: 12 }}
                       numberOfLines={2}
                     >
-                      {item.title}
+                      {item.title.toUpperCase()}
                     </Text>
                   </TouchableOpacity>
                 )}

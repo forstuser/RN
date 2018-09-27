@@ -405,6 +405,7 @@ export default class SelectCashbackItems extends React.Component {
     // if (selectedItems.length == 0) {
     //   return showSnackbar({ text: "Please select some items first" });
     // }
+
     this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SELECT_SELLER_SCREEN, {
       product,
       cashbackJob,

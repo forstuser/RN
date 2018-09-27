@@ -43,8 +43,8 @@ class BBCashWalletScreen extends Component {
     });
     try {
       const walletData = await retrieveWalletDetails();
-      console.log("walletData total cashback", walletData.total_cashback);
-      console.log("wallet totol result", walletData.result);
+      //console.log("walletData total cashback", walletData.total_cashback);
+      console.log("Wallet Transactions: ", walletData.result);
       let walletArray = [];
       walletData.result.forEach(money => {
         walletArray.push({
@@ -52,8 +52,10 @@ class BBCashWalletScreen extends Component {
           date: moment(money.created_at)
             .format("DD MMM, YYYY")
             .toUpperCase(),
-          id: money.job_id,
-          price: money.amount
+          id: money.id,
+          price: money.amount,
+          status_type: money.status_type,
+          is_paytm: money.is_paytm
         });
       });
       console.log(walletArray);
@@ -74,11 +76,13 @@ class BBCashWalletScreen extends Component {
   renderTransactions = ({ item: transaction, index }) => {
     return (
       <SingleTransaction
-        date={transaction.date}
-        description={transaction.description}
-        date={transaction.date}
-        id={transaction.id}
-        price={transaction.price}
+        key={index}
+        transaction={transaction}
+        // date={transaction.date}
+        // description={transaction.description}
+        // date={transaction.date}
+        // id={transaction.id}
+        // price={transaction.price}
       />
     );
   };
