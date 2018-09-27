@@ -12,7 +12,7 @@ export default ({ item, cashbackDispersedModal, statusModal }) => {
   if (item.is_pending) {
     statusColor = colors.pinkishOrange;
     statusText = "Pending Approval";
-  } else if (item.is_underprogress) {
+  } else if (item.is_underprogress || item.is_partial) {
     statusColor = colors.pinkishOrange;
     statusText = "In Progress";
   } else if (item.is_rejected) {

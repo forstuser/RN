@@ -26,14 +26,12 @@ export default class StatusModal extends React.Component {
     let description = item.status_message;
     if (item.is_pending) {
       title = "Pending Approval";
-    } else if (item.is_underprogress) {
+    } else if (item.is_underprogress || item.is_partial) {
       title = "In Progress";
-      description =
-        "Looks like you have submitted a bill, our team is calculating cash back for the same";
     } else if (item.is_rejected) {
       title = "Rejected";
     } else if (item.is_discarded) {
-      statusColor = "red";
+      statusText = "Discarded";
     }
 
     return (
