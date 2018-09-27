@@ -31,7 +31,7 @@ import AddManualItemModal from "./add-manual-item-modal";
 import ClearOrContinuePreviousListModal from "./clear-or-continue-previous-list-modal";
 import PastItems from "./past-items";
 import FilterModal from "./filter-modal";
-
+import WishListLimitModal from "./wishlist-limit-modal";
 import { colors } from "../../theme";
 import { SCREENS } from "../../constants";
 
@@ -60,7 +60,8 @@ class ShoppingListScreen extends React.Component {
     brands: [],
     selectedBrands: [],
     sellers: [],
-    selectedSeller: null
+    selectedSeller: null,
+    isWishListLimit: false
   };
 
   componentDidMount() {
@@ -185,6 +186,9 @@ class ShoppingListScreen extends React.Component {
 
   addSkuItemToList = async item => {
     const wishList = [...this.state.wishList];
+    if (wishList.length > 14) {
+      return this.limitModal.show();
+    }
     if (
       wishList.findIndex(listItem => {
         if (listItem.id && item.id && listItem.id == item.id) {
@@ -636,6 +640,11 @@ class ShoppingListScreen extends React.Component {
         <FilterModal
           ref={node => {
             this.filterModal = node;
+          }}
+        />
+        <WishListLimitModal
+          ref={node => {
+            this.limitModal = node;
           }}
         />
       </DrawerScreenContainer>

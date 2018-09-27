@@ -1,13 +1,26 @@
 import React, { Component } from "react";
 import { View, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
+import { loginToApplozic, openChatWithSeller } from "../../applozic";
 
 import { Text, Button, Image } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS, ORDER_STATUS_TYPES, ORDER_TYPES } from "../../constants";
 import { API_BASE_URL } from "../../api";
 import moment from "moment";
+import Icon from "react-native-vector-icons/Ionicons";
 
 class SingleOrder extends Component {
+  startChatWithSeller = async seller => {
+    //this.setState({ isMySellersModalVisible: false });
+    const { user } = this.props;
+    try {
+      await loginToApplozic({ id: user.id, name: user.name });
+      openChatWithSeller({ id: seller.id });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    }
+  };
   render() {
     const { item } = this.props;
     let statusType = null;
@@ -67,6 +80,11 @@ class SingleOrder extends Component {
     let cashbackStatus = (
       <Text style={styles.data}>Cashback earned: {cashback}</Text>
     );
+    if (item.order_type === 2) {
+      cashbackStatus = null;
+      cashback = null;
+    }
+
     if (item.cashback_status === 13) {
       cashbackStatus = (
         <Button
@@ -84,10 +102,11 @@ class SingleOrder extends Component {
     }
 
     if (
-      item.cashback_status === null ||
-      item.cashback_status === 15 ||
-      item.cashback_status === 17 ||
-      item.cashback_status === 18
+      item.order_type !== 2 &&
+      (item.cashback_status === null ||
+        item.cashback_status === 15 ||
+        item.cashback_status === 17 ||
+        item.cashback_status === 18)
     ) {
       cashback = <Text weight="Bold">0</Text>;
       cashbackStatus = (
@@ -128,6 +147,19 @@ class SingleOrder extends Component {
         {/* <View style={[styles.box, styles.box3]}>
                     <Text style={styles.status}>{status}</Text>
                 </View> */}
+        <TouchableOpacity
+          onPress={() => this.startChatWithSeller(item)}
+          style={styles.bottomButton}
+        >
+          <Icon
+            name="ios-chatbubbles-outline"
+            style={styles.bottomButtonIcon}
+            color={colors.pinkishOrange}
+          />
+          <Text weight="Medium" style={styles.bottomButtonText}>
+            Chat
+          </Text>
+        </TouchableOpacity>
       </TouchableOpacity>
     );
   }
@@ -168,7 +200,28 @@ const styles = {
     width: 60,
     marginLeft: 10,
     marginTop: 40
+  },
+  bottomButton: {
+    position: "absolute",
+    bottom: 15,
+    right: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  bottomButtonIcon: {
+    fontSize: 18,
+    marginRight: 5
+  },
+  bottomButtonText: {
+    fontSize: 11
   }
 };
 
-export default SingleOrder;
+const mapStateToProps = state => {
+  return {
+    user: state.loggedInUser
+  };
+};
+
+export default connect(mapStateToProps)(SingleOrder);
