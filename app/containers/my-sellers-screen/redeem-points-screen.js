@@ -4,6 +4,7 @@ import { View, TouchableOpacity, TextInput } from "react-native";
 import { Text, Button, Image } from "../../elements";
 import { redeemSellerPoints } from "../../api";
 import { showSnackbar } from "../../utils/snackbar";
+import { SCREENS } from "../../constants";
 
 export default class RedeemSellerPoints extends React.Component {
   static navigationOptions = {
@@ -41,6 +42,8 @@ export default class RedeemSellerPoints extends React.Component {
     } finally {
       this.setState({ isLoading: false });
     }
+
+    this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
   };
 
   render() {
