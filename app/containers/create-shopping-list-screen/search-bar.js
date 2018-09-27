@@ -45,11 +45,11 @@ export default class SearchBar extends React.Component {
   };
 
   toggleSellersPopup = () => {
-    const { selectedSellers } = this.props;
+    const { selectedSeller } = this.props;
     const { isBrandsPopupVisible } = this.state;
     this.setState({
       isBrandsPopupVisible: !isBrandsPopupVisible,
-      checkedSellers: selectedSellers
+      checkedSellers: [selectedSeller]
     });
     this.searchInput.blur();
   };
@@ -66,16 +66,25 @@ export default class SearchBar extends React.Component {
   };
 
   toggleSellerSelection = seller => {
-    const checkedSellers = [];
-    const idx = checkedSellers.findIndex(
-      sellerItem => sellerItem.id == seller.id
-    );
-    if (idx == -1) {
-      checkedSellers.push(seller);
+    let checkedSellers = [...this.state.checkedSellers];
+    if (seller) {
+      const idx = checkedSellers.findIndex(
+        sellerItem => sellerItem.id == seller.id
+      );
+      if (idx == -1) {
+        checkedSellers.push(seller);
+      } else {
+        checkedSellers.splice(idx, 1);
+      }
     } else {
-      checkedSellers.splice(idx, 1);
+      checkedSellers = [];
     }
     this.setState({ checkedSellers });
+
+    const { setSelectedSellers = () => null } = this.props;
+    this.setState({ isBrandsPopupVisible: false });
+    setSelectedSellers(checkedSellers);
+    this.filterModal.hide();
   };
 
   applyBrandsFilter = () => {
@@ -99,13 +108,17 @@ export default class SearchBar extends React.Component {
       setSelectedBrands = () => null,
       setSelectedSellers = () => null
     } = this.props;
-    setSelectedBrands([]);
-    setSelectedSellers([]);
-    this.setState({
-      isBrandsPopupVisible: false,
-      checkedBrands: [],
-      checkedSellers: []
-    });
+    setSelectedBrands([], true);
+    this.setState(
+      {
+        isBrandsPopupVisible: false,
+        checkedBrands: [],
+        checkedSellers: []
+      },
+      () => {
+        this.toggleSellerSelection();
+      }
+    );
   };
 
   startSearch = () => {
@@ -130,6 +143,7 @@ export default class SearchBar extends React.Component {
   render() {
     const {
       mainCategories = [],
+      sellerMainCategories = [],
       activeMainCategoryId = null,
       selectedCategoryIds = [],
       updateMainCategoryIdInParent = () => null,
@@ -139,13 +153,13 @@ export default class SearchBar extends React.Component {
       searchTerm = "",
       brands = [],
       selectedBrands = [],
-      selectedSellers = [],
+      selectedSeller = null,
       measurementTypes,
       isSearching = false,
       isSearchDone = false,
       searchError = null,
       items = [],
-      wishList,
+      wishList = [],
       skuItemIdsCurrentlyModifying = [],
       addSkuItemToList,
       changeSkuItemQuantityInList,
@@ -154,7 +168,8 @@ export default class SearchBar extends React.Component {
       openAddManualItemModal,
       addManualItemsToList = () => null,
       hideAddManually = false,
-      sellers
+      sellers = [],
+      hideSellerFilter = false
     } = this.props;
 
     const { isBrandsPopupVisible, checkedBrands, checkedSellers } = this.state;
@@ -226,14 +241,40 @@ export default class SearchBar extends React.Component {
         return cashbackOfB - cashbackOfA;
       });
 
-    let categoryChuncks = [];
+    let filteredMainCategories = mainCategories;
+    if (sellerMainCategories.length > 0) {
+      const sellerMainCategoryIds = sellerMainCategories.map(
+        mainCategory => mainCategory.main_category_id
+      );
+      filteredMainCategories = mainCategories.filter(mainCategory =>
+        sellerMainCategoryIds.includes(mainCategory.id)
+      );
+    }
+
+    let filteredCategories = [];
+
     if (
       activeMainCategory &&
       activeMainCategory.categories &&
       activeMainCategory.categories.length > 0
     ) {
-      categoryChuncks = _.chunk(activeMainCategory.categories, 4);
+      if (sellerMainCategories.length == 0) {
+        filteredCategories = activeMainCategory.categories;
+      } else {
+        const activeMainCategoryFromSellersMainCategories = sellerMainCategories.find(
+          mainCategory => mainCategory.main_category_id == activeMainCategory.id
+        );
+        const sellerCategoryIds = activeMainCategoryFromSellersMainCategories.category_brands.map(
+          categoryBrand => categoryBrand.category_id
+        );
+
+        filteredCategories = activeMainCategory.categories.filter(category =>
+          sellerCategoryIds.includes(category.id)
+        );
+      }
     }
+
+    console.log("filteredCategories: ", filteredCategories);
 
     return (
       <View
@@ -320,7 +361,7 @@ export default class SearchBar extends React.Component {
           </View>
           <TouchableOpacity
             onPress={this.toggleBrandsPopup}
-            disabled={brands.length == 0}
+            disabled={brands.length == 0 && sellers.length == 0}
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -333,9 +374,13 @@ export default class SearchBar extends React.Component {
             <Icon
               name="md-options"
               size={25}
-              color={brands.length > 0 ? colors.mainText : colors.lighterText}
+              color={
+                brands.length > 0 || sellers.length > 0
+                  ? colors.mainText
+                  : colors.lighterText
+              }
             />
-            {selectedBrands.length || selectedSellers.length ? (
+            {selectedBrands.length > 0 || selectedSeller ? (
               <View
                 style={{
                   position: "absolute",
@@ -349,16 +394,14 @@ export default class SearchBar extends React.Component {
                 }}
               >
                 <Text style={{ color: "#fff", fontSize: 10 }}>
-                  {selectedBrands.length + selectedSellers.length}
+                  {selectedBrands.length + (selectedSeller ? 1 : 0)}
                 </Text>
               </View>
             ) : null}
           </TouchableOpacity>
         </View>
 
-        {activeMainCategory &&
-          activeMainCategory.categories &&
-          activeMainCategory.categories.length > 0 &&
+        {filteredCategories.length > 0 &&
           !searchTerm && (
             <View style={{ height: 34, paddingHorizontal: 5, marginBottom: 7 }}>
               <ScrollView
@@ -367,7 +410,7 @@ export default class SearchBar extends React.Component {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{}}
               >
-                {activeMainCategory.categories.map(category => (
+                {filteredCategories.map(category => (
                   <TouchableOpacity
                     key={category.id}
                     onPress={() => {
@@ -420,7 +463,7 @@ export default class SearchBar extends React.Component {
             borderTopWidth: 2
           }}
         >
-          {mainCategories.length > 0 && !searchTerm ? (
+          {filteredMainCategories.length > 0 && !searchTerm ? (
             <View
               style={{
                 flex: 1,
@@ -429,7 +472,7 @@ export default class SearchBar extends React.Component {
               }}
             >
               <FlatList
-                data={mainCategories}
+                data={filteredMainCategories}
                 extraData={activeMainCategoryId}
                 renderItem={({ item }) => (
                   <TouchableOpacity
@@ -631,6 +674,7 @@ export default class SearchBar extends React.Component {
           applySellersFilter={this.applySellersFilter}
           resetBrandsFilter={this.resetBrandsFilter}
           hideFilter={this.hideFilter}
+          hideSellerFilter={hideSellerFilter}
         />
 
         <LoadingOverlay visible={isSearching} />

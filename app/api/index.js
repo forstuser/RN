@@ -1975,11 +1975,18 @@ export const getSkuReferenceData = async () => {
   });
 };
 
+export const getSellerSkuCategories = async ({ sellerId }) => {
+  return await apiRequest({
+    method: "get",
+    url: `sku/sellers/${sellerId}/categories`
+  });
+};
+
 export const getSkuItems = async ({
   mainCategoryId,
   categoryIds = [],
   brandIds = [],
-  sellerIds = [],
+  sellerId,
   subCategoryIds = [],
   measurementValues = [],
   measurementTypes = [],
@@ -1994,7 +2001,7 @@ export const getSkuItems = async ({
       category_id: categoryIds.join(","),
       sub_category_ids: subCategoryIds.join(","),
       brand_ids: brandIds.join(","),
-      seller_id: sellerIds.join(","),
+      seller_id: sellerId,
       measurement_value: measurementValues.join(","),
       measurement_types: measurementTypes.join(","),
       bar_code: barCode,
