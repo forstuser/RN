@@ -211,7 +211,7 @@ class AfterSaleButton extends Component {
         break;
       case 2:
         if (this.state.urls.length == 1) {
-          Analytics.logEvent(Analytics.EVENTS.CLICK_URL);
+          // Analytics.logEvent(Analytics.EVENTS.CLICK_URL);
           this.openUrl(this.state.urls[0]);
         } else {
           this.urlOptions.show();
@@ -450,7 +450,7 @@ class AfterSaleButton extends Component {
 
   handleUrlPress = index => {
     if (index < this.state.urls.length) {
-      Analytics.logEvent(Analytics.EVENTS.CLICK_URL);
+      // Analytics.logEvent(Analytics.EVENTS.CLICK_URL);
       const url = this.state.urls[index];
       this.openUrl(url);
     }

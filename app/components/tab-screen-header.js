@@ -25,7 +25,7 @@ class TabSearchHeader extends Component {
     });
   };
   openMailboxScreen = () => {
-    Analytics.logEvent(Analytics.EVENTS.OPEN_MAILS);
+    // Analytics.logEvent(Analytics.EVENTS.OPEN_MAILS);
     this.props.navigation.navigate(SCREENS.MAILBOX_SCREEN);
   };
   render() {

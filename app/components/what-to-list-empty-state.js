@@ -15,7 +15,7 @@ import { SCREENS, EASY_LIFE_TYPES } from "../constants";
 import CustomTextInput from "./form-elements/text-input";
 import { showSnackbar } from "../utils/snackbar";
 import LoadingOverlay from "./loading-overlay";
-import Analytics from "../analytics";
+// import Analytics from "../analytics";
 const tick = require("../images/tick.png");
 
 const cooking = require("../images/cooking.png");
@@ -37,13 +37,13 @@ class WhatToListEmptyState extends React.Component {
   onPressCreateList = () => {
     switch (this.props.type) {
       case EASY_LIFE_TYPES.WHAT_TO_COOK:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_COOK);
+        // Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_COOK);
         break;
       case EASY_LIFE_TYPES.WHAT_TO_DO:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_TODO);
+        // Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_TODO);
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_WEAR);
+        // Analytics.logEvent(Analytics.EVENTS.CLICK_CREATE_FIRST_LIST_WEAR);
         break;
     }
     this.props.onCreateListBtnPress();

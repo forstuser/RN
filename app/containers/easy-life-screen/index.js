@@ -14,7 +14,7 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import TabSearchHeader from "../../components/tab-screen-header";
-import Analytics from "../../analytics";
+// import Analytics from "../../analytics";
 import { SCREENS, EASY_LIFE_TYPES } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 const cooking = require("../../images/cooking.png");
@@ -36,31 +36,31 @@ class EasyLifeScreen extends Component {
   componentDidMount() {}
 
   attendanceItemPress = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_WHO_IS_ABSENT_TODAY);
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_ON_WHO_IS_ABSENT_TODAY);
     this.props.navigation.navigate(SCREENS.MY_CALENDAR_SCREEN);
   };
 
   toDoItemPress = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_DO_TODAY);
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_DO_TODAY);
     this.props.navigation.navigate(SCREENS.WHAT_TO_SCREEN, {
       type: EASY_LIFE_TYPES.WHAT_TO_DO
     });
   };
   cookingItemPress = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_COOK);
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_COOK);
     this.props.navigation.navigate(SCREENS.WHAT_TO_SCREEN, {
       type: EASY_LIFE_TYPES.WHAT_TO_COOK
     });
   };
   wearItemPress = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_WEAR_TODAY);
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_WHAT_TO_WEAR_TODAY);
     this.props.navigation.navigate(SCREENS.WHAT_TO_SCREEN, {
       type: EASY_LIFE_TYPES.WHAT_TO_WEAR
     });
   };
 
   showAddProductOptionsScreen = () => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
     //use push here so that we can use 'replace' later
     this.props.navigation.push(SCREENS.ADD_PRODUCT_SCREEN);
   };

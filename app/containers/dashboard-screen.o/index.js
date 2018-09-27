@@ -191,7 +191,7 @@ class DashboardScreen extends React.Component {
   };
 
   openInsightScreen = props => {
-    Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EXPENSE_INSIGHT);
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_ON_EXPENSE_INSIGHT);
     this.props.navigation.navigate(SCREENS.INSIGHTS_SCREEN);
   };
 

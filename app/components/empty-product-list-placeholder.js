@@ -10,7 +10,7 @@ import {
   EXPENSE_TYPES,
   PRODUCT_TYPES
 } from "../constants";
-import Analytics from "../analytics";
+// import Analytics from "../analytics";
 
 class AddEmptyProductScreen extends Component {
   constructor(props) {
@@ -19,9 +19,9 @@ class AddEmptyProductScreen extends Component {
   }
 
   onPressItem = item => {
-    Analytics.logEvent(
-      Analytics.EVENTS.ADD_PRODUCT_INSIDE_EHOME_MAIN_CATEGORIES
-    );
+    // Analytics.logEvent(
+    //   Analytics.EVENTS.ADD_PRODUCT_INSIDE_EHOME_MAIN_CATEGORIES
+    // );
     this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN, {
       expenseType: item.type,
       category: item.category

@@ -30,7 +30,7 @@ import {
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
-import Analytics from "../../analytics";
+// import Analytics from "../../analytics";
 import { SCREENS, EASY_LIFE_TYPES } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
 import DateSelector from "./date-selector";
@@ -303,15 +303,15 @@ class DishCalendarScreen extends Component {
     const { type } = this.props.navigation.state.params;
     switch (type) {
       case EASY_LIFE_TYPES.WHAT_TO_COOK:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_NEW_DISH);
+        // Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_NEW_DISH);
         this.WhatToListModal.show();
         break;
       case EASY_LIFE_TYPES.WHAT_TO_DO:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_NEW_WHAT_TO_DO);
+        // Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_NEW_WHAT_TO_DO);
         this.WhatToListModal.show();
         break;
       case EASY_LIFE_TYPES.WHAT_TO_WEAR:
-        Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_NEW_WEAR_ITEM);
+        // Analytics.logEvent(Analytics.EVENTS.CLICK_ON_ADD_NEW_WEAR_ITEM);
         this.clothesImageUploader.showActionSheet();
         break;
     }

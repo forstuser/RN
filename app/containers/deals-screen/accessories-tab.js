@@ -322,9 +322,9 @@ export default class AccessoriesTab extends React.Component {
 
   onItemSelect = item => {
     console.log("item: ", item);
-    Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_ACCESSORIES, {
-      product_name: item.name
-    });
+    // Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_ACCESSORIES, {
+    //   product_name: item.name
+    // });
     const { selectedItem } = this.state;
     const { setAccessoryCategories } = this.props;
     setAccessoryCategories(item.accessoryCategories);
