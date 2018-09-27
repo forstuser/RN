@@ -433,6 +433,7 @@ class ShoppingListScreen extends React.Component {
 
             <TouchableOpacity
               style={{ paddingHorizontal: 5, marginHorizontal: 5 }}
+              disabled={isLoading === true}
               onPress={() => {
                 navigation.push(SCREENS.MY_SHOPPING_LIST_SCREEN, {
                   measurementTypes: measurementTypes,
