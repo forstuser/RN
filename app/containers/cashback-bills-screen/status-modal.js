@@ -31,8 +31,8 @@ export default class StatusModal extends React.Component {
       description =
         "Your Bill has been submitted successfully and is under process.";
     } else if (item.is_underprogress) {
-      title = "Under Progress";
-      statusText =
+      title = "In Progress";
+      description =
         "Looks like you have submitted a bill, our team is calculating cash back for the same";
     } else if (item.is_rejected) {
       title = "Rejected";
