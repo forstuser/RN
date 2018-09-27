@@ -89,7 +89,7 @@ export default class OfferItem extends React.Component {
             weight="Medium"
             style={{ fontSize: 11, color: "#b6b6b6", marginLeft: 2 }}
           >
-            {"Valid Upto " + moment(item.date_end).format("MMM DD")}
+            {"Valid Up To " + moment(item.date_end).format("MMM DD")}
           </Text>
         </View>
 

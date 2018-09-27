@@ -288,7 +288,6 @@ class MyShoppingList extends React.Component {
             </View>
           </View>
         </Modal>
-
         <Modal
           isVisible={isMySellersModalVisible}
           title="Select Seller"
@@ -667,6 +666,11 @@ class MyShoppingList extends React.Component {
             textStyle={{ fontSize: 18 }}
           />
         ) : null}
+        {this.state.sellers.length == 0 && wishList.length > 0 ? (
+          <Text style={styles.noSellerText}>
+            Please add your sellers in my seller to share your Shopping List
+          </Text>
+        ) : null}
       </View>
     );
   }
@@ -703,6 +707,12 @@ const styles = StyleSheet.create({
   },
   bottomButtonText: {
     fontSize: 9
+  },
+  noSellerText: {
+    fontSize: 14,
+    textAlign: "center",
+    marginBottom: 15,
+    color: colors.danger
   }
 });
 

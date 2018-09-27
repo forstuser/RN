@@ -24,7 +24,7 @@ const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
 const cornerImageTopRight = require("../../images/blank-dashboard/corner-image_top_right.png");
 const cornerImageBottomLeft = require("../../images/blank-dashboard/corner-image_bottom-left.png");
-const image = require("../../images/blank-dashboard/image.png");
+// const image = require("../../images/blank-dashboard/image.png");
 
 class BlankDashboard extends React.Component {
   constructor(props) {
@@ -106,7 +106,7 @@ class BlankDashboard extends React.Component {
             </View>
           </View>
           <View collapsable={false} style={styles.welcome}>
-            <Image style={styles.image} source={image} resizeMode="contain" />
+            {/* <Image style={styles.image} source={image} resizeMode="contain" /> */}
             <Text weight="Bold" style={styles.welcomeTitle}>
               {I18n.t("blank_dashboard_headline")}
             </Text>
@@ -273,4 +273,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BlankDashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BlankDashboard);

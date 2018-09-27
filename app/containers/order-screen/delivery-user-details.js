@@ -100,7 +100,7 @@ export default class DeliveryUserDetails extends React.Component {
                       </Text>
                       <Text weight="Normal" style={{ fontSize: 10 }}>
                         *₹ {hourlyPrice} each additional 30 Min.
-                    </Text>
+                      </Text>
                     </View>
                   )}
                 </View>
@@ -154,7 +154,7 @@ export default class DeliveryUserDetails extends React.Component {
                       color: colors.secondaryText
                     }}
                   >
-                    ({deliveryUser.ratings || 0})
+                    ({deliveryUser.ratings.toFixed(2) || 0})
                   </Text>
                 </View>
                 <TouchableOpacity

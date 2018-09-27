@@ -11,6 +11,7 @@ import { defaultStyles, colors } from "../../theme";
 import StatusModal from "./status-modal";
 import CashbackDispersedModal from "./cashback-dispersed-modal";
 import CashbackClaimItem from "./cashback-claim-item";
+import { SCREENS } from "../../constants";
 
 export default class CashbackBillsScreen extends React.Component {
   static navigationOptions = {
@@ -41,6 +42,12 @@ export default class CashbackBillsScreen extends React.Component {
         isLoading: false
       });
     }
+  };
+
+  openCashbackGuidelinesScreen = () => {
+    this.statusModal.hide();
+    this.cashbackDispersedModal.hide();
+    this.props.navigation.navigate(SCREENS.CASHBACK_BILL_GUIDELINES_SCREEN);
   };
 
   render() {
@@ -76,17 +83,27 @@ export default class CashbackBillsScreen extends React.Component {
               </View>
             ) : null
           }
-          renderItem={({ item }) => <CashbackClaimItem item={item} statusModal={() => this.statusModal.show(item)} cashbackDispersedModal={() => this.cashbackDispersedModal.show(item)} />}
+          renderItem={({ item }) => (
+            <CashbackClaimItem
+              item={item}
+              statusModal={() => this.statusModal.show(item)}
+              cashbackDispersedModal={() =>
+                this.cashbackDispersedModal.show(item)
+              }
+            />
+          )}
         />
         <StatusModal
           ref={node => {
             this.statusModal = node;
           }}
+          openCashbackGuidelinesScreen={this.openCashbackGuidelinesScreen}
         />
         <CashbackDispersedModal
           ref={node => {
             this.cashbackDispersedModal = node;
           }}
+          openCashbackGuidelinesScreen={this.openCashbackGuidelinesScreen}
         />
       </View>
     );

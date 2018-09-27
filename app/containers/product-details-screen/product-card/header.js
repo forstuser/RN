@@ -69,6 +69,7 @@ class Header extends Component {
       showImportantTab = true,
       viewBillRef,
       shareBtnRef,
+      milageBtnRef,
       reviewBtnRef
     } = this.props;
     let tabNameArray = ["CUSTOMER CARE", "PRODUCT LIFE CYCLE"];
@@ -275,7 +276,11 @@ class Header extends Component {
               </View>
             </View>
             {/* 3 buttons (view bill,share and rating) end */}
-            <FuelExpense product={product} navigation={navigation} />
+            <FuelExpense
+              milageRef={ref => milageBtnRef(ref)}
+              product={product}
+              navigation={navigation}
+            />
             <View style={styles.tabs}>
               {tabNameArray.map((tab, index) => {
                 if (!showCustomerCareTab && index == 0) {

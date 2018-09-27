@@ -206,6 +206,8 @@ class DashboardScreen extends React.Component {
           notificationCount={notificationCount}
           recentSearches={recentSearches}
           navigation={this.props.navigation}
+          dykRef={ref => (this.dykIconref = ref)}
+          mailboxRef={ref => (this.mailboxIconref = ref)}
         />
         <View style={styles.container}>
           <CircularTabs
@@ -307,10 +309,14 @@ class DashboardScreen extends React.Component {
           />
           <View
             collapsable={false}
-            ref={ref => (this.doYouKnowTabItemRef = ref)}
+            ref={ref => (this.shopAndEarn = ref)}
             style={styles.dummyForTooltip}
           />
-          <View collapsable={false} style={styles.dummyForTooltip} />
+          <View
+            collapsable={false}
+            style={styles.dummyForTooltip}
+            ref={ref => (this.mySeller = ref)}
+          />
         </View>
         <Tour
           ref={ref => (this.dashboardTour = ref)}
@@ -318,9 +324,13 @@ class DashboardScreen extends React.Component {
           steps={[
             { ref: this.addProductBtnRef, text: I18n.t("plus_btn_tip") },
             { ref: this.ehomeTabItemRef, text: I18n.t("ehome_tip") },
-            { ref: this.doYouKnowTabItemRef, text: I18n.t("do_you_know_tip") },
+            { ref: this.dealsTabItemRef, text: I18n.t("deals_tip") },
+            { ref: this.shopAndEarn, text: I18n.t("shop_n_earn") },
+            { ref: this.mySeller, text: I18n.t("my_seller_tip") },
             { ref: this.comingUpRef, text: I18n.t("coming_up_tip") },
-            { ref: this.insightsRef, text: I18n.t("insights_tip") }
+            { ref: this.insightsRef, text: I18n.t("insights_tip") },
+            { ref: this.dykIconref, text: I18n.t("do_you_know_tip") },
+            { ref: this.mailboxIconref, text: I18n.t("mailbox_tip") }
             //{ ref: this.calendarRef, text: I18n.t("attendance_tip") }
             //{ ref: this.ascRef, text: I18n.t("asc_tip") }
           ]}

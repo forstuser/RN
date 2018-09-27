@@ -33,7 +33,6 @@ class TabSearchHeader extends Component {
     this.props.navigation.navigate(SCREENS.MAILBOX_SCREEN);
   };
   openDykScreen = () => {
-    console.log("dyk");
     // Analytics.logEvent(Analytics.EVENTS.OPEN_MAILS);
     this.props.navigation.navigate(SCREENS.DO_YOU_KNOW_SCREEN);
   };
@@ -47,7 +46,9 @@ class TabSearchHeader extends Component {
       dyk = true,
       showRightSideSearchIcon = false,
       onRightSideSearchIconPress,
-      navigation
+      navigation,
+      dykRef,
+      mailboxRef
     } = this.props;
     return (
       <View style={styles.container}>
@@ -72,16 +73,22 @@ class TabSearchHeader extends Component {
               <TouchableOpacity
                 onPress={this.openDykScreen}
                 style={styles.dykContainer}
-                ref={this.props.dykIconRef}
               >
-                <Image style={styles.messagesIcon} source={dykIcon} />
+                <Image
+                  ref={dykRef}
+                  style={styles.messagesIcon}
+                  source={dykIcon}
+                />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={this.openMailboxScreen}
                 style={styles.messagesContainer}
-                ref={this.props.mailboxIconRef}
               >
-                <Image style={styles.messagesIcon} source={messagesIcon} />
+                <Image
+                  ref={mailboxRef}
+                  style={styles.messagesIcon}
+                  source={messagesIcon}
+                />
                 {notificationCount > 0 ? (
                   <View style={styles.messagesCountContainer}>
                     <Text weight="Bold" style={styles.messagesCount}>
@@ -132,7 +139,12 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.25,
-    shadowRadius: 2
+    shadowRadius: 2,
+    ...Platform.select({
+      ios: {
+        paddingTop: 20
+      }
+    })
   },
   headerRight: {
     flexDirection: "row",

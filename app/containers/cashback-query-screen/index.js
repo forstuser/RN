@@ -97,6 +97,9 @@ export default class CashbackQueryScreen extends React.Component {
             } else if (item.is_rejected) {
               statusColor = "red";
               statusText = "Rejected";
+            } else if (item.is_discarded) {
+              statusColor = "red";
+              statusText = "Discarded";
             }
 
             return (
@@ -134,7 +137,8 @@ export default class CashbackQueryScreen extends React.Component {
                     </Text>
                   </Text>
                   <Text style={{ fontSize: 14, marginVertical: 5 }}>
-                    Price :<Text weight="Bold">{` ` + (item.amount_paid || 0)}</Text>
+                    Price :
+                    <Text weight="Bold">{` ` + (item.amount_paid || 0)}</Text>
                   </Text>
                   <Text style={{ fontSize: 14 }}>
                     BB Cashback Earned :

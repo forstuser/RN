@@ -17,35 +17,19 @@ class RedeemViaPaytmScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    const { navigation } = this.props;
-    const totalCashback = navigation.getParam("totalCashback", 0);
+
     this.state = {
-      amountToRedeem: totalCashback,
       isLoading: false
     };
   }
 
-  changeAmountToRedeem = amountToRedeem => {
-    this.state({ amountToRedeem });
-  };
-
   redeemAmount = async () => {
-    const { amountToRedeem } = this.state;
-
     const { navigation } = this.props;
     const totalCashback = navigation.getParam("totalCashback", 0);
 
-    if (!amountToRedeem || amountToRedeem < 0) {
-      return showSnackbar({ text: "Please enter a positive value" });
-    } else if (amountToRedeem > totalCashback) {
-      return showSnackbar({
-        text: "Please enter a value less than " + totalCashback
-      });
-    }
-
     this.setState({ isLoading: true });
     try {
-      const res = await redeemToPaytm({ amountToRedeem });
+      const res = await redeemToPaytm();
       showSnackbar({
         text: "Cashback successfull"
       });
@@ -62,8 +46,10 @@ class RedeemViaPaytmScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
+    const totalCashback = navigation.getParam("totalCashback", 0);
+
     const seller = navigation.getParam("seller", {});
-    const { amountToRedeem, isLoading } = this.state;
+    const { isLoading } = this.state;
 
     //console.log("pointsToRedeem: ", pointsToRedeem);
 
@@ -90,7 +76,7 @@ class RedeemViaPaytmScreen extends React.Component {
               textAlign: "center"
             }}
           >
-            {amountToRedeem}
+            {totalCashback}
           </Text>
         </View>
         <Text style={{ textAlign: "center", fontSize: 11, marginTop: 20 }}>

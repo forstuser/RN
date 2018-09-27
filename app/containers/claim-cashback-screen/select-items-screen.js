@@ -482,6 +482,7 @@ export default class SelectCashbackItems extends React.Component {
             changeSkuItemQuantityInList={this.changeSkuItemQuantityInList}
             updateItem={this.updateItem}
             hideAddManually={true}
+            hideSellerFilter={true}
           />
         </View>
 

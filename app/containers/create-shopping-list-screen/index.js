@@ -15,8 +15,10 @@ import {
   getSkuWishList,
   addSkuItemToWishList,
   clearWishList,
-  getMySellers
+  getMySellers,
+  getSellerSkuCategories
 } from "../../api";
+
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { showSnackbar } from "../../utils/snackbar";
@@ -41,6 +43,7 @@ class ShoppingListScreen extends React.Component {
     wishListError: null,
     measurementTypes: {},
     mainCategories: [],
+    sellerMainCategories: [],
     activeMainCategoryId: null,
     activeCategoryId: null,
     selectedCategoryIds: [],
@@ -57,7 +60,7 @@ class ShoppingListScreen extends React.Component {
     brands: [],
     selectedBrands: [],
     sellers: [],
-    selectedSellers: [],
+    selectedSeller: null,
     isWishListLimit: false
   };
 
@@ -315,41 +318,82 @@ class ShoppingListScreen extends React.Component {
       selectedCategoryIds,
       searchTerm,
       selectedBrands,
-      selectedSellers
+      selectedSeller
     } = this.state;
+
     try {
-      const res = await getSkuItems({
+      const data = {
         mainCategoryId: activeMainCategoryId,
         categoryIds: !searchTerm ? selectedCategoryIds : undefined,
         searchTerm: searchTerm || undefined,
         brandIds: selectedBrands.map(brand => brand.id),
-        sellerIds: selectedSellers.map(seller => seller.id)
-      });
+        sellerId: selectedSeller ? selectedSeller.id : undefined
+      };
+
+      const res = await getSkuItems(data);
       //console.log("Sellers list in shop and earn: ", res.seller_list);
-      this.setState({
+      const newState = {
         isSearching: false,
         isSearchDone: true,
         items: res.result.sku_items,
         brands: res.result.brands,
         sellers: res.seller_list
-      });
+      };
+
+      this.setState(newState);
     } catch (error) {
       console.log(error);
       this.setState({ isSearching: false, searchError: error });
     }
   };
 
-  setSelectedBrands = selectedBrands => {
+  setSelectedBrands = (selectedBrands, stopItemLoad = false) => {
     this.setState({ selectedBrands }, () => {
-      this.loadItems();
+      if (!stopItemLoad) {
+        this.loadItems();
+      }
     });
   };
 
-  setSelectedSellers = selectedSellers => {
-    this.setState({ selectedSellers }, () => {
-      this.loadItems();
-      this.clearWishList();
-    });
+  setSelectedSellers = async selectedSellers => {
+    const { selectedSeller } = this.state;
+
+    if (selectedSellers.length > 0) {
+      this.setState({
+        selectedSeller: selectedSellers[0],
+        activeMainCategoryId: null,
+        activeCategoryId: null
+      });
+      try {
+        this.setState({ isSearching: true });
+        const res = await getSellerSkuCategories({
+          sellerId: selectedSellers[0].id
+        });
+        this.setState(
+          {
+            sellerMainCategories: res.result
+          },
+          () => {
+            this.loadItems();
+            this.clearWishList();
+          }
+        );
+      } catch (e) {
+        showSnackbar({ text: e.message });
+        this.setState({ isSearching: false });
+      }
+    } else {
+      this.setState(
+        {
+          selectedSeller: null,
+          sellerMainCategories: []
+        },
+        () => {
+          this.loadReferenceData();
+          this.clearWishList();
+        }
+      );
+    }
   };
 
   clearWishList = async () => {
@@ -376,6 +420,7 @@ class ShoppingListScreen extends React.Component {
       wishListError,
       measurementTypes,
       mainCategories,
+      sellerMainCategories,
       skuData,
       isBarcodeScannerVisible,
       pastItems,
@@ -389,16 +434,14 @@ class ShoppingListScreen extends React.Component {
       brands,
       selectedBrands,
       sellers,
-      selectedSellers
+      selectedSeller
     } = this.state;
-
-    //console.log('selectedSellers Name: ', selectedSellers[0]);
 
     if (referenceDataError || wishListError) {
       return (
         <ErrorOverlay
           error={referenceDataError || wishListError}
-          onRetryPress={this.loadInitialData}
+          onRetryPress={this.loadSkuWishList}
         />
       );
     }
@@ -406,9 +449,7 @@ class ShoppingListScreen extends React.Component {
     return (
       <DrawerScreenContainer
         title={
-          selectedSellers.length === 0
-            ? "Create Shopping List"
-            : selectedSellers[0].seller_name
+          selectedSeller ? selectedSeller.seller_name : "Create Shopping List"
         }
         navigation={navigation}
         headerRight={
@@ -439,7 +480,7 @@ class ShoppingListScreen extends React.Component {
                   measurementTypes: measurementTypes,
                   wishList,
                   changeIndexQuantity: this.changeIndexQuantity,
-                  selectedSellers
+                  selectedSellers: [selectedSeller]
                 });
               }}
             >
@@ -480,6 +521,7 @@ class ShoppingListScreen extends React.Component {
         <View style={{ flex: 1 }}>
           <SearchBar
             mainCategories={mainCategories}
+            sellerMainCategories={sellerMainCategories}
             activeMainCategoryId={activeMainCategoryId}
             selectedCategoryIds={selectedCategoryIds}
             updateMainCategoryIdInParent={activeMainCategoryId =>
@@ -495,7 +537,7 @@ class ShoppingListScreen extends React.Component {
             brands={brands}
             sellers={sellers}
             selectedBrands={selectedBrands}
-            selectedSellers={selectedSellers}
+            selectedSeller={selectedSeller}
             setSelectedBrands={this.setSelectedBrands}
             setSelectedSellers={this.setSelectedSellers}
             isSearchDone={isSearchDone}
