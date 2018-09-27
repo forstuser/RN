@@ -91,7 +91,7 @@ class Body extends Component {
     const { profile } = this.props;
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&subject=BinBill:Customer Feedback(${
-      profile ? profile.mobile_no : ""
+        profile ? profile.mobile_no : ""
       })`
     );
   };
@@ -178,6 +178,9 @@ class Body extends Component {
     const location =
       profile && profile.location ? profile.location : LOCATIONS.OTHER;
 
+    //console.log("Profile in Drawer", profile);
+    //console.log("Location in Drawer", location);
+
     return (
       <ScrollView>
         <MoreItem
@@ -186,14 +189,14 @@ class Body extends Component {
           text={"My Orders"}
           imageStyle={{ width: 20, height: 20 }}
         />
-        {location != LOCATIONS.OTHER && (
+        {location !== LOCATIONS.OTHER ? (
           <MoreItem
             onPress={this.onCashbackBillsPress}
             imageSource={require("../../images/cashback_bills.png")}
             text={"Cashback Claims"}
             imageStyle={{ width: 20, height: 20 }}
           />
-        )}
+        ) : null}
         <MoreItem
           onPress={this.onAppPinPress}
           imageSource={require("../../images/ic_app_pin.png")}
@@ -227,18 +230,20 @@ class Body extends Component {
           imageSource={require("../../images/ic_more_faq.png")}
           text={I18n.t("more_screen_item_faq")}
         />
-        <MoreItem
-          onPress={this.onCashbackBillGuidelinesPress}
-          imageSource={require("../../images/ic_more_faq.png")}
-          text='Cashback Bill Guidelines'
-        />
-        {location != LOCATIONS.OTHER && (
+        {location !== LOCATIONS.OTHER ? (
+          <MoreItem
+            onPress={this.onCashbackBillGuidelinesPress}
+            imageSource={require("../../images/ic_more_faq.png")}
+            text="Cashback Bill Guidelines"
+          />
+        ) : null}
+        {location !== LOCATIONS.OTHER ? (
           <MoreItem
             onPress={this.onCashbackQueryPress}
             imageSource={require("../../images/cashback_query.png")}
             text={"Cashback Query"}
           />
-        )}
+        ) : null}
         <Separator />
         {/* <MoreItem
           onPress={() =>

@@ -13,13 +13,13 @@ import LoadingOverlay from "../../components/loading-overlay";
 import { updateProfile } from "../../api";
 import Snackbar from "../../utils/snackbar";
 import { defaultStyles, colors } from "../../theme";
-import DelhiImage from "./delhi.png";
-import GurgaonImage from "./gurgaon.png";
-import NoidaImage from "./noida.png";
-import GreaterNoidaImage from "./greater-noida.png";
-import GhaziabadImage from "./ghaziabad.png";
-import FaridabadImage from "./faridabad.png";
-import OtherCityImage from "./other.png";
+import DelhiImage from "../../images/cities/delhi.png";
+import GurgaonImage from "../../images/cities/gurgaon.png";
+import NoidaImage from "../../images/cities/noida.png";
+import GreaterNoidaImage from "../../images/cities/greater-noida.png";
+import GhaziabadImage from "../../images/cities/ghaziabad.png";
+import FaridabadImage from "../../images/cities/faridabad.png";
+import OtherCityImage from "../../images/cities/other.png";
 
 const deviceWidth = Dimensions.get("window").width;
 

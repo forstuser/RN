@@ -7,6 +7,7 @@ import SelectSellerHeader from "./select-seller-header";
 import SingleSeller from "./single-seller";
 import { getSellersBBCashWallet, redeemCashbackToSeller } from "../../api";
 import { showSnackbar } from "../../utils/snackbar";
+import { SCREENS } from "../../constants";
 
 class SelectSellerScreen extends Component {
   static navigationOptions = {
@@ -71,6 +72,7 @@ class SelectSellerScreen extends Component {
     } finally {
       this.setState({ isLoading: false });
     }
+    this.props.navigation.navigate(SCREENS.BB_CASH_WALLET_SCREEN);
   };
 
   renderSellers = ({ item: seller, index }) => {

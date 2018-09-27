@@ -17,6 +17,8 @@ import Analytics from "../analytics";
 import { SCREENS } from "../constants";
 
 let setMsgInterval = null;
+let actualMsg = null;
+let otpFromMsg = null;
 
 class VerifyScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -53,8 +55,9 @@ class VerifyScreen extends Component {
     });
   }
 
-  componentDidMount() {
-    setMsgInterval = setInterval(this.getMsgFunction, 2000);
+  async componentDidMount() {
+    if (Platform.OS == "android" && (await requestSmsReadPermission()))
+      setMsgInterval = setInterval(this.getMsgFunction, 2000);
   }
 
   componentWillUnmount() {
@@ -62,30 +65,39 @@ class VerifyScreen extends Component {
   }
 
   getMsgFunction = async () => {
-    if (Platform.OS == "android" && (await requestSmsReadPermission())) {
-      let filter = {
-        box: "inbox",
-        indexFrom: 0,
-        maxCount: 5
-      };
-      SmsAndroid.list(
-        JSON.stringify(filter),
-        fail => {
-          console.log("SMS read failed with this error: " + fail);
-        },
-        (count, smsList) => {
-          console.log("SMS Count: ", count);
-          //console.log("SMS List: ", smsList);
-          let arr = JSON.parse(smsList);
-
-          arr.forEach(function(object) {
-            //console.log("Object: " + object);
-            //console.log("-->" + object.date);
-            console.log("Message: " + object.body);
-          });
-        }
-      );
-    }
+    let filter = {
+      box: "inbox",
+      indexFrom: 0,
+      maxCount: 1
+    };
+    SmsAndroid.list(
+      JSON.stringify(filter),
+      fail => {
+        console.log("SMS read failed with this error: " + fail);
+      },
+      (count, smsList) => {
+        console.log("SMS Count: ", count);
+        //console.log("SMS List: ", smsList);
+        var arr = JSON.parse(smsList);
+        arr.forEach(function(object) {
+          var lastSix = object.address.substr(object.address.length - 6);
+          //console.log("Object: " + object);
+          //console.log("-->" + object.date);
+          //console.log("Message: " + object.body);
+          if (lastSix === "BINBIL") {
+            actualMsg = object.body;
+            //console.log("OTP", actualMsg.substr(27, 4));
+            otpFromMsg = actualMsg.substr(27, 4);
+            //console.log("OTP: ", otpFromMsg);
+            return;
+          }
+        });
+      }
+    );
+    if (otpFromMsg !== null) {
+      this.setState({ otp: otpFromMsg });
+      this.onSubmitOtp();
+    } else this.setState({ otp: "" });
   };
 
   onResendOtp = async () => {

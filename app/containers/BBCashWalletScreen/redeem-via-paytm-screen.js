@@ -8,6 +8,7 @@ import { redeemToPaytm } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 
 import { showSnackbar } from "../../utils/snackbar";
+import { SCREENS } from "../../constants";
 
 class RedeemViaPaytmScreen extends React.Component {
   static navigationOptions = {
@@ -56,6 +57,7 @@ class RedeemViaPaytmScreen extends React.Component {
     } finally {
       this.setState({ isLoading: false });
     }
+    this.props.navigation.navigate(SCREENS.BB_CASH_WALLET_SCREEN);
   };
 
   render() {

@@ -27,11 +27,11 @@ export default class SearchBar extends React.Component {
     isBrandsPopupVisible: false,
     checkedBrands: [],
     checkedSellers: [],
-    isModalVisible: false,
+    isModalVisible: false
   };
 
   hideFilter = () => {
-      this.setState({ isBrandsPopupVisible: false });
+    this.setState({ isBrandsPopupVisible: false });
   };
 
   toggleBrandsPopup = () => {
@@ -67,7 +67,9 @@ export default class SearchBar extends React.Component {
 
   toggleSellerSelection = seller => {
     const checkedSellers = [];
-    const idx = checkedSellers.findIndex(sellerItem => sellerItem.id == seller.id);
+    const idx = checkedSellers.findIndex(
+      sellerItem => sellerItem.id == seller.id
+    );
     if (idx == -1) {
       checkedSellers.push(seller);
     } else {
@@ -93,10 +95,17 @@ export default class SearchBar extends React.Component {
   };
 
   resetBrandsFilter = () => {
-    const { setSelectedBrands = () => null, setSelectedSellers = () => null } = this.props;
+    const {
+      setSelectedBrands = () => null,
+      setSelectedSellers = () => null
+    } = this.props;
     setSelectedBrands([]);
     setSelectedSellers([]);
-    this.setState({ isBrandsPopupVisible: false, checkedBrands: [], checkedSellers: [] });
+    this.setState({
+      isBrandsPopupVisible: false,
+      checkedBrands: [],
+      checkedSellers: []
+    });
   };
 
   startSearch = () => {
@@ -157,7 +166,9 @@ export default class SearchBar extends React.Component {
       : null;
 
     const checkedBrandIds = checkedBrands.map(checkedBrand => checkedBrand.id);
-    const checkedSellerIds = checkedSellers.map(checkedSeller => checkedSeller.id);
+    const checkedSellerIds = checkedSellers.map(
+      checkedSeller => checkedSeller.id
+    );
 
     selectActiveSkuMeasurementId = (item, skuMeasurementId) => {
       const itemIdx = items.findIndex(listItem => listItem.id == item.id);
@@ -436,7 +447,7 @@ export default class SearchBar extends React.Component {
                       style={{ fontSize: 12 }}
                       numberOfLines={2}
                     >
-                      {item.title}
+                      {item.title.toUpperCase()}
                     </Text>
                   </TouchableOpacity>
                 )}
