@@ -74,8 +74,8 @@ class SelectServiceTypeStep extends React.Component {
 
   onOptionSelect = option => {
     // Analytics.logEvent(Analytics.EVENTS.SELECT_SERVICE_TYPE, {
-      type: option.name
-    });
+    //   type: option.name
+    // });
 
     const { selectedOption } = this.state;
     //if clicked on already selected options
