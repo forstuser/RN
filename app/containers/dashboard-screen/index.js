@@ -20,7 +20,7 @@ import Analytics from "../../analytics";
 import { openAddProductsScreen } from "../../navigation";
 import { consumerGetDashboard, getProfileDetail } from "../../api";
 import { Text, Button, ScreenContainer } from "../../elements";
-import BlankDashboard from "./blank-dashboard";
+//import BlankDashboard from "./blank-dashboard";
 import CircularTabs from "../../components/circular-tabs";
 import TabSearchHeader from "../../components/tab-screen-header2";
 import InsightChart from "../../components/insight-chart";
