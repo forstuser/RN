@@ -20,6 +20,7 @@ export default class StatusModal extends React.Component {
   };
 
   render() {
+    const { openCashbackGuidelinesScreen } = this.props;
     const { isVisible, item } = this.state;
 
     let title = "Approved";
@@ -171,11 +172,12 @@ export default class StatusModal extends React.Component {
             </View>
           ) : null}
           <View style={{ marginTop: 15, alignItems: "center" }}>
-            <Text style={{ fontSize: 14 }}>
+            {/* <Text style={{ fontSize: 14 }}>
               <Text style={{ color: colors.mainBlue }}>Click here</Text> if you
               have any query.
-            </Text>
+            </Text> */}
             <Text
+              onPress={openCashbackGuidelinesScreen}
               style={{
                 marginTop: 5,
                 fontSize: 14,

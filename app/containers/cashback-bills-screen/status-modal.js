@@ -20,6 +20,7 @@ export default class StatusModal extends React.Component {
   };
 
   render() {
+    const { openCashbackGuidelinesScreen } = this.props;
     const { isVisible, item } = this.state;
 
     let title = "Approved";
@@ -53,9 +54,10 @@ export default class StatusModal extends React.Component {
         >
           <Text style={{ textAlign: "center" }}>{description}</Text>
           <Text
+            onPress={openCashbackGuidelinesScreen}
             style={{
               marginTop: 36,
-              fontSize: 9,
+              fontSize: 14,
               textAlign: "center",
               color: colors.mainBlue,
               textDecorationLine: "underline"
