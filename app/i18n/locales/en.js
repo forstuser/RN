@@ -780,7 +780,7 @@ export default {
   product_card_add_image_tip:
     "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more shareable with your friends and family.",
   deals_filter_tip: "Filter your requirement further.",
-
+  milage_tip: "Mileage Meter tracks your vehicle's mileage.",
   //blank dashboard
   blank_dashboard_headline: "Welcome to BinBill",
   blank_dashboard_text: "Your Own Home Manager",
