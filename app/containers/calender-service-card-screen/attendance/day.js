@@ -14,6 +14,8 @@ import {
   CALENDAR_WAGES_TYPE
 } from "../../../constants";
 
+import { showSnackbar } from "../../../utils/snackbar";
+
 class Month extends React.Component {
   constructor(props) {
     super(props);
@@ -82,8 +84,11 @@ class Month extends React.Component {
     try {
       await addCalendarItemCalculationDetail({
         itemId: item.id,
-        unitType: calculationDetail.unit.id,
-        unitPrice: calculationDetail.unit_price,
+        unitType:
+          calculationDetail && calculationDetail.unit
+            ? calculationDetail.unit.id
+            : null,
+        unitPrice: calculationDetail ? calculationDetail.unit_price : null,
         quantity: quantity,
         effectiveDate: date,
         selectedDays: calculationDetail.selected_days
@@ -103,8 +108,11 @@ class Month extends React.Component {
       if (isNextDateRequestRequired) {
         await addCalendarItemCalculationDetail({
           itemId: item.id,
-          unitType: calculationDetail.unit.id,
-          unitPrice: calculationDetail.unit_price,
+          unitType:
+            calculationDetail && calculationDetail.unit
+              ? calculationDetail.unit.id
+              : null,
+          unitPrice: calculationDetail ? calculationDetail.unit_price : null,
           quantity: calculationDetail.quantity,
           effectiveDate: nextDate,
           selectedDays: calculationDetail.selected_days

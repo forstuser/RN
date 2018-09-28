@@ -106,8 +106,14 @@ class CalendarServiceCard extends Component {
               text: I18n.t("yes_delete"),
               onPress: async () => {
                 this.setState({ isLoading: true });
-                await deleteCalendarItem(item.id);
-                this.props.navigation.goBack();
+                try {
+                  await deleteCalendarItem(item.id);
+                  this.props.navigation.goBack();
+                } catch (e) {
+                  showSnackbar({ text: e.message });
+                } finally {
+                  this.setState({ isLoading: false });
+                }
               }
             },
             {

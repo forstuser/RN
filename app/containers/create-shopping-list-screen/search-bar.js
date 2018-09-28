@@ -140,6 +140,14 @@ export default class SearchBar extends React.Component {
     showSnackbar({ text: "Item added to the list" });
   };
 
+  changeMainCategory = id => {
+    const { updateMainCategoryIdInParent } = this.props;
+    if (this.categoryScrollView) {
+      this.categoryScrollView.scrollTo({ x: 0, y: 0, animated: false });
+    }
+    updateMainCategoryIdInParent(id);
+  };
+
   render() {
     const {
       mainCategories = [],
@@ -405,6 +413,9 @@ export default class SearchBar extends React.Component {
           !searchTerm && (
             <View style={{ height: 34, paddingHorizontal: 5, marginBottom: 7 }}>
               <ScrollView
+                ref={node => {
+                  this.categoryScrollView = node;
+                }}
                 horizontal
                 style={{}}
                 showsHorizontalScrollIndicator={false}
@@ -477,7 +488,7 @@ export default class SearchBar extends React.Component {
                 renderItem={({ item }) => (
                   <TouchableOpacity
                     onPress={() => {
-                      updateMainCategoryIdInParent(item.id);
+                      this.changeMainCategory(item.id);
                     }}
                     style={{
                       justifyContent: "center",
@@ -558,107 +569,7 @@ export default class SearchBar extends React.Component {
             />
           </View>
         </View>
-        {isBrandsPopupVisible ? (
-          // <View
-          //   style={{
-          //     position: "absolute",
-          //     top: 50,
-          //     left: 0,
-          //     right: 0,
-          //     bottom: 0
-          //   }}
-          // >
-          //   <View
-          //     style={{
-          //       flex: 1,
-          //       ...defaultStyles.card,
-          //       borderRadius: 5,
-          //       margin: 10,
-          //       marginTop: 10,
-          //       overflow: "hidden"
-          //     }}
-          //   >
-          //     <Text weight="Bold" style={{ fontSize: 11, padding: 10 }}>
-          //       Filter By Brands
-          //     </Text>
-          //     <View
-          //       style={{
-          //         flex: 1,
-          //         borderTopColor: "#efefef",
-          //         borderTopWidth: 1
-          //       }}
-          //     >
-          //       <FlatList
-          //         data={brands}
-          //         extraData={brands}
-          //         renderItem={({ item }) => (
-          //           <TouchableOpacity
-          //             onPress={() => this.toggleBrandSelection(item)}
-          //             style={{
-          //               flexDirection: "row",
-          //               padding: 8,
-          //               alignItems: "center"
-          //             }}
-          //           >
-          //             <Text style={{ flex: 1, fontSize: 10 }}>
-          //               {item.title}
-          //             </Text>
-          //             <Checkbox isChecked={checkedBrandIds.includes(item.id)} />
-          //           </TouchableOpacity>
-          //         )}
-          //         extraData={wishList}
-          //         keyExtractor={(item, index) => item.id}
-          //         ItemSeparatorComponent={() => (
-          //           <View style={{ backgroundColor: "#efefef", height: 1 }} />
-          //         )}
-          //       />
-          //     </View>
-          //     <View style={{ flexDirection: "row" }}>
-          //       <TouchableOpacity
-          //         onPress={this.applyBrandsFilter}
-          //         style={{
-          //           flex: 1,
-          //           height: 48,
-          //           backgroundColor: colors.pinkishOrange,
-          //           alignItems: "center",
-          //           justifyContent: "center"
-          //         }}
-          //       >
-          //         <Text weight="Bold" style={{ fontSize: 15, color: "#fff" }}>
-          //           Apply Filter
-          //         </Text>
-          //       </TouchableOpacity>
-          //       <TouchableOpacity
-          //         onPress={this.resetBrandsFilter}
-          //         style={{
-          //           flex: 1,
-          //           height: 48,
-          //           backgroundColor: colors.lighterText,
-          //           alignItems: "center",
-          //           justifyContent: "center"
-          //         }}
-          //       >
-          //         <Text weight="Bold" style={{ fontSize: 15, color: "#fff" }}>
-          //           Reset Filter
-          //         </Text>
-          //       </TouchableOpacity>
-          //     </View>
-          //   </View>
-          //   <Icon
-          //     name="md-arrow-dropup"
-          //     size={45}
-          //     color="#eee"
-          //     style={{
-          //       position: "absolute",
-          //       right: 14,
-          //       top: -17
-          //     }}
-          //   />
-          // </View>
-          this.filterModal.show()
-        ) : (
-          <View />
-        )}
+        {isBrandsPopupVisible ? this.filterModal.show() : <View />}
         <FilterModal
           ref={node => {
             this.filterModal = node;
