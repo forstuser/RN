@@ -25,19 +25,32 @@ There are multiple `index` files but they all just import the `app` folder. They
 
 # Few Important Notes
 
+## Crash without red screen
+
 1. If app is crashing without red screen.then it can be due to
 
 ```
 {condition && <View></View>}
 ```
 
-#Solution
+#### Solution
+
 replace it with ternary operator e.g.
 
 ```
-   {data?<View></View>:null}
+{condition ? <View></View>:null}
 ```
 
 # android
 
-Android part is a little problematic to setup. Make sure you have android sdk version 27 installed.
+Android part is a little problematic to setup. Make sure you have android sdk version 27 installed. After every `npm` or `yarn` install, there are changes to be made in `gradle` files of some libraries.
+Open the `android` folder in root directory in Android Studio and make following changes in the gradle files of the libraries:
+
+1. Change version of every `com.google.android.gms:play-services` dependency to `+`, means change `com.google.android.gms:play-services-places:12.1` to `com.google.android.gms:play-services-places:+`
+2. Change version of every `com.android.support` to `27.0.2` or the version your device has. e.g. change `com.android.support:appcompat-v7:25.0.1 to`com.android.support:appcompat-v7:27.0.2`
+
+Don't forget to clean the android project regularly as it may show errors even if everything is alright. You can clean android project by running `./gradlew clean` in android folder and `yarn run android-clean` in root folder. Also restart android studio or computer if everything looks alright but building gives error.
+
+## android release build
+
+Making release build from Android Studio can be problematic and codepush may not work. But command line way works better.
