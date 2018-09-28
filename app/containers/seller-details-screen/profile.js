@@ -341,7 +341,8 @@ class SellerProfileTab extends React.Component {
               width: 185,
               height: 60,
               paddingTop: 10,
-              marginTop: 10
+              marginTop: -10,
+              marginLeft: 25
             }}
           >
             <TouchableOpacity onPress={this.call} style={[styles.button]}>

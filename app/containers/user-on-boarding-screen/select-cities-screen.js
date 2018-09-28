@@ -81,7 +81,9 @@ class SelectCitiesScreen extends Component {
   };
 
   onSubmitPressed = async () => {
+    this.setState({ isLoading: true });
     if (this.state.location === "") {
+      this.setState({ isLoading: false });
       return Snackbar.show({
         title: "Please Select Location",
         duration: Snackbar.LENGTH_SHORT
@@ -140,6 +142,7 @@ class SelectCitiesScreen extends Component {
           color="secondary"
           textStyle={{ fontSize: 20 }}
         />
+        <LoadingOverlay visible={this.state.isLoading} />
       </ScrollView>
     );
   }

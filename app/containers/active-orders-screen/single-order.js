@@ -118,18 +118,29 @@ class SingleOrder extends Component {
     return (
       <TouchableOpacity style={styles.container} onPress={this.props.onPress}>
         <View style={[styles.box, styles.box1]}>
-          <Image
+          <View
             style={{
-              width: 68,
-              height: 68,
-              borderRadius: 35
+              width: 70,
+              height: 70,
+              borderRadius: 34,
+              backgroundColor: "#eee",
+              alignItems: "center",
+              justifyContent: "center"
             }}
-            source={{
-              uri:
-                API_BASE_URL +
-                `/consumer/sellers/${item.seller_id}/upload/1/images/0`
-            }}
-          />
+          >
+            <Image
+              style={{
+                width: 68,
+                height: 68,
+                borderRadius: 35
+              }}
+              source={{
+                uri:
+                  API_BASE_URL +
+                  `/consumer/sellers/${item.seller_id}/upload/1/images/0`
+              }}
+            />
+          </View>
         </View>
         <View style={[styles.box, styles.box2]}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>

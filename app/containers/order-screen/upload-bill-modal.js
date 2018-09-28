@@ -50,7 +50,7 @@ export default class UploadBillModal extends React.Component {
       >
         <View style={{ padding: 20 }}>
           <Text style={{ textAlign: "center", fontSize: 16, marginBottom: 20 }}>
-            Upload invoice to claim cashback
+            Upload your Bill to claim cashback
           </Text>
 
           <TouchableOpacity

@@ -283,7 +283,11 @@ class DashboardScreen extends React.Component {
             style={styles.fab}
             onPress={() => this.showAddProductOptionsScreen()}
           >
-            <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+            {/* <Image style={styles.uploadFabIcon} source={uploadFabIcon} /> */}
+            <Icon name="md-camera" color="#fff" size={30} />
+            <Text weight="Bold" style={{ color: "#fff", fontSize: 10 }}>
+              Claim
+            </Text>
           </TouchableOpacity>
         ) : (
           <View />
