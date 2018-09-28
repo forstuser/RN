@@ -233,7 +233,7 @@ class Body extends Component {
         {location !== LOCATIONS.OTHER ? (
           <MoreItem
             onPress={this.onCashbackBillGuidelinesPress}
-            imageSource={require("../../images/ic_more_faq.png")}
+            imageSource={require("../../images/guidelines.png")}
             text="Cashback Bill Guidelines"
           />
         ) : null}
