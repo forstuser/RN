@@ -97,8 +97,7 @@ class VerifyScreen extends Component {
     if (otpFromMsg !== null) {
       this.setState({ otp: otpFromMsg });
       this.onSubmitOtp();
-    } 
-    //else this.setState({ otp: "" });
+    }
   };
 
   onResendOtp = async () => {

@@ -29,14 +29,19 @@ export default {
   i_will_do_it_later: "I'll do it later",
 
   //app intro screen
+  app_intro_1_header: `An App for Home Makers`,
   app_intro_1_title: `Shop & Earn`,
   app_intro_1_desc: `Easy Solution to your On demand Grocery Needs - just create your Shopping List, Shop, Earn Cashback, & Bonus Cashback on purchase from our list of branded items.`,
+  app_intro_2_header: `An App for Home Makers`,
   app_intro_2_title: `Kirana Connect`,
   app_intro_2_desc: `Get Faster Home Delivery, Attractive Discounts & Snapshot of available items with your local kirana shops through online orders.`,
+  app_intro_3_header: `An App for Home Makers`,
   app_intro_3_title: `Home Services`,
   app_intro_3_desc: `Get On-Demand Home Services like domestic help, cleaner, carpenter, plumber etc. from reliable neighbourhood shops through our App`,
+  app_intro_4_header: `An App for Home Makers`,
   app_intro_4_title: `Timely Alerts`,
   app_intro_4_desc: `Receive timely Warranty/Insurance Alerts and connect with Manufacturers for Repair & After Sales issues.`,
+  app_intro_5_header: `An App for Home Makers`,
   app_intro_5_title: `Manage Home Expenses`,
   app_intro_5_desc: `Manage Expenses, Attendance, Bills & Documents and buy the most suited Accessories for your Home Appliances.`,
   app_intro_next: "NEXT",
@@ -745,7 +750,8 @@ export default {
   add_expenses_options_cancel_btn: "CANCEL",
 
   //app-tour texts
-  plus_btn_tip:
+  plus_btn_tip: "Upload your Grocery Bill Now to Claim Cashback.",
+  plus_btn_tip_ehome:
     "Click here to Add your Products, Bills, Expenses and Important Documents.",
   do_you_know_tip:
     "Discover amazing facts & tips related to brands and lifestyle, to fill you with awe! ",
@@ -756,7 +762,7 @@ export default {
   attendance_tip:
     // "Plan your Day for tasks to be done, clothes to be worn and dishes to be cooked. Track attendance & payouts for all your household services too!",
     "Track attendance & payouts for all your household services!",
-  shop_n_earn: "Create your Shopping List Shop and Earn Cashback! ",
+  shop_n_earn: "Create your Grocery Shopping List, Shop and Earn! ",
   my_seller_tip: "Connect with your Sellers on your Daily Shopping & Offers",
   asc_tip:
     "Click here to find Authorised Service Centres of any Brand and connect with just one simple click.",

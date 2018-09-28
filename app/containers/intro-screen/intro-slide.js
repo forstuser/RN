@@ -5,7 +5,7 @@ import { Text } from "../../elements";
 
 import { colors } from "../../theme";
 
-const IntroSlide = ({ image, title, desc }) => (
+const IntroSlide = ({ image, header, title, desc }) => (
   <View collapsable={false} style={styles.container}>
     <LinearGradient
       start={{ x: 0.0, y: 0.4 }}
@@ -17,6 +17,9 @@ const IntroSlide = ({ image, title, desc }) => (
         style={styles.bg}
         source={require("../../images/onboarding/background.png")}
       /> */}
+      <Text style={styles.header} weight="Bold">
+        {header}
+      </Text>
       <View collapsable={false} style={styles.content}>
         <View collapsable={false}>
           <Image style={styles.image} source={image} resizeMode="contain" />
@@ -60,6 +63,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     textAlign: "center",
+    color: colors.mainBlue,
+    paddingHorizontal: 20
+  },
+  header: {
+    fontSize: 20,
+    textAlign: "center",
+    marginTop: 13,
     color: colors.mainText,
     paddingHorizontal: 20
   },

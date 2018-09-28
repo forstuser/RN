@@ -13,30 +13,35 @@ import { SCREENS } from "../../constants";
 const slides = [
   {
     key: "slide1",
+    header: I18n.t("app_intro_1_header"),
     title: I18n.t("app_intro_1_title"),
     desc: I18n.t("app_intro_1_desc"),
     image: require("../../images/onboarding/onboarding1.png")
   },
   {
     key: "slide2",
+    header: I18n.t("app_intro_2_header"),
     title: I18n.t("app_intro_2_title"),
     desc: I18n.t("app_intro_2_desc"),
     image: require("../../images/onboarding/onboarding2.png")
   },
   {
     key: "slide3",
+    header: I18n.t("app_intro_3_header"),
     title: I18n.t("app_intro_3_title"),
     desc: I18n.t("app_intro_3_desc"),
     image: require("../../images/onboarding/onboarding3.png")
   },
   {
     key: "slide4",
+    header: I18n.t("app_intro_4_header"),
     title: I18n.t("app_intro_4_title"),
     desc: I18n.t("app_intro_4_desc"),
     image: require("../../images/onboarding/onboarding4.png")
   },
   {
     key: "slide5",
+    header: I18n.t("app_intro_5_header"),
     title: I18n.t("app_intro_5_title"),
     desc: I18n.t("app_intro_5_desc"),
     image: require("../../images/onboarding/onboarding5.png")

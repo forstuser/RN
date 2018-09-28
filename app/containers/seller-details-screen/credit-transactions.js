@@ -68,7 +68,7 @@ export default class CreditTransactionsTab extends React.Component {
                 }}
               >
                 <Text style={{ marginTop: 40, textAlign: "center" }}>
-                  You have not connected with this Seller as yet.
+                  You have not transacted with this Seller as yet.
                 </Text>
               </View>
             ) : null

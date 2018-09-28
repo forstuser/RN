@@ -283,7 +283,11 @@ class DashboardScreen extends React.Component {
             style={styles.fab}
             onPress={() => this.showAddProductOptionsScreen()}
           >
-            <Image style={styles.uploadFabIcon} source={uploadFabIcon} />
+            {/* <Image style={styles.uploadFabIcon} source={uploadFabIcon} /> */}
+            <Icon name="md-camera" color="#fff" size={30} />
+            <Text weight="Bold" style={{ color: "#fff", fontSize: 10 }}>
+              Claim
+            </Text>
           </TouchableOpacity>
         ) : (
           <View />
@@ -322,7 +326,6 @@ class DashboardScreen extends React.Component {
           ref={ref => (this.dashboardTour = ref)}
           enabled={true}
           steps={[
-            { ref: this.addProductBtnRef, text: I18n.t("plus_btn_tip") },
             { ref: this.ehomeTabItemRef, text: I18n.t("ehome_tip") },
             { ref: this.dealsTabItemRef, text: I18n.t("deals_tip") },
             { ref: this.shopAndEarn, text: I18n.t("shop_n_earn") },
@@ -330,7 +333,8 @@ class DashboardScreen extends React.Component {
             { ref: this.comingUpRef, text: I18n.t("coming_up_tip") },
             { ref: this.insightsRef, text: I18n.t("insights_tip") },
             { ref: this.dykIconref, text: I18n.t("do_you_know_tip") },
-            { ref: this.mailboxIconref, text: I18n.t("mailbox_tip") }
+            { ref: this.mailboxIconref, text: I18n.t("mailbox_tip") },
+            { ref: this.addProductBtnRef, text: I18n.t("plus_btn_tip") }
             //{ ref: this.calendarRef, text: I18n.t("attendance_tip") }
             //{ ref: this.ascRef, text: I18n.t("asc_tip") }
           ]}

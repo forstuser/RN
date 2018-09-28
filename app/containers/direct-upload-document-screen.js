@@ -369,7 +369,7 @@ class DirectUploadDocumentScreen extends React.Component {
         isFinishModalVisible: false
       },
       () => {
-        this.props.navigation.replace(SCREENS.ADD_PRODUCT_SCREEN);
+        this.props.navigation.replace(SCREENS.EHOME_SCREEN);
       }
     );
   };

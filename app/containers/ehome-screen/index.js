@@ -293,14 +293,14 @@ class EhomeScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    hasDealsFilterTooltipShown: state.ui.hasDealsFilterTooltipShown
+    hasEhomeTourShown: state.ui.hasEhomeTourShown
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setUiHasDealsFilterTooltipShown: newValue => {
-      dispatch(uiActions.setUiHasDealsFilterTooltipShown(newValue));
+    setUiHasEhomeTourShown: newValue => {
+      dispatch(uiActions.setUiHasEhomeTourShown(newValue));
     }
   };
 };
