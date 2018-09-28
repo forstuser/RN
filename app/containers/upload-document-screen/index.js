@@ -315,7 +315,7 @@ class UploadDocumentScreen extends Component {
           <Button
             onPress={this.uploadDocuments}
             style={styles.uploadBtn}
-            text={I18n.t("upload_document_screen_upload_btn")}
+            text={"Upload Bill"}
             color="secondary"
           />
         )}
