@@ -20,7 +20,7 @@ import GreaterNoidaImage from "../../images/cities/greater-noida.png";
 import GhaziabadImage from "../../images/cities/ghaziabad.png";
 import FaridabadImage from "../../images/cities/faridabad.png";
 import OtherCityImage from "../../images/cities/other.png";
-
+import Analytics from "../../analytics";
 const deviceWidth = Dimensions.get("window").width;
 
 class SelectCitiesScreen extends Component {
@@ -81,7 +81,7 @@ class SelectCitiesScreen extends Component {
   };
 
   onSubmitPressed = async () => {
-    Analytics.logEvent(Analytics.EVENTS.REGISTRATION_CITYrr);
+    Analytics.logEvent(Analytics.EVENTS.REGISTRATION_CITY);
     if (this.state.location === "") {
       return Snackbar.show({
         title: "Please Select Location",
