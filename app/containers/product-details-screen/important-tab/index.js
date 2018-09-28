@@ -12,7 +12,12 @@ import {
 import call from "react-native-phone-call";
 import moment from "moment";
 
-import { SCREENS, WARRANTY_TYPES, MAIN_CATEGORY_IDS } from "../../../constants";
+import {
+  SCREENS,
+  WARRANTY_TYPES,
+  MAIN_CATEGORY_IDS,
+  CATEGORY_IDS
+} from "../../../constants";
 import { Text, Button, ScreenContainer } from "../../../elements";
 import I18n from "../../../i18n";
 import { colors } from "../../../theme";
@@ -50,7 +55,7 @@ class ImportantTab extends Component {
 
     return (
       <Animated.ScrollView>
-        {product.categoryId != 664 && (
+        {product.categoryId != CATEGORY_IDS.HEALTHCARE.INSURANCE && (
           <WarrantyDetails
             warrantyType={WARRANTY_TYPES.NORMAL}
             product={product}
@@ -71,7 +76,7 @@ class ImportantTab extends Component {
         {([MAIN_CATEGORY_IDS.AUTOMOBILE, MAIN_CATEGORY_IDS.ELECTRONICS].indexOf(
           product.masterCategoryId
         ) > -1 ||
-          product.categoryId == 664) && (
+          product.categoryId == CATEGORY_IDS.HEALTHCARE.INSURANCE) && (
           <InsuranceDetails product={product} navigation={navigation} />
         )}
 
