@@ -63,7 +63,7 @@ class EditProductBasicDetails extends React.Component {
       this.setState({ isLoading: true });
       let catID = product.categoryId;
       if (product.masterCategoryId == MAIN_CATEGORY_IDS.E_E) {
-        catID = product.sub_category_id;
+        catID = product.sub_category_id || catID;
       }
       const res = await getReferenceDataForCategory(catID);
       this.setState({

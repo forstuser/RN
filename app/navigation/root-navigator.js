@@ -171,10 +171,19 @@ handleNotification = notif => {
       screenToOpen = SCREENS.DO_YOU_KNOW_SCREEN;
       break;
     case "31":
-      if (notif.order.order_type == 1) {
-        screenToOpen = SCREENS.ORDER_SCREEN;
-      }
+      screenToOpen = SCREENS.ORDER_SCREEN;
       params = { orderId: notif.order.id };
+      break;
+    case "32":
+      screenToOpen = SCREENS.DEALS_SCREEN;
+      break;
+    case "33":
+      screenToOpen = SCREENS.DEALS_SCREEN;
+      break;
+    case "34":
+      screenToOpen = SCREENS.BB_CASH_WALLET_SCREEN;
+    case "35":
+      screenToOpen = SCREENS.MY_SELLERS_SCREEN;
       break;
     default:
   }

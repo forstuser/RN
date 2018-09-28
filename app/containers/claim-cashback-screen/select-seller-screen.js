@@ -1,18 +1,12 @@
 import React from "react";
-import {
-  View,
-  TouchableOpacity,
-  FlatList,
-  Image,
-  ScrollView
-} from "react-native";
+import { View, TouchableOpacity, FlatList, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Modal from "react-native-modal";
 import StarRating from "react-native-star-rating";
 import Analytics from "../../analytics";
 
 import { getMySellers } from "../../api";
-import { Text, Button } from "../../elements";
+import { Text, Button, Image } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS, API_BASE_URL, SELLER_TYPE_IDS } from "../../constants";
 

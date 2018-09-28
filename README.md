@@ -23,12 +23,21 @@ There are multiple `index` files but they all just import the `app` folder. They
 
 3. applozic: It provides simple functions for applozic, like `login` and `startChatWithSeller`. It is used this way so that we can
 
+# Few Important Notes
 
+1. If app is crashing without red screen.then it can be due to
 
+```
+{condition && <View></View>}
+```
 
-
-#Few Important Notes
-1. If app is crashing without red screen.then it can cause due to 
-data && <View></View>
 #Solution
-replace it with ternary operator e.g. data?<View></View>:null
+replace it with ternary operator e.g.
+
+```
+   {data?<View></View>:null}
+```
+
+# android
+
+Android part is a little problematic to setup. Make sure you have android sdk version 27 installed.
