@@ -49,7 +49,7 @@ class Body extends Component {
       isPhoneModalVisible: false,
       isEmailModalVisible: false,
       isLoading: false,
-      defaultAddress: this.props.profile.addresses[0]
+      defaultAddress: this.props.profile.addresses[0] || ""
     };
   }
 
