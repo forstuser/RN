@@ -74,15 +74,12 @@ class MyShoppingList extends React.Component {
 
   onSharePress = () => {
     Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_PLACE_ORDER);
-    const selectedSellers = this.props.navigation.getParam(
-      "selectedSellers",
-      []
-    );
+    const selectedSeller = this.props.navigation.getParam("selectedSeller", []);
     //console.log('selectedSellers ', selectedSellers);
-    if (selectedSellers.length === 0) {
+    if (!selectedSeller) {
       this.setState({ isMySellersModalVisible: true });
     } else {
-      this.proceedToAddressScreen(selectedSellers[0]);
+      this.proceedToAddressScreen(selectedSeller);
     }
     //this.getMySellers();
   };

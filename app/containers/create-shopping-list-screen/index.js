@@ -483,7 +483,7 @@ class ShoppingListScreen extends React.Component {
                   measurementTypes: measurementTypes,
                   wishList,
                   changeIndexQuantity: this.changeIndexQuantity,
-                  selectedSellers: [selectedSeller]
+                  selectedSeller: selectedSeller
                 });
               }}
             >

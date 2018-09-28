@@ -72,9 +72,9 @@ export default class SearchBar extends React.Component {
         sellerItem => sellerItem.id == seller.id
       );
       if (idx == -1) {
-        checkedSellers.push(seller);
+        checkedSellers = [seller];
       } else {
-        checkedSellers.splice(idx, 1);
+        checkedSellers = [];
       }
     } else {
       checkedSellers = [];
