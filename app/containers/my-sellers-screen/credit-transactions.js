@@ -67,7 +67,30 @@ export default class MySellersCreditTransactionsScreen extends React.Component {
           keyExtractor={item => item.id}
           refreshing={isLoading}
           onRefresh={this.getSellerDetails}
+          ListEmptyComponent={() =>
+            !isLoading ? (
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 20
+                }}
+              >
+                <Text style={{ marginTop: 40, textAlign: "center" }}>
+                  No transactions has been made yet.
+                </Text>
+              </View>
+            ) : null
+          }
           renderItem={({ item }) => {
+            let credit_type = null;
+            if (item.transaction_type === 1) {
+              credit_type = "Credits Added";
+            }
+            if (item.transaction_type === 2) {
+              credit_type = "Credits Settled";
+            }
             return (
               <View
                 style={{
@@ -94,16 +117,17 @@ export default class MySellersCreditTransactionsScreen extends React.Component {
                   </Text>
                 </View>
                 <View style={{ flex: 1, paddingHorizontal: 5 }}>
-                  <Text style={{ fontSize: 9 }}>
-                    Credit Added :<Text weight="Bold">{` ` + item.amount}</Text>
+                  <Text style={{ fontSize: 14 }}>
+                    {credit_type} :
+                    <Text weight="Bold">{` ` + item.amount}</Text>
                   </Text>
-                  <Text style={{ fontSize: 9, marginVertical: 5 }}>
+                  <Text style={{ fontSize: 14, marginVertical: 5 }}>
                     Transaction Id :
                     <Text weight="Medium" style={{ color: colors.mainBlue }}>
                       {` ` + item.id}
                     </Text>
                   </Text>
-                  <Text style={{ fontSize: 9 }}>{item.description}</Text>
+                  <Text style={{ fontSize: 14 }}>{item.description}</Text>
                 </View>
               </View>
             );
