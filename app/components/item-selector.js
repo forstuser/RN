@@ -20,7 +20,7 @@ class ItemSelector extends React.Component {
     };
   }
   onItemSelect = item => {
-    console.log('item: ', item);
+    console.log("item: ", item);
     this.props.onItemSelect(item);
   };
 
@@ -167,7 +167,7 @@ class ItemSelector extends React.Component {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 125,
+    height: 135,
     alignItems: "center",
     borderBottomColor: colors.lighterText,
     borderBottomWidth: 1
@@ -178,8 +178,8 @@ const styles = StyleSheet.create({
     width: 100
   },
   optionIconContainer: {
-    width: 37,
-    height: 37,
+    width: 75,
+    height: 75,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 40,
@@ -193,8 +193,8 @@ const styles = StyleSheet.create({
     borderColor: colors.mainBlue
   },
   optionIcon: {
-    width: 25,
-    height: 25,
+    width: 50,
+    height: 50,
     opacity: 1,
     // borderRadius: 40,
     overflow: "hidden"
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   },
   optionName: {
     color: "#000",
-    fontSize: 14,
+    fontSize: 10,
     opacity: 1,
     textAlign: "center",
     marginVertical: 7,
