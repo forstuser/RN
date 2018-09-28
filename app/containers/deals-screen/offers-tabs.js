@@ -168,8 +168,7 @@ export default class OffersTab extends React.Component {
                   margin: 15
                 }}
               >
-                Please select a seller above to view their Offers at great
-                prices
+                Please select a Seller to view ongoing Offers
               </Text>
             ) : null}
           </View>

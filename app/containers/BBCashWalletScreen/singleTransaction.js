@@ -165,11 +165,11 @@ const styles = {
     marginTop: 15
   },
   box2: {
-    flex: 5.5,
+    flex: 5,
     marginLeft: 10
   },
   box3: {
-    flex: 2
+    flex: 2.5
   },
   info: {
     marginTop: 10,
@@ -186,14 +186,14 @@ const styles = {
   },
   price1: {
     textAlign: "right",
-    marginRight: 20,
+    marginRight: 15,
     marginTop: 10,
     fontSize: 18,
     color: colors.success
   },
   price2: {
     textAlign: "right",
-    marginRight: 20,
+    marginRight: 15,
     marginTop: 10,
     fontSize: 18,
     color: colors.danger
