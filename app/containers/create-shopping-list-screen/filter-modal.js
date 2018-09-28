@@ -135,7 +135,7 @@ class FilterModalScreen extends Component {
                   paddingVertical: 8
                 }}
               >
-                Category Filter
+                Filter
               </Text>
             </View>
             <TouchableOpacity onPress={this.props.resetBrandsFilter}>

@@ -29,38 +29,38 @@ class SingleOrder extends Component {
     let orderType = item.order_type;
     if (item.status_type === ORDER_STATUS_TYPES.COMPLETE)
       statusType = (
-        <Text style={{ fontSize: 12, color: colors.success }}>COMPLETED</Text>
+        <Text style={{ fontSize: 11, color: colors.success }}>COMPLETED</Text>
       );
     else if (item.status_type === ORDER_STATUS_TYPES.NEW)
       statusType = (
-        <Text style={{ fontSize: 12, color: colors.success }}>NEW</Text>
+        <Text style={{ fontSize: 11, color: colors.success }}>NEW</Text>
       );
     else if (
       item.status_type === ORDER_STATUS_TYPES.NEW &&
       item.is_modified === true
     )
       statusType = (
-        <Text style={{ fontSize: 10, color: colors.success }}>
+        <Text style={{ fontSize: 11, color: colors.success }}>
           Order Modified
         </Text>
       );
     else if (item.status_type === ORDER_STATUS_TYPES.APPROVED)
       statusType = (
-        <Text style={{ fontSize: 12, color: colors.pinkishOrange }}>
+        <Text style={{ fontSize: 11, color: colors.pinkishOrange }}>
           In Progress
         </Text>
       );
     else if (item.status_type === ORDER_STATUS_TYPES.CANCELED)
       statusType = (
-        <Text style={{ fontSize: 12, color: colors.danger }}>CANCELLED</Text>
+        <Text style={{ fontSize: 11, color: colors.danger }}>CANCELLED</Text>
       );
     else if (item.status_type === ORDER_STATUS_TYPES.REJECTED)
       statusType = (
-        <Text style={{ fontSize: 12, color: colors.danger }}>REJECTED</Text>
+        <Text style={{ fontSize: 11, color: colors.danger }}>REJECTED</Text>
       );
     else if (item.status_type === ORDER_STATUS_TYPES.OUT_FOR_DELIVERY)
       statusType = (
-        <Text style={{ fontSize: 10, color: colors.pinkishOrange }}>
+        <Text style={{ fontSize: 11, color: colors.mainBlue }}>
           OUT FOR DELIVERY
         </Text>
       );
@@ -153,31 +153,28 @@ class SingleOrder extends Component {
           ) : (
             <Text style={styles.data}>Service requested: {service}</Text>
           )}
+
           <Text style={styles.data}>Date: {dateTime}</Text>
-          <Text style={styles.data}>Amount: {amount}</Text>
-          {cashbackStatus}
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.data}>Amount: {amount}</Text>
+              {cashbackStatus}
+            </View>
+            <TouchableOpacity
+              onPress={() => this.startChatWithSeller(item)}
+              style={styles.bottomButton}
+            >
+              <Image
+                source={require("../../images/chat.png")}
+                resizeMode="contain"
+                style={{ height: 30, width: 30 }}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
         {/* <View style={[styles.box, styles.box3]}>
                     <Text style={styles.status}>{status}</Text>
                 </View> */}
-        <TouchableOpacity
-          onPress={() => this.startChatWithSeller(item)}
-          style={styles.bottomButton}
-        >
-          {/* <Icon
-            name="ios-chatbubbles-outline"
-            style={styles.bottomButtonIcon}
-            color={colors.pinkishOrange}
-          />
-          <Text weight="Medium" style={styles.bottomButtonText}>
-            Chat
-          </Text> */}
-          <Image
-            source={require("../../images/chat.png")}
-            resizeMode="contain"
-            style={{ height: 30, width: 30 }}
-          />
-        </TouchableOpacity>
       </TouchableOpacity>
     );
   }
@@ -220,12 +217,7 @@ const styles = {
     marginTop: 40
   },
   bottomButton: {
-    position: "absolute",
-    bottom: 15,
-    right: 20
-    // flexDirection: "row",
-    // alignItems: "center",
-    // justifyContent: "center"
+    marginRight: 20
   },
   bottomButtonIcon: {
     fontSize: 18,
