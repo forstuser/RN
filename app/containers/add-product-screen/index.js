@@ -8,7 +8,11 @@ import {
   Dimensions
 } from "react-native";
 import _ from "lodash";
-import { initProduct, updateProduct, getReferenceDataForCategory } from "../../api";
+import {
+  initProduct,
+  updateProduct,
+  getReferenceDataForCategory
+} from "../../api";
 
 import { Text, ScreenContainer } from "../../elements";
 
@@ -66,7 +70,7 @@ class AddProductScreen extends React.Component {
     BackHandler.addEventListener("hardwareBackPress", this.previousStep);
     const expenseType = this.props.navigation.getParam("expenseType", null);
     const screenType = this.props.navigation.getParam("screenType", null);
-    console.log("screenType", screenType)
+    console.log("screenType", screenType);
     if (expenseType) {
       this.setState({ popOnDoItLater: true });
       this.chooseExpenseType(expenseType, false);
@@ -87,9 +91,11 @@ class AddProductScreen extends React.Component {
   }
 
   startOver = () => {
+    const screenType = this.props.navigation.getParam("screenType", null);
     this.setState({
       steps: [
         <SelectExpenseTypeStep
+          screenType={screenType}
           onBackPress={this.previousStep}
           onExpenseTypePress={this.chooseExpenseType}
         />
@@ -452,7 +458,7 @@ class AddProductScreen extends React.Component {
   };
 
   chooseExpenseType = (type, pushToNextStep = true) => {
-    console.log("type", type)
+    console.log("type", type);
     this.setState(
       {
         expenseType: type,
@@ -642,16 +648,17 @@ class AddProductScreen extends React.Component {
   onCategorySelect = ({ category, subCategoryId, product, pushToNext }) => {
     this.setState({ category, subCategoryId, product }, async () => {
       if (product) {
-        console.log("category is ", category)
+        console.log("category is ", category);
         try {
-          const res = await getReferenceDataForCategory(
-            category.id
+          const res = await getReferenceDataForCategory(category.id);
+          this.setState(
+            {
+              insuranceProviders: res.categories[0].insuranceProviders
+            },
+            () => {
+              this.pushInsuranceProviderStep();
+            }
           );
-          this.setState({
-            insuranceProviders: res.categories[0].insuranceProviders,
-          }, () => {
-            this.pushInsuranceProviderStep();
-          });
         } catch (e) {
           showSnackbar({
             text: e.message
@@ -662,7 +669,6 @@ class AddProductScreen extends React.Component {
       }
     });
   };
-
 
   onAmountStepDone = product => {
     const { mainCategoryId, category, subCategories } = this.state;
@@ -686,9 +692,9 @@ class AddProductScreen extends React.Component {
   };
 
   onSubCategoryStepDone = (product, subCategoryId) => {
-    console.log("product is", product)
+    console.log("product is", product);
     const { mainCategoryId, category, expenseType } = this.state;
-    console.log("category id is", this.state)
+    console.log("category id is", this.state);
     let newState = {};
     if (product) newState.product = product;
     if (subCategoryId) newState.subCategoryId = subCategoryId;
@@ -708,7 +714,7 @@ class AddProductScreen extends React.Component {
           break;
         case MAIN_CATEGORY_IDS.PERSONAL:
           if (category.id == CATEGORY_IDS.HEALTHCARE.INSURANCE) {
-            console.log("personal attack ")
+            console.log("personal attack ");
             this.pushInsuranceProviderStep();
           }
           break;
@@ -923,8 +929,8 @@ class AddProductScreen extends React.Component {
                         style={styles.activeStepIndicatorDotInnerRing}
                       />
                     ) : (
-                        <View collapsable={false} />
-                      )}
+                      <View collapsable={false} />
+                    )}
                   </View>
                 ];
               })}
@@ -932,8 +938,8 @@ class AddProductScreen extends React.Component {
             {/* <Text weight='Bold' style={{ fontSize: 12, marginTop: 10, color: colors.secondaryText }}>Purchase date helps in warranty, service and other details</Text> */}
           </View>
         ) : (
-            <View collapsable={false} />
-          )}
+          <View collapsable={false} />
+        )}
         <FinishModal
           ref={ref => (this.finishModal = ref)}
           title="Product added to your eHome."
