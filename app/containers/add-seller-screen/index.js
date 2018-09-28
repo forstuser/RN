@@ -44,11 +44,13 @@ export default class MySellersScreen extends React.Component {
   }
 
   getSellers = async () => {
+    const { searchTerm } = this.state;
+    if (searchTerm == undefined || searchTerm.length < 10) {
+      return showSnackbar({ text: "Please enter 10 digit mobile number" });
+    }
     this.setState({
       isLoadingSellers: true
     });
-
-    const { searchTerm } = this.state;
     try {
       const res = await getSellers({ searchTerm });
       this.setState({ sellers: res.result });
