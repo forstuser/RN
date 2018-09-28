@@ -39,7 +39,8 @@ class BBCashWalletScreen extends Component {
 
   fetchWalletData = async () => {
     this.setState({
-      error: null
+      error: null,
+      isFetchingData: true
     });
     try {
       const walletData = await retrieveWalletDetails();
@@ -109,6 +110,7 @@ class BBCashWalletScreen extends Component {
           renderItem={this.renderTransactions}
           keyExtractor={item => item.id}
         />
+        <LoadingOverlay visible={isFetchingData} />
       </View>
     );
   }

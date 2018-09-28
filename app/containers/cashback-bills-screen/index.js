@@ -15,7 +15,7 @@ import { SCREENS } from "../../constants";
 
 export default class CashbackBillsScreen extends React.Component {
   static navigationOptions = {
-    title: "Cashback Claims"
+    title: "Cashback Status"
   };
 
   state = {

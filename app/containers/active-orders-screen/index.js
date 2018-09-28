@@ -181,8 +181,8 @@ class ActiveOrdersScreen extends Component {
             You have not placed any recent orders
           </Text>
           <Button
-            style={{ height: 40, width: 150, marginTop: 30 }}
-            text="SHOP NOW"
+            style={{ height: 40, width: 275, marginTop: 30 }}
+            text="SHOP WITH YOUR SELLER"
             onPress={() =>
               this.props.navigation.navigate(
                 SCREENS.CREATE_SHOPPING_LIST_SCREEN

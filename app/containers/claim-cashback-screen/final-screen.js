@@ -214,13 +214,13 @@ export default class ClaimCashback extends React.Component {
             >
               <Text
                 weight="Medium"
-                style={{ fontSize: 9, color: colors.secondaryText, flex: 1 }}
+                style={{ fontSize: 11, color: colors.secondaryText, flex: 1 }}
               >
                 Item List
               </Text>
               <Text
                 weight="Medium"
-                style={{ fontSize: 9, color: colors.secondaryText }}
+                style={{ fontSize: 11, color: colors.secondaryText }}
               >
                 Cashback
               </Text>
@@ -256,11 +256,11 @@ export default class ClaimCashback extends React.Component {
                     <View
                       style={{ flexDirection: "row", flex: 1, marginRight: 20 }}
                     >
-                      <Text weight="Medium" style={{ fontSize: 9 }}>
+                      <Text weight="Medium" style={{ fontSize: 11 }}>
                         {item.title}
                         <Text
                           style={{
-                            fontSize: 9,
+                            fontSize: 11,
                             color: colors.secondaryText,
                             marginLeft: 2
                           }}
@@ -274,7 +274,7 @@ export default class ClaimCashback extends React.Component {
                         </Text>
                         <Text
                           style={{
-                            fontSize: 9,
+                            fontSize: 11,
                             color: colors.secondaryText,
                             marginLeft: 2
                           }}
@@ -283,7 +283,7 @@ export default class ClaimCashback extends React.Component {
                         </Text>
                       </Text>
                     </View>
-                    <Text style={{ fontSize: 9, color: colors.mainBlue }}>
+                    <Text style={{ fontSize: 11, color: colors.mainBlue }}>
                       {cashback ? "₹" + cashback : "0"}
                     </Text>
                   </View>

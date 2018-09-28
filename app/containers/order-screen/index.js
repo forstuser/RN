@@ -589,7 +589,7 @@ class OrderScreen extends React.Component {
               }}
               ListFooterComponent={() => (
                 <View>
-                  {order.order_type == ORDER_TYPES.FMCG && (
+                  {order.order_type == ORDER_TYPES.FMCG && totalAmount > 0 ? (
                     <View
                       style={{
                         flexDirection: "row",
@@ -606,7 +606,7 @@ class OrderScreen extends React.Component {
                       </Text>
                       <Text weight="Medium">Rs. {totalAmount}</Text>
                     </View>
-                  )}
+                  ) : null}
 
                   {order.order_type == ORDER_TYPES.ASSISTED_SERVICE &&
                   serviceTotalAmount ? (
