@@ -82,7 +82,7 @@ export default class ClaimCashback extends React.Component {
               const newItem = {
                 ...item,
                 sku_measurements: [item.sku_measurement],
-                quantity: 1
+                quantity: item.quantity || 1
               };
 
               return newItem;
