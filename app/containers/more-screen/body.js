@@ -193,7 +193,7 @@ class Body extends Component {
           <MoreItem
             onPress={this.onCashbackBillsPress}
             imageSource={require("../../images/cashback_bills.png")}
-            text={"Cashback Claims"}
+            text={"Cashback Status"}
             imageStyle={{ width: 20, height: 20 }}
           />
         ) : null}

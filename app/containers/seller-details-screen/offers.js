@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, FlatList } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  FlatList
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import moment from "moment";
 
@@ -8,6 +14,8 @@ import { API_BASE_URL } from "../../api";
 import { Text, Button, Image } from "../../elements";
 
 import { colors, defaultStyles } from "../../theme";
+
+const deviceWidth = Dimensions.get("window").width;
 
 export default class Offers extends React.Component {
   render() {
@@ -39,7 +47,7 @@ export default class Offers extends React.Component {
         renderItem={({ item }) => (
           <View style={{ ...defaultStyles.card, margin: 10, borderRadius: 5 }}>
             <Image
-              style={{ height: 120 }}
+              style={{ height: 120, flex: 1, width: null }}
               source={{
                 uri:
                   API_BASE_URL +
@@ -47,11 +55,11 @@ export default class Offers extends React.Component {
               }}
             />
             <View style={{ padding: 10 }}>
-              <Text weight="Medium" style={{ fontSize: 15 }}>
+              <Text weight="Medium" style={{ fontSize: 19 }}>
                 {item.title}
               </Text>
-              <Text style={{ fontSize: 13 }}>{item.description}</Text>
-              <Text style={{ fontSize: 13, color: colors.mainBlue }}>
+              <Text style={{ fontSize: 15 }}>{item.description}</Text>
+              <Text style={{ fontSize: 15, color: colors.mainBlue }}>
                 Expire on: {moment(item.end_date).format("DD MMM, YYYY")}
               </Text>
             </View>

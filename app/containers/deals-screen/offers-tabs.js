@@ -198,7 +198,7 @@ export default class OffersTab extends React.Component {
               style={{ ...defaultStyles.card, margin: 10, borderRadius: 5 }}
             >
               <Image
-                style={{ height: 120 }}
+                style={{ height: 120, flex: 1, width: null }}
                 source={{
                   uri:
                     API_BASE_URL +
@@ -207,11 +207,11 @@ export default class OffersTab extends React.Component {
                 }}
               />
               <View style={{ padding: 10 }}>
-                <Text weight="Medium" style={{ fontSize: 15 }}>
+                <Text weight="Medium" style={{ fontSize: 19 }}>
                   {item.title}
                 </Text>
-                <Text style={{ fontSize: 13 }}>{item.description}</Text>
-                <Text style={{ fontSize: 13, color: colors.mainBlue }}>
+                <Text style={{ fontSize: 15 }}>{item.description}</Text>
+                <Text style={{ fontSize: 15, color: colors.mainBlue }}>
                   Expire on: {moment(item.end_date).format("DD MMM, YYYY")}
                 </Text>
               </View>
