@@ -231,7 +231,7 @@ class EditProductBasicDetails extends React.Component {
     }
 
     const chasisNumberMeta = productMetaDatas.find(
-      meta => meta.name.toLowerCase() == METADATA_KEYS.CHASIS_NUMBER
+      meta => meta.name == METADATA_KEYS.CHASIS_NUMBER
     );
     if (chasisNumberMeta) {
       chasisNumber = chasisNumberMeta.value;
