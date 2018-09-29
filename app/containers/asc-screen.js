@@ -29,7 +29,7 @@ import Analytics from "../analytics";
 import { colors } from "../theme";
 import { getProductMetasString } from "../utils";
 import ErrorOverlay from "../components/error-overlay";
-import { SCREENS } from "../constants";
+import { SCREENS, PRODUCT_TYPES } from "../constants";
 
 const crossIcon = require("../images/ic_close.png");
 const dropdownIcon = require("../images/ic_dropdown_arrow.png");
@@ -66,12 +66,11 @@ class AscScreen extends Component {
       await ascAccessed();
     }
 
-    this.fetchBrands();
-
-    this.fetchProducts();
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
+        this.fetchBrands();
+        this.fetchProducts();
         if (this.state.clearSelectedValuesOnScreenAppear) {
           this.setState({
             selectedBrand: null,
@@ -84,7 +83,6 @@ class AscScreen extends Component {
       }
     );
   }
-
   componentWillUnmount() {
     this.didFocusSubscription.remove();
   }
@@ -242,7 +240,9 @@ class AscScreen extends Component {
   };
 
   openAddProductScreen = () => {
-    this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN);
+    this.props.navigation.navigate(SCREENS.ADD_PRODUCT_SCREEN, {
+      screenType: PRODUCT_TYPES.PRODUCT
+    });
   };
 
   render() {
