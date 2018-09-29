@@ -104,6 +104,13 @@ class DashboardScreen extends React.Component {
     this.fetchDashboardData();
   }
 
+  componentWillReceiveProps() {
+    this.screenHasDisappeared = false;
+    this.fetchDashboardData();
+    this.expenseInsightContent.fetchCategories();
+    this.activeOrdersContent.fetchActiveOrders();
+  }
+
   componentWillUnmount() {
     this.didFocusSubscription.remove();
     this.willBlurSubscription.remove();

@@ -98,19 +98,6 @@ class ActiveOrdersScreen extends Component {
     if (activeDeliveryOrders.length > 0) {
       deliveryOrders = (
         <View>
-          {/* <Text weight="Medium" style={{ fontSize: 18 }}>
-            Delivery Orders
-          </Text> */}
-          {/* {activeDeliveryOrders.map((order, index) => (
-            <SingleOrder
-              key={index}
-              item={order}
-              navigation={this.props.navigation}
-              onPress={() => {
-                this.openOrderScreen(order);
-              }}
-            />
-          ))} */}
           <FlatList
             data={this.state.activeDeliveryOrders}
             renderItem={this.renderActiveOrders}
