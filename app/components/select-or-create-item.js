@@ -63,13 +63,14 @@ class SelectOrCreateItem extends Component {
         onPress={() => this.onSelectItem(item)}
         style={styles.item}
       >
-        {imageKey && item[imageKey] && (
-          <FastImage
-            resizeMode="contain"
-            style={styles.itemImage}
-            source={{ uri: item[imageKey] }}
-          />
-        )}
+        {imageKey &&
+          item[imageKey] && (
+            <FastImage
+              resizeMode="contain"
+              style={styles.itemImage}
+              source={{ uri: item[imageKey] }}
+            />
+          )}
         <Text style={styles.itemText}>{item[visibleKey]}</Text>
       </TouchableOpacity>
     );
@@ -136,9 +137,9 @@ class SelectOrCreateItem extends Component {
       disableSearch = false,
       searchPlaceholder = "Search",
       showBackBtn = false,
-      onBackBtnPress = () => { },
+      onBackBtnPress = () => {},
       skippable = false,
-      onSkipPress = () => { }
+      onSkipPress = () => {}
     } = this.props;
     let {
       isAddNewVisible,
@@ -178,8 +179,8 @@ class SelectOrCreateItem extends Component {
                         <Icon name="ios-arrow-back" size={25} />
                       </TouchableOpacity>
                     ) : (
-                        <View />
-                      )}
+                      <View />
+                    )}
                     <Text weight="Bold" style={{ flex: 1 }}>
                       {title}
                     </Text>
@@ -212,12 +213,12 @@ class SelectOrCreateItem extends Component {
                         </Text>
                       </TouchableOpacity>
                     ) : (
-                        <View />
-                      )}
+                      <View />
+                    )}
                   </View>
                 ) : (
-                    <View />
-                  )}
+                  <View />
+                )}
                 {!title || isSearchInputVisible ? (
                   <View style={[styles.headerInner, styles.searchHeader]}>
                     <Icon name="ios-search" size={24} color={colors.mainText} />
@@ -247,17 +248,17 @@ class SelectOrCreateItem extends Component {
                           color={colors.secondaryText}
                         />
                       ) : (
-                          <View />
-                        )}
+                        <View />
+                      )}
                     </TouchableOpacity>
                   </View>
                 ) : (
-                    <View />
-                  )}
+                  <View />
+                )}
               </View>
             ) : (
-                <View />
-              )}
+              <View />
+            )}
 
             <FlatList
               style={style.itemsList}
@@ -270,7 +271,7 @@ class SelectOrCreateItem extends Component {
                 }
                 return (
                   <View>
-                    <Text style={styles.noResultText}>No result found</Text>
+                    {/* <Text style={styles.noResultText}>No result found</Text> */}
                     <TouchableOpacity
                       style={styles.item}
                       onPress={this.showAddNew}
@@ -283,38 +284,38 @@ class SelectOrCreateItem extends Component {
             />
           </View>
         ) : (
-            <View collapsable={false} style={styles.addNewContainer}>
-              <Text
-                weight="Bold"
-                style={{ alignSelf: "flex-start", marginBottom: 10 }}
-              >
-                Add New
+          <View collapsable={false} style={styles.addNewContainer}>
+            <Text
+              weight="Bold"
+              style={{ alignSelf: "flex-start", marginBottom: 10 }}
+            >
+              Add New
             </Text>
-              <TextInput
-                underlineColorAndroid="transparent"
-                ref={ref => (this.textInput = ref)}
-                placeholder={textInputPlaceholder}
-                style={styles.textInput}
-                value={textInput}
-                onChangeText={text => this.onTextInputChange(text)}
-              />
-              <Button
-                style={styles.addNewBtn}
-                text="Add"
-                onPress={this.onAddItem}
-              />
-              <Text weight="Medium" style={styles.orText}>
-                OR
+            <TextInput
+              underlineColorAndroid="transparent"
+              ref={ref => (this.textInput = ref)}
+              placeholder={textInputPlaceholder}
+              style={styles.textInput}
+              value={textInput}
+              onChangeText={text => this.onTextInputChange(text)}
+            />
+            <Button
+              style={styles.addNewBtn}
+              text="Add"
+              onPress={this.onAddItem}
+            />
+            <Text weight="Medium" style={styles.orText}>
+              OR
             </Text>
-              <Text
-                weight="Bold"
-                style={styles.selectFromList}
-                onPress={this.hideAddNew}
-              >
-                Select from list
+            <Text
+              weight="Bold"
+              style={styles.selectFromList}
+              onPress={this.hideAddNew}
+            >
+              Select from list
             </Text>
-            </View>
-          )}
+          </View>
+        )}
       </View>
     );
   }
@@ -326,7 +327,7 @@ const styles = StyleSheet.create({
   noResultText: {
     fontSize: 18,
     color: "#bcbcbc",
-    alignSelf: 'center',
+    alignSelf: "center"
   },
   addNewBtnText: {
     fontWeight: "bold",

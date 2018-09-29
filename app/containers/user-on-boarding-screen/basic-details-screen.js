@@ -18,7 +18,7 @@ class BasicDetailsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: "",
+      user: null,
       name: "",
       mobile: "",
       email: "",
@@ -83,12 +83,13 @@ class BasicDetailsScreen extends Component {
       });
     }
 
-    // if(imageUrl === '') {
-    //     return Snackbar.show({
-    //         title: "Please Upload Picture",
-    //         duration: Snackbar.LENGTH_SHORT
-    //       });
-    // }
+    if (this.state.user.image_name === "") {
+      return Snackbar.show({
+        title:
+          "Your image makes it quicker for your seller to respond on orders.",
+        duration: Snackbar.LENGTH_SHORT
+      });
+    }
 
     this.setState({
       isLoading: true
@@ -115,6 +116,7 @@ class BasicDetailsScreen extends Component {
   };
 
   render() {
+    console.log("ABC: ", this.state.user);
     return (
       <ScrollView style={styles.container}>
         <View style={[styles.box, styles.box1]}>
@@ -134,7 +136,7 @@ class BasicDetailsScreen extends Component {
                             />
                         </TouchableOpacity>
  */}
-          <HeaderPic profile={this.state.user} />
+          {this.state.user ? <HeaderPic profile={this.state.user} /> : null}
         </View>
         <View style={[styles.box, styles.box2]}>
           <TextInput

@@ -193,7 +193,7 @@ class Body extends Component {
           <MoreItem
             onPress={this.onCashbackBillsPress}
             imageSource={require("../../images/cashback_bills.png")}
-            text={"Cashback Claims"}
+            text={"Cashback Status"}
             imageStyle={{ width: 20, height: 20 }}
           />
         ) : null}
@@ -233,7 +233,7 @@ class Body extends Component {
         {location !== LOCATIONS.OTHER ? (
           <MoreItem
             onPress={this.onCashbackBillGuidelinesPress}
-            imageSource={require("../../images/ic_more_faq.png")}
+            imageSource={require("../../images/guidelines.png")}
             text="Cashback Bill Guidelines"
           />
         ) : null}

@@ -325,7 +325,7 @@ class ShoppingListScreen extends React.Component {
 
     try {
       const data = {
-        mainCategoryId: activeMainCategoryId,
+        mainCategoryId: activeMainCategoryId ? activeMainCategoryId : undefined,
         categoryIds: !searchTerm ? selectedCategoryIds : undefined,
         searchTerm: searchTerm || undefined,
         brandIds: selectedBrands.map(brand => brand.id),

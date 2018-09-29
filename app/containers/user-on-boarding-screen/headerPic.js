@@ -36,6 +36,8 @@ class ProfileScreen extends Component {
   }
 
   componentDidMount() {
+    console.log("PROFILE PIC");
+    console.log("XYZ", this.props);
     const profile = this.props.profile;
     let profilePic = (
       <Image
@@ -47,6 +49,7 @@ class ProfileScreen extends Component {
       />
     );
     if (profile.image_name) {
+      console.log("PROFILE PIC1");
       profilePic = (
         <Image
           ref={img => {
@@ -141,6 +144,37 @@ class ProfileScreen extends Component {
 
   render() {
     const { isLoading, profilePic } = this.state;
+    // console.log("XYZT:", this.props.profile);
+    // const { profile } = this.props;
+    // let profilePic = (
+    //   <Image
+    //     ref={img => {
+    //       this.backgroundImage = img;
+    //     }}
+    //     style={styles.image}
+    //     source={noPicPlaceholderIcon}
+    //   />
+    // );
+    // if (profile.image_name) {
+    //   console.log("PROFILE PIC1");
+    //   profilePic = (
+    //     <Image
+    //       ref={img => {
+    //         this.backgroundImage = img;
+    //       }}
+    //       style={styles.image}
+    //       source={{
+    //         uri: API_BASE_URL + profile.imageUrl,
+    //         headers: { Authorization: this.props.authToken }
+    //       }}
+    //     />
+    //   );
+    //   console.log("URI", uri);
+    //   console.log("Headers", headers);
+    // }
+    // this.setState({
+    //   profilePic
+    // });
 
     return (
       <View collapsable={false} style={styles.header}>

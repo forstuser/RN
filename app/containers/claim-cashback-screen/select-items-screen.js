@@ -157,7 +157,7 @@ export default class SelectCashbackItems extends React.Component {
     } = this.state;
     try {
       const res = await getSkuItems({
-        mainCategoryId: activeMainCategoryId,
+        mainCategoryId: activeMainCategoryId ? activeMainCategoryId : undefined,
         categoryIds: !searchTerm ? selectedCategoryIds : undefined,
         searchTerm: searchTerm || undefined,
         brandIds: selectedBrands.map(brand => brand.id)

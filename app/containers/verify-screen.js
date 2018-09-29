@@ -11,14 +11,17 @@ import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import { ScreenContainer, Text, Button } from "../elements";
 import { colors } from "../theme";
 import I18n from "../i18n";
+import moment from "moment";
 
 import { showSnackbar } from "../utils/snackbar";
 import Analytics from "../analytics";
 import { SCREENS } from "../constants";
 
-let setMsgInterval = null;
-let actualMsg = null;
-let otpFromMsg = null;
+var setMsgInterval = null;
+var actualMsg = null;
+var otpFromMsg = null;
+var startTime = null;
+var otpTime = null;
 
 class VerifyScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -56,8 +59,12 @@ class VerifyScreen extends Component {
   }
 
   async componentDidMount() {
-    if (Platform.OS == "android" && (await requestSmsReadPermission()))
+    if (Platform.OS == "android" && (await requestSmsReadPermission())) {
+      startTime = moment()
+        .toDate()
+        .getTime();
       setMsgInterval = setInterval(this.getMsgFunction, 2000);
+    }
   }
 
   componentWillUnmount() {
@@ -86,6 +93,9 @@ class VerifyScreen extends Component {
           //console.log("Message: " + object.body);
           if (lastSix === "BINBIL") {
             actualMsg = object.body;
+            otpTime = moment()
+              .toDate()
+              .getTime();
             //console.log("OTP", actualMsg.substr(27, 4));
             otpFromMsg = actualMsg.substr(27, 4);
             //console.log("OTP: ", otpFromMsg);
@@ -94,7 +104,7 @@ class VerifyScreen extends Component {
         });
       }
     );
-    if (otpFromMsg !== null) {
+    if (otpFromMsg !== null && otpTime >= startTime) {
       this.setState({ otp: otpFromMsg });
       this.onSubmitOtp();
     }
@@ -170,6 +180,8 @@ class VerifyScreen extends Component {
     }
   };
   render() {
+    console.log("Start Time: ", startTime);
+    console.log("otpTime: ", otpTime);
     return (
       <ScreenContainer
         style={{
