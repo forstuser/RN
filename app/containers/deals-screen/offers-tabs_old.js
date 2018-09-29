@@ -284,10 +284,9 @@ export default class OffersTab extends React.Component {
             }}
           >
             <Text
-              weight="Bold"
               style={{
                 fontSize: 16,
-                color: "#c2c2c2",
+                color: colors.secondaryText,
                 textAlign: "center",
                 margin: 15
               }}

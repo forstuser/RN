@@ -266,13 +266,12 @@ export default class OffersTab extends React.Component {
             ]}
           >
             <Text
-              weight="Bold"
               style={{
                 padding: 10,
                 fontSize: 16,
                 textAlign: "center",
                 marginTop: 20,
-                color: "#c2c2c2"
+                color: colors.secondaryText
               }}
             >
               No offers available as of now from your seller currently

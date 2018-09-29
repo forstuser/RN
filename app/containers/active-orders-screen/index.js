@@ -172,10 +172,10 @@ class ActiveOrdersScreen extends Component {
               }}
             >
               <Text
-                weight="Bold"
+                // weight="Bold"
                 style={{
-                  fontSize: 18,
-                  color: "#c2c2c2",
+                  fontSize: 16,
+                  color: colors.secondaryText,
                   marginTop: 10,
                   textAlign: "center",
                   padding: 15
@@ -197,16 +197,15 @@ class ActiveOrdersScreen extends Component {
             </View>
           ) : (
             <Text
-              weight="Bold"
               style={{
-                fontSize: 18,
-                color: "#c2c2c2",
+                fontSize: 16,
+                color: colors.secondaryText,
                 marginTop: 10,
                 textAlign: "center",
                 padding: 15
               }}
             >
-              You have not placed any recent orders Please invite or simply add
+              You have not placed any recent orders. Please invite or simply add
               your nearby Sellers to start placing orders and to avail
               additional benefits.
             </Text>

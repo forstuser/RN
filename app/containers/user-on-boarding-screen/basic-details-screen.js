@@ -95,7 +95,7 @@ class BasicDetailsScreen extends Component {
     if (user.image_name === null && !imageUploaded) {
       return Snackbar.show({
         title:
-          "Your image makes it quicker for your seller to respond on orders.",
+          "Your selfie makes it quicker for your seller to respond on orders.",
         duration: Snackbar.LENGTH_SHORT
       });
     }
