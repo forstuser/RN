@@ -59,12 +59,13 @@ const showLocalNotification = notif => {
   console.log("show notification", notif);
   if (notif && notif.title) {
     FCM.presentLocalNotification({
+      channel: "my_default_channel",
       title: notif.title, // as FCM payload
       body: notif.description, // as FCM payload (required)
       show_in_foreground: true,
       sound: "default", // as FCM payload
       priority: "high", // as FCM payload
-      icon: "ic_notify", // as FCM payload, you can relace this with custom icon you put in mipmap
+      icon: "ic_launcher", // as FCM payload, you can relace this with custom icon you put in mipmap
       color: colors.pinkishOrange,
       lights: true, // Android only, LED blinking (default false),
       picture: notif.image_url || undefined,
@@ -359,6 +360,13 @@ class RootNavigation extends React.Component {
       }
     }
 
+    FCM.createNotificationChannel({
+      id: "my_default_channel",
+      name: "Default",
+      description: "used for example",
+      priority: "high"
+    });
+
     FCM.requestPermissions()
       .then(() => console.log("granted"))
       .catch(() => console.log("notification permission rejected"));
@@ -380,6 +388,12 @@ class RootNavigation extends React.Component {
         await addFcmToken(token);
       } catch (e) {}
     });
+
+    // FCM.createNotificationChannel({
+    //   id: "default",
+    //   name: "Default",
+    //   priority: "high"
+    // });
 
     const notif = await FCM.getInitialNotification();
     if (notif) {

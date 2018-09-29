@@ -223,6 +223,8 @@ dependencies {
     compile project(':react-native-i18n')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-fcm')
+    implementation 'com.google.firebase:firebase-core'
+    implementation 'com.google.firebase:firebase-messaging'
     compile project(':react-native-document-picker')
     compile project(':react-native-device-info')
     compile project(':react-native-blur')
@@ -238,3 +240,6 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'
+com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
