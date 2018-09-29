@@ -8,13 +8,15 @@ import { retrieveActiveOrders, retrieveActiveServices } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 import { SCREENS } from "../../constants";
 import SingleOrder from "./single-order";
+import { colors } from "../../theme";
 
 class ActiveOrdersScreen extends Component {
   state = {
     activeDeliveryOrders: [],
     activeAssistedServicesRequest: [],
     error: null,
-    isFetchingData: false
+    isFetchingData: false,
+    sellerExist: false
   };
 
   componentDidMount() {
@@ -36,7 +38,8 @@ class ActiveOrdersScreen extends Component {
       //console.log('result[0].order_details.length : ', activeOrders.result[0].order_details.length);
       this.setState({
         isFetchingData: false,
-        activeDeliveryOrders: activeOrders.result
+        activeDeliveryOrders: activeOrders.result,
+        sellerExist: activeOrders.seller_exist
       });
     } catch (error) {
       console.log("order error: ", error);
@@ -91,7 +94,11 @@ class ActiveOrdersScreen extends Component {
   };
 
   render() {
-    const { activeDeliveryOrders, activeAssistedServicesRequest } = this.state;
+    const {
+      activeDeliveryOrders,
+      activeAssistedServicesRequest,
+      sellerExist
+    } = this.state;
     let activeOrders = null;
     let deliveryOrders = null;
     let assistedServicesRequest = null;
@@ -155,29 +162,48 @@ class ActiveOrdersScreen extends Component {
               resizeMode="contain"
             />
           </View>
-          <Text
-            weight="Bold"
-            style={{
-              fontSize: 18,
-              color: "#c2c2c2",
-              marginTop: 10,
-              textAlign: "center",
-              padding: 15
-            }}
-          >
-            You have not placed any recent orders
-          </Text>
-          <Button
-            style={{ height: 40, width: 275, marginTop: 30 }}
-            text="SHOP WITH YOUR SELLER"
-            onPress={() =>
-              this.props.navigation.navigate(
-                SCREENS.CREATE_SHOPPING_LIST_SCREEN
-              )
-            }
-            color="secondary"
-            textStyle={{ fontSize: 16 }}
-          />
+          {sellerExist ? (
+            <View>
+              <Text
+                weight="Bold"
+                style={{
+                  fontSize: 18,
+                  color: "#c2c2c2",
+                  marginTop: 10,
+                  textAlign: "center",
+                  padding: 15
+                }}
+              >
+                You have not placed any recent orders
+              </Text>
+              <Button
+                style={{ height: 40, width: 275, marginTop: 30 }}
+                text="SHOP WITH YOUR SELLER"
+                onPress={() =>
+                  this.props.navigation.navigate(
+                    SCREENS.CREATE_SHOPPING_LIST_SCREEN
+                  )
+                }
+                color="secondary"
+                textStyle={{ fontSize: 16 }}
+              />
+            </View>
+          ) : (
+            <Text
+              weight="Bold"
+              style={{
+                fontSize: 18,
+                color: "#c2c2c2",
+                marginTop: 10,
+                textAlign: "center",
+                padding: 15
+              }}
+            >
+              You have not placed any recent orders Please invite or simply add
+              your nearby Sellers to start placing orders and to avail
+              additional benefits.
+            </Text>
+          )}
         </View>
       );
     } else {

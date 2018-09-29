@@ -45,10 +45,10 @@ class BasicDetailsScreen extends Component {
         user: user,
         isLoading: false,
         name: user.name || "",
-        mobile: user.mobile_no || "",
+        mobile: user.mobile_no || null,
         email: user.email || "",
         imageUrl: user.imageUrl || "",
-        image_name: user.image_name || ""
+        image_name: user.image_name || null
       });
     } catch (error) {
       this.setState({ error });
@@ -63,7 +63,7 @@ class BasicDetailsScreen extends Component {
         duration: Snackbar.LENGTH_SHORT
       });
     }
-    if (this.state.phone === "") {
+    if (this.state.mobile === null) {
       return Snackbar.show({
         title: "Please enter your phone",
         duration: Snackbar.LENGTH_SHORT
@@ -83,7 +83,7 @@ class BasicDetailsScreen extends Component {
       });
     }
 
-    if (this.state.user.image_name === "") {
+    if (user.image_name === null) {
       return Snackbar.show({
         title:
           "Your image makes it quicker for your seller to respond on orders.",
