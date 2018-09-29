@@ -193,7 +193,14 @@ class MySellersScreen extends React.Component {
                       source={require("../../images/sad_emoticon.png")}
                     />
                   </View>
-                  <Text style={{ marginTop: 40, textAlign: "center" }}>
+                  <Text
+                    style={{
+                      marginTop: 40,
+                      textAlign: "center",
+                      fontSize: 16,
+                      color: colors.secondaryText
+                    }}
+                  >
                     Add your Seller to the BinBill Network for additional
                     offers, easy orders and faster home delivery
                   </Text>

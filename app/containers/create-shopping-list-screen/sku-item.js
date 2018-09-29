@@ -225,7 +225,9 @@ export default class SkuItem extends React.Component {
               );
             })}
         </ScrollView>
-        {mrp ? <Text style={{ fontSize: 10 }}>MRP: ₹{mrp}</Text> : null}
+        {mrp ? (
+          <Text style={{ fontSize: 10 }}>Suggested Retail Price: ₹{mrp}</Text>
+        ) : null}
         <View
           style={{
             flexDirection: "row",
