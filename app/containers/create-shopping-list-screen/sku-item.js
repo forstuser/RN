@@ -296,7 +296,7 @@ export default class SkuItem extends React.Component {
                 weight="Medium"
                 style={{ fontSize: 10, color: colors.mainBlue, marginRight: 3 }}
               >
-                Cashback Up To ₹ {cashback}
+                Cashback Up To ₹ {cashback.toFixed(2)}
               </Text>
               <Icon name="md-information-circle" sixe={10} />
             </TouchableOpacity>
