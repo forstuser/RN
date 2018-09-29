@@ -65,12 +65,11 @@ class AscScreen extends Component {
     if (hitAccessApi) {
       await ascAccessed();
     }
-
+    this.fetchBrands();
+    this.fetchProducts();
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
-        this.fetchBrands();
-        this.fetchProducts();
         if (this.state.clearSelectedValuesOnScreenAppear) {
           this.setState({
             selectedBrand: null,
