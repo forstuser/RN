@@ -478,7 +478,7 @@ class MySellersScreen extends React.Component {
                         </TouchableOpacity>
                       </View>
                       {btnRedeemPoints}
-                      <View onStartShouldSetResponder={() => true}>
+                      {/* <View onStartShouldSetResponder={() => true}>
                         <ScrollView
                           horizontal
                           showsHorizontalScrollIndicator={false}
@@ -512,7 +512,7 @@ class MySellersScreen extends React.Component {
                             </View>
                           ))}
                         </ScrollView>
-                      </View>
+                      </View> */}
                     </View>
                   </View>
                   <View

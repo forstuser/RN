@@ -118,6 +118,8 @@ class ProfileScreen extends Component {
   };
 
   uploadImage = async file => {
+    const { onUploadImage = () => null } = this.props;
+
     showSnackbar({
       text: I18n.t("profile_screen_please_wait"),
       autoDismissTimerSec: 1000
@@ -128,6 +130,8 @@ class ProfileScreen extends Component {
       this.setState({
         profilePic: <Image style={styles.image} source={{ uri: file.uri }} />
       });
+
+      onUploadImage();
 
       showSnackbar({
         text: I18n.t("profile_screen_details_updated"),

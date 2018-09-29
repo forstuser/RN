@@ -32,7 +32,7 @@ export default class StatusModal extends React.Component {
     } else if (item.is_rejected) {
       title = "Rejected";
     } else if (item.is_discarded) {
-      statusText = "Discarded";
+      title = "Discarded";
     }
 
     return (

@@ -523,32 +523,6 @@ class MyShoppingList extends React.Component {
                           </View>
                         </View>
                         {btnRedeemPoints}
-                        <ScrollView horizontal style={{ marginTop: 11 }}>
-                          {item.categories.map(category => (
-                            <View
-                              style={{
-                                height: 18,
-                                borderColor: colors.pinkishOrange,
-                                borderWidth: 1,
-                                alignItems: "center",
-                                justifyContent: "center",
-                                borderRadius: 9,
-                                paddingHorizontal: 7,
-                                marginRight: 4
-                              }}
-                            >
-                              <Text
-                                style={{
-                                  color: colors.pinkishOrange,
-                                  fontSize: 8,
-                                  marginTop: -3
-                                }}
-                              >
-                                {category.category_name}
-                              </Text>
-                            </View>
-                          ))}
-                        </ScrollView>
                       </View>
                     </View>
                   </TouchableOpacity>
