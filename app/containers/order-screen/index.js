@@ -80,12 +80,12 @@ class OrderScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.getOrderDetails();
+    this.getOrderDetails(this.props);
     BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
-        this.getOrderDetails();
+        this.getOrderDetails(this.props);
       }
     );
 
@@ -111,11 +111,16 @@ class OrderScreen extends React.Component {
       });
 
       socketIo.socket.on("reconnect", () => {
-        this.getOrderDetails();
+        this.getOrderDetails(this.props);
       });
     }
 
     // this.uploadBillModal.show({ productId: 50897, jobId: 52334 });
+  }
+
+  // will fire on clicking on notification
+  componentWillReceiveProps(nextProps) {
+    this.getOrderDetails(nextProps);
   }
 
   componentWillUnmount() {
@@ -145,8 +150,8 @@ class OrderScreen extends React.Component {
     this.setState({ isVisible: false });
   };
 
-  getOrderDetails = async () => {
-    const { navigation } = this.props;
+  getOrderDetails = async props => {
+    const { navigation } = props;
     const orderId = navigation.getParam("orderId", null);
     this.setState({ isLoading: true, error: null });
     try {

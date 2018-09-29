@@ -65,7 +65,7 @@ const showLocalNotification = notif => {
       show_in_foreground: true,
       sound: "default", // as FCM payload
       priority: "high", // as FCM payload
-      icon: "ic_launcher", // as FCM payload, you can relace this with custom icon you put in mipmap
+      icon: "ic_notify", // as FCM payload, you can relace this with custom icon you put in mipmap
       color: colors.pinkishOrange,
       lights: true, // Android only, LED blinking (default false),
       picture: notif.image_url || undefined,
@@ -173,13 +173,15 @@ handleNotification = notif => {
       break;
     case "31":
       screenToOpen = SCREENS.ORDER_SCREEN;
-      params = { orderId: notif.order.id };
+      params = { orderId: notif.order_id };
       break;
     case "32":
-      screenToOpen = SCREENS.DEALS_SCREEN;
+      screenToOpen = SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN;
+      params = { seller: { id: notif.seller_id } };
       break;
     case "33":
-      screenToOpen = SCREENS.DEALS_SCREEN;
+      screenToOpen = SCREENS.MY_SELLERS_CREDIT_TRANSACTIONS_SCREEN;
+      params = { seller: { id: notif.seller_id } };
       break;
     case "34":
       screenToOpen = SCREENS.BB_CASH_WALLET_SCREEN;
