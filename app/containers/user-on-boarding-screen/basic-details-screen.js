@@ -83,7 +83,7 @@ class BasicDetailsScreen extends Component {
       });
     }
 
-    if (this.state.user.image_name === null) {
+    if (user.image_name === null) {
       return Snackbar.show({
         title:
           "Your image makes it quicker for your seller to respond on orders.",

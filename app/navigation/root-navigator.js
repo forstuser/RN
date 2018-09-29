@@ -353,7 +353,8 @@ class RootNavigation extends React.Component {
       if (
         user.name === null ||
         user.location === null ||
-        user.image_name === null
+        user.image_name === null ||
+        1
       ) {
         NavigationService.navigate(SCREENS.USER_ON_BOARDING_STACK);
       }
