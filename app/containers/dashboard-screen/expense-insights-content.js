@@ -152,15 +152,15 @@ export default class InsightContent extends React.Component {
               />
             </View>
             <Text
-              weight="Bold"
               style={{
                 fontSize: 16,
-                color: "#c2c2c2",
+                color: colors.secondaryText,
                 textAlign: "center",
                 margin: 15
               }}
             >
-              Get an overview of all your expenses to track & analyze your spends
+              Get an overview of all your expenses to track & analyze your
+              spends
             </Text>
           </View>
         ) : (

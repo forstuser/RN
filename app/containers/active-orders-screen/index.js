@@ -165,7 +165,6 @@ class ActiveOrdersScreen extends Component {
           {sellerExist ? (
             <View
               style={{
-                flex: 1,
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor: "#fff"
