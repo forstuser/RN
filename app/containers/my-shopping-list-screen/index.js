@@ -573,7 +573,8 @@ class MyShoppingList extends React.Component {
         ) : null}
         {this.state.sellers.length == 0 && wishList.length > 0 ? (
           <Text style={styles.noSellerText}>
-            Please add your sellers in my seller to share your Shopping List
+            Please invite and add or simply add your nearby retailers to start
+            placing order and avail multiple benefits
           </Text>
         ) : null}
       </View>
