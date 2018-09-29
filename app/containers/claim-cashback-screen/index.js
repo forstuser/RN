@@ -160,7 +160,7 @@ export default class ClaimCashback extends React.Component {
           var arr = JSON.parse(smsList);
 
           // this regex matches Rs. 200, Rs.200, Rs 200, Rs200, ₹ 200, ₹200
-          var regExForAmount = new RegExp("(Rs.*|₹) *" + amount);
+          var regExForAmount = new RegExp("(Rs.*|₹) *" + amount + " ");
 
           isDigitallyVerified = arr.some(
             sms => sms.body.search(regExForAmount) > -1
