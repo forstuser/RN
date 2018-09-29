@@ -67,9 +67,14 @@ class SingleOrder extends Component {
     let status = <Text weight="Bold">{statusType}</Text>;
     let name = <Text weight="Bold">{item.seller.seller_name}</Text>;
     let quantity = <Text weight="Bold">{item.order_details.length}</Text>;
-    let service = (
-      <Text weight="Bold">{item.order_details[0].service_name}</Text>
-    );
+    let service =
+      orderType == ORDER_TYPES.ASSISTED_SERVICE ? (
+        <Text weight="Bold">
+          {item.order_details.length > 0
+            ? item.order_details[0].service_name
+            : ""}
+        </Text>
+      ) : null;
     let dateTime = (
       <Text weight="Bold">
         {moment(item.created_at).format("DD MMM, YYYY")}{" "}
