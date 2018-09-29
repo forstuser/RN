@@ -207,7 +207,7 @@ class SellerProfileTab extends React.Component {
                 starColor={colors.yellow}
                 disabled={true}
                 maxStars={5}
-                rating={Number(3.5)}
+                rating={Number(seller.ratings)}
                 halfStarEnabled={true}
                 starSize={13}
                 starStyle={{ marginHorizontal: 0 }}
