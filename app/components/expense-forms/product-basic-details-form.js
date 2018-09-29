@@ -163,9 +163,7 @@ class BasicDetailsForm extends React.Component {
           isNewValue: false
         });
       const chasisNumberCategoryForm = categoryForms.find(categoryForm => {
-        console.log(categoryForm.title, "cat for title ---------");
-        console.log(METADATA_KEYS.CHASIS_NUMBER, "MET KEY FOR CHASIS NUMBER");
-        categoryForm.title.toLowerCase() == METADATA_KEYS.CHASIS_NUMBER;
+        return categoryForm.title == METADATA_KEYS.CHASIS_NUMBER;
       });
       chasisNumberCategoryForm &&
         metadata.push({
