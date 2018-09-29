@@ -32,7 +32,7 @@ export default class StatusModal extends React.Component {
     } else if (item.is_rejected) {
       title = "Rejected";
     } else if (item.is_discarded) {
-      statusText = "Discarded";
+      title = "Discarded";
     }
 
     const items = item.expense_sku_items;
@@ -46,7 +46,8 @@ export default class StatusModal extends React.Component {
       }, 0);
 
       if (title == "Approved") {
-        modalHeight = 225 + items.length * 40;
+        // modalHeight = 225 + items.length * 40;
+        modalHeight = 400;
       }
 
       if (modalHeight > 500) {
@@ -92,7 +93,7 @@ export default class StatusModal extends React.Component {
                     Fixed Cashback
                   </Text>
                 </View>
-                <Text style={{ fontSize: 9 }}>₹ 2</Text>
+                <Text style={{ fontSize: 9 }}>₹ 1</Text>
               </View>
               <View style={{ flex: 1 }}>
                 <FlatList
@@ -166,7 +167,7 @@ export default class StatusModal extends React.Component {
                   Total
                 </Text>
                 <Text style={{ fontSize: 11 }} weight="Bold">
-                  ₹ {totalCashback + 2}
+                  ₹ {(totalCashback + 1).toFixed(2)}
                 </Text>
               </View>
             </View>

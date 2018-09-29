@@ -152,8 +152,8 @@ class VerifyScreen extends Component {
       if (
         !r.isExistingUser ||
         user.name === null ||
-        user.email === null ||
-        user.gender === null
+        user.location === null ||
+        user.image_name === null
       ) {
         this.props.navigation.navigate(SCREENS.USER_ON_BOARDING_STACK);
       } else {

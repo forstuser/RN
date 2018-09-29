@@ -25,7 +25,8 @@ class BasicDetailsScreen extends Component {
       imageUrl: "",
       image_name: "",
       isLoading: false,
-      error: null
+      error: null,
+      imageUploaded: false
     };
   }
 
@@ -56,7 +57,15 @@ class BasicDetailsScreen extends Component {
   };
 
   onNextPress = async () => {
-    const { name, phone, email, user, image_name, imageUrl } = this.state;
+    const {
+      name,
+      phone,
+      email,
+      user,
+      image_name,
+      imageUrl,
+      imageUploaded
+    } = this.state;
     if (this.state.name === "") {
       return Snackbar.show({
         title: "Please enter your name",
@@ -83,7 +92,7 @@ class BasicDetailsScreen extends Component {
       });
     }
 
-    if (user.image_name === null) {
+    if (user.image_name === null && !imageUploaded) {
       return Snackbar.show({
         title:
           "Your image makes it quicker for your seller to respond on orders.",
@@ -136,7 +145,14 @@ class BasicDetailsScreen extends Component {
                             />
                         </TouchableOpacity>
  */}
-          {this.state.user ? <HeaderPic profile={this.state.user} /> : null}
+          {this.state.user ? (
+            <HeaderPic
+              profile={this.state.user}
+              onUploadImage={() => {
+                this.setState({ imageUploaded: true });
+              }}
+            />
+          ) : null}
         </View>
         <View style={[styles.box, styles.box2]}>
           <TextInput

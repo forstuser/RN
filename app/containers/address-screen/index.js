@@ -202,6 +202,8 @@ class AddressScreen extends Component {
     } catch (e) {
       console.log("error", e);
       showSnackbar({ text: e.message });
+    } finally {
+      this.setState({ showLoader: false });
     }
   };
 
