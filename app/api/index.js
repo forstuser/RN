@@ -15,7 +15,7 @@ if (!__DEV__) {
 }
 export { API_BASE_URL };
 
-const APP_VERSION_FOR_API = 20100;
+const APP_VERSION_FOR_API = 20101;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
