@@ -17,12 +17,6 @@ import { showSnackbar } from "../utils/snackbar";
 import Analytics from "../analytics";
 import { SCREENS } from "../constants";
 
-var setMsgInterval = null;
-var actualMsg = null;
-var otpFromMsg = null;
-var startTime = null;
-var otpTime = null;
-
 class VerifyScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
@@ -60,15 +54,13 @@ class VerifyScreen extends Component {
 
   async componentDidMount() {
     if (Platform.OS == "android" && (await requestSmsReadPermission())) {
-      startTime = moment()
-        .toDate()
-        .getTime();
-      setMsgInterval = setInterval(this.getMsgFunction, 2000);
+      this.startTime = +moment();
+      this.setMsgInterval = setInterval(this.getMsgFunction, 2000);
     }
   }
 
   componentWillUnmount() {
-    clearInterval(setMsgInterval);
+    clearInterval(this.setMsgInterval);
   }
 
   getMsgFunction = async () => {
@@ -83,31 +75,28 @@ class VerifyScreen extends Component {
         console.log("SMS read failed with this error: " + fail);
       },
       (count, smsList) => {
-        console.log("SMS Count: ", count);
-        //console.log("SMS List: ", smsList);
-        var arr = JSON.parse(smsList);
-        arr.forEach(function(object) {
-          var lastSix = object.address.substr(object.address.length - 6);
-          //console.log("Object: " + object);
-          //console.log("-->" + object.date);
-          //console.log("Message: " + object.body);
-          if (lastSix === "BINBIL") {
-            actualMsg = object.body;
-            otpTime = moment()
-              .toDate()
-              .getTime();
-            //console.log("OTP", actualMsg.substr(27, 4));
-            otpFromMsg = actualMsg.substr(27, 4);
-            //console.log("OTP: ", otpFromMsg);
-            return;
+        var smsArr = JSON.parse(smsList);
+        console.log("smsList: ", smsList);
+        console.log("smsArr: ", smsArr);
+        if (smsArr.length == 0) return;
+        const sms = smsArr[0];
+        const lastSix = sms.address.substr(sms.address.length - 6);
+        const otpTime = sms.date;
+
+        if (lastSix === "BINBIL" && otpTime > this.startTime) {
+          actualMsg = sms.body;
+          const otpTime = moment()
+            .toDate()
+            .getTime();
+          otpFromMsg = actualMsg.substr(27, 4);
+          if (otpFromMsg !== null && !this.state.otp) {
+            this.setState({ otp: otpFromMsg }, () => {
+              this.onSubmitOtp();
+            });
           }
-        });
+        }
       }
     );
-    if (otpFromMsg !== null && otpTime >= startTime) {
-      this.setState({ otp: otpFromMsg });
-      this.onSubmitOtp();
-    }
   };
 
   onResendOtp = async () => {
@@ -171,6 +160,7 @@ class VerifyScreen extends Component {
         openAfterLoginScreen();
       }
     } catch (e) {
+      clearInterval(this.setMsgInterval);
       showSnackbar({
         text: e.message
       });
@@ -180,8 +170,6 @@ class VerifyScreen extends Component {
     }
   };
   render() {
-    console.log("Start Time: ", startTime);
-    console.log("otpTime: ", otpTime);
     return (
       <ScreenContainer
         style={{
