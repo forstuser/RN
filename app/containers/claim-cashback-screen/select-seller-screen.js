@@ -134,6 +134,21 @@ export default class SelectSellerScreen extends React.Component {
           backgroundColor: "#fff"
         }}
       >
+        {this.state.sellers.length > 0 ? (
+          <Text
+            weight="Bold"
+            style={{
+              fontSize: 14,
+              color: colors.mainText,
+              textAlign: "center",
+              marginTop: 10,
+              padding: 10
+            }}
+          >
+            Select Seller for this purchase, or if the Seller is not listed
+            here, Skip.
+          </Text>
+        ) : null}
         <FlatList
           data={sellers}
           refreshing={isLoading}

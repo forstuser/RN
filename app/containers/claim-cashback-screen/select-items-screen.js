@@ -21,7 +21,7 @@ import SelectedItemsList from "../my-shopping-list-screen/selected-items-list";
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS } from "../../constants";
 import Analytics from "../../analytics";
-
+import NextModal from "./next-modal";
 import QuantityPlusMinus from "../../components/quantity-plus-minus";
 
 import { showSnackbar } from "../../utils/snackbar";
@@ -30,7 +30,7 @@ export default class SelectCashbackItems extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { onBarcodeBtnPress } = navigation.state.params;
     return {
-      title: "Select Items on Bill",
+      title: "Select Cashback Items in Bill",
       headerRight: (
         <TouchableOpacity
           style={{ paddingHorizontal: 10 }}
@@ -390,6 +390,7 @@ export default class SelectCashbackItems extends React.Component {
   };
 
   proceedToSellersScreen = () => {
+    this.nextModal.hide();
     Analytics.logEvent(Analytics.EVENTS.CASHBACK_NEXT_ITEM);
     const { navigation } = this.props;
     const product = navigation.getParam("product", null);
@@ -514,7 +515,12 @@ export default class SelectCashbackItems extends React.Component {
             </Text>
           </TouchableOpacity>
           <Button
-            onPress={this.proceedToSellersScreen}
+            onPress={
+              selectedItems.length > 0
+                ? this.proceedToSellersScreen
+                : () => this.nextModal.show()
+            }
+            //onPress={this.proceedToSellersScreen}
             text="Next"
             color="secondary"
             style={{ height: 32, width: 85 }}
@@ -543,6 +549,12 @@ export default class SelectCashbackItems extends React.Component {
             />
           </View>
         </Modal>
+        <NextModal
+          ref={node => {
+            this.nextModal = node;
+          }}
+          proceedToSellersScreen={this.proceedToSellersScreen}
+        />
 
         <BarcodeScanner
           visible={isBarcodeScannerVisible}

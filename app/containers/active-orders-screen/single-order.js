@@ -73,7 +73,9 @@ class SingleOrder extends Component {
       );
     let status = <Text weight="Bold">{statusType}</Text>;
     let name = <Text weight="Bold">{item.seller.seller_name}</Text>;
-    let quantity = <Text weight="Bold">{item.order_details.length}</Text>;
+    let quantity = null;
+    if (orderType === ORDER_TYPES.FMCG)
+      quantity = <Text weight="Bold">{item.order_item_counts}</Text>;
     let service =
       orderType == ORDER_TYPES.ASSISTED_SERVICE ? (
         <Text weight="Bold">
