@@ -38,7 +38,14 @@ export default class Offers extends React.Component {
                 padding: 20
               }}
             >
-              <Text style={{ marginTop: 40, textAlign: "center" }}>
+              <Text
+                style={{
+                  marginTop: 40,
+                  textAlign: "center",
+                  fontSize: 16,
+                  color: colors.secondaryText
+                }}
+              >
                 There are no Offers by this Seller at the moment
               </Text>
             </View>

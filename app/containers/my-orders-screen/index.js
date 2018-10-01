@@ -3,7 +3,7 @@ import { View, TouchableOpacity, FlatList, Image } from "react-native";
 
 import { getCompletedOrders } from "../../api";
 import { Text, Button } from "../../elements";
-import { defaultStyles } from "../../theme";
+import { defaultStyles, colors } from "../../theme";
 import { SCREENS } from "../../constants";
 import SingleOrder from "./single-order";
 
@@ -92,10 +92,10 @@ export default class OrdersList extends React.Component {
                   />
                 </View>
                 <Text
-                  weight="Bold"
+                  //weight="Bold"
                   style={{
-                    fontSize: 18,
-                    color: "#c2c2c2",
+                    fontSize: 16,
+                    color: colors.secondaryText,
                     //marginTop: 10,
                     padding: 10
                   }}

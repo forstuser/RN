@@ -190,7 +190,13 @@ export default class MySellersScreen extends React.Component {
                   padding: 20
                 }}
               >
-                <Text style={{ fontSize: 14, textAlign: "center" }}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    textAlign: "center",
+                    color: colors.secondaryText
+                  }}
+                >
                   {isSearchDone
                     ? `This seller is not in our network. Invite your Seller to avail additional Offers, faster Home Delivery, Credit Loyalty,Home Services, & Online Order convenience`
                     : `Search your seller by phone number`}
