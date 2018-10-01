@@ -4,7 +4,7 @@ import moment from "moment";
 import { Text } from "../../elements";
 import Header from "./header";
 import SingleTransaction from "./singleTransaction";
-import { retrieveWalletDetails } from "../../api";
+import { retrieveWalletDetails, getMySellers } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 
@@ -18,9 +18,11 @@ class BBCashWalletScreen extends Component {
     this.state = {
       error: null,
       isFetchingData: true,
+      isFetchingSellerData: false,
       totalCashback: 0,
       transactions: [],
-      walletAmount: 0
+      walletAmount: 0,
+      sellers: []
     };
   }
 
@@ -29,6 +31,7 @@ class BBCashWalletScreen extends Component {
       "didFocus",
       () => {
         this.fetchWalletData();
+        this.fetchSellers();
       }
     );
   }
@@ -74,6 +77,29 @@ class BBCashWalletScreen extends Component {
     }
   };
 
+  fetchSellers = async () => {
+    this.setState({
+      error: null,
+      isFetchingSellerData: true
+    });
+    try {
+      const sellerData = await getMySellers();
+      console.log("Seller Data: ", sellerData.result);
+      //console.log('Seller Data: ', sellerData.result[0].name);
+      //console.log('Seller Data: ', sellerData.result[0].cashback_total);
+      this.setState({
+        sellers: sellerData.result,
+        isFetchingSellerData: false
+      });
+    } catch (error) {
+      console.log("error: ", error);
+      this.setState({
+        error,
+        isFetchingSellerData: false
+      });
+    }
+  };
+
   renderTransactions = ({ item: transaction, index }) => {
     return (
       <SingleTransaction
@@ -89,7 +115,14 @@ class BBCashWalletScreen extends Component {
   };
 
   render() {
-    const { transactions, totalCashback, isFetchingData } = this.state;
+    const {
+      transactions,
+      totalCashback,
+      isFetchingData,
+      sellers,
+      isFetchingSellerData
+    } = this.state;
+    //console.log("Sellers______________: ", sellers);
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <FlatList
@@ -100,6 +133,7 @@ class BBCashWalletScreen extends Component {
               <Header
                 navigation={this.props.navigation}
                 totalCashback={totalCashback}
+                sellers={sellers}
               />
               <Text style={styles.heading} weight="Bold">
                 BBCash Transactions
@@ -110,7 +144,7 @@ class BBCashWalletScreen extends Component {
           renderItem={this.renderTransactions}
           keyExtractor={item => item.id}
         />
-        <LoadingOverlay visible={isFetchingData} />
+        <LoadingOverlay visible={isFetchingData || isFetchingSellerData} />
       </View>
     );
   }

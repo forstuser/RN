@@ -14,7 +14,7 @@ export default class SelectSellerScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { onSkipPress, selectedSeller } = navigation.state.params;
     return {
-      title: "Select Sellers",
+      title: "Select Seller",
       headerRight: !selectedSeller ? (
         <TouchableOpacity
           style={{ paddingHorizontal: 10 }}

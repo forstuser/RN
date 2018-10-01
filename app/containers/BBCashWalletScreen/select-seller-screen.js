@@ -115,7 +115,7 @@ class SelectSellerScreen extends Component {
                   color: colors.secondaryText
                 }}
               >
-                You don't have any cashback avialable with any of your sellers.
+                You don't have any cashback available with any of your sellers.
               </Text>
             </View>
           )}

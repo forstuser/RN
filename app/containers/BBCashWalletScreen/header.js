@@ -54,6 +54,7 @@ class Header extends Component {
             this.redeemViaModal = node;
           }}
           totalCashback={this.props.totalCashback}
+          sellers={this.props.sellers}
         />
       </View>
     );

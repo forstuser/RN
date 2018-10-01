@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList, TouchableOpacity } from "react-native";
+import { View, FlatList, TouchableOpacity, Image } from "react-native";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -75,15 +75,27 @@ export default class CashbackQueryScreen extends React.Component {
                   flex: 1,
                   alignItems: "center",
                   justifyContent: "center",
-                  padding: 20
+                  backgroundColor: "#fff"
                 }}
               >
-                <Text
+                <View
                   style={{
-                    marginTop: 40,
-                    textAlign: "center",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Image
+                    style={{ width: 100, height: 100 }}
+                    source={require("../../images/cashback.png")}
+                  />
+                </View>
+                <Text
+                  //weight="Bold"
+                  style={{
                     fontSize: 16,
-                    color: colors.secondaryText
+                    color: colors.secondaryText,
+                    marginTop: 5,
+                    padding: 10
                   }}
                 >
                   No transactions has been made yet.

@@ -83,7 +83,8 @@ class UpcomingServicesList extends React.Component {
             style={{
               fontSize: 16,
               color: colors.secondaryText,
-              textAlign: "center"
+              textAlign: "center",
+              padding: 10
             }}
           >
             You have no important events or updates in upcoming period
