@@ -419,6 +419,9 @@ export default class SelectSellerScreen extends React.Component {
             <Text weight="Medium" style={{ fontSize: 15, marginBottom: 20 }}>
               Did you avail Home Delivery?
             </Text>
+            <Text weight="Medium" style={{ fontSize: 15, marginBottom: 20 }}>
+              We incentivise your seller for every Home Delivery.
+            </Text>
             <View
               style={{
                 width: "100%",
