@@ -291,7 +291,7 @@ class DashboardScreen extends React.Component {
             onPress={() => this.showAddProductOptionsScreen()}
           >
             {/* <Image style={styles.uploadFabIcon} source={uploadFabIcon} /> */}
-            <Icon name="md-camera" color="#fff" size={30} />
+            <Icon name="md-camera" color="#fff" size={28} />
             <Text weight="Bold" style={{ color: "#fff", fontSize: 10 }}>
               Claim
             </Text>
@@ -390,8 +390,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 10,
     right: 10,
-    width: 64,
-    height: 64,
+    width: 58,
+    height: 58,
     zIndex: 2,
     backgroundColor: colors.tomato,
     borderRadius: 32,
