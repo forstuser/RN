@@ -19,6 +19,7 @@ class SingleOrder extends Component {
   render() {
     const { item } = this.props;
     let statusType = null;
+    let orderType = item.order_type;
     if (item.status_type === ORDER_STATUS_TYPES.COMPLETE)
       statusType = (
         <Text style={{ fontSize: 12, color: colors.success }}>COMPLETED</Text>
@@ -39,10 +40,13 @@ class SingleOrder extends Component {
       );
     else if (item.status_type === ORDER_STATUS_TYPES.OUT_FOR_DELIVERY)
       statusType = <Text style={{ fontSize: 10 }}>OUT FOR DELIVERY</Text>;
-    let orderType = item.order_type;
     let status = <Text weight="Bold">{statusType}</Text>;
     let name = <Text weight="Bold">{item.seller.seller_name}</Text>;
-    let quantity = <Text weight="Bold">{item.order_details.length}</Text>;
+
+    let quantity = null;
+    if (orderType === ORDER_TYPES.FMCG)
+      quantity = <Text weight="Bold">{item.order_item_counts}</Text>;
+
     let service = <Text weight="Bold">{item.order_details.service_name}</Text>;
     let dateTime = (
       <Text weight="Bold">

@@ -147,20 +147,24 @@ class ActiveOrdersScreen extends Component {
               justifyContent: "center"
             }}
           >
-            <View
+            {/* <View
               style={{
                 width: 100,
                 height: 100,
                 borderRadius: 50,
                 backgroundColor: "#EAF6FC"
               }}
+            /> */}
+            <Image
+              style={{ width: 100, height: 100 }}
+              source={require("../../images/blank_shopping_list.png")}
             />
 
-            <Image
+            {/* <Image
               style={{ width: 80, height: 90, marginTop: -90 }}
               source={require("../../images/bell.png")}
               resizeMode="contain"
-            />
+            /> */}
           </View>
           {sellerExist ? (
             <View

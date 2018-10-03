@@ -9,6 +9,17 @@ import RedeemViaModal from "./redeem-via-modal";
 
 class Header extends Component {
   render() {
+    let button = null;
+    if (this.props.totalCashback > 0)
+      button = (
+        <Button
+          style={styles.button}
+          text="Redeem BBCash"
+          onPress={() => this.redeemViaModal.show()}
+          color="secondary"
+          textStyle={{ fontSize: 12 }}
+        />
+      );
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -36,19 +47,14 @@ class Header extends Component {
         <Text weight="Light" style={[styles.heading, styles.heading3]}>
           {this.props.totalCashback}
         </Text>
-        <Button
-          style={styles.button}
-          text="Redeem BBCash"
-          onPress={() => this.redeemViaModal.show()}
-          color="secondary"
-          textStyle={{ fontSize: 12 }}
-        />
+        {button}
         <RedeemViaModal
           navigation={this.props.navigation}
           ref={node => {
             this.redeemViaModal = node;
           }}
           totalCashback={this.props.totalCashback}
+          sellers={this.props.sellers}
         />
       </View>
     );

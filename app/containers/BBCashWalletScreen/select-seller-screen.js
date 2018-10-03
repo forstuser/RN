@@ -8,6 +8,7 @@ import SingleSeller from "./single-seller";
 import { getSellersBBCashWallet, redeemCashbackToSeller } from "../../api";
 import { showSnackbar } from "../../utils/snackbar";
 import { SCREENS } from "../../constants";
+import { colors } from "../../theme";
 
 class SelectSellerScreen extends Component {
   static navigationOptions = {
@@ -107,8 +108,14 @@ class SelectSellerScreen extends Component {
                 alignItems: "center"
               }}
             >
-              <Text style={{ textAlign: "center" }}>
-                You don't have any cashback avialable with any of your sellers.
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 16,
+                  color: colors.secondaryText
+                }}
+              >
+                You don't have any cashback available with any of your sellers.
               </Text>
             </View>
           )}

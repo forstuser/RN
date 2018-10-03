@@ -3,57 +3,58 @@ import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
 import I18n from "../../i18n";
-import { PRODUCT_TYPES,SCREENS } from "../../constants";
+import { PRODUCT_TYPES, SCREENS } from "../../constants";
 import Analytics from "../../analytics";
-const emptyProducts = require("../../images/empty_product.png");
-const emptyExpenses = require("../../images/empty_expense.png");
-const emptyDocs = require("../../images/empty_doc.png");
+const emptyProducts = require("../../images/products.png");
+const emptyExpenses = require("../../images/expenses.png");
+const emptyDocs = require("../../images/docs.png");
 class AddEmptyProductScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-  showAddProductOptionsScreen = (screenType) => {
+  showAddProductOptionsScreen = screenType => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
     //use push here so that we can use 'replace' later
-    this.props.navigation.push(SCREENS.ADD_PRODUCT_SCREEN,{'screenType':screenType});
+    this.props.navigation.push(SCREENS.ADD_PRODUCT_SCREEN, {
+      screenType: screenType
+    });
   };
 
   render() {
     const { type } = this.props;
-    let msg = "Add your Products to your eHome for easy access of Product information and to receive timely alerts";
-    let btnText = 'Add Product';
+    let msg =
+      "Add your Products to your eHome for easy access of Product information and to receive timely alerts";
+    let btnText = "Add Product";
     let imageIcon = emptyProducts;
     let screenType = PRODUCT_TYPES.PRODUCT;
     if (type == PRODUCT_TYPES.EXPENSE) {
       msg = "Add your Expenses here for easy tracking";
-      btnText = 'Add Expense';
+      btnText = "Add Expense";
       imageIcon = emptyExpenses;
       screenType = PRODUCT_TYPES.EXPENSE;
     } else if (type == PRODUCT_TYPES.DOCUMENT) {
       msg = "Save your Documents in your eHome for easy access";
-      btnText = 'Add Documents';
+      btnText = "Add Documents";
       imageIcon = emptyDocs;
       screenType = PRODUCT_TYPES.DOCUMENT;
     }
 
     return (
-        <View collapsable={false} style={styles.emptyStateView}>
-          <Image
-            source={imageIcon}
-            style={styles.emptyStateImage}
-            resizeMode="contain"
-          />
-          <Text style={styles.emptyStateMsg}>
-            {msg}
-          </Text>
-          <Button
-            onPress={()=>this.showAddProductOptionsScreen(screenType)}
-            text={btnText}
-            color="secondary"
-            style={styles.emptyStateAddItemBtn}
-          />
-        </View>
+      <View collapsable={false} style={styles.emptyStateView}>
+        <Image
+          source={imageIcon}
+          style={styles.emptyStateImage}
+          resizeMode="contain"
+        />
+        <Text style={styles.emptyStateMsg}>{msg}</Text>
+        <Button
+          onPress={() => this.showAddProductOptionsScreen(screenType)}
+          text={btnText}
+          color="secondary"
+          style={styles.emptyStateAddItemBtn}
+        />
+      </View>
     );
   }
 }
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 16,
+    padding: 16
   },
   // button: {
   //   width: 320,

@@ -483,7 +483,9 @@ const styles = StyleSheet.create({
     color: colors.mainText
   },
   noProductsContainer: {
-    alignItems: "center"
+    //alignItems: "center",
+    borderBottomWidth: 2,
+    borderColor: "#c2c2c2"
   },
   noProductsMsg: {
     color: colors.secondaryText,
@@ -491,10 +493,11 @@ const styles = StyleSheet.create({
   },
   addProductBtn: {
     marginTop: 7,
-    backgroundColor: "#fff",
+    backgroundColor: colors.pinkishOrange,
     width: 150,
     height: 35,
-    marginBottom: 30,
+    marginTop: 10,
+    marginBottom: 20,
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -502,11 +505,12 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,
-    shadowRadius: 1
+    shadowRadius: 1,
+    alignSelf: "center"
   },
   addProductBtnText: {
     fontSize: 12,
-    color: colors.pinkishOrange
+    color: "#fff"
   },
   selectsPart: {
     flex: 1,

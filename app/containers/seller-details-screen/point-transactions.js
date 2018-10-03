@@ -33,7 +33,14 @@ export default class CreditTransactionsTab extends React.Component {
                 padding: 20
               }}
             >
-              <Text style={{ marginTop: 40, textAlign: "center" }}>
+              <Text
+                style={{
+                  marginTop: 40,
+                  textAlign: "center",
+                  fontSize: 16,
+                  color: colors.secondaryText
+                }}
+              >
                 No transactions has been made yet.
               </Text>
             </View>

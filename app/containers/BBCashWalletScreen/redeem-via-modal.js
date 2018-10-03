@@ -63,16 +63,18 @@ class RedeemViaModal extends Component {
               <Text style={styles.iconHeading1}>Paytm*</Text>
             </TouchableOpacity>
           </View>
-          <View style={[styles.box, styles.box2]}>
-            <TouchableOpacity onPress={this.onSellerPressed}>
-              <Image
-                style={styles.sellerIcon}
-                source={require("./seller.png")}
-                resizeMode="contain"
-              />
-              <Text style={styles.iconHeading2}>Seller</Text>
-            </TouchableOpacity>
-          </View>
+          {this.props.sellers.length > 0 ? (
+            <View style={[styles.box, styles.box2]}>
+              <TouchableOpacity onPress={this.onSellerPressed}>
+                <Image
+                  style={styles.sellerIcon}
+                  source={require("./seller.png")}
+                  resizeMode="contain"
+                />
+                <Text style={styles.iconHeading2}>Seller</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
         <Text style={styles.heading}>
           *if you claim cashback through Paytm, 2% will be deducted

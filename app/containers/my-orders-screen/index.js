@@ -3,7 +3,7 @@ import { View, TouchableOpacity, FlatList, Image } from "react-native";
 
 import { getCompletedOrders } from "../../api";
 import { Text, Button } from "../../elements";
-import { defaultStyles } from "../../theme";
+import { defaultStyles, colors } from "../../theme";
 import { SCREENS } from "../../constants";
 import SingleOrder from "./single-order";
 
@@ -76,26 +76,30 @@ export default class OrdersList extends React.Component {
                     justifyContent: "center"
                   }}
                 >
-                  <View
+                  {/* <View
                     style={{
                       width: 100,
                       height: 100,
                       borderRadius: 50,
                       backgroundColor: "#EAF6FC"
                     }}
+                  /> */}
+                  <Image
+                    style={{ width: 100, height: 100 }}
+                    source={require("../../images/blank_shopping_list.png")}
                   />
 
-                  <Image
+                  {/* <Image
                     style={{ width: 80, height: 90, marginTop: -90 }}
                     source={require("../../images/bell.png")}
                     resizeMode="contain"
-                  />
+                  /> */}
                 </View>
                 <Text
-                  weight="Bold"
+                  //weight="Bold"
                   style={{
-                    fontSize: 18,
-                    color: "#c2c2c2",
+                    fontSize: 16,
+                    color: colors.secondaryText,
                     //marginTop: 10,
                     padding: 10
                   }}

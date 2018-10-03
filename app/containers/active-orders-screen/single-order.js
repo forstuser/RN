@@ -10,16 +10,23 @@ import { API_BASE_URL } from "../../api";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
 import Analytics from "../../analytics";
+import LoadingOverlay from "../../components/loading-overlay";
 
 class SingleOrder extends Component {
+  state = {
+    isChatClicked: false
+  };
   startChatWithSeller = async seller => {
     Analytics.logEvent(Analytics.EVENTS.CLICK_CHAT);
+    this.setState({ isChatClicked: true });
     //this.setState({ isMySellersModalVisible: false });
     const { user } = this.props;
     try {
       await loginToApplozic({ id: user.id, name: user.name });
       openChatWithSeller({ id: seller.id });
+      this.setState({ isChatClicked: false });
     } catch (e) {
+      this.setState({ isChatClicked: false });
       showSnackbar({ text: e.message });
     }
   };
@@ -66,7 +73,9 @@ class SingleOrder extends Component {
       );
     let status = <Text weight="Bold">{statusType}</Text>;
     let name = <Text weight="Bold">{item.seller.seller_name}</Text>;
-    let quantity = <Text weight="Bold">{item.order_details.length}</Text>;
+    let quantity = null;
+    if (orderType === ORDER_TYPES.FMCG)
+      quantity = <Text weight="Bold">{item.order_item_counts}</Text>;
     let service =
       orderType == ORDER_TYPES.ASSISTED_SERVICE ? (
         <Text weight="Bold">
@@ -174,6 +183,7 @@ class SingleOrder extends Component {
                 resizeMode="contain"
                 style={{ height: 30, width: 30 }}
               />
+              <LoadingOverlay visible={this.state.isChatClicked} />
             </TouchableOpacity>
           </View>
         </View>
@@ -222,7 +232,8 @@ const styles = {
     marginTop: 40
   },
   bottomButton: {
-    marginRight: 20
+    marginRight: 20,
+    padding: 10
   },
   bottomButtonIcon: {
     fontSize: 18,

@@ -18,8 +18,7 @@ import Analytics from "../../analytics";
 import { SCREENS } from "../../constants";
 import { colors } from "../../theme";
 import Item from "./item";
-const calendarIcon = require("../../images/ic_calendar.png");
-const calendarIconColor = require("../../images/ic_calendar_color.png");
+const calendarIcon = require("../../images/calendar.png");
 const uploadFabIcon = require("../../images/ic_upload_fabs.png");
 
 class MyCalendarScreen extends Component {
@@ -125,7 +124,7 @@ class MyCalendarScreen extends Component {
           !isFetchingItems && (
             <View collapsable={false} style={styles.emptyStateView}>
               <Image
-                source={calendarIconColor}
+                source={calendarIcon}
                 style={styles.emptyStateImage}
                 resizeMode="contain"
               />

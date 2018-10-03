@@ -14,7 +14,7 @@ export default class SelectSellerScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { onSkipPress, selectedSeller } = navigation.state.params;
     return {
-      title: "Select Sellers",
+      title: "Select Seller",
       headerRight: !selectedSeller ? (
         <TouchableOpacity
           style={{ paddingHorizontal: 10 }}
@@ -134,6 +134,21 @@ export default class SelectSellerScreen extends React.Component {
           backgroundColor: "#fff"
         }}
       >
+        {this.state.sellers.length > 0 ? (
+          <Text
+            weight="Bold"
+            style={{
+              fontSize: 14,
+              color: colors.mainText,
+              textAlign: "center",
+              marginTop: 10,
+              padding: 10
+            }}
+          >
+            Select Seller for this purchase, or if the Seller is not listed
+            here, Skip.
+          </Text>
+        ) : null}
         <FlatList
           data={sellers}
           refreshing={isLoading}
@@ -403,6 +418,9 @@ export default class SelectSellerScreen extends React.Component {
           >
             <Text weight="Medium" style={{ fontSize: 15, marginBottom: 20 }}>
               Did you avail Home Delivery?
+            </Text>
+            <Text weight="Medium" style={{ fontSize: 15, marginBottom: 20 }}>
+              We incentivise your seller for every Home Delivery.
             </Text>
             <View
               style={{

@@ -219,7 +219,12 @@ class MyShoppingList extends React.Component {
             />
             <Text
               weight="Medium"
-              style={{ textAlign: "center", fontSize: 15, marginVertical: 30 }}
+              style={{
+                textAlign: "center",
+                fontSize: 16,
+                marginVertical: 30,
+                color: colors.secondaryText
+              }}
             >
               {`You do not have a Shopping List.\n Start adding items to create your Shopping List.`}
             </Text>
