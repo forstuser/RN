@@ -2301,3 +2301,10 @@ export const getSellerOffers = async () => {
     url: `/sellers/offers`
   });
 };
+
+export const deleteSeller = async sellerId => {
+  return await apiRequest({
+    method: "delete",
+    url: `/sellers/${sellerId}/link`
+  });
+};

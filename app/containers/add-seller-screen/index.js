@@ -45,9 +45,15 @@ export default class MySellersScreen extends React.Component {
 
   getSellers = async () => {
     const { searchTerm } = this.state;
-    if (searchTerm == undefined || searchTerm.length < 10) {
+    if (searchTerm === undefined) {
+      return showSnackbar({
+        text: "Please enter either name or mobile number"
+      });
+    }
+    if (!isNaN(searchTerm) && searchTerm.length < 10) {
       return showSnackbar({ text: "Please enter 10 digit mobile number" });
     }
+
     this.setState({
       isLoadingSellers: true
     });
@@ -109,7 +115,7 @@ export default class MySellersScreen extends React.Component {
     } = this.state;
 
     console.log("sellers: ", sellers);
-
+    //console.log("Search term __________________________", typeof(searchTerm));
     const mySellersIds = mySellers.map(seller => seller.id);
 
     return (
@@ -130,8 +136,7 @@ export default class MySellersScreen extends React.Component {
               padding: 10
             }}
             value={searchTerm}
-            placeholder="Search Seller by mobile number"
-            keyboardType="numeric"
+            placeholder="Search Seller by name or mobile number"
             onChangeText={this.onSearchTermChange}
             returnKeyType="search"
             onSubmitEditing={this.getSellers}
@@ -199,7 +204,7 @@ export default class MySellersScreen extends React.Component {
                 >
                   {isSearchDone
                     ? `This seller is not in our network. Invite your Seller to avail additional Offers, faster Home Delivery, Credit Loyalty,Home Services, & Online Order convenience`
-                    : `Search your seller by phone number`}
+                    : `Search your seller by name or phone number`}
                 </Text>
                 {isSearchDone ? (
                   <Button

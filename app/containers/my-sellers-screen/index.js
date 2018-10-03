@@ -15,7 +15,7 @@ import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 
 import { loginToApplozic, openChatWithSeller } from "../../applozic";
 
-import { API_BASE_URL, getMySellers } from "../../api";
+import { API_BASE_URL, getMySellers, deleteSeller } from "../../api";
 
 import { Text, Image, Button } from "../../elements";
 import DrawerScreenContainer from "../../components/drawer-screen-container";
@@ -26,6 +26,7 @@ import { defaultStyles, colors } from "../../theme";
 import { SCREENS, SELLER_TYPE_IDS } from "../../constants";
 import { showSnackbar } from "../../utils/snackbar";
 import Analytics from "../../analytics";
+import DeleteSellerModal from "./delete-seller-modal";
 
 //import defaultPic from '../../images/default_seller_img.png';
 
@@ -36,7 +37,8 @@ class MySellersScreen extends React.Component {
     error: null,
     phoneNumbers: [],
     infoModalVisible: false,
-    detailText: "test"
+    detailText: "test",
+    isDeleteSeller: false
   };
   showInfoDetailsModal = text => {
     this.setState({ infoModalVisible: true, detailText: text });
@@ -61,6 +63,7 @@ class MySellersScreen extends React.Component {
   }
 
   getMySellers = async () => {
+    console.log("XYZABC____________________________________________");
     this.setState({
       isLoadingMySellers: true,
       error: null
@@ -124,10 +127,11 @@ class MySellersScreen extends React.Component {
       phoneNumbers,
       error,
       infoModalVisible,
-      detailText
+      detailText,
+      isDeleteSeller
     } = this.state;
 
-    console.log("mySellers: ", mySellers);
+    console.log("mySellers_____________: ", mySellers);
 
     if (error) {
       <ErrorOverlay error={error} onRetryPress={this.getMySellers} />;
@@ -321,7 +325,7 @@ class MySellersScreen extends React.Component {
                         <Text
                           style={{
                             color: "#208e07",
-                            fontSize: 6,
+                            fontSize: 8,
                             marginTop: 6
                           }}
                         >
@@ -484,6 +488,23 @@ class MySellersScreen extends React.Component {
                           />
                         </TouchableOpacity>
                       </View>
+                      <TouchableOpacity
+                        onPress={() => this.deleteSellerModal.show(item.id)}
+                        style={{
+                          marginTop: 3
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 13,
+                            textDecorationLine: "underline",
+                            color: colors.mainBlue
+                          }}
+                        >
+                          Delete Seller
+                        </Text>
+                      </TouchableOpacity>
+
                       {btnRedeemPoints}
                       {/* <View onStartShouldSetResponder={() => true}>
                         <ScrollView
@@ -525,7 +546,7 @@ class MySellersScreen extends React.Component {
                   <View
                     style={{
                       flexDirection: "row",
-                      height: 30,
+                      height: 40,
                       backgroundColor: "#d9d9d9",
                       paddingTop: 1,
                       borderBottomLeftRadius: 10,
@@ -587,6 +608,12 @@ class MySellersScreen extends React.Component {
             cancelButtonIndex={phoneNumbers.length}
             options={[...phoneNumbers, "Cancel"]}
           />
+          <DeleteSellerModal
+            ref={node => {
+              this.deleteSellerModal = node;
+            }}
+            getMySellers={this.getMySellers}
+          />
           <Modal
             isVisible={infoModalVisible}
             useNativeDriver
@@ -621,11 +648,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   bottomButtonIcon: {
-    fontSize: 18,
+    fontSize: 20,
     marginRight: 5
   },
   bottomButtonText: {
-    fontSize: 11
+    fontSize: 12
   }
 });
 
