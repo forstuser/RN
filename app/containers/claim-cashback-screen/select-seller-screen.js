@@ -409,7 +409,7 @@ export default class SelectSellerScreen extends React.Component {
             style={{
               backgroundColor: "#fff",
               width: 280,
-              height: 150,
+              height: 175,
               alignSelf: "center",
               borderRadius: 10,
               alignItems: "center",
@@ -419,7 +419,10 @@ export default class SelectSellerScreen extends React.Component {
             <Text weight="Medium" style={{ fontSize: 15, marginBottom: 20 }}>
               Did you avail Home Delivery?
             </Text>
-            <Text weight="Medium" style={{ fontSize: 15, marginBottom: 20 }}>
+            <Text
+              weight="Medium"
+              style={{ textAlign: "center", fontSize: 15, marginBottom: 20 }}
+            >
               We incentivise your seller for every Home Delivery.
             </Text>
             <View
