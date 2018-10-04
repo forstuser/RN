@@ -46,8 +46,9 @@ class SingleOrder extends Component {
     let quantity = null;
     if (orderType === ORDER_TYPES.FMCG)
       quantity = <Text weight="Bold">{item.order_item_counts}</Text>;
-
-    let service = <Text weight="Bold">{item.order_details.service_name}</Text>;
+    let service = null;
+    if (orderType === ORDER_TYPES.ASSISTED_SERVICE)
+      service = <Text weight="Bold">{item.order_details[0].service_name}</Text>;
     let dateTime = (
       <Text weight="Bold">
         {moment(item.created_at).format("DD MMM, YYYY")}{" "}
