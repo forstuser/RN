@@ -218,8 +218,15 @@ export default class SkuItem extends React.Component {
                         : {}
                     ]}
                   >
-                    {skuMeasurement.measurement_value +
-                      measurementTypes[skuMeasurement.measurement_type].acronym}
+                    {skuMeasurement.pack_numbers === 0
+                      ? skuMeasurement.measurement_value +
+                        measurementTypes[skuMeasurement.measurement_type]
+                          .acronym
+                      : skuMeasurement.measurement_value +
+                        measurementTypes[skuMeasurement.measurement_type]
+                          .acronym +
+                        " X " +
+                        skuMeasurement.pack_numbers}
                   </Text>
                 </TouchableOpacity>
               );

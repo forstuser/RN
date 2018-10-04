@@ -44,7 +44,7 @@ export default ({ item, index, declineItem }) => {
         <View style={{ flexDirection: "row" }}>
           <Text
             weight="Medium"
-            style={{ fontSize: 10, flex: 1, marginRight: 20 }}
+            style={{ fontSize: 12, flex: 1, marginRight: 20 }}
             numberOfLines={2}
           >
             {item.title}
@@ -55,7 +55,11 @@ export default ({ item, index, declineItem }) => {
             >
               {item.sku_measurement
                 ? ` (${item.sku_measurement.measurement_value +
-                    item.sku_measurement.measurement_acronym})`
+                    item.sku_measurement.measurement_acronym +
+                    " X " +
+                    item.sku_measurement.pack_numbers +
+                    " X " +
+                    item.quantity})`
                 : ``}
             </Text>
           </Text>
@@ -88,7 +92,7 @@ export default ({ item, index, declineItem }) => {
             ) : (
               <View />
             )}
-            {item.unit_price !== 0 ? (
+            {item.unit_price && item.unit_price !== 0 ? (
               <Text style={{ fontSize: 11 }}>
                 (Rs. {item.unit_price} X {item.quantity})
               </Text>

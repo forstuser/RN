@@ -98,9 +98,9 @@ export default class SelectedItemsList extends React.Component {
                     >
                       {item.sku_measurement
                         ? ` (${item.sku_measurement.measurement_value +
-                            measurementTypes[
-                              item.sku_measurement.measurement_type
-                            ].acronym})`
+                            item.sku_measurement.measurement_acronym +
+                            " X " +
+                            item.sku_measurement.pack_numbers})`
                         : ``}
                     </Text>
                   </Text>
