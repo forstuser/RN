@@ -13,6 +13,8 @@ import CashbackClaimItem from "../cashback-bills-screen/cashback-claim-item";
 import StatusModal from "../cashback-bills-screen/status-modal";
 import CashbackDispersedModal from "../cashback-bills-screen/cashback-dispersed-modal";
 
+import { SCREENS } from "../../constants";
+
 export default class CreditTransactionsTab extends React.Component {
   constructor(props) {
     super(props);
@@ -43,6 +45,11 @@ export default class CreditTransactionsTab extends React.Component {
     } finally {
       this.setState({ isLoading: false });
     }
+  };
+
+  openCashbackGuidelinesScreen = () => {
+    this.cashbackDispersedModal.hide();
+    this.props.navigation.navigate(SCREENS.CASHBACK_BILL_GUIDELINES_SCREEN);
   };
 
   render() {
@@ -99,6 +106,7 @@ export default class CreditTransactionsTab extends React.Component {
           ref={node => {
             this.cashbackDispersedModal = node;
           }}
+          openCashbackGuidelinesScreen={this.openCashbackGuidelinesScreen}
         />
       </View>
     );

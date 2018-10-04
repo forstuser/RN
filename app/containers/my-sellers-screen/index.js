@@ -63,7 +63,6 @@ class MySellersScreen extends React.Component {
   }
 
   getMySellers = async () => {
-    console.log("XYZABC____________________________________________");
     this.setState({
       isLoadingMySellers: true,
       error: null

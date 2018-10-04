@@ -112,6 +112,7 @@ class SellerDetailsScreen extends React.Component {
               <CreditTransactions
                 sellerID={seller.id}
                 isLoading={isLoading}
+                navigation={this.props.navigation}
               />
             </View>
             <View tabLabel="Offers">
