@@ -47,7 +47,7 @@ export default class SelectSellerScreen extends React.Component {
   getMySellers = async () => {
     this.setState({ isLoading: true });
     try {
-      const res = await getMySellers({ hasPos: true });
+      const res = await getMySellers({ hasPos: true, for_claim: true });
       this.setState({ sellers: res.result });
     } catch (error) {
       this.setState({ error });

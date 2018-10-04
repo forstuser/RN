@@ -2048,13 +2048,15 @@ export const clearWishList = async item => {
 };
 
 export const getMySellers = async (filters = {}) => {
-  const { isFmcg, hasPos } = filters;
+  const { isFmcg, hasPos, for_claim, for_order } = filters;
   return await apiRequest({
     method: "get",
     url: `/mysellers`,
     queryParams: {
       is_fmcg: isFmcg,
-      has_pos: hasPos
+      has_pos: hasPos,
+      for_claim: for_claim,
+      for_order: for_order
     }
   });
 };

@@ -74,7 +74,7 @@ export default ({ item, index, declineItem }) => {
             marginTop: 5
           }}
         >
-          <View style={{}}>
+          <View style={{ flexDirection: "row" }}>
             {cashback ? (
               <Text
                 weight="Medium"
@@ -84,6 +84,13 @@ export default ({ item, index, declineItem }) => {
                 }}
               >
                 You get back ₹ {cashback}
+              </Text>
+            ) : (
+              <View />
+            )}
+            {item.unit_price !== 0 ? (
+              <Text style={{ fontSize: 11 }}>
+                (Rs. {item.unit_price} X {item.quantity})
               </Text>
             ) : (
               <View />

@@ -52,9 +52,9 @@ export default class CashbackBillsScreen extends React.Component {
 
   render() {
     const { transactions, isLoading, error } = this.state;
+    console.log(transactions);
 
     const itemId = this.props.navigation.getParam("OrderID", "NO_ID");
-    console.log("itemId: ", itemId);
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -102,15 +102,22 @@ export default class CashbackBillsScreen extends React.Component {
               </View>
             ) : null
           }
-          renderItem={({ item }) => (
-            <CashbackClaimItem
-              item={item}
-              statusModal={() => this.statusModal.show(item)}
-              cashbackDispersedModal={() =>
-                this.cashbackDispersedModal.show(item)
-              }
-            />
-          )}
+          renderItem={({ item }) => {
+            let variable =
+              item.user_wallets.length > 0
+                ? item.user_wallets.filter(wallet => wallet.seller_id === null)
+                : null;
+            let fixed_cashback = variable !== null ? variable[0].amount : null;
+            return (
+              <CashbackClaimItem
+                item={item}
+                statusModal={() => this.statusModal.show(item)}
+                cashbackDispersedModal={() =>
+                  this.cashbackDispersedModal.show(item, fixed_cashback)
+                }
+              />
+            );
+          }}
         />
         <StatusModal
           ref={node => {
