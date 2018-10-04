@@ -9,9 +9,9 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-let API_BASE_URL = "https://consumer.binbill.com";
+let API_BASE_URL = "https://consumer-stage.binbill.com";
 if (!__DEV__) {
-  API_BASE_URL = "https://consumer.binbill.com";
+  API_BASE_URL = "https://consumer-stage.binbill.com";
 }
 export { API_BASE_URL };
 
@@ -2306,5 +2306,21 @@ export const deleteSeller = async sellerId => {
   return await apiRequest({
     method: "delete",
     url: `/sellers/${sellerId}/link`
+  });
+};
+
+export const inviteSellerByName = async ({
+  shopName,
+  shopPhoneNumber,
+  address
+}) => {
+  return await apiRequest({
+    method: "post",
+    url: `/sellers/invite/details`,
+    data: {
+      seller_name: shopName,
+      contact_no: shopPhoneNumber,
+      address: address
+    }
   });
 };

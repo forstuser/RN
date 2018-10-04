@@ -24,6 +24,7 @@ import { defaultStyles, colors } from "../../theme";
 
 import InviteSellerModal from "./invite-seller-modal";
 import { showSnackbar } from "../../utils/snackbar";
+import InviteSellerNameModal from "./invite-seller-name";
 
 export default class MySellersScreen extends React.Component {
   static navigationOptions = {
@@ -45,12 +46,11 @@ export default class MySellersScreen extends React.Component {
 
   getSellers = async () => {
     const { searchTerm } = this.state;
-    if (searchTerm === undefined) {
+    if (searchTerm === undefined || searchTerm === "") {
       return showSnackbar({
         text: "Please enter either name or mobile number"
       });
-    }
-    if (!isNaN(searchTerm) && searchTerm.length < 10) {
+    } else if (!isNaN(searchTerm) && searchTerm.length < 10) {
       return showSnackbar({ text: "Please enter 10 digit mobile number" });
     }
 
@@ -114,8 +114,6 @@ export default class MySellersScreen extends React.Component {
       isSearchDone
     } = this.state;
 
-    console.log("sellers: ", sellers);
-    //console.log("Search term __________________________", typeof(searchTerm));
     const mySellersIds = mySellers.map(seller => seller.id);
 
     return (
@@ -208,7 +206,11 @@ export default class MySellersScreen extends React.Component {
                 </Text>
                 {isSearchDone ? (
                   <Button
-                    onPress={() => this.inviteSellerModal.show(searchTerm)}
+                    onPress={
+                      !isNaN(searchTerm)
+                        ? () => this.inviteSellerModal.show(searchTerm)
+                        : () => this.inviteSellerNameModal.show(searchTerm)
+                    }
                     text="Invite Seller"
                     color="secondary"
                     style={{ width: 150, marginTop: 25, height: 40 }}
@@ -221,6 +223,11 @@ export default class MySellersScreen extends React.Component {
         <InviteSellerModal
           ref={node => {
             this.inviteSellerModal = node;
+          }}
+        />
+        <InviteSellerNameModal
+          ref={node => {
+            this.inviteSellerNameModal = node;
           }}
         />
       </View>
