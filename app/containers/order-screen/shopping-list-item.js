@@ -72,7 +72,7 @@ export default ({ item, index, declineItem }) => {
                 : ``}
             </Text>
           </Text>
-          {item.selling_price && (
+          {item.selling_price ? (
             <Text
               style={{
                 color: colors.secondaryText
@@ -80,7 +80,7 @@ export default ({ item, index, declineItem }) => {
             >
               Rs. {item.selling_price}
             </Text>
-          )}
+          ) : null}
         </View>
         <View
           style={{
@@ -116,7 +116,7 @@ export default ({ item, index, declineItem }) => {
               <View />
             )}
           </View>
-          {!item.item_availability && (
+          {!item.item_availability ? (
             <View
               style={{
                 height: 20,
@@ -136,9 +136,9 @@ export default ({ item, index, declineItem }) => {
                 Item Not Available
               </Text>
             </View>
-          )}
+          ) : null}
 
-          {item.updated_measurement && (
+          {item.updated_measurement ? (
             <View
               style={{
                 flexDirection: "row",
@@ -177,7 +177,7 @@ export default ({ item, index, declineItem }) => {
                 textStyle={{ fontSize: 10 }}
               />
             </View>
-          )}
+          ) : null}
         </View>
       </View>
     </View>
