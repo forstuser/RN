@@ -149,12 +149,7 @@ class VerifyScreen extends Component {
         imageUrl: user.imageUrl,
         isPinSet: user.hasPin
       });
-      if (
-        !r.isExistingUser ||
-        user.name === null ||
-        user.location === null ||
-        user.image_name === null
-      ) {
+      if (!r.isExistingUser || user.name === null || user.location === null) {
         this.props.navigation.navigate(SCREENS.USER_ON_BOARDING_STACK);
       } else {
         openAfterLoginScreen();
