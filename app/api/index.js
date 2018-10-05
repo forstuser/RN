@@ -1991,7 +1991,8 @@ export const getSkuItems = async ({
   measurementValues = [],
   measurementTypes = [],
   barCode,
-  searchTerm
+  searchTerm,
+  offset = 0
 }) => {
   return await apiRequest({
     method: "get",
@@ -2005,7 +2006,8 @@ export const getSkuItems = async ({
       measurement_value: measurementValues.join(","),
       measurement_types: measurementTypes.join(","),
       bar_code: barCode,
-      title: searchTerm
+      title: searchTerm,
+      offset: offset
     }
   });
 };
