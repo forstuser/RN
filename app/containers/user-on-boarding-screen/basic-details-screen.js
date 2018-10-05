@@ -9,6 +9,7 @@ import LoadingOverlay from "../../components/loading-overlay";
 import Snackbar from "../../utils/snackbar";
 import HeaderPic from "./headerPic";
 import Analytics from "../../analytics";
+import ProfilePicModal from "./profile-pic-modal";
 
 class BasicDetailsScreen extends Component {
   static navigationOptions = {
@@ -56,7 +57,8 @@ class BasicDetailsScreen extends Component {
     }
   };
 
-  onNextPress = async () => {
+  onProceedAnyway = async () => {
+    this.profilePicModal.hide();
     const {
       name,
       phone,
@@ -66,6 +68,7 @@ class BasicDetailsScreen extends Component {
       imageUrl,
       imageUploaded
     } = this.state;
+
     if (this.state.name === "") {
       return Snackbar.show({
         title: "Please enter your name",
@@ -92,13 +95,13 @@ class BasicDetailsScreen extends Component {
       });
     }
 
-    if (user.image_name === null && !imageUploaded) {
-      return Snackbar.show({
-        title:
-          "Your selfie makes it quicker for your seller to respond on orders.",
-        duration: Snackbar.LENGTH_SHORT
-      });
-    }
+    // if (user.image_name === null && !imageUploaded) {
+    //   return Snackbar.show({
+    //     title:
+    //       "Your selfie makes it quicker for your seller to respond on orders.",
+    //     duration: Snackbar.LENGTH_SHORT
+    //   });
+    // }
 
     this.setState({
       isLoading: true
@@ -122,6 +125,38 @@ class BasicDetailsScreen extends Component {
       this.setState({ isLoading: false });
     }
     this.props.navigation.navigate(SCREENS.SELECT_GENDER_SCREEN_ONBOARDING);
+  };
+
+  onNextPress = () => {
+    const {
+      name,
+      phone,
+      email,
+      user,
+      image_name,
+      imageUrl,
+      imageUploaded
+    } = this.state;
+
+    if (this.state.name === "") {
+      return Snackbar.show({
+        title: "Please enter your name",
+        duration: Snackbar.LENGTH_SHORT
+      });
+    }
+
+    if (this.state.mobile === null) {
+      return Snackbar.show({
+        title: "Please enter your phone",
+        duration: Snackbar.LENGTH_SHORT
+      });
+    }
+
+    if (user.image_name === null && !imageUploaded) {
+      this.profilePicModal.show();
+    } else {
+      this.onProceedAnyway;
+    }
   };
 
   render() {
@@ -186,6 +221,12 @@ class BasicDetailsScreen extends Component {
             textStyle={{ fontSize: 20 }}
           />
         </View>
+        <ProfilePicModal
+          ref={node => {
+            this.profilePicModal = node;
+          }}
+          onProceedAnyway={this.onProceedAnyway}
+        />
         <LoadingOverlay visible={this.state.isLoading} />
       </ScrollView>
     );

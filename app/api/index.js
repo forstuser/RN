@@ -44,7 +44,7 @@ const apiRequest = async ({
     if (Platform.OS == "ios") {
       headers.ios_app_version = APP_VERSION_FOR_API; //DeviceInfo.getBuildNumber();
     } else {
-      headers.app_version = APP_VERSION_FOR_API; //android app version
+      headers["app-version"] = APP_VERSION_FOR_API; //android app version
     }
 
     console.log(
@@ -2050,13 +2050,15 @@ export const clearWishList = async item => {
 };
 
 export const getMySellers = async (filters = {}) => {
-  const { isFmcg, hasPos } = filters;
+  const { isFmcg, hasPos, for_claim, for_order } = filters;
   return await apiRequest({
     method: "get",
     url: `/mysellers`,
     queryParams: {
       is_fmcg: isFmcg,
-      has_pos: hasPos
+      has_pos: hasPos,
+      for_claim: for_claim,
+      for_order: for_order
     }
   });
 };
@@ -2301,5 +2303,28 @@ export const getSellerOffers = async () => {
   return await apiRequest({
     method: "get",
     url: `/sellers/offers`
+  });
+};
+
+export const deleteSeller = async sellerId => {
+  return await apiRequest({
+    method: "delete",
+    url: `/sellers/${sellerId}/link`
+  });
+};
+
+export const inviteSellerByName = async ({
+  shopName,
+  shopPhoneNumber,
+  address
+}) => {
+  return await apiRequest({
+    method: "post",
+    url: `/sellers/invite/details`,
+    data: {
+      seller_name: shopName,
+      contact_no: shopPhoneNumber,
+      address: address
+    }
   });
 };

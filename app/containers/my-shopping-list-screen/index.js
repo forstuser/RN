@@ -120,7 +120,7 @@ class MyShoppingList extends React.Component {
       //isMySellersModalVisible: true
     });
     try {
-      const res = await getMySellers({ isFmcg: true });
+      const res = await getMySellers({ isFmcg: true, for_order: true });
       this.setState({ sellers: res.result });
     } catch (error) {
       this.setState({ error });

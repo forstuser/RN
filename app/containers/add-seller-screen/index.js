@@ -24,6 +24,7 @@ import { defaultStyles, colors } from "../../theme";
 
 import InviteSellerModal from "./invite-seller-modal";
 import { showSnackbar } from "../../utils/snackbar";
+import InviteSellerNameModal from "./invite-seller-name";
 
 export default class MySellersScreen extends React.Component {
   static navigationOptions = {
@@ -45,9 +46,14 @@ export default class MySellersScreen extends React.Component {
 
   getSellers = async () => {
     const { searchTerm } = this.state;
-    if (searchTerm == undefined || searchTerm.length < 10) {
+    if (searchTerm === undefined || searchTerm === "") {
+      return showSnackbar({
+        text: "Please enter either name or mobile number"
+      });
+    } else if (!isNaN(searchTerm) && searchTerm.length < 10) {
       return showSnackbar({ text: "Please enter 10 digit mobile number" });
     }
+
     this.setState({
       isLoadingSellers: true
     });
@@ -108,8 +114,6 @@ export default class MySellersScreen extends React.Component {
       isSearchDone
     } = this.state;
 
-    console.log("sellers: ", sellers);
-
     const mySellersIds = mySellers.map(seller => seller.id);
 
     return (
@@ -130,8 +134,7 @@ export default class MySellersScreen extends React.Component {
               padding: 10
             }}
             value={searchTerm}
-            placeholder="Search Seller by mobile number"
-            keyboardType="numeric"
+            placeholder="Search Seller by name or mobile number"
             onChangeText={this.onSearchTermChange}
             returnKeyType="search"
             onSubmitEditing={this.getSellers}
@@ -199,11 +202,15 @@ export default class MySellersScreen extends React.Component {
                 >
                   {isSearchDone
                     ? `This seller is not in our network. Invite your Seller to avail additional Offers, faster Home Delivery, Credit Loyalty,Home Services, & Online Order convenience`
-                    : `Search your seller by phone number`}
+                    : `Search your seller by name or phone number`}
                 </Text>
                 {isSearchDone ? (
                   <Button
-                    onPress={() => this.inviteSellerModal.show(searchTerm)}
+                    onPress={
+                      !isNaN(searchTerm)
+                        ? () => this.inviteSellerModal.show(searchTerm)
+                        : () => this.inviteSellerNameModal.show(searchTerm)
+                    }
                     text="Invite Seller"
                     color="secondary"
                     style={{ width: 150, marginTop: 25, height: 40 }}
@@ -216,6 +223,11 @@ export default class MySellersScreen extends React.Component {
         <InviteSellerModal
           ref={node => {
             this.inviteSellerModal = node;
+          }}
+        />
+        <InviteSellerNameModal
+          ref={node => {
+            this.inviteSellerNameModal = node;
           }}
         />
       </View>

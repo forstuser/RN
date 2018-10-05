@@ -18,7 +18,7 @@ const MoreItem = ({ imageSource, text, onPress, btnText, imageStyle = {} }) => (
       resizeMode="contain"
     />
     <View style={styles.textContainer}>
-      <Text style={styles.text} weight="Bold">
+      <Text style={styles.text} weight="Medium">
         {text}
       </Text>
     </View>

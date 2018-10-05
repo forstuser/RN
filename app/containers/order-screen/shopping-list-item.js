@@ -5,13 +5,31 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { Text, Image, Button } from "../../elements";
 import { colors } from "../../theme";
 
-export default ({ item, index, declineItem }) => {
+export default ({ item, index, declineItem, orderStatus }) => {
   let cashback = 0;
   if (item.sku_measurement && item.sku_measurement.cashback_percent) {
-    cashback =
+    cashback = (
       ((item.sku_measurement.mrp * item.sku_measurement.cashback_percent) /
         100) *
-      item.quantity;
+      item.quantity
+    ).toFixed(2);
+  }
+  let pack_no = "";
+  let quant = "";
+
+  let suggested_quantity = item.updated_quantity
+    ? item.updated_quantity
+    : item.quantity;
+
+  if (
+    item.sku_measurement.pack_numbers &&
+    item.sku_measurement.pack_numbers > 0
+  ) {
+    pack_no = " X " + item.sku_measurement.pack_numbers;
+  }
+
+  if (item.quantity && item.quantity > 1) {
+    quant = " X " + item.quantity;
   }
 
   return (
@@ -30,7 +48,10 @@ export default ({ item, index, declineItem }) => {
             borderRadius: 8,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: colors.success
+            backgroundColor:
+              item.suggestion && orderStatus === 4
+                ? colors.secondaryText
+                : colors.success
           }}
         >
           <Icon name="md-checkmark" size={12} color="#fff" />
@@ -44,7 +65,15 @@ export default ({ item, index, declineItem }) => {
         <View style={{ flexDirection: "row" }}>
           <Text
             weight="Medium"
-            style={{ fontSize: 10, flex: 1, marginRight: 20 }}
+            style={{
+              fontSize: 12,
+              flex: 1,
+              marginRight: 20,
+              color:
+                item.suggestion && orderStatus === 4
+                  ? colors.secondaryText
+                  : colors.mainText
+            }}
             numberOfLines={2}
           >
             {item.title}
@@ -55,7 +84,9 @@ export default ({ item, index, declineItem }) => {
             >
               {item.sku_measurement
                 ? ` (${item.sku_measurement.measurement_value +
-                    item.sku_measurement.measurement_acronym})`
+                    item.sku_measurement.measurement_acronym +
+                    pack_no +
+                    quant})`
                 : ``}
             </Text>
           </Text>
@@ -74,13 +105,16 @@ export default ({ item, index, declineItem }) => {
             marginTop: 5
           }}
         >
-          <View style={{}}>
+          <View style={{ flexDirection: "row" }}>
             {cashback ? (
               <Text
                 weight="Medium"
                 style={{
                   fontSize: 10,
-                  color: colors.mainBlue
+                  color:
+                    item.suggestion && orderStatus === 4
+                      ? colors.secondaryText
+                      : colors.mainBlue
                 }}
               >
                 You get back ₹ {cashback}
@@ -88,8 +122,26 @@ export default ({ item, index, declineItem }) => {
             ) : (
               <View />
             )}
+            {item.unit_price && item.unit_price !== 0 ? (
+              <Text
+                style={{
+                  fontSize: 11,
+                  position: "absolute",
+                  right: 0,
+                  top: -5,
+                  color:
+                    item.suggestion && orderStatus === 4
+                      ? colors.secondaryText
+                      : colors.mainText
+                }}
+              >
+                (Rs. {item.unit_price} X {item.quantity})
+              </Text>
+            ) : (
+              <View />
+            )}
           </View>
-          {!item.item_availability ? (
+          {!item.item_availability && !item.suggestion ? (
             <View
               style={{
                 height: 20,
@@ -110,45 +162,164 @@ export default ({ item, index, declineItem }) => {
               </Text>
             </View>
           ) : null}
-
-          {item.updated_measurement ? (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: 10
-              }}
-            >
-              <View
-                style={{
-                  height: 20,
-                  borderRadius: 10,
-                  borderColor: colors.danger,
-                  borderWidth: 1,
-                  width: 170,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginRight: 5
-                }}
+          {!item.item_availability && item.suggestion ? (
+            <View style={{ marginTop: 10 }}>
+              <Text
+                weight="Bold"
+                style={{ fontSize: 12, color: colors.pinkishOrange }}
               >
+                Suggested Item:
+              </Text>
+              <View style={{ flexDirection: "row", marginTop: 5 }}>
                 <Text
                   weight="Medium"
-                  style={{ fontSize: 9, marginTop: -2, color: colors.danger }}
+                  style={{ fontSize: 12, flex: 1, marginRight: 20 }}
+                  numberOfLines={2}
                 >
-                  Available Quantity{" "}
-                  {item.updated_measurement
-                    ? ` (${item.updated_measurement.measurement_value +
-                        item.updated_measurement.measurement_acronym})`
-                    : ``}
+                  {item.suggestion.title}
+                  <Text
+                    style={{
+                      color: colors.secondaryText
+                    }}
+                  >
+                    {/* {item.suggestion
+                      ? ` (${
+                          item.suggestion.measurement_value +
+                          " X " +
+                          item.updated_quantity
+                            ? item.updated_quantity
+                            : item.quantity
+                        })`
+                      : ``} */}
+                    {` (${item.suggestion.measurement_value +
+                      " X " +
+                      suggested_quantity})`}
+                  </Text>
                 </Text>
+                {item.selling_price || item.updated_selling_price ? (
+                  <Text
+                    style={{
+                      color: colors.secondaryText
+                    }}
+                  >
+                    Rs.{" "}
+                    {item.updated_selling_price
+                      ? item.updated_selling_price
+                      : item.selling_price}
+                  </Text>
+                ) : null}
+              </View>
+              <View style={{ flexDirection: "row", marginTop: 5 }}>
+                {cashback ? (
+                  <Text
+                    weight="Medium"
+                    style={{
+                      fontSize: 10,
+                      color: colors.mainBlue
+                    }}
+                  >
+                    You get back ₹ {cashback}
+                  </Text>
+                ) : (
+                  <View />
+                )}
+                {item.unit_price && item.unit_price !== 0 ? (
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      position: "absolute",
+                      right: 0,
+                      top: -5
+                    }}
+                  >
+                    (Rs. {item.unit_price} X{" "}
+                    {item.updated_quantity
+                      ? item.updated_quantity
+                      : item.quantity}
+                    )
+                  </Text>
+                ) : (
+                  <View />
+                )}
               </View>
               <Button
                 onPress={declineItem}
                 text="Decline"
                 color="secondary"
-                style={{ height: 23, width: 70 }}
+                style={{ height: 23, width: 70, marginTop: 5 }}
                 textStyle={{ fontSize: 10 }}
               />
+            </View>
+          ) : null}
+
+          {(item.updated_measurement || item.updated_quantity) &&
+          !item.suggestion ? (
+            <View
+              style={{
+                flexDirection: "column",
+                marginTop: 10
+              }}
+            >
+              {item.updated_measurement ? (
+                <View
+                  style={{
+                    height: 20,
+                    borderRadius: 10,
+                    borderColor: colors.danger,
+                    borderWidth: 1,
+                    width: 170,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginRight: 5
+                  }}
+                >
+                  <Text
+                    weight="Medium"
+                    style={{ fontSize: 9, marginTop: -2, color: colors.danger }}
+                  >
+                    Available Quantity{" "}
+                    {item.updated_measurement
+                      ? ` (${item.updated_measurement.measurement_value +
+                          item.updated_measurement.measurement_acronym})`
+                      : ``}
+                  </Text>
+                </View>
+              ) : null}
+              {item.updated_quantity &&
+              item.updated_quantity !== item.quantity ? (
+                <View
+                  style={{
+                    height: 20,
+                    borderRadius: 10,
+                    borderColor: colors.danger,
+                    borderWidth: 1,
+                    width: 170,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginRight: 5,
+                    marginTop: 5
+                  }}
+                >
+                  <Text
+                    weight="Medium"
+                    style={{ fontSize: 9, marginTop: -2, color: colors.danger }}
+                  >
+                    Available Unit{" "}
+                    {item.updated_quantity ? ` (${item.updated_quantity})` : ``}
+                  </Text>
+                </View>
+              ) : null}
+              {item.updated_measurement ||
+              (item.updated_quantity &&
+                item.updated_quantity !== item.quantity) ? (
+                <Button
+                  onPress={declineItem}
+                  text="Decline"
+                  color="secondary"
+                  style={{ height: 23, width: 70, marginTop: 5 }}
+                  textStyle={{ fontSize: 10 }}
+                />
+              ) : null}
             </View>
           ) : null}
         </View>

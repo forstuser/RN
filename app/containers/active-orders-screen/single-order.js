@@ -214,16 +214,23 @@ const styles = {
 
   info: {
     marginTop: 10,
-    flex: 1
+    flex: 2.5
   },
   data: {
     marginTop: 5
   },
+  // status: {
+  //   position: "absolute",
+  //   top: 13,
+  //   right: 10,
+  //   flex: 1
+  // },
   status: {
+    flex: 1.25,
     textAlign: "right",
-    marginRight: 20,
-    marginTop: 10,
-    fontSize: 14
+    top: 0,
+    right: 10,
+    fontSize: 16
   },
   imageIcon: {
     height: 60,

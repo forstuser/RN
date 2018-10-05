@@ -353,11 +353,7 @@ class RootNavigation extends React.Component {
         isPinSet: user.hasPin
       });
 
-      if (
-        user.name === null ||
-        user.location === null ||
-        user.image_name === null
-      ) {
+      if (user.name === null || user.location === null) {
         NavigationService.navigate(SCREENS.USER_ON_BOARDING_STACK);
       }
     }

@@ -8,11 +8,12 @@ import { colors } from "../../theme";
 export default class StatusModal extends React.Component {
   state = {
     isVisible: false,
-    item: {}
+    item: {},
+    fixedCashback: null
   };
 
-  show = item => {
-    this.setState({ isVisible: true, item });
+  show = (item, fixed_cashback) => {
+    this.setState({ isVisible: true, item, fixedCashback: fixed_cashback });
   };
 
   hide = () => {
@@ -93,7 +94,9 @@ export default class StatusModal extends React.Component {
                     Fixed Cashback
                   </Text>
                 </View>
-                <Text style={{ fontSize: 9 }}>₹ 1</Text>
+                <Text style={{ fontSize: 9 }}>
+                  ₹ {this.state.fixedCashback}
+                </Text>
               </View>
               <View style={{ flex: 1 }}>
                 <FlatList

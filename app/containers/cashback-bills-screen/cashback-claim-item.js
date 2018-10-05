@@ -7,6 +7,11 @@ import { Text } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
 export default ({ item, cashbackDispersedModal, statusModal }) => {
+  let variable =
+    item.user_wallets.length > 0
+      ? item.user_wallets.filter(wallet => wallet.seller_id === null)
+      : null;
+  let fixed_cashback = variable !== null ? variable[0].amount : null;
   let statusColor = colors.success;
   let statusText = "Approved";
   if (item.is_pending) {

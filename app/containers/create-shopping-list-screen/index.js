@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Picker } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import ScrollableTabView, {
@@ -35,6 +35,7 @@ import WishListLimitModal from "./wishlist-limit-modal";
 import { colors } from "../../theme";
 import { SCREENS } from "../../constants";
 import Analytics from "../../analytics";
+import DropDownSellers from "./drop-down-sellers";
 
 class ShoppingListScreen extends React.Component {
   state = {
@@ -611,3 +612,24 @@ class ShoppingListScreen extends React.Component {
 }
 
 export default ShoppingListScreen;
+
+//(
+// <DropDownSellers
+//   sellerName={selectedSeller.seller_name}
+//   sellerList={sellers}
+//   onDropDownChange={this.onDropDownChange}
+// />
+
+// <View>
+//   <Picker
+//     mode="dropdown"
+//     //selectedValue={selectedSeller.seller_name}
+//     style={{ height: 50, width: 100 }}
+//     // onValueChange={(itemValue, itemIndex) =>
+//     //   this.setState({ selectedSeller: itemValue })
+//     // }
+//   >
+//     <Picker.Item label="Huzaifa Shop" value="java" />
+//     <Picker.Item label="Zop" value="js" />
+//   </Picker>
+// </View>

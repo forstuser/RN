@@ -578,9 +578,11 @@ class OrderScreen extends React.Component {
               )}
               keyExtractor={(item, index) => item.id + "" + index}
               renderItem={({ item, index }) => {
+                //console.log("order.status_type___________", order.status_type);
                 if (order.order_type == ORDER_TYPES.FMCG) {
                   return (
                     <ShoppingListItem
+                      orderStatus={order.status_type}
                       item={item}
                       index={index}
                       declineItem={() => {
