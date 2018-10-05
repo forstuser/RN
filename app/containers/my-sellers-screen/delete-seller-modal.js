@@ -45,6 +45,7 @@ class DeleteSellerModal extends React.Component {
 
   deleteSellerHandler = async sellerId => {
     this.hide();
+    //console.log("Deleted Seller");
     try {
       const deleteReponse = await deleteSeller(sellerId);
     } catch (error) {
