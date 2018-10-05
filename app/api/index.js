@@ -44,7 +44,7 @@ const apiRequest = async ({
     if (Platform.OS == "ios") {
       headers.ios_app_version = APP_VERSION_FOR_API; //DeviceInfo.getBuildNumber();
     } else {
-      headers.app_version = APP_VERSION_FOR_API; //android app version
+      headers["app-version"] = APP_VERSION_FOR_API; //android app version
     }
 
     console.log(
