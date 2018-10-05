@@ -34,6 +34,7 @@ export default class SkuItem extends React.Component {
       item,
       measurementTypes,
       wishList = [],
+      isSearchDone,
       skuItemIdsCurrentlyModifying = [],
       addSkuItemToList = () => null,
       changeSkuItemQuantityInList = (skuMeasurementId, quantity) => null,
@@ -162,6 +163,20 @@ export default class SkuItem extends React.Component {
             <View />
           )}
         </View>
+        {isSearchDone ? (
+          <View style={{ backgroundColor: "#e8e129", alignSelf: "flex-start" }}>
+            <Text
+              weight="Medium"
+              style={{
+                fontSize: 10,
+                paddingHorizontal: 4
+              }}
+            >
+              {item.sub_category_name}
+            </Text>
+          </View>
+        ) : null}
+
         <ScrollView
           horizontal={true}
           style={{ marginVertical: 10 }}

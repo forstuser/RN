@@ -177,7 +177,8 @@ export default class SearchBar extends React.Component {
       addManualItemsToList = () => null,
       hideAddManually = false,
       sellers = [],
-      hideSellerFilter = false
+      hideSellerFilter = false,
+      onEndReached
     } = this.props;
 
     const { isBrandsPopupVisible, checkedBrands, checkedSellers } = this.state;
@@ -517,6 +518,8 @@ export default class SearchBar extends React.Component {
 
           <View style={{ flex: 2, height: "100%" }}>
             <FlatList
+              onEndReachedThreshold={0.5}
+              onEndReached={onEndReached}
               style={{ marginTop: 4 }}
               data={filteredItems}
               renderItem={({ item }) => (
@@ -524,6 +527,7 @@ export default class SearchBar extends React.Component {
                   measurementTypes={measurementTypes}
                   item={item}
                   wishList={wishList}
+                  isSearchDone={isSearchDone}
                   skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
                   addSkuItemToList={addSkuItemToList}
                   changeSkuItemQuantityInList={changeSkuItemQuantityInList}

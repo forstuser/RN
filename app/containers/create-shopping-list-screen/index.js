@@ -62,7 +62,8 @@ class ShoppingListScreen extends React.Component {
     selectedBrands: [],
     sellers: [],
     selectedSeller: null,
-    isWishListLimit: false
+    isWishListLimit: false,
+    offset: 0
   };
 
   componentDidMount() {
@@ -308,6 +309,13 @@ class ShoppingListScreen extends React.Component {
     this.updateSearchTerm("");
   };
 
+  // laodMoreItems = index => {
+  //   this.setState({
+  //     offset: index
+  //   });
+  //   this.loadItems();
+  // };
+
   loadItems = async () => {
     this.setState({
       isSearching: true,
@@ -320,7 +328,8 @@ class ShoppingListScreen extends React.Component {
       selectedCategoryIds,
       searchTerm,
       selectedBrands,
-      selectedSeller
+      selectedSeller,
+      offset
     } = this.state;
 
     try {
@@ -329,7 +338,8 @@ class ShoppingListScreen extends React.Component {
         categoryIds: !searchTerm ? selectedCategoryIds : undefined,
         searchTerm: searchTerm || undefined,
         brandIds: selectedBrands.map(brand => brand.id),
-        sellerId: selectedSeller ? selectedSeller.id : undefined
+        sellerId: selectedSeller ? selectedSeller.id : undefined,
+        offset: offset || 0
       };
 
       const res = await getSkuItems(data);
@@ -556,6 +566,7 @@ class ShoppingListScreen extends React.Component {
             openAddManualItemModal={() =>
               this.addManualItemModal.show(searchTerm)
             }
+            // onEndReached={() => this.laodMoreItems(100)}
             addManualItemsToList={this.addManualItemsToList}
           />
           <LoadingOverlay visible={isLoading || isLoadingWishList} />
