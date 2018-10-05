@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { Text, Image, Button } from "../../elements";
 import { colors } from "../../theme";
 
-export default ({ item, index, declineItem }) => {
+export default ({ item, index, declineItem, orderStatus }) => {
   let cashback = 0;
   if (item.sku_measurement && item.sku_measurement.cashback_percent) {
     cashback = (
@@ -48,9 +48,10 @@ export default ({ item, index, declineItem }) => {
             borderRadius: 8,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: item.suggestion
-              ? colors.secondaryText
-              : colors.success
+            backgroundColor:
+              item.suggestion && orderStatus === 4
+                ? colors.secondaryText
+                : colors.success
           }}
         >
           <Icon name="md-checkmark" size={12} color="#fff" />
@@ -68,7 +69,10 @@ export default ({ item, index, declineItem }) => {
               fontSize: 12,
               flex: 1,
               marginRight: 20,
-              color: item.suggestion ? colors.secondaryText : colors.mainText
+              color:
+                item.suggestion && orderStatus === 4
+                  ? colors.secondaryText
+                  : colors.mainText
             }}
             numberOfLines={2}
           >
@@ -107,9 +111,10 @@ export default ({ item, index, declineItem }) => {
                 weight="Medium"
                 style={{
                   fontSize: 10,
-                  color: item.suggestion
-                    ? colors.secondaryText
-                    : colors.mainBlue
+                  color:
+                    item.suggestion && orderStatus === 4
+                      ? colors.secondaryText
+                      : colors.mainBlue
                 }}
               >
                 You get back ₹ {cashback}
@@ -124,9 +129,10 @@ export default ({ item, index, declineItem }) => {
                   position: "absolute",
                   right: 0,
                   top: -5,
-                  color: item.suggestion
-                    ? colors.secondaryText
-                    : colors.mainText
+                  color:
+                    item.suggestion && orderStatus === 4
+                      ? colors.secondaryText
+                      : colors.mainText
                 }}
               >
                 (Rs. {item.unit_price} X {item.quantity})
