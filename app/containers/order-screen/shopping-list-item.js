@@ -13,6 +13,17 @@ export default ({ item, index, declineItem }) => {
         100) *
       item.quantity;
   }
+  let pack_no = "";
+  let quant = "";
+  if (
+    item.sku_measurement.pack_numbers &&
+    item.sku_measurement.pack_numbers > 0
+  ) {
+    pack_no = " X " + item.sku_measurement.pack_numbers;
+  }
+  if (item.quantity && item.quantity > 1) {
+    quant = " X " + item.quantity;
+  }
 
   return (
     <View
@@ -56,10 +67,8 @@ export default ({ item, index, declineItem }) => {
               {item.sku_measurement
                 ? ` (${item.sku_measurement.measurement_value +
                     item.sku_measurement.measurement_acronym +
-                    " X " +
-                    item.sku_measurement.pack_numbers +
-                    " X " +
-                    item.quantity})`
+                    pack_no +
+                    quant})`
                 : ``}
             </Text>
           </Text>
@@ -93,7 +102,14 @@ export default ({ item, index, declineItem }) => {
               <View />
             )}
             {item.unit_price && item.unit_price !== 0 ? (
-              <Text style={{ fontSize: 11 }}>
+              <Text
+                style={{
+                  fontSize: 11,
+                  position: "absolute",
+                  right: 0,
+                  top: -5
+                }}
+              >
                 (Rs. {item.unit_price} X {item.quantity})
               </Text>
             ) : (
