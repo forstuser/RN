@@ -490,7 +490,8 @@ class MySellersScreen extends React.Component {
                       <TouchableOpacity
                         onPress={() => this.deleteSellerModal.show(item.id)}
                         style={{
-                          marginTop: 3
+                          marginTop: 3,
+                          width: 80
                         }}
                       >
                         <Text

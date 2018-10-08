@@ -51,7 +51,7 @@ export default class SelectedItemsList extends React.Component {
             item.sku_measurement.pack_numbers &&
             item.sku_measurement.pack_numbers > 0
           ) {
-            pack_no = " X " + item.sku_measurement.pack_numbers;
+            pack_no = " x " + item.sku_measurement.pack_numbers;
           }
 
           let isLoading = false;

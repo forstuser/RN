@@ -25,11 +25,11 @@ export default ({ item, index, declineItem, orderStatus }) => {
     item.sku_measurement.pack_numbers &&
     item.sku_measurement.pack_numbers > 0
   ) {
-    pack_no = " X " + item.sku_measurement.pack_numbers;
+    pack_no = " x " + item.sku_measurement.pack_numbers;
   }
 
   if (item.quantity && item.quantity > 1) {
-    quant = " X " + item.quantity;
+    quant = " x " + item.quantity;
   }
 
   return (
@@ -135,7 +135,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
                       : colors.mainText
                 }}
               >
-                (Rs. {item.unit_price} X {item.quantity})
+                (Rs. {item.unit_price} x {item.quantity})
               </Text>
             ) : (
               <View />
@@ -192,7 +192,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
                         })`
                       : ``} */}
                     {` (${item.suggestion.measurement_value +
-                      " X " +
+                      " x " +
                       suggested_quantity})`}
                   </Text>
                 </Text>
@@ -232,7 +232,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
                       top: -5
                     }}
                   >
-                    (Rs. {item.unit_price} X{" "}
+                    (Rs. {item.unit_price} x{" "}
                     {item.updated_quantity
                       ? item.updated_quantity
                       : item.quantity}
