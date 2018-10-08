@@ -8,6 +8,7 @@ import {
   Image,
   NativeModules
 } from "react-native";
+import moment from "moment";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -151,9 +152,12 @@ class MyShoppingList extends React.Component {
     });
   };
 
-  selectSellerForOrder = seller => {
+  selectSellerForOrder = (seller, flag) => {
     Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_SELECT_SELLER);
-
+    if (flag === true)
+      return showSnackbar({
+        text: "Store closed now. Revisit during open hours."
+      });
     this.setState({
       isLoadingMySellers: true
     });
@@ -201,7 +205,7 @@ class MyShoppingList extends React.Component {
     } = this.state;
 
     console.log("measurementTypes: ", measurementTypes);
-
+    console.log("Sellers_____________", sellers);
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         {wishList.length == 0 ? (
@@ -298,14 +302,33 @@ class MyShoppingList extends React.Component {
               onRefresh={this.getMySellers}
               renderItem={({ item }) => {
                 let btnRedeemPoints = null;
+                let flag = false;
+                let currrentTime = new Date();
+                let timeInFormat = currrentTime.toLocaleString("en-US", {
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true
+                });
+
+                let closeTime = item.seller_details.basic_details.close_time;
+                console.log("Close Time__________________", closeTime);
+                console.log("Current Time__________________", timeInFormat);
+                if (
+                  moment(timeInFormat, "HH:mm") >= moment(closeTime, "HH:mm") ||
+                  item.is_logged_out === true
+                ) {
+                  flag = true;
+                }
+                console.log("Flag____________________:", flag);
                 return (
                   <TouchableOpacity
-                    onPress={() => this.selectSellerForOrder(item)}
+                    onPress={() => this.selectSellerForOrder(item, flag)}
                     style={{
                       ...defaultStyles.card,
                       margin: 10,
                       borderRadius: 10,
-                      overflow: "hidden"
+                      overflow: "hidden",
+                      backgroundColor: flag === true ? "#777" : "#fff"
                     }}
                   >
                     <View
@@ -342,9 +365,10 @@ class MyShoppingList extends React.Component {
                               width: 16,
                               height: 16,
                               borderRadius: 8,
-                              backgroundColor: item.rush_hours
-                                ? "red"
-                                : colors.success,
+                              backgroundColor:
+                                item.is_logged_out === true
+                                  ? "#ddd"
+                                  : colors.success,
                               alignItems: "center",
                               justifyContent: "center"
                             }}
