@@ -128,7 +128,7 @@ class ShoppingListScreen extends React.Component {
       }));
 
       if (pastItems.length == 0) {
-        this.loadItems();
+        this.loadItemsFirstPage();
       }
     } catch (referenceDataError) {
       console.log("referenceDataError: ", referenceDataError);
@@ -154,7 +154,7 @@ class ShoppingListScreen extends React.Component {
     }
     this.setState(newState, () => {
       if (activeMainCategoryId > 0) {
-        this.loadItems();
+        this.loadItemsFirstPage();
       }
     });
   };
@@ -178,7 +178,7 @@ class ShoppingListScreen extends React.Component {
     }
 
     this.setState({ selectedCategoryIds, selectedBrands: [] }, () => {
-      this.loadItems();
+      this.loadItemsFirstPage();
     });
   };
 
@@ -298,7 +298,7 @@ class ShoppingListScreen extends React.Component {
         (searchTerm.length == 3 &&
           searchTerm != this.state.lastSearchTerm3Characters)
       ) {
-        this.loadItems();
+        this.loadItemsFirstPage();
       }
       if (searchTerm.length == 3) {
         this.setState({ lastSearchTerm3Characters: searchTerm });
@@ -310,14 +310,15 @@ class ShoppingListScreen extends React.Component {
     this.updateSearchTerm("");
   };
 
-  // laodMoreItems = index => {
-  //   this.setState({
-  //     offset: index
-  //   });
-  //   this.loadItems();
-  // };
+  loadItemsFirstPage = () => {
+    this.setState({ items: [] }, () => {
+      this.loadItems();
+    });
+  };
 
-  loadItems = async () => {
+  loadItems = async (offset = 0) => {
+    const { items } = this.state;
+
     this.setState({
       isSearching: true,
       isSearchDone: false,
@@ -329,8 +330,7 @@ class ShoppingListScreen extends React.Component {
       selectedCategoryIds,
       searchTerm,
       selectedBrands,
-      selectedSeller,
-      offset
+      selectedSeller
     } = this.state;
 
     try {
@@ -340,7 +340,7 @@ class ShoppingListScreen extends React.Component {
         searchTerm: searchTerm || undefined,
         brandIds: selectedBrands.map(brand => brand.id),
         sellerId: selectedSeller ? selectedSeller.id : undefined,
-        offset: offset || 0
+        offset: items.length
       };
 
       const res = await getSkuItems(data);
@@ -348,7 +348,7 @@ class ShoppingListScreen extends React.Component {
       const newState = {
         isSearching: false,
         isSearchDone: true,
-        items: res.result.sku_items,
+        items: [...items, ...res.result.sku_items],
         brands: res.result.brands,
         sellers: res.seller_list
       };
@@ -363,7 +363,7 @@ class ShoppingListScreen extends React.Component {
   setSelectedBrands = (selectedBrands, stopItemLoad = false) => {
     this.setState({ selectedBrands }, () => {
       if (!stopItemLoad) {
-        this.loadItems();
+        this.loadItemsFirstPage();
       }
     });
   };
@@ -387,7 +387,7 @@ class ShoppingListScreen extends React.Component {
             sellerMainCategories: res.result
           },
           () => {
-            this.loadItems();
+            this.loadItemsFirstPage();
             this.clearWishList();
           }
         );
@@ -546,6 +546,7 @@ class ShoppingListScreen extends React.Component {
             }
             searchTerm={searchTerm}
             loadItems={this.loadItems}
+            loadItemsFirstPage={this.loadItemsFirstPage}
             onSearchTextChange={this.updateSearchTerm}
             clearSearchTerm={this.clearSearchTerm}
             brands={brands}
@@ -567,7 +568,6 @@ class ShoppingListScreen extends React.Component {
             openAddManualItemModal={() =>
               this.addManualItemModal.show(searchTerm)
             }
-            // onEndReached={() => this.laodMoreItems(100)}
             addManualItemsToList={this.addManualItemsToList}
           />
           <LoadingOverlay visible={isLoading || isLoadingWishList} />

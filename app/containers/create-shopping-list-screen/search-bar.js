@@ -122,10 +122,10 @@ export default class SearchBar extends React.Component {
   };
 
   startSearch = () => {
-    const { searchTerm = "", loadItems = () => null } = this.props;
+    const { searchTerm = "", loadItemsFirstPage = () => null } = this.props;
 
     if (searchTerm.length > 2) {
-      loadItems();
+      loadItemsFirstPage();
     }
   };
 
@@ -178,7 +178,7 @@ export default class SearchBar extends React.Component {
       hideAddManually = false,
       sellers = [],
       hideSellerFilter = false,
-      onEndReached
+      loadItems
     } = this.props;
 
     const { isBrandsPopupVisible, checkedBrands, checkedSellers } = this.state;
@@ -519,7 +519,7 @@ export default class SearchBar extends React.Component {
           <View style={{ flex: 2, height: "100%" }}>
             <FlatList
               onEndReachedThreshold={0.5}
-              onEndReached={onEndReached}
+              onEndReached={loadItems}
               style={{ marginTop: 4 }}
               data={filteredItems}
               renderItem={({ item }) => (
