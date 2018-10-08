@@ -155,7 +155,7 @@ class BasicDetailsScreen extends Component {
     if (user.image_name === null && !imageUploaded) {
       this.profilePicModal.show();
     } else {
-      this.onProceedAnyway;
+      this.onProceedAnyway();
     }
   };
 

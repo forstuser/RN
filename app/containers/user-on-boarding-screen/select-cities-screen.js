@@ -111,6 +111,13 @@ class SelectCitiesScreen extends Component {
   render() {
     return (
       <ScrollView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <Text
+          weight="Medium"
+          style={{ fontSize: 15, textAlign: "center", padding: 10 }}
+        >
+          You will not be able to change your city once you select your city
+          here.
+        </Text>
         <ScrollView style={{ flex: 1 }}>
           <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
             {this.state.cities.map(city => (
