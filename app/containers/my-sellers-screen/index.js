@@ -6,6 +6,7 @@ import {
   FlatList,
   ScrollView
 } from "react-native";
+import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
 import call from "react-native-phone-call";
@@ -118,6 +119,10 @@ class MySellersScreen extends React.Component {
     }
   };
 
+  orderOnline = () => {
+    this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN);
+  };
+
   render() {
     const { navigation } = this.props;
     const {
@@ -218,12 +223,51 @@ class MySellersScreen extends React.Component {
             }
             renderItem={({ item }) => {
               let btnRedeemPoints = null;
+              let btnOnlineOrder = null;
+              let flag = false;
+              let currrentTime = new Date();
+              let timeInFormat = currrentTime.toLocaleString("en-US", {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true
+              });
+
+              let closeTime = item.seller_details.basic_details.close_time;
+              //console.log("Close Time__________________", closeTime);
+              //console.log("Current Time__________________", timeInFormat);
+              if (
+                moment(timeInFormat, "HH:mm") >= moment(closeTime, "HH:mm") ||
+                item.is_logged_out === true
+              ) {
+                flag = true;
+              }
+              if (
+                item.is_fmcg === true &&
+                item.is_logged_out === false &&
+                flag === false
+              ) {
+                btnOnlineOrder = (
+                  <Button
+                    onPress={this.orderOnline}
+                    text="Order Online"
+                    color="secondary"
+                    style={{
+                      height: 30,
+                      width: 115,
+                      marginTop: 10,
+                      marginRight: 10
+                    }}
+                    textStyle={{ fontSize: 11 }}
+                  />
+                );
+              }
               if (
                 item.loyalty_total > item.minimum_points &&
                 item.loyalty_total > 0
               )
                 btnRedeemPoints = (
                   <Button
+                    type="outline"
                     onPress={() => {
                       this.openRedeemPointsScreen(item);
                     }}
@@ -504,8 +548,10 @@ class MySellersScreen extends React.Component {
                           Delete Seller
                         </Text>
                       </TouchableOpacity>
-
-                      {btnRedeemPoints}
+                      <View flexDirection="row">
+                        {btnOnlineOrder}
+                        {btnRedeemPoints}
+                      </View>
                       {/* <View onStartShouldSetResponder={() => true}>
                         <ScrollView
                           horizontal
