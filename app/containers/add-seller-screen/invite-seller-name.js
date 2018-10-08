@@ -160,6 +160,7 @@ export default class InviteSellerModal extends React.Component {
                     <Picker.Item label="Greater Noida" value="Greater Noida" />
                     <Picker.Item label="Faridabad" value="Faridabad" />
                     <Picker.Item label="Ghaziabad" value="Ghaziabad" />
+                    <Picker.Item label="Other" value="Other" />
                   </Picker>
                 </View>
                 <TextInput

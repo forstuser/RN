@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Picker
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import { showSnackbar } from "../../utils/snackbar";
@@ -15,7 +21,10 @@ export default class InviteSellerModal extends React.Component {
   state = {
     isVisible: false,
     isLoading: false,
+    shopName: "",
     phoneNumber: "",
+    city: "Gurgaon",
+    locality: "",
     isInviteSent: false
   };
 
@@ -30,7 +39,7 @@ export default class InviteSellerModal extends React.Component {
   };
 
   invite = async () => {
-    const { phoneNumber, isInviteSent } = this.state;
+    const { shopName, phoneNumber, city, locality, isInviteSent } = this.state;
     if (isInviteSent) {
       return this.closeModal();
     }
@@ -49,14 +58,22 @@ export default class InviteSellerModal extends React.Component {
   };
 
   render() {
-    const { isVisible, isLoading, phoneNumber, isInviteSent } = this.state;
+    const {
+      isVisible,
+      isLoading,
+      phoneNumber,
+      isInviteSent,
+      shopName,
+      city,
+      locality
+    } = this.state;
 
     return (
       <Modal
         isVisible={isVisible}
         title="Invite Seller"
         style={{
-          height: 200,
+          height: isInviteSent ? 200 : 400,
           ...defaultStyles.card
         }}
         onClosePress={this.closeModal}
@@ -74,19 +91,82 @@ export default class InviteSellerModal extends React.Component {
                 Invitation sent successfully!
               </Text>
             ) : (
-              <TextInput
-                value={phoneNumber}
-                onChangeText={phoneNumber => this.setState({ phoneNumber })}
-                underlineColorAndroid="transparent"
-                style={{
-                  borderColor: "#dadada",
-                  borderWidth: 1,
-                  height: 40,
-                  borderRadius: 5,
-                  paddingHorizontal: 5,
-                  marginBottom: 10
-                }}
-              />
+              <View>
+                <TextInput
+                  placeholder="Shop Name"
+                  value={shopName}
+                  onChangeText={shopName => this.setState({ shopName })}
+                  underlineColorAndroid="transparent"
+                  style={{
+                    borderColor: "#dadada",
+                    borderWidth: 1,
+                    height: 40,
+                    borderRadius: 5,
+                    //paddingHorizontal: 5,
+                    marginBottom: 10,
+                    padding: 10
+                  }}
+                />
+                <TextInput
+                  value={phoneNumber}
+                  onChangeText={phoneNumber => this.setState({ phoneNumber })}
+                  underlineColorAndroid="transparent"
+                  style={{
+                    borderColor: "#dadada",
+                    borderWidth: 1,
+                    height: 40,
+                    borderRadius: 5,
+                    //paddingHorizontal: 5,
+                    marginBottom: 10,
+                    padding: 10
+                  }}
+                />
+                <View
+                  style={{
+                    borderColor: "#dadada",
+                    borderWidth: 1,
+                    height: 40,
+                    borderRadius: 5,
+                    //paddingHorizontal: 5,
+                    marginBottom: 10,
+                    padding: 10
+                  }}
+                >
+                  <Picker
+                    mode="dropdown"
+                    selectedValue={city}
+                    style={{
+                      height: 20
+                    }}
+                    onValueChange={(itemValue, itemIndex) =>
+                      this.setState({ city: itemValue })
+                    }
+                  >
+                    <Picker.Item label="Gurgaon" value="Gurgaon" />
+                    <Picker.Item label="Delhi" value="Delhi" />
+                    <Picker.Item label="Noida" value="Noida" />
+                    <Picker.Item label="Greater Noida" value="Greater Noida" />
+                    <Picker.Item label="Faridabad" value="Faridabad" />
+                    <Picker.Item label="Ghaziabad" value="Ghaziabad" />
+                    <Picker.Item label="Other" value="Other" />
+                  </Picker>
+                </View>
+                <TextInput
+                  placeholder="Locality"
+                  value={locality}
+                  onChangeText={locality => this.setState({ locality })}
+                  underlineColorAndroid="transparent"
+                  style={{
+                    borderColor: "#dadada",
+                    borderWidth: 1,
+                    height: 40,
+                    borderRadius: 5,
+                    //paddingHorizontal: 5,
+                    marginBottom: 10,
+                    padding: 10
+                  }}
+                />
+              </View>
             )}
           </View>
 

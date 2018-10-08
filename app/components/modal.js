@@ -34,8 +34,15 @@ export default props => {
             {title}
           </Text>
           {typeof onClosePress == "function" ? (
-            <TouchableOpacity onPress={onClosePress}>
-              <Icon name="md-close" color="#fff" size={22} />
+            <TouchableOpacity
+              onPress={onClosePress}
+              style={{
+                //backgroundColor: "#555",
+                paddingLeft: 10,
+                paddingRight: 10
+              }}
+            >
+              <Icon name="md-close" color="#fff" size={24} />
             </TouchableOpacity>
           ) : null}
         </View>
