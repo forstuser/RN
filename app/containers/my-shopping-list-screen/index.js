@@ -311,15 +311,15 @@ class MyShoppingList extends React.Component {
                 });
 
                 let closeTime = item.seller_details.basic_details.close_time;
-                console.log("Close Time__________________", closeTime);
-                console.log("Current Time__________________", timeInFormat);
+                //console.log("Close Time__________________", closeTime);
+                //console.log("Current Time__________________", timeInFormat);
                 if (
                   moment(timeInFormat, "HH:mm") >= moment(closeTime, "HH:mm") ||
                   item.is_logged_out === true
                 ) {
                   flag = true;
                 }
-                console.log("Flag____________________:", flag);
+                //console.log("Flag____________________:", flag);
                 return (
                   <TouchableOpacity
                     onPress={() => this.selectSellerForOrder(item, flag)}
