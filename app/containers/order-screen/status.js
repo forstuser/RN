@@ -82,7 +82,7 @@ export default class Statuses extends React.Component {
               isDone={true}
             />
             <StatusItem
-              title="Accepted"
+              title="Items Confirmed"
               isDone={
                 [
                   ORDER_STATUS_TYPES.APPROVED,

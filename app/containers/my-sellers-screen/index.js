@@ -223,51 +223,50 @@ class MySellersScreen extends React.Component {
             }
             renderItem={({ item }) => {
               let btnRedeemPoints = null;
-              let btnOnlineOrder = null;
+              //let btnOnlineOrder = null;
               let flag = false;
-              let currrentTime = new Date();
-              let timeInFormat = currrentTime.toLocaleString("en-US", {
-                hour: "numeric",
-                minute: "numeric",
-                hour12: true
-              });
+              let currrentTime = moment();
+              // let timeInFormat = currrentTime.toLocaleString("en-US", {
+              //   hour: "numeric",
+              //   minute: "numeric",
+              //   hour12: true
+              // });
 
               let closeTime = item.seller_details.basic_details.close_time;
               let startTime = item.seller_details.basic_details.start_time;
-              console.log(
-                "Close Time__________________",
-                moment(closeTime, ["h:mm A"]).format("HH:mm")
-              );
-              console.log(
-                "Current Time__________________",
-                moment(timeInFormat, ["h:mm A"]).format("HH:mm")
-              );
+              let timeInFormat1 = moment(currrentTime, ["h:mm A"]);
+              let timeInFormat2 = moment(timeInFormat1).format("HH:mm");
+              let startTime1 = moment(startTime, ["h:mm A"]);
+              let startTime2 = moment(startTime1).format("HH:mm");
+              let closeTime1 = moment(closeTime, ["h:mm A"]);
+              let closeTime2 = moment(closeTime1).format("HH:mm");
+              console.log("Start Time__________________", startTime2);
+              console.log("Close Time__________________", closeTime2);
+              console.log("Current Time__________________", timeInFormat2);
               if (
-                moment(timeInFormat, ["h:mm A"]).format("HH:mm") >
-                  moment(closeTime, ["h:mm A"]).format("HH:mm") ||
-                moment(timeInFormat, ["h:mm A"]).format("HH:mm") <
-                  moment(startTime, ["h:mm A"]).format("HH:mm") ||
+                timeInFormat2 > closeTime2 ||
+                timeInFormat2 < startTime2 ||
                 item.is_logged_out === true
               ) {
                 flag = true;
               }
               console.log("Flag____________________:", flag);
-              if (item.is_fmcg === true && flag === false) {
-                btnOnlineOrder = (
-                  <Button
-                    onPress={this.orderOnline}
-                    text="Order Online"
-                    color="secondary"
-                    style={{
-                      height: 30,
-                      width: 105,
-                      marginTop: 10,
-                      marginRight: 10
-                    }}
-                    textStyle={{ fontSize: 11 }}
-                  />
-                );
-              }
+              // if (item.is_fmcg === true && flag === false) {
+              //   btnOnlineOrder = (
+              //     <Button
+              //       onPress={this.orderOnline}
+              //       text="Order Online"
+              //       color="secondary"
+              //       style={{
+              //         height: 30,
+              //         width: 105,
+              //         marginTop: 10,
+              //         marginRight: 10
+              //       }}
+              //       textStyle={{ fontSize: 11 }}
+              //     />
+              //   );
+              // }
               if (
                 item.loyalty_total > item.minimum_points &&
                 item.loyalty_total > 0
@@ -558,31 +557,10 @@ class MySellersScreen extends React.Component {
                         </Text>
                       </TouchableOpacity> */}
                       <View flexDirection="row">
-                        {btnOnlineOrder}
+                        {/* {btnOnlineOrder} */}
                         {btnRedeemPoints}
-                        <TouchableOpacity
-                          onPress={() => this.deleteSellerModal.show(item.id)}
-                          style={{
-                            position: "absolute",
-                            top: 10,
-                            right: 0,
-                            height: 30,
-                            backgroundColor: "#fff",
-                            width: 35,
-                            borderWidth: 1,
-                            borderColor: colors.pinkishOrange,
-                            borderRadius: 15
-                          }}
-                        >
-                          <Icon
-                            style={{ marginLeft: 10, marginTop: 3 }}
-                            name="md-trash"
-                            size={20}
-                            color={colors.pinkishOrange}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                      {/* <View onStartShouldSetResponder={() => true}>
+
+                        {/* <View onStartShouldSetResponder={() => true}>
                         <ScrollView
                           horizontal
                           showsHorizontalScrollIndicator={false}
@@ -617,6 +595,28 @@ class MySellersScreen extends React.Component {
                           ))}
                         </ScrollView>
                       </View> */}
+                      </View>
+                      <TouchableOpacity
+                        onPress={() => this.deleteSellerModal.show(item.id)}
+                        style={{
+                          position: "absolute",
+                          bottom: 10,
+                          right: 10,
+                          height: 30,
+                          backgroundColor: "#fff",
+                          width: 35,
+                          borderWidth: 1,
+                          borderColor: colors.pinkishOrange,
+                          borderRadius: 15
+                        }}
+                      >
+                        <Icon
+                          style={{ marginLeft: 10, marginTop: 3 }}
+                          name="md-trash"
+                          size={20}
+                          color={colors.pinkishOrange}
+                        />
+                      </TouchableOpacity>
                     </View>
                   </View>
                   <View
@@ -630,6 +630,16 @@ class MySellersScreen extends React.Component {
                       overflow: "hidden"
                     }}
                   >
+                    {item.is_fmcg === true && flag === false ? (
+                      <TouchableOpacity
+                        onPress={this.orderOnline}
+                        style={styles.bottomButton}
+                      >
+                        <Text weight="Medium" style={styles.bottomButtonText}>
+                          Order Online
+                        </Text>
+                      </TouchableOpacity>
+                    ) : null}
                     <TouchableOpacity
                       onPress={() => this.openCallOptions(item)}
                       style={styles.bottomButton}
@@ -721,7 +731,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    borderRightWidth: 2,
+    borderRightColor: "#eee"
   },
   bottomButtonIcon: {
     fontSize: 20,
