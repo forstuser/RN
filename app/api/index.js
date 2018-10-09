@@ -15,7 +15,7 @@ if (!__DEV__) {
 }
 export { API_BASE_URL };
 
-const APP_VERSION_FOR_API = 201010; // build made on 2.1.1
+const APP_VERSION_FOR_API = 20101; // build made on 2.1.1
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
@@ -44,7 +44,7 @@ const apiRequest = async ({
     if (Platform.OS == "ios") {
       headers.ios_app_version = APP_VERSION_FOR_API; //DeviceInfo.getBuildNumber();
     } else {
-      headers.app_version = APP_VERSION_FOR_API; //android app version
+      headers["app-version"] = APP_VERSION_FOR_API; //android app version
     }
 
     console.log(
