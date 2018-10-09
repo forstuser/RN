@@ -324,8 +324,7 @@ class MyShoppingList extends React.Component {
                   moment(timeInFormat, ["h:mm A"]).format("HH:mm") >
                     moment(closeTime, ["h:mm A"]).format("HH:mm") ||
                   moment(timeInFormat, ["h:mm A"]).format("HH:mm") <
-                    moment(startTime, ["h:mm A"]).format("HH:mm") ||
-                  item.is_logged_out === true
+                    moment(startTime, ["h:mm A"]).format("HH:mm")
                 ) {
                   flag = true;
                 }

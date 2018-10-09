@@ -252,11 +252,7 @@ class MySellersScreen extends React.Component {
                 flag = true;
               }
               console.log("Flag____________________:", flag);
-              if (
-                item.is_fmcg === true &&
-                item.is_logged_out === false &&
-                flag === false
-              ) {
+              if (item.is_fmcg === true && flag === false) {
                 btnOnlineOrder = (
                   <Button
                     onPress={this.orderOnline}
@@ -264,7 +260,7 @@ class MySellersScreen extends React.Component {
                     color="secondary"
                     style={{
                       height: 30,
-                      width: 115,
+                      width: 105,
                       marginTop: 10,
                       marginRight: 10
                     }}
@@ -284,7 +280,7 @@ class MySellersScreen extends React.Component {
                     }}
                     text="Redeem Points"
                     color="secondary"
-                    style={{ height: 30, width: 115, marginTop: 10 }}
+                    style={{ height: 30, width: 105, marginTop: 10 }}
                     textStyle={{ fontSize: 11 }}
                   />
                 );
@@ -299,7 +295,9 @@ class MySellersScreen extends React.Component {
                   style={{
                     ...defaultStyles.card,
                     margin: 10,
-                    borderRadius: 10
+                    borderRadius: 10,
+                    borderWidth: 1,
+                    borderColor: "#d3d3d3"
                   }}
                 >
                   <View
@@ -542,7 +540,7 @@ class MySellersScreen extends React.Component {
                           />
                         </TouchableOpacity>
                       </View>
-                      <TouchableOpacity
+                      {/* <TouchableOpacity
                         onPress={() => this.deleteSellerModal.show(item.id)}
                         style={{
                           marginTop: 3,
@@ -558,10 +556,31 @@ class MySellersScreen extends React.Component {
                         >
                           Delete Seller
                         </Text>
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
                       <View flexDirection="row">
                         {btnOnlineOrder}
                         {btnRedeemPoints}
+                        <TouchableOpacity
+                          onPress={() => this.deleteSellerModal.show(item.id)}
+                          style={{
+                            position: "absolute",
+                            top: 10,
+                            right: 0,
+                            height: 30,
+                            backgroundColor: "#fff",
+                            width: 35,
+                            borderWidth: 1,
+                            borderColor: colors.pinkishOrange,
+                            borderRadius: 15
+                          }}
+                        >
+                          <Icon
+                            style={{ marginLeft: 10, marginTop: 3 }}
+                            name="md-trash"
+                            size={20}
+                            color={colors.pinkishOrange}
+                          />
+                        </TouchableOpacity>
                       </View>
                       {/* <View onStartShouldSetResponder={() => true}>
                         <ScrollView
