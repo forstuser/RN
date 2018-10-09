@@ -15,7 +15,7 @@ if (!__DEV__) {
 }
 export { API_BASE_URL };
 
-const APP_VERSION_FOR_API = 20100; // build made on 2.1.1
+const APP_VERSION_FOR_API = 201010; // build made on 2.1.1
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
