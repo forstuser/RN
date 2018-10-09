@@ -233,14 +233,25 @@ class MySellersScreen extends React.Component {
               });
 
               let closeTime = item.seller_details.basic_details.close_time;
-              //console.log("Close Time__________________", closeTime);
-              //console.log("Current Time__________________", timeInFormat);
+              let startTime = item.seller_details.basic_details.start_time;
+              console.log(
+                "Close Time__________________",
+                moment(closeTime, ["h:mm A"]).format("HH:mm")
+              );
+              console.log(
+                "Current Time__________________",
+                moment(timeInFormat, ["h:mm A"]).format("HH:mm")
+              );
               if (
-                moment(timeInFormat, "HH:mm") >= moment(closeTime, "HH:mm") ||
+                moment(timeInFormat, ["h:mm A"]).format("HH:mm") >
+                  moment(closeTime, ["h:mm A"]).format("HH:mm") ||
+                moment(timeInFormat, ["h:mm A"]).format("HH:mm") <
+                  moment(startTime, ["h:mm A"]).format("HH:mm") ||
                 item.is_logged_out === true
               ) {
                 flag = true;
               }
+              console.log("Flag____________________:", flag);
               if (
                 item.is_fmcg === true &&
                 item.is_logged_out === false &&
