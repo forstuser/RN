@@ -168,10 +168,22 @@ export default class MySellersScreen extends React.Component {
                   <Text weight="Bold" style={{ fontSize: 13 }}>
                     {item.name}
                   </Text>
-                  <Text style={{ fontSize: 11, marginVertical: 5 }}>
-                    {item.contact_no}
+                  <Text style={{ fontSize: 11, marginTop: 5 }}>
+                    Contact no. - {item.contact_no}
                   </Text>
-                  <Text style={{ fontSize: 11 }}>{item.address}</Text>
+                  {item.city ? (
+                    <Text style={{ fontSize: 11, marginTop: 5 }}>
+                      City - {item.city.name}
+                    </Text>
+                  ) : null}
+                  {item.location ? (
+                    <Text style={{ fontSize: 11, marginTop: 5 }}>
+                      Locality - {item.location.name}
+                    </Text>
+                  ) : null}
+                  <Text style={{ fontSize: 11, marginTop: 5 }}>
+                    Address - {item.address}
+                  </Text>
                   {!mySellersIds.includes(item.id) ? (
                     <Button
                       onPress={() => this.linkSeller(item)}

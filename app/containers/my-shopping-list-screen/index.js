@@ -154,10 +154,10 @@ class MyShoppingList extends React.Component {
 
   selectSellerForOrder = (seller, flag) => {
     Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_SELECT_SELLER);
-    if (flag === true)
-      return showSnackbar({
-        text: "Store closed now. Revisit during open hours."
-      });
+    if (flag === true) return;
+    // return showSnackbar({
+    //   text: "Store closed now. Revisit during open hours."
+    // });
     this.setState({
       isLoadingMySellers: true
     });
@@ -302,171 +302,197 @@ class MyShoppingList extends React.Component {
               renderItem={({ item }) => {
                 let btnRedeemPoints = null;
                 let flag = false;
-                let currrentTime = new Date();
-                let timeInFormat = currrentTime.toLocaleString("en-US", {
-                  hour: "numeric",
-                  minute: "numeric",
-                  hour12: true
-                });
+                let currrentTime = moment();
+                // let timeInFormat = currrentTime.toLocaleString("en-US", {
+                //   hour: "numeric",
+                //   minute: "numeric",
+                //   hour12: true
+                // });
 
                 let closeTime = item.seller_details.basic_details.close_time;
                 let startTime = item.seller_details.basic_details.start_time;
-                console.log(
-                  "Close Time__________________",
-                  moment(closeTime, ["h:mm A"]).format("HH:mm")
-                );
-                console.log(
-                  "Current Time__________________",
-                  moment(timeInFormat, ["h:mm A"]).format("HH:mm")
-                );
+                let timeInFormat1 = moment(currrentTime, ["h:mm A"]);
+                let timeInFormat2 = moment(timeInFormat1).format("HH:mm");
+                let startTime1 = moment(startTime, ["h:mm A"]);
+                let startTime2 = moment(startTime1).format("HH:mm");
+                let closeTime1 = moment(closeTime, ["h:mm A"]);
+                let closeTime2 = moment(closeTime1).format("HH:mm");
+                console.log("Start Time__________________", startTime2);
+                console.log("Close Time__________________", closeTime2);
+                console.log("Current Time__________________", timeInFormat2);
                 if (
-                  moment(timeInFormat, ["h:mm A"]).format("HH:mm") >
-                    moment(closeTime, ["h:mm A"]).format("HH:mm") ||
-                  moment(timeInFormat, ["h:mm A"]).format("HH:mm") <
-                    moment(startTime, ["h:mm A"]).format("HH:mm") ||
+                  timeInFormat2 > closeTime2 ||
+                  timeInFormat2 < startTime2 ||
                   item.is_logged_out === true
                 ) {
                   flag = true;
                 }
                 console.log("Flag____________________:", flag);
+                //alert("Flag____________________:", flag);
                 return (
-                  <TouchableOpacity
-                    onPress={() => this.selectSellerForOrder(item, flag)}
-                    style={{
-                      ...defaultStyles.card,
-                      margin: 10,
-                      borderRadius: 10,
-                      overflow: "hidden",
-                      backgroundColor: flag === true ? "#777" : "#fff"
-                    }}
-                  >
-                    <View
-                      style={{
-                        flexDirection: "row"
-                      }}
-                    >
-                      <View style={{ padding: 12 }}>
+                  <View>
+                    {flag === true ? (
+                      <Text
+                        weight="Bold"
+                        style={{
+                          zIndex: 9999,
+                          position: "absolute",
+                          bottom: 15,
+                          right: 15,
+                          width: 250,
+                          textAlign: "left",
+                          padding: 10,
+                          color: colors.danger
+                        }}
+                      >
+                        Store closed now. Revisit during open hours.
+                      </Text>
+                    ) : null}
+                    <View style={{ opacity: flag === true ? 0.3 : 1 }}>
+                      <TouchableOpacity
+                        onPress={() => this.selectSellerForOrder(item, flag)}
+                        style={{
+                          ...defaultStyles.card,
+                          margin: 10,
+                          borderRadius: 10,
+                          overflow: "hidden",
+                          backgroundColor: "#fff"
+                        }}
+                      >
                         <View
                           style={{
-                            width: 68,
-                            height: 68,
-                            borderRadius: 34,
-                            backgroundColor: "#eee"
+                            flexDirection: "row"
                           }}
                         >
-                          <Image
-                            style={{
-                              width: 68,
-                              height: 68,
-                              borderRadius: 34
-                            }}
-                            source={{
-                              uri:
-                                API_BASE_URL +
-                                `/consumer/sellers/${item.id}/upload/1/images/0`
-                            }}
-                          />
-                          <View
-                            style={{
-                              position: "absolute",
-                              right: 2,
-                              bottom: 2,
-                              width: 16,
-                              height: 16,
-                              borderRadius: 8,
-                              backgroundColor:
-                                item.is_logged_out === true
-                                  ? "#ddd"
-                                  : colors.success,
-                              alignItems: "center",
-                              justifyContent: "center"
-                            }}
-                          />
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "baseline",
-                            marginTop: 8
-                          }}
-                        >
-                          <StarRating
-                            starColor={colors.yellow}
-                            disabled={true}
-                            maxStars={5}
-                            rating={Number(item.ratings)}
-                            halfStarEnabled={true}
-                            starSize={11}
-                            starStyle={{ marginHorizontal: 0 }}
-                          />
-                          <Text
-                            weight="Medium"
-                            style={{
-                              fontSize: 10,
-                              marginLeft: 2,
-                              color: colors.secondaryText
-                            }}
-                          >
-                            ({item.ratings.toFixed(2)})
-                          </Text>
-                        </View>
-                        {item.seller_details &&
-                        item.seller_details.basic_details &&
-                        item.seller_details.basic_details.home_delivery ? (
-                          <Text
-                            style={{
-                              color: "#208e07",
-                              fontSize: 6,
-                              marginTop: 6
-                            }}
-                          >
-                            Home Delivery Available
-                          </Text>
-                        ) : null}
-
-                        {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED && (
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              backgroundColor: "green",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              width: 70,
-                              height: 20,
-                              borderRadius: 3,
-                              marginTop: 10
-                            }}
-                          >
-                            <Icon
-                              name="md-checkmark-circle-outline"
-                              color="#fff"
-                              size={13}
-                            />
-                            <Text
-                              weight="Bold"
+                          <View style={{ padding: 12 }}>
+                            <View
                               style={{
-                                color: "#fff",
-                                fontSize: 10,
-                                marginLeft: 5,
-                                marginTop: -2
+                                width: 68,
+                                height: 68,
+                                borderRadius: 34,
+                                backgroundColor: "#eee"
                               }}
                             >
-                              Verified
-                            </Text>
+                              <Image
+                                style={{
+                                  width: 68,
+                                  height: 68,
+                                  borderRadius: 34
+                                }}
+                                source={{
+                                  uri:
+                                    API_BASE_URL +
+                                    `/consumer/sellers/${
+                                      item.id
+                                    }/upload/1/images/0`
+                                }}
+                              />
+                              <View
+                                style={{
+                                  position: "absolute",
+                                  right: 2,
+                                  bottom: 2,
+                                  width: 16,
+                                  height: 16,
+                                  borderRadius: 8,
+                                  backgroundColor:
+                                    item.is_logged_out === true
+                                      ? "#ddd"
+                                      : colors.success,
+                                  alignItems: "center",
+                                  justifyContent: "center"
+                                }}
+                              />
+                            </View>
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                alignItems: "baseline",
+                                marginTop: 8
+                              }}
+                            >
+                              <StarRating
+                                starColor={colors.yellow}
+                                disabled={true}
+                                maxStars={5}
+                                rating={Number(item.ratings)}
+                                halfStarEnabled={true}
+                                starSize={11}
+                                starStyle={{ marginHorizontal: 0 }}
+                              />
+                              <Text
+                                weight="Medium"
+                                style={{
+                                  fontSize: 10,
+                                  marginLeft: 2,
+                                  color: colors.secondaryText
+                                }}
+                              >
+                                ({item.ratings.toFixed(2)})
+                              </Text>
+                            </View>
+                            {item.seller_details &&
+                            item.seller_details.basic_details &&
+                            item.seller_details.basic_details.home_delivery ? (
+                              <Text
+                                style={{
+                                  color: "#208e07",
+                                  fontSize: 6,
+                                  marginTop: 6
+                                }}
+                              >
+                                Home Delivery Available
+                              </Text>
+                            ) : null}
+
+                            {item.seller_type_id ==
+                              SELLER_TYPE_IDS.VERIFIED && (
+                              <View
+                                style={{
+                                  flexDirection: "row",
+                                  backgroundColor: "green",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  width: 70,
+                                  height: 20,
+                                  borderRadius: 3,
+                                  marginTop: 10
+                                }}
+                              >
+                                <Icon
+                                  name="md-checkmark-circle-outline"
+                                  color="#fff"
+                                  size={13}
+                                />
+                                <Text
+                                  weight="Bold"
+                                  style={{
+                                    color: "#fff",
+                                    fontSize: 10,
+                                    marginLeft: 5,
+                                    marginTop: -2
+                                  }}
+                                >
+                                  Verified
+                                </Text>
+                              </View>
+                            )}
                           </View>
-                        )}
-                      </View>
-                      <View style={{ padding: 12, paddingLeft: 0, flex: 1 }}>
-                        <View style={{ flexDirection: "row" }}>
-                          <View style={{ flex: 1, justifyContent: "center" }}>
-                            <Text weight="Bold" style={{ fontSize: 13 }}>
-                              {item.name}
-                            </Text>
-                            <Text style={{ fontSize: 11 }}>
-                              {item.owner_name}
-                            </Text>
-                          </View>
-                          {/* {item.offer_count ? (
+                          <View
+                            style={{ padding: 12, paddingLeft: 0, flex: 1 }}
+                          >
+                            <View style={{ flexDirection: "row" }}>
+                              <View
+                                style={{ flex: 1, justifyContent: "center" }}
+                              >
+                                <Text weight="Bold" style={{ fontSize: 13 }}>
+                                  {item.name}
+                                </Text>
+                                <Text style={{ fontSize: 11 }}>
+                                  {item.owner_name}
+                                </Text>
+                              </View>
+                              {/* {item.offer_count ? (
                             <View
                               style={{
                                 width: 42,
@@ -494,76 +520,91 @@ class MyShoppingList extends React.Component {
                               </Text>
                             </View>
                           ) : null} */}
-                        </View>
+                            </View>
 
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center"
-                          }}
-                        >
-                          <Text style={{ fontSize: 13 }}>Credit Due : </Text>
-                          <View
-                            // onPress={() =>
-                            //   this.props.navigation.navigate(
-                            //     SCREENS.MY_SELLERS_CREDIT_TRANSACTIONS_SCREEN,
-                            //     { seller: item }
-                            //   )
-                            // }
-                            //onPress={() => {}}
-                            style={{
-                              flexDirection: "row",
-                              paddingVertical: 5,
-                              alignItems: "center"
-                            }}
-                          >
-                            <Text
-                              style={{ fontSize: 13, color: colors.mainText }}
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                alignItems: "center"
+                              }}
                             >
-                              Rs. {item.credit_total}
-                            </Text>
-                            {/* <Icon
+                              <Text style={{ fontSize: 13 }}>
+                                Credit Due :{" "}
+                              </Text>
+                              <View
+                                // onPress={() =>
+                                //   this.props.navigation.navigate(
+                                //     SCREENS.MY_SELLERS_CREDIT_TRANSACTIONS_SCREEN,
+                                //     { seller: item }
+                                //   )
+                                // }
+                                //onPress={() => {}}
+                                style={{
+                                  flexDirection: "row",
+                                  paddingVertical: 5,
+                                  alignItems: "center"
+                                }}
+                              >
+                                <Text
+                                  style={{
+                                    fontSize: 13,
+                                    color: colors.mainText
+                                  }}
+                                >
+                                  Rs. {item.credit_total}
+                                </Text>
+                                {/* <Icon
                               name="md-information-circle"
                               size={15}
                               style={{ marginTop: 2, marginLeft: 5 }}
                             /> */}
-                          </View>
-                        </View>
-                        <View
-                          style={{ flexDirection: "row", alignItems: "center" }}
-                        >
-                          <Text style={{ fontSize: 13 }}>Points Earned : </Text>
-
-                          <View
-                            // onPress={() =>
-                            //   this.props.navigation.navigate(
-                            //     SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN,
-                            //     { seller: item }
-                            //   )
-                            // }
-                            //onPress={() => {}}
-                            style={{
-                              flexDirection: "row",
-                              paddingVertical: 5,
-                              alignItems: "center"
-                            }}
-                          >
-                            <Text
-                              style={{ fontSize: 13, color: colors.mainText }}
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                alignItems: "center"
+                              }}
                             >
-                              {item.loyalty_total}
-                            </Text>
-                            {/* <Icon
+                              <Text style={{ fontSize: 13 }}>
+                                Points Earned :{" "}
+                              </Text>
+
+                              <View
+                                // onPress={() =>
+                                //   this.props.navigation.navigate(
+                                //     SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN,
+                                //     { seller: item }
+                                //   )
+                                // }
+                                //onPress={() => {}}
+                                style={{
+                                  flexDirection: "row",
+                                  paddingVertical: 5,
+                                  alignItems: "center"
+                                }}
+                              >
+                                <Text
+                                  style={{
+                                    fontSize: 13,
+                                    color: colors.mainText
+                                  }}
+                                >
+                                  {item.loyalty_total}
+                                </Text>
+                                {/* <Icon
                               name="md-information-circle"
                               size={15}
                               style={{ marginTop: 2, marginLeft: 5 }}
                             /> */}
+                              </View>
+                            </View>
+                            {btnRedeemPoints}
                           </View>
                         </View>
-                        {btnRedeemPoints}
-                      </View>
+                      </TouchableOpacity>
                     </View>
-                  </TouchableOpacity>
+                  </View>
                 );
               }}
             />
