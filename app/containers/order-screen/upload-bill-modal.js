@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity, TextInput } from "react-native";
 
 import { Text, Button, UploadDoc } from "../../elements";
 import Modal from "../../components/modal";
@@ -14,11 +14,16 @@ export default class UploadBillModal extends React.Component {
     copies: [],
     productId: null,
     jobId: null,
-    isChecklistModalVisible: false
+    isChecklistModalVisible: false,
+    totalAmount: 0
   };
 
   show = ({ jobId, productId }) => {
     this.setState({ isVisible: true, jobId, productId });
+  };
+
+  showModal = () => {
+    this.setState({ isVisible: true });
   };
 
   hide = () => {
@@ -36,14 +41,15 @@ export default class UploadBillModal extends React.Component {
       copies,
       jobId,
       productId,
-      isChecklistModalVisible
+      isChecklistModalVisible,
+      totalAmount
     } = this.state;
     return (
       <Modal
         isVisible={isVisible}
         title="Upload Bill"
         style={{
-          height: 250,
+          height: 350,
           backgroundColor: "#fff"
         }}
         onClosePress={this.hide}
@@ -93,10 +99,37 @@ export default class UploadBillModal extends React.Component {
             onPicTaken={this.hide}
             placeholder="Upload Bill"
             //   placeholder2="*"
-            //   placeholder2Color={colors.mainBlue}
+            //placeholder2Color={colors.mainBlue}
             onUpload={onUploadDone}
           />
-
+          {/* <TextInput
+            keyboardType="numeric"
+            placeholder="Total Amount"
+            value={totalAmount}
+            onChangeText={totalAmount => this.setState({ totalAmount })}
+            underlineColorAndroid="transparent"
+            style={{
+              borderColor: "#dadada",
+              borderBottomWidth: 1,
+              height: 40,
+              //borderRadius: 5,
+              //paddingHorizontal: 5,
+              marginBottom: 10
+              //padding: 10
+            }}
+          />
+          <Button
+            onPress={() => alert("Submit")}
+            text="Submit"
+            color="secondary"
+            borderRadius={20}
+            style={{
+              height: 40,
+              width: 100,
+              alignSelf: "center",
+              marginTop: 5
+            }}
+          /> */}
           <ChecklistModal
             isChecklistModalVisible={isChecklistModalVisible}
             hideChecklistModal={this.hideChecklistModal}

@@ -423,8 +423,13 @@ export default class SelectSellerScreen extends React.Component {
               weight="Medium"
               style={{ textAlign: "center", fontSize: 15, marginBottom: 20 }}
             >
-              We incentivise your seller for every Home Delivery.
+              (We incentivise your seller for every Home Delivery.)
             </Text>
+            <Image
+              source={require("../../images/happy.png")}
+              style={{ marginTop: -13, height: 20, width: 20 }}
+              resizeMode="contain"
+            />
             <View
               style={{
                 width: "100%",

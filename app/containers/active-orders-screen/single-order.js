@@ -48,13 +48,13 @@ class SingleOrder extends Component {
     )
       statusType = (
         <Text style={{ fontSize: 11, color: colors.success }}>
-          Order Modified
+          ORDER MODIFIED
         </Text>
       );
     else if (item.status_type === ORDER_STATUS_TYPES.APPROVED)
       statusType = (
         <Text style={{ fontSize: 11, color: colors.pinkishOrange }}>
-          In Progress
+          IN PROGRESS
         </Text>
       );
     else if (item.status_type === ORDER_STATUS_TYPES.CANCELED)
@@ -158,7 +158,7 @@ class SingleOrder extends Component {
           </View>
         </View>
         <View style={[styles.box, styles.box2]}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
             <Text style={styles.info}>Seller: {name}</Text>
             <Text style={styles.status}>{status}</Text>
           </View>
@@ -215,6 +215,7 @@ const styles = {
   info: {
     marginTop: 10,
     flex: 2.5
+    //marginRight: 5
   },
   data: {
     marginTop: 5
@@ -226,10 +227,10 @@ const styles = {
   //   flex: 1
   // },
   status: {
-    flex: 1.25,
+    flex: 1,
     textAlign: "right",
-    top: 0,
-    right: 10,
+    marginTop: 12,
+    marginRight: 10,
     fontSize: 16
   },
   imageIcon: {
