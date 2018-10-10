@@ -22,6 +22,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
     : item.quantity;
 
   if (
+    item.sku_measurement &&
     item.sku_measurement.pack_numbers &&
     item.sku_measurement.pack_numbers > 0
   ) {

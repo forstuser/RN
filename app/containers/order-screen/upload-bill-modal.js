@@ -84,7 +84,19 @@ export default class UploadBillModal extends React.Component {
               View Checklist
             </Text>
           </TouchableOpacity>
-
+          <TextInput
+            keyboardType="numeric"
+            placeholder="Total Amount"
+            value={totalAmount}
+            onChangeText={totalAmount => this.setState({ totalAmount })}
+            underlineColorAndroid="transparent"
+            style={{
+              borderColor: "#dadada",
+              borderBottomWidth: 1,
+              height: 40,
+              marginBottom: 10
+            }}
+          />
           <UploadDoc
             ref={node => {
               this.uploadDoc = node;
@@ -102,23 +114,7 @@ export default class UploadBillModal extends React.Component {
             //placeholder2Color={colors.mainBlue}
             onUpload={onUploadDone}
           />
-          {/* <TextInput
-            keyboardType="numeric"
-            placeholder="Total Amount"
-            value={totalAmount}
-            onChangeText={totalAmount => this.setState({ totalAmount })}
-            underlineColorAndroid="transparent"
-            style={{
-              borderColor: "#dadada",
-              borderBottomWidth: 1,
-              height: 40,
-              //borderRadius: 5,
-              //paddingHorizontal: 5,
-              marginBottom: 10
-              //padding: 10
-            }}
-          />
-          <Button
+          {/* <Button
             onPress={() => alert("Submit")}
             text="Submit"
             color="secondary"
