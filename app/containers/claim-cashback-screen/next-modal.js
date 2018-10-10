@@ -52,7 +52,7 @@ export default class NextModal extends React.Component {
             }}
           >
             As you have not selected any item, you will receive only Fixed
-            cashback and not the item-wise Ccashback.
+            cashback and not the item-wise Cashback.
           </Text>
           <View style={{ flexDirection: "row", marginTop: 20 }}>
             <Button

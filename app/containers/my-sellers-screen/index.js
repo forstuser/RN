@@ -635,6 +635,11 @@ class MySellersScreen extends React.Component {
                         onPress={this.orderOnline}
                         style={styles.bottomButton}
                       >
+                        <Image
+                          source={require("../../images/purchase.png")}
+                          style={{ height: 17, width: 17, marginRight: 3 }}
+                          resizeMode="contain"
+                        />
                         <Text weight="Medium" style={styles.bottomButtonText}>
                           Order Online
                         </Text>

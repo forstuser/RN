@@ -42,7 +42,7 @@ export default class StatusModal extends React.Component {
         onClosePress={this.hide}
         onBackButtonPress={this.hide}
         onBackdropPress={this.hide}
-        style={{ height: 190, backgroundColor: "#fff" }}
+        style={{ height: 300, backgroundColor: "#fff" }}
       >
         <View
           style={{

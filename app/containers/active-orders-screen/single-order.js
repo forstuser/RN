@@ -38,20 +38,16 @@ class SingleOrder extends Component {
       statusType = (
         <Text style={{ fontSize: 11, color: colors.success }}>COMPLETED</Text>
       );
-    else if (item.status_type === ORDER_STATUS_TYPES.NEW)
-      statusType = (
-        <Text style={{ fontSize: 11, color: colors.success }}>NEW</Text>
-      );
-    else if (
-      item.status_type === ORDER_STATUS_TYPES.NEW &&
-      item.is_modified === true
-    )
-      statusType = (
-        <Text style={{ fontSize: 11, color: colors.success }}>
-          ORDER MODIFIED
-        </Text>
-      );
-    else if (item.status_type === ORDER_STATUS_TYPES.APPROVED)
+    else if (item.status_type === ORDER_STATUS_TYPES.NEW) {
+      if (item.is_modified === true)
+        statusType = (
+          <Text style={{ fontSize: 11, color: colors.success }}>MODIFIED</Text>
+        );
+      else
+        statusType = (
+          <Text style={{ fontSize: 11, color: colors.success }}>NEW</Text>
+        );
+    } else if (item.status_type === ORDER_STATUS_TYPES.APPROVED)
       statusType = (
         <Text style={{ fontSize: 11, color: colors.pinkishOrange }}>
           IN PROGRESS

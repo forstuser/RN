@@ -332,21 +332,26 @@ class MyShoppingList extends React.Component {
                 return (
                   <View>
                     {flag === true ? (
-                      <Text
-                        weight="Bold"
+                      <View
                         style={{
-                          zIndex: 9999,
+                          zIndex: 2,
                           position: "absolute",
-                          bottom: 15,
-                          right: 15,
-                          width: 250,
-                          textAlign: "left",
-                          padding: 10,
-                          color: colors.danger
+                          bottom: "8%",
+                          left: "28.5%",
+                          width: "70%"
                         }}
                       >
-                        Store closed now. Revisit during open hours.
-                      </Text>
+                        <Text
+                          weight="Bold"
+                          style={{
+                            textAlign: "left",
+                            padding: 10,
+                            color: colors.danger
+                          }}
+                        >
+                          Store closed now. Revisit during open hours.
+                        </Text>
+                      </View>
                     ) : null}
                     <View style={{ opacity: flag === true ? 0.3 : 1 }}>
                       <TouchableOpacity
