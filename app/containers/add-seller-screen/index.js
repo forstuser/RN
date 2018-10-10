@@ -201,7 +201,7 @@ export default class MySellersScreen extends React.Component {
                   }}
                 >
                   {isSearchDone
-                    ? `This seller is not in our network. Invite your Seller to avail additional Offers, faster Home Delivery, Credit Loyalty,Home Services, & Online Order convenience`
+                    ? `This seller is not in our network. Invite your Seller to avail additional Offers, faster Home Delivery, Credit Loyalty, Home Services, & Online Order convenience`
                     : `Search your seller by name or phone number`}
                 </Text>
                 {isSearchDone ? (

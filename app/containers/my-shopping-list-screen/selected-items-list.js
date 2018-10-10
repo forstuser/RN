@@ -53,7 +53,14 @@ export default class SelectedItemsList extends React.Component {
           ) {
             pack_no = " x " + item.sku_measurement.pack_numbers;
           }
-
+          let measurement_acronym = "";
+          console.log(measurementTypes, "lo");
+          // if (item.sku_measurement && item.sku_measurement.measurement_type) {
+          //   measurement_acronym = measurementTypes.map(acronym => {
+          //     return acronym.id == item.sku_measurement.measurement_type;
+          //   });
+          //   measurement_acronym = measurement_acronym.acronym;
+          // }
           let isLoading = false;
           if (
             item.sku_measurement &&
@@ -107,7 +114,9 @@ export default class SelectedItemsList extends React.Component {
                     >
                       {item.sku_measurement
                         ? ` (${item.sku_measurement.measurement_value +
-                            item.sku_measurement.measurement_acronym +
+                            measurementTypes[
+                              item.sku_measurement.measurement_type
+                            ].acronym +
                             pack_no})`
                         : ``}
                     </Text>
