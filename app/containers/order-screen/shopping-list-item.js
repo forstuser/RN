@@ -49,7 +49,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
             alignItems: "center",
             justifyContent: "center",
             backgroundColor:
-              item.suggestion && orderStatus === 4
+              (item.suggestion && orderStatus === 4) || !item.item_availability
                 ? colors.secondaryText
                 : colors.success
           }}
@@ -70,7 +70,8 @@ export default ({ item, index, declineItem, orderStatus }) => {
               flex: 1,
               marginRight: 20,
               color:
-                item.suggestion && orderStatus === 4
+                (item.suggestion && orderStatus === 4) ||
+                !item.item_availability
                   ? colors.secondaryText
                   : colors.mainText
             }}
@@ -112,7 +113,8 @@ export default ({ item, index, declineItem, orderStatus }) => {
                 style={{
                   fontSize: 10,
                   color:
-                    item.suggestion && orderStatus === 4
+                    (item.suggestion && orderStatus === 4) ||
+                    !item.item_availability
                       ? colors.secondaryText
                       : colors.mainBlue
                 }}
@@ -130,7 +132,8 @@ export default ({ item, index, declineItem, orderStatus }) => {
                   right: 0,
                   top: -5,
                   color:
-                    item.suggestion && orderStatus === 4
+                    (item.suggestion && orderStatus === 4) ||
+                    !item.item_availability
                       ? colors.secondaryText
                       : colors.mainText
                 }}
@@ -171,9 +174,27 @@ export default ({ item, index, declineItem, orderStatus }) => {
                 Suggested Item:
               </Text>
               <View style={{ flexDirection: "row", marginTop: 5 }}>
+                <TouchableOpacity
+                  style={{
+                    width: 16,
+                    height: 16,
+                    borderRadius: 8,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: colors.success,
+                    marginLeft: -20
+                  }}
+                >
+                  <Icon name="md-checkmark" size={12} color="#fff" />
+                </TouchableOpacity>
                 <Text
                   weight="Medium"
-                  style={{ fontSize: 12, flex: 1, marginRight: 20 }}
+                  style={{
+                    fontSize: 12,
+                    flex: 1,
+                    marginLeft: 5,
+                    marginRight: 20
+                  }}
                   numberOfLines={2}
                 >
                   {item.suggestion.title}
@@ -286,7 +307,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
                 </View>
               ) : null}
               {item.updated_quantity &&
-              item.updated_quantity !== item.quantity ? (
+              item.updated_quantity != item.quantity ? (
                 <View
                   style={{
                     height: 20,
@@ -311,7 +332,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
               ) : null}
               {item.updated_measurement ||
               (item.updated_quantity &&
-                item.updated_quantity !== item.quantity) ? (
+                item.updated_quantity != item.quantity) ? (
                 <Button
                   onPress={declineItem}
                   text="Decline"

@@ -81,18 +81,24 @@ export default class Statuses extends React.Component {
               }
               isDone={true}
             />
-            <StatusItem
-              title="Items Confirmed"
-              isDone={
-                [
-                  ORDER_STATUS_TYPES.APPROVED,
-                  ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
-                  ORDER_STATUS_TYPES.COMPLETE,
-                  ORDER_STATUS_TYPES.START_TIME,
-                  ORDER_STATUS_TYPES.END_TIME
-                ].includes(statusType) || isOrderModified
-              }
-            />
+            {isOrderModified === false ? (
+              <StatusItem
+                title={
+                  statusType === ORDER_STATUS_TYPES.APPROVED
+                    ? "Items Confirmed"
+                    : "Confirmation Awaited"
+                }
+                isDone={
+                  [
+                    ORDER_STATUS_TYPES.APPROVED,
+                    ORDER_STATUS_TYPES.OUT_FOR_DELIVERY,
+                    ORDER_STATUS_TYPES.COMPLETE,
+                    ORDER_STATUS_TYPES.START_TIME,
+                    ORDER_STATUS_TYPES.END_TIME
+                  ].includes(statusType) || isOrderModified
+                }
+              />
+            ) : null}
             {isOrderModified && (
               <View>
                 <StatusItem
