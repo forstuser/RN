@@ -44,7 +44,8 @@ class DealsScreen extends Component {
       activeTabIndex: 0,
       accessoryCategories: [],
       selectedAccessoryCategoryIds: [],
-      selectedOfferCategory: null
+      selectedOfferCategory: null,
+      showFilter: true
     };
   }
   componentDidMount() {
@@ -89,6 +90,7 @@ class DealsScreen extends Component {
   };
 
   setSelectedAccessoryCategoryIds = ids => {
+    console.log("id is", ids);
     this.setState(
       {
         selectedAccessoryCategoryIds: ids
@@ -106,12 +108,25 @@ class DealsScreen extends Component {
     }
   };
 
+  hideFilter = () => {
+    this.setState({
+      showFilter: false
+    });
+  };
+
+  showFilter = () => {
+    this.setState({
+      showFilter: true
+    });
+  };
+
   render() {
     const {
       activeTabIndex,
       selectedAccessoryCategoryIds,
       accessoryCategories,
-      selectedOfferCategory
+      selectedOfferCategory,
+      showFilter
     } = this.state;
 
     return (
@@ -141,7 +156,9 @@ class DealsScreen extends Component {
               <View />
             )}
             {(activeTabIndex == 0 && selectedOfferCategory) ||
-            (activeTabIndex == 1 && accessoryCategories.length > 0) ? (
+            (activeTabIndex == 1 &&
+              accessoryCategories.length > 0 &&
+              showFilter) ? (
               <TouchableOpacity
                 ref={node => (this.filterIconRef = node)}
                 onLayout={this.showDealsTour}
@@ -176,6 +193,8 @@ class DealsScreen extends Component {
               this.accessoriesTab = ref;
             }}
             tabLabel="Accessories"
+            hideFilter={this.hideFilter}
+            showFilter={this.showFilter}
             ref={ref => (this.accessoriesTab = ref)}
             setAccessoryCategories={accessoryCategories =>
               this.setState({

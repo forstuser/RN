@@ -132,7 +132,6 @@ export default class ClaimCashback extends React.Component {
     }, 0);
 
     const { isChecklistModalVisible, measurementTypes } = this.state;
-    console.log("items_______________________________________", items);
     console.log("Cashback________________", totalCashback);
     return (
       <View style={{ backgroundColor: "#fff", flex: 1 }}>

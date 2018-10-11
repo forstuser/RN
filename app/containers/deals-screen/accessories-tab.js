@@ -321,12 +321,21 @@ export default class AccessoriesTab extends React.Component {
   };
 
   onItemSelect = item => {
-    console.log("item: ", item);
-    // Analytics.logEvent(Analytics.EVENTS.CLICK_PRODUCT_ACCESSORIES, {
-    //   product_name: item.name
-    // });
+    console.log("item:-------------------- ", item);
     const { selectedItem } = this.state;
     const { setAccessoryCategories } = this.props;
+    if (
+      item.type == "category" &&
+      item.id != CATEGORY_IDS.OTHERS.HOME_INNOVATIONS
+    ) {
+      this.props.hideFilter();
+    }
+    if (
+      item.type == "product" ||
+      item.id == CATEGORY_IDS.OTHERS.HOME_INNOVATIONS
+    ) {
+      this.props.showFilter();
+    }
     setAccessoryCategories(item.accessoryCategories);
     if (
       selectedItem &&

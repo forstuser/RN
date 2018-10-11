@@ -22,8 +22,6 @@ import { defaultStyles, colors } from "../../theme";
 import { SCREENS } from "../../constants";
 import Analytics from "../../analytics";
 import NextModal from "./next-modal";
-import QuantityPlusMinus from "../../components/quantity-plus-minus";
-
 import { showSnackbar } from "../../utils/snackbar";
 
 export default class SelectCashbackItems extends React.Component {
