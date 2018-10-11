@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  TouchableOpacity,
-  FlatList,
-  ScrollView,
-  Image
-} from "react-native";
+import { View, TouchableOpacity, FlatList, Image } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Modal from "react-native-modal";
 import StarRating from "react-native-star-rating";
@@ -85,8 +79,11 @@ export default class SelectSellerScreen extends React.Component {
     Analytics.logEvent(Analytics.EVENTS.CASHBACK_SELLER_SELECT);
 
     const { selectedSeller } = this.state;
-
-    if (selectedSeller.seller_type_id == SELLER_TYPE_IDS.VERIFIED) {
+    console.log("selected seller", selectedSeller);
+    if (
+      selectedSeller.seller_type_id == SELLER_TYPE_IDS.VERIFIED &&
+      selectedSeller.seller_details.basic_details.home_delivery === true
+    ) {
       this.setState({ isHomeDeliveryModalVisible: true });
     } else {
       this.proceedToNextStep();

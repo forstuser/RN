@@ -23,19 +23,15 @@ import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { showSnackbar } from "../../utils/snackbar";
 
-import BlankShoppingList from "./blank-shopping-list";
 import SearchBar from "./search-bar";
-import TabContent from "./tab-content";
 import BarcodeScanner from "./barcode-scanner";
 import AddManualItemModal from "./add-manual-item-modal";
 import ClearOrContinuePreviousListModal from "./clear-or-continue-previous-list-modal";
-import PastItems from "./past-items";
 import FilterModal from "./filter-modal";
 import WishListLimitModal from "./wishlist-limit-modal";
 import { colors } from "../../theme";
 import { SCREENS } from "../../constants";
 import Analytics from "../../analytics";
-import DropDownSellers from "./drop-down-sellers";
 
 class ShoppingListScreen extends React.Component {
   state = {

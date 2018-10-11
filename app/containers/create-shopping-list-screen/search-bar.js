@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  StyleSheet,
   View,
   TextInput,
   TouchableOpacity,
@@ -15,7 +14,6 @@ import _ from "lodash";
 import { Text, Image, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
-import Checkbox from "../../components/checkbox";
 import LoadingOverlay from "../../components/loading-overlay";
 
 import SkuItem from "./sku-item";
