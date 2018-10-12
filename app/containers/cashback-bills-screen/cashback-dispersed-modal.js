@@ -48,7 +48,7 @@ export default class StatusModal extends React.Component {
 
       if (title == "Approved") {
         // modalHeight = 225 + items.length * 40;
-        modalHeight = 400;
+        modalHeight = 450;
       }
 
       if (modalHeight > 500) {

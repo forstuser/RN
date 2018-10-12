@@ -32,7 +32,7 @@ class ActiveOrdersScreen extends Component {
 
     try {
       const activeOrders = await retrieveActiveOrders();
-      console.log("activeOrders.result: ", activeOrders.result);
+      //console.log("activeOrders.result: ", activeOrders.result);
       //console.log('result[0].user.name : ', activeOrders.result[0].user.name);
       //console.log('result[0].id : ', activeOrders.result[0].id);
       //console.log('result[0].order_details.length : ', activeOrders.result[0].order_details.length);

@@ -507,10 +507,10 @@ export default class SearchBar extends React.Component {
                   >
                     <Text
                       weight="Medium"
-                      style={{ fontSize: 12 }}
+                      style={{ fontSize: 12, textTransform: "capitalize" }}
                       numberOfLines={2}
                     >
-                      {item.title.toUpperCase()}
+                      {item.title}
                     </Text>
                   </TouchableOpacity>
                 )}

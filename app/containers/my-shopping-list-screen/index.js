@@ -344,8 +344,8 @@ class MyShoppingList extends React.Component {
                         style={{
                           zIndex: 2,
                           position: "absolute",
-                          bottom: "8%",
-                          left: "28.5%",
+                          bottom: "40%",
+                          left: "25%",
                           width: "70%"
                         }}
                       >
@@ -361,7 +361,7 @@ class MyShoppingList extends React.Component {
                         </Text>
                       </View>
                     ) : null}
-                    <View style={{ opacity: flag === true ? 0.3 : 1 }}>
+                    <View style={{ opacity: flag === true ? 0.2 : 1 }}>
                       <TouchableOpacity
                         onPress={() => this.selectSellerForOrder(item, flag)}
                         style={{
@@ -623,7 +623,7 @@ class MyShoppingList extends React.Component {
             />
           </View>
         </Modal>
-        {this.state.sellers.length > 0 && wishList.length > 0 ? (
+        {/* {this.state.sellers.length > 0 && wishList.length > 0 ? (
           <Button
             onPress={this.onSharePress}
             text="Place Order"
@@ -642,6 +642,28 @@ class MyShoppingList extends React.Component {
             Please invite and add or simply add your nearby retailers to start
             placing order and avail multiple benefits
           </Text>
+        ) : null} */}
+
+        {wishList.length > 0 && !isLoadingMySellers ? (
+          this.state.sellers.length > 0 ? (
+            <Button
+              onPress={this.onSharePress}
+              text="Place Order"
+              color="secondary"
+              style={{
+                height: 50,
+                width: 250,
+                alignSelf: "center",
+                marginBottom: 15
+              }}
+              textStyle={{ fontSize: 18 }}
+            />
+          ) : (
+            <Text style={styles.noSellerText}>
+              Please invite and add or simply add your nearby retailers to start
+              placing order and avail multiple benefits
+            </Text>
+          )
         ) : null}
       </View>
     );

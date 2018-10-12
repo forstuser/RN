@@ -90,7 +90,7 @@ export default class RedeemSellerPoints extends React.Component {
             />
           </View>
         </View>
-        <Text style={{ textAlign: "center", fontSize: 11, marginTop: 20 }}>
+        <Text style={{ textAlign: "center", fontSize: 14, marginTop: 20 }}>
           Please confirm number of points to be redeemed.
         </Text>
         <Button

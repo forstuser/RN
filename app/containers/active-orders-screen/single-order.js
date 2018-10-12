@@ -120,10 +120,12 @@ class SingleOrder extends Component {
         item.cashback_status === 17 ||
         item.cashback_status === 18)
     ) {
-      cashback = <Text weight="Bold">0</Text>;
-      cashbackStatus = (
-        <Text style={styles.data}>Cashback Upto: {cashback}</Text>
-      );
+      // cashback = <Text weight="Bold">0</Text>;
+      // cashbackStatus = (
+      //   <Text style={styles.data}>Cashback Upto: {cashback}</Text>
+      // );
+      cashbackStatus = null;
+      cashback = null;
     }
 
     return (
@@ -235,9 +237,14 @@ const styles = {
     marginLeft: 10,
     marginTop: 40
   },
+  // bottomButton: {
+  //   marginRight: 20,
+  //   padding: 10
+  // },
   bottomButton: {
-    marginRight: 20,
-    padding: 10
+    position: "absolute",
+    right: 10,
+    bottom: 10
   },
   bottomButtonIcon: {
     fontSize: 18,
