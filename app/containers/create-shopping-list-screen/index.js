@@ -35,6 +35,7 @@ import Analytics from "../../analytics";
 
 class ShoppingListScreen extends React.Component {
   state = {
+    maxLimit: null,
     isLoading: false,
     isLoadingWishList: false,
     referenceDataError: null,
@@ -200,7 +201,7 @@ class ShoppingListScreen extends React.Component {
 
   addSkuItemToList = async item => {
     const wishList = [...this.state.wishList];
-    if (wishList.length > 14) {
+    if (wishList.length > 19) {
       return this.limitModal.show();
     }
     if (
@@ -366,7 +367,8 @@ class ShoppingListScreen extends React.Component {
         isSearchDone: true,
         items: [...items, ...res.result.sku_items],
         brands: res.result.brands,
-        sellers: res.seller_list
+        sellers: res.seller_list,
+        maxLimit: res.max_wish_list_items
       };
 
       this.setState(newState);
@@ -478,10 +480,10 @@ class ShoppingListScreen extends React.Component {
 
     //let sellerSelected = selectedSeller ? selectedSeller.seller_name : null;
 
-    console.log(
-      "Selected Seller_______",
-      selectedSeller ? selectedSeller : null
-    );
+    // console.log(
+    //   "Selected Seller_______",
+    //   selectedSeller ? selectedSeller : null
+    // );
     //console.log("Seller Selected_______", sellerSelected);
 
     return (
@@ -500,7 +502,7 @@ class ShoppingListScreen extends React.Component {
                 color: colors.pinkishOrange
               }}
               onValueChange={(itemValue, itemIndex) => {
-                console.log("Item Value_____________________", itemValue);
+                //console.log("Item Value_____________________", itemValue);
                 this.setState({ selectedSeller: itemValue });
                 this.setSelectedSellers([itemValue]);
               }}

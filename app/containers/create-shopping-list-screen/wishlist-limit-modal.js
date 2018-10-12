@@ -15,7 +15,8 @@ import { defaultStyles, colors } from "../../theme";
 
 class WishListLimitModal extends Component {
   state = {
-    isVisible: false
+    isVisible: false,
+    limit: null
   };
 
   show = () => {
@@ -27,7 +28,8 @@ class WishListLimitModal extends Component {
   };
 
   render() {
-    const { isVisible } = this.state;
+    const { isVisible, limit } = this.state;
+
     return (
       <Modal
         isVisible={isVisible}
@@ -50,7 +52,7 @@ class WishListLimitModal extends Component {
               textAlign: "center"
             }}
           >
-            You cannot add more than 15 items
+            You cannot add more than 20 items
           </Text>
           <View style={{ marginTop: 20 }}>
             <Button

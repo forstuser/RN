@@ -164,7 +164,13 @@ export default class SkuItem extends React.Component {
           )}
         </View>
         {isSearchDone && item.sub_category_name ? (
-          <View style={{ backgroundColor: "#e8e129", alignSelf: "flex-start" }}>
+          <View
+            style={{
+              backgroundColor: "#e8e129",
+              alignSelf: "flex-start",
+              borderRadius: 3
+            }}
+          >
             <Text
               weight="Medium"
               style={{

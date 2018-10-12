@@ -42,7 +42,7 @@ export default class StatusModal extends React.Component {
         onClosePress={this.hide}
         onBackButtonPress={this.hide}
         onBackdropPress={this.hide}
-        style={{ height: 300, backgroundColor: "#fff" }}
+        style={{ height: 350, backgroundColor: "#fff" }}
       >
         <View
           style={{
@@ -52,11 +52,11 @@ export default class StatusModal extends React.Component {
             padding: 15
           }}
         >
-          <Text style={{ textAlign: "center" }}>{description}</Text>
+          <Text style={{ marginTop: 5, textAlign: "left" }}>{description}</Text>
           <Text
             onPress={openCashbackGuidelinesScreen}
             style={{
-              marginTop: 36,
+              marginTop: 30,
               fontSize: 14,
               textAlign: "center",
               color: colors.mainBlue,
