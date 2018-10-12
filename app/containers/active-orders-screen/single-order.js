@@ -32,7 +32,6 @@ class SingleOrder extends Component {
   };
   render() {
     const { item } = this.props;
-    console.log("item :---------", item);
     let statusType = null;
     let orderType = item.order_type;
     if (item.status_type === ORDER_STATUS_TYPES.COMPLETE)

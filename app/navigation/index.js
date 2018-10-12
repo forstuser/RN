@@ -30,7 +30,7 @@ export const openAfterLoginScreen = () => {
 };
 
 export const openBillsPopUp = params => {
-  console.log("params for view bill", params)
+  console.log("params for view bill", params);
   navigate(SCREENS.BILLS_POPUP_SCREEN, params);
 };
 

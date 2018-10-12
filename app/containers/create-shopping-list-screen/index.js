@@ -473,15 +473,6 @@ class ShoppingListScreen extends React.Component {
         />
       );
     }
-
-    //let sellerSelected = selectedSeller ? selectedSeller.seller_name : null;
-
-    console.log(
-      "Selected Seller_______",
-      selectedSeller ? selectedSeller : null
-    );
-    //console.log("Seller Selected_______", sellerSelected);
-
     return (
       <DrawerScreenContainer
         title={selectedSeller ? null : "Create Shopping List"}
@@ -498,7 +489,6 @@ class ShoppingListScreen extends React.Component {
                 color: colors.pinkishOrange
               }}
               onValueChange={(itemValue, itemIndex) => {
-                console.log("Item Value_____________________", itemValue);
                 this.setState({ selectedSeller: itemValue });
                 this.setSelectedSellers([itemValue]);
               }}

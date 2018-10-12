@@ -35,7 +35,6 @@ export default class SelectedItemsList extends React.Component {
         )}
         keyExtractor={(item, index) => item.id + "" + index}
         renderItem={({ item, index }) => {
-          console.log("SHOPPING ITEM__________", item);
           let cashback = 0;
 
           if (item.sku_measurement && item.sku_measurement.cashback_percent) {
@@ -54,7 +53,6 @@ export default class SelectedItemsList extends React.Component {
             pack_no = " x " + item.sku_measurement.pack_numbers;
           }
           let measurement_acronym = "";
-          console.log(measurementTypes, "lo");
           // if (item.sku_measurement && item.sku_measurement.measurement_type) {
           //   measurement_acronym = measurementTypes.map(acronym => {
           //     return acronym.id == item.sku_measurement.measurement_type;
