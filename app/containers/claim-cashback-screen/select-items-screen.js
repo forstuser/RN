@@ -395,6 +395,7 @@ export default class SelectCashbackItems extends React.Component {
     const cashbackJob = navigation.getParam("cashbackJob", null);
     const copies = navigation.getParam("copies", []);
     const purchaseDate = navigation.getParam("purchaseDate", null);
+    const fixedCashback = navigation.getParam("fixedCashback", null);
     const amount = navigation.getParam("amount", null);
     const isDigitallyVerified = navigation.getParam(
       "isDigitallyVerified",
@@ -412,6 +413,7 @@ export default class SelectCashbackItems extends React.Component {
       cashbackJob,
       copies,
       purchaseDate,
+      fixedCashback,
       amount,
       selectedItems,
       isDigitallyVerified

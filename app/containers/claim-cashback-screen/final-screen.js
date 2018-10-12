@@ -117,7 +117,8 @@ export default class ClaimCashback extends React.Component {
     const purchaseDate = navigation.getParam("purchaseDate", null);
     const amount = navigation.getParam("amount", null);
     const items = navigation.getParam("selectedItems", []);
-
+    const fixedCashback = navigation.getParam("fixedCashback", null);
+    console.log("fixed cb-----------------", fixedCashback);
     const seller = navigation.getParam("selectedSeller", null);
 
     const totalCashback = items.reduce((total, item) => {
@@ -130,7 +131,6 @@ export default class ClaimCashback extends React.Component {
       }
       return total + cashback;
     }, 0);
-
     const { isChecklistModalVisible, measurementTypes } = this.state;
     console.log("Cashback________________", totalCashback);
     return (
@@ -178,7 +178,11 @@ export default class ClaimCashback extends React.Component {
                 }}
               >
                 <Text style={styles.key}>Expected BBCash:</Text>
-                <Text style={styles.value}>Rs. {totalCashback.toFixed(2)}</Text>
+                <Text style={styles.value}>
+                  Rs.{" "}
+                  {Number(totalCashback.toFixed(2)) +
+                    Number(fixedCashback.toFixed(2))}
+                </Text>
               </View>
             </View>
             <View>

@@ -52,6 +52,7 @@ export default class ClaimCashback extends React.Component {
     isChecklistOverlayVisible: false,
     isChecklistModalVisible: false,
     copies: [],
+    fixedCashback: 0,
     product: null,
     cashbackJob: null,
     purchaseDate: moment().format("YYYY-MM-DD"),
@@ -183,6 +184,7 @@ export default class ClaimCashback extends React.Component {
       purchaseDate,
       amount,
       wishlist,
+      fixedCashback,
       pastItems
     } = this.state;
 
@@ -203,6 +205,7 @@ export default class ClaimCashback extends React.Component {
       cashbackJob,
       copies,
       purchaseDate,
+      fixedCashback,
       amount,
       wishlist,
       pastItems,
@@ -219,6 +222,7 @@ export default class ClaimCashback extends React.Component {
       isChecklistModalVisible,
       copies,
       purchaseDate,
+      fixedCashback,
       amount,
       isLoading,
       error,
@@ -266,7 +270,10 @@ export default class ClaimCashback extends React.Component {
               onUpload={uploadResult => {
                 Analytics.logEvent(Analytics.EVENTS.CLICK_UPLOAD_DOC_CASHBACK);
                 console.log("upload result: ", uploadResult);
-                this.setState({ copies: uploadResult.product.copies });
+                this.setState({
+                  copies: uploadResult.product.copies,
+                  fixedCashback: uploadResult.fixed_cashback
+                });
               }}
             />
 
