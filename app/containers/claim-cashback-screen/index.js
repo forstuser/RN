@@ -233,14 +233,13 @@ export default class ClaimCashback extends React.Component {
       "Printed Bill only",
       "Bill should be clear & readable",
       "One Bill in one Click",
-      "Use + Sign to capture a longer Bill",
+      "Use + sign to capture a long Bill in multiple images",
       "Ensure all Bill corners are visible in the picture.",
       "Bills include grocery items",
       "Purchase date & Bill upload date is same",
       "Bills are unmodified & unduplicated",
       "Only printed Bills, not handwritten",
       "Bill has Seller details",
-      "Use + sign to capture a long Bill in multiple images",
       "Capture Bill edges within the frame",
       "Bill is readable & in good condition"
     ];

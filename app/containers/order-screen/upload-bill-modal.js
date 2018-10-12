@@ -35,7 +35,7 @@ export default class UploadBillModal extends React.Component {
   };
 
   render() {
-    const { navigation, onUploadDone } = this.props;
+    const { navigation } = this.props;
     const {
       isVisible,
       copies,
@@ -112,7 +112,9 @@ export default class UploadBillModal extends React.Component {
             placeholder="Upload Bill"
             //   placeholder2="*"
             //placeholder2Color={colors.mainBlue}
-            onUpload={onUploadDone}
+            onUpload={() => {
+              this.props.onUploadDone(totalAmount);
+            }}
           />
           {/* <Button
             onPress={() => alert("Submit")}

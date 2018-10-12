@@ -69,7 +69,7 @@ class ShoppingListScreen extends React.Component {
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
-        //this.fromSellers();
+        this.fromSellers();
         this.loadSkuWishList();
       }
     );
@@ -79,12 +79,9 @@ class ShoppingListScreen extends React.Component {
     this.setState({
       selectedSeller: this.props.navigation.getParam("seller", null)
     });
-    console.log(
-      "SELLER FROM MY SELLERS______________",
-      this.state.selectedSeller
-    );
-    if (this.state.selectedSeller != null)
+    if (this.state.selectedSeller != null) {
       this.setSelectedSellers([this.state.selectedSeller]);
+    }
   };
 
   componentWillUnmount() {
@@ -137,9 +134,9 @@ class ShoppingListScreen extends React.Component {
         items: pastItems
       }));
 
-      if (pastItems.length == 0) {
-        this.loadItemsFirstPage();
-      }
+      // if (pastItems.length == 0) {
+      this.loadItemsFirstPage();
+      //}
     } catch (referenceDataError) {
       console.log("referenceDataError: ", referenceDataError);
       this.setState({ referenceDataError });
@@ -324,6 +321,7 @@ class ShoppingListScreen extends React.Component {
   };
 
   loadItemsFirstPage = () => {
+    console.log("load first item call hua");
     this.setState({ items: [], endhasReachedFlag: false }, () => {
       this.loadItems();
     });

@@ -23,7 +23,8 @@ import {
   completeOrder,
   approveAssistedServiceOrder,
   startAssistedServiceOrder,
-  endAssistedServiceOrder
+  endAssistedServiceOrder,
+  updateProduct
 } from "../../api";
 
 import LoadingOverlay from "../../components/loading-overlay";
@@ -235,6 +236,7 @@ class OrderScreen extends React.Component {
       headerText: "Decline Item"
     });
   };
+
   popup = () => {
     if (this.state.cancelOrderFlag) {
       this.cancelOrder();
@@ -267,7 +269,6 @@ class OrderScreen extends React.Component {
 
   rejectOrder = async () => {
     Analytics.logEvent(Analytics.EVENTS.REJECT_ORDER);
-    console.log("inside order reject");
     this.hide();
     const { order } = this.state;
     try {
@@ -422,6 +423,24 @@ class OrderScreen extends React.Component {
     order_details.splice(index, 1);
     order.order_details = order_details;
     this.setState({ order });
+  };
+  updateProduct = async amount => {
+    const { order } = this.state;
+    this.setState({
+      isLoading: true
+    });
+    try {
+      const res = await updateProduct({
+        productId: order.expense_id,
+        value: amount
+      });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({
+        isLoading: false
+      });
+    }
   };
 
   render() {
@@ -802,7 +821,9 @@ class OrderScreen extends React.Component {
         )}
         <UploadBillModal
           navigation={this.props.navigation}
-          onUploadDone={() => {
+          onUploadDone={amount => {
+            this.updateProduct(amount);
+            // hit product update call with total amount
             setTimeout(this.openReviewsScreen, 200);
           }}
           ref={node => {
