@@ -383,14 +383,14 @@ class SellerProfileTab extends React.Component {
             }}
           >
             <KeyValue
-              keyText="Opening Days"
+              keyText="Open Days"
               valueText={basicDetails.shop_open_day
                 .split(",")
                 .map(day => weekDays[day])
                 .join(" ")}
             />
             <KeyValue
-              keyText="Shop Timing"
+              keyText="Open Hours"
               valueText={
                 basicDetails.start_time + " - " + basicDetails.close_time
               }

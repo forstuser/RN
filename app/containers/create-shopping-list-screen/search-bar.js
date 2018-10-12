@@ -120,11 +120,12 @@ export default class SearchBar extends React.Component {
   };
 
   startSearch = () => {
-    const { searchTerm = "", loadItemsFirstPage = () => null } = this.props;
+    // const { searchTerm = "", loadItemsFirstPage = () => null } = this.props;
+    // if (searchTerm.length > 2) {
+    //   loadItemsFirstPage();
+    // }
 
-    if (searchTerm.length > 2) {
-      loadItemsFirstPage();
-    }
+    console.log("start search");
   };
 
   addManualItem = () => {
@@ -144,6 +145,11 @@ export default class SearchBar extends React.Component {
       this.categoryScrollView.scrollTo({ x: 0, y: 0, animated: false });
     }
     updateMainCategoryIdInParent(id);
+  };
+  loadNextItems = () => {
+    if (this.props.endhasReachedFlag == false) {
+      this.props.loadItems();
+    }
   };
 
   render() {
@@ -176,7 +182,8 @@ export default class SearchBar extends React.Component {
       hideAddManually = false,
       sellers = [],
       hideSellerFilter = false,
-      loadItems
+      loadItems,
+      endhasReachedFlag
     } = this.props;
 
     const { isBrandsPopupVisible, checkedBrands, checkedSellers } = this.state;
@@ -280,7 +287,6 @@ export default class SearchBar extends React.Component {
         );
       }
     }
-
     console.log("filteredCategories: ", filteredCategories);
 
     return (
@@ -517,9 +523,9 @@ export default class SearchBar extends React.Component {
           <View style={{ flex: 2, height: "100%" }}>
             <FlatList
               onEndReachedThreshold={0.5}
-              onEndReached={loadItems}
+              onEndReached={this.loadNextItems}
               style={{ marginTop: 4 }}
-              data={filteredItems}
+              data={items}
               renderItem={({ item }) => (
                 <SkuItem
                   measurementTypes={measurementTypes}

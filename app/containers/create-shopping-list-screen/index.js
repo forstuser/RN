@@ -60,7 +60,8 @@ class ShoppingListScreen extends React.Component {
     sellers: [],
     selectedSeller: null,
     isWishListLimit: false,
-    offset: 0
+    offset: 0,
+    endhasReachedFlag: false
   };
 
   componentDidMount() {
@@ -289,9 +290,12 @@ class ShoppingListScreen extends React.Component {
     }
 
     this.setState(newState, () => {
+      console.log("search term", searchTerm);
+      console.log("length of search term", searchTerm.length);
       if (
         !searchTerm ||
-        (searchTerm.length == 3 &&
+        (searchTerm.length >= 3 &&
+          searchTerm.length % 2 == 1 &&
           searchTerm != this.state.lastSearchTerm3Characters)
       ) {
         this.loadItemsFirstPage();
@@ -307,7 +311,7 @@ class ShoppingListScreen extends React.Component {
   };
 
   loadItemsFirstPage = () => {
-    this.setState({ items: [] }, () => {
+    this.setState({ items: [], endhasReachedFlag: false }, () => {
       this.loadItems();
     });
   };
@@ -333,7 +337,7 @@ class ShoppingListScreen extends React.Component {
       const data = {
         mainCategoryId: activeMainCategoryId ? activeMainCategoryId : undefined,
         categoryIds: !searchTerm ? selectedCategoryIds : undefined,
-        searchTerm: searchTerm || undefined,
+        searchTerm: searchTerm.replace(/ /g, "%") || undefined,
         brandIds: selectedBrands.map(brand => brand.id),
         sellerId: selectedSeller ? selectedSeller.id : undefined,
         offset: items.length
@@ -341,6 +345,9 @@ class ShoppingListScreen extends React.Component {
 
       const res = await getSkuItems(data);
       //console.log("Sellers list in shop and earn: ", res.seller_list);
+      if (res.result.sku_items.length === 0) {
+        this.setState({ endhasReachedFlag: true });
+      }
       const newState = {
         isSearching: false,
         isSearchDone: true,
@@ -443,7 +450,8 @@ class ShoppingListScreen extends React.Component {
       brands,
       selectedBrands,
       sellers,
-      selectedSeller
+      selectedSeller,
+      endhasReachedFlag
     } = this.state;
 
     if (referenceDataError || wishListError) {
@@ -554,6 +562,7 @@ class ShoppingListScreen extends React.Component {
             isSearchDone={isSearchDone}
             searchError={searchError}
             items={items}
+            endhasReachedFlag={endhasReachedFlag}
             isSearching={isSearching}
             measurementTypes={measurementTypes}
             wishList={wishList}
