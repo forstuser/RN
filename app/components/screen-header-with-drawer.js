@@ -7,7 +7,7 @@ import { colors } from "../theme";
 
 export default class ScreenHeaderWithDrawer extends React.Component {
   render() {
-    const { title, headerRight, navigation } = this.props;
+    const { title, titleComponent, headerRight, navigation } = this.props;
 
     return (
       <View style={styles.headerUpperHalf}>
@@ -17,9 +17,13 @@ export default class ScreenHeaderWithDrawer extends React.Component {
         >
           <Icon name="md-menu" size={30} color="#fff" />
         </TouchableOpacity>
-        <Text weight="Medium" style={styles.title}>
-          {title}
-        </Text>
+        {title != null ? (
+          <Text weight="Medium" style={styles.title}>
+            {title}
+          </Text>
+        ) : (
+          <View style={styles.titleComponent}>{titleComponent}</View>
+        )}
         <View style={styles.headerRight}>{headerRight}</View>
       </View>
     );
@@ -59,5 +63,10 @@ const styles = StyleSheet.create({
     right: 10,
     top: 0,
     bottom: 0
+  },
+  titleComponent: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
   }
 });

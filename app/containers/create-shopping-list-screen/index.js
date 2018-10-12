@@ -72,10 +72,23 @@ class ShoppingListScreen extends React.Component {
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
+        //this.fromSellers();
         this.loadSkuWishList();
       }
     );
   }
+
+  fromSellers = () => {
+    this.setState({
+      selectedSeller: this.props.navigation.getParam("seller", null)
+    });
+    console.log(
+      "SELLER FROM MY SELLERS______________",
+      this.state.selectedSeller
+    );
+    if (this.state.selectedSeller != null)
+      this.setSelectedSellers([this.state.selectedSeller]);
+  };
 
   componentWillUnmount() {
     this.didFocusSubscription.remove();
@@ -459,10 +472,54 @@ class ShoppingListScreen extends React.Component {
       );
     }
 
+    //let sellerSelected = selectedSeller ? selectedSeller.seller_name : null;
+
+    console.log(
+      "Selected Seller_______",
+      selectedSeller ? selectedSeller : null
+    );
+    //console.log("Seller Selected_______", sellerSelected);
+
     return (
       <DrawerScreenContainer
-        title={
-          selectedSeller ? selectedSeller.seller_name : "Create Shopping List"
+        title={selectedSeller ? null : "Create Shopping List"}
+        titleComponent={
+          <View
+            style={{ height: 25, backgroundColor: "#fff", borderRadius: 10 }}
+          >
+            <Picker
+              mode="dropdown"
+              selectedValue={selectedSeller ? selectedSeller.seller_name : null}
+              style={{
+                height: 25,
+                width: 200,
+                color: colors.pinkishOrange
+              }}
+              onValueChange={(itemValue, itemIndex) => {
+                console.log("Item Value_____________________", itemValue);
+                this.setState({ selectedSeller: itemValue });
+                this.setSelectedSellers([itemValue]);
+              }}
+            >
+              <Picker.Item
+                label={
+                  selectedSeller
+                    ? selectedSeller.seller_name
+                      ? selectedSeller.seller_name
+                      : selectedSeller.name
+                    : "Select Seller"
+                }
+                value={selectedSeller ? selectedSeller : "Select Seller"}
+              />
+              {sellers.map((seller, index) => (
+                <Picker.Item
+                  key={index}
+                  label={seller.seller_name}
+                  value={seller}
+                />
+              ))}
+            </Picker>
+          </View>
         }
         navigation={navigation}
         headerRight={
@@ -612,24 +669,3 @@ class ShoppingListScreen extends React.Component {
 }
 
 export default ShoppingListScreen;
-
-//(
-// <DropDownSellers
-//   sellerName={selectedSeller.seller_name}
-//   sellerList={sellers}
-//   onDropDownChange={this.onDropDownChange}
-// />
-
-// <View>
-//   <Picker
-//     mode="dropdown"
-//     //selectedValue={selectedSeller.seller_name}
-//     style={{ height: 50, width: 100 }}
-//     // onValueChange={(itemValue, itemIndex) =>
-//     //   this.setState({ selectedSeller: itemValue })
-//     // }
-//   >
-//     <Picker.Item label="Huzaifa Shop" value="java" />
-//     <Picker.Item label="Zop" value="js" />
-//   </Picker>
-// </View>

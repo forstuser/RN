@@ -119,8 +119,10 @@ class MySellersScreen extends React.Component {
     }
   };
 
-  orderOnline = () => {
-    this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN);
+  orderOnline = seller => {
+    this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN, {
+      seller: seller
+    });
   };
 
   render() {
@@ -630,9 +632,11 @@ class MySellersScreen extends React.Component {
                       overflow: "hidden"
                     }}
                   >
-                    {item.is_fmcg === true && flag === false ? (
+                    {item.is_fmcg === true &&
+                    flag === false &&
+                    item.provider_counts > 0 ? (
                       <TouchableOpacity
-                        onPress={this.orderOnline}
+                        onPress={() => this.orderOnline(item)}
                         style={styles.bottomButton}
                       >
                         <Image

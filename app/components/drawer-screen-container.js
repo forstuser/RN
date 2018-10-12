@@ -21,7 +21,13 @@ import { colors } from "../theme";
 
 export default class TabsScreenContainer extends React.Component {
   render() {
-    const { title, headerRight, children, navigation } = this.props;
+    const {
+      title,
+      titleComponent,
+      headerRight,
+      children,
+      navigation
+    } = this.props;
     return (
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
@@ -29,6 +35,7 @@ export default class TabsScreenContainer extends React.Component {
           <ScreenHeaderWithDrawer
             navigation={navigation}
             title={title}
+            titleComponent={titleComponent}
             headerRight={headerRight}
           />
         </View>
