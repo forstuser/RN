@@ -119,8 +119,10 @@ class MySellersScreen extends React.Component {
     }
   };
 
-  orderOnline = () => {
-    this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN);
+  orderOnline = seller => {
+    this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN, {
+      seller: seller
+    });
   };
 
   render() {
@@ -232,6 +234,13 @@ class MySellersScreen extends React.Component {
               //   hour12: true
               // });
 
+              let day = currrentTime.day();
+              //console.log("Current Day Number__________", day);
+              let opening_days =
+                item.seller_details.basic_details.shop_open_day;
+              let days = JSON.parse("[" + opening_days + "]");
+              //console.log("Days__________", days);
+
               let closeTime = item.seller_details.basic_details.close_time;
               let startTime = item.seller_details.basic_details.start_time;
               let timeInFormat1 = moment(currrentTime, ["h:mm A"]);
@@ -240,17 +249,18 @@ class MySellersScreen extends React.Component {
               let startTime2 = moment(startTime1).format("HH:mm");
               let closeTime1 = moment(closeTime, ["h:mm A"]);
               let closeTime2 = moment(closeTime1).format("HH:mm");
-              console.log("Start Time__________________", startTime2);
-              console.log("Close Time__________________", closeTime2);
-              console.log("Current Time__________________", timeInFormat2);
+              //console.log("Start Time__________________", startTime2);
+              //console.log("Close Time__________________", closeTime2);
+              //console.log("Current Time__________________", timeInFormat2);
               if (
                 timeInFormat2 > closeTime2 ||
                 timeInFormat2 < startTime2 ||
-                item.is_logged_out === true
+                item.is_logged_out === true ||
+                days.indexOf(day) == -1
               ) {
                 flag = true;
               }
-              console.log("Flag____________________:", flag);
+              //console.log("Flag____________________:", flag);
               // if (item.is_fmcg === true && flag === false) {
               //   btnOnlineOrder = (
               //     <Button
@@ -630,9 +640,11 @@ class MySellersScreen extends React.Component {
                       overflow: "hidden"
                     }}
                   >
-                    {item.is_fmcg === true && flag === false ? (
+                    {item.is_fmcg === true &&
+                    flag === false &&
+                    item.provider_counts > 0 ? (
                       <TouchableOpacity
-                        onPress={this.orderOnline}
+                        onPress={() => this.orderOnline(item)}
                         style={styles.bottomButton}
                       >
                         <Image

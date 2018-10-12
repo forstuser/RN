@@ -364,7 +364,9 @@ export default class ClaimCashback extends React.Component {
                   >
                     <Text style={{ color: "#fff" }}>{index + 1}</Text>
                   </View>
-                  <Text style={{ color: "#fff" }}>{checklistPoint}</Text>
+                  <Text style={{ color: "#fff", fontSize: 12 }}>
+                    {checklistPoint}
+                  </Text>
                 </View>
               ))}
             </View>
