@@ -419,7 +419,7 @@ class ShoppingListScreen extends React.Component {
         },
         () => {
           this.loadReferenceData();
-          this.clearWishList();
+          // this.clearWishList();
         }
       );
     }
