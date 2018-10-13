@@ -44,6 +44,7 @@ export default class SearchBar extends React.Component {
   };
 
   toggleSellersPopup = () => {
+    console.log("selected seller:-----------------", this.props.selectedSeller);
     const { selectedSeller } = this.props;
     const { isBrandsPopupVisible } = this.state;
     this.setState({
@@ -378,7 +379,10 @@ export default class SearchBar extends React.Component {
             )}
           </View>
           <TouchableOpacity
-            onPress={this.toggleBrandsPopup}
+            onPress={() => {
+              this.toggleBrandsPopup();
+              this.toggleSellersPopup();
+            }}
             disabled={brands.length == 0 && sellers.length == 0}
             style={{
               flexDirection: "row",
