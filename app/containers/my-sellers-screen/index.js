@@ -78,8 +78,10 @@ class MySellersScreen extends React.Component {
     }
   };
 
-  openAddSellerScreen = () => {
-    this.props.navigation.navigate(SCREENS.ADD_SELLER_SCREEN);
+  openAddSellerScreen = location => {
+    this.props.navigation.navigate(SCREENS.ADD_SELLER_SCREEN, {
+      city: location
+    });
   };
 
   openRedeemPointsScreen = seller => {
@@ -126,7 +128,7 @@ class MySellersScreen extends React.Component {
   };
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, user } = this.props;
     const {
       mySellers,
       isLoadingMySellers,
@@ -136,8 +138,8 @@ class MySellersScreen extends React.Component {
       detailText,
       isDeleteSeller
     } = this.state;
-
-    console.log("mySellers_____________: ", mySellers);
+    //console.log("User____________________________________", user.location);
+    console.log("MySellers_____________: ", mySellers);
 
     if (error) {
       <ErrorOverlay error={error} onRetryPress={this.getMySellers} />;
@@ -157,7 +159,7 @@ class MySellersScreen extends React.Component {
           >
             <TouchableOpacity
               style={{ paddingHorizontal: 5 }}
-              onPress={this.openAddSellerScreen}
+              onPress={() => this.openAddSellerScreen(user.location)}
             >
               <Icon
                 style={{}}

@@ -2065,6 +2065,7 @@ export const getMySellers = async (filters = {}) => {
 
 export const getSellers = async ({
   searchTerm,
+  is_default,
   limit,
   latitude,
   longitude
@@ -2073,7 +2074,8 @@ export const getSellers = async ({
     method: "get",
     url: `/sellers`,
     queryParams: {
-      search_value: searchTerm
+      search_value: searchTerm,
+      is_default: is_default
     }
   });
 };

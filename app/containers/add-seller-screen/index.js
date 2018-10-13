@@ -37,19 +37,40 @@ export default class MySellersScreen extends React.Component {
     isLoadingMySellers: false,
     isLoadingSellers: false,
     error: null,
-    isSearchDone: false
+    isSearchDone: false,
+    location: null,
+    searchTerm: ""
   };
 
+  componentWillMount() {
+    let city = this.props.navigation.getParam("city", null);
+    //console.log("City1_______________", city);
+    this.setState({ location: city });
+    //console.log("City2_______________", this.state.location);
+  }
+
   componentDidMount() {
+    //console.log("component did mount________________________");
+    // let city = this.props.navigation.getParam("city", null);
+    // console.log("City1_______________", city);
+    // this.setState({ location: city });
+    // console.log("City2_______________", this.state.location);
+    this.getSellers();
     this.getMySellers();
   }
 
   getSellers = async () => {
-    const { searchTerm } = this.state;
+    const { searchTerm, location } = this.state;
+
+    //console.log("FETCH_____________________SELLERS");
+    //console.log("Location________", location);
+    //console.log("Search term________", searchTerm);
+
     if (searchTerm === undefined || searchTerm === "") {
-      return showSnackbar({
-        text: "Please enter either name or mobile number"
-      });
+      if (location != "Gurgaon")
+        return showSnackbar({
+          text: "Please enter either name or mobile number"
+        });
     } else if (!isNaN(searchTerm) && searchTerm.length < 10) {
       return showSnackbar({ text: "Please enter 10 digit mobile number" });
     }
@@ -58,7 +79,18 @@ export default class MySellersScreen extends React.Component {
       isLoadingSellers: true
     });
     try {
-      const res = await getSellers({ searchTerm });
+      let res;
+
+      if (
+        location == "Gurgaon" &&
+        (searchTerm === undefined || searchTerm === "")
+      ) {
+        //console.log("Updated Case_________________");
+        res = await getSellers({ is_default: true });
+      } else {
+        //console.log("Default Case_________________");
+        res = await getSellers({ searchTerm, is_default: false });
+      }
       this.setState({ sellers: res.result });
     } catch (error) {
       this.setState({ error });
@@ -97,7 +129,9 @@ export default class MySellersScreen extends React.Component {
   onSearchTermChange = searchTerm => {
     //console.log('Search Term: ', searchTerm);
     this.setState({ searchTerm, isSearchDone: false }, () => {
-      if (searchTerm.length == 10) {
+      if (!isNaN(searchTerm) && searchTerm.length == 10) {
+        this.getSellers();
+      } else if (isNaN(searchTerm)) {
         this.getSellers();
       }
     });
@@ -115,7 +149,7 @@ export default class MySellersScreen extends React.Component {
     } = this.state;
 
     const mySellersIds = mySellers.map(seller => seller.id);
-
+    console.log("Sellers___________________", sellers);
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View
@@ -192,7 +226,15 @@ export default class MySellersScreen extends React.Component {
                       style={{ width: 150, marginTop: 25, height: 40 }}
                     />
                   ) : (
-                    <Text style={{ color: colors.success, fontSize: 10 }} />
+                    <Text
+                      style={{
+                        color: colors.success,
+                        fontSize: 14,
+                        marginTop: 15
+                      }}
+                    >
+                      Already added
+                    </Text>
                   )}
                 </TouchableOpacity>
               );
@@ -214,7 +256,9 @@ export default class MySellersScreen extends React.Component {
                 >
                   {isSearchDone
                     ? `This seller is not in our network. Invite your Seller to avail additional Offers, faster Home Delivery, Credit Loyalty, Home Services, & Online Order convenience`
-                    : `Search your seller by name or phone number`}
+                    : !isLoadingMySellers
+                      ? `Search your seller by name or phone number`
+                      : null}
                 </Text>
                 {isSearchDone ? (
                   <Button
