@@ -15,6 +15,7 @@ import Analytics from "../../analytics";
 
 import QuantityPlusMinus from "../../components/quantity-plus-minus";
 import LoadingOverlay from "../../components/loading-overlay";
+import { API_BASE_URL } from "../../api";
 
 export default class SkuItem extends React.Component {
   state = {
@@ -125,9 +126,31 @@ export default class SkuItem extends React.Component {
         ]}
       >
         <View style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              width: 55,
+              height: 60,
+              justifyContent: "center"
+            }}
+          >
+            <Image
+              style={{
+                padding: 5,
+                width: 55,
+                height: 60,
+                borderWidth: 1,
+                borderColor: "#e0e0e0"
+              }}
+              resizeMode="contain"
+              source={{
+                uri: API_BASE_URL + `/skus/${item.id}/images`
+              }}
+              //source={require("../../images/binbill_logo.png")}
+            />
+          </View>
           <Text
             weight="Medium"
-            style={{ fontSize: 12, flex: 1, marginRight: 10 }}
+            style={{ marginLeft: 5, fontSize: 12, flex: 1, marginRight: 10 }}
           >
             {item.title}
           </Text>
@@ -168,7 +191,8 @@ export default class SkuItem extends React.Component {
             style={{
               backgroundColor: "#e8e129",
               alignSelf: "flex-start",
-              borderRadius: 3
+              borderRadius: 3,
+              marginTop: 10
             }}
           >
             <Text

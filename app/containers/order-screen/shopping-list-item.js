@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import { Text, Image, Button } from "../../elements";
 import { colors } from "../../theme";
+import { API_BASE_URL } from "../../api";
 
 export default ({ item, index, declineItem, orderStatus }) => {
   let cashback = 0;
@@ -14,6 +15,20 @@ export default ({ item, index, declineItem, orderStatus }) => {
       item.quantity
     ).toFixed(2);
   }
+
+  let updatedCashback = 0;
+  if (
+    item.suggestion.sku_measurement &&
+    item.suggestion.sku_measurement.cashback_percent
+  ) {
+    updatedCashback = (
+      ((item.suggestion.sku_measurement.mrp *
+        item.suggestion.sku_measurement.cashback_percent) /
+        100) *
+      item.updated_quantity
+    ).toFixed(2);
+  }
+
   let pack_no = "";
   let quant = "";
 
@@ -44,18 +59,32 @@ export default ({ item, index, declineItem, orderStatus }) => {
       <View style={{ marginRight: 5 }}>
         <TouchableOpacity
           style={{
-            width: 16,
-            height: 16,
-            borderRadius: 8,
+            width: 55,
+            height: 60,
+            //borderRadius: 8,
             alignItems: "center",
-            justifyContent: "center",
+            //justifyContent: "center",
             backgroundColor:
               (item.suggestion && orderStatus === 4) || !item.item_availability
                 ? colors.secondaryText
-                : colors.success
+                : "#fff"
           }}
         >
-          <Icon name="md-checkmark" size={12} color="#fff" />
+          <Image
+            style={{
+              padding: 5,
+              width: 55,
+              height: 60,
+              borderWidth: 1,
+              borderColor: "#e0e0e0"
+            }}
+            resizeMode="contain"
+            source={{
+              uri: API_BASE_URL + `/skus/${item.id}/images`
+            }}
+            //source={require("../../images/binbill_logo.png")}
+          />
+          {/* <Icon name="md-checkmark" size={12} color="#fff" /> */}
         </TouchableOpacity>
       </View>
       <View
@@ -167,7 +196,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
             </View>
           ) : null}
           {!item.item_availability && item.suggestion ? (
-            <View style={{ marginTop: 10 }}>
+            <View style={{ marginTop: 25, marginLeft: -61 }}>
               <Text
                 weight="Bold"
                 style={{ fontSize: 12, color: colors.pinkishOrange }}
@@ -175,7 +204,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
                 Suggested Item:
               </Text>
               <View style={{ flexDirection: "row", marginTop: 5 }}>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={{
                     width: 16,
                     height: 16,
@@ -187,6 +216,32 @@ export default ({ item, index, declineItem, orderStatus }) => {
                   }}
                 >
                   <Icon name="md-checkmark" size={12} color="#fff" />
+                </TouchableOpacity> */}
+                <TouchableOpacity
+                  style={{
+                    width: 55,
+                    height: 60,
+                    //borderRadius: 8,
+                    alignItems: "center",
+                    //justifyContent: "center",
+                    backgroundColor: "#fff"
+                  }}
+                >
+                  <Image
+                    style={{
+                      padding: 5,
+                      width: 55,
+                      height: 60,
+                      borderWidth: 1,
+                      borderColor: "#e0e0e0"
+                    }}
+                    resizeMode="contain"
+                    source={{
+                      uri: API_BASE_URL + `/skus/${item.id}/images`
+                    }}
+                    //source={require("../../images/binbill_logo.png")}
+                  />
+                  {/* <Icon name="md-checkmark" size={12} color="#fff" /> */}
                 </TouchableOpacity>
                 <Text
                   weight="Medium"
@@ -240,7 +295,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
                       color: colors.mainBlue
                     }}
                   >
-                    You get back ₹ {cashback}
+                    You get back ₹ {updatedCashback}
                   </Text>
                 ) : (
                   <View />

@@ -10,6 +10,7 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 import Modal from "react-native-modal";
 import _ from "lodash";
+import { API_BASE_URL } from "../../api";
 
 import { Text, Image, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
@@ -288,6 +289,10 @@ export default class SearchBar extends React.Component {
       }
     }
     console.log("filteredCategories: ", filteredCategories);
+    console.log(
+      "filteredMainCategories___________________: ",
+      filteredMainCategories
+    );
 
     return (
       <View
@@ -490,30 +495,71 @@ export default class SearchBar extends React.Component {
               <FlatList
                 data={filteredMainCategories}
                 extraData={activeMainCategoryId}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.changeMainCategory(item.id);
-                    }}
-                    style={{
-                      justifyContent: "center",
-                      paddingHorizontal: 5,
-                      paddingVertical: 7,
-                      backgroundColor:
-                        item.id == activeMainCategoryId
-                          ? "#d8edf7"
-                          : "transparent"
-                    }}
-                  >
-                    <Text
-                      weight="Medium"
-                      style={{ fontSize: 12, textTransform: "capitalize" }}
-                      numberOfLines={2}
+                renderItem={({ item }) => {
+                  // console.log(
+                  //   "URL____________",
+                  //   API_BASE_URL + `/categories/${item.id}/images/1/thumbnail`
+                  // );
+                  return (
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.changeMainCategory(item.id);
+                      }}
+                      style={{
+                        flexDirection: "row",
+                        paddingHorizontal: 5,
+                        paddingVertical: 7,
+                        backgroundColor:
+                          item.id == activeMainCategoryId
+                            ? "#d8edf7"
+                            : "transparent"
+                      }}
                     >
-                      {item.title}
-                    </Text>
-                  </TouchableOpacity>
-                )}
+                      <View
+                        style={{
+                          flex: 2,
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
+                      >
+                        <Image
+                          style={{
+                            height: 40,
+                            width: 40,
+                            padding: 5,
+                            borderWidth: 1,
+                            borderRadius: 20,
+                            borderColor: "#04a0e5"
+                          }}
+                          resizeMode="contain"
+                          source={{
+                            uri:
+                              API_BASE_URL +
+                              `/categories/${item.id}/images/1/thumbnail`
+                          }}
+                          //source={require("../../images/binbill_logo.png")}
+                        />
+                      </View>
+                      <View
+                        style={{
+                          flex: 3,
+                          justifyContent: "center"
+                        }}
+                      >
+                        <Text
+                          weight="Medium"
+                          style={{
+                            fontSize: 12,
+                            textTransform: "capitalize"
+                          }}
+                          numberOfLines={2}
+                        >
+                          {item.title}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }}
               />
             </View>
           ) : (

@@ -8,8 +8,9 @@ import {
 
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { Text, Button } from "../../elements";
+import { Text, Button, Image } from "../../elements";
 import { colors } from "../../theme";
+import { API_BASE_URL } from "../../api";
 
 import QuantityPlusMinus from "../../components/quantity-plus-minus";
 
@@ -81,16 +82,30 @@ export default class SelectedItemsList extends React.Component {
               <View style={{ marginRight: 5 }}>
                 <View
                   style={{
-                    width: 16,
-                    height: 16,
-                    borderRadius: 8,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: colors.success,
-                    marginTop: 2
+                    width: 55,
+                    height: 60,
+                    //borderRadius: 8,
+                    //alignItems: "center",
+                    justifyContent: "center"
+                    //backgroundColor: colors.success,
+                    //marginTop: 2
                   }}
                 >
-                  <Icon name="md-checkmark" size={12} color="#fff" />
+                  <Image
+                    style={{
+                      padding: 5,
+                      width: 55,
+                      height: 60,
+                      borderWidth: 1,
+                      borderColor: "#e0e0e0"
+                    }}
+                    resizeMode="contain"
+                    source={{
+                      uri: API_BASE_URL + `/skus/${item.id}/images`
+                    }}
+                    //source={require("../../images/binbill_logo.png")}
+                  />
+                  {/* <Icon name="md-checkmark" size={12} color="#fff" /> */}
                 </View>
               </View>
               <View
