@@ -244,8 +244,8 @@ const styles = {
   // },
   bottomButton: {
     position: "absolute",
-    right: 10,
-    bottom: 10
+    right: 5,
+    bottom: 0
   },
   bottomButtonIcon: {
     fontSize: 18,

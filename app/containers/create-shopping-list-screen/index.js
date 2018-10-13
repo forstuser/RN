@@ -126,7 +126,7 @@ class ShoppingListScreen extends React.Component {
       });
 
       let mainCategories =
-        pastItems.length > 0 ? [{ id: 0, title: "PAST ITEMS" }] : [];
+        pastItems.length > 0 ? [{ id: 0, title: "Past Items" }] : [];
 
       mainCategories = [...mainCategories, ...res.result.main_categories];
 
