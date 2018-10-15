@@ -45,7 +45,10 @@ export default class SearchBar extends React.Component {
 
   toggleSellersPopup = () => {
     console.log("selected seller:-----------------", this.props.selectedSeller);
-    const { selectedSeller } = this.props;
+    let { selectedSeller } = this.props;
+    if (selectedSeller == null) {
+      selectedSeller = "";
+    }
     const { isBrandsPopupVisible } = this.state;
     this.setState({
       isBrandsPopupVisible: !isBrandsPopupVisible,
@@ -167,7 +170,7 @@ export default class SearchBar extends React.Component {
       searchTerm = "",
       brands = [],
       selectedBrands = [],
-      selectedSeller = null,
+      selectedSeller,
       measurementTypes,
       isSearching = false,
       isSearchDone = false,
@@ -530,7 +533,7 @@ export default class SearchBar extends React.Component {
                           style={{
                             height: 40,
                             width: 40,
-                            padding: 5,
+                            // padding: 5,
                             borderWidth: 1,
                             borderRadius: 20,
                             borderColor: "#04a0e5"
@@ -547,6 +550,7 @@ export default class SearchBar extends React.Component {
                       <View
                         style={{
                           flex: 3,
+                          marginLeft: 2,
                           justifyContent: "center"
                         }}
                       >
@@ -556,7 +560,7 @@ export default class SearchBar extends React.Component {
                             fontSize: 12,
                             textTransform: "capitalize"
                           }}
-                          numberOfLines={2}
+                          numberOfLines={3}
                         >
                           {item.title}
                         </Text>
