@@ -18,6 +18,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
 
   let updatedCashback = 0;
   if (
+    item.suggestion &&
     item.suggestion.sku_measurement &&
     item.suggestion.sku_measurement.cashback_percent
   ) {
