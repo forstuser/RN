@@ -47,6 +47,7 @@ import AscContent from "./asc-content";
 import ExpenseInsightsContent from "./expense-insights-content";
 import CalendarContent from "../my-calendar-screen";
 import ActiveOrdersScreen from "../active-orders-screen";
+import store from "../../store";
 
 const ascIcon = require("../../images/ic_nav_asc_on.png");
 const chartIcon = require("../../images/ic_bars_chart.png");
@@ -77,6 +78,10 @@ class DashboardScreen extends React.Component {
   }
 
   async componentDidMount() {
+    const user = store.getState().loggedInUser;
+    if (user.location == LOCATIONS.GURGAON) {
+      this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
+    }
     // this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
