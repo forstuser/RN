@@ -157,7 +157,8 @@ class ActiveOrdersScreen extends Component {
             /> */}
             <Image
               style={{ width: 100, height: 100 }}
-              source={require("../../images/blank_shopping_list.png")}
+              source={require("../../images/active_orders_empty.png")}
+              resizeMode="contain"
             />
 
             {/* <Image
