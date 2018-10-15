@@ -62,9 +62,9 @@ export default class MySellersScreen extends React.Component {
   getSellers = async () => {
     const { searchTerm, location } = this.state;
 
-    //console.log("FETCH_____________________SELLERS");
-    //console.log("Location________", location);
-    //console.log("Search term________", searchTerm);
+    console.log("FETCH_____________________SELLERS");
+    console.log("Location________", location);
+    console.log("Search term________", searchTerm);
 
     if (searchTerm === undefined || searchTerm === "") {
       if (location != "Gurgaon")
@@ -85,10 +85,10 @@ export default class MySellersScreen extends React.Component {
         location == "Gurgaon" &&
         (searchTerm === undefined || searchTerm === "")
       ) {
-        //console.log("Updated Case_________________");
+        console.log("Updated Case_________________");
         res = await getSellers({ is_default: true });
       } else {
-        //console.log("Default Case_________________");
+        console.log("Default Case_________________");
         res = await getSellers({ searchTerm, is_default: false });
       }
       this.setState({ sellers: res.result });
