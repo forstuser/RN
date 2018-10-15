@@ -179,7 +179,7 @@ class SingleOrder extends Component {
               <Image
                 source={require("../../images/chat.png")}
                 resizeMode="contain"
-                style={{ height: 30, width: 30 }}
+                style={{ height: 25, width: 25 }}
               />
               <LoadingOverlay visible={this.state.isChatClicked} />
             </TouchableOpacity>
