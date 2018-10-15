@@ -67,7 +67,7 @@ export default class Offers extends React.Component {
               </Text>
               <Text style={{ fontSize: 15 }}>{item.description}</Text>
               <Text style={{ fontSize: 15, color: colors.mainBlue }}>
-                Expire on: {moment(item.end_date).format("DD MMM, YYYY")}
+                Expiring on: {moment(item.end_date).format("DD MMM, YYYY")}
               </Text>
             </View>
           </View>

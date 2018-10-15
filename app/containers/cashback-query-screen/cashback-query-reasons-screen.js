@@ -90,7 +90,9 @@ class CashbackQueryReasonsScreen extends React.Component {
                       />
                     )}
                 </View>
-                <Text style={{ padding: 10 }}>{item.title}</Text>
+                <Text style={{ marginRight: 20, paddingRight: 20 }}>
+                  {item.title}
+                </Text>
               </TouchableOpacity>
             );
           }}

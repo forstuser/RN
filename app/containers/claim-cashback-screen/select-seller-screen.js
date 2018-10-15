@@ -435,7 +435,7 @@ export default class SelectSellerScreen extends React.Component {
                 fontStyle: "italic"
               }}
             >
-              (We incentivise your seller for every Home Delivery.)
+              (We incentivise your seller for every Home Delivery)
             </Text>
             <Image
               source={require("../../images/happy.png")}

@@ -378,14 +378,7 @@ class MyShoppingList extends React.Component {
                           }}
                         >
                           <View style={{ padding: 12 }}>
-                            <View
-                              style={{
-                                width: 68,
-                                height: 68,
-                                borderRadius: 34,
-                                backgroundColor: "#eee"
-                              }}
-                            >
+                            <View zz>
                               <Image
                                 style={{
                                   width: 68,
