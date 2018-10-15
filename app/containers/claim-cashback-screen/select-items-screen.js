@@ -63,7 +63,9 @@ export default class SelectCashbackItems extends React.Component {
     activeCategoryId: null,
     selectedCategoryIds: [],
     measurementTypes: {},
-    isLoading: false
+    isLoading: false,
+    offset: 0,
+    endhasReachedFlag: false
   };
 
   componentDidMount() {
@@ -129,7 +131,7 @@ export default class SelectCashbackItems extends React.Component {
 
       this.setState(newState, () => {
         if (wishlist.length == 0 && pastItems.length == 0) {
-          this.loadItems();
+          this.loadItemsFirstPage();
         }
       });
     } catch (referenceDataError) {
@@ -139,8 +141,15 @@ export default class SelectCashbackItems extends React.Component {
       this.setState({ isLoading: false });
     }
   };
+  loadItemsFirstPage = () => {
+    console.log("load first item call hua");
+    this.setState({ items: [], endhasReachedFlag: false }, () => {
+      this.loadItems();
+    });
+  };
 
-  loadItems = async () => {
+  loadItems = async (offset = 0) => {
+    const { items } = this.state;
     this.setState({
       isSearching: true,
       isSearchDone: false,
@@ -157,13 +166,17 @@ export default class SelectCashbackItems extends React.Component {
       const res = await getSkuItems({
         mainCategoryId: activeMainCategoryId ? activeMainCategoryId : undefined,
         categoryIds: !searchTerm ? selectedCategoryIds : undefined,
-        searchTerm: searchTerm || undefined,
-        brandIds: selectedBrands.map(brand => brand.id)
+        searchTerm: searchTerm.replace(/ /g, "%") || undefined,
+        brandIds: selectedBrands.map(brand => brand.id),
+        offset: items.length
       });
+      if (res.result.sku_items.length === 0) {
+        this.setState({ endhasReachedFlag: true });
+      }
       this.setState({
         isSearching: false,
         isSearchDone: true,
-        items: res.result.sku_items,
+        items: [...items, ...res.result.sku_items],
         brands: res.result.brands
       });
     } catch (error) {
@@ -200,7 +213,7 @@ export default class SelectCashbackItems extends React.Component {
 
     this.setState(newState, () => {
       if (activeMainCategoryId > 0) {
-        this.loadItems();
+        this.loadItemsFirstPage();
       }
     });
   };
@@ -218,7 +231,7 @@ export default class SelectCashbackItems extends React.Component {
     this.setState(
       { selectedCategoryIds: [categoryId], selectedBrands: [] },
       () => {
-        this.loadItems();
+        this.loadItemsFirstPage();
       }
     );
   };
@@ -245,10 +258,11 @@ export default class SelectCashbackItems extends React.Component {
     this.setState(newState, () => {
       if (
         !searchTerm ||
-        (searchTerm.length == 3 &&
+        (searchTerm.length >= 3 &&
+          searchTerm.length % 2 == 1 &&
           searchTerm != this.state.lastSearchTerm3Characters)
       ) {
-        this.loadItems();
+        this.loadItemsFirstPage();
       }
       if (searchTerm.length == 3) {
         this.setState({ lastSearchTerm3Characters: searchTerm });
@@ -262,7 +276,7 @@ export default class SelectCashbackItems extends React.Component {
 
   setSelectedBrands = selectedBrands => {
     this.setState({ selectedBrands }, () => {
-      this.loadItems();
+      this.loadItemsFirstPage();
     });
   };
 
@@ -449,7 +463,8 @@ export default class SelectCashbackItems extends React.Component {
       activeCategoryId,
       measurementTypes,
       mainCategories,
-      isLoading
+      isLoading,
+      endhasReachedFlag
     } = this.state;
 
     const selectedIds = selectedItems.map(selectedItem => selectedItem.id);
@@ -473,6 +488,7 @@ export default class SelectCashbackItems extends React.Component {
             clearSearchTerm={this.clearSearchTerm}
             brands={brands}
             selectedBrands={selectedBrands}
+            endhasReachedFlag={endhasReachedFlag}
             setSelectedBrands={this.setSelectedBrands}
             isSearchDone={isSearchDone}
             searchError={searchError}
