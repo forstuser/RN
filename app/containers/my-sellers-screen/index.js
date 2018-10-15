@@ -122,6 +122,7 @@ class MySellersScreen extends React.Component {
   };
 
   orderOnline = seller => {
+    console.log("seller from seller screen", seller);
     this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN, {
       seller: seller
     });
