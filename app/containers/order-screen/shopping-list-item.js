@@ -138,7 +138,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
           }}
         >
           <View style={{ flexDirection: "row" }}>
-            {cashback ? (
+            {cashback > 0 ? (
               <Text
                 weight="Medium"
                 style={{

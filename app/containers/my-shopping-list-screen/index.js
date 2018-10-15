@@ -408,10 +408,9 @@ class MyShoppingList extends React.Component {
                                   width: 16,
                                   height: 16,
                                   borderRadius: 8,
-                                  backgroundColor:
-                                    item.is_logged_out === true
-                                      ? "#ddd"
-                                      : colors.success,
+                                  backgroundColor: item.rush_hours
+                                    ? "red"
+                                    : colors.success,
                                   alignItems: "center",
                                   justifyContent: "center"
                                 }}

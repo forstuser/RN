@@ -487,7 +487,7 @@ class ShoppingListScreen extends React.Component {
               selectedValue={selectedSeller ? selectedSeller.seller_name : null}
               style={{
                 height: 25,
-                width: 200,
+                width: 180,
                 color: colors.pinkishOrange
               }}
               onValueChange={(itemValue, itemIndex) => {
