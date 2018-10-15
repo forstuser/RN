@@ -31,7 +31,7 @@ class CashbackQueryReasonsScreen extends React.Component {
     //   reason: this.state.selectedReason
     // });
     Linking.openURL(
-      `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&bcc=amar@binbill.com&bcc=sagar@binbill.com&subject=Cahback Query, Transaction Id: ${
+      `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&bcc=amar@binbill.com&bcc=sagar@binbill.com&subject=Cashback Query, Transaction Id: ${
         selectedTransaction.id
       }&body=Dear BinBill Team,\n\nI have some query related to my cashback, \n${
         selectedReason.title
