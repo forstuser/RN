@@ -73,7 +73,7 @@ export default class InviteSellerModal extends React.Component {
         isVisible={isVisible}
         title="Invite Seller"
         style={{
-          height: isInviteSent ? 200 : 400,
+          height: isInviteSent ? 200 : 380,
           ...defaultStyles.card
         }}
         onClosePress={this.closeModal}
