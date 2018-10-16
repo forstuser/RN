@@ -197,7 +197,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
             </View>
           ) : null}
           {!item.item_availability && item.suggestion ? (
-            <View style={{ marginTop: 25, marginLeft: -61 }}>
+            <View style={{ marginTop: 45, marginLeft: -70 }}>
               <Text
                 weight="Bold"
                 style={{ fontSize: 12, color: colors.pinkishOrange }}
