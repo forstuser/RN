@@ -220,25 +220,25 @@ export default ({ item, index, declineItem, orderStatus }) => {
                 </TouchableOpacity> */}
                 <TouchableOpacity
                   style={{
-                    width: 55,
-                    height: 60,
+                    // width: 55,
+                    // height: 60,
                     //borderRadius: 8,
-                    alignItems: "center",
+                    // alignItems: "center",
                     //justifyContent: "center",
                     backgroundColor: "#fff"
                   }}
                 >
                   <Image
                     style={{
-                      padding: 5,
-                      width: 55,
-                      height: 60,
-                      borderWidth: 1,
-                      borderColor: "#e0e0e0"
+                      width: 80,
+                      height: 80,
+                      justifyContent: "flex-start",
+                      alignSelf: "flex-start",
+                      alignContent: "flex-start"
                     }}
                     resizeMode="contain"
                     source={{
-                      uri: API_BASE_URL + `/skus/${item.id}/images`
+                      uri: API_BASE_URL + `/skus/${item.suggestion.id}/images`
                     }}
                     //source={require("../../images/binbill_logo.png")}
                   />

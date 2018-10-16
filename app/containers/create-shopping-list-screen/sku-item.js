@@ -43,6 +43,10 @@ export default class SkuItem extends React.Component {
       style = {}
     } = this.props;
 
+    // console.log(
+    //   "Image URLs_____________:",
+    //   API_BASE_URL + `/skus/${item.id}/images`
+    // );
     const { isCashbackDetailsModalVisible } = this.state;
 
     const itemsInWishList = wishList.filter(listItem => listItem.id == item.id);
@@ -154,7 +158,7 @@ export default class SkuItem extends React.Component {
                 // borderWidth: 1,
                 // borderColor: "#e0e0e0"
               }}
-              // resizeMode="contain"
+              resizeMode="contain"
               source={{
                 uri: API_BASE_URL + `/skus/${item.id}/images`
               }}
