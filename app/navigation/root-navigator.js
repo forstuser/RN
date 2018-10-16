@@ -350,7 +350,8 @@ class RootNavigation extends React.Component {
         name: user.name,
         phone: user.mobile_no,
         imageUrl: user.imageUrl,
-        isPinSet: user.hasPin
+        isPinSet: user.hasPin,
+        location: user.location
       });
 
       if (user.name === null || user.location === null) {

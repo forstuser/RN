@@ -230,6 +230,7 @@ export default class ClaimCashback extends React.Component {
     } = this.state;
 
     const checklistPoints = [
+      "If ordered through App, upload Bill in 'My Orders' section.",
       "Printed Bill only",
       "Bill should be clear & readable",
       "One Bill in one Click",

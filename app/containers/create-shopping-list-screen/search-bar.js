@@ -152,7 +152,10 @@ export default class SearchBar extends React.Component {
     updateMainCategoryIdInParent(id);
   };
   loadNextItems = () => {
-    if (this.props.endhasReachedFlag == false) {
+    if (
+      this.props.endhasReachedFlag == false &&
+      this.props.activeMainCategoryId != 0
+    ) {
       this.props.loadItems();
     }
   };

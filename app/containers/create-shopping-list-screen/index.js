@@ -138,9 +138,9 @@ class ShoppingListScreen extends React.Component {
         items: pastItems
       }));
 
-      // if (pastItems.length == 0) {
-      this.loadItemsFirstPage();
-      //}
+      if (pastItems.length == 0) {
+        this.loadItemsFirstPage();
+      }
     } catch (referenceDataError) {
       console.log("referenceDataError: ", referenceDataError);
       this.setState({ referenceDataError });

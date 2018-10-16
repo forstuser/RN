@@ -80,6 +80,7 @@ class DashboardScreen extends React.Component {
   async componentDidMount() {
     const user = store.getState().loggedInUser;
     if (user.location == LOCATIONS.GURGAON) {
+      this.props.setUiHasDashboardTourShown(true);
       this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
     }
     // this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
