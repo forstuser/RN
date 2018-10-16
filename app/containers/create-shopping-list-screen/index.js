@@ -77,11 +77,14 @@ class ShoppingListScreen extends React.Component {
   }
 
   fromSellers = () => {
+    const seller = this.props.navigation.getParam("seller", null);
+    console.log("selected seller is ", seller);
+
     this.setState({
-      selectedSeller: this.props.navigation.getParam("seller", null)
+      selectedSeller: seller
     });
     if (this.state.selectedSeller != null) {
-      this.setSelectedSellers([this.state.selectedSeller]);
+      this.setSelectedSellers([seller]);
     }
   };
 

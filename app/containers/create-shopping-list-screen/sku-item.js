@@ -125,23 +125,36 @@ export default class SkuItem extends React.Component {
           style
         ]}
       >
-        <View style={{ flexDirection: "row" }}>
+        <View
+          style={{
+            flexDirection: "row"
+          }}
+        >
           <View
-            style={{
-              width: 55,
-              height: 60,
-              justifyContent: "center"
-            }}
+            style={
+              {
+                // width: 80,
+                // height: 80,
+                // backgroundColor: "grey",
+                // alignSelf: "flex-start",
+                // justifyContent: "flex-start",
+                // alignContent: "flex-start"
+              }
+            }
           >
             <Image
               style={{
-                padding: 5,
-                width: 55,
-                height: 60,
-                borderWidth: 1,
-                borderColor: "#e0e0e0"
+                // padding: 5,
+                // backgroundColor: "grey",
+                width: 80,
+                height: 80,
+                justifyContent: "flex-start",
+                alignSelf: "flex-start",
+                alignContent: "flex-start"
+                // borderWidth: 1,
+                // borderColor: "#e0e0e0"
               }}
-              resizeMode="contain"
+              // resizeMode="contain"
               source={{
                 uri: API_BASE_URL + `/skus/${item.id}/images`
               }}

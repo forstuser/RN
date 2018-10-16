@@ -238,10 +238,7 @@ export default class ClaimCashback extends React.Component {
       "Bills include grocery items",
       "Purchase date & Bill upload date is same",
       "Bills are unmodified & unduplicated",
-      "Only printed Bills, not handwritten",
-      "Bill has Seller details",
-      "Capture Bill edges within the frame",
-      "Bill is readable & in good condition"
+      "Bill has Seller details"
     ];
 
     if (error) {

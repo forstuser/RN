@@ -115,12 +115,12 @@ const BottomTabStack = createBottomTabNavigator(
         )
       }
     },
-    [SCREENS.DEALS_SCREEN]: {
-      screen: DealsScreen,
+    [SCREENS.MY_SELLERS_SCREEN]: {
+      screen: MySellersScreen,
       navigationOptions: {
-        tabBarLabel: "Deals",
+        tabBarLabel: "My Seller",
         tabBarIcon: props => (
-          <TabIcon {...props} source={require("../images/deals.png")} />
+          <TabIcon {...props} source={require("../images/seller_icon.png")} />
         )
       }
     },
@@ -133,6 +133,15 @@ const BottomTabStack = createBottomTabNavigator(
         )
       }
     },
+    [SCREENS.DEALS_SCREEN]: {
+      screen: DealsScreen,
+      navigationOptions: {
+        tabBarLabel: "Deals",
+        tabBarIcon: props => (
+          <TabIcon {...props} source={require("../images/deals.png")} />
+        )
+      }
+    }
     // [SCREENS.DO_YOU_KNOW_SCREEN]: {
     //   screen: DoYouKnowScreen,
     //   navigationOptions: {
@@ -145,15 +154,6 @@ const BottomTabStack = createBottomTabNavigator(
     //     )
     //   }
     // },
-    [SCREENS.MY_SELLERS_SCREEN]: {
-      screen: MySellersScreen,
-      navigationOptions: {
-        tabBarLabel: "My Seller",
-        tabBarIcon: props => (
-          <TabIcon {...props} source={require("../images/seller_icon.png")} />
-        )
-      }
-    }
   },
   {
     tabBarComponent: CustomTabBar,

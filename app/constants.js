@@ -231,7 +231,8 @@ const CALENDAR_WAGES_TYPE = {
 };
 
 const LOCATIONS = {
-  OTHER: "Other"
+  OTHER: "Other",
+  GURGAON: "Gurgaon"
 };
 
 const FUEL_TYPES = {

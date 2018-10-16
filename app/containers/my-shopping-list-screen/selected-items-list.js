@@ -80,24 +80,14 @@ export default class SelectedItemsList extends React.Component {
               }}
             >
               <View style={{ marginRight: 5 }}>
-                <View
-                  style={{
-                    width: 55,
-                    height: 60,
-                    //borderRadius: 8,
-                    //alignItems: "center",
-                    justifyContent: "center"
-                    //backgroundColor: colors.success,
-                    //marginTop: 2
-                  }}
-                >
+                <View>
                   <Image
                     style={{
-                      padding: 5,
-                      width: 55,
-                      height: 60,
-                      borderWidth: 1,
-                      borderColor: "#e0e0e0"
+                      width: 80,
+                      height: 80,
+                      justifyContent: "flex-start",
+                      alignSelf: "flex-start",
+                      alignContent: "flex-start"
                     }}
                     resizeMode="contain"
                     source={{
