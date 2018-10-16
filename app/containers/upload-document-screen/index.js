@@ -53,16 +53,16 @@ class UploadDocumentScreen extends Component {
     const { onOptionsPress, getImageRef = () => {} } = params;
 
     return {
-      title: I18n.t("upload_document_screen_title"),
-      headerRight: (
-        <TouchableOpacity onPress={onOptionsPress} style={{ marginRight: 15 }}>
-          <Image
-            ref={ref => getImageRef(ref)}
-            style={{ width: 24, height: 24 }}
-            source={newPicIcon}
-          />
-        </TouchableOpacity>
-      )
+      title: I18n.t("upload_document_screen_title")
+      // headerRight: (
+      //   <TouchableOpacity onPress={onOptionsPress} style={{ marginRight: 15 }}>
+      //     <Image
+      //       ref={ref => getImageRef(ref)}
+      //       style={{ width: 24, height: 24 }}
+      //       source={newPicIcon}
+      //     />
+      //   </TouchableOpacity>
+      // )
     };
   };
 
@@ -380,8 +380,8 @@ class UploadDocumentScreen extends Component {
           ref={ref => (this.uploadDocTour = ref)}
           enabled={true}
           steps={[
-            { ref: this.dummyViewForFile, text: I18n.t("zoom_image_tip") },
-            { ref: this.plusIconRef, text: I18n.t("add_bill_btn_tip") }
+            { ref: this.dummyViewForFile, text: I18n.t("zoom_image_tip") }
+            //{ ref: this.plusIconRef, text: I18n.t("add_bill_btn_tip") }
           ]}
         />
       </ScreenContainer>
