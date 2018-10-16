@@ -157,6 +157,7 @@ class DealsScreen extends Component {
             )}
             {(activeTabIndex == 0 && selectedOfferCategory) ||
             (activeTabIndex == 1 &&
+              accessoryCategories &&
               accessoryCategories.length > 0 &&
               showFilter) ? (
               <TouchableOpacity
