@@ -138,7 +138,7 @@ const styles = {
     margin: 10
   },
   box: {
-    height: 160
+    height: 180
   },
   box1: {
     padding: 10

@@ -42,7 +42,10 @@ export default class StatusModal extends React.Component {
         onClosePress={this.hide}
         onBackButtonPress={this.hide}
         onBackdropPress={this.hide}
-        style={{ height: 350, backgroundColor: "#fff" }}
+        style={{
+          height: title == "Approved" ? 350 : 200,
+          backgroundColor: "#fff"
+        }}
       >
         <View
           style={{

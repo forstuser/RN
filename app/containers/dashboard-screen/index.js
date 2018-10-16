@@ -77,12 +77,24 @@ class DashboardScreen extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    const user = store.getState().loggedInUser;
+  async componentWillMount() {
+    const r = await getProfileDetail();
+    const user = r.userProfile;
+    //const user = store.getState().loggedInUser;
+    //console.log("USER ON START_____________", user);
+    //console.log("LOCATION ON START_____________", user.location);
     if (user.location == LOCATIONS.GURGAON) {
       this.props.setUiHasDashboardTourShown(true);
       this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
     }
+  }
+
+  async componentDidMount() {
+    // const user = store.getState().loggedInUser;
+    // if (user.location == LOCATIONS.GURGAON) {
+    //   this.props.setUiHasDashboardTourShown(true);
+    //   this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
+    // }
     // this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",

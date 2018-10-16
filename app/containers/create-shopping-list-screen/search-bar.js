@@ -546,11 +546,19 @@ export default class SearchBar extends React.Component {
                             borderColor: "#04a0e5"
                           }}
                           resizeMode="contain"
-                          source={{
-                            uri:
-                              API_BASE_URL +
-                              `/categories/${item.id}/images/1/thumbnail`
-                          }}
+                          source={
+                            item.title == "PAST ITEMS"
+                              ? require("../../images/past_items.png")
+                              : item.title == "SHOPPING LIST"
+                                ? require("../../images/shopping_list_icon.png")
+                                : {
+                                    uri:
+                                      API_BASE_URL +
+                                      `/categories/${
+                                        item.id
+                                      }/images/1/thumbnail`
+                                  }
+                          }
                           //source={require("../../images/binbill_logo.png")}
                         />
                       </View>
