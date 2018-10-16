@@ -78,7 +78,10 @@ class ShoppingListScreen extends React.Component {
 
   fromSellers = () => {
     // this.loadItemsForSellerList();
-    const seller = this.props.navigation.getParam("seller", null);
+    const seller = this.props.navigation.getParam(
+      "seller",
+      this.state.selectedSeller
+    );
     console.log("selected seller is ", seller);
 
     this.setState({
@@ -467,6 +470,7 @@ class ShoppingListScreen extends React.Component {
         this.setState({ isSearching: false });
       }
     } else {
+      console.log("reset karne pe null hua");
       this.setState(
         {
           selectedSeller: null,
