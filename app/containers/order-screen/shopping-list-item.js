@@ -66,7 +66,7 @@ export default ({ item, index, declineItem, orderStatus }) => {
             // alignItems: "center",
             //justifyContent: "center",
             backgroundColor:
-              (item.suggestion && orderStatus === 4) || !item.item_availability
+              item.suggestion && orderStatus === 4
                 ? colors.secondaryText
                 : "#fff"
           }}

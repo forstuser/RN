@@ -94,6 +94,7 @@ class SelectCitiesScreen extends Component {
       const res = await updateProfile({
         location: this.state.location
       });
+      console.log("Result______________________________________,", res);
     } catch (e) {
       console.log("e: ", e);
 
