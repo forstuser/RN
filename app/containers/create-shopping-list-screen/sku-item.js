@@ -167,8 +167,8 @@ export default class SkuItem extends React.Component {
               marginLeft: 5,
               fontSize: 12,
               flex: 1,
-              marginRight: 10,
-              marginTop: 10
+              marginRight: 10
+              //marginTop: 10
             }}
           >
             {item.title}
