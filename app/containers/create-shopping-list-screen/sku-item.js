@@ -163,10 +163,17 @@ export default class SkuItem extends React.Component {
           </View>
           <Text
             weight="Medium"
-            style={{ marginLeft: 5, fontSize: 12, flex: 1, marginRight: 10 }}
+            style={{
+              marginLeft: 5,
+              fontSize: 12,
+              flex: 1,
+              marginRight: 10,
+              marginTop: 10
+            }}
           >
             {item.title}
           </Text>
+
           {itemsInWishList.length > 0 ? (
             <View
               style={{
@@ -206,12 +213,15 @@ export default class SkuItem extends React.Component {
               alignSelf: "flex-start",
               borderRadius: 3,
               marginTop: 10
+              // position: "absolute",
+              // top: 70,
+              // left: 95
             }}
           >
             <Text
               weight="Medium"
               style={{
-                fontSize: 10,
+                fontSize: 9,
                 paddingHorizontal: 4,
                 fontStyle: "italic"
               }}

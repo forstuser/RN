@@ -214,11 +214,11 @@ class MySellersScreen extends React.Component {
                       color: colors.secondaryText
                     }}
                   >
-                    Add your Seller to the BinBill Network for additional
-                    offers, easy orders and faster home delivery
+                    Add your Neighbourhood Sellers for better response in terms
+                    of online orders, faster home delivery and attractive offers
                   </Text>
                   <Button
-                    onPress={this.openAddSellerScreen}
+                    onPress={() => this.openAddSellerScreen(user.location)}
                     text="Add Seller Now"
                     color="secondary"
                     style={{ width: 260, marginTop: 40 }}

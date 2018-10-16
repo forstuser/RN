@@ -777,14 +777,14 @@ export default {
   upload_bill_tip:
     "Upload Bill: You can upload Bills and Documents here. If you don’t have the Bill, you can always add it later on.",
   product_card_tip:
-    "This is the Product Card for your {{categoryName}}. It’s a digital identity of your Product for you to access anytime, anywhere.",
+    "Product Card saves your Product digitally to be accessed anytime, anywhere.",
   product_card_upload_bill_tip:
     "Don't want to add the details manually, just upload the bill and your Home Manager will fill in the rest.",
   product_card_share_tip:
-    "Share your product experience with your Friends, Family and Followers to help them make a wise purchase decision.",
+    "Share your product’s reviews with your friends & family to help them make a wise purchase decision.",
   product_card_review_tip: "Review your product experience.",
   product_card_add_image_tip:
-    "This helps you personalize this item.  You can upload image which suitably represents the item. Adding real image to your card makes it more shareable with your friends and family.",
+    "Upload the item’s image to personalize and share with friends & family.",
   deals_filter_tip: "Filter your requirement further.",
   milage_tip: "Mileage Meter tracks your vehicle's mileage.",
   //blank dashboard
