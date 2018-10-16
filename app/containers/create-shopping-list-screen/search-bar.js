@@ -179,6 +179,7 @@ export default class SearchBar extends React.Component {
       isSearchDone = false,
       searchError = null,
       items = [],
+      pastItems = [],
       wishList = [],
       skuItemIdsCurrentlyModifying = [],
       addSkuItemToList,
@@ -195,7 +196,10 @@ export default class SearchBar extends React.Component {
     } = this.props;
 
     const { isBrandsPopupVisible, checkedBrands, checkedSellers } = this.state;
-
+    console.log("past items 2", pastItems);
+    console.log("items 2", items);
+    console.log("main categoried 2", mainCategories);
+    console.log("active main category id 2", activeMainCategoryId);
     const activeMainCategory = activeMainCategoryId
       ? mainCategories.find(
           mainCategory => mainCategory.id == activeMainCategoryId
