@@ -70,25 +70,31 @@ class ShoppingListScreen extends React.Component {
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
-        this.fromSellers();
         this.loadSkuWishList();
+        this.fromSellers();
       }
     );
   }
 
+  componentWillReceiveProps() {
+    console.log("componentWillReceiveProps");
+  }
+
   fromSellers = () => {
     // this.loadItemsForSellerList();
-    const seller = this.props.navigation.getParam(
-      "seller",
-      this.state.selectedSeller
-    );
+    const seller = this.props.navigation.getParam("seller", null);
+
     console.log("selected seller is ", seller);
 
-    this.setState({
-      selectedSeller: seller
-    });
-    if (this.state.selectedSeller != null) {
-      this.setSelectedSellers([seller]);
+    // this.setState({
+    //   selectedSeller: seller
+    // });
+    // if (this.state.selectedSeller != null) {
+    //   this.setSelectedSellers([seller]);
+    // }
+    if (seller) {
+      this.setSelectedSellers(seller ? [{ ...seller }] : []);
+      this.props.navigation.setParams({ seller: null });
     }
   };
 
@@ -461,7 +467,7 @@ class ShoppingListScreen extends React.Component {
             sellerMainCategories: res.result
           },
           () => {
-            this.loadItemsFirstPage();
+            this.loadReferenceData();
             this.clearWishList();
           }
         );
