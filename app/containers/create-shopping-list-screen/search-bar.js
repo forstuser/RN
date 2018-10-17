@@ -42,7 +42,7 @@ export default class SearchBar extends React.Component {
     });
     this.searchInput.blur();
   };
-
+  componentDidMount() {}
   toggleSellersPopup = () => {
     console.log("selected seller:-----------------", this.props.selectedSeller);
     let { selectedSeller } = this.props;
@@ -161,7 +161,7 @@ export default class SearchBar extends React.Component {
   };
 
   render() {
-    const {
+    let {
       mainCategories = [],
       sellerMainCategories = [],
       activeMainCategoryId = null,
@@ -194,12 +194,12 @@ export default class SearchBar extends React.Component {
       loadItems,
       endhasReachedFlag
     } = this.props;
-
     const { isBrandsPopupVisible, checkedBrands, checkedSellers } = this.state;
     console.log("past items 2", pastItems);
     console.log("items 2", items);
     console.log("main categoried 2", mainCategories);
     console.log("active main category id 2", activeMainCategoryId);
+    console.log("measurementTypes 2", measurementTypes);
     const activeMainCategory = activeMainCategoryId
       ? mainCategories.find(
           mainCategory => mainCategory.id == activeMainCategoryId

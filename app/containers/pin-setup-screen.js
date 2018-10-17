@@ -22,7 +22,7 @@ import PinInput from "../components/pin-input";
 import CustomTextInput from "../components/form-elements/text-input";
 import LoadingOverlay from "../components/loading-overlay";
 import ErrorOverlay from "../components/error-overlay";
-import HeaderBackButton from "react-navigation";
+import HeaderBackButton from "../components/header-nav-back-btn";
 
 class PinSetupScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
