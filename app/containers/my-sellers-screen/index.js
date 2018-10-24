@@ -643,9 +643,7 @@ class MySellersScreen extends React.Component {
                       overflow: "hidden"
                     }}
                   >
-                    {item.is_fmcg === true &&
-                    flag === false &&
-                    item.provider_counts > 0 ? (
+                    {item.is_fmcg === true && flag === false ? (
                       <TouchableOpacity
                         onPress={() => this.orderOnline(item)}
                         style={styles.bottomButton}
