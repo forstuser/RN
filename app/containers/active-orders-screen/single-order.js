@@ -97,7 +97,11 @@ class SingleOrder extends Component {
       cashback = null;
     }
 
-    if (item.cashback_status === 13) {
+    if (
+      item.admin_status !== ORDER_STATUS_TYPES.INITIAL &&
+      item.admin_status != null &&
+      item.cashback_status === ORDER_STATUS_TYPES.PENDING
+    ) {
       cashbackStatus = (
         <Button
           style={{ height: 30, width: 200, marginTop: 10 }}
@@ -116,9 +120,9 @@ class SingleOrder extends Component {
     if (
       item.order_type !== 2 &&
       (item.cashback_status === null ||
-        item.cashback_status === 15 ||
-        item.cashback_status === 17 ||
-        item.cashback_status === 18)
+        item.cashback_status === ORDER_STATUS_TYPES.EXPIRED ||
+        item.cashback_status === ORDER_STATUS_TYPES.CANCELED ||
+        item.cashback_status === ORDER_STATUS_TYPES.REJECTED)
     ) {
       // cashback = <Text weight="Bold">0</Text>;
       // cashbackStatus = (
