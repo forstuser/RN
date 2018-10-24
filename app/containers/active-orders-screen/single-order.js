@@ -161,9 +161,9 @@ class SingleOrder extends Component {
         </View>
         <View style={[styles.box, styles.box2]}>
           <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
-            <Text style={styles.info}>Seller: {name}</Text>
             <Text style={styles.status}>{status}</Text>
           </View>
+          <Text style={styles.info}>Seller: {name}</Text>
           {orderType == ORDER_TYPES.FMCG ? (
             <Text style={styles.data}>No. of items: {quantity}</Text>
           ) : (
@@ -180,11 +180,13 @@ class SingleOrder extends Component {
               onPress={() => this.startChatWithSeller(item)}
               style={styles.bottomButton}
             >
-              <Image
-                source={require("../../images/chat.png")}
-                resizeMode="contain"
-                style={{ height: 25, width: 25 }}
-              />
+              {!this.state.isChatClicked && (
+                <Image
+                  source={require("../../images/chat.png")}
+                  resizeMode="contain"
+                  style={{ height: 25, width: 25 }}
+                />
+              )}
               <LoadingOverlay visible={this.state.isChatClicked} />
             </TouchableOpacity>
           </View>
@@ -215,8 +217,8 @@ const styles = {
   },
 
   info: {
-    marginTop: 10,
-    flex: 2.5
+    marginTop: 5,
+    flex: 1
     //marginRight: 5
   },
   data: {

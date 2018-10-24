@@ -112,10 +112,10 @@ class SingleOrder extends Component {
           />
         </View>
         <View style={[styles.box, styles.box2]}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.info}>Seller: {name}</Text>
+          <View style={{ flexDirection: "column", alignItems: "flex-end" }}>
             <Text style={styles.status}>{status}</Text>
           </View>
+          <Text style={styles.info}>Seller: {name}</Text>
           {orderType == ORDER_TYPES.FMCG ? (
             <Text style={styles.data}>No. of items: {quantity}</Text>
           ) : (
@@ -152,8 +152,8 @@ const styles = {
   },
 
   info: {
-    marginTop: 10,
-    flex: 1
+    // marginTop: 5,
+    // flex: 1
   },
   data: {
     marginTop: 5

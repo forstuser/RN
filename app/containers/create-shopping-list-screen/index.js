@@ -324,7 +324,6 @@ class ShoppingListScreen extends React.Component {
       if (
         !searchTerm ||
         (searchTerm.length >= 3 &&
-          searchTerm.length % 2 == 1 &&
           searchTerm != this.state.lastSearchTerm3Characters)
       ) {
         this.loadItemsFirstPage();
@@ -340,7 +339,6 @@ class ShoppingListScreen extends React.Component {
   };
 
   loadItemsFirstPage = () => {
-    console.log("load first item call hua");
     this.setState({ items: [], endhasReachedFlag: false }, () => {
       this.loadItems();
     });
