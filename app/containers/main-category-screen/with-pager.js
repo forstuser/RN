@@ -115,14 +115,15 @@ class CategoryWithPager extends Component {
           renderTabBar={() => <ScrollableTabBar />}
           tabBarUnderlineStyle={{ backgroundColor: colors.mainBlue, height: 2 }}
           tabBarBackgroundColor="#fafafa"
-          tabBarTextStyle={{ fontSize: 14, fontFamily: `Quicksand-Bold` }}
+          tabBarTextStyle={{ fontSize: 14, fontFamily: `Roboto-Bold` }}
           tabBarActiveTextColor={colors.mainBlue}
           tabBarInactiveTextColor={colors.secondaryText}
         >
           {this.state.subCategories.map((subCategory, index) => {
             if (subCategory.error) {
               return (
-                <View collapsable={false} 
+                <View
+                  collapsable={false}
                   tabLabel={subCategory.name.toUpperCase()}
                   style={{ flex: 1 }}
                   key={subCategory.id}
@@ -135,7 +136,8 @@ class CategoryWithPager extends Component {
               );
             }
             return (
-              <View collapsable={false} 
+              <View
+                collapsable={false}
                 tabLabel={subCategory.name.toUpperCase()}
                 style={{ flex: 1 }}
                 key={subCategory.id}

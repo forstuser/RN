@@ -57,7 +57,7 @@ export default class TabsScreenContainer extends React.Component {
             tabBarBackgroundColor="transparent"
             tabBarTextStyle={{
               fontSize: 14,
-              fontFamily: `Quicksand-Bold`,
+              fontFamily: `Roboto-Bold`,
               color: "#fff",
               marginTop: 8
             }}

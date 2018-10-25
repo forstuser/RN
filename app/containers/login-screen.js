@@ -195,13 +195,13 @@ class LoginScreen extends Component {
               text={I18n.t("login_screen_btn_text")}
               style={{ width: 275 }}
             />
-            <View collapsable={false} style={styles.or}>
+            {/* <View collapsable={false} style={styles.or}>
               <View collapsable={false} style={styles.orLine} />
               <Text weight="Medium" style={styles.orText}>
                 {I18n.t("login_screen_or_text")}
               </Text>
               <View collapsable={false} style={styles.orLine} />
-            </View>
+            </View> */}
             {/*<TouchableOpacity
               onPress={this.loginWithTrueCaller}
               style={[styles.btn, styles.btnTruecaller]}
@@ -212,7 +212,7 @@ class LoginScreen extends Component {
                 resizeMode="contain"
               />
             </TouchableOpacity>*/}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={this.loginWithFacebook}
               style={[styles.btn, styles.btnFacebook]}
             >
@@ -221,10 +221,10 @@ class LoginScreen extends Component {
                 source={facebookLogo}
                 resizeMode="contain"
               />
-            </TouchableOpacity>
-            <Text weight="Medium" style={styles.noOtpRequired}>
+            </TouchableOpacity> */}
+            {/* <Text weight="Medium" style={styles.noOtpRequired}>
               {I18n.t("login_screen_no_otp_required_text")}
-            </Text>
+            </Text> */}
           </View>
         </TouchableWithoutFeedback>
         <View collapsable={false}>

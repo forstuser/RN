@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
     marginTop: 15,
-    fontFamily: `Quicksand-Bold`,
+    fontFamily: `Roboto-Bold`,
     color: "#4a4a4a"
   },
   cardRow: {

@@ -555,7 +555,7 @@ export default class SearchBar extends React.Component {
                           }}
                           resizeMode="contain"
                           source={
-                            item.title == "PAST ITEMS"
+                            item.title == "Past Items"
                               ? require("../../images/past_items.png")
                               : item.title == "SHOPPING LIST"
                                 ? require("../../images/shopping_list_icon.png")

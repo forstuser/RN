@@ -67,28 +67,28 @@ class SingleOrder extends Component {
           OUT FOR DELIVERY
         </Text>
       );
-    let status = <Text weight="Bold">{statusType}</Text>;
-    let name = <Text weight="Bold">{item.seller.seller_name}</Text>;
+    let status = <Text weight="Medium">{statusType}</Text>;
+    let name = <Text weight="Medium">{item.seller.seller_name}</Text>;
     let quantity = null;
     if (orderType === ORDER_TYPES.FMCG)
-      quantity = <Text weight="Bold">{item.order_item_counts}</Text>;
+      quantity = <Text weight="Medium">{item.order_item_counts}</Text>;
     let service =
       orderType == ORDER_TYPES.ASSISTED_SERVICE ? (
-        <Text weight="Bold">
+        <Text weight="Medium">
           {item.order_details.length > 0
             ? item.order_details[0].service_name
             : ""}
         </Text>
       ) : null;
     let dateTime = (
-      <Text weight="Bold">
+      <Text weight="Medium">
         {moment(item.created_at).format("DD MMM, YYYY")}{" "}
         {moment(item.created_at).format("hh:mm a")}
       </Text>
     );
-    let amount = <Text weight="Bold">{item.total_amount}</Text>;
+    let amount = <Text weight="Medium">{item.total_amount}</Text>;
 
-    let cashback = <Text weight="Bold">{item.available_cashback}</Text>;
+    let cashback = <Text weight="Medium">{item.available_cashback}</Text>;
     let cashbackStatus = (
       <Text style={styles.data}>Cashback earned: {cashback}</Text>
     );

@@ -17,7 +17,7 @@ const AppText = props => {
       {...textProps}
       style={[
         styles.baseStyle,
-        { fontFamily: `Quicksand-${weight}` },
+        { fontFamily: `Roboto-${weight}` },
         textProps.style
       ]}
     >

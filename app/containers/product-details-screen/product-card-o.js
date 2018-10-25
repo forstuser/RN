@@ -119,7 +119,7 @@ class ProductCard extends Component {
               height: 2
             }}
             tabBarBackgroundColor="#fafafa"
-            tabBarTextStyle={{ fontSize: 14, fontFamily: `Quicksand-Bold` }}
+            tabBarTextStyle={{ fontSize: 14, fontFamily: `Roboto-Bold` }}
             tabBarActiveTextColor={colors.mainBlue}
             tabBarInactiveTextColor={colors.secondaryText}
           >

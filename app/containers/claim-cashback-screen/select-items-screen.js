@@ -75,8 +75,8 @@ export default class SelectCashbackItems extends React.Component {
     });
     this.loadReferenceData();
 
-    const wishlist = navigation.getParam("wishlist", []);
-    this.setState({ selectedItems: wishlist });
+    const wishList = navigation.getParam("wishList", []);
+    this.setState({ selectedItems: wishList });
   }
 
   onBarcodeBtnPress = () => {
@@ -85,7 +85,7 @@ export default class SelectCashbackItems extends React.Component {
 
   loadReferenceData = async () => {
     const { navigation } = this.props;
-    const wishlist = navigation.getParam("wishlist", []);
+    const wishList = navigation.getParam("wishList", []);
     const pastItems = navigation.getParam("pastItems", []);
 
     this.setState({ isLoading: true, referenceDataError: null });
@@ -101,14 +101,14 @@ export default class SelectCashbackItems extends React.Component {
       };
 
       let mainCategories = [];
-      if (wishlist.length > 0) {
+      if (wishList.length > 0) {
         mainCategories.push({ id: -1, title: "SHOPPING LIST" });
         newState.activeMainCategoryId = -1;
       }
 
       if (pastItems.length > 0) {
-        mainCategories.push({ id: 0, title: "PAST ITEMS" });
-        if (wishlist.length == 0) {
+        mainCategories.push({ id: 0, title: "Past Items" });
+        if (wishList.length == 0) {
           newState.activeMainCategoryId = 0;
         }
       }
@@ -123,14 +123,14 @@ export default class SelectCashbackItems extends React.Component {
         newState.selectedCategoryIds = [];
       }
 
-      if (wishlist.length > 0) {
-        newState.items = wishlist;
+      if (wishList.length > 0) {
+        newState.items = wishList;
       } else if (pastItems.length > 0) {
         newState.items = pastItems;
       }
 
       this.setState(newState, () => {
-        if (wishlist.length == 0 && pastItems.length == 0) {
+        if (wishList.length == 0 && pastItems.length == 0) {
           this.loadItemsFirstPage();
         }
       });
@@ -187,7 +187,7 @@ export default class SelectCashbackItems extends React.Component {
 
   updateStateMainCategoryId = activeMainCategoryId => {
     const { navigation } = this.props;
-    const wishlist = navigation.getParam("wishlist", []);
+    const wishList = navigation.getParam("wishList", []);
     const pastItems = navigation.getParam("pastItems", []);
 
     const { mainCategories } = this.state;
@@ -202,7 +202,7 @@ export default class SelectCashbackItems extends React.Component {
     if (activeMainCategoryId > 0) {
       newState.activeCategoryId = mainCategory.categories[0].id;
     } else if (activeMainCategoryId == -1) {
-      newState.items = wishlist;
+      newState.items = wishList;
       newState.selectedBrands = [];
       newState.brands = [];
     } else if (activeMainCategoryId == 0) {
@@ -387,7 +387,7 @@ export default class SelectCashbackItems extends React.Component {
 
       callBack({ selectedItems, skuItemIdsCurrentlyModifying });
     } catch (e) {
-      console.log("wishlist error: ", e);
+      console.log("wishList error: ", e);
       showSnackbar({ text: e.message });
     } finally {
       if (item.sku_measurement) {
@@ -445,7 +445,7 @@ export default class SelectCashbackItems extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const wishlist = navigation.getParam("wishlist", []);
+    const wishList = navigation.getParam("wishList", []);
 
     const {
       isBarcodeScannerVisible,

@@ -95,7 +95,7 @@ class SellerDetailsScreen extends React.Component {
             tabBarBackgroundColor="transparent"
             tabBarTextStyle={{
               fontSize: 14,
-              fontFamily: `Quicksand-Bold`,
+              fontFamily: `Roboto-Bold`,
               color: colors.mainBlue,
               marginTop: 8
             }}
