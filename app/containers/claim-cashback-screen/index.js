@@ -18,7 +18,7 @@ import {
   TextInput,
   UploadDoc
 } from "../../elements";
-import { initExpense, getSkuReferenceData } from "../../api";
+import { initExpense } from "../../api";
 import { colors } from "../../theme";
 import CheckBox from "../../components/checkbox";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -51,7 +51,6 @@ export default class ClaimCashback extends React.Component {
     neverShowChecklistOverlay: false,
     isChecklistOverlayVisible: false,
     isChecklistModalVisible: false,
-    showShareBtn: false,
     copies: [],
     fixedCashback: 0,
     product: null,
@@ -59,38 +58,15 @@ export default class ClaimCashback extends React.Component {
     purchaseDate: moment().format("YYYY-MM-DD"),
     amount: "",
     wishList: [],
-    pastItems: [],
-    referenceDataError: null,
-    measurementTypes: {}
+    pastItems: []
   };
 
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.PLUS_ICON_OPEN_CASHBACK_FLOW);
-    this.loadReferenceData();
     this.initExpense();
     this.props.navigation.setParams({ isCameraOpen: true });
   }
-  loadReferenceData = async () => {
-    const { pastItems } = this.state;
-    this.setState({ isLoading: true, referenceDataError: null });
-    try {
-      const res = await getSkuReferenceData();
-      console.log("referenceDataError: ", res);
-      let measurementTypes = {};
-      res.result.measurement_types.forEach(measurementType => {
-        measurementTypes[measurementType.id] = measurementType;
-      });
 
-      this.setState(() => ({
-        measurementTypes
-      }));
-    } catch (referenceDataError) {
-      console.log("referenceDataError: ", referenceDataError);
-      this.setState({ referenceDataError });
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  };
   initExpense = async () => {
     try {
       this.setState({ isLoading: true });
@@ -209,9 +185,7 @@ export default class ClaimCashback extends React.Component {
       amount,
       wishList,
       fixedCashback,
-      pastItems,
-      measurementTypes,
-      showShareBtn
+      pastItems
     } = this.state;
 
     if (copies.length == 0) {
@@ -225,25 +199,17 @@ export default class ClaimCashback extends React.Component {
     else if (!amount) {
       return showSnackbar({ text: "Please enter the bill amount" });
     }
-    if (wishList.length > 0) {
-      // got to wishList screen
-      console.log("wishList is ", wishList);
-      this.props.navigation.push(SCREENS.MY_SHOPPING_LIST_SCREEN, {
-        product,
-        showShareBtn,
-        cashbackJob,
-        copies,
-        purchaseDate,
-        fixedCashback,
-        amount,
-        wishList,
-        measurementTypes,
-        pastItems,
-        isDigitallyVerified
-      });
-    } else {
-      // go to seller screen
-    }
+    this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SELECT_ITEMS_SCREEN, {
+      product,
+      cashbackJob,
+      copies,
+      purchaseDate,
+      fixedCashback,
+      amount,
+      wishList,
+      pastItems,
+      isDigitallyVerified
+    });
   };
 
   render() {
