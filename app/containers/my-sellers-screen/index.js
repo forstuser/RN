@@ -296,6 +296,17 @@ class MySellersScreen extends React.Component {
                     textStyle={{ fontSize: 11 }}
                   />
                 );
+              else
+                btnRedeemPoints = (
+                  <Button
+                    type="outline"
+                    state="disabled"
+                    text="Redeem Points"
+                    color="secondary"
+                    style={{ height: 30, width: 105, marginTop: 10 }}
+                    textStyle={{ fontSize: 11 }}
+                  />
+                );
               return (
                 <TouchableOpacity
                   onPress={() =>

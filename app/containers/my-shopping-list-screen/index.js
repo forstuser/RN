@@ -203,7 +203,8 @@ class MyShoppingList extends React.Component {
       skuItemIdsCurrentlyModifying,
       isLoadingMySellers,
       sellers,
-      isMySellersModalVisible
+      isMySellersModalVisible,
+      cashbackJob
     } = this.state;
 
     console.log("measurementTypes in index: ", measurementTypes);
@@ -624,11 +625,32 @@ class MyShoppingList extends React.Component {
           </Text>
         ) : null} */}
 
-        {wishList.length > 0 && !isLoadingMySellers ? (
+        {wishList.length > 0 && !isLoadingMySellers && !cashbackJob ? (
           this.state.sellers.length > 0 ? (
             <Button
               onPress={this.onSharePress}
               text="Place Order"
+              color="secondary"
+              style={{
+                height: 50,
+                width: 250,
+                alignSelf: "center",
+                marginBottom: 15
+              }}
+              textStyle={{ fontSize: 18 }}
+            />
+          ) : (
+            <Text style={styles.noSellerText}>
+              Please invite and add or simply add your nearby retailers to start
+              placing order and avail multiple benefits
+            </Text>
+          )
+        ) : null}
+        {cashbackJob ? (
+          this.state.sellers.length > 0 ? (
+            <Button
+              onPress={this.onSharePress}
+              text="Next"
               color="secondary"
               style={{
                 height: 50,

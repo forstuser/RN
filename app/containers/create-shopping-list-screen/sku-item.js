@@ -95,7 +95,7 @@ export default class SkuItem extends React.Component {
         cashback = (skuMeasurement.mrp * skuMeasurement.cashback_percent) / 100;
       }
     }
-
+    console.log("cashback is", cashback);
     let isLoading = false;
 
     if (item.sku_measurements && item.activeSkuMeasurementId) {

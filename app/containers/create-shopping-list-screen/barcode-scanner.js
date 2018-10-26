@@ -30,6 +30,7 @@ export default class BarcodeScanner extends React.Component {
     try {
       this.setState({ isLoading: false });
       const res = await getBarcodeSkuItem({ barcode: barcode.data });
+      console.log("result is", res);
       if (!res.result) {
         this.setState({ itemNotFound: true });
       } else {

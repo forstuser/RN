@@ -170,7 +170,7 @@ export default class StatusModal extends React.Component {
                   Total
                 </Text>
                 <Text style={{ fontSize: 11 }} weight="Bold">
-                  ₹ {(totalCashback + 1).toFixed(2)}
+                  ₹ {(totalCashback + this.state.fixedCashback).toFixed(2)}
                 </Text>
               </View>
             </View>

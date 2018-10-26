@@ -20,7 +20,7 @@ class ItemSelector extends React.Component {
     };
   }
   onItemSelect = item => {
-    console.log("item: ", item);
+    // console.log("item: ", item);
     this.props.onItemSelect(item);
   };
 
