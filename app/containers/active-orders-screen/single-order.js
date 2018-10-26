@@ -160,8 +160,23 @@ class SingleOrder extends Component {
           </View>
         </View>
         <View style={[styles.box, styles.box2]}>
-          <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
             <Text style={styles.status}>{status}</Text>
+            <TouchableOpacity
+              onPress={() => this.startChatWithSeller(item)}
+              style={styles.bottomButton}
+            >
+              {!this.state.isChatClicked && (
+                <Image
+                  source={require("../../images/chat.png")}
+                  resizeMode="contain"
+                  style={{ height: 20, width: 20 }}
+                />
+              )}
+              <LoadingOverlay visible={this.state.isChatClicked} />
+            </TouchableOpacity>
           </View>
           <Text style={styles.info}>Seller: {name}</Text>
           {orderType == ORDER_TYPES.FMCG ? (
@@ -176,19 +191,6 @@ class SingleOrder extends Component {
               <Text style={styles.data}>Amount: {amount}</Text>
               {cashbackStatus}
             </View>
-            <TouchableOpacity
-              onPress={() => this.startChatWithSeller(item)}
-              style={styles.bottomButton}
-            >
-              {!this.state.isChatClicked && (
-                <Image
-                  source={require("../../images/chat.png")}
-                  resizeMode="contain"
-                  style={{ height: 25, width: 25 }}
-                />
-              )}
-              <LoadingOverlay visible={this.state.isChatClicked} />
-            </TouchableOpacity>
           </View>
         </View>
         {/* <View style={[styles.box, styles.box3]}>
@@ -232,7 +234,7 @@ const styles = {
   // },
   status: {
     flex: 1,
-    textAlign: "right",
+    // textAlign: "right",
     marginTop: 12,
     marginRight: 10,
     fontSize: 16
@@ -249,8 +251,8 @@ const styles = {
   // },
   bottomButton: {
     position: "absolute",
-    right: 5,
-    bottom: 0
+    right: -5,
+    top: 10
   },
   bottomButtonIcon: {
     fontSize: 18,
