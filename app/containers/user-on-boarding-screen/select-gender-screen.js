@@ -89,7 +89,9 @@ class SelectGenderScreen extends React.Component {
     } finally {
       this.setState({ isLoading: false });
     }
-    this.props.navigation.navigate(SCREENS.SELECT_CITIES_SCREEN_ONBOARDING);
+    this.props.navigation.navigate(SCREENS.SELECT_CITIES_SCREEN_ONBOARDING, {
+      navigation: this.props.navigation
+    });
   };
 
   render() {
