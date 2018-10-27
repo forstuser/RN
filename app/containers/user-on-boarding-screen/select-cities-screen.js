@@ -24,9 +24,28 @@ import Analytics from "../../analytics";
 const deviceWidth = Dimensions.get("window").width;
 
 class SelectCitiesScreen extends Component {
-  static navigationOptions = {
-    title: "Select City you live in"
+  static navigationOptions = ({ navigation }) => {
+    const { onSkipPress } = navigation.state.params;
+    return {
+      title: "Select City you live in",
+      headerRight: (
+        <TouchableOpacity
+          style={{ paddingHorizontal: 10 }}
+          onPress={onSkipPress}
+        >
+          <Text style={{ color: colors.pinkishOrange }}>Submit</Text>
+        </TouchableOpacity>
+      )
+    };
   };
+
+  componentDidMount() {
+    this.props.navigation.setParams({
+      onSkipPress: () => {
+        this.onSubmitPressed();
+      }
+    });
+  }
 
   constructor(props) {
     super(props);
@@ -144,13 +163,13 @@ class SelectCitiesScreen extends Component {
             ))}
           </View>
         </ScrollView>
-        <Button
+        {/* <Button
           style={{ margin: 10 }}
           text="Submit"
           onPress={this.onSubmitPressed}
           color="secondary"
           textStyle={{ fontSize: 20 }}
-        />
+        /> */}
         <LoadingOverlay visible={this.state.isLoading} />
       </ScrollView>
     );
