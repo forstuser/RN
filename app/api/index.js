@@ -9,13 +9,13 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-let API_BASE_URL = "https://consumer.binbill.com";
+let API_BASE_URL = "https://consumer-stage.binbill.com";
 if (!__DEV__) {
-  API_BASE_URL = "https://consumer.binbill.com";
+  API_BASE_URL = "https://consumer-stage.binbill.com";
 }
 export { API_BASE_URL };
 
-const APP_VERSION_FOR_API = 20102;
+const APP_VERSION_FOR_API = 20103;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
