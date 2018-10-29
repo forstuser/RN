@@ -2181,6 +2181,13 @@ export const rejectOrder = async ({ orderId, sellerId }) => {
     data: { seller_id: sellerId }
   });
 };
+export const reOrder = async ({ orderId, sellerId }) => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/orders/${orderId}/reorder`,
+    data: { seller_id: sellerId }
+  });
+};
 
 export const cancelOrder = async ({ orderId, sellerId }) => {
   return await apiRequest({

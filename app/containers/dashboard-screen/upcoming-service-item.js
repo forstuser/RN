@@ -16,7 +16,7 @@ import { openBillsPopUp } from "../../navigation";
 import { SCREENS, SERVICE_TYPE_NAMES } from "../../constants";
 
 const UpcomingServiceItem = ({ item, navigation }) => {
-  console.log("item: ", item);
+  // console.log("item: ", item);
   let icon = require("../../images/ic_comingup_expiring.png");
   let title = "";
   let subTitle = item.productName;

@@ -510,7 +510,7 @@ export default class SearchBar extends React.Component {
             <View
               style={{
                 flex: 1,
-                backgroundColor: colors.lightBlue,
+                backgroundColor: "#fff",
                 height: "100%"
               }}
             >
@@ -528,7 +528,7 @@ export default class SearchBar extends React.Component {
                         this.changeMainCategory(item.id);
                       }}
                       style={{
-                        flexDirection: "row",
+                        flexDirection: "column",
                         paddingHorizontal: 5,
                         paddingVertical: 7,
                         backgroundColor:
@@ -546,19 +546,19 @@ export default class SearchBar extends React.Component {
                       >
                         <Image
                           style={{
-                            height: 40,
-                            width: 40,
+                            height: 70,
+                            width: "100%"
                             // padding: 5,
-                            borderWidth: 1,
-                            borderRadius: 20,
-                            borderColor: "#04a0e5"
+                            // borderWidth: 1,
+                            // borderRadius: 20,
+                            // borderColor: "#04a0e5"
                           }}
                           resizeMode="contain"
                           source={
                             item.title == "Past Items"
                               ? require("../../images/past_items.png")
                               : item.title == "SHOPPING LIST"
-                                ? require("../../images/shopping_list_icon.png")
+                                ? require("../../images/shopping_list.png")
                                 : {
                                     uri:
                                       API_BASE_URL +
@@ -573,12 +573,13 @@ export default class SearchBar extends React.Component {
                       <View
                         style={{
                           flex: 3,
-                          marginLeft: 2,
+                          // marginLeft: 2,
+                          alignItems: "center",
                           justifyContent: "center"
                         }}
                       >
                         <Text
-                          weight="Medium"
+                          weight="Regular"
                           style={{
                             fontSize: 12,
                             textTransform: "capitalize"

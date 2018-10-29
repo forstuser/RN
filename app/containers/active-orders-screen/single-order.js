@@ -6,11 +6,12 @@ import { loginToApplozic, openChatWithSeller } from "../../applozic";
 import { Text, Button, Image } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS, ORDER_STATUS_TYPES, ORDER_TYPES } from "../../constants";
-import { API_BASE_URL } from "../../api";
+import { API_BASE_URL, reOrder, cancelOrder } from "../../api";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
 import Analytics from "../../analytics";
 import LoadingOverlay from "../../components/loading-overlay";
+import { showSnackbar } from "../../utils/snackbar";
 
 class SingleOrder extends Component {
   state = {
@@ -30,6 +31,39 @@ class SingleOrder extends Component {
       showSnackbar({ text: e.message });
     }
   };
+  reOrder = async () => {
+    const { item } = this.props;
+    try {
+      this.setState({ isLoading: true });
+      const res = await reOrder({
+        orderId: item.id,
+        sellerId: item.seller_id
+      });
+      showSnackbar({ text: "Order Successfull!" });
+      this.props.fetchActiveOrders();
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+  cancelOrder = async () => {
+    const { item } = this.props;
+    try {
+      this.setState({ isLoading: true });
+      const res = await cancelOrder({
+        orderId: item.id,
+        sellerId: item.seller_id
+      });
+      showSnackbar({ text: "Order Cancelled!" });
+      this.props.fetchActiveOrders();
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
   render() {
     const { item } = this.props;
     let statusType = null;
@@ -42,6 +76,10 @@ class SingleOrder extends Component {
       if (item.is_modified === true)
         statusType = (
           <Text style={{ fontSize: 11, color: colors.success }}>MODIFIED</Text>
+        );
+      else if (item.in_review === true)
+        statusType = (
+          <Text style={{ fontSize: 11, color: colors.success }}>IN REVIEW</Text>
         );
       else
         statusType = (
@@ -60,6 +98,12 @@ class SingleOrder extends Component {
     else if (item.status_type === ORDER_STATUS_TYPES.REJECTED)
       statusType = (
         <Text style={{ fontSize: 11, color: colors.danger }}>REJECTED</Text>
+      );
+    else if (item.status_type === ORDER_STATUS_TYPES.AUTO_CANCEL)
+      statusType = (
+        <Text style={{ fontSize: 11, color: colors.danger }}>
+          AUTO CANCELLED
+        </Text>
       );
     else if (item.status_type === ORDER_STATUS_TYPES.OUT_FOR_DELIVERY)
       statusType = (
@@ -192,6 +236,32 @@ class SingleOrder extends Component {
               {cashbackStatus}
             </View>
           </View>
+          {this.props.item.status_type == ORDER_STATUS_TYPES.AUTO_CANCEL ? (
+            <View
+              style={{
+                width: "100%",
+                maxWidth: 190,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: 5
+              }}
+            >
+              <Button
+                text="Re-order"
+                style={{ width: 90, height: 30 }}
+                textStyle={{ fontSize: 10 }}
+                color="secondary"
+                onPress={this.reOrder}
+              />
+              <Button
+                text="Cancel Order"
+                style={{ width: 90, height: 30 }}
+                textStyle={{ fontSize: 10 }}
+                color="grey"
+                onPress={this.cancelOrder}
+              />
+            </View>
+          ) : null}
         </View>
         {/* <View style={[styles.box, styles.box3]}>
                     <Text style={styles.status}>{status}</Text>

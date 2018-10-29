@@ -321,7 +321,7 @@ export default class AccessoriesTab extends React.Component {
   };
 
   onItemSelect = item => {
-    console.log("item:-------------------- ", item);
+    // console.log("item:-------------------- ", item);
     const { selectedItem } = this.state;
     const { setAccessoryCategories } = this.props;
     if (

@@ -6,9 +6,11 @@ import { colors } from "../theme";
 
 export default ({ quantity, onMinusPress, onPlusPress, show }) => (
   <View style={{ flexDirection: "row" }}>
-    {!show ? (<TouchableOpacity onPress={onMinusPress} style={styles.signContainer}>
-      <Text style={{ marginTop: Platform.OS == "ios" ? -4 : -5 }}>-</Text>
-    </TouchableOpacity>) : null}
+    {!show ? (
+      <TouchableOpacity onPress={onMinusPress} style={styles.signContainer}>
+        <Text style={{ marginTop: Platform.OS == "ios" ? -4 : -2 }}>-</Text>
+      </TouchableOpacity>
+    ) : null}
     <Text
       style={{
         width: 30,
@@ -18,9 +20,11 @@ export default ({ quantity, onMinusPress, onPlusPress, show }) => (
     >
       {quantity}
     </Text>
-    {!show ? (<TouchableOpacity onPress={onPlusPress} style={styles.signContainer}>
-      <Text style={{ marginTop: -6 }}>+</Text>
-    </TouchableOpacity>) : null}
+    {!show ? (
+      <TouchableOpacity onPress={onPlusPress} style={styles.signContainer}>
+        <Text style={{ marginTop: -2 }}>+</Text>
+      </TouchableOpacity>
+    ) : null}
   </View>
 );
 

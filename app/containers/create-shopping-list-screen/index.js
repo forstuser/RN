@@ -147,9 +147,9 @@ class ShoppingListScreen extends React.Component {
         selectedCategoryIds: [],
         items: pastItems
       }));
-      console.log("past items 1", this.state.pastItems);
-      console.log("main categoried 1", this.state.mainCategories);
-      console.log("active main category id 1", this.state.activeMainCategoryId);
+      // console.log("past items 1", this.state.pastItems);
+      //console.log("main categoried 1", this.state.mainCategories);
+      // console.log("active main category id 1", this.state.activeMainCategoryId);
       if (pastItems.length == 0) {
         this.loadItemsFirstPage();
       }

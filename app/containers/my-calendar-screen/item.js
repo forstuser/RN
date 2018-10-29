@@ -17,7 +17,7 @@ class Item extends React.Component {
 
   render() {
     const { item, style } = this.props;
-    console.log("Item", item);
+    // console.log("Item", item);
     const {
       product_name,
       provider_name,
@@ -60,11 +60,13 @@ class Item extends React.Component {
             <View collapsable={false} style={{ flexDirection: "row" }}>
               <Text style={styles.offlineSellerName}>{provider_name}</Text>
               <Text style={styles.onlineSellerName}>
-                {latest_payment_detail ? I18n.t("my_calendar_screen_till_date", {
-                  date:  moment(latest_payment_detail.end_date).format(
-                    "DD MMM YYYY"
-                  ) 
-                }): ''}
+                {latest_payment_detail
+                  ? I18n.t("my_calendar_screen_till_date", {
+                      date: moment(latest_payment_detail.end_date).format(
+                        "DD MMM YYYY"
+                      )
+                    })
+                  : ""}
               </Text>
             </View>
           </View>

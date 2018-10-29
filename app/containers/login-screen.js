@@ -269,13 +269,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    alignItems: "center",
-    paddingTop: 30
+    alignItems: "center"
+    // paddingBottom: 60
   },
   content: {
     alignItems: "center",
     justifyContent: "center",
-    flex: 1
+    flex: 1,
+    paddingBottom: 60
   },
   logo: {
     width: 80,
