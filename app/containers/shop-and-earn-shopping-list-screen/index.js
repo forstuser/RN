@@ -18,7 +18,12 @@ import Share from "react-native-share";
 
 import { loginToApplozic, openChatWithSeller } from "../../applozic";
 
-import { API_BASE_URL, getMySellers, placeOrder } from "../../api";
+import {
+  API_BASE_URL,
+  getMySellers,
+  getSkuReferenceData,
+  placeOrder
+} from "../../api";
 import StarRating from "react-native-star-rating";
 
 import { Text, Button } from "../../elements";
@@ -34,25 +39,14 @@ import { showSnackbar } from "../../utils/snackbar";
 import { SCREENS, ORDER_TYPES, SELLER_TYPE_IDS } from "../../constants";
 import { requestStoragePermission } from "../../android-permissions";
 
-class MyShoppingList extends React.Component {
+class ShopAndEarnShoppingList extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    const showShareBtn = navigation.getParam("showShareBtn", false);
     return {
-      title: "My Shopping List",
-      headerRight: showShareBtn ? (
-        <TouchableOpacity
-          //onPress={navigation.state.params.onSharePress}
-          onPress={navigation.state.params.onSharePressIcon}
-          style={{ marginRight: 10, padding: 10 }}
-        >
-          <Icon name="md-share" size={25} color={colors.mainBlue} />
-        </TouchableOpacity>
-      ) : null
+      title: "My Shopping List"
     };
   };
 
   state = {
-    isShareModalVisible: false,
     wishList: [],
     skuItemIdsCurrentlyModifying: [],
     isLoadingMySellers: false,
@@ -63,61 +57,54 @@ class MyShoppingList extends React.Component {
 
   componentDidMount() {
     const wishList = this.props.navigation.getParam("wishList", []);
-    this.setState({ wishList });
+    const measurementTypes = this.props.navigation.getParam(
+      "measurementTypes",
+      null
+    );
+
+    this.setState({ wishList, measurementTypes });
 
     this.getMySellers();
 
     this.props.navigation.setParams({
-      onSharePressIcon: this.onSharePressIcon,
-      showShareBtn: wishList.length > 0
+      onSharePressIcon: this.onSharePressIcon
     });
   }
 
-  onSharePress = () => {
-    Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_PLACE_ORDER);
-    const selectedSeller = this.props.navigation.getParam("selectedSeller", []);
-    //console.log('selectedSellers ', selectedSellers);
-    if (!selectedSeller) {
-      this.setState({ isMySellersModalVisible: true });
-    } else {
-      this.proceedToAddressScreen(selectedSeller);
-    }
-    //this.getMySellers();
-  };
+  onNextPress = () => {
+    // this.nextModal.hide();
+    const { navigation } = this.props;
+    const product = navigation.getParam("product", null);
+    const cashbackJob = navigation.getParam("cashbackJob", null);
+    const copies = navigation.getParam("copies", []);
+    const purchaseDate = navigation.getParam("purchaseDate", null);
+    const fixedCashback = navigation.getParam("fixedCashback", null);
+    const amount = navigation.getParam("amount", null);
+    const selectedItems = navigation.getParam("wishList", []);
+    const isDigitallyVerified = navigation.getParam(
+      "isDigitallyVerified",
+      false
+    );
 
-  onSharePressIcon = async () => {
-    Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_SHARE_ORDER);
+    // if (selectedItems.length == 0) {
+    //   return showSnackbar({ text: "Please select some items first" });
+    // }
 
-    //this.setState({ isShareModalVisible: true });
-    //console.log('Wishlist', this.state.wishList);
-    this.setState({ showPlusMinusDelete: true });
-    if (await requestStoragePermission()) {
-      const filePath = RNFetchBlob.fs.dirs.DCIMDir + `/fact.jpg`;
-
-      captureRef(this.viewToShare, {
-        format: "jpg",
-        quality: 0.8
-      })
-        .then(uri => {
-          console.log("Image saved to", uri);
-          return RNFetchBlob.fs.cp(uri, filePath);
-        })
-        .then(() => {
-          console.log("Image saved to", filePath + "/fact.jpg");
-          this.setState({ showPlusMinusDelete: false });
-          return Share.open({
-            url: `file://${filePath}`,
-            message: `Powered by BinBill`
-          });
-        })
-        .catch(error => console.error("Oops, snapshot failed", error));
-    }
+    this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SELECT_SELLER_SCREEN, {
+      product,
+      cashbackJob,
+      copies,
+      purchaseDate,
+      fixedCashback,
+      amount,
+      selectedItems,
+      isDigitallyVerified
+    });
   };
 
   getMySellers = async () => {
     this.setState({
-      isLoadingMySellers: true,
-      isShareModalVisible: false
+      isLoadingMySellers: true
       //isMySellersModalVisible: true
     });
     try {
@@ -193,98 +180,31 @@ class MyShoppingList extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const measurementTypes = navigation.getParam("measurementTypes", []);
-
     const {
-      isShareModalVisible,
       wishList,
       skuItemIdsCurrentlyModifying,
       isLoadingMySellers,
       sellers,
-      isMySellersModalVisible
+      isMySellersModalVisible,
+      measurementTypes
     } = this.state;
 
     console.log("measurementTypes in index: ", measurementTypes);
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
-        {wishList.length == 0 ? (
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              padding: 20
-            }}
-          >
-            <Image
-              style={{ width: 150, height: 150 }}
-              source={require("../../images/blank_shopping_list.png")}
-            />
-            <Text
-              weight="Medium"
-              style={{
-                textAlign: "center",
-                fontSize: 16,
-                marginVertical: 30,
-                color: colors.secondaryText
-              }}
-            >
-              {`You do not have a Shopping List.\n Start adding items to create your Shopping List.`}
-            </Text>
-            <Button
-              onPress={() => navigation.goBack()}
-              style={{ width: 250 }}
-              text="Create Shopping List"
-              color="secondary"
-            />
-          </View>
-        ) : (
-          <View
-            ref={ref => (this.viewToShare = ref)}
-            style={{ flex: 1, backgroundColor: "#fff" }}
-          >
-            <SelectedItemsList
-              show={this.state.showPlusMinusDelete}
-              measurementTypes={measurementTypes}
-              selectedItems={wishList}
-              skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
-              changeIndexQuantity={this.changeIndexQuantity}
-            />
-          </View>
-        )}
-        <Modal
-          isVisible={isShareModalVisible}
-          title="Share Via"
-          onClosePress={() => this.setState({ isShareModalVisible: false })}
-          style={{
-            height: 200,
-            backgroundColor: "#fff"
-          }}
+        <View
+          ref={ref => (this.viewToShare = ref)}
+          style={{ flex: 1, backgroundColor: "#fff" }}
         >
-          <View>
-            <View
-              style={{
-                flexDirection: "row",
-                padding: 20,
-                alignItems: "center",
-                justifyContent: "center"
-              }}
-            >
-              <View style={styles.chatOptionContainer}>
-                <TouchableOpacity
-                  style={styles.chatOption}
-                  onPress={this.shareWithWhatsapp}
-                >
-                  <Image
-                    source={require("../../images/whatsapp.png")}
-                    style={styles.chatImage}
-                  />
-                </TouchableOpacity>
-                <Text weight="Medium">WhatsApp</Text>
-              </View>
-            </View>
-          </View>
-        </Modal>
+          <SelectedItemsList
+            show={this.state.showPlusMinusDelete}
+            measurementTypes={measurementTypes}
+            selectedItems={wishList}
+            skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
+            changeIndexQuantity={this.changeIndexQuantity}
+          />
+        </View>
+
         <Modal
           isVisible={isMySellersModalVisible}
           title="Select Seller"
@@ -601,32 +521,11 @@ class MyShoppingList extends React.Component {
             />
           </View>
         </Modal>
-        {/* {this.state.sellers.length > 0 && wishList.length > 0 ? (
-          <Button
-            onPress={this.onSharePress}
-            text="Place Order"
-            color="secondary"
-            style={{
-              height: 50,
-              width: 250,
-              alignSelf: "center",
-              marginBottom: 15
-            }}
-            textStyle={{ fontSize: 18 }}
-          />
-        ) : null}
-        {this.state.sellers.length == 0 && wishList.length > 0 ? (
-          <Text style={styles.noSellerText}>
-            Please invite and add or simply add your nearby retailers to start
-            placing order and avail multiple benefits
-          </Text>
-        ) : null} */}
-
         {wishList.length > 0 && !isLoadingMySellers ? (
           this.state.sellers.length > 0 ? (
             <Button
-              onPress={this.onSharePress}
-              text="Place Order"
+              onPress={this.onNextPress}
+              text="Next"
               color="secondary"
               style={{
                 height: 50,
@@ -694,4 +593,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(MyShoppingList);
+export default connect(mapStateToProps)(ShopAndEarnShoppingList);

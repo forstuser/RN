@@ -18,7 +18,7 @@ import {
   TextInput,
   UploadDoc
 } from "../../elements";
-import { initExpense } from "../../api";
+import { initExpense, getSkuReferenceData } from "../../api";
 import { colors } from "../../theme";
 import CheckBox from "../../components/checkbox";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -58,14 +58,36 @@ export default class ClaimCashback extends React.Component {
     purchaseDate: moment().format("YYYY-MM-DD"),
     amount: "",
     wishList: [],
-    pastItems: []
+    pastItems: [],
+    measurementTypes: {},
+    referenceDataError: null
   };
 
   componentDidMount() {
+    this.loadReferenceData();
     Analytics.logEvent(Analytics.EVENTS.PLUS_ICON_OPEN_CASHBACK_FLOW);
     this.initExpense();
     this.props.navigation.setParams({ isCameraOpen: true });
   }
+
+  loadReferenceData = async () => {
+    this.setState({ isLoading: true, referenceDataError: null });
+    try {
+      const res = await getSkuReferenceData();
+      let measurementTypes = {};
+      res.result.measurement_types.forEach(measurementType => {
+        measurementTypes[measurementType.id] = measurementType;
+      });
+      this.setState(() => ({
+        measurementTypes
+      }));
+    } catch (referenceDataError) {
+      console.log("referenceDataError: ", referenceDataError);
+      this.setState({ referenceDataError });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
 
   initExpense = async () => {
     try {
@@ -185,7 +207,8 @@ export default class ClaimCashback extends React.Component {
       amount,
       wishList,
       fixedCashback,
-      pastItems
+      pastItems,
+      measurementTypes
     } = this.state;
 
     if (copies.length == 0) {
@@ -199,17 +222,33 @@ export default class ClaimCashback extends React.Component {
     else if (!amount) {
       return showSnackbar({ text: "Please enter the bill amount" });
     }
-    this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SELECT_ITEMS_SCREEN, {
-      product,
-      cashbackJob,
-      copies,
-      purchaseDate,
-      fixedCashback,
-      amount,
-      wishList,
-      pastItems,
-      isDigitallyVerified
-    });
+    if (wishList.length > 0) {
+      this.props.navigation.push(SCREENS.SHOP_AND_EARN_SHOPPING_LIST, {
+        product,
+        cashbackJob,
+        copies,
+        purchaseDate,
+        fixedCashback,
+        amount,
+        wishList,
+        pastItems,
+        measurementTypes,
+        isDigitallyVerified
+      });
+    } else {
+      this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SELECT_SELLER_SCREEN, {
+        product,
+        cashbackJob,
+        copies,
+        purchaseDate,
+        fixedCashback,
+        amount,
+        wishList,
+        pastItems,
+        measurementTypes,
+        isDigitallyVerified
+      });
+    }
   };
 
   render() {

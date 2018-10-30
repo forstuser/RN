@@ -178,8 +178,8 @@ class Header extends Component {
                     style={{ width: 25, height: 25 }}
                     source={require("../../images/wallet.png")}
                   />
-                  <Text weight="Medium" style={{ fontSize: 10, color: "#fff" }}>
-                    {profile.wallet_value} Pts.
+                  <Text weight="Medium" style={{ fontSize: 12, color: "#fff" }}>
+                    ₹ {profile.wallet_value}
                   </Text>
                 </TouchableOpacity>
               )}

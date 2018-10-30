@@ -91,7 +91,7 @@ import AddressScreen from "../containers/address-screen";
 //import AddressScreen from "../containers/address-screen";
 import MyOrdersScreen from "../containers/my-orders-screen";
 import CashbackBillGuidelines from "../containers/cashback-bill-guidelines-screen";
-
+import ShopAndEarnShoppingList from "../containers/shop-and-earn-shopping-list-screen";
 const BottomTabStack = createBottomTabNavigator(
   {
     [SCREENS.DASHBOARD_SCREEN]: {
@@ -255,7 +255,8 @@ export default createStackNavigator(
     [SCREENS.REDEEM_VIA_PAYTM_SCREEN]: RedeemViaPaytmScreen,
     [SCREENS.ADDRESS_SCREEN]: AddressScreen,
     [SCREENS.MY_ORDERS_SCREEN]: MyOrdersScreen,
-    [SCREENS.CASHBACK_BILL_GUIDELINES_SCREEN]: CashbackBillGuidelines
+    [SCREENS.CASHBACK_BILL_GUIDELINES_SCREEN]: CashbackBillGuidelines,
+    [SCREENS.SHOP_AND_EARN_SHOPPING_LIST]: ShopAndEarnShoppingList
   },
   {
     initialRouteName: "DrawerNavigator"
