@@ -15,7 +15,7 @@ const deviceWidth = Dimensions.get("window").width;
 
 class CashbackBillGuidelines extends Component {
   static navigationOptions = {
-    title: "Cashback Bill Guidelines"
+    title: "Cashback Guidelines"
   };
 
   state = {

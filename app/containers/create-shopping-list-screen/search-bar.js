@@ -349,7 +349,7 @@ export default class SearchBar extends React.Component {
               onSubmitEditing={this.startSearch}
               underlineColorAndroid="transparent"
             />
-            {filteredItems.length == 0 &&
+            {/* {filteredItems.length == 0 &&
             searchTerm.length > 2 &&
             !isSearching &&
             !hideAddManually ? (
@@ -368,7 +368,7 @@ export default class SearchBar extends React.Component {
               </TouchableOpacity>
             ) : (
               <View />
-            )}
+            )} */}
 
             {searchTerm ? (
               <TouchableOpacity
@@ -623,9 +623,9 @@ export default class SearchBar extends React.Component {
                       <Text style={{ textAlign: "center" }}>
                         Sorry we couldn't find any items
                         {searchTerm ? ` for "${searchTerm}"` : ""}
-                        {!hideAddManually
+                        {/* {!hideAddManually
                           ? ", please use '+' to add manually."
-                          : ""}
+                          : ""} */}
                       </Text>
                       {/* {searchTerm && !hideAddManually ? (
                         <Button

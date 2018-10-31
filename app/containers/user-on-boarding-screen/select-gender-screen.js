@@ -22,7 +22,9 @@ class SelectGenderScreen extends React.Component {
           style={{ paddingHorizontal: 10 }}
           onPress={onSkipPress}
         >
-          <Text style={{ color: colors.pinkishOrange }}>SKIP</Text>
+          <Text style={{ fontSize: 14, color: colors.pinkishOrange }}>
+            SKIP
+          </Text>
         </TouchableOpacity>
       )
     };

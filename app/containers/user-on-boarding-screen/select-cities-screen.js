@@ -33,7 +33,12 @@ class SelectCitiesScreen extends Component {
           style={{ paddingHorizontal: 10 }}
           onPress={onSkipPress}
         >
-          <Text style={{ color: colors.pinkishOrange }}>Submit</Text>
+          <Text
+            weight="Bold"
+            style={{ fontSize: 14, color: colors.pinkishOrange }}
+          >
+            SUBMIT
+          </Text>
         </TouchableOpacity>
       )
     };

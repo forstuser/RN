@@ -32,9 +32,9 @@ const styles = StyleSheet.create({
   signContainer: {
     borderColor: colors.pinkishOrange,
     borderWidth: 1,
-    width: 15,
-    height: 15,
-    borderRadius: 8,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden"

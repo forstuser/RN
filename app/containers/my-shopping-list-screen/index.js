@@ -38,16 +38,16 @@ class MyShoppingList extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const showShareBtn = navigation.getParam("showShareBtn", false);
     return {
-      title: "My Shopping List",
-      headerRight: showShareBtn ? (
-        <TouchableOpacity
-          //onPress={navigation.state.params.onSharePress}
-          onPress={navigation.state.params.onSharePressIcon}
-          style={{ marginRight: 10, padding: 10 }}
-        >
-          <Icon name="md-share" size={25} color={colors.mainBlue} />
-        </TouchableOpacity>
-      ) : null
+      title: "My Shopping List"
+      // headerRight: showShareBtn ? (
+      //   <TouchableOpacity
+      //     //onPress={navigation.state.params.onSharePress}
+      //     onPress={navigation.state.params.onSharePressIcon}
+      //     style={{ marginRight: 10, padding: 10 }}
+      //   >
+      //     <Icon name="md-share" size={25} color={colors.mainBlue} />
+      //   </TouchableOpacity>
+      // ) : null
     };
   };
 

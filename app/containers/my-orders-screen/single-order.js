@@ -40,7 +40,7 @@ class SingleOrder extends Component {
       );
     else if (item.status_type === ORDER_STATUS_TYPES.OUT_FOR_DELIVERY)
       statusType = <Text style={{ fontSize: 10 }}>OUT FOR DELIVERY</Text>;
-    let status = <Text weight="Bold">{statusType}</Text>;
+    let status = <Text weight="Medium">{statusType}</Text>;
     let name = <Text weight="Bold">{item.seller.seller_name}</Text>;
 
     let quantity = null;
@@ -113,7 +113,9 @@ class SingleOrder extends Component {
         </View>
         <View style={[styles.box, styles.box2]}>
           <View style={{ flexDirection: "column", alignItems: "flex-end" }}>
-            <Text style={styles.status}>{status}</Text>
+            <Text weight="Regular" style={styles.status}>
+              {status}
+            </Text>
           </View>
           <Text style={styles.info}>Seller: {name}</Text>
           {orderType == ORDER_TYPES.FMCG ? (
@@ -162,7 +164,7 @@ const styles = {
     textAlign: "right",
     marginRight: 20,
     marginTop: 10,
-    fontSize: 14
+    fontSize: 16
   },
   imageIcon: {
     height: 60,

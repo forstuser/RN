@@ -12,7 +12,13 @@ export default ({ item, cashbackDispersedModal, statusModal }) => {
       ? item.user_wallets.filter(wallet => wallet.seller_id === null)
       : null;
   console.log("variable is", variable);
-  // let fixed_cashback = variable !== null ? variable[0].amount : null;
+  let fixed_cashback = 0;
+  if (variable !== null && variable.length > 0) {
+    fixed_cashback = variable !== null ? variable[0].amount : null;
+  }
+  if (fixed_cashback == undefined || fixed_cashback == null) {
+    fixed_cashback = 0;
+  }
   let statusColor = colors.success;
   let statusText = "Approved";
   if (item.is_pending) {

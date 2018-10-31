@@ -13,6 +13,9 @@ export default class StatusModal extends React.Component {
   };
 
   show = (item, fixed_cashback) => {
+    if (fixed_cashback == undefined || fixed_cashback == null) {
+      fixed_cashback = 0;
+    }
     this.setState({ isVisible: true, item, fixedCashback: fixed_cashback });
   };
 
@@ -21,6 +24,7 @@ export default class StatusModal extends React.Component {
   };
 
   render() {
+    console.log("fb", this.state.fixedCashback);
     const { openCashbackGuidelinesScreen } = this.props;
     const { isVisible, item } = this.state;
 
