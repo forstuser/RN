@@ -42,7 +42,9 @@ export default class Statuses extends React.Component {
       orderType = ORDER_TYPES.FMCG,
       startTime,
       endTime,
-      isInReview
+      isInReview,
+      paymentMode,
+      paymentStatus
     } = this.props;
 
     return (
@@ -78,6 +80,23 @@ export default class Statuses extends React.Component {
             <Text style={{ color: colors.danger }}>CANCELLED</Text>
           )}
         </Text>
+        {paymentMode && paymentMode != "" && paymentStatus != 4 ? (
+          <Text weight="Bold" style={{ fontSize: 15 }}>
+            Payment Mode :{" "}
+            {paymentMode &&
+              paymentMode == 5 && (
+                <Text style={{ color: colors.success }}>On Credit</Text>
+              )}
+            {paymentMode &&
+              paymentMode == 1 && (
+                <Text style={{ color: colors.success }}>Offline</Text>
+              )}
+            {paymentMode &&
+              paymentMode == 4 && (
+                <Text style={{ color: colors.success }}>Online</Text>
+              )}
+          </Text>
+        ) : null}
 
         {![
           ORDER_STATUS_TYPES.COMPLETE,
@@ -166,6 +185,9 @@ export default class Statuses extends React.Component {
                 ].includes(statusType)}
               />
             )}
+            {paymentStatus && paymentStatus == 13 ? (
+              <StatusItem title="Payment Pending" />
+            ) : null}
 
             {[
               ORDER_STATUS_TYPES.APPROVED,

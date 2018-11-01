@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CashFree</title>
+    <script>
+        let incomingData;
+        document.addEventListener("message", function (data) {
+            incomingData = data.data.split(',');
+        });
+
+
+        setTimeout(function () {
+            document.getElementById("appId1").value = incomingData[0];
+            document.getElementById("orderId1").value = incomingData[1];
+            document.getElementById("orderAmount1").value = incomingData[2];
+            document.getElementById("orderCurrency1").value = incomingData[3];
+            document.getElementById("orderNote1").value = incomingData[4];
+            document.getElementById("customerName1").value = incomingData[5];
+            document.getElementById("customerEmail1").value = incomingData[6];
+            document.getElementById("customerPhone1").value = incomingData[7];
+            document.getElementById("returnUrl1").value = incomingData[8];
+            document.getElementById("notifyUrl1").value = incomingData[9];
+            document.getElementById("signature1").value = incomingData[10];
+        }, 500);
+
+    </script>
+</head>
+
+<body>
+
+    <form id="redirectForm" method="post" action="https://test.cashfree.com/billpay/checkout/post/submit">
+        <input type="hidden" id="appId1" name="appId" />
+        <input type="hidden" id="orderId1" name="orderId" />
+        <input type="hidden" id="orderAmount1" name="orderAmount" />
+        <input type="hidden" id="orderCurrency1" name="orderCurrency" />
+        <input type="hidden" id="orderNote1" name="orderNote" />
+        <input type="hidden" id="customerName1" name="customerName" />
+        <input type="hidden" id="customerEmail1" name="customerEmail" />
+        <input type="hidden" id="customerPhone1" name="customerPhone" />
+        <input type="hidden" id="returnUrl1" name="returnUrl" />
+        <input type="hidden" id="notifyUrl1" name="notifyUrl" />
+        <input type="hidden" id="signature1" name="signature" />
+    </form>
+    <script>
+        setTimeout(function () {
+            document.getElementById("redirectForm").submit();
+        }, 650);
+    </script>
+</body>
+
+</html>

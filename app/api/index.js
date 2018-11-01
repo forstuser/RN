@@ -2197,11 +2197,11 @@ export const cancelOrder = async ({ orderId, sellerId }) => {
   });
 };
 
-export const completeOrder = async ({ orderId, sellerId }) => {
+export const completeOrder = async ({ orderId, sellerId, payment_mode }) => {
   return await apiRequest({
     method: "put",
     url: `/consumer/orders/${orderId}/paid`,
-    data: { seller_id: sellerId }
+    data: { seller_id: sellerId, payment_mode: payment_mode }
   });
 };
 export const getUserAddresses = async () => {
@@ -2334,6 +2334,31 @@ export const inviteSellerByName = async ({
       seller_name: shopName,
       contact_no: shopPhoneNumber,
       address: address
+    }
+  });
+};
+
+export const getGeneratedSignature = async postData => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/payments/signature`,
+    data: postData
+  });
+};
+
+export const getTransactionStatus = async orderId => {
+  return await apiRequest({
+    method: "get",
+    url: `/consumer/payments/${orderId}`
+  });
+};
+
+export const deleteItemShoppingList = async (orderId, ItemId, sellerId) => {
+  return await apiRequest({
+    method: "put",
+    url: `/consumer/orders/${orderId}/delete/${ItemId}`,
+    data: {
+      seller_id: sellerId
     }
   });
 };

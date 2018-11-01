@@ -5,17 +5,21 @@ import {
   Alert,
   Animated,
   TouchableOpacity,
-  BackHandler
+  BackHandler,
+  WebView,
+  Dimensions
 } from "react-native";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 import Analytics from "../../analytics";
-
+import ActionSheet from "react-native-actionsheet";
 import { Text, Image, Button } from "../../elements";
+import CashFreeForm from "./cashfree-form.html";
 
 import {
   API_BASE_URL,
+  deleteItemShoppingList,
   getOrderDetails,
   approveOrder,
   cancelOrder,
@@ -24,7 +28,9 @@ import {
   approveAssistedServiceOrder,
   startAssistedServiceOrder,
   endAssistedServiceOrder,
-  updateProduct
+  updateProduct,
+  getGeneratedSignature,
+  getTransactionStatus
 } from "../../api";
 
 import LoadingOverlay from "../../components/loading-overlay";
@@ -51,8 +57,11 @@ import socketIo from "../../socket-io";
 
 import UploadBillModal from "./upload-bill-modal";
 import ReviewCard from "./review-card";
-import Modal from "../../components/modal";
+import Modal1 from "../../components/modal";
 import HeaderBackBtn from "../../components/header-nav-back-btn";
+
+let deviceWidth = Dimensions.get("window").width;
+//let webViewLoadCount = 1;
 
 class OrderScreen extends React.Component {
   // static navigationOptions = {
@@ -77,7 +86,11 @@ class OrderScreen extends React.Component {
     rejectOrderFlag: false,
     declineOrderFlag: false,
     title: "",
-    headerText: ""
+    headerText: "",
+    showWebView: false,
+    generatedSignature: ""
+    //orderIdWebView: "",
+    //orderAmountWebView: ""
   };
 
   componentDidMount() {
@@ -370,12 +383,20 @@ class OrderScreen extends React.Component {
 
   completeOrder = async () => {
     Analytics.logEvent(Analytics.EVENTS.MARK_PAID);
+
+    //Open the action sheet for the payment options
+    this.paymentOptions.show();
+  };
+
+  //function called when payment to be done offline
+  payOffline = async () => {
     const { order } = this.state;
     try {
       this.setState({ isLoading: true });
       const res = await completeOrder({
         orderId: order.id,
-        sellerId: order.seller_id
+        sellerId: order.seller_id,
+        payment_mode: 1
       });
 
       this.setState({ order: res.result.order }, () => {
@@ -396,6 +417,74 @@ class OrderScreen extends React.Component {
       showSnackbar({ text: e.message });
     } finally {
       this.setState({ isLoading: false });
+    }
+  };
+
+  //function called when payment via credit to be done
+  payByCredit = async () => {
+    const { order } = this.state;
+    try {
+      this.setState({ isLoading: true });
+      const res = await completeOrder({
+        orderId: order.id,
+        sellerId: order.seller_id,
+        payment_mode: 5
+      });
+
+      this.setState({ order: res.result.order }, () => {
+        if (
+          order.order_type == ORDER_TYPES.FMCG &&
+          order.expense_id &&
+          order.upload_id &&
+          userLocation != LOCATIONS.OTHER
+        ) {
+          this.openUploadBillPopup();
+        } else {
+          this.openReviewsScreen();
+        }
+      });
+
+      showSnackbar({ text: "Order completed!" });
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  //Payment options indices : 0 -> Online, 1 -> Offline, 2 -> Credit, 3 -> Cancel
+  handlePaymentOptions = index => {
+    const { order } = this.state;
+    const { user } = this.props;
+    let totalAmount = 0;
+    if (order) {
+      totalAmount = order.order_details.reduce((total, item) => {
+        return item.selling_price ? total + Number(item.selling_price) : total;
+      }, 0);
+    }
+    if (index === 3 && order.is_credit_allowed) return;
+    else if (index === 0) {
+      //this.setState({ showWebView: true });
+      this.props.navigation.navigate(SCREENS.CASHFREE_PAYMENT_STATUS_SCREEN, {
+        order: order,
+        user: user
+      });
+    } else if (index === 1) {
+      this.payOffline();
+    } else if (
+      index === 2 &&
+      order.is_credit_allowed &&
+      order.credit_limit >= totalAmount
+    ) {
+      this.payByCredit();
+    } else if (
+      index === 2 &&
+      order.is_credit_allowed &&
+      order.credit_limit < totalAmount
+    ) {
+      alert("You have surpassed your credit limit");
+    } else if (index === 2 && !order.is_credit_allowed) {
+      return;
     }
   };
 
@@ -443,6 +532,16 @@ class OrderScreen extends React.Component {
     }
   };
 
+  deleteItemFromList = async (orderId, itemId, sellerId) => {
+    const res = await deleteItemShoppingList(orderId, itemId, sellerId);
+    //console.log("Delete Item Response________________", res.result);
+    this.setState({ order: res.result });
+  };
+
+  checkPaymentStatus = () => {
+    console.log("PENDING PAYMENT STATUS CHECK");
+  };
+
   render() {
     const { userLocation } = this.props;
 
@@ -452,8 +551,10 @@ class OrderScreen extends React.Component {
       order,
       isVisible,
       title,
-      headerText
+      headerText,
+      showWebView
     } = this.state;
+    console.log("ORDER***********************", order);
 
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.getOrderDetails} />;
@@ -462,7 +563,7 @@ class OrderScreen extends React.Component {
     let totalAmount = 0;
 
     if (order) {
-      console.log("order is ", order);
+      //console.log("Order Details_____________________", order);
       totalAmount = order.order_details.reduce((total, item) => {
         return item.selling_price ? total + Number(item.selling_price) : total;
       }, 0);
@@ -526,6 +627,24 @@ class OrderScreen extends React.Component {
       }
     }
 
+    let options = ["Pay Online", "Pay Offline", "Credit"];
+    let cancelIndex = 3;
+    if (order && !order.is_credit_allowed) {
+      cancelIndex = 2;
+      options = ["Pay Online", "Pay Offline"];
+    } else if (order && order.is_credit_allowed) {
+      cancelIndex = 3;
+      options = [
+        "Pay Online",
+        "Pay Offline",
+        order.credit_limit < totalAmount ? (
+          <Text style={{ fontSize: 18, color: "grey" }}>On Credit</Text>
+        ) : (
+          "On Credit"
+        )
+      ];
+    }
+
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         {order && (
@@ -543,6 +662,8 @@ class OrderScreen extends React.Component {
                   }}
                 >
                   <Status
+                    paymentStatus={order.payment_status}
+                    paymentMode={order.payment_mode_id}
                     statusType={order.status_type}
                     isOrderModified={order.is_modified}
                     isInReview={order.in_review}
@@ -602,12 +723,21 @@ class OrderScreen extends React.Component {
                 if (order.order_type == ORDER_TYPES.FMCG) {
                   return (
                     <ShoppingListItem
+                      sellerId={order.seller_id}
+                      orderId={order.id}
                       orderStatus={order.status_type}
                       item={item}
                       index={index}
                       declineItem={() => {
                         this.removeItem(index);
                       }}
+                      deleteItem={() =>
+                        this.deleteItemFromList(
+                          order.id,
+                          item.id,
+                          order.seller_id
+                        )
+                      }
                     />
                   );
                 } else {
@@ -764,8 +894,16 @@ class OrderScreen extends React.Component {
                 (order.status_type == ORDER_STATUS_TYPES.END_TIME &&
                   order.order_type == ORDER_TYPES.ASSISTED_SERVICE) ? (
                   <Button
-                    onPress={this.completeOrder}
-                    text="Mark Paid"
+                    onPress={
+                      order.payment_status && order.payment_status == 13
+                        ? this.checkPaymentStatus
+                        : this.completeOrder
+                    }
+                    text={
+                      order.payment_status && order.payment_status == 13
+                        ? "Check Payment Status"
+                        : "Pay Now"
+                    }
                     color="secondary"
                     borderRadius={0}
                   />
@@ -831,7 +969,7 @@ class OrderScreen extends React.Component {
             this.uploadBillModal = node;
           }}
         />
-        <Modal
+        <Modal1
           isVisible={isVisible}
           title={headerText}
           onClosePress={this.hideDeleteModal}
@@ -881,12 +1019,21 @@ class OrderScreen extends React.Component {
               />
             </View>
           </View>
-        </Modal>
+        </Modal1>
         <ServicePriceBreakdownModal
           ref={node => {
             this.servicePriceBreakdownModal = node;
           }}
         />
+
+        {/* ActionSheet for showing payment options */}
+        <ActionSheet
+          onPress={this.handlePaymentOptions}
+          ref={o => (this.paymentOptions = o)}
+          cancelButtonIndex={cancelIndex}
+          options={options}
+        />
+
         <LoadingOverlay visible={isLoading} />
       </View>
     );
@@ -895,6 +1042,7 @@ class OrderScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    user: state.loggedInUser,
     userLocation: state.loggedInUser.location || LOCATIONS.OTHER
   };
 };

@@ -25,10 +25,12 @@ import { defaultStyles, colors } from "../../theme";
 import InviteSellerModal from "./invite-seller-modal";
 import { showSnackbar } from "../../utils/snackbar";
 import InviteSellerNameModal from "./invite-seller-name";
+import AddSellerHeader from "./add-seller-header";
+import { SCREENS } from "../../constants";
 
 export default class MySellersScreen extends React.Component {
   static navigationOptions = {
-    title: "Search Seller"
+    header: null
   };
 
   state = {
@@ -39,7 +41,8 @@ export default class MySellersScreen extends React.Component {
     error: null,
     isSearchDone: false,
     location: null,
-    searchTerm: ""
+    searchTerm: "",
+    userDetails: null
   };
 
   componentWillMount() {
@@ -47,6 +50,16 @@ export default class MySellersScreen extends React.Component {
     //console.log("City1_______________", city);
     this.setState({ location: city });
     //console.log("City2_______________", this.state.location);
+    let userProfile = this.props.navigation.getParam("userDetails", null);
+    //console.log("USER PROFILE IN ADD SELLER SCREEN", userProfile);
+    this.setState({ userDetails: userProfile });
+    if (
+      userProfile &&
+      userProfile.addresses &&
+      userProfile.addresses.length === 0
+    ) {
+      this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN);
+    }
   }
 
   componentDidMount() {
@@ -62,9 +75,9 @@ export default class MySellersScreen extends React.Component {
   getSellers = async () => {
     const { searchTerm, location } = this.state;
 
-    console.log("FETCH_____________________SELLERS");
-    console.log("Location________", location);
-    console.log("Search term________", searchTerm);
+    // console.log("FETCH_____________________SELLERS");
+    // console.log("Location________", location);
+    // console.log("Search term________", searchTerm);
 
     if (searchTerm === undefined || searchTerm === "") {
       if (location != "Gurgaon")
@@ -85,10 +98,10 @@ export default class MySellersScreen extends React.Component {
         location == "Gurgaon" &&
         (searchTerm === undefined || searchTerm === "")
       ) {
-        console.log("Updated Case_________________");
+        //console.log("Updated Case_________________");
         res = await getSellers({ is_default: true });
       } else {
-        console.log("Default Case_________________");
+        //console.log("Default Case_________________");
         res = await getSellers({ searchTerm, is_default: false });
       }
       this.setState({ sellers: res.result });
@@ -145,136 +158,141 @@ export default class MySellersScreen extends React.Component {
       isLoadingMySellers,
       isLoadingSellers,
       searchTerm,
-      isSearchDone
+      isSearchDone,
+      userDetails,
+      isloading
     } = this.state;
 
     const mySellersIds = mySellers.map(seller => seller.id);
     console.log("Sellers___________________", sellers);
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
-        <View
-          style={{
-            ...defaultStyles.card,
-            margin: 10,
-            borderRadius: 5,
-            flexDirection: "row",
-            alignItems: "center"
-          }}
-        >
-          <TextInput
-            style={{
-              flex: 1,
-              height: 36,
-              padding: 10
-            }}
-            value={searchTerm}
-            placeholder="Search Seller by name or mobile number"
-            onChangeText={this.onSearchTermChange}
-            returnKeyType="search"
-            onSubmitEditing={this.getSellers}
-            underlineColorAndroid="transparent"
-            maxLength={10}
-          />
-          <Icon
-            onPress={this.getSellers}
-            name="ios-search"
-            size={25}
-            color="#ddd"
-            style={{ marginRight: 10, padding: 10 }}
-          />
-        </View>
         <View style={{ flex: 1 }}>
-          <FlatList
-            data={sellers}
-            refreshing={isLoadingSellers}
-            onRefresh={this.getSellers}
-            renderItem={({ item }) => {
-              return (
-                <TouchableOpacity
+          <AddSellerHeader navigation={navigation} user={userDetails} />
+          <View
+            style={{
+              ...defaultStyles.card,
+              margin: 10,
+              borderRadius: 5,
+              flexDirection: "row",
+              alignItems: "center"
+            }}
+          >
+            <TextInput
+              style={{
+                flex: 1,
+                height: 36,
+                padding: 10
+              }}
+              value={searchTerm}
+              placeholder="Search Seller by name or mobile number"
+              onChangeText={this.onSearchTermChange}
+              returnKeyType="search"
+              onSubmitEditing={this.getSellers}
+              underlineColorAndroid="transparent"
+              maxLength={10}
+            />
+            <Icon
+              onPress={this.getSellers}
+              name="ios-search"
+              size={25}
+              color="#ddd"
+              style={{ marginRight: 10, padding: 10 }}
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <FlatList
+              data={sellers}
+              refreshing={isLoadingSellers}
+              onRefresh={this.getSellers}
+              renderItem={({ item }) => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      ...defaultStyles.card,
+                      marginHorizontal: 10,
+                      marginVertical: 5,
+                      borderRadius: 10,
+                      padding: 15
+                    }}
+                  >
+                    <Text weight="Bold" style={{ fontSize: 13 }}>
+                      {item.name}
+                    </Text>
+                    <Text style={{ fontSize: 11, marginTop: 5 }}>
+                      Contact no. - {item.contact_no}
+                    </Text>
+                    {item.city ? (
+                      <Text style={{ fontSize: 11, marginTop: 5 }}>
+                        City - {item.city.name}
+                      </Text>
+                    ) : null}
+                    {item.location ? (
+                      <Text style={{ fontSize: 11, marginTop: 5 }}>
+                        Locality - {item.location.name}
+                      </Text>
+                    ) : null}
+                    <Text style={{ fontSize: 11, marginTop: 5 }}>
+                      Address - {item.address}
+                    </Text>
+                    {!mySellersIds.includes(item.id) ? (
+                      <Button
+                        onPress={() => this.linkSeller(item)}
+                        text="Add Seller"
+                        color="secondary"
+                        style={{ width: 150, marginTop: 25, height: 40 }}
+                      />
+                    ) : (
+                      <Text
+                        style={{
+                          color: colors.success,
+                          fontSize: 14,
+                          marginTop: 15
+                        }}
+                      >
+                        Already added
+                      </Text>
+                    )}
+                  </TouchableOpacity>
+                );
+              }}
+              ListEmptyComponent={() => (
+                <View
                   style={{
-                    ...defaultStyles.card,
-                    marginHorizontal: 10,
-                    marginVertical: 5,
-                    borderRadius: 10,
-                    padding: 15
+                    flex: 1,
+                    alignItems: "center",
+                    padding: 20
                   }}
                 >
-                  <Text weight="Bold" style={{ fontSize: 13 }}>
-                    {item.name}
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      textAlign: "center",
+                      color: colors.secondaryText
+                    }}
+                  >
+                    {isSearchDone
+                      ? `This seller is not in our network. Invite your Seller to avail additional Offers, faster Home Delivery, Credit Loyalty, Home Services, & Online Order convenience`
+                      : !isLoadingMySellers
+                        ? `Search your seller by name or mobile number`
+                        : null}
                   </Text>
-                  <Text style={{ fontSize: 11, marginTop: 5 }}>
-                    Contact no. - {item.contact_no}
-                  </Text>
-                  {item.city ? (
-                    <Text style={{ fontSize: 11, marginTop: 5 }}>
-                      City - {item.city.name}
-                    </Text>
-                  ) : null}
-                  {item.location ? (
-                    <Text style={{ fontSize: 11, marginTop: 5 }}>
-                      Locality - {item.location.name}
-                    </Text>
-                  ) : null}
-                  <Text style={{ fontSize: 11, marginTop: 5 }}>
-                    Address - {item.address}
-                  </Text>
-                  {!mySellersIds.includes(item.id) ? (
+                  {isSearchDone ? (
                     <Button
-                      onPress={() => this.linkSeller(item)}
-                      text="Add Seller"
+                      onPress={
+                        !isNaN(searchTerm)
+                          ? () => this.inviteSellerModal.show(searchTerm)
+                          : () => this.inviteSellerNameModal.show(searchTerm)
+                      }
+                      text="Invite Seller"
                       color="secondary"
                       style={{ width: 150, marginTop: 25, height: 40 }}
                     />
-                  ) : (
-                    <Text
-                      style={{
-                        color: colors.success,
-                        fontSize: 14,
-                        marginTop: 15
-                      }}
-                    >
-                      Already added
-                    </Text>
-                  )}
-                </TouchableOpacity>
-              );
-            }}
-            ListEmptyComponent={() => (
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  padding: 20
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 16,
-                    textAlign: "center",
-                    color: colors.secondaryText
-                  }}
-                >
-                  {isSearchDone
-                    ? `This seller is not in our network. Invite your Seller to avail additional Offers, faster Home Delivery, Credit Loyalty, Home Services, & Online Order convenience`
-                    : !isLoadingMySellers
-                      ? `Search your seller by name or mobile number`
-                      : null}
-                </Text>
-                {isSearchDone ? (
-                  <Button
-                    onPress={
-                      !isNaN(searchTerm)
-                        ? () => this.inviteSellerModal.show(searchTerm)
-                        : () => this.inviteSellerNameModal.show(searchTerm)
-                    }
-                    text="Invite Seller"
-                    color="secondary"
-                    style={{ width: 150, marginTop: 25, height: 40 }}
-                  />
-                ) : null}
-              </View>
-            )}
-          />
+                  ) : null}
+                </View>
+              )}
+            />
+          </View>
         </View>
         <InviteSellerModal
           ref={node => {
@@ -286,6 +304,7 @@ export default class MySellersScreen extends React.Component {
             this.inviteSellerNameModal = node;
           }}
         />
+        <LoadingOverlay visible={isloading} />
       </View>
     );
   }
