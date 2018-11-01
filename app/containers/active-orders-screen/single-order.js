@@ -243,20 +243,20 @@ class SingleOrder extends Component {
                 maxWidth: 190,
                 flexDirection: "row",
                 justifyContent: "space-between",
-                marginTop: 5
+                marginTop: 10
               }}
             >
               <Button
-                text="Re-order"
+                text="Reorder"
                 style={{ width: 90, height: 30 }}
-                textStyle={{ fontSize: 10 }}
+                textStyle={{ fontSize: 14 }}
                 color="secondary"
                 onPress={this.reOrder}
               />
               <Button
-                text="Cancel Order"
+                text="Cancel"
                 style={{ width: 90, height: 30 }}
-                textStyle={{ fontSize: 10 }}
+                textStyle={{ fontSize: 14 }}
                 color="grey"
                 onPress={this.cancelOrder}
               />

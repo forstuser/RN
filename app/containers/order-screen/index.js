@@ -209,7 +209,7 @@ class OrderScreen extends React.Component {
       cancelOrderFlag: true,
       rejectOrderFlag: false,
       declineOrderFlag: false,
-      title: "Are you sure want to cancel this order?",
+      title: "Are you sure you want to cancel this order?",
       headerText: "Cancel Order"
     });
   };
@@ -220,7 +220,7 @@ class OrderScreen extends React.Component {
       cancelOrderFlag: false,
       rejectOrderFlag: true,
       declineOrderFlag: false,
-      title: "Are you sure want to reject this order?",
+      title: "Are you sure you want to reject this order?",
       headerText: "Reject Order"
     });
   };
@@ -545,6 +545,7 @@ class OrderScreen extends React.Component {
                   <Status
                     statusType={order.status_type}
                     isOrderModified={order.is_modified}
+                    isInReview={order.in_review}
                     orderType={order.order_type}
                     startTime={startTime}
                     endTime={endTime}
@@ -840,7 +841,10 @@ class OrderScreen extends React.Component {
         >
           <View style={{ height: 150, backgroundColor: "#fff" }}>
             <View style={{ width: 260, alignSelf: "center", top: 25 }}>
-              <Text weight="Bold" style={{ textAlign: "center", fontSize: 16 }}>
+              <Text
+                weight="Regular"
+                style={{ textAlign: "center", fontSize: 16 }}
+              >
                 {title}
               </Text>
             </View>

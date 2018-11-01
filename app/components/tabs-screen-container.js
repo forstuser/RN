@@ -29,17 +29,21 @@ export default class TabsScreenContainer extends React.Component {
       tabs,
       children,
       scrollableTabViewRef = () => {},
-      navigation
+      navigation,
+      showHamburger = true
     } = this.props;
     return (
       <ScreenContainer style={styles.container}>
         <View style={styles.header}>
           <BlueGradientBG />
-          <ScreenHeaderWithDrawer
-            navigation={navigation}
-            title={title}
-            headerRight={headerRight}
-          />
+
+          {showHamburger ? (
+            <ScreenHeaderWithDrawer
+              navigation={navigation}
+              title={title}
+              headerRight={headerRight}
+            />
+          ) : null}
         </View>
 
         <View style={{ marginTop: -35, flex: 1 }}>

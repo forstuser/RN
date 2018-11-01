@@ -41,21 +41,41 @@ export default class Statuses extends React.Component {
       isOrderModified = true,
       orderType = ORDER_TYPES.FMCG,
       startTime,
-      endTime
+      endTime,
+      isInReview
     } = this.props;
 
     return (
       <View style={{ marginBottom: 10 }}>
-        <Text weight="Bold" style={{ fontSize: 15 }}>
-          Status :{" "}
+        <Text weight="Regular" style={{ fontSize: 11 }}>
+          {/* Status :{" "} */}
+          {statusType == ORDER_STATUS_TYPES.NEW &&
+            isOrderModified == true && (
+              <Text style={{ color: colors.success }}>MODIFIED</Text>
+            )}
+          {statusType == ORDER_STATUS_TYPES.NEW &&
+            isInReview == true &&
+            isOrderModified != true && (
+              <Text style={{ color: colors.success }}>IN REVIEW</Text>
+            )}
+          {statusType == ORDER_STATUS_TYPES.NEW &&
+            isInReview != true && (
+              <Text style={{ color: colors.success }}>NEW</Text>
+            )}
           {statusType == ORDER_STATUS_TYPES.COMPLETE && (
-            <Text style={{ color: colors.success }}>Completed</Text>
+            <Text style={{ color: colors.success }}>COMPLETED</Text>
+          )}
+          {statusType == ORDER_STATUS_TYPES.APPROVED && (
+            <Text style={{ color: colors.pinkishOrange }}>IN PROGRESS</Text>
+          )}
+          {statusType == ORDER_STATUS_TYPES.AUTO_CANCEL && (
+            <Text style={{ color: colors.danger }}>AUTO CANCELLED</Text>
           )}
           {statusType == ORDER_STATUS_TYPES.REJECTED && (
-            <Text style={{ color: colors.danger }}>Rejected</Text>
+            <Text style={{ color: colors.danger }}>REJECTED</Text>
           )}
           {statusType == ORDER_STATUS_TYPES.CANCELED && (
-            <Text style={{ color: colors.danger }}>Canceled</Text>
+            <Text style={{ color: colors.danger }}>CANCELLED</Text>
           )}
         </Text>
 

@@ -33,7 +33,7 @@ class AddressScreen extends Component {
             weight="Bold"
             style={{ color: colors.pinkishOrange, marginRight: 10 }}
           >
-            Next
+            NEXT
           </Text>
         ) : null
     };
@@ -332,8 +332,11 @@ class AddressScreen extends Component {
         >
           <View style={{ height: 150, backgroundColor: "#fff" }}>
             <View style={{ width: 260, alignSelf: "center", top: 25 }}>
-              <Text weight="Bold" style={{ textAlign: "center", fontSize: 16 }}>
-                Are you sure want to delete this address?
+              <Text
+                weight="Regular"
+                style={{ textAlign: "center", fontSize: 16 }}
+              >
+                Are you sure you want to delete this address?
               </Text>
             </View>
             <View

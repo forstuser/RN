@@ -62,15 +62,20 @@ class MyShoppingList extends React.Component {
   };
 
   componentDidMount() {
-    const wishList = this.props.navigation.getParam("wishList", []);
-    this.setState({ wishList });
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        const wishList = this.props.navigation.getParam("wishList", []);
+        this.setState({ wishList });
 
-    this.getMySellers();
+        this.getMySellers();
 
-    this.props.navigation.setParams({
-      onSharePressIcon: this.onSharePressIcon,
-      showShareBtn: wishList.length > 0
-    });
+        this.props.navigation.setParams({
+          onSharePressIcon: this.onSharePressIcon,
+          showShareBtn: wishList.length > 0
+        });
+      }
+    );
   }
 
   onSharePress = () => {
