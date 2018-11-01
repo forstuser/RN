@@ -16,7 +16,12 @@ import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 
 import { loginToApplozic, openChatWithSeller } from "../../applozic";
 
-import { API_BASE_URL, getMySellers, deleteSeller } from "../../api";
+import {
+  API_BASE_URL,
+  getMySellers,
+  deleteSeller,
+  getProfileDetail
+} from "../../api";
 
 import { Text, Image, Button } from "../../elements";
 import DrawerScreenContainer from "../../components/drawer-screen-container";
@@ -39,7 +44,8 @@ class MySellersScreen extends React.Component {
     phoneNumbers: [],
     infoModalVisible: false,
     detailText: "test",
-    isDeleteSeller: false
+    isDeleteSeller: false,
+    userData: []
   };
   showInfoDetailsModal = text => {
     this.setState({ infoModalVisible: true, detailText: text });
@@ -55,6 +61,7 @@ class MySellersScreen extends React.Component {
       "didFocus",
       () => {
         this.getMySellers();
+        this.getUserDetails();
       }
     );
   }
@@ -62,6 +69,21 @@ class MySellersScreen extends React.Component {
   componentWillUnmount() {
     this.didFocusSubscription.remove();
   }
+
+  getUserDetails = async () => {
+    this.setState({
+      isLoadingMySellers: true,
+      error: null
+    });
+    try {
+      const res = await getProfileDetail();
+      this.setState({ userData: res.userProfile });
+    } catch (error) {
+      this.setState({ error });
+    } finally {
+      this.setState({ userData: res.userProfile });
+    }
+  };
 
   getMySellers = async () => {
     this.setState({
@@ -78,9 +100,10 @@ class MySellersScreen extends React.Component {
     }
   };
 
-  openAddSellerScreen = location => {
+  openAddSellerScreen = (location, user) => {
     this.props.navigation.navigate(SCREENS.ADD_SELLER_SCREEN, {
-      city: location
+      city: location,
+      userDetails: user
     });
   };
 
@@ -137,11 +160,12 @@ class MySellersScreen extends React.Component {
       error,
       infoModalVisible,
       detailText,
-      isDeleteSeller
+      isDeleteSeller,
+      userData
     } = this.state;
     //console.log("User____________________________________", user.location);
     console.log("MySellers_____________: ", mySellers);
-
+    //console.log("User Data_____________:", userData);
     if (error) {
       <ErrorOverlay error={error} onRetryPress={this.getMySellers} />;
     }
@@ -160,7 +184,7 @@ class MySellersScreen extends React.Component {
           >
             <TouchableOpacity
               style={{ paddingHorizontal: 5 }}
-              onPress={() => this.openAddSellerScreen(user.location)}
+              onPress={() => this.openAddSellerScreen(user.location, userData)}
             >
               <Icon
                 style={{}}
@@ -218,7 +242,9 @@ class MySellersScreen extends React.Component {
                     of online orders, faster home delivery and attractive offers
                   </Text>
                   <Button
-                    onPress={() => this.openAddSellerScreen(user.location)}
+                    onPress={() =>
+                      this.openAddSellerScreen(user.location, userData)
+                    }
                     text="Add Seller Now"
                     color="secondary"
                     style={{ width: 260, marginTop: 40 }}

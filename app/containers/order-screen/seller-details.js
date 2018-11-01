@@ -167,6 +167,9 @@ class SellerDetails extends React.Component {
                   (order.order_type == ORDER_TYPES.FMCG &&
                     order.expense_id &&
                     order.upload_id &&
+                    (order.payment_mode_id == 1 ||
+                      order.payment_mode_id == 5) &&
+                    order.status_type == 5 &&
                     moment().diff(order.updated_at, "hours") < 24 &&
                     userLocation != LOCATIONS.OTHER)) && (
                   <TouchableOpacity
