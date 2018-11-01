@@ -7,11 +7,11 @@ import {
   FlatList
 } from "react-native";
 import { Text, Button, Image } from "../../elements";
-import image1 from "../../images/bill-guileline/1.png";
-import image2 from "../../images/bill-guileline/2.png";
-import image3 from "../../images/bill-guileline/3.png";
-import image4 from "../../images/bill-guileline/4.png";
-import image5 from "../../images/bill-guileline/5.png";
+import image1 from "../../images/bill-guideline/9.png";
+import image2 from "../../images/bill-guideline/10.png";
+import image3 from "../../images/bill-guideline/11.png";
+import image4 from "../../images/bill-guideline/12.png";
+import image5 from "../../images/bill-guideline/13.png";
 
 export default class ShoppingList extends React.Component {
   constructor(props) {
@@ -55,7 +55,7 @@ export default class ShoppingList extends React.Component {
         renderItem={({ item }) => (
           <View style={{ margin: 10, flexDirection: "row" }}>
             <Image
-              style={{ height: 80, width: 80 }}
+              style={{ height: 70, width: 70 }}
               source={item.imageUrl}
               resizeMode="contain"
             />

@@ -9,14 +9,14 @@ import {
 } from "react-native";
 import { Text, Button, Image } from "../../elements";
 
-import image1 from "../../images/bill-guileline/1.png";
-import image2 from "../../images/bill-guileline/2.png";
-import image3 from "../../images/bill-guileline/3.png";
-import image4 from "../../images/bill-guileline/4.png";
-import image5 from "../../images/bill-guileline/5.png";
-import image6 from "../../images/bill-guileline/6.png";
-import image7 from "../../images/bill-guileline/7.png";
-import image8 from "../../images/bill-guileline/8.png";
+import image1 from "../../images/bill-guideline/1.png";
+import image2 from "../../images/bill-guideline/2.png";
+import image3 from "../../images/bill-guideline/3.png";
+import image4 from "../../images/bill-guideline/4.png";
+import image5 from "../../images/bill-guideline/5.png";
+import image6 from "../../images/bill-guideline/6.png";
+import image7 from "../../images/bill-guideline/7.png";
+import image8 from "../../images/bill-guideline/8.png";
 const deviceWidth = Dimensions.get("window").width;
 export default class BillList extends React.Component {
   constructor(props) {
@@ -100,7 +100,9 @@ export default class BillList extends React.Component {
                     height: 90,
                     width: 90,
                     borderRadius: 90,
-                    borderWidth: 1
+                    backgroundColor: "#efefef"
+                    // borderWidth: 1,
+                    // borderColor: "grey"
                   }}
                   source={guideline.imageUrl}
                   resizeMode="contain"
