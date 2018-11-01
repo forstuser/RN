@@ -27,7 +27,7 @@ class SelectCitiesScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { onSkipPress } = navigation.state.params;
     return {
-      title: "Select City you live in",
+      title: "Select City You Live In",
       headerRight: (
         <TouchableOpacity
           style={{ paddingHorizontal: 10 }}

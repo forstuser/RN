@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import { colors } from "../../theme";
+import { Text } from "../../elements";
 import Header from "./header";
 import SignInScreen from "./sign-in-screen";
 import { SCREENS } from "../../constants";
