@@ -502,7 +502,7 @@ export default class SearchBar extends React.Component {
           style={{
             flex: 1,
             flexDirection: "row",
-            borderTopColor: colors.lightBlue,
+            borderTopColor: "#cee9f6",
             borderTopWidth: 2
           }}
         >
@@ -511,6 +511,8 @@ export default class SearchBar extends React.Component {
               style={{
                 flex: 1,
                 backgroundColor: "#fff",
+                borderRightColor: "#cee9f6",
+                borderRightWidth: 2,
                 height: "100%"
               }}
             >
@@ -529,8 +531,10 @@ export default class SearchBar extends React.Component {
                       }}
                       style={{
                         flexDirection: "column",
-                        paddingHorizontal: 5,
-                        paddingVertical: 7,
+                        paddingHorizontal: 10,
+                        paddingVertical: 14,
+                        borderBottomWidth: 2,
+                        borderBottomColor: "#cee9f6",
                         backgroundColor:
                           item.id == activeMainCategoryId
                             ? "#d8edf7"
@@ -549,9 +553,9 @@ export default class SearchBar extends React.Component {
                             height: 70,
                             width: "100%"
                             // padding: 5,
-                            // borderWidth: 1,
+                            // borderBottomWidth: 2,
                             // borderRadius: 20,
-                            // borderColor: "#04a0e5"
+                            // borderBottomColor: "#cee9f6"
                           }}
                           resizeMode="contain"
                           source={
@@ -573,16 +577,18 @@ export default class SearchBar extends React.Component {
                       <View
                         style={{
                           flex: 3,
-                          // marginLeft: 2,
+                          // marginTop: 2,
                           alignItems: "center",
                           justifyContent: "center"
                         }}
                       >
                         <Text
-                          weight="Regular"
+                          weight="Medium"
                           style={{
                             fontSize: 12,
-                            textTransform: "capitalize"
+                            marginTop: 5,
+                            textTransform: "capitalize",
+                            textAlign: "center"
                           }}
                           numberOfLines={3}
                         >
