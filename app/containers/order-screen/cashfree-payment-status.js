@@ -60,7 +60,7 @@ class CashFreePaymentStatusScreen extends Component {
       }
 
       const postData = {
-        appId: "1844ecd62445987b8152c2304481",
+        appId: "1844ecd62445987b8152c2304481", //test -> 1844ecd62445987b8152c2304481, production -> 4266316b86143383be42108a6624
         orderId: (order.id || "").toString(),
         orderAmount: (totalAmount || 0).toString(),
         orderCurrency: "INR",
@@ -147,6 +147,10 @@ class CashFreePaymentStatusScreen extends Component {
 
   onNavStateChange = async webViewState => {
     //console.log("webViewState.url________________", webViewState.url);
+
+    //Test -> https://consumer-stage.binbill.com/consumer/payments
+    // Production -> https://consumer.binbill.com/consumer/payments
+
     if (
       webViewState.url == "https://consumer-stage.binbill.com/consumer/payments"
     ) {
