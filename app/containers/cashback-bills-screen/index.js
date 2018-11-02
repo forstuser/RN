@@ -107,7 +107,11 @@ export default class CashbackBillsScreen extends React.Component {
               item.user_wallets.length > 0
                 ? item.user_wallets.filter(wallet => wallet.seller_id === null)
                 : null;
-            let fixed_cashback = variable !== null ? variable[0].amount : null;
+            console.log("variable is", variable);
+            let fixed_cashback = 0;
+            if (variable !== null && variable.length > 0) {
+              fixed_cashback = variable !== null ? variable[0].amount : null;
+            }
             return (
               <CashbackClaimItem
                 item={item}

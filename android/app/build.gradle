@@ -198,6 +198,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-gesture-handler')
     compile project(':react-native-applozic-chat')
     compile project(':react-native-get-sms-android')
     compile project(':react-native-camera')

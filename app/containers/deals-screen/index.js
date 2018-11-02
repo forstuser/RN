@@ -83,9 +83,6 @@ class DealsScreen extends Component {
   };
 
   onTabChange = ({ i }) => {
-    // i == 0
-    //   ? Analytics.logEvent(Analytics.EVENTS.CLICK_OFFERS)
-    //   : Analytics.logEvent(Analytics.EVENTS.CLICK_ACCESSORIES);
     this.setState({ activeTabIndex: i });
   };
 

@@ -38,16 +38,16 @@ class MyShoppingList extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const showShareBtn = navigation.getParam("showShareBtn", false);
     return {
-      title: "My Shopping List",
-      headerRight: showShareBtn ? (
-        <TouchableOpacity
-          //onPress={navigation.state.params.onSharePress}
-          onPress={navigation.state.params.onSharePressIcon}
-          style={{ marginRight: 10, padding: 10 }}
-        >
-          <Icon name="md-share" size={25} color={colors.mainBlue} />
-        </TouchableOpacity>
-      ) : null
+      title: "My Shopping List"
+      // headerRight: showShareBtn ? (
+      //   <TouchableOpacity
+      //     //onPress={navigation.state.params.onSharePress}
+      //     onPress={navigation.state.params.onSharePressIcon}
+      //     style={{ marginRight: 10, padding: 10 }}
+      //   >
+      //     <Icon name="md-share" size={25} color={colors.mainBlue} />
+      //   </TouchableOpacity>
+      // ) : null
     };
   };
 
@@ -62,15 +62,20 @@ class MyShoppingList extends React.Component {
   };
 
   componentDidMount() {
-    const wishList = this.props.navigation.getParam("wishList", []);
-    this.setState({ wishList });
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        const wishList = this.props.navigation.getParam("wishList", []);
+        this.setState({ wishList });
 
-    this.getMySellers();
+        this.getMySellers();
 
-    this.props.navigation.setParams({
-      onSharePressIcon: this.onSharePressIcon,
-      showShareBtn: wishList.length > 0
-    });
+        this.props.navigation.setParams({
+          onSharePressIcon: this.onSharePressIcon,
+          showShareBtn: wishList.length > 0
+        });
+      }
+    );
   }
 
   onSharePress = () => {
@@ -303,19 +308,10 @@ class MyShoppingList extends React.Component {
                 let btnRedeemPoints = null;
                 let flag = false;
                 let currrentTime = moment();
-                // let timeInFormat = currrentTime.toLocaleString("en-US", {
-                //   hour: "numeric",
-                //   minute: "numeric",
-                //   hour12: true
-                // });
-
                 let day = currrentTime.day();
-                //console.log("Current Day Number__________", day);
                 let opening_days =
                   item.seller_details.basic_details.shop_open_day;
                 let days = JSON.parse("[" + opening_days + "]");
-                //console.log("Days__________", days);
-
                 let closeTime = item.seller_details.basic_details.close_time;
                 let startTime = item.seller_details.basic_details.start_time;
                 let timeInFormat1 = moment(currrentTime, ["h:mm A"]);
@@ -324,9 +320,6 @@ class MyShoppingList extends React.Component {
                 let startTime2 = moment(startTime1).format("HH:mm");
                 let closeTime1 = moment(closeTime, ["h:mm A"]);
                 let closeTime2 = moment(closeTime1).format("HH:mm");
-                //console.log("Start Time__________________", startTime2);
-                //console.log("Close Time__________________", closeTime2);
-                //console.log("Current Time__________________", timeInFormat2);
                 if (
                   timeInFormat2 > closeTime2 ||
                   timeInFormat2 < startTime2 ||
@@ -335,8 +328,6 @@ class MyShoppingList extends React.Component {
                 ) {
                   flag = true;
                 }
-                //console.log("Flag____________________:", flag);
-                //alert("Flag____________________:", flag);
                 return (
                   <View>
                     {flag === true ? (

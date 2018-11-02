@@ -27,7 +27,7 @@ export const defaultStyles = {
 export const defaultNavigatorStyle = {
   // navBarTextColor: colors.mainText,
   // navBarTextFontSize: 20,
-  // navBarTextFontFamily: "Quicksand-Medium",
+  // navBarTextFontFamily: "Roboto-Medium",
   // navBarBackgroundColor: "#fff"
 };
 

@@ -22,41 +22,43 @@ class SingleOrder extends Component {
     let orderType = item.order_type;
     if (item.status_type === ORDER_STATUS_TYPES.COMPLETE)
       statusType = (
-        <Text style={{ fontSize: 12, color: colors.success }}>COMPLETED</Text>
+        <Text style={{ fontSize: 11, color: colors.success }}>COMPLETED</Text>
       );
     else if (item.seller.status_type === ORDER_STATUS_TYPES.NEW)
       statusType = (
-        <Text style={{ fontSize: 12, color: colors.mainText }}>NEW</Text>
+        <Text style={{ fontSize: 11, color: colors.mainText }}>NEW</Text>
       );
     else if (item.status_type === ORDER_STATUS_TYPES.APPROVED)
-      statusType = <Text style={{ fontSize: 12 }}>APPROVED</Text>;
+      statusType = <Text style={{ fontSize: 11 }}>APPROVED</Text>;
     else if (item.status_type === ORDER_STATUS_TYPES.CANCELED)
       statusType = (
-        <Text style={{ fontSize: 12, color: colors.danger }}>CANCELLED</Text>
+        <Text style={{ fontSize: 11, color: colors.danger }}>CANCELLED</Text>
       );
     else if (item.status_type === ORDER_STATUS_TYPES.REJECTED)
       statusType = (
-        <Text style={{ fontSize: 12, color: colors.danger }}>REJECTED</Text>
+        <Text style={{ fontSize: 11, color: colors.danger }}>REJECTED</Text>
       );
     else if (item.status_type === ORDER_STATUS_TYPES.OUT_FOR_DELIVERY)
-      statusType = <Text style={{ fontSize: 10 }}>OUT FOR DELIVERY</Text>;
-    let status = <Text weight="Bold">{statusType}</Text>;
-    let name = <Text weight="Bold">{item.seller.seller_name}</Text>;
+      statusType = <Text style={{ fontSize: 11 }}>OUT FOR DELIVERY</Text>;
+    let status = <Text weight="Medium">{statusType}</Text>;
+    let name = <Text weight="Medium">{item.seller.seller_name}</Text>;
 
     let quantity = null;
     if (orderType === ORDER_TYPES.FMCG)
-      quantity = <Text weight="Bold">{item.order_item_counts}</Text>;
+      quantity = <Text weight="Medium">{item.order_item_counts}</Text>;
     let service = null;
     if (orderType === ORDER_TYPES.ASSISTED_SERVICE)
-      service = <Text weight="Bold">{item.order_details[0].service_name}</Text>;
+      service = (
+        <Text weight="Medium">{item.order_details[0].service_name}</Text>
+      );
     let dateTime = (
-      <Text weight="Bold">
+      <Text weight="Medium">
         {moment(item.created_at).format("DD MMM, YYYY")}{" "}
         {moment(item.created_at).format("hh:mm a")}
       </Text>
     );
-    let amount = <Text weight="Bold">{item.total_amount}</Text>;
-    let cashback = <Text weight="Bold">{item.available_cashback}</Text>;
+    let amount = <Text weight="Medium">{item.total_amount}</Text>;
+    let cashback = <Text weight="Medium">{item.available_cashback}</Text>;
     let cashbackStatus = (
       <Text style={styles.data}>Cashback earned: {cashback}</Text>
     );
@@ -112,10 +114,18 @@ class SingleOrder extends Component {
           />
         </View>
         <View style={[styles.box, styles.box2]}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.info}>Seller: {name}</Text>
-            <Text style={styles.status}>{status}</Text>
+          <View
+            style={{
+              flexDirection: "column",
+              alignItems: "flex-start",
+              marginTop: 5
+            }}
+          >
+            <Text weight="Regular" style={styles.status}>
+              {status}
+            </Text>
           </View>
+          <Text style={styles.info}>Seller: {name}</Text>
           {orderType == ORDER_TYPES.FMCG ? (
             <Text style={styles.data}>No. of items: {quantity}</Text>
           ) : (
@@ -152,8 +162,7 @@ const styles = {
   },
 
   info: {
-    marginTop: 10,
-    flex: 1
+    marginTop: 5
   },
   data: {
     marginTop: 5
@@ -162,7 +171,7 @@ const styles = {
     textAlign: "right",
     marginRight: 20,
     marginTop: 10,
-    fontSize: 14
+    fontSize: 16
   },
   imageIcon: {
     height: 60,

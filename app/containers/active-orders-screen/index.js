@@ -84,6 +84,7 @@ class ActiveOrdersScreen extends Component {
     return (
       <SingleOrder
         key={index}
+        fetchActiveOrders={this.fetchActiveOrders}
         item={item}
         navigation={this.props.navigation}
         onPress={() => {

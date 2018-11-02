@@ -42,40 +42,81 @@ export default class Statuses extends React.Component {
       orderType = ORDER_TYPES.FMCG,
       startTime,
       endTime,
+      isInReview,
       paymentMode,
       paymentStatus
     } = this.props;
 
     return (
       <View style={{ marginBottom: 10 }}>
-        <Text weight="Bold" style={{ fontSize: 15 }}>
-          Status :{" "}
-          {statusType == ORDER_STATUS_TYPES.COMPLETE && (
-            <Text style={{ color: colors.success }}>Completed</Text>
-          )}
-          {statusType == ORDER_STATUS_TYPES.REJECTED && (
-            <Text style={{ color: colors.danger }}>Rejected</Text>
-          )}
-          {statusType == ORDER_STATUS_TYPES.CANCELED && (
-            <Text style={{ color: colors.danger }}>Canceled</Text>
-          )}
-        </Text>
-        {paymentMode && paymentMode != "" && paymentStatus != 4 ? (
-          <Text weight="Bold" style={{ fontSize: 15 }}>
-            Payment Mode :{" "}
-            {paymentMode &&
-              paymentMode == 5 && (
-                <Text style={{ color: colors.success }}>On Credit</Text>
-              )}
-            {paymentMode &&
-              paymentMode == 1 && (
-                <Text style={{ color: colors.success }}>Offline</Text>
-              )}
-            {paymentMode &&
-              paymentMode == 4 && (
-                <Text style={{ color: colors.success }}>Online</Text>
-              )}
+        <View
+          style={{
+            flexDirection: "row",
+            alignContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <Text weight="Bold" style={{ fontSize: 14 }}>
+            Status :{" "}
           </Text>
+          <Text weight="Medium" style={{ fontSize: 11 }}>
+            {statusType == ORDER_STATUS_TYPES.NEW &&
+              isOrderModified == true && (
+                <Text style={{ color: colors.success }}>MODIFIED</Text>
+              )}
+            {statusType == ORDER_STATUS_TYPES.NEW &&
+              isInReview == true &&
+              isOrderModified != true && (
+                <Text style={{ color: colors.success }}>IN REVIEW</Text>
+              )}
+            {statusType == ORDER_STATUS_TYPES.NEW &&
+              isInReview != true && (
+                <Text style={{ color: colors.success }}>NEW</Text>
+              )}
+            {statusType == ORDER_STATUS_TYPES.COMPLETE && (
+              <Text style={{ color: colors.success }}>COMPLETED</Text>
+            )}
+            {statusType == ORDER_STATUS_TYPES.APPROVED && (
+              <Text style={{ color: colors.pinkishOrange }}>IN PROGRESS</Text>
+            )}
+            {statusType == ORDER_STATUS_TYPES.AUTO_CANCEL && (
+              <Text style={{ color: colors.danger }}>AUTO CANCELLED</Text>
+            )}
+            {statusType == ORDER_STATUS_TYPES.REJECTED && (
+              <Text style={{ color: colors.danger }}>REJECTED</Text>
+            )}
+            {statusType == ORDER_STATUS_TYPES.CANCELED && (
+              <Text style={{ color: colors.danger }}>CANCELLED</Text>
+            )}
+          </Text>
+        </View>
+        {paymentMode && paymentMode != "" && paymentStatus != 4 ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignContent: "center",
+              alignItems: "center",
+              marginTop: 8
+            }}
+          >
+            <Text weight="Bold" style={{ fontSize: 14 }}>
+              Payment Mode :{" "}
+            </Text>
+            <Text weight="Regular">
+              {paymentMode &&
+                paymentMode == 5 && (
+                  <Text style={{ color: colors.success }}>On Credit</Text>
+                )}
+              {paymentMode &&
+                paymentMode == 1 && (
+                  <Text style={{ color: colors.success }}>Offline</Text>
+                )}
+              {paymentMode &&
+                paymentMode == 4 && (
+                  <Text style={{ color: colors.success }}>Online</Text>
+                )}
+            </Text>
+          </View>
         ) : null}
 
         {![

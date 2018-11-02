@@ -37,6 +37,9 @@ export default class filters extends React.Component {
   };
 
   hide = () => {
+    this.resetAllFilters();
+  };
+  hideModal = () => {
     this.setState({ isModalVisible: false });
   };
 
@@ -136,7 +139,7 @@ export default class filters extends React.Component {
   applyFilter = () => {
     const { applyFilter } = this.props;
     const { selectedCategories } = this.state;
-    this.hide();
+    this.hideModal();
     applyFilter(selectedCategories);
   };
 
@@ -165,7 +168,9 @@ export default class filters extends React.Component {
       >
         <View style={{ backgroundColor: "#fff", flex: 1 }}>
           <View style={styles.header}>
-            <View style={{ flex: 1, flexDirection: "row", alignItems: 'center' }}>
+            <View
+              style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
+            >
               {/* <BlueGradientBG /> */}
               <TouchableOpacity
                 style={{ paddingVertical: 10, paddingHorizontal: 15 }}

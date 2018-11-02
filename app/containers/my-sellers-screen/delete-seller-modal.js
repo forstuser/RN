@@ -77,7 +77,7 @@ class DeleteSellerModal extends React.Component {
           }}
         >
           <Text
-            weight="Medium"
+            weight="Regular"
             style={{ fontSize: 15, marginBottom: 20, textAlign: "center" }}
           >
             Are you sure you want to delete this seller?

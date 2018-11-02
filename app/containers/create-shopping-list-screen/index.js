@@ -136,7 +136,7 @@ class ShoppingListScreen extends React.Component {
       });
 
       let mainCategories =
-        pastItems.length > 0 ? [{ id: 0, title: "PAST ITEMS" }] : [];
+        pastItems.length > 0 ? [{ id: 0, title: "Past Items" }] : [];
 
       mainCategories = [...mainCategories, ...res.result.main_categories];
 
@@ -147,9 +147,9 @@ class ShoppingListScreen extends React.Component {
         selectedCategoryIds: [],
         items: pastItems
       }));
-      console.log("past items 1", this.state.pastItems);
-      console.log("main categoried 1", this.state.mainCategories);
-      console.log("active main category id 1", this.state.activeMainCategoryId);
+      // console.log("past items 1", this.state.pastItems);
+      //console.log("main categoried 1", this.state.mainCategories);
+      // console.log("active main category id 1", this.state.activeMainCategoryId);
       if (pastItems.length == 0) {
         this.loadItemsFirstPage();
       }
@@ -324,7 +324,6 @@ class ShoppingListScreen extends React.Component {
       if (
         !searchTerm ||
         (searchTerm.length >= 3 &&
-          searchTerm.length % 2 == 1 &&
           searchTerm != this.state.lastSearchTerm3Characters)
       ) {
         this.loadItemsFirstPage();
@@ -340,7 +339,6 @@ class ShoppingListScreen extends React.Component {
   };
 
   loadItemsFirstPage = () => {
-    console.log("load first item call hua");
     this.setState({ items: [], endhasReachedFlag: false }, () => {
       this.loadItems();
     });

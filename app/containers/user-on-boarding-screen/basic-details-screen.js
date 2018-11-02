@@ -124,7 +124,9 @@ class BasicDetailsScreen extends Component {
     } finally {
       this.setState({ isLoading: false });
     }
-    this.props.navigation.navigate(SCREENS.SELECT_GENDER_SCREEN_ONBOARDING);
+    this.props.navigation.navigate(SCREENS.SELECT_GENDER_SCREEN_ONBOARDING, {
+      navigation: this.props.navigation
+    });
   };
 
   onNextPress = () => {

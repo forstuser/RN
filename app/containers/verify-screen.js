@@ -172,7 +172,7 @@ class VerifyScreen extends Component {
         }}
       >
         <Text
-          weight="Bold"
+          weight="Medium"
           style={{ textAlign: "center", fontSize: 14, width: 300 }}
         >
           {I18n.t("verify_screen_enter_otp_msg", {

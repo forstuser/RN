@@ -242,7 +242,10 @@ class Body extends Component {
                   right: 10
                 }}
               >
-                <Text style={{ color: colors.pinkishOrange, fontSize: 12 }}>
+                <Text
+                  weight="Bold"
+                  style={{ color: colors.pinkishOrange, fontSize: 14 }}
+                >
                   Manage Addresses
                 </Text>
               </TouchableOpacity>

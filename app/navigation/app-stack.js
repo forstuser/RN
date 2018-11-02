@@ -91,6 +91,7 @@ import AddressScreen from "../containers/address-screen";
 //import AddressScreen from "../containers/address-screen";
 import MyOrdersScreen from "../containers/my-orders-screen";
 import CashbackBillGuidelines from "../containers/cashback-bill-guidelines-screen";
+import ShopAndEarnShoppingList from "../containers/shop-and-earn-shopping-list-screen";
 import CashFreePaymentStatusScreen from "../containers/order-screen/cashfree-payment-status";
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -256,6 +257,7 @@ export default createStackNavigator(
     [SCREENS.ADDRESS_SCREEN]: AddressScreen,
     [SCREENS.MY_ORDERS_SCREEN]: MyOrdersScreen,
     [SCREENS.CASHBACK_BILL_GUIDELINES_SCREEN]: CashbackBillGuidelines,
+    [SCREENS.SHOP_AND_EARN_SHOPPING_LIST]: ShopAndEarnShoppingList,
     [SCREENS.CASHFREE_PAYMENT_STATUS_SCREEN]: CashFreePaymentStatusScreen
   },
   {

@@ -13,8 +13,24 @@ import LoadingOverlay from "../../components/loading-overlay";
 import Snackbar from "../../utils/snackbar";
 
 class SelectGenderScreen extends React.Component {
-  static navigationOptions = {
-    title: "Select Gender"
+  static navigationOptions = ({ navigation }) => {
+    const { onSkipPress } = navigation.state.params;
+    return {
+      title: "Select Gender",
+      headerRight: (
+        <TouchableOpacity
+          style={{ paddingHorizontal: 10 }}
+          onPress={onSkipPress}
+        >
+          <Text
+            weight="Bold"
+            style={{ fontSize: 14, color: colors.pinkishOrange }}
+          >
+            SKIP
+          </Text>
+        </TouchableOpacity>
+      )
+    };
   };
 
   constructor(props) {
@@ -24,6 +40,18 @@ class SelectGenderScreen extends React.Component {
       isLoading: false,
       error: null
     };
+  }
+  componentDidMount() {
+    this.props.navigation.setParams({
+      onSkipPress: () => {
+        this.props.navigation.navigate(
+          SCREENS.SELECT_CITIES_SCREEN_ONBOARDING,
+          {
+            navigation: this.props.navigation
+          }
+        );
+      }
+    });
   }
 
   selectGender = genderSelected => {
@@ -66,7 +94,9 @@ class SelectGenderScreen extends React.Component {
     } finally {
       this.setState({ isLoading: false });
     }
-    this.props.navigation.navigate(SCREENS.SELECT_CITIES_SCREEN_ONBOARDING);
+    this.props.navigation.navigate(SCREENS.SELECT_CITIES_SCREEN_ONBOARDING, {
+      navigation: this.props.navigation
+    });
   };
 
   render() {

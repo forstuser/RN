@@ -108,9 +108,23 @@ class MySellersScreen extends React.Component {
   };
 
   openRedeemPointsScreen = seller => {
-    this.props.navigation.navigate(SCREENS.MY_SELLERS_REDEEM_POINTS_SCREEN, {
-      seller
-    });
+    console.log("seller", seller);
+    if (seller.loyalty_total == 0) {
+      showSnackbar({
+        text: "Sorry, you have not earned any loyalty points to be redeemed."
+      });
+    } else if (seller.minimum_points > seller.loyalty_total) {
+      showSnackbar({
+        text:
+          "Sorry, you can only redeem once you receive a minimum of " +
+          seller.minimum_points +
+          " loyalty points."
+      });
+    } else {
+      this.props.navigation.navigate(SCREENS.MY_SELLERS_REDEEM_POINTS_SCREEN, {
+        seller
+      });
+    }
   };
 
   openCallOptions = seller => {
@@ -163,9 +177,6 @@ class MySellersScreen extends React.Component {
       isDeleteSeller,
       userData
     } = this.state;
-    //console.log("User____________________________________", user.location);
-    console.log("MySellers_____________: ", mySellers);
-    //console.log("User Data_____________:", userData);
     if (error) {
       <ErrorOverlay error={error} onRetryPress={this.getMySellers} />;
     }
@@ -254,22 +265,12 @@ class MySellersScreen extends React.Component {
             }
             renderItem={({ item }) => {
               let btnRedeemPoints = null;
-              //let btnOnlineOrder = null;
               let flag = false;
               let currrentTime = moment();
-              // let timeInFormat = currrentTime.toLocaleString("en-US", {
-              //   hour: "numeric",
-              //   minute: "numeric",
-              //   hour12: true
-              // });
-
               let day = currrentTime.day();
-              //console.log("Current Day Number__________", day);
               let opening_days =
                 item.seller_details.basic_details.shop_open_day;
               let days = JSON.parse("[" + opening_days + "]");
-              //console.log("Days__________", days);
-
               let closeTime = item.seller_details.basic_details.close_time;
               let startTime = item.seller_details.basic_details.start_time;
               let timeInFormat1 = moment(currrentTime, ["h:mm A"]);
@@ -278,9 +279,6 @@ class MySellersScreen extends React.Component {
               let startTime2 = moment(startTime1).format("HH:mm");
               let closeTime1 = moment(closeTime, ["h:mm A"]);
               let closeTime2 = moment(closeTime1).format("HH:mm");
-              //console.log("Start Time__________________", startTime2);
-              //console.log("Close Time__________________", closeTime2);
-              //console.log("Current Time__________________", timeInFormat2);
               if (
                 timeInFormat2 > closeTime2 ||
                 timeInFormat2 < startTime2 ||
@@ -289,39 +287,18 @@ class MySellersScreen extends React.Component {
               ) {
                 flag = true;
               }
-              //console.log("Flag____________________:", flag);
-              // if (item.is_fmcg === true && flag === false) {
-              //   btnOnlineOrder = (
-              //     <Button
-              //       onPress={this.orderOnline}
-              //       text="Order Online"
-              //       color="secondary"
-              //       style={{
-              //         height: 30,
-              //         width: 105,
-              //         marginTop: 10,
-              //         marginRight: 10
-              //       }}
-              //       textStyle={{ fontSize: 11 }}
-              //     />
-              //   );
-              // }
-              if (
-                item.loyalty_total > item.minimum_points &&
-                item.loyalty_total > 0
-              )
-                btnRedeemPoints = (
-                  <Button
-                    type="outline"
-                    onPress={() => {
-                      this.openRedeemPointsScreen(item);
-                    }}
-                    text="Redeem Points"
-                    color="secondary"
-                    style={{ height: 30, width: 105, marginTop: 10 }}
-                    textStyle={{ fontSize: 11 }}
-                  />
-                );
+              btnRedeemPoints = (
+                <Button
+                  type="outline"
+                  onPress={() => {
+                    this.openRedeemPointsScreen(item);
+                  }}
+                  text="Redeem Points"
+                  color="secondary"
+                  style={{ height: 30, width: 105, marginTop: 10 }}
+                  textStyle={{ fontSize: 11 }}
+                />
+              );
               return (
                 <TouchableOpacity
                   onPress={() =>

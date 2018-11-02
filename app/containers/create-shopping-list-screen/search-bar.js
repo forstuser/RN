@@ -16,6 +16,7 @@ import { Text, Image, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 
 import LoadingOverlay from "../../components/loading-overlay";
+import { MAIN_CATEGORY_IDS_SHOP_N_EARN } from "../../constants";
 
 import SkuItem from "./sku-item";
 import { showSnackbar } from "../../utils/snackbar";
@@ -195,11 +196,11 @@ export default class SearchBar extends React.Component {
       endhasReachedFlag
     } = this.props;
     const { isBrandsPopupVisible, checkedBrands, checkedSellers } = this.state;
-    console.log("past items 2", pastItems);
-    console.log("items 2", items);
-    console.log("main categoried 2", mainCategories);
+    // console.log("past items 2", pastItems);
+    // console.log("items 2", items);
+    // console.log("main categoried 2", mainCategories);
     console.log("active main category id 2", activeMainCategoryId);
-    console.log("measurementTypes 2", measurementTypes);
+    // console.log("measurementTypes 2", measurementTypes);
     const activeMainCategory = activeMainCategoryId
       ? mainCategories.find(
           mainCategory => mainCategory.id == activeMainCategoryId
@@ -299,11 +300,11 @@ export default class SearchBar extends React.Component {
         );
       }
     }
-    console.log("filteredCategories: ", filteredCategories);
-    console.log(
-      "filteredMainCategories___________________: ",
-      filteredMainCategories
-    );
+    // console.log("filteredCategories: ", filteredCategories);
+    // console.log(
+    //   "filteredMainCategories___________________: ",
+    //   filteredMainCategories
+    // );
 
     return (
       <View
@@ -348,7 +349,7 @@ export default class SearchBar extends React.Component {
               onSubmitEditing={this.startSearch}
               underlineColorAndroid="transparent"
             />
-            {filteredItems.length == 0 &&
+            {/* {filteredItems.length == 0 &&
             searchTerm.length > 2 &&
             !isSearching &&
             !hideAddManually ? (
@@ -367,7 +368,7 @@ export default class SearchBar extends React.Component {
               </TouchableOpacity>
             ) : (
               <View />
-            )}
+            )} */}
 
             {searchTerm ? (
               <TouchableOpacity
@@ -393,7 +394,11 @@ export default class SearchBar extends React.Component {
               this.toggleBrandsPopup();
               this.toggleSellersPopup();
             }}
-            disabled={brands.length == 0 && sellers.length == 0}
+            disabled={
+              (brands.length == 0 && sellers.length == 0) ||
+              activeMainCategoryId == 0 ||
+              activeMainCategoryId == MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG
+            }
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -407,9 +412,12 @@ export default class SearchBar extends React.Component {
               name="md-options"
               size={25}
               color={
-                brands.length > 0 || sellers.length > 0
-                  ? colors.mainText
-                  : colors.lighterText
+                (brands.length == 0 && sellers.length == 0) ||
+                activeMainCategoryId ==
+                  MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG ||
+                activeMainCategoryId == 0
+                  ? colors.lighterText
+                  : colors.mainText
               }
             />
             {selectedBrands.length > 0 || selectedSeller ? (
@@ -502,7 +510,7 @@ export default class SearchBar extends React.Component {
             <View
               style={{
                 flex: 1,
-                backgroundColor: colors.lightBlue,
+                backgroundColor: "#fff",
                 height: "100%"
               }}
             >
@@ -520,7 +528,7 @@ export default class SearchBar extends React.Component {
                         this.changeMainCategory(item.id);
                       }}
                       style={{
-                        flexDirection: "row",
+                        flexDirection: "column",
                         paddingHorizontal: 5,
                         paddingVertical: 7,
                         backgroundColor:
@@ -538,19 +546,19 @@ export default class SearchBar extends React.Component {
                       >
                         <Image
                           style={{
-                            height: 40,
-                            width: 40,
+                            height: 70,
+                            width: "100%"
                             // padding: 5,
-                            borderWidth: 1,
-                            borderRadius: 20,
-                            borderColor: "#04a0e5"
+                            // borderWidth: 1,
+                            // borderRadius: 20,
+                            // borderColor: "#04a0e5"
                           }}
                           resizeMode="contain"
                           source={
-                            item.title == "PAST ITEMS"
+                            item.title == "Past Items"
                               ? require("../../images/past_items.png")
                               : item.title == "SHOPPING LIST"
-                                ? require("../../images/shopping_list_icon.png")
+                                ? require("../../images/shopping_list.png")
                                 : {
                                     uri:
                                       API_BASE_URL +
@@ -565,12 +573,13 @@ export default class SearchBar extends React.Component {
                       <View
                         style={{
                           flex: 3,
-                          marginLeft: 2,
+                          // marginLeft: 2,
+                          alignItems: "center",
                           justifyContent: "center"
                         }}
                       >
                         <Text
-                          weight="Medium"
+                          weight="Regular"
                           style={{
                             fontSize: 12,
                             textTransform: "capitalize"
@@ -614,9 +623,9 @@ export default class SearchBar extends React.Component {
                       <Text style={{ textAlign: "center" }}>
                         Sorry we couldn't find any items
                         {searchTerm ? ` for "${searchTerm}"` : ""}
-                        {!hideAddManually
+                        {/* {!hideAddManually
                           ? ", please use '+' to add manually."
-                          : ""}
+                          : ""} */}
                       </Text>
                       {/* {searchTerm && !hideAddManually ? (
                         <Button

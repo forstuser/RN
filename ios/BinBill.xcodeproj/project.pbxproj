@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -97,6 +96,11 @@
 		F3C50B66986642CDBF37979F /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 417D036C67A041DCAC11436D /* FontAwesome.ttf */; };
 		F990030BF37E4526998142AF /* libRNGooglePlaces.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83CAB2210B2648C6A86BABEF /* libRNGooglePlaces.a */; };
 		FC05AD9B7FF84A3F8BBB2279 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 849EF2C696FB47E396BD2446 /* libRNI18n.a */; };
+		5DC63ED2E6834856A8B3B73E /* libRNApplozicChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7DF21AF00B44AB286ECF1E9 /* libRNApplozicChat.a */; };
+		9DECC3D471554156987DF72F /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1159D1CA2A324AA5B1DEFE05 /* Roboto-Bold.ttf */; };
+		0F28A999D4684B8799FC5B6E /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFC30C17EC284FD383848048 /* Roboto-Italic.ttf */; };
+		D21086DD4F484939820405FF /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC307EEA4EAE4C94BC5E1F04 /* Roboto-Medium.ttf */; };
+		B58C26DF081E4C3A926082C7 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F2613DAEC3844BED9EE449F3 /* Roboto-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -705,6 +709,12 @@
 		F4771D56FD350E8249EE1932 /* Pods-BinBill-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BinBill-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-BinBill-tvOS/Pods-BinBill-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		F6EF8B4A6E5146DAAAA8728F /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		FEDEC3012C04464F9B9838BF /* Pods-BinBillTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BinBillTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BinBillTests/Pods-BinBillTests.release.xcconfig"; sourceTree = "<group>"; };
+		F0BFCB370FE7432BB9626E53 /* RNApplozicChat.xcodeproj */ = {isa = PBXFileReference; name = "RNApplozicChat.xcodeproj"; path = "../node_modules/react-native-applozic-chat/ios/RNApplozicChat.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		C7DF21AF00B44AB286ECF1E9 /* libRNApplozicChat.a */ = {isa = PBXFileReference; name = "libRNApplozicChat.a"; path = "libRNApplozicChat.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		1159D1CA2A324AA5B1DEFE05 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; name = "Roboto-Bold.ttf"; path = "../assets/fonts/Roboto-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AFC30C17EC284FD383848048 /* Roboto-Italic.ttf */ = {isa = PBXFileReference; name = "Roboto-Italic.ttf"; path = "../assets/fonts/Roboto-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EC307EEA4EAE4C94BC5E1F04 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; name = "Roboto-Medium.ttf"; path = "../assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F2613DAEC3844BED9EE449F3 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; name = "Roboto-Regular.ttf"; path = "../assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -763,6 +773,7 @@
 				F990030BF37E4526998142AF /* libRNGooglePlaces.a in Frameworks */,
 				97B180B9CCD8423F87A7FC6B /* libRCTFBSDK.a in Frameworks */,
 				24FD5E019259DBFD31BA773C /* Pods_BinBill.framework in Frameworks */,
+				5DC63ED2E6834856A8B3B73E /* libRNApplozicChat.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1167,6 +1178,10 @@
 				F6EF8B4A6E5146DAAAA8728F /* Octicons.ttf */,
 				0BDB16744E02411599C0FE5B /* SimpleLineIcons.ttf */,
 				36C6CCEE0B91446982F5A176 /* Zocial.ttf */,
+				1159D1CA2A324AA5B1DEFE05 /* Roboto-Bold.ttf */,
+				AFC30C17EC284FD383848048 /* Roboto-Italic.ttf */,
+				EC307EEA4EAE4C94BC5E1F04 /* Roboto-Medium.ttf */,
+				F2613DAEC3844BED9EE449F3 /* Roboto-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1217,6 +1232,7 @@
 				BA47ED31EEBB4DD49048387B /* RNPhotoView.xcodeproj */,
 				179ACEA7516C4A95B6392DB7 /* RNGooglePlaces.xcodeproj */,
 				DCCE9141D92F4AE2BCA6CEA3 /* RCTFBSDK.xcodeproj */,
+				F0BFCB370FE7432BB9626E53 /* RNApplozicChat.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -2127,6 +2143,10 @@
 				BD146BC3A1F445538183844D /* Octicons.ttf in Resources */,
 				94EA2CB12F4F45A28E46D590 /* SimpleLineIcons.ttf in Resources */,
 				D379C37117EF4BF68D831A4A /* Zocial.ttf in Resources */,
+				9DECC3D471554156987DF72F /* Roboto-Bold.ttf in Resources */,
+				0F28A999D4684B8799FC5B6E /* Roboto-Italic.ttf in Resources */,
+				D21086DD4F484939820405FF /* Roboto-Medium.ttf in Resources */,
+				B58C26DF081E4C3A926082C7 /* Roboto-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2429,12 +2449,14 @@
 					"$(SRCROOT)/../node_modules/react-native-google-places/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
+					"$(SRCROOT)/../node_modules/react-native-applozic-chat/ios/**",
 				);
 				INFOPLIST_FILE = BinBillTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2481,12 +2503,14 @@
 					"$(SRCROOT)/../node_modules/react-native-google-places/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
+					"$(SRCROOT)/../node_modules/react-native-applozic-chat/ios/**",
 				);
 				INFOPLIST_FILE = BinBillTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2545,6 +2569,7 @@
 					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
+					"$(SRCROOT)/../node_modules/react-native-applozic-chat/ios/**",
 				);
 				INFOPLIST_FILE = BinBill/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2602,6 +2627,7 @@
 					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
+					"$(SRCROOT)/../node_modules/react-native-applozic-chat/ios/**",
 				);
 				INFOPLIST_FILE = BinBill/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2653,11 +2679,13 @@
 					"$(SRCROOT)/../node_modules/react-native-google-places/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
+					"$(SRCROOT)/../node_modules/react-native-applozic-chat/ios/**",
 				);
 				INFOPLIST_FILE = "BinBill-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2713,11 +2741,13 @@
 					"$(SRCROOT)/../node_modules/react-native-google-places/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
+					"$(SRCROOT)/../node_modules/react-native-applozic-chat/ios/**",
 				);
 				INFOPLIST_FILE = "BinBill-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2772,6 +2802,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.BinBill-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2798,6 +2829,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2851,6 +2883,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bin.binbillcustomer.BinBillShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2892,6 +2925,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);

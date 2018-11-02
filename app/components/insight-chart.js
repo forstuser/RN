@@ -91,7 +91,7 @@ const InsightChart = ({
                   fontSize: 9,
                   stroke: "#fff",
                   fontWeight: "300",
-                  fontFamily: "Quicksand-Regular"
+                  fontFamily: "Roboto-Regular"
                 }
               }}
               tickFormat={value => {
@@ -109,7 +109,7 @@ const InsightChart = ({
                   fontSize: 9,
                   stroke: textColor,
                   fontWeight: "300",
-                  fontFamily: "Quicksand-Regular"
+                  fontFamily: "Roboto-Regular"
                 },
                 grid: { stroke: "rgba(255,255,255,0.3)" }
               }}
