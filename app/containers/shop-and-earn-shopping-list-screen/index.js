@@ -75,7 +75,7 @@ class ShopAndEarnShoppingList extends React.Component {
     const purchaseDate = navigation.getParam("purchaseDate", null);
     const fixedCashback = navigation.getParam("fixedCashback", null);
     const amount = navigation.getParam("amount", null);
-    const selectedItems = navigation.getParam("wishList", []);
+    const selectedItems = this.state.wishList;
     const isDigitallyVerified = navigation.getParam(
       "isDigitallyVerified",
       false
