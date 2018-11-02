@@ -1,7 +1,6 @@
 import React from "react";
-import { Dimensions, StyleSheet, View, Image } from "react-native";
+import { Dimensions, StyleSheet, View, Image, Text } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { Text } from "../../elements";
 
 import { colors } from "../../theme";
 
@@ -64,11 +63,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     color: colors.mainBlue,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    fontFamily: "OpenSans-Semibold"
   },
   header: {
     fontSize: 20,
     textAlign: "center",
+    fontFamily: "OpenSans-Semibold",
     marginTop: 13,
     color: colors.mainText,
     paddingHorizontal: 20
@@ -77,6 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 16,
     textAlign: "center",
+    fontFamily: "OpenSans-Regular",
     // alignItems: "center",
     color: colors.mainText,
     // justifyContent: "center",
