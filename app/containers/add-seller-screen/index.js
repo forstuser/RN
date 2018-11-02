@@ -245,36 +245,48 @@ export default class MySellersScreen extends React.Component {
                   justifyContent: "center"
                 }}
               >
-                <Picker
-                  mode="dropdown"
-                  selectedValue={
-                    selectedAddress ? selectedAddress : userDetails.addresses[0]
-                  }
+                <View
                   style={{
-                    height: 25,
                     width: 250,
-                    borderRadius: 10,
-                    backgroundColor: "#fff"
+                    height: 25,
+                    backgroundColor: "#fff",
+
+                    borderRadius: 10
                   }}
-                  onValueChange={(itemValue, itemIndex) =>
-                    this.setState({ selectedAddress: itemValue }, () =>
-                      this.getSellersFromDropDown()
-                    )
-                  }
                 >
-                  {userDetails.addresses.map(address => (
-                    <Picker.Item
-                      label={
-                        address.address_line_1
-                          ? address.address_line_1
-                              .concat(", ")
-                              .concat(address.address_line_2)
-                          : address.address_line_2
-                      }
-                      value={address}
-                    />
-                  ))}
-                </Picker>
+                  <Picker
+                    mode="dropdown"
+                    selectedValue={
+                      selectedAddress
+                        ? selectedAddress
+                        : userDetails.addresses[0]
+                    }
+                    style={{
+                      height: 25,
+                      width: 250,
+                      //backgroundColor: "#fff",
+                      color: colors.pinkishOrange
+                    }}
+                    onValueChange={(itemValue, itemIndex) =>
+                      this.setState({ selectedAddress: itemValue }, () =>
+                        this.getSellersFromDropDown()
+                      )
+                    }
+                  >
+                    {userDetails.addresses.map(address => (
+                      <Picker.Item
+                        label={
+                          address.address_line_1
+                            ? address.address_line_1
+                                .concat(", ")
+                                .concat(address.address_line_2)
+                            : address.address_line_2
+                        }
+                        value={address}
+                      />
+                    ))}
+                  </Picker>
+                </View>
               </View>
             )}
           </View>

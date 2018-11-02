@@ -3,6 +3,37 @@
 
 <head>
     <title>CashFree</title>
+    <style>
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            /* Safari */
+            animation: spin 2s linear infinite;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
     <script>
         let incomingData;
         document.addEventListener("message", function (data) {
@@ -28,7 +59,9 @@
 </head>
 
 <body>
-
+    <!-- Production URL - https://www.cashfree.com/checkout/post/submit -->
+    <!-- Testing URL - https://test.cashfree.com/billpay/checkout/post/submit -->
+    <div class="loader"></div>
     <form id="redirectForm" method="post" action="https://test.cashfree.com/billpay/checkout/post/submit">
         <input type="hidden" id="appId1" name="appId" />
         <input type="hidden" id="orderId1" name="orderId" />

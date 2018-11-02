@@ -60,13 +60,13 @@ class CashFreePaymentStatusScreen extends Component {
       }
 
       const postData = {
-        appId: "1844ecd62445987b8152c2304481",
+        appId: "4266316b86143383be42108a6624", //test -> 1844ecd62445987b8152c2304481, production -> 4266316b86143383be42108a6624
         orderId: (order.id || "").toString(),
         orderAmount: (totalAmount || 0).toString(),
         orderCurrency: "INR",
         orderNote: "test",
         customerName: (user.name || "").toString(),
-        customerEmail: (user.email || "dikshant@binbill.com").toString(),
+        customerEmail: (user.email || "support@binbill.com").toString(),
         customerPhone: (user.phone || "").toString()
       };
 
@@ -147,9 +147,11 @@ class CashFreePaymentStatusScreen extends Component {
 
   onNavStateChange = async webViewState => {
     //console.log("webViewState.url________________", webViewState.url);
-    if (
-      webViewState.url == "https://consumer-stage.binbill.com/consumer/payments"
-    ) {
+
+    //Test -> https://consumer-stage.binbill.com/consumer/payments
+    // Production -> https://consumer.binbill.com/consumer/payments
+
+    if (webViewState.url == "https://consumer.binbill.com/consumer/payments") {
       const { orderIdWebView } = this.state;
       //console.log("orderIDWebView----------", orderIdWebView);
       const res = await getTransactionStatus(orderIdWebView);
@@ -179,11 +181,13 @@ class CashFreePaymentStatusScreen extends Component {
     console.log("Render Web View");
     webViewLoadCount = 1;
     return (
+      //Testing -> http://binbillpaymentgateway.s3-website.ap-south-1.amazonaws.com/
+      //Production -> https://s3.ap-south-1.amazonaws.com/binbillpaymentgateway-prod/index.html
       <WebView
         originWhitelist={["*"]}
         source={{
           uri:
-            "http://binbillpaymentgateway.s3-website.ap-south-1.amazonaws.com/"
+            "https://s3.ap-south-1.amazonaws.com/binbillpaymentgateway-prod/index.html"
         }}
         style={{
           width: "100%",

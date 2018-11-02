@@ -107,18 +107,18 @@ export default class BarcodeScanner extends React.Component {
               <View
                 style={{
                   flexDirection: "row",
-                  justifyContent: "space-between",
+                  justifyContent: "center",
                   margin: 10
                 }}
               >
                 <Button
-                  text="Rescan"
-                  style={{ width: 120, height: 40 }}
-                  textStyle={{ fontSize: 12 }}
-                  color="grey"
+                  text="Scan Another Item"
+                  style={{ width: 200, height: 40 }}
+                  textStyle={{ fontSize: 14 }}
+                  color="secondary"
                   onPress={() => this.setState({ item: null })}
                 />
-                <Button
+                {/* <Button
                   text="Continue"
                   style={{ width: 120, height: 40 }}
                   textStyle={{ fontSize: 12 }}
@@ -127,7 +127,7 @@ export default class BarcodeScanner extends React.Component {
                     onSelectItem(item);
                     this.closeModal();
                   }}
-                />
+                /> */}
               </View>
             </View>
           ) : (
