@@ -124,7 +124,8 @@ const styles = StyleSheet.create({
   },
   nextBtnText: {
     fontSize: 16,
-    color: colors.mainText
+    color: colors.mainText,
+    fontFamily: "OpenSans-Bold"
   },
   nextBtnArrow: {
     height: 25,

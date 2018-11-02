@@ -22,7 +22,8 @@ import {
   API_BASE_URL,
   getMySellers,
   getSkuReferenceData,
-  placeOrder
+  placeOrder,
+  addSkuItemToWishList
 } from "../../api";
 import StarRating from "react-native-star-rating";
 
@@ -61,14 +62,8 @@ class ShopAndEarnShoppingList extends React.Component {
       "measurementTypes",
       null
     );
-
     this.setState({ wishList, measurementTypes });
-
     this.getMySellers();
-
-    this.props.navigation.setParams({
-      onSharePressIcon: this.onSharePressIcon
-    });
   }
 
   onNextPress = () => {
@@ -80,7 +75,7 @@ class ShopAndEarnShoppingList extends React.Component {
     const purchaseDate = navigation.getParam("purchaseDate", null);
     const fixedCashback = navigation.getParam("fixedCashback", null);
     const amount = navigation.getParam("amount", null);
-    const selectedItems = navigation.getParam("wishList", []);
+    const selectedItems = this.state.wishList;
     const isDigitallyVerified = navigation.getParam(
       "isDigitallyVerified",
       false
@@ -163,19 +158,77 @@ class ShopAndEarnShoppingList extends React.Component {
     });
   };
 
-  changeIndexQuantity = (index, quantity) => {
-    const { navigation } = this.props;
-    navigation.state.params.changeIndexQuantity(
-      index,
-      quantity,
-      ({ wishList, skuItemIdsCurrentlyModifying }) => {
-        this.setState({ wishList, skuItemIdsCurrentlyModifying }, () => {
-          this.props.navigation.setParams({
-            showShareBtn: this.state.wishList.length > 0
-          });
-        });
-      }
+  // changeIndexQuantity = (index, quantity) => {
+  //   const { navigation } = this.props;
+  //   navigation.state.params.changeIndexQuantity(
+  //     index,
+  //     quantity,
+  //     ({ wishList, skuItemIdsCurrentlyModifying }) => {
+  //       this.setState({ wishList, skuItemIdsCurrentlyModifying }, () => {
+  //         this.props.navigation.setParams({
+  //           showShareBtn: this.state.wishList.length > 0
+  //         });
+  //       });
+  //     }
+  //   );
+  // };
+  changeSkuItemQuantityInList = async (skuMeasurementId, quantity) => {
+    const wishList = [...this.state.wishList];
+    const idxOfItem = wishList.findIndex(
+      listItem =>
+        listItem.sku_measurement &&
+        listItem.sku_measurement.id == skuMeasurementId
     );
+
+    this.changeIndexQuantity(idxOfItem, quantity);
+  };
+
+  changeIndexQuantity = async (index, quantity, callBack = () => null) => {
+    console.log("index,qu", index, quantity);
+    const wishList = [...this.state.wishList];
+
+    const skuItemIdsCurrentlyModifying = [
+      ...this.state.skuItemIdsCurrentlyModifying
+    ];
+
+    const item = { ...wishList[index] };
+
+    if (
+      item.sku_measurement &&
+      !skuItemIdsCurrentlyModifying.includes(item.sku_measurement.id)
+    ) {
+      skuItemIdsCurrentlyModifying.push(item.sku_measurement.id);
+    }
+    if (quantity <= 0) {
+      item.quantity = 0;
+    } else {
+      item.quantity = quantity;
+    }
+    this.setState({ skuItemIdsCurrentlyModifying });
+    callBack({ wishList, skuItemIdsCurrentlyModifying });
+    delete item["sku_measurements"];
+    try {
+      await addSkuItemToWishList(item);
+      if (quantity <= 0) {
+        wishList.splice(index, 1);
+      } else {
+        wishList[index].quantity = quantity;
+      }
+      this.setState({ wishList });
+      callBack({ wishList, skuItemIdsCurrentlyModifying });
+    } catch (e) {
+      console.log("wishlist error: ", e);
+      showSnackbar({ text: e.message });
+    } finally {
+      if (item.sku_measurement) {
+        const idx = skuItemIdsCurrentlyModifying.findIndex(
+          id => id == item.sku_measurement.id
+        );
+        skuItemIdsCurrentlyModifying.splice(idx, 1);
+        this.setState({ skuItemIdsCurrentlyModifying });
+        callBack({ wishList, skuItemIdsCurrentlyModifying });
+      }
+    }
   };
 
   render() {
@@ -521,7 +574,7 @@ class ShopAndEarnShoppingList extends React.Component {
             />
           </View>
         </Modal>
-        {wishList.length > 0 && !isLoadingMySellers ? (
+        {wishList.length >= 0 && !isLoadingMySellers ? (
           this.state.sellers.length > 0 ? (
             <Button
               onPress={this.onNextPress}
