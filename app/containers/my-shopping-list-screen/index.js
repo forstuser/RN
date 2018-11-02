@@ -209,7 +209,7 @@ class MyShoppingList extends React.Component {
       isMySellersModalVisible
     } = this.state;
 
-    console.log("measurementTypes in index: ", measurementTypes);
+    console.log("wishList in index: ", wishList);
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         {wishList.length == 0 ? (

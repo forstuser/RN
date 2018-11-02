@@ -27,6 +27,19 @@ class CashFreePaymentStatusScreen extends Component {
     orderAmountWebView: "",
     transactionStatus: null
   };
+  componentDidMount() {
+    // BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+  }
+  componentWillUnmount() {
+    // alert("cashfree screen");
+    // BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+  }
+  // handleBackPress = () => {
+  //   const order = this.props.navigation.getParam("order", null);
+  //   this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
+  //     orderId: order.id
+  //   });
+  // };
 
   //function called when payment to be done online
   payOnline = async () => {
@@ -60,7 +73,7 @@ class CashFreePaymentStatusScreen extends Component {
       }
 
       const postData = {
-        appId: "4266316b86143383be42108a6624",
+        appId: "1844ecd62445987b8152c2304481",
         //test -> 1844ecd62445987b8152c2304481, production -> 4266316b86143383be42108a6624
         orderId: (order.id || "").toString(),
         orderAmount: (totalAmount || 0).toString(),
@@ -161,7 +174,7 @@ class CashFreePaymentStatusScreen extends Component {
         originWhitelist={["*"]}
         source={{
           uri:
-            "https://s3.ap-south-1.amazonaws.com/binbillpaymentgateway-prod/index.html"
+            "http://binbillpaymentgateway.s3-website.ap-south-1.amazonaws.com/index.html"
         }}
         style={{
           width: "100%",

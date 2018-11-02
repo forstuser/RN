@@ -95,7 +95,7 @@ class OrderScreen extends React.Component {
 
   componentDidMount() {
     this.getOrderDetails(this.props);
-    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    // BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -103,9 +103,9 @@ class OrderScreen extends React.Component {
       }
     );
 
-    this.props.navigation.setParams({
-      onBackPress: this.onBackPress
-    });
+    // this.props.navigation.setParams({
+    //   onBackPress: this.onBackPress
+    // });
 
     if (socketIo.socket) {
       socketIo.socket.on("order-status-change", data => {
@@ -138,8 +138,10 @@ class OrderScreen extends React.Component {
   }
 
   componentWillUnmount() {
+    // alert("index screen");
+
     this.didFocusSubscription.remove();
-    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+    // BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
 
     if (socketIo.socket) {
       socketIo.socket.off("order-status-change");
@@ -148,13 +150,13 @@ class OrderScreen extends React.Component {
     }
   }
 
-  onBackPress = () => {
-    //alert("Back Pressed");
-    const flag = this.props.navigation.getParam("flag", null);
-    if (flag === true) this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
-    else this.props.navigation.goBack();
-    return true;
-  };
+  // onBackPress = () => {
+  //   //alert("Back Pressed");
+  //   const flag = this.props.navigation.getParam("flag", null);
+  //   if (flag === true) this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+  //   else this.props.navigation.goBack();
+  //   return true;
+  // };
 
   show = item => {
     this.setState({ isVisible: true });
