@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { View, WebView } from "react-native";
+import { View, WebView, BackHandler } from "react-native";
 import { Text, Button, Image } from "../../elements";
-import LoadingOverlay from "../../components/loading-overlay";
 import SuccessImage from "../../images/status_success.png";
 import FailedImage from "../../images/status_cancel.png";
 import PendingImage from "../../images/status_pending.png";
-import CashFreeForm from "./cashfree-form.html";
 
 import {
+  API_BASE_URL,
+  CASHFREE_APP_ID,
   completeOrder,
   getGeneratedSignature,
   getTransactionStatus
@@ -60,7 +60,8 @@ class CashFreePaymentStatusScreen extends Component {
       }
 
       const postData = {
-        appId: "4266316b86143383be42108a6624", //test -> 1844ecd62445987b8152c2304481, production -> 4266316b86143383be42108a6624
+        appId: "4266316b86143383be42108a6624",
+        //test -> 1844ecd62445987b8152c2304481, production -> 4266316b86143383be42108a6624
         orderId: (order.id || "").toString(),
         orderAmount: (totalAmount || 0).toString(),
         orderCurrency: "INR",
@@ -70,11 +71,11 @@ class CashFreePaymentStatusScreen extends Component {
         customerPhone: (user.phone || "").toString()
       };
 
-      console.log("postData===============", postData);
+      //console.log("postData===============", postData);
 
       const res = await getGeneratedSignature(postData);
 
-      console.log("res.result.postData==================", res.result);
+      //console.log("res.result.postData==================", res.result);
 
       this.setState({
         orderIdWebView: res.result.orderId,
@@ -120,40 +121,11 @@ class CashFreePaymentStatusScreen extends Component {
     webViewLoadCount = webViewLoadCount + 1;
   };
 
-  // //called when webview load succeeds or fails
-  // onLoadEndWebView = async () => {
-  //   const { orderIdWebView } = this.state;
-  //   //console.log("orderIDWebView----------", orderIdWebView);
-  //   const res = await getTransactionStatus(orderIdWebView);
-  //   this.setState({ transactionStatus: res });
-  //   if (res && res.status_type) {
-  //     //console.log("RESPONSE____________", res.status);
-  //     if (res.status_type == 16) {
-  //       this.payOnline();
-  //       this.setState({ showWebView: false });
-  //     } else if (
-  //       res.status_type == 18 ||
-  //       res.status_type == 13 ||
-  //       res.status_type == 17 ||
-  //       res.status_type == 8 ||
-  //       res.status_type == 9
-  //     ) {
-  //       this.setState({ showWebView: false });
-  //     } else {
-  //       console.log("Status 4");
-  //     }
-  //   }
-  // };
-
   onNavStateChange = async webViewState => {
-    //console.log("webViewState.url________________", webViewState.url);
-
     //Test -> https://consumer-stage.binbill.com/consumer/payments
     // Production -> https://consumer.binbill.com/consumer/payments
 
-    if (
-      webViewState.url == "https://consumer-stage.binbill.com/consumer/payments"
-    ) {
+    if (webViewState.url == API_BASE_URL + "/consumer/payments") {
       const { orderIdWebView } = this.state;
       //console.log("orderIDWebView----------", orderIdWebView);
       const res = await getTransactionStatus(orderIdWebView);
