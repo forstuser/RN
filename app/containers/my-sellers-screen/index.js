@@ -661,7 +661,7 @@ class MySellersScreen extends React.Component {
                         </Text>
                       </TouchableOpacity>
                     ) : null}
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       onPress={() => this.openCallOptions(item)}
                       style={styles.bottomButton}
                     >
@@ -673,7 +673,7 @@ class MySellersScreen extends React.Component {
                       <Text weight="Medium" style={styles.bottomButtonText}>
                         Call
                       </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED &&
                       item.is_assisted &&
                       item.assisted_services.length > 0 && (
@@ -686,7 +686,7 @@ class MySellersScreen extends React.Component {
                           }
                           style={[
                             styles.bottomButton,
-                            { flex: 1.5, marginLeft: 1 }
+                            { flex: 1, marginLeft: 1 }
                           ]}
                         >
                           <Icon

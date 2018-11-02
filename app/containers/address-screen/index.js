@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity, ScrollView } from "react-native";
+import { View, TouchableOpacity, ScrollView, BackHandler } from "react-native";
 import { Text, TextInput, Button } from "../../elements";
 import AddressView from "./address-view";
 import { colors, defaultStyles } from "../../theme";
@@ -10,6 +10,7 @@ import { SCREENS } from "../../constants";
 import { showSnackbar } from "../../utils/snackbar";
 import LoadingOverlay from "./../../components/loading-overlay";
 import Analytics from "../../analytics";
+import HeaderBackButton from "./../../components/header-nav-back-btn";
 
 import {
   getUserAddresses,
@@ -23,9 +24,21 @@ class AddressScreen extends Component {
     title: "Manage Addresses"
   };
   static navigationOptions = ({ navigation }) => {
+    const flag = navigation.getParam("flag", false);
     const params = navigation.state.params || {};
     return {
-      title: params.sellerId ? "Select Delivery Address" : "Manage Addresses",
+      headerLeft: flag ? (
+        <HeaderBackButton
+          onPress={() => {
+            navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
+          }}
+        />
+      ) : null,
+      title: flag
+        ? "Select Your Location"
+        : params.sellerId
+          ? "Select Delivery Address"
+          : "Manage Addresses",
       headerRight:
         params.sellerId && params.showNext ? (
           <Text
@@ -61,7 +74,16 @@ class AddressScreen extends Component {
     this.props.navigation.setParams({
       makeOrder: this.makeOrder
     });
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
   }
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+  }
+  handleBackPress = () => {
+    const flag = this.props.navigation.getParam("flag", false);
+    if (flag) this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
+    else this.props.navigation.goBack();
+  };
   show = item => {
     this.setState({ isVisible: true });
   };
@@ -167,6 +189,8 @@ class AddressScreen extends Component {
   };
 
   openLocationModal = () => {
+    const flag = this.props.navigation.getParam("flag", false);
+
     this.setState({ showLoader: true });
     RNGooglePlaces.openPlacePickerModal()
       .then(place => {
@@ -222,6 +246,7 @@ class AddressScreen extends Component {
       headerTitle,
       selectedIndex
     } = this.state;
+    const flag = this.props.navigation.getParam("flag", false);
     return (
       <View style={styles.constainer}>
         <ScrollView style={{ flex: 1 }}>
@@ -263,7 +288,9 @@ class AddressScreen extends Component {
             }}
             style={styles.search}
           >
-            <Text style={styles.searchText}>Add New Address</Text>
+            <Text style={styles.searchText}>
+              {flag ? "Select Location" : "Add New Address"}
+            </Text>
             <Text>
               <Icon
                 name="ios-pin-outline"
