@@ -4,7 +4,8 @@ import {
   View,
   TouchableOpacity,
   FlatList,
-  TextInput
+  TextInput,
+  Picker
 } from "react-native";
 
 import Icon from "react-native-vector-icons/Ionicons";
@@ -27,6 +28,7 @@ import { showSnackbar } from "../../utils/snackbar";
 import InviteSellerNameModal from "./invite-seller-name";
 import AddSellerHeader from "./add-seller-header";
 import { SCREENS } from "../../constants";
+import LinearGradient from "react-native-linear-gradient";
 
 export default class MySellersScreen extends React.Component {
   static navigationOptions = {
@@ -42,7 +44,8 @@ export default class MySellersScreen extends React.Component {
     isSearchDone: false,
     location: null,
     searchTerm: "",
-    userDetails: null
+    userDetails: null,
+    selectedAddress: null
   };
 
   componentWillMount() {
@@ -50,6 +53,7 @@ export default class MySellersScreen extends React.Component {
     //console.log("City1_______________", city);
     this.setState({ location: city });
     //console.log("City2_______________", this.state.location);
+
     let userProfile = this.props.navigation.getParam("userDetails", null);
     //console.log("USER PROFILE IN ADD SELLER SCREEN", userProfile);
     this.setState({ userDetails: userProfile });
@@ -63,13 +67,17 @@ export default class MySellersScreen extends React.Component {
   }
 
   componentDidMount() {
-    //console.log("component did mount________________________");
-    // let city = this.props.navigation.getParam("city", null);
-    // console.log("City1_______________", city);
-    // this.setState({ location: city });
-    // console.log("City2_______________", this.state.location);
-    this.getSellers();
-    this.getMySellers();
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.getSellers();
+        this.getMySellers();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   getSellers = async () => {
@@ -150,6 +158,22 @@ export default class MySellersScreen extends React.Component {
     });
   };
 
+  getSellersFromDropDown = async () => {
+    const { selectedAddress } = this.state;
+    const latitude = selectedAddress.latitude;
+    const longitude = selectedAddress.longitude;
+    // console.log(
+    //   "USER ADDRESS SELECTED IN ADD SELLER SCREEN_________",
+    //   selectedAddress
+    // );
+    this.setState({
+      isLoadingSellers: true
+    });
+    const res = await getSellers({ latitude, longitude });
+    //console.log("SELLERS FROM DROP DOWN___________", res.result);
+    this.setState({ sellers: res.result, isLoadingSellers: false });
+  };
+
   render() {
     const { navigation } = this.props;
     const {
@@ -160,6 +184,7 @@ export default class MySellersScreen extends React.Component {
       searchTerm,
       isSearchDone,
       userDetails,
+      selectedAddress,
       isloading
     } = this.state;
 
@@ -168,7 +193,71 @@ export default class MySellersScreen extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={{ flex: 1 }}>
-          <AddSellerHeader navigation={navigation} user={userDetails} />
+          {/* <AddSellerHeader navigation={navigation} user={userDetails} /> */}
+          <View style={styles.container}>
+            <LinearGradient
+              start={{ x: 0.0, y: 0 }}
+              end={{ x: 0.0, y: 1 }}
+              colors={[colors.mainBlue, colors.aquaBlue]}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0
+              }}
+            />
+            <TouchableOpacity
+              style={styles.backIcon}
+              onPress={() => this.props.navigation.goBack()}
+            >
+              <Icon name="md-arrow-back" size={30} color="#fff" />
+            </TouchableOpacity>
+            {userDetails && userDetails.addresses.length < 1 ? (
+              <Text weight="Bold" style={styles.heading}>
+                Search Seller
+              </Text>
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <Picker
+                  mode="dropdown"
+                  selectedValue={
+                    selectedAddress ? selectedAddress : userDetails.addresses[0]
+                  }
+                  style={{
+                    height: 25,
+                    width: 250,
+                    borderRadius: 10,
+                    backgroundColor: "#fff"
+                  }}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({ selectedAddress: itemValue }, () =>
+                      this.getSellersFromDropDown()
+                    )
+                  }
+                >
+                  {userDetails.addresses.map(address => (
+                    <Picker.Item
+                      label={
+                        address.address_line_1
+                          ? address.address_line_1
+                              .concat(", ")
+                              .concat(address.address_line_2)
+                          : address.address_line_2
+                      }
+                      value={address}
+                    />
+                  ))}
+                </Picker>
+              </View>
+            )}
+          </View>
           <View
             style={{
               ...defaultStyles.card,
@@ -253,6 +342,19 @@ export default class MySellersScreen extends React.Component {
                         Already added
                       </Text>
                     )}
+                    <View style={{ position: "absolute", top: 20, right: 10 }}>
+                      <Text>
+                        {item.distance ? item.distance : null}{" "}
+                        <Text>
+                          {item.distanceMetrics ? item.distanceMetrics : null}{" "}
+                        </Text>
+                        <Text>
+                          {item.distance && item.distanceMetrics
+                            ? "away"
+                            : null}
+                        </Text>
+                      </Text>
+                    </View>
                   </TouchableOpacity>
                 );
               }}
@@ -309,3 +411,22 @@ export default class MySellersScreen extends React.Component {
     );
   }
 }
+
+const styles = {
+  container: {
+    height: 50
+  },
+  backIcon: {
+    padding: 10,
+    position: "absolute",
+    top: 0,
+    left: 10,
+    zIndex: 2
+  },
+  heading: {
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 18,
+    marginTop: 10
+  }
+};

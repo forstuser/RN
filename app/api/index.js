@@ -2075,7 +2075,9 @@ export const getSellers = async ({
     url: `/sellers`,
     queryParams: {
       search_value: searchTerm,
-      is_default: is_default
+      is_default: is_default,
+      latitude,
+      longitude
     }
   });
 };
