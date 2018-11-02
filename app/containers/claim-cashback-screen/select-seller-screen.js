@@ -17,10 +17,12 @@ export default class SelectSellerScreen extends React.Component {
       title: "Select Seller",
       headerRight: !selectedSeller ? (
         <TouchableOpacity
-          style={{ paddingHorizontal: 10 }}
+          style={{ paddingHorizontal: 15 }}
           onPress={onSkipPress}
         >
-          <Text style={{ color: colors.pinkishOrange }}>SKIP</Text>
+          <Text weight="Bold" style={{ color: colors.pinkishOrange }}>
+            SKIP
+          </Text>
         </TouchableOpacity>
       ) : null
     };

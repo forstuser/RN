@@ -151,7 +151,9 @@ class CashFreePaymentStatusScreen extends Component {
     //Test -> https://consumer-stage.binbill.com/consumer/payments
     // Production -> https://consumer.binbill.com/consumer/payments
 
-    if (webViewState.url == "https://consumer.binbill.com/consumer/payments") {
+    if (
+      webViewState.url == "https://consumer-stage.binbill.com/consumer/payments"
+    ) {
       const { orderIdWebView } = this.state;
       //console.log("orderIDWebView----------", orderIdWebView);
       const res = await getTransactionStatus(orderIdWebView);

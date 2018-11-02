@@ -53,16 +53,25 @@ export default class ShoppingList extends React.Component {
       <FlatList
         data={guidelines}
         renderItem={({ item }) => (
-          <View style={{ margin: 10, flexDirection: "row" }}>
+          <View
+            style={{
+              margin: 10,
+              flexDirection: "row",
+              // alignContent: "center",
+              // alignSelf: "center",
+              alignItems: "center"
+            }}
+          >
             <Image
-              style={{ height: 70, width: 70 }}
+              style={{ height: 60, width: 60, flex: 1 }}
               source={item.imageUrl}
               resizeMode="contain"
             />
             <View
               style={{
                 padding: 10,
-                width: 300
+                // width: 300,
+                flex: 3
               }}
             >
               <Text style={{ fontSize: 14 }}>{item.heading}</Text>
