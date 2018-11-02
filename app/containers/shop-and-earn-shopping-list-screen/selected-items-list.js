@@ -22,7 +22,7 @@ export default class SelectedItemsList extends React.Component {
       changeIndexQuantity,
       skuItemIdsCurrentlyModifying
     } = this.props;
-
+    console.log("items", selectedItems);
     return (
       <FlatList
         contentContainerStyle={{
