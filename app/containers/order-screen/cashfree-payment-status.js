@@ -181,7 +181,10 @@ class CashFreePaymentStatusScreen extends Component {
     return (
       <WebView
         originWhitelist={["*"]}
-        source={CashFreeForm}
+        source={{
+          uri:
+            "http://binbillpaymentgateway.s3-website.ap-south-1.amazonaws.com/"
+        }}
         style={{
           width: "100%",
           height: "100%"
