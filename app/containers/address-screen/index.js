@@ -90,6 +90,7 @@ class AddressScreen extends Component {
   };
 
   saveAddress = async () => {
+    const flag = this.props.navigation.getParam("flag", false);
     this.hide();
     this.setState({ showLoader: true });
     try {
@@ -108,6 +109,7 @@ class AddressScreen extends Component {
       console.log("updateAddressResponse", updateAddressResponse);
       this.fetchUserAddress();
       this.setState({ showLoader: false });
+      if (flag) this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
     } catch (error) {
       console.log("error: ", error);
     }

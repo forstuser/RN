@@ -62,7 +62,18 @@ export default class MySellersScreen extends React.Component {
       userProfile.addresses &&
       userProfile.addresses.length === 0
     ) {
-      this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN);
+      this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
+        flag: true
+      });
+    }
+    if (
+      userProfile &&
+      userProfile.addresses &&
+      userProfile.addresses.length > 0
+    ) {
+      this.setState({ selectedAddress: userProfile.addresses[0] }, () =>
+        this.getSellersFromDropDown()
+      );
     }
   }
 
@@ -70,7 +81,7 @@ export default class MySellersScreen extends React.Component {
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
-        this.getSellers();
+        //this.getSellers();
         this.getMySellers();
       }
     );
@@ -81,7 +92,9 @@ export default class MySellersScreen extends React.Component {
   }
 
   getSellers = async () => {
-    const { searchTerm, location } = this.state;
+    const { searchTerm, location, selectedAddress } = this.state;
+    const latitude = selectedAddress.latitude;
+    const longitude = selectedAddress.longitude;
 
     // console.log("FETCH_____________________SELLERS");
     // console.log("Location________", location);
@@ -107,10 +120,15 @@ export default class MySellersScreen extends React.Component {
         (searchTerm === undefined || searchTerm === "")
       ) {
         //console.log("Updated Case_________________");
-        res = await getSellers({ is_default: true });
+        res = await getSellers({ is_default: true, latitude, longitude });
       } else {
         //console.log("Default Case_________________");
-        res = await getSellers({ searchTerm, is_default: false });
+        res = await getSellers({
+          searchTerm,
+          is_default: false,
+          latitude,
+          longitude
+        });
       }
       this.setState({ sellers: res.result });
     } catch (error) {
@@ -154,6 +172,8 @@ export default class MySellersScreen extends React.Component {
         this.getSellers();
       } else if (isNaN(searchTerm)) {
         this.getSellers();
+      } else if (searchTerm.length === 0) {
+        this.getSellersFromDropDown();
       }
     });
   };
@@ -213,7 +233,7 @@ export default class MySellersScreen extends React.Component {
             >
               <Icon name="md-arrow-back" size={30} color="#fff" />
             </TouchableOpacity>
-            {userDetails && userDetails.addresses.length < 1 ? (
+            {!userDetails ? (
               <Text weight="Bold" style={styles.heading}>
                 Search Seller
               </Text>
