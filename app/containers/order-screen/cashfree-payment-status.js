@@ -142,24 +142,28 @@ class CashFreePaymentStatusScreen extends Component {
       const { orderIdWebView } = this.state;
       //console.log("orderIDWebView----------", orderIdWebView);
       const res = await getTransactionStatus(orderIdWebView);
-      this.setState({ transactionStatus: res });
-      if (res && res.status_type) {
-        //console.log("RESPONSE____________", res.status);
-        if (res.status_type == 16) {
-          this.payOnline();
-          this.setState({ showWebView: false });
-        } else if (
-          res.status_type == 18 ||
-          res.status_type == 13 ||
-          res.status_type == 17 ||
-          res.status_type == 8 ||
-          res.status_type == 9
-        ) {
-          this.setState({ showWebView: false });
-        } else {
-          console.log("Status 4");
-        }
-      }
+      console.log(res);
+
+      this.setState({ transactionStatus: res, showWebView: false });
+      // },2000)
+
+      // if (res && res.status_type) {
+      //   //console.log("RESPONSE____________", res.status);
+      //   if (res.status_type == 16) {
+      //     // this.payOnline();
+      //     this.setState({ showWebView: false });
+      //   } else if (
+      //     res.status_type == 18 ||
+      //     res.status_type == 13 ||
+      //     res.status_type == 17 ||
+      //     res.status_type == 8 ||
+      //     res.status_type == 9
+      //   ) {
+      //     this.setState({ showWebView: false });
+      //   } else {
+      //     console.log("Status 4");
+      //   }
+      // }
     }
   };
 
@@ -195,13 +199,14 @@ class CashFreePaymentStatusScreen extends Component {
 
   retryPressPending = async () => {
     const { orderIdWebView } = this.state;
+
     const res = await getTransactionStatus(orderIdWebView);
     this.setState({ transactionStatus: res });
-    if (res && res.status_type) {
-      if (res.status_type == 16) {
-        this.payOnline();
-      }
-    }
+    // if (res && res.status_type) {
+    //   if (res.status_type == 16) {
+    //     // this.payOnline();
+    //   }
+    // }
   };
 
   render() {
@@ -225,7 +230,8 @@ class CashFreePaymentStatusScreen extends Component {
         "Your transaction of Rs. " + orderAmountWebView + " was failed";
     } else if (
       (transactionStatus && transactionStatus.status_type == 13) ||
-      (transactionStatus && transactionStatus.status_type == 8)
+      (transactionStatus && transactionStatus.status_type == 8) ||
+      (transactionStatus && transactionStatus.status_type == 4)
     ) {
       statusMessage = "Payment Pending";
       imageSource = PendingImage;
@@ -313,6 +319,7 @@ class CashFreePaymentStatusScreen extends Component {
               {(transactionStatus && transactionStatus.status_type == 18) ||
               (transactionStatus && transactionStatus.status_type == 9) ||
               (transactionStatus && transactionStatus.status_type == 13) ||
+              (transactionStatus && transactionStatus.status_type == 4) ||
               (transactionStatus && transactionStatus.status_type == 8) ||
               (transactionStatus && transactionStatus.status_type == 17) ? (
                 <View style={{ flexDirection: "row", marginTop: 35 }}>
@@ -333,7 +340,8 @@ class CashFreePaymentStatusScreen extends Component {
                       transactionStatus.status_type == 17
                         ? this.retryPressFail
                         : transactionStatus.status_type == 13 ||
-                          transactionStatus.status_type == 8
+                          transactionStatus.status_type == 8 ||
+                          transactionStatus.status_type == 4
                           ? this.retryPressPending
                           : null
                     }

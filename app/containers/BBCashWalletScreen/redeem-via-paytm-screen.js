@@ -70,7 +70,8 @@ class RedeemViaPaytmScreen extends React.Component {
           <Text
             style={{
               color: "#000",
-              fontSize: 18,
+              fontSize: 27,
+              marginTop: -8,
               fontWeight: "bold",
               minWidth: 80,
               textAlign: "center"
@@ -79,8 +80,8 @@ class RedeemViaPaytmScreen extends React.Component {
             {totalCashback}
           </Text>
         </View>
-        <Text style={{ textAlign: "center", fontSize: 11, marginTop: 20 }}>
-          Please confirm your Paytm Number - {this.props.userPhoneNumber} or go
+        <Text style={{ textAlign: "center", fontSize: 14, marginTop: 20 }}>
+          Please confirm your Paytm Number {this.props.userPhoneNumber} or go
           back to Redeem Via Seller
         </Text>
         <Button
