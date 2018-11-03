@@ -60,7 +60,7 @@ class CashbackBillGuidelines extends React.Component {
                 isLoading={isLoading}
               />
             </View>
-            <View tabLabel="Shopping List Guide">
+            <View tabLabel="Shopping List">
               <ShoppingListTab
                 navigation={this.props.navigation}
                 isLoading={isLoading}

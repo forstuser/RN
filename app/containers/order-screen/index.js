@@ -72,8 +72,8 @@ class OrderScreen extends React.Component {
     const params = navigation.state.params || {};
 
     return {
-      title: "Order Details",
-      headerLeft: <HeaderBackBtn onPress={params.onBackPress} />
+      title: "Order Details"
+      // headerLeft: <HeaderBackBtn onPress={params.onBackPress} />
     };
   };
 
@@ -103,9 +103,9 @@ class OrderScreen extends React.Component {
       }
     );
 
-    // this.props.navigation.setParams({
-    //   onBackPress: this.onBackPress
-    // });
+    this.props.navigation.setParams({
+      onBackPress: this.onBackPress
+    });
 
     if (socketIo.socket) {
       socketIo.socket.on("order-status-change", data => {
@@ -150,13 +150,10 @@ class OrderScreen extends React.Component {
     }
   }
 
-  // onBackPress = () => {
-  //   //alert("Back Pressed");
-  //   const flag = this.props.navigation.getParam("flag", null);
-  //   if (flag === true) this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
-  //   else this.props.navigation.goBack();
-  //   return true;
-  // };
+  onBackPress = () => {
+    //alert("Back Pressed");
+    // this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+  };
 
   show = item => {
     this.setState({ isVisible: true });

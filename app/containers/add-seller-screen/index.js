@@ -50,12 +50,8 @@ export default class MySellersScreen extends React.Component {
 
   componentWillMount() {
     let city = this.props.navigation.getParam("city", null);
-    //console.log("City1_______________", city);
     this.setState({ location: city });
-    //console.log("City2_______________", this.state.location);
-
     let userProfile = this.props.navigation.getParam("userDetails", null);
-    //console.log("USER PROFILE IN ADD SELLER SCREEN", userProfile);
     this.setState({ userDetails: userProfile });
     if (
       userProfile &&
@@ -95,11 +91,6 @@ export default class MySellersScreen extends React.Component {
     const { searchTerm, location, selectedAddress } = this.state;
     const latitude = selectedAddress.latitude;
     const longitude = selectedAddress.longitude;
-
-    // console.log("FETCH_____________________SELLERS");
-    // console.log("Location________", location);
-    // console.log("Search term________", searchTerm);
-
     if (searchTerm === undefined || searchTerm === "") {
       if (location != "Gurgaon")
         return showSnackbar({
@@ -108,21 +99,17 @@ export default class MySellersScreen extends React.Component {
     } else if (!isNaN(searchTerm) && searchTerm.length < 10) {
       return showSnackbar({ text: "Please enter 10 digit mobile number" });
     }
-
     this.setState({
       isLoadingSellers: true
     });
     try {
       let res;
-
       if (
         location == "Gurgaon" &&
         (searchTerm === undefined || searchTerm === "")
       ) {
-        //console.log("Updated Case_________________");
         res = await getSellers({ is_default: true, latitude, longitude });
       } else {
-        //console.log("Default Case_________________");
         res = await getSellers({
           searchTerm,
           is_default: false,
@@ -166,7 +153,6 @@ export default class MySellersScreen extends React.Component {
   };
 
   onSearchTermChange = searchTerm => {
-    //console.log('Search Term: ', searchTerm);
     this.setState({ searchTerm, isSearchDone: false }, () => {
       if (!isNaN(searchTerm) && searchTerm.length == 10) {
         this.getSellers();
@@ -182,15 +168,10 @@ export default class MySellersScreen extends React.Component {
     const { selectedAddress } = this.state;
     const latitude = selectedAddress.latitude;
     const longitude = selectedAddress.longitude;
-    // console.log(
-    //   "USER ADDRESS SELECTED IN ADD SELLER SCREEN_________",
-    //   selectedAddress
-    // );
     this.setState({
       isLoadingSellers: true
     });
     const res = await getSellers({ latitude, longitude });
-    //console.log("SELLERS FROM DROP DOWN___________", res.result);
     this.setState({ sellers: res.result, isLoadingSellers: false });
   };
 
@@ -209,7 +190,6 @@ export default class MySellersScreen extends React.Component {
     } = this.state;
 
     const mySellersIds = mySellers.map(seller => seller.id);
-    console.log("Sellers___________________", sellers);
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={{ flex: 1 }}>

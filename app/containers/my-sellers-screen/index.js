@@ -177,6 +177,7 @@ class MySellersScreen extends React.Component {
       isDeleteSeller,
       userData
     } = this.state;
+    console.log("My Sellers", mySellers);
     if (error) {
       <ErrorOverlay error={error} onRetryPress={this.getMySellers} />;
     }
@@ -249,8 +250,9 @@ class MySellersScreen extends React.Component {
                       color: colors.secondaryText
                     }}
                   >
-                    Add your Neighbourhood Sellers for better response in terms
-                    of online orders, faster home delivery and attractive offers
+                    Add your Neighbourhood Sellers (GROCERY/FMCG) for better
+                    response in terms of online orders, faster home delivery and
+                    attractive offers
                   </Text>
                   <Button
                     onPress={() =>
@@ -660,7 +662,22 @@ class MySellersScreen extends React.Component {
                           Order Online
                         </Text>
                       </TouchableOpacity>
-                    ) : null}
+                    ) : (
+                      <View
+                        style={{
+                          // alignSelf: "center",
+                          justifyContent: "center",
+                          flex: 1,
+                          alignContent: "center",
+                          alignItems: "center"
+                        }}
+                      >
+                        <Text>
+                          To open tomorrow -{" "}
+                          {item.seller_details.basic_details.start_time}
+                        </Text>
+                      </View>
+                    )}
                     {/* <TouchableOpacity
                       onPress={() => this.openCallOptions(item)}
                       style={styles.bottomButton}
@@ -676,6 +693,7 @@ class MySellersScreen extends React.Component {
                     </TouchableOpacity> */}
                     {item.seller_type_id == SELLER_TYPE_IDS.VERIFIED &&
                       item.is_assisted &&
+                      flag === false &&
                       item.assisted_services.length > 0 && (
                         <TouchableOpacity
                           onPress={() =>

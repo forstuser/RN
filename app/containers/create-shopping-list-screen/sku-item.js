@@ -284,7 +284,7 @@ export default class SkuItem extends React.Component {
                   <Text
                     weight="Medium"
                     style={[
-                      { color: colors.secondaryText, fontSize: 10 },
+                      { color: colors.secondaryText, fontSize: 12 },
                       skuMeasurement.id == item.activeSkuMeasurementId
                         ? { color: "#fff" }
                         : {}
@@ -304,9 +304,7 @@ export default class SkuItem extends React.Component {
               );
             })}
         </ScrollView>
-        {mrp ? (
-          <Text style={{ fontSize: 10 }}>Suggested Retail Price: ₹{mrp}</Text>
-        ) : null}
+        {mrp ? <Text style={{ fontSize: 14 }}>Price: ₹{mrp}</Text> : null}
         <View
           style={{
             flexDirection: "row",

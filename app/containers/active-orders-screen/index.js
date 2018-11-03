@@ -76,7 +76,8 @@ class ActiveOrdersScreen extends Component {
 
   openOrderScreen = order => {
     this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
-      orderId: order.id
+      orderId: order.id,
+      fromActiveOrderScreen: true
     });
   };
 

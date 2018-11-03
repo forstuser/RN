@@ -140,11 +140,11 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
               color="secondary"
               style={{ marginBottom: 15 }}
             />
-            <Button
+            {/* <Button
               onPress={this.onMayBeLaterPress}
               text="Maybe Later"
               color="grey"
-            />
+            /> */}
           </View>
         </ScrollView>
         <LoadingOverlay visible={isLoading} />

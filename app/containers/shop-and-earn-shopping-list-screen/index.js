@@ -575,26 +575,26 @@ class ShopAndEarnShoppingList extends React.Component {
           </View>
         </Modal>
         {wishList.length >= 0 && !isLoadingMySellers ? (
-          this.state.sellers.length > 0 ? (
-            <Button
-              onPress={this.onNextPress}
-              text="Next"
-              color="secondary"
-              style={{
-                height: 50,
-                width: 250,
-                alignSelf: "center",
-                marginBottom: 15
-              }}
-              textStyle={{ fontSize: 18 }}
-            />
-          ) : (
-            <Text style={styles.noSellerText}>
-              Please invite and add or simply add your nearby retailers to start
-              placing order and avail multiple benefits
-            </Text>
-          )
-        ) : null}
+          // this.state.sellers.length > 0 ? (
+          <Button
+            onPress={this.onNextPress}
+            text="Next"
+            color="secondary"
+            style={{
+              height: 50,
+              width: 250,
+              alignSelf: "center",
+              marginBottom: 15
+            }}
+            textStyle={{ fontSize: 18 }}
+          />
+        ) : // ) : (
+        //   <Text style={styles.noSellerText}>
+        //     Please invite and add or simply add your nearby retailers to start
+        //     placing order and avail multiple benefits
+        //   </Text>
+        // )
+        null}
       </View>
     );
   }

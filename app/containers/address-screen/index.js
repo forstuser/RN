@@ -30,10 +30,18 @@ class AddressScreen extends Component {
       headerLeft: flag ? (
         <HeaderBackButton
           onPress={() => {
-            navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
+            navigation.navigate(SCREENS.MY_SELLERS_SCREEN, {
+              fromAddressScreen: true
+            });
           }}
         />
-      ) : null,
+      ) : (
+        <HeaderBackButton
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+      ),
       title: flag
         ? "Select Your Location"
         : params.sellerId
@@ -131,7 +139,11 @@ class AddressScreen extends Component {
       console.log("updateAddressResponse", updateAddressResponse);
       this.fetchUserAddress();
       this.setState({ showLoader: false });
-      if (flag) this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
+      if (flag) {
+        this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN, {
+          fromAddressScreen: true
+        });
+      }
     } catch (error) {
       console.log("error: ", error);
     }
