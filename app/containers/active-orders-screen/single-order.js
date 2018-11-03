@@ -232,7 +232,7 @@ class SingleOrder extends Component {
           <Text style={styles.data}>Date: {dateTime}</Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View style={{ flex: 1 }}>
-              <Text style={styles.data}>Amount: {amount}</Text>
+              <Text style={styles.data}>Amount: ₹ {amount}</Text>
               {cashbackStatus}
             </View>
           </View>

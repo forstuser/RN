@@ -186,7 +186,7 @@ class ShoppingListItem extends React.Component {
             </View>
 
             {orderStatus != 5 ? (
-              <View style={{ marginTop: 5, alignItems: "flex-end" }}>
+              <View style={{ marginTop: 15, alignItems: "flex-end" }}>
                 <TouchableOpacity onPress={deleteItem}>
                   <Image
                     resizeMode="contain"
