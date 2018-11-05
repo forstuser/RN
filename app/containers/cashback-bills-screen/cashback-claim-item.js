@@ -81,7 +81,8 @@ export default ({ item, cashbackDispersedModal, statusModal }) => {
   if (item.total_cashback > 0) {
     cashbackEarned = (
       <Text style={{ fontSize: 14, marginTop: -5 }}>
-        Cashback Earned :<Text weight="Bold">{` ` + item.total_cashback}</Text>
+        Cashback Earned :
+        <Text weight="Bold">{` ` + item.total_cashback.toFixed(2)}</Text>
       </Text>
     );
   }
@@ -90,7 +91,7 @@ export default ({ item, cashbackDispersedModal, statusModal }) => {
     expectedCashback = (
       <Text style={{ fontSize: 14, marginTop: -5 }}>
         Expected Cashback :
-        <Text weight="Bold">{` ` + item.pending_cashback}</Text>
+        <Text weight="Bold">{` ` + item.pending_cashback.toFixed(2)}</Text>
       </Text>
     );
   }

@@ -14,12 +14,7 @@ import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view";
 
-import {
-  getSellers,
-  getMySellers,
-  linkSeller,
-  getProfileDetail
-} from "../../api";
+import { getSellers, getMySellers, linkSeller } from "../../api";
 
 import { Text, Image, Button } from "../../elements";
 import DrawerScreenContainer from "../../components/drawer-screen-container";
@@ -58,7 +53,6 @@ export default class MySellersScreen extends React.Component {
     let city = this.props.navigation.getParam("city", null);
     this.setState({ location: city });
     let userProfile = this.props.navigation.getParam("userDetails", null);
-    console.log("user 1", userProfile);
     this.setState({ userDetails: userProfile });
     if (
       userProfile &&
@@ -69,23 +63,6 @@ export default class MySellersScreen extends React.Component {
         this.getSellersFromDropDown()
       );
     }
-  }
-
-  getProfileDetail = async () => {
-    try {
-      const r = await getProfileDetail();
-      const user = r.userProfile;
-      console.log("user 2", user);
-      this.setState({ selectedAddress: user.addresses[0] }, () =>
-        this.getSellersFromDropDown()
-      );
-    } catch (error) {
-      console.log("error: ", error);
-    }
-  };
-
-  componentWillUnmount() {
-    this.didFocusSubscription.remove();
   }
 
   getSellers = async () => {

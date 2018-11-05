@@ -10,7 +10,7 @@ import { SCREENS } from "../../constants";
 import { showSnackbar } from "../../utils/snackbar";
 import LoadingOverlay from "./../../components/loading-overlay";
 import Analytics from "../../analytics";
-import HeaderBackButton from "./../../components/header-nav-back-btn";
+// import HeaderBackButton from "./../../components/header-nav-back-btn";
 
 import {
   getUserAddresses,
@@ -28,21 +28,6 @@ class AddressScreen extends Component {
     const flag = navigation.getParam("flag", false);
     const params = navigation.state.params || {};
     return {
-      headerLeft: flag ? (
-        <HeaderBackButton
-          onPress={() => {
-            navigation.navigate(SCREENS.ADD_SELLER_SCREEN, {
-              fromAddressScreen: true
-            });
-          }}
-        />
-      ) : (
-        <HeaderBackButton
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-      ),
       title: flag
         ? "Select Your Location"
         : params.sellerId
@@ -83,16 +68,7 @@ class AddressScreen extends Component {
     this.props.navigation.setParams({
       makeOrder: this.makeOrder
     });
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
   }
-  componentWillUnmount() {
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
-  }
-  handleBackPress = () => {
-    const flag = this.props.navigation.getParam("flag", false);
-    if (flag) this.props.navigation.navigate(SCREENS.ADD_SELLER_SCREEN);
-    else this.props.navigation.goBack();
-  };
   show = item => {
     this.setState({ isVisible: true });
   };
