@@ -14,7 +14,12 @@ import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view";
 
-import { getSellers, getMySellers, linkSeller } from "../../api";
+import {
+  getSellers,
+  getMySellers,
+  linkSeller,
+  getProfileDetail
+} from "../../api";
 
 import { Text, Image, Button } from "../../elements";
 import DrawerScreenContainer from "../../components/drawer-screen-container";
@@ -45,23 +50,16 @@ export default class MySellersScreen extends React.Component {
     location: null,
     searchTerm: "",
     userDetails: null,
-    selectedAddress: null
+    selectedAddress: null,
+    addresses: []
   };
 
   componentWillMount() {
     let city = this.props.navigation.getParam("city", null);
     this.setState({ location: city });
     let userProfile = this.props.navigation.getParam("userDetails", null);
+    console.log("user 1", userProfile);
     this.setState({ userDetails: userProfile });
-    if (
-      userProfile &&
-      userProfile.addresses &&
-      userProfile.addresses.length === 0
-    ) {
-      this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
-        flag: true
-      });
-    }
     if (
       userProfile &&
       userProfile.addresses &&
@@ -73,15 +71,18 @@ export default class MySellersScreen extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.didFocusSubscription = this.props.navigation.addListener(
-      "didFocus",
-      () => {
-        //this.getSellers();
-        this.getMySellers();
-      }
-    );
-  }
+  getProfileDetail = async () => {
+    try {
+      const r = await getProfileDetail();
+      const user = r.userProfile;
+      console.log("user 2", user);
+      this.setState({ selectedAddress: user.addresses[0] }, () =>
+        this.getSellersFromDropDown()
+      );
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
 
   componentWillUnmount() {
     this.didFocusSubscription.remove();

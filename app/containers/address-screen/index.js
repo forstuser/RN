@@ -16,7 +16,8 @@ import {
   getUserAddresses,
   updateUserAddresses,
   deleteUserAddresses,
-  placeOrder
+  placeOrder,
+  getProfileDetail
 } from "../../api";
 
 class AddressScreen extends Component {
@@ -30,7 +31,7 @@ class AddressScreen extends Component {
       headerLeft: flag ? (
         <HeaderBackButton
           onPress={() => {
-            navigation.navigate(SCREENS.MY_SELLERS_SCREEN, {
+            navigation.navigate(SCREENS.ADD_SELLER_SCREEN, {
               fromAddressScreen: true
             });
           }}
@@ -89,7 +90,7 @@ class AddressScreen extends Component {
   }
   handleBackPress = () => {
     const flag = this.props.navigation.getParam("flag", false);
-    if (flag) this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
+    if (flag) this.props.navigation.navigate(SCREENS.ADD_SELLER_SCREEN);
     else this.props.navigation.goBack();
   };
   show = item => {
@@ -104,10 +105,25 @@ class AddressScreen extends Component {
   hideDeleteModal = () => {
     this.setState({ deleteModalShow: false });
   };
+  getProfileDetail = async () => {
+    const flag = this.props.navigation.getParam("flag", false);
+    try {
+      const r = await getProfileDetail();
+      const user = r.userProfile;
+      if (flag) {
+        this.props.navigation.navigate(SCREENS.ADD_SELLER_SCREEN, {
+          fromAddressScreen: true,
+          userDetails: user
+        });
+      }
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
   fetchUserAddress = async () => {
     try {
       const userAddresses = await getUserAddresses();
-      console.log("userAddresses", userAddresses.result);
+      // console.log("userAddresses", userAddresses.result);
       this.setState({
         addresses: userAddresses.result
       });
@@ -120,7 +136,6 @@ class AddressScreen extends Component {
   };
 
   saveAddress = async () => {
-    const flag = this.props.navigation.getParam("flag", false);
     this.hide();
     this.setState({ showLoader: true });
     try {
@@ -138,12 +153,8 @@ class AddressScreen extends Component {
       const updateAddressResponse = await updateUserAddresses(item);
       console.log("updateAddressResponse", updateAddressResponse);
       this.fetchUserAddress();
+      this.getProfileDetail();
       this.setState({ showLoader: false });
-      if (flag) {
-        this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN, {
-          fromAddressScreen: true
-        });
-      }
     } catch (error) {
       console.log("error: ", error);
     }
@@ -188,7 +199,7 @@ class AddressScreen extends Component {
     this.setState({ showLoader: true });
     try {
       const deleteReponse = await deleteUserAddresses(this.state.addreesID);
-      console.log("userAddresses", deleteReponse);
+      // console.log("userAddresses", deleteReponse);
       this.fetchUserAddress();
       this.setState({ showLoader: false });
     } catch (error) {

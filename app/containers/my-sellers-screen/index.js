@@ -101,10 +101,20 @@ class MySellersScreen extends React.Component {
   };
 
   openAddSellerScreen = (location, user) => {
-    this.props.navigation.navigate(SCREENS.ADD_SELLER_SCREEN, {
-      city: location,
-      userDetails: user
-    });
+    // check if user have address or not if address exist go to add seller screen else go to address screen
+    const { userData } = this.state;
+
+    console.log("user deatils", this.state.userData);
+    if (userData.addresses.length === 0) {
+      this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
+        flag: true
+      });
+    } else {
+      this.props.navigation.navigate(SCREENS.ADD_SELLER_SCREEN, {
+        city: location,
+        userDetails: user
+      });
+    }
   };
 
   openRedeemPointsScreen = seller => {
