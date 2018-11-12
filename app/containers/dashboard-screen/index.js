@@ -48,6 +48,7 @@ import ExpenseInsightsContent from "./expense-insights-content";
 import CalendarContent from "../my-calendar-screen";
 import ActiveOrdersScreen from "../active-orders-screen";
 import store from "../../store";
+import Modal from "../../components/modal";
 
 const ascIcon = require("../../images/ic_nav_asc_on.png");
 const chartIcon = require("../../images/ic_bars_chart.png");
@@ -73,7 +74,8 @@ class DashboardScreen extends React.Component {
       upcomingServices: [],
       notificationCount: 0,
       recentSearches: [],
-      activeTabIndex: 0
+      activeTabIndex: 0,
+      isVisibleShopAndEarnModal: false
     };
   }
 
@@ -109,6 +111,7 @@ class DashboardScreen extends React.Component {
         // this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
         //   orderId: 29
         // });
+        this.setState({ isVisibleShopAndEarnModal: true });
       }
     );
 
@@ -134,6 +137,15 @@ class DashboardScreen extends React.Component {
     this.didFocusSubscription.remove();
     this.willBlurSubscription.remove();
   }
+
+  closeShopAndEarnModal = () => {
+    this.setState({ isVisibleShopAndEarnModal: false });
+  };
+
+  onPressShopAndEarn = () => {
+    this.setState({ isVisibleShopAndEarnModal: false });
+    this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN);
+  };
 
   fetchDashboardData = async () => {
     this.setState({
@@ -219,7 +231,8 @@ class DashboardScreen extends React.Component {
       recentSearches,
       upcomingServices,
       isFetchingData,
-      activeTabIndex
+      activeTabIndex,
+      isVisibleShopAndEarnModal
     } = this.state;
 
     return (
@@ -365,6 +378,42 @@ class DashboardScreen extends React.Component {
             //{ ref: this.ascRef, text: I18n.t("asc_tip") }
           ]}
         />
+        <Modal
+          isVisible={isVisibleShopAndEarnModal}
+          title="Earn Paytm Cashback"
+          style={{
+            height: 250,
+            ...defaultStyles.card
+          }}
+          onClosePress={this.closeShopAndEarnModal}
+        >
+          <View
+            style={{
+              flex: 1,
+              padding: 20,
+              justifyContent: "center"
+            }}
+          >
+            <Text
+              weight="Light"
+              style={{ fontSize: 14, textAlign: "center", padding: 10 }}
+            >
+              Earn 10% Paytm Cashback on Milk & 3% on Grocery items. Visit Shop
+              & Earn section for cashbacks now!
+            </Text>
+            <Button
+              text="Shop & Earn Now"
+              onPress={this.onPressShopAndEarn}
+              style={{
+                width: 200,
+                alignSelf: "center",
+                marginTop: 15,
+                height: 40
+              }}
+              color="secondary"
+            />
+          </View>
+        </Modal>
       </ScreenContainer>
     );
   }

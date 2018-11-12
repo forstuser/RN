@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, Picker } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Picker,
+  AsyncStorage
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import ScrollableTabView, {
@@ -19,6 +25,8 @@ import {
   getSellerSkuCategories
 } from "../../api";
 
+import { colors, defaultStyles } from "../../theme";
+import CheckBox from "../../components/checkbox";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { showSnackbar } from "../../utils/snackbar";
@@ -29,9 +37,9 @@ import AddManualItemModal from "./add-manual-item-modal";
 import ClearOrContinuePreviousListModal from "./clear-or-continue-previous-list-modal";
 import FilterModal from "./filter-modal";
 import WishListLimitModal from "./wishlist-limit-modal";
-import { colors } from "../../theme";
 import { SCREENS } from "../../constants";
 import Analytics from "../../analytics";
+import Modal from "../../components/modal";
 
 class ShoppingListScreen extends React.Component {
   state = {
@@ -62,7 +70,9 @@ class ShoppingListScreen extends React.Component {
     selectedSeller: null,
     isWishListLimit: false,
     offset: 0,
-    endhasReachedFlag: false
+    endhasReachedFlag: false,
+    isVisibleCashbackModal: false,
+    neverShowCashbackModal: false
   };
 
   componentDidMount() {
@@ -70,11 +80,35 @@ class ShoppingListScreen extends React.Component {
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
+        this.modalShow();
         this.loadSkuWishList();
         this.fromSellers();
       }
     );
   }
+
+  modalShow = async () => {
+    const neverShowCashback = Boolean(await AsyncStorage.getItem("neverShow"));
+    if (!neverShowCashback) {
+      this.setState({ isVisibleCashbackModal: true });
+    }
+  };
+
+  closeCashbackModal = () => {
+    this.setState({ isVisibleCashbackModal: false });
+  };
+
+  toggleNeverShowCashbackModal = async () => {
+    this.setState({
+      neverShowCashbackModal: !this.state.neverShowCashbackModal
+    });
+    try {
+      await AsyncStorage.setItem(
+        "neverShow",
+        String(!this.state.neverShowCashbackModal)
+      );
+    } catch (e) {}
+  };
 
   componentWillReceiveProps() {
     console.log("componentWillReceiveProps");
@@ -527,7 +561,9 @@ class ShoppingListScreen extends React.Component {
       selectedBrands,
       sellers,
       selectedSeller,
-      endhasReachedFlag
+      endhasReachedFlag,
+      isVisibleCashbackModal,
+      neverShowCashbackModal
     } = this.state;
 
     if (referenceDataError || wishListError) {
@@ -712,6 +748,83 @@ class ShoppingListScreen extends React.Component {
             clearWishList={this.clearWishList}
           />
         </View>
+        <Modal
+          isVisible={isVisibleCashbackModal}
+          title="Shop & Earn Paytm Cashback"
+          style={{
+            height: 400,
+            ...defaultStyles.card
+          }}
+          onClosePress={this.closeCashbackModal}
+        >
+          <View
+            style={{
+              flex: 1,
+              padding: 5,
+              justifyContent: "flex-start"
+            }}
+          >
+            <View style={{ padding: 10 }}>
+              <Text
+                weight="Bold"
+                style={{
+                  padding: 10,
+                  paddingLeft: 5,
+                  paddingBottom: 5,
+                  fontSize: 14
+                }}
+              >
+                Route A:
+              </Text>
+              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
+                (i) Create Shopping List
+              </Text>
+              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
+                (ii) Shop with your List anywhere.
+              </Text>
+              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
+                (iii) Upload valid Bill & Get Cashback.
+              </Text>
+            </View>
+            <View style={{ padding: 10 }}>
+              <Text
+                weight="Bold"
+                style={{
+                  padding: 10,
+                  paddingLeft: 5,
+                  paddingBottom: 5,
+                  fontSize: 14
+                }}
+              >
+                Route B:
+              </Text>
+              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
+                (i) Create Shopping List
+              </Text>
+              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
+                (ii) Place Online Order with a nearby BinBill Store.
+              </Text>
+              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
+                (iii) Pay for your Order & Get Cashback.
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={this.toggleNeverShowCashbackModal}
+              style={{ flexDirection: "row", padding: 15, marginTop: 10 }}
+            >
+              <CheckBox isChecked={neverShowCashbackModal} />
+              <Text
+                style={{
+                  marginLeft: 10,
+                  fontSize: 10,
+                  marginTop: 3
+                }}
+              >
+                Don’t show this message again
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
         <FilterModal
           ref={node => {
             this.filterModal = node;
