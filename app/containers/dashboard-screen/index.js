@@ -75,7 +75,9 @@ class DashboardScreen extends React.Component {
       notificationCount: 0,
       recentSearches: [],
       activeTabIndex: 0,
-      isVisibleShopAndEarnModal: false
+      isVisibleShopAndEarnModal: false,
+      modalTitle: "",
+      modalContent: ""
     };
   }
 
@@ -111,7 +113,7 @@ class DashboardScreen extends React.Component {
         // this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
         //   orderId: 29
         // });
-        this.setState({ isVisibleShopAndEarnModal: true });
+        //this.setState({ isVisibleShopAndEarnModal: true });
       }
     );
 
@@ -148,11 +150,27 @@ class DashboardScreen extends React.Component {
   };
 
   fetchDashboardData = async () => {
+    const { userLocation } = this.props;
     this.setState({
       error: null
     });
     try {
       const dashboardData = await consumerGetDashboard();
+      console.log("Dashboard Data____________________:", dashboardData);
+      this.setState(
+        {
+          modalTitle: dashboardData.pop_up_title,
+          modalContent: dashboardData.pop_up_content
+        },
+        () => {
+          if (
+            dashboardData.current_counter <= dashboardData.pop_up_counter &&
+            userLocation != LOCATIONS.OTHER
+          ) {
+            this.setState({ isVisibleShopAndEarnModal: true });
+          }
+        }
+      );
 
       this.setState(
         {
@@ -380,7 +398,7 @@ class DashboardScreen extends React.Component {
         />
         <Modal
           isVisible={isVisibleShopAndEarnModal}
-          title="Earn Paytm Cashback"
+          title={this.state.modalTitle}
           style={{
             height: 250,
             ...defaultStyles.card
@@ -398,8 +416,7 @@ class DashboardScreen extends React.Component {
               weight="Light"
               style={{ fontSize: 14, textAlign: "center", padding: 10 }}
             >
-              Earn 10% Paytm Cashback on Milk & 3% on Grocery items. Visit Shop
-              & Earn section for cashbacks now!
+              {this.state.modalContent}
             </Text>
             <Button
               text="Shop & Earn Now"

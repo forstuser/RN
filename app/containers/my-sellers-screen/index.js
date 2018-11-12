@@ -278,6 +278,8 @@ class MySellersScreen extends React.Component {
             renderItem={({ item }) => {
               let btnRedeemPoints = null;
               let flag = false;
+              let flagDay = false;
+              let flagTime = false;
               let currrentTime = moment();
               let day = currrentTime.day();
               let opening_days =
@@ -291,14 +293,41 @@ class MySellersScreen extends React.Component {
               let startTime2 = moment(startTime1).format("HH:mm");
               let closeTime1 = moment(closeTime, ["h:mm A"]);
               let closeTime2 = moment(closeTime1).format("HH:mm");
-              if (
-                timeInFormat2 > closeTime2 ||
-                timeInFormat2 < startTime2 ||
-                item.is_logged_out === true ||
-                days.indexOf(day) == -1
-              ) {
-                flag = true;
+              if (startTime2 > closeTime2) {
+                if (
+                  timeInFormat2 < startTime2 ||
+                  item.is_logged_out === true ||
+                  days.indexOf(day) == -1
+                ) {
+                  flag = true;
+                }
+                if (item.is_logged_out === true || days.indexOf(day) == -1) {
+                  flagDay = true;
+                }
+                if (timeInFormat2 < startTime2 || item.is_logged_out === true) {
+                  flagTime = true;
+                }
+              } else {
+                if (
+                  timeInFormat2 > closeTime2 ||
+                  timeInFormat2 < startTime2 ||
+                  item.is_logged_out === true ||
+                  days.indexOf(day) == -1
+                ) {
+                  flag = true;
+                }
+                if (item.is_logged_out === true || days.indexOf(day) == -1) {
+                  flagDay = true;
+                }
+                if (
+                  timeInFormat2 > closeTime2 ||
+                  timeInFormat2 < startTime2 ||
+                  item.is_logged_out === true
+                ) {
+                  flagTime = true;
+                }
               }
+
               btnRedeemPoints = (
                 <Button
                   type="outline"
@@ -682,11 +711,15 @@ class MySellersScreen extends React.Component {
                           alignItems: "center"
                         }}
                       >
-                        <Text>
-                          Open Hours :{" "}
-                          {item.seller_details.basic_details.start_time} -{" "}
-                          {item.seller_details.basic_details.close_time}
-                        </Text>
+                        {flagTime ? (
+                          <Text>
+                            Open Hours -{" "}
+                            {item.seller_details.basic_details.start_time} -{" "}
+                            {item.seller_details.basic_details.close_time}
+                          </Text>
+                        ) : (
+                          <Text>Closed Today, Reopens Tomorrow</Text>
+                        )}
                       </View>
                     )}
                     {/* <TouchableOpacity

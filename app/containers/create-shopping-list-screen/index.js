@@ -4,7 +4,8 @@ import {
   View,
   TouchableOpacity,
   Picker,
-  AsyncStorage
+  AsyncStorage,
+  BackHandler
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -75,6 +76,10 @@ class ShoppingListScreen extends React.Component {
     neverShowCashbackModal: false
   };
 
+  componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+  }
+
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.OPEN_SHOP_N_EARN);
     this.didFocusSubscription = this.props.navigation.addListener(
@@ -86,6 +91,14 @@ class ShoppingListScreen extends React.Component {
       }
     );
   }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+  }
+
+  handleBackPress = () => {
+    this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN);
+  };
 
   modalShow = async () => {
     const neverShowCashback = Boolean(await AsyncStorage.getItem("neverShow"));
