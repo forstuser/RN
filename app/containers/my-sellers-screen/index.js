@@ -683,8 +683,9 @@ class MySellersScreen extends React.Component {
                         }}
                       >
                         <Text>
-                          To open tomorrow -{" "}
-                          {item.seller_details.basic_details.start_time}
+                          Open Hours :{" "}
+                          {item.seller_details.basic_details.start_time} -{" "}
+                          {item.seller_details.basic_details.close_time}
                         </Text>
                       </View>
                     )}
