@@ -189,7 +189,7 @@ class Body extends Component {
         <MoreItem
           onPress={this.onDigitalBillPress}
           imageSource={require("../../images/orders_icon.png")}
-          text={"Digital Bill"}
+          text={"Digital Bill UI"}
           imageStyle={{ width: 20, height: 20 }}
         />
         <MoreItem

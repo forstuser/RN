@@ -1,11 +1,6 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, View, FlatList, Image } from "react-native";
-import { API_BASE_URL, getTips } from "../api";
+import { StyleSheet, View, FlatList, Image } from "react-native";
 import { Text, Button, ScreenContainer } from "../elements";
-import I18n from "../i18n";
-
-import LoadingOverlay from "../components/loading-overlay";
-import ErrorOverlay from "../components/error-overlay";
 import { colors } from "../theme";
 const logo = require("../images/splash.png");
 
@@ -50,6 +45,16 @@ class DigitalBillScreen extends Component {
                   <Text weight="Bold" style={styles.shopName}>
                     Variety Store{" "}
                   </Text>
+                  <Image
+                    source={logo}
+                    style={{
+                      position: "absolute",
+                      right: 5,
+                      top: 0,
+                      width: 50,
+                      height: 50
+                    }}
+                  />
                   <Text style={styles.address}>
                     B-350, I-Tech Park, Sohna Road, Sector - 49, Gurgaon 110012,
                     Haryana
@@ -57,7 +62,7 @@ class DigitalBillScreen extends Component {
                   <Text style={{ fontSize: 12 }}>GSTIN : 39485736254176</Text>
                 </View>
                 <View style={styles.line} />
-                <View style={{ marginTop: 16 }}>
+                <View style={{ marginTop: 7 }}>
                   <View style={styles.billDate}>
                     <Text style={{ fontSize: 12 }}>Bill No. :</Text>
                     <Text style={{ fontSize: 12 }}>893847</Text>
@@ -123,16 +128,7 @@ class DigitalBillScreen extends Component {
             }}
             ListFooterComponent={() => (
               <View>
-                <View
-                  style={{
-                    flex: 1,
-                    borderBottomColor: "#dadada",
-                    borderBottomWidth: 1,
-                    marginHorizontal: 15,
-                    marginBottom: 0,
-                    paddingBottom: 5
-                  }}
-                >
+                <View style={styles.footerView}>
                   <View
                     style={{
                       flex: 1,
@@ -171,33 +167,17 @@ class DigitalBillScreen extends Component {
                 <Text style={{ fontSize: 12, marginHorizontal: 14 }}>
                   Total Quantity : 06
                 </Text>
-                <View
-                  style={{
-                    marginTop: 16,
-                    padding: 7,
-                    backgroundColor: "#f9f9f9"
-                  }}
-                >
+                <View style={styles.taxView}>
                   <Text style={{ fontSize: 12, marginHorizontal: 7 }}>
                     CGST = 300.0 * 2.5% = 7.5 130.0 * 0.0% = 0.0. 67.86 * 6.0% =
                     4.07
                   </Text>
-                  <Text
-                    style={{ fontSize: 12, marginHorizontal: 7, paddingTop: 7 }}
-                  >
-                    Total CGST = 11.57
-                  </Text>
-                  <Text
-                    style={{ fontSize: 12, marginHorizontal: 7, paddingTop: 7 }}
-                  >
+                  <Text style={styles.taxText}>Total CGST = 11.57</Text>
+                  <Text style={styles.taxText}>
                     SGST = 300.0 * 2.5% = 7.5 130.0 * 0.0% = 0.0. 67.86 * 6.0% =
                     4.07
                   </Text>
-                  <Text
-                    style={{ fontSize: 12, marginHorizontal: 7, paddingTop: 7 }}
-                  >
-                    Total SGST = 11.57
-                  </Text>
+                  <Text style={styles.taxText}>Total SGST = 11.57</Text>
                 </View>
 
                 <View
@@ -207,37 +187,16 @@ class DigitalBillScreen extends Component {
                     flexDirection: "column"
                   }}
                 >
-                  <Text
-                    style={{
-                      fontSize: 10,
-                      marginHorizontal: 7,
-                      alignSelf: "center"
-                    }}
-                  >
+                  <Text style={styles.footerText}>
                     *** This is a computer generated invoice and signature is
                     not required
                   </Text>
-                  <Text
-                    style={{
-                      fontSize: 10,
-                      marginHorizontal: 7,
-                      alignSelf: "center"
-                    }}
-                  >
+                  <Text style={styles.footerText}>
                     E&OE: Powered by BinBill
                   </Text>
                 </View>
               </View>
             )}
-            // ItemSeparatorComponent={() => (
-            //   <View
-            //     style={{
-            //       height: 1,
-            //       backgroundColor: "#eee",
-            //       marginHorizontal: 15
-            //     }}
-            //   />
-            // )}
           />
         </View>
       </View>
@@ -276,7 +235,18 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: "#777777",
     flex: 1
-  }
+  },
+  footerView: {
+    flex: 1,
+    borderBottomColor: "#dadada",
+    borderBottomWidth: 1,
+    marginHorizontal: 15,
+    marginBottom: 0,
+    paddingBottom: 5
+  },
+  taxView: { marginTop: 16, padding: 7, backgroundColor: "#f9f9f9" },
+  taxText: { fontSize: 12, marginHorizontal: 7, paddingTop: 7 },
+  footerText: { fontSize: 10, marginHorizontal: 7, alignSelf: "center" }
 });
 
 export default DigitalBillScreen;
