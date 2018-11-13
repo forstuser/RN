@@ -26,6 +26,7 @@ import BillsPopUpScreen from "../containers/bills-popup-screen";
 import FaqScreen from "../containers/faq-screen";
 import MailboxScreen from "../containers/mailbox-screen";
 import TipsScreen from "../containers/tips-screen";
+import DigitalBillScreen from "../containers/digital-bill-screen";
 import ProfileScreen from "../containers/profile-screen";
 import SearchScreen from "../containers/search-screen";
 import AscSearchScreen from "../containers/asc-search-screen";
@@ -196,6 +197,7 @@ export default createStackNavigator(
     [SCREENS.MAILBOX_SCREEN]: MailboxScreen,
     [SCREENS.DO_YOU_KNOW_SCREEN]: DoYouKnowScreen,
     [SCREENS.TIPS_SCREEN]: TipsScreen,
+    [SCREENS.DIGITAL_BILL_SCREEN]: DigitalBillScreen,
     [SCREENS.PROFILE_SCREEN]: ProfileScreen,
     [SCREENS.SEARCH_SCREEN]: SearchScreen,
     [SCREENS.ASC_SEARCH_SCREEN]: AscSearchScreen,
