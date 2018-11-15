@@ -33,7 +33,7 @@ import { SCREENS, SELLER_TYPE_IDS } from "../../constants";
 import { showSnackbar } from "../../utils/snackbar";
 import Analytics from "../../analytics";
 import DeleteSellerModal from "./delete-seller-modal";
-
+import Modal1 from "../../components/modal";
 //import defaultPic from '../../images/default_seller_img.png';
 
 class MySellersScreen extends React.Component {
@@ -45,7 +45,9 @@ class MySellersScreen extends React.Component {
     infoModalVisible: false,
     detailText: "test",
     isDeleteSeller: false,
-    userData: []
+    userData: [],
+    isOrderOnline: false,
+    selectedSeller: null
   };
   showInfoDetailsModal = text => {
     this.setState({ infoModalVisible: true, detailText: text });
@@ -169,17 +171,35 @@ class MySellersScreen extends React.Component {
   };
 
   orderOnlineHomeDelivery = seller => {
-    console.log("seller from seller screen", seller);
-    this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN, {
-      seller: seller
-    });
+    this.setState({ selectedSeller: seller });
+    if (seller.seller_details.basic_details.home_delivery == true) {
+      console.log("seller from seller screen", seller);
+      this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN, {
+        seller: seller
+      });
+    } else {
+      this.setState({ isOrderOnline: true });
+    }
   };
   orderOnlineCollectAtStore = seller => {
+    this.setState({ selectedSeller: seller });
     console.log("seller from seller screen", seller);
     this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN, {
       seller: seller,
       collectAtStoreFlag: true
     });
+  };
+  orderLater = () => {
+    this.setState({ isOrderOnline: false });
+  };
+  orderNow = () => {
+    const { selectedSeller } = this.state;
+    this.setState({ isOrderOnline: false });
+    this.orderOnlineCollectAtStore(selectedSeller);
+  };
+
+  closeModal = () => {
+    this.setState({ isOrderOnline: false });
   };
 
   render() {
@@ -192,7 +212,8 @@ class MySellersScreen extends React.Component {
       infoModalVisible,
       detailText,
       isDeleteSeller,
-      userData
+      userData,
+      isOrderOnline
     } = this.state;
     console.log("My Sellers", mySellers);
     if (error) {
@@ -349,11 +370,7 @@ class MySellersScreen extends React.Component {
               );
 
               let btnHomeDelivery = null;
-              if (
-                item.is_fmcg === true &&
-                flag === false &&
-                item.seller_details.basic_details.home_delivery == true
-              )
+              if (item.is_fmcg === true && flag === false)
                 btnHomeDelivery = (
                   <TouchableOpacity
                     onPress={() => this.orderOnlineHomeDelivery(item)}
@@ -843,6 +860,59 @@ class MySellersScreen extends React.Component {
             </View>
           </Modal>
         </View>
+        <Modal1
+          isVisible={isOrderOnline}
+          title="Order Online"
+          style={{
+            height: 250,
+            ...defaultStyles.card
+          }}
+          onClosePress={this.closeModal}
+        >
+          <View
+            style={{
+              flex: 1,
+              padding: 10,
+              justifyContent: "center"
+            }}
+          >
+            <Text style={{ padding: 10, textAlign: "center", fontSize: 14 }}>
+              Home Delivery not available currently. Come back to Order later or
+              proceed to Order Now & Collect at Store
+            </Text>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <Button
+                text="Order Later"
+                onPress={this.orderLater}
+                style={{
+                  width: 150,
+                  alignSelf: "center",
+                  marginRight: 5,
+                  height: 40
+                }}
+                color="grey"
+              />
+              <Button
+                text="Order Now"
+                onPress={this.orderNow}
+                style={{
+                  width: 150,
+                  alignSelf: "center",
+
+                  height: 40
+                }}
+                color="secondary"
+              />
+            </View>
+          </View>
+        </Modal1>
       </DrawerScreenContainer>
     );
   }

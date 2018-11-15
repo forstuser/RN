@@ -150,19 +150,20 @@ class DashboardScreen extends React.Component {
   };
 
   fetchDashboardData = async () => {
-    const { userLocation } = this.props;
     this.setState({
       error: null
     });
     try {
       const dashboardData = await consumerGetDashboard();
-      console.log("Dashboard Data____________________:", dashboardData);
+      //console.log("Dashboard Data____________________:", dashboardData);
       this.setState(
         {
           modalTitle: dashboardData.pop_up_title,
           modalContent: dashboardData.pop_up_content
         },
         () => {
+          const { userLocation } = this.props;
+          //console.log("USER LOCATION IN DASHBOARD____:", userLocation);
           if (
             dashboardData.current_counter <= dashboardData.pop_up_counter &&
             userLocation != LOCATIONS.OTHER

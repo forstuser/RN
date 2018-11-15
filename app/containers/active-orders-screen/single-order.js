@@ -120,7 +120,7 @@ class SingleOrder extends Component {
     )
       statusType = (
         <Text style={{ fontSize: 11, color: colors.mainBlue }}>
-          COLLECT AT STORE
+          READY FOR PICKUP
         </Text>
       );
     let status = <Text weight="Medium">{statusType}</Text>;

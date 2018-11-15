@@ -82,9 +82,9 @@ class SingleOrder extends Component {
       );
     }
     if (
-      item.available_cashback &&
-      (item.available_cashback == 0 || item.available_cashback == null) &&
-      (ORDER_STATUS_TYPES.REJECTED || ORDER_STATUS_TYPES.COMPLETE)
+      item.available_cashback == 0 ||
+      item.available_cashback == null ||
+      item.available_cashback == ""
     ) {
       cashback = null;
       cashbackStatus = null;
