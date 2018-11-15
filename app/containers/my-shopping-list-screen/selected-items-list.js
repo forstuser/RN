@@ -149,7 +149,7 @@ export default class SelectedItemsList extends React.Component {
                       <Text
                         weight="Medium"
                         style={{
-                          fontSize: 10,
+                          fontSize: 12,
                           color: colors.mainBlue
                         }}
                       >

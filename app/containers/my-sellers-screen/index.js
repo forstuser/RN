@@ -168,10 +168,17 @@ class MySellersScreen extends React.Component {
     }
   };
 
-  orderOnline = seller => {
+  orderOnlineHomeDelivery = seller => {
     console.log("seller from seller screen", seller);
     this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN, {
       seller: seller
+    });
+  };
+  orderOnlineCollectAtStore = seller => {
+    console.log("seller from seller screen", seller);
+    this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN, {
+      seller: seller,
+      collectAtStoreFlag: true
     });
   };
 
@@ -340,6 +347,70 @@ class MySellersScreen extends React.Component {
                   textStyle={{ fontSize: 11 }}
                 />
               );
+
+              let btnHomeDelivery = null;
+              if (
+                item.is_fmcg === true &&
+                flag === false &&
+                item.seller_details.basic_details.home_delivery == true
+              )
+                btnHomeDelivery = (
+                  <TouchableOpacity
+                    onPress={() => this.orderOnlineHomeDelivery(item)}
+                    style={styles.bottomButton}
+                  >
+                    <Image
+                      source={require("../../images/purchase.png")}
+                      style={{ height: 17, width: 17, marginRight: 3 }}
+                      resizeMode="contain"
+                    />
+                    <Text weight="Medium" style={styles.bottomButtonText}>
+                      Order Online and Get Home Delivery
+                    </Text>
+                  </TouchableOpacity>
+                );
+              let btnCollectAtStore = null;
+              if (item.is_fmcg === true && flag === false)
+                btnCollectAtStore = (
+                  <TouchableOpacity
+                    onPress={() => this.orderOnlineCollectAtStore(item)}
+                    style={styles.bottomButton}
+                  >
+                    <Image
+                      source={require("../../images/purchase.png")}
+                      style={{ height: 17, width: 17, marginRight: 3 }}
+                      resizeMode="contain"
+                    />
+                    <Text weight="Medium" style={styles.bottomButtonText}>
+                      Order Online and Collect at Store
+                    </Text>
+                  </TouchableOpacity>
+                );
+              let TextMessage = null;
+              if (btnHomeDelivery == null && btnCollectAtStore == null) {
+                TextMessage = (
+                  <View
+                    style={{
+                      // alignSelf: "center",
+                      justifyContent: "center",
+                      flex: 1,
+                      alignContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    {flagTime ? (
+                      <Text>
+                        Open Hours -{" "}
+                        {item.seller_details.basic_details.start_time} -{" "}
+                        {item.seller_details.basic_details.close_time}
+                      </Text>
+                    ) : (
+                      <Text>Closed Today, Reopens Tomorrow</Text>
+                    )}
+                  </View>
+                );
+              }
+
               return (
                 <TouchableOpacity
                   onPress={() =>
@@ -679,7 +750,7 @@ class MySellersScreen extends React.Component {
                   <View
                     style={{
                       flexDirection: "row",
-                      height: 40,
+                      height: 70,
                       backgroundColor: "#d9d9d9",
                       paddingTop: 1,
                       borderBottomLeftRadius: 10,
@@ -687,41 +758,10 @@ class MySellersScreen extends React.Component {
                       overflow: "hidden"
                     }}
                   >
-                    {item.is_fmcg === true && flag === false ? (
-                      <TouchableOpacity
-                        onPress={() => this.orderOnline(item)}
-                        style={styles.bottomButton}
-                      >
-                        <Image
-                          source={require("../../images/purchase.png")}
-                          style={{ height: 17, width: 17, marginRight: 3 }}
-                          resizeMode="contain"
-                        />
-                        <Text weight="Medium" style={styles.bottomButtonText}>
-                          Order Online
-                        </Text>
-                      </TouchableOpacity>
-                    ) : (
-                      <View
-                        style={{
-                          // alignSelf: "center",
-                          justifyContent: "center",
-                          flex: 1,
-                          alignContent: "center",
-                          alignItems: "center"
-                        }}
-                      >
-                        {flagTime ? (
-                          <Text>
-                            Open Hours -{" "}
-                            {item.seller_details.basic_details.start_time} -{" "}
-                            {item.seller_details.basic_details.close_time}
-                          </Text>
-                        ) : (
-                          <Text>Closed Today, Reopens Tomorrow</Text>
-                        )}
-                      </View>
-                    )}
+                    {btnHomeDelivery}
+                    {btnCollectAtStore}
+                    {TextMessage}
+
                     {/* <TouchableOpacity
                       onPress={() => this.openCallOptions(item)}
                       style={styles.bottomButton}
@@ -810,7 +850,7 @@ class MySellersScreen extends React.Component {
 
 const styles = StyleSheet.create({
   bottomButton: {
-    flexDirection: "row",
+    //flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
@@ -823,7 +863,8 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   bottomButtonText: {
-    fontSize: 12
+    fontSize: 12,
+    textAlign: "center"
   }
 });
 

@@ -93,6 +93,8 @@ import MyOrdersScreen from "../containers/my-orders-screen";
 import CashbackBillGuidelines from "../containers/cashback-bill-guidelines-screen";
 import ShopAndEarnShoppingList from "../containers/shop-and-earn-shopping-list-screen";
 import CashFreePaymentStatusScreen from "../containers/order-screen/cashfree-payment-status";
+import LoaderScreen from "../containers/create-shopping-list-screen/loader";
+
 const BottomTabStack = createBottomTabNavigator(
   {
     [SCREENS.DASHBOARD_SCREEN]: {
@@ -182,12 +184,14 @@ const DrawerNavigator = createDrawerNavigator(
   }
 );
 
-export default createStackNavigator(
+const StackNavigator = createStackNavigator(
+  //export default createStackNavigator(
   {
     DrawerNavigator: {
       screen: DrawerNavigator,
       navigationOptions: { header: null }
     },
+    [SCREENS.LOADER_SCREEN_SHOP_EARN]: LoaderScreen,
     [SCREENS.ASC_SCREEN]: AscScreen,
     [SCREENS.PRODUCT_DETAILS_SCREEN]: ProductDetailsScreen,
     [SCREENS.MAIN_CATEGORY_SCREEN]: MainCategoryScreen,
@@ -264,3 +268,5 @@ export default createStackNavigator(
     initialRouteName: "DrawerNavigator"
   }
 );
+
+export default StackNavigator;

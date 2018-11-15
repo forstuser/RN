@@ -2148,7 +2148,8 @@ export const placeOrder = async ({
   orderType,
   serviceTypeId,
   serviceName,
-  addressId
+  addressId,
+  collect_at_store
 }) => {
   return await apiRequest({
     method: "post",
@@ -2158,7 +2159,8 @@ export const placeOrder = async ({
       order_type: orderType,
       service_type_id: serviceTypeId,
       service_name: serviceName,
-      user_address_id: addressId
+      user_address_id: addressId,
+      collect_at_store
     }
   });
 };

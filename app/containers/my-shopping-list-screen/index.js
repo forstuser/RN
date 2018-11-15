@@ -151,9 +151,17 @@ class MyShoppingList extends React.Component {
   };
 
   proceedToAddressScreen = seller => {
+    const collectAtStoreFlag = this.props.navigation.getParam(
+      "collectAtStoreFlag"
+    );
+    console.log(
+      "collectAtStoreFlag in my shopping list___________",
+      collectAtStoreFlag
+    );
     this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
       sellerId: seller.id,
-      orderType: ORDER_TYPES.FMCG
+      orderType: ORDER_TYPES.FMCG,
+      flag: collectAtStoreFlag
     });
   };
 

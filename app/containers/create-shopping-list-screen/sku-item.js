@@ -54,8 +54,11 @@ export default class SkuItem extends React.Component {
 
     // console.log(
     //   "Image URLs_____________:",
-    //   API_BASE_URL + `/skus/${item.id}/images`
+    //   API_BASE_URL +
+    //     `/skus/${item.id}/measurements/${measurementIdImage}/images
+    // `
     // );
+    //console.log("Item________________", item);
     const {
       isCashbackDetailsModalVisible,
       isPriceDetailsModalVisible
@@ -99,7 +102,7 @@ export default class SkuItem extends React.Component {
 
     let mrp = "";
     let cashback = 0;
-
+    let measurementIdImage = null;
     if (item.sku_measurements) {
       const skuMeasurement =
         item.sku_measurements[item.sku_measurements.length - 1];
@@ -109,10 +112,15 @@ export default class SkuItem extends React.Component {
     }
     let isLoading = false;
 
+    if (item.sku_measurements) {
+      //console.log("item.sku_measurements_____", item.sku_measurements);
+      measurementIdImage = item.sku_measurements[0].id;
+    }
     if (item.sku_measurements && item.activeSkuMeasurementId) {
       const skuMeasurement = item.sku_measurements.find(
         skuMeasurement => skuMeasurement.id == item.activeSkuMeasurementId
       );
+      measurementIdImage = skuMeasurement.id;
       mrp = skuMeasurement.mrp;
       if (skuMeasurement && skuMeasurement.cashback_percent) {
         cashback = (skuMeasurement.mrp * skuMeasurement.cashback_percent) / 100;
@@ -126,6 +134,13 @@ export default class SkuItem extends React.Component {
       }
     }
 
+    //console.log("measurementIdImage__________", measurementIdImage);
+    // console.log(
+    //   "Image URLs_____________:",
+    //   API_BASE_URL +
+    //     `/skus/${item.id}/measurements/${measurementIdImage}/images
+    // `
+    // );
     return (
       <View
         style={[
@@ -171,7 +186,9 @@ export default class SkuItem extends React.Component {
               }}
               resizeMode="contain"
               source={{
-                uri: API_BASE_URL + `/skus/${item.id}/images`
+                uri:
+                  API_BASE_URL +
+                  `/skus/${item.id}/measurements/${measurementIdImage}/images`
               }}
               //source={require("../../images/binbill_logo.png")}
             />

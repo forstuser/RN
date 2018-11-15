@@ -97,7 +97,7 @@ export default class MySellersScreen extends React.Component {
       }
       this.setState({ sellers: res.result });
     } catch (error) {
-      this.setState({ error });
+      return showSnackbar({ text: "Something went wrong. Please try again." });
     } finally {
       this.setState({ isLoadingSellers: false, isSearchDone: true });
     }

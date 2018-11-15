@@ -31,8 +31,8 @@ class AddressScreen extends Component {
       title: flag
         ? "Select Your Location"
         : params.sellerId
-          ? "Select Delivery Address"
-          : "Manage Addresses",
+        ? "Select Delivery Address"
+        : "Manage Addresses",
       headerRight:
         params.sellerId && params.showNext ? (
           <Text
@@ -209,6 +209,10 @@ class AddressScreen extends Component {
 
   makeOrder = async () => {
     Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_SELECT_ADDRESS);
+    console.log(
+      "collectAtStoreFlag while placing order___________",
+      this.props.navigation.getParam("flag")
+    );
     this.setState({ showLoader: true });
     try {
       const res = await placeOrder({
@@ -216,6 +220,7 @@ class AddressScreen extends Component {
         orderType: this.props.navigation.getParam("orderType"),
         serviceName: this.props.navigation.getParam("serviceName"),
         serviceTypeId: this.props.navigation.getParam("serviceTypeId"),
+        collect_at_store: this.props.navigation.getParam("flag"),
         addressId: this.state.addresses[this.state.selectedIndex].id
       });
       const orderId = res.result.id;
