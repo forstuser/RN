@@ -83,12 +83,50 @@ class ShoppingListScreen extends React.Component {
 
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.OPEN_SHOP_N_EARN);
+
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
-        this.modalShow();
-        this.loadSkuWishList();
-        this.fromSellers();
+        this.setState(
+          {
+            maxLimit: null,
+            isLoading: false,
+            isLoadingWishList: false,
+            referenceDataError: null,
+            wishListError: null,
+            measurementTypes: {},
+            mainCategories: [],
+            sellerMainCategories: [],
+            activeMainCategoryId: null,
+            activeCategoryId: null,
+            selectedCategoryIds: [],
+            isBarcodeScannerVisible: false,
+            pastItems: [],
+            wishList: [],
+            skuItemIdsCurrentlyModifying: [],
+            isSearching: false,
+            isSearchDone: false,
+            searchError: null,
+            searchTerm: "",
+            lastSearchTerm3Characters: "",
+            items: [],
+            brands: [],
+            selectedBrands: [],
+            sellers: [],
+            selectedSeller: null,
+            isWishListLimit: false,
+            offset: 0,
+            endhasReachedFlag: false,
+            isVisibleCashbackModal: false,
+            neverShowCashbackModal: false,
+            collectAtStoreFlag: false
+          },
+          () => {
+            this.modalShow();
+            this.loadSkuWishList();
+            this.fromSellers();
+          }
+        );
       }
     );
   }
@@ -431,6 +469,7 @@ class ShoppingListScreen extends React.Component {
 
   clearSearchTerm = () => {
     this.updateSearchTerm("");
+    this.loadReferenceData();
   };
 
   loadItemsFirstPage = () => {
