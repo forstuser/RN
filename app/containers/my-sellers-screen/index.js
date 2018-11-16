@@ -33,7 +33,7 @@ import { SCREENS, SELLER_TYPE_IDS } from "../../constants";
 import { showSnackbar } from "../../utils/snackbar";
 import Analytics from "../../analytics";
 import DeleteSellerModal from "./delete-seller-modal";
-
+import Modal1 from "../../components/modal";
 //import defaultPic from '../../images/default_seller_img.png';
 
 class MySellersScreen extends React.Component {
@@ -45,7 +45,9 @@ class MySellersScreen extends React.Component {
     infoModalVisible: false,
     detailText: "test",
     isDeleteSeller: false,
-    userData: []
+    userData: [],
+    isOrderOnline: false,
+    selectedSeller: null
   };
   showInfoDetailsModal = text => {
     this.setState({ infoModalVisible: true, detailText: text });
@@ -168,11 +170,36 @@ class MySellersScreen extends React.Component {
     }
   };
 
-  orderOnline = seller => {
+  orderOnlineHomeDelivery = seller => {
+    this.setState({ selectedSeller: seller });
+    if (seller.seller_details.basic_details.home_delivery == true) {
+      console.log("seller from seller screen", seller);
+      this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN, {
+        seller: seller
+      });
+    } else {
+      this.setState({ isOrderOnline: true });
+    }
+  };
+  orderOnlineCollectAtStore = seller => {
+    this.setState({ selectedSeller: seller });
     console.log("seller from seller screen", seller);
     this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN, {
-      seller: seller
+      seller: seller,
+      collectAtStoreFlag: true
     });
+  };
+  orderLater = () => {
+    this.setState({ isOrderOnline: false });
+  };
+  orderNow = () => {
+    const { selectedSeller } = this.state;
+    this.setState({ isOrderOnline: false });
+    this.orderOnlineCollectAtStore(selectedSeller);
+  };
+
+  closeModal = () => {
+    this.setState({ isOrderOnline: false });
   };
 
   render() {
@@ -185,7 +212,8 @@ class MySellersScreen extends React.Component {
       infoModalVisible,
       detailText,
       isDeleteSeller,
-      userData
+      userData,
+      isOrderOnline
     } = this.state;
     console.log("My Sellers", mySellers);
     if (error) {
@@ -278,6 +306,8 @@ class MySellersScreen extends React.Component {
             renderItem={({ item }) => {
               let btnRedeemPoints = null;
               let flag = false;
+              let flagDay = false;
+              let flagTime = false;
               let currrentTime = moment();
               let day = currrentTime.day();
               let opening_days =
@@ -291,14 +321,41 @@ class MySellersScreen extends React.Component {
               let startTime2 = moment(startTime1).format("HH:mm");
               let closeTime1 = moment(closeTime, ["h:mm A"]);
               let closeTime2 = moment(closeTime1).format("HH:mm");
-              if (
-                timeInFormat2 > closeTime2 ||
-                timeInFormat2 < startTime2 ||
-                item.is_logged_out === true ||
-                days.indexOf(day) == -1
-              ) {
-                flag = true;
+              if (startTime2 > closeTime2) {
+                if (
+                  timeInFormat2 < startTime2 ||
+                  item.is_logged_out === true ||
+                  days.indexOf(day) == -1
+                ) {
+                  flag = true;
+                }
+                if (item.is_logged_out === true || days.indexOf(day) == -1) {
+                  flagDay = true;
+                }
+                if (timeInFormat2 < startTime2 || item.is_logged_out === true) {
+                  flagTime = true;
+                }
+              } else {
+                if (
+                  timeInFormat2 > closeTime2 ||
+                  timeInFormat2 < startTime2 ||
+                  item.is_logged_out === true ||
+                  days.indexOf(day) == -1
+                ) {
+                  flag = true;
+                }
+                if (item.is_logged_out === true || days.indexOf(day) == -1) {
+                  flagDay = true;
+                }
+                if (
+                  timeInFormat2 > closeTime2 ||
+                  timeInFormat2 < startTime2 ||
+                  item.is_logged_out === true
+                ) {
+                  flagTime = true;
+                }
               }
+
               btnRedeemPoints = (
                 <Button
                   type="outline"
@@ -311,6 +368,66 @@ class MySellersScreen extends React.Component {
                   textStyle={{ fontSize: 11 }}
                 />
               );
+
+              let btnHomeDelivery = null;
+              if (item.is_fmcg === true && flag === false)
+                btnHomeDelivery = (
+                  <TouchableOpacity
+                    onPress={() => this.orderOnlineHomeDelivery(item)}
+                    style={styles.bottomButton}
+                  >
+                    <Image
+                      source={require("../../images/purchase.png")}
+                      style={{ height: 17, width: 17, marginRight: 3 }}
+                      resizeMode="contain"
+                    />
+                    <Text weight="Medium" style={styles.bottomButtonText}>
+                      Order Online and Get Home Delivery
+                    </Text>
+                  </TouchableOpacity>
+                );
+              let btnCollectAtStore = null;
+              if (item.is_fmcg === true && flag === false)
+                btnCollectAtStore = (
+                  <TouchableOpacity
+                    onPress={() => this.orderOnlineCollectAtStore(item)}
+                    style={styles.bottomButton}
+                  >
+                    <Image
+                      source={require("../../images/purchase.png")}
+                      style={{ height: 17, width: 17, marginRight: 3 }}
+                      resizeMode="contain"
+                    />
+                    <Text weight="Medium" style={styles.bottomButtonText}>
+                      Order Online and Collect at Store
+                    </Text>
+                  </TouchableOpacity>
+                );
+              let TextMessage = null;
+              if (btnHomeDelivery == null && btnCollectAtStore == null) {
+                TextMessage = (
+                  <View
+                    style={{
+                      // alignSelf: "center",
+                      justifyContent: "center",
+                      flex: 1,
+                      alignContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    {flagTime ? (
+                      <Text>
+                        Open Hours -{" "}
+                        {item.seller_details.basic_details.start_time} -{" "}
+                        {item.seller_details.basic_details.close_time}
+                      </Text>
+                    ) : (
+                      <Text>Closed Today, Reopens Tomorrow</Text>
+                    )}
+                  </View>
+                );
+              }
+
               return (
                 <TouchableOpacity
                   onPress={() =>
@@ -650,7 +767,7 @@ class MySellersScreen extends React.Component {
                   <View
                     style={{
                       flexDirection: "row",
-                      height: 40,
+                      height: 70,
                       backgroundColor: "#d9d9d9",
                       paddingTop: 1,
                       borderBottomLeftRadius: 10,
@@ -658,37 +775,10 @@ class MySellersScreen extends React.Component {
                       overflow: "hidden"
                     }}
                   >
-                    {item.is_fmcg === true && flag === false ? (
-                      <TouchableOpacity
-                        onPress={() => this.orderOnline(item)}
-                        style={styles.bottomButton}
-                      >
-                        <Image
-                          source={require("../../images/purchase.png")}
-                          style={{ height: 17, width: 17, marginRight: 3 }}
-                          resizeMode="contain"
-                        />
-                        <Text weight="Medium" style={styles.bottomButtonText}>
-                          Order Online
-                        </Text>
-                      </TouchableOpacity>
-                    ) : (
-                      <View
-                        style={{
-                          // alignSelf: "center",
-                          justifyContent: "center",
-                          flex: 1,
-                          alignContent: "center",
-                          alignItems: "center"
-                        }}
-                      >
-                        <Text>
-                          Open Hours :{" "}
-                          {item.seller_details.basic_details.start_time} -{" "}
-                          {item.seller_details.basic_details.close_time}
-                        </Text>
-                      </View>
-                    )}
+                    {btnHomeDelivery}
+                    {btnCollectAtStore}
+                    {TextMessage}
+
                     {/* <TouchableOpacity
                       onPress={() => this.openCallOptions(item)}
                       style={styles.bottomButton}
@@ -770,6 +860,59 @@ class MySellersScreen extends React.Component {
             </View>
           </Modal>
         </View>
+        <Modal1
+          isVisible={isOrderOnline}
+          title="Order Online"
+          style={{
+            height: 250,
+            ...defaultStyles.card
+          }}
+          onClosePress={this.closeModal}
+        >
+          <View
+            style={{
+              flex: 1,
+              padding: 10,
+              justifyContent: "center"
+            }}
+          >
+            <Text style={{ padding: 10, textAlign: "center", fontSize: 14 }}>
+              Home Delivery not available currently. Come back to Order later or
+              proceed to Order Now & Collect at Store
+            </Text>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <Button
+                text="Order Later"
+                onPress={this.orderLater}
+                style={{
+                  width: 150,
+                  alignSelf: "center",
+                  marginRight: 5,
+                  height: 40
+                }}
+                color="grey"
+              />
+              <Button
+                text="Order Now"
+                onPress={this.orderNow}
+                style={{
+                  width: 150,
+                  alignSelf: "center",
+
+                  height: 40
+                }}
+                color="secondary"
+              />
+            </View>
+          </View>
+        </Modal1>
       </DrawerScreenContainer>
     );
   }
@@ -777,7 +920,7 @@ class MySellersScreen extends React.Component {
 
 const styles = StyleSheet.create({
   bottomButton: {
-    flexDirection: "row",
+    //flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
@@ -790,7 +933,8 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   bottomButtonText: {
-    fontSize: 12
+    fontSize: 12,
+    textAlign: "center"
   }
 });
 

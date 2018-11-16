@@ -48,6 +48,7 @@ import ExpenseInsightsContent from "./expense-insights-content";
 import CalendarContent from "../my-calendar-screen";
 import ActiveOrdersScreen from "../active-orders-screen";
 import store from "../../store";
+import Modal from "../../components/modal";
 
 const ascIcon = require("../../images/ic_nav_asc_on.png");
 const chartIcon = require("../../images/ic_bars_chart.png");
@@ -73,7 +74,10 @@ class DashboardScreen extends React.Component {
       upcomingServices: [],
       notificationCount: 0,
       recentSearches: [],
-      activeTabIndex: 0
+      activeTabIndex: 0,
+      isVisibleShopAndEarnModal: false,
+      modalTitle: "",
+      modalContent: ""
     };
   }
 
@@ -109,6 +113,7 @@ class DashboardScreen extends React.Component {
         // this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
         //   orderId: 29
         // });
+        //this.setState({ isVisibleShopAndEarnModal: true });
       }
     );
 
@@ -135,12 +140,38 @@ class DashboardScreen extends React.Component {
     this.willBlurSubscription.remove();
   }
 
+  closeShopAndEarnModal = () => {
+    this.setState({ isVisibleShopAndEarnModal: false });
+  };
+
+  onPressShopAndEarn = () => {
+    this.setState({ isVisibleShopAndEarnModal: false });
+    this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN);
+  };
+
   fetchDashboardData = async () => {
     this.setState({
       error: null
     });
     try {
       const dashboardData = await consumerGetDashboard();
+      //console.log("Dashboard Data____________________:", dashboardData);
+      this.setState(
+        {
+          modalTitle: dashboardData.pop_up_title,
+          modalContent: dashboardData.pop_up_content
+        },
+        () => {
+          const { userLocation } = this.props;
+          //console.log("USER LOCATION IN DASHBOARD____:", userLocation);
+          if (
+            dashboardData.current_counter <= dashboardData.pop_up_counter &&
+            userLocation != LOCATIONS.OTHER
+          ) {
+            this.setState({ isVisibleShopAndEarnModal: true });
+          }
+        }
+      );
 
       this.setState(
         {
@@ -219,7 +250,8 @@ class DashboardScreen extends React.Component {
       recentSearches,
       upcomingServices,
       isFetchingData,
-      activeTabIndex
+      activeTabIndex,
+      isVisibleShopAndEarnModal
     } = this.state;
 
     return (
@@ -365,6 +397,41 @@ class DashboardScreen extends React.Component {
             //{ ref: this.ascRef, text: I18n.t("asc_tip") }
           ]}
         />
+        <Modal
+          isVisible={isVisibleShopAndEarnModal}
+          title={this.state.modalTitle}
+          style={{
+            height: 250,
+            ...defaultStyles.card
+          }}
+          onClosePress={this.closeShopAndEarnModal}
+        >
+          <View
+            style={{
+              flex: 1,
+              padding: 20,
+              justifyContent: "center"
+            }}
+          >
+            <Text
+              weight="Light"
+              style={{ fontSize: 14, textAlign: "center", padding: 10 }}
+            >
+              {this.state.modalContent}
+            </Text>
+            <Button
+              text="Shop & Earn Now"
+              onPress={this.onPressShopAndEarn}
+              style={{
+                width: 200,
+                alignSelf: "center",
+                marginTop: 15,
+                height: 40
+              }}
+              color="secondary"
+            />
+          </View>
+        </Modal>
       </ScreenContainer>
     );
   }

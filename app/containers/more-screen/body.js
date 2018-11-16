@@ -7,7 +7,8 @@ import {
   Image,
   Alert,
   Linking,
-  Share
+  Share,
+  BackHandler
 } from "react-native";
 import { connect } from "react-redux";
 import DeviceInfo from "react-native-device-info";

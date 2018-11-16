@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, Picker } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Picker,
+  AsyncStorage,
+  BackHandler
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import ScrollableTabView, {
@@ -19,6 +26,8 @@ import {
   getSellerSkuCategories
 } from "../../api";
 
+import { colors, defaultStyles } from "../../theme";
+import CheckBox from "../../components/checkbox";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { showSnackbar } from "../../utils/snackbar";
@@ -29,9 +38,9 @@ import AddManualItemModal from "./add-manual-item-modal";
 import ClearOrContinuePreviousListModal from "./clear-or-continue-previous-list-modal";
 import FilterModal from "./filter-modal";
 import WishListLimitModal from "./wishlist-limit-modal";
-import { colors } from "../../theme";
 import { SCREENS } from "../../constants";
 import Analytics from "../../analytics";
+import Modal from "../../components/modal";
 
 class ShoppingListScreen extends React.Component {
   state = {
@@ -62,19 +71,135 @@ class ShoppingListScreen extends React.Component {
     selectedSeller: null,
     isWishListLimit: false,
     offset: 0,
-    endhasReachedFlag: false
+    endhasReachedFlag: false,
+    isVisibleCashbackModal: false,
+    neverShowCashbackModal: false,
+    collectAtStoreFlag: false
   };
+
+  // componentWillMount() {
+  //   BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+  // }
 
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.OPEN_SHOP_N_EARN);
+
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
-        this.loadSkuWishList();
-        this.fromSellers();
+        this.setState(
+          {
+            maxLimit: null,
+            isLoading: false,
+            isLoadingWishList: false,
+            referenceDataError: null,
+            wishListError: null,
+            measurementTypes: {},
+            mainCategories: [],
+            sellerMainCategories: [],
+            activeMainCategoryId: null,
+            activeCategoryId: null,
+            selectedCategoryIds: [],
+            isBarcodeScannerVisible: false,
+            pastItems: [],
+            wishList: [],
+            skuItemIdsCurrentlyModifying: [],
+            isSearching: false,
+            isSearchDone: false,
+            searchError: null,
+            searchTerm: "",
+            lastSearchTerm3Characters: "",
+            items: [],
+            brands: [],
+            selectedBrands: [],
+            sellers: [],
+            selectedSeller: null,
+            isWishListLimit: false,
+            offset: 0,
+            endhasReachedFlag: false,
+            isVisibleCashbackModal: false,
+            neverShowCashbackModal: false,
+            collectAtStoreFlag: false
+          },
+          () => {
+            this.modalShow();
+            this.loadSkuWishList();
+            this.fromSellers();
+          }
+        );
       }
     );
   }
+
+  // componentWillUnmount() {
+  //   BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+  // }
+
+  // handleBackPress = () => {
+  //   this.props.navigation.navigate(SCREENS.LOADER_SCREEN_SHOP_EARN);
+  //   this.setState(
+  //     {
+  //       maxLimit: null,
+  //       isLoading: false,
+  //       isLoadingWishList: false,
+  //       referenceDataError: null,
+  //       wishListError: null,
+  //       measurementTypes: {},
+  //       mainCategories: [],
+  //       sellerMainCategories: [],
+  //       activeMainCategoryId: null,
+  //       activeCategoryId: null,
+  //       selectedCategoryIds: [],
+  //       isBarcodeScannerVisible: false,
+  //       pastItems: [],
+  //       wishList: [],
+  //       skuItemIdsCurrentlyModifying: [],
+  //       isSearching: false,
+  //       isSearchDone: false,
+  //       searchError: null,
+  //       searchTerm: "",
+  //       lastSearchTerm3Characters: "",
+  //       items: [],
+  //       brands: [],
+  //       selectedBrands: [],
+  //       sellers: [],
+  //       selectedSeller: null,
+  //       isWishListLimit: false,
+  //       offset: 0,
+  //       endhasReachedFlag: false,
+  //       isVisibleCashbackModal: false,
+  //       neverShowCashbackModal: false
+  //     },
+  //     () => {
+  //       this.modalShow();
+  //       this.loadSkuWishList();
+  //       this.fromSellers();
+  //     }
+  //   );
+  // };
+
+  modalShow = async () => {
+    const neverShowCashback = Boolean(await AsyncStorage.getItem("neverShow"));
+    if (!neverShowCashback) {
+      this.setState({ isVisibleCashbackModal: true });
+    }
+  };
+
+  closeCashbackModal = () => {
+    this.setState({ isVisibleCashbackModal: false });
+  };
+
+  toggleNeverShowCashbackModal = async () => {
+    this.setState({
+      neverShowCashbackModal: !this.state.neverShowCashbackModal
+    });
+    try {
+      await AsyncStorage.setItem(
+        "neverShow",
+        String(!this.state.neverShowCashbackModal)
+      );
+    } catch (e) {}
+  };
 
   componentWillReceiveProps() {
     console.log("componentWillReceiveProps");
@@ -83,6 +208,11 @@ class ShoppingListScreen extends React.Component {
   fromSellers = () => {
     // this.loadItemsForSellerList();
     const seller = this.props.navigation.getParam("seller", null);
+    const collectAtStoreFlagFromSeller = this.props.navigation.getParam(
+      "collectAtStoreFlag",
+      false
+    );
+    this.setState({ collectAtStoreFlag: collectAtStoreFlagFromSeller });
 
     console.log("selected seller is ", seller);
 
@@ -94,7 +224,10 @@ class ShoppingListScreen extends React.Component {
     // }
     if (seller) {
       this.setSelectedSellers(seller ? [{ ...seller }] : []);
-      this.props.navigation.setParams({ seller: null });
+      this.props.navigation.setParams({
+        seller: null,
+        collectAtStoreFlag: false
+      });
     }
   };
 
@@ -336,6 +469,7 @@ class ShoppingListScreen extends React.Component {
 
   clearSearchTerm = () => {
     this.updateSearchTerm("");
+    this.loadReferenceData();
   };
 
   loadItemsFirstPage = () => {
@@ -527,8 +661,16 @@ class ShoppingListScreen extends React.Component {
       selectedBrands,
       sellers,
       selectedSeller,
-      endhasReachedFlag
+      endhasReachedFlag,
+      isVisibleCashbackModal,
+      neverShowCashbackModal,
+      collectAtStoreFlag
     } = this.state;
+
+    console.log(
+      "collectAtStoreFlag in create shopping list___________",
+      collectAtStoreFlag
+    );
 
     if (referenceDataError || wishListError) {
       return (
@@ -608,7 +750,8 @@ class ShoppingListScreen extends React.Component {
                   measurementTypes: measurementTypes,
                   wishList,
                   changeIndexQuantity: this.changeIndexQuantity,
-                  selectedSeller: selectedSeller
+                  selectedSeller: selectedSeller,
+                  collectAtStoreFlag
                 });
               }}
             >
@@ -712,6 +855,83 @@ class ShoppingListScreen extends React.Component {
             clearWishList={this.clearWishList}
           />
         </View>
+        <Modal
+          isVisible={isVisibleCashbackModal}
+          title="Shop & Earn Paytm Cashback"
+          style={{
+            height: 400,
+            ...defaultStyles.card
+          }}
+          onClosePress={this.closeCashbackModal}
+        >
+          <View
+            style={{
+              flex: 1,
+              padding: 5,
+              justifyContent: "flex-start"
+            }}
+          >
+            <View style={{ padding: 10 }}>
+              <Text
+                weight="Bold"
+                style={{
+                  padding: 10,
+                  paddingLeft: 5,
+                  paddingBottom: 5,
+                  fontSize: 14
+                }}
+              >
+                Route A:
+              </Text>
+              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
+                (i) Create Shopping List
+              </Text>
+              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
+                (ii) Shop with your List anywhere.
+              </Text>
+              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
+                (iii) Upload valid Bill & Get Cashback.
+              </Text>
+            </View>
+            <View style={{ padding: 10 }}>
+              <Text
+                weight="Bold"
+                style={{
+                  padding: 10,
+                  paddingLeft: 5,
+                  paddingBottom: 5,
+                  fontSize: 14
+                }}
+              >
+                Route B:
+              </Text>
+              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
+                (i) Create Shopping List
+              </Text>
+              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
+                (ii) Place Online Order with a nearby BinBill Store.
+              </Text>
+              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
+                (iii) Pay for your Order & Get Cashback.
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={this.toggleNeverShowCashbackModal}
+              style={{ flexDirection: "row", padding: 15, marginTop: 10 }}
+            >
+              <CheckBox isChecked={neverShowCashbackModal} />
+              <Text
+                style={{
+                  marginLeft: 10,
+                  fontSize: 10,
+                  marginTop: 3
+                }}
+              >
+                Don’t show this message again
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
         <FilterModal
           ref={node => {
             this.filterModal = node;

@@ -105,10 +105,22 @@ class SingleOrder extends Component {
           AUTO CANCELLED
         </Text>
       );
-    else if (item.status_type === ORDER_STATUS_TYPES.OUT_FOR_DELIVERY)
+    else if (
+      item.status_type === ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+      item.collect_at_store === false
+    )
       statusType = (
         <Text style={{ fontSize: 11, color: colors.mainBlue }}>
           OUT FOR DELIVERY
+        </Text>
+      );
+    else if (
+      item.status_type === ORDER_STATUS_TYPES.OUT_FOR_DELIVERY &&
+      item.collect_at_store === true
+    )
+      statusType = (
+        <Text style={{ fontSize: 11, color: colors.mainBlue }}>
+          READY FOR PICKUP
         </Text>
       );
     let status = <Text weight="Medium">{statusType}</Text>;

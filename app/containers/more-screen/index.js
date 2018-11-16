@@ -4,7 +4,8 @@ import {
   StyleSheet,
   View,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  BackHandler
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
@@ -48,7 +49,6 @@ class MoreScreen extends Component {
 
   componentDidMount() {
     this.fetchProfile();
-
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {

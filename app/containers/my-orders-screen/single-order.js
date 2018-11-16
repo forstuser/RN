@@ -81,12 +81,17 @@ class SingleOrder extends Component {
         />
       );
     }
-
     if (
-      item.cashback_status === null ||
+      item.available_cashback == 0 ||
+      item.available_cashback == null ||
+      item.available_cashback == ""
+    ) {
+      cashback = null;
+      cashbackStatus = null;
+    } else if (
+      //item.cashback_status === null ||
       item.cashback_status === ORDER_STATUS_TYPES.EXPIRED ||
-      item.cashback_status === ORDER_STATUS_TYPES.CANCELED ||
-      item.cashback_status === ORDER_STATUS_TYPES.REJECTED
+      item.cashback_status === ORDER_STATUS_TYPES.CANCELED
     ) {
       cashback = <Text weight="Bold">0</Text>;
       cashbackStatus = (

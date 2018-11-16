@@ -461,28 +461,61 @@ class OrderScreen extends React.Component {
         return item.selling_price ? total + Number(item.selling_price) : total;
       }, 0);
     }
-    if (index === 3 && order.is_credit_allowed) return;
-    else if (index === 0) {
+    if (index === 3 && order.is_credit_allowed && order.seller.pay_online)
+      return;
+    else if (
+      index === 1 &&
+      !order.is_credit_allowed &&
+      !order.seller.pay_online
+    )
+      return;
+    else if (index === 0 && order.seller.pay_online == true) {
       //this.setState({ showWebView: true });
       this.props.navigation.navigate(SCREENS.CASHFREE_PAYMENT_STATUS_SCREEN, {
         order: order,
         user: user
       });
-    } else if (index === 1) {
+    } else if (index === 0 && order.seller.pay_online == false) {
+      this.payOffline();
+    } else if (index === 1 && order.seller.pay_online == true) {
       this.payOffline();
     } else if (
+      order.seller.pay_online === true &&
       index === 2 &&
       order.is_credit_allowed &&
       order.credit_limit >= totalAmount
     ) {
       this.payByCredit();
     } else if (
+      order.seller.pay_online === true &&
       index === 2 &&
       order.is_credit_allowed &&
       order.credit_limit < totalAmount
     ) {
       alert("You have surpassed your credit limit");
-    } else if (index === 2 && !order.is_credit_allowed) {
+    } else if (
+      index === 2 &&
+      (!order.is_credit_allowed || !order.seller.pay_online)
+    ) {
+      return;
+    } else if (
+      order.seller.pay_online === false &&
+      index === 1 &&
+      order.is_credit_allowed &&
+      order.credit_limit >= totalAmount
+    ) {
+      this.payByCredit();
+    } else if (
+      order.seller.pay_online == false &&
+      index === 1 &&
+      order.is_credit_allowed &&
+      order.credit_limit < totalAmount
+    ) {
+      alert("You have surpassed your credit limit");
+    } else if (
+      index === 2 &&
+      (!order.is_credit_allowed || !order.seller.pay_online)
+    ) {
       return;
     }
   };
@@ -628,10 +661,23 @@ class OrderScreen extends React.Component {
 
     let options = ["Pay Online", "Pay Offline", "Credit"];
     let cancelIndex = 3;
-    if (order && !order.is_credit_allowed) {
+    if (order && !order.seller.pay_online && order.is_credit_allowed) {
+      cancelIndex = 2;
+      options = [
+        "Pay Offline",
+        order.credit_limit < totalAmount ? (
+          <Text style={{ fontSize: 18, color: "grey" }}>On Credit</Text>
+        ) : (
+          "On Credit"
+        )
+      ];
+    } else if (order && !order.seller.pay_online && !order.is_credit_allowed) {
+      cancelIndex = 1;
+      options = ["Pay Offline"];
+    } else if (order && !order.is_credit_allowed && order.seller.pay_online) {
       cancelIndex = 2;
       options = ["Pay Online", "Pay Offline"];
-    } else if (order && order.is_credit_allowed) {
+    } else if (order && order.is_credit_allowed && order.seller.pay_online) {
       cancelIndex = 3;
       options = [
         "Pay Online",

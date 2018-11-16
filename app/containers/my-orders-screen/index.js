@@ -46,6 +46,12 @@ export default class OrdersList extends React.Component {
     });
   };
 
+  handleMoreOrders = () => {
+    this.setState({ isLoading: true }, () => {
+      this.loadOrders();
+    });
+  };
+
   render() {
     const { isLoading, error, orders } = this.state;
     return (
@@ -60,6 +66,13 @@ export default class OrdersList extends React.Component {
           onRefresh={this.loadOrders}
           keyExtractor={item => item.id}
           renderItem={this.renderOrders}
+          onEndReached={({ distanceFromEnd }) => {
+            if (distanceFromEnd >= 0) {
+              this.handleMoreOrders();
+            }
+            //console.log("on end reached ", distanceFromEnd);
+          }}
+          onEndReachedThreshold={0.5}
           ListEmptyComponent={() =>
             !isLoading ? (
               <View

@@ -133,7 +133,7 @@ class DealsScreen extends Component {
           this.scrollableTabView = ref;
         }}
         iconSource={offersIcon}
-        title="Offers & Accessories"
+        title="Offers"
         onTabChange={this.onTabChange}
         headerRight={
           <View style={{ flexDirection: "row" }}>
@@ -178,30 +178,30 @@ class DealsScreen extends Component {
         }
         tabs={[
           <OffersTab
-            tabLabel="Offers"
+            //tabLabel=""
             setOffersFilterModalRef={ref => {
               this.offersFilterModalRef = ref;
             }}
             setSelectedOfferCategory={selectedOfferCategory => {
               this.setState({ selectedOfferCategory });
             }}
-          />,
-          <AccessoriesTab
-            accessoriesTabRef={ref => {
-              this.accessoriesTab = ref;
-            }}
-            tabLabel="Accessories"
-            hideFilter={this.hideFilter}
-            showFilter={this.showFilter}
-            ref={ref => (this.accessoriesTab = ref)}
-            setAccessoryCategories={accessoryCategories =>
-              this.setState({
-                accessoryCategories,
-                selectedAccessoryCategoryIds: []
-              })
-            }
-            selectedAccessoryCategoryIds={selectedAccessoryCategoryIds}
           />
+          // <AccessoriesTab
+          //   accessoriesTabRef={ref => {
+          //     this.accessoriesTab = ref;
+          //   }}
+          //   tabLabel="Accessories"
+          //   hideFilter={this.hideFilter}
+          //   showFilter={this.showFilter}
+          //   ref={ref => (this.accessoriesTab = ref)}
+          //   setAccessoryCategories={accessoryCategories =>
+          //     this.setState({
+          //       accessoryCategories,
+          //       selectedAccessoryCategoryIds: []
+          //     })
+          //   }
+          //   selectedAccessoryCategoryIds={selectedAccessoryCategoryIds}
+          // />
         ]}
       >
         <AccessoryCategoriesFilterModal

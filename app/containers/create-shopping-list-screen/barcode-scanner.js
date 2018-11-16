@@ -79,7 +79,7 @@ export default class BarcodeScanner extends React.Component {
         isVisible={visible}
         title="Scan Item Barcode"
         style={{
-          height: 300,
+          height: 310,
           ...defaultStyles.card
         }}
         onClosePress={this.closeModal}

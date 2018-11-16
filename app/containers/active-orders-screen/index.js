@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image, ScrollView, FlatList } from "react-native";
+import { View, Image, ScrollView, FlatList, Dimensions } from "react-native";
 
 import { Text, Button } from "../../elements";
 import SingleDeliveryOrder from "./single-delivery-order";
@@ -95,6 +95,12 @@ class ActiveOrdersScreen extends Component {
     );
   };
 
+  handleMoreActiveOrders = () => {
+    this.setState({ isFetchingData: true }, () => {
+      this.fetchActiveOrders();
+    });
+  };
+
   render() {
     const {
       activeDeliveryOrders,
@@ -113,6 +119,13 @@ class ActiveOrdersScreen extends Component {
             keyExtractor={(item, index) => item.id}
             onRefresh={this.fetchActiveOrders}
             refreshing={this.state.isFetchingData}
+            onEndReached={({ distanceFromEnd }) => {
+              if (distanceFromEnd >= 0) {
+                this.handleMoreActiveOrders();
+              }
+              //console.log("on end reached ", distanceFromEnd);
+            }}
+            onEndReachedThreshold={0.5}
           />
         </View>
       );

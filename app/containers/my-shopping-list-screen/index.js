@@ -58,7 +58,9 @@ class MyShoppingList extends React.Component {
     isLoadingMySellers: false,
     isMySellersModalVisible: false,
     sellers: [],
-    showPlusMinusDelete: false
+    showPlusMinusDelete: false,
+    isOrderOnline: false,
+    selectedSeller: null
   };
 
   componentDidMount() {
@@ -151,14 +153,23 @@ class MyShoppingList extends React.Component {
   };
 
   proceedToAddressScreen = seller => {
+    const collectAtStoreFlag = this.props.navigation.getParam(
+      "collectAtStoreFlag"
+    );
+    console.log(
+      "collectAtStoreFlag in my shopping list___________",
+      collectAtStoreFlag
+    );
     this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
       sellerId: seller.id,
-      orderType: ORDER_TYPES.FMCG
+      orderType: ORDER_TYPES.FMCG,
+      flag: collectAtStoreFlag
     });
   };
 
   selectSellerForOrder = (seller, flag) => {
     Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_SELECT_SELLER);
+    this.setState({ selectedSeller: seller });
     if (flag === true) return;
     // return showSnackbar({
     //   text: "Store closed now. Revisit during open hours."
@@ -166,13 +177,31 @@ class MyShoppingList extends React.Component {
     this.setState({
       isLoadingMySellers: true
     });
+    if (seller.seller_details.basic_details.home_delivery == true) {
+      this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
+        sellerId: seller.id,
+        orderType: ORDER_TYPES.FMCG
+      });
+      this.setState({ isMySellersModalVisible: false });
+    } else {
+      this.setState({ isOrderOnline: true });
+    }
+  };
+  orderNow = () => {
+    const { selectedSeller } = this.state;
     this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
-      sellerId: seller.id,
-      orderType: ORDER_TYPES.FMCG
+      sellerId: selectedSeller.id,
+      orderType: ORDER_TYPES.FMCG,
+      flag: true
     });
-    this.setState({
-      isMySellersModalVisible: false
-    });
+    this.setState({ isOrderOnline: false, isMySellersModalVisible: false });
+  };
+
+  orderLater = () => {
+    this.setState({ isOrderOnline: false });
+  };
+  closeModal = () => {
+    this.setState({ isOrderOnline: false });
   };
 
   openRedeemPointsScreen = seller => {
@@ -206,7 +235,8 @@ class MyShoppingList extends React.Component {
       skuItemIdsCurrentlyModifying,
       isLoadingMySellers,
       sellers,
-      isMySellersModalVisible
+      isMySellersModalVisible,
+      isOrderOnline
     } = this.state;
 
     console.log("wishList in index: ", wishList);
@@ -648,6 +678,59 @@ class MyShoppingList extends React.Component {
             </Text>
           )
         ) : null}
+        <Modal
+          isVisible={isOrderOnline}
+          title="Order Online"
+          style={{
+            height: 250,
+            ...defaultStyles.card
+          }}
+          onClosePress={this.closeModal}
+        >
+          <View
+            style={{
+              flex: 1,
+              padding: 10,
+              justifyContent: "center"
+            }}
+          >
+            <Text style={{ padding: 10, textAlign: "center", fontSize: 14 }}>
+              Home Delivery not available currently. Come back to Order later or
+              proceed to Order Now & Collect at Store
+            </Text>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <Button
+                text="Order Later"
+                onPress={this.orderLater}
+                style={{
+                  width: 150,
+                  alignSelf: "center",
+                  marginRight: 5,
+                  height: 40
+                }}
+                color="grey"
+              />
+              <Button
+                text="Order Now"
+                onPress={this.orderNow}
+                style={{
+                  width: 150,
+                  alignSelf: "center",
+
+                  height: 40
+                }}
+                color="secondary"
+              />
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
