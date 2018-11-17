@@ -565,6 +565,10 @@ class OrderScreen extends React.Component {
   };
 
   deleteItemFromList = async (orderId, itemId, sellerId) => {
+    //console.log("Delete Item from list");
+    //console.log("Order Id_________", orderId);
+    //console.log("Item Id_________", itemId);
+    //console.log("Seller Id_________", sellerId);
     const res = await deleteItemShoppingList(orderId, itemId, sellerId);
     //console.log("Delete Item Response________________", res.result);
     this.setState({ order: res.result });

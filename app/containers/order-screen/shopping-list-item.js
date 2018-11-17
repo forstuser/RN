@@ -32,12 +32,15 @@ class ShoppingListItem extends React.Component {
       item.suggestion.sku_measurement &&
       item.suggestion.sku_measurement.cashback_percent
     ) {
-      updatedCashback = (
+      updatedCashback =
         ((item.suggestion.sku_measurement.mrp *
           item.suggestion.sku_measurement.cashback_percent) /
           100) *
         item.updated_quantity
-      ).toFixed(2);
+          ? item.updated_quantity
+          : item.quantity;
+
+      updatedCashback = Number(updatedCashback).toFixed(2);
     }
 
     let pack_no = "";
@@ -131,7 +134,7 @@ class ShoppingListItem extends React.Component {
                   : ``}
               </Text>
             </Text>
-            {item.selling_price ? (
+            {item.selling_price && !item.suggestion ? (
               <Text
                 style={{
                   color: colors.secondaryText
@@ -164,7 +167,7 @@ class ShoppingListItem extends React.Component {
               ) : (
                 <View />
               )}
-              {item.unit_price && item.unit_price !== 0 ? (
+              {item.unit_price && item.unit_price !== 0 && !item.suggestion ? (
                 <Text
                   style={{
                     fontSize: 11,
@@ -185,7 +188,7 @@ class ShoppingListItem extends React.Component {
               )}
             </View>
 
-            {orderStatus != 5 ? (
+            {(orderStatus == 19 || orderStatus == 16) && !item.suggestion ? (
               <View style={{ marginTop: 15, alignItems: "flex-end" }}>
                 <TouchableOpacity onPress={deleteItem}>
                   <Image

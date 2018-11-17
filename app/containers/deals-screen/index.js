@@ -176,6 +176,7 @@ class DealsScreen extends Component {
             )}
           </View>
         }
+        showNoTabs="true"
         tabs={[
           <OffersTab
             //tabLabel=""
