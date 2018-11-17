@@ -193,7 +193,8 @@ export default class SearchBar extends React.Component {
       sellers = [],
       hideSellerFilter = false,
       loadItems,
-      endhasReachedFlag
+      endhasReachedFlag,
+      hideBrands
     } = this.props;
     const { isBrandsPopupVisible, checkedBrands, checkedSellers } = this.state;
     // console.log("past items 2", pastItems);
@@ -399,10 +400,11 @@ export default class SearchBar extends React.Component {
             }}
             disabled={
               (brands.length == 0 && sellers.length == 0) ||
-              (activeMainCategoryId == 0 && searchTerm.length < 3) ||
-              (activeMainCategoryId ==
-                MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG ||
-                searchTerm.length < 3)
+              (activeMainCategoryId == 0 && searchTerm.length < 3)
+
+              // activeMainCategoryId ==
+              //   MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG ||
+              //   searchTerm.length < 3
             }
             style={{
               flexDirection: "row",
@@ -418,11 +420,11 @@ export default class SearchBar extends React.Component {
               size={25}
               color={
                 (brands.length == 0 && sellers.length == 0) ||
-                (activeMainCategoryId == 0 && searchTerm.length < 3) ||
-                (activeMainCategoryId ==
-                  MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG ||
-                  searchTerm.length < 3)
-                  ? colors.lighterText
+                (activeMainCategoryId == 0 && searchTerm.length < 3) // ||
+                  ? // (activeMainCategoryId ==
+                    //   MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG ||
+                    //   searchTerm.length < 3)
+                    colors.lighterText
                   : colors.mainText
               }
             />
@@ -681,6 +683,7 @@ export default class SearchBar extends React.Component {
           resetBrandsFilter={this.resetBrandsFilter}
           hideFilter={this.hideFilter}
           hideSellerFilter={hideSellerFilter}
+          hideBrands={hideBrands}
         />
 
         <LoadingOverlay visible={isSearching} />

@@ -74,7 +74,8 @@ class ShoppingListScreen extends React.Component {
     endhasReachedFlag: false,
     isVisibleCashbackModal: false,
     neverShowCashbackModal: false,
-    collectAtStoreFlag: false
+    collectAtStoreFlag: false,
+    hideBrands: false
   };
 
   // componentWillMount() {
@@ -123,8 +124,8 @@ class ShoppingListScreen extends React.Component {
           },
           () => {
             this.modalShow();
-            this.loadSkuWishList();
             this.fromSellers();
+            this.loadSkuWishList();
           }
         );
       }
@@ -224,6 +225,9 @@ class ShoppingListScreen extends React.Component {
     // }
     if (seller) {
       this.setSelectedSellers(seller ? [{ ...seller }] : []);
+      this.setState({ activeMainCategoryId: 194 }, () => {
+        this.setState({ hideBrands: true });
+      });
       this.props.navigation.setParams({
         seller: null,
         collectAtStoreFlag: false
@@ -245,7 +249,7 @@ class ShoppingListScreen extends React.Component {
       // }
 
       const pastItems = res.result.past_selections;
-      if (pastItems.length > 0) {
+      if (pastItems.length > 0 && !this.state.selectedSeller) {
         this.setState(() => ({ pastItems }));
       }
 
@@ -280,9 +284,10 @@ class ShoppingListScreen extends React.Component {
       );
       //console.log("Categories_____", categories);
       let brandsList = [];
-      categories
-        .filter(category => category.brands)
-        .forEach(category => brandsList.push(...category.brands));
+      categories &&
+        categories
+          .filter(category => category.brands)
+          .forEach(category => brandsList.push(...category.brands));
       brandsList = _.uniqBy(brandsList, "brand_id");
       //console.log("BRANDS IN REFERENCE DATA_____________", brandsList);
 
@@ -313,6 +318,11 @@ class ShoppingListScreen extends React.Component {
   };
 
   updateStateMainCategoryId = activeMainCategoryId => {
+    if (activeMainCategoryId === 194) {
+      this.setState({ hideBrands: true });
+    } else {
+      this.setState({ hideBrands: false });
+    }
     const { mainCategories } = this.state;
 
     const mainCategory = mainCategories.find(
@@ -692,7 +702,8 @@ class ShoppingListScreen extends React.Component {
       endhasReachedFlag,
       isVisibleCashbackModal,
       neverShowCashbackModal,
-      collectAtStoreFlag
+      collectAtStoreFlag,
+      hideBrands
     } = this.state;
 
     // console.log(
@@ -857,6 +868,7 @@ class ShoppingListScreen extends React.Component {
               this.addManualItemModal.show(searchTerm)
             }
             addManualItemsToList={this.addManualItemsToList}
+            hideBrands={hideBrands}
           />
           <LoadingOverlay visible={isLoading || isLoadingWishList} />
           <BarcodeScanner

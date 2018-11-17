@@ -21,7 +21,7 @@ class FilterModalScreen extends Component {
   state = {
     isVisible: false,
     isLoadingMySellers: false,
-    selectedMainCategory: "Filter by Brands"
+    selectedMainCategory: "Filter by Sellers"
   };
 
   show = () => {
@@ -85,9 +85,9 @@ class FilterModalScreen extends Component {
   };
 
   render() {
-    const { hideSellerFilter } = this.props;
+    const { hideSellerFilter, hideBrands } = this.props;
 
-    const mainCategories = [
+    let mainCategories = [
       {
         id: 1,
         title: "Filter by Brands"
@@ -99,6 +99,15 @@ class FilterModalScreen extends Component {
         id: 2,
         title: "Filter by Sellers"
       });
+    }
+
+    if (hideBrands == true) {
+      mainCategories = [
+        {
+          id: 2,
+          title: "Filter by Sellers"
+        }
+      ];
     }
 
     let source = null;
