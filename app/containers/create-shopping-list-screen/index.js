@@ -78,9 +78,9 @@ class ShoppingListScreen extends React.Component {
     hideBrands: false
   };
 
-  // componentWillMount() {
-  //   BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
-  // }
+  componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+  }
 
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.OPEN_SHOP_N_EARN);
@@ -132,52 +132,54 @@ class ShoppingListScreen extends React.Component {
     );
   }
 
-  // componentWillUnmount() {
-  //   BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
-  // }
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+  }
 
-  // handleBackPress = () => {
-  //   this.props.navigation.navigate(SCREENS.LOADER_SCREEN_SHOP_EARN);
-  //   this.setState(
-  //     {
-  //       maxLimit: null,
-  //       isLoading: false,
-  //       isLoadingWishList: false,
-  //       referenceDataError: null,
-  //       wishListError: null,
-  //       measurementTypes: {},
-  //       mainCategories: [],
-  //       sellerMainCategories: [],
-  //       activeMainCategoryId: null,
-  //       activeCategoryId: null,
-  //       selectedCategoryIds: [],
-  //       isBarcodeScannerVisible: false,
-  //       pastItems: [],
-  //       wishList: [],
-  //       skuItemIdsCurrentlyModifying: [],
-  //       isSearching: false,
-  //       isSearchDone: false,
-  //       searchError: null,
-  //       searchTerm: "",
-  //       lastSearchTerm3Characters: "",
-  //       items: [],
-  //       brands: [],
-  //       selectedBrands: [],
-  //       sellers: [],
-  //       selectedSeller: null,
-  //       isWishListLimit: false,
-  //       offset: 0,
-  //       endhasReachedFlag: false,
-  //       isVisibleCashbackModal: false,
-  //       neverShowCashbackModal: false
-  //     },
-  //     () => {
-  //       this.modalShow();
-  //       this.loadSkuWishList();
-  //       this.fromSellers();
-  //     }
-  //   );
-  // };
+  handleBackPress = () => {
+    if (this.state.searchTerm.length > 0) {
+      this.setState(
+        {
+          maxLimit: null,
+          isLoading: false,
+          isLoadingWishList: false,
+          referenceDataError: null,
+          wishListError: null,
+          measurementTypes: {},
+          mainCategories: [],
+          sellerMainCategories: [],
+          activeMainCategoryId: null,
+          activeCategoryId: null,
+          selectedCategoryIds: [],
+          isBarcodeScannerVisible: false,
+          pastItems: [],
+          wishList: [],
+          skuItemIdsCurrentlyModifying: [],
+          isSearching: false,
+          isSearchDone: false,
+          searchError: null,
+          searchTerm: "",
+          lastSearchTerm3Characters: "",
+          items: [],
+          brands: [],
+          selectedBrands: [],
+          sellers: [],
+          selectedSeller: null,
+          isWishListLimit: false,
+          offset: 0,
+          endhasReachedFlag: false,
+          isVisibleCashbackModal: false,
+          neverShowCashbackModal: false
+        },
+        () => {
+          this.modalShow();
+          this.loadSkuWishList();
+          this.fromSellers();
+        }
+      );
+      return true;
+    }
+  };
 
   modalShow = async () => {
     const neverShowCashback = Boolean(await AsyncStorage.getItem("neverShow"));
