@@ -17,6 +17,7 @@ import { Text, Button, ScreenContainer } from "../../elements";
 import Body from "./body";
 import Header from "./header";
 import Profile from "./profile";
+import { DrawerActions } from "react-navigation";
 import I18n from "../../i18n";
 import { showSnackbar } from "../../utils/snackbar";
 import { SCREENS } from "../../constants";
@@ -43,10 +44,14 @@ class MoreScreen extends Component {
       startWithProfileScreen: false,
       isRemovePinModalVisible: false,
       isProfileVisible: false,
-      name: null
+      name: null,
+      flag: false
     };
   }
 
+  componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+  }
   componentDidMount() {
     this.fetchProfile();
     this.didFocusSubscription = this.props.navigation.addListener(
@@ -58,8 +63,14 @@ class MoreScreen extends Component {
   }
 
   componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
     this.didFocusSubscription.remove();
   }
+
+  handleBackPress = () => {
+    this.DrawerBody.closeDrawer();
+    return true;
+  };
 
   fetchProfile = async () => {
     this.setState({
@@ -130,9 +141,14 @@ class MoreScreen extends Component {
   };
 
   openProfileScreen = () => {
+    //this.DrawerBody.closeDrawer();
     this.props.navigation.navigate(SCREENS.PROFILE_SCREEN, {
       profile: this.state.profile
     });
+  };
+  onWalletPress = () => {
+    //this.DrawerBody.closeDrawer();
+    this.props.navigation.navigate(SCREENS.BB_CASH_WALLET_SCREEN);
   };
 
   visible = item => {
@@ -182,6 +198,7 @@ class MoreScreen extends Component {
             isProfileVisible={this.state.isProfileVisible}
             visible={this.visible}
             onUpdate={this.updateState}
+            onWalletPress={this.onWalletPress}
           />
           {!isProfileVisible && (
             <Body
@@ -196,6 +213,7 @@ class MoreScreen extends Component {
                 I18n.locale = language.code;
               }}
               navigation={this.props.navigation}
+              ref={ref => (this.DrawerBody = ref)}
             />
           )}
           {profile && isProfileVisible && <Profile profile={profile} />}

@@ -8,11 +8,14 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  BackHandler
 } from "react-native";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
 import { API_BASE_URL, updateProfile } from "../../api";
+import { DrawerActions } from "react-navigation";
+
 import { Text, Button, ScreenContainer } from "../../elements";
 import { colors } from "../../theme";
 import { showSnackbar } from "../../utils/snackbar";
@@ -25,6 +28,7 @@ import { actions as loggedInUserActions } from "../../modules/logged-in-user";
 const noPicPlaceholderIcon = require("../../images/ic_more_no_profile_pic.png");
 const editIcon = require("../../images/ic_edit_white.png");
 const crossIcon = require("../../images/ic_close.png");
+import { SCREENS } from "../../constants";
 
 import Header from "./header";
 
@@ -52,6 +56,18 @@ class ProfileScreen extends Component {
       //   longitude: null
     };
   }
+
+  componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+  }
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+  }
+  handleBackPress = () => {
+    this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+    this.props.navigation.dispatch(DrawerActions.closeDrawer());
+    return true;
+  };
 
   componentDidMount() {
     // navigation.geolocation.getCurrentPosition(
@@ -194,7 +210,7 @@ class ProfileScreen extends Component {
   };
 
   backToMoreScreen = () => {
-    this.props.navigation.goBack();
+    this.handleBackPress();
   };
 
   showNameEditModal = () => {
@@ -273,9 +289,9 @@ class ProfileScreen extends Component {
               source={require("../../images/ic_back_arrow_white.png")}
             />
           </TouchableOpacity>
-          <Header profile={profile} />
+          <Header profile={profile} handleBackPress={this.handleBackPress} />
 
-          <Body profile={profile} navigation={this.props.navigation}/>
+          <Body profile={profile} navigation={this.props.navigation} />
         </KeyboardAwareScrollView>
         <TouchableOpacity
           style={styles.codepushToggleBtn}
@@ -410,4 +426,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileScreen);

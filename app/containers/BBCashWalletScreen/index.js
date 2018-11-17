@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, BackHandler } from "react-native";
 import moment from "moment";
 import { Text } from "../../elements";
 import Header from "./header";
@@ -7,6 +7,8 @@ import SingleTransaction from "./singleTransaction";
 import { retrieveWalletDetails, getMySellers } from "../../api";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
+import { SCREENS } from "../../constants";
+import { DrawerActions } from "react-navigation";
 
 class BBCashWalletScreen extends Component {
   static navigationOptions = {
@@ -25,6 +27,9 @@ class BBCashWalletScreen extends Component {
       sellers: []
     };
   }
+  componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+  }
 
   componentDidMount() {
     this.didFocusSubscription = this.props.navigation.addListener(
@@ -37,8 +42,15 @@ class BBCashWalletScreen extends Component {
   }
 
   componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
     this.didFocusSubscription.remove();
   }
+
+  handleBackPress = () => {
+    this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+    this.props.navigation.dispatch(DrawerActions.closeDrawer());
+    return true;
+  };
 
   fetchWalletData = async () => {
     this.setState({
@@ -134,6 +146,7 @@ class BBCashWalletScreen extends Component {
                 navigation={this.props.navigation}
                 totalCashback={totalCashback}
                 sellers={sellers}
+                handleBackPress={this.handleBackPress}
               />
               <Text style={styles.heading} weight="Bold">
                 BBCash Transactions
