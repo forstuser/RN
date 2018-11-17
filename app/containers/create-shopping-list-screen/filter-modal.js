@@ -70,13 +70,13 @@ class FilterModalScreen extends Component {
       >
         <Text style={{ flex: 1, fontSize: 12 }}>
           {this.state.selectedMainCategory === "Filter by Brands"
-            ? item.title
+            ? item.brand_name
             : item.seller_name}
         </Text>
         <Checkbox
           isChecked={
             this.state.selectedMainCategory === "Filter by Brands"
-              ? this.props.checkedBrandIds.includes(item.id)
+              ? this.props.checkedBrandIds.includes(item.brand_id)
               : this.props.checkedSellerIds.includes(item.id)
           }
         />
@@ -107,6 +107,8 @@ class FilterModalScreen extends Component {
     } else if (this.state.selectedMainCategory === "Filter by Brands") {
       source = this.props.brands;
     }
+
+    //console.log("Brands in Filter", this.props.brands);
 
     return (
       <Modal

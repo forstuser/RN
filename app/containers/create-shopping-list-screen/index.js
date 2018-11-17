@@ -8,7 +8,7 @@ import {
   BackHandler
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-
+import _ from "lodash";
 import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view";
@@ -273,12 +273,27 @@ class ShoppingListScreen extends React.Component {
 
       mainCategories = [...mainCategories, ...res.result.main_categories];
 
+      //console.log("REFERENCE DATA_____________", res);
+      const categories = [];
+      res.result.main_categories.forEach(category =>
+        categories.push(...category.categories)
+      );
+      //console.log("Categories_____", categories);
+      let brandsList = [];
+      categories
+        .filter(category => category.brands)
+        .forEach(category => brandsList.push(...category.brands));
+      brandsList = _.uniqBy(brandsList, "brand_id");
+      //console.log("BRANDS IN REFERENCE DATA_____________", brandsList);
+
       this.setState(() => ({
         mainCategories,
         measurementTypes,
         activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
         selectedCategoryIds: [],
-        items: pastItems
+        items: pastItems,
+        brands: brandsList,
+        sellers: res.seller_list
       }));
       // console.log("past items 1", this.state.pastItems);
       //console.log("main categoried 1", this.state.mainCategories);
@@ -299,13 +314,26 @@ class ShoppingListScreen extends React.Component {
 
   updateStateMainCategoryId = activeMainCategoryId => {
     const { mainCategories } = this.state;
+
     const mainCategory = mainCategories.find(
       mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
     );
+    //console.log("MAIN CATEGORY_______", mainCategory);
+    const brands =
+      mainCategory.categories &&
+      mainCategory.categories.map(category => category.brands);
+    //console.log("Brands_________", brands);
+    let listBrands = [];
+    brands && brands.forEach(brand => listBrands.push(...brand));
+    listBrands = _.uniqBy(listBrands, "brand_id");
+
+    //console.log("List brands______", listBrands);
+
     const newState = { activeMainCategoryId, selectedBrands: [] };
 
     if (activeMainCategoryId > 0 && mainCategory.categories.length > 0) {
       newState.selectedCategoryIds = [];
+      newState.brands = listBrands;
     } else {
       newState.items = this.state.pastItems;
       newState.selectedBrands = [];
@@ -514,7 +542,7 @@ class ShoppingListScreen extends React.Component {
         isSearching: false,
         isSearchDone: true,
         items: [...items, ...res.result.sku_items],
-        brands: res.result.brands,
+        //brands: res.result.brands,
         sellers: res.seller_list,
         maxLimit: res.max_wish_list_items
       };
@@ -561,7 +589,7 @@ class ShoppingListScreen extends React.Component {
         isSearching: false,
         isSearchDone: true,
         // items: [...items, ...res.result.sku_items],
-        brands: res.result.brands,
+        //brands: res.result.brands,
         sellers: res.seller_list,
         maxLimit: res.max_wish_list_items
       };
@@ -667,10 +695,10 @@ class ShoppingListScreen extends React.Component {
       collectAtStoreFlag
     } = this.state;
 
-    console.log(
-      "collectAtStoreFlag in create shopping list___________",
-      collectAtStoreFlag
-    );
+    // console.log(
+    //   "collectAtStoreFlag in create shopping list___________",
+    //   collectAtStoreFlag
+    // );
 
     if (referenceDataError || wishListError) {
       return (
@@ -680,6 +708,7 @@ class ShoppingListScreen extends React.Component {
         />
       );
     }
+    console.log("List of brands______", brands);
     return (
       <DrawerScreenContainer
         title={selectedSeller ? null : "Create Shopping List"}

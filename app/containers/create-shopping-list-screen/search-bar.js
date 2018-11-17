@@ -199,15 +199,18 @@ export default class SearchBar extends React.Component {
     // console.log("past items 2", pastItems);
     // console.log("items 2", items);
     // console.log("main categoried 2", mainCategories);
-    console.log("active main category id 2", activeMainCategoryId);
+    //console.log("active main category id 2", activeMainCategoryId);
     // console.log("measurementTypes 2", measurementTypes);
+    //console.log("Brands___________", brands);
     const activeMainCategory = activeMainCategoryId
       ? mainCategories.find(
           mainCategory => mainCategory.id == activeMainCategoryId
         )
       : null;
 
-    const checkedBrandIds = checkedBrands.map(checkedBrand => checkedBrand.id);
+    const checkedBrandIds = checkedBrands.map(
+      checkedBrand => checkedBrand.brand_id
+    );
     const checkedSellerIds = checkedSellers.map(
       checkedSeller => checkedSeller.id
     );
@@ -396,8 +399,10 @@ export default class SearchBar extends React.Component {
             }}
             disabled={
               (brands.length == 0 && sellers.length == 0) ||
-              activeMainCategoryId == 0 ||
-              activeMainCategoryId == MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG
+              (activeMainCategoryId == 0 && searchTerm.length < 3) ||
+              (activeMainCategoryId ==
+                MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG ||
+                searchTerm.length < 3)
             }
             style={{
               flexDirection: "row",
@@ -413,9 +418,10 @@ export default class SearchBar extends React.Component {
               size={25}
               color={
                 (brands.length == 0 && sellers.length == 0) ||
-                activeMainCategoryId ==
+                (activeMainCategoryId == 0 && searchTerm.length < 3) ||
+                (activeMainCategoryId ==
                   MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG ||
-                activeMainCategoryId == 0
+                  searchTerm.length < 3)
                   ? colors.lighterText
                   : colors.mainText
               }
@@ -441,62 +447,61 @@ export default class SearchBar extends React.Component {
           </TouchableOpacity>
         </View>
 
-        {filteredCategories.length > 0 &&
-          !searchTerm && (
-            <View style={{ height: 34, paddingHorizontal: 5, marginBottom: 7 }}>
-              <ScrollView
-                ref={node => {
-                  this.categoryScrollView = node;
-                }}
-                horizontal
-                style={{}}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{}}
-              >
-                {filteredCategories.map(category => (
-                  <TouchableOpacity
-                    key={category.id}
-                    onPress={() => {
-                      updateCategoryIdInParent(category.id);
-                    }}
+        {filteredCategories.length > 0 && !searchTerm && (
+          <View style={{ height: 34, paddingHorizontal: 5, marginBottom: 7 }}>
+            <ScrollView
+              ref={node => {
+                this.categoryScrollView = node;
+              }}
+              horizontal
+              style={{}}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{}}
+            >
+              {filteredCategories.map(category => (
+                <TouchableOpacity
+                  key={category.id}
+                  onPress={() => {
+                    updateCategoryIdInParent(category.id);
+                  }}
+                  style={{
+                    justifyContent: "center",
+                    paddingHorizontal: 10,
+                    height: 24,
+                    margin: 5,
+                    borderRadius: 12,
+                    paddingHorizontal: 10,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: selectedCategoryIds.includes(category.id)
+                      ? colors.pinkishOrange
+                      : "#fff",
+                    borderColor: colors.pinkishOrange,
+                    borderWidth: 1
+                  }}
+                >
+                  <Text
+                    weight="Medium"
                     style={{
-                      justifyContent: "center",
-                      paddingHorizontal: 10,
-                      height: 24,
-                      margin: 5,
-                      borderRadius: 12,
-                      paddingHorizontal: 10,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: selectedCategoryIds.includes(category.id)
-                        ? colors.pinkishOrange
-                        : "#fff",
-                      borderColor: colors.pinkishOrange,
-                      borderWidth: 1
+                      fontSize: 12,
+                      color: selectedCategoryIds.includes(category.id)
+                        ? "#fff"
+                        : "#777777",
+                      ...Platform.select({
+                        android: {
+                          marginTop: -2
+                        }
+                      })
                     }}
+                    numberOfLines={1}
                   >
-                    <Text
-                      weight="Medium"
-                      style={{
-                        fontSize: 12,
-                        color: selectedCategoryIds.includes(category.id)
-                          ? "#fff"
-                          : "#777777",
-                        ...Platform.select({
-                          android: {
-                            marginTop: -2
-                          }
-                        })
-                      }}
-                      numberOfLines={1}
-                    >
-                      {category.title}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
-            </View>
-          )}
+                    {category.title}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        )}
 
         <View
           style={{
@@ -562,14 +567,12 @@ export default class SearchBar extends React.Component {
                             item.title == "Past Items"
                               ? require("../../images/past_items.png")
                               : item.title == "SHOPPING LIST"
-                                ? require("../../images/shopping_list.png")
-                                : {
-                                    uri:
-                                      API_BASE_URL +
-                                      `/categories/${
-                                        item.id
-                                      }/images/1/thumbnail`
-                                  }
+                              ? require("../../images/shopping_list.png")
+                              : {
+                                  uri:
+                                    API_BASE_URL +
+                                    `/categories/${item.id}/images/1/thumbnail`
+                                }
                           }
                           //source={require("../../images/binbill_logo.png")}
                         />
