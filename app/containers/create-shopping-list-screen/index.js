@@ -7,6 +7,8 @@ import {
   AsyncStorage,
   BackHandler
 } from "react-native";
+import { connect } from "react-redux";
+
 import Icon from "react-native-vector-icons/Ionicons";
 import _ from "lodash";
 import ScrollableTabView, {
@@ -38,7 +40,7 @@ import AddManualItemModal from "./add-manual-item-modal";
 import ClearOrContinuePreviousListModal from "./clear-or-continue-previous-list-modal";
 import FilterModal from "./filter-modal";
 import WishListLimitModal from "./wishlist-limit-modal";
-import { SCREENS } from "../../constants";
+import { SCREENS, LOCATIONS } from "../../constants";
 import Analytics from "../../analytics";
 import Modal from "../../components/modal";
 
@@ -182,8 +184,9 @@ class ShoppingListScreen extends React.Component {
   };
 
   modalShow = async () => {
+    //console.log("Location in Shopping List", this.props.userLocation);
     const neverShowCashback = Boolean(await AsyncStorage.getItem("neverShow"));
-    if (!neverShowCashback) {
+    if (!neverShowCashback && this.props.userLocation != LOCATIONS.OTHER) {
       this.setState({ isVisibleCashbackModal: true });
     }
   };
@@ -778,7 +781,7 @@ class ShoppingListScreen extends React.Component {
               <Icon
                 style={{ marginTop: 1 }}
                 name="ios-barcode-outline"
-                size={30}
+                size={37.5}
                 color="#fff"
               />
             </TouchableOpacity>
@@ -799,7 +802,7 @@ class ShoppingListScreen extends React.Component {
             >
               <Image
                 tintColor="#fff"
-                style={{ width: 20, height: 20 }}
+                style={{ width: 25, height: 25 }}
                 source={require("../../images/blank_shopping_list.png")}
               />
               {wishList.length > 0 ? (
@@ -902,7 +905,7 @@ class ShoppingListScreen extends React.Component {
           isVisible={isVisibleCashbackModal}
           title="Shop & Earn Paytm Cashback"
           style={{
-            height: 400,
+            height: 500,
             ...defaultStyles.card
           }}
           onClosePress={this.closeCashbackModal}
@@ -914,6 +917,20 @@ class ShoppingListScreen extends React.Component {
               justifyContent: "flex-start"
             }}
           >
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10
+              }}
+            >
+              <Image
+                style={{ width: 90, height: 90 }}
+                source={require("../../images/happiness.png")}
+              />
+            </View>
+
             <View style={{ padding: 10 }}>
               <Text
                 weight="Bold"
@@ -990,4 +1007,13 @@ class ShoppingListScreen extends React.Component {
   }
 }
 
-export default ShoppingListScreen;
+const mapStateToProps = state => {
+  return {
+    userLocation: state.loggedInUser.location
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(ShoppingListScreen);

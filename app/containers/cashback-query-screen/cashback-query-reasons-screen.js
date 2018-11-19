@@ -30,6 +30,9 @@ class CashbackQueryReasonsScreen extends React.Component {
     //   selectedTransaction: navigation.state.params.selectedTransaction,
     //   reason: this.state.selectedReason
     // });
+    navigation.push(SCREENS.CASHBACK_QUERY_SCREEN, {
+      flagFromQueryReasons: true
+    });
     Linking.openURL(
       `mailto:support@binbill.com?bcc=rohit@binbill.com&bcc=sagar@binbill.com&bcc=amar@binbill.com&bcc=sagar@binbill.com&subject=Cashback Query, Transaction Id: ${
         selectedTransaction.id
@@ -78,17 +81,16 @@ class CashbackQueryReasonsScreen extends React.Component {
                     marginRight: 10
                   }}
                 >
-                  {selectedReason &&
-                    selectedReason.title == item.title && (
-                      <View
-                        style={{
-                          width: 20,
-                          height: 20,
-                          borderRadius: 10,
-                          backgroundColor: colors.pinkishOrange
-                        }}
-                      />
-                    )}
+                  {selectedReason && selectedReason.title == item.title && (
+                    <View
+                      style={{
+                        width: 20,
+                        height: 20,
+                        borderRadius: 10,
+                        backgroundColor: colors.pinkishOrange
+                      }}
+                    />
+                  )}
                 </View>
                 <Text style={{ marginRight: 20, paddingRight: 20 }}>
                   {item.title}

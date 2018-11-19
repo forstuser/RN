@@ -1,5 +1,11 @@
 import React from "react";
-import { View, TouchableOpacity, FlatList, Image } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  FlatList,
+  Image,
+  BackHandler
+} from "react-native";
 
 import { getCompletedOrders } from "../../api";
 import { Text, Button } from "../../elements";
@@ -18,9 +24,22 @@ export default class OrdersList extends React.Component {
     orders: []
   };
 
+  // componentWillMount() {
+  //   BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+  // }
+
   componentDidMount() {
     this.loadOrders();
   }
+
+  // componentWillUnmount() {
+  //   BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+  // }
+
+  // handleBackPress = () => {
+  //   this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+  //   return true;
+  // };
 
   loadOrders = async () => {
     this.setState({ isLoading: true, error: null });

@@ -382,7 +382,7 @@ class MySellersScreen extends React.Component {
                       resizeMode="contain"
                     />
                     <Text weight="Medium" style={styles.bottomButtonText}>
-                      Order Online and Get Home Delivery
+                      Home Delivery
                     </Text>
                   </TouchableOpacity>
                 );
@@ -399,7 +399,7 @@ class MySellersScreen extends React.Component {
                       resizeMode="contain"
                     />
                     <Text weight="Medium" style={styles.bottomButtonText}>
-                      Order Online and Collect at Store
+                      Collect at Store
                     </Text>
                   </TouchableOpacity>
                 );
@@ -767,7 +767,7 @@ class MySellersScreen extends React.Component {
                   <View
                     style={{
                       flexDirection: "row",
-                      height: 70,
+                      height: 55,
                       backgroundColor: "#d9d9d9",
                       paddingTop: 1,
                       borderBottomLeftRadius: 10,
@@ -864,7 +864,7 @@ class MySellersScreen extends React.Component {
           isVisible={isOrderOnline}
           title="Order Online"
           style={{
-            height: 250,
+            height: 350,
             ...defaultStyles.card
           }}
           onClosePress={this.closeModal}
@@ -876,9 +876,30 @@ class MySellersScreen extends React.Component {
               justifyContent: "center"
             }}
           >
-            <Text style={{ padding: 10, textAlign: "center", fontSize: 14 }}>
-              Home Delivery not available currently. Come back to Order later or
-              proceed to Order Now & Collect at Store
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10
+              }}
+            >
+              <Image
+                style={{ width: 90, height: 90 }}
+                source={require("../../images/sad.png")}
+              />
+            </View>
+
+            <Text
+              style={{
+                padding: 10,
+                textAlign: "center",
+                fontSize: 14,
+                marginTop: 10
+              }}
+            >
+              Oops, home Delivery not available currently. Come back to Order
+              later or proceed to Order Now & Collect at Store
             </Text>
             <View
               style={{

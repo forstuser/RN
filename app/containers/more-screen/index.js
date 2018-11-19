@@ -68,6 +68,7 @@ class MoreScreen extends Component {
   }
 
   handleBackPress = () => {
+    this.props.navigation.pop();
     this.DrawerBody.closeDrawer();
     return true;
   };

@@ -72,8 +72,8 @@ class OrderScreen extends React.Component {
     const params = navigation.state.params || {};
 
     return {
-      title: "Order Details"
-      // headerLeft: <HeaderBackBtn onPress={params.onBackPress} />
+      title: "Order Details",
+      headerLeft: <HeaderBackBtn onPress={params.onBackPress} />
     };
   };
 
@@ -93,9 +93,13 @@ class OrderScreen extends React.Component {
     //orderAmountWebView: ""
   };
 
+  componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+  }
+
   componentDidMount() {
     this.getOrderDetails(this.props);
-    // BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    //BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -141,7 +145,7 @@ class OrderScreen extends React.Component {
     // alert("index screen");
 
     this.didFocusSubscription.remove();
-    // BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
 
     if (socketIo.socket) {
       socketIo.socket.off("order-status-change");
@@ -152,7 +156,7 @@ class OrderScreen extends React.Component {
 
   onBackPress = () => {
     //alert("Back Pressed");
-    // this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+    this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
   };
 
   show = item => {
@@ -572,10 +576,10 @@ class OrderScreen extends React.Component {
   };
 
   deleteItemFromList = async (orderId, itemId, sellerId) => {
-    //console.log("Delete Item from list");
-    //console.log("Order Id_________", orderId);
-    //console.log("Item Id_________", itemId);
-    //console.log("Seller Id_________", sellerId);
+    // console.log("Delete Item from list");
+    // console.log("Order Id_________", orderId);
+    // console.log("Item Id_________", itemId);
+    // console.log("Seller Id_________", sellerId);
     const res = await deleteItemShoppingList(orderId, itemId, sellerId);
     //console.log("Delete Item Response________________", res.result);
     this.setState({ order: res.result });
@@ -726,6 +730,7 @@ class OrderScreen extends React.Component {
                     orderType={order.order_type}
                     startTime={startTime}
                     endTime={endTime}
+                    collectAtStore={order.collect_at_store}
                   />
                   {deliveryUser && (
                     <DeliveryUserDetails

@@ -163,7 +163,15 @@ class DashboardScreen extends React.Component {
         },
         () => {
           const { userLocation } = this.props;
-          //console.log("USER LOCATION IN DASHBOARD____:", userLocation);
+          // console.log("USER LOCATION IN DASHBOARD____:", userLocation);
+          // console.log(
+          //   "dashboardData.current_counter_______",
+          //   dashboardData.current_counter
+          // );
+          // console.log(
+          //   "dashboardData.pop_up_counter__________",
+          //   dashboardData.pop_up_counter
+          // );
           if (
             dashboardData.current_counter <= dashboardData.pop_up_counter &&
             userLocation != LOCATIONS.OTHER
@@ -401,7 +409,7 @@ class DashboardScreen extends React.Component {
           isVisible={isVisibleShopAndEarnModal}
           title={this.state.modalTitle}
           style={{
-            height: 250,
+            height: 350,
             ...defaultStyles.card
           }}
           onClosePress={this.closeShopAndEarnModal}
@@ -413,6 +421,19 @@ class DashboardScreen extends React.Component {
               justifyContent: "center"
             }}
           >
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10
+              }}
+            >
+              <Image
+                style={{ width: 90, height: 90 }}
+                source={require("../../images/happiness.png")}
+              />
+            </View>
             <Text
               weight="Light"
               style={{ fontSize: 14, textAlign: "center", padding: 10 }}
