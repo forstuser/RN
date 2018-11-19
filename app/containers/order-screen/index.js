@@ -387,14 +387,13 @@ class OrderScreen extends React.Component {
     this.paymentOptions.show();
   };
 
-  // payOffline = () => {
-  //   const { order } = this.state;
-  //   console.log("order after click offline is", order);
-  //   // show digital bill screen
-  //   this.props.navigation.navigate(SCREENS.DIGITAL_BILL_SCREEN, {
-  //     order: order
-  //   });
-  // };
+  openDigitalBill = () => {
+    const { order } = this.state;
+    this.props.navigation.navigate(SCREENS.DIGITAL_BILL_SCREEN, {
+      order: order,
+      fromOrderFlowScreen: true
+    });
+  };
   //function called when payment to be done offline
   payOffline = async () => {
     const { order } = this.state;
@@ -405,18 +404,18 @@ class OrderScreen extends React.Component {
         sellerId: order.seller_id,
         payment_mode: 1
       });
-
+      console.log("res for work is ", res);
       this.setState({ order: res.result.order }, () => {
-        if (
-          order.order_type == ORDER_TYPES.FMCG &&
-          order.expense_id &&
-          order.upload_id &&
-          userLocation != LOCATIONS.OTHER
-        ) {
-          this.openUploadBillPopup();
-        } else {
-          this.openReviewsScreen();
-        }
+        // if (
+        //   order.order_type == ORDER_TYPES.FMCG &&
+        //   order.expense_id &&
+        //   order.upload_id
+        // ) {
+        //   this.openUploadBillPopup();
+        // } else {
+        //   this.openReviewsScreen();
+        // }
+        this.openDigitalBill();
       });
 
       showSnackbar({ text: "Order completed!" });

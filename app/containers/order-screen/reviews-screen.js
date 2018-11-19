@@ -7,6 +7,7 @@ import LoadingOverlay from "../../components/loading-overlay";
 import { Text, Button } from "../../elements";
 import Review from "./review-edit-view";
 import { showSnackbar } from "../../utils/snackbar";
+import { SCREENS } from "../../constants";
 
 export default class ShoppingOrderReviewsScreen extends React.Component {
   static navigationOptions = {
@@ -76,7 +77,7 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
         orderId: order.id
       });
 
-      this.props.navigation.goBack();
+      this.props.navigation.navigate(SCREENS.ORDER_SCREEN);
     } catch (e) {
       showSnackbar({ text: e.message });
     } finally {
@@ -85,7 +86,7 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
   };
 
   onMayBeLaterPress = () => {
-    this.props.navigation.goBack();
+    this.props.navigation.navigate(SCREENS.ORDER_SCREEN);
   };
 
   render() {

@@ -1,30 +1,59 @@
 import React, { Component } from "react";
-import { StyleSheet, View, FlatList, Image } from "react-native";
+import { StyleSheet, View, FlatList, Image, BackHandler } from "react-native";
 import { Text, Button, ScreenContainer } from "../elements";
 import { colors } from "../theme";
 import { showSnackbar } from "../utils/snackbar";
 const logo = require("../images/splash.png");
 import moment from "moment";
 import _ from "lodash";
-
+import HeaderBackButton from "../components/header-nav-back-btn";
+import { SCREENS } from "../constants";
 import { API_BASE_URL, digitalBill } from "../api";
 
 class DigitalBillScreen extends Component {
-  static navigationOptions = {
-    title: "Invoice"
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
+
+    return {
+      title: "Invoice",
+      headerLeft: <HeaderBackButton onPress={params.onBackPress} />
+    };
   };
 
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      digitalBillData: {}
+      digitalBillData: {},
+      order: null,
+      fromOrderFlowScreen: false
     };
   }
   componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    this.props.navigation.setParams({
+      onBackPress: this.onBackPress
+    });
     const order = this.props.navigation.getParam("order", null);
+    const fromOrderFlowScreen = this.props.navigation.getParam(
+      "fromOrderFlowScreen",
+      false
+    );
+    this.setState({ fromOrderFlowScreen: fromOrderFlowScreen, order: order });
     this.getDigitalBill(order);
   }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+  }
+
+  onBackPress = () => {
+    if (this.state.fromOrderFlowScreen) {
+      this.openReviewsScreen();
+    } else {
+      this.props.navigation.goBack();
+    }
+  };
   getDigitalBill = async order => {
     console.log("order", order);
     try {
@@ -41,6 +70,43 @@ class DigitalBillScreen extends Component {
     } finally {
       this.setState({ isLoading: false });
     }
+  };
+  openReviewsScreen = () => {
+    const { order } = this.state;
+
+    let sellerRatings = 0;
+    let sellerReviewText = "";
+    let serviceRatings = 0;
+    let serviceReviewText = "";
+
+    if (order && order.seller_review) {
+      sellerRatings = order.seller_review.review_ratings;
+      sellerReviewText = order.seller_review.review_feedback;
+    }
+
+    if (
+      order &&
+      order.delivery_user &&
+      order.delivery_user.reviews &&
+      order.delivery_user.reviews.length > 0
+    ) {
+      const serviceReview = order.delivery_user.reviews.find(
+        userReview => userReview.order_id == order.id
+      );
+
+      if (serviceReview) {
+        serviceRatings = serviceReview.ratings;
+        serviceReviewText = serviceReview.feedback;
+      }
+    }
+    this.props.navigation.navigate(SCREENS.ORDER_REVIEWS_SCREEN, {
+      order: order,
+      sellerRatings,
+      sellerReviewText,
+      serviceRatings,
+      serviceReviewText,
+      fromDigitalBillScreen: true
+    });
   };
   render() {
     const { digitalBillData } = this.state;
