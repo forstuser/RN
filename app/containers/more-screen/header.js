@@ -111,9 +111,7 @@ class Header extends Component {
       });
     }
   };
-  onWalletPress = () => {
-    this.props.navigation.navigate(SCREENS.BB_CASH_WALLET_SCREEN);
-  };
+
   render() {
     const { profile, authToken, isProfileVisible, name, mobile } = this.props;
     const location =
@@ -172,7 +170,7 @@ class Header extends Component {
               {location != LOCATIONS.OTHER && (
                 <TouchableOpacity
                   style={{ alignItems: "center", left: 5 }}
-                  onPress={() => this.onWalletPress()}
+                  onPress={this.props.onWalletPress}
                 >
                   <Image
                     style={{ width: 25, height: 25 }}

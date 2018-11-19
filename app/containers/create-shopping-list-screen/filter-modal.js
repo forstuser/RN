@@ -21,7 +21,7 @@ class FilterModalScreen extends Component {
   state = {
     isVisible: false,
     isLoadingMySellers: false,
-    selectedMainCategory: "Filter by Brands"
+    selectedMainCategory: "Filter by Sellers"
   };
 
   show = () => {
@@ -70,13 +70,13 @@ class FilterModalScreen extends Component {
       >
         <Text style={{ flex: 1, fontSize: 12 }}>
           {this.state.selectedMainCategory === "Filter by Brands"
-            ? item.title
+            ? item.brand_name
             : item.seller_name}
         </Text>
         <Checkbox
           isChecked={
             this.state.selectedMainCategory === "Filter by Brands"
-              ? this.props.checkedBrandIds.includes(item.id)
+              ? this.props.checkedBrandIds.includes(item.brand_id)
               : this.props.checkedSellerIds.includes(item.id)
           }
         />
@@ -85,9 +85,9 @@ class FilterModalScreen extends Component {
   };
 
   render() {
-    const { hideSellerFilter } = this.props;
+    const { hideSellerFilter, hideBrands } = this.props;
 
-    const mainCategories = [
+    let mainCategories = [
       {
         id: 1,
         title: "Filter by Brands"
@@ -101,12 +101,23 @@ class FilterModalScreen extends Component {
       });
     }
 
+    if (hideBrands == true) {
+      mainCategories = [
+        {
+          id: 2,
+          title: "Filter by Sellers"
+        }
+      ];
+    }
+
     let source = null;
     if (this.state.selectedMainCategory === "Filter by Sellers") {
       source = this.props.sellers;
     } else if (this.state.selectedMainCategory === "Filter by Brands") {
       source = this.props.brands;
     }
+
+    //console.log("Brands in Filter", this.props.brands);
 
     return (
       <Modal

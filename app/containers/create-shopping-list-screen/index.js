@@ -8,7 +8,7 @@ import {
   BackHandler
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-
+import _ from "lodash";
 import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view";
@@ -74,12 +74,13 @@ class ShoppingListScreen extends React.Component {
     endhasReachedFlag: false,
     isVisibleCashbackModal: false,
     neverShowCashbackModal: false,
-    collectAtStoreFlag: false
+    collectAtStoreFlag: false,
+    hideBrands: false
   };
 
-  // componentWillMount() {
-  //   BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
-  // }
+  componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+  }
 
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.OPEN_SHOP_N_EARN);
@@ -123,60 +124,62 @@ class ShoppingListScreen extends React.Component {
           },
           () => {
             this.modalShow();
-            this.loadSkuWishList();
             this.fromSellers();
+            this.loadSkuWishList();
           }
         );
       }
     );
   }
 
-  // componentWillUnmount() {
-  //   BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
-  // }
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+  }
 
-  // handleBackPress = () => {
-  //   this.props.navigation.navigate(SCREENS.LOADER_SCREEN_SHOP_EARN);
-  //   this.setState(
-  //     {
-  //       maxLimit: null,
-  //       isLoading: false,
-  //       isLoadingWishList: false,
-  //       referenceDataError: null,
-  //       wishListError: null,
-  //       measurementTypes: {},
-  //       mainCategories: [],
-  //       sellerMainCategories: [],
-  //       activeMainCategoryId: null,
-  //       activeCategoryId: null,
-  //       selectedCategoryIds: [],
-  //       isBarcodeScannerVisible: false,
-  //       pastItems: [],
-  //       wishList: [],
-  //       skuItemIdsCurrentlyModifying: [],
-  //       isSearching: false,
-  //       isSearchDone: false,
-  //       searchError: null,
-  //       searchTerm: "",
-  //       lastSearchTerm3Characters: "",
-  //       items: [],
-  //       brands: [],
-  //       selectedBrands: [],
-  //       sellers: [],
-  //       selectedSeller: null,
-  //       isWishListLimit: false,
-  //       offset: 0,
-  //       endhasReachedFlag: false,
-  //       isVisibleCashbackModal: false,
-  //       neverShowCashbackModal: false
-  //     },
-  //     () => {
-  //       this.modalShow();
-  //       this.loadSkuWishList();
-  //       this.fromSellers();
-  //     }
-  //   );
-  // };
+  handleBackPress = () => {
+    if (this.state.searchTerm.length > 0) {
+      this.setState(
+        {
+          maxLimit: null,
+          isLoading: false,
+          isLoadingWishList: false,
+          referenceDataError: null,
+          wishListError: null,
+          measurementTypes: {},
+          mainCategories: [],
+          sellerMainCategories: [],
+          activeMainCategoryId: null,
+          activeCategoryId: null,
+          selectedCategoryIds: [],
+          isBarcodeScannerVisible: false,
+          pastItems: [],
+          wishList: [],
+          skuItemIdsCurrentlyModifying: [],
+          isSearching: false,
+          isSearchDone: false,
+          searchError: null,
+          searchTerm: "",
+          lastSearchTerm3Characters: "",
+          items: [],
+          brands: [],
+          selectedBrands: [],
+          sellers: [],
+          selectedSeller: null,
+          isWishListLimit: false,
+          offset: 0,
+          endhasReachedFlag: false,
+          isVisibleCashbackModal: false,
+          neverShowCashbackModal: false
+        },
+        () => {
+          this.modalShow();
+          this.loadSkuWishList();
+          this.fromSellers();
+        }
+      );
+      return true;
+    }
+  };
 
   modalShow = async () => {
     const neverShowCashback = Boolean(await AsyncStorage.getItem("neverShow"));
@@ -224,6 +227,9 @@ class ShoppingListScreen extends React.Component {
     // }
     if (seller) {
       this.setSelectedSellers(seller ? [{ ...seller }] : []);
+      this.setState({ activeMainCategoryId: 194 }, () => {
+        this.setState({ hideBrands: true });
+      });
       this.props.navigation.setParams({
         seller: null,
         collectAtStoreFlag: false
@@ -245,7 +251,7 @@ class ShoppingListScreen extends React.Component {
       // }
 
       const pastItems = res.result.past_selections;
-      if (pastItems.length > 0) {
+      if (pastItems.length > 0 && !this.state.selectedSeller) {
         this.setState(() => ({ pastItems }));
       }
 
@@ -273,12 +279,28 @@ class ShoppingListScreen extends React.Component {
 
       mainCategories = [...mainCategories, ...res.result.main_categories];
 
+      //console.log("REFERENCE DATA_____________", res);
+      const categories = [];
+      res.result.main_categories.forEach(category =>
+        categories.push(...category.categories)
+      );
+      //console.log("Categories_____", categories);
+      let brandsList = [];
+      categories &&
+        categories
+          .filter(category => category.brands)
+          .forEach(category => brandsList.push(...category.brands));
+      brandsList = _.uniqBy(brandsList, "brand_id");
+      //console.log("BRANDS IN REFERENCE DATA_____________", brandsList);
+
       this.setState(() => ({
         mainCategories,
         measurementTypes,
         activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
         selectedCategoryIds: [],
-        items: pastItems
+        items: pastItems,
+        brands: brandsList,
+        sellers: res.seller_list
       }));
       // console.log("past items 1", this.state.pastItems);
       //console.log("main categoried 1", this.state.mainCategories);
@@ -298,14 +320,32 @@ class ShoppingListScreen extends React.Component {
   };
 
   updateStateMainCategoryId = activeMainCategoryId => {
+    if (activeMainCategoryId === 194) {
+      this.setState({ hideBrands: true });
+    } else {
+      this.setState({ hideBrands: false });
+    }
     const { mainCategories } = this.state;
+
     const mainCategory = mainCategories.find(
       mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
     );
+    //console.log("MAIN CATEGORY_______", mainCategory);
+    const brands =
+      mainCategory.categories &&
+      mainCategory.categories.map(category => category.brands);
+    //console.log("Brands_________", brands);
+    let listBrands = [];
+    brands && brands.forEach(brand => listBrands.push(...brand));
+    listBrands = _.uniqBy(listBrands, "brand_id");
+
+    //console.log("List brands______", listBrands);
+
     const newState = { activeMainCategoryId, selectedBrands: [] };
 
     if (activeMainCategoryId > 0 && mainCategory.categories.length > 0) {
       newState.selectedCategoryIds = [];
+      newState.brands = listBrands;
     } else {
       newState.items = this.state.pastItems;
       newState.selectedBrands = [];
@@ -514,7 +554,7 @@ class ShoppingListScreen extends React.Component {
         isSearching: false,
         isSearchDone: true,
         items: [...items, ...res.result.sku_items],
-        brands: res.result.brands,
+        //brands: res.result.brands,
         sellers: res.seller_list,
         maxLimit: res.max_wish_list_items
       };
@@ -561,7 +601,7 @@ class ShoppingListScreen extends React.Component {
         isSearching: false,
         isSearchDone: true,
         // items: [...items, ...res.result.sku_items],
-        brands: res.result.brands,
+        //brands: res.result.brands,
         sellers: res.seller_list,
         maxLimit: res.max_wish_list_items
       };
@@ -664,13 +704,14 @@ class ShoppingListScreen extends React.Component {
       endhasReachedFlag,
       isVisibleCashbackModal,
       neverShowCashbackModal,
-      collectAtStoreFlag
+      collectAtStoreFlag,
+      hideBrands
     } = this.state;
 
-    console.log(
-      "collectAtStoreFlag in create shopping list___________",
-      collectAtStoreFlag
-    );
+    // console.log(
+    //   "collectAtStoreFlag in create shopping list___________",
+    //   collectAtStoreFlag
+    // );
 
     if (referenceDataError || wishListError) {
       return (
@@ -680,6 +721,7 @@ class ShoppingListScreen extends React.Component {
         />
       );
     }
+    console.log("List of brands______", brands);
     return (
       <DrawerScreenContainer
         title={selectedSeller ? null : "Create Shopping List"}
@@ -828,6 +870,7 @@ class ShoppingListScreen extends React.Component {
               this.addManualItemModal.show(searchTerm)
             }
             addManualItemsToList={this.addManualItemsToList}
+            hideBrands={hideBrands}
           />
           <LoadingOverlay visible={isLoading || isLoadingWishList} />
           <BarcodeScanner

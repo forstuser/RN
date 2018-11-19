@@ -137,11 +137,14 @@ export default class SelectedItemsList extends React.Component {
                     }}
                   />
                 </View>
+                <View>
+                  <Text>Price: Rs.{item.sku_measurement.mrp} </Text>
+                </View>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    marginTop: 5
+                    marginTop: 0
                   }}
                 >
                   <View style={{ flex: 1 }}>

@@ -30,7 +30,8 @@ export default class TabsScreenContainer extends React.Component {
       children,
       scrollableTabViewRef = () => {},
       navigation,
-      showHamburger = true
+      showHamburger = true,
+      showNoTabs
     } = this.props;
     return (
       <ScreenContainer style={styles.container}>
@@ -53,7 +54,9 @@ export default class TabsScreenContainer extends React.Component {
             }}
             locked={true}
             onChangeTab={onTabChange}
-            renderTabBar={() => <DefaultTabBar style={{ height: 35 }} />}
+            renderTabBar={() => (
+              <DefaultTabBar style={{ height: showNoTabs == true ? 35 : 0 }} />
+            )}
             tabBarUnderlineStyle={{
               backgroundColor: colors.mainBlue,
               height: 2

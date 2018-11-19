@@ -36,7 +36,7 @@ class Header extends Component {
         />
         <TouchableOpacity
           style={styles.backIcon}
-          onPress={() => this.props.navigation.goBack()}
+          onPress={this.props.handleBackPress}
         >
           <Icon name="md-arrow-back" size={30} color="#fff" />
         </TouchableOpacity>
