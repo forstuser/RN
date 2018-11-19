@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
   line: {
     borderBottomWidth: 1,
     borderBottomColor: colors.secondaryText,
-    width: 355,
+    // width: 355,
     marginTop: 8
   },
   headerTitle: {
