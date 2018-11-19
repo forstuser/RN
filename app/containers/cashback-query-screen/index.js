@@ -1,5 +1,11 @@
 import React from "react";
-import { View, FlatList, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  BackHandler
+} from "react-native";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -8,10 +14,13 @@ import { Text, Button } from "../../elements";
 import { getCashbackTransactions } from "../../api";
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS } from "../../constants";
+import Modal from "react-native-modal";
+import Header from "./header";
+const tick = require("../../images/tick.png");
 
 export default class CashbackQueryScreen extends React.Component {
   static navigationOptions = {
-    title: "Select Transaction"
+    header: null
   };
 
   state = {
@@ -19,12 +28,45 @@ export default class CashbackQueryScreen extends React.Component {
     error: null,
     transactions: [],
     reasons: [],
-    selectedTransaction: null
+    selectedTransaction: null,
+    showCompletionModal: false
   };
 
-  componentDidMount() {
-    this.getCashbackTransactions();
+  componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
   }
+
+  componentDidMount() {
+    console.log("IN DID MOUNT");
+    const flagFromQueryReasons = this.props.navigation.getParam(
+      "flagFromQueryReasons",
+      false
+    );
+    console.log("flagFromQueryReasons in DID MOUNT", flagFromQueryReasons);
+    if (flagFromQueryReasons) {
+      this.setState({ showCompletionModal: true });
+    }
+    this.getCashbackTransactions();
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        console.log("IN DID FOCUS");
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+  }
+
+  handleBackPress = () => {
+    this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+  };
+
+  onOkayPress = () => {
+    this.setState({ showCompletionModal: false, selectedTransaction: null });
+  };
 
   getCashbackTransactions = async () => {
     try {
@@ -54,10 +96,20 @@ export default class CashbackQueryScreen extends React.Component {
   };
 
   render() {
-    const { transactions, isLoading, error, selectedTransaction } = this.state;
+    const {
+      transactions,
+      isLoading,
+      error,
+      selectedTransaction,
+      showCompletionModal
+    } = this.state;
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
+        <Header
+          navigation={this.props.navigation}
+          handleBackPress={this.handleBackPress}
+        />
         <FlatList
           style={{ flex: 1, marginBottom: 5 }}
           contentContainerStyle={[
@@ -67,6 +119,9 @@ export default class CashbackQueryScreen extends React.Component {
           data={transactions}
           refreshing={isLoading}
           onRefresh={this.getCashbackTransactions}
+          keyExtractor={item => item.id}
+          data={transactions}
+          renderItem={this.renderTransactions}
           keyExtractor={item => item.id}
           ListEmptyComponent={() =>
             !isLoading ? (
@@ -163,37 +218,36 @@ export default class CashbackQueryScreen extends React.Component {
                     BB Cashback Earned :
                     <Text weight="Bold">{` ` + item.total_cashback}</Text>
                   </Text>
-                  {item.copies &&
-                    item.copies.length > 0 && (
-                      <TouchableOpacity
-                        onPress={() => {
-                          openBillsPopUp({
-                            copies: item.copies || []
-                          });
-                        }}
+                  {item.copies && item.copies.length > 0 && (
+                    <TouchableOpacity
+                      onPress={() => {
+                        openBillsPopUp({
+                          copies: item.copies || []
+                        });
+                      }}
+                      style={{
+                        marginTop: 10,
+                        marginBottom: 5,
+                        flexDirection: "row"
+                      }}
+                    >
+                      <Icon
+                        name="md-document"
+                        color={colors.mainBlue}
+                        size={15}
+                      />
+                      <Text
+                        weight="Medium"
                         style={{
-                          marginTop: 10,
-                          marginBottom: 5,
-                          flexDirection: "row"
+                          marginLeft: 4,
+                          fontSize: 11,
+                          color: colors.mainBlue
                         }}
                       >
-                        <Icon
-                          name="md-document"
-                          color={colors.mainBlue}
-                          size={15}
-                        />
-                        <Text
-                          weight="Medium"
-                          style={{
-                            marginLeft: 4,
-                            fontSize: 11,
-                            color: colors.mainBlue
-                          }}
-                        >
-                          View Bill
-                        </Text>
-                      </TouchableOpacity>
-                    )}
+                        View Bill
+                      </Text>
+                    </TouchableOpacity>
+                  )}
                 </View>
                 <View style={{ flex: 1, paddingHorizontal: 5 }}>
                   <Text style={{ fontSize: 14, marginTop: 5 }}>
@@ -230,39 +284,38 @@ export default class CashbackQueryScreen extends React.Component {
                     <Icon name="md-information-circle" size={13} />
                   </TouchableOpacity> */}
                 </View>
-                {selectedTransaction &&
-                  selectedTransaction.id == item.id && (
+                {selectedTransaction && selectedTransaction.id == item.id && (
+                  <View
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      backgroundColor: "rgba(0,0,0,.7)",
+                      justifyContent: "center",
+                      padding: 10
+                    }}
+                  >
                     <View
                       style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: "rgba(0,0,0,.7)",
-                        justifyContent: "center",
-                        padding: 10
+                        height: 50,
+                        width: 50,
+                        borderRadius: 25,
+                        borderColor: "#fff",
+                        borderWidth: 1,
+                        alignItems: "center",
+                        justifyContent: "center"
                       }}
                     >
-                      <View
-                        style={{
-                          height: 50,
-                          width: 50,
-                          borderRadius: 25,
-                          borderColor: "#fff",
-                          borderWidth: 1,
-                          alignItems: "center",
-                          justifyContent: "center"
-                        }}
-                      >
-                        <Icon
-                          name="md-checkmark"
-                          color={colors.success}
-                          size={25}
-                        />
-                      </View>
+                      <Icon
+                        name="md-checkmark"
+                        color={colors.success}
+                        size={25}
+                      />
                     </View>
-                  )}
+                  </View>
+                )}
               </TouchableOpacity>
             );
           }}
@@ -275,6 +328,48 @@ export default class CashbackQueryScreen extends React.Component {
             borderRadius={0}
           />
         )}
+        <Modal useNativeDriver={true} isVisible={showCompletionModal}>
+          <View
+            collapsable={false}
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: 10,
+              paddingVertical: 20,
+              paddingHorizontal: 10,
+              justifyContent: "center",
+              alignItems: "center",
+              width: 300,
+              alignSelf: "center"
+            }}
+          >
+            <Image
+              style={{
+                width: 90,
+                height: 90
+              }}
+              source={tick}
+              resizeMode="contain"
+            />
+            <Text
+              weight="Bold"
+              style={{ fontSize: 15, textAlign: "center", marginTop: 20 }}
+            >
+              Thank you for submitting your query.
+            </Text>
+            <Text
+              weight="Medium"
+              style={{ fontSize: 13, textAlign: "center", marginVertical: 20 }}
+            >
+              We will get back to you shortly.
+            </Text>
+            <Button
+              onPress={this.onOkayPress}
+              style={{ width: 150, height: 40 }}
+              text="Okay"
+              color="secondary"
+            />
+          </View>
+        </Modal>
       </View>
     );
   }

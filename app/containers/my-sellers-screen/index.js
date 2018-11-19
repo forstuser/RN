@@ -382,7 +382,7 @@ class MySellersScreen extends React.Component {
                       resizeMode="contain"
                     />
                     <Text weight="Medium" style={styles.bottomButtonText}>
-                      Order Online and Get Home Delivery
+                      Home Delivery
                     </Text>
                   </TouchableOpacity>
                 );
@@ -399,7 +399,7 @@ class MySellersScreen extends React.Component {
                       resizeMode="contain"
                     />
                     <Text weight="Medium" style={styles.bottomButtonText}>
-                      Order Online and Collect at Store
+                      Collect at Store
                     </Text>
                   </TouchableOpacity>
                 );
@@ -767,7 +767,7 @@ class MySellersScreen extends React.Component {
                   <View
                     style={{
                       flexDirection: "row",
-                      height: 70,
+                      height: 55,
                       backgroundColor: "#d9d9d9",
                       paddingTop: 1,
                       borderBottomLeftRadius: 10,

@@ -44,7 +44,8 @@ export default class Statuses extends React.Component {
       endTime,
       isInReview,
       paymentMode,
-      paymentStatus
+      paymentStatus,
+      collectAtStore
     } = this.props;
 
     return (
@@ -69,10 +70,9 @@ export default class Statuses extends React.Component {
               isOrderModified != true && (
                 <Text style={{ color: colors.success }}>IN REVIEW</Text>
               )}
-            {statusType == ORDER_STATUS_TYPES.NEW &&
-              isInReview != true && (
-                <Text style={{ color: colors.success }}>NEW</Text>
-              )}
+            {statusType == ORDER_STATUS_TYPES.NEW && isInReview != true && (
+              <Text style={{ color: colors.success }}>NEW</Text>
+            )}
             {statusType == ORDER_STATUS_TYPES.COMPLETE && (
               <Text style={{ color: colors.success }}>COMPLETED</Text>
             )}
@@ -103,18 +103,15 @@ export default class Statuses extends React.Component {
               Payment Mode :{" "}
             </Text>
             <Text weight="Regular">
-              {paymentMode &&
-                paymentMode == 5 && (
-                  <Text style={{ color: colors.success }}>On Credit</Text>
-                )}
-              {paymentMode &&
-                paymentMode == 1 && (
-                  <Text style={{ color: colors.success }}>Offline</Text>
-                )}
-              {paymentMode &&
-                paymentMode == 4 && (
-                  <Text style={{ color: colors.success }}>Online</Text>
-                )}
+              {paymentMode && paymentMode == 5 && (
+                <Text style={{ color: colors.success }}>On Credit</Text>
+              )}
+              {paymentMode && paymentMode == 1 && (
+                <Text style={{ color: colors.success }}>Offline</Text>
+              )}
+              {paymentMode && paymentMode == 4 && (
+                <Text style={{ color: colors.success }}>Online</Text>
+              )}
             </Text>
           </View>
         ) : null}
@@ -195,7 +192,9 @@ export default class Statuses extends React.Component {
               <StatusItem
                 title={
                   orderType == ORDER_TYPES.FMCG
-                    ? "Out For Delivery"
+                    ? !collectAtStore
+                      ? "Out For Delivery"
+                      : "Ready for Pickup"
                     : "Provider Out For Service Delivery"
                 }
                 isDone={[

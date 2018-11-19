@@ -723,6 +723,7 @@ class OrderScreen extends React.Component {
                     orderType={order.order_type}
                     startTime={startTime}
                     endTime={endTime}
+                    collectAtStore={order.collect_at_store}
                   />
                   {deliveryUser && (
                     <DeliveryUserDetails
