@@ -2210,6 +2210,12 @@ export const completeOrder = async ({ orderId, sellerId, payment_mode }) => {
     data: { seller_id: sellerId, payment_mode: payment_mode }
   });
 };
+export const digitalBill = async ({ expenseId, orderId }) => {
+  return await apiRequest({
+    method: "get",
+    url: `/consumer/${expenseId}/bill/${orderId}`
+  });
+};
 export const getUserAddresses = async () => {
   return await apiRequest({
     method: "get",

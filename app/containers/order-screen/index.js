@@ -387,6 +387,14 @@ class OrderScreen extends React.Component {
     this.paymentOptions.show();
   };
 
+  // payOffline = () => {
+  //   const { order } = this.state;
+  //   console.log("order after click offline is", order);
+  //   // show digital bill screen
+  //   this.props.navigation.navigate(SCREENS.DIGITAL_BILL_SCREEN, {
+  //     order: order
+  //   });
+  // };
   //function called when payment to be done offline
   payOffline = async () => {
     const { order } = this.state;
@@ -727,6 +735,7 @@ class OrderScreen extends React.Component {
                     />
                   )}
                   <SellerDetails
+                    navigation={this.props.navigation}
                     order={order}
                     openUploadBillPopup={this.openUploadBillPopup}
                     userLocation={userLocation}
