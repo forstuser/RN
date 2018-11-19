@@ -183,6 +183,7 @@ class EhomeScreen extends Component {
     let calendar = "Attendance";
     return (
       <TabsScreenContainer
+        showNotabs={false}
         iconSource={ehomeIcon}
         navigation={this.props.navigation}
         title="eHome"

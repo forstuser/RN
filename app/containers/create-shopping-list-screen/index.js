@@ -902,7 +902,7 @@ class ShoppingListScreen extends React.Component {
           isVisible={isVisibleCashbackModal}
           title="Shop & Earn Paytm Cashback"
           style={{
-            height: 400,
+            height: 500,
             ...defaultStyles.card
           }}
           onClosePress={this.closeCashbackModal}
@@ -914,6 +914,20 @@ class ShoppingListScreen extends React.Component {
               justifyContent: "flex-start"
             }}
           >
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10
+              }}
+            >
+              <Image
+                style={{ width: 90, height: 90 }}
+                source={require("../../images/happiness.png")}
+              />
+            </View>
+
             <View style={{ padding: 10 }}>
               <Text
                 weight="Bold"
