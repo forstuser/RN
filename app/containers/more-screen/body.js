@@ -162,10 +162,6 @@ class Body extends Component {
     this.closeDrawer();
     this.props.navigation.navigate(SCREENS.MY_ORDERS_SCREEN);
   };
-  onDigitalBillPress = () => {
-    this.closeDrawer();
-    this.props.navigation.navigate(SCREENS.DIGITAL_BILL_SCREEN);
-  };
   onCashbackBillsPress = () => {
     this.closeDrawer();
     this.props.navigation.navigate(SCREENS.CASHBACK_BILLS_SCREEN);
@@ -187,12 +183,6 @@ class Body extends Component {
 
     return (
       <ScrollView>
-        <MoreItem
-          onPress={this.onDigitalBillPress}
-          imageSource={require("../../images/orders_icon.png")}
-          text={"Digital Bill UI"}
-          imageStyle={{ width: 20, height: 20 }}
-        />
         <MoreItem
           onPress={this.onMyOrdersPress}
           imageSource={require("../../images/orders_icon.png")}
