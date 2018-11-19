@@ -163,7 +163,15 @@ class DashboardScreen extends React.Component {
         },
         () => {
           const { userLocation } = this.props;
-          //console.log("USER LOCATION IN DASHBOARD____:", userLocation);
+          // console.log("USER LOCATION IN DASHBOARD____:", userLocation);
+          // console.log(
+          //   "dashboardData.current_counter_______",
+          //   dashboardData.current_counter
+          // );
+          // console.log(
+          //   "dashboardData.pop_up_counter__________",
+          //   dashboardData.pop_up_counter
+          // );
           if (
             dashboardData.current_counter <= dashboardData.pop_up_counter &&
             userLocation != LOCATIONS.OTHER
