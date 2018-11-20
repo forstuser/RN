@@ -156,7 +156,11 @@ class OrderScreen extends React.Component {
 
   onBackPress = () => {
     //alert("Back Pressed");
-    this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+    if (this.state.order.status_type == ORDER_STATUS_TYPES.COMPLETE) {
+      this.props.navigation.navigate(SCREENS.MY_ORDERS_SCREEN);
+    } else {
+      this.props.navigation.goBack();
+    }
   };
 
   show = item => {
@@ -442,16 +446,7 @@ class OrderScreen extends React.Component {
       });
 
       this.setState({ order: res.result.order }, () => {
-        if (
-          order.order_type == ORDER_TYPES.FMCG &&
-          order.expense_id &&
-          order.upload_id &&
-          userLocation != LOCATIONS.OTHER
-        ) {
-          this.openUploadBillPopup();
-        } else {
-          this.openReviewsScreen();
-        }
+        this.openDigitalBill();
       });
 
       showSnackbar({ text: "Order completed!" });

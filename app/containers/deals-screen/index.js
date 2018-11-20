@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Image,
   Animated,
-  Dimensions
+  Dimensions,
+  BackHandler
 } from "react-native";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -50,13 +51,18 @@ class DealsScreen extends Component {
   }
   componentDidMount() {
     // Analytics.logEvent(Analytics.EVENTS.CLICK_DEALS);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
     this.handleDeeplink(this.props);
   }
-
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+  }
   componentWillReceiveProps(newProps) {
     this.handleDeeplink(newProps);
   }
-
+  handleBackPress = () => {
+    BackHandler.exitApp();
+  };
   handleDeeplink = props => {
     const { navigation } = props;
     console.log("navigation: ", navigation);

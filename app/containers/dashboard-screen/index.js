@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Alert,
   Image,
-  FlatList
+  FlatList,
+  BackHandler
 } from "react-native";
 
 import { connect } from "react-redux";
@@ -100,6 +101,7 @@ class DashboardScreen extends React.Component {
     //   this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
     // }
     // this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -138,8 +140,11 @@ class DashboardScreen extends React.Component {
   componentWillUnmount() {
     this.didFocusSubscription.remove();
     this.willBlurSubscription.remove();
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
   }
-
+  handleBackPress = () => {
+    BackHandler.exitApp();
+  };
   closeShopAndEarnModal = () => {
     this.setState({ isVisibleShopAndEarnModal: false });
   };

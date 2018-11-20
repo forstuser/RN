@@ -201,7 +201,7 @@ class BasicDetailsScreen extends Component {
           />
           <TextInput
             underlineColorAndroid="transparent"
-            placeholder="Mobile (Recommended)"
+            placeholder="Mobile"
             style={styles.input}
             onChangeText={mobile => this.setState({ mobile })}
             value={this.state.mobile}

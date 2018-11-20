@@ -32,7 +32,7 @@ export default class ScreenHeaderWithDrawer extends React.Component {
 
 const styles = StyleSheet.create({
   headerUpperHalf: {
-    height: 35,
+    height: 45,
     paddingHorizontal: 16
   },
   menuIcon: {
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#fff",
     textAlign: "center",
-    marginTop: 2
+    marginTop: 6
   },
 
   headerLowerHalf: {

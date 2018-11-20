@@ -77,7 +77,8 @@ class ShoppingListScreen extends React.Component {
     isVisibleCashbackModal: false,
     neverShowCashbackModal: false,
     collectAtStoreFlag: false,
-    hideBrands: false
+    hideBrands: false,
+    timeout: 0
   };
 
   componentWillMount() {
@@ -502,7 +503,10 @@ class ShoppingListScreen extends React.Component {
         (searchTerm.length >= 3 &&
           searchTerm != this.state.lastSearchTerm3Characters)
       ) {
-        this.loadItemsFirstPage();
+        if (this.state.timeout) clearTimeout(this.state.timeout);
+        this.timeout = setTimeout(() => {
+          this.loadItemsFirstPage();
+        }, 300);
       }
       if (searchTerm.length == 3) {
         this.setState({ lastSearchTerm3Characters: searchTerm });
@@ -947,10 +951,10 @@ class ShoppingListScreen extends React.Component {
                 (i) Create Shopping List
               </Text>
               <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (ii) Shop with your List anywhere.
+                (ii) Shop with your List anywhere
               </Text>
               <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (iii) Upload valid Bill & Get Cashback.
+                (iii) Upload valid Bill & Get Cashback
               </Text>
             </View>
             <View style={{ padding: 10 }}>
@@ -969,10 +973,10 @@ class ShoppingListScreen extends React.Component {
                 (i) Create Shopping List
               </Text>
               <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (ii) Place Online Order with a nearby BinBill Store.
+                (ii) Order Online from nearby BinBill Store
               </Text>
               <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (iii) Pay for your Order & Get Cashback.
+                (iii) Pay for your Order & Get Cashback
               </Text>
             </View>
             <TouchableOpacity

@@ -110,21 +110,12 @@ const BottomTabStack = createBottomTabNavigator(
         )
       }
     },
-    [SCREENS.EHOME_SCREEN]: {
-      screen: EhomeScreen,
+    [SCREENS.DEALS_SCREEN]: {
+      screen: DealsScreen,
       navigationOptions: {
-        tabBarLabel: "eHome",
+        tabBarLabel: "Offers",
         tabBarIcon: props => (
-          <TabIcon {...props} source={require("../images/ehome.png")} />
-        )
-      }
-    },
-    [SCREENS.MY_SELLERS_SCREEN]: {
-      screen: MySellersScreen,
-      navigationOptions: {
-        tabBarLabel: "My Seller",
-        tabBarIcon: props => (
-          <TabIcon {...props} source={require("../images/seller_icon.png")} />
+          <TabIcon {...props} source={require("../images/deals.png")} />
         )
       }
     },
@@ -137,12 +128,21 @@ const BottomTabStack = createBottomTabNavigator(
         )
       }
     },
-    [SCREENS.DEALS_SCREEN]: {
-      screen: DealsScreen,
+    [SCREENS.MY_SELLERS_SCREEN]: {
+      screen: MySellersScreen,
       navigationOptions: {
-        tabBarLabel: "Deals",
+        tabBarLabel: "My Seller",
         tabBarIcon: props => (
-          <TabIcon {...props} source={require("../images/deals.png")} />
+          <TabIcon {...props} source={require("../images/seller_icon.png")} />
+        )
+      }
+    },
+    [SCREENS.EHOME_SCREEN]: {
+      screen: EhomeScreen,
+      navigationOptions: {
+        tabBarLabel: "eHome",
+        tabBarIcon: props => (
+          <TabIcon {...props} source={require("../images/ehome.png")} />
         )
       }
     }

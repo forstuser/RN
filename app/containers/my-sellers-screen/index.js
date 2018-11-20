@@ -909,7 +909,7 @@ class MySellersScreen extends React.Component {
                 justifyContent: "center"
               }}
             >
-              <Button
+              {/* <Button
                 text="Order Later"
                 onPress={this.orderLater}
                 style={{
@@ -919,7 +919,7 @@ class MySellersScreen extends React.Component {
                   height: 40
                 }}
                 color="grey"
-              />
+              /> */}
               <Button
                 text="Order Now"
                 onPress={this.orderNow}
