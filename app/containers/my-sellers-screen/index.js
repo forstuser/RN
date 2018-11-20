@@ -571,7 +571,7 @@ class MySellersScreen extends React.Component {
                             {item.owner_name}
                           </Text>
                         </View>
-                        {item.offer_count ? (
+                        {/* {item.offer_count ? (
                           <TouchableOpacity
                             onPress={() =>
                               this.props.navigation.navigate(
@@ -604,7 +604,7 @@ class MySellersScreen extends React.Component {
                               {`${item.offer_count}\nOffers`}
                             </Text>
                           </TouchableOpacity>
-                        ) : null}
+                        ) : null} */}
                       </View>
 
                       <View
