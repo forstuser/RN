@@ -21,7 +21,7 @@ class FilterModalScreen extends Component {
   state = {
     isVisible: false,
     isLoadingMySellers: false,
-    selectedMainCategory: "Filter by Sellers"
+    selectedMainCategory: "Filter by Brands"
   };
 
   show = () => {
@@ -94,26 +94,29 @@ class FilterModalScreen extends Component {
       }
     ];
 
-    if (!hideSellerFilter) {
-      mainCategories.push({
-        id: 2,
-        title: "Filter by Sellers"
-      });
-    }
+    // if (!hideSellerFilter) {
+    //   mainCategories.push({
+    //     id: 2,
+    //     title: "Filter by Sellers"
+    //   });
+    // }
 
-    if (hideBrands == true) {
-      mainCategories = [
-        {
-          id: 2,
-          title: "Filter by Sellers"
-        }
-      ];
-    }
+    // if (hideBrands == true) {
+    //   mainCategories = [
+    //     {
+    //       id: 2,
+    //       title: "Filter by Sellers"
+    //     }
+    //   ];
+    // }
 
     let source = null;
-    if (this.state.selectedMainCategory === "Filter by Sellers") {
-      source = this.props.sellers;
-    } else if (this.state.selectedMainCategory === "Filter by Brands") {
+    // if (this.state.selectedMainCategory === "Filter by Sellers") {
+    //   source = this.props.sellers;
+    // } else if (this.state.selectedMainCategory === "Filter by Brands") {
+    //   source = this.props.brands;
+    // }
+    if (this.state.selectedMainCategory === "Filter by Brands") {
       source = this.props.brands;
     }
 

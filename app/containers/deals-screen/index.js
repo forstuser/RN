@@ -52,11 +52,10 @@ class DealsScreen extends Component {
     // Analytics.logEvent(Analytics.EVENTS.CLICK_DEALS);
     this.handleDeeplink(this.props);
   }
-
+  componentWillUnmount() {}
   componentWillReceiveProps(newProps) {
     this.handleDeeplink(newProps);
   }
-
   handleDeeplink = props => {
     const { navigation } = props;
     console.log("navigation: ", navigation);

@@ -94,7 +94,7 @@ class OrderScreen extends React.Component {
   };
 
   componentWillMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    // BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
   }
 
   componentDidMount() {
@@ -145,7 +145,7 @@ class OrderScreen extends React.Component {
     // alert("index screen");
 
     this.didFocusSubscription.remove();
-    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+    // BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
 
     if (socketIo.socket) {
       socketIo.socket.off("order-status-change");
@@ -155,8 +155,18 @@ class OrderScreen extends React.Component {
   }
 
   onBackPress = () => {
-    //alert("Back Pressed");
-    this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+    console.log("status from hardware backpress", this.state.order.status_type);
+    if (
+      this.state.order.status_type == ORDER_STATUS_TYPES.COMPLETE ||
+      this.state.order.status_type == ORDER_STATUS_TYPES.CANCELED ||
+      this.state.order.status_type == ORDER_STATUS_TYPES.REJECTED ||
+      this.state.order.status_type == ORDER_STATUS_TYPES.EXPIRED
+    ) {
+      this.props.navigation.navigate(SCREENS.MY_ORDERS_SCREEN);
+    } else {
+      // alert("back");
+      this.props.navigation.goBack();
+    }
   };
 
   show = item => {
@@ -391,6 +401,13 @@ class OrderScreen extends React.Component {
     this.paymentOptions.show();
   };
 
+  openDigitalBill = () => {
+    const { order } = this.state;
+    this.props.navigation.navigate(SCREENS.DIGITAL_BILL_SCREEN, {
+      order: order,
+      fromOrderFlowScreen: true
+    });
+  };
   //function called when payment to be done offline
   payOffline = async () => {
     const { order } = this.state;
@@ -401,18 +418,18 @@ class OrderScreen extends React.Component {
         sellerId: order.seller_id,
         payment_mode: 1
       });
-
+      console.log("res for work is ", res);
       this.setState({ order: res.result.order }, () => {
-        if (
-          order.order_type == ORDER_TYPES.FMCG &&
-          order.expense_id &&
-          order.upload_id &&
-          userLocation != LOCATIONS.OTHER
-        ) {
-          this.openUploadBillPopup();
-        } else {
-          this.openReviewsScreen();
-        }
+        // if (
+        //   order.order_type == ORDER_TYPES.FMCG &&
+        //   order.expense_id &&
+        //   order.upload_id
+        // ) {
+        //   this.openUploadBillPopup();
+        // } else {
+        //   this.openReviewsScreen();
+        // }
+        this.openDigitalBill();
       });
 
       showSnackbar({ text: "Order completed!" });
@@ -435,16 +452,7 @@ class OrderScreen extends React.Component {
       });
 
       this.setState({ order: res.result.order }, () => {
-        if (
-          order.order_type == ORDER_TYPES.FMCG &&
-          order.expense_id &&
-          order.upload_id &&
-          userLocation != LOCATIONS.OTHER
-        ) {
-          this.openUploadBillPopup();
-        } else {
-          this.openReviewsScreen();
-        }
+        this.openDigitalBill();
       });
 
       showSnackbar({ text: "Order completed!" });
@@ -732,6 +740,7 @@ class OrderScreen extends React.Component {
                     />
                   )}
                   <SellerDetails
+                    navigation={this.props.navigation}
                     order={order}
                     openUploadBillPopup={this.openUploadBillPopup}
                     userLocation={userLocation}

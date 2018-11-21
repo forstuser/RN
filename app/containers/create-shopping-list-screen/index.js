@@ -4,17 +4,14 @@ import {
   View,
   TouchableOpacity,
   Picker,
-  AsyncStorage,
-  BackHandler
+  AsyncStorage
 } from "react-native";
 import { connect } from "react-redux";
-
 import Icon from "react-native-vector-icons/Ionicons";
 import _ from "lodash";
 import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view";
-
 import { Text, Image } from "../../elements";
 import DrawerScreenContainer from "../../components/drawer-screen-container";
 
@@ -27,20 +24,22 @@ import {
   getMySellers,
   getSellerSkuCategories
 } from "../../api";
-
 import { colors, defaultStyles } from "../../theme";
 import CheckBox from "../../components/checkbox";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { showSnackbar } from "../../utils/snackbar";
-
 import SearchBar from "./search-bar";
 import BarcodeScanner from "./barcode-scanner";
 import AddManualItemModal from "./add-manual-item-modal";
 import ClearOrContinuePreviousListModal from "./clear-or-continue-previous-list-modal";
 import FilterModal from "./filter-modal";
 import WishListLimitModal from "./wishlist-limit-modal";
-import { SCREENS, LOCATIONS } from "../../constants";
+import {
+  SCREENS,
+  LOCATIONS,
+  MAIN_CATEGORY_IDS_SHOP_N_EARN
+} from "../../constants";
 import Analytics from "../../analytics";
 import Modal from "../../components/modal";
 
@@ -78,12 +77,14 @@ class ShoppingListScreen extends React.Component {
     neverShowCashbackModal: false,
     collectAtStoreFlag: false,
     hideBrands: false,
+<<<<<<< HEAD
     sellerIdFromOffers: null
+=======
+    timeout: 0
+>>>>>>> pritam
   };
 
-  componentWillMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
-  }
+  componentWillMount() {}
 
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.OPEN_SHOP_N_EARN);
@@ -136,9 +137,7 @@ class ShoppingListScreen extends React.Component {
     );
   }
 
-  componentWillUnmount() {
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
-  }
+  componentWillUnmount() {}
 
   handleBackPress = () => {
     if (this.state.searchTerm.length > 0) {
@@ -187,7 +186,6 @@ class ShoppingListScreen extends React.Component {
   };
 
   modalShow = async () => {
-    //console.log("Location in Shopping List", this.props.userLocation);
     const neverShowCashback = Boolean(await AsyncStorage.getItem("neverShow"));
     if (!neverShowCashback && this.props.userLocation != LOCATIONS.OTHER) {
       this.setState({ isVisibleCashbackModal: true });
@@ -215,27 +213,21 @@ class ShoppingListScreen extends React.Component {
   }
 
   fromSellers = () => {
-    // this.loadItemsForSellerList();
     const seller = this.props.navigation.getParam("seller", null);
     const collectAtStoreFlagFromSeller = this.props.navigation.getParam(
       "collectAtStoreFlag",
       false
     );
     this.setState({ collectAtStoreFlag: collectAtStoreFlagFromSeller });
-
     console.log("selected seller is ", seller);
-
-    // this.setState({
-    //   selectedSeller: seller
-    // });
-    // if (this.state.selectedSeller != null) {
-    //   this.setSelectedSellers([seller]);
-    // }
     if (seller) {
       this.setSelectedSellers(seller ? [{ ...seller }] : []);
-      this.setState({ activeMainCategoryId: 194 }, () => {
-        this.setState({ hideBrands: true });
-      });
+      this.setState(
+        { activeMainCategoryId: MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG },
+        () => {
+          this.setState({ hideBrands: true });
+        }
+      );
       this.props.navigation.setParams({
         seller: null,
         collectAtStoreFlag: false
@@ -246,12 +238,12 @@ class ShoppingListScreen extends React.Component {
   componentWillUnmount() {
     this.didFocusSubscription.remove();
   }
-
   loadSkuWishList = async () => {
     this.setState({ isLoadingWishList: true, wishListError: null });
     try {
       const res = await getSkuWishList();
       this.setState({ wishList: res.result.wishlist_items });
+<<<<<<< HEAD
       console.log("Wishlist in Shop and Earn", res.result.wishlist_items);
       // if (res.result.wishlist_items.length > 0) {
       //   this.clearOrContinuePreviousListModal.show();
@@ -261,6 +253,8 @@ class ShoppingListScreen extends React.Component {
           sellerIdFromOffers: res.result.wishlist_items[0].seller_id
         });
       }
+=======
+>>>>>>> pritam
       const pastItems = res.result.past_selections;
       if (pastItems.length > 0 && !this.state.selectedSeller) {
         this.setState(() => ({ pastItems }));
@@ -284,26 +278,19 @@ class ShoppingListScreen extends React.Component {
       res.result.measurement_types.forEach(measurementType => {
         measurementTypes[measurementType.id] = measurementType;
       });
-
       let mainCategories =
         pastItems.length > 0 ? [{ id: 0, title: "Past Items" }] : [];
-
       mainCategories = [...mainCategories, ...res.result.main_categories];
-
-      //console.log("REFERENCE DATA_____________", res);
       const categories = [];
       res.result.main_categories.forEach(category =>
         categories.push(...category.categories)
       );
-      //console.log("Categories_____", categories);
       let brandsList = [];
       categories &&
         categories
           .filter(category => category.brands)
           .forEach(category => brandsList.push(...category.brands));
       brandsList = _.uniqBy(brandsList, "brand_id");
-      //console.log("BRANDS IN REFERENCE DATA_____________", brandsList);
-
       this.setState(() => ({
         mainCategories,
         measurementTypes,
@@ -314,6 +301,7 @@ class ShoppingListScreen extends React.Component {
         brands: brandsList,
         sellers: res.seller_list
       }));
+<<<<<<< HEAD
 
       const sellerFromOffers = res.seller_list.filter(
         seller => seller.id == sellerIdFromOffers
@@ -325,6 +313,9 @@ class ShoppingListScreen extends React.Component {
         this.loadItemsFirstPage();
       }
       if (this.state.selectedSeller) {
+=======
+      if (pastItems.length == 0 || this.state.selectedSeller) {
+>>>>>>> pritam
         this.loadItemsFirstPage();
       }
     } catch (referenceDataError) {
@@ -334,7 +325,6 @@ class ShoppingListScreen extends React.Component {
       this.setState({ isLoading: false });
     }
   };
-
   updateStateMainCategoryId = activeMainCategoryId => {
     if (activeMainCategoryId === 194) {
       this.setState({ hideBrands: true });
@@ -342,21 +332,15 @@ class ShoppingListScreen extends React.Component {
       this.setState({ hideBrands: false });
     }
     const { mainCategories } = this.state;
-
     const mainCategory = mainCategories.find(
       mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
     );
-    //console.log("MAIN CATEGORY_______", mainCategory);
     const brands =
       mainCategory.categories &&
       mainCategory.categories.map(category => category.brands);
-    //console.log("Brands_________", brands);
     let listBrands = [];
     brands && brands.forEach(brand => listBrands.push(...brand));
     listBrands = _.uniqBy(listBrands, "brand_id");
-
-    //console.log("List brands______", listBrands);
-
     const newState = { activeMainCategoryId, selectedBrands: [] };
 
     if (activeMainCategoryId > 0 && mainCategory.categories.length > 0) {
@@ -376,16 +360,6 @@ class ShoppingListScreen extends React.Component {
 
   updateStateCategoryId = categoryId => {
     let selectedCategoryIds = [...this.state.selectedCategoryIds];
-    // const idx = selectedCategoryIds.findIndex(
-    //   categoryItemId => categoryItemId == categoryId
-    // );
-
-    // if (idx > -1) {
-    //   selectedCategoryIds.splice(idx, 1);
-    // } else {
-    //   selectedCategoryIds.push(categoryId);
-    // }
-
     if (selectedCategoryIds.includes(categoryId)) {
       selectedCategoryIds = [];
     } else {
@@ -518,7 +492,10 @@ class ShoppingListScreen extends React.Component {
         (searchTerm.length >= 3 &&
           searchTerm != this.state.lastSearchTerm3Characters)
       ) {
-        this.loadItemsFirstPage();
+        if (this.state.timeout) clearTimeout(this.state.timeout);
+        this.timeout = setTimeout(() => {
+          this.loadItemsFirstPage();
+        }, 300);
       }
       if (searchTerm.length == 3) {
         this.setState({ lastSearchTerm3Characters: searchTerm });
@@ -539,13 +516,11 @@ class ShoppingListScreen extends React.Component {
 
   loadItems = async (offset = 0) => {
     const { items } = this.state;
-
     this.setState({
       isSearching: true,
       isSearchDone: false,
       searchError: null
     });
-
     const {
       activeMainCategoryId,
       selectedCategoryIds,
@@ -553,7 +528,6 @@ class ShoppingListScreen extends React.Component {
       selectedBrands,
       selectedSeller
     } = this.state;
-
     try {
       const data = {
         mainCategoryId: activeMainCategoryId ? activeMainCategoryId : undefined,
@@ -563,7 +537,6 @@ class ShoppingListScreen extends React.Component {
         sellerId: selectedSeller ? selectedSeller.id : undefined,
         offset: items.length
       };
-
       const res = await getSkuItems(data);
       //console.log("Sellers list in shop and earn: ", res.seller_list);
       if (res.result.sku_items.length === 0) {
@@ -584,6 +557,7 @@ class ShoppingListScreen extends React.Component {
       this.setState({ isSearching: false, searchError: error });
     }
   };
+
   loadItemsForSellerList = async (offset = 0) => {
     const { items } = this.state;
 
@@ -672,7 +646,6 @@ class ShoppingListScreen extends React.Component {
         this.setState({ isSearching: false });
       }
     } else {
-      console.log("reset karne pe null hua");
       this.setState(
         {
           selectedSeller: null,
@@ -697,6 +670,9 @@ class ShoppingListScreen extends React.Component {
 
   updatePastItems = pastItems => {
     this.setState({ pastItems });
+  };
+  showAddProductOptionsScreen = () => {
+    this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SCREEN);
   };
 
   render() {
@@ -731,12 +707,6 @@ class ShoppingListScreen extends React.Component {
       collectAtStoreFlag,
       hideBrands
     } = this.state;
-
-    // console.log(
-    //   "collectAtStoreFlag in create shopping list___________",
-    //   collectAtStoreFlag
-    // );
-
     if (referenceDataError || wishListError) {
       return (
         <ErrorOverlay
@@ -745,20 +715,27 @@ class ShoppingListScreen extends React.Component {
         />
       );
     }
-    console.log("List of brands______", brands);
     return (
       <DrawerScreenContainer
         title={selectedSeller ? null : "Create Shopping List"}
         titleComponent={
           <View
-            style={{ height: 25, backgroundColor: "#fff", borderRadius: 10 }}
+            style={{
+              justifyContent: "center",
+              height: 25,
+              backgroundColor: "#fff",
+              borderRadius: 10
+            }}
           >
             <Picker
               mode="dropdown"
               selectedValue={selectedSeller ? selectedSeller.seller_name : null}
               style={{
-                height: 25,
-                width: 180,
+                height: 40,
+                width: 160,
+                alignSelf: "stretch",
+                alignItems: "center",
+                justifyContent: "center",
                 color: colors.pinkishOrange
               }}
               onValueChange={(itemValue, itemIndex) => {
@@ -968,10 +945,10 @@ class ShoppingListScreen extends React.Component {
                 (i) Create Shopping List
               </Text>
               <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (ii) Shop with your List anywhere.
+                (ii) Shop with your List anywhere
               </Text>
               <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (iii) Upload valid Bill & Get Cashback.
+                (iii) Upload valid Bill & Get Cashback
               </Text>
             </View>
             <View style={{ padding: 10 }}>
@@ -990,10 +967,10 @@ class ShoppingListScreen extends React.Component {
                 (i) Create Shopping List
               </Text>
               <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (ii) Place Online Order with a nearby BinBill Store.
+                (ii) Order Online from nearby BinBill Store
               </Text>
               <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (iii) Pay for your Order & Get Cashback.
+                (iii) Pay for your Order & Get Cashback
               </Text>
             </View>
             <TouchableOpacity
@@ -1023,6 +1000,28 @@ class ShoppingListScreen extends React.Component {
             this.limitModal = node;
           }}
         />
+        <TouchableOpacity
+          ref={node => (this.addProductBtnRef = node)}
+          style={{
+            position: "absolute",
+            bottom: 10,
+            right: 10,
+            width: 58,
+            height: 58,
+            zIndex: 2,
+            backgroundColor: colors.tomato,
+            borderRadius: 32,
+            alignItems: "center",
+            justifyContent: "center",
+            elevation: 3
+          }}
+          onPress={() => this.showAddProductOptionsScreen()}
+        >
+          <Icon name="md-camera" color="#fff" size={28} />
+          <Text weight="Bold" style={{ color: "#fff", fontSize: 10 }}>
+            Claim
+          </Text>
+        </TouchableOpacity>
       </DrawerScreenContainer>
     );
   }

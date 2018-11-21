@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     width: "100%",
     ...Platform.select({
       ios: { height: 55, paddingTop: 20 },
-      android: { height: 35 }
+      android: { height: 45 }
     })
   },
   iconWrapper: {

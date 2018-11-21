@@ -25,7 +25,8 @@ class CashFreePaymentStatusScreen extends Component {
     showWebView: true,
     orderIdWebView: "",
     orderAmountWebView: "",
-    transactionStatus: null
+    transactionStatus: null,
+    order: null
   };
   componentDidMount() {
     // BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
@@ -73,7 +74,7 @@ class CashFreePaymentStatusScreen extends Component {
       }
 
       const postData = {
-        appId: "4266316b86143383be42108a6624",
+        appId: "1844ecd62445987b8152c2304481",
         //test -> 1844ecd62445987b8152c2304481, production -> 4266316b86143383be42108a6624
         orderId: (order.id || "").toString(),
         orderAmount: (totalAmount || 0).toString(),
@@ -137,14 +138,21 @@ class CashFreePaymentStatusScreen extends Component {
   onNavStateChange = async webViewState => {
     //Test -> https://consumer-stage.binbill.com/consumer/payments
     // Production -> https://consumer.binbill.com/consumer/payments
-
+    let order = this.props.navigation.getParam("order", null);
     if (webViewState.url == API_BASE_URL + "/consumer/payments") {
       const { orderIdWebView } = this.state;
       //console.log("orderIDWebView----------", orderIdWebView);
       const res = await getTransactionStatus(orderIdWebView);
-      console.log(res);
-
-      this.setState({ transactionStatus: res, showWebView: false });
+      console.log(
+        "responeseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        res
+      );
+      order["expense_id"] = res.expense_id;
+      this.setState({
+        transactionStatus: res,
+        showWebView: false,
+        order: order
+      });
       // },2000)
 
       // if (res && res.status_type) {
@@ -178,7 +186,7 @@ class CashFreePaymentStatusScreen extends Component {
         originWhitelist={["*"]}
         source={{
           uri:
-            "https://s3.ap-south-1.amazonaws.com/binbillpaymentgateway-prod/index.html"
+            "http://binbillpaymentgateway.s3-website.ap-south-1.amazonaws.com"
         }}
         style={{
           width: "100%",
@@ -303,9 +311,16 @@ class CashFreePaymentStatusScreen extends Component {
                 <View style={{ flexDirection: "row", marginTop: 35 }}>
                   <Button
                     onPress={() =>
-                      this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
-                        orderId: order.id
-                      })
+                      // this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
+                      //   orderId: order.id
+                      // })
+                      this.props.navigation.navigate(
+                        SCREENS.DIGITAL_BILL_SCREEN,
+                        {
+                          order: this.state.order,
+                          fromOrderFlowScreen: true
+                        }
+                      )
                     }
                     text="Back"
                     color="secondary"
@@ -342,8 +357,8 @@ class CashFreePaymentStatusScreen extends Component {
                         : transactionStatus.status_type == 13 ||
                           transactionStatus.status_type == 8 ||
                           transactionStatus.status_type == 4
-                          ? this.retryPressPending
-                          : null
+                        ? this.retryPressPending
+                        : null
                     }
                     text="Retry"
                     color="secondary"

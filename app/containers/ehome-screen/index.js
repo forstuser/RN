@@ -93,7 +93,6 @@ class EhomeScreen extends Component {
   componentDidMount() {
     console.log("inside ehome");
     Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
-
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -108,7 +107,6 @@ class EhomeScreen extends Component {
   componentWillUnmount() {
     this.didFocusSubscription.remove();
   }
-
   updateTab = (index, newState) => {
     const { tabs } = this.state;
     tabs[index] = { ...tabs[index], ...newState };

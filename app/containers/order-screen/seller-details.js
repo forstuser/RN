@@ -13,7 +13,7 @@ import { defaultStyles, colors } from "../../theme";
 
 import { openBillsPopUp } from "../../navigation";
 
-import { LOCATIONS, ORDER_TYPES } from "../../constants";
+import { LOCATIONS, ORDER_TYPES, SCREENS } from "../../constants";
 import Analytics from "../../analytics";
 
 import { showSnackbar } from "../../utils/snackbar";
@@ -29,15 +29,10 @@ class SellerDetails extends React.Component {
   };
 
   onViewBillPress = () => {
-    const { order, openUploadBillPopup } = this.props;
-    if (order.copies && order.copies.length > 0) {
-      openBillsPopUp({
-        copies: order.copies || []
-      });
-    } else {
-      Analytics.logEvent(Analytics.EVENTS.UPLOAD_BILL_AFTER_MARK_PAID);
-      openUploadBillPopup();
-    }
+    const { order } = this.props;
+    this.props.navigation.navigate(SCREENS.DIGITAL_BILL_SCREEN, {
+      order: order
+    });
   };
 
   startChatWithSeller = async seller => {
@@ -163,50 +158,44 @@ class SellerDetails extends React.Component {
                     </Text>
                   </TouchableOpacity>
                 </View>
-                {((order.copies && order.copies.length > 0) ||
-                  (order.order_type == ORDER_TYPES.FMCG &&
-                    order.expense_id &&
-                    order.upload_id &&
-                    (order.payment_mode_id == 1 ||
-                      order.payment_mode_id == 5) &&
-                    order.status_type == 5 &&
-                    moment().diff(order.updated_at, "hours") < 24 &&
-                    userLocation != LOCATIONS.OTHER)) && (
-                  <TouchableOpacity
-                    onPress={this.onViewBillPress}
-                    style={{
-                      marginTop: 10,
-                      marginBottom: 5,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      borderColor: colors.pinkishOrange,
-                      borderWidth: 1,
-                      alignSelf: "flex-start",
-                      paddingHorizontal: 10,
-                      paddingVertical: 5,
-                      borderRadius: 15
-                    }}
-                  >
-                    {/* <Icon
+                {order.order_type == ORDER_TYPES.FMCG &&
+                  order.status_type == 5 && (
+                    <TouchableOpacity
+                      onPress={this.onViewBillPress}
+                      style={{
+                        marginTop: 10,
+                        marginBottom: 5,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        borderColor: colors.pinkishOrange,
+                        borderWidth: 1,
+                        alignSelf: "flex-start",
+                        paddingHorizontal: 10,
+                        paddingVertical: 5,
+                        borderRadius: 15
+                      }}
+                    >
+                      {/* <Icon
                       name="md-document"
                       color={colors.pinkishOrange}
                       size={15}
                     /> */}
-                    <Text
-                      weight="Medium"
-                      style={{
-                        marginTop: -3,
-                        marginLeft: 4,
-                        fontSize: 12,
-                        color: colors.pinkishOrange
-                      }}
-                    >
-                      {order.copies && order.copies.length > 0
+                      <Text
+                        weight="Medium"
+                        style={{
+                          marginTop: -3,
+                          marginLeft: 4,
+                          fontSize: 12,
+                          color: colors.pinkishOrange
+                        }}
+                      >
+                        View Invoice
+                        {/* {order.copies && order.copies.length > 0
                         ? `View Invoice`
-                        : `Upload Invoice to Claim Cashback`}
-                    </Text>
-                  </TouchableOpacity>
-                )}
+                        : `Upload Invoice to Claim Cashback`} */}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
               </View>
             </View>
           </View>

@@ -26,6 +26,7 @@ import BillsPopUpScreen from "../containers/bills-popup-screen";
 import FaqScreen from "../containers/faq-screen";
 import MailboxScreen from "../containers/mailbox-screen";
 import TipsScreen from "../containers/tips-screen";
+import DigitalBillScreen from "../containers/digital-bill-screen";
 import ProfileScreen from "../containers/profile-screen";
 import SearchScreen from "../containers/search-screen";
 import AscSearchScreen from "../containers/asc-search-screen";
@@ -109,21 +110,12 @@ const BottomTabStack = createBottomTabNavigator(
         )
       }
     },
-    [SCREENS.EHOME_SCREEN]: {
-      screen: EhomeScreen,
+    [SCREENS.DEALS_SCREEN]: {
+      screen: DealsScreen,
       navigationOptions: {
-        tabBarLabel: "eHome",
+        tabBarLabel: "Offers",
         tabBarIcon: props => (
-          <TabIcon {...props} source={require("../images/ehome.png")} />
-        )
-      }
-    },
-    [SCREENS.MY_SELLERS_SCREEN]: {
-      screen: MySellersScreen,
-      navigationOptions: {
-        tabBarLabel: "My Seller",
-        tabBarIcon: props => (
-          <TabIcon {...props} source={require("../images/seller_icon.png")} />
+          <TabIcon {...props} source={require("../images/deals.png")} />
         )
       }
     },
@@ -136,12 +128,21 @@ const BottomTabStack = createBottomTabNavigator(
         )
       }
     },
-    [SCREENS.DEALS_SCREEN]: {
-      screen: DealsScreen,
+    [SCREENS.MY_SELLERS_SCREEN]: {
+      screen: MySellersScreen,
       navigationOptions: {
-        tabBarLabel: "Deals",
+        tabBarLabel: "My Seller",
         tabBarIcon: props => (
-          <TabIcon {...props} source={require("../images/deals.png")} />
+          <TabIcon {...props} source={require("../images/seller_icon.png")} />
+        )
+      }
+    },
+    [SCREENS.EHOME_SCREEN]: {
+      screen: EhomeScreen,
+      navigationOptions: {
+        tabBarLabel: "eHome",
+        tabBarIcon: props => (
+          <TabIcon {...props} source={require("../images/ehome.png")} />
         )
       }
     }
@@ -200,6 +201,7 @@ const StackNavigator = createStackNavigator(
     [SCREENS.MAILBOX_SCREEN]: MailboxScreen,
     [SCREENS.DO_YOU_KNOW_SCREEN]: DoYouKnowScreen,
     [SCREENS.TIPS_SCREEN]: TipsScreen,
+    [SCREENS.DIGITAL_BILL_SCREEN]: DigitalBillScreen,
     [SCREENS.PROFILE_SCREEN]: ProfileScreen,
     [SCREENS.SEARCH_SCREEN]: SearchScreen,
     [SCREENS.ASC_SEARCH_SCREEN]: AscSearchScreen,

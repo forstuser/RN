@@ -12,12 +12,17 @@ import { Text, Button } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
 import { SCREENS } from "../../constants";
 import SingleOrder from "./single-order";
+import HeaderBackBtn from "../../components/header-nav-back-btn";
 
 export default class OrdersList extends React.Component {
-  static navigationOptions = {
-    title: "My Orders"
-  };
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
 
+    return {
+      title: "My Orders",
+      headerLeft: <HeaderBackBtn onPress={params.onBackPress} />
+    };
+  };
   state = {
     isLoading: false,
     error: null,
@@ -28,18 +33,21 @@ export default class OrdersList extends React.Component {
   //   BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
   // }
 
-  componentDidMount() {
+  componentWillMount() {
     this.loadOrders();
+    this.props.navigation.setParams({
+      onBackPress: this.handleBackPress
+    });
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
   }
 
-  // componentWillUnmount() {
-  //   BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
-  // }
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+  }
 
-  // handleBackPress = () => {
-  //   this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
-  //   return true;
-  // };
+  handleBackPress = () => {
+    this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+  };
 
   loadOrders = async () => {
     this.setState({ isLoading: true, error: null });

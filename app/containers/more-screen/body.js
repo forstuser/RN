@@ -162,7 +162,6 @@ class Body extends Component {
     this.closeDrawer();
     this.props.navigation.navigate(SCREENS.MY_ORDERS_SCREEN);
   };
-
   onCashbackBillsPress = () => {
     this.closeDrawer();
     this.props.navigation.navigate(SCREENS.CASHBACK_BILLS_SCREEN);

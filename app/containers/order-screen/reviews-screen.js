@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, BackHandler } from "react-native";
 
 import { addSellerReview, addAssistedServiceReview } from "../../api";
 
@@ -7,10 +7,16 @@ import LoadingOverlay from "../../components/loading-overlay";
 import { Text, Button } from "../../elements";
 import Review from "./review-edit-view";
 import { showSnackbar } from "../../utils/snackbar";
-
+import { SCREENS } from "../../constants";
+import HeaderBackButton from "../../components/header-nav-back-btn";
 export default class ShoppingOrderReviewsScreen extends React.Component {
-  static navigationOptions = {
-    title: "Write a Review"
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
+
+    return {
+      title: "Write a Review",
+      headerLeft: <HeaderBackButton onPress={params.onBackPress} />
+    };
   };
 
   state = {
@@ -21,7 +27,11 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
     isLoading: false
   };
 
-  componentDidMount() {
+  componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    this.props.navigation.setParams({
+      onBackPress: this.onBackPress
+    });
     const { navigation } = this.props;
     const sellerRating = navigation.getParam("sellerRatings", 0);
     const sellerReviewText = navigation.getParam("sellerReviewText", "");
@@ -35,7 +45,13 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
       serviceReviewText
     });
   }
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+  }
 
+  onBackPress = () => {
+    this.props.navigation.navigate(SCREENS.ORDER_SCREEN);
+  };
   onSubmit = async () => {
     const { navigation } = this.props;
     const order = navigation.getParam("order", {});
@@ -76,7 +92,7 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
         orderId: order.id
       });
 
-      this.props.navigation.goBack();
+      this.props.navigation.navigate(SCREENS.ORDER_SCREEN);
     } catch (e) {
       showSnackbar({ text: e.message });
     } finally {
@@ -85,7 +101,7 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
   };
 
   onMayBeLaterPress = () => {
-    this.props.navigation.goBack();
+    this.props.navigation.navigate(SCREENS.ORDER_SCREEN);
   };
 
   render() {
