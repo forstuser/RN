@@ -497,6 +497,9 @@ class ShoppingListScreen extends React.Component {
   };
 
   updateSearchTerm = searchTerm => {
+    if (searchTerm.length == 0) {
+      this.loadItemsFirstPage();
+    }
     const newState = {
       searchTerm
     };
