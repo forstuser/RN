@@ -94,7 +94,7 @@ class OrderScreen extends React.Component {
   };
 
   componentWillMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    // BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
   }
 
   componentDidMount() {
@@ -145,7 +145,7 @@ class OrderScreen extends React.Component {
     // alert("index screen");
 
     this.didFocusSubscription.remove();
-    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+    // BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
 
     if (socketIo.socket) {
       socketIo.socket.off("order-status-change");
@@ -155,10 +155,16 @@ class OrderScreen extends React.Component {
   }
 
   onBackPress = () => {
-    //alert("Back Pressed");
-    if (this.state.order.status_type == ORDER_STATUS_TYPES.COMPLETE) {
+    console.log("status from hardware backpress", this.state.order.status_type);
+    if (
+      this.state.order.status_type == ORDER_STATUS_TYPES.COMPLETE ||
+      this.state.order.status_type == ORDER_STATUS_TYPES.CANCELED ||
+      this.state.order.status_type == ORDER_STATUS_TYPES.REJECTED ||
+      this.state.order.status_type == ORDER_STATUS_TYPES.EXPIRED
+    ) {
       this.props.navigation.navigate(SCREENS.MY_ORDERS_SCREEN);
     } else {
+      // alert("back");
       this.props.navigation.goBack();
     }
   };

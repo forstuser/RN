@@ -757,8 +757,7 @@ export default {
     "Discover amazing facts & tips related to brands and lifestyle, to fill you with awe! ",
   ehome_tip:
     "Check your private and secure eHome for your saved Bills, Expenses & Documents.",
-  deals_tip:
-    "Check out your Seller Offers and Best of Accessories for your Appliances.",
+  deals_tip: "Check out your Seller Offers.",
   attendance_tip:
     // "Plan your Day for tasks to be done, clothes to be worn and dishes to be cooked. Track attendance & payouts for all your household services too!",
     "Track attendance & payouts for all your household services!",

@@ -109,20 +109,21 @@ export default class SearchBar extends React.Component {
 
   resetBrandsFilter = () => {
     const {
-      setSelectedBrands = () => null,
-      setSelectedSellers = () => null
+      setSelectedBrands = () => null
+      // setSelectedSellers = () => null
     } = this.props;
     setSelectedBrands([], true);
     this.setState(
       {
         isBrandsPopupVisible: false,
-        checkedBrands: [],
-        checkedSellers: []
-      },
-      () => {
-        this.toggleSellerSelection();
+        checkedBrands: []
+        // checkedSellers: []
       }
+      // () => {
+      //   this.toggleSellerSelection();
+      // }
     );
+    this.filterModal.hide();
   };
 
   startSearch = () => {
@@ -419,7 +420,7 @@ export default class SearchBar extends React.Component {
               name="md-options"
               size={25}
               color={
-                (brands.length == 0 && sellers.length == 0) ||
+                brands.length == 0 ||
                 (activeMainCategoryId == 0 && searchTerm.length < 3) // ||
                   ? // (activeMainCategoryId ==
                     //   MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG ||
@@ -428,7 +429,7 @@ export default class SearchBar extends React.Component {
                   : colors.mainText
               }
             />
-            {selectedBrands.length > 0 || selectedSeller ? (
+            {selectedBrands.length > 0 ? (
               <View
                 style={{
                   position: "absolute",
@@ -442,7 +443,7 @@ export default class SearchBar extends React.Component {
                 }}
               >
                 <Text style={{ color: "#fff", fontSize: 10 }}>
-                  {selectedBrands.length + (selectedSeller ? 1 : 0)}
+                  {selectedBrands.length}
                 </Text>
               </View>
             ) : null}

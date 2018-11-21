@@ -50,7 +50,7 @@ class MoreScreen extends Component {
   }
 
   componentWillMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+    // BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
   }
   componentDidMount() {
     this.fetchProfile();
@@ -63,15 +63,15 @@ class MoreScreen extends Component {
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+    // BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
     this.didFocusSubscription.remove();
   }
 
-  handleBackPress = () => {
-    this.props.navigation.pop();
-    this.DrawerBody.closeDrawer();
-    return true;
-  };
+  // handleBackPress = () => {
+  //   this.props.navigation.pop();
+  //   this.DrawerBody.closeDrawer();
+  //   return true;
+  // };
 
   fetchProfile = async () => {
     this.setState({

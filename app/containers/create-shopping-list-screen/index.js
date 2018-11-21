@@ -4,17 +4,14 @@ import {
   View,
   TouchableOpacity,
   Picker,
-  AsyncStorage,
-  BackHandler
+  AsyncStorage
 } from "react-native";
 import { connect } from "react-redux";
-
 import Icon from "react-native-vector-icons/Ionicons";
 import _ from "lodash";
 import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view";
-
 import { Text, Image } from "../../elements";
 import DrawerScreenContainer from "../../components/drawer-screen-container";
 
@@ -27,13 +24,11 @@ import {
   getMySellers,
   getSellerSkuCategories
 } from "../../api";
-
 import { colors, defaultStyles } from "../../theme";
 import CheckBox from "../../components/checkbox";
 import LoadingOverlay from "../../components/loading-overlay";
 import ErrorOverlay from "../../components/error-overlay";
 import { showSnackbar } from "../../utils/snackbar";
-
 import SearchBar from "./search-bar";
 import BarcodeScanner from "./barcode-scanner";
 import AddManualItemModal from "./add-manual-item-modal";
@@ -81,9 +76,7 @@ class ShoppingListScreen extends React.Component {
     timeout: 0
   };
 
-  componentWillMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
-  }
+  componentWillMount() {}
 
   componentDidMount() {
     Analytics.logEvent(Analytics.EVENTS.OPEN_SHOP_N_EARN);
@@ -135,9 +128,7 @@ class ShoppingListScreen extends React.Component {
     );
   }
 
-  componentWillUnmount() {
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
-  }
+  componentWillUnmount() {}
 
   handleBackPress = () => {
     if (this.state.searchTerm.length > 0) {
@@ -185,7 +176,6 @@ class ShoppingListScreen extends React.Component {
   };
 
   modalShow = async () => {
-    //console.log("Location in Shopping List", this.props.userLocation);
     const neverShowCashback = Boolean(await AsyncStorage.getItem("neverShow"));
     if (!neverShowCashback && this.props.userLocation != LOCATIONS.OTHER) {
       this.setState({ isVisibleCashbackModal: true });
@@ -220,15 +210,7 @@ class ShoppingListScreen extends React.Component {
       false
     );
     this.setState({ collectAtStoreFlag: collectAtStoreFlagFromSeller });
-
     console.log("selected seller is ", seller);
-
-    // this.setState({
-    //   selectedSeller: seller
-    // });
-    // if (this.state.selectedSeller != null) {
-    //   this.setSelectedSellers([seller]);
-    // }
     if (seller) {
       this.setSelectedSellers(seller ? [{ ...seller }] : []);
       this.setState({ activeMainCategoryId: 194 }, () => {
@@ -244,16 +226,11 @@ class ShoppingListScreen extends React.Component {
   componentWillUnmount() {
     this.didFocusSubscription.remove();
   }
-
   loadSkuWishList = async () => {
     this.setState({ isLoadingWishList: true, wishListError: null });
     try {
       const res = await getSkuWishList();
       this.setState({ wishList: res.result.wishlist_items });
-      // if (res.result.wishlist_items.length > 0) {
-      //   this.clearOrContinuePreviousListModal.show();
-      // }
-
       const pastItems = res.result.past_selections;
       if (pastItems.length > 0 && !this.state.selectedSeller) {
         this.setState(() => ({ pastItems }));
@@ -277,26 +254,19 @@ class ShoppingListScreen extends React.Component {
       res.result.measurement_types.forEach(measurementType => {
         measurementTypes[measurementType.id] = measurementType;
       });
-
       let mainCategories =
         pastItems.length > 0 ? [{ id: 0, title: "Past Items" }] : [];
-
       mainCategories = [...mainCategories, ...res.result.main_categories];
-
-      //console.log("REFERENCE DATA_____________", res);
       const categories = [];
       res.result.main_categories.forEach(category =>
         categories.push(...category.categories)
       );
-      //console.log("Categories_____", categories);
       let brandsList = [];
       categories &&
         categories
           .filter(category => category.brands)
           .forEach(category => brandsList.push(...category.brands));
       brandsList = _.uniqBy(brandsList, "brand_id");
-      //console.log("BRANDS IN REFERENCE DATA_____________", brandsList);
-
       this.setState(() => ({
         mainCategories,
         measurementTypes,
@@ -306,9 +276,6 @@ class ShoppingListScreen extends React.Component {
         brands: brandsList,
         sellers: res.seller_list
       }));
-      // console.log("past items 1", this.state.pastItems);
-      //console.log("main categoried 1", this.state.mainCategories);
-      // console.log("active main category id 1", this.state.activeMainCategoryId);
       if (pastItems.length == 0) {
         this.loadItemsFirstPage();
       }
@@ -322,7 +289,6 @@ class ShoppingListScreen extends React.Component {
       this.setState({ isLoading: false });
     }
   };
-
   updateStateMainCategoryId = activeMainCategoryId => {
     if (activeMainCategoryId === 194) {
       this.setState({ hideBrands: true });
@@ -330,21 +296,15 @@ class ShoppingListScreen extends React.Component {
       this.setState({ hideBrands: false });
     }
     const { mainCategories } = this.state;
-
     const mainCategory = mainCategories.find(
       mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
     );
-    //console.log("MAIN CATEGORY_______", mainCategory);
     const brands =
       mainCategory.categories &&
       mainCategory.categories.map(category => category.brands);
-    //console.log("Brands_________", brands);
     let listBrands = [];
     brands && brands.forEach(brand => listBrands.push(...brand));
     listBrands = _.uniqBy(listBrands, "brand_id");
-
-    //console.log("List brands______", listBrands);
-
     const newState = { activeMainCategoryId, selectedBrands: [] };
 
     if (activeMainCategoryId > 0 && mainCategory.categories.length > 0) {
@@ -364,16 +324,6 @@ class ShoppingListScreen extends React.Component {
 
   updateStateCategoryId = categoryId => {
     let selectedCategoryIds = [...this.state.selectedCategoryIds];
-    // const idx = selectedCategoryIds.findIndex(
-    //   categoryItemId => categoryItemId == categoryId
-    // );
-
-    // if (idx > -1) {
-    //   selectedCategoryIds.splice(idx, 1);
-    // } else {
-    //   selectedCategoryIds.push(categoryId);
-    // }
-
     if (selectedCategoryIds.includes(categoryId)) {
       selectedCategoryIds = [];
     } else {
@@ -680,6 +630,9 @@ class ShoppingListScreen extends React.Component {
 
   updatePastItems = pastItems => {
     this.setState({ pastItems });
+  };
+  showAddProductOptionsScreen = () => {
+    this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SCREEN);
   };
 
   render() {
@@ -1006,6 +959,28 @@ class ShoppingListScreen extends React.Component {
             this.limitModal = node;
           }}
         />
+        <TouchableOpacity
+          ref={node => (this.addProductBtnRef = node)}
+          style={{
+            position: "absolute",
+            bottom: 10,
+            right: 10,
+            width: 58,
+            height: 58,
+            zIndex: 2,
+            backgroundColor: colors.tomato,
+            borderRadius: 32,
+            alignItems: "center",
+            justifyContent: "center",
+            elevation: 3
+          }}
+          onPress={() => this.showAddProductOptionsScreen()}
+        >
+          <Icon name="md-camera" color="#fff" size={28} />
+          <Text weight="Bold" style={{ color: "#fff", fontSize: 10 }}>
+            Claim
+          </Text>
+        </TouchableOpacity>
       </DrawerScreenContainer>
     );
   }

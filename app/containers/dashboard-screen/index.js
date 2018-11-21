@@ -101,7 +101,7 @@ class DashboardScreen extends React.Component {
     //   this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
     // }
     // this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+    // BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -140,11 +140,11 @@ class DashboardScreen extends React.Component {
   componentWillUnmount() {
     this.didFocusSubscription.remove();
     this.willBlurSubscription.remove();
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+    // BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
   }
-  handleBackPress = () => {
-    BackHandler.exitApp();
-  };
+  // handleBackPress = () => {
+  //   BackHandler.exitApp();
+  // };
   closeShopAndEarnModal = () => {
     this.setState({ isVisibleShopAndEarnModal: false });
   };
@@ -230,13 +230,6 @@ class DashboardScreen extends React.Component {
     this.setState({
       showUploadOptions: true
     });
-  };
-
-  showAddProductOptionsScreen = () => {
-    // Analytics.logEvent(Analytics.EVENTS.CLICK_PLUS_ICON);
-    //use push here so that we can use 'replace' later
-    // this.props.navigation.push(SCREENS.ADD_PRODUCT_SCREEN);
-    this.props.navigation.push(SCREENS.CLAIM_CASHBACK_SCREEN);
   };
 
   openInsightScreen = props => {
@@ -346,24 +339,6 @@ class DashboardScreen extends React.Component {
           />
         </View>
 
-        {activeTabIndex < 2 &&
-        userLocation &&
-        userLocation != LOCATIONS.OTHER ? (
-          <TouchableOpacity
-            ref={node => (this.addProductBtnRef = node)}
-            style={styles.fab}
-            onPress={() => this.showAddProductOptionsScreen()}
-          >
-            {/* <Image style={styles.uploadFabIcon} source={uploadFabIcon} /> */}
-            <Icon name="md-camera" color="#fff" size={28} />
-            <Text weight="Bold" style={{ color: "#fff", fontSize: 10 }}>
-              Claim
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <View />
-        )}
-
         <ErrorOverlay error={error} onRetryPress={this.fetchDashboardData} />
         <LoadingOverlay visible={isFetchingData} />
         <RateUsDialog
@@ -372,11 +347,6 @@ class DashboardScreen extends React.Component {
         />
         <View collapsable={false} style={styles.dummiesForTooltips}>
           <View collapsable={false} style={styles.dummyForTooltip} />
-          <View
-            collapsable={false}
-            ref={ref => (this.ehomeTabItemRef = ref)}
-            style={styles.dummyForTooltip}
-          />
           <View
             collapsable={false}
             ref={ref => (this.dealsTabItemRef = ref)}
@@ -392,15 +362,20 @@ class DashboardScreen extends React.Component {
             style={styles.dummyForTooltip}
             ref={ref => (this.mySeller = ref)}
           />
+          <View
+            collapsable={false}
+            ref={ref => (this.ehomeTabItemRef = ref)}
+            style={styles.dummyForTooltip}
+          />
         </View>
         <Tour
           ref={ref => (this.dashboardTour = ref)}
           enabled={true}
           steps={[
-            { ref: this.ehomeTabItemRef, text: I18n.t("ehome_tip") },
             { ref: this.dealsTabItemRef, text: I18n.t("deals_tip") },
             { ref: this.shopAndEarn, text: I18n.t("shop_n_earn") },
             { ref: this.mySeller, text: I18n.t("my_seller_tip") },
+            { ref: this.ehomeTabItemRef, text: I18n.t("ehome_tip") },
             { ref: this.comingUpRef, text: I18n.t("coming_up_tip") },
             { ref: this.insightsRef, text: I18n.t("insights_tip") },
             { ref: this.dykIconref, text: I18n.t("do_you_know_tip") },
@@ -497,19 +472,6 @@ const styles = StyleSheet.create({
   expenseInsightDetailsText: {
     fontSize: 12,
     color: colors.pinkishOrange
-  },
-  fab: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-    width: 58,
-    height: 58,
-    zIndex: 2,
-    backgroundColor: colors.tomato,
-    borderRadius: 32,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 3
   },
   uploadFabIcon: {
     width: 25,

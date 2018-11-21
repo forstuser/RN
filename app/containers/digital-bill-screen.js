@@ -110,7 +110,6 @@ class DigitalBillScreen extends Component {
   };
   render() {
     const { digitalBillData } = this.state;
-    console.log("dataaaaaaaaaaaaaaaaaaaa", digitalBillData);
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={{ flex: 1 }}>

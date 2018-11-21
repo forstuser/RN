@@ -9,8 +9,7 @@ import {
   Image,
   Animated,
   Dimensions,
-  ScrollView,
-  BackHandler
+  ScrollView
 } from "react-native";
 import { connect } from "react-redux";
 
@@ -94,7 +93,6 @@ class EhomeScreen extends Component {
   componentDidMount() {
     console.log("inside ehome");
     Analytics.logEvent(Analytics.EVENTS.OPEN_EHOME);
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -108,11 +106,7 @@ class EhomeScreen extends Component {
 
   componentWillUnmount() {
     this.didFocusSubscription.remove();
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
   }
-  handleBackPress = () => {
-    BackHandler.exitApp();
-  };
   updateTab = (index, newState) => {
     const { tabs } = this.state;
     tabs[index] = { ...tabs[index], ...newState };
