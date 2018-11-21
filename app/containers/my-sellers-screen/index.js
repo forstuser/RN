@@ -472,7 +472,7 @@ class MySellersScreen extends React.Component {
                               `/consumer/sellers/${item.id}/upload/1/images/0`
                           }}
                         />
-                        <View
+                        {/* <View
                           style={{
                             position: "absolute",
                             right: 2,
@@ -486,7 +486,7 @@ class MySellersScreen extends React.Component {
                             alignItems: "center",
                             justifyContent: "center"
                           }}
-                        />
+                        /> */}
                       </View>
                       <View
                         style={{
@@ -881,7 +881,7 @@ class MySellersScreen extends React.Component {
                 flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: 10
+                marginTop: 13
               }}
             >
               <Image
@@ -894,12 +894,14 @@ class MySellersScreen extends React.Component {
               style={{
                 padding: 10,
                 textAlign: "center",
-                fontSize: 14,
-                marginTop: 10
+                fontSize: 16,
+                marginTop: 3,
+                lineHeight: 23
               }}
             >
-              Oops, home Delivery not available currently. Come back to Order
-              later or proceed to Order Now & Collect at Store
+              <Text weight="Bold">Oops</Text>, home Delivery not available
+              currently. Come back to Order later or proceed to Order Now &
+              Collect at Store
             </Text>
             <View
               style={{

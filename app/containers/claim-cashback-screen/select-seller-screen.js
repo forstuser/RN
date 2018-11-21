@@ -86,7 +86,8 @@ export default class SelectSellerScreen extends React.Component {
       selectedSeller.seller_type_id == SELLER_TYPE_IDS.VERIFIED &&
       selectedSeller.seller_details.basic_details.home_delivery === true
     ) {
-      this.setState({ isHomeDeliveryModalVisible: true });
+      this.proceedToNextStep();
+      //this.setState({ isHomeDeliveryModalVisible: true });
     } else {
       this.proceedToNextStep();
     }

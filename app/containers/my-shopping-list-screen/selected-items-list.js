@@ -23,6 +23,7 @@ export default class SelectedItemsList extends React.Component {
       skuItemIdsCurrentlyModifying
     } = this.props;
 
+    console.log("Items in My Shopping List", selectedItems);
     return (
       <FlatList
         contentContainerStyle={{
@@ -70,6 +71,12 @@ export default class SelectedItemsList extends React.Component {
             console.log("isLoading: ", isLoading);
           } else {
             isLoading = false;
+          }
+          let offerPrice = 0;
+          if (item.offer_discount > 0) {
+            offerPrice =
+              item.sku_measurement.mrp *
+              (1 - item.offer_discount / 100).toFixed(2);
           }
 
           return (
@@ -138,8 +145,42 @@ export default class SelectedItemsList extends React.Component {
                   />
                 </View>
                 <View>
-                  <Text>Price: Rs.{item.sku_measurement.mrp} </Text>
+                  <Text>
+                    Price: Rs.
+                    {item.offer_discount > 0
+                      ? offerPrice
+                      : item.sku_measurement.mrp}{" "}
+                    {item.offer_discount > 0 ? (
+                      <Text style={{ color: colors.mainBlue }}>
+                        ({item.offer_discount}% off)
+                      </Text>
+                    ) : null}
+                  </Text>
                 </View>
+                {item.offer_discount > 0 ? (
+                  <View>
+                    <Text style={{ fontSize: 12, marginTop: 4 }}>
+                      MRP: Rs.{item.sku_measurement.mrp}
+                    </Text>
+                  </View>
+                ) : (
+                  <View />
+                )}
+                {item.offer_discount > 0 ? (
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        marginTop: 8,
+                        color: colors.success
+                      }}
+                    >
+                      Offer Applied
+                    </Text>
+                  </View>
+                ) : (
+                  <View />
+                )}
                 <View
                   style={{
                     flexDirection: "row",
@@ -156,7 +197,7 @@ export default class SelectedItemsList extends React.Component {
                           color: colors.mainBlue
                         }}
                       >
-                        Cashback Up to ₹ {cashback.toFixed(2)}
+                        You get back ₹ {cashback.toFixed(2)}
                       </Text>
                     ) : (
                       <View />
@@ -170,7 +211,7 @@ export default class SelectedItemsList extends React.Component {
                       style={{
                         alignItems: "center",
                         justifyContent: "center",
-                        marginTop: 1,
+                        marginTop: item.offer_discount > 0 ? -25 : 1,
                         marginRight: 5
                       }}
                     >

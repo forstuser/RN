@@ -77,7 +77,8 @@ class ShoppingListScreen extends React.Component {
     isVisibleCashbackModal: false,
     neverShowCashbackModal: false,
     collectAtStoreFlag: false,
-    hideBrands: false
+    hideBrands: false,
+    sellerIdFromOffers: null
   };
 
   componentWillMount() {
@@ -122,7 +123,8 @@ class ShoppingListScreen extends React.Component {
             endhasReachedFlag: false,
             isVisibleCashbackModal: false,
             neverShowCashbackModal: false,
-            collectAtStoreFlag: false
+            collectAtStoreFlag: false,
+            sellerIdFromOffers: null
           },
           () => {
             this.modalShow();
@@ -171,7 +173,8 @@ class ShoppingListScreen extends React.Component {
           offset: 0,
           endhasReachedFlag: false,
           isVisibleCashbackModal: false,
-          neverShowCashbackModal: false
+          neverShowCashbackModal: false,
+          sellerIdFromOffers: null
         },
         () => {
           this.modalShow();
@@ -249,10 +252,15 @@ class ShoppingListScreen extends React.Component {
     try {
       const res = await getSkuWishList();
       this.setState({ wishList: res.result.wishlist_items });
+      console.log("Wishlist in Shop and Earn", res.result.wishlist_items);
       // if (res.result.wishlist_items.length > 0) {
       //   this.clearOrContinuePreviousListModal.show();
       // }
-
+      if (res.result.wishlist_items.length > 0) {
+        this.setState({
+          sellerIdFromOffers: res.result.wishlist_items[0].seller_id
+        });
+      }
       const pastItems = res.result.past_selections;
       if (pastItems.length > 0 && !this.state.selectedSeller) {
         this.setState(() => ({ pastItems }));
@@ -268,7 +276,7 @@ class ShoppingListScreen extends React.Component {
   };
 
   loadReferenceData = async () => {
-    const { pastItems } = this.state;
+    const { pastItems, sellerIdFromOffers, sellers } = this.state;
     this.setState({ isLoading: true, referenceDataError: null });
     try {
       const res = await getSkuReferenceData();
@@ -299,15 +307,20 @@ class ShoppingListScreen extends React.Component {
       this.setState(() => ({
         mainCategories,
         measurementTypes,
-        activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
+        // activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
+        activeMainCategoryId: pastItems.length > 0 ? 0 : null,
         selectedCategoryIds: [],
         items: pastItems,
         brands: brandsList,
         sellers: res.seller_list
       }));
-      // console.log("past items 1", this.state.pastItems);
-      //console.log("main categoried 1", this.state.mainCategories);
-      // console.log("active main category id 1", this.state.activeMainCategoryId);
+
+      const sellerFromOffers = res.seller_list.filter(
+        seller => seller.id == sellerIdFromOffers
+      );
+      console.log("Sellers", res.seller_list);
+      console.log("Seller from Offers", sellerFromOffers);
+
       if (pastItems.length == 0) {
         this.loadItemsFirstPage();
       }
@@ -590,7 +603,7 @@ class ShoppingListScreen extends React.Component {
         mainCategoryId: activeMainCategoryId ? activeMainCategoryId : undefined,
         categoryIds: !searchTerm ? selectedCategoryIds : undefined,
         searchTerm: searchTerm.replace(/ /g, "%") || undefined,
-        brandIds: selectedBrands.map(brand => brand.id),
+        brandIds: selectedBrands.map(brand => brand.id) || undefined,
         sellerId: selectedSeller ? selectedSeller.id : undefined,
         offset: items.length
       };
@@ -637,6 +650,11 @@ class ShoppingListScreen extends React.Component {
         const res = await getSellerSkuCategories({
           sellerId: selectedSellers[0].id
         });
+        console.log(
+          "activeMainCategoryFromSellersMainCategories.category_brands",
+          res.result
+        );
+
         this.setState(
           {
             sellerMainCategories: res.result

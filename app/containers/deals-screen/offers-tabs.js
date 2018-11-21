@@ -1,6 +1,13 @@
 import React from "react";
-import { View, ScrollView, FlatList, Animated, Image } from "react-native";
-
+import {
+  View,
+  ScrollView,
+  FlatList,
+  Animated,
+  Image,
+  Dimensions
+} from "react-native";
+import AppIntroSlider from "react-native-app-intro-slider";
 import Snackbar from "../../utils/snackbar";
 import { Text } from "../../elements";
 import ErrorOverlay from "../../components/error-overlay";
@@ -11,9 +18,11 @@ import {
   API_BASE_URL,
   fetchOfferCategories,
   fetchCategoryOffers,
-  getSellerOffers
+  getSellerOffers,
+  getSkuWishList
 } from "../../api";
 import moment from "moment";
+import I18n from "../../i18n";
 
 import { colors, defaultStyles } from "../../theme";
 import OfferCategory from "./offer-category";
@@ -21,7 +30,9 @@ import OfferDetailedItem from "./offer-detailed-item";
 import OffersModal from "./offers-modal";
 import OffersFilterModal from "./offers-filter-modal";
 import Analytics from "../../analytics";
-
+import SkuItemOffer from "./single-sku-offer";
+import SingleNormalOffer from "./single-normal-offer";
+const windowWidth = Dimensions.get("window").width;
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const ITEM_SELECTOR_HEIGHT = 120;
@@ -37,12 +48,24 @@ export default class OffersTab extends React.Component {
     selectedCategory: null,
     isLoading: false,
     error: null,
-    offers: []
+    normalOffers: [],
+    skuOffers: [],
+    wishList: []
   };
 
   componentDidMount() {
-    this.fetchCategories();
-    this.listScrollPosition.addListener(this.onListScroll);
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.fetchCategories();
+        this.fetchWishlist();
+      }
+    );
+    //this.listScrollPosition.addListener(this.onListScroll);
+  }
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   onListScroll = ({ value }) => {
@@ -78,6 +101,18 @@ export default class OffersTab extends React.Component {
     }
   };
 
+  fetchWishlist = async () => {
+    try {
+      const res = await getSkuWishList();
+      this.setState({ wishList: res.result.wishlist_items });
+    } catch (wishListError) {
+      console.log("wishListError: ", wishListError);
+      this.setState({ wishListError });
+    } finally {
+      this.setState({ wishList: res.result.wishlist_items });
+    }
+  };
+
   fetchCategories = async () => {
     this.setState({
       isLoading: true,
@@ -87,7 +122,7 @@ export default class OffersTab extends React.Component {
     });
     try {
       const result1 = await getSellerOffers();
-      console.log("Seller Offers: ", result1.result);
+      console.log("Seller Offers: ", result1);
       let resCategories = result1.result;
       const categories = resCategories.map(seller => ({
         ...seller,
@@ -95,7 +130,16 @@ export default class OffersTab extends React.Component {
         imageUrl: `/consumer/sellers/${seller.id}/upload/1/images/0`
       }));
 
-      this.setState({ categories });
+      this.setState({
+        categories,
+        selectedCategory: result1.result[0],
+        normalOffers: result1.result[0].offers.filter(
+          offer => offer.on_sku != true
+        ),
+        skuOffers: result1.result[0].offers.filter(
+          offer => offer.on_sku == true
+        )
+      });
     } catch (error) {
       this.setState({ error });
     } finally {
@@ -104,7 +148,20 @@ export default class OffersTab extends React.Component {
   };
 
   onCategorySelect = category => {
-    this.setState({ selectedCategory: category, offers: category.offers });
+    this.setState({
+      selectedCategory: category,
+      normalOffers: category.offers.filter(offer => offer.on_sku != true),
+      skuOffers: category.offers.filter(offer => offer.on_sku == true)
+    });
+  };
+
+  renderSkuOffers = ({ item, index }) => {
+    const { wishList } = this.state;
+    return <SkuItemOffer key={index} item={item} wishList={wishList} />;
+  };
+
+  renderNormalOffers = ({ item, index }) => {
+    return <SingleNormalOffer key={index} item={item} />;
   };
 
   render() {
@@ -113,42 +170,33 @@ export default class OffersTab extends React.Component {
       selectedCategory,
       isLoading,
       error,
-      offers
+      normalOffers,
+      skuOffers
     } = this.state;
     // console.log("Category: ", selectedCategory);
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchCategories} />;
     }
 
+    console.log("Normal Offers", normalOffers);
+    console.log("SKU Offers", skuOffers);
+
+    // let slides = [];
+    // normalOffers.map((offer, index) => {
+    //   slides.push({
+    //     key: index,
+    //     id: offer.id,
+    //     title: offer.title,
+    //     description: offer.description,
+    //     end_date: offer.end_date,
+    //     document_details: offer.document_details.index
+    //   });
+    // });
+
+    // console.log("Slides", slides);
+
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
-        <Animated.View
-          style={[
-            {
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              height: ITEM_SELECTOR_HEIGHT
-            },
-            {
-              transform: [
-                {
-                  translateY: this.topPaddingElement
-                }
-              ]
-            }
-          ]}
-        >
-          <ItemSelector
-            style={{ backgroundColor: "#fff" }}
-            selectModalTitle="Select a Category"
-            items={categories}
-            selectedItem={selectedCategory}
-            onItemSelect={this.onCategorySelect}
-            startOthersAfterCount={4}
-          />
-        </Animated.View>
         {!selectedCategory ? (
           <View
             style={{
@@ -176,50 +224,65 @@ export default class OffersTab extends React.Component {
           <View />
         )}
 
-        <AnimatedFlatList
-          onScroll={Animated.event(
-            [
-              {
-                nativeEvent: {
-                  contentOffset: { y: this.listScrollPosition }
-                }
-              }
-            ],
-            { useNativeDriver: true }
-          )}
-          contentContainerStyle={{
-            paddingTop: ITEM_SELECTOR_HEIGHT
-          }}
-          style={{ flex: 1 }}
-          data={offers}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <View
-              style={{ ...defaultStyles.card, margin: 10, borderRadius: 5 }}
-            >
-              <Image
-                style={{ height: 120, flex: 1, width: null }}
-                source={{
-                  uri:
-                    API_BASE_URL +
-                    `/offer/${item.id}/images/${item.document_details.index ||
-                      0}`
-                }}
-              />
-              <View style={{ padding: 10 }}>
-                <Text weight="Medium" style={{ fontSize: 19 }}>
-                  {item.title}
-                </Text>
-                <Text style={{ fontSize: 15 }}>{item.description}</Text>
-                <Text style={{ fontSize: 15, color: colors.mainBlue }}>
-                  Expiring on: {moment(item.end_date).format("DD MMM, YYYY")}
-                </Text>
-              </View>
-            </View>
-          )}
-        />
+        {normalOffers.length > 0 ? (
+          <FlatList
+            horizontal
+            // onScroll={Animated.event(
+            //   [
+            //     {
+            //       nativeEvent: {
+            //         contentOffset: { y: this.listScrollPosition }
+            //       }
+            //     }
+            //   ],
+            //   { useNativeDriver: true }
+            // )}
+            contentContainerStyle={{
+              paddingTop: ITEM_SELECTOR_HEIGHT
+            }}
+            style={{ marginTop: 20 }}
+            data={normalOffers}
+            keyExtractor={item => item.id}
+            renderItem={this.renderNormalOffers}
+            showsHorizontalScrollIndicator={false}
+          />
+        ) : null}
+
+        {/* {normalOffers.length > 0 ? (
+          <AppIntroSlider
+            dotColor="#fdd4c0"
+            activeDotColor={colors.pinkishOrange}
+            slides={slides}
+            renderItem={SingleNormalOffer}
+            hideNextButton={true}
+            hideDoneButton={true}
+          />
+        ) : null} */}
+
+        {skuOffers.length > 0 ? (
+          <FlatList
+            // onScroll={Animated.event(
+            //   [
+            //     {
+            //       nativeEvent: {
+            //         contentOffset: { y: this.listScrollPosition }
+            //       }
+            //     }
+            //   ],
+            //   { useNativeDriver: true }
+            // )}
+            contentContainerStyle={{
+              paddingTop: normalOffers.length == 0 ? ITEM_SELECTOR_HEIGHT : 0
+            }}
+            style={{ marginTop: normalOffers.length == 0 ? 20 : 10 }}
+            data={skuOffers}
+            keyExtractor={item => item.id}
+            renderItem={this.renderSkuOffers}
+          />
+        ) : null}
+
         {this.state.categories.length !== 0 ? (
-          <Animated.View
+          <View
             style={[
               {
                 position: "absolute",
@@ -227,14 +290,14 @@ export default class OffersTab extends React.Component {
                 left: 0,
                 right: 0,
                 height: ITEM_SELECTOR_HEIGHT
-              },
-              {
-                transform: [
-                  {
-                    translateY: this.topPaddingElement
-                  }
-                ]
               }
+              // {
+              //   transform: [
+              //     {
+              //       translateY: this.topPaddingElement
+              //     }
+              //   ]
+              // }
             ]}
           >
             <ItemSelector
@@ -245,9 +308,9 @@ export default class OffersTab extends React.Component {
               onItemSelect={this.onCategorySelect}
               startOthersAfterCount={4}
             />
-          </Animated.View>
+          </View>
         ) : (
-          <Animated.View
+          <View
             style={[
               {
                 position: "absolute",
@@ -255,28 +318,28 @@ export default class OffersTab extends React.Component {
                 left: 0,
                 right: 0,
                 height: ITEM_SELECTOR_HEIGHT
-              },
-              {
-                transform: [
-                  {
-                    translateY: this.topPaddingElement
-                  }
-                ]
               }
+              // {
+              //   transform: [
+              //     {
+              //       translateY: this.topPaddingElement
+              //     }
+              //   ]
+              // }
             ]}
           >
             <Text
               style={{
-                padding: 10,
+                padding: 20,
                 fontSize: 16,
                 textAlign: "center",
                 marginTop: 20,
                 color: colors.secondaryText
               }}
             >
-              No offers available as of now from your seller currently
+              No offers available as of now from any of your sellers currently
             </Text>
-          </Animated.View>
+          </View>
         )}
         <LoadingOverlay visible={isLoading} />
       </View>
