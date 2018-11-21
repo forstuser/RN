@@ -239,7 +239,6 @@ class ShoppingListScreen extends React.Component {
     try {
       const res = await getSkuWishList();
       this.setState({ wishList: res.result.wishlist_items });
-<<<<<<< HEAD
       console.log("Wishlist in Shop and Earn", res.result.wishlist_items);
       // if (res.result.wishlist_items.length > 0) {
       //   this.clearOrContinuePreviousListModal.show();
@@ -249,8 +248,6 @@ class ShoppingListScreen extends React.Component {
           sellerIdFromOffers: res.result.wishlist_items[0].seller_id
         });
       }
-=======
->>>>>>> pritam
       const pastItems = res.result.past_selections;
       if (pastItems.length > 0 && !this.state.selectedSeller) {
         this.setState(() => ({ pastItems }));
@@ -297,7 +294,6 @@ class ShoppingListScreen extends React.Component {
         brands: brandsList,
         sellers: res.seller_list
       }));
-<<<<<<< HEAD
 
       const sellerFromOffers = res.seller_list.filter(
         seller => seller.id == sellerIdFromOffers
@@ -309,9 +305,6 @@ class ShoppingListScreen extends React.Component {
         this.loadItemsFirstPage();
       }
       if (this.state.selectedSeller) {
-=======
-      if (pastItems.length == 0 || this.state.selectedSeller) {
->>>>>>> pritam
         this.loadItemsFirstPage();
       }
     } catch (referenceDataError) {
