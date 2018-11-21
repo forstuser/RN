@@ -77,11 +77,7 @@ class ShoppingListScreen extends React.Component {
     neverShowCashbackModal: false,
     collectAtStoreFlag: false,
     hideBrands: false,
-<<<<<<< HEAD
     sellerIdFromOffers: null
-=======
-    timeout: 0
->>>>>>> pritam
   };
 
   componentWillMount() {}
