@@ -35,7 +35,11 @@ import AddManualItemModal from "./add-manual-item-modal";
 import ClearOrContinuePreviousListModal from "./clear-or-continue-previous-list-modal";
 import FilterModal from "./filter-modal";
 import WishListLimitModal from "./wishlist-limit-modal";
-import { SCREENS, LOCATIONS } from "../../constants";
+import {
+  SCREENS,
+  LOCATIONS,
+  MAIN_CATEGORY_IDS_SHOP_N_EARN
+} from "../../constants";
 import Analytics from "../../analytics";
 import Modal from "../../components/modal";
 
@@ -203,7 +207,6 @@ class ShoppingListScreen extends React.Component {
   }
 
   fromSellers = () => {
-    // this.loadItemsForSellerList();
     const seller = this.props.navigation.getParam("seller", null);
     const collectAtStoreFlagFromSeller = this.props.navigation.getParam(
       "collectAtStoreFlag",
@@ -213,9 +216,12 @@ class ShoppingListScreen extends React.Component {
     console.log("selected seller is ", seller);
     if (seller) {
       this.setSelectedSellers(seller ? [{ ...seller }] : []);
-      this.setState({ activeMainCategoryId: 194 }, () => {
-        this.setState({ hideBrands: true });
-      });
+      this.setState(
+        { activeMainCategoryId: MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG },
+        () => {
+          this.setState({ hideBrands: true });
+        }
+      );
       this.props.navigation.setParams({
         seller: null,
         collectAtStoreFlag: false
@@ -276,10 +282,7 @@ class ShoppingListScreen extends React.Component {
         brands: brandsList,
         sellers: res.seller_list
       }));
-      if (pastItems.length == 0) {
-        this.loadItemsFirstPage();
-      }
-      if (this.state.selectedSeller) {
+      if (pastItems.length == 0 || this.state.selectedSeller) {
         this.loadItemsFirstPage();
       }
     } catch (referenceDataError) {
@@ -477,13 +480,11 @@ class ShoppingListScreen extends React.Component {
 
   loadItems = async (offset = 0) => {
     const { items } = this.state;
-
     this.setState({
       isSearching: true,
       isSearchDone: false,
       searchError: null
     });
-
     const {
       activeMainCategoryId,
       selectedCategoryIds,
@@ -491,7 +492,6 @@ class ShoppingListScreen extends React.Component {
       selectedBrands,
       selectedSeller
     } = this.state;
-
     try {
       const data = {
         mainCategoryId: activeMainCategoryId ? activeMainCategoryId : undefined,
@@ -501,7 +501,6 @@ class ShoppingListScreen extends React.Component {
         sellerId: selectedSeller ? selectedSeller.id : undefined,
         offset: items.length
       };
-
       const res = await getSkuItems(data);
       //console.log("Sellers list in shop and earn: ", res.seller_list);
       if (res.result.sku_items.length === 0) {
@@ -522,6 +521,7 @@ class ShoppingListScreen extends React.Component {
       this.setState({ isSearching: false, searchError: error });
     }
   };
+
   loadItemsForSellerList = async (offset = 0) => {
     const { items } = this.state;
 
@@ -605,7 +605,6 @@ class ShoppingListScreen extends React.Component {
         this.setState({ isSearching: false });
       }
     } else {
-      console.log("reset karne pe null hua");
       this.setState(
         {
           selectedSeller: null,
@@ -667,12 +666,6 @@ class ShoppingListScreen extends React.Component {
       collectAtStoreFlag,
       hideBrands
     } = this.state;
-
-    // console.log(
-    //   "collectAtStoreFlag in create shopping list___________",
-    //   collectAtStoreFlag
-    // );
-
     if (referenceDataError || wishListError) {
       return (
         <ErrorOverlay
@@ -681,20 +674,27 @@ class ShoppingListScreen extends React.Component {
         />
       );
     }
-    console.log("List of brands______", brands);
     return (
       <DrawerScreenContainer
         title={selectedSeller ? null : "Create Shopping List"}
         titleComponent={
           <View
-            style={{ height: 25, backgroundColor: "#fff", borderRadius: 10 }}
+            style={{
+              justifyContent: "center",
+              height: 25,
+              backgroundColor: "#fff",
+              borderRadius: 10
+            }}
           >
             <Picker
               mode="dropdown"
               selectedValue={selectedSeller ? selectedSeller.seller_name : null}
               style={{
-                height: 25,
-                width: 180,
+                height: 40,
+                width: 160,
+                alignSelf: "stretch",
+                alignItems: "center",
+                justifyContent: "center",
                 color: colors.pinkishOrange
               }}
               onValueChange={(itemValue, itemIndex) => {
