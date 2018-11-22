@@ -124,6 +124,7 @@ export default class OffersTab extends React.Component {
       const result1 = await getSellerOffers();
       console.log("Seller Offers: ", result1);
       let resCategories = result1.result;
+      console.log("selleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", resCategories);
       const categories = resCategories.map(seller => ({
         ...seller,
         name: seller.name,
@@ -157,8 +158,15 @@ export default class OffersTab extends React.Component {
   };
 
   renderSkuOffers = ({ item, index }) => {
-    const { wishList } = this.state;
-    return <SkuItemOffer key={index} item={item} wishList={wishList} />;
+    const { wishList, selectedCategory } = this.state;
+    return (
+      <SkuItemOffer
+        key={index}
+        item={item}
+        wishList={wishList}
+        selectedCategory={selectedCategory}
+      />
+    );
   };
 
   renderNormalOffers = ({ item, index }) => {

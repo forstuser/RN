@@ -4,7 +4,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator
+  AsyncStorage
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Modal from "react-native-modal";
@@ -43,7 +43,9 @@ export default class SkuItemOffer extends React.Component {
   };
 
   addItemToShoppingList = item => {
-    const { wishList } = this.props;
+    const { wishList, selectedCategory } = this.props;
+    console.log("selectedCategory is", selectedCategory);
+    AsyncStorage.setItem("defaultSeller", JSON.stringify(selectedCategory));
     if (wishList.length == 0) {
       this.addItem(item);
     }
@@ -53,6 +55,7 @@ export default class SkuItemOffer extends React.Component {
     );
     console.log("Updated Wishlist", updated_wishlist);
     if (wishList.length == updated_wishlist.length) {
+      console.log("item with sellers", item);
       this.addItem(item);
     } else {
       this.setState({ isClearItems: true });

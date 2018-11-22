@@ -287,7 +287,7 @@ class ShoppingListScreen extends React.Component {
         this.setState(() => ({ pastItems }));
       }
 
-      // this.loadReferenceData();
+      this.loadReferenceData();
     } catch (wishListError) {
       console.log("wishListError: ", wishListError);
       this.setState({ wishListError });
@@ -661,8 +661,9 @@ class ShoppingListScreen extends React.Component {
             activeMainCategoryId: res.result[0].main_category_id
           },
           () => {
-            this.loadReferenceData();
-            this.clearWishList();
+            this.loadSkuWishList();
+            // this.loadReferenceData();
+            // this.clearWishList();
           }
         );
       } catch (e) {
