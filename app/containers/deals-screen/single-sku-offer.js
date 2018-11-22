@@ -73,7 +73,10 @@ export default class SkuItemOffer extends React.Component {
     const { showBtn, isClearItems } = this.state;
     console.log("Wishlist_____", wishList);
     let price = 0;
-    price = item.mrp * (1 - item.offer_discount / 100).toFixed(2);
+    price = parseFloat(
+      parseFloat(item.mrp) *
+        parseFloat(1 - parseFloat(item.offer_discount) / 100)
+    ).toFixed(2);
 
     return (
       <View
