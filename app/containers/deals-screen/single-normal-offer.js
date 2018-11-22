@@ -4,7 +4,8 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  Dimensions
 } from "react-native";
 import moment from "moment";
 
@@ -19,6 +20,8 @@ import QuantityPlusMinus from "../../components/quantity-plus-minus";
 import LoadingOverlay from "../../components/loading-overlay";
 import { API_BASE_URL } from "../../api";
 
+const deviceWidth = Dimensions.get("window").width;
+
 export default class SingleNormalOffer extends React.Component {
   render() {
     const { item, skuOffersLength } = this.props;
@@ -26,26 +29,26 @@ export default class SingleNormalOffer extends React.Component {
       <View
         style={{
           ...defaultStyles.card,
-          margin: 10,
+          margin: 5,
+          marginLeft: 10,
           borderRadius: 5,
-          height: skuOffersLength > 0 ? 175 : 175,
-          width: 300
+          height: skuOffersLength > 0 ? 185 : 185,
+          width: deviceWidth - 40
         }}
       >
         <Image
-          style={{ height: 100, width: 300 }}
+          style={{ height: 130, width: deviceWidth - 40 }}
           source={{
             uri:
               API_BASE_URL +
               `/offer/${item.id}/images/${item.document_details.index || 0}`
           }}
+          resizeMode="stretch"
         />
         <View style={{ padding: 10 }}>
-          <Text weight="Medium" style={{ fontSize: 19 }}>
-            {item.title}
-          </Text>
+          <Text style={{ fontSize: 16, marginTop: -3 }}>{item.title}</Text>
           {/* <Text style={{ fontSize: 15 }}>{item.description}</Text> */}
-          <Text style={{ fontSize: 15, color: colors.mainBlue }}>
+          <Text style={{ fontSize: 14, color: colors.mainBlue }}>
             Expiring on: {moment(item.end_date).format("DD MMM, YYYY")}
           </Text>
         </View>

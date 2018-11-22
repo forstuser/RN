@@ -32,15 +32,20 @@ class ShoppingListItem extends React.Component {
       item.suggestion.sku_measurement &&
       item.suggestion.sku_measurement.cashback_percent
     ) {
-      updatedCashback =
-        ((item.suggestion.sku_measurement.mrp *
-          item.suggestion.sku_measurement.cashback_percent) /
-          100) *
-        item.updated_quantity
-          ? item.updated_quantity
-          : item.quantity;
+      console.log("MRP", item.suggestion.sku_measurement.mrp);
+      console.log(
+        "Cashback percent",
+        item.suggestion.sku_measurement.cashback_percent
+      );
+      console.log("Quant", item.quantity);
+      updatedCashback = item.updated_quantity
+        ? parseFloat(item.updated_quantity)
+        : parseFloat(item.quantity) *
+          ((parseFloat(item.suggestion.sku_measurement.mrp) *
+            parseFloat(item.suggestion.sku_measurement.cashback_percent)) /
+            100);
 
-      updatedCashback = Number(updatedCashback).toFixed(2);
+      updatedCashback = updatedCashback.toFixed(2);
     }
 
     let pack_no = "";
@@ -222,7 +227,7 @@ class ShoppingListItem extends React.Component {
               </View>
             ) : null}
             {!item.item_availability && item.suggestion ? (
-              <View style={{ marginTop: 45, marginLeft: -70 }}>
+              <View style={{ marginTop: 60, marginLeft: -70 }}>
                 <Text
                   weight="Bold"
                   style={{ fontSize: 12, color: colors.pinkishOrange }}

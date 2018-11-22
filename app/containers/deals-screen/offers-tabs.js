@@ -214,7 +214,7 @@ export default class OffersTab extends React.Component {
                 top: 0,
                 left: 0,
                 right: 0,
-                height: ITEM_SELECTOR_HEIGHT
+                height: ITEM_SELECTOR_HEIGHT - 20
               }
               // {
               //   transform: [
@@ -308,7 +308,7 @@ export default class OffersTab extends React.Component {
               //   { useNativeDriver: true }
               // )}
               contentContainerStyle={{
-                paddingTop: ITEM_SELECTOR_HEIGHT
+                paddingTop: ITEM_SELECTOR_HEIGHT - 30
               }}
               style={{ marginTop: 10 }}
               data={normalOffers}
@@ -343,9 +343,10 @@ export default class OffersTab extends React.Component {
             //   { useNativeDriver: true }
             // )}
             contentContainerStyle={{
-              paddingTop: normalOffers.length == 0 ? ITEM_SELECTOR_HEIGHT : 0
+              paddingTop:
+                normalOffers.length == 0 ? ITEM_SELECTOR_HEIGHT - 30 : 0
             }}
-            style={{ marginTop: normalOffers.length == 0 ? 20 : 10 }}
+            style={{ marginTop: normalOffers.length == 0 ? 20 : 5 }}
             data={skuOffers}
             keyExtractor={item => item.id}
             renderItem={this.renderSkuOffers}

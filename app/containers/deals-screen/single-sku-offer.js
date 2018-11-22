@@ -211,8 +211,9 @@ export default class SkuItemOffer extends React.Component {
                 marginBottom: 20
               }}
             >
-              Existing Items in your shopping list that are not from this Seller
-              will be cleared
+              Items and Offers can be added to your Shopping List from the same
+              Seller only. Items in your Shopping List will be erased if you Add
+              this Offer.
             </Text>
             <View
               style={{
