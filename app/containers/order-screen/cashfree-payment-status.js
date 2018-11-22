@@ -29,18 +29,30 @@ class CashFreePaymentStatusScreen extends Component {
     order: null
   };
   componentDidMount() {
-    // BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
   }
   componentWillUnmount() {
     // alert("cashfree screen");
-    // BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
   }
-  // handleBackPress = () => {
-  //   const order = this.props.navigation.getParam("order", null);
-  //   this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
-  //     orderId: order.id
-  //   });
-  // };
+  handleBackPress = async () => {
+    const order = this.props.navigation.getParam("order", null);
+    const { orderIdWebView, transactionStatus } = this.state;
+
+    if (transactionStatus && transactionStatus.status_type != 16) {
+      const res = await getTransactionStatus(orderIdWebView);
+      order["expense_id"] = res.expense_id || null;
+      this.setState({
+        transactionStatus: res || null,
+        showWebView: false,
+        order: order
+      });
+    }
+
+    this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
+      orderId: order.id
+    });
+  };
 
   //function called when payment to be done online
   payOnline = async () => {

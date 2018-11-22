@@ -682,7 +682,7 @@ class MyShoppingList extends React.Component {
           isVisible={isOrderOnline}
           title="Order Online"
           style={{
-            height: 250,
+            height: 350,
             ...defaultStyles.card
           }}
           onClosePress={this.closeModal}
@@ -694,9 +694,31 @@ class MyShoppingList extends React.Component {
               justifyContent: "center"
             }}
           >
-            <Text style={{ padding: 10, textAlign: "center", fontSize: 14 }}>
-              Home Delivery not available currently. Come back to Order later or
-              proceed to Order Now & Collect at Store
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 13
+              }}
+            >
+              <Image
+                style={{ width: 90, height: 90 }}
+                source={require("../../images/sad.png")}
+              />
+            </View>
+            <Text
+              style={{
+                padding: 10,
+                textAlign: "center",
+                fontSize: 16,
+                marginTop: 3,
+                lineHeight: 23
+              }}
+            >
+              <Text weight="Bold">Oops</Text>, Home Delivery not available
+              currently. Come back to Order later or proceed to Order Now &
+              Collect at Store
             </Text>
             <View
               style={{
@@ -718,7 +740,7 @@ class MyShoppingList extends React.Component {
                 color="grey"
               /> */}
               <Button
-                text="Order Now"
+                text="Collect At Store"
                 onPress={this.orderNow}
                 style={{
                   width: 150,

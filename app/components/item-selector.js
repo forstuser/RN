@@ -167,7 +167,7 @@ class ItemSelector extends React.Component {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 135,
+    height: 115,
     alignItems: "center",
     borderBottomColor: colors.lighterText,
     borderBottomWidth: 1
@@ -178,11 +178,11 @@ const styles = StyleSheet.create({
     width: 100
   },
   optionIconContainer: {
-    width: 75,
-    height: 75,
+    width: 50,
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 40,
+    borderRadius: 25,
     borderWidth: 1,
     borderColor: colors.lighterText,
     overflow: "hidden"
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     opacity: 1,
     textAlign: "center",
     marginVertical: 7,
-    height: 30
+    height: 35
   },
   selectedOptionName: {
     opacity: 1

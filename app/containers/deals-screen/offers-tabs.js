@@ -107,7 +107,7 @@ export default class OffersTab extends React.Component {
       this.setState({ wishList: res.result.wishlist_items });
     } catch (wishListError) {
       console.log("wishListError: ", wishListError);
-      this.setState({ wishListError });
+      //this.setState({ wishListError });
     } finally {
       this.setState({ wishList: res.result.wishlist_items });
     }
@@ -141,7 +141,8 @@ export default class OffersTab extends React.Component {
         )
       });
     } catch (error) {
-      this.setState({ error });
+      console.log(error);
+      //this.setState({ error });
     } finally {
       this.setState({ isLoading: false });
     }
@@ -161,7 +162,14 @@ export default class OffersTab extends React.Component {
   };
 
   renderNormalOffers = ({ item, index }) => {
-    return <SingleNormalOffer key={index} item={item} />;
+    const { skuOffers } = this.state;
+    return (
+      <SingleNormalOffer
+        skuOffersLength={skuOffers.length}
+        key={index}
+        item={item}
+      />
+    );
   };
 
   render() {
@@ -197,99 +205,16 @@ export default class OffersTab extends React.Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
-        {!selectedCategory ? (
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: ITEM_SELECTOR_HEIGHT
-            }}
-          >
-            {categories.length > 0 ? (
-              <Text
-                //weight="Bold"
-                style={{
-                  fontSize: 16,
-                  color: colors.secondaryText,
-                  textAlign: "center",
-                  margin: 15
-                }}
-              >
-                Please select a Seller to view ongoing Offers
-              </Text>
-            ) : null}
-          </View>
-        ) : (
-          <View />
-        )}
-
-        {normalOffers.length > 0 ? (
-          <FlatList
-            horizontal
-            // onScroll={Animated.event(
-            //   [
-            //     {
-            //       nativeEvent: {
-            //         contentOffset: { y: this.listScrollPosition }
-            //       }
-            //     }
-            //   ],
-            //   { useNativeDriver: true }
-            // )}
-            contentContainerStyle={{
-              paddingTop: ITEM_SELECTOR_HEIGHT
-            }}
-            style={{ marginTop: 20 }}
-            data={normalOffers}
-            keyExtractor={item => item.id}
-            renderItem={this.renderNormalOffers}
-            showsHorizontalScrollIndicator={false}
-          />
-        ) : null}
-
-        {/* {normalOffers.length > 0 ? (
-          <AppIntroSlider
-            dotColor="#fdd4c0"
-            activeDotColor={colors.pinkishOrange}
-            slides={slides}
-            renderItem={SingleNormalOffer}
-            hideNextButton={true}
-            hideDoneButton={true}
-          />
-        ) : null} */}
-
-        {skuOffers.length > 0 ? (
-          <FlatList
-            // onScroll={Animated.event(
-            //   [
-            //     {
-            //       nativeEvent: {
-            //         contentOffset: { y: this.listScrollPosition }
-            //       }
-            //     }
-            //   ],
-            //   { useNativeDriver: true }
-            // )}
-            contentContainerStyle={{
-              paddingTop: normalOffers.length == 0 ? ITEM_SELECTOR_HEIGHT : 0
-            }}
-            style={{ marginTop: normalOffers.length == 0 ? 20 : 10 }}
-            data={skuOffers}
-            keyExtractor={item => item.id}
-            renderItem={this.renderSkuOffers}
-          />
-        ) : null}
-
-        {this.state.categories.length !== 0 ? (
+        {this.state.categories.length != 0 ? (
           <View
             style={[
               {
+                zIndex: 2,
                 position: "absolute",
                 top: 0,
                 left: 0,
                 right: 0,
-                height: ITEM_SELECTOR_HEIGHT
+                height: ITEM_SELECTOR_HEIGHT - 20
               }
               // {
               //   transform: [
@@ -341,6 +266,93 @@ export default class OffersTab extends React.Component {
             </Text>
           </View>
         )}
+        {/* {!selectedCategory ? (
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: ITEM_SELECTOR_HEIGHT
+            }}
+          >
+            {categories.length > 0 ? (
+              <Text
+                //weight="Bold"
+                style={{
+                  fontSize: 16,
+                  color: colors.secondaryText,
+                  textAlign: "center",
+                  margin: 15
+                }}
+              >
+                Please select a Seller to view ongoing Offers
+              </Text>
+            ) : null}
+          </View>
+        ) : (
+          <View />
+        )} */}
+
+        {normalOffers.length > 0 ? (
+          <View style={{ marginTop: 10 }}>
+            <FlatList
+              horizontal
+              // onScroll={Animated.event(
+              //   [
+              //     {
+              //       nativeEvent: {
+              //         contentOffset: { y: this.listScrollPosition }
+              //       }
+              //     }
+              //   ],
+              //   { useNativeDriver: true }
+              // )}
+              contentContainerStyle={{
+                paddingTop: ITEM_SELECTOR_HEIGHT - 30
+              }}
+              style={{ marginTop: 10 }}
+              data={normalOffers}
+              keyExtractor={item => item.id}
+              renderItem={this.renderNormalOffers}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        ) : null}
+
+        {/* {normalOffers.length > 0 ? (
+          <AppIntroSlider
+            dotColor="#fdd4c0"
+            activeDotColor={colors.pinkishOrange}
+            slides={slides}
+            renderItem={SingleNormalOffer}
+            hideNextButton={true}
+            hideDoneButton={true}
+          />
+        ) : null} */}
+
+        {skuOffers.length > 0 ? (
+          <FlatList
+            // onScroll={Animated.event(
+            //   [
+            //     {
+            //       nativeEvent: {
+            //         contentOffset: { y: this.listScrollPosition }
+            //       }
+            //     }
+            //   ],
+            //   { useNativeDriver: true }
+            // )}
+            contentContainerStyle={{
+              paddingTop:
+                normalOffers.length == 0 ? ITEM_SELECTOR_HEIGHT - 30 : 0
+            }}
+            style={{ marginTop: normalOffers.length == 0 ? 20 : 5 }}
+            data={skuOffers}
+            keyExtractor={item => item.id}
+            renderItem={this.renderSkuOffers}
+          />
+        ) : null}
+
         <LoadingOverlay visible={isLoading} />
       </View>
     );

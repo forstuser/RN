@@ -55,11 +55,11 @@ export default class TabsScreenContainer extends React.Component {
             locked={true}
             onChangeTab={onTabChange}
             renderTabBar={() => (
-              <DefaultTabBar style={{ height: showNoTabs ? 0 : 35 }} />
+              <DefaultTabBar style={{ height: showNoTabs ? 10 : 35 }} />
             )}
             tabBarUnderlineStyle={{
-              backgroundColor: colors.mainBlue,
-              height: 2
+              backgroundColor: showNoTabs ? null : colors.mainBlue,
+              height: showNoTabs ? 0 : 2
             }}
             tabBarBackgroundColor="transparent"
             tabBarTextStyle={{
