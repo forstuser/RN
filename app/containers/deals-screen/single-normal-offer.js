@@ -28,7 +28,7 @@ export default class SingleNormalOffer extends React.Component {
           ...defaultStyles.card,
           margin: 10,
           borderRadius: 5,
-          height: skuOffersLength > 0 ? 350 : 175,
+          height: skuOffersLength > 0 ? 175 : 175,
           width: 300
         }}
       >
