@@ -394,7 +394,7 @@ class MySellersScreen extends React.Component {
                     style={styles.bottomButton}
                   >
                     <Image
-                      source={require("../../images/purchase.png")}
+                      source={require("../../images/collectAtStore.png")}
                       style={{ height: 17, width: 17, marginRight: 3 }}
                       resizeMode="contain"
                     />
@@ -899,7 +899,7 @@ class MySellersScreen extends React.Component {
                 lineHeight: 23
               }}
             >
-              <Text weight="Bold">Oops</Text>, home Delivery not available
+              <Text weight="Bold">Oops</Text>, Home Delivery not available
               currently. Come back to Order later or proceed to Order Now &
               Collect at Store
             </Text>
@@ -923,7 +923,7 @@ class MySellersScreen extends React.Component {
                 color="grey"
               /> */}
               <Button
-                text="Order Now"
+                text="Collect at Store"
                 onPress={this.orderNow}
                 style={{
                   width: 150,

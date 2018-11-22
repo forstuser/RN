@@ -21,14 +21,14 @@ import { API_BASE_URL } from "../../api";
 
 export default class SingleNormalOffer extends React.Component {
   render() {
-    const { item } = this.props;
+    const { item, skuOffersLength } = this.props;
     return (
       <View
         style={{
           ...defaultStyles.card,
           margin: 10,
           borderRadius: 5,
-          height: 375,
+          height: skuOffersLength > 0 ? 350 : 175,
           width: 300
         }}
       >
@@ -44,7 +44,7 @@ export default class SingleNormalOffer extends React.Component {
           <Text weight="Medium" style={{ fontSize: 19 }}>
             {item.title}
           </Text>
-          <Text style={{ fontSize: 15 }}>{item.description}</Text>
+          {/* <Text style={{ fontSize: 15 }}>{item.description}</Text> */}
           <Text style={{ fontSize: 15, color: colors.mainBlue }}>
             Expiring on: {moment(item.end_date).format("DD MMM, YYYY")}
           </Text>

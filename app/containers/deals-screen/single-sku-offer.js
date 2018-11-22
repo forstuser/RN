@@ -119,7 +119,8 @@ export default class SkuItemOffer extends React.Component {
                 marginLeft: 5,
                 fontSize: 14,
                 flex: 1,
-                marginRight: 10
+                marginRight: 10,
+                flexWrap: "wrap"
               }}
             >
               {item.sku_title}

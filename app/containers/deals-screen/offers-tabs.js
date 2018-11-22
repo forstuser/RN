@@ -107,7 +107,7 @@ export default class OffersTab extends React.Component {
       this.setState({ wishList: res.result.wishlist_items });
     } catch (wishListError) {
       console.log("wishListError: ", wishListError);
-      this.setState({ wishListError });
+      //this.setState({ wishListError });
     } finally {
       this.setState({ wishList: res.result.wishlist_items });
     }
@@ -141,7 +141,8 @@ export default class OffersTab extends React.Component {
         )
       });
     } catch (error) {
-      this.setState({ error });
+      console.log(error);
+      //this.setState({ error });
     } finally {
       this.setState({ isLoading: false });
     }
@@ -161,7 +162,14 @@ export default class OffersTab extends React.Component {
   };
 
   renderNormalOffers = ({ item, index }) => {
-    return <SingleNormalOffer key={index} item={item} />;
+    const { skuOffers } = this.state;
+    return (
+      <SingleNormalOffer
+        skuOffersLength={skuOffers.length}
+        key={index}
+        item={item}
+      />
+    );
   };
 
   render() {
@@ -280,8 +288,7 @@ export default class OffersTab extends React.Component {
             renderItem={this.renderSkuOffers}
           />
         ) : null}
-
-        {this.state.categories.length !== 0 ? (
+        {this.state.categories.length != 0 ? (
           <View
             style={[
               {
