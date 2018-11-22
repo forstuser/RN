@@ -280,6 +280,48 @@ class ShoppingListScreen extends React.Component {
         selectedCategoryIds: [],
         items: pastItems,
         brands: brandsList,
+        sellers: res.seller_list,
+        selectedSeller: res.seller_list[0] || null
+      }));
+      if (pastItems.length == 0 || this.state.selectedSeller) {
+        this.loadItemsFirstPage();
+      }
+    } catch (referenceDataError) {
+      console.log("referenceDataError: ", referenceDataError);
+      this.setState({ referenceDataError });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+  loadReferenceDataForSeller = async () => {
+    const { pastItems } = this.state;
+    this.setState({ isLoading: true, referenceDataError: null });
+    try {
+      const res = await getSkuReferenceData();
+      let measurementTypes = {};
+      res.result.measurement_types.forEach(measurementType => {
+        measurementTypes[measurementType.id] = measurementType;
+      });
+      let mainCategories =
+        pastItems.length > 0 ? [{ id: 0, title: "Past Items" }] : [];
+      mainCategories = [...mainCategories, ...res.result.main_categories];
+      const categories = [];
+      res.result.main_categories.forEach(category =>
+        categories.push(...category.categories)
+      );
+      let brandsList = [];
+      categories &&
+        categories
+          .filter(category => category.brands)
+          .forEach(category => brandsList.push(...category.brands));
+      brandsList = _.uniqBy(brandsList, "brand_id");
+      this.setState(() => ({
+        mainCategories,
+        measurementTypes,
+        activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
+        selectedCategoryIds: [],
+        items: pastItems,
+        brands: brandsList,
         sellers: res.seller_list
       }));
       if (pastItems.length == 0 || this.state.selectedSeller) {
@@ -596,12 +638,14 @@ class ShoppingListScreen extends React.Component {
             sellerMainCategories: res.result
           },
           () => {
-            this.loadReferenceData();
+            this.loadReferenceDataForSeller();
             this.clearWishList();
           }
         );
       } catch (e) {
         showSnackbar({ text: e.message });
+        this.setState({ isSearching: false });
+      } finally {
         this.setState({ isSearching: false });
       }
     } else {
@@ -611,7 +655,8 @@ class ShoppingListScreen extends React.Component {
           sellerMainCategories: []
         },
         () => {
-          this.loadReferenceData();
+          this.setState({ isSearching: false });
+          this.loadReferenceDataForSeller();
           // this.clearWishList();
         }
       );
