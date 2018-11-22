@@ -2374,3 +2374,19 @@ export const deleteItemShoppingList = async (orderId, ItemId, sellerId) => {
     }
   });
 };
+
+export const addSkuFromOffersToWishlist = async (
+  skuId,
+  sellerId,
+  skuMeasurementId
+) => {
+  return await apiRequest({
+    method: "put",
+    url: `/offer/sku/wishlist`,
+    data: {
+      sku_id: skuId,
+      seller_id: sellerId,
+      sku_measurement_id: skuMeasurementId
+    }
+  });
+};

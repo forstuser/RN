@@ -185,6 +185,7 @@ class DealsScreen extends Component {
             setSelectedOfferCategory={selectedOfferCategory => {
               this.setState({ selectedOfferCategory });
             }}
+            navigation={this.props.navigation}
           />
           // <AccessoriesTab
           //   accessoriesTabRef={ref => {

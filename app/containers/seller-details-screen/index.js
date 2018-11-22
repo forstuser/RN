@@ -115,12 +115,12 @@ class SellerDetailsScreen extends React.Component {
                 navigation={this.props.navigation}
               />
             </View>
-            <View tabLabel="Offers">
+            {/* <View tabLabel="Offers">
               <Offers
                 offers={seller.seller_offers || []}
                 isLoading={isLoading}
               />
-            </View>
+            </View> */}
           </ScrollableTabView>
         )}
         <LoadingOverlay visible={isLoading} />

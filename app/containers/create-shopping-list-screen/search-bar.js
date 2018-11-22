@@ -293,12 +293,24 @@ export default class SearchBar extends React.Component {
       if (sellerMainCategories.length == 0) {
         filteredCategories = activeMainCategory.categories;
       } else {
-        const activeMainCategoryFromSellersMainCategories = sellerMainCategories.find(
-          mainCategory => mainCategory.main_category_id == activeMainCategory.id
+        console.log("sellerMainCategories in search bar", sellerMainCategories);
+        console.log("activeMainCategory in search bar", activeMainCategory);
+        const activeMainCategoryFromSellersMainCategories =
+          sellerMainCategories.find(
+            mainCategory =>
+              mainCategory.main_category_id == activeMainCategory.id
+          ) || [];
+        console.log(
+          "activeMainCategoryFromSellersMainCategories in Search Bar",
+          activeMainCategoryFromSellersMainCategories
         );
-        const sellerCategoryIds = activeMainCategoryFromSellersMainCategories.category_brands.map(
-          categoryBrand => categoryBrand.category_id
-        );
+        const sellerCategoryIds =
+          activeMainCategoryFromSellersMainCategories.length > 0
+            ? activeMainCategoryFromSellersMainCategories.category_brands.map(
+                categoryBrand => categoryBrand.category_id
+              )
+            : [];
+        console.log("sellerCategoryIds in search bar", sellerCategoryIds);
 
         filteredCategories = activeMainCategory.categories.filter(category =>
           sellerCategoryIds.includes(category.id)

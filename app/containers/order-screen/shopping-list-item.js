@@ -134,7 +134,7 @@ class ShoppingListItem extends React.Component {
                   : ``}
               </Text>
             </Text>
-            {item.selling_price && !item.suggestion ? (
+            {item.selling_price ? (
               <Text
                 style={{
                   color: colors.secondaryText
@@ -167,7 +167,7 @@ class ShoppingListItem extends React.Component {
               ) : (
                 <View />
               )}
-              {item.unit_price && item.unit_price !== 0 && !item.suggestion ? (
+              {item.unit_price && item.unit_price !== 0 ? (
                 <Text
                   style={{
                     fontSize: 11,
@@ -188,7 +188,7 @@ class ShoppingListItem extends React.Component {
               )}
             </View>
 
-            {(orderStatus == 19 || orderStatus == 16) && !item.suggestion ? (
+            {orderStatus == 19 ? (
               <View style={{ marginTop: 15, alignItems: "flex-end" }}>
                 <TouchableOpacity onPress={deleteItem}>
                   <Image
