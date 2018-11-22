@@ -205,7 +205,8 @@ export default class OffersTab extends React.Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
-        {this.state.categories.length != 0 ? (
+        {this.state.categories.length != 0 &&
+        this.state.skuOffers.length > 0 ? (
           <View
             style={[
               {
