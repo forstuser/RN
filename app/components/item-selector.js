@@ -178,11 +178,11 @@ const styles = StyleSheet.create({
     width: 100
   },
   optionIconContainer: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 25,
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: colors.lighterText,
     overflow: "hidden"

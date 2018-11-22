@@ -222,7 +222,8 @@ export default class OffersTab extends React.Component {
                 top: 0,
                 left: 0,
                 right: 0,
-                height: ITEM_SELECTOR_HEIGHT - 20
+                height: ITEM_SELECTOR_HEIGHT - 25,
+                marginTop: -15
               }
               // {
               //   transform: [
@@ -301,7 +302,7 @@ export default class OffersTab extends React.Component {
           <View />
         )} */}
 
-        {normalOffers.length > 0 ? (
+        {/* {normalOffers.length > 0 ? (
           <View style={{ marginTop: 10 }}>
             <FlatList
               horizontal
@@ -316,7 +317,7 @@ export default class OffersTab extends React.Component {
               //   { useNativeDriver: true }
               // )}
               contentContainerStyle={{
-                paddingTop: ITEM_SELECTOR_HEIGHT - 30
+                paddingTop: ITEM_SELECTOR_HEIGHT - 50
               }}
               style={{ marginTop: 10 }}
               data={normalOffers}
@@ -325,7 +326,7 @@ export default class OffersTab extends React.Component {
               showsHorizontalScrollIndicator={false}
             />
           </View>
-        ) : null}
+        ) : null} */}
 
         {/* {normalOffers.length > 0 ? (
           <AppIntroSlider
@@ -351,10 +352,14 @@ export default class OffersTab extends React.Component {
             //   { useNativeDriver: true }
             // )}
             contentContainerStyle={{
-              paddingTop:
-                normalOffers.length == 0 ? ITEM_SELECTOR_HEIGHT - 30 : 0
+              // paddingTop:
+              //   normalOffers.length == 0 ? ITEM_SELECTOR_HEIGHT - 40 : 0
+              paddingTop: ITEM_SELECTOR_HEIGHT - 40
             }}
-            style={{ marginTop: normalOffers.length == 0 ? 20 : 5 }}
+            style={{
+              //marginTop: normalOffers.length == 0 ? 10 : 5,
+              marginTop: 10
+            }}
             data={skuOffers}
             keyExtractor={item => item.id}
             renderItem={this.renderSkuOffers}

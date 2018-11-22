@@ -561,9 +561,12 @@ class ShoppingListScreen extends React.Component {
           searchTerm != this.state.lastSearchTerm3Characters)
       ) {
         if (this.state.timeout) clearTimeout(this.state.timeout);
-        this.timeout = setTimeout(() => {
-          this.loadItemsFirstPage();
-        }, 300);
+        this.setState({
+          timeout: setTimeout(() => {
+            this.loadItemsFirstPage();
+            console.log("Search Term after timeout____________", searchTerm);
+          }, 700)
+        });
       }
       if (searchTerm.length == 3) {
         this.setState({ lastSearchTerm3Characters: searchTerm });

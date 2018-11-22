@@ -30,7 +30,7 @@ import java.io.InputStream;
 
 public class SplashActivity extends AppCompatActivity {
     private static final int REQUEST_STORAGE = 131;
-    private ImageView splash1, splash2, splash3;
+    private ImageView splash1;// splash2, splash3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +39,8 @@ public class SplashActivity extends AppCompatActivity {
 
 
         splash1 = findViewById(R.id.splash_1);
-        splash2 = findViewById(R.id.splash_2);
-        splash3 = findViewById(R.id.splash_3);
+        // splash2 = findViewById(R.id.splash_2);
+        // splash3 = findViewById(R.id.splash_3);
 
         splash1.setVisibility(View.VISIBLE);
         AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
@@ -54,7 +54,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                startSecondAnimation();
+                //startSecondAnimation();
             }
 
             @Override
@@ -81,57 +81,57 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    private void startSecondAnimation() {
-        splash2.setVisibility(View.VISIBLE);
-        //splash1.setVisibility(View.GONE);
-        AlphaAnimation alphaAnimation1 = new AlphaAnimation(1.0f, 0.0f);
-        alphaAnimation1.setDuration(1000);
-        splash1.startAnimation(alphaAnimation1);
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
-        alphaAnimation.setDuration(1000);
-        splash2.startAnimation(alphaAnimation);
-        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
+    // private void startSecondAnimation() {
+    //     splash2.setVisibility(View.VISIBLE);
+    //     //splash1.setVisibility(View.GONE);
+    //     AlphaAnimation alphaAnimation1 = new AlphaAnimation(1.0f, 0.0f);
+    //     alphaAnimation1.setDuration(1000);
+    //     splash1.startAnimation(alphaAnimation1);
+    //     AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
+    //     alphaAnimation.setDuration(1000);
+    //     splash2.startAnimation(alphaAnimation);
+    //     alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+    //         @Override
+    //         public void onAnimationStart(Animation animation) {
 
-            }
+    //         }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                splash3.setVisibility(View.VISIBLE);
-                splash3.setAlpha(0.0f);
-                splash3.animate().translationY(0).alpha(1.0f).setDuration(1000).setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
+    //         @Override
+    //         public void onAnimationEnd(Animation animation) {
+    //             splash3.setVisibility(View.VISIBLE);
+    //             splash3.setAlpha(0.0f);
+    //             splash3.animate().translationY(0).alpha(1.0f).setDuration(1000).setListener(new Animator.AnimatorListener() {
+    //                 @Override
+    //                 public void onAnimationStart(Animator animator) {
 
-                    }
+    //                 }
 
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
+    //                 @Override
+    //                 public void onAnimationEnd(Animator animator) {
+    //                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+    //                     startActivity(intent);
+    //                     finish();
+    //                 }
 
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
+    //                 @Override
+    //                 public void onAnimationCancel(Animator animator) {
 
-                    }
+    //                 }
 
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
+    //                 @Override
+    //                 public void onAnimationRepeat(Animator animator) {
 
-                    }
-                });
-            }
+    //                 }
+    //             });
+    //         }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+    //         @Override
+    //         public void onAnimationRepeat(Animation animation) {
 
-            }
-        });
+    //         }
+    //     });
 
-    }
+    // }
 
     private void checkStoragePermission() {
         Log.d("INTENT", "checkStoragePermission");
