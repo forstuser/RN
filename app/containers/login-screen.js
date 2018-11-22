@@ -237,7 +237,7 @@ class LoginScreen extends Component {
               } else if (url === "https://binbill.com/privacy") {
                 return "Privacy Policy";
               } else if (url === "https://binbill.com/refund") {
-                return "Cancellation Policy";
+                return "Refund & Cancellation Policy";
               } else {
                 return url;
               }
@@ -250,7 +250,7 @@ class LoginScreen extends Component {
                 textAlign: "center"
               }}
             >
-              {`By signing up you agree to our \nhttps://binbill.com/term , https://binbill.com/privacy & https://binbill.com/refund`}
+              {`By signing up you agree to our \nhttps://binbill.com/term , https://binbill.com/privacy and https://binbill.com/refund`}
             </Text>
           </Hyperlink>
         </View>
