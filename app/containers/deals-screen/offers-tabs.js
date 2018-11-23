@@ -150,6 +150,7 @@ export default class OffersTab extends React.Component {
   };
 
   onCategorySelect = category => {
+    this.fetchWishlist();
     this.setState({
       selectedCategory: category,
       normalOffers: category.offers.filter(offer => offer.on_sku != true),

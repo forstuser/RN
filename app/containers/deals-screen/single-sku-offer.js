@@ -212,7 +212,7 @@ export default class SkuItemOffer extends React.Component {
             style={{
               backgroundColor: "#fff",
               width: 280,
-              height: 175,
+              height: 200,
               alignSelf: "center",
               borderRadius: 10,
               alignItems: "center",
