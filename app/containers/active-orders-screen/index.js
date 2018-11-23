@@ -20,7 +20,7 @@ class ActiveOrdersScreen extends Component {
   };
 
   componentDidMount() {
-    this.fetchActiveOrders();
+    // this.fetchActiveOrders();
     //this.fetchActiveServices();
   }
 

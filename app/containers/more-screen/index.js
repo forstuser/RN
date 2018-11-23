@@ -53,7 +53,7 @@ class MoreScreen extends Component {
     // BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
   }
   componentDidMount() {
-    this.fetchProfile();
+    // this.fetchProfile();
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {

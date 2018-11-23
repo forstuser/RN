@@ -232,56 +232,53 @@ class PinSetupScreen extends React.Component {
     }
     return (
       <ScreenContainer style={styles.container}>
-        {showEmailInput &&
-          !showOtpInput && (
-            <View collapsable={false} style={{ padding: 16 }}>
-              <CustomTextInput
-                keyboardType="email-address"
-                placeholder="Enter Email Id"
-                onChangeText={email => this.setState({ email })}
+        {showEmailInput && !showOtpInput && (
+          <View collapsable={false} style={{ padding: 16 }}>
+            <CustomTextInput
+              keyboardType="email-address"
+              placeholder="Enter Email Id"
+              onChangeText={email => this.setState({ email })}
+            />
+            <Button text="GET OTP" onPress={this.askForOtp} />
+          </View>
+        )}
+        {!showEmailInput && showOtpInput && (
+          <View collapsable={false} style={{ padding: 16 }}>
+            <CustomTextInput
+              keyboardType="numeric"
+              placeholder="Enter OTP"
+              onChangeText={otp => this.setState({ otp })}
+              maxLength={4}
+            />
+            <Button text="Verify" onPress={this.validateOtp} />
+          </View>
+        )}
+        {!showEmailInput && !showOtpInput && (
+          <View collapsable={false} style={{ flex: 1 }}>
+            {!showVerifyPin ? (
+              <PinInput
+                title="Verify App PIN"
+                ref={ref => (this.verifyPinRef = ref)}
+                onSubmitPress={this.showVerifyPin}
               />
-              <Button text="GET OTP" onPress={this.askForOtp} />
-            </View>
-          )}
-        {!showEmailInput &&
-          showOtpInput && (
-            <View collapsable={false} style={{ padding: 16 }}>
-              <CustomTextInput
-                keyboardType="numeric"
-                placeholder="Enter OTP"
-                onChangeText={otp => this.setState({ otp })}
-                maxLength={4}
+            ) : (
+              <View collapsable={false} />
+            )}
+            {showVerifyPin && !showRetryPin ? (
+              <PinInput
+                title="Create App PIN"
+                onSubmitPress={this.showRetryPin}
               />
-              <Button text="Verify" onPress={this.validateOtp} />
-            </View>
-          )}
-        {!showEmailInput &&
-          !showOtpInput && (
-            <View collapsable={false} style={{ flex: 1 }}>
-              {!showVerifyPin ? (
-                <PinInput
-                  title="Verify App PIN"
-                  ref={ref => (this.verifyPinRef = ref)}
-                  onSubmitPress={this.showVerifyPin}
-                />
-              ) : (
-                <View collapsable={false} />
-              )}
-              {showVerifyPin && !showRetryPin ? (
-                <PinInput
-                  title="Create App PIN"
-                  onSubmitPress={this.showRetryPin}
-                />
-              ) : (
-                <View collapsable={false} />
-              )}
-              {showRetryPin ? (
-                <PinInput title="Confirm App PIN" onSubmitPress={this.setPin} />
-              ) : (
-                <View collapsable={false} />
-              )}
-            </View>
-          )}
+            ) : (
+              <View collapsable={false} />
+            )}
+            {showRetryPin ? (
+              <PinInput title="Confirm App PIN" onSubmitPress={this.setPin} />
+            ) : (
+              <View collapsable={false} />
+            )}
+          </View>
+        )}
         <LoadingOverlay visible={isLoading} />
       </ScreenContainer>
     );

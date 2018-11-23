@@ -105,7 +105,6 @@ class DashboardScreen extends React.Component {
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
-        alert("dashbaor call hua");
         this.screenHasDisappeared = false;
         this.fetchDashboardData();
         this.expenseInsightContent.fetchCategories();
