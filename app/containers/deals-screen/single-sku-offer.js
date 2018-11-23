@@ -27,6 +27,13 @@ export default class SkuItemOffer extends React.Component {
     isClearItems: false
   };
 
+  componentWillMount() {
+    const { wishList, item } = this.props;
+    if (wishList.filter(wishlist => wishlist.id == item.sku_id).length > 0) {
+      this.setState({ showBtn: false });
+    }
+  }
+
   addItem = async item => {
     //console.log("SKU ID", item.sku_id);
     //console.log("SELLER ID", item.seller_id);
