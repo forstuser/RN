@@ -182,7 +182,7 @@ class MySellersScreen extends React.Component {
     const defaultSeller = JSON.parse(
       await AsyncStorage.getItem("defaultSeller")
     );
-    if (defaultSeller == "null") {
+    if (defaultSeller == null || defaultSeller == "null") {
       this.clearWishList();
       await AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
     } else if (defaultSeller && defaultSeller.id != seller.id) {
@@ -212,7 +212,7 @@ class MySellersScreen extends React.Component {
     const defaultSeller = JSON.parse(
       await AsyncStorage.getItem("defaultSeller")
     );
-    if (defaultSeller == "null") {
+    if (defaultSeller == null || defaultSeller == "null") {
       this.clearWishList();
       await AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
     } else if (defaultSeller && defaultSeller.id != seller.id) {

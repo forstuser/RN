@@ -59,7 +59,7 @@ export default class SkuItemOffer extends React.Component {
     const defaultSeller = JSON.parse(
       await AsyncStorage.getItem("defaultSeller")
     );
-    if (defaultSeller.id != selectedCategory.id) {
+    if (defaultSeller && defaultSeller.id != selectedCategory.id) {
       this.setState({ isClearItems: true });
     } else this.addItem(item);
   };
