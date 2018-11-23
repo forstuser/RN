@@ -183,12 +183,18 @@ class MySellersScreen extends React.Component {
     const defaultSeller = JSON.parse(
       await AsyncStorage.getItem("defaultSeller")
     );
-    if (defaultSeller.id != seller.id) {
+    console.log("default", defaultSeller);
+    console.log("selected seller", seller);
+    if (defaultSeller == "null") {
       this.clearWishList();
-      AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
+      await AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
+    } else if (defaultSeller && defaultSeller.id != seller.id) {
+      this.clearWishList();
+      await AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
     }
     if (seller.seller_details.basic_details.home_delivery == true) {
       console.log("seller from seller screen", seller);
+      await AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
       this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN, {
         seller: seller
       });

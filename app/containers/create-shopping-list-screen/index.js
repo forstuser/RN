@@ -310,20 +310,22 @@ class ShoppingListScreen extends React.Component {
               });
             }
           );
+          if (this.state.pastItems.length > 0) {
+            this.setState(
+              {
+                sellerMainCategories: [
+                  { id: 0, title: "Past Items" },
+                  ...filteredMainCategories
+                ],
+                activeMainCategoryId: 0
+              },
+              () => {
+                this.loadItemsFirstPage();
+                this.updateStateMainCategoryId(0);
+              }
+            );
+          }
 
-          this.setState(
-            {
-              sellerMainCategories: [
-                { id: 0, title: "Past Items" },
-                ...filteredMainCategories
-              ],
-              activeMainCategoryId: 0
-            },
-            () => {
-              this.loadItemsFirstPage();
-              this.updateStateMainCategoryId(0);
-            }
-          );
           console.log("final main categories", this.state.sellerMainCategories);
         }
       } catch (e) {
@@ -387,6 +389,7 @@ class ShoppingListScreen extends React.Component {
     const brands =
       mainCategory.categories &&
       mainCategory.categories.map(category => category.brands);
+    const brands = [];
     let listBrands = [];
     brands && brands.forEach(brand => listBrands.push(...brand));
     listBrands = _.uniqBy(listBrands, "brand_id");
