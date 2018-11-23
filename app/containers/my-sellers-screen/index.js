@@ -21,7 +21,8 @@ import {
   API_BASE_URL,
   getMySellers,
   deleteSeller,
-  getProfileDetail
+  getProfileDetail,
+  clearWishList
 } from "../../api";
 
 import { Text, Image, Button } from "../../elements";
@@ -176,8 +177,16 @@ class MySellersScreen extends React.Component {
     }
   };
 
-  orderOnlineHomeDelivery = seller => {
+  orderOnlineHomeDelivery = async seller => {
     this.setState({ selectedSeller: seller });
+
+    const defaultSeller = JSON.parse(
+      await AsyncStorage.getItem("defaultSeller")
+    );
+    if (defaultSeller.id != seller.id) {
+      this.clearWishList();
+      AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
+    }
     if (seller.seller_details.basic_details.home_delivery == true) {
       console.log("seller from seller screen", seller);
       this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN, {
@@ -185,6 +194,13 @@ class MySellersScreen extends React.Component {
       });
     } else {
       this.setState({ isOrderOnline: true });
+    }
+  };
+  clearWishList = async () => {
+    try {
+      await clearWishList();
+    } catch (e) {
+      showSnackbar({ text: e.message });
     }
   };
   orderOnlineCollectAtStore = seller => {

@@ -225,10 +225,10 @@ class ShoppingListScreen extends React.Component {
       res.result.measurement_types.forEach(measurementType => {
         measurementTypes[measurementType.id] = measurementType;
       });
-      // let mainCategories =
-      //   pastItems.length > 0 ? [{ id: 0, title: "Past Items" }] : [];
-      // mainCategories = [...mainCategories, ...res.result.main_categories];
-      let mainCategories = [...res.result.main_categories];
+      let mainCategories =
+        pastItems.length > 0 ? [{ id: 0, title: "Past Items" }] : [];
+      mainCategories = [...mainCategories, ...res.result.main_categories];
+      // let mainCategories = [...res.result.main_categories];
       const categories = [];
       res.result.main_categories.forEach(category =>
         categories.push(...category.categories)
@@ -244,9 +244,9 @@ class ShoppingListScreen extends React.Component {
         mainCategories,
         measurementTypes,
         // activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
-        // activeMainCategoryId: pastItems.length > 0 ? 0 : null,
+        activeMainCategoryId: pastItems.length > 0 ? 0 : null,
         selectedCategoryIds: [],
-        // items: pastItems,
+        items: pastItems,
         brands: brandsList,
         sellers: res.seller_list
       }));
@@ -261,18 +261,7 @@ class ShoppingListScreen extends React.Component {
       this.setState({ isLoading: false });
     }
   };
-  // getMySellers = async () => {
-  //   this.setState({ isLoading: true });
-  //   try {
-  //     const res = await getMySellers({ is_fmcg: true });
-  //     this.setState({ sellers: res.result });
-  //     this.setDefaultSeller();
-  //   } catch (referenceDataError) {
-  //     this.setState({ referenceDataError });
-  //   } finally {
-  //     this.setState({ isLoading: false });
-  //   }
-  // };
+
   setDefaultSeller = async () => {
     console.log("this state", this.state.sellers[0]);
     let seller = this.state.sellers[0] || null;
@@ -310,13 +299,9 @@ class ShoppingListScreen extends React.Component {
         const res = await getSellerSkuCategories({
           sellerId: selectedSellers[0].id
         });
-        console.log(
-          "activeMainCategoryFromSellersMainCategories.category_brands",
-          res.result
-        );
-        // this.state.mainCategories
+        console.log("get seller categories for selected seller", res.result);
         if (res.result.length > 0) {
-          // set main category by filter
+          // filter categories foe selected seller
           const filteredMainCategories = this.state.mainCategories.filter(
             el => {
               return res.result.some(f => {
@@ -326,17 +311,14 @@ class ShoppingListScreen extends React.Component {
           );
           this.setState(
             {
-              sellerMainCategories: filteredMainCategories,
-              activeMainCategoryId: res.result[0].main_category_id
+              sellerMainCategories: filteredMainCategories
+              // activeMainCategoryId: res.result[0].main_category_id
             },
             () => {
               this.loadItemsFirstPage();
-              // this.loadSkuWishList();
-              // this.loadReferenceData();
-              // this.clearWishList();
             }
           );
-          console.log("final main c", this.state.sellerMainCategories);
+          console.log("final main categories", this.state.sellerMainCategories);
         }
       } catch (e) {
         showSnackbar({ text: e.message });

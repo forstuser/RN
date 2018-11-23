@@ -209,7 +209,7 @@ export default class SearchBar extends React.Component {
           mainCategory => mainCategory.id == activeMainCategoryId
         )
       : null;
-
+    console.log("active main cat", activeMainCategory);
     const checkedBrandIds = checkedBrands.map(
       checkedBrand => checkedBrand.brand_id
     );
@@ -284,40 +284,40 @@ export default class SearchBar extends React.Component {
     // }
 
     let filteredCategories = [];
+    if (
+      activeMainCategory &&
+      activeMainCategory.categories &&
+      activeMainCategory.categories.length > 0
+    ) {
+      if (sellerMainCategories.length == 0) {
+        filteredCategories = activeMainCategory.categories;
+      } else {
+        console.log("sellerMainCategories in search bar", sellerMainCategories);
+        console.log("activeMainCategory in search bar", activeMainCategory);
+        const activeMainCategoryFromSellersMainCategories =
+          sellerMainCategories.find(
+            mainCategory => mainCategory.id == activeMainCategory.id
+          ) || [];
+        console.log(
+          "activeMainCategoryFromSellersMainCategories in Search Bar",
+          activeMainCategoryFromSellersMainCategories
+        );
+        const sellerCategoryIds =
+          activeMainCategoryFromSellersMainCategories.categories;
+        filteredCategories = sellerCategoryIds;
+        // activeMainCategoryFromSellersMainCategories.length > 0
+        //   ? activeMainCategoryFromSellersMainCategories.categories.map(
+        //       categoryBrand => categoryBrand.id
+        //     )
+        //   : [];
+        // console.log("sellerCategoryIds in search bar", sellerCategoryIds);
 
-    // if (
-    //   activeMainCategory &&
-    //   activeMainCategory.categories &&
-    //   activeMainCategory.categories.length > 0
-    // ) {
-    //   if (sellerMainCategories.length == 0) {
-    //     filteredCategories = activeMainCategory.categories;
-    //   } else {
-    //     console.log("sellerMainCategories in search bar", sellerMainCategories);
-    //     console.log("activeMainCategory in search bar", activeMainCategory);
-    //     const activeMainCategoryFromSellersMainCategories =
-    //       sellerMainCategories.find(
-    //         mainCategory =>
-    //           mainCategory.main_category_id == activeMainCategory.id
-    //       ) || [];
-    //     console.log(
-    //       "activeMainCategoryFromSellersMainCategories in Search Bar",
-    //       activeMainCategoryFromSellersMainCategories
-    //     );
-    //     const sellerCategoryIds =
-    //       activeMainCategoryFromSellersMainCategories.length > 0
-    //         ? activeMainCategoryFromSellersMainCategories.category_brands.map(
-    //             categoryBrand => categoryBrand.category_id
-    //           )
-    //         : [];
-    //     console.log("sellerCategoryIds in search bar", sellerCategoryIds);
-
-    //     filteredCategories = activeMainCategory.categories.filter(category =>
-    //       sellerCategoryIds.includes(category.id)
-    //     );
-    //   }
-    // }
-    // console.log("filteredCategories: ", filteredCategories);
+        // filteredCategories = activeMainCategory.categories.filter(category =>
+        //   sellerCategoryIds.includes(category.id)
+        // );
+      }
+    }
+    console.log("filteredCategories: ", filteredCategories);
     // console.log(
     //   "filteredMainCategories___________________: ",
     //   filteredMainCategories
@@ -462,7 +462,7 @@ export default class SearchBar extends React.Component {
           </TouchableOpacity>
         </View>
 
-        {sellerMainCategories.length > 0 && !searchTerm && (
+        {filteredCategories.length > 0 && !searchTerm && (
           <View style={{ height: 34, paddingHorizontal: 5, marginBottom: 7 }}>
             <ScrollView
               ref={node => {
@@ -473,7 +473,7 @@ export default class SearchBar extends React.Component {
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{}}
             >
-              {sellerMainCategories.map(category => (
+              {filteredCategories.map(category => (
                 <TouchableOpacity
                   key={category.id}
                   onPress={() => {

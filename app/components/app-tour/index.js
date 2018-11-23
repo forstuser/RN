@@ -29,10 +29,6 @@ export default class AppTour extends React.Component {
       toolTipContainerHeight: 0
     };
   }
-  componentDidMount() {
-    console.log("tour props:", this.props);
-  }
-
   componentWillReceiveProps(nextProps) {
     this.updateDimensions();
   }
