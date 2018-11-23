@@ -275,6 +275,7 @@ class ShoppingListScreen extends React.Component {
       this.setSelectedSellers(seller ? [{ ...seller }] : []);
       console.log("this.mainCategories", this.state.mainCategories);
     }
+    console.log("in redux selelr", defaultSeller);
   };
 
   setSelectedSellers = async selectedSellers => {
@@ -311,6 +312,7 @@ class ShoppingListScreen extends React.Component {
               });
             }
           );
+          console.log("response in main categories", filteredMainCategories);
           if (this.state.pastItems.length > 0) {
             this.setState(
               {
@@ -323,6 +325,17 @@ class ShoppingListScreen extends React.Component {
               () => {
                 this.loadItemsFirstPage();
                 this.updateStateMainCategoryId(0);
+              }
+            );
+          } else {
+            this.setState(
+              {
+                sellerMainCategories: filteredMainCategories,
+                activeMainCategoryId: filteredMainCategories[0].id
+              },
+              () => {
+                this.loadItemsFirstPage();
+                // this.updateStateMainCategoryId(0);
               }
             );
           }
@@ -523,8 +536,28 @@ class ShoppingListScreen extends React.Component {
   };
 
   updateSearchTerm = searchTerm => {
-    if (searchTerm.length == 0) {
-      this.loadItemsFirstPage();
+    if (searchTerm.length === 0) {
+      if (this.state.pastItems.length > 0) {
+        this.setState(
+          {
+            activeMainCategoryId: 0
+          },
+          () => {
+            this.updateStateMainCategoryId(0);
+            return false;
+          }
+        );
+      } else {
+        this.setState(
+          {
+            activeMainCategoryId: this.state.mainCategories[0].id
+          },
+          () => {
+            this.loadItemsFirstPage();
+            return false;
+          }
+        );
+      }
     }
     const newState = {
       searchTerm
@@ -540,9 +573,8 @@ class ShoppingListScreen extends React.Component {
       console.log("search term", searchTerm);
       console.log("length of search term", searchTerm.length);
       if (
-        !searchTerm ||
-        (searchTerm.length >= 3 &&
-          searchTerm != this.state.lastSearchTerm3Characters)
+        searchTerm.length >= 3 &&
+        searchTerm != this.state.lastSearchTerm3Characters
       ) {
         if (this.state.timeout) clearTimeout(this.state.timeout);
         this.setState({
@@ -560,7 +592,7 @@ class ShoppingListScreen extends React.Component {
 
   clearSearchTerm = () => {
     this.updateSearchTerm("");
-    this.loadReferenceData();
+    // this.loadReferenceData();
   };
 
   loadItemsFirstPage = () => {
@@ -583,6 +615,10 @@ class ShoppingListScreen extends React.Component {
       selectedBrands,
       selectedSeller
     } = this.state;
+    console.log(
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      this.state.activeMainCategoryId
+    );
     try {
       const data = {
         mainCategoryId: activeMainCategoryId ? activeMainCategoryId : undefined,
