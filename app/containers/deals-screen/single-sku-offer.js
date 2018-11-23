@@ -15,7 +15,11 @@ import Analytics from "../../analytics";
 
 import QuantityPlusMinus from "../../components/quantity-plus-minus";
 import LoadingOverlay from "../../components/loading-overlay";
-import { API_BASE_URL, addSkuFromOffersToWishlist } from "../../api";
+import {
+  API_BASE_URL,
+  clearWishList,
+  addSkuFromOffersToWishlist
+} from "../../api";
 
 export default class SkuItemOffer extends React.Component {
   state = {
@@ -42,24 +46,15 @@ export default class SkuItemOffer extends React.Component {
     }
   };
 
-  addItemToShoppingList = item => {
+  addItemToShoppingList = async item => {
     const { wishList, selectedCategory } = this.props;
     console.log("selectedCategory is", selectedCategory);
-    AsyncStorage.setItem("defaultSeller", JSON.stringify(selectedCategory));
-    if (wishList.length == 0) {
-      this.addItem(item);
-    }
-    let updated_wishlist = [];
-    updated_wishlist = wishList.filter(
-      wishList => wishList.seller_id == item.seller_id
+    const defaultSeller = JSON.parse(
+      await AsyncStorage.getItem("defaultSeller")
     );
-    console.log("Updated Wishlist", updated_wishlist);
-    if (wishList.length == updated_wishlist.length) {
-      console.log("item with sellers", item);
-      this.addItem(item);
-    } else {
+    if (defaultSeller.id != selectedCategory.id) {
       this.setState({ isClearItems: true });
-    }
+    } else this.addItem(item);
   };
 
   hideIsClearItems = () => {
@@ -67,10 +62,19 @@ export default class SkuItemOffer extends React.Component {
   };
 
   onProceed = item => {
+    const { selectedCategory } = this.props;
     this.setState({ isClearItems: false });
+    this.clearWishList();
+    AsyncStorage.setItem("defaultSeller", JSON.stringify(selectedCategory));
     this.addItem(item);
   };
-
+  clearWishList = async () => {
+    try {
+      await clearWishList();
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    }
+  };
   render() {
     const { item, wishList } = this.props;
     const { showBtn, isClearItems } = this.state;
