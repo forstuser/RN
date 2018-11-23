@@ -125,9 +125,9 @@ class ShoppingListScreen extends React.Component {
           },
           () => {
             this.modalShow();
-            this.getMySellers();
             this.loadSkuWishList();
-            this.fromSellers();
+            // this.getMySellers();
+            // this.fromSellers();
           }
         );
       }
@@ -136,52 +136,52 @@ class ShoppingListScreen extends React.Component {
 
   componentWillUnmount() {}
 
-  handleBackPress = () => {
-    if (this.state.searchTerm.length > 0) {
-      this.setState(
-        {
-          maxLimit: null,
-          isLoading: false,
-          isLoadingWishList: false,
-          referenceDataError: null,
-          wishListError: null,
-          measurementTypes: {},
-          mainCategories: [],
-          sellerMainCategories: [],
-          activeMainCategoryId: null,
-          activeCategoryId: null,
-          selectedCategoryIds: [],
-          isBarcodeScannerVisible: false,
-          pastItems: [],
-          wishList: [],
-          skuItemIdsCurrentlyModifying: [],
-          isSearching: false,
-          isSearchDone: false,
-          searchError: null,
-          searchTerm: "",
-          lastSearchTerm3Characters: "",
-          items: [],
-          brands: [],
-          selectedBrands: [],
-          sellers: [],
-          selectedSeller: null,
-          isWishListLimit: false,
-          offset: 0,
-          endhasReachedFlag: false,
-          isVisibleCashbackModal: false,
-          neverShowCashbackModal: false,
-          sellerIdFromOffers: null
-        },
-        () => {
-          this.modalShow();
-          this.getMySellers();
-          this.loadSkuWishList();
-          this.fromSellers();
-        }
-      );
-      return true;
-    }
-  };
+  // handleBackPress = () => {
+  //   if (this.state.searchTerm.length > 0) {
+  //     this.setState(
+  //       {
+  //         maxLimit: null,
+  //         isLoading: false,
+  //         isLoadingWishList: false,
+  //         referenceDataError: null,
+  //         wishListError: null,
+  //         measurementTypes: {},
+  //         mainCategories: [],
+  //         sellerMainCategories: [],
+  //         activeMainCategoryId: null,
+  //         activeCategoryId: null,
+  //         selectedCategoryIds: [],
+  //         isBarcodeScannerVisible: false,
+  //         pastItems: [],
+  //         wishList: [],
+  //         skuItemIdsCurrentlyModifying: [],
+  //         isSearching: false,
+  //         isSearchDone: false,
+  //         searchError: null,
+  //         searchTerm: "",
+  //         lastSearchTerm3Characters: "",
+  //         items: [],
+  //         brands: [],
+  //         selectedBrands: [],
+  //         sellers: [],
+  //         selectedSeller: null,
+  //         isWishListLimit: false,
+  //         offset: 0,
+  //         endhasReachedFlag: false,
+  //         isVisibleCashbackModal: false,
+  //         neverShowCashbackModal: false,
+  //         sellerIdFromOffers: null
+  //       },
+  //       () => {
+  //         this.modalShow();
+  //         this.getMySellers();
+  //         this.loadSkuWishList();
+  //         this.fromSellers();
+  //       }
+  //     );
+  //     return true;
+  //   }
+  // };
 
   modalShow = async () => {
     const neverShowCashback = Boolean(await AsyncStorage.getItem("neverShow"));
@@ -189,18 +189,90 @@ class ShoppingListScreen extends React.Component {
       this.setState({ isVisibleCashbackModal: true });
     }
   };
-  getMySellers = async () => {
-    this.setState({ isLoading: true });
+  loadSkuWishList = async () => {
+    this.setState({ isLoadingWishList: true, wishListError: null });
     try {
-      const res = await getMySellers({ is_fmcg: true });
-      this.setState({ sellers: res.result });
+      const res = await getSkuWishList();
+      this.setState({ wishList: res.result.wishlist_items });
+      console.log("Wishlist in Shop and Earn", res.result.wishlist_items);
+      // if (res.result.wishlist_items.length > 0) {
+      //   this.clearOrContinuePreviousListModal.show();
+      // }
+      if (res.result.wishlist_items.length > 0) {
+        this.setState({
+          sellerIdFromOffers: res.result.wishlist_items[0].seller_id
+        });
+      }
+      // const pastItems = res.result.past_selections;
+      // if (pastItems.length > 0 && !this.state.selectedSeller) {
+      //   this.setState(() => ({ pastItems }));
+      // }
+      this.loadReferenceData();
+    } catch (wishListError) {
+      console.log("wishListError: ", wishListError);
+      this.setState({ wishListError });
+    } finally {
+      this.setState({ isLoadingWishList: false });
+    }
+  };
+
+  loadReferenceData = async () => {
+    const { pastItems, sellerIdFromOffers } = this.state;
+    this.setState({ isLoading: true, referenceDataError: null });
+    try {
+      const res = await getSkuReferenceData();
+      let measurementTypes = {};
+      res.result.measurement_types.forEach(measurementType => {
+        measurementTypes[measurementType.id] = measurementType;
+      });
+      // let mainCategories =
+      //   pastItems.length > 0 ? [{ id: 0, title: "Past Items" }] : [];
+      // mainCategories = [...mainCategories, ...res.result.main_categories];
+      let mainCategories = [...res.result.main_categories];
+      const categories = [];
+      res.result.main_categories.forEach(category =>
+        categories.push(...category.categories)
+      );
+      let brandsList = [];
+      categories &&
+        categories
+          .filter(category => category.brands)
+          .forEach(category => brandsList.push(...category.brands));
+      brandsList = _.uniqBy(brandsList, "brand_id");
+
+      this.setState(() => ({
+        mainCategories,
+        measurementTypes,
+        // activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
+        // activeMainCategoryId: pastItems.length > 0 ? 0 : null,
+        selectedCategoryIds: [],
+        // items: pastItems,
+        brands: brandsList,
+        sellers: res.seller_list
+      }));
       this.setDefaultSeller();
+      // if (pastItems.length == 0 || this.state.selectedSeller) {
+      //   this.loadItemsFirstPage();
+      // }
+      console.log("selllers", res.seller_list);
     } catch (referenceDataError) {
       this.setState({ referenceDataError });
     } finally {
       this.setState({ isLoading: false });
     }
   };
+  // getMySellers = async () => {
+  //   this.setState({ isLoading: true });
+  //   try {
+  //     const res = await getMySellers({ is_fmcg: true });
+  //     this.setState({ sellers: res.result });
+  //     this.setDefaultSeller();
+  //   } catch (referenceDataError) {
+  //     this.setState({ referenceDataError });
+  //   } finally {
+  //     this.setState({ isLoading: false });
+  //   }
+  // };
   setDefaultSeller = async () => {
     console.log("this state", this.state.sellers[0]);
     let seller = this.state.sellers[0] || null;
@@ -222,6 +294,70 @@ class ShoppingListScreen extends React.Component {
     }
     console.log("from asynch storeage", defaultSeller);
   };
+
+  setSelectedSellers = async selectedSellers => {
+    const { selectedSeller } = this.state;
+
+    if (selectedSellers.length > 0) {
+      this.setState({
+        selectedSeller: selectedSellers[0],
+        activeMainCategoryId: null,
+        activeCategoryId: null
+      });
+      AsyncStorage.setItem("defaultSeller", JSON.stringify(selectedSellers[0]));
+      try {
+        this.setState({ isSearching: true });
+        const res = await getSellerSkuCategories({
+          sellerId: selectedSellers[0].id
+        });
+        console.log(
+          "activeMainCategoryFromSellersMainCategories.category_brands",
+          res.result
+        );
+        // this.state.mainCategories
+        if (res.result.length > 0) {
+          // set main category by filter
+          const filteredMainCategories = this.state.mainCategories.filter(
+            el => {
+              return res.result.some(f => {
+                return f.main_category_id === el.id;
+              });
+            }
+          );
+          this.setState(
+            {
+              sellerMainCategories: filteredMainCategories,
+              activeMainCategoryId: res.result[0].main_category_id
+            },
+            () => {
+              this.loadItemsFirstPage();
+              // this.loadSkuWishList();
+              // this.loadReferenceData();
+              // this.clearWishList();
+            }
+          );
+          console.log("final main c", this.state.sellerMainCategories);
+        }
+      } catch (e) {
+        showSnackbar({ text: e.message });
+        this.setState({ isSearching: false });
+      } finally {
+        this.setState({ isSearching: false });
+      }
+    } else {
+      this.setState(
+        {
+          selectedSeller: null,
+          sellerMainCategories: []
+        },
+        () => {
+          this.setState({ isSearching: false });
+          // this.loadReferenceData();
+          // this.clearWishList();
+        }
+      );
+    }
+  };
   closeCashbackModal = () => {
     this.setState({ isVisibleCashbackModal: false });
   };
@@ -242,157 +378,33 @@ class ShoppingListScreen extends React.Component {
     console.log("componentWillReceiveProps");
   }
 
-  fromSellers = () => {
-    const seller = this.props.navigation.getParam("seller", null);
-    const collectAtStoreFlagFromSeller = this.props.navigation.getParam(
-      "collectAtStoreFlag",
-      false
-    );
-    this.setState({ collectAtStoreFlag: collectAtStoreFlagFromSeller });
-    console.log("selected seller is ", seller);
-    if (seller) {
-      this.setSelectedSellers(seller ? [{ ...seller }] : []);
-      this.setState(
-        { activeMainCategoryId: MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG },
-        () => {
-          this.setState({ hideBrands: true });
-        }
-      );
-      this.props.navigation.setParams({
-        seller: null,
-        collectAtStoreFlag: false
-      });
-    }
-  };
+  // fromSellers = () => {
+  //   const seller = this.props.navigation.getParam("seller", null);
+  //   const collectAtStoreFlagFromSeller = this.props.navigation.getParam(
+  //     "collectAtStoreFlag",
+  //     false
+  //   );
+  //   this.setState({ collectAtStoreFlag: collectAtStoreFlagFromSeller });
+  //   console.log("selected seller is ", seller);
+  //   if (seller) {
+  //     this.setSelectedSellers(seller ? [{ ...seller }] : []);
+  //     this.setState(
+  //       { activeMainCategoryId: MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG },
+  //       () => {
+  //         this.setState({ hideBrands: true });
+  //       }
+  //     );
+  //     this.props.navigation.setParams({
+  //       seller: null,
+  //       collectAtStoreFlag: false
+  //     });
+  //   }
+  // };
 
   componentWillUnmount() {
     this.didFocusSubscription.remove();
   }
-  loadSkuWishList = async () => {
-    this.setState({ isLoadingWishList: true, wishListError: null });
-    try {
-      const res = await getSkuWishList();
-      this.setState({ wishList: res.result.wishlist_items });
-      console.log("Wishlist in Shop and Earn", res.result.wishlist_items);
-      // if (res.result.wishlist_items.length > 0) {
-      //   this.clearOrContinuePreviousListModal.show();
-      // }
-      if (res.result.wishlist_items.length > 0) {
-        this.setState({
-          sellerIdFromOffers: res.result.wishlist_items[0].seller_id
-        });
-      }
-      const pastItems = res.result.past_selections;
-      if (pastItems.length > 0 && !this.state.selectedSeller) {
-        this.setState(() => ({ pastItems }));
-      }
 
-      this.loadReferenceData();
-    } catch (wishListError) {
-      console.log("wishListError: ", wishListError);
-      this.setState({ wishListError });
-    } finally {
-      this.setState({ isLoadingWishList: false });
-    }
-  };
-
-  loadReferenceData = async () => {
-    const { pastItems, sellerIdFromOffers, sellers } = this.state;
-    this.setState({ isLoading: true, referenceDataError: null });
-    try {
-      const res = await getSkuReferenceData();
-      let measurementTypes = {};
-      res.result.measurement_types.forEach(measurementType => {
-        measurementTypes[measurementType.id] = measurementType;
-      });
-      let mainCategories =
-        pastItems.length > 0 ? [{ id: 0, title: "Past Items" }] : [];
-      mainCategories = [...mainCategories, ...res.result.main_categories];
-      const categories = [];
-      res.result.main_categories.forEach(category =>
-        categories.push(...category.categories)
-      );
-      let brandsList = [];
-      categories &&
-        categories
-          .filter(category => category.brands)
-          .forEach(category => brandsList.push(...category.brands));
-      brandsList = _.uniqBy(brandsList, "brand_id");
-      console.log(
-        "category:-------------------------------------------------",
-        categories
-      );
-      this.setState(() => ({
-        mainCategories,
-        measurementTypes,
-        // activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
-        activeMainCategoryId: pastItems.length > 0 ? 0 : null,
-        selectedCategoryIds: [],
-        items: pastItems,
-        brands: brandsList,
-        sellers: res.seller_list
-      }));
-      if (pastItems.length == 0 || this.state.selectedSeller) {
-        this.loadItemsFirstPage();
-      }
-    } catch (referenceDataError) {
-      console.log("referenceDataError: ", referenceDataError);
-      this.setState({ referenceDataError });
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  };
-  // loadReferenceDataForSeller = async () => {
-  //   const { pastItems } = this.state;
-  //   this.setState({ isLoading: true, referenceDataError: null });
-  //   try {
-  //     const res = await getSkuReferenceData();
-  //     let measurementTypes = {};
-  //     res.result.measurement_types.forEach(measurementType => {
-  //       measurementTypes[measurementType.id] = measurementType;
-  //     });
-  //     let mainCategories =
-  //       pastItems.length > 0 ? [{ id: 0, title: "Past Items" }] : [];
-  //     mainCategories = [...mainCategories, ...res.result.main_categories];
-  //     const categories = [];
-  //     res.result.main_categories.forEach(category =>
-  //       categories.push(...category.categories)
-  //     );
-  //     let brandsList = [];
-  //     categories &&
-  //       categories
-  //         .filter(category => category.brands)
-  //         .forEach(category => brandsList.push(...category.brands));
-  //     brandsList = _.uniqBy(brandsList, "brand_id");
-  //     this.setState(() => ({
-  //       mainCategories,
-  //       measurementTypes,
-  //       activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
-  //       selectedCategoryIds: [],
-  //       items: pastItems,
-  //       brands: brandsList,
-  //       sellers: res.seller_list
-  //     }));
-
-  //     const sellerFromOffers = res.seller_list.filter(
-  //       seller => seller.id == sellerIdFromOffers
-  //     );
-  //     console.log("Sellers", res.seller_list);
-  //     console.log("Seller from Offers", sellerFromOffers);
-
-  //     if (pastItems.length == 0) {
-  //       this.loadItemsFirstPage();
-  //     }
-  //     if (this.state.selectedSeller) {
-  //       this.loadItemsFirstPage();
-  //     }
-  //   } catch (referenceDataError) {
-  //     console.log("referenceDataError: ", referenceDataError);
-  //     this.setState({ referenceDataError });
-  //   } finally {
-  //     this.setState({ isLoading: false });
-  //   }
-  // };
   updateStateMainCategoryId = activeMainCategoryId => {
     if (activeMainCategoryId === 194) {
       this.setState({ hideBrands: true });
@@ -635,59 +647,6 @@ class ShoppingListScreen extends React.Component {
         this.loadItemsFirstPage();
       }
     });
-  };
-
-  setSelectedSellers = async selectedSellers => {
-    const { selectedSeller } = this.state;
-
-    if (selectedSellers.length > 0) {
-      this.setState({
-        selectedSeller: selectedSellers[0],
-        activeMainCategoryId: null,
-        activeCategoryId: null,
-        brands: []
-      });
-      AsyncStorage.setItem("defaultSeller", JSON.stringify(selectedSellers[0]));
-      try {
-        this.setState({ isSearching: true });
-        const res = await getSellerSkuCategories({
-          sellerId: selectedSellers[0].id
-        });
-        console.log(
-          "activeMainCategoryFromSellersMainCategories.category_brands",
-          res.result
-        );
-
-        this.setState(
-          {
-            sellerMainCategories: res.result,
-            activeMainCategoryId: res.result[0].main_category_id
-          },
-          () => {
-            this.loadSkuWishList();
-            // this.loadReferenceData();
-            // this.clearWishList();
-          }
-        );
-      } catch (e) {
-        showSnackbar({ text: e.message });
-        this.setState({ isSearching: false });
-      } finally {
-        this.setState({ isSearching: false });
-      }
-    } else {
-      this.setState(
-        {
-          selectedSeller: null,
-          sellerMainCategories: []
-        },
-        () => {
-          this.setState({ isSearching: false });
-          this.loadReferenceData();
-          // this.clearWishList();
-        }
-      );
-    }
   };
 
   clearWishList = async () => {

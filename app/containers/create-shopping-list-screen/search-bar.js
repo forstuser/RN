@@ -273,50 +273,50 @@ export default class SearchBar extends React.Component {
         return cashbackOfB - cashbackOfA;
       });
 
-    let filteredMainCategories = mainCategories;
-    if (sellerMainCategories.length > 0) {
-      const sellerMainCategoryIds = sellerMainCategories.map(
-        mainCategory => mainCategory.main_category_id
-      );
-      filteredMainCategories = mainCategories.filter(mainCategory =>
-        sellerMainCategoryIds.includes(mainCategory.id)
-      );
-    }
+    // let filteredMainCategories = mainCategories;
+    // if (sellerMainCategories.length > 0) {
+    //   const sellerMainCategoryIds = sellerMainCategories.map(
+    //     mainCategory => mainCategory.main_category_id
+    //   );
+    //   filteredMainCategories = mainCategories.filter(mainCategory =>
+    //     sellerMainCategoryIds.includes(mainCategory.id)
+    //   );
+    // }
 
     let filteredCategories = [];
 
-    if (
-      activeMainCategory &&
-      activeMainCategory.categories &&
-      activeMainCategory.categories.length > 0
-    ) {
-      if (sellerMainCategories.length == 0) {
-        filteredCategories = activeMainCategory.categories;
-      } else {
-        console.log("sellerMainCategories in search bar", sellerMainCategories);
-        console.log("activeMainCategory in search bar", activeMainCategory);
-        const activeMainCategoryFromSellersMainCategories =
-          sellerMainCategories.find(
-            mainCategory =>
-              mainCategory.main_category_id == activeMainCategory.id
-          ) || [];
-        console.log(
-          "activeMainCategoryFromSellersMainCategories in Search Bar",
-          activeMainCategoryFromSellersMainCategories
-        );
-        const sellerCategoryIds =
-          activeMainCategoryFromSellersMainCategories.length > 0
-            ? activeMainCategoryFromSellersMainCategories.category_brands.map(
-                categoryBrand => categoryBrand.category_id
-              )
-            : [];
-        console.log("sellerCategoryIds in search bar", sellerCategoryIds);
+    // if (
+    //   activeMainCategory &&
+    //   activeMainCategory.categories &&
+    //   activeMainCategory.categories.length > 0
+    // ) {
+    //   if (sellerMainCategories.length == 0) {
+    //     filteredCategories = activeMainCategory.categories;
+    //   } else {
+    //     console.log("sellerMainCategories in search bar", sellerMainCategories);
+    //     console.log("activeMainCategory in search bar", activeMainCategory);
+    //     const activeMainCategoryFromSellersMainCategories =
+    //       sellerMainCategories.find(
+    //         mainCategory =>
+    //           mainCategory.main_category_id == activeMainCategory.id
+    //       ) || [];
+    //     console.log(
+    //       "activeMainCategoryFromSellersMainCategories in Search Bar",
+    //       activeMainCategoryFromSellersMainCategories
+    //     );
+    //     const sellerCategoryIds =
+    //       activeMainCategoryFromSellersMainCategories.length > 0
+    //         ? activeMainCategoryFromSellersMainCategories.category_brands.map(
+    //             categoryBrand => categoryBrand.category_id
+    //           )
+    //         : [];
+    //     console.log("sellerCategoryIds in search bar", sellerCategoryIds);
 
-        filteredCategories = activeMainCategory.categories.filter(category =>
-          sellerCategoryIds.includes(category.id)
-        );
-      }
-    }
+    //     filteredCategories = activeMainCategory.categories.filter(category =>
+    //       sellerCategoryIds.includes(category.id)
+    //     );
+    //   }
+    // }
     // console.log("filteredCategories: ", filteredCategories);
     // console.log(
     //   "filteredMainCategories___________________: ",
@@ -462,7 +462,7 @@ export default class SearchBar extends React.Component {
           </TouchableOpacity>
         </View>
 
-        {filteredCategories.length > 0 && !searchTerm && (
+        {sellerMainCategories.length > 0 && !searchTerm && (
           <View style={{ height: 34, paddingHorizontal: 5, marginBottom: 7 }}>
             <ScrollView
               ref={node => {
@@ -473,7 +473,7 @@ export default class SearchBar extends React.Component {
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{}}
             >
-              {filteredCategories.map(category => (
+              {sellerMainCategories.map(category => (
                 <TouchableOpacity
                   key={category.id}
                   onPress={() => {
@@ -526,7 +526,7 @@ export default class SearchBar extends React.Component {
             borderTopWidth: 2
           }}
         >
-          {filteredMainCategories.length > 0 && !searchTerm ? (
+          {sellerMainCategories.length > 0 && !searchTerm ? (
             <View
               style={{
                 flex: 1,
@@ -537,7 +537,7 @@ export default class SearchBar extends React.Component {
               }}
             >
               <FlatList
-                data={filteredMainCategories}
+                data={sellerMainCategories}
                 extraData={activeMainCategoryId}
                 renderItem={({ item }) => {
                   // console.log(
