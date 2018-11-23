@@ -179,12 +179,9 @@ class MySellersScreen extends React.Component {
 
   orderOnlineHomeDelivery = async seller => {
     this.setState({ selectedSeller: seller });
-
     const defaultSeller = JSON.parse(
       await AsyncStorage.getItem("defaultSeller")
     );
-    console.log("default", defaultSeller);
-    console.log("selected seller", seller);
     if (defaultSeller == "null") {
       this.clearWishList();
       await AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
@@ -209,9 +206,19 @@ class MySellersScreen extends React.Component {
       showSnackbar({ text: e.message });
     }
   };
-  orderOnlineCollectAtStore = seller => {
+  orderOnlineCollectAtStore = async seller => {
     this.setState({ selectedSeller: seller });
     console.log("seller from seller screen", seller);
+    const defaultSeller = JSON.parse(
+      await AsyncStorage.getItem("defaultSeller")
+    );
+    if (defaultSeller == "null") {
+      this.clearWishList();
+      await AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
+    } else if (defaultSeller && defaultSeller.id != seller.id) {
+      this.clearWishList();
+      await AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
+    }
     this.props.navigation.navigate(SCREENS.CREATE_SHOPPING_LIST_SCREEN, {
       seller: seller,
       collectAtStoreFlag: true

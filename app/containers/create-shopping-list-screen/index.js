@@ -236,17 +236,21 @@ class ShoppingListScreen extends React.Component {
       console.log("categories", categories);
       console.log("Brandlist", brandsList);
       console.log("Past items", pastItems);
-      this.setState(() => ({
-        mainCategories,
-        measurementTypes,
-        activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
-        // activeMainCategoryId: 0,
-        selectedCategoryIds: [],
-        // items: pastItems,
-        brands: brandsList,
-        sellers: res.seller_list
-      }));
-      this.setDefaultSeller();
+      this.setState(
+        () => ({
+          mainCategories,
+          measurementTypes,
+          activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
+          // activeMainCategoryId: 0,
+          selectedCategoryIds: [],
+          // items: pastItems,
+          brands: brandsList,
+          sellers: res.seller_list
+        }),
+        () => {
+          this.setDefaultSeller();
+        }
+      );
       // if (pastItems.length == 0 || this.state.selectedSeller) {
       //   this.loadItemsFirstPage();
       // }
@@ -259,13 +263,11 @@ class ShoppingListScreen extends React.Component {
   };
 
   setDefaultSeller = async () => {
-    console.log("this state", this.state.sellers[0]);
+    // console.log("this state", this.state.sellers[0]);
     let seller = this.state.sellers[0] || null;
     const defaultSeller = await AsyncStorage.getItem("defaultSeller");
-
-    if (defaultSeller == "null") {
+    if (defaultSeller == null || defaultSeller == "null") {
       // set default Seller in storage
-      console.log("mc", this.state.mainCategories);
       AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
       this.setSelectedSellers(seller ? [{ ...seller }] : []);
     } else {
@@ -273,7 +275,6 @@ class ShoppingListScreen extends React.Component {
       this.setSelectedSellers(seller ? [{ ...seller }] : []);
       console.log("this.mainCategories", this.state.mainCategories);
     }
-    console.log("from asynch storeage", defaultSeller);
   };
 
   setSelectedSellers = async selectedSellers => {
