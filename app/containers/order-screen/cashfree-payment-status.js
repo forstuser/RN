@@ -86,7 +86,7 @@ class CashFreePaymentStatusScreen extends Component {
       }
 
       const postData = {
-        appId: "1844ecd62445987b8152c2304481",
+        appId: "4266316b86143383be42108a6624",
         //test -> 1844ecd62445987b8152c2304481, production -> 4266316b86143383be42108a6624
         orderId: (order.id || "").toString(),
         orderAmount: (totalAmount || 0).toString(),
@@ -148,8 +148,6 @@ class CashFreePaymentStatusScreen extends Component {
   };
 
   onNavStateChange = async webViewState => {
-    //Test -> https://consumer-stage.binbill.com/consumer/payments
-    // Production -> https://consumer.binbill.com/consumer/payments
     let order = this.props.navigation.getParam("order", null);
     if (webViewState.url == API_BASE_URL + "/consumer/payments") {
       const { orderIdWebView } = this.state;
@@ -198,7 +196,7 @@ class CashFreePaymentStatusScreen extends Component {
         originWhitelist={["*"]}
         source={{
           uri:
-            "http://binbillpaymentgateway.s3-website.ap-south-1.amazonaws.com"
+            "https://s3.ap-south-1.amazonaws.com/binbillpaymentgateway-prod/index.html"
         }}
         style={{
           width: "100%",

@@ -5,7 +5,8 @@ import {
   View,
   Alert,
   TouchableOpacity,
-  BackHandler
+  BackHandler,
+  AsyncStorage
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
@@ -270,6 +271,7 @@ const mapDispatchToProps = dispatch => {
   return {
     logoutUser: async () => {
       try {
+        await AsyncStorage.removeItem("defaultSeller");
         logout();
         NavigationService.navigate(SCREENS.AUTH_STACK);
         dispatch(loggedInUserActions.loggedInUserClearAllData());
