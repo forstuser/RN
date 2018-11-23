@@ -76,8 +76,7 @@ class ShoppingListScreen extends React.Component {
     isVisibleCashbackModal: false,
     neverShowCashbackModal: false,
     collectAtStoreFlag: false,
-    hideBrands: false,
-    sellerIdFromOffers: null
+    hideBrands: false
   };
 
   componentWillMount() {}
@@ -120,8 +119,7 @@ class ShoppingListScreen extends React.Component {
             endhasReachedFlag: false,
             isVisibleCashbackModal: false,
             neverShowCashbackModal: false,
-            collectAtStoreFlag: false,
-            sellerIdFromOffers: null
+            collectAtStoreFlag: false
           },
           () => {
             this.modalShow();
@@ -170,7 +168,6 @@ class ShoppingListScreen extends React.Component {
   //         endhasReachedFlag: false,
   //         isVisibleCashbackModal: false,
   //         neverShowCashbackModal: false,
-  //         sellerIdFromOffers: null
   //       },
   //       () => {
   //         this.modalShow();
@@ -198,15 +195,10 @@ class ShoppingListScreen extends React.Component {
       // if (res.result.wishlist_items.length > 0) {
       //   this.clearOrContinuePreviousListModal.show();
       // }
-      if (res.result.wishlist_items.length > 0) {
-        this.setState({
-          sellerIdFromOffers: res.result.wishlist_items[0].seller_id
-        });
+      const pastItems = res.result.past_selections;
+      if (pastItems.length > 0) {
+        this.setState(() => ({ pastItems }));
       }
-      // const pastItems = res.result.past_selections;
-      // if (pastItems.length > 0 && !this.state.selectedSeller) {
-      //   this.setState(() => ({ pastItems }));
-      // }
       this.loadReferenceData();
     } catch (wishListError) {
       console.log("wishListError: ", wishListError);
@@ -217,7 +209,7 @@ class ShoppingListScreen extends React.Component {
   };
 
   loadReferenceData = async () => {
-    const { pastItems, sellerIdFromOffers } = this.state;
+    const { pastItems } = this.state;
     this.setState({ isLoading: true, referenceDataError: null });
     try {
       const res = await getSkuReferenceData();
@@ -239,14 +231,18 @@ class ShoppingListScreen extends React.Component {
           .filter(category => category.brands)
           .forEach(category => brandsList.push(...category.brands));
       brandsList = _.uniqBy(brandsList, "brand_id");
-
+      console.log("data--------------------------------------");
+      console.log("mainCategories", mainCategories);
+      console.log("categories", categories);
+      console.log("Brandlist", brandsList);
+      console.log("Past items", pastItems);
       this.setState(() => ({
         mainCategories,
         measurementTypes,
-        // activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
-        activeMainCategoryId: pastItems.length > 0 ? 0 : null,
+        activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
+        // activeMainCategoryId: 0,
         selectedCategoryIds: [],
-        items: pastItems,
+        // items: pastItems,
         brands: brandsList,
         sellers: res.seller_list
       }));
@@ -254,7 +250,7 @@ class ShoppingListScreen extends React.Component {
       // if (pastItems.length == 0 || this.state.selectedSeller) {
       //   this.loadItemsFirstPage();
       // }
-      console.log("selllers", res.seller_list);
+      // console.log("selllers", res.seller_list);
     } catch (referenceDataError) {
       this.setState({ referenceDataError });
     } finally {
@@ -266,20 +262,16 @@ class ShoppingListScreen extends React.Component {
     console.log("this state", this.state.sellers[0]);
     let seller = this.state.sellers[0] || null;
     const defaultSeller = await AsyncStorage.getItem("defaultSeller");
-    if (defaultSeller == null) {
+
+    if (defaultSeller == "null") {
       // set default Seller in storage
+      console.log("mc", this.state.mainCategories);
       AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
       this.setSelectedSellers(seller ? [{ ...seller }] : []);
     } else {
       seller = JSON.parse(defaultSeller);
       this.setSelectedSellers(seller ? [{ ...seller }] : []);
       console.log("this.mainCategories", this.state.mainCategories);
-      // this.setState(
-      //   { activeMainCategoryId: this.state.mainCategories[0].id }
-      //   // () => {
-      //   //   this.setState({ hideBrands: true });
-      //   // }
-      // );
     }
     console.log("from asynch storeage", defaultSeller);
   };
@@ -293,7 +285,16 @@ class ShoppingListScreen extends React.Component {
         activeMainCategoryId: null,
         activeCategoryId: null
       });
-      AsyncStorage.setItem("defaultSeller", JSON.stringify(selectedSellers[0]));
+      const defaultSeller = JSON.parse(
+        await AsyncStorage.getItem("defaultSeller")
+      );
+      if (defaultSeller.id != selectedSellers[0].id) {
+        this.clearWishList();
+        AsyncStorage.setItem(
+          "defaultSeller",
+          JSON.stringify(selectedSellers[0])
+        );
+      }
       try {
         this.setState({ isSearching: true });
         const res = await getSellerSkuCategories({
@@ -309,13 +310,18 @@ class ShoppingListScreen extends React.Component {
               });
             }
           );
+
           this.setState(
             {
-              sellerMainCategories: filteredMainCategories
-              // activeMainCategoryId: res.result[0].main_category_id
+              sellerMainCategories: [
+                { id: 0, title: "Past Items" },
+                ...filteredMainCategories
+              ],
+              activeMainCategoryId: 0
             },
             () => {
               this.loadItemsFirstPage();
+              this.updateStateMainCategoryId(0);
             }
           );
           console.log("final main categories", this.state.sellerMainCategories);
@@ -330,9 +336,13 @@ class ShoppingListScreen extends React.Component {
       this.setState(
         {
           selectedSeller: null,
-          sellerMainCategories: []
+          sellerMainCategories: this.state.mainCategories
         },
         () => {
+          this.loadItemsFirstPage();
+          if (this.state.pastItems.length > 0) {
+            this.updateStateMainCategoryId(0);
+          }
           this.setState({ isSearching: false });
           // this.loadReferenceData();
           // this.clearWishList();
@@ -359,29 +369,6 @@ class ShoppingListScreen extends React.Component {
   componentWillReceiveProps() {
     console.log("componentWillReceiveProps");
   }
-
-  // fromSellers = () => {
-  //   const seller = this.props.navigation.getParam("seller", null);
-  //   const collectAtStoreFlagFromSeller = this.props.navigation.getParam(
-  //     "collectAtStoreFlag",
-  //     false
-  //   );
-  //   this.setState({ collectAtStoreFlag: collectAtStoreFlagFromSeller });
-  //   console.log("selected seller is ", seller);
-  //   if (seller) {
-  //     this.setSelectedSellers(seller ? [{ ...seller }] : []);
-  //     this.setState(
-  //       { activeMainCategoryId: MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG },
-  //       () => {
-  //         this.setState({ hideBrands: true });
-  //       }
-  //     );
-  //     this.props.navigation.setParams({
-  //       seller: null,
-  //       collectAtStoreFlag: false
-  //     });
-  //   }
-  // };
 
   componentWillUnmount() {
     this.didFocusSubscription.remove();
