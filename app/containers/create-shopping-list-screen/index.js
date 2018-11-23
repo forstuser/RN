@@ -875,7 +875,7 @@ class ShoppingListScreen extends React.Component {
           isVisible={isVisibleCashbackModal}
           title="Shop & Earn Paytm Cashback"
           style={{
-            height: 500,
+            height: 375,
             ...defaultStyles.card
           }}
           onClosePress={this.closeCashbackModal}
@@ -887,7 +887,7 @@ class ShoppingListScreen extends React.Component {
               justifyContent: "flex-start"
             }}
           >
-            <View
+            {/* <View
               style={{
                 flex: 1,
                 justifyContent: "center",
@@ -899,7 +899,7 @@ class ShoppingListScreen extends React.Component {
                 style={{ width: 90, height: 90 }}
                 source={require("../../images/happiness.png")}
               />
-            </View>
+            </View> */}
 
             <View style={{ padding: 10 }}>
               <Text
@@ -935,14 +935,12 @@ class ShoppingListScreen extends React.Component {
               >
                 Route B:
               </Text>
+
               <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (i) Create Shopping List
+                (i) Order Online on BinBill Store
               </Text>
               <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (ii) Order Online from nearby BinBill Store
-              </Text>
-              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (iii) Pay for your Order & Get Cashback
+                (ii) Pay for your Order & Get Cashback
               </Text>
             </View>
             <TouchableOpacity
