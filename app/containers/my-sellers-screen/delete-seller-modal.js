@@ -4,7 +4,8 @@ import {
   View,
   TouchableOpacity,
   FlatList,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
@@ -15,7 +16,12 @@ import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 
 import { loginToApplozic, openChatWithSeller } from "../../applozic";
 
-import { API_BASE_URL, getMySellers, deleteSeller } from "../../api";
+import {
+  API_BASE_URL,
+  getMySellers,
+  deleteSeller,
+  clearWishList
+} from "../../api";
 
 import { Text, Image, Button } from "../../elements";
 import DrawerScreenContainer from "../../components/drawer-screen-container";
@@ -48,10 +54,26 @@ class DeleteSellerModal extends React.Component {
     //console.log("Deleted Seller");
     try {
       const deleteReponse = await deleteSeller(sellerId);
+      let defaultSeller = await AsyncStorage.getItem("defaultSeller");
+      defaultSeller = JSON.parse(defaultSeller);
+      console.log("default from async", defaultSeller);
+      if (sellerId == defaultSeller.id) {
+        await AsyncStorage.removeItem("defaultSeller");
+        this.clearWishList();
+        // clear wish list
+      }
     } catch (error) {
       console.log("error: ", error);
     }
     this.props.getMySellers();
+  };
+
+  clearWishList = async () => {
+    try {
+      await clearWishList();
+    } catch (e) {
+      showSnackbar({ text: e.message });
+    }
   };
 
   render() {

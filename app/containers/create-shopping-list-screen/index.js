@@ -265,15 +265,27 @@ class ShoppingListScreen extends React.Component {
   setDefaultSeller = async () => {
     // console.log("this state", this.state.sellers[0]);
     let seller = this.state.sellers[0] || null;
-    const defaultSeller = await AsyncStorage.getItem("defaultSeller");
+    let defaultSeller = await AsyncStorage.getItem("defaultSeller");
+    defaultSeller = JSON.parse(defaultSeller);
     if (defaultSeller == null || defaultSeller == "null") {
       // set default Seller in storage
       AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
       this.setSelectedSellers(seller ? [{ ...seller }] : []);
     } else {
-      seller = JSON.parse(defaultSeller);
-      this.setSelectedSellers(seller ? [{ ...seller }] : []);
-      console.log("this.mainCategories", this.state.mainCategories);
+      // check if default seller exist in sellers
+      console.log("sellers:-----------", this.state.sellers);
+      const matchedSeller = this.state.sellers.filter(seller => {
+        return seller.id == defaultSeller.id;
+      });
+      if (matchedSeller.length > 0) {
+        this.setSelectedSellers(defaultSeller ? [{ ...defaultSeller }] : []);
+        console.log("this.mainCategories", this.state.mainCategories);
+      } else {
+        await AsyncStorage.removeItem("defaultSeller");
+        this.setSelectedSellers(seller ? [{ ...seller }] : []);
+        AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
+      }
+      console.log("sellerExist", sellerExist);
     }
     console.log("in redux selelr", defaultSeller);
   };
@@ -292,6 +304,7 @@ class ShoppingListScreen extends React.Component {
       );
       if (defaultSeller.id != selectedSellers[0].id) {
         this.clearWishList();
+        this.clearSearchTerm();
         AsyncStorage.setItem(
           "defaultSeller",
           JSON.stringify(selectedSellers[0])

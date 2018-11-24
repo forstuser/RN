@@ -96,11 +96,6 @@ class MySellersScreen extends React.Component {
     });
     try {
       const res = await getMySellers();
-      // if (res.result.length == 0) {
-      //   // set redux default seller to null
-      //   alert("hua");
-      //   AsyncStorage.setItem("defaultSeller", null);
-      // }
       this.setState({ mySellers: res.result });
     } catch (error) {
       this.setState({ error });
