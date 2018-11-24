@@ -62,6 +62,7 @@ export default class CashbackQueryScreen extends React.Component {
 
   handleBackPress = () => {
     this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+    return true;
   };
 
   onOkayPress = () => {

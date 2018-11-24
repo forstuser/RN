@@ -23,7 +23,7 @@ export default class SelectedItemsList extends React.Component {
       skuItemIdsCurrentlyModifying
     } = this.props;
 
-    console.log("Items in My Shopping List", selectedItems);
+    console.log("Items in My Shopping List_______________:", selectedItems);
     return (
       <FlatList
         contentContainerStyle={{
@@ -74,9 +74,10 @@ export default class SelectedItemsList extends React.Component {
           }
           let offerPrice = 0;
           if (item.offer_discount > 0) {
-            offerPrice =
-              item.sku_measurement.mrp *
-              (1 - item.offer_discount / 100).toFixed(2);
+            offerPrice = parseFloat(
+              parseFloat(item.sku_measurement.mrp) *
+                parseFloat(1 - parseFloat(item.offer_discount) / 100)
+            ).toFixed(2);
           }
 
           return (
@@ -98,7 +99,11 @@ export default class SelectedItemsList extends React.Component {
                     }}
                     resizeMode="contain"
                     source={{
-                      uri: API_BASE_URL + `/skus/${item.id}/images`
+                      uri:
+                        API_BASE_URL +
+                        `/skus/${item.id}/measurements/${
+                          item.sku_measurement.id
+                        }/images`
                     }}
                     //source={require("../../images/binbill_logo.png")}
                   />
